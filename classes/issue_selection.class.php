@@ -205,7 +205,11 @@ class IssueSelection {
             $formattedList .= ', ';
          }
 
-         $formattedList .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
+         $titleAttr = array(
+               T_('Project') => $issue->getProjectName(),
+               T_('Summary') => $issue->getSummary(),
+         );
+         $formattedList .= Tools::issueInfoURL($bugid, $titleAttr);
       }
       return $formattedList;
    }

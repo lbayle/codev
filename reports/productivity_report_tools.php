@@ -37,10 +37,14 @@ class ProductivityReportTools {
             }
 
             $issue = IssueCache::getInstance()->getIssue($bugid);
+            $titleAttr = array(
+                  T_('Project') => $issue->getProjectName(),
+                  T_('Summary') => $issue->getSummary(),
+            );
             if (array_key_exists($catName, $formatedBugsPerCategory)) {
-               $formatedBugsPerCategory[$catName] .= ', '.Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
+               $formatedBugsPerCategory[$catName] .= ', '.Tools::issueInfoURL($bugid, $titleAttr);
             } else {
-               $formatedBugsPerCategory[$catName] = Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
+               $formatedBugsPerCategory[$catName] = Tools::issueInfoURL($bugid, $titleAttr);
             }
          }
       }
@@ -67,10 +71,14 @@ class ProductivityReportTools {
                $totalDuration += $duration;
 
                $issue = IssueCache::getInstance()->getIssue($bugid);
+               $titleAttr = array(
+                     T_('Project') => $issue->getProjectName(),
+                     T_('Summary') => $issue->getSummary(),
+               );
                if (array_key_exists($catName, $formatedBugsPerCategory)) {
-                  $formatedBugsPerCategory[$catName] .= ', '.Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
+                  $formatedBugsPerCategory[$catName] .= ', '.Tools::issueInfoURL($bugid, $titleAttr);
                } else {
-                  $formatedBugsPerCategory[$catName] = Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
+                  $formatedBugsPerCategory[$catName] = Tools::issueInfoURL($bugid, $titleAttr);
                }
             }
             $durationPerCategory[$catName] = $totalDuration;

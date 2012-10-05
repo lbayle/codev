@@ -277,20 +277,35 @@ class ProjectInfoController extends Controller {
                if ("" != $formatedNewList) {
                   $formatedNewList .= ', ';
                }
-               $formatedNewList .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
+               $titleAttr = array(
+                     T_('Project') => $issue->getProjectName(),
+                     T_('Summary') => $issue->getSummary(),
+               );
+               $formatedNewList .= Tools::issueInfoURL($bugid, $titleAttr);
 
             } elseif ($issue->getCurrentStatus() >= $issue->getBugResolvedStatusThreshold()) {
                if ("" != $formatedResolvedList) {
                   $formatedResolvedList .= ', ';
                }
-               $title = "(".$issue->getDrift().') ['.$issue->getProjectName().'] '.$issue->getSummary();
-               $formatedResolvedList .= Tools::issueInfoURL($bugid, $title);
+               #$title = "(".$issue->getDrift().') ['.$issue->getProjectName().'] '.$issue->getSummary();
+               $titleAttr = array(
+                   T_('Drift') => $issue->getDrift(),
+                   T_('Project') => $issue->getProjectName(),
+                   T_('Summary') => $issue->getSummary(),
+               );
+               $formatedResolvedList .= Tools::issueInfoURL($bugid, $titleAttr);
             } else {
                if ("" != $formatedOpenList) {
                   $formatedOpenList .= ', ';
                }
-               $title = "(".$issue->getDrift().", ".$issue->getCurrentStatusName().') ['.$issue->getProjectName().'] '.$issue->getSummary();
-               $formatedOpenList .= Tools::issueInfoURL($bugid, $title);
+               #$title = "(".$issue->getDrift().", ".$issue->getCurrentStatusName().') ['.$issue->getProjectName().'] '.$issue->getSummary();
+               $titleAttr = array(
+                   T_('Drift') => $issue->getDrift(),
+                   T_('Status') => $issue->getCurrentStatusName(),
+                   T_('Project') => $issue->getProjectName(),
+                   T_('Summary') => $issue->getSummary(),
+               );
+               $formatedOpenList .= Tools::issueInfoURL($bugid, $titleAttr);
             }
          }
 

@@ -146,7 +146,11 @@ class IndexController extends Controller {
          foreach ($cerrList as $cerr) {
             if ($sessionUser->getId() == $cerr->userId) {
                $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-               $consistencyErrors[] = array('issueURL' => Tools::issueInfoURL($cerr->bugId, '['.$issue->getProjectName().'] '.$issue->getSummary()),
+               $titleAttr = array(
+                   T_('Project') => $issue->getProjectName(),
+                   T_('Summary') => $issue->getSummary(),
+               );
+               $consistencyErrors[] = array('issueURL' => Tools::issueInfoURL($cerr->bugId, $titleAttr),
                   'status' => Constants::$statusNames[$cerr->status],
                   'desc' => $cerr->desc);
             }

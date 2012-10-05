@@ -204,8 +204,12 @@ class PlanningReportController extends Controller {
             $user = UserCache::getInstance()->getUser($cerr->userId);
             $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
 
+            $titleAttr = array(
+                  T_('Project') => $issue->getProjectName(),
+                  T_('Summary') => $issue->getSummary(),
+            );
             $consistencyErrors[] = array(
-               'issueURL' => Tools::issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->getSummary()),
+               'issueURL' => Tools::issueInfoURL($cerr->bugId, $titleAttr),
                'issueStatus' => Constants::$statusNames[$cerr->status],
                'date' => date("Y-m-d", $cerr->timestamp),
                'user' => $user->getName(),

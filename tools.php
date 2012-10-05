@@ -80,13 +80,19 @@ class Tools {
     * @param bool $inNewTab
     * @return string
     */
-   public static function mantisIssueURL($bugid, $title=NULL, $isIcon=false, $inNewTab=true) {
-      if (NULL==$title) { $title = "View Mantis Issue $bugid"; }
+   public static function mantisIssueURL($bugid, $title=NULL, $isIcon=false, $inNewTab=false) {
+      
+      if (is_null($title)) { 
+         $title = "View Mantis Issue $bugid";
+         
+      } else if (is_array($title)) {
+         Tools::doubleImplode(':', ',', $title);
+      }
 
-      $formatedTitle = str_replace("'", " ", $title);
-      $formatedTitle = str_replace("\"", " ", $formatedTitle);
+      $formatedTitle = str_replace("'", ' ', $title);
+      $formatedTitle = str_replace('"', ' ', $formatedTitle);
 
-      $target = (false == $inNewTab) ? "" : "target='_blank'";
+      $target = (false == $inNewTab) ? '' : "target='_blank'";
 
       if (false == $isIcon) {
          $url = "<a href='".Constants::$mantisURL."/view.php?id=$bugid' title='$formatedTitle' $target>$bugid</a>";
@@ -96,7 +102,8 @@ class Tools {
 
       return $url;
    }
-
+   
+   
    /**
     * returns an HTML link to the TaskInfo page for Issue $bugid
     * ex: http://172.24.209.4/codev/reports/issue_info.php?bugid=60
@@ -106,8 +113,15 @@ class Tools {
     * @param bool $inNewTab
     * @return string
     */
-   public static function issueInfoURL($bugid, $title=NULL, $inNewTab=true) {
-      if (NULL==$title) { $title = "View info for Issue $bugid"; }
+   public static function issueInfoURL($bugid, $title=NULL, $inNewTab=false) {
+
+      if (is_null($title)) { 
+         $title = "View info for Issue $bugid";
+         
+      } else if (is_array($title)) {
+         $title = Tools::doubleImplode(':', ',', $title);
+      }
+
 
       $target = (false == $inNewTab) ? "" : "target='_blank'";
 

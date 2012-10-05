@@ -116,8 +116,12 @@ class ServiceContractInfoController extends Controller {
          foreach ($cerrList as $cerr) {
             $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
             $user = UserCache::getInstance()->getUser($cerr->userId);
+            $titleAttr = array(
+                  T_('Project') => $issue->getProjectName(),
+                  T_('Summary') => $issue->getSummary(),
+            );
             $consistencyErrors[] = array(
-               'issueURL' => Tools::issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->getSummary()),
+               'issueURL' => Tools::issueInfoURL($cerr->bugId, $titleAttr),
                'issueStatus' => Constants::$statusNames[$cerr->status],
                'user' => $user->getName(),
                'severity' => $cerr->getLiteralSeverity(),

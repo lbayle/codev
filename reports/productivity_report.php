@@ -196,7 +196,11 @@ class ProductivityReportsController extends Controller {
    private function getFormattedReopenedTaks(TimeTracking $timeTracking) {
       $formatedTasks = NULL;
       foreach ($timeTracking->getReopened() as $issue) {
-         $formatedTasks[] = Tools::issueInfoURL($issue->getId(), '['.$issue->getProjectName().'] '.$issue->getSummary());
+         $titleAttr = array(
+               T_('Project') => $issue->getProjectName(),
+               T_('Summary') => $issue->getSummary(),
+         );
+         $formatedTasks[] = Tools::issueInfoURL($issue->getId(), $titleAttr);
       }
       return $formatedTasks;
    }
