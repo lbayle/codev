@@ -335,9 +335,10 @@ class DetailedChargesIndicator implements IndicatorPlugin {
                }
                #$title = "(".$issue->getDrift().') ['.$issue->getProjectName().'] '.$issue->getSummary();
                $titleAttr = array(
-                   T_('Drift') => $issue->getDrift(),
                    T_('Project') => $issue->getProjectName(),
                    T_('Summary') => $issue->getSummary(),
+                   T_('Drift') => $issue->getDrift(),
+                   'DriftColor' => $issue->getDriftColor()
                );
 
                $formatedResolvedList .= Tools::issueInfoURL($bugid, $titleAttr);
@@ -347,10 +348,11 @@ class DetailedChargesIndicator implements IndicatorPlugin {
                }
                #$title = "(".$issue->getDrift().", ".$issue->getCurrentStatusName().') ['.$issue->getProjectName().'] '.$issue->getSummary();
                $titleAttr = array(
-                   T_('Drift') => $issue->getDrift(),
-                   T_('Status') => $issue->getCurrentStatusName(),
                    T_('Project') => $issue->getProjectName(),
                    T_('Summary') => $issue->getSummary(),
+                   T_('Status') => $issue->getCurrentStatusName(),
+                   T_('Drift') => $issue->getDrift(),
+                   'DriftColor' => $issue->getDriftColor()
                );
                $formatedOpenList .= Tools::issueInfoURL($bugid, $titleAttr);
             }

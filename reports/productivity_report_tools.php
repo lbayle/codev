@@ -42,7 +42,8 @@ class ProductivityReportTools {
                   T_('Summary') => $issue->getSummary(),
                   T_('Elapsed') => $duration,
                   T_('Backlog') => $issue->getBacklog(),
-                  T_('Drift') => $issue->getDrift(),
+                  T_('Drift')   => $issue->getDrift(),
+                  'DriftColor'  => $issue->getDriftColor()
             );
             if (array_key_exists($catName, $formatedBugsPerCategory)) {
                $formatedBugsPerCategory[$catName] .= ', '.Tools::issueInfoURL($bugid, $titleAttr);
