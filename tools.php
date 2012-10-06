@@ -81,28 +81,40 @@ class Tools {
     * @return string
     */
    public static function mantisIssueURL($bugid, $title=NULL, $isIcon=false, $inNewTab=false) {
-      
-      if (is_null($title)) { 
+      $target = $inNewTab ? 'target="_blank"' : '';
+      if (is_null($title)) {
          $title = "View Mantis Issue $bugid";
-         
-      } else if (is_array($title)) {
-         Tools::doubleImplode(':', ',', $title);
-      }
 
-      $formatedTitle = str_replace("'", ' ', $title);
-      $formatedTitle = str_replace('"', ' ', $formatedTitle);
+         if (!$isIcon) {
+            return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" title="'.$title.'" '.$target.'>'.$bugid.'</a>';
+         } else {
+            return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" $target><img title="'.$title.'" align="absmiddle" src="'.Constants::$mantisURL.'/images/favicon.ico" /></a>';
+         }
+      } else if(is_array($title)) {
+         $tooltip = '<div class="tooltip ui-helper-hidden" style="padding:30px 30px 40px;width:310px;font-size:11px;color:#000;">'.
+                    '<table style="margin:0;border:0;padding:0;background-color:white;">'.
+                    '<tbody>';
+         foreach($title as $key => $value) {
+            $tooltip .= '<tr>'.
+                        '<td style="color:blue;width:35px;">'.$key.'</td>'.
+                        '<td>'.$value.'</td>'.
+                        '</tr>';
+         }
+         $tooltip .= '</tbody></table></div>';
 
-      $target = (false == $inNewTab) ? '' : "target='_blank'";
-
-      if (false == $isIcon) {
-         $url = "<a href='".Constants::$mantisURL."/view.php?id=$bugid' title='$formatedTitle' $target>$bugid</a>";
+         if (!$isIcon) {
+            return '<a class="haveTooltip" href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" '.$target.'>'.$bugid.'</a>'.$tooltip;
+         } else {
+            return '<a class="haveTooltip" href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" '.$target.'><img align="absmiddle" src="'.Constants::$mantisURL.'/images/favicon.ico" /></a>'.$tooltip;
+         }
       } else {
-         $url = "<a href='".Constants::$mantisURL."/view.php?id=$bugid' $target><img title='$formatedTitle' align='absmiddle' src='".Constants::$mantisURL."/images/favicon.ico' /></a>";
+         if (!$isIcon) {
+            return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" title="'.$title.'" '.$target.'>'.$bugid.'</a>';
+         } else {
+            return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" $target><img title="'.$title.'" align="absmiddle" src="'.Constants::$mantisURL.'/images/favicon.ico" /></a>';
+         }
       }
-
-      return $url;
    }
-   
    
    /**
     * returns an HTML link to the TaskInfo page for Issue $bugid
@@ -114,21 +126,26 @@ class Tools {
     * @return string
     */
    public static function issueInfoURL($bugid, $title=NULL, $inNewTab=false) {
-
-      if (is_null($title)) { 
+      $target = $inNewTab ? 'target="_blank"' : '';
+      if (is_null($title)) {
          $title = "View info for Issue $bugid";
-         
-      } else if (is_array($title)) {
-         $title = Tools::doubleImplode(':', ',', $title);
+         return '<a '.$target.' href="'.Tools::getServerRootURL().'/reports/issue_info.php?bugid='.$bugid.'" title="'.$title.'">'.$bugid.'</a>';
+      } else if(is_array($title)) {
+         $tooltip = '<div class="tooltip ui-helper-hidden" style="padding:30px 30px 40px;width:310px;font-size:11px;color:#000;">'.
+                    '<table style="margin:0;border:0;padding:0;background-color:white;">'.
+                    '<tbody>';
+         foreach($title as $key => $value) {
+            $tooltip .= '<tr>'.
+                        '<td style="color:blue;width:35px;">'.$key.'</td>'.
+                        '<td>'.$value.'</td>'.
+                        '</tr>';
+         }
+         $tooltip .= '</tbody></table></div>';
+
+         return '<a class="haveTooltip" '.$target.' href="'.Tools::getServerRootURL().'/reports/issue_info.php?bugid='.$bugid.'">'.$bugid.'</a>'.$tooltip;
+      } else {
+         return '<a '.$target.' href="'.Tools::getServerRootURL().'/reports/issue_info.php?bugid='.$bugid.'" title="'.$title.'">'.$bugid.'</a>';
       }
-
-
-      $target = (false == $inNewTab) ? "" : "target='_blank'";
-
-      $formatedTitle = str_replace("'", " ", $title);
-      $formatedTitle = str_replace("\"", " ", $formatedTitle);
-
-      return "<a  title='$formatedTitle' $target href='".self::getServerRootURL()."/reports/issue_info.php?bugid=$bugid'>$bugid</a>";
    }
 
    /**

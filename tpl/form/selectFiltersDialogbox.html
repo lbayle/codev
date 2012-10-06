@@ -69,6 +69,7 @@ Contains:
             data: form.serialize(),
             success: function(data) {
                jQuery("#detailedChargesData").html(jQuery.trim(data));
+               applyTooltip("#detailedChargesData");
             }
          });
       });
