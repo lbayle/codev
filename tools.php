@@ -80,29 +80,31 @@ class Tools {
     * @param bool $inNewTab
     * @return string
     */
-   public static function mantisIssueURL($bugid, $title=NULL, $isIcon=false, $inNewTab=false) {
-      
-      if (is_null($title)) { 
+   public static function mantisIssueURL($bugid, $title=NULL, $isIcon=FALSE, $inNewTab=FALSE) {
+      $target = $inNewTab ? 'target="_blank"' : '';
+      if (is_null($title)) {
          $title = "View Mantis Issue $bugid";
-         
-      } else if (is_array($title)) {
-         Tools::doubleImplode(':', ',', $title);
-      }
 
-      $formatedTitle = str_replace("'", ' ', $title);
-      $formatedTitle = str_replace('"', ' ', $formatedTitle);
-
-      $target = (false == $inNewTab) ? '' : "target='_blank'";
-
-      if (false == $isIcon) {
-         $url = "<a href='".Constants::$mantisURL."/view.php?id=$bugid' title='$formatedTitle' $target>$bugid</a>";
+         if (!$isIcon) {
+            return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" title="'.$title.'" '.$target.'>'.$bugid.'</a>';
+         } else {
+            return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" $target><img title="'.$title.'" align="absmiddle" src="'.Constants::$mantisURL.'/images/favicon.ico" /></a>';
+         }
+      } else if(is_array($title)) {
+         $tooltip = self::getTooltip($title);
+         if (!$isIcon) {
+            return '<a class="haveTooltip" href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" '.$target.'>'.$bugid.'</a>'.$tooltip;
+         } else {
+            return '<a class="haveTooltip" href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" '.$target.'><img align="absmiddle" src="'.Constants::$mantisURL.'/images/favicon.ico" /></a>'.$tooltip;
+         }
       } else {
-         $url = "<a href='".Constants::$mantisURL."/view.php?id=$bugid' $target><img title='$formatedTitle' align='absmiddle' src='".Constants::$mantisURL."/images/favicon.ico' /></a>";
+         if (!$isIcon) {
+            return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" title="'.$title.'" '.$target.'>'.$bugid.'</a>';
+         } else {
+            return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" $target><img title="'.$title.'" align="absmiddle" src="'.Constants::$mantisURL.'/images/favicon.ico" /></a>';
+         }
       }
-
-      return $url;
    }
-   
    
    /**
     * returns an HTML link to the TaskInfo page for Issue $bugid
@@ -113,22 +115,40 @@ class Tools {
     * @param bool $inNewTab
     * @return string
     */
-   public static function issueInfoURL($bugid, $title=NULL, $inNewTab=false) {
-
-      if (is_null($title)) { 
+   public static function issueInfoURL($bugid, $title=NULL, $inNewTab=FALSE) {
+      $target = $inNewTab ? 'target="_blank"' : '';
+      if (is_null($title)) {
          $title = "View info for Issue $bugid";
-         
-      } else if (is_array($title)) {
-         $title = Tools::doubleImplode(':', ',', $title);
+         return '<a '.$target.' href="'.Tools::getServerRootURL().'/reports/issue_info.php?bugid='.$bugid.'" title="'.$title.'">'.$bugid.'</a>';
+      } else if(is_array($title)) {
+         $tooltip = self::getTooltip($title);
+         return '<a class="haveTooltip" '.$target.' href="'.Tools::getServerRootURL().'/reports/issue_info.php?bugid='.$bugid.'">'.$bugid.'</a>'.$tooltip;
+      } else {
+         return '<a '.$target.' href="'.Tools::getServerRootURL().'/reports/issue_info.php?bugid='.$bugid.'" title="'.$title.'">'.$bugid.'</a>';
       }
+   }
 
-
-      $target = (false == $inNewTab) ? "" : "target='_blank'";
-
-      $formatedTitle = str_replace("'", " ", $title);
-      $formatedTitle = str_replace("\"", " ", $formatedTitle);
-
-      return "<a  title='$formatedTitle' $target href='".self::getServerRootURL()."/reports/issue_info.php?bugid=$bugid'>$bugid</a>";
+   private static function getTooltip($title) {
+      $tooltip = '<div class="tooltip ui-helper-hidden" style="padding:30px 30px 40px;width:310px;font-size:11px;color:#000;">'.
+                 '<table style="margin:0;border:0;padding:0;background-color:white;">'.
+                 '<tbody>';
+      $driftColor = NULL;
+      if (array_key_exists('DriftColor', $title)) {
+         $driftColor = $title['DriftColor'];
+         unset($title['DriftColor']);
+      }
+      foreach ($title as $key => $value) {
+         $tooltip .= '<tr>'.
+                     '<td style="color:blue;width:35px;">'.$key.'</td>';
+         if ($driftColor != NULL && $key == T_('Drift')) {
+            $tooltip .= '<td style="background-color:'.$driftColor.'">'.$value.'</td>';
+         } else {
+            $tooltip .= '<td>'.$value.'</td>';
+         }
+         $tooltip .= '</tr>';
+      }
+      $tooltip .= '</tbody></table></div>';
+      return $tooltip;
    }
 
    /**
@@ -464,7 +484,7 @@ class Tools {
     * @return string
     */
    public static function SmartUrlEncode($url){
-      if (strpos($url, '=') == false) {
+      if (strpos($url, '=') == FALSE) {
          return $url;
       } else {
          $startpos = strpos($url, "?");
@@ -522,7 +542,7 @@ class Tools {
       }
       */
 
-      return true;
+      return TRUE;
    }
 
    /**
@@ -731,20 +751,20 @@ class Tools {
          return json_encode($arr);
       }
       $parts = array();
-      $is_list = false;
+      $is_list = FALSE;
 
       //Find out if the given array is a numerical array
       $keys = array_keys($arr);
       $max_length = count($arr) - 1;
       //See if the first key is 0 and last key is length - 1
       if (($keys[0] == 0) and ($keys[$max_length] == $max_length)) {
-         $is_list = true;
+         $is_list = TRUE;
          //See if each key correspondes to its position
          for ($i = 0; $i < count($keys); $i++) {
             // A key fails at position check.
             if ($i != $keys[$i]) {
                // It is an associative array.
-               $is_list = false;
+               $is_list = FALSE;
                break;
             }
          }
@@ -770,11 +790,11 @@ class Tools {
                // Numbers
                $str .= $value;
             }
-            elseif ($value === false) {
+            elseif ($value === FALSE) {
                // The booleans
                $str .= 'false';
             }
-            elseif ($value === true) {
+            elseif ($value === TRUE) {
                $str .= 'true';
             }
             else {
@@ -896,7 +916,7 @@ class Tools {
       //       do not remove it.
       // if path does not exist, try to create it
       if (!file_exists($directory)) {
-         if (!mkdir($directory, 0755, true)) {
+         if (!mkdir($directory, 0755, TRUE)) {
             return "ERROR : Could not create folder: $directory";
          }
       }
@@ -944,7 +964,7 @@ class Tools {
       } elseif (strlen($color) == 3) {
          list($r, $g, $b) = array($color[0].$color[0], $color[1].$color[1],   $color[2].$color[2]);
       } else {
-         return false;
+         return FALSE;
       }
 
       return array(hexdec($r), hexdec($g), hexdec($b));
@@ -1094,7 +1114,7 @@ class Tools {
    {
       $length = strlen($needle);
       if ($length == 0) {
-         return true;
+         return TRUE;
       }
 
       return (substr($haystack, -$length) === $needle);

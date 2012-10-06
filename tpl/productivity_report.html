@@ -181,7 +181,8 @@
                               }
                            }
                         });
-                     form.find('input[name=action]').val('getProjectDetails');
+                        applyTooltip('#projectDetailsDiv');
+                        form.find('input[name=action]').val('getProjectDetails');
                      },
                      error: function(jqXHR, textStatus, errorThrown) {
                         if(errorThrown == 'Forbidden') {

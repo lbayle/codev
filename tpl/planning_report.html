@@ -13,8 +13,6 @@
    }
 </script>
 {else}
-<link type="text/css" href="lib/jquery.powertip/jquery.powertip.css" rel="stylesheet" />
-<script type="text/javascript" src="lib/jquery.powertip/jquery.powertip.min.js"></script>
 <div id="content">
    <div align="center">
       <script type="text/javascript">
@@ -130,9 +128,9 @@
                   {if isset($i.deadlines.deadline)}
                   {foreach from=$i.deadlines.deadline key=id1 item=j}
                   {if isset($j.width)}<img width="{$j.width}" height="7" src="images/time_line.jpg" alt="" />{/if}
-                  <img class="deadline" src="{$j.url}" alt="{$j.title}" height="7" width="10" />
+                  <img class="deadline haveTooltip" src="{$j.url}" alt="{$j.title}" height="7" width="10" />
                   <!-- tooltip element -->
-                  <div id="tooltipdeadline{$id1}" class="tooltip ui-helper-hidden" style="padding:30px;width:310px;font-size:11px;color:#000; background:url({$j.imgUrl});">
+                  <div class="tooltip ui-helper-hidden" style="padding:30px;width:310px;font-size:11px;color:#000; background:url({$j.imgUrl});">
                      <table style="margin:0;border:0;padding:0;background-color:white;">
                         <tbody>
                            <tr>
@@ -154,9 +152,9 @@
                   <div style="margin-top: 2px;">
                      <img width="5" height="20" src="images/blank.png" alt="" />
                      {foreach from=$i.scheduledTasks key=id1 item=j}
-                     <a class="task" target="_blank" href="reports/issue_info.php?bugid={$j.bugid}" style="margin-right: 1px;display:inline-block;"><img alt="{$j.bugid}" src="graphs/scheduledtask.png.php?height=20&width={$j.width}&text={$j.bugid}&color={$j.color}{if $j.strike}&strike{/if}" height="20" width="{$j.width}" /></a>
+                     <a class="task haveTooltip" target="_blank" href="reports/issue_info.php?bugid={$j.bugid}" style="margin-right: 1px;display:inline-block;"><img alt="{$j.bugid}" src="graphs/scheduledtask.png.php?height=20&width={$j.width}&text={$j.bugid}&color={$j.color}{if $j.strike}&strike{/if}" height="20" width="{$j.width}" /></a>
                      <!-- tooltip element -->
-                     <div id="tooltiptask{$id1}" class="tooltip ui-helper-hidden" style="padding:30px 30px 40px;width:310px;font-size:11px;color:#000; background:url({$j.imgUrl});">
+                     <div class="tooltip ui-helper-hidden" style="padding:30px 30px 40px;width:310px;font-size:11px;color:#000; background:url({$j.imgUrl});">
                         <table style="margin:0;border:0;padding:0;background-color:white;">
                            <tbody>
                               <tr>
@@ -224,21 +222,6 @@
       </div>
       <div class="ui-helper-clearfix"></div>
    </div>
-
-   <script type="text/javascript">
-      jQuery(document).ready(function() {
-         jQuery(".deadline, .task").each(function() {
-            var container = jQuery(this);
-            container.data('powertiptarget', container.next().attr('id'));
-            
-            container.powerTip({
-               placement: 'n',
-               smartPlacement: true,
-               mouseOnToPopup: true
-            });
-         });
-      });
-   </script>
    {/if}
 </div>
 {/if}
