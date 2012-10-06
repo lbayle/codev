@@ -141,7 +141,7 @@ class Tools {
          $tooltip .= '<tr>'.
                      '<td style="color:blue;width:35px;">'.$key.'</td>';
          if ($driftColor != NULL && $key == T_('Drift')) {
-            $tooltip .= '<td style="background-color:'.$driftColor.'">'.$value.'</td>';
+            $tooltip .= '<td style="background-color:#'.$driftColor.'">'.$value.'</td>';
          } else {
             $tooltip .= '<td>'.$value.'</td>';
          }
