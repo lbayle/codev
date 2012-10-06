@@ -40,6 +40,9 @@ class ProductivityReportTools {
             $titleAttr = array(
                   T_('Project') => $issue->getProjectName(),
                   T_('Summary') => $issue->getSummary(),
+                  T_('Elapsed') => $duration,
+                  T_('Backlog') => $issue->getBacklog(),
+                  T_('Drift') => $issue->getDrift(),
             );
             if (array_key_exists($catName, $formatedBugsPerCategory)) {
                $formatedBugsPerCategory[$catName] .= ', '.Tools::issueInfoURL($bugid, $titleAttr);
@@ -74,6 +77,7 @@ class ProductivityReportTools {
                $titleAttr = array(
                      T_('Project') => $issue->getProjectName(),
                      T_('Summary') => $issue->getSummary(),
+                     T_('Elapsed') => $duration,
                );
                if (array_key_exists($catName, $formatedBugsPerCategory)) {
                   $formatedBugsPerCategory[$catName] .= ', '.Tools::issueInfoURL($bugid, $titleAttr);
