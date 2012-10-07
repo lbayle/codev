@@ -11,7 +11,7 @@
                   data: "action=getProjectIssues&projectid="+projectid+"&bugid="+jQuery("#bugid").val(),
                   success: function(data) {
                      jQuery("#bugSelector").html(jQuery.trim(data));
-                     jQuery(".select2").select2();
+                     applySelect2("#bugSelector");
 
                      // Hide result because the form is no more consistent with the result
                      jQuery("#result").hide();
@@ -96,7 +96,6 @@
       </table>
 
       {include file="tools/graph.html"}
-      <script src="js/tabs.js" type="text/javascript"></script>
       <div id="tabsIssueInfo" class="tabs" style="margin-top:3em;">
          <ul>
             <li><a href="#tabsName-1">{t}Overview{/t}</a></li>

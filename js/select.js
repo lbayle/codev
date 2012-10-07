@@ -1,4 +1,23 @@
-// Select with search
+/**
+ * Select with search
+ * Convention :
+ * - <select class="select2">...</select>
+ */
 jQuery(document).ready(function() {
-   jQuery('.select2').select2();
+   var select2 = jQuery('.select2');
+   if(select2.length > 0) {
+      // Lib handle the history
+      jQuery.ajax({
+         url: "lib/select2/select2.min.js",
+         dataType: "script",
+         async: false,
+         cache: true
+      });
+
+      select2.select2();
+   }
 });
+
+function applySelect2(context) {
+   jQuery(context).find('.select2').select2();
+}
