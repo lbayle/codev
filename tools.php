@@ -129,7 +129,7 @@ class Tools {
    }
 
    private static function getTooltip($title) {
-      $tooltip = '<div class="tooltip ui-helper-hidden" style="padding:30px 30px 40px;width:310px;font-size:11px;color:#000;">'.
+      $tooltip = '<div class="tooltip ui-helper-hidden">'.
                  '<table style="margin:0;border:0;padding:0;background-color:white;">'.
                  '<tbody>';
       $driftColor = NULL;
