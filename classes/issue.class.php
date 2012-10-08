@@ -245,9 +245,9 @@ class Issue extends Model implements Comparable {
             case $deliveryDateField:
                $this->deliveryDate = $row->value;
                break;
-            case $deliveryIdField:
-               $this->deliveryId = $row->value;
-               break;
+            #case $deliveryIdField:
+            #   $this->deliveryId = $row->value;
+            #   break;
             case $customField_type:
                $this->type = $row->value;
                break;
