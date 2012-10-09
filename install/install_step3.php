@@ -284,7 +284,7 @@ $fieldList = array();
  * @param type $possible_values
  */
 function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL,
-                           $default_value = NULL, $possible_values = NULL) {
+                           $default_value = '', $possible_values = '') {
    global $fieldList;
 
    if (NULL == $attributes) {
@@ -315,12 +315,8 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
       $query2 = "INSERT INTO `mantis_custom_field_table` " .
          "(`name`, `type` ,`access_level_r`," .
          "                 `access_level_rw` ,`require_report` ,`require_update` ,`display_report` ,`display_update` ,`require_resolved` ,`display_resolved` ,`display_closed` ,`require_closed` ";
-      if ($possible_values) {
-         $query2 .= ", `possible_values`";
-      }
-      if ($default_value) {
-         $query2 .= ", `default_value`";
-      }
+      $query2 .= ", `possible_values`, `default_value`";
+
       $query2 .= ") VALUES ('$fieldName', '$fieldType', '" . $attributes["access_level_r"] . "', '" .
          $attributes["access_level_rw"] . "', '" .
          $attributes["require_report"] . "', '" .
@@ -331,12 +327,8 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
          $attributes["display_resolved"] . "', '" .
          $attributes["display_closed"] . "', '" .
          $attributes["require_closed"] . "'";
-      if ($possible_values) {
-         $query2 .= ", '$possible_values'";
-      }
-      if ($default_value) {
-         $query2 .= ", '$default_value'";
-      }
+
+      $query2 .= ", '$possible_values', '$default_value'";
       $query2 .= ");";
 
       #echo "DEBUG INSERT $fieldName --- query $query2 <br/>";

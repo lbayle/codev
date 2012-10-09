@@ -585,7 +585,7 @@ class Project extends Model {
       $reproducibility = 100;
 
       $formattedIssueDesc = SqlWrapper::getInstance()->sql_real_escape_string($issueDesc);
-      $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('".$formattedIssueDesc."');";
+      $query = "INSERT INTO `mantis_bug_text_table`  (`description`, `steps_to_reproduce`, `additional_information`) VALUES ('".$formattedIssueDesc."', '', '');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
