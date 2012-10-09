@@ -68,7 +68,7 @@ class Issue extends Model implements Comparable {
    private $version;  // Product Version
    private $last_updated;
    private $view_state; // public = 10, private = 50
-
+   private $bug_text_id; // description (in mantis_bug_text_table)
    private $description;
    private $target_version;
    private $relationships = array(); // array[relationshipType][bugId]
@@ -186,6 +186,7 @@ class Issue extends Model implements Comparable {
          $this->target_version = $row->target_version;
          $this->last_updated = $row->last_updated;
          $this->view_state = $row->view_state;
+         $this->bug_text_id = $row->bug_text_id;
 
          //DEBUG $this->getRelationships(2500);
       } else {
@@ -317,7 +318,7 @@ class Issue extends Model implements Comparable {
     */
    public function getDescription() {
       if (NULL == $this->description) {
-         $query = "SELECT description FROM `mantis_bug_text_table` WHERE id = ".$this->bugId.";";
+         $query = "SELECT description FROM `mantis_bug_text_table` WHERE id = ".$this->bug_text_id.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
