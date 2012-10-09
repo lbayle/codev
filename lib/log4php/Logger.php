@@ -150,6 +150,11 @@ class Logger {
 	 * @see LoggerAppender
 	 */
 	private $appenders = array();
+        
+	/**
+	 * @var bool Cache isEnabledFor value
+	 */
+	private $enabled = array();
 
 	/** The logger hierarchy used by log4php. */
 	private static $hierarchy;
@@ -305,8 +310,12 @@ class Logger {
 	 * @param LoggerLevel level
 	 * @return boolean
 	 */
-	public function isEnabledFor($level) {
-		return (bool)($level->isGreaterOrEqual($this->getEffectiveLevel()));
+	public function isEnabledFor(LoggerLevel $level) {
+		$levelInt = $level->toInt();
+		if(!isset($this->enabled[$levelInt])) {
+			$this->enabled[$levelInt] = (bool)($level->isGreaterOrEqual($this->getEffectiveLevel()));
+		}
+		return $this->enabled[$levelInt];
 	} 
 
 	/**
