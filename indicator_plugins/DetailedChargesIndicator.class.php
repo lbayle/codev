@@ -377,7 +377,11 @@ class DetailedChargesIndicator implements IndicatorPlugin {
       $titles[] = T_("Resolved Tasks");
 
       // set Smarty
-      $totalLine = array_shift($smartyObj); // first line is rootElem (TOTAL)
+      if (1 == count($explodeResults)) {
+         $totalLine = $smartyObj[0]; // first line is rootElem (TOTAL)
+      } else {
+         $totalLine = array_shift($smartyObj); // first line is rootElem (TOTAL)
+      }
 
       $smartyVariables['issuesTitles'] = $titles;
       $smartyVariables['issuesLines'] = $smartyObj;
