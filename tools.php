@@ -119,12 +119,12 @@ class Tools {
       $target = $inNewTab ? 'target="_blank"' : '';
       if (is_null($title)) {
          $title = "View info for Issue $bugid";
-         return '<a '.$target.' href="'.Tools::getServerRootURL().'/reports/issue_info.php?bugid='.$bugid.'" title="'.$title.'">'.$bugid.'</a>';
+         return '<a '.$target.' href="reports/issue_info.php?bugid='.$bugid.'" title="'.$title.'">'.$bugid.'</a>';
       } else if(is_array($title)) {
          $tooltip = self::getTooltip($title);
-         return '<a class="haveTooltip" '.$target.' href="'.Tools::getServerRootURL().'/reports/issue_info.php?bugid='.$bugid.'">'.$bugid.'</a>'.$tooltip;
+         return '<a class="haveTooltip" '.$target.' href="reports/issue_info.php?bugid='.$bugid.'">'.$bugid.'</a>'.$tooltip;
       } else {
-         return '<a '.$target.' href="'.Tools::getServerRootURL().'/reports/issue_info.php?bugid='.$bugid.'" title="'.$title.'">'.$bugid.'</a>';
+         return '<a '.$target.' href="reports/issue_info.php?bugid='.$bugid.'" title="'.$title.'">'.$bugid.'</a>';
       }
    }
 
@@ -977,11 +977,6 @@ class Tools {
     * example: http://55.7.137.27/louis/codev/
     */
    public static function getServerRootURL() {
-      #if (isset($_GET['debug'])) {
-      #foreach($_SERVER as $key => $value) {
-      #   echo "_SERVER key=$key val=$value<br/>";
-      #}}
-
       if(array_key_exists('HTTPS',$_SERVER) && $_SERVER['HTTPS'] == "on") {
          $protocol = "https";
       } else {
@@ -989,25 +984,10 @@ class Tools {
       }
 
       $rootURL = "$protocol://".$_SERVER['HTTP_HOST'].substr( $_SERVER['PHP_SELF'], 0 , strrpos( $_SERVER['PHP_SELF'], '/') );
-      #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
-      $rootURL = str_replace("/classes", "", $rootURL);
-      $rootURL = str_replace("/timetracking", "", $rootURL);
-      $rootURL = str_replace("/reports", "", $rootURL);
-      $rootURL = str_replace("/doc", "", $rootURL);
-      $rootURL = str_replace("/images", "", $rootURL);
-      $rootURL = str_replace("/admin", "", $rootURL);
-      $rootURL = str_replace("/tools", "", $rootURL);
-      $rootURL = str_replace("/i18n", "", $rootURL);
-      $rootURL = str_replace("/graphs", "", $rootURL);
-      $rootURL = str_replace("/install", "", $rootURL);
-      $rootURL = str_replace("/tests", "", $rootURL);
-      $rootURL = str_replace("/import", "", $rootURL);
-      $rootURL = str_replace("/blog", "", $rootURL);
-      $rootURL = str_replace("/management", "", $rootURL);
-      $rootURL = str_replace("/indicator_plugins", "", $rootURL);
-
-      #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
-      return $rootURL;
+      $folders = array("/admin", "/blog", "/classes", "/doc", "filters", "/graphs", "/i18n", "/images", "/import",
+                       "/indicator_plugins", "/install", "/management", "/reports", "/tests", "/timetracking", "/tools");
+      
+      return str_replace($folders, "", $rootURL);
    }
 
    /**
