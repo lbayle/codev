@@ -81,10 +81,10 @@
    <div id="tabsServiceContract" class="tabs" style="margin-top:2em;">
       <ul>
          <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
-         <li><a href="#tabsName-4">{t}Activity{/t}</a></li>
-         <li><a href="#tabsName-2">{t}SideTasks{/t} ({$nbSidetasksList})</a></li>
+         <li><a href="#tabsName-2">{t}Activity{/t}</a></li>
+         <li><a href="#tabsName-3">{t}SideTasks{/t} ({$nbSidetasksList})</a></li>
          <li><a href="{$ajaxPage}?action=getProgressHistoryIndicator">{t}Indicators{/t}</a></li>
-         <li><a href="#tabsName-3">{t}Detailed Charges{/t}</a></li>
+         <li><a href="#tabsName-5">{t}Detailed Charges{/t}</a></li>
       </ul>
       <div id="tabsName-1">
          <span style="font-size: larger; font-weight: bold;">{t}Tasks{/t}</span>
@@ -301,7 +301,8 @@
             {/if}
          </div>
       </div>
-      <div id="tabsName-2">
+      <div id="tabsName-2">{include file="plugin/activity_indicator.html"}</div>
+      <div id="tabsName-3">
          <span class="help_font">{t}Note: SideTasks already defined in Commands are not displayed.{/t}</span>
          <br />
 
@@ -338,14 +339,7 @@
          {t}No task found.{/t}
          {/if}
       </div>
-
-      <div id="tabsName-3">
-         {include file="plugin/detailed_charges_indicator.html"}
-      </div>
-
-      <div id="tabsName-4">
-      {include file="plugin/activity_indicator.html"}
-      </div>
+      <div id="tabsName-5">{include file="plugin/detailed_charges_indicator.html"}</div>
       {/if}
    </div>
    <script type="text/javascript">

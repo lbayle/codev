@@ -231,31 +231,10 @@ class ServiceContractTools {
       return $detailledMgr;
    }
 
-   public static function getSContractProgressHistoryTimestamp(ServiceContract $serviceContract) {
-      $cmdIssueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
-
-      $startTT = $cmdIssueSel->getFirstTimetrack();
-      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
-         $startTimestamp = $startTT->getDate();
-      } else {
-         $startTimestamp = $serviceContract->getStartDate();
-         #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
-         if (0 == $startTimestamp) {
-            $team = TeamCache::getInstance()->getTeam($serviceContract->getTeamid());
-            $startTimestamp = $team->getDate();
-            #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
-         }
-      }
-
-      $endTT = $cmdIssueSel->getLatestTimetrack();
-      $endTimestamp = ((NULL != $endTT) && (0 != $endTT->getDate())) ? $endTT->getDate() : time();
-
-      return array($startTimestamp,$endTimestamp);
-   }
-
    /**
+    * @static
     * @param ServiceContract $serviceContract
-    * @return string
+    * @return mixed[]
     */
    public static function getSContractProgressHistory(ServiceContract $serviceContract) {
       $cmdIssueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
@@ -285,7 +264,7 @@ class ServiceContractTools {
       $progressIndicator = new ProgressHistoryIndicator();
       $progressIndicator->execute($cmdIssueSel, $params);
 
-      return $progressIndicator->getSmartyObject();
+      return array($progressIndicator->getSmartyObject(),$startTimestamp,$endTimestamp);
    }
 
    /**

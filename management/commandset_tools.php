@@ -105,10 +105,11 @@ class CommandSetTools {
    }
 
    /**
+    * @static
     * @param CommandSet $commandSet
-    * @return string
+    * @return mixed[]
     */
-   private static function getCSetProgressHistory(CommandSet $commandSet) {
+   public static function getCSetProgressHistory(CommandSet $commandSet) {
       $cmdIssueSel = $commandSet->getIssueSelection(Command::type_general);
 
       $startTT = $cmdIssueSel->getFirstTimetrack();
@@ -136,7 +137,7 @@ class CommandSetTools {
       $progressIndicator = new ProgressHistoryIndicator();
       $progressIndicator->execute($cmdIssueSel, $params);
 
-      return array($progressIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
+      return array($progressIndicator->getSmartyObject(),$startTimestamp,$endTimestamp);
    }
 
    /**
@@ -169,7 +170,7 @@ class CommandSetTools {
          'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
          'endTimestamp' => $endTimestamp,
          'teamid' => $cmdset->getTeamid(),
-         'showSidetasks' => false
+         'showSidetasks' => FALSE
       );
 
       $activityIndicator = new ActivityIndicator();
@@ -217,11 +218,6 @@ class CommandSetTools {
 
       $smartyHelper->assign('cmdList', self::getCommandSetCommands($commandset->getId(), Command::type_general));
       $smartyHelper->assign('cmdsetDetailedMgr', self::getCommandSetDetailedMgr($commandset->getId(), Command::type_general));
-
-      $data = self::getCSetProgressHistory($commandset);
-      $smartyHelper->assign('indicators_jqplotData', $data[0]);
-      $smartyHelper->assign('indicators_plotMinDate', Tools::formatDate("%Y-%m-01", $data[1]));
-      $smartyHelper->assign('indicators_plotMaxDate', Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d", $data[2]) . " +1 month")));
 
       $data = self::getCommandSetActivity($commandset);
       $smartyHelper->assign('activityIndic_data', $data[0]);

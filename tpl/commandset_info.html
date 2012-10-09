@@ -91,9 +91,9 @@
    <div id="tabsCommandSet" class="tabs" style="margin-top:2em;">
       <ul>
          <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
-         <li><a href="#tabsName-4">{t}Activity{/t}</a></li>
-         <li><a href="#tabsName-2">{t}Indicators{/t}</a></li>
-         <li><a href="#tabsName-3">{t}Detailed Charges{/t}</a></li>
+         <li><a href="#tabsName-2">{t}Activity{/t}</a></li>
+         <li><a href="{$ajaxPage}?action=getProgressHistoryIndicator">{t}Indicators{/t}</a></li>
+         <li><a href="#tabsName-4">{t}Detailed Charges{/t}</a></li>
       </ul>
       <div id="tabsName-1">
          {if $cmdList}
@@ -148,40 +148,8 @@
          {t}No Command found.{/t}
          {/if}
       </div>
-      <div id="tabsName-2">
-         {if $indicators_jqplotData}
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               var chartoptions = jQuery('#indicatorsChart').data('plotoptions');
-               chartoptions.title.text = '{t}Historical Progression Chart{/t}';
-               chartoptions.legend.location = 'nw';
-               chartoptions.series = [{
-                  label : "{t}Theoric{/t}"
-               },{
-                  label : "{t}Real{/t}"
-               }];
-               chartoptions.axes.xaxis.min = "{$indicators_plotMinDate}";
-               chartoptions.axes.xaxis.max = "{$indicators_plotMaxDate}";
-               chartoptions.axes.yaxis.label = '{t}% Progress{/t}';
-               chartoptions.axes.yaxis.min = 0;
-               jQuery('#indicatorsChart').jqplot({$indicators_jqplotData}, chartoptions);
-            });
-         </script>
-         <div id="indicatorsChart" class="date_chart chart" style="width:100%;"></div>
-         {else}
-         <p>{t}No data{/t}</p>
-         {/if}
-      </div>
-      
-      <div id="tabsName-3">
-         {include file="plugin/detailed_charges_indicator.html"}
-      </div>
-
-      <div id="tabsName-4">
-      {include file="plugin/activity_indicator.html"}
-      </div>
-
-
+      <div id="tabsName-2">{include file="plugin/detailed_charges_indicator.html"}</div>
+      <div id="tabsName-4">{include file="plugin/activity_indicator.html"}</div>
       {/if}
    </div>
 </div>
