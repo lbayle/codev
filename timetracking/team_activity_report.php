@@ -139,6 +139,7 @@ class TeamActivityReportController extends Controller {
             $weekJobDetails = array();
             foreach ($weekTracks as $bugid => $jobList) {
                $issue = IssueCache::getInstance()->getIssue($bugid);
+               $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
                if ($isDetailed) {
                   $formatedJobList = implode(', ', array_keys($jobList));
                   $query = 'SELECT id, name FROM `codev_job_table` WHERE id IN ('.$formatedJobList.');';
@@ -151,28 +152,41 @@ class TeamActivityReportController extends Controller {
                      $dayList = $jobList[$row2->id];
 
                      $daysDetails = array();
-                     $totalDuration = 0;
+                     $weekDuration = 0;
                      for ($i = 1; $i <= 7; $i++) {
                         $dayDetails = $this->getDaysDetails($i, $holidays, $weekDates, $dayList[$i]);
-                        $totalDuration += $dayDetails['duration'];
+                        $weekDuration += $dayDetails['duration'];
                         $daysDetails[] = $dayDetails;
                      }
-                     
+
+                     $tooltipAttr = array(
+                         T_('Project') => $issue->getProjectName(),
+                         T_('Summary') => $issue->getSummary()
+                     );
+                     if ((!$project->isSideTasksProject(array($team->getId()))) &&
+                         (!$project->isExternalTasksProject())) {
+                        $tooltipAttr[T_('Elapsed')] = $issue->getElapsed();
+                        $tooltipAttr[T_('Backlog')] = $issue->getDuration();
+                        $tooltipAttr[T_('Drift')]   = $issue->getDrift();
+                        $tooltipAttr['DriftColor']  = $issue->getDriftColor();
+                     }
+
+
                      $weekJobDetails[] = array(
-                        "description" => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary()),
+                        "description" => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary(), $tooltipAttr),
                         "duration" => $issue->getDuration(),
                         "progress" => round(100 * $issue->getProgress()),
                         "projectName" => $issue->getProjectName(),
                         "targetVersion" => $issue->getTargetVersion(),
                         "jobName" => $jobName,
                         "daysDetails" => $daysDetails,
-                        "totalDuration" => $totalDuration
+                        "totalDuration" => $weekDuration
                      );
                   }
                } else {
                   // for each day, concat jobs duration
                   $daysDetails = array();
-                  $totalDuration = 0;
+                  $weekDuration = 0;
                   for ($i = 1; $i <= 7; $i++) {
                      $duration = 0;
                      foreach ($jobList as $dayList) {
@@ -185,19 +199,30 @@ class TeamActivityReportController extends Controller {
                      }
                      $dayDetails = $this->getDaysDetails($i, $holidays, $weekDates, $duration);
                      
-                     $totalDuration += $dayDetails['duration'];
+                     $weekDuration += $dayDetails['duration'];
                      
                      $daysDetails[] = $dayDetails;
                   }
                      
+                  $tooltipAttr = array(
+                      T_('Project') => $issue->getProjectName(),
+                      T_('Summary') => $issue->getSummary()
+                  );
+                  if ((!$project->isSideTasksProject(array($team->getId()))) &&
+                      (!$project->isExternalTasksProject())) {
+                     $tooltipAttr[T_('Elapsed')] = $issue->getElapsed();
+                     $tooltipAttr[T_('Backlog')] = $issue->getDuration();
+                     $tooltipAttr[T_('Drift')]   = $issue->getDrift();
+                     $tooltipAttr['DriftColor']  = $issue->getDriftColor();
+                  }
                   $weekJobDetails[] = array(
-                     "description" => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary()),
+                     "description" => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary(), $tooltipAttr),
                      "duration" => $issue->getDuration(),
                      "progress" => round(100 * $issue->getProgress()),
                      "projectName" => $issue->getProjectName(),
                      "targetVersion" => $issue->getTargetVersion(),
                      "daysDetails" => $daysDetails,
-                     "totalDuration" => $totalDuration
+                     "totalDuration" => $weekDuration
                   );
                }
             }
