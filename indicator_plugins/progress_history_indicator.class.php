@@ -92,27 +92,48 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       }
    }
 
+   /**
+    * @param IssueSelection $inputIssueSel
+    * @param int[] $timestampList
+    */
    private function getBacklogData(IssueSelection $inputIssueSel, array $timestampList) {
       $this->backlogData = array();
 
+      $mgrEffortEstim = array();
+
       // get a snapshot of the Backlog at each timestamp
+      $issues = $inputIssueSel->getIssueList();
+      krsort($timestampList);
       foreach ($timestampList as $timestamp) {
          $backlog = 0;
-         foreach ($inputIssueSel->getIssueList() as $issue) {
-
-            $issueBL = $issue->getBacklog($timestamp);
-            if (NULL != $issueBL) {
-               $backlog += $issueBL;
+         foreach ($issues as $issue) {
+            if(!array_key_exists($issue->getId(),$mgrEffortEstim)) {
+               if($timestamp > $issue->getDateSubmission()) {
+                  $issueBL = $issue->getBacklog($timestamp);
+                  if (NULL != $issueBL) {
+                     $issueBacklog = $issueBL;
+                  } else {
+                     // if not fount in history, take the MgrEffortEstim (or EffortEstim ??)
+                     $mgrEffortEstim[$issue->getId()] = $issue->getMgrEffortEstim();
+                     $issueBacklog = $issue->getMgrEffortEstim();
+                  }
+               } else {
+                  // if not fount in history, take the MgrEffortEstim (or EffortEstim ??)
+                  $mgrEffortEstim[$issue->getId()] = $issue->getMgrEffortEstim();
+                  $issueBacklog = $issue->getMgrEffortEstim();
+               }
             } else {
-               // if not fount in history, take the MgrEffortEstim (or EffortEstim ??)
-               $backlog += $issue->getMgrEffortEstim();
+               $issueBacklog = $mgrEffortEstim[$issue->getId()];
             }
+            $backlog += $issueBacklog;
          }
 
          #echo "backlog(".date('Y-m-d', $timestamp).") = ".$backlog.'<br>';
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
          $this->backlogData[$midnight_timestamp] = $backlog;
       }
+      // No need to sort, values are get by the index
+      //ksort($this->backlogData);
    }
 
    private function getElapsedData(IssueSelection $inputIssueSel, array $timestampList) {

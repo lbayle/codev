@@ -65,27 +65,13 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             $servicecontractid = $_SESSION['servicecontractid'];
             if (0 != $servicecontractid) {
                $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-               $timestamp = ServiceContractTools::getSContractProgressHistoryTimestamp($servicecontract);
-               $start = Tools::formatDate("%Y-%m-01", $timestamp[0]);
-               $end = Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d",$timestamp[1])." +1 month"));
+               $data = ServiceContractTools::getSContractProgressHistory($servicecontract);
+               $start = Tools::formatDate("%Y-%m-01", $data[1]);
+               $end = Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d",$data[2])." +1 month"));
+               $smartyHelper->assign('progress_history_data', $data[0]);
                $smartyHelper->assign('progress_history_plotMinDate', $start);
                $smartyHelper->assign('progress_history_plotMaxDate', $end);
                $smartyHelper->display('plugin/progress_history_indicator');
-            }
-         } else {
-            Tools::sendBadRequest("Service contract not set");
-         }
-      } else if($_GET['action'] == 'getProgressHistoryIndicatorData') {
-         if(isset($_SESSION['servicecontractid'])) {
-            $servicecontractid = $_SESSION['servicecontractid'];
-            if (0 != $servicecontractid) {
-               $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-               $data = ServiceContractTools::getSContractProgressHistory($servicecontract);
-               header('Content-type: application/json');
-               echo $data;
-               SqlWrapper::getInstance()->logStats();
-            } else {
-               Tools::sendBadRequest("Service contract equals 0");
             }
          } else {
             Tools::sendBadRequest("Service contract not set");

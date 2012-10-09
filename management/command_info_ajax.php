@@ -59,7 +59,22 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          } else {
             Tools::sendBadRequest("Command not set");
          }
-
+      } else if($_GET['action'] == 'getProgressHistoryIndicator') {
+         if(isset($_SESSION['cmdid'])) {
+            $cmdid = $_SESSION['cmdid'];
+            if (0 != $cmdid) {
+               $cmd = CommandCache::getInstance()->getCommand($cmdid);
+               $data = CommandTools::getProgressHistory($cmd);
+               $start = Tools::formatDate("%Y-%m-01", $data[1]);
+               $end = Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d",$data[2])." +1 month"));
+               $smartyHelper->assign('progress_history_data', $data[0]);
+               $smartyHelper->assign('progress_history_plotMinDate', $start);
+               $smartyHelper->assign('progress_history_plotMaxDate', $end);
+               $smartyHelper->display('plugin/progress_history_indicator');
+            }
+         } else {
+            Tools::sendBadRequest("Command not set");
+         }
       } else if ($_GET['action'] == 'updateDetailedCharges') {
 
 

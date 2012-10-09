@@ -31,7 +31,7 @@ class CommandTools {
          $driftMgrColor = $issue->getDriftColor($driftMgr);
 
          $issueArray[$id] = array(
-            "mantisLink" => Tools::mantisIssueURL($issue->getId(), NULL, true),
+            "mantisLink" => Tools::mantisIssueURL($issue->getId(), NULL, TRUE),
             "bugid" => Tools::issueInfoURL(sprintf("%07d\n", $issue->getId())),
             "extRef" => $issue->getTcId(),
             "project" => $issue->getProjectName(),
@@ -76,10 +76,11 @@ class CommandTools {
    }
 
    /**
+    * @static
     * @param Command $cmd
-    * @return string
+    * @return mixed[]
     */
-   private static function getProgressHistory(Command $cmd) {
+   public static function getProgressHistory(Command $cmd) {
       $cmdIssueSel = $cmd->getIssueSelection();
 
       $startTT = $cmdIssueSel->getFirstTimetrack();
@@ -107,7 +108,7 @@ class CommandTools {
       $progressIndicator = new ProgressHistoryIndicator();
       $progressIndicator->execute($cmdIssueSel, $params);
 
-      return array($progressIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
+      return array($progressIndicator->getSmartyObject(),$startTimestamp,$endTimestamp);
    }
 
    /**
@@ -205,11 +206,6 @@ class CommandTools {
 
       // Indicators & statistics
       #$smartyHelper->assign('backlogHistoryGraph', getBacklogHistory($cmd));
-
-      $data = self::getProgressHistory($cmd);
-      $smartyHelper->assign('indicators_jqplotData', $data[0]);
-      $smartyHelper->assign('indicators_plotMinDate', Tools::formatDate("%Y-%m-01", $data[1]));
-      $smartyHelper->assign('indicators_plotMaxDate', Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d", $data[2]) . " +1 month")));
 
       $data = self::getCommandActivity($cmd);
       $smartyHelper->assign('activityIndic_data', $data[0]);
