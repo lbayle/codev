@@ -128,46 +128,10 @@
 
 
    {if isset($weekDetails)}
-   <script type="text/javascript">
-
-   jQuery.ajax({
-      url: "lib/datatables/media/js/jquery.dataTables.min.js",
-      dataType: "script",
-      async: false,
-      cache: true
-   });
-
-   jQuery.ajax({
-      url: "lib/datatables/extras/TableTools/media/js/TableTools.min.js",
-      dataType: "script",
-      async: false,
-      cache: true
-   });
-
-   $(document).ready( function () {
-      jQuery('#tamere_table').dataTable( {
-      "sScrollY": "500px",
-      "bPaginate": false,
-      "bScrollCollapse": true,
-      "bFilter": true,
-      "bSort": true,
-      "bInfo": false,
-      "bAutoWidth": false,
-      "sDom": '<"H"Tfr>t',
-		"oTableTools": {
-         "sSwfPath": "lib/datatables/extras/TableTools/media/swf/copy_csv_xls.swf",
-			//"aButtons": [ "copy", "csv", "xls" ]
-			//"aButtons": [ "copy", "csv" ]
-			"aButtons": [ "copy", "xls" ]
-		}
-      } );
-   } );
-   </script>
-
-
+   <script type="text/javascript" src="js/datatable.js"></script>
    <div align="center" style="margin-top:4em;">
       <h2 align="left">{t}All Tasks{/t}</h2>
-            <table id="tamere_table" style="width: 100%;" class="datatable">
+            <table id="allTasks_table" style="width: 100%;" class="datatable">
                <thead>
                   <tr>
                      <th>{t}Task{/t}</th>
