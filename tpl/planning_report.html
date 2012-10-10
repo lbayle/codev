@@ -3,19 +3,7 @@
 <script type="text/javascript">
 
    // If no width is set, get the windows width, reload the page with width in the url.
-   var myWidth = 800;
-   if (document.body && document.body.offsetWidth) {
-    myWidth = document.body.offsetWidth;
-   }
-   if (document.compatMode=='CSS1Compat' &&
-       document.documentElement &&
-       document.documentElement.offsetWidth ) {
-    myWidth = document.documentElement.offsetWidth;
-   }
-   if (window.innerWidth && window.innerHeight) {
-    myWidth = window.innerWidth;
-   }
-   
+   var myWidth = jQuery(document).width();
    if (myWidth > 500) {
       myWidth = myWidth - 10;
    }
