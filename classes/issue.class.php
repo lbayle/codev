@@ -1105,11 +1105,21 @@ class Issue extends Model implements Comparable {
 
       $key = 't'.$timestamp;
       if(!array_key_exists($key,$this->statusCache)) {
-         if (NULL == $timestamp) {
+
+         if (is_null($timestamp)) {
+
             if(self::$logger->isDebugEnabled()) {
                self::$logger->debug("getStatus(NULL) : bugId=$this->bugId, status=$this->currentStatus");
             }
             $this->statusCache[$key] = $this->currentStatus;
+
+         } else if ($this->dateSubmission > $timestamp) {
+
+            if (self::$logger->isDebugEnabled()) {
+               self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId was not created (dateSubmission=".date("d F Y", $this->dateSubmission).")");
+            }
+            $this->statusCache[$key] = -1;
+
          } else {
             // if a timestamp is specified, find the latest status change (strictly) before this date
             $query = "SELECT new_value, old_value, date_modified ".
@@ -1135,9 +1145,9 @@ class Issue extends Model implements Comparable {
                $this->statusCache[$key] = $row->new_value;
             } else {
                if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not found !");
+                  self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not update found, currentStatus=$this->currentStatus");
                }
-               $this->statusCache[$key] = -1;
+               $this->statusCache[$key] = $this->currentStatus;
             }
          }
       }
