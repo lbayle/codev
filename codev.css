@@ -312,25 +312,25 @@ table.invisible tbody tr:hover {
 }
 #powerTip.n:before {
    /* CODEVTT Modification */
-   border-top: 10px solid rgba(118, 118, 118, 0.8);
+   border-top: 10px solid rgb(118, 118, 118);
    /*border-top: 10px solid rgba(0, 0, 0, 0.8);*/
    bottom: -10px;
 }
 #powerTip.e:before {
    /* CODEVTT Modification */
-   border-right: 10px solid rgba(118, 118, 118, 0.8);
+   border-right: 10px solid rgb(118, 118, 118);
    /*border-right: 10px solid rgba(0, 0, 0, 0.8);*/
    left: -10px;
 }
 #powerTip.s:before {
    /* CODEVTT Modification */
-   border-bottom: 10px solid rgba(118, 118, 118, 0.8);
+   border-bottom: 10px solid rgb(118, 118, 118);
    /*border-bottom: 10px solid rgba(0, 0, 0, 0.8);*/
    top: -10px;
 }
 #powerTip.w:before {
    /* CODEVTT Modification */
-   border-left: 10px solid rgba(118, 118, 118, 0.8);
+   border-left: 10px solid rgb(118, 118, 118);
    /*border-left: 10px solid rgba(0, 0, 0, 0.8);*/
    right: -10px;
 }
@@ -346,13 +346,13 @@ table.invisible tbody tr:hover {
 }
 #powerTip.ne:before, #powerTip.nw:before {
    /* CODEVTT Modification */
-   border-top: 10px solid rgba(118, 118, 118, 0.8);
+   border-top: 10px solid rgb(118, 118, 118);
    /*border-top: 10px solid rgba(0, 0, 0, 0.8);*/
    bottom: -10px;
 }
 #powerTip.se:before, #powerTip.sw:before {
    /* CODEVTT Modification */
-   border-bottom: 10px solid rgba(118, 118, 118, 0.8);
+   border-bottom: 10px solid rgb(118, 118, 118);
    /*border-bottom: 10px solid rgba(0, 0, 0, 0.8);*/
    top: -10px;
 }
