@@ -115,6 +115,7 @@
          <li><a href="#tabsName-2">{t}Activity{/t}</a></li>
          <li><a href="#tabsName-3">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
          <li><a href="{$ajaxPage}?action=getProgressHistoryIndicator">{t}Indicators{/t}</a></li>
+         <li><a href="#tabsName-4">{t}Status History{/t}</a></li>
       </ul>
       <div id="tabsName-1">{include file="plugin/detailed_charges_indicator.html"}</div>
       <div id="tabsName-2">{include file="plugin/activity_indicator.html"}</div>
@@ -165,6 +166,10 @@
          {t}No task found.{/t}
          {/if}
       </div>
+      <div id="tabsName-4">
+         <h2>Internal Bugs Status History</h2>
+         <span class="help_font">CodevTT_Type = 'Bug' & NoExtRef defined</span>
+         {include file="plugin/status_history_indicator.html"}</div>
       {/if}
    </div>
    <script type="text/javascript">
