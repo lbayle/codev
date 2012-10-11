@@ -34,12 +34,15 @@ class indicatorController extends Controller {
       if (Tools::isConnectedUser()) {
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-         $cmd = new Command(1);
+         #$cmd = new Command(19);
+         #$issueSel = $cmd->getIssueSelection();
+
+         $project = new Project(18);
+         $issueSel = $project->getIssueSelection();
 
 
-         $cmdIssueSel = $cmd->getIssueSelection();
 
-         $startTT = $cmdIssueSel->getFirstTimetrack();
+         $startTT = $issueSel->getFirstTimetrack();
          if ((NULL != $startTT) && (0 != $startTT->getDate())) {
             $startTimestamp = $startTT->getDate();
          } else {
@@ -54,22 +57,22 @@ class indicatorController extends Controller {
 
          $endTimestamp =  time();
 
-
-         echo "cmd StartDate ".date("Y-m-d", $startTimestamp).'<br>';
-         echo "cmd EndDate ".date("Y-m-d", $endTimestamp).'<br>';
+         #echo "cmd StartDate ".date("Y-m-d", $startTimestamp).'<br>';
+         #echo "cmd EndDate ".date("Y-m-d", $endTimestamp).'<br>';
 
          $params = array(
             'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
             'endTimestamp' => $endTimestamp,
-            'interval' => 7
+            'interval' => 10
          );
 
          $statusHistoryIndicator = new StatusHistoryIndicator();
-         $statusHistoryIndicator->execute($cmdIssueSel, $params);
-         $obj = $statusHistoryIndicator->getSmartyObject();
+         $statusHistoryIndicator->execute($issueSel, $params);
+         $smartyobj = $statusHistoryIndicator->getSmartyObject();
+         foreach ($smartyobj as $smartyKey => $smartyVariable) {
+            $this->smartyHelper->assign($smartyKey, $smartyVariable);
+         }
 
-
-         #$this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList,$projectid));
       }
    }
 
@@ -77,6 +80,6 @@ class indicatorController extends Controller {
 
 // ========== MAIN ===========
 indicatorController::staticInit();
-$controller = new indicatorController('PAGENAME', 'MENU_NAME');
+$controller = new indicatorController('Test: Status History Indicator', 'MENU_NAME');
 $controller->execute();
 ?>
