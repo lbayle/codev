@@ -235,27 +235,35 @@ class StatusHistoryIndicator implements IndicatorPlugin {
       $historyStatusTotal    = $this->statusData['total'];
 
 
-      $xaxis        = Tools::array2plot(array_keys($historyStatusNew));
+      $xaxis = array();
+      foreach(array_keys($historyStatusNew) as $timestamp) {
+         $xaxis[] = '"'.date(T_('Y-m-d'), $timestamp).'"';
+      }
+      $json_xaxis = Tools::array2plot($xaxis);
+
+#echo $json_xaxis.'<br>';
+
+
       $jsonNew      = Tools::array2plot(array_values($historyStatusNew));
       $jsonFeedback = Tools::array2plot(array_values($historyStatusFeedback));
       $jsonOngoing  = Tools::array2plot(array_values($historyStatusOngoing));
       $jsonResolved = Tools::array2plot(array_values($historyStatusResolved));
       $jsonTotal    = Tools::array2plot(array_values($historyStatusTotal));
 
-      #echo $xaxis.'<br>';
-      echo $jsonNew.'<br>';
-      echo $jsonFeedback.'<br>';
-      echo $jsonOngoing.'<br>';
-      echo $jsonResolved.'<br>';
-      echo $jsonTotal.'<br>';
+
+      $graphData = "[$jsonNew,$jsonFeedback,$jsonOngoing,$jsonResolved]";
+#echo $graphData.'<br>';
+
+      $graphDataColors = '["#fcbdbd", "#e3b7eb", "#c2dfff", "#d2f5b0"]';
+
+      $labels1 = '["new", "feedback", "ongoing", "resolved"]';
 
       return array(
-         'xaxis'                 => Tools::array2json(array_keys($historyStatusNew)),
-         'historyStatusNew'      => Tools::array2json(array_values($historyStatusNew)),
-         'historyStatusFeedback' => Tools::array2json(array_values($historyStatusFeedback)),
-         'historyStatusOngoing'  => Tools::array2json(array_values($historyStatusOngoing)),
-         'historyStatusResolved' => Tools::array2json(array_values($historyStatusResolved)),
-         'historyStatusTotal'    => Tools::array2json(array_values($historyStatusTotal)),
+         'status_history_xaxis'  => $json_xaxis,
+         'status_history_data1'   => $graphData,
+         'status_history_data1Colors' => $graphDataColors,
+         'status_history_data1Labels'   => $labels1,
+         'status_history_data2'   => $jsonTotal,
       );
    }
 
