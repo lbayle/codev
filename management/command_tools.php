@@ -175,6 +175,98 @@ class CommandTools {
       return $smartyVariable;
    }
 
+   public static function getStatusHistory(Command $cmd, $interval = 7) {
+
+      $issueSel = $cmd->getIssueSelection();
+
+      $startTT = $issueSel->getFirstTimetrack();
+      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
+         $startTimestamp = $startTT->getDate();
+      } else {
+         $startTimestamp = $cmd->getStartDate();
+         if (0 == $startTimestamp) {
+            $team = TeamCache::getInstance()->getTeam($cmd->getTeamid());
+            $startTimestamp = $team->getDate();
+         }
+      }
+
+      $endTimestamp =  time();
+
+      #echo "cmd StartDate ".date("Y-m-d", $startTimestamp).'<br>';
+      #echo "cmd EndDate ".date("Y-m-d", $endTimestamp).'<br>';
+
+      $params = array(
+         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+         'endTimestamp' => $endTimestamp,
+         'interval' => $interval
+      );
+
+      $statusHistoryIndicator = new StatusHistoryIndicator();
+      $statusHistoryIndicator->execute($issueSel, $params);
+      $smartyVariable = $statusHistoryIndicator->getSmartyObject();
+
+      return $smartyVariable;
+   }
+
+   public static function getInternalBugsStatusHistory(Command $cmd, $interval = 7) {
+
+      $cmdSel = $cmd->getIssueSelection();
+
+      // Filter only BUGS
+      $params = NULL;  // array('filterCriteria' => array('Bug'));
+      $bugFilter = new IssueCodevTypeFilter('bugFilter');
+      $outputList = $bugFilter->execute($cmdSel, $params);
+#var_dump(array_keys($outputList)); echo "<br>";
+
+      if (!isset($outputList['TYPE_Bug'])) {
+         return array();
+      }
+      $bugSel = $outputList['TYPE_Bug'];
+
+#var_dump($bugSel);
+#echo $bugSel->name.'<br>';
+
+      // Filter only NoExtRef
+      $extIdFilter = new IssueExtIdFilter('extIdFilter');
+      $outputList2 = $extIdFilter->execute($bugSel, $params);
+var_dump(array_keys($outputList2)); echo "<br>";
+
+      if (!isset($outputList2['noExtRef'])) {
+         return array();
+      }
+      $issueSel = $outputList2['noExtRef'];
+#var_dump($issueSel);
+#echo $issueSel->name.'<br>';
+
+      $startTT = $issueSel->getFirstTimetrack();
+      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
+         $startTimestamp = $startTT->getDate();
+      } else {
+         $startTimestamp = $cmd->getStartDate();
+         if (0 == $startTimestamp) {
+            $team = TeamCache::getInstance()->getTeam($cmd->getTeamid());
+            $startTimestamp = $team->getDate();
+         }
+      }
+
+      $endTimestamp =  time();
+
+      #echo "cmd StartDate ".date("Y-m-d", $startTimestamp).'<br>';
+      #echo "cmd EndDate ".date("Y-m-d", $endTimestamp).'<br>';
+
+      $params = array(
+         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+         'endTimestamp' => $endTimestamp,
+         'interval' => $interval
+      );
+
+      $statusHistoryIndicator = new StatusHistoryIndicator();
+      $statusHistoryIndicator->execute($issueSel, $params);
+      $smartyVariable = $statusHistoryIndicator->getSmartyObject();
+
+      return $smartyVariable;
+   }
+
    /**
     * @param SmartyHelper $smartyHelper
     * @param Command $cmd
@@ -219,6 +311,14 @@ class CommandTools {
 
       // DetailedChargesIndicator
       $data = self::getDetailedCharges($cmd, $isManager, $selectedFilters);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+
+      // StatusHistoryIndicator
+
+      //$data = CommandTools::getStatusHistory($cmd);
+      $data = CommandTools::getInternalBugsStatusHistory($cmd);
       foreach ($data as $smartyKey => $smartyVariable) {
          $smartyHelper->assign($smartyKey, $smartyVariable);
       }

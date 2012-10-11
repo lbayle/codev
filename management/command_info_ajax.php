@@ -94,6 +94,18 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          }
          $smartyHelper->display('plugin/detailed_charges_indicator_data.html');
 
+      } else if ($_GET['action'] == 'updateStatusHistory') {
+
+
+         $cmd = CommandCache::getInstance()->getCommand($cmdid);
+
+         // StatusHistoryIndicator
+         $data = CommandTools::getStatusHistory($cmd);
+         foreach ($data as $smartyKey => $smartyVariable) {
+            $smartyHelper->assign($smartyKey, $smartyVariable);
+         }
+         $smartyHelper->display('plugin/status_history_indicator.html');
+
       } else {
          Tools::sendNotFoundAccess();
       }
