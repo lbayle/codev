@@ -77,6 +77,8 @@ class StatisticsController extends Controller {
                      $this->generateReopenedRateGraph($timeTrackingTable);
 
                      $this->generateDevelopersWorkloadGraph($timeTrackingTable);
+
+                     $this->generateStatusHistoryGraph($teamid);
                   } else {
                      $this->smartyHelper->assign('error', T_('No projects in this team'));
                   }
@@ -117,6 +119,33 @@ class StatisticsController extends Controller {
       }
       return $timeTrackingTable;
    }
+
+   private function generateStatusHistoryGraph($teamid) {
+      $team = TeamCache::getInstance()->getTeam($teamid);
+
+      $issueList = $team->getTeamIssueList(true, false);
+
+      $issueSel = new IssueSelection('Team '.$team->getName().' issues');
+      $issueSel->addIssueList($issueList);
+
+      $startTimestamp = $team->getDate();
+      $endTimestamp =  time();
+
+      $params = array(
+         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+         'endTimestamp' => $endTimestamp,
+         'interval' => 10
+      );
+
+      $statusHistoryIndicator = new StatusHistoryIndicator();
+      $statusHistoryIndicator->execute($issueSel, $params);
+      $smartyobj = $statusHistoryIndicator->getSmartyObject();
+      foreach ($smartyobj as $smartyKey => $smartyVariable) {
+         $this->smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+
+   }
+
 
    /**
     * @param TimeTracking[] $timeTrackingTable
