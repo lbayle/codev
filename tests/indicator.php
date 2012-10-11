@@ -37,7 +37,7 @@ class indicatorController extends Controller {
          #$cmd = new Command(19);
          #$issueSel = $cmd->getIssueSelection();
 
-         $project = new Project(18);
+         $project = new Project(18, NULL);
          $issueSel = $project->getIssueSelection();
 
 
