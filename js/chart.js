@@ -202,12 +202,15 @@ jQuery(document).ready(function() {
              fill: true
          },
          axes: {
-             xaxis: {
-              tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
-              tickOptions: {
-                angle: -45
-              }
-           }
+            xaxis: {
+               tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+               tickOptions: {
+                 angle: -45
+               }
+            },
+            yaxis: {
+               min: 0
+            }
          },
          legend: {
             show: true,
