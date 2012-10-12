@@ -32,7 +32,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $managedProjList = count($managedTeamList) > 0 ? $user->getProjectList($managedTeamList, true, false) : array();
          $isManager = (array_key_exists($issue->getProjectId(), $managedProjList)) ? true : false;
          $smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, $isManager));
-         $smartyHelper->display('ajax/generalInfo');
+         $smartyHelper->display('ajax/issueGeneralInfo');
       }
       else {
          Tools::sendNotFoundAccess();
