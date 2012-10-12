@@ -195,29 +195,25 @@ class StatusHistoryIndicator implements IndicatorPlugin {
       }
       $json_xaxis = Tools::array2plot($xaxis);
 
-#echo $json_xaxis.'<br>';
-
-
       $jsonNew      = Tools::array2plot(array_values($historyStatusNew));
-      $jsonFeedback = Tools::array2plot(array_values($historyStatusFeedback));
       $jsonOngoing  = Tools::array2plot(array_values($historyStatusOngoing));
+      $jsonFeedback = Tools::array2plot(array_values($historyStatusFeedback));
       $jsonResolved = Tools::array2plot(array_values($historyStatusResolved));
       $jsonTotal    = Tools::array2plot(array_values($historyStatusTotal));
 
 
-      $graphData = "[$jsonNew,$jsonFeedback,$jsonOngoing,$jsonResolved]";
-#echo $graphData.'<br>';
+      $graphData = "[$jsonNew,$jsonOngoing,$jsonFeedback,$jsonResolved]";
 
-      $graphDataColors = '["#fcbdbd", "#e3b7eb", "#c2dfff", "#d2f5b0"]';
+      $graphDataColors = '["#fcbdbd", "#c2dfff", "#e3b7eb", "#d2f5b0"]';
 
-      $labels1 = '["new", "feedback", "ongoing", "resolved"]';
+      $labels1 = '["new", "ongoing", "feedback", "resolved"]';
 
       return array(
-         'status_history_xaxis'  => $json_xaxis,
-         'status_history_data1'   => $graphData,
+         'status_history_xaxis'       => $json_xaxis,
+         'status_history_data1'       => $graphData,
          'status_history_data1Colors' => $graphDataColors,
-         'status_history_data1Labels'   => $labels1,
-         'status_history_data2'   => $jsonTotal,
+         'status_history_data1Labels' => $labels1,
+         'status_history_data2'       => $jsonTotal,
       );
    }
 
