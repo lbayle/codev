@@ -21,6 +21,9 @@ interface IssueSelectionFilter {
    public function getName();
    public function getDesc();
 
+
+   //public function addFilterCriteria($tag);
+
    /**
     * result of the Indicator
     *

@@ -24,6 +24,10 @@
  */
 class IssueCodevTypeFilter implements IssueSelectionFilter {
 
+   const tag_Bug  = 'Bug';
+   const tag_Task = 'Task';
+   const tag_None = 'NO_TYPE';
+
    /**
     * @var Logger The logger
     */
@@ -63,6 +67,18 @@ class IssueCodevTypeFilter implements IssueSelectionFilter {
       return $this->id;
    }
 
+   public function addFilterCriteria($tag) {
+      if (is_null($this->filterCriteria)) {
+         $this->filterCriteria = array();
+      }
+      $this->filterCriteria[] = $tag;
+
+      if (self::$logger->isDebugEnabled()) {
+         self::$logger->debug("Return only issues types: ".implode(',', $this->filterCriteria));
+      }
+
+   }
+
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
       if (is_null($inputIssueSel)) {
          throw new Exception("Missing IssueSelection");
@@ -74,15 +90,16 @@ class IssueCodevTypeFilter implements IssueSelectionFilter {
             if (!is_array($params['filterCriteria'])) {
                throw new Exception("Parameter 'filterCriteria' must be an array of CodevTT_Type");
             }
-            if (0 == count($params['filterCriteria'])) {
+            if (empty($params['filterCriteria'])) {
                // filterCriteria skipped if empty...
                self::$logger->warn("Parameter 'filterCriteria' skipped: empty array !");
             } else {
                $this->filterCriteria = $params['filterCriteria'];
-               self::$logger->debug("Return only issues types: ".implode(',', $this->filterCriteria));
+               if (self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("Return only issues types: ".implode(',', $this->filterCriteria));
+               }
             }
          }
-
       }
    }
 
@@ -90,7 +107,7 @@ class IssueCodevTypeFilter implements IssueSelectionFilter {
 
       $this->checkParams($inputIssueSel, $params);
 
-      if (NULL == $this->outputList) {
+      if (is_null($this->outputList)) {
 
          $this->outputList = array();
 
@@ -100,18 +117,32 @@ class IssueCodevTypeFilter implements IssueSelectionFilter {
 
             // if no criteria defined, or ProjectId found in filterCriteria
             if (is_null($this->filterCriteria) ||
-                array_key_exists("$type", $this->filterCriteria)) {
+                in_array("$type", $this->filterCriteria)) {
 
-               $tag = 'TYPE_'.$type;
-               $displayName = (is_null($type)) ? "(no type)" : $type;
+               if (empty($type)) {
+                  $tag = IssueCodevTypeFilter::tag_None;
+                  $displayName = "(no type)";
+               } else {
+                  $tag = $type;
+                  $displayName = $type;
+               }
+               if (self::$logger->isDebugEnabled()) {
+                  self::$logger->trace('execute: Issue '.$issue->getId().' Type = '.$tag);
+               }
 
                if (!array_key_exists($tag, $this->outputList)) {
-                  $this->outputList[$tag] = new IssueSelection($displayName);
+                  $this->outputList["$tag"] = new IssueSelection($displayName);
                }
-               $this->outputList[$tag]->addIssue($issue->getId());
+               $this->outputList["$tag"]->addIssue($issue->getId());
             }
          }
          ksort($this->outputList);
+      }
+      if (self::$logger->isDebugEnabled()) {
+         self::$logger->debug('input Nb Issues ='.$inputIssueSel->getNbIssues());
+         foreach ($this->outputList as $tag => $iSel) {
+            self::$logger->debug('Type {'.$tag.'} Nb Issues ='.$iSel->getNbIssues());
+         }
       }
       return $this->outputList;
    }

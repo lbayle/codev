@@ -71,7 +71,7 @@ class IssueTagFilter implements IssueSelectionFilter {
 
       $this->checkParams($inputIssueSel, $params);
 
-      if (NULL == $this->outputList) {
+      if (is_null($this->outputList)) {
          $this->outputList = array();
          $issueList = $inputIssueSel->getIssueList();
          foreach ($issueList as $issue) {
