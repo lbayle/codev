@@ -37,28 +37,42 @@ class indicatorController extends Controller {
          #$cmd = new Command(19);
          #$issueSel = $cmd->getIssueSelection();
 
-         $project = new Project(18, NULL);
+         $project = new Project(30, NULL);
          $issueSel = $project->getIssueSelection();
 
+         // ----------------------
+         // Filter only BUGS
+         //$params = array('filterCriteria' => array(IssueCodevTypeFilter::tag_Bug));
+         $bugFilter = new IssueCodevTypeFilter('bugFilter');
+         $bugFilter->addFilterCriteria(IssueCodevTypeFilter::tag_Bug);
+         $outputList = $bugFilter->execute($issueSel, $params);
 
-
-         $startTT = $issueSel->getFirstTimetrack();
-         if ((NULL != $startTT) && (0 != $startTT->getDate())) {
-            $startTimestamp = $startTT->getDate();
-         } else {
-            $startTimestamp = $cmd->getStartDate();
-            #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
-            if (0 == $startTimestamp) {
-               $team = TeamCache::getInstance()->getTeam($cmd->getTeamid());
-               $startTimestamp = $team->getDate();
-               #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
-            }
+         if (empty($outputList)) {
+            echo "TYPE not found !<br>";
+            return;
          }
 
+         $bugSel = $outputList[IssueCodevTypeFilter::tag_Bug];
+
+         // Filter only NoExtRef
+         $extIdFilter = new IssueExtIdFilter('extIdFilter');
+         $extIdFilter->addFilterCriteria(IssueExtIdFilter::tag_no_extRef);
+         $outputList2 = $extIdFilter->execute($bugSel);
+
+         if (empty($outputList2)) {
+            echo "noExtRef not found !<br>";
+            return array();
+         }
+         $issueSel = $outputList2[IssueExtIdFilter::tag_no_extRef];
+
+
+         // ----------------------
+
+         $startTimestamp = 1322175600; // 2011-11-25
          $endTimestamp =  time();
 
-         #echo "cmd StartDate ".date("Y-m-d", $startTimestamp).'<br>';
-         #echo "cmd EndDate ".date("Y-m-d", $endTimestamp).'<br>';
+         #echo "StartDate ".date("Y-m-d", $startTimestamp).'<br>';
+         #echo "EndDate ".date("Y-m-d", $endTimestamp).'<br>';
 
          $params = array(
             'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),

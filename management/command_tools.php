@@ -213,30 +213,28 @@ class CommandTools {
       $cmdSel = $cmd->getIssueSelection();
 
       // Filter only BUGS
-      $params = NULL;  // array('filterCriteria' => array('Bug'));
       $bugFilter = new IssueCodevTypeFilter('bugFilter');
-      $outputList = $bugFilter->execute($cmdSel, $params);
-#var_dump(array_keys($outputList)); echo "<br>";
+      $bugFilter->addFilterCriteria(IssueCodevTypeFilter::tag_Bug);
+      $outputList = $bugFilter->execute($cmdSel);
 
-      if (!isset($outputList['TYPE_Bug'])) {
+      if (empty($outputList)) {
+         echo "TYPE Bug not found !<br>";
          return array();
       }
-      $bugSel = $outputList['TYPE_Bug'];
-
-#var_dump($bugSel);
-#echo $bugSel->name.'<br>';
+      $bugSel = $outputList[IssueCodevTypeFilter::tag_Bug];
 
       // Filter only NoExtRef
       $extIdFilter = new IssueExtIdFilter('extIdFilter');
-      $outputList2 = $extIdFilter->execute($bugSel, $params);
-var_dump(array_keys($outputList2)); echo "<br>";
+      $extIdFilter->addFilterCriteria(IssueExtIdFilter::tag_no_extRef);
+      $outputList2 = $extIdFilter->execute($bugSel);
 
-      if (!isset($outputList2['noExtRef'])) {
+      if (empty($outputList2)) {
+         echo "noExtRef not found !<br>";
          return array();
       }
-      $issueSel = $outputList2['noExtRef'];
-#var_dump($issueSel);
-#echo $issueSel->name.'<br>';
+      $issueSel = $outputList2[IssueExtIdFilter::tag_no_extRef];
+
+      // -------
 
       $startTT = $issueSel->getFirstTimetrack();
       if ((NULL != $startTT) && (0 != $startTT->getDate())) {
