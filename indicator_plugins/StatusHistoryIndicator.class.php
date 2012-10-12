@@ -134,15 +134,14 @@ class StatusHistoryIndicator implements IndicatorPlugin {
                #echo date('Y-m-d', $timestamp)." issue ".$issue->getId()." status ".$issueStatus."<br>";
             }
          }
-/*
-         echo date('Y-m-d', $midnight_timestamp).
-                 ' new '.$historyStatusNew["$midnight_timestamp"].
-                 'feedback '.$historyStatusFeedback["$midnight_timestamp"].
-                 'ongoing '.$historyStatusOngoing["$midnight_timestamp"].
-                 'resolved '.$historyStatusResolved["$midnight_timestamp"].
-                 'total '.$historyStatusTotal["$midnight_timestamp"].
-                 '<br>';
- */
+         if (self::$logger->isDebugEnabled()) {
+            self::$logger->debug('Y-m-d', $midnight_timestamp).
+                    ' new '.$historyStatusNew["$midnight_timestamp"].
+                    'feedback '.$historyStatusFeedback["$midnight_timestamp"].
+                    'ongoing '.$historyStatusOngoing["$midnight_timestamp"].
+                    'resolved '.$historyStatusResolved["$midnight_timestamp"].
+                    'total '.$historyStatusTotal["$midnight_timestamp"];
+         }
       }
 
       $this->statusData = array(
