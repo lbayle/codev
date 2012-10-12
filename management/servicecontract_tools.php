@@ -254,17 +254,21 @@ class ServiceContractTools {
 
       $endTT = $cmdIssueSel->getLatestTimetrack();
       $endTimestamp = ((NULL != $endTT) && (0 != $endTT->getDate())) ? $endTT->getDate() : time();
+      
+      // Calculate a nice day interval
+      $nbWeeks = ($endTimestamp - $startTimestamp) / 60 / 60 / 24;
+      $interval = ceil($nbWeeks / 20);
 
       $params = array(
          'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
          'endTimestamp' => $endTimestamp,
-         'interval' => 14
+         'interval' => $interval
       );
 
       $progressIndicator = new ProgressHistoryIndicator();
       $progressIndicator->execute($cmdIssueSel, $params);
 
-      return array($progressIndicator->getSmartyObject(),$startTimestamp,$endTimestamp);
+      return array($progressIndicator->getSmartyObject(),$startTimestamp,$endTimestamp,ceil($interval/30));
    }
 
    /**

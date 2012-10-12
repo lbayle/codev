@@ -71,6 +71,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
                $smartyHelper->assign('progress_history_data', $data[0]);
                $smartyHelper->assign('progress_history_plotMinDate', $start);
                $smartyHelper->assign('progress_history_plotMaxDate', $end);
+               $smartyHelper->assign('progress_history_interval', $data[3]);
                $smartyHelper->display('plugin/progress_history_indicator');
             }
          } else {
