@@ -218,7 +218,7 @@ class CommandTools {
       $outputList = $bugFilter->execute($cmdSel);
 
       if (empty($outputList)) {
-         echo "TYPE Bug not found !<br>";
+         #echo "TYPE Bug not found !<br>";
          return array();
       }
       $bugSel = $outputList[IssueCodevTypeFilter::tag_Bug];
@@ -229,7 +229,7 @@ class CommandTools {
       $outputList2 = $extIdFilter->execute($bugSel);
 
       if (empty($outputList2)) {
-         echo "noExtRef not found !<br>";
+         #echo "noExtRef not found !<br>";
          return array();
       }
       $issueSel = $outputList2[IssueExtIdFilter::tag_no_extRef];
