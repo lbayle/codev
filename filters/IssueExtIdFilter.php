@@ -22,7 +22,7 @@
 class IssueExtIdFilter implements IssueSelectionFilter {
 
    const tag_with_extRef = 'withExtRef';
-   const tag_without_extRef = 'noExtRef';
+   const tag_no_extRef = 'noExtRef';
 
    /**
     * @var Logger The logger
@@ -30,6 +30,7 @@ class IssueExtIdFilter implements IssueSelectionFilter {
    private static $logger;
    private $id;
 
+   private $filterCriteria; // array of tags
    private $outputList;
 
    /**
@@ -60,9 +61,38 @@ class IssueExtIdFilter implements IssueSelectionFilter {
       return $this->id;
    }
 
+   public function addFilterCriteria($tag) {
+      if (is_null($this->filterCriteria)) {
+         $this->filterCriteria = array();
+      }
+      $this->filterCriteria[] = $tag;
+
+      if (self::$logger->isDebugEnabled()) {
+         self::$logger->debug("Return only issues types: ".implode(',', $this->filterCriteria));
+      }
+
+   }
+
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
       if (NULL == $inputIssueSel) {
          throw new Exception("Missing IssueSelection");
+      }
+      if (!is_null($params)) {
+         if (array_key_exists('filterCriteria', $params)) {
+
+            if (!is_array($params['filterCriteria'])) {
+               throw new Exception("Parameter 'filterCriteria' must be an array of tags");
+            }
+            if (empty($params['filterCriteria'])) {
+               // filterCriteria skipped if empty...
+               self::$logger->warn("Parameter 'filterCriteria' skipped: empty array !");
+            } else {
+               $this->filterCriteria = $params['filterCriteria'];
+               if (self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("Return only issues types: ".implode(',', $this->filterCriteria));
+               }
+            }
+         }
       }
    }
 
@@ -70,23 +100,59 @@ class IssueExtIdFilter implements IssueSelectionFilter {
 
       $this->checkParams($inputIssueSel, $params);
 
-      if (NULL == $this->outputList) {
-         $withExtIdIssueSel = new IssueSelection(IssueExtIdFilter::tag_with_extRef);
-         $withoutExtIdIssueSel = new IssueSelection(IssueExtIdFilter::tag_without_extRef);
+      if (is_null($this->outputList)) {
+         $this->outputList = array();
+
          $issueList = $inputIssueSel->getIssueList();
          foreach ($issueList as $issue) {
 
             $extId = $issue->getTcId();
-            if (isset($extId)) {
-               $withExtIdIssueSel->addIssue($issue->getId());
+
+            if (!is_null($this->filterCriteria)) {
+
+               if ((in_array(IssueExtIdFilter::tag_with_extRef, $this->filterCriteria)) &&
+                (empty($extId))) {
+                  continue;
+               }
+               if ((in_array(IssueExtIdFilter::tag_no_extRef, $this->filterCriteria)) &&
+                (!empty($extId))) {
+                  continue;
+               }
+            }
+
+            if (!empty($extId)) {
+
+               if (!array_key_exists(IssueExtIdFilter::tag_with_extRef, $this->outputList)) {
+                  $displayName = IssueExtIdFilter::tag_with_extRef;
+                  $this->outputList[IssueExtIdFilter::tag_with_extRef] = new IssueSelection($displayName);
+               }
+               $this->outputList[IssueExtIdFilter::tag_with_extRef]->addIssue($issue->getId());
+
+               if (self::$logger->isDebugEnabled()) {
+                  self::$logger->trace('execute: Issue '.$issue->getId().' extId = '.$extId);
+               }
             } else {
-               $withoutExtIdIssueSel->addIssue($issue->getId());
+
+               if (!array_key_exists(IssueExtIdFilter::tag_no_extRef, $this->outputList)) {
+                  $displayName = IssueExtIdFilter::tag_no_extRef;
+                  $this->outputList[IssueExtIdFilter::tag_no_extRef] = new IssueSelection($displayName);
+               }
+               $this->outputList[IssueExtIdFilter::tag_no_extRef]->addIssue($issue->getId());
+
+               if (self::$logger->isDebugEnabled()) {
+                  self::$logger->trace('execute: Issue '.$issue->getId().' extId Not defined');
+               }
             }
          }
-         $this->outputList = array();
-         $this->outputList[IssueExtIdFilter::tag_with_extRef] = $withExtIdIssueSel;
-         $this->outputList[IssueExtIdFilter::tag_without_extRef] = $withoutExtIdIssueSel;
+
+         if (self::$logger->isDebugEnabled()) {
+            self::$logger->debug('input Nb Issues ='.$inputIssueSel->getNbIssues());
+            foreach ($this->outputList as $tag => $iSel) {
+               self::$logger->debug('Tag {'.$tag.'} Nb Issues ='.$iSel->getNbIssues());
+            }
+         }
       }
+
       return $this->outputList;
    }
 

@@ -95,51 +95,6 @@ class StatusHistoryIndicator implements IndicatorPlugin {
    private function getStatusData(IssueSelection $inputIssueSel, array $timestampList) {
       $this->statusData = array();
 
-      // get a snapshot of the Status at each timestamp
-      $issues = $inputIssueSel->getIssueList();
-      foreach ($timestampList as $timestamp) {
-         $statusList = array(
-             'new' => 0,
-             'feedback' => 0,
-             'ongoing' => 0,
-             'resolved' => 0,
-             'total' => 0,
-         );
-         foreach ($issues as $issue) {
-            $issueStatus = $issue->getStatus($timestamp);
-
-            // if issue exists at this date
-            if ( (-1) != $issueStatus) {
-
-               if ($issueStatus >= $issue->getBugResolvedStatusThreshold()) {
-                  $statusList['resolved'] += 1;
-               } elseif ($issueStatus == Constants::$status_feedback) {
-                  $statusList['feedback'] += 1;
-               } elseif ($issueStatus == Constants::$status_new) {
-                  $statusList['new'] += 1;
-               } else {
-                  $statusList['ongoing'] += 1;
-               }
-               $statusList['total'] += 1;
-               #echo date('Y-m-d', $timestamp)." issue ".$issue->getId()." status ".$issueStatus."<br>";
-            }
-         }
-
-         $midnight_timestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
-         $this->statusData["$midnight_timestamp"] = $statusList;
-
-         echo date('Y-m-d', $timestamp).' '; var_dump($statusList); echo '<br>';
-      }
-      return $this->statusData;
-   }
-
-   /**
-    * @param IssueSelection $inputIssueSel
-    * @param int[] $timestampList
-    */
-   private function getStatusData2(IssueSelection $inputIssueSel, array $timestampList) {
-      $this->statusData = array();
-
       $historyStatusNew = array();  // timestamp => nbIssues
       $historyStatusFeedback = array();  // timestamp => nbIssues
       $historyStatusOngoing = array();  // timestamp => nbIssues
@@ -218,7 +173,7 @@ class StatusHistoryIndicator implements IndicatorPlugin {
       //echo "StatusHistoryIndicator start ".date('Y-m-d H:i:s', $startTimestamp)." end ".date('Y-m-d H:i:s', $endTimestamp)." interval ".$params['interval']."<br>";
       $timestampList  = Tools::createTimestampList($startTimestamp, $endTimestamp, $params['interval']);
 
-      $this->getStatusData2($inputIssueSel, $timestampList);
+      $this->getStatusData($inputIssueSel, $timestampList);
 
 
 

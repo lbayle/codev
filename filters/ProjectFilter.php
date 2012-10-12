@@ -101,7 +101,7 @@ class ProjectFilter implements IssueSelectionFilter {
 
             // if no criteria defined, or ProjectId found in filterCriteria
             if (is_null($this->filterCriteria) ||
-                array_key_exists("$projectId", $this->filterCriteria)) {
+                in_array("$projectId", $this->filterCriteria)) {
 
                $tag = 'PROJ_'.$projectId;
                if (!array_key_exists($tag, $this->outputList)) {
