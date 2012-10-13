@@ -231,23 +231,25 @@ class TeamActivityReportController extends Controller {
                }
             }
 
-            $weekDetails[] = array(
-               'name' => $user->getName(),
-               'realname' => $user->getRealname(),
-               'forecastWorkload' => $user->getForecastWorkload(),
-               'weekDates' => array(
-                  Tools::formatDate("%A\n%d %b", $weekDates[1]),
-                  Tools::formatDate("%A\n%d %b", $weekDates[2]),
-                  Tools::formatDate("%A\n%d %b", $weekDates[3]),
-                  Tools::formatDate("%A\n%d %b", $weekDates[4]),
-                  Tools::formatDate("%A\n%d %b", $weekDates[5])
-               ),
-               'weekEndDates' => array(
-                  Tools::formatDate("%A\n%d %b", $weekDates[6]),
-                  Tools::formatDate("%A\n%d %b", $weekDates[7])
-               ),
-               'weekJobDetails' => $weekJobDetails
-            );
+            if(!empty($weekJobDetails)) {
+               $weekDetails[] = array(
+                  'name' => $user->getName(),
+                  'realname' => $user->getRealname(),
+                  'forecastWorkload' => $user->getForecastWorkload(),
+                  'weekDates' => array(
+                     Tools::formatDate("%A\n%d %b", $weekDates[1]),
+                     Tools::formatDate("%A\n%d %b", $weekDates[2]),
+                     Tools::formatDate("%A\n%d %b", $weekDates[3]),
+                     Tools::formatDate("%A\n%d %b", $weekDates[4]),
+                     Tools::formatDate("%A\n%d %b", $weekDates[5])
+                  ),
+                  'weekEndDates' => array(
+                     Tools::formatDate("%A\n%d %b", $weekDates[6]),
+                     Tools::formatDate("%A\n%d %b", $weekDates[7])
+                  ),
+                  'weekJobDetails' => $weekJobDetails
+               );
+            }
          }
       }
       return $weekDetails;
