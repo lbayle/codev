@@ -15,29 +15,24 @@ jQuery(document).ready(function() {
          cache: true
       });
 
-      haveTooltip.each(function() {
-         addTooltip(jQuery(this));
-      });
+      applyTooltip("body");
    }
 });
 
 function applyTooltip(context) {
-   jQuery(".haveTooltip",context).each(function() {
-      addTooltip(jQuery(this));
+   jQuery(context).find(".haveTooltip").each(function() {
+      var container = jQuery(this);
+      var tooltip = container.next('.tooltip');
+      if(tooltip.length > 0) {
+         tooltip.remove();
+         tooltip.removeClass('ui-helper-hidden');
+         container.data('powertipjq', jQuery(tooltip.html()));
+
+         container.powerTip({
+            placement: 'n',
+            smartPlacement: true,
+            mouseOnToPopup: true
+         });
+      }
    });
-}
-
-function addTooltip(container) {
-   var tooltip = container.next('.tooltip');
-   if(tooltip.length > 0) {
-      tooltip.remove();
-      tooltip.removeClass('ui-helper-hidden');
-      container.data('powertipjq', jQuery(tooltip.html()));
-
-      container.powerTip({
-         placement: 'n',
-         smartPlacement: true,
-         mouseOnToPopup: true
-      });
-   }
 }
