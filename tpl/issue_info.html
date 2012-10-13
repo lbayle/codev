@@ -11,7 +11,7 @@
                   data: "action=getProjectIssues&projectid="+projectid+"&bugid="+jQuery("#bugid").val(),
                   success: function(data) {
                      jQuery("#bugSelector").html(jQuery.trim(data));
-                     applySelect2("#bugSelector");
+                     updateWidgets("#bugSelector");
 
                      // Hide result because the form is no more consistent with the result
                      jQuery("#result").hide();
@@ -179,6 +179,7 @@
                                  data: "action=getGeneralInfo&bugid="+bugid,
                                  success: function(data) {
                                     jQuery("#issueGeneralInfo").html(jQuery.trim(data));
+                                    updateWidgets("#issueGeneralInfo");
                                  },
                                  error: function(jqXHR, textStatus, errorThrown) {
                                     if(errorThrown == 'Forbidden') {

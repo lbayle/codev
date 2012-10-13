@@ -14,7 +14,7 @@ jQuery(document).ready(function() {
          cache: true
       });
 
-      select2.select2();
+      applySelect2("body");
    }
 });
 
