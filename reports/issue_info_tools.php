@@ -40,11 +40,16 @@ class IssueInfoTools {
       $issueGeneralInfo = array(
          "issueId" => $issue->getId(),
          "issueSummary" => htmlspecialchars($issue->getSummary()),
+         "issueType" => $issue->getType(),
          "issueDescription" => htmlspecialchars($issue->getDescription()),
+         "projectName" => $issue->getProjectName(),
+         "categoryName" => $issue->getCategoryName(),
          "issueExtRef" => $issue->getTcId(),
          'mantisURL'=> Tools::mantisIssueURL($issue->getId(), NULL, true),
          'issueURL' => Tools::mantisIssueURL($issue->getId()),
          'statusName'=> $issue->getCurrentStatusName(),
+         'priorityName'=> $issue->getPriorityName(),
+         'severityName'=> $issue->getSeverityName(),
          'handlerName'=> UserCache::getInstance()->getUser($issue->getHandlerId())->getName(),
 
          "issueEffortTitle" => $issue->getEffortEstim().' + '.$issue->getEffortAdd(),
