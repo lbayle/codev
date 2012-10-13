@@ -12,7 +12,15 @@
          form.find("input[name=action]").val("displayCommand");
          form.submit();
       });
+
+      jQuery.ajax({
+         url: "js/helpdialog.js",
+         dataType: "script",
+         cache: true
+      });
+
    });
+
 </script>
 
 <div id="content">
@@ -167,9 +175,29 @@
          {/if}
       </div>
       <div id="tabsName-4">
-         <h2>Internal Bugs Status History</h2>
-         <span class="help_font">CodevTT_Type = 'Bug' & NoExtRef defined</span>
-         {include file="plugin/status_history_indicator.html"}</div>
+         <h2>Internal Bugs Status History &nbsp;&nbsp;<a id="dialog_bugStatusHistory_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
+
+         <div id="dialog_bugStatusHistory" class="help_dialog ui-helper-hidden" title="{t}Internal Bugs Status History{/t}">
+            <p>This graph will show the number of internal bugs per status.<br>
+            </p>
+            <p>
+               Internal bugs have the following caracteristics:<br>
+               <table class="invisible">
+                  <tr>
+                     <td><strong>{t}External Reference{/t}</strong></td>
+                     <td>: <span style="color:blue"><em>{t}None{/t}</em></span></td>
+                  <tr>
+                  <tr>
+                     <td><strong>{t}CodevTT_Type{/t}</strong></td>
+                     <td>: <span style="color:blue">"{t}Bug{/t}"</span></td>
+                  <tr>
+               </table>
+            </p>
+         </div>
+
+         {include file="plugin/status_history_indicator.html"}
+
+      </div>
       {/if}
    </div>
    <script type="text/javascript">
@@ -182,3 +210,4 @@
       });
    </script>
 </div>
+
