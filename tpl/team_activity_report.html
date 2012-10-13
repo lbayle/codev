@@ -89,7 +89,7 @@
                      <th style="width: 1em;" title="{t}Backlog{/t}">{t}BL{/t}</th>
                      <th style="width: 1em;">{t}Progress{/t}</th>
                      <th style="width: 15em;">{t}Project{/t}</th>
-                     <th style="width: 10em;" title="{t}Target version{/t}">{t}Target{/t}</th>
+                     <!--th style="width: 10em;" title="{t}Target version{/t}">{t}Target{/t}</th-->
                      {if $isChecked}<th style="width: 1em;">{t}Job{/t}</th>{/if}
                      {foreach from=$i.weekDates item=j key=id}
                      <th style="width: 1em;">{$j|nl2br}</th>
@@ -107,7 +107,7 @@
                      <td nowrap="nowrap">{$j.duration}</td>
                      <td nowrap="nowrap"><div class="progress">{$j.progress}%</div></td>
                      <td nowrap="nowrap">{$j.projectName}</td>
-                     <td nowrap="nowrap">{$j.targetVersion}</td>
+                     <!--td nowrap="nowrap">{$j.targetVersion}</td-->
                      {if $isChecked}<td style="width: 1em;" nowrap="nowrap">{$j.jobName}</td>{/if}
                      {foreach from=$j.daysDetails item=k key=id}
                      <td nowrap="nowrap" {if $k.color}style="background-color: #{$k.color};width: 1em;"{/if} {if $k.title}title="{$k.title}"{/if}>{$k.duration}</td>

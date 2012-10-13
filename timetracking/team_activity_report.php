@@ -204,23 +204,27 @@ class TeamActivityReportController extends Controller {
                      $daysDetails[] = $dayDetails;
                   }
                      
-                  $tooltipAttr = array(
-                      T_('Project') => $issue->getProjectName(),
-                      T_('Summary') => $issue->getSummary()
-                  );
                   if ((!$project->isSideTasksProject(array($team->getId()))) &&
                       (!$project->isExternalTasksProject())) {
-                     $tooltipAttr[T_('Elapsed')] = $issue->getElapsed();
-                     $tooltipAttr[T_('Backlog')] = $issue->getDuration();
-                     $tooltipAttr[T_('Drift')]   = $issue->getDrift();
-                     $tooltipAttr['DriftColor']  = $issue->getDriftColor();
+                     $tooltipAttr = array(
+                         T_('Project') => $issue->getProjectName(),
+                         T_('Category') => $issue->getCategoryName(),
+                         T_('TargetVersion') => $issue->getTargetVersion(),
+                         T_('Type') => $issue->getType(),
+                         T_('Elapsed') => $issue->getElapsed(),
+                         T_('Backlog') => $issue->getDuration(),
+                         T_('Drift') => $issue->getDrift(),
+                         'DriftColor' => $issue->getDriftColor()
+                     );
+                  } else {
+                     $tooltipAttr = NULL;
                   }
                   $weekJobDetails[] = array(
                      "description" => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary(), $tooltipAttr),
                      "duration" => $issue->getDuration(),
                      "progress" => round(100 * $issue->getProgress()),
                      "projectName" => $issue->getProjectName(),
-                     "targetVersion" => $issue->getTargetVersion(),
+                     //"targetVersion" => $issue->getTargetVersion(),
                      "daysDetails" => $daysDetails,
                      "totalDuration" => $weekDuration
                   );

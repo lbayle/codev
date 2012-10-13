@@ -345,6 +345,10 @@ class Issue extends Model implements Comparable {
     * @return String type "Bug" or "Task"
     */
    public function getType() {
+      if(!$this->customFieldInitialized) {
+         $this->customFieldInitialized = true;
+         $this->initializeCustomField();
+      }
       return $this->type;
    }
 
