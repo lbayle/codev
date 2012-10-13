@@ -69,19 +69,29 @@
             </tr>
             {/if}
             <tr>
+               <th>{t}Project{/t}</th>
+               <td>: </td>
+               <td>{$issueGeneralInfo.projectName}</td>
+            </tr>
+            <tr>
+               <th>{t}Category{/t}</th>
+               <td>: </td>
+               <td>{$issueGeneralInfo.categoryName}</td>
+            </tr>
+            <tr>
                <th>{t}Assigned to{/t}</th>
                <td>: </td>
                <td>{$issueGeneralInfo.handlerName}</td>
             </tr>
             <tr>
-               <th>{t}Status{/t}</th>
+               <th>{t}Attributes{/t}</th>
                <td>: </td>
-               <td>{$issueGeneralInfo.statusName}</td>
+               <td>{t}Status{/t}: <strong>{$issueGeneralInfo.statusName}</strong>,&nbsp; {t}Priority{/t}: <strong>{$issueGeneralInfo.priorityName}</strong>,&nbsp; {t}Severity{/t}: <strong>{$issueGeneralInfo.severityName}</strong></td>
             </tr>
             <tr>
-               <th valign="top">{t}Description{/t}</th>
-               <td valign="top">: </td>
-               <td>{$issueGeneralInfo.issueDescription|nl2br}</td>
+               <th>{t}Type{/t}</th>
+               <td>: </td>
+               <td>{$issueGeneralInfo.issueType}</td>
             </tr>
             <tr>
                <th valign='top'>{t}Commands{/t}</th>
@@ -91,6 +101,11 @@
                   <a href='management/command_info.php?cmdid={$i.id}'>{if isset($i.reference)}{$i.reference} {/if}{$i.name}</a><br />
                   {/foreach}
                </td>
+            </tr>
+            <tr>
+               <th valign="top">{t}Description{/t}</th>
+               <td valign="top">: </td>
+               <td><textarea rows='6' cols='120' name='description'  id='description'>{$issueGeneralInfo.issueDescription}</textarea></td>
             </tr>
          </tbody>
       </table>
