@@ -286,63 +286,51 @@ class TimeTrackingController extends Controller {
             $this->smartyHelper->assign('weekTasks', $weekTasks["weekTasks"]);
             $this->smartyHelper->assign('dayTotalElapsed', $weekTasks["totalElapsed"]);
 
-            $this->smartyHelper->assign('warnings', $this->getCheckWarnings($userid));
-            
             $timeTrackingTuples = $this->getTimetrackingTuples($userid, $timeTracking);
             $this->smartyHelper->assign('weekTimetrackingTuples', $timeTrackingTuples['current']);
             $this->smartyHelper->assign('timetrackingTuples', $timeTrackingTuples['future']);
+
+            // ConsistencyCheck
+            $consistencyErrors = $this->getConsistencyErrors($userid);
+            if(count($consistencyErrors) > 0) {
+               $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
+               $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+               $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
+            }
+
          }
       }
    }
 
    /**
-    * display accordion with missing imputations
+    * display missing imputations
+    *
     * @param int $userid
     * @param int $team_id
-    * @param boolean $isStrictlyTimestamp
-    * @return mixed[]
+    * @return mixed[] consistencyErrors
     */
-   private function getCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = FALSE) {
-      // 2010-05-31 is the first date of use of this tool
-      $user1 = UserCache::getInstance()->getUser($userid);
+   private function getConsistencyErrors($userid, $team_id = NULL) {
 
-      $startTimestamp = $user1->getArrivalDate($team_id);
+      $user = UserCache::getInstance()->getUser($userid);
+
+      $startTimestamp = $user->getArrivalDate($team_id);
       $endTimestamp = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
       $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $team_id);
 
-      $incompleteDays = $timeTracking->checkCompleteDays($userid, $isStrictlyTimestamp);
-      $missingDays = $timeTracking->checkMissingDays($userid);
+      $cerrList = ConsistencyCheck2::checkIncompleteDays($timeTracking, $userid);
 
-      $warnings = NULL;
-      foreach ($incompleteDays as $date => $value) {
-         if ($date > time()) {
-            // skip dates in the future
-            continue;
+      if (count($cerrList) > 0) {
+         foreach ($cerrList as $cerr) {
+            if ($userid == $cerr->userId) {
+               $consistencyErrors[] = array(
+                  'date' => date("Y-m-d", $cerr->timestamp),
+                  'severity' => $cerr->getLiteralSeverity(),
+                  'severityColor' => $cerr->getSeverityColor(),
+                  'desc' => $cerr->desc);
+               }
          }
-
-         if ($value < 1) {
-            $value = T_("incomplete (missing ").(1-$value).T_(" days").")";
-         } else {
-            $value = T_("inconsistent")." (".($value)." ".T_("days").")";
-         }
-
-         $warnings[] = array(
-            'date' => date("Y-m-d", $date),
-            'value' => $value);
       }
-
-      foreach ($missingDays as $date) {
-         if ($date > time()) {
-            // skip dates in the future
-            continue;
-         }
-
-         $warnings[] = array(
-            'date' => date("Y-m-d", $date),
-            'value' => T_("not defined."));
-      }
-
-      return $warnings;
+      return $consistencyErrors;
    }
 
    /**

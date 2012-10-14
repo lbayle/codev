@@ -573,12 +573,17 @@ class ConsistencyCheck2 {
     * @param TimeTracking $timeTracking
     * @return ConsistencyError2[]
     */
-   public static function checkIncompleteDays(TimeTracking $timeTracking) {
+   public static function checkIncompleteDays(TimeTracking $timeTracking, $userid = NULL) {
       $cerrList = array();
       $now = time();
 
-      $mList = TeamCache::getInstance()->getTeam($timeTracking->getTeamid())->getActiveMembers();
-      foreach($mList as $userid => $username) {
+      if (is_null($userid)) {
+         $mList = TeamCache::getInstance()->getTeam($timeTracking->getTeamid())->getActiveMembers();
+         $useridList = array_keys($mList);
+      } else {
+         $useridList = array($userid);
+      }
+      foreach($useridList as $userid) {
 
          $incompleteDays = $timeTracking->checkCompleteDays($userid, TRUE);
          foreach ($incompleteDays as $date => $value) {

@@ -802,7 +802,6 @@ class TimeTracking {
          $timestamp = strtotime("+1 day",$timestamp);
       }
 
-      $missingDays = array();
       if(count($weekTimestamps) > 0) {
          $query = "SELECT DISTINCT date ".
                   "FROM `codev_timetracking_table` ".

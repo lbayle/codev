@@ -190,6 +190,10 @@
       </div>
    </div>
 
+   <br>
+   <br>
+   {include file="modal/consistency_check.html"}
+
    <div align="center" style="display: inline-block;">
       <div style="margin-top: 2em;">
          <script type="text/javascript">
@@ -261,34 +265,8 @@
          </div>
       </div>
 
-      {if $warnings}
-      <div style="margin-top: 2em;">
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               jQuery("#accordion").accordion({
-                  collapsible: true,
-                  active: false
-               });
-            });
-         </script>
-         <div id="accordion" style="width:360px;" >
-            <h3><a href="{$page}">{t}Missing dates{/t}</a></h3>
-            <div class="left">
-               <table class="invisible ui-state-error-text">
-                  <tbody>
-                     {foreach from=$warnings item=i}
-                     <tr>
-                        <td>{$i.date}</td>
-                        <td>{$i.value}</td>
-                     </tr>
-                     {/foreach}
-                  </tbody>
-               </table>
-             </div>
-         </div>
-      </div>
-      {/if}
-
+      <hr style="margin-top:3em;">
+      
       {if isset($weekTimetrackingTuples) || isset($timetrackingTuples)}
       <div style="margin-top: 2em;">
          {if isset($weekTimetrackingTuples)}
