@@ -291,7 +291,7 @@ table.invisible tbody tr:hover {
    /*padding: 10px;*/
    position: absolute;
    white-space: nowrap;
-   z-index: 2;
+   z-index: 2147483647; /* https://github.com/stevenbenner/jquery-powertip/commit/b69bf44bdc3f14314c65901c2bdee5d561b905b7 */
 }
 #powerTip.n:before, #powerTip.e:before, #powerTip.s:before, #powerTip.w:before,
 #powerTip.ne:before, #powerTip.nw:before, #powerTip.se:before, #powerTip.sw:before {
