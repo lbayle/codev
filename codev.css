@@ -401,4 +401,7 @@ ul.dropdown li:hover > ul.submenu {
    visibility: visible; 
 }
 
+/* remove close button from dialogbox */
+.no-close .ui-dialog-titlebar-close {display: none }
+
 /* END Dropdown */

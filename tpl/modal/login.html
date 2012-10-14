@@ -40,13 +40,11 @@
         jQuery("#login_container").dialog({
             title: '{t}CodevTT Identification{/t}',
             autoOpen: true,
+            dialogClass: 'no-close',
             closeOnEscape: false,
             modal: true,
             draggable: false,
             resizable: false,
-            create: function(event, ui) {
-                jQuery(".ui-dialog-titlebar-close", ui.dialog).remove();
-            },
             open: function() {
                 // Select input field contents
                 username.select();
