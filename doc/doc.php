@@ -38,7 +38,7 @@ class DocController extends Controller {
 
 // ========== MAIN ===========
 DocController::staticInit();
-$controller = new DocController('Feedback','Doc');
+$controller = new DocController(T_('Documentation'),'Doc');
 $controller->execute();
 
 ?>
