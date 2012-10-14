@@ -113,6 +113,27 @@ class TimeTrackingTools {
             }
             $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $issue->getDeadLine());
 
+            $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
+            
+            //if ((!$project->isSideTasksProject(array($team->getId()))) &&
+            if ((!$project->isSideTasksProject()) &&
+                (!$project->isExternalTasksProject())) {
+               $tooltipAttr = array(
+                   T_('Project') => $issue->getProjectName(),
+                   T_('Category') => $issue->getCategoryName(),
+                   T_('TargetVersion') => $issue->getTargetVersion(),
+                   T_('Type') => $issue->getType(),
+                   T_('Elapsed') => $issue->getElapsed(),
+                   T_('Backlog') => $issue->getDuration(),
+                   T_('Drift') => $issue->getDrift(),
+                   'DriftColor' => $issue->getDriftColor()
+               );
+               $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
+            } else {
+               $infoTooltip = '';
+            }
+
+
             $weekTasks[$bugid."_".$jobid] = array(
                'bugid' => $bugid,
                'description' => $description,
@@ -131,6 +152,7 @@ class TimeTrackingTools {
                'driftColor' => $issue->getDriftColor(),
                'deadline' => $formatedDate,
                'dialogBoxTitle' => $issue->getFormattedIds(),
+               'infoTooltip' => $infoTooltip
             );
          }
       }
