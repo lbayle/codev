@@ -78,7 +78,7 @@ class StatisticsController extends Controller {
 
                      $this->generateDevelopersWorkloadGraph($timeTrackingTable);
 
-                     $this->generateStatusHistoryGraph($teamid);
+                     #$this->generateStatusHistoryGraph($teamid);
                   } else {
                      $this->smartyHelper->assign('error', T_('No projects in this team'));
                   }
