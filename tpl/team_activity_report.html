@@ -86,6 +86,7 @@
                <thead>
                   <tr>
                      <th>{t}Task{/t}</th>
+                     <th></th>
                      <th style="width: 1em;" title="{t}Backlog{/t}">{t}BL{/t}</th>
                      <th style="width: 1em;">{t}Progress{/t}</th>
                      <th style="width: 15em;">{t}Project{/t}</th>
@@ -104,6 +105,9 @@
                   {foreach from=$i.weekJobDetails item=j key=id}
                   <tr>
                      <td>{$j.description}</td>
+                     <td style="width:1px;">
+                        {$j.infoTooltip}
+                     </td>
                      <td nowrap="nowrap">{$j.duration}</td>
                      <td nowrap="nowrap"><div class="progress">{$j.progress}%</div></td>
                      <td nowrap="nowrap">{$j.projectName}</td>

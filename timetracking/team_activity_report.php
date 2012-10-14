@@ -159,28 +159,32 @@ class TeamActivityReportController extends Controller {
                         $daysDetails[] = $dayDetails;
                      }
 
-                     $tooltipAttr = array(
-                         T_('Project') => $issue->getProjectName(),
-                         T_('Summary') => $issue->getSummary()
-                     );
                      if ((!$project->isSideTasksProject(array($team->getId()))) &&
                          (!$project->isExternalTasksProject())) {
-                        $tooltipAttr[T_('Elapsed')] = $issue->getElapsed();
-                        $tooltipAttr[T_('Backlog')] = $issue->getDuration();
-                        $tooltipAttr[T_('Drift')]   = $issue->getDrift();
-                        $tooltipAttr['DriftColor']  = $issue->getDriftColor();
+                        $tooltipAttr = array(
+                            T_('Project') => $issue->getProjectName(),
+                            T_('Category') => $issue->getCategoryName(),
+                            T_('TargetVersion') => $issue->getTargetVersion(),
+                            T_('Type') => $issue->getType(),
+                            T_('Elapsed') => $issue->getElapsed(),
+                            T_('Backlog') => $issue->getDuration(),
+                            T_('Drift') => $issue->getDrift(),
+                            'DriftColor' => $issue->getDriftColor()
+                        );
+                        $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
+                     } else {
+                        $infoTooltip = NULL;
                      }
-
-
                      $weekJobDetails[] = array(
-                        "description" => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary(), $tooltipAttr),
+                        "description" => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary()),
                         "duration" => $issue->getDuration(),
                         "progress" => round(100 * $issue->getProgress()),
                         "projectName" => $issue->getProjectName(),
                         "targetVersion" => $issue->getTargetVersion(),
                         "jobName" => $jobName,
                         "daysDetails" => $daysDetails,
-                        "totalDuration" => $weekDuration
+                        "totalDuration" => $weekDuration,
+                        'infoTooltip' => $infoTooltip
                      );
                   }
                } else {
@@ -216,17 +220,19 @@ class TeamActivityReportController extends Controller {
                          T_('Drift') => $issue->getDrift(),
                          'DriftColor' => $issue->getDriftColor()
                      );
+                     $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
                   } else {
-                     $tooltipAttr = NULL;
+                     $infoTooltip = NULL;
                   }
                   $weekJobDetails[] = array(
-                     "description" => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary(), $tooltipAttr),
-                     "duration" => $issue->getDuration(),
-                     "progress" => round(100 * $issue->getProgress()),
-                     "projectName" => $issue->getProjectName(),
+                     'description' => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary()),
+                     'duration' => $issue->getDuration(),
+                     'progress' => round(100 * $issue->getProgress()),
+                     'projectName' => $issue->getProjectName(),
                      //"targetVersion" => $issue->getTargetVersion(),
-                     "daysDetails" => $daysDetails,
-                     "totalDuration" => $weekDuration
+                     'daysDetails' => $daysDetails,
+                     'totalDuration' => $weekDuration,
+                     'infoTooltip' => $infoTooltip
                   );
                }
             }
