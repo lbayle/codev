@@ -33,7 +33,7 @@
          </fieldset>
       </form>
    </div>
-         
+
    {if isset($error)}{$error}{/if}
 
    {if isset($submittedResolved_Legend) || isset($timeDrift_Legend) || isset($resolvedDrift_Legend) || isset($efficiency_Legend) || isset($reopenedRate_Legend) || isset($developersWorkload_Legend)}
@@ -68,7 +68,7 @@
                   jQuery('#submittedResolvedChart').jqplot({$submittedResolved_jqplotData}, chartoptions);
                });
             </script>
-            <div id="submittedResolvedChart" style="width: 80%;" class="date_chart chart float"></div>
+            <div id="submittedResolvedChart" style="width: 70%;" class="date_chart chart float"></div>
             <table title="{t}Submitted / Resolved Issues{/t}">
                <thead>
                   <tr>
@@ -90,6 +90,47 @@
             <div class="ui-helper-clearfix"></div>
          </div>
          {/if}
+
+         {if $submittedResolvedExtRefOnly_Legend}
+         <div style="margin-top: 3em">
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  var chartoptions = jQuery('#submittedResolvedExtRefOnlyChart').data('plotoptions');
+                  chartoptions.title.text = "{t}Submitted / Resolved Issues (ExtRefOnly){/t}";
+                  chartoptions.series = [{
+                     label : "{t}Submitted{/t}"
+                  },{
+                     label : "{t}Resolved{/t}"
+                  }];
+                  chartoptions.axes.xaxis.min = "{$submittedResolvedExtRefOnly_plotMinDate}";
+                  chartoptions.axes.xaxis.max = "{$submittedResolvedExtRefOnly_plotMaxDate}";
+                  chartoptions.axes.yaxis.min = 0;
+                  jQuery('#submittedResolvedExtRefOnlyChart').jqplot({$submittedResolvedExtRefOnly_jqplotData}, chartoptions);
+               });
+            </script>
+            <div id="submittedResolvedExtRefOnlyChart" style="width: 70%;" class="date_chart chart float"></div>
+            <table title="{t}Submitted / Resolved Issues (ExtRefOnly){/t}">
+               <thead>
+                  <tr>
+                     <th>{t}Date{/t}</th>
+                     <th title="{t}Nb of submitted tasks EXCEPT SideTasks and FDL{/t}">{t}Nb submissions{/t}</th>
+                     <th title="{t}Nb of resolved tasks EXCEPT SideTasks and reopened tasks{/t}">{t}Nb Resolved{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$submittedResolvedExtRefOnly_Legend key=id item=i}
+                  <tr>
+                     <td class="right">{$id}</td>
+                     <td class="right">{$i.nbSubmitted}</td>
+                     <td class="right">{$i.nbResolvedIssues}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+            </table>
+            <div class="ui-helper-clearfix"></div>
+         </div>
+         {/if}
+
       </div>
 
       <!-- Drifts -->
@@ -110,7 +151,7 @@
                   jQuery('#timeDriftChart').jqplot([{$timeDrift_jqplotData}], chartoptions);
                });
             </script>
-            <div id="timeDriftChart" style="width: 80%;" class="date_chart chart float"></div>
+            <div id="timeDriftChart" style="width: 70%;" class="date_chart chart float"></div>
             <table title="{t}Adherence to deadlines{/t}">
                <thead>
                   <tr>
@@ -153,7 +194,7 @@
                   jQuery('#resolvedDriftChart').jqplot({$resolvedDrift_jqplotData}, chartoptions);
                });
             </script>
-            <div id="resolvedDriftChart" style="width: 80%;" class="date_chart_with_horizontal_line chart float"></div>
+            <div id="resolvedDriftChart" style="width: 70%;" class="date_chart_with_horizontal_line chart float"></div>
             <table title="{t}Effort Deviation{/t}">
                <thead>
                   <tr>
@@ -177,6 +218,50 @@
             <div class="ui-helper-clearfix"></div>
          </div>
          {/if}
+
+         {if $resolvedDriftExtRefOnly_Legend}
+         <div style="margin-top: 6em">
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  var chartoptions = jQuery('#resolvedDriftExtRefOnlyChart').data('plotoptions');
+                  chartoptions.title.text = "{t}Effort Deviation (ExtRefOnly){/t}";
+                  chartoptions.series = [{
+                     label: "{t}MgrEffortEstim{/t}"
+                  },{
+                     label: "{t}EffortEstim{/t}"
+                  },{
+                     label: "{t}No Support{/t}"
+                  }];
+                  chartoptions.axes.xaxis.min = "{$resolvedDriftExtRefOnly_plotMinDate}";
+                  chartoptions.axes.xaxis.max = "{$resolvedDriftExtRefOnly_plotMaxDate}";
+                  jQuery('#resolvedDriftExtRefOnlyChart').jqplot({$resolvedDriftExtRefOnly_jqplotData}, chartoptions);
+               });
+            </script>
+            <div id="resolvedDriftExtRefOnlyChart" style="width: 70%;" class="date_chart_with_horizontal_line chart float"></div>
+            <table title="{t}Effort Deviation (ExtRefOnly){/t}">
+               <thead>
+                  <tr>
+                     <th>{t}Date{/t}</th>
+                     <th>{t}MgrEffortEstim{/t}</th>
+                     <th title="{t}BI{/t} + {t}BS{/t}">{t}EffortEstim{/t}</th>
+                     {if $displayNoSupport}<th title="{t}BI{/t} + {t}BS{/t}">{t}No Support{/t}</th>{/if}
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$resolvedDriftExtRefOnly_Legend key=id item=i}
+                  <tr>
+                     <td class="right">{$id}</td>
+                     <td class="right">{$i.totalDriftETA}</td>
+                     <td class="right">{$i.totalDrift}</td>
+                     {if $displayNoSupport}<td class="right">{$i.totalDriftWithoutSupport}</td>{/if}
+                  </tr>
+                  {/foreach}
+               </tbody>
+            </table>
+            <div class="ui-helper-clearfix"></div>
+         </div>
+         {/if}
+
       </div>
 
       <!-- EfficiencyRate -->
@@ -202,7 +287,7 @@
                   jQuery('#efficiencyChart').jqplot({$efficiency_jqplotData}, chartoptions);
                });
             </script>
-            <div id="efficiencyChart" style="width: 80%;" class="date_chart chart float"></div>
+            <div id="efficiencyChart" style="width: 70%;" class="date_chart chart float"></div>
             <table title="{t}Sys Disp.{/t}">
                <thead>
                   <tr>
@@ -288,7 +373,7 @@
                   jQuery('#workloadChart').jqplot([{$workload_jqplotData}], chartoptions);
                });
             </script>
-            <div id="workloadChart" style="width: 80%;" class="date_chart chart float"></div>
+            <div id="workloadChart" style="width: 70%;" class="date_chart chart float"></div>
             <table title="{t}Developers Workload{/t}">
                <thead>
                   <tr>

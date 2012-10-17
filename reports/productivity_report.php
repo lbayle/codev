@@ -75,7 +75,7 @@ class ProductivityReportsController extends Controller {
                      );
                      $this->smartyHelper->assign('productionDays_jqplotData', Tools::array2plot($data));
                   }
-                     
+
 
                   $workingDaysPerJobs = $this->getWorkingDaysPerJob($timeTracking, $teamid);
                   $this->smartyHelper->assign('workingDaysPerJob', $workingDaysPerJobs);
@@ -162,7 +162,8 @@ class ProductivityReportsController extends Controller {
                      $this->smartyHelper->assign('isManager', $isManager);
                      $this->smartyHelper->assign('resolvedIssuesInDrift', $this->getResolvedIssuesInDrift($resolvedIssues, $isManager));
                   }
-
+                  $this->smartyHelper->assign('reopenedBugsRate_nbResolved', count($timeTracking->getResolvedIssues(TRUE, TRUE))); // extRefOnly=true, withReopened=true
+                  $this->smartyHelper->assign('reopenedBugsRate_nbReopened', count($timeTracking->getReopened()));
                   $this->smartyHelper->assign('reopenedBugsRate', round($timeTracking->getReopenedRateResolved() * 100, 1));
                   $this->smartyHelper->assign('formattedReopenedTaks', $this->getFormattedReopenedTaks($timeTracking));
 

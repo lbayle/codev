@@ -45,7 +45,7 @@ class TimeTracking {
 
    private $reopenedList;
 
-   private $submittedBugs = NULL;
+   private $submittedBugs = NULL; // array {'ExtRefOnly, 'All'}
 
    /**
     * @var TimeTrack[]
@@ -288,11 +288,14 @@ class TimeTracking {
    }
 
    /**
+    *
+    * Note: reopened issues not included
+    *
     * @param bool $withSupport
     * @return mixed[]
     */
-   public function getResolvedDriftStats($withSupport = true) {
-      $issueList = $this->getResolvedIssues();
+   public function getResolvedDriftStats($withSupport = true, $extRefOnly=FALSE) {
+      $issueList = $this->getResolvedIssues($extRefOnly);
       if (0 != count($issueList)) {
          return $this->getIssuesDriftStats($issueList, $withSupport);
       } else {
@@ -350,9 +353,17 @@ class TimeTracking {
     * Returns all Issues resolved in the period and having not been re-opened
     * @return Issue[] a list of Issue class instances
     */
-   public function getResolvedIssues() {
-      if(NULL == $this->resolvedIssues) {
+   public function getResolvedIssues($extRefOnly = FALSE, $withReopened=FALSE) {
+
+      $key = ($extRefOnly) ? 'ExtRefOnly' : 'All';
+      if ($withReopened) { $key .= 'WithReopened';}
+
+      if(is_null($this->resolvedIssues)) { $this->resolvedIssues = array(); }
+      if(is_null($this->resolvedIssues[$key])) {
+
          $formatedProjList = implode( ', ', $this->prodProjectList);
+         $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
+
 
          if ("" == $formatedProjList) {
             echo "<div style='color:red'>ERROR getResolvedIssues: no project defined for this team !<br/></div>";
@@ -361,10 +372,21 @@ class TimeTracking {
 
          // all bugs which status changed to 'resolved' whthin the timestamp
          $query = "SELECT bug.* ".
-                  "FROM `mantis_bug_table` as bug ".
-                  "JOIN `mantis_bug_history_table` as history ON bug.id = history.bug_id ".
+                  "FROM `mantis_bug_table` as bug ";
+         if ($extRefOnly) {
+            $query .= ", `mantis_custom_field_string_table` ";
+         }
+
+         $query .= ", `mantis_bug_history_table` as history ".
                   "WHERE bug.project_id IN ($formatedProjList) ".
-                  "AND history.field_name='status' ".
+                  "AND bug.id = history.bug_id ";
+
+         if ($extRefOnly) {
+            $query .= "AND mantis_custom_field_string_table.bug_id = bug.id ";
+            $query .= "AND mantis_custom_field_string_table.field_id = $extIdField ";
+         }
+
+           $query .=  "AND history.field_name='status' ".
                   "AND history.date_modified >= $this->startTimestamp AND history.date_modified < $this->endTimestamp ".
                   "AND history.new_value = get_project_resolved_status_threshold(project_id) ".
                   "ORDER BY bug.id DESC;";
@@ -375,28 +397,29 @@ class TimeTracking {
             exit;
          }
 
-         $this->resolvedIssues = array();
+         $this->resolvedIssues[$key] = array();
          $resolvedList = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
-            // check if the bug has been reopened before endTimestamp
-            $latestStatus = $issue->getStatus($this->endTimestamp);
-            if ($latestStatus >= $issue->getBugResolvedStatusThreshold()) {
-
-               // remove duplicated values
-               if (!in_array ($issue->getId(), $resolvedList)) {
-                  $resolvedList[] = $issue->getId();
-                  $this->resolvedIssues[] = $issue;
+            if (!$withReopened) {
+               // skip if the bug has been reopened before endTimestamp
+               $latestStatus = $issue->getStatus($this->endTimestamp);
+               if ($latestStatus < $issue->getBugResolvedStatusThreshold()) {
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("TimeTracking->getResolvedIssues() REOPENED [$key]: bugid = ".$issue->getId().' (excluded)');
+                  }
+                  continue;
                }
-            } else {
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("TimeTracking->getResolvedIssues() REOPENED : bugid = ".$issue->getId());
-               }
+            }
+            // remove duplicated values
+            if (!in_array ($issue->getId(), $resolvedList)) {
+               $resolvedList[] = $issue->getId();
+               $this->resolvedIssues[$key][] = $issue;
             }
          }
       }
-      return $this->resolvedIssues;
+      return $this->resolvedIssues[$key];
    }
 
    /**
@@ -969,22 +992,30 @@ class TimeTracking {
    /**
     * returns a list of all the tasks having been reopened in the period
     * (status changed from resolved_threshold to lower value)
+    *
+    * Note: internal tasks (tasks having no ExternalReference) NOT INCLUDED
+    *
     * @return Issue[]
     */
    public function getReopened() {
-      if(NULL == $this->reopenedList) {
+      if(is_null($this->reopenedList)) {
          $formatedProjList = implode(', ', $this->prodProjectList);
 
          if ("" == $formatedProjList) {
             echo "<div style='color:red'>ERROR getReopened: no project defined for this team !<br/></div>";
             return 0;
          }
+         $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
 
          // all bugs which resolution changed to 'reopened' whthin the timestamp
+         // having an ExternalReference
          $query = "SELECT bug.*" .
-                  "FROM `mantis_bug_table` as bug ".
+                  "FROM `mantis_custom_field_string_table`, `mantis_bug_table` as bug ".
                   "JOIN `mantis_bug_history_table` as history ON bug.id = history.bug_id " .
                   "WHERE bug.project_id IN ($formatedProjList) " .
+                  "AND mantis_custom_field_string_table.bug_id = bug.id ".
+                  "AND mantis_custom_field_string_table.field_id = $extIdField ".
+                  "AND mantis_custom_field_string_table.value <> '' ".
                   "AND history.field_name='status' " .
                   "AND history.date_modified >= $this->startTimestamp AND history.date_modified <  $this->endTimestamp " .
                   "AND history.old_value >= get_project_resolved_status_threshold(bug.project_id) " .
@@ -999,14 +1030,8 @@ class TimeTracking {
 
          $this->reopenedList = array();
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            // do not include internal tasks (tasks having no ExternalReference)
+
             $issue = IssueCache::getInstance()->getIssue($row->id, $row);
-            if ((NULL == $issue->getTcId()) || ('' == $issue->getTcId())) {
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("getReopened: issue $row->id excluded (no ExtRef)");
-               }
-               continue;
-            }
 
             $this->reopenedList[$row->id] = $issue;
             if(self::$logger->isDebugEnabled()) {
@@ -1022,20 +1047,32 @@ class TimeTracking {
     * returns the number of bug that have been submitted in the period
     * @return int
     */
-   public function getSubmitted() {
-      if(!is_numeric($this->submittedBugs)) {
+   public function getSubmitted($extRefOnly = FALSE) {
+      $key = ($extRefOnly) ? 'ExtRefOnly' : 'All';
+
+      if(is_null($this->submittedBugs)) { $this->submittedBugs = array(); }
+
+      if(!is_numeric($this->submittedBugs[$key])) {
+
+         $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
 
          $query = "SELECT COUNT(bug.id) as count ".
-                  "FROM `mantis_bug_table` as bug ".
-                  "WHERE bug.date_submitted >= $this->startTimestamp AND bug.date_submitted < $this->endTimestamp";
+                  "FROM `mantis_bug_table` as bug ";
+         if ($extRefOnly) {
+            $query .= ", `mantis_custom_field_string_table` ";
+         }
+         $query .= "WHERE bug.date_submitted >= $this->startTimestamp AND bug.date_submitted < $this->endTimestamp ";
 
          // Only for specified Projects
          $projects = $this->prodProjectList;
          if (0 != count($projects)) {
             $formatedProjects = implode( ', ', $projects);
-            $query .= " AND bug.project_id IN ($formatedProjects)";
+            $query .= " AND bug.project_id IN ($formatedProjects) ";
          }
-
+         if ($extRefOnly) {
+            $query .= "AND mantis_custom_field_string_table.field_id = $extIdField ";
+            $query .= "AND mantis_custom_field_string_table.bug_id = bug.id ";
+         }
          $query .= ";";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -1044,10 +1081,10 @@ class TimeTracking {
             exit;
          }
 
-         $this->submittedBugs = SqlWrapper::getInstance()->sql_result($result);
+         $this->submittedBugs[$key] = SqlWrapper::getInstance()->sql_result($result);
       }
 
-      return $this->submittedBugs;
+      return $this->submittedBugs[$key];
    }
 
    /**
@@ -1055,8 +1092,8 @@ class TimeTracking {
     * @return number
     */
    public function getReopenedRate() {
-      $countReopened = count($this->getReopened());
-      $countSubmitted = $this->getSubmitted();
+      $countReopened = count($this->getReopened()); // extRefOnly
+      $countSubmitted = $this->getSubmitted(TRUE); // extRefOnly
 
       $rate = 0;
       if ($countSubmitted != 0)  {
@@ -1067,12 +1104,16 @@ class TimeTracking {
 
    /**
     * $countReopened / $countResolved
+    *
+    * Note: internal tasks (tasks having no ExternalReference) NOT INCLUDED
+    *
     * @return number
     */
    public function getReopenedRateResolved() {
       $countReopened = count($this->getReopened());
-      $countResolved = count($this->getResolvedIssues());
-
+      $extRefOnly = TRUE;
+      $withReopened = TRUE;
+      $countResolved = count($this->getResolvedIssues($extRefOnly, $withReopened));
       $rate = 0;
       if ($countResolved != 0)  {
          $rate = $countReopened / $countResolved;

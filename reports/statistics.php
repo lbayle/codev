@@ -66,11 +66,15 @@ class StatisticsController extends Controller {
                   if(count($team->getProjects(FALSE)) > 0) {
                      $timeTrackingTable = $this->createTimeTrackingList($day, $month, $year, $teamid);
 
-                     $this->generateSubmittedResolvedGraph($timeTrackingTable);
+                     $this->generateSubmittedResolvedGraph($timeTrackingTable, FALSE);
+
+                     $this->generateSubmittedResolvedGraph($timeTrackingTable, TRUE); // ExtRefOnly
 
                      $this->generateTimeDriftGraph($timeTrackingTable);
 
-                     $this->generateResolvedDriftGraph($timeTrackingTable, $displayNoSupport);
+                     $this->generateResolvedDriftGraph($timeTrackingTable, $displayNoSupport, FALSE);
+
+                     $this->generateResolvedDriftGraph($timeTrackingTable, $displayNoSupport, TRUE); // ExtRefOnly
 
                      $this->generateEfficiencyGraph($timeTrackingTable);
 
@@ -148,16 +152,17 @@ class StatisticsController extends Controller {
 
 
    /**
+    *
     * @param TimeTracking[] $timeTrackingTable
-    * @return string
+    * @param type $ExtRefOnly if TRUE, exclude issues having no ExtId.
     */
-   private function generateSubmittedResolvedGraph(array $timeTrackingTable) {
+   private function generateSubmittedResolvedGraph(array $timeTrackingTable, $ExtRefOnly=FALSE) {
       $formattedSubmittedList = array();
       $formattedResolvedList = array();
       foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
          // REM: the 'normal' drifts DO include support
-         $formattedSubmittedList[$startTimestamp] = $timeTracking->getSubmitted(); // returns bug_id !
-         $formattedResolvedList[$startTimestamp] = count($timeTracking->getResolvedIssues()); // returns Issue instances !
+         $formattedSubmittedList[$startTimestamp] = $timeTracking->getSubmitted($ExtRefOnly); // returns bug_id !
+         $formattedResolvedList[$startTimestamp] = count($timeTracking->getResolvedIssues($ExtRefOnly)); // returns Issue instances !
       }
 
       $valuesOne = array();
@@ -173,13 +178,16 @@ class StatisticsController extends Controller {
       }
       $values = array($valuesOne,$valuesTwo);
 
-      $this->smartyHelper->assign('submittedResolved_jqplotData', Tools::array2plot($values));
+      $smartyPrefix = 'submittedResolved';
+      if ($ExtRefOnly) { $smartyPrefix .= 'ExtRefOnly'; }
+
+      $this->smartyHelper->assign($smartyPrefix.'_jqplotData', Tools::array2plot($values));
       $timestamp = Tools::getStartEndKeys($valuesOne);
       $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
       $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
-      $this->smartyHelper->assign('submittedResolved_plotMinDate', $start);
-      $this->smartyHelper->assign('submittedResolved_plotMaxDate', $end);
-      $this->smartyHelper->assign('submittedResolved_Legend', $legend);
+      $this->smartyHelper->assign($smartyPrefix.'_plotMinDate', $start);
+      $this->smartyHelper->assign($smartyPrefix.'_plotMaxDate', $end);
+      $this->smartyHelper->assign($smartyPrefix.'_Legend', $legend);
    }
 
    /**
@@ -224,20 +232,20 @@ class StatisticsController extends Controller {
     * @param bool $displayNoSupport
     * @return string
     */
-   private function generateResolvedDriftGraph(array $timeTrackingTable, $displayNoSupport = FALSE) {
+   private function generateResolvedDriftGraph(array $timeTrackingTable, $displayNoSupport = FALSE, $extRefOnly=FALSE) {
       $val1 = array();
       $val2 = array();
       $val3 = array();
       foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
          // REM: the 'normal' drifts DO include support
-         $formattedSubmittedList[$startTimestamp] = $timeTracking->getSubmitted(); // returns bug_id !
-         $formattedResolvedList[$startTimestamp] = count($timeTracking->getResolvedIssues()); // returns Issue instances !
+         #$formattedSubmittedList[$startTimestamp] = $timeTracking->getSubmitted($extRefOnly); // returns bug_id !
+         #$formattedResolvedList[$startTimestamp] = count($timeTracking->getResolvedIssues($extRefOnly)); // returns Issue instances !
 
-         $driftStats_new1 = $timeTracking->getResolvedDriftStats(TRUE);
+         $driftStats_new1 = $timeTracking->getResolvedDriftStats(TRUE, $extRefOnly);
          $val1[$startTimestamp] = array_key_exists("totalDriftETA", $driftStats_new1) ? $driftStats_new1["totalDriftETA"] : 0;
          $val2[$startTimestamp] = array_key_exists("totalDrift", $driftStats_new1) ? $driftStats_new1["totalDrift"] : 0;
          if ($displayNoSupport) {
-            $driftStats_noSupport1 = $timeTracking->getResolvedDriftStats(FALSE);
+            $driftStats_noSupport1 = $timeTracking->getResolvedDriftStats(FALSE, $extRefOnly);
             $val3[$startTimestamp] = $driftStats_noSupport1["totalDrift"] ? $driftStats_noSupport1["totalDrift"] : 0;
          }
       }
@@ -260,13 +268,16 @@ class StatisticsController extends Controller {
       }
       $values = array($valuesOne,$valuesTwo,$valuesThree);
 
-      $this->smartyHelper->assign('resolvedDrift_jqplotData', Tools::array2plot($values));
+      $smartyPrefix = 'resolvedDrift';
+      if ($extRefOnly) { $smartyPrefix .= 'ExtRefOnly'; }
+
+      $this->smartyHelper->assign($smartyPrefix.'_jqplotData', Tools::array2plot($values));
       $timestamp = Tools::getStartEndKeys($valuesOne);
       $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
       $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
-      $this->smartyHelper->assign('resolvedDrift_plotMinDate', $start);
-      $this->smartyHelper->assign('resolvedDrift_plotMaxDate', $end);
-      $this->smartyHelper->assign('resolvedDrift_Legend', $legend);
+      $this->smartyHelper->assign($smartyPrefix.'_plotMinDate', $start);
+      $this->smartyHelper->assign($smartyPrefix.'_plotMaxDate', $end);
+      $this->smartyHelper->assign($smartyPrefix.'_Legend', $legend);
    }
 
    /**
@@ -304,6 +315,9 @@ class StatisticsController extends Controller {
    }
 
    /**
+    *
+    * Note: internal tasks (tasks having no ExternalReference) NOT INCLUDED
+    *
     * @param TimeTracking[] $timeTrackingTable
     * @return string
     */

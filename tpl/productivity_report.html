@@ -445,8 +445,8 @@
             </thead>
             <tbody>
                <tr>
-                  <td>{$timeTracking->getResolvedIssues()|count}</td>
-                  <td>{$timeTracking->getReopened()|count}</td>
+                  <td>{$reopenedBugsRate_nbResolved}</td>
+                  <td>{$reopenedBugsRate_nbReopened}</td>
                   <td><div class="progress">{$reopenedBugsRate}%</div></td>
                   <td>
                      {foreach from=$formattedReopenedTaks key=id item=i name=formattedReopenedTaks}
