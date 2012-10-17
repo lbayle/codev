@@ -382,7 +382,7 @@ class TimeTracking {
 
             // check if the bug has been reopened before endTimestamp
             $latestStatus = $issue->getStatus($this->endTimestamp);
-            if (($latestStatus == $issue->getBugResolvedStatusThreshold()) || ($latestStatus == Constants::$status_closed)) {
+            if ($latestStatus >= $issue->getBugResolvedStatusThreshold()) {
 
                // remove duplicated values
                if (!in_array ($issue->getId(), $resolvedList)) {
@@ -1024,10 +1024,9 @@ class TimeTracking {
     */
    public function getSubmitted() {
       if(!is_numeric($this->submittedBugs)) {
-         // FIXME Why join with codev_team_project_table ?
+
          $query = "SELECT COUNT(bug.id) as count ".
                   "FROM `mantis_bug_table` as bug ".
-                  "JOIN `codev_team_project_table` as team_project ON bug.project_id = team_project.project_id ".
                   "WHERE bug.date_submitted >= $this->startTimestamp AND bug.date_submitted < $this->endTimestamp";
 
          // Only for specified Projects
