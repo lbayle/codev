@@ -22,12 +22,14 @@ jQuery(document).ready(function() {
             // Resize chart in tabs
             var chart = tab.find('.chart');
             if(chart.length != 0) {
-               var plot = chart.data('jqplot');
-               // Plot null if the plot is in the first visible tab
-               // If plot is already draw, do not redraw
-               if(plot != null && plot._drawCount == 0) {
-                  plot.replot();
-               }
+               chart.each(function() {
+                  var plot = jQuery(this).data('jqplot');
+                  // Plot null if the plot is in the first visible tab
+                  // If plot is already draw, do not redraw
+                  if(plot != null && plot._drawCount == 0) {
+                     plot.replot();
+                  }
+               });
             }
 
             // Resize table in tabs
