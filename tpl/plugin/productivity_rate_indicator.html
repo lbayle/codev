@@ -1,0 +1,17 @@
+{include file="tools/graph.html"}
+
+<script>
+$(document).ready(function(){
+
+   var chart = jQuery('#prodRateChart');
+   var chartoptions = jQuery('#prodRateChart').data('plotoptions');
+
+    chartoptions.axes.xaxis.ticks = {$prodRate_history_xaxis};
+    chartoptions.seriesColors = {$prodRate_history_dataColors};
+    chartoptions.legend.labels = {$prodRate_history_dataLabels};
+
+    chart.jqplot({$prodRate_history_data}, chartoptions);
+});
+</script>
+
+<div id="prodRateChart" class="area_chart chart" style="width:100%;"></div>

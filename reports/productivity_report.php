@@ -135,6 +135,18 @@ class ProductivityReportsController extends Controller {
                      }
                   }
 
+                  // --- BEGIN FDJ SPECIFIC ---
+
+                  $prodRateIndic = new ProductivityRateIndicator();
+                  $prodRate = $prodRateIndic->getProductivityRate(
+                          array_keys($team->getProjects(FALSE, FALSE, FALSE)),
+                          $timeTracking->getStartTimestamp(),
+                          $timeTracking->getEndTimestamp());
+                  $this->smartyHelper->assign('productivityRateMgr', round($prodRate['MEE'], 2));
+                  $this->smartyHelper->assign('productivityRate',    round($prodRate['EE'], 2));
+
+                  // --- END   FDJ SPECIFIC ---
+
                   $this->smartyHelper->assign('efficiencyRate', round($timeTracking->getEfficiencyRate(), 2));
                   $this->smartyHelper->assign('systemDisponibilityRate', round($timeTracking->getSystemDisponibilityRate(), 3));
 
