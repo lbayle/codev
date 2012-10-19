@@ -306,13 +306,17 @@ class Team extends Model {
     * @param bool $noStatsProject
     * @return string[] : array[project_id] = project_name
     */
-   public function getProjects($noStatsProject = true, $withDisabled = true) {
+   public function getProjects($noStatsProject = true, $withDisabled = true, $sideTasksProjects=true) {
 
       if(NULL == $this->projectIdsCache) {
          $this->projectIdsCache = array();
       }
 
-      $key = ''.$noStatsProject;
+      $key = 'P';
+      $key .= ($noStatsProject) ? '_WithNoStatsProject' : '_WithoutNoStatsProject';
+      $key .= ($withDisabled) ? '_withDisabled' : '_NoDisabled';
+      $key .= ($sideTasksProjects) ? '_withSTProjects' : '_NoSTProjects';
+
 
       if(!array_key_exists($key, $this->projectIdsCache)) {
          $query = "SELECT project.id, project.name ".
@@ -322,6 +326,9 @@ class Team extends Model {
 
          if (!$noStatsProject) {
             $query .= "AND team_project.type <> ".Project::type_noStatsProject." ";
+         }
+         if (!$sideTasksProjects) {
+            $query .= "AND team_project.type <> ".Project::type_sideTaskProject." ";
          }
          if (!$withDisabled) {
             $query .= "AND project.enabled = 1 ";
@@ -337,6 +344,9 @@ class Team extends Model {
          $projList = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $projList[$row->id] = $row->name;
+         }
+         if (self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getProjects $key ".implode(',', array_keys($projList)));
          }
          $this->projectIdsCache[$key] = $projList;
       }

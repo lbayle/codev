@@ -284,6 +284,14 @@
                   <td>{t}System Availability{/t} &nbsp;&nbsp;<a id="dialog_SystemAvailability_link" class="help_link" href="{$page}"><img alt="{t}Help{/t}" title="{t}Help{/t}" src="images/help_icon.gif"/></a></td>
                   <td><div class="progress">{$systemDisponibilityRate}%</div></td>
                </tr>
+               <tr>
+                  <td>{t}ProdRate Mgr{/t}</td>
+                  <td>{$productivityRateMgr}</td>
+               </tr>
+               <tr>
+                  <td>{t}ProdRate{/t}</td>
+                  <td>{$productivityRate}</td>
+               </tr>
             </tbody>
          </table>
          <div id="dialog_AvailWorkload" class="help_dialog ui-helper-hidden" title="{t}Available Workload{/t}">
@@ -305,7 +313,7 @@
          <!-- Adherence to deadlines -->
          {if $timeDriftStats}
          <h3 style="margin: 0 0 0.5em 0.5em;" title="{t}Tasks having no deadLine are not reported here{/t}">{t}Adherence to deadlines{/t} : {$percent} %</h3>
-         <table style="width: 300px;">
+         <table style="width: 80%;">
             <thead>
                <tr>
                   <th></th>

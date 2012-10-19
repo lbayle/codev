@@ -69,6 +69,10 @@ class StatisticsController extends Controller {
 
                   $this->generateDevelopersWorkloadGraph($timeTrackingTable);
 
+  // --- BEGIN FDJ SPECIFIC ---
+                     $this->generateProductivityRateGraph($teamid, $timeTrackingTable);
+  // --- END FDJ SPECIFIC ---
+
                   #$this->generateStatusHistoryGraph($teamid);
                } else {
                   $this->smartyHelper->assign('error', T_('No projects in this team'));
@@ -364,6 +368,23 @@ class StatisticsController extends Controller {
       $this->smartyHelper->assign('workload_plotMaxDate', $end);
       $this->smartyHelper->assign('workload_Legend', $legend);
    }
+
+  // --- BEGIN FDJ SPECIFIC ---
+   private function generateProductivityRateGraph($teamid, $timeTrackingTable) {
+
+      $prodRateIndic = new ProductivityRateIndicator();
+      $params = array(
+          'teamid' => $teamid,
+          'timeTrackingTable' => $timeTrackingTable);
+      $prodRateIndic->execute(new IssueSelection('FAKE_UNUSED'), $params);
+
+      $smartyObj = $prodRateIndic->getSmartyObject();
+      foreach ($smartyObj as $smartyKey => $smartyVariable) {
+         $this->smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+
+   }
+  // --- END FDJ SPECIFIC ---
 
 }
 
