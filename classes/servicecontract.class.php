@@ -377,7 +377,6 @@ class ServiceContract extends Model {
                   "JOIN `codev_servicecontract_stproj_table` as servicecontract_stproj ON project.id = servicecontract_stproj.project_id ".
                   "WHERE servicecontract_stproj.servicecontract_id = $this->id ".
                   "ORDER BY type ASC, project.id ASC;";
-
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -386,7 +385,7 @@ class ServiceContract extends Model {
 
          $this->sidetasksProjectList = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $this->sidetasksProjectList[$row->id] = ProjectCache::getInstance()->getProject($row->id, $row);
+            $this->sidetasksProjectList["$row->id"] = ProjectCache::getInstance()->getProject($row->id, $row);
          }
       }
 
@@ -495,18 +494,18 @@ class ServiceContract extends Model {
          self::$logger->debug("Add CommandSet $project_id to ServiceContract $this->id");
       }
 
-      if (NULL == $this->sidetasksProjectList) {
-         $this->sidetasksProjectList = array();
-      }
-      $this->sidetasksProjectList[$project_id] = $project;
+      $this->getProjects();
+      if (!isset($this->sidetasksProjectList["$project_id"])) {
+         $this->sidetasksProjectList["$project_id"] = $project;
 
-      $query = "INSERT INTO `codev_servicecontract_stproj_table` (`servicecontract_id`, `project_id`, `type`) VALUES ($this->id, $project_id, '$type');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+         $query = "INSERT INTO `codev_servicecontract_stproj_table` (`servicecontract_id`, `project_id`, `type`) VALUES ($this->id, $project_id, '$type');";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         return SqlWrapper::getInstance()->sql_insert_id();
       }
-      return SqlWrapper::getInstance()->sql_insert_id();
    }
 
    /**
@@ -516,8 +515,8 @@ class ServiceContract extends Model {
     * @param int $project_id
     */
    public function removeSidetaskProject($project_id) {
-      if (NULL != $this->sidetasksProjectList[$project_id]) {
-         unset($this->sidetasksProjectList[$project_id]);
+      if (NULL != $this->sidetasksProjectList["$project_id"]) {
+         unset($this->sidetasksProjectList["$project_id"]);
       }
 
       $query = "DELETE FROM `codev_servicecontract_stproj_table` WHERE servicecontract_id = ".$this->id." AND project_id = ".$project_id.";";
