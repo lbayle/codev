@@ -292,6 +292,17 @@ class CommandTools {
       }
       $smartyHelper->assign('cmdDesc', $cmd->getDesc());
 
+      //$cmdTotalElapsed = $cmd->getIssueSelection()->getElapsed($cmd->getStartDate(), $cmd->getDeadline());
+      $cmdTotalElapsed = $cmd->getIssueSelection()->getElapsed();
+      $smartyHelper->assign('cmdTotalElapsed',$cmdTotalElapsed);
+      $color = ($cmdTotalElapsed > $cmd->getBudgetDev()) ? "fcbdbd" : "bdfcbd";
+      $smartyHelper->assign('cmdOutlayDaysColor',$color);
+
+      $cmdOutlayCost = $cmdTotalElapsed * $cmd->getAverageDailyRate();
+      $smartyHelper->assign('cmdOutlayCost',$cmdOutlayCost);
+      $color = ($cmdOutlayCost > $cmd->getCost()) ? "fcbdbd" : "bdfcbd";
+      $smartyHelper->assign('cmdOutlayCostColor',$color);
+
       // set CommandSets I belong to
       $smartyHelper->assign('parentCmdSets', self::getParentCommandSets($cmd));
 

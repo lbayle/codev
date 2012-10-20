@@ -54,9 +54,8 @@
    {if isset($cmdid)}
    {include file="modal/consistency_check.html"}
    
-   <div align="center">
+   <div align="center" style="margin-top: 3em;">
       <h2>{$cmdReference} {$cmdName}</h2>
-      {$cmdDesc}
    </div>
 
    <div style="margin-top: 2em;">
@@ -67,47 +66,6 @@
             <td>{$cmdReference}</td>
          </tr>
          <tr>
-            <th>{t}Version{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdVersion}</td>
-         </tr>
-         <tr>
-            <th>{t}Reporter{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdReporter}</td>
-         </tr>
-         <tr>
-            <th>{t}Start date{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdStartDate}</td>
-         </tr>
-         <tr>
-            <th>{t}End date{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdDeadline}</td>
-         </tr>
-         <tr>
-            <th>{t}State{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdState}</td>
-         </tr>
-         <tr>
-            <th>{t}Average Daily Rate{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdAverageDailyRate} {$cmdCurrency}</td>
-         </tr>
-         <tr>
-            <th>{t}Cost{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdCost} {$cmdCurrency}</td>
-         </tr>
-         <tr>
-            <th>{t}Budget{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdBudgetDev} {t}days{/t}</td>
-         </tr>
-
-         <tr>
             <th valign="top">{t}CommandSet{/t}</th>
             <td valign="top">: </td>
             <td>
@@ -116,9 +74,35 @@
                {/foreach}
             </td>
          </tr>
+         <tr>
+            <th valign="top">{t}Budjet{/t}</th>
+            <td valign="top">: </td>
+            <td>
+               <table>
+                  <tr>
+                     <th></th>
+                     <th valign="top">{t}Budjet{/t}</th>
+                     <th valign="top">{t}Outlay{/t}</th>
+                  </tr>
+                  <tr>
+                     <th>{$cmdCurrency}</th>
+                     <td align='right'>{$cmdCost} </td>
+                     <td align='right' style="background-color:#{$cmdOutlayCostColor}" title='{t}Elapsed days * AverageDailyRate{/t}' >{$cmdOutlayCost}</td>
+                  </tr>
+                  <tr>
+                     <th>{t}Days{/t}</th>
+                     <td align='right'>{$cmdBudgetDev}</td>
+                     <td align='right'  style="background-color:#{$cmdOutlayDaysColor}" title='{t}Elapsed (days){/t}' >{$cmdTotalElapsed}</td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
       </table>
+
       {if isset($isEditGranted) && $isEditGranted}
+      <div style="margin-top:2em;">
       <button onclick="location.href='management/command_edit.php'"><img  border="0" align="absmiddle" src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
+      </div>
       {/if}
    </div>
 
@@ -127,12 +111,52 @@
       <ul>
          <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
          <li><a href="#tabsName-2">{t}Activity{/t}</a></li>
+         <li><a href="#tab_attributes">{t}Attributes{/t}</a></li>
          <li><a href="#tabsName-3">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
          <li><a href="{$ajaxPage}?action=getProgressHistoryIndicator">{t}Indicators{/t}</a></li>
          <li><a href="#tabsName-4">{t}Status History{/t}</a></li>
       </ul>
       <div id="tabsName-1">{include file="plugin/detailed_charges_indicator.html"}</div>
       <div id="tabsName-2">{include file="plugin/activity_indicator.html"}</div>
+      <div id="tab_attributes">
+         <table class="invisible">
+            <tr>
+               <th>{t}State{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdState}</td>
+            </tr>
+            <tr>
+               <th>{t}Version{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdVersion}</td>
+            </tr>
+            <tr>
+               <th>{t}Reporter{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdReporter}</td>
+            </tr>
+            <tr>
+               <th>{t}Start date{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdStartDate}</td>
+            </tr>
+            <tr>
+               <th>{t}End date{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdDeadline}</td>
+            </tr>
+            <tr>
+               <th>{t}Average Daily Rate{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdAverageDailyRate} {$cmdCurrency}</td>
+            </tr>
+            <tr>
+               <th valign="top">{t}Description{/t}</th>
+               <td valign="top">: </td>
+               <td><textarea rows='6' cols='120' name='description'  id='description'>{$cmdDesc}</textarea></td>
+            </tr>
+         </table>
+      </div>
       <div id="tabsName-3">
          {if $cmdShortIssueList}
          {t}Short List: {/t}<br>{$cmdShortIssueList}<br>
