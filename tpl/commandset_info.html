@@ -46,7 +46,6 @@
 
    <div align="center">
       <h2>{$commandsetName}</h2>
-      {$commandsetDesc|nl2br}
    </div>
 
    <div style="margin-top:2em;">
@@ -62,22 +61,43 @@
             <td>{$commandsetDate}</td>
          </tr>
          <tr>
-            <th>{t}Cost{/t}</th>
-            <td valign="top">: </td>
-            <td>{$commandsetCost} {$commandsetCurrency}</td>
-         </tr>
-         <tr>
-            <th>{t}Budget{/t}</th>
-            <td valign="top">: </td>
-            <td>{$commandsetBudget} {t}days{/t}</td>
-         </tr>
-         <tr>
             <th valign="top">{t}Service Contract{/t}</th>
             <td valign="top">: </td>
             <td>
                {foreach from=$parentContracts key=id item=i}
                <a href="management/servicecontract_info.php?servicecontractid={$id}">{$i}</a><br />
                {/foreach}
+            </td>
+         </tr>
+         <tr>
+            <th valign="top">{t}Description{/t}</th>
+            <td valign="top">: </td>
+            <td><textarea rows='6' cols='120' name='description'  id='description'>{$commandsetDesc}</textarea></td>
+         </tr>
+         <tr>
+            <th valign="top">{t}Budjet{/t}</th>
+            <td valign="top">: </td>
+            <td>
+               <table>
+                  <tr>
+                     <th></th>
+                     <th valign="top">{t}Budjet{/t}</th>
+                     <th valign="top">{t}Cmds Budjet{/t}</th>
+                     <th valign="top">{t}Outlay{/t}</th>
+                  </tr>
+                  <tr>
+                     <th>{$commandsetCurrency}</th>
+                     <td align='right'>{$commandsetCost} </td>
+                     <td align='right' style="background-color:#{$cmdsCostColor}">{$cmdsCost}</td>
+                     <td></td>
+                  </tr>
+                  <tr>
+                     <th>{t}Days{/t}</th>
+                     <td align='right'>{$commandsetBudget}</td>
+                     <td align='right'  style="background-color:#{$cmdsDaysBudjetColor}" title='{t}Elapsed (days){/t}' >{$cmdsDaysBudjet}</td>
+                     <td>{$commandsetTotalElapsed}</td>
+                  </tr>
+               </table>
             </td>
          </tr>
       </table>

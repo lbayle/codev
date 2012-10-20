@@ -152,7 +152,7 @@ class IssueSelection {
     * @param int $endTimestamp
     * @return float
     */
-   public function getElapsed($startTimestamp, $endTimestamp) {
+   public function getElapsed($startTimestamp = NULL, $endTimestamp = NULL) {
       if(count($this->issueList) > 0) {
          $issueIds = implode(', ', array_keys($this->issueList));
 

@@ -224,6 +224,32 @@ class CommandSetTools {
       $smartyHelper->assign('cmdList', self::getCommandSetCommands($commandset->getId(), Command::type_general));
       $smartyHelper->assign('cmdsetDetailedMgr', self::getCommandSetDetailedMgr($commandset->getId(), Command::type_general));
 
+      // Budjet
+      $cmdList = $commandset->getCommands(Command::type_general);
+      $cmdsBudjet = 0;
+      $cmdsCost = 0;
+      foreach ($cmdList as $cmd) {
+         $cmdsBudjet += $cmd->getBudgetDev(); // in days
+         $cmdsCost += $cmd->getCost(); // WARNING watchout for currencies !!
+      }
+
+      $smartyHelper->assign('cmdsDaysBudjet',$cmdsBudjet);
+      $color = ($cmdsBudjet > $commandset->getBudgetDays()) ? "fcbdbd" : "bdfcbd";
+      $smartyHelper->assign('cmdsDaysBudjetColor',$color);
+
+       $smartyHelper->assign('cmdsCost',$cmdsCost);
+      $color = ($cmdsCost > $commandset->getCost()) ? "fcbdbd" : "bdfcbd";
+      $smartyHelper->assign('cmdsCostColor',$color);
+
+
+      //$cmdTotalElapsed = $commandset->getIssueSelection()->getElapsed($cmd->$commandset(), $commandset->getDeadline());
+      $csetTotalElapsed = $commandset->getIssueSelection(Command::type_general)->getElapsed();
+      $smartyHelper->assign('commandsetTotalElapsed',$csetTotalElapsed);
+
+
+
+
+
       $data = self::getCommandSetActivity($commandset);
       $smartyHelper->assign('activityIndic_data', $data[0]);
       $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
