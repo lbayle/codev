@@ -114,6 +114,7 @@ class CommandSet extends Model {
       $this->budget_days = $row->budget_days;
       $this->cost = $row->budget;
       $this->currency = $row->currency;
+      $this->state = $row->state;
    }
 
    /**

@@ -70,8 +70,8 @@ class CommandTools {
     * @param Command $command
     * @return mixed[]
     */
-   private static function getServiceContractStateList(Command $command = NULL) {
-      $cmdState = (NULL == $command) ? 0 : $command->getState();
+   public static function getCommandStateList(Command $command = NULL) {
+      $cmdState = (is_null($command)) ? 0 : $command->getState();
       return SmartyTools::getSmartyArray(Command::$stateNames, $cmdState);
    }
 
@@ -275,7 +275,7 @@ class CommandTools {
       $smartyHelper->assign('cmdReference', $cmd->getReference());
       $smartyHelper->assign('cmdVersion', $cmd->getVersion());
       $smartyHelper->assign('cmdReporter', $cmd->getReporter());
-      $smartyHelper->assign('cmdStateList', self::getServiceContractStateList($cmd));
+      $smartyHelper->assign('cmdStateList', self::getCommandStateList($cmd));
       $smartyHelper->assign('cmdState', Command::$stateNames[$cmd->getState()]);
       $smartyHelper->assign('cmdCost', $cmd->getCost());
       $smartyHelper->assign('cmdCurrency', $cmd->getCurrency());

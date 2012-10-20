@@ -108,10 +108,7 @@ class CommandEditController extends Controller {
             $this->smartyHelper->assign('cmdInfoFormBtText', T_('Create'));
             $this->smartyHelper->assign('cmdInfoFormAction', 'createCmd');
 
-            $this->smartyHelper->assign('cmdStateList', ServiceContractTools::getServiceContractStateList());
-            // FIXME id 0 doesn't exists !
-            $this->smartyHelper->assign('cmdState', Command::$stateNames[0]);
-
+            $this->smartyHelper->assign('cmdStateList', CommandTools::getCommandStateList());
             $this->smartyHelper->assign('commandsetid', $commandsetid);
             $this->smartyHelper->assign('commandsets', CommandSetTools::getCommandSets($teamid, $commandsetid));
          }
