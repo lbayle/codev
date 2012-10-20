@@ -225,10 +225,13 @@ class CommandEditController extends Controller {
       $cmd->setDesc($formattedValue);
 
       $formattedValue = Tools::getSecurePOSTStringValue('cmdStartDate','');
-      $cmd->setStartDate(Tools::date2timestamp($formattedValue));
-
-      $formattedValue = Tools::getSecurePOSTStringValue('cmdDeadline');
-      $cmd->setDeadline(Tools::date2timestamp($formattedValue));
+      if ('' != $formattedValue) {
+         $cmd->setStartDate(Tools::date2timestamp($formattedValue));
+      }
+      $formattedValue = Tools::getSecurePOSTStringValue('cmdDeadline', '');
+      if ('' != $formattedValue) {
+         $cmd->setDeadline(Tools::date2timestamp($formattedValue));
+      }
 
       $cmd->setState(SmartyTools::checkNumericValue($_POST['cmdState'], true));
       $cmd->setBudgetDev(SmartyTools::checkNumericValue($_POST['cmdBudgetDev'], true));

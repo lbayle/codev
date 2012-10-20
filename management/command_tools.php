@@ -283,8 +283,12 @@ class CommandTools {
       $smartyHelper->assign('cmdBudgetMngt', $cmd->getBudgetMngt());
       $smartyHelper->assign('cmdBudgetGarantie', $cmd->getBudgetGarantie());
       $smartyHelper->assign('cmdBudgetTotal', $cmd->getBudgetDev() + $cmd->getBudgetMngt() + $cmd->getBudgetGarantie());
-      $smartyHelper->assign('cmdStartDate', date("Y-m-d", $cmd->getStartDate()));
-      $smartyHelper->assign('cmdDeadline', date("Y-m-d", $cmd->getDeadline()));
+      if (!is_null($cmd->getStartDate())) {
+         $smartyHelper->assign('cmdStartDate', date("Y-m-d", $cmd->getStartDate()));
+      }
+      if (!is_null($cmd->getDeadline())) {
+         $smartyHelper->assign('cmdDeadline', date("Y-m-d", $cmd->getDeadline()));
+      }
       $smartyHelper->assign('cmdAverageDailyRate', $cmd->getAverageDailyRate());
       $smartyHelper->assign('cmdDesc', $cmd->getDesc());
 
