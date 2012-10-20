@@ -234,11 +234,11 @@ class CommandEditController extends Controller {
       }
 
       $cmd->setState(SmartyTools::checkNumericValue($_POST['cmdState'], true));
-      $cmd->setBudgetDev(SmartyTools::checkNumericValue($_POST['cmdBudgetDev'], true));
+      $cmd->setAverageDailyRate(SmartyTools::checkNumericValue($_POST['cmdAverageDailyRate'], true));
       $cmd->setCost(SmartyTools::checkNumericValue($_POST['cmdCost'], true));
-      $cmd->setBudgetMngt(SmartyTools::checkNumericValue($_POST['cmdBudgetMngt'], true));
-      #$cmd->setBudgetGarantie(checkNumericValue($_POST['cmdBudgetGarantie'], true));
-      #$cmd->setAverageDailyRate(checkNumericValue($_POST['cmdAverageDailyRate'], true));
+      $cmd->setBudgetDev(SmartyTools::checkNumericValue($_POST['cmdBudgetDev'], true));
+      #$cmd->setBudgetMngt(SmartyTools::checkNumericValue($_POST['cmdBudgetMngt'], true));
+      #$cmd->setBudgetGarantie(SmartyTools::checkNumericValue($_POST['cmdBudgetGarantie'], true));
    }
 
    /**

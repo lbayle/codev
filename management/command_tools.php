@@ -277,6 +277,7 @@ class CommandTools {
       $smartyHelper->assign('cmdReporter', $cmd->getReporter());
       $smartyHelper->assign('cmdStateList', self::getCommandStateList($cmd));
       $smartyHelper->assign('cmdState', Command::$stateNames[$cmd->getState()]);
+      $smartyHelper->assign('cmdAverageDailyRate', $cmd->getAverageDailyRate());
       $smartyHelper->assign('cmdCost', $cmd->getCost());
       $smartyHelper->assign('cmdCurrency', $cmd->getCurrency());
       $smartyHelper->assign('cmdBudgetDev', $cmd->getBudgetDev());
@@ -289,7 +290,6 @@ class CommandTools {
       if (!is_null($cmd->getDeadline())) {
          $smartyHelper->assign('cmdDeadline', date("Y-m-d", $cmd->getDeadline()));
       }
-      $smartyHelper->assign('cmdAverageDailyRate', $cmd->getAverageDailyRate());
       $smartyHelper->assign('cmdDesc', $cmd->getDesc());
 
       // set CommandSets I belong to
