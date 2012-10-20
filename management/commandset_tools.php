@@ -218,8 +218,9 @@ class CommandSetTools {
       $smartyHelper->assign('commandsetBudget', $commandset->getBudgetDays());
       $smartyHelper->assign('commandsetCost', $commandset->getCost());
       $smartyHelper->assign('commandsetCurrency', $commandset->getCurrency());
-      $smartyHelper->assign('commandsetDate', Tools::formatDate("%Y-%m-%d", $commandset->getDate()));
-
+      if (!is_null( $commandset->getDate())) {
+         $smartyHelper->assign('commandsetDate', Tools::formatDate("%Y-%m-%d", $commandset->getDate()));
+      }
       $smartyHelper->assign('cmdList', self::getCommandSetCommands($commandset->getId(), Command::type_general));
       $smartyHelper->assign('cmdsetDetailedMgr', self::getCommandSetDetailedMgr($commandset->getId(), Command::type_general));
 

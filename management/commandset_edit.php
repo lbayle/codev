@@ -166,8 +166,9 @@ class CommandSetEditController extends Controller {
       $cmdset->setDesc($formattedValue);
 
       $formattedValue = Tools::escape_string($_POST['commandsetDate']);
-      $cmdset->setDate(Tools::date2timestamp($formattedValue));
-
+      if ('' != $formattedValue) {
+         $cmdset->setDate(Tools::date2timestamp($formattedValue));
+      }
       $cmdset->setCost(SmartyTools::checkNumericValue($_POST['commandsetCost'], true));
 
       $cmdset->setBudgetDays(SmartyTools::checkNumericValue($_POST['commandsetBudget'], true));

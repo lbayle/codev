@@ -174,10 +174,13 @@ class ServiceContractEditController extends Controller {
       $contract->setDesc($formattedValue);
 
       $formattedValue = Tools::getSecurePOSTStringValue('serviceContractStartDate','');
-      $contract->setStartDate(Tools::date2timestamp($formattedValue));
-
+      if ('' != $formattedValue) {
+         $contract->setStartDate(Tools::date2timestamp($formattedValue));
+      }
       $formattedValue = Tools::getSecurePOSTStringValue('serviceContractEndDate','');
-      $contract->setEndDate(Tools::date2timestamp($formattedValue));
+      if ('' != $formattedValue) {
+         $contract->setEndDate(Tools::date2timestamp($formattedValue));
+      }
 
       $contract->setState(SmartyTools::checkNumericValue($_POST['servicecontractState'], true));
 

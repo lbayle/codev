@@ -348,8 +348,12 @@ class ServiceContractTools {
       $smartyHelper->assign('servicecontractVersion', $servicecontract->getVersion());
       $smartyHelper->assign('servicecontractReporter', $servicecontract->getReporter());
       $smartyHelper->assign('servicecontractDesc', $servicecontract->getDesc());
-      $smartyHelper->assign('servicecontractStartDate', date("Y-m-d", $servicecontract->getStartDate()));
-      $smartyHelper->assign('servicecontractEndDate', date("Y-m-d", $servicecontract->getEndDate()));
+      if (!is_null( $servicecontract->getStartDate())) {
+         $smartyHelper->assign('servicecontractStartDate', date("Y-m-d", $servicecontract->getStartDate()));
+      }
+      if (!is_null( $servicecontract->getEndDate())) {
+         $smartyHelper->assign('servicecontractEndDate', date("Y-m-d", $servicecontract->getEndDate()));
+      }
       $smartyHelper->assign('servicecontractStateList', self::getServiceContractStateList($servicecontract));
       $smartyHelper->assign('servicecontractState', ServiceContract::$stateNames[$servicecontract->getState()]);
 
