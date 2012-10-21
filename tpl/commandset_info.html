@@ -29,7 +29,7 @@
             <label for="commandsetid">{t}CommandSet{/t}:</label>
             <select id="commandsetid" name="commandsetid" class="select2" style="width: 400px;">
                {foreach from=$commandsets key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} - {$i.name}</option>
                {/foreach}
                <option value="0">{t}--- Create New CommandSet ---{/t}</option>
             </select>
@@ -51,16 +51,6 @@
    <div style="margin-top:2em;">
       <table class="invisible">
          <tr>
-            <th>{t}Reference{/t}</th>
-            <td valign="top">: </td>
-            <td>{$commandsetReference}</td>
-         </tr>
-         <tr>
-            <th>{t}Date{/t}</th>
-            <td valign="top">: </td>
-            <td>{$commandsetDate}</td>
-         </tr>
-         <tr>
             <th valign="top">{t}Service Contract{/t}</th>
             <td valign="top">: </td>
             <td>
@@ -68,11 +58,6 @@
                <a href="management/servicecontract_info.php?servicecontractid={$id}">{$i}</a><br />
                {/foreach}
             </td>
-         </tr>
-         <tr>
-            <th valign="top">{t}Description{/t}</th>
-            <td valign="top">: </td>
-            <td><textarea rows='6' cols='120' name='description'  id='description'>{$commandsetDesc}</textarea></td>
          </tr>
          <tr>
             <th valign="top">{t}Budjet{/t}</th>
@@ -112,6 +97,7 @@
       <ul>
          <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
          <li><a href="#tabsName-2">{t}Activity{/t}</a></li>
+         <li><a href="#tab_attributes">{t}Attributes{/t}</a></li>
          <li><a href="{$ajaxPage}?action=getProgressHistoryIndicator">{t}Indicators{/t}</a></li>
          <li><a href="#tabsName-4">{t}Detailed Charges{/t}</a></li>
       </ul>
@@ -169,6 +155,25 @@
          {/if}
       </div>
       <div id="tabsName-2">{include file="plugin/detailed_charges_indicator.html"}</div>
+      <div id="tab_attributes">
+         <table class="invisible">
+            <tr>
+               <th>{t}Reference{/t}</th>
+               <td valign="top">: </td>
+               <td>{$commandsetReference}</td>
+            </tr>
+            <tr>
+               <th>{t}Date{/t}</th>
+               <td valign="top">: </td>
+               <td>{$commandsetDate}</td>
+            </tr>
+            <tr>
+               <th valign="top">{t}Description{/t}</th>
+               <td valign="top">: </td>
+               <td><textarea rows='6' cols='120' name='description'  id='description'>{$commandsetDesc}</textarea></td>
+            </tr>
+         </table>
+      </div>
       <div id="tabsName-4">{include file="plugin/activity_indicator.html"}</div>
       {/if}
    </div>

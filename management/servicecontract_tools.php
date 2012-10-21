@@ -32,6 +32,7 @@ class ServiceContractTools {
          foreach ($servicecontractList as $id => $servicecontract) {
             $servicecontracts[] = array(
                'id' => $id,
+               'reference' => $servicecontract->getReference(),
                'name' => $servicecontract->getName(),
                'selected' => ($id == $selectedId)
             );

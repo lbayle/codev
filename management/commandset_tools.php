@@ -33,6 +33,7 @@ class CommandSetTools {
          foreach ($commandsetList as $id => $commandset) {
             $commandsets[] = array(
                'id' => $id,
+               'reference' => $commandset->getReference(),
                'name' => $commandset->getName(),
                'selected' => ($id == $selectedCmdSetId)
             );

@@ -39,7 +39,7 @@
             <label for="cmdid">{t}Command{/t}: </label>
             <select id="cmdid" name="cmdid" class="select2" style="width:400px;">
                {foreach from=$commands key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} {$i.name}</option>
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} - {$i.name}</option>
                {/foreach}
                <option value="0">{t}--- Create New Command ---{/t}</option>
             </select>
@@ -55,16 +55,11 @@
    {include file="modal/consistency_check.html"}
    
    <div align="center" style="margin-top: 3em;">
-      <h2>{$cmdReference} {$cmdName}</h2>
+      <h2>{$cmdName}</h2>
    </div>
 
    <div style="margin-top: 2em;">
       <table class="invisible">
-         <tr>
-            <th>{t}Reference{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdReference}</td>
-         </tr>
          <tr>
             <th valign="top">{t}CommandSet{/t}</th>
             <td valign="top">: </td>
@@ -124,6 +119,11 @@
                <th>{t}State{/t}</th>
                <td valign="top">: </td>
                <td>{$cmdState}</td>
+            </tr>
+            <tr>
+               <th>{t}Reference{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdReference}</td>
             </tr>
             <tr>
                <th>{t}Version{/t}</th>
