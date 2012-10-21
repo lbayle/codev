@@ -95,13 +95,13 @@
    {include file="tools/graph.html"}
    <div id="tabsCommandSet" class="tabs" style="margin-top:2em;">
       <ul>
-         <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
-         <li><a href="#tabsName-2">{t}Activity{/t}</a></li>
+         <li><a href="#tab_charges">{t}Charges{/t}</a></li>
+         <li><a href="#tab_activity">{t}Activity{/t}</a></li>
          <li><a href="#tab_attributes">{t}Attributes{/t}</a></li>
+         <li><a href="#tab_detailedCharges">{t}Detailed Charges{/t}</a></li>
          <li><a href="{$ajaxPage}?action=getProgressHistoryIndicator">{t}Indicators{/t}</a></li>
-         <li><a href="#tabsName-4">{t}Detailed Charges{/t}</a></li>
       </ul>
-      <div id="tabsName-1">
+      <div id="tab_charges">
          {if $cmdList}
          <!--table id="devCmd_table" class="display"-->
          <table>
@@ -154,7 +154,8 @@
          {t}No Command found.{/t}
          {/if}
       </div>
-      <div id="tabsName-2">{include file="plugin/detailed_charges_indicator.html"}</div>
+      <div id="tab_activity">{include file="plugin/activity_indicator.html"}</div>
+      <div id="tab_detailedCharges">{include file="plugin/detailed_charges_indicator.html"}</div>
       <div id="tab_attributes">
          <table class="invisible">
             <tr>
@@ -174,7 +175,6 @@
             </tr>
          </table>
       </div>
-      <div id="tabsName-4">{include file="plugin/activity_indicator.html"}</div>
       {/if}
    </div>
 </div>
