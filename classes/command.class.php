@@ -41,6 +41,11 @@ class Command extends Model {
    const state_billSent = 8;
    const state_payed = 9;
 
+   const provision_projectManagement = 1;
+   const provision_risk = 2;
+   const provision_guarantee = 3;
+   const provision_other = 99;
+   
    // TODO i18n for constants
    public static $stateNames = array(
       self::state_toBeSent => "A émettre",
@@ -54,6 +59,14 @@ class Command extends Model {
       self::state_payed => "Facturé"
    );
 
+   // TODO i18n for constants
+   public static $provisionNames = array(
+      self::provision_projectManagement => "Project Management",
+      self::provision_risk => "Risk",
+      self::provision_guarantee => "Guarantee",
+      self::provision_other => "Other",
+   );
+   
    /**
     * @var Logger The logger
     */
@@ -91,6 +104,9 @@ class Command extends Model {
 
    // codev_commandset_cmd_table
    private $commandSetList;
+
+   // codev_command_provision_table
+   private $provisionList;
 
    /**
     * @param int $id The command id

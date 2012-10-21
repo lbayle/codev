@@ -29,5 +29,19 @@ CREATE INDEX `bug_id` ON `codev_command_bug_table` (`bug_id`);
 
 CREATE INDEX `handler_id` ON `mantis_bug_table` (`handler_id`);
 
+-- 20121021 Command Provision
+CREATE TABLE IF NOT EXISTS `codev_command_provision_table` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `command_id` int(11) NOT NULL,
+  `type` tinyint(4) NOT NULL,
+  `summary` varchar(128) NOT NULL,
+  `description` longtext default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `command_id` (`command_id`)
+
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+
 -- tag version
 UPDATE `codev_config_table` SET `value`='10' WHERE `config_id`='database_version';
