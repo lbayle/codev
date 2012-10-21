@@ -90,6 +90,9 @@ class ServiceContractEditController extends Controller {
             // Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
             $this->smartyHelper->assign('contractInfoFormBtText', T_('Create'));
             $this->smartyHelper->assign('contractInfoFormAction', 'createContract');
+
+            // Note: StateList is empty, uncomment following lines if ServiceContract::$stateNames is used
+            //$this->smartyHelper->assign('servicecontractStateList', ServiceContractTools::getServiceContractStateList($contract));
          }
 
          // Edited or created just before

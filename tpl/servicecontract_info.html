@@ -66,10 +66,11 @@
             <th>{t}End Date{/t}</th>
             <td>: {$servicecontractEndDate}</td>
          </tr>
-         <tr>
+         <!--tr>
+            // Note: StateList is empty, uncomment following lines if ServiceContract::$stateNames is used
             <th>{t}State{/t}</th>
             <td>: {$servicecontractState}</td>
-         </tr>
+         </tr-->
       </table>
       {if isset($isEditGranted) && $isEditGranted}
       <br />

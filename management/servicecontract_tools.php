@@ -45,7 +45,7 @@ class ServiceContractTools {
     * @return string[]
     */
    public static function getServiceContractStateList(ServiceContract $contract = NULL) {
-      $contractState = (NULL == $contract) ? 0 : $contract->getState();
+      $contractState = (is_null($contract)) ? 0 : $contract->getState();
       return SmartyTools::getSmartyArray(ServiceContract::$stateNames, $contractState);
    }
 
@@ -354,8 +354,10 @@ class ServiceContractTools {
       if (!is_null( $servicecontract->getEndDate())) {
          $smartyHelper->assign('servicecontractEndDate', date("Y-m-d", $servicecontract->getEndDate()));
       }
-      $smartyHelper->assign('servicecontractStateList', self::getServiceContractStateList($servicecontract));
-      $smartyHelper->assign('servicecontractState', ServiceContract::$stateNames[$servicecontract->getState()]);
+
+      // Note: StateList is empty, uncomment following lines if ServiceContract::$stateNames is used
+      //$smartyHelper->assign('servicecontractStateList', self::getServiceContractStateList($servicecontract));
+      //$smartyHelper->assign('servicecontractState', ServiceContract::$stateNames[$servicecontract->getState()]);
 
       $smartyHelper->assign('cmdsetList', self::getServiceContractCommandSets($servicecontract->getId(), CommandSet::type_general, Command::type_general));
       $smartyHelper->assign('cmdsetTotalDetailedMgr', self::getServiceContractCmdsetTotalDetailedMgr($servicecontract->getId(), CommandSet::type_general, Command::type_general));
