@@ -382,12 +382,15 @@ class Issue extends Model implements Comparable {
       return $this->holidays;
    }
 
-
    /**
     * @return bool true if issue status >= bug_resolved_status_threshold
     */
-   public function isResolved() {
-      return ($this->currentStatus >= $this->getBugResolvedStatusThreshold());
+   public function isResolved($timestamp = NULL) {
+      if (is_null($timestamp)) {
+         return ($this->currentStatus >= $this->getBugResolvedStatusThreshold());
+      } else {
+         return ($this->getStatus($timestamp) >= $this->getBugResolvedStatusThreshold());
+      }
    }
 
    public function getBugResolvedStatusThreshold() {
@@ -1146,10 +1149,14 @@ class Issue extends Model implements Comparable {
 
                $this->statusCache[$key] = $row->new_value;
             } else {
+
+               // get status at issue creation
+               $project = ProjectCache::getInstance()->getProject($this->projectId);
+               $status = $project->getBugSubmitStatus();
                if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not update found, currentStatus=$this->currentStatus");
+                  self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not update found, bugSubmitStatus=".$status);
                }
-               $this->statusCache[$key] = $this->currentStatus;
+               $this->statusCache[$key] = $status;
             }
          }
       }

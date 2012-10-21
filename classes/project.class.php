@@ -60,6 +60,7 @@ class Project extends Model {
    private $teamTypeList;
 
    private $bug_resolved_status_threshold;
+   private $bug_submit_status;
    private $projectVersionList;
 
    private $progress;
@@ -622,6 +623,38 @@ class Project extends Model {
          #echo "DEBUG $this->name .getBugResolvedStatusThreshold() = $this->bug_resolved_status_threshold<br>\n";
       }
       return $this->bug_resolved_status_threshold;
+   }
+
+   /**
+    * get status on issue creation
+    * 
+    * @return type
+    */
+   public function getBugSubmitStatus() {
+      if(is_null($this->bug_submit_status)) {
+
+         $query  = "SELECT value FROM `mantis_config_table` ".
+                 "WHERE config_id = 'bug_submit_status'".
+                 "AND project_id = $this->id".
+                 " LIMIT 1;";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+            $this->bug_submit_status = SqlWrapper::getInstance()->sql_result($result, 0);
+         } else {
+            $this->bug_submit_status = Constants::$status_new;
+         }
+         if (self::$logger->isDebugEnabled()) {
+            self::$logger->debug("$this->name getBugSubmitStatus() = $this->bug_submit_status");
+         }
+         #echo "DEBUG $this->name getBugSubmitStatus() = $this->bug_submit_status<br>\n";
+      }
+      return $this->bug_submit_status;
+
    }
 
    /**

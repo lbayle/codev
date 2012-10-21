@@ -17,7 +17,7 @@
 */
 
 /**
- * Description of BacklogVariationIndicator
+ * Description of ProgressHistoryIndicator
  */
 class ProgressHistoryIndicator implements IndicatorPlugin {
 
@@ -99,7 +99,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
    private function getBacklogData(IssueSelection $inputIssueSel, array $timestampList) {
       $this->backlogData = array();
 
-      $mgrEffortEstim = array();
+      $mgrEffortEstimCache = array();
 
       // get a snapshot of the Backlog at each timestamp
       $issues = $inputIssueSel->getIssueList();
@@ -107,24 +107,30 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       foreach ($timestampList as $timestamp) {
          $backlog = 0;
          foreach ($issues as $issue) {
-            if(!array_key_exists($issue->getId(),$mgrEffortEstim)) {
+
+            if(!array_key_exists($issue->getId(),$mgrEffortEstimCache)) {
                if($timestamp > $issue->getDateSubmission()) {
                   $issueBL = $issue->getBacklog($timestamp);
-                  if (NULL != $issueBL) {
+                  if ((!is_null($issueBL) && ('' != $issueBL))) {
                      $issueBacklog = $issueBL;
                   } else {
                      // if not fount in history, take the MgrEffortEstim (or EffortEstim ??)
-                     $mgrEffortEstim[$issue->getId()] = $issue->getMgrEffortEstim();
-                     $issueBacklog = $issue->getMgrEffortEstim();
+                     if ($issue->isResolved($timestamp)) {
+                        $issueBacklog = 0;
+                     } else {
+                        $mgrEffortEstimCache[$issue->getId()] = $issue->getMgrEffortEstim();
+                        $issueBacklog = $issue->getMgrEffortEstim();
+                     }
                   }
                } else {
                   // if not fount in history, take the MgrEffortEstim (or EffortEstim ??)
-                  $mgrEffortEstim[$issue->getId()] = $issue->getMgrEffortEstim();
+                  $mgrEffortEstimCache[$issue->getId()] = $issue->getMgrEffortEstim();
                   $issueBacklog = $issue->getMgrEffortEstim();
                }
             } else {
-               $issueBacklog = $mgrEffortEstim[$issue->getId()];
+               $issueBacklog = $mgrEffortEstimCache[$issue->getId()];
             }
+            #echo "issue ".$issue->getId()." issueBacklog = $issueBacklog  issueBL = $issueBL MEE = ".$issue->getMgrEffortEstim()."<br>";
             $backlog += $issueBacklog;
          }
 
@@ -158,10 +164,20 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       }
    }
 
+   /**
+    *
+    * Deux courbes:
+    *
+    * RAF Theorique = charge initiale - cumul consomé
+    *
+    * RAF Reel      = cumul consomé / (cumul consomé +  RAF)
+    *
+    *
+    * @param IssueSelection $inputIssueSel
+    * @param array $params
+    */
    public function execute(IssueSelection $inputIssueSel, array $params = NULL) {
       $this->checkParams($inputIssueSel, $params);
-
-     // Indicateur = Conso. Cumulé / (Conso. Cumulé +  RAF)
 
       $startTimestamp = mktime(23, 59, 59, date('m', $params['startTimestamp']), date('d', $params['startTimestamp']), date('Y', $params['startTimestamp']));
       $endTimestamp   = mktime(23, 59, 59, date('m', $params['endTimestamp']), date('d',$params['endTimestamp']), date('Y', $params['endTimestamp']));
@@ -191,11 +207,13 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       foreach ($timestampList as $timestamp) {
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
 
-         // RAF theorique = charge initiale - cumul consomé
+         // ========= RAF theorique
+         // Indicateur = charge initiale - cumul consomé
          if(array_key_exists($midnight_timestamp,$this->elapsedData)) {
             $sumElapsed += $this->elapsedData[$midnight_timestamp];
          }
          if (0 != $inputIssueSel->mgrEffortEstim) {
+            // TODO max(mgrEffortEstim, mgrEffortEstim) ???
             $val1 = $sumElapsed / $inputIssueSel->mgrEffortEstim;
          } else {
             // TODO
@@ -206,7 +224,9 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
          if ($val1 > 1) {$val1 = 1;}
          $theoBacklog[Tools::formatDate("%Y-%m-%d", $midnight_timestamp)] = round($val1 * 100, 2);
 
-         // RAF reel
+         // =========  RAF reel
+        // Indicateur = Conso. Cumulé / (Conso. Cumulé +  RAF)
+
          $tmp = ($sumElapsed + $this->backlogData[$midnight_timestamp]);
          if (0 != $tmp) {
             $val2 = $sumElapsed / $tmp;
@@ -218,8 +238,11 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
          }
          $realBacklog[Tools::formatDate("%Y-%m-%d", $midnight_timestamp)] = round($val2 * 100, 2);
 
-         #echo "(".date('Y-m-d', $midnight_timestamp).")  rafTheo = $rafTheo sumElapsed = $sumElapsed theoBacklog = ".$theoBacklog[$midnight_timestamp]." realBacklog = ".$realBacklog[$midnight_timestamp].'<br>';
-      }
+         #echo "(".date('Y-m-d', $midnight_timestamp).") sumElapsed = $sumElapsed BacklogData = ".$this->backlogData[$midnight_timestamp]." MgrEE = ".$inputIssueSel->mgrEffortEstim.'<br>';
+         #echo "(".date('Y-m-d', $midnight_timestamp).") theoBacklog = ".$theoBacklog[Tools::formatDate("%Y-%m-%d", $midnight_timestamp)]." realBacklog = ".$realBacklog[Tools::formatDate("%Y-%m-%d", $midnight_timestamp)].'<br>';
+
+
+      } // foreach timestamp
 
       // PERF logging is slow, factorize errors
       if ($nbZeroDivErrors1 > 0) {
