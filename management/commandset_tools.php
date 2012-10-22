@@ -225,18 +225,18 @@ class CommandSetTools {
       $smartyHelper->assign('cmdList', self::getCommandSetCommands($commandset->getId(), Command::type_general));
       $smartyHelper->assign('cmdsetDetailedMgr', self::getCommandSetDetailedMgr($commandset->getId(), Command::type_general));
 
-      // Budjet
+      // Budget
       $cmdList = $commandset->getCommands(Command::type_general);
-      $cmdsBudjet = 0;
+      $cmdsBudget = 0;
       $cmdsCost = 0;
       foreach ($cmdList as $cmd) {
-         $cmdsBudjet += $cmd->getBudgetDev(); // in days
+         $cmdsBudget += $cmd->getBudgetDev(); // in days
          $cmdsCost += $cmd->getCost(); // WARNING watchout for currencies !!
       }
 
-      $smartyHelper->assign('cmdsDaysBudjet',$cmdsBudjet);
-      $color = ($cmdsBudjet > $commandset->getBudgetDays()) ? "fcbdbd" : "bdfcbd";
-      $smartyHelper->assign('cmdsDaysBudjetColor',$color);
+      $smartyHelper->assign('cmdsDaysBudget',$cmdsBudget);
+      $color = ($cmdsBudget > $commandset->getBudgetDays()) ? "fcbdbd" : "bdfcbd";
+      $smartyHelper->assign('cmdsDaysBudgetColor',$color);
 
        $smartyHelper->assign('cmdsCost',$cmdsCost);
       $color = ($cmdsCost > $commandset->getCost()) ? "fcbdbd" : "bdfcbd";
