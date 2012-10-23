@@ -505,6 +505,7 @@
                   data: formUpdateBacklog.serialize(),
                   success: function(data) {
                      jQuery("#weekTaskDetailsDiv").html(jQuery.trim(data));
+                     updateWidgets("#weekTaskDetailsDiv");
                   }
                });
 
