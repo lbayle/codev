@@ -405,9 +405,14 @@ CREATE TABLE IF NOT EXISTS `codev_command_bug_table` (
 -- 20121021 Command Provision
 CREATE TABLE IF NOT EXISTS `codev_command_provision_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
+  `date` int(11) unsigned NOT NULL,
   `command_id` int(11) NOT NULL,
   `type` tinyint(4) NOT NULL,
   `summary` varchar(128) NOT NULL,
+  `budget_days` int(11) default NULL,
+  `budget` int(11) default NULL,
+  `average_daily_rate` int(11) default NULL,
+  `currency` varchar(3) default 'EUR',
   `description` longtext default NULL,
   PRIMARY KEY  (`id`),
   KEY `command_id` (`command_id`)

@@ -96,7 +96,7 @@
                      </td>
                   </tr>
                   <tr>
-                     <th><label for="cmdAverageDailyRate">{t}Average Daily Rate{/t}</label></th>
+                     <th><label for="cmdAverageDailyRate">{t}Default Average Daily Rate{/t}</label></th>
                      <td><input type="text" style="font-family: sans-serif" name="cmdAverageDailyRate" id="cmdAverageDailyRate" value="{if isset($cmdAverageDailyRate)}{$cmdAverageDailyRate}{/if}"> {t}EUR{/t}
                      </td>
                   </tr>
@@ -207,6 +207,7 @@
       <ul>
          <li><a href="#tabsName-1">{t}Tasks {if isset($cmdNbIssues)}({$cmdNbIssues}){/if}{/t}</a></li>
          <li><a href="#tabsName-4">{t}Parent CommandSets {if isset($nbParentCmdSets)}({$nbParentCmdSets}){/if}{/t}</a></li>
+         <li><a href="#tab_provisions">{t}Provisions{/t}</a></li>
       </ul>
 
       <div id="tabsName-1">
@@ -451,6 +452,188 @@
             {t}Create the Command first.{/t}
             {/if}
          </div>
+      </div>
+      <div id="tab_provisions">
+
+         <button id="btAddProvision" type="button"><img border="0" align="absmiddle" alt="Add icon" src="images/b_add.png"> {t}Add Provision{/t}</button>
+
+         <table>
+            <tr>
+               <th></th>
+               <th>{t}Date{/t}</th>
+               <th>{t}Type{/t}</th>
+               <th>{t}Budget Days{/t}</th>
+               <th>{t}Budget{/t}</th>
+               <th title="{t}Average Daily Rate{/t}">{t}ADR{/t}</th>
+               <th>{t}Summary{/t}</th>
+            </tr>
+            {foreach $cmdProvisionList as $id => $prov}
+            <tr>
+               <td class="ui-state-error-text" style="width:1em;">
+                  <a class="ui-icon" title="{t}delete Provision{/t}" href="{$page}"
+                     onclick="deleteProvision('{$prov.id}', '{$prov.date}', '{$prov.type}', '{$prov.budget} {$prov.currency}', '{$prov.budget_days} {t}days{/t}', '{$prov.summary|escape}');return false;"></a>
+               </td>
+               <td>{$prov.date}</td>
+               <td>{$prov.type}</td>
+               <td>{$prov.budget_days}</td>
+               <td>{$prov.budget} {$prov.currency}</td>
+               <td>{$prov.average_daily_rate}</td>
+               <td>{$prov.summary}</td>
+            </tr>
+            {/foreach}
+         </table>
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+
+            });
+         </script>
+
+            <script type="text/javascript">
+               function deleteProvision(provid, date, type, budget, budgetDays, summary){
+                  var dialog = jQuery("#deleteProvision_dialog_form");
+                  dialog.find(".desc_date").text(date);
+                  dialog.find(".desc_type").text(type);
+                  dialog.find(".desc_budget").text(budget);
+                  dialog.find(".desc_budgetDays").text(budgetDays);
+                  dialog.find(".desc_summary").text(summary);
+                  dialog.find("input[name=provid]").val(provid);
+
+                  dialog.dialog("open");
+               }
+
+               jQuery(document).ready(function() {
+
+                  jQuery("#btAddProvision").click(function(event) {
+                     var dialog = jQuery("#addProvision_dialog_form");
+                     dialog.dialog("open");
+                  });
+
+                  // add provision dialogBox
+                  jQuery("#addProvision_dialog_form").dialog({
+                     autoOpen: false,
+                     resizable: true,
+                     width: "auto",
+                     modal: true,
+                     buttons: {
+                        "{t}Add{/t}": function() {
+                           jQuery("#formAddProvision").submit();
+                        },
+                        Cancel: function() {
+                           jQuery(this).dialog("close");
+                        }
+                     }
+                  });
+                  // delete provision dialogBox
+                  jQuery("#deleteProvision_dialog_form").dialog({
+                     autoOpen: false,
+                     resizable: true,
+                     width: "auto",
+                     modal: true,
+                     buttons: {
+                        "{t}Delete{/t}": function() {
+                           jQuery("#formDeleteProvision").submit();
+                        },
+                        Cancel: function() {
+                           jQuery(this).dialog("close");
+                        }
+                     }
+                  });
+               });
+            </script>
+
+            <div id="addProvision_dialog_form" title="{t}Add Provision{/t}" class="ui-helper-hidden">
+               <form id="formAddProvision" name="formAddProvision" method="post" action="{$page}" class="formWithTabsHistory" >
+                  <fieldset>
+                     <table class="invisible">
+                        <tbody>
+                           <tr>
+                              <th nowrap="nowrap"><label for="datepicker">{t}Date{/t} :</label></th>
+                              <td><input type="text" id="datepicker" class="datepicker" name="date" maxlength="10" size="10" title="{t}Date{/t}" /></td>
+
+                           </tr>
+                           <tr>
+                              <th nowrap="nowrap"><label for="type">{t}Type{/t}: </label></th>
+                              <td>
+                                 <select id="type" name="type">
+                                 {foreach from=$cmdProvisionType key=id item=i}
+                                    <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                                 {/foreach}
+                                 </select>
+                              <td>
+                           </tr>
+                           <tr>
+                              <th nowrap="nowrap"><label for="budgetDays">{t}Budget Days{/t} :</label></th>
+                              <td><input type="text" id="budgetDays" name="budgetDays" size="10" class="text" value="0" /></td>
+                           </tr>
+                           <tr>
+                              <th nowrap="nowrap"><label for="budget">{t}Budget{/t} :</label></th>
+                              <td><input type="text" id="budget" name="budget" size="10" class="text" value="0" />
+                                 EUR
+                                 <!--select id="currency" name="currency">
+                                 {foreach from=$provisionCurrency key=id item=i}
+                                    <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                                 {/foreach}
+                                 </select-->
+                              </td>
+                           </tr>
+                           <tr>
+                              <th nowrap="nowrap"><label for="averageDailyRate">{t}Average Daily Rate{/t} :</label></th>
+                              <td><input type="text" id="averageDailyRate" name="averageDailyRate" size="10" class="text" value="0" />
+                                 EUR
+                              </td>
+                           </tr>
+                           <tr>
+                              <th nowrap="nowrap"><label for="summary">{t}Summary{/t} :</label></th>
+                              <td><input type="text" id="summary" name="summary" size="80" class="text" /></td>
+                           </tr>
+                        </tbody>
+                     </table>
+                     <input type="hidden" name="prov_summary" value="0" />
+                     <input type="hidden" name="action" value="addProvision" />
+                     <input type="hidden" name="teamid" value="{$teamid}" />
+                     <input type="hidden" name="commandid" value="{$cmdid}" />
+                  </fieldset>
+               </form>
+            </div>
+
+
+
+            <div id="deleteProvision_dialog_form" title="{t}Delete Provision{/t}" class="ui-helper-hidden">
+               <form id="formDeleteProvision" name="formDeleteProvision" method="post" action="{$page}" class="formWithTabsHistory" >
+                  <p><span class="ui-icon ui-icon-alert float" style="margin-right: 7px;"></span>{t}Delete from the Command ?{/t}</p>
+                  <fieldset>
+                     <table class="invisible">
+                        <tbody>
+                           <tr>
+                              <th nowrap="nowrap">{t}Date{/t} :</th>
+                              <td class="desc_date">date</td>
+                           </tr>
+                           <tr>
+                              <th nowrap="nowrap">{t}Type{/t} :</th>
+                              <td class="desc_type">type</td>
+                           </tr>
+                           <tr>
+                              <th nowrap="nowrap">{t}Budget{/t} :</th>
+                              <td class="desc_budget"></td>
+                           </tr>
+                           <tr>
+                              <th nowrap="nowrap">{t}Budget Days{/t} :</th>
+                              <td class="desc_budgetDays"></td>
+                           </tr>
+                           <tr>
+                              <th nowrap="nowrap">{t}Summary{/t} :</th>
+                              <td class="desc_summary">summary</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                     <input type="hidden" name="action" value="deleteProvision" />
+                     <input type="hidden" name="teamid" value="{$teamid}" />
+                     <input type="hidden" name="provid"  value="0" />
+                  </fieldset>
+               </form>
+            </div>
+
+
       </div>
       <script type="text/javascript">
          jQuery(document).ready(function() {

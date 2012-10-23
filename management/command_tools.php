@@ -75,6 +75,33 @@ class CommandTools {
       return SmartyTools::getSmartyArray(Command::$stateNames, $cmdState);
    }
 
+
+   /**
+    * @param Command $command
+    * @return mixed[]
+    */
+   private static function getProvisionList(Command $command, int $type = NULL) {
+      $provArray = array();
+
+      $provisions = $command->getProvisionList($type);
+      foreach ($provisions as $id => $prov) {
+
+         $provArray["$id"] = array(
+            'id' => $id,
+            'date' => date(T_("Y-m-d"), $prov->getDate()),
+            'type' => CommandProvision::$provisionNames[$prov->getType()],
+            'budget_days' => $prov->getBudgetDays(),
+            'budget' => $prov->getBudget(),
+            'average_daily_rate' => $prov->getAverageDailyRate(),
+            'currency' => $prov->getCurrency(),
+            'summary' => $prov->getSummary()
+         );
+      }
+      return $provArray;
+   }
+
+
+
    /**
     * @static
     * @param Command $cmd
@@ -281,9 +308,6 @@ class CommandTools {
       $smartyHelper->assign('cmdCost', $cmd->getCost());
       $smartyHelper->assign('cmdCurrency', $cmd->getCurrency());
       $smartyHelper->assign('cmdBudgetDev', $cmd->getBudgetDev());
-      $smartyHelper->assign('cmdBudgetMngt', $cmd->getBudgetMngt());
-      $smartyHelper->assign('cmdBudgetGarantie', $cmd->getBudgetGarantie());
-      $smartyHelper->assign('cmdBudgetTotal', $cmd->getBudgetDev() + $cmd->getBudgetMngt() + $cmd->getBudgetGarantie());
       if (!is_null($cmd->getStartDate())) {
          $smartyHelper->assign('cmdStartDate', date("Y-m-d", $cmd->getStartDate()));
       }
@@ -291,6 +315,9 @@ class CommandTools {
          $smartyHelper->assign('cmdDeadline', date("Y-m-d", $cmd->getDeadline()));
       }
       $smartyHelper->assign('cmdDesc', $cmd->getDesc());
+
+      $smartyHelper->assign('cmdProvisionList', self::getProvisionList($cmd));
+
 
       //$cmdTotalElapsed = $cmd->getIssueSelection()->getElapsed($cmd->getStartDate(), $cmd->getDeadline());
       $cmdTotalElapsed = $cmd->getIssueSelection()->getElapsed();

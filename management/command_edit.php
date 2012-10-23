@@ -174,6 +174,24 @@ class CommandEditController extends Controller {
                Command::delete($cmdid);
                unset($_SESSION['cmdid']);
                header('Location:command_info.php');
+            } else if ("addProvision" == $action) {
+
+               # TODO check injections
+               $prov_date = $_POST['date'];
+               $prov_type = $_POST['type'];
+               $prov_budget = $_POST['budget'];
+               $prov_budgetDays = $_POST['budgetDays'];
+               $prov_averageDailyRate = $_POST['averageDailyRate'];
+               $prov_summary = $_POST['summary'];
+
+               $timestamp = Tools::date2timestamp($prov_date);
+
+               CommandProvision::create($cmd->getId(), $timestamp, $prov_type, $prov_summary, $prov_budgetDays, $prov_budget, $prov_averageDailyRate);
+
+            } else if ("deleteProvision" == $action) {
+               # TODO check injections
+               $provid = $_POST['provid'];
+               $cmd->deleteProvision($provid);
             }
 
             // Display Command
@@ -189,6 +207,7 @@ class CommandEditController extends Controller {
             $isManager = $session_user->isTeamManager($cmd->getTeamid());
 
             CommandTools::displayCommand($this->smartyHelper, $cmd, $isManager);
+            $this->smartyHelper->assign('cmdProvisionType', SmartyTools::getSmartyArray(CommandProvision::$provisionNames, 1));
 
             // multiple selection dialogBox
             $availableIssueList = $this->getChildIssuesCandidates($teamid);
