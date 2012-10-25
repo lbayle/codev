@@ -57,6 +57,7 @@ class Team extends Model {
    private $date;
 
    private $enabled;
+   private $commands_enabled;
    private $lock_timetracks_date;
 
    private $projTypeList;
@@ -109,6 +110,7 @@ class Team extends Model {
          $this->description = $row->description;
          $this->leader_id = $row->leader_id;
          $this->enabled = (1 == $row->enabled);
+         $this->commands_enabled = (1 == $row->commands_enabled);
          $this->lock_timetracks_date = $row->lock_timetracks_date;
          $this->date = $row->date;
       } else {
@@ -236,6 +238,29 @@ class Team extends Model {
       $val = $isEnabled ? '1' : '0';
       
       $query = "UPDATE `codev_team_table` SET enabled = $val WHERE id ='$this->id';";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         return false;
+      }
+      return true;
+   }
+
+   /**
+    * @return bool isEnabled
+    */
+   public function isCommandsEnabled() {
+      return $this->commands_enabled;
+   }
+
+   /**
+    * @param bool isEnabled
+    */
+   public function setCommandsEnabled($isEnabled) {
+      $this->commands_enabled = $isEnabled;
+      $val = $isEnabled ? '1' : '0';
+
+      $query = "UPDATE `codev_team_table` SET commands_enabled = $val WHERE id ='$this->id';";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
