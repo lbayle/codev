@@ -51,5 +51,9 @@ ALTER TABLE `codev_command_table` DROP COLUMN budget_mngt;
 ALTER TABLE `codev_command_table` DROP COLUMN budget_garantie;
 ALTER TABLE `codev_command_table` DROP COLUMN cost;
 
+
+ALTER TABLE codev_team_table ADD `commands_enabled` tinyint(4) NOT NULL DEFAULT '1' AFTER `enabled`;
+
+
 -- tag version
 UPDATE `codev_config_table` SET `value`='10' WHERE `config_id`='database_version';
