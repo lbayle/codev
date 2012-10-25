@@ -228,17 +228,16 @@ class CommandSetTools {
       // Budget
       $cmdList = $commandset->getCommands(Command::type_general);
       $cmdsBudget = 0;
-      $cmdsCost = 0;
+      $cmdsBudgetDays = 0;
       foreach ($cmdList as $cmd) {
-         $cmdsBudget += $cmd->getBudgetDev(); // in days
-         $cmdsCost += $cmd->getCost(); // WARNING watchout for currencies !!
+         $cmdsBudget     += $cmd->getBudget($cmd->getSelectedProvisionTypes());
+         $cmdsBudgetDays += $cmd->getBudgetDays($cmd->getSelectedProvisionTypes());
       }
+      $smartyHelper->assign('cmdsDaysBudget',$cmdsBudgetDays);
+      $smartyHelper->assign('cmdsCost',$cmdsBudget);
 
-      $smartyHelper->assign('cmdsDaysBudget',$cmdsBudget);
       $color = ($cmdsBudget > $commandset->getBudgetDays()) ? "fcbdbd" : "bdfcbd";
       $smartyHelper->assign('cmdsDaysBudgetColor',$color);
-
-       $smartyHelper->assign('cmdsCost',$cmdsCost);
       $color = ($cmdsCost > $commandset->getCost()) ? "fcbdbd" : "bdfcbd";
       $smartyHelper->assign('cmdsCostColor',$color);
 

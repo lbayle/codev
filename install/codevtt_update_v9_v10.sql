@@ -47,7 +47,9 @@ CREATE TABLE IF NOT EXISTS `codev_command_provision_table` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- drop deprecated fields in codev_command_table
-
+ALTER TABLE `codev_command_table` DROP COLUMN budget_mngt;
+ALTER TABLE `codev_command_table` DROP COLUMN budget_garantie;
+ALTER TABLE `codev_command_table` DROP COLUMN cost;
 
 -- tag version
 UPDATE `codev_config_table` SET `value`='10' WHERE `config_id`='database_version';

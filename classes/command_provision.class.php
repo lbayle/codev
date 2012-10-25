@@ -28,18 +28,18 @@ class CommandProvision {
     */
    private static $logger;
 
-   const provision_dev = 1;
    const provision_mngt = 2;
    const provision_risk = 3;
    const provision_guarantee = 4;
+   const provision_quality = 5;
    const provision_other = 99;
 
    // TODO i18n for constants
    public static $provisionNames = array(
-      self::provision_dev => "Development",
       self::provision_mngt => "Management",
       self::provision_risk => "Risk",
       self::provision_guarantee => "Guarantee",
+      self::provision_quality => "Quality",
       self::provision_other => "Other",
    );
 
