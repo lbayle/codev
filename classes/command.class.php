@@ -81,9 +81,7 @@ class Command extends Model {
    private $state;
    private $cost;
    private $currency;
-   private $budgetDev;
-   private $budgetMngt;
-   private $budgetGarantie;
+   private $budgetDev; // used to check if MgrEE is correctly dispatched on tasks
    private $averageDailyRate;
    private $enabled;
 
@@ -140,8 +138,6 @@ class Command extends Model {
       $this->cost = $row->cost;
       $this->currency = $row->currency;
       $this->budgetDev = $row->budget_dev;
-      $this->budgetMngt = $row->budget_mngt;
-      $this->budgetGarantie = $row->budget_garantie;
       $this->averageDailyRate = $row->average_daily_rate;
       $this->enabled = (1 == $row->enabled);
    }
@@ -450,16 +446,15 @@ class Command extends Model {
    }
 
    /**
-    * DEPRECATED
+    * used to check if MgrEE is correctly dispatched on tasks
+    *
+    * @return type
     */
-   public function getBudgetDev() {
+   public function getBudgetDaysDev() {
       return ($this->budgetDev / 100);
    }
 
-   /**
-    * DEPRECATED
-    */
-   public function setBudgetDev($value) {
+   public function setBudgetDaysDev($value) {
       if($this->budgetDev != floatval($value) * 100) {
          $this->budgetDev = floatval($value) * 100;
          $query = "UPDATE `codev_command_table` SET budget_dev = '$this->budgetDev' WHERE id = ".$this->id.";";
@@ -472,17 +467,37 @@ class Command extends Model {
    }
 
    /**
+    * the type of provisions to be included when calculating
+    * BudgetDays & Budget
+    *
+    * @return array of typeList
+    */
+   public function getSelectedProvisionTypes() {
+
+      // TODO user codev_config_table to set/get this list
+
+      $types = array(
+          CommandProvision::provision_risk,      // optional
+          CommandProvision::provision_guarantee, // optional
+          CommandProvision::provision_quality, // optional
+         #CommandProvision::provision_mngt,      // only if mngt sideTasks are included in command
+         #CommandProvision::provision_other      // optional
+         );
+      return $types;
+   }
+
+   /**
     * Sum all the Budjet provisions
     *
-    * @param int $type CommandProvision::provision_xxx
+    * @param array $typeList array of CommandProvision::provision_xxx
     * @return type
     */
-   public function getBudget($type = NULL) {
+   public function getBudget(array $typeList = NULL) {
 
-      $provisions = getProvisionList();
+      $provisions = $this->getProvisionList();
       $budget = 0;
       foreach ($provisions as $prov) {
-         if (is_null($type) || ($prov->getType() == $type)) {
+         if (is_null($typeList) || (in_array($prov->getType(), $typeList))) {
             $budget += $prov->getBudget();
          }
       }
@@ -492,20 +507,22 @@ class Command extends Model {
    /**
     * Sum all the BudjetDays provisions
     *
-    * @param int $type CommandProvision::provision_xxx
+    * @param array $typeList array of CommandProvision::provision_xxx
     * @return type
+    *
     */
-   public function getBudgetDays($type = NULL) {
+   public function getBudgetDays(array $typeList = NULL) {
 
-      $provisions = getProvisionList();
+      $provisions = $this->getProvisionList();
       $budgetDays = 0;
       foreach ($provisions as $prov) {
-         if (is_null($type) || ($prov->getType() == $type)) {
+         if (is_null($typeList) || (in_array($prov->getType(), $typeList))) {
             $budgetDays += $prov->getBudgetDays();
          }
       }
       return $budgetDays;
    }
+
 
    /**
     *

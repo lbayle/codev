@@ -305,9 +305,7 @@ class CommandTools {
       $smartyHelper->assign('cmdStateList', self::getCommandStateList($cmd));
       $smartyHelper->assign('cmdState', Command::$stateNames[$cmd->getState()]);
       $smartyHelper->assign('cmdAverageDailyRate', $cmd->getAverageDailyRate());
-      $smartyHelper->assign('cmdCost', $cmd->getCost());
       $smartyHelper->assign('cmdCurrency', $cmd->getCurrency());
-      $smartyHelper->assign('cmdBudgetDev', $cmd->getBudgetDev());
       if (!is_null($cmd->getStartDate())) {
          $smartyHelper->assign('cmdStartDate', date("Y-m-d", $cmd->getStartDate()));
       }
@@ -318,16 +316,32 @@ class CommandTools {
 
       $smartyHelper->assign('cmdProvisionList', self::getProvisionList($cmd));
 
+      // ------
+      // TODO math should not be in here !
+      $cmdBudgetDaysDev = $cmd->getBudgetDaysDev();
+      $cmdBudgetDev = $cmdBudgetDaysDev * $cmd->getAverageDailyRate();
+      $cmdBudget     = $cmdBudgetDev + $cmd->getBudget($cmd->getSelectedProvisionTypes());
+
+      $cmdBudgetDays = $cmd->getBudgetDays($cmd->getSelectedProvisionTypes());
+      $cmdTotalElapsed = $cmd->getIssueSelection()->getElapsed();
+      // TODO math should not be in here !
+      $cmdOutlayCost = $cmdTotalElapsed * $cmd->getAverageDailyRate();
+
+      $smartyHelper->assign('cmdCost', $cmdBudget);
+      $smartyHelper->assign('cmdBudgetDaysDev', $cmdBudgetDaysDev);
+      // TODO math should not be in here !
+      $smartyHelper->assign('cmdBudget', ($cmdBudgetDays + $cmdBudgetDaysDev));
 
       //$cmdTotalElapsed = $cmd->getIssueSelection()->getElapsed($cmd->getStartDate(), $cmd->getDeadline());
-      $cmdTotalElapsed = $cmd->getIssueSelection()->getElapsed();
       $smartyHelper->assign('cmdTotalElapsed',$cmdTotalElapsed);
-      $color = ($cmdTotalElapsed > $cmd->getBudgetDev()) ? "fcbdbd" : "bdfcbd";
+      $smartyHelper->assign('cmdOutlayCost',$cmdOutlayCost);
+
+      // TODO math should not be in here !
+      $color = ($cmdTotalElapsed > ($cmdBudgetDays + $cmdBudgetDaysDev)) ? "fcbdbd" : "bdfcbd";
       $smartyHelper->assign('cmdOutlayDaysColor',$color);
 
-      $cmdOutlayCost = $cmdTotalElapsed * $cmd->getAverageDailyRate();
-      $smartyHelper->assign('cmdOutlayCost',$cmdOutlayCost);
-      $color = ($cmdOutlayCost > $cmd->getCost()) ? "fcbdbd" : "bdfcbd";
+      // TODO math should not be in here !
+      $color = ($cmdOutlayCost > $cmdBudget) ? "fcbdbd" : "bdfcbd";
       $smartyHelper->assign('cmdOutlayCostColor',$color);
 
       // set CommandSets I belong to

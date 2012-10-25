@@ -29,7 +29,7 @@ class Project extends Model {
    const cat_st_incident = 3;
    const cat_st_tools = 4;
    const cat_st_workshop = 5;
-   const cat_mngt_provision = 6;
+   const cat_mngt_provision = 6; // DEPRECATED see CommandProvision class
    const cat_mngt_regular = 7;
 
    /**
