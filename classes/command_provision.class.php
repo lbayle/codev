@@ -162,6 +162,11 @@ class CommandProvision {
       return $this->command_id;
    }
 
+   public function getCommandName() {
+      $cmd = CommandCache::getInstance()->getCommand($this->command_id);
+      return $cmd->getName();
+   }
+
    /**
     *
     * @param int $value

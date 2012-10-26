@@ -165,6 +165,34 @@
                <td valign="top">: </td>
                <td><textarea rows='6' cols='120' name='description'  id='description'>{$commandsetDesc}</textarea></td>
             </tr>
+            <tr>
+               <th valign="top">{t}Provisions{/t}</th>
+               <td valign="top">: </td>
+               <td>
+                  <table>
+                     <tr>
+                        <th>{t}Date{/t}</th>
+                        <th>{t}Type{/t}</th>
+                        <th>{t}Budget Days{/t}</th>
+                        <th>{t}Budget{/t}</th>
+                        <th title="{t}Average Daily Rate{/t}">{t}ADR{/t}</th>
+                        <th>{t}Command{/t}</th>
+                        <th>{t}Summary{/t}</th>
+                     </tr>
+                     {foreach $commandsetProvisionList as $id => $prov}
+                     <tr>
+                        <td>{$prov.date}</td>
+                        <td>{$prov.type}</td>
+                        <td>{$prov.budget_days}</td>
+                        <td style="text-align:right">{$prov.budget} {$prov.currency}</td>
+                        <td>{$prov.average_daily_rate}</td>
+                        <td>{$prov.cmd_name}</td>
+                        <td>{$prov.summary}</td>
+                     </tr>
+                     {/foreach}
+                  </table>
+               </td>
+            </tr>
          </table>
       </div>
       {/if}

@@ -73,6 +73,8 @@ class CommandSet extends Model {
    // cmdByTypeList[type][cmdid]
    private $cmdidByTypeList;
 
+   private $provisionList;
+
    /**
     * @param int $id The command set id
     * @param resource $details The command set details
@@ -490,6 +492,54 @@ class CommandSet extends Model {
       }
       return $csetErrors;
    }
+
+   /**
+    * @param int $cmdType  Command::type_general
+    * @param int $provType CommandProvision::provision_xxx
+    * @return array CommandProvision
+    */
+   public function getProvisionList($cmdType, $provType = NULL) {
+
+      $key= 'P'.$cmdType.'_'.$provType;
+      if (is_null($this->provisionList)) { $this->provisionList = array(); }
+
+      if (is_null($this->provisionList[$key])) {
+
+         $cmdidList = $this->getCommandIds($cmdType);
+         if (empty($cmdidList)) {
+             self::$logger->warn("CommandSet $this->id : no commands for type $cmdType");
+            return array();
+         }
+         $formattedCmdidList = implode(',', $cmdidList);
+
+         $query = "SELECT * FROM `codev_command_provision_table` ".
+                 "WHERE `command_id` IN ($formattedCmdidList) ";
+
+         if (!is_null($provType)) {
+            $query .= " AND `type` = ".$provType;
+         }
+         $query .= " ORDER BY date ASC, type ASC";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         $this->provisionList[$key] = array();
+         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            try {
+               $provision = new CommandProvision($row->id, $row);
+               $this->provisionList[$key]["$row->id"] = $provision;
+            } catch (Exception $e) {
+               echo "<span style='color:red'>WARNING: Provision $row->id does not exist !</span><br>";
+            }
+         }
+      }
+      return $this->provisionList[$key];
+   }
+
 
 }
 

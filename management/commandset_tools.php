@@ -106,6 +106,33 @@ class CommandSetTools {
    }
 
    /**
+    * @param Command $command
+    * @return mixed[]
+    */
+   private static function getProvisionList(CommandSet $commandSet, int $type = NULL) {
+      $provArray = array();
+
+      $provisions = $commandSet->getProvisionList(Command::type_general, $type);
+      foreach ($provisions as $id => $prov) {
+
+         $provArray["$id"] = array(
+            'id' => $id,
+            'date' => date(T_("Y-m-d"), $prov->getDate()),
+            'type' => CommandProvision::$provisionNames[$prov->getType()],
+            'budget_days' => $prov->getProvisionDays(),
+            'budget' => $prov->getProvisionBudget(),
+            'average_daily_rate' => $prov->getAverageDailyRate(),
+            'currency' => $prov->getCurrency(),
+            'cmd_name' => $prov->getCommandName(),
+            'summary' => $prov->getSummary()
+         );
+      }
+      return $provArray;
+   }
+
+
+
+   /**
     * @static
     * @param CommandSet $commandSet
     * @return mixed[]
@@ -245,6 +272,8 @@ class CommandSetTools {
       $csetTotalElapsed = $commandset->getIssueSelection(Command::type_general)->getElapsed();
       $smartyHelper->assign('commandsetTotalElapsed',$csetTotalElapsed);
 
+
+      $smartyHelper->assign('commandsetProvisionList', self::getProvisionList($commandset));
 
 
 
