@@ -233,6 +233,32 @@ class ServiceContractTools {
    }
 
    /**
+    * @param Command $command
+    * @return mixed[]
+    */
+   private static function getProvisionList($contract, int $type = NULL) {
+      $provArray = array();
+
+      $provisions = $contract->getProvisionList(CommandSet::type_general, Command::type_general, $type);
+      foreach ($provisions as $id => $prov) {
+
+         $provArray["$id"] = array(
+            'id' => $id,
+            'date' => date(T_("Y-m-d"), $prov->getDate()),
+            'type' => CommandProvision::$provisionNames[$prov->getType()],
+            'budget_days' => $prov->getProvisionDays(),
+            'budget' => $prov->getProvisionBudget(),
+            'average_daily_rate' => $prov->getAverageDailyRate(),
+            'currency' => $prov->getCurrency(),
+            'cmd_name' => $prov->getCommandName(),
+            'summary' => $prov->getSummary()
+         );
+      }
+      return $provArray;
+   }
+
+
+   /**
     * @static
     * @param ServiceContract $serviceContract
     * @return mixed[]
@@ -372,6 +398,9 @@ class ServiceContractTools {
       $smartyHelper->assign('sidetasksTotalDetailedMgr', self::getContractSidetasksTotalDetailedMgr($issueSelection));
       $smartyHelper->assign('sidetasksList', SmartyTools::getIssueListInfo($issueSelection));
       $smartyHelper->assign('nbSidetasksList', $issueSelection->getNbIssues());
+
+      $smartyHelper->assign('cmdProvisionList', self::getProvisionList($servicecontract));
+
 
       $smartyHelper->assign('servicecontractTotalDetailedMgr', self::getContractTotalDetailedMgr($servicecontract->getId()));
 

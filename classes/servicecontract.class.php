@@ -68,6 +68,7 @@ class ServiceContract extends Model {
    private $sidetasksPerCategory;
 
    private $commandList;
+   private $provisionList;
 
    /**
     * @param int $id The service contract id
@@ -594,6 +595,54 @@ class ServiceContract extends Model {
          }
       }
       return $this->sidetasksPerCategory[$key];
+   }
+
+   /**
+    * @param int $cset_type  CommandSet::type_general
+    * @param int $cmd_type  Command::type_general
+    * @param int $prov_type CommandProvision::provision_xxx
+    * @return array CommandProvision
+    */
+   public function getProvisionList($cset_type, $cmd_type, $prov_type = NULL) {
+
+      $key= 'P'.$cset_type.'_'.$cmd_type.'_'.$prov_type;
+      if (is_null($this->provisionList)) { $this->provisionList = array(); }
+
+      if (is_null($this->provisionList[$key])) {
+
+         $cmdidList = array_keys($this->getCommands($cset_type, $cmd_type));
+         if (empty($cmdidList)) {
+             self::$logger->warn("ServiceContract $this->id : no commands for type $cmd_type");
+            return array();
+         }
+         $formattedCmdidList = implode(',', $cmdidList);
+
+         $query = "SELECT * FROM `codev_command_provision_table` ".
+                 "WHERE `command_id` IN ($formattedCmdidList) ";
+
+         if (!is_null($prov_type)) {
+            $query .= " AND `type` = ".$prov_type;
+         }
+         $query .= " ORDER BY date ASC, type ASC";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         $this->provisionList[$key] = array();
+         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            try {
+               $provision = new CommandProvision($row->id, $row);
+               $this->provisionList[$key]["$row->id"] = $provision;
+            } catch (Exception $e) {
+               echo "<span style='color:red'>WARNING: Provision $row->id does not exist !</span><br>";
+            }
+         }
+      }
+      return $this->provisionList[$key];
    }
 
 }

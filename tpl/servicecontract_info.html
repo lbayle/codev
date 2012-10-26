@@ -56,7 +56,8 @@
          <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
          <li><a href="#tabsName-2">{t}Activity{/t}</a></li>
          <li><a href="#tab_attributes">{t}Attributes{/t}</a></li>
-         <li><a href="#tabsName-3">{t}SideTasks{/t} ({$nbSidetasksList})</a></li>
+         <li><a href="#tab_sidetasks">{t}SideTasks{/t} ({$nbSidetasksList})</a></li>
+         <li><a href="#tab_provisions">{t}Provisions{/t}</a></li>
          <li><a href="{$ajaxPage}?action=getProgressHistoryIndicator">{t}Indicators{/t}</a></li>
          <li><a href="#tabsName-5">{t}Detailed Charges{/t}</a></li>
       </ul>
@@ -316,7 +317,7 @@
             </tr>
          </table>
       </div>
-      <div id="tabsName-3">
+      <div id="tab_sidetasks">
          <span class="help_font">{t}Note: SideTasks already defined in Commands are not displayed.{/t}</span>
          <br />
 
@@ -351,6 +352,42 @@
          {else}
          <br />
          {t}No task found.{/t}
+         {/if}
+      </div>
+      <div id="tab_provisions">
+
+         {if $cmdProvisionList}
+         <div align="center">
+            <table id="prov_table" class="datatable">
+               <thead>
+                  <tr>
+                     <th>{t}Date{/t}</th>
+                     <th>{t}Type{/t}</th>
+                     <th>{t}Budget Days{/t}</th>
+                     <th>{t}Budget{/t}</th>
+                     <th title="{t}Average Daily Rate{/t}">{t}ADR{/t}</th>
+                     <th>{t}Command{/t}</th>
+                     <th>{t}Summary{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach $cmdProvisionList as $id => $prov}
+                  <tr>
+                     <td style="width:1em;" nowrap="nowrap">{$prov.date}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$prov.type}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$prov.budget_days}</td>
+                     <td style="width:1em; text-align:right;" nowrap="nowrap">{$prov.budget} {$prov.currency}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$prov.average_daily_rate}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$prov.cmd_name}</td>
+                     <td>{$prov.summary}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+            </table>
+         </div>
+         {else}
+         <br/>
+         {t}No provision found.{/t}
          {/if}
       </div>
       <div id="tabsName-5">{include file="plugin/detailed_charges_indicator.html"}</div>

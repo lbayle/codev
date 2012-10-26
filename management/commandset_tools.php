@@ -273,7 +273,7 @@ class CommandSetTools {
       $smartyHelper->assign('commandsetTotalElapsed',$csetTotalElapsed);
 
 
-      $smartyHelper->assign('commandsetProvisionList', self::getProvisionList($commandset));
+      $smartyHelper->assign('cmdProvisionList', self::getProvisionList($commandset));
 
 
 
