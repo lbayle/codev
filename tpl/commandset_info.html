@@ -68,19 +68,11 @@
                      <th></th>
                      <th valign="top">{t}Budget{/t}</th>
                      <th valign="top">{t}Cmds Budget{/t}</th>
-                     <th valign="top">{t}Outlay{/t}</th>
                   </tr>
                   <tr>
                      <th>{$commandsetCurrency}</th>
-                     <td align='right'>{$commandsetCost} </td>
-                     <td align='right' style="background-color:#{$cmdsCostColor}">{$cmdsCost}</td>
-                     <td></td>
-                  </tr>
-                  <tr>
-                     <th>{t}Days{/t}</th>
-                     <td align='right'>{$commandsetBudget}</td>
-                     <td align='right'  style="background-color:#{$cmdsDaysBudgetColor}" title='{t}Elapsed (days){/t}' >{$cmdsDaysBudget}</td>
-                     <td>{$commandsetTotalElapsed}</td>
+                     <td title="cset budget">{$commandsetCost}</td>
+                     <td title="sum(MgrEE + Provisions)" style="background-color:#{$cmdsProvAndMeeCostColor}" >{$cmdsProvAndMeeCost}</td>
                   </tr>
                </table>
             </td>

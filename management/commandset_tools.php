@@ -216,7 +216,7 @@ class CommandSetTools {
       $smartyHelper->assign('commandsetName', $commandset->getName());
       $smartyHelper->assign('commandsetReference', $commandset->getReference());
       $smartyHelper->assign('commandsetDesc', $commandset->getDesc());
-      $smartyHelper->assign('commandsetBudget', $commandset->getProvisionDays());
+      $smartyHelper->assign('commandsetBudget', $commandset->getBudgetDays());
       $smartyHelper->assign('commandsetCost', $commandset->getCost());
       $smartyHelper->assign('commandsetCurrency', $commandset->getCurrency());
       if (!is_null( $commandset->getDate())) {
@@ -227,19 +227,18 @@ class CommandSetTools {
 
       // Budget
       $cmdList = $commandset->getCommands(Command::type_general);
-      $cmdsBudget = 0;
-      $cmdsBudgetDays = 0;
+      $cmdsProvAndMeeCost = 0;
       foreach ($cmdList as $cmd) {
-         $cmdsBudget     += $cmd->getProvisionBudget($cmd->getSelectedProvisionTypes());
-         $cmdsBudgetDays += $cmd->getProvisionDays($cmd->getSelectedProvisionTypes());
-      }
-      $smartyHelper->assign('cmdsDaysBudget',$cmdsBudgetDays);
-      $smartyHelper->assign('cmdsCost',$cmdsBudget);
+         // TODO math should not be in here !
+         $mgrEE = $cmd->getIssueSelection()->mgrEffortEstim;
+         $cmdProvAndMeeCost = ($mgrEE * $cmd->getAverageDailyRate()) + $cmd->getProvisionBudget($cmd->getSelectedProvisionTypes());
 
-      $color = ($cmdsBudget > $commandset->getProvisionDays()) ? "fcbdbd" : "bdfcbd";
-      $smartyHelper->assign('cmdsDaysBudgetColor',$color);
-      $color = ($cmdsCost > $commandset->getCost()) ? "fcbdbd" : "bdfcbd";
-      $smartyHelper->assign('cmdsCostColor',$color);
+         $cmdsProvAndMeeCost += $cmdProvAndMeeCost;
+      }
+      $smartyHelper->assign('cmdsProvAndMeeCost',$cmdsProvAndMeeCost);
+
+      $color1 = ($cmdProvAndMeeCost > $commandset->getCost()) ? "fcbdbd" : "bdfcbd";
+      $smartyHelper->assign('cmdsProvAndMeeCostColor',$color1);
 
 
       //$cmdTotalElapsed = $commandset->getIssueSelection()->getElapsed($cmd->$commandset(), $commandset->getDeadline());

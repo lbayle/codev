@@ -267,7 +267,7 @@ class CommandSet extends Model {
       }
    }
 
-   public function getProvisionDays() {
+   public function getBudgetDays() {
       return ($this->budget_days / 100);
    }
 
