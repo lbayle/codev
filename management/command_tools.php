@@ -90,8 +90,8 @@ class CommandTools {
             'id' => $id,
             'date' => date(T_("Y-m-d"), $prov->getDate()),
             'type' => CommandProvision::$provisionNames[$prov->getType()],
-            'budget_days' => $prov->getBudgetDays(),
-            'budget' => $prov->getBudget(),
+            'budget_days' => $prov->getProvisionDays(),
+            'budget' => $prov->getProvisionBudget(),
             'average_daily_rate' => $prov->getAverageDailyRate(),
             'currency' => $prov->getCurrency(),
             'summary' => $prov->getSummary()
@@ -316,33 +316,31 @@ class CommandTools {
 
       $smartyHelper->assign('cmdProvisionList', self::getProvisionList($cmd));
 
-      // ------
-      // TODO math should not be in here !
-      $cmdBudgetDaysDev = $cmd->getBudgetDaysDev();
-      $cmdBudgetDev = $cmdBudgetDaysDev * $cmd->getAverageDailyRate();
-      $cmdBudget     = $cmdBudgetDev + $cmd->getBudget($cmd->getSelectedProvisionTypes());
+      $cmdTotalSoldDays = $cmd->getTotalSoldDays();
+      $smartyHelper->assign('cmdTotalSoldDays', $cmdTotalSoldDays);
 
-      $cmdBudgetDays = $cmd->getBudgetDays($cmd->getSelectedProvisionTypes());
+      // --------------
+       
+      // TODO math should not be in here !
+      $mgrEE = $cmd->getIssueSelection()->mgrEffortEstim;
+      $cmdProvAndMeeCost = ($mgrEE * $cmd->getAverageDailyRate()) + $cmd->getProvisionBudget($cmd->getSelectedProvisionTypes());
+      $smartyHelper->assign('cmdProvAndMeeCost',$cmdProvAndMeeCost);
+      $cmdProvAndMeeDays = $mgrEE + $cmd->getProvisionDays($cmd->getSelectedProvisionTypes());
+      $smartyHelper->assign('cmdProvAndMeeDays', $cmdProvAndMeeDays);
+
+      // TODO math should not be in here !
       $cmdTotalElapsed = $cmd->getIssueSelection()->getElapsed();
-      // TODO math should not be in here !
       $cmdOutlayCost = $cmdTotalElapsed * $cmd->getAverageDailyRate();
-
-      $smartyHelper->assign('cmdCost', $cmdBudget);
-      $smartyHelper->assign('cmdBudgetDaysDev', $cmdBudgetDaysDev);
-      // TODO math should not be in here !
-      $smartyHelper->assign('cmdBudget', ($cmdBudgetDays + $cmdBudgetDaysDev));
-
-      //$cmdTotalElapsed = $cmd->getIssueSelection()->getElapsed($cmd->getStartDate(), $cmd->getDeadline());
-      $smartyHelper->assign('cmdTotalElapsed',$cmdTotalElapsed);
       $smartyHelper->assign('cmdOutlayCost',$cmdOutlayCost);
+      $smartyHelper->assign('cmdTotalElapsed',$cmdTotalElapsed);
 
-      // TODO math should not be in here !
-      $color = ($cmdTotalElapsed > ($cmdBudgetDays + $cmdBudgetDaysDev)) ? "fcbdbd" : "bdfcbd";
-      $smartyHelper->assign('cmdOutlayDaysColor',$color);
 
-      // TODO math should not be in here !
-      $color = ($cmdOutlayCost > $cmdBudget) ? "fcbdbd" : "bdfcbd";
-      $smartyHelper->assign('cmdOutlayCostColor',$color);
+      $color1 = ($cmdOutlayCost > $cmdProvAndMeeCost) ? "fcbdbd" : "bdfcbd";
+      $smartyHelper->assign('cmdOutlayCostColor', $color1);
+      $color2 = ($cmdTotalElapsed > $cmdProvAndMeeDays) ? "fcbdbd" : "bdfcbd";
+      $smartyHelper->assign('cmdTotalElapsedColor',$color2);
+
+      // --------------
 
       // set CommandSets I belong to
       $smartyHelper->assign('parentCmdSets', self::getParentCommandSets($cmd));

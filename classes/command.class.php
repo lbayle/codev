@@ -81,7 +81,7 @@ class Command extends Model {
    private $state;
    private $cost;
    private $currency;
-   private $budgetDev; // used to check if MgrEE is correctly dispatched on tasks
+   private $totalSoldDays; // used to check if MgrEE is correctly dispatched on tasks
    private $averageDailyRate;
    private $enabled;
 
@@ -137,7 +137,7 @@ class Command extends Model {
       $this->state = $row->state;
       $this->cost = $row->cost;
       $this->currency = $row->currency;
-      $this->budgetDev = $row->budget_dev;
+      $this->totalSoldDays = $row->total_days;
       $this->averageDailyRate = $row->average_daily_rate;
       $this->enabled = (1 == $row->enabled);
    }
@@ -448,16 +448,19 @@ class Command extends Model {
    /**
     * used to check if MgrEE is correctly dispatched on tasks
     *
-    * @return type
+    * this budjet is set at command creation and contains
+    * totalDays = 'days sold for devTasks' + 'days declared in provisions'
+    *
+    * @return float nbDays
     */
-   public function getBudgetDaysDev() {
-      return ($this->budgetDev / 100);
+   public function getTotalSoldDays() {
+      return ($this->totalSoldDays / 100);
    }
 
-   public function setBudgetDaysDev($value) {
-      if($this->budgetDev != floatval($value) * 100) {
-         $this->budgetDev = floatval($value) * 100;
-         $query = "UPDATE `codev_command_table` SET budget_dev = '$this->budgetDev' WHERE id = ".$this->id.";";
+   public function setTotalSoldDays($value) {
+      if($this->totalSoldDays != floatval($value) * 100) {
+         $this->totalSoldDays = floatval($value) * 100;
+         $query = "UPDATE `codev_command_table` SET total_days = '$this->totalSoldDays' WHERE id = ".$this->id.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -480,8 +483,8 @@ class Command extends Model {
           CommandProvision::provision_risk,      // optional
           CommandProvision::provision_guarantee, // optional
           CommandProvision::provision_quality, // optional
+          CommandProvision::provision_other      // optional
          #CommandProvision::provision_mngt,      // only if mngt sideTasks are included in command
-         #CommandProvision::provision_other      // optional
          );
       return $types;
    }
@@ -492,13 +495,13 @@ class Command extends Model {
     * @param array $typeList array of CommandProvision::provision_xxx
     * @return type
     */
-   public function getBudget(array $typeList = NULL) {
+   public function getProvisionBudget(array $typeList = NULL) {
 
       $provisions = $this->getProvisionList();
       $budget = 0;
       foreach ($provisions as $prov) {
          if (is_null($typeList) || (in_array($prov->getType(), $typeList))) {
-            $budget += $prov->getBudget();
+            $budget += $prov->getProvisionBudget();
          }
       }
       return $budget;
@@ -511,13 +514,13 @@ class Command extends Model {
     * @return type
     *
     */
-   public function getBudgetDays(array $typeList = NULL) {
+   public function getProvisionDays(array $typeList = NULL) {
 
       $provisions = $this->getProvisionList();
       $budgetDays = 0;
       foreach ($provisions as $prov) {
          if (is_null($typeList) || (in_array($prov->getType(), $typeList))) {
-            $budgetDays += $prov->getBudgetDays();
+            $budgetDays += $prov->getProvisionDays();
          }
       }
       return $budgetDays;

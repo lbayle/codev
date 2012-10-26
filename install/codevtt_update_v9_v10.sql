@@ -51,6 +51,10 @@ ALTER TABLE `codev_command_table` DROP COLUMN budget_mngt;
 ALTER TABLE `codev_command_table` DROP COLUMN budget_garantie;
 ALTER TABLE `codev_command_table` DROP COLUMN cost;
 
+-- ALTER TABLE `codev_command_table` RENAME COLUMN budget_dev to total_days;
+ALTER TABLE `codev_command_table` DROP COLUMN budget_dev;
+ALTER TABLE `codev_command_table` ADD `total_days` int(11) AFTER `currency`;
+
 
 ALTER TABLE codev_team_table ADD `commands_enabled` tinyint(4) NOT NULL DEFAULT '1' AFTER `enabled`;
 

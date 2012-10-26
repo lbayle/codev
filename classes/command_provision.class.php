@@ -210,7 +210,7 @@ class CommandProvision {
     *
     * @return int
     */
-   public function getBudgetDays() {
+   public function getProvisionDays() {
       return $this->budget_days;
    }
 
@@ -234,7 +234,7 @@ class CommandProvision {
     *
     * @return float
     */
-   public function getBudget() {
+   public function getProvisionBudget() {
       return ($this->budget / 100);
    }
 

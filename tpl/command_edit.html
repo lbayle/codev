@@ -95,12 +95,12 @@
                         </select>
                      </td>
                   </tr>
-                     <th><label for="cmdBudgetDev">{t}Check Budget{/t}</label></th>
-                     <td><input type="text" style="font-family: sans-serif" name="cmdBudgetDaysDev" id="cmdBudgetDaysDev" value="{if isset($cmdBudgetDaysDev)}{$cmdBudgetDaysDev}{/if}"> {t}days{/t}
+                     <th><label for="cmdTotalSoldDays" title="MgrEE + Provisions">{t}Sold Charge{/t}</label></th>
+                     <td><input type="text" style="font-family: sans-serif" name="cmdTotalSoldDays" id="cmdTotalSoldDays" value="{if isset($cmdTotalSoldDays)}{$cmdTotalSoldDays}{/if}"> {t}days{/t}
                      </td>
                   </tr>
                   <tr>
-                     <th><label for="cmdAverageDailyRate">{t}Default Average Daily Rate{/t}</label></th>
+                     <th title="{t}Average Daily Rate{/t}"><label for="cmdAverageDailyRate">{t}Default ADR{/t}</label></th>
                      <td><input type="text" style="font-family: sans-serif" name="cmdAverageDailyRate" id="cmdAverageDailyRate" value="{if isset($cmdAverageDailyRate)}{$cmdAverageDailyRate}{/if}"> {t}EUR{/t}
                      </td>
                   </tr>

@@ -255,7 +255,7 @@ class CommandEditController extends Controller {
       $cmd->setState(SmartyTools::checkNumericValue($_POST['cmdState'], true));
       $cmd->setAverageDailyRate(SmartyTools::checkNumericValue($_POST['cmdAverageDailyRate'], true));
 
-      $cmd->setBudgetDaysDev(SmartyTools::checkNumericValue($_POST['cmdBudgetDaysDev'], true));
+      $cmd->setTotalSoldDays(SmartyTools::checkNumericValue($_POST['cmdTotalSoldDays'], true));
    }
 
    /**

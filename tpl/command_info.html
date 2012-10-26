@@ -81,13 +81,13 @@
                   </tr>
                   <tr>
                      <th>{$cmdCurrency}</th>
-                     <td align='right'>{$cmdCost} </td>
+                     <td align='right' title ="MgrEffortEstim + Provisions" >{$cmdProvAndMeeCost} </td>
                      <td align='right' style="background-color:#{$cmdOutlayCostColor}" title='{t}Elapsed days * AverageDailyRate{/t}' >{$cmdOutlayCost}</td>
                   </tr>
                   <tr>
                      <th>{t}Days{/t}</th>
-                     <td align='right'>{$cmdBudget}</td>
-                     <td align='right'  style="background-color:#{$cmdOutlayDaysColor}" title='{t}Elapsed (days){/t}' >{$cmdTotalElapsed}</td>
+                     <td align='right' title="MgrEffortEstim + Provisions">{$cmdProvAndMeeDays}</td>
+                     <td align='right'  style="background-color:#{$cmdTotalElapsedColor}" title='{t}Elapsed (days){/t}' >{$cmdTotalElapsed}</td>
                   </tr>
                </table>
             </td>
@@ -146,9 +146,14 @@
                <td>{$cmdDeadline}</td>
             </tr>
             <tr>
-               <th>{t}Average Daily Rate{/t}</th>
+               <th title="{t}Average Daily Rate{/t}" >{t}Default ADR{/t}</th>
                <td valign="top">: </td>
                <td>{$cmdAverageDailyRate} {$cmdCurrency}</td>
+            </tr>
+            <tr>
+               <th title="{t}Tasks & Provisions{/t}">{t}Sold Charge{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdTotalSoldDays} {t}days{/t}</td>
             </tr>
             <tr>
                <th valign="top">{t}Description{/t}</th>
@@ -156,7 +161,7 @@
                <td><textarea rows='6' cols='120' name='description'  id='description'>{$cmdDesc}</textarea></td>
             </tr>
             <tr>
-               <th valign="top">{t}Budget{/t}</th>
+               <th valign="top">{t}Provisions{/t}</th>
                <td valign="top">: </td>
                <td>
                   <table>
@@ -173,7 +178,7 @@
                         <td>{$prov.date}</td>
                         <td>{$prov.type}</td>
                         <td>{$prov.budget_days}</td>
-                        <td>{$prov.budget} {$prov.currency}</td>
+                        <td style="text-align:right">{$prov.budget} {$prov.currency}</td>
                         <td>{$prov.average_daily_rate}</td>
                         <td>{$prov.summary}</td>
                      </tr>

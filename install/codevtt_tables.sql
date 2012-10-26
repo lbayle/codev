@@ -373,7 +373,7 @@ CREATE TABLE IF NOT EXISTS `codev_command_table` (
   `team_id` int(11) NOT NULL,
   `state` int(11) unsigned default NULL,
   `currency` varchar(3) default 'EUR',
-  `budget_dev` int(11) default NULL,
+  `total_days` int(11) default NULL,
   `average_daily_rate` int(11) default NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '1',
   `description` varchar(500) default NULL,

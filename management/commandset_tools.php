@@ -216,7 +216,7 @@ class CommandSetTools {
       $smartyHelper->assign('commandsetName', $commandset->getName());
       $smartyHelper->assign('commandsetReference', $commandset->getReference());
       $smartyHelper->assign('commandsetDesc', $commandset->getDesc());
-      $smartyHelper->assign('commandsetBudget', $commandset->getBudgetDays());
+      $smartyHelper->assign('commandsetBudget', $commandset->getProvisionDays());
       $smartyHelper->assign('commandsetCost', $commandset->getCost());
       $smartyHelper->assign('commandsetCurrency', $commandset->getCurrency());
       if (!is_null( $commandset->getDate())) {
@@ -230,13 +230,13 @@ class CommandSetTools {
       $cmdsBudget = 0;
       $cmdsBudgetDays = 0;
       foreach ($cmdList as $cmd) {
-         $cmdsBudget     += $cmd->getBudget($cmd->getSelectedProvisionTypes());
-         $cmdsBudgetDays += $cmd->getBudgetDays($cmd->getSelectedProvisionTypes());
+         $cmdsBudget     += $cmd->getProvisionBudget($cmd->getSelectedProvisionTypes());
+         $cmdsBudgetDays += $cmd->getProvisionDays($cmd->getSelectedProvisionTypes());
       }
       $smartyHelper->assign('cmdsDaysBudget',$cmdsBudgetDays);
       $smartyHelper->assign('cmdsCost',$cmdsBudget);
 
-      $color = ($cmdsBudget > $commandset->getBudgetDays()) ? "fcbdbd" : "bdfcbd";
+      $color = ($cmdsBudget > $commandset->getProvisionDays()) ? "fcbdbd" : "bdfcbd";
       $smartyHelper->assign('cmdsDaysBudgetColor',$color);
       $color = ($cmdsCost > $commandset->getCost()) ? "fcbdbd" : "bdfcbd";
       $smartyHelper->assign('cmdsCostColor',$color);
