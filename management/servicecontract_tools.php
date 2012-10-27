@@ -120,27 +120,6 @@ class ServiceContractTools {
 
    /**
     * @param int $servicecontractid
-    * @return mixed[]
-    */
-   private static function getServiceContractProjects($servicecontractid) {
-      $projects = array();
-
-      if (0 != $servicecontractid) {
-         $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-
-         $projList = $servicecontract->getProjects();
-         foreach ($projList as $id => $project) {
-            $proj['name'] = $project->getName();
-            $proj['description'] = $project->getDescription();
-
-            $projects[$id] = $proj;
-         }
-      }
-      return $projects;
-   }
-
-   /**
-    * @param int $servicecontractid
     * @param int $cset_type CommandSet::type_general
     * @param int $cmd_type Command::type_general
     * @return mixed[]
@@ -391,7 +370,6 @@ class ServiceContractTools {
 
       $smartyHelper->assign('cmdList', self::getServiceContractCommands($servicecontract->getId(), CommandSet::type_general, Command::type_general));
 
-      $smartyHelper->assign('projectList', self::getServiceContractProjects($servicecontract->getId()));
       $smartyHelper->assign('sidetasksDetailedMgr', self::getContractSidetasksDetailedMgr($servicecontract->getId()));
 
       $issueSelection = self::getContractSidetasksSelection($servicecontract->getId());

@@ -645,6 +645,39 @@ class ServiceContract extends Model {
       return $this->provisionList[$key];
    }
 
+   /**
+    * Sum all the BudjetDays provisions
+    *
+    * @param int $cset_type  CommandSet::type_general
+    * @param int $cmd_type  Command::type_general
+    * @param int $prov_type CommandProvision::provision_xxx
+    * @return type
+    *
+    */
+   public function getProvisionDays($cset_type, $cmd_type, $prov_type = NULL) {
+
+      $provisions = $this->getProvisionList($cset_type, $cmd_type, $prov_type);
+      $budgetDays = 0;
+      foreach ($provisions as $prov) {
+         if (is_null($prov_type) || ($prov_type == $prov->getType())) {
+            $budgetDays += $prov->getProvisionDays();
+         }
+      }
+      return $budgetDays;
+   }
+
+   public function getProvisionDaysByType($cset_type, $cmd_type) {
+
+      $provDaysByType = array();
+      $provisions = $this->getProvisionList($cset_type, $cmd_type, $prov_type);
+      foreach ($provisions as $prov) {
+         $prov_type = $prov->getType();
+         $provDaysByType["$prov_type"] += $prov->getProvisionDays();
+      }
+      return $provDaysByType;
+   }
+
+
 }
 
 ServiceContract::staticInit();
