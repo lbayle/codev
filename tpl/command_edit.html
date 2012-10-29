@@ -483,6 +483,28 @@
          </script>
 
             <script type="text/javascript">
+
+               function updateADR() {
+                  if (('' != jQuery("#budget").val()) &&
+                     (0 != jQuery("#budget").val()) &&
+                     ('' != jQuery("#budgetDays").val()) &&
+                     (0 != jQuery("#budgetDays").val())
+                  ) {
+                     var adr = parseFloat(jQuery("#budget").val()) / parseFloat(jQuery("#budgetDays").val());
+                     jQuery("#averageDailyRate").val(adr);
+                  }
+               }
+               function updateBudget() {
+                  if (('' != jQuery("#averageDailyRate").val()) &&
+                     (0 != jQuery("#averageDailyRate").val()) &&
+                     ('' != jQuery("#budgetDays").val()) &&
+                     (0 != jQuery("#budgetDays").val())
+                  ) {
+                     var budget = parseFloat(jQuery("#budgetDays").val()) * parseFloat(jQuery("#averageDailyRate").val());
+                     jQuery("#budget").val(budget);
+                  }
+               }
+
                function deleteProvision(provid, date, type, budget, budgetDays, summary){
                   var dialog = jQuery("#deleteProvision_dialog_form");
                   dialog.find(".desc_date").text(date);
@@ -496,6 +518,19 @@
                }
 
                jQuery(document).ready(function() {
+
+                  jQuery("#budgetDays").keyup(function(event) {
+                     updateBudget();
+                  });
+
+                  jQuery("#averageDailyRate").keyup(function(event) {
+                     updateBudget();
+                  });
+
+                  jQuery("#budget").keyup(function(event) {
+                     updateADR();
+                  });
+
 
                   jQuery("#btAddProvision").click(function(event) {
                      var dialog = jQuery("#addProvision_dialog_form");
@@ -557,23 +592,23 @@
                            </tr>
                            <tr>
                               <th nowrap="nowrap"><label for="budgetDays">{t}Budget Days{/t} :</label></th>
-                              <td><input type="text" id="budgetDays" name="budgetDays" size="10" class="text" value="0" /></td>
+                              <td><input type="text" id="budgetDays" name="budgetDays" size="10" class="text" value="" /></td>
+                           </tr>
+                           <tr>
+                              <th nowrap="nowrap"><label for="averageDailyRate">{t}Average Daily Rate{/t} :</label></th>
+                              <td><input type="text" id="averageDailyRate" name="averageDailyRate" size="10" class="text" value="" />
+                                 EUR
+                              </td>
                            </tr>
                            <tr>
                               <th nowrap="nowrap"><label for="budget">{t}Budget{/t} :</label></th>
-                              <td><input type="text" id="budget" name="budget" size="10" class="text" value="0" />
+                              <td><input type="text" id="budget" name="budget" size="10" class="text" value="" />
                                  EUR
                                  <!--select id="currency" name="currency">
                                  {foreach from=$provisionCurrency key=id item=i}
                                     <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                                  {/foreach}
                                  </select-->
-                              </td>
-                           </tr>
-                           <tr>
-                              <th nowrap="nowrap"><label for="averageDailyRate">{t}Average Daily Rate{/t} :</label></th>
-                              <td><input type="text" id="averageDailyRate" name="averageDailyRate" size="10" class="text" value="0" />
-                                 EUR
                               </td>
                            </tr>
                            <tr>

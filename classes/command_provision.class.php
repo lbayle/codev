@@ -113,10 +113,12 @@ class CommandProvision {
    public static function create($command_id, $timestamp, $type, $summary, $budget_days, $budget, $average_daily_rate, $currency = 'EUR', $description = NULL) {
 
       $budget_cent = floatval($budget) * 100;
+      $budgetDays_cent = floatval($budget_days) * 100; // store 1.15 days in an int
+      $adr_cent = floatval($average_daily_rate) * 100;
       $query = "INSERT INTO `codev_command_provision_table` ".
               " (`command_id`, `date`, `type`, `budget_days`, `budget`, `average_daily_rate`, `currency`, `summary` ";
       if(!is_null($description)) { $query .= ", `description`"; }
-      $query .= ") VALUES ($command_id, $timestamp, $type, $budget_days, $budget_cent, $average_daily_rate, '$currency', '$summary' ";
+      $query .= ") VALUES ($command_id, $timestamp, $type, $budgetDays_cent, $budget_cent, $adr_cent, '$currency', '$summary' ";
       if(!is_null($description)) { $query .= ", '$description'"; }
       $query .= ");";
 
@@ -216,7 +218,7 @@ class CommandProvision {
     * @return int
     */
    public function getProvisionDays() {
-      return $this->budget_days;
+      return ($this->budget_days / 100);
    }
 
    /**
@@ -224,9 +226,9 @@ class CommandProvision {
     * @param int $value
     */
    public function setBudgetDays($value) {
-      if($this->budget_days != $value) {
-         $this->budget_days = $value;
-         $query = "UPDATE `codev_command_provision_table` SET budget_days = '$value' WHERE id = ".$this->id.";";
+      if($this->budget_days != floatval($value) * 100) {
+         $this->budget_days = floatval($value) * 100;
+         $query = "UPDATE `codev_command_provision_table` SET budget_days = '$this->budget_days' WHERE id = ".$this->id.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -250,7 +252,7 @@ class CommandProvision {
    public function setBudget($value) {
       if($this->budget_days != floatval($value) * 100) {
          $this->budget_days = floatval($value) * 100;
-         $query = "UPDATE `codev_command_provision_table` SET budget = '$value' WHERE id = ".$this->id.";";
+         $query = "UPDATE `codev_command_provision_table` SET budget = '$this->budget_days' WHERE id = ".$this->id.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -264,7 +266,7 @@ class CommandProvision {
     * @return int
     */
    public function getAverageDailyRate() {
-      return $this->average_daily_rate;
+      return ($this->average_daily_rate / 100);
    }
 
    /**
@@ -272,9 +274,9 @@ class CommandProvision {
     * @param int $value
     */
    public function setAverageDailyRate($value) {
-      if($this->average_daily_rate != $value) {
-         $this->average_daily_rate = $value;
-         $query = "UPDATE `codev_command_provision_table` SET average_daily_rate = '$value' WHERE id = ".$this->id.";";
+      if($this->average_daily_rate != floatval($value) * 100) {
+         $this->average_daily_rate = floatval($value) * 100;
+         $query = "UPDATE `codev_command_provision_table` SET average_daily_rate = '$this->average_daily_rate' WHERE id = ".$this->id.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
