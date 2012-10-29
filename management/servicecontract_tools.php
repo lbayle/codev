@@ -170,8 +170,24 @@ class ServiceContractTools {
          $stasksPerCat = array();
 
          $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-         $sidetasksPerCategory = $contract->getSidetasksPerCategoryType(true);
 
+         // Provisions
+         foreach ($provDaysByType as $prov_type => $nbDays) {
+            $provDesc = array(
+               'name' => T_('Provision').' '.CommandProvision::$provisionNames[$prov_type],
+               'effortEstim' => $nbDays,
+               'reestimated' => 'N/A',
+               'elapsed' => '',
+               'backlog' => 'N/A',
+               'driftColor' => '',
+               'drift' => (-$nbDays),
+               'progress' => 'N/A',
+            );
+            $stasksPerCat['Provision_'.$prov_type] = $provDesc;
+         }
+
+         // SideTsks
+         $sidetasksPerCategory = $contract->getSidetasksPerCategoryType(true);
          foreach ($sidetasksPerCategory as $id => $issueSelection) {
 
             // REM: getSidetasksPerCategoryType returns non_numeric keys if cat_type not found for cat_id
