@@ -491,7 +491,7 @@
                      (0 != jQuery("#budgetDays").val())
                   ) {
                      var adr = parseFloat(jQuery("#budget").val()) / parseFloat(jQuery("#budgetDays").val());
-                     jQuery("#averageDailyRate").val(adr);
+                     jQuery("#averageDailyRate").val(adr.toFixed(2));
                   }
                }
                function updateBudget() {
@@ -501,7 +501,7 @@
                      (0 != jQuery("#budgetDays").val())
                   ) {
                      var budget = parseFloat(jQuery("#budgetDays").val()) * parseFloat(jQuery("#averageDailyRate").val());
-                     jQuery("#budget").val(budget);
+                     jQuery("#budget").val(budget.toFixed(2));
                   }
                }
 
