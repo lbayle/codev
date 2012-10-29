@@ -173,17 +173,20 @@ class ServiceContractTools {
 
          // Provisions
          foreach ($provDaysByType as $prov_type => $nbDays) {
-            $provDesc = array(
-               'name' => T_('Provision').' '.CommandProvision::$provisionNames[$prov_type],
-               'effortEstim' => $nbDays,
-               'reestimated' => 'N/A',
-               'elapsed' => '',
-               'backlog' => 'N/A',
-               'driftColor' => '',
-               'drift' => (-$nbDays),
-               'progress' => 'N/A',
-            );
-            $stasksPerCat['Provision_'.$prov_type] = $provDesc;
+
+            if ($prov_type != CommandProvision::provision_mngt) {
+               $provDesc = array(
+                  'name' => T_('Provision').' '.CommandProvision::$provisionNames[$prov_type],
+                  'effortEstim' => $nbDays,
+                  'reestimated' => 'N/A',
+                  'elapsed' => '',
+                  'backlog' => 'N/A',
+                  'driftColor' => '',
+                  'drift' => (-$nbDays),
+                  'progress' => 'N/A',
+               );
+               $stasksPerCat['Provision_'.$prov_type] = $provDesc;
+            }
          }
 
          // SideTsks
