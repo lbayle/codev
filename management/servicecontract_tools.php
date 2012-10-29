@@ -139,7 +139,7 @@ class ServiceContractTools {
     * @param int $servicecontractid
     * @return IssueSelection
     */
-   private static function getContractSidetasksSelection($servicecontractid) {
+   private static function getContractSidetasksSelection($servicecontractid, $provDaysByType) {
       $issueSelection = NULL;
       if (0 != $servicecontractid) {
          $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
@@ -149,8 +149,13 @@ class ServiceContractTools {
          $issueSelection = new IssueSelection("TotalSideTasks");
          foreach ($sidetasksPerCategory as $iSel) {
             $issueSelection->addIssueList($iSel->getIssueList());
-
          }
+
+         // add provisions
+         foreach ($provDaysByType as $prov_type => $nbDays) {
+            $issueSelection->addProvision($nbDays);
+         }
+         #echo 'TotalSideTasks provision = '.$issueSelection->getProvision().'<br>';
       }
       return $issueSelection;
    }
@@ -159,15 +164,22 @@ class ServiceContractTools {
     * @param int $servicecontractid
     * @return mixed[] array[category_id] = IssueSelection
     */
-   private static function getContractSidetasksDetailedMgr($servicecontractid) {
+   private static function getContractSidetasksDetailedMgr($servicecontractid, $provDaysByType) {
       $stasksPerCat = NULL;
       if (0 != $servicecontractid) {
          $stasksPerCat = array();
 
          $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-         $sidetasksPerCategory = $contract->getSidetasksPerCategory(true);
+         $sidetasksPerCategory = $contract->getSidetasksPerCategoryType(true);
 
          foreach ($sidetasksPerCategory as $id => $issueSelection) {
+
+            // REM: getSidetasksPerCategoryType returns non_numeric keys if cat_type not found for cat_id
+            if (is_numeric($id) && (Project::cat_mngt_regular == $id)) {
+               #echo "Ah type $id is management, add provision ".$provDaysByType[CommandProvision::provision_mngt]."<br>";
+               $issueSelection->addProvision($provDaysByType[CommandProvision::provision_mngt]);
+            }
+
             $detailledMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
             $detailledMgr['name'] = $issueSelection->name;
             $stasksPerCat[$id] = $detailledMgr;
@@ -215,7 +227,7 @@ class ServiceContractTools {
     * @param Command $command
     * @return mixed[]
     */
-   private static function getProvisionList($contract, int $type = NULL) {
+   private static function getProvisionList(ServiceContract $contract, int $type = NULL) {
       $provArray = array();
 
       $provisions = $contract->getProvisionList(CommandSet::type_general, Command::type_general, $type);
@@ -370,10 +382,11 @@ class ServiceContractTools {
 
       $smartyHelper->assign('cmdList', self::getServiceContractCommands($servicecontract->getId(), CommandSet::type_general, Command::type_general));
 
-      $smartyHelper->assign('sidetasksDetailedMgr', self::getContractSidetasksDetailedMgr($servicecontract->getId()));
-
-      $issueSelection = self::getContractSidetasksSelection($servicecontract->getId());
+      $provDaysByType = $servicecontract->getProvisionDaysByType(CommandSet::type_general, Command::type_general);
+      $smartyHelper->assign('sidetasksDetailedMgr', self::getContractSidetasksDetailedMgr($servicecontract->getId(), $provDaysByType));
+      $issueSelection = self::getContractSidetasksSelection($servicecontract->getId(), $provDaysByType);
       $smartyHelper->assign('sidetasksTotalDetailedMgr', self::getContractSidetasksTotalDetailedMgr($issueSelection));
+
       $smartyHelper->assign('sidetasksList', SmartyTools::getIssueListInfo($issueSelection));
       $smartyHelper->assign('nbSidetasksList', $issueSelection->getNbIssues());
 

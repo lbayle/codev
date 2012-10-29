@@ -177,7 +177,7 @@ class SmartyTools {
 
       $selectionDetailedMgr = array('name' => $issueSelection->name,
          //'progress' => round(100 * $pv->getProgress()),
-         'effortEstim' => $issueSelection->mgrEffortEstim,
+         'effortEstim' => ($issueSelection->mgrEffortEstim + $issueSelection->getProvision()),
          'reestimated' => $issueSelection->getReestimated(),
          'elapsed' => $issueSelection->elapsed,
          'backlog' => $issueSelection->duration,

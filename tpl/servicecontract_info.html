@@ -189,9 +189,9 @@
                      <!--th></th-->
                      <th width="500">{t}Category{/t}</th>
                      <th>{t}MgrEffortEstim{/t}</th>
-                     <th title="backlog + elapsed">{t}Reestimated{/t}</th>
+                     <!--th title="backlog + elapsed">{t}Reestimated{/t}</th-->
                      <th>{t}Elapsed{/t}</th>
-                     <th>{t}Backlog{/t}</th>
+                     <!--th>{t}Backlog{/t}</th-->
                      <th>{t}Drift Mgr{/t}</th>
                   </tr>
                </thead>
@@ -201,9 +201,9 @@
                      <!--td>{$id}</td-->
                      <td title="{$id}" align="left">{$category.name}</td>
                      <td>{$category.effortEstim}</td>
-                     <td>{$category.reestimated}</td>
+                     <!--td>{$category.reestimated}</td-->
                      <td>{$category.elapsed}</td>
-                     <td>{$category.backlog}</td>
+                     <!--td>{$category.backlog}</td-->
                      <td {$category.driftColor}>{$category.drift}</td>
                   </tr>
                   {/foreach}
@@ -213,9 +213,9 @@
                      <!--td></td-->
                      <td>{t}TOTAL{/t}</td>
                      <td>{$sidetasksTotalDetailedMgr.effortEstim}</td>
-                     <td>{$sidetasksTotalDetailedMgr.reestimated}</td>
+                     <!--td>{$sidetasksTotalDetailedMgr.reestimated}</td-->
                      <td>{$sidetasksTotalDetailedMgr.elapsed}</td>
-                     <td>{$sidetasksTotalDetailedMgr.backlog}</td>
+                     <!--td>{$sidetasksTotalDetailedMgr.backlog}</td-->
                      <td {$sidetasksTotalDetailedMgr.driftColor}>{$sidetasksTotalDetailedMgr.drift}</td>
                   </tr>
                </tfoot>

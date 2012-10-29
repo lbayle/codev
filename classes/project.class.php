@@ -51,6 +51,14 @@ class Project extends Model {
       self::type_noStatsProject  => "Project (stats excluded)",
       self::type_sideTaskProject => "SideTasks");
 
+   public static $catTypeNames = array(
+      self::cat_st_inactivity  => "Inactivity",
+      self::cat_st_onduty => "OnDuty",
+      self::cat_st_incident => "Incident",
+      self::cat_st_tools => "Tools",
+      self::cat_st_workshop => "Workshop",
+      self::cat_mngt_regular => "Management");
+
    private $id;
    private $name;
    private $description;
@@ -486,10 +494,6 @@ class Project extends Model {
 
    public function addCategoryProjManagement($catName) {
       return $this->addCategory(self::cat_mngt_regular, $catName);
-   }
-
-   public function addCategoryMngtProvision($catName) {
-      return $this->addCategory(self::cat_mngt_provision, $catName);
    }
 
    public function addCategoryInactivity($catName) {
@@ -1299,6 +1303,13 @@ class Project extends Model {
       } else {
          return NULL;
       }
+   }
+
+   public function getCategoryList() {
+      if(NULL == $this->categoryList) {
+         $this->initializeCategories();
+      }
+      return $this->categoryList;
    }
 
    /**

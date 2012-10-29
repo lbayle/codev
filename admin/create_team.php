@@ -79,7 +79,6 @@ class CreateTeamController extends Controller {
 
                   // 4) --- add SideTaskProject Categories
                   $stproj->addCategoryProjManagement(T_("Project Management"));
-                  $stproj->addCategoryMngtProvision(T_("Provision"));
                   
                   if (isset($_POST['cb_catInactivity'])) {
                      $stproj->addCategoryInactivity(T_("Inactivity"));

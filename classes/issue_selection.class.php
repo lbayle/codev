@@ -39,6 +39,14 @@ class IssueSelection {
    public $effortAdd;
 
    /**
+    * provision can be added, it is an 'extra' mgrEffortEstim
+    * that will be included on Drift computing.
+    *
+    * @var int nb days
+    */
+   private $provision;
+
+   /**
     * @var Issue[]
     */
    protected $issueList;
@@ -53,6 +61,7 @@ class IssueSelection {
       $this->mgrEffortEstim = 0;
       $this->effortEstim = 0;
       $this->effortAdd = 0;    // BS
+      $this->provision = 0;
 
       $this->issueList = array();
    }
@@ -110,6 +119,19 @@ class IssueSelection {
             self::$logger->debug("IssueSelection [$this->name] : removeIssue($bugid) : Issue not found !");
          }
       }
+   }
+
+   public function getProvision() {
+      return $this->provision;
+   }
+
+   public function setProvision($value) {
+      $this->provision = $value;
+   }
+
+   public function addProvision($value) {
+      $this->provision += $value;
+      return $this->provision;
    }
 
    public function getProgress() {
@@ -217,7 +239,7 @@ class IssueSelection {
    /**
     * sum(issue->driftMgr)
     *
-    * percent = nbDaysDrift / mgrEffortEstim
+    * percent = nbDaysDrift / (mgrEffortEstim + provision)
     *
     * @return number[] array(nbDays, percent)
     */
@@ -229,6 +251,8 @@ class IssueSelection {
          $nbDaysDrift += $issue->getDriftMgr();
          $myEstim += $issue->getMgrEffortEstim();
       }
+      $myEstim += $this->provision;
+      $nbDaysDrift -= $this->provision;
 
       if (0 == $myEstim) {
          $percent = 0;
@@ -250,7 +274,7 @@ class IssueSelection {
    /**
     * sum(issue->drift)
     *
-    * percent = nbDaysDrift / (effortEstim + effortAdd)
+    * percent = nbDaysDrift / (effortEstim + effortAdd + provision)
     *
     * @return number[] array(nbDays, percent)
     */
@@ -262,6 +286,8 @@ class IssueSelection {
          $nbDaysDrift += $issue->getDrift();
          $myEstim += $issue->getEffortEstim() + $issue->getEffortAdd();
       }
+      $myEstim += $this->provision;
+      $nbDaysDrift -= $this->provision;
 
       if (0 == $myEstim) {
          $percent = 0;
