@@ -186,7 +186,7 @@ class ServiceContractTools {
                   'progress' => 'N/A',
                );
                $stasksPerCat['Provision_'.$prov_type] = $provDesc;
-            }
+               }
          }
 
          // SideTsks
@@ -221,19 +221,27 @@ class ServiceContractTools {
     * @param int $servicecontractid
     * @return mixed[]
     */
-   private static function getContractTotalDetailedMgr($servicecontractid) {
+   private static function getContractTotalDetailedMgr($servicecontractid, $provDaysByType) {
       $detailledMgr = NULL;
       if (0 != $servicecontractid) {
          $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-         $sidetasksPerCategory = $contract->getSidetasksPerCategory(true);
-
          $issueSelection = new IssueSelection("Total");
+
+         // sidetasks
+         $sidetasksPerCategory = $contract->getSidetasksPerCategory(true);
          foreach ($sidetasksPerCategory as $id => $iSel) {
             $issueSelection->addIssueList($iSel->getIssueList());
          }
 
+         // tasks
          $cmdsetsIssueSelection = $contract->getIssueSelection(CommandSet::type_general, Command::type_general);
          $issueSelection->addIssueList($cmdsetsIssueSelection->getIssueList());
+
+         // provisions
+         foreach ($provDaysByType as $nbDays) {
+            $issueSelection->addProvision($nbDays);
+         }
+         #echo 'TotalSideTasks provision = '.$issueSelection->getProvision().'<br>';
 
          $detailledMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
          $detailledMgr['name'] = $issueSelection->name;
@@ -412,7 +420,7 @@ class ServiceContractTools {
       $smartyHelper->assign('cmdProvisionList', self::getProvisionList($servicecontract));
 
 
-      $smartyHelper->assign('servicecontractTotalDetailedMgr', self::getContractTotalDetailedMgr($servicecontract->getId()));
+      $smartyHelper->assign('servicecontractTotalDetailedMgr', self::getContractTotalDetailedMgr($servicecontract->getId(), $provDaysByType));
 
       $data = self::getSContractActivity($servicecontract);
       $smartyHelper->assign('activityIndic_data', $data[0]);
