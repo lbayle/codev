@@ -6,12 +6,20 @@ $(document).ready(function(){
    var chart = jQuery('#prodRateChart');
    var chartoptions = jQuery('#prodRateChart').data('plotoptions');
 
-    chartoptions.axes.xaxis.ticks = {$prodRate_history_xaxis};
-    chartoptions.seriesColors = {$prodRate_history_dataColors};
-    chartoptions.legend.labels = {$prodRate_history_dataLabels};
+   chartoptions.axes.xaxis.min = "{$prodRate_history_plotMinDate}";
+   chartoptions.axes.xaxis.max = "{$prodRate_history_plotMaxDate}";
+   
+   chartoptions.canvasOverlay.objects[0].horizontalLine.y = 1;
+   
+   chartoptions.seriesColors = {$prodRate_history_dataColors};
+   chartoptions.series = [{
+      label: "{t}ProductivityRate Mgr{/t}"
+   },{
+      label: "{t}ProductivityRate{/t}"
+   }];
 
-    chart.jqplot({$prodRate_history_data}, chartoptions);
+   chart.jqplot({$prodRate_history_data}, chartoptions);
 });
 </script>
 
-<div id="prodRateChart" class="area_chart chart" style="width:100%;"></div>
+<div id="prodRateChart" class="date_chart_with_horizontal_line chart" style="width:100%;"></div>
