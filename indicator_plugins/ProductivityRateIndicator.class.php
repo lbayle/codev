@@ -187,33 +187,24 @@ class ProductivityRateIndicator implements IndicatorPlugin {
       $prodRateTableMEE = array();
       $prodRateTableEE = array();
       foreach ($this->timeTrackingTable as $date => $timeTracking) {
-         $prodRate = $this->getProductivityRate(
-                 $projects,
-                 $timeTracking->getStartTimestamp(),
-                 $timeTracking->getEndTimestamp());
+         $prodRate = $this->getProductivityRate($projects, $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp());
 
-         $prodRateTableMEE[$timeTracking->getStartTimestamp()] = $prodRate['MEE'];
-         $prodRateTableEE[$timeTracking->getStartTimestamp()] = $prodRate['EE'];
+         $timestamp = Tools::formatDate("%Y-%m-01", $timeTracking->getStartTimestamp());
+         $prodRateTableMEE[$timestamp] = $prodRate['MEE'];
+         $prodRateTableEE[$timestamp] = $prodRate['EE'];
       }
       $this->execData = array();
       $this->execData['MEE'] = $prodRateTableMEE;
       $this->execData['EE'] = $prodRateTableEE;
-
    }
 
-
-
    public function getSmartyObject() {
+      $timestamp = Tools::getStartEndKeys($this->execData['MEE']);
+      $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
+      $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
 
-
-      $xaxis = array();
-      foreach(array_keys($this->execData['MEE']) as $timestamp) {
-         $xaxis[] = '"'.date(T_('Y-m'), $timestamp).'"';
-      }
-      $json_xaxis = Tools::array2plot($xaxis);
-
-      $jsonMEE = Tools::array2plot(array_values($this->execData['MEE']));
-      $jsonEE  = Tools::array2plot(array_values($this->execData['EE']));
+      $jsonMEE = Tools::array2plot($this->execData['MEE']);
+      $jsonEE  = Tools::array2plot($this->execData['EE']);
 
       $graphData = "[$jsonMEE,$jsonEE]";
 
@@ -222,10 +213,11 @@ class ProductivityRateIndicator implements IndicatorPlugin {
       $labels = '["ProductivityRate Mgr", "ProductivityRate"]';
 
       return array(
-         'prodRate_history_xaxis'       => $json_xaxis,
          'prodRate_history_data'       => $graphData,
          'prodRate_history_dataColors' => $graphDataColors,
          'prodRate_history_dataLabels' => $labels,
+         'prodRate_history_plotMinDate'      => $start,
+         'prodRate_history_plotMaxDate'      => $end
       );
 
    }
