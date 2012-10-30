@@ -69,6 +69,8 @@
                {/foreach}
             </td>
          </tr>
+
+         {if isset($isManager) && $isManager}
          <tr>
             <th valign="top">{t}Budget{/t}</th>
             <td valign="top">: </td>
@@ -77,21 +79,26 @@
                   <tr>
                      <th></th>
                      <th valign="top">{t}Budget{/t}</th>
-                     <th valign="top">{t}Outlay{/t}</th>
-                  </tr>
-                  <tr>
-                     <th>{$cmdCurrency}</th>
-                     <td align='right' title ="MgrEffortEstim + Provisions" >{$cmdProvAndMeeCost} </td>
-                     <td align='right' style="background-color:#{$cmdOutlayCostColor}" title='{t}Elapsed days * AverageDailyRate{/t}' >{$cmdOutlayCost}</td>
+                     <th valign="top">{t}Reestimated{/t}</th>
+                     <th valign="top">{t}Drift{/t}</th>
                   </tr>
                   <tr>
                      <th>{t}Days{/t}</th>
                      <td align='right' title="MgrEffortEstim + Provisions">{$cmdProvAndMeeDays}</td>
-                     <td align='right'  style="background-color:#{$cmdTotalElapsedColor}" title='{t}Elapsed (days){/t}' >{$cmdTotalElapsed}</td>
+                     <td align='right'  style="background-color:#{$cmdTotalReestimatedColor}" title='{t}Reestimated (days){/t}' >{$cmdTotalReestimated}</td>
+                     <td align='right'  style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift (days){/t}' >{$cmdTotalDrift}</td>
+                  </tr>
+                  <tr>
+                     <th>{$cmdCurrency}</th>
+                     <td align='right' title ="MgrEffortEstim + Provisions" >{$cmdProvAndMeeCost} </td>
+                     <td align='right' style="background-color:#{$cmdTotalReestimatedCostColor}" title='{t}Reestimated days * AverageDailyRate{/t}' >{$cmdTotalReestimatedCost}</td>
+                     <td align='right' style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift days * AverageDailyRate{/t}' >{$cmdTotalDriftCost}</td>
                   </tr>
                </table>
             </td>
          </tr>
+         {/if}
+
       </table>
 
       {if isset($isEditGranted) && $isEditGranted}
@@ -145,6 +152,7 @@
                <td valign="top">: </td>
                <td>{$cmdDeadline}</td>
             </tr>
+           {if isset($isManager) && $isManager}
             <tr>
                <th title="{t}Average Daily Rate{/t}" >{t}Default ADR{/t}</th>
                <td valign="top">: </td>
@@ -155,15 +163,18 @@
                <td valign="top">: </td>
                <td>{$cmdTotalSoldDays} {t}days{/t}</td>
             </tr>
+           {/if}
             <tr>
                <th valign="top">{t}Description{/t}</th>
                <td valign="top">: </td>
                <td><textarea rows='6' cols='120' name='description'  id='description'>{$cmdDesc}</textarea></td>
             </tr>
+           {if isset($isManager) && $isManager}
             <tr>
                <th valign="top">{t}Provisions{/t}</th>
                <td valign="top">: </td>
                <td>
+                  {if $cmdProvisionList}
                   <table>
                      <tr>
                         <th>{t}Date{/t}</th>
@@ -184,8 +195,12 @@
                      </tr>
                      {/foreach}
                   </table>
+                  {else}
+                  {t}None{/t}
+                  {/if}
                </td>
             </tr>
+           {/if}
          </table>
 
 

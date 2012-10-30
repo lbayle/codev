@@ -297,6 +297,11 @@ class CommandTools {
     * @param Command $cmd
     */
    public static function displayCommand(SmartyHelper $smartyHelper, Command $cmd, $isManager, $selectedFilters='') {
+
+      if ($isManager) {
+         $smartyHelper->assign('isManager', true);
+      }
+
       $smartyHelper->assign('cmdid', $cmd->getId());
       $smartyHelper->assign('cmdName', $cmd->getName());
       $smartyHelper->assign('cmdReference', $cmd->getReference());
@@ -328,17 +333,36 @@ class CommandTools {
       $cmdProvAndMeeDays = $mgrEE + $cmd->getProvisionDays($cmd->getSelectedProvisionTypes());
       $smartyHelper->assign('cmdProvAndMeeDays', $cmdProvAndMeeDays);
 
+
       // TODO math should not be in here !
-      $cmdTotalElapsed = $cmd->getIssueSelection()->getElapsed();
-      $cmdOutlayCost = $cmdTotalElapsed * $cmd->getAverageDailyRate();
-      $smartyHelper->assign('cmdOutlayCost',$cmdOutlayCost);
-      $smartyHelper->assign('cmdTotalElapsed',$cmdTotalElapsed);
+      $cmdTotalReestimated = $cmd->getIssueSelection()->getReestimated();
+      $smartyHelper->assign('cmdTotalReestimated',$cmdTotalReestimated);
+      $cmdTotalReestimatedCost = $cmdTotalReestimated * $cmd->getAverageDailyRate();
+      $smartyHelper->assign('cmdTotalReestimatedCost',$cmdTotalReestimatedCost);
 
+      // TODO math should not be in here !
+      #$cmdTotalElapsed = $cmd->getIssueSelection()->getElapsed();
+      #$cmdOutlayCost = $cmdTotalElapsed * $cmd->getAverageDailyRate();
+      #$smartyHelper->assign('cmdOutlayCost',$cmdOutlayCost);
+      #$smartyHelper->assign('cmdTotalElapsed',$cmdTotalElapsed);
 
-      $color1 = ($cmdOutlayCost > $cmdProvAndMeeCost) ? "fcbdbd" : "bdfcbd";
-      $smartyHelper->assign('cmdOutlayCostColor', $color1);
-      $color2 = ($cmdTotalElapsed > $cmdProvAndMeeDays) ? "fcbdbd" : "bdfcbd";
-      $smartyHelper->assign('cmdTotalElapsedColor',$color2);
+      // TODO math should not be in here !
+      $cmdTotalDrift = $cmdTotalReestimated - $cmdProvAndMeeDays;
+      $cmdTotalDriftCost = $cmdTotalReestimatedCost - $cmdProvAndMeeCost;
+      $smartyHelper->assign('cmdTotalDrift',$cmdTotalDrift);
+      $smartyHelper->assign('cmdTotalDriftCost',$cmdTotalDriftCost);
+
+      #$color1 = ($cmdOutlayCost > $cmdProvAndMeeCost) ? "fcbdbd" : "bdfcbd";
+      #$smartyHelper->assign('cmdOutlayCostColor', $color1);
+      #$color2 = ($cmdTotalElapsed > $cmdProvAndMeeDays) ? "fcbdbd" : "bdfcbd";
+      #$smartyHelper->assign('cmdTotalElapsedColor',$color2);
+
+      $color3 = ($cmdTotalReestimated > $cmdProvAndMeeDays) ? "fcbdbd" : "bdfcbd";
+      $smartyHelper->assign('cmdTotalReestimatedColor',$color3);
+      $color4 = ($cmdTotalReestimatedCost > $cmdProvAndMeeCost) ? "fcbdbd" : "bdfcbd";
+      $smartyHelper->assign('cmdTotalReestimatedCostColor',$color4);
+      $color5 = ($cmdTotalDrift >= 0) ? "fcbdbd" : "bdfcbd";
+      $smartyHelper->assign('cmdTotalDriftColor',$color5);
 
       // --------------
 
