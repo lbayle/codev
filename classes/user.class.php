@@ -538,6 +538,10 @@ class User extends Model {
          foreach ($timeTracks as $timeTrack) {
             try {
                $issue = $issues[$timeTrack->getIssueId()];
+               if (is_null($issue)) {
+                  self::$logger->error("getExternalTasksInPeriod(): issue ".$timeTrack->getIssueId().": not found in MantisDB");
+                  continue;
+               }
                if ($issue->getProjectId() == $extTasksProjId) {
                   if (isset($extTasks[$timeTrack->getDate()])) {
                      $extTasks[$timeTrack->getDate()]['duration'] += $timeTrack->getDuration();
