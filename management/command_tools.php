@@ -31,7 +31,7 @@ class CommandTools {
          $driftMgrColor = $issue->getDriftColor($driftMgr);
 
          $issueArray[$id] = array(
-            "mantisLink" => Tools::mantisIssueURL($issue->getId(), NULL, true),
+            "mantisLink" => Tools::mantisIssueURL($issue->getId(), NULL, TRUE),
             "bugid" => Tools::issueInfoURL(sprintf("%07d\n", $issue->getId())),
             "extRef" => $issue->getTcId(),
             "project" => $issue->getProjectName(),
@@ -70,16 +70,44 @@ class CommandTools {
     * @param Command $command
     * @return mixed[]
     */
-   private static function getServiceContractStateList(Command $command = NULL) {
-      $cmdState = (NULL == $command) ? 0 : $command->getState();
+   public static function getCommandStateList(Command $command = NULL) {
+      $cmdState = (is_null($command)) ? 0 : $command->getState();
       return SmartyTools::getSmartyArray(Command::$stateNames, $cmdState);
    }
 
+
    /**
-    * @param Command $cmd
-    * @return string
+    * @param Command $command
+    * @return mixed[]
     */
-   private static function getProgressHistory(Command $cmd) {
+   private static function getProvisionList(Command $command, int $type = NULL) {
+      $provArray = array();
+
+      $provisions = $command->getProvisionList($type);
+      foreach ($provisions as $id => $prov) {
+
+         $provArray["$id"] = array(
+            'id' => $id,
+            'date' => date(T_("Y-m-d"), $prov->getDate()),
+            'type' => CommandProvision::$provisionNames[$prov->getType()],
+            'budget_days' => $prov->getProvisionDays(),
+            'budget' => $prov->getProvisionBudget(),
+            'average_daily_rate' => $prov->getAverageDailyRate(),
+            'currency' => $prov->getCurrency(),
+            'summary' => $prov->getSummary()
+         );
+      }
+      return $provArray;
+   }
+
+
+
+   /**
+    * @static
+    * @param Command $cmd
+    * @return mixed[]
+    */
+   public static function getProgressHistory(Command $cmd) {
       $cmdIssueSel = $cmd->getIssueSelection();
 
       $startTT = $cmdIssueSel->getFirstTimetrack();
@@ -97,17 +125,21 @@ class CommandTools {
 
       $endTT = $cmdIssueSel->getLatestTimetrack();
       $endTimestamp = ((NULL != $endTT) && (0 != $endTT->getDate())) ? $endTT->getDate() : time();
-
+      
+      // Calculate a nice day interval
+      $nbWeeks = ($endTimestamp - $startTimestamp) / 60 / 60 / 24;
+      $interval = ceil($nbWeeks / 20);
+      
       $params = array(
          'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
          'endTimestamp' => $endTimestamp,
-         'interval' => 14
+         'interval' => $interval
       );
 
       $progressIndicator = new ProgressHistoryIndicator();
       $progressIndicator->execute($cmdIssueSel, $params);
 
-      return array($progressIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
+      return array($progressIndicator->getSmartyObject(),$startTimestamp,$endTimestamp,ceil($interval/30));
    }
 
    /**
@@ -148,35 +180,173 @@ class CommandTools {
       return array($activityIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
    }
 
+   public static function getDetailedCharges(Command $cmd, $isManager, $selectedFilters) {
+
+      $issueSel = $cmd->getIssueSelection();
+
+      $allFilters = "ProjectFilter,ProjectVersionFilter,ProjectCategoryFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter,IssueCodevTypeFilter";
+
+      $params = array(
+         'isManager' => $isManager,
+         'selectedFilters' => $selectedFilters,
+         'allFilters' => $allFilters
+      );
+
+
+      $detailedChargesIndicator = new DetailedChargesIndicator();
+      $detailedChargesIndicator->execute($issueSel, $params);
+
+      $smartyVariable = $detailedChargesIndicator->getSmartyObject();
+      $smartyVariable['selectFiltersSrcId'] = $cmd->getId();
+
+      return $smartyVariable;
+   }
+
+   public static function getStatusHistory(Command $cmd, $interval = 7) {
+
+      $issueSel = $cmd->getIssueSelection();
+
+      $startTT = $issueSel->getFirstTimetrack();
+      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
+         $startTimestamp = $startTT->getDate();
+      } else {
+         $startTimestamp = $cmd->getStartDate();
+         if (0 == $startTimestamp) {
+            $team = TeamCache::getInstance()->getTeam($cmd->getTeamid());
+            $startTimestamp = $team->getDate();
+         }
+      }
+
+      $endTimestamp =  time();
+
+      #echo "cmd StartDate ".date("Y-m-d", $startTimestamp).'<br>';
+      #echo "cmd EndDate ".date("Y-m-d", $endTimestamp).'<br>';
+
+      $params = array(
+         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+         'endTimestamp' => $endTimestamp,
+         'interval' => $interval
+      );
+
+      $statusHistoryIndicator = new StatusHistoryIndicator();
+      $statusHistoryIndicator->execute($issueSel, $params);
+      $smartyVariable = $statusHistoryIndicator->getSmartyObject();
+
+      return $smartyVariable;
+   }
+
+   public static function getInternalBugsStatusHistory(Command $cmd, $interval = 7) {
+
+      $cmdSel = $cmd->getIssueSelection();
+
+      // Filter only BUGS
+      $bugFilter = new IssueCodevTypeFilter('bugFilter');
+      $bugFilter->addFilterCriteria(IssueCodevTypeFilter::tag_Bug);
+      $outputList = $bugFilter->execute($cmdSel);
+
+      if (empty($outputList)) {
+         #echo "TYPE Bug not found !<br>";
+         return array();
+      }
+      $bugSel = $outputList[IssueCodevTypeFilter::tag_Bug];
+
+      // Filter only NoExtRef
+      $extIdFilter = new IssueExtIdFilter('extIdFilter');
+      $extIdFilter->addFilterCriteria(IssueExtIdFilter::tag_no_extRef);
+      $outputList2 = $extIdFilter->execute($bugSel);
+
+      if (empty($outputList2)) {
+         #echo "noExtRef not found !<br>";
+         return array();
+      }
+      $issueSel = $outputList2[IssueExtIdFilter::tag_no_extRef];
+
+      // -------
+
+      $startTT = $issueSel->getFirstTimetrack();
+      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
+         $startTimestamp = $startTT->getDate();
+      } else {
+         $startTimestamp = $cmd->getStartDate();
+         if (0 == $startTimestamp) {
+            $team = TeamCache::getInstance()->getTeam($cmd->getTeamid());
+            $startTimestamp = $team->getDate();
+         }
+      }
+
+      $endTimestamp =  time();
+
+      #echo "cmd StartDate ".date("Y-m-d", $startTimestamp).'<br>';
+      #echo "cmd EndDate ".date("Y-m-d", $endTimestamp).'<br>';
+
+      $params = array(
+         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+         'endTimestamp' => $endTimestamp,
+         'interval' => $interval
+      );
+
+      $statusHistoryIndicator = new StatusHistoryIndicator();
+      $statusHistoryIndicator->execute($issueSel, $params);
+      $smartyVariable = $statusHistoryIndicator->getSmartyObject();
+
+      return $smartyVariable;
+   }
+
    /**
     * @param SmartyHelper $smartyHelper
     * @param Command $cmd
     */
-   public static function displayCommand(SmartyHelper $smartyHelper, Command $cmd) {
+   public static function displayCommand(SmartyHelper $smartyHelper, Command $cmd, $isManager, $selectedFilters='') {
       $smartyHelper->assign('cmdid', $cmd->getId());
       $smartyHelper->assign('cmdName', $cmd->getName());
       $smartyHelper->assign('cmdReference', $cmd->getReference());
       $smartyHelper->assign('cmdVersion', $cmd->getVersion());
       $smartyHelper->assign('cmdReporter', $cmd->getReporter());
-      $smartyHelper->assign('cmdStateList', self::getServiceContractStateList($cmd));
+      $smartyHelper->assign('cmdStateList', self::getCommandStateList($cmd));
       $smartyHelper->assign('cmdState', Command::$stateNames[$cmd->getState()]);
-      $smartyHelper->assign('cmdCost', $cmd->getCost());
-      $smartyHelper->assign('cmdCurrency', $cmd->getCurrency());
-      $smartyHelper->assign('cmdBudgetDev', $cmd->getBudgetDev());
-      $smartyHelper->assign('cmdBudgetMngt', $cmd->getBudgetMngt());
-      $smartyHelper->assign('cmdBudgetGarantie', $cmd->getBudgetGarantie());
-      $smartyHelper->assign('cmdBudgetTotal', $cmd->getBudgetDev() + $cmd->getBudgetMngt() + $cmd->getBudgetGarantie());
-      $smartyHelper->assign('cmdStartDate', date("Y-m-d", $cmd->getStartDate()));
-      $smartyHelper->assign('cmdDeadline', date("Y-m-d", $cmd->getDeadline()));
       $smartyHelper->assign('cmdAverageDailyRate', $cmd->getAverageDailyRate());
+      $smartyHelper->assign('cmdCurrency', $cmd->getCurrency());
+      if (!is_null($cmd->getStartDate())) {
+         $smartyHelper->assign('cmdStartDate', date("Y-m-d", $cmd->getStartDate()));
+      }
+      if (!is_null($cmd->getDeadline())) {
+         $smartyHelper->assign('cmdDeadline', date("Y-m-d", $cmd->getDeadline()));
+      }
       $smartyHelper->assign('cmdDesc', $cmd->getDesc());
+
+      $smartyHelper->assign('cmdProvisionList', self::getProvisionList($cmd));
+
+      $cmdTotalSoldDays = $cmd->getTotalSoldDays();
+      $smartyHelper->assign('cmdTotalSoldDays', $cmdTotalSoldDays);
+
+      // --------------
+       
+      // TODO math should not be in here !
+      $mgrEE = $cmd->getIssueSelection()->mgrEffortEstim;
+      $cmdProvAndMeeCost = ($mgrEE * $cmd->getAverageDailyRate()) + $cmd->getProvisionBudget($cmd->getSelectedProvisionTypes());
+      $smartyHelper->assign('cmdProvAndMeeCost',$cmdProvAndMeeCost);
+      $cmdProvAndMeeDays = $mgrEE + $cmd->getProvisionDays($cmd->getSelectedProvisionTypes());
+      $smartyHelper->assign('cmdProvAndMeeDays', $cmdProvAndMeeDays);
+
+      // TODO math should not be in here !
+      $cmdTotalElapsed = $cmd->getIssueSelection()->getElapsed();
+      $cmdOutlayCost = $cmdTotalElapsed * $cmd->getAverageDailyRate();
+      $smartyHelper->assign('cmdOutlayCost',$cmdOutlayCost);
+      $smartyHelper->assign('cmdTotalElapsed',$cmdTotalElapsed);
+
+
+      $color1 = ($cmdOutlayCost > $cmdProvAndMeeCost) ? "fcbdbd" : "bdfcbd";
+      $smartyHelper->assign('cmdOutlayCostColor', $color1);
+      $color2 = ($cmdTotalElapsed > $cmdProvAndMeeDays) ? "fcbdbd" : "bdfcbd";
+      $smartyHelper->assign('cmdTotalElapsedColor',$color2);
+
+      // --------------
 
       // set CommandSets I belong to
       $smartyHelper->assign('parentCmdSets', self::getParentCommandSets($cmd));
 
       // set Issues that belong to me
       $cmdIssueSel = $cmd->getIssueSelection();
-      $smartyHelper->assign('cmdDetailedMgr', SmartyTools::getIssueSelectionDetailedMgr($cmdIssueSel));
       $smartyHelper->assign('cmdNbIssues', $cmdIssueSel->getNbIssues());
       $smartyHelper->assign('cmdShortIssueList', $cmdIssueSel->getFormattedIssueList());
 
@@ -185,16 +355,26 @@ class CommandTools {
       // Indicators & statistics
       #$smartyHelper->assign('backlogHistoryGraph', getBacklogHistory($cmd));
 
-      $data = self::getProgressHistory($cmd);
-      $smartyHelper->assign('indicators_jqplotData', $data[0]);
-      $smartyHelper->assign('indicators_plotMinDate', Tools::formatDate("%Y-%m-01", $data[1]));
-      $smartyHelper->assign('indicators_plotMaxDate', Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d", $data[2]) . " +1 month")));
-
       $data = self::getCommandActivity($cmd);
       $smartyHelper->assign('activityIndic_data', $data[0]);
       $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
       $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
       $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
+
+      // DetailedChargesIndicator
+      $data = self::getDetailedCharges($cmd, $isManager, $selectedFilters);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+
+      // StatusHistoryIndicator
+
+      //$data = CommandTools::getStatusHistory($cmd);
+      $data = CommandTools::getInternalBugsStatusHistory($cmd);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+
    }
 }
 

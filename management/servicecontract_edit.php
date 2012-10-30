@@ -67,22 +67,18 @@ class ServiceContractEditController extends Controller {
          }
          $action = Tools::getSecurePOSTStringValue('action', '');
 
-         $this->smartyHelper->assign('servicecontractid', $servicecontractid);
          $this->smartyHelper->assign('contracts', ServiceContractTools::getServiceContracts($teamid, $servicecontractid));
 
          if (0 == $servicecontractid) {
-            //  CREATE CMDSET
-
-            // Actions
+            //  CREATE service contract
             if ("createContract" == $action) {
                if(self::$logger->isDebugEnabled()) {
                   self::$logger->debug("create new ServiceContract for team $teamid<br>");
                }
 
-               $contractName = Tools::getSecurePOSTStringValue('contractName','');
+               $contractName = Tools::getSecurePOSTStringValue('servicecontractName');
 
                $servicecontractid = ServiceContract::create($contractName, $teamid);
-               $this->smartyHelper->assign('servicecontractid', $servicecontractid);
 
                $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
@@ -94,8 +90,12 @@ class ServiceContractEditController extends Controller {
             // Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
             $this->smartyHelper->assign('contractInfoFormBtText', T_('Create'));
             $this->smartyHelper->assign('contractInfoFormAction', 'createContract');
+
+            // Note: StateList is empty, uncomment following lines if ServiceContract::$stateNames is used
+            //$this->smartyHelper->assign('servicecontractStateList', ServiceContractTools::getServiceContractStateList($contract));
          }
 
+         // Edited or created just before
          if (0 != $servicecontractid) {
             // UPDATE CMDSET
             $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
@@ -146,7 +146,8 @@ class ServiceContractEditController extends Controller {
             $projectCandidates = $this->getProjectCandidates($servicecontractid);
             $this->smartyHelper->assign('projectCandidates', $projectCandidates);
 
-            ServiceContractTools::displayServiceContract($this->smartyHelper, $contract);
+            $isManager = $session_user->isTeamManager($contract->getTeamid());
+            ServiceContractTools::displayServiceContract($this->smartyHelper, $contract, $isManager);
          }
       }
    }
@@ -176,10 +177,13 @@ class ServiceContractEditController extends Controller {
       $contract->setDesc($formattedValue);
 
       $formattedValue = Tools::getSecurePOSTStringValue('serviceContractStartDate','');
-      $contract->setStartDate(Tools::date2timestamp($formattedValue));
-
+      if ('' != $formattedValue) {
+         $contract->setStartDate(Tools::date2timestamp($formattedValue));
+      }
       $formattedValue = Tools::getSecurePOSTStringValue('serviceContractEndDate','');
-      $contract->setEndDate(Tools::date2timestamp($formattedValue));
+      if ('' != $formattedValue) {
+         $contract->setEndDate(Tools::date2timestamp($formattedValue));
+      }
 
       $contract->setState(SmartyTools::checkNumericValue($_POST['servicecontractState'], true));
 

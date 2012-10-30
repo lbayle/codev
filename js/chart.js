@@ -193,6 +193,48 @@ jQuery(document).ready(function() {
       });
    });
 
+   // Chart by category
+   jQuery('.area_chart').each(function() {
+      jQuery(this).data("plotoptions", {
+         stackSeries: true,
+         showMarker: false,
+         seriesDefaults: {
+             fill: true
+         },
+         axes: {
+            xaxis: {
+               tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+               tickOptions: {
+                 angle: -45
+               }
+            },
+            yaxis: {
+               min: 0
+            }
+         },
+         legend: {
+            show: true,
+            placement: 'outsideGrid',
+            location: 'ne',
+            rowSpacing: '0px'
+         }
+      });
+      /*
+      jQuery(this).bind('jqplotDataHighlight', function(ev, seriesIndex, pointIndex, data) {
+            var idx = 4 - seriesIndex
+            $('tr.jqplot-table-legend').removeClass('legend-row-highlighted');
+            $('tr.jqplot-table-legend').children('.jqplot-table-legend-label').removeClass('legend-text-highlighted');
+            $('tr.jqplot-table-legend').eq(idx).addClass('legend-row-highlighted');
+            $('tr.jqplot-table-legend').eq(idx).children('.jqplot-table-legend-label').addClass('legend-text-highlighted');
+        });
+
+        jQuery(this).bind('jqplotDataUnhighlight', function(ev, seriesIndex, pointIndex, data) {
+            $('tr.jqplot-table-legend').removeClass('legend-row-highlighted');
+            $('tr.jqplot-table-legend').children('.jqplot-table-legend-label').removeClass('legend-text-highlighted');
+        });
+        */
+   });
+
    // Pie chart
    jQuery('.pie_chart').each(function() {
       jQuery(this).data("plotoptions", {

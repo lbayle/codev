@@ -54,7 +54,6 @@ class CommandSetEditController extends Controller {
          $this->smartyHelper->assign('teamid', $teamid);
          $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
 
-
          // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
          $commandsetid = 0;
          if(isset($_POST['commandsetid'])) {
@@ -67,15 +66,12 @@ class CommandSetEditController extends Controller {
             $commandsetid = $_SESSION['commandsetid'];
          }
 
-         $this->smartyHelper->assign('commandsetid', $commandsetid);
          $this->smartyHelper->assign('commandsets', CommandSetTools::getCommandSets($teamid, $commandsetid));
 
          $action = Tools::getSecurePOSTStringValue('action', '');
 
          if (0 == $commandsetid) {
             // -------- CREATE CMDSET -------
-
-            // ------ Actions
             if ("createCmdset" == $action) {
                $teamid = SmartyTools::checkNumericValue($_POST['teamid']);
                $_SESSION['teamid'] = $teamid;
@@ -86,7 +82,6 @@ class CommandSetEditController extends Controller {
                $cmdsetName = Tools::escape_string($_POST['commandsetName']);
 
                $commandsetid = CommandSet::create($cmdsetName, $teamid);
-               $this->smartyHelper->assign('commansetdid', $commandsetid);
 
                $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
 
@@ -145,7 +140,9 @@ class CommandSetEditController extends Controller {
             // set CommandSets I belong to
             $this->smartyHelper->assign('parentContracts', CommandSetTools::getParentContracts($cmdset));
 
-            CommandSetTools::displayCommandSet($this->smartyHelper, $cmdset);
+            $isManager = $session_user->isTeamManager($cmdset->getTeamid());
+
+            CommandSetTools::displayCommandSet($this->smartyHelper, $cmdset, $isManager);
          }
       }
    }
@@ -169,8 +166,9 @@ class CommandSetEditController extends Controller {
       $cmdset->setDesc($formattedValue);
 
       $formattedValue = Tools::escape_string($_POST['commandsetDate']);
-      $cmdset->setDate(Tools::date2timestamp($formattedValue));
-
+      if ('' != $formattedValue) {
+         $cmdset->setDate(Tools::date2timestamp($formattedValue));
+      }
       $cmdset->setCost(SmartyTools::checkNumericValue($_POST['commandsetCost'], true));
 
       $cmdset->setBudgetDays(SmartyTools::checkNumericValue($_POST['commandsetBudget'], true));

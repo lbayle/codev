@@ -21,6 +21,13 @@
 
 -- --------------------------------------------------------
 
+
+--
+-- tune MantisBT tables for CodevTT needs
+--
+CREATE INDEX `handler_id` ON `mantis_bug_table` (`handler_id`);
+
+
 --
 -- Structure de la table `codev_config_table`
 --
@@ -31,9 +38,12 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `project_id` int(11) NOT NULL DEFAULT '0',
   `team_id` int(11) NOT NULL DEFAULT '0',
+  `servicecontract_id` int(11) NOT NULL DEFAULT '0',
+  `commandset_id` int(11) NOT NULL DEFAULT '0',
+  `command_id` int(11) NOT NULL DEFAULT '0',
   `access_reqd` int(11) DEFAULT NULL,
   `description` longtext,
-  PRIMARY KEY (`config_id`,`team_id`,`project_id`,`user_id`)
+  PRIMARY KEY (`config_id`,`team_id`,`project_id`,`user_id`,`servicecontract_id`,`commandset_id`,`command_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
@@ -157,7 +167,9 @@ CREATE TABLE IF NOT EXISTS `codev_team_project_table` (
   `project_id` int(11) NOT NULL,
   `team_id` int(11) NOT NULL,
   `type` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `project_id` (`project_id`),
+  KEY `team_id` (`team_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
@@ -173,6 +185,7 @@ CREATE TABLE IF NOT EXISTS `codev_team_table` (
   `description` varchar(255) DEFAULT NULL,
   `leader_id` int(11) DEFAULT NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '1',
+  `commands_enabled` tinyint(4) NOT NULL DEFAULT '1',
   `date` int(11) NOT NULL,
   `lock_timetracks_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -359,11 +372,8 @@ CREATE TABLE IF NOT EXISTS `codev_command_table` (
   `deadline` int(11) default NULL,
   `team_id` int(11) NOT NULL,
   `state` int(11) unsigned default NULL,
-  `cost` int(11) default NULL,
   `currency` varchar(3) default 'EUR',
-  `budget_dev` int(11) default NULL,
-  `budget_mngt` int(11) default NULL,
-  `budget_garantie` int(11) default NULL,
+  `total_days` int(11) default NULL,
   `average_daily_rate` int(11) default NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '1',
   `description` varchar(500) default NULL,
@@ -382,9 +392,30 @@ CREATE TABLE IF NOT EXISTS `codev_command_bug_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `command_id` int(11) NOT NULL,
   `bug_id` int(11) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  KEY `command_id` (`command_id`),
+  KEY `bug_id` (`bug_id`)
+
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+
+-- --------------------------------------------------------
+-- 20121021 Command Provision
+CREATE TABLE IF NOT EXISTS `codev_command_provision_table` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `date` int(11) unsigned NOT NULL,
+  `command_id` int(11) NOT NULL,
+  `type` tinyint(4) NOT NULL,
+  `summary` varchar(128) NOT NULL,
+  `budget_days` int(11) default NULL,
+  `budget` int(11) default NULL,
+  `average_daily_rate` int(11) default NULL,
+  `currency` varchar(3) default 'EUR',
+  `description` longtext default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `command_id` (`command_id`)
+
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 

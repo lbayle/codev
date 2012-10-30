@@ -32,6 +32,7 @@ class ServiceContractTools {
          foreach ($servicecontractList as $id => $servicecontract) {
             $servicecontracts[] = array(
                'id' => $id,
+               'reference' => $servicecontract->getReference(),
                'name' => $servicecontract->getName(),
                'selected' => ($id == $selectedId)
             );
@@ -45,7 +46,7 @@ class ServiceContractTools {
     * @return string[]
     */
    public static function getServiceContractStateList(ServiceContract $contract = NULL) {
-      $contractState = (NULL == $contract) ? 0 : $contract->getState();
+      $contractState = (is_null($contract)) ? 0 : $contract->getState();
       return SmartyTools::getSmartyArray(ServiceContract::$stateNames, $contractState);
    }
 
@@ -119,27 +120,6 @@ class ServiceContractTools {
 
    /**
     * @param int $servicecontractid
-    * @return mixed[]
-    */
-   private static function getServiceContractProjects($servicecontractid) {
-      $projects = array();
-
-      if (0 != $servicecontractid) {
-         $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-
-         $projList = $servicecontract->getProjects();
-         foreach ($projList as $id => $project) {
-            $proj['name'] = $project->getName();
-            $proj['description'] = $project->getDescription();
-
-            $projects[$id] = $proj;
-         }
-      }
-      return $projects;
-   }
-
-   /**
-    * @param int $servicecontractid
     * @param int $cset_type CommandSet::type_general
     * @param int $cmd_type Command::type_general
     * @return mixed[]
@@ -159,7 +139,7 @@ class ServiceContractTools {
     * @param int $servicecontractid
     * @return IssueSelection
     */
-   private static function getContractSidetasksSelection($servicecontractid) {
+   private static function getContractSidetasksSelection($servicecontractid, $provDaysByType) {
       $issueSelection = NULL;
       if (0 != $servicecontractid) {
          $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
@@ -169,8 +149,13 @@ class ServiceContractTools {
          $issueSelection = new IssueSelection("TotalSideTasks");
          foreach ($sidetasksPerCategory as $iSel) {
             $issueSelection->addIssueList($iSel->getIssueList());
-
          }
+
+         // add provisions
+         foreach ($provDaysByType as $prov_type => $nbDays) {
+            $issueSelection->addProvision($nbDays);
+         }
+         #echo 'TotalSideTasks provision = '.$issueSelection->getProvision().'<br>';
       }
       return $issueSelection;
    }
@@ -179,15 +164,41 @@ class ServiceContractTools {
     * @param int $servicecontractid
     * @return mixed[] array[category_id] = IssueSelection
     */
-   private static function getContractSidetasksDetailedMgr($servicecontractid) {
+   private static function getContractSidetasksDetailedMgr($servicecontractid, $provDaysByType) {
       $stasksPerCat = NULL;
       if (0 != $servicecontractid) {
          $stasksPerCat = array();
 
          $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-         $sidetasksPerCategory = $contract->getSidetasksPerCategory(true);
 
+         // Provisions
+         foreach ($provDaysByType as $prov_type => $nbDays) {
+
+            if ($prov_type != CommandProvision::provision_mngt) {
+               $provDesc = array(
+                  'name' => T_('Provision').' '.CommandProvision::$provisionNames[$prov_type],
+                  'effortEstim' => $nbDays,
+                  'reestimated' => 'N/A',
+                  'elapsed' => '',
+                  'backlog' => 'N/A',
+                  'driftColor' => '',
+                  'drift' => (-$nbDays),
+                  'progress' => 'N/A',
+               );
+               $stasksPerCat['Provision_'.$prov_type] = $provDesc;
+            }
+         }
+
+         // SideTsks
+         $sidetasksPerCategory = $contract->getSidetasksPerCategoryType(true);
          foreach ($sidetasksPerCategory as $id => $issueSelection) {
+
+            // REM: getSidetasksPerCategoryType returns non_numeric keys if cat_type not found for cat_id
+            if (is_numeric($id) && (Project::cat_mngt_regular == $id)) {
+               #echo "Ah type $id is management, add provision ".$provDaysByType[CommandProvision::provision_mngt]."<br>";
+               $issueSelection->addProvision($provDaysByType[CommandProvision::provision_mngt]);
+            }
+
             $detailledMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
             $detailledMgr['name'] = $issueSelection->name;
             $stasksPerCat[$id] = $detailledMgr;
@@ -231,31 +242,36 @@ class ServiceContractTools {
       return $detailledMgr;
    }
 
-   public static function getSContractProgressHistoryTimestamp(ServiceContract $serviceContract) {
-      $cmdIssueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
+   /**
+    * @param Command $command
+    * @return mixed[]
+    */
+   private static function getProvisionList(ServiceContract $contract, int $type = NULL) {
+      $provArray = array();
 
-      $startTT = $cmdIssueSel->getFirstTimetrack();
-      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
-         $startTimestamp = $startTT->getDate();
-      } else {
-         $startTimestamp = $serviceContract->getStartDate();
-         #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
-         if (0 == $startTimestamp) {
-            $team = TeamCache::getInstance()->getTeam($serviceContract->getTeamid());
-            $startTimestamp = $team->getDate();
-            #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
-         }
+      $provisions = $contract->getProvisionList(CommandSet::type_general, Command::type_general, $type);
+      foreach ($provisions as $id => $prov) {
+
+         $provArray["$id"] = array(
+            'id' => $id,
+            'date' => date(T_("Y-m-d"), $prov->getDate()),
+            'type' => CommandProvision::$provisionNames[$prov->getType()],
+            'budget_days' => $prov->getProvisionDays(),
+            'budget' => $prov->getProvisionBudget(),
+            'average_daily_rate' => $prov->getAverageDailyRate(),
+            'currency' => $prov->getCurrency(),
+            'cmd_name' => $prov->getCommandName(),
+            'summary' => $prov->getSummary()
+         );
       }
-
-      $endTT = $cmdIssueSel->getLatestTimetrack();
-      $endTimestamp = ((NULL != $endTT) && (0 != $endTT->getDate())) ? $endTT->getDate() : time();
-
-      return array($startTimestamp,$endTimestamp);
+      return $provArray;
    }
 
+
    /**
+    * @static
     * @param ServiceContract $serviceContract
-    * @return string
+    * @return mixed[]
     */
    public static function getSContractProgressHistory(ServiceContract $serviceContract) {
       $cmdIssueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
@@ -275,17 +291,21 @@ class ServiceContractTools {
 
       $endTT = $cmdIssueSel->getLatestTimetrack();
       $endTimestamp = ((NULL != $endTT) && (0 != $endTT->getDate())) ? $endTT->getDate() : time();
+      
+      // Calculate a nice day interval
+      $nbWeeks = ($endTimestamp - $startTimestamp) / 60 / 60 / 24;
+      $interval = ceil($nbWeeks / 20);
 
       $params = array(
          'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
          'endTimestamp' => $endTimestamp,
-         'interval' => 14
+         'interval' => $interval
       );
 
       $progressIndicator = new ProgressHistoryIndicator();
       $progressIndicator->execute($cmdIssueSel, $params);
 
-      return $progressIndicator->getSmartyObject();
+      return array($progressIndicator->getSmartyObject(),$startTimestamp,$endTimestamp,ceil($interval/30));
    }
 
    /**
@@ -332,11 +352,32 @@ class ServiceContractTools {
       return array($activityIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
    }
 
+   public static function getDetailedCharges(ServiceContract $serviceContract, $isManager, $selectedFilters) {
+
+      $issueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
+
+      $allFilters = "ProjectFilter,ProjectVersionFilter,ProjectCategoryFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter,IssueCodevTypeFilter";
+
+      $params = array(
+         'isManager' => $isManager,
+         'selectedFilters' => $selectedFilters,
+         'allFilters' => $allFilters
+      );
+
+      $detailedChargesIndicator = new DetailedChargesIndicator();
+      $detailedChargesIndicator->execute($issueSel, $params);
+
+      $smartyVariable = $detailedChargesIndicator->getSmartyObject();
+      $smartyVariable['selectFiltersSrcId'] = $serviceContract->getId();
+
+      return $smartyVariable;
+   }
+
    /**
     * @param SmartyHelper $smartyHelper
     * @param ServiceContract $servicecontract
     */
-   public static function displayServiceContract(SmartyHelper $smartyHelper, $servicecontract) {
+   public static function displayServiceContract(SmartyHelper $smartyHelper, $servicecontract, $isManager, $selectedFilters = '') {
       #$smartyHelper->assign('servicecontractId', $servicecontract->getId());
       $smartyHelper->assign('teamid', $servicecontract->getTeamid());
       $smartyHelper->assign('servicecontractName', $servicecontract->getName());
@@ -344,23 +385,32 @@ class ServiceContractTools {
       $smartyHelper->assign('servicecontractVersion', $servicecontract->getVersion());
       $smartyHelper->assign('servicecontractReporter', $servicecontract->getReporter());
       $smartyHelper->assign('servicecontractDesc', $servicecontract->getDesc());
-      $smartyHelper->assign('servicecontractStartDate', date("Y-m-d", $servicecontract->getStartDate()));
-      $smartyHelper->assign('servicecontractEndDate', date("Y-m-d", $servicecontract->getEndDate()));
-      $smartyHelper->assign('servicecontractStateList', self::getServiceContractStateList($servicecontract));
-      $smartyHelper->assign('servicecontractState', ServiceContract::$stateNames[$servicecontract->getState()]);
+      if (!is_null( $servicecontract->getStartDate())) {
+         $smartyHelper->assign('servicecontractStartDate', date("Y-m-d", $servicecontract->getStartDate()));
+      }
+      if (!is_null( $servicecontract->getEndDate())) {
+         $smartyHelper->assign('servicecontractEndDate', date("Y-m-d", $servicecontract->getEndDate()));
+      }
+
+      // Note: StateList is empty, uncomment following lines if ServiceContract::$stateNames is used
+      //$smartyHelper->assign('servicecontractStateList', self::getServiceContractStateList($servicecontract));
+      //$smartyHelper->assign('servicecontractState', ServiceContract::$stateNames[$servicecontract->getState()]);
 
       $smartyHelper->assign('cmdsetList', self::getServiceContractCommandSets($servicecontract->getId(), CommandSet::type_general, Command::type_general));
       $smartyHelper->assign('cmdsetTotalDetailedMgr', self::getServiceContractCmdsetTotalDetailedMgr($servicecontract->getId(), CommandSet::type_general, Command::type_general));
 
       $smartyHelper->assign('cmdList', self::getServiceContractCommands($servicecontract->getId(), CommandSet::type_general, Command::type_general));
 
-      $smartyHelper->assign('projectList', self::getServiceContractProjects($servicecontract->getId()));
-      $smartyHelper->assign('sidetasksDetailedMgr', self::getContractSidetasksDetailedMgr($servicecontract->getId()));
-
-      $issueSelection = self::getContractSidetasksSelection($servicecontract->getId());
+      $provDaysByType = $servicecontract->getProvisionDaysByType(CommandSet::type_general, Command::type_general);
+      $smartyHelper->assign('sidetasksDetailedMgr', self::getContractSidetasksDetailedMgr($servicecontract->getId(), $provDaysByType));
+      $issueSelection = self::getContractSidetasksSelection($servicecontract->getId(), $provDaysByType);
       $smartyHelper->assign('sidetasksTotalDetailedMgr', self::getContractSidetasksTotalDetailedMgr($issueSelection));
+
       $smartyHelper->assign('sidetasksList', SmartyTools::getIssueListInfo($issueSelection));
       $smartyHelper->assign('nbSidetasksList', $issueSelection->getNbIssues());
+
+      $smartyHelper->assign('cmdProvisionList', self::getProvisionList($servicecontract));
+
 
       $smartyHelper->assign('servicecontractTotalDetailedMgr', self::getContractTotalDetailedMgr($servicecontract->getId()));
 
@@ -369,6 +419,12 @@ class ServiceContractTools {
       $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
       $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
       $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
+
+      // DetailedChargesIndicator
+      $data = self::getDetailedCharges($servicecontract, $isManager, $selectedFilters);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+      }
    }
 
 }

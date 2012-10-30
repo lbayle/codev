@@ -48,8 +48,8 @@ class DaysPerJobIndicator implements IndicatorPlugin {
       return __CLASS__;
    }
 
-   public function getSmartyFilename() {
-      return 'days_per_job_indicator.html';
+   public static function getSmartyFilename() {
+      return 'plugin/days_per_job_indicator.html';
    }
 
    public function getDesc() {

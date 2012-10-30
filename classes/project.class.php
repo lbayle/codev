@@ -29,7 +29,7 @@ class Project extends Model {
    const cat_st_incident = 3;
    const cat_st_tools = 4;
    const cat_st_workshop = 5;
-   const cat_mngt_provision = 6;
+   const cat_mngt_provision = 6; // DEPRECATED see CommandProvision class
    const cat_mngt_regular = 7;
 
    /**
@@ -51,6 +51,14 @@ class Project extends Model {
       self::type_noStatsProject  => "Project (stats excluded)",
       self::type_sideTaskProject => "SideTasks");
 
+   public static $catTypeNames = array(
+      self::cat_st_inactivity  => "Inactivity",
+      self::cat_st_onduty => "OnDuty",
+      self::cat_st_incident => "Incident",
+      self::cat_st_tools => "Tools",
+      self::cat_st_workshop => "Workshop",
+      self::cat_mngt_regular => "Management");
+
    private $id;
    private $name;
    private $description;
@@ -60,6 +68,7 @@ class Project extends Model {
    private $teamTypeList;
 
    private $bug_resolved_status_threshold;
+   private $bug_submit_status;
    private $projectVersionList;
 
    private $progress;
@@ -448,6 +457,7 @@ class Project extends Model {
       $deadLineCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
       #$deliveryIdCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+      $typeCustomField = Config::getInstance()->getValue(Config::id_customField_type);
 
       $existingFields = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
@@ -458,14 +468,15 @@ class Project extends Model {
                "VALUES ";
 
       $found = FALSE;
-      if (!in_array($tcCustomField, $existingFields))           { $query .= "('$tcCustomField',           '$projectid','101'),"; $found = TRUE; }
-      if (!in_array($mgrEffortEstim, $existingFields))          { $query .= "('$mgrEffortEstim',          '$projectid','102'),"; $found = TRUE; }
-      if (!in_array($estimEffortCustomField, $existingFields))  { $query .= "('$estimEffortCustomField',  '$projectid','103'),"; $found = TRUE; }
-      if (!in_array($addEffortCustomField, $existingFields))    { $query .= "('$addEffortCustomField',    '$projectid','104'),"; $found = TRUE; }
-      if (!in_array($backlogCustomField, $existingFields))    { $query .= "('$backlogCustomField',    '$projectid','105'),"; $found = TRUE; }
-      if (!in_array($deadLineCustomField, $existingFields))     { $query .= "('$deadLineCustomField',     '$projectid','106'),"; $found = TRUE; }
-      if (!in_array($deliveryDateCustomField, $existingFields)) { $query .= "('$deliveryDateCustomField', '$projectid','107'),"; $found = TRUE; }
-      #if (!in_array($deliveryIdCustomField, $existingFields))   { $query .= "('$deliveryIdCustomField',   '$this->id','108'),"; $found = true; }
+      if (!in_array($typeCustomField, $existingFields))         { $query .= "('$typeCustomField',         '$projectid','101'),"; $found = TRUE; }
+      if (!in_array($tcCustomField, $existingFields))           { $query .= "('$tcCustomField',           '$projectid','102'),"; $found = TRUE; }
+      if (!in_array($mgrEffortEstim, $existingFields))          { $query .= "('$mgrEffortEstim',          '$projectid','103'),"; $found = TRUE; }
+      if (!in_array($estimEffortCustomField, $existingFields))  { $query .= "('$estimEffortCustomField',  '$projectid','104'),"; $found = TRUE; }
+      if (!in_array($addEffortCustomField, $existingFields))    { $query .= "('$addEffortCustomField',    '$projectid','105'),"; $found = TRUE; }
+      if (!in_array($backlogCustomField, $existingFields))      { $query .= "('$backlogCustomField',      '$projectid','106'),"; $found = TRUE; }
+      if (!in_array($deadLineCustomField, $existingFields))     { $query .= "('$deadLineCustomField',     '$projectid','107'),"; $found = TRUE; }
+      if (!in_array($deliveryDateCustomField, $existingFields)) { $query .= "('$deliveryDateCustomField', '$projectid','108'),"; $found = TRUE; }
+      #if (!in_array($deliveryIdCustomField, $existingFields))   { $query .= "('$deliveryIdCustomField',   '$this->id','109'),"; $found = TRUE; }
 
       if ($found) {
          // replace last ',' with a ';' to finish query
@@ -483,10 +494,6 @@ class Project extends Model {
 
    public function addCategoryProjManagement($catName) {
       return $this->addCategory(self::cat_mngt_regular, $catName);
-   }
-
-   public function addCategoryMngtProvision($catName) {
-      return $this->addCategory(self::cat_mngt_provision, $catName);
    }
 
    public function addCategoryInactivity($catName) {
@@ -583,7 +590,7 @@ class Project extends Model {
       $reproducibility = 100;
 
       $formattedIssueDesc = SqlWrapper::getInstance()->sql_real_escape_string($issueDesc);
-      $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('".$formattedIssueDesc."');";
+      $query = "INSERT INTO `mantis_bug_text_table`  (`description`, `steps_to_reproduce`, `additional_information`) VALUES ('".$formattedIssueDesc."', '', '');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -620,6 +627,38 @@ class Project extends Model {
          #echo "DEBUG $this->name .getBugResolvedStatusThreshold() = $this->bug_resolved_status_threshold<br>\n";
       }
       return $this->bug_resolved_status_threshold;
+   }
+
+   /**
+    * get status on issue creation
+    * 
+    * @return type
+    */
+   public function getBugSubmitStatus() {
+      if(is_null($this->bug_submit_status)) {
+
+         $query  = "SELECT value FROM `mantis_config_table` ".
+                 "WHERE config_id = 'bug_submit_status'".
+                 "AND project_id = $this->id".
+                 " LIMIT 1;";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+            $this->bug_submit_status = SqlWrapper::getInstance()->sql_result($result, 0);
+         } else {
+            $this->bug_submit_status = Constants::$status_new;
+         }
+         if (self::$logger->isDebugEnabled()) {
+            self::$logger->debug("$this->name getBugSubmitStatus() = $this->bug_submit_status");
+         }
+         #echo "DEBUG $this->name getBugSubmitStatus() = $this->bug_submit_status<br>\n";
+      }
+      return $this->bug_submit_status;
+
    }
 
    /**
@@ -1264,6 +1303,13 @@ class Project extends Model {
       } else {
          return NULL;
       }
+   }
+
+   public function getCategoryList() {
+      if(NULL == $this->categoryList) {
+         $this->initializeCategories();
+      }
+      return $this->categoryList;
    }
 
    /**

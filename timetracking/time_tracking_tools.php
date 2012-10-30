@@ -40,11 +40,12 @@ class TimeTrackingTools {
     */
    public static function getWeekTask(array $weekDates, $userid, TimeTracking $timeTracking, array $incompleteDays) {
       $totalElapsed = array();
+      $todayAtMidnight = mktime(0,0,0);
       for ($i = 1; $i <= 7; $i++) {
          $weekDate = $weekDates[$i];
          $totalElapsed[$weekDate] = array(
             "elapsed" => 0,
-            "class" => array_key_exists($weekDate,$incompleteDays) ? "incompleteDay" : ""
+            "class" => in_array($weekDate,$incompleteDays) && $weekDate < $todayAtMidnight ? "incompleteDay" : ""
          );
       }
       
@@ -112,6 +113,27 @@ class TimeTrackingTools {
             }
             $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $issue->getDeadLine());
 
+            $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
+            
+            //if ((!$project->isSideTasksProject(array($team->getId()))) &&
+            if ((!$project->isSideTasksProject()) &&
+                (!$project->isExternalTasksProject())) {
+               $tooltipAttr = array(
+                   T_('Project') => $issue->getProjectName(),
+                   T_('Category') => $issue->getCategoryName(),
+                   T_('TargetVersion') => $issue->getTargetVersion(),
+                   T_('Type') => $issue->getType(),
+                   T_('Elapsed') => $issue->getElapsed(),
+                   T_('Backlog') => $issue->getDuration(),
+                   T_('Drift') => $issue->getDrift(),
+                   'DriftColor' => $issue->getDriftColor()
+               );
+               $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
+            } else {
+               $infoTooltip = '';
+            }
+
+
             $weekTasks[$bugid."_".$jobid] = array(
                'bugid' => $bugid,
                'description' => $description,
@@ -130,6 +152,7 @@ class TimeTrackingTools {
                'driftColor' => $issue->getDriftColor(),
                'deadline' => $formatedDate,
                'dialogBoxTitle' => $issue->getFormattedIds(),
+               'infoTooltip' => $infoTooltip
             );
          }
       }
@@ -146,15 +169,17 @@ class TimeTrackingTools {
     * @param array $incompleteDays
     * @return array
     */
-   public static function getSmartyWeekDates($weekDates, $incompleteDays) {
+   public static function getSmartyWeekDates(array $weekDates, array $incompleteDays) {
       $smartyWeekDates = array();
       
+      $todayAtMidnight = mktime(0,0,0);
+      
       foreach($weekDates as $key => $weekDate) {
-         $smartyWeekDates[$key] = array(
-             "date" => date('Y-m-d',$weekDate),
-             "formattedDate" => Tools::formatDate("%A\n%d %b", $weekDate),
-             "class" => array_key_exists($weekDate,$incompleteDays) ? "incompleteDay" : ""
-         );
+            $smartyWeekDates[$key] = array(
+               "date" => date('Y-m-d',$weekDate),
+               "formattedDate" => Tools::formatDate("%A\n%d %b", $weekDate),
+               "class" => in_array($weekDate,$incompleteDays) && $weekDate < $todayAtMidnight ? "incompleteDay" : ""
+            );
       }
       
       return $smartyWeekDates;

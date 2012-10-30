@@ -139,6 +139,7 @@ class TeamActivityReportController extends Controller {
             $weekJobDetails = array();
             foreach ($weekTracks as $bugid => $jobList) {
                $issue = IssueCache::getInstance()->getIssue($bugid);
+               $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
                if ($isDetailed) {
                   $formatedJobList = implode(', ', array_keys($jobList));
                   $query = 'SELECT id, name FROM `codev_job_table` WHERE id IN ('.$formatedJobList.');';
@@ -151,13 +152,29 @@ class TeamActivityReportController extends Controller {
                      $dayList = $jobList[$row2->id];
 
                      $daysDetails = array();
-                     $totalDuration = 0;
+                     $weekDuration = 0;
                      for ($i = 1; $i <= 7; $i++) {
                         $dayDetails = $this->getDaysDetails($i, $holidays, $weekDates, $dayList[$i]);
-                        $totalDuration += $dayDetails['duration'];
+                        $weekDuration += $dayDetails['duration'];
                         $daysDetails[] = $dayDetails;
                      }
-                     
+
+                     if ((!$project->isSideTasksProject(array($team->getId()))) &&
+                         (!$project->isExternalTasksProject())) {
+                        $tooltipAttr = array(
+                            T_('Project') => $issue->getProjectName(),
+                            T_('Category') => $issue->getCategoryName(),
+                            T_('TargetVersion') => $issue->getTargetVersion(),
+                            T_('Type') => $issue->getType(),
+                            T_('Elapsed') => $issue->getElapsed(),
+                            T_('Backlog') => $issue->getDuration(),
+                            T_('Drift') => $issue->getDrift(),
+                            'DriftColor' => $issue->getDriftColor()
+                        );
+                        $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
+                     } else {
+                        $infoTooltip = NULL;
+                     }
                      $weekJobDetails[] = array(
                         "description" => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary()),
                         "duration" => $issue->getDuration(),
@@ -166,13 +183,14 @@ class TeamActivityReportController extends Controller {
                         "targetVersion" => $issue->getTargetVersion(),
                         "jobName" => $jobName,
                         "daysDetails" => $daysDetails,
-                        "totalDuration" => $totalDuration
+                        "totalDuration" => $weekDuration,
+                        'infoTooltip' => $infoTooltip
                      );
                   }
                } else {
                   // for each day, concat jobs duration
                   $daysDetails = array();
-                  $totalDuration = 0;
+                  $weekDuration = 0;
                   for ($i = 1; $i <= 7; $i++) {
                      $duration = 0;
                      foreach ($jobList as $dayList) {
@@ -185,40 +203,59 @@ class TeamActivityReportController extends Controller {
                      }
                      $dayDetails = $this->getDaysDetails($i, $holidays, $weekDates, $duration);
                      
-                     $totalDuration += $dayDetails['duration'];
+                     $weekDuration += $dayDetails['duration'];
                      
                      $daysDetails[] = $dayDetails;
                   }
                      
+                  if ((!$project->isSideTasksProject(array($team->getId()))) &&
+                      (!$project->isExternalTasksProject())) {
+                     $tooltipAttr = array(
+                         T_('Project') => $issue->getProjectName(),
+                         T_('Category') => $issue->getCategoryName(),
+                         T_('TargetVersion') => $issue->getTargetVersion(),
+                         T_('Type') => $issue->getType(),
+                         T_('Elapsed') => $issue->getElapsed(),
+                         T_('Backlog') => $issue->getDuration(),
+                         T_('Drift') => $issue->getDrift(),
+                         'DriftColor' => $issue->getDriftColor()
+                     );
+                     $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
+                  } else {
+                     $infoTooltip = NULL;
+                  }
                   $weekJobDetails[] = array(
-                     "description" => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary()),
-                     "duration" => $issue->getDuration(),
-                     "progress" => round(100 * $issue->getProgress()),
-                     "projectName" => $issue->getProjectName(),
-                     "targetVersion" => $issue->getTargetVersion(),
-                     "daysDetails" => $daysDetails,
-                     "totalDuration" => $totalDuration
+                     'description' => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary()),
+                     'duration' => $issue->getDuration(),
+                     'progress' => round(100 * $issue->getProgress()),
+                     'projectName' => $issue->getProjectName(),
+                     //"targetVersion" => $issue->getTargetVersion(),
+                     'daysDetails' => $daysDetails,
+                     'totalDuration' => $weekDuration,
+                     'infoTooltip' => $infoTooltip
                   );
                }
             }
 
-            $weekDetails[] = array(
-               'name' => $user->getName(),
-               'realname' => $user->getRealname(),
-               'forecastWorkload' => $user->getForecastWorkload(),
-               'weekDates' => array(
-                  Tools::formatDate("%A\n%d %b", $weekDates[1]),
-                  Tools::formatDate("%A\n%d %b", $weekDates[2]),
-                  Tools::formatDate("%A\n%d %b", $weekDates[3]),
-                  Tools::formatDate("%A\n%d %b", $weekDates[4]),
-                  Tools::formatDate("%A\n%d %b", $weekDates[5])
-               ),
-               'weekEndDates' => array(
-                  Tools::formatDate("%A\n%d %b", $weekDates[6]),
-                  Tools::formatDate("%A\n%d %b", $weekDates[7])
-               ),
-               'weekJobDetails' => $weekJobDetails
-            );
+            if(!empty($weekJobDetails)) {
+               $weekDetails[] = array(
+                  'name' => $user->getName(),
+                  'realname' => $user->getRealname(),
+                  'forecastWorkload' => $user->getForecastWorkload(),
+                  'weekDates' => array(
+                     Tools::formatDate("%A\n%d %b", $weekDates[1]),
+                     Tools::formatDate("%A\n%d %b", $weekDates[2]),
+                     Tools::formatDate("%A\n%d %b", $weekDates[3]),
+                     Tools::formatDate("%A\n%d %b", $weekDates[4]),
+                     Tools::formatDate("%A\n%d %b", $weekDates[5])
+                  ),
+                  'weekEndDates' => array(
+                     Tools::formatDate("%A\n%d %b", $weekDates[6]),
+                     Tools::formatDate("%A\n%d %b", $weekDates[7])
+                  ),
+                  'weekJobDetails' => $weekJobDetails
+               );
+            }
          }
       }
       return $weekDetails;

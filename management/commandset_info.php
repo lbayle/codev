@@ -75,7 +75,18 @@ class CommandSetInfoController extends Controller {
                // set CommandSets I belong to
                $this->smartyHelper->assign('parentContracts', CommandSetTools::getParentContracts($commandset));
 
-               CommandSetTools::displayCommandSet($this->smartyHelper, $commandset);
+               $isManager = $session_user->isTeamManager($commandset->getTeamid());
+
+               // get selected filters
+               $selectedFilters="";
+               if(isset($_GET['selectedFilters'])) {
+                  $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
+               } else {
+                  // TODO
+                  #$selectedFilters = $session_user->getCommandSetFilters($commandsetid);
+               }
+
+               CommandSetTools::displayCommandSet($this->smartyHelper, $commandset, $isManager, $selectedFilters);
 
                // ConsistencyCheck
                $consistencyErrors = $this->getConsistencyErrors($commandset);
@@ -120,8 +131,12 @@ class CommandSetInfoController extends Controller {
          foreach ($cerrList as $cerr) {
             $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
             $user = UserCache::getInstance()->getUser($cerr->userId);
+            $titleAttr = array(
+                  T_('Project') => $issue->getProjectName(),
+                  T_('Summary') => $issue->getSummary(),
+            );
             $consistencyErrors[] = array(
-               'issueURL' => Tools::issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->getSummary()),
+               'issueURL' => Tools::issueInfoURL($cerr->bugId, $titleAttr),
                'issueStatus' => Constants::$statusNames[$cerr->status],
                'user' => $user->getName(),
                'severity' => $cerr->getLiteralSeverity(),

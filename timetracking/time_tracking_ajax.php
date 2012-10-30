@@ -35,8 +35,10 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 
          $userid = Tools::getSecureGETIntValue('userid',$_SESSION['userid']);
          
-         $incompleteDays = $timeTracking->checkCompleteDays($userid, FALSE);
-         $smartyWeekDates = TimeTrackingTools::getSmartyWeekDates($weekDates, $incompleteDays);
+         $incompleteDays = array_keys($timeTracking->checkCompleteDays($userid, TRUE));
+         $missingDays = $timeTracking->checkMissingDays($userid);
+         $errorDays = array_merge($incompleteDays,$missingDays);
+         $smartyWeekDates = TimeTrackingTools::getSmartyWeekDates($weekDates,$errorDays);
          
          // UTF8 problems in smarty, date encoding needs to be done in PHP
          $smartyHelper->assign('weekDates', array(
@@ -46,7 +48,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             $smartyWeekDates[6], $smartyWeekDates[7]
          ));
 
-         $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $userid, $timeTracking);
+         $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $userid, $timeTracking, $errorDays);
          $smartyHelper->assign('weekTasks', $weekTasks["weekTasks"]);
          $smartyHelper->assign('dayTotalElapsed', $weekTasks["totalElapsed"]);
             

@@ -119,7 +119,7 @@ class ForecastingReportController extends Controller {
     * @return mixed[]
     */
    private function getCurrentDeviationStats($teamid, $threshold = 1) {
-      $issueList = TeamCache::getInstance()->getTeam($teamid)->getCurrentIssueList(TRUE, FALSE);
+      $issueList = TeamCache::getInstance()->getTeam($teamid)->getCurrentIssueList(TRUE, FALSE, FALSE);
 
       if ((NULL == $issueList) || (0 == count($issueList))) {
          self::$logger->info("getCurrentDeviationStats: No opened issues for team $teamid");
@@ -175,7 +175,7 @@ class ForecastingReportController extends Controller {
    private function getIssuesInDrift($teamid, $withSupport = TRUE) {
       $team = TeamCache::getInstance()->getTeam($teamid);
       $mList = $team->getMembers();
-      $projList = $team->getProjects();
+      $projList = $team->getProjects(true, false); // exclude disabled projects
 
       $issueArray = NULL;
 

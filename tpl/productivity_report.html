@@ -24,7 +24,6 @@
    {include file="modal/consistency_check.html"}
 
    {include file="tools/graph.html"}
-   <script src="js/tabs.js" type="text/javascript"></script>
    <div id="tabsIndicators" class="tabs" style="margin-top: 2em;">
       <ul>
          <li><a href="#tabsName-1">{t}Production days{/t}</a></li>
@@ -181,7 +180,8 @@
                               }
                            }
                         });
-                     form.find('input[name=action]').val('getProjectDetails');
+                        updateWidgets('#projectDetailsDiv');
+                        form.find('input[name=action]').val('getProjectDetails');
                      },
                      error: function(jqXHR, textStatus, errorThrown) {
                         if(errorThrown == 'Forbidden') {
@@ -373,7 +373,7 @@
                   </thead>
                   <tbody>
                      <tr>
-                        <td title="{t}If < 0 then ahead on planning.{/t}">{t}EffortDeviation{/t}</td>
+                        <td title="{t}If < 0 then ahead on planning.{/t}" nowrap="nowrap">{t}EffortDeviation{/t}</td>
                         <td title="{t}elapsed{/t} - {t}MgrEffortEstim{/t}" {if $resolvedDeviationStats.driftMgr < 0}style="background-color: #61ed66;"{elseif $resolvedDeviationStats.driftMgr > 0}style="background-color: #fcbdbd;"{/if} >{$resolvedDeviationStats.driftMgr}</td>
                         <td title="{t}elapsed{/t} - {t}EffortEstim{/t}" {if $resolvedDeviationStats.drift < 0}style="background-color: #61ed66;"{elseif $resolvedDeviationStats.drift > 0}style="background-color: #fcbdbd;"{/if}>{$resolvedDeviationStats.drift}</td>
                         <td></td>
@@ -381,7 +381,7 @@
                      </tr>
                      {foreach from=$resolvedDeviationStats.detailsResolvedDeviationStats key=id item=i}
                      <tr>
-                        <td>{$i.type}</td>
+                        <td nowrap="nowrap">{$i.type}</td>
                         <td title="{t}nb tasks{/t}">{$i.nbIssuesMgr}<span title="{t}nb days{/t}" class="floatr">{$i.nbDaysMgr}</span></td>
                         <td title="{t}nb tasks{/t}">{$i.nbIssues}<span title="{t}nb days{/t}" class="floatr">{$i.nbDays}</span></td>
                         <td title="{t}Task list for EffortEstim{/t}">{$i.formattedIssueListMgr}</td>
@@ -445,8 +445,8 @@
             </thead>
             <tbody>
                <tr>
-                  <td>{$timeTracking->getResolvedIssues()|count}</td>
-                  <td>{$timeTracking->getReopened()|count}</td>
+                  <td>{$reopenedBugsRate_nbResolved}</td>
+                  <td>{$reopenedBugsRate_nbReopened}</td>
                   <td><div class="progress">{$reopenedBugsRate}%</div></td>
                   <td>
                      {foreach from=$formattedReopenedTaks key=id item=i name=formattedReopenedTaks}

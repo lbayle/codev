@@ -177,7 +177,7 @@ class SmartyTools {
 
       $selectionDetailedMgr = array('name' => $issueSelection->name,
          //'progress' => round(100 * $pv->getProgress()),
-         'effortEstim' => $issueSelection->mgrEffortEstim,
+         'effortEstim' => ($issueSelection->mgrEffortEstim + $issueSelection->getProvision()),
          'reestimated' => $issueSelection->getReestimated(),
          'elapsed' => $issueSelection->elapsed,
          'backlog' => $issueSelection->duration,
@@ -221,8 +221,9 @@ class SmartyTools {
       return $issueArray;
    }
 
-   public static function getIssueDescription($bugid, $extid, $summary) {
-      $description = Tools::mantisIssueURL($bugid, NULL, TRUE) . ' ' . Tools::issueInfoURL($bugid);
+   public static function getIssueDescription($bugid, $extid, $summary, $tooltipAttr = NULL) {
+
+      $description = Tools::mantisIssueURL($bugid, NULL, TRUE) . ' ' . Tools::issueInfoURL($bugid, $tooltipAttr);
       if($extid != NULL && strlen($extid) > 0) {
          $description .= " / " . $extid;
       }

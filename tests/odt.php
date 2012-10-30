@@ -147,7 +147,8 @@ if(self::$logger->isDebugEnabled()) {
 
 if (isset($session_userid)) {
    $session_user = UserCache::getInstance()->getUser($session_userid);
-   $projList = $session_user->getProjectList();
+   // exclude disabled projects
+   $projList = $session_user->getProjectList(NULL, true, false);
 
    if (0 == count($projList)) {
       echo "<div style='text-align: center'>";

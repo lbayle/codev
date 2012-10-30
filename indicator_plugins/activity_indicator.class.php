@@ -48,7 +48,7 @@ class ActivityIndicator implements IndicatorPlugin {
    public function getName() {
       return __CLASS__;
    }
-   public function getSmartyFilename() {
+   public static function getSmartyFilename() {
       return "plugin/activity_indicator.html";
    }
 

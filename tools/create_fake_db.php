@@ -55,6 +55,10 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames, $Str
    
    $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
 
+   // remove ALL files from ALL PROJECTS  (OVH upload fails) 
+   $query  = "DELETE FROM `mantis_bug_file_table` ";
+   $result = execQuery($query);
+   
    // rename project categories
    $formattedProjList = implode(',', $projectidList);
    $query  = "SELECT * from `mantis_category_table` WHERE `project_id` IN ($formattedProjList)";
@@ -93,8 +97,8 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames, $Str
          $query  = "DELETE FROM `mantis_bugnote_table` WHERE `bug_id`='$row->id' ";
          $result = execQuery($query);
 
-         $query  = "DELETE FROM `mantis_bug_file_table` WHERE `bug_id`='$row->id' ";
-         $result = execQuery($query);
+         #$query  = "DELETE FROM `mantis_bug_file_table` WHERE `bug_id`='$row->id' ";
+         #$result = execQuery($query);
 
          $query  = "UPDATE `mantis_bug_revision_table` SET `value` = 'revision on fake issue' WHERE `bug_id`='$row->id' ";
          $result = execQuery($query);
@@ -160,7 +164,8 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames, $Str
    stringReplacements($StrReplacements);
 
    updateUsers();
-
+   updateTeams();
+   updateProjects();
 
 }
 
@@ -226,24 +231,72 @@ function updateUsers() {
    }
 
    // john the manager
-      $query  = "UPDATE `mantis_user_table` SET `realname` = 'John the MANAGER' WHERE `id` ='2' ";
-      $result = execQuery($query);
-      $query  = "UPDATE `mantis_user_table` SET `username` = 'manager' WHERE `id` ='2' ";
-      $result = execQuery($query);
-      $query  = "UPDATE `mantis_user_table` SET `email` = 'manager@codevtt.org' WHERE `id` ='2' ";
-      $result = execQuery($query);
-      $query  = "UPDATE `mantis_user_table` SET `password` = 'e26f604637ae454f792f4fcbff878bd1' WHERE `id` ='2' ";
-      $result = execQuery($query); // passwd: manager2012
+   $query  = "UPDATE `mantis_user_table` SET `realname` = 'John the MANAGER' WHERE `id` ='2' ";
+   $result = execQuery($query);
+   $query  = "UPDATE `mantis_user_table` SET `username` = 'manager' WHERE `id` ='2' ";
+   $result = execQuery($query);
+   $query  = "UPDATE `mantis_user_table` SET `email` = 'manager@codevtt.org' WHERE `id` ='2' ";
+   $result = execQuery($query);
+   $query  = "UPDATE `mantis_user_table` SET `password` = 'e26f604637ae454f792f4fcbff878bd1' WHERE `id` ='2' ";
+   $result = execQuery($query); // passwd: manager2012
 
    // user1
-      $query  = "UPDATE `mantis_user_table` SET `realname` = 'User ONE' WHERE `id` ='8' ";
-      $result = execQuery($query);
-      $query  = "UPDATE `mantis_user_table` SET `username` = 'user1' WHERE `id` ='8' ";
-      $result = execQuery($query);
-      $query  = "UPDATE `mantis_user_table` SET `email` = 'user1@codevtt.org' WHERE `id` ='8' ";
-      $result = execQuery($query);
-      $query  = "UPDATE `mantis_user_table` SET `password` = 'ea36a50f4c8944dacadb16e6ca0dd582' WHERE `id` ='8' ";
-      $result = execQuery($query); // passwd: user2012
+   $query  = "UPDATE `mantis_user_table` SET `realname` = 'User ONE' WHERE `id` ='8' ";
+   $result = execQuery($query);
+   $query  = "UPDATE `mantis_user_table` SET `username` = 'user1' WHERE `id` ='8' ";
+   $result = execQuery($query);
+   $query  = "UPDATE `mantis_user_table` SET `email` = 'user1@codevtt.org' WHERE `id` ='8' ";
+   $result = execQuery($query);
+   $query  = "UPDATE `mantis_user_table` SET `password` = 'ea36a50f4c8944dacadb16e6ca0dd582' WHERE `id` ='8' ";
+   $result = execQuery($query); // passwd: user2012
+
+   // admin
+   $query  = "UPDATE `mantis_user_table` SET `password` = '14ac6a1e536a19ce6a199a21442f852a' WHERE `id` ='1' ";
+   $result = execQuery($query);
+}
+
+function updateTeams() {
+
+   // codev_admin team
+   $query  = "DELETE FROM `codev_team_user_table` WHERE `team_id` ='1' AND user_id NOT IN (1,3)"; // admin,lbayle
+   $result = execQuery($query);
+
+   // demo team
+   $query  = "UPDATE `codev_team_table` SET `name` = 'DEMO_Team' WHERE `id` ='4' ";
+   $result = execQuery($query);
+   $query  = "UPDATE `codev_team_table` SET `leader_id` = '2' WHERE `id` ='4' ";
+   $result = execQuery($query);
+   $query  = "UPDATE `codev_team_table` SET `description` = '' WHERE `id` ='4' ";
+   $result = execQuery($query);
+   $query  = "UPDATE `mantis_project_table` SET `name` = 'SideTasks DEMO_Team' WHERE `id` ='15' ";
+   $result = execQuery($query);
+
+   // CodevTT team
+   $query  = "UPDATE `codev_team_table` SET `name` = 'CodevTT' WHERE `id` ='10' ";
+   $result = execQuery($query);
+   
+}
+
+function updateProjects() {
+
+   $query  = "UPDATE `mantis_project_table` SET `name` = 'ExternalTasks' WHERE `id` ='1' ";
+   $result = execQuery($query);
+   
+   $query  = "UPDATE `mantis_project_table` SET `name` = 'SideTasks DEMO_Team' WHERE `id` ='15' ";
+   $result = execQuery($query);
+   $query  = "UPDATE `mantis_project_table` SET `description` = '' WHERE `id` ='15' ";
+   $result = execQuery($query);
+   
+   $query  = "UPDATE `mantis_project_table` SET `name` = 'SideTasks CodevTT' WHERE `id` ='49' ";
+   $result = execQuery($query);
+   
+   // template XXX
+   $query  = "DELETE FROM `mantis_project_table` WHERE `id` ='12'";
+   $result = execQuery($query);
+
+   // template CodevTT
+   $query  = "DELETE FROM `mantis_project_table` WHERE `id` ='13'";
+   $result = execQuery($query);
 
 }
 

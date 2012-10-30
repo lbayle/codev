@@ -81,7 +81,7 @@ class CheckController extends Controller {
       }
 
       // get team projects
-      $issueList = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true);
+      $issueList = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true, false);
 
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("getTeamConsistencyErrors nbIssues=".count($issueList));

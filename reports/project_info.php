@@ -30,6 +30,7 @@ class ProjectInfoController extends Controller {
       // Nothing special
    }
 
+
    protected function display() {
       if(Tools::isConnectedUser()) {
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
@@ -39,11 +40,11 @@ class ProjectInfoController extends Controller {
             // define the list of tasks the user can display
             // All projects from teams where I'm a Developper or Manager AND Observers
             $dTeamList = $user->getDevTeamList();
-            $devProjList = (0 == count($dTeamList)) ? array() : $user->getProjectList($dTeamList);
+            $devProjList = (0 == count($dTeamList)) ? array() : $user->getProjectList($dTeamList, true, false);
             $managedTeamList = $user->getManagedTeamList();
-            $managedProjList = (0 == count($managedTeamList)) ? array() : $user->getProjectList($managedTeamList);
+            $managedProjList = (0 == count($managedTeamList)) ? array() : $user->getProjectList($managedTeamList, true, false);
             $oTeamList = $user->getObservedTeamList();
-            $observedProjList = (0 == count($oTeamList)) ? array() : $user->getProjectList($oTeamList);
+            $observedProjList = (0 == count($oTeamList)) ? array() : $user->getProjectList($oTeamList, true, false);
             $projList = $devProjList + $managedProjList + $observedProjList;
 
             if(isset($_GET['projectid'])) {
@@ -63,10 +64,15 @@ class ProjectInfoController extends Controller {
 
             // if display project allowed
             if (in_array($projectid, array_keys($projList))) {
-               $isManager = true; // TODO
+
+               // find all teams where i'm manager and where this project is defined
+               $isManager = in_array($projectid, array_keys($managedProjList)) ? true : false;
                $this->smartyHelper->assign("isManager", $isManager);
 
                $project = ProjectCache::getInstance()->getProject($projectid);
+               $projectIssueSel = $project->getIssueSelection();
+
+               // --- FILTER TABS -------------
 
                // get selected filters
                $selectedFilters="";
@@ -84,50 +90,11 @@ class ProjectInfoController extends Controller {
                // save user preferances
                $user->setProjectFilters($selectedFilters, $projectid);
 
-               // --- FILTER TABS -------------
-
                // TODO: get allFilters from config.ini
-               $allFilters = "ProjectVersionFilter,ProjectCategoryFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter";
-               
-               $tmpList = explode(',', $allFilters);
-               $tmpList = array_filter($tmpList, create_function('$a','return $a!="";'));
-
-               $allFilterList = array();
-               foreach ($tmpList as $class_name) {
-                  if (NULL == $class_name) { continue; } // skip trailing commas ','
-                  $filter = new $class_name("fake_id");
-                  $allFilterList[$class_name] = $filter->getDisplayName();
+               $data = ProjectInfoTools::getDetailedCharges($projectid, $isManager, $selectedFilters);
+               foreach ($data as $smartyKey => $smartyVariable) {
+                  $this->smartyHelper->assign($smartyKey, $smartyVariable);
                }
-
-               // init dialogbox lists: $availFilterList & $selectedFilterList
-               $availFilterList = $allFilterList;
-
-               $selectedFilterList = array();
-               $filterDisplayNames = array();
-               foreach ($filterList as $id) {
-                  $selectedFilterList[$id] = $availFilterList[$id];
-                  $filterDisplayNames[]    = $allFilterList[$id];
-                  unset($availFilterList[$id]);
-               }
-
-               // do the work ...
-               $projectIssueSel = $project->getIssueSelection();
-               $filterMgr = new FilterManager($projectIssueSel, $filterList);
-               $resultList = $filterMgr->execute();
-               $explodeResults = $filterMgr->explodeResults($resultList);
-
-
-               // set smarty objects
-               $this->smartyHelper->assign('availFilterList', $availFilterList);
-               $this->smartyHelper->assign('selectedFilterList', $selectedFilterList);
-               $this->smartyHelper->assign('selectedFilters', $selectedFilters);
-               $this->smartyHelper->assign('nbFilters', count($filterList));
-               $this->getOverview($explodeResults, $filterDisplayNames);
-               if ($isManager) {
-                  $this->getDetailedMgr($explodeResults, $filterDisplayNames);
-               }
-               $this->getIssues($explodeResults, $filterDisplayNames);
-
 
                // --- DRIFT TABS -------------------
                
@@ -163,7 +130,7 @@ class ProjectInfoController extends Controller {
     * @param mixed[] $explodeResults
     * @param string[] $filterDisplayNames
     */
-   private function getOverview(array $explodeResults, array $filterDisplayNames) {
+   private function getOverview(array $explodeResults, array $filterDisplayNames, $isManager) {
 
       $iselIdx = count($explodeResults[0]) -1;
 
@@ -173,7 +140,6 @@ class ProjectInfoController extends Controller {
          $isel = $line[$iselIdx];
 
          // ---
-         $valuesMgr = $isel->getDriftMgr();
          $values = $isel->getDrift();
 
          // TODO show date only if ProjectVersion
@@ -191,14 +157,18 @@ class ProjectInfoController extends Controller {
             #'name' => $isel->name,
             #'date' => $date,
             'progress' => round(100 * $isel->getProgress()),
-            'reestimated' => $isel->getReestimated(),
             #'elapsed' => $isel->elapsed,
             'backlog' => $isel->duration,
-            'driftMgrColor' => IssueSelection::getDriftColor($valuesMgr['percent']),
-            'driftMgr' => round(100 * $valuesMgr['percent']),
             'driftColor' => IssueSelection::getDriftColor($values['percent']),
             'drift' => round(100 * $values['percent'])
          );
+         if ($isManager) {
+            $valuesMgr = $isel->getDriftMgr();
+            $smartyElem['reestimated'] = $isel->getReestimated();
+            $smartyElem['driftMgrColor'] = IssueSelection::getDriftColor($valuesMgr['percent']);
+            $smartyElem['driftMgr'] = round(100 * $valuesMgr['percent']);
+
+         }
 
          // ---
          $line[$iselIdx] = $smartyElem;
@@ -209,10 +179,10 @@ class ProjectInfoController extends Controller {
       $titles = $filterDisplayNames;
       #$titles[] = T_("Date");
       $titles[] = T_("Progress");
-      $titles[] = T_("Reestimated");
+      if ($isManager) { $titles[] = T_("Reestimated"); }
       #$titles[] = T_("Elapsed");
       $titles[] = T_("Backlog");
-      $titles[] = T_("Drift Mgr");
+      if ($isManager) { $titles[] = T_("Drift Mgr"); }
       $titles[] = T_("Drift");
 
       // set Smarty
@@ -307,20 +277,37 @@ class ProjectInfoController extends Controller {
                if ("" != $formatedNewList) {
                   $formatedNewList .= ', ';
                }
-               $formatedNewList .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
+               $titleAttr = array(
+                     T_('Project') => $issue->getProjectName(),
+                     T_('Summary') => $issue->getSummary(),
+               );
+               $formatedNewList .= Tools::issueInfoURL($bugid, $titleAttr);
 
             } elseif ($issue->getCurrentStatus() >= $issue->getBugResolvedStatusThreshold()) {
                if ("" != $formatedResolvedList) {
                   $formatedResolvedList .= ', ';
                }
-               $title = "(".$issue->getDrift().') ['.$issue->getProjectName().'] '.$issue->getSummary();
-               $formatedResolvedList .= Tools::issueInfoURL($bugid, $title);
+               #$title = "(".$issue->getDrift().') ['.$issue->getProjectName().'] '.$issue->getSummary();
+               $titleAttr = array(
+                   T_('Project') => $issue->getProjectName(),
+                   T_('Summary') => $issue->getSummary(),
+                   T_('Drift') => $issue->getDrift(),
+                   'DriftColor' => $issue->getDriftColor()
+               );
+               $formatedResolvedList .= Tools::issueInfoURL($bugid, $titleAttr);
             } else {
                if ("" != $formatedOpenList) {
                   $formatedOpenList .= ', ';
                }
-               $title = "(".$issue->getDrift().", ".$issue->getCurrentStatusName().') ['.$issue->getProjectName().'] '.$issue->getSummary();
-               $formatedOpenList .= Tools::issueInfoURL($bugid, $title);
+               #$title = "(".$issue->getDrift().", ".$issue->getCurrentStatusName().') ['.$issue->getProjectName().'] '.$issue->getSummary();
+               $titleAttr = array(
+                   T_('Project') => $issue->getProjectName(),
+                   T_('Summary') => $issue->getSummary(),
+                   T_('Status') => $issue->getCurrentStatusName(),
+                   T_('Drift') => $issue->getDrift(),
+                   'DriftColor' => $issue->getDriftColor()
+               );
+               $formatedOpenList .= Tools::issueInfoURL($bugid, $titleAttr);
             }
          }
 
@@ -356,24 +343,22 @@ class ProjectInfoController extends Controller {
     * @return mixed[]
     */
    private function getSmartyDirftedIssue(Issue $issue, $isManager) {
-      $driftPrelEE = ($isManager) ? $issue->getDriftMgr() : 0;
-      $driftEE = $issue->getDrift();
-
+      $driftMgr = ($isManager) ? $issue->getDriftMgr() : 0;
+      $drift = $issue->getDrift();
       $driftMgrColor = NULL;
-      $driftMgr = NULL;
       if ($isManager) {
-         if ($driftPrelEE < -1) {
+         if ($driftMgr < -1) {
             $driftMgrColor = "#61ed66";
-         } else if ($driftPrelEE > 1) {
+         } else if ($driftMgr > 1) {
             $driftMgrColor = "#fcbdbd";
          }
-         $driftMgr = round($driftPrelEE, 2);
+         $driftMgr = round($driftMgr, 2);
       }
       
       $driftColor = NULL;
-      if ($driftEE < -1) {
+      if ($drift < -1) {
          $driftColor = "#61ed66";
-      } else if ($driftEE > 1) {
+      } else if ($drift > 1) {
          $driftColor = "#fcbdbd";
       }
 
@@ -385,7 +370,7 @@ class ProjectInfoController extends Controller {
          'driftMgrColor' => $driftMgrColor,
          'driftMgr' => $driftMgr,
          'driftColor' => $driftColor,
-         'drift' => round($driftEE, 2),
+         'drift' => round($drift, 2),
          'backlog' => $issue->getBacklog(),
          'progress' => round(100 * $issue->getProgress()),
          'currentStatusName' => $issue->getCurrentStatusName(),

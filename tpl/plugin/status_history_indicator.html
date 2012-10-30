@@ -1,0 +1,18 @@
+{if isset($status_history_data1)}
+{include file="tools/graph.html"}
+
+<script type="text/javascript">
+   jQuery(document).ready(function(){
+      var chart = jQuery('#chart1b');
+
+      var chartoptions = jQuery('#chart1b').data('plotoptions');
+      chartoptions.axes.xaxis.ticks = {$status_history_xaxis};
+      chartoptions.seriesColors = {$status_history_data1Colors};
+      chartoptions.legend.labels = {$status_history_data1Labels};
+
+      chart.jqplot({$status_history_data1}, chartoptions);
+   });
+</script>
+
+<div id="chart1b" class="area_chart chart" style="width:100%;"></div>
+{/if}

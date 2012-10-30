@@ -40,7 +40,7 @@ class SetHolidaysController extends Controller {
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
          // if first call to this page
-         if (!isset($_POST['nextForm'])) {
+         if (!array_key_exists('nextForm',$_POST)) {
             $lTeamList = $session_user->getLeadedTeamList();
             if (0 != count($lTeamList)) {
                // User is TeamLeader, let him choose the user he wants to manage
@@ -58,7 +58,8 @@ class SetHolidaysController extends Controller {
             }
          }
 
-         if ($_POST['nextForm'] == "addHolidaysForm") {
+         $nextForm = Tools::getSecurePOSTStringValue('nextForm','');
+         if ($nextForm == "addHolidaysForm") {
             $userid = Tools::getSecurePOSTIntValue('userid',$session_user->getId());
 
             $managed_user = UserCache::getInstance()->getUser($userid);
@@ -109,8 +110,8 @@ class SetHolidaysController extends Controller {
             }
 
             // SideTasks Project List
-            $devProjList = $managed_user->getProjectList($managed_user->getDevTeamList());
-            $managedProjList = $managed_user->getProjectList($managed_user->getManagedTeamList());
+            $devProjList = $managed_user->getProjectList($managed_user->getDevTeamList(), true, false);
+            $managedProjList = $managed_user->getProjectList($managed_user->getManagedTeamList(), true, false);
             $projList = $devProjList + $managedProjList;
 
             foreach ($projList as $pid => $pname) {

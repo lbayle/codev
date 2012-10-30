@@ -1,25 +1,33 @@
 <script type="text/javascript">
    jQuery(document).ready(function() {
       jQuery("#teamid").change(function() {
-         var form = jQuery('#selectForm');
+         var form = jQuery('#mainForm');
          form.find("select[name=cmdid]").val("0");
          form.find("input[name=action]").val("setTeam");
          form.submit();
       });
 
-      jQuery("#sendForm").click(function() {
-         var form = jQuery('#selectForm');
+      jQuery("#btDisplayPage").click(function() {
+         var form = jQuery('#mainForm');
          form.find("input[name=action]").val("displayCommand");
          form.submit();
       });
+
+      jQuery.ajax({
+         url: "js/helpdialog.js",
+         dataType: "script",
+         cache: true
+      });
+
    });
+
 </script>
 
 <div id="content">
 
    <div align="center">
       <!-- create form -->
-      <form id="selectForm" name="selectForm" class="formWithTabsHistory" method="post" action="{$page}">
+      <form id="mainForm" name="mainForm" class="formWithTabsHistory" method="post" action="{$page}">
          <fieldset>
             <label for="teamid">{t}Team{/t}: </label>
             <select id="teamid" name="teamid">
@@ -31,12 +39,14 @@
             <label for="cmdid">{t}Command{/t}: </label>
             <select id="cmdid" name="cmdid" class="select2" style="width:400px;">
                {foreach from=$commands key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} {$i.name}</option>
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} - {$i.name}</option>
                {/foreach}
                <option value="0">{t}--- Create New Command ---{/t}</option>
             </select>
-            <input type="button" id="sendForm" value="{t}Jump{/t}" />
+            <input type="button" id="btDisplayPage" value="{t}Jump{/t}" />
             <input type="hidden" name="action" value="displayCommand" />
+
+            <input type="hidden" name="selectedFilters" value="{$selectedFilters}" />
          </fieldset>
       </form>
    </div>
@@ -44,53 +54,12 @@
    {if isset($cmdid)}
    {include file="modal/consistency_check.html"}
    
-   <div align="center">
-      <h2>{$cmdReference} {$cmdName}</h2>
-      {$cmdDesc}
+   <div align="center" style="margin-top: 3em;">
+      <h2 title="{$cmdid}">{$cmdName}</h2>
    </div>
 
    <div style="margin-top: 2em;">
       <table class="invisible">
-         <tr>
-            <th>{t}Reference{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdReference}</td>
-         </tr>
-         <tr>
-            <th>{t}Version{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdVersion}</td>
-         </tr>
-         <tr>
-            <th>{t}Reporter{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdReporter}</td>
-         </tr>
-         <tr>
-            <th>{t}Start date{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdStartDate}</td>
-         </tr>
-         <tr>
-            <th>{t}End date{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdDeadline}</td>
-         </tr>
-         <tr>
-            <th>{t}State{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdState}</td>
-         </tr>
-         <tr>
-            <th>{t}Cost{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdCost} {$cmdCurrency}</td>
-         </tr>
-         <tr>
-            <th>{t}Budget{/t}</th>
-            <td valign="top">: </td>
-            <td>{$cmdBudgetDev} {t}days{/t}</td>
-         </tr>
          <tr>
             <th valign="top">{t}CommandSet{/t}</th>
             <td valign="top">: </td>
@@ -100,52 +69,128 @@
                {/foreach}
             </td>
          </tr>
+         <tr>
+            <th valign="top">{t}Budget{/t}</th>
+            <td valign="top">: </td>
+            <td>
+               <table>
+                  <tr>
+                     <th></th>
+                     <th valign="top">{t}Budget{/t}</th>
+                     <th valign="top">{t}Outlay{/t}</th>
+                  </tr>
+                  <tr>
+                     <th>{$cmdCurrency}</th>
+                     <td align='right' title ="MgrEffortEstim + Provisions" >{$cmdProvAndMeeCost} </td>
+                     <td align='right' style="background-color:#{$cmdOutlayCostColor}" title='{t}Elapsed days * AverageDailyRate{/t}' >{$cmdOutlayCost}</td>
+                  </tr>
+                  <tr>
+                     <th>{t}Days{/t}</th>
+                     <td align='right' title="MgrEffortEstim + Provisions">{$cmdProvAndMeeDays}</td>
+                     <td align='right'  style="background-color:#{$cmdTotalElapsedColor}" title='{t}Elapsed (days){/t}' >{$cmdTotalElapsed}</td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
       </table>
+
       {if isset($isEditGranted) && $isEditGranted}
+      <div style="margin-top:2em;">
       <button onclick="location.href='management/command_edit.php'"><img  border="0" align="absmiddle" src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
+      </div>
       {/if}
    </div>
 
    {include file="tools/graph.html"}
-   <script src="js/tabs.js" type="text/javascript"></script>
    <div id="tabsCommand" class="tabs" style="margin-top:2em;">
       <ul>
-         <li><a href="#tabsName-3">{t}Charges{/t}</a></li>
-         <li><a href="#tabsName-4">{t}Activity{/t}</a></li>
-         <li><a href="#tabsName-1">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
-         <li><a href="#tabsName-2">{t}Indicators{/t}</a></li>
+         <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
+         <li><a href="#tabsName-2">{t}Activity{/t}</a></li>
+         <li><a href="#tab_attributes">{t}Attributes{/t}</a></li>
+         <li><a href="#tabsName-3">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
+         <li><a href="{$ajaxPage}?action=getProgressHistoryIndicator">{t}Indicators{/t}</a></li>
+         <li><a href="#tabsName-4">{t}Status History{/t}</a></li>
       </ul>
-
-      <div id="tabsName-3">
-         {if $cmdDetailedMgr}
-         <table>
-            <thead>
-               <tr>
-                  <th>{t}MgrEffortEstim{/t}</th>
-                  <th title="backlogMgr + elapsed">{t}Reestimated Mgr{/t}</th>
-                  <th>{t}Elapsed{/t}</th>
-                  <th>{t}Backlog{/t}</th>
-                  <th style="width: 80px">{t}Drift Mgr{/t}</th>
-                  <th>{t}Progress{/t}</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>{$cmdDetailedMgr.effortEstim}</td>
-                  <td>{$cmdDetailedMgr.reestimated}</td>
-                  <td>{$cmdDetailedMgr.elapsed}</td>
-                  <td>{$cmdDetailedMgr.backlog}</td>
-                  <td {$cmdDetailedMgr.driftColor} title="{t}nb days{/t}">{$cmdDetailedMgr.drift}</td>
-                  <td><div class="progress">{$cmdDetailedMgr.progress}%</div></td>
-               </tr>
-            </tbody>
+      <div id="tabsName-1">{include file="plugin/detailed_charges_indicator.html"}</div>
+      <div id="tabsName-2">{include file="plugin/activity_indicator.html"}</div>
+      <div id="tab_attributes">
+         <table class="invisible">
+            <tr>
+               <th>{t}State{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdState}</td>
+            </tr>
+            <tr>
+               <th>{t}Reference{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdReference}</td>
+            </tr>
+            <tr>
+               <th>{t}Version{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdVersion}</td>
+            </tr>
+            <tr>
+               <th>{t}Reporter{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdReporter}</td>
+            </tr>
+            <tr>
+               <th>{t}Start date{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdStartDate}</td>
+            </tr>
+            <tr>
+               <th>{t}End date{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdDeadline}</td>
+            </tr>
+            <tr>
+               <th title="{t}Average Daily Rate{/t}" >{t}Default ADR{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdAverageDailyRate} {$cmdCurrency}</td>
+            </tr>
+            <tr>
+               <th title="{t}Tasks & Provisions{/t}">{t}Sold Charge{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdTotalSoldDays} {t}days{/t}</td>
+            </tr>
+            <tr>
+               <th valign="top">{t}Description{/t}</th>
+               <td valign="top">: </td>
+               <td><textarea rows='6' cols='120' name='description'  id='description'>{$cmdDesc}</textarea></td>
+            </tr>
+            <tr>
+               <th valign="top">{t}Provisions{/t}</th>
+               <td valign="top">: </td>
+               <td>
+                  <table>
+                     <tr>
+                        <th>{t}Date{/t}</th>
+                        <th>{t}Type{/t}</th>
+                        <th>{t}Budget Days{/t}</th>
+                        <th>{t}Budget{/t}</th>
+                        <th title="{t}Average Daily Rate{/t}">{t}ADR{/t}</th>
+                        <th>{t}Summary{/t}</th>
+                     </tr>
+                     {foreach $cmdProvisionList as $id => $prov}
+                     <tr>
+                        <td>{$prov.date}</td>
+                        <td>{$prov.type}</td>
+                        <td>{$prov.budget_days}</td>
+                        <td style="text-align:right">{$prov.budget} {$prov.currency}</td>
+                        <td>{$prov.average_daily_rate}</td>
+                        <td>{$prov.summary}</td>
+                     </tr>
+                     {/foreach}
+                  </table>
+               </td>
+            </tr>
          </table>
-         {else}
-         {t}No task found.{/t}
-         {/if}
-      </div>
 
-      <div id="tabsName-1">
+
+      </div>
+      <div id="tabsName-3">
          {if $cmdShortIssueList}
          {t}Short List: {/t}<br>{$cmdShortIssueList}<br>
          {/if}
@@ -192,36 +237,30 @@
          {t}No task found.{/t}
          {/if}
       </div>
-
-      <div id="tabsName-2">
-         {if $indicators_jqplotData}
-            <script type="text/javascript">
-               jQuery(document).ready(function() {
-                  var chartoptions = jQuery('#indicatorsChart').data('plotoptions');
-                  chartoptions.title.text = '{t}Historical Progression Chart{/t}';
-                  chartoptions.legend.location = 'nw';
-                  chartoptions.series = [{
-                     label : "{t}Theoric{/t}"
-                  },{
-                     label : "{t}Real{/t}"
-                  }];
-                  chartoptions.axes.xaxis.min = "{$indicators_plotMinDate}";
-                  chartoptions.axes.xaxis.max = "{$indicators_plotMaxDate}";
-                  chartoptions.axes.yaxis.label = '{t}% Progress{/t}';
-                  chartoptions.axes.yaxis.min = 0;
-                  jQuery('#indicatorsChart').jqplot({$indicators_jqplotData}, chartoptions);
-               });
-            </script>
-            <div id="indicatorsChart" class="date_chart chart" style="width:100%;"></div>
-            {else}
-         <p>{t}No data{/t}</p>
-         {/if}
-      </div>
-
       <div id="tabsName-4">
-      {include file="plugin/activity_indicator.html"}
-      </div>
+         <h2>{t}Internal Bugs Status History{/t} &nbsp;&nbsp;<a id="dialog_bugStatusHistory_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
 
+         <div id="dialog_bugStatusHistory" class="help_dialog ui-helper-hidden" title="{t}Internal Bugs Status History{/t}">
+            <p>{t}Graph showing the number of internal bugs per status.{/t}<br>
+            </p>
+            <p>
+               {t}Internal bugs have the following caracteristics:{/t}<br>
+               <table class="invisible">
+                  <tr>
+                     <td><strong>{t}External Reference{/t}</strong></td>
+                     <td>: <span style="color:blue"><em>{t}None{/t}</em></span></td>
+                  <tr>
+                  <tr>
+                     <td><strong>CodevTT_Type</strong></td>
+                     <td>: <span style="color:blue">"Bug"</span></td>
+                  <tr>
+               </table>
+            </p>
+         </div>
+
+         {include file="plugin/status_history_indicator.html"}
+
+      </div>
       {/if}
    </div>
    <script type="text/javascript">
@@ -234,3 +273,4 @@
       });
    </script>
 </div>
+

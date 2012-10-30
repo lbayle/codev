@@ -11,7 +11,7 @@
                   data: "action=getProjectIssues&projectid="+projectid+"&bugid="+jQuery("#bugid").val(),
                   success: function(data) {
                      jQuery("#bugSelector").html(jQuery.trim(data));
-                     jQuery(".select2").select2();
+                     updateWidgets("#bugSelector");
 
                      // Hide result because the form is no more consistent with the result
                      jQuery("#result").hide();
@@ -51,7 +51,7 @@
       <div style="margin-top:2em;">{include file="modal/consistency_check.html"}</div>
 
       <div class="center">
-         {if $issueGeneralInfo.issueExtRef}<span title="{t}External ID{/t}">{$issueGeneralInfo.issueExtRef}</span>{/if}
+         <!--{if $issueGeneralInfo.issueExtRef}<span title="{t}External ID{/t}">{$issueGeneralInfo.issueExtRef}</span>{/if}-->
          <h2>{$issueGeneralInfo.mantisURL} {$issueGeneralInfo.issueURL} : {$issueGeneralInfo.issueSummary}</h2>
       </div>
 
@@ -69,14 +69,29 @@
             </tr>
             {/if}
             <tr>
+               <th>{t}Project{/t}</th>
+               <td>: </td>
+               <td>{$issueGeneralInfo.projectName}</td>
+            </tr>
+            <tr>
+               <th>{t}Category{/t}</th>
+               <td>: </td>
+               <td>{$issueGeneralInfo.categoryName}</td>
+            </tr>
+            <tr>
                <th>{t}Assigned to{/t}</th>
                <td>: </td>
                <td>{$issueGeneralInfo.handlerName}</td>
             </tr>
             <tr>
-               <th>{t}Status{/t}</th>
+               <th>{t}Attributes{/t}</th>
                <td>: </td>
-               <td>{$issueGeneralInfo.statusName}</td>
+               <td>{t}Status{/t}: <strong>{$issueGeneralInfo.statusName}</strong>,&nbsp; {t}Priority{/t}: <strong>{$issueGeneralInfo.priorityName}</strong>,&nbsp; {t}Severity{/t}: <strong>{$issueGeneralInfo.severityName}</strong></td>
+            </tr>
+            <tr>
+               <th>{t}Type{/t}</th>
+               <td>: </td>
+               <td>{$issueGeneralInfo.issueType}</td>
             </tr>
             <tr>
                <th valign='top'>{t}Commands{/t}</th>
@@ -87,11 +102,15 @@
                   {/foreach}
                </td>
             </tr>
+            <tr>
+               <th valign="top">{t}Description{/t}</th>
+               <td valign="top">: </td>
+               <td><textarea rows='6' cols='120' name='description'  id='description'>{$issueGeneralInfo.issueDescription}</textarea></td>
+            </tr>
          </tbody>
       </table>
 
       {include file="tools/graph.html"}
-      <script src="js/tabs.js" type="text/javascript"></script>
       <div id="tabsIssueInfo" class="tabs" style="margin-top:3em;">
          <ul>
             <li><a href="#tabsName-1">{t}Overview{/t}</a></li>
@@ -102,7 +121,7 @@
          <div id="tabsName-1">
             <!-- General info -->
             <div id="issueGeneralInfo" class="float">
-               {include file="ajax/generalInfo.html"}
+               {include file="ajax/issueGeneralInfo.html"}
             </div>
 
             <script type="text/javascript">
@@ -175,6 +194,7 @@
                                  data: "action=getGeneralInfo&bugid="+bugid,
                                  success: function(data) {
                                     jQuery("#issueGeneralInfo").html(jQuery.trim(data));
+                                    updateWidgets("#issueGeneralInfo");
                                  },
                                  error: function(jqXHR, textStatus, errorThrown) {
                                     if(errorThrown == 'Forbidden') {
@@ -277,6 +297,7 @@
                      {foreach from=$i.months key=id item=j}
                      <th>{$j}</th>
                      {/foreach}
+                     <th>TOTAL</th>
                   </tr>
                </thead>
                <tbody>
@@ -286,6 +307,7 @@
                      {foreach from=$k.jobs key=id item=l}
                      <td style="{if isset($l.jobColor)}background-color: #{$l.jobColor};{/if} text-align: center;" {if isset($l.jobDescription)}title="{$l.jobDescription}"{/if}>{if isset($l.jobDuration)}{$l.jobDuration}{/if}</td>
                      {/foreach}
+                     <th>{$k.totalDuration}</th>
                   </tr>
                   {/foreach}
                </tbody>

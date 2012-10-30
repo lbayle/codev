@@ -82,7 +82,15 @@ class IndexController extends Controller {
     * @return mixed[]
     */
    private function getIssuesInDrift(User $user) {
-      $allIssueList = $user->getAssignedIssues();
+
+      // get all teams except those where i'm Observer
+      $dTeamList = $user->getDevTeamList();
+      $mTeamList = $user->getManagedTeamList();
+      $teamList = $dTeamList + $mTeamList;           // array_merge does not work ?!
+      // except disabled projects
+      $projList = $user->getProjectList($teamList, true, false);
+
+      $allIssueList = $user->getAssignedIssues($projList);
       $issueList = array();
       $driftedTasks = array();
 
@@ -124,7 +132,9 @@ class IndexController extends Controller {
       $consistencyErrors = array(); // if null, array_merge fails !
 
       $teamList = $sessionUser->getTeamList();
-      $projList = $sessionUser->getProjectList($teamList);
+
+      // except disabled projects
+      $projList = $sessionUser->getProjectList($teamList, true, false);
 
       $issueList = $sessionUser->getAssignedIssues($projList, true);
 
@@ -136,7 +146,11 @@ class IndexController extends Controller {
          foreach ($cerrList as $cerr) {
             if ($sessionUser->getId() == $cerr->userId) {
                $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-               $consistencyErrors[] = array('issueURL' => Tools::issueInfoURL($cerr->bugId, '['.$issue->getProjectName().'] '.$issue->getSummary()),
+               $titleAttr = array(
+                   T_('Project') => $issue->getProjectName(),
+                   T_('Summary') => $issue->getSummary(),
+               );
+               $consistencyErrors[] = array('issueURL' => Tools::issueInfoURL($cerr->bugId, $titleAttr),
                   'status' => Constants::$statusNames[$cerr->status],
                   'desc' => $cerr->desc);
             }
@@ -160,7 +174,7 @@ class IndexController extends Controller {
 
       $issueList = array();
       foreach ($teamList as $teamid) {
-         $issues = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true);
+         $issues = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true, false);
          $issueList = array_merge($issueList, $issues);
       }
 

@@ -18,13 +18,13 @@ class ClassFileMap {
     * Stores a name for this class file map.  For user usage.
     * @var string
     */
-   private $_sName;
+   //private $_sName;
 
    /**
     * Stores the timestamp of this class file map's creation.
     * @var int
     */
-   private $_iCreated;
+   //private $_iCreated;
 
    /**
     * Constructor
@@ -32,8 +32,8 @@ class ClassFileMap {
     * @param string $sName an optional name to give this class file map.
     */
    function __construct($sName = null) {
-      $this->_iCreated = time();
-      $this->_sName = $sName;
+      //$this->_iCreated = time();
+      //$this->_sName = $sName;
    }
 
    /**
@@ -64,7 +64,8 @@ class ClassFileMap {
     * @return string
     */
    public function getName() {
-      return $this->_sName;
+      //return $this->_sName;
+      return NULL;
    }
 
    /**

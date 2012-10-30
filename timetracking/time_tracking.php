@@ -113,8 +113,9 @@ class TimeTrackingController extends Controller {
                if ($job != $job_support) {
                   // decrease backlog (only if 'backlog' already has a value)
                   $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-                  if (!is_null($issue->getBacklog())) {
-                     $backlog = $issue->getBacklog() - $duration;
+                  $backlog = $issue->getBacklog();
+                  if (!is_null($backlog) && is_numeric($backlog)) {
+                     $backlog = $backlog - $duration;
                      if ($backlog < 0) { $backlog = 0; }
                      $issue->setBacklog($backlog);
                   }
@@ -127,18 +128,33 @@ class TimeTrackingController extends Controller {
 
                      $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $issue->getDeadLine());
 
+                     $totalEE = ($issue->getEffortEstim() + $issue->getEffortAdd());
+                     
+                     // Note: if Backlog is NULL, the values to propose in the DialogBox 
+                     //       are not the ones used for ProjectManagement
+                     $backlog = $issue->getBacklog();
+                     if ( !is_null($backlog) && is_numeric($backlog)) {
+                        // normal case
+                        $drift = $issue->getDrift();
+                     } else {
+                        // reestimated cannot be used...
+                        $backlog = $totalEE - $issue->getElapsed();
+                        if ($backlog < 0) { $backlog = 0;}
+                        $drift = ($issue->getElapsed() + $backlog) - $totalEE;
+                     }
+
                      $issueInfo = array(
-                        'backlog' => $issue->getBacklog(),
+                        'backlog' => $backlog,
                         'bugid' => $issue->getId(),
                         'description' => $issue->getSummary(),
                         'dialogBoxTitle' => $issue->getFormattedIds(),
-                        'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),
+                        'effortEstim' => $totalEE,
                         'mgrEffortEstim' => $issue->getMgrEffortEstim(),
                         'elapsed' => $issue->getElapsed(),
-                        'drift' => $issue->getDrift(),
+                        'drift' => $drift,
                         'driftMgr' => $issue->getDriftMgr(),
                         'reestimated' => $issue->getReestimated(),
-                        'driftColor' => $issue->getDriftColor(),
+                        'driftColor' => $issue->getDriftColor($drift),
                         'deadline' => $formatedDate
 
                      );
@@ -218,10 +234,10 @@ class TimeTrackingController extends Controller {
             $this->smartyHelper->assign('date', $defaultDate);
 
             // All projects from teams where I'm a Developper
-            $devProjList = $managed_user->getProjectList($managed_user->getDevTeamList());
+            $devProjList = $managed_user->getProjectList($managed_user->getDevTeamList(), true, false);
 
             // SideTasksProjects from Teams where I'm a Manager
-            $managedProjList = $managed_user->getProjectList($managed_user->getManagedTeamList());
+            $managedProjList = $managed_user->getProjectList($managed_user->getManagedTeamList(), true, false);
             $projList = $devProjList + $managedProjList;
 
             $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList,$defaultProjectid));
@@ -253,8 +269,10 @@ class TimeTrackingController extends Controller {
             $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
             $timeTracking = new TimeTracking($startTimestamp, $endTimestamp);
             
-            $incompleteDays = $timeTracking->checkCompleteDays($userid, FALSE);
-            $smartyWeekDates = TimeTrackingTools::getSmartyWeekDates($weekDates,$incompleteDays);
+            $incompleteDays = array_keys($timeTracking->checkCompleteDays($userid, TRUE));
+            $missingDays = $timeTracking->checkMissingDays($userid);
+            $errorDays = array_merge($incompleteDays,$missingDays);
+            $smartyWeekDates = TimeTrackingTools::getSmartyWeekDates($weekDates,$errorDays);
 
             // UTF8 problems in smarty, date encoding needs to be done in PHP
             $this->smartyHelper->assign('weekDates', array(
@@ -264,67 +282,55 @@ class TimeTrackingController extends Controller {
                $smartyWeekDates[6], $smartyWeekDates[7]
             ));
 
-            $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $userid, $timeTracking, $incompleteDays);
+            $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $userid, $timeTracking, $errorDays);
             $this->smartyHelper->assign('weekTasks', $weekTasks["weekTasks"]);
             $this->smartyHelper->assign('dayTotalElapsed', $weekTasks["totalElapsed"]);
 
-            $this->smartyHelper->assign('warnings', $this->getCheckWarnings($userid));
-            
             $timeTrackingTuples = $this->getTimetrackingTuples($userid, $timeTracking);
             $this->smartyHelper->assign('weekTimetrackingTuples', $timeTrackingTuples['current']);
             $this->smartyHelper->assign('timetrackingTuples', $timeTrackingTuples['future']);
+
+            // ConsistencyCheck
+            $consistencyErrors = $this->getConsistencyErrors($userid);
+            if(count($consistencyErrors) > 0) {
+               $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
+               $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+               $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
+            }
+
          }
       }
    }
 
    /**
-    * display accordion with missing imputations
+    * display missing imputations
+    *
     * @param int $userid
     * @param int $team_id
-    * @param boolean $isStrictlyTimestamp
-    * @return mixed[]
+    * @return mixed[] consistencyErrors
     */
-   private function getCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = FALSE) {
-      // 2010-05-31 is the first date of use of this tool
-      $user1 = UserCache::getInstance()->getUser($userid);
+   private function getConsistencyErrors($userid, $team_id = NULL) {
 
-      $startTimestamp = $user1->getArrivalDate($team_id);
+      $user = UserCache::getInstance()->getUser($userid);
+
+      $startTimestamp = $user->getArrivalDate($team_id);
       $endTimestamp = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
       $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $team_id);
 
-      $incompleteDays = $timeTracking->checkCompleteDays($userid, $isStrictlyTimestamp);
-      $missingDays = $timeTracking->checkMissingDays($userid);
+      $cerrList = ConsistencyCheck2::checkIncompleteDays($timeTracking, $userid);
 
-      $warnings = NULL;
-      foreach ($incompleteDays as $date => $value) {
-         if ($date > time()) {
-            // skip dates in the future
-            continue;
+      if (count($cerrList) > 0) {
+         foreach ($cerrList as $cerr) {
+            if ($userid == $cerr->userId) {
+               $consistencyErrors[] = array(
+                  'date' => date("Y-m-d", $cerr->timestamp),
+                  'severity' => $cerr->getLiteralSeverity(),
+                  'severityColor' => $cerr->getSeverityColor(),
+                  'desc' => $cerr->desc);
+               }
          }
-
-         if ($value < 1) {
-            $value = T_("incomplete (missing ").(1-$value).T_(" days").")";
-         } else {
-            $value = T_("inconsistent")." (".($value)." ".T_("days").")";
-         }
-
-         $warnings[] = array(
-            'date' => date("Y-m-d", $date),
-            'value' => $value);
       }
-
-      foreach ($missingDays as $date) {
-         if ($date > time()) {
-            // skip dates in the future
-            continue;
-         }
-
-         $warnings[] = array(
-            'date' => date("Y-m-d", $date),
-            'value' => T_("not defined."));
-      }
-
-      return $warnings;
+      return $consistencyErrors;
    }
 
    /**

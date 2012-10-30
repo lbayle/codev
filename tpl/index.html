@@ -7,25 +7,13 @@
 
 <!-- Main content -->
 <div id="homepage_list" class="left" style="margin-top:2em;">
-   <ul>
-      <li><a href="{$mantisURL}">Mantis</a></li>
-   </ul>
-   <ul>
-      <!-- Saisie des CRA -->
-      <li><a href="timetracking/time_tracking.php">{t}Time Tracking{/t}</a></li>
-      <!-- Affichage des congés -->
-      <li><a href="timetracking/holidays_report.php">{t}Holidays{/t}</a></li>
-   </ul>
-   <ul>
-      <!-- Affichage du planning -->
-      <li><a href="reports/planning_report.php">{t}Planning{/t}</a></li>
-      <!-- Info fiche -->
-      <li><a href="reports/issue_info.php">{t}Task information{/t}</a></li>
-      <!-- Activité hebdomadaire -->
-      <li><a href="timetracking/team_activity_report.php">{t}Weekly activity{/t}</a></li>
-      <!-- Indicateurs de production -->
-      <!-- <li><a href="reports/productivity_report.php">{t}Productivity Reports{/t}</a></li> -->
-   </ul>
+
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+
 </div>
 
 {if isset($driftedTasks)}
@@ -159,7 +147,7 @@
                <tbody>
                   {foreach from=$consistencyErrors key=id item=i}
                   <tr>
-                     <td>{$i.issueURL}</td>
+                     <td>{if isset($i.issueURL)}{$i.issueURL}{/if}</td>
                      <td class="ui-state-error-text">{$i.status}</td>
                      <td class="ui-state-error-text" {if isset($i.addInfo)}title="{$i.addInfo}"{/if}>{$i.desc}</td>
                   </tr>

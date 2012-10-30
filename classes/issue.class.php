@@ -68,7 +68,6 @@ class Issue extends Model implements Comparable {
    private $version;  // Product Version
    private $last_updated;
    private $view_state; // public = 10, private = 50
-
    private $description;
    private $target_version;
    private $relationships = array(); // array[relationshipType][bugId]
@@ -87,7 +86,7 @@ class Issue extends Model implements Comparable {
      */
 
    // CodevTT custom fields
-   private $tcId;         // TelelogicChange id
+   private $extRef;         // TelelogicChange id
    private $backlog;
    private $mgrEffortEstim;  // Manager EffortEstim (ex prelEffortEstim/ETA)
    private $effortEstim;  // BI
@@ -95,8 +94,14 @@ class Issue extends Model implements Comparable {
    private $deadLine;
    private $deliveryDate;
    private $deliveryId;   // TODO FDL (FDJ specific)
+   private $type; // string: "Bug" or "Task"
 
    private $tagList; // mantis tags
+
+   // cache computed fields
+   private $duration; // duration = backlog or max(effortEstim, mgrEffortEstim)
+   private $drift;
+   private $driftMgr;
 
    /**
     * @var Status[]
@@ -203,8 +208,10 @@ class Issue extends Model implements Comparable {
       $deadLineField = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $deliveryDateField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
       #$deliveryIdField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+      $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
+
       $customFields = array(
-         $extIdField, $mgrEffortEstimField, $effortEstimField, $backlogField, $addEffortField, $deadLineField, $deliveryDateField #, $deliveryIdField
+         $extIdField, $mgrEffortEstimField, $effortEstimField, $backlogField, $addEffortField, $deadLineField, $deliveryDateField, $customField_type #, $deliveryIdField
       );
       $query = "SELECT field_id, value FROM `mantis_custom_field_string_table` ".
                "WHERE bug_id = ".$this->bugId." ".
@@ -217,7 +224,7 @@ class Issue extends Model implements Comparable {
       while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          switch ($row->field_id) {
             case $extIdField:
-               $this->tcId = $row->value;
+               $this->extRef = $row->value;
                break;
             case $mgrEffortEstimField:
                $this->mgrEffortEstim = $row->value;
@@ -237,8 +244,11 @@ class Issue extends Model implements Comparable {
             case $deliveryDateField:
                $this->deliveryDate = $row->value;
                break;
-            case $deliveryIdField:
-               $this->deliveryId = $row->value;
+            #case $deliveryIdField:
+            #   $this->deliveryId = $row->value;
+            #   break;
+            case $customField_type:
+               $this->type = $row->value;
                break;
          }
       }
@@ -306,7 +316,7 @@ class Issue extends Model implements Comparable {
     */
    public function getDescription() {
       if (NULL == $this->description) {
-         $query = "SELECT description FROM `mantis_bug_text_table` WHERE id = ".$this->bugId.";";
+         $query = "SELECT bt.description FROM mantis_bug_text_table bt, mantis_bug_table b WHERE b.id=".$this->bugId." AND b.bug_text_id = bt.id";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -330,6 +340,17 @@ class Issue extends Model implements Comparable {
       return $this->tagList;
    }
 
+   /**
+    * value ao the CodevTT customField 'Type'
+    * @return String type "Bug" or "Task"
+    */
+   public function getType() {
+      if(!$this->customFieldInitialized) {
+         $this->customFieldInitialized = true;
+         $this->initializeCustomField();
+      }
+      return $this->type;
+   }
 
    /**
     * @return IssueNote[]
@@ -361,12 +382,15 @@ class Issue extends Model implements Comparable {
       return $this->holidays;
    }
 
-
    /**
     * @return bool true if issue status >= bug_resolved_status_threshold
     */
-   public function isResolved() {
-      return ($this->currentStatus >= $this->getBugResolvedStatusThreshold());
+   public function isResolved($timestamp = NULL) {
+      if (is_null($timestamp)) {
+         return ($this->currentStatus >= $this->getBugResolvedStatusThreshold());
+      } else {
+         return ($this->getStatus($timestamp) >= $this->getBugResolvedStatusThreshold());
+      }
    }
 
    public function getBugResolvedStatusThreshold() {
@@ -536,7 +560,7 @@ class Issue extends Model implements Comparable {
          $this->customFieldInitialized = true;
          $this->initializeCustomField();
       }
-      return $this->tcId;
+      return $this->extRef;
    }
 
    /**
@@ -646,36 +670,131 @@ class Issue extends Model implements Comparable {
    }
 
    /**
-    * @return int the nb of days needed to finish the issue.
+    * Get backlog at a specific date.
+    * if date is not specified, return current backlog.
+    *
+    * Note: this is STRICTLY the value found in the DB,
+    *       see getDuration() for a computed backlog.
+    *
+    * WARN: the result must be checked with is_null() because '0' is not the same as NULL
+    *
+    * @param int $timestamp
+    * @return int backlog or NULL if no backlog update found in history before timestamp
+    */
+   public function getBacklog($timestamp = NULL) {
+      if (is_null($timestamp)) {
+         if(!$this->customFieldInitialized) {
+            $this->customFieldInitialized = true;
+            $this->initializeCustomField();
+         }
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getBacklog($this->bugId) : (from cache) ".$this->backlog);
+         }
+         return $this->backlog;
+      }
+
+      // find the field_name for the Backlog customField
+      // (this should not be here, it's a general info that may be accessed elsewhere)
+      $backlogCustomFieldId = Config::getInstance()->getValue(Config::id_customField_backlog);
+
+      // TODO should be done only once... in Constants singleton ?
+      // find in bug history when was the latest update of the Backlog before $timestamp
+      $query = "SELECT * FROM `mantis_bug_history_table` ".
+               "WHERE field_name = (SELECT name FROM `mantis_custom_field_table` WHERE id = $backlogCustomFieldId) ".
+               "AND bug_id = '$this->bugId' ".
+               "AND date_modified <= '$timestamp' ".
+               "ORDER BY date_modified DESC LIMIT 1 ";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+         // the first result is the closest to the given timestamp
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $this->backlog = $row->new_value;
+
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getBacklog(".date("Y-m-d H:i:s", $row->date_modified).") old_value = $row->old_value new_value $row->new_value userid = $row->user_id field_name = $row->field_name");
+         }
+
+      } else {
+         // no backlog update found in history, return NULL
+         // WARN: test the result with is_null() !!!
+         $this->backlog = NULL;
+      }
+
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getBacklog($this->bugId) : (from DB) ".$this->backlog);
+      }
+      return $this->backlog;
+   }
+
+   /**
+    * the nb of days needed to finish the issue.
+    *
     * if status >= resolved, return 0.
-    * if the 'backlog' (BL) field is not defined, return effortEstim
+    * if the 'backlog' (BL) field is not defined, return max(effortEstim+effortAdd, mgrEffortEstim)
+    *
+    * @return int the nb of days needed to finish the issue or NULL if not found (rare).
     */
    public function getDuration() {
-      if ($this->isResolved()) {
-         return 0;
+
+      if (!is_null($this->duration)) {
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getDuration(): ".$this->bugId."): (from cache) ".$this->duration);
+         }
+         return $this->duration;
       }
-      $issueDuration = NULL;
 
-      // WARN: in PHP '0' and NULL are same, so you need to use is_null() !
+      if ($this->isResolved()) {
+         $this->duration = 0;
+         return $this->duration; // WARN: '0' is nut NULL !
+      }
 
-      // determinate issue duration (Backlog, BI, MgrEffortEstim)
+      // Backlog is defined, return the DB value
       $bl = $this->getBacklog();
+      // WARN: in PHP '0' and NULL are same, so you need to check with is_null() !
       if ( !is_null($bl) && is_numeric($bl)) {
          $issueDuration = $bl;
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("getDuration(): ".$this->bugId."): return backlog : ".$issueDuration);
          }
-      }
-      else {
-         $issueDuration = $this->getEffortEstim();
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getDuration(): ".$this->bugId."): return effortEstim : ".$issueDuration);
+      } else {
+         // Backlog NOT defined, duration = max(effortEstim, mgrEffortEstim)
+
+         $issueEE    = $this->getEffortEstim() + $this->getEffortAdd();
+         $issueEEMgr = $this->getMgrEffortEstim();
+
+         if (is_null($issueEE) && is_null($issueEEMgr)) {
+
+            $issueDuration = NULL;
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->warn("getDuration(".$this->bugId."): duration = NULL (because: backlog & mgrEffortEstim & effortEstim == NULL)");
+            }
+         } elseif (is_null($issueEE)) {
+
+            $issueDuration = $issueEEMgr;
+            if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getDuration(): ".$this->bugId."): return EffortEstimMgr : ".$issueDuration);
+            }
+         } elseif (is_null($issueEEMgr)) {
+
+            $issueDuration = $issueEE;
+            if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getDuration(): ".$this->bugId."): return EffortEstim + EffortAdd : ".$issueDuration);
+            }
+         } else {
+
+            $issueDuration = max(array($issueEE, $issueEEMgr));
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("getDuration(): ".$this->bugId."): return max(EffortEstim+EffortAdd, EffortEstimMgr) : ".$issueDuration);
+            }
          }
       }
-
-      if (is_null( $this->getEffortEstim())) {
-         self::$logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because backlog AND effortEstim == NULL)");
-      }
+      $this->duration = $issueDuration;
+      
       return $issueDuration;
    }
 
@@ -690,6 +809,83 @@ class Issue extends Model implements Comparable {
       }
       return $reestimated;
    }
+
+   /**
+    *
+    * @param type $withSupport
+    * @return type
+    */
+   public function getDrift($withSupport = TRUE) {
+
+      if (!is_null($this->drift)) {
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getDrift(".$this->bugId."): (from cache) ".$this->drift);
+         }
+         return $this->drift;
+      }
+
+      $totalEstim = $this->getEffortEstim() + $this->getEffortAdd();
+
+      // drift = reestimated - (effortEstim + effortAdd)
+
+      // but the Reestimated depends on mgrEffortEstim, because duration = max(effortEstim, mgrEffortEstim)
+      // so getReestimated cannot be used here.
+
+      $bl = $this->getBacklog();
+      // WARN: in PHP '0' and NULL are same, so you need to check with is_null() !
+      if ( !is_null($bl) && is_numeric($bl)) {
+         $localReestimated = $this->getElapsed() + $bl;
+      } else {
+         // Note: effortEstim is a mandatory field and will not be NULL
+         $localDuration = $totalEstim;
+         $localReestimated = $this->getElapsed() + $localDuration;
+      }
+
+      $derive = $localReestimated - $totalEstim;
+
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getDrift(".$this->bugId.") derive=$derive (reestimated ".$localReestimated." - estim ".$totalEstim.")");
+      }
+
+      $this->drift = round($derive,3);
+      return $this->drift;
+   }
+
+   /**
+    * Effort deviation, compares Reestimated to mgrEffortEstim
+    *
+    * OLD formula: elapsed - (MgrEffortEstim - backlog)
+    * NEW formula: reestimated - MgrEffortEstim = (elapsed + durationMgr) - MgrEffortEstim
+    *
+    * @param boolean $withSupport
+    * @return int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift !
+    */
+   public function getDriftMgr($withSupport = TRUE) {
+/*
+      if ($withSupport) {
+         $myElapsed = $this->elapsed;
+      } else {
+         $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
+         $myElapsed = $this->elapsed - $this->getElapsed($job_support);
+      }
+*/
+      if (!is_null($this->driftMgr)) {
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getDriftMgr(".$this->bugId."): (from cache) ".$this->driftMgr);
+         }
+         return $this->driftMgr;
+      }
+
+      $derive = $this->getReestimated() - $this->getMgrEffortEstim();
+
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getDriftMgr(".$this->bugId."): $derive (reestimated ".$this->getReestimated()." - estim ".$this->getMgrEffortEstim().")");
+      }
+      $this->driftMgr = round($derive,3);
+      return $this->driftMgr;
+
+   }
+
 
    /**
     * TODO: NOT FINISHED, ADAPT TO ALL RELATIONSHIP TYPES
@@ -797,46 +993,6 @@ class Issue extends Model implements Comparable {
    }
 
 
-   /**
-    *
-    * @param type $withSupport
-    * @return type
-    */
-   public function getDrift($withSupport = TRUE) {
-      $totalEstim = $this->getEffortEstim() + $this->getEffortAdd();
-      $derive = $this->getReestimated() - $totalEstim;
-
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getDrift(".$this->bugId.") derive=$derive (reestimated ".$this->getReestimated()." - estim ".$totalEstim.")");
-      }
-      return round($derive,3);
-   }
-
-   /**
-    * Effort deviation, compares Reestimated to mgrEffortEstim
-    *
-    * OLD formula: elapsed - (MgrEffortEstim - backlog)
-    * NEW formula: reestimated - MgrEffortEstim = (elapsed + durationMgr) - MgrEffortEstim
-    *
-    * @param boolean $withSupport
-    * @return int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift !
-    */
-   public function getDriftMgr($withSupport = TRUE) {
-/*
-      if ($withSupport) {
-         $myElapsed = $this->elapsed;
-      } else {
-         $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-         $myElapsed = $this->elapsed - $this->getElapsed($job_support);
-      }
-*/
-      $derive = $this->getReestimated() - $this->getMgrEffortEstim();
-
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimated ".$this->getReestimated()." - estim ".$this->getMgrEffortEstim().")");
-      }
-      return round($derive,3);
-   }
 
    /**
     * check if the Issue has been delivered in time (before the  DeadLine)
@@ -954,11 +1110,21 @@ class Issue extends Model implements Comparable {
 
       $key = 't'.$timestamp;
       if(!array_key_exists($key,$this->statusCache)) {
-         if (NULL == $timestamp) {
+
+         if (is_null($timestamp)) {
+
             if(self::$logger->isDebugEnabled()) {
                self::$logger->debug("getStatus(NULL) : bugId=$this->bugId, status=$this->currentStatus");
             }
             $this->statusCache[$key] = $this->currentStatus;
+
+         } else if ($this->dateSubmission > $timestamp) {
+
+            if (self::$logger->isDebugEnabled()) {
+               self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId was not created (dateSubmission=".date("d F Y", $this->dateSubmission).")");
+            }
+            $this->statusCache[$key] = -1;
+
          } else {
             // if a timestamp is specified, find the latest status change (strictly) before this date
             $query = "SELECT new_value, old_value, date_modified ".
@@ -983,10 +1149,14 @@ class Issue extends Model implements Comparable {
 
                $this->statusCache[$key] = $row->new_value;
             } else {
+
+               // get status at issue creation
+               $project = ProjectCache::getInstance()->getProject($this->projectId);
+               $status = $project->getBugSubmitStatus();
                if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not found !");
+                  self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not update found, bugSubmitStatus=".$status);
                }
-               $this->statusCache[$key] = -1;
+               $this->statusCache[$key] = $status;
             }
          }
       }
@@ -1665,7 +1835,7 @@ class Issue extends Model implements Comparable {
    public function setExternalRef($value) {
       $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_ExtId);
       $this->setCustomField($extRefCustomField, $value);
-      $this->tcId = $value;
+      $this->extRef = $value;
    }
 
    /**
@@ -1698,62 +1868,6 @@ class Issue extends Model implements Comparable {
       $this->deadLine = $value;
    }
    
-   /**
-    * Get backlog at a specific date.
-    * if date is nopt specified, return current backlog.
-    * 
-    * @param int $timestamp
-    * @return int backlog or NULL if no backlog update found in history before timestamp
-    */
-   public function getBacklog($timestamp = NULL) {
-      if (is_null($timestamp)) {
-         if(!$this->customFieldInitialized) {
-            $this->customFieldInitialized = true;
-            $this->initializeCustomField();
-         }
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getBacklog($this->bugId) : (from cache) ".$this->backlog);
-         }
-         return $this->backlog;
-      }
-
-      // find the field_name for the Backlog customField
-      // (this should not be here, it's a general info that may be accessed elsewhere)
-      $backlogCustomFieldId = Config::getInstance()->getValue(Config::id_customField_backlog);
-
-      // TODO should be done only once... in Constants singleton ?
-      // find in bug history when was the latest update of the Backlog before $timestamp
-      $query = "SELECT * FROM `mantis_bug_history_table` ".
-               "WHERE field_name = (SELECT name FROM `mantis_custom_field_table` WHERE id = $backlogCustomFieldId) ".
-               "AND bug_id = '$this->bugId' ".
-               "AND date_modified <= '$timestamp' ".
-               "ORDER BY date_modified DESC LIMIT 1 ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-         // the first result is the closest to the given timestamp
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-         $this->backlog = $row->new_value;
-
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getBacklog(".date("Y-m-d H:i:s", $row->date_modified).") old_value = $row->old_value new_value $row->new_value userid = $row->user_id field_name = $row->field_name");
-         }
-
-      } else {
-         // no backlog update found in history, return NULL
-         // WARN: test the result with is_null() !!!
-         $this->backlog = NULL;
-      }
-
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getBacklog($this->bugId) : (from DB) ".$this->backlog);
-      }
-      return $this->backlog;
-   }
 
    /**
     * Get issues from an issue id list

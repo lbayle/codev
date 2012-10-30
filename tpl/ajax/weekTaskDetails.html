@@ -76,7 +76,10 @@
       {foreach from=$weekTasks key=id item=i}
       <tr id="weekTasks-{$i.bugid}">
          <td>{$i.description}</td>
-         <td style="width:1px;"><img title='Add note: comming soon...' align='absmiddle' src='images/b_note_grey.png' /></td>
+         <td style="width:38px;">
+            <img title='Add note: comming soon...' align='absmiddle' src='images/b_note_grey.png' />
+            {$i.infoTooltip}
+         </td>
          <td><a title="{t}update backlog{/t}" onclick="updateBacklog('{$i.backlog}',
                '{$i.summary}',
                '{$i.bugid}',
@@ -89,7 +92,7 @@
                '{$i.driftColor}',
                '{$i.deadline}',
                '{t}Task{/t} {$i.dialogBoxTitle} - {t}Update Backlog{/t}'
-            );return false;" href="{$page}">{$i.formattedBacklog}</a>
+            );return false;" href="#">{$i.formattedBacklog}</a>
          </td>
          <td class="job-{$i.jobid}">{$i.jobName}</td>
          {foreach from=$i.dayTasks key=day item=j}

@@ -67,7 +67,14 @@ class ServiceContract extends Model {
     */
    private $sidetasksPerCategory;
 
+   /**
+    * [cat_type] = IssueSelection("catTypeName")
+    * @var IssueSelection[][]
+    */
+   private $sidetasksPerCategoryType;
+
    private $commandList;
+   private $provisionList;
 
    /**
     * @param int $id The service contract id
@@ -377,7 +384,6 @@ class ServiceContract extends Model {
                   "JOIN `codev_servicecontract_stproj_table` as servicecontract_stproj ON project.id = servicecontract_stproj.project_id ".
                   "WHERE servicecontract_stproj.servicecontract_id = $this->id ".
                   "ORDER BY type ASC, project.id ASC;";
-
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -386,7 +392,7 @@ class ServiceContract extends Model {
 
          $this->sidetasksProjectList = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $this->sidetasksProjectList[$row->id] = ProjectCache::getInstance()->getProject($row->id, $row);
+            $this->sidetasksProjectList["$row->id"] = ProjectCache::getInstance()->getProject($row->id, $row);
          }
       }
 
@@ -495,18 +501,18 @@ class ServiceContract extends Model {
          self::$logger->debug("Add CommandSet $project_id to ServiceContract $this->id");
       }
 
-      if (NULL == $this->sidetasksProjectList) {
-         $this->sidetasksProjectList = array();
-      }
-      $this->sidetasksProjectList[$project_id] = $project;
+      $this->getProjects();
+      if (!isset($this->sidetasksProjectList["$project_id"])) {
+         $this->sidetasksProjectList["$project_id"] = $project;
 
-      $query = "INSERT INTO `codev_servicecontract_stproj_table` (`servicecontract_id`, `project_id`, `type`) VALUES ($this->id, $project_id, '$type');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+         $query = "INSERT INTO `codev_servicecontract_stproj_table` (`servicecontract_id`, `project_id`, `type`) VALUES ($this->id, $project_id, '$type');";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         return SqlWrapper::getInstance()->sql_insert_id();
       }
-      return SqlWrapper::getInstance()->sql_insert_id();
    }
 
    /**
@@ -516,8 +522,8 @@ class ServiceContract extends Model {
     * @param int $project_id
     */
    public function removeSidetaskProject($project_id) {
-      if (NULL != $this->sidetasksProjectList[$project_id]) {
-         unset($this->sidetasksProjectList[$project_id]);
+      if (NULL != $this->sidetasksProjectList["$project_id"]) {
+         unset($this->sidetasksProjectList["$project_id"]);
       }
 
       $query = "DELETE FROM `codev_servicecontract_stproj_table` WHERE servicecontract_id = ".$this->id." AND project_id = ".$project_id.";";
@@ -596,6 +602,157 @@ class ServiceContract extends Model {
       }
       return $this->sidetasksPerCategory[$key];
    }
+
+   /**
+    * @param bool $skipIfInCommands SideTasks already declared in a child Commands will be skipped
+    * @return IssueSelection[] : array[category_type] = IssueSelection("categoryName")
+    */
+   function getSidetasksPerCategoryType($skipIfInCommands = false) {
+      if (NULL == $this->sidetasksPerCategoryType) { $this->sidetasksPerCategoryType = array(); }
+
+      $key = ($skipIfInCommands) ? 'skip_yes' : 'skip_no';
+
+      if (!array_key_exists($key, $this->sidetasksPerCategoryType)) {
+
+         $this->sidetasksPerCategoryType[$key] = array();
+
+         if ($skipIfInCommands) {
+            $cmdidList = array_keys($this->getCommands(CommandSet::type_general, Command::type_general));
+         }
+
+         $prjList = $this->getProjects();
+         foreach ($prjList as $id => $project) {
+            try {
+               if (!$project->isSideTasksProject(array($this->teamid))) {
+                  self::$logger->error("getSidetasksPerCategoryType: SKIPPED project $id (".$project->getName().") should be a SidetasksProject !");
+                  continue;
+               }
+            } catch (Exception $e) {
+               self::$logger->error("getSidetasksPerCategoryType: EXCEPTION SKIPPED project $id (".$project->getName().") : ".$e->getMessage());
+               continue;
+            }
+
+            $issueList = $project->getIssues();
+            foreach ($issueList as $issue) {
+
+               if ($skipIfInCommands) {
+                  // compare the Commands of the Issue whit the Commands of this ServiceContract
+                  $issueCmdidList = array_keys($issue->getCommandList());
+                  $isInCommands = 0 != count(array_intersect($cmdidList, $issueCmdidList));
+                  if ($isInCommands) {
+                     if(self::$logger->isDebugEnabled()) {
+                        self::$logger->debug("getSidetasksPerCategoryType(): skip issue ".$issue->getId()." because already declared in a Command");
+                     }
+                     continue;
+                  }
+               }
+
+               // find category type (depends on project)
+               $proj = ProjectCache::getInstance()->getProject($issue->getProjectId());
+               $categoryList = $proj->getCategoryList();
+               $cat_type = array_search( $issue->getCategoryId() , $categoryList);
+
+               if (is_numeric($cat_type)) {
+                  $cat      = $cat_type;
+                  $cat_name = Project::$catTypeNames["$cat_type"];
+               } else {
+                  $cat      = 'CAT_ID_'.$issue->getCategoryId();
+                  $cat_name = $issue->getCategoryName();
+               }
+#echo "cat_type = $cat_type id=".$issue->getCategoryId()." $cat_name<br>";
+
+               if (!array_key_exists($cat, $this->sidetasksPerCategoryType[$key])) {
+                  $this->sidetasksPerCategoryType[$key][$cat] = new IssueSelection($cat_name);
+               }
+               $issueSel = $this->sidetasksPerCategoryType[$key][$cat];
+               $issueSel->addIssue($issue->getId());
+            }
+         }
+      }
+      return $this->sidetasksPerCategoryType[$key];
+   }
+
+
+   /**
+    * @param int $cset_type  CommandSet::type_general
+    * @param int $cmd_type  Command::type_general
+    * @param int $prov_type CommandProvision::provision_xxx
+    * @return array CommandProvision
+    */
+   public function getProvisionList($cset_type, $cmd_type, $prov_type = NULL) {
+
+      $key= 'P'.$cset_type.'_'.$cmd_type.'_'.$prov_type;
+      if (is_null($this->provisionList)) { $this->provisionList = array(); }
+
+      if (is_null($this->provisionList[$key])) {
+
+         $cmdidList = array_keys($this->getCommands($cset_type, $cmd_type));
+         if (empty($cmdidList)) {
+             self::$logger->warn("ServiceContract $this->id : no commands for type $cmd_type");
+            return array();
+         }
+         $formattedCmdidList = implode(',', $cmdidList);
+
+         $query = "SELECT * FROM `codev_command_provision_table` ".
+                 "WHERE `command_id` IN ($formattedCmdidList) ";
+
+         if (!is_null($prov_type)) {
+            $query .= " AND `type` = ".$prov_type;
+         }
+         $query .= " ORDER BY date ASC, type ASC";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         $this->provisionList[$key] = array();
+         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            try {
+               $provision = new CommandProvision($row->id, $row);
+               $this->provisionList[$key]["$row->id"] = $provision;
+            } catch (Exception $e) {
+               echo "<span style='color:red'>WARNING: Provision $row->id does not exist !</span><br>";
+            }
+         }
+      }
+      return $this->provisionList[$key];
+   }
+
+   /**
+    * Sum all the BudjetDays provisions
+    *
+    * @param int $cset_type  CommandSet::type_general
+    * @param int $cmd_type  Command::type_general
+    * @param int $prov_type CommandProvision::provision_xxx
+    * @return type
+    *
+    */
+   public function getProvisionDays($cset_type, $cmd_type, $prov_type = NULL) {
+
+      $provisions = $this->getProvisionList($cset_type, $cmd_type, $prov_type);
+      $budgetDays = 0;
+      foreach ($provisions as $prov) {
+         if (is_null($prov_type) || ($prov_type == $prov->getType())) {
+            $budgetDays += $prov->getProvisionDays();
+         }
+      }
+      return $budgetDays;
+   }
+
+   public function getProvisionDaysByType($cset_type, $cmd_type) {
+
+      $provDaysByType = array();
+      $provisions = $this->getProvisionList($cset_type, $cmd_type, $prov_type);
+      foreach ($provisions as $prov) {
+         $prov_type = $prov->getType();
+         $provDaysByType["$prov_type"] += $prov->getProvisionDays();
+      }
+      return $provDaysByType;
+   }
+
 
 }
 

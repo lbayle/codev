@@ -2,7 +2,8 @@
 
 <script type="text/javascript">
    jQuery(document).ready(function() {
-      var chartoptions = jQuery('#indicatorsChart').data('plotoptions');
+      var chart = jQuery('#indicatorsChart');
+      var chartoptions = chart.data('plotoptions');
       chartoptions.title.text = '{t}Historical Progression Chart{/t}';
       chartoptions.legend.location = 'nw';
       chartoptions.series = [{
@@ -12,9 +13,11 @@
       }];
       chartoptions.axes.xaxis.min = "{$progress_history_plotMinDate}";
       chartoptions.axes.xaxis.max = "{$progress_history_plotMaxDate}";
+      chartoptions.axes.xaxis.tickInterval = "{$progress_history_interval} month";
       chartoptions.axes.yaxis.label = '{t}% Progress{/t}';
       chartoptions.axes.yaxis.min = 0;
-      var jsonurl = "management/servicecontract_info_ajax.php?action=getProgressHistoryIndicatorData";
+      /*
+      var jsonurl = "$ajaxPage?action=getProgressHistoryIndicatorData";
       chartoptions.dataRenderer = function(url, plot, options) {
          if(url == null) {
             url = jsonurl;
@@ -32,7 +35,9 @@
          });
          return result;
       };
-      jQuery('#indicatorsChart').jqplot(jsonurl, chartoptions);
+      chart.jqplot(jsonurl, chartoptions);
+      */
+      chart.jqplot({$progress_history_data}, chartoptions);
    });
 </script>
 <div id="indicatorsChart" class="date_chart chart" style="width:100%;"></div>

@@ -80,23 +80,32 @@ class Tools {
     * @param bool $inNewTab
     * @return string
     */
-   public static function mantisIssueURL($bugid, $title=NULL, $isIcon=false, $inNewTab=true) {
-      if (NULL==$title) { $title = "View Mantis Issue $bugid"; }
+   public static function mantisIssueURL($bugid, $title=NULL, $isIcon=FALSE, $inNewTab=FALSE) {
+      $target = $inNewTab ? 'target="_blank"' : '';
+      if (is_null($title)) {
+         $title = "View Mantis Issue $bugid";
 
-      $formatedTitle = str_replace("'", " ", $title);
-      $formatedTitle = str_replace("\"", " ", $formatedTitle);
-
-      $target = (false == $inNewTab) ? "" : "target='_blank'";
-
-      if (false == $isIcon) {
-         $url = "<a href='".Constants::$mantisURL."/view.php?id=$bugid' title='$formatedTitle' $target>$bugid</a>";
+         if (!$isIcon) {
+            return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" title="'.$title.'" '.$target.'>'.$bugid.'</a>';
+         } else {
+            return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" $target><img title="'.$title.'" align="absmiddle" src="'.Constants::$mantisURL.'/images/favicon.ico" /></a>';
+         }
+      } else if(is_array($title)) {
+         $tooltip = self::getTooltip($title);
+         if (!$isIcon) {
+            return '<a class="haveTooltip" href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" '.$target.'>'.$bugid.'</a>'.$tooltip;
+         } else {
+            return '<a class="haveTooltip" href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" '.$target.'><img align="absmiddle" src="'.Constants::$mantisURL.'/images/favicon.ico" /></a>'.$tooltip;
+         }
       } else {
-         $url = "<a href='".Constants::$mantisURL."/view.php?id=$bugid' $target><img title='$formatedTitle' align='absmiddle' src='".Constants::$mantisURL."/images/favicon.ico' /></a>";
+         if (!$isIcon) {
+            return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" title="'.$title.'" '.$target.'>'.$bugid.'</a>';
+         } else {
+            return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" $target><img title="'.$title.'" align="absmiddle" src="'.Constants::$mantisURL.'/images/favicon.ico" /></a>';
+         }
       }
-
-      return $url;
    }
-
+   
    /**
     * returns an HTML link to the TaskInfo page for Issue $bugid
     * ex: http://172.24.209.4/codev/reports/issue_info.php?bugid=60
@@ -106,15 +115,45 @@ class Tools {
     * @param bool $inNewTab
     * @return string
     */
-   public static function issueInfoURL($bugid, $title=NULL, $inNewTab=true) {
-      if (NULL==$title) { $title = "View info for Issue $bugid"; }
+   public static function issueInfoURL($bugid, $title=NULL, $inNewTab=FALSE) {
+      $target = $inNewTab ? 'target="_blank"' : '';
+      if (is_null($title)) {
+         $title = "View info for Issue $bugid";
+         return '<a '.$target.' href="reports/issue_info.php?bugid='.$bugid.'" title="'.$title.'">'.$bugid.'</a>';
+      } else if(is_array($title)) {
+         $tooltip = self::getTooltip($title);
+         return '<a class="haveTooltip" '.$target.' href="reports/issue_info.php?bugid='.$bugid.'">'.$bugid.'</a>'.$tooltip;
+      } else {
+         return '<a '.$target.' href="reports/issue_info.php?bugid='.$bugid.'" title="'.$title.'">'.$bugid.'</a>';
+      }
+   }
 
-      $target = (false == $inNewTab) ? "" : "target='_blank'";
+   public static function imgWithTooltip($img, $tooltipAttr) {
+      $tooltip = self::getTooltip($tooltipAttr);
+      return '<img class="haveTooltip" title="" align="absmiddle" src="'.$img.'"/>'.$tooltip;
+   }
 
-      $formatedTitle = str_replace("'", " ", $title);
-      $formatedTitle = str_replace("\"", " ", $formatedTitle);
-
-      return "<a  title='$formatedTitle' $target href='".self::getServerRootURL()."/reports/issue_info.php?bugid=$bugid'>$bugid</a>";
+   private static function getTooltip($title) {
+      $tooltip = '<div class="tooltip ui-helper-hidden">'.
+                 '<table style="margin:0;border:0;padding:0;background-color:white;">'.
+                 '<tbody>';
+      $driftColor = NULL;
+      if (array_key_exists('DriftColor', $title)) {
+         $driftColor = $title['DriftColor'];
+         unset($title['DriftColor']);
+      }
+      foreach ($title as $key => $value) {
+         $tooltip .= '<tr>'.
+                     '<td style="color:blue;width:35px;">'.$key.'</td>';
+         if ($driftColor != NULL && $key == T_('Drift')) {
+            $tooltip .= '<td><span style="background-color:#'.$driftColor.'">&nbsp;&nbsp;'.$value.'&nbsp;&nbsp;</span></td>';
+         } else {
+            $tooltip .= '<td>'.$value.'</td>';
+         }
+         $tooltip .= '</tr>';
+      }
+      $tooltip .= '</tbody></table></div>';
+      return $tooltip;
    }
 
    /**
@@ -450,7 +489,7 @@ class Tools {
     * @return string
     */
    public static function SmartUrlEncode($url){
-      if (strpos($url, '=') == false) {
+      if (strpos($url, '=') == FALSE) {
          return $url;
       } else {
          $startpos = strpos($url, "?");
@@ -508,7 +547,7 @@ class Tools {
       }
       */
 
-      return true;
+      return TRUE;
    }
 
    /**
@@ -717,20 +756,20 @@ class Tools {
          return json_encode($arr);
       }
       $parts = array();
-      $is_list = false;
+      $is_list = FALSE;
 
       //Find out if the given array is a numerical array
       $keys = array_keys($arr);
       $max_length = count($arr) - 1;
       //See if the first key is 0 and last key is length - 1
       if (($keys[0] == 0) and ($keys[$max_length] == $max_length)) {
-         $is_list = true;
+         $is_list = TRUE;
          //See if each key correspondes to its position
          for ($i = 0; $i < count($keys); $i++) {
             // A key fails at position check.
             if ($i != $keys[$i]) {
                // It is an associative array.
-               $is_list = false;
+               $is_list = FALSE;
                break;
             }
          }
@@ -756,11 +795,11 @@ class Tools {
                // Numbers
                $str .= $value;
             }
-            elseif ($value === false) {
+            elseif ($value === FALSE) {
                // The booleans
                $str .= 'false';
             }
-            elseif ($value === true) {
+            elseif ($value === TRUE) {
                $str .= 'true';
             }
             else {
@@ -851,24 +890,23 @@ class Tools {
 
       $timestamp = $start_timestamp;
       while ($timestamp < $end_timestamp) {
-         #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)." BEFORE<br>";
-         // FIXME Weird, the timestamp should change at the end of the loop
 
-         if (0 == $timestamp) {
-            $e = new Exception("error strtotime(+$interval day, ".date("Y-m-d H:i:s", $timestamp).")");
-            echo $e->getMessage();
-            throw $e;
-         }
-         
-
+         #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)."<br>";
          $timestampList[] = $timestamp;
          
          $newTimestamp = strtotime("+$interval day",$timestamp);
-         $timestamp = $newTimestamp;
-         
+         if (0 == $newTimestamp) {
+            $e = new Exception("error strtotime(+$interval day, ".date("Y-m-d H:i:s", $newTimestamp).")");
+            echo $e->getMessage();
+            throw $e;
+         }
 
-         #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)." AFTER<br>";
+         $timestamp = $newTimestamp;
       }
+
+      $timestampList[] = $end_timestamp;
+      #echo "createTimestampList() latest = ".date("Y-m-d H:i:s", $end_timestamp)."<br>";
+      
       return $timestampList;
    }
 
@@ -882,7 +920,7 @@ class Tools {
       //       do not remove it.
       // if path does not exist, try to create it
       if (!file_exists($directory)) {
-         if (!mkdir($directory, 0755, true)) {
+         if (!mkdir($directory, 0755, TRUE)) {
             return "ERROR : Could not create folder: $directory";
          }
       }
@@ -930,7 +968,7 @@ class Tools {
       } elseif (strlen($color) == 3) {
          list($r, $g, $b) = array($color[0].$color[0], $color[1].$color[1],   $color[2].$color[2]);
       } else {
-         return false;
+         return FALSE;
       }
 
       return array(hexdec($r), hexdec($g), hexdec($b));
@@ -943,11 +981,6 @@ class Tools {
     * example: http://55.7.137.27/louis/codev/
     */
    public static function getServerRootURL() {
-      #if (isset($_GET['debug'])) {
-      #foreach($_SERVER as $key => $value) {
-      #   echo "_SERVER key=$key val=$value<br/>";
-      #}}
-
       if(array_key_exists('HTTPS',$_SERVER) && $_SERVER['HTTPS'] == "on") {
          $protocol = "https";
       } else {
@@ -955,25 +988,10 @@ class Tools {
       }
 
       $rootURL = "$protocol://".$_SERVER['HTTP_HOST'].substr( $_SERVER['PHP_SELF'], 0 , strrpos( $_SERVER['PHP_SELF'], '/') );
-      #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
-      $rootURL = str_replace("/classes", "", $rootURL);
-      $rootURL = str_replace("/timetracking", "", $rootURL);
-      $rootURL = str_replace("/reports", "", $rootURL);
-      $rootURL = str_replace("/doc", "", $rootURL);
-      $rootURL = str_replace("/images", "", $rootURL);
-      $rootURL = str_replace("/admin", "", $rootURL);
-      $rootURL = str_replace("/tools", "", $rootURL);
-      $rootURL = str_replace("/i18n", "", $rootURL);
-      $rootURL = str_replace("/graphs", "", $rootURL);
-      $rootURL = str_replace("/install", "", $rootURL);
-      $rootURL = str_replace("/tests", "", $rootURL);
-      $rootURL = str_replace("/import", "", $rootURL);
-      $rootURL = str_replace("/blog", "", $rootURL);
-      $rootURL = str_replace("/management", "", $rootURL);
-      $rootURL = str_replace("/indicator_plugins", "", $rootURL);
-
-      #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
-      return $rootURL;
+      $folders = array("/admin", "/blog", "/classes", "/doc", "filters", "/graphs", "/i18n", "/images", "/import",
+                       "/indicator_plugins", "/install", "/management", "/reports", "/tests", "/timetracking", "/tools");
+      
+      return str_replace($folders, "", $rootURL);
    }
 
    /**
@@ -1076,6 +1094,15 @@ class Tools {
       return array_key_exists('userid',$_SESSION);
    }
 
+   public static function endsWith($haystack, $needle)
+   {
+      $length = strlen($needle);
+      if ($length == 0) {
+         return TRUE;
+      }
+
+      return (substr($haystack, -$length) === $needle);
+   }
 
 
 }

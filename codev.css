@@ -252,8 +252,12 @@ table.datatable thead .sorting, table.display thead .sorting {
    background-position: center right;
 }
 
-table.datatable tbody tr:hover, table.display tbody tr:hover {
-   background-color: rgb(128,128,255);
+table tbody tr:hover {
+   background-color: rgb(220,220,255);
+}
+
+table.invisible tbody tr:hover {
+   background-color: transparent;
 }
 
 .dataTables_scroll {
@@ -269,7 +273,93 @@ table.datatable tbody tr:hover, table.display tbody tr:hover {
 }
 /* END Datatable */
 
-/* DROPDOWN */
+/* START PowerTip Plugin */
+#powerTip {
+   cursor: default;
+   /* CODEVTT Modification */
+   background-color: #767676; /* fallback for browsers that dont support rgba */
+   /*background-color: #333; /* fallback for browsers that dont support rgba */
+   /* CODEVTT Modification */
+   background-color: rgba(118, 118, 118, 0.8);
+   /*background-color: rgba(0, 0, 0, 0.8);*/
+   border-radius: 6px;
+   /* CODEVTT Modification */
+   /*color: #FFF;*/
+   display: none;
+   /* CODEVTT Modification */
+   padding: 3px;
+   /*padding: 10px;*/
+   position: absolute;
+   white-space: nowrap;
+   z-index: 2147483647; /* https://github.com/stevenbenner/jquery-powertip/commit/b69bf44bdc3f14314c65901c2bdee5d561b905b7 */
+}
+#powerTip.n:before, #powerTip.e:before, #powerTip.s:before, #powerTip.w:before,
+#powerTip.ne:before, #powerTip.nw:before, #powerTip.se:before, #powerTip.sw:before {
+   content: "";
+   position: absolute;
+}
+#powerTip.n:before, #powerTip.s:before {
+   border-right: 5px solid transparent;
+   border-left: 5px solid transparent;
+   left: 50%;
+   margin-left: -5px;
+}
+#powerTip.e:before, #powerTip.w:before {
+   border-bottom: 5px solid transparent;
+   border-top: 5px solid transparent;
+   margin-top: -5px;
+   top: 50%;
+}
+#powerTip.n:before {
+   /* CODEVTT Modification */
+   border-top: 10px solid rgb(118, 118, 118);
+   /*border-top: 10px solid rgba(0, 0, 0, 0.8);*/
+   bottom: -10px;
+}
+#powerTip.e:before {
+   /* CODEVTT Modification */
+   border-right: 10px solid rgb(118, 118, 118);
+   /*border-right: 10px solid rgba(0, 0, 0, 0.8);*/
+   left: -10px;
+}
+#powerTip.s:before {
+   /* CODEVTT Modification */
+   border-bottom: 10px solid rgb(118, 118, 118);
+   /*border-bottom: 10px solid rgba(0, 0, 0, 0.8);*/
+   top: -10px;
+}
+#powerTip.w:before {
+   /* CODEVTT Modification */
+   border-left: 10px solid rgb(118, 118, 118);
+   /*border-left: 10px solid rgba(0, 0, 0, 0.8);*/
+   right: -10px;
+}
+#powerTip.ne:before, #powerTip.se:before {
+   border-right: 10px solid transparent;
+   border-left: 0;
+   left: 10px;
+}
+#powerTip.nw:before, #powerTip.sw:before {
+   border-left: 10px solid transparent;
+   border-right: 0;
+   right: 10px;
+}
+#powerTip.ne:before, #powerTip.nw:before {
+   /* CODEVTT Modification */
+   border-top: 10px solid rgb(118, 118, 118);
+   /*border-top: 10px solid rgba(0, 0, 0, 0.8);*/
+   bottom: -10px;
+}
+#powerTip.se:before, #powerTip.sw:before {
+   /* CODEVTT Modification */
+   border-bottom: 10px solid rgb(118, 118, 118);
+   /*border-bottom: 10px solid rgba(0, 0, 0, 0.8);*/
+   top: -10px;
+}
+
+/* END PowerTip Plugin */
+
+/* START Dropdown */
 
 /* LEVEL TWO */
 ul.submenu {
@@ -311,3 +401,7 @@ ul.dropdown li:hover > ul.submenu {
    visibility: visible; 
 }
 
+/* remove close button from dialogbox */
+.no-close .ui-dialog-titlebar-close {display: none }
+
+/* END Dropdown */

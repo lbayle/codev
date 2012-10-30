@@ -54,6 +54,7 @@ class Command extends Model {
       self::state_payed => "Facturé"
    );
 
+  
    /**
     * @var Logger The logger
     */
@@ -80,9 +81,7 @@ class Command extends Model {
    private $state;
    private $cost;
    private $currency;
-   private $budgetDev;
-   private $budgetMngt;
-   private $budgetGarantie;
+   private $totalSoldDays; // used to check if MgrEE is correctly dispatched on tasks
    private $averageDailyRate;
    private $enabled;
 
@@ -91,6 +90,9 @@ class Command extends Model {
 
    // codev_commandset_cmd_table
    private $commandSetList;
+
+   // codev_command_provision_table
+   private $provisionList;
 
    /**
     * @param int $id The command id
@@ -135,9 +137,7 @@ class Command extends Model {
       $this->state = $row->state;
       $this->cost = $row->cost;
       $this->currency = $row->currency;
-      $this->budgetDev = $row->budget_dev;
-      $this->budgetMngt = $row->budget_mngt;
-      $this->budgetGarantie = $row->budget_garantie;
+      $this->totalSoldDays = $row->total_days;
       $this->averageDailyRate = $row->average_daily_rate;
       $this->enabled = (1 == $row->enabled);
    }
@@ -445,14 +445,22 @@ class Command extends Model {
       }
    }
 
-   public function getBudgetDev() {
-      return ($this->budgetDev / 100);
+   /**
+    * used to check if MgrEE is correctly dispatched on tasks
+    *
+    * this budjet is set at command creation and contains
+    * totalDays = 'days sold for devTasks' + 'days declared in provisions'
+    *
+    * @return float nbDays
+    */
+   public function getTotalSoldDays() {
+      return ($this->totalSoldDays / 100);
    }
 
-   public function setBudgetDev($value) {
-      if($this->budgetDev != floatval($value) * 100) {
-         $this->budgetDev = floatval($value) * 100;
-         $query = "UPDATE `codev_command_table` SET budget_dev = '$this->budgetDev' WHERE id = ".$this->id.";";
+   public function setTotalSoldDays($value) {
+      if($this->totalSoldDays != floatval($value) * 100) {
+         $this->totalSoldDays = floatval($value) * 100;
+         $query = "UPDATE `codev_command_table` SET total_days = '$this->totalSoldDays' WHERE id = ".$this->id.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -461,35 +469,103 @@ class Command extends Model {
       }
    }
 
-   public function getBudgetMngt() {
-      return ($this->budgetMngt / 100);
+   /**
+    * the type of provisions to be included when calculating
+    * BudgetDays & Budget
+    *
+    * @return array of typeList
+    */
+   public function getSelectedProvisionTypes() {
+
+      // TODO user codev_config_table to set/get this list
+
+      $types = array(
+          CommandProvision::provision_risk,      // optional
+          CommandProvision::provision_guarantee, // optional
+          CommandProvision::provision_quality, // optional
+          CommandProvision::provision_other      // optional
+         #CommandProvision::provision_mngt,      // only if mngt sideTasks are included in command
+         );
+      return $types;
    }
 
-   public function setBudgetMngt($value) {
-      if($this->budgetMngt != floatval($value) * 100) {
-         $this->budgetMngt = floatval($value) * 100;
-         $query = "UPDATE `codev_command_table` SET budget_mngt = '$this->budgetMngt' WHERE id = ".$this->id.";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
+   /**
+    * Sum all the Budjet provisions
+    *
+    * @param array $typeList array of CommandProvision::provision_xxx
+    * @return type
+    */
+   public function getProvisionBudget(array $typeList = NULL) {
+
+      $provisions = $this->getProvisionList();
+      $budget = 0;
+      foreach ($provisions as $prov) {
+         if (is_null($typeList) || (in_array($prov->getType(), $typeList))) {
+            $budget += $prov->getProvisionBudget();
          }
       }
+      return $budget;
    }
 
-   public function getBudgetGarantie() {
-      return ($this->budgetGarantie / 100);
+   /**
+    * Sum all the BudjetDays provisions
+    *
+    * @param array $typeList array of CommandProvision::provision_xxx
+    * @return type
+    *
+    */
+   public function getProvisionDays(array $typeList = NULL) {
+
+      $provisions = $this->getProvisionList();
+      $budgetDays = 0;
+      foreach ($provisions as $prov) {
+         if (is_null($typeList) || (in_array($prov->getType(), $typeList))) {
+            $budgetDays += $prov->getProvisionDays();
+         }
+      }
+      return $budgetDays;
    }
 
-   public function setBudgetGarantie($value) {
-      if($this->budgetGarantie != floatval($value) * 100) {
-         $this->budgetGarantie = floatval($value) * 100;
-         $query = "UPDATE `codev_command_table` SET budget_garantie = '$this->budgetGarantie' WHERE id = ".$this->id.";";
+
+   /**
+    *
+    * @return array CommandProvision
+    */
+   public function getProvisionList($type = NULL) {
+
+      if (is_null($this->provisionList)) {
+
+         $query = "SELECT * FROM `codev_command_provision_table` WHERE `command_id` = ".$this->id;
+
+         if (!is_null($type)) {
+            $query .= " AND `type` = ".$type;
+         }
+         $query .= " ORDER BY date ASC, type ASC";
+
          $result = SqlWrapper::getInstance()->sql_query($query);
+
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
+
+         $this->provisionList = array();
+         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            try {
+               $provision = new CommandProvision($row->id, $row);
+               $this->provisionList["$row->id"] = $provision;
+            } catch (Exception $e) {
+               echo "<span style='color:red'>WARNING: Provision $row->id does not exist !</span><br>";
+            }
+         }
+      }
+      return $this->provisionList;
+   }
+
+   public function deleteProvision($provid) {
+      CommandProvision::delete($provid);
+      if (!is_null($this->provisionList)) {
+         unset($this->provisionList["$provid"]);
       }
    }
 

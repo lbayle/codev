@@ -1,0 +1,15 @@
+
+
+{if isset($overviewTotal) || isset($detailedMgrTotal) || isset($detailedTotal) || isset($issuesTotal)}
+
+<div class="left">
+   {include file="form/selectFiltersDialogbox.html"}
+</div>
+
+<div id="detailedChargesData" style="margin-top: 1em;">
+   {include file="plugin/detailed_charges_indicator_data.html"}
+</div>
+
+{else}
+{t}No data{/t}
+{/if}

@@ -65,7 +65,18 @@ class ServiceContractInfoController extends Controller {
          if (0 != $servicecontractid) {
             $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
-            ServiceContractTools::displayServiceContract($this->smartyHelper, $servicecontract);
+            $isManager = $session_user->isTeamManager($servicecontract->getTeamid());
+
+            // get selected filters
+            $selectedFilters="";
+            if(isset($_GET['selectedFilters'])) {
+               $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
+            } else {
+               // TODO
+               #$selectedFilters = $session_user->getCommandSetFilters($commandsetid);
+            }
+
+            ServiceContractTools::displayServiceContract($this->smartyHelper, $servicecontract, $isManager, $selectedFilters);
 
             // ConsistencyCheck
             $consistencyErrors = $this->getConsistencyErrors($servicecontract);
@@ -76,7 +87,7 @@ class ServiceContractInfoController extends Controller {
             }
 
             // access rights
-            if (($session_user->isTeamManager($servicecontract->getTeamid())) ||
+            if ($isManager ||
                ($session_user->isTeamLeader($servicecontract->getTeamid()))) {
                $this->smartyHelper->assign('isEditGranted', true);
             }
@@ -105,8 +116,12 @@ class ServiceContractInfoController extends Controller {
          foreach ($cerrList as $cerr) {
             $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
             $user = UserCache::getInstance()->getUser($cerr->userId);
+            $titleAttr = array(
+                  T_('Project') => $issue->getProjectName(),
+                  T_('Summary') => $issue->getSummary(),
+            );
             $consistencyErrors[] = array(
-               'issueURL' => Tools::issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->getSummary()),
+               'issueURL' => Tools::issueInfoURL($cerr->bugId, $titleAttr),
                'issueStatus' => Constants::$statusNames[$cerr->status],
                'user' => $user->getName(),
                'severity' => $cerr->getLiteralSeverity(),

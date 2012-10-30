@@ -69,7 +69,7 @@
 
    {if isset($weekDetails)}
    <div align="center" style="margin-top:4em;">
-      <script src="js/tabs.js" type="text/javascript"></script>
+   <h2 align="left">{t}Timesheets{/t}</h2>
       <div id="tabsUsers" class="tabs">
          <ul>
             {foreach from=$weekDetails item=i key=id}
@@ -86,10 +86,11 @@
                <thead>
                   <tr>
                      <th>{t}Task{/t}</th>
+                     <th></th>
                      <th style="width: 1em;" title="{t}Backlog{/t}">{t}BL{/t}</th>
                      <th style="width: 1em;">{t}Progress{/t}</th>
                      <th style="width: 15em;">{t}Project{/t}</th>
-                     <th style="width: 10em;" title="{t}Target version{/t}">{t}Target{/t}</th>
+                     <!--th style="width: 10em;" title="{t}Target version{/t}">{t}Target{/t}</th-->
                      {if $isChecked}<th style="width: 1em;">{t}Job{/t}</th>{/if}
                      {foreach from=$i.weekDates item=j key=id}
                      <th style="width: 1em;">{$j|nl2br}</th>
@@ -104,10 +105,13 @@
                   {foreach from=$i.weekJobDetails item=j key=id}
                   <tr>
                      <td>{$j.description}</td>
+                     <td style="width:1px;">
+                        {$j.infoTooltip}
+                     </td>
                      <td nowrap="nowrap">{$j.duration}</td>
                      <td nowrap="nowrap"><div class="progress">{$j.progress}%</div></td>
                      <td nowrap="nowrap">{$j.projectName}</td>
-                     <td nowrap="nowrap">{$j.targetVersion}</td>
+                     <!--td nowrap="nowrap">{$j.targetVersion}</td-->
                      {if $isChecked}<td style="width: 1em;" nowrap="nowrap">{$j.jobName}</td>{/if}
                      {foreach from=$j.daysDetails item=k key=id}
                      <td nowrap="nowrap" {if $k.color}style="background-color: #{$k.color};width: 1em;"{/if} {if $k.title}title="{$k.title}"{/if}>{$k.duration}</td>
@@ -123,6 +127,45 @@
       </div>
    </div>
    {/if}
+
+
+
+
+   {if isset($weekDetails)}
+   <script type="text/javascript" src="js/datatable.js"></script>
+   <div align="center" style="margin-top:4em;">
+      <h2 align="left">{t}All Tasks{/t}</h2>
+            <table id="allTasks_table" style="width: 100%;" class="datatable">
+               <thead>
+                  <tr>
+                     <th>{t}Task{/t}</th>
+                     <th>{t}User{/t}</th>
+                     <th style="width: 15em;">{t}Project{/t}</th>
+                     <th style="width: 1em;">{t}Total{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+         {foreach from=$weekDetails item=i key=id}
+         {if $i.weekJobDetails}
+                  {foreach from=$i.weekJobDetails item=j key=id}
+                  <tr>
+                     <td>{$j.description}</td>
+                     <td>{$i.name}</td>
+                     <td nowrap="nowrap">{$j.projectName}</td>
+                     <td nowrap="nowrap">{$j.totalDuration}</td>
+                  </tr>
+                  {/foreach}
+         {/if}
+         {/foreach}
+               </tbody>
+            </table>
+   </div>
+   {/if}
+
+
+
+
+
 
    {else}
    <p class="center ui-state-error-text">{t}Sorry, you do NOT have access to this page.{/t}</p>

@@ -72,7 +72,19 @@ class CommandInfoController extends Controller {
                $teamid = $cmd->getTeamid();
                $_SESSION['teamid'] = $teamid;
 
-               CommandTools::displayCommand($this->smartyHelper, $cmd);
+               $isManager = $session_user->isTeamManager($cmd->getTeamid());
+
+               // get selected filters
+               $selectedFilters="";
+               if(isset($_GET['selectedFilters'])) {
+                  $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
+               } else {
+                  // TODO
+                  #$selectedFilters = $session_user->getCommandFilters($cmdid);
+               }
+
+
+               CommandTools::displayCommand($this->smartyHelper, $cmd, $isManager, $selectedFilters);
 
                // ConsistencyCheck
                $consistencyErrors = $this->getConsistencyErrors($cmd);
@@ -84,7 +96,7 @@ class CommandInfoController extends Controller {
                }
 
                // access rights
-               if (($session_user->isTeamManager($cmd->getTeamid())) ||
+               if (($isManager) ||
                   ($session_user->isTeamLeader($cmd->getTeamid()))) {
                   $this->smartyHelper->assign('isEditGranted', true);
                }
@@ -141,8 +153,12 @@ class CommandInfoController extends Controller {
          foreach ($cerrList as $cerr) {
             $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
             $user = UserCache::getInstance()->getUser($cerr->userId);
+            $titleAttr = array(
+                  T_('Project') => $issue->getProjectName(),
+                  T_('Summary') => $issue->getSummary(),
+            );
             $consistencyErrors[] = array(
-               'issueURL' => Tools::issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->getSummary()),
+               'issueURL' => Tools::issueInfoURL($cerr->bugId, $titleAttr),
                'issueStatus' => Constants::$statusNames[$cerr->status],
                'user' => $user->getName(),
                'severity' => $cerr->getLiteralSeverity(),

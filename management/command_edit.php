@@ -80,8 +80,6 @@ class CommandEditController extends Controller {
 
          if (0 == $cmdid) {
             // -------- CREATE CMD -------
-
-            // ------ Actions
             if ("createCmd" == $action) {
                //$teamid = Tools::getSecurePOSTIntValue('teamid');
                //$_SESSION['teamid'] = $teamid;
@@ -110,21 +108,16 @@ class CommandEditController extends Controller {
             $this->smartyHelper->assign('cmdInfoFormBtText', T_('Create'));
             $this->smartyHelper->assign('cmdInfoFormAction', 'createCmd');
 
-            $this->smartyHelper->assign('cmdStateList', ServiceContractTools::getServiceContractStateList());
-            $this->smartyHelper->assign('cmdState', Command::$stateNames[0]);
-
+            $this->smartyHelper->assign('cmdStateList', CommandTools::getCommandStateList());
             $this->smartyHelper->assign('commandsetid', $commandsetid);
             $this->smartyHelper->assign('commandsets', CommandSetTools::getCommandSets($teamid, $commandsetid));
-
-            $this->smartyHelper->assign('cmdName', "New command");
          }
 
          if (0 != $cmdid) {
             // -------- UPDATE CMD -------
-
             $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
-            // ------ Actions
+            // Actions
             if ("addCmdIssue" == $action) {
                $bugid = Tools::getSecurePOSTIntValue('bugid');
                if(self::$logger->isDebugEnabled()) {
@@ -181,6 +174,24 @@ class CommandEditController extends Controller {
                Command::delete($cmdid);
                unset($_SESSION['cmdid']);
                header('Location:command_info.php');
+            } else if ("addProvision" == $action) {
+
+               # TODO check injections
+               $prov_date = $_POST['date'];
+               $prov_type = $_POST['type'];
+               $prov_budget = $_POST['budget'];
+               $prov_budgetDays = $_POST['budgetDays'];
+               $prov_averageDailyRate = $_POST['averageDailyRate'];
+               $prov_summary = $_POST['summary'];
+
+               $timestamp = Tools::date2timestamp($prov_date);
+
+               CommandProvision::create($cmd->getId(), $timestamp, $prov_type, $prov_summary, $prov_budgetDays, $prov_budget, $prov_averageDailyRate);
+
+            } else if ("deleteProvision" == $action) {
+               # TODO check injections
+               $provid = $_POST['provid'];
+               $cmd->deleteProvision($provid);
             }
 
             // Display Command
@@ -193,7 +204,10 @@ class CommandEditController extends Controller {
             $this->smartyHelper->assign('parentCmdSetCandidates', $parentCmdSets);
             $this->smartyHelper->assign('isAddCmdSetForm', true);
 
-            CommandTools::displayCommand($this->smartyHelper, $cmd);
+            $isManager = $session_user->isTeamManager($cmd->getTeamid());
+
+            CommandTools::displayCommand($this->smartyHelper, $cmd, $isManager);
+            $this->smartyHelper->assign('cmdProvisionType', SmartyTools::getSmartyArray(CommandProvision::$provisionNames, 1));
 
             // multiple selection dialogBox
             $availableIssueList = $this->getChildIssuesCandidates($teamid);
@@ -230,17 +244,18 @@ class CommandEditController extends Controller {
       $cmd->setDesc($formattedValue);
 
       $formattedValue = Tools::getSecurePOSTStringValue('cmdStartDate','');
-      $cmd->setStartDate(Tools::date2timestamp($formattedValue));
-
-      $formattedValue = Tools::getSecurePOSTStringValue('cmdDeadline');
-      $cmd->setDeadline(Tools::date2timestamp($formattedValue));
+      if ('' != $formattedValue) {
+         $cmd->setStartDate(Tools::date2timestamp($formattedValue));
+      }
+      $formattedValue = Tools::getSecurePOSTStringValue('cmdDeadline', '');
+      if ('' != $formattedValue) {
+         $cmd->setDeadline(Tools::date2timestamp($formattedValue));
+      }
 
       $cmd->setState(SmartyTools::checkNumericValue($_POST['cmdState'], true));
-      $cmd->setBudgetDev(SmartyTools::checkNumericValue($_POST['cmdBudgetDev'], true));
-      $cmd->setCost(SmartyTools::checkNumericValue($_POST['cmdCost'], true));
-      $cmd->setBudgetMngt(SmartyTools::checkNumericValue($_POST['cmdBudgetMngt'], true));
-      #$cmd->setBudgetGarantie(checkNumericValue($_POST['cmdBudgetGarantie'], true));
-      #$cmd->setAverageDailyRate(checkNumericValue($_POST['cmdAverageDailyRate'], true));
+      $cmd->setAverageDailyRate(SmartyTools::checkNumericValue($_POST['cmdAverageDailyRate'], true));
+
+      $cmd->setTotalSoldDays(SmartyTools::checkNumericValue($_POST['cmdTotalSoldDays'], true));
    }
 
    /**

@@ -204,8 +204,12 @@ class PlanningReportController extends Controller {
             $user = UserCache::getInstance()->getUser($cerr->userId);
             $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
 
+            $titleAttr = array(
+                  T_('Project') => $issue->getProjectName(),
+                  T_('Summary') => $issue->getSummary(),
+            );
             $consistencyErrors[] = array(
-               'issueURL' => Tools::issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->getSummary()),
+               'issueURL' => Tools::issueInfoURL($cerr->bugId, $titleAttr),
                'issueStatus' => Constants::$statusNames[$cerr->status],
                'date' => date("Y-m-d", $cerr->timestamp),
                'user' => $user->getName(),
@@ -311,13 +315,11 @@ class PlanningReportController extends Controller {
 
          if ($offset >= 0) {
             $deadline[$date] = array(
-               "user" => $userName,
                "date" => date(T_("Y-m-d"), $date),
                "url" => $dline->getImageURL(),
                "title" => $dline->toString(),
                "nbDaysToDeadLine" => $dline->nbDaysToDeadLine,
                "deadlineIssues" => implode(', ', $dline->issueList),
-               "imgUrl" => Tools::getServerRootURL().'/images/tooltip_white_arrow_130.png'
             );
 
             if ($offset > 0) {
@@ -376,7 +378,6 @@ class PlanningReportController extends Controller {
          $drawnTaskPixSize = $taskPixSize - 1;
 
          $sTask = array(
-            "user" => $userName,
             "bugid" => $scheduledTask->getIssueId(),
             "title" => $formatedTitle,
             "width" => $drawnTaskPixSize,
@@ -388,7 +389,6 @@ class PlanningReportController extends Controller {
             "statusName" => $scheduledTask->getStatusName(),
             "projectName" => $scheduledTask->getProjectName(),
             "summary" => $scheduledTask->getSummary(),
-            "imgUrl" => Tools::getServerRootURL().'/images/tooltip_white_arrow_big.png'
          );
          if ($scheduledTask->isMonitored()) {
             $sTask["handlerName"] = $scheduledTask->getHandlerName();

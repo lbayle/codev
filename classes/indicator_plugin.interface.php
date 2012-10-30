@@ -27,7 +27,7 @@ interface IndicatorPlugin {
     * The file must be included in the main SMARTY page:
     * {include file="indicator_plugins/myIndicator.html"}
     */
-   public function getSmartyFilename();
+   public static function getSmartyFilename();
 
    /**
     * result of the Indicator
