@@ -208,16 +208,31 @@ class ProductivityRateIndicator implements IndicatorPlugin {
 
       $graphData = "[$jsonMEE,$jsonEE]";
 
-      $graphDataColors = '["#fcbdbd", "#c2dfff"]';
+      #$graphDataColors = '["#fcbdbd", "#c2dfff"]';
 
       $labels = '["ProductivityRate Mgr", "ProductivityRate"]';
 
+      $tableData = array();
+      foreach ($this->execData['MEE'] as $date => $prodRateMEE) {
+         $prodRateEE = $this->execData['EE'][$date];
+
+         $timestamp = Tools::date2timestamp($date);
+         $formattedDate = Tools::formatDate("%B %Y", $timestamp);
+
+         $tableData[$formattedDate] = array(
+             'prodRateMEE' => round($prodRateMEE, 2),
+             'prodRateEE' => round($prodRateEE, 2)
+         );
+      }
+
+
       return array(
          'prodRate_history_data'       => $graphData,
-         'prodRate_history_dataColors' => $graphDataColors,
+         #'prodRate_history_dataColors' => $graphDataColors,
          'prodRate_history_dataLabels' => $labels,
          'prodRate_history_plotMinDate'      => $start,
-         'prodRate_history_plotMaxDate'      => $end
+         'prodRate_history_plotMaxDate'      => $end,
+         'prodRate_tableData' => $tableData
       );
 
    }

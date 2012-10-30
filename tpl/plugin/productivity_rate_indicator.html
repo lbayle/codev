@@ -11,7 +11,7 @@ $(document).ready(function(){
    
    chartoptions.canvasOverlay.objects[0].horizontalLine.y = 1;
    
-   chartoptions.seriesColors = {$prodRate_history_dataColors};
+   //chartoptions.seriesColors = {$prodRate_history_dataColors};
    chartoptions.series = [{
       label: "{t}ProductivityRate Mgr{/t}"
    },{
@@ -22,4 +22,24 @@ $(document).ready(function(){
 });
 </script>
 
-<div id="prodRateChart" class="date_chart_with_horizontal_line chart" style="width:100%;"></div>
+<div id="prodRateChart" class="date_chart_with_horizontal_line chart float" style="width:70%;"></div>
+
+<table title="{t}Effort Deviation{/t}">
+   <thead>
+      <tr>
+         <th>{t}Date{/t}</th>
+         <th>{t}MgrEffortEstim{/t}</th>
+         <th>{t}EffortEstim{/t}</th>
+      </tr>
+   </thead>
+   <tbody>
+      {foreach from=$prodRate_tableData key=id item=i}
+      <tr>
+         <td class="right">{$id}</td>
+         <td class="right">{$i.prodRateMEE}</td>
+         <td class="right">{$i.prodRateEE}</td>
+      </tr>
+      {/foreach}
+   </tbody>
+</table>
+<div class="ui-helper-clearfix"></div>
