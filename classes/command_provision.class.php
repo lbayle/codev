@@ -54,6 +54,7 @@ class CommandProvision {
    private $average_daily_rate;
    private $summary;
    private $description;
+   private $isInCheckBudget;
 
 
 
@@ -107,6 +108,7 @@ class CommandProvision {
       $this->average_daily_rate = $row->average_daily_rate;
       $this->summary = $row->summary;
       $this->description = $row->description;
+      $this->isInCheckBudget = (1 == $row->is_in_check_budget);
 
    }
 
@@ -332,6 +334,30 @@ class CommandProvision {
          }
       }
    }
+
+   /**
+    * @return bool isEnabled
+    */
+   public function isInCheckBudget() {
+      return $this->isInCheckBudget;
+   }
+
+   /**
+    * @param bool $isEnabled
+    */
+   public function setIsInCheckBudget($isInCheckBudget) {
+      $this->isInCheckBudget = $isInCheckBudget;
+
+      $value = ($isInCheckBudget) ? '1' : '0';
+
+      $query = "UPDATE `codev_command_provision_table` SET isInCheckBudget = '$value' WHERE id = ".$this->id.";";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+   }
+
 
    /**
     *

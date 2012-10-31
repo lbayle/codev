@@ -411,6 +411,7 @@ CREATE TABLE IF NOT EXISTS `codev_command_provision_table` (
   `budget` int(11) default NULL,
   `average_daily_rate` int(11) default NULL,
   `currency` varchar(3) default 'EUR',
+  `is_in_check_budget` tinyint(4) NOT NULL DEFAULT '0',
   `description` longtext default NULL,
   PRIMARY KEY  (`id`),
   KEY `command_id` (`command_id`)
