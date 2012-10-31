@@ -42,10 +42,11 @@ class CodevTTPlugin extends MantisPlugin {
           #Uncomment the following line to show codevtt in main menu
           //'EVENT_MENU_MAIN' => 'add_codevtt_menu',
 
-          #'EVENT_UPDATE_BUG_FORM' => 'update_bug_form',
-          #'EVENT_UPDATE_BUG' => 'assignCommand',
-
           'EVENT_VIEW_BUG_DETAILS' => 'view_bug_form',
+
+          # check BEFORE DELETE (but unfortunately after the 'are you sure?' page...)
+          'EVENT_BUG_DELETED' => 'checkTimetracks',
+
 
       );
       return $hooks;
@@ -239,4 +240,31 @@ class CodevTTPlugin extends MantisPlugin {
          echo '</tr>';
       }
    }
+
+   /**
+    * Forbid issue deletion if timetracks exists
+    *
+    * @param type $event
+    * @param type $bug_id
+    */
+   public function checkTimetracks($event, $bug_id) {
+
+      $query = "SELECT codev_timetracking_table.date, codev_timetracking_table.userid, codev_timetracking_table.duration, ".
+              "mantis_user_table.username, mantis_user_table.realname ".
+              "FROM `codev_timetracking_table`, `mantis_user_table` ".
+              "WHERE codev_timetracking_table.bugid = '$bug_id' ".
+              "AND codev_timetracking_table.userid = mantis_user_table.id ";
+
+      $errMsg = "";
+      $result = mysql_query($query) or exit(mysql_error());
+      while ($row = mysql_fetch_object($result)) {
+         $errMsg .= date('Y-m-d',$row->date)." - $row->username ($row->realname) - duration $row->duration <br>";
+      }
+
+      if ("" != $errMsg) {
+         trigger_error(' CodevTT plugin : you have Timetracks on this issue ! <br><br>'.$errMsg, ERROR);
+      }
+
+   }
+
 }
