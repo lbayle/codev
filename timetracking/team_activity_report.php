@@ -22,12 +22,14 @@ require('../path.inc.php');
 
 class TeamActivityReportController extends Controller {
 
+   private static $logger;
+
    /**
     * Initialize complex static variables
     * @static
     */
    public static function staticInit() {
-      // Nothing special
+      self::$logger = Logger::getLogger(__CLASS__);
    }
 
    protected function display() {
@@ -138,7 +140,22 @@ class TeamActivityReportController extends Controller {
 
             $weekJobDetails = array();
             foreach ($weekTracks as $bugid => $jobList) {
-               $issue = IssueCache::getInstance()->getIssue($bugid);
+               try {
+                  $issue = IssueCache::getInstance()->getIssue($bugid);
+               } catch (Exception $e) {
+                  self::$logger->error("getWeekDetails() skip issue $bugid : ".$e->getMessage());
+                  $weekJobDetails[] = array(
+                     "description" => '<span class="error_font">'.$bugid.' : '.T_('Error: Task not found in Mantis DB !').'</span>',
+                     "duration" => "!",
+                     "progress" => "!",
+                     "projectName" => "!",
+                     "targetVersion" => "!",
+                     "jobName" => "!",
+                     "daysDetails" => "!",
+                     "totalDuration" => "!"
+                  );
+                  continue;
+               }
                $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
                if ($isDetailed) {
                   $formatedJobList = implode(', ', array_keys($jobList));

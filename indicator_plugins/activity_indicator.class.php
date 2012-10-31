@@ -141,7 +141,12 @@ class ActivityIndicator implements IndicatorPlugin {
       foreach ($timeTracks as $tt) {
 
          $issueId = $tt->getIssueId();
-         $issue = IssueCache::getInstance()->getIssue($issueId);
+         try {
+            $issue = IssueCache::getInstance()->getIssue($issueId);
+         } catch (Exception $e) {
+            self::$logger->error("execute() skip issue $issueId : ".$e->getMessage());
+            continue;
+         }
          $userid = $tt->getUserId();
          
          if (!array_key_exists($userid, $usersActivity)) {

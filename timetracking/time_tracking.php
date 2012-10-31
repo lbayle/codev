@@ -530,15 +530,19 @@ class TimeTrackingController extends Controller {
 
       // If the default bug is filtered, we add it anyway
       if(!array_key_exists($defaultBugid,$issues) && $defaultBugid != 0) {
-         $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-         // Add the bug only if the selected project is the bug project
-         if($projectid == 0 || $issue->getProjectId() == $projectid) {
-            $issues[$issue->getId()] = array(
-               'id' => $issue->getId(),
-               'tcId' => $issue->getTcId(),
-               'summary' => $issue->getSummary(),
-               'selected' => $issue->getId() == $defaultBugid);
-            krsort($issues);
+         try {
+            $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+            // Add the bug only if the selected project is the bug project
+            if($projectid == 0 || $issue->getProjectId() == $projectid) {
+               $issues[$issue->getId()] = array(
+                  'id' => $issue->getId(),
+                  'tcId' => $issue->getTcId(),
+                  'summary' => $issue->getSummary(),
+                  'selected' => $issue->getId() == $defaultBugid);
+               krsort($issues);
+            }
+         } catch (Exception $e) {
+               self::$logger->error("getIssues(): task not found in MantisDB : ".$e->getMessage());
          }
       }
 
