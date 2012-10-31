@@ -517,7 +517,7 @@
          {if isset($updateBacklogRequested) && $updateBacklogRequested}
 
             updateBacklog('{$updateBacklogRequested.backlog}',
-                  '{$updateBacklogRequested.description|escape_quotes}',
+                  '{$updateBacklogRequested.description|escape_all_quotes}',
                   '{$updateBacklogRequested.bugid}',
                   '{$updateBacklogRequested.effortEstim}',
                   '{$updateBacklogRequested.mgrEffortEstim}',

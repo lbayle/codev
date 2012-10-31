@@ -55,13 +55,13 @@ class SmartyHelper {
       }
 
       // Method for smarty escape quotes
-      function smarty_modifier_escape_simple_quotes($string) {
-         return strtr($string, array("'" => "\'"));
+      function smarty_modifier_escape_all_quotes($string) {
+         return strtr($string, array("'" => "\'",'"' => '&quot;'));
       }
 
       // register with smarty
       $this->smarty->registerPlugin("block", "t", "smarty_translate");
-      $this->smarty->registerPlugin("modifier", "escape_quotes", "smarty_modifier_escape_simple_quotes");
+      $this->smarty->registerPlugin("modifier", "escape_all_quotes", "smarty_modifier_escape_all_quotes");
       
       self::$logger = Logger::getLogger(__CLASS__);
    }

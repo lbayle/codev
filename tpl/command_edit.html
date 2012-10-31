@@ -273,7 +273,7 @@
                   <tr>
                      <td class="ui-state-error-text" style="width:1em;">
                         <a class="ui-icon" title="{t}delete Command-Task association{/t}" href="{$page}"
-                           onclick="removeCmdIssue('{$id}', '{$issue.project}', '{$issue.summary|escape_quotes}');return false;">
+                           onclick="removeCmdIssue('{$id}', '{$issue.project}', '{$issue.summary|escape_all_quotes}');return false;">
                         </a>
                      </td>
                      <td style="width: 1em;">{$issue.bugid}</td>
