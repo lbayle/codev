@@ -458,7 +458,22 @@
                   });
 
                   jQuery("#btSaveProvisions").click(function() {
-                     alert("Handler for .click() called.");
+
+                     var imploded = ""
+                     jQuery("#provisionsTable tbody tr").each(function() {
+                        var provid = jQuery(this).attr("id");
+                        var isInCheckBudget = jQuery(this).find(".cbIsInCheckBudget").attr("checked");
+                        var boolVal = ("checked" == isInCheckBudget) ? 1 : 0;
+
+                        imploded += provid+":"+boolVal+",";
+                        //alert("provid " + provid + " implode "+ implode);
+                     });
+
+                     var myform = jQuery("#formSaveProvisionChanges");
+                     myform.find("input[name=isInCheckBudgetImploded]").val(imploded);
+                     myform.submit();
+
+
                      jQuery("#btSaveProvisions").attr("disabled", "disabled");
                   });
 
@@ -476,12 +491,21 @@
                   dialog.dialog("open");
                }
             </script>
+            <form id="formSaveProvisionChanges" name="formSaveProvisionChanges" method="post" action="{$ajaxPage}" >
+               <fieldset>
+                  <input type="hidden" name="action" value="saveProvisionChanges" />
+                  <input type="hidden" name="teamid" value="{$teamid}" />
+                  <input type="hidden" name="cmdid" value="{$cmdid}" />
+                  <input type="hidden" name="isInCheckBudgetImploded" value="0" />
+               </fieldset>
+            </form>
 
             <div>
                <button id="btAddProvision" type="button"><img border="0" align="absmiddle" alt="Add icon" src="images/b_add.png"> {t}Add Provision{/t}</button>
                <button id="btSaveProvisions" disabled="disabled" type="button" class="floatr"><img  border="0" align="absmiddle" src="images/b_save.png" alt="Save icon"/> {t}Save{/t}</button>
             </div>
             <table id="provisionsTable">
+               <thead>
                <tr>
                   <th></th>
                   <th>{t}Date{/t}</th>
@@ -492,6 +516,8 @@
                   <th>{t}Summary{/t}</th>
                   <th title = "{t}add to budget check{/t}"></th>
                </tr>
+               </thead>
+               <tbody>
                {foreach $cmdProvisionList as $id => $prov}
                <tr id="{$id}">
                   <td class="ui-state-error-text" style="width:1em;">
@@ -507,6 +533,7 @@
                   <td title="{t}add to budget check{/t}"><input {if ($prov.isInCheckBudget)}checked="checked"{/if} type="checkbox" class="cbIsInCheckBudget" /></td>
                </tr>
                {/foreach}
+               </tbody>
             </table>
          </div>
 
