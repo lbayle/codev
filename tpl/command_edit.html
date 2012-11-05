@@ -507,6 +507,10 @@
                   }
                }
 
+               function updateIsInCheckBudget() {
+               alert('aaaah!');
+               }
+
                function deleteProvision(provid, date, type, budget, budgetDays, summary){
                   var dialog = jQuery("#deleteProvision_dialog_form");
                   dialog.find(".desc_date").text(date);
@@ -531,6 +535,13 @@
 
                   jQuery("#budget").keyup(function(event) {
                      updateADR();
+                  });
+
+                  jQuery("#type").change(function() {
+
+                     // DEFAULT: checked, except if type='management'
+                     var checked = ( jQuery("#type").val() == {$cmdProvisionTypeMngt}) ? false : true;
+                     jQuery("#cb_isInCheckBudget").prop('checked', checked);
                   });
 
 
@@ -619,7 +630,7 @@
                            </tr>
                            <tr>
                               <th nowrap="nowrap"><label for="summary">{t}Add to 'check budget'{/t} :</label></th>
-                              <td><input type="checkbox" checked="checked" id="cb_isInCheckBudget" /></td>
+                              <td><input type="checkbox" id="cb_isInCheckBudget" /></td>
                            </tr>
 
                         </tbody>

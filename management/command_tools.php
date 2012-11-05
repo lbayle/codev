@@ -320,6 +320,7 @@ class CommandTools {
       $smartyHelper->assign('cmdDesc', $cmd->getDesc());
 
       $smartyHelper->assign('cmdProvisionList', self::getProvisionList($cmd));
+      $smartyHelper->assign('cmdProvisionTypeMngt', CommandProvision::provision_mngt);
 
       $cmdTotalSoldDays = $cmd->getTotalSoldDays();
       $smartyHelper->assign('cmdTotalSoldDays', $cmdTotalSoldDays);
