@@ -258,7 +258,7 @@ class CommandSetTools {
       foreach ($cmdList as $cmd) {
          // TODO math should not be in here !
          $mgrEE = $cmd->getIssueSelection()->mgrEffortEstim;
-         $cmdProvAndMeeCost = ($mgrEE * $cmd->getAverageDailyRate()) + $cmd->getProvisionBudget($cmd->getSelectedProvisionTypes());
+         $cmdProvAndMeeCost = ($mgrEE * $cmd->getAverageDailyRate()) + $cmd->getProvisionBudget(TRUE);
 
          $cmdsProvAndMeeCost += $cmdProvAndMeeCost;
       }

@@ -330,9 +330,9 @@ class CommandTools {
        
       // TODO math should not be in here !
       $mgrEE = $cmd->getIssueSelection()->mgrEffortEstim;
-      $cmdProvAndMeeCost = ($mgrEE * $cmd->getAverageDailyRate()) + $cmd->getProvisionBudget($cmd->getSelectedProvisionTypes());
+      $cmdProvAndMeeCost = ($mgrEE * $cmd->getAverageDailyRate()) + $cmd->getProvisionBudget(TRUE);
       $smartyHelper->assign('cmdProvAndMeeCost',$cmdProvAndMeeCost);
-      $cmdProvAndMeeDays = $mgrEE + $cmd->getProvisionDays($cmd->getSelectedProvisionTypes());
+      $cmdProvAndMeeDays = $mgrEE + $cmd->getProvisionDays(TRUE);
       $smartyHelper->assign('cmdProvAndMeeDays', $cmdProvAndMeeDays);
 
 

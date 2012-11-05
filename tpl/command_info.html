@@ -83,13 +83,13 @@
                      <th></th>
                   </tr>
                   <tr>
-                     <td align='right' title="MgrEffortEstim + Provisions">{$cmdProvAndMeeDays}</td>
+                     <td align='right' title="MgrEffortEstim + Checked Provisions">{$cmdProvAndMeeDays}</td>
                      <td align='right'  style="background-color:#{$cmdTotalReestimatedColor}" title='{t}Reestimated (days){/t}' >{$cmdTotalReestimated}</td>
                      <td align='right'  style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift (days){/t}' >{$cmdTotalDrift}</td>
                      <th>{t}Days{/t}</th>
                   </tr>
                   <tr>
-                     <td align='right' title ="MgrEffortEstim + Provisions" >{$cmdProvAndMeeCost} </td>
+                     <td align='right' title ="MgrEffortEstim + Checked Provisions" >{$cmdProvAndMeeCost} </td>
                      <td align='right' style="background-color:#{$cmdTotalReestimatedCostColor}" title='{t}Reestimated days * AverageDailyRate{/t}' >{$cmdTotalReestimatedCost}</td>
                      <td align='right' style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift days * AverageDailyRate{/t}' >{$cmdTotalDriftCost}</td>
                      <th>{$cmdCurrency}</th>
@@ -193,7 +193,7 @@
                         <td style="text-align:right">{$prov.budget} {$prov.currency}</td>
                         <td>{$prov.average_daily_rate}</td>
                         <td>{$prov.summary}</td>
-                        <td title="{if ($prov.isInCheckBudget)}{t}Provision is included in 'check budget'{/t}{else}{t}Provision NOT included in 'check budget'{/t}{/if}"><input {if ($prov.isInCheckBudget)}checked="checked"{/if} type="checkbox" disabled="disabled" id="cb_isInCheckBudget" /></td>
+                        <td title="{if ($prov.isInCheckBudget)}{t}Provision included in 'check budget'{/t}{else}{t}Provision NOT included in 'check budget'{/t}{/if}"><input {if ($prov.isInCheckBudget)}checked="checked"{/if} type="checkbox" disabled="disabled" id="cb_isInCheckBudget" /></td>
                      </tr>
                      {/foreach}
                   </table>

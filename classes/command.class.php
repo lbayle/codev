@@ -470,37 +470,18 @@ class Command extends Model {
    }
 
    /**
-    * the type of provisions to be included when calculating
-    * BudgetDays & Budget
-    *
-    * @return array of typeList
-    */
-   public function getSelectedProvisionTypes() {
-
-      // TODO user codev_config_table to set/get this list
-
-      $types = array(
-          CommandProvision::provision_risk,      // optional
-          CommandProvision::provision_guarantee, // optional
-          CommandProvision::provision_quality, // optional
-          CommandProvision::provision_other      // optional
-         #CommandProvision::provision_mngt,      // only if mngt sideTasks are included in command
-         );
-      return $types;
-   }
-
-   /**
     * Sum all the Budjet provisions
     *
-    * @param array $typeList array of CommandProvision::provision_xxx
+    * @param bool $checkBudgetOnly sum only 'is_in_check_budget' provisions
     * @return type
     */
-   public function getProvisionBudget(array $typeList = NULL) {
+   public function getProvisionBudget($checkBudgetOnly = FALSE) {
 
       $provisions = $this->getProvisionList();
       $budget = 0;
       foreach ($provisions as $prov) {
-         if (is_null($typeList) || (in_array($prov->getType(), $typeList))) {
+         if ((FALSE == $checkBudgetOnly) ||
+             ((TRUE == $checkBudgetOnly) && ($prov->isInCheckBudget()))) {
             $budget += $prov->getProvisionBudget();
          }
       }
@@ -510,16 +491,17 @@ class Command extends Model {
    /**
     * Sum all the BudjetDays provisions
     *
-    * @param array $typeList array of CommandProvision::provision_xxx
+    * @param bool $checkBudgetOnly sum only 'is_in_check_budget' provisions
     * @return type
     *
     */
-   public function getProvisionDays(array $typeList = NULL) {
+   public function getProvisionDays($checkBudgetOnly = FALSE) {
 
       $provisions = $this->getProvisionList();
       $budgetDays = 0;
       foreach ($provisions as $prov) {
-         if (is_null($typeList) || (in_array($prov->getType(), $typeList))) {
+         if ((FALSE == $checkBudgetOnly) ||
+             ((TRUE == $checkBudgetOnly) && ($prov->isInCheckBudget()))) {
             $budgetDays += $prov->getProvisionDays();
          }
       }
