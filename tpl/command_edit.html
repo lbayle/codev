@@ -460,7 +460,7 @@
                <th>{t}Budget{/t}</th>
                <th title="{t}Average Daily Rate{/t}">{t}ADR{/t}</th>
                <th>{t}Summary{/t}</th>
-               <th title = "add to budget check"></th>
+               <th title = "{t}add to budget check{/t}"></th>
             </tr>
             {foreach $cmdProvisionList as $id => $prov}
             <tr>
@@ -474,7 +474,7 @@
                <td>{$prov.budget} {$prov.currency}</td>
                <td>{$prov.average_daily_rate}</td>
                <td>{$prov.summary}</td>
-               <td><input type="checkbox" checked="checked" id="cb_provIsInCheckBudget" /></td>
+               <td title="{t}add to budget check{/t}"><input {if ($prov.isInCheckBudget)}checked="checked"{/if} type="checkbox" id="cb_isInCheckBudget" /></td>
             </tr>
             {/foreach}
          </table>
@@ -629,7 +629,7 @@
                               <td><input type="text" id="summary" name="summary" size="80" class="text" /></td>
                            </tr>
                            <tr>
-                              <th nowrap="nowrap"><label for="summary">{t}Add to 'check budget'{/t} :</label></th>
+                              <th nowrap="nowrap"><label for="cb_isInCheckBudget">{t}Add to 'check budget'{/t} :</label></th>
                               <td><input type="checkbox" id="cb_isInCheckBudget" /></td>
                            </tr>
 

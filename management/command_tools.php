@@ -94,7 +94,8 @@ class CommandTools {
             'budget' => $prov->getProvisionBudget(),
             'average_daily_rate' => $prov->getAverageDailyRate(),
             'currency' => $prov->getCurrency(),
-            'summary' => $prov->getSummary()
+            'summary' => $prov->getSummary(),
+            'isInCheckBudget' => $prov->isInCheckBudget()
          );
       }
       return $provArray;
