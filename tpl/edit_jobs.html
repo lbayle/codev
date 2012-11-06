@@ -13,7 +13,6 @@
    <div style="margin-top: 2em;padding: 0 1em 1em;"class="ui-widget-content">
       <h2>{t}Jobs{/t}</h2>
       <!-- <div class="center"> -->
-      <link rel="stylesheet" href="lib/colorpicker/css/colorpicker.css" type="text/css" />
       <script type="text/javascript">
          jQuery(document).ready(function() {
             jQuery('#addJob').click(function() {
@@ -51,8 +50,9 @@
                {/foreach}
             </select>
             <label for="colorpicker">{t}Color{/t}:</label>
-            <input style="background-color: #FFFFFF" name="job_color" type="text" id="colorpicker" class="colorpicker" value="FFFFFF" title="format: FFFFFF" size="6" />
+            <input style="background-color: #FFFFFF" name="job_color" type="text" id="job_color" value="FFFFFF" title="format: FFFFFF" size="6" />
             <input type="button" id="addJob" name="btAddJob" value="{t}Add{/t}" />
+            &nbsp;&nbsp;&nbsp;<a href='http://www.colorschemer.com/online.html' target='_blank' title="{t}open a colorPicker in a new Tab{/t}">ColorPicker</a>
          </fieldset>
       </form>
 

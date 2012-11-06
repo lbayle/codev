@@ -17,7 +17,7 @@
    <!-- <div class="center"> -->
    <div style="margin-top: 2em;">
       <script type="text/javascript" src="js/datepicker.js"></script>
-      <link rel="stylesheet" href="lib/colorpicker/css/colorpicker.css" type="text/css" />
+      <!--link rel="stylesheet" href="lib/colorpicker/css/colorpicker.css" type="text/css" /-->
       <script type="text/javascript">
          jQuery(document).ready(function() {
             {if $locale != en}
@@ -53,8 +53,10 @@
             <label for="hol_desc">{t}Description{/t}:</label>
             <input name="hol_desc" type="text" id="hol_desc" />
             <label for="colorpicker">{t}Color{/t}:</label>
-            <input style="background-color: #{$defaultColor};" name="hol_color" type="text" id="colorpicker" class="colorpicker" value="{$defaultColor}" title="format: {$defaultColor}" size="6" />
+            <!--input style="background-color: #{$defaultColor};" name="hol_color" type="text" id="colorpicker" class="colorpicker" value="{$defaultColor}" title="format: {$defaultColor}" size="6" /-->
+            <input name='hol_color' type='text' id='hol_color' value="{$defaultColor}" title='format: {$defaultColor}' size='6'>
             <input id="addHoliday" type="button" name="btAddHoliday" value="{t}Add{/t}" />
+            &nbsp;&nbsp;&nbsp;<a href='http://www.colorschemer.com/online.html' target='_blank' title="{t}open a colorPicker in a new Tab{/t}">ColorPicker</a>
          </fieldset>
       </form>
    </div>
