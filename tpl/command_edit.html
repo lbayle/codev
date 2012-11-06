@@ -418,6 +418,7 @@
                         }
                      }
                   });
+
                });
             </script>
             <div id="removeCmdSet_dialog_form" title="{t}Remove CommandSet{/t}" class="ui-helper-hidden">
@@ -471,10 +472,43 @@
 
                      var myform = jQuery("#formSaveProvisionChanges");
                      myform.find("input[name=isInCheckBudgetImploded]").val(imploded);
-                     myform.submit();
-
+                     myform.submit(); // this 'submit' method is rewritten for ajax purpose, see below
 
                      jQuery("#btSaveProvisions").attr("disabled", "disabled");
+                  });
+
+                  // rewrite the 'submit' method to send the request in background (async) via ajax
+                  jQuery("#formSaveProvisionChanges").submit(function(event) {
+
+                     event.preventDefault(); // stop form from submitting normally
+
+                     var myform = jQuery(this);
+                     jQuery.ajax({
+                        // standard 'submit' attributes:
+                        type: myform.attr("method"),
+                        url: myform.attr("action"),
+                        data: myform.serialize(),
+                        // add specific actions:
+                        success: function(data) {
+                           // 'data' is returned by the ajax page (using PHP 'echo' function)
+                           if ('SUCCESS' == data) {
+                              alert("{t}Provisions successfully updated.{/t}");
+                           } else {
+                              // data = error message
+                              alert(data);
+                              window.location = '{$page}';
+                           }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                           if(errorThrown == 'Forbidden') {
+                              window.location = '{$page}';
+                           } else {
+                              alert({t}errorThrown{/t});
+                           }
+                        }
+                     });
+
+
                   });
 
                });

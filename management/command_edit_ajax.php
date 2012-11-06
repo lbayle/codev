@@ -27,28 +27,29 @@ if(Tools::isConnectedUser() && (isset($_POST['action']) || isset($_POST['action'
             $cmdid = $_SESSION['cmdid'];
             if (0 != $cmdid) {
 
-               // <provid>:<isInCheckBudget>,provid:<isInCheckBudget>
+               // <provid>:<isInCheckBudget>,
                $imploded = Tools::getSecurePOSTStringValue("isInCheckBudgetImploded");
-
-               echo "imploded = $imploded<br>";
                $provisions = Tools::doubleExplode(':', ',', $imploded);
 
+               try {
+                  // save Provision changes
+                  foreach ($provisions as $provid => $isInCheckBudget) {
+                     $prov = new CommandProvision($provid);
 
-               // save Provision changes
-               foreach ($provisions as $provid => $isInCheckBudget) {
-                  $prov = new CommandProvision($provid);
-
-                  echo "prov $provid = $isInCheckBudget<br>";
-
-/*
-                  // securityCheck: does provid belong to this command ?
-                  if ($cmdid == $prov->getCommandId()) {
-                     $prov->setIsInCheckBudget($isInCheckBudget);
-                  } else {
-                     // LOG SECURITY ERROR !!
+                     // securityCheck: does provid belong to this command ?
+                     if ($cmdid == $prov->getCommandId()) {
+                        $prov->setIsInCheckBudget($isInCheckBudget);
+                     } else {
+                        // LOG SECURITY ERROR !!
+                        Tools::sendBadRequest("Provision $provid does not belong to Command $cmdid !");
+                     }
                   }
- */
+               } catch (Exception $e) {
+                  Tools::sendBadRequest(T_("Provisions updated FAILED !"));
                }
+
+               // write in 'data'
+               echo ('SUCCESS');
 
             } else {
                Tools::sendBadRequest("Invalid CommandId: 0");
@@ -62,7 +63,8 @@ if(Tools::isConnectedUser() && (isset($_POST['action']) || isset($_POST['action'
    }
 }
 else {
-   Tools::sendUnauthorizedAccess();
+   // send 'Forbidden' caught by ajax: function(jqXHR, textStatus, errorThrown)
+   Tools::sendUnauthorizedAccess(); 
 }
 
 ?>
