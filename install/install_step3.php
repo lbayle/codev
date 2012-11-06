@@ -380,7 +380,7 @@ function createCustomFields() {
 
    $attributes["require_report"] = 0;
    $attributes["display_report"] = 1;
-   $defaultValue = 1;
+   $defaultValue = 0;
    $attributes["access_level_r"] = $access_manager;
    $attributes["access_level_rw"] = $access_manager;
    createCustomField(T_("CodevTT_Manager EffortEstim"), $mType_numeric, "customField_MgrEffortEstim", $attributes, $defaultValue);
