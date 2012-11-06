@@ -14,16 +14,16 @@
       <!-- T_("Team").": ".$teamList[$teamid]."<br/> -->
       <p style="margin-top: 2em">
          <span style="font-weight: bold;" title="{t}Issues form Team projects, including issues assigned to other teams{/t}">- {t}Export Managed Issues{/t}...</span><br/>
-         <span style="padding-left: 3em"><a href="tools/download.php?f={$managedIssuesToCSV}">{$managedIssuesToCSV}</a></span>
+         <span style="padding-left: 3em"><a href="include/download.php?f={$managedIssuesToCSV}">{$managedIssuesToCSV}</a></span>
       </p>
       <p style="margin-top: 2em">
          <span style="font-weight: bold;" title="">- {t}Export{/t} {t}Projects Activity{/t}...</span><br/>
-         <span style="padding-left: 3em"><a href="tools/download.php?f={$projectMonthlyActivityToCSV}">{$projectMonthlyActivityToCSV}</a></span>
+         <span style="padding-left: 3em"><a href="include/download.php?f={$projectMonthlyActivityToCSV}">{$projectMonthlyActivityToCSV}</a></span>
       </p>
       <p style="margin-top: 2em">
          <span style="font-weight: bold;" title="">- {t}Export Holidays {/t}{$year}...</span><br/>
          {foreach from=$reports key=file item=i}
-         <span style="padding-left: 3em"><a href="tools/download.php?f={$i}">{$i}</a></span><br/>
+         <span style="padding-left: 3em"><a href="include/download.php?f={$i}">{$i}</a></span><br/>
          {/foreach}
       </p>
       <p style="margin-top: 2em">
