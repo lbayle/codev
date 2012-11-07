@@ -1104,6 +1104,84 @@ class Tools {
       return (substr($haystack, -$length) === $needle);
    }
 
+   /**
+    * create a customField in Mantis (if not exist) & update codev_config_table
+    *
+    * ex: $install->createCustomField("ExtRef", 0, "customField_ExtId");
+    *
+    * @param string $fieldName Mantis field name
+    * @param int $fieldType Mantis field type
+    * @param string $configId  codev_config_table.config_id
+    * @param type $attributes
+    * @param type $default_value
+    * @param type $possible_values
+    */
+   public static function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL,
+                              $default_value = '', $possible_values = '') {
+      // get existing Mantis custom fields
+      $fieldList = array();
+
+      if (NULL == $attributes) {
+         $attributes = array();
+
+         $attributes["access_level_r"] = 10;
+         $attributes["access_level_rw"] = 25;
+         $attributes["require_report"] = 1;
+         $attributes["require_update"] = 1;
+         $attributes["require_resolved"] = 0;
+         $attributes["require_closed"] = 0;
+         $attributes["display_report"] = 1;
+         $attributes["display_update"] = 1;
+         $attributes["display_resolved"] = 0;
+         $attributes["display_closed"] = 0;
+
+         echo "<span class='warn_font'>WARN: using default attributes for CustomField $fieldName</span><br/>";
+      }
+
+      $query = "SELECT id, name FROM `mantis_custom_field_table`";
+      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>" . mysql_error() . "</span>");
+      while ($row = mysql_fetch_object($result)) {
+         $fieldList["$row->name"] = $row->id;
+      }
+
+      $fieldId = $fieldList[$fieldName];
+      if (!$fieldId) {
+         $query2 = "INSERT INTO `mantis_custom_field_table` " .
+            "(`name`, `type` ,`access_level_r`," .
+            "                 `access_level_rw` ,`require_report` ,`require_update` ,`display_report` ,`display_update` ,`require_resolved` ,`display_resolved` ,`display_closed` ,`require_closed` ";
+         $query2 .= ", `possible_values`, `default_value`";
+
+         $query2 .= ") VALUES ('$fieldName', '$fieldType', '" . $attributes["access_level_r"] . "', '" .
+            $attributes["access_level_rw"] . "', '" .
+            $attributes["require_report"] . "', '" .
+            $attributes["require_update"] . "', '" .
+            $attributes["display_report"] . "', '" .
+            $attributes["display_update"] . "', '" .
+            $attributes["require_resolved"] . "', '" .
+            $attributes["display_resolved"] . "', '" .
+            $attributes["display_closed"] . "', '" .
+            $attributes["require_closed"] . "'";
+
+         $query2 .= ", '$possible_values', '$default_value'";
+         $query2 .= ");";
+
+         #echo "DEBUG INSERT $fieldName --- query $query2 <br/>";
+
+         $result2 = mysql_query($query2) or die("<span style='color:red'>Query FAILED: $query2 <br/>" . mysql_error() . "</span>");
+         $fieldId = mysql_insert_id();
+
+         #echo "custom field '$configId' created.<br/>";
+      } else {
+         echo "<span class='success_font'>INFO: custom field '$configId' already exists.</span><br/>";
+      }
+
+      // add to codev_config_table
+      Config::getInstance()->setValue($configId, $fieldId, Config::configType_int);
+   }
+
+
+
+
 
 }
 

@@ -69,6 +69,7 @@ class Config {
 
    // TODO Move to a more appropriate class
    const codevVersion = "v0.99.18 (22 Sept 2012)";
+   const databaseVersion = 9; // used to check codev_config_table.database_version and apply upgrades.
 
    const configType_int = 1;
    const configType_string = 2;
