@@ -228,6 +228,51 @@ function setConfigItems() {
 
 
 /**
+ * remove existing entries from mantis menu
+ * 
+ * @param string $name 'CodevTT'
+ */
+function removeCustomMenuItem($name) {
+
+   // get current mantis custom menu entries
+   $query = "SELECT value FROM `mantis_config_table` WHERE config_id = 'main_menu_custom_options'";
+   $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>" . mysql_error() . "</span>");
+
+   $serialized = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+
+   // add entry
+   if ((!is_null($serialized)) && ("" != $serialized)) {
+
+      $menuItems = unserialize($serialized);
+
+      foreach($menuItems as $key => $item) {
+         if (in_array($name, $item)) {
+            echo "remove key=$key<br>";
+            unset($menuItems[$key]);
+         }
+      }
+
+      $newSerialized = serialize($menuItems);
+
+      // update mantis menu
+      if (NULL != $serialized) {
+         $query = "UPDATE `mantis_config_table` SET value = '$newSerialized' " .
+            "WHERE config_id = 'main_menu_custom_options'";
+      } else {
+         $query = "INSERT INTO `mantis_config_table` (`config_id`, `value`, `type`, `access_reqd`) " .
+            "VALUES ('main_menu_custom_options', '$newSerialized', '3', '90');";
+      }
+      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>" . mysql_error() . "</span>");
+
+
+   } else {
+      // echo "no custom menu entries found<br>";
+   }
+
+
+}
+
+/**
  * Add a new entry in MantisBT menu (main_menu_custom_options)
  *
  * ex: addCustomMenuItem('CodevTT', '../codev/index.php')
@@ -656,6 +701,7 @@ if ("checkReportsDir" == $action) {
    updateMantisCustomFiles();
 
    echo "DEBUG 4/11 add CodevTT to Mantis menu<br/>";
+   removeCustomMenuItem('CodevTT');
    $tok = strtok($_SERVER["SCRIPT_NAME"], "/");
    addCustomMenuItem('CodevTT', '../'.$tok.'/index.php');  #  ../codev/index.php
 
