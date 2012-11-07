@@ -262,21 +262,26 @@ if ("setDatabaseInfo" == $action) {
       exit;
    }
 
-   // TODO check user access (create_table, create_procedure, alter, insert,delete, ...)
-
    echo "DEBUG 2/3 execSQLscript2 - create Tables<br/>";
    $retCode = Tools::execSQLscript2(Install::FILENAME_TABLES);
    if (0 != $retCode) {
-      echo "<span class='error_font'>Could not execSQLscript: Install::FILENAME_TABLES</span><br/>";
+      echo "<span class='error_font'>Could not execSQLscript: ".Install::FILENAME_TABLES.'</span><br/>';
       exit;
    }
+   $request = "SELECT value from `codev_config_table` WHERE `config_id` = 'database_version' ";
+   if (!SqlWrapper::getInstance()->sql_query($request)) {
+      echo "<span class='error_font'>CodevTT database tables not created.</span><br/>";
+      exit;
+   }
+
 
    echo "DEBUG 3/3 execSQLscript2 - create Procedures<br/>";
    $retCode = Tools::execSQLscript2(Install::FILENAME_PROCEDURES);
    if (0 != $retCode) {
-      echo "<span class='error_font'>Could not execSQLscript: Install::FILENAME_PROCEDURES</span><br/>";
+      echo "<span class='error_font'>Could not execSQLscript: ".Install::FILENAME_PROCEDURES."</span><br/>";
       exit;
    }
+
 
    // everything went fine, goto step2
    echo ("<script type='text/javascript'> parent.location.replace('install_step2.php'); </script>");
