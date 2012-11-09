@@ -182,7 +182,7 @@ class ProductivityRateIndicator implements IndicatorPlugin {
 
       $team = TeamCache::getInstance()->getTeam($this->teamid);
 
-      $projects = array_keys($team->getProjects(FALSE, FALSE, FALSE)); // TODO
+      $projects = array_keys($team->getProjects(FALSE, TRUE, FALSE)); // TODO
 
       $prodRateTableMEE = array();
       $prodRateTableEE = array();

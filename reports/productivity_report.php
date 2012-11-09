@@ -128,7 +128,7 @@ class ProductivityReportsController extends Controller {
 
                   $prodRateIndic = new ProductivityRateIndicator();
                   $prodRate = $prodRateIndic->getProductivityRate(
-                          array_keys($team->getProjects(FALSE, FALSE, FALSE)),
+                          array_keys($team->getProjects(FALSE, TRUE, FALSE)),
                           $timeTracking->getStartTimestamp(),
                           $timeTracking->getEndTimestamp());
                   $this->smartyHelper->assign('productivityRateMgr', round($prodRate['MEE'], 2));
