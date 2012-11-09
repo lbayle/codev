@@ -276,8 +276,8 @@
             {/if}
          </div>
       </div>
-      <div id="tabsName-2">{include file="plugin/activity_indicator.html"}</div>
-      <div id="tab_attributes">
+      <div id="tabsName-2" class="ui-helper-hidden">{include file="plugin/activity_indicator.html"}</div>
+      <div id="tab_attributes" class="ui-helper-hidden">
          <table class="invisible">
          <!--tr>
             // Note: StateList is empty, uncomment following lines if ServiceContract::$stateNames is used
@@ -317,7 +317,7 @@
             </tr>
          </table>
       </div>
-      <div id="tab_sidetasks">
+      <div id="tab_sidetasks" class="ui-helper-hidden">
          <span class="help_font">{t}Note: SideTasks already defined in Commands are not displayed.{/t}</span>
          <br />
 
@@ -354,7 +354,7 @@
          {t}No task found.{/t}
          {/if}
       </div>
-      <div id="tab_provisions">
+      <div id="tab_provisions" class="ui-helper-hidden">
 
          {if $cmdProvisionList}
          <div align="center">
@@ -390,7 +390,7 @@
          {t}No provision found.{/t}
          {/if}
       </div>
-      <div id="tabsName-5">{include file="plugin/detailed_charges_indicator.html"}</div>
+      <div id="tabsName-5" class="ui-helper-hidden">{include file="plugin/detailed_charges_indicator.html"}</div>
       {/if}
    </div>
    <script type="text/javascript">

@@ -14,6 +14,10 @@ jQuery(document).ready(function(){
       async: false,
       cache: true
    });
+   
+   
+    TableTools.DEFAULTS.aButtons = [ "copy", "xls" ];
+    TableTools.DEFAULTS.sSwfPath = "lib/datatables/extras/TableTools/media/swf/copy_csv_xls.swf";
 
    jQuery('.datatable').dataTable({
       "sScrollY": "700px",
@@ -23,12 +27,8 @@ jQuery(document).ready(function(){
       "bSort": true,
       "bInfo": false,
       "bAutoWidth": false,
-      "sDom": '<"H"Tfr>t',
-		"oTableTools": {
-         //"sSwfPath": "lib/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf",
-			//"aButtons": [ "copy", "csv", "xls", "pdf" ]
-         "sSwfPath": "lib/datatables/extras/TableTools/media/swf/copy_csv_xls.swf",
-			"aButtons": [ "copy", "xls" ]
-		}
+      // Adapt the jQuery css
+      //"bJQueryUI": true,
+      "sDom": '<"H"Tfr>t'
    });
 });

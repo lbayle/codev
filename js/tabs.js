@@ -39,6 +39,14 @@ jQuery(document).ready(function() {
                if (oTable.length > 0) {
                   oTable.fnAdjustColumnSizing();
                }
+               // TODO Handle multiple tables in a page
+               var oTableTools = TableTools.fnGetInstance(table.get(0));
+               if ( oTableTools != null && oTableTools.fnResizeRequired() ) {
+                    /* A resize of TableTools' buttons and DataTables' columns is only required on the
+                     * first visible draw of the table
+                     */
+                    oTableTools.fnResizeButtons();
+               }
             }
          }
       });
