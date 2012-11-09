@@ -103,7 +103,7 @@
          {t}Not available.{/t}
          {/if}
       </div>
-      <div id="tabsName-2">
+      <div id="tabsName-2" class="ui-helper-hidden">
          <!-- Working days per job -->
          {if $workingDaysPerJob}
          <h3 style="margin: 0 0 0.5em 0.5em;">{t}Load per Job{/t}</h3>
@@ -142,7 +142,7 @@
          {t}Not available.{/t}
          {/if}
       </div>
-      <div id="tabsName-3">
+      <div id="tabsName-3" class="ui-helper-hidden">
          {if $projects}
          <script type="text/javascript">
             jQuery(document).ready(function() {
@@ -223,7 +223,7 @@
          {t}Not available.{/t}
          {/if}
       </div>
-      <div id="tabsName-4">
+      <div id="tabsName-4" class="ui-helper-hidden">
          <!-- Working Days Per Project -->
          {if $workingDaysPerProject}
          <h3 style="margin: 0 0 0.5em 0.5em;">{t}Load per Project{/t}</h3>
@@ -257,7 +257,7 @@
          {t}Not available.{/t}
          {/if}
       </div>
-      <div id="tabsName-5">
+      <div id="tabsName-5" class="ui-helper-hidden">
          <!-- Productivity indicators -->
          {if $timeTracking}
          <h3 style="margin: 0 0 0.5em 0.5em;">{t}Productivity indicators{/t}</h3>
@@ -298,7 +298,7 @@
          {t}Not available.{/t}
          {/if}
       </div>
-      <div id="tabsName-6">
+      <div id="tabsName-6" class="ui-helper-hidden">
          <!-- Adherence to deadlines -->
          {if $timeDriftStats}
          <h3 style="margin: 0 0 0.5em 0.5em;" title="{t}Tasks having no deadLine are not reported here{/t}">{t}Adherence to deadlines{/t} : {$percent} %</h3>
@@ -330,7 +330,7 @@
          {t}Not available.{/t}
          {/if}
       </div>
-      <div id="tabsName-7">
+      <div id="tabsName-7" class="ui-helper-hidden">
          <!-- Effort Deviation -->
          {if isset($resolvedDeviationStats) || isset($resolvedIssuesInDrift)}
          <h3 style="margin: 0 0 0.5em 0.5em;">{t}EffortDeviation - Tasks resolved in the period{/t} &nbsp;&nbsp;<a id="dialog_ResolvedDriftStats_link" class="help_link" href="{$page}"><img alt="{t}Help{/t}" title="{t}Help{/t}" src="images/help_icon.gif"/></a></h3>
@@ -429,7 +429,7 @@
          {t}Not available.{/t}
          {/if}
       </div>
-      <div id="tabsName-8">
+      <div id="tabsName-8" class="ui-helper-hidden">
          <!-- Reopened tasks -->
          {if $formattedReopenedTaks}
          <h3 style="margin: 0 0 0.5em 0.5em;">{t}Reopened tasks{/t}</h3>

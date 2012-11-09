@@ -3,9 +3,8 @@
  * Convention :
  * - <div class="tabs">...</div>
  */
-var tabs = jQuery(".tabs");
-tabs.hide();
 jQuery(document).ready(function() {
+   var tabs = jQuery(".tabs");
    if(tabs.length > 0) {
       // Lib handle the history
       jQuery.ajax({
@@ -106,7 +105,5 @@ jQuery(document).ready(function() {
       // Since the event is only triggered when the hash changes, we need to trigger
       // the event now, to handle the hash the page may have loaded with.
       jQuery(window).trigger('hashchange');
-      
-      tabs.show();
    }
 });

@@ -134,7 +134,7 @@
       </div>
 
       <!-- Drifts -->
-      <div id="tagTimeDrift">
+      <div id="tagTimeDrift" class="ui-helper-hidden">
          {if $timeDrift_Legend}
          <span class="help_font"><strong>{t}% Tasks{/t}</strong>: {t}Percentage of tasks delivered before the deadLine{/t}</span>
          <div style="margin-top: 1em">
@@ -174,7 +174,7 @@
       </div>
 
       <!-- Effort Deviation -->
-      <div id="tagResolvedDrift">
+      <div id="tagResolvedDrift" class="ui-helper-hidden">
          {if $resolvedDrift_Legend}
          <span class="help_font"><strong>{t}EffortDeviation{/t}</strong>: {t}Overflow day quantity{/t}</span>
          <div style="margin-top: 1em">
@@ -265,7 +265,7 @@
       </div>
 
       <!-- EfficiencyRate -->
-      <div id="tagEfficiencyRate">
+      <div id="tagEfficiencyRate" class="ui-helper-hidden">
          {if $efficiency_Legend}
          <span class="help_font"><strong>{t}Efficiency Rate{/t}</strong>: {t}Exclude side tasks to get the percent of time spent working on the projects{/t}</span>
          <div style="margin-top: 1em">
@@ -312,7 +312,7 @@
       </div>
 
       <!-- ReopenedRate -->
-      <div id="tagReopenedRate">
+      <div id="tagReopenedRate" class="ui-helper-hidden">
          {if $reopenedRate_Legend}
          <span class="help_font">{t}Number of reopened external tasks (tasks having an ExternalRef).{/t}</span>
          <br /><br />
@@ -358,7 +358,7 @@
       </div>
 
       <!-- Developers Workload -->
-      <div id="tagWorkload">
+      <div id="tagWorkload" class="ui-helper-hidden">
          {if $workload_Legend}
          <span class="help_font">{t}man-day{/t}: {t}Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes){/t}</span>
          <div style="margin-top: 1em">
@@ -395,7 +395,7 @@
          {/if}
       </div>
       <!--div id="tabTaskStatusHistory">
-         {include file="plugin/status_history_indicator.html"}
+         { include file="plugin/status_history_indicator.html" }
       </div-->
    </div>
    {/if}
