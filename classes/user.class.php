@@ -635,11 +635,16 @@ class User extends Model {
       $prodDaysForecast = $nbOpenDaysInPeriod - $nbDaysOf;
 
       // remove externalTasks timetracks
-      $nbExternal = array_sum($this->getExternalTasksInPeriod($timeTracks, $issueIds));
+      $extTasks = $this->getExternalTasksInPeriod($timeTracks, $issueIds);
+      $nbExternal = 0;
+      foreach ($extTasks as $extTask) {
+         $nbExternal += $extTask["duration"];
+      }
+
       $prodDaysForecast -= $nbExternal;
 
       if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("user $this->id timestamp = " . date('Y-m-d', $startT) . " to " . date('Y-m-d', $endT) . " =>  ($nbOpenDaysInPeriod - " . $nbDaysOf . ") = $prodDaysForecast");
+         self::$logger->debug("user $this->id timestamp = " . date('Y-m-d', $startT) . " to " . date('Y-m-d', $endT) . " =>  ($nbOpenDaysInPeriod - $nbDaysOf - $nbExternal ) = $prodDaysForecast");
       }
 
       return $prodDaysForecast;
