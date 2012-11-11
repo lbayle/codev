@@ -6,9 +6,9 @@
 > Companies/Managers which teams have to deal with workload, deadlines and customer contracts (OpenSource projects are generally not concerned by all this).
 
 ### Description
-- CodevTT offers an easy way to fill TallySheets, and grabs information from the Mantis DB to generate reports, statistics, planning, alerts, gantt, and many progress and production indicators.
+- CodevTT offers an easy way to fill TimeSheets, and grabs information from the Mantis DB to generate reports, statistics, planning, alerts, gantt, and many progress and production indicators.
 
-- Mantis data and tally sheets are kept up to date by the developpers on a daily basis, so the team leader using CodevTT will have realtime information on the project progress without creating any overload on the team members. Progress indicators and Alerts allow him to concentrate on the 'hot points' and waste less time on global supervision.
+- Mantis data and timesheets are kept up to date by the developpers on a daily basis, so the team leader using CodevTT will have realtime information on the project progress without creating any overload on the team members. Progress indicators and Alerts allow him to concentrate on the 'hot points' and waste less time on global supervision.
 - The ServiceContract & Commands view will give you reports and progression indicators for your customer.
 - Statistics on short-medium-long term will help to take the right decisions to increase the team's efficiency and productivity.
 
@@ -20,3 +20,4 @@
 > [CodevTT](http://codevtt.org) is still under developpment and there is no real documentation right now. The best way to understand how it works is to have a look at the demo site.
 
 > Please check the [installation forum](http://codevtt.org/site/?forum=installation) for more information.
+
