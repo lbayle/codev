@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.18</span>
+   &#160;<span id="projectnumber">0.99.19</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -123,12 +123,12 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>getDesc</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a780890897ba8ab4ca5f693e4ecb143bc"></a><!-- doxytag: member="ActivityIndicator::getName" ref="a780890897ba8ab4ca5f693e4ecb143bc" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getName</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classActivityIndicator.html#a8e585c9fd38e6752d9b19600f6f3e7d1">getSmartyFilename</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classActivityIndicator.html#a0a5402194863c57907676f7a5a81d4a6">execute</a> (<a class="el" href="classIssueSelection.html">IssueSelection</a> $inputIssueSel, array $params=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classActivityIndicator.html#a6352234feaed6d11759d64825b4c9ddd">getSmartyObject</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classActivityIndicator.html#a50dc6486d645a8760d221e689a970a5b">staticInit</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classActivityIndicator.html#a349d723332b5f76d6ebf0419d03ad4d4">getSmartyFilename</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a61a1b33233f953dccc5574a04000392d"></a><!-- doxytag: member="ActivityIndicator::$execData" ref="a61a1b33233f953dccc5574a04000392d" args="" -->
@@ -175,15 +175,15 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a8e585c9fd38e6752d9b19600f6f3e7d1"></a><!-- doxytag: member="ActivityIndicator::getSmartyFilename" ref="a8e585c9fd38e6752d9b19600f6f3e7d1" args="()" -->
+<a class="anchor" id="a349d723332b5f76d6ebf0419d03ad4d4"></a><!-- doxytag: member="ActivityIndicator::getSmartyFilename" ref="a349d723332b5f76d6ebf0419d03ad4d4" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ActivityIndicator::getSmartyFilename </td>
+          <td class="memname">static ActivityIndicator::getSmartyFilename </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td><code> [static]</code></td>
         </tr>
       </table>
 </div>
@@ -191,7 +191,7 @@ Protected Attributes</h2></td></tr>
 <p>returns the SMARTY .html filename that will display the results.</p>
 <p>The file must be included in the main SMARTY page: {include file="indicator_plugins/myIndicator.html"} </p>
 
-<p>Implements <a class="el" href="interfaceIndicatorPlugin.html#a168c34ddc014f12b1bec4945e2a51ca3">IndicatorPlugin</a>.</p>
+<p>Implements <a class="el" href="interfaceIndicatorPlugin.html#acd13410b0cb6da1f810a41ff8c88d8a7">IndicatorPlugin</a>.</p>
 
 </div>
 </div>
@@ -208,7 +208,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Send the result of the <a class="el" href="classActivityIndicator.html#a0a5402194863c57907676f7a5a81d4a6">execute()</a> method to SMARTY. The SMARTY template is furnished by <a class="el" href="classActivityIndicator.html#a8e585c9fd38e6752d9b19600f6f3e7d1">getSmartyFilename()</a>.</p>
+<p>Send the result of the <a class="el" href="classActivityIndicator.html#a0a5402194863c57907676f7a5a81d4a6">execute()</a> method to SMARTY. The SMARTY template is furnished by <a class="el" href="classActivityIndicator.html#a349d723332b5f76d6ebf0419d03ad4d4">getSmartyFilename()</a>.</p>
 <p>Add to smartyHelper: $smartyHelper-&gt;assign('myIndicator', $myIndic-&gt;<a class="el" href="classActivityIndicator.html#a6352234feaed6d11759d64825b4c9ddd">getSmartyObject()</a>);</p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>array structure for SMARTY template </dd></dl>
 
@@ -256,7 +256,7 @@ Protected Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Tue Sep 25 2012 21:00:15 for CodevTT by
+    <li class="footer">Generated on Mon Nov 12 2012 00:23:00 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

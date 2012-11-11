@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.18</span>
+   &#160;<span id="projectnumber">0.99.19</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -173,18 +173,14 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>getDeadline</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa329226e0025843d17039f6c527ac571"></a><!-- doxytag: member="Command::setDeadline" ref="aa329226e0025843d17039f6c527ac571" args="($timestamp)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>setDeadline</b> ($timestamp)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0abd44ce1a4bd7692de9db740bd6ecfe"></a><!-- doxytag: member="Command::getBudgetDev" ref="a0abd44ce1a4bd7692de9db740bd6ecfe" args="()" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getBudgetDev</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad6e27dea468a96c264d0d006d0c9c926"></a><!-- doxytag: member="Command::setBudgetDev" ref="ad6e27dea468a96c264d0d006d0c9c926" args="($value)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>setBudgetDev</b> ($value)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af9dc4ca0b2163a7ef15198bfe117d445"></a><!-- doxytag: member="Command::getBudgetMngt" ref="af9dc4ca0b2163a7ef15198bfe117d445" args="()" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getBudgetMngt</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab0fa2267b9c205797e471659ef554385"></a><!-- doxytag: member="Command::setBudgetMngt" ref="ab0fa2267b9c205797e471659ef554385" args="($value)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>setBudgetMngt</b> ($value)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a54f13f55682d0b14107044017884abad"></a><!-- doxytag: member="Command::getBudgetGarantie" ref="a54f13f55682d0b14107044017884abad" args="()" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getBudgetGarantie</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1ab111fe0d1fde3841ade672acb0e9cc"></a><!-- doxytag: member="Command::setBudgetGarantie" ref="a1ab111fe0d1fde3841ade672acb0e9cc" args="($value)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>setBudgetGarantie</b> ($value)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommand.html#a3899cec9fed340dcbdc1faa88491a8bc">getTotalSoldDays</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1038bbcca9256ef7c15d1b46e4540558"></a><!-- doxytag: member="Command::setTotalSoldDays" ref="a1038bbcca9256ef7c15d1b46e4540558" args="($value)" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>setTotalSoldDays</b> ($value)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommand.html#a57684da767de4689cf51c52f2df72d65">getProvisionBudget</a> ($checkBudgetOnly=FALSE)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommand.html#a325cb1e9c30236d8d3cf1a9b19eb8059">getProvisionDays</a> ($checkBudgetOnly=FALSE)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommand.html#a8be91abb8cc4338eb6f2850ba2605cdf">getProvisionList</a> ($type=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9f16bd4cdec5d05a5bc795f20f1dcbf9"></a><!-- doxytag: member="Command::deleteProvision" ref="a9f16bd4cdec5d05a5bc795f20f1dcbf9" args="($provid)" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>deleteProvision</b> ($provid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommand.html#a03dc63d629020626a3d238b6413ec04e">getIssueSelection</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommand.html#a404f7f35a351fe0a370659ef2045b8ca">addIssue</a> ($bugid, $isDBonly=false)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommand.html#a1ffa224cfd28019b5da6185c69d6746a">removeIssue</a> ($bugid)</td></tr>
@@ -454,6 +450,93 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a57684da767de4689cf51c52f2df72d65"></a><!-- doxytag: member="Command::getProvisionBudget" ref="a57684da767de4689cf51c52f2df72d65" args="($checkBudgetOnly=FALSE)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Command::getProvisionBudget </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>checkBudgetOnly</em> = <code>FALSE</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Sum all the Budjet provisions</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">bool</td><td class="paramname">$checkBudgetOnly</td><td>sum only 'is_in_check_budget' provisions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>type </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a325cb1e9c30236d8d3cf1a9b19eb8059"></a><!-- doxytag: member="Command::getProvisionDays" ref="a325cb1e9c30236d8d3cf1a9b19eb8059" args="($checkBudgetOnly=FALSE)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Command::getProvisionDays </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>checkBudgetOnly</em> = <code>FALSE</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Sum all the BudjetDays provisions</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">bool</td><td class="paramname">$checkBudgetOnly</td><td>sum only 'is_in_check_budget' provisions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>type </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a8be91abb8cc4338eb6f2850ba2605cdf"></a><!-- doxytag: member="Command::getProvisionList" ref="a8be91abb8cc4338eb6f2850ba2605cdf" args="($type=NULL)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Command::getProvisionList </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>type</em> = <code>NULL</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>array <a class="el" href="classCommandProvision.html">CommandProvision</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a3899cec9fed340dcbdc1faa88491a8bc"></a><!-- doxytag: member="Command::getTotalSoldDays" ref="a3899cec9fed340dcbdc1faa88491a8bc" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Command::getTotalSoldDays </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>used to check if MgrEE is correctly dispatched on tasks</p>
+<p>this budjet is set at command creation and contains totalDays = 'days sold for devTasks' + 'days declared in provisions'</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>float nbDays </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a915e488dcd9335b9a60d3c98c14e5909"></a><!-- doxytag: member="Command::isEnabled" ref="a915e488dcd9335b9a60d3c98c14e5909" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -589,7 +672,7 @@ Static Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Tue Sep 25 2012 21:00:15 for CodevTT by
+    <li class="footer">Generated on Mon Nov 12 2012 00:23:00 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

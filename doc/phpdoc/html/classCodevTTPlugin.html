@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.18</span>
+   &#160;<span id="projectnumber">0.99.19</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -117,6 +117,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa121b2f514c09443bc577d0f172bfd30"></a><!-- doxytag: member="CodevTTPlugin::add_codevtt_menu" ref="aa121b2f514c09443bc577d0f172bfd30" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>add_codevtt_menu</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCodevTTPlugin.html#a4dee905c3b716985f419b2cd63897616">view_bug_form</a> ($event, $t_bug_id)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCodevTTPlugin.html#ae5ebdb598c3a9195affc0a319c42aaa2">checkTimetracks</a> ($event, $bug_id)</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>requires MantisPlugin.class.php <a class="el" href="classCodevTTPlugin.html">CodevTTPlugin</a> Class </p>
@@ -149,6 +150,41 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramtype">string</td><td class="paramname">$event</td><td></td></tr>
     <tr><td class="paramtype">array</td><td class="paramname">$t_bug_data</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ae5ebdb598c3a9195affc0a319c42aaa2"></a><!-- doxytag: member="CodevTTPlugin::checkTimetracks" ref="ae5ebdb598c3a9195affc0a319c42aaa2" args="($event, $bug_id)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CodevTTPlugin::checkTimetracks </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>bug_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Forbid issue deletion if timetracks exists</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">type</td><td class="paramname">$event</td><td></td></tr>
+    <tr><td class="paramtype">type</td><td class="paramname">$bug_id</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -271,7 +307,7 @@ Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Tue Sep 25 2012 21:00:15 for CodevTT by
+    <li class="footer">Generated on Mon Nov 12 2012 00:23:00 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

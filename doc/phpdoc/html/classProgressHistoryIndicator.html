@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.18</span>
+   &#160;<span id="projectnumber">0.99.19</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -123,12 +123,12 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>getDesc</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2b75da9b022a816fc92def46deec330e"></a><!-- doxytag: member="ProgressHistoryIndicator::getName" ref="a2b75da9b022a816fc92def46deec330e" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getName</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgressHistoryIndicator.html#ad4418d0adfe5b5f9e0d0ab3428f7ddf2">getSmartyFilename</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgressHistoryIndicator.html#a99eda23af8d92bea1cc4a40619fcec79">execute</a> (<a class="el" href="classIssueSelection.html">IssueSelection</a> $inputIssueSel, array $params=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgressHistoryIndicator.html#a831d67b948668a9bd7173fb64f57a205">getSmartyObject</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgressHistoryIndicator.html#a474f1b7bb4ecbe366c6efab6e76c51ad">staticInit</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgressHistoryIndicator.html#a68d976fb13e5ddb248ff4e529f6ecc26">getSmartyFilename</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a20f44b3ecbbb351007c53ee434bd7e55"></a><!-- doxytag: member="ProgressHistoryIndicator::$execData" ref="a20f44b3ecbbb351007c53ee434bd7e55" args="" -->
@@ -139,7 +139,7 @@ Protected Attributes</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$elapsedData</b></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock"><p>Description of BacklogVariationIndicator </p>
+<div class="textblock"><p>Description of <a class="el" href="classProgressHistoryIndicator.html">ProgressHistoryIndicator</a> </p>
 </div><hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="a99eda23af8d92bea1cc4a40619fcec79"></a><!-- doxytag: member="ProgressHistoryIndicator::execute" ref="a99eda23af8d92bea1cc4a40619fcec79" args="(IssueSelection $inputIssueSel, array $params=NULL)" -->
 <div class="memitem">
@@ -165,28 +165,30 @@ Protected Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>result of the Indicator</p>
+<p>Deux courbes:</p>
+<p>RAF Theorique = charge initiale - cumul consomé</p>
+<p>RAF Reel = cumul consomé / (cumul consomé + RAF)</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype"><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td class="paramname">$inputIssueSel</td><td>task list  array $params all other parameters needed by this indicator (timestamp, ...) </td></tr>
+    <tr><td class="paramtype"><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td class="paramname">$inputIssueSel</td><td></td></tr>
+    <tr><td class="paramtype">array</td><td class="paramname">$params</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>mixed (standard PHP structure) </dd></dl>
 
 <p>Implements <a class="el" href="interfaceIndicatorPlugin.html#a4cb87bc008ae17ea441fce4d2d37b187">IndicatorPlugin</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ad4418d0adfe5b5f9e0d0ab3428f7ddf2"></a><!-- doxytag: member="ProgressHistoryIndicator::getSmartyFilename" ref="ad4418d0adfe5b5f9e0d0ab3428f7ddf2" args="()" -->
+<a class="anchor" id="a68d976fb13e5ddb248ff4e529f6ecc26"></a><!-- doxytag: member="ProgressHistoryIndicator::getSmartyFilename" ref="a68d976fb13e5ddb248ff4e529f6ecc26" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ProgressHistoryIndicator::getSmartyFilename </td>
+          <td class="memname">static ProgressHistoryIndicator::getSmartyFilename </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td><code> [static]</code></td>
         </tr>
       </table>
 </div>
@@ -194,7 +196,7 @@ Protected Attributes</h2></td></tr>
 <p>returns the SMARTY .html filename that will display the results.</p>
 <p>The file must be included in the main SMARTY page: {include file="indicator_plugins/myIndicator.html"} </p>
 
-<p>Implements <a class="el" href="interfaceIndicatorPlugin.html#a168c34ddc014f12b1bec4945e2a51ca3">IndicatorPlugin</a>.</p>
+<p>Implements <a class="el" href="interfaceIndicatorPlugin.html#acd13410b0cb6da1f810a41ff8c88d8a7">IndicatorPlugin</a>.</p>
 
 </div>
 </div>
@@ -211,7 +213,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Send the result of the <a class="el" href="classProgressHistoryIndicator.html#a99eda23af8d92bea1cc4a40619fcec79">execute()</a> method to SMARTY. The SMARTY template is furnished by <a class="el" href="classProgressHistoryIndicator.html#ad4418d0adfe5b5f9e0d0ab3428f7ddf2">getSmartyFilename()</a>.</p>
+<p>Send the result of the <a class="el" href="classProgressHistoryIndicator.html#a99eda23af8d92bea1cc4a40619fcec79">execute()</a> method to SMARTY. The SMARTY template is furnished by <a class="el" href="classProgressHistoryIndicator.html#a68d976fb13e5ddb248ff4e529f6ecc26">getSmartyFilename()</a>.</p>
 <p>Add to smartyHelper: $smartyHelper-&gt;assign('myIndicator', $myIndic-&gt;<a class="el" href="classProgressHistoryIndicator.html#a831d67b948668a9bd7173fb64f57a205">getSmartyObject()</a>);</p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>array structure for SMARTY template </dd></dl>
 
@@ -259,7 +261,7 @@ Protected Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Tue Sep 25 2012 21:00:15 for CodevTT by
+    <li class="footer">Generated on Mon Nov 12 2012 00:23:01 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

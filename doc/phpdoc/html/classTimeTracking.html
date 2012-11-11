@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.18</span>
+   &#160;<span id="projectnumber">0.99.19</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -118,9 +118,9 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a2b675446de25879b88c6b905b0a7b95c">getProdDaysSideTasks</a> ($isDeveloppersOnly=false)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a644d679371351653c4bcae755c31d689">getManagementDays</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#aadb9302d0ac7411d60d05757cac27252">getAvailableWorkload</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#adc6a5aa51ae565c19fdb49e823d6b06b">getResolvedDriftStats</a> ($withSupport=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a7f02430ff13683cdb306c4e4199296e9">getResolvedDriftStats</a> ($withSupport=true, $extRefOnly=FALSE)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#af0561101f6cc3b29b65d1ffa269cf504">getTimeDriftStats</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#ac69e488538b0601abbcfb55946297919">getResolvedIssues</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#ade9ec8d5ff3b04c8201dfde8f9cba257">getResolvedIssues</a> ($extRefOnly=FALSE, $withReopened=FALSE)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#af08a7ebedf7f1a4b80837cb34bbd1670">getIssuesTimeDriftStats</a> (array $issueList)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#aae48e1feacb8c7cf90d40f38145ad092">getIssuesDriftStats</a> (array $issueList, $withSupport=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#aaa4414f440d38e54736bbaa197183eb1">getEfficiencyRate</a> ()</td></tr>
@@ -133,7 +133,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a157244c577df62db02aa9a37319076c6">getWeekDetails</a> ($userid, $isTeamProjOnly=false)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#ae5773a749125697ce4ec24429ffd5326">getProjectTracks</a> ($isTeamProjOnly=false)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a203a00202040a979ad5be1f2474f7d73">getReopened</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a5037c97c2ce7b14d62df6e54cb7361b6">getSubmitted</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#adb9bf98e9ebf4a784d4609d73937de7c">getSubmitted</a> ($extRefOnly=FALSE)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a3ec34a29d217ed0b03eb2002d9333cfb">getReopenedRate</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a5b9c8aeb6ec909781236100d84c1e89c">getReopenedRateResolved</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
@@ -494,7 +494,8 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>returns a list of all the tasks having been reopened in the period (status changed from resolved_threshold to lower value) </p>
+<p>returns a list of all the tasks having been reopened in the period (status changed from resolved_threshold to lower value)</p>
+<p>Note: internal tasks (tasks having no ExternalReference) NOT INCLUDED</p>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssue.html">Issue</a>[] </dd></dl>
 
 </div>
@@ -530,12 +531,13 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>$countReopened / $countResolved </p>
+<p>$countReopened / $countResolved</p>
+<p>Note: internal tasks (tasks having no ExternalReference) NOT INCLUDED</p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>number </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="adc6a5aa51ae565c19fdb49e823d6b06b"></a><!-- doxytag: member="TimeTracking::getResolvedDriftStats" ref="adc6a5aa51ae565c19fdb49e823d6b06b" args="($withSupport=true)" -->
+<a class="anchor" id="a7f02430ff13683cdb306c4e4199296e9"></a><!-- doxytag: member="TimeTracking::getResolvedDriftStats" ref="a7f02430ff13683cdb306c4e4199296e9" args="($withSupport=true, $extRefOnly=FALSE)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -543,12 +545,23 @@ Static Public Member Functions</h2></td></tr>
           <td class="memname">TimeTracking::getResolvedDriftStats </td>
           <td>(</td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>withSupport</em> = <code>true</code></td><td>)</td>
+          <td class="paramname"><em>withSupport</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>extRefOnly</em> = <code>FALSE</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
+<p>Note: reopened issues not included</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">bool</td><td class="paramname">$withSupport</td><td></td></tr>
@@ -559,15 +572,26 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ac69e488538b0601abbcfb55946297919"></a><!-- doxytag: member="TimeTracking::getResolvedIssues" ref="ac69e488538b0601abbcfb55946297919" args="()" -->
+<a class="anchor" id="ade9ec8d5ff3b04c8201dfde8f9cba257"></a><!-- doxytag: member="TimeTracking::getResolvedIssues" ref="ade9ec8d5ff3b04c8201dfde8f9cba257" args="($extRefOnly=FALSE, $withReopened=FALSE)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">TimeTracking::getResolvedIssues </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>extRefOnly</em> = <code>FALSE</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>withReopened</em> = <code>FALSE</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div>
@@ -594,14 +618,15 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5037c97c2ce7b14d62df6e54cb7361b6"></a><!-- doxytag: member="TimeTracking::getSubmitted" ref="a5037c97c2ce7b14d62df6e54cb7361b6" args="()" -->
+<a class="anchor" id="adb9bf98e9ebf4a784d4609d73937de7c"></a><!-- doxytag: member="TimeTracking::getSubmitted" ref="adb9bf98e9ebf4a784d4609d73937de7c" args="($extRefOnly=FALSE)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">TimeTracking::getSubmitted </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>extRefOnly</em> = <code>FALSE</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -806,7 +831,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Tue Sep 25 2012 21:00:15 for CodevTT by
+    <li class="footer">Generated on Mon Nov 12 2012 00:23:01 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.18</span>
+   &#160;<span id="projectnumber">0.99.19</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -98,7 +98,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div id="doc-content">
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a>  </div>
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">IndicatorPlugin Interface Reference</div>  </div>
 </div>
@@ -109,9 +110,11 @@ Inheritance diagram for IndicatorPlugin:</div>
  <div class="center">
   <img src="interfaceIndicatorPlugin.png" usemap="#IndicatorPlugin_map" alt=""/>
   <map id="IndicatorPlugin_map" name="IndicatorPlugin_map">
-<area href="classActivityIndicator.html" alt="ActivityIndicator" shape="rect" coords="0,56,152,80"/>
-<area href="classDaysPerJobIndicator.html" alt="DaysPerJobIndicator" shape="rect" coords="162,56,314,80"/>
-<area href="classProgressHistoryIndicator.html" alt="ProgressHistoryIndicator" shape="rect" coords="324,56,476,80"/>
+<area href="classActivityIndicator.html" alt="ActivityIndicator" shape="rect" coords="0,56,155,80"/>
+<area href="classDaysPerJobIndicator.html" alt="DaysPerJobIndicator" shape="rect" coords="165,56,320,80"/>
+<area href="classDetailedChargesIndicator.html" alt="DetailedChargesIndicator" shape="rect" coords="330,56,485,80"/>
+<area href="classProgressHistoryIndicator.html" alt="ProgressHistoryIndicator" shape="rect" coords="495,56,650,80"/>
+<area href="classStatusHistoryIndicator.html" alt="StatusHistoryIndicator" shape="rect" coords="660,56,815,80"/>
 </map>
  </div></div>
 
@@ -123,9 +126,11 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>getName</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a26c647576988de69d8ce5ef5c118db76"></a><!-- doxytag: member="IndicatorPlugin::getDesc" ref="a26c647576988de69d8ce5ef5c118db76" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getDesc</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceIndicatorPlugin.html#a168c34ddc014f12b1bec4945e2a51ca3">getSmartyFilename</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceIndicatorPlugin.html#a4cb87bc008ae17ea441fce4d2d37b187">execute</a> (<a class="el" href="classIssueSelection.html">IssueSelection</a> $inputIssueSel, array $params=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceIndicatorPlugin.html#a7359b355572c72ee33e41748c5594e3a">getSmartyObject</a> ()</td></tr>
+<tr><td colspan="2"><h2><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceIndicatorPlugin.html#acd13410b0cb6da1f810a41ff8c88d8a7">getSmartyFilename</a> ()</td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="a4cb87bc008ae17ea441fce4d2d37b187"></a><!-- doxytag: member="IndicatorPlugin::execute" ref="a4cb87bc008ae17ea441fce4d2d37b187" args="(IssueSelection $inputIssueSel, array $params=NULL)" -->
@@ -161,19 +166,19 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>mixed (standard PHP structure) </dd></dl>
 
-<p>Implemented in <a class="el" href="classProgressHistoryIndicator.html#a99eda23af8d92bea1cc4a40619fcec79">ProgressHistoryIndicator</a>, <a class="el" href="classActivityIndicator.html#a0a5402194863c57907676f7a5a81d4a6">ActivityIndicator</a>, and <a class="el" href="classDaysPerJobIndicator.html#a0246d0968e051d2c31a0eec6f2c7d6d4">DaysPerJobIndicator</a>.</p>
+<p>Implemented in <a class="el" href="classProgressHistoryIndicator.html#a99eda23af8d92bea1cc4a40619fcec79">ProgressHistoryIndicator</a>, <a class="el" href="classStatusHistoryIndicator.html#aa352fc04cd50ac3802af26192e1e9a8e">StatusHistoryIndicator</a>, <a class="el" href="classDetailedChargesIndicator.html#a4906a62b7e01bde221c5b871bc905a7c">DetailedChargesIndicator</a>, <a class="el" href="classActivityIndicator.html#a0a5402194863c57907676f7a5a81d4a6">ActivityIndicator</a>, and <a class="el" href="classDaysPerJobIndicator.html#a0246d0968e051d2c31a0eec6f2c7d6d4">DaysPerJobIndicator</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a168c34ddc014f12b1bec4945e2a51ca3"></a><!-- doxytag: member="IndicatorPlugin::getSmartyFilename" ref="a168c34ddc014f12b1bec4945e2a51ca3" args="()" -->
+<a class="anchor" id="acd13410b0cb6da1f810a41ff8c88d8a7"></a><!-- doxytag: member="IndicatorPlugin::getSmartyFilename" ref="acd13410b0cb6da1f810a41ff8c88d8a7" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">IndicatorPlugin::getSmartyFilename </td>
+          <td class="memname">static IndicatorPlugin::getSmartyFilename </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td><code> [static]</code></td>
         </tr>
       </table>
 </div>
@@ -181,7 +186,7 @@ Public Member Functions</h2></td></tr>
 <p>returns the SMARTY .html filename that will display the results.</p>
 <p>The file must be included in the main SMARTY page: {include file="indicator_plugins/myIndicator.html"} </p>
 
-<p>Implemented in <a class="el" href="classProgressHistoryIndicator.html#ad4418d0adfe5b5f9e0d0ab3428f7ddf2">ProgressHistoryIndicator</a>, <a class="el" href="classActivityIndicator.html#a8e585c9fd38e6752d9b19600f6f3e7d1">ActivityIndicator</a>, and <a class="el" href="classDaysPerJobIndicator.html#af0b61349428062d7bc81891613e9218d">DaysPerJobIndicator</a>.</p>
+<p>Implemented in <a class="el" href="classDetailedChargesIndicator.html#a8a762c01236c9b28cd9e54d2182d9da9">DetailedChargesIndicator</a>, <a class="el" href="classProgressHistoryIndicator.html#a68d976fb13e5ddb248ff4e529f6ecc26">ProgressHistoryIndicator</a>, <a class="el" href="classStatusHistoryIndicator.html#a96dda6d4d2a0c558771b6e60bdb40887">StatusHistoryIndicator</a>, <a class="el" href="classActivityIndicator.html#a349d723332b5f76d6ebf0419d03ad4d4">ActivityIndicator</a>, and <a class="el" href="classDaysPerJobIndicator.html#a281985932171a3c2fea740ef4bb30a50">DaysPerJobIndicator</a>.</p>
 
 </div>
 </div>
@@ -198,11 +203,11 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Send the result of the <a class="el" href="interfaceIndicatorPlugin.html#a4cb87bc008ae17ea441fce4d2d37b187">execute()</a> method to SMARTY. The SMARTY template is furnished by <a class="el" href="interfaceIndicatorPlugin.html#a168c34ddc014f12b1bec4945e2a51ca3">getSmartyFilename()</a>.</p>
+<p>Send the result of the <a class="el" href="interfaceIndicatorPlugin.html#a4cb87bc008ae17ea441fce4d2d37b187">execute()</a> method to SMARTY. The SMARTY template is furnished by <a class="el" href="interfaceIndicatorPlugin.html#acd13410b0cb6da1f810a41ff8c88d8a7">getSmartyFilename()</a>.</p>
 <p>Add to smartyHelper: $smartyHelper-&gt;assign('myIndicator', $myIndic-&gt;<a class="el" href="interfaceIndicatorPlugin.html#a7359b355572c72ee33e41748c5594e3a">getSmartyObject()</a>);</p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>array structure for SMARTY template </dd></dl>
 
-<p>Implemented in <a class="el" href="classActivityIndicator.html#a6352234feaed6d11759d64825b4c9ddd">ActivityIndicator</a>, <a class="el" href="classProgressHistoryIndicator.html#a831d67b948668a9bd7173fb64f57a205">ProgressHistoryIndicator</a>, and <a class="el" href="classDaysPerJobIndicator.html#a1505dc342d2a477febaa9876362669d0">DaysPerJobIndicator</a>.</p>
+<p>Implemented in <a class="el" href="classProgressHistoryIndicator.html#a831d67b948668a9bd7173fb64f57a205">ProgressHistoryIndicator</a>, <a class="el" href="classActivityIndicator.html#a6352234feaed6d11759d64825b4c9ddd">ActivityIndicator</a>, <a class="el" href="classStatusHistoryIndicator.html#a9e1a1f2204b03cce19c5c0491b46f582">StatusHistoryIndicator</a>, <a class="el" href="classDaysPerJobIndicator.html#a1505dc342d2a477febaa9876362669d0">DaysPerJobIndicator</a>, and <a class="el" href="classDetailedChargesIndicator.html#a6879109ed51c5f02cc3de8487026d1fd">DetailedChargesIndicator</a>.</p>
 
 </div>
 </div>
@@ -229,7 +234,7 @@ Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Tue Sep 25 2012 21:00:15 for CodevTT by
+    <li class="footer">Generated on Mon Nov 12 2012 00:23:01 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

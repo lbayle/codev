@@ -1,0 +1,26 @@
+How do CodevTT and Mantis work together ?
+
+Mantis is known as a bug tracker. Bugs belong to projects, and projects have a workflow to follow the status of each bug.
+
+But why should we use Mantis only for bugs ? It would be great to use it for development tasks. This way Mantis can be used to follow the complete development cycle of a project. And this is exactly what we’re going to do. CodevTT uses Mantis as a ‘task’ management system.
+
+Now all development tasks are declared in Mantis. To do some time tracking, we need one more thing: the initial cost (in days) of each task. Managers usualy use MsProject for this, but the easiest way is to associated it directly to the mantis task.
+
+So if you keep track on how much time has been spent on a task (elapsed time), and how much work is still to be done (backlog), then you’ll be able to compute the progress of each task. With CodevTT timesheets you declare the elapsed time and the backlog for each task.
+
+And yes, that’s it ! CodevTT does not need more inputs than that, everything else is computed.
+
+So basically:
+
+    define the cost of your tasks
+    fill your timesheets
+
+And you’ll get:
+
+    progress & productivity reports
+    planning
+    gantt graph
+    drift & deadline alerts
+    statistics
+    custommer reports
+    …

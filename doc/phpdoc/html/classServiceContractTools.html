@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.18</span>
+   &#160;<span id="projectnumber">0.99.19</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -110,14 +110,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContractTools.html#a7c47abef55f48509158112954757c5c5">getServiceContracts</a> ($teamid, $selectedId)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContractTools.html#a7c0dbcf57dba0f9b1dd5f42669d194a5">getServiceContractStateList</a> (<a class="el" href="classServiceContract.html">ServiceContract</a> $contract=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae2ac46e48c06544e43a1795797608776"></a><!-- doxytag: member="ServiceContractTools::getSContractProgressHistoryTimestamp" ref="ae2ac46e48c06544e43a1795797608776" args="(ServiceContract $serviceContract)" -->
-static&#160;</td><td class="memItemRight" valign="bottom"><b>getSContractProgressHistoryTimestamp</b> (<a class="el" href="classServiceContract.html">ServiceContract</a> $serviceContract)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContractTools.html#adf4e470f1ea303708b9f827af6b54525">getSContractProgressHistory</a> (<a class="el" href="classServiceContract.html">ServiceContract</a> $serviceContract)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContractTools.html#a697e3c7df0be59b1e1be2c1416d38908">getSContractActivity</a> (<a class="el" href="classServiceContract.html">ServiceContract</a> $serviceContract, $startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContractTools.html#aa20f7cd224aee0def69a35d553dc97ec">displayServiceContract</a> (<a class="el" href="classSmartyHelper.html">SmartyHelper</a> $smartyHelper, $servicecontract)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a987d996e279d42119323ecb60f6c7d52"></a><!-- doxytag: member="ServiceContractTools::getDetailedCharges" ref="a987d996e279d42119323ecb60f6c7d52" args="(ServiceContract $serviceContract, $isManager, $selectedFilters)" -->
+static&#160;</td><td class="memItemRight" valign="bottom"><b>getDetailedCharges</b> (<a class="el" href="classServiceContract.html">ServiceContract</a> $serviceContract, $isManager, $selectedFilters)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContractTools.html#a91c7d24e3dc963dce30c364f92a87413">displayServiceContract</a> (<a class="el" href="classSmartyHelper.html">SmartyHelper</a> $smartyHelper, $servicecontract, $isManager, $selectedFilters= '')</td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="aa20f7cd224aee0def69a35d553dc97ec"></a><!-- doxytag: member="ServiceContractTools::displayServiceContract" ref="aa20f7cd224aee0def69a35d553dc97ec" args="(SmartyHelper $smartyHelper, $servicecontract)" -->
+<a class="anchor" id="a91c7d24e3dc963dce30c364f92a87413"></a><!-- doxytag: member="ServiceContractTools::displayServiceContract" ref="a91c7d24e3dc963dce30c364f92a87413" args="(SmartyHelper $smartyHelper, $servicecontract, $isManager, $selectedFilters= '')" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -131,7 +131,19 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>getSContractProgres
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>servicecontract</em>&#160;</td>
+          <td class="paramname"><em>servicecontract</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>isManager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>selectedFilters</em> = <code>''</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -213,7 +225,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>getSContractProgres
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] </dd></dl>
 
 </div>
 </div>
@@ -299,7 +311,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>getSContractProgres
 </div>
 
 
-    <li class="footer">Generated on Tue Sep 25 2012 21:00:15 for CodevTT by
+    <li class="footer">Generated on Mon Nov 12 2012 00:23:01 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

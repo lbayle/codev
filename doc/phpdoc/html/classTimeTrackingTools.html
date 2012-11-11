@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.18</span>
+   &#160;<span id="projectnumber">0.99.19</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -109,10 +109,47 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTrackingTools.html#addc06f20ed64afc9d0cec229e2b3cbe5">staticInit</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTrackingTools.html#a8723c31fcfb3214ff9849f97a7ce5c07">getWeekTask</a> (array $weekDates, $userid, <a class="el" href="classTimeTracking.html">TimeTracking</a> $timeTracking)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTrackingTools.html#a53f005e89222e6fe43ca2658790644f6">getWeekTask</a> (array $weekDates, $userid, <a class="el" href="classTimeTracking.html">TimeTracking</a> $timeTracking, array $incompleteDays)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTrackingTools.html#a9d9d5cf0ff8dfde9234d47f8590bccd1">getSmartyWeekDates</a> (array $weekDates, array $incompleteDays)</td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a8723c31fcfb3214ff9849f97a7ce5c07"></a><!-- doxytag: member="TimeTrackingTools::getWeekTask" ref="a8723c31fcfb3214ff9849f97a7ce5c07" args="(array $weekDates, $userid, TimeTracking $timeTracking)" -->
+<a class="anchor" id="a9d9d5cf0ff8dfde9234d47f8590bccd1"></a><!-- doxytag: member="TimeTrackingTools::getSmartyWeekDates" ref="a9d9d5cf0ff8dfde9234d47f8590bccd1" args="(array $weekDates, array $incompleteDays)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static TimeTrackingTools::getSmartyWeekDates </td>
+          <td>(</td>
+          <td class="paramtype">array $&#160;</td>
+          <td class="paramname"><em>weekDates</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">array $&#160;</td>
+          <td class="paramname"><em>incompleteDays</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get smarty week dates </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">array</td><td class="paramname">$weekDates</td><td></td></tr>
+    <tr><td class="paramtype">array</td><td class="paramname">$incompleteDays</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a53f005e89222e6fe43ca2658790644f6"></a><!-- doxytag: member="TimeTrackingTools::getWeekTask" ref="a53f005e89222e6fe43ca2658790644f6" args="(array $weekDates, $userid, TimeTracking $timeTracking, array $incompleteDays)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -132,7 +169,13 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classTimeTracking.html">TimeTracking</a> $&#160;</td>
-          <td class="paramname"><em>timeTracking</em>&#160;</td>
+          <td class="paramname"><em>timeTracking</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">array $&#160;</td>
+          <td class="paramname"><em>incompleteDays</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -147,6 +190,7 @@ Static Public Member Functions</h2></td></tr>
     <tr><td class="paramtype"></td><td class="paramname">int[]</td><td>$weekDates </td></tr>
     <tr><td class="paramtype">int</td><td class="paramname">$userid</td><td></td></tr>
     <tr><td class="paramtype"><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td class="paramname">$timeTracking</td><td></td></tr>
+    <tr><td class="paramtype">array</td><td class="paramname">$incompleteDays</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -194,7 +238,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Tue Sep 25 2012 21:00:15 for CodevTT by
+    <li class="footer">Generated on Mon Nov 12 2012 00:23:01 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.18</span>
+   &#160;<span id="projectnumber">0.99.19</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -125,14 +125,16 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a8506ea3359a710a5361e290343649002">getLeaderId</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ae0c9ab9912b586a4f23e2ceac5d445bd">isEnabled</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a7fefe86f9a6824bd484aaabb52e46926">setEnabled</a> ($isEnabled)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a94ac5e110f7f5bd6b8b54f749b4aea7e">isCommandsEnabled</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a819d1858402fd2fb9ba47fff0b261639">setCommandsEnabled</a> ($isEnabled)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a6edff0b6bed79d08c5f6851cc37d6547">getLockTimetracksDate</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ae3a5685357f5fa5b4ec44b68f8e542f4">setLockTimetracksDate</a> ($timestamp)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a154955627968714f1517f8a028c75bf3">getProjects</a> ($noStatsProject=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a33602a9c65b186420dfb9385f29180a9">getProjects</a> ($noStatsProject=true, $withDisabled=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ae4e5c4921d48eb74bebf8fb81b6e0177">getTrueProjects</a> ($noStatsProject=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a0908ebc96065754b34bcd1a460b6d006">getMembers</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a94ad61112af8ca348736a286b01dfa06">getActiveMembers</a> ($startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#aeb80c3490b5f33ac02aea2e370e6ad67">getTeamIssueList</a> ($addUnassignedIssues=false)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a28e407219e71e20c821868a743545816">getCurrentIssueList</a> ($addUnassignedIssues=false, $addNewIssues=false)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a0cc6154907181972c77055bd70d5a472">getTeamIssueList</a> ($addUnassignedIssues=false, $withDisabledProjects=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a373d73f20d3bd6026045d545cab49056">getCurrentIssueList</a> ($addUnassignedIssues=false, $addNewIssues=false, $withDisabledProjects=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a341e4d7f18ca9d713bdf6c782139d780">getCommands</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a02b8526c9943dd8506bed077f17fe6cc">getCommandSetList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a3485916cde159327613574d715f79908">getServiceContractList</a> ()</td></tr>
@@ -156,7 +158,7 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>isNoStatsProject</b> ($projectid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a849378c2a5762d47fc1477b7552d82b9">getName</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a4eb501d998f1ebf2ad34a1e431dd8052">getUsers</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a4d0a6e52dd30699cfaac0f6b0d02fdc0">getOtherProjects</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a7857cef4edebd6febdceaeaff857a416">getOtherProjects</a> ($withDisabledProjects=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a78dca26e26a4d4aef992064e8894450e">getId</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a97143ea09d1e4fe887483d47da24ff6a">getDate</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
@@ -165,11 +167,8 @@ Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a32de459ea26caca1a370a2c5531e9ad6">create</a> ($name, $description, $leader_id, $date)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ac2460ba2c984545ba923d92875fe47a3">delete</a> ($teamidToDelete)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#adfeaac7ca3a2daf3a46d1aeddad1e9cc">getIdFromName</a> ($name)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a6ade9a523f80cd4e15a79aea5687ff23">getProjectList</a> ($teamid, $noStatsProject=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#afdef853859c2854136f7841684d0b33e">getMemberList</a> ($teamid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#aaa2eef666fb578cc08f15c2b3f3ed1d0">getActiveMemberList</a> ($teamid, $startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a7d2774f8df23495558c8399ad94db1e6">getTeamIssues</a> ($teamid, $addUnassignedIssues=false)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ab504b8dafb5720c3301bbc541aaca6a1">getCurrentIssues</a> ($teamid, $addUnassignedIssues=false, $addNewIssues=false)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ab5c73571a83a98b5481a230ec25f4e30">getTeams</a> ($withDisabled=false)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -456,7 +455,7 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string[] </dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000003">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getActiveMembers($startTimestamp, $endTimestamp) </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getActiveMembers($startTimestamp, $endTimestamp) </dd></dl>
 
 </div>
 </div>
@@ -532,7 +531,7 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a28e407219e71e20c821868a743545816"></a><!-- doxytag: member="Team::getCurrentIssueList" ref="a28e407219e71e20c821868a743545816" args="($addUnassignedIssues=false, $addNewIssues=false)" -->
+<a class="anchor" id="a373d73f20d3bd6026045d545cab49056"></a><!-- doxytag: member="Team::getCurrentIssueList" ref="a373d73f20d3bd6026045d545cab49056" args="($addUnassignedIssues=false, $addNewIssues=false, $withDisabledProjects=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -546,7 +545,13 @@ Static Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>addNewIssues</em> = <code>false</code>&#160;</td>
+          <td class="paramname"><em>addNewIssues</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>withDisabledProjects</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -565,50 +570,6 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssue.html">Issue</a>[] issueList </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ab504b8dafb5720c3301bbc541aaca6a1"></a><!-- doxytag: member="Team::getCurrentIssues" ref="ab504b8dafb5720c3301bbc541aaca6a1" args="($teamid, $addUnassignedIssues=false, $addNewIssues=false)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static Team::getCurrentIssues </td>
-          <td>(</td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>teamid</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>addUnassignedIssues</em> = <code>false</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>addNewIssues</em> = <code>false</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>get all current issues managed by the team's users on the team's projects. </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$teamid</td><td></td></tr>
-    <tr><td class="paramtype">boolean</td><td class="paramname">$addUnassignedIssues</td><td></td></tr>
-    <tr><td class="paramtype">boolean</td><td class="paramname">$addNewIssues</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssue.html">Issue</a>[] : issueList </dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000005">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getCurrentIssueList($addUnassignedIssues, $addNewIssues) </dd></dl>
 
 </div>
 </div>
@@ -728,7 +689,7 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string[] </dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;<a class="el" href="classTeam.html#a0908ebc96065754b34bcd1a460b6d006">getMembers()</a> </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;<a class="el" href="classTeam.html#a0908ebc96065754b34bcd1a460b6d006">getMembers()</a> </dd></dl>
 
 </div>
 </div>
@@ -767,14 +728,15 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4d0a6e52dd30699cfaac0f6b0d02fdc0"></a><!-- doxytag: member="Team::getOtherProjects" ref="a4d0a6e52dd30699cfaac0f6b0d02fdc0" args="()" -->
+<a class="anchor" id="a7857cef4edebd6febdceaeaff857a416"></a><!-- doxytag: member="Team::getOtherProjects" ref="a7857cef4edebd6febdceaeaff857a416" args="($withDisabledProjects=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Team::getOtherProjects </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>withDisabledProjects</em> = <code>true</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -785,43 +747,7 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a6ade9a523f80cd4e15a79aea5687ff23"></a><!-- doxytag: member="Team::getProjectList" ref="a6ade9a523f80cd4e15a79aea5687ff23" args="($teamid, $noStatsProject=true)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static Team::getProjectList </td>
-          <td>(</td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>teamid</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>noStatsProject</em> = <code>true</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$teamid</td><td></td></tr>
-    <tr><td class="paramtype">bool</td><td class="paramname">$noStatsProject</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>string[] : array[project_id] = project_name </dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getProjects($noStatsProject) </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a154955627968714f1517f8a028c75bf3"></a><!-- doxytag: member="Team::getProjects" ref="a154955627968714f1517f8a028c75bf3" args="($noStatsProject=true)" -->
+<a class="anchor" id="a33602a9c65b186420dfb9385f29180a9"></a><!-- doxytag: member="Team::getProjects" ref="a33602a9c65b186420dfb9385f29180a9" args="($noStatsProject=true, $withDisabled=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -829,8 +755,18 @@ Static Public Attributes</h2></td></tr>
           <td class="memname">Team::getProjects </td>
           <td>(</td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>noStatsProject</em> = <code>true</code></td><td>)</td>
+          <td class="paramname"><em>noStatsProject</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>withDisabled</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div>
@@ -928,7 +864,7 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aeb80c3490b5f33ac02aea2e370e6ad67"></a><!-- doxytag: member="Team::getTeamIssueList" ref="aeb80c3490b5f33ac02aea2e370e6ad67" args="($addUnassignedIssues=false)" -->
+<a class="anchor" id="a0cc6154907181972c77055bd70d5a472"></a><!-- doxytag: member="Team::getTeamIssueList" ref="a0cc6154907181972c77055bd70d5a472" args="($addUnassignedIssues=false, $withDisabledProjects=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -936,43 +872,18 @@ Static Public Attributes</h2></td></tr>
           <td class="memname">Team::getTeamIssueList </td>
           <td>(</td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>addUnassignedIssues</em> = <code>false</code></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>get all issues managed by the team's users on the team's projects. </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">bool</td><td class="paramname">$addUnassignedIssues</td><td>if true, include issues on team's projects that are assigned to nobody </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssue.html">Issue</a>[] : issueList </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a7d2774f8df23495558c8399ad94db1e6"></a><!-- doxytag: member="Team::getTeamIssues" ref="a7d2774f8df23495558c8399ad94db1e6" args="($teamid, $addUnassignedIssues=false)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static Team::getTeamIssues </td>
-          <td>(</td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>teamid</em>, </td>
+          <td class="paramname"><em>addUnassignedIssues</em> = <code>false</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>addUnassignedIssues</em> = <code>false</code>&#160;</td>
+          <td class="paramname"><em>withDisabledProjects</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td><code> [static]</code></td>
+          <td></td><td></td>
         </tr>
       </table>
 </div>
@@ -980,13 +891,11 @@ Static Public Attributes</h2></td></tr>
 <p>get all issues managed by the team's users on the team's projects. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$teamid</td><td>the team </td></tr>
     <tr><td class="paramtype">bool</td><td class="paramname">$addUnassignedIssues</td><td>if true, include issues on team's projects that are assigned to nobody </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssue.html">Issue</a>[] : issueList </dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000004">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getTeamIssueList($addUnassignedIssues) </dd></dl>
 
 </div>
 </div>
@@ -1068,6 +977,23 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a94ac5e110f7f5bd6b8b54f749b4aea7e"></a><!-- doxytag: member="Team::isCommandsEnabled" ref="a94ac5e110f7f5bd6b8b54f749b4aea7e" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::isCommandsEnabled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool isEnabled </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ae0c9ab9912b586a4f23e2ceac5d445bd"></a><!-- doxytag: member="Team::isEnabled" ref="ae0c9ab9912b586a4f23e2ceac5d445bd" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -1107,6 +1033,29 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a819d1858402fd2fb9ba47fff0b261639"></a><!-- doxytag: member="Team::setCommandsEnabled" ref="a819d1858402fd2fb9ba47fff0b261639" args="($isEnabled)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::setCommandsEnabled </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>isEnabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bool</td><td>isEnabled </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1266,7 +1215,7 @@ Static Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Tue Sep 25 2012 21:00:15 for CodevTT by
+    <li class="footer">Generated on Mon Nov 12 2012 00:23:01 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

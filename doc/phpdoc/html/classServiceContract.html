@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.18</span>
+   &#160;<span id="projectnumber">0.99.19</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -169,6 +169,11 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContract.html#aa743fdc0a88025d85a2a3a5b9e2ed4ca">removeSidetaskProject</a> ($project_id)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContract.html#ad31275d580b4f9c0023b7df39d4ae4bb">getConsistencyErrors</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContract.html#ad5ceebf69c8ebe77223f56294f1855ae">getSidetasksPerCategory</a> ($skipIfInCommands=false)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContract.html#ae7c4af4fecfe4f52a9fb3afbc362a46d">getSidetasksPerCategoryType</a> ($skipIfInCommands=false)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContract.html#a02263de363c3737c0a249a985b03a21d">getProvisionList</a> ($cset_type, $cmd_type, $prov_type=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContract.html#a80e2fef6c2f3c8cad366732a55616ed8">getProvisionDays</a> ($cset_type, $cmd_type, $prov_type=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a94a7e3bea490bc016c5614f8c663c4dd"></a><!-- doxytag: member="ServiceContract::getProvisionDaysByType" ref="a94a7e3bea490bc016c5614f8c663c4dd" args="($cset_type, $cmd_type)" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getProvisionDaysByType</b> ($cset_type, $cmd_type)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContract.html#aa30f15019352b5a35ca852d99057a884">staticInit</a> ()</td></tr>
@@ -488,6 +493,91 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a80e2fef6c2f3c8cad366732a55616ed8"></a><!-- doxytag: member="ServiceContract::getProvisionDays" ref="a80e2fef6c2f3c8cad366732a55616ed8" args="($cset_type, $cmd_type, $prov_type=NULL)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ServiceContract::getProvisionDays </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>cset_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>cmd_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>prov_type</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Sum all the BudjetDays provisions</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$cset_type</td><td>CommandSet::type_general </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$cmd_type</td><td>Command::type_general </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$prov_type</td><td>CommandProvision::provision_xxx </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>type </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a02263de363c3737c0a249a985b03a21d"></a><!-- doxytag: member="ServiceContract::getProvisionList" ref="a02263de363c3737c0a249a985b03a21d" args="($cset_type, $cmd_type, $prov_type=NULL)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ServiceContract::getProvisionList </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>cset_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>cmd_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>prov_type</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$cset_type</td><td>CommandSet::type_general </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$cmd_type</td><td>Command::type_general </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$prov_type</td><td>CommandProvision::provision_xxx </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array <a class="el" href="classCommandProvision.html">CommandProvision</a> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ad5ceebf69c8ebe77223f56294f1855ae"></a><!-- doxytag: member="ServiceContract::getSidetasksPerCategory" ref="ad5ceebf69c8ebe77223f56294f1855ae" args="($skipIfInCommands=false)" -->
 <div class="memitem">
 <div class="memproto">
@@ -509,6 +599,30 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssueSelection.html">IssueSelection</a>[] : array[category_id] = <a class="el" href="classIssueSelection.html">IssueSelection</a>("categoryName") </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae7c4af4fecfe4f52a9fb3afbc362a46d"></a><!-- doxytag: member="ServiceContract::getSidetasksPerCategoryType" ref="ae7c4af4fecfe4f52a9fb3afbc362a46d" args="($skipIfInCommands=false)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ServiceContract::getSidetasksPerCategoryType </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>skipIfInCommands</em> = <code>false</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">bool</td><td class="paramname">$skipIfInCommands</td><td>SideTasks already declared in a child Commands will be skipped </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssueSelection.html">IssueSelection</a>[] : array[category_type] = <a class="el" href="classIssueSelection.html">IssueSelection</a>("categoryName") </dd></dl>
 
 </div>
 </div>
@@ -617,7 +731,7 @@ Static Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Tue Sep 25 2012 21:00:15 for CodevTT by
+    <li class="footer">Generated on Mon Nov 12 2012 00:23:01 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

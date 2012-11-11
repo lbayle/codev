@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.18</span>
+   &#160;<span id="projectnumber">0.99.19</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -110,11 +110,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSetTools.html#ace3102e9ca62bd2facfa79127d2ed541">getCommandSets</a> ($teamid, $selectedCmdSetId)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSetTools.html#a0b11d14e0c85c73a3d4b63c890551af1">getParentContracts</a> (<a class="el" href="classCommandSet.html">CommandSet</a> $cset)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSetTools.html#aec7003acc7fa0cc4b24e2498a15b4b15">getCSetProgressHistory</a> (<a class="el" href="classCommandSet.html">CommandSet</a> $commandSet)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSetTools.html#ae5ce9da62706303763c8b84d7290b8ed">getCommandSetActivity</a> (<a class="el" href="classCommandSet.html">CommandSet</a> $cmdset, $startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSetTools.html#a19973a5b90533ab5f23a7a33e4859382">displayCommandSet</a> (<a class="el" href="classSmartyHelper.html">SmartyHelper</a> $smartyHelper, <a class="el" href="classCommandSet.html">CommandSet</a> $commandset)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a50a5bcb830ed43861bf52303504549f2"></a><!-- doxytag: member="CommandSetTools::getDetailedCharges" ref="a50a5bcb830ed43861bf52303504549f2" args="(CommandSet $cmdset, $isManager, $selectedFilters)" -->
+static&#160;</td><td class="memItemRight" valign="bottom"><b>getDetailedCharges</b> (<a class="el" href="classCommandSet.html">CommandSet</a> $cmdset, $isManager, $selectedFilters)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSetTools.html#ad33f5b36a25c3530b910cf92f3396735">displayCommandSet</a> (<a class="el" href="classSmartyHelper.html">SmartyHelper</a> $smartyHelper, <a class="el" href="classCommandSet.html">CommandSet</a> $commandset, $isManager, $selectedFilters= '')</td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a19973a5b90533ab5f23a7a33e4859382"></a><!-- doxytag: member="CommandSetTools::displayCommandSet" ref="a19973a5b90533ab5f23a7a33e4859382" args="(SmartyHelper $smartyHelper, CommandSet $commandset)" -->
+<a class="anchor" id="ad33f5b36a25c3530b910cf92f3396735"></a><!-- doxytag: member="CommandSetTools::displayCommandSet" ref="ad33f5b36a25c3530b910cf92f3396735" args="(SmartyHelper $smartyHelper, CommandSet $commandset, $isManager, $selectedFilters= '')" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -128,7 +131,19 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classCommandSet.html">CommandSet</a> $&#160;</td>
-          <td class="paramname"><em>commandset</em>&#160;</td>
+          <td class="paramname"><em>commandset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>isManager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>selectedFilters</em> = <code>''</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -225,6 +240,30 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aec7003acc7fa0cc4b24e2498a15b4b15"></a><!-- doxytag: member="CommandSetTools::getCSetProgressHistory" ref="aec7003acc7fa0cc4b24e2498a15b4b15" args="(CommandSet $commandSet)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static CommandSetTools::getCSetProgressHistory </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classCommandSet.html">CommandSet</a> $&#160;</td>
+          <td class="paramname"><em>commandSet</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype"><a class="el" href="classCommandSet.html">CommandSet</a></td><td class="paramname">$commandSet</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a0b11d14e0c85c73a3d4b63c890551af1"></a><!-- doxytag: member="CommandSetTools::getParentContracts" ref="a0b11d14e0c85c73a3d4b63c890551af1" args="(CommandSet $cset)" -->
 <div class="memitem">
 <div class="memproto">
@@ -272,7 +311,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Tue Sep 25 2012 21:00:15 for CodevTT by
+    <li class="footer">Generated on Mon Nov 12 2012 00:23:00 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.18</span>
+   &#160;<span id="projectnumber">0.99.19</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -142,7 +142,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a44badf151c35cabc5f4c1a211a8b4eb1">getObservedTeamList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#ab97c80d7f248253091b17880e14fbd0a">getManagedTeamList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a309e2e2c393b809f34f664606c84948c">getTeamList</a> ($accessLevel=NULL, $withDisabled=false)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#aaa234abaf92812c08b5bccbb5a8d1461">getProjectList</a> (array $teamList=NULL, $noStatsProject=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#af340ccba34b0bc4a768300af8437be53">getProjectList</a> (array $teamList=NULL, $noStatsProject=true, $withDisabledProjects=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a0c582147b4ba015882c2b9edd404130c">getForecastWorkload</a> (array $projList=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a46ce2b7b3cf0e5f8972332a251204854">getAssignedIssues</a> (array $projList=NULL, $withResolved=false)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a69f2ebdec53f936d63250aabbfd74348">getMonitoredIssues</a> ()</td></tr>
@@ -736,7 +736,7 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aaa234abaf92812c08b5bccbb5a8d1461"></a><!-- doxytag: member="User::getProjectList" ref="aaa234abaf92812c08b5bccbb5a8d1461" args="(array $teamList=NULL, $noStatsProject=true)" -->
+<a class="anchor" id="af340ccba34b0bc4a768300af8437be53"></a><!-- doxytag: member="User::getProjectList" ref="af340ccba34b0bc4a768300af8437be53" args="(array $teamList=NULL, $noStatsProject=true, $withDisabledProjects=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -750,7 +750,13 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>noStatsProject</em> = <code>true</code>&#160;</td>
+          <td class="paramname"><em>noStatsProject</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>withDisabledProjects</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1408,7 +1414,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Tue Sep 25 2012 21:00:15 for CodevTT by
+    <li class="footer">Generated on Mon Nov 12 2012 00:23:01 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

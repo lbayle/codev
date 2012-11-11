@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.18</span>
+   &#160;<span id="projectnumber">0.99.19</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -112,8 +112,10 @@ Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#ad5f5de4bd1e1436af7e4d66484b839df">checkPhpVersion</a> ($checkVersion=&quot;5.3&quot;)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a80772feef98a131bb379de8dde378097">getCurrentURL</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a7c67da3e02231319a452ce6b201910c2">curPageName</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a65d94514f5d84b0b5e280e3d2c45dd5f">mantisIssueURL</a> ($bugid, $title=NULL, $isIcon=false, $inNewTab=true)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#ac020ad1a4a67cbd89d7996d0c5487719">issueInfoURL</a> ($bugid, $title=NULL, $inNewTab=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#abca9789700e56dd272ba07f7bfa2b1b5">mantisIssueURL</a> ($bugid, $title=NULL, $isIcon=FALSE, $inNewTab=FALSE)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#ac76fdc0f2c7d1d2767bb55cc6bf79052">issueInfoURL</a> ($bugid, $title=NULL, $inNewTab=FALSE)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5b7bf05c5831ff13a515bad0cd978fea"></a><!-- doxytag: member="Tools::imgWithTooltip" ref="a5b7bf05c5831ff13a515bad0cd978fea" args="($img, $tooltipAttr)" -->
+static&#160;</td><td class="memItemRight" valign="bottom"><b>imgWithTooltip</b> ($img, $tooltipAttr)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a87e7c5c78056aabab70219a0ba71869c">datetime2timestamp</a> ($string)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#ad00d55060b649a203738e8338a684b7d">date2timestamp</a> ($string)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a234168da9aa7a4b8c7f319832773673b">getDurationLiteral</a> ($duration)</td></tr>
@@ -151,6 +153,11 @@ Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a498e8994c92d6da9216993ea669ae9b2">escape_string</a> ($unescaped_string)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#af7000affae115f82c13604136206aa0a">write_php_ini</a> ($array, $file)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#ad998a5e106601ef20b42d5f0e47a5a7a">safeFileRewrite</a> ($fileName, $dataToSave)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1354d107336808d4a762412060455c9f"></a><!-- doxytag: member="Tools::isConnectedUser" ref="a1354d107336808d4a762412060455c9f" args="()" -->
+static&#160;</td><td class="memItemRight" valign="bottom"><b>isConnectedUser</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab417eb108e5b9b2f9d6d9f26c8a139f5"></a><!-- doxytag: member="Tools::endsWith" ref="ab417eb108e5b9b2f9d6d9f26c8a139f5" args="($haystack, $needle)" -->
+static&#160;</td><td class="memItemRight" valign="bottom"><b>endsWith</b> ($haystack, $needle)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a2ecd19aea8682da47a9d772e82ca5d3d">createCustomField</a> ($fieldName, $fieldType, $configId, $attributes=NULL, $default_value= '', $possible_values= '')</td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="a8530107d703d9fc1a0a3256feb65ec2c"></a><!-- doxytag: member="Tools::array2json" ref="a8530107d703d9fc1a0a3256feb65ec2c" args="(array $arr)" -->
@@ -307,6 +314,70 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string The converted data </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2ecd19aea8682da47a9d772e82ca5d3d"></a><!-- doxytag: member="Tools::createCustomField" ref="a2ecd19aea8682da47a9d772e82ca5d3d" args="($fieldName, $fieldType, $configId, $attributes=NULL, $default_value= '', $possible_values= '')" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::createCustomField </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>fieldName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>fieldType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>configId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>attributes</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>default_value</em> = <code>''</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>possible_values</em> = <code>''</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create a customField in Mantis (if not exist) &amp; update codev_config_table</p>
+<p>ex: $install-&gt;createCustomField("ExtRef", 0, "customField_ExtId");</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$fieldName</td><td>Mantis field name </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$fieldType</td><td>Mantis field type </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$configId</td><td>codev_config_table.config_id </td></tr>
+    <tr><td class="paramtype">type</td><td class="paramname">$attributes</td><td></td></tr>
+    <tr><td class="paramtype">type</td><td class="paramname">$default_value</td><td></td></tr>
+    <tr><td class="paramtype">type</td><td class="paramname">$possible_values</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1025,7 +1096,7 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ac020ad1a4a67cbd89d7996d0c5487719"></a><!-- doxytag: member="Tools::issueInfoURL" ref="ac020ad1a4a67cbd89d7996d0c5487719" args="($bugid, $title=NULL, $inNewTab=true)" -->
+<a class="anchor" id="ac76fdc0f2c7d1d2767bb55cc6bf79052"></a><!-- doxytag: member="Tools::issueInfoURL" ref="ac76fdc0f2c7d1d2767bb55cc6bf79052" args="($bugid, $title=NULL, $inNewTab=FALSE)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -1045,7 +1116,7 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>inNewTab</em> = <code>true</code>&#160;</td>
+          <td class="paramname"><em>inNewTab</em> = <code>FALSE</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1068,7 +1139,7 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a65d94514f5d84b0b5e280e3d2c45dd5f"></a><!-- doxytag: member="Tools::mantisIssueURL" ref="a65d94514f5d84b0b5e280e3d2c45dd5f" args="($bugid, $title=NULL, $isIcon=false, $inNewTab=true)" -->
+<a class="anchor" id="abca9789700e56dd272ba07f7bfa2b1b5"></a><!-- doxytag: member="Tools::mantisIssueURL" ref="abca9789700e56dd272ba07f7bfa2b1b5" args="($bugid, $title=NULL, $isIcon=FALSE, $inNewTab=FALSE)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -1088,13 +1159,13 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>isIcon</em> = <code>false</code>, </td>
+          <td class="paramname"><em>isIcon</em> = <code>FALSE</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>inNewTab</em> = <code>true</code>&#160;</td>
+          <td class="paramname"><em>inNewTab</em> = <code>FALSE</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1460,7 +1531,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Tue Sep 25 2012 21:00:15 for CodevTT by
+    <li class="footer">Generated on Mon Nov 12 2012 00:23:01 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>
