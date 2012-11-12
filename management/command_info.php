@@ -95,6 +95,11 @@ class CommandInfoController extends Controller {
                   $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
                }
 
+               // check if sold days
+               $checkTotalSoldDays = $cmd->getTotalSoldDays() - $cmd->getIssueSelection()->mgrEffortEstim - $cmd->getProvisionDays();
+               $checkTotalSoldDays = round($checkTotalSoldDays, 2);
+               $this->smartyHelper->assign('checkTotalSoldDays', $checkTotalSoldDays);
+
                // access rights
                if (($isManager) ||
                   ($session_user->isTeamLeader($cmd->getTeamid()))) {
