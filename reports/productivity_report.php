@@ -152,16 +152,39 @@ class ProductivityReportsController extends Controller {
                   $percent = (0 != $nbTasks) ? $nbDriftsNeg * 100 / $nbTasks : 100;
                   $this->smartyHelper->assign('percent', round($percent, 1));
 
+                  // isManager
+                  $managedTeamList = $session_user->getManagedTeamList();
+                  $isManager = array_key_exists($teamid, $managedTeamList);
+                  $this->smartyHelper->assign('isManager', $isManager);
+
+                  // dirft stats
                   $resolvedIssues = $timeTracking->getResolvedIssues();
                   if (0 != count($resolvedIssues)) {
                      $withSupport = true;
                      $this->smartyHelper->assign('resolvedDeviationStats', $this->getResolvedDeviationStats ($resolvedIssues, $withSupport));
-
-                     $managedTeamList = $session_user->getManagedTeamList();
-                     $isManager = array_key_exists($teamid, $managedTeamList);
-                     $this->smartyHelper->assign('isManager', $isManager);
                      $this->smartyHelper->assign('resolvedIssuesInDrift', $this->getResolvedIssuesInDrift($resolvedIssues, $isManager));
                   }
+
+                  // dirft stats extRefOnly
+                  if (0 != count($resolvedIssues)) {
+                     $iselResolvedIssues = new IssueSelection();
+                     $iselResolvedIssues->addIssueList($resolvedIssues);
+                     $extIdFilter = new IssueExtIdFilter('extIdFilter');
+                     $extIdFilter->addFilterCriteria(IssueExtIdFilter::tag_with_extRef);
+                     $outputList2 = $extIdFilter->execute($iselResolvedIssues);
+                     if (empty($outputList2)) {
+                        #echo "noExtRef not found !<br>";
+                        return array();
+                     }
+                     $iselResolvedIssuesExtRefOnly = $outputList2[IssueExtIdFilter::tag_with_extRef];
+                     $resolvedIssuesExtRefOnly = $iselResolvedIssuesExtRefOnly->getIssueList();
+                     if (0 != count($resolvedIssuesExtRefOnly)) {
+                        $withSupport = true;
+                        $this->smartyHelper->assign('resolvedDeviationStatsExtRefOnly', $this->getResolvedDeviationStats ($resolvedIssuesExtRefOnly, $withSupport));
+                        $this->smartyHelper->assign('resolvedIssuesInDriftExtRefOnly', $this->getResolvedIssuesInDrift($resolvedIssuesExtRefOnly, $isManager));
+                     }
+                  }
+
                   $this->smartyHelper->assign('reopenedBugsRate_nbResolved', count($timeTracking->getResolvedIssues(TRUE, TRUE))); // extRefOnly=true, withReopened=true
                   $this->smartyHelper->assign('reopenedBugsRate_nbReopened', count($timeTracking->getReopened()));
                   $this->smartyHelper->assign('reopenedBugsRate', round($timeTracking->getReopenedRateResolved() * 100, 1));
@@ -345,6 +368,7 @@ class ProductivityReportsController extends Controller {
          if (($isManager && $driftMgrEE > 0) || ($driftEE > 0)) {
             $resolvedIssuesInDrift[] = array(
                "issueURL" => Tools::issueInfoURL($issue->getId()),
+               "extRef" => $issue->getTcId(),
                "projectName" => $issue->getProjectName(),
                "driftMgrEE" => $driftMgrEE,
                "driftEE" => $driftEE,

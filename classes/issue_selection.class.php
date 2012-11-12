@@ -231,6 +231,10 @@ class IssueSelection {
                T_('Project') => $issue->getProjectName(),
                T_('Summary') => $issue->getSummary(),
          );
+         $extRef = $issue->getTcId();
+         if ((!is_null($extRef)) && ('' != $extRef)) {
+            $titleAttr[T_('ExtRef')] = $extRef;
+         }
          $formattedList .= Tools::issueInfoURL($bugid, $titleAttr);
       }
       return $formattedList;
