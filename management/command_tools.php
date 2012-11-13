@@ -331,9 +331,9 @@ class CommandTools {
       // TODO math should not be in here !
       $mgrEE = $cmd->getIssueSelection()->mgrEffortEstim;
       $cmdProvAndMeeCost = ($mgrEE * $cmd->getAverageDailyRate()) + $cmd->getProvisionBudget(TRUE);
-      $smartyHelper->assign('cmdProvAndMeeCost',$cmdProvAndMeeCost);
+      $smartyHelper->assign('cmdProvAndMeeCost', round($cmdProvAndMeeCost, 2));
       $cmdProvAndMeeDays = $mgrEE + $cmd->getProvisionDays(TRUE);
-      $smartyHelper->assign('cmdProvAndMeeDays', $cmdProvAndMeeDays);
+      $smartyHelper->assign('cmdProvAndMeeDays', round($cmdProvAndMeeDays, 2));
 
 
       // TODO math should not be in here !
@@ -349,8 +349,8 @@ class CommandTools {
       #$smartyHelper->assign('cmdTotalElapsed',$cmdTotalElapsed);
 
       // TODO math should not be in here !
-      $cmdTotalDrift = $cmdTotalReestimated - $cmdProvAndMeeDays;
-      $cmdTotalDriftCost = $cmdTotalReestimatedCost - $cmdProvAndMeeCost;
+      $cmdTotalDrift = round($cmdTotalReestimated - $cmdProvAndMeeDays, 2);
+      $cmdTotalDriftCost = round($cmdTotalReestimatedCost - $cmdProvAndMeeCost, 2);
       $smartyHelper->assign('cmdTotalDrift',$cmdTotalDrift);
       $smartyHelper->assign('cmdTotalDriftCost',$cmdTotalDriftCost);
 
