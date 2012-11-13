@@ -40,17 +40,21 @@
    {include file="tools/graph.html"}
    <div id="results" class="tabs" style="margin-top: 2em">
       <ul>
-         <li><a href="#tagSubmittedResolved">{t}Submitted / Resolved Issues{/t}</a></li>
-         <li><a href="#tagTimeDrift">{t}Adherence to deadlines{/t}</a></li>
-         <li><a href="#tagResolvedDrift">{t}Effort Deviation{/t}</a></li>
-         <li><a href="#tagEfficiencyRate">{t}Efficiency - System Disponibility{/t}</a></li>
-         <li><a href="#tagReopenedRate">{t}Reopened Rate{/t}</a></li>
-         <li><a href="#tagWorkload">{t}Developers Workload{/t}</a></li>
+         <li><a href="#tabSubmittedResolved">{t}Submitted / Resolved Issues{/t}</a></li>
+         <li><a href="#tabTimeDrift">{t}Adherence to deadlines{/t}</a></li>
+         <li><a href="#tabResolvedDrift">{t}Drift{/t}</a></li>
+         <li><a href="#tabEfficiencyRate">{t}Efficiency - System Disponibility{/t}</a></li>
+         <li><a href="#tabReopenedRate">{t}Reopened Rate{/t}</a></li>
+         <li><a href="#tabWorkload">{t}Developers Workload{/t}</a></li>
          <!--li><a href="#tabTaskStatusHistory">{t}Task Status{/t}</a></li-->
       </ul>
 
       <!-- Submitted / Resolved -->
-      <div id="tagSubmittedResolved">
+      <div id="tabSubmittedResolved">
+         <span class="help_font"><strong>{t}Submitted{/t}</strong>: {t}Nb of submitted tasks EXCEPT SideTasks{/t}</span>
+         <br>
+         <span class="help_font"><strong>{t}Resolved{/t}</strong>: {t}Nb of resolved tasks EXCEPT SideTasks and reopened tasks{/t}</span>
+
          {if $submittedResolved_Legend}
          <div style="margin-top: 1em">
             <script type="text/javascript">
@@ -73,7 +77,7 @@
                <thead>
                   <tr>
                      <th>{t}Date{/t}</th>
-                     <th title="{t}Nb of submitted tasks EXCEPT SideTasks and FDL{/t}">{t}Nb submissions{/t}</th>
+                     <th title="{t}Nb of submitted tasks EXCEPT SideTasks{/t}">{t}Nb submissions{/t}</th>
                      <th title="{t}Nb of resolved tasks EXCEPT SideTasks and reopened tasks{/t}">{t}Nb Resolved{/t}</th>
                   </tr>
                </thead>
@@ -113,7 +117,7 @@
                <thead>
                   <tr>
                      <th>{t}Date{/t}</th>
-                     <th title="{t}Nb of submitted tasks EXCEPT SideTasks and FDL{/t}">{t}Nb submissions{/t}</th>
+                     <th title="{t}Nb of submitted tasks EXCEPT SideTasks{/t}">{t}Nb submissions{/t}</th>
                      <th title="{t}Nb of resolved tasks EXCEPT SideTasks and reopened tasks{/t}">{t}Nb Resolved{/t}</th>
                   </tr>
                </thead>
@@ -134,7 +138,7 @@
       </div>
 
       <!-- Drifts -->
-      <div id="tagTimeDrift" class="ui-helper-hidden">
+      <div id="tabTimeDrift" class="ui-helper-hidden">
          {if $timeDrift_Legend}
          <span class="help_font"><strong>{t}% Tasks{/t}</strong>: {t}Percentage of tasks delivered before the deadLine{/t}</span>
          <div style="margin-top: 1em">
@@ -174,18 +178,20 @@
       </div>
 
       <!-- Effort Deviation -->
-      <div id="tagResolvedDrift" class="ui-helper-hidden">
+      <div id="tabResolvedDrift" class="ui-helper-hidden">
          {if $resolvedDrift_Legend}
-         <span class="help_font"><strong>{t}EffortDeviation{/t}</strong>: {t}Overflow day quantity{/t}</span>
+         <span class="help_font"><strong>{t}Drift Mgr{/t}</strong>: {t}Effort deviation on resolved tasks (regarding the MgrEffortEstim){/t}</span>
+         <br>
+         <span class="help_font"><strong>{t}Drift{/t}</strong>: {t}Effort deviation on resolved tasks (regarding the EffortEstim){/t}</span>
          <div style="margin-top: 1em">
             <script type="text/javascript">
                jQuery(document).ready(function() {
                   var chartoptions = jQuery('#resolvedDriftChart').data('plotoptions');
                   chartoptions.title.text = "{t}Effort Deviation{/t}";
                   chartoptions.series = [{
-                     label: "{t}MgrEffortEstim{/t}"
+                     label: "{t}Drift Mgr{/t}"
                   },{
-                     label: "{t}EffortEstim{/t}"
+                     label: "{t}Drift{/t}"
                   },{
                      label: "{t}No Support{/t}"
                   }];
@@ -199,8 +205,8 @@
                <thead>
                   <tr>
                      <th>{t}Date{/t}</th>
-                     <th>{t}MgrEffortEstim{/t}</th>
-                     <th title="{t}BI{/t} + {t}BS{/t}">{t}EffortEstim{/t}</th>
+                     <th>{t}Drift Mgr{/t}</th>
+                     <th title="{t}BI{/t} + {t}BS{/t}">{t}Drift{/t}</th>
                      {if $displayNoSupport}<th title="{t}BI{/t} + {t}BS{/t}">{t}No Support{/t}</th>{/if}
                   </tr>
                </thead>
@@ -226,9 +232,9 @@
                   var chartoptions = jQuery('#resolvedDriftExtRefOnlyChart').data('plotoptions');
                   chartoptions.title.text = "{t}Effort Deviation (ExtRefOnly){/t}";
                   chartoptions.series = [{
-                     label: "{t}MgrEffortEstim{/t}"
+                     label: "{t}Drift Mgr{/t}"
                   },{
-                     label: "{t}EffortEstim{/t}"
+                     label: "{t}Drift{/t}"
                   },{
                      label: "{t}No Support{/t}"
                   }];
@@ -242,8 +248,8 @@
                <thead>
                   <tr>
                      <th>{t}Date{/t}</th>
-                     <th>{t}MgrEffortEstim{/t}</th>
-                     <th title="{t}BI{/t} + {t}BS{/t}">{t}EffortEstim{/t}</th>
+                     <th>{t}Drift Mgr{/t}</th>
+                     <th title="{t}BI{/t} + {t}BS{/t}">{t}Drift{/t}</th>
                      {if $displayNoSupport}<th title="{t}BI{/t} + {t}BS{/t}">{t}No Support{/t}</th>{/if}
                   </tr>
                </thead>
@@ -265,7 +271,7 @@
       </div>
 
       <!-- EfficiencyRate -->
-      <div id="tagEfficiencyRate" class="ui-helper-hidden">
+      <div id="tabEfficiencyRate" class="ui-helper-hidden">
          {if $efficiency_Legend}
          <span class="help_font"><strong>{t}Efficiency Rate{/t}</strong>: {t}Exclude side tasks to get the percent of time spent working on the projects{/t}</span>
          <div style="margin-top: 1em">
@@ -312,7 +318,7 @@
       </div>
 
       <!-- ReopenedRate -->
-      <div id="tagReopenedRate" class="ui-helper-hidden">
+      <div id="tabReopenedRate" class="ui-helper-hidden">
          {if $reopenedRate_Legend}
          <span class="help_font">{t}Number of reopened external tasks (tasks having an ExternalRef).{/t}</span>
          <br /><br />
@@ -358,7 +364,7 @@
       </div>
 
       <!-- Developers Workload -->
-      <div id="tagWorkload" class="ui-helper-hidden">
+      <div id="tabWorkload" class="ui-helper-hidden">
          {if $workload_Legend}
          <span class="help_font">{t}man-day{/t}: {t}Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes){/t}</span>
          <div style="margin-top: 1em">
