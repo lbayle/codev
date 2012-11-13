@@ -4,8 +4,8 @@
  * - <select class="select2">...</select>
  */
 jQuery(document).ready(function() {
-   var select2 = jQuery('.select2');
-   if(select2.length > 0) {
+   var $select2 = jQuery('.select2');
+   if($select2.length > 0) {
       // Lib handle the history
       jQuery.ajax({
          url: "lib/select2/select2.min.js",
@@ -19,5 +19,8 @@ jQuery(document).ready(function() {
 });
 
 function applySelect2(context) {
-   jQuery(context).find('.select2').select2();
+   var $select2 = jQuery(context).find('.select2');
+   if($select2.length > 0) {
+      $select2.select2();
+   }
 }
