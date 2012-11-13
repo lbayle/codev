@@ -384,6 +384,7 @@ class TimeTracking {
          if ($extRefOnly) {
             $query .= "AND mantis_custom_field_string_table.bug_id = bug.id ";
             $query .= "AND mantis_custom_field_string_table.field_id = $extIdField ";
+            $query .= "AND mantis_custom_field_string_table.value <> '' ";
          }
 
            $query .=  "AND history.field_name='status' ".
@@ -396,7 +397,6 @@ class TimeTracking {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-
          $this->resolvedIssues[$key] = array();
          $resolvedList = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
@@ -1040,6 +1040,7 @@ class TimeTracking {
          }
       }
 
+      #echo "getReopened $query RESULT=".count($this->reopenedList)."<br>";
       return $this->reopenedList;
    }
 
@@ -1072,6 +1073,7 @@ class TimeTracking {
          if ($extRefOnly) {
             $query .= "AND mantis_custom_field_string_table.field_id = $extIdField ";
             $query .= "AND mantis_custom_field_string_table.bug_id = bug.id ";
+            $query .= "AND mantis_custom_field_string_table.value <> '' ";
          }
          $query .= ";";
 
