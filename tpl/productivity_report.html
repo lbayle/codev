@@ -178,10 +178,12 @@
                               if(errorThrown == 'Forbidden') {
                                  window.location = '{$page}';
                               }
+                           },
+                           complete: function(jqXHR, textStatus) {
+                              updateWidgets('#projectDetailsDiv');
+                              form.find('input[name=action]').val('getProjectDetails');
                            }
                         });
-                        updateWidgets('#projectDetailsDiv');
-                        form.find('input[name=action]').val('getProjectDetails');
                      },
                      error: function(jqXHR, textStatus, errorThrown) {
                         if(errorThrown == 'Forbidden') {
