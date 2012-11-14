@@ -1311,8 +1311,9 @@ class Issue extends Model implements Comparable {
          }
          $start_date = $row->date_modified;
 
-         // Next line is end_date. if NULL then end_date = current_date
-         if ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         // Next line is end_date. if FALSE then end_date = current_date
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         if (FALSE != $row) {
             $end_date = $row->date_modified;
             if(self::$logger->isDebugEnabled()) {
                self::$logger->debug("id=$row->id date = $row->date_modified  old_value = $row->old_value new_value = $row->new_value");
