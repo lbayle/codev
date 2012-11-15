@@ -166,31 +166,13 @@ class EditTeamController extends Controller {
                      $this->smartyHelper->assign('error', T_("Could NOT remove the project from the team"));
                   }
                } elseif (isset($_POST['addedastreinte_id'])) {
-                  $astreinte_id = Tools::getSecurePOSTIntValue('addedastreinte_id');
-                  if (0 != $astreinte_id) {
-                     $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
-                     if (NULL == $astreintesList) {
-                        $formatedList = "$astreinte_id";
-                     } else {
-                        $formatedList  = implode( ',', $astreintesList);
-                        $formatedList .= ",$astreinte_id";
-                     }
-                     Config::getInstance()->setValue(Config::id_astreintesTaskList, $formatedList, Config::configType_array);
+                  $onduty_id = Tools::getSecurePOSTIntValue('addedastreinte_id');
+                  if (0 != $onduty_id) {
+                     $team->addOnDutyTask($onduty_id);
                   }
                } elseif (isset($_POST['deletedastreinte_id'])) {
-                  $astreinte_id = Tools::getSecurePOSTIntValue('deletedastreinte_id');
-                  $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
-                  if (NULL != $astreintesList) {
-                     if (1 == count($astreintesList)) {
-                        #Config::getInstance()->deleteValue(Config::id_astreintesTaskList);
-                        Config::getInstance()->setValue(Config::id_astreintesTaskList, "", Config::configType_array);
-                     } else {
-                        $key = array_search($astreinte_id, $astreintesList);
-                        unset($astreintesList[$key]);
-                        $formatedList  = implode( ',', $astreintesList);
-                        Config::getInstance()->setValue(Config::id_astreintesTaskList, $formatedList, Config::configType_array);
-                     }
-                  }
+                  $onduty_id = Tools::getSecurePOSTIntValue('deletedastreinte_id');
+                  $team->removeOnDutyTask($onduty_id);
                }
 
                $this->smartyHelper->assign('team', $team);
@@ -210,9 +192,9 @@ class EditTeamController extends Controller {
 
                $this->smartyHelper->assign('teamProjects', $this->getTeamProjects($teamid));
 
-               $this->smartyHelper->assign('newAstreintes', $this->getNewAstreintes($team,$team->getTrueProjects()));
+               $this->smartyHelper->assign('onDutyCandidates', $this->getOnDutyCandidates($team,$team->getTrueProjects()));
 
-               $this->smartyHelper->assign('astreintes', $this->getAstreintes());
+               $this->smartyHelper->assign('onDutyTasks', $this->getOnDutyTasks($team));
             }
          }
       }
@@ -287,12 +269,12 @@ class EditTeamController extends Controller {
    }
 
    /**
-    * Get new astreintes
+    * Get inactivity tasks that can be defined as OnDuty tasks
     * @param Team $team The team
     * @param Project[] $projList The projects
     * @return string[]
     */
-   private function getNewAstreintes(Team $team, array $projList) {
+   private function getOnDutyCandidates(Team $team, array $projList) {
       // get SideTasksProject Inactivity Issues
 
       if ((NULL == $projList) || (0 == count($projList))) {
@@ -317,8 +299,8 @@ class EditTeamController extends Controller {
       $query = "SELECT * FROM `mantis_bug_table` ".
          "WHERE project_id IN ($formatedInactivityCatList) ";
 
-      $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
-      if (NULL != $astreintesList) {
+      $astreintesList = $team->getOnDutyTasks();
+      if (!empty($astreintesList)) {
          $formatedAstreintesList = implode( ', ', $astreintesList);
          $query .= "AND id NOT IN ($formatedAstreintesList) ";
       }
@@ -344,26 +326,24 @@ class EditTeamController extends Controller {
     * Get astreintes
     * @return mixed[int]
     */
-   private function getAstreintes() {
-      $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
+   private function getOnDutyTasks(Team $team) {
 
-      if (NULL == $astreintesList) return NULL;
+      $bugidList = $team->getOnDutyTasks();
+      if (is_null($bugidList) || empty($bugidList)) { return NULL; }
 
-      $issues = Issue::getIssues($astreintesList);
+      $onDutyTasks = array();
+      foreach ($bugidList as $bugid) {
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+         $desc = $issue->getSummary();
+         $desc = str_replace("'", "\'", $desc);
+         $desc = str_replace('"', "\'", $desc);
 
-      $astreintes = array();
-      foreach ($issues as $issue) {
-         $deleteDesc = $issue->getSummary();
-         $deleteDesc = str_replace("'", "\'", $deleteDesc);
-         $deleteDesc = str_replace('"', "\'", $deleteDesc);
-
-         $astreintes[$issue->getId()] = array(
-            "desc" => $deleteDesc,
-            "description" => $issue->getSummary(),
+         $onDutyTasks[$issue->getId()] = array(
+            "id" => $issue->getId(),
+            "description" => $desc,
          );
       }
-
-      return $astreintes;
+      return $onDutyTasks;
    }
 
 }

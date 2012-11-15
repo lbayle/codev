@@ -64,6 +64,7 @@ class Team extends Model {
    private $commandList;
    private $commandSetList;
    private $serviceContractList;
+   private $onDutyTaskList;
 
    /**
     * @var string[]
@@ -967,6 +968,61 @@ class Team extends Model {
    public function getDate() {
       return $this->date;
    }
+
+   /**
+    * return onDutyTasks for this team, or empty array
+    *
+    * @return array of bugid
+    */
+   public function getOnDutyTasks() {
+
+      if (is_null($this->onDutyTaskList)) {
+         $query = "SELECT value FROM `codev_config_table` ".
+                 "WHERE `config_id` = '".Config::id_onDutyTaskList."' ".
+                 "AND `team_id` = '$this->id' ";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if ((!$result) || (0 == SqlWrapper::getInstance()->sql_num_rows($result))) {
+            return array();
+         }
+         $imploded = SqlWrapper::getInstance()->sql_result($result, 0);
+         if (empty($imploded)) {
+            // empty string
+            return array();
+         }
+
+         $this->onDutyTaskList = explode(',', $imploded);
+      }
+      return $this->onDutyTaskList;
+   }
+
+   public function addOnDutyTask($bugid) {
+
+      $onDutyTaskList = $this->getOnDutyTasks();
+      
+      if (!in_array($bugid, $onDutyTaskList)) { 
+         $onDutyTaskList[] = $bugid;
+         $imploded = implode(',', $onDutyTaskList);
+         Config::setValue(Config::id_onDutyTaskList, $imploded, configType_array, NULL, 0, 0, $this->id);
+         $this->onDutyTaskList = $onDutyTaskList;
+      }
+   }
+
+   public function removeOnDutyTask($bugid) {
+
+      $onDutyTaskList = $this->getOnDutyTasks();
+
+      if (in_array($bugid, $onDutyTaskList)) {
+         $key = array_search($bugid, $onDutyTaskList);
+         unset($onDutyTaskList[$key]);
+
+         $imploded = (0 == count($onDutyTaskList)) ? "" : implode(',', $onDutyTaskList);
+         Config::setValue(Config::id_onDutyTaskList, $imploded, configType_array, NULL, 0, 0, $this->id);
+         $this->onDutyTaskList = $onDutyTaskList;
+      }
+
+   }
+
 
 }
 

@@ -357,8 +357,9 @@
 
    <div style="margin-top: 2em;padding: 0 1em 1em;"class="ui-widget-content">
       <h2>{t}Add OnDuty tasks{/t}</h2>
-      <p>{t}In here you can specify which inactivity tasks are 'OnDuty'{/t}</p>
-      {if $newAstreintes}
+      <span class="help_font">{t}Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly different behaviour.{/t}</span>
+      <br>
+      {if $onDutyCandidates}
       <script type="text/javascript">
          jQuery(document).ready(function() {
             jQuery("#btAddAstreinte").click(function() {
@@ -386,22 +387,26 @@
             <label for="addedastreinte_id">{t}Task{/t}:</label>
             <select id="addedastreinte_id" name="addedastreinte_id" style="width: 600px;" title="{t}Inactivity tasks{/t}">
                <option value="0"></option>
-               {foreach from=$newAstreintes key=id item=i}
+               {foreach from=$onDutyCandidates key=id item=i}
                <option value="{$id}">{$id} : {$i}</option>
                {/foreach}
             </select>
             <input type="button" name="btAddAstreinte" id="btAddAstreinte" value="{t}Add{/t}" />
          </fieldset>
       </form>
-      {else}{t}No OnDuty task defined{/t}
+      {else}
+         {if !$onDutyTasks}
+            <br>
+            {t}No 'inactivity' task defined in your SideTasks projects.{/t}
+         {/if}
       {/if}
 
-      <!-- Display previous entries -->
+      <!-- Display defined OnDuty tasks -->
       <div style="margin-top: 2em;">
-         {if $astreintes}
+         {if $onDutyTasks}
          <script type="text/javascript">
-            function deleteAstreinte(id, description){
-               var confirmString = "{t}Cette tache ne sera plus consideree comme astreinte.{/t}\n" + description;
+            function deleteOnDutyTask(id, description){
+               var confirmString = "{t}This task will no longer be identified as an 'OnDuty' task.{/t}\n" + description;
                if (confirm(confirmString)) {
                   var form = jQuery("#deleteAstreinteForm");
                   form.find("input[name=deletedastreinte_id]").val(id);
@@ -418,11 +423,11 @@
                </tr>
             </thead>
             <tbody>
-               {foreach from=$astreintes key=id item=i}
+               {foreach from=$onDutyTasks key=id item=i}
                <tr>
                   <td class="ui-state-error-text" style="width:1em;">
-                     <a class="ui-icon" title="{t}delete OnDuty{/t}" href="{$page}"
-                        onclick="deleteAstreinte('{$id}', '{$id} - {$i.desc}');return false;"></a>
+                     <a class="ui-icon" title="{t}delete OnDuty task{/t}" href="{$page}"
+                        onclick="deleteOnDutyTask('{$id}', '{$id} - {$i.description}');return false;"></a>
                   </td>
                   <td>{$id}</td>
                   <td>{$i.description}</td>
@@ -436,9 +441,9 @@
                <input type="hidden" name="deletedastreinte_id" value="0" />
             </fieldset>
          </form>
-         {else}{t}No previous data{/t}
          {/if}
       </div>
+
    </div>
 
    <div style="margin-top: 2em;padding: 0 1em 1em;width:90%"class="ui-widget-content">

@@ -485,7 +485,7 @@ class User extends Model {
     * @param int[] $issueIds
     * @return mixed[]
     */
-   public function getAstreintesInMonth($timeTracks, $issueIds) {
+   public function getOnDutyTaskInMonth($teamid, $timeTracks, $issueIds) {
       $astreintes = array();  // day => duration
       if(count($issueIds) > 0) {
          $issues = Issue::getIssues($issueIds);
@@ -499,7 +499,7 @@ class User extends Model {
 
                $issue = $issues[$timeTrack->getIssueId()];
 
-               if ($issue->isAstreinte()) {
+               if ($issue->isOnDutyTask($teamid)) {
                   if (isset($astreintes[$timeTrack->getDate()])) {
                      $astreintes[$timeTrack->getDate()]['duration'] += $timeTrack->getDuration();
                   } else {

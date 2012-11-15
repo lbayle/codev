@@ -535,12 +535,10 @@ class Issue extends Model implements Comparable {
    /**
     * @return bool
     */
-   public function isAstreinte() {
-      // TODO translate astreinte = "on duty"
-      $astreintesTaskList = Config::getInstance()->getValue(Config::id_astreintesTaskList); // fiches de SuiviOp:Inactivite qui sont des astreintes
-      if (NULL == $astreintesTaskList) {
-         $astreintesTaskList = array();
-      }
+   public function isOnDutyTask($teamid) {
+
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $astreintesTaskList = $team->getOnDutyTasks();
 
       if (in_array($this->bugId, $astreintesTaskList)) {
          if(self::$logger->isDebugEnabled()) {

@@ -134,7 +134,7 @@ class HolidaysReportController extends Controller {
 
             $daysOf = $user->getDaysOfInPeriod($timeTracks, $issueIds);
 
-            $astreintes = $user->getAstreintesInMonth($timeTracks, $issueIds);
+            $astreintes = $user->getOnDutyTaskInMonth($teamid, $timeTracks, $issueIds);
 
             $externalTasks = $user->getExternalTasksInPeriod($timeTracks, $issueIds);
 

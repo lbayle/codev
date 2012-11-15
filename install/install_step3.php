@@ -216,12 +216,10 @@ function createAdminTeam($name, $leader_id) {
 }
 
 function setConfigItems() {
-   #echo "DEBUG create Variable : ".Config::id_astreintesTaskList."<br/>";
-   $desc = T_("The absence SideTasks considered as astreinte");
-   Config::getInstance()->setValue(Config::id_astreintesTaskList, NULL, Config::configType_array, $desc);
 
    #echo "DEBUG create Variable : ".Config::id_ClientTeamid."<br/>";
    # TODO should be a table, there can be more than one client !
+   # TODO clients are team specific !
    $desc = T_("Custommer teamId");
    Config::getInstance()->setValue(Config::id_ClientTeamid, NULL, Config::configType_int, $desc);
 }
