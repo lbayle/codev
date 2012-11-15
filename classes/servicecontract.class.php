@@ -550,61 +550,6 @@ class ServiceContract extends Model {
 
    /**
     * @param bool $skipIfInCommands SideTasks already declared in a child Commands will be skipped
-    * @return IssueSelection[] : array[category_id] = IssueSelection("categoryName")
-    */
-   function getSidetasksPerCategory($skipIfInCommands = false) {
-      if (NULL == $this->sidetasksPerCategory) { $this->sidetasksPerCategory = array(); }
-
-      $key = ($skipIfInCommands) ? 'skip_yes' : 'skip_no';
-
-      if (!array_key_exists($key, $this->sidetasksPerCategory)) {
-
-         $this->sidetasksPerCategory[$key] = array();
-
-         if ($skipIfInCommands) {
-            $cmdidList = array_keys($this->getCommands(CommandSet::type_general, Command::type_general));
-         }
-
-         $prjList = $this->getProjects();
-         foreach ($prjList as $id => $project) {
-            try {
-               if (!$project->isSideTasksProject(array($this->teamid))) {
-                  self::$logger->error("getSidetasksPerCategory: SKIPPED project $id (".$project->getName().") should be a SidetasksProject !");
-                  continue;
-               }
-            } catch (Exception $e) {
-               self::$logger->error("getSidetasksPerCategory: EXCEPTION SKIPPED project $id (".$project->getName().") : ".$e->getMessage());
-               continue;
-            }
-
-            $issueList = $project->getIssues();
-            foreach ($issueList as $issue) {
-
-               if ($skipIfInCommands) {
-                  // compare the Commands of the Issue whit the Commands of this ServiceContract
-                  $issueCmdidList = array_keys($issue->getCommandList());
-                  $isInCommands = 0 != count(array_intersect($cmdidList, $issueCmdidList));
-                  if ($isInCommands) {
-                     if(self::$logger->isDebugEnabled()) {
-                        self::$logger->debug("getSidetasksPerCategory(): skip issue ".$issue->getId()." because already declared in a Command");
-                     }
-                     continue;
-                  }
-               }
-
-               if (!array_key_exists($issue->getCategoryId(), $this->sidetasksPerCategory[$key])) {
-                  $this->sidetasksPerCategory[$key][$issue->getCategoryId()] = new IssueSelection($issue->getCategoryName());
-               }
-               $issueSel = $this->sidetasksPerCategory[$key][$issue->getCategoryId()];
-               $issueSel->addIssue($issue->getId());
-            }
-         }
-      }
-      return $this->sidetasksPerCategory[$key];
-   }
-
-   /**
-    * @param bool $skipIfInCommands SideTasks already declared in a child Commands will be skipped
     * @return IssueSelection[] : array[category_type] = IssueSelection("categoryName")
     */
    function getSidetasksPerCategoryType($skipIfInCommands = false) {

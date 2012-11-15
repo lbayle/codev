@@ -184,10 +184,20 @@ class ActivityIndicator implements IndicatorPlugin {
                   $usersActivity[$userid][$cat] = $duration;
                }
             } else {
-               if(array_key_exists('other',$usersActivity[$userid])) {
-                  $usersActivity[$userid]['other'] += $duration;
+               // all sideTasks are in 'other' except inactivity tasks.
+               $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
+               if ($project->getCategory(Project::cat_st_inactivity) == $issue->getCategoryId()) {
+                  if(array_key_exists('leave',$usersActivity[$userid])) {
+                     $usersActivity[$userid]['leave'] += $duration;
+                  } else {
+                     $usersActivity[$userid]['leave'] = $duration;
+                  }
                } else {
-                  $usersActivity[$userid]['other'] = $duration;
+                  if(array_key_exists('other',$usersActivity[$userid])) {
+                     $usersActivity[$userid]['other'] += $duration;
+                  } else {
+                     $usersActivity[$userid]['other'] = $duration;
+                  }
                }
             }
          } else if (in_array($issueId, $bugidList)) {

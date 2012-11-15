@@ -144,10 +144,13 @@ class ServiceContractTools {
       if (0 != $servicecontractid) {
          $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
-         $sidetasksPerCategory = $contract->getSidetasksPerCategory(true);
+         $sidetasksPerCategory = $contract->getSidetasksPerCategoryType(true);
 
          $issueSelection = new IssueSelection("TotalSideTasks");
-         foreach ($sidetasksPerCategory as $iSel) {
+         foreach ($sidetasksPerCategory as $id => $iSel) {
+            if (is_numeric($id) && (Project::cat_st_inactivity == $id)) {
+               continue;
+            }
             $issueSelection->addIssueList($iSel->getIssueList());
          }
 
@@ -195,8 +198,12 @@ class ServiceContractTools {
 
             // REM: getSidetasksPerCategoryType returns non_numeric keys if cat_type not found for cat_id
             if (is_numeric($id) && (Project::cat_mngt_regular == $id)) {
-               #echo "Ah type $id is management, add provision ".$provDaysByType[CommandProvision::provision_mngt]."<br>";
+               #echo "getContractSidetasksDetailedMgr: Ah type $id is management, add provision ".$provDaysByType[CommandProvision::provision_mngt]."<br>";
                $issueSelection->addProvision($provDaysByType[CommandProvision::provision_mngt]);
+            }
+            if (is_numeric($id) && (Project::cat_st_inactivity == $id)) {
+               #echo "getContractSidetasksDetailedMgr: Ah type $id is inactivity, skip this issueSelection !<br>";
+               continue;
             }
 
             $detailledMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
@@ -228,8 +235,11 @@ class ServiceContractTools {
          $issueSelection = new IssueSelection("Total");
 
          // sidetasks
-         $sidetasksPerCategory = $contract->getSidetasksPerCategory(true);
+         $sidetasksPerCategory = $contract->getSidetasksPerCategoryType(true);
          foreach ($sidetasksPerCategory as $id => $iSel) {
+            if (is_numeric($id) && (Project::cat_st_inactivity == $id)) {
+               continue;
+            }
             $issueSelection->addIssueList($iSel->getIssueList());
          }
 
@@ -325,11 +335,14 @@ class ServiceContractTools {
     * @return string
     *
     */
-   public static function getSContractActivity(ServiceContract $serviceContract, $startTimestamp = NULL, $endTimestamp = NULL) {
-      $issueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
+   public static function getSContractActivity(ServiceContract $contract, $startTimestamp = NULL, $endTimestamp = NULL) {
+      $issueSel = $contract->getIssueSelection(CommandSet::type_general, Command::type_general);
 
-      $sidetasksPerCategory = $serviceContract->getSidetasksPerCategory(true);
-      foreach ($sidetasksPerCategory as $iSel) {
+      $sidetasksPerCategory = $contract->getSidetasksPerCategoryType(true);
+      foreach ($sidetasksPerCategory as $id => $iSel) {
+         if (is_numeric($id) && (Project::cat_st_inactivity == $id)) {
+            continue;
+         }
          $issueSel->addIssueList($iSel->getIssueList());
       }
 
@@ -350,7 +363,7 @@ class ServiceContractTools {
       $params = array(
          'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
          'endTimestamp' => $endTimestamp,
-         'teamid' => $serviceContract->getTeamid(),
+         'teamid' => $contract->getTeamid(),
          'showSidetasks' => false
       );
 
