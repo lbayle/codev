@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-16 14:39+0100\n"
+"POT-Creation-Date: 2012-11-16 23:31+0100\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -1276,7 +1276,7 @@ msgid "Blog"
 msgstr "Blog"
 
 #: tpl/menu/global_menu.html
-#: install/install_menu.inc.php:58 install/install_step3.php:665
+#: install/install_menu.inc.php:58 install/install_step3.php:709
 msgid "Documentation"
 msgstr "Documentation"
 
@@ -1379,10 +1379,10 @@ msgstr "Suivie"
 #: tpl/planning_report.html
 #: tpl/edit_jobs.html
 #: tpl/edit_holidays.html
-#: install/install_step3.php:516 install/install_step3.php:527
-#: install/install_step3.php:533 install/install_step3.php:539
-#: install/install_step3.php:544 install/install_step3.php:550
-#: install/install_step3.php:555
+#: install/install_step3.php:560 install/install_step3.php:571
+#: install/install_step3.php:577 install/install_step3.php:583
+#: install/install_step3.php:588 install/install_step3.php:594
+#: install/install_step3.php:599
 msgid "Color"
 msgstr "Couleur"
 
@@ -1472,7 +1472,7 @@ msgstr "Couleur du poste"
 
 #: tpl/edit_jobs.html
 #: tpl/edit_holidays.html
-#: install/install_step3.php:517
+#: install/install_step3.php:561
 msgid "open a colorPicker in a new Tab"
 msgstr "Ouvrir un sélecteur de couleur dans un nouvel onglet"
 
@@ -3247,109 +3247,121 @@ msgstr "CodevTT_Type"
 msgid "CodevTT_Manager EffortEstim"
 msgstr "CodevTT_Charge Manager"
 
-#: install/install_step3.php:433
+#: install/install_step3.php:435
 msgid "CodevTT_External ID"
 msgstr "CodevTT_Ref. Externe"
 
-#: install/install_step3.php:434
+#: install/install_step3.php:438
 msgid "CodevTT_Dead Line"
 msgstr "CodevTT_Dead Line"
 
-#: install/install_step3.php:437
+#: install/install_step3.php:441
 msgid "CodevTT_Aditional Effort"
 msgstr "CodevTT_Charge Additionnelle"
 
-#: install/install_step3.php:443
+#: install/install_step3.php:447
 msgid "CodevTT_Backlog"
 msgstr "CodevTT_RAF"
 
 #. createCustomField(T_("CodevTT_Delivery ticket"),   $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
-#: install/install_step3.php:450
+#: install/install_step3.php:454
 msgid "CodevTT_Delivery Date"
 msgstr "CodevTT_Date Livraison"
 
-#: install/install_step3.php:457 install/install_step1.php:176
-msgid "Prerequisites"
-msgstr "Prérequis"
-
-#: install/install_step3.php:460 install/install_step1.php:182
-msgid "Actions"
-msgstr "Actions"
-
 #. ------ Reports
-#: install/install_step3.php:480
+#: install/install_step3.php:491
 msgid "Path to output files (logs, reports, ...)"
 msgstr "Répertoire d'export (logs, rapports, ...)"
 
-#: install/install_step3.php:506
+#: install/install_step3.php:526
+msgid "Create a new CustomField"
+msgstr "Créer un champ personnalisé"
+
+#: install/install_step3.php:527
+msgid "Use this CustomField :"
+msgstr "Utiliser ce champ personnalisé :"
+
+#: install/install_step3.php:550
 msgid "Default Jobs"
 msgstr "Postes par défaut"
 
-#: install/install_step3.php:513
-msgid "CoDev support management"
+#: install/install_step3.php:557
+msgid "CodevTT support management"
 msgstr "gestion du support"
 
-#: install/install_step3.php:524
+#: install/install_step3.php:568
 msgid "Specific to SideTasks"
 msgstr "Spécificité des tâches annexes"
 
-#: install/install_step3.php:574
+#: install/install_step3.php:606
+msgid "Select the projects to be managed with CodevTT"
+msgstr "Sélectionnez les projets à gérer avec CodevTT"
+
+#: install/install_step3.php:618
 msgid "Proceed Step 3"
 msgstr "Exécuter Etape 3"
 
-#: install/install_step3.php:631
+#: install/install_step3.php:675
 msgid "CodevTT admin"
 msgstr "CodevTT admin"
 
-#: install/install_step3.php:659
+#: install/install_step3.php:703
 msgid "Other external activity"
 msgstr "autre activité"
 
-#: install/install_step3.php:660
+#: install/install_step3.php:704
 msgid "Leave"
 msgstr "Absence"
 
-#: install/install_step3.php:661
+#: install/install_step3.php:705
 msgid "Study of the existing"
 msgstr "Etude de l'existant"
 
-#: install/install_step3.php:662
+#: install/install_step3.php:706
 msgid "Analyse"
 msgstr "Analyse"
 
-#: install/install_step3.php:663
+#: install/install_step3.php:707
 msgid "Development"
 msgstr "Dévelopement"
 
-#: install/install_step3.php:664
+#: install/install_step3.php:708
 msgid "Tests"
 msgstr "Tests"
 
-#: install/install_step3.php:710
+#: install/install_step3.php:767
 msgid "CodevTT_ExternalTasks"
 msgstr "CodevTT Taches Externes"
 
-#: install/install_step3.php:710
+#: install/install_step3.php:767
 msgid "CodevTT ExternalTasks Project"
 msgstr "CodevTT Projet de taches externes"
 
 #. cat="[All Projects] General", status="closed"
-#: install/install_step3.php:730
+#: install/install_step3.php:787
 msgid "Any external task, NOT referenced in any mantis project"
 msgstr "Toutes activités non référencées dans un projet mantis"
 
 #. --- Create the 'Leave' task in ExternalTasks Project
-#: install/install_step3.php:733
+#: install/install_step3.php:790
 msgid "On holiday, sick leave, ..."
 msgstr "Congés, Maladie, ..."
 
-#: install/install_step3.php:734
+#: install/install_step3.php:791
 msgid "Common Leave task"
 msgstr "Tâche absence commune"
 
 #: install/install_step1.php:25
 msgid "Install - Step 1"
 msgstr "Installation - Etape 1"
+
+#: install/install_step1.php:176
+msgid "Prerequisites"
+msgstr "Prérequis"
+
+#: install/install_step1.php:182
+msgid "Actions"
+msgstr "Actions"
 
 #: install/install_step1.php:196
 msgid "Mantis Database Info"

@@ -388,7 +388,7 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
    Config::getInstance()->setValue($configId, $fieldId, Config::configType_int);
 }
 
-function createCustomFields() {
+function createCustomFields($isCreateExtIdField = TRUE) {
    // Mantis customFields types
    $mType_string = 0;
    $mType_numeric = 1;
@@ -430,7 +430,11 @@ function createCustomFields() {
 
    $attributes["access_level_r"] = $access_viewer;
    $attributes["access_level_rw"] = $access_reporter;
-   createCustomField(T_("CodevTT_External ID"), $mType_string, "customField_ExtId", $attributes);
+
+   if ($isCreateExtIdField) {
+      createCustomField(T_("CodevTT_External ID"), $mType_string, "customField_ExtId", $attributes);
+   }
+
    createCustomField(T_("CodevTT_Dead Line"), $mType_date, "customField_deadLine", $attributes);
 
    $attributes["display_report"] = 0;
@@ -450,28 +454,35 @@ function createCustomFields() {
    createCustomField(T_("CodevTT_Delivery Date"), $mType_date, "customField_deliveryDate", $attributes);
 }
 
+/**
+ * find the existing mantis customFields that could be used as ExternalID
+ * (only strings and numeric)
+ * 
+ * @return array customFieldID => name 
+ */
+function getExtIdCustomFieldCandidates() {
+   // Mantis customFields types
+   $mType_string = 0;
+   $mType_numeric = 1;
+
+   $query = "SELECT * FROM `mantis_custom_field_table` WHERE `type` IN ($mType_string, $mType_numeric) ORDER BY name";
+   $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>" . mysql_error() . "</span>");
+
+   $candidates = array();
+   while ($row = mysql_fetch_object($result)) {
+      $candidates["$row->id"] = $row->name;
+   }
+   return $candidates;
+}
 
 Config::getInstance()->setQuiet(true);
 
-function displayStepInfo() {
-   echo "<h2>".T_("Prerequisites")."</h2>\n";
-   echo "Step 1,2 finished";
-   echo "<br/>";
-   echo "<h2>".T_("Actions")."</h2>\n";
-   echo "<ul>\n";
-   echo "<li>Set path for .CSV reports (Excel)</li>";
-   echo "<li>Create default tasks</li>";
-   echo "<li>Create default jobs</li>";
-   echo "<li>Add custom fields to existing projects</li>";
-   echo "</ul>\n";
-   echo "";
-}
 
 function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
                      $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,
                      $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
                      $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
-                     $projectList,
+                     $projectList, $extIdCustomFieldCandidates,
                      $is_modified = "false") {
 
    echo "<form id='form1' name='form1' method='post' action='$originPage' >\n";
@@ -490,6 +501,39 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
 
    echo "  <br/>\n";
    echo "  <br/>\n";
+
+   echo "<h2>".T_("External ID")."</h2>";
+   echo "<div align='left'>\n";
+   echo "<script type='text/javascript'>\n";
+   echo "
+      function setCheckedValue(radioObj, newValue) {
+         if(!radioObj)
+            return;
+         var radioLength = radioObj.length;
+         if(radioLength == undefined) {
+            radioObj.checked = (radioObj.value == newValue.toString());
+            return;
+         }
+         for(var i = 0; i < radioLength; i++) {
+            radioObj[i].checked = false;
+            if(radioObj[i].value == newValue.toString()) {
+               radioObj[i].checked = true;
+            }
+         }
+      }
+   ";
+   echo "</script>";
+   echo "<input type='radio' name='groupExtID' value='createExtID' CHECKED > ".T_("Create a new CustomField")."<br>\n";
+   echo "<input type='radio' name='groupExtID' value='existingExtID'> ".T_("Use this CustomField :")."\n";
+   echo '<select id="extIdCustomField" name="extIdCustomField" onChange="javascript:setCheckedValue(document.forms[\'form1\'].elements[\'groupExtID\'], \'existingExtID\');">'."\n";
+   echo '   <option value="0"> </option>'."\n";
+   foreach ($extIdCustomFieldCandidates as $fieldid => $fname) {
+      echo "<option value='$fieldid'>$fname</option>\n";
+   }
+   echo '</select><br>';
+   #echo "<input type='radio' name='groupExtID' value='noExtID' > ".T_("I don't need any").'<br>';
+   echo "</div>\n";
+
 
    // ------ Default ExternalTasks
    /*
@@ -510,7 +554,7 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
    echo "    <td>";
    echo "         <table class='invisible'><tr>";
    echo "            <td width='70'>$job_support</td>";
-   echo "            <td><span class='help_font'>".T_("CoDev support management")."</span></td>";
+   echo "            <td><span class='help_font'>".T_("CodevTT support management")."</span></td>";
    echo "         </tr></table>";
    echo "    </td>\n";
    echo "    <td>".T_("Color").": <input name='jobSupport_color' id='jobSupport_color' type='text' value='$jobSupport_color' size='6' maxlength='6' style='background-color: #$jobSupport_color;' onblur='javascript: refresh()'>";
@@ -529,29 +573,29 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
    echo "  <tr>\n";
    $isChecked = $isJob1 ? "CHECKED" : "";
    echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_job1' id='cb_job1' /></td>\n";
-   echo "    <td><input size='40' type='text' name='job1'  id='job1' value='$job1'></td>\n";
+   echo '    <td><input size="40" type="text" name="job1"  id="job1" value="'.$job1.'"></td>'."\n";
    echo "    <td>".T_("Color").": <input name='job1_color' id='job1_color' type='text' value='$job1_color' size='6' style='background-color: #$job1_color;' onblur='javascript: refresh()'></td>";
    echo "  </tr>\n";
    echo "  <tr>\n";
    $isChecked = $isJob2 ? "CHECKED" : "";
    echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_job2' id='cb_job2' /></td>\n";
-   echo "    <td><input size='40' type='text' name='job2'  id='job2' value='$job2'></td>\n";
+   echo '    <td><input size="40" type="text" name="job2"  id="job2" value="'.$job2.'"></td>'."\n";
    echo "    <td>".T_("Color").": <input name='job2_color' id='job2_color' type='text' value='$job2_color' size='6' maxlength='6' style='background-color: #$job2_color;' onblur='javascript: refresh()'></td>\n";
    echo "  </tr>\n";
    $isChecked = $isJob3 ? "CHECKED" : "";
    echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_job3' id='cb_job3' /></td>\n";
-   echo "    <td><input size='40' type='text' name='job3'  id='job3' value='$job3'></td>\n";
+   echo '    <td><input size="40" type="text" name="job3"  id="job3" value="'.$job3.'"></td>'."\n";
    echo "    <td>".T_("Color").": <input name='job3_color' id='job3_color' type='text' value='$job3_color' size='6' maxlength='6' style='background-color: #$job3_color;' onblur='javascript: refresh()'></td>\n";
    echo "  </tr>\n";
    echo "  <tr>\n";
    $isChecked = $isJob4 ? "CHECKED" : "";
    echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_job4' id='cb_job4' /></td>\n";
-   echo "    <td><input size='40' type='text' name='job4'  id='job4' value='$job4'></td>\n";
+   echo '    <td><input size="40" type="text" name="job4"  id="job4" value="'.$job4.'"></td>'."\n";
    echo "    <td>".T_("Color").": <input name='job4_color' id='job4_color' type='text' value='$job4_color' size='6' maxlength='6' style='background-color: #$job4_color;' onblur='javascript: refresh()'></td>\n";
    echo "  </tr>\n";
    $isChecked = $isJob5 ? "CHECKED" : "";
    echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_job5' id='cb_job5' /></td>\n";
-   echo "    <td><input size='40' type='text' name='job5'  id='job5' value='$job5'></td>\n";
+   echo '    <td><input size="40" type="text" name="job5"  id="job5" value="'.$job5.'"></td>'."\n";
    echo "    <td>".T_("Color").": <input name='job5_color' id='job5_color' type='text' value='$job5_color' size='6' maxlength='6' style='background-color: #$job5_color;' onblur='javascript: refresh()'></td>\n";
    echo "  </tr>\n";
    echo "</table>\n";
@@ -559,7 +603,7 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
    // ------ Add custom fields to existing projects
    echo "  <br/>\n";
    echo "<h2>".T_("Configure existing Projects")."</h2>\n";
-   echo "<span class='help_font'>".T_("Select the projects to be managed with CoDev Timetracking")."</span><br/>\n";
+   echo "<span class='help_font'>".T_("Select the projects to be managed with CodevTT")."</span><br/>\n";
    echo "  <br/>\n";
 
    echo "<select name='projects[]' multiple size='5'>\n";
@@ -704,7 +748,21 @@ if ("checkReportsDir" == $action) {
    addCustomMenuItem('CodevTT', '../'.$tok.'/index.php');  #  ../codev/index.php
 
    echo "DEBUG 5/11 create CodevTT Custom Fields<br/>";
-   createCustomFields();
+   $groupExtID = $_POST['groupExtID'];
+   if ('createExtID' == $groupExtID) {
+      $isCreateExtIdField = TRUE;
+   } else {
+      $extIdCustomField = $_POST['extIdCustomField'];
+      if ('0' != $extIdCustomField) {
+         // add existing to codev_config_table
+         Config::getInstance()->setValue("customField_ExtId", $extIdCustomField, Config::configType_int);
+         $isCreateExtIdField = FALSE;
+      } else {
+         // if none selected, create one...
+         $isCreateExtIdField = TRUE;
+      }
+   }
+   createCustomFields($isCreateExtIdField);
 
    echo "DEBUG 6/11 create ExternalTasks Project<br/>";
    $extproj_id = createExternalTasksProject(T_("CodevTT_ExternalTasks"), T_("CodevTT ExternalTasks Project"));
@@ -775,11 +833,13 @@ if ("checkReportsDir" == $action) {
 #displayStepInfo();
 #echo "<hr align='left' width='20%'/>\n";
 
+$extIdCustomFieldCandidates = getExtIdCustomFieldCandidates();
+
 displayForm($originPage, $codevOutputDir, $checkReportsDirError,
    $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,
    $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
    $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
-   $projectList,
+   $projectList, $extIdCustomFieldCandidates,
    $is_modified);
 
 ?>
