@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-16 13:46+0100\n"
+"POT-Creation-Date: 2012-11-16 14:39+0100\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -2410,6 +2410,7 @@ msgid "Number format"
 msgstr "Format numérique"
 
 #: tpl/import_issues.html
+#: tpl/template.html
 msgid "or"
 msgstr "ou"
 
@@ -2703,6 +2704,14 @@ msgstr "Connecté sous "
 #: tpl/template.html
 msgid "log out"
 msgstr "déconnexion"
+
+#: tpl/template.html
+msgid ""
+"Note: For a better user experience, use a standards compliant browser such "
+"as :"
+msgstr ""
+"En cas de problèmes, veuillez utiliser un navigateur respectant les "
+"standards du web, comme : "
 
 #: tpl/edit_team.html
 msgid "Team Edition"

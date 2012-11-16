@@ -1180,7 +1180,20 @@ class Tools {
    }
 
 
-
+   /**
+    *
+    * @return boolean true if IE
+    */
+   public static function usingBrowserIE()
+   {
+       $u_agent = $_SERVER['HTTP_USER_AGENT'];
+       $ub = FALSE;
+       if(preg_match('/MSIE/i',$u_agent))
+       {
+           $ub = TRUE;
+       }
+       return $ub;
+   }
 
 
 }

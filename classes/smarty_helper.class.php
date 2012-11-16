@@ -125,6 +125,7 @@ class SmartyHelper {
       $this->smarty->assign('mantisURL', Constants::$mantisURL);
       $this->smarty->assign('rootWebSite', Tools::getServerRootURL() . '/');
       $this->smarty->assign('locale', $_SESSION['locale']);
+      $this->smarty->assign('usingBrowserIE', Tools::usingBrowserIE());
 
       $this->display('template');
    }
