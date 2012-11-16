@@ -111,6 +111,7 @@ This is the complete list of members for <a class="el" href="classTeam.html">Tea
   <tr bgcolor="#f0f0f0"><td><b>addExternalTasksProject</b>() (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#afc3ad08cf33a6da8df12b8c0e4469d9c">addMember</a>($memberid, $arrivalTimestamp, $memberAccess)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#aa29fceab68f5d448a3f676d64f1bf0dc">addMembersFrom</a>($src_teamid)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
+  <tr bgcolor="#f0f0f0"><td><b>addOnDutyTask</b>($bugid) (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a6da1b35ceb925c662b04f132deda663f">addProject</a>($projectid, $projecttype)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a32de459ea26caca1a370a2c5531e9ad6">create</a>($name, $description, $leader_id, $date)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a2e8ee9f1c20376daa1f222cd12109290">createSideTaskProject</a>($projectName)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
@@ -128,6 +129,7 @@ This is the complete list of members for <a class="el" href="classTeam.html">Tea
   <tr class="memlist"><td><a class="el" href="classTeam.html#afdef853859c2854136f7841684d0b33e">getMemberList</a>($teamid)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a0908ebc96065754b34bcd1a460b6d006">getMembers</a>()</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a849378c2a5762d47fc1477b7552d82b9">getName</a>()</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classTeam.html#a07aca1a18e03b56132269c7c6a2e73d8">getOnDutyTasks</a>()</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a7857cef4edebd6febdceaeaff857a416">getOtherProjects</a>($withDisabledProjects=true)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a33602a9c65b186420dfb9385f29180a9">getProjects</a>($noStatsProject=true, $withDisabled=true)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#abc138d7b92b203b91ac214fec733dba0">getProjectsType</a>()</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
@@ -143,6 +145,7 @@ This is the complete list of members for <a class="el" href="classTeam.html">Tea
   <tr class="memlist"><td><a class="el" href="classTeam.html#ae0c9ab9912b586a4f23e2ceac5d445bd">isEnabled</a>()</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>isNoStatsProject</b>($projectid) (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>isSideTasksProject</b>($projectid) (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
+  <tr bgcolor="#f0f0f0"><td><b>removeOnDutyTask</b>($bugid) (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#ab2fffa849d26238c142741c20da1cb45">removeProject</a>($projectid)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a819d1858402fd2fb9ba47fff0b261639">setCommandsEnabled</a>($isEnabled)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a83bafe2feb28076340acf57e95e6a0ea">setCreationDate</a>($date)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
@@ -170,7 +173,7 @@ This is the complete list of members for <a class="el" href="classTeam.html">Tea
 </div>
 
 
-    <li class="footer">Generated on Mon Nov 12 2012 00:23:01 for CodevTT by
+    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

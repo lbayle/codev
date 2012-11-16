@@ -142,7 +142,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a39250ecfd011de09550706c07b65e0ec">isVacation</a> (array $teamidList=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a1de5bcd21a2a2ddf6cbc063d746e4362">isIncident</a> (array $teamidList=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a126793bb7eb13ada0a585ea2cc86d3c2">isProjManagement</a> (array $teamidList=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#acbaf7c904d9fb7623f3731495a58474f">isAstreinte</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#ab95bdca00a4920315084b873ae47fd90">isOnDutyTask</a> ($teamid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a133ad0b6b456b26613a1c38ea020c930"></a><!-- doxytag: member="Issue::getTargetVersion" ref="a133ad0b6b456b26613a1c38ea020c930" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getTargetVersion</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3233625cbf6e49ef94b465369d181561"></a><!-- doxytag: member="Issue::getTcId" ref="a3233625cbf6e49ef94b465369d181561" args="()" -->
@@ -1266,23 +1266,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="acbaf7c904d9fb7623f3731495a58474f"></a><!-- doxytag: member="Issue::isAstreinte" ref="acbaf7c904d9fb7623f3731495a58474f" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Issue::isAstreinte </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="a1de5bcd21a2a2ddf6cbc063d746e4362"></a><!-- doxytag: member="Issue::isIncident" ref="a1de5bcd21a2a2ddf6cbc063d746e4362" args="(array $teamidList=NULL)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1313,6 +1296,24 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="ab95bdca00a4920315084b873ae47fd90"></a><!-- doxytag: member="Issue::isOnDutyTask" ref="ab95bdca00a4920315084b873ae47fd90" args="($teamid)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::isOnDutyTask </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>teamid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
 
 </div>
 </div>
@@ -1656,7 +1657,7 @@ Protected Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Mon Nov 12 2012 00:23:01 for CodevTT by
+    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

@@ -133,7 +133,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a03a1d9aa4e79a78e2180e2feb2a599cf">getDepartureDate</a> ($team_id=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a3ccc18105822dd783f1a1b8131f513e1">getTimeTracks</a> ($startTimestamp, $endTimestamp)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a3470f8b8650f5ce3f63a0b1e8465f99b">getDaysOfInPeriod</a> ($timeTracks, $issueIds)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a69143ca29b0d9c7007a878b0f127245d">getAstreintesInMonth</a> ($timeTracks, $issueIds)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a59598511d73d80f0967e27500c634421">getOnDutyTaskInMonth</a> ($teamid, $timeTracks, $issueIds)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a55913f164a682e4f90e08ed563df75c9">getExternalTasksInPeriod</a> (array $timeTracks, array $issueIds)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#affff36e2d136ae5597cd7435e6e3d01e">getAvailableWorkload</a> ($startTimestamp, $endTimestamp, $team_id=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a81b90af20523309bc8946ec27077bd3d">getWorkloadPerTask</a> ($startTimestamp, $endTimestamp, $team_id=NULL)</td></tr>
@@ -269,41 +269,6 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssue.html">Issue</a>[] : array[bugId] = <a class="el" href="classIssue.html">Issue</a> </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a69143ca29b0d9c7007a878b0f127245d"></a><!-- doxytag: member="User::getAstreintesInMonth" ref="a69143ca29b0d9c7007a878b0f127245d" args="($timeTracks, $issueIds)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">User::getAstreintesInMonth </td>
-          <td>(</td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>timeTracks</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>issueIds</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">TimeTrack[]</td><td>$timeTracks </td></tr>
-    <tr><td class="paramname">int[]</td><td>$issueIds </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] </dd></dl>
 
 </div>
 </div>
@@ -714,6 +679,47 @@ Static Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <dl class="return"><dt><b>Returns:</b></dt><dd>string[] the teams i'm observer of. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a59598511d73d80f0967e27500c634421"></a><!-- doxytag: member="User::getOnDutyTaskInMonth" ref="a59598511d73d80f0967e27500c634421" args="($teamid, $timeTracks, $issueIds)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">User::getOnDutyTaskInMonth </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>teamid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>timeTracks</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>issueIds</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">TimeTrack[]</td><td>$timeTracks </td></tr>
+    <tr><td class="paramname">int[]</td><td>$issueIds </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] </dd></dl>
 
 </div>
 </div>
@@ -1414,7 +1420,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Mon Nov 12 2012 00:23:01 for CodevTT by
+    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>
