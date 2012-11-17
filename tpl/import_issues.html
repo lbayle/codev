@@ -181,6 +181,19 @@
                      "height": "14px"
                   });
                }
+               jQuery(this).find('.type').editable( function(value, settings) {
+                  // set id in data table
+                  var dataRow = getDataRowFromIssueRow(jQuery(this).parent());
+                  dataRow.find('td.type').text(value);
+                  var items = JSON.parse(settings.data);
+                  return(items[value]);
+               }, {
+                  data: '["Task","Bug"]',
+                  type: 'select',
+                  submit: 'OK',
+                  placeholder : '',
+                  "height": "14px"
+               });
                jQuery(this).find(".deadline").editable(function(value, settings) { return(value); }, {
                   type: 'datepicker',
                   //event: 'dblclick',
@@ -263,6 +276,21 @@
                });
             });
 
+            jQuery("#btSetAllTypes").click(function(event) {
+               // you cannot set data if column is hidden !
+               rows.each( function () {
+                  var select = jQuery('#globalType option:selected');
+                  var value = select.text();
+                  var key = select.val();
+
+                  jQuery(this).find('td.type').text(value);
+
+                  // set id in data table
+                  var dataRow = getDataRowFromIssueRow(jQuery(this));
+                  dataRow.find('td.type').text(value);
+               });
+            });
+
             jQuery("#btSetAllDeadlines").click(function(event) {
                // you cannot set data if column is hidden !
                oTable.find('tbody tr').each( function () {
@@ -298,16 +326,16 @@
             <td></td>
          </tr>
          <tr>
-            <td>{t}Command{/t}</td>
+            <td>{t}Type{/t}</td>
             <td>:</td>
             <td>
-               <select id="globalCommandid" name="globalCommandid">
-                  {foreach from=$commandList key=id item=i}
-                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-                  {/foreach}
+               <select id="globalType" name="globalType">
+                  <option selected="selected" value="Task">Task</option>
+                  <option value="Bug">Bug</option>
                </select>
+               <span style="color:red">*</span>
             </td>
-            <td><button type='button' name="btSetAllCommands" id="btSetAllCommands">{t}Set All{/t}</button></td>
+            <td><button type='button' name="btSetAllTypes" id="btSetAllTypes">{t}Set All{/t}</button></td>
          </tr>
          <tr>
             <td>{t}Category{/t}</td>
@@ -321,6 +349,18 @@
                <span style="color:red">*</span>
             </td>
             <td><button type='button' name="btSetAllCategories" id="btSetAllCategories">{t}Set All{/t}</button></td>
+         </tr>
+         <tr>
+            <td>{t}Command{/t}</td>
+            <td>:</td>
+            <td>
+               <select id="globalCommandid" name="globalCommandid">
+                  {foreach from=$commandList key=id item=i}
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  {/foreach}
+               </select>
+            </td>
+            <td><button type='button' name="btSetAllCommands" id="btSetAllCommands">{t}Set All{/t}</button></td>
          </tr>
          <tr>
             <td>{t}TargetVersion{/t}</td>
@@ -374,10 +414,17 @@
             jQuery("#btImportIssues").click(function(event) {
                var rows = oTable.find('tbody tr');
                
-               var deadlines = rows.find('td.category');
-               for(i = 0 ; i < deadlines.length ; i++) {
-                  if(deadlines.text().length == 0) {
+               var categories = rows.find('td.category');
+               for(i = 0 ; i < categories.length ; i++) {
+                  if(categories.text().length == 0) {
                      alert('{t}Category not set on all issues{/t}');
+                     return false;
+                  }
+               }
+               var types = rows.find('td.type');
+               for(i = 0 ; i < types.length ; i++) {
+                  if(types.text().length == 0) {
+                     alert('{t}Type not set on all issues{/t}');
                      return false;
                   }
                }
@@ -400,6 +447,7 @@
                   var mgrEffortEstim  = row.find('td.mgrEffortEstim').text();
                   var effortEstim     = row.find('td.effortEstim').text();
                   var deadline        = row.find('td.deadline').text();
+                  var type            = dataRow.find('td.type').text();
                   var commandid       = dataRow.find('td.commandid').text();
                   var categoryid      = dataRow.find('td.categoryid').text();
                   var targetversionid = dataRow.find('td.targetversionid').text();
@@ -417,6 +465,7 @@
                         summary: summary,
                         mgrEffortEstim: mgrEffortEstim,
                         effortEstim: effortEstim,
+                        type: type,
                         commandid: commandid,
                         categoryid: categoryid,
                         targetversionid: targetversionid,
@@ -473,8 +522,9 @@
                <th>Charge</th>
                <th>Deadline</th>
                <th>ExtRef</th>
-               <th>Command</th>
+               <th>Type</th>
                <th>Category</th>
+               <th>Command</th>
                <th>TargetVersion</th>
                <th>User</th>
             </tr>
@@ -488,8 +538,9 @@
                <td class="effortEstim" align='right'>{$i.effortEstim}</td>
                <td class="deadline">{$i.deadline}</td>
                <td class="extRef" align='left'>{$i.extRef}</td>
-               <td class="command" align='left'>{if isset($i.command)}{$i.command}{/if}</td>
+               <td class="type" align='left'>{if isset($i.type)}{$i.type}{/if}</td>
                <td class="category" align='left'>{if isset($i.category)}{$i.category}{/if}</td>
+               <td class="command" align='left'>{if isset($i.command)}{$i.command}{/if}</td>
                <td class="targetVersion" align='left'>{if isset($i.targetVersion)}{$i.targetVersion}{/if}</td>
                <td class="userName" align='left'>{if isset($i.userName)}{$i.userName}{/if}</td>
             </tr>
@@ -503,6 +554,7 @@
                {foreach from=$newIssues key=id item=i}
                <tr id="issueData-{$i.lineNum}">
                   <td class="description">{$i.description}</td>
+                  <td class="type"></td>
                   <td class="commandid"></td>
                   <td class="categoryid"></td>
                   <td class="targetversionid"></td>

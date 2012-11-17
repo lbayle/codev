@@ -353,6 +353,16 @@ class Issue extends Model implements Comparable {
    }
 
    /**
+    * update DB and current instance
+    * @param type $value "Task" or "Bug"
+    */
+   public function setType($value) {
+      $typeCustomField = Config::getInstance()->getValue(Config::id_customField_type);
+      $this->setCustomField($typeCustomField, $value);
+      $this->type = $value;
+   }
+
+   /**
     * @return IssueNote[]
     */
    public function getIssueNoteList() {

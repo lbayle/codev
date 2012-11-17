@@ -35,6 +35,7 @@ if (Tools::isConnectedUser()) {
       $summary = isset($_POST['summary']) ? $_POST['summary'] : NULL;
       $mgrEffortEstim = isset($_POST['mgrEffortEstim']) ? $_POST['mgrEffortEstim'] : NULL;
       $effortEstim = isset($_POST['effortEstim']) ? $_POST['effortEstim'] : NULL;
+      $type = isset($_POST['type']) ? $_POST['type'] : NULL;
       $commandid = isset($_POST['commandid']) ? $_POST['commandid'] : NULL;
       $categoryid = isset($_POST['categoryid']) ? $_POST['categoryid'] : NULL;
       $targetversionid = isset($_POST['targetversionid']) ? $_POST['targetversionid'] : NULL;
@@ -52,6 +53,7 @@ if (Tools::isConnectedUser()) {
       if ($effortEstim)     { $issue->setEffortEstim($effortEstim); }
       if ($targetversionid) { $issue->setTargetVersion($targetversionid); }
       if ($userid)          { $issue->setHandler($userid); }
+      if ($type)            { $issue->setType($type); }
       if ($formatedDeadline) {
          $timestamp = Tools::date2timestamp($formatedDeadline);
          $issue->setDeadline($timestamp);
