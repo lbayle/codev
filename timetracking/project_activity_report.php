@@ -62,6 +62,8 @@ class ProjectActivityReportController extends Controller {
             if (isset($_POST['teamid']) && array_key_exists($teamid, $teamList)) {
                $startTimestamp = Tools::date2timestamp($startdate);
                $endTimestamp = Tools::date2timestamp($enddate);
+               $endTimestamp = mktime(23, 59, 59, date('m', $endTimestamp), date('d',$endTimestamp), date('Y', $endTimestamp));
+               
                $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
                $this->smartyHelper->assign('projectActivityReport', $this->getProjectActivityReport($timeTracking->getProjectTracks(true), $teamid, $isDetailed));
