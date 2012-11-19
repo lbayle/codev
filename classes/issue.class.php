@@ -1213,13 +1213,23 @@ class Issue extends Model implements Comparable {
       $this->backlog = $backlog;
 
       // Add to history
+      $now = time();
       $query = "INSERT INTO `mantis_bug_history_table`  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
-               "VALUES ('".$_SESSION['userid']."','$this->bugId','$field_name', '$old_backlog', '$backlog', '0', '".time()."');";
+               "VALUES ('".$_SESSION['userid']."','$this->bugId','$field_name', '$old_backlog', '$backlog', '0', '".$now."');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
+
+      // update lastUpdated field
+      $query = "UPDATE `mantis_bug_table` SET last_updated = '".$now."' WHERE id = $this->bugId";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
    }
 
    /**
