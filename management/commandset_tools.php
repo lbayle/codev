@@ -153,8 +153,11 @@ class CommandSetTools {
          }
       }
 
-      $endTT = $cmdIssueSel->getLatestTimetrack();
-      $endTimestamp = ((NULL != $endTT) && (0 != $endTT->getDate())) ? $endTT->getDate() : time();
+      // endTimestamp = max(latest_timetrack, latest_update)
+      $latestTrack = $cmdIssueSel->getLatestTimetrack();
+      $latestTrackTimestamp = (!is_null($latestTrack)) ? $latestTrack->getDate() : 0;
+      $lastUpdatedTimestamp = $cmdIssueSel->getLastUpdated();
+      $endTimestamp = max(array($latestTrackTimestamp, $lastUpdatedTimestamp));
       
       // Calculate a nice day interval
       $nbWeeks = ($endTimestamp - $startTimestamp) / 60 / 60 / 24;

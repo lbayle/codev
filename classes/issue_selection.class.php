@@ -492,7 +492,38 @@ class IssueSelection {
       }
    }
 
+   /**
+    * get the date of the latest update of the issueList
+    * @return timestamp
+    */
+   public function getLastUpdated() {
+      $lastUpdated = 0;
+
+      if(count($this->issueList) > 0) {
+         $query = "SELECT * from `mantis_bug_table` ".
+            "WHERE id IN (".implode(', ',array_keys($this->issueList)).") ".
+            "ORDER BY last_updated DESC LIMIT 1";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+            $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+            $lastUpdated = $row->last_updated;
+         }
+      }
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("IssueSelection [$this->name] :  getLastUpdated = ".date('Y-m-d', $lastUpdated));
+      }
+      return $lastUpdated;
+   }
 }
+
+
+
+
 
 IssueSelection::staticInit();
 
