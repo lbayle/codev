@@ -293,6 +293,8 @@ class Team extends Model {
    }
 
    /**
+    * returns an array of project id => name
+    *
     * @param bool $noStatsProject
     * @return string[] : array[project_id] = project_name
     */
@@ -335,10 +337,12 @@ class Team extends Model {
    }
 
    /**
+    * returns an array of Project class instances
+    *
     * @param bool $noStatsProject
     * @return Project[]
     */
-   public function getTrueProjects($noStatsProject = true) {
+   public function getTrueProjects($noStatsProject = true, $withDisabled = true) {
       if(NULL == $this->projectIdsCache) {
          $this->projectIdsCache = array();
       }
@@ -353,6 +357,9 @@ class Team extends Model {
 
          if (!$noStatsProject) {
             $query .= "AND team_project.type <> ".Project::type_noStatsProject." ";
+         }
+         if (!$withDisabled) {
+            $query .= "AND project.enabled = 1 ";
          }
          $query .= "ORDER BY project.name;";
 

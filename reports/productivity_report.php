@@ -273,10 +273,13 @@ class ProductivityReportsController extends Controller {
       foreach($projects as $project) {
          $nbDays = $timeTracking->getWorkingDaysPerProject($project->getId());
 
-         $workingDaysPerProject[] = array(
-            'name' => $project->getName(),
-            'nbDays' => $nbDays,
-         );
+         // do not display disabled projects, EXCEPT if some timetracks exist
+         if ($project->isEnabled() || ($nbDays > 0)) {
+            $workingDaysPerProject[] = array(
+               'name' => $project->getName(),
+               'nbDays' => $nbDays,
+            );
+         }
       }
 
       return $workingDaysPerProject;
