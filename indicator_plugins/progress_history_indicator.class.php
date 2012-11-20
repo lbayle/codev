@@ -114,18 +114,26 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
                   if ((!is_null($issueBL) && ('' != $issueBL))) {
                      $issueBacklog = $issueBL;
                   } else {
-                     // if not fount in history, take the MgrEffortEstim (or EffortEstim ??)
+                     // if not fount in history, take max(MgrEffortEstim, EffortEstim)
+                     // TODO same as getDuration() ???
                      if ($issue->isResolved($timestamp)) {
                         $issueBacklog = 0;
                      } else {
-                        $mgrEffortEstimCache[$issue->getId()] = $issue->getMgrEffortEstim();
-                        $issueBacklog = $issue->getMgrEffortEstim();
+
+                        $issueEE    = $issue->getEffortEstim() + $issue->getEffortAdd();
+                        $issueEEMgr = $issue->getMgrEffortEstim();
+                        $issueBacklog = max(array($issueEE, $issueEEMgr));
+
+                        $mgrEffortEstimCache[$issue->getId()] = $issueBacklog;
                      }
                   }
                } else {
-                  // if not fount in history, take the MgrEffortEstim (or EffortEstim ??)
-                  $mgrEffortEstimCache[$issue->getId()] = $issue->getMgrEffortEstim();
-                  $issueBacklog = $issue->getMgrEffortEstim();
+                  // if not fount in history, take max(MgrEffortEstim, EffortEstim)
+                  // TODO same as getDuration() ???
+                  $issueEE    = $issue->getEffortEstim() + $issue->getEffortAdd();
+                  $issueEEMgr = $issue->getMgrEffortEstim();
+                  $issueBacklog = max(array($issueEE, $issueEEMgr));
+                  $mgrEffortEstimCache[$issue->getId()] = $issueBacklog;
                }
             } else {
                $issueBacklog = $mgrEffortEstimCache[$issue->getId()];
@@ -134,7 +142,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
             $backlog += $issueBacklog;
          }
 
-         #echo "backlog(".date('Y-m-d', $timestamp).") = ".$backlog.'<br>';
+         #echo "backlog(".date('Y-m-d H:i:s', $timestamp).") = ".$backlog.'<br>';
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
          $this->backlogData[$midnight_timestamp] = $backlog;
       }
@@ -150,15 +158,16 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
 
       for($i = 1, $size = count($timestampList); $i < $size; ++$i) {
          $start = $timestampList[$i-1];
-         $end = mktime(23, 59, 59, date('m', $timestampList[$i]), date('d',$timestampList[$i]), date('Y', $timestampList[$i]));
+         //$start = mktime(0, 0, 0, date('m', $timestampList[$i-1]), date('d',$timestampList[$i-1]), date('Y', $timestampList[$i-1]));
 
-         #echo "Elapsed interval start ".date('Y-m-d', $start)." end ".date('Y-m-d', $end)."<br>";
+         $lastDay = ($i + 1 < $size) ? strtotime("-1 day",$timestampList[$i]) : $timestampList[$i];
+         $end   = mktime(23, 59, 59, date('m', $lastDay), date('d',$lastDay), date('Y', $lastDay));
 
          #   echo "nb issues = ".count($inputIssueSel->getIssueList());
 
          $elapsed = $inputIssueSel->getElapsed($start, $end);
 
-         #echo "elapsed(".date('Y-m-d', $timestampList[$i]).") = ".$elapsed.'<br>';
+         #echo "elapsed(".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$elapsed.'<br>';
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestampList[$i]), date('d', $timestampList[$i]), date('Y', $timestampList[$i]));
          $this->elapsedData[$midnight_timestamp] = $elapsed;
       }
@@ -182,7 +191,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       $startTimestamp = mktime(23, 59, 59, date('m', $params['startTimestamp']), date('d', $params['startTimestamp']), date('Y', $params['startTimestamp']));
       $endTimestamp   = mktime(23, 59, 59, date('m', $params['endTimestamp']), date('d',$params['endTimestamp']), date('Y', $params['endTimestamp']));
 
-      //echo "Backlog start ".date('Y-m-d H:i:s', $startTimestamp)." end ".date('Y-m-d H:i:s', $endTimestamp)." interval ".$params['interval']."<br>";
+      #echo "Backlog start ".date('Y-m-d H:i:s', $startTimestamp)." end ".date('Y-m-d H:i:s', $endTimestamp)." interval ".$params['interval']."<br>";
       $timestampList  = Tools::createTimestampList($startTimestamp, $endTimestamp, $params['interval']);
 
 
@@ -201,6 +210,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       // ------ compute
       $theoBacklog = array();
       $realBacklog = array();
+      $iselMaxEE = max(array($inputIssueSel->mgrEffortEstim, ($inputIssueSel->effortEstim + $inputIssueSel->effortAdd)));
       $sumElapsed = 0;
       $nbZeroDivErrors1 = 0;
       $nbZeroDivErrors2 = 0;
@@ -212,9 +222,9 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
          if(array_key_exists($midnight_timestamp,$this->elapsedData)) {
             $sumElapsed += $this->elapsedData[$midnight_timestamp];
          }
-         if (0 != $inputIssueSel->mgrEffortEstim) {
-            // TODO max(mgrEffortEstim, mgrEffortEstim) ???
-            $val1 = $sumElapsed / $inputIssueSel->mgrEffortEstim;
+         if (0 != $iselMaxEE) {
+            $val1 = $sumElapsed / $iselMaxEE;
+
          } else {
             // TODO
             $val1 = 0;
@@ -238,7 +248,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
          }
          $realBacklog[Tools::formatDate("%Y-%m-%d", $midnight_timestamp)] = round($val2 * 100, 2);
 
-         #echo "(".date('Y-m-d', $midnight_timestamp).") sumElapsed = $sumElapsed BacklogData = ".$this->backlogData[$midnight_timestamp]." MgrEE = ".$inputIssueSel->mgrEffortEstim.'<br>';
+         #echo "(".date('Y-m-d', $midnight_timestamp).") sumElapsed = $sumElapsed BacklogData = ".$this->backlogData[$midnight_timestamp]." MaxEE = ".$iselMaxEE.'<br>';
          #echo "(".date('Y-m-d', $midnight_timestamp).") theoBacklog = ".$theoBacklog[Tools::formatDate("%Y-%m-%d", $midnight_timestamp)]." realBacklog = ".$realBacklog[Tools::formatDate("%Y-%m-%d", $midnight_timestamp)].'<br>';
 
 
