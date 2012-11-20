@@ -6,11 +6,7 @@
 
 -- -----------------
 
-
-
--- WARN create "CodevTT_Type" customField in Mantis before executing this script
-INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES ('customField_type', (select id from mantis_custom_field_table where `name` = 'CodevTT_Type'), 1);
-
+-- NOTE "CodevTT_Type" customField creation will be done by tools/update_codevtt.php
 
 ALTER TABLE codev_config_table ADD `servicecontract_id` int(11) NOT NULL DEFAULT '0' AFTER `team_id`;
 ALTER TABLE codev_config_table ADD `commandset_id` int(11) NOT NULL DEFAULT '0' AFTER `servicecontract_id`;

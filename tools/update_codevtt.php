@@ -27,10 +27,85 @@ require('../path.inc.php');
 function execQuery($query) {
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
+      echo "<span style='color:red'>ERROR: Query FAILED $query<br/>" . mysql_error() . "</span>";
       exit;
    }
    return $result;
+}
+
+
+/**
+ * create a customField in Mantis (if not exist) & update codev_config_table
+ *
+ * ex: createCustomField("ExtRef", 0, "customField_ExtId");
+ *
+ * @param string $fieldName Mantis field name
+ * @param int $fieldType Mantis field type
+ * @param string $configId  codev_config_table.config_id
+ * @param type $attributes
+ * @param type $default_value
+ * @param type $possible_values
+ */
+function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL,
+                           $default_value = '', $possible_values = '') {
+   global $fieldList;
+
+   if (NULL == $attributes) {
+      $attributes = array();
+
+      $attributes["access_level_r"] = 10;
+      $attributes["access_level_rw"] = 25;
+      $attributes["require_report"] = 1;
+      $attributes["require_update"] = 1;
+      $attributes["require_resolved"] = 0;
+      $attributes["require_closed"] = 0;
+      $attributes["display_report"] = 1;
+      $attributes["display_update"] = 1;
+      $attributes["display_resolved"] = 0;
+      $attributes["display_closed"] = 0;
+
+      echo "<span class='warn_font'>WARN: using default attributes for CustomField $fieldName</span><br/>";
+   }
+
+   $query = "SELECT id, name FROM `mantis_custom_field_table`";
+   $result = execQuery($query);
+   while ($row = mysql_fetch_object($result)) {
+      $fieldList["$row->name"] = $row->id;
+   }
+
+   $fieldId = $fieldList[$fieldName];
+   if (!$fieldId) {
+      $query2 = "INSERT INTO `mantis_custom_field_table` " .
+         "(`name`, `type` ,`access_level_r`," .
+         "                 `access_level_rw` ,`require_report` ,`require_update` ,`display_report` ,`display_update` ,`require_resolved` ,`display_resolved` ,`display_closed` ,`require_closed` ";
+      $query2 .= ", `possible_values`, `default_value`";
+
+      $query2 .= ") VALUES ('$fieldName', '$fieldType', '" . $attributes["access_level_r"] . "', '" .
+         $attributes["access_level_rw"] . "', '" .
+         $attributes["require_report"] . "', '" .
+         $attributes["require_update"] . "', '" .
+         $attributes["display_report"] . "', '" .
+         $attributes["display_update"] . "', '" .
+         $attributes["require_resolved"] . "', '" .
+         $attributes["display_resolved"] . "', '" .
+         $attributes["display_closed"] . "', '" .
+         $attributes["require_closed"] . "'";
+
+      $query2 .= ", '$possible_values', '$default_value'";
+      $query2 .= ");";
+
+      #echo "DEBUG INSERT $fieldName --- query $query2 <br/>";
+
+      $result2 = execQuery($query2);
+      $fieldId = mysql_insert_id();
+
+      #echo "custom field '$configId' created.<br/>";
+   } else {
+      echo "<span class='success_font'>INFO: custom field '$configId' already exists.</span><br/>";
+   }
+
+   // add to codev_config_table
+   Config::getInstance()->setValue($configId, $fieldId, Config::configType_int);
 }
 
 /**
@@ -38,7 +113,14 @@ function execQuery($query) {
  */
 function update_v9_to_v10() {
 
+   $sqlScriptFilename = '../install/codevtt_update_v9_v10.sql';
+   if (!file_exists($sqlScriptFilename)) {
+      echo "ERROR: SQL script not found:$sqlScriptFilename<br>";
+      exit;
+   }
+
    // the CodevTT_Type field must be created before the DB update
+   echo "- Create CodevTT_Type customField<br>";
    $mType_list = 6;
    $access_viewer = 10;
    $access_reporter = 25;
@@ -55,18 +137,19 @@ function update_v9_to_v10() {
    $attributes["display_closed"] = 0;
    $defaultValue = NULL;
    $possible_values = 'Bug|Task';
-   createCustomField(T_("CodevTT_Type"), $mType_list, "customField_type", $attributes, $defaultValue, $possible_values);
+   createCustomField("CodevTT_Type", $mType_list, "customField_type", $attributes, $defaultValue, $possible_values);
 
    // execute the SQL script
    //
-   $sqlScriptFilename = '../install/codevtt_update_v9_v10.sql';
+   echo "- Execute SQL script:$sqlScriptFilename<br>";
    $retCode = Tools::execSQLscript2($sqlScriptFilename);
    if (0 != $retCode) {
       echo "<span class='error_font'>Could not execSQLscript: $sqlScriptFilename</span><br/>";
       exit;
    }
 
-
+   echo "<br>SUCCESS: Update 0.99.18 to 0.99.19 (DB v9 to DB v10)<br>";
+   return TRUE;
 
 }
 
@@ -81,6 +164,35 @@ $logger = Logger::getLogger("versionUpdater");
  *
  */
 
+ // check DB version
+$query = "SELECT * from `codev_config_table` WHERE `config_id` = 'database_version' ";
+$result = execQuery($query);
+$row = SqlWrapper::getInstance()->sql_fetch_object($result);
+$currentDatabaseVersion=$row->value;
 
+echo "Current  database_version = $currentDatabaseVersion<br>";
+echo "Expected database_version = ".Config::databaseVersion."<br><br>";
+
+if ($currentDatabaseVersion < Config::databaseVersion) {
+   echo 'An update to version '.Config::codevVersion.' needs to be done.<br><br>';
+   flush();
+
+   try {
+      for ($i = $currentDatabaseVersion; $i < Config::databaseVersion; $i++) {
+         $callback = "update_v".($i)."_to_v".($i+1);
+         echo "=== $callback<br>";
+
+         $function =  new ReflectionFunction($callback);
+         $function->invoke();
+         echo "<br>";
+         flush();
+      }
+   } catch (Exception $e) {
+      echo "ERROR: ".$e->getMessage()."<br>";
+      exit;
+   }
+   echo "<br><br>UPDATE DONE.<br>";
+
+}
 
 ?>
