@@ -59,6 +59,7 @@
                {/foreach}
             </td>
          </tr>
+         {if isset($isManager) && $isManager}
          <tr>
             <th valign="top">{t}Budget{/t}</th>
             <td valign="top">: </td>
@@ -77,6 +78,7 @@
                </table>
             </td>
          </tr>
+         {/if}
       </table>
       {if isset($isEditGranted) && $isEditGranted}
       <br />
@@ -165,6 +167,7 @@
                <td valign="top">: </td>
                <td><textarea rows='6' cols='120' name='description'  id='description'>{$commandsetDesc}</textarea></td>
             </tr>
+            {if isset($isManager) && $isManager}
             <tr>
                <th valign="top">{t}Provisions{/t}</th>
                <td valign="top">: </td>
@@ -193,6 +196,7 @@
                   </table>
                </td>
             </tr>
+            {/if}
          </table>
       </div>
       {/if}

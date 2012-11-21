@@ -95,6 +95,8 @@ class Project extends Model {
     */
    private static $existsCache;
 
+   private static $categories = array();
+
    /**
     * @param int $id The project id
     * @param resource $details The project details
@@ -327,7 +329,6 @@ class Project extends Model {
       return $projectid;
    }
 
-   private static $categories = array();
 
    /**
     * @param int $id  projectVersion id in mantis_category_table
