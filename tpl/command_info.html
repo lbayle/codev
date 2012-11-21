@@ -231,10 +231,18 @@
                      <th>{t}Target{/t}</th>
                      <th>{t}Status{/t}</th>
                      <th>{t}Progress{/t}</th>
+                     {if isset($isManager) && $isManager}
                      <th>{t}MgrEffortEstim{/t}</th>
+                     {else}
+                     <th>{t}EffortEstim{/t}</th>
+                     {/if}
                      <th>{t}Elapsed{/t}</th>
                      <th title="{t}Backlog{/t}">{t}BL{/t}</th>
+                     {if isset($isManager) && $isManager}
                      <th>{t}Drift Mgr{/t}</th>
+                     {else}
+                     <th>{t}Drift{/t}</th>
+                     {/if}
                      <th>{t}Summary{/t}</th>
                   </tr>
                </thead>
@@ -248,10 +256,18 @@
                      <td style="width:1em;" nowrap="nowrap">{$issue.target}</td>
                      <td style="width:1em;" nowrap="nowrap">{$issue.status}</td>
                      <td style="width:1em;" nowrap="nowrap"><div class="progress">{$issue.progress}%</div></td>
+                     {if isset($isManager) && $isManager}
+                     <td style="width:1em;" nowrap="nowrap">{$issue.mgrEffortEstim}</td>
+                     {else}
                      <td style="width:1em;" nowrap="nowrap">{$issue.effortEstim}</td>
+                     {/if}
                      <td style="width:1em;" nowrap="nowrap">{$issue.elapsed}</td>
                      <td style="width:1em;" nowrap="nowrap">{$issue.duration}</td>
+                     {if isset($isManager) && $isManager}
                      <td style="width:1em;{if isset($issue.driftMgrColor)}background-color:#{$issue.driftMgrColor}{/if}" nowrap="nowrap">{$issue.driftMgr}</td>
+                     {else}
+                     <td style="width:1em;{if isset($issue.driftColor)}background-color:#{$issue.driftColor}{/if}" nowrap="nowrap">{$issue.drift}</td>
+                     {/if}
                      <td>{$issue.summary}</td>
                   </tr>
                   {/foreach}
