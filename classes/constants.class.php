@@ -52,7 +52,7 @@ class Constants {
    #           $status_open, $status_closed
    public static $status_new;
    public static $status_feedback;
-   public static $status_acknowledged;
+   #public static $status_acknowledged; // DEPRECATED since 0.99.19
    public static $status_open;
    public static $status_closed;
    // TODO add equivalences for all mandatory status not present in workflow (see mantis 131)
@@ -123,7 +123,7 @@ class Constants {
       $status = $ini_array['status'];
       self::$status_new          = $status['status_new'];
       self::$status_feedback     = $status['status_feedback'];
-      self::$status_acknowledged = $status['status_acknowledged'];
+      #self::$status_acknowledged = $status['status_acknowledged'];
       self::$status_open         = $status['status_open'];
       self::$status_closed       = $status['status_closed'];
 
@@ -178,7 +178,7 @@ class Constants {
       $status[] = '; ex: status_open = 50 (assigned)';
       $status['status_new']          = self::$status_new;
       $status['status_feedback']     = self::$status_feedback;
-      $status['status_acknowledged'] = self::$status_acknowledged;
+      #$status['status_acknowledged'] = self::$status_acknowledged;
       $status['status_open']         = self::$status_open;
       $status['status_closed']       = self::$status_closed;
 

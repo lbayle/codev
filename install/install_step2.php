@@ -69,13 +69,13 @@ function createConstantsFile($mantisPath, $mantisURL) {
    // --- status ---
    $status_new          = array_search('new', Constants::$statusNames);
    $status_feedback     = array_search('feedback', Constants::$statusNames);
-   $status_acknowledged = array_search('acknowledged', Constants::$statusNames);
+   #$status_acknowledged = array_search('acknowledged', Constants::$statusNames);
    $status_open         = array_search('open', Constants::$statusNames);
    $status_closed       = array_search('closed', Constants::$statusNames);
 
    Constants::$status_new = $status_new;
    Constants::$status_feedback = $status_feedback;
-   Constants::$status_acknowledged = $status_acknowledged;
+   #Constants::$status_acknowledged = $status_acknowledged;
    Constants::$status_open = (NULL != $status_open) ? $status_open : 50; // (50 = 'assigned' in default mantis workflow)
    Constants::$status_closed = $status_closed;
 

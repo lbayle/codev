@@ -226,7 +226,8 @@ class ConsistencyCheck {
 
       // select all issues which current status is 'analyzed'
       $query = "SELECT * FROM `mantis_bug_table` ".
-               "WHERE status NOT IN (".Constants::$status_new.", ".Constants::$status_acknowledged.") ".
+               #"WHERE status NOT IN (".Constants::$status_new.", ".Constants::$status_acknowledged.") ".
+               "WHERE status NOT IN (".Constants::$status_new.") ".
                "AND status < get_project_resolved_status_threshold(project_id) ";
 
       if (0 != count($this->projectList)) {

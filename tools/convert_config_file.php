@@ -54,7 +54,7 @@ include_once "include/mysql_config.inc.php";
 
       Constants::$status_new          = $status_new;
       Constants::$status_feedback     = $status_feedback;
-      Constants::$status_acknowledged = $status_acknowledged;
+      #Constants::$status_acknowledged = $status_acknowledged;
       Constants::$status_open         = $status_open;
       Constants::$status_closed       = $status_closed;
 

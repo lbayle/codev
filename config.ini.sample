@@ -25,12 +25,11 @@ severity_enum_string = "10:feature,20:trivial,30:text,40:tweak,50:minor,60:major
 bug_resolved_status_threshold = 80
 
 [status]
-; Note: CodevTT needs some status to be defined (new, feedback, acknowledged, open, closed)
+; Note: CodevTT needs some status to be defined (new, feedback, open, closed)
 ; please add equivalences in accordance to your workflow.
 ; ex: status_open = 50 (assigned)
 status_new = 10
 status_feedback = 20
-status_acknowledged = 30
 status_open = 50
 status_closed = 90
 

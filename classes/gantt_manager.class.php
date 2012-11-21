@@ -238,8 +238,13 @@ class GanttManager {
     */
    private function dispatchResolvedIssues(array $resolvedIssuesList) {
       foreach ($resolvedIssuesList as $issue) {
-         $startDate = $issue->getFirstStatusOccurrence(Constants::$status_acknowledged);
-         if (NULL == $startDate) { $startDate = $issue->getDateSubmission(); }
+         #$startDate = $issue->getFirstStatusOccurrence(Constants::$status_acknowledged);
+         $firstTrack = $issue->getFirstTimetrack();
+         if (is_null($firstTrack) || is_null($firstTrack->getDate())) {
+            $startDate = $issue->getDateSubmission();
+         } else {
+            $startDate = $firstTrack->getDate();
+         }
 
          $endDate = $issue->getLatestStatusOccurrence($issue->getBugResolvedStatusThreshold());
          if (NULL == $endDate) {
