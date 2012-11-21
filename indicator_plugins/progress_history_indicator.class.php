@@ -106,30 +106,32 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       krsort($timestampList);
       foreach ($timestampList as $timestamp) {
          $backlog = 0;
+         #echo "=========getBacklogData ".date('Y-m-d H:i:s', $timestamp)."<br>";
          foreach ($issues as $issue) {
-
             if(!array_key_exists($issue->getId(),$mgrEffortEstimCache)) {
-               if($timestamp > $issue->getDateSubmission()) {
-                  $issueBL = $issue->getBacklog($timestamp);
-                  if ((!is_null($issueBL) && ('' != $issueBL))) {
-                     $issueBacklog = $issueBL;
-                  } else {
-                     // if not fount in history, take max(MgrEffortEstim, EffortEstim)
-                     // TODO same as getDuration() ???
-                     if ($issue->isResolved($timestamp)) {
-                        $issueBacklog = 0;
-                     } else {
+               if($timestamp >= $issue->getDateSubmission()) {
 
+                  if ($issue->isResolved($timestamp)) {
+                     #echo "issue ".$issue->getId()." isResolved at ".date('Y-m-d H:i:s', $timestamp)."<br>";
+                     $issueBacklog = 0;
+                  } else {
+                     $issueBL = $issue->getBacklog($timestamp);
+                     if ((!is_null($issueBL) && ('' != $issueBL))) {
+                        $issueBacklog = $issueBL;
+                     } else {
+                        // if not fount in history, take max(MgrEffortEstim, EffortEstim)
                         $issueEE    = $issue->getEffortEstim() + $issue->getEffortAdd();
                         $issueEEMgr = $issue->getMgrEffortEstim();
                         $issueBacklog = max(array($issueEE, $issueEEMgr));
 
                         $mgrEffortEstimCache[$issue->getId()] = $issueBacklog;
                      }
+
                   }
+
                } else {
-                  // if not fount in history, take max(MgrEffortEstim, EffortEstim)
-                  // TODO same as getDuration() ???
+                  // issue does not exist at this date, take max(MgrEffortEstim, EffortEstim)
+                  // Note: getDuration() would return 0 which in this case is wrong
                   $issueEE    = $issue->getEffortEstim() + $issue->getEffortAdd();
                   $issueEEMgr = $issue->getMgrEffortEstim();
                   $issueBacklog = max(array($issueEE, $issueEEMgr));
@@ -138,7 +140,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
             } else {
                $issueBacklog = $mgrEffortEstimCache[$issue->getId()];
             }
-            #echo "issue ".$issue->getId()." issueBacklog = $issueBacklog  issueBL = $issueBL MEE = ".$issue->getMgrEffortEstim()."<br>";
+            #echo "issue ".$issue->getId()." issueBacklog = $issueBacklog  getBacklog = $issueBL<br>";
             $backlog += $issueBacklog;
          }
 
@@ -167,9 +169,9 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
 
          $elapsed = $inputIssueSel->getElapsed($start, $end);
 
-         #echo "elapsed(".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$elapsed.'<br>';
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestampList[$i]), date('d', $timestampList[$i]), date('Y', $timestampList[$i]));
-         $this->elapsedData[$midnight_timestamp] = $elapsed;
+         $this->elapsedData[$midnight_timestamp] += $elapsed; // Note: += is important
+         #echo "elapsed[".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$this->elapsedData[$midnight_timestamp].'<br>';
       }
    }
 
@@ -220,6 +222,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
          // ========= RAF theorique
          // Indicateur = charge initiale - cumul consomé
          if(array_key_exists($midnight_timestamp,$this->elapsedData)) {
+            #echo "sumElapsed += ".$this->elapsedData[$midnight_timestamp]." from ".date('Y-m-d H:i:s', $midnight_timestamp)."<br>";
             $sumElapsed += $this->elapsedData[$midnight_timestamp];
          }
          if (0 != $iselMaxEE) {
