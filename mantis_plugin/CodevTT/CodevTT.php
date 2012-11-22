@@ -5,6 +5,8 @@
  */
 require_once( config_get('class_path') . 'MantisPlugin.class.php' );
 
+require_once( dirname(dirname(__FILE__))."/CodevTT/classes/Issue.php");
+
 /**
  * CodevTTPlugin Class
  */
@@ -47,6 +49,7 @@ class CodevTTPlugin extends MantisPlugin {
           # check BEFORE DELETE (but unfortunately after the 'are you sure?' page...)
           'EVENT_BUG_DELETED' => 'checkTimetracks',
 
+          'EVENT_UPDATE_BUG' => 'checkStatusChanged',
 
       );
       return $hooks;
@@ -265,6 +268,30 @@ class CodevTTPlugin extends MantisPlugin {
          trigger_error(' CodevTT plugin : you have Timetracks on this issue ! <br><br>'.$errMsg, ERROR);
       }
 
+   }
+
+
+   public function checkStatusChanged($event, $bug_data) {
+
+      #echo "checkStatusChanged: event = $event, bugid = $bug_data->id status = $bug_data->status<br>";
+
+      // if status changed to 'resolved' then set Backlog = 0
+      #$query = "SELECT COUNT(id) FROM `mantis_bug_table` WHERE id = $bug_data->id AND status >= get_issue_resolved_status_threshold($bug_data->id)";
+      $query = "SELECT COUNT(id) FROM `mantis_bug_table` WHERE id = $bug_data->id AND $bug_data->status = get_issue_resolved_status_threshold($bug_data->id)";
+      $result = mysql_query($query) or exit(mysql_error());
+      $count = mysql_result($result, 0);
+
+      if ($count) {
+         // update backlog
+         try {
+            $issue = new Issue($bug_data->id);
+            $issue->setBacklog(0, $bug_data->handler_id);
+         } catch (Exception $e) {
+            // trigger_error
+            echo "CodevTT plugin ERROR: ".$e->getMessage().'<br>';
+            echo "CodevTT plugin ERROR: ".$e->getTraceAsString().'<br>';
+         }
+      }
    }
 
 }
