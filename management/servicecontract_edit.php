@@ -140,7 +140,7 @@ class ServiceContractEditController extends Controller {
             $this->smartyHelper->assign('contractInfoFormBtText', T_('Save'));
             $this->smartyHelper->assign('contractInfoFormAction', 'updateContractInfo');
 
-            $commandsetCandidates = $this->getCmdSetCandidates($session_user);
+            $commandsetCandidates = $this->getCmdSetCandidates($contract, $session_user);
             $this->smartyHelper->assign('commandsetCandidates', $commandsetCandidates);
 
             $projectCandidates = $this->getProjectCandidates($servicecontractid);
@@ -196,7 +196,7 @@ class ServiceContractEditController extends Controller {
     * @param User $user
     * @return string[]
     */
-   private function getCmdSetCandidates(User $user) {
+   private function getCmdSetCandidates(ServiceContract $contract, User $user) {
       $cmdsetCandidates = array();
 
       $lTeamList = $user->getLeadedTeamList();
@@ -204,13 +204,17 @@ class ServiceContractEditController extends Controller {
       $mTeamList = $user->getDevTeamList();
       $teamList = $mTeamList + $lTeamList + $managedTeamList;
 
+      $contractCmdSets = $contract->getCommandSets(CommandSet::type_general);
+
       foreach ($teamList as $teamid => $name) {
          $team = TeamCache::getInstance()->getTeam($teamid);
          $commandsetList = $team->getCommandSetList();
 
          foreach ($commandsetList as $cid => $cmdset) {
-            // TODO remove CmdSets already in this contract.
-            $cmdsetCandidates[$cid] = $cmdset->getName();
+            // remove CmdSets already in this contract.
+            if (!array_key_exists($cid, $contractCmdSets)) {
+               $cmdsetCandidates[$cid] = $cmdset->getName();
+            }
          }
       }
       asort($cmdsetCandidates);
