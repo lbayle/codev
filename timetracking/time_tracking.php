@@ -126,7 +126,10 @@ class TimeTrackingController extends Controller {
                      (!$project->isSideTasksProject(array_keys($teamList)) &&
                         (!$project->isExternalTasksProject()))) {
 
-                     $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $issue->getDeadLine());
+                     $deadline = $issue->getDeadLine();
+                     if (!is_null($deadline) || (0 != $deadline)) {
+                        $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $deadline);
+                     }
 
                      $totalEE = ($issue->getEffortEstim() + $issue->getEffortAdd());
                      

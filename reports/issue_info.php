@@ -207,8 +207,9 @@ class IssueInfoController extends Controller {
    private function getTimeDrift(Issue $issue) {
       $timeDriftSmarty = array();
 
-      if (NULL != $issue->getDeadLine()) {
-         $timeDriftSmarty["deadLine"] = Tools::formatDate("%d %b %Y", $issue->getDeadLine());
+      $deadline = $issue->getDeadLine();
+      if (!is_null($deadline) && (0 != $deadline)) {
+         $timeDriftSmarty["deadLine"] = Tools::formatDate("%d %b %Y", $deadline);
       }
 
       if (NULL != $issue->getDeliveryDate()) {
