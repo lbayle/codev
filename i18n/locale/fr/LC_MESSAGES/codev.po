@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-16 23:31+0100\n"
+"POT-Creation-Date: 2012-11-24 23:27+0100\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -44,8 +44,8 @@ msgstr ""
 #: indicator_plugins/DetailedChargesIndicator.class.php:326
 #: indicator_plugins/DetailedChargesIndicator.class.php:338
 #: indicator_plugins/DetailedChargesIndicator.class.php:351
-#: management/commandset_info.php:135 management/servicecontract_info.php:120
-#: management/command_info.php:162 reports/project_info.php:281
+#: management/commandset_info.php:154 management/servicecontract_info.php:138
+#: management/command_info.php:166 reports/project_info.php:281
 #: reports/project_info.php:292 reports/project_info.php:304
 #: reports/productivity_report_tools.php:41
 #: reports/productivity_report_tools.php:79 reports/export_csv_tools.php:48
@@ -115,8 +115,8 @@ msgstr "Catégorie"
 #: indicator_plugins/DetailedChargesIndicator.class.php:327
 #: indicator_plugins/DetailedChargesIndicator.class.php:339
 #: indicator_plugins/DetailedChargesIndicator.class.php:352
-#: management/commandset_info.php:136 management/servicecontract_info.php:121
-#: management/command_info.php:163 reports/project_info.php:282
+#: management/commandset_info.php:155 management/servicecontract_info.php:139
+#: management/command_info.php:167 reports/project_info.php:282
 #: reports/project_info.php:293 reports/project_info.php:305
 #: reports/productivity_report_tools.php:42
 #: reports/productivity_report_tools.php:80 reports/export_csv_tools.php:51
@@ -180,10 +180,12 @@ msgstr "Criticité"
 #: tpl/issue_info.html
 #: tpl/edit_jobs.html
 #: tpl/command_info.html
+#: tpl/import_issues.html
 #: tpl/servicecontract_info.html
 #: tpl/command_edit.html
 #: tpl/commandset_info.html
 #: tpl/edit_team.html
+#: timetracking/team_activity_report.php:185
 #: timetracking/team_activity_report.php:234
 #: timetracking/time_tracking_tools.php:125
 msgid "Type"
@@ -1351,11 +1353,11 @@ msgid "Click to show errors"
 msgstr "Cliquer pour afficher les erreurs"
 
 #: tpl/planning_report.html
-#: management/commandset_info.php:94 management/servicecontract_info.php:84
-#: management/servicecontract_info.php:85 management/command_info.php:93
-#: management/command_info.php:94 reports/productivity_report.php:195
+#: management/commandset_info.php:113 management/servicecontract_info.php:102
+#: management/servicecontract_info.php:103 management/command_info.php:97
+#: management/command_info.php:98 reports/productivity_report.php:195
 #: reports/issue_info.php:82 reports/issue_info.php:83
-#: timetracking/team_activity_report.php:81 timetracking/time_tracking.php:297
+#: timetracking/team_activity_report.php:81 timetracking/time_tracking.php:300
 msgid "Errors"
 msgstr "Erreurs"
 
@@ -1387,7 +1389,7 @@ msgid "Color"
 msgstr "Couleur"
 
 #: tpl/planning_report.html
-#: reports/productivity_report.php:406
+#: reports/productivity_report.php:409
 msgid "day"
 msgstr "jour"
 
@@ -1749,11 +1751,12 @@ msgstr "Les fiches réouvertes ne sont pas comptabilisées"
 
 #: tpl/productivity_report.html
 #: classes/consistency_check2.class.php:359
-#: classes/consistency_check.class.php:364
+#: classes/consistency_check.class.php:365
 msgid "elapsed"
 msgstr "consommé"
 
 #: tpl/productivity_report.html
+#: tpl/command_info.html
 #: tpl/ajax/issueGeneralInfo.html
 #: indicator_plugins/DetailedChargesIndicator.class.php:281
 #: reports/project_info.php:238
@@ -2463,6 +2466,10 @@ msgid "Category not set on all issues"
 msgstr "La catégorie doit être définie pour toutes les tâches"
 
 #: tpl/import_issues.html
+msgid "Type not set on all issues"
+msgstr "Le type doit être définie pour toutes les tâches"
+
+#: tpl/import_issues.html
 msgid "Import done !"
 msgstr "Import terminé !"
 
@@ -2478,6 +2485,11 @@ msgstr "Fiches Mantis à créer :"
 #: tpl/servicecontract_info.html
 msgid "--- Create New ServiceContract ---"
 msgstr "-- Créer un Nouveau Contrat de Service ---"
+
+#: tpl/servicecontract_info.html
+#: tpl/commandset_info.html
+msgid "Sorry, only managers can access this page."
+msgstr "Vous devez être Manager pour accéder à cette page."
 
 #: tpl/servicecontract_info.html
 #: tpl/commandset_info.html
@@ -2940,14 +2952,14 @@ msgstr "Cacher"
 #: classes/consistency_check_fdj.class.php:97
 #: classes/consistency_check.class.php:165
 #: classes/consistency_check.class.php:209
-#: classes/consistency_check.class.php:317
-#: classes/consistency_check.class.php:365 reports/productivity_report.php:399
-#: reports/productivity_report.php:407 reports/productivity_report.php:419
+#: classes/consistency_check.class.php:318
+#: classes/consistency_check.class.php:366 reports/productivity_report.php:402
+#: reports/productivity_report.php:410 reports/productivity_report.php:422
 msgid "Error"
 msgstr "Erreur"
 
 #: classes/consistency_check2.class.php:65
-#: classes/consistency_check.class.php:255 reports/planning_report.php:227
+#: classes/consistency_check.class.php:256 reports/planning_report.php:227
 msgid "Warning"
 msgstr "Alerte"
 
@@ -2970,12 +2982,12 @@ msgid "Backlog must be defined !"
 msgstr "Le RAF doit etre défini !"
 
 #: classes/consistency_check2.class.php:255
-#: classes/consistency_check.class.php:254
+#: classes/consistency_check.class.php:255
 msgid "Backlog == 0: Backlog may not be up to date."
 msgstr "RAF == 0: Il se peut que le RAF ne soit pas à jour."
 
 #: classes/consistency_check2.class.php:301
-#: classes/consistency_check.class.php:316
+#: classes/consistency_check.class.php:317
 msgid "MgrEffortEstim not set."
 msgstr "Charge_Mgr non renseigné."
 
@@ -2984,7 +2996,7 @@ msgid "EffortEstim not set."
 msgstr "Charge non renseigné."
 
 #: classes/consistency_check2.class.php:359
-#: classes/consistency_check.class.php:364
+#: classes/consistency_check.class.php:365
 msgid "Status should not be"
 msgstr "Le status ne devrait pas être"
 
@@ -3013,13 +3025,13 @@ msgid " days"
 msgstr " jours"
 
 #: classes/consistency_check2.class.php:597
-#: reports/productivity_report.php:406
+#: reports/productivity_report.php:409
 msgid "inconsistent"
 msgstr "incohérent"
 
 #. skip dates in the future
 #: classes/consistency_check2.class.php:610
-#: reports/productivity_report.php:418
+#: reports/productivity_report.php:421
 msgid "not defined."
 msgstr "non défini."
 
@@ -3134,7 +3146,7 @@ msgstr "Veuillez charger des fichiers ayant comme extension : "
 
 #: indicator_plugins/StatusHistoryIndicator.class.php:194
 #: management/servicecontract_tools.php:275
-#: management/commandset_tools.php:120 management/command_tools.php:91
+#: management/commandset_tools.php:120 management/command_tools.php:96
 #: reports/planning_report.php:318 reports/planning_report.php:397
 msgid "Y-m-d"
 msgstr "d-m-Y"
@@ -3239,7 +3251,7 @@ msgstr "teamId du client"
 msgid "CodevTT_EffortEstim"
 msgstr "CodevTT_Charge Initiale"
 
-#: install/install_step3.php:422 tools/update_codevtt.php:58
+#: install/install_step3.php:422
 msgid "CodevTT_Type"
 msgstr "CodevTT_Type"
 
@@ -3329,25 +3341,25 @@ msgstr "Dévelopement"
 msgid "Tests"
 msgstr "Tests"
 
-#: install/install_step3.php:767
+#: install/install_step3.php:768
 msgid "CodevTT_ExternalTasks"
 msgstr "CodevTT Taches Externes"
 
-#: install/install_step3.php:767
+#: install/install_step3.php:768
 msgid "CodevTT ExternalTasks Project"
 msgstr "CodevTT Projet de taches externes"
 
 #. cat="[All Projects] General", status="closed"
-#: install/install_step3.php:787
+#: install/install_step3.php:788
 msgid "Any external task, NOT referenced in any mantis project"
 msgstr "Toutes activités non référencées dans un projet mantis"
 
 #. --- Create the 'Leave' task in ExternalTasks Project
-#: install/install_step3.php:790
+#: install/install_step3.php:791
 msgid "On holiday, sick leave, ..."
 msgstr "Congés, Maladie, ..."
 
-#: install/install_step3.php:791
+#: install/install_step3.php:792
 msgid "Common Leave task"
 msgstr "Tâche absence commune"
 
@@ -3404,12 +3416,12 @@ msgstr "Ajouter les Tâches sélectionnées à la commande ?"
 msgid "Provision"
 msgstr "Provision"
 
-#: management/commandset_info.php:95
+#: management/commandset_info.php:114
 msgid "Errors affecting the CommandSet"
 msgstr "Erreurs impactant la MacroCommande"
 
 #. TODO smarty error msg
-#: management/commandset_info.php:106
+#: management/commandset_info.php:125
 msgid "Sorry, You are not allowed to see this commandSet"
 msgstr ""
 "Désolé, vous n'êtes pas autorisé à voir le détail de cette MacroCommande"
@@ -3419,7 +3431,7 @@ msgid "Provisions updated FAILED !"
 msgstr "ERREUR lors de la mise à jour des provisions !"
 
 #. TODO smarty error msg
-#: management/command_info.php:110
+#: management/command_info.php:114
 msgid "Sorry, You are not allowed to see this command"
 msgstr "Désolé, vous n'êtes pas autorisé à voir le détail de cette commande"
 
@@ -3460,7 +3472,7 @@ msgid "Export Holidays"
 msgstr "Export Congés"
 
 #: reports/productivity_report.php:196
-#: timetracking/team_activity_report.php:82 timetracking/time_tracking.php:298
+#: timetracking/team_activity_report.php:82 timetracking/time_tracking.php:301
 msgid "days are incomplete or undefined"
 msgstr "jours sont incomplets ou non définis"
 
@@ -3468,11 +3480,11 @@ msgstr "jours sont incomplets ou non définis"
 msgid "All sideTasks Projects"
 msgstr "Projets TachesAnnexes"
 
-#: reports/productivity_report.php:398
+#: reports/productivity_report.php:401
 msgid "incomplete"
 msgstr "incomplet"
 
-#: reports/productivity_report.php:398
+#: reports/productivity_report.php:401
 msgid "missing"
 msgstr "manque"
 
@@ -3509,15 +3521,15 @@ msgid "Sorry, there are no projects defined for your team."
 msgstr "Désolé, il n'y a pas de projets définis pour cette équipe."
 
 #: timetracking/team_activity_report.php:148
-#: timetracking/time_tracking.php:387 timetracking/time_tracking_tools.php:67
+#: timetracking/time_tracking.php:390 timetracking/time_tracking_tools.php:67
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Erreur : Tâche introuvable dans la BDD Mantis !"
 
-#: timetracking/time_tracking.php:129 timetracking/time_tracking_tools.php:114
+#: timetracking/time_tracking.php:131 timetracking/time_tracking_tools.php:114
 msgid "%Y-%m-%d"
 msgstr "%d-%m-%Y"
 
-#: timetracking/time_tracking.php:184
+#: timetracking/time_tracking.php:187
 msgid "Failed to delete the tasks"
 msgstr "Impossible de supprimer les tâches"
 
