@@ -58,6 +58,10 @@ class CommandInfoController extends Controller {
 
          // set TeamList (including observed teams)
          $teamList = $session_user->getTeamList();
+         if (!array_key_exists($teamid, $teamList)) {
+            $teamid = 0;
+            $cmdid = 0;
+         }
          $this->smartyHelper->assign('teamid', $teamid);
          $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
          $this->smartyHelper->assign('commandid', $cmdid);

@@ -15,6 +15,7 @@
 </script>
 
 <div id="content">
+   {if isset($teams) && $teams}
    <div align="center">
       <!-- create form -->
       <form id="selectForm" name="selectForm" class="formWithTabsHistory" method="post" action="{$page}">
@@ -31,7 +32,9 @@
                {foreach from=$commandsets key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} - {$i.name}</option>
                {/foreach}
+               {if isset($isManager) && $isManager}
                <option value="0">{t}--- Create New CommandSet ---{/t}</option>
+               {/if}
             </select>
             <input type="button" id="sendForm" value="{t}Jump{/t}" />
             <input type="hidden" name="action" value="displayCommandSet" />
@@ -39,9 +42,13 @@
          </fieldset>
       </form>
    </div>
+   {else}
+      <div class="center">
+      {t}Sorry, only managers can access this page.{/t}
+      </div>
+   {/if}
 
    {if $commandsetid}
-
    {include file="modal/consistency_check.html"}
 
    <div align="center">
@@ -59,7 +66,6 @@
                {/foreach}
             </td>
          </tr>
-         {if isset($isManager) && $isManager}
          <tr>
             <th valign="top">{t}Budget{/t}</th>
             <td valign="top">: </td>
@@ -78,7 +84,6 @@
                </table>
             </td>
          </tr>
-         {/if}
       </table>
       {if isset($isEditGranted) && $isEditGranted}
       <br />
@@ -167,7 +172,6 @@
                <td valign="top">: </td>
                <td><textarea rows='6' cols='120' name='description'  id='description'>{$commandsetDesc}</textarea></td>
             </tr>
-            {if isset($isManager) && $isManager}
             <tr>
                <th valign="top">{t}Provisions{/t}</th>
                <td valign="top">: </td>
@@ -196,7 +200,6 @@
                   </table>
                </td>
             </tr>
-            {/if}
          </table>
       </div>
       {/if}

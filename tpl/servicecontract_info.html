@@ -8,8 +8,8 @@
       });
    });
 </script>
-
 <div id="content">
+   {if isset($teams) && $teams}
    <div align="center">
       <!-- create form -->
       <form id="selectForm" name="selectForm" class="formWithTabsHistory" method="post" action="{$page}">
@@ -26,7 +26,9 @@
                {foreach from=$servicecontracts key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} - {$i.name}</option>
                {/foreach}
+               {if isset($isManager) && $isManager}
                <option value="0">{t}--- Create New ServiceContract ---{/t}</option>
+               {/if}
             </select>
             <input type="submit" value="{t}Jump{/t}" />
             <input type="hidden" name="action" value="displayServiceContract" />
@@ -34,9 +36,13 @@
          </fieldset>
       </form>
    </div>
+   {else}
+      <div class="center">
+      {t}Sorry, only managers can access this page.{/t}
+      </div>
+   {/if}
 
    {if $servicecontractid}
-
    {include file="modal/consistency_check.html"}
 
    <div class="center">
@@ -57,7 +63,7 @@
          <li><a href="#tabsName-2">{t}Activity{/t}</a></li>
          <li><a href="#tab_attributes">{t}Attributes{/t}</a></li>
          <li><a href="#tab_sidetasks">{t}SideTasks{/t} ({$nbSidetasksList})</a></li>
-         {if isset($isManager) && $isManager}<li><a href="#tab_provisions">{t}Provisions{/t}</a></li>{/if}
+         <li><a href="#tab_provisions">{t}Provisions{/t}</a></li>
          <li><a href="{$ajaxPage}?action=getProgressHistoryIndicator">{t}Indicators{/t}</a></li>
          <li><a href="#tabsName-5">{t}Detailed Charges{/t}</a></li>
       </ul>
@@ -354,7 +360,6 @@
          {t}No task found.{/t}
          {/if}
       </div>
-      {if isset($isManager) && $isManager}
       <div id="tab_provisions" class="ui-helper-hidden">
 
          {if $cmdProvisionList}
@@ -391,7 +396,6 @@
          {t}No provision found.{/t}
          {/if}
       </div>
-      {/if}
       <div id="tabsName-5" class="ui-helper-hidden">{include file="plugin/detailed_charges_indicator.html"}</div>
       {/if}
    </div>

@@ -41,7 +41,9 @@
                {foreach from=$commands key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} - {$i.name}</option>
                {/foreach}
+               {if isset($isManager) && $isManager}
                <option value="0">{t}--- Create New Command ---{/t}</option>
+               {/if}
             </select>
             <input type="button" id="btDisplayPage" value="{t}Jump{/t}" />
             <input type="hidden" name="action" value="displayCommand" />

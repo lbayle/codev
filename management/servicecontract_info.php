@@ -55,7 +55,27 @@ class ServiceContractInfoController extends Controller {
          }
 
          // set TeamList (including observed teams)
-         $teamList = $session_user->getTeamList();
+         #$teamList = $session_user->getTeamList();
+         $oTeamList = $session_user->getObservedTeamList();
+         $mTeamList = $session_user->getManagedTeamList();
+         $teamList = $oTeamList + $mTeamList;           // array_merge does not work ?!
+
+         if (empty($teamList)) {
+            // only managers (and observers) can access this page.
+            return;
+         }
+
+         // do not display SC if team not allowed
+         if (!array_key_exists($teamid, $teamList)) {
+            $teamid = 0;
+            $servicecontractid = 0;
+         } else {
+            $isManager = $session_user->isTeamManager($teamid);
+            if ($isManager) {
+               $this->smartyHelper->assign('isManager', true);
+            }
+         }
+
          $this->smartyHelper->assign('teamid', $teamid);
          $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
 
@@ -64,8 +84,6 @@ class ServiceContractInfoController extends Controller {
 
          if (0 != $servicecontractid) {
             $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-
-            $isManager = $session_user->isTeamManager($servicecontract->getTeamid());
 
             // get selected filters
             $selectedFilters="";
