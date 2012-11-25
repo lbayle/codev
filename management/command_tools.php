@@ -48,7 +48,8 @@ class CommandTools {
             "drift" => $drift,
             "driftColor" => $driftColor,
             "duration" => $issue->getDuration(),
-            "summary" => $issue->getSummary()
+            "summary" => $issue->getSummary(),
+            "type" => $issue->getType()
          );
       }
       return $issueArray;
