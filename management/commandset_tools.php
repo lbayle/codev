@@ -236,6 +236,63 @@ class CommandSetTools {
       return $smartyVariable;
    }
 
+   public static function getInternalBugsStatusHistory(CommandSet  $cmdset, $interval = 7) {
+
+      $cmdSel = $cmdset->getIssueSelection(Command::type_general);
+
+      // Filter only BUGS
+      $bugFilter = new IssueCodevTypeFilter('bugFilter');
+      $bugFilter->addFilterCriteria(IssueCodevTypeFilter::tag_Bug);
+      $outputList = $bugFilter->execute($cmdSel);
+
+      if (empty($outputList)) {
+         #echo "TYPE Bug not found !<br>";
+         return array();
+      }
+      $bugSel = $outputList[IssueCodevTypeFilter::tag_Bug];
+
+      // Filter only NoExtRef
+      $extIdFilter = new IssueExtIdFilter('extIdFilter');
+      $extIdFilter->addFilterCriteria(IssueExtIdFilter::tag_no_extRef);
+      $outputList2 = $extIdFilter->execute($bugSel);
+
+      if (empty($outputList2)) {
+         #echo "noExtRef not found !<br>";
+         return array();
+      }
+      $issueSel = $outputList2[IssueExtIdFilter::tag_no_extRef];
+
+      // -------
+
+      $startTT = $issueSel->getFirstTimetrack();
+      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
+         $startTimestamp = $startTT->getDate();
+      } else {
+         $startTimestamp = $cmdset->getStartDate();
+         if (0 == $startTimestamp) {
+            $team = TeamCache::getInstance()->getTeam($cmdset->getTeamid());
+            $startTimestamp = $team->getDate();
+         }
+      }
+
+      $endTimestamp =  time();
+
+      #echo "cmd StartDate ".date("Y-m-d", $startTimestamp).'<br>';
+      #echo "cmd EndDate ".date("Y-m-d", $endTimestamp).'<br>';
+
+      $params = array(
+         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+         'endTimestamp' => $endTimestamp,
+         'interval' => $interval
+      );
+
+      $statusHistoryIndicator = new StatusHistoryIndicator();
+      $statusHistoryIndicator->execute($issueSel, $params);
+      $smartyVariable = $statusHistoryIndicator->getSmartyObject();
+
+      return $smartyVariable;
+   }
+
    /**
     * @param SmartyHelper $smartyHelper
     * @param CommandSet $commandset
@@ -293,6 +350,10 @@ class CommandSetTools {
          $smartyHelper->assign($smartyKey, $smartyVariable);
       }
 
+      $data = self::getInternalBugsStatusHistory($commandset);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+      }
    }
 
 }

@@ -11,6 +11,13 @@
          var form = jQuery('#selectForm');
          form.submit();
       });
+
+      jQuery.ajax({
+         url: "js/helpdialog.js",
+         dataType: "script",
+         cache: true
+      });
+
    });
 </script>
 
@@ -99,6 +106,7 @@
          <li><a href="#tab_attributes">{t}Attributes{/t}</a></li>
          <li><a href="#tab_detailedCharges">{t}Detailed Charges{/t}</a></li>
          <li><a href="{$ajaxPage}?action=getProgressHistoryIndicator">{t}Indicators{/t}</a></li>
+         <li><a href="#tab_bugStatusHistory">{t}Status History{/t}</a></li>
       </ul>
       <div id="tab_charges">
          {if $cmdList}
@@ -201,6 +209,28 @@
                </td>
             </tr>
          </table>
+      </div>
+      <div id="tab_bugStatusHistory">
+         <h2>{t}Internal Bugs Status History{/t} &nbsp;&nbsp;<a id="dialog_bugStatusHistory_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
+
+         <div id="dialog_bugStatusHistory" class="help_dialog ui-helper-hidden" title="{t}Internal Bugs Status History{/t}">
+            <p>{t}Graph showing the number of internal bugs per status.{/t}<br>
+            </p>
+            <p>
+               {t}Internal bugs have the following caracteristics:{/t}<br>
+               <table class="invisible">
+                  <tr>
+                     <td><strong>{t}External Reference{/t}</strong></td>
+                     <td>: <span style="color:blue"><em>{t}None{/t}</em></span></td>
+                  <tr>
+                  <tr>
+                     <td><strong>CodevTT_Type</strong></td>
+                     <td>: <span style="color:blue">"Bug"</span></td>
+                  <tr>
+               </table>
+            </p>
+         </div>
+         {include file="plugin/status_history_indicator.html"}
       </div>
       {/if}
    </div>
