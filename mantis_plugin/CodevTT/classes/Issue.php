@@ -44,6 +44,8 @@ class Issue {
     */
    public function setBacklog($backlog) {
 
+      $old_backlog = NULL;
+      
       $query = "SELECT value FROM `codev_config_table` WHERE config_id = '".Issue::id_customField_backlog."'";
       $result = mysql_query($query);
       if (!$result) {
@@ -72,6 +74,7 @@ class Issue {
          $old_backlog = mysql_result($result, 0);
          $query2 = "UPDATE `mantis_custom_field_string_table` SET value = '$backlog' WHERE bug_id=$this->id AND field_id = $backlogCustomField";
       } else {
+         $old_backlog = '';
          $query2 = "INSERT INTO `mantis_custom_field_string_table` (`field_id`, `bug_id`, `value`) VALUES ('$backlogCustomField', '$this->id', '$backlog');";
       }
       $result2 = mysql_query($query2);
@@ -79,9 +82,8 @@ class Issue {
          $e = new Exception("Query FAILED: ".$query);
          throw $e;
       }
-
       // Add to history
-      if ($old_backlog != $backlog) {
+      if ("$old_backlog" != "$backlog") {
          $userid = current_user_get_field( 'id' );
          $now = time();
          $query = "INSERT INTO `mantis_bug_history_table`  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
