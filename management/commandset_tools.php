@@ -268,7 +268,7 @@ class CommandSetTools {
       if ((NULL != $startTT) && (0 != $startTT->getDate())) {
          $startTimestamp = $startTT->getDate();
       } else {
-         $startTimestamp = $cmdset->getStartDate();
+         $startTimestamp = $cmdset->getDate();
          if (0 == $startTimestamp) {
             $team = TeamCache::getInstance()->getTeam($cmdset->getTeamid());
             $startTimestamp = $team->getDate();
