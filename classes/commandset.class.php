@@ -433,8 +433,9 @@ class CommandSet extends Model {
    public function removeCommand($cmdid) {
       $typeList = array_keys($this->getCommandIds());
       foreach ($typeList as $type) {
-         if (NULL != $this->cmdidByTypeList[$type][$cmdid]) {
-            unset($this->cmdidByTypeList[$type][$cmdid]);
+         $key = array_search($cmdid, $this->cmdidByTypeList[$type]);
+         if (FALSE != $key) {
+            unset($this->cmdidByTypeList[$type][$key]);
             # break;
          }
       }

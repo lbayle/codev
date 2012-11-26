@@ -184,7 +184,7 @@
       <div id="tabsName-1">
          {if $commandsetCandidates}
          <!-- add/create commandset form -->
-         <form id="addCmdSetForm" name="addCmdSetForm" method="post" action="{$page}" style="margin-top:1em;">
+         <form id="addCmdSetForm" name="addCmdSetForm" method="post" class ="formWithTabsHistory" action="{$page}" style="margin-top:1em;">
             <fieldset>
                <select id="commandsetSelector" name="commandsetid">
                   <option value="0">{t}--- New CommandSet ---{/t}</option>
@@ -271,7 +271,7 @@
                   </tr>
                </tbody>
             </table>
-            <form id="formRemoveCmdSet" name="formRemoveCmdSet" method="post" action="{$page}" >
+            <form id="formRemoveCmdSet" name="formRemoveCmdSet" method="post" class = "formWithTabsHistory" action="{$page}" >
                <fieldset>
                   <input type="hidden" name="action" value="removeCmdSet" />
                   <input type="hidden" name="commandsetid" value="0" />
@@ -287,7 +287,7 @@
          {if $projectCandidates}
          <div style="margin-top:1em;" align="left">
             <!-- add/create project form -->
-            <form id="addProjectForm" name="addProjectForm" method="post" action="{$page}">
+            <form id="addProjectForm" name="addProjectForm" method="post" class ="formWithTabsHistory" action="{$page}">
                <fieldset>
                   <select id="projectSelector" name="projectid">
                      {foreach $projectCandidates as $id => $name}
@@ -302,7 +302,9 @@
             </form>
          </div>
          {else}
-         {t}No data{/t}
+            {if !$projectList}
+               {t}No data{/t}
+            {/if}
          {/if}
 
          {if $projectList}
@@ -347,7 +349,7 @@
                <tr>
                   <td class="ui-state-error-text" style="width:1em;">
                      <a class="ui-icon" title="{t}delete Contract-Project association{/t}" href="{$page}"
-                        onclick="removeProject('{$id}', '{$project.description|escape}');return false;">
+                        onclick="removeProject('{$id}', '{$project.name|escape}');return false;">
                      </a>
                   </td>
                   <td title="{$id}">{$project.name}</td>
@@ -369,7 +371,7 @@
                   </tr>
                </tbody>
             </table>
-            <form id="formRemoveProject" name="formRemoveProject" method="post" action="{$page}" >
+            <form id="formRemoveProject" name="formRemoveProject" method="post" class = "formWithTabsHistory" action="{$page}" >
                <fieldset>
                   <input type="hidden" name="action" value="removeProject" />
                   <input type="hidden" name="projectid" value="0" />

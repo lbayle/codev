@@ -467,8 +467,9 @@ class ServiceContract extends Model {
    public function removeCommandSet($commandset_id) {
       $typeList = array_keys($this->getCommandSetIds());
       foreach ($typeList as $type) {
-         if (NULL != $this->cmdsetidByTypeList[$type][$commandset_id]) {
-            unset($this->cmdsetidByTypeList[$type][$commandset_id]);
+         $key = array_search($commandset_id, $this->cmdsetidByTypeList[$type]);
+         if (FALSE != $key) {
+            unset($this->cmdsetidByTypeList[$type][$key]);
             # break;
          }
       }
@@ -522,8 +523,10 @@ class ServiceContract extends Model {
     * @param int $project_id
     */
    public function removeSidetaskProject($project_id) {
-      if (NULL != $this->sidetasksProjectList["$project_id"]) {
-         unset($this->sidetasksProjectList["$project_id"]);
+
+      $key = array_search($project_id, $this->sidetasksProjectList);
+      if (FALSE != $key) {
+         unset($this->sidetasksProjectList[$key]);
       }
 
       $query = "DELETE FROM `codev_servicecontract_stproj_table` WHERE servicecontract_id = ".$this->id." AND project_id = ".$project_id.";";

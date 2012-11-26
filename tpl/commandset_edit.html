@@ -192,7 +192,13 @@
                      modal: true,
                      buttons: {
                         "{t}Remove{/t}": function() {
+                           // remove from DB
                            jQuery("#formRemoveCmd").submit();
+
+                           // remove from table
+                           //var cmdid = jQuery("#formRemoveCmd").find("input[name=cmdid]").val();
+                           //jQuery("#cmdTable tr#"+cmdid).remove();
+
                         },
                         Cancel: function() {
                            jQuery(this).dialog("close");
@@ -225,7 +231,7 @@
                </form>
             </div>
 
-            <table>
+            <table class="cmdTable">
                <thead>
                   <tr>
                      <th></th>
@@ -236,7 +242,7 @@
                </thead>
                <tbody>
                   {foreach $cmdList as $id => $cmd}
-                  <tr>
+                  <tr id="{$id}">
                      <td class="ui-state-error-text" style="width:1em;">
                         <a class="ui-icon" title="{t}delete CommandSet-Command association{/t}" href="{$page}"
                            onclick="removeCmd('{$id}', '{$cmd.name|escape}');return false;"></a>

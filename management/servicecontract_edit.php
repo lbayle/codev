@@ -143,8 +143,10 @@ class ServiceContractEditController extends Controller {
             $commandsetCandidates = $this->getCmdSetCandidates($contract, $session_user);
             $this->smartyHelper->assign('commandsetCandidates', $commandsetCandidates);
 
-            $projectCandidates = $this->getProjectCandidates($servicecontractid);
+            $projectCandidates = $this->getProjectCandidates($contract);
             $this->smartyHelper->assign('projectCandidates', $projectCandidates);
+            $projects = $this->getProjects($contract);
+            $this->smartyHelper->assign('projectList', $projects);
 
             $isManager = $session_user->isTeamManager($contract->getTeamid());
             ServiceContractTools::displayServiceContract($this->smartyHelper, $contract, $isManager);
@@ -229,22 +231,39 @@ class ServiceContractEditController extends Controller {
     * @param int $servicecontractid
     * @return string[]
     */
-   private function getProjectCandidates($servicecontractid) {
+   private function getProjectCandidates($contract) {
       $candidates = array();
-
-      $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
       $team = TeamCache::getInstance()->getTeam($contract->getTeamid());
 
       $projList = $team->getProjects();
+      $currentProjects = $contract->getProjects();
 
       foreach ($projList as $projectid => $name) {
-         if ($team->isSideTasksProject($projectid)) {
+         if (($team->isSideTasksProject($projectid)) &&
+             (!array_key_exists($projectid, $currentProjects))) {
             $candidates[$projectid] = $name;
          }
       }
       return $candidates;
    }
 
+   /**
+    * list the Sidetasks Projects that can be added to this ServiceContract.
+    *
+    * This depends on ServiceContract's team
+    * @param int $servicecontractid
+    * @return string[]
+    */
+   private function getProjects($contract) {
+      $projects = array();
+
+      $projList = $contract->getProjects();
+
+      foreach ($projList as $projectid => $prj) {
+            $projects["$projectid"] = array ('name' => $prj->getName());
+      }
+      return $projects;
+   }
 }
 
 // ========== MAIN ===========
