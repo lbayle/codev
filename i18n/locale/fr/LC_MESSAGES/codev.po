@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-24 23:27+0100\n"
+"POT-Creation-Date: 2012-11-26 21:38+0100\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -185,7 +185,6 @@ msgstr "Criticité"
 #: tpl/command_edit.html
 #: tpl/commandset_info.html
 #: tpl/edit_team.html
-#: timetracking/team_activity_report.php:185
 #: timetracking/team_activity_report.php:234
 #: timetracking/time_tracking_tools.php:125
 msgid "Type"
@@ -442,6 +441,51 @@ msgstr "Réel"
 #: tpl/plugin/progress_history_indicator.html
 msgid "% Progress"
 msgstr "% Avancement"
+
+#: tpl/plugin/progress_history_indicator.html
+#: tpl/command_info.html
+#: tpl/servicecontract_info.html
+#: tpl/commandset_info.html
+msgid "Progress History"
+msgstr "Historique Avancement"
+
+#: tpl/plugin/progress_history_indicator.html
+msgid "Progress History Indicator"
+msgstr "Evolution de l'avancement"
+
+#: tpl/plugin/progress_history_indicator.html
+msgid "Evolution of the real progress vs the theoretical progress."
+msgstr "Evolution de l'avancement réel par rapport à l'avancement théorique."
+
+#: tpl/plugin/progress_history_indicator.html
+msgid "Theoretical progress"
+msgstr "Avancement théorique"
+
+#: tpl/plugin/progress_history_indicator.html
+msgid "Compares the EffortEstim to the Elapsed days"
+msgstr "Compare la Charge initiale au consommé"
+
+#: tpl/plugin/progress_history_indicator.html
+#: tpl/forecasting_report.html
+#: tpl/productivity_report.html
+msgid "Formula"
+msgstr "Formule"
+
+#: tpl/plugin/progress_history_indicator.html
+msgid "Elapsed / max(MgrEffortEstim, EffortEstim)"
+msgstr "Consommé / max(Charge Mgr, Charge Init)"
+
+#: tpl/plugin/progress_history_indicator.html
+msgid "Real progress"
+msgstr "Avancement Réel"
+
+#: tpl/plugin/progress_history_indicator.html
+msgid "Displays the backlog"
+msgstr "Affiche le RAF"
+
+#: tpl/plugin/progress_history_indicator.html
+msgid "Elapsed / (Elapsed +  Backlog)"
+msgstr "Consommé / (Consommé + RAF)"
 
 #: tpl/gantt_report.html
 #: tpl/statistics.html
@@ -918,11 +962,6 @@ msgstr "Le calcul est fait sur les fiches NON Résolues/Fermées au "
 
 #: tpl/forecasting_report.html
 #: tpl/productivity_report.html
-msgid "Formula"
-msgstr "Formule"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
 #: tpl/index.html
 #: tpl/project_info.html
 msgid "Tasks in drift"
@@ -1381,10 +1420,9 @@ msgstr "Suivie"
 #: tpl/planning_report.html
 #: tpl/edit_jobs.html
 #: tpl/edit_holidays.html
-#: install/install_step3.php:560 install/install_step3.php:571
-#: install/install_step3.php:577 install/install_step3.php:583
-#: install/install_step3.php:588 install/install_step3.php:594
-#: install/install_step3.php:599
+#: install/install_step3.php:571 install/install_step3.php:577
+#: install/install_step3.php:583 install/install_step3.php:588
+#: install/install_step3.php:594 install/install_step3.php:599
 msgid "Color"
 msgstr "Couleur"
 
@@ -1984,10 +2022,6 @@ msgid "Indicators"
 msgstr "Indicateurs"
 
 #: tpl/command_info.html
-msgid "Status History"
-msgstr "Historique Statut"
-
-#: tpl/command_info.html
 #: tpl/servicecontract_info.html
 #: tpl/command_edit.html
 #: tpl/commandset_info.html
@@ -2038,6 +2072,8 @@ msgid "Provision NOT included in 'check budget'"
 msgstr "Provision NON inclue dans 'check budget'"
 
 #: tpl/command_info.html
+#: tpl/servicecontract_info.html
+#: tpl/commandset_info.html
 msgid "None"
 msgstr "Aucun"
 
@@ -2051,18 +2087,32 @@ msgid "No task found."
 msgstr "Pas de tâches."
 
 #: tpl/command_info.html
+#: tpl/servicecontract_info.html
+#: tpl/commandset_info.html
+msgid "Bug Status History"
+msgstr "Evolution des bugs internes"
+
+#: tpl/command_info.html
+#: tpl/servicecontract_info.html
+#: tpl/commandset_info.html
 msgid "Internal Bugs Status History"
 msgstr "Evolution des bugs internes"
 
 #: tpl/command_info.html
+#: tpl/servicecontract_info.html
+#: tpl/commandset_info.html
 msgid "Graph showing the number of internal bugs per status."
 msgstr "Graphique indiquant le nombre de bugs internes par statut"
 
 #: tpl/command_info.html
+#: tpl/servicecontract_info.html
+#: tpl/commandset_info.html
 msgid "Internal bugs have the following caracteristics:"
 msgstr "Les bugs internes sont identifiés par:"
 
 #: tpl/command_info.html
+#: tpl/servicecontract_info.html
+#: tpl/commandset_info.html
 msgid "External Reference"
 msgstr "Réf. Externe"
 
@@ -3146,7 +3196,7 @@ msgstr "Veuillez charger des fichiers ayant comme extension : "
 
 #: indicator_plugins/StatusHistoryIndicator.class.php:194
 #: management/servicecontract_tools.php:275
-#: management/commandset_tools.php:120 management/command_tools.php:96
+#: management/commandset_tools.php:120 management/command_tools.php:97
 #: reports/planning_report.php:318 reports/planning_report.php:397
 msgid "Y-m-d"
 msgstr "d-m-Y"
@@ -3612,9 +3662,6 @@ msgstr "S"
 #~ msgid "Backlog Mgr"
 #~ msgstr "RAF Mgr"
 
-#~ msgid "Progress Mgr"
-#~ msgstr "Avancement Mgr"
-
 #~ msgid "Task information"
 #~ msgstr "Informations sur une tâche"
 
@@ -3756,9 +3803,6 @@ msgstr "S"
 
 #~ msgid "path for .CSV reports"
 #~ msgstr "Emplacement des rapports .CSV"
-
-#~ msgid "PrelEffortEstim to ManagerEffortEstim"
-#~ msgstr "Conversion PrelEffortEstim -> ManagerEffortEstim"
 
 #~ msgid "logs"
 #~ msgstr "logs"
@@ -3907,9 +3951,6 @@ msgstr "S"
 
 #~ msgid "Efficiency and System Disponibility"
 #~ msgstr "Taux d'efficacité et Disponibilité système"
-
-#~ msgid "Tasks need MgrEffortEstim to be set."
-#~ msgstr "Taches ont une Charge_Mgr non renseignée"
 
 #~ msgid "Read"
 #~ msgstr "Lecture"
@@ -4085,9 +4126,6 @@ msgstr "S"
 
 #~ msgid "Total elapsed"
 #~ msgstr "Total consommé"
-
-#~ msgid "elapsed + Backlog"
-#~ msgstr "Consommé + RAF"
 
 #~ msgid "elapsed in period"
 #~ msgstr "consommé dans la période"
