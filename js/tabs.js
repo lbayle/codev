@@ -51,6 +51,10 @@ jQuery(document).ready(function() {
          }
       });
 
+      // vertical tabs (see also style in .css)
+      $( ".tabs-vertical" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
+      $( ".tabs-vertical li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
+
       // This selector will be reused when selecting actual tab widget A elements.
       var tab_a_selector = 'ul.ui-tabs-nav a';
 
