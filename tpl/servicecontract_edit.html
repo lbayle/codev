@@ -199,7 +199,9 @@
             </fieldset>
          </form>
          {else}
-         {t}No data{/t}
+            {if !$cmdsetList}
+               {t}No data{/t}
+            {/if}
          {/if}
 
          {if $cmdsetList}
