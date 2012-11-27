@@ -133,7 +133,7 @@ class CommandSetEditController extends Controller {
             $this->smartyHelper->assign('cmdsetInfoFormAction', 'updateCmdsetInfo');
             $this->smartyHelper->assign('isAddCmdForm', true);
 
-            $cmdCandidates = $this->getCmdSetCandidates($session_user);
+            $cmdCandidates = $this->getCmdSetCandidates($cmdset, $session_user);
             $this->smartyHelper->assign('cmdCandidates', $cmdCandidates);
             $this->smartyHelper->assign('isAddCmdSetForm', true);
 
@@ -181,7 +181,7 @@ class CommandSetEditController extends Controller {
     * @param User $user
     * @return string[]
     */
-   private function getCmdSetCandidates(User $user) {
+   private function getCmdSetCandidates(CommandSet $cmdset, User $user) {
       $cmdCandidates = array();
 
       $lTeamList = $user->getLeadedTeamList();
@@ -189,13 +189,17 @@ class CommandSetEditController extends Controller {
       $mTeamList = $user->getDevTeamList();
       $teamList = $mTeamList + $lTeamList + $managedTeamList;
 
+      $cmds = $cmdset->getCommands(Command::type_general);
+
       foreach ($teamList as $teamid => $name) {
          $team = TeamCache::getInstance()->getTeam($teamid);
          $cmdList = $team->getCommands();
 
          foreach ($cmdList as $cid => $cmd) {
-            // TODO remove Cmds already in this cmdset.
-            $cmdCandidates[$cid] = $cmd->getReference() . " ". $cmd->getName();
+            // remove Cmds already in this cset.
+            if (!array_key_exists($cid, $cmds)) {
+               $cmdCandidates[$cid] = $cmd->getReference() . " ". $cmd->getName();
+            }
          }
       }
       asort($cmdCandidates);

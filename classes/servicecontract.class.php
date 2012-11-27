@@ -468,7 +468,7 @@ class ServiceContract extends Model {
       $typeList = array_keys($this->getCommandSetIds());
       foreach ($typeList as $type) {
          $key = array_search($commandset_id, $this->cmdsetidByTypeList[$type]);
-         if (FALSE != $key) {
+         if (FALSE !== $key) {
             unset($this->cmdsetidByTypeList[$type][$key]);
             # break;
          }
@@ -525,7 +525,7 @@ class ServiceContract extends Model {
    public function removeSidetaskProject($project_id) {
 
       $key = array_search($project_id, $this->sidetasksProjectList);
-      if (FALSE != $key) {
+      if (FALSE !== $key) {
          unset($this->sidetasksProjectList[$key]);
       }
 

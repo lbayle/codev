@@ -434,7 +434,7 @@ class CommandSet extends Model {
       $typeList = array_keys($this->getCommandIds());
       foreach ($typeList as $type) {
          $key = array_search($cmdid, $this->cmdidByTypeList[$type]);
-         if (FALSE != $key) {
+         if (FALSE !== $key) {
             unset($this->cmdidByTypeList[$type][$key]);
             # break;
          }
