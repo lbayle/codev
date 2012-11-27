@@ -38,14 +38,14 @@
 
    {if isset($submittedResolved_Legend) || isset($timeDrift_Legend) || isset($resolvedDrift_Legend) || isset($efficiency_Legend) || isset($reopenedRate_Legend) || isset($developersWorkload_Legend)}
    {include file="tools/graph.html"}
-   <div id="results" class="tabs" style="margin-top: 2em">
-      <ul>
-         <li><a href="#tabSubmittedResolved">{t}Submitted / Resolved Issues{/t}</a></li>
-         <li><a href="#tabTimeDrift">{t}Adherence to deadlines{/t}</a></li>
-         <li><a href="#tabResolvedDrift">{t}Drift{/t}</a></li>
-         <li><a href="#tabEfficiencyRate">{t}Efficiency - System Disponibility{/t}</a></li>
-         <li><a href="#tabReopenedRate">{t}Reopened Rate{/t}</a></li>
-         <li><a href="#tabWorkload">{t}Developers Workload{/t}</a></li>
+   <div id="results" class="tabs {$ui_tabs_jquery}" style="margin-top: 2em">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabSubmittedResolved">{t}Submitted / Resolved Issues{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabTimeDrift">{t}Adherence to deadlines{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabResolvedDrift">{t}Drift{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabEfficiencyRate">{t}Efficiency - System Disponibility{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabReopenedRate">{t}Reopened Rate{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabWorkload">{t}Developers Workload{/t}</a></li>
          <!--li><a href="#tabTaskStatusHistory">{t}Task Status{/t}</a></li-->
       </ul>
 

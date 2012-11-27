@@ -1,9 +1,9 @@
 <script src="js/tabs.js" type="text/javascript"></script>
-<div id="tabsDetailedCharges" class="tabs">
-   <ul>
-      <li><a href="#tabOverviewCharges">{t}Overview{/t}</a></li>
+<div id="tabsDetailedCharges" class="tabs {$ui_tabs_jquery}">
+   <ul class="{$ui_tabs_jquery_ul}">
+      <li class="{$ui_tabs_jquery_li}"><a href="#tabOverviewCharges">{t}Overview{/t}</a></li>
       {if $isManager}<li><a href="#tabDetailedCharges">{t}Detailed{/t}</a></li>{/if}
-      <li><a href="#tabChargesIssues">{t}Tasks{/t}</a></li>
+      <li class="{$ui_tabs_jquery_li}"><a href="#tabChargesIssues">{t}Tasks{/t}</a></li>
    </ul>
    <div id="tabOverviewCharges">
       {assign var=filterResultsTitles value=$overviewTitles}

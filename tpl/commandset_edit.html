@@ -146,9 +146,9 @@
    </div>
 
    {if isset($cmdList)}
-   <div id="tabsCommandSet" class="tabs" style="margin-top:2em;">
-      <ul>
-         <li><a href="#tabsName-1">{t}Commands{/t}</a></li>
+   <div id="tabsCommandSet" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-1">{t}Commands{/t}</a></li>
       </ul>
       <div id="tabsName-1">
          {if isset($isAddCmdForm)}

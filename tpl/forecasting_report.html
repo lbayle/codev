@@ -41,11 +41,11 @@
       </p>
    </div>
 
-   <div id="tabsCurrentDeviationStats" class="tabs">
-      <ul>
-         <li><a href="#tabsName-1">{t}Overview{/t}</a></li>
-         <li><a href="#tabsName-2">{t}Tasks in drift{/t}</a></li>
-         <li><a href="#tabsName-3">{t}Tasks{/t}</a></li>
+   <div id="tabsCurrentDeviationStats" class="tabs {$ui_tabs_jquery}">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-1">{t}Overview{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-2">{t}Tasks in drift{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-3">{t}Tasks{/t}</a></li>
       </ul>
       <div id="tabsName-1">
          {if $currentDeviationStats}

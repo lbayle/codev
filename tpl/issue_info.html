@@ -111,12 +111,12 @@
       </table>
 
       {include file="tools/graph.html"}
-      <div id="tabsIssueInfo" class="tabs" style="margin-top:3em;">
-         <ul>
-            <li><a href="#tabsName-1">{t}Overview{/t}</a></li>
-            <li><a href="#tabsName-2">{t}Timetracks{/t}</a></li>
-            <li><a href="#tabsName-3">{t}Time per Status{/t}</a></li>
-            <li><a href="#tabsName-4">{t}Backlog variation{/t}</a></li>
+      <div id="tabsIssueInfo" class="tabs {$ui_tabs_jquery}" style="margin-top:3em;">
+         <ul class="{$ui_tabs_jquery_ul}">
+            <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-1">{t}Overview{/t}</a></li>
+            <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-2">{t}Timetracks{/t}</a></li>
+            <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-3">{t}Time per Status{/t}</a></li>
+            <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-4">{t}Backlog variation{/t}</a></li>
          </ul>
          <div id="tabsName-1">
             <!-- General info -->

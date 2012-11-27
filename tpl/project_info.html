@@ -22,10 +22,10 @@
    
    {if isset($currentIssuesInDrift) || isset($resolvedIssuesInDrift)}
    <h3 style="margin-top: 2em">{t}Tasks in drift{/t}</h3>
-   <div id="tabsDrift" class="tabs">
-      <ul>
-         <li><a href="#tabCurrentDrift">{t}Drift current tasks{/t}</a></li>
-         <li><a href="#tabResolvedDrift">{t}Drift resolved tasks{/t}</a></li>
+   <div id="tabsDrift" class="tabs {$ui_tabs_jquery}">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabCurrentDrift">{t}Drift current tasks{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabResolvedDrift">{t}Drift resolved tasks{/t}</a></li>
       </ul>
       <div id="tabCurrentDrift">
          {if $currentIssuesInDrift}

@@ -127,6 +127,13 @@ class SmartyHelper {
       $this->smarty->assign('locale', $_SESSION['locale']);
       $this->smarty->assign('usingBrowserIE', Tools::usingBrowserIE());
 
+      // Tabs: apply jQuery CSS before construction to avoid ugly flash on tabs construction (FOC)
+      // Note: this may change if jQuery version changes.
+      $this->smarty->assign('ui_tabs_jquery', 'ui-tabs ui-widget ui-widget-content ui-corner-all');
+      $this->smarty->assign('ui_tabs_jquery_ul', 'ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all');
+      $this->smarty->assign('ui_tabs_jquery_li', 'ui-state-default ui-corner-top');
+
+
       $this->display('template');
    }
 

@@ -70,11 +70,11 @@
    {if isset($weekDetails)}
    <div align="center" style="margin-top:4em;">
    <h2 align="left">{t}Timesheets{/t}</h2>
-      <div id="tabsUsers" class="tabs">
-         <ul>
+      <div id="tabsUsers" class="tabs {$ui_tabs_jquery}">
+         <ul class="{$ui_tabs_jquery_ul}">
             {foreach from=$weekDetails item=i key=id}
             {if $i.weekJobDetails}
-            <li id="{$i.name}"><a href="#tabUser_{$i.name}">{$i.realname}</a></li>
+            <li class="{$ui_tabs_jquery_li}" id="{$i.name}"><a href="#tabUser_{$i.name}">{$i.realname}</a></li>
             {/if}
             {/foreach}
          </ul>

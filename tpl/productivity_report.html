@@ -24,16 +24,16 @@
    {include file="modal/consistency_check.html"}
 
    {include file="tools/graph.html"}
-   <div id="tabsIndicators" class="tabs" style="margin-top: 2em;">
-      <ul>
-         <li><a href="#tabsName-1">{t}Production days{/t}</a></li>
-         <li><a href="#tabsName-2">{t}Load per Job{/t}</a></li>
-         <li><a href="#tabsName-3">{t}Project Detail{/t}</a></li>
-         <li><a href="#tabsName-4">{t}Load per Project{/t}</a></li>
-         <li><a href="#tabsName-5">{t}Productivity indicators{/t}</a></li>
-         <li><a href="#tabsName-6">{t}Adherence to deadlines{/t}</a></li>
-         <li><a href="#tabsName-7">{t}Effort Deviation{/t}</a></li>
-         <li><a href="#tabsName-8">{t}Reopened tasks{/t}</a></li>
+   <div id="tabsIndicators" class="tabs {$ui_tabs_jquery}" style="margin-top: 2em;">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-1">{t}Production days{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-2">{t}Load per Job{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-3">{t}Project Detail{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-4">{t}Load per Project{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-5">{t}Productivity indicators{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-6">{t}Adherence to deadlines{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-7">{t}Effort Deviation{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-8">{t}Reopened tasks{/t}</a></li>
       </ul>
 
       <div id="tabsName-1">
@@ -361,10 +361,10 @@
             </p>
          </div>
          {if isset($resolvedDeviationStats) || isset($resolvedIssuesInDrift)}
-         <div id="tabsResolvedDriftStats" class="tabs">
-            <ul>
-               <li><a href="#tabsResolvedDriftStatsName-1">{t}Effort deviation{/t}</a></li>
-               <li><a href="#tabsResolvedDriftStatsName-2">{t}Tasks in drift{/t}</a></li>
+         <div id="tabsResolvedDriftStats" class="tabs {$ui_tabs_jquery}">
+            <ul class="{$ui_tabs_jquery_ul}">
+               <li class="{$ui_tabs_jquery_li}"><a href="#tabsResolvedDriftStatsName-1">{t}Effort deviation{/t}</a></li>
+               <li class="{$ui_tabs_jquery_li}"><a href="#tabsResolvedDriftStatsName-2">{t}Tasks in drift{/t}</a></li>
             </ul>
             <div id="tabsResolvedDriftStatsName-1">
                {if $resolvedDeviationStats}
@@ -467,10 +467,10 @@
             </p>
          </div>
          {if isset($resolvedDeviationStatsExtRefOnly) || isset($resolvedIssuesInDriftExtRefOnly)}
-         <div id="tabsResolvedDriftStatsExtRefOnly" class="tabs">
-            <ul>
-               <li><a href="#tabsResolvedDriftStatsExtRefOnly-1">{t}Effort deviation{/t}</a></li>
-               <li><a href="#tabsResolvedDriftStatsExtRefOnly-2">{t}Tasks in drift{/t}</a></li>
+         <div id="tabsResolvedDriftStatsExtRefOnly" class="tabs {$ui_tabs_jquery}">
+            <ul class="{$ui_tabs_jquery_ul}">
+               <li class="{$ui_tabs_jquery_li}"><a href="#tabsResolvedDriftStatsExtRefOnly-1">{t}Effort deviation{/t}</a></li>
+               <li class="{$ui_tabs_jquery_li}"><a href="#tabsResolvedDriftStatsExtRefOnly-2">{t}Tasks in drift{/t}</a></li>
             </ul>
             <div id="tabsResolvedDriftStatsExtRefOnly-1">
                {if $resolvedDeviationStatsExtRefOnly}

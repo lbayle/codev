@@ -12,10 +12,10 @@
 
    {if isset($projectActivityReport)}
    <div align="center" style="margin-top:4em;">
-      <div id="tabsProjects" class="tabs">
-         <ul>
+      <div id="tabsProjects" class="tabs {$ui_tabs_jquery}">
+         <ul class="{$ui_tabs_jquery_ul}">
             {foreach from=$projectActivityReport item=i key=id}
-            <li><a href="#tabProj_{$i.id}">{$i.name}</a></li>
+            <li class="{$ui_tabs_jquery_li}"><a href="#tabProj_{$i.id}">{$i.name}</a></li>
             {/foreach}
          </ul>
          {foreach from=$projectActivityReport key=id item=i}

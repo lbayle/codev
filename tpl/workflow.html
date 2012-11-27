@@ -115,10 +115,10 @@
    
    {foreach from=$projectsInfo key=id item=i}
    <h2 style="margin-top: 2em;">{$i.name}</h2>
-   <div id="{$i.tabsName}" class="tabs">
-      <ul>
-         <li><a href='#{$i.tabsName}-1'>{t}Workflow transitions{/t}</a></li>
-         <li><a href='#{$i.tabsName}-2'>{t}Settings{/t}</a></li>
+   <div id="{$i.tabsName}" class="tabs {$ui_tabs_jquery}">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href='#{$i.tabsName}-1'>{t}Workflow transitions{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href='#{$i.tabsName}-2'>{t}Settings{/t}</a></li>
       </ul>
       <div id='{$i.tabsName}-1'>
          {if isset($i.content)}

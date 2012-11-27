@@ -176,10 +176,10 @@
    {/if}
 
    {if isset($cmdsetList) || isset($projectList)}
-   <div id="tabsContract" class="tabs" style="margin-top:2em;">
-      <ul>
-         <li><a href="#tabsName-1">{t}CommandSets{/t}</a></li>
-         <li><a href="#tabsName-2">{t}SideTasks Projects{/t}</a></li>
+   <div id="tabsContract" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-1">{t}CommandSets{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-2">{t}SideTasks Projects{/t}</a></li>
       </ul>
       <div id="tabsName-1">
          {if $commandsetCandidates}
