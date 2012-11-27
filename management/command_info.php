@@ -61,12 +61,16 @@ class CommandInfoController extends Controller {
          if (!array_key_exists($teamid, $teamList)) {
             $teamid = 0;
             $cmdid = 0;
+         } else {
+            $isManager = $session_user->isTeamManager($teamid);
+            if ($isManager) {
+               $this->smartyHelper->assign('isManager', true);
+            }
          }
          $this->smartyHelper->assign('teamid', $teamid);
          $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
          $this->smartyHelper->assign('commandid', $cmdid);
          $this->smartyHelper->assign('commands', $this->getCommands($teamid, $cmdid));
-
 
          // ------ Display Command
          if (0 != $cmdid) {
@@ -75,8 +79,6 @@ class CommandInfoController extends Controller {
             if (array_key_exists($cmd->getTeamid(), $teamList)) {
                $teamid = $cmd->getTeamid();
                $_SESSION['teamid'] = $teamid;
-
-               $isManager = $session_user->isTeamManager($cmd->getTeamid());
 
                // get selected filters
                $selectedFilters="";
