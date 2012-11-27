@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-26 21:38+0100\n"
+"POT-Creation-Date: 2012-11-27 23:18+0100\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -45,7 +45,7 @@ msgstr ""
 #: indicator_plugins/DetailedChargesIndicator.class.php:338
 #: indicator_plugins/DetailedChargesIndicator.class.php:351
 #: management/commandset_info.php:154 management/servicecontract_info.php:138
-#: management/command_info.php:166 reports/project_info.php:281
+#: management/command_info.php:168 reports/project_info.php:281
 #: reports/project_info.php:292 reports/project_info.php:304
 #: reports/productivity_report_tools.php:41
 #: reports/productivity_report_tools.php:79 reports/export_csv_tools.php:48
@@ -116,7 +116,7 @@ msgstr "Catégorie"
 #: indicator_plugins/DetailedChargesIndicator.class.php:339
 #: indicator_plugins/DetailedChargesIndicator.class.php:352
 #: management/commandset_info.php:155 management/servicecontract_info.php:139
-#: management/command_info.php:167 reports/project_info.php:282
+#: management/command_info.php:169 reports/project_info.php:282
 #: reports/project_info.php:293 reports/project_info.php:305
 #: reports/productivity_report_tools.php:42
 #: reports/productivity_report_tools.php:80 reports/export_csv_tools.php:51
@@ -1335,7 +1335,7 @@ msgstr "Guide d'Admin"
 
 #: tpl/menu/global_menu.html
 msgid "CoDev Administration"
-msgstr "Administration CoDev"
+msgstr "Administration CodevTT"
 
 #: tpl/menu/global_menu.html
 msgid "Create Team"
@@ -1393,8 +1393,8 @@ msgstr "Cliquer pour afficher les erreurs"
 
 #: tpl/planning_report.html
 #: management/commandset_info.php:113 management/servicecontract_info.php:102
-#: management/servicecontract_info.php:103 management/command_info.php:97
-#: management/command_info.php:98 reports/productivity_report.php:195
+#: management/servicecontract_info.php:103 management/command_info.php:99
+#: management/command_info.php:100 reports/productivity_report.php:195
 #: reports/issue_info.php:82 reports/issue_info.php:83
 #: timetracking/team_activity_report.php:81 timetracking/time_tracking.php:300
 msgid "Errors"
@@ -3288,7 +3288,7 @@ msgstr "Equipe Administration CodevTT"
 
 #: install/install_step3.php:210
 msgid "Mantis/CoDevTT administration"
-msgstr "administration Mantis/CoDevTT"
+msgstr "administration Mantis/CodevTT"
 
 #. echo "DEBUG create Variable : ".Config::id_ClientTeamid."<br/>";
 #. TODO should be a table, there can be more than one client !
@@ -3481,7 +3481,7 @@ msgid "Provisions updated FAILED !"
 msgstr "ERREUR lors de la mise à jour des provisions !"
 
 #. TODO smarty error msg
-#: management/command_info.php:114
+#: management/command_info.php:116
 msgid "Sorry, You are not allowed to see this command"
 msgstr "Désolé, vous n'êtes pas autorisé à voir le détail de cette commande"
 
