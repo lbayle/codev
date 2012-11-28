@@ -173,7 +173,7 @@ class Constants {
       $mantis['bug_resolved_status_threshold'] = self::$bug_resolved_status_threshold;
 
       $status = array();
-      $status[] = '; Note: CodevTT needs some status to be defined (new, feedback, acknowledged, open, closed)';
+      $status[] = '; Note: CodevTT needs some status to be defined (new, feedback, open, closed)';
       $status[] = '; please add equivalences in accordance to your workflow.';
       $status[] = '; ex: status_open = 50 (assigned)';
       $status['status_new']          = self::$status_new;
