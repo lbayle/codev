@@ -721,7 +721,7 @@ class Issue extends Model implements Comparable {
       if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
          // the first result is the closest to the given timestamp
          $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-         $this->backlog = $row->new_value;
+         $backlog = $row->new_value;
 
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("getBacklog(".date("Y-m-d H:i:s", $row->date_modified).") old_value = $row->old_value new_value $row->new_value userid = $row->user_id field_name = $row->field_name");
@@ -730,13 +730,13 @@ class Issue extends Model implements Comparable {
       } else {
          // no backlog update found in history, return NULL
          // WARN: test the result with is_null() !!!
-         $this->backlog = NULL;
+         $backlog = NULL;
       }
 
       if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getBacklog($this->bugId) : (from DB) ".$this->backlog);
+         self::$logger->debug("getBacklog($this->bugId) : (from DB) ".$backlog);
       }
-      return $this->backlog;
+      return $backlog;
    }
 
    /**
