@@ -68,8 +68,8 @@ class ConfigItem {
 class Config {
 
    // TODO Move to a more appropriate class
-   const codevVersion = "v0.99.18 (22 Sept 2012)";
-   const databaseVersion = 9; // used to check codev_config_table.database_version and apply upgrades.
+   const codevVersion = "v0.99.19 (29 Nov 2012)";
+   const databaseVersion = 10; // used to check codev_config_table.database_version and apply upgrades.
 
    const configType_int = 1;
    const configType_string = 2;
@@ -130,7 +130,8 @@ class Config {
       "v0.99.15" => "(28 Feb  2012) - MgrEffortEstim, install, timetrackingFilters",
       "v0.99.16" => "(11 Apr  2012) - Smarty+Ajax, install, ProjectInfo, Https, Sessions, Doxygen, Observers view all pages, greasemonkey, ConsistencyChecks",
       "v0.99.17" => "(29 Jun  2012) - Smarty+Ajax, install, Management section, datatables, GUI enhancements, 'Leave' task moved to ExternalTasks, ConsistencyChecks",
-      "v0.99.18" => "(22 Sept 2012) - PERF, GUI enhancements, WinInstall, IndicatorPlugins, ProjectFilters, Import"
+      "v0.99.18" => "(22 Sept 2012) - PERF, GUI enhancements, WinInstall, IndicatorPlugins, ProjectFilters, Import",
+      "v0.99.19" => "(29 Nov 2012) - GUI enhancements, install, Cmd Provisions, Cmd Budget, CodevTT_type, disable project/team, HTML Tooltips, MantisPlugin, merge Progress & ProgressMgr"
    );
 
    /**
