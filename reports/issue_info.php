@@ -379,6 +379,7 @@ class IssueInfoController extends Controller {
       $firstTimetrack = $issue->getFirstTimetrack();
       $latestTimetrack = $issue->getLatestTimetrack();
 
+      $timestamps = array();
       if ($latestTimetrack && $firstTimetrack && $latestTimetrack > $firstTimetrack) {
 
          $timestamps = array();
