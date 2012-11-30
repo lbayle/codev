@@ -106,7 +106,7 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames, $Str
          $query  = "DELETE FROM `mantis_bug_history_table` WHERE `bug_id`='$row->id' AND `field_name` IN ($formattedFieldList)";
          $result = execQuery($query);
 
-         $query  = "UPDATE `mantis_custom_field_string_table` SET `value`='R".($projid*2).($i*231)."' WHERE `field_id`='".$extIdField."' AND `bug_id`='$row->id' ";
+         $query  = "UPDATE `mantis_custom_field_string_table` SET `value`='R".($projid*2).($i*231)."' WHERE `field_id`='".$extIdField."' AND `bug_id`='$row->id' AND `value` <> '' ";
          $result = execQuery($query);
 
          
@@ -119,7 +119,7 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames, $Str
    $query  = "UPDATE `codev_command_table` SET `description` = 'fake description...'";
    $result = execQuery($query);
 
-
+/*
    $query  = "SELECT * from `codev_command_table`";
    $result1 = execQuery($query);
    $i = 0;
@@ -128,7 +128,7 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames, $Str
       $query  = "UPDATE `codev_command_table` SET `cost` = '".($i*123+1001200)."00' WHERE `id` ='$row->id' ";
       $result = execQuery($query);
    }   
-   
+*/
    // commandSets
    $query  = "UPDATE `codev_commandset_table` SET `description` = 'fake description...'";
    $result = execQuery($query);
@@ -141,8 +141,8 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames, $Str
       $query  = "UPDATE `codev_commandset_table` SET `reference` = 'Ref_$row->id".($i*3)."' WHERE `id` ='$row->id' ";
       $result = execQuery($query);
       
-      $query  = "UPDATE `codev_commandset_table` SET `budget` = '".($i*623+2001200)."50' WHERE `id` ='$row->id' ";
-      $result = execQuery($query);
+      //$query  = "UPDATE `codev_commandset_table` SET `budget` = '".($i*623+2001200)."50' WHERE `id` ='$row->id' ";
+      //$result = execQuery($query);
    }   
 
    // ServiceContract
@@ -187,6 +187,9 @@ function stringReplacements($StrReplacements) {
       $result = execQuery($query);
 
       $query  = "UPDATE mantis_custom_field_string_table set `value` = REPLACE(`value`,'$orig','$dest')";
+      $result = execQuery($query);
+
+      $query  = "UPDATE codev_command_provision_table set `summary` = REPLACE(`summary`,'$orig','$dest')";
       $result = execQuery($query);
 
    }
