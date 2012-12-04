@@ -212,6 +212,8 @@ function setConfigItems() {
    # TODO clients are team specific !
    $desc = T_("Custommer teamId");
    Config::getInstance()->setValue(Config::id_ClientTeamid, NULL, Config::configType_int, $desc);
+
+
 }
 
 
@@ -719,25 +721,25 @@ if ("checkReportsDir" == $action) {
 
 } else if ("proceedStep3" == $action) {
 
-   echo "DEBUG 1/11 create Greasemonkey file<br/>";
+   echo "DEBUG 1/12 create Greasemonkey file<br/>";
    $errStr = createGreasemonkeyFile();
    if (NULL != $errStr) {
       echo "<span class='error_font'>".$errStr."</span><br/>";
    }
 
-   echo "DEBUG 2/11 create default Config variables<br/>";
+   echo "DEBUG 2/12 create default Config variables<br/>";
    setConfigItems();
 
-   echo "DEBUG 3/11 update Mantis custom files<br/>";
+   echo "DEBUG 3/12 update Mantis custom files<br/>";
 
    updateMantisCustomFiles();
 
-   echo "DEBUG 4/11 add CodevTT to Mantis menu<br/>";
+   echo "DEBUG 4/12 add CodevTT to Mantis menu<br/>";
    removeCustomMenuItem('CodevTT');
    $tok = strtok($_SERVER["SCRIPT_NAME"], "/");
    addCustomMenuItem('CodevTT', '../'.$tok.'/index.php');  #  ../codev/index.php
 
-   echo "DEBUG 5/11 create CodevTT Custom Fields<br/>";
+   echo "DEBUG 5/12 create CodevTT Custom Fields<br/>";
    $groupExtID = $_POST['groupExtID'];
    if ('createExtID' == $groupExtID) {
       $isCreateExtIdField = TRUE;
@@ -754,15 +756,15 @@ if ("checkReportsDir" == $action) {
    }
    createCustomFields($isCreateExtIdField);
 
-   echo "DEBUG 6/11 create ExternalTasks Project<br/>";
+   echo "DEBUG 6/12 create ExternalTasks Project<br/>";
    $extproj_id = createExternalTasksProject(T_("CodevTT_ExternalTasks"), T_("CodevTT ExternalTasks Project"));
 
    $adminLeader = UserCache::getInstance()->getUser($adminTeamLeaderId);
-   echo "DEBUG 7/11 createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
+   echo "DEBUG 7/12 createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
    createAdminTeam($adminTeamName, $adminTeamLeaderId);
 
    // Set path for .CSV reports (Excel)
-   echo "DEBUG 8/11 add CodevTT output directory<br/>";
+   echo "DEBUG 8/12 add CodevTT output directory<br/>";
    Constants::$codevOutputDir = $codevOutputDir;
    $retCode = Constants::writeConfigFile();
    if (FALSE == $retCode) {
@@ -771,7 +773,7 @@ if ("checkReportsDir" == $action) {
    }
 
    // Create default tasks
-   echo "DEBUG 9/11 Create external tasks<br/>";
+   echo "DEBUG 9/12 Create external tasks<br/>";
    $extproj = ProjectCache::getInstance()->getProject($extproj_id);
 
    // cat="[All Projects] General", status="closed"
@@ -785,7 +787,7 @@ if ("checkReportsDir" == $action) {
    // Note: Support & N/A jobs already created by SQL file
    // Note: N/A job association to ExternalTasksProject already done in Install::createExternalTasksProject()
 
-   echo "DEBUG 10/11 Create default jobs<br/>";
+   echo "DEBUG 10/12 Create default jobs<br/>";
    if ($isJob1) {
       Jobs::create($job1, Job::type_commonJob, $job1_color);
    }
@@ -802,8 +804,16 @@ if ("checkReportsDir" == $action) {
       Jobs::create($job5, Job::type_commonJob, $job5_color);
    }
 
+   // Set default Issue tooltip content
+   echo "DEBUG 11/12 Set default content for Issue tooltip <br/>";
+   $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
+   $fieldList = array('project_id', 'category_id', 'custom_'.$customField_type);
+   $serialized = serialize($fieldList);
+   Config::setValue('issue_tooltip_fields', $serialized, Config::configType_string, 'fields to be displayed in issue tooltip');
+
+
    // Add custom fields to existing projects
-   echo "DEBUG 11/11 Prepare existing projects<br/>";
+   echo "DEBUG 12/12 Prepare existing projects<br/>";
    if(isset($_POST['projects']) && !empty($_POST['projects'])){
       $selectedProjects = $_POST['projects'];
       foreach($selectedProjects as $projectid){
