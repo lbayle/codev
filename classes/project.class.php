@@ -1338,6 +1338,7 @@ class Project extends Model {
     * fields can be 
     * - mantis_bug_table columns (ex: project_id, status)
     * - customField id prefixed with 'custom_' (ex: custom_23)
+    * - CodevTT calculated field prefixed with 'codevtt_' (ex: codevtt_drift)
     * 
     * @param int $teamid
     * @param int $userid
@@ -1392,11 +1393,13 @@ class Project extends Model {
     * - customField id prefixed with 'custom_' (ex: custom_23)
     * - CodevTT fields prefixed with 'codevtt_' (ex: codevtt_commands)
     *
+    *  if $fieldList == NULL, delete IssueTooltip custo for this project
+    *
     * @param array $fieldList
     * @param int $teamid
     * @param int $userid
     */
-   public function setIssueTooltipFields($fieldList, $teamid = 0, $userid = 0) {
+   public function setIssueTooltipFields ($fieldList = NULL, $teamid = 0, $userid = 0) {
       if (!is_null($fieldList)) {
          $serialized = serialize($fieldList);
          Config::setValue('issue_tooltip_fields', $serialized, Config::configType_string,
@@ -1405,6 +1408,17 @@ class Project extends Model {
          $key = 'team'.$teamid.'_user'.$userid;
          if (is_null($this->issueTooltipFieldsCache)) { $this->issueTooltipFieldsCache = array(); }
          $this->issueTooltipFieldsCache[$key] = $fieldList;
+      } else {
+         // if $fieldList NULL, remove issueTooltip custo fot this project
+         $query = "DELETE FROM `codev_config_table` WHERE `config_id` = 'issue_tooltip_fields' ".
+                 "AND `project_id` = '$this->id' ".
+                 "AND `team_id` = '$teamid' ".
+                 "AND `user_id` = '$userid' ";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
       }
    }
    

@@ -356,6 +356,74 @@
    </div>
 
    <div style="margin-top: 2em;padding: 0 1em 1em;"class="ui-widget-content">
+      <h2>{t}Issue Tooltips{/t}</h2>
+      <!-- Display issue tooltip settings -->
+      <div style="margin-top: 2em;">
+
+      <form id="addIssueTooltipForm" name="addIssueTooltipForm" method="post" action="{$page}">
+         <fieldset>
+            <label for="projectid">{t}Project{/t}:</label>
+            <select name="projectid" id="projectid">
+               {foreach from=$tooltipProjectCandidates key=id item=i}
+               <option value="{$id}">{$i}</option>
+               {/foreach}
+            </select>
+            <button id="btAddIssueTooltip" type="button">
+               <img border="0" align="absmiddle" src="images/b_add.png" alt="Add icon">
+               {t}Add{/t}
+            </button>
+         </fieldset>
+      </form>
+
+
+         {if $issueTooltips}
+         <script type="text/javascript">
+            function removeIssueTooltip(project_id, project_name){
+               var confirmString = "Remove IssueTooltip customisation for project " + project_name;
+               if (confirm(confirmString)) {
+                  var form = jQuery("#removeIssueTooltipForm");
+                  form.find("input[name=projectid]").val(project_id);
+                  form.submit();
+               }
+            }
+         </script>
+         <table>
+            <thead>
+               <tr>
+                  <th></th>
+                  <th>{t}Project{/t}</th>
+                  <th>{t}Tooltip fields{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$issueTooltips key=id item=i}
+               <tr>
+                  <td class="ui-state-error-text" style="width:1em;">
+                     <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
+                        onclick="removeIssueTooltip('{$id}','{$i.projectName}');return false;"></a>
+                  </td>
+                  <td title="{$i.projectId}">{$i.projectName}</td>
+                  <td>{$i.tooltipFields}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+
+         <form id="removeIssueTooltipForm" name="removeIssueTooltipForm" method="post" action="{$page}" class="ui-helper-hidden">
+            <fieldset>
+               <input type="hidden" name="action" value="removeIssueTooltip">
+               <input type="hidden" name="projectid" value="0">
+            </fieldset>
+         </form>
+         {else}
+            <br>
+            {t}No custom IssueTooltips defined for your projects.{/t}
+         {/if}
+      </div>
+   </div>
+
+
+   <div style="margin-top: 2em;padding: 0 1em 1em;"class="ui-widget-content">
       <h2>{t}Add OnDuty tasks{/t}</h2>
       <span class="help_font">{t}Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly different behaviour.{/t}</span>
       <br>

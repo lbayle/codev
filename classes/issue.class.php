@@ -2132,7 +2132,7 @@ class Issue extends Model implements Comparable {
                // extract field id
                $cfield_id = intval(preg_replace('/^custom_/', '', $field));
 
-               $name = Config::getCustomFieldName($cfield_id);
+               $name = Tools::getCustomFieldName($cfield_id);
 
                switch ($cfield_id) {
                   case Config::id_customField_ExtId:

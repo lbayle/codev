@@ -135,6 +135,11 @@ class EditTeamController extends Controller {
                   // add all members declared in Team $src_teamid (same dates, same access)
                   // except if already declared
                   $team->addMembersFrom($src_teamid);
+               } elseif ($action == "removeIssueTooltip") {
+                  $projectid = Tools::getSecurePOSTIntValue('projectid');
+                  $project = ProjectCache::getInstance()->getProject($projectid);
+                  $project->setIssueTooltipFields(NULL, $teamid);
+
                } elseif (isset($_POST["deletememberid"])) {
                   $memberid = Tools::getSecurePOSTIntValue('deletememberid');
                   $query = "DELETE FROM `codev_team_user_table` WHERE id = $memberid;";
@@ -195,6 +200,11 @@ class EditTeamController extends Controller {
                $this->smartyHelper->assign('onDutyCandidates', $this->getOnDutyCandidates($team,$team->getTrueProjects()));
 
                $this->smartyHelper->assign('onDutyTasks', $this->getOnDutyTasks($team));
+
+               $this->smartyHelper->assign('issueTooltips', $this->getIssueTooltips($team));
+
+
+
             }
          }
       }
@@ -344,6 +354,50 @@ class EditTeamController extends Controller {
          );
       }
       return $onDutyTasks;
+   }
+
+   private function getIssueTooltips(Team $team) {
+      $projects = $team->getProjects();
+      $teamid = $team->getId();
+
+      $issueTooltips = array();
+
+      foreach ($projects as $id => $name) {
+         $project = ProjectCache::getInstance()->getProject($id);
+
+         // do not display SideTasksProjects & ExternalTaskProject
+         if ( $project->isExternalTasksProject() ||
+              $project->isSideTasksProject(array($teamid))) {
+            continue;
+         }
+
+         // do not display projects having no specific tooltips
+         $query =  "SELECT config_id FROM `codev_config_table` WHERE `config_id` = 'issue_tooltip_fields' ".
+         $query .= "AND `project_id` = $id AND `team_id` = '$teamid' AND `user_id` = '$userid' ";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
+            continue;
+         }
+
+         $fields = $project->getIssueTooltipFields($teamid);
+
+         $formattedFields = array();
+         foreach ($fields as $f) {
+            $formattedFields[] = Tools::getTooltipFieldDisplayName($f);
+         }
+
+         $strFields = implode(', ', $formattedFields);
+         $issueTooltips[$id] = array(
+            "projectId" => $id,
+            "projectName" => $name,
+            "tooltipFields" => $strFields
+         );
+      }
+      return $issueTooltips;
    }
 
 }

@@ -27,6 +27,13 @@ class Tools {
    private static $logger;
 
    /**
+    * array id => name
+    */
+   private static $customFieldNames;
+
+
+
+   /**
     * Initialize complex static variables
     * @static
     */
@@ -1195,6 +1202,77 @@ class Tools {
        return $ub;
    }
 
+   /**
+    * get customField name from id
+    *
+    * @param int $customFieldId field id
+    * @return string field name
+    */
+   public static function getCustomFieldName($customFieldId) {
+
+      if (is_null(self::$customFieldNames)) {
+         self::$customFieldNames = array();
+         $query = "SELECT id, name FROM `mantis_custom_field_table` WHERE id = '$customFieldId';";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            self::$customFieldNames["$row->id"] = $row->name;
+         }
+
+      }
+      return self::$customFieldNames["$customFieldId"];
+   }
+
+
+   /**
+    * Converts tooltip field_id to DisplayName
+    *
+    * $field can be:
+    * - mantis_bug_table columns (ex: project_id, status)
+    * - customField id prefixed with 'custom_' (ex: custom_23)
+    * - CodevTT calculated field prefixed with 'codevtt_' (ex: codevtt_drift)
+    *
+    * @param string $field
+    */
+   public static function getTooltipFieldDisplayName($field) {
+
+      $displayName = 'unknown';
+
+      // custom field (ex: custom_23)
+      if (0 === strpos($field, 'custom_')) {
+         // extract field id
+         $cfield_id = intval(preg_replace('/^custom_/', '', $field));
+         $displayName = Tools::getCustomFieldName($cfield_id);
+
+      } else if (0 === strpos($field, 'codevtt_')) {
+
+         // extract field id
+         $displayName = preg_replace('/^codevtt_/', '', $field);
+
+      } else {
+         // mantis field
+         if ('project_id' == $field) {
+            $displayName = T_('Project');
+         } else if ('category_id' == $field) {
+            $displayName = T_('Category');
+         } else if ('status' == $field) {
+            $displayName = T_('Status');
+         } else if ('summary' == $field) {
+            $displayName = T_('Summary');
+         } else if ('handler_id' == $field) {
+            $displayName = T_('User');
+         } else if ('target_version' == $field) {
+            $displayName = T_('Target');
+         } else {
+            // TODO other known codevTT fields
+            $displayName = $field;
+         }
+      }
+      return $displayName;
+   }
 
 }
 
