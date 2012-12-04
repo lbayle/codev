@@ -180,7 +180,7 @@ function createAdminTeam($name, $leader_id) {
    $today = Tools::date2timestamp($formatedDate);
 
    // create admin team
-   $teamId = Team::create($name, T_("CoDevTT Administrators team"), $leader_id, $today);
+   $teamId = Team::create($name, T_("CodevTT Administrators team"), $leader_id, $today);
 
    if (-1 != $teamId) {
 
@@ -194,21 +194,11 @@ function createAdminTeam($name, $leader_id) {
       $adminTeam->addMember($leader_id, $today, Team::accessLevel_dev);
 
       // add default ExternalTasksProject
+      // TODO does Admin team needs ExternalTasksProject ?
       $adminTeam->addExternalTasksProject();
 
-      // add <team> SideTaskProject
-      $stproj_id = $adminTeam->createSideTaskProject(T_("SideTasks") . " $name");
+      // NOTE: CodevTT Admin team does not need any side task project.
 
-      if ($stproj_id < 0) {
-         die("ERROR: SideTaskProject creation FAILED.<br/>\n");
-      } else {
-         $stproj = ProjectCache::getInstance()->getProject($stproj_id);
-
-         $stproj->addCategoryInactivity(T_("Inactivity"));
-         $stproj->addCategoryTools(T_("Tools"));
-
-         $stproj->addIssueTools(T_("Mantis/CoDevTT administration"));
-      }
    } else {
       echo "ERROR: $name team creation failed</br>";
    }
