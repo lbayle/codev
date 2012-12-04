@@ -128,6 +128,8 @@ class Issue extends Model implements Comparable {
 
    private $customFieldInitialized;
 
+   private $tooltipItemsCache;
+
    /**
     * @param int $id The issue id
     * @param resource $details The issue details
@@ -2105,6 +2107,128 @@ class Issue extends Model implements Comparable {
       return $formatedId;
    }
 
+
+   public function getTooltipItems($teamid, $userid) {
+
+      // NOTE: cache should be an array with key = 'team'.$teamid.'_user'.$userid;
+      // but userid & teamid won't change during the http request.
+      if (is_null($this->tooltipItemsCache)) {
+         $this->tooltipItemsCache = array();
+
+         // get field list
+         $project = ProjectCache::getInstance()->getProject($this->projectId);
+         $tooltipFields = $project->getIssueTooltipFields($teamid, $userid);
+
+         if (empty($tooltipFields)) {
+            return $this->tooltipItemsCache;
+         }
+
+         // construct name=>value array
+         foreach($tooltipFields as $field) {
+
+            // custom field (ex: custom_23)
+            if (0 === strpos($field, 'custom_')) {
+
+               // extract field id
+               $cfield_id = intval(preg_replace('/^custom_/', '', $field));
+
+               $name = Config::getCustomFieldName($cfield_id);
+
+               switch ($cfield_id) {
+                  case Config::id_customField_ExtId:
+                     $this->tooltipItemsCache[$name] = $this->getTcId();
+                     break;
+                  case Config::id_customField_MgrEffortEstim:
+                     $this->tooltipItemsCache[$name] = $this->getMgrEffortEstim();
+                     break;
+                  case Config::id_customField_effortEstim:
+                     $this->tooltipItemsCache[$name] = $this->getEffortEstim();
+                     break;
+                  case Config::id_customField_backlog:
+                     $this->tooltipItemsCache[$name] = $this->getBacklog();
+                     break;
+                  case Config::id_customField_addEffort:
+                     $this->tooltipItemsCache[$name] = $this->getEffortAdd();
+                     break;
+                  case Config::id_customField_deadLine:
+                     $this->tooltipItemsCache[$name] = date(T_('Y-m-d'), $this->getDeadLine());
+                     break;
+                  case Config::id_customField_deliveryDate:
+                     $this->tooltipItemsCache[$name] = date(T_('Y-m-d'), $this->getDeliveryDate());
+                     break;
+                  case Config::id_customField_type:
+                     $this->tooltipItemsCache[$name] = $this->getType();
+                     break;
+                  default:
+                     // unknown customField, get from DB
+                     $query = "SELECT value ".
+                          "FROM `mantis_custom_field_string_table` ".
+                          "WHERE mantis_custom_field_string_table.bug_id = $this->bugId ".
+                          "AND   mantis_custom_field_string_table.field_id = $cfield_id ";
+                     $result = SqlWrapper::getInstance()->sql_query($query);
+                     if (!$result) {
+                        echo "<span style='color:red'>ERROR: Query FAILED</span>";
+                        exit;
+                     }
+                     if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+                        $value = SqlWrapper::getInstance()->sql_result($result, 0);
+                        $this->tooltipItemsCache[$name] = $value;
+                     }
+                  }
+            } else if (0 === strpos($field, 'codevtt_')) {
+
+               // extract field id
+               $codevtt_id = preg_replace('/^codevtt_/', '', $field);
+               if ('commands' == $codevtt_id) {
+                  $cmds = $this->getCommandList();
+                  $this->tooltipItemsCache[T_('Commands')] = empty($cmds) ? T_('none') : implode(', ', array_values($cmds));
+               } else if ('elapsed' == $codevtt_id) {
+                  $this->tooltipItemsCache[T_('Elapsed')] = $this->getElapsed();
+               } else if ('drift' == $codevtt_id) {
+                  $this->tooltipItemsCache[T_('Drift')] = $this->getDrift();
+                  $this->tooltipItemsCache[T_('DriftColor')] = $this->getDriftColor();
+               } else if ('driftMgr' == $codevtt_id) {
+                  $drift = $this->getDriftMgr();
+                  $this->tooltipItemsCache[T_('DriftMgr')] = $drift;
+                  $this->tooltipItemsCache[T_('DriftMgrColor')] = $this->getDriftColor($drift);
+               }
+               // TODO other codevTT fields
+
+
+            } else {
+               // mantis field
+               if ('project_id' == $field) {
+                  $this->tooltipItemsCache[T_('Project')] = $this->getProjectName();
+               } else if ('category_id' == $field) {
+                  $this->tooltipItemsCache[T_('Category')] = $this->getCategoryName();
+               } else if ('status' == $field) {
+                  $this->tooltipItemsCache[T_('Status')] = $this->getStatus();
+               } else if ('summary' == $field) {
+                  $this->tooltipItemsCache[T_('Summary')] = $this->getSummary();
+               } else if ('handler_id' == $field) {
+                  $this->tooltipItemsCache[T_('User')] = $this->getHandlerId();
+               } else if ('target_version' == $field) {
+                  $this->tooltipItemsCache[T_('Target')] = $this->getTargetVersion();
+               } else {
+                  // TODO other known codevTT fields
+
+                  $query = "SELECT $field FROM `mantis_bug_table` WHERE id = $this->bugId ";
+                  $result = SqlWrapper::getInstance()->sql_query($query);
+                  if (!$result) {
+                     echo "<span style='color:red'>ERROR: Query FAILED</span>";
+                     exit;
+                  }
+                  if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+                     $value = SqlWrapper::getInstance()->sql_result($result, 0);
+                     $this->tooltipItemsCache["$field"] = $value;
+                  }
+               }
+            }
+         }
+      }
+      #var_dump($this->tooltipItemsCache);
+      return $this->tooltipItemsCache;
+   }
 }
 
 Issue::staticInit();

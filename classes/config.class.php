@@ -146,6 +146,13 @@ class Config {
 
    private static $quiet; // do not display any warning message (used for install procedures only)
 
+
+   /**
+    * array id => name
+    */
+   private static $customFieldNames;
+
+
    /**
     * @var Logger The logger
     */
@@ -375,6 +382,29 @@ class Config {
    }
 
 
+   /**
+    * get customField name from id
+    * 
+    * @param int $customFieldId field id
+    * @return string field name
+    */
+   public static function getCustomFieldName($customFieldId) {
+
+      if (is_null(self::$customFieldNames)) {
+         self::$customFieldNames = array();
+         $query = "SELECT id, name FROM `mantis_custom_field_table` WHERE id = '$customFieldId';";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            self::$customFieldNames["$row->id"] = $row->name;
+         }
+
+      }
+      return self::$customFieldNames["$customFieldId"];
+   }
 
 }
 

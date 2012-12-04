@@ -84,6 +84,7 @@ class Project extends Model {
    private $bugidListsCache; // cache
    private $categoryCache; // cache
    private $versionCache; // cache
+   private $issueTooltipFieldsCache;
 
    /**
     * @var int[] The version date cache
@@ -1154,7 +1155,7 @@ class Project extends Model {
     */
    #public function getVersionList($team_id = NULL) {
    public function getVersionList() {
-      if (NULL == $this->projectVersionList) {
+      if (is_null($this->projectVersionList)) {
          $this->projectVersionList = array();
          $issueList = $this->getIssues();
          foreach ($issueList as $issue) {
@@ -1206,7 +1207,7 @@ class Project extends Model {
     * @return number
     */
    public function getProgress() {
-      if (NULL == $this->progress) {
+      if (is_null($this->progress)) {
          $this->progress = $this->getIssueSelection()->getProgress();
       }
       return $this->progress;
@@ -1216,7 +1217,7 @@ class Project extends Model {
     * @return IssueSelection
     */
    public function getIssueSelection() {
-      if(NULL == $this->issueSelection) {
+      if(is_null($this->issueSelection)) {
          $this->issueSelection = new IssueSelection($this->name);
          $issueList = $this->getIssues();
          foreach ($issueList as $issue) {
@@ -1234,7 +1235,7 @@ class Project extends Model {
     * @return number[] array(nbDays, percent)
     */
    public function getDrift() {
-      if (NULL == $this->drift) {
+      if (is_null($this->drift)) {
          $this->drift = $this->getIssueSelection()->getDrift();
       }
       return $this->drift;
@@ -1244,7 +1245,7 @@ class Project extends Model {
     * @return number[] array(nbDays, percent)
     */
    public function getDriftMgr() {
-      if (NULL == $this->driftMgr) {
+      if (is_null($this->driftMgr)) {
          $this->driftMgr = $this->getIssueSelection()->getDriftMgr();
       }
       return $this->driftMgr;
@@ -1330,6 +1331,83 @@ class Project extends Model {
    public function getDescription() {
       return $this->description;
    }
+
+   /**
+    * Returns the fields to display in the Issue tooltip
+    * 
+    * fields can be 
+    * - mantis_bug_table columns (ex: project_id, status)
+    * - customField id prefixed with 'custom_' (ex: custom_23)
+    * 
+    * @param int $teamid
+    * @param int $userid
+    * @return array 
+    */
+   public function getIssueTooltipFields($teamid = 0, $userid = 0) {
+
+      $key = 'team'.$teamid.'_user'.$userid;
+      if (is_null($this->issueTooltipFieldsCache)) { $this->issueTooltipFieldsCache = array(); }
+
+      if (!array_key_exists($key, $this->issueTooltipFieldsCache)) {
+         $query =  "SELECT value FROM `codev_config_table` WHERE `config_id` = 'issue_tooltip_fields' ";
+         $query .= "AND `project_id` IN (0, $this->id) ";
+         if (0 != $teamid) {
+            // TODO FIXME if team not specified (timetracking.php must be fixed) then this request will skip
+            // all 'team' specific settings and systematicaly return the team=0 response.
+            // the if (0 != $teamid) will at least return the team specific settings, and the biggest teamid
+            // will be chosen.
+            // Note: once teamid selector added to timetracking.php, remove the if condition
+            $query .= "AND `team_id` IN (0, $teamid) ";
+         }
+         $query .= "AND `user_id` IN (0, $userid) ";
+         $query .= "ORDER by project_id DESC, team_id DESC, user_id DESC";
+
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getIssueTooltipFields($teamid, $userid) query = $query");
+         }
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+            $serialized = SqlWrapper::getInstance()->sql_result($result, 0);
+
+            $unserialized = unserialize($serialized);
+            $this->issueTooltipFieldsCache[$key] = $unserialized;
+         } else {
+            // TODO get default value (project_id = 0)
+            self::$logger->error('no issueTooltipFields found for project '.$this->id);
+         }
+      }
+      return $this->issueTooltipFieldsCache[$key];
+   }
+
+   /**
+    * store fields to display in the Issue tooltip
+    *
+    * fields can be
+    * - mantis_bug_table columns (ex: project_id, status)
+    * - customField id prefixed with 'custom_' (ex: custom_23)
+    * - CodevTT fields prefixed with 'codevtt_' (ex: codevtt_commands)
+    *
+    * @param array $fieldList
+    * @param int $teamid
+    * @param int $userid
+    */
+   public function setIssueTooltipFields($fieldList, $teamid = 0, $userid = 0) {
+      if (!is_null($fieldList)) {
+         $serialized = serialize($fieldList);
+         Config::setValue('issue_tooltip_fields', $serialized, Config::configType_string,
+                 'fields to be displayed in issue tooltip', $this->id, $userid, $teamid);
+
+         $key = 'team'.$teamid.'_user'.$userid;
+         if (is_null($this->issueTooltipFieldsCache)) { $this->issueTooltipFieldsCache = array(); }
+         $this->issueTooltipFieldsCache[$key] = $fieldList;
+      }
+   }
+   
 
 }
 
