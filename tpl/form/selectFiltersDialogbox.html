@@ -13,13 +13,21 @@ Contains:
    .sortable li { cursor: move; }
 </style>
 
+<div>
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+
+         jQuery("#selectFilters").click(function(event) {
+            event.preventDefault();
+            jQuery("#set_projectfilter_dialog").dialog("open");
+         });
+   });
+   </script>
+   <button type="submit" id="selectFilters"><img border="0" align="absmiddle" src="images/{if isset($selectedFilters) && $selectedFilters != ""}im-filter-active.png{else}im-filter.png{/if}" alt="Filters icon"/> {t}Set filters{/t}</button>
+</div>
+
 <script type="text/javascript">
    jQuery(document).ready(function() {
-
-      jQuery("#selectFilters").click(function(event) {
-         event.preventDefault();
-         jQuery("#set_projectfilter_dialog").dialog("open");
-      });
 
       jQuery("#set_projectfilter_dialog").dialog({
          autoOpen: false,
@@ -33,14 +41,27 @@ Contains:
                   filters += jQuery(this).attr('id') + ',';
                });
                filters = filters.slice(0,-1);
-               var form = jQuery("#selectFiltersForm");
+               var form = jQuery("#formSetProjectFilters");
+
                form.find("input[name=selectedFilters]").val(filters);
+
+               // change button image
                if(filters.length != 0) {
-                  form.find("#selectFilters img").attr("src","images/im-filter-active.png");
+                  jQuery("#selectFilters img").attr("src","images/im-filter-active.png");
                } else {
-                  form.find("#selectFilters img").attr("src","images/im-filter.png");
+                  jQuery("#selectFilters img").attr("src","images/im-filter.png");
                }
-               form.submit();
+
+               // reload detailedChargesData with the new filters applied.
+               jQuery.ajax({
+                  type: form.attr("method"),
+                  url: form.attr("action"),
+                  data: form.serialize(),
+                  success: function(data) {
+                     jQuery("#detailedChargesData").html(jQuery.trim(data));
+                     updateWidgets("#detailedChargesData");
+                  }
+               });
                jQuery(this).dialog("close");
             },
             Cancel: function() {
@@ -59,39 +80,14 @@ Contains:
       });
       
       jQuery(".sortable").disableSelection();
-
-      jQuery("#selectFiltersForm").submit(function(event) {
-         event.preventDefault();
-         var form = jQuery(this);
-         jQuery.ajax({
-            type: form.attr("method"),
-            url: form.attr("action"),
-            data: form.serialize(),
-            success: function(data) {
-               jQuery("#detailedChargesData").html(jQuery.trim(data));
-               updateWidgets("#detailedChargesData");
-            }
-         });
-      });
 });
 
 </script>
 
-   <form name="selectFiltersForm" id="selectFiltersForm" method="get" action="{$ajaxPage}">
-      <fieldset>
-         <button type="submit" id="selectFilters"><img border="0" align="absmiddle" src="images/{if isset($selectedFilters) && $selectedFilters != ""}im-filter-active.png{else}im-filter.png{/if}" alt="Filters icon"/> {t}Set filters{/t}</button>
-
-         <input type="hidden" name="selectFiltersSrcId" value="{$selectFiltersSrcId}" />
-         <input type="hidden" name="action" value="updateDetailedCharges" />
-         <input type="hidden" name="selectedFilters" value="{$selectedFilters}" />
-      </fieldset>
-   </form>
-
-
 <div id="set_projectfilter_dialog" title="{t}Task Filters{/t}" class="ui-helper-hidden">
    <p id="setfilter_desc">{t}Drag & drop the filters to apply{/t}</p>
    <br />
-   <form id="formSetProjectFilters" name="formSetProjectFilters" method="post" action="{$page}" >
+   <form id="formSetProjectFilters" name="formSetProjectFilters" method="get" action="{$ajaxPage}" >
       <fieldset>
          <div style="float:left;">
             <label for="sortableSource"><b>{t}Available Filters{/t}</b></label>
@@ -110,9 +106,9 @@ Contains:
                {/foreach}
             </ul>
          </div>
-         {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />{/if}
-         {if isset($projectid)}<input type="hidden" name="projectid" value="{$projectid}" />{/if}
-         <input type="hidden" name="action" value="setFiltersAction" />
+         <input type="hidden" name="selectFiltersSrcId" value="{$selectFiltersSrcId}" />
+         <input type="hidden" name="action" value="updateDetailedCharges" />
+         <input type="hidden" name="selectedFilters" value="{$selectedFilters}" />
       </fieldset>
    </form>
 </div>
