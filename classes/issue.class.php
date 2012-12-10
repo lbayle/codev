@@ -2108,7 +2108,7 @@ class Issue extends Model implements Comparable {
    }
 
 
-   public function getTooltipItems($teamid, $userid) {
+   public function getTooltipItems($teamid = 0, $userid = 0) {
 
       // NOTE: cache should be an array with key = 'team'.$teamid.'_user'.$userid;
       // but userid & teamid won't change during the http request.
@@ -2202,13 +2202,18 @@ class Issue extends Model implements Comparable {
                } else if ('category_id' == $field) {
                   $this->tooltipItemsCache[T_('Category')] = $this->getCategoryName();
                } else if ('status' == $field) {
-                  $this->tooltipItemsCache[T_('Status')] = $this->getStatus();
+                  $this->tooltipItemsCache[T_('Status')] = Constants::$statusNames[$this->getStatus()];
                } else if ('summary' == $field) {
                   $this->tooltipItemsCache[T_('Summary')] = $this->getSummary();
                } else if ('handler_id' == $field) {
-                  $this->tooltipItemsCache[T_('User')] = $this->getHandlerId();
+                  $user = UserCache::getInstance()->getUser($this->getHandlerId());
+                  $this->tooltipItemsCache[T_('User')] = $user->getName();
+               } else if ('severity' == $field) {
+                  $this->tooltipItemsCache[T_('Severity')] = $this->getSeverityName();
                } else if ('target_version' == $field) {
                   $this->tooltipItemsCache[T_('Target')] = $this->getTargetVersion();
+               } else if ('priority' == $field) {
+                  $this->tooltipItemsCache[T_('Priority')] = $this->getPriorityName();
                } else {
                   // TODO other known codevTT fields
 

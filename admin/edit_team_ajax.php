@@ -22,7 +22,10 @@ require('../path.inc.php');
 
 function getAvailableTooltipFields($project) {
 
-   $fields = array('project_id', 'category_id', 'status', 'summary', 'handler_id', 'target_version');
+   $fields = array('project_id', 'category_id', 'status', 'summary', 
+       'handler_id', 'priority', 'severity', 'target_version', 'version',
+       'eta', 'fixed_in_version', 
+       'codevtt_elapsed', 'codevtt_commands', 'codevtt_drift', 'codevtt_driftMgr');
 
    $availItemList = array();
    foreach ($fields as $field) {

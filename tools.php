@@ -145,15 +145,22 @@ class Tools {
                  '<table style="margin:0;border:0;padding:0;background-color:white;">'.
                  '<tbody>';
       $driftColor = NULL;
+      $driftMgrColor = NULL;
       if (array_key_exists('DriftColor', $title)) {
          $driftColor = $title['DriftColor'];
          unset($title['DriftColor']);
+      }
+      if (array_key_exists('DriftMgrColor', $title)) {
+         $driftMgrColor = $title['DriftMgrColor'];
+         unset($title['DriftMgrColor']);
       }
       foreach ($title as $key => $value) {
          $tooltip .= '<tr>'.
                      '<td style="color:blue;width:35px;">'.$key.'</td>';
          if ($driftColor != NULL && $key == T_('Drift')) {
             $tooltip .= '<td><span style="background-color:#'.$driftColor.'">&nbsp;&nbsp;'.$value.'&nbsp;&nbsp;</span></td>';
+         } else if (!is_null($driftMgrColor) && $key == T_('DriftMgr')) {
+            $tooltip .= '<td><span style="background-color:#'.$driftMgrColor.'">&nbsp;&nbsp;'.$value.'&nbsp;&nbsp;</span></td>';
          } else {
             $tooltip .= '<td>'.$value.'</td>';
          }
@@ -1211,6 +1218,17 @@ class Tools {
    public static function getCustomFieldName($customFieldId) {
 
       if (is_null(self::$customFieldNames)) {
+
+         $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
+         $mgrEffortEstimField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
+         $effortEstimField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
+         $backlogField = Config::getInstance()->getValue(Config::id_customField_backlog);
+         $addEffortField = Config::getInstance()->getValue(Config::id_customField_addEffort);
+         $deadLineField = Config::getInstance()->getValue(Config::id_customField_deadLine);
+         $deliveryDateField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
+         #$deliveryIdField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+         $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
+
          self::$customFieldNames = array();
          $query = "SELECT id, name FROM `mantis_custom_field_table` ";
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -1219,7 +1237,40 @@ class Tools {
             exit;
          }
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            self::$customFieldNames["$row->id"] = $row->name;
+            $name = NULL;
+            switch (intval($row->id)) {
+
+               case $extIdField:
+                  $name = T_('External ID');
+                  break;
+               case $customField_type:
+                  $name = T_('Type');
+                  break;
+               case $backlogField:
+                  $name = T_('Backlog');
+                  break;
+               case $mgrEffortEstimField:
+                  $name = T_('MgrEffortEstim');
+                  break;
+               case $effortEstimField:
+                  $name = T_('EffortEstim');
+                  break;
+               case $backlogField:
+                  $name = T_('Backlog');
+                  break;
+               case $addEffortField:
+                  $name = T_('AddEffortEstim');
+                  break;
+               case $deadLineField:
+                  $name = T_('Deadline');
+                  break;
+               case $deliveryDateField:
+                  $name = T_('Delivery Date');
+                  break;
+               default:
+                  $name = $row->name;
+            }
+            self::$customFieldNames["$row->id"] = $name;
          }
       }
       return self::$customFieldNames["$customFieldId"];
@@ -1265,6 +1316,10 @@ class Tools {
             $displayName = T_('Assigned');
          } else if ('target_version' == $field) {
             $displayName = T_('Target');
+         } else if ('priority' == $field) {
+            $displayName = T_('Priority');
+         } else if ('severity' == $field) {
+            $displayName = T_('Severity');
          } else {
             // TODO other known codevTT fields
             $displayName = $field;

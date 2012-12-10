@@ -178,16 +178,11 @@ class TeamActivityReportController extends Controller {
 
                      if ((!$project->isSideTasksProject(array($team->getId()))) &&
                          (!$project->isExternalTasksProject())) {
-                        $tooltipAttr = array(
-                            T_('Project') => $issue->getProjectName(),
-                            T_('Category') => $issue->getCategoryName(),
-                            T_('TargetVersion') => $issue->getTargetVersion(),
-                            T_('Type') => $issue->getType(),
-                            T_('Elapsed') => $issue->getElapsed(),
-                            T_('Backlog') => $issue->getDuration(),
-                            T_('Drift') => $issue->getDrift(),
-                            'DriftColor' => $issue->getDriftColor()
-                        );
+                        $tooltipAttr = $issue->getTooltipItems($team->getId());
+                        $tooltipAttr[T_('Elapsed')] = $issue->getElapsed();
+                        $tooltipAttr[T_('Backlog')] = $issue->getDuration();
+                        $tooltipAttr[T_('Drift')] = $issue->getDrift();
+                        $tooltipAttr[T_('DriftColor')] = $issue->getDriftColor();
                         $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
                      } else {
                         $infoTooltip = NULL;
@@ -227,16 +222,11 @@ class TeamActivityReportController extends Controller {
                      
                   if ((!$project->isSideTasksProject(array($team->getId()))) &&
                       (!$project->isExternalTasksProject())) {
-                     $tooltipAttr = array(
-                         T_('Project') => $issue->getProjectName(),
-                         T_('Category') => $issue->getCategoryName(),
-                         T_('TargetVersion') => $issue->getTargetVersion(),
-                         T_('Type') => $issue->getType(),
-                         T_('Elapsed') => $issue->getElapsed(),
-                         T_('Backlog') => $issue->getDuration(),
-                         T_('Drift') => $issue->getDrift(),
-                         'DriftColor' => $issue->getDriftColor()
-                     );
+                     $tooltipAttr = $issue->getTooltipItems($team->getId());
+                     #$tooltipAttr[T_('Elapsed')] = $issue->getElapsed();
+                     #$tooltipAttr[T_('Backlog')] = $issue->getDuration();
+                     #$tooltipAttr[T_('Drift')] = $issue->getDrift();
+                     #$tooltipAttr[T_('DriftColor')] = $issue->getDriftColor();
                      $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
                   } else {
                      $infoTooltip = NULL;
