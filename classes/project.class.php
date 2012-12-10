@@ -1333,6 +1333,31 @@ class Project extends Model {
    }
 
    /**
+    * return a list of customFields defined for this project (in mantis)
+    * 
+    * @return array id => name
+    */
+   public function getCustomFieldsList() {
+
+      $query = "SELECT mantis_custom_field_project_table.field_id, mantis_custom_field_table.name ".
+              "FROM `mantis_custom_field_project_table`, `mantis_custom_field_table` ".
+              "WHERE mantis_custom_field_project_table.project_id = $this->id ".
+              "AND mantis_custom_field_table.id = mantis_custom_field_project_table.field_id ".
+              "ORDER BY mantis_custom_field_table.name";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $customFieldsList = array();
+      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $customFieldsList["$row->field_id"] = $row->name;
+      }
+      return $customFieldsList;
+   }
+
+
+   /**
     * Returns the fields to display in the Issue tooltip
     * 
     * fields can be 

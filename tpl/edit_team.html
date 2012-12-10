@@ -359,66 +359,95 @@
       <h2>{t}Issue Tooltips{/t}</h2>
       <!-- Display issue tooltip settings -->
       <div style="margin-top: 2em;">
-
-      <form id="addIssueTooltipForm" name="addIssueTooltipForm" method="post" action="{$page}">
-         <fieldset>
-            <label for="projectid">{t}Project{/t}:</label>
-            <select name="projectid" id="projectid">
+         <div class="left">
+            <label for="select_projectid">{t}Project{/t}:</label>
+            <select name="select_projectid" id="select_projectid" class="itemSelection_sourceRef">
                {foreach from=$tooltipProjectCandidates key=id item=i}
-               <option value="{$id}">{$i}</option>
+               <option value="projectid:{$id},teamid:{$team->getId()}">{$i}</option>
                {/foreach}
             </select>
-            <button id="btAddIssueTooltip" type="button">
-               <img border="0" align="absmiddle" src="images/b_add.png" alt="Add icon">
-               {t}Add{/t}
-            </button>
-         </fieldset>
-      </form>
 
-
-         {if $issueTooltips}
-         <script type="text/javascript">
-            function removeIssueTooltip(project_id, project_name){
-               var confirmString = "Remove IssueTooltip customisation for project " + project_name;
-               if (confirm(confirmString)) {
-                  var form = jQuery("#removeIssueTooltipForm");
-                  form.find("input[name=projectid]").val(project_id);
-                  form.submit();
+            <script type="text/javascript">
+               // this function is called by the selectItemsDialogbox, when 'OK' is clicked
+               function itemSelection_ok_callback(data) {
+                  // update tooltips table
+                  // data contains the new row to add/replace in destination widget.
+                  var response = jQuery.parseJSON(data);
+                  var projectid = response["projectid"];
+                  var line = jQuery("#issueTooltips_proj_"+response["projectid"]);
+                  if (line.length) {
+                     // update existing line
+                     jQuery("#issueTooltips_proj_"+projectid+"_fields").text(response["tooltipFields"]);
+                  } else {
+                     // create new line
+                     jQuery("#issueTooltipsTable").attr("style",""); // remove display:none
+                     jQuery("#noCustomTooltipsInfo").attr("style","display:none");
+                     jQuery("#issueTooltipsTable").append(
+                        jQuery('<tr>').attr('id', "issueTooltips_proj_"+projectid)
+                     );
+                     var deleteLink = jQuery('<a>').attr('class', 'ui-icon').attr('href','{$page}').
+                                                   attr('onclick', "removeIssueTooltip('"+projectid+"','"+response["projectName"]+"');return false;");
+                     jQuery("#issueTooltips_proj_"+projectid).append(
+                        jQuery('<td>').attr('class', 'ui-state-error-text').attr("style","width:1em;").append(deleteLink)
+                     ).append(
+                        jQuery('<td>').text(response["projectName"])
+                     ).append(
+                        jQuery('<td>').attr('id', "issueTooltips_proj_"+projectid+"_fields").text(response["tooltipFields"])
+                     );
+                  }
                }
-            }
-         </script>
-         <table>
-            <thead>
-               <tr>
-                  <th></th>
-                  <th>{t}Project{/t}</th>
-                  <th>{t}Tooltip fields{/t}</th>
-               </tr>
-            </thead>
-            <tbody>
-               {foreach from=$issueTooltips key=id item=i}
-               <tr>
-                  <td class="ui-state-error-text" style="width:1em;">
-                     <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
-                        onclick="removeIssueTooltip('{$id}','{$i.projectName}');return false;"></a>
-                  </td>
-                  <td title="{$i.projectId}">{$i.projectName}</td>
-                  <td>{$i.tooltipFields}</td>
-               </tr>
-               {/foreach}
-            </tbody>
-         </table>
+            </script>
+            {include file="form/selectItemsDialogbox.html"}
+         </div>
 
-         <form id="removeIssueTooltipForm" name="removeIssueTooltipForm" method="post" action="{$page}" class="ui-helper-hidden">
-            <fieldset>
-               <input type="hidden" name="action" value="removeIssueTooltip">
-               <input type="hidden" name="projectid" value="0">
-            </fieldset>
-         </form>
-         {else}
-            <br>
-            {t}No custom IssueTooltips defined for your projects.{/t}
-         {/if}
+         <div style="margin-top: 1em;">
+            <script type="text/javascript">
+               function removeIssueTooltip(project_id, project_name){
+                  var confirmString = "Remove IssueTooltip customisation for project " + project_name;
+                  if (confirm(confirmString)) {
+                     var form = jQuery("#removeIssueTooltipForm");
+                     form.find("input[name=projectid]").val(project_id);
+                     form.submit();
+                  }
+               }
+            </script>
+            {if $issueTooltips}
+            <table id="issueTooltipsTable">
+            {else}
+            <table id="issueTooltipsTable" style="display:none">
+            {/if}
+               <thead>
+                  <tr>
+                     <th></th>
+                     <th>{t}Project{/t}</th>
+                     <th>{t}Tooltip fields{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$issueTooltips key=id item=i}
+                  <tr id="issueTooltips_proj_{$id}">
+                     <td class="ui-state-error-text" style="width:1em;">
+                        <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
+                           onclick="removeIssueTooltip('{$id}','{$i.projectName}');return false;"></a>
+                     </td>
+                     <td title="{$i.projectId}">{$i.projectName}</td>
+                     <td id="issueTooltips_proj_{$id}_fields">{$i.tooltipFields}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+            </table>
+
+            <form id="removeIssueTooltipForm" name="removeIssueTooltipForm" method="post" action="{$page}" class="ui-helper-hidden">
+               <fieldset>
+                  <input type="hidden" name="action" value="removeIssueTooltip">
+                  <input type="hidden" name="projectid" value="0">
+               </fieldset>
+            </form>
+            {if !$issueTooltips}
+               <br>
+               <span id="noCustomTooltipsInfo">{t}No custom IssueTooltips defined for your projects.{/t}</span>
+            {/if}
+         </div>
       </div>
    </div>
 

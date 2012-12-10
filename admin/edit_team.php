@@ -201,9 +201,10 @@ class EditTeamController extends Controller {
 
                $this->smartyHelper->assign('onDutyTasks', $this->getOnDutyTasks($team));
 
-               $this->smartyHelper->assign('issueTooltips', $this->getIssueTooltips($team));
-
-
+               $projectList = $this->getTooltipProjectCandidates($team);
+               $this->smartyHelper->assign('tooltipProjectCandidates', $projectList);
+               $this->smartyHelper->assign('issueTooltips', $this->getIssueTooltips($projectList, $teamid));
+               $this->smartyHelper->assign('itemSelection_openDialogBtLabel', T_('Configure Tooltips'));
 
             }
          }
@@ -356,11 +357,11 @@ class EditTeamController extends Controller {
       return $onDutyTasks;
    }
 
-   private function getIssueTooltips(Team $team) {
+   private function getTooltipProjectCandidates(Team $team) {
       $projects = $team->getProjects();
       $teamid = $team->getId();
 
-      $issueTooltips = array();
+      $candidatesList = array();
 
       foreach ($projects as $id => $name) {
          $project = ProjectCache::getInstance()->getProject($id);
@@ -370,10 +371,21 @@ class EditTeamController extends Controller {
               $project->isSideTasksProject(array($teamid))) {
             continue;
          }
+         $candidatesList[$id] = $name;
+      }
+      return $candidatesList;
+   }
+
+   private function getIssueTooltips($projects, $teamid) {
+
+      $issueTooltips = array();
+
+      foreach ($projects as $id => $name) {
+         $project = ProjectCache::getInstance()->getProject($id);
 
          // do not display projects having no specific tooltips
-         $query =  "SELECT config_id FROM `codev_config_table` WHERE `config_id` = 'issue_tooltip_fields' ".
-         $query .= "AND `project_id` = $id AND `team_id` = '$teamid' AND `user_id` = '$userid' ";
+         $query = "SELECT config_id FROM `codev_config_table` WHERE `config_id` = 'issue_tooltip_fields' ".
+                  "AND `project_id` = $id AND `team_id` = '$teamid' AND `user_id` = '0' ";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";

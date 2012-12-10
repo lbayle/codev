@@ -1212,7 +1212,7 @@ class Tools {
 
       if (is_null(self::$customFieldNames)) {
          self::$customFieldNames = array();
-         $query = "SELECT id, name FROM `mantis_custom_field_table` WHERE id = '$customFieldId';";
+         $query = "SELECT id, name FROM `mantis_custom_field_table` ";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1221,7 +1221,6 @@ class Tools {
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             self::$customFieldNames["$row->id"] = $row->name;
          }
-
       }
       return self::$customFieldNames["$customFieldId"];
    }
@@ -1263,7 +1262,7 @@ class Tools {
          } else if ('summary' == $field) {
             $displayName = T_('Summary');
          } else if ('handler_id' == $field) {
-            $displayName = T_('User');
+            $displayName = T_('Assigned');
          } else if ('target_version' == $field) {
             $displayName = T_('Target');
          } else {

@@ -1,0 +1,182 @@
+<!--
+
+Contains:
+- a button to open the DialogBox
+- the Item selection DialogBox
+
+1) the button will check for an object with class="itemSelection_sourceRef" and get its val().
+   source page must set smarty variable: $itemSelection_openDialogBtLabel
+
+2) a first ajax call will get info to be displayed
+   - availItemList
+   - selectedItemList
+   - labels
+3) click OK will send 2nd ajax to process data and will then call a callback
+   that needs to be defined in the source page :itemSelection_ok_callback(data)
+
+AjaxPage must contain 2 actions:
+- "getItemSelectionLists"
+   set the following variables (json encoded):
+      itemSelection_openDialogBtLabel
+      itemSelection_dialogTitle
+      itemSelection_dialogDesc
+      itemSelection_availItemListLabel
+      itemSelection_selectedItemListLabel
+      availItemList
+      selectedItemList
+      itemSelection_srcRef
+      selectedItems
+
+- "processPostSelectionAction"
+  will process the action and return data transmitted to
+  the source page via itemSelection_ok_callback(data)
+
+-->
+
+<style>
+   .sortable { list-style-type: none; margin: 0; padding: 0; margin-right: 10px; background: #eee; padding: 5px; width: 173px;}
+   .sortable li { margin: 5px; padding: 5px; font-size: 1.2em; width: 150px; }
+   .sortable li:hover { cursor: pointer; }
+   .sortable li { cursor: move; }
+</style>
+
+<div>
+   <script type="text/javascript">
+   jQuery(document).ready(function() {
+
+      // click 'bt_openSelectionDialogBox' button to open the dialogbox
+      jQuery("#bt_openSelectionDialogBox").click(function(event) {
+         event.preventDefault();
+
+         // get itemSelection_sourceRef from source & send to ajaxPage
+         var sourceRef = jQuery(".itemSelection_sourceRef").val();
+         jQuery.ajax({
+            type: "GET",
+            url: "{$ajaxPage}",
+            data: "action=getItemSelectionLists&itemSelection_srcRef="+sourceRef,
+            error: function(data) {
+               alert("ERROR: " + data);
+            },
+            success: function(data) {
+               // the ajaxPage returns a json array containing all the dialogBox field values
+
+               // read json & set fields
+               var response = jQuery.parseJSON(data);
+
+               var dialogbox = jQuery("#set_itemSelection_dialog");
+
+               dialogbox.dialog('option', 'title', response["itemSelection_dialogTitle"]);
+               jQuery("#dialogDesc").text(response["itemSelection_dialogDesc"]);
+               jQuery("#availItemListLabel").text(response["itemSelection_availItemListLabel"]);
+               jQuery("#selectedItemListLabel").text(response["itemSelection_selectedItemListLabel"]);
+
+               jQuery('#sortableSource').empty();
+               var availItemList = response["availItemList"];
+               for (var id in availItemList) {
+                  if (availItemList.hasOwnProperty(id)) {
+                     jQuery('#sortableSource').append(
+                        jQuery('<li>').attr('id', id).attr('class', 'ui-state-default').append(availItemList[id])
+                     );
+                  }
+               }
+               jQuery('#sortableTarget').empty();
+               var selectedItemList = response["selectedItemList"];
+               for (var id in selectedItemList) {
+                  if (selectedItemList.hasOwnProperty(id)) {
+                     jQuery('#sortableTarget').append(
+                        jQuery('<li>').attr('id', id).attr('class', 'ui-state-default').append(selectedItemList[id])
+                     );
+                  }
+               }
+
+               // set lists height
+               var height = (availItemList.length + selectedItemList.length) * 37;
+               jQuery('#sortableSource').attr('style', "height:"+height+"px");
+               jQuery('#sortableTarget').attr('style', "height:"+height+"px");
+
+               // open dialogBox
+               dialogbox.dialog("open");
+            }
+         });
+
+
+      });
+   });
+   </script>
+   <button type="submit" id="bt_openSelectionDialogBox">{$itemSelection_openDialogBtLabel}</button>
+</div>
+
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+
+      jQuery("ul.droptrue").sortable({
+         connectWith: "ul"
+      });
+
+      jQuery("ul.dropfalse").sortable({
+         connectWith: "ul",
+         dropOnEmpty: false
+      });
+
+      jQuery(".sortable").disableSelection();
+
+      jQuery("#set_itemSelection_dialog").dialog({
+         autoOpen: false,
+         height: 'auto',
+         width: 450,
+         modal: true,
+         buttons: {
+            Ok: function() {
+               var items = '';
+               jQuery(this).find('#sortableTarget').children().each(function() {
+                  items += jQuery(this).attr('id') + ',';
+               });
+               items = items.slice(0,-1);
+               var sourceRef = jQuery(".itemSelection_sourceRef").val();
+               jQuery.ajax({
+                  type: "GET",
+                  url: "{$ajaxPage}",
+                  data: "action=processPostSelectionAction&itemSelection_srcRef="+sourceRef+"&selectedItems="+items,
+                  error: function(data) {
+                     alert("ERROR: " + data);
+                  },
+                  success: function(data) {
+                     // results are returned via the function: itemSelection_ok_callback(data)
+                     //alert("before callback data ="+data);
+                     itemSelection_ok_callback(data);
+                  }
+               });
+               jQuery(this).dialog("close");
+            },
+            Cancel: function() {
+               jQuery(this).dialog("close");
+            }
+         }
+      });
+});
+
+</script>
+
+<div id="set_itemSelection_dialog" class="ui-helper-hidden">
+   <p id="dialogDesc"></p>
+   <br />
+   <form id="formSetItems" name="formSetItems" method="post" action="{$ajaxPage}" >
+      <fieldset>
+         <div style="float:left;">
+            <label for="sortableSource" id="availItemListLabel"></label>
+            <ul id="sortableSource" class="sortable droptrue" style="height:{math equation="(x + y) * 37" x=$availItemList|count y=$selectedItemList|count}px">
+            </ul>
+         </div>
+
+         <div style="float:left;">
+            <label for="sortableTarget" id="selectedItemListLabel"></label>
+            <ul id="sortableTarget" class="sortable droptrue" style="height:{math equation="(x +y) * 37" x=$availItemList|count y=$selectedItemList|count}px">
+            </ul>
+         </div>
+         <!-- itemSelection_srcRef is a reference to identify the origin (projectid, cmdid, ...) -->
+         <input type="hidden" name="action" value="processPostSelectionAction" />
+         <input type="hidden" name="itemSelection_srcRef" id="itemSelection_srcRef"/>
+         <input type="hidden" name="selectedItems" id="selectedItems" />
+      </fieldset>
+   </form>
+</div>
