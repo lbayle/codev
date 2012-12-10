@@ -153,6 +153,22 @@ function update_v9_to_v10() {
 
 }
 
+
+/**
+ * update 0.99.19 to 0.99.20 (DB v10 to DB v11)
+ */
+function update_v10_to_v11() {
+
+   // add default issue tooltips
+   $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
+   $backlogField = Config::getInstance()->getValue(Config::id_customField_backlog);
+   $fieldList = array('project_id', 'category_id', 'custom_'.$customField_type,
+       'codevtt_elapsed', 'custom_'.$backlogField, 'codevtt_drift');
+   $serialized = serialize($fieldList);
+   Config::setValue('issue_tooltip_fields', $serialized, Config::configType_string, 'fields to be displayed in issue tooltip');
+
+}
+
 // =========== MAIN ==========
 $logger = Logger::getLogger("versionUpdater");
 

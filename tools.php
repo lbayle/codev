@@ -1300,7 +1300,7 @@ class Tools {
       } else if (0 === strpos($field, 'codevtt_')) {
 
          // extract field id
-         $displayName = preg_replace('/^codevtt_/', '', $field);
+         $displayName = T_(preg_replace('/^codevtt_/', '', $field));
 
       } else {
          // mantis field

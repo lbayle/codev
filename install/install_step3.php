@@ -807,7 +807,9 @@ if ("checkReportsDir" == $action) {
    // Set default Issue tooltip content
    echo "DEBUG 11/12 Set default content for Issue tooltip <br/>";
    $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
-   $fieldList = array('project_id', 'category_id', 'custom_'.$customField_type);
+   $backlogField = Config::getInstance()->getValue(Config::id_customField_backlog);
+   $fieldList = array('project_id', 'category_id', 'custom_'.$customField_type,
+       'codevtt_elapsed', 'custom_'.$backlogField, 'codevtt_drift');
    $serialized = serialize($fieldList);
    Config::setValue('issue_tooltip_fields', $serialized, Config::configType_string, 'fields to be displayed in issue tooltip');
 
