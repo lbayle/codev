@@ -139,6 +139,7 @@ class TimeTracking {
          $accessLevel_manager = Team::accessLevel_manager;
 
          // select tasks within timestamp, where user is in the team
+         // WARN: users having left the team will be included, this is a pre-filter.
          $query = "SELECT timetracking.* ".
                   "FROM `codev_timetracking_table` as timetracking ".
                   "JOIN `codev_team_user_table` as team_user ON timetracking.userid = team_user.user_id ".
@@ -154,7 +155,17 @@ class TimeTracking {
 
          $this->timeTracks = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $this->timeTracks[] = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
+
+            $tt = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
+            $user = UserCache::getInstance()->getUser($tt->getUserId());
+            $timestamp = $tt->getDate();
+
+            // check that the user was in the team at the timetrack's date.
+            if ($user->isTeamMember($this->team_id, NULL, $timestamp, $timestamp)) {
+               $this->timeTracks[] = $tt;
+            }
+
+
          }
       }
       return $this->timeTracks;
