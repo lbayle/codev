@@ -5,7 +5,7 @@
  */
 require_once( config_get('class_path') . 'MantisPlugin.class.php' );
 
-require_once( dirname(dirname(__FILE__))."/CodevTT/classes/Issue.php");
+require_once( dirname(dirname(__FILE__))."/CodevTT/classes/IssueMantisPluginHelper.php");
 
 /**
  * CodevTTPlugin Class
@@ -284,7 +284,7 @@ class CodevTTPlugin extends MantisPlugin {
       if ($count) {
          // update backlog
          try {
-            $issue = new Issue($bug_data->id);
+            $issue = new IssueMantisPluginHelper($bug_data->id);
             $issue->setBacklog(0, $bug_data->handler_id);
          } catch (Exception $e) {
             // trigger_error

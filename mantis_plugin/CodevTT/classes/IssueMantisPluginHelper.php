@@ -21,7 +21,7 @@
  * This is a toolbox fot the plugin
  *
  */
-class Issue {
+class IssueMantisPluginHelper {
 
    const id_customField_backlog = "customField_backlog"; //  see codevtt/classes/config.class.php
 
