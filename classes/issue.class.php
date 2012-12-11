@@ -2207,7 +2207,7 @@ class Issue extends Model implements Comparable {
                   $this->tooltipItemsCache[T_('Summary')] = $this->getSummary();
                } else if ('handler_id' == $field) {
                   $user = UserCache::getInstance()->getUser($this->getHandlerId());
-                  $this->tooltipItemsCache[T_('User')] = $user->getName();
+                  $this->tooltipItemsCache[T_('Assigned')] = $user->getName();
                } else if ('severity' == $field) {
                   $this->tooltipItemsCache[T_('Severity')] = $this->getSeverityName();
                } else if ('target_version' == $field) {

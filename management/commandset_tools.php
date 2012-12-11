@@ -222,6 +222,7 @@ class CommandSetTools {
 
       $params = array(
          'isManager' => $isManager,
+         'teamid' => $cmdset->getTeamid(),
          'selectedFilters' => $selectedFilters,
          'allFilters' => $allFilters
       );

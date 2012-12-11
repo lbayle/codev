@@ -200,6 +200,7 @@ class CommandTools {
 
       $params = array(
          'isManager' => $isManager,
+         'teamid' => $cmd->getTeamid(),
          'selectedFilters' => $selectedFilters,
          'allFilters' => $allFilters
       );

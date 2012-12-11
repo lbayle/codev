@@ -32,6 +32,7 @@ class ProjectInfoTools {
 
       $params = array(
          'isManager' => $isManager,
+         #'teamid' => $teamid,
          'selectedFilters' => $selectedFilters,
          'allFilters' => $allFilters
       );

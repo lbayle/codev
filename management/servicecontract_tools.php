@@ -384,6 +384,7 @@ class ServiceContractTools {
 
       $params = array(
          'isManager' => $isManager,
+         'teamid' => $serviceContract->getTeamid(),
          'selectedFilters' => $selectedFilters,
          'allFilters' => $allFilters
       );

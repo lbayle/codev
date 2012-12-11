@@ -32,6 +32,7 @@ class DetailedChargesIndicator implements IndicatorPlugin {
    protected $execData;
 
    private $isManager;
+   private $teamid;
 
    private $availFilterList;
    private $selectedFilterList;
@@ -99,6 +100,12 @@ class DetailedChargesIndicator implements IndicatorPlugin {
          $this->isManager = $params['isManager'];
       } else {
          $this->isManager = false;
+      }
+
+      if (array_key_exists('teamid', $params)) {
+         $this->teamid = $params['teamid'];
+      } else {
+         $this->teamid = 0;
       }
 
       if (array_key_exists('selectedFilters', $params)) {
@@ -313,48 +320,39 @@ class DetailedChargesIndicator implements IndicatorPlugin {
          $isel = $line[$iselIdx];
 
          // format Issues list
-         $formatedResolvedList = "";
-         $formatedOpenList = "";
-         $formatedNewList = "";
+         $formatedResolvedList = '';
+         $formatedOpenList = '';
+         $formatedNewList = '';
          foreach ($isel->getIssueList() as $bugid => $issue) {
 
+            $tooltipAttr = $issue->getTooltipItems($this->teamid);
+            if (!array_key_exists(T_('Summary'), $tooltipAttr)) {
+               // insert in front
+               $tooltipAttr = array(T_('Summary') => $issue->getSummary()) + $tooltipAttr;
+            }
+
             if (Constants::$status_new == $issue->getCurrentStatus()) {
-               if ("" != $formatedNewList) {
+               if (!empty($formatedNewList)) {
                   $formatedNewList .= ', ';
                }
-               $titleAttr = array(
-                   T_('Project') => $issue->getProjectName(),
-                   T_('Summary') => $issue->getSummary(),
-                   );
-               $formatedNewList .= Tools::issueInfoURL($bugid, $titleAttr);
-               #$formatedNewList .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
+               $formatedNewList .= Tools::issueInfoURL($bugid, $tooltipAttr);;
 
             } elseif ($issue->getCurrentStatus() >= $issue->getBugResolvedStatusThreshold()) {
-               if ("" != $formatedResolvedList) {
+               if (!empty($formatedResolvedList)) {
                   $formatedResolvedList .= ', ';
                }
-               #$title = "(".$issue->getDrift().') ['.$issue->getProjectName().'] '.$issue->getSummary();
-               $titleAttr = array(
-                   T_('Project') => $issue->getProjectName(),
-                   T_('Summary') => $issue->getSummary(),
-                   T_('Drift') => $issue->getDrift(),
-                   'DriftColor' => $issue->getDriftColor()
-               );
-
-               $formatedResolvedList .= Tools::issueInfoURL($bugid, $titleAttr);
+               if (!array_key_exists(T_('Status'), $tooltipAttr)) {
+                  $tooltipAttr[T_('Status')] = Constants::$statusNames[$issue->getStatus()];
+               }
+               $formatedResolvedList .= Tools::issueInfoURL($bugid, $tooltipAttr);
             } else {
-               if ("" != $formatedOpenList) {
+               if (!empty($formatedOpenList)) {
                   $formatedOpenList .= ', ';
                }
-               #$title = "(".$issue->getDrift().", ".$issue->getCurrentStatusName().') ['.$issue->getProjectName().'] '.$issue->getSummary();
-               $titleAttr = array(
-                   T_('Project') => $issue->getProjectName(),
-                   T_('Summary') => $issue->getSummary(),
-                   T_('Status') => $issue->getCurrentStatusName(),
-                   T_('Drift') => $issue->getDrift(),
-                   'DriftColor' => $issue->getDriftColor()
-               );
-               $formatedOpenList .= Tools::issueInfoURL($bugid, $titleAttr);
+               if (!array_key_exists(T_('Status'), $tooltipAttr)) {
+                  $tooltipAttr[T_('Status')] = Constants::$statusNames[$issue->getStatus()];
+               }
+               $formatedOpenList .= Tools::issueInfoURL($bugid, $tooltipAttr);
             }
          }
 
