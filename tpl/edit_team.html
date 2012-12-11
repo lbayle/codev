@@ -11,7 +11,6 @@
 <div id="content">
    {if isset($teams)}
    <div align="center">
-      <h1>{t}Team Edition{/t}</h1>
       <script type="text/javascript">
          jQuery(document).ready(function() {
             jQuery("#teamid").change(function() {
@@ -19,549 +18,558 @@
             });
          });
       </script>
-      <form id="teamSelectForm" name="teamSelectForm" method="get" action="{$page}">
+      <form id="teamSelectForm" name="teamSelectForm" class="formWithTabsHistory" method="get" action="{$page}">
          <fieldset>
             {include file="form/teamSelector.html"}
          </fieldset>
       </form>
    </div>
 
-   <div style="margin-top: 2em;padding: 0 1em 1em;"class="ui-widget-content">
-      <h2>{t}Team{/t} {$team->getName()}</h2>
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-            var form = jQuery("#updateTeamInfoForm");
+   <div id="tabsEditTeam" class="tabs {$ui_tabs_jquery}" style="margin-top:3em;">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabGeneral">{t}General{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabTeamMembers">{t}Team Members{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabTeamProjects">{t}Team Projects{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabTooltips">{t}Tooltips{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabOnDuty">{t}OnDuty tasks{/t}</a></li>
+      </ul>
 
-            jQuery("#btUpdateTeamLeader").click(function() {
-               form.find("input[name=action]").val("updateTeamLeader");
-               form.submit();
-            });
+      <div id="tabGeneral">
+         <h2>{$team->getName()}</h2>
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               var form = jQuery("#updateTeamInfoForm");
 
-            jQuery("#btupdateTeamCreationDate").click(function() {
-               form.find("input[name=action]").val("updateTeamCreationDate");
-               form.submit();
-            });
-            jQuery("#bt_teamEnabled").click(function() {
-               var isTeamEnabled = jQuery("#cb_teamEnabled").attr('checked')?1:0;
-               form.find("input[name=isTeamEnabled]").val(isTeamEnabled);
-               form.find("input[name=action]").val("setTeamEnabled");
-               form.submit();
-            });
-         });
-      </script>
-      <form id="updateTeamInfoForm" name="updateTeamInfoForm" method="post" action="{$page}">
-         <fieldset>
-            <table class="invisible">
-               <tr>
-                  <td><label for="leaderid">{t}Leader{/t}</label></td>
-                  <td>
-                     <select style="width:100%" name="leaderid" id="leaderid">
-                        {foreach from=$users key=id item=i}
-                        <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
-                        {/foreach}
-                     </select>
-                  </td>
-                  <td><input type="button" name="btUpdateTeamLeader" value="{t}Update{/t}" id="btUpdateTeamLeader" /></td>
-               </tr>
-               <tr>
-                  <script type="text/javascript" src="js/datepicker.js"></script>
-                  <script type="text/javascript">
-                     jQuery(document).ready(function() {
-                        {if $locale != en}
-                        jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
-                        {/if}
-
-                        // Set the date
-                        jQuery("#datepicker").datepicker("setDate" ,"{$date}");
-                     });
-                  </script>
-                  <td><label for="datepicker">{t}Creation Date{/t}</label></td>
-                  <td><input type="text" id="datepicker" class="datepicker" name="date_createTeam" maxlength="10" size="10" title="{t}Date{/t}" /></td>
-                  <td><input style="width:100%" type=button name="btupdateTeamCreationDate" value="{t}Update{/t}" id="btupdateTeamCreationDate" /></td>
-               </tr>
-               <tr>
-                  <td><label for="cb_teamEnabled">{t}Enabled{/t}</label></td>
-                  <td><input id="cb_teamEnabled" type="checkbox" name="cb_teamEnabled" {if $teamEnabled}checked="checked"{/if} /></td>
-                  <td><input id="bt_teamEnabled" type="button" value="{t}Update{/t}" /></td>
-               </tr>
-            </table>
-            <br/>
-            <span class="help_font">{t}Note: A <em>TeamLeader</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report.{/t}</span>
-            <input type="hidden" name="isTeamEnabled" value="{$teamEnabled}"/>
-            <input type="hidden" name="action" value="noAction" />
-         </fieldset>
-      </form>
-   </div>
-   <div style="margin-top: 2em;padding: 0 1em 1em;"class="ui-widget-content">
-      <h2>{t}Team Members{/t}</h2>
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-            // Set the date
-            jQuery("#datepicker1").datepicker("setDate" ,"{$date}");
-            jQuery("#datepicker2").datepicker("setDate" ,"{$departureDate}");
-
-            var form = jQuery("#addTeamMemberForm");
-
-            jQuery("#btAddMember").click(function() {
-               // check fields
-               var foundError = 0;
-               var msgString = "{t}Some fields are missing:{/t}\n";
-
-               if (0 == form.find("input[name=memberid]").val()) {
-                  msgString += "{t}Team Member{/t}\n";
-                  ++foundError;
-               }
-
-               if (0 == foundError) {
-                  form.find("input[name=action]").val("addTeamMember");
+               jQuery("#btUpdateTeamLeader").click(function() {
+                  form.find("input[name=action]").val("updateTeamLeader");
                   form.submit();
-               } else {
-                  alert(msgString);
-               }
-            });
+               });
 
-            jQuery("#btSetMemberDepartureDate").click(function() {
-               // check fields
-               var foundError = 0;
-               var msgString = "{t}Some fields are missing:{/t}\n\n";
-
-               if (0 == form.find("input[name=memberid]").val()) {
-                  msgString += "{t}Team Member{/t}\n";
-                  ++foundError;
-               }
-
-               if (0 == foundError) {
-                  form.find("input[name=action]").val("setMemberDepartureDate");
+               jQuery("#btupdateTeamCreationDate").click(function() {
+                  form.find("input[name=action]").val("updateTeamCreationDate");
                   form.submit();
-               } else {
-                  alert(msgString);
-               }
-            });
-
-            jQuery("#btAddMembersFrom").click(function() {
-               // check fields
-               var foundError = 0;
-               var msgString = "{t}Some fields are missing:{/t}\n\n";
-
-               if (0 == form.find("input[name=f_src_teamid]").val()) {
-                  msgString += "{t}Source Team{/t}\n";
-                  ++foundError;
-               }
-
-               if (0 == foundError) {
-                  form.find("input[name=action]").val("addMembersFrom");
+               });
+               jQuery("#bt_teamEnabled").click(function() {
+                  var isTeamEnabled = jQuery("#cb_teamEnabled").attr('checked')?1:0;
+                  form.find("input[name=isTeamEnabled]").val(isTeamEnabled);
+                  form.find("input[name=action]").val("setTeamEnabled");
                   form.submit();
-               } else {
-                  alert(msgString);
-               }
+               });
             });
-         });
-      </script>
-      <form id="addTeamMemberForm" name="addTeamMemberForm" method="post" action="{$page}">
-         <fieldset>
-            <table class="invisible">
-               <tbody>
+         </script>
+         <form id="updateTeamInfoForm" name="updateTeamInfoForm" class="formWithTabsHistory" method="post" action="{$page}">
+            <fieldset>
+               <table class="invisible">
                   <tr>
-                     <td><label for="memberid">{t}Member{/t}:</label></td>
+                     <td><label for="leaderid">{t}Leader{/t}</label></td>
                      <td>
-                        <select style="width:100%" name="memberid" id="memberid">
-                           <option value="0"></option>
+                        <select style="width:100%" name="leaderid" id="leaderid">
                            {foreach from=$users key=id item=i}
-                           <option value="{$id}">{$i.name}</option>
+                           <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
                            {/foreach}
                         </select>
                      </td>
-                     <td></td>
+                     <td><input type="button" name="btUpdateTeamLeader" value="{t}Update{/t}" id="btUpdateTeamLeader" /></td>
                   </tr>
                   <tr>
-                     <td><label for="member_access">{t}Role{/t}:</label></td>
-                     <td>
-                        <select style="width:100%" name="member_access" id="member_access">
-                           {foreach from=$accessLevel key=id item=i}
-                           <option value="{$id}">{$i}</option>
-                           {/foreach}
-                        </select>
-                     </td>
-                     <td></td>
-                  </tr>
-                  <tr>
-                     <td><label for="datepicker1">{t}Arrival-Date{/t}</td>
-                     <td><input type="text" id="datepicker1" class="datepicker" name="date1" maxlength="10" size="10" title="{t}Date{/t}" /></td>
-                     <td><input style="width:100%" type=button name="btAddMember" id="btAddMember" value="{t}Add User{/t}" /></td>
-                  </tr>
-                  <tr>
-                     <td><label for="datepicker2">{t}Departure-Date{/t}</label></td>
-                     <td><input type="text" id="datepicker2" class="datepicker" name="date2" maxlength="10" size="10" title="{t}Date{/t}" /></td>
-                     <td><input type=button name="btSetMemberDepartureDate" id="btSetMemberDepartureDate" value="{t}set Departure Date{/t}" /></td>
-                  </tr>
-               </tbody>
-            </table>
+                     <script type="text/javascript" src="js/datepicker.js"></script>
+                     <script type="text/javascript">
+                        jQuery(document).ready(function() {
+                           {if $locale != en}
+                           jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
+                           {/if}
 
-            <!-- import from other team -->
-            <table class="invisible" style="margin-top: 2em;">
-               <tbody>
-                  <tr>
-                     <td><label for="f_src_teamid">{t}Import all users from team{/t}</label></td>
-                     <td>
-                        <select name="f_src_teamid" id="f_src_teamid">
-                           <option value="0"></option>
-                           {foreach from=$teams key=id item=i}
-                           {if !$i.selected}<option value="{$id}">{$i.name}</option>{/if}
-                           {/foreach}
-                        </select>
-                     </td>
-                     <td><input type=button name="btAddMembersFrom" id="btAddMembersFrom" value="{t}Import{/t}" /></td>
+                           // Set the date
+                           jQuery("#datepicker").datepicker("setDate" ,"{$date}");
+                        });
+                     </script>
+                     <td><label for="datepicker">{t}Creation Date{/t}</label></td>
+                     <td><input type="text" id="datepicker" class="datepicker" name="date_createTeam" maxlength="10" size="10" title="{t}Date{/t}" /></td>
+                     <td><input style="width:100%" type=button name="btupdateTeamCreationDate" value="{t}Update{/t}" id="btupdateTeamCreationDate" /></td>
                   </tr>
-               </tbody>
-            </table>
-            <input type="hidden" name="action" value="noAction">
-         </fieldset>
-      </form>
-
-      <!-- Display previous entries -->
-      <div style="margin-top: 2em;">
-         <script type="text/javascript">
-            function removeTeamMember(id, description) {
-               var confirmString = "{t}Delete this team ?{/t}\n\n" + description;
-               var form = jQuery("#removeTeamMemberForm");
-               if (confirm(confirmString)) {
-                  form.find("input[name=deletememberid]").val(id);
-                  form.submit();
-               }
-            }
-         </script>
-         <table>
-            <thead>
-               <tr>
-                  <th></th>
-                  <th>{t}login{/t}</th>
-                  <th>{t}Name{/t}</th>
-                  <th title="{t}Arrival date in the team{/t}">{t}Arrival Date{/t}</th>
-                  <th title="{t}Departure date from the team{/t}">{t}Departure Date{/t}</th>
-                  <th>{t}Role{/t}</th>
-               </tr>
-            </thead>
-            <tbody>
-               {foreach from=$teamMembers key=id item=i}
-               <tr>
-                  <td class="ui-state-error-text" style="width:1em;">
-                     <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
-                        onclick="removeTeamMember('{$id}', '{$i.username}');return false;"></a>
-                  </td>
-                  <td title="{$i.userid}">{$i.username}</td>
-                  <td>{$i.realname}</td>
-                  <td>{$i.arrivaldate}</td>
-                  <td>{if isset($i.departuredate)}{$i.departuredate}{/if}</td>
-                  <td>{$i.accessLevel}</td>
-               </tr>
-               {/foreach}
-            </tbody>
-         </table>
-
-         <form id="removeTeamMemberForm" name="removeTeamMemberForm" method="post" action="{$page}" class="ui-helper-hidden">
-            <fieldset>
-               <input type="hidden" name="deletememberid" value="0">
+                  <tr>
+                     <td><label for="cb_teamEnabled">{t}Enabled{/t}</label></td>
+                     <td><input id="cb_teamEnabled" type="checkbox" name="cb_teamEnabled" {if $teamEnabled}checked="checked"{/if} /></td>
+                     <td><input id="bt_teamEnabled" type="button" value="{t}Update{/t}" /></td>
+                  </tr>
+               </table>
+               <br/>
+               <span class="help_font">{t}Note: A <em>TeamLeader</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report.{/t}</span>
+               <input type="hidden" name="isTeamEnabled" value="{$teamEnabled}"/>
+               <input type="hidden" name="action" value="noAction" />
             </fieldset>
          </form>
-      </div>
-   </div>
 
-   <div style="margin-top: 2em;padding: 0 1em 1em;"class="ui-widget-content">
-      <h2>{t}Team Projects{/t}</h2>
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-            jQuery("#btAddProject").click(function() {
-               // check fields
-               var foundError = 0;
-               var msgString = "{t}Some fields are missing:{/t}\n\n";
-
-               var form = jQuery("#addTeamProjectForm");
-
-               if (0 == form.find("input[name=addedprojectid]").val()) {
-                  msgString += "{t}Project{/t}\n";
-                  ++foundError;
-               }
-
-               if (0 == foundError) {
-                  form.submit();
-               } else {
-                  alert(msgString);
-               }
-            });
-         });
-      </script>
-      <form id="addTeamProjectForm" name="addTeamProjectForm" method="post" action="{$page}">
-         <fieldset>
-            <label for="addedprojectid">{t}Project{/t}:</label>
-            <select name="addedprojectid" id="addedprojectid">
-               <option value="0"></option>
-               {foreach from=$otherProjects key=id item=i}
-               <option value="{$id}">{$i}</option>
-               {/foreach}
-            </select>
-            <label for="project_type">Type:</label>
-            <select name="project_type" id="project_type">
-               {foreach from=$typeNames key=id item=i}
-               <option value="{$id}">{$i}</option>
-               {/foreach}
-            </select>
-            <input type="button" name="btAddProject" id="btAddProject" value="{t}Add{/t}">
-         </fieldset>
-      </form>
-
-      <!-- Display previous entries -->
-      <div style="margin-top: 2em;">
+         <h2>{t}Delete team{/t}</h2>
          <script type="text/javascript">
-            function removeTeamProject(id, description){
-               var confirmString = "Remove this project from the team ?\n\n" + description;
-               if (confirm(confirmString)) {
-                  var form = jQuery("#removeTeamProjectForm");
-                  form.find("input[name=deletedprojectid]").val(id);
-                  form.submit();
-               }
-            }
-         </script>
-         <table>
-            <thead>
-               <tr>
-                  <th></th>
-                  <th>{t}Name{/t}</th>
-                  <th>{t}Type{/t}</th>
-                  <th>{t}Status{/t}</th>
-                  <th>{t}Description{/t}</th>
-               </tr>
-            </thead>
-            <tbody>
-               {foreach from=$teamProjects key=id item=i}
-               <tr>
-                  <td class="ui-state-error-text" style="width:1em;">{if isset($i.delete) && $i.delete}
-                     <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
-                        onclick="removeTeamProject('{$id}','{$i.name}');return false;"></a>
-                  {/if}</td>
-                  <td title="{$i.projectid}">{$i.name}</td>
-                  <td>{$i.typeNames}</td>
-                  <td>{$i.enabled}</td>
-                  <td>{$i.description}</td>
-               </tr>
-               {/foreach}
-            </tbody>
-         </table>
-
-         <form id="removeTeamProjectForm" name="removeTeamProjectForm" method="post" action="{$page}" class="ui-helper-hidden">
-            <fieldset>
-               <input type="hidden" name="deletedprojectid" value="0">
-            </fieldset>
-         </form>
-      </div>
-   </div>
-
-   <div style="margin-top: 2em;padding: 0 1em 1em;"class="ui-widget-content">
-      <h2>{t}Issue Tooltips{/t}</h2>
-      <!-- Display issue tooltip settings -->
-      <div style="margin-top: 2em;">
-         <div class="left">
-            <label for="select_projectid">{t}Project{/t}:</label>
-            <select name="select_projectid" id="select_projectid" class="itemSelection_sourceRef">
-               {foreach from=$tooltipProjectCandidates key=id item=i}
-               <option value="projectid:{$id},teamid:{$team->getId()}">{$i}</option>
-               {/foreach}
-            </select>
-
-            <script type="text/javascript">
-               // this function is called by the selectItemsDialogbox, when 'OK' is clicked
-               function itemSelection_ok_callback(data) {
-                  // update tooltips table
-                  // data contains the new row to add/replace in destination widget.
-                  var response = jQuery.parseJSON(data);
-                  var projectid = response["projectid"];
-                  var line = jQuery("#issueTooltips_proj_"+response["projectid"]);
-                  if (line.length) {
-                     // update existing line
-                     jQuery("#issueTooltips_proj_"+projectid+"_fields").text(response["tooltipFields"]);
-                  } else {
-                     // create new line
-                     jQuery("#issueTooltipsTable").attr("style",""); // remove display:none
-                     jQuery("#noCustomTooltipsInfo").attr("style","display:none");
-                     jQuery("#issueTooltipsTable").append(
-                        jQuery('<tr>').attr('id', "issueTooltips_proj_"+projectid)
-                     );
-                     var deleteLink = jQuery('<a>').attr('class', 'ui-icon').attr('href','{$page}').
-                                                   attr('onclick', "removeIssueTooltip('"+projectid+"','"+response["projectName"]+"');return false;");
-                     jQuery("#issueTooltips_proj_"+projectid).append(
-                        jQuery('<td>').attr('class', 'ui-state-error-text').attr("style","width:1em;").append(deleteLink)
-                     ).append(
-                        jQuery('<td>').text(response["projectName"])
-                     ).append(
-                        jQuery('<td>').attr('id', "issueTooltips_proj_"+projectid+"_fields").text(response["tooltipFields"])
-                     );
-                  }
-               }
-            </script>
-            {include file="form/selectItemsDialogbox.html"}
-         </div>
-
-         <div style="margin-top: 1em;">
-            <script type="text/javascript">
-               function removeIssueTooltip(project_id, project_name){
-                  var confirmString = "Remove IssueTooltip customisation for project " + project_name;
+            jQuery(document).ready(function() {
+               jQuery("#btDeleteTeam").click(function() {
+                  var confirmString = "{t}Delete team{/t} '{$team->getName()}' ?";
                   if (confirm(confirmString)) {
-                     var form = jQuery("#removeIssueTooltipForm");
-                     form.find("input[name=projectid]").val(project_id);
+                     jQuery("#deleteTeamProjectForm").submit();
+                  }
+               });
+            });
+         </script>
+         <form id="deleteTeamProjectForm" name="deleteTeamForm" class="formWithTabsHistory" method="post" action="{$page}">
+            <fieldset>
+               <label for="btDeleteTeam">{t}Delete team{/t} {$team->getName()} ?</label>
+               <input type="button" name="btDeleteTeam" id="btDeleteTeam" value="{t}Delete{/t}" />
+               <input type="hidden" name="deletedteam" value="{$team->getId()}" />
+            </fieldset>
+         </form>
+
+      </div>
+      <div id="tabTeamMembers">
+         <h2>{t}Team Members{/t}</h2>
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               // Set the date
+               jQuery("#datepicker1").datepicker("setDate" ,"{$date}");
+               jQuery("#datepicker2").datepicker("setDate" ,"{$departureDate}");
+
+               var form = jQuery("#addTeamMemberForm");
+
+               jQuery("#btAddMember").click(function() {
+                  // check fields
+                  var foundError = 0;
+                  var msgString = "{t}Some fields are missing:{/t}\n";
+
+                  if (0 == form.find("input[name=memberid]").val()) {
+                     msgString += "{t}Team Member{/t}\n";
+                     ++foundError;
+                  }
+
+                  if (0 == foundError) {
+                     form.find("input[name=action]").val("addTeamMember");
+                     form.submit();
+                  } else {
+                     alert(msgString);
+                  }
+               });
+
+               jQuery("#btSetMemberDepartureDate").click(function() {
+                  // check fields
+                  var foundError = 0;
+                  var msgString = "{t}Some fields are missing:{/t}\n\n";
+
+                  if (0 == form.find("input[name=memberid]").val()) {
+                     msgString += "{t}Team Member{/t}\n";
+                     ++foundError;
+                  }
+
+                  if (0 == foundError) {
+                     form.find("input[name=action]").val("setMemberDepartureDate");
+                     form.submit();
+                  } else {
+                     alert(msgString);
+                  }
+               });
+
+               jQuery("#btAddMembersFrom").click(function() {
+                  // check fields
+                  var foundError = 0;
+                  var msgString = "{t}Some fields are missing:{/t}\n\n";
+
+                  if (0 == form.find("input[name=f_src_teamid]").val()) {
+                     msgString += "{t}Source Team{/t}\n";
+                     ++foundError;
+                  }
+
+                  if (0 == foundError) {
+                     form.find("input[name=action]").val("addMembersFrom");
+                     form.submit();
+                  } else {
+                     alert(msgString);
+                  }
+               });
+            });
+         </script>
+         <form id="addTeamMemberForm" name="addTeamMemberForm" class="formWithTabsHistory" method="post" action="{$page}">
+            <fieldset>
+               <table class="invisible">
+                  <tbody>
+                     <tr>
+                        <td><label for="memberid">{t}Member{/t}:</label></td>
+                        <td>
+                           <select style="width:100%" name="memberid" id="memberid">
+                              <option value="0"></option>
+                              {foreach from=$users key=id item=i}
+                              <option value="{$id}">{$i.name}</option>
+                              {/foreach}
+                           </select>
+                        </td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <td><label for="member_access">{t}Role{/t}:</label></td>
+                        <td>
+                           <select style="width:100%" name="member_access" id="member_access">
+                              {foreach from=$accessLevel key=id item=i}
+                              <option value="{$id}">{$i}</option>
+                              {/foreach}
+                           </select>
+                        </td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <td><label for="datepicker1">{t}Arrival-Date{/t}</td>
+                        <td><input type="text" id="datepicker1" class="datepicker" name="date1" maxlength="10" size="10" title="{t}Date{/t}" /></td>
+                        <td><input style="width:100%" type=button name="btAddMember" id="btAddMember" value="{t}Add User{/t}" /></td>
+                     </tr>
+                     <tr>
+                        <td><label for="datepicker2">{t}Departure-Date{/t}</label></td>
+                        <td><input type="text" id="datepicker2" class="datepicker" name="date2" maxlength="10" size="10" title="{t}Date{/t}" /></td>
+                        <td><input type=button name="btSetMemberDepartureDate" id="btSetMemberDepartureDate" value="{t}set Departure Date{/t}" /></td>
+                     </tr>
+                  </tbody>
+               </table>
+
+               <!-- import from other team -->
+               <table class="invisible" style="margin-top: 2em;">
+                  <tbody>
+                     <tr>
+                        <td><label for="f_src_teamid">{t}Import all users from team{/t}</label></td>
+                        <td>
+                           <select name="f_src_teamid" id="f_src_teamid">
+                              <option value="0"></option>
+                              {foreach from=$teams key=id item=i}
+                              {if !$i.selected}<option value="{$id}">{$i.name}</option>{/if}
+                              {/foreach}
+                           </select>
+                        </td>
+                        <td><input type=button name="btAddMembersFrom" id="btAddMembersFrom" value="{t}Import{/t}" /></td>
+                     </tr>
+                  </tbody>
+               </table>
+               <input type="hidden" name="action" value="noAction">
+            </fieldset>
+         </form>
+
+         <!-- Display previous entries -->
+         <div style="margin-top: 2em;">
+            <script type="text/javascript">
+               function removeTeamMember(id, description) {
+                  var confirmString = "{t}Delete this team ?{/t}\n\n" + description;
+                  var form = jQuery("#removeTeamMemberForm");
+                  if (confirm(confirmString)) {
+                     form.find("input[name=deletememberid]").val(id);
                      form.submit();
                   }
                }
             </script>
-            {if $issueTooltips}
-            <table id="issueTooltipsTable">
-            {else}
-            <table id="issueTooltipsTable" style="display:none">
-            {/if}
+            <table>
                <thead>
                   <tr>
                      <th></th>
-                     <th>{t}Project{/t}</th>
-                     <th>{t}Tooltip fields{/t}</th>
+                     <th>{t}login{/t}</th>
+                     <th>{t}Name{/t}</th>
+                     <th title="{t}Arrival date in the team{/t}">{t}Arrival Date{/t}</th>
+                     <th title="{t}Departure date from the team{/t}">{t}Departure Date{/t}</th>
+                     <th>{t}Role{/t}</th>
                   </tr>
                </thead>
                <tbody>
-                  {foreach from=$issueTooltips key=id item=i}
-                  <tr id="issueTooltips_proj_{$id}">
+                  {foreach from=$teamMembers key=id item=i}
+                  <tr>
                      <td class="ui-state-error-text" style="width:1em;">
                         <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
-                           onclick="removeIssueTooltip('{$id}','{$i.projectName}');return false;"></a>
+                           onclick="removeTeamMember('{$id}', '{$i.username}');return false;"></a>
                      </td>
-                     <td title="{$i.projectId}">{$i.projectName}</td>
-                     <td id="issueTooltips_proj_{$id}_fields">{$i.tooltipFields}</td>
+                     <td title="{$i.userid}">{$i.username}</td>
+                     <td>{$i.realname}</td>
+                     <td>{$i.arrivaldate}</td>
+                     <td>{if isset($i.departuredate)}{$i.departuredate}{/if}</td>
+                     <td>{$i.accessLevel}</td>
                   </tr>
                   {/foreach}
                </tbody>
             </table>
 
-            <form id="removeIssueTooltipForm" name="removeIssueTooltipForm" method="post" action="{$page}" class="ui-helper-hidden">
+            <form id="removeTeamMemberForm" name="removeTeamMemberForm" method="post" action="{$page}" class="ui-helper-hidden formWithTabsHistory">
                <fieldset>
-                  <input type="hidden" name="action" value="removeIssueTooltip">
-                  <input type="hidden" name="projectid" value="0">
+                  <input type="hidden" name="deletememberid" value="0">
                </fieldset>
             </form>
-            {if !$issueTooltips}
-               <br>
-               <span id="noCustomTooltipsInfo">{t}No custom IssueTooltips defined for your projects.{/t}</span>
-            {/if}
          </div>
       </div>
-   </div>
 
-
-   <div style="margin-top: 2em;padding: 0 1em 1em;"class="ui-widget-content">
-      <h2>{t}Add OnDuty tasks{/t}</h2>
-      <span class="help_font">{t}Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly different behaviour.{/t}</span>
-      <br>
-      {if $onDutyCandidates}
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-            jQuery("#btAddAstreinte").click(function() {
-               // check fields
-               var foundError = 0;
-               var msgString = "{t}Some fields are missing:{/t}\n\n";
-
-               var form = jQuery("#addAstreinteForm");
-
-               if (0 == form.find("input[name=addedastreinte_id]").val()) {
-                  msgString += "{t}Inactivity task{/t}\n";
-                  ++foundError;
-               }
-
-               if (0 == foundError) {
-                  form.submit();
-               } else {
-                  alert(msgString);
-               }
-            });
-         });
-      </script>
-      <form id="addAstreinteForm" name="addAstreinteForm" method="post" action="{$page}" style="margin-top: 2em;">
-         <fieldset>
-            <label for="addedastreinte_id">{t}Task{/t}:</label>
-            <select id="addedastreinte_id" name="addedastreinte_id" style="width: 600px;" title="{t}Inactivity tasks{/t}">
-               <option value="0"></option>
-               {foreach from=$onDutyCandidates key=id item=i}
-               <option value="{$id}">{$id} : {$i}</option>
-               {/foreach}
-            </select>
-            <input type="button" name="btAddAstreinte" id="btAddAstreinte" value="{t}Add{/t}" />
-         </fieldset>
-      </form>
-      {else}
-         {if !$onDutyTasks}
-            <br>
-            {t}No 'inactivity' task defined in your SideTasks projects.{/t}
-         {/if}
-      {/if}
-
-      <!-- Display defined OnDuty tasks -->
-      <div style="margin-top: 2em;">
-         {if $onDutyTasks}
+      <div id="tabTeamProjects">
+         <h2>{t}Team Projects{/t}</h2>
          <script type="text/javascript">
-            function deleteOnDutyTask(id, description){
-               var confirmString = "{t}This task will no longer be identified as an 'OnDuty' task.{/t}\n" + description;
-               if (confirm(confirmString)) {
-                  var form = jQuery("#deleteAstreinteForm");
-                  form.find("input[name=deletedastreinte_id]").val(id);
-                  form.submit();
-               }
-            }
-         </script>
-         <table>
-            <thead>
-               <tr>
-                  <th></th>
-                  <th>{t}Id{/t}</th>
-                  <th>{t}Description{/t}</th>
-               </tr>
-            </thead>
-            <tbody>
-               {foreach from=$onDutyTasks key=id item=i}
-               <tr>
-                  <td class="ui-state-error-text" style="width:1em;">
-                     <a class="ui-icon" title="{t}delete OnDuty task{/t}" href="{$page}"
-                        onclick="deleteOnDutyTask('{$id}', '{$id} - {$i.description}');return false;"></a>
-                  </td>
-                  <td>{$id}</td>
-                  <td>{$i.description}</td>
-               </tr>
-               {/foreach}
-            </tbody>
-         </table>
+            jQuery(document).ready(function() {
+               jQuery("#btAddProject").click(function() {
+                  // check fields
+                  var foundError = 0;
+                  var msgString = "{t}Some fields are missing:{/t}\n\n";
 
-         <form id="deleteAstreinteForm" name="deleteAstreinteForm" method="post" action="{$page}" class="ui-helper-hidden">
+                  var form = jQuery("#addTeamProjectForm");
+
+                  if (0 == form.find("input[name=addedprojectid]").val()) {
+                     msgString += "{t}Project{/t}\n";
+                     ++foundError;
+                  }
+
+                  if (0 == foundError) {
+                     form.submit();
+                  } else {
+                     alert(msgString);
+                  }
+               });
+            });
+         </script>
+         <form id="addTeamProjectForm" name="addTeamProjectForm" class="formWithTabsHistory" method="post" action="{$page}">
             <fieldset>
-               <input type="hidden" name="deletedastreinte_id" value="0" />
+               <label for="addedprojectid">{t}Project{/t}:</label>
+               <select name="addedprojectid" id="addedprojectid">
+                  <option value="0"></option>
+                  {foreach from=$otherProjects key=id item=i}
+                  <option value="{$id}">{$i}</option>
+                  {/foreach}
+               </select>
+               <label for="project_type">Type:</label>
+               <select name="project_type" id="project_type">
+                  {foreach from=$typeNames key=id item=i}
+                  <option value="{$id}">{$i}</option>
+                  {/foreach}
+               </select>
+               <input type="button" name="btAddProject" id="btAddProject" value="{t}Add{/t}">
             </fieldset>
          </form>
-         {/if}
+
+         <!-- Display previous entries -->
+         <div style="margin-top: 2em;">
+            <script type="text/javascript">
+               function removeTeamProject(id, description){
+                  var confirmString = "Remove this project from the team ?\n\n" + description;
+                  if (confirm(confirmString)) {
+                     var form = jQuery("#removeTeamProjectForm");
+                     form.find("input[name=deletedprojectid]").val(id);
+                     form.submit();
+                  }
+               }
+            </script>
+            <table>
+               <thead>
+                  <tr>
+                     <th></th>
+                     <th>{t}Name{/t}</th>
+                     <th>{t}Type{/t}</th>
+                     <th>{t}Status{/t}</th>
+                     <th>{t}Description{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$teamProjects key=id item=i}
+                  <tr>
+                     <td class="ui-state-error-text" style="width:1em;">{if isset($i.delete) && $i.delete}
+                        <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
+                           onclick="removeTeamProject('{$id}','{$i.name}');return false;"></a>
+                     {/if}</td>
+                     <td title="{$i.projectid}">{$i.name}</td>
+                     <td>{$i.typeNames}</td>
+                     <td>{$i.enabled}</td>
+                     <td>{$i.description}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+            </table>
+
+            <form id="removeTeamProjectForm" name="removeTeamProjectForm" method="post" action="{$page}" class="ui-helper-hidden formWithTabsHistory">
+               <fieldset>
+                  <input type="hidden" name="deletedprojectid" value="0">
+               </fieldset>
+            </form>
+         </div>
       </div>
 
-   </div>
+      <div id="tabTooltips">
+         <h2>{t}Issue Tooltips{/t}</h2>
+         <!-- Display issue tooltip settings -->
+         <div style="margin-top: 2em;">
+            <div class="left">
+               <label for="select_projectid">{t}Project{/t}:</label>
+               <select name="select_projectid" id="select_projectid" class="itemSelection_sourceRef">
+                  {foreach from=$tooltipProjectCandidates key=id item=i}
+                  <option value="projectid:{$id},teamid:{$team->getId()}">{$i}</option>
+                  {/foreach}
+               </select>
 
-   <div style="margin-top: 2em;padding: 0 1em 1em;width:90%"class="ui-widget-content">
-      <h2>{t}Delete team{/t}</h2>
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-            jQuery("#btDeleteTeam").click(function() {
-               var confirmString = "{t}Delete team{/t} '{$team->getName()}' ?";
-               if (confirm(confirmString)) {
-                  jQuery("#deleteTeamProjectForm").submit();
-               }
+               <script type="text/javascript">
+                  // this function is called by the selectItemsDialogbox, when 'OK' is clicked
+                  function itemSelection_ok_callback(data) {
+                     // update tooltips table
+                     // data contains the new row to add/replace in destination widget.
+                     var response = jQuery.parseJSON(data);
+                     var projectid = response["projectid"];
+                     var line = jQuery("#issueTooltips_proj_"+response["projectid"]);
+                     if (line.length) {
+                        // update existing line
+                        jQuery("#issueTooltips_proj_"+projectid+"_fields").text(response["tooltipFields"]);
+                     } else {
+                        // create new line
+                        jQuery("#issueTooltipsTable").attr("style",""); // remove display:none
+                        jQuery("#noCustomTooltipsInfo").attr("style","display:none");
+                        jQuery("#issueTooltipsTable").append(
+                           jQuery('<tr>').attr('id', "issueTooltips_proj_"+projectid)
+                        );
+                        var deleteLink = jQuery('<a>').attr('class', 'ui-icon').attr('href','{$page}').
+                                                      attr('onclick', "removeIssueTooltip('"+projectid+"','"+response["projectName"]+"');return false;");
+                        jQuery("#issueTooltips_proj_"+projectid).append(
+                           jQuery('<td>').attr('class', 'ui-state-error-text').attr("style","width:1em;").append(deleteLink)
+                        ).append(
+                           jQuery('<td>').text(response["projectName"])
+                        ).append(
+                           jQuery('<td>').attr('id', "issueTooltips_proj_"+projectid+"_fields").text(response["tooltipFields"])
+                        );
+                     }
+                  }
+               </script>
+               {include file="form/selectItemsDialogbox.html"}
+            </div>
+
+            <div style="margin-top: 1em;">
+               <script type="text/javascript">
+                  function removeIssueTooltip(project_id, project_name){
+                     var confirmString = "Remove IssueTooltip customisation for project " + project_name;
+                     if (confirm(confirmString)) {
+                        var form = jQuery("#removeIssueTooltipForm");
+                        form.find("input[name=projectid]").val(project_id);
+                        form.submit();
+                     }
+                  }
+               </script>
+               {if $issueTooltips}
+               <table id="issueTooltipsTable">
+               {else}
+               <table id="issueTooltipsTable" style="display:none">
+               {/if}
+                  <thead>
+                     <tr>
+                        <th></th>
+                        <th>{t}Project{/t}</th>
+                        <th>{t}Tooltip fields{/t}</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {foreach from=$issueTooltips key=id item=i}
+                     <tr id="issueTooltips_proj_{$id}">
+                        <td class="ui-state-error-text" style="width:1em;">
+                           <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
+                              onclick="removeIssueTooltip('{$id}','{$i.projectName}');return false;"></a>
+                        </td>
+                        <td title="{$i.projectId}">{$i.projectName}</td>
+                        <td id="issueTooltips_proj_{$id}_fields">{$i.tooltipFields}</td>
+                     </tr>
+                     {/foreach}
+                  </tbody>
+               </table>
+
+               <form id="removeIssueTooltipForm" name="removeIssueTooltipForm" method="post" action="{$page}" class="ui-helper-hidden formWithTabsHistory">
+                  <fieldset>
+                     <input type="hidden" name="action" value="removeIssueTooltip">
+                     <input type="hidden" name="projectid" value="0">
+                  </fieldset>
+               </form>
+               {if !$issueTooltips}
+                  <br>
+                  <span id="noCustomTooltipsInfo">{t}No custom IssueTooltips defined for your projects.{/t}</span>
+               {/if}
+            </div>
+         </div>
+      </div>
+
+
+      <div id="tabOnDuty">
+         <h2>{t}Add OnDuty tasks{/t}</h2>
+         <span class="help_font">{t}Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly different behaviour.{/t}</span>
+         <br>
+         {if $onDutyCandidates}
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               jQuery("#btAddAstreinte").click(function() {
+                  // check fields
+                  var foundError = 0;
+                  var msgString = "{t}Some fields are missing:{/t}\n\n";
+
+                  var form = jQuery("#addAstreinteForm");
+
+                  if (0 == form.find("input[name=addedastreinte_id]").val()) {
+                     msgString += "{t}Inactivity task{/t}\n";
+                     ++foundError;
+                  }
+
+                  if (0 == foundError) {
+                     form.submit();
+                  } else {
+                     alert(msgString);
+                  }
+               });
             });
-         });
-      </script>
-      <form id="deleteTeamProjectForm" name="deleteTeamForm" method="post" action="{$page}">
-         <fieldset>
-            <label for="btDeleteTeam">{t}Delete team{/t} {$team->getName()} ?</label>
-            <input type="button" name="btDeleteTeam" id="btDeleteTeam" value="{t}Delete{/t}" />
-            <input type="hidden" name="deletedteam" value="{$team->getId()}" />
-         </fieldset>
-      </form>
+         </script>
+         <form id="addAstreinteForm" name="addAstreinteForm" class="formWithTabsHistory" method="post" action="{$page}" style="margin-top: 2em;">
+            <fieldset>
+               <label for="addedastreinte_id">{t}Task{/t}:</label>
+               <select id="addedastreinte_id" name="addedastreinte_id" style="width: 600px;" title="{t}Inactivity tasks{/t}">
+                  <option value="0"></option>
+                  {foreach from=$onDutyCandidates key=id item=i}
+                  <option value="{$id}">{$id} : {$i}</option>
+                  {/foreach}
+               </select>
+               <input type="button" name="btAddAstreinte" id="btAddAstreinte" value="{t}Add{/t}" />
+            </fieldset>
+         </form>
+         {else}
+            {if !$onDutyTasks}
+               <br>
+               {t}No 'inactivity' task defined in your SideTasks projects.{/t}
+            {/if}
+         {/if}
+
+         <!-- Display defined OnDuty tasks -->
+         <div style="margin-top: 2em;">
+            {if $onDutyTasks}
+            <script type="text/javascript">
+               function deleteOnDutyTask(id, description){
+                  var confirmString = "{t}This task will no longer be identified as an 'OnDuty' task.{/t}\n" + description;
+                  if (confirm(confirmString)) {
+                     var form = jQuery("#deleteAstreinteForm");
+                     form.find("input[name=deletedastreinte_id]").val(id);
+                     form.submit();
+                  }
+               }
+            </script>
+            <table>
+               <thead>
+                  <tr>
+                     <th></th>
+                     <th>{t}Id{/t}</th>
+                     <th>{t}Description{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$onDutyTasks key=id item=i}
+                  <tr>
+                     <td class="ui-state-error-text" style="width:1em;">
+                        <a class="ui-icon" title="{t}delete OnDuty task{/t}" href="{$page}"
+                           onclick="deleteOnDutyTask('{$id}', '{$id} - {$i.description}');return false;"></a>
+                     </td>
+                     <td>{$id}</td>
+                     <td>{$i.description}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+            </table>
+
+            <form id="deleteAstreinteForm" name="deleteAstreinteForm" method="post" action="{$page}" class="ui-helper-hidden formWithTabsHistory">
+               <fieldset>
+                  <input type="hidden" name="deletedastreinte_id" value="0" />
+               </fieldset>
+            </form>
+            {/if}
+         </div>
+
+      </div>
    </div>
    {else}
    <p class="center ui-state-error-text">{t}Sorry, you need to be Team Leader to access this page.{/t}</p>
