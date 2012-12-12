@@ -33,6 +33,7 @@ class DetailedChargesIndicator implements IndicatorPlugin {
 
    private $isManager;
    private $teamid;
+   private $userid;
 
    private $availFilterList;
    private $selectedFilterList;
@@ -93,7 +94,7 @@ class DetailedChargesIndicator implements IndicatorPlugin {
          throw new Exception("Missing IssueSelection");
       }
       if (is_null($params)) {
-         throw new Exception("Missing parameters: isManager, allFilters, selectedFilters");
+         throw new Exception("Missing parameters: isManager, allFilters, selectedFilters, teamid, userid");
       }
 
       if (array_key_exists('isManager', $params)) {
@@ -106,6 +107,11 @@ class DetailedChargesIndicator implements IndicatorPlugin {
          $this->teamid = $params['teamid'];
       } else {
          $this->teamid = 0;
+      }
+      if (array_key_exists('userid', $params)) {
+         $this->userid = $params['userid'];
+      } else {
+         $this->userid = 0;
       }
 
       if (array_key_exists('selectedFilters', $params)) {
@@ -325,7 +331,11 @@ class DetailedChargesIndicator implements IndicatorPlugin {
          $formatedNewList = '';
          foreach ($isel->getIssueList() as $bugid => $issue) {
 
-            $tooltipAttr = $issue->getTooltipItems($this->teamid);
+            if (0 != $this->userid) {
+               $tooltipAttr = $issue->getTooltipItems($this->teamid, $this->userid);
+            } else {
+               $tooltipAttr = $issue->getTooltipItems($this->teamid, 0, $this->isManager);
+            }
             if (!array_key_exists(T_('Summary'), $tooltipAttr)) {
                // insert in front
                $tooltipAttr = array(T_('Summary') => $issue->getSummary()) + $tooltipAttr;

@@ -72,7 +72,7 @@ class TeamActivityReportController extends Controller {
                $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
                $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
-               $this->smartyHelper->assign('weekDetails', $this->getWeekDetails($timeTracking, $isDetailed, $weekDates));
+               $this->smartyHelper->assign('weekDetails', $this->getWeekDetails($timeTracking, $isDetailed, $weekDates, $user->getId()));
 
                // ConsistencyCheck
                $consistencyErrors = $this->getConsistencyErrors($timeTracking);
@@ -121,7 +121,7 @@ class TeamActivityReportController extends Controller {
     * @param int[] $weekDates
     * @return mixed[]
     */
-   private function getWeekDetails(TimeTracking $timeTracking, $isDetailed, $weekDates) {
+   private function getWeekDetails(TimeTracking $timeTracking, $isDetailed, $weekDates, $session_userid) {
       $team = TeamCache::getInstance()->getTeam($timeTracking->getTeamid());
 
       $weekDetails = array();
@@ -178,11 +178,12 @@ class TeamActivityReportController extends Controller {
 
                      if ((!$project->isSideTasksProject(array($team->getId()))) &&
                          (!$project->isExternalTasksProject())) {
-                        $tooltipAttr = $issue->getTooltipItems($team->getId());
-                        $tooltipAttr[T_('Elapsed')] = $issue->getElapsed();
-                        $tooltipAttr[T_('Backlog')] = $issue->getDuration();
-                        $tooltipAttr[T_('Drift')] = $issue->getDrift();
-                        $tooltipAttr[T_('DriftColor')] = $issue->getDriftColor();
+                        $tooltipAttr = $issue->getTooltipItems($team->getId(), $session_userid);
+                        // force some fields
+                        #$tooltipAttr[T_('Elapsed')] = $issue->getElapsed();
+                        #$tooltipAttr[T_('Backlog')] = $issue->getDuration();
+                        #$tooltipAttr[T_('Drift')] = $issue->getDrift();
+                        #$tooltipAttr[T_('DriftColor')] = $issue->getDriftColor();
                         $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
                      } else {
                         $infoTooltip = NULL;
@@ -222,7 +223,8 @@ class TeamActivityReportController extends Controller {
                      
                   if ((!$project->isSideTasksProject(array($team->getId()))) &&
                       (!$project->isExternalTasksProject())) {
-                     $tooltipAttr = $issue->getTooltipItems($team->getId());
+                     $tooltipAttr = $issue->getTooltipItems($team->getId(), $session_userid);
+                     // force some fields
                      #$tooltipAttr[T_('Elapsed')] = $issue->getElapsed();
                      #$tooltipAttr[T_('Backlog')] = $issue->getDuration();
                      #$tooltipAttr[T_('Drift')] = $issue->getDrift();

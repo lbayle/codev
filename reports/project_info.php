@@ -75,7 +75,6 @@ class ProjectInfoController extends Controller {
                // --- FILTER TABS -------------
 
                // get selected filters
-               $selectedFilters="";
                if(isset($_GET['selectedFilters'])) {
                   $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
                } else {
