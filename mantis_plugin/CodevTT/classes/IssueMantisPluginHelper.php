@@ -46,7 +46,7 @@ class IssueMantisPluginHelper {
 
       $old_backlog = NULL;
       
-      $query = "SELECT value FROM `codev_config_table` WHERE config_id = '".Issue::id_customField_backlog."'";
+      $query = "SELECT value FROM `codev_config_table` WHERE config_id = '".IssueMantisPluginHelper::id_customField_backlog."'";
       $result = mysql_query($query);
       if (!$result) {
          $e = new Exception("Query FAILED: ".$query);
