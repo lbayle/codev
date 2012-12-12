@@ -2108,8 +2108,14 @@ class Issue extends Model implements Comparable {
    }
 
 
-   public function getTooltipItems($teamid = 0, $userid = 0) {
-
+   /**
+    *
+    * @param type $teamid
+    * @param type $userid
+    * @param type $isManager OPTIONAL (overrides auto-detection based on $teamid + $userid)
+    * @return array fields to be displayed (i18n applied)
+    */
+   public function getTooltipItems($teamid = 0, $userid = 0, $isManager = NULL) {
       // NOTE: cache should be an array with key = 'team'.$teamid.'_user'.$userid;
       // but userid & teamid won't change during the http request.
       if (is_null($this->tooltipItemsCache)) {
@@ -2123,6 +2129,16 @@ class Issue extends Model implements Comparable {
             return $this->tooltipItemsCache;
          }
 
+         $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
+         $mgrEffortEstimField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
+         $effortEstimField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
+         $backlogField = Config::getInstance()->getValue(Config::id_customField_backlog);
+         $addEffortField = Config::getInstance()->getValue(Config::id_customField_addEffort);
+         $deadLineField = Config::getInstance()->getValue(Config::id_customField_deadLine);
+         $deliveryDateField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
+         #$deliveryIdField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+         $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
+
          // construct name=>value array
          foreach($tooltipFields as $field) {
 
@@ -2134,29 +2150,39 @@ class Issue extends Model implements Comparable {
 
                $name = Tools::getCustomFieldName($cfield_id);
 
-               switch ($cfield_id) {
-                  case Config::id_customField_ExtId:
+               switch (intval($cfield_id)) {
+                  case $extIdField:
                      $this->tooltipItemsCache[$name] = $this->getTcId();
                      break;
-                  case Config::id_customField_MgrEffortEstim:
-                     $this->tooltipItemsCache[$name] = $this->getMgrEffortEstim();
+                  case $mgrEffortEstimField:
+                     if (is_null($isManager)) {
+                        if ((0 != $userid) && (0 != $teamid)) {
+                           $user = UserCache::getInstance()->getUser($userid);
+                           $isManager = $user->isTeamManager($teamid);
+                        } else {
+                           $isManager = FALSE;
+                        }
+                     }
+                     if ($isManager) {
+                        $this->tooltipItemsCache[$name] = $this->getMgrEffortEstim();
+                     }
                      break;
-                  case Config::id_customField_effortEstim:
+                  case $effortEstimField:
                      $this->tooltipItemsCache[$name] = $this->getEffortEstim();
                      break;
-                  case Config::id_customField_backlog:
+                  case $backlogField:
                      $this->tooltipItemsCache[$name] = $this->getBacklog();
                      break;
-                  case Config::id_customField_addEffort:
+                  case $addEffortField:
                      $this->tooltipItemsCache[$name] = $this->getEffortAdd();
                      break;
-                  case Config::id_customField_deadLine:
-                     $this->tooltipItemsCache[$name] = date(T_('Y-m-d'), $this->getDeadLine());
+                  case $deadLineField:
+                     $this->tooltipItemsCache[$name] = date('Y-m-d', $this->getDeadLine());
                      break;
-                  case Config::id_customField_deliveryDate:
-                     $this->tooltipItemsCache[$name] = date(T_('Y-m-d'), $this->getDeliveryDate());
+                  case $deliveryDateField:
+                     $this->tooltipItemsCache[$name] = date('Y-m-d', $this->getDeliveryDate());
                      break;
-                  case Config::id_customField_type:
+                  case $customField_type:
                      $this->tooltipItemsCache[$name] = $this->getType();
                      break;
                   default:
