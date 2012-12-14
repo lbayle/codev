@@ -18,9 +18,8 @@ ccheckErrList       array(array(issueURL, user, date, issueStatus, desc))
       jQuery("#dialog_ConsistencyCheck").dialog({
          autoOpen: false,
          hide: "fade",
-         width: "600",
-         maxHeight: "500"
-      });
+         width: 750
+      }).css( { 'max-height' : '500px' } ); // fix MaxHeight http://bugs.jqueryui.com/ticket/4820
    });
 </script>
 
