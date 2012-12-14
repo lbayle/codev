@@ -101,8 +101,7 @@ class CommandSetInfoController extends Controller {
                if(isset($_GET['selectedFilters'])) {
                   $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
                } else {
-                  // TODO
-                  #$selectedFilters = $session_user->getCommandSetFilters($commandsetid);
+                  $selectedFilters = $session_user->getCommandSetFilters($commandsetid);
                }
 
                CommandSetTools::displayCommandSet($this->smartyHelper, $commandset, $isManager, $selectedFilters);

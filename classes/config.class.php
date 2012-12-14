@@ -108,7 +108,7 @@ class Config {
    const id_projectFilters = "projectFilters";
    const id_commandFilters = "commandFilters";
    const id_commandSetFilters = "commandSetFilters";
-   const id_ServiceContractFilters = "ServiceContractFilters";
+   const id_serviceContractFilters = "serviceContractFilters";
 
    const default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideDevProjects:0";
 

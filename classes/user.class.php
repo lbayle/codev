@@ -1280,6 +1280,128 @@ class User extends Model {
    }
 
    /**
+    * set the Command filters
+    * @param string $filters (comma separated)
+    */
+   public function setCommandSetFilters($filters, $csetid=0) {
+      if (is_null($this->commandSetFiltersCache)) {
+         $this->commandSetFiltersCache = array();
+      }
+      if (array_key_exists($csetid, $this->commandSetFiltersCache)) {
+         $prevFilters = $this->commandSetFiltersCache["$csetid"];
+      } else {
+         $prevFilters = NULL;
+      }
+
+      // Note: check type with !== is mandatory
+      if ($filters !== $prevFilters) {
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("User $this->id Set CommandSetFilters for cmdSet $csetid : $filters");
+         }
+         Config::setValue(Config::id_commandSetFilters, $filters, Config::configType_int, NULL, 0, $this->id, 0, 0, $csetid);
+      }
+      $this->commandSetFiltersCache["$csetid"] = $filters;
+   }
+
+   /**
+    * get the Command filters
+    *
+    * @return string or "" if not found
+    */
+   public function getCommandSetFilters($csetid=0) {
+
+      if (is_null($this->commandSetFiltersCache)) {
+         $this->commandSetFiltersCache = array();
+      }
+
+      if (!array_key_exists($csetid, $this->commandSetFiltersCache)) {
+         $query = "SELECT value FROM `codev_config_table` " .
+                  "WHERE config_id = '" . Config::id_commandSetFilters . "' " .
+                  "AND user_id = $this->id ".
+                  "AND commandset_id IN ($csetid, 0) ".
+                  "ORDER BY command_id DESC";
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getCommandSetFilters($csetid) query = " . $query);
+         }
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            #echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         // if not found return ""
+         $filters = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "";
+         $this->commandSetFiltersCache["$csetid"] = $filters;
+
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getCommandSetFilters($csetid) filters=" . $filters);
+         }
+      }
+      return $filters;
+   }
+
+   /**
+    * set the Command filters
+    * @param string $filters (comma separated)
+    */
+   public function setServiceContractFilters($filters, $serviceid=0) {
+      if (is_null($this->serviceContractFiltersCache)) {
+         $this->serviceContractFiltersCache = array();
+      }
+      if (array_key_exists($serviceid, $this->serviceContractFiltersCache)) {
+         $prevFilters = $this->serviceContractFiltersCache["$serviceid"];
+      } else {
+         $prevFilters = NULL;
+      }
+
+      // Note: check type with !== is mandatory
+      if ($filters !== $prevFilters) {
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("User $this->id Set CommandSetFilters for cmdSet $serviceid : $filters");
+         }
+         Config::setValue(Config::id_serviceContractFilters, $filters, Config::configType_int, NULL, 0, $this->id, 0, 0, 0, $serviceid);
+      }
+      $this->serviceContractFiltersCache["$serviceid"] = $filters;
+   }
+
+   /**
+    * get the Command filters
+    *
+    * @return string or "" if not found
+    */
+   public function getServiceContractFilters($serviceid=0) {
+
+      if (is_null($this->serviceContractFiltersCache)) {
+         $this->serviceContractFiltersCache = array();
+      }
+
+      if (!array_key_exists($serviceid, $this->serviceContractFiltersCache)) {
+         $query = "SELECT value FROM `codev_config_table` " .
+                  "WHERE config_id = '" . Config::id_serviceContractFilters . "' " .
+                  "AND user_id = $this->id ".
+                  "AND servicecontract_id IN ($serviceid, 0) ".
+                  "ORDER BY command_id DESC";
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getServiceContractFilters($serviceid) query = " . $query);
+         }
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            #echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         // if not found return ""
+         $filters = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "";
+         $this->serviceContractFiltersCache["$serviceid"] = $filters;
+
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getServiceContractFilters($serviceid) filters=" . $filters);
+         }
+      }
+      return $filters;
+   }
+
+   /**
     * set the language to set on login
     * @param int $lang
     */

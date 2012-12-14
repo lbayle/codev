@@ -84,6 +84,9 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 
 
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+
+         $session_user->setServiceContractFilters($selectedFilters, $servicecontractid);
+
          $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
          $isManager = $session_user->isTeamManager($servicecontract->getTeamid());
 
