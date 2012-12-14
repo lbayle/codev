@@ -103,6 +103,14 @@ class User extends Model {
     */
    private $commandFiltersCache;
    /**
+    * @var string[] filters foreach commandSet
+    */
+   private $commandSetFiltersCache;
+   /**
+    * @var string[] filters foreach serviceContract
+    */
+   private $serviceContractFiltersCache;
+   /**
     *
     * @var array Cache of team menber
     */
