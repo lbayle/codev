@@ -84,6 +84,9 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 
 
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+
+         $session_user->setCommandFilters($selectedFilters, $cmdid);
+
          $cmd = CommandCache::getInstance()->getCommand($cmdid);
          $isManager = $session_user->isTeamManager($cmd->getTeamid());
 

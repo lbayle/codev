@@ -106,6 +106,9 @@ class Config {
    const id_defaultProjectId = "defaultProjectId";
    const id_ClientTeamid = "client_teamid"; // FDJ_teamid (FIXME there can be more than one customer !)
    const id_projectFilters = "projectFilters";
+   const id_commandFilters = "commandFilters";
+   const id_commandSetFilters = "commandSetFilters";
+   const id_ServiceContractFilters = "ServiceContractFilters";
 
    const default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideDevProjects:0";
 
@@ -303,8 +306,11 @@ class Config {
     * @param int $project_id
     * @param int $user_id
     * @param int $team_id
+    * @param int $command_id
+    * @param int $commandset_id
+    * @param int $servicecontract_id
     */
-   public static function setValue($id, $value, $type, $desc=NULL, $project_id=0, $user_id=0, $team_id=0) {
+   public static function setValue($id, $value, $type, $desc=NULL, $project_id=0, $user_id=0, $team_id=0, $command_id=0, $cset_id=0, $service_id=0) {
       $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($value);
       $formattedDesc = SqlWrapper::getInstance()->sql_real_escape_string($desc);
 
@@ -313,7 +319,10 @@ class Config {
                "WHERE config_id = '$id' ".
                "AND project_id = $project_id ".
                "AND user_id = $user_id ".
-               "AND team_id = $team_id;";
+               "AND team_id = $team_id ".
+               "AND command_id = $command_id ".
+               "AND commandset_id = $cset_id ".
+               "AND servicecontract_id = $service_id ";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -326,15 +335,18 @@ class Config {
                   "WHERE config_id = '$id' ".
                   "AND project_id = $project_id ".
                   "AND user_id = $user_id ".
-                  "AND team_id = $team_id";
+                  "AND team_id = $team_id ".
+                  "AND command_id = $command_id ".
+                  "AND commandset_id = $cset_id ".
+                  "AND servicecontract_id = $service_id ";
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("UPDATE setValue $id: $value (t=$type) $desc");
             self::$logger->debug("UPDATE query = $query");
          }
       } else {
          $query = "INSERT INTO `codev_config_table` ".
-                  "(`config_id`, `value`, `type`, `description`, `project_id`, `user_id`, `team_id`) ".
-                  "VALUES ('$id', '$formattedValue', '$type', '$formattedDesc', $project_id, $user_id, $team_id);";
+                  "(`config_id`, `value`, `type`, `description`, `project_id`, `user_id`, `team_id`, `command_id`, `commandset_id`, `servicecontract_id`) ".
+                  "VALUES ('$id', '$formattedValue', '$type', '$formattedDesc', $project_id, $user_id, $team_id, $command_id, $cset_id, $service_id);";
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("INSERT Config::setValue $id: $value (t=$type) $desc");
             self::$logger->debug("INSERT query = $query");

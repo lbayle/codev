@@ -99,6 +99,10 @@ class User extends Model {
    private $projectFilters;
 
    /**
+    * @var string[] filters foreach command
+    */
+   private $commandFiltersCache;
+   /**
     *
     * @var array Cache of team menber
     */
@@ -1212,6 +1216,67 @@ class User extends Model {
          $this->projectFilters = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "";
       }
       return $this->projectFilters;
+   }
+
+   /**
+    * set the Command filters
+    * @param string $filters (comma separated)
+    */
+   public function setCommandFilters($filters, $commandid=0) {
+      if (is_null($this->commandFiltersCache)) {
+         $this->commandFiltersCache = array();
+      }
+      if (array_key_exists($commandid, $this->commandFiltersCache)) {
+         $prevFilters = $this->commandFiltersCache["$commandid"];
+      } else {
+         $prevFilters = NULL;
+      }
+
+      // Note: check type with !== is mandatory
+      if ($filters !== $prevFilters) {
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("User $this->id Set CommandFilters for cmd $commandid : $filters");
+         }
+         Config::setValue(Config::id_commandFilters, $filters, Config::configType_int, NULL, 0, $this->id, 0, $commandid);
+      }
+      $this->commandFiltersCache["$commandid"] = $filters;
+   }
+
+   /**
+    * get the Command filters
+    *
+    * @return string or "" if not found
+    */
+   public function getCommandFilters($commandid=0) {
+
+      if (is_null($this->commandFiltersCache)) {
+         $this->commandFiltersCache = array();
+      }
+
+      if (!array_key_exists($commandid, $this->commandFiltersCache)) {
+         $query = "SELECT value FROM `codev_config_table` " .
+                  "WHERE config_id = '" . Config::id_commandFilters . "' " .
+                  "AND user_id = $this->id ".
+                  "AND command_id IN ($commandid, 0) ".
+                  "ORDER BY command_id DESC";
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getCommandFilters($commandid) query = " . $query);
+         }
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            #echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         // if not found return ""
+         $filters = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "";
+         $this->commandFiltersCache["$commandid"] = $filters;
+
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getCommandFilters($commandid) filters=" . $filters);
+         }
+      }
+      return $filters;
    }
 
    /**

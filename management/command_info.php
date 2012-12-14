@@ -85,10 +85,12 @@ class CommandInfoController extends Controller {
                if(isset($_GET['selectedFilters'])) {
                   $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
                } else {
-                  // TODO
-                  #$selectedFilters = $session_user->getCommandFilters($cmdid);
+                  $selectedFilters = $session_user->getCommandFilters($cmdid);
                }
-
+               // cleanup filters (remove empty lines)
+               $filterList = explode(',', $selectedFilters);
+               $filterList = array_filter($filterList, create_function('$a','return $a!="";'));
+               $selectedFilters = implode(',', $filterList);
 
                CommandTools::displayCommand($this->smartyHelper, $cmd, $isManager, $selectedFilters);
 
