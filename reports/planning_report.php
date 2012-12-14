@@ -133,13 +133,26 @@ class PlanningReportController extends Controller {
 
             if (array_key_exists($teamid,$teamList)) {
                $this->smartyHelper->assign('consistencyErrors', $this->getConsistencyErrors($teamid));
+               
+               $team = TeamCache::getInstance()->getTeam($teamid);
+
+               $isManager = $session_user->isTeamManager($teamid);
+               $this->smartyHelper->assign("isManager", $isManager);
+
+               // display backlog (unassigned tasks)
+               $unassignedIssues = $team->getUnassignedTasks();
+               $unassigendSel = new IssueSelection("unassigned from team $teamid");
+               $unassigendSel->addIssueList($unassignedIssues);
+               $this->smartyHelper->assign('unassigned_nbIssues', $unassigendSel->getNbIssues());
+               $this->smartyHelper->assign('unassigned_MEE', $unassigendSel->mgrEffortEstim);
+               $this->smartyHelper->assign('unassigned_EE', ($unassigendSel->effortEstim + $unassigendSel->effortAdd));
 
                $today = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
                $graphSize = ("undefined" != $pageWidth) ? $pageWidth - 150 : 800;
 
                $allTasksLists = array();
                $workloads = array();
-               $teamMembers = TeamCache::getInstance()->getTeam($teamid)->getUsers();
+               $teamMembers = $team->getUsers();
 
                $nbDaysToDisplay = 0;
                foreach ($teamMembers as $user) {
@@ -195,7 +208,7 @@ class PlanningReportController extends Controller {
       $ccheck = new ConsistencyCheck2($issueList);
 
       $cerrList  = $ccheck->checkBadBacklog();
-      $cerrList2 = $ccheck->checkUnassignedTasks();
+      #$cerrList2 = $ccheck->checkUnassignedTasks();
 
       $consistencyErrors = NULL;
       if (count($cerrList) > 0 || count($cerrList2) > 0) {
@@ -218,6 +231,7 @@ class PlanningReportController extends Controller {
                'desc' => $cerr->desc
             );
          }
+/*
          if (0 != count($cerrList2)) {
             $consistencyErrors[] = array(
                'issueURL' => '',
@@ -229,6 +243,7 @@ class PlanningReportController extends Controller {
                'desc' => count($cerrList2).' '.T_('tasks are not assigned to anybody.')
             );
          }
+*/
       }
 
       return $consistencyErrors;

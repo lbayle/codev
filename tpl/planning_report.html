@@ -104,6 +104,13 @@
    </div>
    {/if}
 
+   {if isset($unassigned_nbIssues)}
+   <div style="margin-top: 2em;">
+      <span title="{t}Unassigned tasks{/t}" style="font-weight: bold;">{t}Team's backlog{/t}: {$unassigned_nbIssues} {t}tasks{/t}</span>&nbsp;&nbsp;&nbsp;
+      ({t}EffortEstim{/t} = {$unassigned_EE}{if $isManager}, {t}MgrEffortEstim{/t} = {$unassigned_MEE}{/if})
+   </div>
+   {/if}
+
    {if $planning}
    <div style="margin-top: 2em;">
       <table class="invisible" style="white-space:nowrap;" cellspacing="7px">

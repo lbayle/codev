@@ -193,7 +193,7 @@ class ConsistencyCheck2 {
       #self::$logger->debug("checkTimeTracksOnNewIssues");
       $cerrList6 = $this->checkTimeTracksOnNewIssues();
 
-      $cerrList7 = $this->checkUnassignedTasks();
+      #$cerrList7 = $this->checkUnassignedTasks();
 
       $cerrList8 = $this->checkIssuesNotInCommand();
 
@@ -201,7 +201,7 @@ class ConsistencyCheck2 {
       #self::$logger->debug("done.");
 
       #$cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6);
-      $cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6, $cerrList7, $cerrList8);
+      $cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6, $cerrList8);
 
       // PHP Fatal error:  Maximum function nesting level of '100' reached, aborting!
       ini_set('xdebug.max_nesting_level', 300);

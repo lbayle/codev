@@ -511,7 +511,7 @@ class Team extends Model {
       $query = "SELECT * ".
                "FROM `mantis_bug_table` ".
                "WHERE project_id IN ($formatedProjects) ".
-               "AND handler_id IN ($formatedMembers);";
+               "AND handler_id IN ($formatedMembers) ";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -1030,6 +1030,45 @@ class Team extends Model {
 
    }
 
+   /**
+    * get all unassigned tasks found in team projects
+    *
+    * Note: sideTasks and nostatsProjects excluded, resolved tasks excluded.
+    *
+    * @return Issue[] : issueList (id => Issue)
+    */
+   public function getUnassignedTasks() {
+
+
+      $issueList = array();
+
+      $query_projects = "SELECT project.id ".
+               "FROM `mantis_project_table` as project ".
+               "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
+               "WHERE team_project.team_id = $this->id ".
+               "AND team_project.type NOT IN (".Project::type_noStatsProject.', '.Project::type_sideTaskProject.') ';
+
+      $query = "SELECT * ".
+               "FROM `mantis_bug_table` ".
+               "WHERE project_id IN ($query_projects) ".
+               "AND handler_id = '0' ".
+               "AND status < get_project_resolved_status_threshold(project_id) ".
+               "ORDER BY project_id ASC, id ASC";
+
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
+      }
+
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getUnassignedTasks(teamid=$this->id) nbIssues=".count($issueList));
+      }
+      return $issueList;
+   }
 
 }
 

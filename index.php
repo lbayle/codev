@@ -65,9 +65,10 @@ class IndexController extends Controller {
 
          // Consistency errors
          $consistencyErrors = $this->getConsistencyErrors($user);
-         $consistencyErrorsMgr = $this->getConsistencyErrorsMgr($user);
 
-         $consistencyErrors = array_merge($consistencyErrors, $consistencyErrorsMgr);
+         // no specific Mgr errors right now
+         #$consistencyErrorsMgr = $this->getConsistencyErrorsMgr($user);
+         #$consistencyErrors = array_merge($consistencyErrors, $consistencyErrorsMgr);
 
          if(count($consistencyErrors) > 0) {
             $this->smartyHelper->assign('consistencyErrorsTitle', count($consistencyErrors).' '.T_("Errors in your Tasks"));
@@ -167,7 +168,7 @@ class IndexController extends Controller {
     */
    private function getConsistencyErrorsMgr(User $sessionUser) {
       $consistencyErrors = array(); // if null, array_merge fails !
-
+/*
       $mTeamList = array_keys($sessionUser->getManagedTeamList());
       $lTeamList = array_keys($sessionUser->getLeadedTeamList());
       $teamList = array_merge($mTeamList, $lTeamList);
@@ -177,26 +178,8 @@ class IndexController extends Controller {
          $issues = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true, false);
          $issueList = array_merge($issueList, $issues);
       }
-
-      $ccheck = new ConsistencyCheck2($issueList);
-
-      $cerrList = $ccheck->checkUnassignedTasks();
-      if (count($cerrList) > 0) {
-
-         $bugidList = array();
-         foreach ($cerrList as $cerr) {
-            $bugidList[] = $cerr->bugId;
-         }
-         $formattedBugidList = implode(', ', $bugidList);
-
-         $consistencyErrors[] = array(
-            'mantisIssueURL' => ' ',
-            'date' => ' ',
-            'status' => ' ',
-            'desc' => count($cerrList).' '.T_("Tasks need to be assigned."),
-            'addInfo' => $formattedBugidList
-         );
-      }
+*/
+      // nothing to check right now...
 
       return $consistencyErrors;
    }
