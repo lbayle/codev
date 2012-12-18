@@ -4,7 +4,8 @@
    <form id='teamSelectForm' class="formWithTabsHistory" name='teamSelectForm' method='get' action='{$page}'>
       <fieldset>
          {include file="form/teamSelector.html"}
-         <input type="submit" value='{t}Update{/t}' />
+         <input type="hidden" name="action" value="updateSelectedTeam" />
+         <input type="submit" value='{t}Switch{/t}' />
       </fieldset>
    </form>
 </div>

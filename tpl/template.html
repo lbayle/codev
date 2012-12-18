@@ -48,7 +48,10 @@
       </div>
 
       <div id="login">
-         {if isset($username)}{t}Logged in as {/t}{$username} ({$realname}) <span class="floatr"><a href="logout.php" title="logout">{t}log out{/t}</a></span>
+         {if isset($username)}<a href="logout.php" title="save user settings & logout">{t}Disconnect{/t}</a>&nbsp; {$username} ({$realname})
+         <span class="floatr">
+         {include file="form/teamForm.html"}
+         </span>
          {else}{include file="modal/login.html"}
          {/if}
       </div>
