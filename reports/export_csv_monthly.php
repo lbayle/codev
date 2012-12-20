@@ -45,9 +45,16 @@ class ExportCSVMonthlyController extends Controller {
          $teamList = $mTeamList + $lTeamList + $managedTeamList;
 
          if (count($teamList) > 0) {
-            $defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-            $teamid = Tools::getSecurePOSTIntValue('teamid', $defaultTeam);
-            $_SESSION['teamid'] = $teamid;
+
+            if(isset($_POST['teamid'])) {
+               $teamid = Tools::getSecurePOSTIntValue('teamid');
+               $_SESSION['teamid'] = $teamid;
+            } else if(isset($_GET['teamid'])) {
+               $teamid = Tools::getSecureGETIntValue('teamid');
+               $_SESSION['teamid'] = $teamid;
+            } else {
+               $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+            }
 
             $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
 
@@ -70,7 +77,7 @@ class ExportCSVMonthlyController extends Controller {
             $endTimestamp = Tools::date2timestamp($enddate);
             $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
 
-            if (isset($_POST['teamid']) && 0 != $teamid) {
+            if (('computeCsvMonthly' == $_POST['action']) && 0 != $teamid) {
                $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
                $myFile = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".date("Ymd").".csv";

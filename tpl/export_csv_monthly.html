@@ -4,8 +4,8 @@
    <div align="center" style="margin-top:2em;">
       <form id="form2" method="post" action="{$page}">
          <fieldset>
-            {include file="form/teamSelector.html"}
             {include file="form/dateRangeSelector.html"}
+            <input type="hidden" name="action" value="computeCsvMonthly" />
             <input type=submit value="{t}Compute{/t}">
          </fieldset>
       </form>
