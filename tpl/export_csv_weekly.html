@@ -4,7 +4,6 @@
    <div align="center" style="margin-top: 2em;">
       <form method="post" action="{$page}">
          <fieldset>
-            {include file="form/teamSelector.html"}
             <label for="weekid">{t}Week{/t}: </label>
             <select id="weekid" name="weekid">
                {foreach from=$weeks key=id item=i}
@@ -16,7 +15,8 @@
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.id}</option>
                {/foreach}
             </select>
-            <input type="submit" value="{t}Jump{/t}" />
+            <input type="hidden" name="action" value="computeCsvWeekly" />
+            <input type="submit" value="{t}Compute{/t}" />
          </fieldset>
       </form>
    </div>

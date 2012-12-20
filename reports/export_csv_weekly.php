@@ -57,9 +57,16 @@ class ExportCSVWeeklyController extends Controller {
          $teamList = $mTeamList + $lTeamList + $managedTeamList;
 
          if (0 != count($teamList)) {
-            $defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-            $teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
-            $_SESSION['teamid'] = $teamid;
+
+            if(isset($_POST['teamid'])) {
+               $teamid = Tools::getSecurePOSTIntValue('teamid');
+               $_SESSION['teamid'] = $teamid;
+            } else if(isset($_GET['teamid'])) {
+               $teamid = Tools::getSecureGETIntValue('teamid');
+               $_SESSION['teamid'] = $teamid;
+            } else {
+               $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+            }
 
             $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
 
@@ -69,7 +76,7 @@ class ExportCSVWeeklyController extends Controller {
 
             $this->smartyHelper->assign('years', SmartyTools::getYears($year,2));
 
-            if (isset($_POST['teamid']) && 0 != $teamid) {
+            if (('computeCsvWeekly' == $_POST['action']) && 0 != $teamid) {
                $formatedteamName = TeamCache::getInstance()->getTeam($teamid)->getName();
 
                $weekDates      = Tools::week_dates($weekid,$year);
