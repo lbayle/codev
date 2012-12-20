@@ -18,22 +18,7 @@
    <div align="center">
       <script type="text/javascript">
          jQuery(document).ready(function() {
-            var form = jQuery("#teamSelectForm");
-
-            jQuery("#submitButton").click(function(event) {
-               var foundError = 0;
-               var msgString = "Some fields are missing:\n\n";
-
-               if (0 == form.find("input[name=teamid]").val()) {
-                  msgString += "{t}Team{/t}\n";
-                  ++foundError;
-               }
-
-               if (0 != foundError) {
-                  alert(msgString);
-               }
-               form.submit();
-            });
+            var form = jQuery("#zoomForm");
 
             jQuery("#zoomIn").click(function(event) {
                event.preventDefault();
@@ -55,10 +40,8 @@
             });
          });
       </script>
-      <form id="teamSelectForm" name="teamSelectForm" method="post" action="{$page}">
+      <form id="zoomForm" name="zoomForm" method="post" action="{$page}">
          <fieldset>
-            {include file="form/teamSelector.html"}
-            <input id="submitButton" type="button" value="{t}Update{/t}" />
             &nbsp;<a title="{t}zoom in{/t}" id="zoomIn" href="{$page}"><img style="vertical-align: middle;" src="images/zoom_in.png" alt="{t}zoom in{/t}" /></a>
             &nbsp;<a title="{t}zoom out{/t}" id="zoomOut" href="{$page}"><img style="vertical-align: middle;" src="images/zoom_out.png" alt="{t}zoom out{/t}" /></a>
             <input type="hidden" name="width" value="{$width}" />
