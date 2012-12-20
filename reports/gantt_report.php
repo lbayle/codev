@@ -38,6 +38,9 @@ class GanttReportController extends Controller {
             if(isset($_POST['teamid']) && array_key_exists($_POST['teamid'],$teamList)) {
                $teamid = Tools::getSecurePOSTIntValue('teamid');
                $_SESSION['teamid'] = $teamid;
+            } else if(isset($_GET['teamid']) && array_key_exists($_GET['teamid'],$teamList)) {
+               $teamid = Tools::getSecureGETIntValue('teamid');
+               $_SESSION['teamid'] = $teamid;
             }
             else if(isset($_SESSION['teamid']) && array_key_exists($_SESSION['teamid'],$teamList)) {
                $teamid = $_SESSION['teamid'];
@@ -67,10 +70,10 @@ class GanttReportController extends Controller {
             $this->smartyHelper->assign('startDate', $startdate);
 
             // The current date plus one year
-            $enddate = Tools::getSecurePOSTStringValue('enddate', Tools::formatDate("%Y-%m-%d", strtotime('+1 year')));
+            $enddate = Tools::getSecurePOSTStringValue('enddate', Tools::formatDate("%Y-%m-%d", strtotime('+6 month')));
             $this->smartyHelper->assign('endDate', $enddate);
 
-            if (isset($_POST['teamid']) && 0 != $teamid) {
+            if (('computeGantt' == $_POST['action']) && 0 != $teamid) {
                $startT = Tools::date2timestamp($startdate);
                $endT = Tools::date2timestamp($enddate);
                #$endT += 24 * 60 * 60 -1; // + 1 day -1 sec.

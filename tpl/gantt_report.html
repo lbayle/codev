@@ -4,8 +4,9 @@
       <!-- Create form -->
       <form id="form1" name="form1" method="post" action="{$page}">
          <fieldset>
-            {include file="form/teamAllProjectSelector.html"}
+            {include file="form/projectSelector.html"}
             {include file="form/dateRangeSelector.html"}
+            <input type="hidden" name="action" value="computeGantt" />
             <input type="submit" value="{t}Compute{/t}" />
          </fieldset>
       </form>
