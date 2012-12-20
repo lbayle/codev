@@ -13,14 +13,15 @@
       </script>
       <form id="form1" name="form1" class="formWithTabsHistory" method="post" action="{$page}">
          <fieldset>
-            {include file="form/teamSelector.html"}
             {include file="form/dateRangeSelector.html"}
             <input name="projectid" type="hidden" value="{$projectid}" />
+            <input type="hidden" name="action" value="computeProdReport" />
             <input id="computeButton" type="button" value="{t}Compute{/t}" />
          </fieldset>
       </form>
    </div>
 
+{if isset($timeTracking)}
    {include file="modal/consistency_check.html"}
 
    {include file="tools/graph.html"}
@@ -587,6 +588,7 @@
          });
       });
    </script>
+{/if}
 </div>
 {else}
 <p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>

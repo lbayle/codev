@@ -41,6 +41,9 @@ class ProductivityReportsController extends Controller {
             if(isset($_POST['teamid'])) {
                $teamid = Tools::getSecurePOSTIntValue('teamid');
                $_SESSION['teamid'] = $teamid;
+            } else if(isset($_GET['teamid'])) {
+               $teamid = Tools::getSecureGETIntValue('teamid');
+               $_SESSION['teamid'] = $teamid;
             } else {
                $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
             }
@@ -53,7 +56,7 @@ class ProductivityReportsController extends Controller {
             $enddate = Tools::getSecurePOSTStringValue('enddate', date("Y-m-d", $weekDates[5]));
             $this->smartyHelper->assign('endDate', $enddate);
 
-            if (0 != $teamid) {
+            if (('computeProdReport' == $_POST['action']) && (0 != $teamid)) {
                $team = TeamCache::getInstance()->getTeam($teamid);
                if(count($team->getProjects(false)) > 0) {
                   $startTimestamp = Tools::date2timestamp($startdate);
