@@ -133,7 +133,8 @@ class Segment implements IteratorAggregate, Countable
      */
     public function setVars($key, $value, $encode = true, $charset = 'ISO-8859')
     {
-        if (strpos($this->xml, $this->odf->getConfig('DELIMITER_LEFT') . $key . $this->odf->getConfig('DELIMITER_RIGHT')) === false) {
+       $tag = $this->odf->getConfig('DELIMITER_LEFT') . $key . $this->odf->getConfig('DELIMITER_RIGHT');
+        if (strpos($this->xml, $tag) === false) {
             throw new SegmentException("var $key not found in {$this->getName()}");
         }
 		$value = $encode ? htmlspecialchars($value) : $value;
@@ -205,6 +206,15 @@ IMG;
     public function getXmlParsed()
     {
         return $this->xmlParsed;
+    }
+    /**
+     * Returns the parsed XML
+     *
+     * @return string
+     */
+    public function getXml()
+    {
+        return $this->xml;
     }
 }
 

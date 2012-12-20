@@ -52,6 +52,9 @@ if (Tools::isConnectedUser()) {
       'xls' => 'application/vnd.ms-excel',
       'ppt' => 'application/vnd.ms-powerpoint',
       'csv' => '',
+      'docx' => 'application/msword',
+      'odt' => 'application/libre-office',
+      'odc' => 'application/libre-office',
 
       // executables
       'exe' => 'application/octet-stream',
