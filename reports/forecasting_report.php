@@ -43,7 +43,7 @@ class ForecastingReportController extends Controller {
 
          // use the teamid set in the form, if not defined (first page call) use session teamid
          if (isset($_GET['teamid'])) {
-            $teamid = $_GET['teamid'];
+            $teamid = Tools::getSecureGETIntValue('teamid');;
             $_SESSION['teamid'] = $teamid;
          } else {
             $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
@@ -55,7 +55,7 @@ class ForecastingReportController extends Controller {
             $teams = SmartyTools::getSmartyArray($teamList, $teamid);
             $this->smartyHelper->assign('teams', $teams);
 
-            if (isset($_GET['teamid']) && array_key_exists($teamid, $teams)) {
+            if ($teamid != 0 && array_key_exists($teamid, $teams)) {
                $withSupport = TRUE;
 
                $weekDates = Tools::week_dates(date('W'), date('Y'));
