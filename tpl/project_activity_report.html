@@ -3,9 +3,9 @@
    <h2>{t}Projects Activity{/t}</h2>
    <form method="post" class="formWithTabsHistory" action="{$page}">
       <fieldset>
-         {include file="form/teamSelector.html"}
          {include file="form/dateRangeSelector.html"}
          <label style="vertical-align: bottom;"><input type="checkbox" {if $isDetailed}checked="checked"{/if} name="cb_detailed" id="cb_detailed" />{t}Detailed{/t}</label>
+            <input type="hidden" name="action" value="computeProjectActivityReport" />
          <input type="submit" value="{t}Compute{/t}" />
       </fieldset>
     </form>

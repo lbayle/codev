@@ -38,12 +38,11 @@ class ProjectActivityReportController extends Controller {
 
          if (count($teamList) > 0) {
             // use the teamid set in the form, if not defined (first page call) use session teamid
-            $teamid = 0;
-            if (isset($_POST['teamid'])) {
-               $teamid = Tools::getSecurePOSTIntValue('teamid');
+            if(isset($_GET['teamid'])) {
+               $teamid = Tools::getSecureGETIntValue('teamid');
                $_SESSION['teamid'] = $teamid;
-            } elseif (isset($_SESSION['teamid'])) {
-               $teamid = $_SESSION['teamid'];
+            } else {
+               $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
             }
 
             // dates
@@ -59,7 +58,9 @@ class ProjectActivityReportController extends Controller {
             $isDetailed = Tools::getSecurePOSTStringValue('cb_detailed','');
             $this->smartyHelper->assign('isDetailed', $isDetailed);
 
-            if (isset($_POST['teamid']) && array_key_exists($teamid, $teamList)) {
+            if (('computeProjectActivityReport' == $_POST['action']) &&
+                (0 != $teamid) && array_key_exists($teamid, $teamList)) {
+               
                $startTimestamp = Tools::date2timestamp($startdate);
                $endTimestamp = Tools::date2timestamp($enddate);
                $endTimestamp = mktime(23, 59, 59, date('m', $endTimestamp), date('d',$endTimestamp), date('Y', $endTimestamp));
