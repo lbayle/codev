@@ -40,8 +40,9 @@ class TeamActivityReportController extends Controller {
 
          if (count($teamList) > 0) {
             // use the teamid set in the form, if not defined (first page call) use session teamid
-            if (isset($_POST['teamid'])) {
-               $teamid = Tools::getSecurePOSTIntValue('teamid');
+            if(isset($_GET['teamid'])) {
+               $teamid = Tools::getSecureGETIntValue('teamid');
+               $_SESSION['teamid'] = $teamid;
             } else {
                $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
             }

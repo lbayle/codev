@@ -6,9 +6,6 @@
       jQuery(document).ready(function() {
          var form = jQuery("#form1");
 
-         jQuery("#teamid").change(function() {
-            form.submit();
-         });
          var weekid = jQuery("#weekid").change(function() {
             form.submit();
          });
@@ -47,7 +44,6 @@
    </script>
    <form id="form1" name="form1" class="formWithTabsHistory" method="post" action="{$page}">
       <fieldset>
-         {include file="form/teamSelector.html"}
          <label>{t}Week{/t}</label>
          <input id="previousWeek" type="button" title="{t}Previous week{/t}" value="&lt;&lt;" />
          <select id="weekid" name="weekid">
