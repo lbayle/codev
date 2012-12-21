@@ -53,7 +53,7 @@ class CheckController extends Controller {
          if (count($teamList) > 0) {
             $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $_SESSION['teamid']));
 
-            if (isset($_GET['teamid']) && 0 != $teamid) {
+            if (0 != $teamid) {
                $consistencyErrors = $this->getTeamConsistencyErrors($teamid);
 
                $this->smartyHelper->assign('teamid', $teamid);
