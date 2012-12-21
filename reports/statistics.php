@@ -33,21 +33,21 @@ class StatisticsController extends Controller {
    protected function display() {
       if(Tools::isConnectedUser()) {
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-         $teamList = $session_user->getTeamList();
-         if (count($teamList) > 0) {
-            if(isset($_POST['teamid']) && array_key_exists($_POST['teamid'],$teamList)) {
-               $teamid = Tools::getSecurePOSTIntValue('teamid');
-               $_SESSION['teamid'] = $_POST['teamid'];
-            }
-            else if(isset($_SESSION['teamid']) && array_key_exists($_SESSION['teamid'],$teamList)) {
-               $teamid = $_SESSION['teamid'];
-            }
-            else {
-               $teamsid = array_keys($teamList);
-               $teamid = $teamsid[0];
-            }
 
-            if($teamid != 0) {
+         if (isset($_GET['teamid'])) {
+            $teamid = Tools::getSecureGETIntValue('teamid');
+            $_SESSION['teamid'] = $teamid;
+         } else {
+            $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+         }
+         $teamList = $session_user->getTeamList();
+
+         if (count($teamList) > 0) {
+
+            $teams = SmartyTools::getSmartyArray($teamList, $teamid);
+            $this->smartyHelper->assign('teams', $teams);
+
+            if ((0 != $teamid) && array_key_exists($teamid, $teams)) {
                // if 'support' is set in the URL, display graphs for 'with/without Support'
                $displayNoSupport  = isset($_GET['support']) ? TRUE : FALSE;
                $this->smartyHelper->assign('displayNoSupport', $displayNoSupport);
@@ -56,10 +56,10 @@ class StatisticsController extends Controller {
                $min_year = date("Y", $team->getDate());
                $year = isset($_POST['year']) && $_POST['year'] > $min_year ? $_POST['year'] : $min_year;
 
-               $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
                $this->smartyHelper->assign('years', SmartyTools::getYearsToNow($min_year, $year));
 
-               if (isset($_POST['teamid'])) {
+               if (('computeTeamHistory' == $_POST['action']) && (0 != $teamid)) {
+                  
                   $month = ($year == $min_year) ? date("m", $team->getDate()) : 1;
                   $day = ($year == $min_year) ? date("d", $team->getDate()) : 1;
 

@@ -1,34 +1,13 @@
 {if isset($teams)}
 <div id="content">
    <div class="center">
-      <script type="text/javascript">
-         jQuery(document).ready(function(){
-            jQuery('#teamid').change(function() {
-               jQuery.ajax({
-                  type: "GET",
-                  url: "smarty_tools_ajax.php",
-                  data: "action=getYearsToNow&"+jQuery("#form1").serialize(),
-                  success: function(data) {
-                     jQuery("#yearSelector").html(jQuery.trim(data));
-                  },
-                  error: function(jqXHR, textStatus, errorThrown) {
-                     if(errorThrown == 'Forbidden') {
-                        window.location = '{$page}';
-                     } else {
-                        alert({t}errorThrown{/t});
-                     }
-                  }
-               });
-            });
-         });
-      </script>
       <form id="form1" name="form1" class="formWithTabsHistory" method="post" action="{$page}{if $displayNoSupport}?support{/if}">
          <fieldset>
-            {include file="form/teamSelector.html"}
             <label for="year">{t}Start Year{/t}</label>
             <span id="yearSelector">
             {include file="form/yearSelector.html"}
             </span>
+            <input type="hidden" name="action" value="computeTeamHistory" />
             <input type="submit" value="{t}Compute{/t}" />
          </fieldset>
       </form>
