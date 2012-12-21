@@ -45,102 +45,102 @@ class ImportIssuesController extends Controller {
          $teamList = $dTeamList + $lTeamList + $managedTeamList;
 
          // use the teamid set in the form, if not defined (first page call) use session teamid
-         if (isset($_POST['teamid'])) {
-            $teamid = Tools::getSecurePOSTIntValue('teamid');
+         if(isset($_GET['teamid'])) {
+            $teamid = Tools::getSecureGETIntValue('teamid');
             $_SESSION['teamid'] = $teamid;
-         } elseif(isset($_SESSION['teamid'])) {
-            $teamid = $_SESSION['teamid'];
          } else {
-            $teamIds = array_keys($teamList);
-            $teamid = $teamIds[0];
+            $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
          }
 
-         $team = TeamCache::getInstance()->getTeam($teamid);
+         if ((0 != $teamid) && array_key_exists($teamid, $teamList)) {
 
-         $this->smartyHelper->assign('teamid', $teamid);
-         if (0 != $teamid) {
-            $this->smartyHelper->assign('teamName', $team->getName());
-         }
+            $team = TeamCache::getInstance()->getTeam($teamid);
 
-         // use the projectid set in the form, if not defined (first page call) use session projectid
-         if (isset($_POST['projectid'])) {
-            $projectid = Tools::getSecurePOSTIntValue('projectid');
-            $_SESSION['projectid'] = $projectid;
-         } else {
-            $projectid = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
-         }
-         $this->smartyHelper->assign('projectid', $projectid);
-         if (0 != $projectid) {
-            $proj = ProjectCache::getInstance()->getProject($projectid);
-            $this->smartyHelper->assign('projectName', $proj->getName());
-         }
+            $this->smartyHelper->assign('teamid', $teamid);
+            if (0 != $teamid) {
+               $this->smartyHelper->assign('teamName', $team->getName());
+            }
 
-         $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
-         // exclude noStatsProjects and disabled projects
-         $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($team->getProjects(false, false),$projectid));
+            // use the projectid set in the form, if not defined (first page call) use session projectid
+            if (isset($_POST['projectid'])) {
+               $projectid = Tools::getSecurePOSTIntValue('projectid');
+               $_SESSION['projectid'] = $projectid;
+            } else {
+               $projectid = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
+            }
+            $this->smartyHelper->assign('projectid', $projectid);
+            if (0 != $projectid) {
+               $proj = ProjectCache::getInstance()->getProject($projectid);
+               $this->smartyHelper->assign('projectName', $proj->getName());
+            }
 
-         if (isset($_FILES['uploaded_csv'])) {
-            $filename = $_FILES['uploaded_csv']['name'];
-            $tmpFilename = $_FILES['uploaded_csv']['tmp_name'];
+            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
+            // exclude noStatsProjects and disabled projects
+            $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($team->getProjects(false, false),$projectid));
 
-            $err_msg = NULL;
+            if (isset($_FILES['uploaded_csv'])) {
+               $filename = $_FILES['uploaded_csv']['name'];
+               $tmpFilename = $_FILES['uploaded_csv']['tmp_name'];
 
-            if ($_FILES['uploaded_csv']['error']) {
-               $err_id = $_FILES['uploaded_csv']['error'];
-               switch ($err_id){
-                  case 1:
-                     $err_msg = "UPLOAD_ERR_INI_SIZE ($err_id) on file : ".$filename;
-                     //echo"Le fichier dépasse la limite autorisée par le serveur (fichier php.ini) !";
-                     break;
-                  case 2:
-                     $err_msg = "UPLOAD_ERR_FORM_SIZE ($err_id) on file : ".$filename;
-                     //echo "Le fichier dépasse la limite autorisée dans le formulaire HTML !";
-                     break;
-                  case 3:
-                     $err_msg = "UPLOAD_ERR_PARTIAL ($err_id) on file : ".$filename;
-                     //echo "L'envoi du fichier a été interrompu pendant le transfert !";
-                     break;
-                  case 4:
-                     $err_msg = "UPLOAD_ERR_NO_FILE ($err_id) on file : ".$filename;
-                     //echo "Le fichier que vous avez envoyé a une taille nulle !";
-                     break;
+               $err_msg = NULL;
+
+               if ($_FILES['uploaded_csv']['error']) {
+                  $err_id = $_FILES['uploaded_csv']['error'];
+                  switch ($err_id){
+                     case 1:
+                        $err_msg = "UPLOAD_ERR_INI_SIZE ($err_id) on file : ".$filename;
+                        //echo"Le fichier dépasse la limite autorisée par le serveur (fichier php.ini) !";
+                        break;
+                     case 2:
+                        $err_msg = "UPLOAD_ERR_FORM_SIZE ($err_id) on file : ".$filename;
+                        //echo "Le fichier dépasse la limite autorisée dans le formulaire HTML !";
+                        break;
+                     case 3:
+                        $err_msg = "UPLOAD_ERR_PARTIAL ($err_id) on file : ".$filename;
+                        //echo "L'envoi du fichier a été interrompu pendant le transfert !";
+                        break;
+                     case 4:
+                        $err_msg = "UPLOAD_ERR_NO_FILE ($err_id) on file : ".$filename;
+                        //echo "Le fichier que vous avez envoyé a une taille nulle !";
+                        break;
+                  }
+                  self::$logger->error($err_msg);
+               } else {
+                  // $_FILES['nom_du_fichier']['error'] vaut 0 soit UPLOAD_ERR_OK
+                  // ce qui signifie qu'il n'y a eu aucune erreur
                }
-               self::$logger->error($err_msg);
-            } else {
-               // $_FILES['nom_du_fichier']['error'] vaut 0 soit UPLOAD_ERR_OK
-               // ce qui signifie qu'il n'y a eu aucune erreur
-            }
 
-            $extensions = array('.csv', '.CSV');
-            $extension = strrchr($filename, '.');
-            if(!in_array($extension, $extensions)) {
-               $err_msg = T_('Please upload files with the following extension: ').implode(', ', $extensions);
-               self::$logger->error($err_msg);
-            }
+               $extensions = array('.csv', '.CSV');
+               $extension = strrchr($filename, '.');
+               if(!in_array($extension, $extensions)) {
+                  $err_msg = T_('Please upload files with the following extension: ').implode(', ', $extensions);
+                  self::$logger->error($err_msg);
+               }
 
-            // --- READ CSV FILE ---
-            #$smartyHelper->assign('newIssues', getFakeNewIssues());
-            $this->smartyHelper->assign('newIssues', $this->getIssuesFromCSV($tmpFilename));
+               // --- READ CSV FILE ---
+               #$smartyHelper->assign('newIssues', getFakeNewIssues());
+               $this->smartyHelper->assign('newIssues', $this->getIssuesFromCSV($tmpFilename));
 
-            if (!$err_msg) {
-               $this->smartyHelper->assign('filename', $filename);
+               if (!$err_msg) {
+                  $this->smartyHelper->assign('filename', $filename);
 
-               $commands = $this->getCommands($team);
-               $projectCategories = $this->getProjectCategories($projectid);
-               $projectTargetVersion = $this->getProjectTargetVersion($projectid);
-               $activeMembers = $team->getActiveMembers();
+                  $commands = $this->getCommands($team);
+                  $projectCategories = $this->getProjectCategories($projectid);
+                  $projectTargetVersion = $this->getProjectTargetVersion($projectid);
+                  $activeMembers = $team->getActiveMembers();
 
-               $this->smartyHelper->assign('commandList', SmartyTools::getSmartyArray($commands, 0));
-               $this->smartyHelper->assign('categoryList', SmartyTools::getSmartyArray($projectCategories, 0));
-               $this->smartyHelper->assign('targetversionList', SmartyTools::getSmartyArray($projectTargetVersion, 0));
-               $this->smartyHelper->assign('userList', SmartyTools::getSmartyArray($activeMembers, 0));
+                  $this->smartyHelper->assign('commandList', SmartyTools::getSmartyArray($commands, 0));
+                  $this->smartyHelper->assign('categoryList', SmartyTools::getSmartyArray($projectCategories, 0));
+                  $this->smartyHelper->assign('targetversionList', SmartyTools::getSmartyArray($projectTargetVersion, 0));
+                  $this->smartyHelper->assign('userList', SmartyTools::getSmartyArray($activeMembers, 0));
 
-               $this->smartyHelper->assign('jed_commandList', Tools::array2json($commands));
-               $this->smartyHelper->assign('jed_categoryList', Tools::array2json($projectCategories));
-               $this->smartyHelper->assign('jed_targetVersionList', Tools::array2json($projectTargetVersion));
-               $this->smartyHelper->assign('jed_userList', Tools::array2json($activeMembers));
-            } else {
-               $this->smartyHelper->assign('errorMsg', $err_msg);
+                  $this->smartyHelper->assign('jed_commandList', Tools::array2json($commands));
+                  $this->smartyHelper->assign('jed_categoryList', Tools::array2json($projectCategories));
+                  $this->smartyHelper->assign('jed_targetVersionList', Tools::array2json($projectTargetVersion));
+                  $this->smartyHelper->assign('jed_userList', Tools::array2json($activeMembers));
+               } else {
+                  $this->smartyHelper->assign('errorMsg', $err_msg);
+               }
             }
          }
       }

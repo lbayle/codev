@@ -43,7 +43,7 @@
    <form method="post" action="{$page}" enctype="multipart/form-data" id="formUploadFile" name="formUploadFile">
       <fieldset>
          {assign var=withDisabledProjects value="0"}
-         {include file="form/teamProjectSelector.html"}
+         {include file="form/projectSelector.html"}
          <input type="file" name="uploaded_csv" accept=".csv, text/csv, application/csv, text/comma-separated-values" />
          <input type="button" id="btUpload" value="{t}Preview import{/t}" />
          <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
