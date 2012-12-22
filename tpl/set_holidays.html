@@ -26,7 +26,6 @@
       <fieldset>
          <label for="userid">{t}Name{/t} :</label>
          <select name="userid" id="userid">
-            <option value="0"></option>
             {foreach from=$users key=id item=i}
             <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
             {/foreach}

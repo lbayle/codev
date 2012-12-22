@@ -39,146 +39,114 @@ class SetHolidaysController extends Controller {
       if (Tools::isConnectedUser()) {
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-         // if first call to this page
-         if (!array_key_exists('nextForm',$_POST)) {
-            $lTeamList = $session_user->getLeadedTeamList();
-            if (0 != count($lTeamList)) {
-               // User is TeamLeader, let him choose the user he wants to manage
-               $this->smartyHelper->assign('users', $this->getUsers($session_user));
-            } else {
-               // developper & manager can add timeTracks
-               $mTeamList = $session_user->getDevTeamList();
-               $managedTeamList = $session_user->getManagedTeamList();
-               $teamList = $mTeamList + $managedTeamList;
-
-               if (0 != count($teamList)) {
-                  $_POST['userid'] = $session_user->getId();
-                  $_POST['nextForm'] = "addHolidaysForm";
-               }
-            }
+         if(isset($_GET['teamid'])) {
+            $teamid = Tools::getSecureGETIntValue('teamid');
+            $_SESSION['teamid'] = $teamid;
+         } else {
+            $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
          }
 
-         $nextForm = Tools::getSecurePOSTStringValue('nextForm','');
-         if ($nextForm == "addHolidaysForm") {
-            $userid = Tools::getSecurePOSTIntValue('userid',$session_user->getId());
+         if (0 != $teamid) {
+            $team = TeamCache::getInstance()->getTeam($teamid);
 
-            $managed_user = UserCache::getInstance()->getUser($userid);
+            // if first call to this page
+            if (!array_key_exists('nextForm',$_POST)) {
+               $activeMembers = $team->getActiveMembers();
+               if ($session_user->isTeamManager($teamid)) {
+                  $this->smartyHelper->assign('users', SmartyTools::getSmartyArray($activeMembers, $session_user->getId()));
+               } else {
+                  // developper & manager can add timeTracks
+                  if (array_key_exists($session_user->getId(), $activeMembers)) {
+                     $_POST['userid'] = $session_user->getId();
+                     $_POST['nextForm'] = "addHolidaysForm";
+                  }
+               }
+            }
 
-            // dates
-            $startdate = Tools::getSecurePOSTStringValue('startdate',date("Y-m-d"));
+            $nextForm = Tools::getSecurePOSTStringValue('nextForm','');
+            if ($nextForm == "addHolidaysForm") {
+               $userid = Tools::getSecurePOSTIntValue('userid',$session_user->getId());
 
-            $enddate = Tools::getSecurePOSTStringValue('enddate','');
+               $managed_user = UserCache::getInstance()->getUser($userid);
 
-            $defaultBugid = Tools::getSecurePOSTIntValue('bugid',0);
+               // dates
+               $startdate = Tools::getSecurePOSTStringValue('startdate',date("Y-m-d"));
 
-            $action = Tools::getSecurePOSTStringValue('action','');
-            if ("addHolidays" == $action) {
-               // TODO add tracks !
-               $job = Tools::getSecurePOSTStringValue('job');
+               $enddate = Tools::getSecurePOSTStringValue('enddate','');
 
-               $holydays = Holidays::getInstance();
+               $defaultBugid = Tools::getSecurePOSTIntValue('bugid',0);
 
-               $startTimestamp = Tools::date2timestamp($startdate);
-               $endTimestamp = Tools::date2timestamp($enddate);
+               $action = Tools::getSecurePOSTStringValue('action','');
+               if ("addHolidays" == $action) {
+                  // TODO add tracks !
+                  $job = Tools::getSecurePOSTStringValue('job');
 
-               // save to DB
-               $timestamp = $startTimestamp;
-               while ($timestamp <= $endTimestamp) {
-                  // check if not a fixed holiday
-                  if (!$holydays->isHoliday($timestamp)) {
+                  $holydays = Holidays::getInstance();
 
-                     // check existing timetracks on $timestamp and adjust duration
-                     $duration = $managed_user->getAvailableTime($timestamp);
-                     if ($duration > 0) {
-                        if(self::$logger->isDebugEnabled()) {
-                           self::$logger->debug(date("Y-m-d", $timestamp)." duration $duration job $job");
+                  $startTimestamp = Tools::date2timestamp($startdate);
+                  $endTimestamp = Tools::date2timestamp($enddate);
+
+                  // save to DB
+                  $timestamp = $startTimestamp;
+                  while ($timestamp <= $endTimestamp) {
+                     // check if not a fixed holiday
+                     if (!$holydays->isHoliday($timestamp)) {
+
+                        // check existing timetracks on $timestamp and adjust duration
+                        $duration = $managed_user->getAvailableTime($timestamp);
+                        if ($duration > 0) {
+                           if(self::$logger->isDebugEnabled()) {
+                              self::$logger->debug(date("Y-m-d", $timestamp)." duration $duration job $job");
+                           }
+                           TimeTrack::create($managed_user->getId(), $defaultBugid, $job, $timestamp, $duration);
                         }
-                        TimeTrack::create($managed_user->getId(), $defaultBugid, $job, $timestamp, $duration);
                      }
+                     $timestamp = strtotime("+1 day",$timestamp);;
                   }
-                  $timestamp = strtotime("+1 day",$timestamp);;
+                  // We redirect to holidays report, so the user can verify his holidays
+                  header('Location:holidays_report.php');
                }
-               // We redirect to holidays report, so the user can verify his holidays
-               header('Location:holidays_report.php');
-            }
 
-            $this->smartyHelper->assign('startDate', $startdate);
-            $this->smartyHelper->assign('endDate', $enddate);
+               $this->smartyHelper->assign('startDate', $startdate);
+               $this->smartyHelper->assign('endDate', $enddate);
 
-            if($session_user->getId() != $managed_user->getId()) {
-               $this->smartyHelper->assign('otherrealname', $managed_user->getRealname());
-            }
+               if($session_user->getId() != $managed_user->getId()) {
+                  $this->smartyHelper->assign('otherrealname', $managed_user->getRealname());
+               }
 
-            // SideTasks Project List
-            $devProjList = $managed_user->getProjectList($managed_user->getDevTeamList(), true, false);
-            $managedProjList = $managed_user->getProjectList($managed_user->getManagedTeamList(), true, false);
-            $projList = $devProjList + $managedProjList;
+               // Get Team SideTasks Project List
 
-            foreach ($projList as $pid => $pname) {
-               // we want only SideTasks projects
-               $tmpPrj = ProjectCache::getInstance()->getProject($pid);
-               try {
-                  if (!$tmpPrj->isSideTasksProject()) {
-                     unset($projList[$pid]);
+               $projList = $team->getProjects(true, false);
+               foreach ($projList as $pid => $pname) {
+                  // we want only SideTasks projects
+                  try {
+                     if (!$team->isSideTasksProject($pid)) {
+                        unset($projList[$pid]);
+                     }
+                  } catch (Exception $e) {
+                     self::$logger->error("project $pid: ".$e->getMessage());
                   }
-               } catch (Exception $e) {
-                  self::$logger->error("project $pid: ".$e->getMessage());
                }
+
+               $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
+               $extProj = ProjectCache::getInstance()->getProject($extproj_id);
+               $projList[$extproj_id] = $extProj->getName();
+
+               $defaultProjectid  = Tools::getSecurePOSTIntValue('projectid',0);
+               if($defaultBugid != 0 && $action == 'setBugId') {
+                  // find ProjectId to update categories
+                  $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+                  $defaultProjectid  = $issue->getProjectId();
+               }
+
+               $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList,$defaultProjectid));
+               $this->smartyHelper->assign('issues', $this->getIssues($defaultProjectid, $projList, $extproj_id, $defaultBugid));
+               $this->smartyHelper->assign('jobs', $this->getJobs($defaultProjectid, $projList));
+
+               $this->smartyHelper->assign('userid', $managed_user->getId());
             }
-
-            $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
-            $extProj = ProjectCache::getInstance()->getProject($extproj_id);
-            $projList[$extproj_id] = $extProj->getName();
-
-            $defaultProjectid  = Tools::getSecurePOSTIntValue('projectid',0);
-            if($defaultBugid != 0 && $action == 'setBugId') {
-               // find ProjectId to update categories
-               $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-               $defaultProjectid  = $issue->getProjectId();
-            }
-
-            $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList,$defaultProjectid));
-            $this->smartyHelper->assign('issues', $this->getIssues($defaultProjectid, $projList, $extproj_id, $defaultBugid));
-            $this->smartyHelper->assign('jobs', $this->getJobs($defaultProjectid, $projList));
-
-            $this->smartyHelper->assign('userid', $managed_user->getId());
          }
       }
-   }
-
-   /**
-    * Get users of teams I lead
-    * @param User $session_user The current user
-    * @return mixed[] of users
-    */
-   private function getUsers($session_user) {
-      $accessLevel_dev = Team::accessLevel_dev;
-      $accessLevel_manager = Team::accessLevel_manager;
-
-      $teamList = $session_user->getLeadedTeamList();
-
-      // separate list elements with ', '
-      $formatedTeamString = implode( ', ', array_keys($teamList));
-
-      // show only users from the teams that I lead.
-      $query = "SELECT DISTINCT mantis_user_table.id, mantis_user_table.username, mantis_user_table.realname ".
-         "FROM `mantis_user_table`, `codev_team_user_table` ".
-         "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
-         "AND codev_team_user_table.team_id IN ($formatedTeamString) ".
-         "AND codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
-         "ORDER BY mantis_user_table.username";
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         return NULL;
-      }
-
-      $users = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $users[$row->id] = $row->username;
-      }
-
-      return SmartyTools::getSmartyArray($users, $session_user->getId());
    }
 
    /**
@@ -217,7 +185,10 @@ class SetHolidaysController extends Controller {
    }
 
    /**
-    * Get jobs
+    * Get jobs.
+    *
+    * Note: only sidetaskProjects & externalTasksProject are in the $projList
+    *
     * @param int $defaultProjectid
     * @param array $projList
     * @return mixed[]
@@ -226,12 +197,12 @@ class SetHolidaysController extends Controller {
       // Job list
       if (0 != $defaultProjectid) {
          $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
-         $jobList = $project1->getJobList();
+         $jobList = $project1->getJobList(Project::type_sideTaskProject);
       } else {
          $jobList = array();
          foreach ($projList as $pid2 => $pname) {
             $tmpPrj1 = ProjectCache::getInstance()->getProject($pid2);
-            $jobList += $tmpPrj1->getJobList();
+            $jobList += $tmpPrj1->getJobList(Project::type_sideTaskProject);
          }
       }
       // do not display selector if only one Job
