@@ -32,107 +32,85 @@ class CommandSetInfoController extends Controller {
 
    protected function display() {
       if (Tools::isConnectedUser()) {
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
+         if (0 != $this->teamid) {
 
-         // use the teamid set in the form, if not defined (first page call) use session teamid
-         $teamid = 0;
-         if (isset($_POST['teamid'])) {
-            $teamid = Tools::getSecurePOSTIntValue('teamid');
-            $_SESSION['teamid'] = $teamid;
-         } else if (isset($_SESSION['teamid'])) {
-            $teamid = $_SESSION['teamid'];
-         }
-
-         // if cmdid set in URL, use it. else:
-         // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
-         $commandsetid = 0;
-         if(isset($_POST['commandsetid'])) {
-            $commandsetid = Tools::getSecurePOSTIntValue('commandsetid');
-            $_SESSION['commandsetid'] = $commandsetid;
-         } else if(isset($_GET['commandsetid'])) {
-            $commandsetid = Tools::getSecureGETIntValue('commandsetid');
-            $_SESSION['commandsetid'] = $commandsetid;
-         } else if(isset($_SESSION['commandsetid'])) {
-            $commandsetid = $_SESSION['commandsetid'];
-         }
-
-         // set TeamList (including observed teams)
-         $teamList = $session_user->getTeamList();
-         #$teamList = $session_user->getTeamList();
-         $oTeamList = $session_user->getObservedTeamList();
-         $mTeamList = $session_user->getManagedTeamList();
-         $teamList = $oTeamList + $mTeamList;           // array_merge does not work ?!
-
-         if (empty($teamList)) {
-            // only managers (and observers) can access this page.
-            return;
-         }
-
-         // do not display SC if team not allowed
-         if (!array_key_exists($teamid, $teamList)) {
-            $teamid = 0;
+            // if cmdid set in URL, use it. else:
+            // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
             $commandsetid = 0;
-         } else {
-            $isManager = $session_user->isTeamManager($teamid);
+            if(isset($_POST['commandsetid'])) {
+               $commandsetid = Tools::getSecurePOSTIntValue('commandsetid');
+               $_SESSION['commandsetid'] = $commandsetid;
+            } else if(isset($_GET['commandsetid'])) {
+               $commandsetid = Tools::getSecureGETIntValue('commandsetid');
+               $_SESSION['commandsetid'] = $commandsetid;
+            } else if(isset($_SESSION['commandsetid'])) {
+               $commandsetid = $_SESSION['commandsetid'];
+            }
+
+            // Managed + Observed teams only
+            $oTeamList = $this->session_user->getObservedTeamList();
+            $mTeamList = $this->session_user->getManagedTeamList();
+            $teamList = $oTeamList + $mTeamList;           // array_merge does not work ?!
+
+            if (empty($teamList) || (!array_key_exists($this->teamid, $teamList))) {
+               // only managers (and observers) can access this page.
+               return;
+            }
+
+            $isManager = $this->session_user->isTeamManager($this->teamid);
             if ($isManager) {
                $this->smartyHelper->assign('isManager', true);
             }
-         }
 
-         $this->smartyHelper->assign('teamid', $teamid);
-         $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
+            $this->smartyHelper->assign('commandsetid', $commandsetid);
+            $this->smartyHelper->assign('commandsets', CommandSetTools::getCommandSets($this->teamid, $commandsetid));
 
-         $this->smartyHelper->assign('commandsetid', $commandsetid);
-         $this->smartyHelper->assign('commandsets', CommandSetTools::getCommandSets($teamid, $commandsetid));
+            if (0 != $commandsetid) {
+               $commandset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
 
-         if (0 != $commandsetid) {
-            $commandset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
+               if ($this->teamid == $commandset->getTeamid()) {
 
-            if (array_key_exists($commandset->getTeamid(), $teamList)) {
-               $teamid = $commandset->getTeamid();
-               $_SESSION['teamid'] = $teamid;
+                  // set CommandSets I belong to
+                  $this->smartyHelper->assign('parentContracts', CommandSetTools::getParentContracts($commandset));
 
-               // set CommandSets I belong to
-               $this->smartyHelper->assign('parentContracts', CommandSetTools::getParentContracts($commandset));
+                  // get selected filters
+                  $selectedFilters="";
+                  if(isset($_GET['selectedFilters'])) {
+                     $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
+                  } else {
+                     $selectedFilters = $this->session_user->getCommandSetFilters($commandsetid);
+                  }
 
-               // get selected filters
-               $selectedFilters="";
-               if(isset($_GET['selectedFilters'])) {
-                  $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
+                  CommandSetTools::displayCommandSet($this->smartyHelper, $commandset, $isManager, $selectedFilters);
+
+                  // ConsistencyCheck
+                  $consistencyErrors = $this->getConsistencyErrors($commandset);
+                  if (0 != $consistencyErrors) {
+                     $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+                     $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors affecting the CommandSet"));
+                     $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
+                  }
+
+                  // access rights
+                  if (($this->session_user->isTeamManager($commandset->getTeamid())) ||
+                     ($this->session_user->isTeamLeader($commandset->getTeamid()))) {
+                     $this->smartyHelper->assign('isEditGranted', true);
+                  }
                } else {
-                  $selectedFilters = $session_user->getCommandSetFilters($commandsetid);
-               }
-
-               CommandSetTools::displayCommandSet($this->smartyHelper, $commandset, $isManager, $selectedFilters);
-
-               // ConsistencyCheck
-               $consistencyErrors = $this->getConsistencyErrors($commandset);
-               if (0 != $consistencyErrors) {
-                  $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-                  $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors affecting the CommandSet"));
-                  $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
-               }
-
-               // access rights
-               if (($session_user->isTeamManager($commandset->getTeamid())) ||
-                  ($session_user->isTeamLeader($commandset->getTeamid()))) {
-                  $this->smartyHelper->assign('isEditGranted', true);
+                  // TODO smarty error msg
+                  echo T_('Sorry, You are not allowed to see this commandSet');
                }
             } else {
-               // TODO smarty error msg
-               echo T_('Sorry, You are not allowed to see this commandSet');
-            }
-         } else {
-            unset($_SESSION['cmdid']);
-            unset($_SESSION['servicecontractid']);
+               unset($_SESSION['cmdid']);
+               unset($_SESSION['servicecontractid']);
 
-            $action = Tools::getSecurePOSTStringValue('action', '');
-            if ('displayCommandSet' == $action) {
-               header('Location:commandset_edit.php?commandsetid=0');
+               $action = Tools::getSecurePOSTStringValue('action', '');
+               if ('displayCommandSet' == $action) {
+                  header('Location:commandset_edit.php?commandsetid=0');
+               }
             }
          }
-
       }
    }
 
