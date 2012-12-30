@@ -39,7 +39,7 @@ abstract class Controller {
       }
    }
 
-   private function updateTeamSelector() {
+   protected function updateTeamSelector() {
 
       if (Tools::isConnectedUser()) {
          // use the teamid set in the form, if not defined (first page call) use session teamid

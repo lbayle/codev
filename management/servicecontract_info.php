@@ -48,7 +48,6 @@ class ServiceContractInfoController extends Controller {
             }
 
             // set TeamList (including observed teams)
-            #$teamList = $this->session_user->getTeamList();
             $oTeamList = $this->session_user->getObservedTeamList();
             $mTeamList = $this->session_user->getManagedTeamList();
             $teamList = $oTeamList + $mTeamList;           // array_merge does not work ?!

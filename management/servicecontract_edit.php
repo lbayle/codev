@@ -37,119 +37,115 @@ class ServiceContractEditController extends Controller {
 
    protected function display() {
       if (Tools::isConnectedUser()) {
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-         $teamid = 0;
-         if (isset($_POST['teamid'])) {
-            $teamid = Tools::getSecurePOSTIntValue('teamid');
-            $_SESSION['teamid'] = $teamid;
-         } else if (isset($_SESSION['teamid'])) {
-            $teamid = $_SESSION['teamid'];
-         }
+         if (0 != $this->teamid) {
 
-         // TODO check if $teamid is set and != 0
+            // only managers can edit the SC
+            $isManager = $this->session_user->isTeamManager($this->teamid);
+            if (!$isManager) {
+               return;
+            }
+            $this->smartyHelper->assign('isEditGranted', true);
 
-         // set TeamList (including observed teams)
-         $teamList = $session_user->getTeamList();
-         $this->smartyHelper->assign('teamid', $teamid);
-         $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
+            // use the servicecontractid set in the form, if not defined (first page call) use session servicecontractid
+            $servicecontractid = 0;
+            if(isset($_POST['servicecontractid'])) {
+               $servicecontractid = Tools::getSecurePOSTIntValue('servicecontractid');
+               $_SESSION['servicecontractid'] = $servicecontractid;
+            } else if(isset($_GET['servicecontractid'])) {
+               $servicecontractid = Tools::getSecureGETIntValue('servicecontractid');
+               $_SESSION['servicecontractid'] = $servicecontractid;
+            } else if(isset($_SESSION['servicecontractid'])) {
+               $servicecontractid = $_SESSION['servicecontractid'];
+            }
+            $action = Tools::getSecurePOSTStringValue('action', '');
 
-         // use the servicecontractid set in the form, if not defined (first page call) use session servicecontractid
-         $servicecontractid = 0;
-         if(isset($_POST['servicecontractid'])) {
-            $servicecontractid = Tools::getSecurePOSTIntValue('servicecontractid');
-            $_SESSION['servicecontractid'] = $servicecontractid;
-         } else if(isset($_GET['servicecontractid'])) {
-            $servicecontractid = Tools::getSecureGETIntValue('servicecontractid');
-            $_SESSION['servicecontractid'] = $servicecontractid;
-         } else if(isset($_SESSION['servicecontractid'])) {
-            $servicecontractid = $_SESSION['servicecontractid'];
-         }
-         $action = Tools::getSecurePOSTStringValue('action', '');
+            if (0 == $servicecontractid) {
+               //  CREATE service contract
+               if ("createContract" == $action) {
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("create new ServiceContract for team $this->teamid<br>");
+                  }
 
-         $this->smartyHelper->assign('contracts', ServiceContractTools::getServiceContracts($teamid, $servicecontractid));
+                  $contractName = Tools::getSecurePOSTStringValue('servicecontractName');
 
-         if (0 == $servicecontractid) {
-            //  CREATE service contract
-            if ("createContract" == $action) {
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("create new ServiceContract for team $teamid<br>");
+                  $servicecontractid = ServiceContract::create($contractName, $this->teamid);
+
+                  $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+
+                  // set all fields
+                  $this->updateServiceContractInfo($contract);
                }
 
-               $contractName = Tools::getSecurePOSTStringValue('servicecontractName');
+               // Display Empty Command Form
+               // Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
+               $this->smartyHelper->assign('contractInfoFormBtText', T_('Create'));
+               $this->smartyHelper->assign('contractInfoFormAction', 'createContract');
 
-               $servicecontractid = ServiceContract::create($contractName, $teamid);
+               // Note: StateList is empty, uncomment following lines if ServiceContract::$stateNames is used
+               //$this->smartyHelper->assign('servicecontractStateList', ServiceContractTools::getServiceContractStateList($contract));
+            }
 
+            // Edited or created just before
+            if (0 != $servicecontractid) {
+               // UPDATE CMDSET
                $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
-               // set all fields
-               $this->updateServiceContractInfo($contract);
+               // Actions
+               if ("addCommandSet" == $action) {
+                  # TODO
+                  $commandsetid = Tools::getSecurePOSTIntValue('commandsetid');
+
+                  if (0 == $commandsetid) {
+                     #$_SESSION['commandsetid'] = 0;
+                     header('Location:command_edit.php?commandsetid=0');
+                  } else {
+                     $contract->addCommandSet($commandsetid, CommandSet::type_general);
+                  }
+               } else if ("removeCmdSet" == $action) {
+                  $commandsetid = Tools::getSecurePOSTIntValue('commandsetid');
+                  $contract->removeCommandSet($commandsetid);
+               } else if ("updateContractInfo" == $action) {
+                  $this->updateServiceContractInfo($contract);
+               } else if ("addProject" == $action) {
+                  # TODO
+                  $projectid = Tools::getSecurePOSTIntValue('projectid');
+
+                  if (0 != $projectid) {
+                     $contract->addSidetaskProject($projectid, Project::type_sideTaskProject);
+                  }
+               } else if ("removeProject" == $action) {
+                  $projectid = Tools::getSecurePOSTIntValue('projectid');
+                  $contract->removeSidetaskProject($projectid);
+               } else if ("deleteContract" == $action) {
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("delete ServiceContract servicecontractid (".$contract->getName().")");
+                  }
+                  ServiceContract::delete($servicecontractid);
+                  unset($_SESSION['servicecontractid']);
+                  header('Location:servicecontract_info.php');
+               }
+
+               // you can move SC only to managed teams
+               $mTeamList = $this->session_user->getManagedTeamList();
+               $this->smartyHelper->assign('grantedTeams', SmartyTools::getSmartyArray($mTeamList, $this->teamid));
+
+               // Display ServiceContract
+               $this->smartyHelper->assign('servicecontractid', $servicecontractid);
+               $this->smartyHelper->assign('contractInfoFormBtText', T_('Save'));
+               $this->smartyHelper->assign('contractInfoFormAction', 'updateContractInfo');
+
+               $commandsetCandidates = $this->getCmdSetCandidates($contract, $this->session_user);
+               $this->smartyHelper->assign('commandsetCandidates', $commandsetCandidates);
+
+               $projectCandidates = $this->getProjectCandidates($contract);
+               $this->smartyHelper->assign('projectCandidates', $projectCandidates);
+               $projects = $this->getProjects($contract);
+               $this->smartyHelper->assign('projectList', $projects);
+
+               $isManager = $this->session_user->isTeamManager($contract->getTeamid());
+               ServiceContractTools::displayServiceContract($this->smartyHelper, $contract, $isManager);
             }
-
-            // Display Empty Command Form
-            // Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
-            $this->smartyHelper->assign('contractInfoFormBtText', T_('Create'));
-            $this->smartyHelper->assign('contractInfoFormAction', 'createContract');
-
-            // Note: StateList is empty, uncomment following lines if ServiceContract::$stateNames is used
-            //$this->smartyHelper->assign('servicecontractStateList', ServiceContractTools::getServiceContractStateList($contract));
-         }
-
-         // Edited or created just before
-         if (0 != $servicecontractid) {
-            // UPDATE CMDSET
-            $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-
-            // Actions
-            if ("addCommandSet" == $action) {
-               # TODO
-               $commandsetid = Tools::getSecurePOSTIntValue('commandsetid');
-
-               if (0 == $commandsetid) {
-                  #$_SESSION['commandsetid'] = 0;
-                  header('Location:command_edit.php?commandsetid=0');
-               } else {
-                  $contract->addCommandSet($commandsetid, CommandSet::type_general);
-               }
-            } else if ("removeCmdSet" == $action) {
-               $commandsetid = Tools::getSecurePOSTIntValue('commandsetid');
-               $contract->removeCommandSet($commandsetid);
-            } else if ("updateContractInfo" == $action) {
-               $this->updateServiceContractInfo($contract);
-            } else if ("addProject" == $action) {
-               # TODO
-               $projectid = Tools::getSecurePOSTIntValue('projectid');
-
-               if (0 != $projectid) {
-                  $contract->addSidetaskProject($projectid, Project::type_sideTaskProject);
-               }
-            } else if ("removeProject" == $action) {
-               $projectid = Tools::getSecurePOSTIntValue('projectid');
-               $contract->removeSidetaskProject($projectid);
-            } else if ("deleteContract" == $action) {
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("delete ServiceContract servicecontractid (".$contract->getName().")");
-               }
-               ServiceContract::delete($servicecontractid);
-               unset($_SESSION['servicecontractid']);
-               header('Location:servicecontract_info.php');
-            }
-
-            // Display ServiceContract
-            $this->smartyHelper->assign('servicecontractid', $servicecontractid);
-            $this->smartyHelper->assign('contractInfoFormBtText', T_('Save'));
-            $this->smartyHelper->assign('contractInfoFormAction', 'updateContractInfo');
-
-            $commandsetCandidates = $this->getCmdSetCandidates($contract, $session_user);
-            $this->smartyHelper->assign('commandsetCandidates', $commandsetCandidates);
-
-            $projectCandidates = $this->getProjectCandidates($contract);
-            $this->smartyHelper->assign('projectCandidates', $projectCandidates);
-            $projects = $this->getProjects($contract);
-            $this->smartyHelper->assign('projectList', $projects);
-
-            $isManager = $session_user->isTeamManager($contract->getTeamid());
-            ServiceContractTools::displayServiceContract($this->smartyHelper, $contract, $isManager);
          }
       }
    }
@@ -160,8 +156,17 @@ class ServiceContractEditController extends Controller {
     * @param ServiceContract $contract
     */
    private function updateServiceContractInfo($contract) {
-      // security check
-      $contract->setTeamid(Tools::getSecurePOSTIntValue('teamid'));
+
+      // TODO check sc_teamid in grantedTeams
+
+      $sc_teamid = Tools::getSecurePOSTIntValue('sc_teamid');
+
+      if ($sc_teamid != $this->teamid) {
+         // switch team (because you won't find the SC in current team's contract list)
+         $_SESSION['teamid'] = $sc_teamid;
+         $this->updateTeamSelector();
+      }
+      $contract->setTeamid($sc_teamid);
 
       $formattedValue = Tools::getSecurePOSTStringValue('servicecontractName');
       $contract->setName($formattedValue);
@@ -188,7 +193,6 @@ class ServiceContractEditController extends Controller {
       }
 
       $contract->setState(SmartyTools::checkNumericValue($_POST['servicecontractState'], true));
-
    }
 
    /**
