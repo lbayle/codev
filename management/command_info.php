@@ -32,101 +32,83 @@ class CommandInfoController extends Controller {
 
    protected function display() {
       if (Tools::isConnectedUser()) {
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-         // use the teamid set in the form, if not defined (first page call) use session teamid
-         $teamid = 0;
-         if (isset($_POST['teamid'])) {
-            $teamid = Tools::getSecurePOSTIntValue('teamid');
-            $_SESSION['teamid'] = $teamid;
-         } else if (isset($_SESSION['teamid'])) {
-            $teamid = $_SESSION['teamid'];
-         }
+         if (0 != $this->teamid) {
 
-         // if cmdid set in URL, use it. else:
-         // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
-         $cmdid = 0;
-         if(isset($_POST['cmdid'])) {
-            $cmdid = Tools::getSecurePOSTIntValue('cmdid');
-            $_SESSION['cmdid'] = $cmdid;
-         } else if(isset($_GET['cmdid'])) {
-            $cmdid = Tools::getSecureGETIntValue('cmdid');
-            $_SESSION['cmdid'] = $cmdid;
-         } else if(isset($_SESSION['cmdid'])) {
-            $cmdid = $_SESSION['cmdid'];
-         }
-
-         // set TeamList (including observed teams)
-         $teamList = $session_user->getTeamList();
-         if (!array_key_exists($teamid, $teamList)) {
-            $teamid = 0;
+            // if cmdid set in URL, use it. else:
+            // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
             $cmdid = 0;
-         } else {
-            $isManager = $session_user->isTeamManager($teamid);
-            if ($isManager) {
-               $this->smartyHelper->assign('isManager', true);
+            if(isset($_POST['cmdid'])) {
+               $cmdid = Tools::getSecurePOSTIntValue('cmdid');
+               $_SESSION['cmdid'] = $cmdid;
+            } else if(isset($_GET['cmdid'])) {
+               $cmdid = Tools::getSecureGETIntValue('cmdid');
+               $_SESSION['cmdid'] = $cmdid;
+            } else if(isset($_SESSION['cmdid'])) {
+               $cmdid = $_SESSION['cmdid'];
             }
-         }
-         $this->smartyHelper->assign('teamid', $teamid);
-         $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
-         $this->smartyHelper->assign('commandid', $cmdid);
-         $this->smartyHelper->assign('commands', $this->getCommands($teamid, $cmdid));
 
-         // ------ Display Command
-         if (0 != $cmdid) {
-            $cmd = CommandCache::getInstance()->getCommand($cmdid);
-
-            if (array_key_exists($cmd->getTeamid(), $teamList)) {
-               $teamid = $cmd->getTeamid();
-               $_SESSION['teamid'] = $teamid;
-
-               // get selected filters
-               $selectedFilters="";
-               if(isset($_GET['selectedFilters'])) {
-                  $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
-               } else {
-                  $selectedFilters = $session_user->getCommandFilters($cmdid);
+            if (!array_key_exists($this->teamid, $this->teamList)) {
+               $this->teamid = 0;
+               $cmdid = 0;
+            } else {
+               $isManager = $this->session_user->isTeamManager($this->teamid);
+               if ($isManager) {
+                  $this->smartyHelper->assign('isManager', true);
                }
-               // cleanup filters (remove empty lines)
-               $filterList = explode(',', $selectedFilters);
-               $filterList = array_filter($filterList, create_function('$a','return $a!="";'));
-               $selectedFilters = implode(',', $filterList);
+            }
+            $this->smartyHelper->assign('commandid', $cmdid);
+            $this->smartyHelper->assign('commands', $this->getCommands($this->teamid, $cmdid));
 
-               CommandTools::displayCommand($this->smartyHelper, $cmd, $isManager, $selectedFilters);
+            // ------ Display Command
+            if (0 != $cmdid) {
+               $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
-               // ConsistencyCheck
-               $consistencyErrors = $this->getConsistencyErrors($cmd);
-               if(count($consistencyErrors) > 0) {
+               if ($cmd->getTeamid() == $this->teamid) {
 
-                  $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-                  $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
-                  $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
-               }
+                  // get selected filters
+                  if(isset($_GET['selectedFilters'])) {
+                     $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
+                  } else {
+                     $selectedFilters = $this->session_user->getCommandFilters($cmdid);
+                  }
+                  // cleanup filters (remove empty lines)
+                  $filterList = explode(',', $selectedFilters);
+                  $filterList = array_filter($filterList, create_function('$a','return $a!="";'));
+                  $selectedFilters = implode(',', $filterList);
 
-               // check if sold days
-               $checkTotalSoldDays = $cmd->getTotalSoldDays() - $cmd->getIssueSelection()->mgrEffortEstim - $cmd->getProvisionDays();
-               $checkTotalSoldDays = round($checkTotalSoldDays, 2);
-               $this->smartyHelper->assign('checkTotalSoldDays', $checkTotalSoldDays);
+                  CommandTools::displayCommand($this->smartyHelper, $cmd, $isManager, $selectedFilters);
 
-               // access rights
-               if (($isManager) ||
-                  ($session_user->isTeamLeader($cmd->getTeamid()))) {
-                  $this->smartyHelper->assign('isEditGranted', true);
+                  // ConsistencyCheck
+                  $consistencyErrors = $this->getConsistencyErrors($cmd);
+                  if(count($consistencyErrors) > 0) {
+
+                     $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+                     $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
+                     $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
+                  }
+
+                  // check if sold days
+                  $checkTotalSoldDays = $cmd->getTotalSoldDays() - $cmd->getIssueSelection()->mgrEffortEstim - $cmd->getProvisionDays();
+                  $checkTotalSoldDays = round($checkTotalSoldDays, 2);
+                  $this->smartyHelper->assign('checkTotalSoldDays', $checkTotalSoldDays);
+
+                  // access rights
+                  if (($isManager) ||
+                     ($this->session_user->isTeamLeader($cmd->getTeamid()))) {
+                     $this->smartyHelper->assign('isEditGranted', true);
+                  }
                }
             } else {
-               // TODO smarty error msg
-               echo T_('Sorry, You are not allowed to see this command');
-            }
-         } else {
-            unset($_SESSION['commandsetid']);
-            unset($_SESSION['servicecontractid']);
+               unset($_SESSION['commandsetid']);
+               unset($_SESSION['servicecontractid']);
 
-            $action = isset($_POST['action']) ? $_POST['action'] : '';
-            if ('displayCommand' == $action) {
-               header('Location:command_edit.php?cmdid=0');
+               $action = isset($_POST['action']) ? $_POST['action'] : '';
+               if ('displayCommand' == $action) {
+                  header('Location:command_edit.php?cmdid=0');
+               }
             }
          }
-
       }
    }
 

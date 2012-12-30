@@ -1,11 +1,5 @@
 <script type="text/javascript">
    jQuery(document).ready(function() {
-      jQuery("#teamid").change(function() {
-         var form = jQuery('#mainForm');
-         form.find("select[name=cmdid]").val("0");
-         form.find("input[name=action]").val("setTeam");
-         form.submit();
-      });
 
       jQuery("#btDisplayPage").click(function() {
          var form = jQuery('#mainForm');
@@ -29,13 +23,6 @@
       <!-- create form -->
       <form id="mainForm" name="mainForm" class="formWithTabsHistory" method="post" action="{$page}">
          <fieldset>
-            <label for="teamid">{t}Team{/t}: </label>
-            <select id="teamid" name="teamid">
-               <option value="0"></option>
-               {foreach from=$teams key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-               {/foreach}
-            </select>
             <label for="cmdid">{t}Command{/t}: </label>
             <select id="cmdid" name="cmdid" class="select2" style="width:400px;">
                {foreach from=$commands key=id item=i}
