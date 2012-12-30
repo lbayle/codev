@@ -32,89 +32,78 @@ class ServiceContractInfoController extends Controller {
 
    protected function display() {
       if (Tools::isConnectedUser()) {
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-         $teamid = 0;
-         if (isset($_POST['teamid'])) {
-            $teamid = Tools::getSecurePOSTIntValue('teamid');
-            $_SESSION['teamid'] = $teamid;
-         } else if (isset($_SESSION['teamid'])) {
-            $teamid = $_SESSION['teamid'];
-         }
+         if (0 != $this->teamid) {
 
-         // use the servicecontractid set in the form, if not defined (first page call) use session servicecontractid
-         $servicecontractid = 0;
-         if(isset($_POST['servicecontractid'])) {
-            $servicecontractid = Tools::getSecurePOSTIntValue('servicecontractid');
-            $_SESSION['servicecontractid'] = $servicecontractid;
-         } else if(isset($_GET['servicecontractid'])) {
-            $servicecontractid = Tools::getSecureGETIntValue('servicecontractid');
-            $_SESSION['servicecontractid'] = $servicecontractid;
-         } else if(isset($_SESSION['servicecontractid'])) {
-            $servicecontractid = $_SESSION['servicecontractid'];
-         }
-
-         // set TeamList (including observed teams)
-         #$teamList = $session_user->getTeamList();
-         $oTeamList = $session_user->getObservedTeamList();
-         $mTeamList = $session_user->getManagedTeamList();
-         $teamList = $oTeamList + $mTeamList;           // array_merge does not work ?!
-
-         if (empty($teamList)) {
-            // only managers (and observers) can access this page.
-            return;
-         }
-
-         // do not display SC if team not allowed
-         if (!array_key_exists($teamid, $teamList)) {
-            $teamid = 0;
+            // use the servicecontractid set in the form, if not defined (first page call) use session servicecontractid
             $servicecontractid = 0;
-         } else {
-            $isManager = $session_user->isTeamManager($teamid);
+            if(isset($_POST['servicecontractid'])) {
+               $servicecontractid = Tools::getSecurePOSTIntValue('servicecontractid');
+               $_SESSION['servicecontractid'] = $servicecontractid;
+            } else if(isset($_GET['servicecontractid'])) {
+               $servicecontractid = Tools::getSecureGETIntValue('servicecontractid');
+               $_SESSION['servicecontractid'] = $servicecontractid;
+            } else if(isset($_SESSION['servicecontractid'])) {
+               $servicecontractid = $_SESSION['servicecontractid'];
+            }
+
+            // set TeamList (including observed teams)
+            #$teamList = $this->session_user->getTeamList();
+            $oTeamList = $this->session_user->getObservedTeamList();
+            $mTeamList = $this->session_user->getManagedTeamList();
+            $teamList = $oTeamList + $mTeamList;           // array_merge does not work ?!
+
+            if (empty($teamList) || (!array_key_exists($this->teamid, $teamList))) {
+               // only managers (and observers) can access this page.
+               return;
+            }
+
+            $isManager = $this->session_user->isTeamManager($this->teamid);
             if ($isManager) {
                $this->smartyHelper->assign('isManager', true);
             }
-         }
 
-         $this->smartyHelper->assign('teamid', $teamid);
-         $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
+            $this->smartyHelper->assign('servicecontracts', ServiceContractTools::getServiceContracts($this->teamid, $servicecontractid));
 
-         $this->smartyHelper->assign('servicecontractid', $servicecontractid);
-         $this->smartyHelper->assign('servicecontracts', ServiceContractTools::getServiceContracts($teamid, $servicecontractid));
+            if (0 != $servicecontractid) {
+               $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
-         if (0 != $servicecontractid) {
-            $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+               if ($this->teamid == $servicecontract->getTeamid()) {
 
-            // get selected filters
-            $selectedFilters="";
-            if(isset($_GET['selectedFilters'])) {
-               $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
+                  $this->smartyHelper->assign('servicecontractid', $servicecontractid);
+
+                  // get selected filters
+                  $selectedFilters="";
+                  if(isset($_GET['selectedFilters'])) {
+                     $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
+                  } else {
+                     $selectedFilters = $this->session_user->getServiceContractFilters($servicecontractid);
+                  }
+
+                  ServiceContractTools::displayServiceContract($this->smartyHelper, $servicecontract, $isManager, $selectedFilters);
+
+                  // ConsistencyCheck
+                  $consistencyErrors = $this->getConsistencyErrors($servicecontract);
+                  if (0 != $consistencyErrors) {
+                     $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+                     $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
+                     $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
+                  }
+
+                  // access rights
+                  if ($isManager ||
+                     ($this->session_user->isTeamLeader($servicecontract->getTeamid()))) {
+                     $this->smartyHelper->assign('isEditGranted', true);
+                  }
+               }
             } else {
-               $selectedFilters = $session_user->getServiceContractFilters($servicecontractid);
-            }
+               unset($_SESSION['cmdid']);
+               unset($_SESSION['commandsetid']);
 
-            ServiceContractTools::displayServiceContract($this->smartyHelper, $servicecontract, $isManager, $selectedFilters);
-
-            // ConsistencyCheck
-            $consistencyErrors = $this->getConsistencyErrors($servicecontract);
-            if (0 != $consistencyErrors) {
-               $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-               $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
-               $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
-            }
-
-            // access rights
-            if ($isManager ||
-               ($session_user->isTeamLeader($servicecontract->getTeamid()))) {
-               $this->smartyHelper->assign('isEditGranted', true);
-            }
-         } else {
-            unset($_SESSION['cmdid']);
-            unset($_SESSION['commandsetid']);
-
-            $action = Tools::getSecurePOSTStringValue('action', '');
-            if ('displayServiceContract' == $action) {
-               header('Location:servicecontract_edit.php?servicecontractid=0');
+               $action = Tools::getSecurePOSTStringValue('action', '');
+               if ('displayServiceContract' == $action) {
+                  header('Location:servicecontract_edit.php?servicecontractid=0');
+               }
             }
          }
       }

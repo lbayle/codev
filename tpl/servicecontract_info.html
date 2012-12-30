@@ -1,11 +1,5 @@
 <script type="text/javascript">
    jQuery(document).ready(function() {
-      jQuery("#teamid").change(function() {
-         var form = jQuery('#selectForm');
-         form.find("select[name=servicecontractid]").val("0");
-         form.find("input[name=action]").val("setTeam");
-         form.submit();
-      });
 
       jQuery.ajax({
          url: "js/helpdialog.js",
@@ -16,18 +10,11 @@
    });
 </script>
 <div id="content">
-   {if isset($teams) && $teams}
+   {if isset($teams) && isset($servicecontracts)}
    <div align="center">
       <!-- create form -->
       <form id="selectForm" name="selectForm" class="formWithTabsHistory" method="post" action="{$page}">
          <fieldset>
-            <label for="teamid">{t}Team{/t}:</label>
-            <select id="teamid" name="teamid">
-               <option value="0"></option>
-               {foreach from=$teams key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-               {/foreach}
-            </select>
             <label for="servicecontractid">{t}ServiceContract{/t}:</label>
             <select id="servicecontractid" name="servicecontractid" class="select2" style="width: 400px;">
                {foreach from=$servicecontracts key=id item=i}

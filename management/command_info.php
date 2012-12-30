@@ -57,7 +57,6 @@ class CommandInfoController extends Controller {
                   $this->smartyHelper->assign('isManager', true);
                }
             }
-            $this->smartyHelper->assign('commandid', $cmdid);
             $this->smartyHelper->assign('commands', $this->getCommands($this->teamid, $cmdid));
 
             // ------ Display Command
@@ -65,6 +64,8 @@ class CommandInfoController extends Controller {
                $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
                if ($cmd->getTeamid() == $this->teamid) {
+
+                  $this->smartyHelper->assign('commandid', $cmdid);
 
                   // get selected filters
                   if(isset($_GET['selectedFilters'])) {

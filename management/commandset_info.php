@@ -63,7 +63,6 @@ class CommandSetInfoController extends Controller {
                $this->smartyHelper->assign('isManager', true);
             }
 
-            $this->smartyHelper->assign('commandsetid', $commandsetid);
             $this->smartyHelper->assign('commandsets', CommandSetTools::getCommandSets($this->teamid, $commandsetid));
 
             if (0 != $commandsetid) {
@@ -71,6 +70,8 @@ class CommandSetInfoController extends Controller {
 
                if ($this->teamid == $commandset->getTeamid()) {
 
+                  $this->smartyHelper->assign('commandsetid', $commandsetid);
+                  
                   // set CommandSets I belong to
                   $this->smartyHelper->assign('parentContracts', CommandSetTools::getParentContracts($commandset));
 
