@@ -109,28 +109,6 @@ class SmartyHelper {
       }
    }
 
-
-   private function updateTeamSelector() {
-
-      if (Tools::isConnectedUser()) {
-         // use the teamid set in the form, if not defined (first page call) use session teamid
-         if (isset($_GET['teamid'])) {
-            $teamid = Tools::getSecureGETIntValue('teamid');
-            $_SESSION['teamid'] = $teamid;
-         } else {
-            $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-         }
-
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-         $teamList = $session_user->getTeamList();
-
-         if (count($teamList) > 0) {
-            $this->smarty->assign('teams', SmartyTools::getSmartyArray($teamList, $_SESSION['teamid']));
-         }
-      }
-
-   }
-
    /**
     * Display the default template
     */
@@ -154,10 +132,6 @@ class SmartyHelper {
       $this->smarty->assign('ui_tabs_jquery', 'ui-tabs ui-widget ui-widget-content ui-corner-all');
       $this->smarty->assign('ui_tabs_jquery_ul', 'ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all');
       $this->smarty->assign('ui_tabs_jquery_li', 'ui-state-default ui-corner-top');
-
-
-      // update Team Selector
-      $this->updateTeamSelector();
 
 
       $this->display('template');

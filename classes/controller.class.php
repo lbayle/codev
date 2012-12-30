@@ -25,6 +25,12 @@ abstract class Controller {
     */
    protected $smartyHelper;
 
+   protected $session_userid;
+   protected $session_user;
+   protected $teamid;
+   protected $temList;
+
+
    public function __construct($title, $menu = NULL) {
       $this->smartyHelper = new SmartyHelper();
       $this->smartyHelper->assign('pageName', T_($title));
@@ -33,7 +39,34 @@ abstract class Controller {
       }
    }
 
+   private function updateTeamSelector() {
+
+      if (Tools::isConnectedUser()) {
+         // use the teamid set in the form, if not defined (first page call) use session teamid
+         if (isset($_GET['teamid'])) {
+            $this->teamid = Tools::getSecureGETIntValue('teamid');
+            $_SESSION['teamid'] = $this->teamid;
+         } else {
+            $this->teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+         }
+         $this->smartyHelper->assign('teamid', $this->teamid);
+
+         $this->session_userid = $_SESSION['userid'];
+         $this->session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+         $this->teamList = $this->session_user->getTeamList();
+
+         if (count($this->teamList) > 0) {
+            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($this->teamList, $_SESSION['teamid']));
+         }
+      }
+
+   }
+
    public function execute() {
+
+      // set variables: session_userid, session_user, teamid, teamList and update teamSelector
+      $this->updateTeamSelector();
+
       $this->display();
       $this->smartyHelper->displayTemplate();
    }
