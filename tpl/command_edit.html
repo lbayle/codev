@@ -1,4 +1,5 @@
 <div id="content">
+{if isset($isEditGranted) && $isEditGranted}
 
    <script type="text/javascript" src="js/datepicker.js"></script>
    <script type="text/javascript">
@@ -42,9 +43,9 @@
                   <tr>
                      <th><label for="teamSelector">{t}Team{/t}</label></th>
                      <td>
-                        <select id="teamSelector" name="teamid">
+                        <select id="teamSelector" name="cmd_teamid">
                            <!--option value="0"></option-->
-                           {foreach from=$teams key=id item=i}
+                           {foreach from=$grantedTeams key=id item=i}
                            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                            {/foreach}
                         </select>
@@ -113,14 +114,14 @@
             {if isset($commandid)}<input type="hidden" name="cmdid" value="{$commandid}" />{/if}
          </fieldset>
       </form>
-      
+
       <script type="text/javascript">
          jQuery(document).ready(function() {
             jQuery("#btSaveCommand").click(function() {
                // check fields
                var foundError = 0;
                var msgString = "{t}Some fields are missing:{/t}\n\n";
-               
+
                var form = jQuery("#updateCmdInfoForm");
                if (0 == form.find("input[name=cmdName]").val().length) {
                   msgString += "{t}Command name{/t}\n";
@@ -135,7 +136,7 @@
             });
          });
       </script>
-      
+
       {if isset($commandid)}
       <!-- DialogBox for deleteCommand -->
       <script type="text/javascript">
@@ -762,4 +763,9 @@
       </script>
    </div>
    {/if}
+{else}
+   <div class="center">
+   {t}Sorry, only managers can access this page.{/t}
+   </div>
+{/if}
 </div>

@@ -1,5 +1,5 @@
 <div id="content">
-   {if isset($isEditGranted) && $isEditGranted}
+{if isset($isEditGranted) && $isEditGranted}
 
    <script type="text/javascript" src="js/datepicker.js"></script>
    <script type="text/javascript">
@@ -67,14 +67,14 @@
             {if isset($commandsetid)}<input type="hidden" name="commandsetid" value="{$commandsetid}" />{/if}
          </fieldset>
       </form>
-         
+
       <script type="text/javascript">
          jQuery(document).ready(function() {
             jQuery("#btSaveCommandSet").click(function() {
                // check fields
                var foundError = 0;
                var msgString = "{t}Some fields are missing:{/t}\n\n";
-               
+
                var form = jQuery("#updateCommandSetInfoForm");
                if (0 == form.find("input[name=commandsetName]").val().length) {
                   msgString += "{t}Command set name{/t}\n";
@@ -89,7 +89,7 @@
             });
          });
       </script>
-   
+
       {if isset($commandsetid)}
       <!-- DialogBox for deleteCommand -->
       <script type="text/javascript">
