@@ -71,7 +71,7 @@ class CommandSetInfoController extends Controller {
                if ($this->teamid == $commandset->getTeamid()) {
 
                   $this->smartyHelper->assign('commandsetid', $commandsetid);
-                  
+
                   // set CommandSets I belong to
                   $this->smartyHelper->assign('parentContracts', CommandSetTools::getParentContracts($commandset));
 
@@ -98,9 +98,6 @@ class CommandSetInfoController extends Controller {
                      ($this->session_user->isTeamLeader($commandset->getTeamid()))) {
                      $this->smartyHelper->assign('isEditGranted', true);
                   }
-               } else {
-                  // TODO smarty error msg
-                  echo T_('Sorry, You are not allowed to see this commandSet');
                }
             } else {
                unset($_SESSION['cmdid']);

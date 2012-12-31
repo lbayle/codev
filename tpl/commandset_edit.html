@@ -1,4 +1,5 @@
 <div id="content">
+   {if isset($isEditGranted) && $isEditGranted}
 
    <script type="text/javascript" src="js/datepicker.js"></script>
    <script type="text/javascript">
@@ -21,9 +22,9 @@
                <tr>
                   <th><label for="teamSelector">{t}Team{/t}</label></th>
                   <td>
-                     <select id="teamSelector" name="teamid">
+                     <select id="teamSelector" name="cset_teamid">
                         <!--option value="0"></option-->
-                        {foreach from=$teams key=id item=i}
+                        {foreach from=$grantedTeams key=id item=i}
                         <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                         {/foreach}
                      </select>
@@ -261,4 +262,9 @@
       </div>
    </div>
    {/if}
+{else}
+   <div class="center">
+   {t}Sorry, only managers can access this page.{/t}
+   </div>
+{/if}
 </div>
