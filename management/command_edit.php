@@ -158,6 +158,7 @@ class CommandEditController extends Controller {
 
                } else if ("updateCmdInfo" == $action) {
                   $this->updateCmdInfo($cmd);
+                  header('Location:command_info.php');
 
                } else if ("deleteCommand" == $action) {
                   if(self::$logger->isDebugEnabled()) {

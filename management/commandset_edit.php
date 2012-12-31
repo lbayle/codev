@@ -103,6 +103,7 @@ class CommandSetEditController extends Controller {
                   $cmdset->removeCommand($cmdid);
                } else if ("updateCmdsetInfo" == $action) {
                   $this->updateCommandSetInfo($cmdset);
+                  header('Location:commandset_info.php');
 
                } else if ("deleteCommandSet" == $action) {
                   if(self::$logger->isDebugEnabled()) {

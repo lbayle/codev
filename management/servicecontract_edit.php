@@ -105,8 +105,11 @@ class ServiceContractEditController extends Controller {
                } else if ("removeCmdSet" == $action) {
                   $commandsetid = Tools::getSecurePOSTIntValue('commandsetid');
                   $contract->removeCommandSet($commandsetid);
+                  
                } else if ("updateContractInfo" == $action) {
                   $this->updateServiceContractInfo($contract);
+                  header('Location:servicecontract_info.php');
+
                } else if ("addProject" == $action) {
                   # TODO
                   $projectid = Tools::getSecurePOSTIntValue('projectid');
