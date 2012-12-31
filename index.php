@@ -48,7 +48,6 @@ class IndexController extends Controller {
    protected function display() {
       // Drifted tasks
       if(Tools::isConnectedUser()) {
-         $user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
          // updateBacklog DialogBox
          if (isset($_POST['bugid'])) {
@@ -58,16 +57,16 @@ class IndexController extends Controller {
             $issue->setBacklog($backlog);
          }
 
-         $driftedTasks = $this->getIssuesInDrift($user);
+         $driftedTasks = $this->getIssuesInDrift();
          if(isset($driftedTasks)) {
             $this->smartyHelper->assign('driftedTasks', $driftedTasks);
          }
 
          // Consistency errors
-         $consistencyErrors = $this->getConsistencyErrors($user);
+         $consistencyErrors = $this->getConsistencyErrors();
 
          // no specific Mgr errors right now
-         #$consistencyErrorsMgr = $this->getConsistencyErrorsMgr($user);
+         #$consistencyErrorsMgr = $this->getConsistencyErrorsMgr($this->session_user);
          #$consistencyErrors = array_merge($consistencyErrors, $consistencyErrorsMgr);
 
          if(count($consistencyErrors) > 0) {
@@ -79,19 +78,22 @@ class IndexController extends Controller {
 
    /**
     * Get issues in drift
-    * @param User $user
+    * @param User $this->session_user
     * @return mixed[]
     */
-   private function getIssuesInDrift(User $user) {
+   private function getIssuesInDrift() {
 
       // get all teams except those where i'm Observer
-      $dTeamList = $user->getDevTeamList();
-      $mTeamList = $user->getManagedTeamList();
-      $teamList = $dTeamList + $mTeamList;           // array_merge does not work ?!
-      // except disabled projects
-      $projList = $user->getProjectList($teamList, true, false);
+      #$dTeamList = $this->session_user->getDevTeamList();
+      #$mTeamList = $this->session_user->getManagedTeamList();
+      #$teamList = $dTeamList + $mTeamList;           // array_merge does not work ?!
 
-      $allIssueList = $user->getAssignedIssues($projList);
+      $teamList = array($this->teamid => $this->teamList[$this->teamid]);
+
+      // except disabled projects
+      $projList = $this->session_user->getProjectList($teamList, true, false);
+
+      $allIssueList = $this->session_user->getAssignedIssues($projList);
       $issueList = array();
       $driftedTasks = array();
 
@@ -126,18 +128,18 @@ class IndexController extends Controller {
 
    /**
     * Get consistency errors
-    * @param User $sessionUser
     * @return mixed[]
     */
-   private function getConsistencyErrors(User $sessionUser) {
+   private function getConsistencyErrors() {
       $consistencyErrors = array(); // if null, array_merge fails !
 
-      $teamList = $sessionUser->getTeamList();
+      #$teamList = $this->teamList;
+      $teamList = array($this->teamid => $this->teamList[$this->teamid]);
 
       // except disabled projects
-      $projList = $sessionUser->getProjectList($teamList, true, false);
+      $projList = $this->session_user->getProjectList($teamList, true, false);
 
-      $issueList = $sessionUser->getAssignedIssues($projList, true);
+      $issueList = $this->session_user->getAssignedIssues($projList, true);
 
       $ccheck = new ConsistencyCheck2($issueList);
 
@@ -145,7 +147,7 @@ class IndexController extends Controller {
 
       if (count($cerrList) > 0) {
          foreach ($cerrList as $cerr) {
-            if ($sessionUser->getId() == $cerr->userId) {
+            if ($this->session_user->getId() == $cerr->userId) {
                $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
                $titleAttr = array(
                    T_('Project') => $issue->getProjectName(),
@@ -163,14 +165,14 @@ class IndexController extends Controller {
 
    /**
     * managers get some more consistencyErrors
-    * @param User $sessionUser
+    * @param User $this->session_user
     * @return mixed[]
     */
-   private function getConsistencyErrorsMgr(User $sessionUser) {
+   private function getConsistencyErrorsMgr() {
       $consistencyErrors = array(); // if null, array_merge fails !
 /*
-      $mTeamList = array_keys($sessionUser->getManagedTeamList());
-      $lTeamList = array_keys($sessionUser->getLeadedTeamList());
+      $mTeamList = array_keys($this->session_user->getManagedTeamList());
+      $lTeamList = array_keys($this->session_user->getLeadedTeamList());
       $teamList = array_merge($mTeamList, $lTeamList);
 
       $issueList = array();
