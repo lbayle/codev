@@ -28,7 +28,7 @@ abstract class Controller {
    protected $session_userid;
    protected $session_user;
    protected $teamid;
-   protected $temList;
+   protected $teamList;
 
 
    public function __construct($title, $menu = NULL) {

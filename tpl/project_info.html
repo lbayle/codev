@@ -16,88 +16,90 @@
    </div>
    {/if}
 
-   <h3>{t}Project Info{/t}</h3>
-   {include file="plugin/detailed_charges_indicator.html"}
+   {if isset($projectid)}
+      <h3>{t}Project Info{/t}</h3>
+      {include file="plugin/detailed_charges_indicator.html"}
 
-   
-   {if isset($currentIssuesInDrift) || isset($resolvedIssuesInDrift)}
-   <h3 style="margin-top: 2em">{t}Tasks in drift{/t}</h3>
-   <div id="tabsDrift" class="tabs {$ui_tabs_jquery}">
-      <ul class="{$ui_tabs_jquery_ul}">
-         <li class="{$ui_tabs_jquery_li}"><a href="#tabCurrentDrift">{t}Drift current tasks{/t}</a></li>
-         <li class="{$ui_tabs_jquery_li}"><a href="#tabResolvedDrift">{t}Drift resolved tasks{/t}</a></li>
-      </ul>
-      <div id="tabCurrentDrift">
-         {if $currentIssuesInDrift}
-         <table>
-            <!--<caption>{t}Tasks in drift{/t}</caption>-->
-            <thead>
-               <tr>
-                  <th>{t}ID{/t}</th>
-                  <th>{t}Project{/t}</th>
-                  <th>{t}Target{/t}</th>
-                  {if $isManager}<th title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
-                  <th title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
-                  <th title="{t}Backlog{/t}">{t}BL{/t}</th>
-                  <th>{t}Progress{/t}</th>
-                  <th>{t}Status{/t}</th>
-                  <th>{t}Summary{/t}</th>
-               </tr>
-            </thead>
-            <tbody>
-               {foreach from=$currentIssuesInDrift key=name item=i}
-               <tr>
-                  <td nowrap="nowrap">{$i.mantisURL} {$i.issueURL}</td>
-                  <td>{$i.projectName}</td>
-                  <td nowrap="nowrap">{$i.targetVersion}</td>
-                  {if $isManager}<td style="width: 6em;{if $i.driftMgrColor}background-color: #{$i.driftMgrColor};{/if}">{$i.driftMgr}</td>{/if}
-                  <td style="width: 6em;{if $i.driftColor}background-color: #{$i.driftColor};{/if}">{$i.drift}</td>
-                  <td>{$i.backlog}</td>
-                  <td><div class="progress">{$i.progress}%</div></td>
-                  <td>{$i.currentStatusName}</td>
-                  <td>{$i.summary}</td>
-               </tr>
-               {/foreach}
-            </tbody>
-         </table>
-         {else}
-         {t}No data{/t}
-         {/if}
+
+      {if isset($currentIssuesInDrift) || isset($resolvedIssuesInDrift)}
+      <h3 style="margin-top: 2em">{t}Tasks in drift{/t}</h3>
+      <div id="tabsDrift" class="tabs {$ui_tabs_jquery}">
+         <ul class="{$ui_tabs_jquery_ul}">
+            <li class="{$ui_tabs_jquery_li}"><a href="#tabCurrentDrift">{t}Drift current tasks{/t}</a></li>
+            <li class="{$ui_tabs_jquery_li}"><a href="#tabResolvedDrift">{t}Drift resolved tasks{/t}</a></li>
+         </ul>
+         <div id="tabCurrentDrift">
+            {if $currentIssuesInDrift}
+            <table>
+               <!--<caption>{t}Tasks in drift{/t}</caption>-->
+               <thead>
+                  <tr>
+                     <th>{t}ID{/t}</th>
+                     <th>{t}Project{/t}</th>
+                     <th>{t}Target{/t}</th>
+                     {if $isManager}<th title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
+                     <th title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
+                     <th title="{t}Backlog{/t}">{t}BL{/t}</th>
+                     <th>{t}Progress{/t}</th>
+                     <th>{t}Status{/t}</th>
+                     <th>{t}Summary{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$currentIssuesInDrift key=name item=i}
+                  <tr>
+                     <td nowrap="nowrap">{$i.mantisURL} {$i.issueURL}</td>
+                     <td>{$i.projectName}</td>
+                     <td nowrap="nowrap">{$i.targetVersion}</td>
+                     {if $isManager}<td style="width: 6em;{if $i.driftMgrColor}background-color: #{$i.driftMgrColor};{/if}">{$i.driftMgr}</td>{/if}
+                     <td style="width: 6em;{if $i.driftColor}background-color: #{$i.driftColor};{/if}">{$i.drift}</td>
+                     <td>{$i.backlog}</td>
+                     <td><div class="progress">{$i.progress}%</div></td>
+                     <td>{$i.currentStatusName}</td>
+                     <td>{$i.summary}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+            </table>
+            {else}
+            {t}No data{/t}
+            {/if}
+         </div>
+         <div id="tabResolvedDrift">
+            {if $resolvedIssuesInDrift}
+            <table>
+               <!--<caption>{t}Tasks in drift{/t}</caption>-->
+               <thead>
+                  <tr>
+                     <th>{t}ID{/t}</th>
+                     <th>{t}Project{/t}</th>
+                     <th>{t}Target{/t}</th>
+                     {if $isManager}<th style="width: 6em;" title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
+                     <th style="width: 6em;" title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
+                     <th>{t}Status{/t}</th>
+                     <th>{t}Summary{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$resolvedIssuesInDrift key=name item=i}
+                  <tr>
+                     <td nowrap="nowrap">{$i.mantisURL} {$i.issueURL}</td>
+                     <td>{$i.projectName}</td>
+                     <td nowrap="nowrap">{$i.targetVersion}</td>
+                     {if $isManager}<td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}</td>{/if}
+                     <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}</td>
+                     <td>{$i.currentStatusName}</td>
+                     <td>{$i.summary}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+            </table>
+            {else}
+            {t}No data{/t}
+            {/if}
+         </div>
       </div>
-      <div id="tabResolvedDrift">
-         {if $resolvedIssuesInDrift}
-         <table>
-            <!--<caption>{t}Tasks in drift{/t}</caption>-->
-            <thead>
-               <tr>
-                  <th>{t}ID{/t}</th>
-                  <th>{t}Project{/t}</th>
-                  <th>{t}Target{/t}</th>
-                  {if $isManager}<th style="width: 6em;" title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
-                  <th style="width: 6em;" title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
-                  <th>{t}Status{/t}</th>
-                  <th>{t}Summary{/t}</th>
-               </tr>
-            </thead>
-            <tbody>
-               {foreach from=$resolvedIssuesInDrift key=name item=i}
-               <tr>
-                  <td nowrap="nowrap">{$i.mantisURL} {$i.issueURL}</td>
-                  <td>{$i.projectName}</td>
-                  <td nowrap="nowrap">{$i.targetVersion}</td>
-                  {if $isManager}<td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}</td>{/if}
-                  <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}</td>
-                  <td>{$i.currentStatusName}</td>
-                  <td>{$i.summary}</td>
-               </tr>
-               {/foreach}
-            </tbody>
-         </table>
-         {else}
-         {t}No data{/t}
-         {/if}
-      </div>
-   </div>
+      {/if}
    {/if}
    {if isset($error)}
    <p class="center ui-state-error-text">{$error}</p>

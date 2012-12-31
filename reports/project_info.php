@@ -33,19 +33,11 @@ class ProjectInfoController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
-         $user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-         $teamList = $user->getTeamList();
-         if (0 != count($teamList)) {
-            // define the list of tasks the user can display
-            // All projects from teams where I'm a Developper or Manager AND Observers
-            $dTeamList = $user->getDevTeamList();
-            $devProjList = (0 == count($dTeamList)) ? array() : $user->getProjectList($dTeamList, true, false);
-            $managedTeamList = $user->getManagedTeamList();
-            $managedProjList = (0 == count($managedTeamList)) ? array() : $user->getProjectList($managedTeamList, true, false);
-            $oTeamList = $user->getObservedTeamList();
-            $observedProjList = (0 == count($oTeamList)) ? array() : $user->getProjectList($oTeamList, true, false);
-            $projList = $devProjList + $managedProjList + $observedProjList;
+         if (0 != $this->teamid) {
+
+            $tmpTeamList = array($this->teamid => $this->teamList[$this->teamid]);
+            $projList = $this->session_user->getProjectList($tmpTeamList, true, false);
 
             if(isset($_GET['projectid'])) {
                $projectid = Tools::getSecureGETIntValue('projectid');
@@ -59,11 +51,13 @@ class ProjectInfoController extends Controller {
                $projectid = $projectsid[0];
             }
 
-            $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList,$projectid));
+            $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList, $projectid));
 
 
             // if display project allowed
             if (in_array($projectid, array_keys($projList))) {
+
+               $this->smartyHelper->assign('projectid', $projectid);
 
                // find all teams where i'm manager and where this project is defined
                $isManager = in_array($projectid, array_keys($managedProjList)) ? true : false;
@@ -78,7 +72,7 @@ class ProjectInfoController extends Controller {
                if(isset($_GET['selectedFilters'])) {
                   $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
                } else {
-                  $selectedFilters = $user->getProjectFilters($projectid);
+                  $selectedFilters = $this->session_user->getProjectFilters($projectid);
                }
 
                // cleanup filters (remove empty lines)
@@ -87,7 +81,7 @@ class ProjectInfoController extends Controller {
                $selectedFilters = implode(',', $filterList);
 
                // save user preferances
-               $user->setProjectFilters($selectedFilters, $projectid);
+               $this->session_user->setProjectFilters($selectedFilters, $projectid);
 
                // TODO: get allFilters from config.ini
                $data = ProjectInfoTools::getDetailedCharges($projectid, $isManager, $selectedFilters);
@@ -96,7 +90,7 @@ class ProjectInfoController extends Controller {
                }
 
                // --- DRIFT TABS -------------------
-               
+
                $currentIssuesInDrift = NULL;
                $resolvedIssuesInDrift = NULL;
                foreach ($projectIssueSel->getIssuesInDrift($isManager) as $issue) {
@@ -112,8 +106,6 @@ class ProjectInfoController extends Controller {
 
                $this->smartyHelper->assign("currentIssuesInDrift", $currentIssuesInDrift);
                $this->smartyHelper->assign("resolvedIssuesInDrift", $resolvedIssuesInDrift);
-            } else if ($projectid) {
-               $this->smartyHelper->assign("error", T_("Sorry, you are not allowed to view the details of this project"));
             }
          } else {
             $this->smartyHelper->assign("error", T_("Sorry, you need to be member of a Team to access this page."));
@@ -353,7 +345,7 @@ class ProjectInfoController extends Controller {
          }
          $driftMgr = round($driftMgr, 2);
       }
-      
+
       $driftColor = NULL;
       if ($drift < -1) {
          $driftColor = "#61ed66";
