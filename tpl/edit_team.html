@@ -9,18 +9,24 @@
 {/if}
 
 <div id="content">
-   {if isset($teams)}
+   {if isset($availableTeams)}
    <div align="center">
       <script type="text/javascript">
          jQuery(document).ready(function() {
-            jQuery("#teamid").change(function() {
-               jQuery("#teamSelectForm").submit();
+            jQuery("#displayed_teamid").change(function() {
+               jQuery("#displayTeamForm").submit();
             });
          });
       </script>
-      <form id="teamSelectForm" name="teamSelectForm" class="formWithTabsHistory" method="get" action="{$page}">
+      <form id="displayTeamForm" name="displayTeamForm" class="formWithTabsHistory" method="post" action="{$page}">
          <fieldset>
-            {include file="form/teamSelector.html"}
+            <label for="displayed_teamid">{t}Team{/t}: </label>
+            <select id="displayed_teamid" name="displayed_teamid">
+            {foreach from=$availableTeams key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+            {/foreach}
+            </select>
+            <input type="hidden" name="action" value="setDisplayedTeam" />
          </fieldset>
       </form>
    </div>

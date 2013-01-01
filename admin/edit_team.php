@@ -32,17 +32,17 @@ class EditTeamController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
          $teamList = NULL;
          // leadedTeams only, except Admins: they can edit all teams
-         if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
+         if ($this->session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
             $teamList = Team::getTeams(true);
          } else {
-            $teamList = $session_user->getLeadedTeamList(true);
+            $teamList = $this->session_user->getLeadedTeamList(true);
          }
 
          if(count($teamList) > 0) {
+
             if (isset($_POST['deletedteam'])) {
                $teamidToDelete = Tools::getSecurePOSTIntValue("deletedteam");
                if(array_key_exists($teamidToDelete,$teamList)) {
@@ -50,35 +50,37 @@ class EditTeamController extends Controller {
                   $retCode = Team::delete($teamidToDelete);
                   if (!$retCode) {
                      $this->smartyHelper->assign('error', T_("Couldn't delete the team"));
+                  } else {
+                     if ($teamidToDelete == $_SESSION['teamid']) {
+                        unset($_SESSION['teamid']);
+                        $this->updateTeamSelector();
+                     }
+                     unset($teamList[$teamidToDelete]);
                   }
-
-                  unset($_SESSION['teamid']);
-                  unset($teamList[$teamidToDelete]);
                }
             }
 
             // use the teamid set in the form, if not defined (first page call) use session teamid
-            if (isset($_GET['teamid'])) {
-               $teamid = Tools::getSecureGETIntValue('teamid');
-               if(array_key_exists($teamid,$teamList)) {
-                  $_SESSION['teamid'] = $teamid;
-               }
+            if (isset($_POST['displayed_teamid'])) {
+               $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+
             } else if(isset($_SESSION['teamid']) && array_key_exists($_SESSION['teamid'],$teamList)) {
-               $teamid = $_SESSION['teamid'];
+               $displayed_teamid = $_SESSION['teamid'];
+
             } else {
                $teamIds = array_keys($teamList);
                if(count($teamIds) > 0) {
-                  $teamid = $teamIds[0];
+                  $displayed_teamid = $teamIds[0];
                } else {
-                  $teamid = 0;
+                  $displayed_teamid = 0;
                }
             }
 
-            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
+            $this->smartyHelper->assign('availableTeams', SmartyTools::getSmartyArray($teamList,$displayed_teamid));
 
-            if(array_key_exists($teamid,$teamList)) {
+            if(array_key_exists($displayed_teamid,$teamList)) {
 
-               $team = TeamCache::getInstance()->getTeam($teamid);
+               $team = TeamCache::getInstance()->getTeam($displayed_teamid);
 
                // ----------- actions ----------
                $action = isset($_POST['action']) ? $_POST['action'] : '';
@@ -138,7 +140,7 @@ class EditTeamController extends Controller {
                } elseif ($action == "removeIssueTooltip") {
                   $projectid = Tools::getSecurePOSTIntValue('projectid');
                   $project = ProjectCache::getInstance()->getProject($projectid);
-                  $project->setIssueTooltipFields(NULL, $teamid);
+                  $project->setIssueTooltipFields(NULL, $displayed_teamid);
 
                } elseif (isset($_POST["deletememberid"])) {
                   $memberid = Tools::getSecurePOSTIntValue('deletememberid');
@@ -189,13 +191,13 @@ class EditTeamController extends Controller {
 
                $this->smartyHelper->assign('departureDate', date("Y-m-d", time()));
 
-               $this->smartyHelper->assign('teamMembers', $this->getTeamMembers($teamid));
+               $this->smartyHelper->assign('teamMembers', $this->getTeamMembers($displayed_teamid));
 
                $this->smartyHelper->assign('teamEnabled', $team->isEnabled());
                $this->smartyHelper->assign('otherProjects', $team->getOtherProjects());
                $this->smartyHelper->assign('typeNames', Project::$typeNames);
 
-               $this->smartyHelper->assign('teamProjects', $this->getTeamProjects($teamid));
+               $this->smartyHelper->assign('teamProjects', $this->getTeamProjects($displayed_teamid));
 
                $this->smartyHelper->assign('onDutyCandidates', $this->getOnDutyCandidates($team,$team->getTrueProjects()));
 
@@ -203,7 +205,7 @@ class EditTeamController extends Controller {
 
                $projectList = $this->getTooltipProjectCandidates($team);
                $this->smartyHelper->assign('tooltipProjectCandidates', $projectList);
-               $this->smartyHelper->assign('issueTooltips', $this->getIssueTooltips($projectList, $teamid));
+               $this->smartyHelper->assign('issueTooltips', $this->getIssueTooltips($projectList, $displayed_teamid));
                $this->smartyHelper->assign('itemSelection_openDialogBtLabel', T_('Configure Tooltips'));
 
             }
