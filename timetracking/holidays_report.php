@@ -34,33 +34,32 @@ class HolidaysReportController extends Controller {
       if (Tools::isConnectedUser()) {
          $year = Tools::getSecurePOSTIntValue('year',date('Y'));
 
-         $teamid = 0;
-         if(isset($_POST['teamid'])) {
-            $teamid = Tools::getSecurePOSTIntValue('teamid',0);
-            $_SESSION['teamid'] = $teamid;
-         } elseif(isset($_SESSION['teamid'])) {
-            $teamid = $_SESSION['teamid'];
+         $displayed_teamid = 0;
+         if(isset($_POST['displayed_teamid'])) {
+            $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid',0);
+         } else {
+            $displayed_teamid = $this->teamid;
          }
 
          // 'teamid' is used because it's not possible to make a difference
          // between an unchecked checkBox and an unset checkbox variable
-         if (isset($_POST['teamid'])) {
+         if (isset($_POST['displayed_teamid'])) {
             $isExternalTasks = isset($_POST['cb_extTasks']) ? TRUE : FALSE;
          } else {
             $isExternalTasks = TRUE; // default
          }
 
-         $teams = SmartyTools::getSmartyArray(Team::getTeams(),$teamid);
-         $this->smartyHelper->assign('teams', $teams);
+         $teams = SmartyTools::getSmartyArray(Team::getTeams(),$displayed_teamid);
+         $this->smartyHelper->assign('availableTeams', $teams);
          $this->smartyHelper->assign('years', SmartyTools::getYears($year,2));
          $this->smartyHelper->assign('isExternalTasks', $isExternalTasks);
 
-         if($teamid == 0 && count($teams) > 0) {
+         if($displayed_teamid == 0 && count($teams) > 0) {
             $teamids = array_keys($teams);
-            $teamid = $teamids[0];
+            $displayed_teamid = $teamids[0];
          }
 
-         $team = TeamCache::getInstance()->getTeam($teamid);
+         $team = TeamCache::getInstance()->getTeam($displayed_teamid);
          $users = $team->getUsers();
 
          $months = array();
@@ -71,7 +70,7 @@ class HolidaysReportController extends Controller {
             $months[$i] = array(
                "name" => Tools::formatDate("%B %Y", $monthTimestamp),
                "days" => $this->getDays($nbDaysInMonth, $i, $year),
-               "users" => $this->getDaysUsers($i, $year, $teamid, $users, $nbDaysInMonth, $isExternalTasks),
+               "users" => $this->getDaysUsers($i, $year, $displayed_teamid, $users, $nbDaysInMonth, $isExternalTasks),
                "workdays" => Holidays::getInstance()->getWorkdays($monthTimestamp, $endMonthTimestamp)
             );
          }

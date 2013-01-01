@@ -1,10 +1,10 @@
 <div id="content" class="center">
-   {if $teams}
+   {if isset($availableTeams)}
    <script type="text/javascript">
       jQuery(document).ready(function() {
          var form = jQuery("#form1");
 
-         jQuery("#teamid").change(function() {
+         jQuery("#displayed_teamid").change(function() {
             form.submit();
          });
          jQuery("#year").change(function() {
@@ -17,7 +17,13 @@
    </script>
    <form id="form1" name="form1" method="post" action="{$page}">
       <fieldset>
-         {include file="form/teamSelector.html"}
+         <label for="displayed_teamid">{t}Team{/t}: </label>
+         <select id="displayed_teamid" name="displayed_teamid">
+         {foreach from=$availableTeams key=id item=i}
+            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+         {/foreach}
+         </select>
+
          <label for="year">{t}Year{/t}:</label>
          {include file="form/yearSelector.html"}
          <label><input type="checkbox" {if $isExternalTasks}checked="checked"{/if} name="cb_extTasks" id="cb_extTasks" style="vertical-align: bottom;" /><span style="vertical-align: middle;">{t}Show external tasks{/t}</span></label>
