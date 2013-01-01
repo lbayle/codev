@@ -58,6 +58,8 @@ abstract class Controller {
          if (count($this->teamList) > 0) {
             $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($this->teamList, $_SESSION['teamid']));
          }
+
+         $this->session_user->setDefaultTeam($this->teamid);
       }
 
    }
