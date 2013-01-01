@@ -499,6 +499,8 @@
             if (bValid) {
                /* get some values from elements on the page: */
                var formUpdateBacklog = jQuery(this);
+               formUpdateBacklog.find("input[name=year]").val(jQuery("#year").val());
+
                jQuery.ajax({
                   type: "GET",
                   url: formUpdateBacklog.attr("action"),
