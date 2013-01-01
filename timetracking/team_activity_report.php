@@ -34,20 +34,9 @@ class TeamActivityReportController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
-         $user = UserCache::getInstance()->getUser($_SESSION['userid']);
-         // are team members allowed to see other member's timeTracking ?
-         $teamList = $user->getTeamList();
 
-         if (count($teamList) > 0) {
-            // use the teamid set in the form, if not defined (first page call) use session teamid
-            if(isset($_GET['teamid'])) {
-               $teamid = Tools::getSecureGETIntValue('teamid');
-               $_SESSION['teamid'] = $teamid;
-            } else {
-               $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-            }
-
-            $this->smartyHelper->assign('teams',SmartyTools::getSmartyArray($teamList,$teamid));
+         // TODO SECURITY check array_key_exists($this->teamid, $this->teamList)
+         if (0 != $this->teamid) {
 
             $year = Tools::getSecurePOSTIntValue('year', date('Y'));
             $weekid = Tools::getSecurePOSTIntValue('weekid', date('W'));
@@ -59,29 +48,19 @@ class TeamActivityReportController extends Controller {
 
             $this->smartyHelper->assign('isChecked', $isDetailed);
 
-            if (array_key_exists($teamid,$teamList) || $teamid == 0) {
-               // If no team selected, select the first one, but not set the session with it.
-               if($teamid == 0) {
-                  $teamidList = array_keys($teamList);
-                  $teamid = $teamidList[0];
-               } else {
-                  $_SESSION['teamid'] = $teamid;
-               }
+            $weekDates = Tools::week_dates($weekid,$year);
+            $startTimestamp = $weekDates[1];
+            $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
+            $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $this->teamid);
 
-               $weekDates = Tools::week_dates($weekid,$year);
-               $startTimestamp = $weekDates[1];
-               $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
-               $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+            $this->smartyHelper->assign('weekDetails', $this->getWeekDetails($timeTracking, $isDetailed, $weekDates, $this->session_user->getId()));
 
-               $this->smartyHelper->assign('weekDetails', $this->getWeekDetails($timeTracking, $isDetailed, $weekDates, $user->getId()));
-
-               // ConsistencyCheck
-               $consistencyErrors = $this->getConsistencyErrors($timeTracking);
-               if(count($consistencyErrors) > 0) {
-                  $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
-                  $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-                  $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
-               }
+            // ConsistencyCheck
+            $consistencyErrors = $this->getConsistencyErrors($timeTracking);
+            if(count($consistencyErrors) > 0) {
+               $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
+               $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+               $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
             }
          }
       }
@@ -126,17 +105,17 @@ class TeamActivityReportController extends Controller {
       $team = TeamCache::getInstance()->getTeam($timeTracking->getTeamid());
 
       $weekDetails = array();
-      $users = $team->getUsers();
-      foreach($users as $user) {
+      $this->session_users = $team->getUsers();
+      foreach($this->session_users as $this->session_user) {
          // if user was working on the project during the timestamp
 
-         if (($user->isTeamDeveloper($timeTracking->getTeamid(), $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp())) ||
-            ($user->isTeamManager($timeTracking->getTeamid(), $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp()))) {
+         if (($this->session_user->isTeamDeveloper($timeTracking->getTeamid(), $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp())) ||
+            ($this->session_user->isTeamManager($timeTracking->getTeamid(), $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp()))) {
 
             // PERIOD week
             //$thisWeekId=date("W");
 
-            $weekTracks = $timeTracking->getWeekDetails($user->getId(), !$isDetailed);
+            $weekTracks = $timeTracking->getWeekDetails($this->session_user->getId(), !$isDetailed);
             $holidays = Holidays::getInstance();
 
             $weekJobDetails = array();
@@ -216,12 +195,12 @@ class TeamActivityReportController extends Controller {
                         $duration = "";
                      }
                      $dayDetails = $this->getDaysDetails($i, $holidays, $weekDates, $duration);
-                     
+
                      $weekDuration += $dayDetails['duration'];
-                     
+
                      $daysDetails[] = $dayDetails;
                   }
-                     
+
                   if ((!$project->isSideTasksProject(array($team->getId()))) &&
                       (!$project->isExternalTasksProject())) {
                      $tooltipAttr = $issue->getTooltipItems($team->getId(), $session_userid);
@@ -249,9 +228,9 @@ class TeamActivityReportController extends Controller {
 
             if(!empty($weekJobDetails)) {
                $weekDetails[] = array(
-                  'name' => $user->getName(),
-                  'realname' => $user->getRealname(),
-                  'forecastWorkload' => $user->getForecastWorkload(),
+                  'name' => $this->session_user->getName(),
+                  'realname' => $this->session_user->getRealname(),
+                  'forecastWorkload' => $this->session_user->getForecastWorkload(),
                   'weekDates' => array(
                      Tools::formatDate("%A\n%d %b", $weekDates[1]),
                      Tools::formatDate("%A\n%d %b", $weekDates[2]),
@@ -283,10 +262,10 @@ class TeamActivityReportController extends Controller {
 
       if (count($cerrList) > 0) {
          foreach ($cerrList as $cerr) {
-            $user = UserCache::getInstance()->getUser($cerr->userId);
+            $this->session_user = UserCache::getInstance()->getUser($cerr->userId);
             $consistencyErrors[] = array(
                'date' => date("Y-m-d", $cerr->timestamp),
-               'user' => $user->getName(),
+               'user' => $this->session_user->getName(),
                'severity' => $cerr->getLiteralSeverity(),
                'severityColor' => $cerr->getSeverityColor(),
                'desc' => $cerr->desc);

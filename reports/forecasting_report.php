@@ -37,77 +37,62 @@ class ForecastingReportController extends Controller {
 
    protected function display() {
       if (Tools::isConnectedUser()) {
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
          $threshold = 0.5; // for Deviation filters
 
-         // use the teamid set in the form, if not defined (first page call) use session teamid
-         if (isset($_GET['teamid'])) {
-            $teamid = Tools::getSecureGETIntValue('teamid');;
-            $_SESSION['teamid'] = $teamid;
-         } else {
-            $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-         }
+         if (0 != $this->teamid) {
 
-         $teamList = $session_user->getTeamList();
+            $withSupport = TRUE;
 
-         if (count($teamList) > 0) {
-            $teams = SmartyTools::getSmartyArray($teamList, $teamid);
-            $this->smartyHelper->assign('teams', $teams);
+            $weekDates = Tools::week_dates(date('W'), date('Y'));
 
-            if ($teamid != 0 && array_key_exists($teamid, $teams)) {
-               $withSupport = TRUE;
+            // The first day of the current week
+            $startDate = date("Y-m-d", $weekDates[1]);
+            $startTimestamp = Tools::date2timestamp($startDate);
+            #echo "DEBUG startTimestamp ".date("Y-m-d H:i:s", $startTimestamp)."<br/>";
+            // The last day of the current week
+            $endDate = date("Y-m-d", $weekDates[5]);
+            $endTimestamp = Tools::date2timestamp($endDate);
+            $endTimestamp += 24 * 60 * 60 - 1; // + 1 day -1 sec.
+            #echo "DEBUG endTimestamp   ".date("Y-m-d H:i:s", $endTimestamp)."<br/>";
 
-               $weekDates = Tools::week_dates(date('W'), date('Y'));
+            $managedTeamList = $this->session_user->getManagedTeamList();
+            $isManager = array_key_exists($this->teamid, $managedTeamList);
+            $this->smartyHelper->assign('manager', $isManager);
+            $this->smartyHelper->assign('threshold', $threshold);
 
-               // The first day of the current week
-               $startDate = date("Y-m-d", $weekDates[1]);
-               $startTimestamp = Tools::date2timestamp($startDate);
-               #echo "DEBUG startTimestamp ".date("Y-m-d H:i:s", $startTimestamp)."<br/>";
-               // The last day of the current week
-               $endDate = date("Y-m-d", $weekDates[5]);
-               $endTimestamp = Tools::date2timestamp($endDate);
-               $endTimestamp += 24 * 60 * 60 - 1; // + 1 day -1 sec.
-               #echo "DEBUG endTimestamp   ".date("Y-m-d H:i:s", $endTimestamp)."<br/>";
+            $this->smartyHelper->assign('currentDeviationStats', $this->getCurrentDeviationStats($this->teamid, $threshold));
 
-               $managedTeamList = $session_user->getManagedTeamList();
-               $isManager = array_key_exists($teamid, $managedTeamList);
-               $this->smartyHelper->assign('manager', $isManager);
-               $this->smartyHelper->assign('threshold', $threshold);
+            $this->smartyHelper->assign('issuesInDrift', $this->getIssuesInDrift($this->teamid, $withSupport));
 
-               $this->smartyHelper->assign('currentDeviationStats', $this->getCurrentDeviationStats($teamid, $threshold));
-
-               $this->smartyHelper->assign('issuesInDrift', $this->getIssuesInDrift($teamid, $withSupport));
-
-               $start_day = 1;
-               if (1 == date("m")) {
-                  $start_month = 12;
-                  $start_year = date("Y") - 1;
-               } else {
-                  $start_month = date("m") - 1;
-                  $start_year = date("Y");
-               }
-               $timeTrackingTable = $this->createTimeTrackingList($start_day, $start_month, $start_year, $teamid);
-               $formattedTimetracks = array();
-               foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-                  $value = $timeTracking->getAvailableWorkload();
-                  $formattedTimetracks[$startTimestamp] = $value;
-               }
-
-               $values = array();
-               $legend = array();
-               foreach ($formattedTimetracks as $date => $value) {
-                  $values[Tools::formatDate("%Y-%m-%d", $date)] = $value;
-                  $legend[Tools::formatDate("%B %Y", $date)] = $value;
-               }
-
-               $this->smartyHelper->assign('workload_jqplotData', Tools::array2plot($values));
-               list($start, $end) = Tools::getStartEndKeys($values);
-               $this->smartyHelper->assign('workload_plotMinDate', $start);
-               $this->smartyHelper->assign('workload_plotMaxDate', $end);
-
-               $this->smartyHelper->assign('dates', $legend);
+            $start_day = 1;
+            if (1 == date("m")) {
+               $start_month = 12;
+               $start_year = date("Y") - 1;
+            } else {
+               $start_month = date("m") - 1;
+               $start_year = date("Y");
             }
+            $timeTrackingTable = $this->createTimeTrackingList($start_day, $start_month, $start_year, $this->teamid);
+            $formattedTimetracks = array();
+            foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+               $value = $timeTracking->getAvailableWorkload();
+               $formattedTimetracks[$startTimestamp] = $value;
+            }
+
+            $values = array();
+            $legend = array();
+            foreach ($formattedTimetracks as $date => $value) {
+               $values[Tools::formatDate("%Y-%m-%d", $date)] = $value;
+               $legend[Tools::formatDate("%B %Y", $date)] = $value;
+            }
+
+            $this->smartyHelper->assign('workload_jqplotData', Tools::array2plot($values));
+            list($start, $end) = Tools::getStartEndKeys($values);
+            $this->smartyHelper->assign('workload_plotMinDate', $start);
+            $this->smartyHelper->assign('workload_plotMaxDate', $end);
+
+            $this->smartyHelper->assign('dates', $legend);
          }
       }
    }

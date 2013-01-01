@@ -48,27 +48,8 @@ class ExportCSVWeeklyController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
-         
-         // team
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-         $mTeamList = $session_user->getDevTeamList();
-         $lTeamList = $session_user->getLeadedTeamList();
-         $managedTeamList = $session_user->getManagedTeamList();
-         $teamList = $mTeamList + $lTeamList + $managedTeamList;
 
-         if (0 != count($teamList)) {
-
-            if(isset($_POST['teamid'])) {
-               $teamid = Tools::getSecurePOSTIntValue('teamid');
-               $_SESSION['teamid'] = $teamid;
-            } else if(isset($_GET['teamid'])) {
-               $teamid = Tools::getSecureGETIntValue('teamid');
-               $_SESSION['teamid'] = $teamid;
-            } else {
-               $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-            }
-
-            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
+         if (0 != $this->teamid) {
 
             $weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
             $year = isset($_POST['year']) ? $_POST['year'] : date('Y');
@@ -76,8 +57,8 @@ class ExportCSVWeeklyController extends Controller {
 
             $this->smartyHelper->assign('years', SmartyTools::getYears($year,2));
 
-            if (('computeCsvWeekly' == $_POST['action']) && 0 != $teamid) {
-               $formatedteamName = TeamCache::getInstance()->getTeam($teamid)->getName();
+            if ('computeCsvWeekly' == $_POST['action']) {
+               $formatedteamName = TeamCache::getInstance()->getTeam($this->teamid)->getName();
 
                $weekDates      = Tools::week_dates($weekid,$year);
                $startTimestamp = $weekDates[1];
@@ -86,16 +67,16 @@ class ExportCSVWeeklyController extends Controller {
                $reports = "";
 
                $managedIssuesfile = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".Tools::formatDate("%Y%m%d",time()).".csv";
-               $managedIssuesfile = ExportCsvTools::exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $managedIssuesfile);
+               $managedIssuesfile = ExportCsvTools::exportManagedIssuesToCSV($this->teamid, $startTimestamp, $endTimestamp, $managedIssuesfile);
                $reports[] = array('file' => basename($managedIssuesfile),
                   'title' => T_('Export Managed Issues'),
                   'subtitle' => T_('Issues form Team projects, including issues assigned to other teams')
                );
 
-               $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+               $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $this->teamid);
 
                $weekActivityReportfile = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR.$formatedteamName."_CRA_".Tools::formatDate("%Y_W%W", $startTimestamp).".csv";
-               $weekActivityReportfile = $this->exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $weekActivityReportfile);
+               $weekActivityReportfile = $this->exportWeekActivityReportToCSV($this->teamid, $weekDates, $timeTracking, $weekActivityReportfile);
                $reports[] = array('file' => basename($weekActivityReportfile),
                   'title' => T_('Export Week').' '.$weekid.' '.T_('Member Activity')
                );
@@ -113,7 +94,7 @@ class ExportCSVWeeklyController extends Controller {
                $monthsLineReport = "";
                $startMonth = 1;
                for ($i = $startMonth; $i <= 12; $i++) {
-                  $myFile = ExportCsvTools::exportHolidaystoCSV($i, $year, $teamid, $formatedteamName, Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports');
+                  $myFile = ExportCsvTools::exportHolidaystoCSV($i, $year, $this->teamid, $formatedteamName, Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports');
                   $monthsLineReport[] = array('file' => basename($myFile));
                }
 
@@ -138,7 +119,7 @@ class ExportCSVWeeklyController extends Controller {
       $sepChar=';';
       $team = TeamCache::getInstance()->getTeam($timeTracking->getTeamid());
 
-      
+
       if (!is_dir(Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports')) {
          mkdir(Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports', 0755);
       }

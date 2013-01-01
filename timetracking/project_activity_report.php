@@ -32,18 +32,8 @@ class ProjectActivityReportController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
-         // team
-         $user = UserCache::getInstance()->getUser($_SESSION['userid']);
-         $teamList = $user->getTeamList();
 
-         if (count($teamList) > 0) {
-            // use the teamid set in the form, if not defined (first page call) use session teamid
-            if(isset($_GET['teamid'])) {
-               $teamid = Tools::getSecureGETIntValue('teamid');
-               $_SESSION['teamid'] = $teamid;
-            } else {
-               $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-            }
+         if (0 != $this->teamid) {
 
             // dates
             $weekDates = Tools::week_dates(date('W'),date('Y'));
@@ -53,21 +43,18 @@ class ProjectActivityReportController extends Controller {
             $enddate = Tools::getSecurePOSTStringValue("enddate",Tools::formatDate("%Y-%m-%d",$weekDates[5]));
             $this->smartyHelper->assign('endDate', $enddate);
 
-            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
-
             $isDetailed = Tools::getSecurePOSTStringValue('cb_detailed','');
             $this->smartyHelper->assign('isDetailed', $isDetailed);
 
-            if (('computeProjectActivityReport' == $_POST['action']) &&
-                (0 != $teamid) && array_key_exists($teamid, $teamList)) {
-               
+            if ('computeProjectActivityReport' == $_POST['action']) {
+
                $startTimestamp = Tools::date2timestamp($startdate);
                $endTimestamp = Tools::date2timestamp($enddate);
                $endTimestamp = mktime(23, 59, 59, date('m', $endTimestamp), date('d',$endTimestamp), date('Y', $endTimestamp));
-               
-               $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
-               $this->smartyHelper->assign('projectActivityReport', $this->getProjectActivityReport($timeTracking->getProjectTracks(true), $teamid, $isDetailed));
+               $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $this->teamid);
+
+               $this->smartyHelper->assign('projectActivityReport', $this->getProjectActivityReport($timeTracking->getProjectTracks(true), $this->teamid, $isDetailed));
             }
          }
       }

@@ -32,60 +32,46 @@ class StatisticsController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-         if (isset($_GET['teamid'])) {
-            $teamid = Tools::getSecureGETIntValue('teamid');
-            $_SESSION['teamid'] = $teamid;
-         } else {
-            $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-         }
-         $teamList = $session_user->getTeamList();
+         if (0 != $this->teamid) {
 
-         if (count($teamList) > 0) {
+            // if 'support' is set in the URL, display graphs for 'with/without Support'
+            $displayNoSupport  = isset($_GET['support']) ? TRUE : FALSE;
+            $this->smartyHelper->assign('displayNoSupport', $displayNoSupport);
 
-            $teams = SmartyTools::getSmartyArray($teamList, $teamid);
-            $this->smartyHelper->assign('teams', $teams);
+            $team = TeamCache::getInstance()->getTeam($this->teamid);
+            $min_year = date("Y", $team->getDate());
+            $year = isset($_POST['year']) && $_POST['year'] > $min_year ? $_POST['year'] : $min_year;
 
-            if ((0 != $teamid) && array_key_exists($teamid, $teams)) {
-               // if 'support' is set in the URL, display graphs for 'with/without Support'
-               $displayNoSupport  = isset($_GET['support']) ? TRUE : FALSE;
-               $this->smartyHelper->assign('displayNoSupport', $displayNoSupport);
+            $this->smartyHelper->assign('years', SmartyTools::getYearsToNow($min_year, $year));
 
-               $team = TeamCache::getInstance()->getTeam($teamid);
-               $min_year = date("Y", $team->getDate());
-               $year = isset($_POST['year']) && $_POST['year'] > $min_year ? $_POST['year'] : $min_year;
+            if ('computeTeamHistory' == $_POST['action']) {
 
-               $this->smartyHelper->assign('years', SmartyTools::getYearsToNow($min_year, $year));
+               $month = ($year == $min_year) ? date("m", $team->getDate()) : 1;
+               $day = ($year == $min_year) ? date("d", $team->getDate()) : 1;
 
-               if (('computeTeamHistory' == $_POST['action']) && (0 != $teamid)) {
-                  
-                  $month = ($year == $min_year) ? date("m", $team->getDate()) : 1;
-                  $day = ($year == $min_year) ? date("d", $team->getDate()) : 1;
+               if(count($team->getProjects(FALSE)) > 0) {
+                  $timeTrackingTable = $this->createTimeTrackingList($day, $month, $year, $this->teamid);
 
-                  if(count($team->getProjects(FALSE)) > 0) {
-                     $timeTrackingTable = $this->createTimeTrackingList($day, $month, $year, $teamid);
+                  $this->generateSubmittedResolvedGraph($timeTrackingTable, FALSE);
 
-                     $this->generateSubmittedResolvedGraph($timeTrackingTable, FALSE);
+                  $this->generateSubmittedResolvedGraph($timeTrackingTable, TRUE); // ExtRefOnly
 
-                     $this->generateSubmittedResolvedGraph($timeTrackingTable, TRUE); // ExtRefOnly
+                  $this->generateTimeDriftGraph($timeTrackingTable);
 
-                     $this->generateTimeDriftGraph($timeTrackingTable);
+                  $this->generateResolvedDriftGraph($timeTrackingTable, $displayNoSupport, FALSE);
 
-                     $this->generateResolvedDriftGraph($timeTrackingTable, $displayNoSupport, FALSE);
+                  $this->generateResolvedDriftGraph($timeTrackingTable, $displayNoSupport, TRUE); // ExtRefOnly
 
-                     $this->generateResolvedDriftGraph($timeTrackingTable, $displayNoSupport, TRUE); // ExtRefOnly
+                  $this->generateEfficiencyGraph($timeTrackingTable);
 
-                     $this->generateEfficiencyGraph($timeTrackingTable);
+                  $this->generateReopenedRateGraph($timeTrackingTable);
 
-                     $this->generateReopenedRateGraph($timeTrackingTable);
+                  $this->generateDevelopersWorkloadGraph($timeTrackingTable);
 
-                     $this->generateDevelopersWorkloadGraph($timeTrackingTable);
-
-                     #$this->generateStatusHistoryGraph($teamid);
-                  } else {
-                     $this->smartyHelper->assign('error', T_('No projects in this team'));
-                  }
+                  #$this->generateStatusHistoryGraph($teamid);
+               } else {
+                  $this->smartyHelper->assign('error', T_('No projects in this team'));
                }
             }
          }

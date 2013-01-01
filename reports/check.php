@@ -38,29 +38,14 @@ class CheckController extends Controller {
    protected function display() {
       // Consistency errors
       if (Tools::isConnectedUser()) {
-         // use the teamid set in the form, if not defined (first page call) use session teamid
-         if (isset($_GET['teamid'])) {
-            $teamid = Tools::getSecureGETIntValue('teamid');
-            $_SESSION['teamid'] = $teamid;
-         } else {
-            $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-         }
 
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+         if (0 != $this->teamid) {
+            $consistencyErrors = $this->getTeamConsistencyErrors($this->teamid);
 
-         $teamList = $session_user->getTeamList();
-
-         if (count($teamList) > 0) {
-            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $_SESSION['teamid']));
-
-            if (0 != $teamid) {
-               $consistencyErrors = $this->getTeamConsistencyErrors($teamid);
-
-               $this->smartyHelper->assign('teamid', $teamid);
-               $this->smartyHelper->assign('count', count($consistencyErrors));
-               if(isset($consistencyErrors)) {
-                  $this->smartyHelper->assign('consistencyErrors', $consistencyErrors);
-               }
+            $this->smartyHelper->assign('teamid', $this->teamid);
+            $this->smartyHelper->assign('count', count($consistencyErrors));
+            if(isset($consistencyErrors)) {
+               $this->smartyHelper->assign('consistencyErrors', $consistencyErrors);
             }
          }
       }

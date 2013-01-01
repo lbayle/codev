@@ -112,36 +112,25 @@ class PlanningReportController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-         $teamList = $session_user->getTeamList();
+         $teamList = $this->session_user->getTeamList();
 
-         if (count($teamList) > 0) {
-            // use the teamid set in the form, if not defined (first page call) use session teamid
-            $teamid = 0;
-            if (isset($_POST['teamid'])) {
-               $teamid = Tools::getSecurePOSTIntValue('teamid');
-               $_SESSION['teamid'] = $teamid;
-            } elseif(isset($_SESSION['teamid'])) {
-               $teamid = $_SESSION['teamid'];
-            }
-
-            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
+         if (0 != $this->teamid) {
 
             $pageWidth = Tools::getSecurePOSTIntValue('width',Tools::getSecureGETIntValue('width',0));
             $this->smartyHelper->assign('width', $pageWidth);
 
-            if (array_key_exists($teamid,$teamList)) {
-               $this->smartyHelper->assign('consistencyErrors', $this->getConsistencyErrors($teamid));
-               
-               $team = TeamCache::getInstance()->getTeam($teamid);
+            if (array_key_exists($this->teamid,$teamList)) {
+               $this->smartyHelper->assign('consistencyErrors', $this->getConsistencyErrors($this->teamid));
 
-               $isManager = $session_user->isTeamManager($teamid);
+               $team = TeamCache::getInstance()->getTeam($this->teamid);
+
+               $isManager = $this->session_user->isTeamManager($this->teamid);
                $this->smartyHelper->assign("isManager", $isManager);
 
                // display backlog (unassigned tasks)
                $unassignedIssues = $team->getUnassignedTasks();
-               $unassigendSel = new IssueSelection("unassigned from team $teamid");
+               $unassigendSel = new IssueSelection("unassigned from team $this->teamid");
                $unassigendSel->addIssueList($unassignedIssues);
                $this->smartyHelper->assign('unassigned_nbIssues', $unassigendSel->getNbIssues());
                $this->smartyHelper->assign('unassigned_MEE', $unassigendSel->mgrEffortEstim);
@@ -159,11 +148,11 @@ class PlanningReportController extends Controller {
                   $workload = 0;
 
                   // show only developper's & manager's tasks
-                  if ((!$user->isTeamDeveloper($teamid)) &&
-                     (!$user->isTeamManager($teamid))) {
+                  if ((!$user->isTeamDeveloper($this->teamid)) &&
+                     (!$user->isTeamManager($this->teamid))) {
 
                      if(self::$logger->isDebugEnabled()) {
-                        self::$logger->debug("user ".$user->getId()." excluded from scheduled users on team $teamid");
+                        self::$logger->debug("user ".$user->getId()." excluded from scheduled users on team $this->teamid");
                      }
                      continue;
                   }
@@ -185,7 +174,7 @@ class PlanningReportController extends Controller {
                $dayPixSize = round($dayPixSize);
                #echo "DEBUG dayPixSize = $dayPixSize<br/>\n";
 
-               $this->smartyHelper->assign('planning', $this->getPlanning($nbDaysToDisplay, $dayPixSize, $allTasksLists, $workloads, $teamid));
+               $this->smartyHelper->assign('planning', $this->getPlanning($nbDaysToDisplay, $dayPixSize, $allTasksLists, $workloads, $this->teamid));
                $this->smartyHelper->assign('colors', array(
                   "green" => T_("onTime"),
                   "red"   => T_("NOT onTime"),

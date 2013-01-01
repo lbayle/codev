@@ -36,29 +36,10 @@ class ExportCSVMonthlyController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
-         $user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-         // teams
-         $lTeamList = $user->getLeadedTeamList();
-         $managedTeamList = $user->getManagedTeamList();
-         $mTeamList = $user->getDevTeamList();
-         $teamList = $mTeamList + $lTeamList + $managedTeamList;
+         if (0 != $this->teamid) {
 
-         if (count($teamList) > 0) {
-
-            if(isset($_POST['teamid'])) {
-               $teamid = Tools::getSecurePOSTIntValue('teamid');
-               $_SESSION['teamid'] = $teamid;
-            } else if(isset($_GET['teamid'])) {
-               $teamid = Tools::getSecureGETIntValue('teamid');
-               $_SESSION['teamid'] = $teamid;
-            } else {
-               $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-            }
-
-            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
-
-            $team = TeamCache::getInstance()->getTeam($teamid);
+            $team = TeamCache::getInstance()->getTeam($this->teamid);
             $formatedteamName = str_replace(" ", "_", $team->getName());
 
             // dates
@@ -77,12 +58,12 @@ class ExportCSVMonthlyController extends Controller {
             $endTimestamp = Tools::date2timestamp($enddate);
             $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
 
-            if (('computeCsvMonthly' == $_POST['action']) && 0 != $teamid) {
-               $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+            if ('computeCsvMonthly' == $_POST['action']) {
+               $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $this->teamid);
 
                $myFile = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".date("Ymd").".csv";
 
-               ExportCsvTools::exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile);
+               ExportCsvTools::exportManagedIssuesToCSV($this->teamid, $startTimestamp, $endTimestamp, $myFile);
                $this->smartyHelper->assign('managedIssuesToCSV', basename($myFile));
 
                $myFile = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR.$formatedteamName."_Projects_".date("Ymd", $timeTracking->getStartTimestamp())."-".date("Ymd", $timeTracking->getEndTimestamp()).".csv";
@@ -93,7 +74,7 @@ class ExportCSVMonthlyController extends Controller {
                // reduce scope to enhance speed
                $reports = array();
                for ($i = 1; $i <= 12; $i++) {
-                  $reports[] = basename(ExportCsvTools::exportHolidaystoCSV($i, $year, $teamid, $formatedteamName,  Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'));
+                  $reports[] = basename(ExportCsvTools::exportHolidaystoCSV($i, $year, $this->teamid, $formatedteamName,  Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'));
                }
                $this->smartyHelper->assign('reports', $reports);
 

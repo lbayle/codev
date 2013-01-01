@@ -1,5 +1,5 @@
 <div id="content">
-   {if isset($teams)}
+{if isset($teamid) && (0 != $teamid)}
    <div class="center">
       <!-- Create form -->
       <form id="form1" name="form1" method="post" action="{$page}">
@@ -16,7 +16,7 @@
       <img src="graphs/gantt_graph.php?{$urlGraph}" alt="{t}Gant report{/t}"/>
    </div>
    {/if}
-   {else}
-   <p class="center ui-state-error-text">{t}Sorry, you do NOT have access to this page.{/t}</p>
-   {/if}
+{else}
+<p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
+{/if}
 </div>

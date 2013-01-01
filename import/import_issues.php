@@ -34,30 +34,22 @@ class ImportIssuesController extends Controller {
    public static function staticInit() {
       self::$logger = Logger::getLogger("import_issues");
    }
-   
+
    protected function display() {
       if (Tools::isConnectedUser()) {
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-         $dTeamList = $session_user->getDevTeamList();
-         $lTeamList = $session_user->getLeadedTeamList();
-         $managedTeamList = $session_user->getManagedTeamList();
+         // except Observed teams
+         $dTeamList = $this->session_user->getDevTeamList();
+         $lTeamList = $this->session_user->getLeadedTeamList();
+         $managedTeamList = $this->session_user->getManagedTeamList();
          $teamList = $dTeamList + $lTeamList + $managedTeamList;
 
-         // use the teamid set in the form, if not defined (first page call) use session teamid
-         if(isset($_GET['teamid'])) {
-            $teamid = Tools::getSecureGETIntValue('teamid');
-            $_SESSION['teamid'] = $teamid;
-         } else {
-            $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-         }
+         if ((0 != $this->teamid) && array_key_exists($this->teamid, $teamList)) {
 
-         if ((0 != $teamid) && array_key_exists($teamid, $teamList)) {
+            $team = TeamCache::getInstance()->getTeam($this->teamid);
 
-            $team = TeamCache::getInstance()->getTeam($teamid);
-
-            $this->smartyHelper->assign('teamid', $teamid);
-            if (0 != $teamid) {
+            $this->smartyHelper->assign('teamid', $this->teamid);
+            if (0 != $this->teamid) {
                $this->smartyHelper->assign('teamName', $team->getName());
             }
 
@@ -74,7 +66,7 @@ class ImportIssuesController extends Controller {
                $this->smartyHelper->assign('projectName', $proj->getName());
             }
 
-            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
+            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$this->teamid));
             // exclude noStatsProjects and disabled projects
             $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($team->getProjects(false, false),$projectid));
 

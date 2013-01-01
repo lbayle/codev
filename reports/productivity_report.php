@@ -32,23 +32,9 @@ class ProductivityReportsController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-         $teamList = $session_user->getTeamList();
-         if (0 != count($teamList)) {
+         if (0 != $this->teamid) {
             $weekDates = Tools::week_dates(date('W'),date('Y'));
-
-            if(isset($_POST['teamid'])) {
-               $teamid = Tools::getSecurePOSTIntValue('teamid');
-               $_SESSION['teamid'] = $teamid;
-            } else if(isset($_GET['teamid'])) {
-               $teamid = Tools::getSecureGETIntValue('teamid');
-               $_SESSION['teamid'] = $teamid;
-            } else {
-               $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-            }
-
-            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
 
             $startdate = Tools::getSecurePOSTStringValue('startdate', date("Y-m-d", $weekDates[1]));
             $this->smartyHelper->assign('startDate', $startdate);
@@ -56,14 +42,14 @@ class ProductivityReportsController extends Controller {
             $enddate = Tools::getSecurePOSTStringValue('enddate', date("Y-m-d", $weekDates[5]));
             $this->smartyHelper->assign('endDate', $enddate);
 
-            if (('computeProdReport' == $_POST['action']) && (0 != $teamid)) {
-               $team = TeamCache::getInstance()->getTeam($teamid);
+            if ('computeProdReport' == $_POST['action']) {
+               $team = TeamCache::getInstance()->getTeam($this->teamid);
                if(count($team->getProjects(false)) > 0) {
                   $startTimestamp = Tools::date2timestamp($startdate);
                   $endTimestamp = Tools::date2timestamp($enddate);
                   $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
 
-                  $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+                  $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $this->teamid);
 
                   $this->smartyHelper->assign('timeTracking', $timeTracking);
 
@@ -80,7 +66,7 @@ class ProductivityReportsController extends Controller {
                   }
 
 
-                  $workingDaysPerJobs = $this->getWorkingDaysPerJob($timeTracking, $teamid);
+                  $workingDaysPerJobs = $this->getWorkingDaysPerJob($timeTracking, $this->teamid);
                   $this->smartyHelper->assign('workingDaysPerJob', $workingDaysPerJobs);
                   if($workingDaysPerJobs != NULL) {
                      $data = array();
@@ -99,7 +85,7 @@ class ProductivityReportsController extends Controller {
                   }
 
                   $defaultProjectid = Tools::getSecurePOSTIntValue('projectid', 0);
-                  $getTeamProjects = SmartyTools::getSmartyArray($this->getTeamProjects($teamid),$defaultProjectid);
+                  $getTeamProjects = SmartyTools::getSmartyArray($this->getTeamProjects($this->teamid),$defaultProjectid);
                   $this->smartyHelper->assign('projects', $getTeamProjects);
 
                   $projectid = 0;
@@ -156,8 +142,8 @@ class ProductivityReportsController extends Controller {
                   $this->smartyHelper->assign('percent', round($percent, 1));
 
                   // isManager
-                  $managedTeamList = $session_user->getManagedTeamList();
-                  $isManager = array_key_exists($teamid, $managedTeamList);
+                  $managedTeamList = $this->session_user->getManagedTeamList();
+                  $isManager = array_key_exists($this->teamid, $managedTeamList);
                   $this->smartyHelper->assign('isManager', $isManager);
 
                   // dirft stats

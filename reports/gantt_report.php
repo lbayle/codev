@@ -32,27 +32,11 @@ class GanttReportController extends Controller {
 
    protected function display() {
       if (Tools::isConnectedUser()) {
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-         $teamList = $session_user->getTeamList();
-         if (count($teamList) > 0) {
-            if(isset($_POST['teamid']) && array_key_exists($_POST['teamid'],$teamList)) {
-               $teamid = Tools::getSecurePOSTIntValue('teamid');
-               $_SESSION['teamid'] = $teamid;
-            } else if(isset($_GET['teamid']) && array_key_exists($_GET['teamid'],$teamList)) {
-               $teamid = Tools::getSecureGETIntValue('teamid');
-               $_SESSION['teamid'] = $teamid;
-            }
-            else if(isset($_SESSION['teamid']) && array_key_exists($_SESSION['teamid'],$teamList)) {
-               $teamid = $_SESSION['teamid'];
-            }
-            else {
-               $teamsid = array_keys($teamList);
-               $teamid = $teamsid[0];
-            }
-            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
+
+         if (0 != $this->teamid) {
 
             $projects[0] = T_('All projects');
-            $projects += TeamCache::getInstance()->getTeam($teamid)->getProjects(false);
+            $projects += TeamCache::getInstance()->getTeam($this->teamid)->getProjects(false);
 
             $projectid = 0;
             if(isset($_POST['projectid']) && array_key_exists($_POST['projectid'],$projects)) {
@@ -73,13 +57,13 @@ class GanttReportController extends Controller {
             $enddate = Tools::getSecurePOSTStringValue('enddate', Tools::formatDate("%Y-%m-%d", strtotime('+6 month')));
             $this->smartyHelper->assign('endDate', $enddate);
 
-            if (('computeGantt' == $_POST['action']) && 0 != $teamid) {
+            if ('computeGantt' == $_POST['action']) {
                $startT = Tools::date2timestamp($startdate);
                $endT = Tools::date2timestamp($enddate);
                #$endT += 24 * 60 * 60 -1; // + 1 day -1 sec.
 
                // draw graph
-               $this->smartyHelper->assign('urlGraph', 'teamid='.$teamid.'&projects='.$projectid.'&startT='.$startT.'&endT='.$endT);
+               $this->smartyHelper->assign('urlGraph', 'teamid='.$this->teamid.'&projects='.$projectid.'&startT='.$startT.'&endT='.$endT);
             }
          }
       }

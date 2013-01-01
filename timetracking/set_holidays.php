@@ -37,27 +37,19 @@ class SetHolidaysController extends Controller {
 
    protected function display() {
       if (Tools::isConnectedUser()) {
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-         if(isset($_GET['teamid'])) {
-            $teamid = Tools::getSecureGETIntValue('teamid');
-            $_SESSION['teamid'] = $teamid;
-         } else {
-            $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-         }
-
-         if (0 != $teamid) {
-            $team = TeamCache::getInstance()->getTeam($teamid);
+         if (0 != $this->teamid) {
+            $team = TeamCache::getInstance()->getTeam($this->teamid);
 
             // if first call to this page
             if (!array_key_exists('nextForm',$_POST)) {
                $activeMembers = $team->getActiveMembers();
-               if ($session_user->isTeamManager($teamid)) {
-                  $this->smartyHelper->assign('users', SmartyTools::getSmartyArray($activeMembers, $session_user->getId()));
+               if ($this->session_user->isTeamManager($this->teamid)) {
+                  $this->smartyHelper->assign('users', SmartyTools::getSmartyArray($activeMembers, $this->session_userid));
                } else {
                   // developper & manager can add timeTracks
-                  if (array_key_exists($session_user->getId(), $activeMembers)) {
-                     $_POST['userid'] = $session_user->getId();
+                  if (array_key_exists($this->session_userid, $activeMembers)) {
+                     $_POST['userid'] = $this->session_userid;
                      $_POST['nextForm'] = "addHolidaysForm";
                   }
                }
@@ -65,7 +57,7 @@ class SetHolidaysController extends Controller {
 
             $nextForm = Tools::getSecurePOSTStringValue('nextForm','');
             if ($nextForm == "addHolidaysForm") {
-               $userid = Tools::getSecurePOSTIntValue('userid',$session_user->getId());
+               $userid = Tools::getSecurePOSTIntValue('userid',$this->session_userid);
 
                $managed_user = UserCache::getInstance()->getUser($userid);
 
@@ -110,7 +102,7 @@ class SetHolidaysController extends Controller {
                $this->smartyHelper->assign('startDate', $startdate);
                $this->smartyHelper->assign('endDate', $enddate);
 
-               if($session_user->getId() != $managed_user->getId()) {
+               if($this->session_userid != $managed_user->getId()) {
                   $this->smartyHelper->assign('otherrealname', $managed_user->getRealname());
                }
 
