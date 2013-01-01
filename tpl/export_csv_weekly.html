@@ -1,6 +1,6 @@
 <div id="content">
+{if isset($teamid) && (0 != $teamid)}
    <h2 class="center">{t}Weekly report{/t}</h2>
-   {if isset($teams)}
    <div align="center" style="margin-top: 2em;">
       <form method="post" action="{$page}">
          <fieldset>
@@ -40,7 +40,7 @@
       {t}Results in{/t} {$reportsDir}
    </p>
    {/if}
-   {else}
-   <p class="center ui-state-error-text">{t}Sorry, you do NOT have access to this page{/t}</p>
-   {/if}
+{else}
+<p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
+{/if}
 </div>

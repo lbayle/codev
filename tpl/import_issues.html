@@ -1,4 +1,5 @@
 <div id="content" class="center">
+{if isset($teamid) && (0 != $teamid)}
    {if !isset($filename)}
    <h2 class="center">{t}Select CSV file{/t} &nbsp;&nbsp;<a id="dialog_uploadCSV_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
    <!-- FILE SELECTION -->
@@ -399,7 +400,7 @@
    <div class="left" style="margin-top:3em;">
       <script type="text/javascript">
          jQuery(document).ready(function() {
-         
+
             jQuery.ajax({
                url: "lib/jquery.scrollTo/jquery.scrollTo-min.js",
                dataType: "script",
@@ -412,7 +413,7 @@
 
             jQuery("#btImportIssues").click(function(event) {
                var rows = oTable.find('tbody tr');
-               
+
                var categories = rows.find('td.category');
                for(i = 0 ; i < categories.length ; i++) {
                   if(categories.text().length == 0) {
@@ -457,8 +458,8 @@
                      type: "POST",
                      async: false,
                      url:  "import/import_row_ajax.php",
-                     data: { 
-                        action: "importRow", 
+                     data: {
+                        action: "importRow",
                         projectid: "{$projectid}",
                         extRef: extRef,
                         summary: summary,
@@ -575,4 +576,7 @@
          });
       });
    </script>
+{else}
+<p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
+{/if}
 </div>

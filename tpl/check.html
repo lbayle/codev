@@ -1,7 +1,5 @@
 <div id="content">
-   {if isset($teams)}
-
-   {if isset($teamid)}
+{if isset($teamid) && (0 != $teamid)}
    <h2>{$count}{t} Error(s) in Mantis Tasks{/t}</h2>
    {if $consistencyErrors}
    <script type="text/javascript" src="js/datatable.js"></script>
@@ -34,8 +32,7 @@
       </tbody>
    </table>
    {/if}
-   {/if}
-   {else}
-   <p class="center ui-state-error-text">{t}Sorry, you do NOT have access to this page{/t}</p>
-   {/if}
+{else}
+<p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
+{/if}
 </div>

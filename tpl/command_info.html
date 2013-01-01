@@ -18,7 +18,7 @@
 </script>
 
 <div id="content">
-
+{if isset($teamid) && (0 != $teamid)}
    <div align="center">
       <!-- create form -->
       <form id="mainForm" name="mainForm" class="formWithTabsHistory" method="post" action="{$page}">
@@ -42,7 +42,7 @@
 
    {if isset($cmdid)}
    {include file="modal/consistency_check.html"}
-   
+
    <div align="center" style="margin-top: 3em;">
       <h2 title="{$cmdid}">{$cmdName}</h2>
    </div>
@@ -268,7 +268,7 @@
          {t}No task found.{/t}
          {/if}
       </div>
-      
+
       <div id="tab_indicators">
 
          <!--div id="subTabs_Indicators" class="tabs tabs-vertical" style="margin-top:2em;"-->
@@ -313,5 +313,8 @@
          });
       });
    </script>
+{else}
+<p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
+{/if}
 </div>
 
