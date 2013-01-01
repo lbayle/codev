@@ -38,267 +38,268 @@ class TimeTrackingController extends Controller {
    protected function display() {
       if(Tools::isConnectedUser()) {
 
-         // TODO if (0 != $this->teamid)
+         if (0 != $this->teamid) {
 
-         $team = TeamCache::getInstance()->getTeam($this->teamid);
-         $teamMembers = $team->getActiveMembers();
+            $team = TeamCache::getInstance()->getTeam($this->teamid);
+            $teamMembers = $team->getActiveMembers();
 
-         // if first call to this page
-         if (!isset($_POST['nextForm'])) {
+            // if first call to this page
+            if (!isset($_POST['nextForm'])) {
 
-            if ($this->session_user->isTeamManager($this->teamid)) {
-               // session_user is Manager, let him choose the teamMember he wants to manage
-               $this->smartyHelper->assign('users', $teamMembers);
-               $this->smartyHelper->assign('selectedUser', $this->session_user->getId());
+               if ($this->session_user->isTeamManager($this->teamid)) {
+                  // session_user is Manager, let him choose the teamMember he wants to manage
+                  $this->smartyHelper->assign('users', $teamMembers);
+                  $this->smartyHelper->assign('selectedUser', $this->session_user->getId());
 
-            } else if ($this->session_user->isTeamDeveloper($this->teamid)) {
-               // if session_user is dev (!observer) display AddTrack page
-                  $_POST['userid']   = $this->session_user->getId();
-                  $_POST['nextForm'] = "addTrackForm";
-            } else {
-               // others (observers) are not alowed to access this page
-               // TODO ?
-            }
-         }
-
-         // display AddTrack Page
-         $nextForm = Tools::getSecurePOSTStringValue('nextForm','');
-         if ($nextForm == "addTrackForm") {
-            $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-
-            $year   = Tools::getSecurePOSTIntValue('year',date('Y'));
-            $userid = Tools::getSecurePOSTIntValue('userid',$this->session_userid);
-
-            $managed_user = UserCache::getInstance()->getUser($userid);
-
-            if($userid != $this->session_userid) {
-
-               // Need to be Manager to handle other users
-               if (($this->session_user->isTeamManager($this->teamid)) &&
-                   (array_key_exists($userid,$teamMembers))) {
-
-                  $this->smartyHelper->assign('userid', $userid);
+               } else if ($this->session_user->isTeamDeveloper($this->teamid)) {
+                  // if session_user is dev (!observer) display AddTrack page
+                     $_POST['userid']   = $this->session_user->getId();
+                     $_POST['nextForm'] = "addTrackForm";
                } else {
-                  Tools::sendForbiddenAccess();
+                  // others (observers) are not alowed to access this page
+                  // TODO ?
                }
             }
 
-            // developper & manager can add timeTracks
-            $mTeamList = $managed_user->getDevTeamList();
-            $managedTeamList = $managed_user->getManagedTeamList();
-            $teamList = $mTeamList + $managedTeamList;
+            // display AddTrack Page
+            $nextForm = Tools::getSecurePOSTStringValue('nextForm','');
+            if ($nextForm == "addTrackForm") {
+               $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
 
-            // updateBacklog data
-            $backlog = Tools::getSecurePOSTNumberValue('backlog',0);
+               $year   = Tools::getSecurePOSTIntValue('year',date('Y'));
+               $userid = Tools::getSecurePOSTIntValue('userid',$this->session_userid);
 
-            $action = Tools::getSecurePOSTStringValue('action','');
-            $weekid = Tools::getSecurePOSTIntValue('weekid',date('W'));
+               $managed_user = UserCache::getInstance()->getUser($userid);
 
-            $defaultDate = Tools::getSecurePOSTStringValue('date',date("Y-m-d", time()));;
-            $defaultBugid = Tools::getSecurePOSTIntValue('bugid',0);
-            $defaultProjectid = Tools::getSecurePOSTIntValue('projectid',0);
-            $job = Tools::getSecurePOSTIntValue('job',0);
-            $duration = Tools::getSecurePOSTNumberValue('duree',0);
+               if($userid != $this->session_userid) {
 
-            if ("addTrack" == $action) {
-               $timestamp = Tools::date2timestamp($defaultDate);
-               $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
-               $job = Tools::getSecurePOSTStringValue('job');
-               $duration = Tools::getSecurePOSTNumberValue('duree');
-               $defaultProjectid = Tools::getSecurePOSTIntValue('projectid');
+                  // Need to be Manager to handle other users
+                  if (($this->session_user->isTeamManager($this->teamid)) &&
+                     (array_key_exists($userid,$teamMembers))) {
 
-               // save to DB
-               $trackid = TimeTrack::create($userid, $defaultBugid, $job, $timestamp, $duration);
-
-               // do NOT decrease backlog if job is job_support !
-               if ($job != $job_support) {
-                  // decrease backlog (only if 'backlog' already has a value)
-                  $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-                  $backlog = $issue->getBacklog();
-                  if (!is_null($backlog) && is_numeric($backlog)) {
-                     $backlog = $backlog - $duration;
-                     if ($backlog < 0) { $backlog = 0; }
-                     $issue->setBacklog($backlog);
-                  }
-
-                  // open the updateBacklog DialogBox on page reload
-                  $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
-                  if (($job != $job_support) &&
-                     (!$project->isSideTasksProject(array_keys($teamList)) &&
-                        (!$project->isExternalTasksProject()))) {
-
-                     $deadline = $issue->getDeadLine();
-                     if (!is_null($deadline) || (0 != $deadline)) {
-                        $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $deadline);
-                     }
-
-                     $totalEE = ($issue->getEffortEstim() + $issue->getEffortAdd());
-
-                     // Note: if Backlog is NULL, the values to propose in the DialogBox
-                     //       are not the ones used for ProjectManagement
-                     $backlog = $issue->getBacklog();
-                     if ( !is_null($backlog) && is_numeric($backlog)) {
-                        // normal case
-                        $drift = $issue->getDrift();
-                     } else {
-                        // reestimated cannot be used...
-                        $backlog = $totalEE - $issue->getElapsed();
-                        if ($backlog < 0) { $backlog = 0;}
-                        $drift = ($issue->getElapsed() + $backlog) - $totalEE;
-                     }
-
-                     $issueInfo = array(
-                        'backlog' => $backlog,
-                        'bugid' => $issue->getId(),
-                        'description' => $issue->getSummary(),
-                        'dialogBoxTitle' => $issue->getFormattedIds(),
-                        'effortEstim' => $totalEE,
-                        'mgrEffortEstim' => $issue->getMgrEffortEstim(),
-                        'elapsed' => $issue->getElapsed(),
-                        'drift' => $drift,
-                        'driftMgr' => $issue->getDriftMgr(),
-                        'reestimated' => $issue->getReestimated(),
-                        'driftColor' => $issue->getDriftColor($drift),
-                        'deadline' => $formatedDate
-
-                     );
-
-                     $this->smartyHelper->assign('updateBacklogRequested', $issueInfo);
+                     $this->smartyHelper->assign('userid', $userid);
+                  } else {
+                     Tools::sendForbiddenAccess();
                   }
                }
 
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("Track $trackid added  : userid=$userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
-               }
+               // developper & manager can add timeTracks
+               $mTeamList = $managed_user->getDevTeamList();
+               $managedTeamList = $managed_user->getManagedTeamList();
+               $teamList = $mTeamList + $managedTeamList;
 
-               // Don't show job and duration after add track
-               $job = 0;
-               $duration = 0;
-            }
-            elseif ("deleteTrack" == $action) {
-               $trackid = Tools::getSecurePOSTIntValue('trackid');
-               // increase backlog (only if 'backlog' already has a value)
-               $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
-               $defaultBugid = $timeTrack->getIssueId();
-               $duration = $timeTrack->getDuration();
-               $job = $timeTrack->getJobId();
+               // updateBacklog data
+               $backlog = Tools::getSecurePOSTNumberValue('backlog',0);
 
-               // delete track
-               if(!$timeTrack->remove()) {
-                  $this->smartyHelper->assign('error', T_("Failed to delete the tasks"));
-               }
+               $action = Tools::getSecurePOSTStringValue('action','');
+               $weekid = Tools::getSecurePOSTIntValue('weekid',date('W'));
 
-               try {
-                  $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+               $defaultDate = Tools::getSecurePOSTStringValue('date',date("Y-m-d", time()));;
+               $defaultBugid = Tools::getSecurePOSTIntValue('bugid',0);
+               $defaultProjectid = Tools::getSecurePOSTIntValue('projectid',0);
+               $job = Tools::getSecurePOSTIntValue('job',0);
+               $duration = Tools::getSecurePOSTNumberValue('duree',0);
+
+               if ("addTrack" == $action) {
+                  $timestamp = Tools::date2timestamp($defaultDate);
+                  $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
+                  $job = Tools::getSecurePOSTStringValue('job');
+                  $duration = Tools::getSecurePOSTNumberValue('duree');
+                  $defaultProjectid = Tools::getSecurePOSTIntValue('projectid');
+
+                  // save to DB
+                  $trackid = TimeTrack::create($userid, $defaultBugid, $job, $timestamp, $duration);
+
                   // do NOT decrease backlog if job is job_support !
                   if ($job != $job_support) {
-                     if (!is_null($issue->getBacklog())) {
-                        $backlog = $issue->getBacklog() + $duration;
+                     // decrease backlog (only if 'backlog' already has a value)
+                     $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+                     $backlog = $issue->getBacklog();
+                     if (!is_null($backlog) && is_numeric($backlog)) {
+                        $backlog = $backlog - $duration;
+                        if ($backlog < 0) { $backlog = 0; }
                         $issue->setBacklog($backlog);
+                     }
+
+                     // open the updateBacklog DialogBox on page reload
+                     $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
+                     if (($job != $job_support) &&
+                        (!$project->isSideTasksProject(array_keys($teamList)) &&
+                           (!$project->isExternalTasksProject()))) {
+
+                        $deadline = $issue->getDeadLine();
+                        if (!is_null($deadline) || (0 != $deadline)) {
+                           $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $deadline);
+                        }
+
+                        $totalEE = ($issue->getEffortEstim() + $issue->getEffortAdd());
+
+                        // Note: if Backlog is NULL, the values to propose in the DialogBox
+                        //       are not the ones used for ProjectManagement
+                        $backlog = $issue->getBacklog();
+                        if ( !is_null($backlog) && is_numeric($backlog)) {
+                           // normal case
+                           $drift = $issue->getDrift();
+                        } else {
+                           // reestimated cannot be used...
+                           $backlog = $totalEE - $issue->getElapsed();
+                           if ($backlog < 0) { $backlog = 0;}
+                           $drift = ($issue->getElapsed() + $backlog) - $totalEE;
+                        }
+
+                        $issueInfo = array(
+                           'backlog' => $backlog,
+                           'bugid' => $issue->getId(),
+                           'description' => $issue->getSummary(),
+                           'dialogBoxTitle' => $issue->getFormattedIds(),
+                           'effortEstim' => $totalEE,
+                           'mgrEffortEstim' => $issue->getMgrEffortEstim(),
+                           'elapsed' => $issue->getElapsed(),
+                           'drift' => $drift,
+                           'driftMgr' => $issue->getDriftMgr(),
+                           'reestimated' => $issue->getReestimated(),
+                           'driftColor' => $issue->getDriftColor($drift),
+                           'deadline' => $formatedDate
+
+                        );
+
+                        $this->smartyHelper->assign('updateBacklogRequested', $issueInfo);
                      }
                   }
 
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("Track $trackid added  : userid=$userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
+                  }
+
+                  // Don't show job and duration after add track
+                  $job = 0;
+                  $duration = 0;
+               }
+               elseif ("deleteTrack" == $action) {
+                  $trackid = Tools::getSecurePOSTIntValue('trackid');
+                  // increase backlog (only if 'backlog' already has a value)
+                  $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
+                  $defaultBugid = $timeTrack->getIssueId();
+                  $duration = $timeTrack->getDuration();
+                  $job = $timeTrack->getJobId();
+
+                  // delete track
+                  if(!$timeTrack->remove()) {
+                     $this->smartyHelper->assign('error', T_("Failed to delete the tasks"));
+                  }
+
+                  try {
+                     $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+                     // do NOT decrease backlog if job is job_support !
+                     if ($job != $job_support) {
+                        if (!is_null($issue->getBacklog())) {
+                           $backlog = $issue->getBacklog() + $duration;
+                           $issue->setBacklog($backlog);
+                        }
+                     }
+
+                     // pre-set form fields
+                     $defaultProjectid  = $issue->getProjectId();
+                  } catch (Exception $e) {
+                     $defaultProjectid  = 0;
+                  }
+               }
+               elseif ("setProjectid" == $action) {
                   // pre-set form fields
-                  $defaultProjectid  = $issue->getProjectId();
-               } catch (Exception $e) {
-                  $defaultProjectid  = 0;
+                  $defaultProjectid = Tools::getSecurePOSTIntValue('projectid');
+                  // Don't show job and duration after change project
+                  $job = 0;
+                  $duration = 0;
                }
-            }
-            elseif ("setProjectid" == $action) {
-               // pre-set form fields
-               $defaultProjectid = Tools::getSecurePOSTIntValue('projectid');
-               // Don't show job and duration after change project
-               $job = 0;
-               $duration = 0;
-            }
-            elseif ("setBugId" == $action) {
-               // pre-set form fields
-               // find ProjectId to update categories
-               $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
-               $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-               $defaultProjectid  = $issue->getProjectId();
-            }
-            elseif ("setFiltersAction" == $action) {
-               $isFilter_onlyAssignedTo = isset($_POST["cb_onlyAssignedTo"]) ? '1' : '0';
-               $isFilter_hideResolved = isset($_POST["cb_hideResolved"])   ? '1' : '0';
-
-               $managed_user->setTimetrackingFilter('onlyAssignedTo', $isFilter_onlyAssignedTo);
-               $managed_user->setTimetrackingFilter('hideResolved', $isFilter_hideResolved);
-
-               if($defaultBugid != 0) {
+               elseif ("setBugId" == $action) {
+                  // pre-set form fields
+                  // find ProjectId to update categories
+                  $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
                   $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-                  $defaultProjectid = $issue->getProjectId();
+                  $defaultProjectid  = $issue->getProjectId();
                }
+               elseif ("setFiltersAction" == $action) {
+                  $isFilter_onlyAssignedTo = isset($_POST["cb_onlyAssignedTo"]) ? '1' : '0';
+                  $isFilter_hideResolved = isset($_POST["cb_hideResolved"])   ? '1' : '0';
+
+                  $managed_user->setTimetrackingFilter('onlyAssignedTo', $isFilter_onlyAssignedTo);
+                  $managed_user->setTimetrackingFilter('hideResolved', $isFilter_hideResolved);
+
+                  if($defaultBugid != 0) {
+                     $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+                     $defaultProjectid = $issue->getProjectId();
+                  }
+               }
+
+               // Display user name
+               $this->smartyHelper->assign('managedUser_realname', $managed_user->getRealname());
+
+               // display Track Form
+               $this->smartyHelper->assign('date', $defaultDate);
+
+               // All projects except disabled
+               $projList = $team->getProjects(true, false);
+               $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList,$defaultProjectid));
+
+               $this->smartyHelper->assign('defaultProjectid', $defaultProjectid);
+               $this->smartyHelper->assign('defaultBugid', $defaultBugid);
+               $this->smartyHelper->assign('weekid', $weekid);
+               $this->smartyHelper->assign('year', $year);
+
+               $isOnlyAssignedTo = ('0' == $managed_user->getTimetrackingFilter('onlyAssignedTo')) ? false : true;
+               $this->smartyHelper->assign('isOnlyAssignedTo', $isOnlyAssignedTo);
+
+               $isHideResolved = ('0' == $managed_user->getTimetrackingFilter('hideResolved')) ? false : true;
+               $this->smartyHelper->assign('isHideResolved', $isHideResolved);
+
+               // TODO: remove unused filter: isHideDevProjects
+               $isHideDevProjects = ('0' == $managed_user->getTimetrackingFilter('hideDevProjects')) ? false : true;
+               $this->smartyHelper->assign('isHideDevProjects', $isHideDevProjects);
+
+               $availableIssues = $this->getIssues($defaultProjectid, $isOnlyAssignedTo, $managed_user->getId(), $projList, $isHideResolved, $defaultBugid);
+               $this->smartyHelper->assign('issues', $availableIssues);
+
+               $this->smartyHelper->assign('jobs', SmartyTools::getSmartyArray($this->getJobs($defaultProjectid, $teamList), $job));
+               $this->smartyHelper->assign('duration', SmartyTools::getSmartyArray($this->getDuration(),$duration));
+
+               $this->smartyHelper->assign('weeks', SmartyTools::getWeeks($weekid, $year));
+               $this->smartyHelper->assign('years', SmartyTools::getYears($year,1));
+
+               $weekDates = Tools::week_dates($weekid,$year);
+               $startTimestamp = $weekDates[1];
+               $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
+               $timeTracking = new TimeTracking($startTimestamp, $endTimestamp);
+
+               $incompleteDays = array_keys($timeTracking->checkCompleteDays($userid, TRUE));
+               $missingDays = $timeTracking->checkMissingDays($userid);
+               $errorDays = array_merge($incompleteDays,$missingDays);
+               $smartyWeekDates = TimeTrackingTools::getSmartyWeekDates($weekDates,$errorDays);
+
+               // UTF8 problems in smarty, date encoding needs to be done in PHP
+               $this->smartyHelper->assign('weekDates', array(
+                  $smartyWeekDates[1], $smartyWeekDates[2], $smartyWeekDates[3], $smartyWeekDates[4], $smartyWeekDates[5]
+               ));
+               $this->smartyHelper->assign('weekEndDates', array(
+                  $smartyWeekDates[6], $smartyWeekDates[7]
+               ));
+
+               $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $this->teamid, $userid, $timeTracking, $errorDays);
+               $this->smartyHelper->assign('weekTasks', $weekTasks["weekTasks"]);
+               $this->smartyHelper->assign('dayTotalElapsed', $weekTasks["totalElapsed"]);
+
+               $timeTrackingTuples = $this->getTimetrackingTuples($userid, $timeTracking);
+               $this->smartyHelper->assign('weekTimetrackingTuples', $timeTrackingTuples['current']);
+               $this->smartyHelper->assign('timetrackingTuples', $timeTrackingTuples['future']);
+
+               // ConsistencyCheck
+               $consistencyErrors = $this->getConsistencyErrors($userid);
+               if(count($consistencyErrors) > 0) {
+                  $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
+                  $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+                  $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
+               }
+
             }
-
-            // Display user name
-            $this->smartyHelper->assign('managedUser_realname', $managed_user->getRealname());
-
-            // display Track Form
-            $this->smartyHelper->assign('date', $defaultDate);
-
-            // All projects except disabled
-            $projList = $team->getProjects(true, false);
-            $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList,$defaultProjectid));
-
-            $this->smartyHelper->assign('defaultProjectid', $defaultProjectid);
-            $this->smartyHelper->assign('defaultBugid', $defaultBugid);
-            $this->smartyHelper->assign('weekid', $weekid);
-            $this->smartyHelper->assign('year', $year);
-
-            $isOnlyAssignedTo = ('0' == $managed_user->getTimetrackingFilter('onlyAssignedTo')) ? false : true;
-            $this->smartyHelper->assign('isOnlyAssignedTo', $isOnlyAssignedTo);
-
-            $isHideResolved = ('0' == $managed_user->getTimetrackingFilter('hideResolved')) ? false : true;
-            $this->smartyHelper->assign('isHideResolved', $isHideResolved);
-
-            // TODO: remove unused filter: isHideDevProjects
-            $isHideDevProjects = ('0' == $managed_user->getTimetrackingFilter('hideDevProjects')) ? false : true;
-            $this->smartyHelper->assign('isHideDevProjects', $isHideDevProjects);
-
-            $availableIssues = $this->getIssues($defaultProjectid, $isOnlyAssignedTo, $managed_user->getId(), $projList, $isHideResolved, $defaultBugid);
-            $this->smartyHelper->assign('issues', $availableIssues);
-
-            $this->smartyHelper->assign('jobs', SmartyTools::getSmartyArray($this->getJobs($defaultProjectid, $teamList), $job));
-            $this->smartyHelper->assign('duration', SmartyTools::getSmartyArray($this->getDuration(),$duration));
-
-            $this->smartyHelper->assign('weeks', SmartyTools::getWeeks($weekid, $year));
-            $this->smartyHelper->assign('years', SmartyTools::getYears($year,1));
-
-            $weekDates = Tools::week_dates($weekid,$year);
-            $startTimestamp = $weekDates[1];
-            $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
-            $timeTracking = new TimeTracking($startTimestamp, $endTimestamp);
-
-            $incompleteDays = array_keys($timeTracking->checkCompleteDays($userid, TRUE));
-            $missingDays = $timeTracking->checkMissingDays($userid);
-            $errorDays = array_merge($incompleteDays,$missingDays);
-            $smartyWeekDates = TimeTrackingTools::getSmartyWeekDates($weekDates,$errorDays);
-
-            // UTF8 problems in smarty, date encoding needs to be done in PHP
-            $this->smartyHelper->assign('weekDates', array(
-               $smartyWeekDates[1], $smartyWeekDates[2], $smartyWeekDates[3], $smartyWeekDates[4], $smartyWeekDates[5]
-            ));
-            $this->smartyHelper->assign('weekEndDates', array(
-               $smartyWeekDates[6], $smartyWeekDates[7]
-            ));
-
-            $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $this->teamid, $userid, $timeTracking, $errorDays);
-            $this->smartyHelper->assign('weekTasks', $weekTasks["weekTasks"]);
-            $this->smartyHelper->assign('dayTotalElapsed', $weekTasks["totalElapsed"]);
-
-            $timeTrackingTuples = $this->getTimetrackingTuples($userid, $timeTracking);
-            $this->smartyHelper->assign('weekTimetrackingTuples', $timeTrackingTuples['current']);
-            $this->smartyHelper->assign('timetrackingTuples', $timeTrackingTuples['future']);
-
-            // ConsistencyCheck
-            $consistencyErrors = $this->getConsistencyErrors($userid);
-            if(count($consistencyErrors) > 0) {
-               $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
-               $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-               $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
-            }
-
          }
       }
    }
