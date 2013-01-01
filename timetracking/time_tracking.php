@@ -37,28 +37,27 @@ class TimeTrackingController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+
+         // TODO if (0 != $this->teamid)
+
+         $team = TeamCache::getInstance()->getTeam($this->teamid);
+         $teamMembers = $team->getActiveMembers();
 
          // if first call to this page
          if (!isset($_POST['nextForm'])) {
-            $lTeamList = $session_user->getLeadedTeamList();
 
-            if (0 != count($lTeamList)) {
-               // User is TeamLeader, let him choose the user he wants to manage
-               $this->smartyHelper->assign('users', $this->getUsers());
-               $this->smartyHelper->assign('selectedUser', $session_user->getId());
-            } else {
-               // if session_user (not a teamLeader) is defined in a team, display AddTrack page
+            if ($this->session_user->isTeamManager($this->teamid)) {
+               // session_user is Manager, let him choose the teamMember he wants to manage
+               $this->smartyHelper->assign('users', $teamMembers);
+               $this->smartyHelper->assign('selectedUser', $this->session_user->getId());
 
-               // developper & manager can add timeTracks
-               $mTeamList = $session_user->getDevTeamList();
-               $managedTeamList = $session_user->getManagedTeamList();
-               $teamList = $mTeamList + $managedTeamList;
-
-               if (0 != count($teamList)) {
-                  $_POST['userid']   = $session_user->getId();
+            } else if ($this->session_user->isTeamDeveloper($this->teamid)) {
+               // if session_user is dev (!observer) display AddTrack page
+                  $_POST['userid']   = $this->session_user->getId();
                   $_POST['nextForm'] = "addTrackForm";
-               }
+            } else {
+               // others (observers) are not alowed to access this page
+               // TODO ?
             }
          }
 
@@ -68,14 +67,16 @@ class TimeTrackingController extends Controller {
             $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
 
             $year   = Tools::getSecurePOSTIntValue('year',date('Y'));
-            $userid = Tools::getSecurePOSTIntValue('userid',$session_user->getId());
+            $userid = Tools::getSecurePOSTIntValue('userid',$this->session_userid);
 
             $managed_user = UserCache::getInstance()->getUser($userid);
 
-            if($userid != $session_user->getId()) {
-               // Need to be a Team Leader to handle other users
-               $lTeamList = $session_user->getLeadedTeamList();
-               if (count($lTeamList) > 0 && array_key_exists($userid,$this->getUsers())) {
+            if($userid != $this->session_userid) {
+
+               // Need to be Manager to handle other users
+               if (($this->session_user->isTeamManager($this->teamid)) &&
+                   (array_key_exists($userid,$teamMembers))) {
+
                   $this->smartyHelper->assign('userid', $userid);
                } else {
                   Tools::sendForbiddenAccess();
@@ -132,8 +133,8 @@ class TimeTrackingController extends Controller {
                      }
 
                      $totalEE = ($issue->getEffortEstim() + $issue->getEffortAdd());
-                     
-                     // Note: if Backlog is NULL, the values to propose in the DialogBox 
+
+                     // Note: if Backlog is NULL, the values to propose in the DialogBox
                      //       are not the ones used for ProjectManagement
                      $backlog = $issue->getBacklog();
                      if ( !is_null($backlog) && is_numeric($backlog)) {
@@ -231,18 +232,13 @@ class TimeTrackingController extends Controller {
             }
 
             // Display user name
-            $this->smartyHelper->assign('otherrealname', $managed_user->getRealname());
+            $this->smartyHelper->assign('managedUser_realname', $managed_user->getRealname());
 
             // display Track Form
             $this->smartyHelper->assign('date', $defaultDate);
 
-            // All projects from teams where I'm a Developper
-            $devProjList = $managed_user->getProjectList($managed_user->getDevTeamList(), true, false);
-
-            // SideTasksProjects from Teams where I'm a Manager
-            $managedProjList = $managed_user->getProjectList($managed_user->getManagedTeamList(), true, false);
-            $projList = $devProjList + $managedProjList;
-
+            // All projects except disabled
+            $projList = $team->getProjects(true, false);
             $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList,$defaultProjectid));
 
             $this->smartyHelper->assign('defaultProjectid', $defaultProjectid);
@@ -256,10 +252,12 @@ class TimeTrackingController extends Controller {
             $isHideResolved = ('0' == $managed_user->getTimetrackingFilter('hideResolved')) ? false : true;
             $this->smartyHelper->assign('isHideResolved', $isHideResolved);
 
+            // TODO: remove unused filter: isHideDevProjects
             $isHideDevProjects = ('0' == $managed_user->getTimetrackingFilter('hideDevProjects')) ? false : true;
             $this->smartyHelper->assign('isHideDevProjects', $isHideDevProjects);
 
-            $this->smartyHelper->assign('issues', $this->getIssues($defaultProjectid, $isOnlyAssignedTo, $managed_user->getId(), $projList, $isHideResolved, $defaultBugid));
+            $availableIssues = $this->getIssues($defaultProjectid, $isOnlyAssignedTo, $managed_user->getId(), $projList, $isHideResolved, $defaultBugid);
+            $this->smartyHelper->assign('issues', $availableIssues);
 
             $this->smartyHelper->assign('jobs', SmartyTools::getSmartyArray($this->getJobs($defaultProjectid, $teamList), $job));
             $this->smartyHelper->assign('duration', SmartyTools::getSmartyArray($this->getDuration(),$duration));
@@ -271,7 +269,7 @@ class TimeTrackingController extends Controller {
             $startTimestamp = $weekDates[1];
             $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
             $timeTracking = new TimeTracking($startTimestamp, $endTimestamp);
-            
+
             $incompleteDays = array_keys($timeTracking->checkCompleteDays($userid, TRUE));
             $missingDays = $timeTracking->checkMissingDays($userid);
             $errorDays = array_merge($incompleteDays,$missingDays);
@@ -285,7 +283,7 @@ class TimeTrackingController extends Controller {
                $smartyWeekDates[6], $smartyWeekDates[7]
             ));
 
-            $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $userid, $timeTracking, $errorDays);
+            $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $this->teamid, $userid, $timeTracking, $errorDays);
             $this->smartyHelper->assign('weekTasks', $weekTasks["weekTasks"]);
             $this->smartyHelper->assign('dayTotalElapsed', $weekTasks["totalElapsed"]);
 
@@ -322,6 +320,7 @@ class TimeTrackingController extends Controller {
 
       $cerrList = ConsistencyCheck2::checkIncompleteDays($timeTracking, $userid);
 
+      $consistencyErrors = array();
       if (count($cerrList) > 0) {
          foreach ($cerrList as $cerr) {
             if ($userid == $cerr->userId) {
@@ -402,7 +401,7 @@ class TimeTrackingController extends Controller {
             );
          }
       }
-      
+
       $currentTimeTrackingTuples = array();
       $futureTimeTrackingTuples = array();
       foreach ($timetrackingTuples as $trackId => $timeTrackingTuple) {
@@ -418,47 +417,6 @@ class TimeTrackingController extends Controller {
          "current" => $currentTimeTrackingTuples,
          "future" => $futureTimeTrackingTuples
       );
-   }
-
-   /**
-    * Get users of teams I lead
-    * @return string[] : array of users
-    */
-   private function getUsers() {
-      $accessLevel_dev = Team::accessLevel_dev;
-      $accessLevel_manager = Team::accessLevel_manager;
-
-      $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-      $teamList = $session_user->getLeadedTeamList();
-
-      // separate list elements with ', '
-      $formatedTeamString = implode( ', ', array_keys($teamList));
-
-      // check departure date:
-      // manager can manage removed users up to 7 days after their departure date.
-      $today = Tools::date2timestamp(date("Y-m-d", time()));
-      $timestamp=  strtotime("-7 day",$today);
-
-      // show only users from the teams that I lead.
-      $query = "SELECT DISTINCT mantis_user_table.id, mantis_user_table.username ".
-         "FROM `mantis_user_table`, `codev_team_user_table` ".
-         "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
-         "AND (codev_team_user_table.departure_date = 0 OR codev_team_user_table.departure_date >= $timestamp) ".
-         "AND codev_team_user_table.team_id IN ($formatedTeamString) ".
-         "AND codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
-         "ORDER BY mantis_user_table.username";
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         exit;
-      }
-
-      $users = NULL;
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $users[$row->id] = $row->username;
-      }
-
-      return $users;
    }
 
    /**
@@ -479,8 +437,8 @@ class TimeTrackingController extends Controller {
          // do not filter on userId if SideTask or ExternalTask
          try {
             if (($isOnlyAssignedTo) &&
-               (!$project1->isSideTasksProject()) &&
-               (!$project1->isNoStatsProject())) {
+               (!$project1->isSideTasksProject(array($this->teamid))) &&
+               (!$project1->isNoStatsProject(array($this->teamid)))) {
                $handler_id = $userid;
             } else {
                $handler_id = 0; // all users
@@ -500,8 +458,8 @@ class TimeTrackingController extends Controller {
          foreach ($projList as $pid => $pname) {
             $proj = ProjectCache::getInstance()->getProject($pid);
             try {
-               if (($proj->isSideTasksProject()) ||
-                  ($proj->isNoStatsProject())) {
+               if (($proj->isSideTasksProject(array($this->teamid))) ||
+                  ($proj->isNoStatsProject(array($this->teamid)))) {
                   // do not hide any task for SideTasks & ExternalTasks projects
                   $buglist = $proj->getIssues(0, false);
                   $issueList = array_merge($issueList, $buglist);

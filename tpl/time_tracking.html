@@ -1,5 +1,5 @@
 <div id="content" class="center">
-   {if isset($users) || isset($otherrealname)}
+   {if isset($users) || isset($managedUser_realname)}
    {if isset($users)}
    <form id="formUserAndPeriodSelect" name="formUserAndPeriodSelect" method="post" action="{$page}">
       <fieldset>
@@ -10,9 +10,9 @@
       </fieldset>
    </form>
    {/if}
-   {if isset($otherrealname)}
+   {if isset($managedUser_realname)}
 
-   <h2>{$otherrealname}</h2>
+   <h2>{$managedUser_realname}</h2>
 
    <br/>
 
@@ -266,7 +266,7 @@
       </div>
 
       <hr style="margin-top:3em;">
-      
+
       {if isset($weekTimetrackingTuples) || isset($timetrackingTuples)}
       <div style="margin-top: 2em;">
          {if isset($weekTimetrackingTuples)}
@@ -560,7 +560,7 @@
                   </tr>
                </tbody>
             </table>
-            
+
             <input type="hidden" name="bugid"  value="0" />
             <input type="hidden" name="action" value="updateBacklogAction" />
             {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />{/if}

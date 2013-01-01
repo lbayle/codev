@@ -38,7 +38,8 @@ class TimeTrackingTools {
     * @param array $incompleteDays
     * @return mixed[]
     */
-   public static function getWeekTask(array $weekDates, $userid, TimeTracking $timeTracking, array $incompleteDays) {
+   public static function getWeekTask(array $weekDates, $teamid, $userid, TimeTracking $timeTracking, array $incompleteDays) {
+
       $totalElapsed = array();
       $todayAtMidnight = mktime(0,0,0);
       for ($i = 1; $i <= 7; $i++) {
@@ -48,12 +49,13 @@ class TimeTrackingTools {
             "class" => in_array($weekDate,$incompleteDays) && $weekDate < $todayAtMidnight ? "incompleteDay" : ""
          );
       }
-      
+
       $jobs = new Jobs();
 
       $weekTasks = NULL;
       $holidays = Holidays::getInstance();
       $weekTracks = $timeTracking->getWeekDetails($userid);
+
       foreach ($weekTracks as $bugid => $jobList) {
          try {
             $issue = IssueCache::getInstance()->getIssue($bugid);
@@ -108,19 +110,18 @@ class TimeTrackingTools {
                   'title' => $title,
                   'day' => $day
                );
-            
+
                $totalElapsed[$weekDates[$i]]['elapsed'] += $day;
             }
             $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $issue->getDeadLine());
 
             $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
-            
-            //if ((!$project->isSideTasksProject(array($team->getId()))) &&
-            if ((!$project->isSideTasksProject()) &&
+
+            if ((!$project->isSideTasksProject(array($teamid))) &&
                 (!$project->isExternalTasksProject())) {
-               // TODO set teamid
-               //$tooltipAttr = $issue->getTooltipItems($team->getId(), $userid);
-               $tooltipAttr = $issue->getTooltipItems(0, $userid);
+
+               // TODO does $issue belong to current team's project ? what if not ?
+               $tooltipAttr = $issue->getTooltipItems($teamid, $userid);
 
                #$tooltipAttr[T_('Elapsed')] = $issue->getElapsed();
                #$tooltipAttr[T_('Backlog')] = $issue->getDuration();
@@ -161,7 +162,7 @@ class TimeTrackingTools {
          "totalElapsed" => $totalElapsed
       );
    }
-   
+
    /**
     * Get smarty week dates
     * @param array $weekDates
@@ -170,9 +171,9 @@ class TimeTrackingTools {
     */
    public static function getSmartyWeekDates(array $weekDates, array $incompleteDays) {
       $smartyWeekDates = array();
-      
+
       $todayAtMidnight = mktime(0,0,0);
-      
+
       foreach($weekDates as $key => $weekDate) {
             $smartyWeekDates[$key] = array(
                "date" => date('Y-m-d',$weekDate),
@@ -180,7 +181,7 @@ class TimeTrackingTools {
                "class" => in_array($weekDate,$incompleteDays) && $weekDate < $todayAtMidnight ? "incompleteDay" : ""
             );
       }
-      
+
       return $smartyWeekDates;
    }
 
