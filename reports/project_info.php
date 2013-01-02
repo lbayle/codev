@@ -59,8 +59,8 @@ class ProjectInfoController extends Controller {
 
                $this->smartyHelper->assign('projectid', $projectid);
 
-               // find all teams where i'm manager and where this project is defined
-               $isManager = in_array($projectid, array_keys($managedProjList)) ? true : false;
+               // Managers can see detailed view
+               $isManager = $this->session_user->isTeamManager($this->teamid);
                $this->smartyHelper->assign("isManager", $isManager);
 
                $project = ProjectCache::getInstance()->getProject($projectid);
