@@ -117,7 +117,7 @@ class SmartyTools {
       $weeks = array();
       for ($i = 1; $i <= 53; $i++) {
          $wDates = Tools::week_dates($i,$year);
-         $monday = strftime(T_('W').'%U | %d %b', strtotime("Monday",$wDates[1]));
+         $monday = strftime(T_('W').'%V | %d %b', strtotime("Monday",$wDates[1]));
          $friday = strftime("%d %b", strtotime("Friday",$wDates[1]));
          $weeks[] = array(
             'id' => $i,
