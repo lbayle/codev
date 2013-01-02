@@ -36,7 +36,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $weekDates = Tools::week_dates($weekid,$year);
          $startTimestamp = $weekDates[1];
          $endTimestamp = mktime(23, 59, 59, date('m', $weekDates[7]), date('d', $weekDates[7]), date('Y', $weekDates[7]));
-         $timeTracking = new TimeTracking($startTimestamp, $endTimestamp);
+         $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
          $userid = Tools::getSecureGETIntValue('userid',$_SESSION['userid']);
 

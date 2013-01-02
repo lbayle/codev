@@ -89,6 +89,12 @@ class Team extends Model {
          throw $e;
       }
 
+      if (-1 == $teamid) {
+         $e = new Exception("Creating a Team with id=-1 is EVIL.");
+         self::$logger->error("EXCEPTION Team constructor: ".$e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+      }
+
       $this->id = $teamid;
       $this->initialize();
    }

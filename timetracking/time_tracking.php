@@ -259,7 +259,7 @@ class TimeTrackingController extends Controller {
                $availableIssues = $this->getIssues($defaultProjectid, $isOnlyAssignedTo, $managed_user->getId(), $projList, $isHideResolved, $defaultBugid);
                $this->smartyHelper->assign('issues', $availableIssues);
 
-               $this->smartyHelper->assign('jobs', SmartyTools::getSmartyArray($this->getJobs($defaultProjectid, $teamList), $job));
+               $this->smartyHelper->assign('jobs', SmartyTools::getSmartyArray($this->getJobs($defaultProjectid, $this->teamid), $job));
                $this->smartyHelper->assign('duration', SmartyTools::getSmartyArray($this->getDuration(),$duration));
 
                $this->smartyHelper->assign('weeks', SmartyTools::getWeeks($weekid, $year));
@@ -268,7 +268,7 @@ class TimeTrackingController extends Controller {
                $weekDates = Tools::week_dates($weekid,$year);
                $startTimestamp = $weekDates[1];
                $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
-               $timeTracking = new TimeTracking($startTimestamp, $endTimestamp);
+               $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $this->teamid);
 
                $incompleteDays = array_keys($timeTracking->checkCompleteDays($userid, TRUE));
                $missingDays = $timeTracking->checkMissingDays($userid);
@@ -292,7 +292,7 @@ class TimeTrackingController extends Controller {
                $this->smartyHelper->assign('timetrackingTuples', $timeTrackingTuples['future']);
 
                // ConsistencyCheck
-               $consistencyErrors = $this->getConsistencyErrors($userid);
+               $consistencyErrors = $this->getConsistencyErrors($userid, $this->teamid);
                if(count($consistencyErrors) > 0) {
                   $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
                   $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
@@ -511,49 +511,29 @@ class TimeTrackingController extends Controller {
       return $issues;
    }
 
-
    /**
     * get Job list
     *
     * Note: the jobs depend on project type, which depends on the team
-    * so we need to now in which team the user is defined in.
     *
     * @param int $projectid
-    * @param string[] $teamList  user's teams
+    * @param string $teamid  user's team
     * @return string[]
     */
-   private function getJobs($projectid, array $teamList) {
-      if (0 != $projectid) {
-         // Project list
-         $project1 = ProjectCache::getInstance()->getProject($projectid);
+   private function getJobs($projectid, $teamid) {
 
-         $jobList = array();
-         foreach ($teamList as $teamid => $name) {
-            $team = TeamCache::getInstance()->getTeam($teamid);
-            $ptype = $team->getProjectType($projectid);
-            if (NULL != $ptype) {
-               $pjobs = $project1->getJobList($ptype);
-               $jobList += $pjobs; // array_merge does not work here...
-            }
-         }
-         return $jobList;
-      } else {
-         $query = "SELECT id, name FROM `codev_job_table` ";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            return NULL;
-         }
-
-         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-            $jobList = array();
-            while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-               $jobList[$row->id] = $row->name;
-            }
-            return $jobList;
-         } else {
-            return array();
-         }
+      if ((0 == $projectid) || (0 == $teamid)) {
+         self::$logger->error("getJobs($projectid, $teamid): could not find jobList");
+         return array();
       }
+
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $project = ProjectCache::getInstance()->getProject($projectid);
+
+      $ptype = $team->getProjectType($projectid);
+      $jobList = $project->getJobList($ptype);
+
+      return $jobList;
    }
 
    /**
