@@ -103,6 +103,7 @@
                <span class="help_font">{t}Note: A <em>TeamLeader</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report.{/t}</span>
                <input type="hidden" name="isTeamEnabled" value="{$teamEnabled}"/>
                <input type="hidden" name="action" value="noAction" />
+               <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
             </fieldset>
          </form>
 
@@ -121,7 +122,7 @@
             <fieldset>
                <label for="btDeleteTeam">{t}Delete team{/t} {$team->getName()} ?</label>
                <input type="button" name="btDeleteTeam" id="btDeleteTeam" value="{t}Delete{/t}" />
-               <input type="hidden" name="deletedteam" value="{$team->getId()}" />
+               <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
             </fieldset>
          </form>
 
@@ -249,6 +250,7 @@
                   </tbody>
                </table>
                <input type="hidden" name="action" value="noAction">
+               <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
             </fieldset>
          </form>
 
@@ -295,6 +297,7 @@
             <form id="removeTeamMemberForm" name="removeTeamMemberForm" method="post" action="{$page}" class="ui-helper-hidden formWithTabsHistory">
                <fieldset>
                   <input type="hidden" name="deletememberid" value="0">
+                  <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
                </fieldset>
             </form>
          </div>
@@ -340,6 +343,7 @@
                   {/foreach}
                </select>
                <input type="button" name="btAddProject" id="btAddProject" value="{t}Add{/t}">
+               <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
             </fieldset>
          </form>
 
@@ -384,6 +388,7 @@
             <form id="removeTeamProjectForm" name="removeTeamProjectForm" method="post" action="{$page}" class="ui-helper-hidden formWithTabsHistory">
                <fieldset>
                   <input type="hidden" name="deletedprojectid" value="0">
+                  <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
                </fieldset>
             </form>
          </div>
@@ -475,6 +480,7 @@
                   <fieldset>
                      <input type="hidden" name="action" value="removeIssueTooltip">
                      <input type="hidden" name="projectid" value="0">
+                     <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
                   </fieldset>
                </form>
                {if !$issueTooltips}
@@ -523,6 +529,7 @@
                   {/foreach}
                </select>
                <input type="button" name="btAddAstreinte" id="btAddAstreinte" value="{t}Add{/t}" />
+               <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
             </fieldset>
          </form>
          {else}
@@ -570,6 +577,7 @@
             <form id="deleteAstreinteForm" name="deleteAstreinteForm" method="post" action="{$page}" class="ui-helper-hidden formWithTabsHistory">
                <fieldset>
                   <input type="hidden" name="deletedastreinte_id" value="0" />
+                  <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
                </fieldset>
             </form>
             {/if}
