@@ -2201,6 +2201,12 @@ class Issue extends Model implements Comparable {
                         $this->tooltipItemsCache[$name] = $value;
                      }
                   }
+            } else if (0 === strpos($field, 'mantis_')) {
+
+                $mantis_id = preg_replace('/^mantis_/', '', $field);
+                 if ('tags' == $mantis_id) {
+                     $this->tooltipItemsCache[T_('Tags')] =  implode (', ', $this->getTagList());
+                 }
             } else if (0 === strpos($field, 'codevtt_')) {
 
                // extract field id

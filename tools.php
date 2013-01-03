@@ -1303,6 +1303,15 @@ class Tools {
          // extract field id
          $displayName = T_(preg_replace('/^codevtt_/', '', $field));
 
+      } else if (0 === strpos($field, 'mantis_')) {
+
+         // extract field id
+         $displayName = T_(preg_replace('/^mantis_/', '', $field));
+
+         if ('tags' == $field) {
+            $displayName = T_('Tags');
+         }
+
       } else {
          // mantis field
          if ('project_id' == $field) {

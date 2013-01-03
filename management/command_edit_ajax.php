@@ -21,7 +21,7 @@ require('../path.inc.php');
 
 if(Tools::isConnectedUser() && (isset($_POST['action']) || isset($_POST['action']))) {
    if(isset($_POST['action'])) {
-      $smartyHelper = new SmartyHelper();
+
       if($_POST['action'] == 'saveProvisionChanges') {
          if(isset($_SESSION['cmdid'])) {
             $cmdid = $_SESSION['cmdid'];

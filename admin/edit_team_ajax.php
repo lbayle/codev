@@ -25,7 +25,8 @@ function getAvailableTooltipFields($project) {
    $fields = array('project_id', 'category_id', 'status', 'summary', 
        'handler_id', 'priority', 'severity', 'target_version', 'version',
        'eta', 'fixed_in_version', 
-       'codevtt_elapsed', 'codevtt_commands', 'codevtt_drift', 'codevtt_driftMgr');
+       'codevtt_elapsed', 'codevtt_commands', 'codevtt_drift', 'codevtt_driftMgr',
+       'mantis_tags');
 
    $availItemList = array();
    foreach ($fields as $field) {
@@ -83,7 +84,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             $jsonResponse = Tools::array2json($response);
             echo "$jsonResponse";
          } catch (Exception $e) {
-            Tools::endBadRequest($e->getMessage());
+            Tools::sendBadRequest($e->getMessage());
          }
 
       } else if ($_GET['action'] == 'processPostSelectionAction') {
@@ -118,7 +119,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             echo "$jsonResponse";
 
          } catch (Exception $e) {
-            Tools::endBadRequest($e->getMessage());
+            Tools::sendBadRequest($e->getMessage());
          }
          
       } else {
