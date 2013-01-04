@@ -47,15 +47,18 @@ function displayProjectSelectionForm($originPage, $projList, $defaultProjectid =
  * @param type $odtTemplate
  * @param type $userid
  */
-function genProjectODT(Project $project, $odtTemplate, $userid = 0) {
+function genProjectODT(Project $project, $odtTemplate, $userid = 0, $session_userid) {
    global $logger;
 
    $logger->debug("genProjectODT(): project ".$project->getName()." template $odtTemplate user $userid");
 
    $odf = new odf($odtTemplate);
 
-   try { $odf->setVars('today',  date('Y-m-d H:i:s')); } catch (Exception $e) {};
+   try { $odf->setVars('today',  date('Y-m-d')); } catch (Exception $e) {};
    try { $odf->setVars('selectionName', $project->getName()); } catch (Exception $e) {};
+   try {
+      $session_user = UserCache::getInstance()->getUser($session_userid);
+      $odf->setVars('sessionUser', $session_user->getRealname()); } catch (Exception $e) {};
 
    $isHideResolved = true;
    $issueList = $project->getIssues($userid, $isHideResolved);
@@ -104,23 +107,32 @@ function genProjectODT(Project $project, $odtTemplate, $userid = 0) {
       try { $issueSegment->setVars('bugId', $issue->getId()); } catch (Exception $e) {$logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());};
       try { $issueSegment->setVars('summary', utf8_decode($issue->getSummary())); } catch (Exception $e) {$logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());};
       try { $issueSegment->setVars('dateSubmission', date('d/m/Y',$issue->getDateSubmission())); } catch (Exception $e) {$logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());};
+      try {
+         $timestamp = $issue->getDeadLine();
+         $deadline = (0 == $timestamp) ? '' : date('d/m/Y',$issue->getDeadLine());
+         $issueSegment->setVars('deadline', $deadline); } catch (Exception $e) {$logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());};
       try { $issueSegment->setVars('currentStatus', Constants::$statusNames[$issue->getCurrentStatus()]); } catch (Exception $e) {$logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());};
       try { $issueSegment->setVars('handlerId', $userName); } catch (Exception $e) {$logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());};
       try { $issueSegment->setVars('reporterId', $reporterName); } catch (Exception $e) {$logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());};
       try { $issueSegment->setVars('reporterName', $reporterName); } catch (Exception $e) {$logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());};
       try { $issueSegment->setVars('description', utf8_decode($issue->getDescription())); } catch (Exception $e) {$logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());};
       try { $issueSegment->setVars('category', $issue->getCategoryName()); } catch (Exception $e) {$logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());};
+      try { $issueSegment->setVars('severity', $issue->getSeverityName()); } catch (Exception $e) {$logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());};
+      try { $issueSegment->setVars('status', Constants::$statusNames[$issue->getStatus()]); } catch (Exception $e) {$logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());};
+      try { $issueSegment->setVars('extId', $issue->getTcId()); } catch (Exception $e) {$logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());};
 
       // add issueNotes
       $issueNotes = $issue->getIssueNoteList();
+      $noteId = 0;
       foreach ($issueNotes as $id => $issueNote) {
-
+         $noteId += 1;
          if($logger->isDebugEnabled()) {
             $logger->debug("issue ".$issue->getId().": note $id = $issueNote->note");
          }
 
          $noteReporter     = UserCache::getInstance()->getUser($issueNote->reporter_id);
          try { $noteReporterName = utf8_decode($noteReporter->getRealname()); } catch (Exception $e) {};
+         try { $issueSegment->bugnotes->noteId($noteId); } catch (Exception $e) {};
          try { $issueSegment->bugnotes->noteReporter($noteReporterName); } catch (Exception $e) {};
          try { $issueSegment->bugnotes->noteDateSubmission(date('d/m/Y',$issueNote->date_submitted)); } catch (Exception $e) {};
          try { $issueSegment->bugnotes->note(utf8_decode($issueNote->note)); } catch (Exception $e) {};
@@ -176,10 +188,7 @@ if (isset($session_userid)) {
       if ('genODT' == $action) {
          $project = ProjectCache::getInstance()->getProject($projectid);
 
-
-         #genProjectODT($project, "../odt_templates/questions.odt");
-         genProjectODT($project, "../odt_templates/questions2.odt");
-         #genProjectODT($project, "odtphp_template.odt");
+         genProjectODT($project, "../odt_templates/atos_dinf_01.odt", 0, $session_userid);
       }
    }
 
