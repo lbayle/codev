@@ -24,6 +24,7 @@ $logger = Logger::getLogger('login');
 
 if(isset($_POST['action'])) {
     if ('login' == $_POST['action']) {
+       // Ajax return by 'echo'
         echo login($_POST['codev_login'],$_POST['codev_passwd']);
     }
 }
@@ -62,7 +63,7 @@ function login($user, $password) {
         $logger->info('user '.$row_login->id.' logged in: '.$row_login->username.' ('.$row_login->realname.')'.' defaultTeam = '.$user->getDefaultTeam());
         return TRUE;
     } else {
-        $error = 'login failed !';
+        #$error = 'login failed !';
         return FALSE;
     }
 }
