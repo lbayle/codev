@@ -523,7 +523,10 @@ class TimeTrackingController extends Controller {
    private function getJobs($projectid, $teamid) {
 
       if ((0 == $projectid) || (0 == $teamid)) {
-         self::$logger->error("getJobs($projectid, $teamid): could not find jobList");
+
+         //this happens when project = "All", it's a normal case.
+         // team == 0 should not happen
+         //self::$logger->warn("getJobs($projectid, $teamid): could not find jobList. Action = $action");
          return array();
       }
 

@@ -119,7 +119,6 @@
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.id}{if $i.tcId} / {$i.tcId}{/if} : {$i.summary}</option>
                {/foreach}
             </select>
-            {if isset($jobs)}
             <select id="job" name="job" title="{t}Job{/t}" style="width: 100px;" >
                {if count($jobs) > 1}
                <option value="0"></option>
@@ -128,7 +127,6 @@
                <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
                {/foreach}
             </select>
-            {/if}
             <select id="duree" name="duree" title="{t}Duration (in days){/t}">
                {foreach from=$duration key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
