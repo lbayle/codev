@@ -12,7 +12,7 @@
    {/if}
    {if isset($managedUser_realname)}
 
-   <h2>{$managedUser_realname}</h2>
+   <h2>{$managedUser_realname}{if $isManager} <img id="bt_changeManagedUser" align="absmiddle" src="images/b_refresh_grey.png" style="vertical-align: middle;" title="{t}Change team member{/t}">{/if}</h2>
 
    <br/>
 
