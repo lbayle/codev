@@ -70,7 +70,7 @@ class StatisticsController extends Controller {
                   $this->generateDevelopersWorkloadGraph($timeTrackingTable);
 
   // --- BEGIN FDJ SPECIFIC ---
-                     $this->generateProductivityRateGraph($teamid, $timeTrackingTable);
+                     $this->generateProductivityRateGraph($this->teamid, $timeTrackingTable);
   // --- END FDJ SPECIFIC ---
 
                   #$this->generateStatusHistoryGraph($teamid);
