@@ -68,6 +68,7 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames, $Str
       $result2 = execQuery($query);
    }   
    
+   echo "-  Clean issues...<br>"; flush();
    $j = 0;
    foreach($projectidList as $projid) {
 
@@ -86,7 +87,7 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames, $Str
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
 
          $i++;
-         echo "process project $projid issue $row->id <br>";
+         #echo "process project $projid issue $row->id <br>";
 
          $query  = "UPDATE `mantis_bug_table` SET `summary`='task p".$projid."_$i ' WHERE `id`='$row->id' ";
          $result = execQuery($query);
@@ -114,6 +115,7 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames, $Str
    } // proj
 
    // commands
+   echo "-  Clean commands...<br>"; flush();
    $query  = "UPDATE `codev_command_table` SET `reporter` = 'Joe the custommer'";
    $result = execQuery($query);
    $query  = "UPDATE `codev_command_table` SET `description` = 'fake description...'";
@@ -171,6 +173,8 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames, $Str
 
 function stringReplacements($StrReplacements) {
    // string replacements
+   echo "-  Clean strings...<br>"; flush();
+
    $i = 0;
    foreach ($StrReplacements as $orig => $dest) {
       $query  = "UPDATE codev_command_table set `name` = REPLACE(`name`,'$orig','$dest')";
@@ -197,6 +201,7 @@ function stringReplacements($StrReplacements) {
 
 
 function updateUsers() {
+   echo "-  Clean users...<br>"; flush();
 
    $userNames = array(
       '4' => "User TWO",
@@ -254,11 +259,13 @@ function updateUsers() {
    $result = execQuery($query); // passwd: user2012
 
    // admin
-   $query  = "UPDATE `mantis_user_table` SET `password` = '14ac6a1e536a19ce6a199a21442f852a' WHERE `id` ='1' ";
+   $query  = "UPDATE `mantis_user_table` SET `password` = 'e26f604637ae454f792f4fcbff878bd1' WHERE `id` ='1' ";
    $result = execQuery($query);
 }
 
 function updateTeams() {
+
+   echo "-  Clean teams...<br>"; flush();
 
    // codev_admin team
    $query  = "DELETE FROM `codev_team_user_table` WHERE `team_id` ='1' AND user_id NOT IN (1,3)"; // admin,lbayle
@@ -281,6 +288,8 @@ function updateTeams() {
 }
 
 function updateProjects() {
+
+   echo "-  Clean projects...<br>"; flush();
 
    $query  = "UPDATE `mantis_project_table` SET `name` = 'ExternalTasks' WHERE `id` ='1' ";
    $result = execQuery($query);
@@ -306,7 +315,7 @@ function updateProjects() {
 // ================ MAIN =================
 $logger = Logger::getLogger("create_fake_db");
 
-$projectidList = array(14,16,18,19,23,24,25,39);
+$projectidList = array(14,16,18,19,23,24,25,39,51);
 
 $projectNames = array(
     'TSUNO',
@@ -316,8 +325,9 @@ $projectNames = array(
     'BIMBO',
     'ENIGMA',
     'PURCELL',
-    'GOMAZIO',
-    'YANKEE');
+    'TONSAI',
+    'LAMA',
+    'ZOLA');
 
 $StrReplacements = array(
     'CMS_INDE' => 'TSUNO',
@@ -330,10 +340,12 @@ $StrReplacements = array(
     'DCNS' => 'PACC',
     'OPMNT' => 'CALC',
     'PMFL' => 'MAKI',
-    'CMSADM' => 'OMMOPO',
-    'CMS' => 'OMM',
-    'GEMO' => 'OTTO',
-    'FdP' => 'Cmd'
+    'CMSADM' => 'GALEH',
+    'CMS' => 'TAZ',
+    'GEMO' => 'OPI',
+    'FdP' => 'Cmd',
+    'CK' => 'OP',
+    'IAM51' => 'MAYA'
 );
 
 
@@ -385,4 +397,6 @@ foreach ($fieldNamesToClear as $fname) {
 
 
 create_fake_db($projectidList, $formattedFieldList, $projectNames, $StrReplacements);
+
+ echo '<br>Done.';
 ?>

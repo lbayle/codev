@@ -75,6 +75,8 @@ f_release()
   rm tools/locale.php
   rm -rf tests
 
+  rm -rf lib/odtphp/tests
+
   find lib -name "*.zip" | xargs rm
   rm .gitignore
   rm .buildpath
