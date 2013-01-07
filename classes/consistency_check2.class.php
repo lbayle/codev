@@ -96,25 +96,25 @@ class ConsistencyError2 {
    function compareTo($cerrB) {
       if ($this->severity < $cerrB->severity) {
          if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("activity.compareTo FALSE (".$this->bugId.'-'.$this->getLiteralSeverity()." <  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
+            self::$logger->debug("ConsistencyError2.compareTo FALSE (".$this->bugId.'-'.$this->getLiteralSeverity()." <  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
          }
          return false;
       }
       if ($this->severity > $cerrB->severity) {
          if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("activity.compareTo TRUE (".$this->bugId.'-'.$this->getLiteralSeverity()." >  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
+            self::$logger->debug("ConsistencyError2.compareTo TRUE (".$this->bugId.'-'.$this->getLiteralSeverity()." >  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
          }
          return true;
       }
 
       if ($this->bugId > $cerrB->bugId) {
          if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("activity.compareTo FALSE (".$this->bugId." >  ".$cerrB->bugId.")");
+            self::$logger->debug("ConsistencyError2.compareTo FALSE (".$this->bugId." >  ".$cerrB->bugId.")");
          }
          return false;
       } else {
          if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("activity.compareTo TRUE  (".$this->bugId." <= ".$cerrB->bugId.")");
+            self::$logger->debug("ConsistencyError2.compareTo TRUE  (".$this->bugId." <= ".$cerrB->bugId.")");
          }
          return true;
       }
@@ -131,12 +131,36 @@ class ConsistencyCheck2 {
     */
    private static $logger;
 
+   public static $defaultCheckList;
+
    /**
     * Initialize complex static variables
     * @static
     */
    public static function staticInit() {
       self::$logger = Logger::getLogger(__CLASS__);
+
+      self::$defaultCheckList = array(
+          'checkResolved' => 1,
+          'checkBadBacklog' => 1,
+          'checkEffortEstim' => 1,
+          'checkTimeTracksOnNewIssues' => 1,
+          'checkIssuesNotInCommand' => 1,
+          #'checkDeliveryDate' => 1,
+          #'checkUnassignedTasks' => 1,
+          #'checkMgrEffortEstim' => 1,
+          #'checkTeamTimetracks' => 1,
+          #'checkCommandsNotInCommandset' => 1,
+          #'checkCommandSetNotInServiceContract' => 1,
+         );
+
+      /*
+       * checkMgrEffortEstim
+       * It is now allowed to have MgrEE = 0
+       *   tasks having MgrEE > 0 are tasks that have been initialy defined at the Command's creation.
+       *   tasks having MgrEE = 0 are internal_tasks
+       */
+
    }
 
    /**
@@ -145,6 +169,7 @@ class ConsistencyCheck2 {
    protected $issueList;
    protected $bugidList;
    protected $formattedBugidList; // "123,234,456" (used in SQL requests)
+   protected $checkList;
 
    /**
     * @var int The team id
@@ -161,47 +186,45 @@ class ConsistencyCheck2 {
       }
       $this->formattedBugidList = implode(', ', $this->bugidList);
 
+      if (!is_null($this->teamId)) {
+         $team = TeamCache::getInstance()->getTeam($this->teamId);
+         $this->checkList = $team->getConsistencyCheckList();
+      } else {
+         $this->checkList = self::$defaultCheckList;
+      }
 
    }
 
    /**
     * perform all consistency checks
-    * @return ConsistencyError2[]
+    *
+    * @param array $checkList override team's checkList
+    * @return type
     */
-   public function check() {
-      #self::$logger->debug("checkResolved");
-      $cerrList2 = $this->checkResolved();
+   public function check(array $checkList = NULL) {
 
-      #$cerrList3 = $this->checkDeliveryDate();
+      $cerrList = array();
 
-      #self::$logger->debug("checkBadBacklog");
-      $cerrList4 = $this->checkBadBacklog();
+      if (is_null($checkList)) { $checkList = $this->checkList; }
 
-      /*
-       * It is now allowed to have MgrEE = 0
-       *   tasks having MgrEE > 0 are tasks that have been initialy defined at the Command's creation.
-       *   tasks having MgrEE = 0 are internal_tasks
-       *
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug('checkList = '.Tools::doubleImplode(':', ',', $checkList));
+      }
 
-            #self::$logger->debug("checkMgrEffortEstim");
-            $cerrList5 = $this->checkMgrEffortEstim();
-      */
+      // each key of the checkList is a methodName
+      $reflectionObject = new ReflectionObject($this);
+      foreach ($checkList as $callback => $isEnabled) {
 
-      #self::$logger->debug("checkEffortEstim");
-      $cerrList5 = $this->checkEffortEstim();
+         if (0 != $isEnabled) {
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug('execute '.$callback);
+            }
+            $method = $reflectionObject->getMethod($callback);
+            $tmpCerrList = $method->invoke($this);
 
-      #self::$logger->debug("checkTimeTracksOnNewIssues");
-      $cerrList6 = $this->checkTimeTracksOnNewIssues();
-
-      #$cerrList7 = $this->checkUnassignedTasks();
-
-      $cerrList8 = $this->checkIssuesNotInCommand();
-
-
-      #self::$logger->debug("done.");
-
-      #$cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6);
-      $cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6, $cerrList8);
+            $cerrList = array_merge($cerrList, $tmpCerrList);
+         }
+      }
 
       // PHP Fatal error:  Maximum function nesting level of '100' reached, aborting!
       ini_set('xdebug.max_nesting_level', 300);
@@ -212,7 +235,7 @@ class ConsistencyCheck2 {
    }
 
    /**
-    * fiches resolved dont le RAE != 0
+    * fiches resolved dont le RAF != 0
     * @return ConsistencyError2[]
     */
    public function checkResolved() {
@@ -414,7 +437,7 @@ class ConsistencyCheck2 {
     */
    public function checkIssuesNotInCommand() {
       $cerrList = array();
-      
+
       if(count($this->issueList) > 0) {
 
          $query = "SELECT bug_id, COUNT(command_id) as count FROM `codev_command_bug_table` WHERE bug_id IN (".$this->formattedBugidList.") GROUP BY bug_id;";

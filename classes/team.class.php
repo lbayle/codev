@@ -66,6 +66,8 @@ class Team extends Model {
    private $serviceContractList;
    private $onDutyTaskList;
 
+   private $consistencyCheckList;
+
    /**
     * @var string[]
     */
@@ -1075,6 +1077,61 @@ class Team extends Model {
       }
       return $issueList;
    }
+
+   /**
+    * 
+    * @return array ('checkName' => [0,1] isEnabled)
+    */
+   public function getConsistencyCheckList() {
+
+      if (empty($this->consistencyCheckList)) {
+
+         // TODO Config class cannot handle multiple lines for same id
+         $query = "SELECT value FROM `codev_config_table` " .
+                  "WHERE config_id = '" . Config::id_consistencyCheckList . "' " .
+                  "AND user_id = '0' ".
+                  "AND team_id = $this->id";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         // get default checkList if not found
+         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+
+            $keyvalue =  SqlWrapper::getInstance()->sql_result($result, 0);
+            $this->consistencyCheckList = Tools::doubleExplode(':', ',', $keyvalue);
+         } else {
+            $this->consistencyCheckList = ConsistencyCheck2::$defaultCheckList;
+         }
+      }
+
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("team $this->id consistencyCheckList = ". Tools::doubleImplode(':', ',',  $this->consistencyCheckList));
+      }
+
+      return $this->consistencyCheckList;
+
+   }
+
+   /**
+    * @param array $checkList ('checkName' => [0,1] isEnabled)
+    */
+   function setConsistencyCheckList(array $checkList) {
+
+      $this->consistencyCheckList = $checkList;
+
+      $keyvalue = Tools::doubleImplode(':', ',', $this->consistencyCheckList);
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("Write team $this->id consistencyCheckList : $keyvalue");
+      }
+
+      // save new settings
+      Config::setValue(Config::id_consistencyCheckList, $keyvalue, Config::configType_keyValue, NULL, 0, 0, $this->id);
+   }
+
 
 }
 
