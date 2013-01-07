@@ -186,6 +186,7 @@ class ConsistencyCheck2 {
       }
       $this->formattedBugidList = implode(', ', $this->bugidList);
 
+      // teamid is not mandatory !
       if (!is_null($this->teamId)) {
          $team = TeamCache::getInstance()->getTeam($this->teamId);
          $this->checkList = $team->getConsistencyCheckList();
@@ -203,7 +204,7 @@ class ConsistencyCheck2 {
     */
    public function check(array $checkList = NULL) {
 
-      $cerrList = array();
+      $cerrList = array(); // if null, array_merge fails !
 
       if (is_null($checkList)) { $checkList = $this->checkList; }
 

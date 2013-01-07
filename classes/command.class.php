@@ -703,7 +703,7 @@ class Command extends Model {
    public function getConsistencyErrors() {
       $issueSel = $this->getIssueSelection();
       $issueList = $issueSel->getIssueList();
-      $ccheck = new ConsistencyCheck2($issueList);
+      $ccheck = new ConsistencyCheck2($issueList, $this->teamid);
       return $ccheck->check();
    }
 
