@@ -1354,8 +1354,10 @@ class Tools {
             $displayName = T_('Priority');
          } else if ('severity' == $field) {
             $displayName = T_('Severity');
+         } else if ('eta' == $field) {
+            $displayName = T_('ETA');
          } else {
-            // TODO other known codevTT fields
+            // TODO other known mantis fields
             $displayName = $field;
          }
       }

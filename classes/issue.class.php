@@ -56,7 +56,7 @@ class Issue extends Model implements Comparable {
 
    private $projectId;  // Capu, peterpan, etc.
    private $categoryId;
-   private $eta;        // DEPRECATED
+   private $eta;
    private $summary;
    private $dateSubmission;
    private $currentStatus;
@@ -177,7 +177,7 @@ class Issue extends Model implements Comparable {
          $this->dateSubmission = $row->date_submitted;
          $this->projectId = $row->project_id;
          $this->categoryId = $row->category_id;
-         $this->eta = $row->eta; // DEPRECATED
+         $this->eta = $row->eta;
          $this->priority = $row->priority;
          $this->severity = $row->severity;
          $this->handlerId = $row->handler_id;
@@ -2027,6 +2027,10 @@ class Issue extends Model implements Comparable {
       return $this->severity;
    }
 
+   public function getETA() {
+      return $this->eta;
+   }
+
    /**
     * @return int
     */
@@ -2246,6 +2250,8 @@ class Issue extends Model implements Comparable {
                   $this->tooltipItemsCache[T_('Target')] = $this->getTargetVersion();
                } else if ('priority' == $field) {
                   $this->tooltipItemsCache[T_('Priority')] = $this->getPriorityName();
+               } else if ('eta' == $field) {
+                  $this->tooltipItemsCache[T_('ETA')] = $this->getETA();
                } else {
                   // handle unknown mantis fields
                   if (self::$logger->isEnabledFor(LoggerLevel::getLevelWarn())) {
