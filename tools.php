@@ -893,6 +893,30 @@ class Tools {
    }
 
    /**
+    * 
+    * @param string $from humman readable size (128M, 12G, 100K) 
+    * @return int bytes
+    */
+   public static function convertToBytes($from){
+
+       $number=substr($from,0,-1);
+       switch(strtoupper(substr($from,-1))){
+           case "K":
+               return $number*1024;
+           case "M":
+               return $number*pow(1024,2);
+           case "G":
+               return $number*pow(1024,3);
+           case "T":
+               return $number*pow(1024,4);
+           default:
+               return $from;
+       }
+   }
+
+
+
+   /**
     * @static
     * @param int $start_timestamp
     * @param int $end_timestamp
@@ -1336,6 +1360,26 @@ class Tools {
          }
       }
       return $displayName;
+   }
+
+
+   /**
+    *
+    * @param type $threshold
+    */
+   public static function isMemoryLimitReached($threshold = 0.8) {
+
+      $memory_limit = self::convertToBytes(ini_get('memory_limit'));
+      $memUsage     = memory_get_usage(true);
+
+      if ($memUsage >= $memory_limit * $threshold) {
+
+         if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("memUsage ".Tools::bytesToSize1024($memUsage).' >= '.Tools::bytesToSize1024($memory_limit * $threshold));
+         }
+         return TRUE;
+      }
+      return FALSE;
    }
 
 }

@@ -32,6 +32,9 @@ abstract class Cache {
     */
    private static $instance = array();
 
+
+   private static $isMemoryLimitReached = FALSE;
+
    /**
     * @var mixed[] The list
     */
@@ -84,10 +87,18 @@ abstract class Cache {
    protected function get($id, $details = NULL) {
       $obj = isset($this->objects[$id]) ? $this->objects[$id] : NULL;
 
-      if (NULL == $obj) {
-         $this->objects[$id] = $this->create($id, $details);
-         $obj = $this->objects[$id];
-         #echo "DEBUG: CommandCache add $cmdid<br/>";
+      if (is_null($obj)) {
+         $obj = $this->create($id, $details);
+
+         if (!self::$isMemoryLimitReached) {
+            if (!Tools::isMemoryLimitReached()) {
+               $this->objects[$id] = $obj;
+            } else {
+               self::$logger->error("PHP MemoryLimit reached ! (cache deactivated)");
+               self::$isMemoryLimitReached = TRUE;
+            }
+         }
+
       } else {
          if (isset($this->callCount[$id])) {
             $this->callCount[$id] += 1;
@@ -150,9 +161,7 @@ abstract class Cache {
          $nbCalls = array_sum($this->callCount);
          $ratio = (0 != $nbObj) ? '1:'.round($nbCalls/$nbObj) : '';
 
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug($this->cacheName.' Statistics : nbObj='.$nbObj.' nbCalls='.$nbCalls.' ratio='.$ratio);
-         }
+         self::$logger->debug($this->cacheName.' Statistics : nbObj='.$nbObj.' nbCalls='.$nbCalls.' ratio='.$ratio);
       }
    }
 
