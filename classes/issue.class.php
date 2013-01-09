@@ -2247,7 +2247,10 @@ class Issue extends Model implements Comparable {
                } else if ('priority' == $field) {
                   $this->tooltipItemsCache[T_('Priority')] = $this->getPriorityName();
                } else {
-                  // TODO other known codevTT fields
+                  // handle unknown mantis fields
+                  if (self::$logger->isEnabledFor(LoggerLevel::getLevelWarn())) {
+                     self::$logger->warn('TOOLTIP field = '.$field.' has no accessor => LOW PERF');
+                  }
 
                   $query = "SELECT $field FROM `mantis_bug_table` WHERE id = $this->bugId ";
                   $result = SqlWrapper::getInstance()->sql_query($query);
