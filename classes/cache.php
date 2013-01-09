@@ -161,7 +161,10 @@ abstract class Cache {
          $nbCalls = array_sum($this->callCount);
          $ratio = (0 != $nbObj) ? '1:'.round($nbCalls/$nbObj) : '';
 
-         self::$logger->debug($this->cacheName.' Statistics : nbObj='.$nbObj.' nbCalls='.$nbCalls.' ratio='.$ratio);
+         // this size is aproximative, but there is no other way to know the size of an object
+         $size = Tools::bytesToSize1024(strlen(serialize($this->objects)));
+
+         self::$logger->debug($this->cacheName.' Statistics : size = '.$size.' nbObj='.$nbObj.' nbCalls='.$nbCalls.' ratio='.$ratio);
       }
    }
 

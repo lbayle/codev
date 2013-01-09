@@ -885,7 +885,7 @@ class Tools {
     */
    public static function bytesToSize1024($bytes, $precision = 2) {
       // human readable format -- powers of 1024
-      $unit = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB');
+      $unit = array('B', 'K', 'M', 'G', 'T', 'P', 'E');
 
       return @round(
          $bytes / pow(1024, ($i = floor(log($bytes, 1024)))), $precision
@@ -1369,7 +1369,7 @@ class Tools {
     *
     * @param type $threshold
     */
-   public static function isMemoryLimitReached($threshold = 0.8) {
+   public static function isMemoryLimitReached($threshold = 0.95) {
 
       $memory_limit = self::convertToBytes(ini_get('memory_limit'));
       $memUsage     = memory_get_usage(true);
