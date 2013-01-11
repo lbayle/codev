@@ -79,7 +79,9 @@ class CheckController extends Controller {
 
       $cerrs = NULL;
       if (count($cerrList) > 0) {
+         $i = 0;
          foreach ($cerrList as $cerr) {
+            $i += 1;
             if (NULL != $cerr->userId) {
                $user = UserCache::getInstance()->getUser($cerr->userId);
             }
@@ -94,7 +96,7 @@ class CheckController extends Controller {
                $targetVersion = '';
             }
 
-            $cerrs[] = array(
+            $cerrs[$i] = array(
                'userName' => isset($user) ? $user->getName() : '',
                'issueURL' => (NULL == $cerr->bugId) ? '' : Tools::issueInfoURL($cerr->bugId, $summary),
                'mantisURL' => (NULL == $cerr->bugId) ? '' : Tools::mantisIssueURL($cerr->bugId, $summary, true),

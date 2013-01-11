@@ -145,10 +145,10 @@ class GanttActivity implements Comparable {
     * uSort compare method
     *
     *
-    * @param Comparable $issueA
-    * @param Comparable $issueB
+    * @param Comparable $activityA
+    * @param Comparable $activityB
     *
-    * @return '1' if issueB > issueA, -1 if $issueB is lower, 0 if equals
+    * @return '1' if $activityB > $activityA, -1 if $activityB is lower, 0 if equals
     */
    public static function compare(Comparable $activityA, Comparable $activityB) {
 

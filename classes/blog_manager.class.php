@@ -61,7 +61,7 @@ class BlogActivity {
 /**
  * Blog post structure
  */
-class BlogPost {
+class BlogPost implements Comparable {
 
    const severity_low = 1;
    const severity_normal = 2;
@@ -283,11 +283,11 @@ class BlogPost {
     *
     * @param BlogPost $postB the object to compare to
     *
-    * @return bool
+    * @return 1 if $postB higher priority, -1 if lower, 0 if equal
     */
-   public function compareTo($postB) {
+   public function compare($postA, $postB) {
       // TODO
-      return true;
+      return 0;
    }
 
 }

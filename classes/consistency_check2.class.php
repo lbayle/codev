@@ -16,7 +16,7 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class ConsistencyError2 {
+class ConsistencyError2 implements Comparable {
 
    const severity_error = 3;
    const severity_warn = 2;
@@ -120,6 +120,48 @@ class ConsistencyError2 {
       }
    }
 
+   /**
+    * uSort compare method
+    *
+    *
+    * @param Comparable $activityA
+    * @param Comparable $activityB
+    *
+    * @return '1' if $activityB > $activityA, -1 if $activityB is lower, 0 if equals
+    */
+   public static function compare(Comparable $cerrA, Comparable $cerrB) {
+      if ($cerrA->severity < $cerrB->severity) {
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("ConsistencyError2.compare FALSE (".$cerrA->bugId.'-'.$cerrA->getLiteralSeverity()." <  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
+         }
+         return 1;
+      } else if ($cerrA->severity > $cerrB->severity) {
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("ConsistencyError2.compare TRUE (".$cerrA->bugId.'-'.$cerrA->getLiteralSeverity()." >  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
+         }
+         return -1;
+      }
+      if (0 == $cerrA->userId) {
+         return 1;
+      } else if (0 == $cerrB->userId) {
+         return -1;
+      }
+
+
+      if ($cerrA->bugId > $cerrB->bugId) {
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("ConsistencyError2.compare FALSE (".$cerrA->bugId." >  ".$cerrB->bugId.")");
+         }
+         return 1;
+      } else {
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("ConsistencyError2.compare TRUE  (".$cerrA->bugId." < ".$cerrB->bugId.")");
+         }
+         return -1;
+      }
+      return 0;
+   }
+   
 }
 
 ConsistencyError2::staticInit();
@@ -231,7 +273,6 @@ class ConsistencyCheck2 {
       ini_set('xdebug.max_nesting_level', 1000);
 
       Tools::usort($cerrList);
-
       return $cerrList;
    }
 

@@ -6,6 +6,7 @@
    <table class="datatable" style="width: 100%;">
       <thead>
          <tr>
+            <th></th>
             <th>{t}User{/t}</th>
             <th>{t}Task{/t}</th>
             <th title="{t}last modification date{/t}">Date</th>
@@ -19,6 +20,7 @@
       <tbody>
          {foreach from=$consistencyErrors key=id item=i}
          <tr>
+            <td style="width:1em;" nowrap="nowrap">{$id}</td>
             <td style="width:1em;" nowrap="nowrap">{$i.userName}</td>
             <td style="width:1em;" nowrap="nowrap">{$i.mantisURL} {$i.issueURL}</td>
             <td style="width:1em;" nowrap="nowrap">{$i.date}</td>
