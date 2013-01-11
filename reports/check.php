@@ -75,11 +75,7 @@ class CheckController extends Controller {
       #$ccheck = new ConsistencyCheck2($issueList);
       $ccheck = new ConsistencyCheck2($issueList, $teamid);
 
-      $cerrList1 = $ccheck->check();
-      $cerrList2 = $ccheck->checkTeamTimetracks();
-      $cerrList3 = $ccheck->checkCommandsNotInCommandset();
-      $cerrList4 = $ccheck->checkCommandSetNotInServiceContract();
-      $cerrList = array_merge($cerrList1, $cerrList2, $cerrList3, $cerrList4);
+      $cerrList = $ccheck->check();
 
       $cerrs = NULL;
       if (count($cerrList) > 0) {
