@@ -1482,6 +1482,7 @@ class Issue extends Model implements Comparable {
          }
          return TRUE;
       }
+      return FALSE;
    }
 
    /**

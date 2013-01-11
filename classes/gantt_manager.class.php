@@ -16,7 +16,7 @@
    along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class GanttActivity {
+class GanttActivity implements Comparable {
 
    /**
     * @var Logger The logger
@@ -139,6 +139,32 @@ class GanttActivity {
          self::$logger->trace("activity.compareTo   (".date('Y-m-d', $this->endTimestamp)." < ".date('Y-m-d', $activityB->endTimestamp).")");
       }
       return true;
+   }
+
+   /**
+    * uSort compare method
+    *
+    *
+    * @param Comparable $issueA
+    * @param Comparable $issueB
+    *
+    * @return '1' if issueB > issueA, -1 if $issueB is lower, 0 if equals
+    */
+   public static function compare(Comparable $activityA, Comparable $activityB) {
+
+      // the oldest activity should be in front of the list
+      if ($activityA->endTimestamp > $activityB->endTimestamp) {
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("activity.compareTo FALSE  (".date('Y-m-d', $activityA->endTimestamp)." > ".date('Y-m-d', $activityB->endTimestamp).")");
+         }
+         return 1;
+      } else if ($activityA->endTimestamp < $activityB->endTimestamp) {
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("activity.compareTo   (".date('Y-m-d', $activityA->endTimestamp)." < ".date('Y-m-d', $activityB->endTimestamp).")");
+         }
+         return -1;
+      }
+      return 0;
    }
 }
 
