@@ -228,11 +228,11 @@ class ConsistencyCheck2 {
       }
 
       // PHP Fatal error:  Maximum function nesting level of '100' reached, aborting!
-      ini_set('xdebug.max_nesting_level', 300);
+      ini_set('xdebug.max_nesting_level', 1000);
 
-      $sortedCerrList = Tools::qsort($cerrList);
+      Tools::usort($cerrList);
 
-      return $sortedCerrList;
+      return $cerrList;
    }
 
    /**
@@ -477,7 +477,7 @@ class ConsistencyCheck2 {
             if (0 == $nbTuples) {
                $cerr = new ConsistencyError2($issue->getId(), $issue->getHandlerId(), $issue->getCurrentStatus(),
                   $issue->getLastUpdate(), T_("The task is not referenced in any Command."));
-               $cerr->severity = ConsistencyError2::severity_error;
+               $cerr->severity = ConsistencyError2::severity_warn;
                $cerrList[] = $cerr;
             } else if ($nbTuples > 1) {
                $cerr = new ConsistencyError2($issue->getId(), $issue->getHandlerId(), $issue->getCurrentStatus(),

@@ -202,8 +202,8 @@ class GanttManager {
    private function getResolvedIssues() {
       $tt = new TimeTracking($this->startTimestamp, $this->endTimestamp, $this->teamid);
       $resolvedIssuesList = $tt->getResolvedIssues();
-      return Tools::qsort($resolvedIssuesList);
-      #return $resolvedIssuesList;
+      Tools::usort($resolvedIssuesList);
+      return $resolvedIssuesList;
    }
 
    /**
@@ -229,7 +229,8 @@ class GanttManager {
       }
 
       // quickSort the list
-      return Tools::qsort($teamIssueList);
+      Tools::usort($teamIssueList);
+      return $teamIssueList;
    }
 
    /**
@@ -479,7 +480,8 @@ class GanttManager {
 
       }
 
-      return Tools::qsort($mergedActivities);
+      Tools::usort($mergedActivities);
+      return $mergedActivities;
    }
 
 }

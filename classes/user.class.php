@@ -949,16 +949,16 @@ class User extends Model {
       }
 
       // quickSort the list
-      $sortedList = Tools::qsort($issueList);
+      Tools::usort($issueList);
 
       if (self::$logger->isDebugEnabled()) {
-         $formatedList = implode(', ', array_keys($sortedList));
+         $formatedList = implode(', ', array_keys($issueList));
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("getAssignedIssues: List AFTER Sort = " . $formatedList);
          }
       }
 
-      return $sortedList;
+      return $issueList;
    }
 
    /**
@@ -993,7 +993,7 @@ class User extends Model {
             }
          }
          // quickSort the list
-         $this->monitoredIssues = Tools::qsort($this->monitoredIssues);
+         Tools::usort($this->monitoredIssues);
       }
 
       return $this->monitoredIssues;

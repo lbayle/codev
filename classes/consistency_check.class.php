@@ -123,9 +123,9 @@ class ConsistencyCheck {
       #$cerrList = array_merge($cerrList2, $cerrList3, $cerrList4, $cerrList5);
       $cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6);
 
-      $sortedCerrList = Tools::qsort($cerrList);
+      Tools::usort($cerrList);
 
-      return $sortedCerrList;
+      return $cerrList;
    }
 
    /**

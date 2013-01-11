@@ -1417,6 +1417,20 @@ class Issue extends Model implements Comparable {
          return  FALSE;
       }
 
+      // Tasks in feedback are lower priority
+      if (($this->currentStatus == Constants::$status_feedback) && ($issueB->currentStatus != Constants::$status_feedback)) {
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId < $issueB->bugId (status_feedback)");
+         }
+         return  FALSE; // A is lower
+      }
+      if (($issueB->currentStatus == Constants::$status_feedback) && ($this->currentStatus != Constants::$status_feedback)) {
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId > $issueB->bugId (status_feedback)");
+         }
+         return  TRUE;
+      }
+
       // if same deadLine, check priority attribute
       if ($this->priority > $issueB->priority) {
          if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
@@ -1454,10 +1468,20 @@ class Issue extends Model implements Comparable {
          return TRUE;
       }
 
-      if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-         self::$logger->trace("compareTo $this->bugId <= $issueB->bugId (B constrains more people)");
+      if (count($AconstrainsList) < count($BconstrainsList)) {
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId <= $issueB->bugId (B constrains more people)");
+         }
+         return TRUE;
       }
-      return FALSE;
+
+      // if realy, they are equal, then the oldest is higher priority
+      if ($this->bugId < $issueB->bugId) {
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId < $issueB->bugId (A was created first)");
+         }
+         return TRUE;
+      }
    }
 
    /**
@@ -1523,6 +1547,19 @@ class Issue extends Model implements Comparable {
          return -1;
       }
 
+      // Tasks in feedback are lower priority
+      if (($issueA->currentStatus == Constants::$status_feedback) && ($issueB->currentStatus != Constants::$status_feedback)) {
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (status_feedback)");
+         }
+         return 1;
+      } else if (($issueB->currentStatus == Constants::$status_feedback) && ($issueA->currentStatus != Constants::$status_feedback)) {
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId > $issueB->bugId (status_feedback)");
+         }
+         return -1;
+      }
+
       // if same deadLine, check priority attribute
       if ($issueA->priority < $issueB->priority) {
          if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
@@ -1571,20 +1608,22 @@ class Issue extends Model implements Comparable {
       // Lower if the bug id, higher is the priority
       if($issueA->bugId > $issueB->bugId) {
          if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId > $issueB->bugId");
+            self::$logger->trace("compare $issueA->bugId > $issueB->bugId  (B was created first)");
          }
          return 1;
       } else if($issueA->bugId < $issueB->bugId) {
          if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId < $issueB->bugId");
+            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (A was created first)");
          }
          return -1;
-      } else {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId = $issueB->bugId");
-         }
-         return 0;
       }
+
+      // same - same
+      if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         self::$logger->trace("compare $issueA->bugId = $issueB->bugId (A and B are equal ?!)");
+      }
+      return 0;
+      
    }
 
    /**
