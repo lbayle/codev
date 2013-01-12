@@ -133,6 +133,7 @@ class IndexController extends Controller {
    private function getConsistencyErrors() {
       $consistencyErrors = array(); // if null, array_merge fails !
 
+      // only this team's projects
       #$teamList = $this->teamList;
       $teamList = array($this->teamid => $this->teamList[$this->teamid]);
 
@@ -141,7 +142,7 @@ class IndexController extends Controller {
 
       $issueList = $this->session_user->getAssignedIssues($projList, true);
 
-      $ccheck = new ConsistencyCheck2($issueList);
+      $ccheck = new ConsistencyCheck2($issueList, $this->teamid);
 
       $cerrList = $ccheck->check();
 
