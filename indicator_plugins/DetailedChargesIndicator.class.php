@@ -29,6 +29,8 @@ class DetailedChargesIndicator implements IndicatorPlugin {
     */
    private static $logger;
 
+   protected $inputIssueSel;
+
    protected $execData;
 
    private $isManager;
@@ -40,6 +42,11 @@ class DetailedChargesIndicator implements IndicatorPlugin {
    private $filterList;
    private $filterDisplayNames;
 
+   /**
+    *
+    * @var bool if true, use Constants::$maxTooltipsPerPage to reduce the number of displayed tooltips. (PERF)
+    */
+   private $maxTooltipsPerPage;
 
    /**
     * Initialize complex static variables
@@ -71,7 +78,7 @@ class DetailedChargesIndicator implements IndicatorPlugin {
 
       $allFilterList = array();
       foreach ($tmpList as $class_name) {
-         if (NULL == $class_name) { continue; } // skip trailing commas ','
+         if (is_null($class_name)) { continue; } // skip trailing commas ','
          $filter = new $class_name("fake_id");
          $allFilterList[$class_name] = $filter->getDisplayName();
       }
@@ -94,7 +101,7 @@ class DetailedChargesIndicator implements IndicatorPlugin {
          throw new Exception("Missing IssueSelection");
       }
       if (is_null($params)) {
-         throw new Exception("Missing parameters: isManager, allFilters, selectedFilters, teamid, userid");
+         throw new Exception("Missing parameters: isManager, allFilters, selectedFilters, teamid, userid, maxTooltipsPerPage");
       }
 
       if (array_key_exists('isManager', $params)) {
@@ -112,6 +119,13 @@ class DetailedChargesIndicator implements IndicatorPlugin {
          $this->userid = $params['userid'];
       } else {
          $this->userid = 0;
+      }
+
+      if (array_key_exists('maxTooltipsPerPage', $params)) {
+         $this->maxTooltipsPerPage = $params['maxTooltipsPerPage'];
+      } else {
+         // display all tooltips
+         $this->maxTooltipsPerPage = 0;
       }
 
       if (array_key_exists('selectedFilters', $params)) {
@@ -145,6 +159,8 @@ class DetailedChargesIndicator implements IndicatorPlugin {
     */
    public function execute(IssueSelection $inputIssueSel, array $params = NULL) {
       $this->checkParams($inputIssueSel, $params);
+
+      $this->inputIssueSel = $inputIssueSel;
 
       // do the work ...
       $filterMgr = new FilterManager($inputIssueSel, $this->filterList);
@@ -322,6 +338,12 @@ class DetailedChargesIndicator implements IndicatorPlugin {
 
       $smartyObj = array();
 
+      // find out which issues will have a tooltip
+      if (0 != $this->maxTooltipsPerPage) {
+         $bugWithTooltipList = array_keys($this->inputIssueSel->getLastUpdatedList($this->maxTooltipsPerPage));
+         #echo "bugWithTooltipList = ".implode(',', $bugWithTooltipList).'<br>';
+      }
+
       foreach($explodeResults as $line) {
          $isel = $line[$iselIdx];
 
@@ -331,14 +353,20 @@ class DetailedChargesIndicator implements IndicatorPlugin {
          $formatedNewList = '';
          foreach ($isel->getIssueList() as $bugid => $issue) {
 
-            if (0 != $this->userid) {
-               $tooltipAttr = $issue->getTooltipItems($this->teamid, $this->userid);
+            if ((0 != $this->maxTooltipsPerPage) && (!in_array($issue->getId(), $bugWithTooltipList))) {
+               // display default one-line tooltip
+               $tooltipAttr = NULL;
             } else {
-               $tooltipAttr = $issue->getTooltipItems($this->teamid, 0, $this->isManager);
-            }
-            if (!array_key_exists(T_('Summary'), $tooltipAttr)) {
-               // insert in front
-               $tooltipAttr = array(T_('Summary') => $issue->getSummary()) + $tooltipAttr;
+               if (0 != $this->userid) {
+                  $tooltipAttr = $issue->getTooltipItems($this->teamid, $this->userid);
+               } else {
+                  $tooltipAttr = $issue->getTooltipItems($this->teamid, 0, $this->isManager);
+               }
+
+               if (!array_key_exists(T_('Summary'), $tooltipAttr)) {
+                  // insert in front
+                  $tooltipAttr = array(T_('Summary') => $issue->getSummary()) + $tooltipAttr;
+               }
             }
 
             if (Constants::$status_new == $issue->getCurrentStatus()) {
@@ -351,16 +379,10 @@ class DetailedChargesIndicator implements IndicatorPlugin {
                if (!empty($formatedResolvedList)) {
                   $formatedResolvedList .= ', ';
                }
-               if (!array_key_exists(T_('Status'), $tooltipAttr)) {
-                  $tooltipAttr[T_('Status')] = Constants::$statusNames[$issue->getStatus()];
-               }
                $formatedResolvedList .= Tools::issueInfoURL($bugid, $tooltipAttr);
             } else {
                if (!empty($formatedOpenList)) {
                   $formatedOpenList .= ', ';
-               }
-               if (!array_key_exists(T_('Status'), $tooltipAttr)) {
-                  $tooltipAttr[T_('Status')] = Constants::$statusNames[$issue->getStatus()];
                }
                $formatedOpenList .= Tools::issueInfoURL($bugid, $tooltipAttr);
             }

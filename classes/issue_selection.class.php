@@ -500,7 +500,7 @@ class IssueSelection {
       $lastUpdated = 0;
 
       if(count($this->issueList) > 0) {
-         $query = "SELECT * from `mantis_bug_table` ".
+         $query = "SELECT last_updated from `mantis_bug_table` ".
             "WHERE id IN (".implode(', ',array_keys($this->issueList)).") ".
             "ORDER BY last_updated DESC LIMIT 1";
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -519,6 +519,35 @@ class IssueSelection {
       }
       return $lastUpdated;
    }
+
+   /**
+    * get the date of the $max latest updated issues of the issueList
+    * @return array bugid => timestamp
+    */
+   public function getLastUpdatedList($max = 1) {
+
+      if(count($this->issueList) > 0) {
+         $query = "SELECT id, last_updated from `mantis_bug_table` ".
+            "WHERE id IN (".implode(', ',array_keys($this->issueList)).") ".
+            "ORDER BY last_updated DESC LIMIT $max";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+      $lastUpdatedList = array();
+      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $lastUpdatedList["$row->id"] = $row->last_updated;
+      }
+      }
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("IssueSelection [$this->name] :  getLastUpdatedList count = ".count($lastUpdatedList));
+      }
+      return $lastUpdatedList;
+   }
+
+
+
 }
 
 

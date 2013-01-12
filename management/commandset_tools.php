@@ -224,7 +224,8 @@ class CommandSetTools {
          'isManager' => $isManager,
          'teamid' => $cmdset->getTeamid(),
          'selectedFilters' => $selectedFilters,
-         'allFilters' => $allFilters
+         'allFilters' => $allFilters,
+         'maxTooltipsPerPage' => Constants::$maxTooltipsPerPage
       );
 
 

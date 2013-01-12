@@ -386,7 +386,8 @@ class ServiceContractTools {
          'isManager' => $isManager,
          'teamid' => $serviceContract->getTeamid(),
          'selectedFilters' => $selectedFilters,
-         'allFilters' => $allFilters
+         'allFilters' => $allFilters,
+         'maxTooltipsPerPage' => Constants::$maxTooltipsPerPage
       );
 
       $detailedChargesIndicator = new DetailedChargesIndicator();

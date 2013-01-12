@@ -202,7 +202,8 @@ class CommandTools {
          'isManager' => $isManager,
          'teamid' => $cmd->getTeamid(),
          'selectedFilters' => $selectedFilters,
-         'allFilters' => $allFilters
+         'allFilters' => $allFilters,
+         'maxTooltipsPerPage' => Constants::$maxTooltipsPerPage
       );
 
 

@@ -41,4 +41,8 @@ resolution_reopened = 30
 relationship_constrained_by = 2500
 relationship_constrains = 2501
 
+[perf]
+; display tooltips on only the x last_updated issues.
+; set to 0 to display all tooltips.
+max_tooltips_per_page = 500
 

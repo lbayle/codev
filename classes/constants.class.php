@@ -58,6 +58,17 @@ class Constants {
    // TODO add equivalences for all mandatory status not present in workflow (see mantis 131)
    // ex: $status_open = $status_assigned;
 
+   // --- PERF ---
+   /**
+    * display tooltips on only the x last_updated issues.
+    * set to 0 to display all tooltips.
+    *
+    * tooltips use +30% Memory on project_info page...
+    */
+   public static $maxTooltipsPerPage = 500;
+
+
+   
    /**
     * If true, then no info/warning messages will be displayed.
     * this shall only be set during install procedures.
@@ -138,6 +149,12 @@ class Constants {
       define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY', $relationships['relationship_constrained_by'] );
       define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS',     $relationships['relationship_constrains'] );
 
+      $perf = $ini_array['perf'];
+      self::$maxTooltipsPerPage    = $perf['max_tooltips_per_page'];
+
+
+      // -----
+
       /* FIXME WORKAROUND: SQL procedures still use codev_config_table.bug_resolved_status_threshold ! */
       $desc = "bug resolved threshold as defined in Mantis (g_bug_resolved_status_threshold)";
       self::$logger->warn("WORKAROUND update codev_config_table.bug_resolved_status_threshold = ".self::$bug_resolved_status_threshold);
@@ -190,6 +207,12 @@ class Constants {
       $relationships['relationship_constrained_by'] = self::$relationship_constrained_by; // BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY;
       $relationships['relationship_constrains']     = self::$relationship_constrains;     // BUG_CUSTOM_RELATIONSHIP_CONSTRAINS;
 
+      $perf = array();
+      $perf[] = '; display tooltips on only the x last_updated issues.';
+      $perf[] = '; set to 0 to display all tooltips.';
+      $perf['max_tooltips_per_page'] = self::$maxTooltipsPerPage;
+
+
       $ini_array = array();
       $ini_array[] = '; This file is part of CodevTT.';
       $ini_array[] = '; - The Variables in here can be customized to your needs';
@@ -207,6 +230,8 @@ class Constants {
       $ini_array['resolution']    = $resolution;
       $ini_array[] = '';
       $ini_array['relationships'] = $relationships;
+      $ini_array[] = '';
+      $ini_array['perf'] = $perf;
       $ini_array[] = '';
       $ini_array[] = '';
 

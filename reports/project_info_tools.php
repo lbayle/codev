@@ -34,7 +34,8 @@ class ProjectInfoTools {
          'isManager' => $isManager,
          #'teamid' => $teamid,
          'selectedFilters' => $selectedFilters,
-         'allFilters' => $allFilters
+         'allFilters' => $allFilters,
+         'maxTooltipsPerPage' => Constants::$maxTooltipsPerPage
       );
 
 
