@@ -161,7 +161,7 @@ class ConsistencyError2 implements Comparable {
       }
       return 0;
    }
-   
+
 }
 
 ConsistencyError2::staticInit();
@@ -183,17 +183,17 @@ class ConsistencyCheck2 {
       self::$logger = Logger::getLogger(__CLASS__);
 
       self::$defaultCheckList = array(
-          'checkResolved' => 1,
+          'checkBacklogOnResolved' => 1,
           'checkBadBacklog' => 1,
           'checkEffortEstim' => 1,
           'checkTimeTracksOnNewIssues' => 1,
-          'checkIssuesNotInCommand' => 1,
-          #'checkDeliveryDate' => 1,
-          #'checkUnassignedTasks' => 1,
+          'checkUnassignedTasks' => 0,
+          'checkTeamTimetracks' => 0, // for all timetracks of the team, check that the Mantis issue exist.
+          'checkIssuesNotInCommand' => 0,
+          'checkCommandsNotInCommandset' => 0,
+          'checkCommandSetNotInServiceContract' => 0,
           #'checkMgrEffortEstim' => 1,
-          #'checkTeamTimetracks' => 1,
-          #'checkCommandsNotInCommandset' => 1,
-          #'checkCommandSetNotInServiceContract' => 1,
+          #'checkDeliveryDate' => 0,
          );
 
       /*
@@ -262,9 +262,12 @@ class ConsistencyCheck2 {
             if(self::$logger->isDebugEnabled()) {
                self::$logger->debug('execute '.$callback);
             }
-            $method = $reflectionObject->getMethod($callback);
-            $tmpCerrList = $method->invoke($this);
-
+            try {
+               $method = $reflectionObject->getMethod($callback);
+               $tmpCerrList = $method->invoke($this);
+            } catch (Exception $e) {
+               self::$logger->error("unknown method: $callback");
+            }
             $cerrList = array_merge($cerrList, $tmpCerrList);
          }
       }
@@ -280,7 +283,7 @@ class ConsistencyCheck2 {
     * fiches resolved dont le RAF != 0
     * @return ConsistencyError2[]
     */
-   public function checkResolved() {
+   public function checkBacklogOnResolved() {
       $cerrList = array();
 
       foreach ($this->issueList as $issue) {

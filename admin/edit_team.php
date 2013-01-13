@@ -131,16 +131,21 @@ class EditTeamController extends Controller {
                   $memberid = Tools::getSecurePOSTIntValue('memberid');
 
                   $team->setMemberDepartureDate($memberid, $departureTimestamp);
-               } elseif ($action == "addMembersFrom") {
+               } elseif ($action == 'addMembersFrom') {
                   $src_teamid = Tools::getSecurePOSTIntValue('f_src_teamid');
 
                   // add all members declared in Team $src_teamid (same dates, same access)
                   // except if already declared
                   $team->addMembersFrom($src_teamid);
-               } elseif ($action == "removeIssueTooltip") {
+               } elseif ($action == 'removeIssueTooltip') {
                   $projectid = Tools::getSecurePOSTIntValue('projectid');
                   $project = ProjectCache::getInstance()->getProject($projectid);
                   $project->setIssueTooltipFields(NULL, $displayed_teamid);
+
+               } elseif ($action == 'setConsistencyCheck') {
+                  $keyvalue = Tools::getSecurePOSTStringValue('checkItems');
+                  $checkList = Tools::doubleExplode(':', ',', $keyvalue);
+                  $team->setConsistencyCheckList($checkList);
 
                } elseif (isset($_POST["deletememberid"])) {
                   $memberid = Tools::getSecurePOSTIntValue('deletememberid');
@@ -181,7 +186,6 @@ class EditTeamController extends Controller {
                   $onduty_id = Tools::getSecurePOSTIntValue('deletedastreinte_id');
                   $team->removeOnDutyTask($onduty_id);
                }
-
                $this->smartyHelper->assign('team', $team);
 
                $this->smartyHelper->assign('users', SmartyTools::getSmartyArray(User::getUsers(),$team->getLeaderId()));
@@ -208,6 +212,8 @@ class EditTeamController extends Controller {
                $this->smartyHelper->assign('issueTooltips', $this->getIssueTooltips($projectList, $displayed_teamid));
                $this->smartyHelper->assign('itemSelection_openDialogBtLabel', T_('Configure Tooltips'));
 
+               $consistencyChecks = $this->getConsistencyChecks($team);
+               $this->smartyHelper->assign('consistencyChecks', $consistencyChecks);
             }
          }
       }
@@ -412,6 +418,24 @@ class EditTeamController extends Controller {
          );
       }
       return $issueTooltips;
+   }
+
+   private function getConsistencyChecks(Team $team) {
+
+      // get
+      $checkList = $team->getConsistencyCheckList();
+
+      $consistencyChecks = array();
+      foreach ($checkList as $name => $enabled) {
+
+         $consistencyChecks["$name"] = array(
+             'name'       => $name,
+             'label'      => $name,
+             'isChecked'  => $enabled,
+             'isDisabled' => false
+         );
+      }
+      return $consistencyChecks;
    }
 
 }

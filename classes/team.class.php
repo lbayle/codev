@@ -245,7 +245,7 @@ class Team extends Model {
    public function setEnabled($isEnabled) {
       $this->enabled = $isEnabled;
       $val = $isEnabled ? '1' : '0';
-      
+
       $query = "UPDATE `codev_team_table` SET enabled = $val WHERE id ='$this->id';";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -327,7 +327,7 @@ class Team extends Model {
             $query .= "AND project.enabled = 1 ";
          }
          $query .= "ORDER BY project.name;";
-         
+
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -489,7 +489,7 @@ class Team extends Model {
    public function getTeamIssueList($addUnassignedIssues = false, $withDisabledProjects = true) {
 
       $issueList = array();
-      
+
       $projectList = $this->getProjects(true, $withDisabledProjects);
       $memberList = $this->getMembers();
 
@@ -498,7 +498,7 @@ class Team extends Model {
       if (0 == count($memberIdList)) {
          self::$logger->error("getTeamIssues(teamid=$this->id) : No members defined in the team !");
       }
-      
+
       // add unassigned tasks
       if ($addUnassignedIssues) {
          $memberIdList[] = '0';
@@ -507,7 +507,7 @@ class Team extends Model {
       if (0 == count($memberIdList)) {
          return $issueList;
       }
-      
+
       $formatedProjects = implode( ', ', array_keys($projectList));
       $formatedMembers = implode( ', ', $memberIdList);
 
@@ -1014,8 +1014,8 @@ class Team extends Model {
    public function addOnDutyTask($bugid) {
 
       $onDutyTaskList = $this->getOnDutyTasks();
-      
-      if (!in_array($bugid, $onDutyTaskList)) { 
+
+      if (!in_array($bugid, $onDutyTaskList)) {
          $onDutyTaskList[] = $bugid;
          $imploded = implode(',', $onDutyTaskList);
          Config::setValue(Config::id_onDutyTaskList, $imploded, configType_array, NULL, 0, 0, $this->id);
@@ -1079,7 +1079,7 @@ class Team extends Model {
    }
 
    /**
-    * 
+    *
     * @return array ('checkName' => [0,1] isEnabled)
     */
    public function getConsistencyCheckList() {
@@ -1099,12 +1099,17 @@ class Team extends Model {
          }
 
          // get default checkList if not found
+         $this->consistencyCheckList = ConsistencyCheck2::$defaultCheckList;
+
+         // update with team specific items
          if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
 
             $keyvalue =  SqlWrapper::getInstance()->sql_result($result, 0);
-            $this->consistencyCheckList = Tools::doubleExplode(':', ',', $keyvalue);
-         } else {
-            $this->consistencyCheckList = ConsistencyCheck2::$defaultCheckList;
+            $checkList = Tools::doubleExplode(':', ',', $keyvalue);
+
+            foreach ($checkList as $name => $enabled) {
+               $this->consistencyCheckList["$name"] = $enabled;
+            }
          }
       }
 

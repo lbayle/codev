@@ -36,7 +36,7 @@
          <li class="{$ui_tabs_jquery_li}"><a href="#tabGeneral">{t}General{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabTeamMembers">{t}Team Members{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabTeamProjects">{t}Team Projects{/t}</a></li>
-         <li class="{$ui_tabs_jquery_li}"><a href="#tabTooltips">{t}Tooltips{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabPreferences">{t}Preferences{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabOnDuty">{t}OnDuty tasks{/t}</a></li>
       </ul>
 
@@ -394,7 +394,7 @@
          </div>
       </div>
 
-      <div id="tabTooltips">
+      <div id="tabPreferences">
          <h2>{t}Issue Tooltips{/t}</h2>
          <!-- Display issue tooltip settings -->
          <div style="margin-top: 2em;">
@@ -489,6 +489,52 @@
                {/if}
             </div>
          </div>
+
+         <br>
+         <h2>{t}Consistency Check{/t}</h2>
+         <span class="help_font">{t}Enable/Disable alerts{/t}</span>
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               jQuery("#btSetConsistencyChecks").click(function() {
+                  // check fields
+
+                  var form = jQuery("#consistencyCheckForm");
+
+                  // TODO get selected checkItems
+                  var checkItems = "";
+                  jQuery(".consistencyCheckItem").each(function() {
+                     var itemName = jQuery(this).attr("name");
+                     var isChecked = jQuery(this).attr('checked') ? 1 : 0;
+                     checkItems += itemName+":"+isChecked+",";
+                  });
+                  //alert("checkItems "+checkItems);
+                  form.find("input[name=checkItems]").val(checkItems)
+                  form.submit();
+               });
+            });
+         </script>
+         <form id="consistencyCheckForm" name="consistencyCheckForm" method="post" action="{$page}" class="formWithTabsHistory">
+            <fieldset>
+
+
+               <table class="invisible">
+               {foreach from=$consistencyChecks key=id item=i}
+                  <tr>
+                     <td><input type="checkbox" id="{$i.name}" name="{$i.name}" class="consistencyCheckItem" {if $i.isChecked}checked="checked"{/if} {if $i.isDisabled}disabled="disabled"{/if} />{$i.label}</td>
+                  </tr>
+               {/foreach}
+                  <tr>
+                     <td><input type="button" id="btSetConsistencyChecks" value="{t}Update{/t}"></td>
+                  </tr>
+               </table>
+
+               <input type="hidden" name="action" value="setConsistencyCheck">
+               <input type="hidden" name="checkItems" value="">
+               <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
+            </fieldset>
+         </form>
+
+
       </div>
 
 
