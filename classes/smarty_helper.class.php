@@ -80,6 +80,20 @@ class SmartyHelper {
     * @param string $template the template to be displayed
     */
    public function display($template) {
+
+
+      if (!headers_sent()) {
+         header("Content-type: text/html; charset=UTF-8");
+      } else {
+         self::$logger->error("Headers already sent");
+      }
+
+      if (Tools::endsWith($template, '.html')) {
+         $this->smarty->display($template);
+      } else {
+         $this->smarty->display($template . '.html');
+      }
+
       if (self::$logger->isEnabledFor(LoggerLevel::getLevelInfo())) {
          $generatedTime = round(microtime(true) - $this->smarty->start_time, 3);
 
@@ -96,17 +110,6 @@ class SmartyHelper {
             TimeTrackCache::getInstance()->logStats();
       */
 
-      if (!headers_sent()) {
-         header("Content-type: text/html; charset=UTF-8");
-      } else {
-         self::$logger->error("Headers already sent");
-      }
-
-      if (Tools::endsWith($template, '.html')) {
-         $this->smarty->display($template);
-      } else {
-         $this->smarty->display($template . '.html');
-      }
    }
 
    /**
