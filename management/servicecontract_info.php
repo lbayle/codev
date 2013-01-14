@@ -119,16 +119,27 @@ class ServiceContractInfoController extends Controller {
          $consistencyErrors = array();
 
          foreach ($cerrList as $cerr) {
-            $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-            $user = UserCache::getInstance()->getUser($cerr->userId);
+
+            if (!is_null($cerr->userId)) {
+               $user = UserCache::getInstance()->getUser($cerr->userId);
+            }
+            if (Issue::exists($cerr->bugId)) {
+               $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
+               $projName = $issue->getProjectName();
+               $summary = $issue->getSummary();
+            } else {
+               $projName = '';
+               $summary = '';
+            }
+
             $titleAttr = array(
-                  T_('Project') => $issue->getProjectName(),
-                  T_('Summary') => $issue->getSummary(),
+                  T_('Project') => $projName,
+                  T_('Summary') => $summary,
             );
             $consistencyErrors[] = array(
                'issueURL' => Tools::issueInfoURL($cerr->bugId, $titleAttr),
                'issueStatus' => Constants::$statusNames[$cerr->status],
-               'user' => $user->getName(),
+               'user' => isset($user) ? $user->getName() : '',
                'severity' => $cerr->getLiteralSeverity(),
                'severityColor' => $cerr->getSeverityColor(),
                'desc' => $cerr->desc);
