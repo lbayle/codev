@@ -439,9 +439,9 @@ class Issue extends Model implements Comparable {
             ($project->getCategory(Project::cat_st_tools) != $this->categoryId) &&
             ($project->getCategory(Project::cat_st_workshop)   != $this->categoryId)) {
 
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("$this->bugId is a sideTask.");
-            }
+            #if(self::$logger->isDebugEnabled()) {
+            #   self::$logger->debug("$this->bugId is a sideTask.");
+            #}
             return TRUE;
          }
       } catch (Exception $e) {
@@ -470,9 +470,9 @@ class Issue extends Model implements Comparable {
          if (($project->isSideTasksProject($teamidList)) &&
             ($project->getCategory(Project::cat_st_inactivity) == $this->categoryId)) {
 
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("$this->bugId is Vacation.");
-            }
+            #if(self::$logger->isDebugEnabled()) {
+            #   self::$logger->debug("$this->bugId is Vacation.");
+            #}
             return TRUE;
          }
       } catch (Exception $e) {
@@ -500,9 +500,9 @@ class Issue extends Model implements Comparable {
          if (($project->isSideTasksProject($teamidList)) &&
             ($project->getCategory(Project::cat_st_incident) == $this->categoryId)) {
 
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("$this->bugId is a Incident.");
-            }
+            #if(self::$logger->isDebugEnabled()) {
+            #   self::$logger->debug("$this->bugId is a Incident.");
+            #}
             return TRUE;
          }
       } catch (Exception $e) {
@@ -532,9 +532,9 @@ class Issue extends Model implements Comparable {
          if (($project->isSideTasksProject($teamidList)) &&
             ($project->getCategory(Project::cat_mngt_regular) == $this->categoryId)) {
 
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("$this->bugId is a ProjectManagement task.");
-            }
+            #if(self::$logger->isDebugEnabled()) {
+            #   self::$logger->debug("$this->bugId is a ProjectManagement task.");
+            #}
             return TRUE;
          }
       } catch (Exception $e) {
@@ -553,9 +553,9 @@ class Issue extends Model implements Comparable {
       $astreintesTaskList = $team->getOnDutyTasks();
 
       if (in_array($this->bugId, $astreintesTaskList)) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug($this->bugId." is an Astreinte.");
-         }
+         #if(self::$logger->isDebugEnabled()) {
+         #   self::$logger->debug($this->bugId." is an Astreinte.");
+         #}
          return TRUE;
       }
       return FALSE;
@@ -668,14 +668,14 @@ class Issue extends Model implements Comparable {
          }
 
          $this->elapsedCache["$key"] = round(SqlWrapper::getInstance()->sql_result($result),2);
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getElapsed(job=".$job_id."): set elapsedCache[$key] = ".$this->elapsedCache["$key"]);
-         }
+         #if(self::$logger->isDebugEnabled()) {
+         #   self::$logger->debug("getElapsed(job=".$job_id."): set elapsedCache[$key] = ".$this->elapsedCache["$key"]);
+         #}
       }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getElapsed(job=".$job_id."): ".$this->elapsedCache["$key"]);
-      }
+      #if(self::$logger->isDebugEnabled()) {
+      #   self::$logger->debug("getElapsed(job=".$job_id."): ".$this->elapsedCache["$key"]);
+      #}
       return $this->elapsedCache["$key"];
    }
 
@@ -697,9 +697,9 @@ class Issue extends Model implements Comparable {
             $this->customFieldInitialized = true;
             $this->initializeCustomField();
          }
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getBacklog($this->bugId) : (from cache) ".$this->backlog);
-         }
+         #if(self::$logger->isDebugEnabled()) {
+         #   self::$logger->debug("getBacklog($this->bugId) : (from cache) ".$this->backlog);
+         #}
          return $this->backlog;
       }
 
@@ -725,9 +725,9 @@ class Issue extends Model implements Comparable {
          $row = SqlWrapper::getInstance()->sql_fetch_object($result);
          $backlog = $row->new_value;
 
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getBacklog(".date("Y-m-d H:i:s", $row->date_modified).") old_value = $row->old_value new_value $row->new_value userid = $row->user_id field_name = $row->field_name");
-         }
+         #if(self::$logger->isDebugEnabled()) {
+         #   self::$logger->debug("getBacklog(".date("Y-m-d H:i:s", $row->date_modified).") old_value = $row->old_value new_value $row->new_value userid = $row->user_id field_name = $row->field_name");
+         #}
 
       } else {
          // no backlog update found in history, return NULL
@@ -735,9 +735,9 @@ class Issue extends Model implements Comparable {
          $backlog = NULL;
       }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getBacklog($this->bugId) : (from DB) ".$backlog);
-      }
+      #if(self::$logger->isDebugEnabled()) {
+      #   self::$logger->debug("getBacklog($this->bugId) : (from DB) ".$backlog);
+      #}
       return $backlog;
    }
 
@@ -752,9 +752,9 @@ class Issue extends Model implements Comparable {
    public function getDuration() {
 
       if (!is_null($this->duration)) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getDuration(): ".$this->bugId."): (from cache) ".$this->duration);
-         }
+         #if(self::$logger->isDebugEnabled()) {
+         #   self::$logger->debug("getDuration(): ".$this->bugId."): (from cache) ".$this->duration);
+         #}
          return $this->duration;
       }
 
@@ -768,9 +768,9 @@ class Issue extends Model implements Comparable {
       // WARN: in PHP '0' and NULL are same, so you need to check with is_null() !
       if ( !is_null($bl) && is_numeric($bl)) {
          $issueDuration = $bl;
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getDuration(): ".$this->bugId."): return backlog : ".$issueDuration);
-         }
+         #if(self::$logger->isDebugEnabled()) {
+         #   self::$logger->debug("getDuration(): ".$this->bugId."): return backlog : ".$issueDuration);
+         #}
       } else {
          // Backlog NOT defined, duration = max(effortEstim, mgrEffortEstim)
 
@@ -786,21 +786,21 @@ class Issue extends Model implements Comparable {
          } elseif (is_null($issueEE)) {
 
             $issueDuration = $issueEEMgr;
-            if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getDuration(): ".$this->bugId."): return EffortEstimMgr : ".$issueDuration);
-            }
+            #if (self::$logger->isDebugEnabled()) {
+            #   self::$logger->debug("getDuration(): ".$this->bugId."): return EffortEstimMgr : ".$issueDuration);
+            #}
          } elseif (is_null($issueEEMgr)) {
 
             $issueDuration = $issueEE;
-            if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getDuration(): ".$this->bugId."): return EffortEstim + EffortAdd : ".$issueDuration);
-            }
+            #if (self::$logger->isDebugEnabled()) {
+            #   self::$logger->debug("getDuration(): ".$this->bugId."): return EffortEstim + EffortAdd : ".$issueDuration);
+            #}
          } else {
 
             $issueDuration = max(array($issueEE, $issueEEMgr));
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("getDuration(): ".$this->bugId."): return max(EffortEstim+EffortAdd, EffortEstimMgr) : ".$issueDuration);
-            }
+            #if (self::$logger->isDebugEnabled()) {
+            #   self::$logger->debug("getDuration(): ".$this->bugId."): return max(EffortEstim+EffortAdd, EffortEstimMgr) : ".$issueDuration);
+            #}
          }
       }
       $this->duration = $issueDuration;
@@ -814,9 +814,9 @@ class Issue extends Model implements Comparable {
     */
    public function getReestimated() {
       $reestimated = $this->getElapsed() + $this->getDuration();
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getReestimated(".$this->bugId.") = $reestimated : elapsed = ".$this->getElapsed()." + Duration = ".$this->getDuration());
-      }
+      #if(self::$logger->isDebugEnabled()) {
+      #   self::$logger->debug("getReestimated(".$this->bugId.") = $reestimated : elapsed = ".$this->getElapsed()." + Duration = ".$this->getDuration());
+      #}
       return $reestimated;
    }
 
@@ -828,9 +828,9 @@ class Issue extends Model implements Comparable {
    public function getDrift($withSupport = TRUE) {
 
       if (!is_null($this->drift)) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getDrift(".$this->bugId."): (from cache) ".$this->drift);
-         }
+         #if(self::$logger->isDebugEnabled()) {
+         #   self::$logger->debug("getDrift(".$this->bugId."): (from cache) ".$this->drift);
+         #}
          return $this->drift;
       }
 
@@ -853,9 +853,9 @@ class Issue extends Model implements Comparable {
 
       $derive = $localReestimated - $totalEstim;
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getDrift(".$this->bugId.") derive=$derive (reestimated ".$localReestimated." - estim ".$totalEstim.")");
-      }
+      #if(self::$logger->isDebugEnabled()) {
+      #   self::$logger->debug("getDrift(".$this->bugId.") derive=$derive (reestimated ".$localReestimated." - estim ".$totalEstim.")");
+      #}
 
       $this->drift = round($derive,3);
       return $this->drift;
@@ -880,17 +880,17 @@ class Issue extends Model implements Comparable {
       }
 */
       if (!is_null($this->driftMgr)) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getDriftMgr(".$this->bugId."): (from cache) ".$this->driftMgr);
-         }
+         #if (self::$logger->isDebugEnabled()) {
+         #   self::$logger->debug("getDriftMgr(".$this->bugId."): (from cache) ".$this->driftMgr);
+         #}
          return $this->driftMgr;
       }
 
       $derive = $this->getReestimated() - $this->getMgrEffortEstim();
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getDriftMgr(".$this->bugId."): $derive (reestimated ".$this->getReestimated()." - estim ".$this->getMgrEffortEstim().")");
-      }
+      #if (self::$logger->isDebugEnabled()) {
+      #   self::$logger->debug("getDriftMgr(".$this->bugId."): $derive (reestimated ".$this->getReestimated()." - estim ".$this->getMgrEffortEstim().")");
+      #}
       $this->driftMgr = round($derive,3);
       return $this->driftMgr;
 
@@ -1123,16 +1123,16 @@ class Issue extends Model implements Comparable {
 
          if (is_null($timestamp)) {
 
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("getStatus(NULL) : bugId=$this->bugId, status=$this->currentStatus");
-            }
+            #if(self::$logger->isDebugEnabled()) {
+            #   self::$logger->debug("getStatus(NULL) : bugId=$this->bugId, status=$this->currentStatus");
+            #}
             $this->statusCache[$key] = $this->currentStatus;
 
          } else if ($this->dateSubmission > $timestamp) {
 
-            if (self::$logger->isDebugEnabled()) {
-               self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId was not created (dateSubmission=".date("d F Y", $this->dateSubmission).")");
-            }
+            #if (self::$logger->isDebugEnabled()) {
+            #   self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId was not created (dateSubmission=".date("d F Y", $this->dateSubmission).")");
+            #}
             $this->statusCache[$key] = -1;
 
          } else {
@@ -1153,9 +1153,9 @@ class Issue extends Model implements Comparable {
             if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
                $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId, old_value=$row->old_value, new_value=$row->new_value, date_modified=".date("d F Y", $row->date_modified));
-               }
+               #if (self::$logger->isDebugEnabled()) {
+               #   self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId, old_value=$row->old_value, new_value=$row->new_value, date_modified=".date("d F Y", $row->date_modified));
+               #}
 
                $this->statusCache[$key] = $row->new_value;
             } else {
@@ -1163,9 +1163,9 @@ class Issue extends Model implements Comparable {
                // get status at issue creation
                $project = ProjectCache::getInstance()->getProject($this->projectId);
                $status = $project->getBugSubmitStatus();
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not update found, bugSubmitStatus=".$status);
-               }
+               #if(self::$logger->isDebugEnabled()) {
+               #   self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not update found, bugSubmitStatus=".$status);
+               #}
                $this->statusCache[$key] = $status;
             }
          }
@@ -1362,124 +1362,124 @@ class Issue extends Model implements Comparable {
       $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
       if (in_array($this->bugId, $BconstrainsList)) {
          // B constrains A
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId < $issueB->bugId (B constrains A)");
-         }
+         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId < $issueB->bugId (B constrains A)");
+         #}
          return FALSE;
       }
       if (in_array($issueB->bugId, $AconstrainsList)) {
          // A constrains B
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId > $issueB->bugId (A constrains B)");
-         }
+         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId > $issueB->bugId (A constrains B)");
+         #}
          return TRUE;
       }
 
       // Tasks currently open are higher priority
       if (($this->currentStatus == Constants::$status_open) && ($issueB->currentStatus != Constants::$status_open)) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId > $issueB->bugId (status_openned)");
-         }
+         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId > $issueB->bugId (status_openned)");
+         #}
          return  TRUE;
       }
       if (($issueB->currentStatus == Constants::$status_open) && ($this->currentStatus != Constants::$status_open)) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId < $issueB->bugId (status_openned)");
-         }
+         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId < $issueB->bugId (status_openned)");
+         #}
          return  FALSE;
       }
 
       // the one that has NO deadLine is lower priority
       if ((NULL != $this->getDeadLine()) && (NULL == $issueB->getDeadLine())) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId > $issueB->bugId (B no deadline)");
-         }
+         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId > $issueB->bugId (B no deadline)");
+         #}
          return  TRUE;
       }
       if ((NULL == $this->getDeadLine()) && (NULL != $issueB->getDeadLine())) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId < $issueB->bugId (A no deadline)");
-         }
+         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId < $issueB->bugId (A no deadline)");
+         #}
          return  FALSE;
       }
 
       // the soonest deadLine has priority
       if ($this->getDeadLine() < $issueB->getDeadLine()) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId > $issueB->bugId (deadline)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId > $issueB->bugId (deadline)");
+         #}
          return  TRUE;
       }
       if ($this->getDeadLine() > $issueB->getDeadLine()) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId < $issueB->bugId (deadline)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId < $issueB->bugId (deadline)");
+         #}
          return  FALSE;
       }
 
       // Tasks in feedback are lower priority
       if (($this->currentStatus == Constants::$status_feedback) && ($issueB->currentStatus != Constants::$status_feedback)) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId < $issueB->bugId (status_feedback)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId < $issueB->bugId (status_feedback)");
+         #}
          return  FALSE; // A is lower
       }
       if (($issueB->currentStatus == Constants::$status_feedback) && ($this->currentStatus != Constants::$status_feedback)) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId > $issueB->bugId (status_feedback)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId > $issueB->bugId (status_feedback)");
+         #}
          return  TRUE;
       }
 
       // if same deadLine, check priority attribute
       if ($this->priority > $issueB->priority) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId > $issueB->bugId (priority attr)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId > $issueB->bugId (priority attr)");
+         #}
          return  TRUE;
       }
       if ($this->priority < $issueB->priority) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId < $issueB->bugId (priority attr)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId < $issueB->bugId (priority attr)");
+         #}
          return  FALSE;
       }
 
       // if same deadLine, same priority: check severity attribute
       if ($this->severity > $issueB->severity) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId > $issueB->bugId (severity attr)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId > $issueB->bugId (severity attr)");
+         #}
          return  TRUE;
       }
       if ($this->severity < $issueB->severity) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId < $issueB->bugId (severity attr)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId < $issueB->bugId (severity attr)");
+         #}
          return  FALSE;
       }
 
       // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
       if (count($AconstrainsList) > count($BconstrainsList)) {
          // A constrains more people, so A is higher priority
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId > $issueB->bugId (A constrains more people)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId > $issueB->bugId (A constrains more people)");
+         #}
          return TRUE;
       }
 
       if (count($AconstrainsList) < count($BconstrainsList)) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId <= $issueB->bugId (B constrains more people)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId <= $issueB->bugId (B constrains more people)");
+         #}
          return TRUE;
       }
 
       // if realy, they are equal, then the oldest is higher priority
       if ($this->bugId < $issueB->bugId) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compareTo $this->bugId < $issueB->bugId (A was created first)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compareTo $this->bugId < $issueB->bugId (A was created first)");
+         #}
          return TRUE;
       }
       return FALSE;
@@ -1497,132 +1497,132 @@ class Issue extends Model implements Comparable {
       $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
       if (in_array($issueA->bugId, $BconstrainsList)) {
          // B constrains A
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (B constrains A)");
-         }
+         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId < $issueB->bugId (B constrains A)");
+         #}
          return 1;
       } else if (in_array($issueB->bugId, $AconstrainsList)) {
          // A constrains B
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId > $issueB->bugId (A constrains B)");
-         }
+         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId > $issueB->bugId (A constrains B)");
+         #}
          return -1;
       }
 
       // Tasks currently open are higher priority
       if (($issueB->currentStatus == Constants::$status_open) && ($issueA->currentStatus != Constants::$status_open)) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (status_openned)");
-         }
+         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId < $issueB->bugId (status_openned)");
+         #}
          return 1;
       } else if (($issueA->currentStatus == Constants::$status_open) && ($issueB->currentStatus != Constants::$status_open)) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId > $issueB->bugId (status_openned)");
-         }
+         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId > $issueB->bugId (status_openned)");
+         #}
          return -1;
       }
 
       // the one that has NO deadLine is lower priority
       if ((NULL == $issueA->getDeadLine()) && (NULL != $issueB->getDeadLine())) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (A no deadline)");
-         }
+         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId < $issueB->bugId (A no deadline)");
+         #}
          return 1;
       } else if ((NULL != $issueA->getDeadLine()) && (NULL == $issueB->getDeadLine())) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId > $issueB->bugId (B no deadline)");
-         }
+         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId > $issueB->bugId (B no deadline)");
+         #}
          return -1;
       }
 
       // the soonest deadLine has priority
       if ($issueA->getDeadLine() > $issueB->getDeadLine()) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (deadline)");
-         }
+         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId < $issueB->bugId (deadline)");
+         #}
          return 1;
       } else if ($issueA->getDeadLine() < $issueB->getDeadLine()) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId > $issueB->bugId (deadline)");
-         }
+         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId > $issueB->bugId (deadline)");
+         #}
          return -1;
       }
 
       // Tasks in feedback are lower priority
       if (($issueA->currentStatus == Constants::$status_feedback) && ($issueB->currentStatus != Constants::$status_feedback)) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (status_feedback)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId < $issueB->bugId (status_feedback)");
+         #}
          return 1;
       } else if (($issueB->currentStatus == Constants::$status_feedback) && ($issueA->currentStatus != Constants::$status_feedback)) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId > $issueB->bugId (status_feedback)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId > $issueB->bugId (status_feedback)");
+         #}
          return -1;
       }
 
       // if same deadLine, check priority attribute
       if ($issueA->priority < $issueB->priority) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (priority attr)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId < $issueB->bugId (priority attr)");
+         #}
          return 1;
       } else if ($issueA->priority > $issueB->priority) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId > $issueB->bugId (priority attr)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId > $issueB->bugId (priority attr)");
+         #}
          return -1;
       }
 
       // if same deadLine, same priority: check severity attribute
       if ($issueA->severity < $issueB->severity) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (severity attr)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId < $issueB->bugId (severity attr)");
+         #}
          return 1;
       } else if ($issueA->severity > $issueB->severity) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId > $issueB->bugId (severity attr)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId > $issueB->bugId (severity attr)");
+         #}
          return -1;
       }
 
       // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
       if (count($AconstrainsList) < count($BconstrainsList)) {
          // B constrains more people, so B is higher priority
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (B constrains more people)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId < $issueB->bugId (B constrains more people)");
+         #}
          return 1;
       } else if (count($AconstrainsList) > count($BconstrainsList)) {
          // A constrains more people, so A is higher priority
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId > $issueB->bugId (A constrains more people)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId > $issueB->bugId (A constrains more people)");
+         #}
          return -1;
       }
 
-      if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-         self::$logger->trace("no important diff find, so we compare the bugid : $issueA->bugId <=> $issueB->bugId");
-      }
+      #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+      #   self::$logger->trace("no important diff found, so we compare the bugid : $issueA->bugId <=> $issueB->bugId");
+      #}
 
       // Lower if the bug id, higher is the priority
       if($issueA->bugId > $issueB->bugId) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId > $issueB->bugId  (B was created first)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId > $issueB->bugId  (B was created first)");
+         #}
          return 1;
       } else if($issueA->bugId < $issueB->bugId) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (A was created first)");
-         }
+         #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId < $issueB->bugId (A was created first)");
+         #}
          return -1;
       }
 
       // same - same
-      if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-         self::$logger->trace("compare $issueA->bugId = $issueB->bugId (A and B are equal ?!)");
-      }
+      #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+      #   self::$logger->trace("compare $issueA->bugId = $issueB->bugId (A and B are equal ?!)");
+      #}
       return 0;
       
    }
@@ -1726,6 +1726,7 @@ class Issue extends Model implements Comparable {
       }
       $timestamp  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
 
+      /*
       if (NULL == $timestamp) {
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("issue $this->bugId: getFirstStatusOccurrence($status)  NOT FOUND !");
@@ -1735,7 +1736,7 @@ class Issue extends Model implements Comparable {
             self::$logger->debug("issue $this->bugId: getFirstStatusOccurrence($status) = ".date('Y-m-d', $timestamp));
          }
       }
-
+      */
       return $timestamp;
    }
 
@@ -1762,6 +1763,7 @@ class Issue extends Model implements Comparable {
       }
       $timestamp  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
 
+      /*
       if (NULL == $timestamp) {
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("issue $this->bugId: getLatestStatusOccurrence($status)  NOT FOUND !");
@@ -1771,7 +1773,7 @@ class Issue extends Model implements Comparable {
             self::$logger->debug("issue $this->bugId: getLatestStatusOccurrence($status) = ".date('Y-m-d', $timestamp));
          }
       }
-
+      */
       return $timestamp;
    }
 
@@ -1797,9 +1799,9 @@ class Issue extends Model implements Comparable {
       // nominal case
       $progress = $this->getElapsed() / $this->getReestimated();   // (T-R)/T
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("issue $this->bugId Progress = $progress % = ".$this->getElapsed()." / (".$this->getElapsed()." + ".$this->getBacklog().")");
-      }
+      #if (self::$logger->isDebugEnabled()) {
+      #   self::$logger->debug("issue $this->bugId Progress = $progress % = ".$this->getElapsed()." / (".$this->getElapsed()." + ".$this->getBacklog().")");
+      #}
 
       return $progress;
    }
