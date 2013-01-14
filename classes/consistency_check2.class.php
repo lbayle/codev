@@ -174,6 +174,7 @@ class ConsistencyCheck2 {
    private static $logger;
 
    public static $defaultCheckList;
+   public static $checkDescriptionList;
 
    /**
     * Initialize complex static variables
@@ -187,14 +188,27 @@ class ConsistencyCheck2 {
           'checkBadBacklog' => 1,
           'checkEffortEstim' => 1,
           'checkTimeTracksOnNewIssues' => 1,
-          'checkUnassignedTasks' => 0,
-          'checkTeamTimetracks' => 0, // for all timetracks of the team, check that the Mantis issue exist.
           'checkIssuesNotInCommand' => 0,
           'checkCommandsNotInCommandset' => 0,
           'checkCommandSetNotInServiceContract' => 0,
-          #'checkMgrEffortEstim' => 1,
+          'checkUnassignedTasks' => 0,
+          'checkTimetracksOnRemovedIssues' => 0,
           #'checkDeliveryDate' => 0,
          );
+
+      self::$checkDescriptionList = array(
+          'checkBacklogOnResolved' => T_('Backlog on resolved issues should be 0'),
+          'checkBadBacklog' => T_('Backlog on unresolved issues should not be 0'),
+          'checkEffortEstim' => T_('EffortEstim should not be 0'),
+          'checkTimeTracksOnNewIssues' => T_('There should be no timetracks on "new" issues '),
+          'checkIssuesNotInCommand' => T_('Issues should be referenced in a Command'),
+          'checkCommandsNotInCommandset' => T_('Commands should be referenced in a CommandSet'),
+          'checkCommandSetNotInServiceContract' => T_('CommandSets should be referenced in a ServiceContract'),
+          'checkUnassignedTasks' => T_('Issues should be assigned to someone'),
+          'checkTimetracksOnRemovedIssues' => T_('Check timetracks on removed issues (not needed if mantis plugin is enabled)'), // for all timetracks of the team, check that the Mantis issue exist.
+         );
+
+
 
       /*
        * checkMgrEffortEstim
@@ -599,7 +613,7 @@ class ConsistencyCheck2 {
     * for all timetracks of the team, check that the Mantis issue exist.
     * @return ConsistencyError2[]
     */
-   public function checkTeamTimetracks() {
+   public function checkTimetracksOnRemovedIssues() {
       $cerrList = array();
 
       if (NULL != $this->teamId) {

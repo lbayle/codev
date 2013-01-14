@@ -1108,7 +1108,12 @@ class Team extends Model {
             $checkList = Tools::doubleExplode(':', ',', $keyvalue);
 
             foreach ($checkList as $name => $enabled) {
-               $this->consistencyCheckList["$name"] = $enabled;
+
+               if (!array_key_exists($name, $this->consistencyCheckList)) {
+                  self::$logger->warn("team $this->id: remove unknown/deprecated consistencyCheck: $name");
+               } else {
+                  $this->consistencyCheckList["$name"] = $enabled;
+               }
             }
          }
       }

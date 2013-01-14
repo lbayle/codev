@@ -430,7 +430,7 @@ class EditTeamController extends Controller {
 
          $consistencyChecks["$name"] = array(
              'name'       => $name,
-             'label'      => $name,
+             'label'      => ConsistencyCheck2::$checkDescriptionList["$name"],
              'isChecked'  => $enabled,
              'isDisabled' => false
          );
