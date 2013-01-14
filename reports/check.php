@@ -84,6 +84,8 @@ class CheckController extends Controller {
             $i += 1;
             if (NULL != $cerr->userId) {
                $user = UserCache::getInstance()->getUser($cerr->userId);
+            } else {
+               $user = NULL;
             }
             if (Issue::exists($cerr->bugId)) {
                $issue = IssueCache::getInstance()->getIssue($cerr->bugId);

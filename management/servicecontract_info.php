@@ -122,6 +122,8 @@ class ServiceContractInfoController extends Controller {
 
             if (!is_null($cerr->userId)) {
                $user = UserCache::getInstance()->getUser($cerr->userId);
+            } else {
+               $user = NULL;
             }
             if (Issue::exists($cerr->bugId)) {
                $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
