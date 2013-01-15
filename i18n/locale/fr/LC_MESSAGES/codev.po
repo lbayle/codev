@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-11 21:10+0100\n"
+"POT-Creation-Date: 2013-01-16 00:36+0100\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -40,9 +40,9 @@ msgstr ""
 #: tpl/edit_team.html
 #. write header
 #. WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
-#: classes/issue_selection.class.php:231 classes/issue.class.php:2277
-#: filters/ProjectFilter.php:59 management/commandset_info.php:129
-#: management/servicecontract_info.php:125 management/command_info.php:153
+#: classes/issue_selection.class.php:276 classes/issue.class.php:2334
+#: filters/ProjectFilter.php:59 management/commandset_info.php:142
+#: management/servicecontract_info.php:138 management/command_info.php:166
 #: reports/project_info.php:272 reports/project_info.php:283
 #: reports/project_info.php:295 reports/productivity_report_tools.php:41
 #: reports/productivity_report_tools.php:79 reports/export_csv_tools.php:48
@@ -105,11 +105,11 @@ msgstr "Catégorie"
 #: tpl/commandset_info.html
 #: tpl/project_info.html
 #. insert in front
-#: classes/issue.class.php:2283
-#: indicator_plugins/DetailedChargesIndicator.class.php:340
-#: indicator_plugins/DetailedChargesIndicator.class.php:342
-#: management/commandset_info.php:130 management/servicecontract_info.php:126
-#: management/command_info.php:154 reports/project_info.php:273
+#: classes/issue.class.php:2340
+#: indicator_plugins/DetailedChargesIndicator.class.php:366
+#: indicator_plugins/DetailedChargesIndicator.class.php:368
+#: management/commandset_info.php:143 management/servicecontract_info.php:139
+#: management/command_info.php:167 reports/project_info.php:273
 #: reports/project_info.php:284 reports/project_info.php:296
 #: reports/productivity_report_tools.php:42
 #: reports/productivity_report_tools.php:80 reports/export_csv_tools.php:51
@@ -154,20 +154,20 @@ msgstr "Propriétés"
 #: tpl/project_activity_report.html
 #: tpl/project_info.html
 #: tpl/edit_team.html
-#: classes/issue.class.php:2281 reports/project_info.php:297
+#: classes/issue.class.php:2338 reports/project_info.php:297
 #: reports/export_csv_tools.php:52 tools.php:1346
 msgid "Status"
 msgstr "Statut"
 
 #: tpl/issue_info.html
 #: tpl/planning_report.html
-#: classes/issue.class.php:2292 reports/export_csv_tools.php:57 tools.php:1354
+#: classes/issue.class.php:2349 reports/export_csv_tools.php:57 tools.php:1354
 msgid "Priority"
 msgstr "Priorité"
 
 #: tpl/issue_info.html
 #: tpl/planning_report.html
-#: classes/issue.class.php:2288 tools.php:1356
+#: classes/issue.class.php:2345 tools.php:1356
 msgid "Severity"
 msgstr "Criticité"
 
@@ -185,7 +185,7 @@ msgstr "Type"
 #: tpl/issue_info.html
 #: tpl/servicecontract_info.html
 #: tpl/commandset_edit.html
-#: classes/issue.class.php:2260
+#: classes/issue.class.php:2317
 msgid "Commands"
 msgstr "Commandes"
 
@@ -261,8 +261,8 @@ msgstr "Mise à jour du RAF"
 #: tpl/commandset_info.html
 #: tpl/project_info.html
 #. $titles[] = T_("Elapsed");
-#: indicator_plugins/DetailedChargesIndicator.class.php:239
-#: indicator_plugins/DetailedChargesIndicator.class.php:297
+#: indicator_plugins/DetailedChargesIndicator.class.php:255
+#: indicator_plugins/DetailedChargesIndicator.class.php:313
 #: reports/project_info.php:175 reports/project_info.php:232
 #: reports/productivity_report_tools.php:44 tests/filters.php:71
 #: tools.php:1275 tools.php:1284
@@ -309,7 +309,7 @@ msgstr "Dérive"
 #: tpl/command_info.html
 #: tpl/command_edit.html
 #: tpl/commandset_edit.html
-#: classes/consistency_check2.class.php:662 classes/scheduler.class.php:74
+#: classes/consistency_check2.class.php:679 classes/scheduler.class.php:74
 msgid "days"
 msgstr "jours"
 
@@ -387,7 +387,8 @@ msgstr "Utilisateur"
 #: tpl/ajax/issueGeneralInfo.html
 #: tpl/servicecontract_info.html
 #: tpl/commandset_info.html
-#: indicator_plugins/DetailedChargesIndicator.class.php:296
+#: classes/issue.class.php:2319
+#: indicator_plugins/DetailedChargesIndicator.class.php:312
 #: indicator_plugins/activity_indicator.class.php:265
 #: reports/project_info.php:231 reports/productivity_report_tools.php:43
 #: reports/productivity_report_tools.php:81 tests/filters.php:70
@@ -419,6 +420,57 @@ msgstr "Inactivité"
 #: tpl/commandset_info.html
 msgid "TOTAL"
 msgstr "TOTAL"
+
+#: tpl/plugin/budgetDriftHistoryIndicator.html
+msgid "Budget Drift Progression Chart"
+msgstr "Evolution de la Dérive Budget"
+
+#: tpl/plugin/budgetDriftHistoryIndicator.html
+msgid "Budget Drift"
+msgstr "Dérive Budget"
+
+#: tpl/plugin/budgetDriftHistoryIndicator.html
+msgid "Budget Drift History"
+msgstr "Evolution de la Dérive Budget"
+
+#: tpl/plugin/budgetDriftHistoryIndicator.html
+msgid "Budget Drift History Indicator"
+msgstr "Evolution de la Dérive Budget"
+
+#: tpl/plugin/budgetDriftHistoryIndicator.html
+msgid "Evolution of the ..."
+msgstr ""
+
+#: tpl/plugin/budgetDriftHistoryIndicator.html
+#: tpl/statistics.html
+#: tpl/forecasting_report.html
+#: tpl/productivity_report.html
+#: tpl/index.html
+#: tpl/command_info.html
+#: tpl/ajax/issueGeneralInfo.html
+#: tpl/project_info.html
+#: indicator_plugins/DetailedChargesIndicator.class.php:257
+#: indicator_plugins/DetailedChargesIndicator.class.php:315
+#: reports/project_info.php:177 reports/project_info.php:234
+#: reports/project_info.php:285 reports/project_info.php:298
+#: reports/productivity_report_tools.php:45 tools.php:160
+msgid "Drift"
+msgstr "Dérive"
+
+#: tpl/plugin/budgetDriftHistoryIndicator.html
+msgid "Displays ..."
+msgstr ""
+
+#: tpl/plugin/budgetDriftHistoryIndicator.html
+#: tpl/plugin/progress_history_indicator.html
+#: tpl/forecasting_report.html
+#: tpl/productivity_report.html
+msgid "Formula"
+msgstr "Formule"
+
+#: tpl/plugin/budgetDriftHistoryIndicator.html
+msgid "Reestimated - (MgrEE + Provisions)"
+msgstr "Réestimé - (Charge Mgr + Provisions)"
 
 #: tpl/plugin/progress_history_indicator.html
 msgid "Historical Progression Chart"
@@ -458,12 +510,6 @@ msgstr "Avancement théorique"
 #: tpl/plugin/progress_history_indicator.html
 msgid "Compares the EffortEstim to the Elapsed days"
 msgstr "Compare la Charge initiale au consommé"
-
-#: tpl/plugin/progress_history_indicator.html
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-msgid "Formula"
-msgstr "Formule"
 
 #: tpl/plugin/progress_history_indicator.html
 msgid "Elapsed / max(MgrEffortEstim, EffortEstim)"
@@ -724,21 +770,6 @@ msgid "Adherence to deadlines"
 msgstr "Respect des délais de livraison"
 
 #: tpl/statistics.html
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-#: tpl/index.html
-#: tpl/command_info.html
-#: tpl/ajax/issueGeneralInfo.html
-#: tpl/project_info.html
-#: indicator_plugins/DetailedChargesIndicator.class.php:241
-#: indicator_plugins/DetailedChargesIndicator.class.php:299
-#: reports/project_info.php:177 reports/project_info.php:234
-#: reports/project_info.php:285 reports/project_info.php:298
-#: reports/productivity_report_tools.php:45 tools.php:160
-msgid "Drift"
-msgstr "Dérive"
-
-#: tpl/statistics.html
 msgid "Efficiency - System Disponibility"
 msgstr "Taux d'efficacité - Disponibilité système"
 
@@ -819,8 +850,8 @@ msgstr "% Tâches livrées à temps"
 #: tpl/servicecontract_info.html
 #: tpl/commandset_info.html
 #: tpl/project_info.html
-#: indicator_plugins/DetailedChargesIndicator.class.php:240
-#: indicator_plugins/DetailedChargesIndicator.class.php:298
+#: indicator_plugins/DetailedChargesIndicator.class.php:256
+#: indicator_plugins/DetailedChargesIndicator.class.php:314
 #: reports/project_info.php:176 reports/project_info.php:233
 #: tests/filters.php:72
 msgid "Drift Mgr"
@@ -1070,8 +1101,8 @@ msgstr "RAF"
 #: tpl/commandset_info.html
 #: tpl/project_info.html
 #. $titles[] = T_("Date");
-#: indicator_plugins/DetailedChargesIndicator.class.php:236
-#: indicator_plugins/DetailedChargesIndicator.class.php:292
+#: indicator_plugins/DetailedChargesIndicator.class.php:252
+#: indicator_plugins/DetailedChargesIndicator.class.php:308
 #: reports/project_info.php:172 reports/project_info.php:227
 #: reports/export_csv_tools.php:65
 msgid "Progress"
@@ -1273,7 +1304,7 @@ msgstr "Contrat de Service"
 #: tpl/servicecontract_info.html
 #: tpl/commandset_info.html
 #: tpl/commandset_edit.html
-#: classes/consistency_check2.class.php:557
+#: classes/consistency_check2.class.php:574
 msgid "Command"
 msgstr "Commande"
 
@@ -1298,6 +1329,7 @@ msgid "Export Monthly Report"
 msgstr "Export Rapport Mensuel"
 
 #: tpl/menu/global_menu.html
+#: tpl/edit_team.html
 msgid "Consistency Check"
 msgstr "Test d'intégrité"
 
@@ -1409,7 +1441,7 @@ msgstr "tâches"
 #: tpl/productivity_report.html
 #: tpl/command_info.html
 #: tpl/ajax/issueGeneralInfo.html
-#: indicator_plugins/DetailedChargesIndicator.class.php:294
+#: indicator_plugins/DetailedChargesIndicator.class.php:310
 #: reports/project_info.php:229 tools.php:1281
 msgid "EffortEstim"
 msgstr "Charge Init"
@@ -1420,7 +1452,7 @@ msgstr "Charge Init"
 #: tpl/ajax/issueGeneralInfo.html
 #: tpl/servicecontract_info.html
 #: tpl/commandset_info.html
-#: indicator_plugins/DetailedChargesIndicator.class.php:293
+#: indicator_plugins/DetailedChargesIndicator.class.php:309
 #: reports/project_info.php:228 reports/export_csv_tools.php:60
 #: tests/filters.php:68 tools.php:1278
 msgid "MgrEffortEstim"
@@ -1612,7 +1644,7 @@ msgstr "Sélectionner tout"
 #: tpl/modal/select_issues.html
 #: tpl/productivity_report.html
 #: tpl/command_info.html
-#: classes/issue_selection.class.php:236 reports/export_csv_tools.php:50
+#: classes/issue_selection.class.php:281 reports/export_csv_tools.php:50
 msgid "ExtRef"
 msgstr "RefExt"
 
@@ -1818,7 +1850,7 @@ msgid "Reopened tasks are not taken into account"
 msgstr "Les fiches réouvertes ne sont pas comptabilisées"
 
 #: tpl/productivity_report.html
-#: classes/consistency_check2.class.php:424
+#: classes/consistency_check2.class.php:441
 #: classes/consistency_check.class.php:365
 msgid "elapsed"
 msgstr "consommé"
@@ -1975,8 +2007,8 @@ msgstr "Budget"
 #: tpl/ajax/issueGeneralInfo.html
 #: tpl/servicecontract_info.html
 #: tpl/commandset_info.html
-#: indicator_plugins/DetailedChargesIndicator.class.php:237
-#: indicator_plugins/DetailedChargesIndicator.class.php:295
+#: indicator_plugins/DetailedChargesIndicator.class.php:253
+#: indicator_plugins/DetailedChargesIndicator.class.php:311
 #: reports/project_info.php:173 reports/project_info.php:230
 #: tests/filters.php:69
 msgid "Reestimated"
@@ -2102,6 +2134,10 @@ msgstr "Pas de tâches."
 #: tpl/commandset_info.html
 msgid "Bug Status History"
 msgstr "Evolution des bugs internes"
+
+#: tpl/command_info.html
+msgid "Budget-Drift History"
+msgstr "Evolution de la Dérive Budget"
 
 #: tpl/command_info.html
 #: tpl/servicecontract_info.html
@@ -2783,8 +2819,8 @@ msgid "Team Projects"
 msgstr "Projets de l'équipe"
 
 #: tpl/edit_team.html
-msgid "Tooltips"
-msgstr "Infobulles"
+msgid "Preferences"
+msgstr "Préférences"
 
 #: tpl/edit_team.html
 msgid "OnDuty tasks"
@@ -2884,6 +2920,10 @@ msgid "No custom IssueTooltips defined for your projects."
 msgstr "Aucune infobulle customisée n'est définie pour les projets."
 
 #: tpl/edit_team.html
+msgid "Enable/Disable alerts"
+msgstr "Activer/Désactiver les alertes"
+
+#: tpl/edit_team.html
 msgid "Add OnDuty tasks"
 msgstr "Ajouter des Astreintes"
 
@@ -2959,27 +2999,27 @@ msgstr "La mise à jour de la date de création a échouée"
 msgid "Couldn't enable/disable team"
 msgstr "Impossible d'activer/désactiver l'équipe"
 
-#: admin/edit_team.php:150
+#: admin/edit_team.php:155
 msgid "Couldn't delete the member of the team"
 msgstr "Le retrait de l'utilisateur à échouée"
 
-#: admin/edit_team.php:164 admin/edit_team.php:167
+#: admin/edit_team.php:169 admin/edit_team.php:172
 msgid "Couldn't add the project to the team"
 msgstr "L'ajout du projet a échouée"
 
-#: admin/edit_team.php:173
+#: admin/edit_team.php:178
 msgid "Could NOT remove the project from the team"
 msgstr "Le retrait du projet a échoué"
 
-#: admin/edit_team.php:209
+#: admin/edit_team.php:213
 msgid "Configure Tooltips"
 msgstr "Configuration des infobulles"
 
-#: admin/edit_team.php:269
+#: admin/edit_team.php:275
 msgid "enabled"
 msgstr "activé"
 
-#: admin/edit_team.php:269
+#: admin/edit_team.php:275
 msgid "disabled"
 msgstr "désactivé"
 
@@ -3056,65 +3096,106 @@ msgstr "Info"
 msgid "unknown"
 msgstr "inconnu"
 
-#: classes/consistency_check2.class.php:296
+#: classes/consistency_check2.class.php:200
+msgid "Backlog on resolved issues should be 0"
+msgstr "Le RAF des tâches résolues doit être = 0"
+
+#: classes/consistency_check2.class.php:201
+msgid "Backlog on unresolved issues should not be 0"
+msgstr "Le RAF des tâches non résolues ne doit pas être = 0"
+
+#: classes/consistency_check2.class.php:202
+msgid "EffortEstim should not be 0"
+msgstr "La Charge Initiale doit être renseigné."
+
+#: classes/consistency_check2.class.php:203
+msgid "There should be no timetracks on \"new\" issues "
+msgstr ""
+"Il ne doit pas y avoir d'imputations sur des tâche dont le status est "
+"'déclaré'"
+
+#: classes/consistency_check2.class.php:204
+msgid "Issues should be referenced in a Command"
+msgstr "Les Tâches doivent être déclarés dans une Commande."
+
+#: classes/consistency_check2.class.php:205
+msgid "Commands should be referenced in a CommandSet"
+msgstr "Les Commandes doivent être déclarés dans une  MacroCommande."
+
+#: classes/consistency_check2.class.php:206
+msgid "CommandSets should be referenced in a ServiceContract"
+msgstr "Les MacroCommandes doivent être déclarés dans un Contrat de Service."
+
+#: classes/consistency_check2.class.php:207
+msgid "Issues should be assigned to someone"
+msgstr "Les tâches doivent être assignées"
+
+#: classes/consistency_check2.class.php:208
+msgid ""
+"Check timetracks on removed issues (not needed if mantis plugin is enabled)"
+msgstr ""
+"Notifier les imputation sur des fiches mantis inexistantes (pas nécessaire "
+"si plugin mantis activé)"
+
+#: classes/consistency_check2.class.php:313
 #: classes/consistency_check.class.php:208
 msgid "Backlog should be 0 (not "
 msgstr "Le RAF devrait être = 0  (et non "
 
-#: classes/consistency_check2.class.php:318
+#: classes/consistency_check2.class.php:335
 msgid "Backlog must be defined !"
 msgstr "Le RAF doit etre défini !"
 
-#: classes/consistency_check2.class.php:320
+#: classes/consistency_check2.class.php:337
 #: classes/consistency_check.class.php:255
 msgid "Backlog == 0: Backlog may not be up to date."
 msgstr "RAF == 0: Il se peut que le RAF ne soit pas à jour."
 
-#: classes/consistency_check2.class.php:366
+#: classes/consistency_check2.class.php:383
 #: classes/consistency_check.class.php:317
 msgid "MgrEffortEstim not set."
 msgstr "Charge_Mgr non renseigné."
 
-#: classes/consistency_check2.class.php:398
+#: classes/consistency_check2.class.php:415
 msgid "EffortEstim not set."
 msgstr "Charge non renseigné."
 
-#: classes/consistency_check2.class.php:424
+#: classes/consistency_check2.class.php:441
 #: classes/consistency_check.class.php:365
 msgid "Status should not be"
 msgstr "Le status ne devrait pas être"
 
-#: classes/consistency_check2.class.php:462
+#: classes/consistency_check2.class.php:479
 msgid "The task is not assigned to anybody."
 msgstr "La tâche n'est assignée à personne"
 
-#: classes/consistency_check2.class.php:520
+#: classes/consistency_check2.class.php:537
 msgid "The task is not referenced in any Command."
 msgstr "La tâche n'est référencée dans aucune commande."
 
-#: classes/consistency_check2.class.php:557
+#: classes/consistency_check2.class.php:574
 msgid "is not referenced in any CommandSet"
 msgstr "n'est référencée dans aucune MacroCommande."
 
-#: classes/consistency_check2.class.php:585
+#: classes/consistency_check2.class.php:602
 msgid "is not referenced in any ServiceContract"
 msgstr "n'est référencée dans aucun Contrat de Service."
 
-#: classes/consistency_check2.class.php:660
+#: classes/consistency_check2.class.php:677
 msgid "incomplete (missing "
 msgstr "incomplet (manque "
 
-#: classes/consistency_check2.class.php:660
+#: classes/consistency_check2.class.php:677
 msgid " days"
 msgstr " jours"
 
-#: classes/consistency_check2.class.php:662
+#: classes/consistency_check2.class.php:679
 #: reports/productivity_report.php:398
 msgid "inconsistent"
 msgstr "incohérent"
 
 #. skip dates in the future
-#: classes/consistency_check2.class.php:675
+#: classes/consistency_check2.class.php:692
 #: reports/productivity_report.php:410
 msgid "not defined."
 msgstr "non défini."
@@ -3163,31 +3244,31 @@ msgstr ""
 "Date de livraison non renseignée : si une tâche de livraison est spécifiée, "
 "alors une date doit y être associée"
 
-#: classes/issue.class.php:2252 tools.php:1336
+#: classes/issue.class.php:2309 tools.php:1336
 msgid "Tags"
 msgstr "Balises"
 
-#: classes/issue.class.php:2260
+#: classes/issue.class.php:2317
 msgid "none"
 msgstr "aucun(e)"
 
-#: classes/issue.class.php:2265
+#: classes/issue.class.php:2322
 msgid "DriftColor"
 msgstr "DriftColor"
 
-#: classes/issue.class.php:2268 tools.php:162
+#: classes/issue.class.php:2325 tools.php:162
 msgid "DriftMgr"
 msgstr "Dérive Mgr"
 
-#: classes/issue.class.php:2269
+#: classes/issue.class.php:2326
 msgid "DriftMgrColor"
 msgstr "DriftMgrColor"
 
-#: classes/issue.class.php:2286 tools.php:1350
+#: classes/issue.class.php:2343 tools.php:1350
 msgid "Assigned"
 msgstr "Assigné à"
 
-#: classes/issue.class.php:2294 tools.php:1358
+#: classes/issue.class.php:2351 tools.php:1358
 msgid "ETA"
 msgstr "ETA"
 
@@ -3267,17 +3348,17 @@ msgstr "d-m-Y"
 msgid "Working days per Job"
 msgstr "Charge par Poste"
 
-#: indicator_plugins/DetailedChargesIndicator.class.php:390
+#: indicator_plugins/DetailedChargesIndicator.class.php:405
 #: reports/project_info.php:319
 msgid "New Tasks"
 msgstr "Nouvelles Tâches"
 
-#: indicator_plugins/DetailedChargesIndicator.class.php:391
+#: indicator_plugins/DetailedChargesIndicator.class.php:406
 #: reports/project_info.php:320
 msgid "Current Tasks"
 msgstr "Tâches en cours"
 
-#: indicator_plugins/DetailedChargesIndicator.class.php:392
+#: indicator_plugins/DetailedChargesIndicator.class.php:407
 #: reports/project_info.php:321
 msgid "Resolved Tasks"
 msgstr "Tâches résolues"
@@ -3634,6 +3715,9 @@ msgstr "S"
 msgid "AddEffortEstim"
 msgstr "Charge Additionnelle"
 
+#~ msgid "Tooltips"
+#~ msgstr "Infobulles"
+
 #~ msgid "Unauthorized"
 #~ msgstr "Non autorisé"
 
@@ -3725,9 +3809,6 @@ msgstr "Charge Additionnelle"
 
 #~ msgid "End Date"
 #~ msgstr "Date Fin"
-
-#~ msgid "Reestimated Mgr"
-#~ msgstr "Réestimé Mgr"
 
 #~ msgid "Backlog Mgr"
 #~ msgstr "RAF Mgr"
