@@ -645,7 +645,7 @@ class Issue extends Model implements Comparable {
     * @param int $job_id if no category specified, then all category.
     * @return int
     */
-   public function getElapsed($job_id = NULL) {  // TODO $doRefresh = false
+   public function getElapsed_old($job_id = NULL) {  // TODO $doRefresh = false
 
       if(NULL == $this->elapsedCache) {
          $this->elapsedCache = array();
@@ -659,6 +659,54 @@ class Issue extends Model implements Comparable {
 
          if (isset($job_id)) {
             $query .= " AND jobid = $job_id";
+         }
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         $this->elapsedCache["$key"] = round(SqlWrapper::getInstance()->sql_result($result),2);
+         #if(self::$logger->isDebugEnabled()) {
+         #   self::$logger->debug("getElapsed(job=".$job_id."): set elapsedCache[$key] = ".$this->elapsedCache["$key"]);
+         #}
+      }
+
+      #if(self::$logger->isDebugEnabled()) {
+      #   self::$logger->debug("getElapsed(job=".$job_id."): ".$this->elapsedCache["$key"]);
+      #}
+      return $this->elapsedCache["$key"];
+   }
+
+   /**
+    * Get elapsed from TimeTracking
+    * @param int $job_id if no category specified, then all category.
+    * @return int
+    */
+   public function getElapsed($job_id = NULL, $startTimestamp = NULL, $endTimestamp = NULL) {
+
+      // TODO $doRefresh = false
+
+      if(is_null($this->elapsedCache)) {
+         $this->elapsedCache = array();
+      }
+
+      $key = 'j'.$job_id.'_s'.$startTimestamp.'_e'.$endTimestamp;
+      
+      if(!array_key_exists("$key", $this->elapsedCache)) {
+         $query = "SELECT SUM(duration) as duration ".
+                  "FROM `codev_timetracking_table` ".
+                  "WHERE bugid = ".$this->bugId;
+
+         if (isset($job_id)) {
+            $query .= " AND jobid = $job_id";
+         }
+         if (isset($startTimestamp)) {
+            $query .= "AND date >= $startTimestamp ";
+         }
+         if (isset($endTimestamp)) {
+            $query .= "AND date <= $endTimestamp ";
          }
 
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -749,22 +797,27 @@ class Issue extends Model implements Comparable {
     *
     * @return int the nb of days needed to finish the issue or NULL if not found (rare).
     */
-   public function getDuration() {
+   public function getDuration($timestamp = NULL) {
 
-      if (!is_null($this->duration)) {
-         #if(self::$logger->isDebugEnabled()) {
-         #   self::$logger->debug("getDuration(): ".$this->bugId."): (from cache) ".$this->duration);
-         #}
-         return $this->duration;
+      if (is_null($timestamp)) {
+         if (!is_null($this->duration)) {
+            #if(self::$logger->isDebugEnabled()) {
+            #   self::$logger->debug("getDuration(): ".$this->bugId."): (from cache) ".$this->duration);
+            #}
+            return $this->duration;
+         }
       }
 
-      if ($this->isResolved()) {
-         $this->duration = 0;
-         return $this->duration; // WARN: '0' is nut NULL !
+
+      if ($this->isResolved($timestamp)) {
+         if (is_null($timestamp)) {
+            $this->duration = 0;
+         }
+         return 0; // WARN: '0' is nut NULL !
       }
 
       // Backlog is defined, return the DB value
-      $bl = $this->getBacklog();
+      $bl = $this->getBacklog($timestamp);
       // WARN: in PHP '0' and NULL are same, so you need to check with is_null() !
       if ( !is_null($bl) && is_numeric($bl)) {
          $issueDuration = $bl;
@@ -803,7 +856,9 @@ class Issue extends Model implements Comparable {
             #}
          }
       }
-      $this->duration = $issueDuration;
+      if (is_null($timestamp)) {
+         $this->duration = $issueDuration;
+      }
       
       return $issueDuration;
    }
@@ -812,8 +867,8 @@ class Issue extends Model implements Comparable {
     * reestimated = elapsed + duration
     * @return int reestimated
     */
-   public function getReestimated() {
-      $reestimated = $this->getElapsed() + $this->getDuration();
+   public function getReestimated($timestamp = NULL) {
+      $reestimated = $this->getElapsed(NULL, NULL, $timestamp) + $this->getDuration($timestamp);
       #if(self::$logger->isDebugEnabled()) {
       #   self::$logger->debug("getReestimated(".$this->bugId.") = $reestimated : elapsed = ".$this->getElapsed()." + Duration = ".$this->getDuration());
       #}

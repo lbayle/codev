@@ -1,0 +1,40 @@
+<script type="text/javascript" src="js/chart.js"></script>
+
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+      var chart = jQuery('#budgetDriftIndicatorsChart');
+      var chartoptions = chart.data('plotoptions');
+      chartoptions.title.text = '{t}Budget Drift Progression Chart{/t}';
+      //chartoptions.legend.location = 'nw';
+      chartoptions.series = [{
+         label : "{t}Budget Drift{/t}"
+      }];
+      chartoptions.axes.xaxis.min = "{$budget_drift_history_plotMinDate}";
+      chartoptions.axes.xaxis.max = "{$budget_drift_history_plotMaxDate}";
+      chartoptions.axes.xaxis.tickInterval = "{$budget_drift_history_interval} month";
+      //chartoptions.axes.yaxis.label = '{t}Budget Drift{/t}';
+      //chartoptions.axes.yaxis.min = 0;
+      chart.jqplot({$budget_drift_history_data}, chartoptions);
+
+      jQuery.ajax({
+         url: "js/helpdialog.js",
+         dataType: "script",
+         cache: true
+      });
+
+   });
+</script>
+
+<h2>{t}Budget Drift History{/t} &nbsp;&nbsp;<a id="dialog_budgetDriftHistoryIndicator_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
+<div id="dialog_budgetDriftHistoryIndicator" class="help_dialog ui-helper-hidden" title="{t}Budget Drift History Indicator{/t}">
+   <p>{t}Evolution of the ...{/t}<br>
+   </p>
+   <p>
+      <strong>{t}Drift{/t}</strong><br>
+      {t}Displays ...{/t}
+      <br>
+      <span style="color:blue"><em>{t}Formula{/t} : {t}Reestimated - (MgrEE + Provisions){/t}</em></span>
+   </p>
+</div>
+
+<div id="budgetDriftIndicatorsChart" class="date_chart_with_horizontal_line chart" style="width:100%;"></div>

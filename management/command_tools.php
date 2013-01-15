@@ -306,6 +306,47 @@ class CommandTools {
       return $smartyVariable;
    }
 
+   public static function getTotalDriftHistoryIndicator(Command $cmd) {
+      $cmdIssueSel = $cmd->getIssueSelection();
+
+      $startTT = $cmdIssueSel->getFirstTimetrack();
+      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
+         $startTimestamp = $startTT->getDate();
+      } else {
+         $startTimestamp = $cmd->getStartDate();
+         #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
+         if (0 == $startTimestamp) {
+            $team = TeamCache::getInstance()->getTeam($cmd->getTeamid());
+            $startTimestamp = $team->getDate();
+            #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
+         }
+      }
+
+      // endTimestamp = max(latest_timetrack, latest_update)
+      $latestTrack = $cmdIssueSel->getLatestTimetrack();
+      $latestTrackTimestamp = (!is_null($latestTrack)) ? $latestTrack->getDate() : 0;
+      $lastUpdatedTimestamp = $cmdIssueSel->getLastUpdated();
+      $endTimestamp = max(array($latestTrackTimestamp, $lastUpdatedTimestamp));
+      #echo "getLatestTimetrack = ".date('Y-m-d', $latestTrackTimestamp)." getLastUpdated = ".date('Y-m-d', $lastUpdatedTimestamp).' endDate = '.date('Y-m-d', $endTimestamp).'<br>';
+
+
+      // Calculate a nice day interval
+      $nbWeeks = ($endTimestamp - $startTimestamp) / 60 / 60 / 24;
+      $interval = ceil($nbWeeks / 20);
+
+      $params = array(
+         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+         'endTimestamp' => $endTimestamp,
+         'interval' => $interval
+      );
+      $indicator = new BudgetDriftHistoryIndicator();
+      $indicator->execute($cmd, $params);
+
+      return array($indicator->getSmartyObject(),$startTimestamp,$endTimestamp,ceil($interval/30));
+      
+   }
+
+
    /**
     * @param SmartyHelper $smartyHelper
     * @param Command $cmd
@@ -406,9 +447,7 @@ class CommandTools {
          $smartyHelper->assign($smartyKey, $smartyVariable);
       }
 
-      // StatusHistoryIndicator
-
-      //$data = CommandTools::getStatusHistory($cmd);
+      // InternalBugsHistoryIndicator
       $data = CommandTools::getInternalBugsStatusHistory($cmd);
       foreach ($data as $smartyKey => $smartyVariable) {
          $smartyHelper->assign($smartyKey, $smartyVariable);

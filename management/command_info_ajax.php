@@ -76,6 +76,23 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          } else {
             Tools::sendBadRequest("Command not set");
          }
+      } else if($_GET['action'] == 'getBudgetDriftHistoryIndicator') {
+         if(isset($_SESSION['cmdid'])) {
+            $cmdid = $_SESSION['cmdid'];
+            if (0 != $cmdid) {
+               $cmd = CommandCache::getInstance()->getCommand($cmdid);
+               $data = CommandTools::getTotalDriftHistoryIndicator($cmd);
+               $start = Tools::formatDate("%Y-%m-01", $data[1]);
+               $end = Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d",$data[2])." +1 month"));
+               $smartyHelper->assign('budget_drift_history_data', $data[0]);
+               $smartyHelper->assign('budget_drift_history_plotMinDate', $start);
+               $smartyHelper->assign('budget_drift_history_plotMaxDate', $end);
+               $smartyHelper->assign('budget_drift_history_interval', $data[3]);
+               $smartyHelper->display('plugin/budgetDriftHistoryIndicator');
+            }
+         } else {
+            Tools::sendBadRequest("Command not set");
+         }
       } else if ($_GET['action'] == 'updateDetailedCharges') {
 
 

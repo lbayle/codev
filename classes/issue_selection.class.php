@@ -155,11 +155,56 @@ class IssueSelection {
    }
 
    /**
+    * 
+    * @param type $timestamp
+    */
+   public function getMgrEffortEstim($timestamp = NULL) {
+
+      if (is_null($timestamp)) {
+         return $this->mgrEffortEstim;
+      }
+
+      $mgrEffortEstim = 0;
+      foreach ($this->issueList as $issue) {
+         $submission = $issue->getDateSubmission();
+
+         if ($submission <= $timestamp) {
+            $mgrEffortEstim += $issue->getMgrEffortEstim();
+         } else {
+            #echo "issue ".$issue->getId()." does not yet exist<br>";
+         }
+      }
+      return $mgrEffortEstim;
+   }
+
+
+   /**
     * reestimated = elapsed + duration
     * @return int
     */
-   public function getReestimated() {
-      return $this->elapsed + $this->duration;
+   public function getReestimated($timestamp = NULL) {
+
+      if (is_null($timestamp)) {
+         return ($this->elapsed + $this->duration);
+
+      } else {
+
+         $duration = 0;
+         foreach ($this->issueList as $issue) {
+            $submission = $issue->getDateSubmission();
+
+            if ($submission <= $timestamp) {
+               $duration += $issue->getDuration($timestamp);
+            } else {
+               #echo "issue ".$issue->getId()." does not yet exist<br>";
+            }
+
+         }
+         $elapsed = $this->getElapsed(NULL, $timestamp);
+         $reest = $elapsed + $duration;
+         #echo "   reest =  $elapsed + $duration = $reest<br>";
+         return $reest;
+      }
    }
 
    /**
