@@ -16,6 +16,9 @@ jQuery(document).ready(function() {
 
       // The "tab widgets" to handle.
       tabs.tabs({
+
+         spinner: '<img src="images/spinner_div.gif" />',
+
          "show": function(event, ui) {
             var tab = jQuery(ui.panel);
 
