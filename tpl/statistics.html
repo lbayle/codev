@@ -25,7 +25,7 @@
          <li class="{$ui_tabs_jquery_li}"><a href="#tabEfficiencyRate">{t}Efficiency - System Disponibility{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabReopenedRate">{t}Reopened Rate{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabWorkload">{t}Developers Workload{/t}</a></li>
-         <li><a href="#tabProductivityRateHistory">{t}Productivity Rate{/t}</a></li>
+         <li><a href="#tabEffortEstimReliabilityHistory">{t}EffortEstim Reliability{/t}</a></li>
       </ul>
 
       <!-- Submitted / Resolved -->
@@ -383,8 +383,8 @@
          { include file="plugin/status_history_indicator.html" }
       </div-->
       
-      <div id="tabProductivityRateHistory">
-         {include file="plugin/productivity_rate_indicator.html"}
+      <div id="tabEffortEstimReliabilityHistory">
+         {include file="plugin/effortEstimReliabilityIndicator.html"}
       </div>
    </div>
    {/if}

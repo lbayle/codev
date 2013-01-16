@@ -1,16 +1,10 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of ProductivityRate
+ * Description of EffortEstimReliability
  *
- * @author tuzieblo
  */
-class ProductivityRateIndicator implements IndicatorPlugin {
+class EffortEstimReliabilityIndicator implements IndicatorPlugin {
    //put your code here
    /**
     * @var Logger The logger
@@ -36,13 +30,13 @@ class ProductivityRateIndicator implements IndicatorPlugin {
    }
 
    public function getDesc() {
-      return "Display ProductivityRate history";
+      return "Display EffortEstimReliability history";
    }
    public function getName() {
       return __CLASS__;
    }
    public static function getSmartyFilename() {
-      return "plugin/productivity_rate_indicator.html";
+      return "plugin/effortEstimReliabilityIndicator.html";
    }
 
   // ----------------------------------------------
@@ -54,16 +48,16 @@ class ProductivityRateIndicator implements IndicatorPlugin {
    (For the bugs that where re-opened, the EffortEstim may not have been re-estimated,
    and thus the result is not reliable.)
 
-   ProductivityRate = nbResolvedIssues * EffortEstim / elapsed
+   EffortEstimReliabilityRate = nbResolvedIssues * EffortEstim / elapsed
 
    @param projects: $prodProjectList or your own selection.
    */
-   public function getProductivityRate($projects, $startTimestamp, $endTimestamp) {
+   public function getEffortEstimReliabilityRate($projects, $startTimestamp, $endTimestamp) {
 
       $resolvedList = array();
-      $productivityRate = array(); // {'MEE', 'EE'}
-      $productivityRate['MEE'] = 0;
-      $productivityRate['EE']  = 0;
+      $EEReliability = array(); // {'MEE', 'EE'}
+      $EEReliability['MEE'] = 0;
+      $EEReliability['EE']  = 0;
 
       $totalElapsed = 0;
 
@@ -73,7 +67,7 @@ class ProductivityRateIndicator implements IndicatorPlugin {
       $formatedProjList = implode(', ', $projects);
       if ("" == $formatedProjList) {
          // TODO throw exception
-         echo "<div style='color:red'>ERROR getProductivRate: no project defined for this team !<br/></div>";
+         echo "<div style='color:red'>ERROR getEffortEstimReliabilityRate: no project defined for this team !<br/></div>";
          return 0;
       }
 
@@ -91,7 +85,7 @@ class ProductivityRateIndicator implements IndicatorPlugin {
               "AND mantis_bug_history_table.new_value = $bugResolvedStatusThreshold " .
               " ORDER BY mantis_bug_table.id DESC";
 
-      self::$logger->debug("getProductivRate QUERY = $query");
+      self::$logger->debug("getEffortEstimReliability QUERY = $query");
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -108,36 +102,36 @@ class ProductivityRateIndicator implements IndicatorPlugin {
 
             // remove doubloons
             if (!in_array($row->id, $resolvedList)) {
-               self::$logger->debug("getProductivRate() Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, mgrEE=" . $issue->getMgrEffortEstim() . " date_modified=" . date("d F Y", $row->date_modified) . ", effortEstim=" . $issue->getEffortEstim() . ", BS=" . $issue->getEffortAdd() . ", elapsed = " . $issue->getElapsed());
+               self::$logger->debug("getEffortEstimReliabilityRate() Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, mgrEE=" . $issue->getMgrEffortEstim() . " date_modified=" . date("d F Y", $row->date_modified) . ", effortEstim=" . $issue->getEffortEstim() . ", BS=" . $issue->getEffortAdd() . ", elapsed = " . $issue->getElapsed());
 
                $resolvedList[] = $row->id;
 
                $totalElapsed += $issue->getElapsed();
 
-               self::$logger->debug("getProductivRate(MEE) : ".$productivityRate['MEE']." + " . $issue->getMgrEffortEstim() . " = " . ($productivityRate['MEE'] + $issue->getMgrEffortEstim()));
-               $productivityRate['MEE'] += $issue->getMgrEffortEstim();
-               self::$logger->debug("getProductivRate(EE) : ".$productivityRate['EE']." + (" . $issue->getEffortEstim() . " + " . $issue->getEffortAdd() . ") = " . ($productivityRate['EE'] + $issue->getEffortEstim() + $issue->getEffortAdd()));
-               $productivityRate['EE'] += $issue->getEffortEstim() + $issue->getEffortAdd();
+               self::$logger->debug("getEffortEstimReliabilityRate(MEE) : ".$EEReliability['MEE']." + " . $issue->getMgrEffortEstim() . " = " . ($EEReliability['MEE'] + $issue->getMgrEffortEstim()));
+               $EEReliability['MEE'] += $issue->getMgrEffortEstim();
+               self::$logger->debug("getEffortEstimReliabilityRate(EE) : ".$EEReliability['EE']." + (" . $issue->getEffortEstim() . " + " . $issue->getEffortAdd() . ") = " . ($EEReliability['EE'] + $issue->getEffortEstim() + $issue->getEffortAdd()));
+               $EEReliability['EE'] += $issue->getEffortEstim() + $issue->getEffortAdd();
             }
          } else {
             $statusName = Constants::$statusNames[$latestStatus];
-            self::$logger->debug("getProductivRate REOPENED : bugid = $row->id status = " . $statusName);
+            self::$logger->debug("getEffortEstimReliabilityRate REOPENED : bugid = $row->id status = " . $statusName);
          }
       }
 
       // -------
-      self::$logger->debug("getProductivRate: productivityRate (MEE) = " . $productivityRate['MEE'] . " / $totalElapsed, nbBugs=" . count($resolvedList));
-      self::$logger->debug("getProductivRate: productivityRate (EE) = " . $productivityRate['EE'] . " / $totalElapsed, nbBugs=" . count($resolvedList));
+      self::$logger->debug("getEffortEstimReliabilityRate: Reliability (MEE) = " . $EEReliability['MEE'] . " / $totalElapsed, nbBugs=" . count($resolvedList));
+      self::$logger->debug("getEffortEstimReliabilityRate: Reliability (EE) = " . $EEReliability['EE'] . " / $totalElapsed, nbBugs=" . count($resolvedList));
 
       if (0 != $totalElapsed) {
-         $productivityRate['MEE'] /= $totalElapsed;
-         $productivityRate['EE'] /= $totalElapsed;
+         $EEReliability['MEE'] /= $totalElapsed;
+         $EEReliability['EE'] /= $totalElapsed;
       } else {
-         $productivityRate['MEE'] = 0;
-         $productivityRate['EE'] = 0;
+         $EEReliability['MEE'] = 0;
+         $EEReliability['EE'] = 0;
       }
 
-      return $productivityRate;
+      return $EEReliability;
    }
 
    /**
@@ -184,18 +178,18 @@ class ProductivityRateIndicator implements IndicatorPlugin {
 
       $projects = array_keys($team->getProjects(FALSE, TRUE, FALSE)); // TODO
 
-      $prodRateTableMEE = array();
-      $prodRateTableEE = array();
+      $reliabilityTableMEE = array();
+      $reliabilityTableEE = array();
       foreach ($this->timeTrackingTable as $date => $timeTracking) {
-         $prodRate = $this->getProductivityRate($projects, $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp());
+         $prodRate = $this->getEffortEstimReliabilityRate($projects, $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp());
 
          $timestamp = Tools::formatDate("%Y-%m-01", $timeTracking->getStartTimestamp());
-         $prodRateTableMEE[$timestamp] = $prodRate['MEE'];
-         $prodRateTableEE[$timestamp] = $prodRate['EE'];
+         $reliabilityTableMEE[$timestamp] = $prodRate['MEE'];
+         $reliabilityTableEE[$timestamp] = $prodRate['EE'];
       }
       $this->execData = array();
-      $this->execData['MEE'] = $prodRateTableMEE;
-      $this->execData['EE'] = $prodRateTableEE;
+      $this->execData['MEE'] = $reliabilityTableMEE;
+      $this->execData['EE'] = $reliabilityTableEE;
    }
 
    public function getSmartyObject() {
@@ -210,7 +204,7 @@ class ProductivityRateIndicator implements IndicatorPlugin {
 
       #$graphDataColors = '["#fcbdbd", "#c2dfff"]';
 
-      $labels = '["ProductivityRate Mgr", "ProductivityRate"]';
+      $labels = '["MgrEffortEstim ReliabilityRate", "EffortEstim ReliabilityRate"]';
 
       $tableData = array();
       foreach ($this->execData['MEE'] as $date => $prodRateMEE) {
@@ -239,6 +233,6 @@ class ProductivityRateIndicator implements IndicatorPlugin {
 }
 
 // Initialize complex static variables
-ProductivityRateIndicator::staticInit();
+EffortEstimReliabilityIndicator::staticInit();
 
 ?>

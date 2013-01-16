@@ -126,13 +126,13 @@ class ProductivityReportsController extends Controller {
 
                   // --- BEGIN FDJ SPECIFIC ---
 
-                  $prodRateIndic = new ProductivityRateIndicator();
-                  $prodRate = $prodRateIndic->getProductivityRate(
+                  $prodRateIndic = new EffortEstimReliabilityIndicator();
+                  $prodRate = $prodRateIndic->getEffortEstimReliabilityRate(
                           array_keys($team->getProjects(FALSE, TRUE, FALSE)),
                           $timeTracking->getStartTimestamp(),
                           $timeTracking->getEndTimestamp());
-                  $this->smartyHelper->assign('productivityRateMgr', round($prodRate['MEE'], 2));
-                  $this->smartyHelper->assign('productivityRate',    round($prodRate['EE'], 2));
+                  $this->smartyHelper->assign('EffortEstimReliabilityMgr', round($prodRate['MEE'], 2));
+                  $this->smartyHelper->assign('EffortEstimReliability',    round($prodRate['EE'], 2));
 
                   // --- END   FDJ SPECIFIC ---
 

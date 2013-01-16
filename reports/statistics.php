@@ -70,7 +70,7 @@ class StatisticsController extends Controller {
                   $this->generateDevelopersWorkloadGraph($timeTrackingTable);
 
   // --- BEGIN FDJ SPECIFIC ---
-                     $this->generateProductivityRateGraph($this->teamid, $timeTrackingTable);
+                     $this->generateEffortEstimReliabilityGraph($this->teamid, $timeTrackingTable);
   // --- END FDJ SPECIFIC ---
 
                   #$this->generateStatusHistoryGraph($teamid);
@@ -370,9 +370,9 @@ class StatisticsController extends Controller {
    }
 
   // --- BEGIN FDJ SPECIFIC ---
-   private function generateProductivityRateGraph($teamid, $timeTrackingTable) {
+   private function generateEffortEstimReliabilityGraph($teamid, $timeTrackingTable) {
 
-      $prodRateIndic = new ProductivityRateIndicator();
+      $prodRateIndic = new EffortEstimReliabilityIndicator();
       $params = array(
           'teamid' => $teamid,
           'timeTrackingTable' => $timeTrackingTable);
