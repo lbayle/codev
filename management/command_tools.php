@@ -306,7 +306,7 @@ class CommandTools {
       return $smartyVariable;
    }
 
-   public static function getTotalDriftHistoryIndicator(Command $cmd) {
+   public static function getBudgetDriftHistoryIndicator(Command $cmd) {
       $cmdIssueSel = $cmd->getIssueSelection();
 
       $startTT = $cmdIssueSel->getFirstTimetrack();
@@ -341,7 +341,7 @@ class CommandTools {
          'provisionDays' => $cmd->getProvisionDays(TRUE)
       );
       $indicator = new BudgetDriftHistoryIndicator();
-      $indicator->execute($cmd->getIssueSelection(), $params);
+      $indicator->execute($cmdIssueSel, $params);
 
       return array($indicator->getSmartyObject(),$startTimestamp,$endTimestamp,ceil($interval/30));
       
