@@ -25,7 +25,7 @@ require_once('lib/log4php/Logger.php');
  * Description of BudgetDriftHistoryIndicator
  *
  */
-class BudgetDriftHistoryIndicator {
+class BudgetDriftHistoryIndicator implements IndicatorPlugin {
 
 
    /**
@@ -36,6 +36,7 @@ class BudgetDriftHistoryIndicator {
    private $startTimestamp;
    private $endTimestamp;
    private $interval;
+   private $provisionDays;
 
    protected $execData;
 
@@ -54,6 +55,7 @@ class BudgetDriftHistoryIndicator {
       $this->startTimestamp     = NULL;
       $this->endTimestamp       = NULL;
       $this->interval           = NULL;
+      $this->provisionDays      = NULL;
    }
 
    public function getDesc() {
@@ -75,12 +77,12 @@ class BudgetDriftHistoryIndicator {
     * @param array $params
     * @throws Exception
     */
-   private function checkParams(Command $cmd, array $params = NULL) {
-      if (NULL == $cmd) {
-         throw new Exception("Missing Command");
+   private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
+      if (NULL == $inputIssueSel) {
+         throw new Exception("Missing IssueSelection");
       }
       if (NULL == $params) {
-         throw new Exception("Missing parameters: startTimestamp, endTimestamp, interval");
+         throw new Exception("Missing parameters: startTimestamp, endTimestamp, interval, provisionDays");
       }
 
       if(self::$logger->isDebugEnabled()) {
@@ -103,6 +105,11 @@ class BudgetDriftHistoryIndicator {
          $this->interval = $params['interval'];
       } else {
          throw new Exception("Missing parameter: interval");
+      }
+      if (array_key_exists('provisionDays', $params)) {
+         $this->provisionDays = $params['provisionDays'];
+      } else {
+         throw new Exception("Missing parameter: provisionDays");
       }
    }
 
@@ -138,10 +145,9 @@ class BudgetDriftHistoryIndicator {
     * @param Command $cmd
     * @param array $params
     */
-   public function execute(Command $cmd, array $params = NULL) {
-      $this->checkParams($cmd, $params);
+   public function execute(IssueSelection $inputIssueSel, array $params = NULL) {
 
-      $inputIssueSel = $cmd->getIssueSelection();
+      $this->checkParams($inputIssueSel, $params);
 
       // -------- elapsed in the period
       $startTimestamp = mktime(0, 0, 0, date('m', $params['startTimestamp']), date('d', $params['startTimestamp']), date('Y', $params['startTimestamp']));
@@ -154,13 +160,12 @@ class BudgetDriftHistoryIndicator {
       // ------ compute
       // CmdTotalDrift = Reestimated - (MEE + Provisions)
 
-      $provisions = $cmd->getProvisionDays(TRUE);
       $cmdTotalDrift = array();
       #$cmdTotalDriftCost = array();
       foreach ($timestampList2 as $timestamp) {
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
 
-         $cmdProvAndMeeDays = $inputIssueSel->getMgrEffortEstim($timestamp) + $provisions;
+         $cmdProvAndMeeDays = $inputIssueSel->getMgrEffortEstim($timestamp) + $this->provisionDays;
          $reestimated = $inputIssueSel->getReestimated($timestamp);
 
          $totalDrift = $reestimated - $cmdProvAndMeeDays;

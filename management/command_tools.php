@@ -337,10 +337,11 @@ class CommandTools {
       $params = array(
          'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
          'endTimestamp' => $endTimestamp,
-         'interval' => $interval
+         'interval' => $interval,
+         'provisionDays' => $cmd->getProvisionDays(TRUE)
       );
       $indicator = new BudgetDriftHistoryIndicator();
-      $indicator->execute($cmd, $params);
+      $indicator->execute($cmd->getIssueSelection(), $params);
 
       return array($indicator->getSmartyObject(),$startTimestamp,$endTimestamp,ceil($interval/30));
       
