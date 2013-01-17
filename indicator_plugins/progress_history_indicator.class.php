@@ -271,9 +271,20 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
    }
 
    public function getSmartyObject() {
+
       $theoBacklog = $this->execData['theo'];
       $realBacklog = $this->execData['real'];
-      return "[".Tools::array2plot($theoBacklog).','.Tools::array2plot($realBacklog)."]";
+
+      $startTimestamp = $this->startTimestamp;
+      $endTimestamp = strtotime(date("Y-m-d",$this->endTimestamp)." +1 month");
+
+      $smartyVariables = array();
+      $smartyVariables['progress_history_plotMinDate'] = Tools::formatDate("%Y-%m-01", $startTimestamp);
+      $smartyVariables['progress_history_plotMaxDate'] = Tools::formatDate("%Y-%m-01", $endTimestamp);
+      $smartyVariables['progress_history_interval'] = ceil($this->interval/30);
+      $smartyVariables['progress_history_data'] = "[".Tools::array2plot($theoBacklog).','.Tools::array2plot($realBacklog)."]";
+
+      return $smartyVariables;
    }
 
 }

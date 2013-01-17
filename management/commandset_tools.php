@@ -130,14 +130,15 @@ class CommandSetTools {
       return $provArray;
    }
 
-
-
    /**
-    * @static
-    * @param CommandSet $commandSet
-    * @return mixed[]
+    * code factorisation
+    *
+    * returns the input params for some indicators.
+    *
+    * @param Command $cmd
+    * @return array [startTimestamp, endTimestamp, interval]
     */
-   public static function getCSetProgressHistory(CommandSet $commandSet) {
+   private static function computeTimestampsAndInterval(CommandSet $commandSet) {
       $cmdIssueSel = $commandSet->getIssueSelection(Command::type_general);
 
       $startTT = $cmdIssueSel->getFirstTimetrack();
@@ -158,7 +159,7 @@ class CommandSetTools {
       $latestTrackTimestamp = (!is_null($latestTrack)) ? $latestTrack->getDate() : 0;
       $lastUpdatedTimestamp = $cmdIssueSel->getLastUpdated();
       $endTimestamp = max(array($latestTrackTimestamp, $lastUpdatedTimestamp));
-      
+
       // Calculate a nice day interval
       $nbWeeks = ($endTimestamp - $startTimestamp) / 60 / 60 / 24;
       $interval = ceil($nbWeeks / 20);
@@ -168,12 +169,27 @@ class CommandSetTools {
          'endTimestamp' => $endTimestamp,
          'interval' => $interval
       );
-
-      $progressIndicator = new ProgressHistoryIndicator();
-      $progressIndicator->execute($cmdIssueSel, $params);
-
-      return array($progressIndicator->getSmartyObject(),$startTimestamp,$endTimestamp,ceil($interval/30));
+      return $params;
    }
+
+   /**
+    * @static
+    * @param CommandSet $commandSet
+    * @return mixed[]
+    */
+   public static function getCSetProgressHistory(CommandSet $commandSet) {
+
+      $issueSel = $commandSet->getIssueSelection(Command::type_general);
+
+      $params = self::computeTimestampsAndInterval($commandSet);
+
+      $indicator = new ProgressHistoryIndicator();
+      $indicator->execute($issueSel, $params);
+
+      $smartyVariables = $indicator->getSmartyObject();
+
+      return $smartyVariables;
+  }
 
    /**
     * @static
@@ -183,35 +199,9 @@ class CommandSetTools {
    public static function getBudgetDriftHistoryIndicator(CommandSet $commandSet) {
       $issueSel = $commandSet->getIssueSelection(Command::type_general);
 
-      $startTT = $issueSel->getFirstTimetrack();
-      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
-         $startTimestamp = $startTT->getDate();
-      } else {
-         $startTimestamp = $commandSet->getDate();
-         #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
-         if (0 == $startTimestamp) {
-            $team = TeamCache::getInstance()->getTeam($commandSet->getTeamid());
-            $startTimestamp = $team->getDate();
-            #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
-         }
-      }
+      $params = self::computeTimestampsAndInterval($commandSet);
+      $params['provisionDays'] = $commandSet->getProvisionDays(Command::type_general, TRUE);
 
-      // endTimestamp = max(latest_timetrack, latest_update)
-      $latestTrack = $issueSel->getLatestTimetrack();
-      $latestTrackTimestamp = (!is_null($latestTrack)) ? $latestTrack->getDate() : 0;
-      $lastUpdatedTimestamp = $issueSel->getLastUpdated();
-      $endTimestamp = max(array($latestTrackTimestamp, $lastUpdatedTimestamp));
-
-      // Calculate a nice day interval
-      $nbWeeks = ($endTimestamp - $startTimestamp) / 60 / 60 / 24;
-      $interval = ceil($nbWeeks / 20);
-
-      $params = array(
-         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
-         'endTimestamp' => $endTimestamp,
-         'interval' => $interval,
-         'provisionDays' => $commandSet->getProvisionDays(Command::type_general, TRUE)
-      );
       $indicator = new BudgetDriftHistoryIndicator();
       $indicator->execute($issueSel, $params);
 

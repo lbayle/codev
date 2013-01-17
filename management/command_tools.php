@@ -108,13 +108,16 @@ class CommandTools {
    }
 
 
-
    /**
-    * @static
+    * code factorisation
+    * 
+    * returns the input params for some indicators.
+    * 
     * @param Command $cmd
-    * @return mixed[]
+    * @return array [startTimestamp, endTimestamp, interval]
     */
-   public static function getProgressHistory(Command $cmd) {
+   private static function computeTimestampsAndInterval(Command $cmd) {
+
       $cmdIssueSel = $cmd->getIssueSelection();
 
       $startTT = $cmdIssueSel->getFirstTimetrack();
@@ -141,17 +144,54 @@ class CommandTools {
       // Calculate a nice day interval
       $nbWeeks = ($endTimestamp - $startTimestamp) / 60 / 60 / 24;
       $interval = ceil($nbWeeks / 20);
-      
+
       $params = array(
          'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
          'endTimestamp' => $endTimestamp,
          'interval' => $interval
       );
 
-      $progressIndicator = new ProgressHistoryIndicator();
-      $progressIndicator->execute($cmdIssueSel, $params);
+      return $params;
+   }
 
-      return array($progressIndicator->getSmartyObject(),$startTimestamp,$endTimestamp,ceil($interval/30));
+   /**
+    * @static
+    * @param Command $cmd
+    * @return mixed[]
+    */
+   public static function getProgressHistory(Command $cmd) {
+      $cmdIssueSel = $cmd->getIssueSelection();
+
+      $params = self::computeTimestampsAndInterval($cmd);
+
+      $indicator = new ProgressHistoryIndicator();
+      $indicator->execute($cmdIssueSel, $params);
+
+      $smartyVariables = $indicator->getSmartyObject();
+
+      return $smartyVariables;
+   }
+
+   /**
+    * return smartyVariables for BudgetDriftHistoryIndicator
+    *
+    * @static
+    * @param Command $cmd
+    * @return array smartyVariables
+    */
+   public static function getBudgetDriftHistoryIndicator(Command $cmd) {
+      $cmdIssueSel = $cmd->getIssueSelection();
+
+      $params = self::computeTimestampsAndInterval($cmd);
+      $params['provisionDays'] = $cmd->getProvisionDays(TRUE);
+
+      $indicator = new BudgetDriftHistoryIndicator();
+      $indicator->execute($cmdIssueSel, $params);
+
+      $smartyVariables = $indicator->getSmartyObject();
+
+      return $smartyVariables;
+
    }
 
    /**
@@ -304,49 +344,6 @@ class CommandTools {
       $smartyVariable = $statusHistoryIndicator->getSmartyObject();
 
       return $smartyVariable;
-   }
-
-   public static function getBudgetDriftHistoryIndicator(Command $cmd) {
-      $cmdIssueSel = $cmd->getIssueSelection();
-
-      $startTT = $cmdIssueSel->getFirstTimetrack();
-      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
-         $startTimestamp = $startTT->getDate();
-      } else {
-         $startTimestamp = $cmd->getStartDate();
-         #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
-         if (0 == $startTimestamp) {
-            $team = TeamCache::getInstance()->getTeam($cmd->getTeamid());
-            $startTimestamp = $team->getDate();
-            #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
-         }
-      }
-
-      // endTimestamp = max(latest_timetrack, latest_update)
-      $latestTrack = $cmdIssueSel->getLatestTimetrack();
-      $latestTrackTimestamp = (!is_null($latestTrack)) ? $latestTrack->getDate() : 0;
-      $lastUpdatedTimestamp = $cmdIssueSel->getLastUpdated();
-      $endTimestamp = max(array($latestTrackTimestamp, $lastUpdatedTimestamp));
-      #echo "getLatestTimetrack = ".date('Y-m-d', $latestTrackTimestamp)." getLastUpdated = ".date('Y-m-d', $lastUpdatedTimestamp).' endDate = '.date('Y-m-d', $endTimestamp).'<br>';
-
-
-      // Calculate a nice day interval
-      $nbWeeks = ($endTimestamp - $startTimestamp) / 60 / 60 / 24;
-      $interval = ceil($nbWeeks / 20);
-
-      $params = array(
-         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
-         'endTimestamp' => $endTimestamp,
-         'interval' => $interval,
-         'provisionDays' => $cmd->getProvisionDays(TRUE)
-      );
-      $indicator = new BudgetDriftHistoryIndicator();
-      $indicator->execute($cmdIssueSel, $params);
-
-      $smartyVariables = $indicator->getSmartyObject();
-
-      return $smartyVariables;
-      
    }
 
 
