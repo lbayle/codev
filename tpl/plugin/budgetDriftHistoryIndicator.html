@@ -7,14 +7,13 @@
       chartoptions.title.text = '{t}Budget Drift Progression Chart{/t}';
       //chartoptions.legend.location = 'nw';
       chartoptions.series = [{
-         label : "{t}Budget Drift{/t}"
+         label : "% {t}Budget Drift{/t}"
       }];
       chartoptions.axes.xaxis.min = "{$budget_drift_history_plotMinDate}";
       chartoptions.axes.xaxis.max = "{$budget_drift_history_plotMaxDate}";
       chartoptions.axes.xaxis.tickInterval = "{$budget_drift_history_interval} month";
-      //chartoptions.axes.yaxis.label = '{t}Budget Drift{/t}';
-      //chartoptions.axes.yaxis.min = 0;
-      chart.jqplot({$budget_drift_history_data}, chartoptions);
+      chartoptions.seriesDefaults.pointLabels.formatString = "%d%";
+      chart.jqplot({$budget_drift_history_driftPercentList}, chartoptions);
 
       jQuery.ajax({
          url: "js/helpdialog.js",
@@ -37,4 +36,27 @@
    </p>
 </div>
 
-<div id="budgetDriftIndicatorsChart" class="date_chart_with_horizontal_line chart" style="width:100%;"></div>
+<div id="budgetDriftIndicatorsChart" class="date_chart_with_horizontal_line chart float" style="width:75%;"></div>
+
+
+<table title="{t}Budget Drift{/t}">
+   <thead>
+      <tr>
+         <th>{t}Date{/t}</th>
+         <th>{t}MEE + Prov{/t}</th>
+         <th>{t}Drift{/t}</th>
+         <th>% {t}drift{/t}</th>
+      </tr>
+   </thead>
+   <tbody>
+      {foreach from=$budget_drift_history_tableData key=id item=i}
+      <tr>
+         <td class="right">{$id}</td>
+         <td class="right">{$i.provAndMeeDays}</td>
+         <td class="right">{$i.driftDays}</td>
+         <td class="right">{$i.driftPercent} %</td>
+      </tr>
+      {/foreach}
+   </tbody>
+</table>
+<div class="ui-helper-clearfix"></div>

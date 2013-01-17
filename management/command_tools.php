@@ -342,7 +342,9 @@ class CommandTools {
       $indicator = new BudgetDriftHistoryIndicator();
       $indicator->execute($cmd, $params);
 
-      return array($indicator->getSmartyObject(),$startTimestamp,$endTimestamp,ceil($interval/30));
+      $smartyVariables = $indicator->getSmartyObject();
+
+      return $smartyVariables;
       
    }
 
