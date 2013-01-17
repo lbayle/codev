@@ -82,12 +82,9 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             if (0 != $cmdid) {
                $cmd = CommandCache::getInstance()->getCommand($cmdid);
                $data = CommandTools::getBudgetDriftHistoryIndicator($cmd);
-               $start = Tools::formatDate("%Y-%m-01", $data[1]);
-               $end = Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d",$data[2])." +1 month"));
-               $smartyHelper->assign('budget_drift_history_data', $data[0]);
-               $smartyHelper->assign('budget_drift_history_plotMinDate', $start);
-               $smartyHelper->assign('budget_drift_history_plotMaxDate', $end);
-               $smartyHelper->assign('budget_drift_history_interval', $data[3]);
+               foreach ($data as $smartyKey => $smartyVariable) {
+                  $smartyHelper->assign($smartyKey, $smartyVariable);
+               }
                $smartyHelper->display('plugin/budgetDriftHistoryIndicator');
             }
          } else {

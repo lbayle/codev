@@ -210,13 +210,14 @@ class CommandSetTools {
          'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
          'endTimestamp' => $endTimestamp,
          'interval' => $interval,
-         'provisionDays' => $commandSet->getProvisionDays(TRUE)
+         'provisionDays' => $commandSet->getProvisionDays(Command::type_general, TRUE)
       );
       $indicator = new BudgetDriftHistoryIndicator();
       $indicator->execute($issueSel, $params);
 
+      $smartyVariables = $indicator->getSmartyObject();
 
-      return array($indicator->getSmartyObject(),$startTimestamp,$endTimestamp,ceil($interval/30));
+      return $smartyVariables;
    }
 
    /**

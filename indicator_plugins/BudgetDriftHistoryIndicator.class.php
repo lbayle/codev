@@ -40,9 +40,6 @@ class BudgetDriftHistoryIndicator implements IndicatorPlugin {
 
    protected $execData;
 
-   protected $backlogData;
-   protected $elapsedData;
-
    /**
     * Initialize complex static variables
     * @static
@@ -160,34 +157,64 @@ class BudgetDriftHistoryIndicator implements IndicatorPlugin {
       // ------ compute
       // CmdTotalDrift = Reestimated - (MEE + Provisions)
 
-      $cmdTotalDrift = array();
-      #$cmdTotalDriftCost = array();
+      $driftDaysList = array();
+      $driftPercentList = array();
+      $tableData = array();
+      $nbZeroDivErrors1 = 0;
       foreach ($timestampList2 as $timestamp) {
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
 
          $cmdProvAndMeeDays = $inputIssueSel->getMgrEffortEstim($timestamp) + $this->provisionDays;
          $reestimated = $inputIssueSel->getReestimated($timestamp);
 
-         $totalDrift = $reestimated - $cmdProvAndMeeDays;
+         $driftDays = $reestimated - $cmdProvAndMeeDays;
+
+         if (0 != $cmdProvAndMeeDays) {
+            $driftPercent = ($driftDays * 100 / $cmdProvAndMeeDays);
+         } else {
+            $nbZeroDivErrors1 += 1;
+            $driftPercent = 0;
+         }
          #$totalDriftCost = $totalDrift * $cmd->getAverageDailyRate();
 
          $key = Tools::formatDate('%Y-%m-%d', $midnight_timestamp);
-         $cmdTotalDrift[$key] = round($totalDrift, 2);
-         #$cmdTotalDriftCost[Tools::formatDate("%Y-%m-%d", $midnight_timestamp)] = round($totalDriftCost, 2);
+         $driftDaysList[$key] = round($driftDays, 2);
+         $driftPercentList[$key] = round($driftPercent, 2);
+         $tableData[$key] = array('driftDays' => $driftDaysList[$key], 
+                                  'driftPercent' => $driftPercentList[$key],
+                                  'provAndMeeDays' => $cmdProvAndMeeDays);
 
          #echo $key." CmdTotalDrift = $reestimated - $cmdProvAndMeeDays = ".$cmdTotalDrift[$key]."<br>";
 
       } // foreach timestamp
 
-      $this->execData['cmdTotalDrift'] = $cmdTotalDrift;
-      #$this->execData['cmdTotalDriftCost'] = $cmdTotalDriftCost;
+      // PERF logging is slow, factorize errors
+      if ($nbZeroDivErrors1 > 0) {
+         self::$logger->error("$nbZeroDivErrors1 Division by zero ! (cmdProvAndMeeDays)");
+      }
+
+      $this->execData['budgetDriftDays'] = $driftDaysList;
+      $this->execData['budgetDriftPercent'] = $driftPercentList;
+      $this->execData['budgetDriftTable'] = $tableData;
+
+      return $this->execData;
    }
 
    public function getSmartyObject() {
-      $cmdTotalDrift     = $this->execData['cmdTotalDrift'];
-      #$cmdTotalDriftCost = $this->execData['cmdTotalDriftCost'];
-      #return "[".Tools::array2plot($cmdTotalDrift).','.Tools::array2plot($cmdTotalDriftCost)."]";
-      return '['.Tools::array2plot($cmdTotalDrift).']';
+
+      $smartyVariables = array();
+
+      $startTimestamp = $this->startTimestamp;
+      $endTimestamp = strtotime(date("Y-m-d",$this->endTimestamp)." +1 month");
+
+      $smartyVariables['budget_drift_history_plotMinDate'] = Tools::formatDate("%Y-%m-01", $startTimestamp);
+      $smartyVariables['budget_drift_history_plotMaxDate'] = Tools::formatDate("%Y-%m-01", $endTimestamp);
+      $smartyVariables['budget_drift_history_interval'] = ceil($this->interval/30);
+      $smartyVariables['budget_drift_history_driftDaysList'] = '['.Tools::array2plot($this->execData['budgetDriftDays']).']';
+      $smartyVariables['budget_drift_history_driftPercentList'] = '['.Tools::array2plot($this->execData['budgetDriftPercent']).']';
+      $smartyVariables['budget_drift_history_tableData'] = $this->execData['budgetDriftTable'];
+
+      return $smartyVariables;
    }
 }
 

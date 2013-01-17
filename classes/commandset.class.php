@@ -498,13 +498,14 @@ class CommandSet extends Model {
    /**
     * Sum all the BudjetDays provisions
     *
+    * @param int $cmd_type  Command::type_general
     * @param bool $checkBudgetOnly sum only 'is_in_check_budget' provisions
     * @return type
     *
     */
-   public function getProvisionDays($checkBudgetOnly = FALSE) {
+   public function getProvisionDays($cmd_type, $checkBudgetOnly = FALSE) {
 
-      $provisions = $this->getProvisionList(Command::type_general);
+      $provisions = $this->getProvisionList($cmd_type);
       $budgetDays = 0;
       foreach ($provisions as $prov) {
          if ((FALSE == $checkBudgetOnly) ||
