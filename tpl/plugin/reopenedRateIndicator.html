@@ -5,8 +5,11 @@
 
       var chartoptions = jQuery('#reopenedRateChart').data('plotoptions');
       chartoptions.title.text = "{t}Reopened Rate{/t}";
+      chartoptions.legend.location = 'nw';
       chartoptions.series = [{
-         label: "{t}Nb Reopened{/t}"
+         label : "{t}Nb Resolved{/t}"
+      },{
+         label : "{t}Nb Reopened{/t}"
       }];
       chartoptions.axes.xaxis.min = "{$reopenedRate_plotMinDate}";
       chartoptions.axes.xaxis.max = "{$reopenedRate_plotMaxDate}";
@@ -15,7 +18,7 @@
       chartoptions.axes.yaxis.min = 0;
       //chartoptions.axes.yaxis.max = 100;
       chartoptions.seriesDefaults.pointLabels.formatString = "%u";
-      jQuery('#reopenedRateChart').jqplot({$reopenedRate_jqplotDaysData}, chartoptions);
+      jQuery('#reopenedRateChart').jqplot({$reopenedRate_jqplotData}, chartoptions);
 
       jQuery.ajax({
          url: "js/helpdialog.js",
@@ -51,16 +54,16 @@
    <thead>
       <tr>
          <th>{t}Date{/t}</th>
+         <th title="{t}Nb Resolved{/t}">{t}Nb Resolved{/t}</th>
          <th title="{t}Nb Reopened{/t}">{t}Nb Reopened{/t}</th>
-         <th title="{t}Reopened Rate{/t}">{t}% Reopened{/t}</th>
       </tr>
    </thead>
    <tbody>
       {foreach from=$reopenedRate_tableData key=id item=i}
       <tr>
          <td class="right">{$id}</td>
-         <td class="right">{$i.reopenedDays}</td>
-         <td><div class="progress">{$i.reopenedPercent}%</div></td>
+         <td class="right">{$i.nbResolved}</td>
+         <td class="right">{$i.nbReopened}</td>
       </tr>
       {/foreach}
    </tbody>
