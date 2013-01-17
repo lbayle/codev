@@ -209,7 +209,7 @@ class BudgetDriftHistoryIndicator implements IndicatorPlugin {
 
       $smartyVariables['budget_drift_history_plotMinDate'] = Tools::formatDate("%Y-%m-01", $startTimestamp);
       $smartyVariables['budget_drift_history_plotMaxDate'] = Tools::formatDate("%Y-%m-01", $endTimestamp);
-      $smartyVariables['budget_drift_history_interval'] = ceil($this->interval/30);
+      $smartyVariables['budget_drift_history_interval'] = ceil($this->interval/20);
       $smartyVariables['budget_drift_history_driftDaysList'] = '['.Tools::array2plot($this->execData['budgetDriftDays']).']';
       $smartyVariables['budget_drift_history_driftPercentList'] = '['.Tools::array2plot($this->execData['budgetDriftPercent']).']';
       $smartyVariables['budget_drift_history_tableData'] = $this->execData['budgetDriftTable'];
