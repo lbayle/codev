@@ -191,7 +191,26 @@ class CommandTools {
       $smartyVariables = $indicator->getSmartyObject();
 
       return $smartyVariables;
+   }
 
+   /**
+    * return smartyVariables for BudgetDriftHistoryIndicator
+    *
+    * @static
+    * @param Command $cmd
+    * @return array smartyVariables
+    */
+   public static function getReopenedRateIndicator(Command $cmd) {
+      $cmdIssueSel = $cmd->getIssueSelection();
+
+      $params = self::computeTimestampsAndInterval($cmd);
+
+      $indicator = new ReopenedRateIndicator();
+      $indicator->execute($cmdIssueSel, $params);
+
+      $smartyVariables = $indicator->getSmartyObject();
+
+      return $smartyVariables;
    }
 
    /**

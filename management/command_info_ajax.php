@@ -68,7 +68,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
                foreach ($data as $smartyKey => $smartyVariable) {
                   $smartyHelper->assign($smartyKey, $smartyVariable);
                }
-               $smartyHelper->display('plugin/progress_history_indicator');
+               $smartyHelper->display('plugin/progress_history_indicator.html');
             }
          } else {
             Tools::sendBadRequest("Command not set");
@@ -83,6 +83,20 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
                   $smartyHelper->assign($smartyKey, $smartyVariable);
                }
                $smartyHelper->display('plugin/budgetDriftHistoryIndicator.html');
+            }
+         } else {
+            Tools::sendBadRequest("Command not set");
+         }
+      } else if($_GET['action'] == 'getReopenedRateIndicator') {
+         if(isset($_SESSION['cmdid'])) {
+            $cmdid = $_SESSION['cmdid'];
+            if (0 != $cmdid) {
+               $cmd = CommandCache::getInstance()->getCommand($cmdid);
+               $data = CommandTools::getReopenedRateIndicator($cmd);
+               foreach ($data as $smartyKey => $smartyVariable) {
+                  $smartyHelper->assign($smartyKey, $smartyVariable);
+               }
+               $smartyHelper->display('plugin/reopenedRateIndicator.html');
             }
          } else {
             Tools::sendBadRequest("Command not set");
