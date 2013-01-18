@@ -109,6 +109,41 @@ class CommandTools {
 
 
    /**
+    * get all internal bugs of the command
+    * 
+    * @param Command $cmd
+    * @return IssueSelection 
+    */
+   private static function filterInternalBugs(Command $cmd) {
+
+      $cmdSel = $cmd->getIssueSelection();
+
+      // Filter only BUGS
+      $bugFilter = new IssueCodevTypeFilter('bugFilter');
+      $bugFilter->addFilterCriteria(IssueCodevTypeFilter::tag_Bug);
+      $outputList = $bugFilter->execute($cmdSel);
+
+      if (empty($outputList)) {
+         #echo "TYPE Bug not found !<br>";
+         return NULL;
+      }
+      $bugSel = $outputList[IssueCodevTypeFilter::tag_Bug];
+
+      // Filter only NoExtRef
+      $extIdFilter = new IssueExtIdFilter('extIdFilter');
+      $extIdFilter->addFilterCriteria(IssueExtIdFilter::tag_no_extRef);
+      $outputList2 = $extIdFilter->execute($bugSel);
+
+      if (empty($outputList2)) {
+         #echo "noExtRef not found !<br>";
+         return NULL;
+      }
+      $issueSel = $outputList2[IssueExtIdFilter::tag_no_extRef];
+
+      return $issueSel;
+   }
+
+   /**
     * code factorisation
     * 
     * returns the input params for some indicators.
@@ -310,34 +345,15 @@ class CommandTools {
 
    public static function getInternalBugsStatusHistory(Command $cmd, $interval = 7) {
 
-      $cmdSel = $cmd->getIssueSelection();
 
-      // Filter only BUGS
-      $bugFilter = new IssueCodevTypeFilter('bugFilter');
-      $bugFilter->addFilterCriteria(IssueCodevTypeFilter::tag_Bug);
-      $outputList = $bugFilter->execute($cmdSel);
-
-      if (empty($outputList)) {
-         #echo "TYPE Bug not found !<br>";
+      $issueSel = self::filterInternalBugs($cmd);
+      if (is_null($issueSel)) {
          return array();
       }
-      $bugSel = $outputList[IssueCodevTypeFilter::tag_Bug];
-
-      // Filter only NoExtRef
-      $extIdFilter = new IssueExtIdFilter('extIdFilter');
-      $extIdFilter->addFilterCriteria(IssueExtIdFilter::tag_no_extRef);
-      $outputList2 = $extIdFilter->execute($bugSel);
-
-      if (empty($outputList2)) {
-         #echo "noExtRef not found !<br>";
-         return array();
-      }
-      $issueSel = $outputList2[IssueExtIdFilter::tag_no_extRef];
-
       // -------
 
       $startTT = $issueSel->getFirstTimetrack();
-      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
+      if ((!is_null($startTT)) && (0 != $startTT->getDate())) {
          $startTimestamp = $startTT->getDate();
       } else {
          $startTimestamp = $cmd->getStartDate();
@@ -363,6 +379,30 @@ class CommandTools {
       $smartyVariable = $statusHistoryIndicator->getSmartyObject();
 
       return $smartyVariable;
+   }
+
+   /**
+    * return smartyVariables for BudgetDriftHistoryIndicator
+    *
+    * @static
+    * @param Command $cmd
+    * @return array smartyVariables
+    */
+   public static function getInternalBugsReopenedRateIndicator(Command $cmd) {
+
+      $issueSel = self::filterInternalBugs($cmd);
+      if (is_null($issueSel)) {
+         return array();
+      }
+
+      $params = self::computeTimestampsAndInterval($cmd);
+
+      $indicator = new ReopenedRateIndicator();
+      $indicator->execute($issueSel, $params);
+
+      $smartyVariables = $indicator->getSmartyObject();
+
+      return $smartyVariables;
    }
 
 
@@ -468,6 +508,12 @@ class CommandTools {
 
       // InternalBugsHistoryIndicator
       $data = CommandTools::getInternalBugsStatusHistory($cmd);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+
+      // InternalBugsReopenedRateIndicator
+      $data = CommandTools::getInternalBugsReopenedRateIndicator($cmd);
       foreach ($data as $smartyKey => $smartyVariable) {
          $smartyHelper->assign($smartyKey, $smartyVariable);
       }

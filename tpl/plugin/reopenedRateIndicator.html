@@ -3,23 +3,6 @@
 <script type="text/javascript">
    jQuery(document).ready(function() {
 
-      var chartoptions = jQuery('#reopenedRateChart').data('plotoptions');
-      chartoptions.title.text = "{t}Bug Refusal Rate{/t}";
-      chartoptions.legend.location = 'nw';
-      chartoptions.series = [{
-         label : "{t}% Validated{/t}"
-      },{
-         label : "{t}% Rejected{/t}"
-      }];
-      chartoptions.axes.xaxis.min = "{$reopenedRate_plotMinDate}";
-      chartoptions.axes.xaxis.max = "{$reopenedRate_plotMaxDate}";
-      //chartoptions.axes.xaxis.tickInterval = "{$reopenedRate_interval} month";
-
-      chartoptions.axes.yaxis.min = 0;
-      //chartoptions.axes.yaxis.max = 100;
-      chartoptions.seriesDefaults.pointLabels.formatString = "%u%";
-      jQuery('#reopenedRateChart').jqplot({$reopenedRate_jqplotData}, chartoptions);
-
       jQuery.ajax({
          url: "js/helpdialog.js",
          dataType: "script",
@@ -47,6 +30,29 @@
    </p>
 </div>
 
+{if isset($reopenedRate_jqplotData)}
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+
+      var chartoptions = jQuery('#reopenedRateChart').data('plotoptions');
+      chartoptions.title.text = "{t}Bug Refusal Rate{/t}";
+      chartoptions.legend.location = 'nw';
+      chartoptions.series = [{
+         label : "{t}% Validated{/t}"
+      },{
+         label : "{t}% Rejected{/t}"
+      }];
+      chartoptions.axes.xaxis.min = "{$reopenedRate_plotMinDate}";
+      chartoptions.axes.xaxis.max = "{$reopenedRate_plotMaxDate}";
+      //chartoptions.axes.xaxis.tickInterval = "{$reopenedRate_interval} month";
+
+      chartoptions.axes.yaxis.min = 0;
+      //chartoptions.axes.yaxis.max = 100;
+      chartoptions.seriesDefaults.pointLabels.formatString = "%u%";
+      jQuery('#reopenedRateChart').jqplot({$reopenedRate_jqplotData}, chartoptions);
+
+   });
+</script>
 <div id="reopenedRateChart" class="date_chart chart float" style="width: 70%;"></div>
 
 <script src="js/progress.js" type="text/javascript"></script>
@@ -70,3 +76,6 @@
 </table>
 
 <div class="ui-helper-clearfix"></div>
+{else}
+   {t}No data.{/t}
+{/if}

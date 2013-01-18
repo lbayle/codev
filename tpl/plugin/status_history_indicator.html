@@ -7,6 +7,8 @@
 
       var chartoptions = jQuery('#chart1b').data('plotoptions');
       chartoptions.axes.xaxis.ticks = {$status_history_xaxis};
+      chartoptions.legend.location = 'nw';
+      chartoptions.legend.placement = 'inside';
       chartoptions.seriesColors = {$status_history_data1Colors};
       chartoptions.legend.labels = {$status_history_data1Labels};
 
@@ -14,5 +16,7 @@
    });
 </script>
 
-<div id="chart1b" class="area_chart chart" style="width:100%;"></div>
+<div id="chart1b" class="area_chart chart" style="width:70%;"></div>
+{else}
+   {t}No data.{/t}
 {/if}
