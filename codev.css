@@ -401,6 +401,8 @@ ul.dropdown li:hover > ul.submenu {
    visibility: visible; 
 }
 
+/* END Dropdown */
+
 /* remove close button from dialogbox */
 .no-close .ui-dialog-titlebar-close {display: none }
 
@@ -415,5 +417,15 @@ ul.dropdown li:hover > ul.submenu {
 /* tabs should not be displayed be default, because of ugly flash on page construction. (FOC) */
 .tabs > div { display:none; }
 
+/* START Table with scrollbar */
+#table-wrapper {
+  position:relative;
+}
+#table-scroll {
+  overflow:auto;  
+}
+#table-wrapper table {
+  width:100%;
+}
+/* END Table with scrollbar */
 
-/* END Dropdown */
