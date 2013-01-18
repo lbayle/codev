@@ -464,8 +464,11 @@ class CommandTools {
       // TODO math should not be in here !
       $cmdTotalDrift = round($cmdTotalReestimated - $cmdProvAndMeeDays, 2);
       $cmdTotalDriftCost = round($cmdTotalReestimatedCost - $cmdProvAndMeeCost, 2);
+
+      $cmdTotalDriftPercent = (0 == $cmdProvAndMeeDays) ? 0 : round( ($cmdTotalDrift * 100 / $cmdProvAndMeeDays) , 2);
       $smartyHelper->assign('cmdTotalDrift',$cmdTotalDrift);
       $smartyHelper->assign('cmdTotalDriftCost',$cmdTotalDriftCost);
+      $smartyHelper->assign('cmdTotalDriftPercent', $cmdTotalDriftPercent);
 
       #$color1 = ($cmdOutlayCost > $cmdProvAndMeeCost) ? "fcbdbd" : "bdfcbd";
       #$smartyHelper->assign('cmdOutlayCostColor', $color1);

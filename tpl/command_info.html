@@ -66,21 +66,24 @@
             <td>
                <table>
                   <tr>
-                     <th valign="top">{t}Budget{/t}</th>
-                     <th valign="top">{t}Reestimated{/t}</th>
-                     <th valign="top">{t}Drift{/t}</th>
+                     <th valign="top" title='{t}MgrEffortEstim + Checked Provisions{/t}'>{t}Budget{/t}</th>
+                     <th valign="top" title='{t}Reestimated (days){/t}'>{t}Reestimated{/t}</th>
+                     <th valign="top" title='{t}Drift (days){/t}'>{t}Drift{/t}</th>
+                     <th valign="top" title='{t}Drift (percent){/t}'> </th>
                      <th></th>
                   </tr>
                   <tr>
                      <td align='right' title="MgrEffortEstim + Checked Provisions">{$cmdProvAndMeeDays}</td>
                      <td align='right'  style="background-color:#{$cmdTotalReestimatedColor}" title='{t}Reestimated (days){/t}' >{$cmdTotalReestimated}</td>
                      <td align='right'  style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift (days){/t}' >{$cmdTotalDrift}</td>
+                     <td align='right'  style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift (percent){/t}' >{$cmdTotalDriftPercent} %</td>
                      <th>{t}Days{/t}</th>
                   </tr>
                   <tr>
                      <td align='right' title ="MgrEffortEstim + Checked Provisions" >{$cmdProvAndMeeCost} </td>
                      <td align='right' style="background-color:#{$cmdTotalReestimatedCostColor}" title='{t}Reestimated days * AverageDailyRate{/t}' >{$cmdTotalReestimatedCost}</td>
                      <td align='right' style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift days * AverageDailyRate{/t}' >{$cmdTotalDriftCost}</td>
+                     <td></td>
                      <th>{$cmdCurrency}</th>
                   </tr>
                </table>
