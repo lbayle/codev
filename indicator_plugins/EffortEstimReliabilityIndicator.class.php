@@ -85,7 +85,6 @@ class EffortEstimReliabilityIndicator implements IndicatorPlugin {
               "AND mantis_bug_history_table.new_value = $bugResolvedStatusThreshold " .
               " ORDER BY mantis_bug_table.id DESC";
 
-      self::$logger->debug("getEffortEstimReliability QUERY = $query");
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -102,26 +101,34 @@ class EffortEstimReliabilityIndicator implements IndicatorPlugin {
 
             // remove doubloons
             if (!in_array($row->id, $resolvedList)) {
-               self::$logger->debug("getEffortEstimReliabilityRate() Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, mgrEE=" . $issue->getMgrEffortEstim() . " date_modified=" . date("d F Y", $row->date_modified) . ", effortEstim=" . $issue->getEffortEstim() . ", BS=" . $issue->getEffortAdd() . ", elapsed = " . $issue->getElapsed());
-
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("getEffortEstimReliabilityRate() Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, mgrEE=" . $issue->getMgrEffortEstim() . " date_modified=" . date("d F Y", $row->date_modified) . ", effortEstim=" . $issue->getEffortEstim() . ", BS=" . $issue->getEffortAdd() . ", elapsed = " . $issue->getElapsed());
+               }
                $resolvedList[] = $row->id;
 
                $totalElapsed += $issue->getElapsed();
 
-               self::$logger->debug("getEffortEstimReliabilityRate(MEE) : ".$EEReliability['MEE']." + " . $issue->getMgrEffortEstim() . " = " . ($EEReliability['MEE'] + $issue->getMgrEffortEstim()));
                $EEReliability['MEE'] += $issue->getMgrEffortEstim();
-               self::$logger->debug("getEffortEstimReliabilityRate(EE) : ".$EEReliability['EE']." + (" . $issue->getEffortEstim() . " + " . $issue->getEffortAdd() . ") = " . ($EEReliability['EE'] + $issue->getEffortEstim() + $issue->getEffortAdd()));
                $EEReliability['EE'] += $issue->getEffortEstim() + $issue->getEffortAdd();
+
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("getEffortEstimReliabilityRate(MEE) : ".$EEReliability['MEE']." + " . $issue->getMgrEffortEstim() . " = " . ($EEReliability['MEE'] + $issue->getMgrEffortEstim()));
+                  self::$logger->debug("getEffortEstimReliabilityRate(EE) : ".$EEReliability['EE']." + (" . $issue->getEffortEstim() . " + " . $issue->getEffortAdd() . ") = " . ($EEReliability['EE'] + $issue->getEffortEstim() + $issue->getEffortAdd()));
+               }
             }
          } else {
             $statusName = Constants::$statusNames[$latestStatus];
-            self::$logger->debug("getEffortEstimReliabilityRate REOPENED : bugid = $row->id status = " . $statusName);
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("getEffortEstimReliabilityRate REOPENED : bugid = $row->id status = " . $statusName);
+            }
          }
       }
 
       // -------
-      self::$logger->debug("getEffortEstimReliabilityRate: Reliability (MEE) = " . $EEReliability['MEE'] . " / $totalElapsed, nbBugs=" . count($resolvedList));
-      self::$logger->debug("getEffortEstimReliabilityRate: Reliability (EE) = " . $EEReliability['EE'] . " / $totalElapsed, nbBugs=" . count($resolvedList));
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getEffortEstimReliabilityRate: Reliability (MEE) = " . $EEReliability['MEE'] . " / $totalElapsed, nbBugs=" . count($resolvedList));
+         self::$logger->debug("getEffortEstimReliabilityRate: Reliability (EE) = " . $EEReliability['EE'] . " / $totalElapsed, nbBugs=" . count($resolvedList));
+      }
 
       if (0 != $totalElapsed) {
          $EEReliability['MEE'] /= $totalElapsed;
