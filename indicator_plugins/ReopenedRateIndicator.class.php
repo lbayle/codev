@@ -70,7 +70,7 @@ class ReopenedRateIndicator implements IndicatorPlugin {
    /**
     *  check input params
     *
-    * @param Command $cmd
+    * @param IssueSelection $inputIssueSel
     * @param array $params
     * @throws Exception
     */
@@ -107,16 +107,17 @@ class ReopenedRateIndicator implements IndicatorPlugin {
 
 
    /**
+    * all bugs changing status from 'resolved' (or higher) status to a lower status
     *
-    * @param type $formattedBugidList
-    * @param type $startTimestamp
-    * @param type $endTimestamp
-    * @return type
+    * @param array $formattedBugidList comma-separated list to be included in SQL request
+    * @param int $startTimestamp
+    * @param int $endTimestamp
+    * @return array bugidList
     */
    private function getReopened($formattedBugidList, $start, $end) {
 
       // 1) get all reopened bugs within the timestamp
-      $query = "SELECT bug.*" .
+      $query = "SELECT bug.* " .
                "FROM `mantis_bug_table` as bug ".
                "JOIN `mantis_bug_history_table` as history ON bug.id = history.bug_id " .
                "WHERE bug.id IN ($formattedBugidList) " .
@@ -135,28 +136,90 @@ class ReopenedRateIndicator implements IndicatorPlugin {
       // 2) count reopened and (still) fixed issues at the end of the period
       $bugidList = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $bugidList[] = $row->id;
+
+         // check that it is still in a 'non-resolved' state.
+         $issue = IssueCache::getInstance()->getIssue($row->id, $row);
+         $latestStatus = $issue->getStatus($end);
+         if ($latestStatus < $issue->getBugResolvedStatusThreshold()) {
+            $bugidList[] = $row->id;
+         } else {
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("reopened but then resolved: $row->id");
+            }
+         }
+
       }
 
+      // remove duplicated values
+      $bugidList = array_unique($bugidList);
       return $bugidList;
    }
 
    /**
-    * Returns all Issues resolved in the period and having not been re-opened
-    * 
-    * @param array $timestampList
+    * all bugs changing status from 'resolved' to a higher status (validated, closed)
+    * and that it is still validated at the end of the period.
+    *
+    * @param array $formattedBugidList comma-separated list to be included in SQL request
+    * @param int $startTimestamp
+    * @param int $endTimestamp
+    * @return array bugidList
     */
-   private function getResolved($formattedBugidList, $start, $end, $withReopened=FALSE) {
+   private function getValidated($formattedBugidList, $start, $end) {
+
+      $query = "SELECT bug.* ".
+               "FROM `mantis_bug_table` as bug ".
+               "JOIN `mantis_bug_history_table` as history ON bug.id = history.bug_id " .
+               "WHERE bug.id IN ($formattedBugidList) " .
+               "AND history.field_name='status' " .
+               "AND history.date_modified >= $start AND history.date_modified < $end " .
+               "AND history.old_value <= get_project_resolved_status_threshold(bug.project_id) " .
+               "AND history.new_value >  get_project_resolved_status_threshold(bug.project_id) " .
+               "GROUP BY bug.id ;";
+
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      $bugidList = array();
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+
+         // check that it is still in a 'validated' state.
+         $issue = IssueCache::getInstance()->getIssue($row->id, $row);
+         $latestStatus = $issue->getStatus($end);
+         if ($latestStatus > $issue->getBugResolvedStatusThreshold()) {
+            $bugidList[] = $row->id;
+         } else {
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug( "validated but then reopened: $row->id");
+            }
+         }
+      }
+
+      // remove duplicated values
+      $bugidList = array_unique($bugidList);
+      return $bugidList;
+   }
+
+   /**
+    * Returns all Issues resolved in the period, including re-opened and validated.
+    * 
+    * @param array $formattedBugidList comma-separated list to be included in SQL request
+    * @param int $startTimestamp
+    * @param int $endTimestamp
+    * @return array bugidList
+    */
+   private function getResolved($formattedBugidList, $start, $end) {
 
       // all bugs which status changed to 'resolved' whthin the timestamp
-      $query = "SELECT bug.* ".
+      $query = "SELECT bug.id ".
                "FROM `mantis_bug_table` as bug, `mantis_bug_history_table` as history ".
                "WHERE bug.id IN ($formattedBugidList) " .
                "AND bug.id = history.bug_id ".
                "AND history.field_name='status' ".
                "AND history.date_modified >= $start AND history.date_modified < $end ".
-               "AND history.new_value = get_project_resolved_status_threshold(project_id) ".
-               "ORDER BY bug.id DESC;";
+               "AND history.new_value = get_project_resolved_status_threshold(project_id) ";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -165,24 +228,12 @@ class ReopenedRateIndicator implements IndicatorPlugin {
       }
       $resolvedList = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
-         if (!$withReopened) {
-            // skip if the bug has been reopened before endTimestamp
-            $latestStatus = $issue->getStatus($end);
-            if ($latestStatus < $issue->getBugResolvedStatusThreshold()) {
-               if(self::$logger->isDebugEnabled()) {
-                  $key = date('Y-m-d H:i:s', $end);
-                  self::$logger->debug("getResolved() REOPENED [$key]: bugid = ".$issue->getId().' (excluded)');
-               }
-               continue;
-            }
-         }
-         // remove duplicated values
-         if (!in_array ($issue->getId(), $resolvedList)) {
-            $resolvedList[] = $issue->getId();
-         }
+         $resolvedList[] = $row->id;
       }
+
+      // remove duplicated values
+      $resolvedList = array_unique($resolvedList);
       return $resolvedList;
    }
 
@@ -208,10 +259,14 @@ class ReopenedRateIndicator implements IndicatorPlugin {
 
       // ------ compute
 
+      #$resolvedList = array();
+      #$nbResolvedList = array();
       $reopenedList = array();
       $nbReopenedList = array();
-      $resolvedList = array();
-      $nbResolvedList = array();
+      $validatedList = array();
+      $nbValidatedList = array();
+      $reopenedPercentList = array();
+      $validatedPercentList = array();
 
       $formattedBugidList = implode(', ', array_keys($inputIssueSel->getIssueList()));
 
@@ -224,32 +279,73 @@ class ReopenedRateIndicator implements IndicatorPlugin {
 
          // -------
 
+         #$resolvedBugidList = $this->getResolved($formattedBugidList, $start, $end);
          $reopenedBugidList = $this->getReopened($formattedBugidList, $start, $end);
-         $resolvedBugidList = $this->getResolved($formattedBugidList, $start, $end);
+         $validatedBugidList = $this->getValidated($formattedBugidList, $start, $end);
 
+         // PHP.net: It's often faster to use foreach and array_keys than array_unique
+         #$tmpBugidList = array_merge($resolvedBugidList, $reopenedBugidList, $validatedBugidList);
+         $tmpBugidList = array_merge($reopenedBugidList, $validatedBugidList);
+         $allBugidList = array();
+         foreach($tmpBugidList as $val) {
+            $allBugidList[$val] = true;
+         }
+         $allBugidList = array_keys($allBugidList);
+
+         // --------
+         $nbResolved = count($allBugidList);
+         $nbReopened = count($reopenedBugidList);
+         $nbValidated = count($validatedBugidList);
+
+         if (0 != $nbResolved) {
+            $pcentReopened = round((100 * $nbReopened / $nbResolved), 2);
+            $pcentValidated = round((100 * $nbValidated / $nbResolved), 2);
+         } else {
+            $pcentReopened = 0;
+            $pcentValidated = 0;
+         }
          // ---------
 
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestampList[$i]), date('d', $timestampList[$i]), date('Y', $timestampList[$i]));
          $key = Tools::formatDate('%Y-%m-%d', $midnight_timestamp);
 
+         #$resolvedList[$key] = $allBugidList;
          $reopenedList[$key] = $reopenedBugidList;
-         $nbReopenedList[$key] = count($reopenedBugidList);
-         $resolvedList[$key] = $resolvedBugidList;
-         $nbResolvedList[$key] = count($resolvedBugidList);
+         $validatedList[$key] = $validatedBugidList;
 
-         $tableData[$key] = array('nbReopened' => $nbReopenedList[$key],
-                                  'reopenedPercent' => 0, // TODO
-                                  'nbResolved' => $nbResolvedList[$key],
-                                  'resolvedPercent' => 0, // TODO
-             ); // TODO
+         #$nbResolvedList[$key] = $nbResolved;
+         $nbReopenedList[$key] = $nbReopened;
+         $nbValidatedList[$key] = $nbValidated;
 
-         #echo "reopened[".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".count($bugidList)." reopened : ".implode(', ', $bugidList).'<br>';
+         $reopenedPercentList[$key] = $pcentReopened;
+         $validatedPercentList[$key] = $pcentValidated;
+
+         $tableData[$key] = array(#'nbResolved' => $nbResolved,
+                                  'nbReopened' => $nbReopened,
+                                  'reopenedPercent' => $pcentReopened,
+                                  'nbValidated' => $nbValidated,
+                                  'validatedPercent' => $pcentValidated,
+                                 );
+
+         if(self::$logger->isDebugEnabled()) {
+            #echo "resolved [".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$nbResolved." resolved  : ".implode(', ', $allBugidList).'<br>';
+            self::$logger->debug("reopened [".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$nbReopened." reopened  : ".implode(', ', $reopenedBugidList));
+            self::$logger->debug("validated[".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$nbValidated." validated : ".implode(', ', $validatedBugidList));
+            #echo '---<br>';
+         }
       }
 
+      #$this->execData['nbResolved'] = $nbResolvedList;
+      #$this->execData['resolvedIssues'] = $resolvedList;
+
       $this->execData['nbReopened'] = $nbReopenedList;
-      $this->execData['nbResolved'] = $nbResolvedList;
       $this->execData['reopenedIssues'] = $reopenedList;
-      $this->execData['resolvedIssues'] = $resolvedList;
+      $this->execData['reopenedPercent'] = $reopenedPercentList;
+
+      $this->execData['nbValidated'] = $nbValidatedList;
+      $this->execData['validatedIssues'] = $validatedList;
+      $this->execData['validatedPercent'] = $validatedPercentList;
+
       $this->execData['tableData'] = $tableData;
 
 
@@ -271,10 +367,13 @@ class ReopenedRateIndicator implements IndicatorPlugin {
       $smartyVariables['reopenedRate_plotMinDate'] = Tools::formatDate("%Y-%m-01", $startTimestamp);
       $smartyVariables['reopenedRate_plotMaxDate'] = Tools::formatDate("%Y-%m-01", $endTimestamp);
       $smartyVariables['reopenedRate_interval']    = ceil($this->interval/20);
-      $smartyVariables['reopenedRate_jqplotData']  = "[".Tools::array2plot($this->execData['nbResolved']).','.Tools::array2plot($this->execData['nbReopened'])."]";
 
-      $smartyVariables['reopenedRate_reopenedIssues']   = $this->execData['reopenedIssues'];
-      $smartyVariables['reopenedRate_resolvedIssues']   = $this->execData['resolvedIssues'];
+      #$smartyVariables['reopenedRate_jqplotData']  = "[".Tools::array2plot($this->execData['nbValidated']).','.Tools::array2plot($this->execData['nbReopened'])."]";
+      $smartyVariables['reopenedRate_jqplotData']  = "[".Tools::array2plot($this->execData['validatedPercent']).','.Tools::array2plot($this->execData['reopenedPercent'])."]";
+
+      #$smartyVariables['reopenedRate_reopenedIssues']   = $this->execData['reopenedIssues'];
+      #$smartyVariables['reopenedRate_validatedIssues']   = $this->execData['validatedIssues'];
+
       $smartyVariables['reopenedRate_tableData']   = $this->execData['tableData'];
 
       return $smartyVariables;
