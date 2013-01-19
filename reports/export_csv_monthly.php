@@ -95,7 +95,6 @@ class ExportCSVMonthlyController extends Controller {
    public static function exportProjectMonthlyActivityToCSV(TimeTracking $timeTracking, $myFile) {
       $sepChar=';';
 
-      $totalEffortEstim   = 0;
 
       $fh = fopen($myFile, 'w');
 
@@ -103,6 +102,7 @@ class ExportCSVMonthlyController extends Controller {
       $projectTracks = $timeTracking->getProjectTracks();
 
       foreach ($projectTracks as $projectId => $bugList) {
+         $totalEffortEstim = 0;
          $totalElapsed = 0;
          $totalBacklog = 0;
          $totalElapsedPeriod = 0;
