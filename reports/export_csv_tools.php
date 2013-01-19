@@ -185,6 +185,7 @@ class ExportCsvTools {
             $issue->getEffortAdd().$sepChar.
             $issue->getElapsed().$sepChar.
             $issue->getBacklog().$sepChar.
+            round(100 * $issue->getProgress())."%".$sepChar.
             $deliveryDate.$sepChar.
             $issue->getDeliveryId().$sepChar.
             $user->getShortname().
