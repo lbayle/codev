@@ -373,59 +373,18 @@ class IssueInfoController extends Controller {
     */
    private function getBacklogGraph(Issue $issue) {
 
-      $backlogList = array();
+      $backlogList = $issue->getBacklogHistory();
 
-      // get backup at each timetrack (keep only the latest of the day)
-      $firstTimetrack = $issue->getFirstTimetrack();
-      $latestTimetrack = $issue->getLatestTimetrack();
-
-      $timestamps = array();
-      if ($latestTimetrack && $firstTimetrack && $latestTimetrack > $firstTimetrack) {
-
-         $timestamps = array();
-         $timeTracks = $issue->getTimeTracks();
-         foreach ($timeTracks as $tt) {
-            $ttDate = $tt->getDate();
-            $timestamp = mktime(23, 59, 59, date('m', $ttDate), date('d', $ttDate), date('Y', $ttDate));
-            if (!in_array($timestamp, $timestamps)) {
-               $timestamps[] = $timestamp;
-
-               $backlog = $issue->getBacklog($timestamp);
-               if(is_null($backlog) || !is_numeric($backlog)) {
-                  $backlog = $issue->getEffortEstim();
-               }
-               $backlogList[Tools::formatDate("%Y-%m-%d", $timestamp)] = $backlog;
-            }
-         }
+      $formattedBlList = array();
+      foreach ($backlogList as $t => $b) {
+         $formattedBlList[Tools::formatDate("%Y-%m-%d", $t)] = $b;
       }
-
-      // at Submission, Backlog = EffortEstim
-      // Note: may be ommited if some timetracks found the same day
-      $dateSubmission = $issue->getDateSubmission();
-      $timestamp = mktime(23, 59, 59, date('m', $dateSubmission), date('d', $dateSubmission), date('Y', $dateSubmission));
-      if (!in_array($timestamp, $timestamps)) {
-         $backlogList[Tools::formatDate("%Y-%m-%d", $dateSubmission)] = $issue->getEffortEstim();
-      }
-
-      // add latest value
-      $timestamp = $issue->getLastUpdate();
-      $timestamp = mktime(23, 59, 59, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
-      if (!in_array($timestamp, $timestamps)) {
-         $timestamps[] = $timestamp;
-
-         $backlog = $issue->getBacklog($timestamp);
-         if(is_null($backlog) || !is_numeric($backlog)) {
-            $backlog = $issue->getEffortEstim();
-         }
-         $backlogList[Tools::formatDate("%Y-%m-%d", $timestamp)] = $backlog;
-      }
-      ksort($backlogList);
-
+      
       // Graph start/stop dates
-      reset($backlogList);
-      $plotMinDate = key($backlogList);
-      end($backlogList);
-      $plotMaxDate = key($backlogList);
+      reset($formattedBlList);
+      $plotMinDate = key($formattedBlList);
+      end($formattedBlList);
+      $plotMaxDate = key($formattedBlList);
 
       // Calculate a nice week interval
       $minTimestamp = Tools::date2timestamp($plotMinDate);
@@ -433,7 +392,7 @@ class IssueInfoController extends Controller {
       $nbWeeks = ($maxTimestamp - $minTimestamp) / 60 / 60 / 24 / 7;
       $interval = ceil($nbWeeks / 10);
 
-      $jqplotData = Tools::array2plot($backlogList);
+      $jqplotData = Tools::array2plot($formattedBlList);
 
       return array(
          'backlog_interval'         => $interval,
