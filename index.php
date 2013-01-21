@@ -83,46 +83,49 @@ class IndexController extends Controller {
     */
    private function getIssuesInDrift() {
 
-      // get all teams except those where i'm Observer
-      #$dTeamList = $this->session_user->getDevTeamList();
-      #$mTeamList = $this->session_user->getManagedTeamList();
-      #$teamList = $dTeamList + $mTeamList;           // array_merge does not work ?!
-
-      $teamList = array($this->teamid => $this->teamList[$this->teamid]);
-
-      // except disabled projects
-      $projList = $this->session_user->getProjectList($teamList, true, false);
-
-      $allIssueList = $this->session_user->getAssignedIssues($projList);
-      $issueList = array();
       $driftedTasks = array();
 
-      foreach ($allIssueList as $issue) {
-         $driftEE = $issue->getDrift();
-         if ($driftEE >= 1) {
-            $issueList[] = $issue;
-         }
-      }
-      if (count($issueList) > 0) {
-         foreach ($issueList as $issue) {
-            // TODO: check if issue in team project list ?
+      if (0 != $this->teamid) {
+
+         // get all teams except those where i'm Observer
+         #$dTeamList = $this->session_user->getDevTeamList();
+         #$mTeamList = $this->session_user->getManagedTeamList();
+         #$teamList = $dTeamList + $mTeamList;           // array_merge does not work ?!
+
+         $teamList = array($this->teamid => $this->teamList[$this->teamid]);
+
+         // except disabled projects
+         $projList = $this->session_user->getProjectList($teamList, true, false);
+
+         $allIssueList = $this->session_user->getAssignedIssues($projList);
+         $issueList = array();
+
+         foreach ($allIssueList as $issue) {
             $driftEE = $issue->getDrift();
+            if ($driftEE >= 1) {
+               $issueList[] = $issue;
+            }
+         }
+         if (count($issueList) > 0) {
+            foreach ($issueList as $issue) {
+               // TODO: check if issue in team project list ?
+               $driftEE = $issue->getDrift();
 
-            $formatedTitle = $issue->getFormattedIds();
-            $formatedSummary = str_replace("'", "\'", $issue->getSummary());
-            $formatedSummary = str_replace('"', "\'", $formatedSummary);
+               $formatedTitle = $issue->getFormattedIds();
+               $formatedSummary = str_replace("'", "\'", $issue->getSummary());
+               $formatedSummary = str_replace('"', "\'", $formatedSummary);
 
-            $driftedTasks[] = array('issueInfoURL' => Tools::issueInfoURL($issue->getId()),
-               'projectName' => $issue->getProjectName(),
-               'driftEE' => $driftEE,
-               'formatedTitle' => $formatedTitle,
-               'bugId' => $issue->getId(),
-               'backlog' => $issue->getBacklog(),
-               'formatedSummary' => $formatedSummary,
-               'summary' => $issue->getSummary());
+               $driftedTasks[] = array('issueInfoURL' => Tools::issueInfoURL($issue->getId()),
+                  'projectName' => $issue->getProjectName(),
+                  'driftEE' => $driftEE,
+                  'formatedTitle' => $formatedTitle,
+                  'bugId' => $issue->getId(),
+                  'backlog' => $issue->getBacklog(),
+                  'formatedSummary' => $formatedSummary,
+                  'summary' => $issue->getSummary());
+            }
          }
       }
-
       return $driftedTasks;
    }
 
@@ -133,30 +136,33 @@ class IndexController extends Controller {
    private function getConsistencyErrors() {
       $consistencyErrors = array(); // if null, array_merge fails !
 
-      // only this team's projects
-      #$teamList = $this->teamList;
-      $teamList = array($this->teamid => $this->teamList[$this->teamid]);
+      if (0 != $this->teamid) {
 
-      // except disabled projects
-      $projList = $this->session_user->getProjectList($teamList, true, false);
+         // only this team's projects
+         #$teamList = $this->teamList;
+         $teamList = array($this->teamid => $this->teamList[$this->teamid]);
 
-      $issueList = $this->session_user->getAssignedIssues($projList, true);
+         // except disabled projects
+         $projList = $this->session_user->getProjectList($teamList, true, false);
 
-      $ccheck = new ConsistencyCheck2($issueList, $this->teamid);
+         $issueList = $this->session_user->getAssignedIssues($projList, true);
 
-      $cerrList = $ccheck->check();
+         $ccheck = new ConsistencyCheck2($issueList, $this->teamid);
 
-      if (count($cerrList) > 0) {
-         foreach ($cerrList as $cerr) {
-            if ($this->session_user->getId() == $cerr->userId) {
-               $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-               $titleAttr = array(
-                   T_('Project') => $issue->getProjectName(),
-                   T_('Summary') => $issue->getSummary(),
-               );
-               $consistencyErrors[] = array('issueURL' => Tools::issueInfoURL($cerr->bugId, $titleAttr),
-                  'status' => Constants::$statusNames[$cerr->status],
-                  'desc' => $cerr->desc);
+         $cerrList = $ccheck->check();
+
+         if (count($cerrList) > 0) {
+            foreach ($cerrList as $cerr) {
+               if ($this->session_user->getId() == $cerr->userId) {
+                  $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
+                  $titleAttr = array(
+                      T_('Project') => $issue->getProjectName(),
+                      T_('Summary') => $issue->getSummary(),
+                  );
+                  $consistencyErrors[] = array('issueURL' => Tools::issueInfoURL($cerr->bugId, $titleAttr),
+                     'status' => Constants::$statusNames[$cerr->status],
+                     'desc' => $cerr->desc);
+               }
             }
          }
       }
