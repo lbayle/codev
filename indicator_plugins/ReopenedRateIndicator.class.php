@@ -83,7 +83,7 @@ class ReopenedRateIndicator implements IndicatorPlugin {
       }
 
       if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("execute() ISel=".$cmd->getName().' interval='.$params['interval'].' startTimestamp='.$params['startTimestamp'].' endTimestamp='.$params['endTimestamp']);
+         self::$logger->debug("execute() ISel=".$inputIssueSel->name.' interval='.$params['interval'].' startTimestamp='.$params['startTimestamp'].' endTimestamp='.$params['endTimestamp']);
       }
 
       if (array_key_exists('startTimestamp', $params)) {
@@ -271,20 +271,30 @@ class ReopenedRateIndicator implements IndicatorPlugin {
       $formattedBugidList = implode(', ', array_keys($inputIssueSel->getIssueList()));
 
       for($i = 1, $size = count($timestampList); $i < $size; ++$i) {
+
          $start = $timestampList[$i-1];
-         //$start = mktime(0, 0, 0, date('m', $timestampList[$i-1]), date('d',$timestampList[$i-1]), date('Y', $timestampList[$i-1]));
 
          $lastDay = ($i + 1 < $size) ? strtotime("-1 day",$timestampList[$i]) : $timestampList[$i];
          $end   = mktime(23, 59, 59, date('m', $lastDay), date('d',$lastDay), date('Y', $lastDay));
 
+         $midnight_timestamp = mktime(0, 0, 0, date('m', $timestampList[$i]), date('d', $timestampList[$i]), date('Y', $timestampList[$i]));
+         $key = Tools::formatDate('%Y-%m-%d', $midnight_timestamp);
+
          // -------
 
-         #$resolvedBugidList = $this->getResolved($formattedBugidList, $start, $end);
          $reopenedBugidList = $this->getReopened($formattedBugidList, $start, $end);
          $validatedBugidList = $this->getValidated($formattedBugidList, $start, $end);
 
+         // WARN: the tiestamp list may return something like this:
+         // timestamp = 2013-01-14 00:00:00
+         // timestamp = 2013-01-21 00:00:00
+         // timestamp = 2013-01-21 23:59:59
+         if (array_key_exists($key, $reopenedList)) {
+            $reopenedBugidList = array_merge($reopenedBugidList, $reopenedList[$key]);
+            $validatedBugidList = array_merge($validatedBugidList, $validatedList[$key]);
+         }
+
          // PHP.net: It's often faster to use foreach and array_keys than array_unique
-         #$tmpBugidList = array_merge($resolvedBugidList, $reopenedBugidList, $validatedBugidList);
          $tmpBugidList = array_merge($reopenedBugidList, $validatedBugidList);
          $allBugidList = array();
          foreach($tmpBugidList as $val) {
@@ -306,14 +316,9 @@ class ReopenedRateIndicator implements IndicatorPlugin {
          }
          // ---------
 
-         $midnight_timestamp = mktime(0, 0, 0, date('m', $timestampList[$i]), date('d', $timestampList[$i]), date('Y', $timestampList[$i]));
-         $key = Tools::formatDate('%Y-%m-%d', $midnight_timestamp);
-
-         #$resolvedList[$key] = $allBugidList;
          $reopenedList[$key] = $reopenedBugidList;
          $validatedList[$key] = $validatedBugidList;
 
-         #$nbResolvedList[$key] = $nbResolved;
          $nbReopenedList[$key] = $nbReopened;
          $nbValidatedList[$key] = $nbValidated;
 
@@ -328,15 +333,11 @@ class ReopenedRateIndicator implements IndicatorPlugin {
                                  );
 
          if(self::$logger->isDebugEnabled()) {
-            #echo "resolved [".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$nbResolved." resolved  : ".implode(', ', $allBugidList).'<br>';
             self::$logger->debug("reopened [".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$nbReopened." reopened  : ".implode(', ', $reopenedBugidList));
             self::$logger->debug("validated[".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$nbValidated." validated : ".implode(', ', $validatedBugidList));
             #echo '---<br>';
          }
       }
-
-      #$this->execData['nbResolved'] = $nbResolvedList;
-      #$this->execData['resolvedIssues'] = $resolvedList;
 
       $this->execData['nbReopened'] = $nbReopenedList;
       $this->execData['reopenedIssues'] = $reopenedList;
@@ -347,8 +348,6 @@ class ReopenedRateIndicator implements IndicatorPlugin {
       $this->execData['validatedPercent'] = $validatedPercentList;
 
       $this->execData['tableData'] = $tableData;
-
-
 
       return $this->execData;
    }
