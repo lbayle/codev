@@ -330,6 +330,7 @@ class ReopenedRateIndicator implements IndicatorPlugin {
                                   'reopenedPercent' => $pcentReopened,
                                   'nbValidated' => $nbValidated,
                                   'validatedPercent' => $pcentValidated,
+                                  'dateTooltip' => date('d M H:i:s', $start).' - '.date('d M H:i:s', $end)
                                  );
 
          if(self::$logger->isDebugEnabled()) {

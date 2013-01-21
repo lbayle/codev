@@ -67,7 +67,7 @@
    <tbody>
       {foreach from=$reopenedRate_tableData key=id item=i}
       <tr>
-         <td class="right">{$id}</td>
+         <td class="right" title="{$i.dateTooltip}">{$id}</td>
          <td class="right">{$i.nbReopened}</td>
          <td class="right">{$i.nbValidated}</td>
       </tr>
