@@ -46,8 +46,9 @@ function displayProjectSelectionForm($originPage, $projList, $defaultProjectid =
  * @param Project $project
  * @param type $odtTemplate
  * @param type $userid
+ * @param type $session_userid
  */
-function genProjectODT(Project $project, $odtTemplate, $userid = 0, $session_userid) {
+function genProjectODT(Project $project, $odtTemplate, $session_userid, $userid = 0) {
    global $logger;
 
    $logger->debug("genProjectODT(): project ".$project->getName()." template $odtTemplate user $userid");
@@ -104,8 +105,10 @@ function genProjectODT(Project $project, $odtTemplate, $userid = 0, $session_use
 
       // add issue
       try { $issueSegment->setVars('q_id', $q_id); } catch (Exception $e) { $logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString()); };
+
       try { $issueSegment->setVars('bugId', $issue->getId()); } catch (Exception $e) {$logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());};
       try { $issueSegment->setVars('summary', utf8_decode($issue->getSummary())); } catch (Exception $e) {$logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());};
+
       try { $issueSegment->setVars('dateSubmission', date('d/m/Y',$issue->getDateSubmission())); } catch (Exception $e) {$logger->error("EXCEPTION ".$e->getMessage()); $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());};
       try {
          $timestamp = $issue->getDeadLine();
@@ -188,7 +191,8 @@ if (isset($session_userid)) {
       if ('genODT' == $action) {
          $project = ProjectCache::getInstance()->getProject($projectid);
 
-         genProjectODT($project, "../odt_templates/atos_dinf_01.odt", 0, $session_userid);
+         genProjectODT($project, "../odt_templates/atos_dinf_01.odt", $session_userid, 0);
+         #genProjectODT($project, "../odt_templates/test_01.odt", $session_userid, 0);
       }
    }
 

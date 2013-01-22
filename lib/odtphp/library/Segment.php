@@ -100,7 +100,8 @@ class Segment implements IteratorAggregate, Countable
 				$this->file->addFile($imageKey, 'Pictures/' . $imageValue);
 			}
         }
-        $this->file->close();		
+        $this->file->close();
+        $this->vars = array(); // LoB FIX rows inside a loop-Segments are not re-initialized
         return $this->xmlParsed;
     }
     /**
