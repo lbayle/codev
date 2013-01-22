@@ -93,7 +93,16 @@ class Segment implements IteratorAggregate, Countable
             }
         }
         $reg = "/\[!--\sBEGIN\s$this->name\s--\](.*)\[!--\sEND\s$this->name\s--\]/sm";
-        $this->xmlParsed = preg_replace($reg, '$1', $this->xmlParsed);
+
+        // LoB FIX the 'template' row remains if no row to add.
+        if (0 == strcmp($this->xmlParsed, $this->xml)) {
+           // no variables have been set, remove the element (empty row)
+           $this->xmlParsed = preg_replace($reg, '', $this->xmlParsed);
+        } else {
+           // replace with content
+           $this->xmlParsed = preg_replace($reg, '$1', $this->xmlParsed);
+        }
+
         $this->file->open($this->odf->getTmpfile());
         foreach ($this->images as $imageKey => $imageValue) {
 			if ($this->file->getFromName('Pictures/' . $imageValue) === false) {
@@ -101,7 +110,8 @@ class Segment implements IteratorAggregate, Countable
 			}
         }
         $this->file->close();
-        $this->vars = array(); // LoB FIX rows inside a loop-Segments are not re-initialized
+        $this->vars = array(); // LoB FIX table rows inside a loop-Segment are not re-initialized
+
         return $this->xmlParsed;
     }
     /**
