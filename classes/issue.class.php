@@ -700,13 +700,13 @@ class Issue extends Model implements Comparable {
                   "WHERE bugid = ".$this->bugId;
 
          if (isset($job_id)) {
-            $query .= " AND jobid = $job_id";
+            $query .= " AND jobid = $job_id ";
          }
          if (isset($startTimestamp)) {
-            $query .= "AND date >= $startTimestamp ";
+            $query .= " AND date >= $startTimestamp ";
          }
          if (isset($endTimestamp)) {
-            $query .= "AND date <= $endTimestamp ";
+            $query .= " AND date <= $endTimestamp ";
          }
 
          $result = SqlWrapper::getInstance()->sql_query($query);
