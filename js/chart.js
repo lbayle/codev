@@ -279,6 +279,43 @@ jQuery(document).ready(function() {
       }
    });
 
+
+
+   // Chart with labels on X
+   jQuery('.xlabels_chart').each(function() {
+      jQuery(this).data("plotoptions", {
+         series:{
+            renderer:jQuery.jqplot.BarRenderer
+         },
+         seriesDefaults: {
+            pointLabels: { show:true }
+         },
+         axesDefaults: {
+             tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer ,
+             tickOptions: {
+               //angle: -30,
+               //fontSize: '10pt'
+             }
+         },
+         axes: {
+            xaxis: {
+               renderer: jQuery.jqplot.CategoryAxisRenderer
+            },
+            yaxis: {
+               min: 0
+            }
+         },
+         legend: {
+            show: true,
+            placement: 'inside',
+            location: 'ne',
+            rowSpacing: '0px'
+         }
+      });
+   });
+
+
+
 });
 
 function updateChart(chart, data) {

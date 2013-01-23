@@ -1,0 +1,32 @@
+
+
+<div id="content">
+
+   <div id="averageBacklogVariation">
+      <h2>{t}Average Backlog Variation{/t}</h2>
+
+      {if isset($backlogVariation_graphData)}
+      {include file="tools/graph.html"}
+
+      <script type="text/javascript">
+         jQuery(document).ready(function(){
+
+            var chart = jQuery('#chart1c');
+            var chartoptions = jQuery('#chart1c').data('plotoptions');
+            chartoptions.title = '{$backlogVariation_graphTitle}';
+            chartoptions.legend.labels = {$backlogVariation_legendLabels};
+
+            chart.jqplot({$backlogVariation_graphData}, chartoptions);
+         });
+      </script>
+      <div id="chart1c" class="xlabels_chart chart" style="width:70%;"></div>
+
+      {else}
+         {t}No data.{/t}
+      {/if}
+
+   </div>
+
+
+
+</div>

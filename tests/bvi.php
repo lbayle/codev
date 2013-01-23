@@ -22,7 +22,7 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
-class TestController extends Controller {
+class BVIController extends Controller {
 
    /**
     * @var Logger The logger
@@ -41,15 +41,17 @@ class TestController extends Controller {
       if (Tools::isConnectedUser()) {
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-
-         // CODE HERE
-
          $isel = new IssueSelection('testSel');
          $isel->addIssue(565);
          $isel->addIssue(567);
 
          $indic = new BacklogVariationIndicator();
          $indic->execute($isel);
+
+         $data = $indic->getSmartyObject();
+         foreach ($data as $smartyKey => $smartyVariable) {
+            $this->smartyHelper->assign($smartyKey, $smartyVariable);
+         }
          
 
       }
@@ -58,7 +60,7 @@ class TestController extends Controller {
 }
 
 // ========== MAIN ===========
-TestController::staticInit();
-$controller = new TestController('TEST something', 'Admin');
+BVIController::staticInit();
+$controller = new BVIController('TEST BacklogVariationIndicator', 'Tests');
 $controller->execute();
 ?>

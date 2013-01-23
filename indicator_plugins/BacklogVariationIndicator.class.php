@@ -10,6 +10,13 @@
  */
 class NormalizedBacklog {
 
+
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+
    public $bugid;
 
    private $normalizedTotalElapsed;
@@ -20,9 +27,18 @@ class NormalizedBacklog {
     */
    private $normalizedBacklogHistory;
 
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
+
    public function __construct(Issue $issue, $normValue) {
       $this->bugid = $issue->getId();
-      echo "=== NormalizedBacklog $this->bugid normValue=$normValue<br>";
+      #echo "=== NormalizedBacklog $this->bugid normValue=$normValue<br>";
       $this->normalize($issue, $normValue);
    }
 
@@ -66,7 +82,7 @@ class NormalizedBacklog {
       foreach ($backlogs as $index => $backlog) {
          $key = round(($index * $factor), 3);
          $this->normalizedBacklogHistory["$key"] = ($backlog * $factor);
-         echo "normalized: elapsed=$key  backlog=".$this->normalizedBacklogHistory["$key"]."<br>";
+         #echo "normalized: elapsed=$key  backlog=".$this->normalizedBacklogHistory["$key"]."<br>";
       }
       $this->normalizedTotalElapsed = floatval($key);
       // WARN normalizedBacklogHistory keys must be sorted !
@@ -79,10 +95,9 @@ class NormalizedBacklog {
     */
    public function getBacklogEval($relativeDate) {
 
-      if (array_key_exists($relativeDate, $this->normalizedBacklogHistory)) {
+      if (array_key_exists("$relativeDate", $this->normalizedBacklogHistory)) {
          return $this->normalizedBacklogHistory["$relativeDate"];
       }
-
       // 1) find prev and next keys in stretchedBacklog table
       $indexes = array_keys($this->normalizedBacklogHistory);
       foreach ($indexes as $idx) {
@@ -96,7 +111,7 @@ class NormalizedBacklog {
       }
 
       if (is_null($next)) {
-         echo "issue $this->bugid: backlogEval[$relativeDate] = 0 => NOT FOUND (max found = $prev)<br>";
+         #echo "issue $this->bugid: backlogEval[$relativeDate] = 0 => NOT FOUND (max found = $prev)<br>";
          return 0; // return currentBacklog  (but issue is resolved, so '0')
       }
 
@@ -111,7 +126,7 @@ class NormalizedBacklog {
 
       $backlogEval = $m * $relativeDate + $p;
 
-      echo "issue $this->bugid: backlogEval[$relativeDate] = $backlogEval<br>";
+      #echo "issue $this->bugid: backlogEval[$relativeDate] = $backlogEval<br>";
       return $backlogEval;
 
    }
@@ -129,10 +144,28 @@ class NormalizedBacklog {
  * @author lob
  */
 class BacklogVariationIndicator implements IndicatorPlugin {
-   //put your code here
+
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
    private $inputIssueSel;
    protected $execData;
+
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
+
+   public function __construct() {
+      // nothing to do
+   }
+
 
    public function getDesc(){
 
@@ -219,31 +252,51 @@ class BacklogVariationIndicator implements IndicatorPlugin {
       $step = round(($maxDays / 20), 1);
       #$step = $maxDays / $normValue;
       if ($step < 0.1) { $step = 0.1; }
-      echo "maxDays = $maxDays step = $step<br>";
+      #echo "maxDays = $maxDays step = $step<br>";
 
-      $this->execData = array();
+      $finalData = array();
       for ($i = 0; $i <= $maxDays; $i += $step) {
          $totalBacklog = 0;
          foreach ($normalizedBacklogList as $bugid => $normalizedBacklog) {
 
             $totalBacklog += $normalizedBacklog->getBacklogEval($i);
          }
-         $this->execData["$i"] = $totalBacklog;
+         $finalData["$i"] = $totalBacklog;
       }
 
       $nbIssues = $inputIssueSel->getNbIssues();
       for ($i = 0; $i <= $maxDays; $i += $step) {
-         $this->execData["$i"] = round(($this->execData["$i"] / $nbIssues), 2);
-         echo "final[$i] = ".$this->execData["$i"].'<br>';
+         $finalData["$i"] = round(($finalData["$i"] / $nbIssues), 2);
+         #echo "final[$i] = ".$finalData["$i"].'<br>';
       }
- 
+
+      $this->execData = array();
+      $this->execData['normValue'] = $normValue;
+      $this->execData['step'] = $step;
+      $this->execData['finalData'] = $finalData;
    }
 
+   /**
+    *
+    * @return array smartyVariables
+    */
    public function getSmartyObject(){
+      $smartyVariables = array();
 
+      $smartyVariables['backlogVariation_graphTitle'] = T_('Average backlog');
+      $smartyVariables['backlogVariation_legendLabels'] = '["average backlog"]';
+
+
+      $smartyVariables['backlogVariation_graphData'] = '['.Tools::array2plot($this->execData['finalData']).']';
+
+
+      return $smartyVariables;
    }
-
 
 }
+
+// Initialize complex static variables
+NormalizedBacklog::staticInit();
+BacklogVariationIndicator::staticInit();
 
 ?>
