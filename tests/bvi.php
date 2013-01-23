@@ -37,13 +37,51 @@ class BVIController extends Controller {
       self::$logger = Logger::getLogger(__CLASS__);
    }
 
+
+   private function getResolvedIssues($teamid, $userid = 0, $projects = NULL) {
+
+      $team = TeamCache::getInstance()->getTeam($teamid);
+
+      if (is_null($projects)) {
+         $projects = $team->getProjects(false, false, false);
+         $formattedProjects = implode(',', array_keys($projects));
+      } else {
+         $formattedProjects = implode(',', array_values($projects));
+      }
+
+      $formattedUsers = (0 != $userid) ? $userid : implode(',', array_keys($team->getActiveMembers()));
+
+
+      $query = "SELECT id FROM `mantis_bug_table` ".
+         "WHERE project_id IN ($formattedProjects) ".
+         "AND handler_id IN ($formattedUsers) ".
+         "AND status >= get_project_resolved_status_threshold(project_id) ";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+echo "query = $query<br>";
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $isel = new IssueSelection('resolvedIssues');
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $isel->addIssue($row->id);
+      }
+echo implode(',', array_keys($isel->getIssueList()));
+      return $isel;
+   }
+
+
    protected function display() {
       if (Tools::isConnectedUser()) {
-         $user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-         $isel = new IssueSelection('testSel');
-         $isel->addIssue(565);
-         $isel->addIssue(567);
+         $isel = $this->getResolvedIssues($this->teamid, $this->session_userid);
+         #$isel = $this->getResolvedIssues($this->teamid, $this->session_userid, array(18));
+         #$isel = $this->getResolvedIssues($this->teamid, 17, array(18));
+
+         #$isel = new IssueSelection('testSel');
+         #$isel->addIssue(565);
+         #$isel->addIssue(567);
+         #$isel->addIssue(377);
 
          $indic = new BacklogVariationIndicator();
          $indic->execute($isel);

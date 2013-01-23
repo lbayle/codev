@@ -245,10 +245,10 @@ class BacklogVariationIndicator implements IndicatorPlugin {
       $this->inputIssueSel = $inputIssueSel;
 
       #$normValue = $this->getNormValue();
-      $normValue = 20;
+      $normValue = 100;
       $normalizedBacklogList = $this->getNormalizedBacklog($normValue);
 
-      $maxDays = intval(1 + $this->getMaxElapsed($normalizedBacklogList));
+      $maxDays = intval($this->getMaxElapsed($normalizedBacklogList));
       $step = round(($maxDays / 20), 1);
       #$step = $maxDays / $normValue;
       if ($step < 0.1) { $step = 0.1; }

@@ -293,7 +293,7 @@ jQuery(document).ready(function() {
          axesDefaults: {
              tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer ,
              tickOptions: {
-               //angle: -30,
+               angle: -30
                //fontSize: '10pt'
              }
          },
