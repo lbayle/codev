@@ -62,6 +62,7 @@ class Project extends Model {
    private $id;
    private $name;
    private $description;
+   private $inherit_global;
 
    private $enabled;
    private $categoryList;
@@ -135,7 +136,7 @@ class Project extends Model {
          $row = SqlWrapper::getInstance()->sql_fetch_object($result);
       }
 
-      $nbTuples = $row != FALSE;
+      $nbTuples = ($row != FALSE);
 
       self::$existsCache[$this->id] = $nbTuples;
 
@@ -143,6 +144,7 @@ class Project extends Model {
          $this->name = $row->name;
          $this->description = $row->description;
          $this->enabled = (1 == $row->enabled);
+         $this->inherit_global = (1 == $row->inherit_global);
       } else {
          $e = new Exception("Constructor: Project $this->id does not exist in Mantis DB.");
          self::$logger->error("EXCEPTION Project constructor: ".$e->getMessage());
@@ -388,23 +390,46 @@ class Project extends Model {
    }
 
    /**
+    * @param $withGlobal
+    * @param $withInherited
     * @return string[] id => categoryName
     */
-   public function getCategories() {
-      if (NULL == $this->categoryCache) {
+   public function getCategories($withGlobal = true, $withInherited = true) {
+
+      // Note: cache is deactivated because it is rarely used.
+      //if (is_null($this->categoryCache)) {
          $this->categoryCache = array();
 
-         $query = "SELECT id, name FROM `mantis_category_table` WHERE project_id = ".$this->id.";";
+         // find out if global categories must be added
+         $formattedProjects = $this->id;
+         if ($withGlobal && $this->inherit_global) {
+            $formattedProjects .= ',0';
+         }
+
+         if ($withInherited) {
+            $queryParents = "SELECT parent_id FROM `mantis_project_hierarchy_table` ".
+                    "WHERE child_id = $this->id ".
+                    "AND inherit_parent = 1 ";
+            $resultParents = SqlWrapper::getInstance()->sql_query($queryParents);
+            if (!$resultParents) {
+               echo "<span style='color:red'>ERROR: Query FAILED</span>";
+               exit;
+            }
+            while($row = SqlWrapper::getInstance()->sql_fetch_object($resultParents)) {
+               $formattedProjects .= ','.$row->parent_id;
+            }
+         }
+
+         $query = "SELECT id, name FROM `mantis_category_table` WHERE project_id IN (".$formattedProjects.");";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $this->categoryCache[$row->id] = $row->name;
          }
-      }
+      //}
       return $this->categoryCache;
    }
 
