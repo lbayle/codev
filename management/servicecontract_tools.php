@@ -285,13 +285,15 @@ class ServiceContractTools {
       return $provArray;
    }
 
-
    /**
-    * @static
-    * @param ServiceContract $serviceContract
-    * @return mixed[]
+    * code factorisation
+    *
+    * returns the input params for some indicators.
+    *
+    * @param Command $cmd
+    * @return array [startTimestamp, endTimestamp, interval]
     */
-   public static function getSContractProgressHistory(ServiceContract $serviceContract) {
+   private static function computeTimestampsAndInterval(ServiceContract $serviceContract) {
       $cmdIssueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
 
       $startTT = $cmdIssueSel->getFirstTimetrack();
@@ -312,7 +314,7 @@ class ServiceContractTools {
       $latestTrackTimestamp = (!is_null($latestTrack)) ? $latestTrack->getDate() : 0;
       $lastUpdatedTimestamp = $cmdIssueSel->getLastUpdated();
       $endTimestamp = max(array($latestTrackTimestamp, $lastUpdatedTimestamp));
-      
+
       // Calculate a nice day interval
       $nbWeeks = ($endTimestamp - $startTimestamp) / 60 / 60 / 24;
       $interval = ceil($nbWeeks / 20);
@@ -322,11 +324,25 @@ class ServiceContractTools {
          'endTimestamp' => $endTimestamp,
          'interval' => $interval
       );
+      return $params;
+   }
 
-      $progressIndicator = new ProgressHistoryIndicator();
-      $progressIndicator->execute($cmdIssueSel, $params);
+   /**
+    * @static
+    * @param ServiceContract $serviceContract
+    * @return mixed[]
+    */
+   public static function getSContractProgressHistory(ServiceContract $serviceContract) {
+      $issueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
 
-      return array($progressIndicator->getSmartyObject(),$startTimestamp,$endTimestamp,ceil($interval/30));
+      $params = self::computeTimestampsAndInterval($serviceContract);
+
+      $indicator = new ProgressHistoryIndicator();
+      $indicator->execute($issueSel, $params);
+
+      $smartyVariables = $indicator->getSmartyObject();
+
+      return $smartyVariables;
    }
 
    /**

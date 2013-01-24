@@ -66,12 +66,9 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             if (0 != $servicecontractid) {
                $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
                $data = ServiceContractTools::getSContractProgressHistory($servicecontract);
-               $start = Tools::formatDate("%Y-%m-01", $data[1]);
-               $end = Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d",$data[2])." +1 month"));
-               $smartyHelper->assign('progress_history_data', $data[0]);
-               $smartyHelper->assign('progress_history_plotMinDate', $start);
-               $smartyHelper->assign('progress_history_plotMaxDate', $end);
-               $smartyHelper->assign('progress_history_interval', $data[3]);
+               foreach ($data as $smartyKey => $smartyVariable) {
+                  $smartyHelper->assign($smartyKey, $smartyVariable);
+               }
                $smartyHelper->display('plugin/progress_history_indicator');
             }
          } else {
