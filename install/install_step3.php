@@ -192,6 +192,7 @@ function createAdminTeam($name, $leader_id) {
       // add leader as member
       $adminTeam = TeamCache::getInstance()->getTeam($teamId);
       $adminTeam->addMember($leader_id, $today, Team::accessLevel_dev);
+      $adminTeam->setEnabled(false);
 
       // add default ExternalTasksProject
       // TODO does Admin team needs ExternalTasksProject ?
