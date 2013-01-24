@@ -129,10 +129,6 @@ class ServiceContractEditController extends Controller {
                   header('Location:servicecontract_info.php');
                }
 
-               // you can move SC only to managed teams
-               $mTeamList = $this->session_user->getManagedTeamList();
-               $this->smartyHelper->assign('grantedTeams', SmartyTools::getSmartyArray($mTeamList, $this->teamid));
-
                // Display ServiceContract
                $this->smartyHelper->assign('servicecontractid', $servicecontractid);
                $this->smartyHelper->assign('contractInfoFormBtText', T_('Save'));
@@ -149,6 +145,12 @@ class ServiceContractEditController extends Controller {
                $isManager = $this->session_user->isTeamManager($contract->getTeamid());
                ServiceContractTools::displayServiceContract($this->smartyHelper, $contract, $isManager);
             }
+
+            // you can create OR move SC only to managed teams
+            $mTeamList = $this->session_user->getManagedTeamList();
+            $this->smartyHelper->assign('grantedTeams', SmartyTools::getSmartyArray($mTeamList, $this->teamid));
+
+
          }
       }
    }

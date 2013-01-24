@@ -114,10 +114,6 @@ class CommandSetEditController extends Controller {
                   header('Location:commandset_info.php');
                }
 
-               // you can move SC only to managed teams
-               $mTeamList = $this->session_user->getManagedTeamList();
-               $this->smartyHelper->assign('grantedTeams', SmartyTools::getSmartyArray($mTeamList, $this->teamid));
-
                // Display CommandSet
                $this->smartyHelper->assign('commandsetid', $commandsetid);
                $this->smartyHelper->assign('cmdsetInfoFormBtText', T_('Save'));
@@ -135,6 +131,12 @@ class CommandSetEditController extends Controller {
 
                CommandSetTools::displayCommandSet($this->smartyHelper, $cmdset, $isManager);
             }
+
+            // you can create OR move SC only to managed teams
+            $mTeamList = $this->session_user->getManagedTeamList();
+            $this->smartyHelper->assign('grantedTeams', SmartyTools::getSmartyArray($mTeamList, $this->teamid));
+
+
          }
    }
    }

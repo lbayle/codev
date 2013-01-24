@@ -187,10 +187,6 @@ class CommandEditController extends Controller {
                   $cmd->deleteProvision($provid);
                }
 
-               // you can move cmd only to managed teams
-               $mTeamList = $this->session_user->getManagedTeamList();
-               $this->smartyHelper->assign('grantedTeams', SmartyTools::getSmartyArray($mTeamList, $this->teamid));
-
                // Display Command
                $this->smartyHelper->assign('commandid', $cmdid);
                $this->smartyHelper->assign('cmdInfoFormBtText', T_('Save'));
@@ -216,6 +212,12 @@ class CommandEditController extends Controller {
                $this->smartyHelper->assign('selectIssuesBoxDesc', T_("Note: Tasks already assigned to a Command are not displayed."));
                $this->smartyHelper->assign('selectIssuesConfirmMsg', T_("Add the selected issues to the Command ?"));
             }
+
+
+            // you can create a command OR move cmd only to managed teams
+            $mTeamList = $this->session_user->getManagedTeamList();
+            $this->smartyHelper->assign('grantedTeams', SmartyTools::getSmartyArray($mTeamList, $this->teamid));
+
          }
       }
    }
