@@ -73,6 +73,9 @@ table.invisible tbody {
    background-color: transparent;
 }
 
+.hover {
+   cursor: pointer;
+}
 .hover:hover {
    border: 1px solid #7096AB;
 }
