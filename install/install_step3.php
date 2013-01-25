@@ -179,8 +179,12 @@ function createAdminTeam($name, $leader_id) {
    $formatedDate = date("Y-m-d", $now);
    $today = Tools::date2timestamp($formatedDate);
 
+
    // create admin team
-   $teamId = Team::create($name, T_("CodevTT Administrators team"), $leader_id, $today);
+   $teamId = Team::getIdFromName($name);
+   if (-1 == $teamId) {
+      $teamId = Team::create($name, T_("CodevTT Administrators team"), $leader_id, $today);
+   }
 
    if (-1 != $teamId) {
 
