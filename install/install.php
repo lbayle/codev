@@ -47,6 +47,7 @@ if (file_exists(Constants::$config_file)) {
 
    // check write access rights to codevTT directory
    $testDir = realpath ( ".." );
+   //if (!is_writable($testDir)) {    TODO
    $error = Tools::checkWriteAccess($testDir);
    if (strstr($error, "ERROR")) {
       echo "<span class='error_font'>$error</span><br/>";

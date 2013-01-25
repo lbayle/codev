@@ -478,6 +478,8 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
                      $projectList, $extIdCustomFieldCandidates,
                      $is_modified = "false") {
 
+   checkMantisPluginDir();
+
    echo "<form id='form1' name='form1' method='post' action='$originPage' >\n";
 
    // ------ Reports
@@ -662,6 +664,61 @@ function getProjectList() {
    }
 }
 
+function checkMantisPluginDir() {
+   $mantisPluginDir = Constants::$mantisPath . DIRECTORY_SEPARATOR . 'plugins';
+
+   if (!is_writable($mantisPluginDir)) {
+      echo '<br>';
+      echo "<span class='warn_font'>WARN: <b>'" . $mantisPluginDir . "'</b> directory is <b>NOT writable</b>: Please give write access to user '<b>".exec('whoami')."</b>' if you want the Mantis plugin to be installed.</span><br/>";
+      echo '<br>';
+      return false;
+   }
+   return true;
+}
+
+/**
+ * copy plugin in mantis plugins directory
+ *
+ * @return bool true if success
+ */
+function installMantisPlugin() {
+   try {
+
+      $mantisPluginDir = Constants::$mantisPath . DIRECTORY_SEPARATOR . 'plugins';
+
+      $srcDir = realpath("..") . DIRECTORY_SEPARATOR . 'mantis_plugin' . DIRECTORY_SEPARATOR . 'CodevTT';
+      $destDir = $mantisPluginDir . DIRECTORY_SEPARATOR . 'CodevTT';
+
+      if (!is_writable($mantisPluginDir)) {
+         echo "<span class='warn_font'>Path to mantis plugins directory '" . $mantisPluginDir . "' is NOT writable: CodevTT plugin must be installed manualy.</span><br/>";
+         return false;
+      }
+
+      // remove previous installed CodevTT plugin
+      if (is_writable($destDir)) {
+         Tools::deleteDir($destDir);
+      }
+
+      // copy CodevTT plugin
+      if (is_dir($srcDir)) {
+         $result = Tools::recurse_copy($srcDir, $destDir);
+      } else {
+         echo "<span class='error_font'>plugin directory '" . $srcDir . "' NOT found: CodevTT plugin must be installed manualy.</span><br/>";
+         return false;
+      }
+
+      if (!$result) {
+         echo "<span class='error_font'>mantis plugin installation failed: CodevTT plugin must be installed manualy.</span><br/>";
+      }
+   } catch (Exception $e) {
+      echo "<span class='error_font'>mantis plugin installation failed: " . $e->getMessage() . "</span><br/>";
+      echo "<span class='error_font'>CodevTT plugin must be installed manualy.</span><br/>";
+      $result = false;
+   }
+   return $result;
+}
+
+
 // ================ MAIN =================
 $originPage = "install_step3.php";
 
@@ -722,25 +779,25 @@ if ("checkReportsDir" == $action) {
 
 } else if ("proceedStep3" == $action) {
 
-   echo "DEBUG 1/12 create Greasemonkey file<br/>";
+   echo "DEBUG 1/13 create Greasemonkey file<br/>";
    $errStr = createGreasemonkeyFile();
    if (NULL != $errStr) {
       echo "<span class='error_font'>".$errStr."</span><br/>";
    }
 
-   echo "DEBUG 2/12 create default Config variables<br/>";
+   echo "DEBUG 2/13 create default Config variables<br/>";
    setConfigItems();
 
-   echo "DEBUG 3/12 update Mantis custom files<br/>";
+   echo "DEBUG 3/13 update Mantis custom files<br/>";
 
    updateMantisCustomFiles();
 
-   echo "DEBUG 4/12 add CodevTT to Mantis menu<br/>";
+   echo "DEBUG 4/13 add CodevTT to Mantis menu<br/>";
    removeCustomMenuItem('CodevTT');
    $tok = strtok($_SERVER["SCRIPT_NAME"], "/");
    addCustomMenuItem('CodevTT', '../'.$tok.'/index.php');  #  ../codev/index.php
 
-   echo "DEBUG 5/12 create CodevTT Custom Fields<br/>";
+   echo "DEBUG 5/13 create CodevTT Custom Fields<br/>";
    $groupExtID = $_POST['groupExtID'];
    if ('createExtID' == $groupExtID) {
       $isCreateExtIdField = TRUE;
@@ -757,15 +814,15 @@ if ("checkReportsDir" == $action) {
    }
    createCustomFields($isCreateExtIdField);
 
-   echo "DEBUG 6/12 create ExternalTasks Project<br/>";
+   echo "DEBUG 6/13 create ExternalTasks Project<br/>";
    $extproj_id = createExternalTasksProject(T_("CodevTT_ExternalTasks"), T_("CodevTT ExternalTasks Project"));
 
    $adminLeader = UserCache::getInstance()->getUser($adminTeamLeaderId);
-   echo "DEBUG 7/12 createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
+   echo "DEBUG 7/13 createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
    createAdminTeam($adminTeamName, $adminTeamLeaderId);
 
    // Set path for .CSV reports (Excel)
-   echo "DEBUG 8/12 add CodevTT output directory<br/>";
+   echo "DEBUG 8/13 add CodevTT output directory<br/>";
    Constants::$codevOutputDir = $codevOutputDir;
    $retCode = Constants::writeConfigFile();
    if (FALSE == $retCode) {
@@ -774,7 +831,7 @@ if ("checkReportsDir" == $action) {
    }
 
    // Create default tasks
-   echo "DEBUG 9/12 Create external tasks<br/>";
+   echo "DEBUG 9/13 Create external tasks<br/>";
    $extproj = ProjectCache::getInstance()->getProject($extproj_id);
 
    // cat="[All Projects] General", status="closed"
@@ -788,7 +845,7 @@ if ("checkReportsDir" == $action) {
    // Note: Support & N/A jobs already created by SQL file
    // Note: N/A job association to ExternalTasksProject already done in Install::createExternalTasksProject()
 
-   echo "DEBUG 10/12 Create default jobs<br/>";
+   echo "DEBUG 10/13 Create default jobs<br/>";
    if ($isJob1) {
       Jobs::create($job1, Job::type_commonJob, $job1_color);
    }
@@ -806,7 +863,7 @@ if ("checkReportsDir" == $action) {
    }
 
    // Set default Issue tooltip content
-   echo "DEBUG 11/12 Set default content for Issue tooltip <br/>";
+   echo "DEBUG 11/13 Set default content for Issue tooltip <br/>";
    $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
    $backlogField = Config::getInstance()->getValue(Config::id_customField_backlog);
    $fieldList = array('project_id', 'category_id', 'custom_'.$customField_type,
@@ -816,7 +873,7 @@ if ("checkReportsDir" == $action) {
 
 
    // Add custom fields to existing projects
-   echo "DEBUG 12/12 Prepare existing projects<br/>";
+   echo "DEBUG 12/13 Prepare existing projects<br/>";
    if(isset($_POST['projects']) && !empty($_POST['projects'])){
       $selectedProjects = $_POST['projects'];
       foreach($selectedProjects as $projectid){
@@ -826,9 +883,13 @@ if ("checkReportsDir" == $action) {
       }
    }
 
+   echo "DEBUG 13/13 Install Mantis plugin<br/>";
+   installMantisPlugin();
+
    echo "DEBUG done.<br/>";
 
    // load homepage
+   #echo ("<script type='text/javascript'> alert('install done.'); </script>");
    echo ("<script type='text/javascript'> parent.location.replace('install_step4.php'); </script>");
 }
 

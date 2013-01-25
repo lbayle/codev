@@ -1384,6 +1384,61 @@ class Tools {
       return FALSE;
    }
 
+   
+   /**
+    * copy Directory with it's content
+    * 
+    * @param type $src
+    * @param type $dst
+    * @return bool success or failure
+    */
+   public static function recurse_copy($src, $dst) {
+
+      $dir = opendir($src);
+      $result = ($dir === false ? false : true);
+
+      if ($result !== false) {
+         $result = @mkdir($dst);
+
+         if ($result === true) {
+            while (false !== ( $file = readdir($dir))) {
+               if (( $file != '.' ) && ( $file != '..' ) && $result) {
+                  if (is_dir($src . '/' . $file)) {
+                     $result = self::recurse_copy($src . '/' . $file, $dst . '/' . $file);
+                  } else {
+                     $result = copy($src . '/' . $file, $dst . '/' . $file);
+                  }
+               }
+            }
+            closedir($dir);
+         }
+      }
+
+      return $result;
+   }
+
+   /**
+    * delete directory and it's content
+    * @param type $dir
+    */
+   public static function deleteDir($dirPath) {
+      if (!is_dir($dirPath)) {
+         throw new InvalidArgumentException("$dirPath must be a directory");
+      }
+      if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
+         $dirPath .= '/';
+      }
+      $files = glob($dirPath . '*', GLOB_MARK);
+      foreach ($files as $file) {
+         if (is_dir($file)) {
+            self::deleteDir($file);
+         } else {
+            unlink($file);
+         }
+      }
+      rmdir($dirPath);
+   }
+
 }
 
 // Initialize complex static variables
