@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -107,6 +107,8 @@ This is the complete list of members for <a class="el" href="classUser.html">Use
   <tr class="memlist"><td><a class="el" href="classUser.html#a46ce2b7b3cf0e5f8972332a251204854">getAssignedIssues</a>(array $projList=NULL, $withResolved=false)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a69213e1a56c5cae52510e998aa307b8b">getAvailableTime</a>($timestamp)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#affff36e2d136ae5597cd7435e6e3d01e">getAvailableWorkload</a>($startTimestamp, $endTimestamp, $team_id=NULL)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classUser.html#a6fd6c29c33101fd9575d6c72944e2924">getCommandFilters</a>($commandid=0)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classUser.html#a253ebd5e060b7b34f178fd6c871afe71">getCommandSetFilters</a>($csetid=0)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a3470f8b8650f5ce3f63a0b1e8465f99b">getDaysOfInPeriod</a>($timeTracks, $issueIds)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a8ae74b56f4a8948120779618accff074">getDefaultLanguage</a>()</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#aa314a231c3533d3b7ed0c56ce73beb87">getDefaultProject</a>()</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
@@ -127,6 +129,7 @@ This is the complete list of members for <a class="el" href="classUser.html">Use
   <tr class="memlist"><td><a class="el" href="classUser.html#aea41dccf43274f08c0727b4c2d7d3c08">getProjectFilters</a>($projectid=0)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#af340ccba34b0bc4a768300af8437be53">getProjectList</a>(array $teamList=NULL, $noStatsProject=true, $withDisabledProjects=true)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a8dbfb3797b0802a48164ac7ca8f6624b">getRealname</a>()</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classUser.html#a78c8535d8c17065f6d44b85c6cf14348">getServiceContractFilters</a>($serviceid=0)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#adac21a226bdea627757398c5610c430c">getShortname</a>()</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a309e2e2c393b809f34f664606c84948c">getTeamList</a>($accessLevel=NULL, $withDisabled=false)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a82b19d0dbe215eae8132774e6ff5adac">getTimetrackingFilter</a>($filterName)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
@@ -139,11 +142,14 @@ This is the complete list of members for <a class="el" href="classUser.html">Use
   <tr class="memlist"><td><a class="el" href="classUser.html#a2053e4dfd5b61d8c9323a6605b89bfed">isTeamManager</a>($team_id, $startTimestamp=NULL, $endTimestamp=NULL)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a11bc2d5d072cbd2adf280d5b59d5f0e1">isTeamMember</a>($team_id, $accessLevel=NULL, $startTimestamp=NULL, $endTimestamp=NULL)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a409179c75679d37e3864d6146a899cf5">isTeamObserver</a>($team_id, $startTimestamp=NULL, $endTimestamp=NULL)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classUser.html#aaeae01106ba3dc586f00b5b85170ed62">setCommandFilters</a>($filters, $commandid=0)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classUser.html#a837530385909f21e8cd703617c8ba686">setCommandSetFilters</a>($filters, $csetid=0)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a6811ab646ab41f0f4d8ca5e5be8d731a">setDefaultLanguage</a>($lang)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#ade284297f82be548b9b20da7a0fddf82">setDefaultProject</a>($projectid)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a7746ac204137b88358e9273197bcbabe">setDefaultTeam</a>($teamid)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#ae2fc3f28643dff3faace108c9f9ea9eb">setProjectAccessLevel</a>($project_id, $access_level)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a7bca2a2cbc116148057b5965bb7c38d5">setProjectFilters</a>($filters, $projectid=0)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classUser.html#a4dc1a3fe63b034e2492aeaad6fcdfc85">setServiceContractFilters</a>($filters, $serviceid=0)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a4b0865dccbda16957cce6055aff467b8">setTimetrackingFilter</a>($filterName, $value)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a3ca3fa0284bfd9e4dbeb0b7811054f7a">staticInit</a>()</td><td><a class="el" href="classUser.html">User</a></td><td><code> [static]</code></td></tr>
 </table></div>
@@ -155,7 +161,7 @@ This is the complete list of members for <a class="el" href="classUser.html">Use
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -165,7 +171,7 @@ This is the complete list of members for <a class="el" href="classUser.html">Use
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

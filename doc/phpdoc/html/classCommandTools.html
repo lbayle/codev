@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -110,6 +110,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandTools.html#a656d14b0df4f0b696d0d99bd969e24b3">getCommandStateList</a> (<a class="el" href="classCommand.html">Command</a> $command=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandTools.html#a04f5c30b2dfc3bc402fd007ffb32acab">getProgressHistory</a> (<a class="el" href="classCommand.html">Command</a> $cmd)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandTools.html#a8c6c362f01bb213cf7ea1e4bd94bd0c6">getBudgetDriftHistoryIndicator</a> (<a class="el" href="classCommand.html">Command</a> $cmd)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandTools.html#a6d8ab30f1d1049e0205162999755ef44">getReopenedRateIndicator</a> (<a class="el" href="classCommand.html">Command</a> $cmd)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandTools.html#a5b7e738f2571d6e7e886e0e9eae02368">getCommandActivity</a> (<a class="el" href="classCommand.html">Command</a> $cmd, $startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2ac028d73f86e404b437e32582a58452"></a><!-- doxytag: member="CommandTools::getDetailedCharges" ref="a2ac028d73f86e404b437e32582a58452" args="(Command $cmd, $isManager, $selectedFilters)" -->
 static&#160;</td><td class="memItemRight" valign="bottom"><b>getDetailedCharges</b> (<a class="el" href="classCommand.html">Command</a> $cmd, $isManager, $selectedFilters)</td></tr>
@@ -117,6 +119,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>getDetailedCharges<
 static&#160;</td><td class="memItemRight" valign="bottom"><b>getStatusHistory</b> (<a class="el" href="classCommand.html">Command</a> $cmd, $interval=7)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a672ed9b072e789f58086811312aa374b"></a><!-- doxytag: member="CommandTools::getInternalBugsStatusHistory" ref="a672ed9b072e789f58086811312aa374b" args="(Command $cmd, $interval=7)" -->
 static&#160;</td><td class="memItemRight" valign="bottom"><b>getInternalBugsStatusHistory</b> (<a class="el" href="classCommand.html">Command</a> $cmd, $interval=7)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandTools.html#a54a65777a235244637e00cf89afad0e1">getInternalBugsReopenedRateIndicator</a> (<a class="el" href="classCommand.html">Command</a> $cmd)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandTools.html#ae8b3152f40bb792f65daf45d5f8a0b22">displayCommand</a> (<a class="el" href="classSmartyHelper.html">SmartyHelper</a> $smartyHelper, <a class="el" href="classCommand.html">Command</a> $cmd, $isManager, $selectedFilters='')</td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
@@ -163,6 +166,31 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>getInternalBugsStat
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a8c6c362f01bb213cf7ea1e4bd94bd0c6"></a><!-- doxytag: member="CommandTools::getBudgetDriftHistoryIndicator" ref="a8c6c362f01bb213cf7ea1e4bd94bd0c6" args="(Command $cmd)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static CommandTools::getBudgetDriftHistoryIndicator </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classCommand.html">Command</a> $&#160;</td>
+          <td class="paramname"><em>cmd</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return smartyVariables for <a class="el" href="classBudgetDriftHistoryIndicator.html">BudgetDriftHistoryIndicator</a></p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype"><a class="el" href="classCommand.html">Command</a></td><td class="paramname">$cmd</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array smartyVariables </dd></dl>
 
 </div>
 </div>
@@ -232,6 +260,31 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>getInternalBugsStat
 
 </div>
 </div>
+<a class="anchor" id="a54a65777a235244637e00cf89afad0e1"></a><!-- doxytag: member="CommandTools::getInternalBugsReopenedRateIndicator" ref="a54a65777a235244637e00cf89afad0e1" args="(Command $cmd)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static CommandTools::getInternalBugsReopenedRateIndicator </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classCommand.html">Command</a> $&#160;</td>
+          <td class="paramname"><em>cmd</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return smartyVariables for <a class="el" href="classBudgetDriftHistoryIndicator.html">BudgetDriftHistoryIndicator</a></p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype"><a class="el" href="classCommand.html">Command</a></td><td class="paramname">$cmd</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array smartyVariables </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a04f5c30b2dfc3bc402fd007ffb32acab"></a><!-- doxytag: member="CommandTools::getProgressHistory" ref="a04f5c30b2dfc3bc402fd007ffb32acab" args="(Command $cmd)" -->
 <div class="memitem">
 <div class="memproto">
@@ -256,6 +309,31 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>getInternalBugsStat
 
 </div>
 </div>
+<a class="anchor" id="a6d8ab30f1d1049e0205162999755ef44"></a><!-- doxytag: member="CommandTools::getReopenedRateIndicator" ref="a6d8ab30f1d1049e0205162999755ef44" args="(Command $cmd)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static CommandTools::getReopenedRateIndicator </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classCommand.html">Command</a> $&#160;</td>
+          <td class="paramname"><em>cmd</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return smartyVariables for <a class="el" href="classBudgetDriftHistoryIndicator.html">BudgetDriftHistoryIndicator</a></p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype"><a class="el" href="classCommand.html">Command</a></td><td class="paramname">$cmd</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array smartyVariables </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>management/command_tools.php</li>
 </ul>
@@ -269,7 +347,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>getInternalBugsStat
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -279,7 +357,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>getInternalBugsStat
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

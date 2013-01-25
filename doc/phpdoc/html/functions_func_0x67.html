@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -86,6 +86,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="functions.html"><span>All</span></a></li>
       <li class="current"><a href="functions_func.html"><span>Functions</span></a></li>
+      <li><a href="functions_vars.html"><span>Variables</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -180,8 +181,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getBacklog()
 : <a class="el" href="classIssue.html#a4f5a06248d556d4c67bd293af16415cd">Issue</a>
 </li>
+<li>getBacklogEval()
+: <a class="el" href="classNormalizedBacklog.html#ac04262bf3bf103c3bb825bcbb1e70bd0">NormalizedBacklog</a>
+</li>
+<li>getBacklogHistory()
+: <a class="el" href="classIssue.html#ac4b2651149b0b118884b2681f19bf0e3">Issue</a>
+</li>
 <li>getBlogPost()
 : <a class="el" href="classBlogPostCache.html#aa18c32fe1dd2d7a64c87c5c7e323e949">BlogPostCache</a>
+</li>
+<li>getBudgetDriftHistoryIndicator()
+: <a class="el" href="classCommandTools.html#a8c6c362f01bb213cf7ea1e4bd94bd0c6">CommandTools</a>
+, <a class="el" href="classCommandSetTools.html#afdf716597eed8de74729cd78d929fb7e">CommandSetTools</a>
 </li>
 <li>getBugidList()
 : <a class="el" href="classProject.html#ae4cac98f8b670129f9b4a5b5b821b31a">Project</a>
@@ -193,7 +204,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classProject.html#adba3d617896041e16b17d86d19fbb866">Project</a>
 </li>
 <li>getCategories()
-: <a class="el" href="classProject.html#ab4258c6f6434815abc62e806bd1d59b3">Project</a>
+: <a class="el" href="classProject.html#a505986c4654bf3329444225e86fe9c1d">Project</a>
 </li>
 <li>getCategoryId()
 : <a class="el" href="classIssue.html#a4e3a939a141e50fd899d2740ebaaaf94">Issue</a>
@@ -215,9 +226,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getCommandActivity()
 : <a class="el" href="classCommandTools.html#a5b7e738f2571d6e7e886e0e9eae02368">CommandTools</a>
 </li>
+<li>getCommandFilters()
+: <a class="el" href="classUser.html#a6fd6c29c33101fd9575d6c72944e2924">User</a>
+</li>
 <li>getCommandId()
-: <a class="el" href="classCommandProvision.html#ac980158cdd47186b7194607c4fb6bf0d">CommandProvision</a>
-, <a class="el" href="classCommand.html#a1e35ddc2a8852f64aaaa428a29bdc14c">Command</a>
+: <a class="el" href="classCommand.html#a1e35ddc2a8852f64aaaa428a29bdc14c">Command</a>
+, <a class="el" href="classCommandProvision.html#ac980158cdd47186b7194607c4fb6bf0d">CommandProvision</a>
 </li>
 <li>getCommandList()
 : <a class="el" href="classIssue.html#aa42a7f9388d0b7365f3f2669e2b62eab">Issue</a>
@@ -234,6 +248,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getCommandSetActivity()
 : <a class="el" href="classCommandSetTools.html#ae5ce9da62706303763c8b84d7290b8ed">CommandSetTools</a>
 </li>
+<li>getCommandSetFilters()
+: <a class="el" href="classUser.html#a253ebd5e060b7b34f178fd6c871afe71">User</a>
+</li>
 <li>getCommandSetList()
 : <a class="el" href="classCommand.html#a335ee83e15d393cf575dc9c634e3f8e6">Command</a>
 , <a class="el" href="classTeam.html#a02b8526c9943dd8506bed077f17fe6cc">Team</a>
@@ -244,6 +261,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>getCommandStateList()
 : <a class="el" href="classCommandTools.html#a656d14b0df4f0b696d0d99bd969e24b3">CommandTools</a>
+</li>
+<li>getConsistencyCheckList()
+: <a class="el" href="classTeam.html#a2c2887913992c43134da5d8dc2914807">Team</a>
 </li>
 <li>getConsistencyErrors()
 : <a class="el" href="classCommand.html#adadc290d2fbe3a5b1282094035ceee8e">Command</a>
@@ -266,9 +286,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getCurrentURL()
 : <a class="el" href="classTools.html#a80772feef98a131bb379de8dde378097">Tools</a>
 </li>
+<li>getCustomFieldName()
+: <a class="el" href="classTools.html#a8509d13b82dca63c7abd3f11ff320bb8">Tools</a>
+</li>
+<li>getCustomFieldsList()
+: <a class="el" href="classProject.html#a18ef8c8e3d9c5f0ec782d5746e05b651">Project</a>
+</li>
 <li>getDate()
-: <a class="el" href="classTeam.html#a97143ea09d1e4fe887483d47da24ff6a">Team</a>
-, <a class="el" href="classTimeTrack.html#ad886a6b3fe6ce73a315ad2dc5759dd0f">TimeTrack</a>
+: <a class="el" href="classTimeTrack.html#ad886a6b3fe6ce73a315ad2dc5759dd0f">TimeTrack</a>
+, <a class="el" href="classTeam.html#a97143ea09d1e4fe887483d47da24ff6a">Team</a>
 </li>
 <li>getDateSubmission()
 : <a class="el" href="classIssue.html#a788e62000db7ad0af064a39ca764103d">Issue</a>
@@ -282,11 +308,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getDaysUsers()
 : <a class="el" href="classHolidaysReportController.html#a2160ecce7e6175c4fd42de294fc2e191">HolidaysReportController</a>
 </li>
-<li>getDeadLine()
-: <a class="el" href="classIssue.html#aa6a48872a1f3caf5bc244fd39d033ce2">Issue</a>
-</li>
 <li>getDeadline()
 : <a class="el" href="classScheduledTask.html#a9201745d8d5999bb2cc38a05c4f9a78b">ScheduledTask</a>
+</li>
+<li>getDeadLine()
+: <a class="el" href="classIssue.html#aa6a48872a1f3caf5bc244fd39d033ce2">Issue</a>
 </li>
 <li>getDefaultLanguage()
 : <a class="el" href="classUser.html#a8ae74b56f4a8948120779618accff074">User</a>
@@ -335,7 +361,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classProject.html#a010960aa0ae9d1d1e0fa1391dff173ad">Project</a>
 </li>
 <li>getDuration()
-: <a class="el" href="classIssue.html#afbf6d4b623b3f5f0d00ebb46f32d78a7">Issue</a>
+: <a class="el" href="classIssue.html#a1ac894669f844ff45b849820ef28a47c">Issue</a>
 , <a class="el" href="classScheduledTask.html#ab691279c17c87a33832113c63057a5b3">ScheduledTask</a>
 </li>
 <li>getDurationForStatus()
@@ -347,9 +373,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getEfficiencyRate()
 : <a class="el" href="classTimeTracking.html#aaa4414f440d38e54736bbaa197183eb1">TimeTracking</a>
 </li>
+<li>getEffortEstimReliabilityRate()
+: <a class="el" href="classEffortEstimReliabilityIndicator.html#ab7eb9e1e8f4c1819dedeb6c3c2a2cc50">EffortEstimReliabilityIndicator</a>
+</li>
 <li>getElapsed()
-: <a class="el" href="classIssue.html#a15ac766e600a45679273ef60469ec12b">Issue</a>
+: <a class="el" href="classIssue.html#a0d13166d3bab5c6b0d6aa0564012a6be">Issue</a>
 , <a class="el" href="classIssueSelection.html#a4d7062c242169ee68d190c7b1863c440">IssueSelection</a>
+</li>
+<li>getElapsed_old()
+: <a class="el" href="classIssue.html#affd1e8f132d53a37365f2ab554efe084">Issue</a>
 </li>
 <li>getEndTimestamp()
 : <a class="el" href="classTimeTracking.html#a684b01ba2ba4d05c66e057039e8dc27a">TimeTracking</a>
@@ -397,7 +429,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classTeam.html#adfeaac7ca3a2daf3a46d1aeddad1e9cc">Team</a>
 </li>
 <li>getInstance()
-: <a class="el" href="classBlogPostCache.html#a3b354e6c8759664571a3d8282d455e1e">BlogPostCache</a>
+: <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache</a>
+, <a class="el" href="classTimeTrackCache.html#a459949ade505f6c895d7683f0b17dc0f">TimeTrackCache</a>
+, <a class="el" href="classUserCache.html#a386a055bf770d244d7b77c90ad9b47dc">UserCache</a>
+, <a class="el" href="classBlogPostCache.html#a3b354e6c8759664571a3d8282d455e1e">BlogPostCache</a>
 , <a class="el" href="classCommandCache.html#ae628ed7ee767b504a3a46422a74eaf1e">CommandCache</a>
 , <a class="el" href="classCommandSetCache.html#a2e9afd589724f8daf2bffc9d3e2298b3">CommandSetCache</a>
 , <a class="el" href="classConfig.html#aef7aac9c02b60638561fe777a87a5673">Config</a>
@@ -406,9 +441,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classProjectCache.html#a074c1e3d41e0334d2c22d1c0cde46165">ProjectCache</a>
 , <a class="el" href="classServiceContractCache.html#a9b1fa19c5d5a27e7c7f9e2b55a46e107">ServiceContractCache</a>
 , <a class="el" href="classSqlWrapper.html#a32ecdf92b768eacaa582ec8d427eb95e">SqlWrapper</a>
-, <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache</a>
-, <a class="el" href="classTimeTrackCache.html#a459949ade505f6c895d7683f0b17dc0f">TimeTrackCache</a>
-, <a class="el" href="classUserCache.html#a386a055bf770d244d7b77c90ad9b47dc">UserCache</a>
+</li>
+<li>getInternalBugsReopenedRateIndicator()
+: <a class="el" href="classCommandTools.html#a54a65777a235244637e00cf89afad0e1">CommandTools</a>
 </li>
 <li>getInvolvedUsers()
 : <a class="el" href="classIssue.html#a9d45177ab6529b95488b90dd00c33392">Issue</a>
@@ -455,6 +490,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getIssuesTimeDriftStats()
 : <a class="el" href="classTimeTracking.html#af08a7ebedf7f1a4b80837cb34bbd1670">TimeTracking</a>
 </li>
+<li>getIssueTooltipFields()
+: <a class="el" href="classProject.html#a3a16dc6b44155a352c91af4b91e3904d">Project</a>
+</li>
 <li>getJobColor()
 : <a class="el" href="classJobs.html#abdadda6a51316474b2f1b21002abfc6c">Jobs</a>
 </li>
@@ -475,6 +513,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>getLastname()
 : <a class="el" href="classUser.html#a17bba25fe56153018b46277eda91093b">User</a>
+</li>
+<li>getLastUpdated()
+: <a class="el" href="classIssueSelection.html#a5c0a474997d7d48efc124da6fa849623">IssueSelection</a>
+</li>
+<li>getLastUpdatedList()
+: <a class="el" href="classIssueSelection.html#ad35b35d439c6324554fbb50497ceb483">IssueSelection</a>
 </li>
 <li>getLatestStatusOccurrence()
 : <a class="el" href="classIssue.html#a5d59c5d5f2ed889c7df8490a7b275f6c">Issue</a>
@@ -509,6 +553,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>getMembers()
 : <a class="el" href="classTeam.html#a0908ebc96065754b34bcd1a460b6d006">Team</a>
+</li>
+<li>getMgrEffortEstim()
+: <a class="el" href="classIssueSelection.html#ab12f8475768ce912996ed4b9446e4a63">IssueSelection</a>
 </li>
 <li>getMonitoredIssues()
 : <a class="el" href="classUser.html#a69f2ebdec53f936d63250aabbfd74348">User</a>
@@ -573,8 +620,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classProductivityReportTools.html#aefd10fef549c705dc3ea396f58e09b8b">ProductivityReportTools</a>
 </li>
 <li>getProjectDetails()
-: <a class="el" href="classTimeTracking.html#adf49b52f23e966bf911cd790bbd51316">TimeTracking</a>
-, <a class="el" href="classProductivityReportTools.html#a33efbb361aac3ffe067a7e74701e6da2">ProductivityReportTools</a>
+: <a class="el" href="classProductivityReportTools.html#a33efbb361aac3ffe067a7e74701e6da2">ProductivityReportTools</a>
+, <a class="el" href="classTimeTracking.html#adf49b52f23e966bf911cd790bbd51316">TimeTracking</a>
 </li>
 <li>getProjectDetailsChart()
 : <a class="el" href="classProductivityReportTools.html#a4888d6531e08bb878d0ab4f9c6ea8e47">ProductivityReportTools</a>
@@ -595,9 +642,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classScheduledTask.html#a1705682f25e571cf08ecd7fcccb81535">ScheduledTask</a>
 </li>
 <li>getProjects()
-: <a class="el" href="classProject.html#aa403c89d3c8f38f889505137a4378c9e">Project</a>
-, <a class="el" href="classTeam.html#a33602a9c65b186420dfb9385f29180a9">Team</a>
-, <a class="el" href="classServiceContract.html#a7829303fea9a8f944963951f72a4e2cb">ServiceContract</a>
+: <a class="el" href="classServiceContract.html#a7829303fea9a8f944963951f72a4e2cb">ServiceContract</a>
+, <a class="el" href="classProject.html#aa403c89d3c8f38f889505137a4378c9e">Project</a>
+, <a class="el" href="classTeam.html#ad1c9172752431edec34da22d2d5a9527">Team</a>
 </li>
 <li>getProjectsType()
 : <a class="el" href="classTeam.html#abc138d7b92b203b91ac214fec733dba0">Team</a>
@@ -620,7 +667,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classCommand.html#a57684da767de4689cf51c52f2df72d65">Command</a>
 </li>
 <li>getProvisionDays()
-: <a class="el" href="classCommand.html#a325cb1e9c30236d8d3cf1a9b19eb8059">Command</a>
+: <a class="el" href="classCommandSet.html#a230fccfabf7c3f4204d4bfe529fb138d">CommandSet</a>
+, <a class="el" href="classCommand.html#a325cb1e9c30236d8d3cf1a9b19eb8059">Command</a>
 , <a class="el" href="classCommandProvision.html#a57c5610c28dd8a073f9626e5d9d25989">CommandProvision</a>
 , <a class="el" href="classServiceContract.html#a80e2fef6c2f3c8cad366732a55616ed8">ServiceContract</a>
 </li>
@@ -636,8 +684,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classUser.html#a8dbfb3797b0802a48164ac7ca8f6624b">User</a>
 </li>
 <li>getReestimated()
-: <a class="el" href="classIssue.html#ada5accfb3c90189c5c3dd9a270f94be6">Issue</a>
-, <a class="el" href="classIssueSelection.html#a74a0f77e3de9e62e7d32f9e2d9b08531">IssueSelection</a>
+: <a class="el" href="classIssue.html#a0f14deaca764403732da97c4a39a399a">Issue</a>
+, <a class="el" href="classIssueSelection.html#acfe7052200f9880faecca81be85faccd">IssueSelection</a>
 </li>
 <li>getRelationships()
 : <a class="el" href="classIssue.html#a5407449995cea5156d2f31b2fdba8084">Issue</a>
@@ -647,6 +695,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>getReopenedRate()
 : <a class="el" href="classTimeTracking.html#a3ec34a29d217ed0b03eb2002d9333cfb">TimeTracking</a>
+</li>
+<li>getReopenedRateIndicator()
+: <a class="el" href="classCommandTools.html#a6d8ab30f1d1049e0205162999755ef44">CommandTools</a>
 </li>
 <li>getReopenedRateResolved()
 : <a class="el" href="classTimeTracking.html#a5b9c8aeb6ec909781236100d84c1e89c">TimeTracking</a>
@@ -690,9 +741,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getServiceContract()
 : <a class="el" href="classServiceContractCache.html#a944bcc414ecee1cbb7840f3387d2bc60">ServiceContractCache</a>
 </li>
+<li>getServiceContractFilters()
+: <a class="el" href="classUser.html#a78c8535d8c17065f6d44b85c6cf14348">User</a>
+</li>
 <li>getServiceContractList()
-: <a class="el" href="classTeam.html#a3485916cde159327613574d715f79908">Team</a>
-, <a class="el" href="classCommandSet.html#a8a9e4db147d32372831bd8c608769098">CommandSet</a>
+: <a class="el" href="classCommandSet.html#a8a9e4db147d32372831bd8c608769098">CommandSet</a>
+, <a class="el" href="classTeam.html#a3485916cde159327613574d715f79908">Team</a>
 </li>
 <li>getServiceContracts()
 : <a class="el" href="classServiceContractTools.html#a7c47abef55f48509158112954757c5c5">ServiceContractTools</a>
@@ -707,8 +761,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classBlogManager.html#ab3d42eb3d70d58066b7b90159eae98dd">BlogManager</a>
 </li>
 <li>getSeverityName()
-: <a class="el" href="classScheduledTask.html#af16b7ca10fd4e059ab4748d737372424">ScheduledTask</a>
-, <a class="el" href="classBlogPost.html#a76d3b88d12c0bdd17c6344a76d0a4a81">BlogPost</a>
+: <a class="el" href="classBlogPost.html#a76d3b88d12c0bdd17c6344a76d0a4a81">BlogPost</a>
+, <a class="el" href="classScheduledTask.html#af16b7ca10fd4e059ab4748d737372424">ScheduledTask</a>
 </li>
 <li>getShortname()
 : <a class="el" href="classUser.html#adac21a226bdea627757398c5610c430c">User</a>
@@ -723,20 +777,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classSmartyTools.html#aed61378034e01adde7faaaee061f9fd4">SmartyTools</a>
 </li>
 <li>getSmartyFilename()
-: <a class="el" href="classDetailedChargesIndicator.html#a8a762c01236c9b28cd9e54d2182d9da9">DetailedChargesIndicator</a>
-, <a class="el" href="classActivityIndicator.html#a349d723332b5f76d6ebf0419d03ad4d4">ActivityIndicator</a>
-, <a class="el" href="classDaysPerJobIndicator.html#a281985932171a3c2fea740ef4bb30a50">DaysPerJobIndicator</a>
-, <a class="el" href="classStatusHistoryIndicator.html#a96dda6d4d2a0c558771b6e60bdb40887">StatusHistoryIndicator</a>
-, <a class="el" href="interfaceIndicatorPlugin.html#acd13410b0cb6da1f810a41ff8c88d8a7">IndicatorPlugin</a>
+: <a class="el" href="classActivityIndicator.html#a349d723332b5f76d6ebf0419d03ad4d4">ActivityIndicator</a>
+, <a class="el" href="classDetailedChargesIndicator.html#a8a762c01236c9b28cd9e54d2182d9da9">DetailedChargesIndicator</a>
 , <a class="el" href="classProgressHistoryIndicator.html#a68d976fb13e5ddb248ff4e529f6ecc26">ProgressHistoryIndicator</a>
+, <a class="el" href="classStatusHistoryIndicator.html#a96dda6d4d2a0c558771b6e60bdb40887">StatusHistoryIndicator</a>
+, <a class="el" href="classBacklogVariationIndicator.html#a16435090b91928fdfe4726eb232847bc">BacklogVariationIndicator</a>
+, <a class="el" href="classReopenedRateIndicator.html#a4b5320721fba2db7f131d668defd825b">ReopenedRateIndicator</a>
+, <a class="el" href="classEffortEstimReliabilityIndicator.html#a05fa233a0e66a56b37a7479c8c51d969">EffortEstimReliabilityIndicator</a>
+, <a class="el" href="classDaysPerJobIndicator.html#a281985932171a3c2fea740ef4bb30a50">DaysPerJobIndicator</a>
+, <a class="el" href="interfaceIndicatorPlugin.html#acd13410b0cb6da1f810a41ff8c88d8a7">IndicatorPlugin</a>
+, <a class="el" href="classBudgetDriftHistoryIndicator.html#ae067a237f458d3d90f9a6760c785d358">BudgetDriftHistoryIndicator</a>
 </li>
 <li>getSmartyObject()
-: <a class="el" href="interfaceIndicatorPlugin.html#a7359b355572c72ee33e41748c5594e3a">IndicatorPlugin</a>
-, <a class="el" href="classProgressHistoryIndicator.html#a831d67b948668a9bd7173fb64f57a205">ProgressHistoryIndicator</a>
-, <a class="el" href="classStatusHistoryIndicator.html#a9e1a1f2204b03cce19c5c0491b46f582">StatusHistoryIndicator</a>
+: <a class="el" href="classReopenedRateIndicator.html#a3af610aad7861a14667f0ddd89408342">ReopenedRateIndicator</a>
 , <a class="el" href="classActivityIndicator.html#a6352234feaed6d11759d64825b4c9ddd">ActivityIndicator</a>
-, <a class="el" href="classDaysPerJobIndicator.html#a1505dc342d2a477febaa9876362669d0">DaysPerJobIndicator</a>
+, <a class="el" href="classBudgetDriftHistoryIndicator.html#a749b7b68be5547409f8e2c8c342345c6">BudgetDriftHistoryIndicator</a>
 , <a class="el" href="classDetailedChargesIndicator.html#a6879109ed51c5f02cc3de8487026d1fd">DetailedChargesIndicator</a>
+, <a class="el" href="classBacklogVariationIndicator.html#a2c1d22eac6bf1c93b09a4c6fa6f91f36">BacklogVariationIndicator</a>
+, <a class="el" href="classEffortEstimReliabilityIndicator.html#a9462df9300c28a85485d0b9baca20794">EffortEstimReliabilityIndicator</a>
+, <a class="el" href="classStatusHistoryIndicator.html#a9e1a1f2204b03cce19c5c0491b46f582">StatusHistoryIndicator</a>
+, <a class="el" href="interfaceIndicatorPlugin.html#a7359b355572c72ee33e41748c5594e3a">IndicatorPlugin</a>
+, <a class="el" href="classDaysPerJobIndicator.html#a1505dc342d2a477febaa9876362669d0">DaysPerJobIndicator</a>
+, <a class="el" href="classProgressHistoryIndicator.html#a831d67b948668a9bd7173fb64f57a205">ProgressHistoryIndicator</a>
 </li>
 <li>getSmartyWeekDates()
 : <a class="el" href="classTimeTrackingTools.html#a9d9d5cf0ff8dfde9234d47f8590bccd1">TimeTrackingTools</a>
@@ -769,9 +831,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classBlogManager.html#ae2e24f9e79d964471a566f0643f5e856">BlogManager</a>
 </li>
 <li>getSummary()
-: <a class="el" href="classIssue.html#a2d7f8465b7a845b49157dcdfe830c2e6">Issue</a>
+: <a class="el" href="classScheduledTask.html#ac90d9068e340d466942057d27e26f15f">ScheduledTask</a>
 , <a class="el" href="classCommandProvision.html#a348e921cca6c35f8411aabba6a2a240a">CommandProvision</a>
-, <a class="el" href="classScheduledTask.html#ac90d9068e340d466942057d27e26f15f">ScheduledTask</a>
+, <a class="el" href="classIssue.html#a2d7f8465b7a845b49157dcdfe830c2e6">Issue</a>
 </li>
 <li>getSystemDisponibilityRate()
 : <a class="el" href="classTimeTracking.html#a04a37214e10d355d3a310bfe75cfabcc">TimeTracking</a>
@@ -819,17 +881,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classIssue.html#adb61306c7ec6313be0b7c2c9b2b98230">Issue</a>
 , <a class="el" href="classUser.html#a3ccc18105822dd783f1a1b8131f513e1">User</a>
 </li>
+<li>getTooltipFieldDisplayName()
+: <a class="el" href="classTools.html#acaa7c50eaa4b93c9169b8352663d731e">Tools</a>
+</li>
+<li>getTooltipItems()
+: <a class="el" href="classIssue.html#a5426adefc4910aa21cae53d588060b58">Issue</a>
+</li>
 <li>getTotalSoldDays()
 : <a class="el" href="classCommand.html#a3899cec9fed340dcbdc1faa88491a8bc">Command</a>
 </li>
 <li>getTrueProjects()
-: <a class="el" href="classTeam.html#ae4e5c4921d48eb74bebf8fb81b6e0177">Team</a>
+: <a class="el" href="classTeam.html#aaa2638a366ea929cac677140a44db3b6">Team</a>
 </li>
 <li>getType()
 : <a class="el" href="classIssue.html#ae3cce79178ce9bd11c25ce8838e6c44f">Issue</a>
-, <a class="el" href="classConfig.html#aabcd230ad1698d9ded0619f2becba6e5">Config</a>
-, <a class="el" href="classJob.html#a317aa1e307e9d896c341fea8cbd1ae7d">Job</a>
 , <a class="el" href="classCommandProvision.html#a8676d9a19865a1ac324c58e38e9e487f">CommandProvision</a>
+, <a class="el" href="classJob.html#a317aa1e307e9d896c341fea8cbd1ae7d">Job</a>
+, <a class="el" href="classConfig.html#aabcd230ad1698d9ded0619f2becba6e5">Config</a>
+</li>
+<li>getUnassignedTasks()
+: <a class="el" href="classTeam.html#a838f3003a2058de5095ac49b70cbd6e1">Team</a>
 </li>
 <li>getUser()
 : <a class="el" href="classUserCache.html#a2b31c266a9c24e1b248b3b7285835b94">UserCache</a>
@@ -864,7 +935,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classSmartyTools.html#ae3c11dba164c837c07b800d9c51b9d3b">SmartyTools</a>
 </li>
 <li>getWeekTask()
-: <a class="el" href="classTimeTrackingTools.html#a53f005e89222e6fe43ca2658790644f6">TimeTrackingTools</a>
+: <a class="el" href="classTimeTrackingTools.html#aa0a5a840e64e2cce9db0b2b9d5eba8b0">TimeTrackingTools</a>
 </li>
 <li>getWorkdays()
 : <a class="el" href="classHolidays.html#ab565d93500a17bfa7073929ea4153a19">Holidays</a>
@@ -897,7 +968,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -907,7 +978,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

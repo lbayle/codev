@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -100,6 +100,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">ConsistencyCheck2 Class Reference</div>  </div>
@@ -112,8 +113,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a77aa4c19f8aa50537c73618306500e3c"></a><!-- doxytag: member="ConsistencyCheck2::__construct" ref="a77aa4c19f8aa50537c73618306500e3c" args="(array $issueList, $teamId=NULL)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>__construct</b> (array $issueList, $teamId=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck2.html#a1210504c4130c388fd0b7047834cc9be">check</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck2.html#a0d0b96d7986e12309037a1748d49f5f2">checkResolved</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck2.html#af6fca81cc84e8c809dfa09466638e6cf">check</a> (array $checkList=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck2.html#a2e5b497f40a0ede3caac9615c4813720">checkBacklogOnResolved</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck2.html#a296e0b38d8353b65d4bfc09bdd32a090">checkBadBacklog</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck2.html#a2a089a409bd21b69957f808c0b2a190a">checkMgrEffortEstim</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck2.html#a82312f549bce965789e192dfb8e6cd17">checkEffortEstim</a> ()</td></tr>
@@ -122,11 +123,17 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck2.html#a36a96ae9ed457faab93724ce12361ab5">checkIssuesNotInCommand</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck2.html#a6a556071992db4e62439abe5bf95704f">checkCommandsNotInCommandset</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck2.html#a91545f5875d46297b739e6464acc8120">checkCommandSetNotInServiceContract</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck2.html#a8027d77190b446622caf8fd5d4110913">checkTeamTimetracks</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck2.html#a66b07694698af7a6340560ee5313aeb3">checkTimetracksOnRemovedIssues</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck2.html#a71454d44633d5d6c264a91b1a88975f9">staticInit</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck2.html#a24cb3a0e01508e5095412cc212c5d52a">checkIncompleteDays</a> (<a class="el" href="classTimeTracking.html">TimeTracking</a> $timeTracking, $userid=NULL)</td></tr>
+<tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a667d64c660ca19d5b4495606f9c2511c"></a><!-- doxytag: member="ConsistencyCheck2::$defaultCheckList" ref="a667d64c660ca19d5b4495606f9c2511c" args="" -->
+static&#160;</td><td class="memItemRight" valign="bottom"><b>$defaultCheckList</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6430093a408995a028158a9359dacb96"></a><!-- doxytag: member="ConsistencyCheck2::$checkDescriptionList" ref="a6430093a408995a028158a9359dacb96" args="" -->
+static&#160;</td><td class="memItemRight" valign="bottom"><b>$checkDescriptionList</b></td></tr>
 <tr><td colspan="2"><h2><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a88faffa3be646164b7179d58f7fc7775"></a><!-- doxytag: member="ConsistencyCheck2::$issueList" ref="a88faffa3be646164b7179d58f7fc7775" args="" -->
@@ -135,16 +142,43 @@ Protected Attributes</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$bugidList</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0db9df1ae27ae9983b817562daa7572b"></a><!-- doxytag: member="ConsistencyCheck2::$formattedBugidList" ref="a0db9df1ae27ae9983b817562daa7572b" args="" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>$formattedBugidList</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8163406b90769f26395f8135f5d5cf6b"></a><!-- doxytag: member="ConsistencyCheck2::$checkList" ref="a8163406b90769f26395f8135f5d5cf6b" args="" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>$checkList</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6de24a5d695b0673d5913be2b2227eb9"></a><!-- doxytag: member="ConsistencyCheck2::$teamId" ref="a6de24a5d695b0673d5913be2b2227eb9" args="" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>$teamId</b></td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a1210504c4130c388fd0b7047834cc9be"></a><!-- doxytag: member="ConsistencyCheck2::check" ref="a1210504c4130c388fd0b7047834cc9be" args="()" -->
+<a class="anchor" id="af6fca81cc84e8c809dfa09466638e6cf"></a><!-- doxytag: member="ConsistencyCheck2::check" ref="af6fca81cc84e8c809dfa09466638e6cf" args="(array $checkList=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">ConsistencyCheck2::check </td>
+          <td>(</td>
+          <td class="paramtype">array $&#160;</td>
+          <td class="paramname"><em>checkList</em> = <code>NULL</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>perform all consistency checks</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">array</td><td class="paramname">$checkList</td><td>override team's checkList </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>type </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2e5b497f40a0ede3caac9615c4813720"></a><!-- doxytag: member="ConsistencyCheck2::checkBacklogOnResolved" ref="a2e5b497f40a0ede3caac9615c4813720" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ConsistencyCheck2::checkBacklogOnResolved </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -152,7 +186,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>perform all consistency checks </p>
+<p>fiches resolved dont le RAF != 0 </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classConsistencyError2.html">ConsistencyError2</a>[] </dd></dl>
 
 </div>
@@ -301,42 +335,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a0d0b96d7986e12309037a1748d49f5f2"></a><!-- doxytag: member="ConsistencyCheck2::checkResolved" ref="a0d0b96d7986e12309037a1748d49f5f2" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ConsistencyCheck2::checkResolved </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>fiches resolved dont le RAE != 0 </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classConsistencyError2.html">ConsistencyError2</a>[] </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a8027d77190b446622caf8fd5d4110913"></a><!-- doxytag: member="ConsistencyCheck2::checkTeamTimetracks" ref="a8027d77190b446622caf8fd5d4110913" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ConsistencyCheck2::checkTeamTimetracks </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>for all timetracks of the team, check that the Mantis issue exist. </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classConsistencyError2.html">ConsistencyError2</a>[] </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="afc34622916cad67de32a62e006de806d"></a><!-- doxytag: member="ConsistencyCheck2::checkTimeTracksOnNewIssues" ref="afc34622916cad67de32a62e006de806d" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -351,6 +349,24 @@ Protected Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>if you spend some time on a task, then it's status is probably 'ack' or 'open' but certainly not 'new' </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classConsistencyError2.html">ConsistencyError2</a>[] </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a66b07694698af7a6340560ee5313aeb3"></a><!-- doxytag: member="ConsistencyCheck2::checkTimetracksOnRemovedIssues" ref="a66b07694698af7a6340560ee5313aeb3" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ConsistencyCheck2::checkTimetracksOnRemovedIssues </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>for all timetracks of the team, check that the Mantis issue exist. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classConsistencyError2.html">ConsistencyError2</a>[] </dd></dl>
 
 </div>
@@ -403,7 +419,7 @@ Protected Attributes</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -413,7 +429,7 @@ Protected Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

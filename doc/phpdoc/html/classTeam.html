@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -129,8 +129,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a819d1858402fd2fb9ba47fff0b261639">setCommandsEnabled</a> ($isEnabled)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a6edff0b6bed79d08c5f6851cc37d6547">getLockTimetracksDate</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ae3a5685357f5fa5b4ec44b68f8e542f4">setLockTimetracksDate</a> ($timestamp)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a33602a9c65b186420dfb9385f29180a9">getProjects</a> ($noStatsProject=true, $withDisabled=true)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ae4e5c4921d48eb74bebf8fb81b6e0177">getTrueProjects</a> ($noStatsProject=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ad1c9172752431edec34da22d2d5a9527">getProjects</a> ($noStatsProject=true, $withDisabled=true, $sideTasksProjects=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#aaa2638a366ea929cac677140a44db3b6">getTrueProjects</a> ($noStatsProject=true, $withDisabled=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a0908ebc96065754b34bcd1a460b6d006">getMembers</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a94ad61112af8ca348736a286b01dfa06">getActiveMembers</a> ($startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a0cc6154907181972c77055bd70d5a472">getTeamIssueList</a> ($addUnassignedIssues=false, $withDisabledProjects=true)</td></tr>
@@ -166,6 +166,9 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>addOnDutyTask</b> ($bugid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adbf3434997969190bb01025f49f54f33"></a><!-- doxytag: member="Team::removeOnDutyTask" ref="adbf3434997969190bb01025f49f54f33" args="($bugid)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>removeOnDutyTask</b> ($bugid)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a838f3003a2058de5095ac49b70cbd6e1">getUnassignedTasks</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a2c2887913992c43134da5d8dc2914807">getConsistencyCheckList</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a03c1345c10ef40547dbb03715aed7040">setConsistencyCheckList</a> (array $checkList)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ab71152f14a82df36c6d39a9752a667c5">staticInit</a> ()</td></tr>
@@ -536,6 +539,23 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a2c2887913992c43134da5d8dc2914807"></a><!-- doxytag: member="Team::getConsistencyCheckList" ref="a2c2887913992c43134da5d8dc2914807" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::getConsistencyCheckList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>array ('checkName' =&gt; [0,1] isEnabled) </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a373d73f20d3bd6026045d545cab49056"></a><!-- doxytag: member="Team::getCurrentIssueList" ref="a373d73f20d3bd6026045d545cab49056" args="($addUnassignedIssues=false, $addNewIssues=false, $withDisabledProjects=true)" -->
 <div class="memitem">
 <div class="memproto">
@@ -770,7 +790,7 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a33602a9c65b186420dfb9385f29180a9"></a><!-- doxytag: member="Team::getProjects" ref="a33602a9c65b186420dfb9385f29180a9" args="($noStatsProject=true, $withDisabled=true)" -->
+<a class="anchor" id="ad1c9172752431edec34da22d2d5a9527"></a><!-- doxytag: member="Team::getProjects" ref="ad1c9172752431edec34da22d2d5a9527" args="($noStatsProject=true, $withDisabled=true, $sideTasksProjects=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -784,7 +804,13 @@ Static Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>withDisabled</em> = <code>true</code>&#160;</td>
+          <td class="paramname"><em>withDisabled</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>sideTasksProjects</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -794,6 +820,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>returns an array of project id =&gt; name</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">bool</td><td class="paramname">$noStatsProject</td><td></td></tr>
@@ -941,7 +968,7 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae4e5c4921d48eb74bebf8fb81b6e0177"></a><!-- doxytag: member="Team::getTrueProjects" ref="ae4e5c4921d48eb74bebf8fb81b6e0177" args="($noStatsProject=true)" -->
+<a class="anchor" id="aaa2638a366ea929cac677140a44db3b6"></a><!-- doxytag: member="Team::getTrueProjects" ref="aaa2638a366ea929cac677140a44db3b6" args="($noStatsProject=true, $withDisabled=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -949,12 +976,23 @@ Static Public Attributes</h2></td></tr>
           <td class="memname">Team::getTrueProjects </td>
           <td>(</td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>noStatsProject</em> = <code>true</code></td><td>)</td>
+          <td class="paramname"><em>noStatsProject</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>withDisabled</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
+<p>returns an array of <a class="el" href="classProject.html">Project</a> class instances</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">bool</td><td class="paramname">$noStatsProject</td><td></td></tr>
@@ -962,6 +1000,25 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classProject.html">Project</a>[] </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a838f3003a2058de5095ac49b70cbd6e1"></a><!-- doxytag: member="Team::getUnassignedTasks" ref="a838f3003a2058de5095ac49b70cbd6e1" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::getUnassignedTasks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get all unassigned tasks found in team projects</p>
+<p>Note: sideTasks and nostatsProjects excluded, resolved tasks excluded.</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssue.html">Issue</a>[] : issueList (id =&gt; <a class="el" href="classIssue.html">Issue</a>) </dd></dl>
 
 </div>
 </div>
@@ -1076,6 +1133,29 @@ Static Public Attributes</h2></td></tr>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">bool</td><td>isEnabled </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a03c1345c10ef40547dbb03715aed7040"></a><!-- doxytag: member="Team::setConsistencyCheckList" ref="a03c1345c10ef40547dbb03715aed7040" args="(array $checkList)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::setConsistencyCheckList </td>
+          <td>(</td>
+          <td class="paramtype">array $&#160;</td>
+          <td class="paramname"><em>checkList</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">array</td><td class="paramname">$checkList</td><td>('checkName' =&gt; [0,1] isEnabled) </td></tr>
   </table>
   </dd>
 </dl>
@@ -1228,7 +1308,7 @@ Static Public Attributes</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -1238,7 +1318,7 @@ Static Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -111,9 +111,12 @@ Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSetTools.html#ace3102e9ca62bd2facfa79127d2ed541">getCommandSets</a> ($teamid, $selectedCmdSetId)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSetTools.html#a0b11d14e0c85c73a3d4b63c890551af1">getParentContracts</a> (<a class="el" href="classCommandSet.html">CommandSet</a> $cset)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSetTools.html#aec7003acc7fa0cc4b24e2498a15b4b15">getCSetProgressHistory</a> (<a class="el" href="classCommandSet.html">CommandSet</a> $commandSet)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSetTools.html#afdf716597eed8de74729cd78d929fb7e">getBudgetDriftHistoryIndicator</a> (<a class="el" href="classCommandSet.html">CommandSet</a> $commandSet)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSetTools.html#ae5ce9da62706303763c8b84d7290b8ed">getCommandSetActivity</a> (<a class="el" href="classCommandSet.html">CommandSet</a> $cmdset, $startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a50a5bcb830ed43861bf52303504549f2"></a><!-- doxytag: member="CommandSetTools::getDetailedCharges" ref="a50a5bcb830ed43861bf52303504549f2" args="(CommandSet $cmdset, $isManager, $selectedFilters)" -->
 static&#160;</td><td class="memItemRight" valign="bottom"><b>getDetailedCharges</b> (<a class="el" href="classCommandSet.html">CommandSet</a> $cmdset, $isManager, $selectedFilters)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a87d099b81f62136dfae46b74cdcf75e0"></a><!-- doxytag: member="CommandSetTools::getInternalBugsStatusHistory" ref="a87d099b81f62136dfae46b74cdcf75e0" args="(CommandSet $cmdset, $interval=7)" -->
+static&#160;</td><td class="memItemRight" valign="bottom"><b>getInternalBugsStatusHistory</b> (<a class="el" href="classCommandSet.html">CommandSet</a> $cmdset, $interval=7)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSetTools.html#ad33f5b36a25c3530b910cf92f3396735">displayCommandSet</a> (<a class="el" href="classSmartyHelper.html">SmartyHelper</a> $smartyHelper, <a class="el" href="classCommandSet.html">CommandSet</a> $commandset, $isManager, $selectedFilters= '')</td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
@@ -160,6 +163,30 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>getDetailedCharges<
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="afdf716597eed8de74729cd78d929fb7e"></a><!-- doxytag: member="CommandSetTools::getBudgetDriftHistoryIndicator" ref="afdf716597eed8de74729cd78d929fb7e" args="(CommandSet $commandSet)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static CommandSetTools::getBudgetDriftHistoryIndicator </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classCommandSet.html">CommandSet</a> $&#160;</td>
+          <td class="paramname"><em>commandSet</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype"><a class="el" href="classCommandSet.html">CommandSet</a></td><td class="paramname">$commandSet</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] </dd></dl>
 
 </div>
 </div>
@@ -301,7 +328,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>getDetailedCharges<
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -311,7 +338,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>getDetailedCharges<
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

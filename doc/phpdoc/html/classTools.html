@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -145,6 +145,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>imgWithTooltip</b> 
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#abff19c438ae7b26da60ec3b7be91de50">array2plot</a> ($values)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a0266d3b071cdf9b966aa9e994530640b">convertToUTF8</a> ($data)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a138454fe0b8a70b5e3daa7e321aac587">bytesToSize1024</a> ($bytes, $precision=2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a7e164d2a976bbda76471b6c0ad73f278">convertToBytes</a> ($from)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a3aaf47aa3a5efecbf7f61e19d67dfa0d">createTimestampList</a> ($start_timestamp, $end_timestamp, $interval)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#afbfa22b1da5aaf90a4e07d514c5ef92e">checkWriteAccess</a> ($directory)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#ae70d307540685fa3827a52bfe343bf56">html2rgb</a> ($color)</td></tr>
@@ -158,6 +159,12 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>isConnectedUser</b>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab417eb108e5b9b2f9d6d9f26c8a139f5"></a><!-- doxytag: member="Tools::endsWith" ref="ab417eb108e5b9b2f9d6d9f26c8a139f5" args="($haystack, $needle)" -->
 static&#160;</td><td class="memItemRight" valign="bottom"><b>endsWith</b> ($haystack, $needle)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a2ecd19aea8682da47a9d772e82ca5d3d">createCustomField</a> ($fieldName, $fieldType, $configId, $attributes=NULL, $default_value= '', $possible_values= '')</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a6fdbe0ab9762bff968790b6bd749a739">usingBrowserIE</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a8509d13b82dca63c7abd3f11ff320bb8">getCustomFieldName</a> ($customFieldId)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#acaa7c50eaa4b93c9169b8352663d731e">getTooltipFieldDisplayName</a> ($field)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a56c969459994d4652b09bca90bffa3cc">isMemoryLimitReached</a> ($threshold=0.95)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a414114c77c51a5b19620fada74df5c42">recurse_copy</a> ($src, $dst)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a01caf784d631a2a1c4b7b5f755581087">deleteDir</a> ($dirPath)</td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="a8530107d703d9fc1a0a3256feb65ec2c"></a><!-- doxytag: member="Tools::array2json" ref="a8530107d703d9fc1a0a3256feb65ec2c" args="(array $arr)" -->
@@ -289,6 +296,30 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>endsWith</b> ($hays
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a7e164d2a976bbda76471b6c0ad73f278"></a><!-- doxytag: member="Tools::convertToBytes" ref="a7e164d2a976bbda76471b6c0ad73f278" args="($from)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::convertToBytes </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>from</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$from</td><td>humman readable size (128M, 12G, 100K) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int bytes </dd></dl>
 
 </div>
 </div>
@@ -573,6 +604,30 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>endsWith</b> ($hays
 
 </div>
 </div>
+<a class="anchor" id="a01caf784d631a2a1c4b7b5f755581087"></a><!-- doxytag: member="Tools::deleteDir" ref="a01caf784d631a2a1c4b7b5f755581087" args="($dirPath)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::deleteDir </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>dirPath</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>delete directory and it's content </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">type</td><td class="paramname">$dir</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="aceacdec731a0f671ac5d4aaa2c3a7f61"></a><!-- doxytag: member="Tools::doubleExplode" ref="aceacdec731a0f671ac5d4aaa2c3a7f61" args="($del1, $del2, $keyvalue)" -->
 <div class="memitem">
 <div class="memproto">
@@ -787,6 +842,31 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>endsWith</b> ($hays
 <div class="memdoc">
 <dl class="return"><dt><b>Returns:</b></dt><dd>string current URL (complete, with ?params=</dd></dl>
 <p>) </p>
+
+</div>
+</div>
+<a class="anchor" id="a8509d13b82dca63c7abd3f11ff320bb8"></a><!-- doxytag: member="Tools::getCustomFieldName" ref="a8509d13b82dca63c7abd3f11ff320bb8" args="($customFieldId)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::getCustomFieldName </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>customFieldId</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get customField name from id</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$customFieldId</td><td>field id </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string field name </dd></dl>
 
 </div>
 </div>
@@ -1071,6 +1151,36 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>endsWith</b> ($hays
 
 </div>
 </div>
+<a class="anchor" id="acaa7c50eaa4b93c9169b8352663d731e"></a><!-- doxytag: member="Tools::getTooltipFieldDisplayName" ref="acaa7c50eaa4b93c9169b8352663d731e" args="($field)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::getTooltipFieldDisplayName </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>field</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Converts tooltip field_id to DisplayName</p>
+<p>$field can be:</p>
+<ul>
+<li>mantis_bug_table columns (ex: project_id, status)</li>
+<li>customField id prefixed with 'custom_' (ex: custom_23)</li>
+<li>CodevTT calculated field prefixed with 'codevtt_' (ex: codevtt_drift)</li>
+</ul>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$field</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ae70d307540685fa3827a52bfe343bf56"></a><!-- doxytag: member="Tools::html2rgb" ref="ae70d307540685fa3827a52bfe343bf56" args="($color)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1093,6 +1203,29 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>endsWith</b> ($hays
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>array|bool </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a56c969459994d4652b09bca90bffa3cc"></a><!-- doxytag: member="Tools::isMemoryLimitReached" ref="a56c969459994d4652b09bca90bffa3cc" args="($threshold=0.95)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::isMemoryLimitReached </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>threshold</em> = <code>0.95</code></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">type</td><td class="paramname">$threshold</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1211,6 +1344,42 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>endsWith</b> ($hays
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>mixed </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a414114c77c51a5b19620fada74df5c42"></a><!-- doxytag: member="Tools::recurse_copy" ref="a414114c77c51a5b19620fada74df5c42" args="($src, $dst)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::recurse_copy </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>dst</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>copy Directory with it's content</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">type</td><td class="paramname">$src</td><td></td></tr>
+    <tr><td class="paramtype">type</td><td class="paramname">$dst</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool success or failure </dd></dl>
 
 </div>
 </div>
@@ -1374,6 +1543,23 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>endsWith</b> ($hays
 
 </div>
 </div>
+<a class="anchor" id="a6fdbe0ab9762bff968790b6bd749a739"></a><!-- doxytag: member="Tools::usingBrowserIE" ref="a6fdbe0ab9762bff968790b6bd749a739" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::usingBrowserIE </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>boolean true if IE </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ac90579fb2e5055399b698b8ac55cfe16"></a><!-- doxytag: member="Tools::usort" ref="ac90579fb2e5055399b698b8ac55cfe16" args="(array &amp;$a)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1521,7 +1707,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>endsWith</b> ($hays
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -1531,7 +1717,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>endsWith</b> ($hays
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -86,6 +86,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="functions.html"><span>All</span></a></li>
       <li class="current"><a href="functions_func.html"><span>Functions</span></a></li>
+      <li><a href="functions_vars.html"><span>Variables</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -145,14 +146,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>execute()
 : <a class="el" href="classIssueExtIdFilter.html#a1429b04ef9f489daca67165e14439d81">IssueExtIdFilter</a>
-, <a class="el" href="classDetailedChargesIndicator.html#a4906a62b7e01bde221c5b871bc905a7c">DetailedChargesIndicator</a>
-, <a class="el" href="classProgressHistoryIndicator.html#a99eda23af8d92bea1cc4a40619fcec79">ProgressHistoryIndicator</a>
+, <a class="el" href="classBudgetDriftHistoryIndicator.html#a91dcb59001fe29828e71ed9a93f20586">BudgetDriftHistoryIndicator</a>
+, <a class="el" href="classDaysPerJobIndicator.html#a0246d0968e051d2c31a0eec6f2c7d6d4">DaysPerJobIndicator</a>
 , <a class="el" href="classIssuePublicPrivateFilter.html#a011c3ba80dcf41392fbacad0a2bdf4f4">IssuePublicPrivateFilter</a>
+, <a class="el" href="classDetailedChargesIndicator.html#a4906a62b7e01bde221c5b871bc905a7c">DetailedChargesIndicator</a>
 , <a class="el" href="classStatusHistoryIndicator.html#aa352fc04cd50ac3802af26192e1e9a8e">StatusHistoryIndicator</a>
+, <a class="el" href="classReopenedRateIndicator.html#a8d3adfe66a0c55d0d7848f32a07e2ff3">ReopenedRateIndicator</a>
+, <a class="el" href="classProgressHistoryIndicator.html#a99eda23af8d92bea1cc4a40619fcec79">ProgressHistoryIndicator</a>
+, <a class="el" href="classEffortEstimReliabilityIndicator.html#abfef41e0e93bb62c332c63ff1a7d65d5">EffortEstimReliabilityIndicator</a>
 , <a class="el" href="interfaceIndicatorPlugin.html#a4cb87bc008ae17ea441fce4d2d37b187">IndicatorPlugin</a>
 , <a class="el" href="classIssueTagFilter.html#ac914a4bcf389f0cc2be5fd6521554db5">IssueTagFilter</a>
 , <a class="el" href="classProjectCategoryFilter.html#a440a4816476c9207cda0a99c50af8deb">ProjectCategoryFilter</a>
-, <a class="el" href="classDaysPerJobIndicator.html#a0246d0968e051d2c31a0eec6f2c7d6d4">DaysPerJobIndicator</a>
+, <a class="el" href="classBacklogVariationIndicator.html#a05533a261e5a3fa8dd73e5728a1f47a7">BacklogVariationIndicator</a>
 , <a class="el" href="classActivityIndicator.html#a0a5402194863c57907676f7a5a81d4a6">ActivityIndicator</a>
 , <a class="el" href="classProjectVersionFilter.html#a86d1e7e7ffa30d6a9a7211028310eb87">ProjectVersionFilter</a>
 , <a class="el" href="interfaceIssueSelectionFilter.html#abdff10ecfc00b9dcbac0d54baca5366f">IssueSelectionFilter</a>
@@ -160,9 +165,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classIssueCodevTypeFilter.html#a2ce8c609f34dd68d896709ea8ef25b99">IssueCodevTypeFilter</a>
 </li>
 <li>exists()
-: <a class="el" href="classIssue.html#a5100ab41cd37c9d6ee0f7dd1f3045687">Issue</a>
+: <a class="el" href="classCache.html#a56342555ffbe161eb21c8f5532894248">Cache</a>
 , <a class="el" href="classProject.html#a8f497335a92027b6d79a035335b6c5c0">Project</a>
-, <a class="el" href="classCache.html#a56342555ffbe161eb21c8f5532894248">Cache</a>
+, <a class="el" href="classIssue.html#a5100ab41cd37c9d6ee0f7dd1f3045687">Issue</a>
 </li>
 <li>explodeResults()
 : <a class="el" href="classFilterManager.html#a56dfbfa7d22a1abc852cdd34f75ad6f6">FilterManager</a>
@@ -189,7 +194,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -199,7 +204,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -130,17 +130,19 @@ This is the complete list of members for <a class="el" href="classProject.html">
   <tr class="memlist"><td><a class="el" href="classProject.html#ae4cac98f8b670129f9b4a5b5b821b31a">getBugidList</a>($handler_id=0, $isHideResolved=FALSE)</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getBugResolvedStatusThreshold</b>() (defined in <a class="el" href="classProject.html">Project</a>)</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classProject.html#adba3d617896041e16b17d86d19fbb866">getBugSubmitStatus</a>()</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="classProject.html#ab4258c6f6434815abc62e806bd1d59b3">getCategories</a>()</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classProject.html#a505986c4654bf3329444225e86fe9c1d">getCategories</a>($withGlobal=true, $withInherited=true)</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getCategory</b>($type) (defined in <a class="el" href="classProject.html">Project</a>)</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classProject.html#a5cbeb18dd454ffeba39c7175f411a13a">getCategoryId</a>($name)</td><td><a class="el" href="classProject.html">Project</a></td><td><code> [static]</code></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getCategoryList</b>() (defined in <a class="el" href="classProject.html">Project</a>)</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classProject.html#a98bd4ca290f995b284fc847a343b5cea">getCategoryName</a>($id)</td><td><a class="el" href="classProject.html">Project</a></td><td><code> [static]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="classProject.html#a18ef8c8e3d9c5f0ec782d5746e05b651">getCustomFieldsList</a>()</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getDescription</b>() (defined in <a class="el" href="classProject.html">Project</a>)</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classProject.html#a8e73f25d2937278b97eef9066e75bb54">getDrift</a>()</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classProject.html#a010960aa0ae9d1d1e0fa1391dff173ad">getDriftMgr</a>()</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classProject.html#a073596b6974b955f5a028c8caa265c22">getId</a>()</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classProject.html#ae7347e3462392484fb33ecb35701e439">getIssues</a>($handler_id=0, $isHideResolved=FALSE)</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classProject.html#a149a6fd8e76e1244dcfbdfc0ca569417">getIssueSelection</a>()</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classProject.html#a3a16dc6b44155a352c91af4b91e3904d">getIssueTooltipFields</a>($teamid=0, $userid=0)</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classProject.html#a4f9ea6e24af16f32ce2ca5dd82ac8641">getJobList</a>($type=NULL)</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classProject.html#a148d5b340d1ddf04ba3bcb1a48a064ee">getName</a>()</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classProject.html#a8b79d577f7445413aea216033d18e83e">getProgress</a>()</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
@@ -161,6 +163,7 @@ This is the complete list of members for <a class="el" href="classProject.html">
   <tr class="memlist"><td><a class="el" href="classProject.html#a7b6b2bc92c5e6a0a2f77246842840b15">isNoStatsProject</a>(array $teamidList=NULL)</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classProject.html#ab33127ff9eb998bc612f229c5452dfea">isSideTasksProject</a>(array $teamidList=NULL)</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classProject.html#ac96930c695ff4ab74dbc367b69bc56ca">prepareProjectToCodev</a>($projectid)</td><td><a class="el" href="classProject.html">Project</a></td><td><code> [static]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="classProject.html#aa2aef1a180773eed13f301b70f407f05">setIssueTooltipFields</a>($fieldList=NULL, $teamid=0, $userid=0)</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classProject.html#a453dabf2d0957b5520f37a9e27be55fa">staticInit</a>()</td><td><a class="el" href="classProject.html">Project</a></td><td><code> [static]</code></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>type_noCommonProject</b> (defined in <a class="el" href="classProject.html">Project</a>)</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>type_noStatsProject</b> (defined in <a class="el" href="classProject.html">Project</a>)</td><td><a class="el" href="classProject.html">Project</a></td><td></td></tr>
@@ -175,7 +178,7 @@ This is the complete list of members for <a class="el" href="classProject.html">
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -185,7 +188,7 @@ This is the complete list of members for <a class="el" href="classProject.html">
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

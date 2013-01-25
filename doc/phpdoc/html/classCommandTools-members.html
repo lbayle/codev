@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -103,11 +103,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 This is the complete list of members for <a class="el" href="classCommandTools.html">CommandTools</a>, including all inherited members.<table>
   <tr class="memlist"><td><a class="el" href="classCommandTools.html#ae8b3152f40bb792f65daf45d5f8a0b22">displayCommand</a>(SmartyHelper $smartyHelper, Command $cmd, $isManager, $selectedFilters='')</td><td><a class="el" href="classCommandTools.html">CommandTools</a></td><td><code> [static]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="classCommandTools.html#a8c6c362f01bb213cf7ea1e4bd94bd0c6">getBudgetDriftHistoryIndicator</a>(Command $cmd)</td><td><a class="el" href="classCommandTools.html">CommandTools</a></td><td><code> [static]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classCommandTools.html#a5b7e738f2571d6e7e886e0e9eae02368">getCommandActivity</a>(Command $cmd, $startTimestamp=NULL, $endTimestamp=NULL)</td><td><a class="el" href="classCommandTools.html">CommandTools</a></td><td><code> [static]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classCommandTools.html#a656d14b0df4f0b696d0d99bd969e24b3">getCommandStateList</a>(Command $command=NULL)</td><td><a class="el" href="classCommandTools.html">CommandTools</a></td><td><code> [static]</code></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getDetailedCharges</b>(Command $cmd, $isManager, $selectedFilters) (defined in <a class="el" href="classCommandTools.html">CommandTools</a>)</td><td><a class="el" href="classCommandTools.html">CommandTools</a></td><td><code> [static]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="classCommandTools.html#a54a65777a235244637e00cf89afad0e1">getInternalBugsReopenedRateIndicator</a>(Command $cmd)</td><td><a class="el" href="classCommandTools.html">CommandTools</a></td><td><code> [static]</code></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getInternalBugsStatusHistory</b>(Command $cmd, $interval=7) (defined in <a class="el" href="classCommandTools.html">CommandTools</a>)</td><td><a class="el" href="classCommandTools.html">CommandTools</a></td><td><code> [static]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classCommandTools.html#a04f5c30b2dfc3bc402fd007ffb32acab">getProgressHistory</a>(Command $cmd)</td><td><a class="el" href="classCommandTools.html">CommandTools</a></td><td><code> [static]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="classCommandTools.html#a6d8ab30f1d1049e0205162999755ef44">getReopenedRateIndicator</a>(Command $cmd)</td><td><a class="el" href="classCommandTools.html">CommandTools</a></td><td><code> [static]</code></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getStatusHistory</b>(Command $cmd, $interval=7) (defined in <a class="el" href="classCommandTools.html">CommandTools</a>)</td><td><a class="el" href="classCommandTools.html">CommandTools</a></td><td><code> [static]</code></td></tr>
 </table></div>
 </div>
@@ -118,7 +121,7 @@ This is the complete list of members for <a class="el" href="classCommandTools.h
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -128,7 +131,7 @@ This is the complete list of members for <a class="el" href="classCommandTools.h
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

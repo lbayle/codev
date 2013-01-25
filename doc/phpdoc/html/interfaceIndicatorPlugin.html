@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -110,11 +110,15 @@ Inheritance diagram for IndicatorPlugin:</div>
  <div class="center">
   <img src="interfaceIndicatorPlugin.png" usemap="#IndicatorPlugin_map" alt=""/>
   <map id="IndicatorPlugin_map" name="IndicatorPlugin_map">
-<area href="classActivityIndicator.html" alt="ActivityIndicator" shape="rect" coords="0,56,155,80"/>
-<area href="classDaysPerJobIndicator.html" alt="DaysPerJobIndicator" shape="rect" coords="165,56,320,80"/>
-<area href="classDetailedChargesIndicator.html" alt="DetailedChargesIndicator" shape="rect" coords="330,56,485,80"/>
-<area href="classProgressHistoryIndicator.html" alt="ProgressHistoryIndicator" shape="rect" coords="495,56,650,80"/>
-<area href="classStatusHistoryIndicator.html" alt="StatusHistoryIndicator" shape="rect" coords="660,56,815,80"/>
+<area href="classActivityIndicator.html" alt="ActivityIndicator" shape="rect" coords="185,56,360,80"/>
+<area href="classBacklogVariationIndicator.html" alt="BacklogVariationIndicator" shape="rect" coords="185,112,360,136"/>
+<area href="classBudgetDriftHistoryIndicator.html" alt="BudgetDriftHistoryIndicator" shape="rect" coords="185,168,360,192"/>
+<area href="classDaysPerJobIndicator.html" alt="DaysPerJobIndicator" shape="rect" coords="185,224,360,248"/>
+<area href="classDetailedChargesIndicator.html" alt="DetailedChargesIndicator" shape="rect" coords="185,280,360,304"/>
+<area href="classEffortEstimReliabilityIndicator.html" alt="EffortEstimReliabilityIndicator" shape="rect" coords="185,336,360,360"/>
+<area href="classProgressHistoryIndicator.html" alt="ProgressHistoryIndicator" shape="rect" coords="185,392,360,416"/>
+<area href="classReopenedRateIndicator.html" alt="ReopenedRateIndicator" shape="rect" coords="185,448,360,472"/>
+<area href="classStatusHistoryIndicator.html" alt="StatusHistoryIndicator" shape="rect" coords="185,504,360,528"/>
 </map>
  </div></div>
 
@@ -166,7 +170,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>mixed (standard PHP structure) </dd></dl>
 
-<p>Implemented in <a class="el" href="classProgressHistoryIndicator.html#a99eda23af8d92bea1cc4a40619fcec79">ProgressHistoryIndicator</a>, <a class="el" href="classStatusHistoryIndicator.html#aa352fc04cd50ac3802af26192e1e9a8e">StatusHistoryIndicator</a>, <a class="el" href="classDetailedChargesIndicator.html#a4906a62b7e01bde221c5b871bc905a7c">DetailedChargesIndicator</a>, <a class="el" href="classActivityIndicator.html#a0a5402194863c57907676f7a5a81d4a6">ActivityIndicator</a>, and <a class="el" href="classDaysPerJobIndicator.html#a0246d0968e051d2c31a0eec6f2c7d6d4">DaysPerJobIndicator</a>.</p>
+<p>Implemented in <a class="el" href="classReopenedRateIndicator.html#a8d3adfe66a0c55d0d7848f32a07e2ff3">ReopenedRateIndicator</a>, <a class="el" href="classBacklogVariationIndicator.html#a05533a261e5a3fa8dd73e5728a1f47a7">BacklogVariationIndicator</a>, <a class="el" href="classProgressHistoryIndicator.html#a99eda23af8d92bea1cc4a40619fcec79">ProgressHistoryIndicator</a>, <a class="el" href="classEffortEstimReliabilityIndicator.html#abfef41e0e93bb62c332c63ff1a7d65d5">EffortEstimReliabilityIndicator</a>, <a class="el" href="classStatusHistoryIndicator.html#aa352fc04cd50ac3802af26192e1e9a8e">StatusHistoryIndicator</a>, <a class="el" href="classDetailedChargesIndicator.html#a4906a62b7e01bde221c5b871bc905a7c">DetailedChargesIndicator</a>, <a class="el" href="classBudgetDriftHistoryIndicator.html#a91dcb59001fe29828e71ed9a93f20586">BudgetDriftHistoryIndicator</a>, <a class="el" href="classActivityIndicator.html#a0a5402194863c57907676f7a5a81d4a6">ActivityIndicator</a>, and <a class="el" href="classDaysPerJobIndicator.html#a0246d0968e051d2c31a0eec6f2c7d6d4">DaysPerJobIndicator</a>.</p>
 
 </div>
 </div>
@@ -186,7 +190,7 @@ Static Public Member Functions</h2></td></tr>
 <p>returns the SMARTY .html filename that will display the results.</p>
 <p>The file must be included in the main SMARTY page: {include file="indicator_plugins/myIndicator.html"} </p>
 
-<p>Implemented in <a class="el" href="classDetailedChargesIndicator.html#a8a762c01236c9b28cd9e54d2182d9da9">DetailedChargesIndicator</a>, <a class="el" href="classProgressHistoryIndicator.html#a68d976fb13e5ddb248ff4e529f6ecc26">ProgressHistoryIndicator</a>, <a class="el" href="classStatusHistoryIndicator.html#a96dda6d4d2a0c558771b6e60bdb40887">StatusHistoryIndicator</a>, <a class="el" href="classActivityIndicator.html#a349d723332b5f76d6ebf0419d03ad4d4">ActivityIndicator</a>, and <a class="el" href="classDaysPerJobIndicator.html#a281985932171a3c2fea740ef4bb30a50">DaysPerJobIndicator</a>.</p>
+<p>Implemented in <a class="el" href="classBacklogVariationIndicator.html#a16435090b91928fdfe4726eb232847bc">BacklogVariationIndicator</a>, <a class="el" href="classDetailedChargesIndicator.html#a8a762c01236c9b28cd9e54d2182d9da9">DetailedChargesIndicator</a>, <a class="el" href="classBudgetDriftHistoryIndicator.html#ae067a237f458d3d90f9a6760c785d358">BudgetDriftHistoryIndicator</a>, <a class="el" href="classReopenedRateIndicator.html#a4b5320721fba2db7f131d668defd825b">ReopenedRateIndicator</a>, <a class="el" href="classProgressHistoryIndicator.html#a68d976fb13e5ddb248ff4e529f6ecc26">ProgressHistoryIndicator</a>, <a class="el" href="classStatusHistoryIndicator.html#a96dda6d4d2a0c558771b6e60bdb40887">StatusHistoryIndicator</a>, <a class="el" href="classActivityIndicator.html#a349d723332b5f76d6ebf0419d03ad4d4">ActivityIndicator</a>, <a class="el" href="classDaysPerJobIndicator.html#a281985932171a3c2fea740ef4bb30a50">DaysPerJobIndicator</a>, and <a class="el" href="classEffortEstimReliabilityIndicator.html#a05fa233a0e66a56b37a7479c8c51d969">EffortEstimReliabilityIndicator</a>.</p>
 
 </div>
 </div>
@@ -207,7 +211,7 @@ Static Public Member Functions</h2></td></tr>
 <p>Add to smartyHelper: $smartyHelper-&gt;assign('myIndicator', $myIndic-&gt;<a class="el" href="interfaceIndicatorPlugin.html#a7359b355572c72ee33e41748c5594e3a">getSmartyObject()</a>);</p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>array structure for SMARTY template </dd></dl>
 
-<p>Implemented in <a class="el" href="classProgressHistoryIndicator.html#a831d67b948668a9bd7173fb64f57a205">ProgressHistoryIndicator</a>, <a class="el" href="classActivityIndicator.html#a6352234feaed6d11759d64825b4c9ddd">ActivityIndicator</a>, <a class="el" href="classStatusHistoryIndicator.html#a9e1a1f2204b03cce19c5c0491b46f582">StatusHistoryIndicator</a>, <a class="el" href="classDaysPerJobIndicator.html#a1505dc342d2a477febaa9876362669d0">DaysPerJobIndicator</a>, and <a class="el" href="classDetailedChargesIndicator.html#a6879109ed51c5f02cc3de8487026d1fd">DetailedChargesIndicator</a>.</p>
+<p>Implemented in <a class="el" href="classReopenedRateIndicator.html#a3af610aad7861a14667f0ddd89408342">ReopenedRateIndicator</a>, <a class="el" href="classBacklogVariationIndicator.html#a2c1d22eac6bf1c93b09a4c6fa6f91f36">BacklogVariationIndicator</a>, <a class="el" href="classProgressHistoryIndicator.html#a831d67b948668a9bd7173fb64f57a205">ProgressHistoryIndicator</a>, <a class="el" href="classActivityIndicator.html#a6352234feaed6d11759d64825b4c9ddd">ActivityIndicator</a>, <a class="el" href="classBudgetDriftHistoryIndicator.html#a749b7b68be5547409f8e2c8c342345c6">BudgetDriftHistoryIndicator</a>, <a class="el" href="classEffortEstimReliabilityIndicator.html#a9462df9300c28a85485d0b9baca20794">EffortEstimReliabilityIndicator</a>, <a class="el" href="classStatusHistoryIndicator.html#a9e1a1f2204b03cce19c5c0491b46f582">StatusHistoryIndicator</a>, <a class="el" href="classDetailedChargesIndicator.html#a6879109ed51c5f02cc3de8487026d1fd">DetailedChargesIndicator</a>, and <a class="el" href="classDaysPerJobIndicator.html#a1505dc342d2a477febaa9876362669d0">DaysPerJobIndicator</a>.</p>
 
 </div>
 </div>
@@ -224,7 +228,7 @@ Static Public Member Functions</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -234,7 +238,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

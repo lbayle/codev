@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -134,6 +134,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#af0e687e305e31492f04ab221879bdde8">getDescription</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a1be0934dbad8f316483b0e4fbe12975c">getTagList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#ae3cce79178ce9bd11c25ce8838e6c44f">getType</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a651a9acd9bba6aa0e99a9a45f2ce85f0">setType</a> ($value)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a947f327435b40ef598cc1d2519d34a00">getIssueNoteList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a9cd64c5951d63131398b5a6db3f7c368">isResolved</a> ($timestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae9ab9c02e85661bf583efb0857e59fe8"></a><!-- doxytag: member="Issue::getBugResolvedStatusThreshold" ref="ae9ab9c02e85661bf583efb0857e59fe8" args="()" -->
@@ -159,10 +160,11 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>getSeverityName</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acf9259bf92d50f24150cf9e6883f87d6"></a><!-- doxytag: member="Issue::getResolutionName" ref="acf9259bf92d50f24150cf9e6883f87d6" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getResolutionName</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a15ac766e600a45679273ef60469ec12b">getElapsed</a> ($job_id=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#affd1e8f132d53a37365f2ab554efe084">getElapsed_old</a> ($job_id=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a0d13166d3bab5c6b0d6aa0564012a6be">getElapsed</a> ($job_id=NULL, $startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a4f5a06248d556d4c67bd293af16415cd">getBacklog</a> ($timestamp=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#afbf6d4b623b3f5f0d00ebb46f32d78a7">getDuration</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#ada5accfb3c90189c5c3dd9a270f94be6">getReestimated</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a1ac894669f844ff45b849820ef28a47c">getDuration</a> ($timestamp=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a0f14deaca764403732da97c4a39a399a">getReestimated</a> ($timestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a6e175b5026b9cb89d34ad38799e5eee4">getDrift</a> ($withSupport=TRUE)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a6d19a67470214feb4137c3b04ca5c852">getDriftMgr</a> ($withSupport=TRUE)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a5407449995cea5156d2f31b2fdba8084">getRelationships</a> ($type)</td></tr>
@@ -200,6 +202,8 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>getPriority</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7e30b6423decc9a13f051a57cbbdc97f"></a><!-- doxytag: member="Issue::getSeverity" ref="a7e30b6423decc9a13f051a57cbbdc97f" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getSeverity</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af57e5265aa4585d87f61d35928a623fa"></a><!-- doxytag: member="Issue::getETA" ref="af57e5265aa4585d87f61d35928a623fa" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getETA</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#aea022dfbed50ed6a3bf7691af07c6f7e">getReporterId</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a762408ff9b5a45f3963dcb9c36c9124d"></a><!-- doxytag: member="Issue::getVersion" ref="a762408ff9b5a45f3963dcb9c36c9124d" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getVersion</b> ()</td></tr>
@@ -215,6 +219,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#aa59d7a867be7d6f252affe978aadbb8d">getDeliveryId</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#afba97ab05c5db7b934acd9a4178ad203">getStatusList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a58ec1b286bad3f484ab924f41760b010">getFormattedIds</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a5426adefc4910aa21cae53d588060b58">getTooltipItems</a> ($teamid=0, $userid=0, $isManager=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#ac4b2651149b0b118884b2681f19bf0e3">getBacklogHistory</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a443cb38ca456d9cb03a13ad4ee7bb976">staticInit</a> ()</td></tr>
@@ -456,7 +462,7 @@ Protected Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Get backlog at a specific date. if date is not specified, return current backlog.</p>
-<p>Note: this is STRICTLY the value found in the DB, see <a class="el" href="classIssue.html#afbf6d4b623b3f5f0d00ebb46f32d78a7">getDuration()</a> for a computed backlog.</p>
+<p>Note: this is STRICTLY the value found in the DB, see <a class="el" href="classIssue.html#a1ac894669f844ff45b849820ef28a47c">getDuration()</a> for a computed backlog.</p>
 <p>WARN: the result must be checked with is_null() because '0' is not the same as NULL</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -465,6 +471,24 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>int backlog or NULL if no backlog update found in history before timestamp </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac4b2651149b0b118884b2681f19bf0e3"></a><!-- doxytag: member="Issue::getBacklogHistory" ref="ac4b2651149b0b118884b2681f19bf0e3" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getBacklogHistory </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get backup at each timetrack (keep only the latest of the day)</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array timestamp =&gt; backlog </dd></dl>
 
 </div>
 </div>
@@ -699,14 +723,15 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="afbf6d4b623b3f5f0d00ebb46f32d78a7"></a><!-- doxytag: member="Issue::getDuration" ref="afbf6d4b623b3f5f0d00ebb46f32d78a7" args="()" -->
+<a class="anchor" id="a1ac894669f844ff45b849820ef28a47c"></a><!-- doxytag: member="Issue::getDuration" ref="a1ac894669f844ff45b849820ef28a47c" args="($timestamp=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Issue::getDuration </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>timestamp</em> = <code>NULL</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -742,12 +767,53 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a15ac766e600a45679273ef60469ec12b"></a><!-- doxytag: member="Issue::getElapsed" ref="a15ac766e600a45679273ef60469ec12b" args="($job_id=NULL)" -->
+<a class="anchor" id="a0d13166d3bab5c6b0d6aa0564012a6be"></a><!-- doxytag: member="Issue::getElapsed" ref="a0d13166d3bab5c6b0d6aa0564012a6be" args="($job_id=NULL, $startTimestamp=NULL, $endTimestamp=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Issue::getElapsed </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>job_id</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>startTimestamp</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>endTimestamp</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get elapsed from <a class="el" href="classTimeTracking.html">TimeTracking</a> </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$job_id</td><td>if no category specified, then all category. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="affd1e8f132d53a37365f2ab554efe084"></a><!-- doxytag: member="Issue::getElapsed_old" ref="affd1e8f132d53a37365f2ab554efe084" args="($job_id=NULL)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getElapsed_old </td>
           <td>(</td>
           <td class="paramtype">$&#160;</td>
           <td class="paramname"><em>job_id</em> = <code>NULL</code></td><td>)</td>
@@ -1005,14 +1071,15 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ada5accfb3c90189c5c3dd9a270f94be6"></a><!-- doxytag: member="Issue::getReestimated" ref="ada5accfb3c90189c5c3dd9a270f94be6" args="()" -->
+<a class="anchor" id="a0f14deaca764403732da97c4a39a399a"></a><!-- doxytag: member="Issue::getReestimated" ref="a0f14deaca764403732da97c4a39a399a" args="($timestamp=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Issue::getReestimated </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>timestamp</em> = <code>NULL</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1198,6 +1265,48 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classTimeTrack.html">TimeTrack</a>[] </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5426adefc4910aa21cae53d588060b58"></a><!-- doxytag: member="Issue::getTooltipItems" ref="a5426adefc4910aa21cae53d588060b58" args="($teamid=0, $userid=0, $isManager=NULL)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getTooltipItems </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>teamid</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>userid</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>isManager</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">type</td><td class="paramname">$teamid</td><td></td></tr>
+    <tr><td class="paramtype">type</td><td class="paramname">$userid</td><td></td></tr>
+    <tr><td class="paramtype">type</td><td class="paramname">$isManager</td><td>OPTIONAL (overrides auto-detection based on $teamid + $userid) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array fields to be displayed (i18n applied) </dd></dl>
 
 </div>
 </div>
@@ -1600,6 +1709,30 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a651a9acd9bba6aa0e99a9a45f2ce85f0"></a><!-- doxytag: member="Issue::setType" ref="a651a9acd9bba6aa0e99a9a45f2ce85f0" args="($value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::setType </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update DB and current instance </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">type</td><td class="paramname">$value</td><td>"Task" or "Bug" </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a3896e8b9134cc119c253cdf39f59fa04"></a><!-- doxytag: member="Issue::startDate" ref="a3896e8b9134cc119c253cdf39f59fa04" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -1647,7 +1780,7 @@ Protected Attributes</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -1657,7 +1790,7 @@ Protected Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

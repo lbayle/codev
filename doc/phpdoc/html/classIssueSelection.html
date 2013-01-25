@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -133,7 +133,8 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>addProvision</b> ($value)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a88abec935775236b1471670a71a40caf"></a><!-- doxytag: member="IssueSelection::getProgress" ref="a88abec935775236b1471670a71a40caf" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getProgress</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#a74a0f77e3de9e62e7d32f9e2d9b08531">getReestimated</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#ab12f8475768ce912996ed4b9446e4a63">getMgrEffortEstim</a> ($timestamp=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#acfe7052200f9880faecca81be85faccd">getReestimated</a> ($timestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#a6fc808e74b73ffa6777908cd5d13ad30">getIssueList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#a4d7062c242169ee68d190c7b1863c440">getElapsed</a> ($startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#ab2f13cf706d0c9cc573e10030efe70ef">getNbIssues</a> ()</td></tr>
@@ -146,6 +147,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#afc6298a538887b578741c3fbbf9392ff">getConsistencyErrors</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#ad64890e3f79fdb3a509506097d287b1e">getFirstTimetrack</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#af213d3855bada2fd6521ecac1c6c1789">getLatestTimetrack</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#a5c0a474997d7d48efc124da6fa849623">getLastUpdated</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#ad35b35d439c6324554fbb50497ceb483">getLastUpdatedList</a> ($max=1)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#a91888c369f7467071a7efc7e4a02ef42">staticInit</a> ()</td></tr>
@@ -514,6 +517,43 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a5c0a474997d7d48efc124da6fa849623"></a><!-- doxytag: member="IssueSelection::getLastUpdated" ref="a5c0a474997d7d48efc124da6fa849623" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IssueSelection::getLastUpdated </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the date of the latest update of the issueList </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>timestamp </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad35b35d439c6324554fbb50497ceb483"></a><!-- doxytag: member="IssueSelection::getLastUpdatedList" ref="ad35b35d439c6324554fbb50497ceb483" args="($max=1)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IssueSelection::getLastUpdatedList </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>max</em> = <code>1</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the date of the $max latest updated issues of the issueList </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array bugid =&gt; timestamp </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="af213d3855bada2fd6521ecac1c6c1789"></a><!-- doxytag: member="IssueSelection::getLatestTimetrack" ref="af213d3855bada2fd6521ecac1c6c1789" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -528,6 +568,29 @@ Protected Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classTimeTrack.html">TimeTrack</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab12f8475768ce912996ed4b9446e4a63"></a><!-- doxytag: member="IssueSelection::getMgrEffortEstim" ref="ab12f8475768ce912996ed4b9446e4a63" args="($timestamp=NULL)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IssueSelection::getMgrEffortEstim </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>timestamp</em> = <code>NULL</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">type</td><td class="paramname">$timestamp</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -548,14 +611,15 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a74a0f77e3de9e62e7d32f9e2d9b08531"></a><!-- doxytag: member="IssueSelection::getReestimated" ref="a74a0f77e3de9e62e7d32f9e2d9b08531" args="()" -->
+<a class="anchor" id="acfe7052200f9880faecca81be85faccd"></a><!-- doxytag: member="IssueSelection::getReestimated" ref="acfe7052200f9880faecca81be85faccd" args="($timestamp=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">IssueSelection::getReestimated </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>timestamp</em> = <code>NULL</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -620,7 +684,7 @@ Protected Attributes</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -630,7 +694,7 @@ Protected Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

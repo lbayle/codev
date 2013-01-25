@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -155,6 +155,12 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#aa314a231c3533d3b7ed0c56ce73beb87">getDefaultProject</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a7bca2a2cbc116148057b5965bb7c38d5">setProjectFilters</a> ($filters, $projectid=0)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#aea41dccf43274f08c0727b4c2d7d3c08">getProjectFilters</a> ($projectid=0)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#aaeae01106ba3dc586f00b5b85170ed62">setCommandFilters</a> ($filters, $commandid=0)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a6fd6c29c33101fd9575d6c72944e2924">getCommandFilters</a> ($commandid=0)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a837530385909f21e8cd703617c8ba686">setCommandSetFilters</a> ($filters, $csetid=0)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a253ebd5e060b7b34f178fd6c871afe71">getCommandSetFilters</a> ($csetid=0)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a4dc1a3fe63b034e2492aeaad6fcdfc85">setServiceContractFilters</a> ($filters, $serviceid=0)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a78c8535d8c17065f6d44b85c6cf14348">getServiceContractFilters</a> ($serviceid=0)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a6811ab646ab41f0f4d8ca5e5be8d731a">setDefaultLanguage</a> ($lang)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a8ae74b56f4a8948120779618accff074">getDefaultLanguage</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#ae2fc3f28643dff3faace108c9f9ea9eb">setProjectAccessLevel</a> ($project_id, $access_level)</td></tr>
@@ -337,6 +343,44 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a6fd6c29c33101fd9575d6c72944e2924"></a><!-- doxytag: member="User::getCommandFilters" ref="a6fd6c29c33101fd9575d6c72944e2924" args="($commandid=0)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">User::getCommandFilters </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>commandid</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the <a class="el" href="classCommand.html">Command</a> filters</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string or "" if not found </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a253ebd5e060b7b34f178fd6c871afe71"></a><!-- doxytag: member="User::getCommandSetFilters" ref="a253ebd5e060b7b34f178fd6c871afe71" args="($csetid=0)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">User::getCommandSetFilters </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>csetid</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the <a class="el" href="classCommand.html">Command</a> filters</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string or "" if not found </dd></dl>
 
 </div>
 </div>
@@ -802,6 +846,25 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a78c8535d8c17065f6d44b85c6cf14348"></a><!-- doxytag: member="User::getServiceContractFilters" ref="a78c8535d8c17065f6d44b85c6cf14348" args="($serviceid=0)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">User::getServiceContractFilters </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>serviceid</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the <a class="el" href="classCommand.html">Command</a> filters</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string or "" if not found </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="adac21a226bdea627757398c5610c430c"></a><!-- doxytag: member="User::getShortname" ref="adac21a226bdea627757398c5610c430c" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -1204,6 +1267,74 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aaeae01106ba3dc586f00b5b85170ed62"></a><!-- doxytag: member="User::setCommandFilters" ref="aaeae01106ba3dc586f00b5b85170ed62" args="($filters, $commandid=0)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">User::setCommandFilters </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>filters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>commandid</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the <a class="el" href="classCommand.html">Command</a> filters </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$filters</td><td>(comma separated) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a837530385909f21e8cd703617c8ba686"></a><!-- doxytag: member="User::setCommandSetFilters" ref="a837530385909f21e8cd703617c8ba686" args="($filters, $csetid=0)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">User::setCommandSetFilters </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>filters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>csetid</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the <a class="el" href="classCommand.html">Command</a> filters </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$filters</td><td>(comma separated) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a6811ab646ab41f0f4d8ca5e5be8d731a"></a><!-- doxytag: member="User::setDefaultLanguage" ref="a6811ab646ab41f0f4d8ca5e5be8d731a" args="($lang)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1346,6 +1477,40 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a4dc1a3fe63b034e2492aeaad6fcdfc85"></a><!-- doxytag: member="User::setServiceContractFilters" ref="a4dc1a3fe63b034e2492aeaad6fcdfc85" args="($filters, $serviceid=0)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">User::setServiceContractFilters </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>filters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>serviceid</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the <a class="el" href="classCommand.html">Command</a> filters </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$filters</td><td>(comma separated) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a4b0865dccbda16957cce6055aff467b8"></a><!-- doxytag: member="User::setTimetrackingFilter" ref="a4b0865dccbda16957cce6055aff467b8" args="($filterName, $value)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1410,7 +1575,7 @@ Static Public Member Functions</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -1420,7 +1585,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

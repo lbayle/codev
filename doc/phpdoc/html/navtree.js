@@ -8,11 +8,14 @@ var NAVTREE =
       [ "ActivityIndicator", "classActivityIndicator.html", null ],
       [ "AdminController", "classAdminController.html", null ],
       [ "AdminGuideController", "classAdminGuideController.html", null ],
+      [ "BacklogVariationIndicator", "classBacklogVariationIndicator.html", null ],
       [ "BlogActivity", "classBlogActivity.html", null ],
       [ "BlogController", "classBlogController.html", null ],
       [ "BlogManager", "classBlogManager.html", null ],
       [ "BlogPost", "classBlogPost.html", null ],
       [ "BlogPostCache", "classBlogPostCache.html", null ],
+      [ "BudgetDriftHistoryIndicator", "classBudgetDriftHistoryIndicator.html", null ],
+      [ "BVIController", "classBVIController.html", null ],
       [ "Cache", "classCache.html", null ],
       [ "CachedFileReader", "classCachedFileReader.html", null ],
       [ "CheckController", "classCheckController.html", null ],
@@ -46,6 +49,7 @@ var NAVTREE =
       [ "EditHolidaysController", "classEditHolidaysController.html", null ],
       [ "EditJobsController", "classEditJobsController.html", null ],
       [ "EditTeamController", "classEditTeamController.html", null ],
+      [ "EffortEstimReliabilityIndicator", "classEffortEstimReliabilityIndicator.html", null ],
       [ "ExportCSVMonthlyController", "classExportCSVMonthlyController.html", null ],
       [ "ExportCsvTools", "classExportCsvTools.html", null ],
       [ "ExportCSVWeeklyController", "classExportCSVWeeklyController.html", null ],
@@ -74,6 +78,7 @@ var NAVTREE =
       [ "IssueFDJ", "classIssueFDJ.html", null ],
       [ "IssueInfoController", "classIssueInfoController.html", null ],
       [ "IssueInfoTools", "classIssueInfoTools.html", null ],
+      [ "IssueMantisPluginHelper", "classIssueMantisPluginHelper.html", null ],
       [ "IssueNote", "classIssueNote.html", null ],
       [ "IssuePublicPrivateFilter", "classIssuePublicPrivateFilter.html", null ],
       [ "IssueSelection", "classIssueSelection.html", null ],
@@ -85,6 +90,7 @@ var NAVTREE =
       [ "MantisReports", "classMantisReports.html", null ],
       [ "MantisSoap", "classMantisSoap.html", null ],
       [ "Model", "classModel.html", null ],
+      [ "NormalizedBacklog", "classNormalizedBacklog.html", null ],
       [ "PeriodStats", "classPeriodStats.html", null ],
       [ "PeriodStatsReport", "classPeriodStatsReport.html", null ],
       [ "PlanningReportController", "classPlanningReportController.html", null ],
@@ -101,6 +107,7 @@ var NAVTREE =
       [ "ProjectInfoTools", "classProjectInfoTools.html", null ],
       [ "ProjectVersion", "classProjectVersion.html", null ],
       [ "ProjectVersionFilter", "classProjectVersionFilter.html", null ],
+      [ "ReopenedRateIndicator", "classReopenedRateIndicator.html", null ],
       [ "ScheduledTask", "classScheduledTask.html", null ],
       [ "ScheduledTaskView", "classScheduledTaskView.html", null ],
       [ "ServiceContract", "classServiceContract.html", null ],
@@ -136,7 +143,6 @@ var NAVTREE =
     [ "Class Hierarchy", "hierarchy.html", [
       [ "BlogActivity", "classBlogActivity.html", null ],
       [ "BlogManager", "classBlogManager.html", null ],
-      [ "BlogPost", "classBlogPost.html", null ],
       [ "Cache", "classCache.html", [
         [ "BlogPostCache", "classBlogPostCache.html", null ],
         [ "CommandCache", "classCommandCache.html", null ],
@@ -153,6 +159,9 @@ var NAVTREE =
       [ "CommandSetTools", "classCommandSetTools.html", null ],
       [ "CommandTools", "classCommandTools.html", null ],
       [ "Comparable", "interfaceComparable.html", [
+        [ "BlogPost", "classBlogPost.html", null ],
+        [ "ConsistencyError2", "classConsistencyError2.html", null ],
+        [ "GanttActivity", "classGanttActivity.html", null ],
         [ "Issue", "classIssue.html", [
           [ "IssueFDJ", "classIssueFDJ.html", null ]
         ] ],
@@ -165,12 +174,12 @@ var NAVTREE =
       ] ],
       [ "ConsistencyCheck2", "classConsistencyCheck2.html", null ],
       [ "ConsistencyError", "classConsistencyError.html", null ],
-      [ "ConsistencyError2", "classConsistencyError2.html", null ],
       [ "Constants", "classConstants.html", null ],
       [ "Controller", "classController.html", [
         [ "AdminController", "classAdminController.html", null ],
         [ "AdminGuideController", "classAdminGuideController.html", null ],
         [ "BlogController", "classBlogController.html", null ],
+        [ "BVIController", "classBVIController.html", null ],
         [ "CheckController", "classCheckController.html", null ],
         [ "CommandEditController", "classCommandEditController.html", null ],
         [ "CommandInfoController", "classCommandInfoController.html", null ],
@@ -213,7 +222,6 @@ var NAVTREE =
       [ "FileReader", "classFileReader.html", null ],
       [ "FilterManager", "classFilterManager.html", null ],
       [ "FilterNode", "classFilterNode.html", null ],
-      [ "GanttActivity", "classGanttActivity.html", null ],
       [ "GanttGraphView", "classGanttGraphView.html", null ],
       [ "GanttManager", "classGanttManager.html", null ],
       [ "gettext_reader", "classgettext__reader.html", null ],
@@ -221,13 +229,18 @@ var NAVTREE =
       [ "Holidays", "classHolidays.html", null ],
       [ "IndicatorPlugin", "interfaceIndicatorPlugin.html", [
         [ "ActivityIndicator", "classActivityIndicator.html", null ],
+        [ "BacklogVariationIndicator", "classBacklogVariationIndicator.html", null ],
+        [ "BudgetDriftHistoryIndicator", "classBudgetDriftHistoryIndicator.html", null ],
         [ "DaysPerJobIndicator", "classDaysPerJobIndicator.html", null ],
         [ "DetailedChargesIndicator", "classDetailedChargesIndicator.html", null ],
+        [ "EffortEstimReliabilityIndicator", "classEffortEstimReliabilityIndicator.html", null ],
         [ "ProgressHistoryIndicator", "classProgressHistoryIndicator.html", null ],
+        [ "ReopenedRateIndicator", "classReopenedRateIndicator.html", null ],
         [ "StatusHistoryIndicator", "classStatusHistoryIndicator.html", null ]
       ] ],
       [ "Install", "classInstall.html", null ],
       [ "IssueInfoTools", "classIssueInfoTools.html", null ],
+      [ "IssueMantisPluginHelper", "classIssueMantisPluginHelper.html", null ],
       [ "IssueNote", "classIssueNote.html", null ],
       [ "IssueSelection", "classIssueSelection.html", [
         [ "ProjectVersion", "classProjectVersion.html", null ]
@@ -254,6 +267,7 @@ var NAVTREE =
         [ "TimeTrack", "classTimeTrack.html", null ],
         [ "User", "classUser.html", null ]
       ] ],
+      [ "NormalizedBacklog", "classNormalizedBacklog.html", null ],
       [ "PeriodStats", "classPeriodStats.html", null ],
       [ "PeriodStatsReport", "classPeriodStatsReport.html", null ],
       [ "ProductivityReportTools", "classProductivityReportTools.html", null ],

@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -117,14 +117,14 @@ Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfig.html#a487d36b4405c2ad334ff4cddf18c8a2a">getVariableKeyFromValue</a> ($id, $value)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfig.html#af396f4c3fe1ff83fce6ddc8510480ca5">getVariableValueFromKey</a> ($id, $key)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfig.html#aabcd230ad1698d9ded0619f2becba6e5">getType</a> ($id)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfig.html#a4f8f691ef2265933cc96ad78a99207e6">setValue</a> ($id, $value, $type, $desc=NULL, $project_id=0, $user_id=0, $team_id=0)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfig.html#ab0e75e6cd114e1f107f894a9d7598c64">setValue</a> ($id, $value, $type, $desc=NULL, $project_id=0, $user_id=0, $team_id=0, $command_id=0, $cset_id=0, $service_id=0)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfig.html#a868173320f69391c9bbba9401fc9be66">deleteValue</a> ($id)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1e66fee866a8017cff9b12901ccbb5c7"></a><!-- doxytag: member="Config::codevVersion" ref="a1e66fee866a8017cff9b12901ccbb5c7" args="" -->
-const&#160;</td><td class="memItemRight" valign="bottom"><b>codevVersion</b> = &quot;v0.99.18 (22 Sept 2012)&quot;</td></tr>
+const&#160;</td><td class="memItemRight" valign="bottom"><b>codevVersion</b> = &quot;v0.99.19 (29 Nov 2012)&quot;</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a560594f3e0347d54daf5f0add94671f3"></a><!-- doxytag: member="Config::databaseVersion" ref="a560594f3e0347d54daf5f0add94671f3" args="" -->
-const&#160;</td><td class="memItemRight" valign="bottom"><b>databaseVersion</b> = 9</td></tr>
+const&#160;</td><td class="memItemRight" valign="bottom"><b>databaseVersion</b> = 10</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7459accd0ba58b203469bf263bcc403b"></a><!-- doxytag: member="Config::configType_int" ref="a7459accd0ba58b203469bf263bcc403b" args="" -->
 const&#160;</td><td class="memItemRight" valign="bottom"><b>configType_int</b> = 1</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5f978ed743575ef20346046e6972176f"></a><!-- doxytag: member="Config::configType_string" ref="a5f978ed743575ef20346046e6972176f" args="" -->
@@ -189,6 +189,14 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>id_defaultProjectId<
 const&#160;</td><td class="memItemRight" valign="bottom"><b>id_ClientTeamid</b> = &quot;client_teamid&quot;</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6684c9a7aad50acab6b7aa1393f861e2"></a><!-- doxytag: member="Config::id_projectFilters" ref="a6684c9a7aad50acab6b7aa1393f861e2" args="" -->
 const&#160;</td><td class="memItemRight" valign="bottom"><b>id_projectFilters</b> = &quot;projectFilters&quot;</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1feb175f07945d5cb05ad94665fec7f8"></a><!-- doxytag: member="Config::id_commandFilters" ref="a1feb175f07945d5cb05ad94665fec7f8" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>id_commandFilters</b> = &quot;commandFilters&quot;</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3b82455c2fe14eeae200175100a5f5e0"></a><!-- doxytag: member="Config::id_commandSetFilters" ref="a3b82455c2fe14eeae200175100a5f5e0" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>id_commandSetFilters</b> = &quot;commandSetFilters&quot;</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad8fee1f5336969cb9c616a61da149885"></a><!-- doxytag: member="Config::id_serviceContractFilters" ref="ad8fee1f5336969cb9c616a61da149885" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>id_serviceContractFilters</b> = &quot;serviceContractFilters&quot;</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae26f97cd812afe31d118bdc6f34bd8d5"></a><!-- doxytag: member="Config::id_consistencyCheckList" ref="ae26f97cd812afe31d118bdc6f34bd8d5" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>id_consistencyCheckList</b> = 'consistencyCheckList'</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a45f1634f0c28cf31ad53be88899f720d"></a><!-- doxytag: member="Config::default_timetrackingFilters" ref="a45f1634f0c28cf31ad53be88899f720d" args="" -->
 const&#160;</td><td class="memItemRight" valign="bottom"><b>default_timetrackingFilters</b> = &quot;onlyAssignedTo:0,hideResolved:0,hideDevProjects:0&quot;</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
@@ -384,7 +392,7 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4f8f691ef2265933cc96ad78a99207e6"></a><!-- doxytag: member="Config::setValue" ref="a4f8f691ef2265933cc96ad78a99207e6" args="($id, $value, $type, $desc=NULL, $project_id=0, $user_id=0, $team_id=0)" -->
+<a class="anchor" id="ab0e75e6cd114e1f107f894a9d7598c64"></a><!-- doxytag: member="Config::setValue" ref="ab0e75e6cd114e1f107f894a9d7598c64" args="($id, $value, $type, $desc=NULL, $project_id=0, $user_id=0, $team_id=0, $command_id=0, $cset_id=0, $service_id=0)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -428,7 +436,25 @@ Static Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>team_id</em> = <code>0</code>&#160;</td>
+          <td class="paramname"><em>team_id</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>command_id</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>cset_id</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>service_id</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -448,6 +474,9 @@ Static Public Attributes</h2></td></tr>
     <tr><td class="paramtype">int</td><td class="paramname">$project_id</td><td></td></tr>
     <tr><td class="paramtype">int</td><td class="paramname">$user_id</td><td></td></tr>
     <tr><td class="paramtype">int</td><td class="paramname">$team_id</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$command_id</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$commandset_id</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$servicecontract_id</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -502,7 +531,8 @@ Static Public Attributes</h2></td></tr>
       <span class="stringliteral">&quot;v0.99.15&quot;</span> =&gt; <span class="stringliteral">&quot;(28 Feb  2012) - MgrEffortEstim, install, timetrackingFilters&quot;</span>,
       <span class="stringliteral">&quot;v0.99.16&quot;</span> =&gt; <span class="stringliteral">&quot;(11 Apr  2012) - Smarty+Ajax, install, ProjectInfo, Https, Sessions, Doxygen, Observers view all pages, greasemonkey, ConsistencyChecks&quot;</span>,
       <span class="stringliteral">&quot;v0.99.17&quot;</span> =&gt; <span class="stringliteral">&quot;(29 Jun  2012) - Smarty+Ajax, install, Management section, datatables, GUI enhancements, &#39;Leave&#39; task moved to ExternalTasks, ConsistencyChecks&quot;</span>,
-      <span class="stringliteral">&quot;v0.99.18&quot;</span> =&gt; <span class="stringliteral">&quot;(22 Sept 2012) - PERF, GUI enhancements, WinInstall, IndicatorPlugins, ProjectFilters, Import&quot;</span>
+      <span class="stringliteral">&quot;v0.99.18&quot;</span> =&gt; <span class="stringliteral">&quot;(22 Sept 2012) - PERF, GUI enhancements, WinInstall, IndicatorPlugins, ProjectFilters, Import&quot;</span>,
+      <span class="stringliteral">&quot;v0.99.19&quot;</span> =&gt; <span class="stringliteral">&quot;(29 Nov 2012) - GUI enhancements, install, Cmd Provisions, Cmd Budget, CodevTT_type, disable project/team, HTML Tooltips, MantisPlugin, merge Progress &amp; ProgressMgr&quot;</span>
    )
 </pre></div>
 </div>
@@ -520,7 +550,7 @@ Static Public Attributes</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -530,7 +560,7 @@ Static Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

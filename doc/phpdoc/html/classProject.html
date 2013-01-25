@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -125,7 +125,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a8b7bd73acd9d84e1cdfccb3498e027e2">initializeCategories</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5e0680e41f9925454d2fc12e424bf7ea"></a><!-- doxytag: member="Project::isEnabled" ref="a5e0680e41f9925454d2fc12e424bf7ea" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>isEnabled</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ab4258c6f6434815abc62e806bd1d59b3">getCategories</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a505986c4654bf3329444225e86fe9c1d">getCategories</a> ($withGlobal=true, $withInherited=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a923d546f096bf0b6cc742a2a0f3d41bd">getProjectVersions</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aadc45271732b36b7850c05bf65d864d2"></a><!-- doxytag: member="Project::addCategoryProjManagement" ref="aadc45271732b36b7850c05bf65d864d2" args="($catName)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>addCategoryProjManagement</b> ($catName)</td></tr>
@@ -176,6 +176,9 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a148d5b340d1ddf04ba3bcb1a48a064ee">getName</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a601e757eaebaf9c69dba57ad704df873"></a><!-- doxytag: member="Project::getDescription" ref="a601e757eaebaf9c69dba57ad704df873" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getDescription</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a18ef8c8e3d9c5f0ec782d5746e05b651">getCustomFieldsList</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a3a16dc6b44155a352c91af4b91e3904d">getIssueTooltipFields</a> ($teamid=0, $userid=0)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#aa2aef1a180773eed13f301b70f407f05">setIssueTooltipFields</a> ($fieldList=NULL, $teamid=0, $userid=0)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a453dabf2d0957b5520f37a9e27be55fa">staticInit</a> ()</td></tr>
@@ -430,19 +433,37 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab4258c6f6434815abc62e806bd1d59b3"></a><!-- doxytag: member="Project::getCategories" ref="ab4258c6f6434815abc62e806bd1d59b3" args="()" -->
+<a class="anchor" id="a505986c4654bf3329444225e86fe9c1d"></a><!-- doxytag: member="Project::getCategories" ref="a505986c4654bf3329444225e86fe9c1d" args="($withGlobal=true, $withInherited=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Project::getCategories </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>withGlobal</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>withInherited</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">$withGlobal</td><td></td></tr>
+    <tr><td class="paramname">$withInherited</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string[] id =&gt; categoryName </dd></dl>
 
 </div>
@@ -492,6 +513,24 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string The category name </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a18ef8c8e3d9c5f0ec782d5746e05b651"></a><!-- doxytag: member="Project::getCustomFieldsList" ref="a18ef8c8e3d9c5f0ec782d5746e05b651" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Project::getCustomFieldsList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return a list of customFields defined for this project (in mantis)</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array id =&gt; name </dd></dl>
 
 </div>
 </div>
@@ -598,6 +637,48 @@ Static Public Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssueSelection.html">IssueSelection</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a3a16dc6b44155a352c91af4b91e3904d"></a><!-- doxytag: member="Project::getIssueTooltipFields" ref="a3a16dc6b44155a352c91af4b91e3904d" args="($teamid=0, $userid=0)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Project::getIssueTooltipFields </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>teamid</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>userid</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Returns the fields to display in the <a class="el" href="classIssue.html">Issue</a> tooltip</p>
+<p>fields can be</p>
+<ul>
+<li>mantis_bug_table columns (ex: project_id, status)</li>
+<li>customField id prefixed with 'custom_' (ex: custom_23)</li>
+<li>CodevTT calculated field prefixed with 'codevtt_' (ex: codevtt_drift)</li>
+</ul>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$teamid</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$userid</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array </dd></dl>
 
 </div>
 </div>
@@ -1056,6 +1137,55 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aa2aef1a180773eed13f301b70f407f05"></a><!-- doxytag: member="Project::setIssueTooltipFields" ref="aa2aef1a180773eed13f301b70f407f05" args="($fieldList=NULL, $teamid=0, $userid=0)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Project::setIssueTooltipFields </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>fieldList</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>teamid</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>userid</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>store fields to display in the <a class="el" href="classIssue.html">Issue</a> tooltip</p>
+<p>fields can be</p>
+<ul>
+<li>mantis_bug_table columns (ex: project_id, status)</li>
+<li>customField id prefixed with 'custom_' (ex: custom_23)</li>
+<li>CodevTT fields prefixed with 'codevtt_' (ex: codevtt_commands)</li>
+</ul>
+<p>if $fieldList == NULL, delete IssueTooltip custo for this project</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">array</td><td class="paramname">$fieldList</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$teamid</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$userid</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a453dabf2d0957b5520f37a9e27be55fa"></a><!-- doxytag: member="Project::staticInit" ref="a453dabf2d0957b5520f37a9e27be55fa" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -1125,7 +1255,7 @@ Static Public Attributes</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -1135,7 +1265,7 @@ Static Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

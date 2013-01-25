@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -104,7 +104,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock">This inheritance list is sorted roughly, but not completely, alphabetically:</div><ul>
 <li><a class="el" href="classBlogActivity.html">BlogActivity</a></li>
 <li><a class="el" href="classBlogManager.html">BlogManager</a></li>
-<li><a class="el" href="classBlogPost.html">BlogPost</a></li>
 <li><a class="el" href="classCache.html">Cache</a><ul>
 <li><a class="el" href="classBlogPostCache.html">BlogPostCache</a></li>
 <li><a class="el" href="classCommandCache.html">CommandCache</a></li>
@@ -122,6 +121,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><a class="el" href="classCommandSetTools.html">CommandSetTools</a></li>
 <li><a class="el" href="classCommandTools.html">CommandTools</a></li>
 <li><a class="el" href="interfaceComparable.html">Comparable</a><ul>
+<li><a class="el" href="classBlogPost.html">BlogPost</a></li>
+<li><a class="el" href="classConsistencyError2.html">ConsistencyError2</a></li>
+<li><a class="el" href="classGanttActivity.html">GanttActivity</a></li>
 <li><a class="el" href="classIssue.html">Issue</a><ul>
 <li><a class="el" href="classIssueFDJ.html">IssueFDJ</a></li>
 </ul>
@@ -137,12 +139,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li><a class="el" href="classConsistencyCheck2.html">ConsistencyCheck2</a></li>
 <li><a class="el" href="classConsistencyError.html">ConsistencyError</a></li>
-<li><a class="el" href="classConsistencyError2.html">ConsistencyError2</a></li>
 <li><a class="el" href="classConstants.html">Constants</a></li>
 <li><a class="el" href="classController.html">Controller</a><ul>
 <li><a class="el" href="classAdminController.html">AdminController</a></li>
 <li><a class="el" href="classAdminGuideController.html">AdminGuideController</a></li>
 <li><a class="el" href="classBlogController.html">BlogController</a></li>
+<li><a class="el" href="classBVIController.html">BVIController</a></li>
 <li><a class="el" href="classCheckController.html">CheckController</a></li>
 <li><a class="el" href="classCommandEditController.html">CommandEditController</a></li>
 <li><a class="el" href="classCommandInfoController.html">CommandInfoController</a></li>
@@ -186,7 +188,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><a class="el" href="classFileReader.html">FileReader</a></li>
 <li><a class="el" href="classFilterManager.html">FilterManager</a></li>
 <li><a class="el" href="classFilterNode.html">FilterNode</a></li>
-<li><a class="el" href="classGanttActivity.html">GanttActivity</a></li>
 <li><a class="el" href="classGanttGraphView.html">GanttGraphView</a></li>
 <li><a class="el" href="classGanttManager.html">GanttManager</a></li>
 <li><a class="el" href="classgettext__reader.html">gettext_reader</a></li>
@@ -194,14 +195,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><a class="el" href="classHolidays.html">Holidays</a></li>
 <li><a class="el" href="interfaceIndicatorPlugin.html">IndicatorPlugin</a><ul>
 <li><a class="el" href="classActivityIndicator.html">ActivityIndicator</a></li>
+<li><a class="el" href="classBacklogVariationIndicator.html">BacklogVariationIndicator</a></li>
+<li><a class="el" href="classBudgetDriftHistoryIndicator.html">BudgetDriftHistoryIndicator</a></li>
 <li><a class="el" href="classDaysPerJobIndicator.html">DaysPerJobIndicator</a></li>
 <li><a class="el" href="classDetailedChargesIndicator.html">DetailedChargesIndicator</a></li>
+<li><a class="el" href="classEffortEstimReliabilityIndicator.html">EffortEstimReliabilityIndicator</a></li>
 <li><a class="el" href="classProgressHistoryIndicator.html">ProgressHistoryIndicator</a></li>
+<li><a class="el" href="classReopenedRateIndicator.html">ReopenedRateIndicator</a></li>
 <li><a class="el" href="classStatusHistoryIndicator.html">StatusHistoryIndicator</a></li>
 </ul>
 </li>
 <li><a class="el" href="classInstall.html">Install</a></li>
 <li><a class="el" href="classIssueInfoTools.html">IssueInfoTools</a></li>
+<li><a class="el" href="classIssueMantisPluginHelper.html">IssueMantisPluginHelper</a></li>
 <li><a class="el" href="classIssueNote.html">IssueNote</a></li>
 <li><a class="el" href="classIssueSelection.html">IssueSelection</a><ul>
 <li><a class="el" href="classProjectVersion.html">ProjectVersion</a></li>
@@ -231,6 +237,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><a class="el" href="classUser.html">User</a></li>
 </ul>
 </li>
+<li><a class="el" href="classNormalizedBacklog.html">NormalizedBacklog</a></li>
 <li><a class="el" href="classPeriodStats.html">PeriodStats</a></li>
 <li><a class="el" href="classPeriodStatsReport.html">PeriodStatsReport</a></li>
 <li><a class="el" href="classProductivityReportTools.html">ProductivityReportTools</a></li>
@@ -260,7 +267,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -270,7 +277,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

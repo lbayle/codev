@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.19</span>
+   &#160;<span id="projectnumber">0.99.20</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -105,7 +105,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">BlogPost Class Reference</div>  </div>
 </div>
 <div class="contents">
-<!-- doxytag: class="BlogPost" -->
+<!-- doxytag: class="BlogPost" --><!-- doxytag: inherits="Comparable" --><div class="dynheader">
+Inheritance diagram for BlogPost:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classBlogPost.png" usemap="#BlogPost_map" alt=""/>
+  <map id="BlogPost_map" name="BlogPost_map">
+<area href="interfaceComparable.html" alt="Comparable" shape="rect" coords="0,0,80,24"/>
+</map>
+ </div></div>
+
 <p><a href="classBlogPost-members.html">List of all members.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
@@ -113,7 +122,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac000741825a6a639d5a6ecae79177864"></a><!-- doxytag: member="BlogPost::__construct" ref="ac000741825a6a639d5a6ecae79177864" args="($post_id, $details=NULL)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>__construct</b> ($post_id, $details=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBlogPost.html#a77f61e8f5257da5ca43e07d54e53e492">getActivityList</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBlogPost.html#a159af14501195eb3cb0cbf8fdc6c0f1e">compareTo</a> ($postB)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBlogPost.html#a9b01a11cc7a6c0ed8bdf4865ac78504e">compare</a> ($postA, $postB)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBlogPost.html#ae5e42e46b29404df561454a3c027b6fd">staticInit</a> ()</td></tr>
@@ -206,16 +215,26 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>severity_high</b> = 
 
 </div>
 </div>
-<a class="anchor" id="a159af14501195eb3cb0cbf8fdc6c0f1e"></a><!-- doxytag: member="BlogPost::compareTo" ref="a159af14501195eb3cb0cbf8fdc6c0f1e" args="($postB)" -->
+<a class="anchor" id="a9b01a11cc7a6c0ed8bdf4865ac78504e"></a><!-- doxytag: member="BlogPost::compare" ref="a9b01a11cc7a6c0ed8bdf4865ac78504e" args="($postA, $postB)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">BlogPost::compareTo </td>
+          <td class="memname">BlogPost::compare </td>
           <td>(</td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>postB</em></td><td>)</td>
+          <td class="paramname"><em>postA</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>postB</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div>
@@ -228,7 +247,7 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>severity_high</b> = 
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>1 if $postB higher priority, -1 if lower, 0 if equal </dd></dl>
 
 </div>
 </div>
@@ -421,7 +440,7 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>severity_high</b> = 
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -431,7 +450,7 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>severity_high</b> = 
 </div>
 
 
-    <li class="footer">Generated on Fri Nov 16 2012 13:18:20 for CodevTT by
+    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>
