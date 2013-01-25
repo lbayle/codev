@@ -35,6 +35,8 @@ Contains:
          modal: true,
          buttons: {
             Ok: function() {
+               jQuery("body").css('cursor','wait');
+
                var filters = '';
                jQuery(this).find('#sortableTarget').children().each(function() {
                   filters += jQuery(this).attr('id') + ',';
@@ -59,6 +61,10 @@ Contains:
                   success: function(data) {
                      jQuery("#detailedChargesData").html(jQuery.trim(data));
                      updateWidgets("#detailedChargesData");
+                     jQuery("body").css('cursor','auto');
+                  },
+                  error: function(data) {
+                     jQuery("body").css('cursor','auto');
                   }
                });
                jQuery(this).dialog("close");
