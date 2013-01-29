@@ -24,28 +24,27 @@
    });
 </script>
 
-<h2>{t}Budget Drift History{/t} &nbsp;&nbsp;<a id="dialog_budgetDriftHistoryIndicator_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
+<h2>{t}Budget Drift{/t} &nbsp;&nbsp;<a id="dialog_budgetDriftHistoryIndicator_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
 <div id="dialog_budgetDriftHistoryIndicator" class="help_dialog ui-helper-hidden" title="{t}Budget Drift History Indicator{/t}">
-   <p>{t}Evolution of the ...{/t}<br>
+   <p>{t}Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks).{/t}<br>
    </p>
    <p>
-      <strong>{t}Drift{/t}</strong><br>
-      {t}Displays ...{/t}
+      <strong>{t}% Budget Drift{/t}</strong><br>
       <br>
-      <span style="color:blue"><em>{t}Formula{/t} : {t}Reestimated - (MgrEE + Provisions){/t}</em></span>
+      <span style="color:blue"><em>{t}Formula{/t} : {t}( reestimated - budget ) / budget{/t}</em></span>
    </p>
 </div>
 
 <div id="budgetDriftIndicatorsChart" class="date_chart_with_horizontal_line chart float" style="width:75%;"></div>
 
 
-<table title="{t}Budget Drift{/t}">
+<table>
    <thead>
       <tr>
          <th>{t}Date{/t}</th>
-         <th>{t}MEE + Prov{/t}</th>
-         <th>{t}Drift{/t}</th>
-         <th>% {t}drift{/t}</th>
+         <th title="{t}MgrEffortEstim + checked provisions{/t}">{t}Budget{/t}</th>
+         <th title="{t}nb days{/t}" >{t}Drift{/t}</th>
+         <th>% {t}Drift{/t}</th>
       </tr>
    </thead>
    <tbody>
