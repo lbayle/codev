@@ -1,0 +1,123 @@
+<div id="content" class="center">
+{if isset($teamid) && (0 != $teamid)}
+
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery("#btDownloadODT").click(function() {
+            // check fields
+            var foundError = 0;
+            var msgString = "{t}The following fields need to be set{/t}:\n";
+
+            var form = jQuery("#downloadODTForm");
+            var select1 = form.find("select[name=reporters]").val();
+            if (select1 == null) {
+               msgString += "{t}Reporters{/t}";
+               ++foundError;
+            } else {
+               form.find("input[name=reporterList]").val(select1.join(","));
+            }
+
+            var select2 = form.find("select[name=handlers]").val();
+            if (select2 == null) {
+               msgString += "{t}Handlers{/t}";
+               ++foundError;
+            } else {
+               form.find("input[name=handlerList]").val(select2.join(","));
+            }
+
+            form.find("input[name=templateFile]").val(jQuery("#odtTemplate option:selected").text());
+
+            if (0 == foundError) {
+               form.submit();
+            } else {
+               alert(msgString);
+            }
+         });
+
+         jQuery("#cbWithResolved").click(function() {
+            var form = jQuery("#downloadODTForm");
+            var isTeamEnabled = jQuery("#cbWithResolved").attr('checked')?1:0;
+            form.find("input[name=isWithResolved]").val(isTeamEnabled);
+         });
+
+      });
+   </script>
+
+
+   <form id="downloadODTForm" name="mainForm" class="formWithTabsHistory" method="post" action="{$page}">
+      <fieldset>
+
+         <table class="invisible">
+         <tr>
+            <th valign="top">{t}ODT Template{/t}</th>
+            <td valign="top">: </td>
+            <td>
+               <select id="odtTemplate" name="odtTemplate">
+                  {foreach from=$odtTemplates key=id item=i}
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  {/foreach}
+               </select>
+            </td>
+         </tr>
+         <tr>
+            <th valign="top">{t}Project{/t}</th>
+            <td valign="top">: </td>
+            <td>
+               <select id="projectid" name="projectid">
+                  {foreach from=$projects key=id item=i}
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  {/foreach}
+               </select>
+            </td>
+         </tr>
+         <tr>
+            <th valign="top">{t}Reported by{/t}</th>
+            <td valign="top">: </td>
+            <td>
+               <select id="reporters" name="reporters" multiple="multiple" size="5">
+                  {foreach from=$reporters key=id item=i}
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  {/foreach}
+               </select>
+            </td>
+         </tr>
+         <tr>
+            <th valign="top">{t}Assigned to{/t}</th>
+            <td valign="top">: </td>
+            <td>
+               <select id="handlers" name="handlers" multiple="multiple" size="5">
+                  {foreach from=$handlers key=id item=i}
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  {/foreach}
+               </select>
+            </td>
+         </tr>
+         <tr>
+            <th valign="top">{t}With resolved{/t}</th>
+            <td valign="top">: </td>
+            <td><input type="checkbox" id="cbWithResolved" name="cbWithResolved" {if $isWithResolved}checked="checked"{/if} /></td>
+         </tr>
+         <tr>
+            <th valign="top"></th>
+            <td valign="top"></td>
+            <td><input type="button" id="btDownloadODT" value="{t}Download{/t}" />
+                {if isset($odtFilename)}<span style='padding-left: 3em'><a tatget='blank' href='include/download.php?f={$odtFilename}'>{$odtFilename}</a></span>{/if}
+            </td>
+         </tr>
+
+         </table>
+
+         
+         <input type="hidden" name="action" value="downloadODT" />
+         <input type="hidden" name="templateFile" value="" />
+         <input type="hidden" name="reporterList" value="" />
+         <input type="hidden" name="handlerList" value="" />
+         <input type="hidden" name="isWithResolved" value="{$isWithResolved}" />
+      </fieldset>
+   </form>
+
+
+{else}
+<p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
+{/if}
+</div>
