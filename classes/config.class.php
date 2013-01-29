@@ -68,8 +68,8 @@ class ConfigItem {
 class Config {
 
    // TODO Move to a more appropriate class
-   const codevVersion = "v0.99.19 (29 Nov 2012)";
-   const databaseVersion = 10; // used to check codev_config_table.database_version and apply upgrades.
+   const codevVersion = "v0.99.20 (02 Feb 2013)";
+   const databaseVersion = 11; // used to check codev_config_table.database_version and apply upgrades.
 
    const configType_int = 1;
    const configType_string = 2;
@@ -130,12 +130,13 @@ class Config {
       "v0.99.11" => "(16 Jun  2011) - Replace ETA with Preliminary Est. Effort",
       "v0.99.12" => "(25 Aug  2011) - bugfix release & Install Procedure (unpolished)",
       "v0.99.13" => "(27 Oct  2011) - GANTT chart + ExternalTasksProject",
-      "v0.99.14" => "(2 Feb  2012) - JQuery,Log4php, ForecastingReport, uninstall",
+      "v0.99.14" => "(02 Feb  2012) - JQuery,Log4php, ForecastingReport, uninstall",
       "v0.99.15" => "(28 Feb  2012) - MgrEffortEstim, install, timetrackingFilters",
       "v0.99.16" => "(11 Apr  2012) - Smarty+Ajax, install, ProjectInfo, Https, Sessions, Doxygen, Observers view all pages, greasemonkey, ConsistencyChecks",
       "v0.99.17" => "(29 Jun  2012) - Smarty+Ajax, install, Management section, datatables, GUI enhancements, 'Leave' task moved to ExternalTasks, ConsistencyChecks",
       "v0.99.18" => "(22 Sept 2012) - PERF, GUI enhancements, WinInstall, IndicatorPlugins, ProjectFilters, Import",
-      "v0.99.19" => "(29 Nov 2012) - GUI enhancements, install, Cmd Provisions, Cmd Budget, CodevTT_type, disable project/team, HTML Tooltips, MantisPlugin, merge Progress & ProgressMgr"
+      "v0.99.19" => "(29 Nov  2012) - GUI enhancements, install, Cmd Provisions, Cmd Budget, CodevTT_type, disable project/team, HTML Tooltips, MantisPlugin, merge Progress & ProgressMgr",
+      "v0.99.20" => "(02 Feb  2012) - teamSelector, custo-tooltips, custo-ccheck, install, unassignedTasks, dates ISO-8601, usort, maxTooltipsPerPage, BudgetDriftHistoryIndicator, ReopenedRateIndicator, exportODT"
    );
 
    /**

@@ -84,7 +84,6 @@ f_release()
 
   # remove beta functionalities
   rm -rf blog
-  rm -rf odt_templates
 
 }
 
