@@ -49,6 +49,10 @@
 >> `chmod g+w /opt/codevtt`  
 >> `cd /var/www/html`  
 >> `ln -s /opt/codevtt`  
+>> `mkdir -p /tmp/codevtt/logs`  
+>> `mkdir -p /tmp/codevtt/reports`  
+>> `chown -R apache:apache /tmp/codevtt`  
+>> `chmod -R ug+rw /tmp/codevtt`  
 
 >> If you choose to install the latest development sources:  
 

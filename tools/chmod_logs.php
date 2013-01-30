@@ -35,11 +35,24 @@ $logger = Logger::getLogger("chmod");
 if (Tools::isConnectedUser()) {
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
    if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
+      
       // /tmp/codevtt/logs
       $pos = strrpos (Constants::$codevtt_logfile, '/');
       $tmp = substr(Constants::$codevtt_logfile, 0, $pos);
 
+      $uxCommand = "mkdir -p $tmp";
+      execCmd($uxCommand);
+      $logger->info($uxCommand);
+      echo "$uxCommand<br>";
+
       $uxCommand = "chmod -R a+r $tmp";
+      execCmd($uxCommand);
+      $logger->info($uxCommand);
+      echo "$uxCommand<br>";
+
+      // --- reports
+      $codevReportsDir = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports';
+      $uxCommand = "mkdir -p $codevReportsDir";
       execCmd($uxCommand);
       $logger->info($uxCommand);
       echo "$uxCommand<br>";
