@@ -56,22 +56,22 @@
 
          <table class="invisible">
          <tr>
-            <th valign="top">{t}ODT Template{/t}</th>
+            <th valign="top">{t}Project{/t}</th>
             <td valign="top">: </td>
             <td>
-               <select id="odtTemplate" name="odtTemplate">
-                  {foreach from=$odtTemplates key=id item=i}
+               <select id="projectid" name="projectid">
+                  {foreach from=$projects key=id item=i}
                   <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                   {/foreach}
                </select>
             </td>
          </tr>
          <tr>
-            <th valign="top">{t}Project{/t}</th>
+            <th valign="top">{t}ODT Template{/t}</th>
             <td valign="top">: </td>
             <td>
-               <select id="projectid" name="projectid">
-                  {foreach from=$projects key=id item=i}
+               <select id="odtTemplate" name="odtTemplate">
+                  {foreach from=$odtTemplates key=id item=i}
                   <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                   {/foreach}
                </select>
