@@ -209,6 +209,15 @@ class ExportODTController extends Controller {
 
          try { $issueSegment->setVars('dateSubmission', date('d/m/Y', $issue->getDateSubmission())); } catch (Exception $e) { $this->logException($e); };
          try {
+            $timestamp = $issue->getLatestStatusOccurrence($issue->getBugResolvedStatusThreshold());
+            if (is_null($timestamp)) {
+               $issueSegment->setVars('dateResolved', ''); 
+            } else {
+               $issueSegment->setVars('dateResolved', date('d/m/Y', $timestamp));
+            }
+
+         } catch (Exception $e) { };
+         try {
             $timestamp = $issue->getDeadLine();
             $deadline = (0 == $timestamp) ? '' : date('d/m/Y', $issue->getDeadLine());
             $issueSegment->setVars('deadline', $deadline);
