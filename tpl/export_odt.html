@@ -9,6 +9,7 @@
             var msgString = "{t}The following fields need to be set{/t}:\n";
 
             var form = jQuery("#downloadODTForm");
+
             var select1 = form.find("select[name=reporters]").val();
             if (select1 == null) {
                msgString += "{t}Reporters{/t}";
@@ -25,7 +26,13 @@
                form.find("input[name=handlerList]").val(select2.join(","));
             }
 
-            form.find("input[name=templateFile]").val(jQuery("#odtTemplate option:selected").text());
+            var select3 = form.find("select[name=odtTemplate]").val();
+            if (select3 == null) {
+               msgString += "{t}ODT Template{/t}";
+               ++foundError;
+            } else {
+               form.find("input[name=templateFile]").val(jQuery("#odtTemplate option:selected").text());
+            }
 
             if (0 == foundError) {
                form.submit();
