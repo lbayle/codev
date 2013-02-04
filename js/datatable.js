@@ -31,4 +31,19 @@ jQuery(document).ready(function(){
       //"bJQueryUI": true,
       "sDom": '<"H"Tfr>t'
    });
+
+   // simple table: no filtering, no sorting, no export, but with scrollbar
+   jQuery('.datatable_minimal').dataTable({
+      "sScrollY": "700px",
+      "bPaginate": false,
+      "bScrollCollapse": true,
+      "bFilter": false,
+      "bSort": false,
+      "bInfo": false,
+      "bAutoWidth": false,
+      // Adapt the jQuery css
+      //"bJQueryUI": true,
+      "sDom": '<"H"r>t'
+   });
+
 });

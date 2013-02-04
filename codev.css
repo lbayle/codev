@@ -222,7 +222,7 @@ input.datepicker, img.ui-datepicker-trigger {
 }
 
 /* START Datatable */
-table.datatable, table.display {
+table.datatable, table.datatable_minimal, table.display {
    padding: 0;
    border: 0;
 }

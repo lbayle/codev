@@ -6,11 +6,12 @@
       <li class="{$ui_tabs_jquery_li}"><a href="#tabChargesIssues">{t}Tasks{/t}</a></li>
    </ul>
    <div id="tabOverviewCharges">
+
       {assign var=filterResultsTitles value=$overviewTitles}
       {assign var=filterResultsLines value=$overviewLines}
       {assign var=filterResultsTotal value=$overviewTotal}
       {if isset($filterResultsTotal)}
-      <table>
+      <table class="datatable_minimal">
          <thead>
             {if 0 == $nbFilters}
             <th></th>
@@ -59,7 +60,7 @@
       {assign var=filterResultsLines value=$detailedMgrLines}
       {assign var=filterResultsTotal value=$detailedMgrTotal}
       {if isset($filterResultsTotal)}
-      <table>
+      <table class="datatable_minimal">
          <thead>
             {if 0 == $nbFilters}
             <th></th>
@@ -112,7 +113,7 @@
       {assign var=filterResultsLines value=$issuesLines}
       {assign var=filterResultsTotal value=$issuesTotal}
       {if isset($filterResultsTotal)}
-      <table>
+      <table class="datatable_minimal">
          <thead>
             {foreach from=$filterResultsTitles key=id item=ftitle}
             <th>{$ftitle}</th>
