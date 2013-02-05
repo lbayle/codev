@@ -44,6 +44,53 @@ function getProjectCategories($projectid) {
    return $categories;
 }
 
+   /**
+    * get only statuses defined for this project
+    *
+    * @return array statusId => statusName
+    */
+   function getProjectStatusList($projectid) {
+
+
+      $statusList = array();
+      $statusList[0] = array(
+            'id' => 0,
+            'name' => T_('(all)'),
+            'selected' => true
+         );
+
+      if (0 != $projectid) {
+         // get only statuses defined for this project
+         $project = ProjectCache::getInstance()->getProject($projectid);
+         $wfTrans = $project->getWorkflowTransitions();
+
+         if (!is_null($wfTrans)) {
+            $statusNames = $wfTrans[0];
+         } else {
+            // if none defined, get all mantis statuses
+            $statusNames = Constants::$statusNames;
+            ksort($statusNames);
+         }
+      }
+
+      $statusList[Constants::$status_new] = array(
+            'id' => Constants::$status_new,
+            'name' => Constants::$statusNames[Constants::$status_new],
+            'selected' => false
+         );
+
+      foreach ($statusNames as $id => $name) {
+         if (Constants::$status_new != $id) {
+            $statusList[] = array(
+               'id' => $id,
+               'name' => $name,
+               'selected' => false
+            );
+         }
+      }
+
+      return $statusList;
+   }
 
 // ----------- MAIN ------------
 
@@ -52,12 +99,18 @@ if(Tools::isConnectedUser() && (isset($_GET['action']))) {
    if(isset($_GET['action'])) {
       $smartyHelper = new SmartyHelper();
 
-      if ($_GET['action'] == 'updateCategories') {
+      if ($_GET['action'] == 'updateProject') {
 
          $projectid = Tools::getSecureGETIntValue('projectid');
          $categories = getProjectCategories($projectid);
+         $statusList = getProjectStatusList($projectid);
 
-         $jsonResponse = Tools::array2json($categories);
+         $response = array(
+             'categoryList' => $categories,
+             'statusList' => $statusList
+         );
+
+         $jsonResponse = Tools::array2json($response);
          echo "$jsonResponse";
 
       } else {

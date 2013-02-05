@@ -99,6 +99,54 @@ class ExportODTController extends Controller {
       return $categories;
    }
 
+   /**
+    * get only statuses defined for this project
+    *
+    * @return array statusId => statusName
+    */
+   private function getProjectStatusList($projectid, $selectedStatusList = array(0)) {
+
+
+      $statusList = array();
+      $statusList[0] = array(
+            'id' => 0,
+            'name' => T_('(all)'),
+            'selected' => in_array(0, $selectedStatusList)
+         );
+
+      if (0 != $projectid) {
+         // get only statuses defined for this project
+         $project = ProjectCache::getInstance()->getProject($projectid);
+         $wfTrans = $project->getWorkflowTransitions();
+
+         if (!is_null($wfTrans)) {
+            $statusNames = $wfTrans[0];
+         } else {
+            // if none defined, get all mantis statuses
+            $statusNames = Constants::$statusNames;
+            ksort($statusNames);
+         }
+      }
+
+      $statusList[Constants::$status_new] = array(
+            'id' => Constants::$status_new,
+            'name' => Constants::$statusNames[Constants::$status_new],
+            'selected' => in_array(Constants::$status_new, $selectedStatusList)
+         );
+
+      foreach ($statusNames as $id => $name) {
+         if (Constants::$status_new != $id) {
+            $selected = in_array($id, $selectedStatusList);
+            $statusList[] = array(
+               'id' => $id,
+               'name' => $name,
+               'selected' => $selected
+            );
+         }
+      }
+
+      return $statusList;
+   }
 
    /**
     *
@@ -133,7 +181,7 @@ class ExportODTController extends Controller {
     * @param String $reporteridList imploded userid list
     * @param String $handleridList imploded userid list
     */
-   private function getIssueSelection($projectid, $categories = NULL, $formattedReporters = NULL, $formattedHandlers = NULL, $withResolved = false) {
+   private function getIssueSelection($projectid, $categories = NULL, $formattedReporters = NULL, $formattedHandlers = NULL, $formattedStatuses = false) {
 
       $query = "SELECT id from `mantis_bug_table` WHERE project_id = $projectid ";
 
@@ -146,9 +194,12 @@ class ExportODTController extends Controller {
       if (!empty($formattedHandlers)) {
          $query .= "AND handler_id IN ($formattedHandlers) ";
       }
-      if (!$withResolved) {
-         $query .= "AND status < get_project_resolved_status_threshold(project_id) ";
+      if (!empty($formattedStatuses)) {
+         $query .= "AND status IN ($formattedStatuses) ";
       }
+      #if (!$withResolved) {
+      #   $query .= "AND status < get_project_resolved_status_threshold(project_id) ";
+      #}
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -315,17 +366,15 @@ class ExportODTController extends Controller {
             reset($projList);
             $projectid = key($projList);
 
-            $withResolved = false;
-
             $action = Tools::getSecurePOSTStringValue('action', '');
             
             if ('downloadODT' == $action) {
 
                $projectid = Tools::getSecurePOSTIntValue('projectid', NULL);
                $formattedCategories = Tools::getSecurePOSTStringValue('categoryList', NULL);
+               $formattedStatuses = Tools::getSecurePOSTStringValue('statusList', NULL);
                $formattedReporters = Tools::getSecurePOSTStringValue('reporterList', NULL);
                $formattedHandlers = Tools::getSecurePOSTStringValue('handlerList', NULL);
-               $withResolved = (0 == Tools::getSecurePOSTIntValue("isWithResolved", 0)) ? false : true;
 
                $odtBasename = Tools::getSecurePOSTStringValue('templateFile', NULL);
                $odtTemplate = Constants::$codevRootDir.'/odt_templates/'.$odtBasename;
@@ -337,18 +386,19 @@ class ExportODTController extends Controller {
             $selectedCategories = empty($formattedCategories) ? array(0) :  explode(',', $formattedCategories);
             $this->smartyHelper->assign('categories', $this->getProjectCategories($projectid, $selectedCategories));
 
+            $selectedStatusList = empty($formattedStatuses) ? array(0) :  explode(',', $formattedStatuses);
+            $this->smartyHelper->assign('statuses', $this->getProjectStatusList($projectid, $selectedStatusList));
+
             $selectedReporters = empty($formattedReporters) ? array(0) :  explode(',', $formattedReporters);
             $this->smartyHelper->assign('reporters', $this->getTeamMembers($selectedReporters));
 
             $selectedHandlers = empty($formattedHandlers) ? array(0) :  explode(',', $formattedHandlers);
             $this->smartyHelper->assign('handlers',  $this->getTeamMembers($selectedHandlers));
 
-            $this->smartyHelper->assign('isWithResolved',  $withResolved);
-
 
             if ('downloadODT' == $action) {
 
-               $iSel = $this->getIssueSelection($projectid, $formattedCategories, $formattedReporters, $formattedHandlers, $withResolved);
+               $iSel = $this->getIssueSelection($projectid, $formattedCategories, $formattedReporters, $formattedHandlers, $formattedStatuses);
                #echo implode(',', array_keys($iSel->getIssueList())).'<br>';
 
                $odfFilepath = $this->generateODT($iSel, $projectid, $odtTemplate);
