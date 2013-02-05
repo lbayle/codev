@@ -71,14 +71,34 @@ class ExportODTController extends Controller {
 
    /**
     *
-    * @param type $selectedProjectid
+    * @param type $projectid
+    * @param array $selectedCategoryList
     * @return type
     */
-   private function getProjects($selectedProjectid = 0) {
-      $tmpTeamList = array($this->teamid => $this->teamList[$this->teamid]);
-      $projList = $this->session_user->getProjectList($tmpTeamList, true, false);
-      return SmartyTools::getSmartyArray($projList, $selectedProjectid);
+   private function getProjectCategories($projectid, array $selectedCategoryList = array(0)) {
+
+      $categories = array();
+      $categories[0] = array(
+            'id' => 0,
+            'name' => T_('(all)'),
+            'selected' => in_array(0, $selectedCategoryList)
+         );
+      if (0 != $projectid) {
+         $project = ProjectCache::getInstance()->getProject($projectid);
+         $categoryList = $project->getCategories();
+
+         foreach($categoryList as $id => $name) {
+            $selected = in_array($id, $selectedCategoryList);
+            $categories[] = array(
+               'id' => $id,
+               'name' => $name,
+               'selected' => $selected
+            );
+         }
+      }
+      return $categories;
    }
+
 
    /**
     *
@@ -109,13 +129,17 @@ class ExportODTController extends Controller {
    /**
     *
     * @param type $projectid
+    * @param String $categories imploded category_id list
     * @param String $reporteridList imploded userid list
     * @param String $handleridList imploded userid list
     */
-   private function getIssueSelection($projectid, $formattedReporters = NULL, $formattedHandlers = NULL, $withResolved = false) {
+   private function getIssueSelection($projectid, $categories = NULL, $formattedReporters = NULL, $formattedHandlers = NULL, $withResolved = false) {
 
       $query = "SELECT id from `mantis_bug_table` WHERE project_id = $projectid ";
 
+      if (!empty($categories)) {
+         $query .= "AND category_id IN ($categories) ";
+      }
       if (!empty($formattedReporters)) {
          $query .= "AND reporter_id IN ($formattedReporters) ";
       }
@@ -136,6 +160,10 @@ class ExportODTController extends Controller {
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $iSel->addIssue($row->id);
       }
+      #   $iSel->addIssue(694);
+
+      #echo implode(',', array_keys($iSel->getIssueList())).'<br>';
+
       return $iSel;
    }
 
@@ -227,6 +255,7 @@ class ExportODTController extends Controller {
          try { $issueSegment->setVars('reporterId', $reporterName); } catch (Exception $e) { };
          try { $issueSegment->setVars('reporterName', $reporterName); } catch (Exception $e) { };
          try { $issueSegment->setVars('description', utf8_decode($issue->getDescription())); } catch (Exception $e) { };
+         #try { $issueSegment->setVars('description', utf8_decode(Tools::convertToUTF8($issue->getDescription()))); } catch (Exception $e) { };
          try { $issueSegment->setVars('category', $issue->getCategoryName()); } catch (Exception $e) { };
          try { $issueSegment->setVars('severity', $issue->getSeverityName()); } catch (Exception $e) { };
          try { $issueSegment->setVars('status', Constants::$statusNames[$issue->getStatus()]);}  catch (Exception $e) { };
@@ -281,7 +310,11 @@ class ExportODTController extends Controller {
             #$isManager = $this->session_user->isTeamManager($this->teamid);
             #$this->smartyHelper->assign('isManager', $isManager);
 
-            $projectid = 0;
+            $tmpTeamList = array($this->teamid => $this->teamList[$this->teamid]);
+            $projList = $this->session_user->getProjectList($tmpTeamList, true, false);
+            reset($projList);
+            $projectid = key($projList);
+
             $withResolved = false;
 
             $action = Tools::getSecurePOSTStringValue('action', '');
@@ -289,6 +322,7 @@ class ExportODTController extends Controller {
             if ('downloadODT' == $action) {
 
                $projectid = Tools::getSecurePOSTIntValue('projectid', NULL);
+               $formattedCategories = Tools::getSecurePOSTStringValue('categoryList', NULL);
                $formattedReporters = Tools::getSecurePOSTStringValue('reporterList', NULL);
                $formattedHandlers = Tools::getSecurePOSTStringValue('handlerList', NULL);
                $withResolved = (0 == Tools::getSecurePOSTIntValue("isWithResolved", 0)) ? false : true;
@@ -298,7 +332,10 @@ class ExportODTController extends Controller {
             }
 
             $this->smartyHelper->assign('odtTemplates', $this->getTemplates());
-            $this->smartyHelper->assign('projects', $this->getProjects($projectid));
+            $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList, $projectid));
+
+            $selectedCategories = empty($formattedCategories) ? array(0) :  explode(',', $formattedCategories);
+            $this->smartyHelper->assign('categories', $this->getProjectCategories($projectid, $selectedCategories));
 
             $selectedReporters = empty($formattedReporters) ? array(0) :  explode(',', $formattedReporters);
             $this->smartyHelper->assign('reporters', $this->getTeamMembers($selectedReporters));
@@ -311,7 +348,7 @@ class ExportODTController extends Controller {
 
             if ('downloadODT' == $action) {
 
-               $iSel = $this->getIssueSelection($projectid, $formattedReporters, $formattedHandlers, $withResolved);
+               $iSel = $this->getIssueSelection($projectid, $formattedCategories, $formattedReporters, $formattedHandlers, $withResolved);
                #echo implode(',', array_keys($iSel->getIssueList())).'<br>';
 
                $odfFilepath = $this->generateODT($iSel, $projectid, $odtTemplate);

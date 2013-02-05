@@ -34,6 +34,14 @@
                form.find("input[name=templateFile]").val(jQuery("#odtTemplate option:selected").text());
             }
 
+            var select4 = form.find("select[name=categories]").val();
+            if (select4 == null) {
+               msgString += "{t}Categories{/t}";
+               ++foundError;
+            } else {
+               form.find("input[name=categoryList]").val(select4.join(","));
+            }
+
             if (0 == foundError) {
                form.submit();
             } else {
@@ -47,9 +55,70 @@
             form.find("input[name=isWithResolved]").val(isTeamEnabled);
          });
 
+
+         jQuery("#projectid").change(function() {
+
+            var projectid = jQuery(this).find(":selected").val();
+            var form = jQuery("#updateCategories_ajaxForm");
+
+            form.find("input[name=projectid]").val(projectid);
+            form.submit(); // this 'submit' method is rewritten for ajax purpose, see below
+         });
+
+         // update Categories with ajax call
+         // rewrite the 'submit' method to send the request in background (async) via ajax
+         jQuery("#updateCategories_ajaxForm").submit(function(event) {
+
+            event.preventDefault(); // stop form from submitting normally
+
+            var form = jQuery(this);
+
+            jQuery.ajax({
+               // standard 'submit' attributes:
+               type: form.attr("method"),
+               url: form.attr("action"),
+               data: form.serialize(),
+               // add specific actions:
+               success: function(data) {
+                  // 'data' is returned by the ajax page (using PHP 'echo' function)
+                  var categoryList = jQuery.parseJSON(data);
+                  
+                  // update categories
+                  jQuery('#categories').empty();
+
+                  for (var i in categoryList) {
+                     var item = categoryList[i];
+                     var id = item["id"];
+                     var name = item["name"];
+                     var selected = item["selected"];
+
+                     if (selected) {
+                        jQuery('#categories').append(
+                           jQuery('<option>').attr('value', id).attr('selected', 'selected').append(name)
+                        );
+                     } else {
+                        jQuery('#categories').append(
+                           jQuery('<option>').attr('value', id).append(name)
+                        );
+                     }
+                  }
+               },
+               error: function(jqXHR, textStatus, errorThrown) {
+                  if(errorThrown == 'Forbidden') {
+                     window.location = '{$page}';
+                  } else {
+                     alert({t}errorThrown{/t});
+                  }
+               }
+            });
+         });
+
       });
    </script>
-
+   <form id="updateCategories_ajaxForm" method="get" action="{$ajaxPage}">
+      <input type="hidden" name="action" value="updateCategories" />
+      <input type="hidden" name="projectid" value="" />
+   </form>
 
    <form id="downloadODTForm" name="mainForm" class="formWithTabsHistory" method="post" action="{$page}">
       <fieldset>
@@ -67,11 +136,11 @@
             </td>
          </tr>
          <tr>
-            <th valign="top">{t}ODT Template{/t}</th>
+            <th valign="top">{t}Categories{/t}</th>
             <td valign="top">: </td>
             <td>
-               <select id="odtTemplate" name="odtTemplate">
-                  {foreach from=$odtTemplates key=id item=i}
+               <select id="categories" name="categories" multiple="multiple" size="5">
+                  {foreach from=$categories key=id item=i}
                   <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                   {/foreach}
                </select>
@@ -105,6 +174,17 @@
             <td><input type="checkbox" id="cbWithResolved" name="cbWithResolved" {if $isWithResolved}checked="checked"{/if} /></td>
          </tr>
          <tr>
+            <th valign="top">{t}ODT Template{/t}</th>
+            <td valign="top">: </td>
+            <td>
+               <select id="odtTemplate" name="odtTemplate">
+                  {foreach from=$odtTemplates key=id item=i}
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  {/foreach}
+               </select>
+            </td>
+         </tr>
+         <tr>
             <th valign="top"></th>
             <td valign="top"></td>
             <td><input type="button" id="btDownloadODT" value="{t}Download{/t}" />
@@ -117,6 +197,7 @@
          
          <input type="hidden" name="action" value="downloadODT" />
          <input type="hidden" name="templateFile" value="" />
+         <input type="hidden" name="categoryList" value="" />
          <input type="hidden" name="reporterList" value="" />
          <input type="hidden" name="handlerList" value="" />
          <input type="hidden" name="isWithResolved" value="{$isWithResolved}" />
