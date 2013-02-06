@@ -372,6 +372,8 @@ class ExportODTController extends Controller {
             reset($projList);
             $projectid = key($projList);
 
+            $odtTemplate = NULL;
+
             $action = Tools::getSecurePOSTStringValue('action', '');
             
             if ('downloadODT' == $action) {
@@ -386,7 +388,7 @@ class ExportODTController extends Controller {
                $odtTemplate = Constants::$codevRootDir.'/odt_templates/'.$odtBasename;
             }
 
-            $this->smartyHelper->assign('odtTemplates', $this->getTemplates());
+            $this->smartyHelper->assign('odtTemplates', $this->getTemplates(NULL, basename($odtTemplate)));
             $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList, $projectid));
 
             $selectedCategories = empty($formattedCategories) ? array(0) :  explode(',', $formattedCategories);
