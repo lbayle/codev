@@ -68,7 +68,7 @@ class ConfigItem {
 class Config {
 
    // TODO Move to a more appropriate class
-   const codevVersion = "v0.99.20 (02 Feb 2013)";
+   const codevVersion = "v0.99.20 (06 Feb 2013)";
    const databaseVersion = 11; // used to check codev_config_table.database_version and apply upgrades.
 
    const configType_int = 1;
@@ -136,7 +136,7 @@ class Config {
       "v0.99.17" => "(29 Jun  2012) - Smarty+Ajax, install, Management section, datatables, GUI enhancements, 'Leave' task moved to ExternalTasks, ConsistencyChecks",
       "v0.99.18" => "(22 Sept 2012) - PERF, GUI enhancements, WinInstall, IndicatorPlugins, ProjectFilters, Import",
       "v0.99.19" => "(29 Nov  2012) - GUI enhancements, install, Cmd Provisions, Cmd Budget, CodevTT_type, disable project/team, HTML Tooltips, MantisPlugin, merge Progress & ProgressMgr",
-      "v0.99.20" => "(02 Feb  2012) - teamSelector, custo-tooltips, custo-ccheck, install, unassignedTasks, dates ISO-8601, usort, maxTooltipsPerPage, BudgetDriftHistoryIndicator, ReopenedRateIndicator, exportODT"
+      "v0.99.20" => "(06 Feb  2012) - teamSelector, custo-tooltips, custo-ccheck, install, unassignedTasks, dates ISO-8601, usort, maxTooltipsPerPage, BudgetDriftHistoryIndicator, ReopenedRateIndicator, exportODT"
    );
 
    /**
