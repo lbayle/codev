@@ -11,7 +11,8 @@
       {assign var=filterResultsLines value=$overviewLines}
       {assign var=filterResultsTotal value=$overviewTotal}
       {if isset($filterResultsTotal)}
-      <table class="datatable_minimal">
+      <table>
+      <!--table class="datatable_minimal"-->
          <thead>
             {if 0 == $nbFilters}
             <th></th>
@@ -60,7 +61,8 @@
       {assign var=filterResultsLines value=$detailedMgrLines}
       {assign var=filterResultsTotal value=$detailedMgrTotal}
       {if isset($filterResultsTotal)}
-      <table class="datatable_minimal">
+      <table>
+      <!--table class="datatable_minimal"-->
          <thead>
             {if 0 == $nbFilters}
             <th></th>
@@ -113,7 +115,8 @@
       {assign var=filterResultsLines value=$issuesLines}
       {assign var=filterResultsTotal value=$issuesTotal}
       {if isset($filterResultsTotal)}
-      <table class="datatable_minimal">
+      <table>
+      <!--table class="datatable_minimal"-->
          <thead>
             {foreach from=$filterResultsTitles key=id item=ftitle}
             <th>{$ftitle}</th>
