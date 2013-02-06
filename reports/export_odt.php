@@ -211,7 +211,7 @@ class ExportODTController extends Controller {
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $iSel->addIssue($row->id);
       }
-      #   $iSel->addIssue(694);
+      #$iSel->addIssue(694);
 
       #echo implode(',', array_keys($iSel->getIssueList())).'<br>';
 
@@ -245,7 +245,13 @@ class ExportODTController extends Controller {
       }
 
       $q_id = 0;
-      $issueSegment = $odf->setSegment('issueSelection');
+      try {
+         $issueSegment = $odf->setSegment('issueSelection');
+      } catch (Exception $e) {
+         self::$logger->error("generateODT: TAG 'issueSelection'");
+         self::$logger->error("generateODT: "+$e->getMessage());
+         return "FAILED: error on segment 'issueSelection'.";
+      }
 
       if (self::$logger->isDebugEnabled()) {
          self::$logger->debug('XML=' . $issueSegment->getXml());
