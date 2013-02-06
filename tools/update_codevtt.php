@@ -156,6 +156,9 @@ function update_v9_to_v10() {
 
 /**
  * update 0.99.19 to 0.99.20 (DB v10 to DB v11)
+ *
+ * there is no .sql script to run, but db version is increased to 11 (add default issue_tooltip_fields)
+ *
  */
 function update_v10_to_v11() {
 
@@ -166,6 +169,9 @@ function update_v10_to_v11() {
        'codevtt_elapsed', 'custom_'.$backlogField, 'codevtt_drift');
    $serialized = serialize($fieldList);
    Config::setValue('issue_tooltip_fields', $serialized, Config::configType_string, 'fields to be displayed in issue tooltip');
+
+   $query = "UPDATE `codev_config_table` SET `value`='11' WHERE `config_id`='database_version';";
+   $result = execQuery($query);
 
 }
 
