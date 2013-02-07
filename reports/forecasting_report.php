@@ -181,11 +181,13 @@ class ForecastingReportController extends Controller {
             $driftMgrEE = $issue->getDriftMgr($withSupport);
             $driftEE = $issue->getDrift($withSupport);
             if (($driftMgrEE > 0) || ($driftEE > 0)) {
+
+               $tooltipAttr = $issue->getTooltipItems($teamid, $this->session_userid);
+
                $issueArray[] = array(
-                  'bugId' => Tools::issueInfoURL($issue->getId()),
+                  'bugId' => Tools::issueInfoURL($issue->getId(), $tooltipAttr),
                   'handlerName' => $user->getName(),
                   'projectName' => $issue->getProjectName(),
-                  'targetVersion' => $issue->getTargetVersion(),
                   'progress' => round(100 * $issue->getProgress()),
                   'effortEstimMgr' => $issue->getMgrEffortEstim(),
                   'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),

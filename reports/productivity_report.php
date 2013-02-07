@@ -370,8 +370,11 @@ class ProductivityReportsController extends Controller {
          $driftEE = $issue->getDrift($withSupport);
 
          if (($isManager && $driftMgrEE > 0) || ($driftEE > 0)) {
+
+            $tooltipAttr = $issue->getTooltipItems($this->teamid, $this->session_userid);
+
             $resolvedIssuesInDrift[] = array(
-               "issueURL" => Tools::issueInfoURL($issue->getId()),
+               "issueURL" => Tools::issueInfoURL($issue->getId(), $tooltipAttr),
                "extRef" => $issue->getTcId(),
                "projectName" => $issue->getProjectName(),
                'progress' => round(100 * $issue->getProgress()),
