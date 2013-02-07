@@ -27,7 +27,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             $servicecontractid = $_SESSION['servicecontractid'];
             if (0 != $servicecontractid) {
                $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-            
+
                $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("startdate"));
                $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("enddate"));
                $data = ServiceContractTools::getSContractActivity($servicecontract, $startTimestamp, $endTimestamp);
@@ -86,9 +86,10 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 
          $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
          $isManager = $session_user->isTeamManager($servicecontract->getTeamid());
+         $isObserver = $session_user->isTeamObserver($servicecontract->getTeamid());
 
          // DetailedChargesIndicator
-         $data = ServiceContractTools::getDetailedCharges($servicecontract, $isManager, $selectedFilters);
+         $data = ServiceContractTools::getDetailedCharges($servicecontract, ($isManager || $isObserver), $selectedFilters);
          foreach ($data as $smartyKey => $smartyVariable) {
             $smartyHelper->assign($smartyKey, $smartyVariable);
          }

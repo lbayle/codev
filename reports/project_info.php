@@ -61,7 +61,8 @@ class ProjectInfoController extends Controller {
 
                // Managers can see detailed view
                $isManager = $this->session_user->isTeamManager($this->teamid);
-               $this->smartyHelper->assign("isManager", $isManager);
+               $isObserver = $this->session_user->isTeamObserver($this->teamid);
+               $this->smartyHelper->assign("isManager", ($isManager || $isObserver));
 
                $project = ProjectCache::getInstance()->getProject($projectid);
                $projectIssueSel = $project->getIssueSelection();
@@ -84,7 +85,7 @@ class ProjectInfoController extends Controller {
                $this->session_user->setProjectFilters($selectedFilters, $projectid);
 
                // TODO: get allFilters from config.ini
-               $data = ProjectInfoTools::getDetailedCharges($projectid, $isManager, $selectedFilters);
+               $data = ProjectInfoTools::getDetailedCharges($projectid, ($isManager || $isObserver), $selectedFilters);
                foreach ($data as $smartyKey => $smartyVariable) {
                   $this->smartyHelper->assign($smartyKey, $smartyVariable);
                }
@@ -93,8 +94,8 @@ class ProjectInfoController extends Controller {
 
                $currentIssuesInDrift = NULL;
                $resolvedIssuesInDrift = NULL;
-               foreach ($projectIssueSel->getIssuesInDrift($isManager) as $issue) {
-                  $smartyIssue = $this->getSmartyDirftedIssue($issue, $isManager);
+               foreach ($projectIssueSel->getIssuesInDrift(($isManager || $isObserver)) as $issue) {
+                  $smartyIssue = $this->getSmartyDirftedIssue($issue, ($isManager || $isObserver));
                   if(NULL != $smartyIssue) {
                      if ($issue->isResolved()) {
                         $resolvedIssuesInDrift[] = $smartyIssue;

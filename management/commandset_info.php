@@ -59,7 +59,8 @@ class CommandSetInfoController extends Controller {
             }
 
             $isManager = $this->session_user->isTeamManager($this->teamid);
-            if ($isManager) {
+            $isObserver = $this->session_user->isTeamObserver($this->teamid);
+            if ($isManager || $isObserver) {
                $this->smartyHelper->assign('isManager', true);
             }
 
@@ -83,7 +84,7 @@ class CommandSetInfoController extends Controller {
                      $selectedFilters = $this->session_user->getCommandSetFilters($commandsetid);
                   }
 
-                  CommandSetTools::displayCommandSet($this->smartyHelper, $commandset, $isManager, $selectedFilters);
+                  CommandSetTools::displayCommandSet($this->smartyHelper, $commandset, ($isManager || $isObserver), $selectedFilters);
 
                   // ConsistencyCheck
                   $consistencyErrors = $this->getConsistencyErrors($commandset);

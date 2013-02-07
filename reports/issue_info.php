@@ -85,8 +85,9 @@ class IssueInfoController extends Controller {
                      }
 
                      $isManager = (array_key_exists($issue->getProjectId(), $managedProjList)) ? true : false;
-                     $this->smartyHelper->assign('isManager', $isManager);
-                     $this->smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, $isManager, $displaySupport));
+                     $isObserver = (array_key_exists($issue->getProjectId(), $observedProjList)) ? true : false;
+                     $this->smartyHelper->assign('isManager', ($isManager || $isObserver));
+                     $this->smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, ($isManager || $isObserver), $displaySupport));
                      $timeTracks = $issue->getTimeTracks();
                      $this->smartyHelper->assign('jobDetails', $this->getJobDetails($timeTracks));
                      $this->smartyHelper->assign('timeDrift', $this->getTimeDrift($issue));
@@ -379,7 +380,7 @@ class IssueInfoController extends Controller {
       foreach ($backlogList as $t => $b) {
          $formattedBlList[Tools::formatDate("%Y-%m-%d", $t)] = $b;
       }
-      
+
       // Graph start/stop dates
       reset($formattedBlList);
       $plotMinDate = key($formattedBlList);

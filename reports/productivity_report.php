@@ -154,16 +154,18 @@ class ProductivityReportsController extends Controller {
                   $this->smartyHelper->assign('percent', round($percent, 1));
 
                   // isManager
-                  $managedTeamList = $this->session_user->getManagedTeamList();
-                  $isManager = array_key_exists($this->teamid, $managedTeamList);
-                  $this->smartyHelper->assign('isManager', $isManager);
+                  #$managedTeamList = $this->session_user->getManagedTeamList();
+                  #$isManager = array_key_exists($this->teamid, $managedTeamList);
+                  $isManager = $this->session_user->isTeamManager($this->teamid);
+                  $isObserver = $this->session_user->isTeamObserver($this->teamid);
+                  $this->smartyHelper->assign('isManager', ($isManager || $isObserver));
 
                   // dirft stats
                   $resolvedIssues = $timeTracking->getResolvedIssues();
                   if (0 != count($resolvedIssues)) {
                      $withSupport = true;
                      $this->smartyHelper->assign('resolvedDeviationStats', $this->getResolvedDeviationStats ($resolvedIssues, $withSupport));
-                     $this->smartyHelper->assign('resolvedIssuesInDrift', $this->getResolvedIssuesInDrift($resolvedIssues, $isManager));
+                     $this->smartyHelper->assign('resolvedIssuesInDrift', $this->getResolvedIssuesInDrift($resolvedIssues, ($isManager || $isObserver)));
                   }
 
                   // dirft stats extRefOnly
@@ -182,7 +184,7 @@ class ProductivityReportsController extends Controller {
                      if (0 != count($resolvedIssuesExtRefOnly)) {
                         $withSupport = true;
                         $this->smartyHelper->assign('resolvedDeviationStatsExtRefOnly', $this->getResolvedDeviationStats ($resolvedIssuesExtRefOnly, $withSupport));
-                        $this->smartyHelper->assign('resolvedIssuesInDriftExtRefOnly', $this->getResolvedIssuesInDrift($resolvedIssuesExtRefOnly, $isManager));
+                        $this->smartyHelper->assign('resolvedIssuesInDriftExtRefOnly', $this->getResolvedIssuesInDrift($resolvedIssuesExtRefOnly, ($isManager || $isObserver)));
                      }
                   }
 

@@ -58,7 +58,8 @@ class ServiceContractInfoController extends Controller {
             }
 
             $isManager = $this->session_user->isTeamManager($this->teamid);
-            if ($isManager) {
+            $isObserver = $this->session_user->isTeamObserver($this->teamid);
+            if ($isManager || $isObserver) {
                $this->smartyHelper->assign('isManager', true);
             }
 
@@ -79,7 +80,7 @@ class ServiceContractInfoController extends Controller {
                      $selectedFilters = $this->session_user->getServiceContractFilters($servicecontractid);
                   }
 
-                  ServiceContractTools::displayServiceContract($this->smartyHelper, $servicecontract, $isManager, $selectedFilters);
+                  ServiceContractTools::displayServiceContract($this->smartyHelper, $servicecontract, ($isManager || $isObserver), $selectedFilters);
 
                   // ConsistencyCheck
                   $consistencyErrors = $this->getConsistencyErrors($servicecontract);

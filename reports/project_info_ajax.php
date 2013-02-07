@@ -26,12 +26,12 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
       if ($_GET['action'] == 'updateDetailedCharges') {
 
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
-
-         $managedTeamList = $user->getManagedTeamList();
-         $managedProjList = (0 == count($managedTeamList)) ? array() : $user->getProjectList($managedTeamList, true, false);
+         $teamid = $_SESSION['teamid'];
 
          $projectid = Tools::getSecureGETIntValue('selectFiltersSrcId');
-         $isManager = in_array($projectid, array_keys($managedProjList)) ? true : false;
+
+         $isManager = $user->isTeamManager($teamid);
+         $isObserver = $user->isTeamObserver($teamid);
 
          $selectedFilters = Tools::getSecureGETStringValue('selectedFilters', '');
 
@@ -39,7 +39,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $user->setProjectFilters($selectedFilters, $projectid);
 
          // DetailedChargesIndicator
-         $data = ProjectInfoTools::getDetailedCharges($projectid, $isManager, $selectedFilters);
+         $data = ProjectInfoTools::getDetailedCharges($projectid, ($isManager || $isObserver), $selectedFilters);
          foreach ($data as $smartyKey => $smartyVariable) {
             $smartyHelper->assign($smartyKey, $smartyVariable);
          }

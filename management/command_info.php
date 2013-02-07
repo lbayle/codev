@@ -53,7 +53,9 @@ class CommandInfoController extends Controller {
                $cmdid = 0;
             } else {
                $isManager = $this->session_user->isTeamManager($this->teamid);
-               if ($isManager) {
+               $isObserver = $this->session_user->isTeamObserver($this->teamid);
+               if ($isManager || $isObserver) {
+                  // observers have access to the same info
                   $this->smartyHelper->assign('isManager', true);
                }
             }
@@ -78,7 +80,7 @@ class CommandInfoController extends Controller {
                   $filterList = array_filter($filterList, create_function('$a','return $a!="";'));
                   $selectedFilters = implode(',', $filterList);
 
-                  CommandTools::displayCommand($this->smartyHelper, $cmd, $isManager, $selectedFilters);
+                  CommandTools::displayCommand($this->smartyHelper, $cmd, ($isManager || $isObserver), $selectedFilters);
 
                   // ConsistencyCheck
                   $consistencyErrors = $this->getConsistencyErrors($cmd);

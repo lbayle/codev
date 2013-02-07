@@ -126,7 +126,8 @@ class PlanningReportController extends Controller {
                $team = TeamCache::getInstance()->getTeam($this->teamid);
 
                $isManager = $this->session_user->isTeamManager($this->teamid);
-               $this->smartyHelper->assign("isManager", $isManager);
+               $isObserver = $this->session_user->isTeamObserver($this->teamid);
+               $this->smartyHelper->assign('isManager', ($isManager || $isObserver));
 
                // display backlog (unassigned tasks)
                $unassignedIssues = $team->getUnassignedTasks();

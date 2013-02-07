@@ -99,9 +99,10 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 
          $cmdSet = CommandSetCache::getInstance()->getCommandSet($cmdsetid);
          $isManager = $session_user->isTeamManager($cmdSet->getTeamid());
+         $isObserver = $session_user->isTeamObserver($cmdSet->getTeamid());
 
          // DetailedChargesIndicator
-         $data = CommandSetTools::getDetailedCharges($cmdSet, $isManager, $selectedFilters);
+         $data = CommandSetTools::getDetailedCharges($cmdSet, ($isManager || $isObserver), $selectedFilters);
          foreach ($data as $smartyKey => $smartyVariable) {
             $smartyHelper->assign($smartyKey, $smartyVariable);
          }

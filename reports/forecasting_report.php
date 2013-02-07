@@ -56,9 +56,11 @@ class ForecastingReportController extends Controller {
             $endTimestamp += 24 * 60 * 60 - 1; // + 1 day -1 sec.
             #echo "DEBUG endTimestamp   ".date("Y-m-d H:i:s", $endTimestamp)."<br/>";
 
-            $managedTeamList = $this->session_user->getManagedTeamList();
-            $isManager = array_key_exists($this->teamid, $managedTeamList);
-            $this->smartyHelper->assign('manager', $isManager);
+            #$managedTeamList = $this->session_user->getManagedTeamList();
+            #$isManager = array_key_exists($this->teamid, $managedTeamList);
+            $isManager = $this->session_user->isTeamManager($this->teamid);
+            $isObserver = $this->session_user->isTeamObserver($this->teamid);
+            $this->smartyHelper->assign('manager', ($isManager || $isObserver));
             $this->smartyHelper->assign('threshold', $threshold);
 
             $this->smartyHelper->assign('currentDeviationStats', $this->getCurrentDeviationStats($this->teamid, $threshold));

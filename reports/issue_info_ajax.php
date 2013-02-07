@@ -30,8 +30,13 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
          $managedTeamList = $user->getManagedTeamList();
          $managedProjList = count($managedTeamList) > 0 ? $user->getProjectList($managedTeamList, true, false) : array();
+         $oTeamList = $user->getObservedTeamList();
+         $observedProjList = count($oTeamList) > 0 ? $user->getProjectList($oTeamList, true, false) : array();
+
          $isManager = (array_key_exists($issue->getProjectId(), $managedProjList)) ? true : false;
-         $smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, $isManager));
+         $isObserver = (array_key_exists($issue->getProjectId(), $observedProjList)) ? true : false;
+
+         $smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, ($isManager || $isObserver)));
          $smartyHelper->display('ajax/issueGeneralInfo');
       }
       else {
