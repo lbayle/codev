@@ -287,12 +287,12 @@ class ExportODTController extends Controller {
          }
 
          // add issue
-         try { $issueSegment->setVars('q_id', $q_id); } catch (Exception $e) { $this->logException($e); };
+         try { $issueSegment->setVars('q_id', $q_id); } catch (Exception $e) { };
 
          try { $issueSegment->setVars('bugId', $issue->getId()); } catch (Exception $e) { $this->logException($e); };
          try { $issueSegment->setVars('summary', utf8_decode($issue->getSummary())); } catch (Exception $e) { $this->logException($e); };
 
-         try { $issueSegment->setVars('dateSubmission', date('d/m/Y', $issue->getDateSubmission())); } catch (Exception $e) { $this->logException($e); };
+         try { $issueSegment->setVars('dateSubmission', date('d/m/Y', $issue->getDateSubmission())); } catch (Exception $e) { };
          try {
             $timestamp = $issue->getLatestStatusOccurrence($issue->getBugResolvedStatusThreshold());
             if (is_null($timestamp)) {
