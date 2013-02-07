@@ -89,10 +89,14 @@
                   <th>{t}User{/t}</th>
                   <th>{t}Project{/t}</th>
                   <th>{t}Target{/t}</th>
+                  <th>{t}Progress{/t}</th>
+                  {if $manager}<th>{t}MgrEffortEstim{/t}</th>{/if}
+                  <th>{t}EffortEstim{/t}</th>
+                  <th>{t}Reestimated{/t}</th>
+                  <th>{t}Elapsed{/t}</th>
+                  <th title="{t}Backlog{/t}">{t}BL{/t}</th>
                   {if $manager}<th title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
                   <th title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
-                  <th title="{t}Backlog{/t}">{t}BL{/t}</th>
-                  <th>{t}Progress{/t}</th>
                   <th>{t}Status{/t}</th>
                   <th>{t}Summary{/t}</th>
                </tr>
@@ -104,10 +108,14 @@
                   <td>{$i.handlerName}</td>
                   <td>{$i.projectName}</td>
                   <td>{$i.targetVersion}</td>
+                  <td><div class="progress">{$i.progress}%</div></td>
+                  {if $manager}<td>{$i.effortEstimMgr}</td>{/if}
+                  <td>{$i.effortEstim}</td>
+                  <td>{$i.reestimated}</td>
+                  <td>{$i.elapsed}</td>
+                  <td>{$i.backlog}</td>
                   {if $manager}<td {if $i.driftPrelEE > 1}style="background-color: #fcbdbd;"{elseif $i.driftPrelEE < -1}style="background-color: #61ed66;"{/if}>{$i.driftPrelEE}</td>{/if}
                   <td {if $i.driftEE > 1}style="background-color: #fcbdbd;"{elseif $i.driftEE < -1}style="background-color: #61ed66;"{/if}>{$i.driftEE}</td>
-                  <td>{$i.backlog}</td>
-                  <td><div class="progress">{$i.progress}%</div></td>
                   <td>{$i.statusName}</td>
                   <td>{$i.summary}</td>
                </tr>

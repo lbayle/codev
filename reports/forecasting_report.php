@@ -178,18 +178,22 @@ class ForecastingReportController extends Controller {
 
          $issueList = $user->getAssignedIssues($projList);
          foreach ($issueList as $issue) {
-            $driftPrelEE = $issue->getDriftMgr($withSupport);
+            $driftMgrEE = $issue->getDriftMgr($withSupport);
             $driftEE = $issue->getDrift($withSupport);
-            if (($driftPrelEE > 0) || ($driftEE > 0)) {
+            if (($driftMgrEE > 0) || ($driftEE > 0)) {
                $issueArray[] = array(
                   'bugId' => Tools::issueInfoURL($issue->getId()),
                   'handlerName' => $user->getName(),
                   'projectName' => $issue->getProjectName(),
                   'targetVersion' => $issue->getTargetVersion(),
-                  'driftPrelEE' => $driftPrelEE,
-                  'driftEE' => $driftEE,
-                  'backlog' => $issue->getBacklog(),
                   'progress' => round(100 * $issue->getProgress()),
+                  'effortEstimMgr' => $issue->getMgrEffortEstim(),
+                  'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),
+                  'elapsed' => $issue->getElapsed(),
+                  'reestimated' => $issue->getReestimated(),
+                  'backlog' => $issue->getBacklog(),
+                  'driftPrelEE' => $driftMgrEE,
+                  'driftEE' => $driftEE,
                   'statusName' => $issue->getCurrentStatusName(),
                   'summary' => $issue->getSummary()
                );

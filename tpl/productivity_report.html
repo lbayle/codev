@@ -418,6 +418,12 @@
                         <th>{t}ID{/t}</th>
                         <th>{t}ExtRef{/t}</th>
                         <th>{t}Project{/t}</th>
+                        <th>{t}Progress{/t}</th>
+                        {if $isManager}<th>{t}MgrEffortEstim{/t}</th>{/if}
+                        <th>{t}EffortEstim{/t}</th>
+                        <th>{t}Reestimated{/t}</th>
+                        <th>{t}Elapsed{/t}</th>
+                        <th title="{t}Backlog{/t}">{t}BL{/t}</th>
                         {if $isManager}<th title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
                         <th title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
                         <th>{t}Status{/t}</th>
@@ -430,6 +436,12 @@
                         <td>{$i.issueURL}</td>
                         <td>{$i.extRef}</td>
                         <td>{$i.projectName}</td>
+                        <td><div class="progress">{$i.progress}%</div></td>
+                        {if $isManager}<td>{$i.effortEstimMgr}</td>{/if}
+                        <td>{$i.effortEstim}</td>
+                        <td>{$i.reestimated}</td>
+                        <td>{$i.elapsed}</td>
+                        <td>{$i.backlog}</td>
                         {if $isManager}<td {if $i.driftMgrEE < -1}style="background-color: #61ed66;"{elseif $i.driftMgrEE > 1}style="background-color: #fcbdbd;"{/if}>{$i.driftMgrEE}</td>{/if}
                         <td {if $i.driftEE < -1}style="background-color: #61ed66;"{elseif $i.driftEE > 1}style="background-color: #fcbdbd;"{/if}>{$i.driftEE}</td>
                         <td>{$i.currentStatusName}</td>
