@@ -524,7 +524,7 @@ class Tools {
          return $finalURL;
       }
    }
-
+   
    /**
     * Parse file and execute commands via PHP mysql lib.
     * @static
@@ -532,11 +532,21 @@ class Tools {
     * @return bool
     */
    public static function execSQLscript($sqlFile) {
+      echo "DEBUG 2/3 execSQLscript $sqlFile<br>";
       $request = "SELECT LOAD_FILE('".$sqlFile."')";
 
-      if (!SqlWrapper::getInstance()->sql_query($request)) {
-         die("ERROR : ".$request." : ".SqlWrapper::getInstance()->sql_error());
+      $result = SqlWrapper::getInstance()->sql_query($request);
+      if (!$result) {
+         $error = "ERROR : ".$request." : ".SqlWrapper::getInstance()->sql_error();
+         echo "<span class='error_font'>$error</span><br />";
+         exit;
       }
+      if (is_null(SqlWrapper::getInstance()->sql_result($result, 0))) {
+         $error = 'ERROR : could not LOAD_FILE ('.$sqlFile.') : NULL returned.';
+         echo "<span class='error_font'>$error</span><br />";
+         exit;
+      }      
+      
 
       /*
       $request = "";
@@ -580,7 +590,7 @@ class Tools {
       //   echo "FAILED (err $retCode) could not exec mysql commands from file: $sqlFile</br>";
       //}
       if(0 != $retCode) {
-         if(self::execSQLscript($sqlFile)) {
+         if(self::execSQLscript(dirname(__FILE__).DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR.$sqlFile)) {
             return 0;
          } else {
             return -1;
