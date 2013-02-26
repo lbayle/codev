@@ -8,8 +8,8 @@ codevtt_output_dir = /tmp/codevtt
 codevtt_logfile = "/tmp/codevtt/logs/codevtt.log"
 homepage_title = "Welcome"
 mantis_url = https://localhost/mantis
-mantis_dir = /opt/mantis
-codevtt_dir = /opt/codevtt
+mantis_dir = /var/www/html/mantis
+codevtt_dir = /var/www/html/codevtt
 
 [database]
 db_mantis_host      = "localhost"

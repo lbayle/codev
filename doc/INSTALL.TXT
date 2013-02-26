@@ -28,27 +28,23 @@
 > + Required packages (CentOS, RedHat, Fedora)  
 
 >> `yum install git gitosis gitk`  
->> `yum install httpd php php-pdo php-mysql php-gd php-xml mysql mysql-server phpmyadmin`  
+>> `yum install httpd php php-pdo php-mysql php-gd php-xml php-pecl-apc mysql mysql-server phpmyadmin`  
 
 > + MantisBT
 
->> `cd /opt`  
->> `unzip /tmp/mantisbt-1.2.11.zip`  
->> `mv /opt/mantisbt-1.2.11 /opt/mantis`  
->> `chgrp apache /opt/mantis`  
->> `chmod g+w /opt/mantis`  
 >> `cd /var/www/html`  
->> `ln -s /opt/mantis`  
+>> `unzip /tmp/mantisbt-1.2.11.zip`  
+>> `mv /var/www/html/mantisbt-1.2.11 /var/www/html/mantis`  
+>> `chgrp apache /var/www/html/mantis`  
+>> `chmod g+w /var/www/html/mantis`  
 
 > + CodevTT
 
->> `cd /opt`  
->> `tar xvzf /tmp/codevtt_0.99.18.tgz`  
->> `mv /opt/codevtt_0.99.18 /opt/codevtt`  
->> `chgrp apache /opt/codevtt`  
->> `chmod g+w /opt/codevtt`  
 >> `cd /var/www/html`  
->> `ln -s /opt/codevtt`  
+>> `tar xvzf /tmp/codevtt_0.99.18.tgz`  
+>> `mv /var/www/html/codevtt_0.99.18 /var/www/html/codevtt`  
+>> `chgrp apache /var/www/html/codevtt`  
+>> `chmod g+w /var/www/html/codevtt`  
 >> `mkdir -p /tmp/codevtt/logs`  
 >> `mkdir -p /tmp/codevtt/reports`  
 >> `chown -R apache:apache /tmp/codevtt`  
@@ -56,7 +52,7 @@
 
 >> If you choose to install the latest development sources:  
 
->> `git clone git@github.com:lbayle/codev.git /opt/codevtt`  
+>> `git clone git@github.com:lbayle/codev.git /var/www/html/codevtt`  
 
 
 > #### configure MySQL
@@ -129,8 +125,8 @@
 
 > #### minimal mantis config
 
->>  `cp /opt/mantis/config_inc.php.sample /opt/mantis/config_inc.php`  
->>  `vi /opt/mantis/config_inc.php`  
+>>  `cp /var/www/html/mantis/config_inc.php.sample /var/www/html/mantis/config_inc.php`  
+>>  `vi /var/www/html/mantis/config_inc.php`  
 
 >>>  `$g_db_username   = "mantis";`  
 >>>  `$g_db_password   = "secret";`  
@@ -173,7 +169,7 @@
 
 >>  [http://localhost/codevtt](http://localhost/codevtt)
 
->> The installation will create `/opt/codevtt/config.ini`
+>> The installation will create `/var/www/html/codevtt/config.ini`
 
 ## The End.
 
