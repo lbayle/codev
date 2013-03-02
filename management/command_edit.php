@@ -176,10 +176,11 @@ class CommandEditController extends Controller {
                   $prov_budgetDays = $_POST['budgetDays'];
                   $prov_averageDailyRate = $_POST['averageDailyRate'];
                   $prov_summary = $_POST['summary'];
+                  $isInCheckBudget = (0 == Tools::getSecurePOSTIntValue("isInCheckBudget")) ? false : true;
 
                   $timestamp = Tools::date2timestamp($prov_date);
 
-                  CommandProvision::create($cmd->getId(), $timestamp, $prov_type, $prov_summary, $prov_budgetDays, $prov_budget, $prov_averageDailyRate);
+                  CommandProvision::create($cmd->getId(), $timestamp, $prov_type, $prov_summary, $prov_budgetDays, $prov_budget, $prov_averageDailyRate, $isInCheckBudget);
 
                } else if ("deleteProvision" == $action) {
                   # TODO check injections

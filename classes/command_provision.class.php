@@ -112,15 +112,16 @@ class CommandProvision {
 
    }
 
-   public static function create($command_id, $timestamp, $type, $summary, $budget_days, $budget, $average_daily_rate, $currency = 'EUR', $description = NULL) {
+   public static function create($command_id, $timestamp, $type, $summary, $budget_days, $budget, $average_daily_rate, $isInCheckBudget, $currency = 'EUR', $description = NULL) {
 
       $budget_cent = floatval($budget) * 100;
       $budgetDays_cent = floatval($budget_days) * 100; // store 1.15 days in an int
       $adr_cent = floatval($average_daily_rate) * 100;
+      $formattedIsInCheckBudget = $isInCheckBudget ? 1 : 0;
       $query = "INSERT INTO `codev_command_provision_table` ".
-              " (`command_id`, `date`, `type`, `budget_days`, `budget`, `average_daily_rate`, `currency`, `summary` ";
+              " (`command_id`, `date`, `type`, `budget_days`, `budget`, `average_daily_rate`, `currency`, `summary`, `is_in_check_budget` ";
       if(!is_null($description)) { $query .= ", `description`"; }
-      $query .= ") VALUES ($command_id, $timestamp, $type, $budgetDays_cent, $budget_cent, $adr_cent, '$currency', '$summary' ";
+      $query .= ") VALUES ($command_id, $timestamp, $type, $budgetDays_cent, $budget_cent, $adr_cent, '$currency', '$summary', '$formattedIsInCheckBudget' ";
       if(!is_null($description)) { $query .= ", '$description'"; }
       $query .= ");";
 

@@ -631,7 +631,10 @@
                   modal: true,
                   buttons: {
                      "{t}Add{/t}": function() {
-                        jQuery("#formAddProvision").submit();
+                        var isInCheckBudget = jQuery("#cb_isInCheckBudget").attr('checked')?1:0;
+                        var form = jQuery("#formAddProvision");
+                        form.find("input[name=isInCheckBudget]").val(isInCheckBudget);
+                        form.submit();
                      },
                      Cancel: function() {
                         jQuery(this).dialog("close");
@@ -712,6 +715,7 @@
                   <input type="hidden" name="action" value="addProvision" />
                   <input type="hidden" name="teamid" value="{$teamid}" />
                   <input type="hidden" name="commandid" value="{$cmdid}" />
+                  <input type="hidden" name="isInCheckBudget" value="{$isInCheckBudget}"/>
                </fieldset>
             </form>
          </div>
