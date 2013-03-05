@@ -32,16 +32,102 @@ class TeamMonthlyActivityReportController extends Controller {
 
    protected function display() {
       if (Tools::isConnectedUser()) {
-         $threshold = 0.5; // for Deviation filters
 
-         // use the teamid set in the form, if not defined (first page call) use session teamid
-         if (isset($_POST['teamid'])) {
-            $teamid = Tools::getSecurePOSTIntValue('teamid');
-            $_SESSION['teamid'] = $teamid;
-         } else {
-            $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-         }
+         if (0 != $this->teamid) {
+
+            $isManager = $this->session_user->isTeamManager($this->teamid);
+            $isObserver = $this->session_user->isTeamObserver($this->teamid);
+            if ($isManager || $isObserver) {
+               // observers have access to the same info
+               $this->smartyHelper->assign('isManager', true);
+            }
+
+            // dates
+            $month = date('m');
+            $year = date('Y');
+
+            $startdate = Tools::getSecurePOSTStringValue("startdate", Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, 1, $year)));
+            $this->smartyHelper->assign('startDate', $startdate);
+            $startTimestamp = Tools::date2timestamp($startdate);
+
+            $nbDaysInMonth = date("t", $startTimestamp);
+            $enddate = Tools::getSecurePOSTStringValue("enddate",Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, $nbDaysInMonth, $year)));
+            $this->smartyHelper->assign('endDate', $enddate);
+            $endTimestamp = Tools::date2timestamp($enddate);
+
+            #$isDetailed = Tools::getSecurePOSTStringValue('cb_detailed','');
+            #$this->smartyHelper->assign('isDetailed', $isDetailed);
+
+            if ('computeMonthlyActivityReport' == $_POST['action']) {
+
+               $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $this->teamid);
+               $tracks = $timeTracking->getTimeTracks();
+
+               $this->smartyHelper->assign('monthlyActivityReport', $this->getMonthlyActivityReport($tracks));
+            }
+        }
       }
+   }
+
+   private function getMonthlyActivityReport(array $tracks) {
+
+      $userList = array();  // first is 'All', then one per user
+
+      #$userList['0'] = array(); // All users together
+
+      foreach ($tracks as $t) {
+
+         $userid = $t->getUserId();
+         $bugid = $t->getIssueId();
+         if (!array_key_exists($userid, $userList)) {
+            $user = UserCache::getInstance()->getUser($userid);
+            $userList["$userid"] = array(
+                'name' => $user->getName(),
+                'realname' => $user->getRealname(),
+                'elapsedInPeriod' => 0,
+                'tasks' => array()
+            );
+            #echo "new user $userid<br>";
+         }
+
+         if (!array_key_exists($bugid, $userList["$userid"]['tasks'])) {
+            $issue = IssueCache::getInstance()->getIssue($bugid);
+            $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
+
+            if ((!$project->isSideTasksProject(array($this->teamid))) &&
+                (!$project->isExternalTasksProject())) {
+               $tooltipAttr = $issue->getTooltipItems($this->teamid, $this->session_userid);
+               $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
+
+               $progress = round(100 * $issue->getProgress());
+               $backlog = $issue->getBacklog();
+            } else {
+               $infoTooltip = NULL;
+               $progress = NULL;
+               $backlog = NULL;
+            }
+
+
+            $userList["$userid"]['tasks']["$bugid"] = array(
+                'id' => $bugid,
+                'infoTooltip' => $infoTooltip,
+                'projectName' => $issue->getProjectName(),
+                'summary' => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary()),
+                'progress' => $progress,
+                'backlog' => $backlog,
+                'elapsedInPeriod' => 0
+            );
+            #echo "new UserTask $bugid : ".$issue->getSummary()."<br>";
+         }
+
+         $userList["$userid"]['tasks']["$bugid"]['elapsedInPeriod'] += $t->getDuration();
+         $userList["$userid"]['elapsedInPeriod'] += $t->getDuration();
+         #echo "user $userid task $bugid elapsedInPeriod = ".$userList["$userid"]['tasks']["$bugid"]['elapsedInPeriod'].'<br>';
+
+      }
+
+      #var_dump($userList);
+      return $userList;
    }
 
 }

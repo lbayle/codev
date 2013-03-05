@@ -133,7 +133,7 @@ class TimeTracking {
    /**
     * @return TimeTrack[]
     */
-   private function getTimeTracks() {
+   public function getTimeTracks() {
       if(NULL == $this->timeTracks) {
          $accessLevel_dev = Team::accessLevel_dev;
          $accessLevel_manager = Team::accessLevel_manager;

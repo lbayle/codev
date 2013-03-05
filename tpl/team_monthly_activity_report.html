@@ -1,5 +1,69 @@
-<div id="content">
-   <table>
-   </table>
-</div>
+<div id="content" class="center">
+   {if isset($teamid) && (0 != $teamid)}
+   <h2>{t}Monthly Activity{/t}</h2>
+   <form method="post" class="formWithTabsHistory" action="{$page}">
+      <fieldset>
+         {include file="form/dateRangeSelector.html"}
+         <input type="hidden" name="action" value="computeMonthlyActivityReport" />
+         <input type="submit" value="{t}Compute{/t}" />
+      </fieldset>
+    </form>
 
+   {if isset($monthlyActivityReport)}
+   <div align="center" style="margin-top:4em;">
+   <h2 align="left">{t}Tasks per User{/t}</h2>
+      <div id="tabsUsers" class="tabs {$ui_tabs_jquery}">
+         <ul class="{$ui_tabs_jquery_ul}">
+            {foreach from=$monthlyActivityReport item=i key=id}
+            <li class="{$ui_tabs_jquery_li}" id="{$i.name}"><a href="#tabUser_{$i.name}">{$i.realname}</a></li>
+            {/foreach}
+         </ul>
+         {foreach from=$monthlyActivityReport item=i key=id}
+         <div id="tabUser_{$i.name}">
+            <table style="width: 100%;">
+               <thead>
+                  <tr>
+                     <th style="width:1px;"></th>
+                     <th>{t}Summary{/t}</th>
+                     <th style="width: 15em;">{t}Project{/t}</th>
+                     <th style="width: 1em;">{t}Progress{/t}</th>
+                     <th style="width: 1em;">{t}Backlog{/t}</th>
+                     <th style="width: 1em;" title="{t}Elapsed in period{/t}">{t}Total{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$i.tasks item=j key=id}
+                  <tr>
+                     <td style="width:1px;">{$j.infoTooltip}</td>
+                     <td nowrap="nowrap">{$j.summary}</td>
+                     <td nowrap="nowrap">{$j.projectName}</td>
+                     <td nowrap="nowrap">{if $j.progress}<div class="progress">{$j.progress}%</div>{/if}</td>
+                     <td nowrap="nowrap">{$j.backlog}</td>
+                     <td nowrap="nowrap">{$j.elapsedInPeriod}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+         <tfoot>
+            <tr>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td>{$i.elapsedInPeriod}</td>
+            </tr>
+         </tfoot>
+            </table>
+
+         </div>
+         {/foreach}
+      </div>
+   </div>
+
+   {/if}
+
+   {else}
+   <p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
+   {/if}
+
+</div>

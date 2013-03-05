@@ -90,7 +90,7 @@ class Tools {
    public static function mantisIssueURL($bugid, $title=NULL, $isIcon=FALSE, $inNewTab=FALSE) {
       $target = $inNewTab ? 'target="_blank"' : '';
       if (is_null($title)) {
-         $title = "View Mantis Issue $bugid";
+         $title = "Open in Mantis";
 
          if (!$isIcon) {
             return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" title="'.$title.'" '.$target.'>'.$bugid.'</a>';
@@ -125,7 +125,7 @@ class Tools {
    public static function issueInfoURL($bugid, $title=NULL, $inNewTab=FALSE) {
       $target = $inNewTab ? 'target="_blank"' : '';
       if (is_null($title)) {
-         $title = "View info for Issue $bugid";
+         $title = "View info";
          return '<a '.$target.' href="reports/issue_info.php?bugid='.$bugid.'" title="'.$title.'">'.$bugid.'</a>';
       } else if(is_array($title)) {
          $tooltip = self::getTooltip($title);
