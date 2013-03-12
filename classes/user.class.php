@@ -322,7 +322,7 @@ class User extends Model {
          }
 
          if ((NULL != $startTimestamp) && (NULL != $endTimestamp)) {
-            $query .= "AND arrival_date < $endTimestamp AND " .
+            $query .= "AND arrival_date <= $endTimestamp AND " .
                       "(departure_date >= $startTimestamp OR departure_date = 0)";
             // REM: if departure_date = 0, then user stays until the end of the world.
          }
