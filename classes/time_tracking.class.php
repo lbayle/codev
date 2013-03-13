@@ -145,7 +145,7 @@ class TimeTracking {
                   "JOIN `codev_team_user_table` as team_user ON timetracking.userid = team_user.user_id ".
                   "WHERE team_user.team_id = $this->team_id ".
                   "AND team_user.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
-                  "AND timetracking.date >= $this->startTimestamp AND timetracking.date < $this->endTimestamp;";
+                  "AND timetracking.date >= $this->startTimestamp AND timetracking.date <= $this->endTimestamp;";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
