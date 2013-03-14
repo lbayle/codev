@@ -64,7 +64,16 @@ class TeamMonthlyActivityReportController extends Controller {
                $tracks = $timeTracking->getTimeTracks();
 
                $this->smartyHelper->assign('monthlyActivityReport', $this->getMonthlyActivityReport($tracks));
+
+               // ConsistencyCheck
+               $consistencyErrors = $this->getConsistencyErrors($timeTracking);
+               if(count($consistencyErrors) > 0) {
+                  $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
+                  $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+                  $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
+               }
             }
+
         }
       }
    }
@@ -128,6 +137,31 @@ class TeamMonthlyActivityReportController extends Controller {
 
       #var_dump($userList);
       return $userList;
+   }
+
+   /**
+    * Get consistency errors
+    * @param TimeTracking $timeTracking
+    * @return mixed[]
+    */
+   private function getConsistencyErrors(TimeTracking $timeTracking) {
+      $consistencyErrors = array(); // if null, array_merge fails !
+
+      $cerrList = ConsistencyCheck2::checkIncompleteDays($timeTracking);
+
+      if (count($cerrList) > 0) {
+         foreach ($cerrList as $cerr) {
+            $this->session_user = UserCache::getInstance()->getUser($cerr->userId);
+            $consistencyErrors[] = array(
+               'date' => date("Y-m-d", $cerr->timestamp),
+               'user' => $this->session_user->getName(),
+               'severity' => $cerr->getLiteralSeverity(),
+               'severityColor' => $cerr->getSeverityColor(),
+               'desc' => $cerr->desc);
+         }
+      }
+
+      return $consistencyErrors;
    }
 
 }
