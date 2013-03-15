@@ -2,7 +2,7 @@
 
 
 ## System Requirements:
->  + 128M RAM
+>  + 1G RAM
 >  + 200M HD
 
 > #### Linux

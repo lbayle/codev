@@ -2,7 +2,7 @@
 <h2>System Requirements:</h2>
 <blockquote>
 <ul>
-<li>128M RAM</li>
+<li>1G RAM</li>
 <li>200M HD</li>
 </ul>
 <h4>Linux</h4>
@@ -34,37 +34,37 @@
 </ul>
 <blockquote>
 <p><code>yum install git gitosis gitk</code><br />
-<code>yum install httpd php php-pdo php-mysql php-gd php-xml mysql mysql-server phpmyadmin</code><br />
+<code>yum install httpd php php-pdo php-mysql php-gd php-xml php-pecl-apc mysql mysql-server phpmyadmin</code><br />
 </p>
 </blockquote>
 <ul>
 <li>MantisBT</li>
 </ul>
 <blockquote>
-<p><code>cd /opt</code><br />
+<p><code>cd /var/www/html</code><br />
 <code>unzip /tmp/mantisbt-1.2.11.zip</code><br />
-<code>mv /opt/mantisbt-1.2.11 /opt/mantis</code><br />
-<code>chgrp apache /opt/mantis</code><br />
-<code>chmod g+w /opt/mantis</code><br />
-<code>cd /var/www/html</code><br />
-<code>ln -s /opt/mantis</code><br />
+<code>mv /var/www/html/mantisbt-1.2.11 /var/www/html/mantis</code><br />
+<code>chgrp apache /var/www/html/mantis</code><br />
+<code>chmod g+w /var/www/html/mantis</code><br />
 </p>
 </blockquote>
 <ul>
 <li>CodevTT</li>
 </ul>
 <blockquote>
-<p><code>cd /opt</code><br />
+<p><code>cd /var/www/html</code><br />
 <code>tar xvzf /tmp/codevtt_0.99.18.tgz</code><br />
-<code>mv /opt/codevtt_0.99.18 /opt/codevtt</code><br />
-<code>chgrp apache /opt/codevtt</code><br />
-<code>chmod g+w /opt/codevtt</code><br />
-<code>cd /var/www/html</code><br />
-<code>ln -s /opt/codevtt</code><br />
+<code>mv /var/www/html/codevtt_0.99.18 /var/www/html/codevtt</code><br />
+<code>chgrp apache /var/www/html/codevtt</code><br />
+<code>chmod g+w /var/www/html/codevtt</code><br />
+<code>mkdir -p /tmp/codevtt/logs</code><br />
+<code>mkdir -p /tmp/codevtt/reports</code><br />
+<code>chown -R apache:apache /tmp/codevtt</code><br />
+<code>chmod -R ug+rw /tmp/codevtt</code><br />
 </p>
 <p>If you choose to install the latest development sources:<br />
 </p>
-<p><code>git clone git@github.com:lbayle/codev.git /opt/codevtt</code><br />
+<p><code>git clone git@github.com:lbayle/codev.git /var/www/html/codevtt</code><br />
 </p>
 </blockquote>
 <h4>configure MySQL</h4>
@@ -130,7 +130,8 @@
 <li>On windows you will also need to add in the [PHP] section</li>
 </ul>
 <blockquote>
-<p><code>extension=php_gd2.dll</code></p>
+<p><code>extension=php_gd2.dll</code><br />
+</p>
 </blockquote>
 <h4>Restart services</h4>
 <blockquote>
@@ -154,8 +155,8 @@
 </blockquote>
 <h4>minimal mantis config</h4>
 <blockquote>
-<p><code>cp /opt/mantis/config_inc.php.sample /opt/mantis/config_inc.php</code><br />
-<code>vi /opt/mantis/config_inc.php</code><br />
+<p><code>cp /var/www/html/mantis/config_inc.php.sample /var/www/html/mantis/config_inc.php</code><br />
+<code>vi /var/www/html/mantis/config_inc.php</code><br />
 </p>
 <blockquote>
 <p><code>$g_db_username   = "mantis";</code><br />
@@ -207,7 +208,7 @@ You need to configure mantis BEFORE installing CodevTT, so do it now !<br />
 <h4>launch CodevTT install procedure</h4>
 <blockquote>
 <p><a href="http://localhost/codevtt">http://localhost/codevtt</a></p>
-<p>The installation will create <code>/opt/codevtt/config.ini</code></p>
+<p>The installation will create <code>/var/www/html/codevtt/config.ini</code></p>
 </blockquote>
 </blockquote>
 <h2>The End.</h2>
