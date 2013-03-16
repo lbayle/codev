@@ -49,7 +49,8 @@ class HolidaysReportController extends Controller {
             $isExternalTasks = TRUE; // default
          }
 
-         $teams = SmartyTools::getSmartyArray(Team::getTeams(),$displayed_teamid);
+         $teams = SmartyTools::getSmartyArray($this->teamList,$displayed_teamid);
+         #$teams = SmartyTools::getSmartyArray(Team::getTeams(),$displayed_teamid);
          $this->smartyHelper->assign('availableTeams', $teams);
          $this->smartyHelper->assign('years', SmartyTools::getYears($year,2));
          $this->smartyHelper->assign('isExternalTasks', $isExternalTasks);
