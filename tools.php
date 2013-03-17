@@ -1035,12 +1035,13 @@ class Tools {
       } else {
          $protocol = "http";
       }
-
-      $rootURL = "$protocol://".$_SERVER['HTTP_HOST'].substr( $_SERVER['PHP_SELF'], 0 , strrpos( $_SERVER['PHP_SELF'], '/') );
+      #$rootURL = "$protocol://".$_SERVER['HTTP_HOST'].substr( $_SERVER['PHP_SELF'], 0 , strrpos( $_SERVER['PHP_SELF'], '/') );
       $folders = array("/admin", "/blog", "/classes", "/doc", "filters", "/graphs", "/i18n", "/images", "/import",
                        "/indicator_plugins", "/install", "/management", "/reports", "/tests", "/timetracking", "/tools");
-      
-      return str_replace($folders, "", $rootURL);
+
+      $rootURL = "$protocol://".$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
+      $rootURL = str_replace($folders, "", $rootURL);
+      return $rootURL;
    }
 
    /**
