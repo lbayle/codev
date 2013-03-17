@@ -1295,7 +1295,7 @@ class Issue extends Model implements Comparable {
    public function computeDurationsPerStatus () {
       // get only statuses defined for this project
       $project = ProjectCache::getInstance()->getProject($this->projectId);
-      $wfTrans = $project->getWorkflowTransitions();
+      $wfTrans = $project->getWorkflowTransitionsFormatted();
       $statusNames = NULL;
       if (NULL != $wfTrans) { $statusNames = $wfTrans[0]; }
       
@@ -2430,6 +2430,26 @@ class Issue extends Model implements Comparable {
       }
       ksort($backlogList);
       return $backlogList;
+   }
+
+   /**
+    * depending on project's WorkflowTransistions and current status,
+    * return a list of allowed status.
+    *  
+    */
+   function getAvailableStatusList() {
+
+      $project = ProjectCache::getInstance()->getProject($this->projectId);
+
+      $wfTrans = $project->getWorkflowTransitions();
+
+      $serialized = $wfTrans[$this->currentStatus];
+
+      $unserialized = Tools::doubleExplode(':', ',', $serialized);
+
+      var_dump($serialized);
+
+
    }
 
 }

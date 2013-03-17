@@ -159,7 +159,7 @@ class WorkflowController extends Controller {
          'tabsName' => $tabsName
       );
 
-      $wfTrans = $project->getWorkflowTransitions();
+      $wfTrans = $project->getWorkflowTransitionsFormatted();
       if (NULL != $wfTrans) {
          $statusTitles = $wfTrans[0];
          $statusNames = Constants::$statusNames;

@@ -117,7 +117,7 @@ class ExportODTController extends Controller {
       if (0 != $projectid) {
          // get only statuses defined for this project
          $project = ProjectCache::getInstance()->getProject($projectid);
-         $wfTrans = $project->getWorkflowTransitions();
+         $wfTrans = $project->getWorkflowTransitionsFormatted();
 
          if (!is_null($wfTrans)) {
             $statusNames = $wfTrans[0];

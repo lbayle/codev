@@ -1024,7 +1024,7 @@ class Project extends Model {
     * get Workflow transitions from Mantis DB
     *
     * mantis_config_table - config_id='status_enum_workflow'
-    * @return array[]
+    * @return array[] of serialized status list
     */
    function getWorkflowTransitions() {
 
@@ -1056,6 +1056,20 @@ class Project extends Model {
       }
 
       $unserialized = unserialize($serialized);
+
+      return $unserialized;
+   }
+
+   /**
+    * get Workflow transitions from Mantis DB
+    *
+    * mantis_config_table - config_id='status_enum_workflow'
+    * @return array[]
+    */
+   function getWorkflowTransitionsFormatted() {
+
+
+      $unserialized = $this->getWorkflowTransitions();
 
       $statusTitles = array();
       $wfTrans = array();
