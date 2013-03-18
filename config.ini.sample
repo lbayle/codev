@@ -7,6 +7,7 @@ codevInstall_timestamp = 0
 codevtt_output_dir = /tmp/codevtt
 codevtt_logfile = "/tmp/codevtt/logs/codevtt.log"
 homepage_title = "Welcome"
+logo_image = "images/codevtt_logo_03.png"
 mantis_url = https://localhost/mantis
 mantis_dir = /var/www/html/mantis
 codevtt_dir = /var/www/html/codevtt

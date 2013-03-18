@@ -23,6 +23,7 @@ class Constants {
    public static $codevtt_logfile;
 
    public static $homepage_title;
+   public static $logoImage   = "images/codevtt_logo_03.png";
 
    // --- DATABASE ---
    public static $db_mantis_host;
@@ -113,6 +114,9 @@ class Constants {
       self::$codevtt_logfile        = $general['codevtt_logfile'];
       self::$codevOutputDir         = $general['codevtt_output_dir'];
       self::$homepage_title         = $general['homepage_title'];
+      if (array_key_exists('logo_image', $general)) {
+         self::$logoImage             = $general['logo_image'];
+      }
       self::$codevRootDir           = $general['codevtt_dir'];
       self::$mantisPath             = $general['mantis_dir'];
       self::$mantisURL              = $general['mantis_url'];
@@ -172,6 +176,7 @@ class Constants {
       $general['codevtt_output_dir']     = self::$codevOutputDir;
       $general['codevtt_logfile']        = self::$codevtt_logfile;
       $general['homepage_title']         = self::$homepage_title;
+      $general['logo_image']             = self::$logoImage;
       $general['codevtt_dir']            = self::$codevRootDir;
       $general['mantis_dir']             = self::$mantisPath;
       $general['mantis_url']             = self::$mantisURL;
