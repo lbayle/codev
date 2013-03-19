@@ -67,7 +67,7 @@
             <fieldset>
                <table class="invisible">
                   <tr>
-                     <td><label for="leaderid">{t}Leader{/t}</label></td>
+                     <td><label for="leaderid">{t}Team Administrator{/t}</label></td>
                      <td>
                         <select style="width:100%" name="leaderid" id="leaderid">
                            {foreach from=$users key=id item=i}
@@ -100,7 +100,7 @@
                   </tr>
                </table>
                <br/>
-               <span class="help_font">{t}Note: A <em>TeamLeader</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report.{/t}</span>
+               <span class="help_font">{t}Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report.{/t}</span>
                <input type="hidden" name="isTeamEnabled" value="{$teamEnabled}"/>
                <input type="hidden" name="action" value="noAction" />
                <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />

@@ -17,7 +17,7 @@
                ++foundError;
             }
             if (0 == form.find("input[name=teamleader_id]").val()) {
-               msgString += "{t}Team Leader{/t}\n";
+               msgString += "{t}Team Administrator{/t}\n";
                ++foundError;
             }
 
@@ -54,7 +54,7 @@
                      <td><input size="100" name="team_desc" type="text" id="team_desc" /> <span style="color:red">*</span></td>
                   </tr>
                   <tr>
-                     <td><label for="teamleader_id">{t}Team Leader{/t}</label></td>
+                     <td><label for="teamleader_id">{t}Team Administrator{/t}</label></td>
                      <td>
                         <select name="teamleader_id" id="teamleader_id">
                            <option value="0"></option>

@@ -115,7 +115,7 @@ class CreateTeamController extends Controller {
             // 6) --- open EditTeam Page
             header('Location: edit_team.php?teamid='.$teamid);
          } else {
-            $this->smartyHelper->assign('users', SmartyTools::getSmartyArray(User::getUsers(),-1));
+            $this->smartyHelper->assign('users', SmartyTools::getSmartyArray(User::getUsers(),$this->session_userid));
          }
       }
    }
