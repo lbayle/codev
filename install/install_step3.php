@@ -479,12 +479,26 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
                      $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,
                      $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
                      $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
-                     $projectList, $extIdCustomFieldCandidates,
+                     $projectList, $extIdCustomFieldCandidates, $userList,
                      $is_modified = "false") {
 
    checkMantisPluginDir();
 
    echo "<form id='form1' name='form1' method='post' action='$originPage' >\n";
+
+   // ------ Administrator
+   echo "<h2>".T_("CodevTT Administrator")."</h2>\n";
+   echo '<select id="codevttAdmin" name="codevttAdmin">'."\n";
+   #echo '   <option value="0"> </option>'."\n";
+   foreach ($userList as $userid => $name) {
+      if (1 == $userid) {
+         echo "<option value='$userid' selected='selected'>$name</option>\n";
+      } else {
+         echo "<option value='$userid'>$name</option>\n";
+      }
+   }
+   echo '</select><br>';
+   echo "  <br/>\n";
 
    // ------ Reports
    echo "<h2>".T_("Path to output files (logs, reports, ...)")."</h2>\n";
@@ -727,14 +741,15 @@ function installMantisPlugin() {
 $originPage = "install_step3.php";
 
 $adminTeamName = T_("CodevTT admin");
-$adminTeamLeaderId = 1; // 1 is mantis administrator
+$defaultCodevttAdmin = 1; // 1 is mantis administrator
 
 #$defaultReportsDir = "\\\\172.24.209.4\Share\FDJ\Codev_Reports";
 $defaultReportsDir = "/tmp/codevtt";
 
 $action               = isset($_POST['action']) ? $_POST['action'] : '';
 $is_modified          = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
-$codevOutputDir      = isset($_POST['outputDir']) ? $_POST['outputDir'] : $defaultReportsDir;
+$codevOutputDir       = isset($_POST['outputDir']) ? $_POST['outputDir'] : $defaultReportsDir;
+$adminTeamLeaderId    = isset($_POST['codevttAdmin']) ? $_POST['codevttAdmin'] : $defaultCodevttAdmin;
 
 // 'is_modified' is used because it's not possible to make a difference
 // between an unchecked checkBox and an unset checkbox variable
@@ -773,6 +788,7 @@ $jobNA_color      = isset($_POST['jobNA_color']) ? $_POST['jobNA_color'] : "A8FF
 
 
 $projectList = getProjectList();
+$userList = User::getUsers();
 
 $checkReportsDirError = NULL;
 // ---
@@ -907,7 +923,7 @@ displayForm($originPage, $codevOutputDir, $checkReportsDirError,
    $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,
    $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
    $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
-   $projectList, $extIdCustomFieldCandidates,
+   $projectList, $extIdCustomFieldCandidates, $userList,
    $is_modified);
 
 ?>
