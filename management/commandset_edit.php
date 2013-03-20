@@ -194,8 +194,8 @@ class CommandSetEditController extends Controller {
 
       $cmds = $cmdset->getCommands(Command::type_general);
 
-      foreach ($teamList as $this->teamid => $name) {
-         $team = TeamCache::getInstance()->getTeam($this->teamid);
+      foreach ($teamList as $tid => $name) {
+         $team = TeamCache::getInstance()->getTeam($tid);
          $cmdList = $team->getCommands();
 
          foreach ($cmdList as $cid => $cmd) {
