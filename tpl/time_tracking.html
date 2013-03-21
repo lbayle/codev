@@ -434,7 +434,13 @@
          jQuery("#desc_elapsed").text(data['elapsed']);
          //jQuery("#desc_reestimated").text(data['reestimated']);
          jQuery("#desc_drift").text(data['drift']);
-         jQuery("#desc_deadline").text(data['deadline']);
+
+         if (data.hasOwnProperty("deadline")) {
+            jQuery("#desc_deadline").text(data['deadline']);
+            jQuery("#tr_deadline").show();
+         } else {
+            jQuery("#tr_deadline").hide();
+         }
 
          jQuery("#desc_drift").css("backgroundColor", '#' + data['driftColor']);
 
@@ -560,7 +566,7 @@
                         <select id="status" name="status"> </select>
                      </td>
                   </tr>
-                  <tr>
+                  <tr id="tr_deadline">
                      <th>{t}Deadline{/t} :</th>
                      <td id="desc_deadline">date</td>
                   </tr>

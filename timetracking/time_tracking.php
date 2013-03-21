@@ -159,10 +159,12 @@ class TimeTrackingController extends Controller {
                            'driftMgr' => $issue->getDriftMgr(),
                            'reestimated' => $issue->getReestimated(),
                            'driftColor' => $issue->getDriftColor($drift),
-                           'deadline' => $formatedDate,
                            'currentStatus' => $issue->getCurrentStatus(),
                            'availableStatusList' => $issue->getAvailableStatusList(true)
                         );
+                        if (isset($formatedDate)) {
+                           $issueInfo['deadline'] = $formatedDate;
+                        }
 
                         $jsonIssueInfo = json_encode($issueInfo);
                         $this->smartyHelper->assign('updateBacklogJsonData', $jsonIssueInfo);
