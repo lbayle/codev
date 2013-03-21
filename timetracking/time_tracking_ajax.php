@@ -30,6 +30,10 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $formattedBacklog = Tools::getSecureGETNumberValue('backlog');
          $issue->setBacklog($formattedBacklog);
 
+         // TODO setStatus
+         $newStatus = Tools::getSecureGETNumberValue('statusid');
+         $issue->setStatus($newStatus);
+
          $weekid = Tools::getSecureGETIntValue('weekid');
          $year = Tools::getSecureGETIntValue('year');
 

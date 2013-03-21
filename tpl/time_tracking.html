@@ -419,21 +419,48 @@
    </div>
 
    <script type="text/javascript">
-      function updateBacklog(backlog, description, bugid, effortEstim, mgrEffortEstim, elapsed, drift, driftMgr, reestimated, driftColor, deadline, dialogBoxTitle){
-         jQuery("#backlog").val(backlog);
-         jQuery("#validateTips").text(description);
 
-         jQuery("#desc_effortEstim").text(effortEstim);
-         jQuery("#desc_elapsed").text(elapsed);
-         //jQuery("#desc_reestimated").text(reestimated);
-         jQuery("#desc_drift").text(drift);
-         jQuery("#desc_deadline").text(deadline);
+      function updateBacklog2(updateBacklogJsonData, issue_summary){
 
-         jQuery("#desc_drift").css("backgroundColor", '#' + driftColor);
+         var data = jQuery.parseJSON(updateBacklogJsonData);
 
-         jQuery("#formUpdateBacklog").find("input[name=bugid]").val(bugid);
+         jQuery("#backlog").val(data['backlog']);
 
+         // TODO summary not in json because of quotes
+         //jQuery("#issue_summary").text(htmlEncode(data['description']));
+         jQuery("#issue_summary").text(issue_summary);
+
+         jQuery("#desc_effortEstim").text(data['effortEstim']);
+         jQuery("#desc_elapsed").text(data['elapsed']);
+         //jQuery("#desc_reestimated").text(data['reestimated']);
+         jQuery("#desc_drift").text(data['drift']);
+         jQuery("#desc_deadline").text(data['deadline']);
+
+         jQuery("#desc_drift").css("backgroundColor", '#' + data['driftColor']);
+
+         jQuery("#formUpdateBacklog").find("input[name=bugid]").val(data['bugid']);
+
+         var dialogBoxTitle = '{t}Task{/t} ' + data['dialogBoxTitle'] + ' - {t}Update Backlog{/t}'
          jQuery("#update_backlog_dialog_form").dialog("option", "title", dialogBoxTitle);
+
+         // set available status
+         jQuery('#status').empty();
+         var availItemList = data['availableStatusList'];
+         for (var id in availItemList) {
+
+            if (availItemList.hasOwnProperty(id)) {
+               if (id == data['currentStatus']) {
+                  jQuery('#status').append(
+                     jQuery('<option>').attr('id', id).attr('selected', 'selected').append(availItemList[id])
+                  );
+               } else {
+                  jQuery('#status').append(
+                     jQuery('<option>').attr('id', id).append(availItemList[id])
+                  );
+               }
+            }
+         }
+
          jQuery("#update_backlog_dialog_form").dialog("open");
       }
 
@@ -498,6 +525,7 @@
                /* get some values from elements on the page: */
                var formUpdateBacklog = jQuery(this);
                formUpdateBacklog.find("input[name=year]").val(jQuery("#year").val());
+               formUpdateBacklog.find("input[name=statusid]").val(jQuery("#status").children(":selected").attr("id"));
 
                jQuery.ajax({
                   type: "GET",
@@ -514,30 +542,24 @@
          });
 
          // after a click on 'AddTrack' button, raise the updateBacklog dialogBox
-         {if isset($updateBacklogRequested) && $updateBacklogRequested}
-
-            updateBacklog('{$updateBacklogRequested.backlog}',
-                  '{$updateBacklogRequested.description|escape_all_quotes}',
-                  '{$updateBacklogRequested.bugid}',
-                  '{$updateBacklogRequested.effortEstim}',
-                  '{$updateBacklogRequested.mgrEffortEstim}',
-                  '{$updateBacklogRequested.elapsed}',
-                  '{$updateBacklogRequested.drift}',
-                  '{$updateBacklogRequested.driftMgr}',
-                  '{$updateBacklogRequested.reestimated}',
-                  '{$updateBacklogRequested.driftColor}',
-                  '{$updateBacklogRequested.deadline}',
-                  '{t}Task{/t} {$updateBacklogRequested.dialogBoxTitle} - {t}Update Backlog{/t}');
+         {if isset($updateBacklogJsonData)}
+            updateBacklog2('{$updateBacklogJsonData}', '{$updateBacklogSummary|escape_all_quotes}');
          {/if}
 
       });
    </script>
    <div id="update_backlog_dialog_form" title="Task XXX - Update Backlog" class="ui-helper-hidden">
-      <p id="validateTips">Set new value</p>
+      <p id="issue_summary">Set new value</p>
       <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="timetracking/time_tracking_ajax.php" >
          <fieldset>
             <table class="invisible">
                <tbody>
+                  <tr>
+                     <th><label for="status">{t}Status{/t} :</label></th>
+                     <td>
+                        <select id="status" name="status"> </select>
+                     </td>
+                  </tr>
                   <tr>
                      <th>{t}Deadline{/t} :</th>
                      <td id="desc_deadline">date</td>
@@ -566,6 +588,7 @@
             {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />{/if}
             <input type="hidden" name="weekid" value="{$weekid}" />
             <input type="hidden" name="year" value="{$year}" />
+            <input type="hidden" name="statusid" value="" />
          </fieldset>
       </form>
    </div>

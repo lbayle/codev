@@ -2437,7 +2437,7 @@ class Issue extends Model implements Comparable {
     * return a list of allowed status.
     *  
     */
-   function getAvailableStatusList() {
+   function getAvailableStatusList($includeCurrentStatus = false) {
 
       $project = ProjectCache::getInstance()->getProject($this->projectId);
 
@@ -2447,9 +2447,55 @@ class Issue extends Model implements Comparable {
 
       $unserialized = Tools::doubleExplode(':', ',', $serialized);
 
-      var_dump($serialized);
+      if ($includeCurrentStatus) {
+         $unserialized[$this->currentStatus] = $this->getCurrentStatusName();
+         ksort($unserialized);
+      }
 
+      #echo "available Status = $serialized<br>";
+      return $unserialized;
 
+   }
+
+   /**
+    * Update current status
+    * 
+    * @param type $newStatusId
+    * @return boolean true if status updated (or unchanged)
+    */
+   public function setStatus($newStatusId) {
+
+      if ($newStatusId != $this->currentStatus) {
+
+         // check that status is allowed in workflow
+         $allowedStatusList = $this->getAvailableStatusList();
+         
+         if (array_key_exists($newStatusId, $allowedStatusList)) {
+            $query = "UPDATE `mantis_bug_table` SET status = '$newStatusId' WHERE id=$this->bugId ";
+            $result = SqlWrapper::getInstance()->sql_query($query);
+            if (!$result) {
+               self::$logger->error("setStatus($newStatusId) : Query failed. Status has not been changed !");
+               return false;
+            }
+         } else {
+            self::$logger->error("setStatus($newStatusId) : newStatus not allowed (currentStatus = $this->currentStatus. Status has not been changed !");
+            self::$logger->error("setStatus($newStatusId) : allowed status are: ".Tools::doubleImplode(':', ',',  $allowedStatusList));
+            return false;
+         }
+
+         // Add to history
+         $now = time();
+         $query = "INSERT INTO `mantis_bug_history_table`  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
+                  "VALUES ('".$_SESSION['userid']."','$this->bugId','status', '$this->currentStatus', '$newStatusId', '0', '".$now."');";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            self::$logger->error("setStatus($newStatusId) : could not update history table.");
+         }
+
+         $this->currentStatus = $newStatusId;
+      }
+
+      return true;
    }
 
 }

@@ -150,7 +150,7 @@ class TimeTrackingController extends Controller {
                         $issueInfo = array(
                            'backlog' => $backlog,
                            'bugid' => $issue->getId(),
-                           'description' => $issue->getSummary(),
+                           #'description' => $issue->getSummary(),
                            'dialogBoxTitle' => $issue->getFormattedIds(),
                            'effortEstim' => $totalEE,
                            'mgrEffortEstim' => $issue->getMgrEffortEstim(),
@@ -159,11 +159,16 @@ class TimeTrackingController extends Controller {
                            'driftMgr' => $issue->getDriftMgr(),
                            'reestimated' => $issue->getReestimated(),
                            'driftColor' => $issue->getDriftColor($drift),
-                           'deadline' => $formatedDate
-
+                           'deadline' => $formatedDate,
+                           'currentStatus' => $issue->getCurrentStatus(),
+                           'availableStatusList' => $issue->getAvailableStatusList(true)
                         );
 
-                        $this->smartyHelper->assign('updateBacklogRequested', $issueInfo);
+                        $jsonIssueInfo = json_encode($issueInfo);
+                        $this->smartyHelper->assign('updateBacklogJsonData', $jsonIssueInfo);
+
+                        // TODO Summary is not be included because of quotes problems...
+                        $this->smartyHelper->assign('updateBacklogSummary', $issue->getSummary());
                      }
                   }
 
