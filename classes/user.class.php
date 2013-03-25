@@ -1497,6 +1497,39 @@ class User extends Model {
       return $this->id;
    }
 
+
+   /**
+    * return the $limit most recently used issues
+    *
+    * @param type $limit
+    * @return array[$bugid]
+    */
+   public function getRecentlyUsedIssues($limit = 5, $bugidList = NULL) {
+
+      $now = time();
+      
+      $query = 'SELECT DISTINCT bugid FROM `codev_timetracking_table` '.
+              "WHERE userid = $this->id AND date <= $now ";
+
+      if ((NULL != $bugidList) && (count($bugidList) > 0)) {
+         $formattedList = implode(", ",$bugidList);
+         $query .= "AND bugid IN ($formattedList)";
+      }
+
+      $query .= "ORDER BY date DESC LIMIT $limit";
+
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $recentIssues = array();
+      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $recentIssues[] = $row->bugid;
+      }
+      return $recentIssues;
+   }
+
 }
 
 // Initialize complex static variables

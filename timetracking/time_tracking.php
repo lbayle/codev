@@ -515,6 +515,22 @@ class TimeTrackingController extends Controller {
          }
       }
 
+      // $issues is sorted, but we want the 5 most recent used issues to be in front
+      if (0 != $userid) {
+         $user = UserCache::getInstance()->getUser($userid);
+         $recentBugidList = $user->getRecentlyUsedIssues(5, array_keys($issues));
+         #var_dump($recentBugidList);
+         $smartyRecentList = array();
+         foreach ($recentBugidList as $bugid) {
+            if (array_key_exists("$bugid", $issues)) {
+               $smartyRecentList["$bugid"] = $issues["$bugid"];
+               unset($issues["$bugid"]);
+            }
+         }
+         // insert in front
+         $issues = $smartyRecentList + $issues;
+      }
+
       return $issues;
    }
 
