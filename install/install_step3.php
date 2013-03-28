@@ -94,13 +94,13 @@ function updateMantisCustomFiles() {
    $mantisPath = Constants::$mantisPath;
 
    // write constants
-   $myFile = "$mantisPath/custom_constant_inc.php";
+   $myFile = "$mantisPath/custom_constants_inc.php";
    $fh = fopen($myFile, 'a');
    if (FALSE != $fh) {
-      $content = file_get_contents(Install::FILENAME_CUSTOM_CONSTANT_CODEVTT, true);
+      $content = file_get_contents(Install::FILENAME_CUSTOM_CONSTANTS_CODEVTT, true);
       if (FALSE == $content) {
-         echo "ERROR: Could not read file: " . Install::FILENAME_CUSTOM_CONSTANT_CODEVTT . "</br>";
-         $logger->error("Could not read file in append mode: " . Install::FILENAME_CUSTOM_CONSTANT_CODEVTT);
+         echo "ERROR: Could not read file: " . Install::FILENAME_CUSTOM_CONSTANTS_CODEVTT . "</br>";
+         $logger->error("Could not read file in append mode: " . Install::FILENAME_CUSTOM_CONSTANTS_CODEVTT);
       } else {
          fwrite($fh, $content);
       }
@@ -116,8 +116,8 @@ function updateMantisCustomFiles() {
    if (FALSE != $fh) {
       $content = file_get_contents(Install::FILENAME_CUSTOM_STRINGS_CODEVTT, true);
       if (FALSE == $content) {
-         echo "ERROR: Could not read file: " . Install::FILENAME_CUSTOM_CONSTANT_CODEVTT . "</br>";
-         $logger->error("Could not read file in append mode: " . Install::FILENAME_CUSTOM_CONSTANT_CODEVTT);
+         echo "ERROR: Could not read file: " . Install::FILENAME_CUSTOM_STRINGS_CODEVTT . "</br>";
+         $logger->error("Could not read file in append mode: " . Install::FILENAME_CUSTOM_STRINGS_CODEVTT);
       } else {
          fwrite($fh, $content);
       }
@@ -133,8 +133,8 @@ function updateMantisCustomFiles() {
    if (FALSE != $fh) {
       $content = file_get_contents(Install::FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT, true);
       if (FALSE == $content) {
-         echo "ERROR: Could not read file: " . Install::FILENAME_CUSTOM_CONSTANT_CODEVTT . "</br>";
-         $logger->error("Could not read file in append mode: " . Install::FILENAME_CUSTOM_CONSTANT_CODEVTT);
+         echo "ERROR: Could not read file: " . Install::FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT . "</br>";
+         $logger->error("Could not read file in append mode: " . Install::FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT);
       } else {
          fwrite($fh, $content);
       }
