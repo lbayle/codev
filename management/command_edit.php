@@ -333,7 +333,7 @@ class CommandEditController extends Controller {
             "project" => $issue->getProjectName(),
             "target" => $issue->getTargetVersion(),
             "status" => $issue->getCurrentStatusName(),
-            "summary" => $issue->getSummary()
+            "summary" => htmlspecialchars($issue->getSummary())
          );
       }
 
