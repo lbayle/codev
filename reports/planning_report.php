@@ -157,8 +157,7 @@ class PlanningReportController extends Controller {
                      }
                      continue;
                   }
-
-                  if (NULL != ($user->getDepartureDate()) && ($user->getDepartureDate() < $today)) { continue; }
+                  if ((NULL != $user->getDepartureDate($this->teamid)) && ($user->getDepartureDate($this->teamid) < $today)) { continue; }
 
                   $scheduledTaskList = ScheduledTask::scheduleUser($user, $today, TRUE);
 
