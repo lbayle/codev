@@ -245,6 +245,17 @@ class GanttManager {
 
       // get all issues
       foreach($users as $user) {
+
+         // do not include users that have left the team
+         if ((NULL != $user->getDepartureDate($this->teamid)) &&
+             ($user->getDepartureDate($this->teamid) < $this->startTimestamp)) {
+
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("getCurrentIssues(): skip user ".$user->getId().", he left the team on ".date('Y-m-d', $user->getDepartureDate($this->teamid)).")");
+               }
+               continue;
+            }
+
          // do not take observer's tasks
          if (($user->isTeamDeveloper($this->teamid)) ||
             ($user->isTeamManager($this->teamid))) {
