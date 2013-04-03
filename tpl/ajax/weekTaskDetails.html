@@ -64,6 +64,15 @@
          }
       });
 
+
+      // click on the Backlog will rase the updateBacklog dialogbox
+      {foreach from=$weekTasks key=id item=i}
+      jQuery("#linkUpdateBacklog_{$i.bugid}").click(function() {
+         updateBacklog2('{$i.updateBacklogJsonData}', '{$i.updateBacklogSummary|escape_all_quotes}');
+         return false;
+      });
+      {/foreach}
+
    });
 </script>
 <table id="weekTaskDetails" style="width:100%;">
@@ -86,23 +95,11 @@
       <tr id="weekTasks-{$i.bugid}">
          <td>{$i.description}</td>
          <td style="width:38px;">
-            <img title='Add note: coming soon...' align='absmiddle' src='images/b_note_grey.png' />
+            <img title='Add note: comming soon...' align='absmiddle' src='images/b_note_grey.png' />
             {$i.infoTooltip}
          </td>
-         <td><a title="{t}update backlog{/t}" onclick="updateBacklog('{$i.backlog}',
-               '{$i.summary}',
-               '{$i.bugid}',
-               '{$i.effortEstim}',
-               '{$i.mgrEffortEstim}',
-               '{$i.elapsed}',
-               '{$i.drift}',
-               '{$i.driftMgr}',
-               '{$i.reestimated}',
-               '{$i.driftColor}',
-               '{$i.deadline}',
-               '{t}Task{/t} {$i.dialogBoxTitle} - {t}Update Backlog{/t}'
-            );return false;" href="#">{$i.formattedBacklog}</a>
-         </td>
+         <td><a id="linkUpdateBacklog_{$i.bugid}" title="{t}update backlog{/t}" href="#">{$i.formattedBacklog}</a></td>
+         
          <td class="job-{$i.jobid}">{$i.jobName}</td>
          {foreach from=$i.dayTasks key=day item=j}
          <td {if $j.title}title="{$j.title}"{/if} class="dayTask hover" style="{if $j.bgColor}background-color: #{$j.bgColor};{/if}" >{if $j.day != 0}{$j.day}{/if}</td>

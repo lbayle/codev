@@ -134,25 +134,41 @@ class TimeTrackingTools {
             }
 
 
+            // prepare json data for the BacklogDialogbox
+            $drift = $issue->getDrift();
+            $issueInfo = array(
+               'backlog' => $backlog,
+               'bugid' => $issue->getId(),
+               #'summary' => addslashes(htmlspecialchars($summary)),
+               'dialogBoxTitle' => $issue->getFormattedIds(),
+               'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),
+               'mgrEffortEstim' => $issue->getMgrEffortEstim(),
+               'elapsed' => $issue->getElapsed(),
+               'drift' => $drift,
+               'driftMgr' => $issue->getDriftMgr(),
+               'reestimated' => $issue->getReestimated(),
+               'driftColor' => $issue->getDriftColor($drift),
+               'currentStatus' => $issue->getCurrentStatus(),
+               'availableStatusList' => $issue->getAvailableStatusList(true)
+            );
+            if (isset($formatedDate)) {
+               $issueInfo['deadline'] = $formatedDate;
+            }
+            $jsonIssueInfo = json_encode($issueInfo);
+
+
+
             $weekTasks[$bugid."_".$jobid] = array(
                'bugid' => $bugid,
                'description' => $description,
-               'backlog' => $backlog,
-               'summary' => addslashes(htmlspecialchars($summary)),
                'formattedBacklog' => $formattedBacklog,
                'jobid' => $jobid,
                'jobName' => $jobs->getJobName($jobid),
                'dayTasks' => $dayTasks,
-               'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),
-               'mgrEffortEstim' => $issue->getMgrEffortEstim(),
-               'elapsed' => $issue->getElapsed(),
-               'drift' => $issue->getDrift(),
-               'driftMgr' => $issue->getDriftMgr(),
-               'reestimated' => $issue->getReestimated(),
-               'driftColor' => $issue->getDriftColor(),
-               'deadline' => $formatedDate,
-               'dialogBoxTitle' => $issue->getFormattedIds(),
-               'infoTooltip' => $infoTooltip
+               'infoTooltip' => $infoTooltip,
+               'summary' => addslashes(htmlspecialchars($summary)),
+               'updateBacklogJsonData' => $jsonIssueInfo,
+               'updateBacklogSummary' => $issue->getSummary()
             );
          }
       }
