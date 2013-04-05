@@ -113,7 +113,11 @@ class TimeTrackingTools {
 
                $totalElapsed[$weekDates[$i]]['elapsed'] += $day;
             }
-            $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $issue->getDeadLine());
+
+            $deadline = $issue->getDeadLine();
+            if (!is_null($deadline) || (0 != $deadline)) {
+               $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $deadline);
+            }
 
             $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
 
