@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.20</span>
+   &#160;<span id="projectnumber">0.99.21</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -165,6 +165,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a8ae74b56f4a8948120779618accff074">getDefaultLanguage</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#ae2fc3f28643dff3faace108c9f9ea9eb">setProjectAccessLevel</a> ($project_id, $access_level)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a39ad6e655fcc40623b9af2203cd7afa5">getId</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a6aa55a33afd4a1a97b5355ae997dc9f3">getRecentlyUsedIssues</a> ($limit=5, $bugidList=NULL)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a3ca3fa0284bfd9e4dbeb0b7811054f7a">staticInit</a> ()</td></tr>
@@ -843,6 +844,41 @@ Static Public Member Functions</h2></td></tr>
 <div class="memdoc">
 <p>Get the real name </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string The real name </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a6aa55a33afd4a1a97b5355ae997dc9f3"></a><!-- doxytag: member="User::getRecentlyUsedIssues" ref="a6aa55a33afd4a1a97b5355ae997dc9f3" args="($limit=5, $bugidList=NULL)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">User::getRecentlyUsedIssues </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>limit</em> = <code>5</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>bugidList</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the $limit most recently used issues</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">type</td><td class="paramname">$limit</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array[$bugid] </dd></dl>
 
 </div>
 </div>
@@ -1585,7 +1621,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
+    <li class="footer">Generated on Fri Apr 5 2013 20:36:02 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

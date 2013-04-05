@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.20</span>
+   &#160;<span id="projectnumber">0.99.21</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -161,6 +161,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a7b6b2bc92c5e6a0a2f77246842840b15">isNoStatsProject</a> (array $teamidList=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a65b0f57c002bdd526d548bdf89780511">isExternalTasksProject</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a1b933cf1f40a7b178b5a384c7fd1eed9">getWorkflowTransitions</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a34fbd934b50c23254c00961074fb8ec5">getWorkflowTransitionsFormatted</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a565f69c5007dc59e80d5087af7f1195b">getProjectConfig</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a1c848dc4a2b5b684f178413adf7f1df5">getVersionList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ad6baa49193fbc5cf0d7131cac401e038">getVersionDate</a> ($target_version)</td></tr>
@@ -962,6 +963,25 @@ Static Public Attributes</h2></td></tr>
 <div class="memdoc">
 <p>get Workflow transitions from Mantis DB</p>
 <p>mantis_config_table - config_id='status_enum_workflow' </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array[] of serialized status list </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a34fbd934b50c23254c00961074fb8ec5"></a><!-- doxytag: member="Project::getWorkflowTransitionsFormatted" ref="a34fbd934b50c23254c00961074fb8ec5" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Project::getWorkflowTransitionsFormatted </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get Workflow transitions from Mantis DB</p>
+<p>mantis_config_table - config_id='status_enum_workflow' </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>array[] </dd></dl>
 
 </div>
@@ -1265,7 +1285,7 @@ Static Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
+    <li class="footer">Generated on Fri Apr 5 2013 20:36:02 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

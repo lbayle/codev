@@ -1,0 +1,14 @@
+
+<VirtualHost *:443>
+  ServerName codevtt.si.fr.atos.net
+
+  SSLEngine on
+  SSLCertificateFile /etc/pki/tls/certs/ca.crt
+  SSLCertificateKeyFile /etc/pki/tls/private/ca.key
+
+  DocumentRoot "/var/www/html/prjmngt/"
+
+  ErrorLog logs/prjmngt.error.log
+  CustomLog logs/prjmngt.access.log common
+</VirtualHost>
+

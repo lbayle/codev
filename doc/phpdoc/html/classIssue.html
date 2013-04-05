@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.20</span>
+   &#160;<span id="projectnumber">0.99.21</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -221,6 +221,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a58ec1b286bad3f484ab924f41760b010">getFormattedIds</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a5426adefc4910aa21cae53d588060b58">getTooltipItems</a> ($teamid=0, $userid=0, $isManager=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#ac4b2651149b0b118884b2681f19bf0e3">getBacklogHistory</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#aec060f16d829b449964e58c862d98b2f">getAvailableStatusList</a> ($includeCurrentStatus=false)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a9258b45dea2d9a4def09aea0db5292b4">setStatus</a> ($newStatusId)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a443cb38ca456d9cb03a13ad4ee7bb976">staticInit</a> ()</td></tr>
@@ -444,6 +446,24 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>bool TRUE if issue exists in Mantis DB </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aec060f16d829b449964e58c862d98b2f"></a><!-- doxytag: member="Issue::getAvailableStatusList" ref="aec060f16d829b449964e58c862d98b2f" args="($includeCurrentStatus=false)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getAvailableStatusList </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>includeCurrentStatus</em> = <code>false</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>depending on project's WorkflowTransistions and current status, return a list of allowed status. </p>
 
 </div>
 </div>
@@ -1686,6 +1706,31 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a9258b45dea2d9a4def09aea0db5292b4"></a><!-- doxytag: member="Issue::setStatus" ref="a9258b45dea2d9a4def09aea0db5292b4" args="($newStatusId)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::setStatus </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>newStatusId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Update current status</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">type</td><td class="paramname">$newStatusId</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>boolean true if status updated (or unchanged) </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a90991ad6eacb3f4cd01cc772417814dc"></a><!-- doxytag: member="Issue::setTargetVersion" ref="a90991ad6eacb3f4cd01cc772417814dc" args="($value)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1790,7 +1835,7 @@ Protected Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Fri Jan 25 2013 23:43:42 for CodevTT by
+    <li class="footer">Generated on Fri Apr 5 2013 20:36:02 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>
