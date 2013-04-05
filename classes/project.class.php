@@ -1024,6 +1024,9 @@ class Project extends Model {
     * get Workflow transitions from Mantis DB
     *
     * mantis_config_table - config_id='status_enum_workflow'
+    *
+    * NOTE: on a fresh mantis install, status_enum_workflow does not exist in the DB !
+    *
     * @return array[] of serialized status list
     */
    function getWorkflowTransitions() {
@@ -1040,9 +1043,7 @@ class Project extends Model {
          exit;
       }
       if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("No workflow defined for project $this->id");
-         }
+         self::$logger->error("No default project workflow defined in mantis DB");
          return NULL;
       }
       $row = SqlWrapper::getInstance()->sql_fetch_object($result);

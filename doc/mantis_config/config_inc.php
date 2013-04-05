@@ -6,7 +6,7 @@ $g_db_username = 'mantis';
 $g_db_password = 'secret';
 
 # --- Branding ---
-$g_window_title      = 'CodevTT';
+$g_window_title      = 'Mantis with CodevTT';
 $g_logo_image        = 'images/mantis_logo.gif';
 $g_favicon_image     = 'images/favicon.ico';
 $g_default_home_page = 'my_view_page.php';	# Set to name of page to go to after login
@@ -18,8 +18,9 @@ $g_show_project_menu_bar = OFF;
 $g_time_tracking_enabled = OFF;
 
 # --- customize workflow ---
-# see also custom_constant_inc.php and custom_strings_inc.php
+# see also custom_constants_inc.php and custom_strings_inc.php
 $g_status_enum_string = '10:new,20:feedback,30:acknowledged,40:analyzed,50:open,80:resolved,82:validated,85:delivered,90:closed';
+$g_bug_assigned_status = 10;
 
 $g_status_colors['analyzed']  = '#fff494';
 $g_status_colors['open']   = '#c2dfff';
