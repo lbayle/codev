@@ -2483,6 +2483,11 @@ class Issue extends Model implements Comparable {
             return false;
          }
 
+         // if status changed to 'resolved' then set Backlog = 0
+         if ($newStatusId == $this->getBugResolvedStatusThreshold()) {
+            $this->setBacklog(0);
+         }
+
          // Add to history
          $now = time();
          $query = "INSERT INTO `mantis_bug_history_table`  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
