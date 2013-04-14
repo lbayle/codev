@@ -395,6 +395,51 @@
       </div>
 
       <div id="tabPreferences">
+         <h2>{t}General{/t}</h2>
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               jQuery("#btSetGeneralPrefs").click(function() {
+                  // check fields
+
+                  var form = jQuery("#generalPrefsForm");
+
+                  // TODO get selected checkItems
+                  var checkItems = "";
+                  jQuery(".generalPrefsItem").each(function() {
+                     var itemName = jQuery(this).attr("name");
+                     var isChecked = jQuery(this).attr('checked') ? 1 : 0;
+                     checkItems += itemName+":"+isChecked+",";
+                  });
+                  //alert("checkItems "+checkItems);
+                  form.find("input[name=checkItems]").val(checkItems)
+                  form.submit();
+               });
+            });
+         </script>
+
+         <form id="generalPrefsForm" name="generalPrefsForm" method="post" action="{$page}" class="formWithTabsHistory">
+            <fieldset>
+
+
+               <table class="invisible">
+               {foreach from=$teamGeneralPrefs key=id item=i}
+                  <tr>
+                     <td><input type="checkbox" id="{$i.name}" name="{$i.name}" class="generalPrefsItem" {if $i.isChecked}checked="checked"{/if} {if $i.isDisabled}disabled="disabled"{/if} />{$i.label}</td>
+                  </tr>
+               {/foreach}
+                  <tr>
+                     <td><input type="button" id="btSetGeneralPrefs" value="{t}Update{/t}"></td>
+                  </tr>
+               </table>
+
+               <input type="hidden" name="action" value="setGeneralPrefs">
+               <input type="hidden" name="checkItems" value="">
+               <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
+            </fieldset>
+         </form>
+
+
+         
          <h2>{t}Issue Tooltips{/t}</h2>
          <!-- Display issue tooltip settings -->
          <div style="margin-top: 2em;">

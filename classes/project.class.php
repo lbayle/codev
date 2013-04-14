@@ -830,9 +830,10 @@ class Project extends Model {
     * returns issues list
     * @param int $handler_id (if 0, all users)
     * @param bool $isHideResolved
+    * @param int $hideStatusAndAbove if 0:hide none
     * @return Issue[] : array[]
     */
-   public function getIssues($handler_id = 0, $isHideResolved = FALSE) {
+   public function getIssues($handler_id = 0, $isHideResolved = FALSE, $hideStatusAndAbove = 0) {
       if (NULL == $this->bugidListsCache) { $this->bugidListsCache = array(); }
 
       $key = ($isHideResolved) ? $handler_id.'_true' : $handler_id.'_false';
@@ -847,6 +848,9 @@ class Project extends Model {
          }
          if ($isHideResolved) {
             $query  .= "AND status < get_project_resolved_status_threshold(project_id) ";
+         }
+         if (0 != $hideStatusAndAbove) {
+            $query  .= "AND status < $hideStatusAndAbove ";
          }
 
          $query  .= "ORDER BY id DESC";

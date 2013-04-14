@@ -306,6 +306,7 @@ class TimeTrackingController extends Controller {
                   $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
                }
 
+               $this->smartyHelper->assign('isForbidAddTimetracksOnClosed', (1 == $team->getGeneralPreference('forbidAddTimetracksOnClosed')) ? true : false);
             }
          }
       }
@@ -438,27 +439,34 @@ class TimeTrackingController extends Controller {
     * @return mixed[]
     */
    private function getIssues($projectid, $isOnlyAssignedTo, $userid, array $projList, $isHideResolved, $defaultBugid) {
+
+      $team = TeamCache::getInstance()->getTeam($this->teamid);
+      $hideStatusAndAbove = (1 == $team->getGeneralPreference('forbidAddTimetracksOnClosed')) ? Constants::$status_closed : 0;
+
       if (0 != $projectid) {
          // Project list
          $project1 = ProjectCache::getInstance()->getProject($projectid);
 
-         // do not filter on userId if SideTask or ExternalTask
          try {
-            if (($isOnlyAssignedTo) &&
-               (!$project1->isSideTasksProject(array($this->teamid))) &&
-               (!$project1->isNoStatsProject(array($this->teamid)))) {
-               $handler_id = $userid;
-            } else {
+            $isSideTasksProject = $project1->isSideTasksProject(array($this->teamid));
+            $isNoStatsProject   = $project1->isNoStatsProject(array($this->teamid));
+
+            // do not filter on userId if SideTask or ExternalTask
+            if (($isSideTasksProject) || ($isNoStatsProject)) {
                $handler_id = 0; // all users
+               $hideStatusAndAbove = 0; // hide none
                $isHideResolved = false; // do not hide resolved
+            } else {
+               // normal project
+               $handler_id = $isOnlyAssignedTo ? $userid : 0;
             }
+
          } catch (Exception $e) {
             self::$logger->error("getIssues(): isOnlyAssignedTo & isHideResolved filters not applied : ".$e->getMessage());
             $handler_id = 0; // all users
             $isHideResolved = false; // do not hide resolved
          }
-
-         $issueList = $project1->getIssues($handler_id, $isHideResolved);
+         $issueList = $project1->getIssues($handler_id, $isHideResolved, $hideStatusAndAbove);
       } else {
          // no project specified: show all tasks
          $issueList = array();
@@ -469,17 +477,17 @@ class TimeTrackingController extends Controller {
                if (($proj->isSideTasksProject(array($this->teamid))) ||
                   ($proj->isNoStatsProject(array($this->teamid)))) {
                   // do not hide any task for SideTasks & ExternalTasks projects
-                  $buglist = $proj->getIssues(0, false);
+                  $buglist = $proj->getIssues(0, false, 0);
                   $issueList = array_merge($issueList, $buglist);
                } else {
                   $handler_id = $isOnlyAssignedTo ? $userid : 0;
-                  $buglist = $proj->getIssues($handler_id, $isHideResolved);
+                  $buglist = $proj->getIssues($handler_id, $isHideResolved, $hideStatusAndAbove);
                   $issueList = array_merge($issueList, $buglist);
                }
             } catch (Exception $e) {
                self::$logger->error("getIssues(): task filters not applied for project $pid : ".$e->getMessage());
                // do not hide any task if unknown project type
-               $buglist = $proj->getIssues(0, false);
+               $buglist = $proj->getIssues(0, false, 0);
                $issueList = array_merge($issueList, $buglist);
 
             }

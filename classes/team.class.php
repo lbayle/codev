@@ -23,12 +23,24 @@ class Team extends Model {
     */
    private static $logger;
 
+   public static $defaultGeneralPrefsList;
+   public static $generalPrefsDescriptionList;
+   
    /**
     * Initialize complex static variables
     * @static
     */
    public static function staticInit() {
       self::$logger = Logger::getLogger(__CLASS__);
+
+      self::$defaultGeneralPrefsList = array(
+          'forbidAddTimetracksOnClosed' => 1,
+         );
+
+      self::$generalPrefsDescriptionList = array(
+          'forbidAddTimetracksOnClosed' => T_('Forbid adding timetracks on closed issues'),
+         );
+
    }
 
    // ---
@@ -1152,6 +1164,75 @@ class Team extends Model {
       Config::setValue(Config::id_consistencyCheckList, $keyvalue, Config::configType_keyValue, NULL, 0, 0, $this->id);
    }
 
+
+   /**
+    *
+    * @return array ('checkName' => [0,1] isEnabled)
+    */
+   public function getGeneralPrefsList() {
+
+      if (empty($this->generalPrefsList)) {
+
+         // TODO Config class cannot handle multiple lines for same id
+         $query = "SELECT value FROM `codev_config_table` " .
+                  "WHERE config_id = '" . Config::id_teamGeneralPreferences . "' " .
+                  "AND user_id = '0' ".
+                  "AND team_id = $this->id";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         // get default checkList if not found
+         $this->generalPrefsList = Team::$defaultGeneralPrefsList;
+
+         // update with team specific items
+         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+
+            $keyvalue =  SqlWrapper::getInstance()->sql_result($result, 0);
+            $checkList = Tools::doubleExplode(':', ',', $keyvalue);
+
+            foreach ($checkList as $name => $enabled) {
+
+               if (!array_key_exists($name, $this->generalPrefsList)) {
+                  self::$logger->warn("team $this->id: remove unknown/deprecated generalPref: $name");
+               } else {
+                  $this->generalPrefsList["$name"] = $enabled;
+               }
+            }
+         }
+      }
+
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("team $this->id generalPrefsList = ". Tools::doubleImplode(':', ',',  $this->generalPrefsList));
+      }
+
+      return $this->generalPrefsList;
+
+   }
+
+   public function getGeneralPreference($prefKey) {
+      $prefs = $this->getGeneralPrefsList();
+      return $prefs["$prefKey"];
+   }
+
+   /**
+    * @param array $checkList ('checkName' => [0,1] isEnabled)
+    */
+   function setGeneralPrefsList(array $checkList) {
+
+      $this->generalPrefsList = $checkList;
+
+      $keyvalue = Tools::doubleImplode(':', ',', $this->generalPrefsList);
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("Write team $this->id generalPrefsList : $keyvalue");
+      }
+
+      // save new settings
+      Config::setValue(Config::id_teamGeneralPreferences, $keyvalue, Config::configType_keyValue, NULL, 0, 0, $this->id);
+   }
 
 }
 

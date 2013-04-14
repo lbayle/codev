@@ -147,6 +147,11 @@ class EditTeamController extends Controller {
                   $checkList = Tools::doubleExplode(':', ',', $keyvalue);
                   $team->setConsistencyCheckList($checkList);
 
+               } elseif ($action == 'setGeneralPrefs') {
+                  $keyvalue = Tools::getSecurePOSTStringValue('checkItems');
+                  $checkList = Tools::doubleExplode(':', ',', $keyvalue);
+                  $team->setGeneralPrefsList($checkList);
+
                } elseif (isset($_POST["deletememberid"])) {
                   $memberid = Tools::getSecurePOSTIntValue('deletememberid');
                   $query = "DELETE FROM `codev_team_user_table` WHERE id = $memberid;";
@@ -214,6 +219,9 @@ class EditTeamController extends Controller {
 
                $consistencyChecks = $this->getConsistencyChecks($team);
                $this->smartyHelper->assign('consistencyChecks', $consistencyChecks);
+
+               $teamGeneralPrefs = $this->getTeamGeneralPrefs($team);
+               $this->smartyHelper->assign('teamGeneralPrefs', $teamGeneralPrefs);
             }
          }
       }
@@ -438,6 +446,23 @@ class EditTeamController extends Controller {
       return $consistencyChecks;
    }
 
+   private function getTeamGeneralPrefs(Team $team) {
+
+      // get
+      $checkList = $team->getGeneralPrefsList();
+
+      $generalPrefs = array();
+      foreach ($checkList as $name => $enabled) {
+
+         $generalPrefs["$name"] = array(
+             'name'       => $name,
+             'label'      => Team::$generalPrefsDescriptionList["$name"],
+             'isChecked'  => $enabled,
+             'isDisabled' => false
+         );
+      }
+      return $generalPrefs;
+   }
 }
 
 // ========== MAIN ===========

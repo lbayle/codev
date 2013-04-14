@@ -174,6 +174,10 @@
                <br />
                <input type="checkbox" id="cb_hideResolved" name="cb_hideResolved" {if $isHideResolved} checked="checked" {/if}/>
                <label for="cb_hideResolved">{t}Hide resolved tasks{/t}</label>
+               <br />
+               <input type="checkbox" {if $isForbidAddTimetracksOnClosed} checked="checked" {/if} disabled="disabled"/>
+               <label style="color:gray;">{t}Hide closed tasks{/t}</label>
+
                {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />{/if}
                <input type="hidden" name="projectid" value="{$defaultProjectid}" />
                <input type="hidden" name="bugid" value="{$defaultBugid}" />

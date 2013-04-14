@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-05 21:40+0200\n"
+"POT-Creation-Date: 2013-04-14 23:40+0200\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -1665,6 +1665,10 @@ msgid "Hide resolved tasks"
 msgstr "Cacher les taches résolues"
 
 #: tpl/time_tracking.html
+msgid "Hide closed tasks"
+msgstr "Cacher les taches fermées"
+
+#: tpl/time_tracking.html
 msgid "Week Imputations"
 msgstr "Imputations de la semaine"
 
@@ -3179,27 +3183,27 @@ msgstr "La mise à jour de la date de création a échouée"
 msgid "Couldn't enable/disable team"
 msgstr "Impossible d'activer/désactiver l'équipe"
 
-#: admin/edit_team.php:155
+#: admin/edit_team.php:160
 msgid "Couldn't delete the member of the team"
 msgstr "Le retrait de l'utilisateur à échouée"
 
-#: admin/edit_team.php:169 admin/edit_team.php:172
+#: admin/edit_team.php:174 admin/edit_team.php:177
 msgid "Couldn't add the project to the team"
 msgstr "L'ajout du projet a échouée"
 
-#: admin/edit_team.php:178
+#: admin/edit_team.php:183
 msgid "Could NOT remove the project from the team"
 msgstr "Le retrait du projet a échoué"
 
-#: admin/edit_team.php:213
+#: admin/edit_team.php:218
 msgid "Configure Tooltips"
 msgstr "Configuration des infobulles"
 
-#: admin/edit_team.php:275
+#: admin/edit_team.php:283
 msgid "enabled"
 msgstr "activé"
 
-#: admin/edit_team.php:275
+#: admin/edit_team.php:283
 msgid "disabled"
 msgstr "désactivé"
 
@@ -3384,6 +3388,10 @@ msgstr "non défini."
 #: classes/scheduler.class.php:81 reports/planning_report.php:182
 msgid "monitored"
 msgstr "suivie"
+
+#: classes/team.class.php:41
+msgid "Forbid adding timetracks on closed issues"
+msgstr "Interdire les imputations sur les tâches fermées"
 
 #: classes/blog_manager.class.php:50
 msgid "Acknowledged"
@@ -3881,11 +3889,11 @@ msgid "Sorry, there are no projects defined for your team."
 msgstr "Désolé, il n'y a pas de projets définis pour cette équipe."
 
 #: timetracking/team_activity_report.php:128
-#: timetracking/time_tracking.php:397 timetracking/time_tracking_tools.php:69
+#: timetracking/time_tracking.php:398 timetracking/time_tracking_tools.php:69
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Erreur : Tâche introuvable dans la BDD Mantis !"
 
-#: timetracking/time_tracking.php:132 timetracking/time_tracking_tools.php:116
+#: timetracking/time_tracking.php:132 timetracking/time_tracking_tools.php:119
 msgid "%Y-%m-%d"
 msgstr "%d-%m-%Y"
 
