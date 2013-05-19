@@ -374,7 +374,7 @@ class ProjectInfoController extends Controller {
 
 // ========== MAIN ===========
 ProjectInfoController::staticInit();
-$controller = new ProjectInfoController('Project Info','ProjectInfo');
+$controller = new ProjectInfoController('../', 'Project Info','ProjectInfo');
 $controller->execute();
 
 ?>

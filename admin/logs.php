@@ -69,7 +69,7 @@ class LogsController extends Controller {
 
 // ========== MAIN ===========
 LogsController::staticInit();
-$controller = new LogsController('CodevTT Logs','Admin');
+$controller = new LogsController('../', 'CodevTT Logs','Admin');
 $controller->execute();
 
 ?>

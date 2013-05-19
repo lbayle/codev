@@ -444,7 +444,7 @@ class ProductivityReportsController extends Controller {
 
 // ========== MAIN ===========
 ProductivityReportsController::staticInit();
-$controller = new ProductivityReportsController('Period Statistics','ProdReports');
+$controller = new ProductivityReportsController('../', 'Period Statistics','ProdReports');
 $controller->execute();
 
 ?>

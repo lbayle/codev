@@ -31,8 +31,12 @@ abstract class Controller {
    protected $teamList;
 
 
-   public function __construct($title, $menu = NULL) {
+   public function __construct($rootWebSite, $title, $menu = NULL) {
       $this->smartyHelper = new SmartyHelper();
+      
+      // relative path ("./" or "../")
+      $this->smartyHelper->assign('rootWebSite', $rootWebSite);
+      
       $this->smartyHelper->assign('pageName', T_($title));
       if(NULL != $menu) {
          $this->smartyHelper->assign('activeGlobalMenuItem', $menu);

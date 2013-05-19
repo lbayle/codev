@@ -279,7 +279,7 @@ class TeamActivityReportController extends Controller {
 
 // ========== MAIN ===========
 TeamActivityReportController::staticInit();
-$controller = new TeamActivityReportController('Weekly activities','TimeTracking');
+$controller = new TeamActivityReportController('../', 'Weekly activities','TimeTracking');
 $controller->execute();
 
 ?>

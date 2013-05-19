@@ -185,7 +185,7 @@ class CommandInfoController extends Controller {
 
 // ========== MAIN ===========
 CommandInfoController::staticInit();
-$controller = new CommandInfoController('Command','Management');
+$controller = new CommandInfoController('../', 'Command','Management');
 $controller->execute();
 
 ?>

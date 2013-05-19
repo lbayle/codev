@@ -124,7 +124,7 @@ class CreateTeamController extends Controller {
 
 // ========== MAIN ===========
 CreateTeamController::staticInit();
-$controller = new CreateTeamController('CoDev Administration : Team Creation','Admin');
+$controller = new CreateTeamController('../', 'CodevTT Administration : Team Creation','Admin');
 $controller->execute();
 
 ?>

@@ -193,7 +193,7 @@ class EditJobsController extends Controller {
 
 // ========== MAIN ===========
 EditJobsController::staticInit();
-$controller = new EditJobsController('CoDev Administration : Jobs Edition','Admin');
+$controller = new EditJobsController('../', 'CodevTT Administration : Jobs Edition','Admin');
 $controller->execute();
 
 ?>

@@ -73,7 +73,7 @@ class GanttReportController extends Controller {
 
 // ========== MAIN ===========
 GanttReportController::staticInit();
-$controller = new GanttReportController('Gantt Chart','Gantt');
+$controller = new GanttReportController('../', 'Gantt Chart','Gantt');
 $controller->execute();
 
 ?>

@@ -168,7 +168,7 @@ class TeamMonthlyActivityReportController extends Controller {
 
 // ========== MAIN ===========
 TeamMonthlyActivityReportController::staticInit();
-$controller = new TeamMonthlyActivityReportController('Team Monthly Activity');
+$controller = new TeamMonthlyActivityReportController('../', 'Team Monthly Activity');
 $controller->execute();
 
 ?>

@@ -277,7 +277,7 @@ class ServiceContractEditController extends Controller {
 
 // ========== MAIN ===========
 ServiceContractEditController::staticInit();
-$controller = new ServiceContractEditController('ServiceContract (edit)','Management');
+$controller = new ServiceContractEditController('../', 'ServiceContract (edit)','Management');
 $controller->execute();
 
 ?>

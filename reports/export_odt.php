@@ -421,6 +421,6 @@ class ExportODTController extends Controller {
 
 // ========== MAIN ===========
 ExportODTController::staticInit();
-$controller = new ExportODTController('Export Issues to ODT', 'ImportExport');
+$controller = new ExportODTController('../', 'Export Issues to ODT', 'ImportExport');
 $controller->execute();
 ?>

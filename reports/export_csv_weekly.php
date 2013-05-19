@@ -262,7 +262,7 @@ class ExportCSVWeeklyController extends Controller {
 
 // ========== MAIN ===========
 ExportCSVWeeklyController::staticInit();
-$controller = new ExportCSVWeeklyController('CSV Report','ImportExport');
+$controller = new ExportCSVWeeklyController('../', 'CSV Report','ImportExport');
 $controller->execute();
 
 ?>

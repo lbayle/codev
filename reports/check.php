@@ -118,7 +118,7 @@ class CheckController extends Controller {
 
 // ========== MAIN ===========
 CheckController::staticInit();
-$controller = new CheckController('Consistency Check','ConsistencyCheck');
+$controller = new CheckController('../', 'Consistency Check','ConsistencyCheck');
 $controller->execute();
 
 ?>

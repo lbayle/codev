@@ -61,7 +61,7 @@ class EditHolidaysController extends Controller {
 
 // ========== MAIN ===========
 EditHolidaysController::staticInit();
-$controller = new EditHolidaysController('CoDev Administration : Holidays','Admin');
+$controller = new EditHolidaysController('../', 'CodevTT Administration : Holidays','Admin');
 $controller->execute();
 
 ?>

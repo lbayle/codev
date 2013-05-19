@@ -101,7 +101,7 @@ class PrepareProjectController extends Controller {
 
 // ========== MAIN ===========
 PrepareProjectController::staticInit();
-$controller = new PrepareProjectController('CoDev Administration : Prepare Projects','Admin');
+$controller = new PrepareProjectController('../', 'CodevTT Administration : Prepare Projects','Admin');
 $controller->execute();
 
 ?>

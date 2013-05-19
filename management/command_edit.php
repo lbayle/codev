@@ -343,7 +343,7 @@ class CommandEditController extends Controller {
 
 // ========== MAIN ===========
 CommandEditController::staticInit();
-$controller = new CommandEditController('Command (edition)', 'Management');
+$controller = new CommandEditController('../', 'Command (edition)', 'Management');
 $controller->execute();
 
 ?>

@@ -595,7 +595,7 @@ class TimeTrackingController extends Controller {
 
 // ========== MAIN ===========
 TimeTrackingController::staticInit();
-$controller = new TimeTrackingController('Time Tracking','TimeTracking');
+$controller = new TimeTrackingController('../', 'Time Tracking','TimeTracking');
 $controller->execute();
 
 ?>

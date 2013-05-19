@@ -160,7 +160,7 @@ class CommandSetInfoController extends Controller {
 
 // ========== MAIN ===========
 CommandSetInfoController::staticInit();
-$controller = new CommandSetInfoController('CommandSet','Management');
+$controller = new CommandSetInfoController('../', 'CommandSet','Management');
 $controller->execute();
 
 ?>

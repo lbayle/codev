@@ -214,7 +214,7 @@ class CommandSetEditController extends Controller {
 
 // ========== MAIN ===========
 CommandSetEditController::staticInit();
-$controller = new CommandSetEditController('CommandSet (edit)','Management');
+$controller = new CommandSetEditController('../', 'CommandSet (edit)','Management');
 $controller->execute();
 
 ?>

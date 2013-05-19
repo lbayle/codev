@@ -210,7 +210,7 @@ class SetHolidaysController extends Controller {
 
 // ========== MAIN ===========
 SetHolidaysController::staticInit();
-$controller = new SetHolidaysController('Add Holidays','Holiday');
+$controller = new SetHolidaysController('../', 'Add Holidays','Holiday');
 $controller->execute();
 
 ?>

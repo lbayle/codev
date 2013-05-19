@@ -78,7 +78,7 @@ class MantisReports extends Controller {
 
 // ========== MAIN ===========
 MantisReports::staticInit();
-$controller = new MantisReports('Suivi des fiches Mantis');
+$controller = new MantisReports('../', 'Suivi des fiches Mantis');
 $controller->execute();
 
 ?>

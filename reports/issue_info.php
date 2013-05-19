@@ -412,7 +412,7 @@ class IssueInfoController extends Controller {
 
 // ========== MAIN ===========
 IssueInfoController::staticInit();
-$controller = new IssueInfoController('Task Info','IssueInfo');
+$controller = new IssueInfoController('../', 'Task Info','IssueInfo');
 $controller->execute();
 
 ?>

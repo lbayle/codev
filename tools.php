@@ -1024,6 +1024,13 @@ class Tools {
    }
 
    /**
+    * this method causes big trouble when using CodevTT behind a reverseProxy
+    * that would forward HTTPS requests to HTTP
+    * 
+    * this method is also responsible for the 'subdirectory install' problem
+    * (installing CodevTT in a folder named '/var/www/html/tools/codevtt' fails)
+    * 
+    * @deprecated
     * @static
     * @return string
     * example: http://127.0.0.1/codev/

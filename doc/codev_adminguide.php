@@ -38,7 +38,7 @@ class AdminGuideController extends Controller {
 
 // ========== MAIN ===========
 AdminGuideController::staticInit();
-$controller = new AdminGuideController('Admin Guide','Doc');
+$controller = new AdminGuideController('../', 'Admin Guide','Doc');
 $controller->execute();
 
 ?>

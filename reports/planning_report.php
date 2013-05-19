@@ -411,7 +411,7 @@ class PlanningReportController extends Controller {
 
 // ========== MAIN ===========
 PlanningReportController::staticInit();
-$controller = new PlanningReportController('Planning','Planning');
+$controller = new PlanningReportController('../', 'Planning','Planning');
 $controller->execute();
 
 ?>

@@ -198,7 +198,7 @@ class WorkflowController extends Controller {
 
 // ========== MAIN ===========
 WorkflowController::staticInit();
-$controller = new WorkflowController('Clone Project Settings','Admin');
+$controller = new WorkflowController('../', 'Clone Project Settings','Admin');
 $controller->execute();
 
 ?>

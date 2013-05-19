@@ -263,7 +263,7 @@ class ImportIssuesController extends Controller {
 
 // ========== MAIN ===========
 ImportIssuesController::staticInit();
-$controller = new ImportIssuesController('Import Mantis Issues', 'ImportExport');
+$controller = new ImportIssuesController('../', 'Import Mantis Issues', 'ImportExport');
 $controller->execute();
 
 ?>

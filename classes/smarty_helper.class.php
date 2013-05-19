@@ -127,7 +127,6 @@ class SmartyHelper {
       $this->smarty->assign('ajaxPage', str_replace('.php', '', $_SERVER['PHP_SELF']).'_ajax.php');
       $this->smarty->assign('tpl_name', str_replace('.php', '', substr(strrchr($_SERVER['PHP_SELF'], '/'), 1)));
       $this->smarty->assign('mantisURL', Constants::$mantisURL);
-      $this->smarty->assign('rootWebSite', Tools::getServerRootURL() . '/');
       $this->smarty->assign('locale', $_SESSION['locale']);
       $this->smarty->assign('usingBrowserIE', Tools::usingBrowserIE());
 

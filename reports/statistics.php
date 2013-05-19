@@ -390,7 +390,7 @@ class StatisticsController extends Controller {
 
 // ========== MAIN ===========
 StatisticsController::staticInit();
-$controller = new StatisticsController('History','ProdReports');
+$controller = new StatisticsController('../', 'History','ProdReports');
 $controller->execute();
 
 ?>

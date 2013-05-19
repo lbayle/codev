@@ -114,7 +114,7 @@ class BlogController extends Controller {
 
 // ========== MAIN ===========
 BlogController::staticInit();
-$controller = new BlogController('Blog','Blog');
+$controller = new BlogController('../', 'Blog','Blog');
 $controller->execute();
 
 ?>

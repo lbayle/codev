@@ -38,7 +38,7 @@ class AdminController extends Controller {
 
 // ========== MAIN ===========
 AdminController::staticInit();
-$controller = new AdminController('CoDev Administration','Admin');
+$controller = new AdminController('../', 'CodevTT Administration','Admin');
 $controller->execute();
 
 ?>

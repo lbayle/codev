@@ -157,7 +157,7 @@ class ServiceContractInfoController extends Controller {
 
 // ========== MAIN ===========
 ServiceContractInfoController::staticInit();
-$controller = new ServiceContractInfoController('Service Contract','Management');
+$controller = new ServiceContractInfoController('../', 'Service Contract','Management');
 $controller->execute();
 
 ?>

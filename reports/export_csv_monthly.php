@@ -177,7 +177,7 @@ class ExportCSVMonthlyController extends Controller {
 
 // ========== MAIN ===========
 ExportCSVMonthlyController::staticInit();
-$controller = new ExportCSVMonthlyController('CSV Report','ImportExport');
+$controller = new ExportCSVMonthlyController('../', 'CSV Report','ImportExport');
 $controller->execute();
 
 ?>
