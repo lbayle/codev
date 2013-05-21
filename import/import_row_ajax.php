@@ -40,7 +40,7 @@ if (Tools::isConnectedUser()) {
       $categoryid = isset($_POST['categoryid']) ? $_POST['categoryid'] : NULL;
       $targetversionid = isset($_POST['targetversionid']) ? $_POST['targetversionid'] : NULL;
       $userid = isset($_POST['userid']) ? $_POST['userid'] : NULL;
-      $description = isset($_POST['description']) ? $_POST['description'] : NULL;
+      $description = (isset($_POST['description']) && '' != $_POST['description']) ? $_POST['description'] : "...";
       $formatedDeadline = isset($_POST['deadline']) ? $_POST['deadline'] : NULL;
 
       $proj = ProjectCache::getInstance()->getProject($projectid);
