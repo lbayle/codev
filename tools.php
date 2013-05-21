@@ -969,7 +969,7 @@ class Tools {
       //       do not remove it.
       // if path does not exist, try to create it
       if (!file_exists($directory)) {
-         if (!mkdir($directory, 0755, TRUE)) {
+         if (!mkdir($directory, 0775, TRUE)) {
             return "ERROR : Could not create folder: $directory";
          }
       }

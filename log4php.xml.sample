@@ -13,7 +13,7 @@
         <layout class="LoggerLayoutPattern">
             <param name="conversionPattern" value="%d{Y-m-d H:i:s} %c %-5p %m (%F:%L) [%X{server.REMOTE_ADDR}]%n" />
         </layout>
-        <param name="file" value="/tmp/codevtt/logs/codevtt.log" />
+        <param name="file" value="@TAG_CODEVTT_LOGFILE_FULLPATH@" />
         <param name="maxFileSize" value="6MB" />
         <param name="maxBackupIndex" value="5" />
     </appender>

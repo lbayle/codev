@@ -76,6 +76,29 @@ function createGreasemonkeyFile() {
    return NULL;
 }
 
+function createLog4phpFile() {
+   $serverIP = $_SERVER['SERVER_ADDR'];
+
+   //read the source file
+   $str = implode("\n", file(Install::FILENAME_LOG4PHP_SAMPLE));
+
+   //replace tags
+   $str = str_replace('@TAG_CODEVTT_LOGFILE_FULLPATH@', Constants::$codevtt_logfile, $str);
+
+   // write dest file
+   $fp = fopen(Install::FILENAME_LOG4PHP, 'w');
+   if (FALSE == $fp) {
+      return "ERROR: creating file " . Install::FILENAME_LOG4PHP;
+   }
+   if (FALSE == fwrite($fp, $str, strlen($str))) {
+      fclose($fp);
+      return "ERROR: could not write to file " . Install::FILENAME_LOG4PHP;
+   }
+   fclose($fp);
+   return NULL;
+}
+
+
 /**
  * insert CodevTT config in Mantis custom files.
  *
@@ -799,25 +822,27 @@ if ("checkReportsDir" == $action) {
 
 } else if ("proceedStep3" == $action) {
 
-   echo "DEBUG 1/13 create Greasemonkey file<br/>";
+   $installStepFailed = FALSE;
+
+   echo "DEBUG 1/15 create Greasemonkey file<br/>";
    $errStr = createGreasemonkeyFile();
    if (NULL != $errStr) {
       echo "<span class='error_font'>".$errStr."</span><br/>";
+      $installStepFailed = TRUE;
    }
 
-   echo "DEBUG 2/13 create default Config variables<br/>";
+   echo "DEBUG 2/15 create default Config variables<br/>";
    setConfigItems();
 
-   echo "DEBUG 3/13 update Mantis custom files<br/>";
-
+   echo "DEBUG 3/15 update Mantis custom files<br/>";
    updateMantisCustomFiles();
 
-   echo "DEBUG 4/13 add CodevTT to Mantis menu<br/>";
+   echo "DEBUG 4/15 add CodevTT to Mantis menu<br/>";
    removeCustomMenuItem('CodevTT');
    $tok = strtok($_SERVER["SCRIPT_NAME"], "/");
    addCustomMenuItem('CodevTT', '../'.$tok.'/index.php');  #  ../codev/index.php
 
-   echo "DEBUG 5/13 create CodevTT Custom Fields<br/>";
+   echo "DEBUG 5/15 create CodevTT Custom Fields<br/>";
    $groupExtID = $_POST['groupExtID'];
    if ('createExtID' == $groupExtID) {
       $isCreateExtIdField = TRUE;
@@ -834,24 +859,49 @@ if ("checkReportsDir" == $action) {
    }
    createCustomFields($isCreateExtIdField);
 
-   echo "DEBUG 6/13 create ExternalTasks Project<br/>";
+   echo "DEBUG 6/15 create ExternalTasks Project<br/>";
    $extproj_id = createExternalTasksProject(T_("CodevTT_ExternalTasks"), T_("CodevTT ExternalTasks Project"));
 
    $adminLeader = UserCache::getInstance()->getUser($adminTeamLeaderId);
-   echo "DEBUG 7/13 createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
+   echo "DEBUG 7/15 createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
    createAdminTeam($adminTeamName, $adminTeamLeaderId);
 
    // Set path for .CSV reports (Excel)
-   echo "DEBUG 8/13 add CodevTT output directory<br/>";
+   echo "DEBUG 8/15 add CodevTT output directory<br/>";
    Constants::$codevOutputDir = $codevOutputDir;
+   Constants::$codevtt_logfile = $codevOutputDir.'/logs/codevtt.log';
    $retCode = Constants::writeConfigFile();
    if (FALSE == $retCode) {
       echo "<span class='error_font'>ERROR: could not add codevtt_output_dir to ".Constants::$config_file."</span><br/>";
+      $installStepFailed = TRUE;
       exit;
    }
 
+   echo "DEBUG 9/15 create Logger configuration file<br/>";
+   $errStr = createLog4phpFile();
+   if (NULL != $errStr) {
+      echo "<span class='error_font'>".$errStr."</span><br/>";
+      $installStepFailed = TRUE;
+      exit;
+   }
+
+   echo "DEBUG 10/15 create output directories (logs, reports)<br/>";
+   $errStr = Tools::checkWriteAccess(Constants::$codevOutputDir.'/logs');
+   if ("SUCCESS !" != $errStr) {
+      echo "<span class='error_font'>".$errStr."</span><br/>";
+      $installStepFailed = TRUE;
+      exit;
+   }
+   $errStr = Tools::checkWriteAccess(Constants::$codevOutputDir.'/reports');
+   if ("SUCCESS !" != $errStr) {
+      echo "<span class='error_font'>".$errStr."</span><br/>";
+      $installStepFailed = TRUE;
+      exit;
+   }
+
+
    // Create default tasks
-   echo "DEBUG 9/13 Create external tasks<br/>";
+   echo "DEBUG 11/15 Create external tasks<br/>";
    $extproj = ProjectCache::getInstance()->getProject($extproj_id);
 
    // cat="[All Projects] General", status="closed"
@@ -865,7 +915,7 @@ if ("checkReportsDir" == $action) {
    // Note: Support & N/A jobs already created by SQL file
    // Note: N/A job association to ExternalTasksProject already done in Install::createExternalTasksProject()
 
-   echo "DEBUG 10/13 Create default jobs<br/>";
+   echo "DEBUG 12/15 Create default jobs<br/>";
    if ($isJob1) {
       Jobs::create($job1, Job::type_commonJob, $job1_color);
    }
@@ -883,7 +933,7 @@ if ("checkReportsDir" == $action) {
    }
 
    // Set default Issue tooltip content
-   echo "DEBUG 11/13 Set default content for Issue tooltip <br/>";
+   echo "DEBUG 13/15 Set default content for Issue tooltip <br/>";
    $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
    $backlogField = Config::getInstance()->getValue(Config::id_customField_backlog);
    $fieldList = array('project_id', 'category_id', 'custom_'.$customField_type,
@@ -893,7 +943,7 @@ if ("checkReportsDir" == $action) {
 
 
    // Add custom fields to existing projects
-   echo "DEBUG 12/13 Prepare existing projects<br/>";
+   echo "DEBUG 14/15 Prepare existing projects<br/>";
    if(isset($_POST['projects']) && !empty($_POST['projects'])){
       $selectedProjects = $_POST['projects'];
       foreach($selectedProjects as $projectid){
@@ -903,7 +953,7 @@ if ("checkReportsDir" == $action) {
       }
    }
 
-   echo "DEBUG 13/13 Install Mantis plugin<br/>";
+   echo "DEBUG 15/15 Install Mantis plugin<br/>";
    installMantisPlugin();
 
    echo "DEBUG done.<br/>";

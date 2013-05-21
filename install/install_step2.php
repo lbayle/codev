@@ -54,11 +54,11 @@ require_once('install/install_menu.inc.php');
 function createConstantsFile($mantisPath, $mantisURL) {
 
    // --- general ---
-   Constants::$codevtt_logfile = '/tmp/codevtt/logs/codevtt.log';
    Constants::$homepage_title = 'Welcome';
    Constants::$mantisURL = $mantisURL;
    Constants::$mantisPath = $mantisPath;
    Constants::$codevRootDir = dirname(dirname(__FILE__));
+   Constants::$codevtt_logfile = Constants::$codevRootDir.'/codevtt.log';
 
    // --- database ---
    // already set...

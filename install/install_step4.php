@@ -42,7 +42,7 @@ function displayPage() {
       <strong>CodevTT / Mantis configuration</strong>
       <ul>
          <li>Check the [status] section in config.ini</li>
-         <li>Install the 'CodevTT' mantis plugin</li>
+         <li>Open MantisBT and activate the 'CodevTT' plugin</li>
          <li>If you use firefox, install <a href='https://addons.mozilla.org/fr/firefox/addon/greasemonkey/' target='_blank't>greasemonkey</a></li>
          <li>Install <a href='../mantis_monkey.user.js' target='_blank't>greasemonkey script</a></li>
          <li>Delete codevTT install directory</li>
