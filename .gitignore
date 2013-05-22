@@ -2,6 +2,7 @@
 .settings
 *~
 config.ini
+log4php.xml
 constants.php
 mantis_monkey.user.js
 include/mysql_config.inc.php
