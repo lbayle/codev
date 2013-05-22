@@ -197,7 +197,7 @@ class IndexController extends Controller {
 
 // ========== MAIN ===========
 IndexController::staticInit();
-$controller = new IndexController(Constants::$homepage_title,'index');
+$controller = new IndexController('./', Constants::$homepage_title,'index');
 $controller->execute();
 
 ?>

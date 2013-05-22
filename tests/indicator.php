@@ -94,6 +94,6 @@ class indicatorController extends Controller {
 
 // ========== MAIN ===========
 indicatorController::staticInit();
-$controller = new indicatorController('Test: Status History Indicator', 'MENU_NAME');
+$controller = new indicatorController('../', 'Test: Status History Indicator', 'MENU_NAME');
 $controller->execute();
 ?>

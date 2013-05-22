@@ -173,6 +173,6 @@ class FilterController extends Controller {
 
 // ========== MAIN ===========
 FilterController::staticInit();
-$controller = new FilterController('TEST Filters','Admin');
+$controller = new FilterController('../', 'TEST Filters','Admin');
 $controller->execute();
 

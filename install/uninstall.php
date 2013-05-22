@@ -255,7 +255,7 @@ class UninstallController extends Controller {
 
 // ========== MAIN ===========
 UninstallController::staticInit();
-$controller = new UninstallController('Uninstall','Admin');
+$controller = new UninstallController('../', 'Uninstall','Admin');
 $controller->execute();
 
 ?>

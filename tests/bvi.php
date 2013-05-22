@@ -99,6 +99,6 @@ echo implode(',', array_keys($isel->getIssueList()));
 
 // ========== MAIN ===========
 BVIController::staticInit();
-$controller = new BVIController('TEST BacklogVariationIndicator', 'Tests');
+$controller = new BVIController('../', 'TEST BacklogVariationIndicator', 'Tests');
 $controller->execute();
 ?>
