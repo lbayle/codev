@@ -196,6 +196,12 @@ function stringReplacements($StrReplacements) {
       $query  = "UPDATE codev_command_provision_table set `summary` = REPLACE(`summary`,'$orig','$dest')";
       $result = execQuery($query);
 
+      # NO ! this breaks planning deadlines
+      #$query  = "UPDATE mantis_project_version_table set `version` = REPLACE(`version`,'$orig','$dest')";
+      #$result = execQuery($query);
+
+      $query  = "UPDATE mantis_project_version_table set `description` = REPLACE(`description`,'$orig','$dest')";
+      $result = execQuery($query);
    }
 }
 
@@ -221,7 +227,12 @@ function updateUsers() {
       '18' => "User SIXTEEN",
       '19' => "User SEVENTEEN",
       '20' => "User EIGHTEEN",
-      '21' => "User NINETEEN");
+      '21' => "User 19",
+      '22' => "User 20",
+      '23' => "User 21",
+      '24' => "User 22",
+      '25' => "User 23",
+      '26' => "User 24");
 
    $query  = "SELECT id from `mantis_user_table` WHERE id NOT IN (1, 2, 3, 5, 8)"; // administrator, manager, lbayle, nvelin, user1
    $result1 = execQuery($query);
@@ -315,7 +326,7 @@ function updateProjects() {
 // ================ MAIN =================
 $logger = Logger::getLogger("create_fake_db");
 
-$projectidList = array(14,16,18,19,23,24,25,39,51);
+$projectidList = array(14,16,18,19,23,24,25,39,51,54,55,56);
 
 $projectNames = array(
     'TSUNO',
@@ -327,7 +338,12 @@ $projectNames = array(
     'PURCELL',
     'TONSAI',
     'LAMA',
-    'ZOLA');
+    'ZOLA',
+    'BERHAULT',
+    'RAVEL',
+    'OHANA',
+    'BIRELLI',
+    'PASTORIUS');
 
 $StrReplacements = array(
     'CMS_INDE' => 'TSUNO',
@@ -345,7 +361,12 @@ $StrReplacements = array(
     'GEMO' => 'OPI',
     'FdP' => 'Cmd',
     'CK' => 'OP',
-    'IAM51' => 'MAYA'
+    'IAM51' => 'MAYA',
+    'TRAIN' => 'ATT',
+    'BARR' => 'MOM',
+    'OJT' => 'POO',
+    'COMSYS' => 'TOO',
+    'SBR' => 'EXX',
 );
 
 
