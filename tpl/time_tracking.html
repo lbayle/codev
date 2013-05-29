@@ -428,7 +428,8 @@
 
          var data = jQuery.parseJSON(updateBacklogJsonData);
 
-         jQuery("#backlog").val(data['backlog']);
+         // do not display computed backlog: force users to reestimate it !
+         //jQuery("#backlog").val(data['backlog']);
 
          // TODO summary not in json because of quotes
          //jQuery("#issue_summary").text(htmlEncode(data['description']));
