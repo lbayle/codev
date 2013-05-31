@@ -1,5 +1,5 @@
 <div id="content">
-{if isset($teamid) && (0 != $teamid)}
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
    <div class="center">
       <!-- Create form -->
       <form id="form1" name="form1" method="post" action="{$page}">

@@ -1,4 +1,4 @@
-{if isset($teamid) && (0 != $teamid)}
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
 
 {if $width == 0}
 <script type="text/javascript">

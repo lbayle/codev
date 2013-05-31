@@ -1,6 +1,6 @@
 <div id="content" class="center">
 
-   {if isset($teamid) && (0 != $teamid)}
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
    <h2 class="center">{t}Weekly Activity{/t}</h2>
    <script type="text/javascript">
       jQuery(document).ready(function() {

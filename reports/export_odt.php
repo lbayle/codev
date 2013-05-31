@@ -156,7 +156,8 @@ class ExportODTController extends Controller {
    private function getTeamMembers(array $selectedUseridList = array(0)) {
 
       $team = TeamCache::getInstance()->getTeam($this->teamid);
-      $memberList = $team->getActiveMembers();
+      #$memberList = $team->getActiveMembers();
+      $memberList = $team->getMembers();
       $members = array();
       $members[0] = array(
             'id' => 0,
@@ -164,6 +165,13 @@ class ExportODTController extends Controller {
             'selected' => in_array(0, $selectedUseridList)
          );
       foreach($memberList as $id => $name) {
+         
+          // we want ActiveMembers + Custommers
+         $user = UserCache::getInstance()->getUser($id);
+         if ($user->isTeamObserver($this->teamid)) {
+             continue;
+         }
+          
          $selected = in_array($id, $selectedUseridList);
          $members[] = array(
             'id' => $id,
@@ -362,7 +370,10 @@ class ExportODTController extends Controller {
    protected function display() {
       if (Tools::isConnectedUser()) {
 
-         if (0 != $this->teamid) {
+        // only teamMembers & observers can access this page
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustommer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+        } else {
 
             #$isManager = $this->session_user->isTeamManager($this->teamid);
             #$this->smartyHelper->assign('isManager', $isManager);

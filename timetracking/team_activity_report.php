@@ -36,8 +36,11 @@ class TeamActivityReportController extends Controller {
       if(Tools::isConnectedUser()) {
 
          // TODO SECURITY check array_key_exists($this->teamid, $this->teamList)
-         if (0 != $this->teamid) {
-
+        // only teamMembers & observers can access this page
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustommer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+        } else {
+             
             $year = Tools::getSecurePOSTIntValue('year', date('Y'));
             $weekid = Tools::getSecurePOSTIntValue('weekid', date('W'));
 

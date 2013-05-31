@@ -33,8 +33,11 @@ class TeamMonthlyActivityReportController extends Controller {
    protected function display() {
       if (Tools::isConnectedUser()) {
 
-         if (0 != $this->teamid) {
-
+        // only teamMembers & observers can access this page
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustommer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+        } else {
+             
             $isManager = $this->session_user->isTeamManager($this->teamid);
             $isObserver = $this->session_user->isTeamObserver($this->teamid);
             if ($isManager || $isObserver) {
@@ -73,7 +76,6 @@ class TeamMonthlyActivityReportController extends Controller {
                   $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
                }
             }
-
         }
       }
    }

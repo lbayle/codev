@@ -33,7 +33,10 @@ class GanttReportController extends Controller {
    protected function display() {
       if (Tools::isConnectedUser()) {
 
-         if (0 != $this->teamid) {
+        // only teamMembers & observers can access this page
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustommer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+        } else {
 
             $projects[0] = T_('All projects');
             $projects += TeamCache::getInstance()->getTeam($this->teamid)->getProjects(false);

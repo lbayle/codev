@@ -38,7 +38,10 @@ class TimeTrackingController extends Controller {
    protected function display() {
       if(Tools::isConnectedUser()) {
 
-         if (0 != $this->teamid) {
+        // only teamMembers & observers can access this page
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustommer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+        } else {
 
             $team = TeamCache::getInstance()->getTeam($this->teamid);
             $teamMembers = $team->getActiveMembers();

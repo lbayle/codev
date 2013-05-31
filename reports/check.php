@@ -39,7 +39,10 @@ class CheckController extends Controller {
       // Consistency errors
       if (Tools::isConnectedUser()) {
 
-         if (0 != $this->teamid) {
+        // only teamMembers & observers can access this page
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustommer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+        } else {
             $consistencyErrors = $this->getTeamConsistencyErrors($this->teamid);
 
             $this->smartyHelper->assign('teamid', $this->teamid);

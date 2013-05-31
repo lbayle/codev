@@ -1,5 +1,5 @@
 <div id="content">
-   {if isset($teamid) && (0 != $teamid)}
+   {if (!isset($accessDenied) || (0 == $accessDenied)) }
 
    {if isset($currentDeviationStats)}
    <script type="text/javascript">

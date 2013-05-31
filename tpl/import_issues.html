@@ -1,5 +1,5 @@
 <div id="content" class="center">
-{if isset($teamid) && (0 != $teamid)}
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
    {if !isset($filename)}
    <h2 class="center">{t}Select CSV file{/t} &nbsp;&nbsp;<a id="dialog_uploadCSV_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
    <!-- FILE SELECTION -->

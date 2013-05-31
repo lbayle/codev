@@ -115,7 +115,10 @@ class PlanningReportController extends Controller {
 
          $teamList = $this->session_user->getTeamList();
 
-         if (0 != $this->teamid) {
+        // only teamMembers & observers can access this page
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustommer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+        } else {
 
             $pageWidth = Tools::getSecurePOSTIntValue('width',Tools::getSecureGETIntValue('width',0));
             $this->smartyHelper->assign('width', $pageWidth);

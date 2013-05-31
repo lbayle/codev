@@ -10,6 +10,7 @@
    });
 </script>
 <div id="content">
+{if (!isset($accessDenied) || (0 == $accessDenied)) }    
    {if isset($teams) && isset($servicecontracts)}
    <div align="center">
       <!-- create form -->
@@ -437,4 +438,7 @@
          });
       });
    </script>
+{else}
+<p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
+{/if}
 </div>

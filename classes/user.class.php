@@ -300,6 +300,16 @@ class User extends Model {
 
    /**
     * @param int $team_id
+    * @param int $startTimestamp
+    * @param int $endTimestamp
+    * @return bool
+    */
+   public function isTeamCustommer($team_id, $startTimestamp = NULL, $endTimestamp = NULL) {
+      return $this->isTeamMember($team_id, Team::accessLevel_custommer, $startTimestamp, $endTimestamp);
+   }
+
+   /**
+    * @param int $team_id
     * @param int $accessLevel
     * @param int $startTimestamp
     * @param int $endTimestamp
@@ -757,6 +767,16 @@ class User extends Model {
    }
 
    /**
+    * @return string[] the teams i'm Manager of.
+    */
+   public function getCustommerTeamList() {
+      if(NULL == $this->custommerTeamList) {
+         $this->custommerTeamList = $this->getTeamList(Team::accessLevel_custommer);
+      }
+      return $this->custommerTeamList;
+   }
+
+   /**
     * returns teams, the user is involved in.
     * @param int $accessLevel if NULL return all teams including observed teams.
     * @return string[] array string[int] name[id]
@@ -858,7 +878,8 @@ class User extends Model {
       if (NULL == $projList) {
          $managedTeamList = $this->getManagedTeamList();
          $devTeamList = $this->getDevTeamList();
-         $teamList = $devTeamList + $managedTeamList;
+         $custoTeamList = $this->getDevTeamList();
+         $teamList = $devTeamList + $managedTeamList + $custoTeamList;
 
          $projList = $this->getProjectList($teamList);
       }
@@ -913,7 +934,8 @@ class User extends Model {
          // get all teams except those where i'm Observer
          $dTeamList = $this->getDevTeamList();
          $mTeamList = $this->getManagedTeamList();
-         $teamList = $dTeamList + $mTeamList;           // array_merge does not work ?!
+         $cTeamList = $this->getCustommerTeamList();
+         $teamList = $dTeamList + $mTeamList + $cTeamList;   // array_merge does not work ?!
          $projList = $this->getProjectList($teamList);
       }
 

@@ -1,4 +1,4 @@
-{if isset($teamid) && (0 != $teamid)}
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
 <div id="content">
    <div class="center">
       <form id="form1" name="form1" class="formWithTabsHistory" method="post" action="{$page}{if $displayNoSupport}?support{/if}">

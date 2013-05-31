@@ -48,18 +48,18 @@ class Team extends Model {
    // il peut y avoir plusieurs observer
    // il peut y avoir plusieurs manager
    // un observer ne peut imputer sur les taches de l'equipe, il a acces en lecture seule aux donnees
-   // un noStats ne peut imputer, il n'est pas considéré comme ressource, il sert a "stocker" des fiches
-   const accessLevel_nostats = 5; // in table codev_team_user_table
+   // un custommer ne peut imputer, il n'est pas considéré comme ressource, il sert a "stocker" des fiches
+   const accessLevel_custommer = 5; // in table codev_team_user_table
    const accessLevel_dev = 10; // in table codev_team_user_table
    const accessLevel_observer = 20; // in table codev_team_user_table
    const accessLevel_manager  = 30; // in table codev_team_user_table
 
    public static $accessLevelNames = array(
-      //self::accessLevel_nostats  => "NoStats", // can modify, can NOT view stats
       self::accessLevel_dev      => "Developer", // can modify, can NOT view stats
+      self::accessLevel_manager  => "Manager", // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
       self::accessLevel_observer => "Observer",  // can NOT modify, can view stats
+      self::accessLevel_custommer  => "Custommer" // can NOT modify, can NOT view stats
       //self::accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?
-      self::accessLevel_manager  => "Manager" // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
    );
 
    private $id;
@@ -473,7 +473,7 @@ class Team extends Model {
                "FROM `mantis_user_table` as user ".
                "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
                "AND team_user.team_id=$this->id ".
-               "AND team_user.access_level <> ".self::accessLevel_observer.' '.
+               "AND team_user.access_level IN (".self::accessLevel_dev.', '.self::accessLevel_manager.') '.
                "AND team_user.arrival_date <= $endTimestamp ".
                "AND (team_user.departure_date = 0 OR team_user.departure_date >= $startTimestamp) ".
                "ORDER BY user.username;";

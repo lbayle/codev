@@ -18,7 +18,7 @@
 </script>
 
 <div id="content">
-{if isset($teamid) && (0 != $teamid)}
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
    <div align="center">
       <!-- create form -->
       <form id="mainForm" name="mainForm" class="formWithTabsHistory" method="post" action="{$page}">

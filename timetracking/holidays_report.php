@@ -32,6 +32,13 @@ class HolidaysReportController extends Controller {
 
    protected function display() {
       if (Tools::isConnectedUser()) {
+          
+        // only teamMembers & observers can access this page
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustommer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+            return;
+        }
+          
          $year = Tools::getSecurePOSTIntValue('year',date('Y'));
 
          $displayed_teamid = 0;

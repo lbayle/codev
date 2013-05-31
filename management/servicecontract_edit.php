@@ -38,7 +38,9 @@ class ServiceContractEditController extends Controller {
    protected function display() {
       if (Tools::isConnectedUser()) {
 
-         if (0 != $this->teamid) {
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustommer($this->teamid))) {
+            $this->smartyHelper->assign('isEditGranted', FALSE);
+        } else {
 
             // only managers can edit the SC
             $isManager = $this->session_user->isTeamManager($this->teamid);

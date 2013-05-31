@@ -44,7 +44,14 @@ class ImportIssuesController extends Controller {
          $managedTeamList = $this->session_user->getManagedTeamList();
          $teamList = $dTeamList + $lTeamList + $managedTeamList;
 
-         if ((0 != $this->teamid) && array_key_exists($this->teamid, $teamList)) {
+         
+         if ((0 == $this->teamid) || 
+             !array_key_exists($this->teamid, $teamList) ||
+             ($this->session_user->isTeamCustommer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+         } else {
+         
+         #if ((0 != $this->teamid) && array_key_exists($this->teamid, $teamList)) {
 
             $team = TeamCache::getInstance()->getTeam($this->teamid);
 

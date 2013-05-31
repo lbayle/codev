@@ -40,7 +40,10 @@ class ForecastingReportController extends Controller {
 
          $threshold = 0.5; // for Deviation filters
 
-         if (0 != $this->teamid) {
+        // only teamMembers & observers can access this page
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustommer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+        } else {
 
             $withSupport = TRUE;
 
@@ -171,7 +174,8 @@ class ForecastingReportController extends Controller {
 
          // do not take observer's tasks
          if ((!$user->isTeamDeveloper($teamid)) &&
-            (!$user->isTeamManager($teamid))) {
+             (!$user->isTeamCustommer($teamid)) &&
+             (!$user->isTeamManager($teamid))) {
             if(self::$logger->isDebugEnabled()) {
                self::$logger->debug("getIssuesInDrift user $id ($name) excluded.");
             }

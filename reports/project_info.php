@@ -34,7 +34,10 @@ class ProjectInfoController extends Controller {
    protected function display() {
       if(Tools::isConnectedUser()) {
 
-         if (0 != $this->teamid) {
+        // only teamMembers & observers can access this page
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustommer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+        } else {
 
             $tmpTeamList = array($this->teamid => $this->teamList[$this->teamid]);
             $projList = $this->session_user->getProjectList($tmpTeamList, true, false);
@@ -108,8 +111,6 @@ class ProjectInfoController extends Controller {
                $this->smartyHelper->assign("currentIssuesInDrift", $currentIssuesInDrift);
                $this->smartyHelper->assign("resolvedIssuesInDrift", $resolvedIssuesInDrift);
             }
-         } else {
-            $this->smartyHelper->assign("error", T_("Sorry, you need to be member of a Team to access this page."));
          }
       }
    }

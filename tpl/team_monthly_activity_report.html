@@ -1,5 +1,5 @@
 <div id="content" class="center">
-   {if isset($teamid) && (0 != $teamid)}
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
    <h2>{t}Monthly Activity{/t}</h2>
    <form method="post" class="formWithTabsHistory" action="{$page}">
       <fieldset>
