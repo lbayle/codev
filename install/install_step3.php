@@ -176,17 +176,8 @@ function updateMantisCustomFiles() {
  */
 function createExternalTasksProject($projectName = "CodevTT_ExternalTasks", $projectDesc = "CoDevTT ExternalTasks Project") {
    // create project
-   $projectid = Project::createExternalTasksProject($projectName);
+   $projectid = Project::createExternalTasksProject($projectName, $projectDesc);
 
-   if (-1 != $projectid) {
-
-      // --- update ExternalTasksProject in codev_config_table
-      Config::getInstance()->setValue(Config::id_externalTasksProject, $projectid, Config::configType_int, $projectDesc);
-
-      // --- assign ExternalTasksProject specific Job
-      #REM: 'N/A' job_id = 1, created by SQL file
-      Jobs::addJobProjectAssociation($projectid, Jobs::JOB_NA);
-   }
    return $projectid;
 }
 
@@ -247,7 +238,7 @@ function setConfigItems() {
 
 /**
  * remove existing entries from mantis menu
- * 
+ *
  * @param string $name 'CodevTT'
  */
 function removeCustomMenuItem($name) {
@@ -477,8 +468,8 @@ function createCustomFields($isCreateExtIdField = TRUE) {
 /**
  * find the existing mantis customFields that could be used as ExternalID
  * (only strings and numeric)
- * 
- * @return array customFieldID => name 
+ *
+ * @return array customFieldID => name
  */
 function getExtIdCustomFieldCandidates() {
    // Mantis customFields types
@@ -903,13 +894,14 @@ if ("checkReportsDir" == $action) {
    // Create default tasks
    echo "DEBUG 11/15 Create external tasks<br/>";
    $extproj = ProjectCache::getInstance()->getProject($extproj_id);
+   $extTasksCatLeave = Config::getInstance()->getValue(Config::id_externalTasksCat_leave);
+   $extTasksCatOther = Config::getInstance()->getValue(Config::id_externalTasksCat_otherInternal);
 
-   // cat="[All Projects] General", status="closed"
-   $extproj->addIssue(Project::cat_st_inactivity, $task_otherActivity, T_("Any external task, NOT referenced in any mantis project"), 90);
+   // cat="OtherInternal", status="closed"
+   $extproj->addIssue($extTasksCatOther, $task_otherActivity, T_("Any external task, NOT referenced in any mantis project"), 90);
 
    // --- Create the 'Leave' task in ExternalTasks Project
-   $LeaveTaskId = $extproj->addIssue(Project::cat_st_inactivity, $task_leave, T_("On holiday, sick leave, ..."), 90);
-   Config::getInstance()->setValue(Config::id_externalTask_leave, $LeaveTaskId, Config::configType_int , T_("Common Leave task"));
+   $extproj->addIssue($extTasksCatLeave, $task_leave, T_("On holiday, sick, leave, ..."), 90);
 
    // Create default jobs
    // Note: Support & N/A jobs already created by SQL file

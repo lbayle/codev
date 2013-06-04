@@ -69,7 +69,7 @@ class Config {
 
    // TODO Move to a more appropriate class
    const codevVersion = "v0.99.21 (07 Apr 2013)";
-   const databaseVersion = 11; // used to check codev_config_table.database_version and apply upgrades.
+   const databaseVersion = 12; // used to check codev_config_table.database_version and apply upgrades.
 
    const configType_int = 1;
    const configType_string = 2;
@@ -78,7 +78,9 @@ class Config {
 
    // known Config ids
    const id_externalTasksProject = "externalTasksProject";
-   const id_externalTask_leave = "externalTask_leave";
+   const id_externalTasksCat_leave = "externalTasksCat_leave";
+   const id_externalTasksCat_otherInternal = "externalTasksCat_otherInternal";
+   const id_externalTask_leave = "externalTask_leave"; // DEPRECATED since 0.99.22
    const id_jobSupport = "job_support";
    const id_adminTeamId = "adminTeamId";
    const id_statusNames = "statusNames"; // DEPRECATED since 0.99.18
@@ -137,8 +139,8 @@ class Config {
       "v0.99.17" => "(29 Jun  2012) - Smarty+Ajax, install, Management section, datatables, GUI enhancements, 'Leave' task moved to ExternalTasks, ConsistencyChecks",
       "v0.99.18" => "(22 Sept 2012) - PERF, GUI enhancements, WinInstall, IndicatorPlugins, ProjectFilters, Import",
       "v0.99.19" => "(29 Nov  2012) - GUI enhancements, install, Cmd Provisions, Cmd Budget, CodevTT_type, disable project/team, HTML Tooltips, MantisPlugin, merge Progress & ProgressMgr",
-      "v0.99.20" => "(06 Feb  2012) - teamSelector, custo-tooltips, custo-ccheck, install, unassignedTasks, dates ISO-8601, usort, maxTooltipsPerPage, BudgetDriftHistoryIndicator, ReopenedRateIndicator, exportODT",
-      "v0.99.21" => "(07 Apr  2012) - ObserverView=MgrView, TeamMonthlyActivity, BackupDialogBox+Status, install:selectAdmin, install:subdirs"
+      "v0.99.20" => "(06 Feb  2013) - teamSelector, custo-tooltips, custo-ccheck, install, unassignedTasks, dates ISO-8601, usort, maxTooltipsPerPage, BudgetDriftHistoryIndicator, ReopenedRateIndicator, exportODT",
+      "v0.99.21" => "(07 Apr  2013) - ObserverView=MgrView, TeamMonthlyActivity, BackupDialogBox+Status, install:selectAdmin, install:subdirs"
    );
 
    /**

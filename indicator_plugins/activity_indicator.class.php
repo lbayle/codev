@@ -109,7 +109,7 @@ class ActivityIndicator implements IndicatorPlugin {
       $formatedUseridString = implode( ', ', array_keys($members));
 
       $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
-      $leaveTaskId = Config::getInstance()->getValue(Config::id_externalTask_leave);
+      $extTasksCatLeave = Config::getInstance()->getValue(Config::id_externalTasksCat_leave);
 
       // get timetracks for each Issue,
       $issueList = $inputIssueSel->getIssueList();
@@ -148,7 +148,7 @@ class ActivityIndicator implements IndicatorPlugin {
             continue;
          }
          $userid = $tt->getUserId();
-         
+
          if (!array_key_exists($userid, $usersActivity)) {
             $usersActivity[$userid] = array();
          }
@@ -157,7 +157,7 @@ class ActivityIndicator implements IndicatorPlugin {
          $duration = $tt->getDuration();
          if ($extProjId == $tt->getProjectId()) {
             #echo "external ".$tt->getIssueId()."<br>";
-            if ($leaveTaskId == $issueId) {
+            if ($extTasksCatLeave == $issue->getCategoryId()) {
                if(array_key_exists('leave',$usersActivity[$userid])) {
                   $usersActivity[$userid]['leave'] += $duration;
                } else {

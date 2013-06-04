@@ -201,11 +201,12 @@ class Project extends Model {
    }
 
    /**
+    * Create project, categories & assign N/A job
     * @static
     * @param $projectName
     * @return int|string
     */
-   public static function createExternalTasksProject($projectName) {
+   public static function createExternalTasksProject($projectName, $projectDesc) {
       // check if name exists
       $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -251,6 +252,35 @@ class Project extends Model {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
+
+      // create leave category
+      $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) ".
+              "VALUES ('$projectid','0','Leave', '0');";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $catLeaveId = SqlWrapper::getInstance()->sql_insert_id();
+
+      // create otherInternal category
+      $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) ".
+              "VALUES ('$projectid','0','Other activity', '0');";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $catOtherInternalId = SqlWrapper::getInstance()->sql_insert_id();
+
+      // --- update ExternalTasksProject in codev_config_table
+      Config::getInstance()->setValue(Config::id_externalTasksProject, $projectid, Config::configType_int, $projectDesc);
+      Config::getInstance()->setValue(Config::id_externalTasksCat_leave, $catLeaveId, Config::configType_int);
+      Config::getInstance()->setValue(Config::id_externalTasksCat_otherInternal, $catOtherInternalId, Config::configType_int);
+
+      // --- assign ExternalTasksProject specific Job
+      #REM: 'N/A' job_id = 1, created by SQL file
+      Jobs::addJobProjectAssociation($projectid, Jobs::JOB_NA);
 
       return $projectid;
    }
@@ -605,7 +635,7 @@ class Project extends Model {
       return $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
    }
 
-   private function addSideTaskIssue($catType, $issueSummary, $issueDesc) {
+   private function addSideTaskIssue($catType, $issueSummary, $issueDesc=" ") {
       $cat_id = $this->getCategory($catType);
       $bugt_id = $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
       return $bugt_id;
@@ -658,7 +688,7 @@ class Project extends Model {
 
    /**
     * get status on issue creation
-    * 
+    *
     * @return type
     */
    public function getBugSubmitStatus() {
@@ -1378,7 +1408,7 @@ class Project extends Model {
 
    /**
     * return a list of customFields defined for this project (in mantis)
-    * 
+    *
     * @return array id => name
     */
    public function getCustomFieldsList() {
@@ -1403,15 +1433,15 @@ class Project extends Model {
 
    /**
     * Returns the fields to display in the Issue tooltip
-    * 
-    * fields can be 
+    *
+    * fields can be
     * - mantis_bug_table columns (ex: project_id, status)
     * - customField id prefixed with 'custom_' (ex: custom_23)
     * - CodevTT calculated field prefixed with 'codevtt_' (ex: codevtt_drift)
-    * 
+    *
     * @param int $teamid
     * @param int $userid
-    * @return array 
+    * @return array
     */
    public function getIssueTooltipFields($teamid = 0, $userid = 0) {
 
@@ -1490,7 +1520,7 @@ class Project extends Model {
          }
       }
    }
-   
+
 
 }
 

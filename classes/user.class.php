@@ -545,8 +545,9 @@ class User extends Model {
          $issues = Issue::getIssues($issueIds);
 
          $extTasksProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
-         $leaveTaskId = Config::getInstance()->getValue(Config::id_externalTask_leave);
-         #echo "leaveTaskId $leaveTaskId<br>";
+         $extTasksCatLeave = Config::getInstance()->getValue(Config::id_externalTasksCat_leave);
+         #echo "extTasksCatLeave $extTasksCatLeave<br>";
+
          foreach ($timeTracks as $timeTrack) {
             try {
                $issue = $issues[$timeTrack->getIssueId()];
@@ -559,7 +560,7 @@ class User extends Model {
                      $extTasks[$timeTrack->getDate()]['duration'] += $timeTrack->getDuration();
                   } else {
 
-                     if ($leaveTaskId == $issue->getId()) {
+                     if ($extTasksCatLeave == $issue->getCategoryId()) {
                         $color = 'A8FFBD';  // TODO (light green)
                         $type = 'Inactivity';
                      } else {
@@ -1507,7 +1508,7 @@ class User extends Model {
    public function getRecentlyUsedIssues($limit = 5, $bugidList = NULL) {
 
       $now = time();
-      
+
       $query = 'SELECT DISTINCT bugid FROM `codev_timetracking_table` '.
               "WHERE userid = $this->id AND date <= $now ";
 

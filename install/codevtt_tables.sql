@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
-('database_version', 11, 1),
+('database_version', 12, 1),
 ('job_support', 2, 1),
 ('blogCategories', '1:General,2:Imputations', 3);
 
@@ -206,6 +206,7 @@ CREATE TABLE IF NOT EXISTS `codev_team_user_table` (
   `access_level` int(11) unsigned NOT NULL DEFAULT '10',
   `arrival_date` int(11) unsigned NOT NULL,
   `departure_date` int(11) unsigned NOT NULL DEFAULT '0',
+  `average_daily_rate` int(11) default NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 

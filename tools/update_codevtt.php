@@ -175,6 +175,61 @@ function update_v10_to_v11() {
 
 }
 
+/**
+ * update 0.99.21 to 0.99.22 (DB v11 to DB v12)
+ *
+ */
+function update_v11_to_v12() {
+
+   $sqlScriptFilename = '../install/codevtt_update_v11_v12.sql';
+   if (!file_exists($sqlScriptFilename)) {
+      echo "ERROR: SQL script not found:$sqlScriptFilename<br>";
+      exit;
+   }
+
+   // execute the SQL script
+   echo "- Execute SQL script:$sqlScriptFilename<br>";
+   $retCode = Tools::execSQLscript2($sqlScriptFilename);
+   if (0 != $retCode) {
+      echo "<span class='error_font'>Could not execSQLscript: $sqlScriptFilename</span><br/>";
+      exit;
+   }
+
+   // --- create new categories for ExternalTasksProject
+   $extTasksProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
+   // create leave category
+   $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) ".
+            "VALUES ('$extTasksProjId','0','Leave', '0');";
+   $result = execQuery($query);
+   $catLeaveId = SqlWrapper::getInstance()->sql_insert_id();
+
+   // create otherInternal category
+   $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) ".
+            "VALUES ('$extTasksProjId','0','Other activity', '0');";
+   $result = execQuery($query);
+   $catOtherInternalId = SqlWrapper::getInstance()->sql_insert_id();
+
+   // update codev_config_table
+   Config::getInstance()->setValue(Config::id_externalTasksCat_leave, $catLeaveId, Config::configType_int);
+   Config::getInstance()->setValue(Config::id_externalTasksCat_otherInternal, $catOtherInternalId, Config::configType_int);
+
+   // update existing issues
+   $leaveTaskId = Config::getInstance()->getValue(Config::id_externalTask_leave);
+   $query = "UPDATE `mantis_bug_table` SET `category_id`='$catLeaveId' WHERE `id`='$leaveTaskId';";
+   $result = execQuery($query);
+   $query = "UPDATE `mantis_bug_table` SET `category_id`='$catOtherInternalId' ".
+           "WHERE `project_id`='$extTasksProjId' ".
+           "AND `id` <> '$leaveTaskId';";
+   $result = execQuery($query);
+
+   #echo "<br>SUCCESS: Update 0.99.21 to 0.99.22 (DB v11 to DB v12)<br>";
+   return TRUE;
+
+
+
+
+}
+
 // =========== MAIN ==========
 $logger = Logger::getLogger("versionUpdater");
 
