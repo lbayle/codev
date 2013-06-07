@@ -1,18 +1,51 @@
 <div id="content" class="center">
-   {if isset($users) || isset($managedUser_realname)}
-   {if isset($users)}
-   <form id="formUserAndPeriodSelect" name="formUserAndPeriodSelect" method="post" action="{$page}">
-      <fieldset>
-         <label for="userid">{t}Name{/t} :</label>
-         {html_options id=userid name=userid options=$users selected=$selectedUser}
-         <input type="hidden" name="nextForm" value="addTrackForm" />
-         <input type="submit" value="{t}Jump{/t}" />
-      </fieldset>
-   </form>
+
+   {if $isManager}
+   <script type="text/javascript">
+
+
+      jQuery(document).ready(function() {
+         jQuery("#bt_changeManagedUser").click(function(event) {
+            event.preventDefault();
+            jQuery("#selectManagedUser_dialog_form" ).dialog( "open" );
+         });
+
+         jQuery("#selectManagedUser_dialog_form" ).dialog({
+            autoOpen: false,
+            height: 'auto',
+            width: 200,
+            modal: true,
+            buttons: {
+               Ok: function() {
+                  var form = jQuery("#formSelectManagedUser");
+                  form.find("input[name=userid]").val(jQuery("#userid").val());
+                  form.submit();
+               },
+               Cancel: function() {
+                  jQuery(this).dialog( "close" );
+               }
+            }
+         });
+      });
+   </script>
+   <div id="selectManagedUser_dialog_form" title="{t}Select User{/t}" class="ui-helper-hidden">
+      <p id="userSelect_desc">{t}Select team user{/t}</p>
+      <form id="formSelectManagedUser" method="post" action="{$page}">
+         <fieldset>
+            <label for="userid">{t}Name{/t} :</label>
+            {html_options id=userid name=userid options=$users selected=$selectedUser}
+         </fieldset>
+      </form>
+   </div>
    {/if}
+
+
+
+
+   {if isset($users) || isset($managedUser_realname)}
    {if isset($managedUser_realname)}
 
-   <h2>{$managedUser_realname}{if $isManager} <img id="bt_changeManagedUser" align="absmiddle" src="images/b_refresh_grey.png" style="vertical-align: middle;" title="{t}Change team member{/t}">{/if}</h2>
+   <h2>{$managedUser_realname}{if $isManager} <a id="bt_changeManagedUser" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" title="{t}Change user{/t}"></a>{/if}</h2>
 
    <br/>
 
