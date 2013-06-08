@@ -23,7 +23,7 @@ class Constants {
    public static $codevtt_logfile;
 
    public static $homepage_title;
-   public static $logoImage   = "images/codevtt_logo_03.png";
+   public static $logoImage   = "images/codevtt_logo_03_mini.png";
 
    // --- DATABASE ---
    public static $db_mantis_host;
