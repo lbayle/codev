@@ -150,7 +150,7 @@ class HolidaysReportController extends Controller {
                $timestamp = mktime(0,0,0,$month,$i,$year);
 
                if (isset($externalTasks[$timestamp]) && (NULL != $externalTasks[$timestamp])) {
-
+/*
                   if ('Inactivity' == $externalTasks[$timestamp]['type']) {
                      $days[$i] = array(
                         "color" => $externalTasks[$timestamp]['color'],
@@ -159,13 +159,14 @@ class HolidaysReportController extends Controller {
                         "value" => $externalTasks[$timestamp]['duration'],
                      );
                   } elseif ($isExternalTasks) {
+ */
                      $days[$i] = array(
                         "color" => $externalTasks[$timestamp]['color'],
                         "align" => true,
                         "title" => $externalTasks[$timestamp]['title'],
                         "value" => $externalTasks[$timestamp]['duration'],
                      );
-                  }
+                  //}
                } elseif (isset($astreintes[$timestamp]) && (NULL != $astreintes[$timestamp])) {
                   $days[$i] = array(
                      "color" => $astreintes[$timestamp]['color'],
