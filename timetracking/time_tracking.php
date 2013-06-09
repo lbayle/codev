@@ -155,7 +155,8 @@ class TimeTrackingController extends Controller {
                         'reestimated' => $issue->getReestimated(),
                         'driftColor' => $issue->getDriftColor($drift),
                         'currentStatus' => $issue->getCurrentStatus(),
-                        'availableStatusList' => $issue->getAvailableStatusList(true)
+                        'availableStatusList' => $issue->getAvailableStatusList(true),
+                        'bugResolvedStatusThreshold' =>  $issue->getBugResolvedStatusThreshold()
                      );
                      if (isset($formatedDate)) {
                         $issueInfo['deadline'] = $formatedDate;
