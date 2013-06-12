@@ -785,6 +785,7 @@ if ("false" == $is_modified) {
 
 $task_otherActivity = isset($_POST['task_otherActivity']) ? $_POST['task_otherActivity'] : T_("Other external activity");
 $task_leave     = isset($_POST['task_leave']) ? $_POST['task_leave'] : T_("Leave");
+$task_sickleave = isset($_POST['task_sickleave']) ? $_POST['task_sickleave'] : T_("Sick Leave");
 $job1           = isset($_POST['job1']) ? $_POST['job1'] : T_("Study of the existing");
 $job2           = isset($_POST['job2']) ? $_POST['job2'] : T_("Analyse");
 $job3           = isset($_POST['job3']) ? $_POST['job3'] : T_("Development");
@@ -901,7 +902,8 @@ if ("checkReportsDir" == $action) {
    $extproj->addIssue($extTasksCatOther, $task_otherActivity, T_("Any external task, NOT referenced in any mantis project"), 90);
 
    // --- Create the 'Leave' task in ExternalTasks Project
-   $extproj->addIssue($extTasksCatLeave, $task_leave, T_("On holiday, sick, leave, ..."), 90);
+   $extproj->addIssue($extTasksCatLeave, $task_leave, T_("On holiday, leave, ..."), 90);
+   $extproj->addIssue($extTasksCatLeave, $task_sickleave, T_("Sick"), 90);
 
    // Create default jobs
    // Note: Support & N/A jobs already created by SQL file
