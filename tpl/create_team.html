@@ -1,4 +1,5 @@
 <div id="content">
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
    <script type="text/javascript">
       jQuery(document).ready(function() {
          jQuery("#addTeam").click(function() {
@@ -84,7 +85,7 @@
                   });
                });
             </script>
-            
+
             <label><input type="checkbox" checked="checked" name="cb_createSideTaskProj" id="cb_createSideTaskProj" />{t}Create specific SideTask Project{/t}</label>
 
             <div style="margin-top: 2em;" id="sideTaskDisabled" class="ui-helper-hidden">
@@ -165,4 +166,7 @@
          </div>
       </fieldset>
    </form>
+{else}
+<p class="center ui-state-error-text">{t}Sorry, you need to be in the admin-team to access this page.{/t}</p>
+{/if}
 </div>

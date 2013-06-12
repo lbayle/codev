@@ -467,7 +467,7 @@ class EditTeamController extends Controller {
 
 // ========== MAIN ===========
 EditTeamController::staticInit();
-$controller = new EditTeamController('../', 'CodevTT Administration : Team Edition','Admin');
+$controller = new EditTeamController('../', 'Administration : Team Edition','Admin');
 $controller->execute();
 
 ?>

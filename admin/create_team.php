@@ -39,83 +39,88 @@ class CreateTeamController extends Controller {
       $this->smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 
       if(Tools::isConnectedUser()) {
-         if (isset($_POST['team_name'])) {
-            // Form user selections
-            $team_name = Tools::getSecurePOSTStringValue('team_name');
-            
-            $team_desc = Tools::getSecurePOSTStringValue('team_desc');
-            $teamleader_id = Tools::getSecurePOSTStringValue('teamleader_id');
-            
-            $formatedDate  = date("Y-m-d", time());
-            $now = Tools::date2timestamp($formatedDate);
 
-            // 1) --- create new Team
-            $teamid = Team::create($team_name, $team_desc, $teamleader_id, $now);
+         if (!$this->session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+         } else {
+            if (isset($_POST['team_name'])) {
+               // Form user selections
+               $team_name = Tools::getSecurePOSTStringValue('team_name');
 
-            if ($teamid > 0) {
-               $team = TeamCache::getInstance()->getTeam($teamid);
+               $team_desc = Tools::getSecurePOSTStringValue('team_desc');
+               $teamleader_id = Tools::getSecurePOSTStringValue('teamleader_id');
 
-               // --- add teamLeader as 'manager'
-               $team->addMember($teamleader_id, $now, Team::accessLevel_manager);
-               
-               // 2) --- add ExternalTasksProject
-               $team->addExternalTasksProject();
-               
-               $stproj_name = Tools::getSecurePOSTStringValue("stproj_name");
+               $formatedDate  = date("Y-m-d", time());
+               $now = Tools::date2timestamp($formatedDate);
 
-               // 3) --- add <team> SideTaskProject
-               $stproj_id = $team->createSideTaskProject($stproj_name);
-               if ($stproj_id < 0) {
-                  self::$logger->error("SideTaskProject creation FAILED");
-                  echo "<span style='color:red'>ERROR: SideTaskProject creation FAILED</span>";
-                  exit;
-               } else {
-                  $stproj = ProjectCache::getInstance()->getProject($stproj_id);
+               // 1) --- create new Team
+               $teamid = Team::create($team_name, $team_desc, $teamleader_id, $now);
 
-                  // --- add teamLeader as Mantis manager of the SideTaskProject
-                  $leader = UserCache::getInstance()->getUser($teamleader_id);
-                  $access_level = 70; // TODO mantis manager
-                  $leader->setProjectAccessLevel($stproj_id, $access_level);
+               if ($teamid > 0) {
+                  $team = TeamCache::getInstance()->getTeam($teamid);
 
-                  // 4) --- add SideTaskProject Categories
-                  $stproj->addCategoryProjManagement(T_("Project Management"));
-                  
-                  if (isset($_POST['cb_catInactivity'])) {
-                     $stproj->addCategoryInactivity(T_("Inactivity"));
-                  }
-                  if (isset($_POST['cb_catIncident'])) {
-                     $stproj->addCategoryIncident(T_("Incident"));
-                  }
-                  if (isset($_POST['cb_catTools'])) {
-                     $stproj->addCategoryTools(T_("Tools"));
-                  }
-                  if (isset($_POST['cb_catOther'])) {
-                     $stproj->addCategoryWorkshop(T_("Team Workshop"));
-                  }
-                  
-                  // 5) --- add SideTaskProject default SideTasks
-                  if (isset($_POST['cb_taskProjManagement'])) {
-                     $stproj->addIssueProjManagement(Tools::getSecurePOSTStringValue('task_projManagement'));
-                  }
-                  if (isset($_POST['cb_taskMeeting'])) {
-                     $stproj->addIssueProjManagement(Tools::getSecurePOSTStringValue('task_meeting'));
-                  }
-                  if (isset($_POST['cb_taskIncident'])) {
-                     $stproj->addIssueIncident(Tools::getSecurePOSTStringValue('task_incident'));
-                  }
-                  if (isset($_POST['cb_taskTools'])) {
-                     $stproj->addIssueTools(Tools::getSecurePOSTStringValue('task_tools'));
-                  }
-                  if (isset($_POST['cb_taskOther'])) {
-                     $stproj->addIssueWorkshop(Tools::getSecurePOSTStringValue('task_other1'));
+                  // --- add teamLeader as 'manager'
+                  $team->addMember($teamleader_id, $now, Team::accessLevel_manager);
+
+                  // 2) --- add ExternalTasksProject
+                  $team->addExternalTasksProject();
+
+                  $stproj_name = Tools::getSecurePOSTStringValue("stproj_name");
+
+                  // 3) --- add <team> SideTaskProject
+                  $stproj_id = $team->createSideTaskProject($stproj_name);
+                  if ($stproj_id < 0) {
+                     self::$logger->error("SideTaskProject creation FAILED");
+                     echo "<span style='color:red'>ERROR: SideTaskProject creation FAILED</span>";
+                     exit;
+                  } else {
+                     $stproj = ProjectCache::getInstance()->getProject($stproj_id);
+
+                     // --- add teamLeader as Mantis manager of the SideTaskProject
+                     $leader = UserCache::getInstance()->getUser($teamleader_id);
+                     $access_level = 70; // TODO mantis manager
+                     $leader->setProjectAccessLevel($stproj_id, $access_level);
+
+                     // 4) --- add SideTaskProject Categories
+                     $stproj->addCategoryProjManagement(T_("Project Management"));
+
+                     if (isset($_POST['cb_catInactivity'])) {
+                        $stproj->addCategoryInactivity(T_("Inactivity"));
+                     }
+                     if (isset($_POST['cb_catIncident'])) {
+                        $stproj->addCategoryIncident(T_("Incident"));
+                     }
+                     if (isset($_POST['cb_catTools'])) {
+                        $stproj->addCategoryTools(T_("Tools"));
+                     }
+                     if (isset($_POST['cb_catOther'])) {
+                        $stproj->addCategoryWorkshop(T_("Team Workshop"));
+                     }
+
+                     // 5) --- add SideTaskProject default SideTasks
+                     if (isset($_POST['cb_taskProjManagement'])) {
+                        $stproj->addIssueProjManagement(Tools::getSecurePOSTStringValue('task_projManagement'));
+                     }
+                     if (isset($_POST['cb_taskMeeting'])) {
+                        $stproj->addIssueProjManagement(Tools::getSecurePOSTStringValue('task_meeting'));
+                     }
+                     if (isset($_POST['cb_taskIncident'])) {
+                        $stproj->addIssueIncident(Tools::getSecurePOSTStringValue('task_incident'));
+                     }
+                     if (isset($_POST['cb_taskTools'])) {
+                        $stproj->addIssueTools(Tools::getSecurePOSTStringValue('task_tools'));
+                     }
+                     if (isset($_POST['cb_taskOther'])) {
+                        $stproj->addIssueWorkshop(Tools::getSecurePOSTStringValue('task_other1'));
+                     }
                   }
                }
-            }
 
-            // 6) --- open EditTeam Page
-            header('Location: edit_team.php?teamid='.$teamid);
-         } else {
-            $this->smartyHelper->assign('users', SmartyTools::getSmartyArray(User::getUsers(),$this->session_userid));
+               // 6) --- open EditTeam Page
+               header('Location: edit_team.php?teamid='.$teamid);
+            } else {
+               $this->smartyHelper->assign('users', SmartyTools::getSmartyArray(User::getUsers(),$this->session_userid));
+            }
          }
       }
    }
@@ -124,7 +129,7 @@ class CreateTeamController extends Controller {
 
 // ========== MAIN ===========
 CreateTeamController::staticInit();
-$controller = new CreateTeamController('../', 'CodevTT Administration : Team Creation','Admin');
+$controller = new CreateTeamController('../', 'Administration : Team Creation','Admin');
 $controller->execute();
 
 ?>
