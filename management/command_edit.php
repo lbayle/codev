@@ -84,6 +84,11 @@ class CommandEditController extends Controller {
 
                   $cmdName = Tools::getSecurePOSTStringValue('cmdName');
 
+                  // UGLY WORKAROUND
+                  // the command name cannot contain commas (,) because it is used as
+                  // field separator in FilterManager
+                  $cmdName = str_replace(',', '', $cmdName);
+
                   try {
                      $cmdid = Command::create($cmdName, $this->teamid);
                      $this->smartyHelper->assign('commandid', $cmdid);
@@ -241,6 +246,11 @@ class CommandEditController extends Controller {
       $cmd->setTeamid($cmd_teamid);
 
       $formattedValue = Tools::getSecurePOSTStringValue('cmdName');
+      // UGLY WORKAROUND
+      // the command name cannot contain commas (,) because it is used as
+      // field separator in FilterManager
+      $formattedValue = str_replace(',', '', $formattedValue);
+
       $cmd->setName($formattedValue);
 
       $formattedValue = Tools::getSecurePOSTStringValue('cmdReference','');
