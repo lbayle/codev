@@ -10,10 +10,7 @@
   </script>
 
    <h1>Example: Default</h1>
-  <p class="description">
-    This tree uses default options.<br>
-    It is initalized from a hidden &lt;ul> element on this page.
-  </p>
+  <a id="bt_saveTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_save.png" style="vertical-align: middle;" title="{t}Save{/t}"> Save</a>
 
   <div id="tree">
     <ul id="treeData" style="display: none;">
@@ -21,23 +18,58 @@
       <li id="id2">item2
       <li id="id3" class="folder">Folder with some children
         <ul>
-          <li id="id3.1"><span>Using some <b>bold</b> markup in the text (&lt;li&gt;&lt;span&gt; tag).</span>
-          <li id="id3.2">Sub-item 3.2
+          <li id="id31"><span>Using some <b>bold</b> markup in the text (&lt;li&gt;&lt;span&gt; tag).</span>
+          <li id="id32">Sub-item 3.2
         </ul>
       <li id="id4" class="folder expanded">Folder with some children (expanded on init)
         <ul>
-          <li id="id4.1"  class="folder">Sub-item 4.1
+          <li id="id41"  class="folder">Sub-item 4.1
             <ul>
-              <li id="id4.1.1">Sub-item 4.1.1
-              <li id="id4.1.2">Sub-item 4.1.2
+              <li id="id411">Sub-item 4.1.1
+              <li id="id412">Sub-item 4.1.2
             </ul>
-          <li id="id4.2" class="folder">Sub-item 4.2
+          <li id="id42" class="folder">Sub-item 4.2
             <ul>
-              <li id="id4.2.1">Sub-item 4.2.1
-              <li id="id4.2.2">Sub-item 4.2.2
+              <li id="id421">Sub-item 4.2.1
+              <li id="id422">Sub-item 4.2.2
             </ul>
         </ul>
     </ul>
   </div>
+
+
+   <script type="text/javascript">
+
+      jQuery(document).ready(function() {
+         jQuery("#bt_saveTree").click(function(event) {
+            event.preventDefault();
+
+            var dict = $("#tree").dynatree("getTree").toDict();
+            var jsonDict = JSON.stringify(dict);
+            var formSaveWBS = jQuery("#formSaveWBS");
+            formSaveWBS.find("input[name=jsonDynatreeDict]").val(jsonDict);
+
+            jQuery.ajax({
+               type: "GET",
+               url: formSaveWBS.attr("action"),
+               data: formSaveWBS.serialize(),
+               success: function(data) {
+                  alert("WBS Saved: " + data);
+               },
+               error:  function(data) {
+                  alert("WBS ERROR: " + data);
+               }
+            });
+         });
+
+      });
+   </script>
+
+   <form id="formSaveWBS" name="formSaveWBS" method="get" action="tests/dynatree_ajax.php" >
+      <fieldset>
+         <input type="hidden" name="action" value="saveWBS" />
+         <input type="hidden" name="jsonDynatreeDict" value="" />
+      </fieldset>
+   </form>
 
 </div>
