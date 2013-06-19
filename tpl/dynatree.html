@@ -1,15 +1,53 @@
 <div id="content">
 
+<style type="text/css">
+  ul.dynatree-container span.td {
+     position: absolute;
+     display: inline;
+     border-size: 1px;
+     overflow: hidden;
+     background-color: white;
+  }
+  ul.dynatree-container span.td:nth-child(1) {
+     position: static;
+  }
+  ul.dynatree-container span.td:nth-child(2) {
+     left: 300px;
+     width: 130px;
+  }
+  ul.dynatree-container span.td:nth-child(3) {
+     left: 430px;
+     width: 130px;
+  }
+  </style>
 
+  <script src="js/progress.js" type="text/javascript"></script>
   <script type="text/javascript">
     $(function(){
       $("#tree").dynatree({
         // using default options
       });
+
+      $("#tree2").dynatree({
+            onCustomRender: function(node) {
+            // Render title as columns
+            if(node.data.title.indexOf("~") === -1){
+              // Default rendering
+              return false;
+            }
+            var cols = node.data.title.split("~"),
+            html = "<a class='dynatree-title' href='#'>";
+            for(var i=0; i<cols.length; i++){
+               html += "<span class='td'>" + cols[i] + "</span>";
+            }
+            return html + "</a>";
+          }
+      });
+      
     });
   </script>
 
-   <h1>Example: Default</h1>
+   <h1>WBS Edit</h1>
   <a id="bt_saveTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_save.png" style="vertical-align: middle;" title="{t}Save{/t}"> Save</a>
 
   <div id="tree">
@@ -72,5 +110,23 @@
          <input type="hidden" name="jsonDynatreeDict" value="" />
       </fieldset>
    </form>
+
+
+   <h1>WBS display</h1>
+
+   <a id="bt_loadTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" title="{t}Load{/t}"> Load</a>
+  
+   <div id="tree2">
+     <ul id="treeData2" style="display: none;">
+       <li id="1600">1600 a mantis task~<div class="progress">10%</div>~col2
+       <li id="1632">1632 another mantis task~<div class="progress">15%</div>
+       <li id="bse1" class="folder expanded">WBS~<div class="progress">20%</div>~col2
+         <ul>
+           <li id="1655">1655 check dynatree library~<div class="progress">25%</div>~col2
+           <li id="1656">1656 define WbsElement class~<div class="progress">30%</div>~col2
+           <li id="1657">1657 define WbsElement in DB~<div class="progress">35%</div>~col2
+         </ul>
+     </ul>
+   </div>
 
 </div>
