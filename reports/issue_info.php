@@ -67,7 +67,10 @@ class IssueInfoController extends Controller {
 
                   $defaultProjectid = $issue->getProjectId();
                   $bugs = SmartyTools::getBugs($defaultProjectid, $bug_id);
-                  if (array_key_exists($bug_id,$bugs)) {
+
+                  if ((array_key_exists($defaultProjectid,$projList)) && 
+                      (array_key_exists($bug_id,$bugs))) {
+                     
                      $consistencyErrors = NULL;
                      $ccheck = new ConsistencyCheck2(array($issue));
                      $cerrList = $ccheck->check();
