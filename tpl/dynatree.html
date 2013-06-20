@@ -96,7 +96,7 @@
                   alert("WBS Saved: " + data);
                },
                error:  function(data) {
-                  alert("WBS ERROR: " + data);
+                  alert("WBS Save ERROR: " + data);
                }
             });
          });
@@ -104,7 +104,7 @@
       });
    </script>
 
-   <form id="formSaveWBS" name="formSaveWBS" method="get" action="tests/dynatree_ajax.php" >
+   <form id="formSaveWBS" method="get" action="tests/dynatree_ajax.php" >
       <fieldset>
          <input type="hidden" name="action" value="saveWBS" />
          <input type="hidden" name="jsonDynatreeDict" value="" />
@@ -112,7 +112,7 @@
    </form>
 
 
-   <h1>WBS display</h1>
+   <h1>WBS Display</h1>
 
    <a id="bt_loadTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" title="{t}Load{/t}"> Load</a>
   
@@ -130,3 +130,39 @@
    </div>
 
 </div>
+
+   <script type="text/javascript">
+
+      jQuery(document).ready(function() {
+         jQuery("#bt_loadTree").click(function(event) {
+            event.preventDefault();
+
+            var dict = jQuery("#tree2").dynatree("getTree").toDict();
+
+            var formLoadWBS = jQuery("#formLoadWBS");
+            formLoadWBS.find("input[name=wbsElementId]").val('123');
+
+            jQuery.ajax({
+               type: "GET",
+               url: formLoadWBS.attr("action"),
+               data: formLoadWBS.serialize(),
+               success: function(data) {
+                  alert("WBS Loaded: " + data);
+		  //jQuery("#tree2").dynatree({ children: jQuery.parseJSON(data) });
+		  jQuery("#tree2").dynatree("getTree").addChild( jQuery.parseJSON(data) );
+		  
+               },
+               error:  function(data) {
+                  alert("WBS Load ERROR: " + data);
+               }
+            });
+         });
+      });
+   </script>
+
+   <form id="formLoadWBS" method="get" action="tests/dynatree_ajax.php" >
+      <fieldset>
+         <input type="hidden" name="action" value="loadWBS" />
+         <input type="hidden" name="wbsElementId" value="" />
+      </fieldset>
+   </form>
