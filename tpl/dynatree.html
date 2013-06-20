@@ -30,8 +30,10 @@
 
       $("#tree2").dynatree({
             onCustomRender: function(node) {
+
             // Render title as columns
-            if(node.data.title.indexOf("~") === -1){
+            if( (null == node.data.title) ||
+                (node.data.title.indexOf("~") === -1)) {
               // Default rendering
               return false;
             }
@@ -118,7 +120,7 @@
   
    <div id="tree2">
      <ul id="treeData2" style="display: none;">
-       <li id="1600">1600 a mantis task~<div class="progress">10%</div>~col2
+       <li id="1600">1600 a mantis task with a long long long description~<div class="progress">10%</div>~col2
        <li id="1632">1632 another mantis task~<div class="progress">15%</div>
        <li id="bse1" class="folder expanded">WBS~<div class="progress">20%</div>~col2
          <ul>
@@ -147,10 +149,9 @@
                url: formLoadWBS.attr("action"),
                data: formLoadWBS.serialize(),
                success: function(data) {
-                  alert("WBS Loaded: " + data);
-		  //jQuery("#tree2").dynatree({ children: jQuery.parseJSON(data) });
-		  jQuery("#tree2").dynatree("getTree").addChild( jQuery.parseJSON(data) );
-		  
+                  //alert("WBS Loaded: " + data);
+                  jQuery("#tree2").dynatree("getRoot").addChild( jQuery.parseJSON(data) );
+
                },
                error:  function(data) {
                   alert("WBS Load ERROR: " + data);
