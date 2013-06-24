@@ -347,7 +347,11 @@
       </div>
 
       <div id="tab_cmdsets">
-         {if isset($isAddCmdSetForm)}
+         {if !isset($isAddCmdSetForm)}
+         {t}Create the Command before assigning it to a CommandSet.{/t}
+         {elseif 0 == count($parentCmdSetCandidates)}
+         {t}No CommandSet found.{/t}
+         {else}
          <div align="left">
             <!-- add/create command form -->
             <form id="addCmdSetForm" name="addCmdSetForm" method="post" action="{$page}">
@@ -364,8 +368,6 @@
                </fieldset>
             </form>
          </div>
-         {else}
-         {t}Create the Command before assigning it to a CommandSet.{/t}
          {/if}
 
          <div style="margin-top:1em;">
