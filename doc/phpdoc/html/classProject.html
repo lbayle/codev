@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.21</span>
+   &#160;<span id="projectnumber">0.99.22</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -154,7 +154,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#adba3d617896041e16b17d86d19fbb866">getBugSubmitStatus</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a4f9ea6e24af16f32ce2ca5dd82ac8641">getJobList</a> ($type=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ae4cac98f8b670129f9b4a5b5b821b31a">getBugidList</a> ($handler_id=0, $isHideResolved=FALSE)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ae7347e3462392484fb33ecb35701e439">getIssues</a> ($handler_id=0, $isHideResolved=FALSE)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a2f2939c17cc838cc05251f75585dd37d">getIssues</a> ($handler_id=0, $isHideResolved=FALSE, $hideStatusAndAbove=0)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ad2a6826dc96a3d2ac35ac5301a1f4776">getTeamTypeList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#aa2b6ee4c5f6ef24839f238b894ee1b69">getProjectType</a> (array $teamidList=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ab33127ff9eb998bc612f229c5452dfea">isSideTasksProject</a> (array $teamidList=NULL)</td></tr>
@@ -184,7 +184,7 @@ Public Member Functions</h2></td></tr>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a453dabf2d0957b5520f37a9e27be55fa">staticInit</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a8f497335a92027b6d79a035335b6c5c0">exists</a> ($id)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ae933cfbb116281fa18632dc7ba3dffac">createExternalTasksProject</a> ($projectName)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a07ed87d17a98925c857a0c9b87f8f459">createExternalTasksProject</a> ($projectName, $projectDesc)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ae29f9fe704b58112b954aad1a27b038d">createSideTaskProject</a> ($projectName)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a98bd4ca290f995b284fc847a343b5cea">getCategoryName</a> ($id)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a5cbeb18dd454ffeba39c7175f411a13a">getCategoryId</a> ($name)</td></tr>
@@ -307,7 +307,7 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae933cfbb116281fa18632dc7ba3dffac"></a><!-- doxytag: member="Project::createExternalTasksProject" ref="ae933cfbb116281fa18632dc7ba3dffac" args="($projectName)" -->
+<a class="anchor" id="a07ed87d17a98925c857a0c9b87f8f459"></a><!-- doxytag: member="Project::createExternalTasksProject" ref="a07ed87d17a98925c857a0c9b87f8f459" args="($projectName, $projectDesc)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -315,12 +315,23 @@ Static Public Attributes</h2></td></tr>
           <td class="memname">static Project::createExternalTasksProject </td>
           <td>(</td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>projectName</em></td><td>)</td>
-          <td><code> [static]</code></td>
+          <td class="paramname"><em>projectName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>projectDesc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [static]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
+<p>Create project, categories &amp; assign N/A job</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">$projectName</td><td></td></tr>
@@ -412,7 +423,7 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>int[] : array[bugid] </dd></dl>
-<dl class="see"><dt><b>See also:</b></dt><dd>Use <a class="el" href="classProjectCache.html#a074c1e3d41e0334d2c22d1c0cde46165">ProjectCache::getInstance()</a>-&gt;getProject($id)-&gt;<a class="el" href="classProject.html#ae7347e3462392484fb33ecb35701e439">getIssues</a>($handler_id, $isHideResolved) if you need <a class="el" href="classIssue.html">Issue</a>[] and not just the IssueId[] </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd>Use <a class="el" href="classProjectCache.html#a074c1e3d41e0334d2c22d1c0cde46165">ProjectCache::getInstance()</a>-&gt;getProject($id)-&gt;<a class="el" href="classProject.html#a2f2939c17cc838cc05251f75585dd37d">getIssues</a>($handler_id, $isHideResolved) if you need <a class="el" href="classIssue.html">Issue</a>[] and not just the IssueId[] </dd></dl>
 
 </div>
 </div>
@@ -588,7 +599,7 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae7347e3462392484fb33ecb35701e439"></a><!-- doxytag: member="Project::getIssues" ref="ae7347e3462392484fb33ecb35701e439" args="($handler_id=0, $isHideResolved=FALSE)" -->
+<a class="anchor" id="a2f2939c17cc838cc05251f75585dd37d"></a><!-- doxytag: member="Project::getIssues" ref="a2f2939c17cc838cc05251f75585dd37d" args="($handler_id=0, $isHideResolved=FALSE, $hideStatusAndAbove=0)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -602,7 +613,13 @@ Static Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>isHideResolved</em> = <code>FALSE</code>&#160;</td>
+          <td class="paramname"><em>isHideResolved</em> = <code>FALSE</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>hideStatusAndAbove</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -617,6 +634,7 @@ Static Public Attributes</h2></td></tr>
   <table class="params">
     <tr><td class="paramtype">int</td><td class="paramname">$handler_id</td><td>(if 0, all users) </td></tr>
     <tr><td class="paramtype">bool</td><td class="paramname">$isHideResolved</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$hideStatusAndAbove</td><td>if 0:hide none </td></tr>
   </table>
   </dd>
 </dl>
@@ -962,7 +980,8 @@ Static Public Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>get Workflow transitions from Mantis DB</p>
-<p>mantis_config_table - config_id='status_enum_workflow' </p>
+<p>mantis_config_table - config_id='status_enum_workflow'</p>
+<p>NOTE: on a fresh mantis install, status_enum_workflow does not exist in the DB !</p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>array[] of serialized status list </dd></dl>
 
 </div>
@@ -1285,7 +1304,7 @@ Static Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Fri Apr 5 2013 20:36:02 for CodevTT by
+    <li class="footer">Generated on Tue Jun 25 2013 01:22:44 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

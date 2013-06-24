@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.21</span>
+   &#160;<span id="projectnumber">0.99.22</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -103,10 +103,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 This is the complete list of members for <a class="el" href="classTeam.html">Team</a>, including all inherited members.<table>
   <tr bgcolor="#f0f0f0"><td><b>$accessLevelNames</b> (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
+  <tr bgcolor="#f0f0f0"><td><b>$defaultGeneralPrefsList</b> (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
+  <tr bgcolor="#f0f0f0"><td><b>$generalPrefsDescriptionList</b> (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#aaf8fb35737fb5200f2ab6a8915f37e7e">__construct</a>($teamid)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
+  <tr bgcolor="#f0f0f0"><td><b>accessLevel_custommer</b> (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>accessLevel_dev</b> (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>accessLevel_manager</b> (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
-  <tr bgcolor="#f0f0f0"><td><b>accessLevel_nostats</b> (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>accessLevel_observer</b> (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>addExternalTasksProject</b>() (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#afc3ad08cf33a6da8df12b8c0e4469d9c">addMember</a>($memberid, $arrivalTimestamp, $memberAccess)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
@@ -123,6 +125,8 @@ This is the complete list of members for <a class="el" href="classTeam.html">Tea
   <tr class="memlist"><td><a class="el" href="classTeam.html#a2c2887913992c43134da5d8dc2914807">getConsistencyCheckList</a>()</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a373d73f20d3bd6026045d545cab49056">getCurrentIssueList</a>($addUnassignedIssues=false, $addNewIssues=false, $withDisabledProjects=true)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a97143ea09d1e4fe887483d47da24ff6a">getDate</a>()</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
+  <tr bgcolor="#f0f0f0"><td><b>getGeneralPreference</b>($prefKey) (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classTeam.html#ae085ad39ce04f5064207727b9e7eee26">getGeneralPrefsList</a>()</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a78dca26e26a4d4aef992064e8894450e">getId</a>()</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#adfeaac7ca3a2daf3a46d1aeddad1e9cc">getIdFromName</a>($name)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a8506ea3359a710a5361e290343649002">getLeaderId</a>()</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
@@ -153,6 +157,7 @@ This is the complete list of members for <a class="el" href="classTeam.html">Tea
   <tr class="memlist"><td><a class="el" href="classTeam.html#a03c1345c10ef40547dbb03715aed7040">setConsistencyCheckList</a>(array $checkList)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a83bafe2feb28076340acf57e95e6a0ea">setCreationDate</a>($date)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a7fefe86f9a6824bd484aaabb52e46926">setEnabled</a>($isEnabled)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classTeam.html#a0ca78b7e7364dfb5dd391a9a3c5d9aa4">setGeneralPrefsList</a>(array $checkList)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#ade71014d7db5684b3ac89d0f830c7d2c">setLeader</a>($leaderid)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#ae3a5685357f5fa5b4ec44b68f8e542f4">setLockTimetracksDate</a>($timestamp)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>setMemberDepartureDate</b>($memberid, $departureTimestamp) (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
@@ -176,7 +181,7 @@ This is the complete list of members for <a class="el" href="classTeam.html">Tea
 </div>
 
 
-    <li class="footer">Generated on Fri Apr 5 2013 20:36:02 for CodevTT by
+    <li class="footer">Generated on Tue Jun 25 2013 01:22:45 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

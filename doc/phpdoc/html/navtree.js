@@ -46,6 +46,7 @@ var NAVTREE =
       [ "DeadLine", "classDeadLine.html", null ],
       [ "DetailedChargesIndicator", "classDetailedChargesIndicator.html", null ],
       [ "DocController", "classDocController.html", null ],
+      [ "DynatreeNode", "classDynatreeNode.html", null ],
       [ "EditHolidaysController", "classEditHolidaysController.html", null ],
       [ "EditJobsController", "classEditJobsController.html", null ],
       [ "EditTeamController", "classEditTeamController.html", null ],
@@ -220,6 +221,7 @@ var NAVTREE =
         [ "WorkflowController", "classWorkflowController.html", null ]
       ] ],
       [ "DeadLine", "classDeadLine.html", null ],
+      [ "DynatreeNode", "classDynatreeNode.html", null ],
       [ "ExportCsvTools", "classExportCsvTools.html", null ],
       [ "FileReader", "classFileReader.html", null ],
       [ "FilterManager", "classFilterManager.html", null ],

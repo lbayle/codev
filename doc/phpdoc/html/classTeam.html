@@ -34,7 +34,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CodevTT
-   &#160;<span id="projectnumber">0.99.21</span>
+   &#160;<span id="projectnumber">0.99.22</span>
    </div>
    <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
@@ -169,6 +169,10 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a838f3003a2058de5095ac49b70cbd6e1">getUnassignedTasks</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a2c2887913992c43134da5d8dc2914807">getConsistencyCheckList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a03c1345c10ef40547dbb03715aed7040">setConsistencyCheckList</a> (array $checkList)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ae085ad39ce04f5064207727b9e7eee26">getGeneralPrefsList</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3ebc1fccf9fc256a5c883becee2aeb86"></a><!-- doxytag: member="Team::getGeneralPreference" ref="a3ebc1fccf9fc256a5c883becee2aeb86" args="($prefKey)" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getGeneralPreference</b> ($prefKey)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a0ca78b7e7364dfb5dd391a9a3c5d9aa4">setGeneralPrefsList</a> (array $checkList)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ab71152f14a82df36c6d39a9752a667c5">staticInit</a> ()</td></tr>
@@ -180,8 +184,8 @@ Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ab5c73571a83a98b5481a230ec25f4e30">getTeams</a> ($withDisabled=false)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af8bd72054d4c6172ba50734b5d292359"></a><!-- doxytag: member="Team::accessLevel_nostats" ref="af8bd72054d4c6172ba50734b5d292359" args="" -->
-const&#160;</td><td class="memItemRight" valign="bottom"><b>accessLevel_nostats</b> = 5</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9f7f56ec15813b60dfceeb743d32c9d2"></a><!-- doxytag: member="Team::accessLevel_custommer" ref="a9f7f56ec15813b60dfceeb743d32c9d2" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>accessLevel_custommer</b> = 5</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af5cd6baa81b97b125bd0fb3e4dd05ff8"></a><!-- doxytag: member="Team::accessLevel_dev" ref="af5cd6baa81b97b125bd0fb3e4dd05ff8" args="" -->
 const&#160;</td><td class="memItemRight" valign="bottom"><b>accessLevel_dev</b> = 10</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a62d2df5cf803eec6d26fc2517164978a"></a><!-- doxytag: member="Team::accessLevel_observer" ref="a62d2df5cf803eec6d26fc2517164978a" args="" -->
@@ -190,6 +194,10 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>accessLevel_observer
 const&#160;</td><td class="memItemRight" valign="bottom"><b>accessLevel_manager</b> = 30</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af158531308c4a6273cb23a9295b7448b"></a><!-- doxytag: member="Team::$defaultGeneralPrefsList" ref="af158531308c4a6273cb23a9295b7448b" args="" -->
+static&#160;</td><td class="memItemRight" valign="bottom"><b>$defaultGeneralPrefsList</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac21be71b8a6884e5168e3a26ff82d7c1"></a><!-- doxytag: member="Team::$generalPrefsDescriptionList" ref="ac21be71b8a6884e5168e3a26ff82d7c1" args="" -->
+static&#160;</td><td class="memItemRight" valign="bottom"><b>$generalPrefsDescriptionList</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><b>$accessLevelNames</b></td></tr>
 </table>
 <hr/><h2>Constructor &amp; Destructor Documentation</h2>
@@ -612,6 +620,23 @@ Static Public Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae085ad39ce04f5064207727b9e7eee26"></a><!-- doxytag: member="Team::getGeneralPrefsList" ref="ae085ad39ce04f5064207727b9e7eee26" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::getGeneralPrefsList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>array ('checkName' =&gt; [0,1] isEnabled) </dd></dl>
 
 </div>
 </div>
@@ -1209,6 +1234,29 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a0ca78b7e7364dfb5dd391a9a3c5d9aa4"></a><!-- doxytag: member="Team::setGeneralPrefsList" ref="a0ca78b7e7364dfb5dd391a9a3c5d9aa4" args="(array $checkList)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::setGeneralPrefsList </td>
+          <td>(</td>
+          <td class="paramtype">array $&#160;</td>
+          <td class="paramname"><em>checkList</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">array</td><td class="paramname">$checkList</td><td>('checkName' =&gt; [0,1] isEnabled) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ade71014d7db5684b3ac89d0f830c7d2c"></a><!-- doxytag: member="Team::setLeader" ref="ade71014d7db5684b3ac89d0f830c7d2c" args="($leaderid)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1286,11 +1334,11 @@ Static Public Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <b>Initial value:</b><div class="fragment"><pre class="fragment"> array(
-      
       self::accessLevel_dev      =&gt; <span class="stringliteral">&quot;Developer&quot;</span>, 
+      self::accessLevel_manager  =&gt; <span class="stringliteral">&quot;Manager&quot;</span>, 
       self::accessLevel_observer =&gt; <span class="stringliteral">&quot;Observer&quot;</span>,  
+      self::accessLevel_custommer  =&gt; <span class="stringliteral">&quot;Custommer&quot;</span> 
       
-      self::accessLevel_manager  =&gt; <span class="stringliteral">&quot;Manager&quot;</span> 
    )
 </pre></div>
 </div>
@@ -1318,7 +1366,7 @@ Static Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Fri Apr 5 2013 20:36:02 for CodevTT by
+    <li class="footer">Generated on Tue Jun 25 2013 01:22:45 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>
