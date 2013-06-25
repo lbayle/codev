@@ -128,7 +128,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#abb22074e7246267ac3b5b6170877ed75">isTeamDeveloper</a> ($team_id, $startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a409179c75679d37e3864d6146a899cf5">isTeamObserver</a> ($team_id, $startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a2053e4dfd5b61d8c9323a6605b89bfed">isTeamManager</a> ($team_id, $startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a1d982021af0a2cdd3558e3737a2525aa">isTeamCustommer</a> ($team_id, $startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a1d982021af0a2cdd3558e3737a2525aa">isTeamCustomer</a> ($team_id, $startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a11bc2d5d072cbd2adf280d5b59d5f0e1">isTeamMember</a> ($team_id, $accessLevel=NULL, $startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a07d0c71f99a076ec0a0baf5730df2429">getArrivalDate</a> ($team_id=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a03a1d9aa4e79a78e2180e2feb2a599cf">getDepartureDate</a> ($team_id=NULL)</td></tr>
@@ -142,7 +142,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a3f2289ff178cac1539a24a1fc6504d61">getDevTeamList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a44badf151c35cabc5f4c1a211a8b4eb1">getObservedTeamList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#ab97c80d7f248253091b17880e14fbd0a">getManagedTeamList</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a4f9d0f54604ba08a39987418267e2506">getCustommerTeamList</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a4f9d0f54604ba08a39987418267e2506">getCustomerTeamList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a309e2e2c393b809f34f664606c84948c">getTeamList</a> ($accessLevel=NULL, $withDisabled=false)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#af340ccba34b0bc4a768300af8437be53">getProjectList</a> (array $teamList=NULL, $noStatsProject=true, $withDisabledProjects=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a0c582147b4ba015882c2b9edd404130c">getForecastWorkload</a> (array $projList=NULL)</td></tr>
@@ -387,12 +387,12 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4f9d0f54604ba08a39987418267e2506"></a><!-- doxytag: member="User::getCustommerTeamList" ref="a4f9d0f54604ba08a39987418267e2506" args="()" -->
+<a class="anchor" id="a4f9d0f54604ba08a39987418267e2506"></a><!-- doxytag: member="User::getCustomerTeamList" ref="a4f9d0f54604ba08a39987418267e2506" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">User::getCustommerTeamList </td>
+          <td class="memname">User::getCustomerTeamList </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1122,12 +1122,12 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a1d982021af0a2cdd3558e3737a2525aa"></a><!-- doxytag: member="User::isTeamCustommer" ref="a1d982021af0a2cdd3558e3737a2525aa" args="($team_id, $startTimestamp=NULL, $endTimestamp=NULL)" -->
+<a class="anchor" id="a1d982021af0a2cdd3558e3737a2525aa"></a><!-- doxytag: member="User::isTeamCustomer" ref="a1d982021af0a2cdd3558e3737a2525aa" args="($team_id, $startTimestamp=NULL, $endTimestamp=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">User::isTeamCustommer </td>
+          <td class="memname">User::isTeamCustomer </td>
           <td>(</td>
           <td class="paramtype">$&#160;</td>
           <td class="paramname"><em>team_id</em>, </td>

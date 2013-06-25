@@ -2966,7 +2966,7 @@ msgstr ""
 #. echo "DEBUG create Variable : ".Config::id_ClientTeamid."<br/>";
 #. TODO should be a table, there can be more than one client !
 #: install/install_step3.php:225
-msgid "Custommer teamId"
+msgid "Customer teamId"
 msgstr "Código da equipe cliente"
 
 #: install/install_step3.php:383

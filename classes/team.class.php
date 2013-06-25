@@ -48,8 +48,8 @@ class Team extends Model {
    // il peut y avoir plusieurs observer
    // il peut y avoir plusieurs manager
    // un observer ne peut imputer sur les taches de l'equipe, il a acces en lecture seule aux donnees
-   // un custommer ne peut imputer, il n'est pas considéré comme ressource, il sert a "stocker" des fiches
-   const accessLevel_custommer = 5; // in table codev_team_user_table
+   // un customer ne peut imputer, il n'est pas considéré comme ressource, il sert a "stocker" des fiches
+   const accessLevel_customer = 5; // in table codev_team_user_table
    const accessLevel_dev = 10; // in table codev_team_user_table
    const accessLevel_observer = 20; // in table codev_team_user_table
    const accessLevel_manager  = 30; // in table codev_team_user_table
@@ -58,7 +58,7 @@ class Team extends Model {
       self::accessLevel_dev      => "Developer", // can modify, can NOT view stats
       self::accessLevel_manager  => "Manager", // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
       self::accessLevel_observer => "Observer",  // can NOT modify, can view stats
-      self::accessLevel_custommer  => "Custommer" // can NOT modify, can NOT view stats
+      self::accessLevel_customer  => "Customer" // can NOT modify, can NOT view stats
       //self::accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?
    );
 

@@ -229,7 +229,7 @@ function setConfigItems() {
    #echo "DEBUG create Variable : ".Config::id_ClientTeamid."<br/>";
    # TODO should be a table, there can be more than one client !
    # TODO clients are team specific !
-   $desc = T_("Custommer teamId");
+   $desc = T_("Customer teamId");
    Config::getInstance()->setValue(Config::id_ClientTeamid, NULL, Config::configType_int, $desc);
 
 

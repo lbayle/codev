@@ -34,7 +34,7 @@ class HolidaysReportController extends Controller {
       if (Tools::isConnectedUser()) {
           
         // only teamMembers & observers can access this page
-        if ((0 == $this->teamid) || ($this->session_user->isTeamCustommer($this->teamid))) {
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
             $this->smartyHelper->assign('accessDenied', TRUE);
             return;
         }

@@ -141,7 +141,7 @@ class Config {
       "v0.99.19" => "(29 Nov  2012) - GUI enhancements, install, Cmd Provisions, Cmd Budget, CodevTT_type, disable project/team, HTML Tooltips, MantisPlugin, merge Progress & ProgressMgr",
       "v0.99.20" => "(06 Feb  2013) - teamSelector, custo-tooltips, custo-ccheck, install, unassignedTasks, dates ISO-8601, usort, maxTooltipsPerPage, BudgetDriftHistoryIndicator, ReopenedRateIndicator, exportODT",
       "v0.99.21" => "(07 Apr  2013) - ObserverView=MgrView, TeamMonthlyActivity, BackupDialogBox+Status, install:selectAdmin, install:subdirs",
-      "v0.99.22" => "(25 Jun  2013) - install:log4php.xml, no default backlog, ExtTasksProjects categories, accessLevel_Custommer, Fix SessionName, Fix reverseProxy",
+      "v0.99.22" => "(25 Jun  2013) - install:log4php.xml, no default backlog, ExtTasksProjects categories, accessLevel_Customer, Fix SessionName, Fix reverseProxy",
    );
 
    /**

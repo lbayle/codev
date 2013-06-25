@@ -47,7 +47,7 @@ class ImportIssuesController extends Controller {
          
          if ((0 == $this->teamid) || 
              !array_key_exists($this->teamid, $teamList) ||
-             ($this->session_user->isTeamCustommer($this->teamid))) {
+             ($this->session_user->isTeamCustomer($this->teamid))) {
             $this->smartyHelper->assign('accessDenied', TRUE);
          } else {
          

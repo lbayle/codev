@@ -116,7 +116,7 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames, $Str
 
    // commands
    echo "-  Clean commands...<br>"; flush();
-   $query  = "UPDATE `codev_command_table` SET `reporter` = 'Joe the custommer'";
+   $query  = "UPDATE `codev_command_table` SET `reporter` = 'Joe the customer'";
    $result = execQuery($query);
    $query  = "UPDATE `codev_command_table` SET `description` = 'fake description...'";
    $result = execQuery($query);
@@ -148,7 +148,7 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames, $Str
    }   
 
    // ServiceContract
-   $query  = "UPDATE `codev_servicecontract_table` SET `reporter` = 'Joe the custommer'";
+   $query  = "UPDATE `codev_servicecontract_table` SET `reporter` = 'Joe the customer'";
    $result = execQuery($query);
    $query  = "UPDATE `codev_servicecontract_table` SET `description` = 'fake description...'";
    $result = execQuery($query);

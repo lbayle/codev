@@ -3604,7 +3604,7 @@ msgstr ""
 #. TODO should be a table, there can be more than one client !
 #. TODO clients are team specific !
 #: install/install_step3.php:232
-msgid "Custommer teamId"
+msgid "Customer teamId"
 msgstr ""
 
 #: install/install_step3.php:430

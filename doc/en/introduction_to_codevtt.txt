@@ -22,5 +22,5 @@ And you’ll get:
     gantt graph
     drift & deadline alerts
     statistics
-    custommer reports
+    customer reports
     …

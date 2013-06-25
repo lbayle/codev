@@ -38,7 +38,7 @@ class CommandEditController extends Controller {
    protected function display() {
       if (Tools::isConnectedUser()) {
 
-        if ((0 == $this->teamid) || ($this->session_user->isTeamCustommer($this->teamid))) {
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
             $this->smartyHelper->assign('isEditGranted', FALSE);
         } else {
 

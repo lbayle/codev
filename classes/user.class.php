@@ -304,8 +304,8 @@ class User extends Model {
     * @param int $endTimestamp
     * @return bool
     */
-   public function isTeamCustommer($team_id, $startTimestamp = NULL, $endTimestamp = NULL) {
-      return $this->isTeamMember($team_id, Team::accessLevel_custommer, $startTimestamp, $endTimestamp);
+   public function isTeamCustomer($team_id, $startTimestamp = NULL, $endTimestamp = NULL) {
+      return $this->isTeamMember($team_id, Team::accessLevel_customer, $startTimestamp, $endTimestamp);
    }
 
    /**
@@ -769,11 +769,11 @@ class User extends Model {
    /**
     * @return string[] the teams i'm Manager of.
     */
-   public function getCustommerTeamList() {
-      if(NULL == $this->custommerTeamList) {
-         $this->custommerTeamList = $this->getTeamList(Team::accessLevel_custommer);
+   public function getCustomerTeamList() {
+      if(NULL == $this->customerTeamList) {
+         $this->customerTeamList = $this->getTeamList(Team::accessLevel_customer);
       }
-      return $this->custommerTeamList;
+      return $this->customerTeamList;
    }
 
    /**
@@ -934,7 +934,7 @@ class User extends Model {
          // get all teams except those where i'm Observer
          $dTeamList = $this->getDevTeamList();
          $mTeamList = $this->getManagedTeamList();
-         $cTeamList = $this->getCustommerTeamList();
+         $cTeamList = $this->getCustomerTeamList();
          $teamList = $dTeamList + $mTeamList + $cTeamList;   // array_merge does not work ?!
          $projList = $this->getProjectList($teamList);
       }

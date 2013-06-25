@@ -166,7 +166,7 @@ class ExportODTController extends Controller {
          );
       foreach($memberList as $id => $name) {
          
-          // we want ActiveMembers + Custommers
+          // we want ActiveMembers + Customers
          $user = UserCache::getInstance()->getUser($id);
          if ($user->isTeamObserver($this->teamid)) {
              continue;
@@ -371,7 +371,7 @@ class ExportODTController extends Controller {
       if (Tools::isConnectedUser()) {
 
         // only teamMembers & observers can access this page
-        if ((0 == $this->teamid) || ($this->session_user->isTeamCustommer($this->teamid))) {
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
             $this->smartyHelper->assign('accessDenied', TRUE);
         } else {
 
