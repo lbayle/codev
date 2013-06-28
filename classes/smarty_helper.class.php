@@ -31,6 +31,14 @@ class SmartyHelper {
    private static $logger;
 
    /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
+
+   /**
     * @var Smarty The smarty instance
     */
    private $smarty;
@@ -42,8 +50,8 @@ class SmartyHelper {
       $this->smarty = new Smarty();
       $this->smarty->caching = Smarty::CACHING_OFF;
       $this->smarty->setTemplateDir(BASE_PATH . '/tpl/');
-      $this->smarty->setCacheDir('/tmp/codevtt/cache/');
-      $this->smarty->setCompileDir('/tmp/codevtt/template_c/');
+      $this->smarty->setCacheDir(Constants::$codevOutputDir.'/cache/');
+      $this->smarty->setCompileDir(Constants::$codevOutputDir.'/template_c/');
 
       // Method for smarty translation
       function smarty_translate($params, $content, $smarty, &$repeat) {
@@ -63,7 +71,6 @@ class SmartyHelper {
       $this->smarty->registerPlugin("block", "t", "smarty_translate");
       $this->smarty->registerPlugin("modifier", "escape_all_quotes", "smarty_modifier_escape_all_quotes");
       
-      self::$logger = Logger::getLogger(__CLASS__);
    }
 
    /**
@@ -142,4 +149,5 @@ class SmartyHelper {
 
 }
 
+SmartyHelper::staticInit();
 ?>
