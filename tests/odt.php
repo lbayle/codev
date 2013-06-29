@@ -32,7 +32,7 @@ function displayProjectSelectionForm($originPage, $projList, $defaultProjectid =
    }
    echo "</select>\n";
 
-   echo "<input type='submit' value='".T_("Jump")."'>\n";
+   echo "<input type='submit' value='".T_("Select")."'>\n";
    echo "<input type='hidden' name='action' value='genODT' />\n";
 
    echo "</form>\n";

@@ -22,6 +22,9 @@ if($locale === "fr") {
 } elseif($locale === "pt_BR") {
    // Try many values because OS doesn't have the same constants
    $phpLocale = setlocale(LC_ALL,"pt_BR","pt","Portuguese");
+} elseif($locale === "de_DE") {
+   // Try many values because OS doesn't have the same constants
+   $phpLocale = setlocale(LC_ALL,"de_DE","de","German");
 } else {
    // No locale set, it's because visitors modify the url, so forbidden reply
    header('HTTP/1.1 403 Forbidden');
@@ -59,7 +62,7 @@ if(!array_search("ISO-8859-1", $availableEncoding)) {
  * @return string The locale
  */
 function getLocale() {
-   
+
    $locale = 'en'; // default language
 
    if (isset($_GET['locale']) && !empty($_GET['locale'])) {
@@ -95,6 +98,9 @@ function getLocale() {
             break;
          } elseif (strpos($lang, 'en') === 0) {
             $locale = 'en';
+            break;
+         } elseif (strpos($lang, 'de') === 0) {
+            $locale = 'de_DE';
             break;
          } elseif (strpos($lang, 'pt') === 0) {
             $locale = 'pt_BR';

@@ -351,7 +351,7 @@
       <!-- Developers Workload -->
       <div id="tabWorkload" class="ui-helper-hidden">
          {if $workload_Legend}
-         <span class="help_font">{t}man-day{/t}: {t}Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes){/t}</span>
+         <span class="help_font">{t}man-days{/t}: {t}Available man-days on the period (excluding leave and external tasks){/t}</span>
          <div style="margin-top: 1em">
             <script type="text/javascript">
                jQuery(document).ready(function() {
@@ -369,7 +369,7 @@
                <thead>
                   <tr>
                      <th>{t}Date{/t}</th>
-                     <th title="{t}nb production days{/t}">{t}man-day{/t}</th>
+                     <th title="{t}nb production days{/t}">{t}man-days{/t}</th>
                   </tr>
                </thead>
                <tbody>
@@ -388,7 +388,7 @@
       <!--div id="tabTaskStatusHistory">
          { include file="plugin/status_history_indicator.html" }
       </div-->
-      
+
       <div id="tabEffortEstimReliabilityHistory">
 
 			<span class="help_font">{t}Compares the effort estimation to the elapsed time.{/t} &nbsp;&nbsp;<a id="dialog_EffortEstimReliability_link" class="help_link" href="{$page}"><img alt="{t}Help{/t}" title="{t}Help{/t}" src="images/help_icon.gif"/></a></span>
