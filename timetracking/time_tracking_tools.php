@@ -161,6 +161,18 @@ class TimeTrackingTools {
             $jsonIssueInfo = json_encode($issueInfo);
 
 
+            // prepare json data for the IssueNoteDialogbox
+            $issueNote = IssueNote::getTimesheetNote($issue->getId());
+            if (!is_null($issueNote)) {
+               $issueNoteId = $issueNote->getId();
+
+               // used both for the tooltip & the dialogBox
+               $issueNoteText_b64 = base64_encode($issueNote->getText());
+
+            } else {
+               $issueNoteId = 0;
+               $issueNoteText_b64 = base64_encode(T_('Click to add a note'));;
+            }
 
             $weekTasks[$bugid."_".$jobid] = array(
                'bugid' => $bugid,
@@ -172,7 +184,9 @@ class TimeTrackingTools {
                'infoTooltip' => $infoTooltip,
                'summary' => addslashes(htmlspecialchars($summary)),
                'updateBacklogJsonData' => $jsonIssueInfo,
-               'updateBacklogSummary' => $issue->getSummary()
+               'updateBacklogSummary' => $issue->getSummary(),
+               'issueNoteId' => $issueNoteId,
+               'issueNoteText_b64' => $issueNoteText_b64
             );
          }
       }

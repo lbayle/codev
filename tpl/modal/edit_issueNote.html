@@ -1,0 +1,120 @@
+<!--
+This opens a popup window displaying an IssueNote text to edit.
+
+-->
+
+<div id="dialog_editIssueNote" title="{t}Edit timesheet note{/t}" class="ui-helper-hidden">
+
+   <label id="editIssueNoteDialogDesc" class="help_font"></label>
+   <br><br>
+   <textarea id="issuenote_text" name="issuenote_text" cols="80" rows="8"></textarea>
+
+   <div align='left'>
+      <form id="formEditIssueNote" name="formEditIssueNote" method="post" action="{$ajaxPage}" >
+         <fieldset>
+            <input type="hidden" name="action" value="saveIssueNote" />
+            <input type="hidden" name="bugid" value="" />
+            <input type="hidden" name="issuenoteid" value="" />
+            <input type="hidden" name="issuenotetext_b64" value="" />
+         </fieldset>
+      </form>
+      <form id="formGetIssueNoteText" name="formGetIssueNoteText" method="get" action="{$ajaxPage}" >
+         <fieldset>
+            <input type="hidden" name="action" value="getIssueNoteText" />
+            <input type="hidden" name="bugid" value="" />
+         </fieldset>
+      </form>
+   </div>
+</div>
+
+<script src='lib/jquery.base64/jquery.base64.js'></script>
+
+<script type="text/javascript">
+
+   // function called when clicked on note icon
+   function editIssueNote(bugid){
+
+      // get note via ajax, to be sure that data is up to date.
+      var formGetIssueNoteText = jQuery('#formGetIssueNoteText');
+      formGetIssueNoteText.find("input[name=bugid]").val(bugid);
+      jQuery.ajax({
+         type: "GET",
+         url: formGetIssueNoteText.attr("action"),
+         data: formGetIssueNoteText.serialize(),
+         success: function(data) {
+
+            // decode json data
+            var response = jQuery.parseJSON(data);
+
+            // update dialogbox textarea
+            var issuenoteid = response['issuenoteid']
+            if (0 != issuenoteid) {
+               var issuenote_text = jQuery.base64.decode(response['issuenote_text_b64']);
+               jQuery("#dialog_editIssueNote").find("textarea[name=issuenote_text]").val(issuenote_text);
+            }
+            jQuery("#formEditIssueNote").find("input[name=bugid]").val(bugid);
+            jQuery("#formEditIssueNote").find("input[name=issuenoteid]").val(issuenoteid);
+            jQuery("#editIssueNoteDialogDesc").text("Task " + bugid );
+
+         },
+         error: function(data) {
+            // TODO
+            alert('ERROR: ' + data);
+         }
+      });
+
+      jQuery("#dialog_editIssueNote").dialog("open");
+   }
+
+   jQuery(document).ready(function() {
+
+      var dialog = jQuery("#dialog_editIssueNote").dialog({
+            autoOpen: false,
+            modal: true,
+            hide: "fade",
+            height: 'auto',
+            width: "auto",
+            closeOnEscape: true,
+            buttons: {
+               Ok: function() {
+                  jQuery("#formEditIssueNote").submit();
+               },
+               Cancel: function() {
+                  jQuery( this ).dialog("close");
+               }
+            }
+      });
+
+      jQuery("#formEditIssueNote").submit(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+
+         /* get some values from elements on the page: */
+         var formEditIssueNote = jQuery(this);
+         var issuenotetext = jQuery("#dialog_editIssueNote").find("textarea[name=issuenote_text]").val();
+         var issuenotetext_b64 = jQuery.base64.encode(issuenotetext);
+         formEditIssueNote.find("input[name=issuenotetext_b64]").val(issuenotetext_b64);
+
+         jQuery.ajax({
+            type: "GET",
+            url: formEditIssueNote.attr("action"),
+            data: formEditIssueNote.serialize(),
+            success: function(data) {
+               // update bugnote tooltip
+               var bugid = data;
+               var tooltip = jQuery("#bugNote_" + bugid);
+               tooltip.attr('title', issuenotetext);
+               //alert('save: ' + tooltip.attr('title'));
+
+            },
+            error: function(data) {
+               // TODO
+               alert('ERROR: ' + data);
+            }
+         });
+         jQuery("#dialog_editIssueNote").dialog("close");
+      });
+
+   });
+
+</script>
