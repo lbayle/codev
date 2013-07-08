@@ -62,6 +62,43 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $smartyHelper->assign('dayTotalElapsed', $weekTasks["totalElapsed"]);
 
          $smartyHelper->display('ajax/weekTaskDetails');
+
+      } else if ($_GET['action'] == 'getIssueNoteText') {
+         $bugid = Tools::getSecureGETIntValue('bugid');
+         $issueNote = IssueNote::getTimesheetNote($bugid);
+         if (!is_null($issueNote)) {
+            $issueNoteId = $issueNote->getId();
+            $issueNoteText_b64 = base64_encode($issueNote->getText());
+         } else {
+            $issueNoteId = 0;
+            $issueNoteText_b64 = '';
+         }
+         // return data
+         $data = array(
+             'bugid' => $bugid,
+             'issuenoteid' => $issueNoteId,
+             'issuenote_text_b64' => $issueNoteText_b64
+         );
+         $jsonData = json_encode($data);
+         echo $jsonData;
+
+      } else if ($_GET['action'] == 'saveIssueNote') {
+         $bugid = Tools::getSecureGETIntValue('bugid');
+         $issueNoteText_b64 = Tools::getSecureGETStringValue('issuenotetext_b64');
+         $issueNoteText = base64_decode($issueNoteText_b64);
+
+         IssueNote::setTimesheetNote($bugid, $issueNoteText);
+
+         // return data
+         /*
+         $issueNote = IssueNote::getTimesheetNote($bugid, $issueNoteText);
+         $issueNoteText_b64 = base64_decode($issueNote->getText());
+         $data = array(
+             $bugid,
+             $issueNoteText_b64,
+         );
+         */
+         echo $bugid;
       }
    }
 }

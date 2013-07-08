@@ -6,7 +6,7 @@
 
          var row = day.parent();
          var modified = false;
-         
+
          var index = day.index();
          var dayHeader = jQuery(jQuery("#weekTaskDetails").find("thead tr").children().get(index));
          var dayValue = dayHeader.attr('id').replace('date-','');
@@ -73,6 +73,14 @@
       });
       {/foreach}
 
+      // click on the IssueNote will rase the editIssueNote dialogbox
+      {foreach from=$weekTasks key=id item=i}
+      jQuery("#bugNote_{$i.bugid}").click(function() {
+         editIssueNote('{$i.bugid}');
+         return false;
+      });
+      {/foreach}
+
    });
 </script>
 <table id="weekTaskDetails" style="width:100%;">
@@ -95,11 +103,11 @@
       <tr id="weekTasks-{$i.bugid}">
          <td>{$i.description}</td>
          <td style="width:38px;">
-            <img title='Add note: comming soon...' align='absmiddle' src='images/b_note_grey.png' />
+            <img id="bugNote_{$i.bugid}" title='{$i.issueNoteText_b64|base64_decode}' align='absmiddle' src='images/b_note_grey.png' />
             {$i.infoTooltip}
          </td>
          <td><a id="linkUpdateBacklog_{$i.bugid}" title="{t}update backlog{/t}" href="#">{$i.formattedBacklog}</a></td>
-         
+
          <td class="job-{$i.jobid}">{$i.jobName}</td>
          {foreach from=$i.dayTasks key=day item=j}
          <td {if $j.title}title="{$j.title}"{/if} class="dayTask hover" style="{if $j.bgColor}background-color: #{$j.bgColor};{/if}" >{if $j.day != 0}{$j.day}{/if}</td>
@@ -119,3 +127,6 @@
       </tr>
    </tfoot>
 </table>
+
+{include file="modal/edit_issueNote.html"}
+
