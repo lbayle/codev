@@ -143,7 +143,7 @@ class TimeTrackingTools {
             $issueInfo = array(
                'backlog' => $backlog,
                'bugid' => $issue->getId(),
-               #'summary' => addslashes(htmlspecialchars($summary)),
+               'summary' => base64_encode($issue->getSummary()),
                'dialogBoxTitle' => $issue->getFormattedIds(),
                'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),
                'mgrEffortEstim' => $issue->getMgrEffortEstim(),
@@ -166,7 +166,7 @@ class TimeTrackingTools {
             if (!is_null($issueNote)) {
                $issueNoteId = $issueNote->getId();
 
-               // used both for the tooltip & the dialogBox
+               // used for the tooltip NOT the dialoBox
                $issueNoteText_b64 = base64_encode($issueNote->getText());
 
             } else {
@@ -184,7 +184,6 @@ class TimeTrackingTools {
                'infoTooltip' => $infoTooltip,
                'summary' => addslashes(htmlspecialchars($summary)),
                'updateBacklogJsonData' => $jsonIssueInfo,
-               'updateBacklogSummary' => $issue->getSummary(),
                'issueNoteId' => $issueNoteId,
                'issueNoteText_b64' => $issueNoteText_b64
             );
