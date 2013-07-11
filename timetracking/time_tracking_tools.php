@@ -162,16 +162,25 @@ class TimeTrackingTools {
 
 
             // prepare json data for the IssueNoteDialogbox
-            $issueNote = IssueNote::getTimesheetNote($issue->getId());
-            if (!is_null($issueNote)) {
-               $issueNoteId = $issueNote->getId();
+            if ((!$project->isSideTasksProject(array($teamid))) &&
+                (!$project->isExternalTasksProject())) {
 
-               // used for the tooltip NOT the dialoBox
-               $issueNoteText_b64 = base64_encode($issueNote->getText());
+               $issueNote = IssueNote::getTimesheetNote($issue->getId());
+               if (!is_null($issueNote)) {
+                  $issueNoteId = $issueNote->getId();
 
+                  // used for the tooltip NOT the dialoBox
+                  $tooltipAttr = array (
+                     'date' => date('Y-m-d H:i:s', $issueNote->getLastModified()),
+                     'Note' => $issueNote->getText(),
+                  );
+                  $noteTooltip = Tools::imgWithTooltip('images/b_note.png', $tooltipAttr, "bugNote_".$issueNote->getBugId());
+               } else {
+                  $issueNoteId = 0;
+                  $noteTooltip = Tools::imgWithTooltip('images/b_note_grey.png', T_('Click to add a note'), "bugNote_".$issue->getId());
+               }
             } else {
-               $issueNoteId = 0;
-               $issueNoteText_b64 = base64_encode(T_('Click to add a note'));;
+               $noteTooltip = '';
             }
 
             $weekTasks[$bugid."_".$jobid] = array(
@@ -185,7 +194,7 @@ class TimeTrackingTools {
                'summary' => addslashes(htmlspecialchars($summary)),
                'updateBacklogJsonData' => $jsonIssueInfo,
                'issueNoteId' => $issueNoteId,
-               'issueNoteText_b64' => $issueNoteText_b64
+               'noteTooltip' => $noteTooltip,
             );
          }
       }

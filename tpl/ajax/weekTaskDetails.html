@@ -103,7 +103,7 @@
       <tr id="weekTasks-{$i.bugid}">
          <td>{$i.description}</td>
          <td style="width:38px;">
-            <img id="bugNote_{$i.bugid}" title='{$i.issueNoteText_b64|base64_decode}' align='absmiddle' src='images/b_note_grey.png' />
+            {$i.noteTooltip}
             {$i.infoTooltip}
          </td>
          <td><a id="linkUpdateBacklog_{$i.bugid}" title="{t}update backlog{/t}" href="#">{$i.formattedBacklog}</a></td>
