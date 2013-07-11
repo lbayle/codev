@@ -83,11 +83,12 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          echo $jsonData;
 
       } else if ($_GET['action'] == 'saveIssueNote') {
+         $reporter_id = $_SESSION['userid'];
          $bugid = Tools::getSecureGETIntValue('bugid');
          $issueNoteText_b64 = Tools::getSecureGETStringValue('issuenotetext_b64');
          $issueNoteText = base64_decode($issueNoteText_b64);
 
-         IssueNote::setTimesheetNote($bugid, $issueNoteText);
+         IssueNote::setTimesheetNote($bugid, $issueNoteText, $reporter_id);
 
          // return data
          /*

@@ -3,7 +3,7 @@ This opens a popup window displaying an IssueNote text to edit.
 
 -->
 
-<div id="dialog_editIssueNote" title="{t}Edit timesheet note{/t}" class="ui-helper-hidden">
+<div id="dialog_editIssueNote" title="Task XXX - Edit timesheet note" class="ui-helper-hidden">
 
    <label id="editIssueNoteDialogDesc" class="help_font"></label>
    <br><br>
@@ -27,7 +27,7 @@ This opens a popup window displaying an IssueNote text to edit.
    </div>
 </div>
 
-<script src='lib/jquery.base64/jquery.base64.js'></script>
+<!--script src='lib/jquery.base64/jquery.base64.js'></script-->
 
 <script type="text/javascript">
 
@@ -54,6 +54,10 @@ This opens a popup window displaying an IssueNote text to edit.
             }
             jQuery("#formEditIssueNote").find("input[name=bugid]").val(bugid);
             jQuery("#formEditIssueNote").find("input[name=issuenoteid]").val(issuenoteid);
+
+            var dialogBoxTitle = '{t}Task{/t} ' + bugid + ' - {t}Edit timesheet note{/t}'
+            jQuery("#dialog_editIssueNote").dialog("option", "title", dialogBoxTitle);
+
             jQuery("#editIssueNoteDialogDesc").text("Task " + bugid );
 
          },
