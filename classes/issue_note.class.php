@@ -18,8 +18,15 @@
 
 class IssueNote {
 
-   // mantis bugnote types : ( 'BUGNOTE', 0 ), ( 'REMINDER', 1 ) ( 'TIME_TRACKING', 2 );
-   const type_timesheetNote = 108;
+   const type_bugnote = 0;         // Mantis ( 'BUGNOTE', 0 )
+   const type_reminder = 1;        // Mantis ( 'REMINDER', 1 )
+   const type_timetracking = 2;    // Mantis ( 'TIME_TRACKING', 2 )
+   const type_timesheetNote = 108; // CodevTT
+
+   const viewState_public = 10;
+   const viewState_private = 50;
+
+   const rev_type_bugnote = 4; // MANTIS
 
    const tagid_timesheetNote = 'CODEVTT_TAG_TIMESHEET_NOTE';
    const tagid_NoteReadBy    = 'CODEVTT_TAG_READ_BY';
@@ -49,9 +56,49 @@ class IssueNote {
    private $bugnote_text_id;
    private $reporter_id;
    private $date_submitted;
+   private $last_modified;
    private $note;
    private $type; // mantis bugnote types : ( 'BUGNOTE', 0 ), ( 'REMINDER', 1 ) ( 'TIME_TRACKING', 2 );
 
+
+   /**
+    *
+    * create a new note for an issue
+    *
+    * @param type $bug_id
+    * @param type $reporter_id
+    * @param type $text
+    * @param type $type
+    * @param type $private
+    */
+   public static function create($bug_id, $reporter_id, $text='', $type=self::type_bugnote, $private=FALSE) {
+
+      $view_state = ($private) ? self::viewState_private : self::viewState_public;
+
+      // TODO check SQL injections
+      $query2 = "INSERT INTO `mantis_bugnote_text_table` (`note`) VALUES ('$text');";
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      if (!$result2) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $bugnote_text_id = SqlWrapper::getInstance()->sql_insert_id();
+
+      $timestamp = time();
+      $query = 'INSERT INTO `mantis_bugnote_table` '.
+              '(`bug_id`, `reporter_id`, `view_state`, `note_type`, `bugnote_text_id`, `date_submitted`, `last_modified`) '.
+              "VALUES ('$bug_id', '$reporter_id', '$view_state', '$type', '$bugnote_text_id', '$timestamp', '$timestamp');";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $bugnote_id = SqlWrapper::getInstance()->sql_insert_id();
+
+      // TODO log BUGNOTE_ADD in Issue history
+
+      return $bugnote_id;
+   }
 
    /**
     * search for the latest bugnote containing tagid_timesheetNote
@@ -96,10 +143,26 @@ class IssueNote {
     * @param type $bug_id
     * @param type $text
     */
-   public static function setTimesheetNote($bug_id, $text) {
+   public static function setTimesheetNote($bug_id, $text, $reporter_id) {
 
       // TODO
-      self::$logger->error("Task $bug_id setTimesheetNote: $text");
+      self::$logger->debug("Task $bug_id setTimesheetNote: $text");
+
+      // add TAG in front (if not found)
+      if (FALSE === strpos($text, self::tagid_timesheetNote)) {
+         $tag = self::tag_begin . self::tagid_timesheetNote . self::tag_end;
+         $text = $tag . '\n' . $text;
+      }
+
+      $issueNote = self::getTimesheetNote($bug_id);
+      if (is_null($issueNote)) {
+         $bugnote_id = self::create($bug_id, $text, $text, self::type_timesheetNote, TRUE);
+
+      } else {
+         $issueNote->setText($text, $reporter_id);
+         $bugnote_id = $issueNote->getId();
+      }
+
 
    }
 
@@ -142,6 +205,7 @@ class IssueNote {
       $this->reporter_id = $row->reporter_id;
       $this->bugnote_text_id = $row->bugnote_text_id;
       $this->date_submitted = $row->date_submitted;
+      $this->last_modified = $row->last_modified;
       $this->note = $row->note;
    }
 
@@ -149,20 +213,95 @@ class IssueNote {
       return $this->id;
    }
 
-   public function getText() {
+   /**
+    *
+    * @param type $raw if TRUE, remove tagid_timesheetNote (NOT readBy tags)
+    * @return type
+    */
+   public function getText($raw=FALSE) {
+
+      // TODO check id != 0
+      // TODO remove tagid_timesheetNote using regex
+
       return $this->note;
    }
 
-   public function isTimesheetNote() {
-      // TODO trust note_type or search for tagid_timesheetNote ?
-      return (self::type_timesheetNote == $this->type);
+   /**
+    *
+    */
+   public function setText($text, $user_id) {
+
+      $oldText = $this->note;
+      if ( $oldText == $text ) { return true; }
+
+      # insert an 'original' revision if needed
+      if ( $this->revisionCount() < 1 ) {
+         $this->revisionAdd($oldText, $this->reporter_id, $this->last_modified);
+      }
+
+      // prevent SQL injections
+      $sqltext = SqlWrapper::getInstance()->sql_real_escape_string($text);
+
+      $query = "UPDATE `mantis_bugnote_text_table` SET note='$sqltext' ".
+               "WHERE id=" . $this->bugnote_text_id;
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+	   # updated the last_updated date
+      $now = time();
+   	$query = "UPDATE `mantis_bugnote_table` SET last_modified=$now WHERE id= $this->id";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      # insert a new revision
+      $this->revisionAdd($text, $user_id, $now);
+
+      // TODO set issue history !
+   	//history_log_event_special( $t_bug_id, BUGNOTE_UPDATED, bugnote_format_id( $p_bugnote_id ), $t_revision_id );
+
+      return true;
+
    }
 
-   /**
-    * @param int $tagid
-    * @param string $tagComment
-    */
+   private function revisionCount() {
+      $query = "SELECT COUNT(id) FROM `mantis_bug_revision_table` ".
+              "WHERE bug_id= $this->bug_id ".
+              "AND bugnote_id= $this->id ".
+		        "AND type= ".self::rev_type_bugnote.';';
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      #$found  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? true : false;
+      $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
+
+      return $nbTuples;
+   }
+
+   private function revisionAdd($text, $user_id, $timestamp) {
+
+      // prevent SQL injections
+      $sqltext = SqlWrapper::getInstance()->sql_real_escape_string($text);
+
+      $query = "INSERT INTO `mantis_bug_revision_table` (bug_id, bugnote_id, user_id, timestamp, type, value) ".
+               "VALUES ($this->bug_id, $this->id, $user_id, $timestamp, ".
+               self::rev_type_bugnote.", '$sqltext')";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+   }
+
    public function addTag($tagid, $tagComment = NULL, $inFront=TRUE) {
+
       $tag = self::tag_begin . $tagid . self::tag_sep . $tagComment . self::tag_end;
 
       if ($inFront) {
@@ -171,7 +310,8 @@ class IssueNote {
          $this->note = $this->note . '\n' . $tag;
       }
       // TODO update note in DB
-   }
+    }
+
 
    /**
     * add a NoteReadBy tag
@@ -182,7 +322,7 @@ class IssueNote {
    public function markAsRead($userid, $timestamp = NULL) {
 
       if (is_null($timestamp)) {
-         $timestamp = now();
+         $timestamp = time();
       }
 
       $user = UserCache::getInstance()->getUser($userid);
@@ -192,6 +332,7 @@ class IssueNote {
               $user->getName() . ' '.
               date('Y-m-d H:i:s', $timestamp) .
               self::tag_end;
+         $this->note .= '\n'.$tag;
 
    }
 
