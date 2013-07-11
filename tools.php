@@ -112,7 +112,7 @@ class Tools {
          }
       }
    }
-   
+
    /**
     * returns an HTML link to the TaskInfo page for Issue $bugid
     * ex: http://172.24.209.4/codev/reports/issue_info.php?bugid=60
@@ -135,9 +135,20 @@ class Tools {
       }
    }
 
-   public static function imgWithTooltip($img, $tooltipAttr) {
+   public static function imgWithTooltip($img, $tooltipAttr, $imgId=NULL) {
       $tooltip = self::getTooltip($tooltipAttr);
-      return '<img class="haveTooltip" title="" align="absmiddle" src="'.$img.'"/>'.$tooltip;
+      if (!is_null($imgId)) {
+         $id = 'id="'.$imgId.'"';
+      }
+
+      if(is_array($tooltipAttr)) {
+         $tooltip = self::getTooltip($tooltipAttr);
+         return '<img '.$id.' class="haveTooltip" title="" align="absmiddle" src="'.$img.'"/>'.$tooltip;
+
+      } else {
+         return '<img '.$id.' title="'.nl2br(htmlspecialchars($tooltipAttr)).'" align="absmiddle" src="'.$img.'" />';
+
+      }
    }
 
    private static function getTooltip($title) {
@@ -156,13 +167,13 @@ class Tools {
       }
       foreach ($title as $key => $value) {
          $tooltip .= '<tr>'.
-                     '<td style="color:blue;width:35px;">'.$key.'</td>';
+                     '<td valign="top" style="color:blue;width:35px;">'.$key.'</td>';
          if ($driftColor != NULL && $key == T_('Drift')) {
             $tooltip .= '<td><span style="background-color:#'.$driftColor.'">&nbsp;&nbsp;'.$value.'&nbsp;&nbsp;</span></td>';
          } else if (!is_null($driftMgrColor) && $key == T_('DriftMgr')) {
             $tooltip .= '<td><span style="background-color:#'.$driftMgrColor.'">&nbsp;&nbsp;'.$value.'&nbsp;&nbsp;</span></td>';
          } else {
-            $tooltip .= '<td>'.$value.'</td>';
+            $tooltip .= '<td>'.nl2br(htmlspecialchars($value)).'</td>';
          }
          $tooltip .= '</tr>';
       }
@@ -524,7 +535,7 @@ class Tools {
          return $finalURL;
       }
    }
-   
+
    /**
     * Parse file and execute commands via PHP mysql lib.
     * @static
@@ -545,8 +556,8 @@ class Tools {
          $error = 'ERROR : could not LOAD_FILE ('.$sqlFile.') : NULL returned.';
          echo "<span class='error_font'>$error</span><br />";
          exit;
-      }      
-      
+      }
+
 
       /*
       $request = "";
@@ -903,8 +914,8 @@ class Tools {
    }
 
    /**
-    * 
-    * @param string $from humman readable size (128M, 12G, 100K) 
+    *
+    * @param string $from humman readable size (128M, 12G, 100K)
     * @return int bytes
     */
    public static function convertToBytes($from){
@@ -942,7 +953,7 @@ class Tools {
 
          #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)."<br>";
          $timestampList[] = $timestamp;
-         
+
          $newTimestamp = strtotime("+$interval day",$timestamp);
          if (0 == $newTimestamp) {
             $e = new Exception("error strtotime(+$interval day, ".date("Y-m-d H:i:s", $newTimestamp).")");
@@ -955,7 +966,7 @@ class Tools {
 
       $timestampList[] = $end_timestamp;
       #echo "createTimestampList() latest = ".date("Y-m-d H:i:s", $end_timestamp)."<br>";
-      
+
       return $timestampList;
    }
 
@@ -1026,10 +1037,10 @@ class Tools {
    /**
     * this method causes big trouble when using CodevTT behind a reverseProxy
     * that would forward HTTPS requests to HTTP
-    * 
+    *
     * this method is also responsible for the 'subdirectory install' problem
     * (installing CodevTT in a folder named '/var/www/html/tools/codevtt' fails)
-    * 
+    *
     * @deprecated
     * @static
     * @return string
@@ -1076,9 +1087,9 @@ class Tools {
 
    /**
     * write ini file (read with parse_ini_file)
-    * 
+    *
     * source: http://www.php.net/manual/en/function.parse-ini-file.php
-    * 
+    *
     * @param type $array
     * @param type $file
     *
@@ -1146,7 +1157,7 @@ class Tools {
       }
       return TRUE;
    }
-   
+
    public static function isConnectedUser() {
       return array_key_exists('userid',$_SESSION);
    }
@@ -1402,10 +1413,10 @@ class Tools {
       return FALSE;
    }
 
-   
+
    /**
     * copy Directory with it's content
-    * 
+    *
     * @param type $src
     * @param type $dst
     * @return bool success or failure
