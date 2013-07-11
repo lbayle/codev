@@ -213,6 +213,13 @@ class IssueNote {
       return $this->id;
    }
 
+   public function getBugId() {
+      return $this->bug_id;
+   }
+
+   public function getLastModified() {
+      return $this->last_modified;
+   }
    /**
     *
     * @param type $raw if TRUE, remove tagid_timesheetNote (NOT readBy tags)
