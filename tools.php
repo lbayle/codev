@@ -136,7 +136,7 @@ class Tools {
    }
 
    public static function imgWithTooltip($img, $tooltipAttr, $imgId=NULL) {
-      $tooltip = self::getTooltip($tooltipAttr);
+
       if (!is_null($imgId)) {
          $id = 'id="'.$imgId.'"';
       }
