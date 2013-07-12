@@ -16,6 +16,10 @@ This opens a popup window displaying an IssueNote text to edit.
             <input type="hidden" name="bugid" value="" />
             <input type="hidden" name="issuenoteid" value="" />
             <input type="hidden" name="issuenotetext_b64" value="" />
+
+            {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />{/if}
+            <input type="hidden" name="weekid" value="{$weekid}" />
+            <input type="hidden" name="year" value="{$year}" />
          </fieldset>
       </form>
       <form id="formGetIssueNoteText" name="formGetIssueNoteText" method="get" action="{$ajaxPage}" >
@@ -105,13 +109,9 @@ This opens a popup window displaying an IssueNote text to edit.
             url: formEditIssueNote.attr("action"),
             data: formEditIssueNote.serialize(),
             success: function(data) {
-               // update bugnote tooltip
-               var bugid = data;
-               var tooltip = jQuery("#bugNote_" + bugid);
-               tooltip.attr('title', issuenotetext);
-               tooltip.attr('src', 'images/b_note.png');
-               //alert('save: ' + tooltip.attr('title'));
-
+               // cannot update all tooltips, the complete table must be updated
+               jQuery("#weekTaskDetailsDiv").html(jQuery.trim(data));
+               updateWidgets("#weekTaskDetailsDiv");
             },
             error: function(data) {
                // TODO

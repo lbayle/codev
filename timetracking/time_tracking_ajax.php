@@ -30,37 +30,17 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $formattedBacklog = Tools::getSecureGETNumberValue('backlog');
          $issue->setBacklog($formattedBacklog);
 
-         // TODO setStatus
+         // setStatus
          $newStatus = Tools::getSecureGETNumberValue('statusid');
          $issue->setStatus($newStatus);
 
+         // return data
+         // the complete WeekTaskDetails Div must be updated
          $weekid = Tools::getSecureGETIntValue('weekid');
          $year = Tools::getSecureGETIntValue('year');
-
-         $weekDates = Tools::week_dates($weekid,$year);
-         $startTimestamp = $weekDates[1];
-         $endTimestamp = mktime(23, 59, 59, date('m', $weekDates[7]), date('d', $weekDates[7]), date('Y', $weekDates[7]));
-         $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
-
          $userid = Tools::getSecureGETIntValue('userid',$_SESSION['userid']);
 
-         $incompleteDays = array_keys($timeTracking->checkCompleteDays($userid, TRUE));
-         $missingDays = $timeTracking->checkMissingDays($userid);
-         $errorDays = array_merge($incompleteDays,$missingDays);
-         $smartyWeekDates = TimeTrackingTools::getSmartyWeekDates($weekDates,$errorDays);
-
-         // UTF8 problems in smarty, date encoding needs to be done in PHP
-         $smartyHelper->assign('weekDates', array(
-            $smartyWeekDates[1], $smartyWeekDates[2], $smartyWeekDates[3], $smartyWeekDates[4], $smartyWeekDates[5]
-         ));
-         $smartyHelper->assign('weekEndDates', array(
-            $smartyWeekDates[6], $smartyWeekDates[7]
-         ));
-
-         $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $teamid, $userid, $timeTracking, $errorDays);
-         $smartyHelper->assign('weekTasks', $weekTasks["weekTasks"]);
-         $smartyHelper->assign('dayTotalElapsed', $weekTasks["totalElapsed"]);
-
+         setWeekTaskDetails($smartyHelper, $weekid, $year, $userid);
          $smartyHelper->display('ajax/weekTaskDetails');
 
       } else if ($_GET['action'] == 'getIssueNoteText') {
@@ -80,6 +60,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
              'issuenote_text_b64' => $issueNoteText_b64
          );
          $jsonData = json_encode($data);
+         // return data
          echo $jsonData;
 
       } else if ($_GET['action'] == 'saveIssueNote') {
@@ -91,20 +72,52 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          IssueNote::setTimesheetNote($bugid, $issueNoteText, $reporter_id);
 
          // return data
-         /*
-         $issueNote = IssueNote::getTimesheetNote($bugid, $issueNoteText);
-         $issueNoteText_b64 = base64_decode($issueNote->getText());
-         $data = array(
-             $bugid,
-             $issueNoteText_b64,
-         );
-         */
-         echo $bugid;
+         // the complete WeekTaskDetails Div must be updated
+         $weekid = Tools::getSecureGETIntValue('weekid');
+         $year = Tools::getSecureGETIntValue('year');
+         $userid = Tools::getSecureGETIntValue('userid',$_SESSION['userid']);
+
+         setWeekTaskDetails($smartyHelper, $weekid, $year, $userid);
+         $smartyHelper->display('ajax/weekTaskDetails');
       }
    }
 }
 else {
    Tools::sendUnauthorizedAccess();
+}
+
+/**
+ *
+ * @param type $smartyHelper
+ * @param type $weekid
+ * @param type $year
+ * @param type $userid
+ */
+function setWeekTaskDetails($smartyHelper, $weekid, $year, $userid) {
+
+   $weekDates = Tools::week_dates($weekid,$year);
+   $startTimestamp = $weekDates[1];
+   $endTimestamp = mktime(23, 59, 59, date('m', $weekDates[7]), date('d', $weekDates[7]), date('Y', $weekDates[7]));
+   $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+
+
+   $incompleteDays = array_keys($timeTracking->checkCompleteDays($userid, TRUE));
+   $missingDays = $timeTracking->checkMissingDays($userid);
+   $errorDays = array_merge($incompleteDays,$missingDays);
+   $smartyWeekDates = TimeTrackingTools::getSmartyWeekDates($weekDates,$errorDays);
+
+   // UTF8 problems in smarty, date encoding needs to be done in PHP
+   $smartyHelper->assign('weekDates', array(
+      $smartyWeekDates[1], $smartyWeekDates[2], $smartyWeekDates[3], $smartyWeekDates[4], $smartyWeekDates[5]
+   ));
+   $smartyHelper->assign('weekEndDates', array(
+      $smartyWeekDates[6], $smartyWeekDates[7]
+   ));
+
+   $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $teamid, $userid, $timeTracking, $errorDays);
+   $smartyHelper->assign('weekTasks', $weekTasks["weekTasks"]);
+   $smartyHelper->assign('dayTotalElapsed', $weekTasks["totalElapsed"]);
+
 }
 
 ?>
