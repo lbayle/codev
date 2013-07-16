@@ -85,7 +85,11 @@ This opens a popup window displaying an IssueNote text to edit.
             closeOnEscape: true,
             buttons: {
                Ok: function() {
+//alert("call formEditIssueNote submit START");
                   jQuery("#formEditIssueNote").submit();
+//alert("call formEditIssueNote submit END");
+                  jQuery("#dialog_editIssueNote").find("textarea[name=issuenote_text]").val('');
+                  jQuery("#dialog_editIssueNote").dialog("close");
                },
                Cancel: function() {
                   jQuery("#dialog_editIssueNote").find("textarea[name=issuenote_text]").val('');
@@ -97,7 +101,7 @@ This opens a popup window displaying an IssueNote text to edit.
       jQuery("#formEditIssueNote").submit(function(event) {
          /* stop form from submitting normally */
          event.preventDefault();
-
+//alert("submit formEditIssueNote");
          /* get some values from elements on the page: */
          var formEditIssueNote = jQuery(this);
          var issuenotetext = jQuery("#dialog_editIssueNote").find("textarea[name=issuenote_text]").val();
@@ -118,8 +122,6 @@ This opens a popup window displaying an IssueNote text to edit.
                alert('ERROR: ' + data);
             }
          });
-         jQuery("#dialog_editIssueNote").find("textarea[name=issuenote_text]").val('');
-         jQuery("#dialog_editIssueNote").dialog("close");
       });
 
    });

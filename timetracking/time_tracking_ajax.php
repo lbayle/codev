@@ -40,7 +40,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $year = Tools::getSecureGETIntValue('year');
          $userid = Tools::getSecureGETIntValue('userid',$_SESSION['userid']);
 
-         setWeekTaskDetails($smartyHelper, $weekid, $year, $userid);
+         setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid);
          $smartyHelper->display('ajax/weekTaskDetails');
 
       } else if ($_GET['action'] == 'getIssueNoteText') {
@@ -77,7 +77,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $year = Tools::getSecureGETIntValue('year');
          $userid = Tools::getSecureGETIntValue('userid',$_SESSION['userid']);
 
-         setWeekTaskDetails($smartyHelper, $weekid, $year, $userid);
+         setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid);
          $smartyHelper->display('ajax/weekTaskDetails');
       }
    }
@@ -93,7 +93,7 @@ else {
  * @param type $year
  * @param type $userid
  */
-function setWeekTaskDetails($smartyHelper, $weekid, $year, $userid) {
+function setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid) {
 
    $weekDates = Tools::week_dates($weekid,$year);
    $startTimestamp = $weekDates[1];

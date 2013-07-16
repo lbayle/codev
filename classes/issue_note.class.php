@@ -145,13 +145,14 @@ class IssueNote {
     */
    public static function setTimesheetNote($bug_id, $text, $reporter_id) {
 
-      // TODO
-      self::$logger->debug("Task $bug_id setTimesheetNote: $text");
+      self::$logger->debug("Task $bug_id setTimesheetNote:[$text]");
+
+
 
       // add TAG in front (if not found)
       if (FALSE === strpos($text, self::tagid_timesheetNote)) {
          $tag = self::tag_begin . self::tagid_timesheetNote . self::tag_end;
-         $text = $tag . '\n' . $text;
+         $text = $tag . "\n" . $text;
       }
 
       $issueNote = self::getTimesheetNote($bug_id);
@@ -227,10 +228,18 @@ class IssueNote {
     */
    public function getText($raw=FALSE) {
 
-      // TODO check id != 0
-      // TODO remove tagid_timesheetNote using regex
+      // check id != 0
+      if (0 == $this->id) { return ''; }
 
-      return $this->note;
+      // remove tagid_timesheetNote
+      if (!$raw) {
+         $tag = self::tag_begin . self::tagid_timesheetNote . self::tag_end;
+         $text = trim(str_replace($tag, '', $this->note));
+      } else {
+         $text = $this->note;
+      }
+
+      return $text;
    }
 
    /**
@@ -312,9 +321,9 @@ class IssueNote {
       $tag = self::tag_begin . $tagid . self::tag_sep . $tagComment . self::tag_end;
 
       if ($inFront) {
-         $this->note = $tag . '\n' . $this->note;
+         $this->note = $tag . "\n" . $this->note;
       } else {
-         $this->note = $this->note . '\n' . $tag;
+         $this->note = $this->note . "\n" . $tag;
       }
       // TODO update note in DB
     }
@@ -339,7 +348,7 @@ class IssueNote {
               $user->getName() . ' '.
               date('Y-m-d H:i:s', $timestamp) .
               self::tag_end;
-         $this->note .= '\n'.$tag;
+         $this->note .= "\n".$tag;
 
    }
 
