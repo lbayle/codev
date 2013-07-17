@@ -40,7 +40,7 @@ class TeamActivityReportController extends Controller {
         if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
             $this->smartyHelper->assign('accessDenied', TRUE);
         } else {
-             
+
             $year = Tools::getSecurePOSTIntValue('year', date('Y'));
             $weekid = Tools::getSecurePOSTIntValue('weekid', date('W'));
 
@@ -171,16 +171,22 @@ class TeamActivityReportController extends Controller {
                      } else {
                         $infoTooltip = NULL;
                      }
+
+                     // prepare json data for the IssueNoteDialogbox
+                     $issueNoteData = $this->getIssueNoteTooltip($project, $team, $issue);
+
                      $weekJobDetails[] = array(
-                        "description" => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary()),
-                        "duration" => $issue->getDuration(),
-                        "progress" => round(100 * $issue->getProgress()),
-                        "projectName" => $issue->getProjectName(),
-                        "targetVersion" => $issue->getTargetVersion(),
-                        "jobName" => $jobName,
-                        "daysDetails" => $daysDetails,
-                        "totalDuration" => $weekDuration,
-                        'infoTooltip' => $infoTooltip
+                        'description' => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary()),
+                        'duration' => $issue->getDuration(),
+                        'progress' => round(100 * $issue->getProgress()),
+                        'projectName' => $issue->getProjectName(),
+                        'targetVersion' => $issue->getTargetVersion(),
+                        'jobName' => $jobName,
+                        'daysDetails' => $daysDetails,
+                        'totalDuration' => $weekDuration,
+                        'infoTooltip' => $infoTooltip,
+                        'issueNoteId' => $issueNoteData['id'],
+                        'noteTooltip' => $issueNoteData['tooltip'],
                      );
                   }
                } else {
@@ -216,6 +222,10 @@ class TeamActivityReportController extends Controller {
                   } else {
                      $infoTooltip = NULL;
                   }
+
+                  // prepare json data for the IssueNoteDialogbox
+                  $issueNoteData = $this->getIssueNoteTooltip($project, $team, $issue);
+
                   $weekJobDetails[] = array(
                      'description' => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary()),
                      'duration' => $issue->getDuration(),
@@ -224,7 +234,9 @@ class TeamActivityReportController extends Controller {
                      //"targetVersion" => $issue->getTargetVersion(),
                      'daysDetails' => $daysDetails,
                      'totalDuration' => $weekDuration,
-                     'infoTooltip' => $infoTooltip
+                     'infoTooltip' => $infoTooltip,
+                     'issueNoteId' => $issueNoteData['id'],
+                     'noteTooltip' => $issueNoteData['tooltip'],
                   );
                }
             }
@@ -276,6 +288,32 @@ class TeamActivityReportController extends Controller {
       }
 
       return $consistencyErrors;
+   }
+
+   private function getIssueNoteTooltip($project, $team, $issue) {
+      // prepare json data for the IssueNoteDialogbox
+      if ((!$project->isSideTasksProject(array($team->getId()))) &&
+         (!$project->isExternalTasksProject())) {
+
+         $issueNote = IssueNote::getTimesheetNote($issue->getId());
+         if (!is_null($issueNote)) {
+            $issueNoteId = $issueNote->getId();
+
+            // used for the tooltip NOT the dialoBox
+            $tooltipAttr = array (
+               'date' => date('Y-m-d H:i:s', $issueNote->getLastModified()),
+               'Note' => $issueNote->getText(),
+            );
+            $noteTooltip = Tools::imgWithTooltip('images/b_note.png', $tooltipAttr, "bugNote_".$issueNote->getBugId());
+         } else {
+            $issueNoteId = 0;
+            $noteTooltip = '';
+         }
+      } else {
+         $issueNoteId = 0;
+         $noteTooltip = '';
+      }
+      return array('id' => $issueNoteId, 'tooltip' => $noteTooltip);
    }
 
 }
