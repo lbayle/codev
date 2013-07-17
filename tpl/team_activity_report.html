@@ -1,6 +1,9 @@
 <div id="content" class="center">
 
 {if (!isset($accessDenied) || (0 == $accessDenied)) }
+
+   <script src='lib/jquery.base64/jquery.base64.js'></script>
+
    <h2 class="center">{t}Weekly Activity{/t}</h2>
    <script type="text/javascript">
       jQuery(document).ready(function() {
@@ -101,8 +104,9 @@
                   {foreach from=$i.weekJobDetails item=j key=id}
                   <tr>
                      <td>{$j.description}</td>
-                     <td style="width:1px;">
+                     <td style="width:38px;">
                         {$j.infoTooltip}
+                        {$j.noteTooltip}
                      </td>
                      <td nowrap="nowrap">{$j.duration}</td>
                      <td nowrap="nowrap"><div class="progress">{$j.progress}%</div></td>
@@ -156,6 +160,9 @@
                </tbody>
             </table>
    </div>
+
+   {include file="modal/edit_issueNote.html"}
+
    {/if}
 
    {else}
