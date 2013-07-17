@@ -298,9 +298,11 @@ class TeamActivityReportController extends Controller {
          $issueNote = IssueNote::getTimesheetNote($issue->getId());
          if (!is_null($issueNote)) {
             $issueNoteId = $issueNote->getId();
+            $user = UserCache::getInstance()->getUser($issueNote->getReporterId());
 
             // used for the tooltip NOT the dialoBox
             $tooltipAttr = array (
+               'reporter' => $user->getRealname(),
                'date' => date('Y-m-d H:i:s', $issueNote->getLastModified()),
                'Note' => $issueNote->getText(),
             );

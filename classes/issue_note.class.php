@@ -108,14 +108,6 @@ class IssueNote {
     */
    public static function getTimesheetNote($bug_id) {
 
-/*
-      // trust note_type or search for tagid_timesheetNote ?
-      $query = "SELECT id ".
-               "FROM `mantis_bugnote_table` ".
-               "WHERE bug_id = $bug_id ".
-               "AND note_type = ".self::type_timesheetNote.' '.
-               "ORDER BY date_submitted DESC LIMIT 1;";
-*/
       $query2 = "SELECT note.id, note.bugnote_text_id ".
                "FROM `mantis_bugnote_table` as note ".
                "WHERE note.bug_id = $bug_id ".
@@ -157,7 +149,7 @@ class IssueNote {
 
       $issueNote = self::getTimesheetNote($bug_id);
       if (is_null($issueNote)) {
-         $bugnote_id = self::create($bug_id, $text, $text, self::type_timesheetNote, TRUE);
+         $bugnote_id = self::create($bug_id, $reporter_id, $text, self::type_timesheetNote, TRUE);
 
       } else {
          $issueNote->setText($text, $reporter_id);
@@ -216,6 +208,10 @@ class IssueNote {
 
    public function getBugId() {
       return $this->bug_id;
+   }
+
+   public function getReporterId() {
+      return $this->reporter_id;
    }
 
    public function getLastModified() {
