@@ -65,6 +65,32 @@ class TeamActivityReportController extends Controller {
                $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
                $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
             }
+
+            // IssueNotes
+            $timeTracks = $timeTracking->getTimeTracks();
+            $issueNotes = array();
+            foreach ($timeTracks as $tt) {
+               $bug_id = $tt->getIssueId();
+               if (!array_key_exists($bug_id, $issueNotes)) {
+                  $issueNote = IssueNote::getTimesheetNote($bug_id);
+                  if (!is_null($issueNote)) {
+                     $issue = IssueCache::getInstance()->getIssue($bug_id);
+                     $user = UserCache::getInstance()->getUser($issueNote->getReporterId());
+                     $issueNoteInfo = array(
+                        'taskDesc' => SmartyTools::getIssueDescription($bug_id, $issue->getTcId(), htmlspecialchars($issue->getSummary())),
+                        'reporter' => $user->getRealname(),
+                        'date' => date('Y-m-d H:i', $issueNote->getLastModified()),
+                        'note' => nl2br(htmlspecialchars($issueNote->getText())),
+                     );
+                     $issueNotes[$bug_id] = $issueNoteInfo;
+                  }
+               }
+            }
+            if(count($issueNotes) > 0) {
+               $this->smartyHelper->assign('issueNotes', $issueNotes);
+            }
+
+
          }
       }
    }
@@ -303,7 +329,7 @@ class TeamActivityReportController extends Controller {
             // used for the tooltip NOT the dialoBox
             $tooltipAttr = array (
                'reporter' => $user->getRealname(),
-               'date' => date('Y-m-d H:i:s', $issueNote->getLastModified()),
+               'date' => date('Y-m-d H:i', $issueNote->getLastModified()),
                'Note' => $issueNote->getText(),
             );
             $noteTooltip = Tools::imgWithTooltip('images/b_note.png', $tooltipAttr, "bugNote_".$issueNote->getBugId());

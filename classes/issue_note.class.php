@@ -104,7 +104,7 @@ class IssueNote {
     * search for the latest bugnote containing tagid_timesheetNote
     *
     * @param type $bug_id
-    * @return an IssueNote id
+    * @return an IssueNote or NULL if not found
     */
    public static function getTimesheetNote($bug_id) {
 

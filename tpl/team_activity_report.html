@@ -129,12 +129,18 @@
    {/if}
 
 
-
-
    {if isset($weekDetails)}
    <script type="text/javascript" src="js/datatable.js"></script>
-   <div align="center" style="margin-top:4em;">
-      <h2 align="left">{t}All Tasks{/t}</h2>
+
+   <div id="tabsOther" class="tabs {$ui_tabs_jquery}" style="margin-top:4em;">
+      <ul class="{$ui_tabs_jquery_ul}">
+         {if isset($issueNotes)}
+         <li class="{$ui_tabs_jquery_li}" id="tabIssueNotes"><a href="#tabOther_issueNotes">{t}Timesheet notes{/t}</a></li>
+         {/if}
+         <li class="{$ui_tabs_jquery_li}" id="tabAllTasks"><a href="#tabOther_allTasks">{t}All Tasks{/t}</a></li>
+      </ul>
+      <div id="tabOther_allTasks">
+         <div align="center">
             <table id="allTasks_table" style="width: 100%;" class="datatable">
                <thead>
                   <tr>
@@ -145,8 +151,8 @@
                   </tr>
                </thead>
                <tbody>
-         {foreach from=$weekDetails item=i key=id}
-         {if $i.weekJobDetails}
+               {foreach from=$weekDetails item=i key=id}
+               {if $i.weekJobDetails}
                   {foreach from=$i.weekJobDetails item=j key=id}
                   <tr>
                      <td>{$j.description}</td>
@@ -155,15 +161,48 @@
                      <td nowrap="nowrap">{$j.totalDuration}</td>
                   </tr>
                   {/foreach}
-         {/if}
-         {/foreach}
+               {/if}
+               {/foreach}
                </tbody>
             </table>
+         </div>
+      </div>
+
+      {if isset($issueNotes)}
+      <div id="tabOther_issueNotes">
+         <div align="center">
+            <table id="issueNotes_table" style="width: 100%;" class="datatable">
+               <thead>
+                  <tr>
+                     <th>{t}Task{/t}</th>
+                     <th>{t}Reporter{/t}</th>
+                     <th>{t}Date{/t}</th>
+                     <th>{t}Note{/t}</th>
+                     <th title="{t}Action{/t}"></th>
+                  </tr>
+               </thead>
+               <tbody>
+               {foreach from=$issueNotes item=i key=bug_id}
+                  <tr>
+                     <td valign="top">{$i.taskDesc}</td>
+                     <td valign="top" nowrap="nowrap">{$i.reporter}</td>
+                     <td valign="top">{$i.date}</td>
+                     <td>{$i.note}</td>
+                     <td valign="top">
+                        <img id="b_markAsRead_{$bug_id}" align="absmiddle" src="images/b_markAsRead.png" title="{t}Mark as read{/t}">
+                     </td>
+                  </tr>
+               {/foreach}
+               </tbody>
+            </table>
+         </div>
+      </div>
+      {/if}
+
    </div>
+   {/if}
 
    {include file="modal/edit_issueNote.html"}
-
-   {/if}
 
    {else}
    <p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
