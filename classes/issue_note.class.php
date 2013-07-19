@@ -32,8 +32,9 @@ class IssueNote {
    const tagid_NoteReadBy    = 'CODEVTT_TAG_READ_BY';
 
    const tag_begin = '<!-- ';
-   const tag_sep = ' ==== ';
-   const tag_end = ' (Do not remove this line) -->';
+   const tag_sep = ' --- ';
+   const tag_doNotRemove = ' (Do not remove this line)';
+   const tag_end = ' -->';
 
    /**
     * @var Logger The logger
@@ -60,6 +61,7 @@ class IssueNote {
    private $note;
    private $type; // mantis bugnote types : ( 'BUGNOTE', 0 ), ( 'REMINDER', 1 ) ( 'TIME_TRACKING', 2 );
 
+   private $readByList; // array(userid => timestamp)
 
    /**
     *
@@ -143,7 +145,7 @@ class IssueNote {
 
       // add TAG in front (if not found)
       if (FALSE === strpos($text, self::tagid_timesheetNote)) {
-         $tag = self::tag_begin . self::tagid_timesheetNote . self::tag_end;
+         $tag = self::tag_begin . self::tagid_timesheetNote . self::tag_doNotRemove . self::tag_end;
          $text = $tag . "\n" . $text;
       }
 
@@ -200,6 +202,10 @@ class IssueNote {
       $this->date_submitted = $row->date_submitted;
       $this->last_modified = $row->last_modified;
       $this->note = $row->note;
+
+      // parse ReadBy TAGs
+      $this->parseReadByTags();
+
    }
 
    public function getId() {
@@ -222,17 +228,24 @@ class IssueNote {
     * @param type $raw if TRUE, remove tagid_timesheetNote (NOT readBy tags)
     * @return type
     */
-   public function getText($raw=FALSE) {
+   public function getText($raw=FALSE, $removeReadBy=FALSE) {
 
       // check id != 0
       if (0 == $this->id) { return ''; }
 
-      // remove tagid_timesheetNote
+      $text = $this->note;
+
+      // remove tagid_timesheetNote & tagid_NoteReadBy
       if (!$raw) {
-         $tag = self::tag_begin . self::tagid_timesheetNote . self::tag_end;
-         $text = trim(str_replace($tag, '', $this->note));
-      } else {
-         $text = $this->note;
+         $tag = self::tag_begin . self::tagid_timesheetNote . self::tag_doNotRemove . self::tag_end;
+         $text = trim(str_replace($tag, '', $text));
+      }
+
+      // remove tagid_NoteReadBy
+      if ($removeReadBy) {
+         $regex_remove = '/'. self::tag_begin . self::tagid_NoteReadBy . '.*' . self::tag_end . '/';
+         $text = preg_replace($regex_remove, '', $text);
+         $text = trim($text);
       }
 
       return $text;
@@ -312,24 +325,56 @@ class IssueNote {
       }
    }
 
-   public function addTag($tagid, $tagComment = NULL, $inFront=TRUE) {
+   /**
+    * parse note for ReadBy tags
+    * and set $readByList = array(userid => timestamp)
+    *
+    * <!-- CODEVTT_TAG_READ_BY <username> --- 2013-07-18 23:12:55 -->
+    */
+   private function parseReadByTags() {
 
-      $tag = self::tag_begin . $tagid . self::tag_sep . $tagComment . self::tag_end;
+      $this->readByList = array();
 
-      if ($inFront) {
-         $this->note = $tag . "\n" . $this->note;
-      } else {
-         $this->note = $this->note . "\n" . $tag;
+      // --- get ReadBy TAGs
+      //$regex = '/<!-- CODEVTT_TAG_READ_BY (?P<username>.*) --- (?P<date>.*) -->/';
+      $regex = '/'. self::tag_begin . self::tagid_NoteReadBy . ' (?P<username>.*) --- (?P<date>.*)' . self::tag_end . '/';
+
+      preg_match_all ( $regex , $this->note, $matches);
+
+      // --- extract user & date from ReadBy TAGs
+      for ($i=0; $i< count($matches[0]); ++$i) {
+
+         $username = trim($matches['username'][$i]);
+         $dateTime = trim($matches['date'][$i]);
+         $timestamp = Tools::datetime2timestamp($dateTime);
+         $userid = User::getUserId($username);
+
+         $error = 0;
+         if (!is_numeric($userid)) {
+            self::$logger->error("issue $this->bug_id parseReadByTags: unknown user <$username>");
+            $error++;
+         }
+         if (FALSE === $timestamp) {
+            self::$logger->error("issue $this->bug_id parseReadByTags: wrong date : <$dateTime>");
+            $error++;
+         }
+
+         if (0 == $error) {
+            //echo "issue $this->bug_id userid = $userid user ".$matches['username'][$i].' date '.$matches['date'][$i]." ($timestamp)<br>";
+            $this->readByList["$userid"] = $timestamp;
+         }
       }
-      // TODO update note in DB
-    }
+      return $this->readByList;
+   }
 
 
    /**
-    * add a NoteReadBy tag
+    * add a ReadBy tag
+    *
+    * <!-- CODEVTT_TAG_READ_BY <username> --- 2013-07-18 23:12:55 -->
     *
     * @param type $userid
-    * @param type $timestamp
+    * @param type $timestamp (now if NULL)
     */
    public function markAsRead($userid, $timestamp = NULL) {
 
@@ -340,20 +385,39 @@ class IssueNote {
       $user = UserCache::getInstance()->getUser($userid);
       $tag =  self::tag_begin .
               self::tagid_NoteReadBy .
-              self::tag_sep .
               $user->getName() . ' '.
+              self::tag_sep .
               date('Y-m-d H:i:s', $timestamp) .
               self::tag_end;
-         $this->note .= "\n".$tag;
 
+      $note2 .= "\n".$tag;
+
+      $this->readByList["$userid"] = $timestamp;
+      $this->setText($note2, $userid);
+   }
+
+   /**
+    *
+    * @param type $userid
+    * @return int timestamp date of read OR 0 if user did not read
+    */
+   public function isReadBy($userid) {
+      if (!array_key_exists($userid, $this->readByList)) {
+         return 0;
+      }
+      return $this->readByList["$userid"];
    }
 
    /**
     * when a TimesheetNote is modified, all ReadBy tags must
     * be removed, so that users are notified
     */
-   public function removeAllReadByTags() {
-      // TODO
+   public function removeAllReadByTags($userid) {
+      //$regex_remove = '/<!-- CODEVTT_TAG_READ_BY.* -->/';
+      $regex_remove = '/'. self::tag_begin . self::tagid_NoteReadBy . '.*' . self::tag_end . '/';
+      $note2 = preg_replace ( $regex_remove , '' , $this->note);
+
+      $this->setText($note2, $userid);
    }
 
 }
