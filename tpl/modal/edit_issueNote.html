@@ -28,6 +28,12 @@ This opens a popup window displaying an IssueNote text to edit.
             <input type="hidden" name="bugid" value="" />
          </fieldset>
       </form>
+      <form id="formMarkIssueNoteAsRead" name="formMarkIssueNoteAsRead" method="get" action="{$ajaxPage}" >
+         <fieldset>
+            <input type="hidden" name="action" value="markIssueNoteAsRead" />
+            <input type="hidden" name="bugid" value="" />
+         </fieldset>
+      </form>
    </div>
 </div>
 
@@ -72,6 +78,28 @@ This opens a popup window displaying an IssueNote text to edit.
       });
 
       jQuery("#dialog_editIssueNote").dialog("open");
+   }
+
+   function markIssueNoteAsRead(bugid) {
+      var formMarkIssueNoteAsRead = jQuery('#formMarkIssueNoteAsRead');
+      formMarkIssueNoteAsRead.find("input[name=bugid]").val(bugid);
+      jQuery.ajax({
+         type: "GET",
+         url: formMarkIssueNoteAsRead.attr("action"),
+         data: formMarkIssueNoteAsRead.serialize(),
+         success: function(data) {
+
+            // decode json data
+            //var response = jQuery.parseJSON(data);
+
+            // TODO update IssueNote DataTable
+
+         },
+         error: function(data) {
+            // TODO
+            alert('ERROR: ' + data);
+         }
+      });
    }
 
    jQuery(document).ready(function() {

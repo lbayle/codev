@@ -154,11 +154,26 @@ class IssueNote {
          $bugnote_id = self::create($bug_id, $reporter_id, $text, self::type_timesheetNote, TRUE);
 
       } else {
+         # notify users that the note has changed
+         $text = self::removeAllReadByTags($text);
+
          $issueNote->setText($text, $reporter_id);
          $bugnote_id = $issueNote->getId();
       }
+   }
 
-
+   /**
+    * when a TimesheetNote is modified, all ReadBy tags must
+    * be removed, so that users are notified
+    *
+    * @param string $text
+    * @return string $text without tags
+    */
+   public static function removeAllReadByTags($text) {
+      //$regex_remove = '/<!-- CODEVTT_TAG_READ_BY.* -->/';
+      $regex_remove = '/'. self::tag_begin . self::tagid_NoteReadBy . '.*' . self::tag_end . '/';
+      $note2 = preg_replace ( $regex_remove , '' , $text);
+      return $note2;
    }
 
    /**
@@ -241,10 +256,9 @@ class IssueNote {
          $text = trim(str_replace($tag, '', $text));
       }
 
-      // remove tagid_NoteReadBy
+      // remove ReadBy tags
       if ($removeReadBy) {
-         $regex_remove = '/'. self::tag_begin . self::tagid_NoteReadBy . '.*' . self::tag_end . '/';
-         $text = preg_replace($regex_remove, '', $text);
+         $text = self::removeAllReadByTags($text);
          $text = trim($text);
       }
 
@@ -257,7 +271,9 @@ class IssueNote {
    public function setText($text, $user_id) {
 
       $oldText = $this->note;
-      if ( $oldText == $text ) { return true; }
+      if ( $oldText == $text ) { 
+         return true;
+      }
 
       # insert an 'original' revision if needed
       if ( $this->revisionCount() < 1 ) {
@@ -384,16 +400,16 @@ class IssueNote {
 
       $user = UserCache::getInstance()->getUser($userid);
       $tag =  self::tag_begin .
-              self::tagid_NoteReadBy .
+              self::tagid_NoteReadBy . ' ' .
               $user->getName() . ' '.
               self::tag_sep .
               date('Y-m-d H:i:s', $timestamp) .
               self::tag_end;
 
-      $note2 .= "\n".$tag;
+      $note = $this->note."\n".$tag;
 
+      $this->setText($note, $userid);
       $this->readByList["$userid"] = $timestamp;
-      $this->setText($note2, $userid);
    }
 
    /**
@@ -408,16 +424,19 @@ class IssueNote {
       return $this->readByList["$userid"];
    }
 
-   /**
-    * when a TimesheetNote is modified, all ReadBy tags must
-    * be removed, so that users are notified
-    */
-   public function removeAllReadByTags($userid) {
-      //$regex_remove = '/<!-- CODEVTT_TAG_READ_BY.* -->/';
-      $regex_remove = '/'. self::tag_begin . self::tagid_NoteReadBy . '.*' . self::tag_end . '/';
-      $note2 = preg_replace ( $regex_remove , '' , $this->note);
+   public function getReadByList($formatted = FALSE) {
 
-      $this->setText($note2, $userid);
+      if ($formatted) {
+         $list = array();
+         foreach ($this->readByList as $uid => $t) {
+            $user = UserCache::getInstance()->getUser($uid);
+            $list[$user->getRealname()] = date('Y-m-d  H:i:s', $t);
+         }
+         return $list;
+      } else {
+         return $this->readByList;
+      }
+
    }
 
 }

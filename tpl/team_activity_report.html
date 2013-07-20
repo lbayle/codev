@@ -43,6 +43,16 @@
 
             form.submit();
          });
+
+      // click on markAsRead will add a ReadBy tag to the IssueNote
+      {foreach from=$issueNotes item=i key=issueNote_bugid}
+      jQuery("#b_markAsRead_{$issueNote_bugid}").click(function() {
+         markIssueNoteAsRead('{$issueNote_bugid}');
+         return false;
+      });
+      {/foreach}
+
+
       });
    </script>
    <form id="form1" name="form1" class="formWithTabsHistory" method="post" action="{$page}">
@@ -175,9 +185,9 @@
                <thead>
                   <tr>
                      <th>{t}Task{/t}</th>
+                     <th>{t}Note{/t}</th>
                      <th>{t}Reporter{/t}</th>
                      <th>{t}Date{/t}</th>
-                     <th>{t}Note{/t}</th>
                      <th title="{t}Action{/t}"></th>
                   </tr>
                </thead>
@@ -185,9 +195,9 @@
                {foreach from=$issueNotes item=i key=bug_id}
                   <tr>
                      <td valign="top">{$i.taskDesc}</td>
+                     <td>{$i.note}</td>
                      <td valign="top" nowrap="nowrap">{$i.reporter}</td>
                      <td valign="top">{$i.date}</td>
-                     <td>{$i.note}</td>
                      <td valign="top">
                         <img id="b_markAsRead_{$bug_id}" align="absmiddle" src="images/b_markAsRead.png" title="{t}Mark as read{/t}">
                      </td>
