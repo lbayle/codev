@@ -169,13 +169,20 @@ class TimeTrackingTools {
                if (!is_null($issueNote)) {
                   $issueNoteId = $issueNote->getId();
                   $user = UserCache::getInstance()->getUser($issueNote->getReporterId());
+                  $rawNote = $issueNote->getText();
+                  $note = trim(IssueNote::removeAllReadByTags($rawNote));
 
                   // used for the tooltip NOT the dialoBox
                   $tooltipAttr = array (
                      'reporter' => $user->getRealname(),
                      'date' => date('Y-m-d H:i:s', $issueNote->getLastModified()),
-                     'Note' => $issueNote->getText(),
+                     'Note' => $note,
                   );
+                  $readByList = $issueNote->getReadByList(TRUE);
+                  if (0 != count($readByList)) {
+                     $tooltipAttr['Read by'] = implode(', ', array_keys($readByList));
+                  }
+
                   $noteTooltip = Tools::imgWithTooltip('images/b_note.png', $tooltipAttr, "bugNote_".$issueNote->getBugId());
                } else {
                   $issueNoteId = 0;
