@@ -94,6 +94,11 @@ This opens a popup window displaying an IssueNote text to edit.
 
             // TODO update IssueNote DataTable
 
+            var img = jQuery("#b_markAsRead_" + bugid);
+            img.attr("src","images/b_markAsRead_grey.png");
+
+            alert("Issue " + bugid + ": Note marked as read.");
+
          },
          error: function(data) {
             // TODO
