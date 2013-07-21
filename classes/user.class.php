@@ -184,7 +184,7 @@ class User extends Model {
    /**
     * Get the user id from a name
     * @param string $name The username
-    * @return int The userid
+    * @return int The userid (or NULL if not found)
     */
    public static function getUserId($name) {
       $query = "SELECT id FROM `mantis_user_table` WHERE username='$name';";
@@ -194,7 +194,9 @@ class User extends Model {
          exit;
       }
 
-      return SqlWrapper::getInstance()->sql_result($result, 0);
+      $userid = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
+      return $userid;
+
    }
 
    /**
