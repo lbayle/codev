@@ -80,6 +80,11 @@ table.invisible tbody {
    border: 1px solid #7096AB;
 }
 
+/* MBU remove the annoying header wobble */
+.dayHeader {
+    border: 1px solid transparent;
+}
+
 fieldset {
    padding: 0;
    border: 0;
@@ -374,10 +379,10 @@ ul.submenu {
    padding-left: 0;
 }
 ul.submenu li {
-   background: #E8E8E8; 
-   border: 0; 
+   background: #E8E8E8;
+   border: 0;
    width: 100%;
-   padding:2px 10px !important; 
+   padding:2px 10px !important;
    margin: 0 !important;
    display: inline;
 }
@@ -392,16 +397,16 @@ ul.submenu li a {
    padding: 0 !important;
    width: 100%;
    display: inline-block;
-   border: 0; 
+   border: 0;
 }
 
 /* LEVEL THREE */
 ul.submenu ul {
    left: 100%;
-   top: 0; 
+   top: 0;
 }
 ul.dropdown li:hover > ul.submenu {
-   visibility: visible; 
+   visibility: visible;
 }
 
 /* END Dropdown */
@@ -425,7 +430,7 @@ ul.dropdown li:hover > ul.submenu {
   position:relative;
 }
 #table-scroll {
-  overflow:auto;  
+  overflow:auto;
 }
 #table-wrapper table {
   width:100%;
