@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{$locale}" xml:lang="{$locale}">
    <head>
+      <!-- force IE into standards compliant mode -->
+      <meta http-equiv="x-ua-compatible" content="IE=Edge"/>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
       <meta http-equiv="Content-Language" content="{$locale}" />
       <meta name="DC.Language" scheme="RFC3066" content="{$locale}" />
@@ -26,13 +28,15 @@
       <script src="lib/jquery/js/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
 
       <!-- JQUERY for touchscreens: must be included after jQuery UI. -->
-      <script src="lib/jquery.touchpunch/jquery.ui.touch-punch.min.js"></script>
+      <script src="lib/jquery.touchpunch/jquery.ui.touch-punch.min.js" type="text/javascript"></script>
 
       <script src="js/dropdown.js" type="text/javascript"></script>
       <script src="js/progress.js" type="text/javascript"></script>
       <script src="js/select.js" type="text/javascript"></script>
       <script src="js/tooltip.js" type="text/javascript"></script>
       <script src="js/ajax.js" type="text/javascript"></script>
+      <script src="js/tabs.js" type="text/javascript"></script>
+
    </head>
    <body>
       <div id="header">
@@ -43,23 +47,24 @@
             </td>
             <td><span style="margin-top: 5px;display:block;text-align: center; font-size:2.5em;font-weight:bold;" >{$pageName}</span></td>
             <td width="300" align="left">
-               <span  style="display: block; text-align: right;">
+               <div  style="text-align: right;">
                <a href="{$page}?locale=fr"><img src="images/blank.png" style="vertical-align:middle" class="flag flag-fr" title="Francais" alt="Francais" width="18px" height="12px" /></a>
                <a href="{$page}?locale=en"><img src="images/blank.png" style="vertical-align:middle" class="flag flag-gb" title="English" alt="English" width="18px" height="12px" /></a>
                <a href="{$page}?locale=pt_BR"><img src="images/blank.png" style="vertical-align:middle" class="flag flag-br" title="Brazil" alt="Brazil" width="18px" height="12px" /></a>
-               </span>
+               </div>
+               {if isset($username)}
+               <div style="text-align:right; margin-top:1em;">
+                  {$realname} | <a href="logout.php" title="Save user settings & logout">{t}Disconnect{/t}</a>
+               </div>
+               <div style="text-align:right; margin-top:0.6em;">
+                  <span class="floatr">{include file="form/teamForm.html"}</span>
+               </div>
+               {else}
+               {include file="modal/login.html"}
+               {/if}               
             </td>
             </tr>
          </table>
-      </div>
-
-      <div id="login">
-         {if isset($username)}<a href="logout.php" title="save user settings & logout">{t}Disconnect{/t}</a>&nbsp; {$username} ({$realname})
-         <span class="floatr">
-         {include file="form/teamForm.html"}
-         </span>
-         {else}{include file="modal/login.html"}
-         {/if}
       </div>
 
       <div style="margin-top: 8px;">
