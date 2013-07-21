@@ -105,69 +105,60 @@ class TimeTrackingController extends Controller {
                // save to DB
                $trackid = TimeTrack::create($userid, $defaultBugid, $job, $timestamp, $duration);
 
+               // open the updateBacklog DialogBox on page reload.
                // do NOT decrease backlog if job is job_support !
-               if ($job != $job_support) {
-                  // decrease backlog (only if 'backlog' already has a value)
-                  $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+               // do NOT decrease backlog if sideTask or externalTask
+               $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+               $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
+               if (($job != $job_support) &&
+                  (!$project->isSideTasksProject(array_keys($teamList)) &&
+                  (!$project->isExternalTasksProject()))) {
+
+                  $deadline = $issue->getDeadLine();
+                  if (!is_null($deadline) || (0 != $deadline)) {
+                     $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $deadline);
+                  }
+
+                  $totalEE = ($issue->getEffortEstim() + $issue->getEffortAdd());
+
+                  // Note: if Backlog is NULL, the values to propose in the DialogBox
+                  //       are not the ones used for ProjectManagement
                   $backlog = $issue->getBacklog();
-                  if (!is_null($backlog) && is_numeric($backlog)) {
-                     $backlog = $backlog - $duration;
-                     if ($backlog < 0) { $backlog = 0; }
-                     $issue->setBacklog($backlog);
+                  if ( !is_null($backlog) && is_numeric($backlog)) {
+                     // normal case
+                     $drift = $issue->getDrift();
+                  } else {
+                     // reestimated cannot be used...
+                     $backlog = $totalEE - $issue->getElapsed();
+                     if ($backlog < 0) { $backlog = 0;}
+                     $drift = ($issue->getElapsed() + $backlog) - $totalEE;
                   }
 
-                  // open the updateBacklog DialogBox on page reload
-                  $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
-                  if (($job != $job_support) &&
-                     (!$project->isSideTasksProject(array_keys($teamList)) &&
-                        (!$project->isExternalTasksProject()))) {
-
-                     $deadline = $issue->getDeadLine();
-                     if (!is_null($deadline) || (0 != $deadline)) {
-                        $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $deadline);
-                     }
-
-                     $totalEE = ($issue->getEffortEstim() + $issue->getEffortAdd());
-
-                     // Note: if Backlog is NULL, the values to propose in the DialogBox
-                     //       are not the ones used for ProjectManagement
-                     $backlog = $issue->getBacklog();
-                     if ( !is_null($backlog) && is_numeric($backlog)) {
-                        // normal case
-                        $drift = $issue->getDrift();
-                     } else {
-                        // reestimated cannot be used...
-                        $backlog = $totalEE - $issue->getElapsed();
-                        if ($backlog < 0) { $backlog = 0;}
-                        $drift = ($issue->getElapsed() + $backlog) - $totalEE;
-                     }
-
-                     $issueInfo = array(
-                        'backlog' => $backlog,
-                        'bugid' => $issue->getId(),
-                        #'description' => $issue->getSummary(),
-                        'dialogBoxTitle' => $issue->getFormattedIds(),
-                        'effortEstim' => $totalEE,
-                        'mgrEffortEstim' => $issue->getMgrEffortEstim(),
-                        'elapsed' => $issue->getElapsed(),
-                        'drift' => $drift,
-                        'driftMgr' => $issue->getDriftMgr(),
-                        'reestimated' => $issue->getReestimated(),
-                        'driftColor' => $issue->getDriftColor($drift),
-                        'currentStatus' => $issue->getCurrentStatus(),
-                        'availableStatusList' => $issue->getAvailableStatusList(true),
-                        'bugResolvedStatusThreshold' =>  $issue->getBugResolvedStatusThreshold()
-                     );
-                     if (isset($formatedDate)) {
-                        $issueInfo['deadline'] = $formatedDate;
-                     }
-
-                     $jsonIssueInfo = json_encode($issueInfo);
-                     $this->smartyHelper->assign('updateBacklogJsonData', $jsonIssueInfo);
-
-                     // TODO Summary is not be included because of quotes problems...
-                     $this->smartyHelper->assign('updateBacklogSummary', $issue->getSummary());
+                  $issueInfo = array(
+                     'backlog' => $backlog,
+                     'bugid' => $issue->getId(),
+                     #'description' => $issue->getSummary(),
+                     'dialogBoxTitle' => $issue->getFormattedIds(),
+                     'effortEstim' => $totalEE,
+                     'mgrEffortEstim' => $issue->getMgrEffortEstim(),
+                     'elapsed' => $issue->getElapsed(),
+                     'drift' => $drift,
+                     'driftMgr' => $issue->getDriftMgr(),
+                     'reestimated' => $issue->getReestimated(),
+                     'driftColor' => $issue->getDriftColor($drift),
+                     'currentStatus' => $issue->getCurrentStatus(),
+                     'availableStatusList' => $issue->getAvailableStatusList(true),
+                     'bugResolvedStatusThreshold' =>  $issue->getBugResolvedStatusThreshold()
+                  );
+                  if (isset($formatedDate)) {
+                     $issueInfo['deadline'] = $formatedDate;
                   }
+
+                  $jsonIssueInfo = json_encode($issueInfo);
+                  $this->smartyHelper->assign('updateBacklogJsonData', $jsonIssueInfo);
+
+                  // TODO Summary is not be included because of quotes problems...
+                  $this->smartyHelper->assign('updateBacklogSummary', $issue->getSummary());
                }
 
                if(self::$logger->isDebugEnabled()) {
@@ -193,8 +184,13 @@ class TimeTrackingController extends Controller {
 
                try {
                   $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-                  // do NOT decrease backlog if job is job_support !
-                  if ($job != $job_support) {
+                  $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
+                  // do NOT increase backlog if job is job_support !
+                  // do NOT increase backlog if sideTask or ExternalTask (they have no backlog)
+                  if (($job != $job_support) &&
+                      (!$project->isSideTasksProject(array_keys($teamList))) &&
+                      (!$project->isExternalTasksProject())) {
+
                      if (!is_null($issue->getBacklog())) {
                         $backlog = $issue->getBacklog() + $duration;
                         $issue->setBacklog($backlog);
