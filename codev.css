@@ -7,6 +7,12 @@ body {
 h1 {
   text-align: center;
 }
+
+hr {
+   border: 0;
+   border-top: 1px solid #B6B6B6;
+}
+
 img {
   border: 0;
   margin: 0;
@@ -80,8 +86,9 @@ table.invisible tbody {
    border: 1px solid #7096AB;
 }
 
-/* MBU remove the annoying header wobble */
-.dayHeader {
+/* remove the annoying wobble when hovering over the header of the time tracking table */
+.dayHeader,
+.dayTask {
     border: 1px solid transparent;
 }
 
@@ -223,8 +230,16 @@ div.menu td {
 
 /* JQuery Hacks */
 input.datepicker, img.ui-datepicker-trigger {
-  vertical-align: middle;
+   vertical-align: middle;
+   display: inline-block;
+   text-align: center;
 }
+
+/* MBU makes the trigger field look nicer */
+img.ui-datepicker-trigger {
+   margin-left:2px;
+}
+
 
 /* START Datatable */
 table.datatable, table.datatable_minimal, table.display {
@@ -376,7 +391,8 @@ ul.submenu {
    position: absolute;
    top: 100%;
    left: 0;
-	width: 200px;
+	width: 200px; /* fix for Chrome, which will otherwise use the aggregated width of all list items */
+	border-top: 1px solid #B6B6B6; /* fix for IE, otherwise the sub-menu will disappear on slow mouse movement */
 	padding-left: 0;
 }
 ul.submenu li {
