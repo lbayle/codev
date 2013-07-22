@@ -73,14 +73,6 @@
       });
       {/foreach}
 
-      // click on the IssueNote will rase the editIssueNote dialogbox
-      {foreach from=$weekTasks key=id item=i}
-      jQuery("#bugNote_{$i.bugid}").click(function() {
-         editIssueNote('{$i.bugid}');
-         return false;
-      });
-      {/foreach}
-
    });
 </script>
 <table id="weekTaskDetails" style="width:100%;">

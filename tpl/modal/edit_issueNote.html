@@ -157,6 +157,14 @@ This opens a popup window displaying an IssueNote text to edit.
          });
       });
 
+      // click on the IssueNote will rase the editIssueNote dialogbox
+      jQuery('.js-add-note-link').click(function(ev){
+         var bugId = this.getAttribute('data-bugId');
+
+         ev.preventDefault();
+         editIssueNote( bugId );
+      });
+
    });
 
 </script>
