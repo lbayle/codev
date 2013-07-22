@@ -179,6 +179,7 @@
                      <th>{t}Note{/t}</th>
                      <th>{t}Reporter{/t}</th>
                      <th>{t}Date{/t}</th>
+                     <th>{t}Read by{/t}</th>
                      <th title="{t}Action{/t}"></th>
                   </tr>
                </thead>
@@ -189,6 +190,7 @@
                      <td>{$i.note}</td>
                      <td valign="top" nowrap="nowrap">{$i.reporter}</td>
                      <td valign="top">{$i.date}</td>
+                     <td valign="top">{$i.readBy}</td>
                      <td valign="top">
                         <img id="b_markAsRead_{$bug_id}" data-bugId="{$bug_id}" class="js-markNoteAsRead-link" style="cursor: pointer;" align="absmiddle" src="images/b_markAsRead.png" title="{t}Mark as read{/t}">
                      </td>

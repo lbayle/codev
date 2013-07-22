@@ -77,8 +77,10 @@ class IssueNote {
 
       $view_state = ($private) ? self::viewState_private : self::viewState_public;
 
-      // TODO check SQL injections
-      $query2 = "INSERT INTO `mantis_bugnote_text_table` (`note`) VALUES ('$text');";
+      // prevent SQL injections
+      $sqltext = SqlWrapper::getInstance()->sql_real_escape_string($text);
+
+      $query2 = "INSERT INTO `mantis_bugnote_text_table` (`note`) VALUES ('$sqltext');";
       $result2 = SqlWrapper::getInstance()->sql_query($query2);
       if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -271,7 +273,7 @@ class IssueNote {
    public function setText($text, $user_id) {
 
       $oldText = $this->note;
-      if ( $oldText == $text ) { 
+      if ( $oldText == $text ) {
          return true;
       }
 
@@ -397,19 +399,24 @@ class IssueNote {
       if (is_null($timestamp)) {
          $timestamp = time();
       }
+      if (!array_key_exists($userid, $this->readByList)) {
+         $user = UserCache::getInstance()->getUser($userid);
+         $tag =  self::tag_begin .
+               self::tagid_NoteReadBy . ' ' .
+               $user->getName() . ' '.
+               self::tag_sep .
+               date('Y-m-d H:i:s', $timestamp) .
+               self::tag_end;
 
-      $user = UserCache::getInstance()->getUser($userid);
-      $tag =  self::tag_begin .
-              self::tagid_NoteReadBy . ' ' .
-              $user->getName() . ' '.
-              self::tag_sep .
-              date('Y-m-d H:i:s', $timestamp) .
-              self::tag_end;
+         $note = $this->note."\n".$tag;
 
-      $note = $this->note."\n".$tag;
+         $this->setText($note, $userid);
+         $this->readByList["$userid"] = $timestamp;
 
-      $this->setText($note, $userid);
-      $this->readByList["$userid"] = $timestamp;
+      //} else {
+      //   self::$logger->debug("issue $this->bug_id markAsRead: user $userid already marked.");
+      }
+
    }
 
    /**
