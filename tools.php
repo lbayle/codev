@@ -135,18 +135,23 @@ class Tools {
       }
    }
 
-   public static function imgWithTooltip($img, $tooltipAttr, $imgId=NULL) {
+   public static function imgWithTooltip($img, $tooltipAttr, $imgId=NULL,$imgClass=NULL,$otherArgs=NULL) {
 
       if (!is_null($imgId)) {
          $id = 'id="'.$imgId.'"';
       }
 
+      $imgClass = ''.$imgClass;
+
+      $otherArgs = ''.$otherArgs;
+
       if(is_array($tooltipAttr)) {
          $tooltip = self::getTooltip($tooltipAttr);
-         return '<img '.$id.' class="haveTooltip" title="" align="absmiddle" src="'.$img.'"/>'.$tooltip;
+         $imgClass .= ' haveTooltip';
+         return '<img '.$id.' class="'.$imgClass.'" title="" align="absmiddle" src="'.$img.'" '.$otherArgs.'/>'.$tooltip;
 
       } else {
-         return '<img '.$id.' title="'.nl2br(htmlspecialchars($tooltipAttr)).'" align="absmiddle" src="'.$img.'" />';
+         return '<img '.$id.' class="'.$imgClass.'" title="'.nl2br(htmlspecialchars($tooltipAttr)).'" align="absmiddle" src="'.$img.'"'.$otherArgs.' />';
 
       }
    }
