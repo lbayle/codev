@@ -90,15 +90,14 @@ This opens a popup window displaying an IssueNote text to edit.
          success: function(data) {
 
             // decode json data
-            //var response = jQuery.parseJSON(data);
-
+            // var response = jQuery.parseJSON(data);
             // TODO update IssueNote DataTable
 
             var img = jQuery("#b_markAsRead_" + bugid);
             img.attr("src","images/b_markAsRead_grey.png");
+            img.off('click'); // disable markAsRead link
 
             alert("Issue " + bugid + ": Note marked as read.");
-
          },
          error: function(data) {
             // TODO
@@ -157,12 +156,18 @@ This opens a popup window displaying an IssueNote text to edit.
          });
       });
 
-      // click on the IssueNote will rase the editIssueNote dialogbox
+      // click on the IssueNote will raise the editIssueNote dialogbox
       jQuery('.js-add-note-link').click(function(ev){
          var bugId = this.getAttribute('data-bugId');
-
          ev.preventDefault();
          editIssueNote( bugId );
+      });
+
+      // click on markAsRead will add a ReadBy tag to the IssueNote
+      jQuery('.js-markNoteAsRead-link').click(function(ev){
+         var bugId = this.getAttribute('data-bugId');
+         ev.preventDefault();
+         markIssueNoteAsRead( bugId );
       });
 
    });

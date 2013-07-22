@@ -48,7 +48,8 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $issueNote = IssueNote::getTimesheetNote($bugid);
          if (!is_null($issueNote)) {
             $issueNoteId = $issueNote->getId();
-            $issueNoteText_b64 = base64_encode($issueNote->getText());
+            $issueNoteText = trim(IssueNote::removeAllReadByTags($issueNote->getText()));
+            $issueNoteText_b64 = base64_encode($issueNoteText);
          } else {
             $issueNoteId = 0;
             $issueNoteText_b64 = '';

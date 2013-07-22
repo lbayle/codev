@@ -135,6 +135,16 @@ class Tools {
       }
    }
 
+   /**
+    * return an image with a nice HTML tooltip
+    *
+    * @param string $img  path to image ex: 'images/toto.png'
+    * @param string/array $tooltipAttr tooltip
+    * @param string $imgId id or (NULL if none)
+    * @param type $imgClass additional js classes (NULL if none)
+    * @param string $otherArgs additional attributes (NULL if none)
+    * @return string <img /> HTML element
+    */
    public static function imgWithTooltip($img, $tooltipAttr, $imgId=NULL,$imgClass=NULL,$otherArgs=NULL) {
 
       if (!is_null($imgId)) {
@@ -142,7 +152,6 @@ class Tools {
       }
 
       $imgClass = ''.$imgClass;
-
       $otherArgs = ''.$otherArgs;
 
       if(is_array($tooltipAttr)) {
