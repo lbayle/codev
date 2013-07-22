@@ -183,10 +183,10 @@ class TimeTrackingTools {
                      $tooltipAttr['Read by'] = implode(', ', array_keys($readByList));
                   }
 
-                  $noteTooltip = Tools::imgWithTooltip('images/b_note.png', $tooltipAttr, "bugNote_".$issueNote->getBugId());
+                  $noteTooltip = Tools::imgWithTooltip('images/b_note.png', $tooltipAttr, "bugNote_".$issueNote->getBugId(), 'js-add-note-link', 'data-bugId="'.$issueNote->getBugId().'"');
                } else {
                   $issueNoteId = 0;
-                  $noteTooltip = Tools::imgWithTooltip('images/b_note_grey.png', T_('Click to add a note'), "bugNote_".$issue->getId());
+                  $noteTooltip = Tools::imgWithTooltip('images/b_note_grey.png', T_('Click to add a note'), "bugNote_".$issue->getId(), 'js-add-note-link', 'data-bugId="'.$issue->getId().'"');
                }
             } else {
                $noteTooltip = '';
