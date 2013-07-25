@@ -83,6 +83,7 @@ class TeamActivityReportController extends Controller {
                         'reporter' => $user->getRealname(),
                         'date' => date('Y-m-d H:i', $issueNote->getLastModified()),
                         'readBy' => implode(',<br>', array_keys($issueNote->getReadByList(TRUE))),
+                        'issueNoteId' => $issueNote->getId(),
                      );
                      $issueNotes[$bug_id] = $issueNoteInfo;
                   }

@@ -34,6 +34,13 @@ This opens a popup window displaying an IssueNote text to edit.
             <input type="hidden" name="bugid" value="" />
          </fieldset>
       </form>
+      <form id="formDeleteNote" name="formDeleteNote" method="get" action="{$ajaxPage}" >
+         <fieldset>
+            <input type="hidden" name="action" value="deleteNote" />
+            <input type="hidden" name="bugid" value="" />
+            <input type="hidden" name="bugnote_id" value="" />
+         </fieldset>
+      </form>
    </div>
 </div>
 
@@ -106,6 +113,29 @@ This opens a popup window displaying an IssueNote text to edit.
       });
    }
 
+   function deleteNote(bugid, bugnote_id) {
+      var formDeleteNote = jQuery('#formDeleteNote');
+      formDeleteNote.find("input[name=bugid]").val(bugid);
+      formDeleteNote.find("input[name=bugnote_id]").val(bugnote_id);
+      jQuery.ajax({
+         type: "GET",
+         url: formDeleteNote.attr("action"),
+         data: formDeleteNote.serialize(),
+         success: function(data) {
+
+            // decode json data
+            // var response = jQuery.parseJSON(data);
+            
+            // TODO remove IssueNote from DataTable
+            alert("Issue " + bugid + ": Delete Note.");
+         },
+         error: function(data) {
+            // TODO
+            alert('ERROR: ' + data);
+         }
+      });
+   }
+
    jQuery(document).ready(function() {
 
       var dialog = jQuery("#dialog_editIssueNote").dialog({
@@ -168,6 +198,14 @@ This opens a popup window displaying an IssueNote text to edit.
          var bugId = this.getAttribute('data-bugId');
          ev.preventDefault();
          markIssueNoteAsRead( bugId );
+      });
+
+      // click on deleteBNote to the IssueNote
+      jQuery('.js-deleteNote-link').click(function(ev){
+         var bugId = this.getAttribute('data-bugId');
+         var bugnoteId = this.getAttribute('data-bugnoteId');
+         ev.preventDefault();
+         deleteNote( bugId, bugnoteId );
       });
 
    });

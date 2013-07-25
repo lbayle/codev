@@ -105,6 +105,15 @@ class IssueNote {
    }
 
    /**
+    * delete bugnote
+    */
+   public static function delete($id) {
+      // TODO
+      self::$logger->debug("Delete note $id");
+      
+   }
+
+   /**
     * search for the latest bugnote containing tagid_timesheetNote
     *
     * @param type $bug_id

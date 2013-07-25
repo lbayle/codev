@@ -42,7 +42,24 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 
          // return data
          echo $data;
+
+      } else if ($_GET['action'] == 'deleteNote') {
+
+         $bugid = Tools::getSecureGETIntValue('bugid');
+         $bugnoteid = Tools::getSecureGETIntValue('bugnote_id');
+         $retCode = IssueNote::delete($bugnoteid);
+         if ($retCode) {
+            $data = 'OK';
+         } else {
+            $data = 'ERROR';
+            // TODO return ERROR
+            Tools::sendBadRequest("Could not delete note.");
+         }
+
+         // return data
+         echo $data;
       }
+
    }
 }
 else {

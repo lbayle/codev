@@ -193,6 +193,7 @@
                      <td valign="top">{$i.readBy}</td>
                      <td valign="top">
                         <img id="b_markAsRead_{$bug_id}" data-bugId="{$bug_id}" class="js-markNoteAsRead-link" style="cursor: pointer;" align="absmiddle" src="images/b_markAsRead.png" title="{t}Mark as read{/t}">
+                        <img id="b_deleteNote_{$i.issueNoteId}" data-bugnoteId="{$i.issueNoteId}" data-bugId="{$bug_id}" class="js-deleteNote-link" style="cursor: pointer;" align="absmiddle" src="images/b_drop.png" title="{t}Delete note{/t}">
                      </td>
                   </tr>
                {/foreach}
