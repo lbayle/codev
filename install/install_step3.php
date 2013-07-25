@@ -77,7 +77,6 @@ function createGreasemonkeyFile() {
 }
 
 function createLog4phpFile() {
-   $serverIP = $_SERVER['SERVER_ADDR'];
 
    //read the source file
    $str = implode("\n", file(Install::FILENAME_LOG4PHP_SAMPLE));

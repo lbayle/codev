@@ -40,7 +40,14 @@ $_autoloader->registerAutoload();
 // Set up the logger
 try {
    if (is_null(Logger::getConfigurationFile())) {
-      Logger::configure('log4php.xml');
+
+      $filename = 'log4php.xml';
+      if (!file_exists($filename)) {
+         // if file not found or during INSTALL procedure...
+         $filename = NULL;
+      }
+
+      Logger::configure($filename);
       $logger = Logger::getLogger("header");
       $logger->info("LOG activated !");
 
@@ -50,8 +57,10 @@ try {
       #echo "configure LOG header exists: ".$logger->exists("header")."</br>";
    }
 } catch (Exception $e) {
-   echo 'LOGGER ERROR: '.$e->getMessage().'<br>';
-   echo ' - Please check that user '.exec('whoami').' have write access to the log directory.<br>';
+   echo 'LOGGER ERROR: '.$e->getMessage().'<br><br>';
+   echo 'Tips:<br>';
+   echo ' - Check logger configuration file "log4php.xml"<br>';
+   echo ' - Check that user '.exec('whoami').' have write access to the log directory.<br>';
    exit;
 }
 
