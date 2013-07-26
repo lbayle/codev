@@ -45,9 +45,11 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 
       } else if ($_GET['action'] == 'deleteNote') {
 
+         $userid = $_SESSION['userid'];
          $bugid = Tools::getSecureGETIntValue('bugid');
          $bugnoteid = Tools::getSecureGETIntValue('bugnote_id');
-         $retCode = IssueNote::delete($bugnoteid);
+         
+         $retCode = IssueNote::delete($bugnoteid, $bugid, $userid);
          if ($retCode) {
             $data = 'OK';
          } else {

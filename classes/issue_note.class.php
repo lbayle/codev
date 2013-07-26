@@ -23,6 +23,10 @@ class IssueNote {
    const type_timetracking = 2;    // Mantis ( 'TIME_TRACKING', 2 )
    const type_timesheetNote = 108; // CodevTT
 
+   const history_BugnoteAdded   = 2; // Mantis ('BUGNOTE_ADDED', 2 )
+   const history_BugnoteUpdated = 3; // Mantis ('BUGNOTE_UPDATED', 3 )
+   const history_BugnoteDeleted = 4; // Mantis ('BUGNOTE_DELETED', 4 )
+
    const viewState_public = 10;
    const viewState_private = 50;
 
@@ -99,7 +103,15 @@ class IssueNote {
       }
       $bugnote_id = SqlWrapper::getInstance()->sql_insert_id();
 
-      // TODO log BUGNOTE_ADD in Issue history
+      // log BUGNOTE_ADD in Issue history
+      $query3 = 'INSERT INTO `mantis_bug_history_table` '.
+				'( user_id, bug_id, date_modified, type, old_value ) '.
+				"VALUES ( $reporter_id, $bug_id, ".time().', '.self::history_BugnoteAdded.", $bugnote_id)";
+      $result3 = SqlWrapper::getInstance()->sql_query($query3);
+      if (!$result3) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
 
       return $bugnote_id;
    }
@@ -107,10 +119,38 @@ class IssueNote {
    /**
     * delete bugnote
     */
-   public static function delete($id) {
+   public static function delete($id, $bugid, $userid) {
       // TODO
       self::$logger->debug("Delete note $id");
-      
+
+      # Remove the bugnote text
+      $query = 'DELETE FROM `mantis_bugnote_text_table` WHERE id=' .
+            " (SELECT bugnote_text_id FROM `mantis_bugnote_table` WHERE id=$id)";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      # Remove the bugnote
+      $query2 = 'DELETE FROM `mantis_bugnote_table` WHERE id=' . $id;
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      if (!$result2) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      // log BUGNOTE_DELETED in Issue history
+      $query3 = 'INSERT INTO `mantis_bug_history_table` '.
+				'( user_id, bug_id, date_modified, type, old_value ) '.
+				"VALUES ( $userid, $bugid, ".time().', '.self::history_BugnoteDeleted.", $id)";
+      $result3 = SqlWrapper::getInstance()->sql_query($query3);
+      if (!$result3) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+   	return true;
    }
 
    /**
@@ -304,18 +344,25 @@ class IssueNote {
 
 	   # updated the last_updated date
       $now = time();
-   	$query = "UPDATE `mantis_bugnote_table` SET last_modified=$now WHERE id= $this->id";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
+   	$query2 = "UPDATE `mantis_bugnote_table` SET last_modified=$now WHERE id= $this->id";
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
       # insert a new revision
-      $this->revisionAdd($text, $user_id, $now);
+      $revision_id = $this->revisionAdd($text, $user_id, $now);
 
-      // TODO set issue history !
-   	//history_log_event_special( $t_bug_id, BUGNOTE_UPDATED, bugnote_format_id( $p_bugnote_id ), $t_revision_id );
+      // log BUGNOTE_UPDATED in Issue history
+      $query3 = 'INSERT INTO `mantis_bug_history_table` '.
+				'( user_id, bug_id, date_modified, type, old_value, new_value ) '.
+				"VALUES ( $user_id, ".$this->bug_id.", ".time().', '.self::history_BugnoteUpdated.', '.$this->id.", $revision_id)";
+      $result3 = SqlWrapper::getInstance()->sql_query($query3);
+      if (!$result3) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
 
       return true;
 
@@ -337,6 +384,13 @@ class IssueNote {
       return $nbTuples;
    }
 
+   /**
+    *
+    * @param type $text
+    * @param type $user_id
+    * @param type $timestamp
+    * @return int revision_id
+    */
    private function revisionAdd($text, $user_id, $timestamp) {
 
       // prevent SQL injections
@@ -350,6 +404,8 @@ class IssueNote {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
+      $revision_id = SqlWrapper::getInstance()->sql_insert_id();
+      return $revision_id;
    }
 
    /**
