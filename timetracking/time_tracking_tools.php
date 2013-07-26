@@ -143,7 +143,7 @@ class TimeTrackingTools {
             $issueInfo = array(
                'backlog' => $backlog,
                'bugid' => $issue->getId(),
-               'summary' => base64_encode($issue->getSummary()),
+               'summary' => $issue->getSummary(),
                'dialogBoxTitle' => $issue->getFormattedIds(),
                'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),
                'mgrEffortEstim' => $issue->getMgrEffortEstim(),

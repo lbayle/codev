@@ -228,7 +228,7 @@ class SmartyTools {
          $description .= " / " . $extid;
       }
       if($summary != NULL && strlen($summary) > 0) {
-         $description .= " : " . $summary;
+         $description .= " : " . htmlspecialchars($summary);;
       }
       return $description;
    }

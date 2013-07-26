@@ -51,15 +51,12 @@
 
    function updateBacklog2(updateBacklogJsonData){
 
-      var data = jQuery.parseJSON(updateBacklogJsonData);
+      var data = updateBacklogJsonData;
 
       // do not display computed backlog: force users to reestimate it !
       //jQuery("#backlog").val(data['backlog']);
 
-      var issue_summary = jQuery.base64.decode(data['summary']);
-      jQuery("#issue_summary").text(issue_summary);
-      //jQuery("#issue_summary").text(htmlEncode(issue_summary));
-
+      jQuery("#issue_summary").text(data['summary']);
       jQuery("#desc_effortEstim").text(data['effortEstim']);
       jQuery("#desc_elapsed").text(data['elapsed']);
       //jQuery("#desc_reestimated").text(data['reestimated']);
@@ -196,7 +193,7 @@
 
          // after a click on 'AddTrack' button, raise the updateBacklog dialogBox
          {if isset($updateBacklogJsonData)}
-            updateBacklog2('{$updateBacklogJsonData}');
+            updateBacklog2({$updateBacklogJsonData});
          {/if}
 
       });

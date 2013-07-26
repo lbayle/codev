@@ -68,7 +68,7 @@
       // click on the Backlog will rase the updateBacklog dialogbox
       {foreach from=$weekTasks key=id item=i}
       jQuery("#linkUpdateBacklog_{$i.bugid}").click(function() {
-         updateBacklog2('{$i.updateBacklogJsonData}');
+         updateBacklog2({$i.updateBacklogJsonData});
          return false;
       });
       {/foreach}

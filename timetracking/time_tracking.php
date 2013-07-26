@@ -137,7 +137,7 @@ class TimeTrackingController extends Controller {
                   $issueInfo = array(
                      'backlog' => $backlog,
                      'bugid' => $issue->getId(),
-                        'summary' => base64_encode($issue->getSummary()),
+                     'summary' => $issue->getSummary(),
                      'dialogBoxTitle' => $issue->getFormattedIds(),
                      'effortEstim' => $totalEE,
                      'mgrEffortEstim' => $issue->getMgrEffortEstim(),
