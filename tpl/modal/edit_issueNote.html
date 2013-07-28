@@ -101,8 +101,11 @@ This opens a popup window displaying an IssueNote text to edit.
             // TODO update IssueNote DataTable
 
             var img = jQuery("#b_markAsRead_" + bugid);
-            img.attr("src","images/b_markAsRead_grey.png");
             img.off('click'); // disable markAsRead link
+            img.attr("src","images/b_markAsRead_grey.png");
+
+            var row = jQuery('#issueNotes_tr'+bugid);
+            row.css("background-color", "#FFFFFF");
 
             alert("Issue " + bugid + ": Note marked as read.");
          },
@@ -114,6 +117,9 @@ This opens a popup window displaying an IssueNote text to edit.
    }
 
    function deleteNote(bugid, bugnote_id) {
+
+      // TODO ask delete confirmation
+
       var formDeleteNote = jQuery('#formDeleteNote');
       formDeleteNote.find("input[name=bugid]").val(bugid);
       formDeleteNote.find("input[name=bugnote_id]").val(bugnote_id);
@@ -125,9 +131,14 @@ This opens a popup window displaying an IssueNote text to edit.
 
             // decode json data
             // var response = jQuery.parseJSON(data);
-            
-            // TODO remove IssueNote from DataTable
             alert("Issue " + bugid + ": Delete Note.");
+
+            // remove IssueNote from DataTable
+            var oTable = jQuery('#issueNotes_table').dataTable();
+            var row = jQuery('#issueNotes_tr'+bugid).get(0);
+            oTable.fnDeleteRow( oTable.fnGetPosition(row) );
+
+            return false;
          },
          error: function(data) {
             // TODO

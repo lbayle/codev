@@ -185,14 +185,18 @@
                </thead>
                <tbody>
                {foreach from=$issueNotes item=i key=bug_id}
-                  <tr>
+                  <tr id="issueNotes_tr{$bug_id}" {if (!$i.isRead)}class="js-isNotRead" style="background-color:#FFFF99 "{/if}>
                      <td valign="top">{$i.taskDesc}</td>
                      <td>{$i.note}</td>
                      <td valign="top" nowrap="nowrap">{$i.reporter}</td>
                      <td valign="top">{$i.date}</td>
                      <td valign="top">{$i.readBy}</td>
                      <td valign="top">
+                        {if (!$i.isRead)}
                         <img id="b_markAsRead_{$bug_id}" data-bugId="{$bug_id}" class="js-markNoteAsRead-link" style="cursor: pointer;" align="absmiddle" src="images/b_markAsRead.png" title="{t}Mark as read{/t}">
+                        {else}
+                        <img align="absmiddle" src="images/b_markAsRead_grey.png">
+                        {/if}
                         <img id="b_deleteNote_{$i.issueNoteId}" data-bugnoteId="{$i.issueNoteId}" data-bugId="{$bug_id}" class="js-deleteNote-link" style="cursor: pointer;" align="absmiddle" src="images/b_drop.png" title="{t}Delete note{/t}">
                      </td>
                   </tr>

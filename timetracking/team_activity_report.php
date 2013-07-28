@@ -77,6 +77,10 @@ class TeamActivityReportController extends Controller {
                      $issue = IssueCache::getInstance()->getIssue($bug_id);
                      $user = UserCache::getInstance()->getUser($issueNote->getReporterId());
                      $issueNoteText = trim(IssueNote::removeAllReadByTags($issueNote->getText()));
+
+                     // TODO ckeck if Manager
+                     $isRead = (0 != $issueNote->isReadBy($this->session_userid));
+
                      $issueNoteInfo = array(
                         'taskDesc' => SmartyTools::getIssueDescription($bug_id, $issue->getTcId(), htmlspecialchars($issue->getSummary())),
                         'note' => nl2br(htmlspecialchars($issueNoteText)),
@@ -84,6 +88,7 @@ class TeamActivityReportController extends Controller {
                         'date' => date('Y-m-d H:i', $issueNote->getLastModified()),
                         'readBy' => implode(',<br>', array_keys($issueNote->getReadByList(TRUE))),
                         'issueNoteId' => $issueNote->getId(),
+                        'isRead' => $isRead
                      );
                      $issueNotes[$bug_id] = $issueNoteInfo;
                   }
