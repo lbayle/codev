@@ -197,7 +197,9 @@
                         {else}
                         <img align="absmiddle" src="images/b_markAsRead_grey.png">
                         {/if}
+                        {if ($i.isDeleteGranted)}
                         <img id="b_deleteNote_{$i.issueNoteId}" data-bugnoteId="{$i.issueNoteId}" data-bugId="{$bug_id}" class="js-deleteNote-link" style="cursor: pointer;" align="absmiddle" src="images/b_drop.png" title="{t}Delete note{/t}">
+                        {/if}
                      </td>
                   </tr>
                {/foreach}

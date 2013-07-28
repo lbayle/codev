@@ -78,8 +78,21 @@ class TeamActivityReportController extends Controller {
                      $user = UserCache::getInstance()->getUser($issueNote->getReporterId());
                      $issueNoteText = trim(IssueNote::removeAllReadByTags($issueNote->getText()));
 
-                     // TODO ckeck if Manager
-                     $isRead = (0 != $issueNote->isReadBy($this->session_userid));
+                     $isManager = $this->session_user->isTeamManager($this->teamid);
+
+                     // only Managers can markAsRead
+                     $isRead = TRUE;
+                     if ($isManager) {
+                        $isRead = (0 != $issueNote->isReadBy($this->session_userid));
+                     }
+
+                     // Delete allowed by owner & managers
+                     if (($this->session_userid == $issueNote->getReporterId()) ||
+                         $isManager) {
+                        $isDeleteGranted = TRUE;
+                     } else {
+                        $isDeleteGranted = FALSE;
+                     }
 
                      $issueNoteInfo = array(
                         'taskDesc' => SmartyTools::getIssueDescription($bug_id, $issue->getTcId(), htmlspecialchars($issue->getSummary())),
@@ -88,7 +101,8 @@ class TeamActivityReportController extends Controller {
                         'date' => date('Y-m-d H:i', $issueNote->getLastModified()),
                         'readBy' => implode(',<br>', array_keys($issueNote->getReadByList(TRUE))),
                         'issueNoteId' => $issueNote->getId(),
-                        'isRead' => $isRead
+                        'isRead' => $isRead,
+                        'isDeleteGranted' => $isDeleteGranted
                      );
                      $issueNotes[$bug_id] = $issueNoteInfo;
                   }
@@ -142,17 +156,17 @@ class TeamActivityReportController extends Controller {
       $team = TeamCache::getInstance()->getTeam($timeTracking->getTeamid());
 
       $weekDetails = array();
-      $this->session_users = $team->getUsers();
-      foreach($this->session_users as $this->session_user) {
+      $session_users = $team->getUsers();
+      foreach($session_users as $session_user) {
          // if user was working on the project during the timestamp
 
-         if (($this->session_user->isTeamDeveloper($timeTracking->getTeamid(), $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp())) ||
-            ($this->session_user->isTeamManager($timeTracking->getTeamid(), $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp()))) {
+         if (($session_user->isTeamDeveloper($timeTracking->getTeamid(), $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp())) ||
+            ($session_user->isTeamManager($timeTracking->getTeamid(), $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp()))) {
 
             // PERIOD week
             //$thisWeekId=date("W");
 
-            $weekTracks = $timeTracking->getWeekDetails($this->session_user->getId(), !$isDetailed);
+            $weekTracks = $timeTracking->getWeekDetails($session_user->getId(), !$isDetailed);
             $holidays = Holidays::getInstance();
 
             $weekJobDetails = array();
@@ -277,9 +291,9 @@ class TeamActivityReportController extends Controller {
 
             if(!empty($weekJobDetails)) {
                $weekDetails[] = array(
-                  'name' => $this->session_user->getName(),
-                  'realname' => $this->session_user->getRealname(),
-                  'forecastWorkload' => $this->session_user->getForecastWorkload(),
+                  'name' => $session_user->getName(),
+                  'realname' => $session_user->getRealname(),
+                  'forecastWorkload' => $session_user->getForecastWorkload(),
                   'weekDates' => array(
                      Tools::formatDate("%A\n%d %b", $weekDates[1]),
                      Tools::formatDate("%A\n%d %b", $weekDates[2]),
@@ -311,10 +325,10 @@ class TeamActivityReportController extends Controller {
 
       if (count($cerrList) > 0) {
          foreach ($cerrList as $cerr) {
-            $this->session_user = UserCache::getInstance()->getUser($cerr->userId);
+            $user = UserCache::getInstance()->getUser($cerr->userId);
             $consistencyErrors[] = array(
                'date' => date("Y-m-d", $cerr->timestamp),
-               'user' => $this->session_user->getName(),
+               'user' => $user->getName(),
                'severity' => $cerr->getLiteralSeverity(),
                'severityColor' => $cerr->getSeverityColor(),
                'desc' => $cerr->desc);
