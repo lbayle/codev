@@ -65,14 +65,6 @@
       });
 
 
-      // click on the Backlog will rase the updateBacklog dialogbox
-      {foreach from=$weekTasks key=id item=i}
-      jQuery("#linkUpdateBacklog_{$i.bugid}").click(function() {
-         updateBacklog2({$i.updateBacklogJsonData});
-         return false;
-      });
-      {/foreach}
-
    });
 </script>
 <table id="weekTaskDetails" style="width:100%;">
@@ -98,7 +90,7 @@
             {$i.noteTooltip}
             {$i.infoTooltip}
          </td>
-         <td><a id="linkUpdateBacklog_{$i.bugid}" title="{t}update backlog{/t}" href="#">{$i.formattedBacklog}</a></td>
+         <td><a class="js-updateBacklog-link" data-bugid="{$i.bugid}" title="{t}update backlog{/t}" href="#">{$i.formattedBacklog}</a></td>
 
          <td class="job-{$i.jobid}">{$i.jobName}</td>
          {foreach from=$i.dayTasks key=day item=j}
@@ -121,4 +113,7 @@
 </table>
 
 {include file="modal/edit_issueNote.html"}
+
+<!-- updateBacklog DialogBox -->
+{include file="modal/update_issueBacklog.html"}
 
