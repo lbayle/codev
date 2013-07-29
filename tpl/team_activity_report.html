@@ -190,7 +190,7 @@
                      <td>{$i.note}</td>
                      <td valign="top" nowrap="nowrap">{$i.reporter}</td>
                      <td valign="top">{$i.date}</td>
-                     <td valign="top">{$i.readBy}</td>
+                     <td valign="top" class="readBy_td">{$i.readBy}</td>
                      <td valign="top">
                         {if (!$i.isRead)}
                         <img id="b_markAsRead_{$bug_id}" data-bugId="{$bug_id}" class="js-markNoteAsRead-link" style="cursor: pointer;" align="absmiddle" src="images/b_markAsRead.png" title="{t}Mark as read{/t}">

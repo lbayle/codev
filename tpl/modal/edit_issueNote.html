@@ -7,15 +7,14 @@ This opens a popup window displaying an IssueNote text to edit.
 
    <label id="editIssueNoteDialogDesc" class="help_font"></label>
    <br><br>
-   <textarea id="issuenote_text" name="issuenote_text" cols="80" rows="8"></textarea>
 
    <div align='left'>
       <form id="formEditIssueNote" name="formEditIssueNote" method="post" action="{$ajaxPage}" >
          <fieldset>
+            <textarea id="issuenote_text" name="issuenote_text" cols="80" rows="8"></textarea>
             <input type="hidden" name="action" value="saveIssueNote" />
             <input type="hidden" name="bugid" value="" />
             <input type="hidden" name="issuenoteid" value="" />
-            <input type="hidden" name="issuenotetext_b64" value="" />
 
             {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />{/if}
             <input type="hidden" name="weekid" value="{$weekid}" />
@@ -44,8 +43,6 @@ This opens a popup window displaying an IssueNote text to edit.
    </div>
 </div>
 
-<!--script src='lib/jquery.base64/jquery.base64.js'></script-->
-
 <script type="text/javascript">
 
    // function called when clicked on note icon
@@ -56,17 +53,15 @@ This opens a popup window displaying an IssueNote text to edit.
       formGetIssueNoteText.find("input[name=bugid]").val(bugid);
       jQuery.ajax({
          type: "GET",
+         dataType:"json",
          url: formGetIssueNoteText.attr("action"),
          data: formGetIssueNoteText.serialize(),
-         success: function(data) {
-
-            // decode json data
-            var response = jQuery.parseJSON(data);
+         success: function(response) {
 
             // update dialogbox textarea
             var issuenoteid = response['issuenoteid']
-            if (0 != issuenoteid) {
-               var issuenote_text = jQuery.base64.decode(response['issuenote_text_b64']);
+            if (0 !== issuenoteid) {
+               var issuenote_text = response['issuenote_text'];
                jQuery("#dialog_editIssueNote").find("textarea[name=issuenote_text]").val(issuenote_text);
             }
             jQuery("#formEditIssueNote").find("input[name=bugid]").val(bugid);
@@ -96,10 +91,6 @@ This opens a popup window displaying an IssueNote text to edit.
          data: formMarkIssueNoteAsRead.serialize(),
          success: function(data) {
 
-            // decode json data
-            // var response = jQuery.parseJSON(data);
-            // TODO update IssueNote DataTable
-
             var img = jQuery("#b_markAsRead_" + bugid);
             img.off('click'); // disable markAsRead link
             img.attr("src","images/b_markAsRead_grey.png");
@@ -107,7 +98,7 @@ This opens a popup window displaying an IssueNote text to edit.
             var row = jQuery('#issueNotes_tr'+bugid);
             row.css("background-color", "#FFFFFF");
 
-            alert("Issue " + bugid + ": Note marked as read.");
+            //alert("Issue " + bugid + ": Note marked as read.");
          },
          error: function(data) {
             // TODO
@@ -118,33 +109,32 @@ This opens a popup window displaying an IssueNote text to edit.
 
    function deleteNote(bugid, bugnote_id) {
 
-      // TODO ask delete confirmation
+      // ask delete confirmation
+		if (confirm('{t}Delete timesheet note for task {/t}'+bugid+' ?')) {
+			
+			var formDeleteNote = jQuery('#formDeleteNote');
+			formDeleteNote.find("input[name=bugid]").val(bugid);
+			formDeleteNote.find("input[name=bugnote_id]").val(bugnote_id);
+			jQuery.ajax({
+				type: "GET",
+				url: formDeleteNote.attr("action"),
+				data: formDeleteNote.serialize(),
+				success: function(data) {
 
-      var formDeleteNote = jQuery('#formDeleteNote');
-      formDeleteNote.find("input[name=bugid]").val(bugid);
-      formDeleteNote.find("input[name=bugnote_id]").val(bugnote_id);
-      jQuery.ajax({
-         type: "GET",
-         url: formDeleteNote.attr("action"),
-         data: formDeleteNote.serialize(),
-         success: function(data) {
+					// remove IssueNote from DataTable
+					var oTable = jQuery('#issueNotes_table').dataTable();
+					var row = jQuery('#issueNotes_tr'+bugid).get(0);
+					oTable.fnDeleteRow( oTable.fnGetPosition(row) );
+					// TODO add {$realname} to column 'readBy_td'
 
-            // decode json data
-            // var response = jQuery.parseJSON(data);
-            alert("Issue " + bugid + ": Delete Note.");
-
-            // remove IssueNote from DataTable
-            var oTable = jQuery('#issueNotes_table').dataTable();
-            var row = jQuery('#issueNotes_tr'+bugid).get(0);
-            oTable.fnDeleteRow( oTable.fnGetPosition(row) );
-
-            return false;
-         },
-         error: function(data) {
-            // TODO
-            alert('ERROR: ' + data);
-         }
-      });
+					return false;
+				},
+				error: function(data) {
+					// TODO
+					alert('ERROR: ' + data);
+				}
+			});
+		}
    }
 
    jQuery(document).ready(function() {
@@ -177,9 +167,6 @@ This opens a popup window displaying an IssueNote text to edit.
 //alert("submit formEditIssueNote");
          /* get some values from elements on the page: */
          var formEditIssueNote = jQuery(this);
-         var issuenotetext = jQuery("#dialog_editIssueNote").find("textarea[name=issuenote_text]").val();
-         var issuenotetext_b64 = jQuery.base64.encode(issuenotetext);
-         formEditIssueNote.find("input[name=issuenotetext_b64]").val(issuenotetext_b64);
 
          jQuery.ajax({
             type: "GET",

@@ -55,16 +55,15 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          if (!is_null($issueNote)) {
             $issueNoteId = $issueNote->getId();
             $issueNoteText = trim(IssueNote::removeAllReadByTags($issueNote->getText()));
-            $issueNoteText_b64 = base64_encode($issueNoteText);
          } else {
             $issueNoteId = 0;
-            $issueNoteText_b64 = '';
+            $issueNoteText = '';
          }
          // return data
          $data = array(
              'bugid' => $bugid,
              'issuenoteid' => $issueNoteId,
-             'issuenote_text_b64' => $issueNoteText_b64
+             'issuenote_text' => $issueNoteText,
          );
          $jsonData = json_encode($data);
          // return data
@@ -73,8 +72,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
       } else if ($_GET['action'] == 'saveIssueNote') {
          $reporter_id = $_SESSION['userid'];
          $bugid = Tools::getSecureGETIntValue('bugid');
-         $issueNoteText_b64 = Tools::getSecureGETStringValue('issuenotetext_b64');
-         $issueNoteText = base64_decode($issueNoteText_b64);
+         $issueNoteText = Tools::getSecureGETStringValue('issuenote_text');
 
          IssueNote::setTimesheetNote($bugid, $issueNoteText, $reporter_id);
 

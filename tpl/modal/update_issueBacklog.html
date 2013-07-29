@@ -7,31 +7,33 @@
             <tbody>
                <tr>
                   <th><label for="status">{t}Status{/t} :</label></th>
-                  <td>
-                     <select id="status" name="status"> </select>
-                  </td>
+                  <td><select id="status" name="status"> </select></td>
+                  <td</td>
                </tr>
                <tr id="tr_deadline">
                   <th>{t}Deadline{/t} :</th>
                   <td id="desc_deadline">date</td>
+                  <td</td>
                </tr>
                <tr>
                   <th>{t}Estimated effort{/t} :</th>
                   <td id="desc_effortEstim">effortEstim</td>
+                  <td</td>
                </tr>
                <tr>
                   <th>{t}Elapsed{/t} :</th>
                   <td id="desc_elapsed">elapsed</td>
+                  <td</td>
                </tr>
                <tr>
                   <th>{t}Effort Deviation{/t} :</th>
                   <td id="desc_drift">drift</td>
+                  <td</td>
                </tr>
                <tr>
                   <th><label for="backlog">{t}Backlog{/t} :</label></th>
                   <td><input type="text" id="backlog" name="backlog" size="3" class="text" /></td>
                   <td><label id="validateTips" class="error_font" ></label></td>
-                  </td>
                </tr>
             </tbody>
          </table>
@@ -104,7 +106,7 @@
 			jQuery("#formUpdateBacklog").find("input[name=bugid]").val(data['bugid']);
 			jQuery("#formUpdateBacklog").find("input[name=bugResolvedStatusThreshold]").val(data['bugResolvedStatusThreshold']);
 
-			var dialogBoxTitle = '{t}Task{/t} ' + data['dialogBoxTitle'] + ' - {t}Update Backlog{/t}'
+			var dialogBoxTitle = '{t}Task{/t} ' + data['dialogBoxTitle'] + ' - {t}Update Backlog{/t}';
 			jQuery("#update_backlog_dialog_form").dialog("option", "title", dialogBoxTitle);
 
 			// set available status
@@ -113,7 +115,7 @@
 			for (var id in availItemList) {
 
 				if (availItemList.hasOwnProperty(id)) {
-					if (id == data['currentStatus']) {
+					if (id === data['currentStatus']) {
 						jQuery('#status').append(
 							jQuery('<option>').attr('id', id).attr('selected', 'selected').append(availItemList[id])
 						);

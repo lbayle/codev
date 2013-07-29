@@ -71,6 +71,8 @@ class IssueNote {
     *
     * create a new note for an issue
     *
+	 * REM: prevent SQL injections must be done by the controler !
+	 *
     * @param type $bug_id
     * @param type $reporter_id
     * @param type $text
@@ -81,10 +83,7 @@ class IssueNote {
 
       $view_state = ($private) ? self::viewState_private : self::viewState_public;
 
-      // prevent SQL injections
-      $sqltext = SqlWrapper::getInstance()->sql_real_escape_string($text);
-
-      $query2 = "INSERT INTO `mantis_bugnote_text_table` (`note`) VALUES ('$sqltext');";
+      $query2 = "INSERT INTO `mantis_bugnote_text_table` (`note`) VALUES ('$text');";
       $result2 = SqlWrapper::getInstance()->sql_query($query2);
       if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -318,6 +317,7 @@ class IssueNote {
 
    /**
     *
+	 * REM: prevent SQL injections must be done by the controler !
     */
    public function setText($text, $user_id) {
 
@@ -331,10 +331,7 @@ class IssueNote {
          $this->revisionAdd($oldText, $this->reporter_id, $this->last_modified);
       }
 
-      // prevent SQL injections
-      $sqltext = SqlWrapper::getInstance()->sql_real_escape_string($text);
-
-      $query = "UPDATE `mantis_bugnote_text_table` SET note='$sqltext' ".
+      $query = "UPDATE `mantis_bugnote_text_table` SET note='$text' ".
                "WHERE id=" . $this->bugnote_text_id;
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -385,6 +382,7 @@ class IssueNote {
    }
 
    /**
+	 * REM: prevent SQL injections must be done by the controler !
     *
     * @param type $text
     * @param type $user_id
@@ -393,12 +391,9 @@ class IssueNote {
     */
    private function revisionAdd($text, $user_id, $timestamp) {
 
-      // prevent SQL injections
-      $sqltext = SqlWrapper::getInstance()->sql_real_escape_string($text);
-
       $query = "INSERT INTO `mantis_bug_revision_table` (bug_id, bugnote_id, user_id, timestamp, type, value) ".
                "VALUES ($this->bug_id, $this->id, $user_id, $timestamp, ".
-               self::rev_type_bugnote.", '$sqltext')";
+               self::rev_type_bugnote.", '$text')";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
