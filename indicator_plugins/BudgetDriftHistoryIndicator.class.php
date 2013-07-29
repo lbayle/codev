@@ -82,9 +82,9 @@ class BudgetDriftHistoryIndicator implements IndicatorPlugin {
          throw new Exception("Missing parameters: startTimestamp, endTimestamp, interval, provisionDays");
       }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("execute() ISel=".$cmd->getName().' interval='.$params['interval'].' startTimestamp='.$params['startTimestamp'].' endTimestamp='.$params['endTimestamp']);
-      }
+      //if(self::$logger->isDebugEnabled()) {
+      //   self::$logger->debug("execute() ISel=".$cmd->getName().' interval='.$params['interval'].' startTimestamp='.$params['startTimestamp'].' endTimestamp='.$params['endTimestamp']);
+      //}
 
       if (array_key_exists('startTimestamp', $params)) {
          $this->startTimestamp = $params['startTimestamp'];
