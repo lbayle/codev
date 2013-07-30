@@ -1,12 +1,27 @@
 <!-- Team form selector -->
 {if $teams}
 <div align="center">
-   <form id='teamSelectForm' class="formWithTabsHistory" name='teamSelectForm' method='get' action='{$page}'>
-      <fieldset>
-         {include file="form/teamSelector.html"}
-         <input type="hidden" name="action" value="updateSelectedTeam" />
-         <input type="submit" value='{t}Switch{/t}' />
-      </fieldset>
-   </form>
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			jQuery("#teamid").change(function() {
+				jQuery("#teamSelectForm").submit();
+			});
+		});
+	</script>
+
+	<form id="teamSelectForm" name="teamSelectForm" class="formWithTabsHistory" method="get" action="{$page}">
+		<fieldset>
+			<label for="teamid">{t}Team{/t}: </label>
+			<select id="teamid" name="teamid" class="ui-widget-content" style="margin-right:-2px">
+			<option value="0"></option>
+			{foreach from=$teams item=team}
+			<option value="{$team.id}" {if $team.selected} selected="selected" {/if}>{$team.name}</option>
+			{/foreach}
+			</select>
+			<input type="hidden" name="action" value="updateSelectedTeam"/>
+		</fieldset>
+	</form>
 </div>
 {/if}
+
+
