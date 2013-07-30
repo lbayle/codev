@@ -1,4 +1,5 @@
 <script type="text/javascript" src="js/chart.js"></script>
+<script type="text/javascript" src="js/helpdialog.js"></script>
 
 <script type="text/javascript">
    jQuery(document).ready(function() {
@@ -38,12 +39,6 @@
       chart.jqplot(jsonurl, chartoptions);
       */
       chart.jqplot({$progress_history_data}, chartoptions);
-
-      jQuery.ajax({
-         url: "js/helpdialog.js",
-         dataType: "script",
-         cache: true
-      });
 
    });
 </script>

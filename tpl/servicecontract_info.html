@@ -1,14 +1,4 @@
-<script type="text/javascript">
-   jQuery(document).ready(function() {
 
-      jQuery.ajax({
-         url: "js/helpdialog.js",
-         dataType: "script",
-         cache: true
-      });
-
-   });
-</script>
 <div id="content">
 {if (!isset($accessDenied) || (0 == $accessDenied)) }    
    {if isset($teams) && isset($servicecontracts)}

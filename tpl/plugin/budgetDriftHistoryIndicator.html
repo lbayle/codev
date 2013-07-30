@@ -1,4 +1,5 @@
 <script type="text/javascript" src="js/chart.js"></script>
+<script type="text/javascript" src="js/helpdialog.js"></script>
 
 <script type="text/javascript">
    jQuery(document).ready(function() {
@@ -14,12 +15,6 @@
       chartoptions.axes.xaxis.tickInterval = "{$budget_drift_history_interval} month";
       chartoptions.seriesDefaults.pointLabels.formatString = "%d%";
       chart.jqplot({$budget_drift_history_driftPercentList}, chartoptions);
-
-      jQuery.ajax({
-         url: "js/helpdialog.js",
-         dataType: "script",
-         cache: true
-      });
 
    });
 </script>

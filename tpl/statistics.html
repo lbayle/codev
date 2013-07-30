@@ -390,6 +390,14 @@
       </div-->
       
       <div id="tabEffortEstimReliabilityHistory">
+
+			<span class="help_font">{t}Compares the effort estimation to the elapsed time.{/t} &nbsp;&nbsp;<a id="dialog_EffortEstimReliability_link" class="help_link" href="{$page}"><img alt="{t}Help{/t}" title="{t}Help{/t}" src="images/help_icon.gif"/></a></span>
+			<br><br>
+			<div id="dialog_EffortEstimReliability" class="help_dialog ui-helper-hidden" title="{t}EffortEstim Reliability{/t}">
+				<p>{t}Compares the effort estimation to the elapsed time.{/t}<br>{t}(on resolved tasks only){/t}<br><br>{t}rate = 1 : estimation was perfect.<br>rate &lt; 1 : underestimated<br>rate &gt; 1 : overestimated{/t}</p>
+				<p><strong>{t}Formula{/t}:</strong><br><span style="color:blue">SUM({t}EffortEstim{/t} + {t}EffortAdd{/t})  / SUM({t}elapsed{/t})</span></p>
+			</div>
+
          {include file="plugin/effortEstimReliabilityIndicator.html"}
       </div>
    </div>
