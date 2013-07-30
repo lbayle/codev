@@ -47,7 +47,7 @@ class TimeTrackingController extends Controller {
         } else {
 
             $team = TeamCache::getInstance()->getTeam($this->teamid);
-            $teamMembers = $team->getActiveMembers();
+            $teamMembers = $team->getActiveMembers(NULL, NULL, TRUE);
 
             $userid = Tools::getSecurePOSTIntValue('userid',$this->session_userid);
 

@@ -457,7 +457,7 @@ class Team extends Model {
     * @param int $endTimestamp date (if NULL, $startTimestamp)
     * @return string[]
     */
-   public function getActiveMembers($startTimestamp=NULL, $endTimestamp=NULL) {
+   public function getActiveMembers($startTimestamp=NULL, $endTimestamp=NULL, $userRealName=FALSE) {
       if (NULL == $startTimestamp) {
          // if $startTimestamp not defined, get current active members
          $startTimestamp = Tools::date2timestamp(date("Y-m-d", time()));
@@ -469,7 +469,7 @@ class Team extends Model {
          }
       }
 
-      $query = "SELECT user.id, user.username ".
+      $query = "SELECT user.id, user.username, user.realname ".
                "FROM `mantis_user_table` as user ".
                "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
                "AND team_user.team_id=$this->id ".
@@ -486,7 +486,7 @@ class Team extends Model {
 
       $mList = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $mList[$row->id] = $row->username;
+         $mList[$row->id] = ($userRealName) ? $row->realname : $row->username;
       }
 
       return $mList;
