@@ -755,6 +755,72 @@ class TimeTracking {
       return $workingDaysPerProject;
    }
 
+	/**
+    * Calculates the time each user spends on the teams projects.
+    */
+   public function getWorkingDaysPerProjectPerUser($withNoStats = true, $withDisabled = true) {
+
+      $team = TeamCache::getInstance()->getTeam($this->team_id);
+      $projectIds = array_keys($team->getProjects($withNoStats, $withDisabled, true));
+
+      $projDataList = array();
+      $memberList = array();
+      $allProjTotalElapsed = 0;
+
+      // get tracks of Dev/Mgr (active within the timestamp)
+      $timeTracks = $this->getTimeTracks();
+      foreach ($timeTracks as $timeTrack) {
+         try {
+            $issue = IssueCache::getInstance()->getIssue($timeTrack->getIssueId());
+            $projectId = $issue->getProjectId();
+            $userId = $timeTrack->getUserId();
+
+            if (!in_array($projectId, $projectIds)) {
+               continue;
+            }
+
+            // create member
+            if (!array_key_exists($userId, $memberList)) {
+               $user = UserCache::getInstance()->getUser($userId);
+               $memberList[$userId] = array(
+                   'name' => $user->getRealname(),
+                   'totalElapsed' => 0
+               );
+            }
+
+            // create project
+            if (!array_key_exists($projectId, $projDataList)) {
+               $prj = ProjectCache::getInstance()->getProject($projectId);
+               $projDataList[$projectId] = array(
+                   'name' => $prj->getName(),
+                   'totalElapsed' => 0,
+                   'usersData' => array()
+               );
+            }
+
+            // process track data
+            $elapsed = $timeTrack->getDuration();
+            $projDataList[$projectId]['totalElapsed'] += $elapsed;
+            $projDataList[$projectId]['usersData'][$userId] += $elapsed;
+            $memberList[$userId]['totalElapsed'] += $elapsed;
+            $allProjTotalElapsed += $elapsed;
+         } catch (Exception $exp) {
+            // XXX show some error on the screen since the data is wrong
+            self::$logger->warn("getWorkingDaysPerProjectPerUser: issue " . $timeTrack->getIssueId() . " not found in Mantis DB.");
+         }
+      }
+
+      $data = array(
+          'userDataList' => $memberList,
+          'projDataList' => $projDataList,
+          'allProjTotalElapsed' => $allProjTotalElapsed
+      );
+
+      //echo nl2br(print_r($data, true));
+
+      return $data;
+   }
+
    /**
     * Returns an array of (date => duration) containing all days where duration != 1
     * @param int $userid

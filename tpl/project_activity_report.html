@@ -10,59 +10,120 @@
       </fieldset>
     </form>
 
+   
    {if isset($projectActivityReport)}
-   <div align="center" style="margin-top:4em;">
-      <div id="tabsProjects" class="tabs {$ui_tabs_jquery}">
-         <ul class="{$ui_tabs_jquery_ul}">
-            {foreach from=$projectActivityReport item=i key=id}
-            <li class="{$ui_tabs_jquery_li}"><a href="#tabProj_{$i.id}">{$i.name}</a></li>
-            {/foreach}
-         </ul>
-         {foreach from=$projectActivityReport key=id item=i}
-         {if $i.bugList}
-         <div id="tabProj_{$i.id}">
-            <table style="width: 100%;">
-               <!--<caption>{$i.name}</caption>-->
-               <thead>
-                  <tr>
-                     <th>{t}Task{/t}</th>
-                     {if $i.jobList}
-                     {foreach $i.jobList as $j}
-                     <th>{$j}</th>
-                     {/foreach}
-                     {/if}
-                     <th style="width: 10em;" title="{t}Target version{/t}">{t}Target{/t}</th>
-                     <th style="width: 7em;">{t}Status{/t}</th>
-                     <th style="width: 1em;">{t}Progress{/t}</th>
-                     <th style="width: 1em;" title="{t}Backlog{/t}">{t}BL{/t}</th>
-                     <th style="width: 1em;" title="{t}Total time spent on this issue{/t}">{t}Total{/t}</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  {foreach from=$i.bugList key=id item=k}
-                  <tr>
-                     <td>{$k.description}</td>
-                     {if $isDetailed && $k.jobList}
-                     {foreach $k.jobList as $l}
-                     <td>{$l}</td>
-                     {/foreach}
-                     {/if}
-                     <td nowrap="nowrap">{$k.targetVersion}</td>
-                     <td nowrap="nowrap">{$k.currentStatusName}</td>
-                     <td><div class="progress">{$k.progress}%</div></td>
-                     <td>{$k.backlog}</td>
-                     <td>{$k.totalTime}</td>
-                  </tr>
+   <div id="tabsGeneral" class="tabs {$ui_tabs_jquery}">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabWorkingDaysPerProjectPerUser">{t}Users{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabTasksPerProjects">{t}Tasks{/t}</a></li>
+      </ul>
+      
+      <div id="tabTasksPerProjects">
+         {if isset($projectActivityReport)}
+         <div align="center">
+         <h2 align="left">{t}Tasks per project{/t}</h2>
+            <div id="tabsProjects" class="tabs {$ui_tabs_jquery}">
+               <ul class="{$ui_tabs_jquery_ul}">
+                  {foreach from=$projectActivityReport item=i key=id}
+                  <li class="{$ui_tabs_jquery_li}"><a href="#tabProj_{$i.id}">{$i.name}</a></li>
                   {/foreach}
-               </tbody>
-            </table>
+               </ul>
+               {foreach from=$projectActivityReport key=id item=i}
+               {if $i.bugList}
+               <div id="tabProj_{$i.id}">
+                  <table style="width: 100%;">
+                     <!--<caption>{$i.name}</caption>-->
+                     <thead>
+                        <tr>
+                           <th>{t}Task{/t}</th>
+                           {if $i.jobList}
+                           {foreach $i.jobList as $j}
+                           <th>{$j}</th>
+                           {/foreach}
+                           {/if}
+                           <th style="width: 10em;" title="{t}Target version{/t}">{t}Target{/t}</th>
+                           <th style="width: 7em;">{t}Status{/t}</th>
+                           <th style="width: 1em;">{t}Progress{/t}</th>
+                           <th style="width: 1em;" title="{t}Backlog{/t}">{t}BL{/t}</th>
+                           <th style="width: 1em;" title="{t}Total time spent on this issue{/t}">{t}Total{/t}</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {foreach from=$i.bugList key=id item=k}
+                        <tr>
+                           <td>{$k.description}</td>
+                           {if $isDetailed && $k.jobList}
+                           {foreach $k.jobList as $l}
+                           <td>{$l}</td>
+                           {/foreach}
+                           {/if}
+                           <td nowrap="nowrap">{$k.targetVersion}</td>
+                           <td nowrap="nowrap">{$k.currentStatusName}</td>
+                           <td><div class="progress">{$k.progress}%</div></td>
+                           <td>{$k.backlog}</td>
+                           <td>{$k.totalTime}</td>
+                        </tr>
+                        {/foreach}
+                     </tbody>
+                  </table>
+               </div>
+               {/if}
+               {/foreach}
+            </div>
          </div>
+         {else}
+         {t}No data available{/t}.
          {/if}
-         {/foreach}
       </div>
+      
+      <div id="tabWorkingDaysPerProjectPerUser">
+         {if $userDataList}
+         <h2 align="left">{t}Time spent on Projects per users{/t}</h2>
+         <table class="float">
+            <thead>
+               <tr>
+                  <th></th>
+                  {foreach from=$userDataList key=id item=u}
+                  <th>{$u.name}</th>
+                  {/foreach}
+                  <th title="{t}TOTAL{/t}"></th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$projDataList key=id item=p}
+               <tr>
+                  <th>{$p.name}</th>
+                  {foreach from=$userDataList key=uid item=u}
+                  <td style="text-align:center;">{$p.usersData[$uid]}</td>
+                  {/foreach}
+                  <th style="text-align:center;">{$p.totalElapsed}</th>
+               </tr>
+               {/foreach}
+
+            </tbody>
+            <tfoot>
+               <tr>
+                  <td>{t}TOTAL{/t}</td>
+                  {foreach from=$userDataList key=id item=u}
+                  <td style="text-align:center;">{$u.totalElapsed}</td>
+                  {/foreach}
+                  <td style="text-align:center;">{$allProjTotalElapsed}</td>
+               </tr>
+            </tfoot>
+
+         </table>
+
+         <div class="ui-helper-clearfix"></div>
+
+         {else}
+         {t}No data available{/t}.
+         {/if}
+      </div>
+      
    </div>
    {/if}
-
+   
+   
    {else}
    <p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
    {/if}

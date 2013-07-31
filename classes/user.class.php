@@ -1554,7 +1554,7 @@ class User extends Model {
       }
       return $recentIssues;
    }
-
+   
 }
 
 // Initialize complex static variables

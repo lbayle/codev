@@ -58,6 +58,12 @@ class ProjectActivityReportController extends Controller {
                $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $this->teamid);
 
                $this->smartyHelper->assign('projectActivityReport', $this->getProjectActivityReport($timeTracking->getProjectTracks(true), $this->teamid, $isDetailed));
+
+               // WorkingDaysPerProjectPerUser
+               $data = $timeTracking->getWorkingDaysPerProjectPerUser();
+               foreach ($data as $smartyKey => $smartyVariable) {
+                  $this->smartyHelper->assign($smartyKey, $smartyVariable);
+               }
             }
          }
       }
