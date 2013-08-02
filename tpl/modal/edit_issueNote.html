@@ -148,9 +148,7 @@ This opens a popup window displaying an IssueNote text to edit.
             closeOnEscape: true,
             buttons: {
                Ok: function() {
-//alert("call formEditIssueNote submit START");
                   jQuery("#formEditIssueNote").submit();
-//alert("call formEditIssueNote submit END");
                   jQuery("#dialog_editIssueNote").find("textarea[name=issuenote_text]").val('');
                   jQuery("#dialog_editIssueNote").dialog("close");
                },
@@ -161,10 +159,11 @@ This opens a popup window displaying an IssueNote text to edit.
             }
       });
 
-      jQuery("#formEditIssueNote").submit(function(event) {
+      // avoid multiple calls to 'submit' by adding the it in a namespace,
+      // and removing previous namespace event handler.
+      jQuery("#formEditIssueNote").unbind('submit.notes').bind('submit.notes', function(event) {
          /* stop form from submitting normally */
          event.preventDefault();
-//alert("submit formEditIssueNote");
          /* get some values from elements on the page: */
          var formEditIssueNote = jQuery(this);
 
