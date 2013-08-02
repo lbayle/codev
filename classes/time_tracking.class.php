@@ -758,10 +758,10 @@ class TimeTracking {
 	/**
     * Calculates the time each user spends on the teams projects.
     */
-   public function getWorkingDaysPerProjectPerUser($withNoStats = true, $withDisabled = true) {
+   public function getWorkingDaysPerProjectPerUser($withNoStats = true, $withDisabled = true, $sideTasksProjects = true) {
 
       $team = TeamCache::getInstance()->getTeam($this->team_id);
-      $projectIds = array_keys($team->getProjects($withNoStats, $withDisabled, true));
+      $projectIds = array_keys($team->getProjects($withNoStats, $withDisabled, $sideTasksProjects));
 
       $projDataList = array();
       $memberList = array();

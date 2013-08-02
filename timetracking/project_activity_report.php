@@ -49,6 +49,12 @@ class ProjectActivityReportController extends Controller {
             $isDetailed = Tools::getSecurePOSTStringValue('cb_detailed','');
             $this->smartyHelper->assign('isDetailed', $isDetailed);
 
+            $isExtTasksPrj = Tools::getSecurePOSTIntValue('withExtTasksPrj',0);
+            $this->smartyHelper->assign('isExtTasksPrj', $isExtTasksPrj);
+
+            $isSideTasksPrj = Tools::getSecurePOSTIntValue('withSideTasksPrj',1);
+            $this->smartyHelper->assign('isSideTasksPrj', $isSideTasksPrj);
+
             if ('computeProjectActivityReport' == $_POST['action']) {
 
                $startTimestamp = Tools::date2timestamp($startdate);
@@ -60,7 +66,7 @@ class ProjectActivityReportController extends Controller {
                $this->smartyHelper->assign('projectActivityReport', $this->getProjectActivityReport($timeTracking->getProjectTracks(true), $this->teamid, $isDetailed));
 
                // WorkingDaysPerProjectPerUser
-               $data = $timeTracking->getWorkingDaysPerProjectPerUser();
+               $data = $timeTracking->getWorkingDaysPerProjectPerUser($isExtTasksPrj, true, $isSideTasksPrj);
                foreach ($data as $smartyKey => $smartyVariable) {
                   $this->smartyHelper->assign($smartyKey, $smartyVariable);
                }

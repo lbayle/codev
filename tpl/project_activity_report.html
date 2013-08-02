@@ -1,23 +1,25 @@
 <div id="content" class="center">
 {if (!isset($accessDenied) || (0 == $accessDenied)) }
    <h2>{t}Projects Activity{/t}</h2>
-   <form method="post" class="formWithTabsHistory" action="{$page}">
+   <form id="formProjectActivityReport" method="post" class="formWithTabsHistory" action="{$page}">
       <fieldset>
          {include file="form/dateRangeSelector.html"}
          <label style="vertical-align: bottom;"><input type="checkbox" {if $isDetailed}checked="checked"{/if} name="cb_detailed" id="cb_detailed" />{t}Detailed{/t}</label>
             <input type="hidden" name="action" value="computeProjectActivityReport" />
+            <input type="hidden" id="withExtTasksPrj" name="withExtTasksPrj" value="{$isExtTasksPrj}">
+            <input type="hidden" id="withSideTasksPrj" name="withSideTasksPrj" value="{$isSideTasksPrj}">
          <input type="submit" value="{t}Compute{/t}" />
       </fieldset>
     </form>
 
-   
+
    {if isset($projectActivityReport)}
    <div id="tabsGeneral" class="tabs {$ui_tabs_jquery}">
       <ul class="{$ui_tabs_jquery_ul}">
          <li class="{$ui_tabs_jquery_li}"><a href="#tabWorkingDaysPerProjectPerUser">{t}Users{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabTasksPerProjects">{t}Tasks{/t}</a></li>
       </ul>
-      
+
       <div id="tabTasksPerProjects">
          {if isset($projectActivityReport)}
          <div align="center">
@@ -75,10 +77,32 @@
          {t}No data available{/t}.
          {/if}
       </div>
-      
+
       <div id="tabWorkingDaysPerProjectPerUser">
          {if $userDataList}
+         <script type="text/javascript">
+         jQuery(document).ready(function() {
+            jQuery("#cb_withExtTasksPrj").click(function() {
+               var isChecked = $('#cb_withExtTasksPrj').is(":checked") ? 1 : 0;
+               jQuery("#formProjectActivityReport").find("input[name=withExtTasksPrj]").val(isChecked);
+               jQuery("#formProjectActivityReport").submit();
+            });
+            jQuery("#cb_withSideTasksPrj").click(function() {
+               var isChecked = $('#cb_withSideTasksPrj').is(":checked") ? 1 : 0;
+               jQuery("#formProjectActivityReport").find("input[name=withSideTasksPrj]").val(isChecked);
+               jQuery("#formProjectActivityReport").submit();
+            });
+         });
+         </script>
+
          <h2 align="left">{t}Time spent on Projects per users{/t}</h2>
+         <div align="left">
+               <label style="vertical-align: bottom;"><input id="cb_withExtTasksPrj" type="checkbox" {if $isExtTasksPrj}checked="checked"{/if}>{t}With ExternalTasks Project{/t}</label>
+               <br>
+               <label style="vertical-align: bottom;"><input id="cb_withSideTasksPrj" type="checkbox" {if $isSideTasksPrj}checked="checked"{/if}>{t}With SideTasks Project{/t}</label>
+            </fieldset>
+         </form>
+         </div>
          <table class="float">
             <thead>
                <tr>
@@ -119,11 +143,11 @@
          {t}No data available{/t}.
          {/if}
       </div>
-      
+
    </div>
    {/if}
-   
-   
+
+
    {else}
    <p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
    {/if}
