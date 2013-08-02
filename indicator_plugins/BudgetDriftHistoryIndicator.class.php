@@ -165,7 +165,10 @@ class BudgetDriftHistoryIndicator implements IndicatorPlugin {
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
 
          $cmdProvAndMeeDays = $inputIssueSel->getMgrEffortEstim($timestamp) + $this->provisionDays;
-         $reestimated = $inputIssueSel->getReestimated($timestamp);
+         
+			// TODO getReestimated is based on max(effortEstim+effortAdd, mgrEffortEstim) 
+			// which is not what we want here. The budget must be calculated on MEE only !
+			$reestimated = $inputIssueSel->getReestimated($timestamp); // WRONG !
 
          $driftDays = $reestimated - $cmdProvAndMeeDays;
 

@@ -40,7 +40,7 @@
             <li><a href='reports/statistics.php'>{t}History{/t}</a></li>
          </ul>
       </li>
-      <li class="ui-corner-top {if $activeGlobalMenuItem == 'Management'} ui-state-active{else} ui-state-default{/if}" style="margin-left:2%;"><a href="management/command_info.php" title="{t}Contracts & Commands{/t}" class="button">{t}Contracts{/t}</a>
+      <li class="ui-corner-top {if $activeGlobalMenuItem == 'Management'} ui-state-active{else} ui-state-default{/if}"><a href="management/command_info.php" title="{t}Contracts & Commands{/t}" class="button">{t}Contracts{/t}</a>
          <ul class="submenu">
             <li><a href='management/servicecontract_info.php'>{t}ServiceContract{/t}</a></li>
             <li><a href='management/commandset_info.php'>{t}CommandSet{/t}</a></li>
@@ -48,7 +48,7 @@
          </ul>
       </li>
       <!--  <li class="ui-corner-top {if $activeGlobalMenuItem == 'MantisReports'} ui-state-active{else} ui-state-default{/if}"><a href="reports/mantis_reports.php" title="{t}Mantis Reports{/t}" class="button">{t}Mantis Reports{/t}</a></li>  -->
-      <li class="ui-corner-top {if $activeGlobalMenuItem == 'ImportExport'} ui-state-active{else} ui-state-default{/if}"><a href="import/import_issues.php" title="{t}Import / Export{/t}" class="button">{t}Import / Export{/t}</a>
+      <li class="ui-corner-top {if $activeGlobalMenuItem == 'ImportExport'} ui-state-active{else} ui-state-default{/if}" style="margin-left:2%;"><a href="import/import_issues.php" title="{t}Import / Export{/t}" class="button">{t}Import / Export{/t}</a>
          <ul class="submenu">
             <li><a href="import/import_issues.php">{t}Import Issues{/t}</a></li>
             <li><a href="reports/export_csv_weekly.php">{t}Export Weekly Report{/t}</a></li>
@@ -62,7 +62,7 @@
          <ul class="submenu">
             <li><a href='doc/doc.php'>{t}Documentation{/t}</a></li>
             <!--<li><a href='doc/indicateurs_de_production.php'>{t}Productivity Reports{/t}</a></li>-->
-            <li><a href='doc/phpdoc/html/index.html' >{t}PHP Doc{/t}</a></li>
+            <!--li><a href='doc/phpdoc/html/index.html' >{t}PHP Doc{/t}</a></li-->
          </ul>
       </li>
       <li class="ui-corner-top {if $activeGlobalMenuItem == 'Admin'} ui-state-active{else} ui-state-default{/if}"><a href="admin/admin.php" title="{t}CoDev Administration{/t}" class="button">Admin</a>
