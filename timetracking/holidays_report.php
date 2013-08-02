@@ -32,13 +32,13 @@ class HolidaysReportController extends Controller {
 
    protected function display() {
       if (Tools::isConnectedUser()) {
-          
+
         // only teamMembers & observers can access this page
         if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
             $this->smartyHelper->assign('accessDenied', TRUE);
             return;
         }
-          
+
          $year = Tools::getSecurePOSTIntValue('year',date('Y'));
 
          $displayed_teamid = 0;
@@ -150,23 +150,18 @@ class HolidaysReportController extends Controller {
                $timestamp = mktime(0,0,0,$month,$i,$year);
 
                if (isset($externalTasks[$timestamp]) && (NULL != $externalTasks[$timestamp])) {
-/*
-                  if ('Inactivity' == $externalTasks[$timestamp]['type']) {
-                     $days[$i] = array(
-                        "color" => $externalTasks[$timestamp]['color'],
-                        "align" => true,
-                        "title" => T_('Inactivity'),
-                        "value" => $externalTasks[$timestamp]['duration'],
-                     );
-                  } elseif ($isExternalTasks) {
- */
+                  // always show inactivity tasks,
+                  // other externalTasks must only be displayed if $isExternalTasks
+                  if (('Inactivity' == $externalTasks[$timestamp]['type']) ||
+                      ($isExternalTasks)) {
+
                      $days[$i] = array(
                         "color" => $externalTasks[$timestamp]['color'],
                         "align" => true,
                         "title" => $externalTasks[$timestamp]['title'],
                         "value" => $externalTasks[$timestamp]['duration'],
                      );
-                  //}
+                  }
                } elseif (isset($astreintes[$timestamp]) && (NULL != $astreintes[$timestamp])) {
                   $days[$i] = array(
                      "color" => $astreintes[$timestamp]['color'],
