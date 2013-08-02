@@ -46,8 +46,8 @@ class ProjectActivityReportController extends Controller {
             $enddate = Tools::getSecurePOSTStringValue("enddate",Tools::formatDate("%Y-%m-%d",$weekDates[5]));
             $this->smartyHelper->assign('endDate', $enddate);
 
-            $isDetailed = Tools::getSecurePOSTStringValue('cb_detailed','');
-            $this->smartyHelper->assign('isDetailed', $isDetailed);
+            $isDetailed = Tools::getSecurePOSTIntValue('withJobDetails',0);
+            $this->smartyHelper->assign('isJobDetails', $isDetailed);
 
             $isExtTasksPrj = Tools::getSecurePOSTIntValue('withExtTasksPrj',0);
             $this->smartyHelper->assign('isExtTasksPrj', $isExtTasksPrj);

@@ -4,10 +4,10 @@
    <form id="formProjectActivityReport" method="post" class="formWithTabsHistory" action="{$page}">
       <fieldset>
          {include file="form/dateRangeSelector.html"}
-         <label style="vertical-align: bottom;"><input type="checkbox" {if $isDetailed}checked="checked"{/if} name="cb_detailed" id="cb_detailed" />{t}Detailed{/t}</label>
-            <input type="hidden" name="action" value="computeProjectActivityReport" />
-            <input type="hidden" id="withExtTasksPrj" name="withExtTasksPrj" value="{$isExtTasksPrj}">
-            <input type="hidden" id="withSideTasksPrj" name="withSideTasksPrj" value="{$isSideTasksPrj}">
+			<input type="hidden" name="action" value="computeProjectActivityReport" />
+			<input type="hidden" id="withJobDetails" name="withJobDetails" value="{$isJobDetails}">
+			<input type="hidden" id="withExtTasksPrj" name="withExtTasksPrj" value="{$isExtTasksPrj}">
+			<input type="hidden" id="withSideTasksPrj" name="withSideTasksPrj" value="{$isSideTasksPrj}">
          <input type="submit" value="{t}Compute{/t}" />
       </fieldset>
     </form>
@@ -24,6 +24,9 @@
          {if isset($projectActivityReport)}
          <div align="center">
          <h2 align="left">{t}Tasks per project{/t}</h2>
+         <div align="left">
+				<label style="vertical-align: bottom;"><input id="cb_withJobDetails" type="checkbox" {if $isJobDetails}checked="checked"{/if}>{t}Detailed{/t}</label>
+         </div>
             <div id="tabsProjects" class="tabs {$ui_tabs_jquery}">
                <ul class="{$ui_tabs_jquery_ul}">
                   {foreach from=$projectActivityReport item=i key=id}
@@ -54,7 +57,7 @@
                         {foreach from=$i.bugList key=id item=k}
                         <tr>
                            <td>{$k.description}</td>
-                           {if $isDetailed && $k.jobList}
+                           {if $isJobDetails && $k.jobList}
                            {foreach $k.jobList as $l}
                            <td>{$l}</td>
                            {/foreach}
@@ -80,28 +83,11 @@
 
       <div id="tabWorkingDaysPerProjectPerUser">
          {if $userDataList}
-         <script type="text/javascript">
-         jQuery(document).ready(function() {
-            jQuery("#cb_withExtTasksPrj").click(function() {
-               var isChecked = $('#cb_withExtTasksPrj').is(":checked") ? 1 : 0;
-               jQuery("#formProjectActivityReport").find("input[name=withExtTasksPrj]").val(isChecked);
-               jQuery("#formProjectActivityReport").submit();
-            });
-            jQuery("#cb_withSideTasksPrj").click(function() {
-               var isChecked = $('#cb_withSideTasksPrj').is(":checked") ? 1 : 0;
-               jQuery("#formProjectActivityReport").find("input[name=withSideTasksPrj]").val(isChecked);
-               jQuery("#formProjectActivityReport").submit();
-            });
-         });
-         </script>
-
          <h2 align="left">{t}Time spent on Projects per users{/t}</h2>
          <div align="left">
-               <label style="vertical-align: bottom;"><input id="cb_withExtTasksPrj" type="checkbox" {if $isExtTasksPrj}checked="checked"{/if}>{t}With ExternalTasks Project{/t}</label>
-               <br>
-               <label style="vertical-align: bottom;"><input id="cb_withSideTasksPrj" type="checkbox" {if $isSideTasksPrj}checked="checked"{/if}>{t}With SideTasks Project{/t}</label>
-            </fieldset>
-         </form>
+				<label style="vertical-align: bottom;"><input id="cb_withExtTasksPrj" type="checkbox" {if $isExtTasksPrj}checked="checked"{/if}>{t}With ExternalTasks Project{/t}</label>
+				<br>
+				<label style="vertical-align: bottom;"><input id="cb_withSideTasksPrj" type="checkbox" {if $isSideTasksPrj}checked="checked"{/if}>{t}With SideTasks Project{/t}</label>
          </div>
          <table class="float">
             <thead>
@@ -147,6 +133,25 @@
    </div>
    {/if}
 
+	<script type="text/javascript">
+	jQuery(document).ready(function() {
+		jQuery("#cb_withJobDetails").click(function() {
+			var isChecked = $('#cb_withJobDetails').is(":checked") ? 1 : 0;
+			jQuery("#formProjectActivityReport").find("input[name=withJobDetails]").val(isChecked);
+			jQuery("#formProjectActivityReport").submit();
+		});
+		jQuery("#cb_withExtTasksPrj").click(function() {
+			var isChecked = $('#cb_withExtTasksPrj').is(":checked") ? 1 : 0;
+			jQuery("#formProjectActivityReport").find("input[name=withExtTasksPrj]").val(isChecked);
+			jQuery("#formProjectActivityReport").submit();
+		});
+		jQuery("#cb_withSideTasksPrj").click(function() {
+			var isChecked = $('#cb_withSideTasksPrj').is(":checked") ? 1 : 0;
+			jQuery("#formProjectActivityReport").find("input[name=withSideTasksPrj]").val(isChecked);
+			jQuery("#formProjectActivityReport").submit();
+		});
+	});
+	</script>
 
    {else}
    <p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
