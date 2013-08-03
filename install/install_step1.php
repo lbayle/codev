@@ -27,6 +27,8 @@ require_once('install/install_header.inc.php');
 
 require_once('install/install_menu.inc.php');
 
+require_once('install/codevtt_procedures.php');
+
 $logger = Logger::getLogger("install");
 
 ?>
@@ -263,7 +265,8 @@ if ("setDatabaseInfo" == $action) {
    }
 
    echo "DEBUG 2/3 execSQLscript2 - create Tables<br/>";
-   $retCode = Tools::execSQLscript2(Install::FILENAME_TABLES);
+   //$retCode = Tools::execSQLscript2(Install::FILENAME_TABLES);
+   $retCode = SqlParser::execSqlScript(Install::FILENAME_TABLES);
    if (0 != $retCode) {
       echo "<span class='error_font'>Could not execSQLscript: ".Install::FILENAME_TABLES.'</span><br/>';
       exit;
@@ -274,14 +277,15 @@ if ("setDatabaseInfo" == $action) {
       exit;
    }
 
-
    echo "DEBUG 3/3 execSQLscript2 - create Procedures<br/>";
-   $retCode = Tools::execSQLscript2(Install::FILENAME_PROCEDURES);
-   if (0 != $retCode) {
-      echo "<span class='error_font'>Could not execSQLscript: ".Install::FILENAME_PROCEDURES."</span><br/>";
-      exit;
+   // procedures are defined in install/codevtt_procedures.php
+   foreach ($codevtt_sqlProcedures as $query) {
+      $result = SqlWrapper::getInstance()->sql_query(trim($query));
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query $i FAILED</span>";
+         exit;
+      }
    }
-
 
    // everything went fine, goto step2
    echo ("<script type='text/javascript'> parent.location.replace('install_step2.php'); </script>");

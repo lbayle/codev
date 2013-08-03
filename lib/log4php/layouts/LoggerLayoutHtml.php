@@ -42,12 +42,11 @@
  *    0    8318   INFO  root       Hello World!
  * </pre>
  * 
- * @version $Revision: 1059292 $
+ * @version $Revision: 1379731 $
  * @package log4php
  * @subpackage layouts
  */
 class LoggerLayoutHtml extends LoggerLayout {
-
 	/**
 	 * The <b>LocationInfo</b> option takes a boolean value. By
 	 * default, it is set to false which means there will be no location
@@ -60,7 +59,7 @@ class LoggerLayoutHtml extends LoggerLayout {
 	 * <b>LocationInfo</b> option of that appender as well.
 	 * @var boolean
 	 */
-	private $locationInfo = false;
+	protected $locationInfo = false;
 	
 	/**
 	 * The <b>Title</b> option takes a String value. This option sets the
@@ -68,13 +67,7 @@ class LoggerLayoutHtml extends LoggerLayout {
 	 * Defaults to 'Log4php Log Messages'.
 	 * @var string
 	 */
-	private $title = "Log4php Log Messages";
-	
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-	}
+	protected $title = "Log4php Log Messages";
 	
 	/**
 	 * The <b>LocationInfo</b> option takes a boolean value. By
@@ -88,11 +81,7 @@ class LoggerLayoutHtml extends LoggerLayout {
 	 * <b>LocationInfo</b> option of that appender as well.
 	 */
 	public function setLocationInfo($flag) {
-		if (is_bool($flag)) {
-			$this->locationInfo = $flag;
-		} else {
-			$this->locationInfo = (bool)(strtolower($flag) == 'true');
-		}
+		$this->setBoolean('locationInfo', $flag);
 	}
 
 	/**
@@ -108,7 +97,7 @@ class LoggerLayoutHtml extends LoggerLayout {
 	 * Defaults to 'Log4php Log Messages'.
 	 */
 	public function setTitle($title) {
-		$this->title = $title;
+		$this->setString('title', $title);
 	}
 
 	/**
@@ -133,7 +122,7 @@ class LoggerLayoutHtml extends LoggerLayout {
 		$sbuf = PHP_EOL . "<tr>" . PHP_EOL;
 	
 		$sbuf .= "<td>";
-		$sbuf .= $event->getTime();
+		$sbuf .= round(1000 * $event->getRelativeTime());
 		$sbuf .= "</td>" . PHP_EOL;
 	
 		$sbuf .= "<td title=\"" . $event->getThreadName() . " thread\">";

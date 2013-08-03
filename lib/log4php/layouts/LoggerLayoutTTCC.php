@@ -44,9 +44,12 @@
  * The above would print:<br>
  * <samp>02:28 [13714] INFO root - Hello World!</samp>
  *
- * @version $Revision: 1136787 $
+ * @version $Revision: 1302503 $
  * @package log4php
  * @subpackage layouts
+ * 
+ * @deprecated LoggerLayout TTCC is deprecated and will be removed in a future release. Please use 
+ *   LoggerLayoutPattern instead. 
  */
 class LoggerLayoutTTCC extends LoggerLayout {
 
@@ -68,6 +71,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
 	 * @see dateFormat
 	 */
 	public function __construct($dateFormat = '') {
+		$this->warn("LoggerLayout TTCC is deprecated and will be removed in a future release. Please use LoggerLayoutPattern instead.");
 		if (!empty($dateFormat)) {
 			$this->dateFormat = $dateFormat;
 		}
@@ -79,9 +83,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
 	 * current thread is part of log output or not. This is true by default.
 	 */
 	public function setThreadPrinting($threadPrinting) {
-		$this->threadPrinting = is_bool($threadPrinting) ? 
-			$threadPrinting : 
-			(bool)(strtolower($threadPrinting) == 'true'); 
+		$this->setBoolean('threadPrinting', $threadPrinting);
 	}
 
 	/**
@@ -96,7 +98,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
 	 * name is part of log output or not. This is true by default.
 	 */
 	public function setCategoryPrefixing($categoryPrefixing) {
-		$this->categoryPrefixing = LoggerOptionConverter::toBoolean($categoryPrefixing);
+		$this->setBoolean('categoryPrefixing', $categoryPrefixing);
 	}
 
 	/**
@@ -112,7 +114,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
 	 * This is true by default.
 	 */
 	public function setContextPrinting($contextPrinting) {
-		$this->contextPrinting = LoggerOptionConverter::toBoolean($contextPrinting); 
+		$this->setBoolean('contextPrinting', $contextPrinting);
 	}
 
 	/**
@@ -128,9 +130,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
 	 * This is true by default.
 	 */
 	public function setMicroSecondsPrinting($microSecondsPrinting) {
-		$this->microSecondsPrinting = is_bool($microSecondsPrinting) ? 
-			$microSecondsPrinting : 
-			(bool)(strtolower($microSecondsPrinting) == 'true'); 
+		$this->setBoolean('microSecondsPrinting', $microSecondsPrinting);
 	}
 
 	/**
@@ -142,7 +142,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
 	
 	
 	public function setDateFormat($dateFormat) {
-		$this->dateFormat = $dateFormat;
+		$this->setString('dateFormat', $dateFormat);
 	}
 	
 	/**

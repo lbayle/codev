@@ -32,16 +32,13 @@ class LoggerThrowableInformation {
 	/** @var array Array of throwable messages */
 	private $throwableArray;
 	
-	/** @var Logger reference */
-	private $logger;
-	
 	/**
 	 * Create a new instance
 	 * 
 	 * @param $throwable - a throwable as a exception
 	 * @param $logger - Logger reference
 	 */
-	public function __construct(Exception $throwable)  {
+	public function __construct(Exception $throwable) {
 		$this->throwable = $throwable;
 	}
 	
@@ -61,16 +58,11 @@ class LoggerThrowableInformation {
 	 */
 	public function getStringRepresentation() {
 		if (!is_array($this->throwableArray)) {
-			$renderer = Logger::getHierarchy()->getRendererMap()->getByClassName(get_class($this->throwable));
+			$renderer = new LoggerRendererException();
 			
-			// TODO: why this?
-			if ($renderer instanceof LoggerRendererDefault) {
-				$renderer = new LoggerRendererException();
-			}
 			$this->throwableArray = explode("\n", $renderer->render($this->throwable));
 		}
 		
 		return $this->throwableArray;
 	}
 }
-?>

@@ -36,7 +36,7 @@
  * {@link LoggerFilter::NEUTRAL} or {@link LoggerFilter::ACCEPT}.
  * 
  * <p>If the value {@link LoggerFilter::DENY} is returned, then the log event is
- * dropped immediately without consulting with the backlog
+ * dropped immediately without consulting with the remaining
  * filters. 
  * 
  * <p>If the value {@link LoggerFilter::NEUTRAL} is returned, then the next filter
@@ -45,31 +45,31 @@
  * filters, the default behaviour is to log all logging events.
  * 
  * <p>If the value {@link LoggerFilter::ACCEPT} is returned, then the log
- * event is logged without consulting the backlog filters. 
+ * event is logged without consulting the remaining filters. 
  * 
  * <p>The philosophy of log4php filters is largely inspired from the
  * Linux ipchains. 
  * 
- * @version $Revision: 1059292 $
+ * @version $Revision: 1213283 $
  * @package log4php
  */
-abstract class LoggerFilter {
+abstract class LoggerFilter extends LoggerConfigurable {
 
 	/**
 	 * The log event must be logged immediately without consulting with
-	 * the backlog filters, if any, in the chain.	 
+	 * the remaining filters, if any, in the chain.	 
 	 */
 	const ACCEPT = 1;
 	
 	/**
 	 * This filter is neutral with respect to the log event. The
-	 * backlog filters, if any, should be consulted for a final decision.
+	 * remaining filters, if any, should be consulted for a final decision.
 	 */
 	const NEUTRAL = 0;
 	
 	/**
 	 * The log event must be dropped immediately without consulting
-	 * with the backlog filters, if any, in the chain.
+	 * with the remaining filters, if any, in the chain.
 	 */
 	const DENY = -1;
 

@@ -44,7 +44,6 @@ class LoggerReflectionUtils {
 	 * @param object $obj The object to configure.
 	 * @param array $properties An array containing keys and values.
 	 * @param string $prefix Only keys having the specified prefix will be set.
-	 * @static
 	 */
 	 // TODO: check, if this is really useful
 	public static function setPropertiesByObject($obj, $properties, $prefix) {
@@ -66,7 +65,6 @@ class LoggerReflectionUtils {
 	 * @param array $properties An array containing keys and values.
 	 * @param string $prefix Only keys having the specified prefix will be set.
 	 */
-	 // TODO: check, if this is really useful
 	public function setProperties($properties, $prefix) {
 		$len = strlen($prefix);
 		reset($properties);
@@ -75,7 +73,7 @@ class LoggerReflectionUtils {
 				if(strpos($key, '.', ($len + 1)) > 0) {
 					continue;
 				}
-				$value = LoggerOptionConverter::findAndSubst($key, $properties);
+				$value = $properties[$key];
 				$key = substr($key, $len);
 				if($key == 'layout' and ($this->obj instanceof LoggerAppender)) {
 					continue;
@@ -129,7 +127,6 @@ class LoggerReflectionUtils {
 	 */
 	public static function createObject($class) {
 		if(!empty($class)) {
-			$class = basename($class);
 			return new $class();
 		}
 		return null;

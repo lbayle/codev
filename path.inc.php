@@ -39,15 +39,31 @@ $_autoloader->registerAutoload();
 
 // Set up the logger
 try {
-   if (is_null(Logger::getConfigurationFile())) {
+   //if (is_null(Logger::getConfigurationFile())) {
 
       $filename = 'log4php.xml';
       if (!file_exists($filename)) {
          // if file not found or during INSTALL procedure...
-         $filename = NULL;
+         Logger::configure(array(
+               'rootLogger' => array(
+                   'appenders' => array('default'),
+                   'level' => 'ERROR'
+                   ),
+               'appenders' => array(
+                   'default' => array(
+                       'class' => 'LoggerAppenderEcho',
+                       'layout' => array(
+                           'class' => 'LoggerLayoutSimple'
+                       ),
+                       'params' => array(
+                           'htmlLineBreaks' => true
+                       )
+                   )
+               )
+            ));
+      } else {
+         Logger::configure($filename);
       }
-
-      Logger::configure($filename);
       $logger = Logger::getLogger("header");
       $logger->info("LOG activated !");
 
@@ -55,7 +71,7 @@ try {
       #echo "configure LOG ".Logger::getConfigurationFile()."</br>";
       #echo "configure LOG ".Logger::getConfigurationClass()."</br>";
       #echo "configure LOG header exists: ".$logger->exists("header")."</br>";
-   }
+   //}
 } catch (Exception $e) {
    echo 'LOGGER ERROR: '.$e->getMessage().'<br><br>';
    echo 'Tips:<br>';
@@ -73,7 +89,7 @@ set_exception_handler('exception_handler');
  */
 function exception_handler(Exception $e) {
    global $logger;
-   echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+   echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span><br>";
    $logger->error("UNCAUGHT EXCEPTION : ".$e->getMessage());
    $logger->error("UNCAUGHT EXCEPTION stack-trace:\n".$e->getTraceAsString());
 }
