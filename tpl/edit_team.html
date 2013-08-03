@@ -392,6 +392,26 @@
                </fieldset>
             </form>
          </div>
+
+         <div style="margin-top: 4em;">
+         <hr>
+         <h2>{t}Create SideTasksProject{/t}</h2>
+
+         <form id="formCreateSideTaskProject" name="formCreateSideTaskProject" method="post" action="{$page}" class="formWithTabsHistory" style="margin-top: 2em;">
+            <fieldset>
+            <table class="invisible">
+               <tbody>
+                  <tr>
+                     <td><label for="team_desc">{t}Project name{/t}</label></td>
+                     <td><input size="30" name="stprojName" type="text" /></td>
+                     <td><input type="submit" value="{t}Create project{/t}" /></td>
+                  </tr>
+               </tbody>
+            </table>
+            <input type="hidden" name="action" value="createSideTaskProject" />
+            </fieldset>
+         </form>
+         </div>
       </div>
 
       <div id="tabPreferences">
@@ -439,7 +459,7 @@
          </form>
 
 
-         
+
          <h2>{t}Issue Tooltips{/t}</h2>
          <!-- Display issue tooltip settings -->
          <div style="margin-top: 2em;">

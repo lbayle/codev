@@ -152,6 +152,10 @@ class EditTeamController extends Controller {
                   $checkList = Tools::doubleExplode(':', ',', $keyvalue);
                   $team->setGeneralPrefsList($checkList);
 
+               } elseif ($action == 'createSideTaskProject') {
+                  $stprojName = Tools::getSecurePOSTStringValue('stprojName');
+                  $team->createSideTaskProject($stprojName);
+
                } elseif (isset($_POST["deletememberid"])) {
                   $memberid = Tools::getSecurePOSTIntValue('deletememberid');
                   $query = "DELETE FROM `codev_team_user_table` WHERE id = $memberid;";
