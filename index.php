@@ -22,16 +22,7 @@ require('path.inc.php');
 
 // check if INSTALL needed
 if (!file_exists(Constants::$config_file)) {
-
-   // check if old config files exist (0.99.17 and before)
-   if ((!file_exists('constants.php')) || (!file_exists('include/mysql_config.inc.php'))) {
-      // not found, normal install
-      header('Location: install/install.php');
-   } else {
-      // convert to config.ini (0.99.18)
-      header('Location: tools/convert_config_file.php');
-   }
-
+   header('Location: install/install.php');
    exit;
 }
 
