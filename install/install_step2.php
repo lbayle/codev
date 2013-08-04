@@ -62,7 +62,7 @@ function createConstantsFile($mantisPath, $mantisURL) {
 
    // --- database ---
    // already set...
- 
+
    // --- mantis ---
    // already set...
 
@@ -132,7 +132,10 @@ function displayForm($originPage, $path_mantis, $url_mantis) {
 // ================ MAIN =================
 $originPage = "install_step2.php";
 $default_path_mantis           = dirname(BASE_PATH).DIRECTORY_SEPARATOR."mantis"; // "/var/www/html/mantis";
-$default_url_mantis            = 'http://'.getHostName().'/mantis'; // 'http://'.$_SERVER['HTTP_HOST'].'/mantis'; // getHostByName(getHostName())
+
+$hostname =  (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? php_uname('n') : getHostName();
+$default_url_mantis            = 'http://'.$hostname.'/mantis'; // 'http://'.$_SERVER['HTTP_HOST'].'/mantis'; // getHostByName(getHostName())
+
 $filename_strings              = "strings_english.txt";
 $filename_custom_strings       = "custom_strings_inc.php";
 $filename_custom_constant      = "custom_constant_inc.php";
