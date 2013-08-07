@@ -16,6 +16,7 @@ class Constants {
 
    public static $mantisURL;
    public static $mantisPath;
+   public static $codevURL;
    public static $codevRootDir;
    public static $codevOutputDir;  // logs, reports, etc. /tmp/codevtt
 
@@ -68,7 +69,7 @@ class Constants {
     */
    public static $maxTooltipsPerPage = 500;
 
-   
+
    /**
     * If true, then no info/warning messages will be displayed.
     * this shall only be set during install procedures.
@@ -117,6 +118,7 @@ class Constants {
       if (array_key_exists('logo_image', $general)) {
          self::$logoImage             = $general['logo_image'];
       }
+      self::$codevURL               = $general['codevtt_url'];
       self::$codevRootDir           = $general['codevtt_dir'];
       self::$mantisPath             = $general['mantis_dir'];
       self::$mantisURL              = $general['mantis_url'];
@@ -173,13 +175,14 @@ class Constants {
 
       $general = array();
       $general['codevInstall_timestamp'] =  $today = Tools::date2timestamp(date("Y-m-d")); #self::$codevInstall_timestamp;
-      $general['codevtt_output_dir']     = self::$codevOutputDir;
       $general['codevtt_logfile']        = self::$codevtt_logfile;
       $general['homepage_title']         = self::$homepage_title;
       $general['logo_image']             = self::$logoImage;
+      $general['codevtt_output_dir']     = self::$codevOutputDir;
       $general['codevtt_dir']            = self::$codevRootDir;
       $general['mantis_dir']             = self::$mantisPath;
       $general['mantis_url']             = self::$mantisURL;
+      $general['codevtt_url']            = self::$codevURL;
 
       $database = array();
       $database['db_mantis_host']     = self::$db_mantis_host;
@@ -222,7 +225,7 @@ class Constants {
       $ini_array[] = '; This file is part of CodevTT.';
       $ini_array[] = '; - The Variables in here can be customized to your needs';
       $ini_array[] = '; - This file has been generated during install on '.date("D d M Y H:i");
-      
+
       $ini_array[] = '';
       $ini_array['general']       = $general;
       $ini_array[] = '';

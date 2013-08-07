@@ -31,12 +31,14 @@ abstract class Controller {
    protected $teamList;
 
 
-   public function __construct($rootWebSite, $title, $menu = NULL) {
+   public function __construct($relativePath, $title, $menu = NULL) {
       $this->smartyHelper = new SmartyHelper();
-      
+
       // relative path ("./" or "../")
-      $this->smartyHelper->assign('rootWebSite', $rootWebSite);
-      
+      // absolute path is preferable for IE/W3C compatibility
+      $rootWebSite = is_null(Constants::$codevURL) ? $relativePath : Constants::$codevURL;
+      $this->smartyHelper->assign('rootWebSite', $rootWebSite.'/');
+
       $this->smartyHelper->assign('pageName', T_($title));
       if(NULL != $menu) {
          $this->smartyHelper->assign('activeGlobalMenuItem', $menu);
