@@ -37,7 +37,12 @@ abstract class Controller {
       // relative path ("./" or "../")
       // absolute path is preferable for IE/W3C compatibility
       $rootWebSite = is_null(Constants::$codevURL) ? $relativePath : Constants::$codevURL;
-      $this->smartyHelper->assign('rootWebSite', $rootWebSite.'/');
+
+      if ('/' !== substr($rootWebSite, -1)) {
+         $rootWebSite .= '/';
+      }
+
+      $this->smartyHelper->assign('rootWebSite', $rootWebSite);
 
       $this->smartyHelper->assign('pageName', T_($title));
       if(NULL != $menu) {
