@@ -41,7 +41,7 @@ $_autoloader->registerAutoload();
 try {
    //if (is_null(Logger::getConfigurationFile())) {
 
-      $filename = 'log4php.xml';
+      $filename = dirname(__FILE__).DIRECTORY_SEPARATOR.'log4php.xml';
       if (!file_exists($filename)) {
          // if file not found or during INSTALL procedure...
          Logger::configure(array(
