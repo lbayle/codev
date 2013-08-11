@@ -8,32 +8,40 @@
                <tr>
                   <th><label for="status">{t}Status{/t} :</label></th>
                   <td><select id="status" name="status"> </select></td>
-                  <td</td>
+                  <td></td>
                </tr>
                <tr id="tr_deadline">
                   <th>{t}Deadline{/t} :</th>
                   <td id="desc_deadline">date</td>
-                  <td</td>
+                  <td></td>
                </tr>
                <tr>
-                  <th>{t}Estimated effort{/t} :</th>
+                  <th>{t}Estimated Effort{/t} :</th>
                   <td id="desc_effortEstim">effortEstim</td>
-                  <td</td>
+                  <td></td>
                </tr>
                <tr>
                   <th>{t}Elapsed{/t} :</th>
                   <td id="desc_elapsed">elapsed</td>
-                  <td</td>
+                  <td></td>
                </tr>
                <tr>
-                  <th>{t}Effort Deviation{/t} :</th>
+                  <th>{t}Drift{/t} :</th>
                   <td id="desc_drift">drift</td>
-                  <td</td>
+                  <td></td>
+               </tr>
+               <tr>
+                  <td colspan="3"><hr></td>
+               </tr>
+               <tr id="tr_timeToAdd">
+                  <th>{t}Time to Add{/t} :</th>
+                  <td><select id="timeToAdd" name="timeToAdd" title="{t}Duration (in days){/t}"></select></td>
+                  <td></td>
                </tr>
                <tr>
                   <th><label for="backlog">{t}Backlog{/t} :</label></th>
                   <td><input type="text" id="backlog" name="backlog" size="3" class="text" /></td>
-                  <td><label id="validateTips" class="error_font" ></label></td>
+                  <td><label id="desc_currentBacklog" class="help_font" ></label> <label id="validateTips" class="error_font" ></label></td>
                </tr>
             </tbody>
          </table>
@@ -81,16 +89,32 @@
 			});
 		}
 
+      // This dialog can be opened : 
+      // 1) when adding a timetrack.
+      //   in this case a field with the timetrack will be displayed
+      //   so that user can correct the value before setting backlog 
+      //   and pressing 'OK'
+      // 2) on a backlog update without timetrack add
+      //    user cannot add time.
 		function openUpdateBacklogDialogbox(updateBacklogJsonData){
+
+         // 1) when adding a timetrack.
+         // timeToAdd is set with a nonZero value 
+         // action has to be set to "addTimetrack"
+
+         // 2) when simple backlog update.
+         // timeToAdd = 0 
+         // action has to be set to "updateBacklog"
 
 			var data = updateBacklogJsonData;
 
 			// do not display computed backlog: force users to reestimate it !
-			//jQuery("#backlog").val(data['backlog']);
+			//jQuery("#backlog").val(data['calculatedBacklog']);
 
 			jQuery("#update_backlog_dialog_form").find(".issue_summary").text(data['summary']);
 			jQuery("#desc_effortEstim").text(data['effortEstim']);
 			jQuery("#desc_elapsed").text(data['elapsed']);
+			jQuery("#desc_currentBacklog").text('(current = '+data['currentBacklog']+')');
 			//jQuery("#desc_reestimated").text(data['reestimated']);
 			jQuery("#desc_drift").text(data['drift']);
 
@@ -127,6 +151,32 @@
 				}
 			}
 
+			// set timeToAdd
+			jQuery('#timeToAdd').empty();
+         
+         if (0 === data['timeToAdd']) {
+            $('#tr_timeToAdd').hide();
+            jQuery("#formUpdateBacklog").find("input[name=action]").val('updateBacklog');
+         } else {
+            $('#tr_timeToAdd').show();
+            jQuery("#formUpdateBacklog").find("input[name=action]").val('addTimetrack');
+
+            var availItemList = data['availableDurationList'];
+            for (var id in availItemList) {
+
+               if (availItemList.hasOwnProperty(id)) {
+                  if (id === data['timeToAdd']) {
+                     jQuery('#timeToAdd').append(
+                        jQuery('<option>').attr('id', id).attr('selected', 'selected').append(availItemList[id])
+                     );
+                  } else {
+                     jQuery('#timeToAdd').append(
+                        jQuery('<option>').attr('id', id).append(availItemList[id])
+                     );
+                  }
+               }
+            }
+         }
 			jQuery("#update_backlog_dialog_form").dialog("open");
 		}
 
@@ -186,6 +236,7 @@
 			close: function() {
 				allFields.val("").removeClass("ui-state-error");
 				allFields.css("backgroundColor", "transparent");
+            tips.hide(); // the window is reused for BL updates
 			}
 		});
 

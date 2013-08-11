@@ -114,11 +114,6 @@ class TimeTrackingController extends Controller {
                   (!$project->isSideTasksProject(array_keys($teamList)) &&
                   (!$project->isExternalTasksProject()))) {
 
-                  $deadline = $issue->getDeadLine();
-                  if (!is_null($deadline) || (0 != $deadline)) {
-                     $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $deadline);
-                  }
-
                   $totalEE = ($issue->getEffortEstim() + $issue->getEffortAdd());
 
                   // Note: if Backlog is NULL, the values to propose in the DialogBox
@@ -133,28 +128,8 @@ class TimeTrackingController extends Controller {
                      if ($backlog < 0) { $backlog = 0;}
                      $drift = ($issue->getElapsed() + $backlog) - $totalEE;
                   }
-
-                  $issueInfo = array(
-                     'backlog' => $backlog,
-                     'bugid' => $issue->getId(),
-                     'summary' => $issue->getSummary(),
-                     'dialogBoxTitle' => $issue->getFormattedIds(),
-                     'effortEstim' => $totalEE,
-                     'mgrEffortEstim' => $issue->getMgrEffortEstim(),
-                     'elapsed' => $issue->getElapsed(),
-                     'drift' => $drift,
-                     'driftMgr' => $issue->getDriftMgr(),
-                     'reestimated' => $issue->getReestimated(),
-                     'driftColor' => $issue->getDriftColor($drift),
-                     'currentStatus' => $issue->getCurrentStatus(),
-                     'availableStatusList' => $issue->getAvailableStatusList(true),
-                     'bugResolvedStatusThreshold' =>  $issue->getBugResolvedStatusThreshold()
-                  );
-                  if (isset($formatedDate)) {
-                     $issueInfo['deadline'] = $formatedDate;
-                  }
-
-                  $jsonIssueInfo = json_encode($issueInfo);
+                  
+                  $jsonIssueInfo = TimeTrackingTools::getUpdateBacklogJsonData($defaultBugid, $duration, $backlog);
                   $this->smartyHelper->assign('updateBacklogJsonData', $jsonIssueInfo);
                }
 
@@ -258,7 +233,7 @@ class TimeTrackingController extends Controller {
             $this->smartyHelper->assign('issues', $availableIssues);
 
             $this->smartyHelper->assign('jobs', SmartyTools::getSmartyArray($this->getJobs($defaultProjectid, $this->teamid), $job));
-            $this->smartyHelper->assign('duration', SmartyTools::getSmartyArray($this->getDuration(),$duration));
+            $this->smartyHelper->assign('duration', SmartyTools::getSmartyArray(TimeTrackingTools::getDurationList(),$duration));
 
             $this->smartyHelper->assign('weeks', SmartyTools::getWeeks($weekid, $year));
             $this->smartyHelper->assign('years', SmartyTools::getYears($year,1));
@@ -558,27 +533,6 @@ class TimeTrackingController extends Controller {
       $jobList = $project->getJobList($ptype);
 
       return $jobList;
-   }
-
-   /**
-    * @return string[]
-    */
-   private function getDuration() {
-      $duration["0"] = "";
-      $duration["1"] = "1";
-      $duration["0.9"] = "0.9";
-      $duration["0.8"] = "0.8";
-      $duration["0.75"] = "0.75";
-      $duration["0.7"] = "0.7";
-      $duration["0.6"] = "0.6";
-      $duration["0.5"] = "0.5";
-      $duration["0.4"] = "0.4";
-      $duration["0.3"] = "0.3";
-      $duration["0.25"] = "0.25";
-      $duration["0.2"] = "0.2";
-      $duration["0.1"] = "0.1";
-      $duration["0.05"] = "0.05";
-      return $duration;
    }
 
 }

@@ -139,27 +139,7 @@ class TimeTrackingTools {
 
 
             // prepare json data for the BacklogDialogbox
-            $drift = $issue->getDrift();
-            $issueInfo = array(
-               'backlog' => $backlog,
-               'bugid' => $issue->getId(),
-               'summary' => $issue->getSummary(),
-               'dialogBoxTitle' => $issue->getFormattedIds(),
-               'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),
-               'mgrEffortEstim' => $issue->getMgrEffortEstim(),
-               'elapsed' => $issue->getElapsed(),
-               'drift' => $drift,
-               'driftMgr' => $issue->getDriftMgr(),
-               'reestimated' => $issue->getReestimated(),
-               'driftColor' => $issue->getDriftColor($drift),
-               'currentStatus' => $issue->getCurrentStatus(),
-               'availableStatusList' => $issue->getAvailableStatusList(true)
-            );
-            if (isset($formatedDate)) {
-               $issueInfo['deadline'] = $formatedDate;
-            }
-            $jsonIssueInfo = json_encode($issueInfo);
-
+            $jsonIssueInfo = self::getUpdateBacklogJsonData($issue->getId());
 
             // prepare json data for the IssueNoteDialogbox
             if ((!$project->isSideTasksProject(array($teamid))) &&
@@ -236,6 +216,81 @@ class TimeTrackingTools {
       return $smartyWeekDates;
    }
 
+   /**
+    * @return string[]
+    */
+   public static function getDurationList() {
+      $duration["0"] = "";
+      $duration["1"] = "1";
+      $duration["0.9"] = "0.9";
+      $duration["0.8"] = "0.8";
+      $duration["0.75"] = "0.75";
+      $duration["0.7"] = "0.7";
+      $duration["0.6"] = "0.6";
+      $duration["0.5"] = "0.5";
+      $duration["0.4"] = "0.4";
+      $duration["0.3"] = "0.3";
+      $duration["0.25"] = "0.25";
+      $duration["0.2"] = "0.2";
+      $duration["0.1"] = "0.1";
+      $duration["0.05"] = "0.05";
+      return $duration;
+   }
+   
+   /**
+    * get info to display the updateBacklog dialogbox
+    * @param type $bugid
+    */
+   public static function getUpdateBacklogJsonData($bugid, $timeToAdd = 0, $calculatedBacklog = NULL) {
+
+      try {
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+         $backlog = $issue->getBacklog();
+         $summary = $issue->getSummary();
+      } catch (Exception $e) {
+         $backlog = '!';
+         $summary = '<span class="error_font">'.T_('Error: Task not found in Mantis DB !').'</span>';
+      }
+
+
+      // prepare json data for the BacklogDialogbox
+      $drift = $issue->getDrift();
+      $issueInfo = array(
+         'currentBacklog' => $backlog,
+         'bugid' => $issue->getId(),
+         'summary' => $summary,
+         'dialogBoxTitle' => $issue->getFormattedIds(),
+         'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),
+         'mgrEffortEstim' => $issue->getMgrEffortEstim(),
+         'elapsed' => $issue->getElapsed(),
+         'drift' => $drift,
+         'driftMgr' => $issue->getDriftMgr(),
+         'reestimated' => $issue->getReestimated(),
+         'driftColor' => $issue->getDriftColor($drift),
+         'currentStatus' => $issue->getCurrentStatus(),
+         'availableStatusList' => $issue->getAvailableStatusList(true),
+         'bugResolvedStatusThreshold' =>  $issue->getBugResolvedStatusThreshold(),
+         'timeToAdd' => $timeToAdd,
+      );
+      
+      if (0 !== $timeToAdd) {
+         $issueInfo['availableDurationList'] = self::getDurationList();
+      }
+      
+      if (!is_null($calculatedBacklog)) {
+         $issueInfo['calculatedBacklog'] = $calculatedBacklog;
+      }
+
+      $deadline = $issue->getDeadLine();
+      if (!is_null($deadline) || (0 != $deadline)) {
+         $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $deadline);
+         $issueInfo['deadline'] = $formatedDate;
+      }
+
+      $jsonIssueInfo = json_encode($issueInfo);
+      return $jsonIssueInfo;
+   }
+   
 }
 
 // Initialize complex static variables

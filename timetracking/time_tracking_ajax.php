@@ -28,7 +28,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
       if($_GET['action'] == 'getUpdateBacklogData') {
 			// get info to display the updateBacklog dialogbox
          $bugid = Tools::getSecureGETIntValue('bugid');
-			$updateBacklogJsonData = getUpdateBacklogJsonData($bugid);
+			$updateBacklogJsonData = TimeTrackingTools::getUpdateBacklogJsonData($bugid);
 			echo $updateBacklogJsonData;
 			
 		} else if($_GET['action'] == 'updateBacklogAction') {
@@ -123,50 +123,6 @@ function setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid) {
    $smartyHelper->assign('weekTasks', $weekTasks["weekTasks"]);
    $smartyHelper->assign('dayTotalElapsed', $weekTasks["totalElapsed"]);
 
-}
-
-/**
- * get info to display the updateBacklog dialogbox
- * @param type $bugid
- */
-function getUpdateBacklogJsonData($bugid) {
-
-	try {
-		$issue = IssueCache::getInstance()->getIssue($bugid);
-		$backlog = $issue->getBacklog();
-		$summary = $issue->getSummary();
-	} catch (Exception $e) {
-		$backlog = '!';
-		$summary = '<span class="error_font">'.T_('Error: Task not found in Mantis DB !').'</span>';
-	}
-
-
-	// prepare json data for the BacklogDialogbox
-	$drift = $issue->getDrift();
-	$issueInfo = array(
-		'backlog' => $backlog,
-		'bugid' => $issue->getId(),
-		'summary' => $summary,
-		'dialogBoxTitle' => $issue->getFormattedIds(),
-		'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),
-		'mgrEffortEstim' => $issue->getMgrEffortEstim(),
-		'elapsed' => $issue->getElapsed(),
-		'drift' => $drift,
-		'driftMgr' => $issue->getDriftMgr(),
-		'reestimated' => $issue->getReestimated(),
-		'driftColor' => $issue->getDriftColor($drift),
-		'currentStatus' => $issue->getCurrentStatus(),
-		'availableStatusList' => $issue->getAvailableStatusList(true)
-	);
-
-	$deadline = $issue->getDeadLine();
-	if (!is_null($deadline) || (0 != $deadline)) {
-		$formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $deadline);
-		$issueInfo['deadline'] = $formatedDate;
-	}
-
-	$jsonIssueInfo = json_encode($issueInfo);
-	return $jsonIssueInfo;
 }
 
 ?>
