@@ -20,7 +20,6 @@ include_once('include/session.inc.php');
 
 require('path.inc.php');
 
-$logger = Logger::getLogger('login');
 
 if(isset($_POST['action'])) {
     if ('login' == $_POST['action']) {
@@ -30,7 +29,24 @@ if(isset($_POST['action'])) {
 }
 
 function login($user, $password) {
-    global $logger;
+    $logger = Logger::getLogger('login');
+	
+    // WARN: if logger is LoggerAppenderEcho, then logs will break the login Ajax call !
+	 try {
+		$appenders = $logger->getParent()->getAllAppenders();
+		$isLog = true;
+
+		foreach ($appenders as $appender) {
+			if ('LoggerAppenderEcho' === get_class($appender)) {
+				$isLog = false;
+				break;
+			}
+		}
+ 	 } catch (Exception $e) {
+		 // logs should never break application
+		 $isLog = false;
+	 }
+
     $password = md5($password);
 
     $formattedUser = SqlWrapper::getInstance()->sql_real_escape_string($user);
@@ -55,12 +71,13 @@ function login($user, $password) {
             if (0 != $projid) { $_SESSION['projectid'] = $projid; }
 
          } catch (Exception $e) {
-            if(self::$logger->isDebugEnabled()) {
+            if ($isLog && self::$logger->isDebugEnabled()) {
                $logger->debug("could not load preferences for user $row_login->id");
             }
          }
-
-        $logger->info('user '.$row_login->id.' logged in: '.$row_login->username.' ('.$row_login->realname.')'.' defaultTeam = '.$user->getDefaultTeam());
+			if ($isLog) {
+            $logger->info('user '.$row_login->id.' logged in: '.$row_login->username.' ('.$row_login->realname.')'.' defaultTeam = '.$user->getDefaultTeam());
+			}
         return TRUE;
     } else {
         #$error = 'login failed !';

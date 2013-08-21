@@ -7,6 +7,11 @@
 
 <log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
 
+    <appender name="myEchoAppender" class="LoggerAppenderEcho">
+	     <layout class="LoggerLayoutSimple" />
+        <param name="htmlLineBreaks" value="1"/>
+    </appender>
+
     <appender name="myConsoleAppender" class="LoggerAppenderConsole" />
 
     <appender name="myRollingFileAppender" class="LoggerAppenderRollingFile">
@@ -19,10 +24,12 @@
     </appender>
 
 
-    <logger name="default">
-        <level value="INFO" />
-    </logger>
+    <!-- TODO FIX override level does not work with root appender since upgrade to log4php 2.3.0 ?! -->
     <logger name="login">
+        <level value="INFO" />
+        <!--appender_ref ref="myRollingFileAppender" /-->
+    </logger>
+    <logger name="default">
         <level value="INFO" />
     </logger>
     <logger name="homepage">

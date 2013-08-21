@@ -64,10 +64,15 @@ try {
       } else {
          Logger::configure($filename);
       }
+		// WARN: if logger is LoggerAppenderEcho, then logs will break the login Ajax call !
       $logger = Logger::getLogger("header");
       $logger->info("LOG activated !");
 
       // test
+		#$appenders = $logger->getParent()->getAllAppenders();
+		#foreach ($appenders as $appender) {
+		#	echo "appender ".get_class($appender)."<br>";
+		#}
       #echo "configure LOG ".Logger::getConfigurationFile()."</br>";
       #echo "configure LOG ".Logger::getConfigurationClass()."</br>";
       #echo "configure LOG header exists: ".$logger->exists("header")."</br>";
@@ -88,7 +93,8 @@ set_exception_handler('exception_handler');
  * @param Exception $e
  */
 function exception_handler(Exception $e) {
-   global $logger;
+   $logger = Logger::getLogger("header");
+
    echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span><br>";
    $logger->error("UNCAUGHT EXCEPTION : ".$e->getMessage());
    $logger->error("UNCAUGHT EXCEPTION stack-trace:\n".$e->getTraceAsString());
