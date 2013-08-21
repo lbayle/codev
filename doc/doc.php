@@ -32,6 +32,9 @@ class DocController extends Controller {
 
    protected function display() {
       // Nothing special
+
+      $greasemonkey_url = Constants::$codevURL.'/mantis_monkey.user.js';
+      $this->smartyHelper->assign('greasemonkeyURL', $greasemonkey_url);
    }
 
 }

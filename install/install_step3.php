@@ -55,13 +55,13 @@ require_once('install/install_menu.inc.php');
 <?php
 
 function createGreasemonkeyFile() {
-   $serverIP = $_SERVER['SERVER_ADDR'];
 
    //read the source file
    $str = implode("\n", file(Install::FILENAME_GREASEMONKEY_SAMPLE));
 
    //replace tags
-   $str = str_replace('@TAG_CODEVTT_IP@', $serverIP, $str);
+   $str = str_replace('@TAG_MANTIS_URL@', Constants::$mantisURL, $str);
+   $str = str_replace('@TAG_CODEVTT_URL@', Constants::$codevURL, $str);
 
    // write dest file
    $fp = fopen(Install::FILENAME_GREASEMONKEY, 'w');
