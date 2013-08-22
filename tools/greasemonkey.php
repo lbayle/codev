@@ -23,7 +23,9 @@ require('../path.inc.php');
 function createGreasemonkeyFile() {
 
    //read the source file
-   $str = implode("\n", file(Install::FILENAME_GREASEMONKEY_SAMPLE));
+   $str = implode("\n", file('./mantis_monkey.user.js.sample'));
+
+   $str = str_replace("\n\n", "\n", $str);
 
    //replace tags
    $str = str_replace('@TAG_MANTIS_URL@', Constants::$mantisURL, $str);

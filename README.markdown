@@ -14,7 +14,7 @@
 
 - CodevTT is an efficient link between the team and the management. Its goal is to give concrete and reliable information on your projects/contracts/teams and intends to reduce the management costs of your projects.
 
-> After 2.5 years of development and almost as much of production in several teams of our company, CodevTT has become mature enough to be presented to the community.
+> After 3.5 years of development and almost as much of production in several teams of our company, CodevTT has become mature enough to be presented to the community.
 
 ### Notes
 > [CodevTT](http://codevtt.org) is still under developpment and there is no real documentation right now. The best way to understand how it works is to have a look at the demo site.

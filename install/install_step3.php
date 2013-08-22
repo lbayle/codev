@@ -59,6 +59,8 @@ function createGreasemonkeyFile() {
    //read the source file
    $str = implode("\n", file(Install::FILENAME_GREASEMONKEY_SAMPLE));
 
+   $str = str_replace("\n\n", "\n", $str);
+
    //replace tags
    $str = str_replace('@TAG_MANTIS_URL@', Constants::$mantisURL, $str);
    $str = str_replace('@TAG_CODEVTT_URL@', Constants::$codevURL, $str);
@@ -80,6 +82,8 @@ function createLog4phpFile() {
 
    //read the source file
    $str = implode("\n", file(Install::FILENAME_LOG4PHP_SAMPLE));
+
+   $str = str_replace("\n\n", "\n", $str);
 
    //replace tags
    $str = str_replace('@TAG_CODEVTT_LOGFILE_FULLPATH@', Constants::$codevtt_logfile, $str);
@@ -518,7 +522,7 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
 
    // ------ Administrator
    echo "<h2>".T_("CodevTT Administrator")."</h2>\n";
-	
+
    echo '<select id="codevttAdmin" name="codevttAdmin">'."<br>\n";
    #echo '   <option value="0"> </option>'."\n";
    foreach ($userList as $userid => $name) {
