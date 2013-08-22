@@ -499,22 +499,8 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
 
    echo "<form id='form1' name='form1' method='post' action='$originPage' >\n";
 
-   // ------ Administrator
-   echo "<h2>".T_("CodevTT Administrator")."</h2>\n";
-   echo '<select id="codevttAdmin" name="codevttAdmin">'."\n";
-   #echo '   <option value="0"> </option>'."\n";
-   foreach ($userList as $userid => $name) {
-      if (1 == $userid) {
-         echo "<option value='$userid' selected='selected'>$name</option>\n";
-      } else {
-         echo "<option value='$userid'>$name</option>\n";
-      }
-   }
-   echo '</select><br>';
-   echo "  <br/>\n";
-
    // ------ Reports
-   echo "<h2>".T_("Path to output files (logs, reports, ...)")."</h2>\n";
+   echo "<h2>".T_("Path to output files")."</h2>\n";
    if (NULL != $checkReportsDirError) {
       if (FALSE == strstr($checkReportsDirError, T_("ERROR"))) {
          echo "<span class='success_font'>$checkReportsDirError</span><br/>\n";
@@ -525,10 +511,29 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
    echo "<code><input size='50' type='text' style='font-family: sans-serif' name='outputDir'  id='outputDir' value='$defaultOutputDir'></code></td>\n";
    echo "<input type=button value='".T_("Check")."' onClick='javascript: checkReportsDir()'>\n";
 
+   echo "&nbsp;&nbsp;&nbsp;&nbsp;<span class='help_font'>".T_("(logs, reports, ...)")."</span>\n";
+
    echo "  <br/>\n";
    echo "  <br/>\n";
 
-   echo "<h2>".T_("External ID")."</h2>";
+   // ------ Administrator
+   echo "<h2>".T_("CodevTT Administrator")."</h2>\n";
+	
+   echo '<select id="codevttAdmin" name="codevttAdmin">'."<br>\n";
+   #echo '   <option value="0"> </option>'."\n";
+   foreach ($userList as $userid => $name) {
+      if (1 == $userid) {
+         echo "<option value='$userid' selected='selected'>$name</option>\n";
+      } else {
+         echo "<option value='$userid'>$name</option>\n";
+      }
+   }
+   echo '</select>';
+   echo "&nbsp;&nbsp;&nbsp;&nbsp;<span class='help_font'>".T_("More administrators can be defined later, for now you just need one.")."</span>\n";
+	echo "<br><br>\n";
+
+	// ------- External ID
+   echo "<h2>".T_("Tasks external ID field")."</h2>";
    echo "<div align='left'>\n";
    echo "<script type='text/javascript'>\n";
    echo "
