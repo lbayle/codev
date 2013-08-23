@@ -13,10 +13,6 @@
                msgString += "{t}Team Name{/t}\n";
                ++foundError;
             }
-            if (0 == form.find("input[name=team_desc]").val()) {
-               msgString += "{t}Team Description{/t}\n";
-               ++foundError;
-            }
             if (0 == form.find("input[name=teamleader_id]").val()) {
                msgString += "{t}Team Administrator{/t}\n";
                ++foundError;
@@ -52,7 +48,7 @@
                   </tr>
                   <tr>
                      <td><label for="team_desc">{t}Description{/t}</label></td>
-                     <td><input size="100" name="team_desc" type="text" id="team_desc" /> <span style="color:red">*</span></td>
+                     <td><input size="100" name="team_desc" type="text" id="team_desc" /></td>
                   </tr>
                   <tr>
                      <td><label for="teamleader_id">{t}Team Administrator{/t}</label></td>
@@ -145,15 +141,15 @@
                            <td><input size="100" type="text" name="task_meeting" id="task_meeting" value="{t}(generic) Meeting{/t}" /></td>
                         </tr>
                         <tr>
-                           <td style="width:150px;"><label><input type="checkbox" name="cb_taskIncident" id="cb_taskIncident" />{t}Incident{/t}</label></td>
+                           <td style="width:150px;"><label><input type="checkbox" checked="checked" name="cb_taskIncident" id="cb_taskIncident" />{t}Incident{/t}</label></td>
                            <td><input size="100" type="text" name="task_incident" id="task_incident" value="{t}(generic) Network is down{/t}" /></td>
                         </tr>
                         <tr>
-                           <td style="width:150px;"><label><input type="checkbox" name="cb_taskTools" id="cb_taskTools" />{t}Tools{/t}</label></td>
+                           <td style="width:150px;"><label><input type="checkbox" checked="checked" name="cb_taskTools" id="cb_taskTools" />{t}Tools{/t}</label></td>
                            <td><input size="100" type="text" name="task_tools" id="task_tools" value="{t}(generic) Compilation Scripts{/t}" /></td>
                         </tr>
                         <tr>
-                           <td style="width:150px;"><label><input type="checkbox" name="cb_taskOther" id="cb_taskOther" />{t}Team Workshop{/t}</label></td>
+                           <td style="width:150px;"><label><input type="checkbox" checked="checked" name="cb_taskOther" id="cb_taskOther" />{t}Team Workshop{/t}</label></td>
                            <td><input size="100" type="text" name="task_other1" id="task_other1" value="{t}(generic) Update team WIKI{/t}" /></td>
                         </tr>
                      </table>

@@ -47,7 +47,7 @@ class CreateTeamController extends Controller {
                // Form user selections
                $team_name = Tools::getSecurePOSTStringValue('team_name');
 
-               $team_desc = Tools::getSecurePOSTStringValue('team_desc');
+               $team_desc = Tools::getSecurePOSTStringValue('team_desc', '');
                $teamleader_id = Tools::getSecurePOSTStringValue('teamleader_id');
 
                $formatedDate  = date("Y-m-d", time());
