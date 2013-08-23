@@ -48,7 +48,8 @@
          </ul>
       </li>
       <!--  <li class="ui-corner-top {if $activeGlobalMenuItem == 'MantisReports'} ui-state-active{else} ui-state-default{/if}"><a href="reports/mantis_reports.php" title="{t}Mantis Reports{/t}" class="button">{t}Mantis Reports{/t}</a></li>  -->
-      <li class="ui-corner-top {if $activeGlobalMenuItem == 'ImportExport'} ui-state-active{else} ui-state-default{/if}" style="margin-left:2%;"><a href="import/import_issues.php" title="{t}Import / Export{/t}" class="button">{t}Import / Export{/t}</a>
+      <li class="ui-corner-top {if $activeGlobalMenuItem == 'ConsistencyCheck'} ui-state-active{else} ui-state-default{/if}" style="margin-left:2%;"><a href="reports/check.php" title="{t}Consistency Check{/t}" class="button">{t}Check{/t}</a></li>
+      <li class="ui-corner-top {if $activeGlobalMenuItem == 'ImportExport'} ui-state-active{else} ui-state-default{/if}" ><a href="import/import_issues.php" title="{t}Import / Export{/t}" class="button">{t}Import / Export{/t}</a>
          <ul class="submenu">
             <li><a href="import/import_issues.php">{t}Import Issues{/t}</a></li>
             <li><a href="reports/export_csv_weekly.php">{t}Export Weekly Report{/t}</a></li>
@@ -56,9 +57,8 @@
             <li><a href="reports/export_odt.php">{t}Export to LibreOffice{/t}</a></li>
          </ul>
       </li>
-      <li class="ui-corner-top {if $activeGlobalMenuItem == 'ConsistencyCheck'} ui-state-active{else} ui-state-default{/if}"><a href="reports/check.php" title="{t}Consistency Check{/t}" class="button">{t}Check{/t}</a></li>
       <!--<li class="ui-corner-top {if $activeGlobalMenuItem == 'Blog'} ui-state-active{else} ui-state-default{/if}" style="margin-left:2%;"><a href="blog/blog.php" title="{t}Blog{/t}" class="button">Blog</a></li>-->
-      <li class="ui-corner-top {if $activeGlobalMenuItem == 'Doc'} ui-state-active{else} ui-state-default{/if}" style="margin-left:2%;"><a href="doc/doc.php" title="{t}Documentation{/t}" class="button">Doc</a>
+      <li class="ui-corner-top {if $activeGlobalMenuItem == 'Doc'} ui-state-active{else} ui-state-default{/if}" ><a href="doc/doc.php" title="{t}Documentation{/t}" class="button">Doc</a>
          <ul class="submenu">
             <li><a href='doc/doc.php'>{t}Documentation{/t}</a></li>
             <!--<li><a href='doc/indicateurs_de_production.php'>{t}Productivity Reports{/t}</a></li>-->
