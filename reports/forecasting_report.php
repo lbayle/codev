@@ -69,6 +69,7 @@ class ForecastingReportController extends Controller {
             $this->smartyHelper->assign('currentDeviationStats', $this->getCurrentDeviationStats($this->teamid, $threshold));
 
             $this->smartyHelper->assign('issuesInDrift', $this->getIssuesInDrift($this->teamid, $withSupport));
+            $this->smartyHelper->assign('lateIssues', $this->getLateIssues($this->teamid, $withSupport));
 
             $start_day = 1;
             if (1 == date("m")) {
@@ -182,6 +183,7 @@ class ForecastingReportController extends Controller {
             continue;
          }
 
+         // TODO WARN: unassigned issues will be ommitted !!
          $issueList = $user->getAssignedIssues($projList);
          foreach ($issueList as $issue) {
             $driftMgrEE = $issue->getDriftMgr($withSupport);
@@ -194,6 +196,66 @@ class ForecastingReportController extends Controller {
                   'bugId' => Tools::issueInfoURL($issue->getId(), $tooltipAttr),
                   'handlerName' => $user->getName(),
                   'projectName' => $issue->getProjectName(),
+                  'progress' => round(100 * $issue->getProgress()),
+                  'effortEstimMgr' => $issue->getMgrEffortEstim(),
+                  'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),
+                  'elapsed' => $issue->getElapsed(),
+                  'reestimated' => $issue->getReestimated(),
+                  'backlog' => $issue->getBacklog(),
+                  'driftPrelEE' => $driftMgrEE,
+                  'driftEE' => $driftEE,
+                  'statusName' => $issue->getCurrentStatusName(),
+                  'summary' => $issue->getSummary()
+               );
+            }
+         }
+      }
+      return $issueArray;
+   }
+
+   /**
+    * get non-resolved tasks which deadline is < today
+    * 
+    * @param type $teamid
+    * @param type $withSupport
+    * @return type
+    */
+   private function getLateIssues($teamid, $withSupport = TRUE) {
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $mList = $team->getMembers();
+      $projList = $team->getProjects(true, false); // exclude disabled projects
+
+      $today = time();
+      $midnightTimestamp = mktime(0, 0, 0, date('m', $today), date('d', $today), date('Y', $today));
+
+      $issueArray = NULL;
+
+      foreach ($mList as $id => $name) {
+         $user = UserCache::getInstance()->getUser($id);
+
+         // do not take observer's tasks
+         if ((!$user->isTeamDeveloper($teamid)) &&
+             (!$user->isTeamCustomer($teamid)) &&
+             (!$user->isTeamManager($teamid))) {
+            continue;
+         }
+
+         // TODO WARN: unassigned issues will be ommitted !!
+         $issueList = $user->getAssignedIssues($projList);
+         foreach ($issueList as $issue) {
+            $deadline = $issue->getDeadLine();
+
+            if (($deadline > 0) && ($deadline < $midnightTimestamp)) {
+
+               $tooltipAttr = $issue->getTooltipItems($teamid, $this->session_userid);
+
+               $driftMgrEE = $issue->getDriftMgr($withSupport);
+               $driftEE = $issue->getDrift($withSupport);
+               $issueArray[] = array(
+                  'bugId' => Tools::issueInfoURL($issue->getId(), $tooltipAttr),
+                  'handlerName' => $user->getName(),
+                  'projectName' => $issue->getProjectName(),
+                  'deadline' => date('Y-m-d', $deadline),
                   'progress' => round(100 * $issue->getProgress()),
                   'effortEstimMgr' => $issue->getMgrEffortEstim(),
                   'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),

@@ -1,25 +1,13 @@
 <div id="content">
    {if (!isset($accessDenied) || (0 == $accessDenied)) }
 
-   {if isset($currentDeviationStats)}
-   <script type="text/javascript">
-      jQuery(document).ready(function() {
-         jQuery("#dialog_CurrentDriftStats_link").click(function() {
-            jQuery("#dialog_CurrentDriftStats").dialog("open");
-            return false;
-         });
-         jQuery("#dialog_CurrentDriftStats").dialog({
-            autoOpen: false,
-            hide: "fade"
-         });
-      });
-   </script>
    <h2 style="margin-top:2em;">{t}Effort Deviation{/t} &nbsp;&nbsp;<a id="dialog_CurrentDriftStats_link" href="{$page}"><img alt="{t}Help{/t}" title="{t}Help{/t}" src="images/help_icon.gif"/></a></h2>
    <div id="dialog_CurrentDriftStats" title="{t}Effort Deviation{/t}" class="ui-helper-hidden">
       <p>
          <strong>{t}Effort Deviation{/t}:</strong><br />
          {t}Overflow day quantity{/t}<br />
          - {t}Computed on task NOT Resolved/Closed on {/t}{$smarty.now|date_format:"%Y-%m-%d"}<br />
+         - {t}Unassigned tasks will not be displayed{/t}<br>
          <span style="color:blue">{t}Formula{/t}: elapsed - EffortEstim</span>
       </p>
       <p>
@@ -38,6 +26,31 @@
          <span style="color:blue">{t}Formula{/t}: {t}deviation{/t} < -{$threshold}</span>
       </p>
    </div>
+   {if isset($currentDeviationStats)}
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery("#dialog_CurrentDriftStats_link").click(function() {
+            jQuery("#dialog_CurrentDriftStats").dialog("open");
+            return false;
+         });
+         jQuery("#dialog_CurrentDriftStats").dialog({
+            autoOpen: false,
+            height: 'auto',
+            width: "auto",
+            hide: "fade"
+         });
+         jQuery("#dialog_AdherenceToDeadlines_link").click(function() {
+            jQuery("#dialog_AdherenceToDeadlines").dialog("open");
+            return false;
+         });
+         jQuery("#dialog_AdherenceToDeadlines").dialog({
+            autoOpen: false,
+            height: 'auto',
+            width: "auto",
+            hide: "fade"
+         });
+      });
+   </script>
 
    <div id="tabsCurrentDeviationStats" class="tabs {$ui_tabs_jquery}">
       <ul class="{$ui_tabs_jquery_ul}">
@@ -153,7 +166,69 @@
          {/if}
       </div>
    </div>
+   {else}
+   {t}No data{/t}
    {/if}
+
+   <div style="margin-top:2em;">
+   <h2 style="margin-top:2em;">{t}Adherence to deadlines{/t} &nbsp;&nbsp;<a id="dialog_AdherenceToDeadlines_link" href="{$page}"><img alt="{t}Help{/t}" title="{t}Help{/t}" src="images/help_icon.gif"/></a></h2>
+   <div id="dialog_AdherenceToDeadlines" title="{t}Adherence to deadlines{/t}" class="ui-helper-hidden">
+      <p>
+         {t}Open tasks that should have been delivered.{/t}<br><br>
+         - {t}Computed on task NOT Resolved/Closed on {/t}{$smarty.now|date_format:"%Y-%m-%d"}<br>
+         - {t}Unassigned tasks will not be displayed{/t}<br><br>
+         <span style="color:blue">{t}Formula{/t}: deadline &lt; {$smarty.now|date_format:"%Y-%m-%d"} </span>
+      </p>
+   </div>
+      {if isset($lateIssues) && !empty($lateIssues)}
+      <table>
+         <thead>
+            <tr>
+               <th>{t}ID{/t}</th>
+               <th>{t}User{/t}</th>
+               <th>{t}Project{/t}</th>
+               <th>{t}Deadline{/t}</th>
+               <th>{t}Progress{/t}</th>
+               {if $manager}<th>{t}MgrEffortEstim{/t}</th>{/if}
+               <th>{t}EffortEstim{/t}</th>
+               <th>{t}Reestimated{/t}</th>
+               <th>{t}Elapsed{/t}</th>
+               <th title="{t}Backlog{/t}">{t}BL{/t}</th>
+               {if $manager}<th title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
+               <th title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
+               <th>{t}Status{/t}</th>
+               <th>{t}Summary{/t}</th>
+            </tr>
+         </thead>
+         <tbody>
+            {foreach from=$lateIssues key=id item=i}
+            <tr>
+               <td>{$i.bugId}</td>
+               <td>{$i.handlerName}</td>
+               <td>{$i.projectName}</td>
+               <td style="background-color: #fcbdbd;">{$i.deadline}</td>
+               <td><div class="progress">{$i.progress}%</div></td>
+               {if $manager}<td>{$i.effortEstimMgr}</td>{/if}
+               <td>{$i.effortEstim}</td>
+               <td>{$i.reestimated}</td>
+               <td>{$i.elapsed}</td>
+               <td>{$i.backlog}</td>
+               {if $manager}<td {if $i.driftPrelEE > 1}style="background-color: #fcbdbd;"{elseif $i.driftPrelEE < -1}style="background-color: #61ed66;"{/if}>{$i.driftPrelEE}</td>{/if}
+               <td {if $i.driftEE > 1}style="background-color: #fcbdbd;"{elseif $i.driftEE < -1}style="background-color: #61ed66;"{/if}>{$i.driftEE}</td>
+               <td>{$i.statusName}</td>
+               <td>{$i.summary}</td>
+            </tr>
+            {/foreach}
+         </tbody>
+      </table>
+      {else}
+      {t}No late task.{/t}
+      {/if}
+   </div>
+
+
+
+
    {if isset($workload_jqplotData)}
    {include file="tools/graph.html"}
    <div style="margin-top:2em;">
