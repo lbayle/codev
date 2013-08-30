@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-31 01:15+0200\n"
+"POT-Creation-Date: 2013-08-31 01:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -194,9 +194,8 @@ msgid "Total"
 msgstr "Total"
 
 #: tpl/team_activity_report.html
-#, fuzzy
 msgid "Timesheet notes"
-msgstr "Stundenzettel"
+msgstr "Stundenzettel Notizen"
 
 #: tpl/team_activity_report.html
 msgid "All Tasks"
@@ -212,7 +211,7 @@ msgstr "User"
 
 #: tpl/team_activity_report.html
 msgid "Note"
-msgstr ""
+msgstr "Notiz"
 
 #: tpl/team_activity_report.html
 #: tpl/command_edit.html
@@ -243,23 +242,20 @@ msgid "Date"
 msgstr "Datum"
 
 #: tpl/team_activity_report.html
-#, fuzzy
 msgid "Read by"
-msgstr "Gemeldet von"
+msgstr "Gelesen von"
 
 #: tpl/team_activity_report.html
-#, fuzzy
 msgid "Action"
-msgstr "Aktionen"
+msgstr "Aktion"
 
 #: tpl/team_activity_report.html
 msgid "Mark as read"
-msgstr ""
+msgstr "Als gelesen markieren"
 
 #: tpl/team_activity_report.html
-#, fuzzy
 msgid "Delete note"
-msgstr "Team löschen"
+msgstr "Notiz löschen"
 
 #: tpl/team_activity_report.html
 #: tpl/holidays_report.html
@@ -322,9 +318,8 @@ msgstr "Arbeitstage"
 #: tpl/command_info.html
 #: tpl/servicecontract_info.html
 #: tpl/set_holidays.html
-#, fuzzy
 msgid "Select"
-msgstr "Alles auswählen"
+msgstr "Auswählen"
 
 #: tpl/issue_info.html
 msgid "External ID"
@@ -1172,38 +1167,32 @@ msgid "Compute"
 msgstr "Berechnen"
 
 #: tpl/project_activity_report.html
-#, fuzzy
 msgid "Users"
-msgstr "User"
+msgstr "Users"
 
 #: tpl/project_activity_report.html
-#, fuzzy
 msgid "Tasks per project"
-msgstr "Auslastung je Projekt"
+msgstr "Task per Projekt"
 
 #: tpl/project_activity_report.html
 msgid "Total time spent on this issue"
 msgstr "Zeit gebucht auf diesen Mantis-Eintrag"
 
 #: tpl/project_activity_report.html
-#, fuzzy
 msgid "No data available"
-msgstr "Nicht verfügbar"
+msgstr "Keine Daten verfügbar"
 
 #: tpl/project_activity_report.html
-#, fuzzy
 msgid "Time spent on Projects per users"
-msgstr "Zeit gebucht auf diesen Mantis-Eintrag"
+msgstr "Zeit gebucht auf Projekte per user"
 
 #: tpl/project_activity_report.html
-#, fuzzy
 msgid "With ExternalTasks Project"
-msgstr "CodevTT Externe Aufgaben Projekt"
+msgstr "Mit Externe Aufgaben Projekt"
 
 #: tpl/project_activity_report.html
-#, fuzzy
 msgid "With SideTasks Project"
-msgstr "Sonstige Aufgaben Projekt"
+msgstr "Mit Sonstige Aufgaben Projekt"
 
 #: tpl/filters.html
 msgid "Set project filters"
@@ -1814,7 +1803,6 @@ msgstr "Erbrachte Personen-Tage"
 
 #: tpl/statistics.html
 #: tpl/productivity_report.html
-#, fuzzy
 msgid "Compares the effort estimation to the elapsed time."
 msgstr "Vergleich Schätzung zu Verbrauch"
 
@@ -1826,9 +1814,8 @@ msgstr "Hilfe"
 
 #: tpl/statistics.html
 #: tpl/productivity_report.html
-#, fuzzy
 msgid "(on resolved tasks only)"
-msgstr "Keine erledigten Tasks"
+msgstr "(nur auf geschlossene Tasks)"
 
 #: tpl/statistics.html
 #: tpl/productivity_report.html
@@ -1848,9 +1835,8 @@ msgstr "Formel"
 
 #: tpl/statistics.html
 #: tpl/productivity_report.html
-#, fuzzy
 msgid "EffortAdd"
-msgstr "Schätzung"
+msgstr "Mehrschätzung"
 
 #: tpl/statistics.html
 #: tpl/productivity_report.html
@@ -2517,12 +2503,11 @@ msgstr "Alles auswählen"
 
 #: tpl/modal/edit_issueNote.html
 msgid "Edit timesheet note"
-msgstr ""
+msgstr "Notiz aktualisieren"
 
 #: tpl/modal/edit_issueNote.html
-#, fuzzy
 msgid "Delete timesheet note for task "
-msgstr "Team löschen?"
+msgstr "Task Notiz löschen?"
 
 #: tpl/command_info.html
 msgid "--- Create New Command ---"
@@ -2850,9 +2835,8 @@ msgid "Open tasks that should have been delivered."
 msgstr ""
 
 #: tpl/forecasting_report.html
-#, fuzzy
 msgid "No late task."
-msgstr "Keine erledigten Tasks"
+msgstr "Keine verspäteten Tasks"
 
 #: tpl/forecasting_report.html
 msgid ""
@@ -3133,19 +3117,16 @@ msgid "Departure Date"
 msgstr "Ende-Datum"
 
 #: tpl/edit_team.html
-#, fuzzy
 msgid "Create SideTasksProject"
 msgstr "Sonstige Aufgaben Projekt anlegen"
 
 #: tpl/edit_team.html
-#, fuzzy
 msgid "Project name"
 msgstr "Projekt Name"
 
 #: tpl/edit_team.html
-#, fuzzy
 msgid "Create project"
-msgstr "Projekte vorbereiten"
+msgstr "Neues Projekt"
 
 #: tpl/edit_team.html
 msgid "Issue Tooltips"
@@ -3427,7 +3408,7 @@ msgstr ""
 msgid ""
 "Delivery date not specified: If a delivery sheet is specified, then a "
 "Delivery Date is requested."
-msgstr ""
+msgstr "Lieferungs datum nicht eingegeben"
 
 #: classes/consistency_check.class.php:208
 #: classes/consistency_check2.class.php:313
@@ -3704,7 +3685,7 @@ msgstr "Mantis URL"
 
 #: install/install_step2.php:120
 msgid "URL to CodevTT"
-msgstr ""
+msgstr "CodevTT URL"
 
 #: install/install_step2.php:130
 msgid "Proceed Step 2"
@@ -3808,14 +3789,12 @@ msgstr "CodevTT_Lieferdatum"
 
 #. ------ Reports
 #: install/install_step3.php:507
-#, fuzzy
 msgid "Path to output files"
-msgstr "Pfad zu den Ausgabedateien (Logs, Reports, etc.)"
+msgstr "Pfad zu den Ausgabedateien"
 
 #: install/install_step3.php:518
-#, fuzzy
 msgid "(logs, reports, ...)"
-msgstr "Pfad zu den Ausgabedateien (Logs, Reports, etc.)"
+msgstr "(Logs, Reports, etc.)"
 
 #. ------ Administrator
 #: install/install_step3.php:524
@@ -3828,9 +3807,8 @@ msgstr ""
 
 #. ------- External ID
 #: install/install_step3.php:540
-#, fuzzy
 msgid "Tasks external ID field"
-msgstr "Eintrag Externe ID"
+msgstr "Eintrag Externe_ID Feld"
 
 #: install/install_step3.php:561
 msgid "Create a new CustomField"
@@ -4041,7 +4019,7 @@ msgstr "Löschen des Tasks fehlgeschlagen"
 
 #: timetracking/time_tracking_tools.php:189
 msgid "Click to add a note"
-msgstr ""
+msgstr "Hier klicken um eine Notiz hinzuzufügen"
 
 #: timetracking/holidays_report.php:102
 msgid "today"
