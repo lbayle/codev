@@ -119,6 +119,8 @@ f_createTemplateFile ()
   else
     if [ -f ${FILE_PO} ]
     then
+      sed --in-place ${templatePoFile} --expression='s/CHARSET/UTF-8/'
+
       echo "  - merge with existing ${FILE_PO}"
       msgmerge -o ${mergedPoFile} ${FILE_PO} ${templatePoFile}
       retCode=$?
