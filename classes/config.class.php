@@ -68,7 +68,7 @@ class ConfigItem {
 class Config {
 
    // TODO Move to a more appropriate class
-   const codevVersion = "v0.99.22 (25 Jun 2013)";
+   const codevVersion = "v0.99.23 (01 Sep 2013)";
    const databaseVersion = 12; // used to check codev_config_table.database_version and apply upgrades.
 
    const configType_int = 1;
@@ -142,6 +142,7 @@ class Config {
       "v0.99.20" => "(06 Feb  2013) - teamSelector, custo-tooltips, custo-ccheck, install, unassignedTasks, dates ISO-8601, usort, maxTooltipsPerPage, BudgetDriftHistoryIndicator, ReopenedRateIndicator, exportODT",
       "v0.99.21" => "(07 Apr  2013) - ObserverView=MgrView, TeamMonthlyActivity, BackupDialogBox+Status, install:selectAdmin, install:subdirs",
       "v0.99.22" => "(25 Jun  2013) - install:log4php.xml, no default backlog, ExtTasksProjects categories, accessLevel_Customer, Fix SessionName, Fix reverseProxy",
+      "v0.99.23" => "(01 Sep  2013) - install:windows, upgradeLog4php, basepath, IE, TimesheetNotes, ElapsedPerProjectPerUser, pageHeader, createSTProj, greaseMonkey, forecastingLateTasks",
    );
 
    /**
