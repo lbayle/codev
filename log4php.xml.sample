@@ -16,7 +16,7 @@
 
     <appender name="myRollingFileAppender" class="LoggerAppenderRollingFile">
         <layout class="LoggerLayoutPattern">
-            <param name="conversionPattern" value="%d{Y-m-d H:i:s} %c %-5p %m (%F:%L) [%X{server.REMOTE_ADDR}]%n" />
+            <param name="conversionPattern" value="%d{Y-m-d H:i:s} %c %-5p %m (%F:%L) [%server{REMOTE_ADDR}]%n" />
         </layout>
         <param name="file" value="@TAG_CODEVTT_LOGFILE_FULLPATH@" />
         <param name="maxFileSize" value="6MB" />
