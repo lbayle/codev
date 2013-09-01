@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-31 20:24+0200\n"
+"POT-Creation-Date: 2013-09-01 23:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4030,6 +4030,10 @@ msgstr "W"
 #: tools.php:1330
 msgid "AddEffortEstim"
 msgstr "Zusatzaufwand"
+
+#, fuzzy
+#~ msgid "FAILED"
+#~ msgstr "Datenbankabfrage fehlgeschlagen"
 
 #~ msgid "man-day"
 #~ msgstr "Personen-Tage"
