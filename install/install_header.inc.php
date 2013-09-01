@@ -51,6 +51,8 @@
 &nbsp;
 <?php echo "<a href='".Tools::curPageName()."?locale=en'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-gb' title='English' width='18px' height='12px' /></a>";?>
 &nbsp;
+<?php echo "<a href='".Tools::curPageName()."?locale=de_DE'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-de' title='Deutsch' width='18px' height='12px' /></a>";?>
+&nbsp;
 <?php echo "<a href='".Tools::curPageName()."?locale=pt_BR'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-br' title='Brazil' width='18px' height='12px' /></a>";?>
 </td>
 </tr>

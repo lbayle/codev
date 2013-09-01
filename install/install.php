@@ -36,36 +36,72 @@ if (file_exists(Constants::$config_file)) {
 } else {
    #Constants::setQuiet(TRUE);
 
+
+   echo "<br><br>";
+   echo "Please choose your language: &nbsp;&nbsp;";
+   echo "<a href='".Tools::curPageName()."?locale=fr'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-fr' title='Francais' width='18px' height='12px' /></a>";
+   echo "&nbsp;";
+   echo "<a href='".Tools::curPageName()."?locale=en'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-gb' title='English' width='18px' height='12px' /></a>";
+   echo "&nbsp;";
+   echo "<a href='".Tools::curPageName()."?locale=de_DE'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-de' title='Deutsch' width='18px' height='12px' /></a>";
+   echo "&nbsp;";
+   echo "<a href='".Tools::curPageName()."?locale=pt_BR'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-br' title='Brazil' width='18px' height='12px' /></a>";
+   echo "<br><br><br>";
+
+
    //echo 'Id: ' . getmyuid() . '<br />';
    //echo 'Gid: ' . getmygid() . '<br />';
 
+
+   $isReady = TRUE;
+   $checkList = array();
+
+   // ---------- PHP version
    if (!Tools::checkPhpVersion("5.3")) {
-      $error = "You need PHP v5.3 or higher (current PHP version is ".phpversion().')';
-      echo "<span class='error_font'>$error</span><br />";
-      exit;
+      $isReady = FALSE;
+      $error = ('FAILED').' (current PHP version is '.phpversion().')';
+      $test_result = "<span class='error_font'>$error</span>";
+   } else {
+      $test_result = '<span class="success_font">'.('SUCCESS').'</span>';
    }
+   $checkList['PHP version (&gt;= 5.3)'] = $test_result;
 
-   // check write access rights to codevTT directory
+   // ---------- timezone
+   if (!date_default_timezone_get()) {
+      $isReady = FALSE;
+      $test_result  = "<span class='error_font'>".('FAILED').'<br>';
+      $test_result .=  "Please check your php.ini file (ex: date.timezone = Europe/Paris)</span>";
+   } else {
+      $test_result = '<span class="success_font">'.('SUCCESS').'</span>';
+   }
+   $checkList['PHP date_default_timezone'] = $test_result;
+
+   // ---------- Write access to codevtt dir
    $testDir = realpath ( ".." );
-   //if (!is_writable($testDir)) {    TODO
-   $error = Tools::checkWriteAccess($testDir);
-   if (strstr($error, "ERROR")) {
-      echo "<span class='error_font'>$error</span><br/>";
-      echo "<br />";
-      echo "- does apache user have write access to codevTT directory ?<br/>";
-      echo "- Are you sure SELINUX is well configured ?<br />";
-      exit;
+   if (!is_writable($testDir)) {
+      $isReady = FALSE;
+      $test_result  = "<span class='error_font'>".('FAILED').'<br>';
+      $test_result .= '- Does apache user have write access to codevTT directory ?<br>';
+      $test_result .= '- Are you sure SELINUX is well configured ?<br></span>';
+   } else {
+      $test_result = '<span class="success_font">'.('SUCCESS').'</span>';
+   }
+   $checkList['Write access to CodevTT directory'] = $test_result;
+
+
+   echo "<h3>Pre-install check</h3>";
+   echo "<table class='invisible'>\n";
+   foreach ($checkList as $title => $test_result) {
+      echo '<tr><td valign="top">'.T_($title).'</td><td>'.$test_result.'</td></tr>';
    }
 
-   if(!date_default_timezone_get()) {
-      $error = "date_default_timezone is not set. please check your php.ini file (ex: date.timezone = Europe/Paris)";
-      echo "<span class='error_font'>$error</span><br />";
-      exit;
-   }
+   $test_result = "Please ensure that user '<b>".exec('whoami')."</b>' has write access to your <b>mantis</b> directory";
+   echo '<tr><td valign="top">Write access to MantisBT directory</td><td><span class="success_font">'.$test_result.'</span></td></tr>';
+   echo "</table>\n";
 
-   echo "Pre-install check SUCCEEDED.<br />";
-   echo "<br /><br /><br />";
-   echo "<span class='success_font'>INFO: Before you continue, please ensure that user '<b>".exec('whoami')."</b>' has write access to your <b>mantis</b> directory</span><br>";
+   echo "<br><br><br>";
+
+
 }
 
 ?>

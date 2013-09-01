@@ -1007,7 +1007,7 @@ class Tools {
       }
 
       // write something to the file
-      $stringData = date("Y-m-d G:i:s", time()) . " - This is a TEST file generated during CoDev installation, You can remove it.\n";
+      $stringData = date("Y-m-d G:i:s", time()) . " - This is a TEST file generated during CodevTT installation, You can remove it.\n";
       if (!fwrite($fh, $stringData)) {
          fclose($fh);
          return "ERROR : could not write to test file: $testFilename";
