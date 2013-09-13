@@ -84,7 +84,7 @@ class TimeTrackingController extends Controller {
             $teamList = $mTeamList + $managedTeamList;
 
             // updateBacklog data
-            $backlog = Tools::getSecurePOSTNumberValue('backlog',0);
+            //$backlog = Tools::getSecurePOSTNumberValue('backlog',0);
 
             $action = Tools::getSecurePOSTStringValue('action','');
             $weekid = Tools::getSecurePOSTIntValue('weekid',date('W'));
@@ -102,8 +102,6 @@ class TimeTrackingController extends Controller {
                $duration = Tools::getSecurePOSTNumberValue('duree');
                $defaultProjectid = Tools::getSecurePOSTIntValue('projectid');
 
-               // save to DB
-               $trackid = TimeTrack::create($userid, $defaultBugid, $job, $timestamp, $duration);
 
                // open the updateBacklog DialogBox on page reload.
                // do NOT decrease backlog if job is job_support !
@@ -114,27 +112,33 @@ class TimeTrackingController extends Controller {
                   (!$project->isSideTasksProject(array_keys($teamList)) &&
                   (!$project->isExternalTasksProject()))) {
 
+                  // Note: track is not saved to DB, the backlogDialogBox will be used to validate the action
+
                   $totalEE = ($issue->getEffortEstim() + $issue->getEffortAdd());
 
                   // Note: if Backlog is NULL, the values to propose in the DialogBox
                   //       are not the ones used for ProjectManagement
-                  $backlog = $issue->getBacklog();
-                  if ( !is_null($backlog) && is_numeric($backlog)) {
+                  $calculatedBacklog = $issue->getBacklog();
+                  if ( !is_null($calculatedBacklog) && is_numeric($calculatedBacklog)) {
                      // normal case
                      $drift = $issue->getDrift();
                   } else {
                      // reestimated cannot be used...
-                     $backlog = $totalEE - $issue->getElapsed();
-                     if ($backlog < 0) { $backlog = 0;}
-                     $drift = ($issue->getElapsed() + $backlog) - $totalEE;
+                     $calculatedBacklog = $totalEE - $issue->getElapsed();
+                     if ($calculatedBacklog < 0) { $calculatedBacklog = 0;}
+                     $drift = ($issue->getElapsed() + $calculatedBacklog) - $totalEE;
                   }
-                  
-                  $jsonIssueInfo = TimeTrackingTools::getUpdateBacklogJsonData($defaultBugid, $duration, $backlog);
-                  $this->smartyHelper->assign('updateBacklogJsonData', $jsonIssueInfo);
-               }
 
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("Track $trackid added  : userid=$userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
+                  $jsonIssueInfo = TimeTrackingTools::getUpdateBacklogJsonData($defaultBugid, $userid, $timestamp, $job, $duration, $calculatedBacklog);
+                  $this->smartyHelper->assign('updateBacklogJsonData', $jsonIssueInfo);
+
+               } else {
+
+                  // if dialogBox is not called, then track must be saved to DB
+                  $trackid = TimeTrack::create($userid, $defaultBugid, $job, $timestamp, $duration);
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("Track $trackid added  : userid=$userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
+                  }
                }
 
                // Don't show job and duration after add track

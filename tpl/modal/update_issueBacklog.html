@@ -26,6 +26,11 @@
                   <td></td>
                </tr>
                <tr>
+                  <th>{t}Backlog{/t} :</th>
+                  <td id="desc_currentBacklog" title="{t}Current backlog{/t}"></td>
+                  <td></td>
+               </tr>
+               <tr>
                   <th>{t}Drift{/t} :</th>
                   <td id="desc_drift">drift</td>
                   <td></td>
@@ -41,16 +46,23 @@
                <tr>
                   <th><label for="backlog">{t}Backlog{/t} :</label></th>
                   <td><input type="text" id="backlog" name="backlog" size="3" class="text" /></td>
-                  <td><label id="desc_currentBacklog" class="help_font" ></label> <label id="validateTips" class="error_font" ></label></td>
+                  <td><label id="desc_currentBacklog2" class="help_font" ></label> <label id="validateTips" class="error_font" ></label></td>
                </tr>
             </tbody>
          </table>
 
-         <input type="hidden" name="bugid"  value="0" />
-         <input type="hidden" name="action" value="updateBacklogAction" />
-         {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />{/if}
+         <input type="hidden" name="action" value="unknown" />
+
+         <!-- fields for addTrack action -->
+         <input type="hidden" name="bugid"  value="" />
+         <input type="hidden" name="trackJobid" value="" />
+         <input type="hidden" name="trackUserid" value="" />
+         <input type="hidden" name="trackTimestamp" value="" />
+
+         <!-- fields for weekTaskDetails -->
          <input type="hidden" name="weekid" value="{$weekid}" />
          <input type="hidden" name="year" value="{$year}" />
+
          <input type="hidden" name="statusid" value="" />
          <input type="hidden" name="bugResolvedStatusThreshold" id="bugResolvedStatusThreshold" value="" />
       </fieldset>
@@ -89,21 +101,21 @@
 			});
 		}
 
-      // This dialog can be opened : 
+      // This dialog can be opened :
       // 1) when adding a timetrack.
       //   in this case a field with the timetrack will be displayed
-      //   so that user can correct the value before setting backlog 
+      //   so that user can correct the value before setting backlog
       //   and pressing 'OK'
       // 2) on a backlog update without timetrack add
       //    user cannot add time.
 		function openUpdateBacklogDialogbox(updateBacklogJsonData){
 
          // 1) when adding a timetrack.
-         // timeToAdd is set with a nonZero value 
+         // timeToAdd is set with a nonZero value
          // action has to be set to "addTimetrack"
 
          // 2) when simple backlog update.
-         // timeToAdd = 0 
+         // timeToAdd = 0
          // action has to be set to "updateBacklog"
 
 			var data = updateBacklogJsonData;
@@ -114,8 +126,8 @@
 			jQuery("#update_backlog_dialog_form").find(".issue_summary").text(data['summary']);
 			jQuery("#desc_effortEstim").text(data['effortEstim']);
 			jQuery("#desc_elapsed").text(data['elapsed']);
-			jQuery("#desc_currentBacklog").text('(current = '+data['currentBacklog']+')');
-			//jQuery("#desc_reestimated").text(data['reestimated']);
+			jQuery("#desc_currentBacklog").text(data['currentBacklog']);
+			jQuery("#desc_currentBacklog2").text('(current = '+data['currentBacklog']+')');
 			jQuery("#desc_drift").text(data['drift']);
 
 			if (data.hasOwnProperty("deadline")) {
@@ -128,7 +140,11 @@
 			jQuery("#desc_drift").css("backgroundColor", '#' + data['driftColor']);
 
 			jQuery("#formUpdateBacklog").find("input[name=bugid]").val(data['bugid']);
-			jQuery("#formUpdateBacklog").find("input[name=bugResolvedStatusThreshold]").val(data['bugResolvedStatusThreshold']);
+			jQuery("#formUpdateBacklog").find("input[name=trackJobid]").val(data['trackJobid']);
+			jQuery("#formUpdateBacklog").find("input[name=trackUserid]").val(data['trackUserid']);
+			jQuery("#formUpdateBacklog").find("input[name=trackTimestamp]").val(data['trackTimestamp']);
+
+         jQuery("#formUpdateBacklog").find("input[name=bugResolvedStatusThreshold]").val(data['bugResolvedStatusThreshold']);
 
 			var dialogBoxTitle = '{t}Task{/t} ' + data['dialogBoxTitle'] + ' - {t}Update Backlog{/t}';
 			jQuery("#update_backlog_dialog_form").dialog("option", "title", dialogBoxTitle);
@@ -153,7 +169,7 @@
 
 			// set timeToAdd
 			jQuery('#timeToAdd').empty();
-         
+
          if (0 === data['timeToAdd']) {
             $('#tr_timeToAdd').hide();
             jQuery("#formUpdateBacklog").find("input[name=action]").val('updateBacklog');
@@ -161,6 +177,7 @@
             $('#tr_timeToAdd').show();
             jQuery("#formUpdateBacklog").find("input[name=action]").val('addTimetrack');
 
+            // fill duration combobox values
             var availItemList = data['availableDurationList'];
             for (var id in availItemList) {
 

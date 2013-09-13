@@ -127,11 +127,6 @@ class TimeTrackingTools {
                // TODO does $issue belong to current team's project ? what if not ?
                $tooltipAttr = $issue->getTooltipItems($teamid, $userid);
 
-               #$tooltipAttr[T_('Elapsed')] = $issue->getElapsed();
-               #$tooltipAttr[T_('Backlog')] = $issue->getDuration();
-               #$tooltipAttr[T_('Drift')] = $issue->getDrift();
-               #$tooltipAttr[T_('DriftColor')] = $issue->getDriftColor();
-
                $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
             } else {
                $infoTooltip = '';
@@ -236,12 +231,15 @@ class TimeTrackingTools {
       $duration["0.05"] = "0.05";
       return $duration;
    }
-   
+
    /**
     * get info to display the updateBacklog dialogbox
+    *
+    * Note: this dialogbox is also responsible for validating the addTrack action.
+    *
     * @param type $bugid
     */
-   public static function getUpdateBacklogJsonData($bugid, $timeToAdd = 0, $calculatedBacklog = NULL) {
+   public static function getUpdateBacklogJsonData($bugid, $managedUserid, $trackTimestamp, $jobid, $timeToAdd = 0, $calculatedBacklog = NULL) {
 
       try {
          $issue = IssueCache::getInstance()->getIssue($bugid);
@@ -271,12 +269,16 @@ class TimeTrackingTools {
          'availableStatusList' => $issue->getAvailableStatusList(true),
          'bugResolvedStatusThreshold' =>  $issue->getBugResolvedStatusThreshold(),
          'timeToAdd' => $timeToAdd,
+         'trackJobid' => $jobid,
+         'trackUserid' => $managedUserid,
+         'trackTimestamp' => $trackTimestamp,
       );
-      
+
       if (0 !== $timeToAdd) {
+         # fill duration combobox values
          $issueInfo['availableDurationList'] = self::getDurationList();
       }
-      
+
       if (!is_null($calculatedBacklog)) {
          $issueInfo['calculatedBacklog'] = $calculatedBacklog;
       }
@@ -290,7 +292,7 @@ class TimeTrackingTools {
       $jsonIssueInfo = json_encode($issueInfo);
       return $jsonIssueInfo;
    }
-   
+
 }
 
 // Initialize complex static variables
