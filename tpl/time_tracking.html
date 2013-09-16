@@ -1,7 +1,5 @@
 <div id="content" class="center">
 
-   <script src='lib/jquery.base64/jquery.base64.js'></script>
-
    {if $isManager}
    <script type="text/javascript">
 
@@ -168,7 +166,6 @@
                {/foreach}
             </select>
             <input type="hidden" name="action" value="noAction" />
-            <input type="hidden" name="nextForm" value="addTrackForm" />
             <input type="hidden" name="year" value="{$year}" />
             <input type="hidden" name="weekid" value="{$weekid}" />
             {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />{/if}

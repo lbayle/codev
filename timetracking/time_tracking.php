@@ -49,12 +49,12 @@ class TimeTrackingController extends Controller {
             $team = TeamCache::getInstance()->getTeam($this->teamid);
             $teamMembers = $team->getActiveMembers(NULL, NULL, TRUE);
 
-            $userid = Tools::getSecurePOSTIntValue('userid',$this->session_userid);
+            $managed_userid = Tools::getSecurePOSTIntValue('userid',$this->session_userid);
 
             if ($this->session_user->isTeamManager($this->teamid)) {
                // session_user is Manager, let him choose the teamMember he wants to manage
                $this->smartyHelper->assign('users', $teamMembers);
-               $this->smartyHelper->assign('selectedUser', $userid);
+               $this->smartyHelper->assign('selectedUser', $managed_userid);
                $this->smartyHelper->assign("isManager", true);
             }
 
@@ -62,17 +62,15 @@ class TimeTrackingController extends Controller {
             $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
 
             $year   = Tools::getSecurePOSTIntValue('year',date('Y'));
-            $userid = Tools::getSecurePOSTIntValue('userid',$this->session_userid);
+            $managed_user = UserCache::getInstance()->getUser($managed_userid);
 
-            $managed_user = UserCache::getInstance()->getUser($userid);
-
-            if($userid != $this->session_userid) {
+            if($managed_userid != $this->session_userid) {
 
                // Need to be Manager to handle other users
                if (($this->session_user->isTeamManager($this->teamid)) &&
-                  (array_key_exists($userid,$teamMembers))) {
+                  (array_key_exists($managed_userid,$teamMembers))) {
 
-                  $this->smartyHelper->assign('userid', $userid);
+                  $this->smartyHelper->assign('userid', $managed_userid);
                } else {
                   Tools::sendForbiddenAccess();
                }
@@ -82,9 +80,6 @@ class TimeTrackingController extends Controller {
             $mTeamList = $managed_user->getDevTeamList();
             $managedTeamList = $managed_user->getManagedTeamList();
             $teamList = $mTeamList + $managedTeamList;
-
-            // updateBacklog data
-            //$backlog = Tools::getSecurePOSTNumberValue('backlog',0);
 
             $action = Tools::getSecurePOSTStringValue('action','');
             $weekid = Tools::getSecurePOSTIntValue('weekid',date('W'));
@@ -114,30 +109,26 @@ class TimeTrackingController extends Controller {
 
                   // Note: track is not saved to DB, the backlogDialogBox will be used to validate the action
 
-                  $totalEE = ($issue->getEffortEstim() + $issue->getEffortAdd());
-
                   // Note: if Backlog is NULL, the values to propose in the DialogBox
                   //       are not the ones used for ProjectManagement
                   $calculatedBacklog = $issue->getBacklog();
-                  if ( !is_null($calculatedBacklog) && is_numeric($calculatedBacklog)) {
-                     // normal case
-                     $drift = $issue->getDrift();
-                  } else {
+                  if (is_null($calculatedBacklog)) {
                      // reestimated cannot be used...
+                     $totalEE = ($issue->getEffortEstim() + $issue->getEffortAdd());
                      $calculatedBacklog = $totalEE - $issue->getElapsed();
                      if ($calculatedBacklog < 0) { $calculatedBacklog = 0;}
-                     $drift = ($issue->getElapsed() + $calculatedBacklog) - $totalEE;
+                     #$drift = ($issue->getElapsed() + $calculatedBacklog) - $totalEE;
                   }
 
-                  $jsonIssueInfo = TimeTrackingTools::getUpdateBacklogJsonData($defaultBugid, $userid, $timestamp, $job, $duration, $calculatedBacklog);
+                  $jsonIssueInfo = TimeTrackingTools::getUpdateBacklogJsonData($defaultBugid, $managed_userid, $timestamp, $job, $duration, $calculatedBacklog);
                   $this->smartyHelper->assign('updateBacklogJsonData', $jsonIssueInfo);
 
                } else {
 
                   // if dialogBox is not called, then track must be saved to DB
-                  $trackid = TimeTrack::create($userid, $defaultBugid, $job, $timestamp, $duration);
+                  $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration);
                   if(self::$logger->isDebugEnabled()) {
-                     self::$logger->debug("Track $trackid added  : userid=$userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
+                     self::$logger->debug("Track $trackid added  : userid=$managed_userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
                   }
                }
 
@@ -247,8 +238,8 @@ class TimeTrackingController extends Controller {
             $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
             $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $this->teamid);
 
-            $incompleteDays = array_keys($timeTracking->checkCompleteDays($userid, TRUE));
-            $missingDays = $timeTracking->checkMissingDays($userid);
+            $incompleteDays = array_keys($timeTracking->checkCompleteDays($managed_userid, TRUE));
+            $missingDays = $timeTracking->checkMissingDays($managed_userid);
             $errorDays = array_merge($incompleteDays,$missingDays);
             $smartyWeekDates = TimeTrackingTools::getSmartyWeekDates($weekDates,$errorDays);
 
@@ -260,16 +251,16 @@ class TimeTrackingController extends Controller {
                $smartyWeekDates[6], $smartyWeekDates[7]
             ));
 
-            $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $this->teamid, $userid, $timeTracking, $errorDays);
+            $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $this->teamid, $managed_userid, $timeTracking, $errorDays);
             $this->smartyHelper->assign('weekTasks', $weekTasks["weekTasks"]);
             $this->smartyHelper->assign('dayTotalElapsed', $weekTasks["totalElapsed"]);
 
-            $timeTrackingTuples = $this->getTimetrackingTuples($userid, $timeTracking);
+            $timeTrackingTuples = $this->getTimetrackingTuples($managed_userid, $timeTracking);
             $this->smartyHelper->assign('weekTimetrackingTuples', $timeTrackingTuples['current']);
             $this->smartyHelper->assign('timetrackingTuples', $timeTrackingTuples['future']);
 
             // ConsistencyCheck
-            $consistencyErrors = $this->getConsistencyErrors($userid, $this->teamid);
+            $consistencyErrors = $this->getConsistencyErrors($managed_userid, $this->teamid);
             if(count($consistencyErrors) > 0) {
                $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
                $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));

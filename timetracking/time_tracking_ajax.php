@@ -22,6 +22,7 @@ require('../path.inc.php');
 if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
 
    $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+   $session_user = $_SESSION['userid'];
 
    $action = $_GET['action'];
 
@@ -50,7 +51,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          // the complete WeekTaskDetails Div must be updated
          $weekid = Tools::getSecureGETIntValue('weekid');
          $year = Tools::getSecureGETIntValue('year');
-         $userid = Tools::getSecureGETIntValue('userid',$_SESSION['userid']);
+         $userid = Tools::getSecureGETIntValue('userid',$session_user);
 
          setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid);
          $smartyHelper->display('ajax/weekTaskDetails');
@@ -61,13 +62,14 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $bugid = Tools::getSecureGETIntValue('bugid');
          $issue = IssueCache::getInstance()->getIssue($bugid);
 
-         // add timetrack
-         $userid    = Tools::getSecureGETIntValue('trackUserid',$_SESSION['userid']);
-         $timestamp = Tools::getSecureGETIntValue('trackTimestamp',time());
-         $job       = Tools::getSecureGETIntValue('trackJobid');
-         $duration  = Tools::getSecureGETNumberValue('timeToAdd');
+         // add timetrack (all values mandatory)
+         $trackUserid = Tools::getSecureGETIntValue('trackUserid');
+         $timestamp   = Tools::getSecureGETIntValue('trackTimestamp');
+         $job         = Tools::getSecureGETIntValue('trackJobid');
+         $duration    = Tools::getSecureGETNumberValue('timeToAdd');
 
-         TimeTrack::create($userid, $bugid, $job, $timestamp, $duration);
+         // TODO check that sessionUser is allowed to add a track for trackUserid (managedUser)
+         TimeTrack::create($trackUserid, $bugid, $job, $timestamp, $duration);
 
          // setBacklog
          $formattedBacklog = Tools::getSecureGETNumberValue('backlog');
@@ -80,12 +82,12 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          // return data
          // TODO the complete page must be refreshed because the imputation table has changed too...
          // warn: managedUser must be preserved
-         
+
          // the complete WeekTaskDetails Div must be updated
          $weekid = Tools::getSecureGETIntValue('weekid');
          $year = Tools::getSecureGETIntValue('year');
 
-         setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid);
+         setWeekTaskDetails($smartyHelper, $weekid, $year, $trackUserid, $teamid);
          $smartyHelper->display('ajax/weekTaskDetails');
 
       } else if ($action == 'getIssueNoteText') {
@@ -109,7 +111,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          echo $jsonData;
 
       } else if ($action == 'saveIssueNote') {
-         $reporter_id = $_SESSION['userid'];
+         $reporter_id = $session_user;
          $bugid = Tools::getSecureGETIntValue('bugid');
          $issueNoteText = Tools::getSecureGETStringValue('issuenote_text');
 
@@ -119,7 +121,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          // the complete WeekTaskDetails Div must be updated
          $weekid = Tools::getSecureGETIntValue('weekid');
          $year = Tools::getSecureGETIntValue('year');
-         $userid = Tools::getSecureGETIntValue('userid',$_SESSION['userid']);
+         $userid = Tools::getSecureGETIntValue('userid',$session_user);
 
          setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid);
          $smartyHelper->display('ajax/weekTaskDetails');
@@ -131,13 +133,17 @@ else {
 }
 
 /**
+ * set smarty variables needed to display the WeekTaskDetails table
  *
  * @param type $smartyHelper
  * @param type $weekid
  * @param type $year
- * @param type $userid
+ * @param type $managed_userid
+ * @param type $teamid
  */
-function setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid) {
+function setWeekTaskDetails($smartyHelper, $weekid, $year, $managed_userid, $teamid) {
+
+   $session_user = $_SESSION['userid'];
 
    $weekDates = Tools::week_dates($weekid,$year);
    $startTimestamp = $weekDates[1];
@@ -145,8 +151,8 @@ function setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid) {
    $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
 
-   $incompleteDays = array_keys($timeTracking->checkCompleteDays($userid, TRUE));
-   $missingDays = $timeTracking->checkMissingDays($userid);
+   $incompleteDays = array_keys($timeTracking->checkCompleteDays($managed_userid, TRUE));
+   $missingDays = $timeTracking->checkMissingDays($managed_userid);
    $errorDays = array_merge($incompleteDays,$missingDays);
    $smartyWeekDates = TimeTrackingTools::getSmartyWeekDates($weekDates,$errorDays);
 
@@ -158,7 +164,7 @@ function setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid) {
       $smartyWeekDates[6], $smartyWeekDates[7]
    ));
 
-   $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $teamid, $userid, $timeTracking, $errorDays);
+   $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $teamid, $managed_userid, $timeTracking, $errorDays);
    $smartyHelper->assign('weekTasks', $weekTasks["weekTasks"]);
    $smartyHelper->assign('dayTotalElapsed', $weekTasks["totalElapsed"]);
 
