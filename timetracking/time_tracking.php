@@ -184,9 +184,11 @@ class TimeTrackingController extends Controller {
                   $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
                   // do NOT increase backlog if job is job_support !
                   // do NOT increase backlog if sideTask or ExternalTask (they have no backlog)
+                  // do NOT decrease backlog if task resolved
                   if (($job != $job_support) &&
                       (!$project->isSideTasksProject(array_keys($teamList))) &&
-                      (!$project->isExternalTasksProject())) {
+                      (!$project->isExternalTasksProject()) &&
+                      (!$issue->isResolved())) {
 
                      if (!is_null($issue->getBacklog())) {
                         $backlog = $issue->getBacklog() + $duration;
