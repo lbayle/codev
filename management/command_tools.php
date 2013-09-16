@@ -32,6 +32,8 @@ class CommandTools {
          $drift = $issue->getDrift();
          $driftColor = $issue->getDriftColor($drift);
 
+         $user = UserCache::getInstance()->getUser($issue->getHandlerId());
+
          $issueArray[$id] = array(
             "mantisLink" => Tools::mantisIssueURL($issue->getId(), NULL, TRUE),
             "bugid" => Tools::issueInfoURL(sprintf("%07d\n", $issue->getId())),
@@ -49,7 +51,8 @@ class CommandTools {
             "driftColor" => $driftColor,
             "duration" => $issue->getDuration(),
             "summary" => $issue->getSummary(),
-            "type" => $issue->getType()
+            "type" => $issue->getType(),
+            "handlerName" => $user->getName()
          );
       }
       return $issueArray;
@@ -110,9 +113,9 @@ class CommandTools {
 
    /**
     * get all internal bugs of the command
-    * 
+    *
     * @param Command $cmd
-    * @return IssueSelection 
+    * @return IssueSelection
     */
    private static function filterInternalBugs(Command $cmd) {
 
@@ -145,9 +148,9 @@ class CommandTools {
 
    /**
     * code factorisation
-    * 
+    *
     * returns the input params for some indicators.
-    * 
+    *
     * @param Command $cmd
     * @return array [startTimestamp, endTimestamp, interval]
     */
@@ -440,7 +443,7 @@ class CommandTools {
       $smartyHelper->assign('cmdTotalSoldDays', $cmdTotalSoldDays);
 
       // --------------
-       
+
       // TODO math should not be in here !
       $mgrEE = $cmd->getIssueSelection()->mgrEffortEstim;
       $cmdProvAndMeeCost = ($mgrEE * $cmd->getAverageDailyRate()) + $cmd->getProvisionBudget(TRUE);
