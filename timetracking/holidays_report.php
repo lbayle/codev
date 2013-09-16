@@ -133,6 +133,9 @@ class HolidaysReportController extends Controller {
          if (($user->isTeamDeveloper($teamid, $startT, $endT)) ||
             ($user->isTeamManager($teamid, $startT, $endT))) {
 
+            $arrivalDate = $user->getArrivalDate($teamid);
+            $departureDate = $user->getDepartureDate($teamid);
+
             $timeTracks = $user->getTimeTracks($startT, $endT);
             $issueIds = array();
             foreach ($timeTracks as $timeTrack) {
@@ -149,7 +152,13 @@ class HolidaysReportController extends Controller {
             for ($i = 1; $i <= $nbDaysInMonth; $i++) {
                $timestamp = mktime(0,0,0,$month,$i,$year);
 
-               if (isset($externalTasks[$timestamp]) && (NULL != $externalTasks[$timestamp])) {
+               if (($timestamp < $arrivalDate) ||
+                   ((0 != $departureDate) && ($timestamp > $departureDate)))  {
+                     $days[$i] = array(
+                        "color" => 'D8D8D8', // light grey
+                        "title" => T_('User not in team'),
+                     );
+               } elseif (isset($externalTasks[$timestamp]) && (NULL != $externalTasks[$timestamp])) {
                   // always show inactivity tasks,
                   // other externalTasks must only be displayed if $isExternalTasks
                   if (('Inactivity' == $externalTasks[$timestamp]['type']) ||
