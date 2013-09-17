@@ -91,50 +91,56 @@ class TimeTrackingController extends Controller {
             $duration = Tools::getSecurePOSTNumberValue('duree',0);
 
             if ("addTrack" == $action) {
+
+               // called by form1 when no backlog has to be set.
+               // updateBacklogDialogBox must not raise up,
+               // track must be added, backlog must NOT be updated
+
                $timestamp = Tools::date2timestamp($defaultDate);
                $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
                $job = Tools::getSecurePOSTStringValue('job');
                $duration = Tools::getSecurePOSTNumberValue('duree');
                $defaultProjectid = Tools::getSecurePOSTIntValue('projectid');
 
-
-               // open the updateBacklog DialogBox on page reload.
-               // do NOT decrease backlog if job is job_support !
-               // do NOT decrease backlog if sideTask or externalTask
-               $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-               $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
-               if (($job != $job_support) &&
-                  (!$project->isSideTasksProject(array_keys($teamList)) &&
-                  (!$project->isExternalTasksProject()))) {
-
-                  // Note: track is not saved to DB, the backlogDialogBox will be used to validate the action
-
-                  // Note: if Backlog is NULL, the values to propose in the DialogBox
-                  //       are not the ones used for ProjectManagement
-                  $calculatedBacklog = $issue->getBacklog();
-                  if (is_null($calculatedBacklog)) {
-                     // reestimated cannot be used...
-                     $totalEE = ($issue->getEffortEstim() + $issue->getEffortAdd());
-                     $calculatedBacklog = $totalEE - $issue->getElapsed();
-                     if ($calculatedBacklog < 0) { $calculatedBacklog = 0;}
-                     #$drift = ($issue->getElapsed() + $calculatedBacklog) - $totalEE;
-                  }
-
-                  $jsonIssueInfo = TimeTrackingTools::getUpdateBacklogJsonData($defaultBugid, $managed_userid, $timestamp, $job, $duration, $calculatedBacklog);
-                  $this->smartyHelper->assign('updateBacklogJsonData', $jsonIssueInfo);
-
-               } else {
-
-                  // if dialogBox is not called, then track must be saved to DB
-                  $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration);
-                  if(self::$logger->isDebugEnabled()) {
-                     self::$logger->debug("Track $trackid added  : userid=$managed_userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
-                  }
+               // dialogBox is not called, then track must be saved to DB
+               $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration);
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("Track $trackid added  : userid=$managed_userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
                }
 
                // Don't show job and duration after add track
                $job = 0;
                $duration = 0;
+            }
+            elseif ("addTimetrack" == $action) {
+               // called from the updateBacklogDialogBox,
+               // add track AND update issue backlog
+
+               // updateBacklogDoalogbox with 'addTimetrack' action
+               $defaultBugid = Tools::getSecureGETIntValue('bugid');
+               $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+
+               // add timetrack (all values mandatory)
+               $trackUserid = Tools::getSecureGETIntValue('trackUserid');
+               $timestamp   = Tools::getSecureGETIntValue('trackTimestamp');
+               $job         = Tools::getSecureGETIntValue('trackJobid');
+               $duration    = Tools::getSecureGETNumberValue('timeToAdd');
+
+               // TODO check that sessionUser is allowed to add a track for trackUserid (managedUser)
+               TimeTrack::create($trackUserid, $defaultBugid, $job, $timestamp, $duration);
+
+               // setBacklog
+               $formattedBacklog = Tools::getSecureGETNumberValue('backlog');
+               $issue->setBacklog($formattedBacklog);
+
+               // setStatus
+               $newStatus = Tools::getSecureGETNumberValue('statusid');
+               $issue->setStatus($newStatus);
+
+               // Don't show job and duration after add track
+               $job = 0;
+               $duration = 0;
+               $defaultProjectid = $issue->getProjectId();
             }
             elseif ("deleteTrack" == $action) {
                $trackid = Tools::getSecurePOSTIntValue('trackid');

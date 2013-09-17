@@ -25,21 +25,36 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
    $session_user = $_SESSION['userid'];
 
    $action = $_GET['action'];
+   $bugid       = Tools::getSecureGETIntValue('bugid');
 
    if(isset($action)) {
       $smartyHelper = new SmartyHelper();
       if($action == 'getUpdateBacklogData') {
 			// get info to display the updateBacklog dialogbox
          // (when clicking on the backlog value in WeekTaskDetails)
+         // OR clicking the addTrack button in addTrack form (form1)
+         $job         = Tools::getSecureGETIntValue('jobid', 0);
+         $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
 
-         $bugid = Tools::getSecureGETIntValue('bugid');
-			$updateBacklogJsonData = TimeTrackingTools::getUpdateBacklogJsonData($bugid);
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+         $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
+         if (($job == $job_support) ||
+            ($project->isSideTasksProject(array_keys(array($teamid))) ||
+            ($project->isExternalTasksProject()))) {
+            // no backlog update for this task
+            $data = array('diagnostic' => 'BacklogUpdateNotNeeded');
+            $updateBacklogJsonData = json_encode($data);
+         } else {
+            $updateBacklogJsonData = TimeTrackingTools::getUpdateBacklogJsonData($bugid);
+         }
+
+         // return data
 			echo $updateBacklogJsonData;
 
 		} else if($action == 'updateBacklog') {
          // updateBacklogDoalogbox with 'updateBacklog' action
 
-         $issue = IssueCache::getInstance()->getIssue(Tools::getSecureGETIntValue('bugid'));
+         $issue = IssueCache::getInstance()->getIssue($bugid);
          $formattedBacklog = Tools::getSecureGETNumberValue('backlog');
          $issue->setBacklog($formattedBacklog);
 
@@ -57,9 +72,11 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $smartyHelper->display('ajax/weekTaskDetails');
 
 		} else if($action == 'addTimetrack') {
+
+         // WARN deprecated !
+
          // updateBacklogDoalogbox with 'addTimetrack' action
 
-         $bugid = Tools::getSecureGETIntValue('bugid');
          $issue = IssueCache::getInstance()->getIssue($bugid);
 
          // add timetrack (all values mandatory)
@@ -80,18 +97,24 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $issue->setStatus($newStatus);
 
          // return data
-         // TODO the complete page must be refreshed because the imputation table has changed too...
-         // warn: managedUser must be preserved
 
          // the complete WeekTaskDetails Div must be updated
          $weekid = Tools::getSecureGETIntValue('weekid');
          $year = Tools::getSecureGETIntValue('year');
 
          setWeekTaskDetails($smartyHelper, $weekid, $year, $trackUserid, $teamid);
+
+         // other variables needed to update the page
+         if($trackUserid != $session_user) {
+            // TODO check $session_user is manager
+            $smartyHelper->assign('userid', $managed_userid);
+         }
+
+         // TODO the complete page must be refreshed because the imputation table has changed too...
+         // warn: managedUser must be preserved
          $smartyHelper->display('ajax/weekTaskDetails');
 
       } else if ($action == 'getIssueNoteText') {
-         $bugid = Tools::getSecureGETIntValue('bugid');
          $issueNote = IssueNote::getTimesheetNote($bugid);
          if (!is_null($issueNote)) {
             $issueNoteId = $issueNote->getId();
@@ -112,7 +135,6 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 
       } else if ($action == 'saveIssueNote') {
          $reporter_id = $session_user;
-         $bugid = Tools::getSecureGETIntValue('bugid');
          $issueNoteText = Tools::getSecureGETStringValue('issuenote_text');
 
          IssueNote::setTimesheetNote($bugid, $issueNoteText, $reporter_id);

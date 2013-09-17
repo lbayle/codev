@@ -72,6 +72,7 @@
 		<fieldset>
 			<input type="hidden" name="action" value="getUpdateBacklogData" />
 			<input type="hidden" name="bugid" value="" />
+			<input type="hidden" name="jobid" value="" />
 		</fieldset>
 	</form>
 </div>
@@ -81,10 +82,11 @@
 
 	jQuery(document).ready(function() {
 
-		function updateBacklog(bugid){
+      function getUpdateBacklogData(bugid, jobid) {
 			// ajax call to get DialogBox data
 			var formGetUpdateBacklogData = jQuery('#formGetUpdateBacklogData');
 			jQuery("#formGetUpdateBacklogData").find("input[name=bugid]").val(bugid);
+			jQuery("#formGetUpdateBacklogData").find("input[name=jobid]").val(jobid);
 
 			jQuery.ajax({
 				type: "GET",
@@ -92,14 +94,15 @@
 				url: formGetUpdateBacklogData.attr("action"),
 				data: formGetUpdateBacklogData.serialize(),
 				success: function(data) {
-					openUpdateBacklogDialogbox(data);
+					return data;
 				},
 				error: function(data) {
 					// TODO
 					alert('ERROR: ' + data);
+               return null;
 				}
 			});
-		}
+      }
 
       // This dialog can be opened :
       // 1) when adding a timetrack.
@@ -293,16 +296,21 @@
 		// click on updateBacklog in timesheet
 		jQuery('.js-updateBacklog-link').click(function(ev){
 			ev.preventDefault();
-			var bugId = this.getAttribute('data-bugId');
-			updateBacklog(bugId);
+			var bugid = this.getAttribute('data-bugId');
+         var data = getUpdateBacklogData(bugid);
+         if (null !== data) {
+            openUpdateBacklogDialogbox(data);
+         } else {
+            alert('ERROR: getUpdateBacklogData(' + bugid + ') FAILED.');
+         }
 			return false;
 		});
 
 
 		// on page reload (after a click on 'AddTrack' button), raise the updateBacklog dialogBox
-		{if isset($updateBacklogJsonData)}
-			openUpdateBacklogDialogbox({$updateBacklogJsonData});
-		{/if}
+		//{if isset($updateBacklogJsonData)}
+		//	openUpdateBacklogDialogbox({$updateBacklogJsonData});
+		//{/if}
 
 	});
 

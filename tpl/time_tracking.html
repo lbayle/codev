@@ -14,6 +14,7 @@
    <br/>
 
    {if isset($error)}
+   <!-- TODO is this still in use ? -->
    <span style="color:red">{t}ERROR{/t} : {t}Query FAILED{/t} : {$error}</span>
    {/if}
 
@@ -47,7 +48,7 @@
 
             jQuery("#bugid").change(function() {
                // if projectId not set: do it, to update categories
-               if (0 == jQuery("#projectid").val()) {
+               if (0 === jQuery("#projectid").val()) {
                   var form1 = jQuery("#form1");
                   form1.find("input[name=action]").val("setBugId");
 
@@ -65,24 +66,42 @@
                var msgString = "{t}Some fields are missing:{/t}\n\n";
 
                var form1 = jQuery("#form1");
+               var bugid = form1.find("select[name=bugid]").val();
+               var jobid = form1.find("select[name=job]").val();
 
                //if (0 == document.forms["form1"].projectid.value) { msgString += "Projet\n"; ++foundError; }
-               if (0 == form1.find("select[name=bugid]").val()) {
+               if (0 === bugid) {
                   msgString += "{t}Task{/t}\n";
                   ++foundError;
                }
-               if (0 == form1.find("select[name=job]").val()) {
+               if (0 === jobid) {
                   msgString += "{t}Job{/t}\n";
                   ++foundError;
                }
-               if (0 == form1.find("select[name=duree]").val()) {
+               if (0 === form1.find("select[name=duree]").val()) {
                   msgString += "{t}Duration{/t}\n";
                   ++foundError;
                }
 
-               if (0 == foundError) {
-                  form1.find("input[name=action]").val("addTrack");
-                  form1.submit();
+               if (0 === foundError) {
+
+                  // if "BacklogUpdateNotNeeded" then submit else raise UpdateBacklogDialogBox
+                  var updateBacklogJsonData = getUpdateBacklogData(bugid, jobid);
+                  if (null !== updateBacklogJsonData) {
+                     if ( 'BacklogUpdateNotNeeded' === updateBacklogJsonData['diagnostic'] ) {
+                        form1.find("input[name=action]").val("addTrack");
+                        form1.submit();
+                     } else {
+                        // formUpdateBacklog calls ajax page by default, but here
+                        // we want to send the form to time_tracking.php because
+                        // we want it to be completely reloaded (and not only the WeekTaskDetail div)
+                        $('#formUpdateBacklog').attr('action', '{$page}');
+                        openUpdateBacklogDialogbox(updateBacklogJsonData);
+                     }
+                  } else {
+                     alert('ERROR: getUpdateBacklogData(' + bugid + ') FAILED.');
+                  }
+
                } else {
                   alert(msgString);
                }
