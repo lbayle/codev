@@ -80,29 +80,44 @@
 
 <script type="text/javascript">
 
-	jQuery(document).ready(function() {
-
-      function getUpdateBacklogData(bugid, jobid) {
+			function getUpdateBacklogData(bugid, jobid, callback) {
 			// ajax call to get DialogBox data
 			var formGetUpdateBacklogData = jQuery('#formGetUpdateBacklogData');
 			jQuery("#formGetUpdateBacklogData").find("input[name=bugid]").val(bugid);
 			jQuery("#formGetUpdateBacklogData").find("input[name=jobid]").val(jobid);
+
+			var deferred = jQuery.Deferred();
 
 			jQuery.ajax({
 				type: "GET",
 				dataType:"json",
 				url: formGetUpdateBacklogData.attr("action"),
 				data: formGetUpdateBacklogData.serialize(),
-				success: function(data) {
-					return data;
+				success: function(data){
+					if (null === data) {
+console.log('getUpdateBacklogData SUCCESS but null');
+						// default failure action
+						//alert('ERROR UpdateBacklogData is null');
+						deferred.reject(); // call the 'fail' callback (if defined)
+					} else {
+console.log('getUpdateBacklogData SUCCESS ' , data);
+						// call the 'done' callback (should be defined)
+						deferred.resolve(data);
+					}
 				},
-				error: function(data) {
-					// TODO
-					alert('ERROR: ' + data);
-               return null;
+				error: function(data){
+					// default failure action
+console.log('getUpdateBacklogData ERROR ' , data);
+					//alert('ERROR UpdateBacklogData = ' + data);
+					deferred.reject(); // call the 'fail' callback (if defined)
 				}
 			});
+
+			return deferred;
       }
+
+
+	jQuery(document).ready(function() {
 
       // This dialog can be opened :
       // 1) when adding a timetrack.
@@ -111,7 +126,7 @@
       //   and pressing 'OK'
       // 2) on a backlog update without timetrack add
       //    user cannot add time.
-		function openUpdateBacklogDialogbox(updateBacklogJsonData){
+		function openUpdateBacklogDialogbox(updateBacklogJsonData) {
 
          // 1) when adding a timetrack.
          // timeToAdd is set with a nonZero value
@@ -297,12 +312,14 @@
 		jQuery('.js-updateBacklog-link').click(function(ev){
 			ev.preventDefault();
 			var bugid = this.getAttribute('data-bugId');
-         var data = getUpdateBacklogData(bugid);
-         if (null !== data) {
-            openUpdateBacklogDialogbox(data);
-         } else {
-            alert('ERROR: getUpdateBacklogData(' + bugid + ') FAILED.');
-         }
+
+         var deferred = getUpdateBacklogData(bugid);
+			// set success callback: execute openUpdateBacklogDialogbox()
+         deferred.done(openUpdateBacklogDialogbox);
+
+			// set error callback: execute openUpdateBacklogDialogbox()
+         //deferred.fail(function (updateBacklogJsonData) { console.log('fail', updateBacklogJsonData);});
+			
 			return false;
 		});
 

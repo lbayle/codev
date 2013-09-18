@@ -85,22 +85,32 @@
 
                if (0 === foundError) {
 
-                  // if "BacklogUpdateNotNeeded" then submit else raise UpdateBacklogDialogBox
-                  var updateBacklogJsonData = getUpdateBacklogData(bugid, jobid);
-                  if (null !== updateBacklogJsonData) {
-                     if ( 'BacklogUpdateNotNeeded' === updateBacklogJsonData['diagnostic'] ) {
-                        form1.find("input[name=action]").val("addTrack");
-                        form1.submit();
-                     } else {
-                        // formUpdateBacklog calls ajax page by default, but here
-                        // we want to send the form to time_tracking.php because
-                        // we want it to be completely reloaded (and not only the WeekTaskDetail div)
-                        $('#formUpdateBacklog').attr('action', '{$page}');
-                        openUpdateBacklogDialogbox(updateBacklogJsonData);
-                     }
-                  } else {
-                     alert('ERROR: getUpdateBacklogData(' + bugid + ') FAILED.');
-                  }
+						// getUpdateBacklogData() uses Ajax (async). The deferred object is used to
+						// define the success/error callbacks to the ajax call.
+						// So the action on getUpdateBacklogData() will be treated asynchronously too.
+                  var deferred = getUpdateBacklogData(bugid, jobid);
+console.log('deferred object = ', deferred);
+
+						// set success callback
+						deferred.done(function (updateBacklogJsonData) {
+
+console.log('done updateBacklogJsonData = ', updateBacklogJsonData);
+
+	                  // if "BacklogUpdateNotNeeded" then submit else raise UpdateBacklogDialogBox
+							if ( 'BacklogUpdateNotNeeded' === updateBacklogJsonData['diagnostic'] ) {
+								form1.find("input[name=action]").val("addTrack");
+								form1.submit();
+							} else {
+								// formUpdateBacklog calls ajax page by default, but here
+								// we want to send the form to time_tracking.php because
+								// we want it to be completely reloaded (and not only the WeekTaskDetail div)
+								jQuery('#formUpdateBacklog').attr('action', '{$page}');
+								openUpdateBacklogDialogbox(updateBacklogJsonData);
+							}
+						});
+
+						// set error callback:
+						//deferred.fail(function (updateBacklogJsonData) { console.log('fail', updateBacklogJsonData);});
 
                } else {
                   alert(msgString);
