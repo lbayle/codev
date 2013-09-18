@@ -68,6 +68,7 @@
                var form1 = jQuery("#form1");
                var bugid = form1.find("select[name=bugid]").val();
                var jobid = form1.find("select[name=job]").val();
+               var trackDuration = form1.find("select[name=duree]").val();
 
                //if (0 == document.forms["form1"].projectid.value) { msgString += "Projet\n"; ++foundError; }
                if (0 === bugid) {
@@ -78,18 +79,19 @@
                   msgString += "{t}Job{/t}\n";
                   ++foundError;
                }
-               if (0 === form1.find("select[name=duree]").val()) {
+               if (0 === trackDuration) {
                   msgString += "{t}Duration{/t}\n";
                   ++foundError;
                }
 
                if (0 === foundError) {
+                  var trackDate = 0; // TODO jQuery("#datepicker").datepicker(???);
+                  var userid = 0; // TODO
 
 						// getUpdateBacklogData() uses Ajax (async). The deferred object is used to
 						// define the success/error callbacks to the ajax call.
 						// So the action on getUpdateBacklogData() will be treated asynchronously too.
-                  var deferred = getUpdateBacklogData(bugid, jobid);
-console.log('deferred object = ', deferred);
+                  var deferred = getUpdateBacklogData(bugid, jobid, userid, trackDuration, trackDate);
 
 						// set success callback
 						deferred.done(function (updateBacklogJsonData) {
@@ -105,6 +107,7 @@ console.log('done updateBacklogJsonData = ', updateBacklogJsonData);
 								// we want to send the form to time_tracking.php because
 								// we want it to be completely reloaded (and not only the WeekTaskDetail div)
 								jQuery('#formUpdateBacklog').attr('action', '{$page}');
+console.log('set formUpdateBacklog action = {$page}');
 								openUpdateBacklogDialogbox(updateBacklogJsonData);
 							}
 						});

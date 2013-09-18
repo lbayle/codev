@@ -33,7 +33,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 			// get info to display the updateBacklog dialogbox
          // (when clicking on the backlog value in WeekTaskDetails)
          // OR clicking the addTrack button in addTrack form (form1)
-         $job         = Tools::getSecureGETIntValue('jobid', 0);
+         $job         = Tools::getSecureGETIntValue('trackJobid', 0);
          $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
 
          $issue = IssueCache::getInstance()->getIssue($bugid);
@@ -45,7 +45,12 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             $data = array('diagnostic' => 'BacklogUpdateNotNeeded');
             $updateBacklogJsonData = json_encode($data);
          } else {
-            $updateBacklogJsonData = TimeTrackingTools::getUpdateBacklogJsonData($bugid);
+            $managedUserid  = Tools::getSecureGETIntValue('trackUserid', 0);
+            $trackDuration  = Tools::getSecureGETNumberValue('trackDuration', 0);
+            $trackDate      = Tools::getSecureGETIntValue('trackDate', 0);
+            $trackTimestamp = 0; // TODO convert $trackDate
+
+            $updateBacklogJsonData = TimeTrackingTools::getUpdateBacklogJsonData($bugid, $managedUserid, $trackTimestamp, $job, $trackDuration);
          }
 
          // return data

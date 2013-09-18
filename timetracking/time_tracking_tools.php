@@ -239,7 +239,7 @@ class TimeTrackingTools {
     *
     * @param type $bugid
     */
-   public static function getUpdateBacklogJsonData($bugid, $managedUserid, $trackTimestamp, $jobid, $timeToAdd = 0, $calculatedBacklog = NULL) {
+   public static function getUpdateBacklogJsonData($bugid, $trackUserid, $trackTimestamp, $trackJobid, $trackDuration, $calculatedBacklog = NULL) {
 
       try {
          $issue = IssueCache::getInstance()->getIssue($bugid);
@@ -268,15 +268,15 @@ class TimeTrackingTools {
          'currentStatus' => $issue->getCurrentStatus(),
          'availableStatusList' => $issue->getAvailableStatusList(true),
          'bugResolvedStatusThreshold' =>  $issue->getBugResolvedStatusThreshold(),
-         'timeToAdd' => $timeToAdd,
-         'trackJobid' => $jobid,
-         'trackUserid' => $managedUserid,
-         'trackTimestamp' => $trackTimestamp,
+         'trackDuration' => $trackDuration,
+         'trackJobid' => $trackJobid,
       );
 
-      if (0 !== $timeToAdd) {
+      if (0 !== $trackDuration) {
          # fill duration combobox values
          $issueInfo['availableDurationList'] = self::getDurationList();
+         $issueInfo['trackUserid'] = $trackUserid;
+         $issueInfo['trackTimestamp'] = $trackTimestamp;
       }
 
       if (!is_null($calculatedBacklog)) {
