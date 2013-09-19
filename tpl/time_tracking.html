@@ -85,8 +85,8 @@
                }
 
                if (0 === foundError) {
-                  var trackDate = 0; // TODO jQuery("#datepicker").datepicker(???);
-                  var userid = 0; // TODO
+                  var trackDate = jQuery("#datepicker").val();
+                  var userid = '{$userid}'; // TODO
 
 						// getUpdateBacklogData() uses Ajax (async). The deferred object is used to
 						// define the success/error callbacks to the ajax call.
@@ -106,8 +106,11 @@ console.log('done updateBacklogJsonData = ', updateBacklogJsonData);
 								// formUpdateBacklog calls ajax page by default, but here
 								// we want to send the form to time_tracking.php because
 								// we want it to be completely reloaded (and not only the WeekTaskDetail div)
-								jQuery('#formUpdateBacklog').attr('action', '{$page}');
 console.log('set formUpdateBacklog action = {$page}');
+								jQuery('#formUpdateBacklog').attr('action', '{$page}');
+console.log('set formUpdateBacklog remove submit method');
+								jQuery("#formUpdateBacklog").off('submit');
+
 								openUpdateBacklogDialogbox(updateBacklogJsonData);
 							}
 						});
@@ -164,7 +167,10 @@ console.log('set formUpdateBacklog action = {$page}');
             <input type="hidden" name="action" value="noAction" />
             <input type="hidden" name="year" value="{$year}" />
             <input type="hidden" name="weekid" value="{$weekid}" />
-            {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />{/if}
+            {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />
+				{else}
+<script type="text/javascript">console.log('WARN form1: userid not set !');</script>
+				{/if}
             <input type="button" name="btAddTrack" id="btAddTrack" value="{t}Add{/t}" />
          </fieldset>
       </form>

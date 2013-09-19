@@ -37,6 +37,7 @@ class TimeTrackingController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
+	self::$logger->error("in display function");
 
         // only teamMembers can access this page
         if ((0 == $this->teamid) ||
@@ -91,6 +92,7 @@ class TimeTrackingController extends Controller {
             $duration = Tools::getSecurePOSTNumberValue('duree',0);
 
             if ("addTrack" == $action) {
+					self::$logger->error("addTrack");
 
                // called by form1 when no backlog has to be set.
                // updateBacklogDialogBox must not raise up,
@@ -115,26 +117,27 @@ class TimeTrackingController extends Controller {
             elseif ("addTimetrack" == $action) {
                // called from the updateBacklogDialogBox,
                // add track AND update issue backlog
+					self::$logger->error("addTimetrack");
 
                // updateBacklogDoalogbox with 'addTimetrack' action
-               $defaultBugid = Tools::getSecureGETIntValue('bugid');
+               $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
                $issue = IssueCache::getInstance()->getIssue($defaultBugid);
 
                // add timetrack (all values mandatory)
-               $trackUserid = Tools::getSecureGETIntValue('trackUserid');
-               $timestamp   = Tools::getSecureGETIntValue('trackTimestamp');
-               $job         = Tools::getSecureGETIntValue('trackJobid');
-               $duration    = Tools::getSecureGETNumberValue('timeToAdd');
+               $trackUserid = Tools::getSecurePOSTIntValue('trackUserid');
+               $timestamp   = Tools::getSecurePOSTIntValue('trackTimestamp');
+               $job         = Tools::getSecurePOSTIntValue('trackJobid');
+               $duration    = Tools::getSecurePOSTNumberValue('timeToAdd');
 
                // TODO check that sessionUser is allowed to add a track for trackUserid (managedUser)
                TimeTrack::create($trackUserid, $defaultBugid, $job, $timestamp, $duration);
 
                // setBacklog
-               $formattedBacklog = Tools::getSecureGETNumberValue('backlog');
+               $formattedBacklog = Tools::getSecurePOSTNumberValue('backlog');
                $issue->setBacklog($formattedBacklog);
 
                // setStatus
-               $newStatus = Tools::getSecureGETNumberValue('statusid');
+               $newStatus = Tools::getSecurePOSTIntValue('statusid');
                $issue->setStatus($newStatus);
 
                // Don't show job and duration after add track

@@ -1,7 +1,7 @@
 
 <div id="update_backlog_dialog_form" title="Task XXX - Update Backlog" class="ui-helper-hidden">
    <p class="issue_summary">issue_summary</p>
-   <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="timetracking/time_tracking_ajax.php" >
+   <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="{$page}" >
       <fieldset>
          <table class="invisible">
             <tbody>
@@ -68,7 +68,7 @@
       </fieldset>
    </form>
 
-	<form id="formGetUpdateBacklogData" name="formGetUpdateBacklogData" method="get" action="{$ajaxPage}" >
+	<form id="formGetUpdateBacklogData" name="formGetUpdateBacklogData" method="post" action="{$ajaxPage}" >
 		<fieldset>
 			<input type="hidden" name="action" value="getUpdateBacklogData" />
 			<input type="hidden" name="bugid" value="" />
@@ -97,7 +97,7 @@
 			var deferred = jQuery.Deferred();
 
 			jQuery.ajax({
-				type: "GET",
+				type: formGetUpdateBacklogData.attr("method"),
 				dataType:"json",
 				url: formGetUpdateBacklogData.attr("action"),
 				data: formGetUpdateBacklogData.serialize(),
@@ -134,6 +134,7 @@ console.log('getUpdateBacklogData ERROR ' , data);
       //    user cannot add time.
 		function openUpdateBacklogDialogbox(updateBacklogJsonData) {
 
+
          // 1) when adding a timetrack.
          // timeToAdd is set with a nonZero value
          // action has to be set to "addTimetrack"
@@ -162,8 +163,10 @@ console.log('getUpdateBacklogData ERROR ' , data);
 			}
 
 			jQuery("#desc_drift").css("backgroundColor", '#' + data['driftColor']);
+			jQuery("#formUpdateBacklog").find("input[name=year]").val(jQuery("#year").val());
 
 			jQuery("#formUpdateBacklog").find("input[name=bugid]").val(data['bugid']);
+			jQuery("#formUpdateBacklog").find("input[name=statusid]").val(data['currentStatus']);
 			jQuery("#formUpdateBacklog").find("input[name=trackJobid]").val(data['trackJobid']);
 			jQuery("#formUpdateBacklog").find("input[name=trackUserid]").val(data['trackUserid']);
 			jQuery("#formUpdateBacklog").find("input[name=trackTimestamp]").val(data['trackTimestamp']);
@@ -190,6 +193,12 @@ console.log('getUpdateBacklogData ERROR ' , data);
 					}
 				}
 			}
+			// add eventHandler to update input field
+			jQuery('#status').on('change', function() {
+				alert('Value change to ' + $(this).attr('value'));
+				var selectedStatus = jQuery("#status").children(":selected").attr("id");
+				jQuery("#formUpdateBacklog").find("input[name=statusid]").val(selectedStatus);
+			});
 
 			// set timeToAdd
 			jQuery('#timeToAdd').empty();
@@ -285,8 +294,11 @@ console.log('getUpdateBacklogData ERROR ' , data);
 			}
 		});
 
-		jQuery("#formUpdateBacklog").submit(function(event) {
-			/* stop form from submitting normally */
+
+		function updateBacklog(event) {
+console.warn('in function updateBacklog');
+
+		/* stop form from submitting normally */
 			event.preventDefault();
 
 			var bValid = true;
@@ -301,11 +313,11 @@ console.log('getUpdateBacklogData ERROR ' , data);
 			if (bValid) {
 				/* get some values from elements on the page: */
 				var formUpdateBacklog = jQuery(this);
-				formUpdateBacklog.find("input[name=year]").val(jQuery("#year").val());
-				formUpdateBacklog.find("input[name=statusid]").val(selectedStatus);
+				//formUpdateBacklog.find("input[name=year]").val(jQuery("#year").val());
+				//formUpdateBacklog.find("input[name=statusid]").val(selectedStatus);
 
 				jQuery.ajax({
-					type: "GET",
+					type: formUpdateBacklog.attr("method"),
 					url: formUpdateBacklog.attr("action"),
 					data: formUpdateBacklog.serialize(),
 					success: function(data) {
@@ -316,7 +328,7 @@ console.log('getUpdateBacklogData ERROR ' , data);
 
 				jQuery("#update_backlog_dialog_form").dialog("close");
 			}
-		});
+		}
 
 		// click on updateBacklog in timesheet
 		jQuery('.js-updateBacklog-link').click(function(ev){
@@ -325,7 +337,14 @@ console.log('getUpdateBacklogData ERROR ' , data);
 
          var deferred = getUpdateBacklogData(bugid);
 			// set success callback: execute openUpdateBacklogDialogbox()
-         deferred.done(openUpdateBacklogDialogbox);
+
+
+         deferred.done(function(updateBacklogJsonData) {
+console.warn('js-updateBacklog-link done');
+				jQuery('#formUpdateBacklog').attr('action', '{$ajaxPage}');
+				jQuery("#formUpdateBacklog").submit(updateBacklog);
+				openUpdateBacklogDialogbox(updateBacklogJsonData);
+			});
 
 			// set error callback: execute openUpdateBacklogDialogbox()
          //deferred.fail(function (updateBacklogJsonData) { console.log('fail', updateBacklogJsonData);});

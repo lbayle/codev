@@ -21,19 +21,24 @@ require('../path.inc.php');
 
 if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
 
+	$logger = Logger::getLogger("TimeTrackingAjax");
+
    $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
    $session_user = $_SESSION['userid'];
 
-   $action = $_GET['action'];
-   $bugid       = Tools::getSecureGETIntValue('bugid');
+   $action = $_POST['action'];
+   $bugid       = Tools::getSecurePOSTIntValue('bugid');
 
    if(isset($action)) {
       $smartyHelper = new SmartyHelper();
       if($action == 'getUpdateBacklogData') {
+
+			$logger->error("getUpdateBacklogData");
+
 			// get info to display the updateBacklog dialogbox
          // (when clicking on the backlog value in WeekTaskDetails)
          // OR clicking the addTrack button in addTrack form (form1)
-         $job         = Tools::getSecureGETIntValue('trackJobid', 0);
+         $job         = Tools::getSecurePOSTIntValue('trackJobid', 0);
          $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
 
          $issue = IssueCache::getInstance()->getIssue($bugid);
@@ -45,10 +50,10 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             $data = array('diagnostic' => 'BacklogUpdateNotNeeded');
             $updateBacklogJsonData = json_encode($data);
          } else {
-            $managedUserid  = Tools::getSecureGETIntValue('trackUserid', 0);
-            $trackDuration  = Tools::getSecureGETNumberValue('trackDuration', 0);
-            $trackDate      = Tools::getSecureGETIntValue('trackDate', 0);
-            $trackTimestamp = 0; // TODO convert $trackDate
+            $managedUserid  = Tools::getSecurePOSTIntValue('trackUserid', 0);
+            $trackDuration  = Tools::getSecurePOSTNumberValue('trackDuration', 0);
+            $trackDate      = Tools::getSecurePOSTStringValue('trackDate', 0);
+            $trackTimestamp = (0 !== $trackDate) ? Tools::date2timestamp($trackDate) : 0;
 
             $updateBacklogJsonData = TimeTrackingTools::getUpdateBacklogJsonData($bugid, $job, $managedUserid, $trackTimestamp, $trackDuration);
          }
@@ -59,19 +64,21 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 		} else if($action == 'updateBacklog') {
          // updateBacklogDoalogbox with 'updateBacklog' action
 
+			$logger->error("updateBacklog");
+
          $issue = IssueCache::getInstance()->getIssue($bugid);
-         $formattedBacklog = Tools::getSecureGETNumberValue('backlog');
+         $formattedBacklog = Tools::getSecurePOSTNumberValue('backlog');
          $issue->setBacklog($formattedBacklog);
 
          // setStatus
-         $newStatus = Tools::getSecureGETNumberValue('statusid');
+         $newStatus = Tools::getSecurePOSTNumberValue('statusid');
          $issue->setStatus($newStatus);
 
          // return data
          // the complete WeekTaskDetails Div must be updated
-         $weekid = Tools::getSecureGETIntValue('weekid');
-         $year = Tools::getSecureGETIntValue('year');
-         $userid = Tools::getSecureGETIntValue('userid',$session_user);
+         $weekid = Tools::getSecurePOSTIntValue('weekid');
+         $year = Tools::getSecurePOSTIntValue('year');
+         $userid = Tools::getSecurePOSTIntValue('userid',$session_user);
 
          setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid);
          $smartyHelper->display('ajax/weekTaskDetails');
@@ -79,33 +86,34 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 		} else if($action == 'addTimetrack') {
 
          // WARN deprecated !
+			$logger->error("addTimetrack DEPRECATED !");
 
          // updateBacklogDoalogbox with 'addTimetrack' action
 
          $issue = IssueCache::getInstance()->getIssue($bugid);
 
          // add timetrack (all values mandatory)
-         $trackUserid = Tools::getSecureGETIntValue('trackUserid');
-         $timestamp   = Tools::getSecureGETIntValue('trackTimestamp');
-         $job         = Tools::getSecureGETIntValue('trackJobid');
-         $duration    = Tools::getSecureGETNumberValue('timeToAdd');
+         $trackUserid = Tools::getSecurePOSTIntValue('trackUserid');
+         $timestamp   = Tools::getSecurePOSTIntValue('trackTimestamp');
+         $job         = Tools::getSecurePOSTIntValue('trackJobid');
+         $duration    = Tools::getSecurePOSTNumberValue('timeToAdd');
 
          // TODO check that sessionUser is allowed to add a track for trackUserid (managedUser)
          TimeTrack::create($trackUserid, $bugid, $job, $timestamp, $duration);
 
          // setBacklog
-         $formattedBacklog = Tools::getSecureGETNumberValue('backlog');
+         $formattedBacklog = Tools::getSecurePOSTNumberValue('backlog');
          $issue->setBacklog($formattedBacklog);
 
          // setStatus
-         $newStatus = Tools::getSecureGETNumberValue('statusid');
+         $newStatus = Tools::getSecurePOSTNumberValue('statusid');
          $issue->setStatus($newStatus);
 
          // return data
 
          // the complete WeekTaskDetails Div must be updated
-         $weekid = Tools::getSecureGETIntValue('weekid');
-         $year = Tools::getSecureGETIntValue('year');
+         $weekid = Tools::getSecurePOSTIntValue('weekid');
+         $year = Tools::getSecurePOSTIntValue('year');
 
          setWeekTaskDetails($smartyHelper, $weekid, $year, $trackUserid, $teamid);
 
@@ -140,15 +148,15 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 
       } else if ($action == 'saveIssueNote') {
          $reporter_id = $session_user;
-         $issueNoteText = Tools::getSecureGETStringValue('issuenote_text');
+         $issueNoteText = Tools::getSecurePOSTStringValue('issuenote_text');
 
          IssueNote::setTimesheetNote($bugid, $issueNoteText, $reporter_id);
 
          // return data
          // the complete WeekTaskDetails Div must be updated
-         $weekid = Tools::getSecureGETIntValue('weekid');
-         $year = Tools::getSecureGETIntValue('year');
-         $userid = Tools::getSecureGETIntValue('userid',$session_user);
+         $weekid = Tools::getSecurePOSTIntValue('weekid');
+         $year = Tools::getSecurePOSTIntValue('year');
+         $userid = Tools::getSecurePOSTIntValue('userid',$session_user);
 
          setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid);
          $smartyHelper->display('ajax/weekTaskDetails');
