@@ -117,10 +117,12 @@ self::$logger->error("addTimetrack: called from the updateBacklogDialogBox");
 
                // add timetrack (all values mandatory)
                $trackUserid = Tools::getSecurePOSTIntValue('trackUserid');
-               $timestamp   = Tools::getSecurePOSTIntValue('trackTimestamp');
+               $trackDate   = Tools::getSecurePOSTStringValue('trackDate');
                $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
                $job         = Tools::getSecurePOSTIntValue('trackJobid');
                $duration    = Tools::getSecurePOSTNumberValue('timeToAdd');
+
+               $timestamp = (0 !== $trackDate) ? Tools::date2timestamp($trackDate) : 0;
 
                // TODO: check that $trackUserid === managedUser (security issue)
 

@@ -53,9 +53,8 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             $managedUserid  = Tools::getSecurePOSTIntValue('trackUserid', 0);
             $trackDuration  = Tools::getSecurePOSTNumberValue('trackDuration', 0);
             $trackDate      = Tools::getSecurePOSTStringValue('trackDate', 0);
-            $trackTimestamp = (0 !== $trackDate) ? Tools::date2timestamp($trackDate) : 0;
 
-            $updateBacklogJsonData = TimeTrackingTools::getUpdateBacklogJsonData($bugid, $job, $managedUserid, $trackTimestamp, $trackDuration);
+            $updateBacklogJsonData = TimeTrackingTools::getUpdateBacklogJsonData($bugid, $job, $managedUserid, $trackDate, $trackDuration);
          }
 
          // return data
@@ -81,50 +80,6 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $userid = Tools::getSecurePOSTIntValue('userid',$session_user);
 
          setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid);
-         $smartyHelper->display('ajax/weekTaskDetails');
-
-		} else if($action == 'addTimetrack') {
-
-         // WARN deprecated !
-			$logger->error("addTimetrack DEPRECATED !");
-
-         // updateBacklogDoalogbox with 'addTimetrack' action
-
-         $issue = IssueCache::getInstance()->getIssue($bugid);
-
-         // add timetrack (all values mandatory)
-         $trackUserid = Tools::getSecurePOSTIntValue('trackUserid');
-         $timestamp   = Tools::getSecurePOSTIntValue('trackTimestamp');
-         $job         = Tools::getSecurePOSTIntValue('trackJobid');
-         $duration    = Tools::getSecurePOSTNumberValue('timeToAdd');
-
-         // TODO check that sessionUser is allowed to add a track for trackUserid (managedUser)
-         TimeTrack::create($trackUserid, $bugid, $job, $timestamp, $duration);
-
-         // setBacklog
-         $formattedBacklog = Tools::getSecurePOSTNumberValue('backlog');
-         $issue->setBacklog($formattedBacklog);
-
-         // setStatus
-         $newStatus = Tools::getSecurePOSTNumberValue('statusid');
-         $issue->setStatus($newStatus);
-
-         // return data
-
-         // the complete WeekTaskDetails Div must be updated
-         $weekid = Tools::getSecurePOSTIntValue('weekid');
-         $year = Tools::getSecurePOSTIntValue('year');
-
-         setWeekTaskDetails($smartyHelper, $weekid, $year, $trackUserid, $teamid);
-
-         // other variables needed to update the page
-         if($trackUserid != $session_user) {
-            // TODO check $session_user is manager
-            $smartyHelper->assign('userid', $managed_userid);
-         }
-
-         // TODO the complete page must be refreshed because the imputation table has changed too...
-         // warn: managedUser must be preserved
          $smartyHelper->display('ajax/weekTaskDetails');
 
       } else if ($action == 'getIssueNoteText') {

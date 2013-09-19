@@ -41,7 +41,7 @@
                <tr id="tr_timeToAdd">
                   <th>{t}Time to Add{/t} :</th>
                   <td><select id="timeToAdd" name="timeToAdd" title="{t}Duration (in days){/t}"></select></td>
-                  <td></td>
+                  <td><label id="desc_trackDate" class="help_font" ></label></td>
                </tr>
                <tr>
                   <th><label for="backlog">{t}Backlog{/t} :</label></th>
@@ -57,7 +57,7 @@
          <input type="hidden" name="bugid"  value="" />
          <input type="hidden" name="trackJobid" value="" />
          <input type="hidden" name="trackUserid" value="" />
-         <input type="hidden" name="trackTimestamp" value="" />
+         <input type="hidden" name="trackDate" value="" />
 
          <!-- fields for weekTaskDetails -->
          <input type="hidden" name="weekid" value="{$weekid}" />
@@ -153,6 +153,7 @@ console.log('getUpdateBacklogData SUCCESS ');
 			jQuery("#desc_currentBacklog").text(data['currentBacklog']);
 			jQuery("#desc_currentBacklog2").text('(current = '+data['currentBacklog']+')');
 			jQuery("#desc_drift").text(data['drift']);
+			jQuery("#desc_trackDate").text('(on '+data['trackDate']+')');
 
 			if (data.hasOwnProperty("deadline")) {
 				jQuery("#desc_deadline").text(data['deadline']);
@@ -168,7 +169,7 @@ console.log('getUpdateBacklogData SUCCESS ');
 			jQuery("#formUpdateBacklog").find("input[name=statusid]").val(data['currentStatus']);
 			jQuery("#formUpdateBacklog").find("input[name=trackJobid]").val(data['trackJobid']);
 			jQuery("#formUpdateBacklog").find("input[name=trackUserid]").val(data['trackUserid']);
-			jQuery("#formUpdateBacklog").find("input[name=trackTimestamp]").val(data['trackTimestamp']);
+			jQuery("#formUpdateBacklog").find("input[name=trackDate]").val(data['trackDate']);
 
          jQuery("#formUpdateBacklog").find("input[name=bugResolvedStatusThreshold]").val(data['bugResolvedStatusThreshold']);
 
