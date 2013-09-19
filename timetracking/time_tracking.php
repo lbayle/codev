@@ -154,27 +154,13 @@ self::$logger->error("addTimetrack: called from the updateBacklogDialogBox");
 
                // delete track
                if(!$timeTrack->remove()) {
-                  $this->smartyHelper->assign('error', T_("Failed to delete the tasks"));
+                  $this->smartyHelper->assign('error', T_("Failed to delete the timetrack"));
+                  self::$logger->error("Delete track $trackid  : FAILED.");
                }
 
                try {
-                  $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-                  $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
-                  // do NOT increase backlog if job is job_support !
-                  // do NOT increase backlog if sideTask or ExternalTask (they have no backlog)
-                  // do NOT decrease backlog if task resolved
-                  if (($job != $job_support) &&
-                      (!$project->isSideTasksProject(array_keys($teamList))) &&
-                      (!$project->isExternalTasksProject()) &&
-                      (!$issue->isResolved())) {
-
-                     if (!is_null($issue->getBacklog())) {
-                        $backlog = $issue->getBacklog() + $duration;
-                        $issue->setBacklog($backlog);
-                     }
-                  }
-
                   // pre-set form fields
+                  $issue = IssueCache::getInstance()->getIssue($defaultBugid);
                   $defaultProjectid  = $issue->getProjectId();
                } catch (Exception $e) {
                   $defaultProjectid  = 0;
