@@ -5,11 +5,6 @@
       <fieldset>
          <table class="invisible">
             <tbody>
-               <tr>
-                  <th><label for="status">{t}Status{/t} :</label></th>
-                  <td><select id="status" name="status"> </select></td>
-                  <td></td>
-               </tr>
                <tr id="tr_deadline">
                   <th>{t}Deadline{/t} :</th>
                   <td id="desc_deadline">date</td>
@@ -37,6 +32,11 @@
                </tr>
                <tr>
                   <td colspan="3"><hr></td>
+               </tr>
+               <tr>
+                  <th><label for="status">{t}Status{/t} :</label></th>
+                  <td><select id="status" name="status"> </select></td>
+                  <td></td>
                </tr>
                <tr id="tr_timeToAdd">
                   <th>{t}Time to Add{/t} :</th>
@@ -88,11 +88,11 @@
 			function getUpdateBacklogData(bugid, jobid, userid, timeToAdd, trackDate) {
 			// ajax call to get DialogBox data
 			var formGetUpdateBacklogData = jQuery('#formGetUpdateBacklogData');
-			jQuery("#formGetUpdateBacklogData").find("input[name=bugid]").val(bugid);
-			jQuery("#formGetUpdateBacklogData").find("input[name=trackJobid]").val(jobid);
-			jQuery("#formGetUpdateBacklogData").find("input[name=trackUserid]").val(userid);
-			jQuery("#formGetUpdateBacklogData").find("input[name=trackDuration]").val(timeToAdd);
-			jQuery("#formGetUpdateBacklogData").find("input[name=trackDate]").val(trackDate);
+			formGetUpdateBacklogData.find("input[name=bugid]").val(bugid);
+			formGetUpdateBacklogData.find("input[name=trackJobid]").val(jobid);
+			formGetUpdateBacklogData.find("input[name=trackUserid]").val(userid);
+			formGetUpdateBacklogData.find("input[name=trackDuration]").val(timeToAdd);
+			formGetUpdateBacklogData.find("input[name=trackDate]").val(trackDate);
 
 			var deferred = jQuery.Deferred();
 
@@ -103,9 +103,9 @@
 				data: formGetUpdateBacklogData.serialize(),
 				success: function(data){
 					if (null === data) {
-console.log('getUpdateBacklogData SUCCESS but null');
+                  console.error('getUpdateBacklogData SUCCESS but data = null');
 						// default failure action
-						alert('ERROR UpdateBacklogData is null');
+						alert('ERROR: Action canceled, could not retrieve Task info.');
 						deferred.reject(); // call the 'fail' callback (if defined)
 					} else {
 console.log('getUpdateBacklogData SUCCESS ');
@@ -115,12 +115,11 @@ console.log('getUpdateBacklogData SUCCESS ');
 				},
 				error: function(data){
 					// default failure action
-console.log('getUpdateBacklogData ERROR ' , data);
-					alert('ERROR UpdateBacklogData = ' + data);
+               console.error('getUpdateBacklogData ERROR ' , data);
+               alert('ERROR: Action canceled, could not retrieve Task info.');
 					deferred.reject(); // call the 'fail' callback (if defined)
 				}
 			});
-
 			return deferred;
       }
 
@@ -130,8 +129,8 @@ console.log('getUpdateBacklogData ERROR ' , data);
       //   in this case a field with the timetrack will be displayed
       //   so that user can correct the value before setting backlog
       //   and pressing 'OK'
-      // 2) on a backlog update without timetrack add
-      //    user cannot add time.
+      // 2) on a backlog update (click on backlog in weekTaskDetails)
+      //    -> user cannot add time.
 		function openUpdateBacklogDialogbox(updateBacklogJsonData) {
 
 
@@ -193,12 +192,6 @@ console.log('getUpdateBacklogData ERROR ' , data);
 					}
 				}
 			}
-			// add eventHandler to update input field
-			jQuery('#status').on('change', function() {
-				alert('Value change to ' + $(this).attr('value'));
-				var selectedStatus = jQuery("#status").children(":selected").attr("id");
-				jQuery("#formUpdateBacklog").find("input[name=statusid]").val(selectedStatus);
-			});
 
 			// set timeToAdd
 			jQuery('#timeToAdd').empty();
@@ -233,8 +226,12 @@ console.log('getUpdateBacklogData ERROR ' , data);
 
 	jQuery(document).ready(function() {
 
+      // add eventHandler to update formUpdateBacklog field when status is changed in combobox
+      jQuery('#status').on('change', function() {
+         var selectedStatus = jQuery("#status").children(":selected").attr("id");
+         jQuery("#formUpdateBacklog").find("input[name=statusid]").val(selectedStatus);
+      });
 
-		// TODO get #backlog via form.search()
 		var backlog = jQuery("#backlog"),
 			 tips = jQuery("#validateTips"),
 			 allFields = jQuery([]).add(backlog);
@@ -258,7 +255,7 @@ console.log('getUpdateBacklogData ERROR ' , data);
 		}
 
 		function checkStatus(backlog, selectedStatus, bugResolvedStatusThreshold, msg) {
-			if ((selectedStatus < bugResolvedStatusThreshold) && (0 == backlog.val())) {
+			if ((selectedStatus < bugResolvedStatusThreshold) && (0 === backlog.val())) {
 				backlog.addClass("ui-state-error");
 				updateTips(msg);
 				return false;
@@ -269,20 +266,17 @@ console.log('getUpdateBacklogData ERROR ' , data);
 
 		jQuery("#update_backlog_dialog_form").dialog({
 			autoOpen: false,
-			//dialogClass: 'no-close',
 			height: 'auto',
 			width: 500,
 			modal: true,
-			//closeOnEscape: false,
 			open: function() {
 				// Select input field contents
 				jQuery("#backlog").select();
 			},
 			buttons: {
-				"Update": function() {
+				Ok: function() {
 					jQuery("#formUpdateBacklog").submit();
-				}
-				,
+				},
 				Cancel: function() {
 				   jQuery( this ).dialog("close");
 				}
@@ -295,11 +289,13 @@ console.log('getUpdateBacklogData ERROR ' , data);
 		});
 
 
-		function updateBacklog(event) {
-console.warn('in function updateBacklog');
+      // this is the submit action for formUpdateBacklog when data must be
+      // sent via Ajax : on a simple backlog update (click on backlog in weekTaskDetails)
+		function submitUpdateBacklog(event) {
+console.warn('in function updateBacklog (Ajax)');
 
-		/* stop form from submitting normally */
-			event.preventDefault();
+         /* stop form from submitting normally */
+         event.preventDefault();
 
 			var bValid = true;
 			allFields.removeClass("ui-state-error");
@@ -311,11 +307,7 @@ console.warn('in function updateBacklog');
 
 
 			if (bValid) {
-				/* get some values from elements on the page: */
 				var formUpdateBacklog = jQuery(this);
-				//formUpdateBacklog.find("input[name=year]").val(jQuery("#year").val());
-				//formUpdateBacklog.find("input[name=statusid]").val(selectedStatus);
-
 				jQuery.ajax({
 					type: formUpdateBacklog.attr("method"),
 					url: formUpdateBacklog.attr("action"),
@@ -325,7 +317,6 @@ console.warn('in function updateBacklog');
 						updateWidgets("#weekTaskDetailsDiv");
 					}
 				});
-
 				jQuery("#update_backlog_dialog_form").dialog("close");
 			}
 		}
@@ -336,27 +327,29 @@ console.warn('in function updateBacklog');
 			var bugid = this.getAttribute('data-bugId');
 
          var deferred = getUpdateBacklogData(bugid);
+
 			// set success callback: execute openUpdateBacklogDialogbox()
-
-
          deferred.done(function(updateBacklogJsonData) {
-console.warn('js-updateBacklog-link done');
-				jQuery('#formUpdateBacklog').attr('action', '{$ajaxPage}');
-				jQuery("#formUpdateBacklog").submit(updateBacklog);
-				openUpdateBacklogDialogbox(updateBacklogJsonData);
+console.warn('js-updateBacklog-link done: open updateBacklogDialogbox and send data via Ajax');
+
+            // the formUpdateBacklog is also used as a 'normal' form
+            // (in time_tracking.html). To be used as an Ajax form
+            // the page and the submit function must be changed.
+				jQuery('#formUpdateBacklog').attr('action', 'timetracking/time_tracking_ajax.php');
+console.warn('js-updateBacklog-link done: Ajax page = ', '{$ajaxPage}');
+
+            // TODO: what if already assigned ? will it be called twice ?
+				jQuery("#formUpdateBacklog").submit(submitUpdateBacklog);
+
+            // open dialogbox and send data via Ajax
+            openUpdateBacklogDialogbox(updateBacklogJsonData);
 			});
 
 			// set error callback: execute openUpdateBacklogDialogbox()
-         //deferred.fail(function (updateBacklogJsonData) { console.log('fail', updateBacklogJsonData);});
+         //deferred.fail(function (updateBacklogJsonData) { console.error('fail', updateBacklogJsonData);});
 
 			return false;
 		});
-
-
-		// on page reload (after a click on 'AddTrack' button), raise the updateBacklog dialogBox
-		//{if isset($updateBacklogJsonData)}
-		//	openUpdateBacklogDialogbox({$updateBacklogJsonData});
-		//{/if}
 
 	});
 

@@ -65,9 +65,8 @@ class TimeTrackingController extends Controller {
             $year   = Tools::getSecurePOSTIntValue('year',date('Y'));
             $managed_user = UserCache::getInstance()->getUser($managed_userid);
 
+            // Need to be Manager to handle other users
             if($managed_userid != $this->session_userid) {
-
-               // Need to be Manager to handle other users
                if ((!$this->session_user->isTeamManager($this->teamid)) ||
                   (!array_key_exists($managed_userid,$teamMembers))) {
                   Tools::sendForbiddenAccess();
@@ -89,17 +88,16 @@ class TimeTrackingController extends Controller {
             $duration = Tools::getSecurePOSTNumberValue('duree',0);
 
             if ("addTrack" == $action) {
-					self::$logger->error("addTrack");
+self::$logger->error("addTrack: called by form1");
 
                // called by form1 when no backlog has to be set.
                // updateBacklogDialogBox must not raise up,
-               // track must be added, backlog must NOT be updated
+               // track must be added, backlog & status must NOT be updated
 
                $timestamp = Tools::date2timestamp($defaultDate);
                $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
                $job = Tools::getSecurePOSTStringValue('job');
                $duration = Tools::getSecurePOSTNumberValue('duree');
-               $defaultProjectid = Tools::getSecurePOSTIntValue('projectid');
 
                // dialogBox is not called, then track must be saved to DB
                $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration);
@@ -110,24 +108,28 @@ class TimeTrackingController extends Controller {
                // Don't show job and duration after add track
                $job = 0;
                $duration = 0;
+               $defaultProjectid = Tools::getSecurePOSTIntValue('projectid');
             }
             elseif ("addTimetrack" == $action) {
-               // called from the updateBacklogDialogBox,
-               // add track AND update issue backlog
-					self::$logger->error("addTimetrack");
-
-               // updateBacklogDoalogbox with 'addTimetrack' action
-               $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
-               $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+               // updateBacklogDialogbox with 'addTimetrack' action
+               // add track AND update backlog & status
+self::$logger->error("addTimetrack: called from the updateBacklogDialogBox");
 
                // add timetrack (all values mandatory)
                $trackUserid = Tools::getSecurePOSTIntValue('trackUserid');
                $timestamp   = Tools::getSecurePOSTIntValue('trackTimestamp');
+               $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
                $job         = Tools::getSecurePOSTIntValue('trackJobid');
                $duration    = Tools::getSecurePOSTNumberValue('timeToAdd');
 
-               // TODO check that sessionUser is allowed to add a track for trackUserid (managedUser)
-               TimeTrack::create($trackUserid, $defaultBugid, $job, $timestamp, $duration);
+               // TODO: check that $trackUserid === managedUser (security issue)
+
+               $trackid = TimeTrack::create($trackUserid, $defaultBugid, $job, $timestamp, $duration);
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("Track $trackid added  : userid=$trackUserid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
+               }
+
+               $issue = IssueCache::getInstance()->getIssue($defaultBugid);
 
                // setBacklog
                $formattedBacklog = Tools::getSecurePOSTNumberValue('backlog');

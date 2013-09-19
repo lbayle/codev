@@ -14,7 +14,7 @@
    <br/>
 
    {if isset($error)}
-   <!-- TODO is this still in use ? -->
+   <!-- TODO used by deleteTrack. mest be removed when delete done via Ajax -->
    <span style="color:red">{t}ERROR{/t} : {t}Query FAILED{/t} : {$error}</span>
    {/if}
 
@@ -22,16 +22,17 @@
       <script type="text/javascript" src="js/datepicker.js"></script>
       <script type="text/javascript">
          jQuery(document).ready(function() {
+
+            // Set the date
             {if $locale != en}
             jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
             {/if}
-
-            // Set the date
             jQuery("#datepicker").datepicker("setDate" ,"{$date}");
 
+            // on project change, taskList & jobList must be updated
+            // TODO do not use form1, use Ajax
             jQuery("#projectid").change(function() {
                var form1 = jQuery("#form1");
-
                form1.find("input[name=action]").val("setProjectid");
 
                // Keep value of Week form
@@ -48,6 +49,7 @@
 
             jQuery("#bugid").change(function() {
                // if projectId not set: do it, to update categories
+               // TODO do not use form1, use Ajax
                if (0 === jQuery("#projectid").val()) {
                   var form1 = jQuery("#form1");
                   form1.find("input[name=action]").val("setBugId");
@@ -85,38 +87,39 @@
                }
 
                if (0 === foundError) {
-                  var trackDate = jQuery("#datepicker").val();
-                  var userid = '{$userid}'; // TODO
+                  var trackDate = jQuery("#datepicker").val(); // YYYY-mm-dd
 
 						// getUpdateBacklogData() uses Ajax (async). The deferred object is used to
 						// define the success/error callbacks to the ajax call.
 						// So the action on getUpdateBacklogData() will be treated asynchronously too.
-                  var deferred = getUpdateBacklogData(bugid, jobid, userid, trackDuration, trackDate);
+                  var deferred = getUpdateBacklogData(bugid, jobid, '{$userid}', trackDuration, trackDate);
 
-						// set success callback
-						deferred.done(function (updateBacklogJsonData) {
+                  // set success callback
+                  deferred.done(function (updateBacklogJsonData) {
 
 console.log('done updateBacklogJsonData = ', updateBacklogJsonData);
 
 	                  // if "BacklogUpdateNotNeeded" then submit else raise UpdateBacklogDialogBox
-							if ( 'BacklogUpdateNotNeeded' === updateBacklogJsonData['diagnostic'] ) {
-								form1.find("input[name=action]").val("addTrack");
-								form1.submit();
-							} else {
-								// formUpdateBacklog calls ajax page by default, but here
-								// we want to send the form to time_tracking.php because
-								// we want it to be completely reloaded (and not only the WeekTaskDetail div)
-console.log('set formUpdateBacklog action = {$page}');
-								jQuery('#formUpdateBacklog').attr('action', '{$page}');
-console.log('set formUpdateBacklog remove submit method');
-								jQuery("#formUpdateBacklog").off('submit');
+                     if ( 'BacklogUpdateNotNeeded' === updateBacklogJsonData['diagnostic'] ) {
+                        form1.find("input[name=action]").val("addTrack");
+                        form1.submit();
+                     } else {
+                        // formUpdateBacklog calls ajax page by default, but here
+                        // we want to send the form to time_tracking.php because
+                        // we want it to be completely reloaded (and not only the WeekTaskDetail div)
+                        jQuery('#formUpdateBacklog').attr('action', '{$page}');
 
+                        // by default formUpdateBacklog has a submit action to send data via ajax
+                        // so here, it must be deactivated to submit the form 'normaly'.
+                        jQuery("#formUpdateBacklog").off('submit');
+
+                        // open dialogbox and send data without Ajax
 								openUpdateBacklogDialogbox(updateBacklogJsonData);
 							}
 						});
 
 						// set error callback:
-						//deferred.fail(function (updateBacklogJsonData) { console.log('fail', updateBacklogJsonData);});
+						//deferred.fail(function (updateBacklogJsonData) { console.error('fail', updateBacklogJsonData);});
 
                } else {
                   alert(msgString);
