@@ -50,7 +50,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             $trackDate      = Tools::getSecureGETIntValue('trackDate', 0);
             $trackTimestamp = 0; // TODO convert $trackDate
 
-            $updateBacklogJsonData = TimeTrackingTools::getUpdateBacklogJsonData($bugid, $managedUserid, $trackTimestamp, $job, $trackDuration);
+            $updateBacklogJsonData = TimeTrackingTools::getUpdateBacklogJsonData($bugid, $job, $managedUserid, $trackTimestamp, $trackDuration);
          }
 
          // return data

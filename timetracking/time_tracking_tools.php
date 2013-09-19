@@ -134,7 +134,7 @@ class TimeTrackingTools {
 
 
             // prepare json data for the BacklogDialogbox
-            $jsonIssueInfo = self::getUpdateBacklogJsonData($issue->getId());
+            $jsonIssueInfo = self::getUpdateBacklogJsonData($issue->getId(), $jobid);
 
             // prepare json data for the IssueNoteDialogbox
             if ((!$project->isSideTasksProject(array($teamid))) &&
@@ -239,7 +239,7 @@ class TimeTrackingTools {
     *
     * @param type $bugid
     */
-   public static function getUpdateBacklogJsonData($bugid, $trackUserid, $trackTimestamp, $trackJobid, $trackDuration, $calculatedBacklog = NULL) {
+   public static function getUpdateBacklogJsonData($bugid, $trackJobid, $trackUserid=0, $trackTimestamp=0, $trackDuration=0, $calculatedBacklog = NULL) {
 
       try {
          $issue = IssueCache::getInstance()->getIssue($bugid);
