@@ -68,11 +68,8 @@ class TimeTrackingController extends Controller {
             if($managed_userid != $this->session_userid) {
 
                // Need to be Manager to handle other users
-               if (($this->session_user->isTeamManager($this->teamid)) &&
-                  (array_key_exists($managed_userid,$teamMembers))) {
-
-                  $this->smartyHelper->assign('userid', $managed_userid);
-               } else {
+               if ((!$this->session_user->isTeamManager($this->teamid)) ||
+                  (!array_key_exists($managed_userid,$teamMembers))) {
                   Tools::sendForbiddenAccess();
                }
             }
@@ -210,6 +207,7 @@ class TimeTrackingController extends Controller {
 
             // Display user name
             $this->smartyHelper->assign('managedUser_realname', $managed_user->getRealname());
+            $this->smartyHelper->assign('userid', $managed_userid);
 
             // display Track Form
             $this->smartyHelper->assign('date', $defaultDate);
@@ -228,10 +226,6 @@ class TimeTrackingController extends Controller {
 
             $isHideResolved = ('0' == $managed_user->getTimetrackingFilter('hideResolved')) ? false : true;
             $this->smartyHelper->assign('isHideResolved', $isHideResolved);
-
-            // TODO: remove unused filter: isHideDevProjects
-            $isHideDevProjects = ('0' == $managed_user->getTimetrackingFilter('hideDevProjects')) ? false : true;
-            $this->smartyHelper->assign('isHideDevProjects', $isHideDevProjects);
 
             $availableIssues = $this->getIssues($defaultProjectid, $isOnlyAssignedTo, $managed_user->getId(), $projList, $isHideResolved, $defaultBugid);
             $this->smartyHelper->assign('issues', $availableIssues);

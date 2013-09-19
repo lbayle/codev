@@ -16,7 +16,7 @@ This opens a popup window displaying an IssueNote text to edit.
             <input type="hidden" name="bugid" value="" />
             <input type="hidden" name="issuenoteid" value="" />
 
-            {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />{/if}
+            <input type="hidden" name="userid" value="{$userid}" />
             <input type="hidden" name="weekid" value="{$weekid}" />
             <input type="hidden" name="year" value="{$year}" />
          </fieldset>
@@ -111,7 +111,7 @@ This opens a popup window displaying an IssueNote text to edit.
 
       // ask delete confirmation
 		if (confirm('{t}Delete timesheet note for task {/t}'+bugid+' ?')) {
-			
+
 			var formDeleteNote = jQuery('#formDeleteNote');
 			formDeleteNote.find("input[name=bugid]").val(bugid);
 			formDeleteNote.find("input[name=bugnote_id]").val(bugnote_id);

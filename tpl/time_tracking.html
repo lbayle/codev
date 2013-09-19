@@ -167,10 +167,7 @@ console.log('set formUpdateBacklog remove submit method');
             <input type="hidden" name="action" value="noAction" />
             <input type="hidden" name="year" value="{$year}" />
             <input type="hidden" name="weekid" value="{$weekid}" />
-            {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />
-				{else}
-<script type="text/javascript">console.log('WARN form1: userid not set !');</script>
-				{/if}
+            <input type="hidden" name="userid" value="{$userid}" />
             <input type="button" name="btAddTrack" id="btAddTrack" value="{t}Add{/t}" />
          </fieldset>
       </form>
@@ -212,7 +209,7 @@ console.log('set formUpdateBacklog remove submit method');
                <input type="checkbox" {if $isForbidAddTimetracksOnClosed} checked="checked" {/if} disabled="disabled"/>
                <label style="color:gray;">{t}Hide closed tasks{/t}</label>
 
-               {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />{/if}
+               <input type="hidden" name="userid" value="{$userid}" />
                <input type="hidden" name="projectid" value="{$defaultProjectid}" />
                <input type="hidden" name="bugid" value="{$defaultBugid}" />
                {if isset($job)}<input type="hidden" name="job" value="{$job}" />{/if}
@@ -290,9 +287,9 @@ console.log('set formUpdateBacklog remove submit method');
                <input type="button" id="nextweek" title="{t}Next week{/t}" value="&gt;&gt;" />
                <input type="hidden" name="projectid" value="{$defaultProjectid}" />
                <input type="hidden" name="bugid" value="{$defaultBugid}" />
+               <input type="hidden" name="userid" value="{$userid}" />
                {if isset($job)}<input type="hidden" name="job" value="{$job}" />{/if}
                {if isset($duree)}<input type="hidden" name="duree" value="{$duree}" />{/if}
-               {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />{/if}
             </fieldset>
          </form>
          <div id="weekTaskDetailsDiv" style="margin-top:1em;">
@@ -444,7 +441,7 @@ console.log('set formUpdateBacklog remove submit method');
                   <input type="hidden" name="trackid" value="0" />
                   <input type="hidden" name="action"  value="deleteTrack" />
                   <input type="hidden" name="nextForm" value="addTrackForm" />
-                     {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />{/if}
+                  <input type="hidden" name="userid" value="{$userid}" />
                   <input type="hidden" name="weekid" value="{$weekid}" />
                   <input type="hidden" name="year" value="{$year}" />
                </fieldset>
