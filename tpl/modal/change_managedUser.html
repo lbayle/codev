@@ -3,7 +3,7 @@
       <form id="formSelectManagedUser" method="post" action="{$page}">
          <fieldset>
             <label for="userid">{t}Name{/t} :</label>
-            {html_options id=userid name=userid options=$users selected=$selectedUser}
+            {html_options id=selManagedUserid name=userid options=$users selected=$selectedUser}
          </fieldset>
       </form>
    </div>
@@ -23,7 +23,7 @@
             buttons: {
                Ok: function() {
                   var form = jQuery("#formSelectManagedUser");
-                  form.find("input[name=userid]").val(jQuery("#userid").val());
+                  form.find("input[name=userid]").val(jQuery("#selManagedUserid").val());
                   form.submit();
                },
                Cancel: function() {

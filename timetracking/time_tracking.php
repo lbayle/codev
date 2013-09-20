@@ -37,7 +37,6 @@ class TimeTrackingController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
-	self::$logger->error("in display function");
 
         // only teamMembers can access this page
         if ((0 == $this->teamid) ||
@@ -60,7 +59,6 @@ class TimeTrackingController extends Controller {
             }
 
             // display AddTrack Page
-            $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
 
             $year   = Tools::getSecurePOSTIntValue('year',date('Y'));
             $managed_user = UserCache::getInstance()->getUser($managed_userid);
@@ -69,6 +67,7 @@ class TimeTrackingController extends Controller {
             if($managed_userid != $this->session_userid) {
                if ((!$this->session_user->isTeamManager($this->teamid)) ||
                   (!array_key_exists($managed_userid,$teamMembers))) {
+                  self::$logger->error(' SECURITY ALERT changeManagedUser: session_user '.$this->session_userid." is not allowed to manage user $managed_userid");
                   Tools::sendForbiddenAccess();
                }
             }
@@ -116,13 +115,13 @@ self::$logger->error("addTrack: called by form1");
 self::$logger->error("addTimetrack: called from the updateBacklogDialogBox");
 
                // add timetrack (all values mandatory)
-               $trackUserid = Tools::getSecurePOSTIntValue('trackUserid');
-               $trackDate   = Tools::getSecurePOSTStringValue('trackDate');
+               $trackUserid  = Tools::getSecurePOSTIntValue('trackUserid');
+               $defaultDate  = Tools::getSecurePOSTStringValue('trackDate');
                $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
-               $job         = Tools::getSecurePOSTIntValue('trackJobid');
-               $duration    = Tools::getSecurePOSTNumberValue('timeToAdd');
+               $job          = Tools::getSecurePOSTIntValue('trackJobid');
+               $duration     = Tools::getSecurePOSTNumberValue('timeToAdd');
 
-               $timestamp = (0 !== $trackDate) ? Tools::date2timestamp($trackDate) : 0;
+               $timestamp = (0 !== $defaultDate) ? Tools::date2timestamp($defaultDate) : 0;
 
                // TODO: check that $trackUserid === managedUser (security issue)
 
@@ -148,15 +147,15 @@ self::$logger->error("addTimetrack: called from the updateBacklogDialogBox");
             }
             elseif ("deleteTrack" == $action) {
                $trackid = Tools::getSecurePOSTIntValue('trackid');
-               // increase backlog (only if 'backlog' already has a value)
                $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
                $defaultBugid = $timeTrack->getIssueId();
                $duration = $timeTrack->getDuration();
                $job = $timeTrack->getJobId();
+               $defaultDate = date("Y-m-d", $timeTrack->getDate());
 
                // delete track
                if(!$timeTrack->remove()) {
-                  $this->smartyHelper->assign('error', T_("Failed to delete the timetrack"));
+                  $this->smartyHelper->assign('error', T_("Failed to delete the timetrack !"));
                   self::$logger->error("Delete track $trackid  : FAILED.");
                }
 

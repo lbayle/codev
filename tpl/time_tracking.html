@@ -48,9 +48,11 @@
             });
 
             jQuery("#bugid").change(function() {
-               // if projectId not set: do it, to update categories
+
+
+               // if projectId not set: do it, to update jobs
                // TODO do not use form1, use Ajax
-               if (0 === jQuery("#projectid").val()) {
+               if ('0' === jQuery("#projectid").val()) {
                   var form1 = jQuery("#form1");
                   form1.find("input[name=action]").val("setBugId");
 
@@ -73,15 +75,15 @@
                var trackDuration = form1.find("select[name=duree]").val();
 
                //if (0 == document.forms["form1"].projectid.value) { msgString += "Projet\n"; ++foundError; }
-               if (0 === bugid) {
+               if ('0' === bugid) {
                   msgString += "{t}Task{/t}\n";
                   ++foundError;
                }
-               if (0 === jobid) {
+               if ('0' === jobid) {
                   msgString += "{t}Job{/t}\n";
                   ++foundError;
                }
-               if (0 === trackDuration) {
+               if ('0' === trackDuration) {
                   msgString += "{t}Duration{/t}\n";
                   ++foundError;
                }
@@ -99,16 +101,11 @@
 
 console.log('done updateBacklogJsonData = ', updateBacklogJsonData);
 
-	                  // if "BacklogUpdateNotNeeded" then submit else raise UpdateBacklogDialogBox
+	                  // if "BacklogUpdateNotNeeded" then submit form1, else raise UpdateBacklogDialogBox
                      if ( 'BacklogUpdateNotNeeded' === updateBacklogJsonData['diagnostic'] ) {
                         form1.find("input[name=action]").val("addTrack");
                         form1.submit();
                      } else {
-                        // formUpdateBacklog calls ajax page by default, but here
-                        // we want to send the form to time_tracking.php because
-                        // we want it to be completely reloaded (and not only the WeekTaskDetail div)
-                        jQuery('#formUpdateBacklog').attr('action', '{$page}');
-
                         // by default formUpdateBacklog has a submit action to send data via ajax
                         // so here, it must be deactivated to submit the form 'normaly'.
                         jQuery("#formUpdateBacklog").off('submit');
@@ -117,10 +114,8 @@ console.log('done updateBacklogJsonData = ', updateBacklogJsonData);
 								openUpdateBacklogDialogbox(updateBacklogJsonData);
 							}
 						});
-
 						// set error callback:
 						//deferred.fail(function (updateBacklogJsonData) { console.error('fail', updateBacklogJsonData);});
-
                } else {
                   alert(msgString);
                }
@@ -247,7 +242,7 @@ console.log('done updateBacklogJsonData = ', updateBacklogJsonData);
                   updateFormWeek();
 
                   var weekid = jQuery("#weekid").val();
-                  if (1 !== weekid) {
+                  if (1 != weekid) {
                      formUpdateWeek.find("select[name=weekid]").val(--weekid);
                   }
                   formUpdateWeek.submit();

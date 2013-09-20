@@ -182,7 +182,7 @@ console.log('getUpdateBacklogData SUCCESS ');
 			for (var id in availItemList) {
 
 				if (availItemList.hasOwnProperty(id)) {
-					if (id === data['currentStatus']) {
+					if (id == data['currentStatus']) {
 						jQuery('#status').append(
 							jQuery('<option>').attr('id', id).attr('selected', 'selected').append(availItemList[id])
 						);
@@ -197,7 +197,7 @@ console.log('getUpdateBacklogData SUCCESS ');
 			// set timeToAdd
 			jQuery('#timeToAdd').empty();
 
-         if (0 === data['trackDuration']) {
+         if (0 == data['trackDuration']) {
             $('#tr_timeToAdd').hide();
             jQuery("#formUpdateBacklog").find("input[name=action]").val('updateBacklog');
          } else {
@@ -209,7 +209,7 @@ console.log('getUpdateBacklogData SUCCESS ');
             for (var id in availItemList) {
 
                if (availItemList.hasOwnProperty(id)) {
-                  if (id === data['trackDuration']) {
+                  if (id == data['trackDuration']) {
                      jQuery('#timeToAdd').append(
                         jQuery('<option>').attr('id', id).attr('selected', 'selected').append(availItemList[id])
                      );
@@ -256,7 +256,7 @@ console.log('getUpdateBacklogData SUCCESS ');
 		}
 
 		function checkStatus(backlog, selectedStatus, bugResolvedStatusThreshold, msg) {
-			if ((selectedStatus < bugResolvedStatusThreshold) && (0 === backlog.val())) {
+			if ((selectedStatus < bugResolvedStatusThreshold) && (0 == backlog.val())) {
 				backlog.addClass("ui-state-error");
 				updateTips(msg);
 				return false;
@@ -310,8 +310,11 @@ console.warn('in function updateBacklog (Ajax)');
 			if (bValid) {
 				var formUpdateBacklog = jQuery(this);
 				jQuery.ajax({
+					// the formUpdateBacklog is also used as a 'normal' form
+					// (in time_tracking.html). To be used as an Ajax form
+					// the page and the submit function must be changed.
+					url: 'timetracking/time_tracking_ajax.php',
 					type: formUpdateBacklog.attr("method"),
-					url: formUpdateBacklog.attr("action"),
 					data: formUpdateBacklog.serialize(),
 					success: function(data) {
 						jQuery("#weekTaskDetailsDiv").html(jQuery.trim(data));
@@ -333,14 +336,13 @@ console.warn('in function updateBacklog (Ajax)');
          deferred.done(function(updateBacklogJsonData) {
 console.warn('js-updateBacklog-link done: open updateBacklogDialogbox and send data via Ajax');
 
-            // the formUpdateBacklog is also used as a 'normal' form
-            // (in time_tracking.html). To be used as an Ajax form
-            // the page and the submit function must be changed.
-				jQuery('#formUpdateBacklog').attr('action', 'timetracking/time_tracking_ajax.php');
-console.warn('js-updateBacklog-link done: Ajax page = ', '{$ajaxPage}');
+				var formUpdateBacklog = jQuery("#formUpdateBacklog");
 
-            // TODO: what if already assigned ? will it be called twice ?
-				jQuery("#formUpdateBacklog").submit(submitUpdateBacklog);
+//console.warn('js-updateBacklog-link done: Ajax page = ', '{$ajaxPage}');
+
+            // avoid function beeing attached twice
+            formUpdateBacklog.off('submit');
+            formUpdateBacklog.submit(submitUpdateBacklog);
 
             // open dialogbox and send data via Ajax
             openUpdateBacklogDialogbox(updateBacklogJsonData);

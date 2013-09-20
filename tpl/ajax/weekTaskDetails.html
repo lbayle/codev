@@ -10,12 +10,12 @@
          var index = day.index();
          var dayHeader = jQuery(jQuery("#weekTaskDetails").find("thead tr").children().get(index));
          var dayValue = dayHeader.attr('id').replace('date-','');
-         if(dayValue !== jQuery("#datepicker").val()) {
+         if(dayValue != jQuery("#datepicker").val()) {
             jQuery("#datepicker").val(dayValue);
          }
 
          var jobid = row.find("td[class^=job]").attr("class").replace("job-","");
-         if(jobid !== jQuery("#job").val()) {
+         if(jobid != jQuery("#job").val()) {
             if(jQuery("#job option[value="+jobid+"]").val() !== null) {
                jQuery("#job").val(jobid);
             } else {
@@ -33,7 +33,7 @@
          jQuery("#duree").val("");
 
          var bugid = row.attr("id").replace("weekTasks-","");
-         if(bugid !== jQuery("#bugid").val()) {
+         if(bugid != jQuery("#bugid").val()) {
             if(jQuery("#bugid option[value="+bugid+"]").val() !== null) {
                jQuery("#bugid").val(bugid);
             } else {
@@ -59,7 +59,7 @@
       jQuery(".dayHeader").click(function() {
          var day = jQuery(this);
          var dayValue = day.attr('id').replace('date-','');
-         if(dayValue !== jQuery("#datepicker").val()) {
+         if(dayValue != jQuery("#datepicker").val()) {
             jQuery("#datepicker").val(dayValue);
          }
       });
