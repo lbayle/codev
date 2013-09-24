@@ -1163,6 +1163,14 @@ class User extends Model {
          }
          // if not found return '0'
          $this->defaultTeam = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
+
+         if ((0 != $this->defaultTeam) &&
+            (!$this->isTeamMember($this->defaultTeam))) {
+            // SECURITY CHECK: User used to belong to a team (config is still in DB) but he no longer belongs to it !
+            self::$logger->error("user $this->id no longer belong to team $this->defaultTeam. defaultTeam is now set to 0");
+            $this->defaultTeam = 0;
+            $this->setDefaultTeam(0);
+         }
       }
       return $this->defaultTeam;
    }
@@ -1554,7 +1562,7 @@ class User extends Model {
       }
       return $recentIssues;
    }
-   
+
 }
 
 // Initialize complex static variables
