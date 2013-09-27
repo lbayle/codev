@@ -16,7 +16,7 @@
 
          var jobid = row.find("td[class^=job]").attr("class").replace("job-","");
          if(jobid != jQuery("#job").val()) {
-            if(jQuery("#job option[value="+jobid+"]").val() !== null) {
+            if(jQuery("#job option[value="+jobid+"]").val() !== undefined) {
                jQuery("#job").val(jobid);
             } else {
                jQuery("#job").append($('<option>', { value : jobid, selected : 'selected' }));
@@ -31,10 +31,10 @@
          */
          // reset the duration
          jQuery("#duree").val("");
-
          var bugid = row.attr("id").replace("weekTasks-","");
+
          if(bugid != jQuery("#bugid").val()) {
-            if(jQuery("#bugid option[value="+bugid+"]").val() !== null) {
+            if(jQuery("#bugid option[value="+bugid+"]").val() !== undefined) {
                jQuery("#bugid").val(bugid);
             } else {
                jQuery("#bugid").append($('<option>', { value : bugid, selected : 'selected' }));
