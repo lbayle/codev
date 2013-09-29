@@ -1,6 +1,7 @@
 
 <div id="update_backlog_dialog_form" title="Task XXX - Update Backlog" class="ui-helper-hidden">
    <p class="issue_summary">issue_summary</p>
+   <textarea class="issue_summary1" cols="50" rows="2">issue_summary<textarea>
    <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="{$page}" >
       <fieldset>
          <table class="invisible">
@@ -108,7 +109,6 @@
 						alert('ERROR: Action canceled, could not retrieve Task info.');
 						deferred.reject(); // call the 'fail' callback (if defined)
 					} else {
-console.log('getUpdateBacklogData SUCCESS ');
 						// call the 'done' callback (should be defined)
 						deferred.resolve(data);
 					}

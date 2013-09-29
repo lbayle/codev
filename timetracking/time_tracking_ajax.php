@@ -63,8 +63,6 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 		} else if($action == 'updateBacklog') {
          // updateBacklogDoalogbox with 'updateBacklog' action
 
-			$logger->error("updateBacklog");
-
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $formattedBacklog = Tools::getSecurePOSTNumberValue('backlog');
          $issue->setBacklog($formattedBacklog);
