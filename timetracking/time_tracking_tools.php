@@ -212,6 +212,149 @@ class TimeTrackingTools {
    }
 
    /**
+    * get Job list
+    *
+    * Note: the jobs depend on project type, which depends on the team
+    *
+    * @param int $projectid
+    * @param string $teamid  user's team
+    * @return string[]
+    */
+   public static function getJobs($projectid, $teamid) {
+
+      if ((0 == $projectid) || (0 == $teamid)) {
+
+         //this happens when project = "All", it's a normal case.
+         // team == 0 should not happen
+         //self::$logger->warn("getJobs($projectid, $teamid): could not find jobList. Action = $action");
+         return array();
+      }
+
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $project = ProjectCache::getInstance()->getProject($projectid);
+
+      $ptype = $team->getProjectType($projectid);
+      $jobList = $project->getJobList($ptype);
+
+      return $jobList;
+   }
+
+   /**
+    * Get issues
+    * 
+    * @param int $projectid
+    * @param boolean $isOnlyAssignedTo
+    * @param int $userid
+    * @param string[] $projList
+    * @param boolean $isHideResolved
+    * @param int $defaultBugid
+    * @return mixed[]
+    */
+   public static function getIssues($teamid, $projectid, $isOnlyAssignedTo, $userid, array $projList, $isHideResolved, $defaultBugid) {
+
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $hideStatusAndAbove = (1 == $team->getGeneralPreference('forbidAddTimetracksOnClosed')) ? Constants::$status_closed : 0;
+
+      if (0 != $projectid) {
+         // Project list
+         $project1 = ProjectCache::getInstance()->getProject($projectid);
+
+         try {
+            $isSideTasksProject = $project1->isSideTasksProject(array($teamid));
+            $isNoStatsProject   = $project1->isNoStatsProject(array($teamid));
+
+            // do not filter on userId if SideTask or ExternalTask
+            if (($isSideTasksProject) || ($isNoStatsProject)) {
+               $handler_id = 0; // all users
+               $hideStatusAndAbove = 0; // hide none
+               $isHideResolved = false; // do not hide resolved
+            } else {
+               // normal project
+               $handler_id = $isOnlyAssignedTo ? $userid : 0;
+            }
+
+         } catch (Exception $e) {
+            self::$logger->error("getIssues(): isOnlyAssignedTo & isHideResolved filters not applied : ".$e->getMessage());
+            $handler_id = 0; // all users
+            $isHideResolved = false; // do not hide resolved
+         }
+         $issueList = $project1->getIssues($handler_id, $isHideResolved, $hideStatusAndAbove);
+      } else {
+         // no project specified: show all tasks
+         $issueList = array();
+
+         foreach ($projList as $pid => $pname) {
+            $proj = ProjectCache::getInstance()->getProject($pid);
+            try {
+               if (($proj->isSideTasksProject(array($teamid))) ||
+                  ($proj->isNoStatsProject(array($teamid)))) {
+                  // do not hide any task for SideTasks & ExternalTasks projects
+                  $buglist = $proj->getIssues(0, false, 0);
+                  $issueList = array_merge($issueList, $buglist);
+               } else {
+                  $handler_id = $isOnlyAssignedTo ? $userid : 0;
+                  $buglist = $proj->getIssues($handler_id, $isHideResolved, $hideStatusAndAbove);
+                  $issueList = array_merge($issueList, $buglist);
+               }
+            } catch (Exception $e) {
+               self::$logger->error("getIssues(): task filters not applied for project $pid : ".$e->getMessage());
+               // do not hide any task if unknown project type
+               $buglist = $proj->getIssues(0, false, 0);
+               $issueList = array_merge($issueList, $buglist);
+
+            }
+         }
+         rsort($issueList);
+      }
+
+      $issues = array();
+      foreach ($issueList as $issue) {
+         //$issue = IssueCache::getInstance()->getIssue($bugid);
+         $issues[$issue->getId()] = array(
+            'id' => $issue->getId(),
+            'tcId' => $issue->getTcId(),
+            'summary' => $issue->getSummary(),
+            'selected' => $issue->getId() == $defaultBugid);
+      }
+
+      // If the default bug is filtered, we add it anyway
+      if(!array_key_exists($defaultBugid,$issues) && $defaultBugid != 0) {
+         try {
+            $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+            // Add the bug only if the selected project is the bug project
+            if($projectid == 0 || $issue->getProjectId() == $projectid) {
+               $issues[$issue->getId()] = array(
+                  'id' => $issue->getId(),
+                  'tcId' => $issue->getTcId(),
+                  'summary' => $issue->getSummary(),
+                  'selected' => $issue->getId() == $defaultBugid);
+               krsort($issues);
+            }
+         } catch (Exception $e) {
+               self::$logger->error("getIssues(): task not found in MantisDB : ".$e->getMessage());
+         }
+      }
+
+      // $issues is sorted, but we want the 5 most recent used issues to be in front
+      if (0 != $userid) {
+         $user = UserCache::getInstance()->getUser($userid);
+         $recentBugidList = $user->getRecentlyUsedIssues(5, array_keys($issues));
+         #var_dump($recentBugidList);
+         $smartyRecentList = array();
+         foreach ($recentBugidList as $bugid) {
+            if (array_key_exists("$bugid", $issues)) {
+               $smartyRecentList["$bugid"] = $issues["$bugid"];
+               unset($issues["$bugid"]);
+            }
+         }
+         // insert in front
+         $issues = $smartyRecentList + $issues;
+      }
+
+      return $issues;
+   }
+
+   /**
     * @return string[]
     */
    public static function getDurationList() {

@@ -26,18 +26,49 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
    $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
    $session_user = $_SESSION['userid'];
 
-   $action = $_POST['action'];
-   $bugid       = Tools::getSecurePOSTIntValue('bugid');
+   // TODO check $session_user & teamid ?
+
+   #$action = $_POST['action'];
+   $action = Tools::getSecurePOSTStringValue('action');
 
    if(isset($action)) {
       $smartyHelper = new SmartyHelper();
-      if($action == 'getUpdateBacklogData') {
+      if ("getIssuesAndDurations" == $action) {
 
-			$logger->error("getUpdateBacklogData");
+         // TODO check session_user is allowed to manage user ( & get issue list...)
+
+         $defaultProjectid = Tools::getSecurePOSTIntValue('projectid');
+         $managedUserid = Tools::getSecurePOSTIntValue('managedUserid');
+
+         $team = TeamCache::getInstance()->getTeam($teamid);
+         $projList = $team->getProjects(true, false);
+
+         $managedUser = UserCache::getInstance()->getUser($managedUserid);
+         $isOnlyAssignedTo = ('0' == $managedUser->getTimetrackingFilter('onlyAssignedTo')) ? false : true;
+         $isHideResolved = ('0' == $managedUser->getTimetrackingFilter('hideResolved')) ? false : true;
+
+         $availableIssues = TimeTrackingTools::getIssues($teamid, $defaultProjectid, $isOnlyAssignedTo, $managedUserid, $projList, $isHideResolved, 0);
+         $jobs = TimeTrackingTools::getJobs($defaultProjectid, $teamid);
+         $durations = TimeTrackingTools::getDurationList();
+
+         // return data
+         $data = array(
+             'availableIssues' => $availableIssues,
+             'availableJobs' => $jobs,
+             'availableDurations' => $durations,
+         );
+         $jsonData = json_encode($data);
+         // return data
+         echo $jsonData;
+
+      } elseif($action == 'getUpdateBacklogData') {
+
+$logger->error("getUpdateBacklogData");
 
 			// get info to display the updateBacklog dialogbox
          // (when clicking on the backlog value in WeekTaskDetails)
          // OR clicking the addTrack button in addTrack form (form1)
+         $bugid       = Tools::getSecurePOSTIntValue('bugid');
          $job         = Tools::getSecurePOSTIntValue('trackJobid', 0);
          $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
 
@@ -63,6 +94,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 		} else if($action == 'updateBacklog') {
          // updateBacklogDoalogbox with 'updateBacklog' action
 
+         $bugid = Tools::getSecurePOSTIntValue('bugid');
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $formattedBacklog = Tools::getSecurePOSTNumberValue('backlog');
          $issue->setBacklog($formattedBacklog);
@@ -81,6 +113,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $smartyHelper->display('ajax/weekTaskDetails');
 
       } else if ($action == 'getIssueNoteText') {
+         $bugid = Tools::getSecurePOSTIntValue('bugid');
          $issueNote = IssueNote::getTimesheetNote($bugid);
          if (!is_null($issueNote)) {
             $issueNoteId = $issueNote->getId();
@@ -100,6 +133,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          echo $jsonData;
 
       } else if ($action == 'saveIssueNote') {
+         $bugid       = Tools::getSecurePOSTIntValue('bugid');
          $reporter_id = $session_user;
          $issueNoteText = Tools::getSecurePOSTStringValue('issuenote_text');
 
@@ -130,8 +164,6 @@ else {
  * @param type $teamid
  */
 function setWeekTaskDetails($smartyHelper, $weekid, $year, $managed_userid, $teamid) {
-
-   $session_user = $_SESSION['userid'];
 
    $weekDates = Tools::week_dates($weekid,$year);
    $startTimestamp = $weekDates[1];

@@ -21,6 +21,72 @@
    <div>
       <script type="text/javascript" src="js/datepicker.js"></script>
       <script type="text/javascript">
+
+         function getIssuesAndDurations(event) {
+
+            /* stop form from submitting normally */
+            event.preventDefault();
+
+            var bValid = true;
+            if (bValid) {
+               var projectid = jQuery("#projectid").val();
+               var formGetIssuesAndDurations = jQuery('#getIssuesAndDurationsForm');
+               formGetIssuesAndDurations.find("input[name=projectid]").val(projectid);
+
+               jQuery.ajax({
+                  url: '{$ajaxPage}',
+                  type: formGetIssuesAndDurations.attr("method"),
+                  dataType:"json",
+                  data: formGetIssuesAndDurations.serialize(),
+                  success: function(data) {
+
+                     // fill job combobox values
+                     var bugidSelect = jQuery('#bugid');
+                     bugidSelect.empty();
+                     bugidSelect.select2('data', null)
+                     var availableIssues = data['availableIssues'];
+                     var summary = '';
+                     var issueInfo;
+                     for (var id in availableIssues) {
+
+                        if (availableIssues.hasOwnProperty(id)) {
+                           issueInfo = availableIssues[id];
+                           if ((null != issueInfo['tcId']) && ('' != issueInfo['tcId'])) {
+                              summary = id + ' / ' + issueInfo['tcId'] + ' : ' + issueInfo['summary'];
+                           } else {
+                              summary = id + ' : ' + issueInfo['summary'];
+                           }
+                           bugidSelect.append(
+                              jQuery('<option>').attr('id', id).append(summary)
+                           );
+                        }
+                     }
+                     // fill job combobox values
+                     jQuery('#job').empty();
+                     var availableJobs = data['availableJobs'];
+                     for (var id in availableJobs) {
+                        if (availableJobs.hasOwnProperty(id)) {
+                           jQuery('#job').append(
+                              jQuery('<option>').attr('id', id).append(availableJobs[id])
+                           );
+                        }
+                     }
+                     // fill duration combobox values
+                     jQuery('#duree').empty();
+                     var availableDurationList = data['availableDurations'];
+                     for (var id in availableDurationList) {
+                        if (availableDurationList.hasOwnProperty(id)) {
+                           jQuery('#duree').append(
+                              jQuery('<option>').attr('id', id).append(availableDurationList[id])
+                           );
+                        }
+                     }
+
+                  }
+               });
+            }
+         }
+
          jQuery(document).ready(function() {
 
             // Set the date
@@ -30,16 +96,9 @@
             jQuery("#datepicker").datepicker("setDate" ,"{$date}");
 
             // on project change, taskList & jobList must be updated
-            // TODO do not use form1, use Ajax
-            jQuery("#projectid").change(function() {
-               var form1 = jQuery("#form1");
-               form1.find("input[name=action]").val("setProjectid");
-
-               // Keep value of Week form
-               form1.find("input[name=weekid]").val(jQuery("#weekid").val());
-               form1.find("input[name=year]").val(jQuery("#year").val());
-
-               form1.submit();
+            jQuery("#projectid").change(function(event) {
+               // use ajax to update fields
+               getIssuesAndDurations(event);
             });
 
             jQuery("#filters").click(function(event) {
@@ -59,7 +118,8 @@
                   // Keep value of Week form
                   form1.find("input[name=weekid]").val(jQuery("#weekid").val());
                   form1.find("input[name=year]").val(jQuery("#year").val());
-
+console.log(jQuery("#bugid").val());
+console.log(jQuery("#bugid").children(":selected").attr("id"));
                   form1.submit();
                }
             });
@@ -169,6 +229,16 @@ console.log('done updateBacklogJsonData = ', updateBacklogJsonData);
             <input type="button" name="btAddTrack" id="btAddTrack" value="{t}Add{/t}" />
          </fieldset>
       </form>
+
+      <form id="getIssuesAndDurationsForm" name="formGetIssuesAndDurations" method="post" action="{$ajaxPage}" >
+         <fieldset>
+            <input type="hidden" name="action" value="getIssuesAndDurations" />
+            <input type="hidden" name="managedUserid" value="{$userid}" />
+            <input type="hidden" name="projectid" value="" />
+         </fieldset>
+      </form>
+
+
       <script type="text/javascript">
          jQuery(document).ready(function() {
             jQuery("#setfilter_dialog_form" ).dialog({
