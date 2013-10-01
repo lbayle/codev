@@ -3,35 +3,31 @@
    <p><b>{t}Summary{/t}:</b><br>
    <textarea class="issue_summary" style="width:100%;" rows="2">issue_summary</textarea>
 	</p>
+	<table style="width:100%;">
+		<thead>
+			<tr>
+				<th>{t}Estimated Effort{/t}</th>
+				<th>{t}Elapsed{/t}</th>
+				<th>{t}Backlog{/t}</th>
+				<th>{t}Drift{/t}</th>
+				<th id="th_deadline">{t}Deadline{/t}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td id="desc_effortEstim">effortEstim</td>
+				<td id="desc_elapsed">elapsed</td>
+				<td id="desc_currentBacklog" title="{t}Current backlog{/t}"></td>
+				<td id="desc_drift">drift</td>
+				<td id="desc_deadline">date</td>
+			</tr>
+		</tbody>
+	</table>
+	
    <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="{$page}" >
       <fieldset>
          <table class="invisible">
             <tbody>
-               <tr id="tr_deadline">
-                  <th>{t}Deadline{/t} :</th>
-                  <td id="desc_deadline">date</td>
-                  <td></td>
-               </tr>
-               <tr>
-                  <th>{t}Estimated Effort{/t} :</th>
-                  <td id="desc_effortEstim">effortEstim</td>
-                  <td></td>
-               </tr>
-               <tr>
-                  <th>{t}Elapsed{/t} :</th>
-                  <td id="desc_elapsed">elapsed</td>
-                  <td></td>
-               </tr>
-               <tr>
-                  <th>{t}Backlog{/t} :</th>
-                  <td id="desc_currentBacklog" title="{t}Current backlog{/t}"></td>
-                  <td></td>
-               </tr>
-               <tr>
-                  <th>{t}Drift{/t} :</th>
-                  <td id="desc_drift">drift</td>
-                  <td></td>
-               </tr>
                <tr>
                   <td colspan="3"><hr></td>
                </tr>
@@ -158,9 +154,11 @@
 
 			if (data.hasOwnProperty("deadline")) {
 				jQuery("#desc_deadline").text(data['deadline']);
-				jQuery("#tr_deadline").show();
+				jQuery("#th_deadline").show();
+				jQuery("#desc_deadline").show();
 			} else {
-				jQuery("#tr_deadline").hide();
+				jQuery("#th_deadline").hide();
+				jQuery("#desc_deadline").hide();
 			}
 
 			jQuery("#desc_drift").css("backgroundColor", '#' + data['driftColor']);
