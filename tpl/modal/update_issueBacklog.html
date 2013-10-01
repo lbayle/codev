@@ -1,7 +1,8 @@
 
 <div id="update_backlog_dialog_form" title="Task XXX - Update Backlog" class="ui-helper-hidden">
-   <p class="issue_summary">issue_summary</p>
-   <textarea class="issue_summary1" cols="50" rows="2">issue_summary<textarea>
+   <p><b>{t}Summary{/t}:</b><br>
+   <textarea class="issue_summary" style="width:100%;" rows="2">issue_summary</textarea>
+	</p>
    <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="{$page}" >
       <fieldset>
          <table class="invisible">
@@ -86,7 +87,7 @@
 
 <script type="text/javascript">
 
-			function getUpdateBacklogData(bugid, jobid, userid, timeToAdd, trackDate) {
+		function getUpdateBacklogData(bugid, jobid, userid, timeToAdd, trackDate) {
 			// ajax call to get DialogBox data
 			var formGetUpdateBacklogData = jQuery('#formGetUpdateBacklogData');
 			formGetUpdateBacklogData.find("input[name=bugid]").val(bugid);
