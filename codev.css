@@ -79,6 +79,20 @@ table.invisible tbody {
    background-color: transparent;
 }
 
+table.gray {
+   background-color: #E6E6E6;
+   border: none;
+   padding: 1;
+}
+table.gray th {
+   background-color: LightGray !important;
+   font-weight: bold;
+}
+table.gray tbody {
+   background-color: transparent;
+}
+
+
 .hover {
    cursor: pointer;
 }

@@ -1,14 +1,14 @@
 
 <div id="update_backlog_dialog_form" title="Task XXX - Update Backlog" class="ui-helper-hidden">
    <p><b>{t}Summary{/t}:</b><br>
-   <textarea class="issue_summary" style="width:100%;" rows="2">issue_summary</textarea>
+   <textarea readonly class="issue_summary" style="width:100%;background-color:white;" rows="2">issue_summary</textarea>
 	</p>
-	<table style="width:100%;">
+	<table class = 'gray' style="width:100%;">
 		<thead>
 			<tr>
 				<th>{t}Estimated Effort{/t}</th>
 				<th>{t}Elapsed{/t}</th>
-				<th>{t}Backlog{/t}</th>
+				<th title="{t}Current backlog{/t}">{t}Backlog{/t}</th>
 				<th>{t}Drift{/t}</th>
 				<th id="th_deadline">{t}Deadline{/t}</th>
 			</tr>
@@ -23,7 +23,7 @@
 			</tr>
 		</tbody>
 	</table>
-	
+
    <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="{$page}" >
       <fieldset>
          <table class="invisible">
@@ -44,7 +44,7 @@
                <tr>
                   <th><label for="backlog">{t}Backlog{/t} :</label></th>
                   <td><input type="text" id="backlog" name="backlog" size="3" class="text" /></td>
-                  <td><label id="desc_currentBacklog2" class="help_font" ></label> <label id="validateTips" class="error_font" ></label></td>
+                  <td><label id="validateTips" class="error_font" ></label></td>
                </tr>
             </tbody>
          </table>
@@ -148,7 +148,6 @@
 			jQuery("#desc_effortEstim").text(data['effortEstim']);
 			jQuery("#desc_elapsed").text(data['elapsed']);
 			jQuery("#desc_currentBacklog").text(data['currentBacklog']);
-			jQuery("#desc_currentBacklog2").text('(current = '+data['currentBacklog']+')');
 			jQuery("#desc_drift").text(data['drift']);
 			jQuery("#desc_trackDate").text('(on '+data['trackDate']+')');
 
