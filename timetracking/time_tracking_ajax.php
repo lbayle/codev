@@ -63,8 +63,6 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 
       } elseif($action == 'getUpdateBacklogData') {
 
-$logger->error("getUpdateBacklogData");
-
 			// get info to display the updateBacklog dialogbox
          // (when clicking on the backlog value in WeekTaskDetails)
          // OR clicking the addTrack button in addTrack form (form1)
@@ -75,7 +73,7 @@ $logger->error("getUpdateBacklogData");
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
          if (($job == $job_support) ||
-            ($project->isSideTasksProject(array_keys(array($teamid))) ||
+            ($project->isSideTasksProject(array($teamid)) ||
             ($project->isExternalTasksProject()))) {
             // no backlog update for this task
             $data = array('diagnostic' => 'BacklogUpdateNotNeeded');

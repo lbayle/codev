@@ -291,7 +291,6 @@
       // this is the submit action for formUpdateBacklog when data must be
       // sent via Ajax : on a simple backlog update (click on backlog in weekTaskDetails)
 		function submitUpdateBacklog(event) {
-console.warn('in function updateBacklog (Ajax)');
 
          /* stop form from submitting normally */
          event.preventDefault();
@@ -332,11 +331,8 @@ console.warn('in function updateBacklog (Ajax)');
 
 			// set success callback: execute openUpdateBacklogDialogbox()
          deferred.done(function(updateBacklogJsonData) {
-console.warn('js-updateBacklog-link done: open updateBacklogDialogbox and send data via Ajax');
 
 				var formUpdateBacklog = jQuery("#formUpdateBacklog");
-
-//console.warn('js-updateBacklog-link done: Ajax page = ', '{$ajaxPage}');
 
             // avoid function beeing attached twice
             formUpdateBacklog.off('submit');

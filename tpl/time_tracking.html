@@ -157,8 +157,6 @@
                   // set success callback
                   deferred.done(function (updateBacklogJsonData) {
 
-console.log('done updateBacklogJsonData = ', updateBacklogJsonData);
-
 	                  // if "BacklogUpdateNotNeeded" then submit form1, else raise UpdateBacklogDialogBox
                      if ( 'BacklogUpdateNotNeeded' === updateBacklogJsonData['diagnostic'] ) {
                         form1.find("input[name=action]").val("addTrack");
