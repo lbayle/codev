@@ -72,14 +72,15 @@ This opens a popup window displaying an IssueNote text to edit.
 
             jQuery("#editIssueNoteDialogDesc").text("Task " + bugid );
 
+				jQuery("#dialog_editIssueNote").dialog("open");
+
          },
          error: function(data) {
-            // TODO
-            alert('ERROR: ' + data);
+				console.error('editIssueNote', bugid, data);
+            alert('ERROR: could not get IssueNoteText');
          }
       });
 
-      jQuery("#dialog_editIssueNote").dialog("open");
    }
 
    function markIssueNoteAsRead(bugid) {
@@ -101,8 +102,8 @@ This opens a popup window displaying an IssueNote text to edit.
             //alert("Issue " + bugid + ": Note marked as read.");
          },
          error: function(data) {
-            // TODO
-            alert('ERROR: ' + data);
+				console.error('markIssueNoteAsRead', bugid, data);
+            alert('ERROR: could not get mark IssueNote as read.');
          }
       });
    }
@@ -130,8 +131,8 @@ This opens a popup window displaying an IssueNote text to edit.
 					return false;
 				},
 				error: function(data) {
-					// TODO
-					alert('ERROR: ' + data);
+					console.error('deleteNote', bugid, bugnote_id, data);
+					alert('ERROR: could not deleteNote.');
 				}
 			});
 		}
@@ -177,8 +178,8 @@ This opens a popup window displaying an IssueNote text to edit.
                updateWidgets("#weekTaskDetailsDiv");
             },
             error: function(data) {
-               // TODO
-               alert('ERROR: ' + data);
+					console.error('formEditIssueNote', data);
+					alert('ERROR: could not edit IssueNote.');
             }
          });
       });
