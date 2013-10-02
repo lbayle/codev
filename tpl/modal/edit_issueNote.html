@@ -21,19 +21,19 @@ This opens a popup window displaying an IssueNote text to edit.
             <input type="hidden" name="year" value="{$year}" />
          </fieldset>
       </form>
-      <form id="formGetIssueNoteText" name="formGetIssueNoteText" method="get" action="{$ajaxPage}" >
+      <form id="formGetIssueNoteText" name="formGetIssueNoteText" method="post" action="{$ajaxPage}" >
          <fieldset>
             <input type="hidden" name="action" value="getIssueNoteText" />
             <input type="hidden" name="bugid" value="" />
          </fieldset>
       </form>
-      <form id="formMarkIssueNoteAsRead" name="formMarkIssueNoteAsRead" method="get" action="{$ajaxPage}" >
+      <form id="formMarkIssueNoteAsRead" name="formMarkIssueNoteAsRead" method="post" action="{$ajaxPage}" >
          <fieldset>
             <input type="hidden" name="action" value="markIssueNoteAsRead" />
             <input type="hidden" name="bugid" value="" />
          </fieldset>
       </form>
-      <form id="formDeleteNote" name="formDeleteNote" method="get" action="{$ajaxPage}" >
+      <form id="formDeleteNote" name="formDeleteNote" method="post" action="{$ajaxPage}" >
          <fieldset>
             <input type="hidden" name="action" value="deleteNote" />
             <input type="hidden" name="bugid" value="" />
@@ -52,7 +52,7 @@ This opens a popup window displaying an IssueNote text to edit.
       var formGetIssueNoteText = jQuery('#formGetIssueNoteText');
       formGetIssueNoteText.find("input[name=bugid]").val(bugid);
       jQuery.ajax({
-         type: "GET",
+         type: "POST",
          dataType:"json",
          url: formGetIssueNoteText.attr("action"),
          data: formGetIssueNoteText.serialize(),
@@ -87,7 +87,7 @@ This opens a popup window displaying an IssueNote text to edit.
       var formMarkIssueNoteAsRead = jQuery('#formMarkIssueNoteAsRead');
       formMarkIssueNoteAsRead.find("input[name=bugid]").val(bugid);
       jQuery.ajax({
-         type: "GET",
+         type: "POST",
          url: formMarkIssueNoteAsRead.attr("action"),
          data: formMarkIssueNoteAsRead.serialize(),
          success: function(data) {
@@ -117,7 +117,7 @@ This opens a popup window displaying an IssueNote text to edit.
 			formDeleteNote.find("input[name=bugid]").val(bugid);
 			formDeleteNote.find("input[name=bugnote_id]").val(bugnote_id);
 			jQuery.ajax({
-				type: "GET",
+				type: "POST",
 				url: formDeleteNote.attr("action"),
 				data: formDeleteNote.serialize(),
 				success: function(data) {
@@ -169,7 +169,7 @@ This opens a popup window displaying an IssueNote text to edit.
          var formEditIssueNote = jQuery(this);
 
          jQuery.ajax({
-            type: "GET",
+            type: "POST",
             url: formEditIssueNote.attr("action"),
             data: formEditIssueNote.serialize(),
             success: function(data) {
