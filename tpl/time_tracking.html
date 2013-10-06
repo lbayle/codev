@@ -45,6 +45,10 @@
                      bugidSelect.empty();
                      bugidSelect.select2('data', null);
                      var availableIssues = data['availableIssues'];
+                     var nbIssues = Object.keys(availableIssues).length;
+                     if (nbIssues > 1) {
+                        bugidSelect.append(jQuery('<option>').attr('value', '0').append('').attr('selected', 'selected'));
+                     }
                      var summary = '';
                      var issueInfo;
                      for (var id in availableIssues) {
@@ -62,15 +66,16 @@
                         }
                      }
                      // fill job combobox values
-                     jQuery('#job').empty();
+                     var jobSelect = jQuery('#job');
+                     jobSelect.empty();
                      var availableJobs = data['availableJobs'];
                      var nbJobs = Object.keys(availableJobs).length;
                      if (nbJobs > 1) {
-                        jQuery('#job').append(jQuery('<option>').attr('value', '0').append(''));
+                        jobSelect.append(jQuery('<option>').attr('value', '0').append('').attr('selected', 'selected'));
                      }
                      for (var id in availableJobs) {
                         if (availableJobs.hasOwnProperty(id)) {
-                           jQuery('#job').append(
+                           jobSelect.append(
                               jQuery('<option>').attr('value', id).append(availableJobs[id])
                            );
                         }
