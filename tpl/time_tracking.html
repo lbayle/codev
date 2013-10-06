@@ -64,6 +64,10 @@
                      // fill job combobox values
                      jQuery('#job').empty();
                      var availableJobs = data['availableJobs'];
+                     var nbJobs = Object.keys(availableJobs).length;
+                     if (nbJobs > 1) {
+                        jQuery('#job').append(jQuery('<option>').attr('value', '0').append(''));
+                     }
                      for (var id in availableJobs) {
                         if (availableJobs.hasOwnProperty(id)) {
                            jQuery('#job').append(
