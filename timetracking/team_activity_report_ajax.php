@@ -19,15 +19,17 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
-if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
+if(Tools::isConnectedUser() && (isset($_POST['action']))) {
+
+	//$logger = Logger::getLogger("TeamActivityReportAjax");
 
    //$teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
 
-   if(isset($_GET['action'])) {
+   if(isset($_POST['action'])) {
       //$smartyHelper = new SmartyHelper();
-      if ($_GET['action'] == 'markIssueNoteAsRead') {
+      if ($_POST['action'] == 'markIssueNoteAsRead') {
 
-         $bugid = Tools::getSecureGETIntValue('bugid');
+         $bugid = Tools::getSecurePOSTIntValue('bugid');
          $issueNote = IssueNote::getTimesheetNote($bugid);
          if (!is_null($issueNote)) {
             $userid = $_SESSION['userid'];
@@ -43,12 +45,12 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          // return data
          echo $data;
 
-      } else if ($_GET['action'] == 'deleteNote') {
+      } else if ($_POST['action'] == 'deleteNote') {
 
          $userid = $_SESSION['userid'];
-         $bugid = Tools::getSecureGETIntValue('bugid');
-         $bugnoteid = Tools::getSecureGETIntValue('bugnote_id');
-         
+         $bugid = Tools::getSecurePOSTIntValue('bugid');
+         $bugnoteid = Tools::getSecurePOSTIntValue('bugnote_id');
+
          $retCode = IssueNote::delete($bugnoteid, $bugid, $userid);
          if ($retCode) {
             $data = 'OK';
