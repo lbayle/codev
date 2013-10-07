@@ -428,7 +428,7 @@ class TimeTrackingTools {
 
       $deadline = $issue->getDeadLine();
       if (!is_null($deadline) || (0 != $deadline)) {
-         $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $deadline);
+         $formatedDate = Tools::formatDate("%Y-%m-%d", $deadline);
          $issueInfo['deadline'] = $formatedDate;
       }
 
