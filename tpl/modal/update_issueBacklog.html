@@ -52,9 +52,9 @@
          <input type="hidden" name="action" value="unknown" />
 
          <!-- fields for addTrack action -->
+         <input type="hidden" name="userid" value="" />
          <input type="hidden" name="bugid"  value="" />
          <input type="hidden" name="trackJobid" value="" />
-         <input type="hidden" name="trackUserid" value="" />
          <input type="hidden" name="trackDate" value="" />
 
          <!-- fields for weekTaskDetails -->
@@ -140,6 +140,7 @@
          // action has to be set to "updateBacklog"
 
 			var data = updateBacklogJsonData;
+         var formUpdateBacklog = jQuery("#formUpdateBacklog");
 
 			// do not display computed backlog: force users to reestimate it !
 			//jQuery("#backlog").val(data['calculatedBacklog']);
@@ -161,15 +162,15 @@
 			}
 
 			jQuery("#desc_drift").css("backgroundColor", '#' + data['driftColor']);
-			jQuery("#formUpdateBacklog").find("input[name=year]").val(jQuery("#year").val());
+			formUpdateBacklog.find("input[name=year]").val(jQuery("#year").val());
 
-			jQuery("#formUpdateBacklog").find("input[name=bugid]").val(data['bugid']);
-			jQuery("#formUpdateBacklog").find("input[name=statusid]").val(data['currentStatus']);
-			jQuery("#formUpdateBacklog").find("input[name=trackJobid]").val(data['trackJobid']);
-			jQuery("#formUpdateBacklog").find("input[name=trackUserid]").val(data['trackUserid']);
-			jQuery("#formUpdateBacklog").find("input[name=trackDate]").val(data['trackDate']);
+			formUpdateBacklog.find("input[name=bugid]").val(data['bugid']);
+			formUpdateBacklog.find("input[name=statusid]").val(data['currentStatus']);
+			formUpdateBacklog.find("input[name=trackJobid]").val(data['trackJobid']);
+			formUpdateBacklog.find("input[name=userid]").val(data['trackUserid']);
+			formUpdateBacklog.find("input[name=trackDate]").val(data['trackDate']);
 
-         jQuery("#formUpdateBacklog").find("input[name=bugResolvedStatusThreshold]").val(data['bugResolvedStatusThreshold']);
+         formUpdateBacklog.find("input[name=bugResolvedStatusThreshold]").val(data['bugResolvedStatusThreshold']);
 
 			var dialogBoxTitle = '{t}Task{/t} ' + data['dialogBoxTitle'] + ' - {t}Update Backlog{/t}';
 			jQuery("#update_backlog_dialog_form").dialog("option", "title", dialogBoxTitle);
@@ -197,10 +198,10 @@
 
          if (0 == data['trackDuration']) {
             $('#tr_timeToAdd').hide();
-            jQuery("#formUpdateBacklog").find("input[name=action]").val('updateBacklog');
+            formUpdateBacklog.find("input[name=action]").val('updateBacklog');
          } else {
             $('#tr_timeToAdd').show();
-            jQuery("#formUpdateBacklog").find("input[name=action]").val('addTimetrack');
+            formUpdateBacklog.find("input[name=action]").val('addTimetrack');
 
             // fill duration combobox values
             var availItemList = data['availableDurationList'];

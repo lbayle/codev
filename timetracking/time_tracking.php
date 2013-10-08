@@ -87,7 +87,9 @@ class TimeTrackingController extends Controller {
             $duration = Tools::getSecurePOSTNumberValue('duree',0);
 
             if ("addTrack" == $action) {
-self::$logger->error("addTrack: called by form1");
+               self::$logger->debug("addTrack: called from form1");
+
+               // TODO merge addTrack & addTimetrack actions !
 
                // called by form1 when no backlog has to be set.
                // updateBacklogDialogBox must not raise up,
@@ -112,10 +114,12 @@ self::$logger->error("addTrack: called by form1");
             elseif ("addTimetrack" == $action) {
                // updateBacklogDialogbox with 'addTimetrack' action
                // add track AND update backlog & status
-self::$logger->error("addTimetrack: called from the updateBacklogDialogBox");
+
+               // TODO merge addTrack & addTimetrack actions !
+
+               self::$logger->debug("addTimetrack: called from the updateBacklogDialogBox");
 
                // add timetrack (all values mandatory)
-               $trackUserid  = Tools::getSecurePOSTIntValue('trackUserid');
                $defaultDate  = Tools::getSecurePOSTStringValue('trackDate');
                $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
                $job          = Tools::getSecurePOSTIntValue('trackJobid');
@@ -123,11 +127,9 @@ self::$logger->error("addTimetrack: called from the updateBacklogDialogBox");
 
                $timestamp = (0 !== $defaultDate) ? Tools::date2timestamp($defaultDate) : 0;
 
-               // TODO: check that $trackUserid === managedUser (security issue)
-
-               $trackid = TimeTrack::create($trackUserid, $defaultBugid, $job, $timestamp, $duration);
+               $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration);
                if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("Track $trackid added  : userid=$trackUserid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
+                  self::$logger->debug("Track $trackid added  : userid=$managed_userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
                }
 
                $issue = IssueCache::getInstance()->getIssue($defaultBugid);
