@@ -134,7 +134,7 @@ class TimeTrackingTools {
 
 
             // prepare json data for the BacklogDialogbox
-            $jsonIssueInfo = self::getUpdateBacklogJsonData($issue->getId(), $jobid, $teamid);
+            $jsonIssueInfo = self::getUpdateBacklogJsonData($issue->getId(), $jobid, $teamid, $userid);
 
             // prepare json data for the IssueNoteDialogbox
             if ((!$project->isSideTasksProject(array($teamid))) &&
@@ -383,12 +383,12 @@ class TimeTrackingTools {
     * @param type $bugid
     * @param type $trackJobid
     * @param type $teamid
-    * @param type $trackUserid
+    * @param type $managedUserid
     * @param type $trackDate
     * @param type $trackDuration
     * @return json encoded data to be displayed in the dialogBox
     */
-   public static function getUpdateBacklogJsonData($bugid, $trackJobid, $teamid, $trackUserid=0, $trackDate=0, $trackDuration=0) {
+   public static function getUpdateBacklogJsonData($bugid, $trackJobid, $teamid, $managedUserid, $trackDate=0, $trackDuration=0) {
 
       try {
          $issue = IssueCache::getInstance()->getIssue($bugid);
@@ -403,6 +403,7 @@ class TimeTrackingTools {
       $drift = $issue->getDrift();
       $totalEE = ($issue->getEffortEstim() + $issue->getEffortAdd());
       $issueInfo = array(
+         'trackUserid' => $managedUserid,
          'currentBacklog' => $backlog,
          'bugid' => $issue->getId(),
          'summary' => $summary,
@@ -424,7 +425,6 @@ class TimeTrackingTools {
       if (0 !== $trackDuration) {
          # fill duration combobox values
          $issueInfo['availableDurationList'] = self::getDurationList();
-         $issueInfo['trackUserid'] = $trackUserid;
          $issueInfo['trackDate'] = $trackDate;
       }
 
@@ -458,6 +458,6 @@ class TimeTrackingTools {
 }
 
 // Initialize complex static variables
-Tools::staticInit();
+TimeTrackingTools::staticInit();
 
 ?>

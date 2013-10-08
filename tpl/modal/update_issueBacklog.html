@@ -73,7 +73,7 @@
 			<input type="hidden" name="trackJobid" value="" />
 
          <!-- these values will be transmitted to the updateBacklogDialogbox -->
-			<input type="hidden" name="trackUserid" value="" />
+			<input type="hidden" name="userid" value="" />
 			<input type="hidden" name="trackDuration" value="" />
 			<input type="hidden" name="trackDate" value="" />
 		</fieldset>
@@ -83,12 +83,12 @@
 
 <script type="text/javascript">
 
-		function getUpdateBacklogData(bugid, jobid, userid, timeToAdd, trackDate) {
+		function getUpdateBacklogData(bugid, userid, jobid, timeToAdd, trackDate) {
 			// ajax call to get DialogBox data
 			var formGetUpdateBacklogData = jQuery('#formGetUpdateBacklogData');
 			formGetUpdateBacklogData.find("input[name=bugid]").val(bugid);
+			formGetUpdateBacklogData.find("input[name=userid]").val(userid);
 			formGetUpdateBacklogData.find("input[name=trackJobid]").val(jobid);
-			formGetUpdateBacklogData.find("input[name=trackUserid]").val(userid);
 			formGetUpdateBacklogData.find("input[name=trackDuration]").val(timeToAdd);
 			formGetUpdateBacklogData.find("input[name=trackDate]").val(trackDate);
 
@@ -326,8 +326,7 @@
 		jQuery('.js-updateBacklog-link').click(function(ev){
 			ev.preventDefault();
 			var bugid = this.getAttribute('data-bugId');
-
-         var deferred = getUpdateBacklogData(bugid);
+         var deferred = getUpdateBacklogData(bugid, '{$userid}');
 
 			// set success callback: execute openUpdateBacklogDialogbox()
          deferred.done(function(updateBacklogJsonData) {

@@ -161,7 +161,7 @@
 						// getUpdateBacklogData() uses Ajax (async). The deferred object is used to
 						// define the success/error callbacks to the ajax call.
 						// So the action on getUpdateBacklogData() will be treated asynchronously too.
-                  var deferred = getUpdateBacklogData(bugid, jobid, '{$userid}', trackDuration, trackDate);
+                  var deferred = getUpdateBacklogData(bugid, '{$userid}', jobid, trackDuration, trackDate);
 
                   // set success callback
                   deferred.done(function (updateBacklogJsonData) {

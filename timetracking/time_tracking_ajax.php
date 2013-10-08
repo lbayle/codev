@@ -79,7 +79,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             $data = array('diagnostic' => 'BacklogUpdateNotNeeded');
             $updateBacklogJsonData = json_encode($data);
          } else {
-            $managedUserid  = Tools::getSecurePOSTIntValue('trackUserid', 0);
+            $managedUserid  = Tools::getSecurePOSTIntValue('userid', 0);
             $trackDuration  = Tools::getSecurePOSTNumberValue('trackDuration', 0);
             $trackDate      = Tools::getSecurePOSTStringValue('trackDate', 0);
 
