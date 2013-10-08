@@ -134,7 +134,7 @@ class TimeTrackingTools {
 
 
             // prepare json data for the BacklogDialogbox
-            $jsonIssueInfo = self::getUpdateBacklogJsonData($issue->getId(), $jobid);
+            $jsonIssueInfo = self::getUpdateBacklogJsonData($issue->getId(), $jobid, $teamid);
 
             // prepare json data for the IssueNoteDialogbox
             if ((!$project->isSideTasksProject(array($teamid))) &&
@@ -381,8 +381,14 @@ class TimeTrackingTools {
     * Note: this dialogbox is also responsible for validating the addTrack action.
     *
     * @param type $bugid
+    * @param type $trackJobid
+    * @param type $teamid
+    * @param type $trackUserid
+    * @param type $trackDate
+    * @param type $trackDuration
+    * @return json encoded data to be displayed in the dialogBox
     */
-   public static function getUpdateBacklogJsonData($bugid, $trackJobid, $trackUserid=0, $trackDate=0, $trackDuration=0, $calculatedBacklog = NULL) {
+   public static function getUpdateBacklogJsonData($bugid, $trackJobid, $teamid, $trackUserid=0, $trackDate=0, $trackDuration=0) {
 
       try {
          $issue = IssueCache::getInstance()->getIssue($bugid);
@@ -393,15 +399,15 @@ class TimeTrackingTools {
          $summary = '<span class="error_font">'.T_('Error: Task not found in Mantis DB !').'</span>';
       }
 
-
       // prepare json data for the BacklogDialogbox
       $drift = $issue->getDrift();
+      $totalEE = ($issue->getEffortEstim() + $issue->getEffortAdd());
       $issueInfo = array(
          'currentBacklog' => $backlog,
          'bugid' => $issue->getId(),
          'summary' => $summary,
          'dialogBoxTitle' => $issue->getFormattedIds(),
-         'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),
+         'effortEstim' => $totalEE,
          'mgrEffortEstim' => $issue->getMgrEffortEstim(),
          'elapsed' => $issue->getElapsed(),
          'drift' => $drift,
@@ -422,7 +428,20 @@ class TimeTrackingTools {
          $issueInfo['trackDate'] = $trackDate;
       }
 
-      if (!is_null($calculatedBacklog)) {
+      // display calculatedBacklog depending on team settings
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      if (1 == $team->getGeneralPreference('displayCalculatedBacklogInDialogbox')) {
+
+         // Note: if Backlog is NULL, the values to propose in the DialogBox
+         //       are not the ones used for ProjectManagement
+         if ( !is_null($backlog) && is_numeric($backlog)) {
+            // normal case
+            $calculatedBacklog = $backlog - $trackDuration;
+         } else {
+            // reestimated cannot be used...
+            $calculatedBacklog = $totalEE - $issue->getElapsed();
+         }
+         if ($calculatedBacklog < 0) { $calculatedBacklog = 0;}
          $issueInfo['calculatedBacklog'] = $calculatedBacklog;
       }
 

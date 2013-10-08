@@ -142,8 +142,7 @@
 			var data = updateBacklogJsonData;
          var formUpdateBacklog = jQuery("#formUpdateBacklog");
 
-			// do not display computed backlog: force users to reestimate it !
-			//jQuery("#backlog").val(data['calculatedBacklog']);
+			jQuery("#backlog").val(data['calculatedBacklog']);
 
 			jQuery("#update_backlog_dialog_form").find(".issue_summary").text(data['summary']);
 			jQuery("#desc_effortEstim").text(data['effortEstim']);

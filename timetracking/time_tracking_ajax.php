@@ -83,7 +83,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             $trackDuration  = Tools::getSecurePOSTNumberValue('trackDuration', 0);
             $trackDate      = Tools::getSecurePOSTStringValue('trackDate', 0);
 
-            $updateBacklogJsonData = TimeTrackingTools::getUpdateBacklogJsonData($bugid, $job, $managedUserid, $trackDate, $trackDuration);
+            $updateBacklogJsonData = TimeTrackingTools::getUpdateBacklogJsonData($bugid, $job, $teamid, $managedUserid, $trackDate, $trackDuration);
          }
 
          // return data
