@@ -33,6 +33,12 @@
                var formGetIssuesAndDurations = jQuery('#getIssuesAndDurationsForm');
                formGetIssuesAndDurations.find("input[name=projectid]").val(projectid);
 
+               // ajax call may be slow, empty the task list first.
+               var bugidSelect = jQuery('#bugid');
+               bugidSelect.empty();
+               bugidSelect.select2('data', null);
+               bugidSelect.append(jQuery('<option>').attr('value', '0').append('{t}Please wait...{/t}').attr('selected', 'selected'));
+
                jQuery.ajax({
                   url: '{$ajaxPage}',
                   type: formGetIssuesAndDurations.attr("method"),
@@ -41,7 +47,6 @@
                   success: function(data) {
 
                      // fill job combobox values
-                     var bugidSelect = jQuery('#bugid');
                      bugidSelect.empty();
                      bugidSelect.select2('data', null);
                      var availableIssues = data['availableIssues'];
