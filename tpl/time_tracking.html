@@ -50,7 +50,14 @@
                      bugidSelect.empty();
                      bugidSelect.select2('data', null);
                      var availableIssues = data['availableIssues'];
-                     var nbIssues = Object.keys(availableIssues).length;
+                     
+                     //var nbIssues = Object.keys(availableIssues).length; (IE not compatible with ecmascript5...)
+                     var nbIssues = 0;
+                     for(var k in availableIssues) {
+                        if (availableIssues.hasOwnProperty(k)) {
+                           nbIssues++;
+                        }
+                     }
                      if (nbIssues > 1) {
                         bugidSelect.append(jQuery('<option>').attr('value', '0').append('').attr('selected', 'selected'));
                      }
