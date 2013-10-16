@@ -1,6 +1,7 @@
 // ==UserScript==
 // @name           CodevTT link in Mantis View page
 // @namespace      Mantis
+// @match          @TAG_MANTIS_URL@/view.php?id=*
 // @include        @TAG_MANTIS_URL@/view.php?id=*
 // @version        0.1
 // ==/UserScript==
