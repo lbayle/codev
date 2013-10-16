@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `codev_job_table` (
 --
 
 INSERT INTO `codev_job_table` (`id`, `name`, `type`, `color`) VALUES
-(1, 'N/A', 1, 'A8FFBD'), 
+(1, 'N/A', 1, 'A8FFBD'),
 (2, 'Support', 0, 'A8FFBD');
 -- --------------------------------------------------------
 
@@ -206,7 +206,6 @@ CREATE TABLE IF NOT EXISTS `codev_team_user_table` (
   `access_level` int(11) unsigned NOT NULL DEFAULT '10',
   `arrival_date` int(11) unsigned NOT NULL,
   `departure_date` int(11) unsigned NOT NULL DEFAULT '0',
-  `average_daily_rate` int(11) default NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
