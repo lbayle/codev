@@ -25,22 +25,39 @@
     </appender>
 
 
-    <!-- TODO FIX override level does not work with root appender since upgrade to log4php 2.3.0 ?! -->
+    <!-- Displaying file & line info (%F:%L) may be ressource consuming, use this appender for better performances -->
+    <appender name="myRollingFileAppenderLight" class="LoggerAppenderRollingFile">
+        <layout class="LoggerLayoutPattern">
+         <!--param name="conversionPattern" value="%d{Y-m-d H:i:s} %c %-5p %m (%F:%L) [%server{HTTP_X_FORWARDED_FOR}]%n" /-->
+            <param name="conversionPattern" value="%d{Y-m-d H:i:s} %c %-5p %m (%F:%L) [%server{REMOTE_ADDR}]%n" />
+        </layout>
+        <param name="file" value="@TAG_CODEVTT_LOGFILE_FULLPATH@" />
+        <param name="maxFileSize" value="6MB" />
+        <param name="maxBackupIndex" value="5" />
+    </appender>
+
+
     <logger name="login">
         <level value="INFO" />
-        <!--appender_ref ref="myRollingFileAppender" /-->
+        <appender_ref ref="myRollingFileAppenderLight" />
     </logger>
+
+    <!-- TODO FIX override level does not work with root appender since upgrade to log4php 2.3.0 ?! -->
     <logger name="default">
         <level value="INFO" />
+        <appender_ref ref="myRollingFileAppender" />
     </logger>
     <logger name="homepage">
         <level value="INFO" />
+        <appender_ref ref="myRollingFileAppender" />
     </logger>
     <logger name="download">
         <level value="INFO" />
+        <appender_ref ref="myRollingFileAppender" />
     </logger>
     <logger name="Install">
         <level value="DEBUG" />
+        <appender_ref ref="myRollingFileAppender" />
     </logger>
 
     <root>
