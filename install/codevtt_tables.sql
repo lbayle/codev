@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
-('database_version', 12, 1),
+('database_version', 13, 1),
 ('job_support', 2, 1),
 ('blogCategories', '1:General,2:Imputations', 3);
 
@@ -415,6 +415,28 @@ CREATE TABLE IF NOT EXISTS `codev_command_provision_table` (
   `description` longtext default NULL,
   PRIMARY KEY  (`id`),
   KEY `command_id` (`command_id`)
+
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `codev_wbselement_table`
+--
+
+CREATE TABLE IF NOT EXISTS `codev_wbselement_table` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `title` varchar(255) default NULL,
+  `icon` varchar(64) default NULL,
+  `font` varchar(64) default NULL,
+  `color` varchar(64) default NULL,
+  `bug_id` int(11) default NULL,
+  `parent_id` int(11) default NULL,
+  `order` int(11) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `bug_id` (`bug_id`),
+  KEY `parent_id` (`parent_id`)
 
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
