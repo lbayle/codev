@@ -23,19 +23,17 @@ class WBSElement extends Model {
    private $bugId;
    private $parentId;
    private $order;
+   
+   private $isAdded;
+   private $isRemoved;
 
    public function __construct($id, $details = NULL) {
-      if (0 == $id) {
-         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("Constructor: Creating a WBSElement with id=0 is not allowed.");
-         self::$logger->error("EXCEPTION WBSElement constructor: ".$e->getMessage());
-         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-         throw $e;
+      if (0 == $id) 
+      	$this->id = $this->create();
+      else {
+      	$this->id = $id;
+      	$this->initialize($details);
       }
-
-      $this->id = $id;
-
-      $this->initialize($details);
    }
 
    /**
@@ -65,6 +63,9 @@ class WBSElement extends Model {
          $this->bugId = $row->bug_id;
          $this->parentId = $row->parent_id;
          $this->order = $row->order;
+         
+         $this->isAdded = false;
+         $this->isRemoved = false;
       } else {
          $e = new Exception("Constructor: WBSElement $this->wbselementId does not exist in Mantis DB.");
          self::$logger->error("EXCEPTION WBSElement constructor: " . $e->getMessage());
@@ -78,31 +79,75 @@ class WBSElement extends Model {
    }
    
    public function getTitle() {
-   	return $this->title;
+   	  return $this->title;
+   }
+   
+   public function setTitle($title) {
+   	  $this->title = $title;
    }
    
    public function getIcon() {
       return $this->icon;
    }
    
+   public function setIcon($icon) {
+   	$this->icon = $icon;
+   }
+   
    public function getFont() {
       return $this->font;
+   }
+   
+   public function setFont($font) {
+   	$this->font = $font;
    }
    
    public function getColor() {
       return $this->color;
    }
    
+   public function setColor($color) {
+   	$this->color = $color;
+   }
+   
    public function getBugId() {
       return $this->bugId;
+   }
+   
+   public function setBugId($bugId) {
+   	$this->bugId = $bugId;
    }
    
    public function getParentId() {
    	return $this->parentId;
    }
    
+   public function setParentId($parentId) {
+   	$this->parentId = $parentId;
+   }
+   
    public function getOrder() {
       return $this->order;
+   }
+   
+   public function setOrder($order) {
+      $this->order = $order;
+   }
+   
+   public function isAdded() {
+   	  return $this->isAdded;
+   }
+   
+   public function setAdded() {
+   	  $this->isAdded = true;
+   }
+   
+   public function isRemoved() {
+   	  return $this->isRemoved;
+   }
+   
+   public function setRemoved() {
+   	  $this->isRemoved = true;
    }
    
    public function isRoot() {
@@ -115,7 +160,7 @@ class WBSElement extends Model {
    
    public function getChildren($hasDetail) {
    
-   	$query = "SELECT * FROM `codev_wbselement_table` WHERE parent_id = " . $this->getId();
+    $query = "SELECT * FROM `codev_wbselement_table` WHERE `parent_id` = " . $this->getId() . " ORDER BY `order`";
    	$result = SqlWrapper::getInstance()->sql_query($query);
    
    	if ($result) {
@@ -130,6 +175,7 @@ class WBSElement extends Model {
 	   			
 	   			$childArray['title'] = $wbselement->getTitle();
 	   			$childArray['isFolder'] = true;
+	   			$childArray['key'] = $wbselement->getId();
 	   			$childArray['children'] = $wbselement->getChildren($hasDetail);
 		
 	   		}
@@ -153,6 +199,7 @@ class WBSElement extends Model {
 
 	   				$childArray['title'] = $issue->getSummary() . $detail; 
 	   				$childArray['isFolder'] = false;
+	   				$childArray['key'] = $wbselement->getId();
 
    				}
    				
@@ -178,6 +225,41 @@ class WBSElement extends Model {
    		
    	}
    
+   }
+   
+   public function create() {
+   	
+   	$query = "INSERT INTO `codev_wbselement_table` (`order`) VALUES ('1')";
+   	
+   	SqlWrapper::getInstance()->sql_query($query);
+   	
+   	return SqlWrapper::getInstance()->sql_insert_id();
+   }
+   
+   public function update() {
+   	
+   	$query = "UPDATE `codev_wbselement_table`".
+   		" SET `title` = '" . $this->getTitle(). "'".
+   		", `parent_id` = " . (($this->getParentId() == null) ? "NULL" : $this->getParentId()).
+   		", `order` = " . $this->getOrder().
+   		" WHERE `id` = " . $this->getId();
+   	
+   	$result = SqlWrapper::getInstance()->sql_query($query);
+   	if (!$result) {
+   		echo "<span style='color:red'>ERROR: Query FAILED</span>";
+   		exit;
+   	}
+   }
+   
+   public function remove() {
+   	
+   	$query = "DELETE FROM `codev_wbselement_table` WHERE `id` = " . $this->getId();
+   	
+   	$result = SqlWrapper::getInstance()->sql_query($query);
+   	if (!$result) {
+   		echo "<span style='color:red'>ERROR: Query FAILED</span>";
+   		exit;
+   	}
    }
 
 }

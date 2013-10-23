@@ -1,4 +1,5 @@
 <?php
+
 require('../include/session.inc.php');
 require('../path.inc.php');
 
@@ -14,10 +15,19 @@ $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 $root = new WBSElement($row->id);
 $treeData['title'] = $root->getTitle();
 $treeData['isFolder'] = true;
+$treeData['key'] = $root->getId();
 
-$treeData['children'] = $root->getChildren(1);
-file_put_contents('../tpl/treeDataDetail.json', json_encode($treeData));
+$hasDetail = $_GET['hasDetail'];
+$jsonName = '';
+if ($hasDetail == 1) {
+	$jsonName = 'treeDataDetail.json';
+}
+else {
+	$jsonName = 'treeData.json';
+}
 
-$treeData['children'] = $root->getChildren(0);
-file_put_contents('../tpl/treeData.json', json_encode($treeData));
+$treeData['children'] = $root->getChildren($hasDetail);
+//echo var_dump($treeData);
+file_put_contents('../tpl/'.$jsonName, json_encode($treeData));
+
 ?>
