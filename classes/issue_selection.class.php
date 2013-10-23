@@ -570,7 +570,7 @@ class IssueSelection {
     * @return array bugid => timestamp
     */
    public function getLastUpdatedList($max = 1) {
-
+   	$lastUpdatedList = array();
       if(count($this->issueList) > 0) {
          $query = "SELECT id, last_updated from `mantis_bug_table` ".
             "WHERE id IN (".implode(', ',array_keys($this->issueList)).") ".
@@ -580,7 +580,7 @@ class IssueSelection {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-      $lastUpdatedList = array();
+      
       while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $lastUpdatedList["$row->id"] = $row->last_updated;
       }
