@@ -125,6 +125,12 @@ class TimeTrackingController extends Controller {
                $job          = Tools::getSecurePOSTIntValue('trackJobid');
                $duration     = Tools::getSecurePOSTNumberValue('timeToAdd');
 
+               // check jobid (bug happens sometime...
+               if(0 == $job) {
+                  $this->smartyHelper->assign('error', T_("Timetrack not added: Job has not specified."));
+                  self::$logger->error("Add track : FAILED. issue=$defaultBugid, jobid=$job, duration=$duration date=$defaultDate");
+               }
+
                $timestamp = (0 !== $defaultDate) ? Tools::date2timestamp($defaultDate) : 0;
 
                $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration);
