@@ -13,6 +13,7 @@ if (Tools::isConnectedUser() && (isset($_GET['action']))) {
 
          $dynatreeDict = json_decode($jsonDynatreeDict);
          file_put_contents('/tmp/dynatree.txt', serialize($dynatreeDict));
+         //file_put_contents('/tmp/dynatree_inserialize.txt', $dynatreeDict);
 
          echo $jsonDynatreeDict;
 

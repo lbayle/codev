@@ -20,7 +20,7 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
-class AdminController extends Controller {
+class WBSReaderController extends Controller {
 
    /**
     * Initialize complex static variables
@@ -37,8 +37,8 @@ class AdminController extends Controller {
 }
 
 // ========== MAIN ===========
-AdminController::staticInit();
-$controller = new AdminController('../', 'Dynatree TEST','');
+WBSReaderController::staticInit();
+$controller = new WBSReaderController('../', 'Dynatree TEST','');
 $controller->execute();
 
 ?>
