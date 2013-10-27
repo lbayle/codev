@@ -561,41 +561,40 @@ class Tools {
       $request = "SELECT LOAD_FILE('".$sqlFile."')";
 
       $result = SqlWrapper::getInstance()->sql_query($request);
+
       if (!$result) {
          $error = "ERROR : ".$request." : ".SqlWrapper::getInstance()->sql_error();
          echo "<span class='error_font'>$error</span><br />";
          exit;
       }
+
       if (is_null(SqlWrapper::getInstance()->sql_result($result, 0))) {
          $error = 'ERROR : could not LOAD_FILE ('.$sqlFile.') : NULL returned.';
          echo "<span class='error_font'>$error</span><br />";
-         exit;
-      }
 
+         // SELECT LOAD_FILE doesn't work on all OS !
+         $request = "";
 
-      /*
-      $request = "";
+         $sql=file($sqlFile);
+         foreach($sql as $l){
+            $l = trim($l);
+            if(strlen($l) > 0) {
+               if (substr($l,0,2) != "--"){ // remove comments
+                  $request .= $l;
+               }
+            }
+         }
 
-      $sql=file($sqlFile);
-      foreach($sql as $l){
-         $l = trim($l);
-         if(strlen($l) > 0) {
-            if (substr($l,0,2) != "--"){ // remove comments
-               $request .= $l;
+         $reqs = split(";",$request);// identify single requests
+         foreach($reqs as $req) {
+            if(strlen($req) > 0) {
+               if (!SqlWrapper::getInstance()->sql_query($req)) {
+                  die("ERROR : ".$req." : ".SqlWrapper::getInstance()->sql_error());
+                  //return false;
+               }
             }
          }
       }
-
-      $reqs = split(";",$request);// identify single requests
-      foreach($reqs as $req) {
-         if(strlen($req) > 0) {
-            if (!SqlWrapper::getInstance()->sql_query($req)) {
-               die("ERROR : ".$req." : ".SqlWrapper::getInstance()->sql_error());
-               //return false;
-            }
-         }
-      }
-      */
 
       return TRUE;
    }
