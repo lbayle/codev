@@ -25,6 +25,11 @@ class Constants {
 
    public static $homepage_title;
    public static $logoImage   = "images/codevtt_logo_03_mini.png";
+   public static $doodles   = array('logo_image_1031_1031' => 'images/codevtt_logo_03_halloween.png',
+                                    'logo_image_1220_1227' => 'images/codevtt_logo_03_christmas.png',
+                                    'logo_image_1231_1231' => 'images/codevtt_logo_03_happynewyear.png',
+                                    'logo_image_0101_0106' => 'images/codevtt_logo_03_happynewyear.png',
+                                    'logo_image_0421_0425' => 'images/codevtt_logo_03_easter.png');
 
    // --- DATABASE ---
    public static $db_mantis_host;
@@ -118,6 +123,22 @@ class Constants {
       if (array_key_exists('logo_image', $general)) {
          self::$logoImage             = $general['logo_image'];
       }
+      
+      $doodles = $ini_array['doodles'];
+      if (is_array($doodles)) {
+         $today = date("md");
+         self::$doodles = array(); // remove default doodles
+         foreach ($doodles as $key => $value) {
+            self::$doodles[$key] = $value;
+
+            if ((substr($key, 0, 11) === 'logo_image_') &&
+                (substr($key, 11,4) <= $today && substr($key, 16,4) >= $today) &&
+                (file_exists($value))) {
+               self::$logoImage = $value;
+            }
+         }
+      }
+
       self::$codevURL               = $general['codevtt_url'];
       self::$codevRootDir           = $general['codevtt_dir'];
       self::$mantisPath             = $general['mantis_dir'];
@@ -220,6 +241,11 @@ class Constants {
       $perf[] = '; set to 0 to display all tooltips.';
       $perf['max_tooltips_per_page'] = self::$maxTooltipsPerPage;
 
+      $doodles = array();
+      $doodles[] = '; logo_image_startDate_endDate = "images/doodle_logo.png" (date "MMdd")';
+      foreach (self::$doodles as $key => $value) {
+         $doodles[$key] = $value;
+      }
 
       $ini_array = array();
       $ini_array[] = '; This file is part of CodevTT.';
@@ -240,6 +266,8 @@ class Constants {
       $ini_array['relationships'] = $relationships;
       $ini_array[] = '';
       $ini_array['perf'] = $perf;
+      $ini_array[] = '';
+      $ini_array['doodles'] = $doodles;
       $ini_array[] = '';
       $ini_array[] = '';
 
