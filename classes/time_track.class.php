@@ -109,6 +109,16 @@ class TimeTrack extends Model {
     * @return int
     */
    public static function create($userid, $bugid, $job, $timestamp, $duration) {
+
+      if ((0 == $userid) ||
+          (0 == $bugid) ||
+          (0 == $job) ||
+          (0 == $timestamp) ||
+          (0 == $duration)) {
+         self::$logger->error("create track : userid = $userid, bugid = $bugid, job = $job, timestamp = $timestamp, duration = $duration");
+         return 0;
+          }
+
       $query = "INSERT INTO `codev_timetracking_table`  (`userid`, `bugid`, `jobid`, `date`, `duration`) VALUES ('$userid','$bugid','$job','$timestamp', '$duration');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
