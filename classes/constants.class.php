@@ -176,7 +176,7 @@ class Constants {
       define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS',     $relationships['relationship_constrains'] );
 
       $perf = $ini_array['perf'];
-      if (array_key_exists('max_tooltips_per_page', $perf)) {
+      if ($perf != null && array_key_exists('max_tooltips_per_page', $perf)) {
          self::$maxTooltipsPerPage = $perf['max_tooltips_per_page'];
       }
 
