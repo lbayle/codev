@@ -48,3 +48,10 @@ relationship_constrains = 2501
 ; set to 0 to display all tooltips.
 max_tooltips_per_page = 500
 
+[doodles]
+; logo_image_startDate_endDate = "images/doodle_logo.png" (date "MMdd")
+logo_image_0421_0425 = "images/codevtt_logo_03_easter"
+logo_image_1031_1031 = "images/codevtt_logo_03_halloween.png"
+logo_image_1220_1227 = "images/codevtt_logo_03_christmas.png"
+logo_image_1231_1231 = "images/codevtt_logo_03_happynewyear.png"
+logo_image_0101_0106 = "images/codevtt_logo_03_happynewyear.png"
