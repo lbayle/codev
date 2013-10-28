@@ -53,7 +53,7 @@
     </logger>
     <logger name="download">
         <level value="INFO" />
-        <appender_ref ref="myRollingFileAppender" />
+        <appender_ref ref="myRollingFileAppenderLight" />
     </logger>
     <logger name="Install">
         <level value="DEBUG" />
