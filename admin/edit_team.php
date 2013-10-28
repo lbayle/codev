@@ -202,6 +202,7 @@ class EditTeamController extends Controller {
 
                $this->smartyHelper->assign('accessLevel', Team::$accessLevelNames);
 
+               $this->smartyHelper->assign('arrivalDate', date("Y-m-d", time()));
                $this->smartyHelper->assign('departureDate', date("Y-m-d", time()));
 
                $this->smartyHelper->assign('teamMembers', $this->getTeamMembers($displayed_teamid));
