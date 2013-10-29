@@ -167,6 +167,12 @@ class TimeTrackingTools {
                $noteTooltip = '';
             }
 
+            // if project not declared in current team, then
+            // user cannot add a timetrack by clicking in the weekTasks table
+            // Note: (this would generate an error on addTimetrack)
+            $team = TeamCache::getInstance()->getTeam($teamid);
+            $isTeamProject = !is_null($team->getProjectType($issue->getProjectId()));
+
             $weekTasks[$bugid."_".$jobid] = array(
                'bugid' => $bugid,
                'description' => $description,
@@ -179,6 +185,7 @@ class TimeTrackingTools {
                'updateBacklogJsonData' => $jsonIssueInfo,
                'issueNoteId' => $issueNoteId,
                'noteTooltip' => $noteTooltip,
+               'isTeamProject' => $isTeamProject,
             );
          }
       }
