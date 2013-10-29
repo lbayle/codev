@@ -94,7 +94,7 @@
 
          <td class="job-{$i.jobid}">{$i.jobName}</td>
          {foreach from=$i.dayTasks key=day item=j}
-         <td {if $j.title}title="{$j.title}"{/if} class="dayTask hover" style="{if $j.bgColor}background-color: #{$j.bgColor};{/if}" >{if $j.day != 0}{$j.day}{/if}</td>
+         <td {if $j.title}title="{$j.title}"{/if} {if $i.isTeamProject}class="dayTask hover"{/if} style="{if $j.bgColor}background-color: #{$j.bgColor};{/if}" >{if $j.day != 0}{$j.day}{/if}</td>
          {/foreach}
       </tr>
       {/foreach}
