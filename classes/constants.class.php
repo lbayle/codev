@@ -124,21 +124,6 @@ class Constants {
          self::$logoImage             = $general['logo_image'];
       }
       
-      $doodles = $ini_array['doodles'];
-      if (is_array($doodles)) {
-         $today = date("md");
-         self::$doodles = array(); // remove default doodles
-         foreach ($doodles as $key => $value) {
-            self::$doodles[$key] = $value;
-
-            if ((substr($key, 0, 11) === 'logo_image_') &&
-                (substr($key, 11,4) <= $today && substr($key, 16,4) >= $today) &&
-                (file_exists($value))) {
-               self::$logoImage = $value;
-            }
-         }
-      }
-
       self::$codevURL               = $general['codevtt_url'];
       self::$codevRootDir           = $general['codevtt_dir'];
       self::$mantisPath             = $general['mantis_dir'];
@@ -178,6 +163,21 @@ class Constants {
       $perf = $ini_array['perf'];
       if ($perf != null && array_key_exists('max_tooltips_per_page', $perf)) {
          self::$maxTooltipsPerPage = $perf['max_tooltips_per_page'];
+      }
+
+      $doodles = $ini_array['doodles'];
+      if (is_array($doodles)) {
+         $today = date("md");
+         self::$doodles = array(); // remove default doodles
+         foreach ($doodles as $key => $value) {
+            self::$doodles[$key] = $value;
+
+            if ((substr($key, 0, 11) === 'logo_image_') &&
+                (substr($key, 11,4) <= $today && substr($key, 16,4) >= $today) &&
+                (file_exists(self::$codevRootDir.DIRECTORY_SEPARATOR.$value))) {
+               self::$logoImage = $value;
+            }
+         }
       }
 
       // -----
