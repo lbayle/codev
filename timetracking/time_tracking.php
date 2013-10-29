@@ -41,7 +41,8 @@ class TimeTrackingController extends Controller {
         // only teamMembers can access this page
         if ((0 == $this->teamid) ||
             ($this->session_user->isTeamCustomer($this->teamid)) ||
-            ($this->session_user->isTeamObserver($this->teamid))) {
+            ($this->session_user->isTeamObserver($this->teamid)) ||
+            (!$this->session_user->isTeamMember($this->teamid))) {
 
             $this->smartyHelper->assign('accessDenied', TRUE);
         } else {
