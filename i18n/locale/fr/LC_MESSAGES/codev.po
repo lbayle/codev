@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-01 23:21+0200\n"
+"POT-Creation-Date: 2013-11-03 23:29+0100\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -80,6 +80,7 @@ msgstr "Catégorie"
 
 #: tpl/blog/blogpost_form.html
 #: tpl/modal/select_issues.html
+#: tpl/modal/update_issueBacklog.html
 #: tpl/forecasting_report.html
 #: tpl/team_monthly_activity_report.html
 #: tpl/command_info.html
@@ -114,6 +115,27 @@ msgstr "Au"
 #: tpl/blog/blogpost.html
 msgid "Author"
 msgstr "Auteur"
+
+#: tpl/modal/change_managedUser.html
+msgid "Select User"
+msgstr "Changer de collaborateur"
+
+#: tpl/modal/change_managedUser.html
+msgid "Select team user"
+msgstr "Sélectionner un membre de l'équipe"
+
+#: tpl/modal/change_managedUser.html
+#: tpl/command_edit.html
+#: tpl/edit_team.html
+#: tpl/servicecontract_edit.html
+#: tpl/set_holidays.html
+#: tpl/commandset_edit.html
+msgid "Name"
+msgstr "Nom"
+
+#: tpl/modal/change_managedUser.html
+msgid "Change user"
+msgstr "Changer de collaborateur"
 
 #: tpl/modal/login.html
 msgid "Length of"
@@ -166,6 +188,7 @@ msgid "Redirection"
 msgstr "Redirection"
 
 #: tpl/modal/login.html
+#: tpl/time_tracking.html
 msgid "Please wait..."
 msgstr "Veuillez patienter..."
 
@@ -291,14 +314,16 @@ msgstr "Effacer la note de la tâche "
 
 #: tpl/modal/update_issueBacklog.html
 #: tpl/forecasting_report.html
-#: tpl/command_edit.html
-#: tpl/import_issues.html
-msgid "Deadline"
-msgstr "Deadline"
-
-#: tpl/modal/update_issueBacklog.html
-msgid "Estimated effort"
-msgstr "Charge estimée"
+#: tpl/command_info.html
+#: tpl/productivity_report.html
+#: tpl/statistics.html
+#: tpl/planning_report.html
+#: tpl/plugin/effortEstimReliabilityIndicator.html
+#: tpl/ajax/issueGeneralInfo.html
+#: indicator_plugins/DetailedChargesIndicator.class.php:310
+#: reports/project_info.php:231 tools.php:1324
+msgid "EffortEstim"
+msgstr "Charge Init"
 
 #: tpl/modal/update_issueBacklog.html
 #: tpl/forecasting_report.html
@@ -318,12 +343,8 @@ msgid "Elapsed"
 msgstr "Consommé"
 
 #: tpl/modal/update_issueBacklog.html
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-#: tpl/statistics.html
-#: tpl/plugin/effortEstimReliabilityIndicator.html
-msgid "Effort Deviation"
-msgstr "Dérive"
+msgid "Current backlog"
+msgstr "RAF actuel"
 
 #: tpl/modal/update_issueBacklog.html
 #: tpl/forecasting_report.html
@@ -349,6 +370,41 @@ msgid "Backlog"
 msgstr "Reste à faire"
 
 #: tpl/modal/update_issueBacklog.html
+#: tpl/forecasting_report.html
+#: tpl/command_info.html
+#: tpl/productivity_report.html
+#: tpl/statistics.html
+#: tpl/plugin/budgetDriftHistoryIndicator.html
+#: tpl/index.html
+#: tpl/project_info.html
+#: tpl/ajax/issueGeneralInfo.html
+#: indicator_plugins/DetailedChargesIndicator.class.php:257
+#: indicator_plugins/DetailedChargesIndicator.class.php:315
+#: reports/productivity_report_tools.php:45 reports/project_info.php:179
+#: reports/project_info.php:236 reports/project_info.php:287
+#: reports/project_info.php:300 tools.php:185
+msgid "Drift"
+msgstr "Dérive"
+
+#: tpl/modal/update_issueBacklog.html
+#: tpl/forecasting_report.html
+#: tpl/command_edit.html
+#: tpl/import_issues.html
+msgid "Deadline"
+msgstr "Deadline"
+
+#: tpl/modal/update_issueBacklog.html
+#: tpl/time_tracking.html
+#: tpl/planning_report.html
+msgid "Duration"
+msgstr "Durée"
+
+#: tpl/modal/update_issueBacklog.html
+#: tpl/time_tracking.html
+msgid "Duration (in days)"
+msgstr "Durée (en jours)"
+
+#: tpl/modal/update_issueBacklog.html
 #: tpl/issue_info.html
 msgid "Update Backlog"
 msgstr "Mise à jour du RAF"
@@ -361,6 +417,13 @@ msgstr "Tâche non résolue, le RAF ne peut être nul"
 #: tpl/planning_report.html
 msgid "Click to show errors"
 msgstr "Cliquer pour afficher les erreurs"
+
+#: tpl/forecasting_report.html
+#: tpl/productivity_report.html
+#: tpl/statistics.html
+#: tpl/plugin/effortEstimReliabilityIndicator.html
+msgid "Effort Deviation"
+msgstr "Dérive"
 
 #: tpl/forecasting_report.html
 #: tpl/productivity_report.html
@@ -485,10 +548,12 @@ msgid "nb days"
 msgstr "nb jours"
 
 #: tpl/forecasting_report.html
+#: tpl/command_info.html
 #: tpl/team_activity_report.html
 #: tpl/check.html
 #: tpl/plugin/activity_indicator_ajax1.html
 #: tpl/import_issues.html
+#: install/install_step1.php:210
 msgid "User"
 msgstr "Utilisateur"
 
@@ -523,18 +588,6 @@ msgstr "Avancement"
 #: tests/filters.php:68 tools.php:1321
 msgid "MgrEffortEstim"
 msgstr "Charge Mgr"
-
-#: tpl/forecasting_report.html
-#: tpl/command_info.html
-#: tpl/productivity_report.html
-#: tpl/statistics.html
-#: tpl/planning_report.html
-#: tpl/plugin/effortEstimReliabilityIndicator.html
-#: tpl/ajax/issueGeneralInfo.html
-#: indicator_plugins/DetailedChargesIndicator.class.php:310
-#: reports/project_info.php:231 tools.php:1324
-msgid "EffortEstim"
-msgstr "Charge Init"
 
 #: tpl/forecasting_report.html
 #: tpl/command_info.html
@@ -587,22 +640,6 @@ msgstr "Dérive Mgr"
 #: tpl/project_info.html
 msgid "Drift relatively to (EE + AddEE)"
 msgstr "Dérive par rapport au BI + BS"
-
-#: tpl/forecasting_report.html
-#: tpl/command_info.html
-#: tpl/productivity_report.html
-#: tpl/statistics.html
-#: tpl/plugin/budgetDriftHistoryIndicator.html
-#: tpl/index.html
-#: tpl/project_info.html
-#: tpl/ajax/issueGeneralInfo.html
-#: indicator_plugins/DetailedChargesIndicator.class.php:257
-#: indicator_plugins/DetailedChargesIndicator.class.php:315
-#: reports/productivity_report_tools.php:45 reports/project_info.php:179
-#: reports/project_info.php:236 reports/project_info.php:287
-#: reports/project_info.php:300 tools.php:185
-msgid "Drift"
-msgstr "Dérive"
 
 #: tpl/forecasting_report.html
 #: tpl/productivity_report.html
@@ -1915,38 +1952,12 @@ msgid "TOTAL"
 msgstr "TOTAL"
 
 #: tpl/time_tracking.html
-msgid "Select User"
-msgstr "Changer de collaborateur"
-
-#: tpl/time_tracking.html
-msgid "Select team user"
-msgstr "Sélectionner un membre de l'équipe"
-
-#: tpl/time_tracking.html
-#: tpl/command_edit.html
-#: tpl/edit_team.html
-#: tpl/servicecontract_edit.html
-#: tpl/set_holidays.html
-#: tpl/commandset_edit.html
-msgid "Name"
-msgstr "Nom"
-
-#: tpl/time_tracking.html
-msgid "Change user"
-msgstr "Changer de collaborateur"
-
-#: tpl/time_tracking.html
 msgid "ERROR"
 msgstr "ERREUR"
 
 #: tpl/time_tracking.html
 msgid "Query FAILED"
 msgstr "ECHEC de requête"
-
-#: tpl/time_tracking.html
-#: tpl/planning_report.html
-msgid "Duration"
-msgstr "Durée"
 
 #: tpl/time_tracking.html
 #: tpl/form/dateRangeSelector.html
@@ -1968,10 +1979,6 @@ msgstr "(tous)"
 #: tpl/form/selectFiltersDialogbox.html
 msgid "Set filters"
 msgstr "Filtrer les tâches"
-
-#: tpl/time_tracking.html
-msgid "Duration (in days)"
-msgstr "Durée (en jours)"
 
 #: tpl/time_tracking.html
 #: tpl/form/selectFiltersDialogbox.html
@@ -2650,7 +2657,7 @@ msgstr "réduire l'échelle"
 #: reports/issue_info.php:85 reports/issue_info.php:86
 #: reports/productivity_report.php:201
 #: timetracking/team_monthly_activity_report.php:75
-#: timetracking/time_tracking.php:294 timetracking/team_activity_report.php:65
+#: timetracking/time_tracking.php:260 timetracking/team_activity_report.php:65
 msgid "Errors"
 msgstr "Erreurs"
 
@@ -3370,15 +3377,15 @@ msgstr "L'ajout du projet a échouée"
 msgid "Could NOT remove the project from the team"
 msgstr "Le retrait du projet a échoué"
 
-#: admin/edit_team.php:222
+#: admin/edit_team.php:223
 msgid "Configure Tooltips"
 msgstr "Configuration des infobulles"
 
-#: admin/edit_team.php:287
+#: admin/edit_team.php:288
 msgid "enabled"
 msgstr "activé"
 
-#: admin/edit_team.php:287
+#: admin/edit_team.php:288
 msgid "disabled"
 msgstr "désactivé"
 
@@ -3434,9 +3441,16 @@ msgstr "Normale"
 msgid "High"
 msgstr "Haute"
 
-#: classes/team.class.php:41
+#: classes/team.class.php:42
 msgid "Forbid adding timetracks on closed issues"
 msgstr "Interdire les imputations sur les tâches fermées"
+
+#: classes/team.class.php:43
+msgid ""
+"Display calculated backlog as default value in the updateBacklog dialogbox"
+msgstr ""
+"Proposer un RAF calculé comme valeur par defaut dans la boite de dialogue de "
+"la mise à jour du RAF"
 
 #: classes/scheduler.class.php:81 reports/planning_report.php:185
 msgid "monitored"
@@ -3681,7 +3695,7 @@ msgid "Resolved Tasks"
 msgstr "Tâches résolues"
 
 #: indicator_plugins/StatusHistoryIndicator.class.php:194
-#: management/servicecontract_tools.php:275 management/command_tools.php:97
+#: management/servicecontract_tools.php:275 management/command_tools.php:100
 #: management/commandset_tools.php:120 reports/planning_report.php:325
 #: reports/planning_report.php:404
 msgid "Y-m-d"
@@ -4020,7 +4034,7 @@ msgstr "RAF (jours)"
 
 #: reports/productivity_report.php:202
 #: timetracking/team_monthly_activity_report.php:76
-#: timetracking/time_tracking.php:295 timetracking/team_activity_report.php:66
+#: timetracking/time_tracking.php:261 timetracking/team_activity_report.php:66
 msgid "days are incomplete or undefined"
 msgstr "jours sont incomplets ou non définis"
 
@@ -4048,24 +4062,32 @@ msgstr "Désolé, il n'y a pas de projets définis pour cette équipe."
 msgid "today"
 msgstr "aujourd'hui"
 
+#. light grey
+#: timetracking/holidays_report.php:159
+msgid "User not in team"
+msgstr "L'utilisateur ne fait pas partie de l'équipe"
+
 #: timetracking/time_tracking_tools.php:69
-#: timetracking/time_tracking_ajax.php:140 timetracking/time_tracking.php:386
+#: timetracking/time_tracking_tools.php:406 timetracking/time_tracking.php:352
 #: timetracking/team_activity_report.php:179
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Erreur : Tâche introuvable dans la BDD Mantis !"
 
 #: timetracking/time_tracking_tools.php:119
-#: timetracking/time_tracking_ajax.php:164 timetracking/time_tracking.php:119
 msgid "%Y-%m-%d"
 msgstr "%d-%m-%Y"
 
-#: timetracking/time_tracking_tools.php:189
+#: timetracking/time_tracking_tools.php:164
 msgid "Click to add a note"
 msgstr "Cliquer pour ajouter une note"
 
-#: timetracking/time_tracking.php:179
-msgid "Failed to delete the tasks"
-msgstr "Impossible de supprimer les tâches"
+#: timetracking/time_tracking.php:131
+msgid "Timetrack not added: Job has not specified."
+msgstr "Imputation non créée: le poste doit être spécifié"
+
+#: timetracking/time_tracking.php:167
+msgid "Failed to delete the timetrack !"
+msgstr "Impossible de supprimer l'imputation !"
 
 #: smarty_tools.php:120
 msgid "W"
@@ -4074,6 +4096,9 @@ msgstr "S"
 #: tools.php:1330
 msgid "AddEffortEstim"
 msgstr "Charge Additionnelle"
+
+#~ msgid "Estimated effort"
+#~ msgstr "Charge estimée"
 
 #~ msgid "FAILED"
 #~ msgstr "ECHEC"
