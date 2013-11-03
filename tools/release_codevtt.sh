@@ -66,7 +66,6 @@ f_release()
   rm images/codevtt_logo_01.png
   rm images/codevtt_logo_02.png
   rm images/codevtt_logo_03_template.png
-  rm images/codevtt_logo_03_halloween.png
 
   rm tools/create_fake_db.php
   rm tools/create_class_map.php
