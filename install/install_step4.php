@@ -32,6 +32,15 @@ require_once('install/install_menu.inc.php');
 #$logger = Logger::getLogger("install_step4");
 
 function displayPage() {
+
+      // relative path ("./" or "../")
+      // absolute path is preferable for IE/W3C compatibility
+      $rootWebSite = is_null(Constants::$codevURL) ? '../' : Constants::$codevURL;
+
+      if ('/' !== substr($rootWebSite, -1)) {
+         $rootWebSite .= '/';
+      }
+
    echo "<div style='margin-top:6em;'>
 
    <h1 class='center'>Congratulations !</h1>
@@ -44,7 +53,7 @@ function displayPage() {
          <li>Check the [status] section in config.ini</li>
          <li>Open MantisBT and activate the 'CodevTT' plugin</li>
          <li>If you use firefox, install <a href='https://addons.mozilla.org/fr/firefox/addon/greasemonkey/' target='_blank't>greasemonkey</a></li>
-         <li>Install <a href='../mantis_monkey.user.js' target='_blank't>greasemonkey script</a></li>
+         <li>Install <a href='".$rootWebSite."mantis_monkey.user.js' target='_blank't>greasemonkey script</a></li>
          <li>Delete codevTT install directory</li>
       </ul>
    </div>
@@ -52,9 +61,9 @@ function displayPage() {
    <div class='left'  style='margin-top:3em;'>
       <strong>Start working</strong>
       <ul>
-         <li><a href='../index.php' title='CodevTT & Mantis share the same users' target='_blank't>login !</a></li>
-         <li>Go to the <a href='../admin/create_team.php' target='_blank't>create team</a> page and create your team</li>
-         <li>In the <a href='../admin/edit_team.php' target='_blank't>edit team</a> page, add members & projects to your team</li>
+         <li><a href='".$rootWebSite."index.php' title='CodevTT & Mantis share the same users' target='_blank't>login !</a></li>
+         <li>Go to the <a href='".$rootWebSite."admin/create_team.php' target='_blank't>create team</a> page and create your team</li>
+         <li>In the <a href='".$rootWebSite."admin/edit_team.php' target='_blank't>edit team</a> page, add members & projects to your team</li>
       </ul>
        <span class='help_font'>Note: CodevTT & Mantis share the same users</span>
    </div>
