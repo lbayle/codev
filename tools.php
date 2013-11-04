@@ -1481,6 +1481,14 @@ class Tools {
       rmdir($dirPath);
    }
 
+	/**
+	 * check if CodevTT is installed on a MS-Windows server
+	 * @return boolean
+	 */
+	public static function isWindowsServer() {
+		return (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
+	}
+
 }
 
 // Initialize complex static variables

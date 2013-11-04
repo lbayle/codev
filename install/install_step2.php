@@ -139,7 +139,7 @@ function displayForm($originPage, $path_mantis, $url_mantis, $url_codevtt) {
 $originPage = "install_step2.php";
 $default_path_mantis           = dirname(BASE_PATH).DIRECTORY_SEPARATOR."mantis"; // "/var/www/html/mantis";
 
-$hostname =  (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? php_uname('n') : getHostName();
+$hostname =  Tools::isWindowsServer() ? php_uname('n') : getHostName();
 $default_url_mantis            = 'http://'.$hostname.'/mantis'; // 'http://'.$_SERVER['HTTP_HOST'].'/mantis'; // getHostByName(getHostName())
 $default_url_codevtt           = 'http://'.$hostname.'/codevtt'; // 'http://'.$_SERVER['HTTP_HOST'].'/codevtt'; // getHostByName(getHostName())
 
