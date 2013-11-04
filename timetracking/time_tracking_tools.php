@@ -446,7 +446,7 @@ class TimeTrackingTools {
             $calculatedBacklog = $backlog - $trackDuration;
          } else {
             // reestimated cannot be used...
-            $calculatedBacklog = $totalEE - $issue->getElapsed();
+            $calculatedBacklog = $totalEE - $issue->getElapsed() - $trackDuration;
          }
          if ($calculatedBacklog < 0) { $calculatedBacklog = 0;}
          $issueInfo['calculatedBacklog'] = $calculatedBacklog;
