@@ -339,14 +339,19 @@
 			// set success callback: execute openUpdateBacklogDialogbox()
          deferred.done(function(updateBacklogJsonData) {
 
-				var formUpdateBacklog = jQuery("#formUpdateBacklog");
+            // if "BacklogUpdateNotNeeded" then dialogBox should not be raised.
+            if ( 'BacklogUpdateNotNeeded' === updateBacklogJsonData['diagnostic'] ) {
+               console.log('BacklogUpdateNotNeeded');
+            } else {
+               var formUpdateBacklog = jQuery("#formUpdateBacklog");
 
-            // avoid function beeing attached twice
-            formUpdateBacklog.off('submit');
-            formUpdateBacklog.submit(submitUpdateBacklog);
+               // avoid function beeing attached twice
+               formUpdateBacklog.off('submit');
+               formUpdateBacklog.submit(submitUpdateBacklog);
 
-            // open dialogbox and send data via Ajax
-            openUpdateBacklogDialogbox(updateBacklogJsonData);
+               // open dialogbox and send data via Ajax
+               openUpdateBacklogDialogbox(updateBacklogJsonData);
+            }
 			});
 
 			// set error callback: execute openUpdateBacklogDialogbox()
