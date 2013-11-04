@@ -100,6 +100,9 @@ function checkDBConnection($db_mantis_host = 'localhost',
  * TODO: if 'CREATE' not set but 'CREATE ROUTINE' set,
  * then this method will not see that 'CREATE' is missing !
  *
+ * Note: this is not enough on Windows, you need 'SUPER privilege'
+ * see http://codevtt.org/site/?topic=sql-alert-you-do-not-have-the-super-privilege-and-binary-logging-is-enabled
+ *
  * @return NULL if OK, or an error message starting with 'ERROR' .
  */
 function checkDBprivileges($db_mantis_database = 'bugtracker') {
@@ -216,6 +219,9 @@ function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, 
    echo "  </tr>\n";
    echo "</table>\n";
 
+	if (Tools::isWindowsServer()) {
+		echo "<br><span class='warn_font'>".T_("WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished).")."</span><br>";
+	}
    echo "  <br/>\n";
    echo "  <br/>\n";
    echo "<div  style='text-align: center;'>\n";
@@ -232,7 +238,7 @@ $originPage = "install_step1.php";
 
 $db_mantis_host = Tools::getSecurePOSTStringValue('db_mantis_host', 'localhost');
 $db_mantis_database = Tools::getSecurePOSTStringValue('db_mantis_database', 'bugtracker');
-$db_mantis_user = Tools::getSecurePOSTStringValue('db_mantis_user', 'mantisdbuser');
+$db_mantis_user = Tools::getSecurePOSTStringValue('db_mantis_user', Tools::isWindowsServer() ? 'root' : 'mantisdbuser');
 $db_mantis_pass = Tools::getSecurePOSTStringValue('db_mantis_pass', '');
 
 $action = Tools::getSecurePOSTStringValue('action', '');
