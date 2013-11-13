@@ -429,6 +429,7 @@ CREATE TABLE IF NOT EXISTS `codev_wbselement_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `bug_id` int(11) default NULL,
   `parent_id` int(11) unsigned default NULL,
+  `root_id` int(11) unsigned default NULL,
   `order` int(11) NOT NULL,
   `title` varchar(255) default NULL,
   `icon` varchar(64) default NULL,
