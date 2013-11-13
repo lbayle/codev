@@ -22,6 +22,7 @@ class WBSElement2 extends Model {
    private $color;
    private $bugId;
    private $parentId;
+   private $rootId;
    private $order;
 
    private $isFolder;
@@ -39,15 +40,17 @@ class WBSElement2 extends Model {
     * @param type $font
     * @param type $color
     */
-   public function __construct($id, $bug_id, $parent_id, $order, $title, $icon, $font, $color) {
+   public function __construct($id, $bug_id, $parent_id, $root_id, $order, $title, $icon, $font, $color) {
       if (isNull($id)) {
-         $this->id = self::create($bug_id, $parent_id, $order, $title, $icon, $font, $color);
+         $this->id = self::create($bug_id, $parent_id, $root_id, $order, $title, $icon, $font, $color);
          $this->initialize();
       } else {
          $this->id = $id;
 
          // get data from DB
          $this->initialize();
+
+			// TODO check $root_id
 
          // update data
          if ($this->isFolder() && !is_null($title)) { $this->title = $title; }
@@ -56,7 +59,7 @@ class WBSElement2 extends Model {
          if (!is_null($icon))      { $this->icon = $icon; $isModified = true;}
          if (!is_null($font))      { $this->font = $font; $isModified = true;}
          if (!is_null($color))     { $this->color = $color; $isModified = true;}
-			//$this->update();
+			$this->update(); // TODO do it now ?
       }
    }
 
@@ -83,6 +86,7 @@ class WBSElement2 extends Model {
          $this->title = $row->title;
          $this->bugId = $row->bug_id;
          $this->parentId = $row->parent_id;
+         $this->rootId = $row->root_id;
          $this->order = $row->order;
          $this->icon = $row->icon;
          $this->font = $row->font;
@@ -98,16 +102,17 @@ class WBSElement2 extends Model {
 
    /**
     *
-    * @param type $bug_id
-    * @param type $parent_id
-    * @param type $order
-    * @param type $title
-    * @param type $icon
-    * @param type $font
-    * @param type $color
+    * @param int $bug_id
+    * @param int $parent_id
+    * @param int $root_id
+    * @param int $order
+    * @param String $title
+    * @param String $icon
+    * @param String $font
+    * @param String $color
     * @return int id
     */
-   public static function create($bug_id, $parent_id, $order, $title, $icon=NULL, $font=NULL, $color=NULL) {
+   public static function create($bug_id, $parent_id, $root_id, $order, $title, $icon=NULL, $font=NULL, $color=NULL) {
 
 		// --- check values
 		if (!isNull($parent_id)) {
@@ -163,6 +168,7 @@ class WBSElement2 extends Model {
       $query  = 'INSERT INTO `codev_wbselement_table` (`order`';
 		if (!isNull($bug_id)) { $query .= ', `bug_id`'; }
 		if (!isNull($parent_id)) { $query .= ', `parent_id`'; }
+		if (!isNull($root_id)) { $query .= ', `root_id`'; }
 		if (!isNull($title)) { $query .= ', `title`'; }
 		if (!isNull($icon)) { $query .= ', `icon`'; }
 		if (!isNull($font)) { $query .= ', `font`'; }
@@ -170,6 +176,7 @@ class WBSElement2 extends Model {
 		$query .= ") VALUES ('$order'";
 		if (!isNull($bug_id)) { $query .= ", '$bug_id'"; }
 		if (!isNull($parent_id)) { $query .= ", '$parent_id'"; }
+		if (!isNull($root_id)) { $query .= ", '$root_id'"; }
 		if (!isNull($title)) { $query .= ", '$title'"; }
 		if (!isNull($icon)) { $query .= ", '$icon'"; }
 		if (!isNull($font)) { $query .= ", '$font'"; }
@@ -256,6 +263,11 @@ class WBSElement2 extends Model {
 
    public function setBugId($bugId) {
       $this->bugId = $bugId;
+   }
+
+   public function getRootId() {
+		// Note: ne setter
+      return $this->rootId;
    }
 
    public function getParentId() {
@@ -369,6 +381,55 @@ class WBSElement2 extends Model {
       }
       return self::$existsCache[$id];
    }
+
+	/**
+	 *
+	 * @param type $dynatreeDict
+	 */
+	public static function createTreeFromDynatreeData($dynatreeDict, $order = 1, $parent_id = NULL, $root_id = NULL) {
+
+		// {"title":"","isFolder":true,"key":"1","children":[{"title":"Sub1","isFolder":true,"key":"2","children":[]}]}
+		$id = NULL;
+		$title = $dynatreeDict['title'];
+		$icon = $dynatreeDict['icon'];
+		$font = $dynatreeDict['font'];
+		$color = $dynatreeDict['color'];
+
+		$isFolder = $dynatreeDict['isFolder'];
+		if ($isFolder) {
+			$id = $dynatreeDict['key']; // (null if new folder)
+			$bug_id = NULL;
+		} else {
+			$bug_id = $dynatreeDict['key'];
+
+			// find $id (if exists)
+			// Note: parent_id may have changed (if issue moved)
+			// Note: $root_id cannot be null because a WBS always starts with a folder
+			$query  = "SELECT id FROM `codev_wbselement_table` WHERE bug_id = $bug_id AND root_id = $root_id";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+			if (!isNull($row)) {
+				$id = $row->id;
+			}
+
+		}
+
+		// create Element
+		$wbse = new WBSElement2($id, $bug_id, $parent_id, $root_id, $order, $title, $icon, $font, $color);
+
+		// create children
+		$children = $dynatreeDict['children'];
+		$childOrder = 1;
+		foreach($children as $childDict) {
+			self::createTreeFromDynatreeData($childDict, $childOrder, $id);
+		}
+
+	}
+
 
 }
 
