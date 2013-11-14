@@ -54,24 +54,24 @@
 
   <div id="tree">
     <ul id="treeData" style="display: none;">
-      <li class="folder expanded">WBS
+      <li id="2" class="folder expanded">Command_11
         <ul>
-         <li id="1500">aaa mantis task
-         <li id="1532">another mantis task
-          <li id="1555">check dynatree library
-          <li id="1556">define WbsElement class
-          <li id="1557">define WbsElement in DB
-         <li class="folder expanded">Dashboard
+         <li id="11">a mantis task
+          <li id="13">check dynatree library
+          <li id="14">define WbsElement class
+          <li id="15">define WbsElement in DB
+         <li id="8" class="folder expanded">Dashboard
            <ul>
-             <li class="folder">Dashboard Homepage
+             <li id="9" class="folder">Dashboard Homepage
                <ul>
-                 <li id="1600">add dashboard
-                 <li id="1601">add basic indicators
+                 <li id="12">another mantis task
+                 <li id="16">add dashboard
+                 <li id="17">add basic indicators
                </ul>
-             <li class="folder">Dashboard Items
+             <li id="12" class="folder">Dashboard Items
                <ul>
-                 <li id="1602">convert all indicators to dashboard items
-                 <li id="1603">include filters in dashboard items
+                 <li id="18">convert all indicators to dashboard items
+                 <li id="19">include filters in dashboard items
                </ul>
            </ul>
         </ul>
@@ -95,7 +95,7 @@
                url: formSaveWBS.attr("action"),
                data: formSaveWBS.serialize(),
                success: function(data) {
-                  alert("WBS Saved: " + data);
+                  console.log("WBS Saved: ", data);
                },
                error:  function(data) {
                   alert("WBS Save ERROR: " + data);
@@ -110,6 +110,7 @@
       <fieldset>
          <input type="hidden" name="action" value="saveWBS" />
          <input type="hidden" name="jsonDynatreeDict" value="" />
+         <input type="hidden" name="nodesToDelete" value="" />
       </fieldset>
    </form>
 
@@ -120,13 +121,13 @@
 
    <div id="tree2">
      <ul id="treeData2" style="display: none;">
-       <li id="1600">1600 a mantis task with a long long long description~<div class="progress">10%</div>~col2
-       <li id="1632">1632 another mantis task~<div class="progress">15%</div>
        <li id="bse1" class="folder expanded">WBS~<div class="progress">20%</div>~col2
          <ul>
-           <li id="1655">1655 check dynatree library~<div class="progress">25%</div>~col2
-           <li id="1656">1656 define WbsElement class~<div class="progress">30%</div>~col2
-           <li id="1657">1657 define WbsElement in DB~<div class="progress">35%</div>~col2
+   			<li id="20">a mantis task with a long long long description~<div class="progress">10%</div>~col2
+				<li id="21">another mantis task~<div class="progress">15%</div>
+           <li id="22">check dynatree library~<div class="progress">25%</div>~col2
+           <li id="23">define WbsElement class~<div class="progress">30%</div>~col2
+           <li id="24">define WbsElement in DB~<div class="progress">35%</div>~col2
          </ul>
      </ul>
    </div>
@@ -142,14 +143,14 @@
             var dict = jQuery("#tree2").dynatree("getTree").toDict();
 
             var formLoadWBS = jQuery("#formLoadWBS");
-            formLoadWBS.find("input[name=wbsElementId]").val('123');
+            formLoadWBS.find("input[name=wbsElementId]").val('1');
 
             jQuery.ajax({
                type: "GET",
                url: formLoadWBS.attr("action"),
                data: formLoadWBS.serialize(),
                success: function(data) {
-                  //alert("WBS Loaded: " + data);
+                  console.log("WBS Loaded: " , data);
                   jQuery("#tree2").dynatree("getRoot").addChild( jQuery.parseJSON(data) );
 
                },

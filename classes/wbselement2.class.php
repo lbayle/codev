@@ -40,7 +40,9 @@ class WBSElement2 extends Model {
     * @param type $font
     * @param type $color
     */
-   public function __construct($id, $bug_id, $parent_id, $root_id, $order, $title, $icon, $font, $color) {
+   public function __construct($id, $root_id = NULL, $bug_id = NULL, $parent_id = NULL, $order = NULL,
+			  $title = NULL, $icon = NULL, $font = NULL, $color = NULL) {
+		
       if (is_null($id)) {
          $this->id = self::create($bug_id, $parent_id, $root_id, $order, $title, $icon, $font, $color);
          $this->initialize();
@@ -59,13 +61,16 @@ class WBSElement2 extends Model {
          }
 
          // update data
+			$isModified = false;
          if ($this->isFolder() && !is_null($title)) { $this->title = $title; }
          if (!is_null($parent_id)) { $this->parentId = $parent_id; $isModified = true;}
          if (!is_null($order))     { $this->order = $order; $isModified = true;}
          if (!is_null($icon))      { $this->icon = $icon; $isModified = true;}
          if (!is_null($font))      { $this->font = $font; $isModified = true;}
          if (!is_null($color))     { $this->color = $color; $isModified = true;}
-			$this->update(); // TODO do it now ?
+			if ($isModified) {
+				$this->update(); // TODO do it now ?
+			}
       }
    }
 
@@ -272,8 +277,10 @@ class WBSElement2 extends Model {
    }
 
    public function getRootId() {
-		// Note: ne setter
-      return $this->rootId;
+		// Note: no setter
+
+		// if root_id is NULL, then I am the root !
+      return (is_null($this->rootId)) ? $this->id : $this->rootId;
    }
 
    public function getParentId() {
@@ -304,7 +311,7 @@ class WBSElement2 extends Model {
 	 * @param boolean $isManager
 	 * @return array
 	 */
-   public function getDynatreeData($hasDetail, $isManager = false) {
+   public function getDynatreeData($hasDetail = false, $isManager = false) {
 
       $query = "SELECT * FROM `codev_wbselement_table` WHERE `parent_id` = " . $this->getId() . " ORDER BY `order`";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -314,7 +321,7 @@ class WBSElement2 extends Model {
          $parentArray = array();
 
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $wbselement = new WBSElement($row->id);
+            $wbselement = new WBSElement2($row->id, $this->getRootId());
             $childArray = array();
 
             if ($wbselement->isFolder()) {
