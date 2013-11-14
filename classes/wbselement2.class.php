@@ -41,16 +41,22 @@ class WBSElement2 extends Model {
     * @param type $color
     */
    public function __construct($id, $bug_id, $parent_id, $root_id, $order, $title, $icon, $font, $color) {
-      if (isNull($id)) {
+      if (is_null($id)) {
          $this->id = self::create($bug_id, $parent_id, $root_id, $order, $title, $icon, $font, $color);
          $this->initialize();
       } else {
          $this->id = $id;
 
-         // get data from DB
+         // get (old) data from DB
          $this->initialize();
 
-			// TODO check $root_id
+			// check $root_id
+         if ($this->rootId != $root_id) {
+            $e = new Exception("Constructor: WBSElement $id exists with root_id = $this->rootId (expected $root_id)");
+            self::$logger->error("EXCEPTION WBSElement constructor: " . $e->getMessage());
+            self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
+            throw $e;
+         }
 
          // update data
          if ($this->isFolder() && !is_null($title)) { $this->title = $title; }
@@ -92,7 +98,7 @@ class WBSElement2 extends Model {
          $this->font = $row->font;
          $this->color = $row->color;
       } else {
-         $e = new Exception("Constructor: WBSElement $this->wbselementId does not exist in Mantis DB.");
+         $e = new Exception("Constructor: WBSElement $this->id does not exist in Mantis DB.");
          self::$logger->error("EXCEPTION WBSElement constructor: " . $e->getMessage());
          self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
          throw $e;
@@ -115,7 +121,7 @@ class WBSElement2 extends Model {
    public static function create($bug_id, $parent_id, $root_id, $order, $title, $icon=NULL, $font=NULL, $color=NULL) {
 
 		// --- check values
-		if (!isNull($parent_id)) {
+		if (!is_null($parent_id)) {
 			// check parrent exists and is a folder
 			$queryP = "SELECT bug_id FROM `codev_wbselement_table` WHERE id = $parent_id";
          $resultP = SqlWrapper::getInstance()->sql_query($queryP);
@@ -131,16 +137,16 @@ class WBSElement2 extends Model {
 				throw $e;
 			}
 			$rowP = SqlWrapper::getInstance()->sql_fetch_object($resultP);
-			if (!isNull($rowP->bug_id)) {
+			if (!is_null($rowP->bug_id)) {
 				$e = new Exception("create WBSElement: parrent_id $parent_id should be a Folder (bug_id = $rowP->bug_id).");
 				self::$logger->error("EXCEPTION: " . $e->getMessage());
 				self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
 				throw $e;
 			}
 		}
-		if (isNull($bug_id)) {
+		if (is_null($bug_id)) {
 			// new Folder (source: wbs_editor)
-			if (isNull($title)) { 
+			if (is_null($title)) {
 				$e = new Exception("create WBSElement: Folder needs a title.");
 				self::$logger->error("EXCEPTION: " . $e->getMessage());
 				self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
@@ -153,7 +159,7 @@ class WBSElement2 extends Model {
 				self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
 				throw $e;
 			}
-			if (isNull($parent_id)) {
+			if (is_null($parent_id)) {
 				$e = new Exception("create WBSElement: issue $bug_id must have a parent_id (Folder).");
 				self::$logger->error("EXCEPTION: " . $e->getMessage());
 				self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
@@ -162,25 +168,25 @@ class WBSElement2 extends Model {
 			$title = null; // issue summary is stored in mantis_bug_table
 		}
 
-		if (isNull($order)) { $order = 1; }
+		if (is_null($order)) { $order = 1; }
 
 		// --- insert new element
       $query  = 'INSERT INTO `codev_wbselement_table` (`order`';
-		if (!isNull($bug_id)) { $query .= ', `bug_id`'; }
-		if (!isNull($parent_id)) { $query .= ', `parent_id`'; }
-		if (!isNull($root_id)) { $query .= ', `root_id`'; }
-		if (!isNull($title)) { $query .= ', `title`'; }
-		if (!isNull($icon)) { $query .= ', `icon`'; }
-		if (!isNull($font)) { $query .= ', `font`'; }
-		if (!isNull($color)) { $query .= ', `color`'; }
+		if (!is_null($bug_id)) { $query .= ', `bug_id`'; }
+		if (!is_null($parent_id)) { $query .= ', `parent_id`'; }
+		if (!is_null($root_id)) { $query .= ', `root_id`'; }
+		if (!is_null($title)) { $query .= ', `title`'; }
+		if (!is_null($icon)) { $query .= ', `icon`'; }
+		if (!is_null($font)) { $query .= ', `font`'; }
+		if (!is_null($color)) { $query .= ', `color`'; }
 		$query .= ") VALUES ('$order'";
-		if (!isNull($bug_id)) { $query .= ", '$bug_id'"; }
-		if (!isNull($parent_id)) { $query .= ", '$parent_id'"; }
-		if (!isNull($root_id)) { $query .= ", '$root_id'"; }
-		if (!isNull($title)) { $query .= ", '$title'"; }
-		if (!isNull($icon)) { $query .= ", '$icon'"; }
-		if (!isNull($font)) { $query .= ", '$font'"; }
-		if (!isNull($color)) { $query .= ", '$color'"; }
+		if (!is_null($bug_id)) { $query .= ", '$bug_id'"; }
+		if (!is_null($parent_id)) { $query .= ", '$parent_id'"; }
+		if (!is_null($root_id)) { $query .= ", '$root_id'"; }
+		if (!is_null($title)) { $query .= ", '$title'"; }
+		if (!is_null($icon)) { $query .= ", '$icon'"; }
+		if (!is_null($font)) { $query .= ", '$font'"; }
+		if (!is_null($color)) { $query .= ", '$color'"; }
 		$query .= ')';
 
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -205,11 +211,11 @@ class WBSElement2 extends Model {
 
    public function update() {
 
-      $query = "UPDATE `codev_wbselement_table`" .
-              " SET `title` = '" . $this->getTitle() . "'" .
-              ", `parent_id` = " . (($this->getParentId() == null) ? "NULL" : $this->getParentId()) .
-              ", `order` = " . $this->getOrder() .
-              " WHERE `id` = " . $this->getId();
+      $query = "UPDATE `codev_wbselement_table` SET ".
+              "`title` = '" . $this->title . "'" .
+              ", `parent_id` = " . (($this->parentId == null) ? "NULL" : $this->parentId) .
+              ", `order` = " . $this->order .
+              " WHERE `id` = " . $this->id;
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -289,7 +295,7 @@ class WBSElement2 extends Model {
    }
 
    public function isFolder() {
-      return isNull($this->bugId);
+      return is_null($this->bugId);
    }
 
 	/**
@@ -387,8 +393,11 @@ class WBSElement2 extends Model {
 	 * @param type $dynatreeDict
 	 */
 	public static function createTreeFromDynatreeData($dynatreeDict, $order = 1, $parent_id = NULL, $root_id = NULL) {
-
 		// {"title":"","isFolder":true,"key":"1","children":[{"title":"Sub1","isFolder":true,"key":"2","children":[]}]}
+
+      file_put_contents('/tmp/tree.txt', "=============\n", FILE_APPEND);
+      file_put_contents('/tmp/tree.txt', "order $order, parent $parent_id, root $root_id\n", FILE_APPEND);
+      file_put_contents('/tmp/tree.txt', "dynatreeDict=".serialize($dynatreeDict)."\n", FILE_APPEND);
 		$id = NULL;
 		$title = $dynatreeDict['title'];
 		$icon = $dynatreeDict['icon'];
@@ -396,9 +405,17 @@ class WBSElement2 extends Model {
 		$color = $dynatreeDict['color'];
 
 		$isFolder = $dynatreeDict['isFolder'];
+      file_put_contents('/tmp/tree.txt', "isFolder = $isFolder\n", FILE_APPEND);
 		if ($isFolder) {
 			$id = $dynatreeDict['key']; // (null if new folder)
+
+         if (substr($id, 0, 1) === '_') {
+            $id = NULL;
+         }
+
+
 			$bug_id = NULL;
+         file_put_contents('/tmp/tree.txt', "isFolder, id = $id\n", FILE_APPEND);
 		} else {
 			$bug_id = $dynatreeDict['key'];
 
@@ -412,9 +429,10 @@ class WBSElement2 extends Model {
             exit;
          }
          $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-			if (!isNull($row)) {
+			if (!is_null($row)) {
 				$id = $row->id;
 			}
+         file_put_contents('/tmp/tree.txt', "Issue id = $id, bug_id = $bug_id, \n", FILE_APPEND);
 
 		}
 
@@ -425,7 +443,8 @@ class WBSElement2 extends Model {
 		$children = $dynatreeDict['children'];
 		$childOrder = 1;
 		foreach($children as $childDict) {
-			self::createTreeFromDynatreeData($childDict, $childOrder, $id);
+			self::createTreeFromDynatreeData(get_object_vars($childDict), $childOrder, $wbse->getId(), $root_id);
+         $childOrder += 1;
 		}
 
 	}
