@@ -54,26 +54,26 @@
 
   <div id="tree">
     <ul id="treeData" style="display: none;">
-      <li id="2" class="folder expanded">Command_11
+      <li id="57" class="folder expanded">WBS renamed
         <ul>
-         <li id="11">a mantis task
-          <li id="13">check dynatree library
-          <li id="14">define WbsElement class
-          <li id="15">define WbsElement in DB
-         <li id="8" class="folder expanded">Dashboard
+         <li id="1500">aaa mantis task
+         <li id="1532">another mantis task
+          <li id="1555">check dynatree library
+          <li id="1556">define WbsElement class
+         <li id = "63" class="folder expanded">Dashboard 2
            <ul>
-             <li id="9" class="folder">Dashboard Homepage
+             <li id = "67" class="folder">Dashboard Items 2
                <ul>
-                 <li id="12">another mantis task
-                 <li id="16">add dashboard
-                 <li id="17">add basic indicators
-               </ul>
-             <li id="12" class="folder">Dashboard Items
-               <ul>
-                 <li id="18">convert all indicators to dashboard items
-                 <li id="19">include filters in dashboard items
+                 <li id="1602">convert all indicators to dashboard items
+                 <li id="1557">define WbsElement in DB
+                 <li id="1603">include filters in dashboard items
                </ul>
            </ul>
+             <li id = "64" class="folder">Dashboard Homepage 2
+               <ul>
+                 <li id="1600">add dashboard
+                 <li id="1601">add basic indicators
+               </ul>
         </ul>
     </ul>
   </div>
@@ -85,8 +85,10 @@
          jQuery("#bt_saveTree").click(function(event) {
             event.preventDefault();
 
-            var dict = $("#tree").dynatree("getTree").toDict();
+            var dict = $("#tree").dynatree("getTree").toDict().children;
             var jsonDict = JSON.stringify(dict);
+            console.log("saveWBS = ", jsonDict);
+
             var formSaveWBS = jQuery("#formSaveWBS");
             formSaveWBS.find("input[name=jsonDynatreeDict]").val(jsonDict);
 
@@ -111,6 +113,7 @@
          <input type="hidden" name="action" value="saveWBS" />
          <input type="hidden" name="jsonDynatreeDict" value="" />
          <input type="hidden" name="nodesToDelete" value="" />
+         <input type="hidden" name="wbsRootId" value="{$wbsRootId}" />
       </fieldset>
    </form>
 
@@ -143,7 +146,7 @@
             var dict = jQuery("#tree2").dynatree("getTree").toDict();
 
             var formLoadWBS = jQuery("#formLoadWBS");
-            formLoadWBS.find("input[name=wbsElementId]").val('1');
+            formLoadWBS.find("input[name=wbsRootId]").val('{$wbsRootId}');
 
             jQuery.ajax({
                type: "GET",
@@ -165,6 +168,6 @@
    <form id="formLoadWBS" method="get" action="tests/dynatree_ajax.php" >
       <fieldset>
          <input type="hidden" name="action" value="loadWBS" />
-         <input type="hidden" name="wbsElementId" value="" />
+         <input type="hidden" name="wbsRootId" value="" />
       </fieldset>
    </form>

@@ -34,49 +34,43 @@
   </style>
 
   <script src="js/progress.js" type="text/javascript"></script>
-  
+
   <script type="text/javascript">
 	  function initTree() {
-		  $.ajax({
-			  type: 'GET',
-		      url: 'tests/DataToTree.php',
-		      data: 'hasDetail=1',
-		      success: function(){
-		            $("#tree").dynatree({
-		          	    initAjax: {
-		                	url: 'tpl/treeDataDetail.json'
-		          	    },
-		          	    onCustomRender: function(node) {
 
-		                  // Render title as columns
-		                  if( (null == node.data.title) ||
-		                      (node.data.title.indexOf("~") === -1)) {
-		                    // Default rendering
-		                    return false;
-		                  }
-		                  var cols = node.data.title.split("~"),
-		                  html = "<a class='dynatree-title' href='#'>";
-		                  html += "<span class='td'>" + cols[0] + "</span>";
-			              if(cols.length > 1) {
-			            	 html += "<span class='td'><div class='progress ui-progressbar ui-widget ui-widget-content ui-corner-all' ";
-			            	 html += "role='progressbar' aria-valuemin='0' aria-valuemax='100' aria-valuenow='" + cols[1] + "'>";
-			            	 html += "<div class='ui-progressbar-value ui-widget-header ui-corner-left' style='width: " + cols[1] + "%;'>";
-			            	 html += "<div>" + cols[1] + "%</div></div></div></span>";
-			              }
-		                  for(var i=2; i<cols.length; i++){
-		                     html += "<span class='td'>" + cols[i] + "</span>";
-		                  }
-		                  return html + "</a>";
-		          	    }
+         jQuery("#tree").dynatree({
+             initAjax: {
+               url: 'tests/dynatree_ajax.php',
+               data: { wbsRootId: "{$wbsRootId}",
+                       hasDetail: "1",
+                       action: "loadWBS"
+               }
+             },
+             onCustomRender: function(node) {
 
-		            });
-		            
-		          },
-		          error:  function() {
-		        	  alert("WBS Load ERROR!");
-		       	  }
+               // Render title as columns
+               if( (null == node.data.title) ||
+                   (node.data.title.indexOf("~") === -1)) {
+                 // Default rendering
+                 return false;
+               }
+               var cols = node.data.title.split("~"),
+               html = "<a class='dynatree-title' href='#'>";
+               html += "<span class='td'>" + cols[0] + "</span>";
+              if(cols.length > 1) {
+                html += "<span class='td'><div class='progress ui-progressbar ui-widget ui-widget-content ui-corner-all' ";
+                html += "role='progressbar' aria-valuemin='0' aria-valuemax='100' aria-valuenow='" + cols[1] + "'>";
+                html += "<div class='ui-progressbar-value ui-widget-header ui-corner-left' style='width: " + cols[1] + "%;'>";
+                html += "<div>" + cols[1] + "%</div></div></div></span>";
+              }
+               for(var i=2; i<cols.length; i++){
+                  html += "<span class='td'>" + cols[i] + "</span>";
+               }
+               return html + "</a>";
+             }
 
-		      });
+         });
+
 	  }
 	  window.onload = initTree;
   </script>
