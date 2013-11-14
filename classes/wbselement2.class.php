@@ -42,7 +42,7 @@ class WBSElement2 extends Model {
     */
    public function __construct($id, $root_id = NULL, $bug_id = NULL, $parent_id = NULL, $order = NULL,
 			  $title = NULL, $icon = NULL, $font = NULL, $color = NULL) {
-		
+
       if (is_null($id)) {
          $this->id = self::create($bug_id, $parent_id, $root_id, $order, $title, $icon, $font, $color);
          $this->initialize();
@@ -349,7 +349,7 @@ class WBSElement2 extends Model {
 
                   $childArray['title'] = $issue->getSummary() . $detail;
                   $childArray['isFolder'] = false;
-                  $childArray['key'] = $wbselement->getId();
+                  $childArray['key'] = $wbselement->getBugId(); // yes, bugid !
                } else {
 
                   $childArray['title'] = 'ERROR';

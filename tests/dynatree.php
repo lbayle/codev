@@ -31,7 +31,13 @@ class AdminController extends Controller {
    }
 
    protected function display() {
-      // Nothing special
+      if (Tools::isConnectedUser()) {
+         // the root WBSElement (Folder) has been created at Command creation.
+         //$root_id = WBSElement2::create(NULL, NULL, NULL, NULL, "root_".date('Ymd'));
+         $root_id = 56;
+
+         $this->smartyHelper->assign('wbsRootId', $root_id);
+      }
    }
 
 }

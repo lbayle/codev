@@ -51,103 +51,96 @@
 		}
 
 	  function initTree() {
-		  $.ajax({
-			  type: 'GET',
-		      url: 'tests/DataToTree.php',
-		      data: 'hasDetail=0',
-		      success: function(){
-		          $("#tree").dynatree({
 
-			          initAjax: {
-			              url: 'tpl/treeData.json'
-			          },
+       jQuery("#tree").dynatree({
 
-			          onDblClick: function(node, event) {
-			        	  if (node.data.isFolder)
-			              	editNode(node);
-			              return false;
-			          },
+         initAjax: {
+           url: 'tests/dynatree_ajax.php',
+           data: { wbsRootId: "{$wbsRootId}",
+                   hasDetail: "0",
+                   action: "loadWBS"
+           }
+         },
+         onDblClick: function(node, event) {
+          if (node.data.isFolder)
+              editNode(node);
+             return false;
+         },
 
-			          onKeydown: function(node, event) {
-			              switch( event.which ) {
-				              case 46: // [delete]
-				              	if (node.data.isFolder) {
-					              	if (node.getLevel() != 1 && !node.hasChildren()) {
-					              		node.remove();
-                                 // TODO add id to the foldersToDelete list
-					              	} else if (node.getLevel() == 1) {
-					              		alert("Cannot remove root!");
-					              	} else {
-					              		alert("Cannot remove folder : the directory is not empty!");
-                              }
-				              	}
-			              }
-			          },
+         onKeydown: function(node, event) {
+             switch( event.which ) {
+                case 46: // [delete]
+                 if (node.data.isFolder) {
+                    if (node.getLevel() != 1 && !node.hasChildren()) {
+                       node.remove();
+                       // TODO add id to the foldersToDelete list
+                    } else if (node.getLevel() == 1) {
+                       alert("Cannot remove root!");
+                    } else {
+                       alert("Cannot remove folder : the directory is not empty!");
+                    }
+                 }
+             }
+         },
 
-			          dnd: {
-			              onDragStart: function(node) {
-			                /** This function MUST be defined to enable dragging for the tree.
-			                 *  Return false to cancel dragging of node.
-			                 */
-			                return true;
-			              },
-			              autoExpandMS: 1000,
-			              preventVoidMoves: true, // Prevent dropping nodes 'before self', etc.
-			              onDragEnter: function(node, sourceNode) {
-			                /** sourceNode may be null for non-dynatree droppables.
-			                 *  Return false to disallow dropping on node. In this case
-			                 *  onDragOver and onDragLeave are not called.
-			                 *  Return 'over', 'before, or 'after' to force a hitMode.
-			                 *  Return ['before', 'after'] to restrict available hitModes.
-			                 *  Any other return value will calc the hitMode from the cursor position.
-			                 */
-			                return true;
-			              },
-			              onDragOver: function(node, sourceNode, hitMode) {
-			                /** Return false to disallow dropping this node.
-			                 *
-			                 */
-			                // Prevent dropping a parent below it's own child
-			                if(node.isDescendantOf(sourceNode)){
-			                  return false;
-			                }
-			                // Prevent dropping an issue below an issue
-			                if(!node.data.isFolder && hitMode === "over"){
-			                	return false;
-			                }
-			                // Prevent dropping beyond the root
-			                if(node.getLevel() === 1) {
-			                	return false;
-			                }
-			              },
-			              onDrop: function(node, sourceNode, hitMode, ui, draggable) {
-			                /** This function MUST be defined to enable dropping of items on
-			                 * the tree.
-			                 */
-			                sourceNode.move(node, hitMode);
-			                // expand the drop target
-			                //sourceNode.expand(true);
-			              },
-			            }
+         dnd: {
+             onDragStart: function(node) {
+               /** This function MUST be defined to enable dragging for the tree.
+                *  Return false to cancel dragging of node.
+                */
+               return true;
+             },
+             autoExpandMS: 1000,
+             preventVoidMoves: true, // Prevent dropping nodes 'before self', etc.
+             onDragEnter: function(node, sourceNode) {
+               /** sourceNode may be null for non-dynatree droppables.
+                *  Return false to disallow dropping on node. In this case
+                *  onDragOver and onDragLeave are not called.
+                *  Return 'over', 'before, or 'after' to force a hitMode.
+                *  Return ['before', 'after'] to restrict available hitModes.
+                *  Any other return value will calc the hitMode from the cursor position.
+                */
+               return true;
+             },
+             onDragOver: function(node, sourceNode, hitMode) {
+               /** Return false to disallow dropping this node.
+                *
+                */
+               // Prevent dropping a parent below it's own child
+               if(node.isDescendantOf(sourceNode)){
+                 return false;
+               }
+               // Prevent dropping an issue below an issue
+               if(!node.data.isFolder && hitMode === "over"){
+                 return false;
+               }
+               // Prevent dropping beyond the root
+               if(node.getLevel() === 1) {
+                 return false;
+               }
+             },
+             onDrop: function(node, sourceNode, hitMode, ui, draggable) {
+               /** This function MUST be defined to enable dropping of items on
+                * the tree.
+                */
+               sourceNode.move(node, hitMode);
+               // expand the drop target
+               //sourceNode.expand(true);
+             },
+           }
 
-		            });
+        });
+     }
+      $("#btnAddCode").click(function(){
+        var rootNode = $("#tree").dynatree("getTree").getActiveNode();
+        if (rootNode.data.isFolder)
+           rootNode.addChild({
+             title: "New Folder",
+             isFolder: true
+           });
+      });
 
-		          	$("#btnAddCode").click(function(){
-		              var rootNode = $("#tree").dynatree("getTree").getActiveNode();
-		              if (rootNode.data.isFolder)
-			              rootNode.addChild({
-			                title: "New Folder",
-			                isFolder: true
-			              });
-		            });
 
-		          },
-		          error:  function() {
-		        	  alert("WBS Load ERROR!");
-		       	  }
-
-		      });
-	  }
 	  window.onload = initTree;
   </script>
 
@@ -175,14 +168,19 @@
 		   delete dict.hideCheckbox;
 		   delete dict.unselectable;
 	   }).children;
-
-      // TODO add fildersToDelete list
-       var jsonDict = JSON.stringify(json);
+      var jsonDict = JSON.stringify(json);
+console.log("saveWBS = ", jsonDict);
+      // TODO add nodesToDelete list
+      var nodesToDelete = "";
 
 	   $.ajax({
-		   type: "POST",
-           url: 'tests/TreeToData.php',
-           data: "data=" + jsonDict,
+		   type: "GET",
+           url: 'tests/dynatree_ajax.php',
+           data: { jsonDynatreeDict: jsonDict,
+                   nodesToDelete: nodesToDelete,
+                   wbsRootId: "{$wbsRootId}",
+                   action: "saveWBS"
+           },
            success: function() {
               alert("WBS Saved!");
               $("#result").html('WBS saved, please reload');
