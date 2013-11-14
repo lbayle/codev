@@ -437,7 +437,7 @@ CREATE TABLE IF NOT EXISTS `codev_wbselement_table` (
   `color` varchar(64) default NULL,
   PRIMARY KEY  (`id`),
   KEY `bug_id` (`bug_id`),
-  KEY `parent_id` (`parent_id`)
+  KEY `parent_id` (`parent_id`),
   KEY `order` (`order`)
 
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
