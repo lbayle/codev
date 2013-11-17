@@ -25,7 +25,6 @@ class WBSElement2 extends Model {
    private $rootId;
    private $order;
 
-   private $isFolder;
    private $isModified;
 
    /**
@@ -53,7 +52,7 @@ class WBSElement2 extends Model {
          $this->initialize();
 
 			// check $root_id
-         if ($this->rootId != $root_id) {
+         if (($this->rootId != $root_id) && ($this->id != $root_id)) {
             $e = new Exception("Constructor: WBSElement $id exists with root_id = $this->rootId (expected $root_id)");
             self::$logger->error("EXCEPTION WBSElement constructor: " . $e->getMessage());
             self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
@@ -313,9 +312,10 @@ class WBSElement2 extends Model {
 	 */
    public function getDynatreeData($hasDetail = false, $isManager = false) {
 
+      // TODO AND root_id = $this->getRootId()
       $query = "SELECT * FROM `codev_wbselement_table` WHERE `parent_id` = " . $this->getId() . " ORDER BY `order`";
       $result = SqlWrapper::getInstance()->sql_query($query);
-
+      //file_put_contents('/tmp/loadWBS.txt', "$query \n", FILE_APPEND);
       if ($result) {
 
          $parentArray = array();
@@ -329,15 +329,12 @@ class WBSElement2 extends Model {
                $childArray['title'] = $wbselement->getTitle();
                $childArray['isFolder'] = true;
                $childArray['key'] = $wbselement->getId();
-               $childArray['children'] = $wbselement->getDynatreeData($hasDetail);
+               $childArray['children'] = $wbselement->getDynatreeData($hasDetail, $isManager);
             } else {
 
                $issue = IssueCache::getInstance()->getIssue($wbselement->getBugId());
-
                if ($issue) {
-
                   $detail = '';
-
                   if ($hasDetail) {
 							// TODO if isManager...
                      $detail = (($issue->getProgress() != null) ? ('~' . $issue->getProgress()) : '')
@@ -350,8 +347,8 @@ class WBSElement2 extends Model {
                   $childArray['title'] = $issue->getSummary() . $detail;
                   $childArray['isFolder'] = false;
                   $childArray['key'] = $wbselement->getBugId(); // yes, bugid !
-               } else {
 
+               } else {
                   $childArray['title'] = 'ERROR';
                   $childArray['isFolder'] = false;
                   self::$logger->error("The issue does not exist!");
@@ -361,10 +358,19 @@ class WBSElement2 extends Model {
                array_push($parentArray, $childArray);
          }
 
-         return $parentArray;
-      }
-      else {
-
+         // root element not only has children !
+         if ($this->id === $this->getRootId()) {
+               $rootArray = array(
+                  'title'    => $this->getTitle(),
+                  'isFolder' => true,
+                  'key'      => $this->getId(),
+                  'children' => $parentArray
+                   );
+            return $rootArray;
+         } else {
+            return $parentArray;
+         }
+      } else {
          self::$logger->error("Query failed!");
       }
    }
@@ -399,12 +405,13 @@ class WBSElement2 extends Model {
 	 *
 	 * @param type $dynatreeDict
 	 */
-	public static function createTreeFromDynatreeData($dynatreeDict, $order = 1, $parent_id = NULL, $root_id = NULL) {
-		// {"title":"","isFolder":true,"key":"1","children":[{"title":"Sub1","isFolder":true,"key":"2","children":[]}]}
+	public static function updateFromDynatree($dynatreeDict, $root_id = NULL, $parent_id = NULL, $order = 1) {
 
       file_put_contents('/tmp/tree.txt', "=============\n", FILE_APPEND);
-      file_put_contents('/tmp/tree.txt', "order $order, parent $parent_id, root $root_id\n", FILE_APPEND);
-      file_put_contents('/tmp/tree.txt', "dynatreeDict=".serialize($dynatreeDict)."\n", FILE_APPEND);
+      file_put_contents('/tmp/tree.txt', "root $root_id, parent $parent_id, order $order \n", FILE_APPEND);
+      $aa = var_export($dynatreeDict, true);
+      file_put_contents('/tmp/tree.txt', "aa=".$aa."\n", FILE_APPEND);
+
 		$id = NULL;
 		$title = $dynatreeDict['title'];
 		$icon = $dynatreeDict['icon'];
@@ -412,14 +419,14 @@ class WBSElement2 extends Model {
 		$color = $dynatreeDict['color'];
 
 		$isFolder = $dynatreeDict['isFolder'];
-      file_put_contents('/tmp/tree.txt', "isFolder = $isFolder\n", FILE_APPEND);
 		if ($isFolder) {
 			$id = $dynatreeDict['key']; // (null if new folder)
 
+         // new created folders have an id starting with '_'
          if (substr($id, 0, 1) === '_') {
+            file_put_contents('/tmp/tree.txt', "is new Folder !\n", FILE_APPEND);
             $id = NULL;
          }
-
 
 			$bug_id = NULL;
          file_put_contents('/tmp/tree.txt', "isFolder, id = $id\n", FILE_APPEND);
@@ -428,7 +435,7 @@ class WBSElement2 extends Model {
 
 			// find $id (if exists)
 			// Note: parent_id may have changed (if issue moved)
-			// Note: $root_id cannot be null because a WBS always starts with a folder
+			// Note: $root_id cannot be null because a WBS always starts with a folder (created at Command init)
 			$query  = "SELECT id FROM `codev_wbselement_table` WHERE bug_id = $bug_id AND root_id = $root_id";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -440,23 +447,19 @@ class WBSElement2 extends Model {
 				$id = $row->id;
 			}
          file_put_contents('/tmp/tree.txt', "Issue id = $id, bug_id = $bug_id, \n", FILE_APPEND);
-
 		}
 
 		// create Element
-		$wbse = new WBSElement2($id, $bug_id, $parent_id, $root_id, $order, $title, $icon, $font, $color);
+		$wbse = new WBSElement2($id, $root_id, $bug_id, $parent_id, $order, $title, $icon, $font, $color);
 
 		// create children
 		$children = $dynatreeDict['children'];
 		$childOrder = 1;
 		foreach($children as $childDict) {
-			self::createTreeFromDynatreeData(get_object_vars($childDict), $childOrder, $wbse->getId(), $root_id);
+			self::updateFromDynatree(get_object_vars($childDict), $root_id, $wbse->getId(), $childOrder);
          $childOrder += 1;
 		}
-
 	}
-
-
 }
 
 WBSElement2::staticInit();

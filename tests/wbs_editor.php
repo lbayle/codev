@@ -32,9 +32,30 @@ class WBSEditorController extends Controller {
 
    protected function display() {
       if (Tools::isConnectedUser()) {
+
+
+         /*
+         //flip (il suffit de rajouter un slash devant la ligne precedente)
+
          // the root WBSElement (Folder) has been created at Command creation.
-         //$root_id = WBSElement2::create(NULL, NULL, NULL, NULL, "root_".date('Ymd'));
-         $root_id = 56;
+         $root = new WBSElement2(NULL, NULL, NULL, NULL, NULL, "root_".date('Ymd'));
+
+         $root_id = $root->getId();
+         $order = 1;
+         for ($bug_id = 70; $bug_id < 72; $bug_id++) {
+            $child = new WBSElement2(NULL, $root_id, $bug_id, $root_id, $order);
+            $order++;
+         }
+         $subFolder = new WBSElement2(NULL, $root_id, NULL, $root_id, $order, "subFolder_1");
+         $order = 1;
+         for ($bug_id = 72; $bug_id < 74; $bug_id++) {
+            $child = new WBSElement2(NULL, $root_id, $bug_id, $subFolder->getId(), $order);
+            $order++;
+         }
+
+         /*/
+         $root_id = 118;
+         // */
 
          $this->smartyHelper->assign('wbsRootId', $root_id);
       }
