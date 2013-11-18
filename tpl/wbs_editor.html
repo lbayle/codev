@@ -72,8 +72,12 @@
                 case 46: // [delete]
                  if (node.data.isFolder) {
                     if (node.getLevel() != 1 && !node.hasChildren()) {
-                       node.remove();
-                       // TODO add id to the foldersToDelete list
+                        node.remove();
+                        // dynatree prefixes new nodes with '_'
+                        if ('_' !== node.data.key.charAt(0)) {
+                           // node exist in DB and must be removed
+                           nodesToDelete.push(node.data.key);
+                        }
                     } else if (node.getLevel() == 1) {
                        alert("Cannot remove root!");
                     } else {
@@ -156,6 +160,10 @@
 
   </div>
    <script type="text/javascript">
+
+   // global: nodesToDelete list
+   var nodesToDelete = [];
+
    function saveTree() {
 
 	   var json = $("#tree").dynatree("getRoot").toDict(true, function(dict){
@@ -174,9 +182,6 @@
 	   }).children;
       var jsonDict = JSON.stringify(json);
 console.log("saveWBS = ", jsonDict);
-      // TODO add nodesToDelete list
-      var nodesToDelete = "";
-
 	   $.ajax({
 		   type: "GET",
            url: 'tests/dynatree_ajax.php',

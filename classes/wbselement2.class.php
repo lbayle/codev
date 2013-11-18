@@ -201,16 +201,51 @@ class WBSElement2 extends Model {
       return SqlWrapper::getInstance()->sql_insert_id();
    }
 
-   public function remove() {
+   public function getChildrenIds() {
+      $childrenIds = array();
 
-      $query = "DELETE FROM `codev_wbselement_table` WHERE `id` = " . $this->getId();
+      $query = "SELECT id FROM `codev_wbselement_table` ".
+              "WHERE `parent_id` = $this->id ".
+              //"AND bug_id IS NULL ".
+              "AND root_id = $this->rootId ".
+              "AND id <> $this->id ".
+              "ORDER BY `order` ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
+      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $childrenIds[] = $row->id;
+      }
+      return $childrenIds;
+   }
 
-      // TODO remove children recursively ?
+   public function delete($root_id) {
+
+      if ($this->rootId != $root_id) {
+            $e = new Exception("delete: WBSElement $id exists with root_id = $this->rootId (expected $root_id)");
+            self::$logger->error("EXCEPTION WBSElement constructor: " . $e->getMessage());
+            self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
+            throw $e;
+      }
+
+      // if Folder, must be empty
+      $childrenIds = $this->getChildrenIds();
+      if ($this->isFolder() && (0 != count($childrenIds))) {
+         $e = new Exception("delete: Folder $id must have no Children. (found ".implode(',', $childrenIds).")");
+         self::$logger->error("EXCEPTION: " . $e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
+         throw $e;
+      }
+
+      // delete
+      $query = "DELETE FROM `codev_wbselement_table` WHERE `id` = " . $this->id;
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
    }
 
    public function update() {
@@ -411,6 +446,10 @@ class WBSElement2 extends Model {
       file_put_contents('/tmp/tree.txt', "root $root_id, parent $parent_id, order $order \n", FILE_APPEND);
       $aa = var_export($dynatreeDict, true);
       file_put_contents('/tmp/tree.txt', "aa=".$aa."\n", FILE_APPEND);
+      if (self::$logger->isDebugEnabled()) {
+         self::$logger->debug("updateFromDynatree(root=$root_id, parent=$parent_id, order=$order) : \n$aa");
+         //self::$logger->debug($aa);
+      }
 
 		$id = NULL;
 		$title = $dynatreeDict['title'];
