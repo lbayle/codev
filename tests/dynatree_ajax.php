@@ -5,6 +5,7 @@ require('../path.inc.php');
 
 if (Tools::isConnectedUser() && (isset($_GET['action']))) {
 
+	$logger = Logger::getLogger("dynatreeAjax");
    if (isset($_GET['action'])) {
 
       if($_GET['action'] == 'saveWBS') {
@@ -17,7 +18,18 @@ if (Tools::isConnectedUser() && (isset($_GET['action']))) {
          $dynatreeDict = json_decode($jsonDynatreeDict);
          $rootArray = get_object_vars($dynatreeDict[0]);
 
+         if ($logger->isDebugEnabled()) {
+            $aa = var_export($rootArray, true);
+            $logger->debug("saveWBS (nodesToDelete=".implode(',', $nodesToDelete).")");
+            $logger->debug("saveWBS (root=$root_id) : \n$aa");
+         }
+
          file_put_contents('/tmp/tree.txt', "=== NEW ".time()."\n");
+
+         foreach ($nodesToDelete as $folder_id) {
+            $f = new WBSElement2($folder_id, $root_id);
+            $f->delete($root_id);
+         }
          WBSElement2::updateFromDynatree($rootArray, $root_id);
 
          echo $jsonDynatreeDict;
@@ -33,7 +45,11 @@ if (Tools::isConnectedUser() && (isset($_GET['action']))) {
 			$rootElement = new WBSElement2($root_id);
 			$dynatreeDict = $rootElement->getDynatreeData($hasDetail);
 
-         //file_put_contents('/tmp/loadWBS.txt', serialize($dynatreeDict)."\n", FILE_APPEND);
+         if ($logger->isDebugEnabled()) {
+            $aa = var_export($dynatreeDict, true);
+            $logger->debug("loadWBS (root=$root_id, hasDetail=".$_GET['hasDetail'].") : \n$aa");
+         }
+
 			$jsonDynatreeDict = json_encode($dynatreeDict);
 			echo $jsonDynatreeDict;
 
