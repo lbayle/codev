@@ -186,6 +186,13 @@ function setWeekTaskDetails($smartyHelper, $weekid, $year, $managed_userid, $tea
    $smartyHelper->assign('weekTasks', $weekTasks["weekTasks"]);
    $smartyHelper->assign('dayTotalElapsed', $weekTasks["totalElapsed"]);
 
+   // weekTaskDetails.html includes edit_issueNote.html & update_issueBacklog.html
+   // these files need userid,weekid,year to be set.
+   $smartyHelper->assign('userid', $managed_userid);
+   $smartyHelper->assign('weekid', $weekid);
+   $smartyHelper->assign('year', $year);
+
+
 }
 
 ?>
