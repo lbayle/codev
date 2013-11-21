@@ -78,19 +78,7 @@
 </node>
 <node CREATED="1384935584988" ID="ID_947931050" MODIFIED="1384936846043" TEXT="modal/update_issueBacklog.html">
 <node CREATED="1384938353640" ID="ID_961350546" MODIFIED="1384938355837" TEXT="formUpdateBacklog">
-<node CREATED="1384937172908" ID="ID_1634375314" MODIFIED="1384938364346" TEXT="$weekid">
-<richcontent TYPE="NOTE"><html>
-  <head>
-    
-  </head>
-  <body>
-    <p>
-      formUpdateBacklog: for weekTaskDetails
-    </p>
-  </body>
-</html></richcontent>
-</node>
-<node CREATED="1384937178282" ID="ID_1122229815" MODIFIED="1384938366216" TEXT="$year">
+<node CREATED="1384937172908" ID="ID_1634375314" MODIFIED="1385053576354" TEXT="$weekid">
 <richcontent TYPE="NOTE"><html>
   <head>
     
@@ -102,6 +90,18 @@
   </body>
 </html>
 </richcontent>
+</node>
+<node CREATED="1384937178282" ID="ID_1122229815" MODIFIED="1384938366216" TEXT="$year">
+<richcontent TYPE="NOTE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      formUpdateBacklog: for weekTaskDetails
+    </p>
+  </body>
+</html></richcontent>
 </node>
 </node>
 </node>
@@ -118,6 +118,9 @@
 <node CREATED="1384939433373" ID="ID_673546744" MODIFIED="1384939439270" TEXT="$weekEndDates"/>
 <node CREATED="1384939440214" ID="ID_1616079614" MODIFIED="1384939446313" TEXT="$weekTasks"/>
 <node CREATED="1384939447585" ID="ID_1741131029" MODIFIED="1384939455525" TEXT="$dayTotalElapsed"/>
+<node CREATED="1385053528757" ID="ID_415610747" MODIFIED="1385053534857" TEXT="$userid"/>
+<node CREATED="1385053535270" ID="ID_352607975" MODIFIED="1385053539045" TEXT="$weekid"/>
+<node CREATED="1385053539427" ID="ID_927930585" MODIFIED="1385053542922" TEXT="$year"/>
 </node>
 <node CREATED="1384939180577" ID="ID_779063782" MODIFIED="1384939238070" TEXT="(action) getIssueNoteText"/>
 <node CREATED="1384939193533" ID="ID_1295317444" MODIFIED="1384939231409" TEXT="(action) saveIssueNote">
@@ -126,6 +129,9 @@
 <node CREATED="1384939433373" ID="ID_539096864" MODIFIED="1384939439270" TEXT="$weekEndDates"/>
 <node CREATED="1384939440214" ID="ID_379018757" MODIFIED="1384939446313" TEXT="$weekTasks"/>
 <node CREATED="1384939447585" ID="ID_1794714991" MODIFIED="1384939455525" TEXT="$dayTotalElapsed"/>
+<node CREATED="1385053528757" ID="ID_645755245" MODIFIED="1385053534857" TEXT="$userid"/>
+<node CREATED="1385053535270" ID="ID_67912303" MODIFIED="1385053539045" TEXT="$weekid"/>
+<node CREATED="1385053539427" ID="ID_441324623" MODIFIED="1385053542922" TEXT="$year"/>
 </node>
 </node>
 </node>
