@@ -99,6 +99,19 @@ class Jobs {
     */
    private $jobList;
 
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
+
    public function __construct() {
       $this->jobList = array();
 
@@ -126,6 +139,15 @@ class Jobs {
     * @return string
     */
    public function getJobName($id) {
+
+      if (!array_key_exists($id, $this->jobList)) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("getJobName($id): job id not found !");
+         self::$logger->error("EXCEPTION: ".$e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         //throw $e;
+         return "error";
+      }
       return $this->jobList[$id]->getName();
    }
 
@@ -134,15 +156,15 @@ class Jobs {
     * @return string
     */
    public function getJobColor($id) {
+      if (!array_key_exists($id, $this->jobList)) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("getJobColor($id): job id not found !");
+         self::$logger->error("EXCEPTION: ".$e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         //throw $e;
+         return "000000";
+      }
       return $this->jobList[$id]->getColor();
-   }
-
-   /**
-    * @param int $id
-    * @return mixed
-    */
-   public function getJobType($id) {
-      return $this->jobList[$id]->getType();
    }
 
    /**
@@ -186,5 +208,5 @@ class Jobs {
    }
 
 }
-
+Jobs::staticInit();
 ?>
