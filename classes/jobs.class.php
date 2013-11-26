@@ -141,7 +141,6 @@ class Jobs {
    public function getJobName($id) {
 
       if (!array_key_exists($id, $this->jobList)) {
-         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("getJobName($id): job id not found !");
          self::$logger->error("EXCEPTION: ".$e->getMessage());
          self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
@@ -157,7 +156,6 @@ class Jobs {
     */
    public function getJobColor($id) {
       if (!array_key_exists($id, $this->jobList)) {
-         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("getJobColor($id): job id not found !");
          self::$logger->error("EXCEPTION: ".$e->getMessage());
          self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
