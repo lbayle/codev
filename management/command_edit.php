@@ -210,6 +210,9 @@ class CommandEditController extends Controller {
                CommandTools::displayCommand($this->smartyHelper, $cmd, $isManager);
                $this->smartyHelper->assign('cmdProvisionType', SmartyTools::getSmartyArray(CommandProvision::$provisionNames, 1));
 
+               // WBS
+               $this->smartyHelper->assign('wbsRootId', $cmd->getWbsid());
+
                // multiple selection dialogBox
                $availableIssueList = $this->getChildIssuesCandidates($this->teamid);
                $this->smartyHelper->assign('availableIssueList', $availableIssueList);

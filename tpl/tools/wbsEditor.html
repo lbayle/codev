@@ -1,0 +1,209 @@
+<div id="content">
+
+<style type="text/css">
+  ul.dynatree-container span.td {
+     position: absolute;
+     display: inline;
+     border-size: 1px;
+     overflow: hidden;
+     background-color: white;
+  }
+  ul.dynatree-container span.td:nth-child(1) {
+     position: static;
+  }
+  </style>
+
+  <script src="js/progress.js" type="text/javascript"></script>
+  <!--script src="js/dynatree_custom.js" type="text/javascript"></script-->
+
+  <script type="text/javascript">
+	  function editNode(node){
+
+		  var prevTitle = node.data.title,
+		    tree = node.tree;
+		  // Disable dynatree mouse- and key handling
+		  tree.$widget.unbind();
+		  // Replace node with <input>
+		  $(".dynatree-title", node.span).html("<input id='editNode' value='" + prevTitle + "'>");
+		  // Focus <input> and bind keyboard handler
+		  $("input#editNode")
+		    .focus()
+		    .keydown(function(event){
+		      switch( event.which ) {
+		      case 27: // [esc]
+		        // discard changes on [esc]
+		        $("input#editNode").val(prevTitle);
+		        $(this).blur();
+		        break;
+		      case 13: // [enter]
+		        // simulate blur to accept new value
+		        $(this).blur();
+		        break;
+		      }
+		    }).blur(function(event){
+		      // Accept new value, when user leaves <input>
+		      var title = $("input#editNode").val();
+		      node.setTitle(title);
+		      // Re-enable mouse and keyboard handlling
+		      tree.$widget.bind();
+		      node.focus();
+		    });
+		}
+
+	  function initTree() {
+
+       jQuery("#tree").dynatree({
+
+         initAjax: {
+           url: 'tests/dynatree_ajax.php',
+           data: { wbsRootId: "{$wbsRootId}",
+                   hasDetail: "0",
+                   action: "loadWBS"
+           }
+         },
+         onDblClick: function(node, event) {
+          if (node.data.isFolder)
+              editNode(node);
+             return false;
+         },
+
+         onKeydown: function(node, event) {
+             switch( event.which ) {
+                case 46: // [delete]
+                 if (node.data.isFolder) {
+                    if (node.getLevel() != 1 && !node.hasChildren()) {
+                        node.remove();
+                        // dynatree prefixes new nodes with '_'
+                        if ('_' !== node.data.key.charAt(0)) {
+                           // node exist in DB and must be removed
+                           nodesToDelete.push(node.data.key);
+                        }
+                    } else if (node.getLevel() == 1) {
+                       alert("Cannot remove root!");
+                    } else {
+                       alert("Cannot remove folder : the directory is not empty!");
+                    }
+                 }
+             }
+         },
+
+         dnd: {
+             onDragStart: function(node) {
+               /** This function MUST be defined to enable dragging for the tree.
+                *  Return false to cancel dragging of node.
+                */
+               return true;
+             },
+             autoExpandMS: 1000,
+             preventVoidMoves: true, // Prevent dropping nodes 'before self', etc.
+             onDragEnter: function(node, sourceNode) {
+               /** sourceNode may be null for non-dynatree droppables.
+                *  Return false to disallow dropping on node. In this case
+                *  onDragOver and onDragLeave are not called.
+                *  Return 'over', 'before, or 'after' to force a hitMode.
+                *  Return ['before', 'after'] to restrict available hitModes.
+                *  Any other return value will calc the hitMode from the cursor position.
+                */
+               return true;
+             },
+             onDragOver: function(node, sourceNode, hitMode) {
+               /** Return false to disallow dropping this node.
+                *
+                */
+               // Prevent dropping a parent below it's own child
+               if(node.isDescendantOf(sourceNode)){
+                 return false;
+               }
+               // Prevent dropping an issue below an issue
+               if(!node.data.isFolder && hitMode === "over"){
+                 return false;
+               }
+               // Prevent dropping beyond the root
+               if(node.getLevel() === 1) {
+                 return false;
+               }
+             },
+             onDrop: function(node, sourceNode, hitMode, ui, draggable) {
+               /** This function MUST be defined to enable dropping of items on
+                * the tree.
+                */
+               sourceNode.move(node, hitMode);
+               // expand the drop target
+               //sourceNode.expand(true);
+             },
+           }
+
+        });
+     }
+
+   jQuery(document).ready(function() {
+
+      $("#btnAddCode").click(function(){
+        var rootNode = $("#tree").dynatree("getTree").getActiveNode();
+        if (rootNode.data.isFolder)
+           rootNode.addChild({
+             title: "New Folder",
+             isFolder: true
+           });
+      });
+   });
+
+
+	  window.onload = initTree;
+  </script>
+
+  <a id="bt_saveTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_save.png" style="vertical-align: middle;" title="{t}Save{/t}"> Save</a>
+  <button id="btnAddCode" >New Folder</button>
+  <div id="tree">
+  </div>
+
+  </div>
+   <script type="text/javascript">
+
+   // global: nodesToDelete list
+   var nodesToDelete = [];
+
+   function saveTree() {
+
+	   var json = $("#tree").dynatree("getRoot").toDict(true, function(dict){
+		   delete dict.isLazy;
+		   delete dict.tooltip;
+		   delete dict.href;
+		   delete dict.icon;
+		   delete dict.addClass;
+		   delete dict.noLink;
+		   delete dict.activate;
+		   delete dict.focus;
+		   delete dict.expand;
+		   delete dict.select;
+		   delete dict.hideCheckbox;
+		   delete dict.unselectable;
+	   }).children;
+      var jsonDict = JSON.stringify(json);
+console.log("saveWBS = ", jsonDict);
+	   $.ajax({
+		   type: "GET",
+           url: 'tests/dynatree_ajax.php',
+           data: { jsonDynatreeDict: jsonDict,
+                   nodesToDelete: nodesToDelete,
+                   wbsRootId: "{$wbsRootId}",
+                   action: "saveWBS"
+           },
+           success: function() {
+              alert("WBS Saved!");
+              $("#result").html('WBS saved, please reload');
+           },
+           error:  function() {
+              alert("WBS Save ERROR!");
+           }
+        });
+
+   }
+
+   jQuery(document).ready(function() {
+       jQuery("#bt_saveTree").click(function(event) {
+          event.preventDefault();
+          saveTree();
+       });
+    });
+   </script>
