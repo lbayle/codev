@@ -371,6 +371,7 @@ CREATE TABLE IF NOT EXISTS `codev_command_table` (
   `start_date` int(11) unsigned default NULL,
   `deadline` int(11) default NULL,
   `team_id` int(11) NOT NULL,
+  `wbs_id` int(11) NOT NULL,
   `state` int(11) unsigned default NULL,
   `currency` varchar(3) default 'EUR',
   `total_days` int(11) default NULL,

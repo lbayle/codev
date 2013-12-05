@@ -78,6 +78,7 @@ class Command extends Model {
    private $startDate;
    private $deadline;
    private $teamid;
+   private $wbsid;
    private $state;
    private $cost;
    private $currency;
@@ -134,6 +135,7 @@ class Command extends Model {
       $this->startDate = $row->start_date;
       $this->deadline = $row->deadline;
       $this->teamid = $row->team_id;
+      $this->wbsid = $row->wbs_id;
       $this->state = $row->state;
       $this->cost = $row->cost;
       $this->currency = $row->currency;
@@ -162,8 +164,14 @@ class Command extends Model {
       $count = SqlWrapper::getInstance()->sql_result($result);
 
       if($count == 0) {
-         $query = "INSERT INTO `codev_command_table`  (`name`, `team_id`) ".
-            "VALUES ('$name', $teamid);";
+
+         // create empty WBS
+         $wbs = new WBSElement2(NULL, NULL, NULL, NULL, NULL, $name);
+         $wbsid = $wbs->getId();
+
+         // create Command
+         $query = "INSERT INTO `codev_command_table`  (`name`, `team_id`, `wbs_id`) ".
+            "VALUES ('$name', $teamid, $wbsid);";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -243,6 +251,10 @@ class Command extends Model {
             exit;
          }
       }
+   }
+
+   public function getWbsid()   {
+      return $this->wbsid;
    }
 
    /**
