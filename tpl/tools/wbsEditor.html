@@ -153,6 +153,7 @@
 	  window.onload = initTree;
   </script>
 
+   <a id="bt_loadTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" title="{t}Load{/t}"> Load</a>
   <a id="bt_saveTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_save.png" style="vertical-align: middle;" title="{t}Save{/t}"> Save</a>
   <button id="btnAddCode" >New Folder</button>
   <div id="tree">
@@ -207,6 +208,17 @@ console.log("saveWBS nodesToDelete = ", nodesToDelete);
        jQuery("#bt_saveTree").click(function(event) {
           event.preventDefault();
           saveTree();
+
+          // reload to update id of new elements (created in DB)
+          $("#tree").dynatree("destroy");
+          initTree();
        });
+
+       jQuery("#bt_loadTree").click(function(event) {
+          event.preventDefault();
+          $("#tree").dynatree("destroy");
+          initTree();
+       });
+
     });
    </script>
