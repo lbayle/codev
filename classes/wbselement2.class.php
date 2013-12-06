@@ -382,13 +382,12 @@ class WBSElement2 extends Model {
                   $detail = '';
                   if ($hasDetail) {
 							// TODO if isManager...
-                     $driftColor = $issue->getDriftColor($issue->getDriftMgr());
-                     $detail = (!is_null($issue->getProgress()) ? ('~' . round(100 * $issue->getProgress())) : '')
-                             . (!is_null($issue->getMgrEffortEstim()) ? ('~' . $issue->getMgrEffortEstim()) : '')
-                             . (!is_null($issue->getElapsed()) ? ('~' . $issue->getElapsed()) : '')
-                             . (!is_null($issue->getBacklog()) ? ('~' . $issue->getBacklog()) : '')
-                             . (!is_null($issue->getDriftMgr()) ? ('~' . $issue->getDriftMgr()) : '')
-                             . (!is_null($driftColor) ? ('~' . $driftColor) : '');
+                     $detail = '~' . round(100 * $issue->getProgress())
+                             . '~' . $issue->getMgrEffortEstim()
+                             . '~' . $issue->getElapsed()
+                             . '~' . $issue->getBacklog()
+                             . '~' . $issue->getDriftMgr()
+                             . '~' . $issue->getDriftColor($issue->getDriftMgr());
                   }
 
 
