@@ -54,7 +54,7 @@ class Command extends Model {
       self::state_payed => "Facturé"
    );
 
-  
+
    /**
     * @var Logger The logger
     */
@@ -149,7 +149,7 @@ class Command extends Model {
          self::$logger->warn("Initialize: command $this->id has no WBS.");
 
          // add root element
-         $wbs = new WBSElement2(NULL, NULL, NULL, NULL, NULL, $this->name);
+         $wbs = new WBSElement(NULL, NULL, NULL, NULL, NULL, $this->name);
          $this->wbsid = $wbs->getId();
          $query = "UPDATE `codev_command_table` SET wbs_id = '".$this->wbsid."' WHERE id = ".$this->id.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -162,7 +162,7 @@ class Command extends Model {
          $bugidList = array_keys($this->getIssueSelection()->getIssueList());
          $order = 1;
          foreach($bugidList as $bug_id) {
-            $child = new WBSElement2(NULL, $this->wbsid, $bug_id, $this->wbsid, $order);
+            $child = new WBSElement(NULL, $this->wbsid, $bug_id, $this->wbsid, $order);
             $order++;
          }
       }
@@ -190,7 +190,7 @@ class Command extends Model {
       if($count == 0) {
 
          // create empty WBS
-         $wbs = new WBSElement2(NULL, NULL, NULL, NULL, NULL, $name);
+         $wbs = new WBSElement(NULL, NULL, NULL, NULL, NULL, $name);
          $wbsid = $wbs->getId();
 
          // create Command
@@ -618,7 +618,7 @@ class Command extends Model {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         
+
          $issues = array();
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             try {
@@ -676,7 +676,7 @@ class Command extends Model {
          $id = SqlWrapper::getInstance()->sql_insert_id();
 
          // add to WBS
-         $wbsChild = new WBSElement2(NULL, $this->wbsid, $bugid, $this->wbsid, $order);
+         $wbsChild = new WBSElement(NULL, $this->wbsid, $bugid, $this->wbsid, $order);
 
       } else {
          if(self::$logger->isDebugEnabled()) {

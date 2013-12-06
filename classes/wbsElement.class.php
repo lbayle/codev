@@ -1,6 +1,6 @@
 <?php
 
-class WBSElement2 extends Model {
+class WBSElement extends Model {
 
    /**
     * @var Logger The logger
@@ -365,7 +365,7 @@ class WBSElement2 extends Model {
          $parentArray = array();
 
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $wbselement = new WBSElement2($row->id, $this->getRootId());
+            $wbselement = new WBSElement($row->id, $this->getRootId());
             $childArray = array();
 
             if ($wbselement->isFolder()) {
@@ -508,7 +508,7 @@ class WBSElement2 extends Model {
 		}
 
 		// create Element
-		$wbse = new WBSElement2($id, $root_id, $bug_id, $parent_id, $order, $title, $icon, $font, $color, $isExpand);
+		$wbse = new WBSElement($id, $root_id, $bug_id, $parent_id, $order, $title, $icon, $font, $color, $isExpand);
 
 		// create children
 		$children = $dynatreeDict['children'];
@@ -522,5 +522,5 @@ class WBSElement2 extends Model {
 	}
 }
 
-WBSElement2::staticInit();
+WBSElement::staticInit();
 ?>
