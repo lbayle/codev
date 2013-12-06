@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS `codev_wbselement_table` (
   `parent_id` int(11) unsigned default NULL,
   `order` int(11) NOT NULL,
   `bug_id` int(11) default NULL,
+  `expand` tinyint(4) NOT NULL DEFAULT '1',
   `title` varchar(255) default NULL,
   `icon` varchar(64) default NULL,
   `font` varchar(64) default NULL,
@@ -31,4 +32,5 @@ CREATE TABLE IF NOT EXISTS `codev_wbselement_table` (
 
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-
+-- tag version
+UPDATE `codev_config_table` SET `value`='13' WHERE `config_id`='database_version';

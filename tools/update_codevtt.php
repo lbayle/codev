@@ -230,6 +230,29 @@ function update_v11_to_v12() {
 
 }
 
+/**
+ * update 0.99.24 to 0.99.25 (DB v12 to DB v13)
+ *
+ */
+function update_v12_to_v13() {
+
+   $sqlScriptFilename = '../install/codevtt_update_v12_v13.sql';
+   if (!file_exists($sqlScriptFilename)) {
+      echo "ERROR: SQL script not found:$sqlScriptFilename<br>";
+      exit;
+   }
+   // execute the SQL script
+   echo "- Execute SQL script:$sqlScriptFilename<br>";
+   $retCode = Tools::execSQLscript2($sqlScriptFilename);
+   if (0 != $retCode) {
+      echo "<span class='error_font'>Could not execSQLscript: $sqlScriptFilename</span><br/>";
+      exit;
+   }
+
+   #echo "<br>SUCCESS: Update 0.99.24 to 0.99.25 (DB v12 to DB v13)<br>";
+   return TRUE;
+}
+
 // =========== MAIN ==========
 $logger = Logger::getLogger("versionUpdater");
 
