@@ -3,16 +3,19 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
-if (Tools::isConnectedUser() && (isset($_GET['action']))) {
+if (Tools::isConnectedUser() && (isset($_POST['action']))) {
 
 	$logger = Logger::getLogger("dynatreeAjax");
-   if (isset($_GET['action'])) {
+   if (isset($_POST['action'])) {
 
-      if($_GET['action'] == 'saveWBS') {
+      if($_POST['action'] == 'saveWBS') {
 
-         $root_id          = $_GET['wbsRootId'];
-         $jsonDynatreeDict = $_GET['jsonDynatreeDict'];
-         $nodesToDelete    = $_GET['nodesToDelete'];
+         #$root_id          = Tools::getSecurePOSTIntValue('wbsRootId');
+         #$jsonDynatreeDict = Tools::getSecurePOSTStringValue('jsonDynatreeDict');
+         #$nodesToDelete    = Tools::getSecurePOSTStringValue('nodesToDelete', '');
+         $root_id          = $_POST['wbsRootId'];
+         $jsonDynatreeDict = $_POST['jsonDynatreeDict'];
+         $nodesToDelete    = $_POST['nodesToDelete'];
 
          // dynatree returns a 'container' element
          $dynatreeDict = json_decode($jsonDynatreeDict);
@@ -26,18 +29,20 @@ if (Tools::isConnectedUser() && (isset($_GET['action']))) {
 
          file_put_contents('/tmp/tree.txt', "=== NEW ".time()."\n");
 
-         foreach ($nodesToDelete as $folder_id) {
-            $f = new WBSElement2($folder_id, $root_id);
-            $f->delete($root_id);
+         if (!is_null($nodesToDelete)) {
+            foreach ($nodesToDelete as $folder_id) {
+               $f = new WBSElement2($folder_id, $root_id);
+               $f->delete($root_id);
+            }
          }
          WBSElement2::updateFromDynatree($rootArray, $root_id);
 
          echo $jsonDynatreeDict;
 
-      } else if($_GET['action'] == 'loadWBS') {
+      } else if($_POST['action'] == 'loadWBS') {
 
-         $root_id = $_GET['wbsRootId'];
-         $hasDetail = ('1' == $_GET['hasDetail']) ? true : false;
+         $root_id = Tools::getSecurePOSTIntValue('wbsRootId');
+         $hasDetail = (1 === Tools::getSecurePOSTIntValue('hasDetail')) ? true : false;
 
 			//file_put_contents('/tmp/loadWBS.txt', "=== ".date('Ymd')."\n");
 			//file_put_contents('/tmp/loadWBS.txt', "root_id = $root_id \n", FILE_APPEND);
@@ -47,7 +52,7 @@ if (Tools::isConnectedUser() && (isset($_GET['action']))) {
 
          if ($logger->isDebugEnabled()) {
             $aa = var_export($dynatreeDict, true);
-            $logger->debug("loadWBS (root=$root_id, hasDetail=".$_GET['hasDetail'].") : \n$aa");
+            $logger->debug("loadWBS (root=$root_id, hasDetail=".$_POST['hasDetail'].") : \n$aa");
          }
 
 			$jsonDynatreeDict = json_encode($dynatreeDict);

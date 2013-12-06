@@ -55,7 +55,8 @@
        jQuery("#tree").dynatree({
 
          initAjax: {
-           url: 'tests/dynatree_ajax.php',
+           type: "POST",
+           url: 'include/dynatree_ajax.php',
            data: { wbsRootId: "{$wbsRootId}",
                    hasDetail: "0",
                    action: "loadWBS"
@@ -174,22 +175,24 @@
 		   delete dict.noLink;
 		   delete dict.activate;
 		   delete dict.focus;
-		   delete dict.expand;
+		   //delete dict.expand;
 		   delete dict.select;
 		   delete dict.hideCheckbox;
 		   delete dict.unselectable;
 	   }).children;
       var jsonDict = JSON.stringify(json);
 console.log("saveWBS = ", jsonDict);
+console.log("saveWBS nodesToDelete = ", nodesToDelete);
 	   $.ajax({
-		   type: "GET",
-           url: 'tests/dynatree_ajax.php',
+		   type: "POST",
+           url: 'include/dynatree_ajax.php',
            data: { jsonDynatreeDict: jsonDict,
                    nodesToDelete: nodesToDelete,
                    wbsRootId: "{$wbsRootId}",
                    action: "saveWBS"
            },
            success: function() {
+              nodesToDelete = [];
               alert("WBS Saved!");
               $("#result").html('WBS saved, please reload');
            },

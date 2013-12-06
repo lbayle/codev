@@ -40,7 +40,8 @@
 
          jQuery("#tree").dynatree({
              initAjax: {
-               url: 'tests/dynatree_ajax.php',
+      		   type: "POST",
+               url: 'include/dynatree_ajax.php',
                data: { wbsRootId: "{$wbsRootId}",
                        hasDetail: "1",
                        action: "loadWBS"
