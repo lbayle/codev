@@ -24,8 +24,7 @@ class WBSElement2 extends Model {
    private $parentId;
    private $rootId;
    private $order;
-
-   private $isModified;
+   private $expand;
 
    /**
     *
@@ -40,10 +39,10 @@ class WBSElement2 extends Model {
     * @param type $color
     */
    public function __construct($id, $root_id = NULL, $bug_id = NULL, $parent_id = NULL, $order = NULL,
-			  $title = NULL, $icon = NULL, $font = NULL, $color = NULL) {
+			  $title = NULL, $icon = NULL, $font = NULL, $color = NULL, $expand=NULL) {
 
       if (is_null($id)) {
-         $this->id = self::create($bug_id, $parent_id, $root_id, $order, $title, $icon, $font, $color);
+         $this->id = self::create($bug_id, $parent_id, $root_id, $order, $title, $icon, $font, $color, $expand);
          $this->initialize();
       } else {
          $this->id = $id;
@@ -67,6 +66,7 @@ class WBSElement2 extends Model {
          if (!is_null($icon))      { $this->icon = $icon; $isModified = true;}
          if (!is_null($font))      { $this->font = $font; $isModified = true;}
          if (!is_null($color))     { $this->color = $color; $isModified = true;}
+         if (!is_null($expand))     { $this->expand = $expand; $isModified = true;}
 			if ($isModified) {
 				$this->update(); // TODO do it now ?
 			}
@@ -98,6 +98,7 @@ class WBSElement2 extends Model {
          $this->parentId = $row->parent_id;
          $this->rootId = $row->root_id;
          $this->order = $row->order;
+         $this->expand = (1 == $row->expand);
          $this->icon = $row->icon;
          $this->font = $row->font;
          $this->color = $row->color;
@@ -122,7 +123,7 @@ class WBSElement2 extends Model {
     * @param String $color
     * @return int id
     */
-   public static function create($bug_id, $parent_id, $root_id, $order, $title, $icon=NULL, $font=NULL, $color=NULL) {
+   public static function create($bug_id, $parent_id, $root_id, $order, $title, $icon=NULL, $font=NULL, $color=NULL, $expand=NULL) {
 
 		// --- check values
 		if (!is_null($parent_id)) {
@@ -183,6 +184,7 @@ class WBSElement2 extends Model {
 		if (!is_null($icon)) { $query .= ', `icon`'; }
 		if (!is_null($font)) { $query .= ', `font`'; }
 		if (!is_null($color)) { $query .= ', `color`'; }
+		if (!is_null($expand)) { $query .= ', `expand`'; }
 		$query .= ") VALUES ('$order'";
 		if (!is_null($bug_id)) { $query .= ", '$bug_id'"; }
 		if (!is_null($parent_id)) { $query .= ", '$parent_id'"; }
@@ -191,6 +193,7 @@ class WBSElement2 extends Model {
 		if (!is_null($icon)) { $query .= ", '$icon'"; }
 		if (!is_null($font)) { $query .= ", '$font'"; }
 		if (!is_null($color)) { $query .= ", '$color'"; }
+		if (!is_null($expand)) { $query .= ", '".($expand ? '1' : '0')."'"; }
 		$query .= ')';
 
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -252,8 +255,12 @@ class WBSElement2 extends Model {
 
       $query = "UPDATE `codev_wbselement_table` SET ".
               "`title` = '" . $this->title . "'" .
-              ", `parent_id` = " . (($this->parentId == null) ? "NULL" : $this->parentId) .
               ", `order` = " . $this->order .
+              ", `parent_id` = " . (is_null($this->parentId) ? "NULL" : $this->parentId) .
+              ", `icon` = " . (is_null($this->icon) ? "NULL" : $this->icon).
+              ", `font` = " . (is_null($this->font) ? "NULL" : $this->font).
+              ", `color` = " . (is_null($this->color) ? "NULL" : $this->color).
+              ", `expand` = " . ($this->expand ? '1' : '0').
               " WHERE `id` = " . $this->id;
 
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -273,7 +280,6 @@ class WBSElement2 extends Model {
 
    public function setTitle($title) {
       $this->title = $title;
-		$isModified = true;
    }
 
    public function getIcon() {
@@ -282,7 +288,6 @@ class WBSElement2 extends Model {
 
    public function setIcon($icon) {
       $this->icon = $icon;
-		$isModified = true;
    }
 
    public function getFont() {
@@ -291,7 +296,6 @@ class WBSElement2 extends Model {
 
    public function setFont($font) {
       $this->font = $font;
-		$isModified = true;
    }
 
    public function getColor() {
@@ -323,7 +327,6 @@ class WBSElement2 extends Model {
 
    public function setParentId($parentId) {
       $this->parentId = $parentId;
-		$isModified = true;
    }
 
    public function getOrder() {
@@ -332,13 +335,19 @@ class WBSElement2 extends Model {
 
    public function setOrder($order) {
       $this->order = $order;
-		$isModified = true;
    }
 
    public function isFolder() {
       return is_null($this->bugId);
    }
 
+   public function isExpand() {
+      return $this->expand;
+   }
+
+   public function setExpand($isExp) {
+      $this->expand = $isExp;
+   }
 	/**
 	 *
 	 * @param boolean $hasDetail if true, add [Progress, EffortEstim, Elapsed, Backlog, Drift]
@@ -363,6 +372,7 @@ class WBSElement2 extends Model {
 
                $childArray['title'] = $wbselement->getTitle();
                $childArray['isFolder'] = true;
+               $childArray['expand'] = $wbselement->isExpand();
                $childArray['key'] = $wbselement->getId();
                $childArray['children'] = $wbselement->getDynatreeData($hasDetail, $isManager);
             } else {
@@ -398,6 +408,7 @@ class WBSElement2 extends Model {
                $rootArray = array(
                   'title'    => $this->getTitle(),
                   'isFolder' => true,
+                  'expand'      => $this->isExpand(),
                   'key'      => $this->getId(),
                   'children' => $parentArray
                    );
@@ -456,6 +467,7 @@ class WBSElement2 extends Model {
 		$icon = $dynatreeDict['icon'];
 		$font = $dynatreeDict['font'];
 		$color = $dynatreeDict['color'];
+		$isExpand = $dynatreeDict['expand'];
 
 		$isFolder = $dynatreeDict['isFolder'];
 		if ($isFolder) {
@@ -489,7 +501,7 @@ class WBSElement2 extends Model {
 		}
 
 		// create Element
-		$wbse = new WBSElement2($id, $root_id, $bug_id, $parent_id, $order, $title, $icon, $font, $color);
+		$wbse = new WBSElement2($id, $root_id, $bug_id, $parent_id, $order, $title, $icon, $font, $color, $isExpand);
 
 		// create children
 		$children = $dynatreeDict['children'];

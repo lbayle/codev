@@ -23,7 +23,9 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
 
          if ($logger->isDebugEnabled()) {
             $aa = var_export($rootArray, true);
-            $logger->debug("saveWBS (nodesToDelete=".implode(',', $nodesToDelete).")");
+            if (!is_null($nodesToDelete)) {
+               $logger->debug("saveWBS (nodesToDelete=".implode(',', $nodesToDelete).")");
+            }
             $logger->debug("saveWBS (root=$root_id) : \n$aa");
          }
 
