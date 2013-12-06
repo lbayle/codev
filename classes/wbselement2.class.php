@@ -493,11 +493,13 @@ class WBSElement2 extends Model {
 
 		// create children
 		$children = $dynatreeDict['children'];
-		$childOrder = 1;
-		foreach($children as $childDict) {
-			self::updateFromDynatree(get_object_vars($childDict), $root_id, $wbse->getId(), $childOrder);
-         $childOrder += 1;
-		}
+      if (!is_null($children)) {
+         $childOrder = 1;
+         foreach($children as $childDict) {
+            self::updateFromDynatree(get_object_vars($childDict), $root_id, $wbse->getId(), $childOrder);
+            $childOrder += 1;
+         }
+      }
 	}
 }
 
