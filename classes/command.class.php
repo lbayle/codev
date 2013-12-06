@@ -142,6 +142,30 @@ class Command extends Model {
       $this->totalSoldDays = $row->total_days;
       $this->averageDailyRate = $row->average_daily_rate;
       $this->enabled = (1 == $row->enabled);
+
+         // commands created before v0.99.25 have no WBS
+      if (is_null($this->wbsid)) {
+
+         self::$logger->warn("Initialize: command $this->id has no WBS.");
+
+         // add root element
+         $wbs = new WBSElement2(NULL, NULL, NULL, NULL, NULL, $this->name);
+         $this->wbsid = $wbs->getId();
+         $query = "UPDATE `codev_command_table` SET wbs_id = '".$this->wbsid."' WHERE id = ".$this->id.";";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         // add existing Issues
+         $bugidList = array_keys($this->getIssueSelection()->getIssueList());
+         $order = 1;
+         foreach($bugidList as $bug_id) {
+            $child = new WBSElement2(NULL, $this->wbsid, $bug_id, $this->wbsid, $order);
+            $order++;
+         }
+      }
    }
 
    /**
@@ -193,6 +217,18 @@ class Command extends Model {
     * @return bool true id deleted
     */
    public static function delete($id) {
+
+      // delete WBS
+      $query = "DELETE FROM `codev_wbselement_table` ".
+              "WHERE root_id = (SELECT wbs_id FROM `codev_command_table` WHERE id=$id) ".
+              "OR id=(SELECT wbs_id FROM `codev_command_table` WHERE id=$id);";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      // delete Command
       $query = "DELETE FROM `codev_commandset_cmd_table` WHERE command_id = ".$id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -638,6 +674,10 @@ class Command extends Model {
             exit;
          }
          $id = SqlWrapper::getInstance()->sql_insert_id();
+
+         // add to WBS
+         $wbsChild = new WBSElement2(NULL, $this->wbsid, $bugid, $this->wbsid, $order);
+
       } else {
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("addIssue($bugid) to command $this->id: already in !");
@@ -670,7 +710,16 @@ class Command extends Model {
 
       $this->getIssueSelection()->removeIssue($bugid);
 
+      // remove from Command
       $query = "DELETE FROM `codev_command_bug_table` WHERE command_id = ".$this->id." AND bug_id = ".$bugid.";";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      // remove from WBS
+      $query = "DELETE FROM `codev_wbselement_table` WHERE root_id = ".$this->wbsid." AND bug_id = ".$bugid.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
