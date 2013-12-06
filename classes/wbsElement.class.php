@@ -81,7 +81,7 @@ class WBSElement extends Model {
    public function initialize($row = NULL) {
       if ($row == NULL) {
          // Get info
-         $query = "SELECT * FROM `codev_wbselement_table` " .
+         $query = "SELECT * FROM `codev_wbs_table` " .
                  "WHERE id = $this->id";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -128,7 +128,7 @@ class WBSElement extends Model {
 		// --- check values
 		if (!is_null($parent_id)) {
 			// check parrent exists and is a folder
-			$queryP = "SELECT bug_id FROM `codev_wbselement_table` WHERE id = $parent_id";
+			$queryP = "SELECT bug_id FROM `codev_wbs_table` WHERE id = $parent_id";
          $resultP = SqlWrapper::getInstance()->sql_query($queryP);
          if (!$resultP) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -176,7 +176,7 @@ class WBSElement extends Model {
 		if (is_null($order)) { $order = 1; }
 
 		// --- insert new element
-      $query  = 'INSERT INTO `codev_wbselement_table` (`order`';
+      $query  = 'INSERT INTO `codev_wbs_table` (`order`';
 		if (!is_null($bug_id)) { $query .= ', `bug_id`'; }
 		if (!is_null($parent_id)) { $query .= ', `parent_id`'; }
 		if (!is_null($root_id)) { $query .= ', `root_id`'; }
@@ -207,7 +207,7 @@ class WBSElement extends Model {
    public function getChildrenIds() {
       $childrenIds = array();
 
-      $query = "SELECT id FROM `codev_wbselement_table` ".
+      $query = "SELECT id FROM `codev_wbs_table` ".
               "WHERE `parent_id` = $this->id ".
               //"AND bug_id IS NULL ".
               "AND root_id = $this->rootId ".
@@ -243,7 +243,7 @@ class WBSElement extends Model {
       }
 
       // delete
-      $query = "DELETE FROM `codev_wbselement_table` WHERE `id` = " . $this->id;
+      $query = "DELETE FROM `codev_wbs_table` WHERE `id` = " . $this->id;
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -253,7 +253,7 @@ class WBSElement extends Model {
 
    public function update() {
 
-      $query = "UPDATE `codev_wbselement_table` SET ".
+      $query = "UPDATE `codev_wbs_table` SET ".
               "`title` = '" . $this->title . "'" .
               ", `order` = " . $this->order .
               ", `parent_id` = " . (is_null($this->parentId) ? "NULL" : $this->parentId) .
@@ -357,7 +357,7 @@ class WBSElement extends Model {
    public function getDynatreeData($hasDetail = false, $isManager = false) {
 
       // TODO AND root_id = $this->getRootId()
-      $query = "SELECT * FROM `codev_wbselement_table` WHERE `parent_id` = " . $this->getId() . " ORDER BY `order`";
+      $query = "SELECT * FROM `codev_wbs_table` WHERE `parent_id` = " . $this->getId() . " ORDER BY `order`";
       $result = SqlWrapper::getInstance()->sql_query($query);
       //file_put_contents('/tmp/loadWBS.txt', "$query \n", FILE_APPEND);
       if ($result) {
@@ -441,7 +441,7 @@ class WBSElement extends Model {
       if (NULL == self::$existsCache) { self::$existsCache = array(); }
 
       if (!array_key_exists($id,self::$existsCache)) {
-         $query  = "SELECT COUNT(id), bug_id FROM `codev_wbselement_table` WHERE id=$id ";
+         $query  = "SELECT COUNT(id), bug_id FROM `codev_wbs_table` WHERE id=$id ";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -494,7 +494,7 @@ class WBSElement extends Model {
 			// find $id (if exists)
 			// Note: parent_id may have changed (if issue moved)
 			// Note: $root_id cannot be null because a WBS always starts with a folder (created at Command init)
-			$query  = "SELECT id FROM `codev_wbselement_table` WHERE bug_id = $bug_id AND root_id = $root_id";
+			$query  = "SELECT id FROM `codev_wbs_table` WHERE bug_id = $bug_id AND root_id = $root_id";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";

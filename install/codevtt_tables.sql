@@ -423,10 +423,10 @@ CREATE TABLE IF NOT EXISTS `codev_command_provision_table` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_wbselement_table`
+-- Structure de la table `codev_wbs_table`
 --
 
-CREATE TABLE IF NOT EXISTS `codev_wbselement_table` (
+CREATE TABLE IF NOT EXISTS `codev_wbs_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `root_id` int(11) unsigned default NULL,
   `parent_id` int(11) unsigned default NULL,
