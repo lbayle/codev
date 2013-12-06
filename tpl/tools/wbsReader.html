@@ -12,24 +12,32 @@
      position: static;
   }
   ul.dynatree-container span.td:nth-child(2) {
-     left: 300px;
+     left: 500px;
      width: 120px;
   }
   ul.dynatree-container span.td:nth-child(3) {
-     left: 450px;
-     width: 100px;
+     left: 650px;
+     width: 80px;
+     border: 1px solid #CCCCCC;
+     padding: 0em 0.5em;
   }
   ul.dynatree-container span.td:nth-child(4) {
-     left: 550px;
-     width: 100px;
+     left: 730px;
+     width: 80px;
+     border: 1px solid #CCCCCC;
+     padding: 0em 0.5em;
   }
   ul.dynatree-container span.td:nth-child(5) {
-     left: 650px;
-     width: 100px;
+     left: 810px;
+     width: 80px;
+     border: 1px solid #CCCCCC;
+     padding: 0em 0.5em;
   }
   ul.dynatree-container span.td:nth-child(6) {
-     left: 750px;
-     width: 100px;
+     left: 890px;
+     width: 80px;
+     border: 1px solid #CCCCCC;
+     padding: 0em 0.5em;
   }
   </style>
 
@@ -59,14 +67,19 @@
                html = "<a class='dynatree-title' href='#'>";
                html += "<span class='td'>" + cols[0] + "</span>";
               if(cols.length > 1) {
+
+                // progress column
                 html += "<span class='td'><div class='progress ui-progressbar ui-widget ui-widget-content ui-corner-all' ";
                 html += "role='progressbar' aria-valuemin='0' aria-valuemax='100' aria-valuenow='" + cols[1] + "'>";
                 html += "<div class='ui-progressbar-value ui-widget-header ui-corner-left' style='width: " + cols[1] + "%;'>";
                 html += "<div>" + cols[1] + "%</div></div></div></span>";
+
+                // other columns
+                html += "<span class='td'>" + cols[2] + "</span>";
+                html += "<span class='td'>" + cols[3] + "</span>";
+                html += "<span class='td'>" + cols[4] + "</span>";
+                html += "<span class='td' style='background-color:#"+cols[6]+"' >" + cols[5] + "</span>";
               }
-               for(var i=2; i<cols.length; i++){
-                  html += "<span class='td'>" + cols[i] + "</span>";
-               }
                return html + "</a>";
              }
 

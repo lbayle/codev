@@ -382,14 +382,22 @@ class WBSElement2 extends Model {
                   $detail = '';
                   if ($hasDetail) {
 							// TODO if isManager...
-                     $detail = (($issue->getProgress() != null) ? ('~' . $issue->getProgress()) : '')
-                             . (($issue->getMgrEffortEstim() != null) ? ('~' . $issue->getMgrEffortEstim()) : '')
-                             . (($issue->getElapsed() != null) ? ('~' . $issue->getElapsed()) : '')
-                             . (($issue->getBacklog() != null) ? ('~' . $issue->getBacklog()) : '')
-                             . (($issue->getDriftMgr() != null) ? ('~' . $issue->getDriftMgr()) : '');
+                     $driftColor = $issue->getDriftColor($issue->getDriftMgr());
+                     $detail = (!is_null($issue->getProgress()) ? ('~' . round(100 * $issue->getProgress())) : '')
+                             . (!is_null($issue->getMgrEffortEstim()) ? ('~' . $issue->getMgrEffortEstim()) : '')
+                             . (!is_null($issue->getElapsed()) ? ('~' . $issue->getElapsed()) : '')
+                             . (!is_null($issue->getBacklog()) ? ('~' . $issue->getBacklog()) : '')
+                             . (!is_null($issue->getDriftMgr()) ? ('~' . $issue->getDriftMgr()) : '')
+                             . (!is_null($driftColor) ? ('~' . $driftColor) : '');
                   }
 
-                  $childArray['title'] = $issue->getSummary() . $detail;
+
+                  $formattedSummary = $issue->getId().' '.$issue->getSummary();
+                  if ($hasDetail && (strlen($formattedSummary) > 60)) {
+                     $formattedSummary = substr($formattedSummary, 0, 60).'...';
+                  }
+                  #$childArray['title'] = Tools::issueInfoURL($issue->getId()).' '.$issue->getSummary().$detail;
+                  $childArray['title'] = $formattedSummary.$detail;
                   $childArray['isFolder'] = false;
                   $childArray['key'] = $wbselement->getBugId(); // yes, bugid !
 
