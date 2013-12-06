@@ -219,7 +219,7 @@ class Command extends Model {
    public static function delete($id) {
 
       // delete WBS
-      $query = "DELETE FROM `codev_wbselement_table` ".
+      $query = "DELETE FROM `codev_wbs_table` ".
               "WHERE root_id = (SELECT wbs_id FROM `codev_command_table` WHERE id=$id) ".
               "OR id=(SELECT wbs_id FROM `codev_command_table` WHERE id=$id);";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -719,7 +719,7 @@ class Command extends Model {
       }
 
       // remove from WBS
-      $query = "DELETE FROM `codev_wbselement_table` WHERE root_id = ".$this->wbsid." AND bug_id = ".$bugid.";";
+      $query = "DELETE FROM `codev_wbs_table` WHERE root_id = ".$this->wbsid." AND bug_id = ".$bugid.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
