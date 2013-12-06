@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `codev_wbselement_table` (
   `parent_id` int(11) unsigned default NULL,
   `order` int(11) NOT NULL,
   `bug_id` int(11) default NULL,
-  `expand` tinyint(4) NOT NULL DEFAULT '1',
+  `expand` tinyint(4) NOT NULL DEFAULT '0',
   `title` varchar(255) default NULL,
   `icon` varchar(64) default NULL,
   `font` varchar(64) default NULL,
