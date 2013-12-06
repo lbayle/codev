@@ -104,6 +104,9 @@ class CommandInfoController extends Controller {
                      ($this->session_user->isTeamLeader($cmd->getTeamid()))) {
                      $this->smartyHelper->assign('isEditGranted', true);
                   }
+
+                  // WBS
+                  $this->smartyHelper->assign('wbsRootId', $cmd->getWbsid());
                }
             } else {
                unset($_SESSION['commandsetid']);

@@ -109,6 +109,7 @@
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-2">{t}Activity{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_attributes">{t}Attributes{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-3">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_wbs">{t}WBS{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
       </ul>
       <div id="tabsName-1">{include file="plugin/detailed_charges_indicator.html"}</div>
@@ -266,6 +267,10 @@
          {else}
          {t}No task found.{/t}
          {/if}
+      </div>
+
+      <div id="tab_wbs">
+         {include file="tools/wbsReader.html"}
       </div>
 
       <div id="tab_indicators">
