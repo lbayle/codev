@@ -33,11 +33,11 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
 
          if (!is_null($nodesToDelete)) {
             foreach ($nodesToDelete as $folder_id) {
-               $f = new WBSElement2($folder_id, $root_id);
+               $f = new WBSElement($folder_id, $root_id);
                $f->delete($root_id);
             }
          }
-         WBSElement2::updateFromDynatree($rootArray, $root_id);
+         WBSElement::updateFromDynatree($rootArray, $root_id);
 
          echo $jsonDynatreeDict;
 
@@ -49,7 +49,7 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
 			//file_put_contents('/tmp/loadWBS.txt', "=== ".date('Ymd')."\n");
 			//file_put_contents('/tmp/loadWBS.txt', "root_id = $root_id \n", FILE_APPEND);
 
-			$rootElement = new WBSElement2($root_id);
+			$rootElement = new WBSElement($root_id);
 			$dynatreeDict = $rootElement->getDynatreeData($hasDetail);
 
          if ($logger->isDebugEnabled()) {
