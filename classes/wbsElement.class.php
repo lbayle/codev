@@ -348,85 +348,53 @@ class WBSElement extends Model {
    public function setExpand($isExp) {
       $this->expand = $isExp;
    }
-	/**
-	 *
-	 * @param boolean $hasDetail if true, add [Progress, EffortEstim, Elapsed, Backlog, Drift]
-	 * @param boolean $isManager
-	 * @return array
-	 */
-   public function getDynatreeData($hasDetail = false, $isManager = false) {
 
-      // TODO AND root_id = $this->getRootId()
-      $query = "SELECT * FROM `codev_wbs_table` WHERE `parent_id` = " . $this->getId() . " ORDER BY `order`";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      //file_put_contents('/tmp/loadWBS.txt', "$query \n", FILE_APPEND);
-      if ($result) {
+   /**
+    * returns an array of bugids (recursive calls)
+    */
+   public function getBugidList($id = NULL, $wbseList = NULL) {
+      $bugidList = array();
 
-         $parentArray = array();
+      $rootId = is_null($this->rootId) ? $this->id : $this->rootId;
 
+      if (is_null($id)) { $id = $this->id; }
+      if (is_null($wbseList)) {
+         // get all elements of this root (result will be cached by MySQL)
+         // $wbseList[id] = array(parent_id, bug_id)
+         $wbseList = array();
+
+         $query = "SELECT id, parent_id, bug_id FROM `codev_wbs_table` ".
+                 "WHERE `root_id` = $rootId ".
+                 "ORDER BY `parent_id`, `id` ";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $wbselement = new WBSElement($row->id, $this->getRootId());
-            $childArray = array();
-
-            if ($wbselement->isFolder()) {
-
-               $childArray['title'] = $wbselement->getTitle();
-               $childArray['isFolder'] = true;
-               $childArray['expand'] = $wbselement->isExpand();
-               $childArray['key'] = $wbselement->getId();
-               $childArray['children'] = $wbselement->getDynatreeData($hasDetail, $isManager);
-            } else {
-
-               $issue = IssueCache::getInstance()->getIssue($wbselement->getBugId());
-               if ($issue) {
-                  $detail = '';
-                  if ($hasDetail) {
-							// TODO if isManager...
-                     $detail = '~' . round(100 * $issue->getProgress())
-                             . '~' . $issue->getMgrEffortEstim()
-                             . '~' . $issue->getElapsed()
-                             . '~' . $issue->getBacklog()
-                             . '~' . $issue->getDriftMgr()
-                             . '~' . $issue->getDriftColor($issue->getDriftMgr());
-                  }
-
-
-                  $formattedSummary = $issue->getId().' '.$issue->getSummary();
-                  if ($hasDetail && (strlen($formattedSummary) > 60)) {
-                     $formattedSummary = substr($formattedSummary, 0, 60).'...';
-                  }
-                  #$childArray['title'] = Tools::issueInfoURL($issue->getId()).' '.$issue->getSummary().$detail;
-                  $childArray['title'] = $formattedSummary.$detail;
-                  $childArray['isFolder'] = false;
-                  $childArray['key'] = $wbselement->getBugId(); // yes, bugid !
-
-               } else {
-                  $childArray['title'] = 'ERROR';
-                  $childArray['isFolder'] = false;
-                  self::$logger->error("The issue does not exist!");
-               }
-            }
-            if (sizeof($childArray) > 0)
-               array_push($parentArray, $childArray);
+            $wbseList[$row->id] = array('parent_id' => $row->parent_id, 'bug_id' =>  $row->bug_id);
          }
 
-         // root element not only has children !
-         if ($this->id === $this->getRootId()) {
-               $rootArray = array(
-                  'title'    => $this->getTitle(),
-                  'isFolder' => true,
-                  'expand'      => $this->isExpand(),
-                  'key'      => $this->getId(),
-                  'children' => $parentArray
-                   );
-            return $rootArray;
-         } else {
-            return $parentArray;
-         }
-      } else {
-         self::$logger->error("Query failed!");
+         //self::$logger->error("INIT getBugidList: root=$rootId, ids = ".implode(',', array_keys($wbseList)));
       }
+
+      unset($wbseList[$id]);
+
+      foreach ($wbseList as $i => $e) {
+         if ($id == $e['parent_id']) {
+            if (!is_null($e['bug_id'])) {
+               $bugidList[] = $e['bug_id'];
+               unset($wbseList[$i]);
+            } else {
+               $bugids = $this->getBugidList($i, $wbseList);
+               #$bugidList += $bugids;
+               $bugidList = array_merge($bugidList, $bugids);
+            }
+         }
+      }
+      return $bugidList;
    }
+
 
 	/**
 	 * @param type $id
@@ -453,6 +421,118 @@ class WBSElement extends Model {
       }
       return self::$existsCache[$id];
    }
+
+	/**
+	 *
+	 * @param boolean $hasDetail if true, add [Progress, EffortEstim, Elapsed, Backlog, Drift]
+	 * @param boolean $isManager
+	 * @return array
+	 */
+   public function getDynatreeData($hasDetail = false, $isManager = false) {
+
+      // TODO AND root_id = $this->getRootId()
+      $query = "SELECT * FROM `codev_wbs_table` WHERE `parent_id` = " . $this->getId() . " ORDER BY `order`";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      //file_put_contents('/tmp/loadWBS.txt', "$query \n", FILE_APPEND);
+      if ($result) {
+
+         $parentArray = array();
+
+         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $wbselement = new WBSElement($row->id, $this->getRootId());
+
+            $childArray = array();
+
+            if ($wbselement->isFolder()) {
+
+               $childArray['isFolder'] = true;
+               $childArray['expand'] = $wbselement->isExpand();
+               $childArray['key'] = $wbselement->getId();
+
+               $detail = '';
+               if ($hasDetail) {
+                  $bugids = $this->getBugidList($wbselement->getId());
+                  $isel = new IssueSelection("wbs_".$wbselement->getId());
+                  foreach($bugids as $bugid) {
+                     $isel->addIssue($bugid);
+                  }
+                  $mgrDriftInfo = $isel->getDriftMgr();
+                  $detail = '~' . round(100 * $isel->getProgress())
+                          . '~' . $isel->getMgrEffortEstim()
+                          . '~' . $isel->getElapsed()
+                          . '~' . $isel->duration
+                          . '~' . $mgrDriftInfo['nbDays']
+                          . '~' . $isel->getDriftColor($mgrDriftInfo['nbDays']);
+               }
+
+               $childArray['title'] = $wbselement->getTitle().$detail;
+               $childArray['children'] = $wbselement->getDynatreeData($hasDetail, $isManager);
+            } else {
+
+               $issue = IssueCache::getInstance()->getIssue($wbselement->getBugId());
+               if ($issue) {
+                  $detail = '';
+                  if ($hasDetail) {
+							// TODO if isManager...
+                     $detail = '~' . round(100 * $issue->getProgress())
+                             . '~' . $issue->getMgrEffortEstim()
+                             . '~' . $issue->getElapsed()
+                             . '~' . $issue->getBacklog()
+                             . '~' . $issue->getDriftMgr()
+                             . '~' . $issue->getDriftColor($issue->getDriftMgr());
+                  }
+
+                  $formattedSummary = $issue->getId().' '.$issue->getSummary();
+                  if ($hasDetail && (strlen($formattedSummary) > 60)) {
+                     $formattedSummary = substr($formattedSummary, 0, 60).'...';
+                  }
+                  #$childArray['title'] = Tools::issueInfoURL($issue->getId()).' '.$issue->getSummary().$detail;
+                  $childArray['title'] = $formattedSummary.$detail;
+                  $childArray['isFolder'] = false;
+                  $childArray['key'] = $wbselement->getBugId(); // yes, bugid !
+
+               } else {
+                  $childArray['title'] = 'ERROR';
+                  $childArray['isFolder'] = false;
+                  self::$logger->error("The issue does not exist!");
+               }
+            }
+            if (sizeof($childArray) > 0)
+               array_push($parentArray, $childArray);
+         }
+
+         // root element not only has children !
+         if ($this->id === $this->getRootId()) {
+            $detail='';
+            if ($hasDetail) {
+               $bugids = $this->getBugidList($this->id);
+               $isel = new IssueSelection("wbs_".$wbselement->getId());
+               foreach($bugids as $bugid) {
+                  $isel->addIssue($bugid);
+               }
+               $mgrDriftInfo = $isel->getDriftMgr();
+               $detail = '~' . round(100 * $isel->getProgress())
+                       . '~' . $isel->getMgrEffortEstim()
+                       . '~' . $isel->getElapsed()
+                       . '~' . $isel->duration
+                       . '~' . $mgrDriftInfo['nbDays']
+                       . '~' . $isel->getDriftColor($mgrDriftInfo['nbDays']);
+            }
+            $rootArray = array(
+                  'title'    => $this->getTitle().$detail,
+                  'isFolder' => true,
+                  'expand'      => $this->isExpand(),
+                  'key'      => $this->getId(),
+                  'children' => $parentArray);
+            return $rootArray;
+         } else {
+            return $parentArray;
+         }
+      } else {
+         self::$logger->error("Query failed!");
+      }
+   }
+
 
 	/**
 	 *

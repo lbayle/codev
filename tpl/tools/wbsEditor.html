@@ -194,7 +194,8 @@ console.log("saveWBS nodesToDelete = ", nodesToDelete);
            },
            success: function() {
               nodesToDelete = [];
-              alert("WBS Saved!");
+              //alert("WBS Saved!");
+              console.log("saveWBS: OK");
               $("#result").html('WBS saved, please reload');
            },
            error:  function() {
