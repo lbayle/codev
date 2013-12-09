@@ -13,8 +13,8 @@
   }
   </style>
 
-  <script src="js/progress.js" type="text/javascript"></script>
-  <!--script src="js/dynatree_custom.js" type="text/javascript"></script-->
+  <script src="lib/contextmenu/jquery.contextMenu.js" type="text/javascript"></script>
+  <link href="lib/contextmenu/jquery.contextMenu.css" rel="stylesheet"/>
 
   <script type="text/javascript">
 	  function editNode(node){
@@ -133,9 +133,37 @@
                //sourceNode.expand(true);
              },
            }
-
         });
+        contextmenu();
      }
+
+     function contextmenu() {
+
+      jQuery.contextMenu({
+        selector: '.dynatree-folder',
+        callback: function(key, options) {
+            console.log("clicked: " + key);
+            console.log("options", options);
+
+            // TODO implement contextMenu actions
+            
+
+        },
+        items: {
+            "edit": { name: "Edit", icon: "edit"},
+            "cut": { name: "Cut", icon: "cut"},
+            "copy": { name: "Copy", icon: "copy"},
+            "paste": { name: "Paste", icon: "paste"},
+            "delete": { name: "Delete", icon: "delete"},
+            "sep1": "---------",
+            "quit": { name: "Quit", icon: "quit"}
+        }
+      });
+     }
+
+//    jQuery('.dynatree-folder').on('click', function(e){
+//        console.log('clicked TAMERE', this);
+//    });
 
    jQuery(document).ready(function() {
 
@@ -149,11 +177,10 @@
       });
    });
 
-
 	  window.onload = initTree;
   </script>
 
-   <a id="bt_loadTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" title="{t}Load{/t}"> Load</a>
+   <a id="bt_loadTree" class="context-menu-one" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" title="{t}Load{/t}"> Load</a>
   <a id="bt_saveTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_save.png" style="vertical-align: middle;" title="{t}Save{/t}"> Save</a>
   <button id="btnAddCode" >New Folder</button>
   <div id="tree">
