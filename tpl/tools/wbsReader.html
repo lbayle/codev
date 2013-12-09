@@ -1,43 +1,56 @@
 <div id="content">
 
 <style type="text/css">
+
+   ul.dynatree-container .dynatree-title > span {
+      display: inline-block;
+   }
+   ul.dynatree-container li {
+      padding: 0;
+   }
+
+   /* TODO generate this ul section with smarty (depends on tree depth) */
+   ul .td-desc {
+      width: 500px;
+   }
+   ul ul .td-desc {
+      width: 484px;
+   }
+   ul ul ul .td-desc {
+      width: 468px;
+   }
+
+   .td-progress {
+      width: 120px;
+      margin-right: 50px;
+      position: relative;
+      top: 2px;
+   }
+   .td-effortEstim {
+      width: 80px;
+   }
+   .td-elapsed {
+      width: 80px;
+   }
+   .td-backlog {
+      width: 80px;
+   }
+   .td-drift {
+      width: 80px;
+   }
+   .td-effortEstim, .td-elapsed, .td-backlog, .td-drift {
+      border: solid #CCCCCC 1px;
+      border-bottom: none;
+      padding: 0em 0.5em;
+   }
+
+
   ul.dynatree-container span.td {
      position: absolute;
      display: inline;
      border-size: 1px;
      overflow: hidden;
      background-color: white;
-  }
-  ul.dynatree-container span.td:nth-child(1) {
-     position: static;
-  }
-  ul.dynatree-container span.td:nth-child(2) {
-     left: 500px;
-     width: 120px;
-  }
-  ul.dynatree-container span.td:nth-child(3) {
-     left: 650px;
-     width: 80px;
-     border: 1px solid #CCCCCC;
-     padding: 0em 0.5em;
-  }
-  ul.dynatree-container span.td:nth-child(4) {
-     left: 730px;
-     width: 80px;
-     border: 1px solid #CCCCCC;
-     padding: 0em 0.5em;
-  }
-  ul.dynatree-container span.td:nth-child(5) {
-     left: 810px;
-     width: 80px;
-     border: 1px solid #CCCCCC;
-     padding: 0em 0.5em;
-  }
-  ul.dynatree-container span.td:nth-child(6) {
-     left: 890px;
-     width: 80px;
-     border: 1px solid #CCCCCC;
-     padding: 0em 0.5em;
   }
   </style>
 
@@ -65,20 +78,20 @@
                }
                var cols = node.data.title.split("~"),
                html = "<a class='dynatree-title' href='#'>";
-               html += "<span class='td'>" + cols[0] + "</span>";
+               html += "<span class='td-desc'>" + cols[0] + "</span>";
               if(cols.length > 1) {
 
                 // progress column
-                html += "<span class='td'><div class='progress ui-progressbar ui-widget ui-widget-content ui-corner-all' ";
+                html += "<span class='td-progress'><div class='progress ui-progressbar ui-widget ui-widget-content ui-corner-all' ";
                 html += "role='progressbar' aria-valuemin='0' aria-valuemax='100' aria-valuenow='" + cols[1] + "'>";
                 html += "<div class='ui-progressbar-value ui-widget-header ui-corner-left' style='width: " + cols[1] + "%;'>";
                 html += "<div>" + cols[1] + "%</div></div></div></span>";
 
                 // other columns
-                html += "<span class='td'>" + cols[2] + "</span>";
-                html += "<span class='td'>" + cols[3] + "</span>";
-                html += "<span class='td'>" + cols[4] + "</span>";
-                html += "<span class='td' style='background-color:#"+cols[6]+"' >" + cols[5] + "</span>";
+                html += "<span class='td-effortEstim'>" + cols[2] + "&nbsp;</span>";
+                html += "<span class='td-elapsed'>" + cols[3] + "&nbsp;</span>";
+                html += "<span class='td-backlog'>" + cols[4] + "&nbsp;</span>";
+                html += "<span class='td-drift' style='background-color:#"+cols[6]+"' >" + cols[5] + "&nbsp;</span>";
               }
                return html + "</a>";
              }
@@ -89,7 +102,7 @@
 	  window.onload = initTree;
   </script>
 
-   <!--a id="bt_loadTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" title="{t}Load{/t}"> Load</a-->
+   <a id="bt_loadTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" > {t}Reload{/t}</a>
    <div id="tree">
    </div>
 
