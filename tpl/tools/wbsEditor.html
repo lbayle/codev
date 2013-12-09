@@ -167,6 +167,8 @@
 
    function saveTree() {
 
+		var deferred = jQuery.Deferred();
+
 	   var json = $("#tree").dynatree("getRoot").toDict(true, function(dict){
 		   delete dict.isLazy;
 		   delete dict.tooltip;
@@ -196,23 +198,36 @@ console.log("saveWBS nodesToDelete = ", nodesToDelete);
               nodesToDelete = [];
               //alert("WBS Saved!");
               console.log("saveWBS: OK");
-              $("#result").html('WBS saved, please reload');
+              $("#result").html('WBS saved.');
+              // call the 'done' callback (should be defined)
+              deferred.resolve();
            },
            error:  function() {
               alert("WBS Save ERROR!");
+              deferred.reject(); // call the 'fail' callback (if defined)
            }
-        });
-
+      });
+      return deferred;
    }
 
    jQuery(document).ready(function() {
        jQuery("#bt_saveTree").click(function(event) {
           event.preventDefault();
-          saveTree();
+          //saveTree();
 
-          // reload to update id of new elements (created in DB)
-          $("#tree").dynatree("destroy");
-          initTree();
+          var deferred = saveTree();
+          // set success callback:
+          deferred.done(function () {
+             // reload to update id of new elements (created in DB)
+             $("#tree").dynatree("destroy");
+             initTree();
+          });
+          // set error callback:
+          deferred.fail(function () { 
+             console.error('WBS Save failed.');
+             $("#tree").dynatree("destroy");
+             initTree();
+          });
        });
 
        jQuery("#bt_loadTree").click(function(event) {
