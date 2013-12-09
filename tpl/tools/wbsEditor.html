@@ -17,6 +17,61 @@
   <link href="lib/contextmenu/jquery.contextMenu.css" rel="stylesheet"/>
 
   <script type="text/javascript">
+  </script>
+
+   <a id="bt_loadTree" class="context-menu-one" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" title="{t}Load{/t}"> Load</a>
+  <a id="bt_saveTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_save.png" style="vertical-align: middle;" title="{t}Save{/t}"> Save</a>
+  <button id="btnAddCode" >New Folder</button>
+  <div id="tree">
+  </div>
+
+  </div>
+   <script type="text/javascript">
+
+   // global: nodesToDelete list
+   var nodesToDelete = [];
+
+   jQuery(document).ready(function() {
+
+       // -----------------------
+       jQuery("#bt_saveTree").click(function(event) {
+          event.preventDefault();
+          //saveTree();
+
+          var deferred = saveTree();
+          // set success callback:
+          deferred.done(function () {
+             // reload to update id of new elements (created in DB)
+             $("#tree").dynatree("destroy");
+             initTree();
+          });
+          // set error callback:
+          deferred.fail(function () {
+             console.error('WBS Save failed.');
+             $("#tree").dynatree("destroy");
+             initTree();
+          });
+       });
+
+       // -----------------------
+       jQuery("#bt_loadTree").click(function(event) {
+          event.preventDefault();
+          $("#tree").dynatree("destroy");
+          initTree();
+       });
+
+       // -----------------------
+      $("#btnAddCode").click(function(){
+        var rootNode = $("#tree").dynatree("getTree").getActiveNode();
+        if (rootNode.data.isFolder)
+           rootNode.addChild({
+             title: "New Folder",
+             isFolder: true
+           });
+      });
+
+    });
+
 	  function editNode(node){
 
 		  var prevTitle = node.data.title,
@@ -49,6 +104,51 @@
 		      node.focus();
 		    });
 		}
+
+      function saveTree() {
+
+         var deferred = jQuery.Deferred();
+
+         var json = $("#tree").dynatree("getRoot").toDict(true, function(dict){
+            delete dict.isLazy;
+            delete dict.tooltip;
+            delete dict.href;
+            //delete dict.icon;
+            delete dict.addClass;
+            delete dict.noLink;
+            delete dict.activate;
+            delete dict.focus;
+            //delete dict.expand;
+            delete dict.select;
+            delete dict.hideCheckbox;
+            delete dict.unselectable;
+         }).children;
+         var jsonDict = JSON.stringify(json);
+   console.log("saveWBS = ", jsonDict);
+   console.log("saveWBS nodesToDelete = ", nodesToDelete);
+         $.ajax({
+            type: "POST",
+              url: 'include/dynatree_ajax.php',
+              data: { jsonDynatreeDict: jsonDict,
+                      nodesToDelete: nodesToDelete,
+                      wbsRootId: "{$wbsRootId}",
+                      action: "saveWBS"
+              },
+              success: function() {
+                 nodesToDelete = [];
+                 //alert("WBS Saved!");
+                 console.log("saveWBS: OK");
+                 $("#result").html('WBS saved.');
+                 // call the 'done' callback (should be defined)
+                 deferred.resolve();
+              },
+              error:  function() {
+                 alert("WBS Save ERROR!");
+                 deferred.reject(); // call the 'fail' callback (if defined)
+              }
+         });
+         return deferred;
+      }
 
 	  function initTree() {
 
@@ -134,29 +234,33 @@
              },
            }
         });
-        contextmenu();
+
+        addContextMenu();
      }
 
-     function contextmenu() {
+     function addContextMenu() {
 
       jQuery.contextMenu({
         selector: '.dynatree-folder',
         callback: function(key, options) {
-            console.log("clicked: " + key);
+            console.log("clicked oh: " + key);
             console.log("options", options);
 
             // TODO implement contextMenu actions
-            
+            var cmd = ui.item.find(">a").attr("href"),
+                  target = event.relatedTarget,
+                  node = $.ui.dynatree.getNode(target);
+                console.log(cmd + " - " + node);
+                node.activate();
+            console.log("doneeee");
+
 
         },
         items: {
-            "edit": { name: "Edit", icon: "edit"},
-            "cut": { name: "Cut", icon: "cut"},
-            "copy": { name: "Copy", icon: "copy"},
-            "paste": { name: "Paste", icon: "paste"},
-            "delete": { name: "Delete", icon: "delete"},
+            "rename": { name: "Rename", icon: "edit"},
+            "add": { name: "Add subfolder", icon: "add"},
             "sep1": "---------",
-            "quit": { name: "Quit", icon: "quit"}
+            "delete": { name: "Delete", icon: "delete"}
         }
       });
      }
@@ -165,103 +269,6 @@
 //        console.log('clicked TAMERE', this);
 //    });
 
-   jQuery(document).ready(function() {
-
-      $("#btnAddCode").click(function(){
-        var rootNode = $("#tree").dynatree("getTree").getActiveNode();
-        if (rootNode.data.isFolder)
-           rootNode.addChild({
-             title: "New Folder",
-             isFolder: true
-           });
-      });
-   });
 
 	  window.onload = initTree;
-  </script>
-
-   <a id="bt_loadTree" class="context-menu-one" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" title="{t}Load{/t}"> Load</a>
-  <a id="bt_saveTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_save.png" style="vertical-align: middle;" title="{t}Save{/t}"> Save</a>
-  <button id="btnAddCode" >New Folder</button>
-  <div id="tree">
-  </div>
-
-  </div>
-   <script type="text/javascript">
-
-   // global: nodesToDelete list
-   var nodesToDelete = [];
-
-   function saveTree() {
-
-		var deferred = jQuery.Deferred();
-
-	   var json = $("#tree").dynatree("getRoot").toDict(true, function(dict){
-		   delete dict.isLazy;
-		   delete dict.tooltip;
-		   delete dict.href;
-		   //delete dict.icon;
-		   delete dict.addClass;
-		   delete dict.noLink;
-		   delete dict.activate;
-		   delete dict.focus;
-		   //delete dict.expand;
-		   delete dict.select;
-		   delete dict.hideCheckbox;
-		   delete dict.unselectable;
-	   }).children;
-      var jsonDict = JSON.stringify(json);
-console.log("saveWBS = ", jsonDict);
-console.log("saveWBS nodesToDelete = ", nodesToDelete);
-	   $.ajax({
-		   type: "POST",
-           url: 'include/dynatree_ajax.php',
-           data: { jsonDynatreeDict: jsonDict,
-                   nodesToDelete: nodesToDelete,
-                   wbsRootId: "{$wbsRootId}",
-                   action: "saveWBS"
-           },
-           success: function() {
-              nodesToDelete = [];
-              //alert("WBS Saved!");
-              console.log("saveWBS: OK");
-              $("#result").html('WBS saved.');
-              // call the 'done' callback (should be defined)
-              deferred.resolve();
-           },
-           error:  function() {
-              alert("WBS Save ERROR!");
-              deferred.reject(); // call the 'fail' callback (if defined)
-           }
-      });
-      return deferred;
-   }
-
-   jQuery(document).ready(function() {
-       jQuery("#bt_saveTree").click(function(event) {
-          event.preventDefault();
-          //saveTree();
-
-          var deferred = saveTree();
-          // set success callback:
-          deferred.done(function () {
-             // reload to update id of new elements (created in DB)
-             $("#tree").dynatree("destroy");
-             initTree();
-          });
-          // set error callback:
-          deferred.fail(function () { 
-             console.error('WBS Save failed.');
-             $("#tree").dynatree("destroy");
-             initTree();
-          });
-       });
-
-       jQuery("#bt_loadTree").click(function(event) {
-          event.preventDefault();
-          $("#tree").dynatree("destroy");
-          initTree();
-       });
-
-    });
    </script>
