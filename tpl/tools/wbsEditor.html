@@ -19,9 +19,10 @@
   <script type="text/javascript">
   </script>
 
-   <a id="bt_loadTree" class="context-menu-one" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" title="{t}Load{/t}"> Load</a>
-  <a id="bt_saveTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_save.png" style="vertical-align: middle;" title="{t}Save{/t}"> Save</a>
-  <button id="btnAddCode" >New Folder</button>
+  <a id="bt_loadTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" > {t}Reoad{/t}</a>
+  &nbsp;&nbsp;
+  <a id="bt_saveTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_save.png" style="vertical-align: middle;" > {t}Save{/t}</a>
+
   <div id="tree">
   </div>
 
@@ -60,50 +61,45 @@
           initTree();
        });
 
-       // -----------------------
-      $("#btnAddCode").click(function(){
-        var rootNode = $("#tree").dynatree("getTree").getActiveNode();
-        if (rootNode.data.isFolder)
-           rootNode.addChild({
-             title: "New Folder",
-             isFolder: true
-           });
-      });
-
     });
 
-	  function editNode(node){
+	  function editNode(node) {
 
-		  var prevTitle = node.data.title,
-		    tree = node.tree;
-		  // Disable dynatree mouse- and key handling
-		  tree.$widget.unbind();
-		  // Replace node with <input>
-		  $(".dynatree-title", node.span).html("<input id='editNode' value='" + prevTitle + "'>");
-		  // Focus <input> and bind keyboard handler
-		  $("input#editNode")
-		    .focus()
-		    .keydown(function(event){
-		      switch( event.which ) {
-		      case 27: // [esc]
-		        // discard changes on [esc]
-		        $("input#editNode").val(prevTitle);
-		        $(this).blur();
-		        break;
-		      case 13: // [enter]
-		        // simulate blur to accept new value
-		        $(this).blur();
-		        break;
-		      }
-		    }).blur(function(event){
-		      // Accept new value, when user leaves <input>
-		      var title = $("input#editNode").val();
-		      node.setTitle(title);
-		      // Re-enable mouse and keyboard handlling
-		      tree.$widget.bind();
-		      node.focus();
-		    });
-		}
+        if (1 != node.getLevel()) {
+
+            var prevTitle = node.data.title,
+              tree = node.tree;
+            // Disable dynatree mouse- and key handling
+            tree.$widget.unbind();
+            // Replace node with <input>
+            $(".dynatree-title", node.span).html("<input id='editNode' value='" + prevTitle + "'>");
+            // Focus <input> and bind keyboard handler
+            $("input#editNode")
+              .focus()
+              .keydown(function(event) {
+                switch( event.which ) {
+                case 27: // [esc]
+                  // discard changes on [esc]
+                  $("input#editNode").val(prevTitle);
+                  $(this).blur();
+                  break;
+                case 13: // [enter]
+                  // simulate blur to accept new value
+                  $(this).blur();
+                  break;
+                }
+              }).blur(function(event) {
+                // Accept new value, when user leaves <input>
+                var title = $("input#editNode").val();
+                node.setTitle(title);
+                // Re-enable mouse and keyboard handlling
+                tree.$widget.bind();
+                node.focus();
+              });
+        } else {
+           alert('{t}WBS Root element cannot be renamed.{/t}');
+        }
+     }
 
       function deleteNode(node) {
          if (node.getLevel() != 1 && !node.hasChildren()) {
@@ -114,9 +110,9 @@
                 nodesToDelete.push(node.data.key);
              }
          } else if (node.getLevel() == 1) {
-            alert("Cannot remove root!");
+            alert("{t}Root element cannot be deleted.{/t}");
          } else {
-            alert("Cannot remove folder : the directory is not empty!");
+            alert("{t}Delete Failed: Folder must be empty.{/t}");
          }
       }
 
@@ -139,8 +135,6 @@
             delete dict.unselectable;
          }).children;
          var jsonDict = JSON.stringify(json);
-   console.log("saveWBS = ", jsonDict);
-   console.log("saveWBS nodesToDelete = ", nodesToDelete);
          $.ajax({
             type: "POST",
               url: 'include/dynatree_ajax.php',
@@ -256,7 +250,7 @@
                   editNode(node);
                   break;
                case 'add':
-                  node.addChild({ title: "New Folder", isFolder: true });
+                  node.addChild({ title: "{t}New Folder{/t}", isFolder: true });
                   node.expand();
                   break;
                case 'delete':
@@ -265,10 +259,10 @@
             }
         },
         items: {
-            "rename": { name: "Rename", icon: "edit" },
-            "add": { name: "Add subfolder", icon: "add" },
+            "rename": { name: "{t}Rename{/t}", icon: "edit" },
+            "add": { name: "{t}Add subfolder{/t}", icon: "add" },
             "sep1": "---------",
-            "delete": { name: "Delete", icon: "delete" }
+            "delete": { name: "{t}Delete{/t}", icon: "delete" }
         }
       });
      }
