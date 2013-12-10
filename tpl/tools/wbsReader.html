@@ -8,6 +8,9 @@
    ul.dynatree-container li {
       padding: 0;
    }
+   ul .td-titlebar {
+      width: 516px;
+   }
 
    /* TODO generate this ul section with smarty (depends on tree depth) */
    ul .td-desc {
@@ -19,24 +22,36 @@
    ul ul ul .td-desc {
       width: 468px;
    }
+   ul ul ul ul .td-desc {
+      width: 452px;
+   }
+   ul ul ul ul ul .td-desc {
+      width: 436px;
+   }
+   ul ul ul ul ul ul .td-desc {
+      width: 420px;
+   }
+   ul ul ul ul ul ul ul .td-desc {
+      width: 404px;
+   }
 
    .td-progress {
       width: 120px;
-      margin-right: 50px;
+      margin-right: 40px;
       position: relative;
       top: 2px;
    }
    .td-effortEstim {
-      width: 80px;
+      width: 100px;
    }
    .td-elapsed {
-      width: 80px;
+      width: 100px;
    }
    .td-backlog {
-      width: 80px;
+      width: 100px;
    }
    .td-drift {
-      width: 80px;
+      width: 100px;
    }
    .td-effortEstim, .td-elapsed, .td-backlog, .td-drift {
       border: solid #CCCCCC 1px;
@@ -54,10 +69,21 @@
   }
   </style>
 
-  <script src="js/progress.js" type="text/javascript"></script>
+
+   <a id="bt_loadTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" > {t}Reload{/t}</a>
+   <div id="tree">
+   </div>
 
   <script type="text/javascript">
-	  function initTree() {
+   jQuery(document).ready(function() {
+       jQuery("#bt_loadTree").click(function(event) {
+          event.preventDefault();
+          $("#tree").dynatree("destroy");
+          initTree();
+       });
+    });
+
+    function initTree() {
 
          jQuery("#tree").dynatree({
              initAjax: {
@@ -78,42 +104,53 @@
                }
                var cols = node.data.title.split("~"),
                html = "<a class='dynatree-title' href='#'>";
-               html += "<span class='td-desc'>" + cols[0] + "</span>";
-              if(cols.length > 1) {
 
-                // progress column
-                html += "<span class='td-progress'><div class='progress ui-progressbar ui-widget ui-widget-content ui-corner-all' ";
-                html += "role='progressbar' aria-valuemin='0' aria-valuemax='100' aria-valuenow='" + cols[1] + "'>";
-                html += "<div class='ui-progressbar-value ui-widget-header ui-corner-left' style='width: " + cols[1] + "%;'>";
-                html += "<div>" + cols[1] + "%</div></div></div></span>";
+               if ('__TAG_TITLEBAR__' === cols[0]) {
+                   html += "<span class='td-titlebar'>&nbsp;</span>";
+                   html += "<span class='td-progress'>&nbsp;</span>";
+                   html += "<span class='td-effortEstim' style='font-weight: bold; background-color:#D8D8D8' >" + cols[2] + "&nbsp;</span>";
+                   html += "<span class='td-elapsed' style='font-weight: bold; background-color:#D8D8D8' >" + cols[3] + "&nbsp;</span>";
+                   html += "<span class='td-backlog' style='font-weight: bold; background-color:#D8D8D8' >" + cols[4] + "&nbsp;</span>";
+                   html += "<span class='td-drift' style='font-weight: bold; background-color:#D8D8D8' >" + cols[5] + "&nbsp;</span>";
+                  
+               } else {
 
-                // other columns
-                html += "<span class='td-effortEstim'>" + cols[2] + "&nbsp;</span>";
-                html += "<span class='td-elapsed'>" + cols[3] + "&nbsp;</span>";
-                html += "<span class='td-backlog'>" + cols[4] + "&nbsp;</span>";
-                html += "<span class='td-drift' style='background-color:#"+cols[6]+"' >" + cols[5] + "&nbsp;</span>";
-              }
+                  html += "<span class='td-desc'>" + cols[0] + "</span>";
+                 if(cols.length > 1) {
+
+                   // progress column
+                   html += "<span class='td-progress'><div class='progress ui-progressbar ui-widget ui-widget-content ui-corner-all' ";
+                   html += "role='progressbar' aria-valuemin='0' aria-valuemax='100' aria-valuenow='" + cols[1] + "'>";
+                   html += "<div class='ui-progressbar-value ui-widget-header ui-corner-left' style='width: " + cols[1] + "%;'>";
+                   html += "<div>" + cols[1] + "%</div></div></div></span>";
+
+                   // other columns
+                   html += "<span class='td-effortEstim'>" + cols[2] + "&nbsp;</span>";
+                   html += "<span class='td-elapsed'>" + cols[3] + "&nbsp;</span>";
+                   html += "<span class='td-backlog'>" + cols[4] + "&nbsp;</span>";
+                   html += "<span class='td-drift' style='background-color:#"+cols[6]+"' >" + cols[5] + "&nbsp;</span>";
+                 }
+               }
                return html + "</a>";
              }
 
          });
-
+         
+         addTitleBar();
 	  }
+
+     function addTitleBar() {
+        // add Title bar
+        var rootNode = $("#tree").dynatree("getRoot");
+        var childNode = rootNode.addChild({
+           title: "__TAG_TITLEBAR__~{t}Progress{/t}~{t}MgrEffortEstim{/t}~{t}Elapsed{/t}~{t}Backlog{/t}~{t}Drift Mgr{/t}",
+           isFolder: false,
+           icon: "customdoc1.gif"
+        });
+     }
+
 	  window.onload = initTree;
   </script>
 
-   <a id="bt_loadTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" > {t}Reload{/t}</a>
-   <div id="tree">
-   </div>
-
 </div>
 
-   <script type="text/javascript">
-   jQuery(document).ready(function() {
-       jQuery("#bt_loadTree").click(function(event) {
-          event.preventDefault();
-          $("#tree").dynatree("destroy");
-          initTree();
-       });
-    });
-   </script>
