@@ -459,6 +459,7 @@ class WBSElement extends Model {
                   $mgrDriftInfo = $isel->getDriftMgr();
                   $detail = '~' . round(100 * $isel->getProgress())
                           . '~' . $isel->getMgrEffortEstim()
+                          . '~' . $isel->getReestimated()
                           . '~' . $isel->getElapsed()
                           . '~' . $isel->duration
                           . '~' . $mgrDriftInfo['nbDays']
@@ -476,6 +477,7 @@ class WBSElement extends Model {
 							// TODO if isManager...
                      $detail = '~' . round(100 * $issue->getProgress())
                              . '~' . $issue->getMgrEffortEstim()
+                             . '~' . $issue->getReestimated()
                              . '~' . $issue->getElapsed()
                              . '~' . $issue->getBacklog()
                              . '~' . $issue->getDriftMgr()
@@ -513,6 +515,7 @@ class WBSElement extends Model {
                $mgrDriftInfo = $isel->getDriftMgr();
                $detail = '~' . round(100 * $isel->getProgress())
                        . '~' . $isel->getMgrEffortEstim()
+                       . '~' . $isel->getReestimated()
                        . '~' . $isel->getElapsed()
                        . '~' . $isel->duration
                        . '~' . $mgrDriftInfo['nbDays']
