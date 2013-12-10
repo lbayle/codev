@@ -105,6 +105,21 @@
 		    });
 		}
 
+      function deleteNode(node) {
+         if (node.getLevel() != 1 && !node.hasChildren()) {
+             node.remove();
+             // dynatree prefixes new nodes with '_'
+             if ('_' !== node.data.key.charAt(0)) {
+                // node exist in DB and must be removed
+                nodesToDelete.push(node.data.key);
+             }
+         } else if (node.getLevel() == 1) {
+            alert("Cannot remove root!");
+         } else {
+            alert("Cannot remove folder : the directory is not empty!");
+         }
+      }
+
       function saveTree() {
 
          var deferred = jQuery.Deferred();
@@ -172,18 +187,7 @@
              switch( event.which ) {
                 case 46: // [delete]
                  if (node.data.isFolder) {
-                    if (node.getLevel() != 1 && !node.hasChildren()) {
-                        node.remove();
-                        // dynatree prefixes new nodes with '_'
-                        if ('_' !== node.data.key.charAt(0)) {
-                           // node exist in DB and must be removed
-                           nodesToDelete.push(node.data.key);
-                        }
-                    } else if (node.getLevel() == 1) {
-                       alert("Cannot remove root!");
-                    } else {
-                       alert("Cannot remove folder : the directory is not empty!");
-                    }
+                    deleteNode(node);
                  }
              }
          },
@@ -243,32 +247,31 @@
       jQuery.contextMenu({
         selector: '.dynatree-folder',
         callback: function(key, options) {
-            console.log("clicked oh: " + key);
-            console.log("options", options);
 
-            // TODO implement contextMenu actions
-            var cmd = ui.item.find(">a").attr("href"),
-                  target = event.relatedTarget,
-                  node = $.ui.dynatree.getNode(target);
-                console.log(cmd + " - " + node);
-                node.activate();
-            console.log("doneeee");
-
-
+            // implement contextMenu actions
+            var node = $.ui.dynatree.getNode(this);
+            node.activate();
+            switch (key) {
+               case 'rename':
+                  editNode(node);
+                  break;
+               case 'add':
+                  node.addChild({ title: "New Folder", isFolder: true });
+                  node.expand();
+                  break;
+               case 'delete':
+                  deleteNode(node);
+                  break;
+            }
         },
         items: {
-            "rename": { name: "Rename", icon: "edit"},
-            "add": { name: "Add subfolder", icon: "add"},
+            "rename": { name: "Rename", icon: "edit" },
+            "add": { name: "Add subfolder", icon: "add" },
             "sep1": "---------",
-            "delete": { name: "Delete", icon: "delete"}
+            "delete": { name: "Delete", icon: "delete" }
         }
       });
      }
-
-//    jQuery('.dynatree-folder').on('click', function(e){
-//        console.log('clicked TAMERE', this);
-//    });
-
 
 	  window.onload = initTree;
    </script>
