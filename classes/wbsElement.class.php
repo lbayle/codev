@@ -8,11 +8,19 @@ class WBSElement extends Model {
    private static $logger;
 
    /**
+    * contains a flat list of all the wbse elements of the root.
+    *
+    * @var type array('root_id' => array('wbse_id' => array(parent_id, bug_id)))
+    */
+   private static $wbs_idList;
+
+   /**
     * Initialize complex static variables
     * @static
     */
    public static function staticInit() {
       self::$logger = Logger::getLogger(__CLASS__);
+      self::$wbs_idList = array();
    }
 
    private $id;
@@ -350,41 +358,52 @@ class WBSElement extends Model {
    }
 
    /**
-    * returns an array of bugids (recursive calls)
+    * @return array of all the bugids of this branch (recursive calls)
+    *
     */
    public function getBugidList($id = NULL, $wbseList = NULL) {
       $bugidList = array();
 
+      // if $this->rootId is null then I am the root
       $rootId = is_null($this->rootId) ? $this->id : $this->rootId;
 
       if (is_null($id)) { $id = $this->id; }
+
       if (is_null($wbseList)) {
-         // get all elements of this root (result will be cached by MySQL)
-         // $wbseList[id] = array(parent_id, bug_id)
-         $wbseList = array();
+         #self::$logger->debug("wbs_idList = ".var_export(self::$wbs_idList, true));
 
-         $query = "SELECT id, parent_id, bug_id FROM `codev_wbs_table` ".
-                 "WHERE `root_id` = $rootId ".
-                 "ORDER BY `parent_id`, `id` ";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $wbseList[$row->id] = array('parent_id' => $row->parent_id, 'bug_id' =>  $row->bug_id);
-         }
+         if (array_key_exists($rootId, self::$wbs_idList)) {
+            $wbseList = self::$wbs_idList[$rootId];
+         } else {
+            // get all elements of this root
+            // $wbseList[id] = array(parent_id, bug_id)
+            $wbseList = array();
 
-         //self::$logger->error("INIT getBugidList: root=$rootId, ids = ".implode(',', array_keys($wbseList)));
+            $query = "SELECT id, parent_id, bug_id FROM `codev_wbs_table` ".
+                    "WHERE `root_id` = $rootId ".
+                    "ORDER BY `parent_id`, `id` ";
+            $result = SqlWrapper::getInstance()->sql_query($query);
+            if (!$result) {
+               echo "<span style='color:red'>ERROR: Query FAILED</span>";
+               exit;
+            }
+            while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+               $wbseList[$row->id] = array('parent_id' => $row->parent_id, 'bug_id' =>  $row->bug_id);
+            }
+            self::$wbs_idList[$rootId] = $wbseList;
+            #self::$logger->debug("INIT getBugidList: root=$rootId, ids = ".implode(',', array_keys($wbseList)));
+         }
       }
+      #self::$logger->debug("id=$id wbseList = ".implode(',', array_keys($wbseList)));
 
+      // shorten list for the next recursive call
       unset($wbseList[$id]);
 
       foreach ($wbseList as $i => $e) {
          if ($id == $e['parent_id']) {
             if (!is_null($e['bug_id'])) {
                $bugidList[] = $e['bug_id'];
-               unset($wbseList[$i]);
+               unset($wbseList[$i]); // shorten list for the next recursive call
             } else {
                $bugids = $this->getBugidList($i, $wbseList);
                #$bugidList += $bugids;
