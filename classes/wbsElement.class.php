@@ -504,8 +504,10 @@ class WBSElement extends Model {
                   }
 
                   $formattedSummary = $issue->getId().' '.$issue->getSummary();
-                  if ($hasDetail && (strlen($formattedSummary) > 60)) {
-                     $formattedSummary = substr($formattedSummary, 0, 60).'...';
+
+                  if ($hasDetail) {
+                     mb_internal_encoding("UTF-8");
+                     $formattedSummary = mb_strimwidth($formattedSummary, 0, 60, "...");
                   }
                   #$childArray['title'] = Tools::issueInfoURL($issue->getId()).' '.$issue->getSummary().$detail;
                   $childArray['title'] = $formattedSummary.$detail;
