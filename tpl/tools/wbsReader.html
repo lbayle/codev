@@ -1,5 +1,8 @@
 <div id="content">
 
+
+<script src="lib/jquery.cookie/jquery.cookie.js" type="text/javascript"></script>
+
 <style type="text/css">
 
    ul.dynatree-container .dynatree-title > span {
@@ -9,7 +12,7 @@
       padding: 0;
    }
    ul .td-titlebar {
-      width: 516px;
+      width: 500px;
    }
 
    /* TODO generate this ul section with smarty (depends on tree depth) */
@@ -88,6 +91,8 @@
 
     function initTree() {
 
+         $.ui.dynatree.prototype.options.persist = true;
+         
          jQuery("#tree").dynatree({
              initAjax: {
       		   type: "POST",
@@ -106,7 +111,7 @@
                  return false;
                }
                var cols = node.data.title.split("~"),
-               html = "<a class='dynatree-title' href='#'>";
+               html = '<a class="dynatree-title" href="'+node.data.href +'">';
 
                if ('__TAG_TITLEBAR__' === cols[0]) {
                    html += "<span class='td-titlebar'>&nbsp;</span>";
@@ -150,7 +155,7 @@
         var childNode = rootNode.addChild({
            title: "__TAG_TITLEBAR__~{t}Progress{/t}~{t}MgrEffortEstim{/t}~{t}Reestimated{/t}~{t}Elapsed{/t}~{t}Backlog{/t}~{t}Drift Mgr{/t}",
            isFolder: false,
-           icon: "none.gif"
+           icon: "blank.png"
         });
      }
 
