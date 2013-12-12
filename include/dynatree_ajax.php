@@ -1,7 +1,7 @@
 <?php
 require('../include/session.inc.php');
-
 require('../path.inc.php');
+include_once('i18n/i18n.inc.php');
 
 if (Tools::isConnectedUser() && (isset($_POST['action']))) {
 
@@ -46,11 +46,16 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
          $root_id = Tools::getSecurePOSTIntValue('wbsRootId');
          $hasDetail = (1 === Tools::getSecurePOSTIntValue('hasDetail')) ? true : false;
 
+         $userid = $_SESSION['userid'];
+         $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+         $session_user = UserCache::getInstance()->getUser($userid);
+         $isManager = $session_user->isTeamManager($teamid);
+
 			//file_put_contents('/tmp/loadWBS.txt', "=== ".date('Ymd')."\n");
 			//file_put_contents('/tmp/loadWBS.txt', "root_id = $root_id \n", FILE_APPEND);
 
 			$rootElement = new WBSElement($root_id);
-			$dynatreeDict = $rootElement->getDynatreeData($hasDetail);
+			$dynatreeDict = $rootElement->getDynatreeData($hasDetail, $isManager, $teamid);
 
          if ($logger->isDebugEnabled()) {
             $aa = var_export($dynatreeDict, true);

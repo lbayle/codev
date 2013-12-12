@@ -445,9 +445,10 @@ class WBSElement extends Model {
 	 *
 	 * @param boolean $hasDetail if true, add [Progress, EffortEstim, Elapsed, Backlog, Drift]
 	 * @param boolean $isManager
+	 * @param int $userid
 	 * @return array
 	 */
-   public function getDynatreeData($hasDetail = false, $isManager = false) {
+   public function getDynatreeData($hasDetail = false, $isManager = false, $teamid = 0) {
 
       // TODO AND root_id = $this->getRootId()
       $query = "SELECT * FROM `codev_wbs_table` WHERE `parent_id` = " . $this->getId() . " ORDER BY `order`";
@@ -486,7 +487,7 @@ class WBSElement extends Model {
                }
 
                $childArray['title'] = $wbselement->getTitle().$detail;
-               $childArray['children'] = $wbselement->getDynatreeData($hasDetail, $isManager);
+               $childArray['children'] = $wbselement->getDynatreeData($hasDetail, $isManager, $teamid);
             } else {
 
                $issue = IssueCache::getInstance()->getIssue($wbselement->getBugId());
@@ -509,10 +510,24 @@ class WBSElement extends Model {
                      mb_internal_encoding("UTF-8");
                      $formattedSummary = mb_strimwidth($formattedSummary, 0, 60, "...");
                   }
-                  #$childArray['title'] = Tools::issueInfoURL($issue->getId()).' '.$issue->getSummary().$detail;
                   $childArray['title'] = $formattedSummary.$detail;
                   $childArray['isFolder'] = false;
-                  $childArray['key'] = $wbselement->getBugId(); // yes, bugid !
+                  $childArray['key'] = $issue->getId(); // yes, bugid !
+
+                  // add tooltip
+                  $user = UserCache::getInstance()->getUser($issue->getHandlerId());
+                  $titleAttr = array(
+                      T_('Project') => $issue->getProjectName(),
+                      T_('Category') => $issue->getCategoryName(),
+                      T_('Status') => Constants::$statusNames[$issue->getStatus()],
+                      T_('Handler') => $user->getRealname(),
+                      T_('Tags') => implode(',', $issue->getTagList()),
+                  );
+                  $childArray['href'] = Constants::$codevURL.'/reports/issue_info.php?bugid='.$issue->getId();
+                  #$childArray['htmlTooltip'] = Tools::getTooltip($issue->getTooltipItems($teamid, 0, $isManager));
+                  $childArray['htmlTooltip'] = Tools::getTooltip($titleAttr);
+
+                  #$childArray['icon'] = 'mantis_ico.gif';
 
                } else {
                   $childArray['title'] = 'ERROR';
