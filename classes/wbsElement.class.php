@@ -520,7 +520,7 @@ class WBSElement extends Model {
                       T_('Project') => $issue->getProjectName(),
                       T_('Category') => $issue->getCategoryName(),
                       T_('Status') => Constants::$statusNames[$issue->getStatus()],
-                      T_('Handler') => $user->getRealname(),
+                      T_('Assigned to') => $user->getRealname(),
                       T_('Tags') => implode(',', $issue->getTagList()),
                   );
                   $childArray['href'] = Constants::$codevURL.'/reports/issue_info.php?bugid='.$issue->getId();

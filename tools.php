@@ -165,7 +165,7 @@ class Tools {
       }
    }
 
-   private static function getTooltip($title) {
+   public static function getTooltip($title) {
       $tooltip = '<div class="tooltip ui-helper-hidden">'.
                  '<table style="margin:0;border:0;padding:0;background-color:white;">'.
                  '<tbody>';
