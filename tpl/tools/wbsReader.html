@@ -2,6 +2,7 @@
 
 
 <script src="lib/jquery.cookie/jquery.cookie.js" type="text/javascript"></script>
+<script src="js/tooltip.js" type="text/javascript"></script>
 
 <style type="text/css">
 
@@ -40,9 +41,14 @@
 
    .td-progress {
       width: 120px;
-      margin-right: 10px;
+      margin-right: 5px;
       position: relative;
       top: 2px;
+   }
+   .td-info {
+      width: 16px;
+      margin-right: 10px;
+      position: relative;
    }
    .td-effortEstim {
       width: 100px;
@@ -102,6 +108,12 @@
                        action: "loadWBS"
                }
              },
+             onPostInit: function() {
+                applyTooltip("#tree");
+             },
+             onExpand: function() {
+                applyTooltip("#tree");
+             },
              onCustomRender: function(node) {
 
                // Render title as columns
@@ -116,6 +128,7 @@
                if ('__TAG_TITLEBAR__' === cols[0]) {
                    html += "<span class='td-titlebar'>&nbsp;</span>";
                    html += "<span class='td-progress'>&nbsp;</span>";
+                   html += "<img  class='td-info' align='absmiddle' src='images/blank.png'/>";
                    html += "<span class='td-effortEstim' style='font-weight: bold; background-color:#D8D8D8' >" + cols[2] + "&nbsp;</span>";
                    html += "<span class='td-reestimated' style='font-weight: bold; background-color:#D8D8D8' >" + cols[3] + "&nbsp;</span>";
                    html += "<span class='td-elapsed' style='font-weight: bold; background-color:#D8D8D8' >" + cols[4] + "&nbsp;</span>";
@@ -134,6 +147,12 @@
                    html += "<div>" + cols[1] + "%</div></div></div></span>";
 
                    // other columns
+                  if (node.data.htmlTooltip) {
+                     html += "<img  class='td-info haveTooltip' align='absmiddle' src='images/b_info.png'/>";
+                     html += node.data.htmlTooltip;
+                  } else {
+                     html += "<img  class='td-info' align='absmiddle' src='images/blank.png'/>";
+                  }
                    html += "<span class='td-effortEstim'>" + cols[2] + "&nbsp;</span>";
                    html += "<span class='td-reestimated'>" + cols[3] + "&nbsp;</span>";
                    html += "<span class='td-elapsed'>" + cols[4] + "&nbsp;</span>";
