@@ -165,6 +165,15 @@ class Tools {
       }
    }
 
+   /**
+    * returns a <div that must be added directly behind the <a tag that will display the tooltip.
+    * this <a tag MUST have the class haveTooltip
+    *
+    * <a class="haveTooltip" href="#">blabla</a> <div tooltip>;
+    *
+    * @param type $title
+    * @return string
+    */
    public static function getTooltip($title) {
       $tooltip = '<div class="tooltip ui-helper-hidden">'.
                  '<table style="margin:0;border:0;padding:0;background-color:white;">'.

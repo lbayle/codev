@@ -461,7 +461,7 @@ class EditTeamController extends Controller {
 
          $generalPrefs["$name"] = array(
              'name'       => $name,
-             'label'      => Team::$generalPrefsDescriptionList["$name"],
+             'label'      => T_(Team::$generalPrefsDescriptionList["$name"]),
              'isChecked'  => $enabled,
              'isDisabled' => false
          );
