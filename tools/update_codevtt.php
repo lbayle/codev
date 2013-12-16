@@ -232,6 +232,7 @@ function update_v11_to_v12() {
 
 /**
  * update 0.99.24 to 0.99.25 (DB v12 to DB v13)
+ * update mantis plugin 0.3 -> 0.4
  *
  */
 function update_v12_to_v13() {
@@ -247,6 +248,42 @@ function update_v12_to_v13() {
    if (0 != $retCode) {
       echo "<span class='error_font'>Could not execSQLscript: $sqlScriptFilename</span><br/>";
       exit;
+   }
+
+   // update mantis plugin 0.3 -> 0.4
+   try {
+      $mantisPluginDir = Constants::$mantisPath . DIRECTORY_SEPARATOR . 'plugins';
+      $srcDir = Constants::$codevRootDir . DIRECTORY_SEPARATOR . 'mantis_plugin' . DIRECTORY_SEPARATOR . 'CodevTT';
+      $destDir = $mantisPluginDir . DIRECTORY_SEPARATOR . 'CodevTT';
+
+      if (!is_writable($mantisPluginDir)) {
+         echo "<br><span class='warn_font'>WARN: <b>'" . $mantisPluginDir . "'</b> directory is <b>NOT writable</b>: Please update the mantis plugin manualy.</span><br>";
+         return false;
+      }
+      // remove previous installed CodevTT plugin
+       if (is_writable($destDir)) {
+          Tools::deleteDir($destDir);
+       } else {
+         echo "<br><span class='warn_font'>WARN: <b>'" . $destDir . "'</b> directory is <b>NOT writable</b>: Please update the mantis plugin manualy.</span><br>";
+         return false;
+      }
+
+       // copy CodevTT plugin
+       if (is_dir($srcDir)) {
+          $result = Tools::recurse_copy($srcDir, $destDir);
+         if (!$result) {
+            echo "<br><span class='warn_font'>mantis plugin installation failed: CodevTT plugin must be updated manualy.</span><br>";
+            return false;
+         }
+       } else {
+          echo "<br><span class='warn_font'>plugin directory '" . $srcDir . "' NOT found: Please update the mantis plugin manualy.</span><br>";
+          return false;
+       }
+
+   } catch (Exception $e) {
+      echo "<span class='warn_font'>mantis plugin installation failed: " . $e->getMessage() . "</span><br>";
+      echo "<span class='warn_font'>mantis plugin must be installed manualy.</span><br>";
+      return false;
    }
 
    #echo "<br>SUCCESS: Update 0.99.24 to 0.99.25 (DB v12 to DB v13)<br>";
