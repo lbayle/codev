@@ -39,8 +39,8 @@ class Team extends Model {
          );
 
       self::$generalPrefsDescriptionList = array(
-          'forbidAddTimetracksOnClosed'         => T_('Forbid adding timetracks on closed issues'),
-          'displayCalculatedBacklogInDialogbox' => T_('Display calculated backlog as default value in the updateBacklog dialogbox'),
+          'forbidAddTimetracksOnClosed'         => 'Forbid adding timetracks on closed issues',
+          'displayCalculatedBacklogInDialogbox' => 'Display calculated backlog as default value in the updateBacklog dialogbox',
          );
 
    }

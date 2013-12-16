@@ -97,7 +97,8 @@
 
     function initTree() {
 
-         $.ui.dynatree.prototype.options.persist = true;
+         // uses cookies to store the expanded nodes
+         jQuery.ui.dynatree.prototype.options.persist = true;
          
          jQuery("#tree").dynatree({
              initAjax: {
@@ -111,8 +112,11 @@
              onPostInit: function() {
                 applyTooltip("#tree");
              },
-             onExpand: function() {
-                applyTooltip("#tree");
+             onExpand: function(isVisible) {
+               // WARN PERF: parse DOM each time a node is expanded may be ressource consuming...
+               if (isVisible) {
+                  applyTooltip("#tree");
+               }
              },
              onCustomRender: function(node) {
 

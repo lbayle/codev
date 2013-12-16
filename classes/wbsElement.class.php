@@ -504,11 +504,11 @@ class WBSElement extends Model {
                              . '~' . $issue->getDriftColor($issue->getDriftMgr());
                   }
 
-                  $formattedSummary = $issue->getId().' '.$issue->getSummary();
+                  $formattedSummary = '<b>'.$issue->getId().'</b> '.$issue->getSummary();
 
                   if ($hasDetail) {
                      mb_internal_encoding("UTF-8");
-                     $formattedSummary = mb_strimwidth($formattedSummary, 0, 60, "...");
+                     $formattedSummary = mb_strimwidth($formattedSummary, 0, 70, "...");
                   }
                   $childArray['title'] = $formattedSummary.$detail;
                   $childArray['isFolder'] = false;
