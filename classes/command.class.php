@@ -676,7 +676,10 @@ class Command extends Model {
          $id = SqlWrapper::getInstance()->sql_insert_id();
 
          // add to WBS
-         $wbsChild = new WBSElement(NULL, $this->wbsid, $bugid, $this->wbsid, $order);
+         $wbsChild = new WBSElement(NULL, $this->wbsid, $bugid, $this->wbsid);
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("Add issue $bugid from command $this->id to WBS root_id=$this->wbsid wbse_id=".$wbsChild->getId());
+         }
 
       } else {
          if(self::$logger->isDebugEnabled()) {

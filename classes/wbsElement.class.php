@@ -204,6 +204,10 @@ class WBSElement extends Model {
 		if (!is_null($expand)) { $query .= ", '".($expand ? '1' : '0')."'"; }
 		$query .= ')';
 
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("create SQL ".$query);
+      }
+
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
