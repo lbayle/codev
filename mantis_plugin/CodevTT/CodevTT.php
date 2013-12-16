@@ -20,13 +20,13 @@ class CodevTTPlugin extends MantisPlugin {
       $this->description = plugin_lang_get('description');
       $this->page = '';
 
-      $this->version = '0.3';
+      $this->version = '0.4';
       $this->requires = array(
           'MantisCore' => '1.2.0',
       );
 
       $this->author = 'CodevTT';
-      $this->contact = 'lance2m83@gmail.com';
+      $this->contact = 'lbayle.work@gmail.com';
       $this->url = 'http://codevtt.org';
    }
 
@@ -73,7 +73,7 @@ class CodevTTPlugin extends MantisPlugin {
          $delete_result = mysql_query($delete_query) or exit(mysql_error());
       }
 
-      // create bug-command associations
+      // === create bug-command associations
       if (isset($_POST['command_id'])) {
 
          $command_ids = $_POST['command_id'];
@@ -89,6 +89,54 @@ class CodevTTPlugin extends MantisPlugin {
          $query = $query . ";";
          #error_log ("Query: $query");
          $result = mysql_query($query) or exit(mysql_error());
+
+         // === add to WBS
+         // 1) get the wbs_id of this command
+         $query2 = "SELECT name, wbs_id FROM  `codev_command_table` WHERE `id` = '$command_id' ";
+         #echo "SQL query2 = $query2<br>";
+         $result2 = mysql_query($query2) or exit(mysql_error());
+         $row2 = mysql_fetch_object($result2);
+         $wbs_id = $row2->wbs_id;
+         $cmd_name = $row2->name;
+
+         // 2) if wbs_id is null, the the root element must be created
+         // (this happens only once when upgrading from 0.99.24 or below)
+         $order = 1;
+         if (is_null($wbs_id)) {
+            #echo "Create WBS root element for Command $command_id<br>";
+            // add root element
+            $query3 = "INSERT INTO `codev_wbs_table`  (`order`, `expand`, `title`) ".
+                    "VALUES ('1', '1', '$cmd_name')";
+            #echo "SQL query3 = $query3<br>";
+            $result3 = mysql_query($query3) or exit(mysql_error());
+            $wbs_id = mysql_insert_id();
+
+            $query4 = "UPDATE `codev_command_table` SET wbs_id = '$wbs_id' WHERE id = '$command_id';";
+            #echo "SQL query4 = $query4<br>";
+            $result4 = mysql_query($query4) or exit(mysql_error());
+
+            // 2.1) add all existing issues to the WBS
+            $query6 = "SELECT bug_id from `codev_command_bug_table` WHERE command_id = '$command_id' ORDER BY bug_id ;";
+            #echo "SQL query6 = $query6<br>";
+            $result6 = mysql_query($query6) or exit(mysql_error());
+            while ($row6 = mysql_fetch_object($result6)) {
+               #echo "add issue $row6->bug_id to command $command_id<br>";
+               $query7 = "INSERT INTO `codev_wbs_table`  (`root_id`, `parent_id`, `bug_id`, `order`, `expand`) ".
+                       "VALUES ('$wbs_id', '$wbs_id', '$row6->bug_id', '$order', '0')";
+               #echo "SQL query7 = $query7<br>";
+               $result7 = mysql_query($query7) or exit(mysql_error());
+               $order += 1;
+            }
+
+
+         } else {
+            // 3) add bug_id to the wbs root element
+            $query5 = "INSERT INTO `codev_wbs_table`  (`root_id`, `parent_id`, `bug_id`, `order`, `expand`) ".
+                    "VALUES ('$wbs_id', '$wbs_id', '$t_bug_id', '$order', '0')";
+            #echo "SQL query5 = $query5<br>";
+            $result5 = mysql_query($query5) or exit(mysql_error());
+         }
+
       }
    }
 

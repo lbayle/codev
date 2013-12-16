@@ -45,6 +45,15 @@ $result0 = execQuery($query0);
 while ($row = SqlWrapper::getInstance()->sql_fetch_object($result0)) {
    echo "ERROR issue $row->bug_id does not exist in Mantis but is still defined in Command $row->command_id<br>";
 
+   // remove from Command
+   $query = "DELETE FROM `codev_command_bug_table` WHERE bug_id = ".$row->bug_id.";";
+   $result = SqlWrapper::getInstance()->sql_query($query);
+   if (!$result) {
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
+
+
 }
 
 // check that all Command issues are declared in the Command WBS.
@@ -90,14 +99,6 @@ while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $issue = IssueCache::getInstance()->getIssue($bid);
          } catch (Exception $e) {
             echo "ERROR issue $bid does not exist in Mantis !</span><br>";
-
-            // remove from Command
-//            $query = "DELETE FROM `codev_command_bug_table` WHERE command_id = ".$cmdid." AND bug_id = ".$bid.";";
-//            $result = SqlWrapper::getInstance()->sql_query($query);
-//            if (!$result) {
-//               echo "<span style='color:red'>ERROR: Query FAILED</span>";
-//               exit;
-//            }
 
          }
 
