@@ -510,10 +510,10 @@ class WBSElement extends Model {
 
                   $formattedSummary = '<b>'.$issue->getId().'</b> '.$issue->getSummary();
 
-                  if ($hasDetail) {
-                     mb_internal_encoding("UTF-8");
-                     $formattedSummary = mb_strimwidth($formattedSummary, 0, 70, "...");
-                  }
+//                  if ($hasDetail) {
+//                     mb_internal_encoding("UTF-8");
+//                     $formattedSummary = mb_strimwidth($formattedSummary, 0, 70, "...");
+//                  }
                   $childArray['title'] = $formattedSummary.$detail;
                   $childArray['isFolder'] = false;
                   $childArray['key'] = $issue->getId(); // yes, bugid !
