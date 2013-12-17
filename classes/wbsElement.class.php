@@ -480,14 +480,23 @@ class WBSElement extends Model {
                   foreach($bugids as $bugid) {
                      $isel->addIssue($bugid);
                   }
-                  $mgrDriftInfo = $isel->getDriftMgr();
+                  if ($isManager) {
+                     $effortEstim = $isel->getMgrEffortEstim();
+                     $driftInfo = $isel->getDriftMgr();
+                     $reestimated = $isel->getReestimated();
+                  } else {
+                     $effortEstim = $isel->getEffortEstim();
+                     $driftInfo = $isel->getDrift();
+                     $reestimated = '0';
+                  }
+
                   $detail = '~' . round(100 * $isel->getProgress())
-                          . '~' . $isel->getMgrEffortEstim()
-                          . '~' . $isel->getReestimated()
+                          . '~' . $effortEstim
+                          . '~' . $reestimated
                           . '~' . $isel->getElapsed()
                           . '~' . $isel->duration
-                          . '~' . $mgrDriftInfo['nbDays']
-                          . '~' . $isel->getDriftColor($mgrDriftInfo['nbDays']);
+                          . '~' . $driftInfo['nbDays']
+                          . '~' . $isel->getDriftColor($driftInfo['nbDays']);
                }
 
                $childArray['title'] = $wbselement->getTitle().$detail;
@@ -498,14 +507,24 @@ class WBSElement extends Model {
                if ($issue) {
                   $detail = '';
                   if ($hasDetail) {
-							// TODO if isManager...
+
+                     if ($isManager) {
+                        $effortEstim = $issue->getMgrEffortEstim();
+                        $drift = $issue->getDriftMgr();
+                        $reestimated = $issue->getReestimated();
+                     } else {
+                        $effortEstim = $issue->getEffortEstim();
+                        $drift = $issue->getDrift();
+                        $reestimated = '0';
+                     }
+
                      $detail = '~' . round(100 * $issue->getProgress())
-                             . '~' . $issue->getMgrEffortEstim()
-                             . '~' . $issue->getReestimated()
+                             . '~' . $effortEstim
+                             . '~' . $reestimated
                              . '~' . $issue->getElapsed()
                              . '~' . $issue->getBacklog()
-                             . '~' . $issue->getDriftMgr()
-                             . '~' . $issue->getDriftColor($issue->getDriftMgr());
+                             . '~' . $drift
+                             . '~' . $issue->getDriftColor($drift);
                   }
 
                   $formattedSummary = '<b>'.$issue->getId().'</b> '.$issue->getSummary();
@@ -552,14 +571,24 @@ class WBSElement extends Model {
                foreach($bugids as $bugid) {
                   $isel->addIssue($bugid);
                }
+               if ($isManager) {
+                  $effortEstim = $isel->getMgrEffortEstim();
+                  $driftInfo = $isel->getDriftMgr();
+                  $reestimated = $isel->getReestimated();
+               } else {
+                  $effortEstim = $isel->getEffortEstim();
+                  $driftInfo = $isel->getDrift();
+                  $reestimated = '0';
+               }
+
                $mgrDriftInfo = $isel->getDriftMgr();
                $detail = '~' . round(100 * $isel->getProgress())
-                       . '~' . $isel->getMgrEffortEstim()
-                       . '~' . $isel->getReestimated()
+                       . '~' . $effortEstim
+                       . '~' . $reestimated
                        . '~' . $isel->getElapsed()
                        . '~' . $isel->duration
-                       . '~' . $mgrDriftInfo['nbDays']
-                       . '~' . $isel->getDriftColor($mgrDriftInfo['nbDays']);
+                       . '~' . $driftInfo['nbDays']
+                       . '~' . $isel->getDriftColor($driftInfo['nbDays']);
             }
             $rootArray = array(
                   'title'    => $this->getTitle().$detail,

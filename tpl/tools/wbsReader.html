@@ -141,7 +141,9 @@
                    html += "<span class='td-progress'>&nbsp;</span>";
                    html += "<img  class='td-info' align='absmiddle' src='images/blank.png'/>";
                    html += "<span class='td-effortEstim' style='font-weight: bold; background-color:#D8D8D8' >" + cols[2] + "&nbsp;</span>";
+                   {if $isManager}
                    html += "<span class='td-reestimated' style='font-weight: bold; background-color:#D8D8D8' >" + cols[3] + "&nbsp;</span>";
+                   {/if}
                    html += "<span class='td-elapsed' style='font-weight: bold; background-color:#D8D8D8' >" + cols[4] + "&nbsp;</span>";
                    html += "<span class='td-backlog' style='font-weight: bold; background-color:#D8D8D8' >" + cols[5] + "&nbsp;</span>";
                    html += "<span class='td-drift' style='font-weight: bold; background-color:#D8D8D8' >" + cols[6] + "&nbsp;</span>";
@@ -165,7 +167,9 @@
                      html += "<img  class='td-info' align='absmiddle' src='images/blank.png'/>";
                   }
                    html += "<span class='td-effortEstim'>" + cols[2] + "&nbsp;</span>";
+                   {if $isManager}
                    html += "<span class='td-reestimated'>" + cols[3] + "&nbsp;</span>";
+                   {/if}
                    html += "<span class='td-elapsed'>" + cols[4] + "&nbsp;</span>";
                    html += "<span class='td-backlog'>" + cols[5] + "&nbsp;</span>";
                    html += "<span class='td-drift' style='background-color:#"+cols[7]+"' >" + cols[6] + "&nbsp;</span>";
@@ -183,7 +187,11 @@
         // add Title bar
         var rootNode = $("#tree").dynatree("getRoot");
         var childNode = rootNode.addChild({
+           {if $isManager}
            title: "__TAG_TITLEBAR__~{t}Progress{/t}~{t}MgrEffortEstim{/t}~{t}Reestimated{/t}~{t}Elapsed{/t}~{t}Backlog{/t}~{t}Drift Mgr{/t}",
+           {else}
+           title: "__TAG_TITLEBAR__~{t}Progress{/t}~{t}EffortEstim{/t}~{t}Reestimated{/t}~{t}Elapsed{/t}~{t}Backlog{/t}~{t}Drift{/t}",
+           {/if}
            isFolder: false,
            icon: "blank.png"
         });
