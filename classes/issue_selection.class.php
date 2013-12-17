@@ -177,6 +177,9 @@ class IssueSelection {
       return $mgrEffortEstim;
    }
 
+   public function getEffortEstim() {
+      return $this->effortEstim;
+   }
 
    /**
     * reestimated = elapsed + duration
