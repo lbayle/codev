@@ -78,6 +78,39 @@ class Tools {
    }
 
    /**
+    * CodevTT needs some output directories to be dedined:
+    * logs, reports, smarty, ...
+    *
+    * @return null if OK, error string if FAILED
+    */
+   public static function checkOutputDirectories() {
+
+      $isValid = TRUE;
+      $message = '';
+      $errStr = Tools::checkWriteAccess(dirname(Constants::$codevtt_logfile));
+      if (NULL !== $errStr) { $isValid = FALSE; $message .= $errStr."\n"; }
+
+      $errStr = Tools::checkWriteAccess(Constants::$codevOutputDir.'/logs');
+      if (NULL !== $errStr) { $isValid = FALSE; $message .= $errStr."\n"; }
+
+      $errStr = Tools::checkWriteAccess(Constants::$codevOutputDir.'/reports');
+      if (NULL !== $errStr) { $isValid = FALSE; $message .= $errStr."\n"; }
+
+      $errStr = Tools::checkWriteAccess(Constants::$codevOutputDir.'/tpl');
+      if (NULL !== $errStr) { $isValid = FALSE; $message .= $errStr."\n"; }
+
+      $errStr = Tools::checkWriteAccess(Constants::$codevOutputDir.'/cache');
+      if (NULL !== $errStr) { $isValid = FALSE; $message .= $errStr."\n"; }
+
+      $errStr = Tools::checkWriteAccess(Constants::$codevOutputDir.'/template_c');
+      if (NULL !== $errStr) { $isValid = FALSE; $message .= $errStr."\n"; }
+      
+      return ($isValid ? NULL : $message);
+   }
+
+
+
+   /**
     * returns an HTML link to the Mantis page for Issue $bugid
     * ex: http://172.24.209.4/mantis/view.php?id=400
     * @static
@@ -995,7 +1028,7 @@ class Tools {
    /**
     * @static
     * @param string $directory
-    * @return string
+    * @return string error string or NULL if success
     */
    public static function checkWriteAccess($directory) {
       // Note: the 'ERROR' token in return string will be parsed, so
@@ -1006,22 +1039,16 @@ class Tools {
             return "ERROR : Could not create folder: $directory";
          }
       }
+      if (false === @opendir($directory)) {
+         return "ERROR : Could not opendir: $directory";
+      }
 
       // create a test file to check write access to the directory
       $testFilename = $directory . DIRECTORY_SEPARATOR . "test.txt";
-      $fh = fopen($testFilename, 'w');
-      if (!$fh) {
+
+      if (FALSE === file_put_contents($testFilename, date("Y-m-d G:i:s")." - This TEST file can be removed\n")) {
          return "ERROR : could not create test file: $testFilename";
       }
-
-      // write something to the file
-      $stringData = date("Y-m-d G:i:s", time()) . " - This is a TEST file generated during CodevTT installation, You can remove it.\n";
-      if (!fwrite($fh, $stringData)) {
-         fclose($fh);
-         return "ERROR : could not write to test file: $testFilename";
-      }
-
-      fclose($fh);
 
       if (file_exists($testFilename)) {
          $retCode = unlink($testFilename);
@@ -1030,7 +1057,8 @@ class Tools {
          }
       }
 
-      return "SUCCESS !";
+      // SUCCESS
+      return NULL;
    }
 
    /**

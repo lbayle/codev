@@ -88,16 +88,10 @@ function createLog4phpFile() {
    //replace tags
    $str = str_replace('@TAG_CODEVTT_LOGFILE_FULLPATH@', Constants::$codevtt_logfile, $str);
 
-   // write dest file
-   $fp = fopen(Install::FILENAME_LOG4PHP, 'w');
-   if (FALSE == $fp) {
-      return "ERROR: creating file " . Install::FILENAME_LOG4PHP;
+   // create log4php.xml file
+   if (FALSE === file_put_contents(Install::FILENAME_LOG4PHP, $str)) {
+      return "ERROR : could not create logger configuration file: ".Install::FILENAME_LOG4PHP;
    }
-   if (FALSE == fwrite($fp, $str, strlen($str))) {
-      fclose($fp);
-      return "ERROR: could not write to file " . Install::FILENAME_LOG4PHP;
-   }
-   fclose($fp);
    return NULL;
 }
 
@@ -818,7 +812,7 @@ $checkReportsDirError = NULL;
 if ("checkReportsDir" == $action) {
 
    $checkReportsDirError = Tools::checkWriteAccess($codevOutputDir);
-
+   if (NULL === $checkReportsDirError) { $checkReportsDirError = "SUCCESS !"; }
 
 } else if ("proceedStep3" == $action) {
 
@@ -885,20 +879,13 @@ if ("checkReportsDir" == $action) {
       exit;
    }
 
-   echo "DEBUG 10/15 create output directories (logs, reports)<br/>";
-   $errStr = Tools::checkWriteAccess(Constants::$codevOutputDir.'/logs');
-   if ("SUCCESS !" != $errStr) {
-      echo "<span class='error_font'>".$errStr."</span><br/>";
+   echo "DEBUG 10/15 create output directories (logs, reports, cache)<br/>";
+   $errStr = Tools::checkOutputDirectories();
+   if (NULL !== $errStr) {
+      echo "<span class='error_font'>".nl2br($errStr)."</span><br/>";
       $installStepFailed = TRUE;
       exit;
    }
-   $errStr = Tools::checkWriteAccess(Constants::$codevOutputDir.'/reports');
-   if ("SUCCESS !" != $errStr) {
-      echo "<span class='error_font'>".$errStr."</span><br/>";
-      $installStepFailed = TRUE;
-      exit;
-   }
-
 
    // Create default tasks
    echo "DEBUG 11/15 Create external tasks<br/>";

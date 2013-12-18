@@ -64,6 +64,17 @@ try {
       } else {
          Logger::configure($filename);
       }
+
+      if (!file_exists(Constants::$codevtt_logfile)) {
+         $errStr = Tools::checkWriteAccess(dirname(Constants::$codevtt_logfile));
+         if (NULL !== $errStr) { throw new Exception($errStr); }
+         
+         $errStr = @file_put_contents(Constants::$codevtt_logfile, date('Y-m-d G:i:s').' - logfile creation.');
+         if (FALSE === $errStr) {
+            throw new Exception('Could not create file '.Constants::$codevtt_logfile);
+         }
+      }
+
 		// WARN: if logger is LoggerAppenderEcho, then logs will break the login Ajax call !
       $logger = Logger::getLogger("header");
       $logger->info("LOG activated !");
@@ -81,7 +92,7 @@ try {
    echo 'LOGGER ERROR: '.$e->getMessage().'<br><br>';
    echo 'Tips:<br>';
    echo ' - Check logger configuration file "log4php.xml"<br>';
-   echo ' - Check that user '.exec('whoami').' have write access to the log directory.<br>';
+   echo ' - Check that user <b>'.exec('whoami').'</b> has write access to the log directory.<br>';
    exit;
 }
 
