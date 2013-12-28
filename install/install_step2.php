@@ -76,7 +76,6 @@ function createConstantsFile($mantisPath, $mantisURL, $codevURL) {
 
    Constants::$status_new = $status_new;
    Constants::$status_feedback = $status_feedback;
-   #Constants::$status_acknowledged = $status_acknowledged;
    Constants::$status_open = (NULL != $status_open) ? $status_open : 50; // (50 = 'assigned' in default mantis workflow)
    Constants::$status_closed = $status_closed;
 
