@@ -490,8 +490,9 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
                      $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,
                      $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
                      $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
-                     $projectList, $extIdCustomFieldCandidates, $userList,
-                     $is_modified = "false") {
+                     $projectList, $groupExtID, $extIdCustomFieldCandidates, $extIdCustomField, $userList, $admin_id,
+                     $is_modified = "false",
+                     $statusList, $status_new, $status_feedback, $status_open, $status_closed) {
 
    checkMantisPluginDir();
 
@@ -499,20 +500,80 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
 
    // ------ Reports
    echo "<h2>".T_("Path to output files")."</h2>\n";
-   if (NULL != $checkReportsDirError) {
-      if (FALSE == strstr($checkReportsDirError, T_("ERROR"))) {
-         echo "<span class='success_font'>$checkReportsDirError</span><br/>\n";
-      } else {
-         echo "<span class='error_font'>$checkReportsDirError</span><br/>\n";
-      }
-   }
+   echo "<span class='help_font'>".T_("Path to log files and other temporary files.")."<br>".T_("Note: <b>/var/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access.")."</span><br><br>\n";
    echo "<code><input size='50' type='text' style='font-family: sans-serif' name='outputDir'  id='outputDir' value='$defaultOutputDir'></code></td>\n";
    echo "<input type=button value='".T_("Check")."' onClick='javascript: checkReportsDir()'>\n";
 
-   echo "&nbsp;&nbsp;&nbsp;&nbsp;<span class='help_font'>".T_("(logs, reports, ...)")."</span>\n";
+   echo "&nbsp;&nbsp;&nbsp;&nbsp;";
+   if (!is_null($checkReportsDirError)) {
+      if (FALSE === strstr($checkReportsDirError, "SUCCESS")) {
+         echo "<span class='error_font'>$checkReportsDirError</span>\n";
+      } else {
+         echo "<span class='success_font'>$checkReportsDirError</span>\n";
+      }
+   }
 
    echo "  <br/>\n";
    echo "  <br/>\n";
+
+   // ------ Status
+   echo "<h2>".T_("Workflow")."</h2>\n";
+   echo "<span class='help_font'>".T_("Set equivalences in accordance to your Mantis workflow")."</span><br><br>\n";
+   echo '<table class="invisible">';
+   echo '<tr>';
+   echo '<td>Status NEW</td>';
+   echo '<td>';
+   echo '<select id="status_new" name="status_new">'."<br>\n";
+   foreach ($statusList as $statusid => $name) {
+      if ($status_new == $statusid) {
+         echo "<option value='$statusid' selected='selected'>$name</option>\n";
+      } else {
+         echo "<option value='$statusid'>$name</option>\n";
+      }
+   }
+   echo '</select>';
+   echo '</td>';
+   echo '</tr>';
+   echo '<tr>';
+   echo '<td>Status FEEDBACK</td>';
+   echo '<td>';
+   echo '<select id="status_feedback" name="status_feedback">'."<br>\n";
+   foreach ($statusList as $statusid => $name) {
+      if ($status_feedback == $statusid) {
+         echo "<option value='$statusid' selected='selected'>$name</option>\n";
+      } else {
+         echo "<option value='$statusid'>$name</option>\n";
+      }
+   }
+   echo '</td>';
+   echo '</tr>';
+   echo '<tr>';
+   echo '<td>Status OPEN</td>';
+   echo '<td>';
+   echo '<select id="status_open" name="status_open">'."<br>\n";
+   foreach ($statusList as $statusid => $name) {
+      if ($status_open == $statusid) {
+         echo "<option value='$statusid' selected='selected'>$name</option>\n";
+      } else {
+         echo "<option value='$statusid'>$name</option>\n";
+      }
+   }
+   echo '</td>';
+   echo '</tr>';
+   echo '<tr>';
+   echo '<td>Status CLOSED</td>';
+   echo '<td>';
+   echo '<select id="status_closed" name="status_closed">'."<br>\n";
+   foreach ($statusList as $statusid => $name) {
+      if ($status_closed == $statusid) {
+         echo "<option value='$statusid' selected='selected'>$name</option>\n";
+      } else {
+         echo "<option value='$statusid'>$name</option>\n";
+      }
+   }
+   echo '</td>';
+   echo '</tr>';
+   echo '</table>';
 
    // ------ Administrator
    echo "<h2>".T_("CodevTT Administrator")."</h2>\n";
@@ -520,7 +581,7 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
    echo '<select id="codevttAdmin" name="codevttAdmin">'."<br>\n";
    #echo '   <option value="0"> </option>'."\n";
    foreach ($userList as $userid => $name) {
-      if (1 == $userid) {
+      if ($admin_id == $userid) {
          echo "<option value='$userid' selected='selected'>$name</option>\n";
       } else {
          echo "<option value='$userid'>$name</option>\n";
@@ -552,12 +613,18 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
       }
    ";
    echo "</script>";
-   echo "<input type='radio' name='groupExtID' value='createExtID' CHECKED > ".T_("Create a new CustomField")."<br>\n";
-   echo "<input type='radio' name='groupExtID' value='existingExtID'> ".T_("Use this CustomField :")."\n";
+   $checked = ('createExtID' === $groupExtID) ? 'CHECKED' : '';
+   echo "<input type='radio' name='groupExtID' value='createExtID' $checked > ".T_("Create a new CustomField")."<br>\n";
+   $checked = ('createExtID' !== $groupExtID) ? 'CHECKED' : '';
+   echo "<input type='radio' name='groupExtID' value='existingExtID' $checked > ".T_("Use this CustomField :")."\n";
    echo '<select id="extIdCustomField" name="extIdCustomField" onChange="javascript:setCheckedValue(document.forms[\'form1\'].elements[\'groupExtID\'], \'existingExtID\');">'."\n";
    echo '   <option value="0"> </option>'."\n";
    foreach ($extIdCustomFieldCandidates as $fieldid => $fname) {
-      echo "<option value='$fieldid'>$fname</option>\n";
+      if ($extIdCustomField == $fieldid) {
+         echo "<option value='$fieldid'  selected='selected'>$fname</option>\n";
+      } else {
+         echo "<option value='$fieldid'>$fname</option>\n";
+      }
    }
    echo '</select><br>';
    #echo "<input type='radio' name='groupExtID' value='noExtID' > ".T_("I don't need any").'<br>';
@@ -752,6 +819,17 @@ function installMantisPlugin() {
    return $result;
 }
 
+/**
+ * return a formatted list of mantis status
+ * @return array
+ */
+function getStatusList() {
+   $statusList = array();
+   foreach (Constants::$statusNames as $id => $name) {
+      $statusList[$id] = "$id - $name";
+   }
+   return $statusList;
+}
 
 // ================ MAIN =================
 $originPage = "install_step3.php";
@@ -760,7 +838,7 @@ $adminTeamName = T_("CodevTT admin");
 $defaultCodevttAdmin = 1; // 1 is mantis administrator
 
 #$defaultReportsDir = "\\\\172.24.209.4\Share\FDJ\Codev_Reports";
-$defaultReportsDir = "/tmp/codevtt";
+$defaultReportsDir = "/var/codevtt";
 
 $action               = isset($_POST['action']) ? $_POST['action'] : '';
 $is_modified          = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
@@ -803,45 +881,57 @@ $job5_color       = isset($_POST['job5_color']) ? $_POST['job5_color'] : "E0F57A
 $jobSupport_color = isset($_POST['jobSupport_color']) ? $_POST['jobSupport_color'] : "A8FFBD";
 $jobNA_color      = isset($_POST['jobNA_color']) ? $_POST['jobNA_color'] : "A8FFBD";
 
+$statusList = getStatusList();
+$status_new = isset($_POST['status_new']) ? $_POST['status_new'] : 10;
+$status_feedback = isset($_POST['status_feedback']) ? $_POST['status_feedback'] : 20;
+$status_open = isset($_POST['status_open']) ? $_POST['status_open'] : 50;
+$status_closed = isset($_POST['status_closed']) ? $_POST['status_closed'] : 90;
+
+$admin_id = isset($_POST['codevttAdmin']) ? $_POST['codevttAdmin'] : 1;
+
+$groupExtID = isset($_POST['groupExtID']) ? $_POST['groupExtID'] : 'createExtID';
+$extIdCustomField = isset($_POST['extIdCustomField']) ? $_POST['extIdCustomField'] : 0;
 
 $projectList = getProjectList();
 $userList = User::getUsers();
 
-$checkReportsDirError = NULL;
+#$checkReportsDirError = NULL;
+$checkReportsDirError = Tools::checkWriteAccess($codevOutputDir);
+if (NULL === $checkReportsDirError) { $checkReportsDirError = "SUCCESS !"; }
+
 // ---
-if ("checkReportsDir" == $action) {
+#if ("checkReportsDir" == $action) {
 
-   $checkReportsDirError = Tools::checkWriteAccess($codevOutputDir);
-   if (NULL === $checkReportsDirError) { $checkReportsDirError = "SUCCESS !"; }
+#   $checkReportsDirError = Tools::checkWriteAccess($codevOutputDir);
+#   if (NULL === $checkReportsDirError) { $checkReportsDirError = "SUCCESS !"; }
 
-} else if ("proceedStep3" == $action) {
+#} else if ("proceedStep3" == $action) {
+if ("proceedStep3" == $action) {
 
    $installStepFailed = FALSE;
 
-   echo "DEBUG 1/15 create Greasemonkey file<br/>";
+   echo "DEBUG 1/16 create Greasemonkey file<br/>";
    $errStr = createGreasemonkeyFile();
    if (NULL != $errStr) {
       echo "<span class='error_font'>".$errStr."</span><br/>";
       $installStepFailed = TRUE;
    }
 
-   echo "DEBUG 2/15 create default Config variables<br/>";
+   echo "DEBUG 2/16 create default Config variables<br/>";
    setConfigItems();
 
-   echo "DEBUG 3/15 update Mantis custom files<br/>";
+   echo "DEBUG 3/16 update Mantis custom files<br/>";
    updateMantisCustomFiles();
 
-   echo "DEBUG 4/15 add CodevTT to Mantis menu<br/>";
+   echo "DEBUG 4/16 add CodevTT to Mantis menu<br/>";
    removeCustomMenuItem('CodevTT');
    $tok = strtok($_SERVER["SCRIPT_NAME"], "/");
    addCustomMenuItem('CodevTT', '../'.$tok.'/index.php');  #  ../codev/index.php
 
-   echo "DEBUG 5/15 create CodevTT Custom Fields<br/>";
-   $groupExtID = $_POST['groupExtID'];
+   echo "DEBUG 5/16 create CodevTT Custom Fields<br/>";
    if ('createExtID' == $groupExtID) {
       $isCreateExtIdField = TRUE;
    } else {
-      $extIdCustomField = $_POST['extIdCustomField'];
       if ('0' != $extIdCustomField) {
          // add existing to codev_config_table
          Config::getInstance()->setValue("customField_ExtId", $extIdCustomField, Config::configType_int);
@@ -853,25 +943,33 @@ if ("checkReportsDir" == $action) {
    }
    createCustomFields($isCreateExtIdField);
 
-   echo "DEBUG 6/15 create ExternalTasks Project<br/>";
+   echo "DEBUG 6/16 create ExternalTasks Project<br/>";
    $extproj_id = createExternalTasksProject(T_("CodevTT_ExternalTasks"), T_("CodevTT ExternalTasks Project"));
 
    $adminLeader = UserCache::getInstance()->getUser($adminTeamLeaderId);
-   echo "DEBUG 7/15 createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
+   echo "DEBUG 7/16 createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
    createAdminTeam($adminTeamName, $adminTeamLeaderId);
 
+
+   echo "DEBUG 8/16 update status list<br/>";
+   Constants::$status_new          = $status_new;
+   Constants::$status_feedback     = $status_feedback;
+   Constants::$status_open         = $status_open;
+   Constants::$status_closed       = $status_closed;
+
    // Set path for .CSV reports (Excel)
-   echo "DEBUG 8/15 add CodevTT output directory<br/>";
+   echo "DEBUG 9/16 add CodevTT output directory<br/>";
    Constants::$codevOutputDir = $codevOutputDir;
    Constants::$codevtt_logfile = $codevOutputDir.'/logs/codevtt.log';
+
    $retCode = Constants::writeConfigFile();
    if (FALSE == $retCode) {
-      echo "<span class='error_font'>ERROR: could not add codevtt_output_dir to ".Constants::$config_file."</span><br/>";
+      echo "<span class='error_font'>ERROR: could not update config file: ".Constants::$config_file."</span><br/>";
       $installStepFailed = TRUE;
       exit;
    }
 
-   echo "DEBUG 9/15 create Logger configuration file<br/>";
+   echo "DEBUG 10/16 create Logger configuration file<br/>";
    $errStr = createLog4phpFile();
    if (NULL != $errStr) {
       echo "<span class='error_font'>".$errStr."</span><br/>";
@@ -879,7 +977,7 @@ if ("checkReportsDir" == $action) {
       exit;
    }
 
-   echo "DEBUG 10/15 create output directories (logs, reports, cache)<br/>";
+   echo "DEBUG 11/16 create output directories (logs, reports, cache)<br/>";
    $errStr = Tools::checkOutputDirectories();
    if (NULL !== $errStr) {
       echo "<span class='error_font'>".nl2br($errStr)."</span><br/>";
@@ -888,7 +986,7 @@ if ("checkReportsDir" == $action) {
    }
 
    // Create default tasks
-   echo "DEBUG 11/15 Create external tasks<br/>";
+   echo "DEBUG 12/16 Create external tasks<br/>";
    $extproj = ProjectCache::getInstance()->getProject($extproj_id);
    $extTasksCatLeave = Config::getInstance()->getValue(Config::id_externalTasksCat_leave);
    $extTasksCatOther = Config::getInstance()->getValue(Config::id_externalTasksCat_otherInternal);
@@ -904,7 +1002,7 @@ if ("checkReportsDir" == $action) {
    // Note: Support & N/A jobs already created by SQL file
    // Note: N/A job association to ExternalTasksProject already done in Install::createExternalTasksProject()
 
-   echo "DEBUG 12/15 Create default jobs<br/>";
+   echo "DEBUG 13/16 Create default jobs<br/>";
    if ($isJob1) {
       Jobs::create($job1, Job::type_commonJob, $job1_color);
    }
@@ -922,7 +1020,7 @@ if ("checkReportsDir" == $action) {
    }
 
    // Set default Issue tooltip content
-   echo "DEBUG 13/15 Set default content for Issue tooltip <br/>";
+   echo "DEBUG 14/16 Set default content for Issue tooltip <br/>";
    $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
    $backlogField = Config::getInstance()->getValue(Config::id_customField_backlog);
    $fieldList = array('project_id', 'category_id', 'custom_'.$customField_type,
@@ -932,7 +1030,7 @@ if ("checkReportsDir" == $action) {
 
 
    // Add custom fields to existing projects
-   echo "DEBUG 14/15 Prepare existing projects<br/>";
+   echo "DEBUG 15/16 Prepare existing projects<br/>";
    if(isset($_POST['projects']) && !empty($_POST['projects'])){
       $selectedProjects = $_POST['projects'];
       foreach($selectedProjects as $projectid){
@@ -942,7 +1040,7 @@ if ("checkReportsDir" == $action) {
       }
    }
 
-   echo "DEBUG 15/15 Install Mantis plugin<br/>";
+   echo "DEBUG 16/16 Install Mantis plugin<br/>";
    installMantisPlugin();
 
    echo "DEBUG done.<br/>";
@@ -962,8 +1060,8 @@ displayForm($originPage, $codevOutputDir, $checkReportsDirError,
    $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,
    $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
    $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
-   $projectList, $extIdCustomFieldCandidates, $userList,
-   $is_modified);
+   $projectList, $groupExtID, $extIdCustomFieldCandidates, $extIdCustomField, $userList, $admin_id,
+   $is_modified, $statusList, $status_new, $status_feedback, $status_open, $status_closed);
 
 ?>
 
