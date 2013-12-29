@@ -500,7 +500,7 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
 
    // ------ Reports
    echo "<h2>".T_("Path to output files")."</h2>\n";
-   echo "<span class='help_font'>".T_("Path to log files and other temporary files.")."<br>".T_("Note: <b>/var/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access.")."</span><br><br>\n";
+   echo "<span class='help_font'>".T_("Path to log files and other temporary files.")."<br>".T_("Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access.")."</span><br><br>\n";
    echo "<code><input size='50' type='text' style='font-family: sans-serif' name='outputDir'  id='outputDir' value='$defaultOutputDir'></code></td>\n";
    echo "<input type=button value='".T_("Check")."' onClick='javascript: checkReportsDir()'>\n";
 
@@ -838,7 +838,7 @@ $adminTeamName = T_("CodevTT admin");
 $defaultCodevttAdmin = 1; // 1 is mantis administrator
 
 #$defaultReportsDir = "\\\\172.24.209.4\Share\FDJ\Codev_Reports";
-$defaultReportsDir = "/var/codevtt";
+$defaultReportsDir = "/var/tmp/codevtt";
 
 $action               = isset($_POST['action']) ? $_POST['action'] : '';
 $is_modified          = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
