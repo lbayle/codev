@@ -22,7 +22,7 @@ require('../path.inc.php');
 
 require_once('i18n/i18n.inc.php');
 
-$page_name = T_("Installation finished");
+$page_name = T_("Install - Step 4");
 require_once('install/install_header.inc.php');
 
 Config::getInstance()->setQuiet(true);
@@ -33,48 +33,39 @@ require_once('install/install_menu.inc.php');
 
 function displayPage() {
 
-      // relative path ("./" or "../")
-      // absolute path is preferable for IE/W3C compatibility
-      $rootWebSite = is_null(Constants::$codevURL) ? '../' : Constants::$codevURL;
+   // relative path ("./" or "../")
+   // absolute path is preferable for IE/W3C compatibility
+   $rootWebSite = is_null(Constants::$codevURL) ? '../' : Constants::$codevURL;
+   if ('/' !== substr($rootWebSite, -1)) { $rootWebSite .= '/'; }
 
-      if ('/' !== substr($rootWebSite, -1)) {
-         $rootWebSite .= '/';
-      }
+   $rootMantisURL = is_null(Constants::$mantisURL) ? '../../mantis/' : Constants::$mantisURL;
+   if ('/' !== substr($rootMantisURL, -1)) { $rootMantisURL .= '/'; }
 
-   echo "<div style='margin-top:6em;'>
+   echo "<h1 class='center'>Manual steps</h1>";
 
-   <h1 class='center'>Congratulations !</h1>
-   <div class='center'>CodevTT is now installed.</div>
+   echo "<div style='margin-top:6em;'>";
 
-   <div class='left'  style='margin-top:6em;'>
-      <h2>What's next ?</h2>
-      <strong>CodevTT / Mantis configuration</strong>
-      <ul>
-         <li>Open MantisBT and activate the 'CodevTT' plugin</li>
-         <li>If you use firefox, install <a href='https://addons.mozilla.org/fr/firefox/addon/greasemonkey/' target='_blank't>greasemonkey</a></li>
-         <li>Install <a href='".$rootWebSite."mantis_monkey.user.js' target='_blank't>greasemonkey script</a></li>
-         <li>Delete codevTT install directory</li>
-      </ul>
-   </div>
+   echo "<h2>".T_("Activate the 'CodevTT' Plugin in Mantis")."</h2>";
+   echo '<ul>';
+   echo '<li>'.T_("Login to Mantis as 'Administrator'.").'</li>';
+   echo '<li>'.T_("Go to the <a href=' ".$rootMantisURL."manage_plugin_page.php' target='_blank't>manage plugins</a> page.").'</li>';
+   echo '<li>'.T_('Install the CodevTT plugin.').'</li>';
+   echo '</ul>';
 
-   <div class='left'  style='margin-top:3em;'>
-      <strong>Start working</strong>
-      <ul>
-         <li><a href='".$rootWebSite."index.php' title='CodevTT & Mantis share the same users' target='_blank't>login !</a></li>
-         <li>Go to the <a href='".$rootWebSite."admin/create_team.php' target='_blank't>create team</a> page and create your team</li>
-         <li>In the <a href='".$rootWebSite."admin/edit_team.php' target='_blank't>edit team</a> page, add members & projects to your team</li>
-      </ul>
-       <span class='help_font'>Note: CodevTT & Mantis share the same users</span>
-   </div>
+   echo '<br>';
 
-   <div class='left'  style='margin-top:3em;'>
-      <strong>Troubleshooting</strong>
-      <ul>
-         <li>Please check the <a href='http://codevtt.org/site/?forum=installation' target='_blank't>Installation forum</a></li>
-      </ul>
-   </div>
+   echo "<h2>".T_("Install Firefox Greasemonkey addon")."</h2>";
+   echo "<span class='help_font'>".T_("Note: This step is optional")."</span>";
+   echo "<ul>
+         <li>".T_("Install addon:")." <a href='https://addons.mozilla.org/fr/firefox/addon/greasemonkey/' target='_blank't>greasemonkey</a></li>
+         <li>".T_("Load script:")." <a href='".$rootWebSite."mantis_monkey.user.js' target='_blank't>mantis_monkey.user.js</a></li>
+         </ul>";
 
-</div>";
+   echo "</div>";
+
+   echo "<div  style='text-align: center;'>\n";
+   echo "<input type=button style='font-size:150%' value='".T_("Done !")."' onClick=\"location.href='install_step5.php'\">\n";
+   echo "</div>\n";
 }
 
 function displayFooter() {

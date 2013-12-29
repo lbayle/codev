@@ -34,27 +34,37 @@ $fourthStep="install_step3.php";
 $fourthLinkName = T_("Step 3");
 $fourthLink = "<a href='".Tools::getServerRootURL().$installFolder.$fourthStep."' title='".$fourthLinkName."'>".$fourthLinkName."</a>";
 
+$fifthStep="install_step4.php";
+$fifthLinkName = T_("Step 4");
+$fifthLink = "<a href='".Tools::getServerRootURL().$installFolder.$fifthStep."' title='".$fifthLinkName."'>".$fifthLinkName."</a>";
+
 // Don't show the link if we are already on the page
 if(strpos($_SERVER['REQUEST_URI'],$firstStep)) {
     $firstLink = $firstLinkName;
     $thirdLink = $thirdLinkName;
     $fourthLink = $fourthLinkName;
+    $fifthLink = $fifthLinkName;
 } elseif(strpos($_SERVER['REQUEST_URI'],$secondStep)) {
     $secondLink = $secondLinkName;
     $thirdLink = $thirdLinkName;
     $fourthLink = $fourthLinkName;
+    $fifthLink = $fifthLinkName;
 } elseif(strpos($_SERVER['REQUEST_URI'],$thirdStep)) {
     $thirdLink = $thirdLinkName;
     $fourthLink = $fourthLinkName;
+    $fifthLink = $fifthLinkName;
 } elseif(strpos($_SERVER['REQUEST_URI'],$fourthStep)) {
     $fourthLink = $fourthLinkName;
+    $fifthLink = $fifthLinkName;
+} elseif(strpos($_SERVER['REQUEST_URI'],$fifthStep)) {
+    $fifthLink = $fifthLinkName;
 }
 
 echo "<div class='menu'>\n";
 echo "  <table  style='margin-top: 2em'>\n";
 echo "    <tr>\n";
 echo "      <td><a href='http://".$_SERVER['HTTP_HOST']."/mantis' title='MantisBT'>Mantis</a></td>\n";
-echo "      <td>".$firstLink." | ".$secondLink." | ".$thirdLink." | ".$fourthLink."</td>\n";
+echo "      <td>".$firstLink." | ".$secondLink." | ".$thirdLink." | ".$fourthLink." | ".$fifthLink."</td>\n";
 echo "      <td><a target='blank' href='".Tools::getServerRootURL()."/doc/INSTALL.html' title='".T_("Documentation")."'>Install Doc</a></td>\n";
 echo "    </tr>\n";
 echo "  </table>\n";
