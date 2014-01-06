@@ -187,6 +187,9 @@ function stringReplacements($StrReplacements) {
       $query  = "UPDATE codev_commandset_table set `name` = REPLACE(`name`,'$orig','$dest')";
       $result = execQuery($query);
 
+      $query  = "UPDATE codev_wbs_table set `title` = REPLACE(`title`,'$orig','$dest')";
+      $result = execQuery($query);
+
       $query  = "UPDATE mantis_bug_table set `summary` = REPLACE(`summary`,'$orig','$dest')";
       $result = execQuery($query);
 
@@ -326,7 +329,7 @@ function updateProjects() {
 // ================ MAIN =================
 $logger = Logger::getLogger("create_fake_db");
 
-$projectidList = array(14,16,18,19,23,24,25,39,51,54,55,56);
+$projectidList = array(14,16,18,19,23,24,25,39,51,54,55,56,57);
 
 $projectNames = array(
     'TSUNO',
@@ -343,7 +346,14 @@ $projectNames = array(
     'RAVEL',
     'OHANA',
     'BIRELLI',
-    'PASTORIUS');
+    'PASTORIUS',
+    'HUNZA WATER',
+    'GAUDI',
+    'FIANAR',
+    'BARBAPAPA',
+    'LAHORE',
+    '',
+   );
 
 $StrReplacements = array(
     'CMS_INDE' => 'TSUNO',
