@@ -77,11 +77,14 @@ class TimeTrackingTools {
             // if no backlog set, display a '?' to allow Backlog edition
             if(is_numeric($backlog)) {
                $formattedBacklog = $backlog;
+               // prepare json data for the BacklogDialogbox
+               $jsonIssueInfo = self::getUpdateBacklogJsonData($bugid, $jobid, $teamid, $userid);
             } else {
                #if (($team->isSideTasksProject($issue->projectId)) ||
                #    ($team->isNoStatsProject($issue->projectId))) {
                // do not allow to edit sideTasks Backlog
                $formattedBacklog = '';
+               $jsonIssueInfo = '';
                #} else {
                #   $formattedBacklog = '?';
                #}
@@ -143,10 +146,6 @@ class TimeTrackingTools {
             } else {
             	$infoTooltip = '';
             }
-
-
-            // prepare json data for the BacklogDialogbox
-            $jsonIssueInfo = self::getUpdateBacklogJsonData($bugid, $jobid, $teamid, $userid);
 
             // prepare json data for the IssueNoteDialogbox
             if ($project != null) {
