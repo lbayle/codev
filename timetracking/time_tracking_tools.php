@@ -63,22 +63,28 @@ class TimeTrackingTools {
             $extRef = $issue->getTcId();
             $summary = $issue->getSummary();
             $description = SmartyTools::getIssueDescription($bugid,$extRef,$summary);
+            $projectId =$issue->getProjectId();
          } catch (Exception $e) {
             $backlog = '!';
             $extRef = '';
             $summary = '<span class="error_font">'.T_('Error: Task not found in Mantis DB !').'</span>';
-            $description = SmartyTools::getIssueDescription($bugid,$extRef,$summary);
+            //$description = SmartyTools::getIssueDescription($bugid,$extRef,$summary);
+            $description = Tools::mantisIssueURL($bugid, NULL, TRUE).' '.$bugid.' : '.$summary;
+            $projectId = -1;
          }
 
          foreach ($jobList as $jobid => $dayList) {
             // if no backlog set, display a '?' to allow Backlog edition
             if(is_numeric($backlog)) {
                $formattedBacklog = $backlog;
+               // prepare json data for the BacklogDialogbox
+               $jsonIssueInfo = self::getUpdateBacklogJsonData($bugid, $jobid, $teamid, $userid);
             } else {
                #if (($team->isSideTasksProject($issue->projectId)) ||
                #    ($team->isNoStatsProject($issue->projectId))) {
                // do not allow to edit sideTasks Backlog
                $formattedBacklog = '';
+               $jsonIssueInfo = '';
                #} else {
                #   $formattedBacklog = '?';
                #}
@@ -113,65 +119,74 @@ class TimeTrackingTools {
 
                $totalElapsed[$weekDates[$i]]['elapsed'] += $day;
             }
-
+/*          
             $deadline = $issue->getDeadLine();
+
             if (!is_null($deadline) || (0 != $deadline)) {
                $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $deadline);
             }
-
-            $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
-
-            if ((!$project->isSideTasksProject(array($teamid))) &&
-                (!$project->isExternalTasksProject())) {
-
-               // TODO does $issue belong to current team's project ? what if not ?
-               $tooltipAttr = $issue->getTooltipItems($teamid, $userid);
-
-               $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
+*/
+            try {
+            	$project = ProjectCache::getInstance()->getProject($projectId);
+            } catch (Exception $e) {
+            	$project = null;
+            }
+            
+            if ($project != null) {
+	            if ((!$project->isSideTasksProject(array($teamid))) &&
+	                (!$project->isExternalTasksProject())) {
+	
+	               // TODO does $issue belong to current team's project ? what if not ?
+	               $tooltipAttr = $issue->getTooltipItems($teamid, $userid);
+	
+	               $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
+	            } else {
+	               $infoTooltip = '';
+	            }
             } else {
-               $infoTooltip = '';
+            	$infoTooltip = '';
             }
 
-
-            // prepare json data for the BacklogDialogbox
-            $jsonIssueInfo = self::getUpdateBacklogJsonData($issue->getId(), $jobid, $teamid, $userid);
-
             // prepare json data for the IssueNoteDialogbox
-            if ((!$project->isSideTasksProject(array($teamid))) &&
-                (!$project->isExternalTasksProject())) {
-
-               $issueNote = IssueNote::getTimesheetNote($issue->getId());
-               if (!is_null($issueNote)) {
-                  $issueNoteId = $issueNote->getId();
-                  $user = UserCache::getInstance()->getUser($issueNote->getReporterId());
-                  $rawNote = $issueNote->getText();
-                  $note = trim(IssueNote::removeAllReadByTags($rawNote));
-
-                  // used for the tooltip NOT the dialoBox
-                  $tooltipAttr = array (
-                     'reporter' => $user->getRealname(),
-                     'date' => date('Y-m-d H:i:s', $issueNote->getLastModified()),
-                     'Note' => $note,
-                  );
-                  $readByList = $issueNote->getReadByList(TRUE);
-                  if (0 != count($readByList)) {
-                     $tooltipAttr['Read by'] = implode(', ', array_keys($readByList));
-                  }
-
-                  $noteTooltip = Tools::imgWithTooltip('images/b_note.png', $tooltipAttr, NULL, 'js-add-note-link', ' style="cursor: pointer;" data-bugId="'.$issueNote->getBugId().'"');
-               } else {
-                  $issueNoteId = 0;
-                  $noteTooltip = Tools::imgWithTooltip('images/b_note_grey.png', T_('Click to add a note'), NULL, 'js-add-note-link', ' style="cursor: pointer;" data-bugId="'.$issue->getId().'"');
-               }
+            if ($project != null) {
+	            if ((!$project->isSideTasksProject(array($teamid))) &&
+	                (!$project->isExternalTasksProject())) {
+	
+	               $issueNote = IssueNote::getTimesheetNote($issue->getId());
+	               if (!is_null($issueNote)) {
+	                  $issueNoteId = $issueNote->getId();
+	                  $user = UserCache::getInstance()->getUser($issueNote->getReporterId());
+	                  $rawNote = $issueNote->getText();
+	                  $note = trim(IssueNote::removeAllReadByTags($rawNote));
+	
+	                  // used for the tooltip NOT the dialoBox
+	                  $tooltipAttr = array (
+	                     'reporter' => $user->getRealname(),
+	                     'date' => date('Y-m-d H:i:s', $issueNote->getLastModified()),
+	                     'Note' => $note,
+	                  );
+	                  $readByList = $issueNote->getReadByList(TRUE);
+	                  if (0 != count($readByList)) {
+	                     $tooltipAttr['Read by'] = implode(', ', array_keys($readByList));
+	                  }
+	
+	                  $noteTooltip = Tools::imgWithTooltip('images/b_note.png', $tooltipAttr, NULL, 'js-add-note-link', ' style="cursor: pointer;" data-bugId="'.$issueNote->getBugId().'"');
+	               } else {
+	                  $issueNoteId = 0;
+	                  $noteTooltip = Tools::imgWithTooltip('images/b_note_grey.png', T_('Click to add a note'), NULL, 'js-add-note-link', ' style="cursor: pointer;" data-bugId="'.$issue->getId().'"');
+	               }
+	            } else {
+	               $noteTooltip = '';
+	            }
             } else {
-               $noteTooltip = '';
+            	$noteTooltip = '';
             }
 
             // if project not declared in current team, then
             // user cannot add a timetrack by clicking in the weekTasks table
             // Note: (this would generate an error on addTimetrack)
             $team = TeamCache::getInstance()->getTeam($teamid);
-            $isTeamProject = !is_null($team->getProjectType($issue->getProjectId()));
+            $isTeamProject = !is_null($team->getProjectType($projectId));
 
             $weekTasks[$bugid."_".$jobid] = array(
                'bugid' => $bugid,
@@ -401,30 +416,56 @@ class TimeTrackingTools {
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $backlog = $issue->getBacklog();
          $summary = $issue->getSummary();
+         $drift = $issue->getDrift();
+         $effortEstim = $issue->getEffortEstim();
+         $effortAdd = $issue->getEffortAdd();
+         $formattedIds = $issue->getFormattedIds();
+         $mgrEffortEstim = $issue->getMgrEffortEstim();
+         $elapsed = $issue->getElapsed();
+         $driftMgr = $issue->getDriftMgr();
+         $reestimated = $issue->getReestimated();
+         $driftColor = $issue->getDriftColor($drift);
+         $currentStatus = $issue->getCurrentStatus();
+         $availableStatusList = $issue->getAvailableStatusList(true);
+         $bugResolvedStatusThreshold = $issue->getBugResolvedStatusThreshold();
+         $deadline = $issue->getDeadLine();
       } catch (Exception $e) {
          $backlog = '!';
          $summary = '<span class="error_font">'.T_('Error: Task not found in Mantis DB !').'</span>';
+         $drift = 0;
+         $effortEstim = 0;
+         $effortAdd = 0;
+         $formattedIds = -1;
+         $mgrEffortEstim = 0;
+         $elapsed = 0;
+         $driftMgr = 0;
+         $reestimated = 0;
+         $driftColor = null;
+         $currentStatus = 0;
+         $availableStatusList = array();
+         $bugResolvedStatusThreshold = 0;
+         $deadline = null;
       }
 
       // prepare json data for the BacklogDialogbox
-      $drift = $issue->getDrift();
-      $totalEE = ($issue->getEffortEstim() + $issue->getEffortAdd());
+      
+      $totalEE = $effortEstim + $effortAdd;
       $issueInfo = array(
          'trackUserid' => $managedUserid,
          'currentBacklog' => $backlog,
-         'bugid' => $issue->getId(),
+         'bugid' => $bugid,
          'summary' => $summary,
-         'dialogBoxTitle' => $issue->getFormattedIds(),
+         'dialogBoxTitle' => $formattedIds,
          'effortEstim' => $totalEE,
-         'mgrEffortEstim' => $issue->getMgrEffortEstim(),
-         'elapsed' => $issue->getElapsed(),
+         'mgrEffortEstim' => $mgrEffortEstim,
+         'elapsed' => $elapsed,
          'drift' => $drift,
-         'driftMgr' => $issue->getDriftMgr(),
-         'reestimated' => $issue->getReestimated(),
-         'driftColor' => $issue->getDriftColor($drift),
-         'currentStatus' => $issue->getCurrentStatus(),
-         'availableStatusList' => $issue->getAvailableStatusList(true),
-         'bugResolvedStatusThreshold' =>  $issue->getBugResolvedStatusThreshold(),
+         'driftMgr' => $driftMgr,
+         'reestimated' => $reestimated,
+         'driftColor' => $driftColor,
+         'currentStatus' => $currentStatus,
+         'availableStatusList' => $availableStatusList,
+         'bugResolvedStatusThreshold' =>  $bugResolvedStatusThreshold,
          'trackDuration' => $trackDuration,
          'trackJobid' => $trackJobid,
       );
@@ -452,7 +493,6 @@ class TimeTrackingTools {
          $issueInfo['calculatedBacklog'] = $calculatedBacklog;
       }
 
-      $deadline = $issue->getDeadLine();
       if (!is_null($deadline) || (0 != $deadline)) {
          $formatedDate = Tools::formatDate("%Y-%m-%d", $deadline);
          $issueInfo['deadline'] = $formatedDate;
