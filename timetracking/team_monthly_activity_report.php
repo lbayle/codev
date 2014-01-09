@@ -102,28 +102,40 @@ class TeamMonthlyActivityReportController extends Controller {
          }
 
          if (!array_key_exists($bugid, $userList["$userid"]['tasks'])) {
-            $issue = IssueCache::getInstance()->getIssue($bugid);
-            $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
 
-            if ((!$project->isSideTasksProject(array($this->teamid))) &&
-                (!$project->isExternalTasksProject())) {
-               $tooltipAttr = $issue->getTooltipItems($this->teamid, $this->session_userid);
-               $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
+            try {
+               $issue = IssueCache::getInstance()->getIssue($bugid);
+               $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
 
-               $progress = round(100 * $issue->getProgress());
-               $backlog = $issue->getBacklog();
-            } else {
-               $infoTooltip = NULL;
-               $progress = NULL;
-               $backlog = NULL;
+               if ((!$project->isSideTasksProject(array($this->teamid))) &&
+                   (!$project->isExternalTasksProject())) {
+                  $tooltipAttr = $issue->getTooltipItems($this->teamid, $this->session_userid);
+                  $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
+
+                  $progress = round(100 * $issue->getProgress());
+                  $backlog = $issue->getBacklog();
+               } else {
+                  $infoTooltip = NULL;
+                  $progress = NULL;
+                  $backlog = NULL;
+               }
+               $projectName = $issue->getProjectName();
+               $summary = SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary());
+
+            } catch (Exception $e) {
+                  $infoTooltip = NULL;
+                  $progress = NULL;
+                  $backlog = NULL;
+                  $projectName = '<span class="error_font">'.T_('Error').'</span>';
+                  $summary = $bugid.' : <span class="error_font">'.T_('Error: Task not found in Mantis DB !').'</span>';
+
             }
-
 
             $userList["$userid"]['tasks']["$bugid"] = array(
                 'id' => $bugid,
                 'infoTooltip' => $infoTooltip,
-                'projectName' => $issue->getProjectName(),
-                'summary' => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary()),
+                'projectName' => $projectName,
+                'summary' => $summary,
                 'progress' => $progress,
                 'backlog' => $backlog,
                 'elapsedInPeriod' => 0

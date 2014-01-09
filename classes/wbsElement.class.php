@@ -478,7 +478,11 @@ class WBSElement extends Model {
                   $bugids = $this->getBugidList($wbselement->getId());
                   $isel = new IssueSelection("wbs_".$wbselement->getId());
                   foreach($bugids as $bugid) {
-                     $isel->addIssue($bugid);
+                     try {
+                        $isel->addIssue($bugid);
+                     } catch (Exception $e) {
+                        self::$logger->error("Issue $bugid does not exist in Mantis DB.");
+                     }
                   }
                   if ($isManager) {
                      $effortEstim = $isel->getMgrEffortEstim();
@@ -503,8 +507,8 @@ class WBSElement extends Model {
                $childArray['children'] = $wbselement->getDynatreeData($hasDetail, $isManager, $teamid);
             } else {
 
-               $issue = IssueCache::getInstance()->getIssue($wbselement->getBugId());
-               if ($issue) {
+               try {
+                  $issue = IssueCache::getInstance()->getIssue($wbselement->getBugId());
                   $detail = '';
                   if ($hasDetail) {
 
@@ -552,10 +556,10 @@ class WBSElement extends Model {
 
                   #$childArray['icon'] = 'mantis_ico.gif';
 
-               } else {
-                  $childArray['title'] = 'ERROR';
+               } catch (Exception $e) {
+                  $childArray['title'] = $wbselement->getBugId().' - '.T_('Error: Task not found in Mantis DB !');
                   $childArray['isFolder'] = false;
-                  self::$logger->error("The issue does not exist!");
+                  self::$logger->error("Issue $bugid does not exist in Mantis DB.");
                }
             }
             if (sizeof($childArray) > 0)
@@ -569,7 +573,11 @@ class WBSElement extends Model {
                $bugids = $this->getBugidList($this->id);
                $isel = new IssueSelection("wbs_".$wbselement->getId());
                foreach($bugids as $bugid) {
-                  $isel->addIssue($bugid);
+                  try {
+                     $isel->addIssue($bugid);
+                  } catch (Exception $e) {
+                     self::$logger->error("Issue $bugid does not exist in Mantis DB.");
+                  }
                }
                if ($isManager) {
                   $effortEstim = $isel->getMgrEffortEstim();
