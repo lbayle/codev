@@ -20,7 +20,7 @@
             <param name="conversionPattern" value="%d{Y-m-d H:i:s} %c %-5p %m (%F:%L) [%server{REMOTE_ADDR}]%n" />
         </layout>
         <param name="file" value="@TAG_CODEVTT_LOGFILE_FULLPATH@" />
-        <param name="maxFileSize" value="6MB" />
+        <param name="maxFileSize" value="2MB" />
         <param name="maxBackupIndex" value="5" />
     </appender>
 
@@ -32,7 +32,7 @@
             <param name="conversionPattern" value="%d{Y-m-d H:i:s} %c %-5p %m [%server{REMOTE_ADDR}]%n" />
         </layout>
         <param name="file" value="@TAG_CODEVTT_LOGFILE_FULLPATH@" />
-        <param name="maxFileSize" value="6MB" />
+        <param name="maxFileSize" value="2MB" />
         <param name="maxBackupIndex" value="5" />
     </appender>
 

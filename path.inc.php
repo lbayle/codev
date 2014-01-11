@@ -65,11 +65,14 @@ try {
          Logger::configure($filename);
       }
 
-      if (!file_exists(Constants::$codevtt_logfile)) {
+      // $codevtt_logfile is NULL or empty during install, but empty() does not work ?
+      if ((strlen(Constants::$codevtt_logfile) > 0) &&
+          (!file_exists(Constants::$codevtt_logfile))) {
+
          $errStr = Tools::checkWriteAccess(dirname(Constants::$codevtt_logfile));
          if (NULL !== $errStr) { throw new Exception($errStr); }
-         
-         $errStr = @file_put_contents(Constants::$codevtt_logfile, date('Y-m-d G:i:s').' - logfile creation.');
+
+         $errStr = @file_put_contents(Constants::$codevtt_logfile, date('Y-m-d G:i:s')." - logfile creation.\n");
          if (FALSE === $errStr) {
             throw new Exception('Could not create file '.Constants::$codevtt_logfile);
          }
