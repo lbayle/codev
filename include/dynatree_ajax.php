@@ -29,8 +29,6 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
             $logger->debug("saveWBS (root=$root_id) : \n$aa");
          }
 
-         file_put_contents('/tmp/tree.txt', "=== NEW ".time()."\n");
-
          if (!is_null($nodesToDelete)) {
             foreach ($nodesToDelete as $folder_id) {
                $f = new WBSElement($folder_id, $root_id);
@@ -50,9 +48,6 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
          $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
          $session_user = UserCache::getInstance()->getUser($userid);
          $isManager = $session_user->isTeamManager($teamid);
-
-			//file_put_contents('/tmp/loadWBS.txt', "=== ".date('Ymd')."\n");
-			//file_put_contents('/tmp/loadWBS.txt', "root_id = $root_id \n", FILE_APPEND);
 
 			$rootElement = new WBSElement($root_id);
 			$dynatreeDict = $rootElement->getDynatreeData($hasDetail, $isManager, $teamid);

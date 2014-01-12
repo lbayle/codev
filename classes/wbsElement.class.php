@@ -620,10 +620,7 @@ class WBSElement extends Model {
 	 */
 	public static function updateFromDynatree($dynatreeDict, $root_id = NULL, $parent_id = NULL, $order = 1) {
 
-      file_put_contents('/tmp/tree.txt', "=============\n", FILE_APPEND);
-      file_put_contents('/tmp/tree.txt', "root $root_id, parent $parent_id, order $order \n", FILE_APPEND);
       $aa = var_export($dynatreeDict, true);
-      file_put_contents('/tmp/tree.txt', "aa=".$aa."\n", FILE_APPEND);
       if (self::$logger->isDebugEnabled()) {
          self::$logger->debug("updateFromDynatree(root=$root_id, parent=$parent_id, order=$order) : \n$aa");
          //self::$logger->debug($aa);
@@ -642,12 +639,10 @@ class WBSElement extends Model {
 
          // new created folders have an id starting with '_'
          if (substr($id, 0, 1) === '_') {
-            file_put_contents('/tmp/tree.txt', "is new Folder !\n", FILE_APPEND);
             $id = NULL;
          }
 
 			$bug_id = NULL;
-         file_put_contents('/tmp/tree.txt', "isFolder, id = $id\n", FILE_APPEND);
 		} else {
 			$bug_id = $dynatreeDict['key'];
 
@@ -664,7 +659,6 @@ class WBSElement extends Model {
 			if (!is_null($row)) {
 				$id = $row->id;
 			}
-         file_put_contents('/tmp/tree.txt', "Issue id = $id, bug_id = $bug_id, \n", FILE_APPEND);
 		}
 
 		// create Element
