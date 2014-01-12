@@ -96,6 +96,37 @@ function createLog4phpFile() {
 }
 
 
+   /**
+    * append content of $toAppendFile at the end of $destFile
+    * $destFile is created if !exists
+
+    * @param String $destFile file to edit
+    * @param String $toAppendFile content to append
+    * @param String $checkStr if str found in $destFile, work will not be done.
+    */
+   function appendToFile($destFile, $toAppendFile, $checkStr = NULL) {
+
+      // write constants
+      $content = @file_get_contents($toAppendFile, true);
+      if (FALSE === $content) {
+         return "ERROR: Could not read file: " . $toAppendFile . "</br>";
+      } else {
+         if (is_null($checkStr)) { $checkStr = $content; }
+
+         // check if already added
+         $destContent = @file_get_contents($destFile);
+         if ((!file_exists($destFile)) ||
+             (FALSE === strpos($destContent, $checkStr))) {
+            $errStr = @file_put_contents($destFile, $content, FILE_APPEND);
+            if (FALSE === $errStr) {
+               return "ERROR: Could not update file " . $destFile . ": $errStr</br>";
+            }
+         }
+      }
+      // SUCCESS
+      return NULL;
+   }
+
 /**
  * insert CodevTT config in Mantis custom files.
  *
@@ -109,60 +140,20 @@ function createLog4phpFile() {
  * NOTE: needs write access in mantis directory
  */
 function updateMantisCustomFiles() {
-   global $logger;
 
    $mantisPath = Constants::$mantisPath;
 
-   // write constants
-   $myFile = "$mantisPath/custom_constants_inc.php";
-   $fh = fopen($myFile, 'a');
-   if (FALSE != $fh) {
-      $content = file_get_contents(Install::FILENAME_CUSTOM_CONSTANTS_CODEVTT, true);
-      if (FALSE == $content) {
-         echo "ERROR: Could not read file: " . Install::FILENAME_CUSTOM_CONSTANTS_CODEVTT . "</br>";
-         $logger->error("Could not read file in append mode: " . Install::FILENAME_CUSTOM_CONSTANTS_CODEVTT);
-      } else {
-         fwrite($fh, $content);
-      }
-      fclose($fh);
-   } else {
-      echo "ERROR: Could not edit file: " . $myFile . "</br>";
-      $logger->error("Could not open file in append mode: " . $myFile);
-   }
+   $retCode1 = appendToFile($mantisPath.'/custom_constants_inc.php',
+                            Install::FILENAME_CUSTOM_CONSTANTS_CODEVTT,
+                            'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY');
 
-   // write strings
-   $myFile = "$mantisPath/custom_strings_inc.php";
-   $fh = fopen($myFile, 'a');
-   if (FALSE != $fh) {
-      $content = file_get_contents(Install::FILENAME_CUSTOM_STRINGS_CODEVTT, true);
-      if (FALSE == $content) {
-         echo "ERROR: Could not read file: " . Install::FILENAME_CUSTOM_STRINGS_CODEVTT . "</br>";
-         $logger->error("Could not read file in append mode: " . Install::FILENAME_CUSTOM_STRINGS_CODEVTT);
-      } else {
-         fwrite($fh, $content);
-      }
-      fclose($fh);
-   } else {
-      echo "ERROR: Could not edit file: " . $myFile . "</br>";
-      $logger->error("Could not open file in append mode: " . $myFile);
-   }
+   $retCode2 = appendToFile($mantisPath.'/custom_strings_inc.php',
+                            Install::FILENAME_CUSTOM_STRINGS_CODEVTT,
+                            's_rel_constrained_by');
 
-   // write relationships
-   $myFile = "$mantisPath/custom_relationships_inc.php";
-   $fh = fopen($myFile, 'a');
-   if (FALSE != $fh) {
-      $content = file_get_contents(Install::FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT, true);
-      if (FALSE == $content) {
-         echo "ERROR: Could not read file: " . Install::FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT . "</br>";
-         $logger->error("Could not read file in append mode: " . Install::FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT);
-      } else {
-         fwrite($fh, $content);
-      }
-      fclose($fh);
-   } else {
-      echo "ERROR: Could not edit file: " . $myFile . "</br>";
-      $logger->error("Could not open file in append mode: " . $myFile);
-   }
+   $retCode3 = appendToFile($mantisPath.'/custom_relationships_inc.php',
+                            Install::FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT,
+                            'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY');
 }
 
 /**
