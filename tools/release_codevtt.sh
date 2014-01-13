@@ -49,14 +49,15 @@ DisplayHelp()
 
 f_release()
 {
+  rm -rf doc/apache
+  rm -rf doc/architecture
   rm -rf doc/en
+  rm -rf doc/fr/Archives
   rm -rf doc/fdj
   rm -rf doc/git_config
-  rm -rf doc/mantis_config
+  rm -rf doc/mantis_config/*.sql
   rm -rf doc/phpdoc
   rm -rf doc/screenshots
-  rm -rf doc/TopCased
-  rm -rf doc/fr/Archives
   find doc -name "*.od?" | xargs rm
 
   rm images/*.sumo
@@ -69,6 +70,7 @@ f_release()
 
   rm tools/create_fake_db.php
   rm tools/create_class_map.php
+  rm tools/release_codevtt.php
   rm tools/phpinfo.php
   rm tools/session.php
   rm tools/locale.php

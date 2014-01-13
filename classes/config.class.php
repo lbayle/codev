@@ -68,7 +68,7 @@ class ConfigItem {
 class Config {
 
    // TODO Move to a more appropriate class
-   const codevVersion = "v0.99.25 RC1";
+   const codevVersion = "v1.0.0 RC1 (13 Jan  2014)";
    const databaseVersion = 13; // used to check codev_config_table.database_version and apply upgrades.
 
    const configType_int = 1;
@@ -144,7 +144,7 @@ class Config {
       "v0.99.22" => "(25 Jun  2013) - install:log4php.xml, no default backlog, ExtTasksProjects categories, accessLevel_Customer, Fix SessionName, Fix reverseProxy",
       "v0.99.23" => "(01 Sep  2013) - install:windows, upgradeLog4php, basepath, IE, TimesheetNotes, ElapsedPerProjectPerUser, pageHeader, createSTProj, greaseMonkey, forecastingLateTasks",
       "v0.99.24" => "(04 Nov  2013) - install:windows, BL dialogBox, holidays:ifNotInTeam, doodles, IE, log4php, JsErrorCatch",
-      "v0.99.25" => "(?? ???  2014) - WBS",
+      "v1.0.0 RC1" => "(13 Jan  2014) - WBS, install, log file creation if missing",
    );
 
    /**
