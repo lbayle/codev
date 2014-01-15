@@ -235,6 +235,7 @@
                {/foreach}
             </select>
             <select id="duree" name="duree" title="{t}Duration (in days){/t}">
+               <option  value="0"></option>
                {foreach from=$duration key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
                {/foreach}

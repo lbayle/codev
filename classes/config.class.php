@@ -113,6 +113,7 @@ class Config {
    const id_serviceContractFilters = "serviceContractFilters";
    const id_consistencyCheckList = 'consistencyCheckList';
    const id_teamGeneralPreferences = 'teamGeneralPreferences';
+   const id_durationList = 'durationList';
 
    const default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideDevProjects:0";
 
@@ -394,6 +395,37 @@ class Config {
       } else {
          self::$logger->warn("DELETE variable <$id> not found in cache !");
       }
+   }
+   
+   
+   public static function updateDuration($teamid, $duration) {
+   	  $query = "UPDATE `codev_config_table` SET value = '".json_encode($duration)."' WHERE config_id = '".
+     	  Config::id_durationList."' "."AND team_id = '".$teamid."'";
+   	  $result = SqlWrapper::getInstance()->sql_query($query);
+   	  if (!$result) {
+   	  	echo "<span style='color:red'>ERROR: Query FAILED</span>";
+   	  	exit;
+   	  }
+   }
+
+   public static function deleteDuration($teamid) {
+      $query = "DELETE FROM `codev_config_table` WHERE config_id = '".Config::id_durationList."' ".
+        "AND team_id = '".$teamid."'";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      	exit;
+      }
+   }
+   
+   public static function addDuration($teamid, $duration) {
+   	  $query = "INSERT INTO `codev_config_table` (config_id, value, type, team_id) VALUES ('".Config::id_durationList."',
+   	  		'".json_encode($duration)."','1','".$teamid."')";
+   	  $result = SqlWrapper::getInstance()->sql_query($query);
+   	  if (!$result) {
+   	  	echo "<span style='color:red'>ERROR: Query FAILED</span>";
+   	  	exit;
+   	  }
    }
 }
 
