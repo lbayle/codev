@@ -49,7 +49,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 
          $availableIssues = TimeTrackingTools::getIssues($teamid, $defaultProjectid, $isOnlyAssignedTo, $managedUserid, $projList, $isHideResolved, 0);
          $jobs = TimeTrackingTools::getJobs($defaultProjectid, $teamid);
-         $durations = TimeTrackingTools::getDurationList();
+         $durations = TimeTrackingTools::getDurationList($teamid);
 
          // return data
          $data = array(
