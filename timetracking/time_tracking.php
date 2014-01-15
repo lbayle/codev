@@ -222,7 +222,7 @@ class TimeTrackingController extends Controller {
             $this->smartyHelper->assign('issues', $availableIssues);
 
             $this->smartyHelper->assign('jobs', SmartyTools::getSmartyArray(TimeTrackingTools::getJobs($defaultProjectid, $this->teamid), $job));
-            $this->smartyHelper->assign('duration', SmartyTools::getSmartyArray(TimeTrackingTools::getDurationList(),$duration));
+            $this->smartyHelper->assign('duration', SmartyTools::getSmartyArray(TimeTrackingTools::getDurationList($this->teamid),$duration));
 
             $this->smartyHelper->assign('weeks', SmartyTools::getWeeks($weekid, $year));
             $this->smartyHelper->assign('years', SmartyTools::getYears($year,1));
