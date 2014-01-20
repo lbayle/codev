@@ -74,7 +74,10 @@ class Constants {
     */
    public static $maxTooltipsPerPage = 500;
 
-
+   // ---TIMESHEETS ---
+   public static $taskDurationList;
+   
+   
    /**
     * If true, then no info/warning messages will be displayed.
     * this shall only be set during install procedures.
@@ -179,6 +182,9 @@ class Constants {
             }
          }
       }
+      
+      $timesheets = $ini_array['timesheets'];
+      self::$taskDurationList = Tools::doubleExplode(':', ',', $timesheets['task_duration_list']);
 
       // -----
 
@@ -246,6 +252,9 @@ class Constants {
       foreach (self::$doodles as $key => $value) {
          $doodles[$key] = $value;
       }
+      
+      $timesheets = array();
+      $timesheets['task_duration_list'] = self::$taskDurationList ? Tools::doubleImplode(':', ',', self::$taskDurationList) : ' ';
 
       $ini_array = array();
       $ini_array[] = '; This file is part of CodevTT.';
@@ -268,6 +277,8 @@ class Constants {
       $ini_array['perf'] = $perf;
       $ini_array[] = '';
       $ini_array['doodles'] = $doodles;
+      $ini_array[] = '';
+      $ini_array['timesheets'] = $timesheets;
       $ini_array[] = '';
       $ini_array[] = '';
 

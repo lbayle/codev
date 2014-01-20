@@ -189,7 +189,8 @@ class Config {
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("id=$row->config_id, val=$row->value, type=$row->type");
          }
-         self::$configVariables[$row->config_id] = new ConfigItem($row->config_id, $row->value, $row->type);
+         $key = $row->config_id."_".$row->user_id.$row->project_id.$row->team_id.$row->servicecontract_id.$row->commandset_id.$row->command_id;
+         self::$configVariables[$key] = new ConfigItem($row->config_id, $row->value, $row->type);
       }
 
       if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
@@ -223,16 +224,25 @@ class Config {
    /**
     * @static
     * @param $id
+    * $param $arr_subid (array primary keys : user_id, project_id, team_id, servicecontract_id, commandset_id, command_id)
     * @return mixed
     */
-   public static function getValue($id) {
+   public static function getValue($id, $arr_subid=NULL) {
       $value = NULL;
-      $variable = isset(self::$configVariables[$id]) ? self::$configVariables[$id] : NULL;
-
+      $key = $id."_";
+      
+      if ($arr_subid == NULL) {
+     	  $arr_subid = array(0, 0, 0, 0, 0, 0);
+      }
+      foreach ($arr_subid as $subid) {
+      	$key .= $subid;
+      }
+      $variable = isset(self::$configVariables[$key]) ? self::$configVariables[$key] : NULL;
+      
       if (NULL != $variable) {
          $value = $variable->value;
       } else {
-         self::$logger->warn("getValue($id): variable not found !");
+         self::$logger->warn("getValue($id): variable not found !");         
          if (!self::$quiet) {
             echo "<span class='warn_font'>WARN: Config::getValue($id): variable not found !</span><br/>";
          }
@@ -249,9 +259,17 @@ class Config {
     * @param $value
     * @return mixed
     */
-   public static function getVariableKeyFromValue($id, $value) {
+   public static function getVariableKeyFromValue($id, $value, $arr_subid=NULL) {
       $key = NULL;
-      $variable = self::$configVariables[$id];
+   	  $new_id = $id."_";
+      
+      if ($arr_subid == NULL) {
+     	  $arr_subid = array(0, 0, 0, 0, 0, 0);
+      }
+      foreach ($arr_subid as $subid) {
+      	$new_id .= $subid;
+      }
+      $variable = self::$configVariables[$new_id];
       if (NULL != $variable) {
          $key = $variable->getArrayKeyFromValue($value);
       } else {
@@ -271,9 +289,17 @@ class Config {
     * @param $key
     * @return mixed
     */
-   public static function getVariableValueFromKey($id, $key) {
+   public static function getVariableValueFromKey($id, $key, $arr_subid=NULL) {
       $value = NULL;
-      $variable = self::$configVariables[$id];
+      $new_id = $id."_";
+      
+      if ($arr_subid == NULL) {
+      	$arr_subid = array(0, 0, 0, 0, 0, 0);
+      }
+      foreach ($arr_subid as $subid) {
+      	$new_id .= $subid;
+      }
+      $variable = self::$configVariables[$new_id];
 
       if (NULL != $variable) {
          $value = $variable->getArrayValueFromKey($key);
@@ -291,9 +317,17 @@ class Config {
     * @param $id
     * @return string
     */
-   public static function getType($id) {
+   public static function getType($id, $arr_subid=NULL) {
       $type = NULL;
-      $variable = self::$configVariables[$id];
+      $new_id = $id."_";
+      
+      if ($arr_subid == NULL) {
+      	$arr_subid = array(0, 0, 0, 0, 0, 0);
+      }
+      foreach ($arr_subid as $subid) {
+      	$new_id .= $subid;
+      }
+      $variable = self::$configVariables[$new_id];
 
       if (NULL != $variable) {
          $type = $variable->type;
@@ -370,20 +404,36 @@ class Config {
          exit;
       }
 
+      $new_id = $id."_".$user_id.$project_id.$team_id.$service_id.$cset_id.$command_id;
       // add/replace Cache
-      self::$configVariables[$id] = new ConfigItem($id, $value, $type);
+      self::$configVariables[$new_id] = new ConfigItem($id, $value, $type);
    }
 
    /**
     * removes a ConfigItem from DB and Cache
     * @static
     * @param $id
+    * @param $option (array sql key=>value)
     */
-   public static function deleteValue($id) {
-      if (NULL != self::$configVariables[$id]) {
+   public static function deleteValue($id, $arr_subid=NULL) {
+   	  $new_id = $id."_";
+   	
+   	  if ($arr_subid == NULL) {
+   		  $arr_subid = array(0, 0, 0, 0, 0, 0);
+   	  }
+   	  foreach ($arr_subid as $subid) {
+   		  $new_id .= $subid;
+      }
+      if (NULL != self::$configVariables[$new_id]) {
 
          // delete from DB
-         $query = "DELETE FROM `codev_config_table` WHERE config_id = '$id';";
+         $query = "DELETE FROM `codev_config_table` WHERE config_id = '$id'";
+         if ($option != NULL && is_array($option)) {
+         	foreach ($option as $key=>$value) {
+         		$query .= " AND ".$key."='".$value."'";
+         	}
+         }
+         $query .= ";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -391,41 +441,10 @@ class Config {
          }
 
          // remove from cache
-         unset(self::$configVariables[$id]);
+         unset(self::$configVariables[$new_id]);
       } else {
          self::$logger->warn("DELETE variable <$id> not found in cache !");
       }
-   }
-   
-   
-   public static function updateDuration($teamid, $duration) {
-   	  $query = "UPDATE `codev_config_table` SET value = '".json_encode($duration)."' WHERE config_id = '".
-     	  Config::id_durationList."' "."AND team_id = '".$teamid."'";
-   	  $result = SqlWrapper::getInstance()->sql_query($query);
-   	  if (!$result) {
-   	  	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-   	  	exit;
-   	  }
-   }
-
-   public static function deleteDuration($teamid) {
-      $query = "DELETE FROM `codev_config_table` WHERE config_id = '".Config::id_durationList."' ".
-        "AND team_id = '".$teamid."'";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
-      }
-   }
-   
-   public static function addDuration($teamid, $duration) {
-   	  $query = "INSERT INTO `codev_config_table` (config_id, value, type, team_id) VALUES ('".Config::id_durationList."',
-   	  		'".json_encode($duration)."','1','".$teamid."')";
-   	  $result = SqlWrapper::getInstance()->sql_query($query);
-   	  if (!$result) {
-   	  	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-   	  	exit;
-   	  }
    }
 }
 

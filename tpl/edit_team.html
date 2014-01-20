@@ -736,12 +736,14 @@
                jQuery("#dur_value").text(value);
                jQuery("#dur_display").text(display);
                jQuery("#formDeleteDuration").find("input[name=deleteValue]").val(value);
+               jQuery("#formDeleteDuration").find("input[name=displayed_teamid]").val(document.getElementById("displayed_teamid").value);
                jQuery("#deleteDuration_dialog_form").dialog("open");
             }
             
             function addDuration(){
              	jQuery("#formAddDuration").find("input[name=addValue]").val(document.getElementById("addValue").value);
              	jQuery("#formAddDuration").find("input[name=addDisplay]").val(document.getElementById("addDisplay").value);
+             	jQuery("#formAddDuration").find("input[name=displayed_teamid]").val(document.getElementById("displayed_teamid").value);
              	var msg = validateAdd();
              	if (msg.length == 0) {
              		jQuery("#formAddDuration").submit();
@@ -762,6 +764,7 @@
             function updateDuration(value){
             	jQuery("#formUpdateDuration").find("input[name=updateValue]").val(value);
              	jQuery("#formUpdateDuration").find("input[name=updateDisplay]").val(document.getElementById("editDisplay"+value).value);
+             	jQuery("#formUpdateDuration").find("input[name=displayed_teamid]").val(document.getElementById("displayed_teamid").value);
              	var msg = validateUpdate();
              	if (msg.length == 0) {
              		jQuery("#formUpdateDuration").submit();
@@ -844,18 +847,21 @@
             <form id="formDeleteDuration" name="formDeleteDuration" method="post" action="{$page}" class="ui-helper-hidden formWithTabsHistory">
                <fieldset>
                   <input type="hidden" name="deleteValue" value="" />
+                  <input type="hidden" name="displayed_teamid" value="">
                </fieldset>
             </form>
             <form id="formAddDuration" name="formAddDuration" method="post" action="{$page}" class="ui-helper-hidden formWithTabsHistory">
             	<fieldset>
                		<input type="hidden" name="addValue" value="" />
                		<input type="hidden" name="addDisplay" value="" />
+               		<input type="hidden" name="displayed_teamid" value="">
             	</fieldset>
          	</form>
          	<form id="formUpdateDuration" name="formUpdateDuration" method="post" action="{$page}" class="ui-helper-hidden formWithTabsHistory">
             	<fieldset>
                		<input type="hidden" name="updateValue" value="" />
                		<input type="hidden" name="updateDisplay" value="" />
+               		<input type="hidden" name="displayed_teamid" value="">
             	</fieldset>
          	</form>
          </div>

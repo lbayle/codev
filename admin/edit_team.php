@@ -157,41 +157,26 @@ class EditTeamController extends Controller {
                   $team->createSideTaskProject($stprojName);
 
                } elseif (isset($_POST["deleteValue"])) {
-               	  $duration = $team->getDurationList();
-               	  $hasCustom = $team->hasCustomDurationList();
+               	  $duration = TimeTrackingTools::getDurationList($displayed_teamid);
                	  $duration_value = Tools::getSecurePOSTStringValue('deleteValue');
                	  unset($duration[$duration_value]);
-               	  if (!$hasCustom) {
-               	  	  Config::addDuration($displayed_teamid, $duration);
+               	  if (count($duration) == 0) {
+               	  	  Config::deleteValue(Config::id_durationList, array('team_id'=>$displayed_teamid));
                	  } else {
-	               	  if (count($duration) == 0) {
-	               	  	  Config::deleteDuration($displayed_teamid);
-	               	  } else {
-	               	  	  Config::updateDuration($displayed_teamid, $duration);
-	               	  }
+               	  	  Config::setValue(Config::id_durationList, Tools::doubleImplode(":", ",", $duration), Config::configType_keyValue, NULL, 0, 0, $displayed_teamid); 
                	  }
                } elseif (isset($_POST["addValue"])){
-               	  $duration = $team->getDurationList();
-               	  $hasCustom = $team->hasCustomDurationList();
+               	  $duration = TimeTrackingTools::getDurationList($displayed_teamid);
                	  $duration_value = Tools::getSecurePOSTStringValue('addValue');
                	  $duration_display = Tools::getSecurePOSTStringValue('addDisplay');
                	  $duration[$duration_value] = $duration_display;
-               	  if (!$hasCustom) {               	  	  
-               	  	  Config::addDuration($displayed_teamid, $duration);
-               	  } else {
-               	  	  Config::updateDuration($displayed_teamid, $duration);
-               	  }               	
+               	  Config::setValue(Config::id_durationList, Tools::doubleImplode(":", ",", $duration), Config::configType_keyValue, NULL, 0, 0, $displayed_teamid);          	
                } elseif (isset($_POST["updateValue"])) {
-               	  $duration = $team->getDurationList();
-               	  $hasCustom = $team->hasCustomDurationList();
+               	  $duration = TimeTrackingTools::getDurationList($displayed_teamid);
                	  $duration_value = Tools::getSecurePOSTStringValue('updateValue');
                	  $duration_display = Tools::getSecurePOSTStringValue('updateDisplay');
                	  $duration[$duration_value] = $duration_display;
-               	  if (!$hasCustom) {
-               	  	  Config::addDuration($displayed_teamid, $duration);
-               	  } else {
-               	      Config::updateDuration($displayed_teamid, $duration);
-               	  }
+               	  Config::setValue(Config::id_durationList, Tools::doubleImplode(":", ",", $duration), Config::configType_keyValue, NULL, 0, 0, $displayed_teamid); 
                } elseif (isset($_POST["deletememberid"])) {
                   $memberid = Tools::getSecurePOSTIntValue('deletememberid');
                   $query = "DELETE FROM `codev_team_user_table` WHERE id = $memberid;";
@@ -252,7 +237,7 @@ class EditTeamController extends Controller {
                $this->smartyHelper->assign('onDutyCandidates', $this->getOnDutyCandidates($team,$team->getTrueProjects()));
 
                $this->smartyHelper->assign('onDutyTasks', $this->getOnDutyTasks($team));
-               $this->smartyHelper->assign('duration', $this->getDuration($team));
+               $this->smartyHelper->assign('duration', TimeTrackingTools::getDurationList($displayed_teamid));
 
                $projectList = $this->getTooltipProjectCandidates($team);
                $this->smartyHelper->assign('tooltipProjectCandidates', $projectList);
@@ -504,12 +489,8 @@ class EditTeamController extends Controller {
          );
       }
       return $generalPrefs;
-   }   
-
-   public static function getDuration(Team $team) {
-   	    $duration = $team->getDurationList();
-   	   	return $duration;
    }
+
 }
 
 // ========== MAIN ===========

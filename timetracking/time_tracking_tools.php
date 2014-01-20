@@ -381,10 +381,17 @@ class TimeTrackingTools {
     * @return string[]
     */
    public static function getDurationList($teamid) {
-	  
-	  $team = TeamCache::getInstance()->getTeam($teamid);
-	  $duration = $team->getDurationList();
-
+   	  Config::setQuiet(true);
+      $duration = Config::getValue(Config::id_durationList, array(0, 0, $teamid, 0, 0, 0));
+      Config::setQuiet(false);
+      if ($duration == NULL) {
+      	  $duration = Constants::$taskDurationList;
+      } elseif (!is_array($duration)) {
+      	  $duration = Tools::doubleExplode(":", ",", $duration);
+      }
+      if ($duration != NULL && is_array($duration)) {
+          ksort($duration);
+      }
       return $duration;
    }
 

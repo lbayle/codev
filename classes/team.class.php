@@ -1236,35 +1236,6 @@ class Team extends Model {
       // save new settings
       Config::setValue(Config::id_teamGeneralPreferences, $keyvalue, Config::configType_keyValue, NULL, 0, 0, $this->id);
    }
-   
-   
-   public function getDurationList() {
-   	  $query = "SELECT value FROM `codev_config_table` " .
-   	  		   "WHERE config_id = '" . Config::id_durationList . "' " .
-   	  		   "AND team_id IN ('".$this->id."', '0') ".
-   	  	 	   "ORDER BY team_id DESC";
-   	  $result = SqlWrapper::getInstance()->sql_query($query);
-   	  if (!$result) {
-   	  	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-   	  	exit;
-   	  } elseif ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-   	    $this->durationList = json_decode($row->value, true);
-   	    ksort($this->durationList);
-   	  }
-   	  return $this->durationList;   	  
-   }
-   
-   public function hasCustomDurationList() {
-   	$query = "SELECT value FROM `codev_config_table` " .
-   			"WHERE config_id = '" . Config::id_durationList . "' " .
-   			"AND team_id = '".$this->id."'";
-   	$result = SqlWrapper::getInstance()->sql_query($query);
-   	if (mysql_num_rows($result) == 0) {
-   		return false;
-   	} else {
-   		return true;
-   	}
-   }
 
 }
 
