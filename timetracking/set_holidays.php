@@ -55,6 +55,7 @@ class SetHolidaysController extends Controller {
                   if (array_key_exists($this->session_userid, $activeMembers)) {
                      $_POST['userid'] = $this->session_userid;
                      $_POST['nextForm'] = "addHolidaysForm";
+                     //$_POST['days'] = 'dayid';
                   }
                }
             }
@@ -69,43 +70,57 @@ class SetHolidaysController extends Controller {
                $startdate = Tools::getSecurePOSTStringValue('startdate',date("Y-m-d"));
 
                $enddate = Tools::getSecurePOSTStringValue('enddate','');
-
+			   
                $defaultBugid = Tools::getSecurePOSTIntValue('bugid',0);
 
                $action = Tools::getSecurePOSTStringValue('action','');
+               
+               $duration = Tools::getSecurePOSTNumberValue('duree',0);
+               
                if ("addHolidays" == $action) {
                   // TODO add tracks !
                   $job = Tools::getSecurePOSTStringValue('job');
+                  
+                  $duration = Tools::getSecurePOSTNumberValue('duree');
 
                   $holydays = Holidays::getInstance();
 
                   $startTimestamp = Tools::date2timestamp($startdate);
                   $endTimestamp = Tools::date2timestamp($enddate);
-
+                  
                   // save to DB
+                  $weekday = date('l', strtotime($startdate));
                   $timestamp = $startTimestamp;
-                  while ($timestamp <= $endTimestamp) {
+                  
+               while ($timestamp <= $endTimestamp) {
                      // check if not a fixed holiday
                      if (!$holydays->isHoliday($timestamp)) {
-
-                        // check existing timetracks on $timestamp and adjust duration
-                        $duration = $managed_user->getAvailableTime($timestamp);
-                        if ($duration > 0) {
-                           if(self::$logger->isDebugEnabled()) {
-                              self::$logger->debug(date("Y-m-d", $timestamp)." duration $duration job $job");
-                           }
-                           TimeTrack::create($managed_user->getId(), $defaultBugid, $job, $timestamp, $duration);
-                        }
+						// check existing timetracks on $timestamp and adjust duration
+                        $availabletime = $managed_user->getAvailableTime($timestamp);
+                        // not imput more than possible 
+                        if ($duration >= $availabletime) 
+                        	$imput = $availabletime;
+                        		else $imput = $duration;
+                        if (TimeTrackingTools::isCheckedDays($weekday)) {
+	                        if ($duration > 0) {
+	                           if(self::$logger->isDebugEnabled()) {
+	                              self::$logger->debug(date("Y-m-d", $timestamp)." duration $imput job $job");
+	                           }
+	                           TimeTrack::create($managed_user->getId(), $defaultBugid, $job, $timestamp, $imput);
+	                        }
+                       }
                      }
-                     $timestamp = strtotime("+1 day",$timestamp);;
+                     $timestamp = strtotime("+1 day",$timestamp);
+                     $weekday = date('l', strtotime(date("Y-m-d", $timestamp)));      
                   }
+                  
                   // We redirect to holidays report, so the user can verify his holidays
                   header('Location:holidays_report.php');
                }
 
                $this->smartyHelper->assign('startDate', $startdate);
                $this->smartyHelper->assign('endDate', $enddate);
-
+			   
                if($this->session_userid != $managed_user->getId()) {
                   $this->smartyHelper->assign('otherrealname', $managed_user->getRealname());
                }
@@ -138,7 +153,10 @@ class SetHolidaysController extends Controller {
                $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList,$defaultProjectid));
                $this->smartyHelper->assign('issues', $this->getIssues($defaultProjectid, $projList, $extproj_id, $defaultBugid));
                $this->smartyHelper->assign('jobs', $this->getJobs($defaultProjectid, $projList));
-
+               $this->smartyHelper->assign('duration', SmartyTools::getSmartyArray(TimeTrackingTools::getDurationList($team->getId()),$duration));
+               
+               $this->smartyHelper->assign('day_names', TimeTrackingTools::getDayList());
+                
                $this->smartyHelper->assign('userid', $managed_user->getId());
             }
          }

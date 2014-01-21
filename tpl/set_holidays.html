@@ -45,6 +45,7 @@
       <script type="text/javascript">
          jQuery(document).ready(function(){
             var form = jQuery("#form1");
+            
             var projectId = jQuery("#projectid").change(function() {
                form.find("input[name=action]").val("setProjectid");
                form.submit();
@@ -84,7 +85,7 @@
       </script>
       <form id="form1" name="form1" method="post" action="{$page}">
          <fieldset>
-            {include file="form/dateRangeSelector.html"}
+            {include file="form/dateRangeSelector.html"}<br><br>
             {if $projects}
             <select id="projectid" name="projectid" title="{t}Project{/t}">
                <option value="0">{t}(all){/t}</option>
@@ -109,6 +110,14 @@
                {/foreach}
             </select>
             {/if}
+            <select id="duree" name="duree" title="{t}Duration (in days){/t}">
+               {foreach from=$duration key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
+               {/foreach}
+            </select><br><br>
+            {foreach from=$day_names key=day_ids item=i}
+            <input type="checkbox" name="checkbox{$day_ids}" value="{$i}" checked />{$i}
+            {/foreach}<br><br>
             <!--<input type="hidden" name="trackid" value="unknown1" />-->
             <input type="hidden" name="action" value="noAction" />
             <input type="hidden" name="nextForm" value="addHolidaysForm" />

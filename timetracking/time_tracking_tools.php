@@ -394,6 +394,31 @@ class TimeTrackingTools {
       }
       return $duration;
    }
+   
+   /**
+    * @return string[]
+    */
+   public static function getDayList() {
+   	$day["1"] = T_("Monday");
+   	$day["2"] = T_("Tuesday");
+   	$day["3"] = T_("Wednesday");
+   	$day["4"] = T_("Thursday");
+   	$day["5"] = T_("Friday");
+   	return $day;
+   }
+    
+   /**
+    * @return string[]
+    */
+   public static function isCheckedDays($weekday) {
+   	foreach(array(checkbox1,checkbox2,checkbox3,checkbox4,checkbox5) as $nb) {
+   		$day = Tools::getSecurePOSTStringValue($nb,'0');
+   		if ($day != "0") {
+   			if ($day == $weekday) return true;
+   		}
+   	}
+   	return false;
+   }
 
    /**
     * get info to display the updateBacklog dialogbox
