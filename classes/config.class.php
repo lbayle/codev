@@ -114,6 +114,7 @@ class Config {
    const id_consistencyCheckList = 'consistencyCheckList';
    const id_teamGeneralPreferences = 'teamGeneralPreferences';
    const id_durationList = 'durationList';
+   const id_issueTooltipFields = 'issue_tooltip_fields';
 
    const default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideDevProjects:0";
 
@@ -227,7 +228,7 @@ class Config {
     * $param $arr_subid (array primary keys : user_id, project_id, team_id, servicecontract_id, commandset_id, command_id)
     * @return mixed
     */
-   public static function getValue($id, $arr_subid=NULL) {
+   public static function getValue($id, $arr_subid=NULL, $isQuiet=NULL) {
       $value = NULL;
       $key = $id."_";
       
@@ -242,9 +243,16 @@ class Config {
       if (NULL != $variable) {
          $value = $variable->value;
       } else {
-         self::$logger->warn("getValue($id): variable not found !");         
+         self::$logger->warn("getValue($id): variable not found !");   
+         if ($isQuiet != NULL) {
+         	$tmp = self::$quiet;
+         	self::setQuiet($isQuiet);
+         }      
          if (!self::$quiet) {
             echo "<span class='warn_font'>WARN: Config::getValue($id): variable not found !</span><br/>";
+         }
+         if ($isQuiet != NULL) {
+         	self::setQuiet($tmp);
          }
       }
       return $value;
@@ -413,7 +421,6 @@ class Config {
     * removes a ConfigItem from DB and Cache
     * @static
     * @param $id
-    * @param $option (array sql key=>value)
     */
    public static function deleteValue($id, $arr_subid=NULL) {
    	  $new_id = $id."_";
@@ -428,9 +435,12 @@ class Config {
 
          // delete from DB
          $query = "DELETE FROM `codev_config_table` WHERE config_id = '$id'";
-         if ($option != NULL && is_array($option)) {
-         	foreach ($option as $key=>$value) {
-         		$query .= " AND ".$key."='".$value."'";
+         $cols = array("`user_id`", "`project_id`", "`team_id`", "`servicecontract_id`", "`commandset_id`", "`command_id`");
+         if ($arr_subid != NULL && is_array($arr_subid)) {
+         	$i = 0;
+         	while ($i < count($cols)) {
+         		$query .= " AND ".$cols[$i]."='".$arr_subid[$i]."'";
+         		$i++;
          	}
          }
          $query .= ";";

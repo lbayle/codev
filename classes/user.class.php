@@ -1072,27 +1072,14 @@ class User extends Model {
       if ((NULL == $this->timetrackingFilters) ||
          ('' == $this->timetrackingFilters)) {
 
-         // TODO Config class cannot handle multiple lines for same id
-         $query = "SELECT value FROM `codev_config_table` " .
-                  "WHERE config_id = '" . Config::id_timetrackingFilters . "' " .
-                  "AND user_id = $this->id";
+         $this->timetrackingFilters = Config::getValue(Config::id_timetrackingFilters, array($this->id, 0, 0, 0, 0, 0), true);
+         if ($this->timetrackingFilters == NULL) {
+         	$this->timetrackingFilters = Tools::doubleExplode(':', ',', Config::default_timetrackingFilters);
+         }
+         
          if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("query = " . $query);
+            self::$logger->debug("user $this->id timeTrackingFilters = <$this->timetrackingFilters>");
          }
-
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-
-         // get default filters if not found
-         $keyvalue = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : Config::default_timetrackingFilters;
-
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("user $this->id timeTrackingFilters = <$keyvalue>");
-         }
-         $this->timetrackingFilters = Tools::doubleExplode(':', ',', $keyvalue);
       }
       // get value
       $value = $this->timetrackingFilters[$filterName];
@@ -1148,22 +1135,11 @@ class User extends Model {
     */
    public function getDefaultTeam() {
       if (NULL == $this->defaultTeam) {
-         // TODO Config class cannot handle multiple lines for same id
-         $query = "SELECT value FROM `codev_config_table` " .
-                  "WHERE config_id = '" . Config::id_defaultTeamId . "' " .
-                  "AND user_id = $this->id";
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("query = " . $query);
+         $this->defaultTeam = Config::getValue(Config::id_defaultTeamId, array($this->id, 0, 0, 0, 0, 0), true);
+         if ($this->defaultTeam == NULL) {
+         	$this->defaultTeam = 0;
          }
-
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            #echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         // if not found return '0'
-         $this->defaultTeam = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
-
+         
          if ((0 != $this->defaultTeam) &&
             (!$this->isTeamMember($this->defaultTeam))) {
             // SECURITY CHECK: User used to belong to a team (config is still in DB) but he no longer belongs to it !
@@ -1196,22 +1172,12 @@ class User extends Model {
     * @return string
     */
    public function getDefaultProject() {
-      if (NULL == $this->defaultProject) {
-         // TODO Config class cannot handle multiple lines for same id
-         $query = "SELECT value FROM `codev_config_table` " .
-                  "WHERE config_id = '" . Config::id_defaultProjectId . "' " .
-                  "AND user_id = $this->id";
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("query = " . $query);
+      if (NULL == $this->defaultProject) {  
+         $this->defaultProject = Config::getValue(Config::id_defaultProjectId, array($this->id, 0, 0, 0, 0, 0), true);
+         if ($this->defaultProject == NULL) {
+         	$this->defaultProject = 0;
          }
-
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            #echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         // if not found return '0'
-         $this->defaultProject = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
+      
       }
       return $this->defaultProject;
    }
@@ -1238,23 +1204,11 @@ class User extends Model {
     * @return string or "" if not found
     */
    public function getProjectFilters($projectid=0) {
-      if (NULL == $this->projectFilters) {
-         // TODO Config class cannot handle multiple lines for same id
-         $query = "SELECT value FROM `codev_config_table` " .
-                  "WHERE config_id = '" . Config::id_projectFilters . "' " .
-                  "AND user_id = $this->id ".
-                  "AND project_id = $projectid";
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("query = " . $query);
+      if (NULL == $this->projectFilters) {  	 
+         $this->projectFilters = Config::getValue(Config::id_projectFilters, array($this->id, $projectid, 0, 0, 0, 0), true);
+         if($this->projectFilters == NULL) {
+         	$this->projectFilters = "";
          }
-
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            #echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         // if not found return ""
-         $this->projectFilters = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "";
       }
       return $this->projectFilters;
    }
@@ -1294,23 +1248,15 @@ class User extends Model {
          $this->commandFiltersCache = array();
       }
 
-      if (!array_key_exists($commandid, $this->commandFiltersCache)) {
-         $query = "SELECT value FROM `codev_config_table` " .
-                  "WHERE config_id = '" . Config::id_commandFilters . "' " .
-                  "AND user_id = $this->id ".
-                  "AND command_id IN ($commandid, 0) ".
-                  "ORDER BY command_id DESC";
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getCommandFilters($commandid) query = " . $query);
+      if (!array_key_exists($commandid, $this->commandFiltersCache)) { 
+         $filters = Config::getValue(Config::id_commandFilters, array($this->id, 0, 0, 0, 0, $commandid), true);
+         if ($filters == NULL) {
+         	$filters = Config::getValue(Config::id_commandFilters, array($this->id, 0, 0, 0, 0, 0), true);
+         	if ($filters == NULL) {
+         		$filters = "";
+         	}
          }
-
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            #echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         // if not found return ""
-         $filters = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "";
+         
          $this->commandFiltersCache["$commandid"] = $filters;
 
          if(self::$logger->isDebugEnabled()) {
@@ -1355,23 +1301,15 @@ class User extends Model {
          $this->commandSetFiltersCache = array();
       }
 
-      if (!array_key_exists($csetid, $this->commandSetFiltersCache)) {
-         $query = "SELECT value FROM `codev_config_table` " .
-                  "WHERE config_id = '" . Config::id_commandSetFilters . "' " .
-                  "AND user_id = $this->id ".
-                  "AND commandset_id IN ($csetid, 0) ".
-                  "ORDER BY command_id DESC";
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getCommandSetFilters($csetid) query = " . $query);
+      if (!array_key_exists($csetid, $this->commandSetFiltersCache)) {      
+         $filters = Config::getValue(Config::id_commandSetFilters, array($this->id, 0, 0, 0, $csetid, 0), true);
+         if($filters == NULL) {
+         	$filters = Config::getValue(Config::id_commandSetFilters, array($this->id, 0, 0, 0, 0, 0), true);
+         	if($filters == NULL) {
+         		$filters = "";
+         	}
          }
-
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            #echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         // if not found return ""
-         $filters = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "";
+         
          $this->commandSetFiltersCache["$csetid"] = $filters;
 
          if(self::$logger->isDebugEnabled()) {
@@ -1417,22 +1355,14 @@ class User extends Model {
       }
 
       if (!array_key_exists($serviceid, $this->serviceContractFiltersCache)) {
-         $query = "SELECT value FROM `codev_config_table` " .
-                  "WHERE config_id = '" . Config::id_serviceContractFilters . "' " .
-                  "AND user_id = $this->id ".
-                  "AND servicecontract_id IN ($serviceid, 0) ".
-                  "ORDER BY command_id DESC";
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getServiceContractFilters($serviceid) query = " . $query);
+         $filters = Config::getValue(Config::id_serviceContractFilters, array($this->id, 0, 0, $serviceid, 0, 0), true);
+         if ($filters == NULL) {
+         	$filters = Config::getValue(Config::id_serviceContractFilters, array($this->id, 0, 0, 0, 0, 0), true);
+         	if ($filters == NULL) {
+         		$filters = "";
+         	}
          }
-
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            #echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         // if not found return ""
-         $filters = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "";
+         
          $this->serviceContractFiltersCache["$serviceid"] = $filters;
 
          if(self::$logger->isDebugEnabled()) {
@@ -1464,21 +1394,7 @@ class User extends Model {
     */
    public function getDefaultLanguage() {
       if (NULL == $this->defaultLanguage) {
-         // TODO Config class cannot handle multiple lines for same id
-         $query = "SELECT value FROM `codev_config_table` " .
-                  "WHERE config_id = '" . Config::id_defaultLanguage . "' " .
-                  "AND user_id = $this->id";
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("query = " . $query);
-         }
-
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            #echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         // if not found return 'NULL'
-         $this->defaultLanguage = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
+         $this->defaultLanguage = Config::getValue(Config::id_defaultLanguage, array($this->id, 0, 0, 0, 0, 0), true);
       }
       return $this->defaultLanguage;
    }

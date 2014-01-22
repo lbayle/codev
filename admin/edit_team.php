@@ -161,7 +161,7 @@ class EditTeamController extends Controller {
                	  $duration_value = Tools::getSecurePOSTStringValue('deleteValue');
                	  unset($duration[$duration_value]);
                	  if (count($duration) == 0) {
-               	  	  Config::deleteValue(Config::id_durationList, array('team_id'=>$displayed_teamid));
+               	  	  Config::deleteValue(Config::id_durationList, array(0, 0, $displayed_teamid, 0, 0, 0));
                	  } else {
                	  	  Config::setValue(Config::id_durationList, Tools::doubleImplode(":", ",", $duration), Config::configType_keyValue, NULL, 0, 0, $displayed_teamid); 
                	  }
@@ -427,17 +427,11 @@ class EditTeamController extends Controller {
          $project = ProjectCache::getInstance()->getProject($id);
 
          // do not display projects having no specific tooltips
-         $query = "SELECT config_id FROM `codev_config_table` WHERE `config_id` = 'issue_tooltip_fields' ".
-                  "AND `project_id` = $id AND `team_id` = '$teamid' AND `user_id` = '0' ";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
+         $result = Config::getValue(Config::id_issueTooltipFields, array(0, $id, $teamid, 0, 0, 0), true);
+         if ($result == NULL) {
+         	continue;
          }
-         if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
-            continue;
-         }
-
+         
          $fields = $project->getIssueTooltipFields($teamid);
 
          $formattedFields = array();
