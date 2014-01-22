@@ -1017,21 +1017,12 @@ class Team extends Model {
    public function getOnDutyTasks() {
 
       if (is_null($this->onDutyTaskList)) {
-         $query = "SELECT value FROM `codev_config_table` ".
-                 "WHERE `config_id` = '".Config::id_onDutyTaskList."' ".
-                 "AND `team_id` = '$this->id' ";
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if ((!$result) || (0 == SqlWrapper::getInstance()->sql_num_rows($result))) {
-            return array();
-         }
-         $imploded = SqlWrapper::getInstance()->sql_result($result, 0);
-         if (empty($imploded)) {
-            // empty string
-            return array();
-         }
-
-         $this->onDutyTaskList = explode(',', $imploded);
+      	 $this->onDutyTaskList = Config::getValue(Config::id_onDutyTaskList, array(0, 0, $this->id, 0, 0, 0), true);
+      	 if($this->onDutyTaskList == NULL || empty($this->onDutyTaskList)) {
+      	 	return array();
+      	 }
+      	 
       }
       return $this->onDutyTaskList;
    }
@@ -1111,29 +1102,14 @@ class Team extends Model {
 
       if (empty($this->consistencyCheckList)) {
 
-         // TODO Config class cannot handle multiple lines for same id
-         $query = "SELECT value FROM `codev_config_table` " .
-                  "WHERE config_id = '" . Config::id_consistencyCheckList . "' " .
-                  "AND user_id = '0' ".
-                  "AND team_id = $this->id";
-
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-
+      	 $checkList = Config::getValue(Config::id_consistencyCheckList, array(0, 0, $this->id, 0, 0, 0), true);
          // get default checkList if not found
          $this->consistencyCheckList = ConsistencyCheck2::$defaultCheckList;
 
          // update with team specific items
-         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-
-            $keyvalue =  SqlWrapper::getInstance()->sql_result($result, 0);
-            $checkList = Tools::doubleExplode(':', ',', $keyvalue);
+         if ($checkList != NULL && is_array($checkList)) {
 
             foreach ($checkList as $name => $enabled) {
-
                if (!array_key_exists($name, $this->consistencyCheckList)) {
                   self::$logger->warn("team $this->id: remove unknown/deprecated consistencyCheck: $name");
                } else {
@@ -1176,27 +1152,13 @@ class Team extends Model {
 
       if (empty($this->generalPrefsList)) {
 
-         // TODO Config class cannot handle multiple lines for same id
-         $query = "SELECT value FROM `codev_config_table` " .
-                  "WHERE config_id = '" . Config::id_teamGeneralPreferences . "' " .
-                  "AND user_id = '0' ".
-                  "AND team_id = $this->id";
-
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-
+         $checkList = Config::getValue(Config::id_teamGeneralPreferences, array(0, 0, $this->id, 0, 0, 0), true);
+         
          // get default checkList if not found
          $this->generalPrefsList = Team::$defaultGeneralPrefsList;
 
          // update with team specific items
-         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-
-            $keyvalue =  SqlWrapper::getInstance()->sql_result($result, 0);
-            $checkList = Tools::doubleExplode(':', ',', $keyvalue);
-
+         if ($checkList != NULL && is_array($checkList)) {
             foreach ($checkList as $name => $enabled) {
 
                if (!array_key_exists($name, $this->generalPrefsList)) {
