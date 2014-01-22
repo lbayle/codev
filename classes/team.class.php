@@ -79,6 +79,7 @@ class Team extends Model {
    private $commandSetList;
    private $serviceContractList;
    private $onDutyTaskList;
+   private $durationList;
 
    private $consistencyCheckList;
 

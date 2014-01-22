@@ -380,22 +380,44 @@ class TimeTrackingTools {
    /**
     * @return string[]
     */
-   public static function getDurationList() {
-      $duration["0"] = "";
-      $duration["1"] = "1";
-      $duration["0.9"] = "0.9";
-      $duration["0.8"] = "0.8";
-      $duration["0.75"] = "0.75";
-      $duration["0.7"] = "0.7";
-      $duration["0.6"] = "0.6";
-      $duration["0.5"] = "0.5";
-      $duration["0.4"] = "0.4";
-      $duration["0.3"] = "0.3";
-      $duration["0.25"] = "0.25";
-      $duration["0.2"] = "0.2";
-      $duration["0.1"] = "0.1";
-      $duration["0.05"] = "0.05";
+   public static function getDurationList($teamid) {
+   	  Config::setQuiet(true);
+      $duration = Config::getValue(Config::id_durationList, array(0, 0, $teamid, 0, 0, 0));
+      Config::setQuiet(false);
+      if ($duration == NULL) {
+      	  $duration = Constants::$taskDurationList;
+      } elseif (!is_array($duration)) {
+      	  $duration = Tools::doubleExplode(":", ",", $duration);
+      }
+      if ($duration != NULL && is_array($duration)) {
+          ksort($duration);
+      }
       return $duration;
+   }
+   
+   /**
+    * @return string[]
+    */
+   public static function getDayList() {
+   	$day["1"] = T_("Monday");
+   	$day["2"] = T_("Tuesday");
+   	$day["3"] = T_("Wednesday");
+   	$day["4"] = T_("Thursday");
+   	$day["5"] = T_("Friday");
+   	return $day;
+   }
+    
+   /**
+    * @return string[]
+    */
+   public static function isCheckedDays($weekday) {
+   	foreach(array(checkbox1,checkbox2,checkbox3,checkbox4,checkbox5) as $nb) {
+   		$day = Tools::getSecurePOSTStringValue($nb,'0');
+   		if ($day != "0") {
+   			if ($day == $weekday) return true;
+   		}
+   	}
+   	return false;
    }
 
    /**
@@ -473,7 +495,7 @@ class TimeTrackingTools {
 
       if (0 !== $trackDuration) {
          # fill duration combobox values
-         $issueInfo['availableDurationList'] = self::getDurationList();
+         $issueInfo['availableDurationList'] = self::getDurationList($teamid);
          $issueInfo['trackDate'] = $trackDate;
       }
 

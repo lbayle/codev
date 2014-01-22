@@ -38,6 +38,7 @@
          <li class="{$ui_tabs_jquery_li}"><a href="#tabTeamProjects">{t}Team Projects{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabPreferences">{t}Preferences{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabOnDuty">{t}OnDuty tasks{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabDuration">{t}Duration{/t}</a></li>
       </ul>
 
       <div id="tabGeneral">
@@ -693,7 +694,178 @@
             </form>
             {/if}
          </div>
-
+	
+      </div>
+      <div id="tabDuration">
+         <!-- Duration -->
+         {if $duration}
+         <h3 style="margin: 0 0 0.5em 0.5em;">{t}Duration{/t}</h3>
+         <table>
+            <thead>
+               <tr>
+                  <th></th>
+                  <th>{t}Value (0~1){/t}</th>
+                  <th>{t}Display{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+               		<td>
+               			<a class="ui-icon" title="{t}add a custom duration{/t}" href="{$page}" style="background:url(images/b_add.png);"
+                        	onclick="addDuration();return false;">
+                    	</a>
+                    </td>
+               		<td><input id="addValue" type="text" /></td>
+               		<td><input id="addDisplay" type="text" /></td>
+               </tr>
+            {foreach from=$duration key=id item=i}
+               <tr>
+                  <td class="ui-state-error-text" style="width:1em;">
+                      <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
+                        onclick="deleteDuration('{$id}','{$i}');return false;">
+                      </a>
+                  </td>
+                  <td>{$id}</td>
+                  <td onclick="editDuration(this)" id="display{$id}">{$i}</td>
+               </tr>
+            {/foreach}
+            </tbody>
+         </table>
+         <script type="text/javascript">
+            function deleteDuration(value, display){
+               jQuery("#dur_value").text(value);
+               jQuery("#dur_display").text(display);
+               jQuery("#formDeleteDuration").find("input[name=deleteValue]").val(value);
+               jQuery("#formDeleteDuration").find("input[name=displayed_teamid]").val(document.getElementById("displayed_teamid").value);
+               jQuery("#deleteDuration_dialog_form").dialog("open");
+            }
+            
+            function addDuration(){
+             	jQuery("#formAddDuration").find("input[name=addValue]").val(document.getElementById("addValue").value);
+             	jQuery("#formAddDuration").find("input[name=addDisplay]").val(document.getElementById("addDisplay").value);
+             	jQuery("#formAddDuration").find("input[name=displayed_teamid]").val(document.getElementById("displayed_teamid").value);
+             	var msg = validateAdd();
+             	if (msg.length == 0) {
+             		jQuery("#formAddDuration").submit();
+             	} else {
+             		alert(msg);
+             	}
+            }
+            
+            function editDuration(el){
+            	var display = el.innerHTML;
+            	el.onclick = undefined;
+            	var value = el.id.replace("display","");
+            	el.innerHTML = "<input type='text' value='"+display+"' style='background-color:#F3F781;' id='editDisplay"+value+"' />"+
+            				"<a class='ui-icon' title='{t}save{/t}' href='{$page}' style='background:url(images/b_markAsRead.png);' "+
+            				"onclick='updateDuration("+value+");return false;'></a>";
+            }
+            
+            function updateDuration(value){
+            	jQuery("#formUpdateDuration").find("input[name=updateValue]").val(value);
+             	jQuery("#formUpdateDuration").find("input[name=updateDisplay]").val(document.getElementById("editDisplay"+value).value);
+             	jQuery("#formUpdateDuration").find("input[name=displayed_teamid]").val(document.getElementById("displayed_teamid").value);
+             	var msg = validateUpdate();
+             	if (msg.length == 0) {
+             		jQuery("#formUpdateDuration").submit();
+             	} else {
+             		alert(msg);
+             	}
+            }
+            
+            function validateAdd(){
+            	var value = "";
+            	var display = "";
+            	var msg = "";
+           		value = document.forms["formAddDuration"]["addValue"].value;
+           		display = document.forms["formAddDuration"]["addDisplay"].value;
+            	value = value.replace(/\s+/g, '');
+            	display = display.replace(/\s+/g, '');
+            	if (value.length == 0){
+            		msg += "\n Value must be filled out.";
+            	} else {
+            		if (isNaN(value)){
+            			msg += "\n Value must be numeric.";
+            		} else {
+            			value = parseFloat(value);
+            			if (value < 0 || value > 1) {
+            				msg += "\n Value must be between 0 and 1.";
+            			}
+            		}
+            	}
+            	if (display.length == 0){
+            		msg += "\n Display must be filled out.";
+            	}
+            	
+            	return msg;
+            }
+            
+            function validateUpdate(){
+            	var display = "";
+            	var msg = "";
+            	display = document.forms["formUpdateDuration"]["updateDisplay"].value;
+            	display = display.replace(/\s+/g, '');
+            	if (display.length == 0){
+            		msg += "\n Display must be filled out";
+            	}
+            	
+            	return msg;
+            }
+            
+            jQuery(document).ready(function() {
+               // delete track dialogBox
+               jQuery("#deleteDuration_dialog_form").dialog({
+                  autoOpen: false,
+                  resizable: true,
+                  width: "auto",
+                  modal: true,
+                  buttons: {
+                     "Delete": function() {
+                        jQuery("#formDeleteDuration").submit();
+                     },
+                     Cancel: function() {
+                        jQuery(this).dialog("close");
+                     }
+                  }
+               });
+            });
+         </script>
+         <div id="deleteDuration_dialog_form" title="{t}Delete duration{/t}" class="ui-helper-hidden">
+            <p class="ui-state-error-text"><span class="ui-icon float" style="margin:0 7px 20px 0;"></span>{t}Deleted the following duration ?{/t}</p>
+            <table class="invisible">
+               <tbody>
+               <tr>
+                  <th>{t}Value{/t} :</th>
+                  <td id="dur_value">value</td>
+               </tr>
+               <tr>
+                  <th>{t}Display{/t} :</th>
+                  <td id="dur_display">display</td>
+               </tr>
+               </tbody>
+            </table>
+            <form id="formDeleteDuration" name="formDeleteDuration" method="post" action="{$page}" class="ui-helper-hidden formWithTabsHistory">
+               <fieldset>
+                  <input type="hidden" name="deleteValue" value="" />
+                  <input type="hidden" name="displayed_teamid" value="">
+               </fieldset>
+            </form>
+            <form id="formAddDuration" name="formAddDuration" method="post" action="{$page}" class="ui-helper-hidden formWithTabsHistory">
+            	<fieldset>
+               		<input type="hidden" name="addValue" value="" />
+               		<input type="hidden" name="addDisplay" value="" />
+               		<input type="hidden" name="displayed_teamid" value="">
+            	</fieldset>
+         	</form>
+         	<form id="formUpdateDuration" name="formUpdateDuration" method="post" action="{$page}" class="ui-helper-hidden formWithTabsHistory">
+            	<fieldset>
+               		<input type="hidden" name="updateValue" value="" />
+               		<input type="hidden" name="updateDisplay" value="" />
+               		<input type="hidden" name="displayed_teamid" value="">
+            	</fieldset>
+         	</form>
+         </div>
+         {/if}       
       </div>
    </div>
    {else}
