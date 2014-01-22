@@ -1449,7 +1449,7 @@ class Project extends Model {
       if (is_null($this->issueTooltipFieldsCache)) { $this->issueTooltipFieldsCache = array(); }
 
       if (!array_key_exists($key, $this->issueTooltipFieldsCache)) {
-         $query =  "SELECT value FROM `codev_config_table` WHERE `config_id` = 'issue_tooltip_fields' ";
+         $query =  "SELECT value FROM `codev_config_table` WHERE `config_id` = '".Config::id_issueTooltipFields."' ";
          $query .= "AND `project_id` IN (0, $this->id) ";
          if (0 != $teamid) {
             // TODO FIXME if team not specified (timetracking.php must be fixed) then this request will skip
@@ -1509,15 +1509,7 @@ class Project extends Model {
          $this->issueTooltipFieldsCache[$key] = $fieldList;
       } else {
          // if $fieldList NULL, remove issueTooltip custo fot this project
-         $query = "DELETE FROM `codev_config_table` WHERE `config_id` = 'issue_tooltip_fields' ".
-                 "AND `project_id` = '$this->id' ".
-                 "AND `team_id` = '$teamid' ".
-                 "AND `user_id` = '$userid' ";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         Config::deleteValue(Config::id_issueTooltipFields, array($userid, $this->id, $teamid, 0, 0, 0));
       }
    }
 
