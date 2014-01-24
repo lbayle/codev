@@ -1510,6 +1510,7 @@ class Project extends Model {
       } else {
          // if $fieldList NULL, remove issueTooltip custo fot this project
          Config::deleteValue(Config::id_issueTooltipFields, array($userid, $this->id, $teamid, 0, 0, 0));
+         unset($this->issueTooltipFieldsCache[$key]);
       }
    }
 
