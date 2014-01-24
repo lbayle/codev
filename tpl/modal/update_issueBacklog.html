@@ -209,11 +209,11 @@
                if (availItemList.hasOwnProperty(id)) {
                   if (id == data['trackDuration']) {
                      jQuery('#timeToAdd').append(
-                        jQuery('<option>').attr('id', id).attr('selected', 'selected').append(availItemList[id])
+                        jQuery('<option>').attr('id', id).attr('value', id).attr('selected', 'selected').append(availItemList[id])
                      );
                   } else {
                      jQuery('#timeToAdd').append(
-                        jQuery('<option>').attr('id', id).append(availItemList[id])
+                        jQuery('<option>').attr('id', id).attr('value', id).append(availItemList[id])
                      );
                   }
                }
