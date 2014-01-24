@@ -91,6 +91,9 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          try {
          
             $selectedTooltips = Tools::getSecureGETStringValue('selectedItems', NULL);
+            if (strlen($selectedTooltips) == 0) {
+            	$selectedTooltips = null;
+            }
 
             $implodedSrcRef = Tools::getSecureGETStringValue('itemSelection_srcRef');
             $srcRefList = Tools::doubleExplode(':', ',', $implodedSrcRef);
@@ -98,13 +101,18 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             $teamid = $srcRefList['teamid'];
 
             // save user preferances
-            $tooltips = explode(',', $selectedTooltips);
+            $tooltips = NULL;
+            if ($selectedTooltips != NULL) {
+           		$tooltips = explode(',', $selectedTooltips);
+            }
             $project = ProjectCache::getInstance()->getProject($projectid);
             $project->setIssueTooltipFields($tooltips, $teamid);
 
             $formattedFields = array();
-            foreach ($tooltips as $f) {
-               $formattedFields[] = Tools::getTooltipFieldDisplayName($f);
+            if ($tooltips != NULL) {
+	            foreach ($tooltips as $f) {
+	               $formattedFields[] = Tools::getTooltipFieldDisplayName($f);
+	            }
             }
             $strFields = implode(', ', $formattedFields);
 
