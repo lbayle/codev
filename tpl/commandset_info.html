@@ -142,8 +142,8 @@
          {t}No Command found.{/t}
          {/if}
       </div>
-      <div id="tab_activity">{include file="plugin/activity_indicator.html"}</div>
-      <div id="tab_detailedCharges">{include file="plugin/detailed_charges_indicator.html"}</div>
+      <div id="tab_activity">{include file="$activityIndicatorFile"}</div>
+      <div id="tab_detailedCharges">{include file="$detailedChargesIndicatorFile"}</div>
       <div id="tab_attributes">
          <table class="invisible">
             <tr>
@@ -221,7 +221,7 @@
                      </table>
                   </p>
                </div>
-               {include file="plugin/status_history_indicator.html"}
+               {include file="$statusHistoryIndicatorFile"}
             </div>
          </div>
       </div>
