@@ -112,8 +112,8 @@
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-3">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
       </ul>
-      <div id="tabsName-1">{include file="plugin/detailed_charges_indicator.html"}</div>
-      <div id="tabsName-2">{include file="plugin/activity_indicator.html"}</div>
+      <div id="tabsName-1">{include file="$detailedChargesIndicatorFile"}</div>
+      <div id="tabsName-2">{include file="$activityIndicatorFile"}</div>
       <div id="tab_attributes">
          <table class="invisible">
             <tr>
@@ -303,12 +303,12 @@
                      </table>
                   </p>
                </div>
-               {include file="plugin/status_history_indicator.html"}
+               {include file="$statusHistoryIndicatorFile"}
 
                <br>
                <br>
                <br>
-               {include file="plugin/reopenedRateIndicator.html"}
+               {include file="$reopenedRateIndicatorFile"}
 
             </div>
 

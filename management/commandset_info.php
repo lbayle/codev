@@ -102,6 +102,11 @@ class CommandSetInfoController extends Controller {
                      ($this->session_user->isTeamLeader($commandset->getTeamid()))) {
                      $this->smartyHelper->assign('isEditGranted', true);
                   }
+                  
+                  //plugins
+                  $this->smartyHelper->assign('detailedChargesIndicatorFile', (new DetailedChargesIndicator())->getSmartyFilename());
+                  $this->smartyHelper->assign('activityIndicatorFile', (new ActivityIndicator())->getSmartyFilename());
+                  $this->smartyHelper->assign('statusHistoryIndicatorFile', (new StatusHistoryIndicator())->getSmartyFilename());
                }
             } else {
                unset($_SESSION['cmdid']);
