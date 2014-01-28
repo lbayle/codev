@@ -1,6 +1,25 @@
 <script type="text/javascript" src="js/chart.js"></script>
 <script type="text/javascript" src="js/helpdialog.js"></script>
 
+<h2>{t}Progress History{/t} &nbsp;&nbsp;<a id="dialog_progressHistoryIndicator_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
+<div id="dialog_progressHistoryIndicator" class="help_dialog ui-helper-hidden" title="{t}Progress History Indicator{/t}">
+   <p>{t}Evolution of the real progress vs the theoretical progress.{/t}<br>
+   </p>
+   <p>
+      <strong>{t}Theoretical progress{/t}</strong><br>
+      {t}Compares the EffortEstim to the Elapsed days{/t}
+      <br>
+      <span style="color:blue"><em>{t}Formula{/t} : {t}Elapsed / max(MgrEffortEstim, EffortEstim){/t}</em></span>
+   </p>
+   <p>
+      <strong>{t}Real progress{/t}</strong><br>
+      {t}Displays the backlog{/t}
+      <br>
+      <span style="color:blue"><em>{t}Formula{/t} : {t}Elapsed / (Elapsed +  Backlog){/t}</em></span>
+   </p>
+</div>
+
+{if isset($progress_history_data)}
 <script type="text/javascript">
    jQuery(document).ready(function() {
       var chart = jQuery('#indicatorsChart');
@@ -43,22 +62,7 @@
    });
 </script>
 
-<h2>{t}Progress History{/t} &nbsp;&nbsp;<a id="dialog_progressHistoryIndicator_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
-<div id="dialog_progressHistoryIndicator" class="help_dialog ui-helper-hidden" title="{t}Progress History Indicator{/t}">
-   <p>{t}Evolution of the real progress vs the theoretical progress.{/t}<br>
-   </p>
-   <p>
-      <strong>{t}Theoretical progress{/t}</strong><br>
-      {t}Compares the EffortEstim to the Elapsed days{/t}
-      <br>
-      <span style="color:blue"><em>{t}Formula{/t} : {t}Elapsed / max(MgrEffortEstim, EffortEstim){/t}</em></span>
-   </p>
-   <p>
-      <strong>{t}Real progress{/t}</strong><br>
-      {t}Displays the backlog{/t}
-      <br>
-      <span style="color:blue"><em>{t}Formula{/t} : {t}Elapsed / (Elapsed +  Backlog){/t}</em></span>
-   </p>
-</div>
-
 <div id="indicatorsChart" class="date_chart chart" style="width:100%;"></div>
+{else}
+   {t}No data.{/t}
+{/if}
