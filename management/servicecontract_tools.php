@@ -311,7 +311,7 @@ class ServiceContractTools {
 
       // endTimestamp = max(latest_timetrack, latest_update)
       $latestTrack = $cmdIssueSel->getLatestTimetrack();
-      $latestTrackTimestamp = (!is_null($latestTrack)) ? $latestTrack->getDate() : 0;
+      $latestTrackTimestamp = ($latestTrack != NULL) ? $latestTrack->getDate() : 0;
       $lastUpdatedTimestamp = $cmdIssueSel->getLastUpdated();
       $endTimestamp = max(array($latestTrackTimestamp, $lastUpdatedTimestamp));
 
