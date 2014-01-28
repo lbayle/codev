@@ -1,6 +1,18 @@
 <script type="text/javascript" src="js/chart.js"></script>
 <script type="text/javascript" src="js/helpdialog.js"></script>
 
+<h2>{t}Budget Drift{/t} &nbsp;&nbsp;<a id="dialog_budgetDriftHistoryIndicator_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
+<div id="dialog_budgetDriftHistoryIndicator" class="help_dialog ui-helper-hidden" title="{t}Budget Drift History Indicator{/t}">
+   <p>{t}Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks).{/t}<br>
+   </p>
+   <p>
+      <strong>{t}% Budget Drift{/t}</strong><br>
+      <br>
+      <span style="color:blue"><em>{t}Formula{/t} : {t}( reestimated - budget ) / budget{/t}</em></span>
+   </p>
+</div>
+
+{if isset($budget_drift_history_tableData)}
 <script type="text/javascript">
    jQuery(document).ready(function() {
       var chart = jQuery('#budgetDriftIndicatorsChart');
@@ -18,20 +30,7 @@
 
    });
 </script>
-
-<h2>{t}Budget Drift{/t} &nbsp;&nbsp;<a id="dialog_budgetDriftHistoryIndicator_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
-<div id="dialog_budgetDriftHistoryIndicator" class="help_dialog ui-helper-hidden" title="{t}Budget Drift History Indicator{/t}">
-   <p>{t}Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks).{/t}<br>
-   </p>
-   <p>
-      <strong>{t}% Budget Drift{/t}</strong><br>
-      <br>
-      <span style="color:blue"><em>{t}Formula{/t} : {t}( reestimated - budget ) / budget{/t}</em></span>
-   </p>
-</div>
-
 <div id="budgetDriftIndicatorsChart" class="date_chart_with_horizontal_line chart float" style="width:75%;"></div>
-
 
 <table>
    <thead>
@@ -54,3 +53,6 @@
    </tbody>
 </table>
 <div class="ui-helper-clearfix"></div>
+{else}
+   {t}No data.{/t}
+{/if}
