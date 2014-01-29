@@ -107,6 +107,12 @@ class CommandInfoController extends Controller {
 
                   // WBS
                   $this->smartyHelper->assign('wbsRootId', $cmd->getWbsid());
+                  
+                  //plugins
+                  $this->smartyHelper->assign('detailedChargesIndicatorFile', (new DetailedChargesIndicator())->getSmartyFilename());
+                  $this->smartyHelper->assign('activityIndicatorFile', (new ActivityIndicator())->getSmartyFilename());
+                  $this->smartyHelper->assign('statusHistoryIndicatorFile', (new StatusHistoryIndicator())->getSmartyFilename());
+                  $this->smartyHelper->assign('reopenedRateIndicatorFile', (new ReopenedRateIndicator())->getSmartyFilename());
                }
             } else {
                unset($_SESSION['commandsetid']);

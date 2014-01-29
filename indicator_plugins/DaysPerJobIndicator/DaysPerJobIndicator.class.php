@@ -49,7 +49,7 @@ class DaysPerJobIndicator implements IndicatorPlugin {
    }
 
    public static function getSmartyFilename() {
-      return 'plugin/days_per_job_indicator.html';
+
    }
 
    public function getDesc() {
