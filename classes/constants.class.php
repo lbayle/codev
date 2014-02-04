@@ -19,7 +19,6 @@ class Constants {
    public static $codevURL;
    public static $codevRootDir;
    public static $codevOutputDir;  // logs, reports, etc. /tmp/codevtt
-   public static $codevIndicatorPluginsDir;
 
    // log file as defined in log4php.xml
    public static $codevtt_logfile;
@@ -130,7 +129,6 @@ class Constants {
 
       self::$codevURL               = $general['codevtt_url'];
       self::$codevRootDir           = $general['codevtt_dir'];
-      self::$codevIndicatorPluginsDir=$general['codevtt_indicator_plugins_dir'];
       self::$mantisPath             = $general['mantis_dir'];
       self::$mantisURL              = $general['mantis_url'];
 
@@ -186,7 +184,9 @@ class Constants {
       }
       
       $timesheets = $ini_array['timesheets'];
-      self::$taskDurationList = Tools::doubleExplode(':', ',', $timesheets['task_duration_list']);
+      if (isset($timesheets['task_duration_list'])) {
+      	self::$taskDurationList = Tools::doubleExplode(':', ',', $timesheets['task_duration_list']);
+      }
 
       // -----
 
@@ -209,7 +209,6 @@ class Constants {
       $general['logo_image']             = self::$logoImage;
       $general['codevtt_output_dir']     = self::$codevOutputDir;
       $general['codevtt_dir']            = self::$codevRootDir;
-      $general['codevtt_indicator_plugins_dir']=self::$codevIndicatorPluginsDir;
       $general['mantis_dir']             = self::$mantisPath;
       $general['mantis_url']             = self::$mantisURL;
       $general['codevtt_url']            = self::$codevURL;

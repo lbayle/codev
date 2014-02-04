@@ -12,7 +12,6 @@ mantis_url = "https://localhost/mantis"
 codevtt_url = "https://localhost/codevtt"
 mantis_dir = /var/www/html/mantis
 codevtt_dir = /var/www/html/codevtt
-codevtt_indicator_plugins_dir = /var/www/html/codevtt/indicator_plugins
 
 [database]
 db_mantis_host      = "localhost"

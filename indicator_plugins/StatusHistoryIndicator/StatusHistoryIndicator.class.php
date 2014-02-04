@@ -52,7 +52,7 @@ class StatusHistoryIndicator implements IndicatorPlugin {
       return __CLASS__;
    }
    public static function getSmartyFilename() {
-      return Constants::$codevIndicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
+      return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
    }
 
 

@@ -383,12 +383,11 @@ class TimeTrackingTools {
       $duration = Config::getValue(Config::id_durationList, array(0, 0, $teamid, 0, 0, 0), true);
       if ($duration == NULL) {
       	  $duration = Constants::$taskDurationList;
-      } elseif (!is_array($duration)) {
+      }
+      if (!is_array($duration)) {
       	  $duration = Tools::doubleExplode(":", ",", $duration);
       }
-      if ($duration != NULL && is_array($duration)) {
-          krsort($duration);
-      }
+      krsort($duration);
       return $duration;
    }
    

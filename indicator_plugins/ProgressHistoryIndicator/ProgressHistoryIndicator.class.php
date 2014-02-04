@@ -58,7 +58,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
    }
 
    public static function getSmartyFilename() {
-      return Constants::$codevIndicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
+      return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
    }
 
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {

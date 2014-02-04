@@ -112,7 +112,7 @@ class ProjectInfoController extends Controller {
                $this->smartyHelper->assign("resolvedIssuesInDrift", $resolvedIssuesInDrift);
                
                //plugins
-               $this->smartyHelper->assign('detailedChargesIndicatorFile', (new DetailedChargesIndicator())->getSmartyFilename());
+               $this->smartyHelper->assign('detailedChargesIndicatorFile', DetailedChargesIndicator::getSmartyFilename());
             }
          }
       }

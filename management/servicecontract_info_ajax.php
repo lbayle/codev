@@ -36,8 +36,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
                $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
                $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
 
-               $activityIndicator = new ActivityIndicator();
-               $smartyHelper->display($activityIndicator->getSmartySubFilename());
+               $smartyHelper->display(ActivityIndicator::getSmartySubFilename());
             } else {
                Tools::sendBadRequest("Service contract equals 0");
             }
@@ -70,8 +69,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
                foreach ($data as $smartyKey => $smartyVariable) {
                   $smartyHelper->assign($smartyKey, $smartyVariable);
                }
-               $progressHistory = new ProgressHistoryIndicator();
-               $smartyHelper->display($progressHistory->getSmartyFilename());
+               $smartyHelper->display(ProgressHistoryIndicator::getSmartyFilename());
             }
          } else {
             Tools::sendBadRequest("Service contract not set");
@@ -95,8 +93,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          foreach ($data as $smartyKey => $smartyVariable) {
             $smartyHelper->assign($smartyKey, $smartyVariable);
          }
-         $detailedChargesIndicator = new DetailedChargesIndicator();
-         $smartyHelper->display($detailedChargesIndicator->getSmartySubFilename());
+         $smartyHelper->display(DetailedChargesIndicator::getSmartySubFilename());
 
       } else {
          Tools::sendNotFoundAccess();

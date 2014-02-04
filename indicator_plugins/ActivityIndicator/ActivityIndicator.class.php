@@ -49,11 +49,11 @@ class ActivityIndicator implements IndicatorPlugin {
       return __CLASS__;
    }
    public static function getSmartyFilename() {
-      return Constants::$codevIndicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
+      return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
    }
    
    public static function getSmartySubFilename() {
-   	  return Constants::$codevIndicatorPluginsDir.DS.__CLASS__.DS.__CLASS__."_ajax1.html";
+   	  return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__."_ajax1.html";
    }
 
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {

@@ -43,8 +43,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          foreach ($data as $smartyKey => $smartyVariable) {
             $smartyHelper->assign($smartyKey, $smartyVariable);
          }
-         $detailedChargesIndicator = new DetailedChargesIndicator();
-         $smartyHelper->display($detailedChargesIndicator->getSmartySubFilename());
+         $smartyHelper->display(DetailedChargesIndicator::getSmartySubFilename());
 
       } else {
          Tools::sendNotFoundAccess();

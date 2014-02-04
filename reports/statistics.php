@@ -49,8 +49,8 @@ class StatisticsController extends Controller {
             $this->smartyHelper->assign('years', SmartyTools::getYearsToNow($min_year, $year));
             
             //plugins
-            $this->smartyHelper->assign('statusHistoryIndicatorFile', (new StatusHistoryIndicator())->getSmartyFilename());
-            $this->smartyHelper->assign('effortEstimReliabilityIndicatorFile', (new EffortEstimReliabilityIndicator())->getSmartyFilename());
+            $this->smartyHelper->assign('statusHistoryIndicatorFile', StatusHistoryIndicator::getSmartyFilename());
+            $this->smartyHelper->assign('effortEstimReliabilityIndicatorFile', EffortEstimReliabilityIndicator::getSmartyFilename());
 
             if ('computeTeamHistory' == $_POST['action']) {
 

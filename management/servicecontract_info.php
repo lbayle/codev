@@ -100,9 +100,9 @@ class ServiceContractInfoController extends Controller {
                   }
                   
                   //plugins
-                  $this->smartyHelper->assign('detailedChargesIndicatorFile', (new DetailedChargesIndicator())->getSmartyFilename());
-                  $this->smartyHelper->assign('activityIndicatorFile', (new ActivityIndicator())->getSmartyFilename());
-                  $this->smartyHelper->assign('statusHistoryIndicatorFile', (new StatusHistoryIndicator())->getSmartyFilename());
+                  $this->smartyHelper->assign('detailedChargesIndicatorFile', DetailedChargesIndicator::getSmartyFilename());
+                  $this->smartyHelper->assign('activityIndicatorFile', ActivityIndicator::getSmartyFilename());
+                  $this->smartyHelper->assign('statusHistoryIndicatorFile', StatusHistoryIndicator::getSmartyFilename());
                }
             } else {
                unset($_SESSION['cmdid']);

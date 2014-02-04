@@ -25,6 +25,12 @@
                   url: url,
                   data: form.serialize(),
                   success: function(data2) {
+                	 var chartoptions2 = chart.data('plotoptions');
+                	 {if isset($activityIndic_data.totalActivity.sidetask)}
+                     	chartoptions2.seriesColors = ["#0079FF", "#92C5FC", "#FFF494", "#75FFDA", "#A8FFBD"]; // "#FFF494" = sidetask
+	                 {else}
+	                 	chartoptions2.seriesColors = ["#0079FF", "#92C5FC", "#75FFDA", "#A8FFBD"]; // "#FFF494"
+	                 {/if}
                      updateChart(chart, data2);
                   },
                   error: function(jqXHR, textStatus, errorThrown) {

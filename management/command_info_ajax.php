@@ -36,8 +36,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
                $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
                $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
                
-               $activityIndicator = new ActivityIndicator();
-               $smartyHelper->display($activityIndicator->getSmartySubFilename());
+               $smartyHelper->display(ActivityIndicator::getSmartySubFilename());
             } else {
                Tools::sendBadRequest("Command equals 0");
             }
@@ -69,8 +68,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
                foreach ($data as $smartyKey => $smartyVariable) {
                   $smartyHelper->assign($smartyKey, $smartyVariable);
                }
-               $progressHistory = new ProgressHistoryIndicator();
-               $smartyHelper->display($progressHistory->getSmartyFilename());
+               $smartyHelper->display(ProgressHistoryIndicator::getSmartyFilename());
             }
          } else {
             Tools::sendBadRequest("Command not set");
@@ -84,8 +82,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
                foreach ($data as $smartyKey => $smartyVariable) {
                   $smartyHelper->assign($smartyKey, $smartyVariable);
                }
-               $budgetDriftHistoryIndicator = new BudgetDriftHistoryIndicator();
-               $smartyHelper->display($budgetDriftHistoryIndicator->getSmartyFilename());
+               $smartyHelper->display(BudgetDriftHistoryIndicator::getSmartyFilename());
             }
          } else {
             Tools::sendBadRequest("Command not set");
@@ -99,8 +96,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
                foreach ($data as $smartyKey => $smartyVariable) {
                   $smartyHelper->assign($smartyKey, $smartyVariable);
                }
-               $reopenedRateIndicator = new ReopenedRateIndicator();
-               $smartyHelper->display($reopenedRateIndicator->getSmartyFilename());
+               $smartyHelper->display(ReopenedRateIndicator::getSmartyFilename());
             }
          } else {
             Tools::sendBadRequest("Command not set");
@@ -125,8 +121,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          foreach ($data as $smartyKey => $smartyVariable) {
             $smartyHelper->assign($smartyKey, $smartyVariable);
          }
-         $detailedChargesIndicator = new DetailedChargesIndicator();
-         $smartyHelper->display($detailedChargesIndicator->getSmartySubFilename());
+         $smartyHelper->display(DetailedChargesIndicator::getSmartySubFilename());
 
       } else if ($_GET['action'] == 'updateStatusHistory') {
 
@@ -138,8 +133,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          foreach ($data as $smartyKey => $smartyVariable) {
             $smartyHelper->assign($smartyKey, $smartyVariable);
          }
-         $statusHistoryIndicator = new StatusHistoryIndicator();
-         $smartyHelper->display($statusHistoryIndicator->getSmartyFilename());
+         $smartyHelper->display(StatusHistoryIndicator::getSmartyFilename());
 
       } else {
          Tools::sendNotFoundAccess();
