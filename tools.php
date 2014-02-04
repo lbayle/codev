@@ -1525,59 +1525,7 @@ class Tools {
 	public static function isWindowsServer() {
 		return (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
 	}
-	
-	/**
-	 * Get Status of Issue
-	 * @static
-	 */
-	public static function getIssueStatus(Issue $issue, $id) {
-		$statusid = array();
-		foreach ($issue->getIssues($issue->getRelationships(NULL)) as $key) {
-		  if ($id == $issue->getId()) {			
-			self::$logger->debug("issue : " . $issue->getId());
-			self::$logger->debug("key : " . $key->getId());
-			self::$logger->debug("status : " . $key->getCurrentStatusName());
-			}
-			$statusid[] = $key->getCurrentStatusName();
-		}
-		return $statusid;
-	}
-	
-	/**
-	 * Get Progress of Issue
-	 * @static
-	 */
-	public static function getIssueProgress(Issue $issue, $id) {
-		$progressid = array();
-		foreach ($issue->getIssues($issue->getRelationships(NULL)) as $key) {
-			if ($id == $issue->getId()) {
-				self::$logger->debug("issue : " . $issue->getId());
-				self::$logger->debug("key : " . $key->getId());
-				self::$logger->debug("progress : " . $key->getProgress());
-			}
-			$progressid[] = round(100 * $key->getProgress()) . "%";
-		}
-		return $progressid;
-	}
-	
-	/**
-	 * Construction of array for Relationships
-	 * @static
-	 * arrayempty : workaround for bug on display
-	 */
 		
-	public static function buildTab ($array1,$array2,$arrayempty,$array3,$array4) {
-		
-		$n = count($array1); //size of tab
-	
-		$tab = array();
-			for($i=0; $i<$n; $i++)
-			{
-				$tab[$i] = array( $array1[$i], $array2[$i], "empty",$array3[$i], $array4[$i]);
-			}
-		return $tab;
-		}
-			
 }
 
 // Initialize complex static variables

@@ -59,8 +59,8 @@ class IssueInfoTools {
          "issueDriftColor" => $issue->getDriftColor($drift),
          "issueDrift" => round($drift, 2),
          "progress" => round(100 * $issue->getProgress()),
-      	 "relationTab" => Tools::buildTab($issue->getRelationships(NULL), $issue->getRelationshipsType(NULL), Tools::getIssueStatus($issue, $issue->getId()), Tools::getIssueStatus($issue, $issue->getId()), Tools::getIssueProgress($issue, $issue->getId()))
-      );
+      	 "relationTab" => IssueInfoTools::buildTab($issue->getRelationships(NULL), $issue->getRelationshipsType(NULL), IssueInfoTools::getIssueStatus($issue), IssueInfoTools::getIssueStatus($issue), IssueInfoTools::getIssueProgress($issue))
+      	);
       if($isManager) {
          $issueGeneralInfo['issueMgrEffortEstim'] = $issue->getMgrEffortEstim();
          $driftMgr = $issue->getDriftMgr($withSupport);
@@ -86,7 +86,49 @@ class IssueInfoTools {
 
       return $issueGeneralInfo;
    }
-          
+
+   /**
+    * Get Status of Issue
+    * @static
+    */
+   public static function getIssueStatus(Issue $issue) {
+   	$statusid = array();
+   	foreach ($issue->getIssues($issue->getRelationships(NULL)) as $key) {
+   		$statusid[] = $key->getCurrentStatusName();
+   	}
+   	return $statusid;
+   }
+   
+   /**
+    * Get Progress of Issue
+    * @static
+    */
+   public static function getIssueProgress(Issue $issue) {
+   	$progressid = array();
+   	foreach ($issue->getIssues($issue->getRelationships(NULL)) as $key) {
+   		$progressid[] = round(100 * $key->getProgress()) . "%";
+   	}
+   	return $progressid;
+   }
+   
+   /**
+    * Construction of array for Relationships
+    * @static
+    * arrayempty : workaround for bug on display
+    */
+   
+   public static function buildTab ($array1,$array2,$arrayempty,$array3,$array4) {
+   
+   	$n = count($array1); //size of tab
+   
+   	$tab = array();
+   	for($i=0; $i<$n; $i++)
+   	{
+   	$tab[$i] = array( $array1[$i], $array2[$i], "empty",$array3[$i], $array4[$i]);
+   	}
+   	return $tab;
+   }
+   
 }
 
 // Initialize complex static variables
