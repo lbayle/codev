@@ -71,6 +71,7 @@ class Issue extends Model implements Comparable {
    private $description;
    private $target_version;
    private $relationships = array(); // array[relationshipType][bugId]
+   private $relationshipTypes = array();
    private $issueNoteList;
    private $commandList;
    private $categoryName;
@@ -955,22 +956,34 @@ class Issue extends Model implements Comparable {
    /**
     * TODO: NOT FINISHED, ADAPT TO ALL RELATIONSHIP TYPES
     * get list of Relationships
-    * @param type = 2500 or 2501
+    * @param type = 2500 or 2501 or 0 or 1 or 2
     * @return int[] : array(issue_id);
     */
-   public function getRelationships($type) {
-      // TODO
-      $complementaryType = (2500 == $type) ? 2501 : 2500;
+   public function getRelationships($type = NULL) {
+      // 2501 : constrains
+      // 2500 : constrained by
+      // 0 : duplicate of
+      // 1 : related to
+      // 2 : parent of
+         	
+   	  $complementaryType = (2500 == $type) ? 2501 : 2500;
 
       if (!array_key_exists($type, $this->relationships)) {
          $this->relationships[$type] = array();
 
-         $query = 'SELECT * FROM `mantis_bug_relationship_table` '.
+         if ($type == NULL) {
+         	$query = 'SELECT * FROM `mantis_bug_relationship_table` '.
+                  'WHERE (source_bug_id='.$this->bugId.' '.
+                  'AND relationship_type=2501 OR relationship_type=2500 OR relationship_type=0 OR relationship_type=1 OR relationship_type=2);';
+         }
+           
+          else {
+           		$query = 'SELECT * FROM `mantis_bug_relationship_table` '.
                   'WHERE (source_bug_id='.$this->bugId.' '.
                   'AND relationship_type='.$type.') '.
                   'OR (destination_bug_id='.$this->bugId.' '.
                   'AND relationship_type='.$complementaryType.');';
-
+           }
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -995,7 +1008,112 @@ class Issue extends Model implements Comparable {
 
       return $this->relationships[$type];
    }
+   
+   /**
+    * TODO: NOT FINISHED, ADAPT TO ALL RELATIONSHIP TYPES
+    * get list of type of relationships
+    * @param type = 2500 or 2501 or 0 or 1 or 2
+    * @return int[] : array(type);
+    */
+   public function getRelationshipsType($type = NULL) {
+   	// 2501 : constrains
+   	// 2500 : constrained by
+   	// 0 : duplicate of
+   	// 10 : has duplicate
+   	// 1 : related to
+   	// 2 : parent of
+   	// 21 : child of
+   
+   	$complementaryType = (2500 == $type) ? 2501 : 2500;
+   	$textOfType="";
 
+      if (!array_key_exists($type, $this->relationshipTypes)) {
+         $this->relationshipTypes[$type] = array();
+
+         if ($type == NULL) {
+         	$query = 'SELECT * FROM `mantis_bug_relationship_table` '.
+                  'WHERE (source_bug_id='.$this->bugId.' '.
+                  'AND relationship_type=2501 OR relationship_type=2500 OR relationship_type=0 OR relationship_type=1 OR relationship_type=2);';
+         }
+           
+          else {
+           		$query = 'SELECT * FROM `mantis_bug_relationship_table` '.
+                  'WHERE (source_bug_id='.$this->bugId.' '.
+                  'AND relationship_type='.$type.') '.
+                  'OR (destination_bug_id='.$this->bugId.' '.
+                  'AND relationship_type='.$complementaryType.');';
+           }
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            if($row->source_bug_id == $this->bugId) {
+               // normal
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("relationshipstype normal: $row->relationship_type $this->bugId -> $row->destination_bug_id\n");
+               }
+               $this->relationshipTypes[$type][] = $this->typeToText($row->relationship_type);
+            } elseif($row->destination_bug_id == $this->bugId) {
+               // complementary
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("relationshipstype comp: $row->relationship_type $this->bugId -> $row->source_bug_id\n");
+               }
+               if ($row->relationship_type == 2) {
+               	if(self::$logger->isDebugEnabled()) {
+               		self::$logger->debug("type : $row->relationship_type $row->relationship_type \n");
+               	}
+               	$this->relationshipTypes[$type][] = $this->typeToText(21);
+               } else if ($row->relationship_type == 0) {
+               	if(self::$logger->isDebugEnabled()) {
+               		self::$logger->debug("type : $row->relationship_type $row->relationship_type \n");
+               	}
+               	$this->relationshipTypes[$type][] = $this->typeToText(10);
+               } else 
+               {
+               	$this->relationshipTypes[$type][] = $this->typeToText($row->relationship_type);
+               }
+              }
+          }
+      }
+      
+      return $this->relationshipTypes[$type];
+   }
+   
+   /**
+    * convert type of relationships in text
+    * @param type = 2500 or 2501 or 0 or 10 or 1 or 2 or 21
+    * @return String : text of type
+    */
+   public function typeToText ($type) {
+		   switch ($type) {
+		    case 2500:
+		   $textOfType = T_("Constrained by");
+		   break;
+		   case 2501:
+		   $textOfType = T_("Constrains");
+		   break;
+		   case 0:
+		   $textOfType = T_("Duplicate of");
+		   break;
+		   case 10:
+		   $textOfType = T_("Has duplicate");
+		   break;
+		   case 1:
+		   $textOfType = T_("Related to");
+		   break;
+		   case 2:
+		   $textOfType = T_("Parent of");
+		   break;
+		   case 21:
+		   $textOfType = T_("Child of");
+		   break;
+		   }
+   	
+	return $textOfType;
+   }
+   
    /**
     * @return int the timestamp of the first TimeTrack
     */
@@ -1997,6 +2115,7 @@ class Issue extends Model implements Comparable {
       $issueIds = array_unique($issueIds);
       
       $issues = array();
+      reset($issues);
       
       $newIssueIds = array();
       foreach($issueIds as $issueId) {
@@ -2502,7 +2621,8 @@ class Issue extends Model implements Comparable {
 
       return true;
    }
-
+   
+ 
 }
 
 Issue::staticInit();

@@ -58,7 +58,8 @@ class IssueInfoTools {
          "issueBacklog" => $issue->getBacklog(),
          "issueDriftColor" => $issue->getDriftColor($drift),
          "issueDrift" => round($drift, 2),
-         "progress" => round(100 * $issue->getProgress())
+         "progress" => round(100 * $issue->getProgress()),
+      	 "relationTab" => Tools::buildTab($issue->getRelationships(NULL), $issue->getRelationshipsType(NULL), Tools::getIssueStatus($issue, $issue->getId()), Tools::getIssueStatus($issue, $issue->getId()), Tools::getIssueProgress($issue, $issue->getId()))
       );
       if($isManager) {
          $issueGeneralInfo['issueMgrEffortEstim'] = $issue->getMgrEffortEstim();
@@ -85,7 +86,7 @@ class IssueInfoTools {
 
       return $issueGeneralInfo;
    }
-
+          
 }
 
 // Initialize complex static variables

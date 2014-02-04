@@ -1,0 +1,39 @@
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+      jQuery("#update_backlog_link").click(function(event) {
+         event.preventDefault();
+         jQuery("#update_backlog_dialog_form").dialog("open");
+      });
+   });
+</script>
+
+<div style="margin-top: 2em;">
+<table class="invisible">
+   <tr>
+      <th valign="top">{t}Relationships{/t}</th>
+      <td valign="top">: </td>
+      <td>
+ <table>
+        
+      <tr>
+         <th valign="top" title='{t}Issue{/t}'>{t}Issue{/t}</th>
+         <th valign="top" title='{t}Relation{/t}'>{t}Relation{/t}</th>
+         <th valign="top" title='{t}Status{/t}'>{t}Status{/t}</th>
+         <th valign="top" title='{t}Progress{/t}'>{t}Progress{/t}</th>
+      </tr>
+   <tbody>
+   {foreach $issueGeneralInfo.relationTab as $ligne} 
+      
+      <tr>
+      	{foreach $ligne as $case}
+      		{if ($case != "empty")}
+			<td>{$case}</td>
+			{/if}
+		{/foreach}
+		
+	 </tr>
+     {/foreach}
+	</tbody>
+</table>
+</table>
+</div>
