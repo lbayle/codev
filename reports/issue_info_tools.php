@@ -59,7 +59,9 @@ class IssueInfoTools {
          "issueDriftColor" => $issue->getDriftColor($drift),
          "issueDrift" => round($drift, 2),
          "progress" => round(100 * $issue->getProgress()),
-      	 "relationTab" => IssueInfoTools::buildTab($issue->getRelationships(NULL), $issue->getRelationshipsType(NULL), IssueInfoTools::getIssueStatus($issue), IssueInfoTools::getIssueStatus($issue), IssueInfoTools::getIssueProgress($issue))
+      	 "isRelation" => $issue->getIssues($issue->getRelationships(NULL)),
+      	 "issueStatus" => IssueInfoTools::getIssueStatus($issue),
+      	 "relationTab" => IssueInfoTools::buildTab($issue->getRelationships(NULL), $issue->getRelationshipsType(NULL), IssueInfoTools::getIssueStatus($issue), IssueInfoTools::getIssueProgress($issue))
       	);
       if($isManager) {
          $issueGeneralInfo['issueMgrEffortEstim'] = $issue->getMgrEffortEstim();
@@ -114,17 +116,16 @@ class IssueInfoTools {
    /**
     * Construction of array for Relationships
     * @static
-    * arrayempty : workaround for bug on display
     */
    
-   public static function buildTab ($array1,$array2,$arrayempty,$array3,$array4) {
+   public static function buildTab ($array1,$array2,$array3,$array4) {
    
    	$n = count($array1); //size of tab
    
    	$tab = array();
    	for($i=0; $i<$n; $i++)
    	{
-   	$tab[$i] = array( $array1[$i], $array2[$i], "empty",$array3[$i], $array4[$i]);
+   	$tab[$i] = array( Tools::mantisIssueURL($array1[$i]), $array2[$i],$array3[$i], $array4[$i]);
    	}
    	return $tab;
    }

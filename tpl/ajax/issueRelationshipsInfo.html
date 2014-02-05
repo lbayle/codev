@@ -13,6 +13,7 @@
       <th valign="top">{t}Relationships{/t}</th>
       <td valign="top">: </td>
       <td>
+ {if ($issueGeneralInfo.isRelation)}
  <table>
         
       <tr>
@@ -21,19 +22,19 @@
          <th valign="top" title='{t}Status{/t}'>{t}Status{/t}</th>
          <th valign="top" title='{t}Progress{/t}'>{t}Progress{/t}</th>
       </tr>
-   <tbody>
+    <tbody>
+   
    {foreach $issueGeneralInfo.relationTab as $ligne} 
       
       <tr>
       	{foreach $ligne as $case}
-      		{if ($case != "empty")}
-			<td>{$case}</td>
-			{/if}
-		{/foreach}
-		
+      		<td>{$case}</td>
+		{/foreach}		
 	 </tr>
      {/foreach}
+   
 	</tbody>
 </table>
+{/if}
 </table>
 </div>

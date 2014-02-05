@@ -91,9 +91,6 @@ class IssueInfoController extends Controller {
                      $isObserver = (array_key_exists($issue->getProjectId(), $observedProjList)) ? true : false;
                      $this->smartyHelper->assign('isManager', ($isManager || $isObserver));
                      $this->smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, ($isManager || $isObserver), $displaySupport));
-                     //VMO
-                     //$issueIds = $issueGeneralInfo.relation;
-                     //$this->smartyHelper->assign('RelationshipsInfo', $issue->getIssues($issue->getRelationships(NULL)));
                      
                      $timeTracks = $issue->getTimeTracks();
                      $this->smartyHelper->assign('jobDetails', $this->getJobDetails($timeTracks));
