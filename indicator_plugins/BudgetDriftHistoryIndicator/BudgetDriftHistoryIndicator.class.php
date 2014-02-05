@@ -64,7 +64,7 @@ class BudgetDriftHistoryIndicator implements IndicatorPlugin {
    }
 
    public static function getSmartyFilename() {
-      return "plugin/budgetDriftHistoryIndicator.html";
+   	  return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
    }
 
    /**
@@ -210,12 +210,14 @@ class BudgetDriftHistoryIndicator implements IndicatorPlugin {
       $startTimestamp = $this->startTimestamp;
       $endTimestamp = strtotime(date("Y-m-d",$this->endTimestamp)." +1 month");
 
-      $smartyVariables['budget_drift_history_plotMinDate'] = Tools::formatDate("%Y-%m-01", $startTimestamp);
-      $smartyVariables['budget_drift_history_plotMaxDate'] = Tools::formatDate("%Y-%m-01", $endTimestamp);
-      $smartyVariables['budget_drift_history_interval'] = ceil($this->interval/20);
-      $smartyVariables['budget_drift_history_driftDaysList'] = '['.Tools::array2plot($this->execData['budgetDriftDays']).']';
-      $smartyVariables['budget_drift_history_driftPercentList'] = '['.Tools::array2plot($this->execData['budgetDriftPercent']).']';
-      $smartyVariables['budget_drift_history_tableData'] = $this->execData['budgetDriftTable'];
+      if ($startTimestamp <= $endTimestamp) {
+	      $smartyVariables['budget_drift_history_plotMinDate'] = Tools::formatDate("%Y-%m-01", $startTimestamp);
+	      $smartyVariables['budget_drift_history_plotMaxDate'] = Tools::formatDate("%Y-%m-01", $endTimestamp);
+	      $smartyVariables['budget_drift_history_interval'] = ceil($this->interval/20);
+	      $smartyVariables['budget_drift_history_driftDaysList'] = '['.Tools::array2plot($this->execData['budgetDriftDays']).']';
+	      $smartyVariables['budget_drift_history_driftPercentList'] = '['.Tools::array2plot($this->execData['budgetDriftPercent']).']';
+	      $smartyVariables['budget_drift_history_tableData'] = $this->execData['budgetDriftTable'];
+      }
 
       return $smartyVariables;
    }

@@ -25,6 +25,12 @@
                   url: url,
                   data: form.serialize(),
                   success: function(data2) {
+                	 var chartoptions2 = chart.data('plotoptions');
+                	 {if isset($activityIndic_data.totalActivity.sidetask)}
+                     	chartoptions2.seriesColors = ["#0079FF", "#92C5FC", "#FFF494", "#75FFDA", "#A8FFBD"]; // "#FFF494" = sidetask
+	                 {else}
+	                 	chartoptions2.seriesColors = ["#0079FF", "#92C5FC", "#75FFDA", "#A8FFBD"]; // "#FFF494"
+	                 {/if}
                      updateChart(chart, data2);
                   },
                   error: function(jqXHR, textStatus, errorThrown) {
@@ -44,9 +50,9 @@
       });
 
       {if isset($activityIndic_data.totalActivity.sidetask)}
-         chartoptions.seriesColors = ["#92C5FC", "#C2DFFF", "#FFF494", "#75FFDA", "#A8FFBD"]; // "#FFF494" = sidetask
+         chartoptions.seriesColors = ["#0079FF", "#92C5FC", "#FFF494", "#75FFDA", "#A8FFBD"]; // "#FFF494" = sidetask
       {else}
-         chartoptions.seriesColors = ["#92C5FC", "#C2DFFF", "#75FFDA", "#A8FFBD"]; // "#FFF494"
+         chartoptions.seriesColors = ["#0079FF", "#92C5FC", "#75FFDA", "#A8FFBD"]; // "#FFF494"
       {/if}
       //chartoptions.seriesDefaults.rendererOptions.startAngle = 180;
 
@@ -64,7 +70,7 @@
 </div>
 <div>
    <div id="activityIndicatorDiv" align="left" style="margin-top: 1em;">
-      {include file="plugin/activity_indicator_ajax1.html"}
+      {include file="`$activityIndic_data.totalActivity.activity_indicator_ajax1_html`"}
    </div>
    <div id="activityIndicChart" class="pie_chart chart float" style=" top: 15px;"></div>
    <div class="ui-helper-clearfix"></div>

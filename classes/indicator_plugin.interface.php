@@ -17,6 +17,8 @@
 */
 
 interface IndicatorPlugin {
+	
+   const indicatorPluginsDir = 'indicator_plugins';
 
    public function getName();
    public function getDesc();
