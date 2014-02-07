@@ -51,7 +51,7 @@ function login($user, $password) {
 
     $formattedUser = SqlWrapper::getInstance()->sql_real_escape_string($user);
     $formattedPass = SqlWrapper::getInstance()->sql_real_escape_string($password);
-    $query = "SELECT id, username, realname FROM `mantis_user_table` WHERE username = '".$formattedUser."' AND password = '".$formattedPass."';";
+    $query = "SELECT id, username, realname FROM `mantis_user_table` WHERE username = '".$formattedUser."' AND password = '".$formattedPass."' AND enabled = 1;";
     $result = SqlWrapper::getInstance()->sql_query($query);
     if ($result && SqlWrapper::getInstance()->sql_num_rows($result) == 1 && $row_login = SqlWrapper::getInstance()->sql_fetch_object($result)) {
         $_SESSION['userid'] = $row_login->id;
