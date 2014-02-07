@@ -386,7 +386,7 @@
          {/if}
       </div>
       <!--div id="tabTaskStatusHistory">
-         { include file="plugin/status_history_indicator.html" }
+         { include file="$statusHistoryIndicatorFile" }
       </div-->
 
       <div id="tabEffortEstimReliabilityHistory">
@@ -398,7 +398,7 @@
 				<p><strong>{t}Formula{/t}:</strong><br><span style="color:blue">SUM({t}EffortEstim{/t} + {t}EffortAdd{/t})  / SUM({t}elapsed{/t})</span></p>
 			</div>
 
-         {include file="plugin/effortEstimReliabilityIndicator.html"}
+         {include file="$effortEstimReliabilityIndicatorFile"}
       </div>
    </div>
    {/if}

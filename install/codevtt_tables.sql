@@ -445,6 +445,30 @@ CREATE TABLE IF NOT EXISTS `codev_wbs_table` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
+-- Structure de la table `codev_plugin_table`
+--
+
+CREATE TABLE IF NOT EXISTS `codev_plugin_table` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `pathname` varchar(64) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `properties` varchar(100) default NULL,
+  `description` varchar(100) default NULL,
+  PRIMARY KEY  (`id`)
+
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+INSERT INTO `codev_plugin_table` (`id`, `pathname`, `name`) VALUES
+(1, 'ActivityIndicator', 'Activity indicator plugin'),
+(2, 'BacklogVariationIndicator', 'Backlog variation indicator plugin'),
+(3, 'BudgetDriftHistoryIndicator', 'Budget drift history indicator plugin'),
+(4, 'DaysPerJobIndicator', 'Days per job indicator plugin'),
+(5, 'DetailedChargesIndicator', 'Detailed charges indicator plugin'),
+(6, 'EffortEstimReliabilityIndicator', 'Effort estim reliability indicator plugin'),
+(7, 'ProgressHistoryIndicator', 'Progress history indicator plugin'),
+(8, 'ReopenedRateIndicator', 'Reopened rate indicator plugin')
+(9, 'StatusHistoryIndicator', 'Status history indicator plugin');
+
 
 -- /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 -- /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

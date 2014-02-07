@@ -25,7 +25,7 @@ require_once('lib/log4php/Logger.php');
  * Description of ReopenedRateIndicator
  *
  */
-class ReopenedRateIndicator implements IndicatorPlugin {
+class ReopenedRateIndicator extends Plugin implements IndicatorPlugin {
 
 
    /**
@@ -64,7 +64,7 @@ class ReopenedRateIndicator implements IndicatorPlugin {
    }
 
    public static function getSmartyFilename() {
-      return "plugin/budgetDriftHistoryIndicator.html";
+      return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
    }
 
    /**

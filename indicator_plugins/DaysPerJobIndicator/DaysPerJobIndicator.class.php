@@ -19,7 +19,7 @@
 /**
  * Description of days_per_job
  */
-class DaysPerJobIndicator implements IndicatorPlugin {
+class DaysPerJobIndicator extends Plugin implements IndicatorPlugin {
 
    /**
     * @var Logger The logger
@@ -49,7 +49,7 @@ class DaysPerJobIndicator implements IndicatorPlugin {
    }
 
    public static function getSmartyFilename() {
-      return 'plugin/days_per_job_indicator.html';
+
    }
 
    public function getDesc() {

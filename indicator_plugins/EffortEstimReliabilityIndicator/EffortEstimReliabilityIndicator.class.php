@@ -4,7 +4,7 @@
  * Description of EffortEstimReliability
  *
  */
-class EffortEstimReliabilityIndicator implements IndicatorPlugin {
+class EffortEstimReliabilityIndicator extends Plugin implements IndicatorPlugin {
    //put your code here
    /**
     * @var Logger The logger
@@ -36,7 +36,7 @@ class EffortEstimReliabilityIndicator implements IndicatorPlugin {
       return __CLASS__;
    }
    public static function getSmartyFilename() {
-      return "plugin/effortEstimReliabilityIndicator.html";
+      return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
    }
 
   // ----------------------------------------------

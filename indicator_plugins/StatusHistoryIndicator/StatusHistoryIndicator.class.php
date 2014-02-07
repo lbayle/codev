@@ -21,7 +21,7 @@
  * Description of StatusHistoryIndicator
  *
  */
-class StatusHistoryIndicator implements IndicatorPlugin {
+class StatusHistoryIndicator extends Plugin implements IndicatorPlugin {
 
    /**
     * @var Logger The logger
@@ -52,7 +52,7 @@ class StatusHistoryIndicator implements IndicatorPlugin {
       return __CLASS__;
    }
    public static function getSmartyFilename() {
-      return "plugin/status_history_indicator.html";
+      return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
    }
 
 

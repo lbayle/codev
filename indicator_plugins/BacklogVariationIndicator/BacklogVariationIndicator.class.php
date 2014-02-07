@@ -143,7 +143,7 @@ class NormalizedBacklog {
  *
  * @author lob
  */
-class BacklogVariationIndicator implements IndicatorPlugin {
+class BacklogVariationIndicator extends Plugin implements IndicatorPlugin {
 
    /**
     * @var Logger The logger

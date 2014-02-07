@@ -19,7 +19,7 @@
 /**
  * Description of ProgressHistoryIndicator
  */
-class ProgressHistoryIndicator implements IndicatorPlugin {
+class ProgressHistoryIndicator extends Plugin implements IndicatorPlugin {
 
    /**
     * @var Logger The logger
@@ -58,7 +58,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
    }
 
    public static function getSmartyFilename() {
-      return "plugin/progress_history_indicator.html";
+      return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
    }
 
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
@@ -279,10 +279,13 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       $endTimestamp = strtotime(date("Y-m-d",$this->endTimestamp)." +1 month");
 
       $smartyVariables = array();
-      $smartyVariables['progress_history_plotMinDate'] = Tools::formatDate("%Y-%m-01", $startTimestamp);
-      $smartyVariables['progress_history_plotMaxDate'] = Tools::formatDate("%Y-%m-01", $endTimestamp);
-      $smartyVariables['progress_history_interval'] = ceil($this->interval/20);
-      $smartyVariables['progress_history_data'] = "[".Tools::array2plot($theoBacklog).','.Tools::array2plot($realBacklog)."]";
+      
+      if ($startTimestamp <= $endTimestamp) {
+	      $smartyVariables['progress_history_plotMinDate'] = Tools::formatDate("%Y-%m-01", $startTimestamp);
+	      $smartyVariables['progress_history_plotMaxDate'] = Tools::formatDate("%Y-%m-01", $endTimestamp);
+	      $smartyVariables['progress_history_interval'] = ceil($this->interval/20);
+	      $smartyVariables['progress_history_data'] = "[".Tools::array2plot($theoBacklog).','.Tools::array2plot($realBacklog)."]";
+      }
 
       return $smartyVariables;
    }

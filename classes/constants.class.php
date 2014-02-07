@@ -184,7 +184,9 @@ class Constants {
       }
       
       $timesheets = $ini_array['timesheets'];
-      self::$taskDurationList = Tools::doubleExplode(':', ',', $timesheets['task_duration_list']);
+      if (isset($timesheets['task_duration_list'])) {
+      	self::$taskDurationList = Tools::doubleExplode(':', ',', $timesheets['task_duration_list']);
+      }
 
       // -----
 

@@ -22,7 +22,7 @@
  * 3 tabs "Overview|Detailed|Tasks".
  *
  */
-class DetailedChargesIndicator implements IndicatorPlugin {
+class DetailedChargesIndicator extends Plugin implements IndicatorPlugin {
 
    /**
     * @var Logger The logger
@@ -67,7 +67,11 @@ class DetailedChargesIndicator implements IndicatorPlugin {
       return __CLASS__;
    }
    public static function getSmartyFilename() {
-      return "plugin/detailed_charges_indicator.html";
+      return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
+   }
+   
+   public static function getSmartySubFilename() {
+   	return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__."_data.html";
    }
 
 
@@ -183,6 +187,7 @@ class DetailedChargesIndicator implements IndicatorPlugin {
       $smartyVariables['selectedFilterList'] = $this->selectedFilterList;
       $smartyVariables['selectedFilters'] = $this->selectedFilters;
       $smartyVariables['nbFilters'] = count($this->filterList);
+      $smartyVariables['detailed_charges_indicator_data_html'] = $this->getSmartySubFilename();
       $smartyVariables = $this->getOverview($this->execData, $this->filterDisplayNames, $this->isManager, $smartyVariables);
       if ($this->isManager) {
          $smartyVariables = $this->getDetailed($this->execData, $this->filterDisplayNames, $smartyVariables);
