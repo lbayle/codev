@@ -19,7 +19,7 @@
 /**
  * Description of days_per_job
  */
-class DaysPerJobIndicator implements IndicatorPlugin {
+class DaysPerJobIndicator extends Plugin implements IndicatorPlugin {
 
    /**
     * @var Logger The logger

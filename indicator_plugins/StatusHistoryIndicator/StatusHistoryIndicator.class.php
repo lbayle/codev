@@ -21,7 +21,7 @@
  * Description of StatusHistoryIndicator
  *
  */
-class StatusHistoryIndicator implements IndicatorPlugin {
+class StatusHistoryIndicator extends Plugin implements IndicatorPlugin {
 
    /**
     * @var Logger The logger

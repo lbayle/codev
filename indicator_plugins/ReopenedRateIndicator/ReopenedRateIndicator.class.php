@@ -25,7 +25,7 @@ require_once('lib/log4php/Logger.php');
  * Description of ReopenedRateIndicator
  *
  */
-class ReopenedRateIndicator implements IndicatorPlugin {
+class ReopenedRateIndicator extends Plugin implements IndicatorPlugin {
 
 
    /**

@@ -4,7 +4,7 @@
  * Description of EffortEstimReliability
  *
  */
-class EffortEstimReliabilityIndicator implements IndicatorPlugin {
+class EffortEstimReliabilityIndicator extends Plugin implements IndicatorPlugin {
    //put your code here
    /**
     * @var Logger The logger
