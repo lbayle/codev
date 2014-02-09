@@ -434,7 +434,7 @@ function createCustomFields($isCreateExtIdField = TRUE) {
       createCustomField(T_("CodevTT_External ID"), $mType_string, "customField_ExtId", $attributes);
    }
 
-   createCustomField(T_("CodevTT_Deadline"), $mType_date, "customField_deadline", $attributes);
+   createCustomField(T_("CodevTT_Deadline"), $mType_date, "customField_deadLine", $attributes);
 
    $attributes["display_report"] = 0;
    createCustomField(T_("CodevTT_Aditional Effort"), $mType_numeric, "customField_addEffort", $attributes);
