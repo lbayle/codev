@@ -75,8 +75,21 @@ class Constants {
    public static $maxTooltipsPerPage = 500;
 
    // ---TIMESHEETS ---
-   public static $taskDurationList = "1:1,0.9:0.9,0.8:0.8,0.75:0.75,0.7:0.7,0.6:0.6,0.5:0.5,0.4:0.4,0.3:0.3,0.25:0.25,0.2:0.2,0.1:0.1,0.05:0.05";
-   
+   public static $taskDurationList = array (
+      '1' => '1',
+      '0.9' => '0.9',
+      '0.8' => '0.8',
+      '0.75' => '0.75',
+      '0.7' => '0.7',
+      '0.6' => '0.6',
+      '0.5' => '0.5',
+      '0.4' => '0.4',
+      '0.3' => '0.3',
+      '0.25' => '0.25',
+      '0.2' => '0.2',
+      '0.1' => '0.1',
+      '0.05' => '0.05',
+      );
    
    /**
     * If true, then no info/warning messages will be displayed.
@@ -184,7 +197,9 @@ class Constants {
       }
       
       $timesheets = $ini_array['timesheets'];
-      self::$taskDurationList = Tools::doubleExplode(':', ',', $timesheets['task_duration_list']);
+      if (null != $timesheets && array_key_exists('task_duration_list', $timesheets)) {
+         self::$taskDurationList = Tools::doubleExplode(':', ',', $timesheets['task_duration_list']);
+      }
 
       // -----
 
