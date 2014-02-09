@@ -37,8 +37,8 @@
          <li class="{$ui_tabs_jquery_li}"><a href="#tabTeamMembers">{t}Team Members{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabTeamProjects">{t}Team Projects{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabPreferences">{t}Preferences{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabDuration">{t}Timetrack Durations{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabOnDuty">{t}OnDuty tasks{/t}</a></li>
-         <li class="{$ui_tabs_jquery_li}"><a href="#tabDuration">{t}Duration{/t}</a></li>
       </ul>
 
       <div id="tabGeneral">
@@ -699,12 +699,15 @@
       <div id="tabDuration">
          <!-- Duration -->
          {if $duration}
-         <h3 style="margin: 0 0 0.5em 0.5em;">{t}Duration{/t}</h3>
+         <h2>{t}Timetrack durations list{/t}</h2>
+
+         <span class="help_font">{t}These are the values proposed in the Timetracking page, when adding a timetrack.{/t}</span>
+         <br><br>
          <table>
             <thead>
                <tr>
                   <th></th>
-                  <th>{t}Value (0~1){/t}</th>
+                  <th>{t}Value{/t} (0~1)</th>
                   <th>{t}Display{/t}</th>
                </tr>
             </thead>
