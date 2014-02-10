@@ -507,64 +507,6 @@ class Tools {
    }
 
    /**
-    * QuickSort function for Class instances
-    * NOTE: the classes must have a compareTo(objectB) method.
-    * @static
-    * @param array $a array of instances $a
-    * @return mixed
-    */
-   public static function qsort(&$a) {
-      return self::qsort_do($a,0,count($a)-1);
-   }
-
-   /**
-    * @static
-    * @param $a
-    * @param $l
-    * @param $r
-    * @return mixed
-    */
-   private static function qsort_do(&$a,$l,$r) {
-      if ($l < $r) {
-         self::qsort_partition($a,$l,$r,$lp,$rp);
-         self::qsort_do($a,$l,$lp);
-         self::qsort_do($a,$rp,$r);
-      }
-
-      return $a;
-   }
-
-   /**
-    * @static
-    * @param $a
-    * @param $l
-    * @param $r
-    * @param $lp
-    * @param $rp
-    */
-   private static function qsort_partition(&$a,$l,$r,&$lp,&$rp) {
-      $i = $l+1;
-      $j = $l+1;
-
-      while ($j <= $r) {
-         if ($a[$j]->compareTo($a[$l])) {
-            $tmp = $a[$j];
-            $a[$j] = $a[$i];
-            $a[$i] = $tmp;
-            $i++;
-         }
-         $j++;
-      }
-
-      $x = $a[$l];
-      $a[$l] = $a[$i-1];
-      $a[$i-1] = $x;
-
-      $lp = $i - 2;
-      $rp = $i;
-   }
-
-   /**
     * Takes an URL as input and applies url encoding only to the parameter values
     * @static
     * @param string $url
