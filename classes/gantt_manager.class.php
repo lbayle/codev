@@ -100,7 +100,8 @@ class GanttActivity implements Comparable {
       $bar->progress->SetPattern(GANTT_SOLID,"darkgreen");
 
       // --- add constrains
-      $relationships = $issue->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
+      $relationships = $issue->getRelationships();
+      $relationships = $relationships[''.Constants::$relationship_constrains];
       foreach($relationships as $bugid) {
          // Add a constrain from the end of this activity to the start of the activity $bugid
          $bar->SetConstrain($issueActivityMapping[$bugid], CONSTRAIN_ENDSTART);
@@ -341,7 +342,8 @@ class GanttManager {
       // Note: if issue is constrained, then the constrained issue should already
       //       have an Activity. the contrary would mean that there is a bug in our
       //       sort algorithm...
-      $relationships = $issue->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY );
+      $relationships = $issue->getRelationships();
+      $relationships = $relationships[''.Constants::$relationship_constrained_by];
 
       // find Activity
       foreach ($this->activitiesByUser as $userActivityList) {

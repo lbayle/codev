@@ -41,12 +41,31 @@ class Issue extends Model implements Comparable {
     */
    private static $logger;
 
+   private static $relationshipLabels;
+
    /**
     * Initialize complex static variables
     * @static
     */
    public static function staticInit() {
       self::$logger = Logger::getLogger(__CLASS__);
+   }
+
+   public static function getRelationshipLabel($type) {
+
+      // initialize static member on first use.
+      if (NULL == self::$relationshipLabels) {
+         self::$relationshipLabels = array (
+            '0'     => T_('Duplicate of'),
+            '0_REV' => T_('Has duplicate'),
+            '1'     => T_('Related to'),
+            '2'     => T_('Parent of'),
+            '2_REV' => T_('Child of'),
+            ''.Constants::$relationship_constrained_by  => T_('Constrained by'),
+            ''.Constants::$relationship_constrains      => T_('Constrains'),
+         );
+      }
+      return self::$relationshipLabels[$type];
    }
 
    /**
@@ -70,8 +89,7 @@ class Issue extends Model implements Comparable {
    private $view_state; // public = 10, private = 50
    private $description;
    private $target_version;
-   private $relationships = array(); // array[relationshipType][bugId]
-   private $relationshipTypes = array();
+   private $relationships; // array(relationshipType, array(bugId))
    private $issueNoteList;
    private $commandList;
    private $categoryName;
@@ -952,38 +970,25 @@ class Issue extends Model implements Comparable {
 
    }
 
-
    /**
-    * TODO: NOT FINISHED, ADAPT TO ALL RELATIONSHIP TYPES
     * get list of Relationships
-    * @param type = 2500 or 2501 or 0 or 1 or 2
-    * @return int[] : array(issue_id);
+    * @return array relationshipType => array(issue_id);
     */
-   public function getRelationships($type = NULL) {
+   public function getRelationships() {
       // 2501 : constrains
       // 2500 : constrained by
       // 0 : duplicate of
       // 1 : related to
       // 2 : parent of
-         	
-   	  $complementaryType = (2500 == $type) ? 2501 : 2500;
 
-      if (!array_key_exists($type, $this->relationships)) {
-         $this->relationships[$type] = array();
+      if (NULL == $this->relationships) {
 
-         if ($type == NULL) {
-         	$query = 'SELECT * FROM `mantis_bug_relationship_table` '.
-                  'WHERE (source_bug_id='.$this->bugId.' '.
-                  'AND relationship_type=2501 OR relationship_type=2500 OR relationship_type=0 OR relationship_type=1 OR relationship_type=2);';
-         }
-           
-          else {
-           		$query = 'SELECT * FROM `mantis_bug_relationship_table` '.
-                  'WHERE (source_bug_id='.$this->bugId.' '.
-                  'AND relationship_type='.$type.') '.
-                  'OR (destination_bug_id='.$this->bugId.' '.
-                  'AND relationship_type='.$complementaryType.');';
-           }
+
+         $this->relationships = array();
+
+         $query = 'SELECT * FROM `mantis_bug_relationship_table` '.
+                  'WHERE source_bug_id='.$this->bugId.' OR destination_bug_id='.$this->bugId;
+
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -992,126 +997,23 @@ class Issue extends Model implements Comparable {
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             if($row->source_bug_id == $this->bugId) {
                // normal
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("relationships: [$type] $this->bugId -> $row->destination_bug_id\n");
+               $this->relationships["$row->relationship_type"][] = $row->destination_bug_id;
+            } else {
+               // revert
+               if (Constants::$relationship_constrained_by == $row->relationship_type) {
+                  $this->relationships[''.Constants::$relationship_constrains][] = $row->source_bug_id;
+
+               } else if (Constants::$relationship_constrains == $row->relationship_type) {
+                  $this->relationships[''.Constants::$relationship_constrained_by][] = $row->source_bug_id;
+
+               } else {
+                  // parent_of (2), duplicate_of (0)
+                  $this->relationships[$row->relationship_type.'_REV'][] = $row->source_bug_id;
                }
-               $this->relationships[$type][] = $row->destination_bug_id;
-            } elseif($row->destination_bug_id == $this->bugId) {
-               // complementary
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("relationships: [$type] $this->bugId -> $row->source_bug_id\n");
-               }
-               $this->relationships[$type][] = $row->source_bug_id;
             }
          }
       }
-
-      return $this->relationships[$type];
-   }
-   
-   /**
-    * TODO: NOT FINISHED, ADAPT TO ALL RELATIONSHIP TYPES
-    * get list of type of relationships
-    * @param type = 2500 or 2501 or 0 or 1 or 2
-    * @return int[] : array(type);
-    */
-   public function getRelationshipsType($type = NULL) {
-   	// 2501 : constrains
-   	// 2500 : constrained by
-   	// 0 : duplicate of
-   	// 10 : has duplicate
-   	// 1 : related to
-   	// 2 : parent of
-   	// 21 : child of
-   
-   	$complementaryType = (2500 == $type) ? 2501 : 2500;
-   	$textOfType="";
-
-      if (!array_key_exists($type, $this->relationshipTypes)) {
-         $this->relationshipTypes[$type] = array();
-
-         if ($type == NULL) {
-         	$query = 'SELECT * FROM `mantis_bug_relationship_table` '.
-                  'WHERE (source_bug_id='.$this->bugId.' '.
-                  'AND relationship_type=2501 OR relationship_type=2500 OR relationship_type=0 OR relationship_type=1 OR relationship_type=2);';
-         }
-           
-          else {
-           		$query = 'SELECT * FROM `mantis_bug_relationship_table` '.
-                  'WHERE (source_bug_id='.$this->bugId.' '.
-                  'AND relationship_type='.$type.') '.
-                  'OR (destination_bug_id='.$this->bugId.' '.
-                  'AND relationship_type='.$complementaryType.');';
-           }
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            if($row->source_bug_id == $this->bugId) {
-               // normal
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("relationshipstype normal: $row->relationship_type $this->bugId -> $row->destination_bug_id\n");
-               }
-               $this->relationshipTypes[$type][] = $this->typeToText($row->relationship_type);
-            } elseif($row->destination_bug_id == $this->bugId) {
-               // complementary
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("relationshipstype comp: $row->relationship_type $this->bugId -> $row->source_bug_id\n");
-               }
-               if ($row->relationship_type == 2) {
-               	if(self::$logger->isDebugEnabled()) {
-               		self::$logger->debug("type : $row->relationship_type $row->relationship_type \n");
-               	}
-               	$this->relationshipTypes[$type][] = $this->typeToText(21);
-               } else if ($row->relationship_type == 0) {
-               	if(self::$logger->isDebugEnabled()) {
-               		self::$logger->debug("type : $row->relationship_type $row->relationship_type \n");
-               	}
-               	$this->relationshipTypes[$type][] = $this->typeToText(10);
-               } else 
-               {
-               	$this->relationshipTypes[$type][] = $this->typeToText($row->relationship_type);
-               }
-              }
-          }
-      }
-      
-      return $this->relationshipTypes[$type];
-   }
-   
-   /**
-    * convert type of relationships in text
-    * @param type = 2500 or 2501 or 0 or 10 or 1 or 2 or 21
-    * @return String : text of type
-    */
-   public function typeToText ($type) {
-		   switch ($type) {
-		    case 2500:
-		   $textOfType = T_("Constrained by");
-		   break;
-		   case 2501:
-		   $textOfType = T_("Constrains");
-		   break;
-		   case 0:
-		   $textOfType = T_("Duplicate of");
-		   break;
-		   case 10:
-		   $textOfType = T_("Has duplicate");
-		   break;
-		   case 1:
-		   $textOfType = T_("Related to");
-		   break;
-		   case 2:
-		   $textOfType = T_("Parent of");
-		   break;
-		   case 21:
-		   $textOfType = T_("Child of");
-		   break;
-		   }
-   	
-	return $textOfType;
+      return $this->relationships;
    }
    
    /**
@@ -1531,8 +1433,11 @@ class Issue extends Model implements Comparable {
     */
    function compareTo($issueB) {
       // if IssueB constrains IssueA, then IssueB is higher priority
-      $AconstrainsList = $this->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
-      $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
+      $AconstrainsList = $this->getRelationships();
+      $AconstrainsList = $AconstrainsList[''.Constants::$relationship_constrains];
+
+      $BconstrainsList = $issueB->getRelationships();
+      $BconstrainsList = $BconstrainsList[''.Constants::$relationship_constrains];
       if (in_array($this->bugId, $BconstrainsList)) {
          // B constrains A
          #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
@@ -1666,8 +1571,12 @@ class Issue extends Model implements Comparable {
     */
    public static function compare(Comparable $issueA, Comparable $issueB) {
       // if IssueB constrains IssueA, then IssueB is higher priority
-      $AconstrainsList = $issueA->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
-      $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
+      $AconstrainsList = $issueA->getRelationships();
+      $AconstrainsList = $AconstrainsList[''.Constants::$relationship_constrains];
+      $BconstrainsList = $issueB->getRelationships();
+      $BconstrainsList = $BconstrainsList[''.Constants::$relationship_constrains];
+
+
       if (in_array($issueA->bugId, $BconstrainsList)) {
          // B constrains A
          #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {

@@ -109,7 +109,34 @@
             </tr>
             <!-- Relationships details -->
            <div id="issueRelationshipsInfo" class="float">
-               {include file="ajax/issueRelationshipsInfo.html"}
+               <div style="margin-top: 2em;">
+               <table class="invisible">
+                  <tr>
+                     <th valign="top">{t}Relationships{/t}</th>
+                     <td valign="top">: </td>
+                     <td>
+                        <table>
+                             <tr>
+                                <th valign="top" title='{t}Issue{/t}'>{t}Issue AA{/t}</th>
+                                <th valign="top" title='{t}Relation{/t}'>{t}Relation{/t}</th>
+                                <th valign="top" title='{t}Status{/t}'>{t}Status{/t}</th>
+                                <th valign="top" title='{t}Progress{/t}'>{t}Progress{/t}</th>
+                             </tr>
+                           <tbody>
+                          {foreach $issueGeneralInfo.relationships as $relatedIssue}
+                             <tr>
+                                   <td>{$relatedIssue.url}</td>
+                                   <td>{$relatedIssue.relationship}</td>
+                                   <td>{$relatedIssue.status}</td>
+                                   <td>{$relatedIssue.progress}%</td>
+                             </tr>
+                          {/foreach}
+                          </tbody>
+                       </table>
+                     </td>
+                  </tr>
+               </table>
+               </div>
             </div>
          </tbody>
       </table>

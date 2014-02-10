@@ -59,9 +59,7 @@ class IssueInfoTools {
          "issueDriftColor" => $issue->getDriftColor($drift),
          "issueDrift" => round($drift, 2),
          "progress" => round(100 * $issue->getProgress()),
-      	 "isRelation" => $issue->getIssues($issue->getRelationships(NULL)),
-      	 "issueStatus" => IssueInfoTools::getIssueStatus($issue),
-      	 "relationTab" => IssueInfoTools::buildTab($issue->getRelationships(NULL), $issue->getRelationshipsType(NULL), IssueInfoTools::getIssueStatus($issue), IssueInfoTools::getIssueProgress($issue))
+         'relationships' => self::getFormattedRelationshipsInfo($issue),
       	);
       if($isManager) {
          $issueGeneralInfo['issueMgrEffortEstim'] = $issue->getMgrEffortEstim();
@@ -90,44 +88,28 @@ class IssueInfoTools {
    }
 
    /**
-    * Get Status of Issue
-    * @static
+    *
+    * @param type $relationshipList
     */
-   public static function getIssueStatus(Issue $issue) {
-   	$statusid = array();
-   	foreach ($issue->getIssues($issue->getRelationships(NULL)) as $key) {
-   		$statusid[] = $key->getCurrentStatusName();
-   	}
-   	return $statusid;
-   }
-   
-   /**
-    * Get Progress of Issue
-    * @static
-    */
-   public static function getIssueProgress(Issue $issue) {
-   	$progressid = array();
-   	foreach ($issue->getIssues($issue->getRelationships(NULL)) as $key) {
-   		$progressid[] = round(100 * $key->getProgress()) . "%";
-   	}
-   	return $progressid;
-   }
-   
-   /**
-    * Construction of array for Relationships
-    * @static
-    */
-   
-   public static function buildTab ($array1,$array2,$array3,$array4) {
-   
-   	$n = count($array1); //size of tab
-   
-   	$tab = array();
-   	for($i=0; $i<$n; $i++)
-   	{
-   	$tab[$i] = array( Tools::mantisIssueURL($array1[$i]), $array2[$i],$array3[$i], $array4[$i]);
-   	}
-   	return $tab;
+   private static function getFormattedRelationshipsInfo($issue) {
+      
+      $relationships = $issue->getRelationships();
+
+      $relationshipsInfo = array();
+      foreach ($relationships as $relType => $bugids) {
+         $typeLabel = Issue::getRelationshipLabel($relType);
+
+         foreach ($bugids as $bugid) {
+            $relatedIssue = IssueCache::getInstance()->getIssue($bugid);
+            $relationshipsInfo["$bugid"] = array('url' => Tools::issueInfoURL($bugid),
+                                                 'relationship' => $typeLabel,
+                                                 'status' => $relatedIssue->getCurrentStatusName(),
+                                                 'progress' => round(100 * $relatedIssue->getProgress()),
+                                                 );
+         }
+      }
+      ksort($relationshipsInfo);
+      return $relationshipsInfo;
    }
    
 }
