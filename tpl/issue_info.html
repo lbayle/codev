@@ -107,6 +107,7 @@
                <td valign="top">: </td>
                <td><textarea rows='6' cols='120' name='description'  id='description'>{$issueGeneralInfo.issueDescription}</textarea></td>
             </tr>
+            {if $issueGeneralInfo.relationships}
             <!-- Relationships details -->
            <div id="issueRelationshipsInfo" class="float">
                <div style="margin-top: 2em;">
@@ -117,16 +118,16 @@
                      <td>
                         <table>
                              <tr>
-                                <th valign="top" title='{t}Issue{/t}'>{t}Issue AA{/t}</th>
                                 <th valign="top" title='{t}Relation{/t}'>{t}Relation{/t}</th>
+                                <th valign="top" title='{t}Issue{/t}'>{t}Issue{/t}</th>
                                 <th valign="top" title='{t}Status{/t}'>{t}Status{/t}</th>
                                 <th valign="top" title='{t}Progress{/t}'>{t}Progress{/t}</th>
                              </tr>
                            <tbody>
                           {foreach $issueGeneralInfo.relationships as $relatedIssue}
                              <tr>
-                                   <td>{$relatedIssue.url}</td>
                                    <td>{$relatedIssue.relationship}</td>
+                                   <td>{$relatedIssue.url}</td>
                                    <td>{$relatedIssue.status}</td>
                                    <td>{$relatedIssue.progress}%</td>
                              </tr>
@@ -138,6 +139,7 @@
                </table>
                </div>
             </div>
+           {/if}
          </tbody>
       </table>
 
