@@ -108,14 +108,17 @@ class GanttGraphView {
       $teamActivities = $gantManager->getTeamActivities();
 
       // mapping to ease constrains building
+      // Note: $issueActivityMapping must be completed before calling $a->getJPGraphBar()
       $issueActivityMapping = array();
-
-      // set activityIdx
       $activityIdx = 0;
+      foreach($teamActivities as $a) {
+         $a->setActivityIdx($activityIdx);
+         $issueActivityMapping[$a->bugid] = $activityIdx;
+         ++$activityIdx;
+      }
 
       // Add the specified activities
       foreach($teamActivities as $a) {
-         $a->setActivityIdx($activityIdx);
 
          // FILTER on projects
          if ((NULL != $projectIds) && (0 != sizeof($projectIds))) {
@@ -126,9 +129,7 @@ class GanttGraphView {
             }
          }
 
-         $issueActivityMapping[$a->bugid] = $activityIdx;
          $filterTeamActivities[] = $a;
-         ++$activityIdx;
 
          // Shorten bar depending on gantt startDate
          if (NULL != $startTimestamp && $a->startTimestamp < $startTimestamp) {
