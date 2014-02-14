@@ -286,6 +286,10 @@ class TimeTrackingController extends Controller {
       $consistencyErrors = array();
       if (count($cerrList) > 0) {
          foreach ($cerrList as $cerr) {
+            
+            // skip alerts on today
+            if ($endTimestamp == $cerr->timestamp) { continue; }
+            
             if ($userid == $cerr->userId) {
                $consistencyErrors[] = array(
                   'date' => date("Y-m-d", $cerr->timestamp),
