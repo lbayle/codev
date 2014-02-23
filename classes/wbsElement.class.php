@@ -216,6 +216,29 @@ class WBSElement extends Model {
       return SqlWrapper::getInstance()->sql_insert_id();
    }
 
+   /**
+    * parse all WBSs for issues not found in mantis_bug_table. if any, remove them from the WBS.
+    */
+   public static function checkWBS() {
+      $query0 = "SELECT root_id, bug_id FROM codev_wbs_table WHERE bug_id NOT IN (SELECT id FROM mantis_bug_table)";
+      $result0 = SqlWrapper::getInstance()->sql_query($query0);
+      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result0)) {
+         self::$logger->warn("Issue $row->bug_id does not exist in Mantis: now removed from WBS (root = $row->root_id)");
+
+         // remove from WBS
+         $query = "DELETE FROM `codev_wbs_table` WHERE bug_id = ".$row->bug_id.";";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+      }
+   }
+
+   /**
+    *
+    * @return array
+    */
    public function getChildrenIds() {
       $childrenIds = array();
 
@@ -557,9 +580,13 @@ class WBSElement extends Model {
                   #$childArray['icon'] = 'mantis_ico.gif';
 
                } catch (Exception $e) {
-                  $childArray['title'] = $wbselement->getBugId().' - '.T_('Error: Task not found in Mantis DB !');
-                  $childArray['isFolder'] = false;
-                  self::$logger->error("Issue $bugid does not exist in Mantis DB.");
+                  //$childArray['title'] = $wbselement->getBugId().' - '.T_('Error: Task not found in Mantis DB !');
+                  //$childArray['isFolder'] = false;
+                  self::$logger->warn("Issue $bugid does not exist in Mantis DB: calling checkWBS()");
+                  $childArray = array();
+
+                  // remove from WBS
+                  self::checkWBS();
                }
             }
             if (sizeof($childArray) > 0)
