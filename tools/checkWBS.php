@@ -39,7 +39,7 @@ function execQuery($query) {
 $logger = Logger::getLogger("versionUpdater");
 
 // check removed issues
-echo "<br>=================<br>Check issues to remove<br>";
+echo "<br>=================<br>Check issues to remove from Command<br>";
 $query0 = "SELECT command_id, bug_id FROM codev_command_bug_table WHERE bug_id NOT IN (SELECT id FROM mantis_bug_table)";
 $result0 = execQuery($query0);
 while ($row = SqlWrapper::getInstance()->sql_fetch_object($result0)) {
@@ -47,14 +47,21 @@ while ($row = SqlWrapper::getInstance()->sql_fetch_object($result0)) {
 
    // remove from Command
    $query = "DELETE FROM `codev_command_bug_table` WHERE bug_id = ".$row->bug_id.";";
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      exit;
-   }
-
-
+   $result = execQuery($query);
 }
+
+// check removed issues
+echo "<br>=================<br>Check issues to remove from WBS<br>";
+$query0 = "SELECT root_id, bug_id FROM codev_wbs_table WHERE bug_id NOT IN (SELECT id FROM mantis_bug_table)";
+$result0 = execQuery($query0);
+while ($row = SqlWrapper::getInstance()->sql_fetch_object($result0)) {
+   echo "ERROR issue $row->bug_id does not exist in Mantis but is still defined in WBS (root = $row->root_id)<br>";
+
+   // remove from WBS
+   $query = "DELETE FROM `codev_wbs_table` WHERE bug_id = ".$row->bug_id.";";
+   $result = execQuery($query);
+}
+
 
 // check that all Command issues are declared in the Command WBS.
 
@@ -87,7 +94,6 @@ while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
    $wbsBugidList = array();
    while ($row3 = SqlWrapper::getInstance()->sql_fetch_object($result3)) {
       $wbsBugidList[] = $row3->bug_id;
-
    }
 
    // 4) for each cmd issue, check if present in wbs
@@ -99,10 +105,7 @@ while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $issue = IssueCache::getInstance()->getIssue($bid);
          } catch (Exception $e) {
             echo "ERROR issue $bid does not exist in Mantis !</span><br>";
-
          }
-
-
       } else {
          echo "$bid, ";
       }
