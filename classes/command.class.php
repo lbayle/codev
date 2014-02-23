@@ -269,6 +269,25 @@ class Command extends Model {
       return SqlWrapper::getInstance()->sql_result($result, 0);
    }
 
+   /**
+    * parse all Commands for issues not found in mantis_bug_table. if any, remove them from the Commands.
+    */
+   public static function checkCommands() {
+      $query0 = "SELECT command_id, bug_id FROM codev_command_bug_table WHERE bug_id NOT IN (SELECT id FROM mantis_bug_table)";
+      $result0 = SqlWrapper::getInstance()->sql_query($query0);
+      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result0)) {
+         self::$logger->warn("issue $row->bug_id does not exist in Mantis: now removed from Command $row->command_id");
+
+         // remove from Command
+         $query = "DELETE FROM `codev_command_bug_table` WHERE bug_id = ".$row->bug_id.";";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+      }
+   }
+
    public function getId() {
       return $this->id;
    }
@@ -625,6 +644,7 @@ class Command extends Model {
                $issue = IssueCache::getInstance()->getIssue($row->id, $row);
                $issues[$row->id] = $issue;
             } catch (Exception $e) {
+               // Note: this should never happen, the "lazy init" query only returns existing issues...
                echo "<span style='color:red'>WARNING: Task $row->id does not exist in Mantis and has been removed from this Command !</span><br>";
                $this->removeIssue($row->id);
             }

@@ -49,6 +49,11 @@ class CommandEditController extends Controller {
             }
             $this->smartyHelper->assign('isEditGranted', true);
 
+
+            // -------- CHECK  --------
+            // this will check all existing commands (from all teams !) and remove issues that have been deleted from mantis
+            Command::checkCommands();
+
             // use the cmdid set in the form, if not defined (first page call) use session cmdid
             $cmdid = 0;
             if(isset($_POST['cmdid'])) {
