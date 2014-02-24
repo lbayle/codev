@@ -340,7 +340,7 @@ class DetailedChargesIndicator implements IndicatorPlugin {
 
       // find out which issues will have a tooltip
       if (0 != $this->maxTooltipsPerPage) {
-         $bugWithTooltipList = array_keys($this->inputIssueSel->getLastUpdatedList($this->maxTooltipsPerPage));
+         $bugWithTooltipList = @array_keys($this->inputIssueSel->getLastUpdatedList($this->maxTooltipsPerPage));
          #echo "bugWithTooltipList = ".implode(',', $bugWithTooltipList).'<br>';
       }
 

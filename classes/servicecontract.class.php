@@ -343,8 +343,10 @@ class ServiceContract extends Model {
 
       if(NULL == $type) {
          return $this->cmdsetidByTypeList;
-      } else {
+      } else if (array_key_exists($type, $this->cmdsetidByTypeList)) {
          return $this->cmdsetidByTypeList[$type];
+      } else {
+         return NULL;
       }
    }
 
@@ -632,7 +634,7 @@ class ServiceContract extends Model {
       $key= 'P'.$cset_type.'_'.$cmd_type.'_'.$prov_type;
       if (is_null($this->provisionList)) { $this->provisionList = array(); }
 
-      if (is_null($this->provisionList[$key])) {
+      if (!array_key_exists($key, $this->provisionList)) {
 
          $cmdidList = array_keys($this->getCommands($cset_type, $cmd_type));
          if (empty($cmdidList)) {
@@ -693,7 +695,7 @@ class ServiceContract extends Model {
    public function getProvisionDaysByType($cset_type, $cmd_type) {
 
       $provDaysByType = array();
-      $provisions = $this->getProvisionList($cset_type, $cmd_type, $prov_type);
+      $provisions = $this->getProvisionList($cset_type, $cmd_type);
       foreach ($provisions as $prov) {
          $prov_type = $prov->getType();
          $provDaysByType["$prov_type"] += $prov->getProvisionDays();
