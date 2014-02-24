@@ -931,8 +931,8 @@ INSERT INTO `mantis_custom_field_table` (`id`, `name`, `type`, `possible_values`
 (2, 'CodevTT_EffortEstim', 1, '', '1', '', 10, 25, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1),
 (3, 'CodevTT_Type', 6, 'Bug|Task', '', '', 10, 25, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1),
 (4, 'CodevTT_Manager EffortEstim', 1, '', '0', '', 70, 70, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1),
-(5, 'CodevTT_Dead Line', 8, '', '', '', 10, 25, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1),
-(6, 'CodevTT_Aditional Effort', 1, '', '', '', 10, 25, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1),
+(5, 'CodevTT_Deadline', 8, '', '', '', 10, 25, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1),
+(6, 'CodevTT_Additional Effort', 1, '', '', '', 10, 25, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1),
 (7, 'CodevTT_Backlog', 1, '', '', '', 10, 25, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1),
 (8, 'CodevTT_Delivery Date', 8, '', '', '', 10, 25, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1);
 

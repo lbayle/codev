@@ -437,7 +437,7 @@ function createCustomFields($isCreateExtIdField = TRUE) {
    createCustomField(T_("CodevTT_Deadline"), $mType_date, "customField_deadLine", $attributes);
 
    $attributes["display_report"] = 0;
-   createCustomField(T_("CodevTT_Aditional Effort"), $mType_numeric, "customField_addEffort", $attributes);
+   createCustomField(T_("CodevTT_Additional Effort"), $mType_numeric, "customField_addEffort", $attributes);
 
    $attributes["require_report"] = 0;
    $attributes["display_report"] = 0;
@@ -482,8 +482,8 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
                      $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
                      $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
                      $projectList, $groupExtID, $extIdCustomFieldCandidates, $extIdCustomField, $userList, $admin_id,
-                     $is_modified = "false",
-                     $statusList, $status_new, $status_feedback, $status_open, $status_closed) {
+                     $statusList, $status_new, $status_feedback, $status_open, $status_closed,
+                     $is_modified = "false") {
 
    checkMantisPluginDir();
 
@@ -1052,7 +1052,8 @@ displayForm($originPage, $codevOutputDir, $checkReportsDirError,
    $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
    $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
    $projectList, $groupExtID, $extIdCustomFieldCandidates, $extIdCustomField, $userList, $admin_id,
-   $is_modified, $statusList, $status_new, $status_feedback, $status_open, $status_closed);
+   $statusList, $status_new, $status_feedback, $status_open, $status_closed,
+   $is_modified);
 
 ?>
 
