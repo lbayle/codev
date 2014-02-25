@@ -25,12 +25,14 @@ class Constants {
 
    public static $homepage_title;
    public static $logoImage   = "images/codevtt_logo_03_mini.png";
-   public static $doodles   = array('logo_image_1031_1031' => 'images/codevtt_logo_03_halloween.png',
-                                    'logo_image_1201_1227' => 'images/codevtt_logo_03_christmas.png',
-                                    'logo_image_1231_1231' => 'images/codevtt_logo_03_happynewyear.png',
-                                    'logo_image_0101_0106' => 'images/codevtt_logo_03_happynewyear.png',
-                                    'logo_image_0421_0425' => 'images/codevtt_logo_03_easter.png');
-
+   public static $doodles   = array(
+      'logo_image_0207_0214' => 'images/codevtt_logo_03_stvalentin.png',
+      'logo_image_1031_1031' => 'images/codevtt_logo_03_halloween.png',
+      'logo_image_1201_1227' => 'images/codevtt_logo_03_christmas.png',
+      'logo_image_1231_1231' => 'images/codevtt_logo_03_happynewyear.png',
+      'logo_image_0101_0106' => 'images/codevtt_logo_03_happynewyear.png',
+      );
+   
    // --- DATABASE ---
    public static $db_mantis_host;
    public static $db_mantis_database;

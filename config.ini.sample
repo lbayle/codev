@@ -50,11 +50,14 @@ max_tooltips_per_page = 500
 
 [doodles]
 ; logo_image_startDate_endDate = "images/doodle_logo.png" (date "MMdd")
-logo_image_0421_0425 = "images/codevtt_logo_03_easter"
+logo_image_0207_0214 = "images/codevtt_logo_03_stvalentin.png"
+logo_image_0421_0425 = "images/codevtt_logo_03_easter.png"
 logo_image_1031_1031 = "images/codevtt_logo_03_halloween.png"
 logo_image_1220_1227 = "images/codevtt_logo_03_christmas.png"
 logo_image_1231_1231 = "images/codevtt_logo_03_happynewyear.png"
 logo_image_0101_0106 = "images/codevtt_logo_03_happynewyear.png"
 
 [timesheets]
+; value:displayed_text
 task_duration_list = "1:1,0.9:0.9,0.8:0.8,0.75:0.75,0.7:0.7,0.6:0.6,0.5:0.5,0.4:0.4,0.3:0.3,0.25:0.25,0.2:0.2,0.1:0.1,0.05:0.05"
+;task_duration_list = "1:all day,0.5:half day,0.125:one hour"
