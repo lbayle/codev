@@ -52,27 +52,45 @@
                });
             </script>
             <div id="submittedResolvedChart" style="width: 70%;" class="date_chart chart float"></div>
-            <div id="table-wrapper">
-               <div id="table-scroll" style="height: 290px;" >
-            <table title="{t}Submitted / Resolved Issues{/t}">
-               <thead>
-                  <tr>
-                     <th>{t}Date{/t}</th>
-                     <th title="{t}Nb of submitted tasks EXCEPT SideTasks{/t}">{t}Nb submissions{/t}</th>
-                     <th title="{t}Nb of resolved tasks EXCEPT SideTasks and reopened tasks{/t}">{t}Nb Resolved{/t}</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  {foreach from=$submittedResolved_Legend key=id item=i}
-                  <tr>
-                     <td class="right">{$id}</td>
-                     <td class="right">{$i.nbSubmitted}</td>
-                     <td class="right">{$i.nbResolvedIssues}</td>
-                  </tr>
-                  {/foreach}
-               </tbody>
-            </table>
-            </div></div>
+            <a id="dialog_submittedResolvedValues_link" href="{$page}"><img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/></a>
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  jQuery("#dialog_submittedResolvedValues_link").click(function() {
+                     jQuery("#dialog_submittedResolvedValues").dialog("open");
+                     return false;
+                  });
+                  jQuery("#dialog_submittedResolvedValues").dialog({
+                     autoOpen: false,
+                     height: 'auto',
+                     width: "auto",
+                     hide: "fade"
+                  });
+               });
+            </script>
+            <div id="dialog_submittedResolvedValues" title="{t}Submitted / Resolved Issues{/t}" class="ui-helper-hidden">
+
+                <div id="table-wrapper">
+                   <div id="table-scroll" style="height: 290px;" >
+                <table title="{t}Submitted / Resolved Issues{/t}">
+                   <thead>
+                      <tr>
+                         <th>{t}Date{/t}</th>
+                         <th title="{t}Nb of submitted tasks EXCEPT SideTasks{/t}">{t}Nb submissions{/t}</th>
+                         <th title="{t}Nb of resolved tasks EXCEPT SideTasks and reopened tasks{/t}">{t}Nb Resolved{/t}</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      {foreach from=$submittedResolved_Legend key=id item=i}
+                      <tr>
+                         <td class="right">{$id}</td>
+                         <td class="right">{$i.nbSubmitted}</td>
+                         <td class="right">{$i.nbResolvedIssues}</td>
+                      </tr>
+                      {/foreach}
+                   </tbody>
+                </table>
+                </div></div>
+            </div>
             <div class="ui-helper-clearfix"></div>
          </div>
          {/if}
@@ -95,27 +113,44 @@
                });
             </script>
             <div id="submittedResolvedExtRefOnlyChart" style="width: 70%;" class="date_chart chart float"></div>
-            <div id="table-wrapper">
-               <div id="table-scroll" style="height: 290px;" >
-            <table title="{t}Submitted / Resolved Issues (ExtRefOnly){/t}">
-               <thead>
-                  <tr>
-                     <th>{t}Date{/t}</th>
-                     <th title="{t}Nb of submitted tasks EXCEPT SideTasks{/t}">{t}Nb submissions{/t}</th>
-                     <th title="{t}Nb of resolved tasks EXCEPT SideTasks and reopened tasks{/t}">{t}Nb Resolved{/t}</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  {foreach from=$submittedResolvedExtRefOnly_Legend key=id item=i}
-                  <tr>
-                     <td class="right">{$id}</td>
-                     <td class="right">{$i.nbSubmitted}</td>
-                     <td class="right">{$i.nbResolvedIssues}</td>
-                  </tr>
-                  {/foreach}
-               </tbody>
-            </table>
-               </div></div>
+            <a id="dialog_submittedResolvedExtRefOnly_link" href="{$page}"><img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/></a>
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  jQuery("#dialog_submittedResolvedExtRefOnly_link").click(function() {
+                     jQuery("#dialog_submittedResolvedExtRefOnly").dialog("open");
+                     return false;
+                  });
+                  jQuery("#dialog_submittedResolvedExtRefOnly").dialog({
+                     autoOpen: false,
+                     height: 'auto',
+                     width: "auto",
+                     hide: "fade"
+                  });
+               });
+            </script>
+            <div id="dialog_submittedResolvedExtRefOnly" title="{t}Submitted / Resolved Issues (ExtRefOnly){/t}" class="ui-helper-hidden">
+                <div id="table-wrapper">
+                   <div id="table-scroll" style="height: 290px;" >
+                <table title="{t}Submitted / Resolved Issues (ExtRefOnly){/t}">
+                   <thead>
+                      <tr>
+                         <th>{t}Date{/t}</th>
+                         <th title="{t}Nb of submitted tasks EXCEPT SideTasks{/t}">{t}Nb submissions{/t}</th>
+                         <th title="{t}Nb of resolved tasks EXCEPT SideTasks and reopened tasks{/t}">{t}Nb Resolved{/t}</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      {foreach from=$submittedResolvedExtRefOnly_Legend key=id item=i}
+                      <tr>
+                         <td class="right">{$id}</td>
+                         <td class="right">{$i.nbSubmitted}</td>
+                         <td class="right">{$i.nbResolvedIssues}</td>
+                      </tr>
+                      {/foreach}
+                   </tbody>
+                </table>
+                </div></div>
+            </div>
             <div class="ui-helper-clearfix"></div>
          </div>
          {/if}
@@ -141,22 +176,39 @@
                });
             </script>
             <div id="timeDriftChart" style="width: 70%;" class="date_chart chart float"></div>
-            <table title="{t}Adherence to deadlines{/t}">
-               <thead>
-                  <tr>
-                     <th>{t}Date{/t}</th>
-                     <th title="{t}% Tasks Delivered on time{/t}">{t}% Tasks{/t}</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  {foreach from=$timeDrift_Legend key=id item=i}
-                  <tr>
-                     <td class="right">{$id}</td>
-                     <td><div class="progress">{$i}%</div></td>
-                  </tr>
-                  {/foreach}
-               </tbody>
-            </table>
+            <a id="dialog_timeDrift_link" href="{$page}"><img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/></a>
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  jQuery("#dialog_timeDrift_link").click(function() {
+                     jQuery("#dialog_timeDrift").dialog("open");
+                     return false;
+                  });
+                  jQuery("#dialog_timeDrift").dialog({
+                     autoOpen: false,
+                     height: 'auto',
+                     width: "auto",
+                     hide: "fade"
+                  });
+               });
+            </script>
+            <div id="dialog_timeDrift" title="{t}% Tasks Delivered on time{/t}" class="ui-helper-hidden">
+                <table title="{t}Adherence to deadlines{/t}">
+                   <thead>
+                      <tr>
+                         <th>{t}Date{/t}</th>
+                         <th title="{t}% Tasks Delivered on time{/t}">{t}% Tasks{/t}</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      {foreach from=$timeDrift_Legend key=id item=i}
+                      <tr>
+                         <td class="right">{$id}</td>
+                         <td><div class="progress">{$i}%</div></td>
+                      </tr>
+                      {/foreach}
+                   </tbody>
+                </table>
+            </div>
             <div class="ui-helper-clearfix"></div>
          </div>
          {/if}
@@ -186,26 +238,43 @@
                });
             </script>
             <div id="resolvedDriftChart" style="width: 70%;" class="date_chart_with_horizontal_line chart float"></div>
-            <table title="{t}Effort Deviation{/t}">
-               <thead>
-                  <tr>
-                     <th>{t}Date{/t}</th>
-                     <th>{t}Drift Mgr{/t}</th>
-                     <th title="{t}BI{/t} + {t}BS{/t}">{t}Drift{/t}</th>
-                     {if $displayNoSupport}<th title="{t}BI{/t} + {t}BS{/t}">{t}No Support{/t}</th>{/if}
-                  </tr>
-               </thead>
-               <tbody>
-                  {foreach from=$resolvedDrift_Legend key=id item=i}
-                  <tr>
-                     <td class="right">{$id}</td>
-                     <td class="right">{$i.totalDriftETA}</td>
-                     <td class="right">{$i.totalDrift}</td>
-                     {if $displayNoSupport}<td class="right">{$i.totalDriftWithoutSupport}</td>{/if}
-                  </tr>
-                  {/foreach}
-               </tbody>
-            </table>
+            <a id="dialog_resolvedDrift_link" href="{$page}"><img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/></a>
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  jQuery("#dialog_resolvedDrift_link").click(function() {
+                     jQuery("#dialog_resolvedDrift").dialog("open");
+                     return false;
+                  });
+                  jQuery("#dialog_resolvedDrift").dialog({
+                     autoOpen: false,
+                     height: 'auto',
+                     width: "auto",
+                     hide: "fade"
+                  });
+               });
+            </script>
+            <div id="dialog_resolvedDrift" title="{t}Effort Deviation{/t}" class="ui-helper-hidden">
+                <table title="{t}Effort Deviation{/t}">
+                   <thead>
+                      <tr>
+                         <th>{t}Date{/t}</th>
+                         <th>{t}Drift Mgr{/t}</th>
+                         <th title="{t}BI{/t} + {t}BS{/t}">{t}Drift{/t}</th>
+                         {if $displayNoSupport}<th title="{t}BI{/t} + {t}BS{/t}">{t}No Support{/t}</th>{/if}
+                      </tr>
+                   </thead>
+                   <tbody>
+                      {foreach from=$resolvedDrift_Legend key=id item=i}
+                      <tr>
+                         <td class="right">{$id}</td>
+                         <td class="right">{$i.totalDriftETA}</td>
+                         <td class="right">{$i.totalDrift}</td>
+                         {if $displayNoSupport}<td class="right">{$i.totalDriftWithoutSupport}</td>{/if}
+                      </tr>
+                      {/foreach}
+                   </tbody>
+                </table>
+            </div>
             <div class="ui-helper-clearfix"></div>
          </div>
          {/if}
@@ -229,26 +298,43 @@
                });
             </script>
             <div id="resolvedDriftExtRefOnlyChart" style="width: 70%;" class="date_chart_with_horizontal_line chart float"></div>
-            <table title="{t}Effort Deviation (ExtRefOnly){/t}">
-               <thead>
-                  <tr>
-                     <th>{t}Date{/t}</th>
-                     <th>{t}Drift Mgr{/t}</th>
-                     <th title="{t}BI{/t} + {t}BS{/t}">{t}Drift{/t}</th>
-                     {if $displayNoSupport}<th title="{t}BI{/t} + {t}BS{/t}">{t}No Support{/t}</th>{/if}
-                  </tr>
-               </thead>
-               <tbody>
-                  {foreach from=$resolvedDriftExtRefOnly_Legend key=id item=i}
-                  <tr>
-                     <td class="right">{$id}</td>
-                     <td class="right">{$i.totalDriftETA}</td>
-                     <td class="right">{$i.totalDrift}</td>
-                     {if $displayNoSupport}<td class="right">{$i.totalDriftWithoutSupport}</td>{/if}
-                  </tr>
-                  {/foreach}
-               </tbody>
-            </table>
+            <a id="dialog_resolvedDriftExtRefOnly_link" href="{$page}"><img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/></a>
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  jQuery("#dialog_resolvedDriftExtRefOnly_link").click(function() {
+                     jQuery("#dialog_resolvedDriftExtRefOnly").dialog("open");
+                     return false;
+                  });
+                  jQuery("#dialog_resolvedDriftExtRefOnly").dialog({
+                     autoOpen: false,
+                     height: 'auto',
+                     width: "auto",
+                     hide: "fade"
+                  });
+               });
+            </script>
+            <div id="dialog_resolvedDriftExtRefOnly" title="{t}Effort Deviation (ExtRefOnly){/t}" class="ui-helper-hidden">
+                <table title="{t}Effort Deviation (ExtRefOnly){/t}">
+                   <thead>
+                      <tr>
+                         <th>{t}Date{/t}</th>
+                         <th>{t}Drift Mgr{/t}</th>
+                         <th title="{t}BI{/t} + {t}BS{/t}">{t}Drift{/t}</th>
+                         {if $displayNoSupport}<th title="{t}BI{/t} + {t}BS{/t}">{t}No Support{/t}</th>{/if}
+                      </tr>
+                   </thead>
+                   <tbody>
+                      {foreach from=$resolvedDriftExtRefOnly_Legend key=id item=i}
+                      <tr>
+                         <td class="right">{$id}</td>
+                         <td class="right">{$i.totalDriftETA}</td>
+                         <td class="right">{$i.totalDrift}</td>
+                         {if $displayNoSupport}<td class="right">{$i.totalDriftWithoutSupport}</td>{/if}
+                      </tr>
+                      {/foreach}
+                   </tbody>
+                </table>
+            </div>
             <div class="ui-helper-clearfix"></div>
          </div>
          {/if}
@@ -279,24 +365,41 @@
                });
             </script>
             <div id="efficiencyChart" style="width: 70%;" class="date_chart chart float"></div>
-            <table title="{t}Sys Disp.{/t}">
-               <thead>
-                  <tr>
-                     <th>{t}Date{/t}</th>
-                     <th>{t}Efficiency{/t}</th>
-                     <th>{t}Sys Disp.{/t}</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  {foreach from=$efficiency_Legend key=id item=i}
-                  <tr>
-                     <td class="right">{$id}</td>
-                     <td><div class="progress">{$i.efficiencyRate}%</div></td>
-                     <td><div class="progress">{$i.systemDisponibilityRate}%</div></td>
-                  </tr>
-                  {/foreach}
-               </tbody>
-            </table>
+            <a id="dialog_efficiency_link" href="{$page}"><img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/></a>
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  jQuery("#dialog_efficiency_link").click(function() {
+                     jQuery("#dialog_efficiency").dialog("open");
+                     return false;
+                  });
+                  jQuery("#dialog_efficiency").dialog({
+                     autoOpen: false,
+                     height: 'auto',
+                     width: "auto",
+                     hide: "fade"
+                  });
+               });
+            </script>
+            <div id="dialog_efficiency" title="{t}Sys Disp.{/t}" class="ui-helper-hidden">
+                <table title="{t}Sys Disp.{/t}">
+                   <thead>
+                      <tr>
+                         <th>{t}Date{/t}</th>
+                         <th>{t}Efficiency{/t}</th>
+                         <th>{t}Sys Disp.{/t}</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      {foreach from=$efficiency_Legend key=id item=i}
+                      <tr>
+                         <td class="right">{$id}</td>
+                         <td><div class="progress">{$i.efficiencyRate}%</div></td>
+                         <td><div class="progress">{$i.systemDisponibilityRate}%</div></td>
+                      </tr>
+                      {/foreach}
+                   </tbody>
+                </table>
+            </div>
             <div class="ui-helper-clearfix"></div>
          </div>
          {/if}
@@ -325,24 +428,41 @@
                });
             </script>
             <div id="reopenedRateChart" style="width: 70%;" class="date_chart chart float"></div>
-            <table title="{t}Reopened Rate{/t}">
-               <thead>
-                  <tr>
-                     <th>{t}Date{/t}</th>
-                     <th title="{t}Reopened Rate{/t}">{t}% Reopened{/t}</th>
-                     <th title="{t}Nb Reopened{/t}">{t}Nb Reopened{/t}</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  {foreach from=$reopenedRate_Legend key=id item=i}
-                  <tr>
-                     <td class="right">{$id}</td>
-                     <td><div class="progress">{$i.reopenedRateResolved}%</div></td>
-                     <td class="right">{$i.reopened}</td>
-                  </tr>
-                  {/foreach}
-               </tbody>
-            </table>
+            <a id="dialog_reopenedRateValues_link" href="{$page}"><img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/></a>
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  jQuery("#dialog_reopenedRateValues_link").click(function() {
+                     jQuery("#dialog_reopenedRateValues").dialog("open");
+                     return false;
+                  });
+                  jQuery("#dialog_reopenedRateValues").dialog({
+                     autoOpen: false,
+                     height: 'auto',
+                     width: "auto",
+                     hide: "fade"
+                  });
+               });
+            </script>
+            <div id="dialog_reopenedRateValues" title="{t}Reopened Rate{/t}" class="ui-helper-hidden">
+                <table title="{t}Reopened Rate{/t}">
+                   <thead>
+                      <tr>
+                         <th>{t}Date{/t}</th>
+                         <th title="{t}Reopened Rate{/t}">{t}% Reopened{/t}</th>
+                         <th title="{t}Nb Reopened{/t}">{t}Nb Reopened{/t}</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      {foreach from=$reopenedRate_Legend key=id item=i}
+                      <tr>
+                         <td class="right">{$id}</td>
+                         <td><div class="progress">{$i.reopenedRateResolved}%</div></td>
+                         <td class="right">{$i.reopened}</td>
+                      </tr>
+                      {/foreach}
+                   </tbody>
+                </table>
+            </div>
             <div class="ui-helper-clearfix"></div>
          </div>
          {/if}
@@ -365,22 +485,39 @@
                });
             </script>
             <div id="workloadChart" style="width: 70%;" class="date_chart chart float"></div>
-            <table title="{t}Developers Workload{/t}">
-               <thead>
-                  <tr>
-                     <th>{t}Date{/t}</th>
-                     <th title="{t}nb production days{/t}">{t}man-days{/t}</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  {foreach from=$workload_Legend key=id item=i}
-                  <tr>
-                     <td class="right">{$id}</td>
-                     <td class="right">{$i}</td>
-                  </tr>
-                  {/foreach}
-               </tbody>
-            </table>
+            <a id="dialog_workloadValues_link" href="{$page}"><img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/></a>
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  jQuery("#dialog_workloadValues_link").click(function() {
+                     jQuery("#dialog_workloadValues").dialog("open");
+                     return false;
+                  });
+                  jQuery("#dialog_workloadValues").dialog({
+                     autoOpen: false,
+                     height: 'auto',
+                     width: "auto",
+                     hide: "fade"
+                  });
+               });
+            </script>
+            <div id="dialog_workloadValues" title="{t}Developers Workload{/t}" class="ui-helper-hidden">
+                <table title="{t}Developers Workload{/t}">
+                   <thead>
+                      <tr>
+                         <th>{t}Date{/t}</th>
+                         <th title="{t}nb production days{/t}">{t}man-days{/t}</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      {foreach from=$workload_Legend key=id item=i}
+                      <tr>
+                         <td class="right">{$id}</td>
+                         <td class="right">{$i}</td>
+                      </tr>
+                      {/foreach}
+                   </tbody>
+                </table>
+            </div>
             <div class="ui-helper-clearfix"></div>
          </div>
          {/if}

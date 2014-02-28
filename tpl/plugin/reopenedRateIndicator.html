@@ -43,27 +43,43 @@
    });
 </script>
 <div id="reopenedRateChart" class="date_chart chart float" style="width: 70%;"></div>
+<a id="dialog_reopenedRateValues_link" href="{$page}"><img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/></a>
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+      jQuery("#dialog_reopenedRateValues_link").click(function() {
+         jQuery("#dialog_reopenedRateValues").dialog("open");
+         return false;
+      });
+      jQuery("#dialog_reopenedRateValues").dialog({
+         autoOpen: false,
+         height: 'auto',
+         width: "auto",
+         hide: "fade"
+      });
+   });
+</script>
+<div id="dialog_reopenedRateValues" title="{t}Bug Refusal Rate{/t}" class="ui-helper-hidden">
 
-<script src="js/progress.js" type="text/javascript"></script>
-<table>
-   <thead>
-      <tr>
-         <th>{t}Date{/t}</th>
-         <th title="{t}Nb of issues having fail validation tests{/t}">{t}Nb Fail{/t}</th>
-         <th title="{t}Nb of issues having pass validation tests{/t}">{t}Nb Pass{/t}</th>
-      </tr>
-   </thead>
-   <tbody>
-      {foreach from=$reopenedRate_tableData key=id item=i}
-      <tr>
-         <td class="right" title="{$i.dateTooltip}">{$id}</td>
-         <td class="right">{$i.nbReopened}</td>
-         <td class="right">{$i.nbValidated}</td>
-      </tr>
-      {/foreach}
-   </tbody>
-</table>
-
+    <script src="js/progress.js" type="text/javascript"></script>
+    <table>
+       <thead>
+          <tr>
+             <th>{t}Date{/t}</th>
+             <th title="{t}Nb of issues having fail validation tests{/t}">{t}Nb Fail{/t}</th>
+             <th title="{t}Nb of issues having pass validation tests{/t}">{t}Nb Pass{/t}</th>
+          </tr>
+       </thead>
+       <tbody>
+          {foreach from=$reopenedRate_tableData key=id item=i}
+          <tr>
+             <td class="right" title="{$i.dateTooltip}">{$id}</td>
+             <td class="right">{$i.nbReopened}</td>
+             <td class="right">{$i.nbValidated}</td>
+          </tr>
+          {/foreach}
+       </tbody>
+    </table>
+</div>
 <div class="ui-helper-clearfix"></div>
 {else}
    {t}No data.{/t}

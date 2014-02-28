@@ -32,25 +32,42 @@
 
 <div id="budgetDriftIndicatorsChart" class="date_chart_with_horizontal_line chart float" style="width:75%;"></div>
 
+<a id="dialog_budgetDriftValues_link" href="{$page}"><img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/></a>
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+      jQuery("#dialog_budgetDriftValues_link").click(function() {
+         jQuery("#dialog_budgetDriftValues").dialog("open");
+         return false;
+      });
+      jQuery("#dialog_budgetDriftValues").dialog({
+         autoOpen: false,
+         height: 'auto',
+         width: "auto",
+         hide: "fade"
+      });
+   });
+</script>
+<div id="dialog_budgetDriftValues" title="{t}Budget Drift{/t}" class="ui-helper-hidden">
 
-<table>
-   <thead>
-      <tr>
-         <th>{t}Date{/t}</th>
-         <th title="{t}MgrEffortEstim + checked provisions{/t}">{t}Budget{/t}</th>
-         <th title="{t}nb days{/t}" >{t}Drift{/t}</th>
-         <th>% {t}Drift{/t}</th>
-      </tr>
-   </thead>
-   <tbody>
-      {foreach from=$budget_drift_history_tableData key=id item=i}
-      <tr>
-         <td class="right">{$id}</td>
-         <td class="right">{$i.provAndMeeDays}</td>
-         <td class="right">{$i.driftDays}</td>
-         <td class="right">{$i.driftPercent} %</td>
-      </tr>
-      {/foreach}
-   </tbody>
-</table>
+    <table>
+       <thead>
+          <tr>
+             <th>{t}Date{/t}</th>
+             <th title="{t}MgrEffortEstim + checked provisions{/t}">{t}Budget{/t}</th>
+             <th title="{t}nb days{/t}" >{t}Drift{/t}</th>
+             <th>% {t}Drift{/t}</th>
+          </tr>
+       </thead>
+       <tbody>
+          {foreach from=$budget_drift_history_tableData key=id item=i}
+          <tr>
+             <td class="right">{$id}</td>
+             <td class="right">{$i.provAndMeeDays}</td>
+             <td class="right">{$i.driftDays}</td>
+             <td class="right">{$i.driftPercent} %</td>
+          </tr>
+          {/foreach}
+       </tbody>
+    </table>
+</div>
 <div class="ui-helper-clearfix"></div>
