@@ -36,25 +36,13 @@ class Command extends Model {
    const state_toBeValidated = 3;
    const state_validated = 4;
    const state_toBeClosed = 5;
-   const state_closed = 6;
+   const state_closed = 6; // WARN: used HARDCODED in Mantis Plugin
    const state_billMustBeSent = 7;
    const state_billSent = 8;
-   const state_payed = 9; // WARN: used HARDCODED in Mantis Plugin
+   const state_payed = 9;
 
-   // TODO i18n for constants
-   public static $stateNames = array(
-      self::state_toBeSent => "A émettre",
-      self::state_sent => "Emis",
-      self::state_toBeValidated => "A valider",
-      self::state_validated => "Validé",
-      self::state_toBeClosed => "A clôturer",
-      self::state_closed => "Clôturé",
-      self::state_billMustBeSent => "Facture à émettre",
-      self::state_billSent => "Facture émise",
-      self::state_payed => "Facturé"
-   );
-
-
+   public static $stateNames;
+   
    /**
     * @var Logger The logger
     */
@@ -66,6 +54,19 @@ class Command extends Model {
     */
    public static function staticInit() {
       self::$logger = Logger::getLogger(__CLASS__);
+      
+      self::$stateNames = array(
+      self::state_toBeSent => T_("to be sent"),
+      self::state_sent => T_("Sent"),
+      self::state_toBeValidated => T_("to be validated"),
+      self::state_validated => T_("validated"),
+      self::state_toBeClosed => T_("to be closed"),
+      self::state_closed => T_("closed"),
+      self::state_billMustBeSent => T_("bill must be sent"),
+      self::state_billSent => T_("bill sent"),
+      self::state_payed => T_("payed")
+   );
+      
    }
 
    // codev_command_table
