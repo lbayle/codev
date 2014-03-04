@@ -85,6 +85,9 @@ class SetHolidaysController extends Controller {
 
                   $holydays = Holidays::getInstance();
 
+                  $keyvalue = Tools::getSecurePOSTStringValue('checkedDays');
+                  $checkedDaysList = Tools::doubleExplode(':', ',', $keyvalue);
+               
                   $startTimestamp = Tools::date2timestamp($startdate);
                   $endTimestamp = Tools::date2timestamp($enddate);
                   
@@ -92,23 +95,26 @@ class SetHolidaysController extends Controller {
                   $weekday = date('l', strtotime($startdate));
                   $timestamp = $startTimestamp;
                   
-               while ($timestamp <= $endTimestamp) {
+                  while ($timestamp <= $endTimestamp) {
                      // check if not a fixed holiday
                      if (!$holydays->isHoliday($timestamp)) {
-						// check existing timetracks on $timestamp and adjust duration
+      						// check existing timetracks on $timestamp and adjust duration
                         $availabletime = $managed_user->getAvailableTime($timestamp);
                         // not imput more than possible 
-                        if ($duration >= $availabletime) 
+                        if ($duration >= $availabletime) {
                         	$imput = $availabletime;
-                        		else $imput = $duration;
-                        if (TimeTrackingTools::isCheckedDays($weekday)) {
+                        } else {
+                           $imput = $duration;
+                        }
+                        // check if weekday checkbox is checked
+                        if (1 == $checkedDaysList[$weekday]) {
 	                        if ($duration > 0) {
 	                           if(self::$logger->isDebugEnabled()) {
 	                              self::$logger->debug(date("Y-m-d", $timestamp)." duration $imput job $job");
 	                           }
 	                           TimeTrack::create($managed_user->getId(), $defaultBugid, $job, $timestamp, $imput);
 	                        }
-                       }
+                        }
                      }
                      $timestamp = strtotime("+1 day",$timestamp);
                      $weekday = date('l', strtotime(date("Y-m-d", $timestamp)));      
@@ -144,6 +150,7 @@ class SetHolidaysController extends Controller {
                $projList[$extproj_id] = $extProj->getName();
 
                $defaultProjectid  = Tools::getSecurePOSTIntValue('projectid',0);
+               
                if($defaultBugid != 0 && $action == 'setBugId') {
                   // find ProjectId to update categories
                   $issue = IssueCache::getInstance()->getIssue($defaultBugid);
@@ -155,8 +162,6 @@ class SetHolidaysController extends Controller {
                $this->smartyHelper->assign('jobs', $this->getJobs($defaultProjectid, $projList));
                $this->smartyHelper->assign('duration', SmartyTools::getSmartyArray(TimeTrackingTools::getDurationList($team->getId()),$duration));
                
-               $this->smartyHelper->assign('day_names', TimeTrackingTools::getDayList());
-                
                $this->smartyHelper->assign('userid', $managed_user->getId());
             }
          }

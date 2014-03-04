@@ -48,6 +48,7 @@
             
             var projectId = jQuery("#projectid").change(function() {
                form.find("input[name=action]").val("setProjectid");
+               //setWeekDay(form); //  get selected week days
                form.submit();
             });
 
@@ -55,6 +56,7 @@
                // if projectId not set: do it, to update categories
                if (0 == projectId.val()) {
                   form.find("input[name=action]").val("setBugId");
+                  //setWeekDay(form); //  get selected week days
                   form.submit();
                }
             });
@@ -73,6 +75,9 @@
                   msgString += "{t}Job{/t}\n";
                   ++foundError;
                }
+               
+                //  get selected week days
+                setWeekDay(form);
 
                if (0 == foundError) {
                   form.find("input[name=action]").val("addHolidays");
@@ -82,6 +87,18 @@
                }
             });
          });
+         
+         function setWeekDay(form) {
+            //  get selected week days
+            var checkItems = "";
+            jQuery(".cb_weekday").each(function() {
+               var itemName = jQuery(this).attr("name");
+               var isChecked = jQuery(this).attr('checked') ? 1 : 0;
+               checkItems += itemName+":"+isChecked+",";
+            });
+            //alert("selected week days "+checkItems);
+            form.find("input[name=checkedDays]").val(checkItems)
+         }
       </script>
       <form id="form1" name="form1" method="post" action="{$page}">
          <fieldset>
@@ -115,13 +132,19 @@
                <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
                {/foreach}
             </select><br><br>
-            {foreach from=$day_names key=day_ids item=i}
-            <input type="checkbox" name="checkbox{$day_ids}" value="{$i}" checked />{$i}
-            {/foreach}<br><br>
+            
+            <input type="checkbox" class="cb_weekday" name="Monday" checked />{t}Monday{/t}
+            <input type="checkbox" class="cb_weekday" name="Tuesday" checked />{t}Tuesday{/t}
+            <input type="checkbox" class="cb_weekday" name="Wednesday" checked />{t}Wednesday{/t}
+            <input type="checkbox" class="cb_weekday" name="Thursday" checked />{t}Thursday{/t}
+            <input type="checkbox" class="cb_weekday" name="Friday" checked />{t}Friday{/t}
+            
             <!--<input type="hidden" name="trackid" value="unknown1" />-->
             <input type="hidden" name="action" value="noAction" />
             <input type="hidden" name="nextForm" value="addHolidaysForm" />
             <input type="hidden" name="userid" value="{$userid}" />
+            <input type="hidden" name="checkedDays" value="" />
+            
             <input type="button" id="btAddHolidays" name="btAddHolidays" value="{t}Add{/t}" />
          </fieldset>
       </form>
