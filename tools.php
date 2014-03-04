@@ -250,6 +250,12 @@ class Tools {
 
       $timestamp = mktime(intval($hour), intval($minute), intval($second), intval($month), intval($day), intval($year));
 
+      if ($timestamp < 0) {
+         self::$logger->error("datetime2timestamp($string) Failed.");
+         $e = new Exception("datetime2timestamp($string) Failed.");
+         self::$logger->error("stack-trace:\n".$e->getTraceAsString());
+         $timestamp = 0;
+      }
       return $timestamp;
    }
 
@@ -264,6 +270,12 @@ class Tools {
 
       $timestamp = mktime(0, 0, 0, intval($month), intval($day), intval($year));
 
+      if ($timestamp < 0) {
+         self::$logger->error("date2timestamp($string) Failed: month=$month day=$day year=$year");
+         $e = new Exception("date2timestamp($string) Failed.");
+         self::$logger->error("stack-trace:\n".$e->getTraceAsString());
+         $timestamp = 0;
+      }
       return $timestamp;
    }
 
