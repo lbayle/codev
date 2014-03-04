@@ -39,7 +39,7 @@ class Command extends Model {
    const state_closed = 6;
    const state_billMustBeSent = 7;
    const state_billSent = 8;
-   const state_payed = 9;
+   const state_payed = 9; // WARN: used HARDCODED in Mantis Plugin
 
    // TODO i18n for constants
    public static $stateNames = array(

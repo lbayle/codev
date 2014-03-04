@@ -20,7 +20,7 @@ class CodevTTPlugin extends MantisPlugin {
       $this->description = plugin_lang_get('description');
       $this->page = '';
 
-      $this->version = '0.4';
+      $this->version = '0.5';
       $this->requires = array(
           'MantisCore' => '1.2.0',
       );
@@ -195,7 +195,7 @@ class CodevTTPlugin extends MantisPlugin {
       
       // only teams where project is defined
       $query .= "AND 1 = is_project_in_team($project_id, codev_team_table.id) ";
-      
+
       $query .= "ORDER BY codev_team_table.name";
 
       $result = mysql_query($query) or exit(mysql_error());
@@ -211,8 +211,13 @@ class CodevTTPlugin extends MantisPlugin {
 
          $query = "SELECT id, name, reference FROM `codev_command_table` ".
                   "WHERE team_id IN (" . $formattedTeamList . ") ".
-                  "AND enabled = 1 ".
-                  "ORDER BY reference, name";
+                  "AND enabled = 1 ";
+      
+         // do not include closed commands.
+         $query .= "AND state < 6 "; // WARN: HARDCODED value of Command::$state_closed
+         
+         $query .= "ORDER BY reference, name";
+         
          $result = mysql_query($query) or exit(mysql_error());
          $cmdList = array();
          while ($row = mysql_fetch_object($result)) {
