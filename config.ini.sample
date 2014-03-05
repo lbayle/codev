@@ -61,3 +61,8 @@ logo_image_0101_0106 = "images/codevtt_logo_03_happynewyear.png"
 ; value:displayed_text
 task_duration_list = "1:1,0.9:0.9,0.8:0.8,0.75:0.75,0.7:0.7,0.6:0.6,0.5:0.5,0.4:0.4,0.3:0.3,0.25:0.25,0.2:0.2,0.1:0.1,0.05:0.05"
 ;task_duration_list = "1:all day,0.5:half day,0.125:one hour"
+
+[internet]
+;proxy = "proxy:8080"
+check_latest_version = 1
+

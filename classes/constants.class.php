@@ -54,6 +54,10 @@ class Constants {
    public static $relationship_constrained_by;
    public static $relationship_constrains;
 
+   //--- INTERNET ---
+   public static $proxy;
+   public static $isCheckLatestVersion = 1;
+   
    // --- STATUS ---
    # WARNING: CodevTT uses some status variables in the code, they need to set according to the mantis workflow.
    #          The mandatory variables are:
@@ -203,6 +207,16 @@ class Constants {
          self::$taskDurationList = Tools::doubleExplode(':', ',', $timesheets['task_duration_list']);
       }
 
+      $internet = $ini_array['internet'];
+      if (is_array($internet)) { 
+         if (array_key_exists('proxy', $internet)) {
+            self::$proxy = $internet['proxy'];
+         }
+         if (array_key_exists('check_latest_version', $internet)) {
+            self::$isCheckLatestVersion = $internet['check_latest_version'];
+         }
+      }
+
       // -----
 
       /* FIXME WORKAROUND: SQL procedures still use codev_config_table.bug_resolved_status_threshold ! */
@@ -273,6 +287,14 @@ class Constants {
       $timesheets = array();
       $timesheets['task_duration_list'] = self::$taskDurationList ? Tools::doubleImplode(':', ',', self::$taskDurationList) : ' ';
 
+      $internet = array();
+      if (!empty(self::$proxy)) {
+         $internet['proxy'] = self::$proxy;
+      } else {
+         $internet[] = ';proxy = "proxy:8080"';
+      }
+      $internet['check_latest_version'] = self::$isCheckLatestVersion;
+      
       $ini_array = array();
       $ini_array[] = '; This file is part of CodevTT.';
       $ini_array[] = '; - The Variables in here can be customized to your needs';
@@ -296,6 +318,8 @@ class Constants {
       $ini_array['doodles'] = $doodles;
       $ini_array[] = '';
       $ini_array['timesheets'] = $timesheets;
+      $ini_array[] = '';
+      $ini_array['internet'] = $internet;
       $ini_array[] = '';
       $ini_array[] = '';
 
