@@ -62,7 +62,41 @@ class CommandInfoController extends Controller {
                   $this->smartyHelper->assign('isManager', true);
                }
             }
-            $this->smartyHelper->assign('commands', $this->getCommands($this->teamid, $cmdid));
+
+            $action = Tools::getSecurePOSTStringValue('action', '');
+
+            // --- CmdStateFilters
+            if ('setCmdStateFilters' == $action) {
+               $cmdStateFiltersStr = Tools::getSecurePOSTStringValue('checkedCmdStateFilters');
+               $this->session_user->setCmdStateFilters($cmdStateFiltersStr, $this->teamid);
+            } else {
+               $cmdStateFiltersStr = $this->session_user->getCmdStateFilters($this->teamid);
+            }
+            if (!empty($cmdStateFiltersStr)) {
+              $cmdStateFilters = Tools::doubleExplode(':', ',', $cmdStateFiltersStr);
+              $this->smartyHelper->assign('isCmdStateFilter', true);
+            } else {
+               $cmdStateFilters = array();
+            }
+
+            $cmdStateFilterInfo = array();
+            foreach (Command::$stateNames as $stateId => $stateName) {
+               $cmdStateFilterInfo[$stateId] = array(
+                  'stateId' => $stateId,
+                  'stateName' => $stateName,
+                  'isChecked' => array_key_exists($stateId, $cmdStateFilters) ? $cmdStateFilters[$stateId] : 1,
+               );
+            }
+            $this->smartyHelper->assign('cmdStateFilterInfo', $cmdStateFilterInfo);
+
+            // --- commands combobox
+            $commands = $this->getCommands($this->teamid, $cmdid, $cmdStateFilters);
+            $this->smartyHelper->assign('commands', $commands);
+
+            // check if current cmd should be hidden
+            if (!array_key_exists($cmdid, $commands)) {
+               $cmdid = 0;
+            }
 
             // ------ Display Command
             if (0 != $cmdid) {
@@ -112,7 +146,6 @@ class CommandInfoController extends Controller {
                unset($_SESSION['commandsetid']);
                unset($_SESSION['servicecontractid']);
 
-               $action = isset($_POST['action']) ? $_POST['action'] : '';
                if ('displayCommand' == $action) {
                   header('Location:command_edit.php?cmdid=0');
                }
@@ -126,14 +159,21 @@ class CommandInfoController extends Controller {
     * @param int $selectedCmdId
     * @return mixed[]
     */
-   private function getCommands($teamid, $selectedCmdId) {
+   private function getCommands($teamid, $selectedCmdId, $cmdStateFilters) {
+      
       $commands = array();
       if (0 != $teamid) {
          $team = TeamCache::getInstance()->getTeam($teamid);
          $cmdList = $team->getCommands();
 
          foreach ($cmdList as $id => $cmd) {
-            $commands[] = array(
+
+            // skip if state filter is set to 0 (if 1 or unset, cmd is visible)
+            $state = $cmd->getState();
+            if (array_key_exists($state, $cmdStateFilters)) {
+               if (0 == $cmdStateFilters[$state]) { continue; }
+            }
+            $commands[$id] = array(
                'id' => $id,
                'name' => $cmd->getName(),
                'reference' => $cmd->getReference(),

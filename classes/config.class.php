@@ -115,6 +115,7 @@ class Config {
    const id_teamGeneralPreferences = 'teamGeneralPreferences';
    const id_durationList = 'durationList';
    const id_issueTooltipFields = 'issue_tooltip_fields';
+   const id_cmdStateFilters = 'cmdStateFilters';
 
    const default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideDevProjects:0";
 

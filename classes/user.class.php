@@ -106,6 +106,13 @@ class User extends Model {
     * @var string[] filters foreach commandSet
     */
    private $commandSetFiltersCache;
+   
+   /**
+    *
+    * @var string
+    */
+   private $cmdStateFiltersCache;
+   
    /**
     * @var string[] filters foreach serviceContract
     */
@@ -1371,6 +1378,59 @@ class User extends Model {
 
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("getServiceContractFilters($serviceid) filters=" . $filters);
+         }
+      }
+      return $filters;
+   }
+
+   /**
+    * set the Command State filters
+    * used to display less commands in the cmd selection combobox
+    * 
+    * @param string $filterStr (key:value,key2:value2)
+    * @param int $teamid
+    */
+   public function setCmdStateFilters($filterStr, $teamid=0) {
+      if (is_null($this->cmdStateFiltersCache)) {
+         $this->cmdStateFiltersCache = array();
+      }
+      if (array_key_exists($teamid, $this->cmdStateFiltersCache)) {
+         $prevFilters = $this->cmdStateFiltersCache["$teamid"];
+      } else {
+         $prevFilters = NULL;
+      }
+
+      // Note: check type with !== is mandatory
+      if ($filterStr !== $prevFilters) {
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("User $this->id Set Command State Filters for team $teamid : $filterStr");
+         }
+         // stored as configType_string because we need a string at extraction (perf)
+         Config::setValue(Config::id_cmdStateFilters, $filterStr, Config::configType_string, NULL, 0, $this->id, $teamid);
+      }
+      $this->cmdStateFiltersCache["$teamid"] = $filterStr;
+   }
+   
+   /**
+    * get the Command State filters
+    * used to display less commands in the cmd selection combobox
+    *
+    * @return string or "" if not found
+    */
+   public function getCmdStateFilters($teamid=0) {
+
+      if (is_null($this->cmdStateFiltersCache)) {
+         $this->cmdStateFiltersCache = array();
+      }
+
+      if (!array_key_exists($teamid, $this->cmdStateFiltersCache)) { 
+         $filters = Config::getValue(Config::id_cmdStateFilters, array($this->id, 0, $teamid, 0, 0, 0), true);
+         if ($filters == NULL) {
+            $filters = "";
+         }
+         $this->cmdStateFiltersCache["$teamid"] = $filters;
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getCmdStateFilters($teamid) filters=" . $filters);
          }
       }
       return $filters;
