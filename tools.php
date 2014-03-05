@@ -1479,7 +1479,39 @@ class Tools {
 	public static function isWindowsServer() {
 		return (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
 	}
-		
+
+   /**
+    * gets the data from a URL
+    */
+   public static function getUrlContent($url, $timeout = 5) {
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+      $data = curl_exec($ch);
+      curl_close($ch);
+      return $data;
+   }
+
+   /**
+    * get Latest info from http://codevtt.org
+    * @return array or FALSE
+    */
+   //
+   public static function getLatestVersionInfo($timeout = 5) {
+
+      $currentVersionInfo = FALSE;
+
+      //$iniString = self::getUrlContent('http://codevtt.org/site/files/codevtt_current_version.ini', $timeout);
+      $iniString = self::getUrlContent('http://codevtt.org/site/index.php?sdmon=files/codevtt_current_version.ini', $timeout);
+
+      if ( $iniString !== FALSE) {
+         $ini_array = parse_ini_string($iniString, true);
+         $currentVersionInfo = $ini_array['current_version'];
+      }
+      return $currentVersionInfo;
+   }
+
 }
 
 // Initialize complex static variables

@@ -16,6 +16,28 @@
 
 </div>
 
+
+{if isset($latestVersionInfo) }
+<div style="margin-top: 2em;">
+   <table class="invisible">
+      <caption>{t}A new CodevTT version is available !{/t}</caption>
+      <tbody>
+         <tr>
+            <td>Installed version</td>
+            <td>:</td>
+            <td>{$codevVersion}</td>
+         </tr>
+         <tr>
+            <td>Latest version</td>
+            <td>:</td>
+            <td>{$latestVersionInfo.version} ({$latestVersionInfo.release_date})</td>
+         </tr>
+      </tbody>
+   </table>
+</div>
+{/if}
+
+
 {if isset($driftedTasks)}
 <!-- Consistency errors -->
 <div style="margin-top: 2em;">

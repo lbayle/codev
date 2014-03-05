@@ -30,8 +30,16 @@ class AdminController extends Controller {
       // Nothing special
    }
 
+
+
    protected function display() {
-      // Nothing special
+
+      // get Latest info from http://codevtt.org
+      $latestVersionInfo = Tools::getLatestVersionInfo();
+      if (FALSE !== $latestVersionInfo) {
+         $this->smartyHelper->assign('latestVersionInfo', $latestVersionInfo);
+      }
+      
    }
 
 }

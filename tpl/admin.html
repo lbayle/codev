@@ -1,4 +1,35 @@
 <div id="content" align="center">
-   {$codevVersion}<br /><br /><br />
+   <br><br><br>
+
+   <table class="invisible">
+      <tbody style="font-size:larger" >
+         <tr>
+            <td>Installed version</td>
+            <td>:</td>
+            <td>{$codevVersion}</td>
+         </tr>
+         {if isset($latestVersionInfo) }
+         <tr>
+            <td>Latest version</td>
+            <td>:</td>
+            <td>{$latestVersionInfo.version} ({$latestVersionInfo.release_date})</td>
+         </tr>
+         <tr>
+            <td>Latest Mantis plugin version</td>
+            <td>:</td>
+            <td>{$latestVersionInfo.mantisPlugin_version}</td>
+         </tr>
+         {else}
+         <tr>
+            <td>Latest version</td>
+            <td>:</td>
+            <td><span class="help_font">codevtt.org is not reachable.</span></td>
+         </tr>
+         {/if}
+      </tbody>
+   </table>
+
+
+   <br><br><br>
    Please visit &nbsp; <a href='http://codevtt.org' target='_blank' >http://codevtt.org</a> &nbsp; for more information.
 </div>

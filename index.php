@@ -40,6 +40,19 @@ class IndexController extends Controller {
       // Drifted tasks
       if(Tools::isConnectedUser()) {
 
+         // if admin, check codevtt version
+         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+         if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
+
+            $latestVersionInfo = Tools::getLatestVersionInfo(3);
+            if (FALSE !== $latestVersionInfo) {
+               if ( Config::codevVersion != $latestVersionInfo['version'] ) {
+                  $this->smartyHelper->assign('latestVersionInfo', $latestVersionInfo);
+               }
+            }
+         }
+
+
          // updateBacklog DialogBox
          if (isset($_POST['bugid'])) {
             $bugid = Tools::getSecurePOSTStringValue('bugid');
