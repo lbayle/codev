@@ -59,6 +59,7 @@ class Issue extends Model implements Comparable {
             '0'     => T_('Duplicate of'),
             '0_REV' => T_('Has duplicate'),
             '1'     => T_('Related to'),
+            '1_REV' => T_('Related to'),
             '2'     => T_('Parent of'),
             '2_REV' => T_('Child of'),
             ''.Constants::$relationship_constrained_by  => T_('Constrained by'),
