@@ -332,15 +332,15 @@ class ExportODTController extends Controller {
          foreach ($issueNotes as $id => $issueNote) {
             $noteId += 1;
             if (self::$logger->isDebugEnabled()) {
-               self::$logger->debug("issue " . $issue->getId() . ": note $id = $issueNote->note");
+               self::$logger->debug("issue " . $issue->getId() . ": note $id = ".$issueNote->getNote());
             }
 
-            $noteReporter = UserCache::getInstance()->getUser($issueNote->reporter_id);
+            $noteReporter = UserCache::getInstance()->getUser($issueNote->getReporterId());
             try { $noteReporterName = utf8_decode($noteReporter->getRealname()); } catch (Exception $e) { };
             try { $issueSegment->bugnotes->noteId($noteId); } catch (Exception $e) { };
             try { $issueSegment->bugnotes->noteReporter($noteReporterName); } catch (Exception $e) { };
-            try { $issueSegment->bugnotes->noteDateSubmission(date('d/m/Y', $issueNote->date_submitted)); } catch (Exception $e) { };
-            try { $issueSegment->bugnotes->note(utf8_decode($issueNote->note)); } catch (Exception $e) { };
+            try { $issueSegment->bugnotes->noteDateSubmission(date('d/m/Y', $issueNote->getDateSubmitted())); } catch (Exception $e) { };
+            try { $issueSegment->bugnotes->note(utf8_decode($issueNote->getNote())); } catch (Exception $e) { };
             try { $issueSegment->bugnotes->merge(); } catch (Exception $e) { };
          }
          $issueSegment->merge();

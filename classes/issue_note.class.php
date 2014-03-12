@@ -288,6 +288,15 @@ class IssueNote {
    public function getLastModified() {
       return $this->last_modified;
    }
+
+   public function getDateSubmitted() {
+      return $this->date_submitted;
+   }
+
+   public function getNote() {
+      return $this->note;
+   }
+
    /**
     *
     * @param type $raw if TRUE, remove tagid_timesheetNote (NOT readBy tags)
