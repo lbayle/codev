@@ -18,8 +18,6 @@
 
 abstract class Install {
 
-   const FILENAME_MYSQL_CONFIG = "../include/mysql_config.inc.php";
-   const FILENAME_CONSTANTS = "../constants.php"; // DEPRECATED since 0.99.18
    const FILENAME_CUSTOM_CONSTANTS_CODEVTT = "../install/custom_constants_inc.codevtt.php";
    const FILENAME_CUSTOM_STRINGS_CODEVTT = "../install/custom_strings_inc.codevtt.php";
    const FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT = "../install/custom_relationships_inc.codevtt.php";

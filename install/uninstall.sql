@@ -42,7 +42,9 @@ DROP TABLE IF EXISTS `codev_team_project_table`;
 DROP TABLE IF EXISTS `codev_team_table`;
 DROP TABLE IF EXISTS `codev_team_user_table`;
 DROP TABLE IF EXISTS `codev_timetracking_table`;
-
+DROP TABLE IF EXISTS `codev_sidetasks_category_table`;
+DROP TABLE IF EXISTS `codev_command_provision_table`;
+DROP TABLE IF EXISTS `codev_wbs_table`;
 
 -- /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 -- /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -80,7 +80,7 @@ class UninstallController extends Controller {
                $this->smartyHelper->assign('stepThreeResult', $result);
 
                if($result) {
-                  $result = Tools::execSQLscript("uninstall.sql");
+                  $result = Tools::execSQLscript2("uninstall.sql");
                }
                $this->smartyHelper->assign('stepFourResult', $result);
 
@@ -200,10 +200,19 @@ class UninstallController extends Controller {
             return false;
          }
       }
-      if (file_exists(Install::FILENAME_MYSQL_CONFIG)) {
-         $retCode = unlink(Install::FILENAME_MYSQL_CONFIG);
+      if (file_exists(Constants::$codevtt_logfile)) {
+         $retCode = unlink(Constants::$codevtt_logfile);
          if (!$retCode) {
-            self::$logger->error("ERROR: Could not delete file: " . Install::FILENAME_MYSQL_CONFIG);
+            self::$logger->error("ERROR: Could not delete file: " . Constants::$codevtt_logfile);
+            return false;
+         }
+      }
+
+      $greasemonkey_url = Constants::$codevURL.'/mantis_monkey.user.js';
+      if (file_exists($greasemonkey_url)) {
+         $retCode = unlink($greasemonkey_url);
+         if (!$retCode) {
+            self::$logger->error("ERROR: Could not delete file: " . $greasemonkey_url);
             return false;
          }
       }
