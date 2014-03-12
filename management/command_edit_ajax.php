@@ -19,6 +19,9 @@ require('../include/session.inc.php');
 */
 require('../path.inc.php');
 
+// Note: i18n is included by the Controler class, but Ajax dos not use it...
+require_once('i18n/i18n.inc.php');
+
 if(Tools::isConnectedUser() && (isset($_POST['action']) || isset($_POST['action']))) {
    if(isset($_POST['action'])) {
 
