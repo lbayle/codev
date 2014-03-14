@@ -71,6 +71,12 @@ abstract class Controller {
          }
 
          $this->session_user->setDefaultTeam($this->teamid);
+
+         // used to disable some menu items
+         if ($this->session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
+            $this->smartyHelper->assign('isAdmin', true);
+         }
+
       }
 
    }
