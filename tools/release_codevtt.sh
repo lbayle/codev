@@ -123,5 +123,6 @@ fi
 
 cd ..
 tar cvzf codevtt_${RELEASE_DATE}.tgz codevtt_${RELEASE_DATE}
+zip -r codevtt_${RELEASE_DATE} codevtt_${RELEASE_DATE}
 
 # END
