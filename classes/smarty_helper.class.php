@@ -125,6 +125,7 @@ class SmartyHelper {
    public function displayTemplate() {
       $this->smarty->assign("year", date("Y"));
       $this->smarty->assign("codevVersion", Config::codevVersion);
+      $this->smarty->assign("codevVersionDate", Config::codevVersionDate);
       $this->smarty->assign("codevttLogoImage", Constants::$logoImage);
       if(Tools::isConnectedUser()) {
          $this->smarty->assign("username", $_SESSION['username']);

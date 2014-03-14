@@ -17,8 +17,7 @@
 */
 
 /**
- * Constants Singleton class
- * contains CoDev settings
+ * contains CodevTT settings
  * @author lbayle
  */
 class ConfigItem {
@@ -68,7 +67,8 @@ class ConfigItem {
 class Config {
 
    // TODO Move to a more appropriate class
-   const codevVersion = "v1.0.0 RC1 (13 Jan 2014)";
+   const codevVersion = "v1.0.0 RC1";
+   const codevVersionDate = "13 Jan 2014";
    const databaseVersion = 13; // used to check codev_config_table.database_version and apply upgrades.
 
    const configType_int = 1;
@@ -121,7 +121,7 @@ class Config {
 
    // TODO Move to a more appropriate class
    public static $codevVersionHistory = array(
-      "v0.01.0" => "(17 May 2010) - CodevTT project creation",
+      "v0.01.0" => "(17 Mar 2010) - CodevTT project creation",
       "v0.99.0" => "(09 Sept 2010) - team management complete",
       "v0.99.1" => "(28 Sept 2010) - jobs management",
       "v0.99.2" => "(08 Dec  2010) - Project Management",
