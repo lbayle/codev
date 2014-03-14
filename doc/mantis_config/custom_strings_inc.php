@@ -19,4 +19,5 @@ $s_delivered_bug_button = 'Issue Delivered';
 $s_delivered_bug_title = 'Delivered';
 $s_email_notification_title_for_status_bug_delivered = 'The following issue has been DELIVERED';
 
+// WARN: trailing spaces & empty lines AFTER the PHP end tag (? >) will cause mantis to crash !
 ?>
