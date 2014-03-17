@@ -1486,13 +1486,13 @@ class Tools {
    public static function getUrlContent($url, $timeout = 5) {
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-      curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-      #curl_setopt($ch, CURLOPT_HEADER, 1);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 
       if (!empty(Constants::$proxy)) {
          curl_setopt($ch, CURLOPT_PROXY, Constants::$proxy);
-         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+         #curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, TRUE);
       }
       $data = curl_exec($ch);
       curl_close($ch);
