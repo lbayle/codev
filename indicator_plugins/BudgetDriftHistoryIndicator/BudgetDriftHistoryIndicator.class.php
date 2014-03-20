@@ -64,7 +64,7 @@ class BudgetDriftHistoryIndicator implements IndicatorPlugin {
    }
 
    public static function getSmartyFilename() {
-      return "plugin/budgetDriftHistoryIndicator.html";
+   	  return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
    }
 
    /**

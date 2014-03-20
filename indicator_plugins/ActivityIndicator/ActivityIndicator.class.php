@@ -49,9 +49,12 @@ class ActivityIndicator implements IndicatorPlugin {
       return __CLASS__;
    }
    public static function getSmartyFilename() {
-      return "plugin/activity_indicator.html";
+      return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
    }
-
+   
+   public static function getSmartySubFilename() {
+   	  return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__."_ajax1.html";
+   }
 
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
       if (NULL == $inputIssueSel) {
@@ -254,6 +257,7 @@ class ActivityIndicator implements IndicatorPlugin {
       $totalActivity['external'] = $totalExternal;
       $totalActivity['elapsed'] = $totalElapsed;
       $totalActivity['other'] = $totalOther;
+      $totalActivity['activity_indicator_ajax1_html'] = $this->getSmartySubFilename();
       if ($this->showSidetasks) {
          $totalActivity['sidetask'] += $totalSidetask;
       }

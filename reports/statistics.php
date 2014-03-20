@@ -47,6 +47,10 @@ class StatisticsController extends Controller {
             $year = isset($_POST['year']) && $_POST['year'] > $min_year ? $_POST['year'] : $min_year;
 
             $this->smartyHelper->assign('years', SmartyTools::getYearsToNow($min_year, $year));
+            
+            //plugins
+            $this->smartyHelper->assign('statusHistoryIndicatorFile', StatusHistoryIndicator::getSmartyFilename());
+            $this->smartyHelper->assign('effortEstimReliabilityIndicatorFile', EffortEstimReliabilityIndicator::getSmartyFilename());
 
             if ('computeTeamHistory' == $_POST['action']) {
 
