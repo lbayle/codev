@@ -19,7 +19,7 @@
 /**
  * Description of ProgressHistoryIndicator
  */
-class ProgressHistoryIndicator implements IndicatorPlugin {
+class ProgressHistoryIndicator extends Plugin implements IndicatorPlugin {
 
    /**
     * @var Logger The logger
