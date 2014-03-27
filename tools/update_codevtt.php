@@ -290,6 +290,19 @@ function update_v12_to_v13() {
    return TRUE;
 }
 
+/**
+ * update 1.0.x to 1.1.x (DB v11 to DB v12)
+ *
+ */
+function update_v13_to_v14() {
+
+   $sqlScriptFilename = '../install/codevtt_update_v13_v14.sql';
+   if (!file_exists($sqlScriptFilename)) {
+      echo "ERROR: SQL script not found:$sqlScriptFilename<br>";
+      exit;
+   }
+}
+
 // =========== MAIN ==========
 $logger = Logger::getLogger("versionUpdater");
 

@@ -22,7 +22,7 @@
  * 3 tabs "Overview|Detailed|Tasks".
  *
  */
-class DetailedChargesIndicator implements IndicatorPlugin {
+class DetailedChargesIndicator extends Plugin implements IndicatorPlugin {
 
    /**
     * @var Logger The logger
