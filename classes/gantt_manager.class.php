@@ -102,17 +102,21 @@ class GanttActivity implements Comparable {
       // --- add constrains
       $relationships = $issue->getRelationships();
       $relationships = $relationships[''.Constants::$relationship_constrains];
-      foreach($relationships as $bugid) {
-         // Add a constrain from the end of this activity to the start of the activity $bugid
-         $bar->SetConstrain($issueActivityMapping[$bugid], CONSTRAIN_ENDSTART);
+      if (is_array($relationships)) {
+         foreach($relationships as $bugid) {
+            // Add a constrain from the end of this activity to the start of the activity $bugid
+            $bar->SetConstrain($issueActivityMapping[$bugid], CONSTRAIN_ENDSTART);
+         }
       }
-
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("JPGraphBar bugid=$this->bugid prj=".$issue->getProjectId()." activityIdx=$this->activityIdx".
             " progress=$this->progress [".
             date('Y-m-d', $this->startTimestamp)." -> ".
             date('Y-m-d', $this->endTimestamp)."]");
+         
+         self::$logger->debug("JPGraphBar bugid=$this->bugid GanttBar = ".var_export($bar, TRUE));
       }
+      
       return $bar;
    }
 
@@ -348,7 +352,7 @@ class GanttManager {
       // find Activity
       foreach ($this->activitiesByUser as $userActivityList) {
          foreach ($userActivityList as $a) {
-            if (in_array($a->bugid, $relationships)) {
+            if (is_array($relationships) && in_array($a->bugid, $relationships)) {
                if(self::$logger->isDebugEnabled()) {
                   self::$logger->debug("issue ".$issue->getId()." (".date("Y-m-d", $rsd).") is constrained by $a->bugid (".date("Y-m-d", $a->endTimestamp).")");
                }
