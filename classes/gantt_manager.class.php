@@ -417,7 +417,7 @@ class GanttManager {
     * @param int $backlogStartDate
     * @return int
     */
-   private function findStartDate(Issue $issue, $backlogStartDate) {
+   private function findStartDateFromStatus(Issue $issue, $backlogStartDate) {
       if (Constants::$status_new == $issue->getCurrentStatus()) {
          // if status is new, we want the startDate to be the same as the endDate of previous activity.
          $startDate = $backlogStartDate;
@@ -439,6 +439,42 @@ class GanttManager {
 
       return $startDate;
    }
+
+   /**
+    * use min(first timetrack, first status change) as startDate
+    *
+    * @param Issue $issue
+    * @param type $backlogStartDate
+    * @return type
+    */
+   private function findStartDate(Issue $issue, $backlogStartDate) {
+
+      // sometimes people add a timetrack but forget to update the status,
+      // in this case the date of the first timetrack will be used
+      $tt = $issue->getFirstTimetrack();
+      $ttDate = NULL;
+      if (NULL != $tt) {
+         $ttDate = $tt->getDate();
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("findStartDate() issue=".$issue->getId().": first timetrack on ".date("Y-m-d", $tt->getDate()));
+         }
+      }
+      // use status to find startDate
+      $statusDate = $this->findStartDateFromStatus($issue, $backlogStartDate);
+      
+      // startDate is the older one
+      if (NULL == $ttDate) {
+         // statusDate is never NULL
+         $startDate = $statusDate;
+      } else {
+         $startDate = min($ttDate, $statusDate);
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("findStartDate() issue=".$issue->getId().": startDate=".date("Y-m-d", $startDate).' : min('.date("Y-m-d", $ttDate).','.date("Y-m-d", $statusDate).')');
+         }
+      }
+      return $startDate;
+   }
+
 
    /**
     *  STATUS   | BEGIN                | END
