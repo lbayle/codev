@@ -58,7 +58,7 @@ class GanttActivity implements Comparable {
          $this->progress = $issue->getProgress();
       }
 
-      $this->color = 'darkorange';
+      $this->color = 'lavender';
 
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("Activity created for issue $bugId (".date('Y-m-d',$startT).") -> (".date('Y-m-d',$endT).")");
@@ -97,7 +97,7 @@ class GanttActivity implements Comparable {
       // --- colors
       $bar->SetPattern(GANTT_SOLID, $this->color);
       $bar->progress->Set($this->progress);
-      $bar->progress->SetPattern(GANTT_SOLID,"darkgreen");
+      $bar->progress->SetPattern(GANTT_SOLID,'slateblue');
 
       // --- add constrains
       $relationships = $issue->getRelationships();
@@ -122,28 +122,6 @@ class GanttActivity implements Comparable {
 
    public function toString() {
       return "issue $this->bugid  - ".date('Y-m-d', $this->startTimestamp)." - ".date('Y-m-d', $this->endTimestamp)." - ".$this->userid;
-   }
-
-   /**
-    * QuickSort compare method.
-    * returns true if $this has higher priority than $activityB
-    *
-    * @param GanttActivity $activityB the object to compare to
-    * @return bool
-    */
-   function compareTo($activityB) {
-
-      // the oldest activity should be in front of the list
-      if ($this->endTimestamp > $activityB->endTimestamp) {
-         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-            self::$logger->trace("activity.compareTo FALSE  (".date('Y-m-d', $this->endTimestamp)." > ".date('Y-m-d', $activityB->endTimestamp).")");
-         }
-         return false;
-      }
-      if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-         self::$logger->trace("activity.compareTo   (".date('Y-m-d', $this->endTimestamp)." < ".date('Y-m-d', $activityB->endTimestamp).")");
-      }
-      return true;
    }
 
    /**
