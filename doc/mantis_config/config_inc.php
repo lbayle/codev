@@ -20,8 +20,6 @@ $g_allow_anonymous_login	= OFF;
 $g_anonymous_account		= '';
 
 # --- Email Configuration ---
-$g_enable_email_notification = ON;
-
 $g_phpMailer_method = PHPMAILER_METHOD_SMTP;
 $g_smtp_host = '00.00.00.00';
 $g_administrator_email = 'lbayle.work@gmail.com';
@@ -38,6 +36,41 @@ $g_validate_email = ON;
 # email cronjob
 # crontab -e
 #   */5 * * * * php /var/www/html/mantis/scripts/send_emails.php
+
+# --- Email notifications
+# http://www.mantisbt.org/docs/master-1.2.x/en/administration_guide.html#ADMIN.CONFIG.EMAIL
+
+$g_enable_email_notification = ON;
+
+$g_default_notify_flags = array(
+  'reporter'      => OFF,
+  'handler'       => OFF,
+  'monitor'       => OFF,
+  'bugnotes'      => OFF,
+  'explicit'      => OFF,
+  'threshold_min' => NOBODY,
+  'threshold_max' => NOBODY);
+
+$g_notify_flags = array (
+  'new'          => array ('handler' => 1, 'threshold_min' => MANAGER),  // a new bug has been added
+  'owner'        => array ('handler' => 1, 'threshold_min' => MANAGER),  // the bug has been assigned a new owner
+  'reopened'     => array ('threshold_min' => MANAGER), // the bug has been reopened
+#  'deleted'      => array ('monitor' => 1,), // a bug has been deleted
+#  'bugnote'      => array ('threshold_min' => MANAGER), // a bugnote has been added to a bug
+#  'sponsor': the sponsorship for the bug has changed (added, deleted or updated)
+#  'relation': a relationship for the bug has changed (added, deleted or updated)
+#  'monitor': a user is added to the monitor list. 
+
+  // STATUS
+#  'feedback'     => array ('handler' => 1, 'monitor' => 1),
+#  'acknowledged' => array ('handler' => 1, 'monitor' => 1),
+#  'analyzed'     => array ('handler' => 1, 'monitor' => 1),
+#  'open'         => array ('handler' => 1, 'monitor' => 1),
+  'resolved'     => array ('reporter' => 1, 'monitor' => 1, 'threshold_min' => REPORTER, 'threshold_max' => MANAGER),
+#  'validated'    => array ('handler' => 1, 'monitor' => 1),
+#  'delivered'    => array ('handler' => 1, 'monitor' => 1),
+#  'closed'       => array ('handler' => 1, 'monitor' => 1, 'threshold_max' => NOBODY),
+);
 
 
 # --- Attachments / File Uploads ---
