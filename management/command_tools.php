@@ -95,6 +95,9 @@ class CommandTools {
       $provisions = $command->getProvisionList($type);
       foreach ($provisions as $id => $prov) {
 
+         $formatedSummary = str_replace("'", "\'", $prov->getSummary());
+         $formatedSummary = str_replace('"', "\'", $formatedSummary);
+         
          $provArray["$id"] = array(
             'id' => $id,
             'date' => date(T_("Y-m-d"), $prov->getDate()),
@@ -103,7 +106,7 @@ class CommandTools {
             'budget' => $prov->getProvisionBudget(),
             'average_daily_rate' => $prov->getAverageDailyRate(),
             'currency' => $prov->getCurrency(),
-            'summary' => $prov->getSummary(),
+            'summary' => $formatedSummary,
             'isInCheckBudget' => $prov->isInCheckBudget()
          );
       }
