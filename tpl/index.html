@@ -16,6 +16,22 @@
 
 </div>
 
+{if isset($systemConsistencyErrors) }
+<div style="margin-top: 2em;">
+   <table class="invisible">
+      <tbody>
+        {foreach from=$systemConsistencyErrors key=id item=i}
+         <tr class="error_font">
+            <td>{$i.severity}</td>
+            <td>:</td>
+            <td>{$i.desc}</td>
+         </tr>
+        {/foreach}
+      </tbody>
+   </table>
+</div>
+{/if}
+
 
 {if isset($latestVersionInfo) }
 <div style="margin-top: 2em;">

@@ -40,17 +40,30 @@ class IndexController extends Controller {
       // Drifted tasks
       if(Tools::isConnectedUser()) {
 
-         // if admin, check codevtt version
-         if (1 == Constants::$isCheckLatestVersion) {
-            $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-            if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
+         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+         $isAdmin = $session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId));
 
+         if ($isAdmin) {
+            // check codevtt version
+            if (1 == Constants::$isCheckLatestVersion) {
                $latestVersionInfo = Tools::getLatestVersionInfo(3);
                if (FALSE !== $latestVersionInfo) {
                   if ( Config::codevVersion != $latestVersionInfo['version'] ) {
                      $this->smartyHelper->assign('latestVersionInfo', $latestVersionInfo);
                   }
                }
+            }
+
+            // check global configuration
+            $cerrList = ConsistencyCheck2::checkMantisDefaultProjectWorkflow();
+            // add more checks here
+            if (count($cerrList) > 0) {
+               $systemConsistencyErrors = array();
+               foreach ($cerrList as $cerr) {
+                  $systemConsistencyErrors[] = array('severity' => $cerr->getLiteralSeverity(),
+                                                     'desc' => $cerr->desc);
+               }
+               $this->smartyHelper->assign('systemConsistencyErrors', $systemConsistencyErrors);
             }
          }
 
