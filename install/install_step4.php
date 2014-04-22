@@ -45,10 +45,27 @@ function displayPage() {
 
    echo "<div style='margin-top:6em;'>";
 
+   // check global configuration
+   $cerrList = ConsistencyCheck2::checkMantisDefaultProjectWorkflow();
+   if (count($cerrList) > 0) {
+      echo "<h2>".T_("Create a default project workflow in Mantis")."</h2>";
+      echo "<span class='help_font'>".T_("The Mantis default workflow is not load in the database unless you change it with the Mantis administration GUI.")."</span>";
+      echo '<ul>';
+      echo '<li>'.T_("Login to Mantis as 'Administrator'.").'</li>';
+      echo '<li>'.T_("Select project 'All projects'").'</li>';
+      echo '<li>'.T_("Go to")." <a href=' ".$rootMantisURL."manage_config_workflow_page.php' target='_blank't>".T_("manage workflow transitions").'</a></li>';
+      echo '<li>'.T_("Change the workflow (change one of the 'next status' checkboxes)").'</li>';
+      echo '<li>'.T_("Click the 'Update Configuration' button").'</li>';
+      echo '<li>'.T_("Rollback the workflow to the initial state").'</li>';
+      echo '<li>'.T_("Click the 'Update Configuration' button again").'</li>';
+      echo '</ul>';
+      echo '<br>';
+   }
+
    echo "<h2>".T_("Activate the 'CodevTT' Plugin in Mantis")."</h2>";
    echo '<ul>';
    echo '<li>'.T_("Login to Mantis as 'Administrator'.").'</li>';
-   echo '<li>'.T_("Go to the <a href=' ".$rootMantisURL."manage_plugin_page.php' target='_blank't>manage plugins</a> page.").'</li>';
+   echo '<li>'.T_("Go to")." <a href=' ".$rootMantisURL."manage_plugin_page.php' target='_blank't>".T_("manage plugins").'</a></li>';
    echo '<li>'.T_('Install the CodevTT plugin.').'</li>';
    echo '</ul>';
 
