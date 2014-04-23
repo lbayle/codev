@@ -349,6 +349,14 @@ class Command extends Model {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
+
+         // update root WBS name
+         $query2 = "UPDATE `codev_wbs_table` SET `title` = '" . $name . "' WHERE `id` = " . $this->wbsid.";";
+         $result2 = SqlWrapper::getInstance()->sql_query($query2);
+         if (!$result2) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
       }
    }
 
