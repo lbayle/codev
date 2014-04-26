@@ -1,0 +1,39 @@
+<div id="loadPerJob">
+   <!-- Working days per job -->
+   {if $workingDaysPerJob}
+   <h3 style="margin: 0 0 0.5em 0.5em;">{t}Load per Job{/t}</h3>
+   <table class="float" style="width: 500px;">
+      <thead>
+         <tr>
+            <th>{t}Job{/t}</th>
+            <th>{t}Nb Days{/t}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$workingDaysPerJob key=id item=i}
+         <tr>
+            <td>
+               <div class="generatedImage float" style="background-color: #{$i.color};"></div>
+               <div class="float">{$i.name}</div>
+               <div class="ui-helper-clearfix"></div>
+            </td>
+            <td>{$i.nbDays}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
+   {if isset($workingDaysPerJob_jqplotData)}
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         var chartoptions = jQuery('#workingDaysPerJobChart').data('plotoptions');
+         chartoptions.seriesColors = {$workingDaysPerJob_colors};
+         jQuery('#workingDaysPerJobChart').jqplot([{$workingDaysPerJob_jqplotData}], chartoptions);
+      });
+   </script>
+   <div id="workingDaysPerJobChart" class="pie_chart chart float" style="top: -9px;"></div>
+   {/if}
+   <div class="ui-helper-clearfix"></div>
+   {else}
+   {t}Not available.{/t}
+   {/if}
+</div>

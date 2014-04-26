@@ -147,6 +147,7 @@ class CommandInfoController extends Controller {
                   $this->smartyHelper->assign('activityIndicatorFile', ActivityIndicator::getSmartyFilename());
                   $this->smartyHelper->assign('statusHistoryIndicatorFile', StatusHistoryIndicator::getSmartyFilename());
                   $this->smartyHelper->assign('reopenedRateIndicatorFile', ReopenedRateIndicator::getSmartyFilename());
+                  $this->smartyHelper->assign('loadPerJobIndicatorFile', LoadPerJobIndicator::getSmartyFilename());
                }
             } else {
                unset($_SESSION['commandsetid']);

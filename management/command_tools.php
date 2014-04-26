@@ -459,6 +459,25 @@ class CommandTools {
       return $smartyVariables;
    }
 
+   /**
+    * return smartyVariables for LoadPerJobIndicator
+    *
+    * @static
+    * @param Command $cmd
+    * @return array smartyVariables
+    */
+   public static function getLoadPerJob(Command $cmd) {
+
+      $params = array('teamid' => $cmd->getTeamid());
+      
+      $indicator = new LoadPerJobIndicator();
+      $indicator->execute($cmd->getIssueSelection(), $params);
+
+      $smartyVariables = $indicator->getSmartyObject();
+
+      return $smartyVariables;
+   }
+
 
    /**
     * @param SmartyHelper $smartyHelper
@@ -576,6 +595,12 @@ class CommandTools {
 
       // InternalBugsReopenedRateIndicator
       $data = CommandTools::getInternalBugsReopenedRateIndicator($cmd);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+
+      // LoadPerJobIndicator
+      $data = CommandTools::getLoadPerJob($cmd);
       foreach ($data as $smartyKey => $smartyVariable) {
          $smartyHelper->assign($smartyKey, $smartyVariable);
       }
