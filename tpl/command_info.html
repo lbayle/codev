@@ -167,12 +167,18 @@
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_wbs">{t}WBS{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_attributes">{t}Attributes{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_provisions">{t}Provisions{/t}</a></li>
-         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-3">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
-         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-2">{t}Activity{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_tasks">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_activity">{t}Activity{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
       </ul>
       <div id="tabsName-1">{include file="$detailedChargesIndicatorFile"}</div>
-      <div id="tabsName-2">{include file="$activityIndicatorFile"}</div>
+      <div id="tab_activity">
+         <h2>{t}Activity per user{/t}</h2>
+         {include file="$activityIndicatorFile"}
+         <hr/>
+         <h2>{t}Load per job{/t}</h2>
+         {include file="$loadPerJobIndicatorFile"}
+      </div>
       <div id="tab_attributes">
          <table class="invisible">
             <tr>
@@ -223,10 +229,7 @@
                <td><textarea rows='6' cols='120' name='description'  id='description'>{$cmdDesc}</textarea></td>
             </tr>
          </table>
-
-
       </div>
-      
       <div id="tab_provisions">
           {if isset($isManager) && $isManager}
           
@@ -302,7 +305,10 @@
            {/if}
            
       </div>
-      <div id="tabsName-3">
+      <div id="tab_tasks">
+         {if $cmdShortIssueList}
+         {t}Short List: {/t}<br>{$cmdShortIssueList}<br>
+         {/if}
 
          {if $cmdIssues}
          <div align="center">
