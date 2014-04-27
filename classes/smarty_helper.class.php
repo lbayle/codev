@@ -120,6 +120,49 @@ class SmartyHelper {
    }
 
    /**
+    * returns the rendered Smarty template
+    * (usefull for ajax)
+    *
+    * @param string $template the template to be displayed
+    * @return string containing HTML code
+    */
+   public function fetch($template) {
+
+      $renderedHtml = 'error';
+
+      if (!headers_sent()) {
+         header("Content-type: text/html; charset=UTF-8");
+      } else {
+         self::$logger->error("Headers already sent");
+      }
+
+      if (Tools::endsWith($template, '.html')) {
+         $renderedHtml = $this->smarty->fetch($template);
+      } else {
+         $renderedHtml = $this->smarty->fetch($template . '.html');
+      }
+
+      if (self::$logger->isEnabledFor(LoggerLevel::getLevelInfo())) {
+         $generatedTime = round(microtime(true) - $this->smarty->start_time, 3);
+
+         $peakMemAlloc = Tools::bytesToSize1024(memory_get_peak_usage(true));
+         $memUsage     = Tools::bytesToSize1024(memory_get_usage(true));
+
+         self::$logger->info('PERF: ' . $generatedTime . 'sec | Mem ' . $memUsage . ' | Peak ' . $peakMemAlloc . ' --- ' . $_SERVER['PHP_SELF'] . ' --- ');
+      }
+      SqlWrapper::getInstance()->logStats();
+      /*
+            IssueCache::getInstance()->logStats();
+            ProjectCache::getInstance()->logStats();
+            UserCache::getInstance()->logStats();
+            TimeTrackCache::getInstance()->logStats();
+      */
+      return $renderedHtml;
+   }
+
+
+
+   /**
     * Display the default template
     */
    public function displayTemplate() {

@@ -63,33 +63,15 @@ console.log('{$workingDaysPerJob_jqplotSeriesColors}');
             async: false,
             type: type,
             url: url,
+            dataType:"json",
             data: form.serialize(),
             success: function(data) {
-               // data is the HTML code for the table
-               form.find('input[name=action]').val('getLoadPerJobIndicatorData');
-               jQuery("#loadPerJobIndicatorDiv").html(jQuery.trim(data));
-               jQuery.ajax({
-                  async: false,
-                  type: type,
-                  url: url,
-                  data: form.serialize(),
-                  dataType:"json",
-                  success: function(data2) {
-console.log("ajaxCall getLoadPerJobIndicatorData result:");
-console.log(data2['workingDaysPerJob_colors']);
+               jQuery("#loadPerJobIndicatorDiv").html(jQuery.trim(data['loadPerJob_htmlTable']));
 
-                     var chartoptions = jQuery('#workingDaysPerJobChart').data('plotoptions');
-                     chartoptions.seriesColors = data2['workingDaysPerJob_colors'];
+               var chartoptions = jQuery('#workingDaysPerJobChart').data('plotoptions');
+               chartoptions.seriesColors = data['workingDaysPerJob_colors'];
+               updateChart(chart, data['workingDaysPerJob_jqplotData']);
 
-                     updateChart(chart, data2['workingDaysPerJob_jqplotData']);
-                  },
-                  error: function(jqXHR, textStatus, errorThrown) {
-                     if(errorThrown == 'Forbidden') {
-                        window.location = '{$page}';
-                     }
-                  }
-               });
-               form.find('input[name=action]').val('getLoadPerJobIndicator');
             },
             error: function(jqXHR, textStatus, errorThrown) {
                if(errorThrown == 'Forbidden') {
