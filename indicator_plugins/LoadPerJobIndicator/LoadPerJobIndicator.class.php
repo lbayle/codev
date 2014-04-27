@@ -47,7 +47,7 @@ class LoadPerJobIndicator implements IndicatorPlugin  {
    }
 
    public static function getSmartySubFilename() {
-   	  return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__."_ajax1.html";
+   	  return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__."_ajax.html";
    }
 
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
@@ -100,12 +100,14 @@ class LoadPerJobIndicator implements IndicatorPlugin  {
 
       $loadPerJobs = array();
       foreach($issueList as $issue) {
-         $issueTimetracks = $issue->getTimeTracks($this->startTimestamp, $this->endTimestamp);
+#echo "issue ".$issue->getId()."<br>";
+         $issueTimetracks = $issue->getTimeTracks(NULL, $this->startTimestamp, $this->endTimestamp);
          foreach ($issueTimetracks as $tt) {
 
             // check if user in team
             if (!array_key_exists($tt->getUserId(), $teamMembers)) { continue; }
 
+#echo "tt user=".$tt->getUserId()." job=".$tt->getJobId()." dur=".$tt->getDuration()."<br>";
             // check if sidetask
             if ($team->isSideTasksProject($issue->getProjectId())) {
                // TODO check category (detail all sidetasks categories)
@@ -152,12 +154,17 @@ class LoadPerJobIndicator implements IndicatorPlugin  {
          $data[$jobItem['name']] = $jobItem['nbDays'];
          $formatedColors[] = '#'.$jobItem['color'];
       }
+      $seriesColors = '["'.implode('","', $formatedColors).'"]';  // ["#FFCD85","#C2DFFF"]
 
       return array(
          'workingDaysPerJob' => $loadPerJobs,
-         'workingDaysPerJob_jqplotData' => Tools::array2plot($data),
-         'workingDaysPerJob_colors' => Tools::array2json($formatedColors),
-         #'loadPerJobIndicatorFile', LoadPerJobIndicator::getSmartyFilename() // added in controller
+         'workingDaysPerJob_jqplotData' => Tools::array2json($data),
+         'workingDaysPerJob_colors' => $formatedColors,
+         'workingDaysPerJob_jqplotSeriesColors' => $seriesColors,
+         'workingDaysPerJob_startTimestamp' => $this->startTimestamp,
+         'workingDaysPerJob_endTimestamp' => $this->endTimestamp,
+         #'loadPerJobIndicatorFile' => LoadPerJobIndicator::getSmartyFilename(), // added in controller
+         'loadPerJobIndicator_ajaxFile' => LoadPerJobIndicator::getSmartySubFilename(),
       );
    }
 }

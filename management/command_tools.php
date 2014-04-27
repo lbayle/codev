@@ -340,6 +340,44 @@ class CommandTools {
       return array($activityIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
    }
 
+   /**
+    * return smartyVariables for LoadPerJobIndicator
+    *
+    * @static
+    * @param Command $cmd
+    * @return array smartyVariables
+    */
+   public static function getLoadPerJob(Command $cmd, $startTimestamp = NULL, $endTimestamp = NULL) {
+
+      $month = date('m');
+      $year = date('Y');
+
+      if (!isset($startTimestamp)) {
+         // The first day of the current month
+         $startdate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, 1, $year));
+         $startTimestamp = Tools::date2timestamp($startdate);
+      }
+      if (!isset($endTimestamp)) {
+         $nbDaysInMonth = date("t", $startTimestamp);
+         $enddate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, $nbDaysInMonth, $year));
+         $endTimestamp = Tools::date2timestamp($enddate);
+      }
+
+      $params = array(
+         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+         'endTimestamp' => $endTimestamp,
+         'teamid' => $cmd->getTeamid()
+      );
+
+      $indicator = new LoadPerJobIndicator();
+      $indicator->execute($cmd->getIssueSelection(), $params);
+
+      $smartyVariables = $indicator->getSmartyObject();
+      return $smartyVariables;
+   }
+
+
+
    public static function getDetailedCharges(Command $cmd, $isManager, $selectedFilters) {
 
       $issueSel = $cmd->getIssueSelection();
@@ -459,25 +497,6 @@ class CommandTools {
       return $smartyVariables;
    }
 
-   /**
-    * return smartyVariables for LoadPerJobIndicator
-    *
-    * @static
-    * @param Command $cmd
-    * @return array smartyVariables
-    */
-   public static function getLoadPerJob(Command $cmd) {
-
-      $params = array('teamid' => $cmd->getTeamid());
-      
-      $indicator = new LoadPerJobIndicator();
-      $indicator->execute($cmd->getIssueSelection(), $params);
-
-      $smartyVariables = $indicator->getSmartyObject();
-
-      return $smartyVariables;
-   }
-
 
    /**
     * @param SmartyHelper $smartyHelper
@@ -581,6 +600,15 @@ class CommandTools {
       $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
       $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
 
+      // LoadPerJobIndicator
+      $data = self::getLoadPerJob($cmd);
+      $smartyHelper->assign('loadPerJob_startDate', Tools::formatDate("%Y-%m-%d", $data['workingDaysPerJob_startTimestamp']));
+      $smartyHelper->assign('loadPerJob_endDate', Tools::formatDate("%Y-%m-%d", $data['workingDaysPerJob_endTimestamp']));
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+         #echo "key $smartyKey = ".var_export($smartyVariable, true)."<br>";
+      }
+
       // DetailedChargesIndicator
       $data = self::getDetailedCharges($cmd, $isManager, $selectedFilters);
       foreach ($data as $smartyKey => $smartyVariable) {
@@ -598,13 +626,6 @@ class CommandTools {
       foreach ($data as $smartyKey => $smartyVariable) {
          $smartyHelper->assign($smartyKey, $smartyVariable);
       }
-
-      // LoadPerJobIndicator
-      $data = CommandTools::getLoadPerJob($cmd);
-      foreach ($data as $smartyKey => $smartyVariable) {
-         $smartyHelper->assign($smartyKey, $smartyVariable);
-      }
-
    }
 }
 
