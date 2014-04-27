@@ -1,39 +1,104 @@
 <div id="loadPerJob">
-   <!-- Working days per job -->
-   {if $workingDaysPerJob}
-   <h3 style="margin: 0 0 0.5em 0.5em;">{t}Load per Job{/t}</h3>
-   <table class="float" style="width: 500px;">
-      <thead>
-         <tr>
-            <th>{t}Job{/t}</th>
-            <th>{t}Nb Days{/t}</th>
-         </tr>
-      </thead>
-      <tbody>
-         {foreach from=$workingDaysPerJob key=id item=i}
-         <tr>
-            <td>
-               <div class="generatedImage float" style="background-color: #{$i.color};"></div>
-               <div class="float">{$i.name}</div>
-               <div class="ui-helper-clearfix"></div>
-            </td>
-            <td>{$i.nbDays}</td>
-         </tr>
-         {/foreach}
-      </tbody>
-   </table>
-   {if isset($workingDaysPerJob_jqplotData)}
-   <script type="text/javascript">
-      jQuery(document).ready(function() {
-         var chartoptions = jQuery('#workingDaysPerJobChart').data('plotoptions');
-         chartoptions.seriesColors = {$workingDaysPerJob_colors};
-         jQuery('#workingDaysPerJobChart').jqplot([{$workingDaysPerJob_jqplotData}], chartoptions);
-      });
-   </script>
+<div align="left" style="margin-top:1em;">
+   <form id="loadPerJobIndicator_dateRange_form" method="get" action="{$ajaxPage}">
+      <fieldset>
+         <script type="text/javascript" src="js/datepicker.js"></script>
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               {if $locale != en}
+               jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+               {/if}
+
+               // Set the date
+               var startDatePicker = jQuery("#loadPerJob_startdatepicker").datepicker("setDate" ,"{$loadPerJob_startDate}");
+               var endDatePicker = jQuery("#loadPerJob_enddatepicker").datepicker("setDate" ,"{$loadPerJob_endDate}");
+
+               // Add range date
+               startDatePicker.datepicker("option","beforeShow",function(input) {
+                  jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+               });
+               endDatePicker.datepicker("option","beforeShow",function(input) {
+                  jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+               });
+            });
+         </script>
+         <label for="loadPerJob_startdatepicker">{t}From{/t}:</label>
+         <input type="text" id="loadPerJob_startdatepicker" class="datepicker" name="loadPerJob_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="loadPerJob_enddatepicker">{t}To{/t}:</label>
+         <input type="text" id="loadPerJob_enddatepicker" class="datepicker" name="loadPerJob_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <input id="loadPerJob_submit" type="submit" value="{t}Display{/t}" />
+         <input type="hidden" name="action" value="getLoadPerJobIndicator" />
+      </fieldset>
+   </form>
+</div>
+<div>
+   <div id="loadPerJobIndicatorDiv" align="left" style="margin-top: 1em;">
+      {include file="`$loadPerJobIndicator_ajaxFile`"}
+   </div>
    <div id="workingDaysPerJobChart" class="pie_chart chart float" style="top: -9px;"></div>
-   {/if}
    <div class="ui-helper-clearfix"></div>
-   {else}
-   {t}Not available.{/t}
-   {/if}
+</div>
+
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+
+
+      var chart = jQuery('#workingDaysPerJobChart');
+
+      // display initial chart
+      var chartoptions = jQuery('#workingDaysPerJobChart').data('plotoptions');
+      chartoptions.seriesColors = {$workingDaysPerJob_jqplotSeriesColors};
+      //chartoptions.seriesDefaults.rendererOptions.startAngle = 180;
+      updateChart(chart, '{$workingDaysPerJob_jqplotData}');
+console.log('{$workingDaysPerJob_jqplotSeriesColors}');
+
+      jQuery('#loadPerJob_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+
+         var form = jQuery('#loadPerJobIndicator_dateRange_form');
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: type,
+            url: url,
+            data: form.serialize(),
+            success: function(data) {
+               // data is the HTML code for the table
+               form.find('input[name=action]').val('getLoadPerJobIndicatorData');
+               jQuery("#loadPerJobIndicatorDiv").html(jQuery.trim(data));
+               jQuery.ajax({
+                  async: false,
+                  type: type,
+                  url: url,
+                  data: form.serialize(),
+                  dataType:"json",
+                  success: function(data2) {
+console.log("ajaxCall getLoadPerJobIndicatorData result:");
+console.log(data2['workingDaysPerJob_colors']);
+
+                     var chartoptions = jQuery('#workingDaysPerJobChart').data('plotoptions');
+                     chartoptions.seriesColors = data2['workingDaysPerJob_colors'];
+
+                     updateChart(chart, data2['workingDaysPerJob_jqplotData']);
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                     if(errorThrown == 'Forbidden') {
+                        window.location = '{$page}';
+                     }
+                  }
+               });
+               form.find('input[name=action]').val('getLoadPerJobIndicator');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+      });
+
+   });
+</script>
 </div>

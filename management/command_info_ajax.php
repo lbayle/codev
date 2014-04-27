@@ -24,6 +24,7 @@ require_once('i18n/i18n.inc.php');
 
 if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
    if(isset($_GET['action'])) {
+#echo "action = ".$_GET['action']."<br>";
       $smartyHelper = new SmartyHelper();
       if($_GET['action'] == 'getActivityIndicator') {
          if(isset($_SESSION['cmdid'])) {
@@ -56,6 +57,49 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
                $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("enddate"));
                $data = CommandTools::getCommandActivity($cmdset, $startTimestamp, $endTimestamp);
                echo $data[0]['jqplotData'];
+            } else {
+               Tools::sendBadRequest("Command equals 0");
+            }
+         } else {
+            Tools::sendBadRequest("Command not set");
+         }
+      } else if($_GET['action'] == 'getLoadPerJobIndicator') {
+         if(isset($_SESSION['cmdid'])) {
+            $cmdid = $_SESSION['cmdid'];
+            if (0 != $cmdid) {
+               $cmd = CommandCache::getInstance()->getCommand($cmdid);
+
+               $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_startdate"));
+               $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_enddate"));
+               $data = CommandTools::getLoadPerJob($cmd, $startTimestamp, $endTimestamp);
+
+               // set variables for the html table to return
+               $smartyHelper->assign('workingDaysPerJob', $data['workingDaysPerJob']);
+               $smartyHelper->assign('loadPerJob_startDate', Tools::formatDate("%Y-%m-%d", $data['workingDaysPerJob_startTimestamp']));
+               $smartyHelper->assign('loadPerJob_endDate', Tools::formatDate("%Y-%m-%d", $data['workingDaysPerJob_endTimestamp']));
+
+               // construct & return the html table
+               $smartyHelper->display(LoadPerJobIndicator::getSmartySubFilename());
+            } else {
+               Tools::sendBadRequest("Command equals 0");
+            }
+         } else {
+            Tools::sendBadRequest("Command not set");
+         }
+      } else if($_GET['action'] == 'getLoadPerJobIndicatorData') {
+         if(isset($_SESSION['cmdid'])) {
+            $cmdid = $_SESSION['cmdid'];
+            if (0 != $cmdid) {
+               $cmdset = CommandCache::getInstance()->getCommand($cmdid);
+
+               $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_startdate"));
+               $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_enddate"));
+               $data = CommandTools::getLoadPerJob($cmdset, $startTimestamp, $endTimestamp);
+
+               // return the chart data
+               $jsonData = json_encode($data);
+               echo $jsonData;
+
             } else {
                Tools::sendBadRequest("Command equals 0");
             }
