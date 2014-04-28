@@ -111,16 +111,17 @@ class LoadPerJobIndicator implements IndicatorPlugin  {
             // check if sidetask
             if ($team->isSideTasksProject($issue->getProjectId())) {
                // TODO check category (detail all sidetasks categories)
+
                $jobid = '999_SideTasks';
                if (!array_key_exists($jobid, $loadPerJobs)) {
                   // create job if not exist in jobList
                   $loadPerJobs[$jobid] = array(
                      'name' => T_('SideTasks'),
                      'color' => 'C2C2C2', // TODO hardcoded !
-                     'nbDays' => $tt->getDuration()
+                     'nbDays' => floatval($tt->getDuration()),
                      );
                } else {
-                  $loadPerJobs[$jobid]['nbDays'] += $tt->getDuration();
+                  $loadPerJobs[$jobid]['nbDays'] += floatval($tt->getDuration());
                }
             } else {
                $jobid = $tt->getJobId();
@@ -129,10 +130,10 @@ class LoadPerJobIndicator implements IndicatorPlugin  {
                   $loadPerJobs[$jobid] = array(
                      'name' => $jobs->getJobName($jobid),
                      'color' => $jobs->getJobColor($jobid),
-                     'nbDays' => $tt->getDuration()
+                     'nbDays' => floatval($tt->getDuration()),
                      );
                } else {
-                  $loadPerJobs[$jobid]['nbDays'] += $tt->getDuration();
+                  $loadPerJobs[$jobid]['nbDays'] += floatval($tt->getDuration());
                }
             }
          }
