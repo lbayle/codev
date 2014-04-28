@@ -3,25 +3,6 @@
    <form id="loadPerJobIndicator_dateRange_form" method="get" action="{$ajaxPage}">
       <fieldset>
          <script type="text/javascript" src="js/datepicker.js"></script>
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               {if $locale != en}
-               jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
-               {/if}
-
-               // Set the date
-               var startDatePicker = jQuery("#loadPerJob_startdatepicker").datepicker("setDate" ,"{$loadPerJob_startDate}");
-               var endDatePicker = jQuery("#loadPerJob_enddatepicker").datepicker("setDate" ,"{$loadPerJob_endDate}");
-
-               // Add range date
-               startDatePicker.datepicker("option","beforeShow",function(input) {
-                  jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
-               });
-               endDatePicker.datepicker("option","beforeShow",function(input) {
-                  jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
-               });
-            });
-         </script>
          <label for="loadPerJob_startdatepicker">{t}From{/t}:</label>
          <input type="text" id="loadPerJob_startdatepicker" class="datepicker" name="loadPerJob_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
          <label for="loadPerJob_enddatepicker">{t}To{/t}:</label>
@@ -40,18 +21,29 @@
 </div>
 
 <script type="text/javascript">
+
    jQuery(document).ready(function() {
+      // ------------------------
+      // datepicker
 
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
 
-      var chart = jQuery('#workingDaysPerJobChart');
+      // Set the date
+      var startDatePicker = jQuery("#loadPerJob_startdatepicker").datepicker("setDate" ,"{$loadPerJob_startDate}");
+      var endDatePicker = jQuery("#loadPerJob_enddatepicker").datepicker("setDate" ,"{$loadPerJob_endDate}");
 
-      // display initial chart
-      var chartoptions = jQuery('#workingDaysPerJobChart').data('plotoptions');
-      chartoptions.seriesColors = {$workingDaysPerJob_jqplotSeriesColors};
-      //chartoptions.seriesDefaults.rendererOptions.startAngle = 180;
-      updateChart(chart, '{$workingDaysPerJob_jqplotData}');
-console.log('{$workingDaysPerJob_jqplotSeriesColors}');
+      // Add range date
+      startDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+      });
+      endDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+      });
 
+      // ------------------------
+      // on reload with new date range
       jQuery('#loadPerJob_submit').click(function(event) {
          /* stop form from submitting normally */
          event.preventDefault();
@@ -68,7 +60,8 @@ console.log('{$workingDaysPerJob_jqplotSeriesColors}');
             success: function(data) {
                jQuery("#loadPerJobIndicatorDiv").html(jQuery.trim(data['loadPerJob_htmlTable']));
 
-               var chartoptions = jQuery('#workingDaysPerJobChart').data('plotoptions');
+               var chart = jQuery('#workingDaysPerJobChart');
+               var chartoptions = chart.data('plotoptions');
                chartoptions.seriesColors = data['workingDaysPerJob_colors'];
                updateChart(chart, data['workingDaysPerJob_jqplotData']);
 
@@ -80,6 +73,16 @@ console.log('{$workingDaysPerJob_jqplotSeriesColors}');
             }
          });
       });
+
+
+      // ------------------------
+      // display initial chart
+      var chart = jQuery('#workingDaysPerJobChart');
+      var chartoptions = chart.data('plotoptions');
+      chartoptions.seriesColors = {$workingDaysPerJob_jqplotSeriesColors};
+      //chartoptions.seriesDefaults.rendererOptions.startAngle = 180;
+      updateChart(chart, '{$workingDaysPerJob_jqplotData}');
+      // WARN: something strange with the updateChart, all lines after it won't be executed !!
 
    });
 </script>
