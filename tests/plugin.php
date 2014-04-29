@@ -32,13 +32,45 @@ class PluginDashboardController extends Controller {
 	protected function display() {
 		if (Tools::isConnectedUser()) {
 			// Admins only
-			$session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-			if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
-				$plugins = Plugin::getPlugins();
-				$this->smartyHelper->assign('plugins', $plugins);			
-			} else {
-				$this->smartyHelper->assign('error',T_('Sorry, you need to be in the admin-team to access this page.'));
-			}
+			//$session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+
+         $teamid = 9; // ASF_OVA_Internet
+         $cmdid = 16; // ASF Commande Internet
+         
+
+         // LoadPerJobIndicator
+         $params = array(
+            //'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+            //'endTimestamp' => $endTimestamp,
+            'teamid' => $teamid // ASF_OVA_Internet
+         );
+
+         $cmd = CommandCache::getInstance()->getCommand($cmdid);
+
+         $indicator = new LoadPerJobIndicator();
+         $indicator->execute($cmd->getIssueSelection(), $params);
+
+         $data = $indicator->getSmartyObject();
+         foreach ($data as $smartyKey => $smartyVariable) {
+            $this->smartyHelper->assign($smartyKey, $smartyVariable);
+         }
+         $html = $this->smartyHelper->fetch(LoadPerJobIndicator::getSmartyFilename());
+
+
+         $LoadPerJobWidget = array(
+            'id' => get_class($indicator), // WARN: not unique if inserted twice !
+            'color' => 'color-white',
+            'title' => $indicator->getDesc(),
+            'content' => $html,
+         );
+
+         $dashboardWidgets = array();
+         $dashboardWidgets[] = $LoadPerJobWidget;
+         $this->smartyHelper->assign('dashboardWidgets', $dashboardWidgets);
+         $this->smartyHelper->assign('dashboardTitle', 'Sample Cmd dashboard');
+
+
+
 		} else {
 			$this->smartyHelper->assign('error',T_('Sorry, you need to be in the admin-team to access this page.'));
 		}
@@ -46,7 +78,7 @@ class PluginDashboardController extends Controller {
 }
 
 PluginDashboardController::staticInit();
-$controller = new PluginDashboardController('../', 'Plugin Dashboard','Plugin');
+$controller = new PluginDashboardController('../', 'Dashboard Test','Plugin');
 $controller->execute();
 
 ?>

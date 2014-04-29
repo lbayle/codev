@@ -1,23 +1,7 @@
 <div id="content" style="margin-left:10em;margin-right:10em">
-{if isset($plugins)}
-<script type="text/javascript" src="js/datatable.js"></script>
-<table id="plugins_table" class="datatable">
-	<thead>
-		<tr>
-            <th>{t}Plugin Name{/t}</th>
-            <th>{t}Description{/t}</th>
-        </tr>
-	</thead>
-	<tbody>
-		{foreach $plugins as $name=>$description}
-		<tr>
-            <td>{$name}</td>
-            <td>{$description}</td>
-		</tr>
-		{/foreach}
-	</tbody>
-</table>
-{else}
-	<p class="center ui-state-error-text">{$error}</p>
-{/if}
+
+
+{include file="tools/dashboard.html"}
+
+
 </div>
