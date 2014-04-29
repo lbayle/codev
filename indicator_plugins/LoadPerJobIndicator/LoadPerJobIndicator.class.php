@@ -1,10 +1,20 @@
 <?php
-
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+   This file is part of CoDev-Timetracking.
+
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 /**
  * Description of LoadPerJobIndicator
@@ -48,6 +58,10 @@ class LoadPerJobIndicator implements IndicatorPlugin  {
 
    public static function getSmartySubFilename() {
    	  return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__."_ajax.html";
+   }
+
+   public static function getAjaxPhpFilename() {
+   	  return Constants::$codevURL.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__."_ajax.php";
    }
 
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
@@ -158,14 +172,15 @@ class LoadPerJobIndicator implements IndicatorPlugin  {
       $seriesColors = '["'.implode('","', $formatedColors).'"]';  // ["#FFCD85","#C2DFFF"]
 
       return array(
-         'workingDaysPerJob' => $loadPerJobs,
-         'workingDaysPerJob_jqplotData' => Tools::array2json($data),
-         'workingDaysPerJob_colors' => $formatedColors,
-         'workingDaysPerJob_jqplotSeriesColors' => $seriesColors,
-         'workingDaysPerJob_startTimestamp' => $this->startTimestamp,
-         'workingDaysPerJob_endTimestamp' => $this->endTimestamp,
+         'loadPerJobIndicator_tableData' => $loadPerJobs,
+         'loadPerJobIndicator_jqplotData' => Tools::array2json($data),
+         'loadPerJobIndicator_colors' => $formatedColors,
+         'loadPerJobIndicator_jqplotSeriesColors' => $seriesColors,
+         'loadPerJobIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
+         'loadPerJobIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
          #'loadPerJobIndicatorFile' => LoadPerJobIndicator::getSmartyFilename(), // added in controller
          'loadPerJobIndicator_ajaxFile' => LoadPerJobIndicator::getSmartySubFilename(),
+         'loadPerJobIndicator_ajaxPhpFile' => LoadPerJobIndicator::getAjaxPhpFilename(),
       );
    }
 }

@@ -1,6 +1,6 @@
 <div id="loadPerJob_ajax">
    <!-- Working days per job -->
-   {if $workingDaysPerJob}
+   {if $loadPerJobIndicator_tableData}
    <table class="display float" style="width: 500px;">
       <thead>
          <tr>
@@ -9,7 +9,7 @@
          </tr>
       </thead>
       <tbody>
-         {foreach from=$workingDaysPerJob key=id item=i}
+         {foreach from=$loadPerJobIndicator_tableData key=id item=i}
          <tr>
             <td>
                <div class="generatedImage float" style="background-color: #{$i.color};"></div>

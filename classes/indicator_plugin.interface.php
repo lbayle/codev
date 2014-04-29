@@ -30,6 +30,10 @@ interface IndicatorPlugin {
     * {include file="indicator_plugins/myIndicator.html"}
     */
    public static function getSmartyFilename();
+   
+   // TODO all indicators must override this :
+   //public static function getSmartySubFilename();
+   //public static function getAjaxPhpFilename();
 
    /**
     * result of the Indicator

@@ -602,8 +602,6 @@ class CommandTools {
 
       // LoadPerJobIndicator
       $data = self::getLoadPerJob($cmd);
-      $smartyHelper->assign('loadPerJob_startDate', Tools::formatDate("%Y-%m-%d", $data['workingDaysPerJob_startTimestamp']));
-      $smartyHelper->assign('loadPerJob_endDate', Tools::formatDate("%Y-%m-%d", $data['workingDaysPerJob_endTimestamp']));
       foreach ($data as $smartyKey => $smartyVariable) {
          $smartyHelper->assign($smartyKey, $smartyVariable);
          #echo "key $smartyKey = ".var_export($smartyVariable, true)."<br>";
