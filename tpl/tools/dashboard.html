@@ -1,0 +1,65 @@
+<div id="inettutsDashboard">
+
+   
+
+
+   <link href="lib/inettuts/inettuts_codevtt.css" rel="stylesheet" type="text/css" />
+
+    <div id="head">
+        <h2>{$dashboardTitle}</h2>
+    </div>
+
+    <div id="columns">
+
+        <ul id="column1" class="column">
+           {foreach from=$dashboardWidgets key=id item=i}
+            <li class="widget {$i.color}" id="{$i.id}">
+                <div class="widget-head">
+                    <h3>{$i.title}</h3>
+                </div>
+                <div class="widget-content">
+                   {$i.content}
+                </div>
+            </li>
+           {/foreach}
+
+            <li class="widget color-yellow">
+                <div class="widget-head">
+                    <h3>Extra Info</h3>
+                </div>
+                <div class="widget-content">
+                    <p>Try clicking the 'X' in the top right of this widget... Just watch how cool the animaton is! :D</p>
+                    <ul>
+                        <li>Since this is just a demo your settings will NOT be saved anywhere when you leave the page.</li>
+                        <li>This demo has been tested successfully on a Windows XP PC in the following browsers: Firefox 2, Firefox 3, Chrome, Safari 3, Opera 9.5, IE6, IE7</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="widget color-green">
+                <div class="widget-head">
+                    <h3>Some Random Title</h3>
+                </div>
+                <div class="widget-content">
+                    <ul>
+                        <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam magna sem, fringilla in, commodo a, rutrum ut, massa. Donec id nibh eu dui auctor tempor. Morbi laoreet eleifend dolor. Suspendisse pede odio, accumsan vitae, auctor non, suscipit at, ipsum. Cras varius sapien vel lectus.</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="widget color-orange">
+                <div class="widget-head">
+                    <h3>Some Random Title</h3>
+                </div>
+                <div class="widget-content">
+                    <ul>
+                        <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam magna sem, fringilla in, commodo a, rutrum ut, massa. Donec id nibh eu dui auctor tempor. Morbi laoreet eleifend dolor. Suspendisse pede odio, accumsan vitae, auctor non, suscipit at, ipsum. Cras varius sapien vel lectus.</li>
+                    </ul>
+                </div>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <script type="text/javascript" src="lib/inettuts/inettuts_codevtt.js"></script>
+
+</div>

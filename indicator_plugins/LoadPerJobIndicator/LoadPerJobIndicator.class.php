@@ -142,7 +142,7 @@ class LoadPerJobIndicator implements IndicatorPlugin  {
                if (!array_key_exists($jobid, $loadPerJobs)) {
                   // create job if not exist in jobList
                   $loadPerJobs[$jobid] = array(
-                     'name' => $jobs->getJobName($jobid),
+                     'name' => htmlentities($jobs->getJobName($jobid), ENT_QUOTES | ENT_HTML401, "UTF-8"),
                      'color' => $jobs->getJobColor($jobid),
                      'nbDays' => floatval($tt->getDuration()),
                      );
