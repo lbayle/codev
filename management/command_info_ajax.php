@@ -63,34 +63,6 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          } else {
             Tools::sendBadRequest("Command not set");
          }
-      } else if($_GET['action'] == 'getLoadPerJobIndicator') {
-         if(isset($_SESSION['cmdid'])) {
-            $cmdid = $_SESSION['cmdid'];
-            if (0 != $cmdid) {
-               $cmd = CommandCache::getInstance()->getCommand($cmdid);
-
-               $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_startdate"));
-               $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_enddate"));
-               $data = CommandTools::getLoadPerJob($cmd, $startTimestamp, $endTimestamp);
-
-               // construct the html table
-               $smartyHelper->assign('workingDaysPerJob', $data['workingDaysPerJob']);
-               $smartyHelper->assign('loadPerJob_startDate', Tools::formatDate("%Y-%m-%d", $data['workingDaysPerJob_startTimestamp']));
-               $smartyHelper->assign('loadPerJob_endDate', Tools::formatDate("%Y-%m-%d", $data['workingDaysPerJob_endTimestamp']));
-               $html = $smartyHelper->fetch(LoadPerJobIndicator::getSmartySubFilename());
-               $data['loadPerJob_htmlTable'] = $html;
-
-               // return htùml & chart data
-               $jsonData = json_encode($data);
-               echo $jsonData;
-
-            } else {
-               Tools::sendBadRequest("Command equals 0");
-            }
-         } else {
-            Tools::sendBadRequest("Command not set");
-         }
-
       } else if($_GET['action'] == 'getProgressHistoryIndicator') {
          if(isset($_SESSION['cmdid'])) {
             $cmdid = $_SESSION['cmdid'];

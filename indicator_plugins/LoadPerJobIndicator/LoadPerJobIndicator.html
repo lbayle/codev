@@ -1,6 +1,6 @@
 <div id="loadPerJob">
 <div align="left" style="margin-top:1em;">
-   <form id="loadPerJobIndicator_dateRange_form" method="get" action="{$ajaxPage}">
+   <form id="loadPerJobIndicator_dateRange_form" method="get" action="{$loadPerJobIndicator_ajaxPhpFile}">
       <fieldset>
          <script type="text/javascript" src="js/datepicker.js"></script>
          <label for="loadPerJob_startdatepicker">{t}From{/t}:</label>
@@ -31,8 +31,8 @@
       {/if}
 
       // Set the date
-      var startDatePicker = jQuery("#loadPerJob_startdatepicker").datepicker("setDate" ,"{$loadPerJob_startDate}");
-      var endDatePicker = jQuery("#loadPerJob_enddatepicker").datepicker("setDate" ,"{$loadPerJob_endDate}");
+      var startDatePicker = jQuery("#loadPerJob_startdatepicker").datepicker("setDate" ,"{$loadPerJobIndicator_startDate}");
+      var endDatePicker = jQuery("#loadPerJob_enddatepicker").datepicker("setDate" ,"{$loadPerJobIndicator_endDate}");
 
       // Add range date
       startDatePicker.datepicker("option","beforeShow",function(input) {
@@ -62,8 +62,8 @@
 
                var chart = jQuery('#workingDaysPerJobChart');
                var chartoptions = chart.data('plotoptions');
-               chartoptions.seriesColors = data['workingDaysPerJob_colors'];
-               updateChart(chart, data['workingDaysPerJob_jqplotData']);
+               chartoptions.seriesColors = data['loadPerJobIndicator_colors'];
+               updateChart(chart, data['loadPerJobIndicator_jqplotData']);
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -79,9 +79,9 @@
       // display initial chart
       var chart = jQuery('#workingDaysPerJobChart');
       var chartoptions = chart.data('plotoptions');
-      chartoptions.seriesColors = {$workingDaysPerJob_jqplotSeriesColors};
+      chartoptions.seriesColors = {$loadPerJobIndicator_jqplotSeriesColors};
       //chartoptions.seriesDefaults.rendererOptions.startAngle = 180;
-      updateChart(chart, '{$workingDaysPerJob_jqplotData}');
+      updateChart(chart, '{$loadPerJobIndicator_jqplotData}');
       // WARN: something strange with the updateChart, all lines after it won't be executed !!
 
    });
