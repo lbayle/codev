@@ -1,0 +1,27 @@
+<div id="loadPerJob_ajax">
+   <!-- Working days per job -->
+   {if $loadPerJobIndicator_tableData}
+   <table class="display float" style="width: 500px;">
+      <thead>
+         <tr>
+            <th>{t}Job{/t}</th>
+            <th>{t}Nb Days{/t}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$loadPerJobIndicator_tableData key=id item=i}
+         <tr>
+            <td>
+               <div class="generatedImage float" style="background-color: #{$i.color};"></div>
+               <div class="float">{$i.name}</div>
+               <div class="ui-helper-clearfix"></div>
+            </td>
+            <td>{$i.nbDays}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
+   {else}
+   {t}Not available.{/t}
+   {/if}
+</div>
