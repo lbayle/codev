@@ -73,6 +73,9 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
    public static function getAuthor() {
       return 'CodevTT (GPL v3)';
    }
+   public static function getVersion() {
+      return '1.0.0';
+   }
    public static function getDomains() {
       return self::$domains;
    }
@@ -252,7 +255,7 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
          'realStartTimestamp' => $realStartTimestamp,
          'realEndTimestamp' => $realEndTimestamp,
          );
-      return $loadPerJobs;
+      return $this->execData;
    }
 
 

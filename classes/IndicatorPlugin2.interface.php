@@ -47,6 +47,7 @@ interface IndicatorPlugin2 {
 
    public static function getDesc();
    public static function getAuthor();
+   public static function getVersion();
 
    /**
     *

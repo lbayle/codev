@@ -19,21 +19,145 @@
 
 /**
  * 
- * 
+ * This class is responsible for:
+ * - discover available plugins
+ * - activate/deactivate plugins
+ * - return a list of plugins for Dashboards, depending on the context
+ * - update the DB codev_plugin_table.
+ *
  * @author lbayle
  */
 class PluginManager {
 
+   // plugin status
+   const PLUGIN_STATUS_DISABLED = 0;
+   const PLUGIN_STATUS_ENABLED = 1;
+   const PLUGIN_STATUS_REMOVED = 2; // TODO define what this implies
+
    
    /**
-    * parse plugin direcories to find plugins
-    * and update the database.
+    * Parse plugin direcories to find plugins and update the database.
+    *
+    * Note: Directory name must be SAME AS plugin className
+    *       Plugin must implement IndicatorPlugin interface
+    *
     * removed plugins must be marked too.
     */
    public function discoverNewPlugins() {
-      
+      $pluginsDir = Constants::$codevRootDir . DIRECTORY_SEPARATOR . IndicatorPlugin2::indicatorPluginsDir;
+
+      $validPlugins = array();
+
+      // foreach directory
+      $dirContent = array_diff(scandir($pluginsDir), array('..', '.'));
+      foreach($dirContent as $file) {
+         // remove files
+         if (!is_dir($pluginsDir . DIRECTORY_SEPARATOR . $file)) {
+            continue;
+         }
+         // remove Dir that do not contain a Plugin class implementing IndicatorPlugin2 interface
+         $pluginClassFilename = $pluginsDir . DIRECTORY_SEPARATOR . $file . DIRECTORY_SEPARATOR . $file.'.class.php';
+         if (!is_file($pluginClassFilename)) {
+            // remove & warn
+            #echo "plugin class not found -------- $pluginClassFilename<br>";
+            continue;
+         } else {
+            $interfaceList = class_implements($file);
+            #echo "interfaces: ".var_export($interfaceList, true).'<br>';
+            if (!in_array('IndicatorPlugin2', $interfaceList)) {
+               // remove & warn
+               #echo "no plugin interface --------<br>";
+               continue;
+            }
+         }
+         $validPlugins[$file] = 0; // '0' means not yet checked with DB
+      }
+      #echo "Plugins: ".implode(',', array_keys($validPlugins)).'<br>';
+
+      // compare with DB list
+      $query = "SELECT * FROM `codev_plugin_table`;";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $hasChanged = false;
+      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         // if not found in validPlugins, set as REMOVED
+         if (!array_key_exists($row->name, $validPlugins)) {
+            if (self::PLUGIN_STATUS_REMOVED != $row->status) {
+               #echo "must set as removed: $row->name<br>";
+               $query2 = "UPDATE `codev_plugin_table` SET `status`=".self::PLUGIN_STATUS_REMOVED." WHERE `name` = '".$row->name."';";
+               $result2 = SqlWrapper::getInstance()->sql_query($query2);
+               if (!$result2) {
+                  echo "<span style='color:red'>ERROR: Query FAILED</span>";
+                  exit;
+               }
+               $hasChanged = true;
+         }
+      } else {
+         // if found, 'REMOVED' => 'DISABLED' & update other fields.
+         #echo "must be updated: $row->name<br>";
+
+         // do not disable an already enabled plugin
+         $pStatus = (self::PLUGIN_STATUS_REMOVED == $row->status) ? self::PLUGIN_STATUS_DISABLED : $row->status;
+
+         $reflectionMethod = new ReflectionMethod($row->name, 'getDesc');
+         $pDesc = $reflectionMethod->invoke(NULL);
+         $reflectionMethod = new ReflectionMethod($row->name, 'getDomains');
+         $pDomains = implode(',', $reflectionMethod->invoke(NULL));
+         $reflectionMethod = new ReflectionMethod($row->name, 'getCategories');
+         $pCat = implode(',', $reflectionMethod->invoke(NULL));
+         $reflectionMethod = new ReflectionMethod($row->name, 'getVersion');
+         $pVersion = $reflectionMethod->invoke(NULL);
+
+         $query3 = "UPDATE `codev_plugin_table` SET ".
+            "`status`='$pStatus', ".
+            "`domains`='$pDomains', ".
+            "`categories`='$pCat', ".
+            "`version`='$pVersion', ".
+            "`description`='$pDesc' ".
+            "WHERE `name` = '".$row->name."';";
+         $result3 = SqlWrapper::getInstance()->sql_query($query3);
+         if (!$result3) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $hasChanged = true;
+      }
+            $validPlugins[$row->name] = 1;
+      }
+      // if not found in DB, add new as DISABLED
+      foreach($validPlugins as $pName => $val) {
+         if (0 == $val) {
+            $reflectionMethod = new ReflectionMethod($pName, 'getDesc');
+            $pDesc = $reflectionMethod->invoke(NULL);
+            $reflectionMethod = new ReflectionMethod($pName, 'getDomains');
+            $pDomains = implode(',', $reflectionMethod->invoke(NULL));
+            $reflectionMethod = new ReflectionMethod($pName, 'getCategories');
+            $pCat = implode(',', $reflectionMethod->invoke(NULL));
+            $reflectionMethod = new ReflectionMethod($pName, 'getVersion');
+            $pVersion = $reflectionMethod->invoke(NULL);
+
+            $query4 = "INSERT  INTO `codev_plugin_table` (`name`, `description`, `status`, `domains`, `categories`, `version`) ".
+               "VALUES ('$pName', '$pDesc', '".self::PLUGIN_STATUS_DISABLED."', '$pDomains', '$pCat', '$pVersion');";
+            $result4 = SqlWrapper::getInstance()->sql_query($query4);
+            if (!$result4) {
+               echo "<span style='color:red'>ERROR: Query FAILED</span>";
+               exit;
+            }
+            $hasChanged = true;
+         }
+      }
+
+      // if plugin status changed, re-generates the classmap.ser
+      if (true == $hasChanged) {
+         $this->updateClassmap();
+      }
    }
-   
+
+
+
    /**
     * re-generates the classmap.ser file
     * to include new plugins classes
@@ -41,4 +165,31 @@ class PluginManager {
    private function updateClassmap() {
       
    }
+
+   /**
+    * plugins must be granted by the admin before
+    * beeing available for the Dashboards
+    * 
+    * @param type $className
+    * @param type $isActivated
+    */
+   public function activatePlugin($className, $isActivated=TRUE) {
+
+   }
+
+   /**
+    * De pending on where the Dashboard is displayed, not all plugins should be displayed.
+    * You may want to display only the quality (category) plugins available for commands (domain).
+    *
+    * only activated plugins will be returned
+    *
+    * @param string $domain
+    * @param array $categories
+    *
+    * @return array(string) list of plugin classNames
+    */
+   public function getPluginCandidates($domain, $categories) {
+
+   }
+
 }
