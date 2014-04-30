@@ -78,6 +78,17 @@ interface IndicatorPlugin2 {
    public static function getAjaxPhpFilename();
 
    /**
+    * Options must be saved in DB and are specific per (team|user) & dashboard.
+    * It is the responsibility of the Dashboard class to save those settings.
+    *
+    * examples: isGraphOnly, dateRange(defaultRange|currentWeek|currentMonth|noDateLimit), ...
+    *
+    * @return array of (key => val)
+    */
+   public function getConfigOptions();
+   public function setConfigOptions($indicatorOptions);
+
+   /**
     * Set pluginManager and checks that all the mandatory data is
     * available for the plugin to display correctly
     * 
