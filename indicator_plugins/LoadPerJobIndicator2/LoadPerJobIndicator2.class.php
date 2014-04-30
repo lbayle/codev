@@ -23,18 +23,22 @@
  */
 class LoadPerJobIndicator2 implements IndicatorPlugin2  {
 
+   const OPTION_IS_GRAPH_ONLY = 'isGraphOnly';
+   const OPTION_IS_TABLE_ONLY = 'isTableOnly';
+   const OPTION_IS_SIDETASK_CAT_DETAILED = 'isSideTasksCategoryDetailed';
+
    private static $logger;
    private static $domains;
    private static $categories;
 
-   // params
+   // params from PluginMangerFacade
    private $inputIssueSel;
    private $startTimestamp;
    private $endTimestamp;
    private $teamid;
 
-   // options
-   // TODO: graphOnly, sidetasksDetail, ...
+   // config options from Dashboard
+   private $configOptions;
 
    // internal
    protected $execData;
@@ -157,6 +161,24 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
          }
 
       }
+   }
+
+   /**
+    * Values will be saved by the Dashboard
+    * @return array
+    */
+   public function getConfigOptions() {
+      return $this->configOptions;
+   }
+
+   public function setConfigOptions($indicatorOptions) {
+
+      // TODO set default valus, then override with $indicatorOptions
+
+      if (array_key_exists(self::OPTION_IS_GRAPH_ONLY, $indicatorOptions)) {
+         $this->configOptions[self::OPTION_IS_GRAPH_ONLY] = $indicatorOptions[self::OPTION_IS_GRAPH_ONLY];
+      }
+
    }
 
 
