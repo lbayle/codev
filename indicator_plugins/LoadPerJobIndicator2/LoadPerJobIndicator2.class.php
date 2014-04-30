@@ -171,6 +171,8 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
       $teamMembers = $team->getMembers();
       $jobs = new Jobs();
 
+      $realStartTimestamp = $this->endTimestamp; // note: inverted intentionnaly
+      $realEndTimestamp = $this->startTimestamp; // note: inverted intentionnaly
       $loadPerJobs = array();
       foreach($issueList as $issue) {
 #echo "issue ".$issue->getId()."<br>";
@@ -179,6 +181,15 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
 
             // check if user in team
             if (!array_key_exists($tt->getUserId(), $teamMembers)) { continue; }
+
+            // find real date range
+            if ( (NULL == $realStartTimestamp) || ($tt->getDate() < $realStartTimestamp)) {
+               $realStartTimestamp = $tt->getDate();
+            }
+            if ( (NULL == $realEndTimestamp) || ($tt->getDate() > $realEndTimestamp)) {
+               $realEndTimestamp = $tt->getDate();
+            }
+
 
 #echo "tt user=".$tt->getUserId()." job=".$tt->getJobId()." dur=".$tt->getDuration()."<br>";
             // check if sidetask
@@ -214,14 +225,18 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
       // array sort to put sideTasks categories at the bottom
       ksort($loadPerJobs);
 
-      $this->execData = $loadPerJobs;
+      $this->execData = array (
+         'loadPerJobs' => $loadPerJobs,
+         'realStartTimestamp' => $realStartTimestamp,
+         'realEndTimestamp' => $realEndTimestamp,
+         );
       return $loadPerJobs;
    }
 
 
    public function getSmartyVariables() {
 
-      $loadPerJobs = $this->execData;
+      $loadPerJobs = $this->execData['loadPerJobs'];
       $data = array();
       $formatedColors = array();
       foreach ($loadPerJobs as $jobItem) {
@@ -230,13 +245,16 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
       }
       $seriesColors = '["'.implode('","', $formatedColors).'"]';  // ["#FFCD85","#C2DFFF"]
 
+      $startTimestamp = (NULL == $this->startTimestamp) ? $this->execData['realStartTimestamp'] : $this->startTimestamp;
+      $endTimestamp   = (NULL == $this->endTimestamp) ?   $this->execData['realEndTimestamp']   : $this->endTimestamp;
+
       return array(
          'loadPerJobIndicator_tableData' => $loadPerJobs,
          'loadPerJobIndicator_jqplotData' => Tools::array2json($data),
          'loadPerJobIndicator_colors' => $formatedColors,
          'loadPerJobIndicator_jqplotSeriesColors' => $seriesColors, // TODO get rid of this
-         'loadPerJobIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
-         'loadPerJobIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
+         'loadPerJobIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $startTimestamp),
+         'loadPerJobIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $endTimestamp),
          #'loadPerJobIndicatorFile' => LoadPerJobIndicator::getSmartyFilename(), // added in controller
          'loadPerJobIndicator_ajaxFile' => LoadPerJobIndicator::getSmartySubFilename(),
          'loadPerJobIndicator_ajaxPhpFile' => LoadPerJobIndicator::getAjaxPhpFilename(),
