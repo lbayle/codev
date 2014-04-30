@@ -24,8 +24,44 @@ interface IndicatorPlugin2 {
 
    const indicatorPluginsDir = 'indicator_plugins';
 
+   // CodevTT
+   const DOMAIN_COMMAND = 'Command';
+   const DOMAIN_MACRO_COMMAND = 'MacroCommand';
+   const DOMAIN_SERVICE_CONTRACT = 'ServiceContract';
+   const DOMAIN_TEAM = 'Team';
+   const DOMAIN_USER = 'User';
+   const DOMAIN_PROJECT = 'Project';
+
+   // KPI category
+   const CATEGORY_PLANNING  = 'Planning';  // backlog
+   const CATEGORY_ROADMAP   = 'Roadmap';   // deadlines
+   const CATEGORY_QUALITY   = 'Quality';   // bugs
+   const CATEGORY_FINANCIAL = 'Financial'; // budgetDrift
+   const CATEGORY_TEAM      = 'Team';      // EffortEstim reliability, backlogVariation
+   const CATEGORY_RISK      = 'Risk';
+
+   /**
+    * Short name (title)
+    */
    public static function getName();
+
    public static function getDesc();
+   public static function getAuthor();
+
+   /**
+    *
+    * @return array of applicable domains
+    */
+   public static function getDomains();
+   public static function isDomain($domain);
+
+   /**
+    * Generaly, only one category should be returned, but who knows...
+    *
+    * @return array of categories
+    */
+   public static function getCategories();
+   public static function isCategory($category);
 
    /**
     * returns the SMARTY .html filename that will display the results.
