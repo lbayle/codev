@@ -24,23 +24,80 @@
 class LoadPerJobIndicator2 implements IndicatorPlugin2  {
 
    private static $logger;
+   private static $domains;
+   private static $categories;
 
+   // params
    private $inputIssueSel;
    private $startTimestamp;
    private $endTimestamp;
    private $teamid;
 
+   // options
+   // TODO: graphOnly, sidetasksDetail, ...
+
+   // internal
    protected $execData;
 
 
    /**
-    * Initialize complex static variables
+    * Initialize static variables
     * @static
     */
    public static function staticInit() {
       self::$logger = Logger::getLogger(__CLASS__);
+
+      self::$domains = array (
+         self::DOMAIN_COMMAND,
+         self::DOMAIN_TEAM,
+         self::DOMAIN_USER,
+         self::DOMAIN_PROJECT,
+         self::DOMAIN_MACRO_COMMAND,
+         self::DOMAIN_SERVICE_CONTRACT,
+      );
+      self::$categories = array (
+         self::CATEGORY_QUALITY
+      );
    }
 
+   public static function getName() {
+      return 'Load per Job';
+   }
+   public static function getDesc() {
+      return 'Check all the timetracks of the period and return their repartition per Job';
+   }
+   public static function getAuthor() {
+      return 'CodevTT (GPL v3)';
+   }
+   public static function getDomains() {
+      return self::$domains;
+   }
+   public static function getCategories() {
+      return self::$categories;
+   }
+   public static function isDomain($domain) {
+      return in_array($domain, self::$domains);
+   }
+   public static function isCategory($category) {
+      return in_array($category, self::$categories);
+   }
+
+   public static function getSmartyFilename() {
+      return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
+   }
+   public static function getSmartySubFilename() {
+   	  return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__."_ajax.html";
+   }
+   public static function getAjaxPhpFilename() {
+   	  return Constants::$codevURL.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__."_ajax.php";
+   }
+
+
+   /**
+    *
+    * @param \PluginManagerFacadeInterface $pluginMgr
+    * @throws Exception if initialization failed
+    */
    public function __construct(PluginManagerFacadeInterface $pluginMgr) {
       $this->startTimestamp     = NULL;
       $this->endTimestamp       = NULL;
@@ -63,27 +120,6 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
       $this->checkParams($this->inputIssueSel, $params);
 
    }
-
-   public static function getDesc() {
-      return "Load per Job";
-   }
-   public static function getName() {
-      return __CLASS__;
-   }
-   public static function getSmartyFilename() {
-      return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
-   }
-
-   public static function getSmartySubFilename() {
-   	  return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__."_ajax.html";
-   }
-
-   public static function getAjaxPhpFilename() {
-   	  return Constants::$codevURL.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__."_ajax.php";
-   }
-
-
-
 
    /**
     *
@@ -124,15 +160,8 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
    }
 
 
-
-
   /**
     *
-    *
-    * 
-    *
-    * @param IssueSelection $inputIssueSel
-    * @param array $params
     */
    public function execute() {
       
@@ -205,7 +234,7 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
          'loadPerJobIndicator_tableData' => $loadPerJobs,
          'loadPerJobIndicator_jqplotData' => Tools::array2json($data),
          'loadPerJobIndicator_colors' => $formatedColors,
-         'loadPerJobIndicator_jqplotSeriesColors' => $seriesColors,
+         'loadPerJobIndicator_jqplotSeriesColors' => $seriesColors, // TODO get rid of this
          'loadPerJobIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
          'loadPerJobIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
          #'loadPerJobIndicatorFile' => LoadPerJobIndicator::getSmartyFilename(), // added in controller

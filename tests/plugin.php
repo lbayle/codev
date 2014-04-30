@@ -59,9 +59,11 @@ class PluginDashboardController extends Controller {
 
          // set indicator result in a dashboard widget
          $LoadPerJobWidget = array(
-            'id' => LoadPerJobIndicator2::getName(), // WARN: not unique if inserted twice !
+            'id' => 'w1',
             'color' => 'color-white',
-            'title' => LoadPerJobIndicator2::getDesc(),
+            'title' => LoadPerJobIndicator2::getName(),
+            'desc' => LoadPerJobIndicator2::getDesc(),
+            'category' => implode(',', LoadPerJobIndicator2::getCategories()),
             'content' => $html,
          );
 
