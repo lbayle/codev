@@ -36,10 +36,7 @@ interface PluginManagerFacadeInterface {
 
    /*
     * Note: all params will not always be avalable, 
-    * it is context dependent.
-    */
-   /*
-    * TODO: will Plugins be allowed to ask for Params not defined in this list ?
+    * it is context dependent (see IndicatorPlugin domain).
     */
    const PARAM_TEAM_ID = 'teamid';
    const PARAM_SESSION_USER_ID = 'sessionUserId';
