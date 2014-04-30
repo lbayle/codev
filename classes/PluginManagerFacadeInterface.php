@@ -41,10 +41,11 @@ interface PluginManagerFacadeInterface {
    /*
     * TODO: will Plugins be allowed to ask for Params not defined in this list ?
     */
-   const PARAM_TEAM_ID = 'teamId';
+   const PARAM_TEAM_ID = 'teamid';
    const PARAM_SESSION_USER_ID = 'sessionUserId';
    const PARAM_START_TIMESTAMP = 'startTimestamp';
    const PARAM_END_TIMESTAMP = 'endTimestamp';
+   const PARAM_ISSUE_SELECTION = 'IssueSelection';
    
    public function getCodevVersion();
    public function getParam($key);

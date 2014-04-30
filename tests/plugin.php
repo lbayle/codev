@@ -36,34 +36,36 @@ class PluginDashboardController extends Controller {
 
          $teamid = 9; // ASF_OVA_Internet
          $cmdid = 16; // ASF Commande Internet
-         
-
-         // LoadPerJobIndicator
-         $params = array(
-            //'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
-            //'endTimestamp' => $endTimestamp,
-            'teamid' => $teamid // ASF_OVA_Internet
-         );
 
          $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
-         $indicator = new LoadPerJobIndicator();
-         $indicator->execute($cmd->getIssueSelection(), $params);
 
-         $data = $indicator->getSmartyObject();
+         // feed the PluginManager
+         $pluginMgr = PluginManagerFacade::getInstance();
+         $pluginMgr->setParam(PluginManagerFacadeInterface::PARAM_ISSUE_SELECTION, $cmd->getIssueSelection());
+         $pluginMgr->setParam(PluginManagerFacadeInterface::PARAM_TEAM_ID, $teamid);
+         //$pluginMgr->setParam(PluginManagerFacadeInterface::PARAM_START_TIMESTAMP, $startTimestamp);
+         //$pluginMgr->setParam(PluginManagerFacadeInterface::PARAM_END_TIMESTAMP, $endTimestamp);
+
+         // Run Indicator
+         $indicator = new LoadPerJobIndicator2($pluginMgr);
+         $indicator->execute();
+
+         $data = $indicator->getSmartyVariables();
          foreach ($data as $smartyKey => $smartyVariable) {
             $this->smartyHelper->assign($smartyKey, $smartyVariable);
          }
          $html = $this->smartyHelper->fetch(LoadPerJobIndicator::getSmartyFilename());
 
-
+         // set indicator result in a dashboard widget
          $LoadPerJobWidget = array(
-            'id' => get_class($indicator), // WARN: not unique if inserted twice !
+            'id' => LoadPerJobIndicator2::getName(), // WARN: not unique if inserted twice !
             'color' => 'color-white',
-            'title' => $indicator->getDesc(),
+            'title' => LoadPerJobIndicator2::getDesc(),
             'content' => $html,
          );
 
+         // prepare dashboard
          $dashboardWidgets = array();
          $dashboardWidgets[] = $LoadPerJobWidget;
          $this->smartyHelper->assign('dashboardWidgets', $dashboardWidgets);

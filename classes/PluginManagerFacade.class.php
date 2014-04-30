@@ -30,13 +30,55 @@
  */
 class PluginManagerFacade implements PluginManagerFacadeInterface {
 
- 
+   /**
+    * Singleton
+    * @var PluginManagerFacade
+    */
+   private static $instance;
+
+   private static $logger;
+
    /**
     *
     * @var array
     */
    private $params;
-   
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
+
+   /**
+    * The singleton pattern
+    * @static
+    * @return IssueCache
+    */
+   public static function getInstance() {
+      if (NULL == self::$instance) {
+         self::$instance = new PluginManagerFacade();
+
+
+      }
+      return self::$instance;
+   }
+
+   /**
+    * Private constructor to respect the singleton pattern
+    * @param string $cacheName The cache name
+    */
+   private function __construct() {
+
+      self::$logger = Logger::getLogger(__CLASS__); // common logger for all cache classes
+
+      #echo "DEBUG: Cache ready<br/>";
+   }
+
+
+
    /**
     * used by plugins
     * 
@@ -81,3 +123,6 @@ class PluginManagerFacade implements PluginManagerFacadeInterface {
    }
    
 }
+
+// Initialize complex static variables
+PluginManagerFacade::staticInit();
