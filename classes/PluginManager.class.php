@@ -36,7 +36,7 @@ class PluginManager {
 
    /**
     * Singleton
-    * @var PluginManagerFacade
+    * @var PluginManager
     */
    private static $instance;
 

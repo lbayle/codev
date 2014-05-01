@@ -102,10 +102,10 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
 
    /**
     *
-    * @param \PluginManagerFacadeInterface $pluginMgr
+    * @param \PluginDataProviderInterface $pluginMgr
     * @throws Exception if initialization failed
     */
-   public function __construct(PluginManagerFacadeInterface $pluginMgr) {
+   public function __construct(PluginDataProviderInterface $pluginMgr) {
       $this->startTimestamp     = NULL;
       $this->endTimestamp       = NULL;
 
@@ -114,15 +114,15 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
 
    /**
     *
-    * @param \PluginManagerFacadeInterface $pluginMgr
+    * @param \PluginDataProviderInterface $pluginMgr
     * @throws Exception
     */
-   public function initialize(PluginManagerFacadeInterface $pluginMgr) {
+   public function initialize(PluginDataProviderInterface $pluginMgr) {
 
       // TODO Deprecated, for transistion only
-      $this->inputIssueSel = $pluginMgr->getParam(PluginManagerFacadeInterface::PARAM_ISSUE_SELECTION);
+      $this->inputIssueSel = $pluginMgr->getParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
       $params = array(
-         PluginManagerFacadeInterface::PARAM_TEAM_ID => $pluginMgr->getParam(PluginManagerFacadeInterface::PARAM_TEAM_ID),
+         PluginDataProviderInterface::PARAM_TEAM_ID => $pluginMgr->getParam(PluginDataProviderInterface::PARAM_TEAM_ID),
       );
       $this->checkParams($this->inputIssueSel, $params);
 
@@ -149,10 +149,10 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
          }
          #echo "start ".date('Y-m-d', $params['startTimestamp']). " end ".date('Y-m-d', $params['endTimestamp'])."<br>";
 
-         if (array_key_exists(PluginManagerFacadeInterface::PARAM_TEAM_ID, $params)) {
-            $this->teamid = $params[PluginManagerFacadeInterface::PARAM_TEAM_ID];
+         if (array_key_exists(PluginDataProviderInterface::PARAM_TEAM_ID, $params)) {
+            $this->teamid = $params[PluginDataProviderInterface::PARAM_TEAM_ID];
          } else {
-            throw new Exception("Missing parameter: ".PluginManagerFacadeInterface::PARAM_TEAM_ID);
+            throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_TEAM_ID);
          }
 
          if (array_key_exists('startTimestamp', $params)) {

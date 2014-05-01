@@ -116,13 +116,13 @@ class Dashboard {
       $candidates = $pm->getPluginCandidates($this->domain, $this->categories);
 
       // insert widgets
-      $pluginMgrFacade = PluginManagerFacade::getInstance();
+      $pluginDataProvider = PluginDataProvider::getInstance();
       $idx = 1;
       foreach ($this->settings['plugins'] as $pClassName) {
 
 
          $r = new ReflectionClass($pClassName);
-         $indicator = $r->newInstanceArgs(array($pluginMgrFacade));
+         $indicator = $r->newInstanceArgs(array($pluginDataProvider));
 
 
 

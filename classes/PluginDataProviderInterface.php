@@ -24,15 +24,15 @@ THE SOFTWARE.
 */
 
 /**
- * The PluginManagerFacade class is part of the CodevTT kernel (GPL v3),
+ * The PluginDataProvider class is part of the CodevTT kernel (GPL v3),
  * IndicatorPlugins may be under other licenses (including non-open-source licenses). 
  * 
- * The PluginManagerFacadeInterface has an MIT license so that non-open-source plugins
- * are not under the GPL license of the PluginManagerFacade.
+ * The PluginDataProviderInterface has an MIT license so that non-open-source plugins
+ * are not under the GPL license of the PluginDataProvider.
  * 
  * @author lbayle
  */
-interface PluginManagerFacadeInterface {
+interface PluginDataProviderInterface {
 
    /*
     * Note: all params will not always be avalable, 

@@ -90,12 +90,12 @@ interface IndicatorPlugin2 {
    //public function getPluginSettings();
 
    /**
-    * Set pluginManager and checks that all the mandatory data is
+    * Set pluginDataProvider and checks that all the mandatory data is
     * available for the plugin to display correctly
     * 
-    * @param PluginManagerFacadeInterface $pluginMgr
+    * @param PluginDataProviderInterface $pluginDataProvider
     */
-   public function initialize(PluginManagerFacadeInterface $pluginMgr);
+   public function initialize(PluginDataProviderInterface $pluginDataProvider);
 
 
    /**

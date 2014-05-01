@@ -12,27 +12,27 @@
  * It is capable of retrieving general information from CodevTT/Mantis,
  * and some specific information may be add by the controler of the displayed page. 
  * 
- * The PluginManagerFacade should be instanciated by the page controler.
+ * The PluginDataProvider should be instanciated by the page controler.
  * The Controler does not know which Plugins are loaded
  * 
  * 
- * IndicatorPlugins will receive a reference to the PluginManagerFacade and will
- * NOT get information from any other way: The PluginManagerFacade is the only
+ * IndicatorPlugins will receive a reference to the PluginDataProvider and will
+ * NOT get information from any other way: The PluginDataProvider is the only
  * interface between the CodevTT kernel and the plugins.
  * 
- * The PluginManagerFacade class is part of the CodevTT kernel (GPL v3),
+ * The PluginDataProvider class is part of the CodevTT kernel (GPL v3),
  * while the IndicatorPlugins may be under other licenses (including non-open-source
- * licenses). A PluginManagerFacadeInterface has an MIT license so that non-open-source
- * plugins are not under the GPL license of the PluginManagerFacade.
+ * licenses). A PluginDataProviderInterface has an MIT license so that non-open-source
+ * plugins are not under the GPL license of the PluginDataProvider.
  * 
  * 
  * @author lbayle
  */
-class PluginManagerFacade implements PluginManagerFacadeInterface {
+class PluginDataProvider implements PluginDataProviderInterface {
 
    /**
     * Singleton
-    * @var PluginManagerFacade
+    * @var PluginDataProvider
     */
    private static $instance;
 
@@ -59,7 +59,7 @@ class PluginManagerFacade implements PluginManagerFacadeInterface {
     */
    public static function getInstance() {
       if (NULL == self::$instance) {
-         self::$instance = new PluginManagerFacade();
+         self::$instance = new PluginDataProvider();
 
 
       }
@@ -111,7 +111,7 @@ class PluginManagerFacade implements PluginManagerFacadeInterface {
     * ex: CommandName
     * 
     * The controler should provide methods that will get the data on demand,
-    * and these methods will be called by the PluginManagerFacade.
+    * and these methods will be called by the PluginDataProvider.
     * 
     * @param type $key
     * @param type $value
@@ -125,4 +125,4 @@ class PluginManagerFacade implements PluginManagerFacadeInterface {
 }
 
 // Initialize complex static variables
-PluginManagerFacade::staticInit();
+PluginDataProvider::staticInit();

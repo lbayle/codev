@@ -47,12 +47,12 @@ class PluginDashboardController extends Controller {
 
          // ------ END TESTS
 
-         // feed the PluginManagerFacade
-         $pluginMgrFacade = PluginManagerFacade::getInstance();
-         $pluginMgrFacade->setParam(PluginManagerFacadeInterface::PARAM_ISSUE_SELECTION, $cmd->getIssueSelection());
-         $pluginMgrFacade->setParam(PluginManagerFacadeInterface::PARAM_TEAM_ID, $teamid);
-         //$pluginMgr->setParam(PluginManagerFacadeInterface::PARAM_START_TIMESTAMP, $startTimestamp);
-         //$pluginMgr->setParam(PluginManagerFacadeInterface::PARAM_END_TIMESTAMP, $endTimestamp);
+         // feed the PluginDataProvider
+         $pluginDataProvider = PluginDataProvider::getInstance();
+         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $cmd->getIssueSelection());
+         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $teamid);
+         //$pluginMgr->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
+         //$pluginMgr->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
 
 
          // create the Dashboard
