@@ -30,9 +30,8 @@
  * to save the settings in codevtt_config_table with [id,team,user] as key components.
  * the id should be hardcodded in the page Controler (which will also set domain & cat).
  *
- * the Dashboards uses a selectItemsDialogbox (*) to let the user choose the plugins to
- * be displayed.
- * (*) : mabe a simple checkbox Dialogbox is enough.
+ * the Dashboards has a dialogbox to let the user choose the plugins to be displayed.
+ * (simple combobox with pluginCandidates).
  *
  * A Dashboard uses a SAMRTY template file (dashboard.html), and provides some smartyVariables.
  * WARN: There can be several dashboards in a same page
@@ -46,23 +45,43 @@ class Dashboard {
 
    private $domain;
    private $categories;
+   private $userid;
+   private $teamid;
+   private $settings;
 
    public function __construct($id) {
       
+      // TODO REMOVE TEST
+      $this->settings = array();
+      $this->settings['plugins'] = array('LoadPerJobIndicator2');
    }
 
    public function setDomain($domain) {
       $this->domain = $domain;
    }
    public function getDomain() {
-
+      $this->domain;
    }
    public function setCategories($categories) {
       $this->categories = $categories;
    }
    public function getCategories() {
-
+      return $this->categories;
    }
+   public function setUserid($userid) {
+      $this->userid = $userid;
+   }
+   public function getUserid() {
+      return $this->userid;
+   }
+   public function setTeamid($teamid) {
+      $this->teamid = $teamid;
+   }
+   public function getTeamid() {
+      return $this->teamid;
+   }
+
+
 
    /**
     *
@@ -74,15 +93,69 @@ class Dashboard {
 
    }
 
-   public function getPluginSettings($pluginClassName, $userid, $teamid) {
+   private function getPluginSettings($pluginClassName) {
       return $pluginSettings;
    }
 
-   public function getSmartyVariables() {
+   /**
+    * - list of plugins to display
+    * - widgetAttributes (collapsed, color, ...)
+    * 
+    * 
+    * @param type $userid
+    * @param type $teamid
+    */
+   private function getDashboardSettings() {
+
+   }
+
+   public function getSmartyVariables($smartyHelper) {
+
+      // dashboard settings
+      $pm = PluginManager::getInstance();
+      $candidates = $pm->getPluginCandidates($this->domain, $this->categories);
+
+      // insert widgets
+      $pluginMgrFacade = PluginManagerFacade::getInstance();
+      $idx = 1;
+      foreach ($this->settings['plugins'] as $pClassName) {
+
+
+         $r = new ReflectionClass($pClassName);
+         $indicator = $r->newInstanceArgs(array($pluginMgrFacade));
+
+
+
+         //$indicator->setPluginSettings($this->getPluginSettings($pClassName));
+         $indicator->execute();
+
+         $data = $indicator->getSmartyVariables();
+         foreach ($data as $smartyKey => $smartyVariable) {
+            $smartyHelper->assign($smartyKey, $smartyVariable);
+         }
+         $indicatorHtmlContent = $smartyHelper->fetch(LoadPerJobIndicator::getSmartyFilename());
+
+         // set indicator result in a dashboard widget
+         $widget = array(
+            'id' => 'w_'.$idx,
+            'color' => 'color-white',
+            'title' => $pClassName::getName(),
+            'desc' => $pClassName::getDesc(),
+            'category' => implode(',', $pClassName::getCategories()),
+            'content' => $indicatorHtmlContent,
+         );
+
+         $dashboardWidgets[] = $widget;
+         $idx += 1;
+      }
+
+
 
       return array(
          'dashboardId' => 'id',
          'dashboardTitle' => 'title',
+         'dashboardPluginCandidates' => $candidates, // TOSO json ? implode ?
+         'dashboardWidgets' =>  $dashboardWidgets
          );
    }
 }

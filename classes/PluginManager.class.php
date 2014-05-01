@@ -19,7 +19,7 @@
 
 /**
  * 
- * This class is responsible for:
+ * This class is a singleton responsible for:
  * - discover available plugins
  * - activate/deactivate plugins
  * - return a list of plugins for Dashboards, depending on the context
@@ -34,7 +34,47 @@ class PluginManager {
    const PLUGIN_STATUS_ENABLED = 1;
    const PLUGIN_STATUS_REMOVED = 2; // TODO define what this implies
 
-   
+   /**
+    * Singleton
+    * @var PluginManagerFacade
+    */
+   private static $instance;
+
+   private static $logger;
+
+
+
+   // an image of the DB
+   private $plugins;
+
+
+   /**
+    * The singleton pattern
+    * @static
+    * @return IssueCache
+    */
+   public static function getInstance() {
+      if (NULL == self::$instance) {
+         self::$instance = new PluginManager();
+
+
+      }
+      return self::$instance;
+   }
+
+   /**
+    * Private constructor to respect the singleton pattern
+    * @param string $cacheName The cache name
+    */
+   private function __construct() {
+
+      self::$logger = Logger::getLogger(__CLASS__); // common logger for all cache classes
+
+      #echo "DEBUG: Cache ready<br/>";
+   }
+
+
+
    /**
     * Parse plugin direcories to find plugins and update the database.
     *
@@ -175,6 +215,46 @@ class PluginManager {
     */
    public function activatePlugin($className, $isActivated=TRUE) {
 
+      $status = (TRUE == $isActivated) ? self::PLUGIN_STATUS_ENABLED: self::PLUGIN_STATUS_DISABLED;
+
+      $query2 = "UPDATE `codev_plugin_table` SET `status`=".$status." WHERE `name` = '".$className."';";
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      if (!$result2) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+   }
+
+
+   public function getPlugins() {
+
+      if (NULL == $this->plugins) {
+
+         $plugins = array();
+
+         $query = "SELECT * FROM `codev_plugin_table`;";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+
+            $plugin = array(
+               'name' => $row->name,
+               'status' => intval($row->status),
+               'domains' => explode(',', $row->domains),
+               'categories' => explode(',', $row->categories),
+               'version' => $row->version,
+               'description' => $row->description,
+            );
+            $plugins[$row->name] = $plugin;
+         }
+
+         $this->plugins = $plugins;
+      }
+      return $this->plugins;
    }
 
    /**
@@ -190,6 +270,22 @@ class PluginManager {
     */
    public function getPluginCandidates($domain, $categories) {
 
+      if (NULL == $this->plugins) { $this->getPlugins(); }
+
+      $candidates = array();
+      foreach ($this->plugins as $key => $plugin) {
+         if ((self::PLUGIN_STATUS_ENABLED == $plugin['status']) &&
+            (in_array($domain, $plugin['domains']))) {
+            // check categ: one match is enough
+            foreach ($plugin['categories'] as $cat) {
+               if (in_array($cat, $categories)) {
+                  $candidates[] = $plugin['name'];
+                  break;
+               }
+            }
+         }
+      }
+      return $candidates;
    }
 
 }
