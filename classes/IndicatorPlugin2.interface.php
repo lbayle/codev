@@ -25,6 +25,7 @@ interface IndicatorPlugin2 {
    const indicatorPluginsDir = 'indicator_plugins';
 
    // CodevTT
+   const DOMAIN_HOMEPAGE = 'Homepage';
    const DOMAIN_COMMAND = 'Command';
    const DOMAIN_MACRO_COMMAND = 'MacroCommand';
    const DOMAIN_SERVICE_CONTRACT = 'ServiceContract';
@@ -57,7 +58,7 @@ interface IndicatorPlugin2 {
    public static function isDomain($domain);
 
    /**
-    * Generaly, only one category should be returned, but who knows...
+    * Only one category should be returned, but who knows...
     *
     * @return array of categories
     */
@@ -79,15 +80,14 @@ interface IndicatorPlugin2 {
    public static function getAjaxPhpFilename();
 
    /**
-    * Options must be saved in DB and are specific per (team|user) & dashboard.
+    * Options must be saved in DB and are specific per [team,user] & dashboard.
     * It is the responsibility of the Dashboard class to save those settings.
     *
     * examples: isGraphOnly, dateRange(defaultRange|currentWeek|currentMonth|noDateLimit), ...
     *
-    * @return array of (key => val)
     */
-   public function getConfigOptions();
-   public function setConfigOptions($indicatorOptions);
+   public function setPluginSettings($pluginSettings);
+   //public function getPluginSettings();
 
    /**
     * Set pluginManager and checks that all the mandatory data is

@@ -32,7 +32,8 @@ class PluginDashboardController extends Controller {
 	protected function display() {
 		if (Tools::isConnectedUser()) {
 			// Admins only
-			//$session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+         $userid = $_SESSION['userid'];
+			//$session_user = UserCache::getInstance()->getUser($userid);
 
          $teamid = 9; // ASF_OVA_Internet
          $cmdid = 16; // ASF Commande Internet
@@ -40,15 +41,24 @@ class PluginDashboardController extends Controller {
          $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
 
-         // feed the PluginManager
+         $pm = new PluginManager();
+         $pm->discoverNewPlugins();
+
+         
+
+         // feed the PluginManagerFacade
          $pluginMgr = PluginManagerFacade::getInstance();
          $pluginMgr->setParam(PluginManagerFacadeInterface::PARAM_ISSUE_SELECTION, $cmd->getIssueSelection());
          $pluginMgr->setParam(PluginManagerFacadeInterface::PARAM_TEAM_ID, $teamid);
          //$pluginMgr->setParam(PluginManagerFacadeInterface::PARAM_START_TIMESTAMP, $startTimestamp);
          //$pluginMgr->setParam(PluginManagerFacadeInterface::PARAM_END_TIMESTAMP, $endTimestamp);
 
+         $dashboard = new Dashboard('myDashboardId');
+
+
          // Run Indicator
          $indicator = new LoadPerJobIndicator2($pluginMgr);
+         //$indicator->setPluginSettings($dashboard->getPluginSettings('LoadPerJobIndicator2', $userid, $teamid));
          $indicator->execute();
 
          $data = $indicator->getSmartyVariables();

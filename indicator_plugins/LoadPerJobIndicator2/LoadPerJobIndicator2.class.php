@@ -38,7 +38,7 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
    private $teamid;
 
    // config options from Dashboard
-   private $configOptions;
+   private $pluginSettings;
 
    // internal
    protected $execData;
@@ -122,7 +122,7 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
       // TODO Deprecated, for transistion only
       $this->inputIssueSel = $pluginMgr->getParam(PluginManagerFacadeInterface::PARAM_ISSUE_SELECTION);
       $params = array(
-         'teamid' => $pluginMgr->getParam(PluginManagerFacadeInterface::PARAM_TEAM_ID),
+         PluginManagerFacadeInterface::PARAM_TEAM_ID => $pluginMgr->getParam(PluginManagerFacadeInterface::PARAM_TEAM_ID),
       );
       $this->checkParams($this->inputIssueSel, $params);
 
@@ -149,10 +149,10 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
          }
          #echo "start ".date('Y-m-d', $params['startTimestamp']). " end ".date('Y-m-d', $params['endTimestamp'])."<br>";
 
-         if (array_key_exists('teamid', $params)) {
-            $this->teamid = $params['teamid'];
+         if (array_key_exists(PluginManagerFacadeInterface::PARAM_TEAM_ID, $params)) {
+            $this->teamid = $params[PluginManagerFacadeInterface::PARAM_TEAM_ID];
          } else {
-            throw new Exception("Missing parameter: teamid");
+            throw new Exception("Missing parameter: ".PluginManagerFacadeInterface::PARAM_TEAM_ID);
          }
 
          if (array_key_exists('startTimestamp', $params)) {
@@ -170,16 +170,21 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
     * Values will be saved by the Dashboard
     * @return array
     */
-   public function getConfigOptions() {
-      return $this->configOptions;
-   }
+   //public function getPluginSettings() {
+   //   return $this->pluginSettings;
+   //}
 
-   public function setConfigOptions($indicatorOptions) {
+   /**
+    * settings are saved by the Dashboard
+    * 
+    * @param type $indicatorOptions
+    */
+   public function setPluginSettings($indicatorOptions) {
 
       // TODO set default valus, then override with $indicatorOptions
 
       if (array_key_exists(self::OPTION_IS_GRAPH_ONLY, $indicatorOptions)) {
-         $this->configOptions[self::OPTION_IS_GRAPH_ONLY] = $indicatorOptions[self::OPTION_IS_GRAPH_ONLY];
+         $this->pluginSettings[self::OPTION_IS_GRAPH_ONLY] = $indicatorOptions[self::OPTION_IS_GRAPH_ONLY];
       }
 
    }
