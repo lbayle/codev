@@ -10,7 +10,7 @@
  *
  * @author lob
  */
-class ActivityIndicator extends Plugin implements IndicatorPlugin {
+class ActivityIndicator implements IndicatorPlugin {
 
    /**
     * @var Logger The logger
