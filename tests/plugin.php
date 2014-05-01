@@ -41,49 +41,32 @@ class PluginDashboardController extends Controller {
          $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
 
-         $pm = new PluginManager();
+         // ------ START TESTS
+         $pm = PluginManager::getInstance();
          $pm->discoverNewPlugins();
 
-         
+         // ------ END TESTS
 
          // feed the PluginManagerFacade
-         $pluginMgr = PluginManagerFacade::getInstance();
-         $pluginMgr->setParam(PluginManagerFacadeInterface::PARAM_ISSUE_SELECTION, $cmd->getIssueSelection());
-         $pluginMgr->setParam(PluginManagerFacadeInterface::PARAM_TEAM_ID, $teamid);
+         $pluginMgrFacade = PluginManagerFacade::getInstance();
+         $pluginMgrFacade->setParam(PluginManagerFacadeInterface::PARAM_ISSUE_SELECTION, $cmd->getIssueSelection());
+         $pluginMgrFacade->setParam(PluginManagerFacadeInterface::PARAM_TEAM_ID, $teamid);
          //$pluginMgr->setParam(PluginManagerFacadeInterface::PARAM_START_TIMESTAMP, $startTimestamp);
          //$pluginMgr->setParam(PluginManagerFacadeInterface::PARAM_END_TIMESTAMP, $endTimestamp);
 
+
+         // create the Dashboard
          $dashboard = new Dashboard('myDashboardId');
+         $dashboard->setDomain(IndicatorPlugin2::DOMAIN_COMMAND);
+         $dashboard->setCategories(array(IndicatorPlugin2::CATEGORY_QUALITY));
+         $dashboard->setTeamid($teamid);
+         $dashboard->setUserid($userid);
 
-
-         // Run Indicator
-         $indicator = new LoadPerJobIndicator2($pluginMgr);
-         //$indicator->setPluginSettings($dashboard->getPluginSettings('LoadPerJobIndicator2', $userid, $teamid));
-         $indicator->execute();
-
-         $data = $indicator->getSmartyVariables();
+         $data = $dashboard->getSmartyVariables($this->smartyHelper);
          foreach ($data as $smartyKey => $smartyVariable) {
             $this->smartyHelper->assign($smartyKey, $smartyVariable);
          }
-         $html = $this->smartyHelper->fetch(LoadPerJobIndicator::getSmartyFilename());
-
-         // set indicator result in a dashboard widget
-         $LoadPerJobWidget = array(
-            'id' => 'w1',
-            'color' => 'color-white',
-            'title' => LoadPerJobIndicator2::getName(),
-            'desc' => LoadPerJobIndicator2::getDesc(),
-            'category' => implode(',', LoadPerJobIndicator2::getCategories()),
-            'content' => $html,
-         );
-
-         // prepare dashboard
-         $dashboardWidgets = array();
-         $dashboardWidgets[] = $LoadPerJobWidget;
-         $this->smartyHelper->assign('dashboardWidgets', $dashboardWidgets);
-         $this->smartyHelper->assign('dashboardTitle', 'Sample Cmd dashboard');
-
-
+         
 
 		} else {
 			$this->smartyHelper->assign('error',T_('Sorry, you need to be in the admin-team to access this page.'));
