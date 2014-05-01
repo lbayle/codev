@@ -25,7 +25,7 @@ require_once('lib/log4php/Logger.php');
  * Description of BudgetDriftHistoryIndicator
  *
  */
-class BudgetDriftHistoryIndicator extends Plugin implements IndicatorPlugin {
+class BudgetDriftHistoryIndicator implements IndicatorPlugin {
 
 
    /**
