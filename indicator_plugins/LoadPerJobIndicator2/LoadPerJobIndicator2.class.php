@@ -102,14 +102,14 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
 
    /**
     *
-    * @param \PluginDataProviderInterface $pluginMgr
+    * @param \PluginDataProviderInterface $pluginDataProv
     * @throws Exception if initialization failed
     */
-   public function __construct(PluginDataProviderInterface $pluginMgr) {
+   public function __construct(PluginDataProviderInterface $pluginDataProv) {
       $this->startTimestamp     = NULL;
       $this->endTimestamp       = NULL;
 
-      $this->initialize($pluginMgr);
+      $this->initialize($pluginDataProv);
    }
 
    /**
@@ -117,12 +117,12 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
     * @param \PluginDataProviderInterface $pluginMgr
     * @throws Exception
     */
-   public function initialize(PluginDataProviderInterface $pluginMgr) {
+   public function initialize(PluginDataProviderInterface $pluginDataProv) {
 
       // TODO Deprecated, for transistion only
-      $this->inputIssueSel = $pluginMgr->getParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
+      $this->inputIssueSel = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
       $params = array(
-         PluginDataProviderInterface::PARAM_TEAM_ID => $pluginMgr->getParam(PluginDataProviderInterface::PARAM_TEAM_ID),
+         PluginDataProviderInterface::PARAM_TEAM_ID => $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_TEAM_ID),
       );
       $this->checkParams($this->inputIssueSel, $params);
 
@@ -177,16 +177,18 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
    /**
     * settings are saved by the Dashboard
     * 
-    * @param type $indicatorOptions
+    * @param type $pluginSettings
     */
-   public function setPluginSettings($indicatorOptions) {
+   public function setPluginSettings($pluginSettings) {
 
-      // TODO set default valus, then override with $indicatorOptions
+      if (NULL != $pluginSettings) {
 
-      if (array_key_exists(self::OPTION_IS_GRAPH_ONLY, $indicatorOptions)) {
-         $this->pluginSettings[self::OPTION_IS_GRAPH_ONLY] = $indicatorOptions[self::OPTION_IS_GRAPH_ONLY];
+         // TODO set default valus, then override with $indicatorOptions
+
+         if (array_key_exists(self::OPTION_IS_GRAPH_ONLY, $pluginSettings)) {
+            $this->pluginSettings[self::OPTION_IS_GRAPH_ONLY] = $pluginSettings[self::OPTION_IS_GRAPH_ONLY];
+         }
       }
-
    }
 
 
@@ -293,5 +295,5 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
 
 }
 
-// Initialize complex static variables
+// Initialize static variables
 LoadPerJobIndicator2::staticInit();

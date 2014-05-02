@@ -43,17 +43,25 @@
  */
 class Dashboard {
 
+   private static $logger;
+
+   private $id;
    private $domain;
    private $categories;
    private $userid;
    private $teamid;
    private $settings;
 
+   /**
+    * Initialize static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
+
    public function __construct($id) {
-      
-      // TODO REMOVE TEST
-      $this->settings = array();
-      $this->settings['plugins'] = array('LoadPerJobIndicator2');
+      $this->id = $id;
    }
 
    public function setDomain($domain) {
@@ -84,29 +92,44 @@ class Dashboard {
 
 
    /**
+    * called by include/dashboard_ajax.php
     *
     * @param type $settings json containing dashboard & plugins settings.
     * @param type $userid
     * @param type $teamid
     */
    public function saveSettings($settings, $userid, $teamid) {
-
-   }
-
-   private function getPluginSettings($pluginClassName) {
-      return $pluginSettings;
+      // if any, save to codevtt_config_table with [id,team,user] as key components.
    }
 
    /**
+    * if user has saved some settings, return them.
     * - list of plugins to display
     * - widgetAttributes (collapsed, color, ...)
-    * 
-    * 
-    * @param type $userid
-    * @param type $teamid
+    *
+    *
     */
    private function getDashboardSettings() {
 
+      // TODO get user specific settings
+
+      // if no specific settings, default values:
+      $this->settings = array();
+      $pm = PluginManager::getInstance();
+      $candidates = $pm->getPluginCandidates($this->domain, $this->categories);
+      $this->settings['plugins'] = $candidates;
+
+      return $this->settings;
+   }
+
+   /**
+    * if user has saved specific settings, get them. if not return NULL
+    * @param type $pluginClassName
+    * @return array
+    */
+   private function getPluginSettings($pluginClassName) {
+      // TODO get from $this->settings
+      return NULL;
    }
 
    public function getSmartyVariables($smartyHelper) {
@@ -115,18 +138,26 @@ class Dashboard {
       $pm = PluginManager::getInstance();
       $candidates = $pm->getPluginCandidates($this->domain, $this->categories);
 
+      // user specific dashboard settings
+      if (NULL == $this->settings) { $this->getDashboardSettings(); }
+
       // insert widgets
       $pluginDataProvider = PluginDataProvider::getInstance();
       $idx = 1;
       foreach ($this->settings['plugins'] as $pClassName) {
 
+         if (!in_array($pClassName, $candidates)) {
+            self::$logger->error("Dashboard user settings: ".$pClassName.' is not a candidate !');
+            continue;
+         }
 
+         // TODO check, Plugin may not exist...
          $r = new ReflectionClass($pClassName);
          $indicator = $r->newInstanceArgs(array($pluginDataProvider));
 
 
 
-         //$indicator->setPluginSettings($this->getPluginSettings($pClassName));
+         $indicator->setPluginSettings($this->getPluginSettings($pClassName));
          $indicator->execute();
 
          $data = $indicator->getSmartyVariables();
@@ -137,7 +168,7 @@ class Dashboard {
 
          // set indicator result in a dashboard widget
          $widget = array(
-            'id' => 'w_'.$idx,
+            'id' => 'w_'.$idx, // TODO WARN must be unique (if 2 dashboards in same page)
             'color' => 'color-white',
             'title' => $pClassName::getName(),
             'desc' => $pClassName::getDesc(),
@@ -149,13 +180,15 @@ class Dashboard {
          $idx += 1;
       }
 
-
-
       return array(
-         'dashboardId' => 'id',
+         'dashboardId' => $this->id,
          'dashboardTitle' => 'title',
-         'dashboardPluginCandidates' => $candidates, // TOSO json ? implode ?
+         'dashboardPluginCandidates' => $candidates, // TODO json ? implode ?
          'dashboardWidgets' =>  $dashboardWidgets
          );
    }
 }
+
+// Initialize static variables
+Dashboard::staticInit();
+
