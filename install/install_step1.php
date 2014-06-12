@@ -33,6 +33,8 @@ $logger = Logger::getLogger("install");
 
 ?>
 
+<script src="../lib/jquery/js/jquery-1.8.0.min.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 
    function setDatabaseInfo(){
@@ -52,6 +54,18 @@ $logger = Logger::getLogger("install");
          alert(msgString);
       }
    }
+   
+   jQuery(document).ready(function() {
+      var form = jQuery('#databaseForm');
+
+      jQuery('#cb_proxyEnabled').click(function() {
+         var isProxyEnabled = jQuery('#cb_proxyEnabled').attr('checked')?1:0;
+         form.find('input[name=isProxyEnabled]').val(isProxyEnabled);
+         jQuery('#proxy_host').prop('disabled', !jQuery('#cb_proxyEnabled').attr('checked'));
+         jQuery('#proxy_port').prop('disabled', !jQuery('#cb_proxyEnabled').attr('checked'));
+      });
+   });
+   
 </script>
 
 <div id="content">
@@ -159,13 +173,19 @@ function checkDBprivileges($db_mantis_database = 'bugtracker') {
 function createConfigFile($db_mantis_host = 'localhost',
                                $db_mantis_user = 'mantis',
                                $db_mantis_pass = '',
-                               $db_mantis_database = 'bugtracker') {
+                               $db_mantis_database = 'bugtracker',
+                               $proxy_host = NULL,
+                               $proxy_port = NULL) {
 
    Constants::$db_mantis_host = $db_mantis_host;
    Constants::$db_mantis_user = $db_mantis_user;
    Constants::$db_mantis_pass = $db_mantis_pass;
    Constants::$db_mantis_database = $db_mantis_database;
 
+   if (!is_null($proxy_host) && !is_null($proxy_port)) {
+      Constants::$proxy = $proxy_host.':'.$proxy_port;
+   }
+   
    // this writes an INCOMPLETE config.ini file (containing only DB access variables)
    $retCode = Constants::writeConfigFile();
 
@@ -223,13 +243,24 @@ function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, 
 		echo "<br><span class='warn_font'>".T_("WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished).")."</span><br>";
 	}
    echo "  <br/>\n";
+   echo "<h2>".T_("Proxy Settings")."</h2>\n";
+   echo "<span class='help_font'>".T_("CodevTT will check for updates.")."</span><br>";
+   echo "<table class='invisible'>\n";
+   echo "  <tr>\n";
+   echo "    <td width='120'><input id='cb_proxyEnabled' type='checkbox' name='cb_proxyEnabled' /> ".T_("Enable proxy")."</td>\n";
+   echo "    <td>".T_("Server").": <input size='15' type='text' name='proxy_host'  id='proxy_host' value='proxy' disabled></td>\n";
+   echo "    <td>".T_("Port").": <input size='4' type='text' name='proxy_port'  id='proxy_port' value='8080' disabled></td>\n";
+   echo "  </tr>\n";
+   echo "</table>\n";
+   
+   echo "  <br/>\n";
    echo "  <br/>\n";
    echo "<div  style='text-align: center;'>\n";
    echo "<input type=button style='font-size:150%' value='".T_("Proceed Step 1")."' onclick='setDatabaseInfo()'>\n";
    echo "</div>\n";
 
    echo "<input type=hidden name=action      value=noAction>\n";
-
+   echo "<input type=hidden name=isProxyEnabled value=0/>\n";
    echo "</form>";
 }
 
@@ -240,6 +271,15 @@ $db_mantis_host = Tools::getSecurePOSTStringValue('db_mantis_host', 'localhost')
 $db_mantis_database = Tools::getSecurePOSTStringValue('db_mantis_database', 'bugtracker');
 $db_mantis_user = Tools::getSecurePOSTStringValue('db_mantis_user', Tools::isWindowsServer() ? 'root' : 'mantisdbuser');
 $db_mantis_pass = Tools::getSecurePOSTStringValue('db_mantis_pass', '');
+
+$isProxyEnabled = Tools::getSecurePOSTStringValue('isProxyEnabled', '0');
+if ('1' == $isProxyEnabled) {
+   $proxy_host = Tools::getSecurePOSTStringValue('proxy_host', '');
+   $proxy_port = Tools::getSecurePOSTStringValue('proxy_port', '');
+} else {
+   $proxy_host = NULL;
+   $proxy_port = NULL;
+}
 
 $action = Tools::getSecurePOSTStringValue('action', '');
 
@@ -263,8 +303,12 @@ if ("setDatabaseInfo" == $action) {
       exit;
    }
 
+   // get proxy settings
+   
+   
+      
    echo "DEBUG 1/3 create config.ini file<br/>";
-   $errStr = createConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
+   $errStr = createConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $proxy_host, $proxy_port);
    if (NULL != $errStr) {
       echo "<span class='error_font'>".$errStr."</span><br/>";
       exit;
