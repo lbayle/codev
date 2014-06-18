@@ -167,7 +167,7 @@ class HolidaysReportController extends Controller {
                      $days[$i] = array(
                         "color" => $externalTasks[$timestamp]['color'],
                         "align" => true,
-                        "title" => $externalTasks[$timestamp]['title'],
+                        "title" => htmlentities($externalTasks[$timestamp]['title']),
                         "value" => $externalTasks[$timestamp]['duration'],
                      );
                   }
@@ -176,13 +176,13 @@ class HolidaysReportController extends Controller {
                      "color" => $astreintes[$timestamp]['color'],
                      "align" => true,
                      "value" => $astreintes[$timestamp]['duration'],
-                     "title" => T_($astreintes[$timestamp]['type']),
+                     "title" => htmlentities((T_($astreintes[$timestamp]['type']))),
                   );
                } elseif (isset($daysOf[$timestamp]) && (NULL != $daysOf[$timestamp])) {
                   $days[$i] = array(
                      "color" => $daysOf[$timestamp]['color'],
                      "align" => true,
-                     "title" => $astreintes[$timestamp]['title'],
+                     "title" => htmlentities($daysOf[$timestamp]['title']),
                      "value" => $daysOf[$timestamp]['duration']
                   );
                }
@@ -194,7 +194,7 @@ class HolidaysReportController extends Controller {
                   if (NULL != $h) {
                      $days[$i] = array(
                         "color" => $h->color,
-                        "title" => $h->description,
+                        "title" => htmlentities($h->description),
                      );
                   } else {
                      $days[$i] = array();
