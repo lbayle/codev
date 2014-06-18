@@ -172,8 +172,15 @@ class TimeTrackingController extends Controller {
                   // pre-set form fields
                   $issue = IssueCache::getInstance()->getIssue($defaultBugid);
                   $defaultProjectid  = $issue->getProjectId();
+
+                  // if project not defined for current team, do not pre-set form fields.
+                  if (!in_array($defaultProjectid, array_keys($team->getProjects()))) {
+                     $defaultProjectid  = 0;
+                     $defaultBugid = 0;
+                  }
                } catch (Exception $e) {
                   $defaultProjectid  = 0;
+                  $defaultBugid = 0;
                }
             }
             elseif ("setBugId" == $action) {
