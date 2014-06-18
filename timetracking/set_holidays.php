@@ -189,7 +189,9 @@ class SetHolidaysController extends Controller {
       $issues = NULL;
       foreach ($issueList as $issue) {
          try  {
-            if (($issue->isVacation()) || ($extproj_id == $issue->getProjectId())) {
+            if (($issue->isVacation()) || 
+                 $issue->isProjManagement(array($this->teamid)) ||
+                 ($extproj_id == $issue->getProjectId())) {
                $issues[$issue->getId()] = array(
                   'tcId' => $issue->getTcId(),
                   'summary' => $issue->getSummary(),
