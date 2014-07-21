@@ -77,6 +77,7 @@ class HolidaysReportController extends Controller {
             $endMonthTimestamp = mktime(0, 0, 0, $i, $nbDaysInMonth, $year);
             $months[$i] = array(
                "name" => Tools::formatDate("%B %Y", $monthTimestamp),
+               "idcaption" => Tools::formatDate("%B", $monthTimestamp),
                "days" => $this->getDays($nbDaysInMonth, $i, $year),
                "users" => $this->getDaysUsers($i, $year, $displayed_teamid, $users, $nbDaysInMonth, $isExternalTasks),
                "workdays" => Holidays::getInstance()->getWorkdays($monthTimestamp, $endMonthTimestamp)

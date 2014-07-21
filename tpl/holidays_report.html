@@ -29,13 +29,19 @@
          <label><input type="checkbox" {if $isExternalTasks}checked="checked"{/if} name="cb_extTasks" id="cb_extTasks" style="vertical-align: bottom;" /><span style="vertical-align: middle;">{t}Show external tasks{/t}</span></label>
       </fieldset>
    </form>
+   <br>
 
    <div style="display: inline-block;">
+        {foreach from=$months key=id item=i}{if !empty($i.users)}
+            <a  href="timetracking/holidays_report.php#{$i.idcaption}">{$i.idcaption}</a>  &nbsp; 
+        {/if}{/foreach}
+
+
       {foreach from=$months key=id item=i}
       {if !empty($i.users)}
       <div style="margin-top: 2em;" class="left">
          <table>
-            <caption>{$i.name}<span style="margin-left: 1em;font-weight: normal;font-size: 12px;">({$i.workdays} {t}workdays{/t})</span></caption>
+            <caption id={$i.idcaption}>{$i.name}<span style="margin-left: 1em;font-weight: normal;font-size: 12px;">({$i.workdays} {t}workdays{/t})</span></caption>
             <thead>
                <tr>
                   <th></th>
