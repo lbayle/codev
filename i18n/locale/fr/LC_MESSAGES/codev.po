@@ -1363,7 +1363,7 @@ msgstr "Résumé"
 #: tpl/team_activity_report.html
 #: tpl/project_activity_report.html
 msgid "Detailed"
-msgstr "Détailé"
+msgstr "Détaillé"
 
 #: tpl/plugin/budgetDriftHistoryIndicator.html
 msgid "Budget Drift Progression Chart"
@@ -2856,7 +2856,7 @@ msgstr "Budjet Commandes"
 #: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
 msgid "Detailed Charges"
-msgstr "Charges Détailées"
+msgstr "Charges Détaillées"
 
 #: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
