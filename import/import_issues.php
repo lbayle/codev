@@ -234,7 +234,12 @@ class ImportIssuesController extends Controller {
       $items = array();
       if (0 != count($cmdList)) {
          foreach ($cmdList as $id => $cmd) {
-            $items[$id] = $cmd->getName();
+            
+            // TODO UGLY WORKAROUND
+            // the command name cannot contain quotes (') because it breaks the javascript of CSV import...
+            $cmdName = str_replace("'", ' ', $cmd->getName());
+
+            $items[$id] = $cmdName;
          }
       }
       return $items;
