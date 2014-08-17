@@ -531,6 +531,12 @@ class WBSElement extends Model {
             } else {
 
                try {
+                  // avoid logging an exception...
+                  if (!Issue::exists($wbselement->getBugId())) {
+                     $e = new Exception("Issue with id=".$wbselement->getBugId()." not found.");
+                     throw $e;
+                  }
+
                   $issue = IssueCache::getInstance()->getIssue($wbselement->getBugId());
                   $detail = '';
                   if ($hasDetail) {
