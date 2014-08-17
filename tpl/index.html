@@ -107,7 +107,7 @@
                "{t}Update{/t}": function() {
                   var bValid = true;
                   allFields.removeClass("ui-state-error");
-                  bValid = bValid && checkRegexp(backlog, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'");
+                  bValid = bValid && checkRegexp(backlog, /^[0-9]+(\.[0-9][0-9]?5?)?$/i, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
 
                   if (bValid) {
                      // TODO use AJAX to call php func and update backlog on bugid

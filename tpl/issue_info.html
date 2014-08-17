@@ -209,7 +209,7 @@
 
                      var bValid = true;
                      allFields.removeClass("ui-state-error");
-                     bValid = bValid && checkRegexp(backlog, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'");
+                     bValid = bValid && checkRegexp(backlog, /^[0-9]+(\.[0-9][0-9]?5?)?$/i, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
 
                      if (bValid) {
                         /* get some values from elements on the page: */

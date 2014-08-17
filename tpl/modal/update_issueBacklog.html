@@ -267,8 +267,8 @@
 
 			var bValid = true;
 			allFields.removeClass("ui-state-error");
-			bValid = bValid && checkRegexp(jQuery("#backlog"), /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'");
-
+			bValid = bValid && checkRegexp(jQuery("#backlog"), /^[0-9]+(\.[0-9][0-9]?5?)?$/i, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
+			
 			var bugResolvedStatusThreshold = jQuery("#bugResolvedStatusThreshold").val();
 			var selectedStatus = jQuery("#status").children(":selected").attr("id");
 			bValid = bValid && checkStatus(jQuery("#backlog"), selectedStatus, bugResolvedStatusThreshold, "{t}Task not resolved, backlog cannot be '0'{/t}");

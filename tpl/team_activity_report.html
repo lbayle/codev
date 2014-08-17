@@ -74,13 +74,13 @@
          <ul class="{$ui_tabs_jquery_ul}">
             {foreach from=$weekDetails item=i key=id}
             {if $i.weekJobDetails}
-            <li class="{$ui_tabs_jquery_li}" id="{$i.name}"><a href="#tabUser_{$i.name}">{$i.realname}</a></li>
+            <li class="{$ui_tabs_jquery_li}" id="{str_replace('.','_',$i.name)}"><a href="#tabUser_{str_replace('.','_',$i.name)}">{$i.realname}</a></li>
             {/if}
             {/foreach}
          </ul>
          {foreach from=$weekDetails item=i key=id}
          {if $i.weekJobDetails}
-         <div id="tabUser_{$i.name}">
+         <div id="tabUser_{str_replace('.','_',$i.name)}">
             <table style="width: 100%;">
                <caption><span style="margin-left: 1em;font-size:13px;font-weight:normal;" title="{t}sum(Backlog) of assigned tasks{/t}">{t}Workload{/t} = {$i.forecastWorkload}</span></caption>
                <thead>

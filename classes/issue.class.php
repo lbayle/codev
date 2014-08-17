@@ -735,7 +735,7 @@ class Issue extends Model implements Comparable {
             exit;
          }
 
-         $this->elapsedCache["$key"] = round(SqlWrapper::getInstance()->sql_result($result),2);
+         $this->elapsedCache["$key"] = round(SqlWrapper::getInstance()->sql_result($result),3);
          #if(self::$logger->isDebugEnabled()) {
          #   self::$logger->debug("getElapsed(job=".$job_id."): set elapsedCache[$key] = ".$this->elapsedCache["$key"]);
          #}
