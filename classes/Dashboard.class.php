@@ -164,7 +164,8 @@ class Dashboard {
          foreach ($data as $smartyKey => $smartyVariable) {
             $smartyHelper->assign($smartyKey, $smartyVariable);
          }
-         $indicatorHtmlContent = $smartyHelper->fetch(LoadPerJobIndicator::getSmartyFilename());
+         
+         $indicatorHtmlContent = $smartyHelper->fetch($pClassName::getSmartyFilename());
 
          // set indicator result in a dashboard widget
          $widget = array(
