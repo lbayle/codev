@@ -23,15 +23,19 @@ require('../../path.inc.php');
 require_once('i18n/i18n.inc.php');
 
 if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
+   
+   $logger = Logger::getLogger("LoadPerJobIndicator2_ajax");
+
    if(isset($_GET['action'])) {
 #echo "action = ".$_GET['action']."<br>";
       $smartyHelper = new SmartyHelper();
-      if($_GET['action'] == 'getLoadPerJobIndicator') {
+      if($_GET['action'] == 'getLoadPerJobIndicator2') {
          if(isset($_SESSION['cmdid'])) {
             $cmdid = $_SESSION['cmdid'];
             if (0 != $cmdid) {
                $cmd = CommandCache::getInstance()->getCommand($cmdid);
                // TODO check teamid ?
+               // TODO check cmdid access rights for user
 
                $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_startdate"));
                $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_enddate"));
@@ -40,19 +44,27 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
                   'endTimestamp' => $endTimestamp,
                   'teamid' => $cmd->getTeamid()
                );
-               $indicator = new LoadPerJobIndicator();
+               
+               // feed the PluginDataProvider
+               $pluginDataProvider = PluginDataProvider::getInstance();
+               $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $cmd->getIssueSelection());
+               $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $cmd->getTeamid());
+               //$pluginMgr->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
+               //$pluginMgr->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
+                       
+               $indicator = new LoadPerJobIndicator2($pluginDataProvider);
                $indicator->execute($cmd->getIssueSelection(), $params);
-               $data = $indicator->getSmartyObject();
+               $data = $indicator->getSmartyVariablesForAjax(); 
 
                // construct the html table
                foreach ($data as $smartyKey => $smartyVariable) {
                   $smartyHelper->assign($smartyKey, $smartyVariable);
-                  #echo "key $smartyKey = ".var_export($smartyVariable, true)."<br>";
+                  #$logger->debug("key $smartyKey = ".var_export($smartyVariable, true));
                }
-               $html = $smartyHelper->fetch(LoadPerJobIndicator::getSmartySubFilename());
+               $html = $smartyHelper->fetch(LoadPerJobIndicator2::getSmartySubFilename()); // false
                $data['loadPerJob_htmlTable'] = $html;
 
-               // return htùml & chart data
+               // return html & chart data
                $jsonData = json_encode($data);
                echo $jsonData;
 

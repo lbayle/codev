@@ -22,7 +22,7 @@
  */
 interface IndicatorPlugin2 {
 
-   const indicatorPluginsDir = 'indicator_plugins';
+   const INDICATOR_PLUGINS_DIR = 'indicator_plugins';
 
    // CodevTT
    const DOMAIN_HOMEPAGE = 'Homepage';
@@ -71,13 +71,13 @@ interface IndicatorPlugin2 {
     * The file must be included in the main SMARTY page:
     * {include file="indicator_plugins/myIndicator.html"}
     */
-   public static function getSmartyFilename();
+   public static function getSmartyFilename($asURL);
 
 
-   public static function getSmartySubFilename();
+   public static function getSmartySubFilename($asURL);
 
 
-   public static function getAjaxPhpFilename();
+   public static function getAjaxPhpFilename($asURL);
 
    /**
     * Options must be saved in DB and are specific per [team,user] & dashboard.

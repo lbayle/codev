@@ -165,7 +165,7 @@ class Dashboard {
             $smartyHelper->assign($smartyKey, $smartyVariable);
          }
          
-         $indicatorHtmlContent = $smartyHelper->fetch($pClassName::getSmartyFilename());
+         $indicatorHtmlContent = $smartyHelper->fetch($pClassName::getSmartyFilename()); // false
 
          // set indicator result in a dashboard widget
          $widget = array(

@@ -89,14 +89,22 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
       return in_array($category, self::$categories);
    }
 
-   public static function getSmartyFilename() {
-      return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
+   public static function getSmartyFilename($asURL = false) {
+      $head = (true == $asURL) ? Constants::$codevURL : Constants::$codevRootDir;
+      $sepChar = (true == $asURL) ? '/' : DIRECTORY_SEPARATOR;
+      return $head.$sepChar.self::INDICATOR_PLUGINS_DIR.$sepChar.__CLASS__.$sepChar.__CLASS__.".html";
    }
-   public static function getSmartySubFilename() {
-   	  return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__."_ajax.html";
+
+   public static function getSmartySubFilename($asURL = false) {
+      $head = (true == $asURL) ? Constants::$codevURL : Constants::$codevRootDir;
+      $sepChar = (true == $asURL) ? '/' : DIRECTORY_SEPARATOR;
+      return $head.$sepChar.self::INDICATOR_PLUGINS_DIR.$sepChar.__CLASS__.$sepChar.__CLASS__."_ajax.html";
    }
-   public static function getAjaxPhpFilename() {
-   	  return Constants::$codevURL.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__."_ajax.php";
+
+   public static function getAjaxPhpFilename($asURL = true) {
+      $head = (true == $asURL) ? Constants::$codevURL : Constants::$codevRootDir;
+      $sepChar = (true == $asURL) ? '/' : DIRECTORY_SEPARATOR;
+      return $head.$sepChar.self::INDICATOR_PLUGINS_DIR.$sepChar.__CLASS__.$sepChar.__CLASS__."_ajax.php";
    }
 
 
@@ -288,11 +296,40 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
          'loadPerJobIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $startTimestamp),
          'loadPerJobIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $endTimestamp),
          #'loadPerJobIndicatorFile' => LoadPerJobIndicator::getSmartyFilename(), // added in controller
-         'loadPerJobIndicator_ajaxFile' => LoadPerJobIndicator::getSmartySubFilename(),
-         'loadPerJobIndicator_ajaxPhpFile' => LoadPerJobIndicator::getAjaxPhpFilename(),
+         'loadPerJobIndicator_ajaxFile' => LoadPerJobIndicator2::getSmartySubFilename(false), // false !
+         'loadPerJobIndicator_ajaxPhpFile' => LoadPerJobIndicator2::getAjaxPhpFilename(true),
       );
    }
 
+   /**
+    * a subset of variables usefull for loadPerJobIndicatorDiv and workingDaysPerJobChart
+    * @return type
+    */
+   public function getSmartyVariablesForAjax() {
+
+      $loadPerJobs = $this->execData['loadPerJobs'];
+      $data = array();
+      $formatedColors = array();
+      foreach ($loadPerJobs as $jobItem) {
+         $data[$jobItem['name']] = $jobItem['nbDays'];
+         $formatedColors[] = '#'.$jobItem['color'];
+      }
+      $seriesColors = '["'.implode('","', $formatedColors).'"]';  // ["#FFCD85","#C2DFFF"]
+
+      $startTimestamp = (NULL == $this->startTimestamp) ? $this->execData['realStartTimestamp'] : $this->startTimestamp;
+      $endTimestamp   = (NULL == $this->endTimestamp) ?   $this->execData['realEndTimestamp']   : $this->endTimestamp;
+
+      return array(
+         'loadPerJobIndicator_tableData' => $loadPerJobs,
+         'loadPerJobIndicator_jqplotData' => Tools::array2json($data),
+         'loadPerJobIndicator_colors' => $formatedColors,
+         'loadPerJobIndicator_jqplotSeriesColors' => $seriesColors, // TODO get rid of this
+         'loadPerJobIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $startTimestamp),
+         'loadPerJobIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $endTimestamp),
+      );
+   }
+   
+   
 }
 
 // Initialize static variables

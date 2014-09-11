@@ -84,7 +84,7 @@ class PluginManager {
     * removed plugins must be marked too.
     */
    public function discoverNewPlugins() {
-      $pluginsDir = Constants::$codevRootDir . DIRECTORY_SEPARATOR . IndicatorPlugin2::indicatorPluginsDir;
+      $pluginsDir = Constants::$codevRootDir . DIRECTORY_SEPARATOR . IndicatorPlugin2::INDICATOR_PLUGINS_DIR;
 
       $validPlugins = array();
 
