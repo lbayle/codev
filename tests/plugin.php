@@ -54,6 +54,8 @@ class PluginDashboardController extends Controller {
          //$pluginMgr->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
          //$pluginMgr->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
 
+         // save the DataProvider for Ajax calls
+         $_SESSION['pluginDataProvider_xxx'] = serialize($pluginDataProvider);
 
          // create the Dashboard
          $dashboard = new Dashboard('myDashboardId');

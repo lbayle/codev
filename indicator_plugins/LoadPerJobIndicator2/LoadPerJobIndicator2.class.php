@@ -286,6 +286,8 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
       $startTimestamp = (NULL == $this->startTimestamp) ? $this->execData['realStartTimestamp'] : $this->startTimestamp;
       $endTimestamp   = (NULL == $this->endTimestamp) ?   $this->execData['realEndTimestamp']   : $this->endTimestamp;
 
+      // TODO add pluginSettings needed for the _ajax.php
+      
       return array(
          'loadPerJobIndicator_tableData' => $loadPerJobs,
          'loadPerJobIndicator_jqplotData' => Tools::array2json($data),

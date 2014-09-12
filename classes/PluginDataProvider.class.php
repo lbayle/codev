@@ -20,6 +20,9 @@
  * NOT get information from any other way: The PluginDataProvider is the only
  * interface between the CodevTT kernel and the plugins.
  * 
+ * The PluginDataProvider is saved in the SESSION, so that Ajax calls made by
+ * the plugins can retrieve the information.
+ * 
  * The PluginDataProvider class is part of the CodevTT kernel (GPL v3),
  * while the IndicatorPlugins may be under other licenses (including non-open-source
  * licenses). A PluginDataProviderInterface has an MIT license so that non-open-source

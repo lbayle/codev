@@ -24,6 +24,8 @@ require_once('i18n/i18n.inc.php');
 
 if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
    
+   $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+   
    $logger = Logger::getLogger("LoadPerJobIndicator2_ajax");
 
    if(isset($_GET['action'])) {
@@ -41,28 +43,21 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          // can the user specific dashboard settings be used ?
          
          
-         if(isset($_SESSION['cmdid'])) {
-            $cmdid = $_SESSION['cmdid'];
-            if (0 != $cmdid) {
-               $cmd = CommandCache::getInstance()->getCommand($cmdid);
-               // TODO check teamid ?
-               // TODO check cmdid access rights for user
+         if(isset($_SESSION['pluginDataProvider_xxx'])) {
+            
+            $pluginDataProvider = unserialize($_SESSION['pluginDataProvider_xxx']);
+            if (FALSE != $pluginDataProvider) {
+               
+               // TODO check teamid with the one in the PDP ?
 
                $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_startdate"));
                $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_enddate"));
                $params = array(
-                  'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+                  'startTimestamp' => $startTimestamp,
                   'endTimestamp' => $endTimestamp,
-                  'teamid' => $cmd->getTeamid()
+                  'teamid' => $teamid,
                );
                
-               // feed the PluginDataProvider
-               $pluginDataProvider = PluginDataProvider::getInstance();
-               $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $cmd->getIssueSelection());
-               $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $cmd->getTeamid());
-               //$pluginMgr->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
-               //$pluginMgr->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
-                       
                $indicator = new LoadPerJobIndicator2($pluginDataProvider);
                $indicator->execute($cmd->getIssueSelection(), $params);
                $data = $indicator->getSmartyVariablesForAjax(); 
@@ -80,10 +75,10 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
                echo $jsonData;
 
             } else {
-               Tools::sendBadRequest("Command equals 0");
+               Tools::sendBadRequest("PluginDataProvider unserialize error");
             }
          } else {
-            Tools::sendBadRequest("Command not set");
+            Tools::sendBadRequest("PluginDataProvider not set");
          }
 
       } else {
