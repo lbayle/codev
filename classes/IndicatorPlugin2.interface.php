@@ -120,5 +120,11 @@ interface IndicatorPlugin2 {
     *
     */
    public function getSmartyVariables();
+   
+   /**
+    * a subset of variables usefull for the ajax php call
+    * @return type
+    */
+   //public function getSmartyVariablesForAjax();
 
 }
