@@ -34,15 +34,6 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
       if($_GET['action'] == 'getLoadPerJobIndicator2') {
          
          
-         // TODO WARN: the cmdid should be retrieved from the session, 
-         // it must be furnished by the ajax call !
-         // 
-         
-         // WARN: how should the LoadPerJobIndicator know that the issue list is to be
-         // retrieved from the Command ?! it could be MacroComd or Team or ???
-         // can the user specific dashboard settings be used ?
-         
-         
          if(isset($_SESSION['pluginDataProvider_xxx'])) {
             
             $pluginDataProvider = unserialize($_SESSION['pluginDataProvider_xxx']);
@@ -50,16 +41,18 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
                
                // TODO check teamid with the one in the PDP ?
 
+               $issueSel = $pluginDataProvider->getParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
+
                $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_startdate"));
                $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_enddate"));
                $params = array(
                   'startTimestamp' => $startTimestamp,
                   'endTimestamp' => $endTimestamp,
-                  'teamid' => $teamid,
+                  'teamid' => $pluginDataProvider->getParam(PluginDataProviderInterface::PARAM_TEAM_ID),
                );
                
                $indicator = new LoadPerJobIndicator2($pluginDataProvider);
-               $indicator->execute($cmd->getIssueSelection(), $params);
+               $indicator->execute($issueSel, $params);
                $data = $indicator->getSmartyVariablesForAjax(); 
 
                // construct the html table
