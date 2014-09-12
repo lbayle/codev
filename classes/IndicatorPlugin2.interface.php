@@ -71,13 +71,13 @@ interface IndicatorPlugin2 {
     * The file must be included in the main SMARTY page:
     * {include file="indicator_plugins/myIndicator.html"}
     */
-   public static function getSmartyFilename($asURL);
+   public static function getSmartyFilename();
 
 
-   public static function getSmartySubFilename($asURL);
+   public static function getSmartySubFilename();
 
 
-   public static function getAjaxPhpFilename($asURL);
+   public static function getAjaxPhpURL();
 
    /**
     * Options must be saved in DB and are specific per [team,user] & dashboard.

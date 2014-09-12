@@ -30,6 +30,17 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 #echo "action = ".$_GET['action']."<br>";
       $smartyHelper = new SmartyHelper();
       if($_GET['action'] == 'getLoadPerJobIndicator2') {
+         
+         
+         // TODO WARN: the cmdid should be retrieved from the session, 
+         // it must be furnished by the ajax call !
+         // 
+         
+         // WARN: how should the LoadPerJobIndicator know that the issue list is to be
+         // retrieved from the Command ?! it could be MacroComd or Team or ???
+         // can the user specific dashboard settings be used ?
+         
+         
          if(isset($_SESSION['cmdid'])) {
             $cmdid = $_SESSION['cmdid'];
             if (0 != $cmdid) {
@@ -61,7 +72,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
                   $smartyHelper->assign($smartyKey, $smartyVariable);
                   #$logger->debug("key $smartyKey = ".var_export($smartyVariable, true));
                }
-               $html = $smartyHelper->fetch(LoadPerJobIndicator2::getSmartySubFilename()); // false
+               $html = $smartyHelper->fetch(LoadPerJobIndicator2::getSmartySubFilename());
                $data['loadPerJob_htmlTable'] = $html;
 
                // return html & chart data
