@@ -156,7 +156,7 @@ class Dashboard {
          $indicator = $r->newInstanceArgs(array($pluginDataProvider));
 
 
-
+         // examples: isGraphOnly, dateRange(defaultRange|currentWeek|currentMonth|noDateLimit), ...
          $indicator->setPluginSettings($this->getPluginSettings($pClassName));
          $indicator->execute();
 
