@@ -84,7 +84,7 @@ class PluginManager {
     * removed plugins must be marked too.
     */
    public function discoverNewPlugins() {
-      $pluginsDir = Constants::$codevRootDir . DIRECTORY_SEPARATOR . IndicatorPlugin2::INDICATOR_PLUGINS_DIR;
+      $pluginsDir = Constants::$codevRootDir . DIRECTORY_SEPARATOR . IndicatorPluginInterface::INDICATOR_PLUGINS_DIR;
 
       $validPlugins = array();
 
@@ -95,7 +95,7 @@ class PluginManager {
          if (!is_dir($pluginsDir . DIRECTORY_SEPARATOR . $file)) {
             continue;
          }
-         // remove Dir that do not contain a Plugin class implementing IndicatorPlugin2 interface
+         // remove Dir that do not contain a Plugin class implementing IndicatorPluginInterface
          $pluginClassFilename = $pluginsDir . DIRECTORY_SEPARATOR . $file . DIRECTORY_SEPARATOR . $file.'.class.php';
          if (!is_file($pluginClassFilename)) {
             // remove & warn
@@ -104,9 +104,9 @@ class PluginManager {
          } else {
             $interfaceList = class_implements($file);
             #echo "interfaces: ".var_export($interfaceList, true).'<br>';
-            if (!in_array('IndicatorPlugin2', $interfaceList)) {
+            if (!in_array('IndicatorPluginInterface', $interfaceList)) {
                // remove & warn
-               #echo "no plugin interface --------<br>";
+               #echo "no plugin interface -------- ".$file."<br>";
                continue;
             }
          }

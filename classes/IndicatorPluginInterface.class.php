@@ -20,7 +20,7 @@
  *
  * @author lob
  */
-interface IndicatorPlugin2 {
+interface IndicatorPluginInterface {
 
    const INDICATOR_PLUGINS_DIR = 'indicator_plugins';
 
