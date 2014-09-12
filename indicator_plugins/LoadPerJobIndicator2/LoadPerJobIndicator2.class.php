@@ -17,19 +17,17 @@
 */
 
 /**
- * Description of LoadPerJobIndicator
+ * Description of LoadPerJobIndicator2
  *
  * @author lob
  */
-class LoadPerJobIndicator2 implements IndicatorPlugin2  {
+class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
 
    const OPTION_IS_GRAPH_ONLY = 'isGraphOnly';
    const OPTION_IS_TABLE_ONLY = 'isTableOnly';
    const OPTION_IS_SIDETASK_CAT_DETAILED = 'isSideTasksCategoryDetailed';
 
    private static $logger;
-   private static $domains;
-   private static $categories;
 
    // params from PluginMangerFacade
    private $inputIssueSel;
@@ -76,34 +74,6 @@ class LoadPerJobIndicator2 implements IndicatorPlugin2  {
    public static function getVersion() {
       return '1.0.0';
    }
-   public static function getDomains() {
-      return self::$domains;
-   }
-   public static function getCategories() {
-      return self::$categories;
-   }
-   public static function isDomain($domain) {
-      return in_array($domain, self::$domains);
-   }
-   public static function isCategory($category) {
-      return in_array($category, self::$categories);
-   }
-
-   public static function getSmartyFilename() {
-      $sepChar = DIRECTORY_SEPARATOR;
-      return Constants::$codevRootDir.$sepChar.self::INDICATOR_PLUGINS_DIR.$sepChar.__CLASS__.$sepChar.__CLASS__.".html";
-   }
-
-   public static function getSmartySubFilename() {
-      $sepChar = DIRECTORY_SEPARATOR;
-      return Constants::$codevRootDir.$sepChar.self::INDICATOR_PLUGINS_DIR.$sepChar.__CLASS__.$sepChar.__CLASS__."_ajax.html";
-   }
-
-   public static function getAjaxPhpURL() {
-      $sepChar = '/';
-      return Constants::$codevURL.$sepChar.self::INDICATOR_PLUGINS_DIR.$sepChar.__CLASS__.$sepChar.__CLASS__."_ajax.php";
-   }
-
 
    /**
     *
