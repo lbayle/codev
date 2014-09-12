@@ -16,6 +16,8 @@
    along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+// TODO REMOVE ------ DEPRECATED -------
+
 interface IndicatorPlugin {
 	
    const indicatorPluginsDir = 'indicator_plugins';

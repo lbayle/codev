@@ -57,8 +57,8 @@ class PluginDashboardController extends Controller {
 
          // create the Dashboard
          $dashboard = new Dashboard('myDashboardId');
-         $dashboard->setDomain(IndicatorPlugin2::DOMAIN_COMMAND);
-         $dashboard->setCategories(array(IndicatorPlugin2::CATEGORY_QUALITY));
+         $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_COMMAND);
+         $dashboard->setCategories(array(IndicatorPluginInterface::CATEGORY_QUALITY));
          $dashboard->setTeamid($teamid);
          $dashboard->setUserid($userid);
 

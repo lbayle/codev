@@ -21,7 +21,7 @@
  *
  * @author lob
  */
-abstract class IndicatorPluginAbstract implements IndicatorPlugin2  {
+abstract class IndicatorPluginAbstract implements IndicatorPluginInterface  {
 
    protected static $domains;
    protected static $categories;
