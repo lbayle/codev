@@ -40,6 +40,7 @@ interface IndicatorPluginInterface {
    const CATEGORY_FINANCIAL = 'Financial'; // budgetDrift
    const CATEGORY_TEAM      = 'Team';      // EffortEstim reliability, backlogVariation
    const CATEGORY_RISK      = 'Risk';
+   const CATEGORY_ACTIVITY  = 'Activity';  // LoadPerUser, LoadPerJob?
 
    /**
     * Short name (title)

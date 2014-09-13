@@ -28,6 +28,8 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
    const OPTION_IS_SIDETASK_CAT_DETAILED = 'isSideTasksCategoryDetailed';
 
    private static $logger;
+   private static $domains;
+   private static $categories;
 
    // params from PluginMangerFacade
    private $inputIssueSel;
@@ -74,6 +76,19 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
    public static function getVersion() {
       return '1.0.0';
    }
+   public static function getDomains() {
+      return self::$domains;
+   }
+   public static function getCategories() {
+      return self::$categories;
+   }
+   public static function isDomain($domain) {
+      return in_array($domain, self::$domains);
+   }
+   public static function isCategory($category) {
+      return in_array($category, self::$categories);
+   }
+
 
    /**
     *
