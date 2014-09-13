@@ -1,0 +1,49 @@
+<div id="loadPerUser_ajax">
+   <!-- Working days per job -->
+   {if $loadPerUserIndicator_tableData}
+   <table  class="display float"  style="width: 500px;">
+      <caption><span style="font-weight: normal; font-size: 12px;">{$loadPerUserIndicator_tableData.workdays} {t}workdays{/t}</span></caption>
+      <thead>
+         <tr>
+            <th>{t}User{/t}</th>
+            <th>{t}Elapsed{/t}</th>
+            {if isset($loadPerUserIndicator_tableData.totalActivity.sidetask)}
+            <th>{t}SideTask{/t}</th>
+            {/if}
+            <th>{t}Other{/t}</th>
+            <th>{t}External{/t}</th>
+            <th>{t}Inactivity{/t}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach $loadPerUserIndicator_tableData.usersActivities as $user => $activityList}
+         <tr>
+            <td>{$user}</td>
+            <td>{if isset($activityList.elapsed)}{$activityList.elapsed}{/if}</td>
+            {if isset($loadPerUserIndicator_tableData.totalActivity.sidetask)}
+            <td>{$activityList.sidetask}</td>
+            {/if}
+            <td>{if isset($activityList.other)}{$activityList.other}{/if}</td>
+            <td>{if isset($activityList.external)}{$activityList.external}{/if}</td>
+            <td>{if isset($activityList.leave)}{$activityList.leave}{/if}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+      <tfoot>
+         <tr>
+            <td>{t}TOTAL{/t}</td>
+            <td>{$loadPerUserIndicator_tableData.totalActivity.elapsed}</td>
+            {if isset($loadPerUserIndicator_tableData.totalActivity.sidetask)}
+            <td>{$loadPerUserIndicator_tableData.totalActivity.sidetask}</td>
+            {/if}
+            <td>{$loadPerUserIndicator_tableData.totalActivity.other}</td>
+            <td>{$loadPerUserIndicator_tableData.totalActivity.external}</td>
+            <td>{$loadPerUserIndicator_tableData.totalActivity.leave}</td>
+         </tr>
+      </tfoot>
+   </table>
+   
+   {else}
+   {t}Not available.{/t}
+   {/if}
+</div>

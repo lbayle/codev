@@ -56,8 +56,6 @@ class PluginManager {
    public static function getInstance() {
       if (NULL == self::$instance) {
          self::$instance = new PluginManager();
-
-
       }
       return self::$instance;
    }
@@ -69,8 +67,6 @@ class PluginManager {
    private function __construct() {
 
       self::$logger = Logger::getLogger(__CLASS__); // common logger for all cache classes
-
-      #echo "DEBUG: Cache ready<br/>";
    }
 
 
@@ -104,7 +100,8 @@ class PluginManager {
          } else {
             $interfaceList = class_implements($file);
             #echo "interfaces: ".var_export($interfaceList, true).'<br>';
-            if (!in_array('IndicatorPluginInterface', $interfaceList)) {
+            if ((NULL == $interfaceList) || 
+                (!in_array('IndicatorPluginInterface', $interfaceList))) {
                // remove & warn
                #echo "no plugin interface -------- ".$file."<br>";
                continue;
@@ -134,42 +131,43 @@ class PluginManager {
                   exit;
                }
                $hasChanged = true;
+            }
+         } else {
+            // if found, 'REMOVED' => 'DISABLED' & update other fields.
+            #echo "must be updated: $row->name<br>";
+
+            // do not disable an already enabled plugin
+            $pStatus = (self::PLUGIN_STATUS_REMOVED == $row->status) ? self::PLUGIN_STATUS_DISABLED : $row->status;
+
+            $reflectionMethod = new ReflectionMethod($row->name, 'getDesc');
+            $pDesc = $reflectionMethod->invoke(NULL);
+            $reflectionMethod = new ReflectionMethod($row->name, 'getDomains');
+            $pDomains = implode(',', $reflectionMethod->invoke(NULL));
+            $reflectionMethod = new ReflectionMethod($row->name, 'getCategories');
+            $pCat = implode(',', $reflectionMethod->invoke(NULL));
+            $reflectionMethod = new ReflectionMethod($row->name, 'getVersion');
+            $pVersion = $reflectionMethod->invoke(NULL);
+
+            $query3 = "UPDATE `codev_plugin_table` SET ".
+               "`status`='$pStatus', ".
+               "`domains`='$pDomains', ".
+               "`categories`='$pCat', ".
+               "`version`='$pVersion', ".
+               "`description`='$pDesc' ".
+               "WHERE `name` = '".$row->name."';";
+            $result3 = SqlWrapper::getInstance()->sql_query($query3);
+            if (!$result3) {
+               echo "<span style='color:red'>ERROR: Query FAILED</span>";
+               exit;
+            }
+            $hasChanged = true;
          }
-      } else {
-         // if found, 'REMOVED' => 'DISABLED' & update other fields.
-         #echo "must be updated: $row->name<br>";
-
-         // do not disable an already enabled plugin
-         $pStatus = (self::PLUGIN_STATUS_REMOVED == $row->status) ? self::PLUGIN_STATUS_DISABLED : $row->status;
-
-         $reflectionMethod = new ReflectionMethod($row->name, 'getDesc');
-         $pDesc = $reflectionMethod->invoke(NULL);
-         $reflectionMethod = new ReflectionMethod($row->name, 'getDomains');
-         $pDomains = implode(',', $reflectionMethod->invoke(NULL));
-         $reflectionMethod = new ReflectionMethod($row->name, 'getCategories');
-         $pCat = implode(',', $reflectionMethod->invoke(NULL));
-         $reflectionMethod = new ReflectionMethod($row->name, 'getVersion');
-         $pVersion = $reflectionMethod->invoke(NULL);
-
-         $query3 = "UPDATE `codev_plugin_table` SET ".
-            "`status`='$pStatus', ".
-            "`domains`='$pDomains', ".
-            "`categories`='$pCat', ".
-            "`version`='$pVersion', ".
-            "`description`='$pDesc' ".
-            "WHERE `name` = '".$row->name."';";
-         $result3 = SqlWrapper::getInstance()->sql_query($query3);
-         if (!$result3) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         $hasChanged = true;
-      }
-            $validPlugins[$row->name] = 1;
+            $validPlugins[$row->name] = 1; // checked with DB
       }
       // if not found in DB, add new as DISABLED
-      foreach($validPlugins as $pName => $val) {
-         if (0 == $val) {
+      foreach($validPlugins as $pName => $checkedWithDB) {
+         if (0 == $checkedWithDB) {
+            #echo "new plugin found: $pName<br>";
             $reflectionMethod = new ReflectionMethod($pName, 'getDesc');
             $pDesc = $reflectionMethod->invoke(NULL);
             $reflectionMethod = new ReflectionMethod($pName, 'getDomains');
@@ -181,6 +179,7 @@ class PluginManager {
 
             $query4 = "INSERT  INTO `codev_plugin_table` (`name`, `description`, `status`, `domains`, `categories`, `version`) ".
                "VALUES ('$pName', '$pDesc', '".self::PLUGIN_STATUS_DISABLED."', '$pDomains', '$pCat', '$pVersion');";
+            #echo "new plugin query: $query4<br>";
             $result4 = SqlWrapper::getInstance()->sql_query($query4);
             if (!$result4) {
                echo "<span style='color:red'>ERROR: Query FAILED</span>";

@@ -23,32 +23,15 @@
  */
 abstract class IndicatorPluginAbstract implements IndicatorPluginInterface  {
 
-   protected static $domains;
-   protected static $categories;
-
    /**
     *
     * @param \PluginDataProviderInterface $pluginDataProv
     * @throws Exception if initialization failed
     */
    public function __construct(PluginDataProviderInterface $pluginDataProv) {
-
       $this->initialize($pluginDataProv);
    }
    
-   public static function getDomains() {
-      return self::$domains;
-   }
-   public static function getCategories() {
-      return self::$categories;
-   }
-   public static function isDomain($domain) {
-      return in_array($domain, self::$domains);
-   }
-   public static function isCategory($category) {
-      return in_array($category, self::$categories);
-   }
-
    public static function getSmartyFilename() {
       $sepChar = DIRECTORY_SEPARATOR;
       return Constants::$codevRootDir.$sepChar.self::INDICATOR_PLUGINS_DIR.$sepChar.get_called_class().$sepChar.get_called_class().".html";
