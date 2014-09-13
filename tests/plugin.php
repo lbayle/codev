@@ -51,8 +51,8 @@ class PluginDashboardController extends Controller {
          $pluginDataProvider = PluginDataProvider::getInstance();
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $cmd->getIssueSelection());
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $teamid);
-         //$pluginMgr->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
-         //$pluginMgr->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
+         //$pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
+         //$pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
 
          // save the DataProvider for Ajax calls
          $_SESSION['pluginDataProvider_xxx'] = serialize($pluginDataProvider);
