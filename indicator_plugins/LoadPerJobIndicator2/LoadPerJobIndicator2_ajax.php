@@ -39,20 +39,15 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             $pluginDataProvider = unserialize($_SESSION['pluginDataProvider_xxx']);
             if (FALSE != $pluginDataProvider) {
                
-               // TODO check teamid with the one in the PDP ?
-
-               $issueSel = $pluginDataProvider->getParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
-
                $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_startdate"));
                $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_enddate"));
-               $params = array(
-                  'startTimestamp' => $startTimestamp,
-                  'endTimestamp' => $endTimestamp,
-                  'teamid' => $pluginDataProvider->getParam(PluginDataProviderInterface::PARAM_TEAM_ID),
-               );
+         
+               // update dataProvider
+               $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
+               $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
                
                $indicator = new LoadPerJobIndicator2($pluginDataProvider);
-               $indicator->execute($issueSel, $params);
+               $indicator->execute();
                $data = $indicator->getSmartyVariablesForAjax(); 
 
                // construct the html table

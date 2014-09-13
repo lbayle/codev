@@ -77,67 +77,36 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
 
    /**
     *
-    * @param \PluginDataProviderInterface $pluginDataProv
-    * @throws Exception if initialization failed
-    */
-   public function __construct(PluginDataProviderInterface $pluginDataProv) {
-      $this->startTimestamp     = NULL;
-      $this->endTimestamp       = NULL;
-
-      $this->initialize($pluginDataProv);
-   }
-
-   /**
-    *
     * @param \PluginDataProviderInterface $pluginMgr
     * @throws Exception
     */
    public function initialize(PluginDataProviderInterface $pluginDataProv) {
 
-      // TODO Deprecated, for transistion only
-      $this->inputIssueSel = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
-      $params = array(
-         PluginDataProviderInterface::PARAM_TEAM_ID => $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_TEAM_ID),
-      );
-      $this->checkParams($this->inputIssueSel, $params);
+      //self::$logger->error("Params = ".var_export($pluginDataProv, true));      
 
-   }
-
-   /**
-    *
-    * @param IssueSelection $inputIssueSel
-    * @param array $params
-    * @throws Exception
-    */
-   private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
-      if (NULL == $inputIssueSel) {
-         throw new Exception("Missing IssueSelection");
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION)) {
+         $this->inputIssueSel = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
+      } else {
+         throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
       }
-      if (NULL == $params) {
-         throw new Exception("Missing parameters: teamid");
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_TEAM_ID)) {
+         $this->teamid = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_TEAM_ID);
+      } else {
+         throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_TEAM_ID);
+      }
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP)) {
+         $this->startTimestamp = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP);
+      } else {
+         $this->startTimestamp = NULL;
+      }
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP)) {
+         $this->endTimestamp = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP);
+      } else {
+         $this->endTimestamp = NULL;
       }
 
-      if (NULL != $params) {
-
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("checkParams() ISel=".$inputIssueSel->name.' startTimestamp='.$params['startTimestamp'].' endTimestamp='.$params['endTimestamp']);
-         }
-         #echo "start ".date('Y-m-d', $params['startTimestamp']). " end ".date('Y-m-d', $params['endTimestamp'])."<br>";
-
-         if (array_key_exists(PluginDataProviderInterface::PARAM_TEAM_ID, $params)) {
-            $this->teamid = $params[PluginDataProviderInterface::PARAM_TEAM_ID];
-         } else {
-            throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_TEAM_ID);
-         }
-
-         if (array_key_exists('startTimestamp', $params)) {
-            $this->startTimestamp = $params['startTimestamp'];
-         }
-
-         if (array_key_exists('endTimestamp', $params)) {
-            $this->endTimestamp = $params['endTimestamp'];
-         }
-
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("checkParams() ISel=".$this->inputIssueSel->name.' startTimestamp='.$this->startTimestamp.' endTimestamp='.$this->endTimestamp);
       }
    }
 
@@ -182,7 +151,6 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
       $realEndTimestamp = $this->startTimestamp; // note: inverted intentionnaly
       $loadPerJobs = array();
       foreach($issueList as $issue) {
-#echo "issue ".$issue->getId()."<br>";
          $issueTimetracks = $issue->getTimeTracks(NULL, $this->startTimestamp, $this->endTimestamp);
          foreach ($issueTimetracks as $tt) {
 
@@ -197,8 +165,6 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
                $realEndTimestamp = $tt->getDate();
             }
 
-
-#echo "tt user=".$tt->getUserId()." job=".$tt->getJobId()." dur=".$tt->getDuration()."<br>";
             // check if sidetask
             if ($team->isSideTasksProject($issue->getProjectId())) {
                // TODO check category (detail all sidetasks categories)
@@ -229,6 +195,10 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
             }
          }
       }
+      
+      //self::$logger->error("date range: ".date('Y-m-d', $this->startTimestamp).'-'.date('Y-m-d', $this->endTimestamp));
+      //self::$logger->error("real date range: ".date('Y-m-d', $realStartTimestamp).'-'.date('Y-m-d', $realEndTimestamp));
+      
       // array sort to put sideTasks categories at the bottom
       ksort($loadPerJobs);
 
@@ -264,7 +234,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
          'loadPerJobIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $endTimestamp),
          #'loadPerJobIndicatorFile' => LoadPerJobIndicator::getSmartyFilename(), // added in controller
          'loadPerJobIndicator_ajaxFile' => LoadPerJobIndicator2::getSmartySubFilename(),
-         'loadPerJobIndicator_ajaxPhpFile' => LoadPerJobIndicator2::getAjaxPhpURL(),
+         'loadPerJobIndicator_ajaxPhpURL' => LoadPerJobIndicator2::getAjaxPhpURL(),
       );
    }
 

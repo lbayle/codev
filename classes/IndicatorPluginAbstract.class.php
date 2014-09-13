@@ -26,6 +26,15 @@ abstract class IndicatorPluginAbstract implements IndicatorPluginInterface  {
    protected static $domains;
    protected static $categories;
 
+   /**
+    *
+    * @param \PluginDataProviderInterface $pluginDataProv
+    * @throws Exception if initialization failed
+    */
+   public function __construct(PluginDataProviderInterface $pluginDataProv) {
+
+      $this->initialize($pluginDataProv);
+   }
    
    public static function getDomains() {
       return self::$domains;
