@@ -1612,6 +1612,30 @@ class Tools {
       return $currentVersionInfo;
    }
 
+   
+   public static function createClassMap() {
+
+      //require_once('../lib/dynamic_autoloader/ClassFileMapFactory.php');
+      //require_once('../lib/dynamic_autoloader/ClassFileMapAutoloader.php');
+      // Set up the include path
+      //define('BASE_PATH', realpath(dirname(__FILE__).'/..'));
+      //set_include_path(BASE_PATH.PATH_SEPARATOR.get_include_path());
+
+      // TODO check classmap.ser permissions
+      // TODO save previous classmap.ser file
+      
+      $lib_class_map = ClassFileMapFactory::generate(Constants::$codevRootDir);
+      $_autoloader = new ClassFileMapAutoloader();
+      $_autoloader->addClassFileMap($lib_class_map);
+      $data = serialize($_autoloader);
+      if(file_put_contents(Constants::$codevRootDir.'/classmap.ser',$data)) {
+         return TRUE;
+      } else {
+         // TODO restore old .ser file if failed
+         return FALSE;
+      }
+   }
+   
 }
 
 // Initialize complex static variables

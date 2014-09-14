@@ -202,7 +202,9 @@ class PluginManager {
     * to include new plugins classes
     */
    private function updateClassmap() {
-      
+      if (FALSE == Tools::createClassMap()) {
+         self::$logger->error("updateClassmap failed !");
+      }
    }
 
    /**
