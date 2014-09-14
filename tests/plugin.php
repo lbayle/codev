@@ -42,6 +42,7 @@ class PluginDashboardController extends Controller {
 
 
          // ------ START TESTS
+         //if (FALSE == Tools::createClassMap()) { echo "ERROR createClassMap";}
          $pm = PluginManager::getInstance();
          $pm->discoverNewPlugins();
 

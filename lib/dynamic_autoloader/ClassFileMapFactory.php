@@ -54,7 +54,6 @@ abstract class ClassFileMapFactory {
       $sHiddenFiles = '/\/\.\w+/';
 
       // Load the list of files in the directory
-      echo "Find classes :<br /><ul>\n";
       foreach($oFiles as $sName => $aFile) {
          if(preg_match('/php$/', $sName) && !preg_match($sHiddenFiles, $sName) && !$aFile->isDir()) {
             $oFile = $aFile->openFile();
@@ -74,14 +73,11 @@ abstract class ClassFileMapFactory {
                      $i += 2; //skip the whitespace token
                      $sName = str_replace('\\','/',str_replace(BASE_PATH.DIRECTORY_SEPARATOR, '', $sName));
                      $aDeclarations[$aTokens[$i][1]] = $sName;
-                     echo "<li>".$aTokens[$i][1]." (path : ".$sName.")</li>\n";
                      break;
                }
             }
          }
       }
-      echo "</ul>\n";
-
       return $aDeclarations;
    }
 
