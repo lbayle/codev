@@ -23,6 +23,11 @@
  */
 abstract class IndicatorPluginAbstract implements IndicatorPluginInterface  {
 
+   private static $logger;
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
+   
    /**
     *
     * @param \PluginDataProviderInterface $pluginDataProv
@@ -44,7 +49,10 @@ abstract class IndicatorPluginAbstract implements IndicatorPluginInterface  {
 
    public static function getAjaxPhpURL() {
       $sepChar = '/';
-      return Constants::$codevURL.$sepChar.self::INDICATOR_PLUGINS_DIR.$sepChar.get_called_class().$sepChar.get_called_class()."_ajax.php";
+      $url = Constants::$codevURL.$sepChar.self::INDICATOR_PLUGINS_DIR.$sepChar.get_called_class().$sepChar.get_called_class()."_ajax.php";
+      //self::$logger->error("=== getAjaxPhpURL = ".$url);
+      return $url;
    }
    
 }
+IndicatorPluginAbstract::staticInit();

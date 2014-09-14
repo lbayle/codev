@@ -160,7 +160,10 @@ class PluginManager {
                echo "<span style='color:red'>ERROR: Query FAILED</span>";
                exit;
             }
-            $hasChanged = true;
+            
+            // DB was updated, but the classmap does not need an update
+            // (unless the plugin Dir has changed...)
+            //$hasChanged = true;
          }
             $validPlugins[$row->name] = 1; // checked with DB
       }
@@ -202,6 +205,7 @@ class PluginManager {
     * to include new plugins classes
     */
    private function updateClassmap() {
+      #echo "updateClassmap<br>";
       if (FALSE == Tools::createClassMap()) {
          self::$logger->error("updateClassmap failed !");
       }
@@ -227,7 +231,11 @@ class PluginManager {
 
    }
 
-
+   /**
+    * Return all plugins defined in DB
+    * 
+    * @return array of plugin descriptions
+    */
    public function getPlugins() {
 
       if (NULL == $this->plugins) {
