@@ -33,7 +33,13 @@ if (Tools::isConnectedUser()) {
    $dashboard = new Dashboard($id);
 
    // $settings is a json string containing dashboard & indicator settings.
-   $dashboard->saveSettings($settings, $userid, $teamid);
+   $dashboard->saveSettings($settings, $teamid, $userid);
+   
+   // TODO
+   // if user is team admin or manager, save also settings for [team]
+   // so that team users will have a default setting for the team.
+   $dashboard->saveSettings($settings, $teamid);
+
    
 }
 

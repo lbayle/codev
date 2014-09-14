@@ -43,6 +43,9 @@
  */
 class Dashboard {
 
+   const SETTINGS_DISPLAYED_PLUGINS = 'displayedPlugins'; // 
+   const SETTINGS_TITLE = 'title'; // 
+   
    private static $logger;
 
    private $id;
@@ -60,6 +63,12 @@ class Dashboard {
       self::$logger = Logger::getLogger(__CLASS__);
    }
 
+   /**
+    * WARN: $id must be unique in ALL CodevTT !
+    * the id is hardcoded in the CodevTT pages.
+    * 
+    * @param type $id
+    */
    public function __construct($id) {
       $this->id = $id;
    }
@@ -93,44 +102,85 @@ class Dashboard {
 
    /**
     * called by include/dashboard_ajax.php
+    * 
+    * save dashboard settings for [team, user]
+    * 
+    * Note: the dashboard can contain the same plugin
+    * multiple times, each one having specific attributes.
+    * ex: ProgressHistoryIndic for Cmd1, Cmd2, Cmd2 
+    * 
+    *  settings = array (
+    *     'title' => 'dashboard title'
+    *     'displayedPlugins' => array(
+    *        array(
+    *           'pluginClassName' => <pluginClassName>,
+    *           'plugin_attr1' => 'val',
+    *           'plugin_attr2' => 'val',
+    *        )
+    *     )
+    *  )
     *
-    * @param type $settings json containing dashboard & plugins settings.
-    * @param type $userid
+    * @param type $jsonSettings json containing dashboard & plugin attributes.
     * @param type $teamid
+    * @param type $userid if NULL, default settings for team will be saved.
     */
-   public function saveSettings($settings, $userid, $teamid) {
-      // if any, save to codevtt_config_table with [id,team,user] as key components.
+   public function saveSettings($jsonSettings, $teamid, $userid = NULL) {
+      
+      Config::setValue(Config::id_dashboard.$this->id, $jsonSettings, Config::configType_string, NULL, 0, $userid, $teamid);
    }
 
    /**
+    * get dashboard settings from DB
+    * 
     * if user has saved some settings, return them.
-    * - list of plugins to display
-    * - widgetAttributes (collapsed, color, ...)
-    *
-    *
+    * if none, return team settings.
+    * if none, return default settings
     */
-   private function getDashboardSettings() {
+   private function getSettings() {
 
-      // TODO get user specific settings
+   /*
+      settings = array (
+        'displayedPlugins' => array(
+           array(
+              'pluginClassName' => <pluginClassName>,
+              'plugin_attr1' => 'val',
+              'plugin_attr2' => 'val',
+           )
+        )
+     )
+   */   
+      if (NULL == $this->settings) {
+         // get [team, user] specific settings
+         $json = Config::getValue(Config::id_dashboard.$this->id, array($this->userid, 0, $this->teamid, 0, 0, 0), true);
 
-      // if no specific settings, default values:
-      $this->settings = array();
-      $pm = PluginManager::getInstance();
-      $candidates = $pm->getPluginCandidates($this->domain, $this->categories);
-      $this->settings['plugins'] = $candidates;
-
+         // if not found, get [team] specific settings
+         if (NULL == $json) {
+            $json = Config::getValue(Config::id_dashboard.$this->id, array(0, 0, $this->teamid, 0, 0, 0), true);
+         }
+         // if no specific settings, use default values 
+         // TODO default = all/no plugins ?
+         if (NULL == $json) {
+            $this->settings = array();
+            $pm = PluginManager::getInstance();
+            $candidates = $pm->getPluginCandidates($this->domain, $this->categories);
+            
+            $pluginAttributes = array();
+            foreach ($candidates as $pChassName) {
+               $pluginAttributes[] = array('pluginClassName' => $pChassName);
+            }
+            $this->settings[self::SETTINGS_DISPLAYED_PLUGINS] = $pluginAttributes;
+         } else {
+            // convert json to array
+            $this->settings = json_decode($json);
+            if (is_null($this->settings)) {
+               self::$logger->error("Dashboard settings: json could not be decoded !");
+               $this->settings = array(); // failover
+            }
+         }
+      }
       return $this->settings;
    }
 
-   /**
-    * if user has saved specific settings, get them. if not return NULL
-    * @param type $pluginClassName
-    * @return array
-    */
-   private function getPluginSettings($pluginClassName) {
-      // TODO get from $this->settings
-      return NULL;
-   }
 
    public function getSmartyVariables($smartyHelper) {
 
@@ -139,13 +189,16 @@ class Dashboard {
       $candidates = $pm->getPluginCandidates($this->domain, $this->categories);
 
       // user specific dashboard settings
-      if (NULL == $this->settings) { $this->getDashboardSettings(); }
+      if (NULL == $this->settings) { $this->getSettings(); }
 
       // insert widgets
       $pluginDataProvider = PluginDataProvider::getInstance();
       $idx = 1;
-      foreach ($this->settings['plugins'] as $pClassName) {
+      foreach ($this->settings[self::SETTINGS_DISPLAYED_PLUGINS] as $pluginAttributes) {
 
+         $pClassName = $pluginAttributes['pluginClassName'];
+         
+         // check that this plugin is allowed to be displayed in this dashboard
          if (!in_array($pClassName, $candidates)) {
             self::$logger->error("Dashboard user settings: ".$pClassName.' is not a candidate !');
             continue;
@@ -157,7 +210,7 @@ class Dashboard {
 
 
          // examples: isGraphOnly, dateRange(defaultRange|currentWeek|currentMonth|noDateLimit), ...
-         $indicator->setPluginSettings($this->getPluginSettings($pClassName));
+         $indicator->setPluginSettings($pluginAttributes);
          $indicator->execute();
 
          $data = $indicator->getSmartyVariables();
@@ -165,6 +218,8 @@ class Dashboard {
             $smartyHelper->assign($smartyKey, $smartyVariable);
          }
          
+         #self::$logger->error("Indic classname: ".$pClassName);
+         #self::$logger->error("Indic SmartyFilename: ".$pClassName::getSmartyFilename());
          $indicatorHtmlContent = $smartyHelper->fetch($pClassName::getSmartyFilename());
 
          // set indicator result in a dashboard widget
