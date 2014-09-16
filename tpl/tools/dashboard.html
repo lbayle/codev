@@ -8,7 +8,9 @@ TODO
 - replace id by class (id="head", id="columns", id="column1", ...)
 - dialogbox to add dashboardPluginCandidates
 - form to save dashboard & plugins settings (call include/dashboard_ajax.php)
-- 
+
+ when adding a plugin, a dialogbox should raise to set the plugin attributes.
+ the content of this dialog is furnished by the plugin and loaded by ajax
 -->
    
 
@@ -17,8 +19,43 @@ TODO
 
     <div id="head">
         <h2>{$dashboardTitle}</h2>
-    </div>
+         <button  title="{t}Add an indicator to the dashboard{/t}" href="{$page}" onclick="addDashboardPlugin();return false;">
+            <img align="absmiddle" border="0" src="images/b_add.png" alt="Add icon">
+            {t}Add{/t}
+         </button>
+         <button  title="{t}Save dashboard settings{/t}">
+            <img align="absmiddle" border="0" src="images/b_save.png" alt="Add icon">
+            {t}Save{/t}
+         </button>
+         <div id="dialogAddDashboardPlugin" title="{t}Add Indicator{/t}" class="ui-helper-hidden">
+            <form id="formAddDashboardPlugin" name="formAddDashboardPlugin" method="post" action="{$page}" >
+               <fieldset style="width: 500px; margin-top:1em;">
+                  <strong>{t}Indicator{/t}:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <select id="cbPluginCandidates">
+                     <option value="LoadPerJob">Load Per Job</option>
+                     <option value="LoadPerUser">Load Per User</option>
+                  </select>
+                  <p style="margin-top:1em;">
+                     <strong>{t}Description{/t}:</strong><br>
+                     <hr>
+                     Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam magna sem, fringilla in, commodo a, rutrum ut, massa. Donec id nibh eu dui auctor tempor. Morbi laoreet eleifend dolor. Suspendisse pede odio, accumsan vitae, auctor non, suscipit at, ipsum. Cras varius sapien vel lectus.
+                  </p>
+                  <p style="margin-top:2em;">
+                     <strong>{t}Attributes{/t}:</strong><br>
+                     <hr>
+                     Title: <input id="WidgetTitle"><br>
+                     <input id="attr1" type="checkbox" checked="checked">attr 1<br>
+                     <input id="attr2" type="checkbox" >attr 2<br>
+                     <input id="attr3" type="checkbox" checked="checked">attr 3<br>
+                  </p>
+                  <input type="hidden" name="action"  value="addDashboardPlugin" />
+                  <input type="hidden" name="userid" value="{$userid}" />
+               </fieldset>
+            </form>
+         </div>
+      </div>
 
+    </div>
     <div id="columns">
 
         <ul id="column1" class="column">
@@ -71,5 +108,32 @@ TODO
     </div>
 
     <script type="text/javascript" src="lib/inettuts/inettuts_codevtt.js"></script>
+
+    <script type="text/javascript">
+      function addDashboardPlugin(){
+         //jQuery("#desc_date").text(date);
+         //jQuery("#formAddDashboardPlugin").find("input[name=trackid]").val(trackid);
+
+         jQuery("#dialogAddDashboardPlugin").dialog("open");
+      }
+
+      jQuery(document).ready(function() {
+         // delete track dialogBox
+         jQuery("#dialogAddDashboardPlugin").dialog({
+            autoOpen: false,
+            resizable: true,
+            width: "auto",
+            modal: true,
+            buttons: {
+               "Add": function() {
+                  jQuery("#formAddDashboardPlugin").submit();
+               },
+               Cancel: function() {
+                  jQuery(this).dialog("close");
+               }
+            }
+         });
+      });
+    </script>
 
 </div>
