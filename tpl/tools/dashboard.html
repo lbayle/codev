@@ -146,7 +146,7 @@ TODO
                     console.log("getIndicatorConfigInfo: OK: " + data);
                     console.log("description = " + data['description']);
                     console.log("attributesHtml = " + data['attributesHtml']);
-                    jQuery('.pluginDescription').html = data['description'];
+                    jQuery('.pluginDescription').html(data['description']);
                  },
                  error:  function() {
                     alert("getIndicatorConfigInfo ERROR!");
