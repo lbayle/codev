@@ -47,6 +47,11 @@ abstract class IndicatorPluginAbstract implements IndicatorPluginInterface  {
       return Constants::$codevRootDir.$sepChar.self::INDICATOR_PLUGINS_DIR.$sepChar.get_called_class().$sepChar.get_called_class()."_ajax.html";
    }
 
+   public static function getCfgFilemame() {
+      $sepChar = DIRECTORY_SEPARATOR;
+      return Constants::$codevRootDir.$sepChar.self::INDICATOR_PLUGINS_DIR.$sepChar.get_called_class().$sepChar.get_called_class()."_cfg.html";
+   }
+
    public static function getAjaxPhpURL() {
       $sepChar = '/';
       $url = Constants::$codevURL.$sepChar.self::INDICATOR_PLUGINS_DIR.$sepChar.get_called_class().$sepChar.get_called_class()."_ajax.php";
