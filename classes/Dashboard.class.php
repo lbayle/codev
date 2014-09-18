@@ -234,12 +234,17 @@ class Dashboard {
 
          $dashboardWidgets[] = $widget;
          $idx += 1;
+
+         $dashboardPluginCandidates[] = array(
+            'pluginClassName' => $pClassName,
+            'title' => $pClassName::getName(),
+         );
       }
 
       return array(
          'dashboardId' => $this->id,
          'dashboardTitle' => 'title',
-         'dashboardPluginCandidates' => $candidates, // TODO json ? implode ?
+         'dashboardPluginCandidates' => $dashboardPluginCandidates,
          'dashboardWidgets' =>  $dashboardWidgets
          );
    }

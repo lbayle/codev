@@ -74,10 +74,21 @@ interface IndicatorPluginInterface {
     */
    public static function getSmartyFilename();
 
-
+   /**
+    * html smarty content to be processed by the ajax call
+    */
    public static function getSmartySubFilename();
 
+   /**
+    * html code for the Dashboard 'add indicator' dialogbox
+    * that displays the pluginSettings attributes
+    * (called by dashboard_ajax.php)
+    */
+   public static function getCfgFilemame();
 
+   /**
+    * ajax page handling the plugin actions
+    */
    public static function getAjaxPhpURL();
 
    /**

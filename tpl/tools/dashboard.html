@@ -31,22 +31,22 @@ TODO
             <form id="formAddDashboardPlugin" name="formAddDashboardPlugin" method="post" action="{$page}" >
                <fieldset style="width: 500px; margin-top:1em;">
                   <strong>{t}Indicator{/t}:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <select id="cbPluginCandidates">
-                     <option value="LoadPerJob">Load Per Job</option>
-                     <option value="LoadPerUser">Load Per User</option>
+                  <select class="cbPluginCandidates">
+                     <option value="0"></option>
+                     {foreach from=$dashboardPluginCandidates key=id item=i}
+                     <option value="{$i.pluginClassName}">{$i.title}</option>
+                     {/foreach}
                   </select>
                   <p style="margin-top:1em;">
                      <strong>{t}Description{/t}:</strong><br>
                      <hr>
-                     Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam magna sem, fringilla in, commodo a, rutrum ut, massa. Donec id nibh eu dui auctor tempor. Morbi laoreet eleifend dolor. Suspendisse pede odio, accumsan vitae, auctor non, suscipit at, ipsum. Cras varius sapien vel lectus.
+                     <div class="pluginDescription"></div>
                   </p>
                   <p style="margin-top:2em;">
                      <strong>{t}Attributes{/t}:</strong><br>
                      <hr>
-                     Title: <input id="WidgetTitle"><br>
-                     <input id="attr1" type="checkbox" checked="checked">attr 1<br>
-                     <input id="attr2" type="checkbox" >attr 2<br>
-                     <input id="attr3" type="checkbox" checked="checked">attr 3<br>
+                     <div class="pluginAttributes">
+                     </div>
                   </p>
                   <input type="hidden" name="action"  value="addDashboardPlugin" />
                   <input type="hidden" name="userid" value="{$userid}" />
@@ -118,7 +118,7 @@ TODO
       }
 
       jQuery(document).ready(function() {
-         // delete track dialogBox
+         
          jQuery("#dialogAddDashboardPlugin").dialog({
             autoOpen: false,
             resizable: true,
@@ -133,6 +133,27 @@ TODO
                }
             }
          });
+
+         jQuery(".cbPluginCandidates").change(function() {
+            console.log(".cbPluginCandidates change " + this.value);
+            $.ajax({
+               type: "POST",
+                 url: 'include/dashboard_ajax.php',
+                 data: { pluginClassName: this.value,
+                         action: "getIndicatorConfigInfo"
+                 },
+                 success: function(data) {
+                    console.log("getIndicatorConfigInfo: OK: " + data);
+                    console.log("description = " + data['description']);
+                    console.log("attributesHtml = " + data['attributesHtml']);
+                    jQuery('.pluginDescription').html = data['description'];
+                 },
+                 error:  function() {
+                    alert("getIndicatorConfigInfo ERROR!");
+                 }
+            });
+         });
+
       });
     </script>
 

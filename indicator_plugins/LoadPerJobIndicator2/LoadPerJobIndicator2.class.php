@@ -255,7 +255,9 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
 
    /**
     * a subset of variables usefull for loadPerJobIndicatorDiv and workingDaysPerJobChart
-    * @return type
+    * defined in LoadPerJobIndicator2_ajax.html
+    *
+    * @return array
     */
    public function getSmartyVariablesForAjax() {
 
@@ -282,7 +284,6 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
          'loadPerJobIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $endTimestamp),
       );
    }
-   
    
 }
 
