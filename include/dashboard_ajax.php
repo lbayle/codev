@@ -41,7 +41,7 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
       // so that team users will have a default setting for the team.
       $dashboard->saveSettings($settings, $teamid);
 
-   } else if ($_POST['action'] == 'getIndicatorConfigInfo') {
+   } else if ($_POST['action'] == 'getPluginConfigInfo') {
 
       $pluginClassName = Tools::getSecurePOSTStringValue('pluginClassName');
 
@@ -64,6 +64,34 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
       $jsonData = json_encode($data);
       echo $jsonData;
 
+   } else if ($_POST['action'] == 'addDashboardPlugin') {
+
+      $pluginAttributesJsonStr = Tools::getSecurePOSTStringValue('pluginAttributesJsonStr');
+      $pluginAttributesJsonArray = json_decode(stripslashes($pluginAttributesJsonStr), true);
+
+      //$logger->error("pluginAttributes = " . var_export($pluginAttributesJsonArray, true));
+
+      // convert to a Dashboard compatible format
+      $pluginAttributes = array();
+      foreach ($pluginAttributesJsonArray as $attData) {
+         $attName = $attData['name'];
+         $attValue = $attData['value'];
+         $pluginAttributes[$attName] = $attValue;
+      }
+      //$logger->error("pluginClassName = " . $pluginAttributes['pluginClassName']);
+
+      // TODO : check $pluginClassName & catch exceptions
+
+      $pluginDataProvider = unserialize($_SESSION['pluginDataProvider_xxx']);
+      $smartyHelper = new SmartyHelper();
+      $widget = Dashboard::getWidget($pluginDataProvider, $smartyHelper, $pluginAttributes, 999);
+
+      // return the plugin created plugin instance to the dashboard
+      $data = array(
+         'widget'    => $widget,
+      );
+      $jsonData = json_encode($data);
+      echo $jsonData;
    }
    
 }

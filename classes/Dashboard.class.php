@@ -204,33 +204,7 @@ class Dashboard {
             continue;
          }
 
-         // TODO check, Plugin may not exist...
-         $r = new ReflectionClass($pClassName);
-         $indicator = $r->newInstanceArgs(array($pluginDataProvider));
-
-
-         // examples: isGraphOnly, dateRange(defaultRange|currentWeek|currentMonth|noDateLimit), ...
-         $indicator->setPluginSettings($pluginAttributes);
-         $indicator->execute();
-
-         $data = $indicator->getSmartyVariables();
-         foreach ($data as $smartyKey => $smartyVariable) {
-            $smartyHelper->assign($smartyKey, $smartyVariable);
-         }
-         
-         #self::$logger->error("Indic classname: ".$pClassName);
-         #self::$logger->error("Indic SmartyFilename: ".$pClassName::getSmartyFilename());
-         $indicatorHtmlContent = $smartyHelper->fetch($pClassName::getSmartyFilename());
-
-         // set indicator result in a dashboard widget
-         $widget = array(
-            'id' => 'w_'.$idx, // TODO WARN must be unique (if 2 dashboards in same page)
-            'color' => 'color-white',
-            'title' => $pClassName::getName(),
-            'desc' => $pClassName::getDesc(),
-            'category' => implode(',', $pClassName::getCategories()),
-            'content' => $indicatorHtmlContent,
-         );
+         $widget = self::getWidget($pluginDataProvider, $smartyHelper, $pluginAttributes, $idx);
 
          $dashboardWidgets[] = $widget;
          $idx += 1;
@@ -248,6 +222,53 @@ class Dashboard {
          'dashboardWidgets' =>  $dashboardWidgets
          );
    }
+
+   /**
+    *
+    * @param type $smartyHelper
+    * @param type $pluginClassName
+    * @param type $pluginAttributes
+    * @param type $idx
+    * @return type
+    */
+   public static function getWidget($pluginDataProvider, $smartyHelper, $pluginAttributes, $idx) {
+
+      // TODO check, Plugin may not exist...
+      $pluginClassName = $pluginAttributes['pluginClassName'];
+      $r = new ReflectionClass($pluginClassName);
+      $indicator = $r->newInstanceArgs(array($pluginDataProvider));
+
+
+      // examples: isGraphOnly, dateRange(defaultRange|currentWeek|currentMonth|noDateLimit), ...
+      $indicator->setPluginSettings($pluginAttributes);
+      $indicator->execute();
+
+      $data = $indicator->getSmartyVariables();
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+
+      #self::$logger->error("Indic classname: ".$pClassName);
+      #self::$logger->error("Indic SmartyFilename: ".$pClassName::getSmartyFilename());
+      $indicatorHtmlContent = $smartyHelper->fetch($pluginClassName::getSmartyFilename());
+
+      // update inettuts attributes from pluginAttributes
+      $widgetTitle = (array_key_exists('widgetTitle', $pluginAttributes)) ? $pluginAttributes['widgetTitle'] : $pluginClassName::getName();
+      $color =       (array_key_exists('color',       $pluginAttributes)) ? $pluginAttributes['color'] : 'color-white';
+
+      // set indicator result in a dashboard widget
+      $widget = array(
+         'id' => 'w_'.$idx, // TODO WARN must be unique (if 2 dashboards in same page)
+         'color' => $color,
+         'title' => $widgetTitle,
+         'desc' => $pluginClassName::getDesc(),
+         'category' => implode(',', $pluginClassName::getCategories()),
+         'attributesJsonStr' => json_encode($pluginAttributes),
+         'content' => $indicatorHtmlContent,
+      );
+      return $widget;
+   }
+
 }
 
 // Initialize static variables

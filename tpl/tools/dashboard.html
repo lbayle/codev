@@ -134,7 +134,6 @@ TODO
 
                   // visible fields (input/select/textarea) are raw data to be parsed
                   var $pluginElements = $form.find(':input:not('+ajaxFieldSelector+')');
-                  console.log('pluginElements = ', $pluginElements.length, $pluginElements);
 
                   // hidden fields: processed data returned by ajax
                   var $formElements = $form.find(':input'+ajaxFieldSelector);
@@ -159,11 +158,20 @@ TODO
                   var dataToSend = $formElements.serializeArray();
                   console.log('dataToSend = ', dataToSend.length, dataToSend);
 
-                  // on envoi la requête AJAX
                   $.ajax({
-                      url: $form.attr('action'),
-                      type: $form.attr('method'),
-                      data: dataToSend
+                     url: 'include/dashboard_ajax.php',
+                     type: $form.attr('method'),
+                     dataType:"json",
+                     data: dataToSend,
+                     success: function(data) {
+                        console.log(data['widget']);
+
+                        // TODO add new Widget to the dashboard
+
+                     },
+                     error:  function() {
+                        alert("AddDashboardPlugin ERROR!");
+                     }
                   });
 
                },
@@ -179,14 +187,14 @@ TODO
                  url: 'include/dashboard_ajax.php',
                  dataType:"json",
                  data: { pluginClassName: this.value,
-                         action: "getIndicatorConfigInfo"
+                         action: "getPluginConfigInfo"
                  },
                  success: function(data) {
                     jQuery('.pluginDescription').html(data['description']);
                     jQuery(".pluginAttributes").html(jQuery.trim(data['attributesHtml']));
                  },
                  error:  function() {
-                    alert("getIndicatorConfigInfo ERROR!");
+                    alert("getPluginConfigInfo ERROR!");
                  }
             });
          });
