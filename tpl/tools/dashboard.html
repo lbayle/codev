@@ -19,7 +19,7 @@ TODO
 
     <div id="head">
         <h2>{$dashboardTitle}</h2>
-         <button  title="{t}Add an indicator to the dashboard{/t}" href="{$page}" onclick="addDashboardPlugin();return false;">
+         <button  title="{t}Add an indicator to the dashboard{/t}" href="include/dashboard_ajax.php" onclick="addDashboardPlugin();return false;">
             <img align="absmiddle" border="0" src="images/b_add.png" alt="Add icon">
             {t}Add{/t}
          </button>
@@ -29,29 +29,28 @@ TODO
          </button>
          <div id="dialogAddDashboardPlugin" title="{t}Add Indicator{/t}" class="ui-helper-hidden">
             <div  style="width: 500px; margin-top:1em;"></div>
-            <strong>{t}Indicator{/t}:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <select class="cbPluginCandidates">
-               <option value="0"></option>
-               {foreach from=$dashboardPluginCandidates key=id item=i}
-               <option value="{$i.pluginClassName}">{$i.title}</option>
-               {/foreach}
-            </select>
-            <p style="margin-top:1em;">
-               <strong>{t}Description{/t}:</strong><br>
-               <hr>
-               <div class="pluginDescription"></div>
-            </p>
-            <p style="margin-top:2em;">
-               <strong>{t}Attributes{/t}:</strong><br>
-               <hr>
-               <div class="pluginAttributes">
-               </div>
-            </p>
             <form id="formAddDashboardPlugin" name="formAddDashboardPlugin" method="post" action="{$page}" >
                <fieldset>
-                  <input type="hidden" name="action"  value="addDashboardPlugin" />
-                  <input type="hidden" name="pluginClassName" value="0" />
-                  <input type="hidden" name="pluginAttributesJson" value="0" />
+                  <strong>{t}Indicator{/t}:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <select class="cbPluginCandidates" name="pluginClassName">
+                     <option value="0"></option>
+                     {foreach from=$dashboardPluginCandidates key=id item=i}
+                     <option value="{$i.pluginClassName}">{$i.title}</option>
+                     {/foreach}
+                  </select>
+                  <p style="margin-top:1em;">
+                     <strong>{t}Description{/t}:</strong><br>
+                     <hr>
+                     <div class="pluginDescription"></div>
+                  </p>
+                  <p style="margin-top:2em;">
+                     <strong>{t}Attributes{/t}:</strong><br>
+                     <hr>
+                     <div class="pluginAttributes">
+                     </div>
+                  </p>
+                  <input type="hidden" name="action" value="addDashboardPlugin" />
+                  <input type="hidden" name="pluginAttributesJsonStr" value="0" />
                </fieldset>
             </form>
          </div>
@@ -113,9 +112,6 @@ TODO
 
     <script type="text/javascript">
       function addDashboardPlugin(){
-         //jQuery("#desc_date").text(date);
-         //jQuery("#formAddDashboardPlugin").find("input[name=trackid]").val(trackid);
-
          jQuery("#dialogAddDashboardPlugin").dialog("open");
       }
 
@@ -128,29 +124,48 @@ TODO
             modal: true,
             buttons: {
                "Add": function() {
-                  // get content of .pluginAttributes,
-                  // for each pluginAttribute (text, select, checkbox) get value
-                  // construct a json string and update pluginAttributesJson
 
-                  // in this example pluginAttributesJson should be something like:
-                  // "widgetTitle":"Load per Job", "isGraphOnly":"0", "defaultRange":"currentWeek"
+                  // on définit le sélecteur permettant de différencier:
+                  // - les champs type "options du plugin" (ceux qui sont affichés)
+                  // - les champs types "est envoyé en AJAX puis enregistré sur le serveur" (qui sont masqués),
+                  var ajaxFieldSelector = '[type=hidden]';
 
-                  //var attributes = new Array();
-                  jQuery(".pluginAttributes .pluginAttribute").each(function() {
-                    console.log( "name = " + jQuery(this).attr('name') );
-                    var attrName = jQuery(this).attr('name');
-                    var attrValue = ''; // ??? depends on type (text, select, checkbox) ???
-                    //attributes[attrName] = attrValue;
+                  var $form = $('#formAddDashboardPlugin');
 
+                  // visible fields (input/select/textarea) are raw data to be parsed
+                  var $pluginElements = $form.find(':input:not('+ajaxFieldSelector+')');
+                  console.log('pluginElements = ', $pluginElements.length, $pluginElements);
+
+                  // hidden fields: processed data returned by ajax
+                  var $formElements = $form.find(':input'+ajaxFieldSelector);
+
+                  // on transforme la liste des options en tableau associatif JS
+                  // (qui est un **objet JSON** en fait, puisque JSON = JavaScript Object Notation ;)
+                  var pluginAttributesArray = $pluginElements.serializeArray();
+
+                  // on récupère la liste des checkbox non cochées
+                  // on effectue manuellement un "serializeArray" dessus
+                  // on rajoute cette liste "manuelle" à la liste retournée par jQuery
+                  var uncheckedElements = $pluginElements.filter('input[type=checkbox]:not(:checked)');
+                  var uncheckedElementsArray = uncheckedElements.map(function(i, checkbox){ return { name:checkbox.name, value:0 }; }).get();
+                  pluginAttributesArray = pluginAttributesArray.concat(uncheckedElementsArray);
+
+                  // on transforme cet **objet JSON** en **chaine JSON**
+                  var pluginOptionsJSONString = JSON.stringify(pluginAttributesArray);
+
+                  // hidden fields: processed data returned returned by ajax
+                  var $formElements = $form.find(':input'+ajaxFieldSelector);
+                  $formElements.filter('[name=pluginAttributesJsonStr]').val(pluginOptionsJSONString);
+                  var dataToSend = $formElements.serializeArray();
+                  console.log('dataToSend = ', dataToSend.length, dataToSend);
+
+                  // on envoi la requête AJAX
+                  $.ajax({
+                      url: $form.attr('action'),
+                      type: $form.attr('method'),
+                      data: dataToSend
                   });
-                  //console.log( "attributes = " + attributes );
 
-                  //jQuery("#formAddDashboardPlugin").find("input[name=pluginAttributesJson]").val(attributes);
-
-                  // now send the addPlugin request by ajax and insert the returned plugin in the dashboard
-                  //jQuery.ajax({
-                  // TODO
-                  //});
                },
                Cancel: function() {
                   jQuery(this).dialog("close");
@@ -174,12 +189,6 @@ TODO
                     alert("getIndicatorConfigInfo ERROR!");
                  }
             });
-         });
-
-         // attach a delegated event
-         jQuery(".pluginAttributes" ).on( "change", "select", function( event ) {
-            event.preventDefault();
-            console.log( 'combobox changed to : ' + jQuery( this ).value );
          });
 
       });
