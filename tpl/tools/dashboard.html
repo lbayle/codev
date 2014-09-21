@@ -62,7 +62,7 @@ TODO
         <ul id="column1" class="column">
            {foreach from=$dashboardWidgets key=id item=i}
             <li class="widget {$i.color}" id="{$i.id}">
-                <input type="hidden" name="attributesJsonStr" value="{$i.attributesJsonStr}" />
+               <form><input type="hidden" name="attributesJsonStr" value="{$i.attributesJsonStr}"/></form>
                 <div class="widget-head">
                     <h3>{$i.title}</h3>
                 </div>
@@ -173,10 +173,13 @@ TODO
                         var liObj = jQuery('<li></li>').addClass("widget").addClass(widget['color']);
                         var divHeadObj = jQuery('<div></div>').addClass("widget-head").append(jQuery('<h3></h3>').html(widget['title']));
                         var divContentObj = jQuery('<div></div>').addClass("widget-content").html(widget['content']);
-                        liObj.append(divHeadObj).append(divContentObj);
+                        
+                        var inputObj = jQuery('<input type="hidden" name="attributesJsonStr"/>').val(widget['attributesJsonStr']);
+                        var formObj = jQuery('<form></form>').append(inputObj);
+                        liObj.append(formObj).append(divHeadObj).append(divContentObj);
                         ulObj.append(liObj);
 
-                        //console.log(liObj);
+                        console.log(liObj);
                         jQuery("#dialogAddDashboardPlugin").dialog("close");
 
                      },
