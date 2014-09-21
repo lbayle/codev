@@ -62,7 +62,6 @@ TODO
         <ul id="column1" class="column">
            {foreach from=$dashboardWidgets key=id item=i}
             <li class="widget {$i.color}" id="{$i.id}">
-               <form><input type="hidden" name="attributesJsonStr" value="{$i.attributesJsonStr}"/></form>
                 <div class="widget-head">
                     <h3>{$i.title}</h3>
                 </div>
@@ -94,17 +93,6 @@ TODO
                     </ul>
                 </div>
             </li>
-            <li class="widget color-orange">
-                <div class="widget-head">
-                    <h3>Some Random Title</h3>
-                </div>
-                <div class="widget-content">
-                    <ul>
-                        <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam magna sem, fringilla in, commodo a, rutrum ut, massa. Donec id nibh eu dui auctor tempor. Morbi laoreet eleifend dolor. Suspendisse pede odio, accumsan vitae, auctor non, suscipit at, ipsum. Cras varius sapien vel lectus.</li>
-                    </ul>
-                </div>
-            </li>
-
         </ul>
 
     </div>
