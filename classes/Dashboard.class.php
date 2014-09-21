@@ -161,12 +161,13 @@ class Dashboard {
          // TODO default = all/no plugins ?
          if (NULL == $json) {
             $this->settings = array();
+            
             $pm = PluginManager::getInstance();
             $candidates = $pm->getPluginCandidates($this->domain, $this->categories);
-            
+
             $pluginAttributes = array();
-            foreach ($candidates as $pChassName) {
-               $pluginAttributes[] = array('pluginClassName' => $pChassName);
+            foreach ($candidates as $cClassName) {
+               //$pluginAttributes[] = array('pluginClassName' => $cClassName);
             }
             $this->settings[self::SETTINGS_DISPLAYED_PLUGINS] = $pluginAttributes;
          } else {
@@ -208,10 +209,13 @@ class Dashboard {
 
          $dashboardWidgets[] = $widget;
          $idx += 1;
-
+      }
+      
+      $dashboardPluginCandidates = array();
+      foreach ($candidates as $cClassName) {
          $dashboardPluginCandidates[] = array(
-            'pluginClassName' => $pClassName,
-            'title' => $pClassName::getName(),
+            'pluginClassName' => $cClassName,
+            'title' => $cClassName::getName(),
          );
       }
 
