@@ -255,6 +255,8 @@ class Dashboard {
       // update inettuts attributes from pluginAttributes
       $widgetTitle = (array_key_exists('widgetTitle', $pluginAttributes)) ? $pluginAttributes['widgetTitle'] : $pluginClassName::getName();
       $color =       (array_key_exists('color',       $pluginAttributes)) ? $pluginAttributes['color'] : 'color-white';
+      unset($pluginAttributes['widgetTitle']);
+      unset($pluginAttributes['color']);
 
       // set indicator result in a dashboard widget
       $widget = array(

@@ -62,6 +62,7 @@ TODO
         <ul id="column1" class="column">
            {foreach from=$dashboardWidgets key=id item=i}
             <li class="widget {$i.color}" id="{$i.id}">
+                <input type="hidden" name="attributesJsonStr" value="{$i.attributesJsonStr}" />
                 <div class="widget-head">
                     <h3>{$i.title}</h3>
                 </div>
@@ -130,13 +131,13 @@ TODO
                   // - les champs types "est envoyé en AJAX puis enregistré sur le serveur" (qui sont masqués),
                   var ajaxFieldSelector = '[type=hidden]';
 
-                  var $form = $('#formAddDashboardPlugin');
+                  var form = $('#formAddDashboardPlugin');
 
                   // visible fields (input/select/textarea) are raw data to be parsed
-                  var $pluginElements = $form.find(':input:not('+ajaxFieldSelector+')');
+                  var $pluginElements = form.find(':input:not('+ajaxFieldSelector+')');
 
                   // hidden fields: processed data returned by ajax
-                  var $formElements = $form.find(':input'+ajaxFieldSelector);
+                  var formElements = form.find(':input'+ajaxFieldSelector);
 
                   // on transforme la liste des options en tableau associatif JS
                   // (qui est un **objet JSON** en fait, puisque JSON = JavaScript Object Notation ;)
@@ -153,24 +154,35 @@ TODO
                   var pluginOptionsJSONString = JSON.stringify(pluginAttributesArray);
 
                   // hidden fields: processed data returned returned by ajax
-                  var $formElements = $form.find(':input'+ajaxFieldSelector);
-                  $formElements.filter('[name=pluginAttributesJsonStr]').val(pluginOptionsJSONString);
-                  var dataToSend = $formElements.serializeArray();
+                  var formElements = form.find(':input'+ajaxFieldSelector);
+                  formElements.filter('[name=pluginAttributesJsonStr]').val(pluginOptionsJSONString);
+                  var dataToSend = formElements.serializeArray();
                   console.log('dataToSend = ', dataToSend.length, dataToSend);
 
                   $.ajax({
                      url: 'include/dashboard_ajax.php',
-                     type: $form.attr('method'),
+                     type: form.attr('method'),
                      dataType:"json",
                      data: dataToSend,
                      success: function(data) {
-                        console.log(data['widget']);
+                        //console.log(data['widget']);
+                        var widget = data['widget'];
 
-                        // TODO add new Widget to the dashboard
+                        // Add new Widget to the dashboard
+                        var ulObj = jQuery("#column1");
+                        var liObj = jQuery('<li></li>').addClass("widget").addClass(widget['color']);
+                        var divHeadObj = jQuery('<div></div>').addClass("widget-head").append(jQuery('<h3></h3>').html(widget['title']));
+                        var divContentObj = jQuery('<div></div>').addClass("widget-content").html(widget['content']);
+                        liObj.append(divHeadObj).append(divContentObj);
+                        ulObj.append(liObj);
+
+                        //console.log(liObj);
+                        jQuery("#dialogAddDashboardPlugin").dialog("close");
 
                      },
                      error:  function() {
                         alert("AddDashboardPlugin ERROR!");
+                        jQuery("#dialogAddDashboardPlugin").dialog("close");
                      }
                   });
 
