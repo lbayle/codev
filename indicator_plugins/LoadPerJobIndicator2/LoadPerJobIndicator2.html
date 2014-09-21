@@ -6,19 +6,19 @@
       <fieldset>
          <script type="text/javascript" src="js/datepicker.js"></script>
          <label for="loadPerJob_startdatepicker">{t}From{/t}:</label>
-         <input type="text" id="loadPerJob_startdatepicker" class="datepicker" name="loadPerJob_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <input type="text" class="loadPerJob_startdatepicker datepicker" name="loadPerJob_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
          <label for="loadPerJob_enddatepicker">{t}To{/t}:</label>
-         <input type="text" id="loadPerJob_enddatepicker" class="datepicker" name="loadPerJob_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
-         <input id="loadPerJob_submit" type="submit" value="{t}Display{/t}" />
+         <input type="text" class="loadPerJob_enddatepicker datepicker" name="loadPerJob_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <input class="loadPerJob_submit" type="submit" value="{t}Display{/t}" />
          <input type="hidden" name="action" value="getLoadPerJobIndicator2" />
       </fieldset>
    </form>
 </div>
 <div>
-   <div id="loadPerJobIndicatorDiv" align="left" style="margin-top: 1em;">
+   <div class="loadPerJobIndicatorDiv" align="left" style="margin-top: 1em;">
       {include file="`$loadPerJobIndicator_ajaxFile`"}
    </div>
-   <div id="workingDaysPerJobChart" class="pie_chart chart float" style="top: -9px;"></div>
+   <div class="loadPerJobIndicatorChart pie_chart chart float" style="top: -9px;"></div>
    <div class="ui-helper-clearfix"></div>
 </div>
 
@@ -33,8 +33,8 @@
       {/if}
 
       // Set the date
-      var startDatePicker = jQuery("#loadPerJob_startdatepicker").datepicker("setDate" ,"{$loadPerJobIndicator_startDate}");
-      var endDatePicker = jQuery("#loadPerJob_enddatepicker").datepicker("setDate" ,"{$loadPerJobIndicator_endDate}");
+      var startDatePicker = jQuery(".loadPerJob_startdatepicker").datepicker("setDate" ,"{$loadPerJobIndicator_startDate}");
+      var endDatePicker = jQuery(".loadPerJob_enddatepicker").datepicker("setDate" ,"{$loadPerJobIndicator_endDate}");
 
       // Add range date
       startDatePicker.datepicker("option","beforeShow",function(input) {
@@ -46,7 +46,7 @@
 
       // ------------------------
       // on reload with new date range
-      jQuery('#loadPerJob_submit').click(function(event) {
+      jQuery('.loadPerJob_submit').click(function(event) {
          /* stop form from submitting normally */
          event.preventDefault();
 
@@ -60,9 +60,9 @@
             dataType:"json",
             data: form.serialize(),
             success: function(data) {
-               jQuery("#loadPerJobIndicatorDiv").html(jQuery.trim(data['loadPerJob_htmlTable']));
+               jQuery(".loadPerJobIndicatorDiv").html(jQuery.trim(data['loadPerJob_htmlTable']));
 
-               var chart = jQuery('#workingDaysPerJobChart');
+               var chart = jQuery('.loadPerJobIndicatorChart');
                var chartoptions = chart.data('plotoptions');
                chartoptions.seriesColors = data['loadPerJobIndicator_colors'];
                updateChart(chart, data['loadPerJobIndicator_jqplotData']);
@@ -79,7 +79,7 @@
 
       // ------------------------
       // display initial chart
-      var chart = jQuery('#workingDaysPerJobChart');
+      var chart = jQuery('.loadPerJobIndicatorChart');
       var chartoptions = chart.data('plotoptions');
       chartoptions.seriesColors = {$loadPerJobIndicator_jqplotSeriesColors};
       //chartoptions.seriesDefaults.rendererOptions.startAngle = 180;
