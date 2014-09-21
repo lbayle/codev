@@ -62,6 +62,7 @@ TODO
         <ul id="column1" class="column">
            {foreach from=$dashboardWidgets key=id item=i}
             <li class="widget {$i.color}" id="{$i.id}">
+               <form><input type="hidden" name="attributesJsonStr" value='{$i.attributesJsonStr}'/></form>
                 <div class="widget-head">
                     <h3>{$i.title}</h3>
                 </div>
@@ -72,6 +73,7 @@ TODO
            {/foreach}
 
             <li class="widget color-yellow">
+                <form><input type="hidden" name="attributesJsonStr" value='{literal}{"pluginClassName":"FakeIndictor2","dateRange":"defaultRange","isGraphOnly":0}{/literal}'/></form>
                 <div class="widget-head">
                     <h3>Extra Info</h3>
                 </div>
@@ -84,6 +86,7 @@ TODO
                 </div>
             </li>
             <li class="widget color-green">
+                <form><input type="hidden" name="attributesJsonStr" value='{literal}{"pluginClassName":"FakeIndictor3","dateRange":"defaultRange","isGraphOnly":0}{/literal}'/></form>
                 <div class="widget-head">
                     <h3>Some Random Title</h3>
                 </div>
@@ -162,6 +165,7 @@ TODO
                         var divHeadObj = jQuery('<div></div>').addClass("widget-head").append(jQuery('<h3></h3>').html(widget['title']));
                         var divContentObj = jQuery('<div></div>').addClass("widget-content").html(widget['content']);
                         
+                        //var inputObj = jQuery('<input type="hidden" name="attributesJsonStr" value=\''+widget['attributesJsonStr']+'\'/>');
                         var inputObj = jQuery('<input type="hidden" name="attributesJsonStr"/>').val(widget['attributesJsonStr']);
                         var formObj = jQuery('<form></form>').append(inputObj);
                         liObj.append(formObj).append(divHeadObj).append(divContentObj);
@@ -185,21 +189,27 @@ TODO
          });
 
          jQuery(".cbPluginCandidates").change(function() {
-            jQuery.ajax({
-               type: "POST",
-                 url: 'include/dashboard_ajax.php',
-                 dataType:"json",
-                 data: { pluginClassName: this.value,
-                         action: "getPluginConfigInfo"
-                 },
-                 success: function(data) {
-                    jQuery('.pluginDescription').html(data['description']);
-                    jQuery(".pluginAttributes").html(jQuery.trim(data['attributesHtml']));
-                 },
-                 error:  function() {
-                    alert("getPluginConfigInfo ERROR!");
-                 }
-            });
+            if ('0' !== this.value) {
+               jQuery.ajax({
+                  type: "POST",
+                    url: 'include/dashboard_ajax.php',
+                    dataType:"json",
+                    data: { pluginClassName: this.value,
+                            action: "getPluginConfigInfo"
+                    },
+                    success: function(data) {
+                       jQuery('.pluginDescription').html(data['description']);
+                       jQuery(".pluginAttributes").html(jQuery.trim(data['attributesHtml']));
+                    },
+                    error:  function() {
+                       alert("getPluginConfigInfo ERROR!");
+                    }
+               });
+            } else {
+               jQuery('.pluginDescription').html('');
+               jQuery(".pluginAttributes").html('');
+
+            }
          });
 
       });
