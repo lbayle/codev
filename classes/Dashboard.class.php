@@ -44,7 +44,7 @@
 class Dashboard {
 
    const SETTINGS_DISPLAYED_PLUGINS = 'displayedPlugins'; // 
-   const SETTINGS_TITLE = 'title'; // 
+   const SETTINGS_DASHBOARD_TITLE = 'dashboardTitle'; //
    
    private static $logger;
 
@@ -110,7 +110,7 @@ class Dashboard {
     * ex: ProgressHistoryIndic for Cmd1, Cmd2, Cmd2 
     * 
     *  settings = array (
-    *     'title' => 'dashboard title'
+    *     'dashboardTitle' => 'dashboard title'
     *     'displayedPlugins' => array(
     *        array(
     *           'pluginClassName' => <pluginClassName>,
@@ -140,6 +140,7 @@ class Dashboard {
 
    /*
       settings = array (
+        'dashboardTitle' => 'dashboard title'
         'displayedPlugins' => array(
            array(
               'pluginClassName' => <pluginClassName>,
@@ -160,7 +161,6 @@ class Dashboard {
          // if no specific settings, use default values 
          // TODO default = all/no plugins ?
          if (NULL == $json) {
-            $this->settings = array();
             
             $pm = PluginManager::getInstance();
             $candidates = $pm->getPluginCandidates($this->domain, $this->categories);
@@ -169,13 +169,19 @@ class Dashboard {
             foreach ($candidates as $cClassName) {
                //$pluginAttributes[] = array('pluginClassName' => $cClassName);
             }
-            $this->settings[self::SETTINGS_DISPLAYED_PLUGINS] = $pluginAttributes;
+            $this->settings = array(
+               self::SETTINGS_DASHBOARD_TITLE   => 'Dashboard Title',
+               self::SETTINGS_DISPLAYED_PLUGINS => $pluginAttributes,
+            );
          } else {
             // convert json to array
             $this->settings = json_decode($json);
             if (is_null($this->settings)) {
                self::$logger->error("Dashboard settings: json could not be decoded !");
-               $this->settings = array(); // failover
+               $this->settings = array(
+                  self::SETTINGS_DASHBOARD_TITLE => 'ERROR on dashboard settings',
+                  self::SETTINGS_DISPLAYED_PLUGINS => array(),
+               ); // failover
             }
          }
       }
@@ -210,7 +216,9 @@ class Dashboard {
          $dashboardWidgets[] = $widget;
          $idx += 1;
       }
-      
+
+      // TODO as long as adding multiple times the same plugin fails,
+     //  the dilplayedPlugins should be removed from candidates
       $dashboardPluginCandidates = array();
       foreach ($candidates as $cClassName) {
          $dashboardPluginCandidates[] = array(
@@ -221,7 +229,7 @@ class Dashboard {
 
       return array(
          'dashboardId' => $this->id,
-         'dashboardTitle' => 'title',
+         'dashboardTitle' => 'title', // TODO use SETTINGS_DASHBOARD_TITLE
          'dashboardPluginCandidates' => $dashboardPluginCandidates,
          'dashboardWidgets' =>  $dashboardWidgets
          );
@@ -252,8 +260,8 @@ class Dashboard {
          $smartyHelper->assign($smartyKey, $smartyVariable);
       }
 
-      #self::$logger->error("Indic classname: ".$pClassName);
-      #self::$logger->error("Indic SmartyFilename: ".$pClassName::getSmartyFilename());
+      //self::$logger->error("Indic classname: ".$pluginClassName);
+      //self::$logger->error("Indic SmartyFilename: ".$pluginClassName::getSmartyFilename());
       $indicatorHtmlContent = $smartyHelper->fetch($pluginClassName::getSmartyFilename());
 
       // update inettuts attributes from pluginAttributes
