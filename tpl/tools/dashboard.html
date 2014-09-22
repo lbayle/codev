@@ -38,17 +38,19 @@ TODO
                      <option value="{$i.pluginClassName}">{$i.title}</option>
                      {/foreach}
                   </select>
-                  <p style="margin-top:1em;">
+                  <div class="pluginConfig" style="display: none;">
+                  <div style="margin-top:1em;">
                      <strong>{t}Description{/t}:</strong><br>
                      <hr>
                      <div class="pluginDescription"></div>
-                  </p>
-                  <p style="margin-top:2em;">
+                  </div>
+                  <div style="margin-top:2em;">
                      <strong>{t}Attributes{/t}:</strong><br>
                      <hr>
                      <div class="pluginAttributes">
                      </div>
-                  </p>
+                  </div>
+                  </div>
                   <input type="hidden" name="action" value="addDashboardPlugin" />
                   <input type="hidden" name="pluginAttributesJsonStr" value="0" />
                </fieldset>
@@ -56,7 +58,6 @@ TODO
          </div>
       </div>
 
-    </div>
     <div id="columns">
 
         <ul id="column1" class="column">
@@ -200,6 +201,7 @@ TODO
                     success: function(data) {
                        jQuery('.pluginDescription').html(data['description']);
                        jQuery(".pluginAttributes").html(jQuery.trim(data['attributesHtml']));
+                       jQuery(".pluginConfig").show();
                     },
                     error:  function() {
                        alert("getPluginConfigInfo ERROR!");
@@ -208,6 +210,7 @@ TODO
             } else {
                jQuery('.pluginDescription').html('');
                jQuery(".pluginAttributes").html('');
+               jQuery(".pluginConfig").hide();
 
             }
          });
