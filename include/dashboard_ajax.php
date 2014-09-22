@@ -29,19 +29,7 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
 
    $logger = Logger::getLogger("dashboardAjax");
 
-   if($_POST['action'] == 'saveDashboardSettings') {
-
-      $dashboard = new Dashboard($id);
-
-      // $settings is a json string containing dashboard & indicator settings.
-      $dashboard->saveSettings($settings, $teamid, $userid);
-
-      // TODO
-      // if user is team admin or manager, save also settings for [team]
-      // so that team users will have a default setting for the team.
-      $dashboard->saveSettings($settings, $teamid);
-
-   } else if ($_POST['action'] == 'getPluginConfigInfo') {
+   if ($_POST['action'] == 'getPluginConfigInfo') {
 
       $pluginClassName = Tools::getSecurePOSTStringValue('pluginClassName');
 
@@ -92,7 +80,45 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
       );
       $jsonData = json_encode($data);
       echo $jsonData;
-   }
+      
+   } else if($_POST['action'] == 'saveDashboardSettings') {
+
+      $dashboardId = Tools::getSecurePOSTStringValue('dashboardId');
+      $userid = $_SESSION['userid'];
+      $teamid = $_SESSION['teamid'];
+      
+      //$logger->error("saveDashboardSettings: dashboardId = " . $dashboardId);
+      
+      //$dashboardSettingsJsonStr = Tools::getSecurePOSTStringValue('dashboardSettingsJsonStr');
+      //$dashboardSettingsJsonArray = json_decode(stripslashes($dashboardSettingsJsonStr), true);
+      
+      
+      // convert $dashboardSettingsJsonArray to a Dashboard compatible format
+      /*
+       *  settings = array (
+       *     'dashboardTitle' => 'dashboard title'
+       *     'displayedPlugins' => array(
+       *        array(
+       *           'pluginClassName' => <pluginClassName>,
+       *           'plugin_attr1' => 'val',
+       *           'plugin_attr2' => 'val',
+       *        )
+       *     )
+       *  )
+       * 
+       */      
+      $settings = array(); // TODO
+      
+      // $settings is a json string containing dashboard & indicator settings.
+      //$dashboard = new Dashboard($dashboardId);
+      //$dashboard->saveSettings($settings, $teamid, $userid);
+
+      // TODO
+      // if user is team admin or manager, save also settings for [team]
+      // so that team users will have a default setting for the team.
+      //$dashboard->saveSettings($settings, $teamid);
+
+   } 
    
 }
 
