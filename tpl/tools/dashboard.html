@@ -19,12 +19,12 @@ TODO
 
     <div id="head">
         <h2>{$dashboardTitle}</h2>
-         <button  title="{t}Add an indicator to the dashboard{/t}" href="include/dashboard_ajax.php" onclick="addDashboardPlugin();return false;">
+         <button  title="{t}Add an indicator to the dashboard{/t}" onclick="addDashboardPlugin();return false;">
             <img align="absmiddle" border="0" src="images/b_add.png" alt="Add icon">
             {t}Add{/t}
          </button>
-         <button  title="{t}Save dashboard settings{/t}">
-            <img align="absmiddle" border="0" src="images/b_save.png" alt="Add icon">
+         <button class="btSaveDashboard" title="{t}Save dashboard settings{/t}" >
+            <img align="absmiddle" border="0" src="images/b_save.png" alt="Save icon">
             {t}Save{/t}
          </button>
          <div id="dialogAddDashboardPlugin" title="{t}Add Indicator{/t}" class="ui-helper-hidden">
@@ -110,6 +110,32 @@ TODO
 
       jQuery(document).ready(function() {
          
+         jQuery(".cbPluginCandidates").change(function() {
+            if ('0' !== this.value) {
+               jQuery.ajax({
+                  type: "POST",
+                    url: 'include/dashboard_ajax.php',
+                    dataType:"json",
+                    data: { pluginClassName: this.value,
+                            action: "getPluginConfigInfo"
+                    },
+                    success: function(data) {
+                       jQuery('.pluginDescription').html(data['description']);
+                       jQuery(".pluginAttributes").html(jQuery.trim(data['attributesHtml']));
+                       jQuery(".pluginConfig").show();
+                    },
+                    error:  function() {
+                       alert("getPluginConfigInfo ERROR!");
+                    }
+               });
+            } else {
+               jQuery('.pluginDescription').html('');
+               jQuery(".pluginAttributes").html('');
+               jQuery(".pluginConfig").hide();
+
+            }
+         });
+
          jQuery("#dialogAddDashboardPlugin").dialog({
             autoOpen: false,
             resizable: true,
@@ -189,30 +215,28 @@ TODO
             }
          });
 
-         jQuery(".cbPluginCandidates").change(function() {
-            if ('0' !== this.value) {
-               jQuery.ajax({
-                  type: "POST",
-                    url: 'include/dashboard_ajax.php',
-                    dataType:"json",
-                    data: { pluginClassName: this.value,
-                            action: "getPluginConfigInfo"
-                    },
-                    success: function(data) {
-                       jQuery('.pluginDescription').html(data['description']);
-                       jQuery(".pluginAttributes").html(jQuery.trim(data['attributesHtml']));
-                       jQuery(".pluginConfig").show();
-                    },
-                    error:  function() {
-                       alert("getPluginConfigInfo ERROR!");
-                    }
-               });
-            } else {
-               jQuery('.pluginDescription').html('');
-               jQuery(".pluginAttributes").html('');
-               jQuery(".pluginConfig").hide();
-
-            }
+         jQuery(".btSaveDashboard").click(function() {
+            console.log("btSaveDashboard");
+            
+            // TODO parse the dashboard to get all widgets and their attributesJsonStr
+            var dashboardSettingsJsonStr = "";
+            
+            jQuery.ajax({
+               type: "POST",
+                 url: 'include/dashboard_ajax.php',
+                 dataType:"json",
+                 data: { action: "saveDashboardSettings",
+                         dashboardId: "{$dashboardId}",
+                         dashboardSettingsJsonStr: dashboardSettingsJsonStr,
+                         isTeamDefaultSettings: "0"
+                 },
+                 success: function(data) {
+                 },
+                 error:  function() {
+                    alert("saveDashboardSettings ERROR!");
+                 }
+            });
+            
          });
 
       });

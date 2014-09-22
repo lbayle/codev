@@ -120,12 +120,13 @@ class Dashboard {
     *     )
     *  )
     *
-    * @param type $jsonSettings json containing dashboard & plugin attributes.
-    * @param type $teamid
-    * @param type $userid if NULL, default settings for team will be saved.
+    * @param array $settings containing dashboard & plugin attributes.
+    * @param int $teamid
+    * @param int $userid if NULL, default settings for team will be saved.
     */
-   public function saveSettings($jsonSettings, $teamid, $userid = NULL) {
+   public function saveSettings($settings, $teamid, $userid = NULL) {
       
+      $jsonSettings = json_encode($settings);
       Config::setValue(Config::id_dashboard.$this->id, $jsonSettings, Config::configType_string, NULL, 0, $userid, $teamid);
    }
 
