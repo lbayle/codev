@@ -1,5 +1,4 @@
 <div id="loadPerJob">
-{include file="tools/graph.html"}
 
 <div align="left" style="margin-top:1em;">
    <form id="loadPerJobIndicator_dateRange_form" method="get" action="{$loadPerJobIndicator_ajaxPhpURL}">
@@ -84,7 +83,6 @@
       chartoptions.seriesColors = {$loadPerJobIndicator_jqplotSeriesColors};
       //chartoptions.seriesDefaults.rendererOptions.startAngle = 180;
       updateChart(chart, '{$loadPerJobIndicator_jqplotData}');
-      // WARN: something strange with the updateChart, all lines after it won't be executed !!
 
    });
 </script>
