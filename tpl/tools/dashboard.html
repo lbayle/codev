@@ -16,6 +16,7 @@ TODO
 
 
    <link href="lib/inettuts/inettuts_codevtt.css" rel="stylesheet" type="text/css" />
+   {include file="tools/graph.html"}
 
     <div id="head">
         <h2>{$dashboardTitle}</h2>
@@ -63,7 +64,7 @@ TODO
         <ul id="column1" class="column">
            {foreach from=$dashboardWidgets key=id item=i}
             <li class="widget {$i.color}" id="{$i.id}">
-               <form><input type="hidden" name="attributesJsonStr" value='{$i.attributesJsonStr}'/></form>
+               <div style="display: none;" class="attributesJsonStr">{$i.attributesJsonStr}</div>
                 <div class="widget-head">
                     <h3>{$i.title}</h3>
                 </div>
@@ -74,7 +75,7 @@ TODO
            {/foreach}
 
             <li class="widget color-yellow">
-                <form><input type="hidden" name="attributesJsonStr" value='{literal}{"pluginClassName":"FakeIndictor2","dateRange":"defaultRange","isGraphOnly":0}{/literal}'/></form>
+                <div style="display: none;" class="attributesJsonStr">{literal}{"pluginClassName":"FakeIndictor1","dateRange":"defaultRange","isGraphOnly":0}{/literal}</div>
                 <div class="widget-head">
                     <h3>Extra Info</h3>
                 </div>
@@ -87,7 +88,7 @@ TODO
                 </div>
             </li>
             <li class="widget color-green">
-                <form><input type="hidden" name="attributesJsonStr" value='{literal}{"pluginClassName":"FakeIndictor3","dateRange":"defaultRange","isGraphOnly":0}{/literal}'/></form>
+                <div style="display: none;" class="attributesJsonStr">{literal}{"pluginClassName":"FakeIndictor2","dateRange":"defaultRange","isGraphOnly":0}{/literal}</div>
                 <div class="widget-head">
                     <h3>Some Random Title</h3>
                 </div>
@@ -218,8 +219,22 @@ TODO
          jQuery(".btSaveDashboard").click(function() {
             console.log("btSaveDashboard");
             
-            // TODO parse the dashboard to get all widgets and their attributesJsonStr
-            var dashboardSettingsJsonStr = "";
+            // TODO parse the dashboard to get all Widgets and their attributesJsonStr
+            var widgetAttributes = [];
+            jQuery('.attributesJsonStr').each(function() {
+               //console.log(this.innerHTML);
+               var attributesJson = jQuery.parseJSON(this.innerHTML);
+               widgetAttributes.push(attributesJson);
+            });
+            //console.log(widgetAttributes);
+
+
+            var dashboardSettingsJson = [];
+            dashboardSettingsJson['dashboardTitle'] = "{$dashboardTitle}";
+            dashboardSettingsJson['displayedPlugins'] = widgetAttributes;
+            console.log(dashboardSettingsJson);
+            var dashboardSettingsJsonStr = JSON.stringify(dashboardSettingsJson);
+            console.log('str = ' + dashboardSettingsJsonStr);
             
             jQuery.ajax({
                type: "POST",
