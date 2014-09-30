@@ -87,31 +87,14 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
       $userid = $_SESSION['userid'];
       $teamid = $_SESSION['teamid'];
       
-      //$logger->error("saveDashboardSettings: dashboardId = " . $dashboardId);
+      // dashboardSettingsJsonStr is a json string containing dashboard & indicator settings.
+      $dashboardSettingsJsonStr = Tools::getSecurePOSTStringValue('dashboardSettingsJsonStr');
+      $dashboardSettings = json_decode(stripslashes($dashboardSettingsJsonStr), true);
+
+      //$logger->error("dashboardSettings = " . var_export($dashboardSettings, true));
       
-      //$dashboardSettingsJsonStr = Tools::getSecurePOSTStringValue('dashboardSettingsJsonStr');
-      //$dashboardSettingsJsonArray = json_decode(stripslashes($dashboardSettingsJsonStr), true);
-      
-      
-      // convert $dashboardSettingsJsonArray to a Dashboard compatible format
-      /*
-       *  settings = array (
-       *     'dashboardTitle' => 'dashboard title'
-       *     'displayedPlugins' => array(
-       *        array(
-       *           'pluginClassName' => <pluginClassName>,
-       *           'plugin_attr1' => 'val',
-       *           'plugin_attr2' => 'val',
-       *        )
-       *     )
-       *  )
-       * 
-       */      
-      $settings = array(); // TODO
-      
-      // $settings is a json string containing dashboard & indicator settings.
-      //$dashboard = new Dashboard($dashboardId);
-      //$dashboard->saveSettings($settings, $teamid, $userid);
+      $dashboard = new Dashboard($dashboardId);
+      $dashboard->saveSettings($dashboardSettings, $teamid, $userid);
 
       // TODO
       // if user is team admin or manager, save also settings for [team]

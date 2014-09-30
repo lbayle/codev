@@ -125,8 +125,24 @@ class Dashboard {
     * @param int $userid if NULL, default settings for team will be saved.
     */
    public function saveSettings($settings, $teamid, $userid = NULL) {
+
+      if (!is_array($settings)) {
+         self::$logger->error("saveSettings: not an array !");
+         return false;
+      }
+      if (!array_key_exists(self::SETTINGS_DISPLAYED_PLUGINS, $settings)) {
+         self::$logger->error("saveSettings: missing key: ".self::SETTINGS_DISPLAYED_PLUGINS);
+         return false;
+      }
+      if (!array_key_exists(self::SETTINGS_DASHBOARD_TITLE, $settings)) {
+         self::$logger->error("saveSettings: missing key: ".self::SETTINGS_DASHBOARD_TITLE);
+         return false;
+      }
+      self::$logger->error("saveSettings: save ok");
+
       
       $jsonSettings = json_encode($settings);
+      self::$logger->error("saveSettings: save ok: " . $jsonSettings);
       Config::setValue(Config::id_dashboard.$this->id, $jsonSettings, Config::configType_string, NULL, 0, $userid, $teamid);
    }
 
@@ -176,7 +192,7 @@ class Dashboard {
             );
          } else {
             // convert json to array
-            $this->settings = json_decode($json);
+            $this->settings = json_decode($json, true);
             if (is_null($this->settings)) {
                self::$logger->error("Dashboard settings: json could not be decoded !");
                $this->settings = array(
@@ -184,6 +200,8 @@ class Dashboard {
                   self::SETTINGS_DISPLAYED_PLUGINS => array(),
                ); // failover
             }
+            // TODO check that expected keys exists ?
+            //self::$logger->error("settings= " . var_export($this->settings, true));
          }
       }
       return $this->settings;
