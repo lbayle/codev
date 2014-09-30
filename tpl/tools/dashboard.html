@@ -219,22 +219,18 @@ TODO
          jQuery(".btSaveDashboard").click(function() {
             console.log("btSaveDashboard");
             
-            // TODO parse the dashboard to get all Widgets and their attributesJsonStr
+            // Parse the dashboard to get all Widgets and their attributesJsonStr
             var widgetAttributes = [];
             jQuery('.attributesJsonStr').each(function() {
-               //console.log(this.innerHTML);
                var attributesJson = jQuery.parseJSON(this.innerHTML);
                widgetAttributes.push(attributesJson);
             });
-            //console.log(widgetAttributes);
 
-
-            var dashboardSettingsJson = [];
+            var dashboardSettingsJson = {};
             dashboardSettingsJson['dashboardTitle'] = "{$dashboardTitle}";
             dashboardSettingsJson['displayedPlugins'] = widgetAttributes;
-            console.log(dashboardSettingsJson);
             var dashboardSettingsJsonStr = JSON.stringify(dashboardSettingsJson);
-            console.log('str = ' + dashboardSettingsJsonStr);
+            console.log('str = ' , dashboardSettingsJsonStr);
             
             jQuery.ajax({
                type: "POST",
