@@ -1260,7 +1260,7 @@ class Project extends Model {
       if(!array_key_exists($target_version,$this->versionDateCache)) {
          $query = "SELECT date_order FROM `mantis_project_version_table` ".
                   "WHERE project_id=$this->id ".
-                  "AND version='$target_version';";
+                  "AND version='".mysql_real_escape_string($target_version)."';";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
