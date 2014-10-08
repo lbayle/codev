@@ -76,7 +76,9 @@ function login($user, $password) {
             }
          }
 			if ($isLog) {
-            $logger->info('user '.$row_login->id.' logged in: '.$row_login->username.' ('.$row_login->realname.')'.' defaultTeam = '.$user->getDefaultTeam());
+            $ua = Tools::getBrowser();
+            $browserStr = $ua['name'] . ' ' . $ua['version'] . ' (' .$ua['platform'].')'; 
+            $logger->info('user '.$row_login->id.' '.$row_login->username.' ('.$row_login->realname.'), Team '.$user->getDefaultTeam().', '.$browserStr);
 			}
         return TRUE;
     } else {
