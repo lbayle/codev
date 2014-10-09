@@ -212,65 +212,72 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          //$activityList = $usersActivity[$userid];
 
          $duration = $tt->getDuration();
-         if ($extProjId == $tt->getProjectId()) {
-            #echo "external ".$tt->getIssueId()."<br>";
-            if ($extTasksCatLeave == $issue->getCategoryId()) {
-               if(array_key_exists('leave',$usersActivity[$userid])) {
-                  $usersActivity[$userid]['leave'] += $duration;
-               } else {
-                  $usersActivity[$userid]['leave'] = $duration;
-               }
-            } else {
-               if(array_key_exists('external',$usersActivity[$userid])) {
-                  $usersActivity[$userid]['external'] += $duration;
-               } else {
-                  $usersActivity[$userid]['external'] = $duration;
-               }
-            }
-
-         } else if ($issue->isSideTaskIssue($teams)) {
-            #echo "sidetask ".$tt->getIssueId()."<br>";
-
-            // if sideTask is in the IssueSelection, then it is considered as 'normal',
-            // else it should not be included
-            if (in_array($issueId, $bugidList)) {
-               $cat = $this->showSidetasks ? 'sidetask' : 'elapsed';
-               if(array_key_exists($cat,$usersActivity[$userid])) {
-                  $usersActivity[$userid][$cat] += $duration;
-               } else {
-                  $usersActivity[$userid][$cat] = $duration;
-               }
-            } else {
-               // all sideTasks are in 'other' except inactivity tasks.
-               $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
-               if ($project->getCategory(Project::cat_st_inactivity) == $issue->getCategoryId()) {
+         try {
+            if ($extProjId == $tt->getProjectId()) {
+               #echo "external ".$tt->getIssueId()."<br>";
+               if ($extTasksCatLeave == $issue->getCategoryId()) {
                   if(array_key_exists('leave',$usersActivity[$userid])) {
                      $usersActivity[$userid]['leave'] += $duration;
                   } else {
                      $usersActivity[$userid]['leave'] = $duration;
                   }
                } else {
-                  if(array_key_exists('other',$usersActivity[$userid])) {
-                     $usersActivity[$userid]['other'] += $duration;
+                  if(array_key_exists('external',$usersActivity[$userid])) {
+                     $usersActivity[$userid]['external'] += $duration;
                   } else {
-                     $usersActivity[$userid]['other'] = $duration;
+                     $usersActivity[$userid]['external'] = $duration;
                   }
                }
-            }
-         } else if (in_array($issueId, $bugidList)) {
-            #echo "selection ".$tt->getIssueId()."<br>";
-            if(array_key_exists('elapsed',$usersActivity[$userid])) {
-               $usersActivity[$userid]['elapsed'] += $duration;
+
+            } else if ($issue->isSideTaskIssue($teams)) {
+               #echo "sidetask ".$tt->getIssueId()."<br>";
+
+               // if sideTask is in the IssueSelection, then it is considered as 'normal',
+               // else it should not be included
+               if (in_array($issueId, $bugidList)) {
+                  $cat = $this->showSidetasks ? 'sidetask' : 'elapsed';
+                  if(array_key_exists($cat,$usersActivity[$userid])) {
+                     $usersActivity[$userid][$cat] += $duration;
+                  } else {
+                     $usersActivity[$userid][$cat] = $duration;
+                  }
+               } else {
+                  // all sideTasks are in 'other' except inactivity tasks.
+                  $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
+                  if ($project->getCategory(Project::cat_st_inactivity) == $issue->getCategoryId()) {
+                     if(array_key_exists('leave',$usersActivity[$userid])) {
+                        $usersActivity[$userid]['leave'] += $duration;
+                     } else {
+                        $usersActivity[$userid]['leave'] = $duration;
+                     }
+                  } else {
+                     if(array_key_exists('other',$usersActivity[$userid])) {
+                        $usersActivity[$userid]['other'] += $duration;
+                     } else {
+                        $usersActivity[$userid]['other'] = $duration;
+                     }
+                  }
+               }
+            } else if (in_array($issueId, $bugidList)) {
+               #echo "selection ".$tt->getIssueId()."<br>";
+               if(array_key_exists('elapsed',$usersActivity[$userid])) {
+                  $usersActivity[$userid]['elapsed'] += $duration;
+               } else {
+                  $usersActivity[$userid]['elapsed'] = $duration;
+               }
             } else {
-               $usersActivity[$userid]['elapsed'] = $duration;
+               #echo "other ".$tt->getIssueId()."<br>";
+               if(array_key_exists('other',$usersActivity[$userid])) {
+                  $usersActivity[$userid]['other'] += $duration;
+               } else {
+                  $usersActivity[$userid]['other'] = $duration;
+               }
             }
-         } else {
-            #echo "other ".$tt->getIssueId()."<br>";
-            if(array_key_exists('other',$usersActivity[$userid])) {
-               $usersActivity[$userid]['other'] += $duration;
-            } else {
-               $usersActivity[$userid]['other'] = $duration;
-            }
+         } catch (Exception $e) {
+            // Issue::isSideTaskIssue() throws an Ex if project not found in mantis
+            self::$logger->error("Unknown activity for issue $issueId, duration ($duration) added to 'elapsed'\n".$e->getMessage());
+            $usersActivity[$userid]['elapsed'] += $duration;
+            // should it be added in userActivity[$userid]['unknown'] ?
          }
       }
       #var_dump($usersActivity);
