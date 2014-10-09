@@ -115,18 +115,22 @@ class IssueInfoController extends Controller {
                   $_SESSION['projectid'] = $defaultProjectid;
 
                } catch (Exception $e) {
-                  // TODO display ERROR "issue not found in mantis DB !"
+                  self::$logger->warn("issue $bug_id not found in mantis DB !");
                }
 
             } else {
-               $defaultProjectid = 0;
-               if((isset($_SESSION['projectid'])) && (0 != $_SESSION['projectid'])) {
-                  $defaultProjectid = $_SESSION['projectid'];
-                  $bugs = SmartyTools::getBugs($defaultProjectid, $bug_id);
-               } else {
-                  $bugs = SmartyTools::getBugs($defaultProjectid, $bug_id, $projList);
+               try {
+                  $defaultProjectid = 0;
+                  if((isset($_SESSION['projectid'])) && (0 != $_SESSION['projectid'])) {
+                     $defaultProjectid = $_SESSION['projectid'];
+                     $bugs = SmartyTools::getBugs($defaultProjectid, $bug_id);
+                  } else {
+                     $bugs = SmartyTools::getBugs($defaultProjectid, $bug_id, $projList);
+                  }
+                  $projects = SmartyTools::getSmartyArray($projList,$defaultProjectid);
+               } catch (Exception $e) {
+                  self::$logger->warn("issue $bug_id not found in mantis DB !");
                }
-               $projects = SmartyTools::getSmartyArray($projList,$defaultProjectid);
             }
             $this->smartyHelper->assign('bugs', $bugs);
             $this->smartyHelper->assign('projects', $projects);
