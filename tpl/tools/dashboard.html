@@ -176,7 +176,7 @@ TODO
                   var formElements = form.find(':input'+ajaxFieldSelector);
                   formElements.filter('[name=pluginAttributesJsonStr]').val(pluginOptionsJSONString);
                   var dataToSend = formElements.serializeArray();
-                  console.log('dataToSend = ', dataToSend.length, dataToSend);
+                  //console.log('dataToSend = ', dataToSend.length, dataToSend);
 
                   $.ajax({
                      url: 'include/dashboard_ajax.php',
@@ -197,6 +197,10 @@ TODO
                         liObj.append(divObj).append(divHeadObj).append(divContentObj);
                         ulObj.append(liObj);
 
+                        $.getScript('js/datepicker.js');
+                        $.getScript('js/chart_libs.js');
+                        loadPerJobIndicatorJsInit();
+                        
                         console.log(liObj);
                         jQuery("#dialogAddDashboardPlugin").dialog("close");
 
@@ -248,6 +252,13 @@ TODO
             
          });
 
+         // ==== initialize plugins ====
+         jQuery('.pluginInitFunction').each(function() {
+            var initFct = this.innerHTML;
+            console.log('pluginInitFunction = ', initFct);
+            eval(initFct)();
+         });
+         
       });
     </script>
 
