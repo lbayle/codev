@@ -197,6 +197,11 @@ TODO
                         liObj.append(divObj).append(divHeadObj).append(divContentObj);
                         ulObj.append(liObj);
 
+                        jQuery("<link/>", {
+                           rel: "stylesheet",
+                           type: "text/css",
+                           href: "lib/jquery.jqplot/jquery.jqplot.min.css"
+                        }).appendTo("head");
                         $.getScript('js/datepicker.js');
                         $.getScript('js/chart_libs.js');
                         loadPerJobIndicatorJsInit();
