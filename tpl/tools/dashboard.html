@@ -185,15 +185,15 @@ TODO
                      data: dataToSend,
                      success: function(data) {
                         //console.log(data['widget']);
-                        var widget = data['widget'];
+                        var widget = data.widget;
 
                         // Add new Widget to the dashboard
                         var ulObj = jQuery("#column1");
-                        var liObj = jQuery('<li></li>').addClass("widget").addClass(widget['color']);
-                        var divHeadObj = jQuery('<div></div>').addClass("widget-head").append(jQuery('<h3></h3>').html(widget['title']));
-                        var divContentObj = jQuery('<div></div>').addClass("widget-content").html(widget['content']);
+                        var liObj = jQuery('<li></li>').addClass("widget").addClass(widget.color);
+                        var divHeadObj = jQuery('<div></div>').addClass("widget-head").append(jQuery('<h3></h3>').html(widget.title));
+                        var divContentObj = jQuery('<div></div>').addClass("widget-content").html(widget.content);
                         
-                        var divObj = jQuery('<div style="display: none;" class="attributesJsonStr"/>').html(widget['attributesJsonStr']);
+                        var divObj = jQuery('<div style="display: none;" class="attributesJsonStr"/>').html(widget.attributesJsonStr);
                         liObj.append(divObj).append(divHeadObj).append(divContentObj);
                         ulObj.append(liObj);
 
