@@ -386,6 +386,7 @@ class PlanningReportController extends Controller {
 
          $sTask = array(
             "bugid" => $scheduledTask->getIssueId(),
+            "extRef" => $issue->getTcId(),
             "title" => $formatedTitle,
             "width" => $drawnTaskPixSize,
             "color" => $color,
