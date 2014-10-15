@@ -38,7 +38,7 @@ msgstr "dias úteis"
 #: tpl/planning_report.html
 #: tpl/set_holidays.html
 #: reports/project_info.php:154
-msgid "Sorry, you need to be member of a Team to access this page."
+msgid "Please select a team to access this page."
 msgstr "Desculpe, voce precisar ser menbro do grupo para acessar esta página."
 
 #: tpl/blog/blogpost_form.html

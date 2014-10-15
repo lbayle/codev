@@ -186,10 +186,9 @@ msgstr "Total"
 #: tpl/mantis_reports.html
 #: tpl/project_activity_report.html
 #: tpl/project_info.html
-msgid "Sorry, you need to be member of a Team to access this page."
+msgid "Please select a team to access this page."
 msgstr ""
-"Sie müssen einem Team zugeordnet sein, um auf diese Seite zugreifen zu "
-"können."
+"Bitte wählen Sie eine Team, um auf diese Seite zugreifen zu können."
 
 #: tpl/logs.html
 msgid "Line"
