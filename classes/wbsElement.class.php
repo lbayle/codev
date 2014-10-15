@@ -259,12 +259,17 @@ class WBSElement extends Model {
       return $childrenIds;
    }
 
+   /**
+    * 
+    * @param type $root_id
+    * @throws Exception
+    */
    public function delete($root_id) {
 
       if ($this->rootId != $root_id) {
             $e = new Exception("delete: WBSElement $id exists with root_id = $this->rootId (expected $root_id)");
-            self::$logger->error("EXCEPTION WBSElement constructor: " . $e->getMessage());
-            self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
+            //self::$logger->error("EXCEPTION WBSElement delete: " . $e->getMessage());
+            //self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
             throw $e;
       }
 
@@ -272,8 +277,8 @@ class WBSElement extends Model {
       $childrenIds = $this->getChildrenIds();
       if ($this->isFolder() && (0 != count($childrenIds))) {
          $e = new Exception("delete: Folder $id must have no Children. (found ".implode(',', $childrenIds).")");
-         self::$logger->error("EXCEPTION: " . $e->getMessage());
-         self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
+         //self::$logger->error("EXCEPTION: " . $e->getMessage());
+         //self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
          throw $e;
       }
 

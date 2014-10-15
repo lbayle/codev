@@ -32,7 +32,15 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
          if (!is_null($nodesToDelete)) {
             foreach ($nodesToDelete as $folder_id) {
                $f = new WBSElement($folder_id, $root_id);
-               $f->delete($root_id);
+               try {
+                  $f->delete($root_id);
+               } catch (Exception $e) {
+                  // happens if user moved children AND deleted the node.
+                  // The node will not be deleted, but at least the rest of the WBS changes
+                  // have a chance to be proceeded.
+                  $logger->error("Node $folder_id not deleted : ".$e->getMessage());
+                  $logger->warn("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
+               }
             }
          }
          WBSElement::updateFromDynatree($rootArray, $root_id);
