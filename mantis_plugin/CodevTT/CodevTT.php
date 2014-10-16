@@ -20,7 +20,7 @@ class CodevTTPlugin extends MantisPlugin {
       $this->description = plugin_lang_get('description');
       $this->page = '';
 
-      $this->version = '0.5';
+      $this->version = '0.6';
       $this->requires = array(
           'MantisCore' => '1.2.0',
       );
@@ -34,6 +34,9 @@ class CodevTTPlugin extends MantisPlugin {
     * Default plugin configuration.
     */
    public function hooks() {
+
+      global $g_event_cache;
+
       //la liste des EVENT se trouve dans core/events_inc.php
       //la construction de l'affichage se fait dans core/html_api.php
       $hooks = array(
@@ -52,6 +55,12 @@ class CodevTTPlugin extends MantisPlugin {
           'EVENT_UPDATE_BUG' => 'checkStatusChanged',
 
       );
+
+      # contributed to MantisBT 1.3
+      if (!is_null($g_event_cache['EVENT_MANAGE_PROJECT_DELETED'])) {
+         $hooks['EVENT_MANAGE_PROJECT_DELETED'] = 'projectDeleted';
+      }
+
       return $hooks;
    }
 
@@ -318,7 +327,7 @@ class CodevTTPlugin extends MantisPlugin {
       }
 
       if ("" != $errMsg) {
-         trigger_error(' CodevTT plugin : you have Timetracks on this issue ! <br><br>'.$errMsg, ERROR);
+         trigger_error(' CodevTT plugin : There are timetracks on this issue ! <br><br>'.$errMsg, ERROR);
       }
 
    }
@@ -344,6 +353,32 @@ class CodevTTPlugin extends MantisPlugin {
             echo "CodevTT plugin ERROR: ".$e->getMessage().'<br>';
             echo "CodevTT plugin ERROR: ".$e->getTraceAsString().'<br>';
          }
+      }
+   }
+
+   /**
+    * Forbid project deletion if timetracks exists of project issues.
+    *
+    * @param type $event
+    * @param type $project_id
+    */
+   public function projectDeleted($event, $project_id) {
+
+      $query = "SELECT codev_timetracking_table.bugid, codev_timetracking_table.date, codev_timetracking_table.userid, codev_timetracking_table.duration, ".
+              "mantis_user_table.username, mantis_user_table.realname ".
+              "FROM `codev_timetracking_table`, `mantis_user_table` ".
+              "WHERE codev_timetracking_table.userid = mantis_user_table.id ".
+              "AND codev_timetracking_table.bugid IN (".
+              "   SELECT id FROM mantis_bug_table WHERE project_id = '$project_id')";
+
+      $errMsg = "";
+      $result = mysql_query($query) or exit(mysql_error());
+      while ($row = mysql_fetch_object($result)) {
+         $errMsg .= 'Issue '.$row->bugid.': '.date('Y-m-d',$row->date)." - $row->username ($row->realname) - duration $row->duration <br>";
+      }
+
+      if ("" != $errMsg) {
+         trigger_error(' CodevTT plugin : There are timetracks on project issues ! <br><br>'.$errMsg, ERROR);
       }
    }
 
