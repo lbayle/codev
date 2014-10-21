@@ -16,8 +16,11 @@ TODO
 
 
    <link href="lib/inettuts/inettuts_codevtt.css" rel="stylesheet" type="text/css" />
-   {include file="tools/graph.html"}
+   {foreach from=$dashboardPluginCssFiles key=id item=i}
+   <link href="{$i}" rel="stylesheet" type="text/css" />
+   {/foreach}
 
+   
     <div id="head">
         <h2>{$dashboardTitle}</h2>
          <button  title="{t}Add an indicator to the dashboard{/t}" onclick="addDashboardPlugin();return false;">
@@ -103,6 +106,9 @@ TODO
     </div>
 
     <script type="text/javascript" src="lib/inettuts/inettuts_codevtt.js"></script>
+   {foreach from=$dashboardPluginJsFiles key=id item=i}
+    <script type="text/javascript" src="{$i}"></script>
+   {/foreach}
 
     <script type="text/javascript">
       function addDashboardPlugin(){
