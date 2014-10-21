@@ -90,6 +90,28 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
    public static function isCategory($category) {
       return in_array($category, self::$categories);
    }
+   public static function getCssFiles() {
+      return array(
+          'lib/jquery.jqplot/jquery.jqplot.min.css'
+      );
+   }
+   public static function getJsFiles() {
+      return array(
+          'js/datepicker.js',
+         'lib/jquery.jqplot/jquery.jqplot.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.dateAxisRenderer.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.cursor.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.pointLabels.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.highlighter.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.pieRenderer.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.canvasTextRenderer.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.canvasOverlay.min.js',
+         'js/chart.js',
+      );
+   }
 
    
    /**
@@ -358,14 +380,16 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          'loadPerUserIndicator_tableData' => $tableData,
          'loadPerUserIndicator_jqplotData' => Tools::array2json($jqplotData),
          'loadPerUserIndicator_colors' => $formatedColors,
-         'loadPerJobIndicator_jqplotSeriesColors' => $seriesColors, // TODO get rid of this
+         'loadPerUserIndicator_jqplotSeriesColors' => $seriesColors, // TODO get rid of this
          'LoadPerUserIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
          'LoadPerUserIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
       );
       
       if (false == $isAjaxCall) {
-         $smartyVariables['LoadPerUserIndicator_ajaxFile'] = LoadPerUserIndicator::getSmartySubFilename();
-         $smartyVariables['LoadPerUserIndicator_ajaxPhpURL'] = LoadPerUserIndicator::getAjaxPhpURL();
+         $smartyVariables['LoadPerUserIndicator_ajaxFile'] = self::getSmartySubFilename();
+         $smartyVariables['LoadPerUserIndicator_ajaxPhpURL'] = self::getAjaxPhpURL();
+         $smartyVariables['LoadPerUserIndicator_jsFiles'] = Tools::array2json(self::getJsFiles());
+         $smartyVariables['LoadPerUserIndicator_cssFiles'] = Tools::array2json(self::getCssFiles());
       }
       
       return $smartyVariables;

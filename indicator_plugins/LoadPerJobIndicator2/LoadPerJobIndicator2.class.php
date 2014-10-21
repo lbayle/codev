@@ -88,6 +88,28 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
    public static function isCategory($category) {
       return in_array($category, self::$categories);
    }
+   public static function getCssFiles() {
+      return array(
+          'lib/jquery.jqplot/jquery.jqplot.min.css'
+      );
+   }
+   public static function getJsFiles() {
+      return array(
+         'js/datepicker.js',
+         'lib/jquery.jqplot/jquery.jqplot.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.dateAxisRenderer.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.cursor.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.pointLabels.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.highlighter.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.pieRenderer.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.canvasTextRenderer.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.canvasOverlay.min.js',
+         'js/chart.js',
+      );
+   }
 
 
    /**
@@ -248,8 +270,8 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
          'loadPerJobIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $startTimestamp),
          'loadPerJobIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $endTimestamp),
          #'loadPerJobIndicatorFile' => LoadPerJobIndicator::getSmartyFilename(), // added in controller
-         'loadPerJobIndicator_ajaxFile' => LoadPerJobIndicator2::getSmartySubFilename(),
-         'loadPerJobIndicator_ajaxPhpURL' => LoadPerJobIndicator2::getAjaxPhpURL(),
+         'loadPerJobIndicator_ajaxFile' => self::getSmartySubFilename(),
+         'loadPerJobIndicator_ajaxPhpURL' => self::getAjaxPhpURL(),
       );
    }
 
@@ -282,9 +304,11 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
          'loadPerJobIndicator_jqplotSeriesColors' => $seriesColors, // TODO get rid of this
          'loadPerJobIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $startTimestamp),
          'loadPerJobIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $endTimestamp),
+         'loadPerJobIndicator_jsFiles' => Tools::array2json(self::getJsFiles()),
+         'loadPerJobIndicator_cssFiles' => Tools::array2json(self::getCssFiles()),
       );
    }
-   
+
 }
 
 // Initialize static variables

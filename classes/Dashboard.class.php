@@ -220,6 +220,8 @@ class Dashboard {
       // insert widgets
       $pluginDataProvider = PluginDataProvider::getInstance();
       $idx = 1;
+      $dashboardPluginCssFiles = array();
+      $dashboardPluginJsFiles = array();
       foreach ($this->settings[self::SETTINGS_DISPLAYED_PLUGINS] as $pluginAttributes) {
 
          $pClassName = $pluginAttributes['pluginClassName'];
@@ -231,8 +233,21 @@ class Dashboard {
          }
 
          $widget = self::getWidget($pluginDataProvider, $smartyHelper, $pluginAttributes, $idx);
-
          $dashboardWidgets[] = $widget;
+
+         // get all mandatory CSS files
+         foreach ($pClassName::getCssFiles() as $cssFile) {
+            if (!in_array($cssFile, $dashboardPluginCssFiles)) {
+               array_push($dashboardPluginCssFiles, $cssFile);
+            }
+         }         
+         // get all mandatory JS files
+         foreach ($pClassName::getJsFiles() as $jsFile) {
+            if (!in_array($jsFile, $dashboardPluginJsFiles)) {
+               array_push($dashboardPluginJsFiles, $jsFile);
+            }
+         }         
+         
          $idx += 1;
       }
 
@@ -250,8 +265,10 @@ class Dashboard {
          'dashboardId' => $this->id,
          'dashboardTitle' => 'title', // TODO use SETTINGS_DASHBOARD_TITLE
          'dashboardPluginCandidates' => $dashboardPluginCandidates,
-         'dashboardWidgets' =>  $dashboardWidgets
-         );
+         'dashboardWidgets' =>  $dashboardWidgets,
+         'dashboardPluginCssFiles' => $dashboardPluginCssFiles,
+         'dashboardPluginJsFiles' => $dashboardPluginJsFiles,
+              );
    }
 
    /**

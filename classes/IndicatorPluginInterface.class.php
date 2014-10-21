@@ -92,6 +92,22 @@ interface IndicatorPluginInterface {
    public static function getAjaxPhpURL();
 
    /**
+    * the plugin may need some external libraries.
+    * this function returns an array of .js files
+    * that the dashboard will load when displaying
+    * the plugin
+    */
+   public static function getJsFiles();
+
+   /**
+    * the plugin may need some css files.
+    * this function returns an array of .css files
+    * that the dashboard will load when displaying
+    * the plugin
+    */
+   public static function getCssFiles();
+
+   /**
     * Options must be saved in DB and are specific per [team,user] & dashboard.
     * It is the responsibility of the Dashboard class to save those settings.
     *
