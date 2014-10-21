@@ -665,45 +665,6 @@ class Issue extends Model implements Comparable {
     * @param int $job_id if no category specified, then all category.
     * @return int
     */
-   public function getElapsed_old($job_id = NULL) {  // TODO $doRefresh = false
-
-      if(NULL == $this->elapsedCache) {
-         $this->elapsedCache = array();
-      }
-
-      $key = 'j'.$job_id;
-      if(!array_key_exists("$key", $this->elapsedCache)) {
-         $query = "SELECT SUM(duration) as duration ".
-                  "FROM `codev_timetracking_table` ".
-                  "WHERE bugid = ".$this->bugId;
-
-         if (isset($job_id)) {
-            $query .= " AND jobid = $job_id";
-         }
-
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-
-         $this->elapsedCache["$key"] = round(SqlWrapper::getInstance()->sql_result($result),2);
-         #if(self::$logger->isDebugEnabled()) {
-         #   self::$logger->debug("getElapsed(job=".$job_id."): set elapsedCache[$key] = ".$this->elapsedCache["$key"]);
-         #}
-      }
-
-      #if(self::$logger->isDebugEnabled()) {
-      #   self::$logger->debug("getElapsed(job=".$job_id."): ".$this->elapsedCache["$key"]);
-      #}
-      return $this->elapsedCache["$key"];
-   }
-
-   /**
-    * Get elapsed from TimeTracking
-    * @param int $job_id if no category specified, then all category.
-    * @return int
-    */
    public function getElapsed($job_id = NULL, $startTimestamp = NULL, $endTimestamp = NULL) {
 
       // TODO $doRefresh = false
