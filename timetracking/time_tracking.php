@@ -132,27 +132,33 @@ class TimeTrackingController extends Controller {
                   self::$logger->error("Add track : FAILED. issue=$defaultBugid, jobid=$job, duration=$duration date=$defaultDate");
                }
 
-               $timestamp = (0 !== $defaultDate) ? Tools::date2timestamp($defaultDate) : 0;
+               // check bug_id (this happens when user uses the 'back' button of the browser ?)
+               if (0 == $defaultBugid) {
+                  self::$logger->error("Add track : FAILED. issue=0, jobid=$job, duration=$duration date=$defaultDate");
+                  
+               } else {
+                  $timestamp = (0 !== $defaultDate) ? Tools::date2timestamp($defaultDate) : 0;
 
-               $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration);
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("Track $trackid added  : userid=$managed_userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
-               }
+                  $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration);
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("Track $trackid added  : userid=$managed_userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
+                  }
 
-               $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+                  $issue = IssueCache::getInstance()->getIssue($defaultBugid);
 
-               // setBacklog
-               $formattedBacklog = Tools::getSecurePOSTNumberValue('backlog');
-               $issue->setBacklog($formattedBacklog);
+                  // setBacklog
+                  $formattedBacklog = Tools::getSecurePOSTNumberValue('backlog');
+                  $issue->setBacklog($formattedBacklog);
 
-               // setStatus
-               $newStatus = Tools::getSecurePOSTIntValue('statusid');
-               $issue->setStatus($newStatus);
+                  // setStatus
+                  $newStatus = Tools::getSecurePOSTIntValue('statusid');
+                  $issue->setStatus($newStatus);
 
+                  $defaultProjectid = $issue->getProjectId();
+               }                  
                // Don't show job and duration after add track
                $job = 0;
                $duration = 0;
-               $defaultProjectid = $issue->getProjectId();
             }
             elseif ("deleteTrack" == $action) {
                $trackid = Tools::getSecurePOSTIntValue('trackid');
@@ -168,19 +174,24 @@ class TimeTrackingController extends Controller {
                   self::$logger->error("Delete track $trackid  : FAILED.");
                }
 
-               try {
-                  // pre-set form fields
-                  $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-                  $defaultProjectid  = $issue->getProjectId();
+               if (0 == $defaultBugid) {
+                  self::$logger->error("Delete track : bug_id=0");
+                  $defaultProjectid  = 0;
+               } else {
+                  try {
+                     // pre-set form fields
+                     $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+                     $defaultProjectid  = $issue->getProjectId();
 
-                  // if project not defined for current team, do not pre-set form fields.
-                  if (!in_array($defaultProjectid, array_keys($team->getProjects()))) {
+                     // if project not defined for current team, do not pre-set form fields.
+                     if (!in_array($defaultProjectid, array_keys($team->getProjects()))) {
+                        $defaultProjectid  = 0;
+                        $defaultBugid = 0;
+                     }
+                  } catch (Exception $e) {
                      $defaultProjectid  = 0;
                      $defaultBugid = 0;
                   }
-               } catch (Exception $e) {
-                  $defaultProjectid  = 0;
-                  $defaultBugid = 0;
                }
             }
             elseif ("setBugId" == $action) {
