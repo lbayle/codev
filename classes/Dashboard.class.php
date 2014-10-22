@@ -314,6 +314,8 @@ class Dashboard {
          'desc' => $pluginClassName::getDesc(),
          'category' => implode(',', $pluginClassName::getCategories()),
          'attributesJsonStr' => json_encode($pluginAttributes),
+         'jsFiles' => $pluginClassName::getJsFiles(),
+         'cssFiles' => $pluginClassName::getCssFiles(),
          'content' => $indicatorHtmlContent,
       );
       return $widget;
