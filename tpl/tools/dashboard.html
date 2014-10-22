@@ -220,10 +220,15 @@ TODO
       
                         //console.log('js files to load:', widget.jsFiles);
                         jQuery.each(widget.jsFiles, function( index, value ) {
-                           $.getScript(value);
+                           //$.getScript(value);
+                           $.ajax({
+                                 async: false,
+                                 url: value,
+                                 dataType: "script"
+                           });
                         });      
                         console.log('js load done');
-                        alert('waiting for async JS load...');
+                        //alert('waiting for async JS load...');
                         loadPerJobIndicatorJsInit();
                         
                         jQuery("#dialogAddDashboardPlugin").dialog("close");
