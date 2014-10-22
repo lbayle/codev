@@ -388,8 +388,6 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
       if (false == $isAjaxCall) {
          $smartyVariables['LoadPerUserIndicator_ajaxFile'] = self::getSmartySubFilename();
          $smartyVariables['LoadPerUserIndicator_ajaxPhpURL'] = self::getAjaxPhpURL();
-         $smartyVariables['LoadPerUserIndicator_jsFiles'] = Tools::array2json(self::getJsFiles());
-         $smartyVariables['LoadPerUserIndicator_cssFiles'] = Tools::array2json(self::getCssFiles());
       }
       
       return $smartyVariables;

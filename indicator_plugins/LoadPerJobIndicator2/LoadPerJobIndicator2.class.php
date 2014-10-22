@@ -304,8 +304,6 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
          'loadPerJobIndicator_jqplotSeriesColors' => $seriesColors, // TODO get rid of this
          'loadPerJobIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $startTimestamp),
          'loadPerJobIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $endTimestamp),
-         'loadPerJobIndicator_jsFiles' => Tools::array2json(self::getJsFiles()),
-         'loadPerJobIndicator_cssFiles' => Tools::array2json(self::getCssFiles()),
       );
    }
 
