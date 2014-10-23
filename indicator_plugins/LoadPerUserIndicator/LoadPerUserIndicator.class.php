@@ -381,13 +381,13 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          'loadPerUserIndicator_jqplotData' => Tools::array2json($jqplotData),
          'loadPerUserIndicator_colors' => $formatedColors,
          'loadPerUserIndicator_jqplotSeriesColors' => $seriesColors, // TODO get rid of this
-         'LoadPerUserIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
-         'LoadPerUserIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
+         'loadPerUserIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
+         'loadPerUserIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
       );
       
       if (false == $isAjaxCall) {
-         $smartyVariables['LoadPerUserIndicator_ajaxFile'] = self::getSmartySubFilename();
-         $smartyVariables['LoadPerUserIndicator_ajaxPhpURL'] = self::getAjaxPhpURL();
+         $smartyVariables['loadPerUserIndicator_ajaxFile'] = self::getSmartySubFilename();
+         $smartyVariables['loadPerUserIndicator_ajaxPhpURL'] = self::getAjaxPhpURL();
       }
       
       return $smartyVariables;
