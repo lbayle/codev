@@ -34,11 +34,6 @@
       // Set the date
       var startDatePicker = jQuery(".helloWorld_startdatepicker").datepicker("setDate" ,"{$helloWorldIndicator_startDate}");
 
-      // Add range date
-      startDatePicker.datepicker("option","beforeShow",function(input) {
-         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
-      });
-
       // ------------------------
       // on reload with new date range
       jQuery('.helloWorld_submit').click(function(event) {
