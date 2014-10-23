@@ -164,8 +164,10 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
 
       if (NULL != $pluginSettings) {
 
-         // TODO set default valus, then override with $indicatorOptions
+         // set default values
+         $this->pluginSettings[self::OPTION_IS_GRAPH_ONLY] = false;
 
+         // then override with $pluginSettings
          if (array_key_exists(self::OPTION_IS_GRAPH_ONLY, $pluginSettings)) {
             $this->pluginSettings[self::OPTION_IS_GRAPH_ONLY] = $pluginSettings[self::OPTION_IS_GRAPH_ONLY];
          }
