@@ -227,9 +227,11 @@ TODO
                                  dataType: "script"
                            });
                         });   
-                        
                         //console.log('js load done');
-                        loadPerJobIndicatorJsInit();
+
+                        var functionName = jQuery(widget.content).find('.pluginInitFunction').text();
+                        //console.log("pluginInitFunction", functionName);
+                        window[functionName]();
                         
                         jQuery("#dialogAddDashboardPlugin").dialog("close");
                      },
@@ -284,7 +286,7 @@ TODO
          jQuery('.pluginInitFunction').each(function() {
             var initFct = this.innerHTML;
             console.log('pluginInitFunction = ', initFct);
-            eval(initFct)();
+            window[initFct]();
          });
          
       });

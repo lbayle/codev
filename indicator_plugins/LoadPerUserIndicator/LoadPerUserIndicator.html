@@ -13,6 +13,7 @@
    </form>
 </div>
 <div>
+   <div class="pluginInitFunction"  style="display: none;">loadPerUserIndicatorJsInit</div>
    <div id="loadPerUserIndicatorDiv" align="left" style="margin-top: 1em;">
       {include file="`$loadPerUserIndicator_ajaxFile`"}
    </div>
@@ -22,7 +23,9 @@
 
 <script type="text/javascript">
 
-   jQuery(document).ready(function() {
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function loadPerUserIndicatorJsInit() {
       // ------------------------
       // datepicker
 
@@ -84,6 +87,6 @@
       updateChart(chart, '{$loadPerUserIndicator_jqplotData}');
       // WARN: something strange with the updateChart, all lines after it won't be executed !!
 
-   });
+   };
 </script>
 </div>
