@@ -1,0 +1,70 @@
+<div class="HelloWorldIndicator">
+
+<div align="left" style="margin-top:1em;">
+   <form id="helloWorldIndicator_dateRange_form" method="get" action="{$helloWorldIndicator_ajaxPhpURL}">
+      <fieldset>
+         <label for="helloWorld_startdatepicker">{t}Greetings date{/t}:</label>
+         <input type="text" class="helloWorld_startdatepicker datepicker" name="helloWorld_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <input class="helloWorld_submit" type="submit" value="{t}Display{/t}" />
+         <input type="hidden" name="action" value="getHelloWorldIndicator" />
+      </fieldset>
+   </form>
+</div>
+<div>
+   <div class="pluginInitFunction"  style="display: none;">helloWorldIndicatorJsInit</div>
+   <div class="helloWorldIndicatorDiv" align="left" style="margin-top: 1em;">
+      {include file="`$helloWorldIndicator_ajaxFile`"}
+   </div>
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<script type="text/javascript">
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function helloWorldIndicatorJsInit() {
+
+      // ------------------------
+      // datepicker
+
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+      // Set the date
+      var startDatePicker = jQuery(".helloWorld_startdatepicker").datepicker("setDate" ,"{$helloWorldIndicator_startDate}");
+
+      // Add range date
+      startDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+      });
+
+      // ------------------------
+      // on reload with new date range
+      jQuery('.helloWorld_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+
+         var form = jQuery('#helloWorldIndicator_dateRange_form');
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: type,
+            url: url,
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+               jQuery(".helloWorldIndicatorDiv").html(jQuery.trim(data['helloWorld_htmlTable']));
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+      });
+   };
+</script>
+</div>
