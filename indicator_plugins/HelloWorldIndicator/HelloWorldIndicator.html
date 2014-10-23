@@ -55,7 +55,7 @@
             dataType:"json",
             data: form.serialize(),
             success: function(data) {
-               jQuery(".helloWorldIndicatorDiv").html(jQuery.trim(data['helloWorld_htmlTable']));
+               jQuery(".helloWorldIndicatorDiv").html(jQuery.trim(data['helloWorld_htmlContent']));
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
