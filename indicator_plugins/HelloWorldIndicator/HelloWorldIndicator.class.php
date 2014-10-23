@@ -30,10 +30,9 @@ class HelloWorldIndicator extends IndicatorPluginAbstract {
    private static $domains;
    private static $categories;
 
-   // params from PluginMangerFacade
+   // params from PluginDataProvider
    //private $inputIssueSel;
    private $startTimestamp;
-   private $endTimestamp;
 
    // config options from Dashboard
    private $pluginSettings;

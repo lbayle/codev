@@ -109,7 +109,7 @@ class PluginManager {
          }
          $validPlugins[$file] = 0; // '0' means not yet checked with DB
       }
-      #echo "Plugins: ".implode(',', array_keys($validPlugins)).'<br>';
+      self::$logger->debug("validPlugins: ".var_export($validPlugins, true));
 
       // compare with DB list
       $query = "SELECT * FROM `codev_plugin_table`;";
