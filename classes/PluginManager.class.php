@@ -192,7 +192,7 @@ class PluginManager {
          }
       }
 
-      // if plugin status changed, re-generates the classmap.ser
+      // if plugin status changed, re-generate the classmap.ser
       if (true == $hasChanged) {
          $this->updateClassmap();
       }
