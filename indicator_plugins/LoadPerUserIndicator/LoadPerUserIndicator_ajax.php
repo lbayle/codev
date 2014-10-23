@@ -38,7 +38,8 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             
             $pluginDataProvider = unserialize($_SESSION['pluginDataProvider_xxx']);
             if (FALSE != $pluginDataProvider) {
-               
+
+               // TODO do not log exception if date = 01-01-1970
                $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerUser_startdate"));
                $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerUser_enddate"));
          
