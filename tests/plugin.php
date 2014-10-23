@@ -40,9 +40,12 @@ class PluginDashboardController extends Controller {
 
          $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
+         $startTimestamp = Tools::date2timestamp('2013-11-22');
+         $endTimestamp = Tools::date2timestamp('2014-06-22');
+
 
          // ------ START TESTS
-         //if (FALSE == Tools::createClassMap()) { echo "ERROR createClassMap";}
+         if (FALSE == Tools::createClassMap()) { echo "ERROR createClassMap";}
          $pm = PluginManager::getInstance();
          $pm->discoverNewPlugins();
 
@@ -52,8 +55,8 @@ class PluginDashboardController extends Controller {
          $pluginDataProvider = PluginDataProvider::getInstance();
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $cmd->getIssueSelection());
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $teamid);
-         //$pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
-         //$pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
+         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
+         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
 
          // save the DataProvider for Ajax calls
          $_SESSION['pluginDataProvider_xxx'] = serialize($pluginDataProvider);
