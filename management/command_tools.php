@@ -113,6 +113,32 @@ class CommandTools {
       return $provArray;
    }
 
+   /**
+    * @param Command $command
+    * @return mixed[]
+    */
+   private static function getProvisionTotalList(Command $command, int $type = NULL) {
+      $provTotalArray = array();
+
+/*      
+      "Management" => integer
+      "Risk" => entier
+*/      
+      
+      $provisions = $command->getProvisionList($type);
+      $globalTotal = 0;
+      foreach ($provisions as $id => $prov) {
+
+          $type = CommandProvision::$provisionNames[$prov->getType()];
+          $budget_days = $prov->getProvisionDays();
+          
+          $provTotalArray["$type"] += $budget_days;
+          $globalTotal += $budget_days;
+      }
+      $provTotalArray['TOTAL'] = $globalTotal;
+      return $provTotalArray;
+   }
+
 
    /**
     * get all internal bugs of the command
@@ -441,6 +467,7 @@ class CommandTools {
 
       $smartyHelper->assign('cmdProvisionList', self::getProvisionList($cmd));
       $smartyHelper->assign('cmdProvisionTypeMngt', CommandProvision::provision_mngt);
+      $smartyHelper->assign('cmdProvisionTotalList', self::getProvisionTotalList($cmd));
 
       $cmdTotalSoldDays = $cmd->getTotalSoldDays();
       $smartyHelper->assign('cmdTotalSoldDays', $cmdTotalSoldDays);

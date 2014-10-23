@@ -163,6 +163,7 @@
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-1">{t}Charges{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_wbs">{t}WBS{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_attributes">{t}Attributes{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_provisions">{t}Provisions{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-3">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-2">{t}Activity{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
@@ -255,6 +256,71 @@
          </table>
 
 
+      </div>
+      
+      <div id="tab_provisions">
+          {if isset($isManager) && $isManager}
+          
+          <table class="invisible">
+              <tbody>
+                  <tr> 
+                    <th valign="top">{t}Total{/t}</th>
+                    <td valign="top">: </td>
+                      <td>
+                    {if $cmdProvisionTotalList}
+                    <table>
+                       {foreach $cmdProvisionTotalList as $id => $value}
+                        <tr>
+                            <td>{$id}</td>
+                            <td>{$value}</td>
+                        </tr>
+                       {/foreach}
+                    </table>
+                    {else}
+                    {t}None{/t}
+                    {/if}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th valign="top">{t}Provisions{/t}</th>
+                    <td valign="top">: </td>
+                    <td>
+                    {if $cmdProvisionList}
+                    <table>
+                       <tr>
+                          <th>{t}Date{/t}</th>
+                          <th>{t}Type{/t}</th>
+                          <th>{t}Budget Days{/t}</th>
+                          <th>{t}Budget{/t}</th>
+                          <th title="{t}Average Daily Rate{/t}">{t}ADR{/t}</th>
+                          <th>{t}Summary{/t}</th>
+                          <th></th>
+                       </tr>
+                       {foreach $cmdProvisionList as $id => $prov}
+                       <tr>
+                          <td>{$prov.date}</td>
+                          <td>{$prov.type}</td>
+                          <td>{$prov.budget_days}</td>
+                          <td style="text-align:right">{$prov.budget} {$prov.currency}</td>
+                          <td>{$prov.average_daily_rate}</td>
+                          <td>{$prov.summary}</td>
+                          <td title="{if ($prov.isInCheckBudget)}{t}Provision included in 'check budget'{/t}{else}{t}Provision NOT included in 'check budget'{/t}{/if}"><input {if ($prov.isInCheckBudget)}checked="checked"{/if} type="checkbox" disabled="disabled" id="cb_isInCheckBudget" /></td>
+                       </tr>
+                       {/foreach}
+                    </table>
+                    {else}
+                    {t}None{/t}
+                    {/if}
+                    </td>
+                  </tr>
+              </tbody>
+          </table>
+          
+          
+          
+                  
+           {/if}
+           
       </div>
       <div id="tabsName-3">
          {if $cmdShortIssueList}
