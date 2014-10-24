@@ -272,12 +272,12 @@ class Dashboard {
    }
 
    /**
-    *
-    * @param type $smartyHelper
-    * @param type $pluginClassName
-    * @param type $pluginAttributes
-    * @param type $idx
-    * @return type
+    * 
+    * @param PluginDataProvider $pluginDataProvider
+    * @param SmartyHelper $smartyHelper
+    * @param array $pluginAttributes
+    * @param int $idx
+    * @return array
     */
    public static function getWidget($pluginDataProvider, $smartyHelper, $pluginAttributes, $idx) {
 
