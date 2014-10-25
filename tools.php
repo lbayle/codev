@@ -1627,6 +1627,11 @@ class Tools {
       $lib_class_map = ClassFileMapFactory::generate(Constants::$codevRootDir);
       $_autoloader = new ClassFileMapAutoloader();
       $_autoloader->addClassFileMap($lib_class_map);
+
+      // reload classmap, so that new classes are accessible
+      $_autoloader->registerAutoload();
+      
+      // write to file
       $data = serialize($_autoloader);
       if(file_put_contents(Constants::$codevRootDir.'/classmap.ser',$data)) {
          return TRUE;
