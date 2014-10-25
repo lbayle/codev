@@ -44,12 +44,8 @@ class PluginManagerController extends Controller {
             $this->smartyHelper->assign('accessDenied', TRUE);
          } else {
 
-            // discover new plugins
-            if (FALSE == Tools::createClassMap()) { echo "ERROR createClassMap";}
-            $pm = PluginManager::getInstance();
-            $pm->discoverNewPlugins();
-            
             $action = Tools::getSecurePOSTStringValue('action', 'display');
+            $pm = PluginManager::getInstance();
 
             // === ACTIONS =====================================================
             if ('enablePlugin' == $action) {
@@ -60,6 +56,13 @@ class PluginManagerController extends Controller {
                $pluginName = Tools::getSecurePOSTStringValue('pluginName');
                $pm->disablePlugin($pluginName);
 
+            } else if ('discoverNewPlugins' == $action) {
+               if (FALSE == Tools::createClassMap()) {
+                  $this->smartyHelper->assign('errorMsg', T_('Could not create classmap, check classmap.ser permissions.'));
+               } else {
+                  $pm->discoverNewPlugins();
+                  //$this->smartyHelper->assign('infoMsg', T_('Found xx new plugins !'));
+               }
             }
             
             // === DISPLAY =====================================================
