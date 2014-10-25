@@ -35,7 +35,7 @@ class HelloWorldIndicator extends IndicatorPluginAbstract {
    private $startTimestamp;
 
    // config options from Dashboard
-   private $pluginSettings;
+   private $isDateDisplayed;
 
    // internal
    protected $execData;
@@ -112,34 +112,25 @@ class HelloWorldIndicator extends IndicatorPluginAbstract {
          $this->startTimestamp = time();
       }
 
+      // set default pluginSettings
+      $this->isDateDisplayed = true;
+
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("checkParams() startTimestamp=".$this->startTimestamp);
       }
    }
 
    /**
-    * Values will be saved by the Dashboard
-    * @return array
-    */
-   //public function getPluginSettings() {
-   //   return $this->pluginSettings;
-   //}
-
-   /**
-    * settings are saved by the Dashboard
+    * User preferences are saved by the Dashboard
     *
     * @param type $pluginSettings
     */
    public function setPluginSettings($pluginSettings) {
 
       if (NULL != $pluginSettings) {
-
-         // set default valus
-         $this->pluginSettings[self::OPTION_IS_DATE_DISPLAYED] = true;
-
-         // override with $indicatorOptions
+         // override default with user preferences
          if (array_key_exists(self::OPTION_IS_DATE_DISPLAYED, $pluginSettings)) {
-            $this->pluginSettings[self::OPTION_IS_DATE_DISPLAYED] = $pluginSettings[self::OPTION_IS_DATE_DISPLAYED];
+            $this->isDateDisplayed = $pluginSettings[self::OPTION_IS_DATE_DISPLAYED];
          }
       }
    }
@@ -169,6 +160,9 @@ class HelloWorldIndicator extends IndicatorPluginAbstract {
       $smartyVariables = array(
          'helloWorldIndicator_greetings' => $this->execData['greetings'],
          'helloWorldIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $this->execData['startTimestamp']),
+
+         // add pluginSettings (if needed by smarty)
+         'helloWorldIndicator_'.self::OPTION_IS_DATE_DISPLAYED => $this->isDateDisplayed,
       );
 
       if (false == $isAjaxCall) {
