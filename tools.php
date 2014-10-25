@@ -1080,13 +1080,12 @@ class Tools {
 
    /**
     * Escapes special characters in a string
-    * TODO Don't use mysql_escape_string
     * @static
     * @param string $unescaped_string The string that is to be escaped.
     * @return string the escaped string, or false on error.
     */
    public static function escape_string($unescaped_string) {
-      return mysql_escape_string($unescaped_string);
+      return SqlWrapper::getInstance()->sql_real_escape_string($unescaped_string);
    }
 
    /**
