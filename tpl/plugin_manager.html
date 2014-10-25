@@ -1,0 +1,63 @@
+<div class="pluginManger" style="margin-top:4em;margin-left:5em">
+   
+   <table>
+      <thead>
+         <tr>
+            <th></th>
+            <th>{t}Plugin{/t}</th>
+            <th>{t}Version{/t}</th>
+            <th>{t}Category{/t}</th>
+            <th>{t}Domain(s){/t}</th>
+            <th>{t}Status{/t}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach $availablePlugins as $pname => $plugin}
+         <tr>
+            <td>
+               {if 0 == $plugin.status}
+               <a title="{t}Enable Plugin{/t}" href="{$page}" onclick="enablePlugin('{$pname}');return false;">
+                  <img src="images/b_markAsRead.png" alt="{t}Enable Plugin{/t}">      
+               </a>
+               {/if}
+               {if 1 == $plugin.status}
+               <a title="{t}Disable Plugin{/t}" href="{$page}" onclick="disablePlugin('{$pname}');return false;">
+                  <img src="images/b_drop.png" alt="{t}Enable Plugin{/t}">
+               </a>
+               {/if}
+               {if 2 == $plugin.status}
+               {/if}
+            </td>
+            <td><div style="font-size : large;">{$pname}</div><br>
+               {$plugin.description}</td>
+            <td>{$plugin.version}</td>
+            <td>{$plugin.categories}</td>
+            <td>{$plugin.domains}</td>
+            <td {if 1 == $plugin.status}bgcolor="#BFFFC4"{/if}>{$plugin.statusName}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
+
+   <form id="pluginActivationForm" name="pluginActivationForm" method="post" action="{$page}" class="ui-helper-hidden">
+      <fieldset>
+         <input type="hidden" name="action" value="" />
+         <input type="hidden" name="pluginName" value="" />
+      </fieldset>
+   </form>
+   <script type="text/javascript">
+      function enablePlugin(plugin_name){
+         var form = jQuery("#pluginActivationForm");
+         form.find("input[name=action]").val('enablePlugin');
+         form.find("input[name=pluginName]").val(plugin_name);
+         form.submit();
+      }
+      function disablePlugin(plugin_name){
+         var form = jQuery("#pluginActivationForm");
+         form.find("input[name=action]").val('disablePlugin');
+         form.find("input[name=pluginName]").val(plugin_name);
+         form.submit();
+      }
+   </script>
+   
+</div>

@@ -34,6 +34,9 @@ class PluginManager {
    const PLUGIN_STATUS_ENABLED = 1;
    const PLUGIN_STATUS_REMOVED = 2; // TODO define what this implies
 
+   // literal names for plugin status
+   public static $statusNameList;
+   
    /**
     * Singleton
     * @var PluginManager
@@ -47,7 +50,6 @@ class PluginManager {
    // an image of the DB
    private $plugins;
 
-
    /**
     * The singleton pattern
     * @static
@@ -59,14 +61,23 @@ class PluginManager {
       }
       return self::$instance;
    }
+   
+   public static function getStatusName($status) {
+      return self::$statusNameList[$status];
+   }
 
    /**
     * Private constructor to respect the singleton pattern
     * @param string $cacheName The cache name
     */
    private function __construct() {
+      self::$logger = Logger::getLogger(__CLASS__);
 
-      self::$logger = Logger::getLogger(__CLASS__); // common logger for all cache classes
+      self::$statusNameList = array(
+          self::PLUGIN_STATUS_ENABLED => T_('Enabled'),
+          self::PLUGIN_STATUS_DISABLED => T_('Disabled'),
+          self::PLUGIN_STATUS_REMOVED => T_('Removed'),
+         );
    }
 
 
@@ -194,7 +205,7 @@ class PluginManager {
 
       // if plugin status changed, re-generate the classmap.ser
       if (true == $hasChanged) {
-         $this->updateClassmap();
+         //$this->updateClassmap();
       }
    }
 
@@ -215,12 +226,12 @@ class PluginManager {
     * plugins must be granted by the admin before
     * beeing available for the Dashboards
     * 
-    * @param type $className
-    * @param type $isActivated
+    * @param string  $className
+    * @param boolean $isActivated true to activate, false to disable
     */
-   public function activatePlugin($className, $isActivated=TRUE) {
+   public function enablePlugin($className) {
 
-      $status = (TRUE == $isActivated) ? self::PLUGIN_STATUS_ENABLED: self::PLUGIN_STATUS_DISABLED;
+      $status = self::PLUGIN_STATUS_ENABLED;
 
       $query2 = "UPDATE `codev_plugin_table` SET `status`=".$status." WHERE `name` = '".$className."';";
       $result2 = SqlWrapper::getInstance()->sql_query($query2);
@@ -231,6 +242,25 @@ class PluginManager {
 
    }
 
+   /**
+    * plugins must be granted by the admin before
+    * beeing available for the Dashboards
+    * 
+    * @param string  $className
+    */
+   public function disablePlugin($className) {
+
+      $status = self::PLUGIN_STATUS_DISABLED;
+
+      $query2 = "UPDATE `codev_plugin_table` SET `status`=".$status." WHERE `name` = '".$className."';";
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      if (!$result2) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+   }
+   
    /**
     * Return all plugins defined in DB
     * 
@@ -260,7 +290,7 @@ class PluginManager {
             );
             $plugins[$row->name] = $plugin;
          }
-
+         ksort($plugins);
          $this->plugins = $plugins;
       }
       return $this->plugins;
