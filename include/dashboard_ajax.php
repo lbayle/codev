@@ -29,7 +29,9 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
 
    $logger = Logger::getLogger("dashboardAjax");
 
-   if ($_POST['action'] == 'getPluginConfigInfo') {
+   $action = Tools::getSecurePOSTStringValue('action', 'none');
+   
+   if ($action == 'getPluginConfigInfo') {
 
       $pluginClassName = Tools::getSecurePOSTStringValue('pluginClassName');
 
@@ -52,7 +54,7 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
       $jsonData = json_encode($data);
       echo $jsonData;
 
-   } else if ($_POST['action'] == 'addDashboardPlugin') {
+   } else if ($action == 'addDashboardPlugin') {
 
       $pluginAttributesJsonStr = Tools::getSecurePOSTStringValue('pluginAttributesJsonStr');
       $pluginAttributesJsonArray = json_decode(stripslashes($pluginAttributesJsonStr), true);
@@ -81,7 +83,7 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
       $jsonData = json_encode($data);
       echo $jsonData;
       
-   } else if($_POST['action'] == 'saveDashboardSettings') {
+   } else if($action == 'saveDashboardSettings') {
 
       $dashboardId = Tools::getSecurePOSTStringValue('dashboardId');
       $userid = $_SESSION['userid'];
