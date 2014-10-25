@@ -1,6 +1,7 @@
 <div class="HelloWorldIndicator">
 
 <div align="left" style="margin-top:1em;">
+   {if $helloWorldIndicator_isDateDisplayed}
    <form id="helloWorldIndicator_dateRange_form" method="get" action="{$helloWorldIndicator_ajaxPhpURL}">
       <fieldset>
          <label for="helloWorld_startdatepicker">{t}Greetings date{/t}:</label>
@@ -9,6 +10,7 @@
          <input type="hidden" name="action" value="getHelloWorldIndicator" />
       </fieldset>
    </form>
+   {/if}
 </div>
 <div>
    <div class="pluginInitFunction"  style="display: none;">helloWorldIndicatorJsInit</div>
