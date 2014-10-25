@@ -138,8 +138,6 @@ class Dashboard {
          self::$logger->error("saveSettings: missing key: ".self::SETTINGS_DASHBOARD_TITLE);
          return false;
       }
-      self::$logger->error("saveSettings: save ok");
-
       
       $jsonSettings = json_encode($settings);
       self::$logger->error("saveSettings: save ok: " . $jsonSettings);
