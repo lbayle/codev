@@ -152,6 +152,7 @@ class PluginManager {
 
             $reflectionMethod = new ReflectionMethod($row->name, 'getDesc');
             $pDesc = $reflectionMethod->invoke(NULL);
+            $pDesc = SqlWrapper::getInstance()->sql_real_escape_string($pDesc);
             $reflectionMethod = new ReflectionMethod($row->name, 'getDomains');
             $pDomains = implode(',', $reflectionMethod->invoke(NULL));
             $reflectionMethod = new ReflectionMethod($row->name, 'getCategories');

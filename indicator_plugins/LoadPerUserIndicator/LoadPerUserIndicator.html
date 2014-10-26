@@ -1,23 +1,23 @@
-<div id="loadPerUser">
+<div class="loadPerUserIndicator">
 
 <div align="left" style="margin-top:1em;">
-   <form id="loadPerUserIndicator_dateRange_form" method="get" action="{$loadPerUserIndicator_ajaxPhpURL}">
+   <form class="loadPerUserIndicator_dateRange_form" method="get" action="{$loadPerUserIndicator_ajaxPhpURL}">
       <fieldset>
          <label for="loadPerUser_startdatepicker">{t}From{/t}:</label>
-         <input type="text" id="loadPerUser_startdatepicker" class="datepicker" name="loadPerUser_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <input type="text" class="loadPerUser_startdatepicker datepicker" name="loadPerUser_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
          <label for="loadPerUser_enddatepicker">{t}To{/t}:</label>
-         <input type="text" id="loadPerUser_enddatepicker" class="datepicker" name="loadPerUser_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
-         <input id="loadPerUser_submit" type="submit" value="{t}Display{/t}" />
+         <input type="text" class="loadPerUser_enddatepicker datepicker" name="loadPerUser_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <input class="loadPerUser_submit" type="submit" value="{t}Display{/t}" />
          <input type="hidden" name="action" value="getLoadPerUserIndicator" />
       </fieldset>
    </form>
 </div>
 <div>
    <div class="pluginInitFunction"  style="display: none;">loadPerUserIndicatorJsInit</div>
-   <div id="loadPerUserIndicatorDiv" align="left" style="margin-top: 1em;">
+   <div class="loadPerUserIndicatorDiv" align="left" style="margin-top: 1em;">
       {include file="`$loadPerUserIndicator_ajaxFile`"}
    </div>
-   <div id="workingDaysPerUserChart" class="pie_chart chart float" style="top: -9px;"></div>
+   <div class="loadPerUserIndicatorChart pie_chart chart float" style="top: -9px;"></div>
    <div class="ui-helper-clearfix"></div>
 </div>
 
@@ -26,6 +26,7 @@
    // this function will be run at jQuery(document).ready (see dashboard.html) or
    // when a new widjet is added to the dashboard.
    function loadPerUserIndicatorJsInit() {
+
       // ------------------------
       // datepicker
 
@@ -34,8 +35,8 @@
       {/if}
 
       // Set the date
-      var startDatePicker = jQuery("#loadPerUser_startdatepicker").datepicker("setDate" ,"{$loadPerUserIndicator_startDate}");
-      var endDatePicker = jQuery("#loadPerUser_enddatepicker").datepicker("setDate" ,"{$loadPerUserIndicator_endDate}");
+      var startDatePicker = jQuery(".loadPerUser_startdatepicker").datepicker("setDate" ,"{$loadPerUserIndicator_startDate}");
+      var endDatePicker = jQuery(".loadPerUser_enddatepicker").datepicker("setDate" ,"{$loadPerUserIndicator_endDate}");
 
       // Add range date
       startDatePicker.datepicker("option","beforeShow",function(input) {
@@ -47,11 +48,11 @@
 
       // ------------------------
       // on reload with new date range
-      jQuery('#loadPerUser_submit').click(function(event) {
+      jQuery('.loadPerUser_submit').click(function(event) {
          /* stop form from submitting normally */
          event.preventDefault();
 
-         var form = jQuery('#loadPerUserIndicator_dateRange_form');
+         var form = jQuery('.loadPerUserIndicator_dateRange_form');
          var url = form.attr('action');
          var type = form.attr('method');
          jQuery.ajax({
@@ -61,13 +62,12 @@
             dataType:"json",
             data: form.serialize(),
             success: function(data) {
-               jQuery("#loadPerUserIndicatorDiv").html(jQuery.trim(data['loadPerUser_htmlTable']));
+               jQuery(".loadPerUserIndicatorDiv").html(jQuery.trim(data['loadPerUser_htmlContent']));
 
-               var chart = jQuery('#workingDaysPerUserChart');
+               var chart = jQuery('.loadPerUserIndicatorChart');
                var chartoptions = chart.data('plotoptions');
                chartoptions.seriesColors = data['loadPerUserIndicator_colors'];
                updateChart(chart, data['loadPerUserIndicator_jqplotData']);
-
             },
             error: function(jqXHR, textStatus, errorThrown) {
                if(errorThrown == 'Forbidden') {
@@ -77,16 +77,13 @@
          });
       });
 
-
       // ------------------------
       // display initial chart
-      var chart = jQuery('#workingDaysPerUserChart');
+      var chart = jQuery('.loadPerUserIndicatorChart');
       var chartoptions = chart.data('plotoptions');
       chartoptions.seriesColors = {$loadPerUserIndicator_jqplotSeriesColors};
       //chartoptions.seriesDefaults.rendererOptions.startAngle = 180;
       updateChart(chart, '{$loadPerUserIndicator_jqplotData}');
-      // WARN: something strange with the updateChart, all lines after it won't be executed !!
-
    };
 </script>
 </div>
