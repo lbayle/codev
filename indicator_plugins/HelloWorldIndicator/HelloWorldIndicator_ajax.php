@@ -25,11 +25,13 @@ require_once('i18n/i18n.inc.php');
 if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
 
    $logger = Logger::getLogger("HelloWorldIndicator_ajax");
-
-   if(isset($_GET['action'])) {
+   $action = Tools::getSecureGETStringValue('action', 'none');
+   
+   
+   if('none != $action') {
 
       $smartyHelper = new SmartyHelper();
-      if($_GET['action'] == 'getHelloWorldIndicator') {
+      if('getHelloWorldIndicator' == $action) {
 
 
          if(isset($_SESSION['pluginDataProvider_xxx'])) {

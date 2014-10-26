@@ -250,7 +250,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
    }
 
 
-   public function getSmartyVariables() {
+   public function getSmartyVariables($isAjaxCall = false) {
 
       $loadPerJobs = $this->execData['loadPerJobs'];
       $data = array();
@@ -264,7 +264,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
       $startTimestamp = (NULL == $this->startTimestamp) ? $this->execData['realStartTimestamp'] : $this->startTimestamp;
       $endTimestamp   = (NULL == $this->endTimestamp) ?   $this->execData['realEndTimestamp']   : $this->endTimestamp;
 
-      return array(
+      $smartyVariables = array(
          'loadPerJobIndicator_tableData' => $loadPerJobs,
          'loadPerJobIndicator_jqplotData' => Tools::array2json($data),
          'loadPerJobIndicator_colors' => $formatedColors,
@@ -272,9 +272,13 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
          'loadPerJobIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $startTimestamp),
          'loadPerJobIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $endTimestamp),
          #'loadPerJobIndicatorFile' => LoadPerJobIndicator::getSmartyFilename(), // added in controller
-         'loadPerJobIndicator_ajaxFile' => self::getSmartySubFilename(),
-         'loadPerJobIndicator_ajaxPhpURL' => self::getAjaxPhpURL(),
       );
+
+      if (false == $isAjaxCall) {
+         $smartyVariables['loadPerJobIndicator_ajaxFile'] = self::getSmartySubFilename();
+         $smartyVariables['loadPerJobIndicator_ajaxPhpURL'] = self::getAjaxPhpURL();
+      }
+      return $smartyVariables;
    }
 
    /**
@@ -284,29 +288,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
     * @return array
     */
    public function getSmartyVariablesForAjax() {
-
-      $loadPerJobs = $this->execData['loadPerJobs'];
-      $data = array();
-      $formatedColors = array();
-      foreach ($loadPerJobs as $jobItem) {
-         $data[$jobItem['name']] = $jobItem['nbDays'];
-         $formatedColors[] = '#'.$jobItem['color'];
-      }
-      $seriesColors = '["'.implode('","', $formatedColors).'"]';  // ["#FFCD85","#C2DFFF"]
-
-      $startTimestamp = (NULL == $this->startTimestamp) ? $this->execData['realStartTimestamp'] : $this->startTimestamp;
-      $endTimestamp   = (NULL == $this->endTimestamp) ?   $this->execData['realEndTimestamp']   : $this->endTimestamp;
-
-      // TODO add pluginSettings needed for the _ajax.php
-      
-      return array(
-         'loadPerJobIndicator_tableData' => $loadPerJobs,
-         'loadPerJobIndicator_jqplotData' => Tools::array2json($data),
-         'loadPerJobIndicator_colors' => $formatedColors,
-         'loadPerJobIndicator_jqplotSeriesColors' => $seriesColors, // TODO get rid of this
-         'loadPerJobIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $startTimestamp),
-         'loadPerJobIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $endTimestamp),
-      );
+      return $this->getSmartyVariables(true);
    }
 
 }
