@@ -26,6 +26,10 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
    // if false, sidetasks (found in IssueSel) will be included in 'elapsed'
    // if true, sidetasks (found in IssueSel) will be displayed as 'sidetask'
    const OPTION_SHOW_SIDETASKS = 'showSidetasks';
+
+   const OPTION_IS_GRAPH_ONLY = 'isGraphOnly';
+   const OPTION_IS_TABLE_ONLY = 'isTableOnly';
+   const OPTION_DATE_RANGE    = 'dateRange';
    
    
    /**
@@ -38,10 +42,12 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
    private $startTimestamp;
    private $endTimestamp;
    private $teamid;
-   private $showSidetasks;
 
    // config options from Dashboard
-   private $pluginSettings;
+   private $showSidetasks;
+   private $isGraphOnly;
+   private $isTableOnly;
+   private $dateRange;  // defaultRange | currentWeek | currentMonth
    
    // internal
    protected $execData;
@@ -142,11 +148,13 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          $this->endTimestamp = NULL;
       }
 
-      // TODO set in $pluginSettings
       // if false, sidetasks (found in IssueSel) will be included in 'elapsed'
       // if true, sidetasks (found in IssueSel) will be displayed as 'sidetask'
       $this->showSidetasks = false;
-      
+      $this->isGraphOnly = false;
+      $this->isTableOnly = false;
+      $this->dateRange = 'defaultRange';
+
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("checkParams() ISel=".$this->inputIssueSel->name.' startTimestamp='.$this->startTimestamp.' endTimestamp='.$this->endTimestamp);
       }
@@ -158,15 +166,21 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
     * @param type $pluginSettings
     */
    public function setPluginSettings($pluginSettings) {
-
       if (NULL != $pluginSettings) {
-
-         // if false, sidetasks (found in IssueSel) will be included in 'elapsed'
-         // if true, sidetasks (found in IssueSel) will be displayed as 'sidetask'
+         // override default with user preferences
          if (array_key_exists(self::OPTION_SHOW_SIDETASKS, $pluginSettings)) {
-            $this->pluginSettings[self::OPTION_SHOW_SIDETASKS] = $pluginSettings[self::OPTION_SHOW_SIDETASKS];
-         } else {
-            $this->pluginSettings[self::OPTION_SHOW_SIDETASKS] = false;
+            $this->showSidetasks = $pluginSettings[self::OPTION_SHOW_SIDETASKS];
+         }
+         if (array_key_exists(self::OPTION_IS_GRAPH_ONLY, $pluginSettings)) {
+            $this->isGraphOnly = $pluginSettings[self::OPTION_IS_GRAPH_ONLY];
+         }
+         if (array_key_exists(self::OPTION_IS_TABLE_ONLY, $pluginSettings)) {
+            $this->isTableOnly = $pluginSettings[self::OPTION_IS_TABLE_ONLY];
+         }
+         if (array_key_exists(self::OPTION_DATE_RANGE, $pluginSettings)) {
+            $this->dateRange = $pluginSettings[self::OPTION_DATE_RANGE];
+            
+            // TODO update startTimestamp & endTimestamp
          }
       }
    }
@@ -347,6 +361,13 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
 
       ksort($usersActivities);
 
+      // table data
+      $tableData = array(
+         'usersActivities' => $usersActivities,
+         'totalActivity' => $totalActivity,
+         'workdays' => Holidays::getInstance()->getWorkdays($this->startTimestamp, $this->endTimestamp),
+      );
+      
       // ------------------------
       // pieChart data
       $jqplotData = array(
@@ -355,34 +376,27 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          T_('External') => $totalActivity['external'],
          T_('Inactivity') => $totalActivity['leave']
       );
-      $formatedColors = array(
-         "#92C5FC", // Elapsed 
-         "#C2DFFF", // Other 
-         "#FFF494", // External 
-         "#75FFDA", // Inactivity 
-      );
+
       if ($this->showSidetasks) {
          $jqplotData[T_('SideTask')] = $totalActivity['sidetask'];
-         $formatedColors[] = '#A8FFBD'; // SideTask
+         $formatedColors = array("#92C5FC", "#C2DFFF", "#FFF494", "#75FFDA", "#A8FFBD");
+      } else {
+         $formatedColors = array("#92C5FC", "#C2DFFF", "#75FFDA", "#A8FFBD");
       }
       $seriesColors = '["'.implode('","', $formatedColors).'"]';  // ["#FFCD85","#C2DFFF"]
 
-      // table data
-      $tableData = array(
-         'usersActivities' => $usersActivities,
-         'totalActivity' => $totalActivity,
-         'workdays' => Holidays::getInstance()->getWorkdays($this->startTimestamp, $this->endTimestamp),
-      );
-      
       $smartyVariables =  array(
-         //'usersActivities' => $usersActivities,
-         //'totalActivity' => $totalActivity,
          'loadPerUserIndicator_tableData' => $tableData,
          'loadPerUserIndicator_jqplotData' => Tools::array2json($jqplotData),
          'loadPerUserIndicator_colors' => $formatedColors,
          'loadPerUserIndicator_jqplotSeriesColors' => $seriesColors, // TODO get rid of this
          'loadPerUserIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
          'loadPerUserIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
+
+         // add pluginSettings (if needed by smarty)
+         'activityIndicator_'.self::OPTION_SHOW_SIDETASKS => $this->showSidetasks,
+         'activityIndicator_'.self::OPTION_IS_GRAPH_ONLY => $this->isGraphOnly,
+         'activityIndicator_'.self::OPTION_IS_TABLE_ONLY => $this->isTableOnly,
       );
       
       if (false == $isAjaxCall) {

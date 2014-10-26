@@ -57,7 +57,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
                   #$logger->debug("key $smartyKey = ".var_export($smartyVariable, true));
                }
                $html = $smartyHelper->fetch(LoadPerUserIndicator::getSmartySubFilename());
-               $data['loadPerUser_htmlTable'] = $html;
+               $data['loadPerUser_htmlContent'] = $html;
 
                // return html & chart data
                $jsonData = json_encode($data);

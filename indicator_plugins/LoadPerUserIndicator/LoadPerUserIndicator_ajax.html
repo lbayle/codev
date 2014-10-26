@@ -1,5 +1,4 @@
-<div id="loadPerUser_ajax">
-   <!-- Working days per job -->
+<div class="loadPerUserIndicator_ajax">
    {if $loadPerUserIndicator_tableData}
    <table  class="display float"  style="width: 500px;">
       <caption><span style="font-weight: normal; font-size: 12px;">{$loadPerUserIndicator_tableData.workdays} {t}workdays{/t}</span></caption>
@@ -42,7 +41,6 @@
          </tr>
       </tfoot>
    </table>
-   
    {else}
    {t}Not available.{/t}
    {/if}
