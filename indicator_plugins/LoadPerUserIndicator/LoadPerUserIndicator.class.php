@@ -377,11 +377,11 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          T_('Inactivity') => $totalActivity['leave']
       );
 
+      $formatedColors = array("#92C5FC", "#C2DFFF", "#75FFDA", "#A8FFBD");
       if ($this->showSidetasks) {
          $jqplotData[T_('SideTask')] = $totalActivity['sidetask'];
-         $formatedColors = array("#92C5FC", "#C2DFFF", "#FFF494", "#75FFDA", "#A8FFBD");
+         $formatedColors[] = "#FFF494";
       } else {
-         $formatedColors = array("#92C5FC", "#C2DFFF", "#75FFDA", "#A8FFBD");
       }
       $seriesColors = '["'.implode('","', $formatedColors).'"]';  // ["#FFCD85","#C2DFFF"]
 
