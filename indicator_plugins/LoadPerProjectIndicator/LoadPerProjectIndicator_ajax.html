@@ -1,0 +1,24 @@
+<div class="loadPerProjectIndicator_ajax">
+   {if $loadPerProjectIndicator_tableData}
+   <table  class="display float"  style="width: 500px;">
+   <thead>
+      <tr>
+         <th>{t}Category{/t}</th>
+         <th>{t}Nb Days{/t}</th>
+         <th>{t}Tasks{/t}</th>
+      </tr>
+   </thead>
+   <tbody>
+      {foreach from=$loadPerProjectIndicator_tableData key=id item=i}
+      <tr>
+         <td>{$i.catName}</td>
+         <td>{$i.duration}</td>
+         <td>{$i.formatedBugsPerCategory}</td>
+      </tr>
+      {/foreach}
+   </tbody>
+   </table>
+   {else}
+   {t}Not available.{/t}
+   {/if}
+</div>

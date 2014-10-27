@@ -1,0 +1,95 @@
+<div class="LoadPerProjectIndicator">
+
+<div align="left" style="margin-top:1em;">
+   <form class="loadPerProjectIndicator_dateRange_form" method="get" action="{$loadPerProjectIndicator_ajaxPhpURL}">
+      <fieldset>
+         <label for="loadPerProject_startdatepicker">{t}From{/t}:</label>
+         <input type="text" class="loadPerProject_startdatepicker datepicker" name="loadPerProject_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="loadPerProject_enddatepicker">{t}To{/t}:</label>
+         <input type="text" class="loadPerProject_enddatepicker datepicker" name="loadPerProject_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         &nbsp; &nbsp;
+         <label for="loadPerProject_projectid">{t}Project{/t}:</label>
+         <select class="loadPerProject_projectid" name="loadPerProject_projectid" title="{t}Project{/t}">
+            {foreach from=$loadPerProjectIndicator_projects key=id item=i}
+            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+            {/foreach}
+         </select>
+         <input class="loadPerProject_submit" type="submit" value="{t}Display{/t}" />
+         <input type="hidden" name="action" value="getLoadPerProjectIndicator" />
+      </fieldset>
+   </form>
+</div>
+<div>
+   <div class="pluginInitFunction"  style="display: none;">loadPerProjectIndicatorJsInit</div>
+   <div class="loadPerProjectIndicatorDiv" align="left" style="margin-top: 1em;">
+      {include file="`$loadPerProjectIndicator_ajaxFile`"}
+   </div>
+   <div class="loadPerProjectIndicatorChart pie_chart chart float" style="top: -9px;"></div>
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<script type="text/javascript">
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function loadPerProjectIndicatorJsInit() {
+
+      // ------------------------
+      // datepicker
+
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+      // Set the date
+      var startDatePicker = jQuery(".loadPerProject_startdatepicker").datepicker("setDate" ,"{$loadPerProjectIndicator_startDate}");
+      var endDatePicker = jQuery(".loadPerProject_enddatepicker").datepicker("setDate" ,"{$loadPerProjectIndicator_endDate}");
+
+      // Add range date
+      startDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+      });
+      endDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+      });
+
+      // ------------------------
+      // on reload with new date range
+      jQuery('.loadPerProject_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+
+         var form = jQuery('.loadPerProjectIndicator_dateRange_form');
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: type,
+            url: url,
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+               jQuery(".loadPerProjectIndicatorDiv").html(jQuery.trim(data['loadPerProject_htmlContent']));
+
+               var chart = jQuery('.loadPerProjectIndicatorChart');
+               var chartoptions = chart.data('plotoptions');
+               chartoptions.seriesColors = data['loadPerProjectIndicator_colors'];
+               updateChart(chart, data['loadPerProjectIndicator_jqplotData']);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+      });
+
+      // ------------------------
+      // display initial chart
+      var chart = jQuery('.loadPerProjectIndicatorChart');
+      var chartoptions = chart.data('plotoptions');
+      chart.jqplot([{$loadPerProjectIndicator_jqplotData}], chartoptions);
+
+   };
+</script>
+</div>
