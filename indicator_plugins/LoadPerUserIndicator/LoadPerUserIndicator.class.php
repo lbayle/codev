@@ -122,7 +122,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
    
    /**
     *
-    * @param \PluginDataProviderInterface $pluginMgr
+    * @param \PluginDataProviderInterface $pluginDataProv
     * @throws Exception
     */
    public function initialize(PluginDataProviderInterface $pluginDataProv) {
@@ -163,7 +163,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
    /**
     * settings are saved by the Dashboard
     * 
-    * @param type $pluginSettings
+    * @param array $pluginSettings
     */
    public function setPluginSettings($pluginSettings) {
       if (NULL != $pluginSettings) {
@@ -191,8 +191,6 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
     * returns an array of [user][activity]
     * activity in (elapsed, sidetask, other, external, leave)
     *
-    * @param IssueSelection $inputIssueSel
-    * @param array $params
     */
    public function execute() {
 

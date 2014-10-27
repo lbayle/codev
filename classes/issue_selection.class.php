@@ -594,7 +594,42 @@ class IssueSelection {
       return $lastUpdatedList;
    }
 
+   /**
+    * get timetracks for each Issue
+    * 
+    * @param array $useridList
+    * @param type $startTimestamp
+    * @param type $endTimestamp
+    * @return array of TimeTrack
+    */
+   public function getTimetracks($useridList = NULL, $startTimestamp = NULL, $endTimestamp = NULL) {
 
+      $formatedBugidString = implode( ', ', array_keys($this->issueList));
+
+      // TODO cache results !
+      
+      $query = "SELECT * FROM `codev_timetracking_table` ".
+               "WHERE bugid IN (".$formatedBugidString.") ";
+
+      if (NULL != $useridList) { 
+         $formatedUseridString = implode( ', ', $useridList);
+         $query .= 'AND userid IN ('.$formatedUseridString.') '; 
+      }
+      if (NULL != $startTimestamp) { $query .= "AND date >= $startTimestamp "; }
+      if (NULL != $endTimestamp)   { $query .= "AND date <= $endTimestamp "; }
+      $query .= ' ORDER BY bugid';
+
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo '<span style="color:red">ERROR: Query FAILED</span>';
+         exit;
+      }
+      $timeTracks = array();
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $timeTracks[$row->id] = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
+      }
+      return $timeTracks;
+   }
 
 }
 
