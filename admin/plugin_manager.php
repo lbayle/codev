@@ -71,7 +71,8 @@ class PluginManagerController extends Controller {
             $plugins = $pm->getPlugins();
             $formattedPlugins = array();
             foreach ($plugins as $name => $plugin) {
-               $formattedPlugins["$name"] = array(
+               $className = $plugin['name'];
+               $formattedPlugins[$className::getName()] = array(
                'name' => $plugin['name'],
                'status' => $plugin['status'],
                'statusName' => PluginManager::getStatusName($plugin['status']),

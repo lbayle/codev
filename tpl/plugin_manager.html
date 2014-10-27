@@ -26,12 +26,12 @@
          <tr>
             <td>
                {if 0 == $plugin.status}
-               <a title="{t}Enable Plugin{/t}" href="{$page}" onclick="enablePlugin('{$pname}');return false;">
+               <a title="{t}Enable Plugin{/t}" href="{$page}" onclick="enablePlugin('{$plugin.name}');return false;">
                   <img src="images/b_add.png" alt="{t}Enable Plugin{/t}">
                </a>
                {/if}
                {if 1 == $plugin.status}
-               <a title="{t}Disable Plugin{/t}" href="{$page}" onclick="disablePlugin('{$pname}');return false;">
+               <a title="{t}Disable Plugin{/t}" href="{$page}" onclick="disablePlugin('{$plugin.name}');return false;">
                   <img src="images/b_drop.png" alt="{t}Enable Plugin{/t}">
                </a>
                {/if}
