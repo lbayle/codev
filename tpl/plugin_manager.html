@@ -22,23 +22,23 @@
          </tr>
       </thead>
       <tbody>
-         {foreach $availablePlugins as $pname => $plugin}
+         {foreach $availablePlugins as $plugin_id => $plugin}
          <tr>
             <td>
                {if 0 == $plugin.status}
-               <a title="{t}Enable Plugin{/t}" href="{$page}" onclick="enablePlugin('{$plugin.name}');return false;">
+               <a title="{t}Enable Plugin{/t}" href="{$page}" onclick="enablePlugin('{$plugin_id}');return false;">
                   <img src="images/b_add.png" alt="{t}Enable Plugin{/t}">
                </a>
                {/if}
                {if 1 == $plugin.status}
-               <a title="{t}Disable Plugin{/t}" href="{$page}" onclick="disablePlugin('{$plugin.name}');return false;">
+               <a title="{t}Disable Plugin{/t}" href="{$page}" onclick="disablePlugin('{$plugin_id}');return false;">
                   <img src="images/b_drop.png" alt="{t}Enable Plugin{/t}">
                </a>
                {/if}
                {if 2 == $plugin.status}
                {/if}
             </td>
-            <td><div style="font-size : large;">{$pname}</div><br>
+            <td><div class="caption_font">{$plugin.name}</div><br>
                {$plugin.description}</td>
             <td>{$plugin.version}</td>
             <td>{$plugin.categories}</td>
