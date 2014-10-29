@@ -22,7 +22,7 @@
  *
  * @author lob
  */
-class LoadPerProjectIndicator extends IndicatorPluginAbstract {
+class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
 
    const OPTION_DEFAULT_PROJECT = 'defaultProject';
    const OPTION_DISPLAY_TASKS = 'isDisplayTasks';
@@ -303,21 +303,21 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
       
       
       $smartyVariables = array(
-         'loadPerProjectIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
-         'loadPerProjectIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
-         'loadPerProjectIndicator_projects' => $projects,
+         'loadPerProjCategoryIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
+         'loadPerProjCategoryIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
+         'loadPerProjCategoryIndicator_projects' => $projects,
 
-         'loadPerProjectIndicator_tableData' => $this->execData,
-         'loadPerProjectIndicator_jqplotData' => $jqplotData,
+         'loadPerProjCategoryIndicator_tableData' => $this->execData,
+         'loadPerProjCategoryIndicator_jqplotData' => $jqplotData,
               
          // add pluginSettings (if needed by smarty)
-         'loadPerProjectIndicator_'.self::OPTION_DEFAULT_PROJECT => $this->defaultProject,
-         'loadPerProjectIndicator_'.self::OPTION_DISPLAY_TASKS => $this->isDisplayTasks,
+         'loadPerProjCategoryIndicator_'.self::OPTION_DEFAULT_PROJECT => $this->defaultProject,
+         'loadPerProjCategoryIndicator_'.self::OPTION_DISPLAY_TASKS => $this->isDisplayTasks,
       );
 
       if (false == $isAjaxCall) {
-         $smartyVariables['loadPerProjectIndicator_ajaxFile'] = self::getSmartySubFilename();
-         $smartyVariables['loadPerProjectIndicator_ajaxPhpURL'] = self::getAjaxPhpURL();
+         $smartyVariables['loadPerProjCategoryIndicator_ajaxFile'] = self::getSmartySubFilename();
+         $smartyVariables['loadPerProjCategoryIndicator_ajaxPhpURL'] = self::getAjaxPhpURL();
       }
       return $smartyVariables;
    }
@@ -329,4 +329,4 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
 }
 
 // Initialize static variables
-LoadPerProjectIndicator::staticInit();
+LoadPerProjCategoryIndicator::staticInit();
