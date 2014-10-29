@@ -118,24 +118,41 @@ class CommandTools {
     * @return mixed[]
     */
    private static function getProvisionTotalList(Command $command, int $type = NULL) {
-      $provTotalArray = array();
 
-/*      
-      "Management" => integer
-      "Risk" => entier
-*/      
-      
+       // compute data
       $provisions = $command->getProvisionList($type);
-      $globalTotal = 0;
       foreach ($provisions as $id => $prov) {
 
+          // a provision
           $type = CommandProvision::$provisionNames[$prov->getType()];
           $budget_days = $prov->getProvisionDays();
+          $budget = $prov->getProvisionBudget();
+
+          // compute total per category
+          $provDaysTotalArray["$type"] += $budget_days;
+          $provBudgetTotalArray["$type"] += $budget;
           
-          $provTotalArray["$type"] += $budget_days;
-          $globalTotal += $budget_days;
+          // compute total for all categories
+          $globalDaysTotal += $budget_days;
+          $globalBudgetTotal += $budget;
       }
-      $provTotalArray['TOTAL'] = $globalTotal;
+
+      // prepare for the view
+      $provTotalArray = array();
+      foreach($provDaysTotalArray as $type => $daysPerType) {
+      
+         $provTotalArray[$type] = array(
+            'type' => $type,
+            'budget_days' => $daysPerType,
+            'budget' => $provBudgetTotalArray[$type],
+         );
+      }
+      $provTotalArray['TOTAL'
+          ] = array(
+           'type' => 'TOTAL',
+           'budget_days' => $globalDaysTotal,
+           'budget' => $globalBudgetTotal,
+       );
       return $provTotalArray;
    }
 
