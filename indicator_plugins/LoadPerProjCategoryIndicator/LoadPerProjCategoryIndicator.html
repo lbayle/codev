@@ -1,7 +1,7 @@
-<div class="LoadPerProjectIndicator">
+<div class="LoadPerProjCategoryIndicator">
 
 <div align="left" style="margin-top:1em;">
-   <form class="loadPerProjectIndicator_dateRange_form" method="get" action="{$loadPerProjectIndicator_ajaxPhpURL}">
+   <form class="loadPerProjCategoryIndicator_dateRange_form" method="get" action="{$loadPerProjCategoryIndicator_ajaxPhpURL}">
       <fieldset>
          <label for="loadPerProject_startdatepicker">{t}From{/t}:</label>
          <input type="text" class="loadPerProject_startdatepicker datepicker" name="loadPerProject_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
@@ -10,21 +10,21 @@
          &nbsp; &nbsp;
          <label for="loadPerProject_projectid">{t}Project{/t}:</label>
          <select class="loadPerProject_projectid" name="loadPerProject_projectid" title="{t}Project{/t}">
-            {foreach from=$loadPerProjectIndicator_projects key=id item=i}
+            {foreach from=$loadPerProjCategoryIndicator_projects key=id item=i}
             <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
             {/foreach}
          </select>
          <input class="loadPerProject_submit" type="submit" value="{t}Display{/t}" />
-         <input type="hidden" name="action" value="getLoadPerProjectIndicator" />
+         <input type="hidden" name="action" value="getLoadPerProjCategoryIndicator" />
       </fieldset>
    </form>
 </div>
 <div>
-   <div class="pluginInitFunction"  style="display: none;">loadPerProjectIndicatorJsInit</div>
-   <div class="loadPerProjectIndicatorDiv" align="left" style="margin-top: 1em;">
-      {include file="`$loadPerProjectIndicator_ajaxFile`"}
+   <div class="pluginInitFunction"  style="display: none;">loadPerProjCategoryIndicatorJsInit</div>
+   <div class="loadPerProjCategoryIndicatorDiv" align="left" style="margin-top: 1em;">
+      {include file="`$loadPerProjCategoryIndicator_ajaxFile`"}
    </div>
-   <div class="loadPerProjectIndicatorChart pie_chart chart float" style="top: -9px;"></div>
+   <div class="loadPerProjCategoryIndicatorChart pie_chart chart float" style="top: -9px;"></div>
    <div class="ui-helper-clearfix"></div>
 </div>
 
@@ -32,7 +32,7 @@
 
    // this function will be run at jQuery(document).ready (see dashboard.html) or
    // when a new widjet is added to the dashboard.
-   function loadPerProjectIndicatorJsInit() {
+   function loadPerProjCategoryIndicatorJsInit() {
 
       // ------------------------
       // datepicker
@@ -42,8 +42,8 @@
       {/if}
 
       // Set the date
-      var startDatePicker = jQuery(".loadPerProject_startdatepicker").datepicker("setDate" ,"{$loadPerProjectIndicator_startDate}");
-      var endDatePicker = jQuery(".loadPerProject_enddatepicker").datepicker("setDate" ,"{$loadPerProjectIndicator_endDate}");
+      var startDatePicker = jQuery(".loadPerProject_startdatepicker").datepicker("setDate" ,"{$loadPerProjCategoryIndicator_startDate}");
+      var endDatePicker = jQuery(".loadPerProject_enddatepicker").datepicker("setDate" ,"{$loadPerProjCategoryIndicator_endDate}");
 
       // Add range date
       startDatePicker.datepicker("option","beforeShow",function(input) {
@@ -59,7 +59,7 @@
          /* stop form from submitting normally */
          event.preventDefault();
 
-         var form = jQuery('.loadPerProjectIndicator_dateRange_form');
+         var form = jQuery('.loadPerProjCategoryIndicator_dateRange_form');
          var url = form.attr('action');
          var type = form.attr('method');
          jQuery.ajax({
@@ -69,12 +69,12 @@
             dataType:"json",
             data: form.serialize(),
             success: function(data) {
-               jQuery(".loadPerProjectIndicatorDiv").html(jQuery.trim(data['loadPerProject_htmlContent']));
+               jQuery(".loadPerProjCategoryIndicatorDiv").html(jQuery.trim(data['loadPerProject_htmlContent']));
 
-               var chart = jQuery('.loadPerProjectIndicatorChart');
+               var chart = jQuery('.loadPerProjCategoryIndicatorChart');
                var chartoptions = chart.data('plotoptions');
-               chartoptions.seriesColors = data['loadPerProjectIndicator_colors'];
-               updateChart(chart, data['loadPerProjectIndicator_jqplotData']);
+               chartoptions.seriesColors = data['loadPerProjCategoryIndicator_colors'];
+               updateChart(chart, data['loadPerProjCategoryIndicator_jqplotData']);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                if(errorThrown == 'Forbidden') {
@@ -86,9 +86,9 @@
 
       // ------------------------
       // display initial chart
-      var chart = jQuery('.loadPerProjectIndicatorChart');
+      var chart = jQuery('.loadPerProjCategoryIndicatorChart');
       var chartoptions = chart.data('plotoptions');
-      chart.jqplot([{$loadPerProjectIndicator_jqplotData}], chartoptions);
+      chart.jqplot([{$loadPerProjCategoryIndicator_jqplotData}], chartoptions);
 
    };
 </script>

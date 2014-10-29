@@ -1,5 +1,5 @@
-<div class="loadPerProjectIndicator_ajax">
-   {if $loadPerProjectIndicator_tableData}
+<div class="loadPerProjCategoryIndicator_ajax">
+   {if $loadPerProjCategoryIndicator_tableData}
    <table  class="display float"  style="width: 500px;">
    <thead>
       <tr>
@@ -9,7 +9,7 @@
       </tr>
    </thead>
    <tbody>
-      {foreach from=$loadPerProjectIndicator_tableData key=id item=i}
+      {foreach from=$loadPerProjCategoryIndicator_tableData key=id item=i}
       <tr>
          <td>{$i.catName}</td>
          <td>{$i.duration}</td>
