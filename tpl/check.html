@@ -9,11 +9,12 @@
             <th></th>
             <th>{t}User{/t}</th>
             <th>{t}Task{/t}</th>
+            <th>{t}extRef{/t}</th>
             <th title="{t}last modification date{/t}">Date</th>
-            <th>{t}Level{/t}</th>
             <th>{t}Status{/t}</th>
             <th>{t}Project{/t}</th>
-            <th>{t}TargetVersion{/t}</th>
+            <th>{t}Summary{/t}</th>
+            <th>{t}Level{/t}</th>
             <th>{t}Error Description{/t}</th>
          </tr>
       </thead>
@@ -23,11 +24,12 @@
             <td style="width:1em;" nowrap="nowrap">{$id}</td>
             <td style="width:1em;" nowrap="nowrap">{$i.userName}</td>
             <td style="width:1em;" nowrap="nowrap">{$i.mantisURL} {$i.issueURL}</td>
+            <td style="width:1em;" nowrap="nowrap">{$i.extRef} </td>
             <td style="width:1em;" nowrap="nowrap">{$i.date}</td>
-            <td style="width:1em;" nowrap="nowrap">{$i.severity}</td>
             <td style="width:1em;" nowrap="nowrap">{$i.status}</td>
             <td style="width:1em;" nowrap="nowrap">{$i.project}</td>
-            <td style="width:1em;" nowrap="nowrap">{$i.targetVersion}</td>
+            <td>{$i.summary}</td>
+            <td style="width:1em;" nowrap="nowrap">{$i.severity}</td>
             <td>{$i.desc}</td>
          </tr>
          {/foreach}
