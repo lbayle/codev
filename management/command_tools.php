@@ -119,40 +119,46 @@ class CommandTools {
     */
    private static function getProvisionTotalList(Command $command, int $type = NULL) {
 
-       // compute data
-      $provisions = $command->getProvisionList($type);
-      foreach ($provisions as $id => $prov) {
-
-          // a provision
-          $type = CommandProvision::$provisionNames[$prov->getType()];
-          $budget_days = $prov->getProvisionDays();
-          $budget = $prov->getProvisionBudget();
-
-          // compute total per category
-          $provDaysTotalArray["$type"] += $budget_days;
-          $provBudgetTotalArray["$type"] += $budget;
-          
-          // compute total for all categories
-          $globalDaysTotal += $budget_days;
-          $globalBudgetTotal += $budget;
-      }
-
-      // prepare for the view
-      $provTotalArray = array();
-      foreach($provDaysTotalArray as $type => $daysPerType) {
+      $provTotalArray =  NULL;
       
-         $provTotalArray[$type] = array(
-            'type' => $type,
-            'budget_days' => $daysPerType,
-            'budget' => $provBudgetTotalArray[$type],
+      // compute data
+      $provisions = $command->getProvisionList($type);
+      
+      if (!empty($provisions)) {
+          
+        $provTotalArray = array();
+        foreach ($provisions as $id => $prov) {
+
+            // a provision
+            $type = CommandProvision::$provisionNames[$prov->getType()];
+            $budget_days = $prov->getProvisionDays();
+            $budget = $prov->getProvisionBudget();
+
+            // compute total per category
+            $provDaysTotalArray["$type"] += $budget_days;
+            $provBudgetTotalArray["$type"] += $budget;
+
+            // compute total for all categories
+            $globalDaysTotal += $budget_days;
+            $globalBudgetTotal += $budget;
+        }
+        // prepare for the view
+        $provTotalArray = array();
+        foreach($provDaysTotalArray as $type => $daysPerType) {
+
+           $provTotalArray[$type] = array(
+              'type' => $type,
+              'budget_days' => $daysPerType,
+              'budget' => $provBudgetTotalArray[$type],
+           );
+        }
+        $provTotalArray['TOTAL'
+            ] = array(
+             'type' => 'TOTAL',
+             'budget_days' => $globalDaysTotal,
+             'budget' => $globalBudgetTotal,
          );
       }
-      $provTotalArray['TOTAL'
-          ] = array(
-           'type' => 'TOTAL',
-           'budget_days' => $globalDaysTotal,
-           'budget' => $globalBudgetTotal,
-       );
       return $provTotalArray;
    }
 

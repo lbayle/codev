@@ -229,11 +229,11 @@
           
           <table class="invisible">
               <tbody>
+                 {if $cmdProvisionTotalList}
                   <tr> 
                     <th valign="top">{t}Total{/t}</th>
                     <td valign="top">: </td>
                       <td>
-                    {if $cmdProvisionTotalList}
                     <table>
                         <tr>
                             <th>{t}Type{/t}</th>
@@ -248,11 +248,9 @@
                         </tr>
                        {/foreach}
                     </table>
-                    {else}
-                    {t}None{/t}
-                    {/if}
                     </td>
                   </tr>
+                  {/if}
                   <tr>
                     <th valign="top">{t}Provisions{/t}</th>
                     <td valign="top">: </td>
