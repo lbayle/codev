@@ -26,13 +26,13 @@ if(Tools::isConnectedUser() && isset($_GET['action'])) {
    
    $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
    
-   $logger = Logger::getLogger("LoadPerUserIndicator_ajax");
+   $logger = Logger::getLogger("LoadPerProjCategoryIndicator_ajax");
 
    $action = Tools::getSecureGETStringValue('action', '');
    if(!empty($action)) {
 
       $smartyHelper = new SmartyHelper();
-      if($action == 'getLoadPerUserIndicator') {
+      if($action == 'getLoadPerProjCategoryIndicator') {
          
          if(isset($_SESSION['pluginDataProvider_xxx'])) {
             
@@ -40,14 +40,17 @@ if(Tools::isConnectedUser() && isset($_GET['action'])) {
             if (FALSE != $pluginDataProvider) {
 
                // TODO do not log exception if date = 01-01-1970
-               $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerUser_startdate"));
-               $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerUser_enddate"));
-         
+               $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerProjCategory_startdate"));
+               $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerProjCategory_enddate"));
+               $selectedProject = Tools::getSecureGETStringValue('loadPerProjCategory_projectid');
+
                // update dataProvider
                $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
                $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
-               
-               $indicator = new LoadPerUserIndicator($pluginDataProvider);
+               $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_PROJECT_ID, $selectedProject);
+
+               $indicator = new LoadPerProjCategoryIndicator($pluginDataProvider);
+
                $indicator->execute();
                $data = $indicator->getSmartyVariablesForAjax(); 
 
@@ -56,8 +59,8 @@ if(Tools::isConnectedUser() && isset($_GET['action'])) {
                   $smartyHelper->assign($smartyKey, $smartyVariable);
                   #$logger->debug("key $smartyKey = ".var_export($smartyVariable, true));
                }
-               $html = $smartyHelper->fetch(LoadPerUserIndicator::getSmartySubFilename());
-               $data['loadPerUser_htmlContent'] = $html;
+               $html = $smartyHelper->fetch(LoadPerProjCategoryIndicator::getSmartySubFilename());
+               $data['loadPerProjCategory_htmlContent'] = $html;
 
                // return html & chart data
                $jsonData = json_encode($data);
