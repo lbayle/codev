@@ -223,30 +223,33 @@ class Dashboard {
       foreach ($this->settings[self::SETTINGS_DISPLAYED_PLUGINS] as $pluginAttributes) {
 
          $pClassName = $pluginAttributes['pluginClassName'];
-         
-         // check that this plugin is allowed to be displayed in this dashboard
-         if (!in_array($pClassName, $candidates)) {
-            self::$logger->error("Dashboard user settings: ".$pClassName.' is not a candidate !');
-            continue;
+         try {
+            // check that this plugin is allowed to be displayed in this dashboard
+            if (!in_array($pClassName, $candidates)) {
+               self::$logger->error("Dashboard user settings: ".$pClassName.' is not a candidate !');
+               continue;
+            }
+
+            $widget = self::getWidget($pluginDataProvider, $smartyHelper, $pluginAttributes, $idx);
+            $dashboardWidgets[] = $widget;
+
+            // get all mandatory CSS files
+            foreach ($pClassName::getCssFiles() as $cssFile) {
+               if (!in_array($cssFile, $dashboardPluginCssFiles)) {
+                  array_push($dashboardPluginCssFiles, $cssFile);
+               }
+            }
+            // get all mandatory JS files
+            foreach ($pClassName::getJsFiles() as $jsFile) {
+               if (!in_array($jsFile, $dashboardPluginJsFiles)) {
+                  array_push($dashboardPluginJsFiles, $jsFile);
+               }
+            }
+
+            $idx += 1;
+         } catch (Exception $e) {
+            self::$logger->error('Could not display plugin '.$pClassName.': '.$e->getMessage());
          }
-
-         $widget = self::getWidget($pluginDataProvider, $smartyHelper, $pluginAttributes, $idx);
-         $dashboardWidgets[] = $widget;
-
-         // get all mandatory CSS files
-         foreach ($pClassName::getCssFiles() as $cssFile) {
-            if (!in_array($cssFile, $dashboardPluginCssFiles)) {
-               array_push($dashboardPluginCssFiles, $cssFile);
-            }
-         }         
-         // get all mandatory JS files
-         foreach ($pClassName::getJsFiles() as $jsFile) {
-            if (!in_array($jsFile, $dashboardPluginJsFiles)) {
-               array_push($dashboardPluginJsFiles, $jsFile);
-            }
-         }         
-         
-         $idx += 1;
       }
 
       // TODO as long as adding multiple times the same plugin fails,
@@ -279,11 +282,16 @@ class Dashboard {
     */
    public static function getWidget($pluginDataProvider, $smartyHelper, $pluginAttributes, $idx) {
 
-      // TODO check, Plugin may not exist...
       $pluginClassName = $pluginAttributes['pluginClassName'];
+
+      // Plugin may not exist...
+      if (!class_exists($pluginClassName)) {
+         $e = new Exception('getWidget: class '.$pluginClassName.' not found !');
+         throw $e;
+      }
+
       $r = new ReflectionClass($pluginClassName);
       $indicator = $r->newInstanceArgs(array($pluginDataProvider));
-
 
       // examples: isGraphOnly, dateRange(defaultRange|currentWeek|currentMonth|noDateLimit), ...
       $indicator->setPluginSettings($pluginAttributes);
