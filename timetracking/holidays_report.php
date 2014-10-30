@@ -48,19 +48,36 @@ class HolidaysReportController extends Controller {
             $displayed_teamid = $this->teamid;
          }
 
-         // 'teamid' is used because it's not possible to make a difference
-         // between an unchecked checkBox and an unset checkbox variable
-         if (isset($_POST['displayed_teamid'])) {
-            $isExternalTasks = isset($_POST['cb_extTasks']) ? TRUE : FALSE;
+         // --- Filters
+         $filtersStr = Tools::getSecurePOSTStringValue('checkedFilters', '');
+         if (!empty($filtersStr)) {
+           $filters = Tools::doubleExplode(':', ',', $filtersStr);
          } else {
-            $isExternalTasks = TRUE; // default
+            $filters = array(
+                'isExternalTasks' => 1,
+                'isSidetasksInactivity' => 1,
+                );
          }
 
+         $filterInfo = array();
+         $filterInfo[] = array(
+               'filterId' => 'isExternalTasks',
+               'filterName' => T_('External Tasks'),
+               'isChecked' => $filters['isExternalTasks'],
+            );
+         $filterInfo[] = array(
+               'filterId' => 'isSidetasksInactivity',
+               'filterName' => T_('Sidetasks Inactivity'),
+               'isChecked' => $filters['isSidetasksInactivity'],
+            );
+         $this->smartyHelper->assign('filterInfo', $filterInfo);
+         $this->smartyHelper->assign('checkedFilters', $filtersStr);
+         
+         // ---
          $teams = SmartyTools::getSmartyArray($this->teamList,$displayed_teamid);
          #$teams = SmartyTools::getSmartyArray(Team::getTeams(),$displayed_teamid);
          $this->smartyHelper->assign('availableTeams', $teams);
          $this->smartyHelper->assign('years', SmartyTools::getYears($year,2));
-         $this->smartyHelper->assign('isExternalTasks', $isExternalTasks);
 
          if($displayed_teamid == 0 && count($teams) > 0) {
             $teamids = array_keys($teams);
@@ -79,7 +96,7 @@ class HolidaysReportController extends Controller {
                "name" => Tools::formatDate("%B %Y", $monthTimestamp),
                "idcaption" => Tools::formatDate("%B", $monthTimestamp),
                "days" => $this->getDays($nbDaysInMonth, $i, $year),
-               "users" => $this->getDaysUsers($i, $year, $displayed_teamid, $users, $nbDaysInMonth, $isExternalTasks),
+               "users" => $this->getDaysUsers($i, $year, $displayed_teamid, $users, $nbDaysInMonth, $filters),
                "workdays" => Holidays::getInstance()->getWorkdays($monthTimestamp, $endMonthTimestamp)
             );
          }
@@ -122,9 +139,12 @@ class HolidaysReportController extends Controller {
     * @param bool $isExternalTasks True if external tasks wanted, else false
     * @return mixed[string]
     */
-   function getDaysUsers($month, $year, $teamid, array $users, $nbDaysInMonth, $isExternalTasks = FALSE) {
+   function getDaysUsers($month, $year, $teamid, array $users, $nbDaysInMonth, $filters) {
       $holidays = Holidays::getInstance();
-
+      
+      $isExternalTasks = $filters['isExternalTasks'];
+      $isSidetasksInactivity = $filters['isSidetasksInactivity'];
+      
       $startT = mktime(0, 0, 0, $month, 1, $year);
       $endT = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
 
@@ -180,12 +200,15 @@ class HolidaysReportController extends Controller {
                      "title" => htmlentities((T_($astreintes[$timestamp]['type']))),
                   );
                } elseif (isset($daysOf[$timestamp]) && (NULL != $daysOf[$timestamp])) {
-                  $days[$i] = array(
-                     "color" => $daysOf[$timestamp]['color'],
-                     "align" => true,
-                     "title" => htmlentities($daysOf[$timestamp]['title']),
-                     "value" => $daysOf[$timestamp]['duration']
-                  );
+                  
+                  if ($isSidetasksInactivity) {
+                     $days[$i] = array(
+                        "color" => $daysOf[$timestamp]['color'],
+                        "align" => true,
+                        "title" => htmlentities($daysOf[$timestamp]['title']),
+                        "value" => $daysOf[$timestamp]['duration']
+                     );
+                  }
                }
 
                if(!isset($days[$i]) ) {

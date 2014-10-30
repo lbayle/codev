@@ -1,20 +1,5 @@
 <div id="content" class="center">
    {if isset($availableTeams)}
-   <script type="text/javascript">
-      jQuery(document).ready(function() {
-         var form = jQuery("#form1");
-
-         jQuery("#displayed_teamid").change(function() {
-            form.submit();
-         });
-         jQuery("#year").change(function() {
-            form.submit();
-         });
-         jQuery("#cb_extTasks").change(function() {
-            form.submit();
-         });
-      });
-   </script>
    <form id="form1" name="form1" method="post" action="{$page}">
       <fieldset>
          <label for="displayed_teamid">{t}Team{/t}: </label>
@@ -26,9 +11,27 @@
 
          <label for="year">{t}Year{/t}:</label>
          {include file="form/yearSelector.html"}
-         <label><input type="checkbox" {if $isExternalTasks}checked="checked"{/if} name="cb_extTasks" id="cb_extTasks" style="vertical-align: bottom;" /><span style="vertical-align: middle;">{t}Show external tasks{/t}</span></label>
+         &nbsp;
+         <a title="{t}Set filters{/t}" id="btFilter" style="text-decoration: none" href="{$page}">
+            <img border="0" width="16" height="12" align="absmiddle" src="images/im-filter.png" alt="Set filters" />
+         </a>
+         <input type="hidden" name="checkedFilters" value="{$checkedFilters}" />
       </fieldset>
    </form>
+   
+    <div id="setFilter_dialog" title="{t}Filters{/t}" class="ui-helper-hidden">
+       <p>{t}Displayed tasks{/t}</p>
+       <form id="setFilter_form" name="setFilter_form" method="post" action="{$page}" >
+          <fieldset>
+             {foreach from=$filterInfo key=id item=i} 
+             <input type="checkbox" class="cb_filter" name="{$i.filterId}" {if $i.isChecked} checked="checked" {/if}/>
+             <label>{$i.filterName}</label>
+             <br>
+             {/foreach}
+          </fieldset>
+       </form>
+    </div>
+   
    <br>
 
    <div style="display: inline-block;">
@@ -65,6 +68,51 @@
       {/if}
       {/foreach}
    </div>
+   
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         var form = jQuery("#form1");
+
+         jQuery("#displayed_teamid").change(function() {
+            form.submit();
+         });
+         jQuery("#year").change(function() {
+            form.submit();
+         });
+         jQuery("#btFilter").click(function(event) {
+              event.preventDefault();
+              jQuery("#setFilter_dialog" ).dialog( "open" );
+         });
+
+         jQuery("#setFilter_dialog" ).dialog({
+              autoOpen: false,
+              height: 'auto',
+              width: 500,
+              modal: true,
+              buttons: {
+                 Ok: function() {
+                    var form = jQuery("#form1");
+
+                    //  get selected week days
+                    var checkItems = "";
+                    jQuery(".cb_filter").each(function() {
+                       var itemName = jQuery(this).attr("name");
+                       var isChecked = jQuery(this).attr('checked') ? 1 : 0;
+                       checkItems += itemName+":"+isChecked+",";
+                    });
+                    //alert("selected command states: "+checkItems);
+                    form.find("input[name=checkedFilters]").val(checkItems);
+                    form.submit();
+                 },
+                 Cancel: function() {
+                    jQuery(this).dialog( "close" );
+                 }
+              }
+         });
+         
+      });
+   </script>
+   
    {else}
    <p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
    {/if}
