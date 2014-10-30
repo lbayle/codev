@@ -213,12 +213,13 @@ TODO
                         
                         jQuery("#dialogAddDashboardPlugin").dialog("close");
                      },
-                     error:  function() {
-                        alert("AddDashboardPlugin ERROR!");
+                     error:  function(data) {
+                        console.error('ERROR data = ', data);
                         jQuery("#dialogAddDashboardPlugin").dialog("close");
+                        alert("AddDashboardPlugin ERROR!");
+                        //deferred.reject(); // call the 'fail' callback (if defined)
                      }
                   });
-
                },
                Cancel: function() {
                   jQuery(this).dialog("close");

@@ -35,23 +35,27 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
 
       $pluginClassName = Tools::getSecurePOSTStringValue('pluginClassName');
 
+      try {
+         $reflectionMethod = new ReflectionMethod($pluginClassName, 'getDesc');
+         $pDesc = $reflectionMethod->invoke(NULL);
+         $reflectionMethod2 = new ReflectionMethod($pluginClassName, 'getCfgFilemame');
+         $cfgFilename = $reflectionMethod2->invoke(NULL);
 
-      // TODO : check $pluginClassName & catch exceptions
-      $reflectionMethod = new ReflectionMethod($pluginClassName, 'getDesc');
-      $pDesc = $reflectionMethod->invoke(NULL);
-      $reflectionMethod2 = new ReflectionMethod($pluginClassName, 'getCfgFilemame');
-      $cfgFilename = $reflectionMethod2->invoke(NULL);
+         $smartyHelper = new SmartyHelper();
+         $html = $smartyHelper->fetch($cfgFilename);
 
-      $smartyHelper = new SmartyHelper();
-      $html = $smartyHelper->fetch($cfgFilename);
+         $data = array(
+            'description'    => htmlspecialchars($pDesc),
+            'attributesHtml' => $html,
+         );
 
-      $data = array(
-         'description'    => htmlspecialchars($pDesc),
-         'attributesHtml' => $html,
-      );
+         // return html & description string
+         $jsonData = json_encode($data);
 
-      // return html & description string
-      $jsonData = json_encode($data);
+      } catch (Exception $e) {
+         $logger->error("addDashboardPlugin error: ".$e->getMessage());
+         // TODO send an error msg...
+      }
       echo $jsonData;
 
    } else if ($action == 'addDashboardPlugin') {
@@ -70,17 +74,20 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
       }
       //$logger->error("pluginClassName = " . $pluginAttributes['pluginClassName']);
 
-      // TODO : check $pluginClassName & catch exceptions
+      try {
+         $pluginDataProvider = unserialize($_SESSION['pluginDataProvider_xxx']);
+         $smartyHelper = new SmartyHelper();
+         $widget = Dashboard::getWidget($pluginDataProvider, $smartyHelper, $pluginAttributes, 'idx_'.time());
 
-      $pluginDataProvider = unserialize($_SESSION['pluginDataProvider_xxx']);
-      $smartyHelper = new SmartyHelper();
-      $widget = Dashboard::getWidget($pluginDataProvider, $smartyHelper, $pluginAttributes, 999);
-
-      // return the plugin created plugin instance to the dashboard
-      $data = array(
-         'widget'    => $widget,
-      );
-      $jsonData = json_encode($data);
+         // return the plugin created plugin instance to the dashboard
+         $data = array(
+            'widget'    => $widget,
+         );
+         $jsonData = json_encode($data);
+      } catch (Exception $e) {
+         $logger->error("addDashboardPlugin error: ".$e->getMessage());
+         // TODO send an error msg...
+      }
       echo $jsonData;
       
    } else if($action == 'saveDashboardSettings') {
