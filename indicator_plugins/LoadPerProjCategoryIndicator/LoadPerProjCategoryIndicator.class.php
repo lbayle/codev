@@ -32,11 +32,12 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
    private static $categories;
 
    // params from PluginDataProvider
-   //private $inputIssueSel;
+   private $inputIssueSel;
    private $startTimestamp;
+   private $endTimestamp;
+   private $selectedProject;
 
    // config options from Dashboard
-   private $defaultProject;
    private $isDisplayTasks;
 
    // internal
@@ -52,6 +53,7 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
 
       self::$domains = array (
          self::DOMAIN_TEAM,
+         self::DOMAIN_PROJECT,
          self::DOMAIN_USER,
          self::DOMAIN_COMMAND,
          self::DOMAIN_MACRO_COMMAND,
@@ -138,9 +140,13 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
       } else {
          $this->endTimestamp = NULL;
       }
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_PROJECT_ID)) {
+         $this->selectedProject = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_PROJECT_ID);
+      } else {
+         $this->selectedProject = 'allSidetasksProjects';
+      }
 
       // set default pluginSettings
-      $this->defaultProject = 0;
       $this->isDisplayTasks = false;
    }
 
@@ -155,12 +161,6 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
          // override default with user preferences
          if (array_key_exists(self::OPTION_DISPLAY_TASKS, $pluginSettings)) {
             $this->isDisplayTasks = $pluginSettings[self::OPTION_DISPLAY_TASKS];
-         }
-         if (array_key_exists(self::OPTION_DEFAULT_PROJECT, $pluginSettings)) {
-            $this->defaultProject = $pluginSettings[self::OPTION_DEFAULT_PROJECT];
-            
-            // TODO check project exists
-            
          }
       }
    }
@@ -223,9 +223,37 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
 
    private function getProjectList() {
       $team = TeamCache::getInstance()->getTeam($this->teamid);
-      
-      // TODO
-      return $team->getProjects(false, false, true);
+      $teamProjects = $team->getProjects(false, true, true);
+
+      switch ($this->selectedProject) {
+         case 'allSidetasksProjects':
+            $projectList = array();
+            foreach ($teamProjects as $projectid => $pname) {
+               if ($team->isSideTasksProject($projectid)) {
+                  $projectList[$projectid] = $pname;
+               }
+            }
+            break;
+         case 'allProdProjects':
+            $projectList = $team->getProjects(false, true, false);
+            break;
+         case 'allProjects':
+            $projectList = $teamProjects;
+            break;
+         default:
+            if (array_key_exists($this->selectedProject, $teamProjects)) {
+               // it's a real project
+               $projectList = array($this->selectedProject => $teamProjects[$this->selectedProject]);
+            } else {
+               // error case (unknown value)
+               self::$logger->error('getProjectList(): Unknown project_id='.$this->selectedProject);
+               $projectList = array();
+            }
+      }
+      //self::$logger->error('selectedProject='.$this->selectedProject);
+      //self::$logger->error('getProjectList='.var_export($projectList, true));
+
+      return $projectList;
    }
 
       /**
@@ -290,11 +318,16 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
    public function getSmartyVariables($isAjaxCall = false) {
 
       
-      $projects = SmartyTools::getSmartyArray($this->getProjectList(),$this->defaultProject);
+      $team = TeamCache::getInstance()->getTeam($this->teamid);
+      $teamProjects = $team->getProjects(false, true, true);
+      $teamProjects['allSidetasksProjects'] = '-- '.T_('All Sidetasks Projects').' --';
+      $teamProjects['allProdProjects'] = '-- '.T_('All Production Projects').' --';
+      $teamProjects['allProjects'] = '-- '.T_('All Projects').' --';
+      $projects = SmartyTools::getSmartyArray($teamProjects,$this->selectedProject);
       //self::$logger->error(var_export($projects, true));
       
       $data = array();
-      foreach ($this->execData as $catName => $catInfo) {
+      foreach ($this->execData as $catInfo) {
          if (0 != $catInfo['duration']) {
             $data[$catInfo['catName']] = $catInfo['duration'];
          }
@@ -311,7 +344,6 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
          'loadPerProjCategoryIndicator_jqplotData' => $jqplotData,
               
          // add pluginSettings (if needed by smarty)
-         'loadPerProjCategoryIndicator_'.self::OPTION_DEFAULT_PROJECT => $this->defaultProject,
          'loadPerProjCategoryIndicator_'.self::OPTION_DISPLAY_TASKS => $this->isDisplayTasks,
       );
 

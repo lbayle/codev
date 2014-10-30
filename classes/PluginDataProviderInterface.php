@@ -39,6 +39,7 @@ interface PluginDataProviderInterface {
     * it is context dependent (see IndicatorPlugin domain).
     */
    const PARAM_TEAM_ID = 'teamid';
+   const PARAM_PROJECT_ID = 'projectid';
    const PARAM_SESSION_USER_ID = 'sessionUserId';
    const PARAM_START_TIMESTAMP = 'startTimestamp';
    const PARAM_END_TIMESTAMP = 'endTimestamp';
