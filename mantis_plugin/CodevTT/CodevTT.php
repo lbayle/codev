@@ -20,7 +20,7 @@ class CodevTTPlugin extends MantisPlugin {
       $this->description = plugin_lang_get('description');
       $this->page = '';
 
-      $this->version = '0.6';
+      $this->version = '0.6.1';
       $this->requires = array(
           'MantisCore' => '1.2.0',
       );
@@ -326,11 +326,11 @@ class CodevTTPlugin extends MantisPlugin {
 
       // if status changed to 'resolved' then set Backlog = 0
       #$query = "SELECT COUNT(id) FROM `mantis_bug_table` WHERE id = $bug_data->id AND status >= get_issue_resolved_status_threshold($bug_data->id)";
-      $query = "SELECT COUNT(id) as cnt FROM `mantis_bug_table` WHERE id = " . db_param() . " AND " . db_param() . " = get_issue_resolved_status_threshold(" . db_param() . ")";
+      $query = 'SELECT COUNT(id) as cnt FROM `mantis_bug_table` WHERE id = ' . db_param() . ' AND ' . db_param() . ' = get_issue_resolved_status_threshold(' . db_param() . ')';
       $result = db_query_bound($query, array( $bug_data->id, $bug_data->status, $bug_data->id) );
       $row = db_fetch_array( $result );
 
-      if ($row) {
+      if ($row['cnt'] > 0) {
          // update backlog
          try {
             $issue = new IssueMantisPluginHelper($bug_data->id);
