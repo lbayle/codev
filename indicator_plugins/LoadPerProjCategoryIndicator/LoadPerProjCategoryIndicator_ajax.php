@@ -39,11 +39,15 @@ if(Tools::isConnectedUser() && isset($_GET['action'])) {
             $pluginDataProvider = unserialize($_SESSION['pluginDataProvider_xxx']);
             if (FALSE != $pluginDataProvider) {
 
-               // TODO do not log exception if date = 01-01-1970
                $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerProjCategory_startdate"));
                $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerProjCategory_enddate"));
-               $selectedProject = Tools::getSecureGETStringValue('loadPerProjCategory_projectid');
 
+               $attributesJsonStr = Tools::getSecureGETStringValue('attributesJsonStr');
+               $attributesArray = json_decode(stripslashes($attributesJsonStr), true);
+               
+               $selectedProject = $attributesArray['projectid'];
+               $isDisplayTasks  = $attributesArray['isDisplayTasks'];
+               
                // update dataProvider
                $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
                $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
@@ -51,6 +55,11 @@ if(Tools::isConnectedUser() && isset($_GET['action'])) {
 
                $indicator = new LoadPerProjCategoryIndicator($pluginDataProvider);
 
+               // override plugin settings with current attributes
+               $indicator->setPluginSettings(array(
+                   LoadPerProjCategoryIndicator::OPTION_DISPLAY_TASKS => $isDisplayTasks,
+               ));
+               
                $indicator->execute();
                $data = $indicator->getSmartyVariablesForAjax(); 
 

@@ -162,6 +162,9 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
          if (array_key_exists(self::OPTION_DISPLAY_TASKS, $pluginSettings)) {
             $this->isDisplayTasks = $pluginSettings[self::OPTION_DISPLAY_TASKS];
          }
+         if (array_key_exists(PluginDataProviderInterface::PARAM_PROJECT_ID, $pluginSettings)) {
+            $this->selectedProject = $pluginSettings[PluginDataProviderInterface::PARAM_PROJECT_ID];
+         }
       }
    }
 

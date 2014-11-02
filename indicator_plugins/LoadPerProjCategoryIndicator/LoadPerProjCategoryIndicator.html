@@ -16,7 +16,7 @@
          </select>
          <input class="loadPerProjCategory_submit" type="submit" value="{t}Display{/t}" />
          <input type="hidden" name="action" value="getLoadPerProjCategoryIndicator" />
-         <input type="hidden" name="loadPerProjCategory_projectid" value="" />
+         <input type="hidden" name="attributesJsonStr" value="" />
       </fieldset>
    </form>
 </div>
@@ -61,9 +61,17 @@
          event.preventDefault();
 
          var form = jQuery('.loadPerProjCategoryIndicator_dateRange_form');
-
-         form.find('input[name=loadPerProjCategory_projectid]').val(jQuery('.loadPerProjCategory_projects').val());
-
+         
+         // save the selected projectId in the attributesJsonStr so it can be restored
+         var attr = jQuery('.LoadPerProjCategoryIndicatorAttr.attributesJsonStr');
+         var attributesJson = jQuery.parseJSON(attr.text());
+         attributesJson['projectid'] = jQuery('.loadPerProjCategory_projects').val();
+         var attributesJsonStr = JSON.stringify(attributesJson);
+         attr.text(attributesJsonStr);
+         
+         // send attributesJsonStr because the ajax php need to know about 'isDisplayTasks' and 'projectId'
+         form.find('input[name=attributesJsonStr]').val(attributesJsonStr);
+         
          var url = form.attr('action');
          var type = form.attr('method');
          jQuery.ajax({

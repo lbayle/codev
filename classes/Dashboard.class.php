@@ -231,7 +231,7 @@ class Dashboard {
             }
 
             $widget = self::getWidget($pluginDataProvider, $smartyHelper, $pluginAttributes, $idx);
-            $dashboardWidgets[] = $widget;
+            $dashboardWidgets[$pClassName] = $widget;
 
             // get all mandatory CSS files
             foreach ($pClassName::getCssFiles() as $cssFile) {
