@@ -62,9 +62,9 @@ TODO
     <div id="columns">
 
         <ul id="column1" class="column">
-           {foreach from=$dashboardWidgets key=id item=i}
+           {foreach from=$dashboardWidgets key=pClassName item=i}
             <li class="widget {$i.color}" id="{$i.id}">
-               <div style="display: none;" class="attributesJsonStr">{$i.attributesJsonStr}</div>
+               <div style="display: none;" class="{$pClassName}Attr attributesJsonStr">{$i.attributesJsonStr}</div>
                 <div class="widget-head">
                     <h3>{$i.title}</h3>
                 </div>
