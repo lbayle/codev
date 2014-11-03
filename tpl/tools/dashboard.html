@@ -7,9 +7,6 @@ This file is associated to
 when adding a plugin, a dialogbox raises to set the plugin attributes.
 the content of this dialog is furnished by the plugin and loaded by ajax
 
-TODO
-- replace id by class (id="head", id="columns", id="column1", ...)
-
 -->
 
    <link href="lib/inettuts/inettuts_codevtt.css" rel="stylesheet" type="text/css" />
@@ -18,7 +15,7 @@ TODO
    {/foreach}
 
    
-    <div id="head">
+    <div class="inettuts-head">
         <h2>{$dashboardTitle}</h2>
          <button  title="{t}Add an indicator to the dashboard{/t}" onclick="addDashboardPlugin();return false;">
             <img align="absmiddle" border="0" src="images/b_add.png" alt="Add icon">
@@ -28,7 +25,7 @@ TODO
             <img align="absmiddle" border="0" src="images/b_save.png" alt="Save icon">
             {t}Save{/t}
          </button>
-         <div id="dialogAddDashboardPlugin" title="{t}Add Indicator{/t}" class="ui-helper-hidden">
+         <div class="dialogAddDashboardPlugin" title="{t}Add Indicator{/t}" class="ui-helper-hidden">
             <div  style="width: 500px; margin-top:1em;"></div>
             <form id="formAddDashboardPlugin" name="formAddDashboardPlugin" method="post" action="{$page}" >
                <fieldset>
@@ -59,9 +56,9 @@ TODO
          </div>
       </div>
 
-    <div id="columns">
+    <div class="inettuts-columns">
 
-        <ul id="column1" class="column">
+        <ul class="inettuts-column1 column">
            {foreach from=$dashboardWidgets key=pClassName item=i}
             <li class="widget {$i.color}" id="{$i.id}">
                <div style="display: none;" class="{$pClassName}Attr attributesJsonStr">{$i.attributesJsonStr}</div>
@@ -84,7 +81,7 @@ TODO
 
     <script type="text/javascript">
       function addDashboardPlugin(){
-         jQuery("#dialogAddDashboardPlugin").dialog("open");
+         jQuery(".dialogAddDashboardPlugin").dialog("open");
       }
 
       jQuery(document).ready(function() {
@@ -115,7 +112,7 @@ TODO
             }
          });
 
-         jQuery("#dialogAddDashboardPlugin").dialog({
+         jQuery(".dialogAddDashboardPlugin").dialog({
             autoOpen: false,
             resizable: true,
             width: "auto",
@@ -182,7 +179,7 @@ TODO
                         });      
 
                         // add new Widget to the dashboard
-                        var ulObj = jQuery("#column1");
+                        var ulObj = jQuery(".inettuts-column1");
                         var liObj = jQuery('<li></li>').addClass("widget").addClass(widget.color);
                         var divHeadObj = jQuery('<div></div>').addClass("widget-head").append(jQuery('<h3></h3>').html(widget.title));
                         var divContentObj = jQuery('<div></div>').addClass("widget-content").html(widget.content);
@@ -211,11 +208,11 @@ TODO
                         //console.log("pluginInitFunction", functionName);
                         window[functionName]();
                         
-                        jQuery("#dialogAddDashboardPlugin").dialog("close");
+                        jQuery(".dialogAddDashboardPlugin").dialog("close");
                      },
                      error:  function(data) {
                         console.error('ERROR data = ', data);
-                        jQuery("#dialogAddDashboardPlugin").dialog("close");
+                        jQuery(".dialogAddDashboardPlugin").dialog("close");
                         alert("AddDashboardPlugin ERROR!");
                         //deferred.reject(); // call the 'fail' callback (if defined)
                      }
