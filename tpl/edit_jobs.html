@@ -53,6 +53,7 @@
             <input style="background-color: #FFFFFF" name="job_color" type="text" id="job_color" value="FFFFFF" title="format: FFFFFF" size="6" />
             <input type="button" id="addJob" name="btAddJob" value="{t}Add{/t}" />
             &nbsp;&nbsp;&nbsp;<a href='http://www.colorschemer.com/online.html' target='_blank' title="{t}open a colorPicker in a new Tab{/t}">ColorPicker</a>
+            <input type="hidden" name="action" value="addJob" />
          </fieldset>
       </form>
 
@@ -96,6 +97,7 @@
          <form id="deleteJobForm" name="deleteJobForm" method="post" action="{$page}" class="ui-helper-hidden">
             <fieldset>
                <input type="hidden" name="job_id" value="0" />
+               <input type="hidden" name="action" value="deleteJob" />
             </fieldset>
          </form>
       </div>
@@ -144,7 +146,7 @@
                   <td>
                      <select name="job_id" size="5">
                         {foreach from=$assignedJobs key=id item=i}
-                        <option value="{$id}">{$i}</option>
+                        <option value="{$id}">{$i.name}</option>
                         {/foreach}
                      </select>
                   </td>
@@ -161,6 +163,7 @@
                </tr>
             </table>
             <input type="hidden" name="formattedProjects" value="" />
+            <input type="hidden" name="action" value="addAssociationProject" />
          </form>
       </div>
 
@@ -201,6 +204,7 @@
       <form id="deleteJobProjectAssociationForm" name="deleteJobProjectAssociationForm" method="post" action="{$page}" class="ui-helper-hidden">
          <fieldset>
             <input type="hidden" name="asso_id" value="0" />
+            <input type="hidden" name="action" value="deleteJobProjectAssociation" />
          </fieldset>
       </form>
    </div>

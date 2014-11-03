@@ -37,7 +37,9 @@ class EditJobsController extends Controller {
          if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
             $this->smartyHelper->assign('jobType', Job::$typeNames);
 
-            if (isset($_POST['job_name'])) {
+            $action = Tools::getSecurePOSTStringValue('action', 'none');
+
+            if ('addJob' == $action) {
                $job_name = Tools::getSecurePOSTStringValue('job_name');
                $job_type = Tools::getSecurePOSTStringValue('job_type');
                $job_color = Tools::getSecurePOSTStringValue('job_color');
@@ -46,23 +48,24 @@ class EditJobsController extends Controller {
 
                // save to DB
                Jobs::create($job_name, $job_type, $job_color);
-            } elseif (isset($_POST['projects'])) {
-               $job_id = Tools::getSecurePOSTIntValue('job_id');
+
+            } elseif ('addAssociationProject' == $action) {
 
                // Add Job to selected projects
-               if(isset($_POST['formattedProjects'])) {
-                  $proj = explode(",",Tools::getSecurePOSTStringValue('formattedProjects'));
-                  foreach($proj as $project_id){
-                     // TODO check if not already in table !
-                     // save to DB
-                     $query = "INSERT INTO `codev_project_job_table`  (`project_id`, `job_id`) VALUES ('".$project_id."','".$job_id."');";
-                     $result = SqlWrapper::getInstance()->sql_query($query);
-                     if (!$result) {
-                        $this->smartyHelper->assign('error', T_("Couldn't add the job association"));
-                     }
+               $job_id = Tools::getSecurePOSTIntValue('job_id');
+               $proj = explode(",",Tools::getSecurePOSTStringValue('formattedProjects'));
+               foreach($proj as $project_id) {
+                  // TODO check if not already in table !
+
+                  // save to DB
+                  $query = "INSERT INTO `codev_project_job_table`  (`project_id`, `job_id`) VALUES ('".$project_id."','".$job_id."');";
+                  $result = SqlWrapper::getInstance()->sql_query($query);
+                  if (!$result) {
+                     $this->smartyHelper->assign('error', T_("Couldn't add the job association"));
                   }
                }
-            } elseif (isset($_POST['job_id'])) {
+               
+            } elseif ('deleteJob' == $action) {
                $job_id = Tools::getSecurePOSTIntValue('job_id');
 
                // TODO delete Support job not allowed
@@ -78,7 +81,8 @@ class EditJobsController extends Controller {
                if (!$result) {
                   $this->smartyHelper->assign('error', T_("Couldn't delete the job"));
                }
-            } elseif (isset($_POST['asso_id'])) {
+
+            } elseif ('deleteJobProjectAssociation' == $action) {
                $asso_id = Tools::getSecurePOSTIntValue('asso_id');
 
                $query = "DELETE FROM `codev_project_job_table` WHERE id = ".$asso_id.';';
@@ -90,7 +94,9 @@ class EditJobsController extends Controller {
 
             $jobs = $this->getJobs();
             $this->smartyHelper->assign('jobs', $jobs);
-            $this->smartyHelper->assign('assignedJobs', $this->getAssignedJobs($jobs));
+
+            //$this->smartyHelper->assign('assignedJobs', $this->getAssignedJobs($jobs));
+            $this->smartyHelper->assign('assignedJobs', $jobs);
 
             $projects = Project::getProjects();
             $this->smartyHelper->assign('projects', $projects);
