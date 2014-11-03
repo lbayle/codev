@@ -82,7 +82,7 @@
             <tbody>
                {foreach from=$jobs key=id item=i}
                <tr>
-                  <td class="ui-state-error-text" style="width:1em;">{if isset($i.deletedJob)}
+                  <td class="ui-state-error-text" style="width:1em;">{if isset($i.deletedJob) && $i.deletedJob}
                      <a class="ui-icon" title="{t}delete Job{/t}" href="{$page}"
                         onclick="deleteJob('{$id}', '{$i.name}');return false"></a>
                   {/if}</td>
