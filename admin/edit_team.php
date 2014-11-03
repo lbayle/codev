@@ -309,6 +309,7 @@ class EditTeamController extends Controller {
             "name" => $row->name,
             "enabled" => (1 == $row->enabled) ? T_('enabled') : T_('disabled'),
             "projectid" => $row->project_id,
+            "type" => $row->type,
             "typeNames" => Project::$typeNames[$row->type],
             "description" => $row->description
          );
@@ -317,6 +318,12 @@ class EditTeamController extends Controller {
          if (Config::getInstance()->getValue(Config::id_externalTasksProject) != $row->project_id) {
             $teamProjectsTuple[$row->id]["delete"] = 'ok';
          }
+      }
+
+      // add jobList
+      foreach ($teamProjectsTuple as $id => $info) {
+         $p = ProjectCache::getInstance()->getProject($info['projectid']);
+         $teamProjectsTuple[$id]['jobs'] = implode(', ', $p->getJobList($info['type']));
       }
 
       return $teamProjectsTuple;
