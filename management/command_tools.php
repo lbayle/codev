@@ -113,6 +113,55 @@ class CommandTools {
       return $provArray;
    }
 
+   /**
+    * @param Command $command
+    * @return mixed[]
+    */
+   private static function getProvisionTotalList(Command $command, int $type = NULL) {
+
+      $provTotalArray =  NULL;
+      
+      // compute data
+      $provisions = $command->getProvisionList($type);
+      
+      if (!empty($provisions)) {
+          
+        $provTotalArray = array();
+        foreach ($provisions as $id => $prov) {
+
+            // a provision
+            $type = CommandProvision::$provisionNames[$prov->getType()];
+            $budget_days = $prov->getProvisionDays();
+            $budget = $prov->getProvisionBudget();
+
+            // compute total per category
+            $provDaysTotalArray["$type"] += $budget_days;
+            $provBudgetTotalArray["$type"] += $budget;
+
+            // compute total for all categories
+            $globalDaysTotal += $budget_days;
+            $globalBudgetTotal += $budget;
+        }
+        // prepare for the view
+        $provTotalArray = array();
+        foreach($provDaysTotalArray as $type => $daysPerType) {
+
+           $provTotalArray[$type] = array(
+              'type' => $type,
+              'budget_days' => $daysPerType,
+              'budget' => $provBudgetTotalArray[$type],
+           );
+        }
+        $provTotalArray['TOTAL'
+            ] = array(
+             'type' => 'TOTAL',
+             'budget_days' => $globalDaysTotal,
+             'budget' => $globalBudgetTotal,
+         );
+      }
+      return $provTotalArray;
+   }
+
 
    /**
     * get all internal bugs of the command
@@ -441,6 +490,7 @@ class CommandTools {
 
       $smartyHelper->assign('cmdProvisionList', self::getProvisionList($cmd));
       $smartyHelper->assign('cmdProvisionTypeMngt', CommandProvision::provision_mngt);
+      $smartyHelper->assign('cmdProvisionTotalList', self::getProvisionTotalList($cmd));
 
       $cmdTotalSoldDays = $cmd->getTotalSoldDays();
       $smartyHelper->assign('cmdTotalSoldDays', $cmdTotalSoldDays);
