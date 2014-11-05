@@ -131,6 +131,54 @@ class CommandSetTools {
    }
 
    /**
+    * @param Command $commandSet
+    * @return mixed[]
+    */
+   private static function getProvisionTotalList(CommandSet $commandSet, int $type = NULL) {
+
+      $provTotalArray =  NULL;
+      
+      // compute data
+      $provisions = $commandSet->getProvisionList(Command::type_general, $type);
+      
+      if (!empty($provisions)) {
+          
+        foreach ($provisions as $id => $prov) {
+
+            // a provision
+            $type = CommandProvision::$provisionNames[$prov->getType()];
+            $budget_days = $prov->getProvisionDays();
+            $budget = $prov->getProvisionBudget();
+
+            // compute total per category
+            $provDaysTotalArray["$type"] += $budget_days;
+            $provBudgetTotalArray["$type"] += $budget;
+
+            // compute total for all categories
+            $globalDaysTotal += $budget_days;
+            $globalBudgetTotal += $budget;
+        }
+        // prepare for the view
+        $provTotalArray = array();
+        foreach($provDaysTotalArray as $type => $daysPerType) {
+
+           $provTotalArray[$type] = array(
+              'type' => $type,
+              'budget_days' => $daysPerType,
+              'budget' => $provBudgetTotalArray[$type],
+           );
+        }
+        $provTotalArray['TOTAL'
+            ] = array(
+             'type' => 'TOTAL',
+             'budget_days' => $globalDaysTotal,
+             'budget' => $globalBudgetTotal,
+         );
+      }
+      return $provTotalArray;
+   }
+   
+   /**
     * code factorisation
     *
     * returns the input params for some indicators.
@@ -371,7 +419,7 @@ class CommandSetTools {
 
 
       $smartyHelper->assign('cmdProvisionList', self::getProvisionList($commandset));
-
+      $smartyHelper->assign('cmdProvisionTotalList', self::getProvisionTotalList($commandset));
 
 
 

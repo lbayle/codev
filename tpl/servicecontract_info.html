@@ -347,6 +347,21 @@
       </div>
       <div id="tab_provisions" >
 
+         <table>
+             <tr>
+                 <th>{t}Type{/t}</th>
+                 <th>{t}Budget Days{/t}</th>
+                 <th>{t}Budget{/t}</th>
+             </tr>
+            {foreach $cmdProvisionTotalList as $id => $provTotalRow}
+             <tr>
+                 <td>{$provTotalRow.type}</td>
+                 <td>{$provTotalRow.budget_days}</td>
+                 <td>{$provTotalRow.budget}</td>
+             </tr>
+            {/foreach}
+         </table>
+         
          {if $cmdProvisionList}
          <div align="center">
             <table id="prov_table" class="datatable">
