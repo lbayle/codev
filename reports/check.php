@@ -94,23 +94,23 @@ class CheckController extends Controller {
                $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
                $summary = $issue->getSummary();
                $projName = $issue->getProjectName();
-               $targetVersion = $issue->getTargetVersion();
+               $refExt = $issue->getTcId();
             } else {
                $summary = '';
                $projName = '';
-               $targetVersion = '';
             }
 
             $cerrs[$i] = array(
                'userName' => isset($user) ? $user->getName() : '',
                'issueURL' => (NULL == $cerr->bugId) ? '' : Tools::issueInfoURL($cerr->bugId, $summary),
                'mantisURL' => (NULL == $cerr->bugId) ? '' : Tools::mantisIssueURL($cerr->bugId, $summary, true),
+               'extRef' =>  (NULL == $refExt) ? '' : $refExt,
                'date' =>  (NULL == $cerr->timestamp) ? '' : date("Y-m-d", $cerr->timestamp),
                'status' => (NULL == $cerr->status) ? '' : Constants::$statusNames[$cerr->status],
                'severity' => $cerr->getLiteralSeverity(),
                'project' => $projName,
-               'targetVersion' => $targetVersion,
-               'desc' => $cerr->desc
+               'desc' => $cerr->desc,
+               'summary' => $summary,
             );
          }
       }
