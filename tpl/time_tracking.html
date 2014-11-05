@@ -81,7 +81,14 @@
                      var jobSelect = jQuery('#job');
                      jobSelect.empty();
                      var availableJobs = data['availableJobs'];
-                     var nbJobs = Object.keys(availableJobs).length;
+                     //var nbJobs = Object.keys(availableJobs).length; (IE not compatible with ecmascript5...)
+                     var nbJobs = 0;
+                     for(var k in availableJobs) {
+                        if (availableJobs.hasOwnProperty(k)) {
+                           nbJobs++;
+                        }
+                     }
+                     
                      if (nbJobs > 1) {
                         jobSelect.append(jQuery('<option>').attr('value', '0').append('').attr('selected', 'selected'));
                      }
