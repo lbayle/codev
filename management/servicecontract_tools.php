@@ -286,6 +286,54 @@ class ServiceContractTools {
    }
 
    /**
+    * @param Command $commandSet
+    * @return mixed[]
+    */
+   private static function getProvisionTotalList(ServiceContract $contract, int $type = NULL) {
+
+      $provTotalArray =  NULL;
+      
+      // compute data
+      $provisions = $contract->getProvisionList(CommandSet::type_general, Command::type_general, $type);
+      
+      if (!empty($provisions)) {
+          
+        foreach ($provisions as $id => $prov) {
+
+            // a provision
+            $type = CommandProvision::$provisionNames[$prov->getType()];
+            $budget_days = $prov->getProvisionDays();
+            $budget = $prov->getProvisionBudget();
+
+            // compute total per category
+            $provDaysTotalArray["$type"] += $budget_days;
+            $provBudgetTotalArray["$type"] += $budget;
+
+            // compute total for all categories
+            $globalDaysTotal += $budget_days;
+            $globalBudgetTotal += $budget;
+        }
+        // prepare for the view
+        $provTotalArray = array();
+        foreach($provDaysTotalArray as $type => $daysPerType) {
+
+           $provTotalArray[$type] = array(
+              'type' => $type,
+              'budget_days' => $daysPerType,
+              'budget' => $provBudgetTotalArray[$type],
+           );
+        }
+        $provTotalArray['TOTAL'
+            ] = array(
+             'type' => 'TOTAL',
+             'budget_days' => $globalDaysTotal,
+             'budget' => $globalBudgetTotal,
+         );
+      }
+      return $provTotalArray;
+   }
+   
+   /**
     * code factorisation
     *
     * returns the input params for some indicators.
@@ -509,6 +557,7 @@ class ServiceContractTools {
       $smartyHelper->assign('nbSidetasksList', $issueSelection->getNbIssues());
 
       $smartyHelper->assign('cmdProvisionList', self::getProvisionList($servicecontract));
+      $smartyHelper->assign('cmdProvisionTotalList', self::getProvisionTotalList($servicecontract));
 
 
       $smartyHelper->assign('servicecontractTotalDetailedMgr', self::getContractTotalDetailedMgr($servicecontract->getId(), $provDaysByType));

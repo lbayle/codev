@@ -143,7 +143,6 @@ class CommandSetTools {
       
       if (!empty($provisions)) {
           
-        $provTotalArray = array();
         foreach ($provisions as $id => $prov) {
 
             // a provision
