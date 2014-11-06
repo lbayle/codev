@@ -97,7 +97,8 @@ class HolidaysReportController extends Controller {
                "idcaption" => Tools::formatDate("%B", $monthTimestamp),
                "days" => $this->getDays($nbDaysInMonth, $i, $year),
                "users" => $this->getDaysUsers($i, $year, $displayed_teamid, $users, $nbDaysInMonth, $filters),
-               "workdays" => Holidays::getInstance()->getWorkdays($monthTimestamp, $endMonthTimestamp)
+               "workdays" => Holidays::getInstance()->getWorkdays($monthTimestamp, $endMonthTimestamp),
+               "filename_csv" => date("Ym", $monthTimestamp).'_'.str_replace(' ', '_', $team->getName()).'_holidays.csv',
             );
          }
          $this->smartyHelper->assign('months', $months);
