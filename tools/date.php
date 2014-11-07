@@ -25,7 +25,7 @@ function setCalendarToDateForm($defaultDate1) {
    echo '<script type="text/javascript" src="lib/jquery/jquery.min.js"></script>';
    echo '<script type="text/javascript" src="lib/jquery/js/jquery.bgiframe-2.1.2.js"></script>';
    echo '<script type="text/javascript" src="lib/jquery.bgiframe/jquery.bgiframe.min.js"></script>';
-   echo '<script type="text/javascript" src="js/datepicker.js"></script>';
+   echo '<script type="text/javascript" src="js_min/datepicker.min.js"></script>';
    echo "<form id='form1' name='form1' method='post' action='$_SERVER[PHP_SELF]'>\n";
    echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
    echo '<script type="text/javascript">';
