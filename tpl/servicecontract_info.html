@@ -7,7 +7,7 @@
       <form id="selectForm" name="selectForm" class="formWithTabsHistory" method="post" action="{$page}">
          <fieldset>
             <label for="servicecontractid">{t}ServiceContract{/t}:</label>
-            <select id="servicecontractid" name="servicecontractid" class="select2" style="width: 400px;">
+            <select id="servicecontractid" name="servicecontractid" class="select2" style="width: 50%;">
                {foreach from=$servicecontracts key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} - {$i.name}</option>
                {/foreach}

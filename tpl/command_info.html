@@ -56,7 +56,7 @@
                <img border="0" width="16" height="12" align="absmiddle" src="images/im-filter.png" alt="Set filters" />
                {/if}
             </a>
-            <select id="cmdid" name="cmdid" class="select2" style="width:400px;">
+            <select id="cmdid" name="cmdid" class="select2" style="width:50%;">
                {foreach from=$commands key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} - {$i.name}</option>
                {/foreach}

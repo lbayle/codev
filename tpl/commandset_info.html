@@ -17,7 +17,7 @@
       <form id="selectForm" name="selectForm" class="formWithTabsHistory" method="post" action="{$page}">
          <fieldset>
             <label for="commandsetid">{t}CommandSet{/t}:</label>
-            <select id="commandsetid" name="commandsetid" class="select2" style="width: 400px;">
+            <select id="commandsetid" name="commandsetid" class="select2" style="width: 50%;">
                {foreach from=$commandsets key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} - {$i.name}</option>
                {/foreach}
