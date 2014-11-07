@@ -81,8 +81,11 @@
          {foreach from=$weekDetails item=i key=id}
          {if $i.weekJobDetails}
          <div id="tabUser_{str_replace('.','_',$i.name)}">
-            <table style="width: 100%;">
-               <caption><span style="margin-left: 1em;font-size:13px;font-weight:normal;" title="{t}sum(Backlog) of assigned tasks{/t}">{t}Workload{/t} = {$i.forecastWorkload}</span></caption>
+            <table style="width: 100%;" id="tableUser_{str_replace('.','_',$i.name)}">
+               <caption>
+                  <span style="margin-left: 1em;font-size:13px;font-weight:normal;" title="{t}sum(Backlog) of assigned tasks{/t}">{t}Workload{/t} = {$i.forecastWorkload}</span>
+                  <span style="margin-left: 1em;"><img onclick="$('#tableUser_{str_replace('.','_',$i.name)}').table2CSV({literal}{{/literal}filename : '{str_replace('.','_',$i.name)}_weekly_activity.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" /></span>
+               </caption>
                <thead>
                   <tr>
                      <th>{t}Task{/t}</th>

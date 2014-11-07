@@ -22,7 +22,8 @@
          </ul>
          {foreach from=$monthlyActivityReport item=i key=id}
          <div id="tabUser_{str_replace('.','_',$i.name)}">
-            <table style="width: 100%;">
+            <table style="width: 100%;" id="tableUser_{str_replace('.','_',$i.name)}">
+               <caption><img onclick="$('#tableUser_{str_replace('.','_',$i.name)}').table2CSV({literal}{{/literal}filename : '{str_replace('.','_',$i.name)}_activity.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" /></caption>
                <thead>
                   <tr>
                      <th style="width:1px;"></th>
