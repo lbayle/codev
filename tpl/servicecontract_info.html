@@ -347,6 +347,7 @@
       </div>
       <div id="tab_provisions" >
 
+         {if $cmdProvisionList}
          <table>
              <tr>
                  <th>{t}Type{/t}</th>
@@ -361,8 +362,7 @@
              </tr>
             {/foreach}
          </table>
-         
-         {if $cmdProvisionList}
+
          <div align="center">
             <table id="prov_table" class="datatable">
                <thead>
