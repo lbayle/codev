@@ -27,7 +27,6 @@
 <?php
    echo "<link rel='shortcut icon' href='".Tools::getServerRootURL()."/images/favicon.ico' />\n";
    echo "<link href='".Tools::getServerRootURL()."/codev.css' rel='stylesheet' type='text/css' />\n";
-   echo "<link href='".Tools::getServerRootURL()."/light.css' rel='stylesheet' type='text/css' media='print' />\n";
 ?>
 </head>
 
