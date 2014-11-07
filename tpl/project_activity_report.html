@@ -36,8 +36,9 @@
                {foreach from=$projectActivityReport key=id item=i}
                {if $i.bugList}
                <div id="tabProj_{$i.id}">
-                  <table style="width: 100%;">
-                     <!--<caption>{$i.name}</caption>-->
+                  
+                  <table style="width: 100%;" id="tableProj_{$i.id}">
+                     <caption><img onclick="$('#tabProj_{$i.id}').table2CSV({literal}{{/literal}filename : '{$i.name}.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" /></caption>
                      <thead>
                         <tr>
                            <th>{t}Task{/t}</th>
@@ -83,13 +84,13 @@
 
       <div id="tabWorkingDaysPerProjectPerUser">
          {if $userDataList}
-         <h2 align="left">{t}Time spent on Projects per users{/t}</h2>
+         <h2 align="left">{t}Time spent on Projects per users{/t} <span style="margin-left: 1em;"><img onclick="$('#tableWorkingDaysPerProjectPerUser').table2CSV({literal}{{/literal}filename : 'workingDaysPerProjectPerUser.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" /></span></h2>
          <div align="left">
 				<label style="vertical-align: bottom;"><input id="cb_withExtTasksPrj" type="checkbox" {if $isExtTasksPrj}checked="checked"{/if}>{t}With ExternalTasks Project{/t}</label>
 				<br>
 				<label style="vertical-align: bottom;"><input id="cb_withSideTasksPrj" type="checkbox" {if $isSideTasksPrj}checked="checked"{/if}>{t}With SideTasks Project{/t}</label>
          </div>
-         <table class="float">
+         <table class="float" id="tableWorkingDaysPerProjectPerUser">
             <thead>
                <tr>
                   <th></th>
