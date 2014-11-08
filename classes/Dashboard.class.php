@@ -256,10 +256,14 @@ class Dashboard {
      //  the dilplayedPlugins should be removed from candidates
       $dashboardPluginCandidates = array();
       foreach ($candidates as $cClassName) {
-         $dashboardPluginCandidates[] = array(
-            'pluginClassName' => $cClassName,
-            'title' => $cClassName::getName(),
-         );
+         if (class_exists($cClassName)) {
+            $dashboardPluginCandidates[] = array(
+               'pluginClassName' => $cClassName,
+               'title' => $cClassName::getName(),
+            );
+         } else {
+            self::$logger->error('Could not display plugin '.$cClassName.': class not found');
+         }
       }
 
       return array(
