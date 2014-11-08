@@ -299,7 +299,7 @@ class PluginManager {
    }
 
    /**
-    * De pending on where the Dashboard is displayed, not all plugins should be displayed.
+    * Depending on where the Dashboard is displayed, not all plugins should be displayed.
     * You may want to display only the quality (category) plugins available for commands (domain).
     *
     * only activated plugins will be returned
