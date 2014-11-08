@@ -26,6 +26,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
    const OPTION_IS_GRAPH_ONLY = 'isGraphOnly';
    const OPTION_IS_TABLE_ONLY = 'isTableOnly';
    const OPTION_IS_SIDETASK_CAT_DETAILED = 'isSideTasksCategoryDetailed';
+   const OPTION_DATE_RANGE    = 'dateRange';
 
    private static $logger;
    private static $domains;
@@ -39,6 +40,9 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
 
    // config options from Dashboard
    private $pluginSettings;
+   private $isGraphOnly;
+   private $isTableOnly;
+   private $dateRange;  // defaultRange | currentWeek | currentMonth
 
    // internal
    protected $execData;
@@ -142,6 +146,11 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
          $this->endTimestamp = NULL;
       }
 
+      // set default pluginSettings (not provided by the PluginDataProvider)
+      $this->dateRange   = 'defaultRange';
+      $this->isGraphOnly = false;
+      $this->isTableOnly = false;
+
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("checkParams() ISel=".$this->inputIssueSel->name.' startTimestamp='.$this->startTimestamp.' endTimestamp='.$this->endTimestamp);
       }
@@ -164,12 +173,31 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
 
       if (NULL != $pluginSettings) {
 
-         // set default values
-         $this->pluginSettings[self::OPTION_IS_GRAPH_ONLY] = false;
-
          // then override with $pluginSettings
          if (array_key_exists(self::OPTION_IS_GRAPH_ONLY, $pluginSettings)) {
-            $this->pluginSettings[self::OPTION_IS_GRAPH_ONLY] = $pluginSettings[self::OPTION_IS_GRAPH_ONLY];
+            $this->isGraphOnly = $pluginSettings[self::OPTION_IS_GRAPH_ONLY];
+         }
+         if (array_key_exists(self::OPTION_IS_TABLE_ONLY, $pluginSettings)) {
+            $this->isTableOnly = $pluginSettings[self::OPTION_IS_TABLE_ONLY];
+         }
+         if (array_key_exists(self::OPTION_DATE_RANGE, $pluginSettings)) {
+            $this->dateRange = $pluginSettings[self::OPTION_DATE_RANGE];
+
+            // update startTimestamp & endTimestamp
+            switch ($this->dateRange) {
+               case 'currentWeek':
+                  $weekDates = Tools::week_dates(date('W'),date('Y'));
+                  $this->startTimestamp = $weekDates[1];
+                  $this->endTimestamp   = $weekDates[5];
+                  break;
+               case 'currentMonth':
+                  $month = date('m');
+                  $year  = date('Y');
+                  $this->startTimestamp = mktime(0, 0, 0, $month, 1, $year);
+                  $nbDaysInMonth = date("t", $this->startTimestamp);
+                  $this->endTimestamp = mktime(0, 0, 0, $month, $nbDaysInMonth, $year);
+                  break;
+            }
          }
       }
    }
@@ -266,7 +294,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
 
       $smartyVariables = array(
          'loadPerJobIndicator_tableData' => $loadPerJobs,
-         'loadPerJobIndicator_jqplotData' => Tools::array2json($data),
+         'loadPerJobIndicator_jqplotData' => empty($data) ? NULL : Tools::array2json($data),
          'loadPerJobIndicator_colors' => $formatedColors,
          'loadPerJobIndicator_jqplotSeriesColors' => $seriesColors, // TODO get rid of this
          'loadPerJobIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $startTimestamp),

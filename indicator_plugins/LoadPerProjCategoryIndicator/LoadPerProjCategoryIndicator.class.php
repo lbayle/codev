@@ -25,7 +25,8 @@
 class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
 
    const OPTION_DEFAULT_PROJECT = 'defaultProject';
-   const OPTION_DISPLAY_TASKS = 'isDisplayTasks';
+   const OPTION_DISPLAY_TASKS   = 'isDisplayTasks';
+   const OPTION_DATE_RANGE      = 'dateRange';
 
    private static $logger;
    private static $domains;
@@ -39,6 +40,7 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
 
    // config options from Dashboard
    private $isDisplayTasks;
+   private $dateRange;  // defaultRange | currentWeek | currentMonth
 
    // internal
    protected $execData;
@@ -146,8 +148,9 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
          $this->selectedProject = 'allSidetasksProjects';
       }
 
-      // set default pluginSettings
+      // set default pluginSettings (not provided by the PluginDataProvider)
       $this->isDisplayTasks = false;
+      $this->dateRange   = 'defaultRange';
    }
 
    /**
@@ -164,6 +167,26 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
          }
          if (array_key_exists(PluginDataProviderInterface::PARAM_PROJECT_ID, $pluginSettings)) {
             $this->selectedProject = $pluginSettings[PluginDataProviderInterface::PARAM_PROJECT_ID];
+         }
+         if (array_key_exists(self::OPTION_DATE_RANGE, $pluginSettings)) {
+            $this->dateRange = $pluginSettings[self::OPTION_DATE_RANGE];
+
+            // update startTimestamp & endTimestamp
+            switch ($this->dateRange) {
+               case 'currentWeek':
+                  $weekDates = Tools::week_dates(date('W'),date('Y'));
+                  $this->startTimestamp = $weekDates[1];
+                  $this->endTimestamp   = $weekDates[5];
+                  break;
+               case 'currentMonth':
+                  $month = date('m');
+                  $year  = date('Y');
+                  $this->startTimestamp = mktime(0, 0, 0, $month, 1, $year);
+
+                  $nbDaysInMonth = date("t", $this->startTimestamp);
+                  $this->endTimestamp = mktime(0, 0, 0, $month, $nbDaysInMonth, $year);
+                  break;
+            }
          }
       }
    }

@@ -148,6 +148,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          $this->endTimestamp = NULL;
       }
 
+      // set default pluginSettings (not provided by the PluginDataProvider)
       // if false, sidetasks (found in IssueSel) will be included in 'elapsed'
       // if true, sidetasks (found in IssueSel) will be displayed as 'sidetask'
       $this->showSidetasks = false;
@@ -180,7 +181,21 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          if (array_key_exists(self::OPTION_DATE_RANGE, $pluginSettings)) {
             $this->dateRange = $pluginSettings[self::OPTION_DATE_RANGE];
             
-            // TODO update startTimestamp & endTimestamp
+            // update startTimestamp & endTimestamp
+            switch ($this->dateRange) {
+               case 'currentWeek':
+                  $weekDates = Tools::week_dates(date('W'),date('Y'));
+                  $this->startTimestamp = $weekDates[1];
+                  $this->endTimestamp   = $weekDates[5];
+                  break;
+               case 'currentMonth':
+                  $month = date('m');
+                  $year  = date('Y');
+                  $this->startTimestamp = mktime(0, 0, 0, $month, 1, $year);
+                  $nbDaysInMonth = date("t", $this->startTimestamp);
+                  $this->endTimestamp = mktime(0, 0, 0, $month, $nbDaysInMonth, $year);
+                  break;
+            }
          }
       }
    }
