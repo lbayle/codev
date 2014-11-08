@@ -40,20 +40,27 @@ class IndexController extends Controller {
       // Drifted tasks
       if(Tools::isConnectedUser()) {
 
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-         $isAdmin = $session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId));
+         $isAdmin = $this->session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId));
 
-         if ($isAdmin) {
-            // check codevtt version
-            if (1 == Constants::$isCheckLatestVersion) {
-               $latestVersionInfo = Tools::getLatestVersionInfo(3);
-               if (FALSE !== $latestVersionInfo) {
-                  if ( Config::codevVersion != $latestVersionInfo['version'] ) {
-                     $this->smartyHelper->assign('latestVersionInfo', $latestVersionInfo);
+         // check codevtt version
+         if (1 == Constants::$isCheckLatestVersion) {
+            try {
+               $isManager = $this->session_user->isTeamManager($this->teamid);
+               if ($isAdmin || ($isManager && (date('d') < 4))) {
+                  $latestVersionInfo = Tools::getLatestVersionInfo(3);
+                  if (FALSE !== $latestVersionInfo) {
+                     if ( Config::codevVersion != $latestVersionInfo['version'] ) {
+                        $this->smartyHelper->assign('latestVersionInfo', $latestVersionInfo);
+                     }
                   }
                }
+            } catch (Exception $e) {
+               // version check should never break CodevTT usage...
+               // (no log, even logs could raise errors)
             }
+         }
 
+         if ($isAdmin) {
             // check global configuration
             $cerrList = ConsistencyCheck2::checkMantisDefaultProjectWorkflow();
             // add more checks here
