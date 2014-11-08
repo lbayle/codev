@@ -358,7 +358,7 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
             $data[$catInfo['catName']] = $catInfo['duration'];
          }
       }
-      $jqplotData = Tools::array2plot($data);
+      $jqplotData = empty($data) ? NULL : Tools::array2plot($data);
       
       
       $smartyVariables = array(

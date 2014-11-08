@@ -400,7 +400,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
 
       $smartyVariables =  array(
          'loadPerUserIndicator_tableData' => $tableData,
-         'loadPerUserIndicator_jqplotData' => Tools::array2json($jqplotData),
+         'loadPerUserIndicator_jqplotData' => empty($jqplotData) ? NULL : Tools::array2json($jqplotData),
          'loadPerUserIndicator_colors' => $formatedColors,
          'loadPerUserIndicator_jqplotSeriesColors' => $seriesColors, // TODO get rid of this
          'loadPerUserIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),

@@ -82,11 +82,12 @@
             data: form.serialize(),
             success: function(data) {
                jQuery(".loadPerProjCategoryIndicatorDiv").html(jQuery.trim(data['loadPerProjCategory_htmlContent']));
-
-               var chart = jQuery('.loadPerProjCategoryIndicatorChart');
-               var chartoptions = chart.data('plotoptions');
-               var jqplotData = jQuery.parseJSON('['+data['loadPerProjCategoryIndicator_jqplotData']+']');
-               chart.jqplot(jqplotData, chartoptions);
+               if (data['loadPerProjCategoryIndicator_jqplotData']) {
+                  var chart = jQuery('.loadPerProjCategoryIndicatorChart');
+                  var chartoptions = chart.data('plotoptions');
+                  var jqplotData = jQuery.parseJSON('['+data['loadPerProjCategoryIndicator_jqplotData']+']');
+                  chart.jqplot(jqplotData, chartoptions);
+               }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                if(errorThrown == 'Forbidden') {
@@ -98,10 +99,11 @@
 
       // ------------------------
       // display initial chart
+      {if $loadPerProjCategoryIndicator_jqplotData}
       var chart = jQuery('.loadPerProjCategoryIndicatorChart');
       var chartoptions = chart.data('plotoptions');
       chart.jqplot([{$loadPerProjCategoryIndicator_jqplotData}], chartoptions);
-
+      {/if}
    };
 </script>
 </div>
