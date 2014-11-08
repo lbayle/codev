@@ -63,12 +63,12 @@
             data: form.serialize(),
             success: function(data) {
                jQuery(".loadPerJobIndicatorDiv").html(jQuery.trim(data['loadPerJob_htmlTable']));
-
-               var chart = jQuery('.loadPerJobIndicatorChart');
-               var chartoptions = chart.data('plotoptions');
-               chartoptions.seriesColors = data['loadPerJobIndicator_colors'];
-               updateChart(chart, data['loadPerJobIndicator_jqplotData']);
-
+               if (data['loadPerJobIndicator_jqplotData']) {
+                  var chart = jQuery('.loadPerJobIndicatorChart');
+                  var chartoptions = chart.data('plotoptions');
+                  chartoptions.seriesColors = data['loadPerJobIndicator_colors'];
+                  updateChart(chart, data['loadPerJobIndicator_jqplotData']);
+               }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                if(errorThrown == 'Forbidden') {
@@ -80,11 +80,13 @@
 
       // ------------------------
       // display initial chart
+      {if $loadPerJobIndicator_jqplotData}
       var chart = jQuery('.loadPerJobIndicatorChart');
       var chartoptions = chart.data('plotoptions');
       chartoptions.seriesColors = {$loadPerJobIndicator_jqplotSeriesColors};
       //chartoptions.seriesDefaults.rendererOptions.startAngle = 180;
       updateChart(chart, '{$loadPerJobIndicator_jqplotData}');
+      {/if}
 
    };
 </script>

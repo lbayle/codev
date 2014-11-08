@@ -64,10 +64,12 @@
             success: function(data) {
                jQuery(".loadPerUserIndicatorDiv").html(jQuery.trim(data['loadPerUser_htmlContent']));
 
-               var chart = jQuery('.loadPerUserIndicatorChart');
-               var chartoptions = chart.data('plotoptions');
-               chartoptions.seriesColors = data['loadPerUserIndicator_colors'];
-               updateChart(chart, data['loadPerUserIndicator_jqplotData']);
+               if (data['loadPerUserIndicator_jqplotData']) {
+                  var chart = jQuery('.loadPerUserIndicatorChart');
+                  var chartoptions = chart.data('plotoptions');
+                  chartoptions.seriesColors = data['loadPerUserIndicator_colors'];
+                  updateChart(chart, data['loadPerUserIndicator_jqplotData']);
+               }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                if(errorThrown == 'Forbidden') {
@@ -79,11 +81,13 @@
 
       // ------------------------
       // display initial chart
+      {if $loadPerUserIndicator_jqplotData}
       var chart = jQuery('.loadPerUserIndicatorChart');
       var chartoptions = chart.data('plotoptions');
       chartoptions.seriesColors = {$loadPerUserIndicator_jqplotSeriesColors};
       //chartoptions.seriesDefaults.rendererOptions.startAngle = 180;
       updateChart(chart, '{$loadPerUserIndicator_jqplotData}');
+      {/if}
    };
 </script>
 </div>
