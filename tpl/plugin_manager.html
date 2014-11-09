@@ -14,11 +14,11 @@
       <thead>
          <tr>
             <th></th>
+            <th>{t}Status{/t}</th>
             <th>{t}Plugin{/t}</th>
             <th>{t}Version{/t}</th>
             <th>{t}Category{/t}</th>
             <th>{t}Domain(s){/t}</th>
-            <th>{t}Status{/t}</th>
          </tr>
       </thead>
       <tbody>
@@ -32,18 +32,19 @@
                {/if}
                {if 1 == $plugin.status}
                <a title="{t}Disable Plugin{/t}" href="{$page}" onclick="disablePlugin('{$plugin_id}');return false;">
-                  <img src="images/b_drop.png" alt="{t}Enable Plugin{/t}">
+                  <img src="images/b_disable.png" alt="{t}Enable Plugin{/t}">
                </a>
                {/if}
                {if 2 == $plugin.status}
                {/if}
             </td>
+            <td {if 1 == $plugin.status}bgcolor="#BFFFC4"{/if}
+                {if 2 == $plugin.status}bgcolor="#E0E0E0"{/if}>{$plugin.statusName}</td>
             <td><div class="caption_font">{$plugin.name}</div><br>
                {$plugin.description}</td>
             <td>{$plugin.version}</td>
             <td>{$plugin.categories}</td>
             <td>{$plugin.domains}</td>
-            <td {if 1 == $plugin.status}bgcolor="#BFFFC4"{/if}>{$plugin.statusName}</td>
          </tr>
          {/foreach}
       </tbody>

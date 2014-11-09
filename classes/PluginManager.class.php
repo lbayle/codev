@@ -44,6 +44,7 @@ class PluginManager {
    private static $instance;
 
    private static $logger;
+   private static $pluginsDir;
 
 
 
@@ -78,6 +79,9 @@ class PluginManager {
           self::PLUGIN_STATUS_DISABLED => T_('Disabled'),
           self::PLUGIN_STATUS_REMOVED => T_('Removed'),
          );
+
+      self::$pluginsDir = Constants::$codevRootDir . DIRECTORY_SEPARATOR . IndicatorPluginInterface::INDICATOR_PLUGINS_DIR;
+
    }
 
 
@@ -91,19 +95,18 @@ class PluginManager {
     * removed plugins must be marked too.
     */
    public function discoverNewPlugins() {
-      $pluginsDir = Constants::$codevRootDir . DIRECTORY_SEPARATOR . IndicatorPluginInterface::INDICATOR_PLUGINS_DIR;
 
       $validPlugins = array();
 
       // foreach directory
-      $dirContent = array_diff(scandir($pluginsDir), array('..', '.'));
+      $dirContent = array_diff(scandir(self::$pluginsDir), array('..', '.'));
       foreach($dirContent as $file) {
          // remove files
-         if (!is_dir($pluginsDir . DIRECTORY_SEPARATOR . $file)) {
+         if (!is_dir(self::$pluginsDir . DIRECTORY_SEPARATOR . $file)) {
             continue;
          }
          // remove Dir that do not contain a Plugin class implementing IndicatorPluginInterface
-         $pluginClassFilename = $pluginsDir . DIRECTORY_SEPARATOR . $file . DIRECTORY_SEPARATOR . $file.'.class.php';
+         $pluginClassFilename = self::$pluginsDir . DIRECTORY_SEPARATOR . $file . DIRECTORY_SEPARATOR . $file.'.class.php';
          if (!is_file($pluginClassFilename)) {
             // remove & warn
             #echo "plugin class not found -------- $pluginClassFilename<br>";
@@ -229,11 +232,9 @@ class PluginManager {
     * beeing available for the Dashboards
     * 
     * @param string  $className
-    * @param boolean $isActivated true to activate, false to disable
+    * @param boolean $status (disabled, enabled, removed)
     */
-   public function enablePlugin($className) {
-
-      $status = self::PLUGIN_STATUS_ENABLED;
+   private function setPluginStatus($className, $status) {
 
       $query2 = "UPDATE `codev_plugin_table` SET `status`=".$status." WHERE `name` = '".$className."';";
       $result2 = SqlWrapper::getInstance()->sql_query($query2);
@@ -241,7 +242,16 @@ class PluginManager {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
+   }
 
+   /**
+    * plugins must be granted by the admin before
+    * beeing available for the Dashboards
+    *
+    * @param string  $className
+    */
+   public function enablePlugin($className) {
+      $this->setPluginStatus($className, self::PLUGIN_STATUS_ENABLED);
    }
 
    /**
@@ -251,18 +261,10 @@ class PluginManager {
     * @param string  $className
     */
    public function disablePlugin($className) {
-
-      $status = self::PLUGIN_STATUS_DISABLED;
-
-      $query2 = "UPDATE `codev_plugin_table` SET `status`=".$status." WHERE `name` = '".$className."';";
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
-      if (!$result2) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-
+      $this->setPluginStatus($className, self::PLUGIN_STATUS_DISABLED);
    }
    
+
    /**
     * Return all plugins defined in DB
     * 
@@ -282,15 +284,42 @@ class PluginManager {
          }
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 
+            $className = $row->name;
+            $status    = $row->status;
+
+            // check that plugin files still exist
+            // Note: class_exists() checks if present in classmap.ser but
+            // will raise a 'PHP Fatal error' if found in cache but file removed from disk.
+            $pluginClassFilename = self::$pluginsDir . DIRECTORY_SEPARATOR . $row->name . DIRECTORY_SEPARATOR . $row->name.'.class.php';
+
+            if (!is_file($pluginClassFilename)) {
+               if (self::PLUGIN_STATUS_REMOVED != $row->status) {
+                  self::$logger->error("Plugin file '$pluginClassFilename' does not exist !");
+                  $this->setPluginStatus($className, self::PLUGIN_STATUS_REMOVED); // update DB
+                  $status = self::PLUGIN_STATUS_REMOVED;
+               }
+               $displayedName = $className;
+            } else {
+               if (class_exists($className)) {
+                  $displayedName = $className::getName();
+               } else {
+                  // File exists, but classmap.ser needs an update.
+                  $displayedName = $className;
+                  $this->setPluginStatus($className, self::PLUGIN_STATUS_REMOVED); // update DB
+                  $status = self::PLUGIN_STATUS_REMOVED;
+               }
+            }
+
             $plugin = array(
-               'name' => $row->name,
-               'status' => intval($row->status),
+               'className' => $className,
+               'displayedName' => $displayedName,
+               'status' => intval($status),
                'domains' => explode(',', $row->domains),
                'categories' => explode(',', $row->categories),
                'version' => $row->version,
                'description' => $row->description,
             );
-            $plugins[$row->name] = $plugin;
+            $plugins[$className] = $plugin;
          }
          ksort($plugins);
          $this->plugins = $plugins;
@@ -320,7 +349,7 @@ class PluginManager {
             // check categ: one match is enough
             foreach ($plugin['categories'] as $cat) {
                if (in_array($cat, $categories)) {
-                  $candidates[] = $plugin['name'];
+                  $candidates[] = $plugin['className'];
                   break;
                }
             }
