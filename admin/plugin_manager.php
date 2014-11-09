@@ -70,33 +70,20 @@ class PluginManagerController extends Controller {
             // set values to display plugin table
             $plugins = $pm->getPlugins();
             $formattedPlugins = array();
-            foreach ($plugins as $name => $plugin) {
+            foreach ($plugins as $plugin) {
 
-               $className = $plugin['name'];
+               $className = $plugin['className'];
 
-               if (class_exists($className)) {
-                  $displayedName = $className::getName();
-                  $status = $plugin['status'];
-               } else {
-                  $displayedName = $plugin['name'];
-                  $status = PluginManager::PLUGIN_STATUS_REMOVED;
-                  if ($status != $plugin['status']) {
-                     // msg should not be displayed if plugin has already been identified as missing in DB
-                     $this->smartyHelper->assign('errorMsg', T_('Missing plugins, click to update !'));
-                  }
-               }
-
-               $formattedPlugins[$plugin['name']] = array(
-               'name' => $displayedName,
-               'status' => $status,
-               'statusName' => PluginManager::getStatusName($status),
+               $formattedPlugins[$className] = array(
+               'name' => $plugin['displayedName'],
+               'status' => $plugin['status'],
+               'statusName' => pluginManager::getStatusName($plugin['status']),
                'domains' => implode(',<br>', $plugin['domains']),
                'categories' => implode(',<br>', $plugin['categories']),
                'version' => $plugin['version'],
                'description' => $plugin['description'],
                );
             }
-            
             $this->smartyHelper->assign('availablePlugins', $formattedPlugins);
          
          
