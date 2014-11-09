@@ -729,10 +729,10 @@ class Tools {
     */
    public static function getSecurePOSTIntValue($key,$defaultValue = NULL) {
       $value = self::getSecurePOSTStringValue($key,$defaultValue);
-      if(strlen($value) == 0) {
+      if(strlen(trim($value)) == 0) {
          $value = $defaultValue;
       }
-      if (is_numeric($value)) {
+      if (is_numeric(trim($value))) {
          return intval($value);
       } else {
          self::sendBadRequest('Attempt to set non_numeric value ('.$value.') for '.$key);

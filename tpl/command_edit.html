@@ -209,6 +209,12 @@
       <div id="tab_tasks">
          {if isset($isAddIssueForm)}
          <script type="text/javascript">
+
+            function IsNumeric(input)
+            {
+                return (input - 0) === input && (''+input).replace(/^\s+|\s+$/g, "").length > 0;
+            }
+
             jQuery(document).ready(function() {
                jQuery("#btAddCmdIssue").click(function(event) {
                   addCmdIssue();
@@ -224,12 +230,19 @@
                function addCmdIssue(){
                   // check fields
                   var foundError = 0;
-                  var msgString = "{t}Missing field{/t}:\n\n";
+                  var msgString = "";
+                  var bug_id = document.forms["addCmdIssueForm"].bugid.value;
 
-                  if ("" == document.forms["addCmdIssueForm"].bugid.value) {
-                     msgString += "{t}task id{/t}\n";
+                  if ("" == bug_id) {
+                     msgString += "{t}Missing field{/t}:\n\n{t}task id{/t}\n";
                      ++foundError;
                   }
+                  
+                  if (!IsNumeric(bug_id)) {
+                     msgString += "{t}Not a number{/t}:\n\n{t}task id{/t}\n";
+                     ++foundError;
+                  }
+
 
                   if (0 == foundError) {
                      document.forms["addCmdIssueForm"].submit();
