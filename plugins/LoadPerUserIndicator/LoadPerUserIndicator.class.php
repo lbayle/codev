@@ -39,6 +39,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
    private static $domains;
    private static $categories;
 
+   private $inputIssueSel;
    private $startTimestamp;
    private $endTimestamp;
    private $teamid;
