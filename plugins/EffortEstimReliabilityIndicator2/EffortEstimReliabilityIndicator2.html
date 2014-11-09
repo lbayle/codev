@@ -1,0 +1,78 @@
+<div class="effortEstimReliabilityIndicator2">
+{if isset($effortEstimReliabilityIndicator2_jqplotData)}
+<div>
+   <div class="pluginInitFunction"  style="display: none;">effortEstimReliabilityIndicator2JsInit</div>
+
+   <div class="effortEstimReliabilityIndicator2Chart date_chart_with_horizontal_line chart float" style="width:95%;"></div>
+   <a id="effortEstimReliabilityIndicator2ValuesDialog_link" href="{$page}"><img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/></a>
+
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<div class="effortEstimReliabilityIndicator2ValuesDialog ui-helper-hidden" title="{t}EffortEstim ReliabilityRate{/t}">
+
+    <table title="{t}EffortEstim ReliabilityRate{/t}">
+       <thead>
+          <tr>
+             <th>{t}Date{/t}</th>
+             <th>{t}MgrEffortEstim{/t}</th>
+             <th>{t}EffortEstim{/t}</th>
+          </tr>
+       </thead>
+       <tbody>
+          {foreach from=$effortEstimReliabilityIndicator2_tableData key=id item=i}
+          <tr>
+             <td class="right">{$id}</td>
+             <td class="right">{$i.prodRateMEE}</td>
+             <td class="right">{$i.prodRateEE}</td>
+          </tr>
+          {/foreach}
+       </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function effortEstimReliabilityIndicator2JsInit() {
+
+      jQuery(".effortEstimReliabilityIndicator2ValuesDialog_link").click(function() {
+         jQuery(".effortEstimReliabilityIndicator2ValuesDialog").dialog("open");
+         return false;
+      });
+      jQuery(".effortEstimReliabilityIndicator2ValuesDialog").dialog({
+         autoOpen: false,
+         height: 'auto',
+         width: "auto",
+         hide: "fade"
+      });
+
+      // ------------------------
+      // display initial chart
+      {if $effortEstimReliabilityIndicator2_jqplotData}
+
+      var chart = jQuery('.effortEstimReliabilityIndicator2Chart');
+      var chartoptions = chart.data('plotoptions');
+
+      chartoptions.axes.xaxis.min = "{$effortEstimReliabilityIndicator2_plotMinDate}";
+      chartoptions.axes.xaxis.max = "{$effortEstimReliabilityIndicator2_plotMaxDate}";
+
+      chartoptions.canvasOverlay.objects[0].horizontalLine.y = 1;
+
+      //chartoptions.seriesColors = {$effortEstimReliabilityIndicator2_dataColors};
+      chartoptions.series = [{
+         label: "{t}MgrEffortEstim ReliabilityRate{/t}"
+      },{
+         label: "{t}EffortEstim ReliabilityRate{/t}"
+      }];
+
+      chart.jqplot({$effortEstimReliabilityIndicator2_jqplotData}, chartoptions);
+      {/if}
+   }
+
+</script>
+{else}
+   {t}No data.{/t}
+{/if}
+</div>
