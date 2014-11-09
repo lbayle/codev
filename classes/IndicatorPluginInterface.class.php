@@ -22,7 +22,7 @@
  */
 interface IndicatorPluginInterface {
 
-   const INDICATOR_PLUGINS_DIR = 'indicator_plugins';
+   const INDICATOR_PLUGINS_DIR = 'plugins';
 
    // CodevTT
    const DOMAIN_HOMEPAGE = 'Homepage';
