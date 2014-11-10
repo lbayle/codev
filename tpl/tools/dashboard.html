@@ -27,7 +27,7 @@ the content of this dialog is furnished by the plugin and loaded by ajax
          </button>
          <div class="dialogAddDashboardPlugin" title="{t}Add Indicator{/t}" class="ui-helper-hidden">
             <div  style="width: 500px; margin-top:1em;"></div>
-            <form id="formAddDashboardPlugin" name="formAddDashboardPlugin" method="post" action="{$page}" >
+            <form class="formAddDashboardPlugin" name="formAddDashboardPlugin" method="post" action="{$page}" >
                <fieldset>
                   <strong>{t}Indicator{/t}:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <select class="cbPluginCandidates" name="pluginClassName">
@@ -125,7 +125,7 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                   // - les champs types "est envoyé en AJAX puis enregistré sur le serveur" (qui sont masqués),
                   var ajaxFieldSelector = '[type=hidden]';
 
-                  var form = $('#formAddDashboardPlugin');
+                  var form = $('.formAddDashboardPlugin');
 
                   // visible fields (input/select/textarea) are raw data to be parsed
                   var $pluginElements = form.find(':input:not('+ajaxFieldSelector+')');
