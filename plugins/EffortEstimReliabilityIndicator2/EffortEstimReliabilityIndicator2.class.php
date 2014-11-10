@@ -349,7 +349,7 @@ class EffortEstimReliabilityIndicator2 extends IndicatorPluginAbstract {
          'effortEstimReliabilityIndicator2_plotMaxDate' => $end,
 
          // add pluginSettings (if needed by smarty)
-         'activityIndicator_'.self::OPTION_INTERVAL => $this->interval,
+         'effortEstimReliabilityIndicator2_'.self::OPTION_INTERVAL => $this->interval,
 
       );
       if (false == $isAjaxCall) {
