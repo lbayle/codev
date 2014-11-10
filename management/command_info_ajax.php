@@ -26,44 +26,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
    if(isset($_GET['action'])) {
 #echo "action = ".$_GET['action']."<br>";
       $smartyHelper = new SmartyHelper();
-      if($_GET['action'] == 'getActivityIndicator') {
-         if(isset($_SESSION['cmdid'])) {
-            $cmdid = $_SESSION['cmdid'];
-            if (0 != $cmdid) {
-               $cmdset = CommandCache::getInstance()->getCommand($cmdid);
-
-               $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("startdate"));
-               $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("enddate"));
-               $data = CommandTools::getCommandActivity($cmdset, $startTimestamp, $endTimestamp);
-               $smartyHelper->assign('activityIndic_data', $data[0]);
-               $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
-               $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
-               $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
-               
-               $smartyHelper->display(ActivityIndicator::getSmartySubFilename());
-            } else {
-               Tools::sendBadRequest("Command equals 0");
-            }
-         } else {
-            Tools::sendBadRequest("Command not set");
-         }
-      } else if($_GET['action'] == 'getActivityIndicatorData') {
-         if(isset($_SESSION['cmdid'])) {
-            $cmdid = $_SESSION['cmdid'];
-            if (0 != $cmdid) {
-               $cmdset = CommandCache::getInstance()->getCommand($cmdid);
-
-               $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("startdate"));
-               $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("enddate"));
-               $data = CommandTools::getCommandActivity($cmdset, $startTimestamp, $endTimestamp);
-               echo $data[0]['jqplotData'];
-            } else {
-               Tools::sendBadRequest("Command equals 0");
-            }
-         } else {
-            Tools::sendBadRequest("Command not set");
-         }
-      } else if($_GET['action'] == 'getProgressHistoryIndicator') {
+      if($_GET['action'] == 'getProgressHistoryIndicator') {
          if(isset($_SESSION['cmdid'])) {
             $cmdid = $_SESSION['cmdid'];
             if (0 != $cmdid) {
