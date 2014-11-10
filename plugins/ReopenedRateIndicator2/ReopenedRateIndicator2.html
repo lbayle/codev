@@ -1,11 +1,19 @@
 <div class="reopenedRateIndicator2">
+<div class="pluginInitFunction"  style="display: none;">reopenedRateIndicator2JsInit</div>
 {if isset($reopenedRateIndicator2_jqplotData)}
 <div>
-   <div class="pluginInitFunction"  style="display: none;">reopenedRateIndicator2JsInit</div>
 
-   <h2 id="indicatorTitle">{t}Bug validation history{/t} &nbsp;&nbsp;<a class="reopenedRateIndicator2HelpDialog_link help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
+   <h2 id="indicatorTitle">{t}Bug validation history{/t} &nbsp;&nbsp;
+      <a class="reopenedRateIndicator2HelpDialog_link help_link" href="{$page}">
+         <img title="help" src="images/help_icon.gif"/>
+      </a>
+   </h2>
+
    <div class="reopenedRateIndicator2Chart date_chart chart float" style="width:95%;"></div>
-   <a class="reopenedRateIndicator2ValuesDialog_link" href="{$page}"><img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/></a>
+
+   <a class="reopenedRateIndicator2ValuesDialog_link" href="{$page}">
+      <img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/>
+   </a>
 
    <div class="ui-helper-clearfix"></div>
 </div>
@@ -48,12 +56,17 @@
     </table>
 </div>
 <div class="ui-helper-clearfix"></div>
+{else}
+   {t}No data.{/t}
+{/if}
 
 <script type="text/javascript">
 
    // this function will be run at jQuery(document).ready (see dashboard.html) or
    // when a new widjet is added to the dashboard.
    function reopenedRateIndicator2JsInit() {
+
+      {if isset($reopenedRateIndicator2_jqplotData)}
 
       jQuery(".reopenedRateIndicator2ValuesDialog_link").click(function() {
          jQuery(".reopenedRateIndicator2ValuesDialog").dialog("open");
@@ -65,7 +78,6 @@
          width: "auto",
          hide: "fade"
       });
-
 
       var chart = jQuery('.reopenedRateIndicator2Chart');
       var chartoptions = chart.data('plotoptions');
@@ -84,10 +96,7 @@
       //chartoptions.axes.yaxis.max = 100;
       chartoptions.seriesDefaults.pointLabels.formatString = "%u%";
       chart.jqplot({$reopenedRateIndicator2_jqplotData}, chartoptions);
-
+      {/if}
    }
 </script>
-{else}
-   {t}No data.{/t}
-{/if}
 </div>

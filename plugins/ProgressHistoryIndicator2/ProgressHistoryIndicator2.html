@@ -1,7 +1,7 @@
 <div class="progressHistoryIndicator2">
+<div class="pluginInitFunction"  style="display: none;">progressHistoryIndicator2JsInit</div>
 {if isset($progressHistoryIndicator2_jqplotData)}
 <div>
-   <div class="pluginInitFunction"  style="display: none;">progressHistoryIndicator2JsInit</div>
 
    <h2>{t}Progress History{/t} &nbsp;&nbsp;<a class="progressHistoryIndicatorHelpDialog_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
    <div class="progressHistoryIndicator2Chart date_chart chart" style="width:95%;"></div>
@@ -28,7 +28,6 @@
    // this function will be run at jQuery(document).ready (see dashboard.html)
    // or when a new widget is added to the dashboard.
    function progressHistoryIndicator2JsInit() {
-console.log("in progressHistoryIndicator2JsInit");
       var chart = jQuery('.progressHistoryIndicator2Chart');
       var chartoptions = chart.data('plotoptions');
       chartoptions.title.text = '{t}Historical Progression Chart{/t}';
