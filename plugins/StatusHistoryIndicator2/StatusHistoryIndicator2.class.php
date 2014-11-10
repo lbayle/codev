@@ -23,7 +23,7 @@
  */
 class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
 
-   const OPTION_PERIOD = 'period'; // TODO rename
+   const OPTION_INTERVAL = 'interval'; // defaultValue, oneWeek, twoWeeks, oneMonth
    
    private static $logger;
    private static $domains;
@@ -34,7 +34,7 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
    private $endTimestamp;
 
    // config options from Dashboard
-   private $period;
+   private $interval;
    
    // internal
    private $statusData;
@@ -130,8 +130,12 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
       } else {
          throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_END_TIMESTAMP);
       }
-      
-      $this->period = 7;
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_INTERVAL)) {
+         $this->interval = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_INTERVAL);
+      } else {
+         $this->interval = 30;
+      }
+      //self::$logger->debug('dataProvider '.PluginDataProviderInterface::PARAM_INTERVAL.'= '.$this->interval);
    }
 
    /**
@@ -142,8 +146,21 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
    public function setPluginSettings($pluginSettings) {
       if (NULL != $pluginSettings) {
          // override default with user preferences
-         if (array_key_exists(self::OPTION_PERIOD, $pluginSettings)) {
-            $this->period = intval($pluginSettings[self::OPTION_PERIOD]);
+         if (array_key_exists(self::OPTION_INTERVAL, $pluginSettings)) {
+
+            switch ($pluginSettings[self::OPTION_INTERVAL]) {
+               case 'oneWeek':
+                  $this->interval = 7;
+                  break;
+               case 'twoWeeks':
+                  $this->interval = 14;
+                  break;
+               case 'oneMonth':
+                  $this->interval = 30;
+                  break;
+               default:
+                  self::$logger->warn('option '.self::OPTION_INTERVAL.'= '.$pluginSettings[self::OPTION_INTERVAL]." (unknown value)");
+            }
          }
       }
    }
@@ -161,7 +178,7 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
       $endTimestamp   = mktime(23, 59, 59, date('m', $this->endTimestamp), date('d',$this->endTimestamp), date('Y', $this->endTimestamp));
 
       //echo "StatusHistoryIndicator start ".date('Y-m-d H:i:s', $startTimestamp)." end ".date('Y-m-d H:i:s', $endTimestamp)." interval ".$this->period."<br>";
-      $timestampList  = Tools::createTimestampList($startTimestamp, $endTimestamp, $this->period);
+      $timestampList  = Tools::createTimestampList($startTimestamp, $endTimestamp, $this->interval);
 
       $this->statusData = $this->getStatusData($this->inputIssueSel, $timestampList);
    }
