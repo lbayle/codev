@@ -343,8 +343,8 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
 
       $smartyVariables = array(
          'progressHistoryIndicator2_jqplotData' => $graphData,
-         'progressHistoryIndicator2_plotMinDate' => Tools::formatDate("%Y-%m-01", $startTimestamp),
-         'progressHistoryIndicator2_plotMaxDate' => Tools::formatDate("%Y-%m-01", $endTimestamp),
+         'progressHistoryIndicator2_plotMinDate' => Tools::formatDate("%Y-%m-%d", $startTimestamp),
+         'progressHistoryIndicator2_plotMaxDate' => Tools::formatDate("%Y-%m-%d", $endTimestamp),
          'progressHistoryIndicator2_plotInterval' => $interval,
 
          // add pluginSettings (if needed by smarty)
