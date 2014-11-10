@@ -66,7 +66,12 @@ class PluginDashboardController extends Controller {
          $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_COMMAND);
          $dashboard->setCategories(array(
              IndicatorPluginInterface::CATEGORY_QUALITY,
-             IndicatorPluginInterface::CATEGORY_ACTIVITY));
+             IndicatorPluginInterface::CATEGORY_ACTIVITY,
+             IndicatorPluginInterface::CATEGORY_ROADMAP,
+             IndicatorPluginInterface::CATEGORY_PLANNING,
+             IndicatorPluginInterface::CATEGORY_RISK,
+             IndicatorPluginInterface::CATEGORY_TEAM,
+            ));
          $dashboard->setTeamid($teamid);
          $dashboard->setUserid($userid);
 

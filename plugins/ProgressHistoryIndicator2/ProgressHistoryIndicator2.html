@@ -1,0 +1,53 @@
+<div class="progressHistoryIndicator2">
+{if isset($progressHistoryIndicator2_jqplotData)}
+<div>
+   <div class="pluginInitFunction"  style="display: none;">progressHistoryIndicator2JsInit</div>
+
+   <h2>{t}Progress History{/t} &nbsp;&nbsp;<a class="progressHistoryIndicatorHelpDialog_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
+   <div class="progressHistoryIndicator2Chart date_chart chart" style="width:95%;"></div>
+</div>
+
+<div class="progressHistoryIndicatorHelpDialog help_dialog ui-helper-hidden" title="{t}Progress History Indicator{/t}">
+   <p>{t}Evolution of the real progress vs the theoretical progress.{/t}<br>
+   </p>
+   <p>
+      <strong>{t}Theoretical progress{/t}</strong><br>
+      {t}Compares the EffortEstim to the Elapsed days{/t}
+      <br>
+      <span style="color:blue"><em>{t}Formula{/t} : {t}Elapsed / max(MgrEffortEstim, EffortEstim){/t}</em></span>
+   </p>
+   <p>
+      <strong>{t}Real progress{/t}</strong><br>
+      {t}Displays the backlog{/t}
+      <br>
+      <span style="color:blue"><em>{t}Formula{/t} : {t}Elapsed / (Elapsed +  Backlog){/t}</em></span>
+   </p>
+</div>
+
+<script type="text/javascript">
+   // this function will be run at jQuery(document).ready (see dashboard.html)
+   // or when a new widget is added to the dashboard.
+   function progressHistoryIndicator2JsInit() {
+console.log("in progressHistoryIndicator2JsInit");
+      var chart = jQuery('.progressHistoryIndicator2Chart');
+      var chartoptions = chart.data('plotoptions');
+      chartoptions.title.text = '{t}Historical Progression Chart{/t}';
+      chartoptions.legend.location = 'nw';
+      chartoptions.series = [{
+         label : "{t}Theoric{/t}"
+      },{
+         label : "{t}Real{/t}"
+      }];
+      chartoptions.axes.xaxis.min = "{$progressHistoryIndicator2_plotMinDate}";
+      chartoptions.axes.xaxis.max = "{$progressHistoryIndicator2_plotMaxDate}";
+      chartoptions.axes.xaxis.tickInterval = "{$progressHistoryIndicator2_plotInterval} month";
+      chartoptions.axes.yaxis.label = '{t}% Progress{/t}';
+      chartoptions.axes.yaxis.min = 0;
+      chart.jqplot({$progressHistoryIndicator2_jqplotData}, chartoptions);
+
+   };
+</script>
+{else}
+   {t}No data.{/t}
+{/if}
+</div>
