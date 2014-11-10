@@ -44,7 +44,10 @@ interface PluginDataProviderInterface {
    const PARAM_START_TIMESTAMP = 'startTimestamp';
    const PARAM_END_TIMESTAMP = 'endTimestamp';
    const PARAM_ISSUE_SELECTION = 'IssueSelection';
-   const PARAM_PROVISION_DAYS = 'provisionDays'; // commands
+   const PARAM_INTERVAL = 'interval';
+   
+   // commands
+   const PARAM_PROVISION_DAYS = 'provisionDays';
    
    public function getCodevVersion();
    public function getParam($key);

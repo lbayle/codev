@@ -302,82 +302,6 @@ class CommandTools {
       return $smartyVariables;
    }
 
-   /**
-    * show users activity on the Command during the given period.
-    *
-    * if start & end dates not defined, the last month will be displayed.
-    *
-    * @param Command $cmd
-    * @return string
-    *
-    */
-   public static function getCommandActivity(Command $cmd, $startTimestamp = NULL, $endTimestamp = NULL) {
-      $issueSel = $cmd->getIssueSelection();
-
-      $month = date('m');
-      $year = date('Y');
-
-      if (!isset($startTimestamp)) {
-         // The first day of the current month
-         $startdate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, 1, $year));
-         $startTimestamp = Tools::date2timestamp($startdate);
-      }
-      if (!isset($endTimestamp)) {
-         $nbDaysInMonth = date("t", $startTimestamp);
-         $enddate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, $nbDaysInMonth, $year));
-         $endTimestamp = Tools::date2timestamp($enddate);
-      }
-
-      $params = array(
-         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
-         'endTimestamp' => $endTimestamp,
-         'teamid' => $cmd->getTeamid()
-      );
-
-      $activityIndicator = new ActivityIndicator();
-      $activityIndicator->execute($issueSel, $params);
-
-      return array($activityIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
-   }
-
-   /**
-    * return smartyVariables for LoadPerJobIndicator
-    *
-    * @static
-    * @param Command $cmd
-    * @return array smartyVariables
-    */
-   public static function getLoadPerJob(Command $cmd, $startTimestamp = NULL, $endTimestamp = NULL) {
-
-      $month = date('m');
-      $year = date('Y');
-
-      if (!isset($startTimestamp)) {
-         // The first day of the current month
-         $startdate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, 1, $year));
-         $startTimestamp = Tools::date2timestamp($startdate);
-      }
-      if (!isset($endTimestamp)) {
-         $nbDaysInMonth = date("t", $startTimestamp);
-         $enddate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, $nbDaysInMonth, $year));
-         $endTimestamp = Tools::date2timestamp($enddate);
-      }
-
-      $params = array(
-         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
-         'endTimestamp' => $endTimestamp,
-         'teamid' => $cmd->getTeamid()
-      );
-
-      $indicator = new LoadPerJobIndicator();
-      $indicator->execute($cmd->getIssueSelection(), $params);
-
-      $smartyVariables = $indicator->getSmartyObject();
-      return $smartyVariables;
-   }
-
-
-
    public static function getDetailedCharges(Command $cmd, $isManager, $selectedFilters) {
 
       $issueSel = $cmd->getIssueSelection();
@@ -592,20 +516,6 @@ class CommandTools {
       
       // --------------
       // Indicators & statistics
-      #$smartyHelper->assign('backlogHistoryGraph', getBacklogHistory($cmd));
-
-      $data = self::getCommandActivity($cmd);
-      $smartyHelper->assign('activityIndic_data', $data[0]);
-      $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
-      $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
-      $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
-
-      // LoadPerJobIndicator
-      $data = self::getLoadPerJob($cmd);
-      foreach ($data as $smartyKey => $smartyVariable) {
-         $smartyHelper->assign($smartyKey, $smartyVariable);
-         #echo "key $smartyKey = ".var_export($smartyVariable, true)."<br>";
-      }
 
       // DetailedChargesIndicator
       $data = self::getDetailedCharges($cmd, $isManager, $selectedFilters);
@@ -624,6 +534,47 @@ class CommandTools {
       foreach ($data as $smartyKey => $smartyVariable) {
          $smartyHelper->assign($smartyKey, $smartyVariable);
       }
+   }
+
+   /**
+    *
+    * @param SmartyHelper $smartyHelper
+    * @param Command $cmd
+    * @param int $userid
+    */
+   public static function dashboardSettings(SmartyHelper $smartyHelper, Command $cmd, $userid) {
+
+      $pluginDataProvider = PluginDataProvider::getInstance();
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $cmd->getIssueSelection());
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $cmd->getTeamid());
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_PROVISION_DAYS, $cmd->getProvisionDays());
+
+      $params = self::computeTimestampsAndInterval($cmd);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $params['startTimestamp']);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $params['endTimestamp']);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_INTERVAL, $params['interval']);
+
+      // save the DataProvider for Ajax calls
+      $_SESSION['pluginDataProvider_xxx'] = serialize($pluginDataProvider);
+
+      // create the Dashboard
+      $dashboard = new Dashboard('cmdDashboard');
+      $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_COMMAND);
+      $dashboard->setCategories(array(
+          IndicatorPluginInterface::CATEGORY_QUALITY,
+          IndicatorPluginInterface::CATEGORY_ACTIVITY,
+          IndicatorPluginInterface::CATEGORY_ROADMAP,
+          IndicatorPluginInterface::CATEGORY_PLANNING,
+          IndicatorPluginInterface::CATEGORY_RISK,
+         ));
+      $dashboard->setTeamid($cmd->getTeamid());
+      $dashboard->setUserid($userid);
+
+      $data = $dashboard->getSmartyVariables($smartyHelper);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+
    }
 }
 
