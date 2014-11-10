@@ -536,7 +536,7 @@ class IssueSelection {
          }
          return $timeTrack;
       } else {
-         return 0;
+         return NULL;
       }
    }
 
