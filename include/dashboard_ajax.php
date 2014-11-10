@@ -86,6 +86,7 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
          $jsonData = json_encode($data);
       } catch (Exception $e) {
          $logger->error("addDashboardPlugin error: ".$e->getMessage());
+         $logger->error("addDashboardPlugin stacktrace: ".$e->getTraceAsString());
          // TODO send an error msg...
       }
       echo $jsonData;
