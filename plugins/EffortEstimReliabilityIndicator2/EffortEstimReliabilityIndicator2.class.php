@@ -137,6 +137,12 @@ class EffortEstimReliabilityIndicator2 extends IndicatorPluginAbstract {
       } else {
          throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_END_TIMESTAMP);
       }
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_INTERVAL)) {
+         $this->interval = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_INTERVAL);
+      } else {
+         $this->interval = 30;
+      }
+      //self::$logger->debug('dataProvider '.PluginDataProviderInterface::PARAM_INTERVAL.'= '.$this->interval);
 
       $bugidList = array_keys($this->inputIssueSel->getIssueList());
       $this->formatedBugidList = implode(', ', $bugidList);
@@ -147,7 +153,6 @@ class EffortEstimReliabilityIndicator2 extends IndicatorPluginAbstract {
 
 
       // set default pluginSettings (not provided by the PluginDataProvider)
-      $this->interval = 7;
 
    }
 
@@ -161,7 +166,19 @@ class EffortEstimReliabilityIndicator2 extends IndicatorPluginAbstract {
       if (NULL != $pluginSettings) {
          // override default with user preferences
          if (array_key_exists(self::OPTION_INTERVAL, $pluginSettings)) {
-            $this->interval = intval($pluginSettings[self::OPTION_INTERVAL]);
+            switch ($pluginSettings[self::OPTION_INTERVAL]) {
+               case 'oneWeek':
+                  $this->interval = 7;
+                  break;
+               case 'twoWeeks':
+                  $this->interval = 14;
+                  break;
+               case 'oneMonth':
+                  $this->interval = 30;
+                  break;
+               default:
+                  self::$logger->warn('option '.self::OPTION_INTERVAL.'= '.$pluginSettings[self::OPTION_INTERVAL]." (unknown value)");
+            }
          }
       }
    }
