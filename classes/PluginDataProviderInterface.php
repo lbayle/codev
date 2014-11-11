@@ -34,6 +34,8 @@ THE SOFTWARE.
  */
 interface PluginDataProviderInterface {
 
+   const SESSION_ID = 'pluginDataProvider';
+
    /*
     * Note: all params will not always be avalable, 
     * it is context dependent (see IndicatorPlugin domain).

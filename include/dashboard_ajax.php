@@ -75,7 +75,7 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
       //$logger->error("pluginClassName = " . $pluginAttributes['pluginClassName']);
 
       try {
-         $pluginDataProvider = unserialize($_SESSION['pluginDataProvider_xxx']);
+         $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID]);
          $smartyHelper = new SmartyHelper();
          $widget = Dashboard::getWidget($pluginDataProvider, $smartyHelper, $pluginAttributes, 'idx_'.time());
 
