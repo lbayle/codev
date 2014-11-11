@@ -74,10 +74,10 @@
    <div id="tabsCommandSet" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
       <ul class="{$ui_tabs_jquery_ul}">
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_charges">{t}Charges{/t}</a></li>
-         <li class="{$ui_tabs_jquery_li}"><a href="#tab_activity">{t}Activity{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_detailedCharges">{t}Detailed Charges{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_attributes">{t}Attributes{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_provisions">{t}Provisions{/t}</a></li>
-         <li class="{$ui_tabs_jquery_li}"><a href="#tab_detailedCharges">{t}Detailed Charges{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_activity">{t}Activity{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
       </ul>
       <div id="tab_charges">
@@ -133,7 +133,9 @@
          {t}No Command found.{/t}
          {/if}
       </div>
-      <div id="tab_activity">{include file="$activityIndicatorFile"}</div>
+      <div id="tab_activity">
+         {include file="tools/dashboard.html"}
+      </div>
       <div id="tab_detailedCharges">{include file="$detailedChargesIndicatorFile"}</div>
       <div id="tab_attributes">
          <table class="invisible">

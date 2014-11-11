@@ -105,8 +105,10 @@ class CommandSetInfoController extends Controller {
                   
                   //plugins
                   $this->smartyHelper->assign('detailedChargesIndicatorFile', DetailedChargesIndicator::getSmartyFilename());
-                  $this->smartyHelper->assign('activityIndicatorFile', ActivityIndicator::getSmartyFilename());
                   $this->smartyHelper->assign('statusHistoryIndicatorFile', StatusHistoryIndicator::getSmartyFilename());
+
+                  // Dashboard
+                  CommandSetTools::dashboardSettings($this->smartyHelper, $commandset, $this->session_userid);
                }
             } else {
                unset($_SESSION['cmdid']);

@@ -558,7 +558,7 @@ class CommandTools {
       $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);
 
       // create the Dashboard
-      $dashboard = new Dashboard('cmdDashboard');
+      $dashboard = new Dashboard('Command');
       $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_COMMAND);
       $dashboard->setCategories(array(
           IndicatorPluginInterface::CATEGORY_QUALITY,
