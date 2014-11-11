@@ -75,11 +75,18 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
       //$logger->error("pluginClassName = " . $pluginAttributes['pluginClassName']);
 
       try {
-         $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID]);
-         $smartyHelper = new SmartyHelper();
-         $widget = Dashboard::getWidget($pluginDataProvider, $smartyHelper, $pluginAttributes, 'idx_'.time());
 
-         // return the plugin created plugin instance to the dashboard
+         if (!isset($_SESSION[PluginDataProviderInterface::SESSION_ID])) {
+            $logger->error("DataProvider not found in _SESSION !");
+         } else {
+
+            $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID]);
+
+            $smartyHelper = new SmartyHelper();
+            $widget = Dashboard::getWidget($pluginDataProvider, $smartyHelper, $pluginAttributes, 'idx_'.time());
+         }
+
+         // return the created plugin instance to the dashboard
          $data = array(
             'widget'    => $widget,
          );
