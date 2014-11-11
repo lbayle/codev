@@ -65,7 +65,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          self::DOMAIN_TEAM,
          self::DOMAIN_USER,
          self::DOMAIN_PROJECT,
-         self::DOMAIN_MACRO_COMMAND,
+         self::DOMAIN_COMMAND_SET,
          self::DOMAIN_SERVICE_CONTRACT,
       );
       self::$categories = array (

@@ -27,7 +27,7 @@ interface IndicatorPluginInterface {
    // CodevTT
    const DOMAIN_HOMEPAGE = 'Homepage';
    const DOMAIN_COMMAND = 'Command';
-   const DOMAIN_MACRO_COMMAND = 'MacroCommand';
+   const DOMAIN_COMMAND_SET = 'CommandSet';
    const DOMAIN_SERVICE_CONTRACT = 'ServiceContract';
    const DOMAIN_TEAM = 'Team';
    const DOMAIN_USER = 'User';

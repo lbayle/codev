@@ -49,7 +49,7 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
 
       self::$domains = array (
          self::DOMAIN_COMMAND,
-         self::DOMAIN_MACRO_COMMAND,
+         self::DOMAIN_COMMAND_SET,
       );
       self::$categories = array (
          self::CATEGORY_ROADMAP
