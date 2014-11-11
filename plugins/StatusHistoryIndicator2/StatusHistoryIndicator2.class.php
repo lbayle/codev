@@ -24,7 +24,9 @@
 class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
 
    const OPTION_INTERVAL = 'interval'; // defaultValue, oneWeek, twoWeeks, oneMonth
-   
+   const OPTION_FILTER_ISSUE_TYPE = 'issueType';    // noFilter, bugsOnly, tasksOnly
+   const OPTION_FILTER_ISSUE_EXT_ID = 'issueExtId'; // noFilter, withExtId, withoutExtId
+
    private static $logger;
    private static $domains;
    private static $categories;
@@ -61,7 +63,7 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
    }
 
    public static function getName() {
-      return 'Status History';
+      return 'Issue Status History';
    }
    public static function getDesc() {
       return "Display Issue Status history";
@@ -149,6 +151,8 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
          if (array_key_exists(self::OPTION_INTERVAL, $pluginSettings)) {
 
             switch ($pluginSettings[self::OPTION_INTERVAL]) {
+               case 'defaultValue':
+                  break;
                case 'oneWeek':
                   $this->interval = 7;
                   break;
@@ -159,7 +163,75 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
                   $this->interval = 30;
                   break;
                default:
-                  self::$logger->warn('option '.self::OPTION_INTERVAL.'= '.$pluginSettings[self::OPTION_INTERVAL]." (unknown value)");
+                  self::$logger->error('option '.self::OPTION_INTERVAL.'= '.$pluginSettings[self::OPTION_INTERVAL]." (unknown value)");
+            }
+         }
+         if (array_key_exists(self::OPTION_FILTER_ISSUE_TYPE, $pluginSettings)) {
+
+            switch ($pluginSettings[self::OPTION_FILTER_ISSUE_TYPE]) {
+               case 'noFilter':
+                  break;
+               case 'bugsOnly';
+                  // Filter only BUGS
+                  $bugFilter = new IssueCodevTypeFilter('bugFilter');
+                  $bugFilter->addFilterCriteria(IssueCodevTypeFilter::tag_Bug);
+                  $outputList = $bugFilter->execute($this->inputIssueSel);
+
+                  if (empty($outputList)) {
+                     #echo "TYPE Bug not found !<br>";
+                     $this->inputIssueSel = new IssueSelection();
+                  } else {
+                     $this->inputIssueSel = $outputList[IssueCodevTypeFilter::tag_Bug];
+                  }
+                  break;
+               case 'tasksOnly':
+                  // Filter only BUGS
+                  $bugFilter = new IssueCodevTypeFilter('bugFilter');
+                  $bugFilter->addFilterCriteria(IssueCodevTypeFilter::tag_Task);
+                  $outputList = $bugFilter->execute($this->inputIssueSel);
+
+                  if (empty($outputList)) {
+                     #echo "TYPE Bug not found !<br>";
+                     $this->inputIssueSel = new IssueSelection();
+                  } else {
+                     $this->inputIssueSel = $outputList[IssueCodevTypeFilter::tag_Task];
+                  }
+                  break;
+               default:
+                  self::$logger->error('option '.self::OPTION_FILTER_ISSUE_TYPE.'= '.$pluginSettings[self::OPTION_FILTER_ISSUE_TYPE]." (unknown value)");
+            }
+         }
+         if (array_key_exists(self::OPTION_FILTER_ISSUE_EXT_ID, $pluginSettings)) {
+
+            switch ($pluginSettings[self::OPTION_FILTER_ISSUE_EXT_ID]) {
+               case 'noFilter':
+                  break;
+               case 'withExtId';
+                  $extIdFilter = new IssueExtIdFilter('extIdFilter');
+                  $extIdFilter->addFilterCriteria(IssueExtIdFilter::tag_with_extRef);
+                  $outputList2 = $extIdFilter->execute($this->inputIssueSel);
+
+                  if (empty($outputList2)) {
+                     #echo "noExtRef not found !<br>";
+                     $this->inputIssueSel = new IssueSelection();
+                  } else {
+                     $this->inputIssueSel = $outputList2[IssueExtIdFilter::tag_with_extRef];
+                  }
+                  break;
+               case 'withoutExtId':
+                  $extIdFilter = new IssueExtIdFilter('extIdFilter');
+                  $extIdFilter->addFilterCriteria(IssueExtIdFilter::tag_no_extRef);
+                  $outputList2 = $extIdFilter->execute($this->inputIssueSel);
+
+                  if (empty($outputList2)) {
+                     #echo "noExtRef not found !<br>";
+                     $this->inputIssueSel = new IssueSelection();
+                  } else {
+                     $this->inputIssueSel = $outputList2[IssueExtIdFilter::tag_no_extRef];
+                  }
+                  break;
+               default:
+                  self::$logger->error('option '.self::OPTION_FILTER_ISSUE_EXT_ID.'= '.$pluginSettings[self::OPTION_FILTER_ISSUE_EXT_ID]." (unknown value)");
             }
          }
       }
