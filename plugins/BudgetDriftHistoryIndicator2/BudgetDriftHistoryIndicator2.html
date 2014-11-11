@@ -1,6 +1,6 @@
 <div class="budgetDriftHistoryIndicator2">
 <div class="pluginInitFunction"  style="display: none;">budgetDriftHistoryIndicator2JsInit</div>
-{if isset($budgetDriftHistoryIndicator2_jqplotData)}
+{if isset($budgetDriftHistoryIndicator2_jqplotPercentData)}
 <div>
 
    <h2>{t}Budget Drift{/t} &nbsp;&nbsp;
@@ -58,7 +58,7 @@
    // or when a new widget is added to the dashboard.
    function budgetDriftHistoryIndicator2JsInit() {
       
-      {if isset($budgetDriftHistoryIndicator2_jqplotData)}
+      {if isset($budgetDriftHistoryIndicator2_jqplotPercentData)}
 
       jQuery(".budgetDriftHistoryIndicator2ValuesDialog_link").click(function() {
          jQuery(".budgetDriftHistoryIndicator2ValuesDialog").dialog("open");

@@ -200,7 +200,7 @@ class BudgetDriftHistoryIndicator2 extends IndicatorPluginAbstract {
 
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestampList[$i]), date('d', $timestampList[$i]), date('Y', $timestampList[$i]));
          $this->elapsedData[$midnight_timestamp] += $elapsed; // Note: += is important
-         #echo "elapsed[".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$this->elapsedData[$midnight_timestamp].'<br>';
+         //self::$logger->error("elapsed[".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$this->elapsedData[$midnight_timestamp]);
       }
    }
 
@@ -263,6 +263,7 @@ class BudgetDriftHistoryIndicator2 extends IndicatorPluginAbstract {
       $this->execData['budgetDriftPercent'] = $driftPercentList;
       $this->execData['budgetDriftTable'] = $tableData;
 
+      //self::$logger->error(var_export($this->execData, true));
       return $this->execData;
    }
 
@@ -276,12 +277,12 @@ class BudgetDriftHistoryIndicator2 extends IndicatorPluginAbstract {
       $endTimestamp = strtotime(date("Y-m-d",$this->endTimestamp)." +1 month");
 
       $interval = ceil($this->interval/20); // TODO why 20 ?
-      $graphDaysData  = '['.Tools::array2plot($this->execData['budgetDriftDays']).']';
+      #$graphDaysData  = '['.Tools::array2plot($this->execData['budgetDriftDays']).']';
       $graphPercentData = '['.Tools::array2plot($this->execData['budgetDriftPercent']).']';
 
       $smartyVariables = array(
          'budgetDriftHistoryIndicator2_tableData' => $this->execData['budgetDriftTable'],
-         'budgetDriftHistoryIndicator2_jqplotDaysData' => $graphDaysData,
+         #'budgetDriftHistoryIndicator2_jqplotDaysData' => $graphDaysData,
          'budgetDriftHistoryIndicator2_jqplotPercentData' => $graphPercentData,
          'budgetDriftHistoryIndicator2_jqplotMinDate' => Tools::formatDate("%Y-%m-%d", $startTimestamp),
          'budgetDriftHistoryIndicator2_jqplotMaxDate' => Tools::formatDate("%Y-%m-%d", $endTimestamp),
