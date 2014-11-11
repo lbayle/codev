@@ -34,9 +34,9 @@ if(Tools::isConnectedUser() && isset($_GET['action'])) {
       $smartyHelper = new SmartyHelper();
       if($action == 'getLoadPerUserIndicator') {
          
-         if(isset($_SESSION['pluginDataProvider_xxx'])) {
+         if(isset($_SESSION[PluginDataProviderInterface::SESSION_ID])) {
             
-            $pluginDataProvider = unserialize($_SESSION['pluginDataProvider_xxx']);
+            $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID]);
             if (FALSE != $pluginDataProvider) {
 
                // TODO do not log exception if date = 01-01-1970

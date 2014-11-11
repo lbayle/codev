@@ -555,7 +555,7 @@ class CommandTools {
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_INTERVAL, $params['interval']);
 
       // save the DataProvider for Ajax calls
-      $_SESSION['pluginDataProvider_xxx'] = serialize($pluginDataProvider);
+      $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);
 
       // create the Dashboard
       $dashboard = new Dashboard('cmdDashboard');

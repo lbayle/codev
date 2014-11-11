@@ -34,9 +34,9 @@ if(Tools::isConnectedUser() && isset($_GET['action'])) {
       $smartyHelper = new SmartyHelper();
       if($action == 'getLoadPerProjCategoryIndicator') {
          
-         if(isset($_SESSION['pluginDataProvider_xxx'])) {
+         if(isset($_SESSION[PluginDataProviderInterface::SESSION_ID])) {
             
-            $pluginDataProvider = unserialize($_SESSION['pluginDataProvider_xxx']);
+            $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID]);
             if (FALSE != $pluginDataProvider) {
 
                $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerProjCategory_startdate"));

@@ -60,7 +60,7 @@ class PluginDashboardController extends Controller {
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_PROVISION_DAYS, $cmd->getProvisionDays());
 
          // save the DataProvider for Ajax calls
-         $_SESSION['pluginDataProvider_xxx'] = serialize($pluginDataProvider);
+         $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);
 
          // create the Dashboard
          $dashboard = new Dashboard('myDashboardId');
