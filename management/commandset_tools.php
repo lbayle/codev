@@ -361,7 +361,7 @@ class CommandSetTools {
       $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);
 
       // create the Dashboard
-      $dashboard = new Dashboard('CommandSet');
+      $dashboard = new Dashboard('CommandSet'.$cmdset->getId());
       $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_COMMAND_SET);
       $dashboard->setCategories(array(
           IndicatorPluginInterface::CATEGORY_QUALITY,
