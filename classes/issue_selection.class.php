@@ -604,6 +604,10 @@ class IssueSelection {
     */
    public function getTimetracks($useridList = NULL, $startTimestamp = NULL, $endTimestamp = NULL) {
 
+      if (empty($this->issueList)) {
+         return array();
+      }
+
       $formatedBugidString = implode( ', ', array_keys($this->issueList));
 
       // TODO cache results !
