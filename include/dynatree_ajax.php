@@ -49,29 +49,33 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
 
       } else if($_POST['action'] == 'loadWBS') {
 
-         $root_id = Tools::getSecurePOSTIntValue('wbsRootId');
-         $hasDetail = (1 === Tools::getSecurePOSTIntValue('hasDetail')) ? true : false;
+         try {
+            $root_id = Tools::getSecurePOSTIntValue('wbsRootId');
+            $hasDetail = (1 === Tools::getSecurePOSTIntValue('hasDetail')) ? true : false;
 
-         $userid = $_SESSION['userid'];
-         $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-         $session_user = UserCache::getInstance()->getUser($userid);
+            $userid = $_SESSION['userid'];
+            $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+            $session_user = UserCache::getInstance()->getUser($userid);
 
-         // Managers & Observers have the same view (MEE,Reestimated, ...)
-         $isManager = $session_user->isTeamManager($teamid);
-         $isObserver = $session_user->isTeamObserver($teamid);
-         $isManager = ($isManager || $isObserver);
+            // Managers & Observers have the same view (MEE,Reestimated, ...)
+            $isManager = $session_user->isTeamManager($teamid);
+            $isObserver = $session_user->isTeamObserver($teamid);
+            $isManager = ($isManager || $isObserver);
 
-			$rootElement = new WBSElement($root_id);
-			$dynatreeDict = $rootElement->getDynatreeData($hasDetail, $isManager, $teamid);
+            $rootElement = new WBSElement($root_id);
+            $dynatreeDict = $rootElement->getDynatreeData($hasDetail, $isManager, $teamid);
 
-         if ($logger->isDebugEnabled()) {
-            $aa = var_export($dynatreeDict, true);
-            $logger->debug("loadWBS (root=$root_id, hasDetail=".$_POST['hasDetail'].") : \n$aa");
+            if ($logger->isDebugEnabled()) {
+               $aa = var_export($dynatreeDict, true);
+               $logger->debug("loadWBS (root=$root_id, hasDetail=".$_POST['hasDetail'].") : \n$aa");
+            }
+
+            $jsonDynatreeDict = json_encode($dynatreeDict);
+            echo $jsonDynatreeDict;
+         } catch (Exception $e) {
+            $logger->error("loadWBS: ".$e->getMessage());
+            Tools::sendNotFoundAccess();
          }
-
-			$jsonDynatreeDict = json_encode($dynatreeDict);
-			echo $jsonDynatreeDict;
-
 
       } else {
          Tools::sendNotFoundAccess();
