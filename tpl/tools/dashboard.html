@@ -29,11 +29,11 @@ the content of this dialog is furnished by the plugin and loaded by ajax
             <div  style="width: 500px; margin-top:1em;"></div>
             <form class="formAddDashboardPlugin" name="formAddDashboardPlugin" method="post" action="{$page}" >
                <fieldset>
-                  <strong>{t}Indicator{/t}:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <select class="cbPluginCandidates" name="pluginClassName">
+                  <strong>{t}Indicator{/t}:</strong>
+                  <select class="cbPluginCandidates select2" name="pluginClassName" style="margin-left:1em;  width:350px;">
                      <option value="0"></option>
                      {foreach from=$dashboardPluginCandidates key=id item=i}
-                     <option value="{$i.pluginClassName}">{$i.title}</option>
+                     <option value="{$i.pluginClassName}">{$i.title} [{$i.category}]</option>
                      {/foreach}
                   </select>
                   <div class="pluginConfig" style="display: none;">
@@ -261,7 +261,7 @@ the content of this dialog is furnished by the plugin and loaded by ajax
          // ==== initialize plugins ====
          jQuery('.pluginInitFunction').each(function() {
             var initFct = this.innerHTML;
-            //console.log('pluginInitFunction = ', initFct);
+            console.log('pluginInitFunction = ', initFct);
             window[initFct]();
          });
          
