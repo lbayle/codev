@@ -224,6 +224,23 @@ the content of this dialog is furnished by the plugin and loaded by ajax
             }
          });
 
+         jQuery(".collapse").click(function() {
+
+            // save isCollapsed in the attributesJsonStr so it can be restored
+            var widget= $(this).closest( ".widget" );   
+            var wcontent = widget.children(".widget-content");
+            var isCollapsed = !wcontent.is(':visible');
+            console.log('isCollapsed', isCollapsed);
+            
+            var attr = widget.children(".attributesJsonStr");
+            var attributesJson = jQuery.parseJSON(attr.text());
+            attributesJson['isCollapsed'] = isCollapsed;
+            var attributesJsonStr = JSON.stringify(attributesJson);
+            attr.text(attributesJsonStr);
+            
+            // TODO load the widget if it was collapsed (first time only)
+         });
+
          jQuery(".btSaveDashboard").click(function() {
             console.log("btSaveDashboard");
             
@@ -260,9 +277,22 @@ the content of this dialog is furnished by the plugin and loaded by ajax
 
          // ==== initialize plugins ====
          jQuery('.pluginInitFunction').each(function() {
-            var initFct = this.innerHTML;
-            console.log('pluginInitFunction = ', initFct);
-            window[initFct]();
+            
+            // check if collapsed
+            var widget= $(this).closest( ".widget" );   
+            var attr = widget.children(".attributesJsonStr");
+            var attributesJson = jQuery.parseJSON(attr.text());
+            var isCollapsed = attributesJson['isCollapsed'];
+            console.log('isCollapsed', isCollapsed);
+            
+            // call the pluginInitFunction if not collapsed
+            //if (!isCollapsed) {
+               var initFct = this.innerHTML;
+               console.log('pluginInitFunction = ', initFct);
+               window[initFct]();
+            //} else {
+               // TODO collapse the widget
+            //}
          });
          
       });
