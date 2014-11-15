@@ -257,9 +257,11 @@ class Dashboard {
       $dashboardPluginCandidates = array();
       foreach ($candidates as $cClassName) {
          if (class_exists($cClassName)) {
+            $categories = $cClassName::getCategories();
             $dashboardPluginCandidates[] = array(
                'pluginClassName' => $cClassName,
                'title' => $cClassName::getName(),
+               'category' => $categories[0],
             );
          } else {
             self::$logger->error('Could not display plugin '.$cClassName.': class not found');
