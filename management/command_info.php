@@ -144,8 +144,6 @@ class CommandInfoController extends Controller {
                   
                   // indicator_plugins (old style plugins - deprecated)
                   $this->smartyHelper->assign('detailedChargesIndicatorFile', DetailedChargesIndicator::getSmartyFilename());
-                  $this->smartyHelper->assign('statusHistoryIndicatorFile', StatusHistoryIndicator::getSmartyFilename());
-                  $this->smartyHelper->assign('reopenedRateIndicatorFile', ReopenedRateIndicator::getSmartyFilename());
 
                   // Dashboard
                   CommandTools::dashboardSettings($this->smartyHelper, $cmd, $this->session_userid);
