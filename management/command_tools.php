@@ -542,13 +542,12 @@ class CommandTools {
       // set CommandSets I belong to
       $smartyHelper->assign('parentCmdSets', self::getParentCommandSets($cmd));
 
-      // set Issues that belong to me
+      // set task list
       $cmdIssueSel = $cmd->getIssueSelection();
       $smartyHelper->assign('cmdNbIssues', $cmdIssueSel->getNbIssues());
-      $smartyHelper->assign('cmdShortIssueList', $cmdIssueSel->getFormattedIssueList());
-
       $smartyHelper->assign('cmdIssues', self::getCommandIssues($cmd));
 
+      // --------------
       // Indicators & statistics
       #$smartyHelper->assign('backlogHistoryGraph', getBacklogHistory($cmd));
 
