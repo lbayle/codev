@@ -101,16 +101,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
       return array(
          'js/datepicker.js',
          'lib/jquery.jqplot/jquery.jqplot.min.js',
-         'lib/jquery.jqplot/plugins/jqplot.dateAxisRenderer.min.js',
-         'lib/jquery.jqplot/plugins/jqplot.cursor.min.js',
-         'lib/jquery.jqplot/plugins/jqplot.pointLabels.min.js',
-         'lib/jquery.jqplot/plugins/jqplot.highlighter.min.js',
          'lib/jquery.jqplot/plugins/jqplot.pieRenderer.min.js',
-         'lib/jquery.jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js',
-         'lib/jquery.jqplot/plugins/jqplot.canvasTextRenderer.min.js',
-         'lib/jquery.jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
-         'lib/jquery.jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
-         'lib/jquery.jqplot/plugins/jqplot.canvasOverlay.min.js',
          'js/chart.js',
       );
    }
