@@ -239,7 +239,12 @@ the content of this dialog is furnished by the plugin and loaded by ajax
             var attributesJsonStr = JSON.stringify(attributesJson);
             attr.text(attributesJsonStr);
             
-            // TODO load the widget if it was collapsed (first time only)
+            // load the widget if it was collapsed (first time only)
+            if (!isCollapsed) {
+               var initFct = widget.find(".pluginInitFunction").text();
+               console.log('pluginInitFunction = ', initFct);
+               window[initFct]();
+            }
          });
 
          jQuery(".btSaveDashboard").click(function() {
@@ -278,7 +283,7 @@ the content of this dialog is furnished by the plugin and loaded by ajax
 
          // ==== initialize plugins ====
          jQuery('.pluginInitFunction').each(function() {
-            
+
             // check if collapsed
             var widget= $(this).closest( ".widget" );   
             var attr = widget.children(".attributesJsonStr");
@@ -287,13 +292,14 @@ the content of this dialog is furnished by the plugin and loaded by ajax
             console.log('isCollapsed', isCollapsed);
             
             // call the pluginInitFunction if not collapsed
-            //if (!isCollapsed) {
+            if (!isCollapsed) {
                var initFct = this.innerHTML;
                console.log('pluginInitFunction = ', initFct);
                window[initFct]();
-            //} else {
-               // TODO collapse the widget
-            //}
+            } else {
+               // collapse the widget, do not initialize
+               widget.find('.collapse').trigger('click');
+            }
          });
          
       });
