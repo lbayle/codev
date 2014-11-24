@@ -325,12 +325,6 @@ class CommandSetTools {
       $smartyHelper->assign('cmdProvisionList', self::getProvisionList($commandset));
       $smartyHelper->assign('cmdProvisionTotalList', self::getProvisionTotalList($commandset));
 
-      $data = self::getCommandSetActivity($commandset);
-      $smartyHelper->assign('activityIndic_data', $data[0]);
-      $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
-      $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
-      $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
-
       // DetailedChargesIndicator
       $data = self::getDetailedCharges($commandset, $isManager, $selectedFilters);
       foreach ($data as $smartyKey => $smartyVariable) {
