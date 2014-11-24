@@ -224,8 +224,9 @@ the content of this dialog is furnished by the plugin and loaded by ajax
             }
          });
 
-         jQuery(".collapse").click(function() {
-
+         // use event bubbling
+         jQuery( ".inettuts-columns" ).on( "click", ".collapse", function() {
+            
             // save isCollapsed in the attributesJsonStr so it can be restored
             var widget= $(this).closest( ".widget" );   
             var wcontent = widget.children(".widget-content");
