@@ -140,7 +140,9 @@ class Dashboard {
       }
       
       $jsonSettings = json_encode($settings);
-      self::$logger->error("saveSettings: save ok: " . $jsonSettings);
+      if (self::$logger->isDebugEnabled()) {
+         self::$logger->debug("saveSettings: save ok: " . $jsonSettings);
+      }
       Config::setValue(Config::id_dashboard.$this->id, $jsonSettings, Config::configType_string, NULL, 0, $userid, $teamid);
    }
 
