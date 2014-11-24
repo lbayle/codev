@@ -348,22 +348,30 @@
       <div id="tab_provisions" >
 
          {if $cmdProvisionList}
-         <table>
-             <tr>
-                 <th>{t}Type{/t}</th>
-                 <th>{t}Budget Days{/t}</th>
-                 <th>{t}Budget{/t}</th>
-             </tr>
-            {foreach $cmdProvisionTotalList as $id => $provTotalRow}
-             <tr>
-                 <td>{$provTotalRow.type}</td>
-                 <td>{$provTotalRow.budget_days}</td>
-                 <td>{$provTotalRow.budget}</td>
-             </tr>
-            {/foreach}
-         </table>
 
-         <div align="center">
+         <div>
+            <label style="cursor: pointer;"><input type="radio" id="radio1" name="radio" />{t}Total{/t}</label>
+            <label style="cursor: pointer;"><input type="radio" id="radio2" name="radio" checked="checked" />{t}Provisions{/t}</label>
+         </div>
+
+         <div class="provisionTotalList ui-helper-hidden">
+            <table>
+                <tr>
+                    <th>{t}Type{/t}</th>
+                    <th>{t}Budget Days{/t}</th>
+                    <th>{t}Budget{/t}</th>
+                </tr>
+               {foreach $cmdProvisionTotalList as $id => $provTotalRow}
+                <tr>
+                    <td>{$provTotalRow.type}</td>
+                    <td>{$provTotalRow.budget_days}</td>
+                    <td>{$provTotalRow.budget}</td>
+                </tr>
+               {/foreach}
+            </table>
+         </div>
+         
+         <div class="provisionsList " align="center" >
             <table id="prov_table" class="datatable">
                <thead>
                   <tr>
@@ -435,12 +443,23 @@
       {/if}
    </div>
    <script type="text/javascript">
+         jQuery('input[type=radio]').change(function() {
+            if(jQuery(this).attr('id') == "radio1") {
+               jQuery(".provisionTotalList").show();
+               jQuery(".provisionsList").hide();
+            } else if(jQuery(this).attr('id') == "radio2") {
+               jQuery(".provisionTotalList").hide();
+               jQuery(".provisionsList").show();
+            }
+         });
+
       jQuery(document).ready(function() {
          jQuery.ajax({
             url: "js_min/datatable.min.js",
             dataType: "script",
             cache: true
          });
+
       });
    </script>
 {else}

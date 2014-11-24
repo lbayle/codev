@@ -1,13 +1,3 @@
-<script type="text/javascript">
-   jQuery(document).ready(function() {
-
-      jQuery("#sendForm").click(function() {
-         var form = jQuery('#selectForm');
-         form.submit();
-      });
-
-   });
-</script>
 
 <div id="content">
 {if (!isset($accessDenied) || (0 == $accessDenied)) }    
@@ -167,13 +157,17 @@
       
        <div id="tab_provisions">
           {if isset($isManager) && $isManager}
-          <table class="invisible">
+
+         <div>
+            <label style="cursor: pointer;"><input type="radio" id="radio1" name="radio" />{t}Total{/t}</label>
+            <label style="cursor: pointer;"><input type="radio" id="radio2" name="radio" checked="checked" />{t}Provisions{/t}</label>
+         </div>
+         <div class="provisionTotalList ui-helper-hidden">
+            {if $cmdProvisionTotalList}
+            <table class="invisible">
               <tbody>
-                 {if $cmdProvisionTotalList}
-                  <tr> 
-                    <th valign="top">{t}Total{/t}</th>
-                    <td valign="top">: </td>
-                      <td>
+                  <tr>
+                    <td>
                     <table>
                         <tr>
                             <th>{t}Type{/t}</th>
@@ -190,12 +184,18 @@
                     </table>
                     </td>
                   </tr>
-                  {/if}
+              </tbody>
+            </table>
+            {else}
+            {t}None{/t}
+            {/if}
+         </div>
+         <div class="provisionsList">
+            {if $cmdProvisionList}
+            <table class="invisible">
+              <tbody>
                   <tr>
-                    <th valign="top">{t}Provisions{/t}</th>
-                    <td valign="top">: </td>
                     <td>
-                    {if $cmdProvisionList}
                     <table>
                        <tr>
                           <th>{t}Date{/t}</th>
@@ -218,13 +218,15 @@
                        </tr>
                        {/foreach}
                     </table>
-                    {else}
-                    {t}None{/t}
-                    {/if}
                     </td>
                   </tr>
               </tbody>
-          </table>
+            </table>
+            {else}
+            {t}None{/t}
+            {/if}
+         </div>
+
           {/if}
       </div>
 
@@ -268,3 +270,25 @@
 <p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
 {/if}
 </div>
+
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+
+      jQuery("#sendForm").click(function() {
+         var form = jQuery('#selectForm');
+         form.submit();
+      });
+
+         jQuery('input[type=radio]').change(function() {
+            if(jQuery(this).attr('id') == "radio1") {
+               jQuery(".provisionTotalList").show();
+               jQuery(".provisionsList").hide();
+            } else if(jQuery(this).attr('id') == "radio2") {
+               jQuery(".provisionTotalList").hide();
+               jQuery(".provisionsList").show();
+            }
+         });
+
+
+   });
+</script>
