@@ -259,7 +259,7 @@
          <div style="margin-top: 2em;">
             <script type="text/javascript">
                function removeTeamMember(id, description) {
-                  var confirmString = "{t}Delete this team ?{/t}\n\n" + description;
+                  var confirmString = "{t}Remove user from this team ?{/t}\n\n" + description;
                   var form = jQuery("#removeTeamMemberForm");
                   if (confirm(confirmString)) {
                      form.find("input[name=deletememberid]").val(id);
