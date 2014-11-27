@@ -129,16 +129,31 @@ class ServiceContract extends Model {
     * @return int $id
     */
    public static function create($name, $teamid) {
-      $query = "INSERT INTO `codev_servicecontract_table`  (`name`, `team_id`) ".
-               "VALUES ('$name', $teamid);";
 
+      $query = "SELECT count(*) FROM `codev_servicecontract_table` WHERE name = '".$name."';";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      return SqlWrapper::getInstance()->sql_insert_id();
+      $count = SqlWrapper::getInstance()->sql_result($result);
+
+      if($count == 0) {
+
+         $query = "INSERT INTO `codev_servicecontract_table`  (`name`, `team_id`) ".
+                  "VALUES ('$name', $teamid);";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         return SqlWrapper::getInstance()->sql_insert_id();
+      } else {
+         throw new Exception('Already exists');
+      }
    }
 
    /**

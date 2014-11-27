@@ -71,12 +71,17 @@ class CommandSetEditController extends Controller {
 
                   $cmdsetName = Tools::escape_string($_POST['commandsetName']);
 
-                  $commandsetid = CommandSet::create($cmdsetName, $this->teamid);
+                  try {
+                     $commandsetid = CommandSet::create($cmdsetName, $this->teamid);
 
-                  $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
+                     $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
 
-                  // set all fields
-                  $this->updateCommandSetInfo($cmdset);
+                     // set all fields
+                     $this->updateCommandSetInfo($cmdset);
+                  } catch(Exception $e) {
+                     // Smartify
+                     echo "Can't create the CommandSet because the CommandSet name is already used";
+                  }
                }
 
                // Display Empty Command Form

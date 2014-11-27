@@ -70,13 +70,18 @@ class ServiceContractEditController extends Controller {
                   }
 
                   $contractName = Tools::getSecurePOSTStringValue('servicecontractName');
+                  try {
 
-                  $servicecontractid = ServiceContract::create($contractName, $this->teamid);
+                     $servicecontractid = ServiceContract::create($contractName, $this->teamid);
 
-                  $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+                     $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
-                  // set all fields
-                  $this->updateServiceContractInfo($contract);
+                     // set all fields
+                     $this->updateServiceContractInfo($contract);
+                  } catch(Exception $e) {
+                     // Smartify
+                     echo "Can't create the ServiceContract because the ServiceContract name is already used";
+                  }
                }
 
                // Display Empty Command Form
