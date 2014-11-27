@@ -117,15 +117,40 @@
 
       <script type="text/javascript">
          jQuery(document).ready(function() {
+
+            function checkRegexp(o, regexp, n) {
+               if (!(regexp.test(o.val()))) {
+                  //o.addClass("ui-state-error");
+                  //updateTips(n);
+                  return false;
+               } else {
+                  return true;
+               }
+            }
+
             jQuery("#btSaveCommand").click(function() {
                // check fields
                var foundError = 0;
-               var msgString = "{t}Some fields are missing:{/t}\n\n";
+               var msgString = "";
 
                var form = jQuery("#updateCmdInfoForm");
                if (0 == form.find("input[name=cmdName]").val().length) {
-                  msgString += "{t}Command name{/t}\n";
+                  msgString += "{t}Field is missing{/t}: {t}Command name{/t}\n";
                   ++foundError;
+               }
+               if ('' != form.find("input[name=cmdTotalSoldDays]").val()) {
+                  bValid = checkRegexp(form.find("input[name=cmdTotalSoldDays]"), /^[0-9]+(\.[0-9]+)?$/i, "format: '1234' or '123.35'");
+                  if (!bValid) {
+                     msgString += "{t}Not a number{/t}: {t}Sold Charge{/t}\n";
+                     ++foundError;
+                  }
+               }
+               if ('' != form.find("input[name=cmdAverageDailyRate]").val()) {
+                  bValid = checkRegexp(form.find("input[name=cmdAverageDailyRate]"), /^[0-9]+(\.[0-9]+)?$/i, "format: '1234' or '123.35'");
+                  if (!bValid) {
+                     msgString += "{t}Not a number{/t}: {t}Default ADR{/t}\n";
+                     ++foundError;
+                  }
                }
 
                if (0 == foundError) {
