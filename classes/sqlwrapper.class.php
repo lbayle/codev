@@ -148,7 +148,8 @@ class SqlWrapper {
       }
 
       if (!$result) {
-         $e = new Exception('SQL ALERT: '.$this->sql_error().' : '.$query);
+         $userid = $_SESSION['userid'];
+         $e = new Exception('user='.$userid.', SQL ALERT: '.$this->sql_error().' : '.$query);
          self::$logger->error('EXCEPTION: '.$e->getMessage());
          self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
       }
