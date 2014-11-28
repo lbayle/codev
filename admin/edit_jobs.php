@@ -68,18 +68,21 @@ class EditJobsController extends Controller {
             } elseif ('deleteJob' == $action) {
                $job_id = Tools::getSecurePOSTIntValue('job_id');
 
-               // TODO delete Support job not allowed
+               if ((Jobs::JOB_NA == $job_id) || (Jobs::JOB_SUPPORT == $job_id)) {
+                  $this->smartyHelper->assign('error', T_("This job must not be deleted."));
 
-               $query = "DELETE FROM `codev_project_job_table` WHERE job_id = ".$job_id.';';
-               $result = SqlWrapper::getInstance()->sql_query($query);
-               if (!$result) {
-                  $this->smartyHelper->assign('error', T_("Couldn't remove the job association"));
-               }
+               } else {
+                  $query = "DELETE FROM `codev_project_job_table` WHERE job_id = ".$job_id.';';
+                  $result = SqlWrapper::getInstance()->sql_query($query);
+                  if (!$result) {
+                     $this->smartyHelper->assign('error', T_("Couldn't remove the job association"));
+                  }
 
-               $query = "DELETE FROM `codev_job_table` WHERE id = $job_id;";
-               $result = SqlWrapper::getInstance()->sql_query($query);
-               if (!$result) {
-                  $this->smartyHelper->assign('error', T_("Couldn't delete the job"));
+                  $query = "DELETE FROM `codev_job_table` WHERE id = $job_id;";
+                  $result = SqlWrapper::getInstance()->sql_query($query);
+                  if (!$result) {
+                     $this->smartyHelper->assign('error', T_("Couldn't delete the job"));
+                  }
                }
 
             } elseif ('deleteJobProjectAssociation' == $action) {
@@ -129,7 +132,6 @@ class EditJobsController extends Controller {
       $jobList = $jobs->getJobs();
       Tools::usort($jobList);
       $smartyJobs = array();
-      $jobSupport = Config::getInstance()->getValue(Config::id_jobSupport);
       $jobsWithoutSupport = array();
       foreach($jobList as $job) {
          $smartyJobs[$job->getId()] = array(
@@ -139,7 +141,8 @@ class EditJobsController extends Controller {
             "color" => $job->getColor(),
          );
 
-         if($jobSupport != $job->getId()) {
+         if ((Jobs::JOB_SUPPORT != $job->getId()) &&
+             (Jobs::JOB_NA != $job->getId())) {
             $jobsWithoutSupport[] = $job->getId();
             $smartyJobs[$job->getId()]["deletedJob"] = true;
          }
