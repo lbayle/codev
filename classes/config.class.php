@@ -81,7 +81,7 @@ class Config {
    const id_externalTasksCat_leave = "externalTasksCat_leave";
    const id_externalTasksCat_otherInternal = "externalTasksCat_otherInternal";
    const id_externalTask_leave = "externalTask_leave"; // DEPRECATED since 0.99.22
-   const id_jobSupport = "job_support";
+   const id_jobSupport = "job_support"; // DEPRECATED since 1.0.2
    const id_adminTeamId = "adminTeamId";
    const id_statusNames = "statusNames"; // DEPRECATED since 0.99.18
    const id_astreintesTaskList = "astreintesTaskList"; // DEPRECARED since 0.99.19

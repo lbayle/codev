@@ -71,11 +71,10 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          // OR clicking the addTrack button in addTrack form (form1)
          $bugid       = Tools::getSecurePOSTIntValue('bugid');
          $job         = Tools::getSecurePOSTIntValue('trackJobid', 0);
-         $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
 
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
-         if (($job == $job_support) ||
+         if (($job == Jobs::JOB_SUPPORT) ||
             ($project->isSideTasksProject(array($teamid)) ||
             ($project->isExternalTasksProject()))) {
             // no backlog update for this task

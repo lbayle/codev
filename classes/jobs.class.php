@@ -170,7 +170,7 @@ class Jobs {
     * @return bool
     */
    public function isSupport($id) {
-      return ($id == Config::getInstance()->getValue(Config::id_jobSupport));
+      return ($id == Jobs::JOB_SUPPORT);
    }
 
    /**

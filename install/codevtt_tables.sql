@@ -49,7 +49,6 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
 ('database_version', 13, 1),
-('job_support', 2, 1),
 ('blogCategories', '1:General,2:Imputations', 3);
 
 

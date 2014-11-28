@@ -70,8 +70,7 @@ class IssueInfoTools {
       if ($withSupport) {
          $issueGeneralInfo['issueElapsed'] = $issue->getElapsed();
       } else {
-         $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-         $issueGeneralInfo['issueElapsed'] = $issue->getElapsed() - $issue->getElapsed($job_support);
+         $issueGeneralInfo['issueElapsed'] = $issue->getElapsed() - $issue->getElapsed(Jobs::JOB_SUPPORT);
       }
       if ($displaySupport) {
          if ($isManager) {

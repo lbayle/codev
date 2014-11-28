@@ -911,8 +911,7 @@ class Issue extends Model implements Comparable {
       if ($withSupport) {
          $myElapsed = $this->elapsed;
       } else {
-         $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-         $myElapsed = $this->elapsed - $this->getElapsed($job_support);
+         $myElapsed = $this->elapsed - $this->getElapsed(Jobs::JOB_SUPPORT);
       }
 */
       if (!is_null($this->driftMgr)) {

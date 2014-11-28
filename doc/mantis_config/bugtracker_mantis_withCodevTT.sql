@@ -261,7 +261,6 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `user_id`, `project_id`, `team_id`, `servicecontract_id`, `commandset_id`, `command_id`, `access_reqd`, `description`) VALUES
 ('database_version', '12', 1, 0, 0, 0, 0, 0, 0, NULL, NULL),
-('job_support', '2', 1, 0, 0, 0, 0, 0, 0, NULL, NULL),
 ('blogCategories', '1:General,2:Imputations', 3, 0, 0, 0, 0, 0, 0, NULL, NULL),
 ('bug_resolved_status_threshold', '80', 1, 0, 0, 0, 0, 0, 0, NULL, 'bug resolved threshold as defined in Mantis (g_bug_resolved_status_threshold)'),
 ('client_teamid', '', 1, 0, 0, 0, 0, 0, 0, NULL, 'Customer teamId'),
