@@ -25,13 +25,15 @@ interface IndicatorPluginInterface {
    const INDICATOR_PLUGINS_DIR = 'plugins';
 
    // CodevTT
-   const DOMAIN_HOMEPAGE = 'Homepage';
-   const DOMAIN_COMMAND = 'Command';
-   const DOMAIN_COMMAND_SET = 'CommandSet';
+   const DOMAIN_HOMEPAGE         = 'Homepage';
+   const DOMAIN_COMMAND          = 'Command';
+   const DOMAIN_COMMAND_SET      = 'CommandSet';
    const DOMAIN_SERVICE_CONTRACT = 'ServiceContract';
-   const DOMAIN_TEAM = 'Team';
-   const DOMAIN_USER = 'User';
-   const DOMAIN_PROJECT = 'Project';
+   const DOMAIN_TEAM             = 'Team';
+   const DOMAIN_USER             = 'User';
+   const DOMAIN_PROJECT          = 'Project';
+   const DOMAIN_TASK             = 'Task';
+   const DOMAIN_IMPORT_EXPORT    = 'Import_Export';
 
    // KPI category
    const CATEGORY_PLANNING  = 'Planning';  // backlog
@@ -41,6 +43,7 @@ interface IndicatorPluginInterface {
    const CATEGORY_TEAM      = 'Team';      // EffortEstim reliability, backlogVariation
    const CATEGORY_RISK      = 'Risk';
    const CATEGORY_ACTIVITY  = 'Activity';  // LoadPerUser, LoadPerJob?
+   const CATEGORY_ADMIN     = 'Admin';     // CodevTT usage statistics, ConsistencyChecks, ...
 
    /**
     * Short name (title)
