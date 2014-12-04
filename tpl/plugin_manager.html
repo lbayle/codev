@@ -1,7 +1,7 @@
 <div class="pluginManger" style="margin-top:4em;margin-left:5em">
    
    <div>
-      <button  title="{t}Check for new plugins in indicator_plugins directory.{/t}" onclick="discoverNewPlugins();return false;">
+      <button  title="{t}Check for new plugins in 'plugins' directory.{/t}" onclick="discoverNewPlugins();return false;">
          <img align="absmiddle" border="0" src="images/b_refresh.png" alt="Add icon">
          {t}Discover new plugins{/t}
       </button>
@@ -73,7 +73,7 @@
       function discoverNewPlugins(){
          var form = jQuery("#pluginForm");
          form.find("input[name=action]").val('discoverNewPlugins');
-         jQuery(".infoMsg").html('Please wait...');
+         jQuery(".infoMsg").html('{t}Please wait...{/t}');
          form.submit();
       }
    </script>
