@@ -74,12 +74,24 @@ class PluginManagerController extends Controller {
 
                $className = $plugin['className'];
 
+               $formated_domains = array();
+               foreach ($plugin['domains'] as $domName) {
+                  array_push($formated_domains, T_($domName));
+               }
+               //sort($formated_domains);
+
+               $formated_categories = array();
+               foreach ($plugin['categories'] as $catName) {
+                  array_push($formated_categories, T_($catName));
+               }
+               //sort($formated_categories);
+
                $formattedPlugins[$className] = array(
                'name' => $plugin['displayedName'],
                'status' => $plugin['status'],
                'statusName' => pluginManager::getStatusName($plugin['status']),
-               'domains' => implode(',<br>', $plugin['domains']),
-               'categories' => implode(',<br>', $plugin['categories']),
+               'domains' => implode(',<br>', $formated_domains),
+               'categories' => implode(',<br>', $formated_categories),
                'version' => $plugin['version'],
                'description' => $plugin['description'],
                );
