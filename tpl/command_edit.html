@@ -225,10 +225,10 @@
    {if isset($cmdIssues) || isset($isAddCmdSetForm)}
    <div id="tabsCommand" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
       <ul class="{$ui_tabs_jquery_ul}">
-         <li class="{$ui_tabs_jquery_li}"><a href="#tab_tasks">{t}Tasks {if isset($cmdNbIssues)}({$cmdNbIssues}){/if}{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_tasks">{t}Tasks{/t} {if isset($cmdNbIssues)}({$cmdNbIssues}){/if}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_wbs">{t}WBS{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_provisions">{t}Provisions{/t}</a></li>
-         <li class="{$ui_tabs_jquery_li}"><a href="#tab_cmdsets">{t}Parent CommandSets {if isset($nbParentCmdSets)}({$nbParentCmdSets}){/if}{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_cmdsets">{t}Parent CommandSets{/t} {if isset($nbParentCmdSets)}({$nbParentCmdSets}){/if}</a></li>
       </ul>
 
       <div id="tab_tasks">
