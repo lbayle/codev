@@ -124,12 +124,12 @@ class BudgetDriftHistoryIndicator2 extends IndicatorPluginAbstract {
       } else {
          throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_END_TIMESTAMP);
       }
-      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_PROVISION_DAYS)) {
+      if (!is_null($pluginDataProv->getParam(PluginDataProviderInterface::PARAM_PROVISION_DAYS))) {
          $this->provisionDays = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_PROVISION_DAYS);
       } else {
          throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_PROVISION_DAYS);
       }
-      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_INTERVAL)) {
+      if (!is_null($pluginDataProv->getParam(PluginDataProviderInterface::PARAM_INTERVAL))) {
          // int value
          $this->interval = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_INTERVAL);
       } else {
