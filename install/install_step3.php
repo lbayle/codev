@@ -773,17 +773,23 @@ function checkMantisPluginDir() {
  *
  * @return bool true if success
  */
-function installMantisPlugin() {
+function installMantisPlugin($pluginName, $isReplace=true) {
    try {
 
       $mantisPluginDir = Constants::$mantisPath . DIRECTORY_SEPARATOR . 'plugins';
 
-      $srcDir = realpath("..") . DIRECTORY_SEPARATOR . 'mantis_plugin' . DIRECTORY_SEPARATOR . 'CodevTT';
-      $destDir = $mantisPluginDir . DIRECTORY_SEPARATOR . 'CodevTT';
+      $srcDir = realpath("..") . DIRECTORY_SEPARATOR . 'mantis_plugin' . DIRECTORY_SEPARATOR . $pluginName;
+      $destDir = $mantisPluginDir . DIRECTORY_SEPARATOR . $pluginName;
 
       if (!is_writable($mantisPluginDir)) {
-         echo "<span class='warn_font'>Path to mantis plugins directory '" . $mantisPluginDir . "' is NOT writable: CodevTT plugin must be installed manualy.</span><br/>";
+         echo "<span class='warn_font'>Path to mantis plugins directory '" . $mantisPluginDir . "' is NOT writable: $pluginName plugin must be installed manualy.</span><br/>";
          return false;
+      }
+      
+      // do not replace if already installed
+      if (!$isReplace && is_dir($destDir)) {
+         echo "<span class='success_font'>Mantis $pluginName plugin is already installed.</span><br/>";
+         return true;
       }
 
       // remove previous installed CodevTT plugin
@@ -795,7 +801,7 @@ function installMantisPlugin() {
       if (is_dir($srcDir)) {
          $result = Tools::recurse_copy($srcDir, $destDir);
       } else {
-         echo "<span class='error_font'>plugin directory '" . $srcDir . "' NOT found: CodevTT plugin must be installed manualy.</span><br/>";
+         echo "<span class='error_font'>plugin directory '" . $srcDir . "' NOT found: $pluginName plugin must be installed manualy.</span><br/>";
          return false;
       }
 
@@ -1031,8 +1037,9 @@ if ("proceedStep3" == $action) {
       }
    }
 
-   echo "DEBUG 16/16 Install Mantis plugin<br/>";
-   installMantisPlugin();
+   echo "DEBUG 16/16 Install Mantis plugins<br/>";
+   installMantisPlugin('CodevTT', true);
+   installMantisPlugin('FilterBugList', false);
 
    echo "DEBUG done.<br/>";
 
