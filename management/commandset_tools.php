@@ -225,25 +225,6 @@ class CommandSetTools {
     * @param CommandSet $commandSet
     * @return mixed[]
     */
-   public static function getCSetProgressHistory(CommandSet $commandSet) {
-
-      $issueSel = $commandSet->getIssueSelection(Command::type_general);
-
-      $params = self::computeTimestampsAndInterval($commandSet);
-
-      $indicator = new ProgressHistoryIndicator();
-      $indicator->execute($issueSel, $params);
-
-      $smartyVariables = $indicator->getSmartyObject();
-
-      return $smartyVariables;
-  }
-
-   /**
-    * @static
-    * @param CommandSet $commandSet
-    * @return mixed[]
-    */
    public static function getBudgetDriftHistoryIndicator(CommandSet $commandSet) {
       $issueSel = $commandSet->getIssueSelection(Command::type_general);
 
