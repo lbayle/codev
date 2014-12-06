@@ -220,25 +220,6 @@ class CommandSetTools {
       return $params;
    }
 
-   /**
-    * @static
-    * @param CommandSet $commandSet
-    * @return mixed[]
-    */
-   public static function getBudgetDriftHistoryIndicator(CommandSet $commandSet) {
-      $issueSel = $commandSet->getIssueSelection(Command::type_general);
-
-      $params = self::computeTimestampsAndInterval($commandSet);
-      $params['provisionDays'] = $commandSet->getProvisionDays(Command::type_general, TRUE);
-
-      $indicator = new BudgetDriftHistoryIndicator();
-      $indicator->execute($issueSel, $params);
-
-      $smartyVariables = $indicator->getSmartyObject();
-
-      return $smartyVariables;
-   }
-
    public static function getDetailedCharges(CommandSet $cmdset, $isManager, $selectedFilters) {
 
       $issueSel = $cmdset->getIssueSelection(Command::type_general);
