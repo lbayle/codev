@@ -103,9 +103,8 @@ class CommandSetInfoController extends Controller {
                      $this->smartyHelper->assign('isEditGranted', true);
                   }
                   
-                  //plugins
+                  // old-stype plugins (deprecated)
                   $this->smartyHelper->assign('detailedChargesIndicatorFile', DetailedChargesIndicator::getSmartyFilename());
-                  $this->smartyHelper->assign('statusHistoryIndicatorFile', StatusHistoryIndicator::getSmartyFilename());
 
                   // Dashboard
                   CommandSetTools::dashboardSettings($this->smartyHelper, $commandset, $this->session_userid);

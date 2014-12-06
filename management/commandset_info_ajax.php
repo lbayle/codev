@@ -25,35 +25,7 @@ require_once('i18n/i18n.inc.php');
 if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
    if(isset($_GET['action'])) {
       $smartyHelper = new SmartyHelper();
-      if($_GET['action'] == 'getProgressHistoryIndicator') {
-         if(isset($_SESSION['commandsetid'])) {
-            $commandsetid = $_SESSION['commandsetid'];
-            if (0 != $commandsetid) {
-               $commandset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
-               $data = CommandSetTools::getCSetProgressHistory($commandset);
-               foreach ($data as $smartyKey => $smartyVariable) {
-                  $smartyHelper->assign($smartyKey, $smartyVariable);
-               }
-               $smartyHelper->display(ProgressHistoryIndicator::getSmartyFilename());
-            }
-         } else {
-            Tools::sendBadRequest("Command set not set");
-         }
-      } else if($_GET['action'] == 'getBudgetDriftHistoryIndicator') {
-         if(isset($_SESSION['commandsetid'])) {
-            $commandsetid = $_SESSION['commandsetid'];
-            if (0 != $commandsetid) {
-               $commandset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
-               $data = CommandSetTools::getBudgetDriftHistoryIndicator($commandset);
-               foreach ($data as $smartyKey => $smartyVariable) {
-                  $smartyHelper->assign($smartyKey, $smartyVariable);
-               }
-               $smartyHelper->display(BudgetDriftHistoryIndicator::getSmartyFilename());
-            }
-         } else {
-            Tools::sendBadRequest("Command not set");
-         }
-      } else if ($_GET['action'] == 'updateDetailedCharges') {
+      if ($_GET['action'] == 'updateDetailedCharges') {
 
          $cmdsetid = Tools::getSecureGETIntValue('selectFiltersSrcId');
          $selectedFilters = Tools::getSecureGETStringValue('selectedFilters', '');
