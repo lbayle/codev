@@ -99,10 +99,9 @@ class ServiceContractInfoController extends Controller {
                      $this->smartyHelper->assign('isEditGranted', true);
                   }
                   
-                  //plugins
+                  // old-style plugins (deprecated)
                   $this->smartyHelper->assign('detailedChargesIndicatorFile', DetailedChargesIndicator::getSmartyFilename());
-                  $this->smartyHelper->assign('activityIndicatorFile', ActivityIndicator::getSmartyFilename());
-                  $this->smartyHelper->assign('statusHistoryIndicatorFile', StatusHistoryIndicator::getSmartyFilename());
+                  
                }
             } else {
                unset($_SESSION['cmdid']);
