@@ -93,7 +93,10 @@
    {include file="modal/consistency_check.html"}
 
    <div align="center" style="margin-top: 3em;">
-      <h2 title="{$cmdid}">{$cmdName}</h2>
+      <h2>
+         <a target="_blank" href="{$mantisURL}/view_all_set.php?type=1&temporary=y&FilterBugList_list={$mantisFilterBugList}"><img align="absmiddle" src="images/mantis_ico.gif" title="{t}Open task list in Mantis{/t}"></a>
+         {$cmdName}
+      </h2>
    </div>
 
    <div style="margin-top: 2em;">
