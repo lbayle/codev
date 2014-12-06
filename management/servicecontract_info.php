@@ -102,6 +102,9 @@ class ServiceContractInfoController extends Controller {
                   // old-style plugins (deprecated)
                   $this->smartyHelper->assign('detailedChargesIndicatorFile', DetailedChargesIndicator::getSmartyFilename());
                   
+                  // Dashboard
+                  ServiceContractTools::dashboardSettings($this->smartyHelper, $servicecontract, $this->session_userid);
+
                }
             } else {
                unset($_SESSION['cmdid']);
