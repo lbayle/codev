@@ -447,5 +447,44 @@ class ServiceContractTools {
 
    }
 
+   /**
+    *
+    * @param SmartyHelper $smartyHelper
+    * @param ServiceContract $servicecontract
+    * @param int $userid
+    */
+   public static function dashboardSettings(SmartyHelper $smartyHelper, ServiceContract $servicecontract, $userid) {
+
+      $pluginDataProvider = PluginDataProvider::getInstance();
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $servicecontract->getIssueSelection(CommandSet::type_general, Command::type_general));
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $servicecontract->getTeamid());
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_PROVISION_DAYS, $servicecontract->getProvisionDays(CommandSet::type_general, Command::type_general, TRUE));
+
+      $params = self::computeTimestampsAndInterval($servicecontract);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $params['startTimestamp']);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $params['endTimestamp']);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_INTERVAL, $params['interval']);
+
+      // save the DataProvider for Ajax calls
+      $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);
+
+      // create the Dashboard
+      $dashboard = new Dashboard('ServiceContract'.$servicecontract->getId());
+      $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_SERVICE_CONTRACT);
+      $dashboard->setCategories(array(
+          IndicatorPluginInterface::CATEGORY_QUALITY,
+          IndicatorPluginInterface::CATEGORY_ACTIVITY,
+          IndicatorPluginInterface::CATEGORY_ROADMAP,
+          IndicatorPluginInterface::CATEGORY_PLANNING,
+          IndicatorPluginInterface::CATEGORY_RISK,
+         ));
+      $dashboard->setTeamid($servicecontract->getTeamid());
+      $dashboard->setUserid($userid);
+
+      $data = $dashboard->getSmartyVariables($smartyHelper);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+   }
 
 }
