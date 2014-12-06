@@ -375,71 +375,6 @@ class ServiceContractTools {
       return $params;
    }
 
-   /**
-    * @static
-    * @param ServiceContract $serviceContract
-    * @return mixed[]
-    */
-   public static function getSContractProgressHistory(ServiceContract $serviceContract) {
-      $issueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
-
-      $params = self::computeTimestampsAndInterval($serviceContract);
-
-      $indicator = new ProgressHistoryIndicator();
-      $indicator->execute($issueSel, $params);
-
-      $smartyVariables = $indicator->getSmartyObject();
-
-      return $smartyVariables;
-   }
-
-   /**
-    * show users activity on the SC during the given period.
-    *
-    * if start & end dates not defined, the last month will be displayed.
-    *
-    * @param ServiceContract $serviceContract
-    * @return string
-    *
-    */
-   public static function getSContractActivity(ServiceContract $contract, $startTimestamp = NULL, $endTimestamp = NULL) {
-      $issueSel = $contract->getIssueSelection(CommandSet::type_general, Command::type_general);
-
-      $sidetasksPerCategory = $contract->getSidetasksPerCategoryType(true);
-      foreach ($sidetasksPerCategory as $id => $iSel) {
-         if (is_numeric($id) && (Project::cat_st_inactivity == $id)) {
-            continue;
-         }
-         $issueSel->addIssueList($iSel->getIssueList());
-      }
-
-      $month = date('m');
-      $year = date('Y');
-
-      if (!isset($startTimestamp)) {
-         // The first day of the current month
-         $startdate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, 1, $year));
-         $startTimestamp = Tools::date2timestamp($startdate);
-      }
-      if (!isset($endTimestamp)) {
-         $nbDaysInMonth = date("t", $startTimestamp);
-         $enddate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, $nbDaysInMonth, $year));
-         $endTimestamp = Tools::date2timestamp($enddate);
-      }
-
-      $params = array(
-         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
-         'endTimestamp' => $endTimestamp,
-         'teamid' => $contract->getTeamid(),
-         'showSidetasks' => false
-      );
-
-      $activityIndicator = new ActivityIndicator();
-      $activityIndicator->execute($issueSel, $params);
-
-      return array($activityIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
-   }
-
    public static function getDetailedCharges(ServiceContract $serviceContract, $isManager, $selectedFilters) {
 
       $issueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
@@ -459,63 +394,6 @@ class ServiceContractTools {
 
       $smartyVariable = $detailedChargesIndicator->getSmartyObject();
       $smartyVariable['selectFiltersSrcId'] = $serviceContract->getId();
-
-      return $smartyVariable;
-   }
-
-   public static function getInternalBugsStatusHistory(ServiceContract  $servicecontract, $interval = 7) {
-
-      $cmdSel = $servicecontract->getIssueSelection(CommandSet::type_general, Command::type_general);
-
-      // Filter only BUGS
-      $bugFilter = new IssueCodevTypeFilter('bugFilter');
-      $bugFilter->addFilterCriteria(IssueCodevTypeFilter::tag_Bug);
-      $outputList = $bugFilter->execute($cmdSel);
-
-      if (empty($outputList)) {
-         #echo "TYPE Bug not found !<br>";
-         return array();
-      }
-      $bugSel = $outputList[IssueCodevTypeFilter::tag_Bug];
-
-      // Filter only NoExtRef
-      $extIdFilter = new IssueExtIdFilter('extIdFilter');
-      $extIdFilter->addFilterCriteria(IssueExtIdFilter::tag_no_extRef);
-      $outputList2 = $extIdFilter->execute($bugSel);
-
-      if (empty($outputList2)) {
-         #echo "noExtRef not found !<br>";
-         return array();
-      }
-      $issueSel = $outputList2[IssueExtIdFilter::tag_no_extRef];
-
-      // -------
-
-      $startTT = $issueSel->getFirstTimetrack();
-      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
-         $startTimestamp = $startTT->getDate();
-      } else {
-         $startTimestamp = $servicecontract->getStartDate();
-         if (0 == $startTimestamp) {
-            $team = TeamCache::getInstance()->getTeam($servicecontract->getTeamid());
-            $startTimestamp = $team->getDate();
-         }
-      }
-
-      $endTimestamp =  time();
-
-      #echo "cmd StartDate ".date("Y-m-d", $startTimestamp).'<br>';
-      #echo "cmd EndDate ".date("Y-m-d", $endTimestamp).'<br>';
-
-      $params = array(
-         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
-         'endTimestamp' => $endTimestamp,
-         'interval' => $interval
-      );
-
-      $statusHistoryIndicator = new StatusHistoryIndicator();
-      $statusHistoryIndicator->execute($issueSel, $params);
-      $smartyVariable = $statusHistoryIndicator->getSmartyObject();
 
       return $smartyVariable;
    }
@@ -559,14 +437,7 @@ class ServiceContractTools {
       $smartyHelper->assign('cmdProvisionList', self::getProvisionList($servicecontract));
       $smartyHelper->assign('cmdProvisionTotalList', self::getProvisionTotalList($servicecontract));
 
-
       $smartyHelper->assign('servicecontractTotalDetailedMgr', self::getContractTotalDetailedMgr($servicecontract->getId(), $provDaysByType));
-
-      $data = self::getSContractActivity($servicecontract);
-      $smartyHelper->assign('activityIndic_data', $data[0]);
-      $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
-      $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
-      $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
 
       // DetailedChargesIndicator
       $data = self::getDetailedCharges($servicecontract, $isManager, $selectedFilters);
@@ -574,13 +445,7 @@ class ServiceContractTools {
          $smartyHelper->assign($smartyKey, $smartyVariable);
       }
 
-      $data = self::getInternalBugsStatusHistory($servicecontract);
-      foreach ($data as $smartyKey => $smartyVariable) {
-         $smartyHelper->assign($smartyKey, $smartyVariable);
-      }
-
    }
 
-}
 
-?>
+}

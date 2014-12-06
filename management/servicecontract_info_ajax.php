@@ -25,59 +25,7 @@ require_once('i18n/i18n.inc.php');
 if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
    if(isset($_GET['action'])) {
       $smartyHelper = new SmartyHelper();
-      if($_GET['action'] == 'getActivityIndicator') {
-         if(isset($_SESSION['servicecontractid'])) {
-            $servicecontractid = $_SESSION['servicecontractid'];
-            if (0 != $servicecontractid) {
-               $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-
-               $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("startdate"));
-               $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("enddate"));
-               $data = ServiceContractTools::getSContractActivity($servicecontract, $startTimestamp, $endTimestamp);
-               $smartyHelper->assign('activityIndic_data', $data[0]);
-               $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
-               $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
-               $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
-
-               $smartyHelper->display(ActivityIndicator::getSmartySubFilename());
-            } else {
-               Tools::sendBadRequest("Service contract equals 0");
-            }
-         } else {
-            Tools::sendBadRequest("Service contract not set");
-         }
-      } else if($_GET['action'] == 'getActivityIndicatorData') {
-         if(isset($_SESSION['servicecontractid'])) {
-            $servicecontractid = $_SESSION['servicecontractid'];
-            if (0 != $servicecontractid) {
-               $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-
-               $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("startdate"));
-               $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("enddate"));
-               $data = ServiceContractTools::getSContractActivity($servicecontract, $startTimestamp, $endTimestamp);
-               echo $data[0]['jqplotData'];
-               SqlWrapper::getInstance()->logStats();
-            } else {
-               Tools::sendBadRequest("Service contract equals 0");
-            }
-         } else {
-            Tools::sendBadRequest("Service contract not set");
-         }
-      } else if($_GET['action'] == 'getProgressHistoryIndicator') {
-         if(isset($_SESSION['servicecontractid'])) {
-            $servicecontractid = $_SESSION['servicecontractid'];
-            if (0 != $servicecontractid) {
-               $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-               $data = ServiceContractTools::getSContractProgressHistory($servicecontract);
-               foreach ($data as $smartyKey => $smartyVariable) {
-                  $smartyHelper->assign($smartyKey, $smartyVariable);
-               }
-               $smartyHelper->display(ProgressHistoryIndicator::getSmartyFilename());
-            }
-         } else {
-            Tools::sendBadRequest("Service contract not set");
-         }
-      } else if ($_GET['action'] == 'updateDetailedCharges') {
+      if ($_GET['action'] == 'updateDetailedCharges') {
 
          $servicecontractid = Tools::getSecureGETIntValue('selectFiltersSrcId');
          $selectedFilters = Tools::getSecureGETStringValue('selectedFilters', '');
