@@ -4,14 +4,19 @@
 <div>
 
    <div class="effortEstimReliabilityIndicator2Chart date_chart_with_horizontal_line chart float" style="width:95%;"></div>
-   <a id="effortEstimReliabilityIndicator2ValuesDialog_link" href="{$page}"><img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/></a>
+   <a class="effortEstimReliabilityIndicator2ValuesDialog_link float" href="">
+      <img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/>
+   </a>
+   <a class="float" href="">
+      <img onclick="$('.effortEstimReliabilityIndicator2ValuesTable').table2CSV({literal}{{/literal}filename : 'budgetDrift.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
+   </a>
 
    <div class="ui-helper-clearfix"></div>
 </div>
 
 <div class="effortEstimReliabilityIndicator2ValuesDialog ui-helper-hidden" title="{t}EffortEstim ReliabilityRate{/t}">
 
-    <table title="{t}EffortEstim ReliabilityRate{/t}">
+    <table title="{t}EffortEstim ReliabilityRate{/t}" class="effortEstimReliabilityIndicator2ValuesTable">
        <thead>
           <tr>
              <th>{t}Date{/t}</th>
@@ -41,6 +46,15 @@
    function effortEstimReliabilityIndicator2JsInit() {
 
       {if $effortEstimReliabilityIndicator2_jqplotData}
+
+      jQuery(".effortEstimReliabilityIndicator2HelpDialog_link").click(function() {
+         jQuery(".effortEstimReliabilityIndicator2HelpDialog").dialog("open");
+         return false;
+      });
+      jQuery(".effortEstimReliabilityIndicator2HelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
+      });
 
       jQuery(".effortEstimReliabilityIndicator2ValuesDialog_link").click(function() {
          jQuery(".effortEstimReliabilityIndicator2ValuesDialog").dialog("open");
