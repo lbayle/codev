@@ -370,9 +370,8 @@ class User extends Model {
 
       $key = 't'.$team_id;
       if (!array_key_exists($key, $this->arrivalDateCache)) {
-         $arrival_date = time();
 
-         $query = "SELECT arrival_date FROM `codev_team_user_table` " .
+         $query = "SELECT MIN(arrival_date) FROM `codev_team_user_table` " .
                   "WHERE user_id = $this->id ";
          if (isset($team_id)) {
             $query .= "AND team_id = $team_id;";
@@ -382,15 +381,15 @@ class User extends Model {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            if ($row->arrival_date < $arrival_date) {
-               $arrival_date = $row->arrival_date;
-            }
+         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+             $arrival_date = SqlWrapper::getInstance()->sql_result($result, 0);
+         } else {
+            $arrival_date = time();
+            self::$logger->warn("user".$this->id.".getArrivalDate($team_id): no arrival_date found !");
          }
-
          $this->arrivalDateCache[$key] = $arrival_date;
 
-         //echo "DEBUG arrivalDate = ".date('Y - m - d', $arrival_date)."<br>";
+         //echo "DEBUG user $this->id team $team_id arrivalDate = ".date('Y-m-d', $arrival_date)." ($arrival_date)<br>";
       }
 
       return $this->arrivalDateCache[$key];
