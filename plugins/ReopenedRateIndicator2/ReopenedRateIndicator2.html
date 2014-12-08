@@ -2,23 +2,19 @@
 <div class="pluginInitFunction"  style="display: none;">reopenedRateIndicator2JsInit</div>
 {if isset($reopenedRateIndicator2_jqplotData)}
 <div>
-
-   <h2 id="indicatorTitle">{t}Bug validation history{/t} &nbsp;&nbsp;
-      <a class="reopenedRateIndicator2HelpDialog_link help_link" href="{$page}">
-         <img title="help" src="images/help_icon.gif"/>
-      </a>
-   </h2>
-
    <div class="reopenedRateIndicator2Chart date_chart chart float" style="width:95%;"></div>
-
-   <a class="reopenedRateIndicator2ValuesDialog_link" href="{$page}">
-      <img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/>
+   <a class="reopenedRateIndicator2HelpDialog_link float" href="">
+      <img title="{t}help{/t}" src="images/help_icon.gif"/>
    </a>
-
-   <div class="ui-helper-clearfix"></div>
+   <a class="reopenedRateIndicator2ValuesDialog_link float" href="">
+      <img title="{t}show values{/t}" src="images/b_browse.png"/>
+   </a>
+   <a class="float" href="">
+      <img onclick="$('.reopenedRateIndicator2ValuesTable').table2CSV({literal}{{/literal}filename : 'reopenedRate.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
+   </a>
 </div>
 
-<div id="reopenedRateIndicator2HelpDialog" class="help_dialog ui-helper-hidden" title="{t}BugValidation History Indicator{/t}">
+<div class="reopenedRateIndicator2HelpDialog ui-helper-hidden" title="{t}BugValidation History Indicator{/t}">
    <p>{t}Resolved bugs must be validated. This shows how many bugs have been Rejected or Accepted during the validation stage. Bugs in 'resolved' status (not yet validated) are excluded.{/t}<br>
    </p>
    <p>
@@ -36,7 +32,7 @@
 </div>
 
 <div class="reopenedRateIndicator2ValuesDialog ui-helper-hidden" title="{t}Bug Refusal Rate{/t}" >
-    <table>
+    <table class="reopenedRateIndicator2ValuesTable">
        <thead>
           <tr>
              <th>{t}Date{/t}</th>
@@ -68,11 +64,20 @@
 
       {if isset($reopenedRateIndicator2_jqplotData)}
 
+      jQuery(".reopenedRateIndicator2HelpDialog_link").click(function() {
+         jQuery(".reopenedRateIndicator2HelpDialog").dialog("open");
+         return false;
+      });
+      jQuery(".reopenedRateIndicator2HelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
+      });
+
       jQuery(".reopenedRateIndicator2ValuesDialog_link").click(function() {
          jQuery(".reopenedRateIndicator2ValuesDialog").dialog("open");
          return false;
       });
-      jQuery(".dialog_reopenedRateIndicator2Values").dialog({
+      jQuery(".reopenedRateIndicator2ValuesDialog").dialog({
          autoOpen: false,
          height: 'auto',
          width: "auto",
