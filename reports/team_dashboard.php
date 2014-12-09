@@ -36,7 +36,7 @@ class TeamDashboardController extends Controller {
          
          
          $startTimestamp = $team->getDate(); // creationDate
-         //$endTimestamp = Tools::date2timestamp('2014-06-22');
+         $endTimestamp = time();
 
          // create issueSelection with issues from team projects
          $teamIssues = $team->getTeamIssueList(true, true); // with disabledProjects ?
@@ -48,7 +48,7 @@ class TeamDashboardController extends Controller {
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $teamIssueSelection);
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $this->teamid);
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
-         //$pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
+         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
 
          // save the DataProvider for Ajax calls
          $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);
@@ -78,7 +78,7 @@ class TeamDashboardController extends Controller {
 }
 
 TeamDashboardController::staticInit();
-$controller = new TeamDashboardController('../', 'Dashboard Test','Plugin');
+$controller = new TeamDashboardController('../', 'Team Indicators','ProdReports');
 $controller->execute();
 
 ?>
