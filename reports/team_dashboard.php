@@ -49,6 +49,7 @@ class TeamDashboardController extends Controller {
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $this->teamid);
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
+         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $this->session_userid);
 
          // save the DataProvider for Ajax calls
          $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);

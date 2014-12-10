@@ -350,6 +350,7 @@ class CommandTools {
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $cmd->getIssueSelection());
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $cmd->getTeamid());
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_PROVISION_DAYS, $cmd->getProvisionDays());
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $userid);
 
       $params = self::computeTimestampsAndInterval($cmd);
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $params['startTimestamp']);

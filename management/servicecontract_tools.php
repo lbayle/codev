@@ -459,6 +459,7 @@ class ServiceContractTools {
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $servicecontract->getIssueSelection(CommandSet::type_general, Command::type_general));
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $servicecontract->getTeamid());
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_PROVISION_DAYS, $servicecontract->getProvisionDays(CommandSet::type_general, Command::type_general, TRUE));
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $userid);
 
       $params = self::computeTimestampsAndInterval($servicecontract);
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $params['startTimestamp']);
