@@ -58,6 +58,7 @@ class PluginDashboardController extends Controller {
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_PROVISION_DAYS, $cmd->getProvisionDays());
+         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $userid);
 
          // save the DataProvider for Ajax calls
          $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);

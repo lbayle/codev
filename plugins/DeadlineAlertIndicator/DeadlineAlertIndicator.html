@@ -1,0 +1,53 @@
+<div class="deadlineAlertIndicator">
+
+<div>
+   <div class="pluginInitFunction"  style="display: none;">deadlineAlertIndicatorJsInit</div>
+   <div class="deadlineAlertIndicatorDiv" align="left" style="margin-top: 1em;">
+      {if isset($deadlineAlertIndicator_issueArray) && !empty($deadlineAlertIndicator_issueArray)}
+      <table>
+         <thead>
+            <tr>
+               <th>{t}ID{/t}</th>
+               <th>{t}User{/t}</th>
+               <th>{t}Project{/t}</th>
+               <th>{t}Deadline{/t}</th>
+               <th>{t}Progress{/t}</th>
+               <th>{t}Reestimated{/t}</th>
+               <th>{t}Elapsed{/t}</th>
+               <th>{t}Backlog{/t}</th>
+               <th>{t}Status{/t}</th>
+               <th>{t}Summary{/t}</th>
+            </tr>
+         </thead>
+         <tbody>
+            {foreach from=$deadlineAlertIndicator_issueArray key=id item=i}
+            <tr>
+               <td>{$i.bugId}</td>
+               <td>{$i.handlerName}</td>
+               <td>{$i.projectName}</td>
+               <td style="background-color: #fcbdbd;">{$i.deadline}</td>
+               <td><div class="progress">{$i.progress}%</div></td>
+               <td>{$i.reestimated}</td>
+               <td>{$i.elapsed}</td>
+               <td>{$i.backlog}</td>
+               <td>{$i.statusName}</td>
+               <td>{$i.summary}</td>
+            </tr>
+            {/foreach}
+         </tbody>
+      </table>
+      {else}
+      {t}No late task.{/t}
+      {/if}
+   </div>
+</div>
+
+<script type="text/javascript">
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function deadlineAlertIndicatorJsInit() {
+      console.log('deadlineAlertIndicatorJsInit');
+   };
+</script>
+</div>
