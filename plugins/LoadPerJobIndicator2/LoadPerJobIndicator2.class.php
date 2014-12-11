@@ -40,8 +40,6 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
 
    // config options from Dashboard
    private $pluginSettings;
-   private $isGraphOnly;
-   private $isTableOnly;
    private $dateRange;  // defaultRange | currentWeek | currentMonth
 
    // internal
@@ -139,8 +137,6 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
 
       // set default pluginSettings (not provided by the PluginDataProvider)
       $this->dateRange   = 'defaultRange';
-      $this->isGraphOnly = false;
-      $this->isTableOnly = false;
 
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("checkParams() ISel=".$this->inputIssueSel->name.' startTimestamp='.$this->startTimestamp.' endTimestamp='.$this->endTimestamp);
@@ -165,12 +161,6 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
       if (NULL != $pluginSettings) {
 
          // then override with $pluginSettings
-         if (array_key_exists(self::OPTION_IS_GRAPH_ONLY, $pluginSettings)) {
-            $this->isGraphOnly = $pluginSettings[self::OPTION_IS_GRAPH_ONLY];
-         }
-         if (array_key_exists(self::OPTION_IS_TABLE_ONLY, $pluginSettings)) {
-            $this->isTableOnly = $pluginSettings[self::OPTION_IS_TABLE_ONLY];
-         }
          if (array_key_exists(self::OPTION_DATE_RANGE, $pluginSettings)) {
             $this->dateRange = $pluginSettings[self::OPTION_DATE_RANGE];
 
