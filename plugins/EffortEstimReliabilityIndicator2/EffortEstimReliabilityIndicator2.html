@@ -2,16 +2,22 @@
 <div class="pluginInitFunction"  style="display: none;">effortEstimReliabilityIndicator2JsInit</div>
 {if isset($effortEstimReliabilityIndicator2_jqplotData)}
 <div>
-
-   <div class="effortEstimReliabilityIndicator2Chart date_chart_with_horizontal_line chart float" style="width:95%;"></div>
-   <div class="float" style="margin-top:1em;"></div>
-   <a class="effortEstimReliabilityIndicator2ValuesDialog_link float" href="">
-      <img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/>
-   </a>
-   <a class="float" href="">
-      <img onclick="$('.effortEstimReliabilityIndicator2ValuesTable').table2CSV({literal}{{/literal}filename : 'budgetDrift.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
-   </a>
-
+   <div class="effortEstimReliabilityIndicator2Chart date_chart_with_horizontal_line chart inlineBlock" style="width:95%;"></div>
+   <div class="inlineBlock" style="margin-top:1em;">
+      <ul>
+         <li>
+            <a class="effortEstimReliabilityIndicator2ValuesDialog_link" href="">
+               <img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/>
+            </a>
+         </li>
+         <li>
+            <a href="">
+               <img onclick="$('.effortEstimReliabilityIndicator2ValuesTable').table2CSV({literal}{{/literal}filename : 'budgetDrift.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
+            </a>
+         </li>
+      </ul>
+   </div>
+   
    <div class="ui-helper-clearfix"></div>
 </div>
 
