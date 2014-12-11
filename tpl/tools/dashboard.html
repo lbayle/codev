@@ -180,12 +180,12 @@ the content of this dialog is furnished by the plugin and loaded by ajax
 
                         // add new Widget to the dashboard
                         var ulObj = jQuery(".inettuts-column1");
-                        var liObj = jQuery('<li></li>').addClass("widget").addClass(widget.color);
+                        var liObj = jQuery('<li></li>').addClass("widget").addClass(widget.color).attr('id', widget.id);
                         var divHeadObj = jQuery('<div></div>').addClass("widget-head").append(jQuery('<h3></h3>').html(widget.title));
                         var divContentObj = jQuery('<div></div>').addClass("widget-content").html(widget.content);
                         var divObj = jQuery('<div style="display: none;" class="attributesJsonStr"/>').html(widget.attributesJsonStr);
                         liObj.append(divObj).append(divHeadObj).append(divContentObj);
-                        ulObj.append(liObj);
+                        ulObj.prepend(liObj);
       
                         // load JS dependencies
                         jQuery.ajax({
@@ -207,6 +207,7 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                         var functionName = jQuery(widget.content).find('.pluginInitFunction').text();
                         //console.log("pluginInitFunction", functionName);
                         window[functionName]();
+                        divContentObj.find('#jqplot_target_1').attr('id', 'jqplot_target_' + widget.id);
                         
                         jQuery(".dialogAddDashboardPlugin").dialog("close");
                      },
