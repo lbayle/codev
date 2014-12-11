@@ -4,6 +4,8 @@ body {
   background-color: white;
   font-size: 12px;
 }
+
+
 h1 {
   text-align: center;
 }
@@ -160,13 +162,21 @@ div.menu td {
   text-align: right;
 }
 
+/* DEPRECATED */
 .float {
   float: left;
   margin-right: 1em;
 }
 
+/* DEPRECATED */
 .floatr {
   float: right;
+}
+
+/* replacement for float & floatr */
+.inlineBlock {
+  display: inline-block;
+  vertical-align: top;
 }
 
 .caption_font {
@@ -458,3 +468,7 @@ ul.dropdown li:hover > ul.submenu {
 }
 /* END Table with scrollbar */
 
+.imgCsvExport {
+   cursor: pointer;
+   background-image: url("images/b_export_xls.gif");
+}
