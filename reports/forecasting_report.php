@@ -69,36 +69,7 @@ class ForecastingReportController extends Controller {
             $this->smartyHelper->assign('currentDeviationStats', $this->getCurrentDeviationStats($this->teamid, $threshold));
 
             $this->smartyHelper->assign('issuesInDrift', $this->getIssuesInDrift($this->teamid, $withSupport));
-            $this->smartyHelper->assign('lateIssues', $this->getLateIssues($this->teamid, $withSupport));
 
-            $start_day = 1;
-            if (1 == date("m")) {
-               $start_month = 12;
-               $start_year = date("Y") - 1;
-            } else {
-               $start_month = date("m") - 1;
-               $start_year = date("Y");
-            }
-            $timeTrackingTable = $this->createTimeTrackingList($start_day, $start_month, $start_year, $this->teamid);
-            $formattedTimetracks = array();
-            foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-               $value = $timeTracking->getAvailableWorkload();
-               $formattedTimetracks[$startTimestamp] = $value;
-            }
-
-            $values = array();
-            $legend = array();
-            foreach ($formattedTimetracks as $date => $value) {
-               $values[Tools::formatDate("%Y-%m-%d", $date)] = $value;
-               $legend[Tools::formatDate("%B %Y", $date)] = $value;
-            }
-
-            $this->smartyHelper->assign('workload_jqplotData', Tools::array2plot($values));
-            list($start, $end) = Tools::getStartEndKeys($values);
-            $this->smartyHelper->assign('workload_plotMinDate', $start);
-            $this->smartyHelper->assign('workload_plotMaxDate', $end);
-
-            $this->smartyHelper->assign('dates', $legend);
          }
       }
    }
@@ -211,95 +182,6 @@ class ForecastingReportController extends Controller {
          }
       }
       return $issueArray;
-   }
-
-   /**
-    * get non-resolved tasks which deadline is < today
-    * 
-    * @param type $teamid
-    * @param type $withSupport
-    * @return type
-    */
-   private function getLateIssues($teamid, $withSupport = TRUE) {
-      $team = TeamCache::getInstance()->getTeam($teamid);
-      $mList = $team->getMembers();
-      $projList = $team->getProjects(true, false); // exclude disabled projects
-
-      $today = time();
-      $midnightTimestamp = mktime(0, 0, 0, date('m', $today), date('d', $today), date('Y', $today));
-
-      $issueArray = NULL;
-
-      foreach ($mList as $id => $name) {
-         $user = UserCache::getInstance()->getUser($id);
-
-         // do not take observer's tasks
-         if ((!$user->isTeamDeveloper($teamid)) &&
-             (!$user->isTeamCustomer($teamid)) &&
-             (!$user->isTeamManager($teamid))) {
-            continue;
-         }
-
-         // TODO WARN: unassigned issues will be ommitted !!
-         $issueList = $user->getAssignedIssues($projList);
-         foreach ($issueList as $issue) {
-            $deadline = $issue->getDeadLine();
-
-            if (($deadline > 0) && ($deadline < $midnightTimestamp)) {
-
-               $tooltipAttr = $issue->getTooltipItems($teamid, $this->session_userid);
-
-               $driftMgrEE = $issue->getDriftMgr($withSupport);
-               $driftEE = $issue->getDrift($withSupport);
-               $issueArray[] = array(
-                  'bugId' => Tools::issueInfoURL($issue->getId(), $tooltipAttr),
-                  'handlerName' => $user->getName(),
-                  'projectName' => $issue->getProjectName(),
-                  'deadline' => date('Y-m-d', $deadline),
-                  'progress' => round(100 * $issue->getProgress()),
-                  'effortEstimMgr' => $issue->getMgrEffortEstim(),
-                  'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),
-                  'elapsed' => $issue->getElapsed(),
-                  'reestimated' => $issue->getReestimated(),
-                  'backlog' => $issue->getBacklog(),
-                  'driftPrelEE' => $driftMgrEE,
-                  'driftEE' => $driftEE,
-                  'statusName' => $issue->getCurrentStatusName(),
-                  'summary' => $issue->getSummary()
-               );
-            }
-         }
-      }
-      return $issueArray;
-   }
-
-   /**
-    * @param int $start_day
-    * @param int $start_month
-    * @param int $start_year
-    * @param int $teamid
-    * @return TimeTracking[]
-    */
-   private function createTimeTrackingList($start_day, $start_month, $start_year, $teamid) {
-      $timeTrackingTable = array();
-
-      $day = $start_day;
-
-      for ($y = $start_year; $y <= date('Y'); $y++) {
-         for ($month = $start_month; $month < 13; $month++) {
-            $startTimestamp = mktime(0, 0, 0, $month, $day, $y);
-            $nbDaysInMonth = date("t", mktime(0, 0, 0, $month, 1, $y));
-            $endTimestamp = mktime(23, 59, 59, $month, $nbDaysInMonth, $y);
-
-            #echo "DEBUG createTimeTrackingList: startTimestamp=".date("Y-m-d H:i:s", $startTimestamp)." endTimestamp=".date("Y-m-d H:i:s", $endTimestamp)." nbDays = $nbDaysInMonth<br/>";
-
-            $timeTrackingTable[$startTimestamp] = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
-
-            $day = 1;
-         }
-         $start_month = 1;
-      }
-      return $timeTrackingTable;
    }
 
 }
