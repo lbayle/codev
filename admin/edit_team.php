@@ -218,7 +218,22 @@ class EditTeamController extends Controller {
                }
                $this->smartyHelper->assign('team', $team);
 
-               $this->smartyHelper->assign('users', SmartyTools::getSmartyArray(User::getUsers(),$team->getLeaderId()));
+               $smartyUserList = array();
+               $userList = User::getUsers();
+               $selectedUserid = $team->getLeaderId();
+               foreach ($userList as $id => $name) {
+                  $u = UserCache::getInstance()->getUser($id);
+                  $uname = $u->getRealname();
+                  if (empty($uname)) { $uname = $name;}
+                  $smartyUserList[$id] = array(
+                     'id' => $id,
+                     'name' => $uname,
+                     'selected' => $id == $selectedUserid,
+                  );
+               }
+
+
+               $this->smartyHelper->assign('users', $smartyUserList);
                $this->smartyHelper->assign('date', date("Y-m-d", $team->getDate()));
 
                $this->smartyHelper->assign('accessLevel', Team::$accessLevelNames);

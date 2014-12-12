@@ -70,7 +70,7 @@
                   <tr>
                      <td><label for="leaderid">{t}Team Administrator{/t}</label></td>
                      <td>
-                        <select style="width:100%" name="leaderid" id="leaderid">
+                        <select  style="width:300px" name="leaderid" id="leaderid" class="select2">
                            {foreach from=$users key=id item=i}
                            <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
                            {/foreach}
@@ -200,14 +200,13 @@
                      <tr>
                         <td><label for="memberid">{t}Member{/t}:</label></td>
                         <td>
-                           <select style="width:100%" name="memberid" id="memberid">
+                           <select style="width:300px" name="memberid" id="memberid"  class="select2">
                               <option value="0"></option>
                               {foreach from=$users key=id item=i}
                               <option value="{$id}">{$i.name}</option>
                               {/foreach}
                            </select>
                         </td>
-                        <td></td>
                      </tr>
                      <tr>
                         <td><label for="member_access">{t}Role{/t}:</label></td>
