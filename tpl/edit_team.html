@@ -330,7 +330,7 @@
          <form id="addTeamProjectForm" name="addTeamProjectForm" class="formWithTabsHistory" method="post" action="{$page}">
             <fieldset>
                <label for="addedprojectid">{t}Project{/t}:</label>
-               <select name="addedprojectid" id="addedprojectid">
+               <select name="addedprojectid" id="addedprojectid" style="width:320px"  class="select2">
                   <option value="0"></option>
                   {foreach from=$otherProjects key=id item=i}
                   <option value="{$id}">{$i}</option>
