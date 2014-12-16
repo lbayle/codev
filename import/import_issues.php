@@ -128,7 +128,19 @@ class ImportIssuesController extends Controller {
                   $projectTargetVersion = $this->getProjectTargetVersion($projectid);
                   $activeMembers = $team->getActiveMembers();
 
-                  $this->smartyHelper->assign('commandList', SmartyTools::getSmartyArray($commands, 0));
+                  // TODO UGLY WORKAROUND: commas (') in command names break html & javascript
+                  $smartyCmdList = array();
+                  foreach ($commands as $id => $name) {
+                     $n = str_replace("'", ' ', $name);
+                     $smartyCmdList[$id] = array(
+                        'id' => $id,
+                        'name' => $n,
+                        'selected' => $id == 0
+                     );
+                  }
+
+                  
+                  $this->smartyHelper->assign('commandList', $smartyCmdList);
                   $this->smartyHelper->assign('categoryList', SmartyTools::getSmartyArray($projectCategories, 0));
                   $this->smartyHelper->assign('targetversionList', SmartyTools::getSmartyArray($projectTargetVersion, 0));
                   $this->smartyHelper->assign('userList', SmartyTools::getSmartyArray($activeMembers, 0));
