@@ -193,7 +193,7 @@ class DetailedChargesIndicator implements IndicatorPlugin {
          $smartyVariables = $this->getDetailed($this->execData, $this->filterDisplayNames, $smartyVariables);
       }
       $smartyVariables = $this->getIssues($this->execData, $this->filterDisplayNames, $smartyVariables);
-
+      $smartyVariables['filename_csv'] = "detailedCharges.csv";
       #var_dump($smartyVariables);
       return $smartyVariables;
    }
