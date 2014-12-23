@@ -88,6 +88,18 @@ if (file_exists(Constants::$config_file)) {
    }
    $checkList['Write access to CodevTT directory'] = $test_result;
 
+   // ---------- Write access to codevtt classmap.ser file
+   $filename = '../classmap.ser';
+   if (!is_writable($filename)){
+      $isReady = FALSE;
+      $test_result  = "<span class='error_font'>".('FAILED').'<br>';
+      $test_result .= "- User '<b>".exec('whoami')."</b>' does not have write access to classmap.ser file<br>";
+      $test_result .= '- Please check file permissions.<br></span>';
+   } else {
+      $test_result = '<span class="success_font">'.('SUCCESS').'</span>';
+   }
+   $checkList['Write access to classmap.ser'] = $test_result;
+   
 
    echo "<h3>Pre-install check</h3>";
    echo "<table class='invisible'>\n";

@@ -57,11 +57,12 @@ class PluginManagerController extends Controller {
                $pm->disablePlugin($pluginName);
 
             } else if ('discoverNewPlugins' == $action) {
-               if (FALSE == Tools::createClassMap()) {
-                  $this->smartyHelper->assign('errorMsg', T_('Could not create classmap, check classmap.ser permissions.'));
-               } else {
+               try {
+                  Tools::createClassMap();
                   $pm->discoverNewPlugins();
                   //$this->smartyHelper->assign('infoMsg', T_('Found xx new plugins !'));
+               } catch (Exception $e) {
+                  $this->smartyHelper->assign('errorMsg', T_('Could not create classmap: ').$e->getMessage());
                }
             }
             
