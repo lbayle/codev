@@ -1,0 +1,31 @@
+<div class="statusHistoryIndicator">
+   <div class="pluginInitFunction"  style="display: none;">statusHistoryIndicatorJsInit</div>
+
+{if isset($statusHistoryIndicator_jqplotData1)}
+   <div class="statusHistoryIndicatorChart area_chart chart" style="width:95%;"></div>
+{else}
+   {t}No data.{/t}
+{/if}
+
+<script type="text/javascript">
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function statusHistoryIndicatorJsInit() {
+
+      {if isset($statusHistoryIndicator_jqplotData1)}
+      // ------------------------
+      // display initial chart
+      var chart = jQuery('.statusHistoryIndicatorChart');
+      var chartoptions = chart.data('plotoptions');
+      
+      chartoptions.axes.xaxis.ticks = {$statusHistoryIndicator_jqplotXaxis};
+      chartoptions.legend.location = 'nw';
+      chartoptions.legend.placement = 'inside';
+      chartoptions.seriesColors = {$statusHistoryIndicator_jqplotSeriesColors};
+      chartoptions.legend.labels = {$statusHistoryIndicator_jqplotLegendLabels};
+
+      chart.jqplot({$statusHistoryIndicator_jqplotData1}, chartoptions);
+      {/if}
+   };
+</script>
+</div>

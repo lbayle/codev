@@ -1080,13 +1080,12 @@ class Tools {
 
    /**
     * Escapes special characters in a string
-    * TODO Don't use mysql_escape_string
     * @static
     * @param string $unescaped_string The string that is to be escaped.
     * @return string the escaped string, or false on error.
     */
    public static function escape_string($unescaped_string) {
-      return mysql_escape_string($unescaped_string);
+      return SqlWrapper::getInstance()->sql_real_escape_string($unescaped_string);
    }
 
    /**
@@ -1612,6 +1611,51 @@ class Tools {
       return $currentVersionInfo;
    }
 
+   
+   public static function createClassMap() {
+      //require_once('../lib/dynamic_autoloader/ClassFileMapFactory.php');
+      //require_once('../lib/dynamic_autoloader/ClassFileMapAutoloader.php');
+      // Set up the include path
+      //define('BASE_PATH', realpath(dirname(__FILE__).'/..'));
+      //set_include_path(BASE_PATH.PATH_SEPARATOR.get_include_path());
+
+      // TODO check classmap.ser permissions 
+      $classmap = Constants::$codevRootDir.'/classmap.ser';
+      $classmapCopy = Constants::$codevRootDir.'/classmapOld.ser';
+      $errorRename = "The rename of ".$classmap." into ".$classmapCopy." failed";
+      $errorRenameBack = " The rename of ".$classmapCopy." into ".$classmap." failed";
+      $errorWriteAccess = "Please verify your write access to ".$classmap;
+      
+      
+      if (!is_writable($classmap)) {
+         throw new Exception($errorWriteAccess);
+      } 
+      // TODO save previous classmap.ser file        
+         elseif(!rename($classmap,$classmapCopy)){
+            throw new Exception($errorRename);
+         }
+         else {
+            $lib_class_map = ClassFileMapFactory::generate(Constants::$codevRootDir);
+            $_autoloader = new ClassFileMapAutoloader();
+            $_autoloader->addClassFileMap($lib_class_map);
+
+            // reload classmap, so that new classes are accessible
+            $_autoloader->registerAutoload();
+
+            // write to file
+            $data = serialize($_autoloader);
+            if(!file_put_contents(Constants::$codevRootDir.'/classmap.ser',$data)) {
+               
+               if(!rename($classmapCopy,$classmap)){
+                  throw new Exception($errorRenameBack);
+               } else {
+                  throw new Exception($errorWriteAccess);
+               }
+         }
+      }
+      return TRUE;
+   }
+   
 }
 
 // Initialize complex static variables

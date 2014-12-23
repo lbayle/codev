@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
-('database_version', 13, 1),
+('database_version', 14, 1),
 ('blogCategories', '1:General,2:Imputations', 3);
 
 
@@ -443,6 +443,23 @@ CREATE TABLE IF NOT EXISTS `codev_wbs_table` (
 
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `codev_plugin_table`
+--
+
+CREATE TABLE IF NOT EXISTS `codev_plugin_table` (
+  `name` varchar(64) NOT NULL,
+  `status` int(11) NOT NULL default 0,
+  `domains` varchar(250) NOT NULL,
+  `categories` varchar(250) NOT NULL,
+  `version` varchar(10) NOT NULL,
+  `description` varchar(250) default NULL,
+  PRIMARY KEY  (`name`)
+
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
 
 -- /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

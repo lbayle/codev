@@ -142,11 +142,13 @@ class CommandInfoController extends Controller {
                   // WBS
                   $this->smartyHelper->assign('wbsRootId', $cmd->getWbsid());
                   
-                  //plugins
+                  // indicator_plugins (old style plugins - deprecated)
                   $this->smartyHelper->assign('detailedChargesIndicatorFile', DetailedChargesIndicator::getSmartyFilename());
-                  $this->smartyHelper->assign('activityIndicatorFile', ActivityIndicator::getSmartyFilename());
-                  $this->smartyHelper->assign('statusHistoryIndicatorFile', StatusHistoryIndicator::getSmartyFilename());
-                  $this->smartyHelper->assign('reopenedRateIndicatorFile', ReopenedRateIndicator::getSmartyFilename());
+
+                  // Dashboard
+                  CommandTools::dashboardSettings($this->smartyHelper, $cmd, $this->session_userid);
+
+
                }
             } else {
                unset($_SESSION['commandsetid']);

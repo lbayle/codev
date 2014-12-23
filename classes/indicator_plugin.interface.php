@@ -16,6 +16,8 @@
    along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+// TODO REMOVE ------ DEPRECATED -------
+
 interface IndicatorPlugin {
 	
    const indicatorPluginsDir = 'indicator_plugins';
@@ -30,6 +32,10 @@ interface IndicatorPlugin {
     * {include file="indicator_plugins/myIndicator.html"}
     */
    public static function getSmartyFilename();
+   
+   // TODO all indicators must override this :
+   //public static function getSmartySubFilename();
+   //public static function getAjaxPhpFilename();
 
    /**
     * result of the Indicator

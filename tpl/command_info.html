@@ -160,19 +160,20 @@
       {/if}
    </div>
 
-   {include file="tools/graph.html"}
    <div id="tabsCommand" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
       <ul class="{$ui_tabs_jquery_ul}">
-         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-1">{t}Charges{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_detailed_charges">{t}Charges{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_wbs">{t}WBS{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_attributes">{t}Attributes{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_provisions">{t}Provisions{/t}</a></li>
-         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-3">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
-         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-2">{t}Activity{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_tasks">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
       </ul>
-      <div id="tabsName-1">{include file="$detailedChargesIndicatorFile"}</div>
-      <div id="tabsName-2">{include file="$activityIndicatorFile"}</div>
+
+      <div id="tab_detailed_charges">{include file="$detailedChargesIndicatorFile"}</div>
+      <div id="tab_wbs">{include file="tools/wbsReader.html"}</div>
+      <div id="tab_indicators">{include file="tools/dashboard.html"}</div>
+
       <div id="tab_attributes">
          <table class="invisible">
             <tr>
@@ -223,10 +224,7 @@
                <td><textarea rows='6' cols='120' name='description'  id='description'>{$cmdDesc}</textarea></td>
             </tr>
          </table>
-
-
       </div>
-      
       <div id="tab_provisions">
           {if isset($isManager) && $isManager}
           
@@ -298,11 +296,10 @@
             {t}None{/t}
             {/if}
          </div>
-                  
            {/if}
-           
       </div>
-      <div id="tabsName-3">
+
+      <div id="tab_tasks">
 
          {if $cmdIssues}
          <div align="center">
@@ -367,52 +364,6 @@
          {/if}
       </div>
 
-      <div id="tab_wbs">
-         {include file="tools/wbsReader.html"}
-      </div>
-
-      <div id="tab_indicators">
-
-         <!--div id="subTabs_Indicators" class="tabs tabs-vertical" style="margin-top:2em;"-->
-         <div id="subTabs_Indicators" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
-            <ul class="{$ui_tabs_jquery_ul}">
-                <li class="{$ui_tabs_jquery_li}"><a href="#tabInternalBugsHistory">{t}Bug Status History{/t}</a></li>
-                <li class="{$ui_tabs_jquery_li}"><a href="{$ajaxPage}?action=getProgressHistoryIndicator"><span> </span> {t}Progress History{/t}</a></li>
-                <li class="{$ui_tabs_jquery_li}"><a href="{$ajaxPage}?action=getBudgetDriftHistoryIndicator"><span> </span> {t}Budget-Drift History{/t}</a></li>
-                <!--li class="{$ui_tabs_jquery_li}"><a href="{$ajaxPage}?action=getReopenedRateIndicator"><span> </span> {t}Reopened Issues{/t}</a></li-->
-            </ul>
-            <div id="tabInternalBugsHistory">
-               <h2>{t}Internal Bugs Status History{/t} &nbsp;&nbsp;<a id="dialog_bugStatusHistory_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
-
-               <div id="dialog_bugStatusHistory" class="help_dialog ui-helper-hidden" title="{t}Internal Bugs Status History{/t}">
-                  <p>{t}Graph showing the number of internal bugs per status.{/t}<br>
-                  </p>
-                  <p>
-                     {t}Internal bugs have the following caracteristics:{/t}<br>
-                     <table class="invisible">
-                        <tr>
-                           <td><strong>{t}External Reference{/t}</strong></td>
-                           <td>: <span style="color:blue"><em>{t}None{/t}</em></span></td>
-                        <tr>
-                        <tr>
-                           <td><strong>CodevTT_Type</strong></td>
-                           <td>: <span style="color:blue">"Bug"</span></td>
-                        <tr>
-                     </table>
-                  </p>
-               </div>
-               {include file="$statusHistoryIndicatorFile"}
-
-               <br>
-               <br>
-               <br>
-               {include file="$reopenedRateIndicatorFile"}
-
-            </div>
-
-
-         </div>
-      </div>
 
       {/if}
    </div>

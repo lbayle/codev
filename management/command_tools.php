@@ -162,40 +162,6 @@ class CommandTools {
    }
 
 
-   /**
-    * get all internal bugs of the command
-    *
-    * @param Command $cmd
-    * @return IssueSelection
-    */
-   private static function filterInternalBugs(Command $cmd) {
-
-      $cmdSel = $cmd->getIssueSelection();
-
-      // Filter only BUGS
-      $bugFilter = new IssueCodevTypeFilter('bugFilter');
-      $bugFilter->addFilterCriteria(IssueCodevTypeFilter::tag_Bug);
-      $outputList = $bugFilter->execute($cmdSel);
-
-      if (empty($outputList)) {
-         #echo "TYPE Bug not found !<br>";
-         return NULL;
-      }
-      $bugSel = $outputList[IssueCodevTypeFilter::tag_Bug];
-
-      // Filter only NoExtRef
-      $extIdFilter = new IssueExtIdFilter('extIdFilter');
-      $extIdFilter->addFilterCriteria(IssueExtIdFilter::tag_no_extRef);
-      $outputList2 = $extIdFilter->execute($bugSel);
-
-      if (empty($outputList2)) {
-         #echo "noExtRef not found !<br>";
-         return NULL;
-      }
-      $issueSel = $outputList2[IssueExtIdFilter::tag_no_extRef];
-
-      return $issueSel;
-   }
 
    /**
     * code factorisation
@@ -243,102 +209,6 @@ class CommandTools {
       return $params;
    }
 
-   /**
-    * @static
-    * @param Command $cmd
-    * @return mixed[]
-    */
-   public static function getProgressHistory(Command $cmd) {
-      $cmdIssueSel = $cmd->getIssueSelection();
-
-      $params = self::computeTimestampsAndInterval($cmd);
-
-      $indicator = new ProgressHistoryIndicator();
-      $indicator->execute($cmdIssueSel, $params);
-
-      $smartyVariables = $indicator->getSmartyObject();
-
-      return $smartyVariables;
-   }
-
-   /**
-    * return smartyVariables for BudgetDriftHistoryIndicator
-    *
-    * @static
-    * @param Command $cmd
-    * @return array smartyVariables
-    */
-   public static function getBudgetDriftHistoryIndicator(Command $cmd) {
-      $cmdIssueSel = $cmd->getIssueSelection();
-
-      $params = self::computeTimestampsAndInterval($cmd);
-      $params['provisionDays'] = $cmd->getProvisionDays(TRUE);
-
-      $indicator = new BudgetDriftHistoryIndicator();
-      $indicator->execute($cmdIssueSel, $params);
-
-      $smartyVariables = $indicator->getSmartyObject();
-
-      return $smartyVariables;
-   }
-
-   /**
-    * return smartyVariables for BudgetDriftHistoryIndicator
-    *
-    * @static
-    * @param Command $cmd
-    * @return array smartyVariables
-    */
-   public static function getReopenedRateIndicator(Command $cmd) {
-      $cmdIssueSel = $cmd->getIssueSelection();
-
-      $params = self::computeTimestampsAndInterval($cmd);
-
-      $indicator = new ReopenedRateIndicator();
-      $indicator->execute($cmdIssueSel, $params);
-
-      $smartyVariables = $indicator->getSmartyObject();
-
-      return $smartyVariables;
-   }
-
-   /**
-    * show users activity on the Command during the given period.
-    *
-    * if start & end dates not defined, the last month will be displayed.
-    *
-    * @param Command $cmd
-    * @return string
-    *
-    */
-   public static function getCommandActivity(Command $cmd, $startTimestamp = NULL, $endTimestamp = NULL) {
-      $issueSel = $cmd->getIssueSelection();
-
-      $month = date('m');
-      $year = date('Y');
-
-      if (!isset($startTimestamp)) {
-         // The first day of the current month
-         $startdate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, 1, $year));
-         $startTimestamp = Tools::date2timestamp($startdate);
-      }
-      if (!isset($endTimestamp)) {
-         $nbDaysInMonth = date("t", $startTimestamp);
-         $enddate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, $nbDaysInMonth, $year));
-         $endTimestamp = Tools::date2timestamp($enddate);
-      }
-
-      $params = array(
-         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
-         'endTimestamp' => $endTimestamp,
-         'teamid' => $cmd->getTeamid()
-      );
-
-      $activityIndicator = new ActivityIndicator();
-      $activityIndicator->execute($issueSel, $params);
-
-      return array($activityIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
-   }
 
    public static function getDetailedCharges(Command $cmd, $isManager, $selectedFilters) {
 
@@ -362,101 +232,6 @@ class CommandTools {
       $smartyVariable['selectFiltersSrcId'] = $cmd->getId();
 
       return $smartyVariable;
-   }
-
-   public static function getStatusHistory(Command $cmd, $interval = 7) {
-
-      $issueSel = $cmd->getIssueSelection();
-
-      $startTT = $issueSel->getFirstTimetrack();
-      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
-         $startTimestamp = $startTT->getDate();
-      } else {
-         $startTimestamp = $cmd->getStartDate();
-         if (0 == $startTimestamp) {
-            $team = TeamCache::getInstance()->getTeam($cmd->getTeamid());
-            $startTimestamp = $team->getDate();
-         }
-      }
-
-      $endTimestamp =  time();
-
-      #echo "cmd StartDate ".date("Y-m-d", $startTimestamp).'<br>';
-      #echo "cmd EndDate ".date("Y-m-d", $endTimestamp).'<br>';
-
-      $params = array(
-         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
-         'endTimestamp' => $endTimestamp,
-         'interval' => $interval
-      );
-
-      $statusHistoryIndicator = new StatusHistoryIndicator();
-      $statusHistoryIndicator->execute($issueSel, $params);
-      $smartyVariable = $statusHistoryIndicator->getSmartyObject();
-
-      return $smartyVariable;
-   }
-
-   public static function getInternalBugsStatusHistory(Command $cmd, $interval = 7) {
-
-
-      $issueSel = self::filterInternalBugs($cmd);
-      if (is_null($issueSel)) {
-         return array();
-      }
-      // -------
-
-      $startTT = $issueSel->getFirstTimetrack();
-      if ((!is_null($startTT)) && (0 != $startTT->getDate())) {
-         $startTimestamp = $startTT->getDate();
-      } else {
-         $startTimestamp = $cmd->getStartDate();
-         if (0 == $startTimestamp) {
-            $team = TeamCache::getInstance()->getTeam($cmd->getTeamid());
-            $startTimestamp = $team->getDate();
-         }
-      }
-
-      $endTimestamp =  time();
-
-      #echo "cmd StartDate ".date("Y-m-d", $startTimestamp).'<br>';
-      #echo "cmd EndDate ".date("Y-m-d", $endTimestamp).'<br>';
-
-      $params = array(
-         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
-         'endTimestamp' => $endTimestamp,
-         'interval' => $interval
-      );
-
-      $statusHistoryIndicator = new StatusHistoryIndicator();
-      $statusHistoryIndicator->execute($issueSel, $params);
-      $smartyVariable = $statusHistoryIndicator->getSmartyObject();
-
-      return $smartyVariable;
-   }
-
-   /**
-    * return smartyVariables for BudgetDriftHistoryIndicator
-    *
-    * @static
-    * @param Command $cmd
-    * @return array smartyVariables
-    */
-   public static function getInternalBugsReopenedRateIndicator(Command $cmd) {
-
-      $issueSel = self::filterInternalBugs($cmd);
-      if (is_null($issueSel)) {
-         return array();
-      }
-
-      $params = self::computeTimestampsAndInterval($cmd);
-
-      $indicator = new ReopenedRateIndicator();
-      $indicator->execute($issueSel, $params);
-
-      $smartyVariables = $indicator->getSmartyObject();
-
-      return $smartyVariables;
    }
 
 
@@ -554,13 +329,6 @@ class CommandTools {
       
       // --------------
       // Indicators & statistics
-      #$smartyHelper->assign('backlogHistoryGraph', getBacklogHistory($cmd));
-
-      $data = self::getCommandActivity($cmd);
-      $smartyHelper->assign('activityIndic_data', $data[0]);
-      $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
-      $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
-      $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
 
       // DetailedChargesIndicator
       $data = self::getDetailedCharges($cmd, $isManager, $selectedFilters);
@@ -568,14 +336,44 @@ class CommandTools {
          $smartyHelper->assign($smartyKey, $smartyVariable);
       }
 
-      // InternalBugsHistoryIndicator
-      $data = CommandTools::getInternalBugsStatusHistory($cmd);
-      foreach ($data as $smartyKey => $smartyVariable) {
-         $smartyHelper->assign($smartyKey, $smartyVariable);
-      }
+   }
 
-      // InternalBugsReopenedRateIndicator
-      $data = CommandTools::getInternalBugsReopenedRateIndicator($cmd);
+   /**
+    *
+    * @param SmartyHelper $smartyHelper
+    * @param Command $cmd
+    * @param int $userid
+    */
+   public static function dashboardSettings(SmartyHelper $smartyHelper, Command $cmd, $userid) {
+
+      $pluginDataProvider = PluginDataProvider::getInstance();
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $cmd->getIssueSelection());
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $cmd->getTeamid());
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_PROVISION_DAYS, $cmd->getProvisionDays());
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $userid);
+
+      $params = self::computeTimestampsAndInterval($cmd);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $params['startTimestamp']);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $params['endTimestamp']);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_INTERVAL, $params['interval']);
+
+      // save the DataProvider for Ajax calls
+      $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);
+
+      // create the Dashboard
+      $dashboard = new Dashboard('Command'.$cmd->getId());
+      $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_COMMAND);
+      $dashboard->setCategories(array(
+          IndicatorPluginInterface::CATEGORY_QUALITY,
+          IndicatorPluginInterface::CATEGORY_ACTIVITY,
+          IndicatorPluginInterface::CATEGORY_ROADMAP,
+          IndicatorPluginInterface::CATEGORY_PLANNING,
+          IndicatorPluginInterface::CATEGORY_RISK,
+         ));
+      $dashboard->setTeamid($cmd->getTeamid());
+      $dashboard->setUserid($userid);
+
+      $data = $dashboard->getSmartyVariables($smartyHelper);
       foreach ($data as $smartyKey => $smartyVariable) {
          $smartyHelper->assign($smartyKey, $smartyVariable);
       }
@@ -583,4 +381,3 @@ class CommandTools {
    }
 }
 
-?>

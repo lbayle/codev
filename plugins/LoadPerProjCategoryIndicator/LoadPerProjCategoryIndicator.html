@@ -1,0 +1,109 @@
+<div class="LoadPerProjCategoryIndicator">
+
+<div align="left" style="margin-top:1em;">
+   <form class="loadPerProjCategoryIndicator_dateRange_form" method="get" action="{$loadPerProjCategoryIndicator_ajaxPhpURL}">
+      <fieldset>
+         <label for="loadPerProjCategory_startdatepicker">{t}From{/t}:</label>
+         <input type="text" class="loadPerProjCategory_startdatepicker datepicker" name="loadPerProjCategory_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="loadPerProjCategory_enddatepicker">{t}To{/t}:</label>
+         <input type="text" class="loadPerProjCategory_enddatepicker datepicker" name="loadPerProjCategory_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         &nbsp; &nbsp;
+         <label for="loadPerProjCategory_projects">{t}Project{/t}:</label>
+         <select class="loadPerProjCategory_projects" name="loadPerProjCategory_projects" title="{t}Project{/t}">
+            {foreach from=$loadPerProjCategoryIndicator_projects key=id item=i}
+            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+            {/foreach}
+         </select>
+         <input class="loadPerProjCategory_submit" type="submit" value="{t}Display{/t}" />
+         <input type="hidden" name="action" value="getLoadPerProjCategoryIndicator" />
+         <input type="hidden" name="attributesJsonStr" value="" />
+      </fieldset>
+   </form>
+</div>
+<div>
+   <div class="pluginInitFunction"  style="display: none;">loadPerProjCategoryIndicatorJsInit</div>
+   <div class="loadPerProjCategoryIndicatorDiv" align="left" style="margin-top: 1em;">
+      {include file="`$loadPerProjCategoryIndicator_ajaxFile`"}
+   </div>
+   <div class="loadPerProjCategoryIndicatorChart pie_chart chart float" style="top: -9px;"></div>
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<script type="text/javascript">
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function loadPerProjCategoryIndicatorJsInit() {
+
+      // ------------------------
+      // datepicker
+
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+      // Set the date
+      var startDatePicker = jQuery(".loadPerProjCategory_startdatepicker").datepicker("setDate" ,"{$loadPerProjCategoryIndicator_startDate}");
+      var endDatePicker = jQuery(".loadPerProjCategory_enddatepicker").datepicker("setDate" ,"{$loadPerProjCategoryIndicator_endDate}");
+
+      // Add range date
+      startDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+      });
+      endDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+      });
+
+      // ------------------------
+      // on reload with new date range
+      jQuery('.loadPerProjCategory_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+
+         var form = jQuery('.loadPerProjCategoryIndicator_dateRange_form');
+         
+         // save the selected projectId in the attributesJsonStr so it can be restored
+         var attr = jQuery('.LoadPerProjCategoryIndicatorAttr.attributesJsonStr');
+         var attributesJson = jQuery.parseJSON(attr.text());
+         attributesJson['projectid'] = jQuery('.loadPerProjCategory_projects').val();
+         var attributesJsonStr = JSON.stringify(attributesJson);
+         attr.text(attributesJsonStr);
+         
+         // send attributesJsonStr because the ajax php need to know about 'isDisplayTasks' and 'projectId'
+         form.find('input[name=attributesJsonStr]').val(attributesJsonStr);
+         
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: type,
+            url: url,
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+               jQuery(".loadPerProjCategoryIndicatorDiv").html(jQuery.trim(data['loadPerProjCategory_htmlContent']));
+               if (data['loadPerProjCategoryIndicator_jqplotData']) {
+                  var chart = jQuery('.loadPerProjCategoryIndicatorChart');
+                  var chartoptions = chart.data('plotoptions');
+                  var jqplotData = jQuery.parseJSON('['+data['loadPerProjCategoryIndicator_jqplotData']+']');
+                  chart.jqplot(jqplotData, chartoptions);
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+      });
+
+      // ------------------------
+      // display initial chart
+      {if $loadPerProjCategoryIndicator_jqplotData}
+      var chart = jQuery('.loadPerProjCategoryIndicatorChart');
+      var chartoptions = chart.data('plotoptions');
+      chart.jqplot([{$loadPerProjCategoryIndicator_jqplotData}], chartoptions);
+      {/if}
+   };
+</script>
+</div>

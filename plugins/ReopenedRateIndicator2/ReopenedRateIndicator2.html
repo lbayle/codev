@@ -1,0 +1,117 @@
+<div class="reopenedRateIndicator2">
+<div class="pluginInitFunction"  style="display: none;">reopenedRateIndicator2JsInit</div>
+{if isset($reopenedRateIndicator2_jqplotData)}
+<div>
+   <div class="reopenedRateIndicator2Chart date_chart chart inlineBlock" style="width:95%;"></div>
+   <div class="inlineBlock" style="margin-top:1em;">
+      <ul>
+         <li>
+            <a class="reopenedRateIndicator2HelpDialog_link" href="">
+               <img title="{t}help{/t}" src="images/help_icon.gif"/>
+            </a>
+         </li>
+         <li>
+            <a class="reopenedRateIndicator2ValuesDialog_link" href="">
+               <img title="{t}show values{/t}" src="images/b_browse.png"/>
+            </a>
+         </li>
+         <li>
+            <a href="">
+               <img onclick="$('.reopenedRateIndicator2ValuesTable').table2CSV({literal}{{/literal}filename : 'reopenedRate.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
+            </a>
+         </li>
+      </ul>
+   </div>
+</div>
+
+<div class="reopenedRateIndicator2HelpDialog ui-helper-hidden" title="{t}BugValidation History Indicator{/t}">
+   <p>{t}Resolved bugs must be validated. This shows how many bugs have been Rejected or Accepted during the validation stage. Bugs in 'resolved' status (not yet validated) are excluded.{/t}<br>
+   </p>
+   <p>
+      <strong>{t}% Validated{/t}</strong><br>
+      {t}Displays the percent of bugs having successfully pass the validation tests{/t}
+      <br><br>
+      <span style="color:blue"><em>{t}Formula{/t} : {t}status changed from 'resolved' to any higher status (and still in this state at the end of the period).{/t}</em></span>
+   </p>
+   <p>
+      <strong>{t}% Rejected{/t}</strong><br>
+      {t}Displays the percent of bugs having failed the validation tests{/t}
+      <br><br>
+      <span style="color:blue"><em>{t}Formula{/t} : {t}status changed from 'resolved (or higher) to any lower status (and still unresolved at the end of the period){/t}</em></span>
+   </p>
+</div>
+
+<div class="reopenedRateIndicator2ValuesDialog ui-helper-hidden" title="{t}Bug Refusal Rate{/t}" >
+    <table class="reopenedRateIndicator2ValuesTable">
+       <thead>
+          <tr>
+             <th>{t}Date{/t}</th>
+             <th title="{t}Nb of issues having fail validation tests{/t}">{t}Nb Fail{/t}</th>
+             <th title="{t}Nb of issues having pass validation tests{/t}">{t}Nb Pass{/t}</th>
+          </tr>
+       </thead>
+       <tbody>
+          {foreach from=$reopenedRateIndicator2_tableData key=id item=i}
+          <tr>
+             <td class="right" title="{$i.dateTooltip}">{$id}</td>
+             <td class="right">{$i.nbReopened}</td>
+             <td class="right">{$i.nbValidated}</td>
+          </tr>
+          {/foreach}
+       </tbody>
+    </table>
+</div>
+<div class="ui-helper-clearfix"></div>
+{else}
+   {t}No data.{/t}
+{/if}
+
+<script type="text/javascript">
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function reopenedRateIndicator2JsInit() {
+
+      {if isset($reopenedRateIndicator2_jqplotData)}
+
+      jQuery(".reopenedRateIndicator2HelpDialog_link").click(function() {
+         jQuery(".reopenedRateIndicator2HelpDialog").dialog("open");
+         return false;
+      });
+      jQuery(".reopenedRateIndicator2HelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
+      });
+
+      jQuery(".reopenedRateIndicator2ValuesDialog_link").click(function() {
+         jQuery(".reopenedRateIndicator2ValuesDialog").dialog("open");
+         return false;
+      });
+      jQuery(".reopenedRateIndicator2ValuesDialog").dialog({
+         autoOpen: false,
+         height: 'auto',
+         width: "auto",
+         hide: "fade"
+      });
+
+      var chart = jQuery('.reopenedRateIndicator2Chart');
+      var chartoptions = chart.data('plotoptions');
+      chartoptions.title.text = "{t}Bug Refusal Rate{/t}";
+      chartoptions.legend.location = 'nw';
+      chartoptions.series = [{
+         label : "{t}% Validated{/t}"
+      },{
+         label : "{t}% Rejected{/t}"
+      }];
+      chartoptions.axes.xaxis.min = "{$reopenedRateIndicator2_plotMinDate}";
+      chartoptions.axes.xaxis.max = "{$reopenedRateIndicator2_plotMaxDate}";
+      //chartoptions.axes.xaxis.tickInterval = "{$reopenedRateIndicator2_plotInterval} month";
+
+      chartoptions.axes.yaxis.min = 0;
+      //chartoptions.axes.yaxis.max = 100;
+      chartoptions.seriesDefaults.pointLabels.formatString = "%u%";
+      chart.jqplot({$reopenedRateIndicator2_jqplotData}, chartoptions);
+      {/if}
+   }
+</script>
+</div>

@@ -220,83 +220,6 @@ class CommandSetTools {
       return $params;
    }
 
-   /**
-    * @static
-    * @param CommandSet $commandSet
-    * @return mixed[]
-    */
-   public static function getCSetProgressHistory(CommandSet $commandSet) {
-
-      $issueSel = $commandSet->getIssueSelection(Command::type_general);
-
-      $params = self::computeTimestampsAndInterval($commandSet);
-
-      $indicator = new ProgressHistoryIndicator();
-      $indicator->execute($issueSel, $params);
-
-      $smartyVariables = $indicator->getSmartyObject();
-
-      return $smartyVariables;
-  }
-
-   /**
-    * @static
-    * @param CommandSet $commandSet
-    * @return mixed[]
-    */
-   public static function getBudgetDriftHistoryIndicator(CommandSet $commandSet) {
-      $issueSel = $commandSet->getIssueSelection(Command::type_general);
-
-      $params = self::computeTimestampsAndInterval($commandSet);
-      $params['provisionDays'] = $commandSet->getProvisionDays(Command::type_general, TRUE);
-
-      $indicator = new BudgetDriftHistoryIndicator();
-      $indicator->execute($issueSel, $params);
-
-      $smartyVariables = $indicator->getSmartyObject();
-
-      return $smartyVariables;
-   }
-
-   /**
-    * show users activity on the CommandSet during the given period.
-    *
-    * if start & end dates not defined, the last month will be displayed.
-    *
-    * @param CommandSet $cmdset
-    * @return string
-    *
-    */
-   public static function getCommandSetActivity(CommandSet $cmdset, $startTimestamp = NULL, $endTimestamp = NULL) {
-      $issueSel = $cmdset->getIssueSelection(Command::type_general);
-
-      $month = date('m');
-      $year = date('Y');
-
-      if (!isset($startTimestamp)) {
-         // The first day of the current month
-         $startdate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, 1, $year));
-         $startTimestamp = Tools::date2timestamp($startdate);
-      }
-      if (!isset($endTimestamp)) {
-         $nbDaysInMonth = date("t", $startTimestamp);
-         $enddate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, $nbDaysInMonth, $year));
-         $endTimestamp = Tools::date2timestamp($enddate);
-      }
-
-      $params = array(
-         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
-         'endTimestamp' => $endTimestamp,
-         'teamid' => $cmdset->getTeamid(),
-         'showSidetasks' => FALSE
-      );
-
-      $activityIndicator = new ActivityIndicator();
-      $activityIndicator->execute($issueSel, $params);
-
-      return array($activityIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
-   }
-
    public static function getDetailedCharges(CommandSet $cmdset, $isManager, $selectedFilters) {
 
       $issueSel = $cmdset->getIssueSelection(Command::type_general);
@@ -317,63 +240,6 @@ class CommandSetTools {
 
       $smartyVariable = $detailedChargesIndicator->getSmartyObject();
       $smartyVariable['selectFiltersSrcId'] = $cmdset->getId();
-
-      return $smartyVariable;
-   }
-
-   public static function getInternalBugsStatusHistory(CommandSet  $cmdset, $interval = 7) {
-
-      $cmdSel = $cmdset->getIssueSelection(Command::type_general);
-
-      // Filter only BUGS
-      $bugFilter = new IssueCodevTypeFilter('bugFilter');
-      $bugFilter->addFilterCriteria(IssueCodevTypeFilter::tag_Bug);
-      $outputList = $bugFilter->execute($cmdSel);
-
-      if (empty($outputList)) {
-         #echo "TYPE Bug not found !<br>";
-         return array();
-      }
-      $bugSel = $outputList[IssueCodevTypeFilter::tag_Bug];
-
-      // Filter only NoExtRef
-      $extIdFilter = new IssueExtIdFilter('extIdFilter');
-      $extIdFilter->addFilterCriteria(IssueExtIdFilter::tag_no_extRef);
-      $outputList2 = $extIdFilter->execute($bugSel);
-
-      if (empty($outputList2)) {
-         #echo "noExtRef not found !<br>";
-         return array();
-      }
-      $issueSel = $outputList2[IssueExtIdFilter::tag_no_extRef];
-
-      // -------
-
-      $startTT = $issueSel->getFirstTimetrack();
-      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
-         $startTimestamp = $startTT->getDate();
-      } else {
-         $startTimestamp = $cmdset->getDate();
-         if (0 == $startTimestamp) {
-            $team = TeamCache::getInstance()->getTeam($cmdset->getTeamid());
-            $startTimestamp = $team->getDate();
-         }
-      }
-
-      $endTimestamp =  time();
-
-      #echo "cmd StartDate ".date("Y-m-d", $startTimestamp).'<br>';
-      #echo "cmd EndDate ".date("Y-m-d", $endTimestamp).'<br>';
-
-      $params = array(
-         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
-         'endTimestamp' => $endTimestamp,
-         'interval' => $interval
-      );
-
-      $statusHistoryIndicator = new StatusHistoryIndicator();
-      $statusHistoryIndicator->execute($issueSel, $params);
-      $smartyVariable = $statusHistoryIndicator->getSmartyObject();
 
       return $smartyVariable;
    }
@@ -421,26 +287,53 @@ class CommandSetTools {
       $smartyHelper->assign('cmdProvisionList', self::getProvisionList($commandset));
       $smartyHelper->assign('cmdProvisionTotalList', self::getProvisionTotalList($commandset));
 
-
-
-      $data = self::getCommandSetActivity($commandset);
-      $smartyHelper->assign('activityIndic_data', $data[0]);
-      $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
-      $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
-      $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
-
       // DetailedChargesIndicator
       $data = self::getDetailedCharges($commandset, $isManager, $selectedFilters);
       foreach ($data as $smartyKey => $smartyVariable) {
          $smartyHelper->assign($smartyKey, $smartyVariable);
       }
 
-      $data = self::getInternalBugsStatusHistory($commandset);
+   }
+
+   /**
+    *
+    * @param SmartyHelper $smartyHelper
+    * @param Command $cmdset
+    * @param int $userid
+    */
+   public static function dashboardSettings(SmartyHelper $smartyHelper, CommandSet $cmdset, $userid) {
+
+      $pluginDataProvider = PluginDataProvider::getInstance();
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $cmdset->getIssueSelection(Command::type_general));
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $cmdset->getTeamid());
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_PROVISION_DAYS, $cmdset->getProvisionDays(Command::type_general, TRUE));
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $userid);
+
+      $params = self::computeTimestampsAndInterval($cmdset);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $params['startTimestamp']);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $params['endTimestamp']);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_INTERVAL, $params['interval']);
+
+      // save the DataProvider for Ajax calls
+      $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);
+
+      // create the Dashboard
+      $dashboard = new Dashboard('CommandSet'.$cmdset->getId());
+      $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_COMMAND_SET);
+      $dashboard->setCategories(array(
+          IndicatorPluginInterface::CATEGORY_QUALITY,
+          IndicatorPluginInterface::CATEGORY_ACTIVITY,
+          IndicatorPluginInterface::CATEGORY_ROADMAP,
+          IndicatorPluginInterface::CATEGORY_PLANNING,
+          IndicatorPluginInterface::CATEGORY_RISK,
+         ));
+      $dashboard->setTeamid($cmdset->getTeamid());
+      $dashboard->setUserid($userid);
+
+      $data = $dashboard->getSmartyVariables($smartyHelper);
       foreach ($data as $smartyKey => $smartyVariable) {
          $smartyHelper->assign($smartyKey, $smartyVariable);
       }
+
    }
-
 }
-
-?>

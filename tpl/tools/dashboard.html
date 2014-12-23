@@ -1,0 +1,309 @@
+<div id="inettutsDashboard">
+<!--
+This file is associated to
+- classes/Dashboard.class.php
+- include/dashboard_ajax.php
+
+when adding a plugin, a dialogbox raises to set the plugin attributes.
+the content of this dialog is furnished by the plugin and loaded by ajax
+
+-->
+
+   <link href="lib/inettuts/inettuts_codevtt.css" rel="stylesheet" type="text/css" />
+   {foreach from=$dashboardPluginCssFiles key=id item=i}
+   <link href="{$i}" rel="stylesheet" type="text/css" />
+   {/foreach}
+
+   
+    <div class="inettuts-head">
+        <h2>{$dashboardTitle}</h2>
+         <button  title="{t}Add an indicator to the dashboard{/t}" onclick="addDashboardPlugin();return false;">
+            <img align="absmiddle" border="0" src="images/b_add.png" alt="Add icon">
+            {t}Add{/t}
+         </button>
+         <button class="btSaveDashboard" title="{t}Save dashboard settings{/t}" >
+            <img align="absmiddle" border="0" src="images/b_save.png" alt="Save icon">
+            {t}Save{/t}
+         </button>
+         <div class="dialogAddDashboardPlugin" title="{t}Add Indicator{/t}" class="ui-helper-hidden">
+            <div  style="width: 500px; margin-top:1em;"></div>
+            <form class="formAddDashboardPlugin" name="formAddDashboardPlugin" method="post" action="{$page}" >
+               <fieldset>
+                  <strong>{t}Indicator{/t}:</strong>
+                  <select class="cbPluginCandidates select2" name="pluginClassName" style="margin-left:1em;  width:350px;">
+                     <option value="0"></option>
+                     {foreach from=$dashboardPluginCandidates key=id item=i}
+                     <option value="{$i.pluginClassName}">{$i.title} [{$i.category}]</option>
+                     {/foreach}
+                  </select>
+                  <div class="pluginConfig" style="display: none;">
+                  <div style="margin-top:1em;">
+                     <strong>{t}Description{/t}:</strong><br>
+                     <hr>
+                     <div class="pluginDescription"></div>
+                  </div>
+                  <div style="margin-top:2em;">
+                     <strong>{t}Attributes{/t}:</strong><br>
+                     <hr>
+                     <div class="pluginAttributes">
+                     </div>
+                  </div>
+                  </div>
+                  <input type="hidden" name="action" value="addDashboardPlugin" />
+                  <input type="hidden" name="pluginAttributesJsonStr" value="0" />
+               </fieldset>
+            </form>
+         </div>
+      </div>
+
+    <div class="inettuts-columns">
+
+        <ul class="inettuts-column1 column">
+           {foreach from=$dashboardWidgets key=pClassName item=i}
+            <li class="widget {$i.color}" id="{$i.id}">
+               <div style="display: none;" class="{$pClassName}Attr attributesJsonStr">{$i.attributesJsonStr}</div>
+                <div class="widget-head">
+                    <h3>{$i.title}</h3>
+                </div>
+                <div class="widget-content">
+                   {$i.content}
+                </div>
+            </li>
+           {/foreach}
+        </ul>
+
+    </div>
+
+    <script type="text/javascript" src="lib/inettuts/inettuts_codevtt.js"></script>
+   {foreach from=$dashboardPluginJsFiles key=id item=i}
+    <script type="text/javascript" src="{$i}"></script>
+   {/foreach}
+
+    <script type="text/javascript">
+      function addDashboardPlugin(){
+         jQuery(".dialogAddDashboardPlugin").dialog("open");
+      }
+
+      jQuery(document).ready(function() {
+         
+         jQuery(".cbPluginCandidates").change(function() {
+            if ('0' !== this.value) {
+               jQuery.ajax({
+                  type: "POST",
+                    url: 'include/dashboard_ajax.php',
+                    dataType:"json",
+                    data: { pluginClassName: this.value,
+                            action: "getPluginConfigInfo"
+                    },
+                    success: function(data) {
+                       jQuery('.pluginDescription').html(data['description']);
+                       jQuery(".pluginAttributes").html(jQuery.trim(data['attributesHtml']));
+                       jQuery(".pluginConfig").show();
+                    },
+                    error:  function() {
+                       alert("getPluginConfigInfo ERROR!");
+                    }
+               });
+            } else {
+               jQuery('.pluginDescription').html('');
+               jQuery(".pluginAttributes").html('');
+               jQuery(".pluginConfig").hide();
+
+            }
+         });
+
+         jQuery(".dialogAddDashboardPlugin").dialog({
+            autoOpen: false,
+            resizable: true,
+            width: "auto",
+            modal: true,
+            buttons: {
+               "Add": function() {
+
+                  // on définit le sélecteur permettant de différencier:
+                  // - les champs type "options du plugin" (ceux qui sont affichés)
+                  // - les champs types "est envoyé en AJAX puis enregistré sur le serveur" (qui sont masqués),
+                  var ajaxFieldSelector = '[type=hidden]';
+
+                  var form = $('.formAddDashboardPlugin');
+
+                  // visible fields (input/select/textarea) are raw data to be parsed
+                  var $pluginElements = form.find(':input:not('+ajaxFieldSelector+')');
+
+                  // hidden fields: processed data returned by ajax
+                  var formElements = form.find(':input'+ajaxFieldSelector);
+
+                  // on transforme la liste des options en tableau associatif JS
+                  // (qui est un **objet JSON** en fait, puisque JSON = JavaScript Object Notation ;)
+                  var pluginAttributesArray = $pluginElements.serializeArray();
+
+                  // on récupère la liste des checkbox non cochées
+                  // on effectue manuellement un "serializeArray" dessus
+                  // on rajoute cette liste "manuelle" à la liste retournée par jQuery
+                  var uncheckedElements = $pluginElements.filter('input[type=checkbox]:not(:checked)');
+                  var uncheckedElementsArray = uncheckedElements.map(function(i, checkbox){ return { name:checkbox.name, value:0 }; }).get();
+                  pluginAttributesArray = pluginAttributesArray.concat(uncheckedElementsArray);
+
+                  // on transforme cet **objet JSON** en **chaine JSON**
+                  var pluginOptionsJSONString = JSON.stringify(pluginAttributesArray);
+
+                  // hidden fields: processed data returned returned by ajax
+                  var formElements = form.find(':input'+ajaxFieldSelector);
+                  formElements.filter('[name=pluginAttributesJsonStr]').val(pluginOptionsJSONString);
+                  var dataToSend = formElements.serializeArray();
+                  //console.log('dataToSend = ', dataToSend.length, dataToSend);
+
+                  $.ajax({
+                     url: 'include/dashboard_ajax.php',
+                     type: form.attr('method'),
+                     dataType:"json",
+                     data: dataToSend,
+                     success: function(data) {
+                        //console.log(data['widget']);
+                        var widget = data.widget;
+
+                        // load CSS dependencies
+                        jQuery("<link/>", {
+                           rel: "stylesheet",
+                           type: "text/css",
+                           href: "lib/inettuts/inettuts_codevtt.css"
+                        }).appendTo("head");
+
+                        //console.log('css files to load:', widget.cssFiles);
+                        jQuery.each(widget.cssFiles, function( index, value ) {
+                           jQuery("<link/>", {
+                              rel: "stylesheet",
+                              type: "text/css",
+                              href: value
+                           }).appendTo("head");
+                        });      
+
+                        // add new Widget to the dashboard
+                        var ulObj = jQuery(".inettuts-column1");
+                        var liObj = jQuery('<li></li>').addClass("widget").addClass(widget.color).attr('id', widget.id);
+                        var divHeadObj = jQuery('<div></div>').addClass("widget-head").append(jQuery('<h3></h3>').html(widget.title));
+                        var divContentObj = jQuery('<div></div>').addClass("widget-content").html(widget.content);
+                        var divObj = jQuery('<div style="display: none;" class="attributesJsonStr"/>').html(widget.attributesJsonStr);
+                        liObj.append(divObj).append(divHeadObj).append(divContentObj);
+                        ulObj.prepend(liObj);
+      
+                        // load JS dependencies
+                        jQuery.ajax({
+                              async: false,
+                              url: "lib/inettuts/inettuts_codevtt.js",
+                              dataType: "script"
+                        });
+                        //console.log('js files to load:', widget.jsFiles);
+                        jQuery.each(widget.jsFiles, function( index, value ) {
+                           jQuery.ajax({
+                                 async: false,
+                                 url: value,
+                                 dataType: "script"
+                           });
+                        });   
+                        //console.log('js load done');
+
+                        // execute plugin initialization function
+                        var functionName = jQuery(widget.content).find('.pluginInitFunction').text();
+                        //console.log("pluginInitFunction", functionName);
+                        window[functionName]();
+                        divContentObj.find('#jqplot_target_1').attr('id', 'jqplot_target_' + widget.id);
+                        
+                        jQuery(".dialogAddDashboardPlugin").dialog("close");
+                     },
+                     error:  function(data) {
+                        console.error('ERROR data = ', data);
+                        jQuery(".dialogAddDashboardPlugin").dialog("close");
+                        alert("AddDashboardPlugin ERROR!");
+                        //deferred.reject(); // call the 'fail' callback (if defined)
+                     }
+                  });
+               },
+               Cancel: function() {
+                  jQuery(this).dialog("close");
+               }
+            }
+         });
+
+         // use event bubbling
+         jQuery( ".inettuts-columns" ).on( "click", ".collapse", function() {
+            
+            // save isCollapsed in the attributesJsonStr so it can be restored
+            var widget= $(this).closest( ".widget" );   
+            var wcontent = widget.children(".widget-content");
+            var isCollapsed = !wcontent.is(':visible');
+            console.log('isCollapsed', isCollapsed);
+            
+            var attr = widget.children(".attributesJsonStr");
+            var attributesJson = jQuery.parseJSON(attr.text());
+            attributesJson['isCollapsed'] = isCollapsed;
+            var attributesJsonStr = JSON.stringify(attributesJson);
+            attr.text(attributesJsonStr);
+            
+            // load the widget if it was collapsed (first time only)
+            if (!isCollapsed) {
+               var initFct = widget.find(".pluginInitFunction").text();
+               console.log('pluginInitFunction = ', initFct);
+               window[initFct]();
+            }
+         });
+
+         jQuery(".btSaveDashboard").click(function() {
+            console.log("btSaveDashboard");
+            
+            // Parse the dashboard to get all Widgets and their attributesJsonStr
+            var widgetAttributes = [];
+            jQuery('.attributesJsonStr').each(function() {
+               var attributesJson = jQuery.parseJSON(this.innerHTML);
+               widgetAttributes.push(attributesJson);
+            });
+
+            var dashboardSettingsJson = {};
+            dashboardSettingsJson['dashboardTitle'] = "{$dashboardTitle}";
+            dashboardSettingsJson['displayedPlugins'] = widgetAttributes;
+            var dashboardSettingsJsonStr = JSON.stringify(dashboardSettingsJson);
+            console.log('str = ' , dashboardSettingsJsonStr);
+            
+            jQuery.ajax({
+               type: "POST",
+                 url: 'include/dashboard_ajax.php',
+                 dataType:"json",
+                 data: { action: "saveDashboardSettings",
+                         dashboardId: "{$dashboardId}",
+                         dashboardSettingsJsonStr: dashboardSettingsJsonStr,
+                         isTeamDefaultSettings: "0"
+                 },
+                 success: function(data) {
+                 },
+                 error:  function() {
+                    alert("saveDashboardSettings ERROR!");
+                 }
+            });
+            
+         });
+
+         // ==== initialize plugins ====
+         jQuery('.pluginInitFunction').each(function() {
+
+            // check if collapsed
+            var widget= $(this).closest( ".widget" );   
+            var attr = widget.children(".attributesJsonStr");
+            var attributesJson = jQuery.parseJSON(attr.text());
+            var isCollapsed = attributesJson['isCollapsed'];
+            console.log('isCollapsed', isCollapsed);
+            
+            // call the pluginInitFunction if not collapsed
+            if (!isCollapsed) {
+               var initFct = this.innerHTML;
+               console.log('pluginInitFunction = ', initFct);
+               window[initFct]();
+            } else {
+               // collapse the widget, do not initialize
+               widget.find('.collapse').trigger('click');
+            }
+         });
+         
+      });
+    </script>
+
+</div>

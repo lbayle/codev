@@ -1,0 +1,99 @@
+<div class="effortEstimReliabilityIndicator2">
+<div class="pluginInitFunction"  style="display: none;">effortEstimReliabilityIndicator2JsInit</div>
+{if isset($effortEstimReliabilityIndicator2_jqplotData)}
+<div>
+   <div class="effortEstimReliabilityIndicator2Chart date_chart_with_horizontal_line chart inlineBlock" style="width:95%;"></div>
+   <div class="inlineBlock" style="margin-top:1em;">
+      <ul>
+         <li>
+            <a class="effortEstimReliabilityIndicator2ValuesDialog_link" href="">
+               <img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/>
+            </a>
+         </li>
+         <li>
+            <a href="">
+               <img onclick="$('.effortEstimReliabilityIndicator2ValuesTable').table2CSV({literal}{{/literal}filename : 'budgetDrift.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
+            </a>
+         </li>
+      </ul>
+   </div>
+   
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<div class="effortEstimReliabilityIndicator2ValuesDialog ui-helper-hidden" title="{t}EffortEstim ReliabilityRate{/t}">
+
+    <table title="{t}EffortEstim ReliabilityRate{/t}" class="effortEstimReliabilityIndicator2ValuesTable">
+       <thead>
+          <tr>
+             <th>{t}Date{/t}</th>
+             <th>{t}MgrEffortEstim{/t}</th>
+             <th>{t}EffortEstim{/t}</th>
+          </tr>
+       </thead>
+       <tbody>
+          {foreach from=$effortEstimReliabilityIndicator2_tableData key=id item=i}
+          <tr>
+             <td class="right">{$id}</td>
+             <td class="right">{$i.prodRateMEE}</td>
+             <td class="right">{$i.prodRateEE}</td>
+          </tr>
+          {/foreach}
+       </tbody>
+    </table>
+</div>
+{else}
+   {t}No data.{/t}
+{/if}
+
+<script type="text/javascript">
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function effortEstimReliabilityIndicator2JsInit() {
+
+      {if $effortEstimReliabilityIndicator2_jqplotData}
+
+      jQuery(".effortEstimReliabilityIndicator2HelpDialog_link").click(function() {
+         jQuery(".effortEstimReliabilityIndicator2HelpDialog").dialog("open");
+         return false;
+      });
+      jQuery(".effortEstimReliabilityIndicator2HelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
+      });
+
+      jQuery(".effortEstimReliabilityIndicator2ValuesDialog_link").click(function() {
+         jQuery(".effortEstimReliabilityIndicator2ValuesDialog").dialog("open");
+         return false;
+      });
+      jQuery(".effortEstimReliabilityIndicator2ValuesDialog").dialog({
+         autoOpen: false,
+         height: 'auto',
+         width: "auto",
+         hide: "fade"
+      });
+
+      // ------------------------
+      // display initial chart
+      var chart = jQuery('.effortEstimReliabilityIndicator2Chart');
+      var chartoptions = chart.data('plotoptions');
+
+      chartoptions.axes.xaxis.min = "{$effortEstimReliabilityIndicator2_plotMinDate}";
+      chartoptions.axes.xaxis.max = "{$effortEstimReliabilityIndicator2_plotMaxDate}";
+
+      chartoptions.canvasOverlay.objects[0].horizontalLine.y = 1;
+
+      //chartoptions.seriesColors = {$effortEstimReliabilityIndicator2_dataColors};
+      chartoptions.series = [{
+         label: "{t}MgrEffortEstim ReliabilityRate{/t}"
+      },{
+         label: "{t}EffortEstim ReliabilityRate{/t}"
+      }];
+
+      chart.jqplot({$effortEstimReliabilityIndicator2_jqplotData}, chartoptions);
+      {/if}
+   }
+
+</script>
+</div>

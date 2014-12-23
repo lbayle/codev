@@ -1,0 +1,93 @@
+<div class="loadPerJob">
+
+<div align="left" style="margin-top:1em;">
+   <form id="loadPerJobIndicator_dateRange_form" method="get" action="{$loadPerJobIndicator_ajaxPhpURL}">
+      <fieldset>
+         <label for="loadPerJob_startdatepicker">{t}From{/t}:</label>
+         <input type="text" class="loadPerJob_startdatepicker datepicker" name="loadPerJob_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="loadPerJob_enddatepicker">{t}To{/t}:</label>
+         <input type="text" class="loadPerJob_enddatepicker datepicker" name="loadPerJob_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <input class="loadPerJob_submit" type="submit" value="{t}Display{/t}" />
+         <input type="hidden" name="action" value="getLoadPerJobIndicator2" />
+      </fieldset>
+   </form>
+</div>
+<div>
+   <div class="pluginInitFunction"  style="display: none;">loadPerJobIndicatorJsInit</div>
+   <div class="loadPerJobIndicatorDiv" align="left" style="margin-top: 1em;">
+      {include file="`$loadPerJobIndicator_ajaxFile`"}
+   </div>
+   <div class="loadPerJobIndicatorChart pie_chart chart float" style="top: -9px;"></div>
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<script type="text/javascript">
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function loadPerJobIndicatorJsInit() {
+   
+      // ------------------------
+      // datepicker
+
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+      // Set the date
+      var startDatePicker = jQuery(".loadPerJob_startdatepicker").datepicker("setDate" ,"{$loadPerJobIndicator_startDate}");
+      var endDatePicker = jQuery(".loadPerJob_enddatepicker").datepicker("setDate" ,"{$loadPerJobIndicator_endDate}");
+
+      // Add range date
+      startDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+      });
+      endDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+      });
+
+      // ------------------------
+      // on reload with new date range
+      jQuery('.loadPerJob_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+
+         var form = jQuery('#loadPerJobIndicator_dateRange_form');
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: type,
+            url: url,
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+               jQuery(".loadPerJobIndicatorDiv").html(jQuery.trim(data['loadPerJob_htmlTable']));
+               if (data['loadPerJobIndicator_jqplotData']) {
+                  var chart = jQuery('.loadPerJobIndicatorChart');
+                  var chartoptions = chart.data('plotoptions');
+                  chartoptions.seriesColors = data['loadPerJobIndicator_colors'];
+                  updateChart(chart, data['loadPerJobIndicator_jqplotData']);
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+      });
+
+      // ------------------------
+      // display initial chart
+      {if $loadPerJobIndicator_jqplotData}
+      var chart = jQuery('.loadPerJobIndicatorChart');
+      var chartoptions = chart.data('plotoptions');
+      chartoptions.seriesColors = {$loadPerJobIndicator_jqplotSeriesColors};
+      //chartoptions.seriesDefaults.rendererOptions.startAngle = 180;
+      updateChart(chart, '{$loadPerJobIndicator_jqplotData}');
+      {/if}
+
+   };
+</script>
+</div>

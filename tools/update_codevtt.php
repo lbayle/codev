@@ -290,6 +290,33 @@ function update_v12_to_v13() {
    return TRUE;
 }
 
+/**
+ * update 1.0.x to 1.1.x (DB v11 to DB v12)
+ *
+ */
+function update_v13_to_v14() {
+
+   echo "- Update classmap.ser<br>";
+   if (FALSE == Tools::createClassMap()) {
+      $this->smartyHelper->assign('errorMsg', T_('Could not create classmap, check classmap.ser permissions.'));
+      echo "<span class='error_font'>Could not create classmap, check classmap.ser permissions.</span><br/>";
+      exit;
+   }
+
+   $sqlScriptFilename = '../install/codevtt_update_v13_v14.sql';
+   if (!file_exists($sqlScriptFilename)) {
+      echo "<span class='error_font'>SQL script not found:$sqlScriptFilename</span><br/>";
+      exit;
+   }
+   // execute the SQL script
+   echo "- Execute SQL script: $sqlScriptFilename<br>";
+   $retCode = Tools::execSQLscript2($sqlScriptFilename);
+   if (0 != $retCode) {
+      echo "<span class='error_font'>Could not execSQLscript: $sqlScriptFilename</span><br/>";
+      exit;
+   }
+}
+
 // =========== MAIN ==========
 $logger = Logger::getLogger("versionUpdater");
 
