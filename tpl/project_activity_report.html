@@ -90,36 +90,35 @@
 				<br>
 				<label style="vertical-align: bottom;"><input id="cb_withSideTasksPrj" type="checkbox" {if $isSideTasksPrj}checked="checked"{/if}>{t}With SideTasks Project{/t}</label>
          </div>
+         
          <table class="float" id="tableWorkingDaysPerProjectPerUser">
             <thead>
-               <tr>
-                  <th></th>
-                  {foreach from=$userDataList key=id item=u}
-                  <th>{$u.name}</th>
-                  {/foreach}
-                  <th title="{t}TOTAL{/t}"></th>
-               </tr>
+                <tr>
+                    <th></th>
+                {foreach from=$projList key=id item=name}
+                    <th>{$name}</th>
+                {/foreach}
+                    <th>TOTAL</th>
+                </tr>
             </thead>
             <tbody>
-               {foreach from=$projDataList key=id item=p}
-               <tr>
-                  <th>{$p.name}</th>
-                  {foreach from=$userDataList key=uid item=u}
-                  <td style="text-align:center;">{$p.usersData[$uid]}</td>
-                  {/foreach}
-                  <th style="text-align:center;">{$p.totalElapsed}</th>
-               </tr>
+               {foreach from=$usersData key=id item=i}
+                <tr>
+                    <th>{$i.name}</th>
+                    {foreach from=$i.elapsedPerProject key=id2 item=j}
+                    <td>{$j}</td>
+                    {/foreach}
+                    <th>{$i.total}</th>
+                </tr>
                {/foreach}
-
             </tbody>
             <tfoot>
-               <tr>
-                  <td>{t}TOTAL{/t}</td>
-                  {foreach from=$userDataList key=id item=u}
-                  <td style="text-align:center;">{$u.totalElapsed}</td>
-                  {/foreach}
-                  <td style="text-align:center;">{$allProjTotalElapsed}</td>
-               </tr>
+                <tr>
+                    <th>TOTAL</th>
+                    {foreach from=$totalPerProj key=id item=i}
+                    <td>{$i}</td>
+                    {/foreach}
+                </tr>
             </tfoot>
 
          </table>
