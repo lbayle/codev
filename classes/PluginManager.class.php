@@ -214,19 +214,6 @@ class PluginManager {
       }
    }
 
-
-
-   /**
-    * re-generates the classmap.ser file
-    * to include new plugins classes
-    */
-   private function updateClassmap() {
-      #echo "updateClassmap<br>";
-      if (FALSE == Tools::createClassMap()) {
-         self::$logger->error("updateClassmap failed !");
-      }
-   }
-
    /**
     * plugins must be granted by the admin before
     * beeing available for the Dashboards

@@ -1621,39 +1621,35 @@ class Tools {
 
       // TODO check classmap.ser permissions 
       $classmap = Constants::$codevRootDir.'/classmap.ser';
-      $classmapCopy = Constants::$codevRootDir.'/classmapOld.ser';
+      $classmapCopy = Constants::$codevRootDir.'/classmap.ser.old';
       $errorRename = "The rename of ".$classmap." into ".$classmapCopy." failed";
-      $errorRenameBack = " The rename of ".$classmapCopy." into ".$classmap." failed";
-      $errorWriteAccess = "Please verify your write access to ".$classmap;
       
       
       if (!is_writable($classmap)) {
-         throw new Exception($errorWriteAccess);
-      } 
-      // TODO save previous classmap.ser file        
-         elseif(!rename($classmap,$classmapCopy)){
-            throw new Exception($errorRename);
-         }
-         else {
-            $lib_class_map = ClassFileMapFactory::generate(Constants::$codevRootDir);
-            $_autoloader = new ClassFileMapAutoloader();
-            $_autoloader->addClassFileMap($lib_class_map);
+         throw new Exception("Please check write permissions to $classmap");
+      }
+      
+      // save previous classmap.ser file        
+      if(!rename($classmap,$classmapCopy)){
+         throw new Exception($errorRename);
+      }
 
-            // reload classmap, so that new classes are accessible
-            $_autoloader->registerAutoload();
+      // reload classmap, so that new classes are accessible
+      $lib_class_map = ClassFileMapFactory::generate(Constants::$codevRootDir);
+      $_autoloader = new ClassFileMapAutoloader();
+      $_autoloader->addClassFileMap($lib_class_map);
+      $_autoloader->registerAutoload();
 
-            // write to file
-            $data = serialize($_autoloader);
-            if(!file_put_contents(Constants::$codevRootDir.'/classmap.ser',$data)) {
-               
-               if(!rename($classmapCopy,$classmap)){
-                  throw new Exception($errorRenameBack);
-               } else {
-                  throw new Exception($errorWriteAccess);
-               }
+      // write new classmap to file
+      $data = serialize($_autoloader);
+      if(!file_put_contents(Constants::$codevRootDir.'/classmap.ser',$data)) {
+
+         if(!rename($classmapCopy,$classmap)){
+            throw new Exception("Classmap creation failed + could not revert to ".$classmapCopy);
+         } else {
+            throw new Exception("Classmap creation failed, previous classmap restored.");
          }
       }
-      return TRUE;
    }
    
 }
@@ -1661,4 +1657,3 @@ class Tools {
 // Initialize complex static variables
 Tools::staticInit();
 
-?>

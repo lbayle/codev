@@ -297,9 +297,10 @@ function update_v12_to_v13() {
 function update_v13_to_v14() {
 
    echo "- Update classmap.ser<br>";
-   if (FALSE == Tools::createClassMap()) {
-      $this->smartyHelper->assign('errorMsg', T_('Could not create classmap, check classmap.ser permissions.'));
-      echo "<span class='error_font'>Could not create classmap, check classmap.ser permissions.</span><br/>";
+   try {
+      Tools::createClassMap();
+   } catch (Exception $e) {
+      echo "<span class='error_font'>Could not create classmap: ".$e->getMessage()."</span><br/>";
       exit;
    }
 
