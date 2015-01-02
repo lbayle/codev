@@ -35,9 +35,11 @@ class TeamDashboardController extends Controller {
          $team = TeamCache::getInstance()->getTeam($this->teamid);
          
          
-         $startTimestamp = $team->getDate(); // creationDate
-         $endTimestamp = time();
-
+         //$startTimestamp = $team->getDate(); // creationDate
+         //$endTimestamp = time();
+         $startTimestamp = strtotime("first day of this month");
+         $endTimestamp = strtotime("last day of this month");
+         
          // create issueSelection with issues from team projects
          $teamIssues = $team->getTeamIssueList(true, true); // with disabledProjects ?
          $teamIssueSelection = new IssueSelection('Team'.$this->teamid.'ISel');         
