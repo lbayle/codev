@@ -5,6 +5,7 @@ config.ini
 log4php.xml
 constants.php
 mantis_monkey.user.js
+classmap.ser.old
 include/mysql_config.inc.php
 tools/backup_cronjob.sh
 lib/jpgraph/docs
@@ -21,5 +22,5 @@ templates_c
 /doc/fdj
 /doc/phpdoc/html
 
-plugins/AvailableWorkloadIndicator
+plugins/AvailableWorkforceIndicator
 
