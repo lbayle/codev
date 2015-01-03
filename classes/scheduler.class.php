@@ -119,9 +119,9 @@ class ScheduledTask {
 
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("issue ".$issue->getId()."   -- user->getAvailableWorkload(".$today.", ".$issue->getDeadLine().")");
-            self::$logger->debug("issue ".$issue->getId()." nbDaysToDeadLine=".$user->getAvailableWorkload($today, $issue->getDeadLine()));
+            self::$logger->debug("issue ".$issue->getId()." nbDaysToDeadLine=".$user->getAvailableWorkforce($today, $issue->getDeadLine()));
          }
-         $currentST->nbDaysToDeadLine = $user->getAvailableWorkload($today, $issue->getDeadLine());
+         $currentST->nbDaysToDeadLine = $user->getAvailableWorkforce($today, $issue->getDeadLine());
          $currentST->projectName = $issue->getProjectName();
          $currentST->summary = $issue->getSummary();
          $currentST->priorityName = $issue->getPriorityName();
@@ -160,7 +160,7 @@ class ScheduledTask {
 
             $currentST = new ScheduledTask($issue->getId(), $issue->getDeadLine(), $issueDuration);
 
-            $currentST->nbDaysToDeadLine = $user->getAvailableWorkload($today, $issue->getDeadLine());
+            $currentST->nbDaysToDeadLine = $user->getAvailableWorkforce($today, $issue->getDeadLine());
             $currentST->projectName = $issue->getProjectName();
             $currentST->summary = $issue->getSummary();
             $currentST->priorityName = $issue->getPriorityName();

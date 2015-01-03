@@ -619,7 +619,7 @@ class User extends Model {
     * @param int $team_id
     * @return int
     */
-   public function getAvailableWorkload($startTimestamp, $endTimestamp, $team_id = NULL) {
+   public function getAvailableWorkforce($startTimestamp, $endTimestamp, $team_id = NULL) {
       $holidays = Holidays::getInstance();
 
       $nbOpenDaysInPeriod = 0;

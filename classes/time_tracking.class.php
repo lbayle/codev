@@ -291,7 +291,7 @@ class TimeTracking {
 
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $user = UserCache::getInstance()->getUser($row->id, $row);
-            $this->availableWorkload += $user->getAvailableWorkload($this->startTimestamp, $this->endTimestamp, $this->team_id);
+            $this->availableWorkload += $user->getAvailableWorkforce($this->startTimestamp, $this->endTimestamp, $this->team_id);
          }
       }
 
