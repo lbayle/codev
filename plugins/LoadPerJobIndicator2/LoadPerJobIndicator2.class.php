@@ -189,7 +189,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
     */
    public function execute() {
       
-
+      $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
       $issueList = $this->inputIssueSel->getIssueList();
       $team = TeamCache::getInstance()->getTeam($this->teamid);
       $teamMembers = $team->getMembers();
@@ -199,6 +199,11 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
       $realEndTimestamp = $this->startTimestamp; // note: inverted intentionnaly
       $loadPerJobs = array();
       foreach($issueList as $issue) {
+
+         if ($extProjId == $issue->getProjectId()) {
+            continue; 
+         }
+            
          $issueTimetracks = $issue->getTimeTracks(NULL, $this->startTimestamp, $this->endTimestamp);
          foreach ($issueTimetracks as $tt) {
 
@@ -212,8 +217,6 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
             if ( (NULL == $realEndTimestamp) || ($tt->getDate() > $realEndTimestamp)) {
                $realEndTimestamp = $tt->getDate();
             }
-
-            // check if sidetask
             if ($team->isSideTasksProject($issue->getProjectId())) {
                // TODO check category (detail all sidetasks categories)
 

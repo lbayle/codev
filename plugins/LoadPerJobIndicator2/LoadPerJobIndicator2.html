@@ -63,11 +63,15 @@
             data: form.serialize(),
             success: function(data) {
                jQuery(".loadPerJobIndicatorDiv").html(jQuery.trim(data['loadPerJob_htmlTable']));
+               var chart = jQuery('.loadPerJobIndicatorChart');
                if (data['loadPerJobIndicator_jqplotData']) {
-                  var chart = jQuery('.loadPerJobIndicatorChart');
+                  chart.show();
                   var chartoptions = chart.data('plotoptions');
                   chartoptions.seriesColors = data['loadPerJobIndicator_colors'];
                   updateChart(chart, data['loadPerJobIndicator_jqplotData']);
+               } else {
+                  chart.empty();
+                  chart.hide();
                }
             },
             error: function(jqXHR, textStatus, errorThrown) {
