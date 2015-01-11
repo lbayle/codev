@@ -98,6 +98,15 @@ class Constants {
       '0.05' => '0.05',
       );
    
+   // --- DASHBOARDS ---
+   // Note: keys are IndicatorPluginInterface::DOMAIN_XXX
+   public static $dashboardDefaultPlugins = array (
+       'Team' => 'AvailableWorkforceIndicator',
+       'Command' => 'LoadPerUserIndicator,ProgressHistoryIndicator2',
+       'CommandSet' => 'LoadPerUserIndicator',
+       'ServiceContract' => 'LoadPerJobIndicator2,ProgressHistoryIndicator2,EffortEstimReliabilityIndicator2',
+   );
+   
    /**
     * If true, then no info/warning messages will be displayed.
     * this shall only be set during install procedures.
@@ -218,6 +227,13 @@ class Constants {
          }
       }
 
+      $dashboards = $ini_array['dashboardDefaultPlugins'];
+      if (is_array($dashboards)) {
+         foreach ($dashboards as $domain => $plugins) {
+            self::$dashboardDefaultPlugins[$domain] = explode(',', $plugins);
+         }
+      }
+
       // -----
 
       /* FIXME WORKAROUND: SQL procedures still use codev_config_table.bug_resolved_status_threshold ! */
@@ -296,6 +312,12 @@ class Constants {
       }
       $internet['check_latest_version'] = self::$isCheckLatestVersion;
       
+      $dashboards = array();
+      foreach (self::$dashboardDefaultPlugins as $key => $value) {
+         $dashboards[$key] = implode(',', $value);
+      }
+      
+      
       $ini_array = array();
       $ini_array[] = '; This file is part of CodevTT.';
       $ini_array[] = '; - The Variables in here can be customized to your needs';
@@ -321,6 +343,8 @@ class Constants {
       $ini_array['timesheets'] = $timesheets;
       $ini_array[] = '';
       $ini_array['internet'] = $internet;
+      $ini_array[] = '';
+      $ini_array['dashboardDefaultPlugins'] = $dashboards;
       $ini_array[] = '';
       $ini_array[] = '';
 

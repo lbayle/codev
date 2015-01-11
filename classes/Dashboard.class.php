@@ -175,16 +175,15 @@ class Dashboard {
          if (NULL == $json) {
             $json = Config::getValue(Config::id_dashboard.$this->id, array(0, 0, $this->teamid, 0, 0, 0), true);
          }
-         // if no specific settings, use default values 
-         // TODO default = all/no plugins ?
+         // if no specific settings, use default values (from config.ini)
          if (NULL == $json) {
             
-            $pm = PluginManager::getInstance();
-            $candidates = $pm->getPluginCandidates($this->domain, $this->categories);
-
+            $defaultPlugins = Constants::$dashboardDefaultPlugins[$this->domain];
+            
             $pluginAttributes = array();
-            foreach ($candidates as $cClassName) {
-               //$pluginAttributes[] = array('pluginClassName' => $cClassName);
+            foreach ($defaultPlugins as $pluginClassName) {
+               $pluginAttributes[] = array('pluginClassName' => $pluginClassName);
+               //self::$logger->error($this->domain." default plugin: ".$pluginClassName);
             }
             $this->settings = array(
                self::SETTINGS_DASHBOARD_TITLE   => 'Dashboard Title',
