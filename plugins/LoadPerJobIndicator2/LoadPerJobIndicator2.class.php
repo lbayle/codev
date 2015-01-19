@@ -217,9 +217,21 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
             if ( (NULL == $realEndTimestamp) || ($tt->getDate() > $realEndTimestamp)) {
                $realEndTimestamp = $tt->getDate();
             }
-            if ($team->isSideTasksProject($issue->getProjectId())) {
+            if ($issue->isProjManagement(array($this->teamid))) {
+               $jobid = '999_Management';
+               if (!array_key_exists($jobid, $loadPerJobs)) {
+                  // create job if not exist in jobList
+                  $loadPerJobs[$jobid] = array(
+                     'name' => T_('Management'),
+                     'color' => 'A3A3A3', // TODO hardcoded !
+                     'nbDays' => floatval($tt->getDuration()),
+                     );
+               } else {
+                  $loadPerJobs[$jobid]['nbDays'] += floatval($tt->getDuration());
+               }
+            } else if ($team->isSideTasksProject($issue->getProjectId())) {
                // TODO check category (detail all sidetasks categories)
-
+               
                $jobid = '999_SideTasks';
                if (!array_key_exists($jobid, $loadPerJobs)) {
                   // create job if not exist in jobList
