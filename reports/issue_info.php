@@ -226,11 +226,18 @@ class IssueInfoController extends Controller {
     */
    private function getCalendar(Issue $issue, array $trackList) {
       $months = NULL;
-      for ($y = date('Y', $issue->getDateSubmission()); $y <= date('Y'); $y++) {
-         for ($m = 1; $m <= 12; $m++) {
-            $monthsValue = $this->getMonth($m, $y, $issue, $trackList);
-            if ($monthsValue != NULL) {
-               $months[] = $monthsValue;
+
+      if (!empty($trackList)) {
+         $firstTT = $issue->getFirstTimetrack();
+         $startTimestamp = $firstTT->getDate();
+         $endTimestamp = $issue->getLatestTimetrack()->getDate();
+
+         for ($y = date('Y', $startTimestamp); $y <= date('Y', $endTimestamp); $y++) {
+            for ($m = 1; $m <= 12; $m++) {
+               $monthsValue = $this->getMonth($m, $y, $issue, $trackList);
+               if ($monthsValue != NULL) {
+                  $months[] = $monthsValue;
+               }
             }
          }
       }
