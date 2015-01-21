@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-22 21:03+0200\n"
+"POT-Creation-Date: 2015-01-21 14:58+0100\n"
 "PO-Revision-Date: 2012-09-17 08:09-0300\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -16,1251 +16,201 @@ msgstr ""
 "X-Generator: Poedit 1.5.3\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: tpl/holidays_report.html
-msgid "Year"
-msgstr "Ano"
+#: tpl/doc.html
+#, fuzzy
+msgid "Documentation is available at "
+msgstr "statistiques non disponibles"
 
-#: tpl/holidays_report.html
-msgid "Show external tasks"
-msgstr "Exibir casos externos"
+#: tpl/doc.html
+#, fuzzy
+msgid "CodevTT Documentation Wiki"
+msgstr "Documentação"
 
-#: tpl/holidays_report.html
-#: tpl/plugin/activity_indicator_ajax1.html
-msgid "workdays"
-msgstr "dias úteis"
+#: tpl/doc.html
+msgid "GreaseMonkey script: "
+msgstr ""
 
-#: tpl/holidays_report.html
-#: tpl/forecasting_report.html
-#: tpl/issue_info.html
+#: tpl/team_monthly_activity_report.html
+#: tpl/menu/global_menu.html
+msgid "Monthly Activity"
+msgstr "Atividade mensal"
+
+#: tpl/team_monthly_activity_report.html
 #: tpl/productivity_report.html
-#: tpl/mantis_reports.html
-#: tpl/time_tracking.html
-#: tpl/planning_report.html
-#: tpl/set_holidays.html
-#: reports/project_info.php:154
-msgid "Please select a team to access this page."
-msgstr "Desculpe, voce precisar ser menbro do grupo para acessar esta página."
+#: tpl/export_csv_weekly.html
+#: tpl/export_csv_monthly.html
+#: tpl/statistics.html
+#: tpl/gantt_report.html
+#: tpl/project_activity_report.html
+msgid "Compute"
+msgstr "Calcular"
 
-#: tpl/blog/blogpost_form.html
-#: tpl/time_tracking.html
-#: tpl/servicecontract_info.html
-#: tpl/import_issues.html
-#: tpl/ajax/projectDetails.html
-msgid "Category"
-msgstr "Categoria"
+#: tpl/team_monthly_activity_report.html
+#, fuzzy
+msgid "Tasks per User"
+msgstr "Filtros"
 
-#: tpl/blog/blogpost_form.html
-#: tpl/modal/select_issues.html
-#: tpl/forecasting_report.html
-#: tpl/command_info.html
+#: tpl/team_monthly_activity_report.html
+#: tpl/holidays_report.html
+#: tpl/team_activity_report.html
+#: tpl/project_activity_report.html
+msgid "Export to CSV"
+msgstr "Exportar CSV"
+
+#: tpl/team_monthly_activity_report.html
 #: tpl/productivity_report.html
-#: tpl/time_tracking.html
-#: tpl/servicecontract_info.html
 #: tpl/command_edit.html
+#: tpl/command_info.html
+#: tpl/blog/blogpost_form.html
 #: tpl/planning_report.html
+#: tpl/check.html
+#: tpl/forecasting_report.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#: tpl/time_tracking.html
+#: tpl/modal/update_issueBacklog.html
+#: tpl/modal/select_issues.html
 #: tpl/index.html
 #: tpl/project_info.html
+#. insert in front
+#: classes/issue_selection.class.php:280
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
+#: management/command_info.php:221 management/servicecontract_info.php:148
+#: management/commandset_info.php:152 reports/productivity_report.php:231
+#: reports/export_csv_tools.php:51 reports/productivity_report_tools.php:42
+#: reports/productivity_report_tools.php:80 reports/planning_report.php:214
+#: reports/project_info.php:278 reports/project_info.php:289
+#: reports/project_info.php:301 index.php:185 tools.php:1475
 msgid "Summary"
 msgstr "Descrição"
 
-#: tpl/blog/blogpost_form.html
-#: tpl/blog/blogpost.html
-#: tpl/form/dateRangeSelector.html
-msgid "To"
-msgstr "Para"
-
-#: tpl/blog/blogpost.html
-msgid "Author"
-msgstr "Autor"
-
-#: tpl/modal/login.html
-msgid "Length of"
-msgstr ""
-
-#: tpl/modal/login.html
-msgid "must be between"
-msgstr ""
-
-#: tpl/modal/login.html
-msgid "and"
-msgstr ""
-
-#: tpl/modal/login.html
-msgid "CodevTT Identification"
-msgstr "Identificação CodevTT"
-
-#: tpl/modal/login.html
-#: tpl/edit_team.html
-msgid "login"
-msgstr "Usuário"
-
-#: tpl/modal/login.html
-msgid "password"
-msgstr "Senha"
-
-#: tpl/modal/login.html
-#: tpl/modal/select_issues.html
-msgid "OK"
-msgstr "OK"
-
-#: tpl/modal/login.html
-msgid "Loading"
-msgstr "Carregando"
-
-#: tpl/modal/login.html
-msgid "Unauthorized"
-msgstr ""
-
-#: tpl/modal/login.html
-msgid "Login"
-msgstr "Login"
-
-#: tpl/modal/login.html
-#: tpl/doc.html
-#: install/install_step1.php:202
-msgid "Password"
-msgstr "Senha"
-
-#: tpl/modal/login.html
-msgid "Redirection"
-msgstr "Redirecionando"
-
-#: tpl/modal/login.html
-msgid "Please wait..."
-msgstr "Aguarde..."
-
-#: tpl/modal/select_issues.html
-msgid "No task selected !"
-msgstr "sem caso selecionado !"
-
-#: tpl/modal/select_issues.html
-msgid "Browse..."
-msgstr "Exibir..."
-
-#: tpl/modal/select_issues.html
-msgid "Select all"
-msgstr "Selecionar tudo"
-
-#: tpl/modal/select_issues.html
-#: tpl/forecasting_report.html
-#: tpl/command_info.html
+#: tpl/team_monthly_activity_report.html
 #: tpl/productivity_report.html
-#: tpl/time_tracking.html
-#: tpl/servicecontract_info.html
 #: tpl/command_edit.html
-#: tpl/index.html
-#: tpl/project_info.html
-msgid "ID"
-msgstr "ID"
-
-#: tpl/modal/select_issues.html
 #: tpl/command_info.html
-#: reports/export_csv_tools.php:50
-msgid "ExtRef"
-msgstr "RefExt"
-
-#: tpl/modal/select_issues.html
-#: tpl/forecasting_report.html
-#: tpl/command_info.html
-#: tpl/menu/global_menu.html
+#: tpl/export_odt.html
+#: tpl/edit_team.html
 #: tpl/issue_info.html
-#: tpl/filters.html
 #: tpl/team_activity_report.html
-#: tpl/productivity_report.html
-#: tpl/time_tracking.html
-#: tpl/servicecontract_info.html
-#: tpl/command_edit.html
-#: tpl/edit_team.html
+#: tpl/menu/global_menu.html
+#: tpl/set_holidays.html
+#: tpl/edit_jobs.html
 #: tpl/planning_report.html
+#: tpl/filters.html
+#: tpl/check.html
+#: tpl/forecasting_report.html
+#: tpl/import_issues.html
+#: tpl/servicecontract_info.html
+#: tpl/time_tracking.html
+#: tpl/modal/select_issues.html
 #: tpl/form/projectSelector.html
 #: tpl/servicecontract_edit.html
-#: tpl/check.html
-#: tpl/set_holidays.html
-#: tpl/import_issues.html
 #: tpl/index.html
 #: tpl/project_info.html
-#: tpl/edit_jobs.html
 #. write header
 #. WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
-#: reports/export_csv_tools.php:48 tests/odt.php:23
+#: classes/issue.class.php:2184 classes/wbsElement.class.php:581
+#: classes/issue_selection.class.php:279 filters/ProjectFilter.php:59
+#: management/command_info.php:220 management/servicecontract_info.php:147
+#: management/commandset_info.php:151 reports/productivity_report.php:230
+#: reports/export_csv_tools.php:48 reports/productivity_report_tools.php:41
+#: reports/productivity_report_tools.php:79 reports/planning_report.php:213
+#: reports/project_info.php:277 reports/project_info.php:288
+#: reports/project_info.php:300 tests/odt.php:25 index.php:184 tools.php:1469
 msgid "Project"
 msgstr "Projeto"
 
-#: tpl/modal/select_issues.html
-#: tpl/forecasting_report.html
+#: tpl/team_monthly_activity_report.html
+#: tpl/productivity_report.html
 #: tpl/command_info.html
+#: tpl/issue_info.html
+#: tpl/tools/wbsReader.html
 #: tpl/team_activity_report.html
-#: tpl/project_activity_report.html
-#: tpl/command_edit.html
-#: tpl/project_info.html
-msgid "Target"
-msgstr "Meta"
-
-#: tpl/modal/select_issues.html
+#: tpl/ajax/issueGeneralInfo.html
 #: tpl/forecasting_report.html
-#: tpl/command_info.html
-#: tpl/issue_info.html
-#: tpl/productivity_report.html
-#: tpl/project_activity_report.html
-#: tpl/time_tracking.html
-#: tpl/edit_team.html
-#: tpl/planning_report.html
-#: tpl/check.html
-#: tpl/project_info.html
-msgid "Status"
-msgstr "Status"
-
-#: tpl/modal/consistency_check.html
-#: tpl/planning_report.html
-msgid "Click to show errors"
-msgstr "Clique para ver os erros"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-#: tpl/time_tracking.html
-#: tpl/statistics.html
-#: tpl/ajax/generalInfo.html
-msgid "Effort Deviation"
-msgstr "Desvio de esforço"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-msgid "Help"
-msgstr "Ajuda"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-#: tpl/statistics.html
-msgid "Overflow day quantity"
-msgstr "Num de dias de atraso"
-
-#: tpl/forecasting_report.html
-msgid "Computed on task NOT Resolved/Closed on "
-msgstr "Cálculo de casos NÃO Fechados/Resolvidos"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-msgid "Formula"
-msgstr "Fórmula"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-#: tpl/index.html
-#: tpl/project_info.html
-#: reports/productivity_report.php:279
-msgid "Tasks in drift"
-msgstr "Casos à deriva"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-msgid "Tasks for which the elapsed time is greater than the estimated effort"
-msgstr "Casos que estão maiores que o esforço previsto"
-
-#: tpl/forecasting_report.html
-msgid "deviation"
-msgstr "Desvio"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-msgid "Tasks in time"
-msgstr "Tarefas cumpridas"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-msgid "Tasks resolved in time"
-msgstr "Tarefas resolvidas no período"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-msgid "Tasks ahead"
-msgstr "Próximas tarefas"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-msgid "Tasks resolved in less time than the estimated effort"
-msgstr "Casos resolvidos antes do tempo previsto"
-
-#: tpl/forecasting_report.html
-#: tpl/issue_info.html
-#: tpl/project_info.html
-msgid "Overview"
-msgstr "Resumo"
-
-#: tpl/forecasting_report.html
-#: tpl/command_info.html
-#: tpl/productivity_report.html
-#: tpl/servicecontract_info.html
-#: tpl/planning_report.html
-#: tpl/project_info.html
-#: tpl/ajax/projectDetails.html
-msgid "Tasks"
-msgstr "Casos"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-#: tpl/ajax/generalInfo.html
-msgid "Manager Estimation"
-msgstr "Carga prevista pelo gerente"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-#: tpl/ajax/generalInfo.html
-msgid "Manager"
-msgstr "Gerente"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-#: tpl/workflow.html
-#: tpl/ajax/generalInfo.html
-msgid "Value"
-msgstr "Valor"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-msgid "If < 0 then ahead on planning."
-msgstr "Se negativo, avance no planejamento."
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-#: tpl/statistics.html
-msgid "EffortDeviation"
-msgstr "Desvio"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-msgid "nb tasks"
-msgstr "núm de casos"
-
-#: tpl/forecasting_report.html
-#: tpl/command_info.html
-#: tpl/filters.html
-#: tpl/productivity_report.html
-#: tpl/project_info.html
-msgid "nb days"
-msgstr "núm. dias"
-
-#: tpl/forecasting_report.html
-#: tpl/doc.html
-#: tpl/check.html
-#: tpl/plugin/activity_indicator_ajax1.html
-#: tpl/import_issues.html
-#: install/install_step1.php:198
-msgid "User"
-msgstr "Usuário"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-#: tpl/project_info.html
-msgid "Drift relatively to the managers Estimation"
-msgstr "Desvio relativo ao esforço previsto pelo gerente"
-
-#: tpl/forecasting_report.html
-#: tpl/command_info.html
-#: tpl/productivity_report.html
-#: tpl/servicecontract_info.html
 #: tpl/commandset_info.html
-#: tpl/project_info.html
-#: reports/project_info.php:212 reports/project_info.php:263
-#: tests/filters.php:72
-msgid "Drift Mgr"
-msgstr "Desvio Mgr"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-#: tpl/project_info.html
-msgid "Drift relatively to (EE + AddEE)"
-msgstr "Desvio relativo ao BI + BS"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-#: tpl/index.html
-#: tpl/project_info.html
-#: reports/project_info.php:213 reports/project_info.php:313
-msgid "Drift"
-msgstr "Desvio"
-
-#: tpl/forecasting_report.html
-#: tpl/command_info.html
-#: tpl/issue_info.html
-#: tpl/team_activity_report.html
-#: tpl/project_activity_report.html
-#: tpl/time_tracking.html
-#: tpl/index.html
-#: tpl/project_info.html
-#: tpl/ajax/weekTaskDetails.html
-#: tpl/ajax/generalInfo.html
-msgid "Backlog"
-msgstr "Retorno"
-
-#: tpl/forecasting_report.html
-#: tpl/command_info.html
-#: tpl/team_activity_report.html
-#: tpl/project_activity_report.html
-#: tpl/index.html
-#: tpl/project_info.html
-#: tpl/ajax/weekTaskDetails.html
-#: reports/export_csv_weekly.php:151
-msgid "BL"
-msgstr "BL"
-
-#: tpl/forecasting_report.html
-#: tpl/command_info.html
-#: tpl/team_activity_report.html
-#: tpl/productivity_report.html
-#: tpl/project_activity_report.html
 #: tpl/servicecontract_info.html
-#: tpl/commandset_info.html
+#: tpl/project_activity_report.html
 #: tpl/project_info.html
-#: tpl/ajax/generalInfo.html
-#: reports/export_csv_tools.php:65 reports/project_info.php:211
+#. $titles[] = T_("Date");
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:257
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:313
+#: reports/export_csv_tools.php:65 reports/project_info.php:177
+#: reports/project_info.php:232
 msgid "Progress"
 msgstr "Progresso"
 
-#: tpl/forecasting_report.html
+#: tpl/team_monthly_activity_report.html
 #: tpl/productivity_report.html
-msgid "Tasks Mgr"
-msgstr "Casos Mgr"
-
-#: tpl/forecasting_report.html
-msgid "Task list"
-msgstr "Lista de casos"
-
-#: tpl/forecasting_report.html
-#: tpl/productivity_report.html
-msgid "Available Workload"
-msgstr "Capacidade de produção"
-
-#: tpl/forecasting_report.html
-#: tpl/statistics.html
-msgid "man-day"
-msgstr "dias-homem"
-
-#: tpl/forecasting_report.html
-#: tpl/statistics.html
-msgid ""
-"Nombre de jours-homme disponibles sur la periode (hors vacances et taches "
-"externes)"
-msgstr ""
-"Número dias-homem disponíveis no período (excluíndo feriados dias de folga)"
-
-#: tpl/forecasting_report.html
-#: tpl/statistics.html
-msgid "man-days"
-msgstr "dias-homem"
-
-#: tpl/forecasting_report.html
-#: tpl/mantis_reports.html
-#: tpl/time_tracking.html
-#: tpl/commandset_info.html
-#: tpl/statistics.html
-#: tpl/edit_team.html
-#: tpl/edit_holidays.html
-#: tpl/planning_report.html
-#: tpl/import_issues.html
-#: tpl/commandset_edit.html
-msgid "Date"
-msgstr "Data"
-
-#: tpl/forecasting_report.html
-#: tpl/statistics.html
-msgid "nb production days"
-msgstr "Núm de dias de produção"
-
-#: tpl/command_info.html
-#: tpl/menu/global_menu.html
-#: tpl/servicecontract_info.html
-#: tpl/command_edit.html
-#: tpl/commandset_info.html
-#: tpl/edit_team.html
-#: tpl/planning_report.html
-#: tpl/form/teamSelector.html
-#: tpl/servicecontract_edit.html
-#: tpl/import_issues.html
-#: tpl/commandset_edit.html
-#: graphs/gantt_graph.php:93 graphs/gantt_graph.php:95
-msgid "Team"
-msgstr "Equipe"
-
-#: tpl/command_info.html
-#: tpl/menu/global_menu.html
-#: tpl/servicecontract_info.html
-#: tpl/commandset_info.html
-#: tpl/import_issues.html
-#: tpl/commandset_edit.html
-msgid "Command"
-msgstr "Comando"
-
-#: tpl/command_info.html
-msgid "--- Create New Command ---"
-msgstr "-- Criar novo comando ---"
-
 #: tpl/command_info.html
 #: tpl/issue_info.html
-#: tpl/filters.html
-#: tpl/time_tracking.html
-#: tpl/servicecontract_info.html
-#: tpl/commandset_info.html
-#: tpl/set_holidays.html
-#: tpl/export_csv_weekly.html
-#: tpl/project_info.html
-msgid "Jump"
-msgstr "Ir"
-
-#: tpl/command_info.html
-#: tpl/servicecontract_info.html
-#: tpl/command_edit.html
-#: tpl/commandset_info.html
-#: tpl/servicecontract_edit.html
-#: tpl/commandset_edit.html
-msgid "Reference"
-msgstr "Referencia"
-
-#: tpl/command_info.html
-#: tpl/servicecontract_info.html
-#: tpl/command_edit.html
-#: tpl/servicecontract_edit.html
-msgid "Version"
-msgstr "Versão"
-
-#: tpl/command_info.html
-#: tpl/servicecontract_info.html
-#: tpl/command_edit.html
-#: tpl/servicecontract_edit.html
-msgid "Reporter"
-msgstr "Relator"
-
-#: tpl/command_info.html
-#: tpl/command_edit.html
-#: tpl/servicecontract_edit.html
-#: reports/export_csv_tools.php:54
-msgid "Start date"
-msgstr "Data inicial"
-
-#: tpl/command_info.html
-#: tpl/command_edit.html
-#: tpl/servicecontract_edit.html
-msgid "End date"
-msgstr "Date Fin"
-
-#: tpl/command_info.html
-#: tpl/servicecontract_info.html
-#: tpl/command_edit.html
-#: tpl/servicecontract_edit.html
-msgid "State"
-msgstr "Estado"
-
-#: tpl/command_info.html
-#: tpl/command_edit.html
-#: tpl/commandset_info.html
-#: tpl/commandset_edit.html
-msgid "Cost"
-msgstr "Custo"
-
-#: tpl/command_info.html
-#: tpl/command_edit.html
-#: tpl/commandset_info.html
-#: tpl/commandset_edit.html
-msgid "Budget"
-msgstr "Orçamento"
-
-#: tpl/command_info.html
-#: tpl/issue_info.html
-#: tpl/command_edit.html
-#: tpl/commandset_info.html
-#: tpl/planning_report.html
-#: tpl/commandset_edit.html
-#: classes/scheduler.class.php:80 classes/consistency_check2.class.php:603
-#: timetracking/time_tracking.php:310
-msgid "days"
-msgstr "dias"
-
-#: tpl/command_info.html
-#: tpl/menu/global_menu.html
-#: tpl/servicecontract_info.html
-#: tpl/command_edit.html
-#: tpl/commandset_info.html
-#: tpl/servicecontract_edit.html
-msgid "CommandSet"
-msgstr "Conjunto de comandos"
-
-#: tpl/command_info.html
-#: tpl/servicecontract_info.html
-#: tpl/commandset_info.html
-msgid "Edit"
-msgstr "Editar"
-
-#: tpl/command_info.html
-#: tpl/servicecontract_info.html
-#: tpl/commandset_info.html
-msgid "Charges"
-msgstr "Encargos"
-
-#: tpl/command_info.html
-#: tpl/menu/global_menu.html
-#: tpl/servicecontract_info.html
-#: tpl/commandset_info.html
-msgid "Activity"
-msgstr "Atividade"
-
-#: tpl/command_info.html
-#: tpl/servicecontract_info.html
-#: tpl/commandset_info.html
-msgid "Indicators"
-msgstr "Indicadores"
-
-#: tpl/command_info.html
-#: tpl/productivity_report.html
-#: tpl/servicecontract_info.html
-#: tpl/commandset_info.html
-#: tpl/statistics.html
-#: reports/export_csv_tools.php:60 reports/project_info.php:259
-#: tests/filters.php:68
-msgid "MgrEffortEstim"
-msgstr "Esforço estinado Mgr"
-
-#: tpl/command_info.html
-#: tpl/servicecontract_info.html
-#: tpl/commandset_info.html
-#: reports/project_info.php:260 tests/filters.php:69
-msgid "Reestimated Mgr"
-msgstr "Reestimado Mgr"
-
-#: tpl/command_info.html
-#: tpl/time_tracking.html
-#: tpl/servicecontract_info.html
-#: tpl/commandset_info.html
-#: tpl/plugin/activity_indicator_ajax1.html
-#: tpl/ajax/generalInfo.html
-#: indicator_plugins/activity_indicator.class.php:212
-#: reports/project_info.php:261 reports/project_info.php:311
-#: tests/filters.php:70
-msgid "Elapsed"
-msgstr "decorrido"
-
-#: tpl/command_info.html
-#: tpl/servicecontract_info.html
-#: tpl/commandset_info.html
-#: reports/project_info.php:262 tests/filters.php:71
-msgid "Backlog Mgr"
-msgstr "Backlog Mgr"
-
-#: tpl/command_info.html
-#: tpl/servicecontract_info.html
-msgid "No task found."
-msgstr "Não há casos."
-
-#: tpl/command_info.html
-msgid "Short List: "
-msgstr "Lista compacta: "
-
-#: tpl/command_info.html
-#: tpl/commandset_info.html
-#: tpl/plugin/progress_history_indicator.html
-msgid "Historical Progression Chart"
-msgstr "Gráfico de progresso"
-
-#: tpl/command_info.html
-#: tpl/commandset_info.html
-#: tpl/plugin/progress_history_indicator.html
-msgid "Theoric"
-msgstr "Teórico"
-
-#: tpl/command_info.html
-#: tpl/commandset_info.html
-#: tpl/plugin/progress_history_indicator.html
-msgid "Real"
-msgstr "Real"
-
-#: tpl/command_info.html
-#: tpl/commandset_info.html
-#: tpl/plugin/progress_history_indicator.html
-msgid "% Progress"
-msgstr "Progresso"
-
-#: tpl/command_info.html
-#: tpl/issue_info.html
-#: tpl/commandset_info.html
-#: tpl/servicecontract_edit.html
-#: tpl/plugin/activity_indicator_ajax1.html
-#: tpl/project_info.html
-msgid "No data"
-msgstr "Sem dados"
-
-#: tpl/menu/global_menu.html
-msgid "Home"
-msgstr "Início"
-
-#: tpl/menu/global_menu.html
-msgid "TimeTracking & team activity"
-msgstr "Acompanhamento e atividade da equipe"
-
-#: tpl/menu/global_menu.html
-#: tpl/index.html
-msgid "Time Tracking"
-msgstr "Acompanhamento de tempo"
-
-#: tpl/menu/global_menu.html
-msgid "Team Activity"
-msgstr "Atividade da equipe"
-
-#: tpl/menu/global_menu.html
-#: tpl/export_csv_monthly.html
-#: tpl/project_activity_report.html
-#: reports/export_csv_weekly.php:100
-msgid "Projects Activity"
-msgstr "Atividades dos projetos"
-
-#: tpl/menu/global_menu.html
-msgid "Holidays Reports"
-msgstr "Relatório de feriados"
-
-#: tpl/menu/global_menu.html
-#: tpl/index.html
-msgid "Holidays"
-msgstr "Feriados"
-
-#: tpl/menu/global_menu.html
-#: tpl/plugin/activity_indicator.html
-msgid "Display"
-msgstr "Exibir"
-
-#: tpl/menu/global_menu.html
-#: tpl/time_tracking.html
-#: tpl/command_edit.html
-#: tpl/edit_team.html
-#: tpl/edit_holidays.html
-#: tpl/servicecontract_edit.html
-#: tpl/set_holidays.html
-#: tpl/commandset_edit.html
-#: tpl/edit_jobs.html
-msgid "Add"
-msgstr "Adicionar"
-
-#: tpl/menu/global_menu.html
-msgid "Check DeadLines"
-msgstr "Verificar vencimento"
-
-#: tpl/menu/global_menu.html
-#: tpl/index.html
-msgid "Planning"
-msgstr "Planejamento"
-
-#: tpl/menu/global_menu.html
-msgid "Gantt Chart"
-msgstr "Diagrama de Gantt"
-
-#: tpl/menu/global_menu.html
-msgid "Gantt"
-msgstr "Gantt"
-
-#: tpl/menu/global_menu.html
-msgid "Task Information"
-msgstr "Informação do caso"
-
-#: tpl/menu/global_menu.html
-#: tpl/issue_info.html
+#: tpl/tools/wbsReader.html
 #: tpl/team_activity_report.html
-#: tpl/project_activity_report.html
-#: tpl/time_tracking.html
-#: tpl/edit_team.html
-#: tpl/planning_report.html
-#: tpl/form/bugSelector.html
-#: tpl/check.html
-#: tpl/set_holidays.html
 #: tpl/ajax/weekTaskDetails.html
-#: reports/export_csv_weekly.php:192
-msgid "Task"
-msgstr "Tarefa"
-
-#: tpl/menu/global_menu.html
-msgid "Project Information"
-msgstr "Informações do projeto"
-
-#: tpl/menu/global_menu.html
-msgid "Team Statistics"
-msgstr "Estatísticas equipe"
-
-#: tpl/menu/global_menu.html
-msgid "Forecasting"
-msgstr "Previsão"
-
-#: tpl/menu/global_menu.html
-msgid "Period Statistics"
-msgstr "Estatísticas"
-
-#: tpl/menu/global_menu.html
-msgid "History"
-msgstr "Histórico"
-
-#: tpl/menu/global_menu.html
-msgid "Contracts & Commands"
-msgstr "Contrato & Comando"
-
-#: tpl/menu/global_menu.html
-msgid "Contracts"
-msgstr "Contrato"
-
-#: tpl/menu/global_menu.html
+#: tpl/ajax/issueGeneralInfo.html
+#: tpl/forecasting_report.html
+#: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
-msgid "ServiceContract"
-msgstr "Contrato de serviço"
-
-#: tpl/menu/global_menu.html
-msgid "Mantis Reports"
-msgstr "Ocorrências Mantis"
-
-#: tpl/menu/global_menu.html
-msgid "Import / Export"
-msgstr "Importar / Exportar"
-
-#: tpl/menu/global_menu.html
-msgid "Import Issues"
-msgstr "Importar casos"
-
-#: tpl/menu/global_menu.html
-msgid "Export Weekly Report"
-msgstr "Exportar relatório semanal"
-
-#: tpl/menu/global_menu.html
-msgid "Export Monthly Report"
-msgstr "Exportae relatório mensal"
-
-#: tpl/menu/global_menu.html
-msgid "Consistency Check"
-msgstr "Teste de integridade"
-
-#: tpl/menu/global_menu.html
-msgid "Check"
-msgstr "Check"
-
-#: tpl/menu/global_menu.html
-msgid "Blog"
-msgstr "Blog"
-
-#: tpl/menu/global_menu.html
-#: install/install_menu.inc.php:58
-msgid "Documentation"
-msgstr "Documentação"
-
-#: tpl/menu/global_menu.html
-msgid "Feedback"
-msgstr "Feedback"
-
-#: tpl/menu/global_menu.html
+#: tpl/modal/update_issueBacklog.html
+#: tpl/project_activity_report.html
 #: tpl/index.html
-msgid "Productivity Reports"
-msgstr "Indicadores de produção"
+#: tpl/project_info.html
+#. $titles[] = T_("Elapsed");
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:260
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:318
+#: reports/productivity_report_tools.php:44 reports/project_info.php:180
+#: reports/project_info.php:237 tests/filters.php:71 tools.php:1402
+#: tools.php:1411
+msgid "Backlog"
+msgstr "Retorno"
 
-#: tpl/menu/global_menu.html
-msgid "PHP Doc"
-msgstr "PHP Doc"
+#: tpl/team_monthly_activity_report.html
+#, fuzzy
+msgid "Elapsed in period"
+msgstr "consommé dans la période"
 
-#: tpl/menu/global_menu.html
-msgid "Admin Guide"
-msgstr "Guia do administrador"
-
-#: tpl/menu/global_menu.html
-msgid "CoDev Administration"
-msgstr "Administração CoDev"
-
-#: tpl/menu/global_menu.html
-msgid "Create Team"
-msgstr "Créer équipe"
-
-#: tpl/menu/global_menu.html
-msgid "Edit Team"
-msgstr "Editar equipe"
-
-#: tpl/menu/global_menu.html
-msgid "Edit Jobs"
-msgstr "Editar cargos"
-
-#: tpl/menu/global_menu.html
-msgid "Edit Holidays"
-msgstr "Editar feriados"
-
-#: tpl/menu/global_menu.html
-msgid "Prepare Projects"
-msgstr "Preparar projetos "
-
-#: tpl/menu/global_menu.html
-msgid "Clone Projects"
-msgstr "Clonar um projeto"
-
-#: tpl/menu/global_menu.html
-msgid "Logs"
-msgstr "Logs"
-
-#: tpl/menu/global_menu.html
-#: tpl/uninstall.html
-msgid "Uninstall"
-msgstr "Desinstalar"
-
-#: tpl/issue_info.html
-msgid "External ID"
-msgstr "ID externo"
-
-#: tpl/issue_info.html
-msgid "Mantis ID"
-msgstr "Mantis ID"
-
-#: tpl/issue_info.html
-msgid "External Ref"
-msgstr "Ref. Externa"
-
-#: tpl/issue_info.html
-#: reports/export_csv_weekly.php:195
-msgid "Assigned to"
-msgstr "Atribuido a"
-
-#: tpl/issue_info.html
+#: tpl/team_monthly_activity_report.html
+#: tpl/productivity_report.html
+#: tpl/command_info.html
+#: tpl/team_activity_report.html
+#: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
-#: tpl/commandset_edit.html
-msgid "Commands"
-msgstr "Comandos"
-
-#: tpl/issue_info.html
-msgid "Timetracks"
-msgstr "Atividades"
-
-#: tpl/issue_info.html
-msgid "Time per Status"
-msgstr "Tempo por Status"
-
-#: tpl/issue_info.html
-msgid "Backlog variation"
-msgstr "Variação do BackLog"
-
-#: tpl/issue_info.html
-#: tpl/edit_team.html
-#: tpl/planning_report.html
-#: tpl/form/teamForm.html
-#: tpl/index.html
-msgid "Update"
-msgstr "Atualização"
-
-#: tpl/issue_info.html
-#: tpl/time_tracking.html
-#: tpl/ajax/weekTaskDetails.html
-msgid "Update Backlog"
-msgstr "Update Backlog/acúmulo"
-
-#: tpl/issue_info.html
-#: tpl/team_activity_report.html
-#: tpl/productivity_report.html
-#: tpl/time_tracking.html
-#: tpl/set_holidays.html
-#: tpl/edit_jobs.html
-#: tpl/ajax/weekTaskDetails.html
-#: reports/export_csv_weekly.php:193
-msgid "Job"
-msgstr "Serviço"
-
-#: tpl/issue_info.html
-#: tpl/productivity_report.html
-#: tpl/ajax/projectDetails.html
-msgid "Nb Days"
-msgstr "Nb dias"
-
-#: tpl/issue_info.html
-msgid "Dates"
-msgstr "Datas"
-
-#: tpl/issue_info.html
-#: tpl/productivity_report.html
-#: tpl/planning_report.html
-msgid "DeadLine"
-msgstr "Vencimento"
-
-#: tpl/issue_info.html
-#: tpl/productivity_report.html
-msgid "DeliveryDate"
-msgstr "Data entrega"
-
-#: tpl/issue_info.html
-msgid "Deviation"
-msgstr "Desvio"
-
-#: tpl/issue_info.html
-msgid "Time allocation by status"
-msgstr "Alocação de tempo por status"
-
-#: tpl/filters.html
-#: tpl/project_info.html
-msgid "Set project filters"
-msgstr "Definir filtros de projeto"
-
-#: tpl/team_activity_report.html
-msgid "Weekly Activity"
-msgstr "Atividade semanal"
-
-#: tpl/team_activity_report.html
-#: tpl/time_tracking.html
-#: tpl/export_csv_weekly.html
-msgid "Week"
-msgstr "Semana"
-
-#: tpl/team_activity_report.html
-#: tpl/time_tracking.html
-msgid "Previous week"
-msgstr "Semana anterior"
-
-#: tpl/team_activity_report.html
-#: tpl/time_tracking.html
-msgid "Next week"
-msgstr "Próxima semana"
-
-#: tpl/team_activity_report.html
-#: tpl/project_activity_report.html
-#: tpl/project_info.html
-msgid "Detailed"
-msgstr "Detalhar"
-
-#: tpl/team_activity_report.html
-msgid "sum(Backlog) of assigned tasks"
-msgstr "soma(Backlog) dos atribuído atuais"
-
-#: tpl/team_activity_report.html
-msgid "Workload"
-msgstr "carga"
-
-#: tpl/team_activity_report.html
-#: tpl/project_activity_report.html
-msgid "Target version"
-msgstr "Meta da versão"
-
-#: tpl/team_activity_report.html
-#: tpl/productivity_report.html
 #: tpl/project_activity_report.html
 msgid "Total"
 msgstr "Total"
 
+#: tpl/team_monthly_activity_report.html
+#: tpl/productivity_report.html
+#: tpl/export_csv_weekly.html
+#: tpl/command_info.html
+#: tpl/export_odt.html
+#: tpl/holidays_report.html
+#: tpl/issue_info.html
+#: tpl/export_csv_monthly.html
 #: tpl/team_activity_report.html
-#: tpl/time_tracking.html
-msgid "Missing dates"
-msgstr "Campos faltantes"
-
-#: tpl/team_activity_report.html
-#: tpl/project_activity_report.html
-#: tpl/statistics.html
-#: tpl/gantt_report.html
-msgid "Sorry, you do NOT have access to this page."
-msgstr "Desculpe, você nao tem acesso a esta página."
-
-#: tpl/create_team.html
-#: tpl/time_tracking.html
-#: tpl/edit_team.html
-#: tpl/edit_holidays.html
 #: tpl/set_holidays.html
-#: tpl/import_issues.html
-#: tpl/edit_jobs.html
-msgid "Some fields are missing:"
-msgstr "Alguns campos estão faltando:"
-
-#: tpl/create_team.html
-msgid "Team Name"
-msgstr "Nome da equipe"
-
-#: tpl/create_team.html
-msgid "Team Description"
-msgstr "Descrição da equipe"
-
-#: tpl/create_team.html
-msgid "Team Leader"
-msgstr "Gerente da equipe"
-
-#: tpl/create_team.html
-#: tpl/servicecontract_info.html
-#. add <team> SideTaskProject
-msgid "SideTasks"
-msgstr "SideTasks"
-
-#: tpl/create_team.html
-msgid "Team Info"
-msgstr "Descrição da equipe"
-
-#: tpl/create_team.html
-#: tpl/time_tracking.html
-#: tpl/command_edit.html
-#: tpl/edit_team.html
-#: tpl/edit_holidays.html
-#: tpl/servicecontract_edit.html
-#: tpl/commandset_edit.html
-msgid "Description"
-msgstr "Descrição"
-
-#: tpl/create_team.html
-msgid "SideTasks Project"
-msgstr "Projeto de tarefas correlatas"
-
-#: tpl/create_team.html
-msgid "Add common ExternalTasks Project"
-msgstr "Adicionar projeto de casos externos"
-
-#: tpl/create_team.html
-msgid "Create specific SideTask Project"
-msgstr "Criar um proeto específico para casos recorrelatos"
-
-#: tpl/create_team.html
-msgid ""
-"WARNING: Disabling SideTasks project creation is generaly NOT a good idea,so "
-"don't do it unless you know exactly what you are doing."
-msgstr ""
-"ATENÇÃO: Desabilitar o projeto de casos correlatos geralmente não é uma boa "
-"idéia, pois assim você não sabe exatamente o que você está fazendo."
-
-#: tpl/create_team.html
-msgid "Project Name"
-msgstr "Nome do projeto"
-
-#: tpl/create_team.html
-msgid "Categories"
-msgstr "Categorias"
-
-#: tpl/create_team.html
-#: tpl/productivity_report.html
-#. 4) --- add SideTaskProject Categories
-#: reports/productivity_report.php:73
-msgid "Project Management"
-msgstr "Gerenciamento projeto"
-
-#: tpl/create_team.html
-msgid "Meeting, Pre-sales, ProjectManagement, ..."
-msgstr "Reunião, orçamentos, gerenciamento do projeto, ..."
-
-#: tpl/create_team.html
-msgid "Effort Provision"
-msgstr "Precisão de esforço"
-
-#: tpl/create_team.html
-msgid "Budget for Management,Garantie,Risk..."
-msgstr "Orçamento do projeto, Garantias,Riscos..."
-
-#: tpl/create_team.html
-msgid "Incident"
-msgstr "Incidente"
-
-#: tpl/create_team.html
-msgid "Server or Platform down, ..."
-msgstr "Servidor inacessível, ..."
-
-#: tpl/create_team.html
-#: install/install_step3.php:208
-msgid "Tools"
-msgstr "Ferramentas"
-
-#: tpl/create_team.html
-msgid "Sys. Admin, Scritps, ..."
-msgstr "Admin Sys, Scripts, ..."
-
-#: tpl/create_team.html
-msgid "Team Workshop"
-msgstr "Grupo de trabalho"
-
-#: tpl/create_team.html
-msgid "Support, Doc, Training, Wiki, ..."
-msgstr "Suporte, Doc, Formatação, Wiki, ..."
-
-#: tpl/create_team.html
-#: tpl/plugin/activity_indicator_ajax1.html
-#: indicator_plugins/activity_indicator.class.php:216
-#: install/install_step3.php:207 timetracking/holidays_report.php:151
-msgid "Inactivity"
-msgstr "Inatividade"
-
-#: tpl/create_team.html
-msgid "On Duty, other special cases"
-msgstr "de plantão, outros casos especiais"
-
-#: tpl/create_team.html
-msgid "Custom Fields"
-msgstr "Campos personalizados"
-
-#: tpl/create_team.html
-msgid "CodevTT custom fields"
-msgstr "Campos CodevTT"
-
-#: tpl/create_team.html
-msgid "MgrEffortEstim, EffortEstim, AddEffort, Backlog, DeadLine, DeliveryDate"
-msgstr ""
-"gerenciar esforço, adicionar esforço, Backlog, Vencimento, Data de entrega"
-
-#: tpl/create_team.html
-msgid "(generic) Project Management"
-msgstr "(geral) Gerenciamento do projeto"
-
-#: tpl/create_team.html
-msgid "(generic) Meeting"
-msgstr "(geral) Reunião"
-
-#: tpl/create_team.html
-msgid "(generic) Network is down"
-msgstr "(geral) Problemas técnicos"
-
-#: tpl/create_team.html
-msgid "(generic) Compilation Scripts"
-msgstr "(Geral) Scripts de compilação"
-
-#: tpl/create_team.html
-msgid "(generic) Update team WIKI"
-msgstr "(Geral) Documentação WIKI"
-
-#: tpl/create_team.html
-#. ------ Display Empty Command Form
-#. Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
-#. Display Empty Command Form
-#. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
-#: management/servicecontract_edit.php:95 management/commandset_edit.php:99
-msgid "Create"
-msgstr "Criar"
-
-#: tpl/export_csv_monthly.html
-msgid "Monthly report"
-msgstr "Relatório mensal"
-
-#: tpl/export_csv_monthly.html
-#: tpl/productivity_report.html
-#: tpl/project_activity_report.html
-#: tpl/statistics.html
-#: tpl/gantt_report.html
-msgid "Compute"
-msgstr "Calcular"
-
-#: tpl/export_csv_monthly.html
-msgid "Issues form Team projects, including issues assigned to other teams"
-msgstr ""
-"Projetos da equipe, incluindo as tarefas atribuídas a membros de outras "
-"equipes"
-
-#: tpl/export_csv_monthly.html
-msgid "Export Managed Issues"
-msgstr "Exportar casos Mantis "
-
-#: tpl/export_csv_monthly.html
-msgid "Export"
-msgstr "Exportar"
-
-#: tpl/export_csv_monthly.html
-msgid "Export Holidays "
-msgstr "Exportar feriados "
-
-#: tpl/export_csv_monthly.html
-#: tpl/uninstall.html
-#: tpl/prepare_project.html
-#: tpl/export_csv_weekly.html
-msgid "Done"
-msgstr "Finalizado"
-
-#: tpl/export_csv_monthly.html
-#: tpl/export_csv_weekly.html
-msgid "Results in"
-msgstr "Resultados em "
-
-#: tpl/export_csv_monthly.html
+#: tpl/planning_report.html
 #: tpl/check.html
-#: tpl/export_csv_weekly.html
-msgid "Sorry, you do NOT have access to this page"
-msgstr "Desculpe, você não possui permissão de acesso a esta página"
+#: tpl/forecasting_report.html
+#: tpl/import_issues.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#: tpl/time_tracking.html
+#: tpl/gantt_report.html
+#: tpl/mantis_reports.html
+#: tpl/project_activity_report.html
+#: tpl/project_info.html
+msgid "Please select a team to access this page."
+msgstr "Desculpe, voce precisar ser menbro do grupo para acessar esta página."
+
+#: tpl/logs.html
+msgid "Line"
+msgstr "Linha"
+
+#: tpl/logs.html
+msgid "Log"
+msgstr "Log"
 
 #: tpl/productivity_report.html
 msgid "Production days"
@@ -1283,9 +233,16 @@ msgid "Productivity indicators"
 msgstr "Indicadores de produção"
 
 #: tpl/productivity_report.html
+#: tpl/forecasting_report.html
 #: tpl/statistics.html
 msgid "Adherence to deadlines"
 msgstr "Cumprimento dos prazos"
+
+#: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+#: tpl/statistics.html
+msgid "Effort Deviation"
+msgstr "Desvio de esforço"
 
 #: tpl/productivity_report.html
 msgid "Reopened tasks"
@@ -1296,9 +253,28 @@ msgid "Production Days"
 msgstr "Dias de produção"
 
 #: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+#: tpl/statistics.html
+msgid "Help"
+msgstr "Ajuda"
+
+#: tpl/productivity_report.html
+#: tpl/issue_info.html
+#: tpl/ajax/projectDetails.html
+msgid "Nb Days"
+msgstr "Nb dias"
+
+#: tpl/productivity_report.html
 #: tpl/edit_jobs.html
 msgid "Projects"
 msgstr "Projetos"
+
+#: tpl/productivity_report.html
+#: tpl/create_team.html
+#. 4) --- add SideTaskProject Categories
+#: reports/productivity_report.php:65
+msgid "Project Management"
+msgstr "Gerenciamento projeto"
 
 #: tpl/productivity_report.html
 msgid "Other SideTasks"
@@ -1335,6 +311,12 @@ msgid "number of days billed"
 msgstr "Número de dias faturados"
 
 #: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+#: tpl/statistics.html
+msgid "Formula"
+msgstr "Fórmula"
+
+#: tpl/productivity_report.html
 msgid "projects"
 msgstr "projetos"
 
@@ -1347,14 +329,31 @@ msgid "Not available."
 msgstr "Não disponível"
 
 #: tpl/productivity_report.html
-#. $titles[] = T_("Date");
-msgid "Progress Mgr"
-msgstr "Progresso Mgr"
+#: tpl/issue_info.html
+#: tpl/team_activity_report.html
+#: tpl/ajax/weekTaskDetails.html
+#: tpl/set_holidays.html
+#: tpl/edit_jobs.html
+#: tpl/time_tracking.html
+#: reports/export_csv_weekly.php:183
+msgid "Job"
+msgstr "Serviço"
 
 #: tpl/productivity_report.html
-#: tpl/ajax/generalInfo.html
 msgid "Indicator"
 msgstr "Indicador"
+
+#: tpl/productivity_report.html
+#: tpl/workflow.html
+#: tpl/edit_team.html
+#: tpl/forecasting_report.html
+msgid "Value"
+msgstr "Valor"
+
+#: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+msgid "Available Workload"
+msgstr "Capacidade de produção"
 
 #: tpl/productivity_report.html
 #: tpl/statistics.html
@@ -1364,6 +363,16 @@ msgstr "Taxa de eficiência"
 #: tpl/productivity_report.html
 msgid "System Availability"
 msgstr "Disponibilidade do sistema"
+
+#: tpl/productivity_report.html
+#, fuzzy
+msgid "MgrEffortEstim Reliability Rate"
+msgstr "MgrEffortEstim  Não especificado"
+
+#: tpl/productivity_report.html
+#, fuzzy
+msgid "EffortEstim Reliability Rate"
+msgstr "EffortEstim Não especificado"
 
 #: tpl/productivity_report.html
 msgid ""
@@ -1397,12 +406,97 @@ msgid "prodDays"
 msgstr "Dias de produção"
 
 #: tpl/productivity_report.html
+#: tpl/statistics.html
+#, fuzzy
+msgid "EffortEstim Reliability"
+msgstr "EffortEstim Não especificado"
+
+#: tpl/productivity_report.html
+#: tpl/statistics.html
+#, fuzzy
+msgid "Compares the effort estimation to the elapsed time."
+msgstr "Rapport entre le budget initial et le temps consommé sur les fiches"
+
+#: tpl/productivity_report.html
+#: tpl/statistics.html
+#, fuzzy
+msgid "(on resolved tasks only)"
+msgstr "Nenhum caso resolvido..."
+
+#: tpl/productivity_report.html
+#: tpl/statistics.html
+msgid ""
+"rate = 1 : estimation was perfect.<br>rate &lt; 1 : underestimated<br>rate "
+"&gt; 1 : overestimated"
+msgstr ""
+
+#: tpl/productivity_report.html
+#: tpl/command_info.html
+#: tpl/tools/wbsReader.html
+#: tpl/ajax/issueGeneralInfo.html
+#: tpl/planning_report.html
+#: tpl/forecasting_report.html
+#: tpl/statistics.html
+#: tpl/modal/update_issueBacklog.html
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:315
+#: reports/project_info.php:234 tools.php:1408
+msgid "EffortEstim"
+msgstr "Esforço inicial"
+
+#: tpl/productivity_report.html
+#: tpl/statistics.html
+#, fuzzy
+msgid "EffortAdd"
+msgstr "Esforço inicial"
+
+#: tpl/productivity_report.html
+#: tpl/statistics.html
+#: classes/consistency_check2.class.php:441
+#: classes/consistency_check.class.php:365
+msgid "elapsed"
+msgstr "decorridos"
+
+#: tpl/productivity_report.html
 msgid "Tasks having no deadLine are not reported here"
 msgstr "Casos sem vencimento não estão listados aqui"
 
 #: tpl/productivity_report.html
+#: tpl/command_edit.html
+#: tpl/command_info.html
+#: tpl/ajax/projectDetails.html
+#: tpl/planning_report.html
+#: tpl/forecasting_report.html
+#: tpl/servicecontract_info.html
+#: tpl/project_activity_report.html
+msgid "Tasks"
+msgstr "Casos"
+
+#: tpl/productivity_report.html
 msgid "Tasks NOT delivered on time"
 msgstr "Casos entregues após o vencimento"
+
+#: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+msgid "nb tasks"
+msgstr "núm de casos"
+
+#: tpl/productivity_report.html
+#: tpl/filters.html
+#: tpl/forecasting_report.html
+#: classes/time_tracking.class.php:483
+msgid "nb days"
+msgstr "núm. dias"
+
+#: tpl/productivity_report.html
+#: tpl/issue_info.html
+msgid "DeliveryDate"
+msgstr "Data entrega"
+
+#: tpl/productivity_report.html
+#: tpl/issue_info.html
+#: tpl/planning_report.html
+msgid "DeadLine"
+msgstr "Vencimento"
 
 #: tpl/productivity_report.html
 msgid "Tasks delivered on time"
@@ -1413,8 +507,37 @@ msgid "Task list for EffortEstim"
 msgstr "Lista de casos para definir o esforço"
 
 #: tpl/productivity_report.html
-msgid "EffortDeviation - Tasks resolved in the period"
+#, fuzzy
+msgid "Note: Drift on tasks resolved in the period"
 msgstr "Desvio de esforço - Casos resolvidos no período"
+
+#: tpl/productivity_report.html
+#, fuzzy
+msgid "Drift - All tasks"
+msgstr "Desvio em casos resolvidos"
+
+#: tpl/productivity_report.html
+#: tpl/command_info.html
+#: tpl/tools/wbsReader.html
+#: tpl/ajax/issueGeneralInfo.html
+#: tpl/forecasting_report.html
+#: tpl/statistics.html
+#: tpl/modal/update_issueBacklog.html
+#: tpl/index.html
+#: tpl/project_info.html
+#: classes/issue.class.php:2171
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:262
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:320
+#: reports/productivity_report_tools.php:45 reports/project_info.php:182
+#: reports/project_info.php:239 reports/project_info.php:290
+#: reports/project_info.php:303 tools.php:227
+msgid "Drift"
+msgstr "Desvio"
+
+#: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+msgid "Overflow day quantity"
+msgstr "Num de dias de atraso"
 
 #: tpl/productivity_report.html
 msgid "Computed on task Resolved/Closed in the given period"
@@ -1425,27 +548,220 @@ msgid "Reopened tasks are not taken into account"
 msgstr "Casos reabertos não estão sendo considerados"
 
 #: tpl/productivity_report.html
-#: classes/consistency_check2.class.php:370
-#: classes/consistency_check.class.php:374
-msgid "elapsed"
-msgstr "decorridos"
+#: tpl/forecasting_report.html
+msgid "If < 0 then ahead on planning."
+msgstr "Se negativo, avance no planejamento."
 
 #: tpl/productivity_report.html
-#: tpl/statistics.html
-msgid "EffortEstim"
-msgstr "Esforço inicial"
+#: tpl/forecasting_report.html
+#: tpl/index.html
+#: tpl/project_info.html
+msgid "Tasks in drift"
+msgstr "Casos à deriva"
+
+#: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+msgid "Tasks for which the elapsed time is greater than the estimated effort"
+msgstr "Casos que estão maiores que o esforço previsto"
 
 #: tpl/productivity_report.html
 msgid "drift"
 msgstr "desvio"
 
 #: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+msgid "Tasks in time"
+msgstr "Tarefas cumpridas"
+
+#: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+msgid "Tasks resolved in time"
+msgstr "Tarefas resolvidas no período"
+
+#: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+msgid "Tasks ahead"
+msgstr "Próximas tarefas"
+
+#: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+msgid "Tasks resolved in less time than the estimated effort"
+msgstr "Casos resolvidos antes do tempo previsto"
+
+#: tpl/productivity_report.html
 msgid "Effort deviation"
 msgstr "Desvio"
 
 #: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+msgid "Manager Estimation"
+msgstr "Carga prevista pelo gerente"
+
+#: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+msgid "Manager"
+msgstr "Gerente"
+
+#: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+msgid "Tasks Mgr"
+msgstr "Casos Mgr"
+
+#: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+msgid "EffortDeviation"
+msgstr "Desvio"
+
+#: tpl/productivity_report.html
+#: tpl/command_info.html
+#: tpl/tools/wbsReader.html
+#: tpl/ajax/issueGeneralInfo.html
+#: tpl/planning_report.html
+#: tpl/forecasting_report.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:314
+#: reports/export_csv_tools.php:60 reports/project_info.php:233
+#: tests/filters.php:68 tools.php:1405
+msgid "MgrEffortEstim"
+msgstr "Esforço estinado Mgr"
+
+#: tpl/productivity_report.html
 msgid "No resolved tasks..."
 msgstr "Nenhum caso resolvido..."
+
+#: tpl/productivity_report.html
+#: tpl/command_edit.html
+#: tpl/command_info.html
+#: tpl/forecasting_report.html
+#: tpl/servicecontract_info.html
+#: tpl/time_tracking.html
+#: tpl/modal/select_issues.html
+#: tpl/index.html
+#: tpl/project_info.html
+msgid "ID"
+msgstr "ID"
+
+#: tpl/productivity_report.html
+#: tpl/command_info.html
+#: tpl/modal/select_issues.html
+#: reports/export_csv_tools.php:50
+msgid "ExtRef"
+msgstr "RefExt"
+
+#: tpl/productivity_report.html
+#: tpl/command_info.html
+#: tpl/tools/wbsReader.html
+#: tpl/ajax/issueGeneralInfo.html
+#: tpl/forecasting_report.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:258
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:316
+#: reports/project_info.php:178 reports/project_info.php:235
+#: tests/filters.php:69
+msgid "Reestimated"
+msgstr "Reestimado"
+
+#: tpl/productivity_report.html
+#: tpl/command_info.html
+#: tpl/tools/wbsReader.html
+#: tpl/ajax/issueGeneralInfo.html
+#: tpl/forecasting_report.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#: tpl/modal/update_issueBacklog.html
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:317
+#: indicator_plugins/ActivityIndicator/ActivityIndicator.class.php:276
+#: reports/productivity_report_tools.php:43
+#: reports/productivity_report_tools.php:81 reports/project_info.php:236
+#: tests/filters.php:70
+msgid "Elapsed"
+msgstr "decorrido"
+
+#: tpl/productivity_report.html
+#: tpl/command_info.html
+#: tpl/team_activity_report.html
+#: tpl/ajax/weekTaskDetails.html
+#: tpl/forecasting_report.html
+#: tpl/project_activity_report.html
+#: tpl/index.html
+#: tpl/project_info.html
+#: reports/export_csv_weekly.php:141 reports/export_csv_tools.php:64
+msgid "BL"
+msgstr "BL"
+
+#: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+#: tpl/project_info.html
+msgid "Drift relatively to the managers Estimation"
+msgstr "Desvio relativo ao esforço previsto pelo gerente"
+
+#: tpl/productivity_report.html
+#: tpl/command_info.html
+#: tpl/tools/wbsReader.html
+#: tpl/ajax/issueGeneralInfo.html
+#: tpl/forecasting_report.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#: tpl/statistics.html
+#: tpl/project_info.html
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:261
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:319
+#: reports/project_info.php:181 reports/project_info.php:238
+#: tests/filters.php:72
+msgid "Drift Mgr"
+msgstr "Desvio Mgr"
+
+#: tpl/productivity_report.html
+#: tpl/forecasting_report.html
+#: tpl/project_info.html
+msgid "Drift relatively to (EE + AddEE)"
+msgstr "Desvio relativo ao BI + BS"
+
+#: tpl/productivity_report.html
+#: tpl/command_info.html
+#: tpl/export_odt.html
+#: tpl/edit_team.html
+#: tpl/issue_info.html
+#: tpl/planning_report.html
+#: tpl/check.html
+#: tpl/forecasting_report.html
+#: tpl/time_tracking.html
+#: tpl/modal/update_issueBacklog.html
+#: tpl/modal/select_issues.html
+#: tpl/project_activity_report.html
+#: tpl/project_info.html
+#: classes/wbsElement.class.php:583 reports/export_csv_tools.php:52
+#: reports/project_info.php:302 tools.php:1473
+msgid "Status"
+msgstr "Status"
+
+#: tpl/productivity_report.html
+msgid "Drift - Tasks (ExtRefOnly)"
+msgstr ""
+
+#: tpl/productivity_report.html
+msgid "Drift (ExtRefOnly)"
+msgstr ""
+
+#: tpl/productivity_report.html
+msgid "Drift ExtRefOnly"
+msgstr ""
+
+#: tpl/productivity_report.html
+msgid "Tasks without ExternalRef are excluded"
+msgstr ""
+
+#: tpl/productivity_report.html
+#, fuzzy
+msgid "Reopened tasks are not included"
+msgstr "Casos reabertos não estão sendo considerados"
+
+#: tpl/productivity_report.html
+#, fuzzy
+msgid "No Drift on External tasks."
+msgstr "Exibir casos externos"
 
 #: tpl/productivity_report.html
 msgid "nb resolved"
@@ -1467,197 +783,158 @@ msgstr "Taxa"
 msgid "tasks having been reopened in the period"
 msgstr "Casos reabertos no período"
 
-#: tpl/doc.html
-msgid "Reporter un bug / Demander un &eacute;volution"
-msgstr "Reportar um bug / Demandar uma evolução"
-
-#: tpl/doc.html
-msgid ""
-"Pour reporter des bug sur CodevTT ou demander des &eacute;volutions merci de "
-"vous rendre sur:"
-msgstr ""
-"Pour reporter des bug sur CodevTT ou demander des évolutions merci de vous "
-"rendre sur:"
-
-#: tpl/doc.html
-msgid "(none)"
-msgstr "(nenhum)"
-
-#: tpl/doc.html
-msgid "N'oubliez pas de mentionner vos coordon&eacute;es pour tout retour."
-msgstr "N'oubliez pas de mentionner vos coordonées pour tout retour."
-
-#: tpl/mantis_reports.html
-msgid "Bilan mensuel SAUF SuiviOp."
-msgstr "Saldo mensal exceto SuiviOp"
-
-#: tpl/mantis_reports.html
-msgid "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
-msgstr "Saldo mensal (número de registos / estado, no final do mês)"
-
-#: tpl/project_activity_report.html
-msgid "Total time spent on this issue"
-msgstr "Tempo total gasto neste caso"
-
-#: tpl/time_tracking.html
 #: tpl/command_edit.html
-#: tpl/edit_team.html
-#: tpl/servicecontract_edit.html
-#: tpl/set_holidays.html
+msgid "New command"
+msgstr "Novo comando"
+
+#: tpl/command_edit.html
 #: tpl/commandset_edit.html
+#: tpl/holidays_report.html
+#: tpl/edit_team.html
+#: tpl/menu/global_menu.html
+#: tpl/import_issues.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#: tpl/form/teamForm.html
+#: tpl/form/teamSelector.html
+#: tpl/servicecontract_edit.html
+#: graphs/gantt_graph.php:97 graphs/gantt_graph.php:99
+msgid "Team"
+msgstr "Equipe"
+
+#: tpl/command_edit.html
+#: tpl/commandset_edit.html
+#: tpl/edit_team.html
+#: tpl/set_holidays.html
+#: tpl/modal/change_managedUser.html
+#: tpl/servicecontract_edit.html
 msgid "Name"
 msgstr "Nome"
 
-#: tpl/time_tracking.html
-msgid "ERROR"
-msgstr "ERRO"
-
-#: tpl/time_tracking.html
-msgid "Query FAILED"
-msgstr "Query ERRO"
-
-#: tpl/time_tracking.html
-#: tpl/planning_report.html
-msgid "Duration"
-msgstr "Duração"
-
-#: tpl/time_tracking.html
-#: tpl/form/dateRangeSelector.html
-msgid "From"
-msgstr "de"
-
-#: tpl/time_tracking.html
-#: tpl/set_holidays.html
-#. --- define the list of tasks the user can display
-#. All projects from teams where I'm a Developper or Manager AND Observer
-#: reports/issue_info.php:46 smarty_tools_ajax.php:43
-msgid "(all)"
-msgstr "(todos)"
-
-#: tpl/time_tracking.html
-msgid "Set filters"
-msgstr "Filtrar casos"
-
-#: tpl/time_tracking.html
-msgid "Duration (in days)"
-msgstr "Duração (em dias)"
-
-#: tpl/time_tracking.html
-msgid "Week Imputations"
-msgstr "quebra semanal"
-
-#: tpl/time_tracking.html
-msgid "Ext.ID"
-msgstr "Ref.Ext"
-
-#: tpl/time_tracking.html
-#: tpl/edit_team.html
-msgid "delete this row"
-msgstr "apagar esta linha"
-
-#: tpl/time_tracking.html
-msgid "Future Imputations"
-msgstr "Quebras futuras"
-
-#: tpl/time_tracking.html
-#: tpl/form/projectFilterDialogbox.html
-msgid "Task Filters"
-msgstr "Filtros"
-
-#: tpl/time_tracking.html
-msgid "Reduce the tasks selection by setting some filters"
-msgstr "Reduzir a seleção de casos adicionando alguns filtros"
-
-#: tpl/time_tracking.html
-msgid "Hide tasks not assigned to me"
-msgstr "Ocultar casos não atribuidos a mim"
-
-#: tpl/time_tracking.html
-msgid "Hide resolved tasks"
-msgstr "Ocultar casos resolvidos"
-
-#: tpl/time_tracking.html
 #: tpl/command_edit.html
+#: tpl/commandset_edit.html
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#: tpl/servicecontract_edit.html
+msgid "Reference"
+msgstr "Referencia"
+
+#: tpl/command_edit.html
+#: tpl/command_info.html
+#: tpl/servicecontract_info.html
+#: tpl/servicecontract_edit.html
+msgid "Version"
+msgstr "Versão"
+
+#: tpl/command_edit.html
+#: tpl/command_info.html
+#: tpl/team_activity_report.html
+#: tpl/servicecontract_info.html
+#: tpl/servicecontract_edit.html
+msgid "Reporter"
+msgstr "Relator"
+
+#: tpl/command_edit.html
+#: tpl/commandset_edit.html
+#: tpl/command_info.html
+#: tpl/create_team.html
+#: tpl/edit_team.html
+#: tpl/issue_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#: tpl/time_tracking.html
+#: tpl/edit_holidays.html
+#: tpl/servicecontract_edit.html
+msgid "Description"
+msgstr "Descrição"
+
+#: tpl/command_edit.html
+#: tpl/command_info.html
+#: tpl/servicecontract_info.html
+#: tpl/servicecontract_edit.html
+#: reports/export_csv_tools.php:54
+msgid "Start date"
+msgstr "Data inicial"
+
+#: tpl/command_edit.html
+#: tpl/command_info.html
+#: tpl/servicecontract_info.html
+#: tpl/servicecontract_edit.html
+msgid "End date"
+msgstr "Date Fin"
+
+#: tpl/command_edit.html
+#: tpl/forecasting_report.html
 #: tpl/import_issues.html
+#: tpl/modal/update_issueBacklog.html
 msgid "Deadline"
 msgstr "Vencimento"
 
-#: tpl/time_tracking.html
-#: tpl/ajax/generalInfo.html
-msgid "Estimated effort"
-msgstr "Esforço estimado"
-
-#: tpl/time_tracking.html
-msgid "Delete track"
-msgstr "Apagar pista/track"
-
-#: tpl/time_tracking.html
-msgid "Deleted the following timetrack ?"
-msgstr "Apagar o registro de tempo a seguir ?"
-
-#: tpl/time_tracking.html
 #: tpl/command_edit.html
-#: tpl/edit_team.html
+#: tpl/command_info.html
+#: tpl/servicecontract_info.html
 #: tpl/servicecontract_edit.html
+msgid "State"
+msgstr "Estado"
+
+#: tpl/command_edit.html
+#: tpl/command_info.html
+#, fuzzy
+msgid "Sold Charge"
+msgstr "Encargos"
+
+#: tpl/command_edit.html
 #: tpl/commandset_edit.html
-msgid "Id"
-msgstr "Id"
+#: tpl/command_info.html
+#: tpl/issue_info.html
+#: tpl/planning_report.html
+#: classes/consistency_check2.class.php:679 classes/scheduler.class.php:74
+msgid "days"
+msgstr "dias"
 
-#: tpl/servicecontract_info.html
-msgid "--- Create New ServiceContract ---"
-msgstr "-- Criar um novo Contrato de Serviço ---"
-
-#: tpl/servicecontract_info.html
-#: tpl/form/dateRangeSelector.html
-msgid "Start Date"
-msgstr "Data inicial"
-
-#: tpl/servicecontract_info.html
-msgid "End Date"
-msgstr "Data Final"
-
-#: tpl/servicecontract_info.html
 #: tpl/command_edit.html
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+msgid "Average Daily Rate"
+msgstr "Taux Journalier Moyen"
+
+#: tpl/command_edit.html
+#: tpl/command_info.html
+#, fuzzy
+msgid "Default ADR"
+msgstr "Número de cargos"
+
+#: tpl/command_edit.html
+#: tpl/commandset_edit.html
+msgid "EUR"
+msgstr "Reais"
+
+#: tpl/command_edit.html
+#: tpl/commandset_edit.html
+#: tpl/edit_team.html
+#: tpl/tools/wbsEditor.html
 #: tpl/servicecontract_edit.html
-msgid "CommandSets"
-msgstr "CommandSets"
+#. TODO only if i'm the owner
+msgid "Delete"
+msgstr "Apagar"
 
-#: tpl/servicecontract_info.html
-msgid "Go to"
-msgstr "Ir para"
+#: tpl/command_edit.html
+#: tpl/commandset_edit.html
+#, fuzzy
+msgid "Field is missing"
+msgstr "Alguns campos estão faltando:"
 
-#: tpl/servicecontract_info.html
-#: tpl/commandset_info.html
-#: tpl/plugin/activity_indicator_ajax1.html
-msgid "TOTAL"
-msgstr "TOTAL"
+#: tpl/command_edit.html
+#, fuzzy
+msgid "Command name"
+msgstr "Comando"
 
-#: tpl/servicecontract_info.html
-msgid "No CommandSet found."
-msgstr "Não há conjunto de Comando."
-
-#: tpl/servicecontract_info.html
-#: tpl/commandset_info.html
-msgid "No Command found."
-msgstr "Comando não localizado."
-
-#: tpl/servicecontract_info.html
-msgid "No sidetasks found."
-msgstr "Não há casos relacionados "
-
-#: tpl/servicecontract_info.html
-msgid "All tasks"
-msgstr "Todos os casos"
-
-#: tpl/servicecontract_info.html
-msgid "No Total found."
-msgstr "Total não localizado."
-
-#: tpl/servicecontract_info.html
-msgid "Note: SideTasks already defined in Commands are not displayed."
+#: tpl/command_edit.html
+#: tpl/commandset_edit.html
+msgid "Not a number"
 msgstr ""
-"Nota: Estes casos relacionados estão definidos em comandos e não serão "
-"exibidos"
 
 #: tpl/command_edit.html
 msgid "Delete Command"
@@ -1672,33 +949,77 @@ msgid "Nb tasks"
 msgstr "Núm casos"
 
 #: tpl/command_edit.html
-#: tpl/commandset_edit.html
-msgid "EUR"
-msgstr "Reais"
-
-#: tpl/command_edit.html
-#: tpl/edit_team.html
+#: tpl/servicecontract_info.html
 #: tpl/servicecontract_edit.html
-#: tpl/commandset_edit.html
-#. TODO only if i'm the owner
-msgid "Delete"
-msgstr "Apagar"
+msgid "CommandSets"
+msgstr "CommandSets"
 
 #: tpl/command_edit.html
-msgid "Missing field"
-msgstr "Campos faltante"
+#: tpl/command_info.html
+#, fuzzy
+msgid "WBS"
+msgstr "BS"
+
+#: tpl/command_edit.html
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#, fuzzy
+msgid "Provisions"
+msgstr "Provisão"
+
+#: tpl/command_edit.html
+#, fuzzy
+msgid "Parent CommandSets"
+msgstr "CommandSets"
 
 #: tpl/command_edit.html
 msgid "task id"
 msgstr "id caso"
 
 #: tpl/command_edit.html
+msgid "Missing field"
+msgstr "Campos faltante"
+
+#: tpl/command_edit.html
 msgid "Add task"
 msgstr "Adicionar um caso"
 
 #: tpl/command_edit.html
+#: tpl/commandset_edit.html
+#: tpl/edit_team.html
+#: tpl/menu/global_menu.html
+#: tpl/set_holidays.html
+#: tpl/edit_jobs.html
+#: tpl/time_tracking.html
+#: tpl/edit_holidays.html
+#: tpl/servicecontract_edit.html
+msgid "Add"
+msgstr "Adicionar"
+
+#: tpl/command_edit.html
 msgid "Create the Command to add some tasks."
 msgstr "Criar o comando para adicionar alguns casos"
+
+#: tpl/command_edit.html
+#: tpl/command_info.html
+#: tpl/team_activity_report.html
+#: tpl/modal/select_issues.html
+#: tpl/project_activity_report.html
+#: tpl/project_info.html
+#: classes/issue.class.php:2197 tools.php:1479
+msgid "Target"
+msgstr "Meta"
+
+#: tpl/command_edit.html
+msgid "delete Command-Task association"
+msgstr "apagar associação de casos de comandos"
+
+#: tpl/command_edit.html
+#: tpl/commandset_edit.html
+#: tpl/servicecontract_edit.html
+msgid "Remove"
+msgstr "Remover"
 
 #: tpl/command_edit.html
 msgid "Remove Task"
@@ -1709,12 +1030,35 @@ msgid "Remove Task from this Command ?"
 msgstr "Remover caso deste comando ?"
 
 #: tpl/command_edit.html
-msgid "delete Command-Task association"
-msgstr "apagar associação de casos de comandos"
+#: tpl/commandset_edit.html
+#: tpl/edit_team.html
+#: tpl/time_tracking.html
+#: tpl/servicecontract_edit.html
+msgid "Id"
+msgstr "Id"
 
 #: tpl/command_edit.html
 msgid "Create the Command before assigning it to a CommandSet."
 msgstr "Criar um Comando antes de atribuir a um conjunto de comando"
+
+#: tpl/command_edit.html
+#: tpl/servicecontract_info.html
+msgid "No CommandSet found."
+msgstr "Não há conjunto de Comando."
+
+#: tpl/command_edit.html
+#: tpl/command_info.html
+#: tpl/menu/global_menu.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#: tpl/servicecontract_edit.html
+msgid "CommandSet"
+msgstr "Conjunto de comandos"
+
+#: tpl/command_edit.html
+#: tpl/commandset_edit.html
+msgid "delete CommandSet-Command association"
+msgstr "remover associação de commando do grupo de comando"
 
 #: tpl/command_edit.html
 #: tpl/servicecontract_edit.html
@@ -1726,21 +1070,201 @@ msgid "Remove this Command from the CommandSet ?"
 msgstr "Remover este Comando do grupo de Comando?"
 
 #: tpl/command_edit.html
-#: tpl/commandset_edit.html
-msgid "delete CommandSet-Command association"
-msgstr "remover associação de commando do grupo de comando"
-
-#: tpl/command_edit.html
 msgid "Create the Command first."
 msgstr "Crie o comando antes de adicionar casos"
 
-#: tpl/logs.html
-msgid "Line"
-msgstr "Linha"
+#: tpl/command_edit.html
+msgid "Provisions successfully updated."
+msgstr ""
 
-#: tpl/logs.html
-msgid "Log"
-msgstr "Log"
+#: tpl/command_edit.html
+#: tpl/export_odt.html
+msgid "errorThrown"
+msgstr "errorThrown"
+
+#: tpl/command_edit.html
+#, fuzzy
+msgid "Add Provision"
+msgstr "Provisão"
+
+#: tpl/command_edit.html
+#: tpl/tools/wbsEditor.html
+#: management/commandset_edit.php:126 management/command_edit.php:205
+#: management/servicecontract_edit.php:141
+msgid "Save"
+msgstr "Enregistrer"
+
+#: tpl/command_edit.html
+#: tpl/commandset_edit.html
+#: tpl/command_info.html
+#: tpl/edit_team.html
+#: tpl/team_activity_report.html
+#: tpl/planning_report.html
+#: tpl/forecasting_report.html
+#: tpl/import_issues.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#: tpl/statistics.html
+#: tpl/time_tracking.html
+#: tpl/edit_holidays.html
+#: tpl/mantis_reports.html
+msgid "Date"
+msgstr "Data"
+
+#: tpl/command_edit.html
+#: tpl/command_info.html
+#: tpl/edit_team.html
+#: tpl/issue_info.html
+#: tpl/edit_jobs.html
+#: tpl/import_issues.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+msgid "Type"
+msgstr "Tipo"
+
+#: tpl/command_edit.html
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#, fuzzy
+msgid "Budget Days"
+msgstr "Orçamento"
+
+#: tpl/command_edit.html
+#: tpl/commandset_edit.html
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+msgid "Budget"
+msgstr "Orçamento"
+
+#: tpl/command_edit.html
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+msgid "ADR"
+msgstr ""
+
+#: tpl/command_edit.html
+msgid "add to budget check"
+msgstr ""
+
+#: tpl/command_edit.html
+#, fuzzy
+msgid "delete Provision"
+msgstr "Provisão"
+
+#: tpl/command_edit.html
+msgid "Add to 'check budget'"
+msgstr ""
+
+#: tpl/command_edit.html
+#, fuzzy
+msgid "Delete Provision"
+msgstr "Provisão"
+
+#: tpl/command_edit.html
+#, fuzzy
+msgid "Delete from the Command ?"
+msgstr "Remover este comando?"
+
+#: tpl/command_edit.html
+#: tpl/commandset_edit.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#: tpl/servicecontract_edit.html
+#, fuzzy
+msgid "Sorry, only managers can access this page."
+msgstr "Você deve ser um gerente de equipe para acessar esta pagina."
+
+#: tpl/commandset_edit.html
+#, fuzzy
+msgid "New command set"
+msgstr "Novo comando"
+
+#: tpl/commandset_edit.html
+msgid "Cost"
+msgstr "Custo"
+
+#: tpl/commandset_edit.html
+#: tpl/create_team.html
+#: tpl/edit_team.html
+#: tpl/set_holidays.html
+#: tpl/edit_jobs.html
+#: tpl/import_issues.html
+#: tpl/time_tracking.html
+#: tpl/edit_holidays.html
+#: tpl/servicecontract_edit.html
+msgid "Some fields are missing:"
+msgstr "Alguns campos estão faltando:"
+
+#: tpl/commandset_edit.html
+#, fuzzy
+msgid "Command set name"
+msgstr "Conjunto de comandos"
+
+#: tpl/commandset_edit.html
+msgid "Delete CommandSet"
+msgstr "Remover grupo de comandos"
+
+#: tpl/commandset_edit.html
+msgid "Delete this CommandSet ?"
+msgstr "Remover este grupo de comandos?"
+
+#: tpl/commandset_edit.html
+msgid "Nb Commands"
+msgstr "Núm de comandos"
+
+#: tpl/commandset_edit.html
+msgid "Service Contracts"
+msgstr "Contrato de Serviço"
+
+#: tpl/commandset_edit.html
+#: tpl/issue_info.html
+#: tpl/servicecontract_info.html
+msgid "Commands"
+msgstr "Comandos"
+
+#: tpl/commandset_edit.html
+msgid "--- New Command ---"
+msgstr "--- Novo Comando ---"
+
+#: tpl/commandset_edit.html
+msgid "Remove Command"
+msgstr "Remover Comando"
+
+#: tpl/commandset_edit.html
+msgid "Remove Command from this CommandSet ?"
+msgstr "Remover este comando do grupo de comando ?"
+
+#: tpl/commandset_edit.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_edit.html
+msgid "Ref"
+msgstr "Ref"
+
+#: tpl/commandset_edit.html
+#: tpl/menu/global_menu.html
+#: tpl/import_issues.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#: classes/consistency_check2.class.php:574
+msgid "Command"
+msgstr "Comando"
+
+#: tpl/commandset_edit.html
+msgid "Create the CommandSet to add some commands."
+msgstr "Criar um grupo de comandos para adicionar um comando"
+
+#: tpl/bvi.html
+#, fuzzy
+msgid "Average Backlog Variation"
+msgstr "Variação do BackLog"
+
+#: tpl/bvi.html
+#, fuzzy
+msgid "No data."
+msgstr "Sem dados"
 
 #: tpl/workflow.html
 msgid "Are you sure you want to change"
@@ -1791,150 +1315,456 @@ msgid "No configuration options defined, using default configuration."
 msgstr "Sem configuração definida, utilizando configuração padrão."
 
 #: tpl/workflow.html
-#: tpl/edit_holidays.html
-#: tpl/uninstall.html
+#: tpl/create_team.html
 #: tpl/prepare_project.html
 #: tpl/edit_jobs.html
+#: tpl/edit_holidays.html
+#: tpl/uninstall.html
+#: admin/logs.php:64
 msgid "Sorry, you need to be in the admin-team to access this page."
 msgstr "Desculpe, você deve ser membro do time-admin para acessar esta página."
 
+#: tpl/export_csv_weekly.html
+msgid "Weekly report"
+msgstr "Relatório semanal"
+
+#: tpl/export_csv_weekly.html
+#: tpl/team_activity_report.html
+#: tpl/time_tracking.html
+msgid "Week"
+msgstr "Semana"
+
+#: tpl/export_csv_weekly.html
+#: tpl/export_csv_monthly.html
+#: tpl/prepare_project.html
+#: tpl/uninstall.html
+msgid "Done"
+msgstr "Finalizado"
+
+#: tpl/export_csv_weekly.html
+#: tpl/export_csv_monthly.html
+msgid "Results in"
+msgstr "Resultados em "
+
+#: tpl/command_info.html
+#, fuzzy
+msgid "Set command filters"
+msgstr "Filtrar casos"
+
+#: tpl/command_info.html
+msgid "--- Create New Command ---"
+msgstr "-- Criar novo comando ---"
+
+#: tpl/command_info.html
+#: tpl/issue_info.html
+#: tpl/set_holidays.html
+#: tpl/filters.html
 #: tpl/commandset_info.html
-msgid "--- Create New CommandSet ---"
-msgstr "-- Criar um novo grupo de comandos ---"
+#: tpl/servicecontract_info.html
+#: tpl/project_info.html
+#, fuzzy
+msgid "Select"
+msgstr "Selecionar tudo"
 
-#: tpl/commandset_info.html
-msgid "Service Contract"
-msgstr "Contrato de Serviço"
+#: tpl/command_info.html
+#, fuzzy
+msgid "Command Filters"
+msgstr "Comandos"
 
-#: tpl/commandset_info.html
-#: tpl/servicecontract_edit.html
-#: tpl/commandset_edit.html
-msgid "Ref"
-msgstr "Ref"
+#: tpl/command_info.html
+#, fuzzy
+msgid "Reduce the command selection by setting some filters"
+msgstr "Reduzir a seleção de casos adicionando alguns filtros"
 
-#: tpl/statistics.html
-msgid "errorThrown"
-msgstr "errorThrown"
+#: tpl/command_info.html
+#, fuzzy
+msgid "Open task list in Mantis"
+msgstr "Import Fiches Mantis"
 
-#: tpl/statistics.html
-msgid "Start Year"
-msgstr "Ano inicio"
+#: tpl/command_info.html
+#, fuzzy
+msgid "MgrEffortEstim + Checked Provisions"
+msgstr "Precisão de esforço"
 
-#: tpl/statistics.html
-msgid "Submitted / Resolved Issues"
-msgstr "Reportados / Casos resolvidos"
+#: tpl/command_info.html
+#, fuzzy
+msgid "Reestimated (days)"
+msgstr "Reestimado"
 
-#: tpl/statistics.html
-msgid "Efficiency - System Disponibility"
-msgstr "Taxa de eficiência - Disponibilidade do sistema"
+#: tpl/command_info.html
+#, fuzzy
+msgid "Drift (days)"
+msgstr "Duração (em dias)"
 
-#: tpl/statistics.html
-msgid "Reopened Rate"
-msgstr "Taxa de reabertura"
+#: tpl/command_info.html
+#, fuzzy
+msgid "Drift (percent)"
+msgstr "pourcent"
 
-#: tpl/statistics.html
-msgid "Developers Workload"
-msgstr "Capacidade de desenvolvimento"
+#: tpl/command_info.html
+#, fuzzy
+msgid "Days"
+msgstr "Nb dias"
 
-#: tpl/statistics.html
-msgid "Submitted"
-msgstr "Reportados"
+#: tpl/command_info.html
+#, fuzzy
+msgid "Reestimated days * AverageDailyRate"
+msgstr "Taux Journalier Moyen"
 
-#: tpl/statistics.html
-msgid "Resolved"
-msgstr "Resolvidos"
+#: tpl/command_info.html
+#, fuzzy
+msgid "Drift days * AverageDailyRate"
+msgstr "Taux Journalier Moyen"
 
-#: tpl/statistics.html
-msgid "Nb of submitted tasks EXCEPT SideTasks and FDL"
-msgstr "Num de casos reportado EXCETO casos correlatos e FDL"
-
-#: tpl/statistics.html
-msgid "Nb submissions"
-msgstr "Num de relatos"
-
-#: tpl/statistics.html
-msgid "Nb of resolved tasks EXCEPT SideTasks and reopened tasks"
-msgstr "Num de casos resolvidos EXCETO casos correlatos e casos reabertos"
-
-#: tpl/statistics.html
-msgid "Nb Resolved"
-msgstr "Num resolvidos"
-
-#: tpl/statistics.html
-msgid "% Tasks"
-msgstr "% Casos"
-
-#: tpl/statistics.html
-msgid "Percentage of tasks delivered before the deadLine"
-msgstr "Percentual de casos entregues antes do vencimento"
-
-#: tpl/statistics.html
-msgid "% Tasks Delivered on time"
-msgstr "% casos entregues em tempo"
-
-#: tpl/statistics.html
-msgid "No Support"
-msgstr "Sem suporte"
-
-#: tpl/statistics.html
-#: reports/export_csv_tools.php:61
-msgid "BI"
-msgstr "BI"
-
-#: tpl/statistics.html
-#: reports/export_csv_tools.php:62
-msgid "BS"
-msgstr "BS"
-
-#: tpl/statistics.html
+#: tpl/command_info.html
 msgid ""
-"Exclude side tasks to get the percent of time spent working on the projects"
+"ERROR: The total charge (MgrEffortEstim + Provisions) should be equal to the "
+"'Sold Charge'"
 msgstr ""
-"Desconsiderar tarefas correlatas para obter o percentual de tempo de "
-"trabalho no projeto"
 
-#: tpl/statistics.html
-msgid "Efficiency"
-msgstr "Taxa de eficiência"
-
-#: tpl/statistics.html
-#, c-format
-msgid "% Efficiency"
-msgstr "% Eficiência"
-
-#: tpl/statistics.html
-#, c-format
-msgid "% Sys Disp."
-msgstr "% Disp Sys"
-
-#: tpl/statistics.html
-msgid "Sys Disp."
-msgstr "Sys Disp"
-
-#: tpl/statistics.html
-msgid "Number of reopened external tasks (tasks having an ExternalRef)."
+#: tpl/command_info.html
+msgid "balance"
 msgstr ""
-"Número de casos externos reabertos (casos que possuem referência externa)"
 
-#: tpl/statistics.html
-msgid "% Reopened"
-msgstr "% de retour"
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+msgid "Edit"
+msgstr "Editar"
 
-#: tpl/statistics.html
-msgid "Compare the number of reopened tasks to the number of resolved tasks"
-msgstr "Comparar o número de casos reabertos com o número de casos resolvidos"
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+msgid "Charges"
+msgstr "Encargos"
 
-#: tpl/statistics.html
-msgid "Nb Reopened"
-msgstr "Num reabertos"
+#: tpl/command_info.html
+#: tpl/issue_info.html
+#: tpl/planning_report.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+msgid "Attributes"
+msgstr "Propriedades"
+
+#: tpl/command_info.html
+#: tpl/menu/global_menu.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+msgid "Activity"
+msgstr "Atividade"
+
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+msgid "Indicators"
+msgstr "Indicadores"
+
+#: tpl/command_info.html
+#, fuzzy
+msgid "Tasks & Provisions"
+msgstr "Provisão"
+
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+msgid "None"
+msgstr ""
+
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+msgid "Provision included in 'check budget'"
+msgstr ""
+
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+msgid "Provision NOT included in 'check budget'"
+msgstr ""
+
+#: tpl/command_info.html
+#: tpl/team_activity_report.html
+#: tpl/check.html
+#: tpl/forecasting_report.html
+#: tpl/import_issues.html
+#: install/install_step1.php:233
+msgid "User"
+msgstr "Usuário"
+
+#: tpl/command_info.html
+#: tpl/servicecontract_info.html
+msgid "No task found."
+msgstr "Não há casos."
+
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+msgid "Bug Status History"
+msgstr ""
+
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#, fuzzy
+msgid "Progress History"
+msgstr "Progresso Mgr"
+
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+msgid "Budget-Drift History"
+msgstr ""
+
+#: tpl/command_info.html
+#, fuzzy
+msgid "Reopened Issues"
+msgstr "Casos reabertos"
+
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+msgid "Internal Bugs Status History"
+msgstr ""
+
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+msgid "Graph showing the number of internal bugs per status."
+msgstr ""
+
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+msgid "Internal bugs have the following caracteristics:"
+msgstr ""
+
+#: tpl/command_info.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#, fuzzy
+msgid "External Reference"
+msgstr "Ref. Externa"
+
+#: tpl/export_odt.html
+msgid "The following fields need to be set"
+msgstr ""
+
+#: tpl/export_odt.html
+#, fuzzy
+msgid "Reporters"
+msgstr "Relator"
+
+#: tpl/export_odt.html
+msgid "Handlers"
+msgstr ""
+
+#: tpl/export_odt.html
+msgid "ODT Template"
+msgstr ""
+
+#: tpl/export_odt.html
+#: tpl/create_team.html
+msgid "Categories"
+msgstr "Categorias"
+
+#: tpl/export_odt.html
+#: tpl/holidays_report.html
+#, fuzzy
+msgid "Filters"
+msgstr "Filtros"
+
+#: tpl/export_odt.html
+#, fuzzy
+msgid "Reported by"
+msgstr "Relator"
+
+#: tpl/export_odt.html
+#: tpl/issue_info.html
+#: classes/wbsElement.class.php:584 reports/export_csv_weekly.php:185
+#: reports/export_csv_tools.php:68
+msgid "Assigned to"
+msgstr "Atribuido a"
+
+#: tpl/export_odt.html
+#, fuzzy
+msgid "Download"
+msgstr "carga"
+
+#: tpl/holidays_report.html
+msgid "Year"
+msgstr "Ano"
+
+#: tpl/holidays_report.html
+#: tpl/time_tracking.html
+#: tpl/form/selectFiltersDialogbox.html
+msgid "Set filters"
+msgstr "Filtrar casos"
+
+#: tpl/holidays_report.html
+#, fuzzy
+msgid "Displayed tasks"
+msgstr "Tâches résolues"
+
+#: tpl/holidays_report.html
+msgid "workdays"
+msgstr "dias úteis"
+
+#: tpl/create_team.html
+msgid "Team Name"
+msgstr "Nome da equipe"
+
+#: tpl/create_team.html
+#: tpl/edit_team.html
+#, fuzzy
+msgid "Team Administrator"
+msgstr "Administração CoDev"
+
+#: tpl/create_team.html
+#: tpl/servicecontract_info.html
+msgid "SideTasks"
+msgstr "SideTasks"
+
+#: tpl/create_team.html
+msgid "Team Info"
+msgstr "Descrição da equipe"
+
+#: tpl/create_team.html
+msgid "SideTasks Project"
+msgstr "Projeto de tarefas correlatas"
+
+#: tpl/create_team.html
+msgid "Add common ExternalTasks Project"
+msgstr "Adicionar projeto de casos externos"
+
+#: tpl/create_team.html
+msgid "Create specific SideTask Project"
+msgstr "Criar um proeto específico para casos recorrelatos"
+
+#: tpl/create_team.html
+msgid ""
+"WARNING: Disabling SideTasks project creation is generaly NOT a good idea,so "
+"don't do it unless you know exactly what you are doing."
+msgstr ""
+"ATENÇÃO: Desabilitar o projeto de casos correlatos geralmente não é uma boa "
+"idéia, pois assim você não sabe exatamente o que você está fazendo."
+
+#: tpl/create_team.html
+msgid "Project Name"
+msgstr "Nome do projeto"
+
+#: tpl/create_team.html
+msgid "Meeting, Pre-sales, ProjectManagement, ..."
+msgstr "Reunião, orçamentos, gerenciamento do projeto, ..."
+
+#: tpl/create_team.html
+#: admin/create_team.php:92
+msgid "Incident"
+msgstr "Incidente"
+
+#: tpl/create_team.html
+msgid "Server or Platform down, ..."
+msgstr "Servidor inacessível, ..."
+
+#: tpl/create_team.html
+#: admin/create_team.php:95
+msgid "Tools"
+msgstr "Ferramentas"
+
+#: tpl/create_team.html
+msgid "Sys. Admin, Scritps, ..."
+msgstr "Admin Sys, Scripts, ..."
+
+#: tpl/create_team.html
+#: admin/create_team.php:98
+msgid "Team Workshop"
+msgstr "Grupo de trabalho"
+
+#: tpl/create_team.html
+msgid "Support, Doc, Training, Wiki, ..."
+msgstr "Suporte, Doc, Formatação, Wiki, ..."
+
+#: tpl/create_team.html
+#: indicator_plugins/ActivityIndicator/ActivityIndicator.class.php:279
+msgid "Inactivity"
+msgstr "Inatividade"
+
+#: tpl/create_team.html
+msgid "On Duty, other special cases"
+msgstr "de plantão, outros casos especiais"
+
+#: tpl/create_team.html
+msgid "Custom Fields"
+msgstr "Campos personalizados"
+
+#: tpl/create_team.html
+msgid "CodevTT custom fields"
+msgstr "Campos CodevTT"
+
+#: tpl/create_team.html
+msgid "MgrEffortEstim, EffortEstim, AddEffort, Backlog, DeadLine, DeliveryDate"
+msgstr ""
+"gerenciar esforço, adicionar esforço, Backlog, Vencimento, Data de entrega"
+
+#: tpl/create_team.html
+msgid "(generic) Project Management"
+msgstr "(geral) Gerenciamento do projeto"
+
+#: tpl/create_team.html
+msgid "(generic) Meeting"
+msgstr "(geral) Reunião"
+
+#: tpl/create_team.html
+msgid "(generic) Network is down"
+msgstr "(geral) Problemas técnicos"
+
+#: tpl/create_team.html
+msgid "(generic) Compilation Scripts"
+msgstr "(Geral) Scripts de compilação"
+
+#: tpl/create_team.html
+msgid "(generic) Update team WIKI"
+msgstr "(Geral) Documentação WIKI"
+
+#: tpl/create_team.html
+#. Display Empty Command Form
+#. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
+#. ------ Display Empty Command Form
+#. Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
+#. Display Empty Command Form
+#. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
+#: management/command_edit.php:113 management/servicecontract_edit.php:89
+msgid "Create"
+msgstr "Criar"
 
 #: tpl/edit_team.html
-msgid "Team Edition"
-msgstr "Editar equipe"
+msgid "General"
+msgstr ""
 
 #: tpl/edit_team.html
-msgid "Leader"
-msgstr "Gerente"
+msgid "Team Members"
+msgstr "Membros da equipe"
+
+#: tpl/edit_team.html
+msgid "Team Projects"
+msgstr "Projetos da equipe"
+
+#: tpl/edit_team.html
+#, fuzzy
+msgid "Preferences"
+msgstr "Referencia"
+
+#: tpl/edit_team.html
+#, fuzzy
+msgid "Timetrack Durations"
+msgstr "Atividades"
+
+#: tpl/edit_team.html
+#, fuzzy
+msgid "OnDuty tasks"
+msgstr "Adicionar tarefas de plantão"
+
+#: tpl/edit_team.html
+#: tpl/issue_info.html
+#: tpl/index.html
+msgid "Update"
+msgstr "Atualização"
 
 #: tpl/edit_team.html
 msgid "Creation Date"
@@ -1945,16 +1775,17 @@ msgid "Enabled"
 msgstr "Ativo"
 
 #: tpl/edit_team.html
+#, fuzzy
 msgid ""
-"Note: A <em>TeamLeader</em> must also be declared as <em>TeamMember</em> to "
+"Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> to "
 "be included in the team's productivity report."
 msgstr ""
 "Nota: Um <i>Gerente</i> deve ser declarado como <i>membro da equipe</i> para "
 "ele ser incluso no relatório de produtividade da equipe"
 
 #: tpl/edit_team.html
-msgid "Team Members"
-msgstr "Membros da equipe"
+msgid "Delete team"
+msgstr "Remover equipe"
 
 #: tpl/edit_team.html
 msgid "Team Member"
@@ -1998,8 +1829,14 @@ msgid "Import"
 msgstr "Importar"
 
 #: tpl/edit_team.html
-msgid "Delete this team ?"
-msgstr "Apagar esta equipe ?"
+#, fuzzy
+msgid "Remove user from this team ?"
+msgstr "Remover caso deste comando ?"
+
+#: tpl/edit_team.html
+#: tpl/modal/login.html
+msgid "login"
+msgstr "Usuário"
 
 #: tpl/edit_team.html
 msgid "Arrival date in the team"
@@ -2018,53 +1855,1248 @@ msgid "Departure Date"
 msgstr "Data da saída"
 
 #: tpl/edit_team.html
-msgid "Team Projects"
-msgstr "Projetos da equipe"
+#: tpl/time_tracking.html
+msgid "delete this row"
+msgstr "apagar esta linha"
 
 #: tpl/edit_team.html
 #: tpl/edit_jobs.html
-msgid "Type"
-msgstr "Tipo"
+msgid "Jobs"
+msgstr "Cargos"
+
+#: tpl/edit_team.html
+#, fuzzy
+msgid "Create SideTasksProject"
+msgstr "Criar um proeto específico para casos recorrelatos"
+
+#: tpl/edit_team.html
+#, fuzzy
+msgid "Project name"
+msgstr "Nome do projeto"
+
+#: tpl/edit_team.html
+#, fuzzy
+msgid "Create project"
+msgstr "Preparar projetos "
+
+#: tpl/edit_team.html
+#, fuzzy
+msgid "Issue Tooltips"
+msgstr "Tag caso"
+
+#: tpl/edit_team.html
+msgid "Tooltip fields"
+msgstr ""
+
+#: tpl/edit_team.html
+msgid "No custom IssueTooltips defined for your projects."
+msgstr ""
+
+#: tpl/edit_team.html
+#: tpl/menu/global_menu.html
+msgid "Consistency Check"
+msgstr "Teste de integridade"
+
+#: tpl/edit_team.html
+msgid "Enable/Disable alerts"
+msgstr ""
 
 #: tpl/edit_team.html
 msgid "Add OnDuty tasks"
 msgstr "Adicionar tarefas de plantão"
 
 #: tpl/edit_team.html
-msgid "In here you can specify which inactivity tasks are 'OnDuty'"
-msgstr "Aqui você pode especificar quais são as tarefas inatividade 'Plantão'"
+msgid ""
+"Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly "
+"different behaviour."
+msgstr ""
 
 #: tpl/edit_team.html
 msgid "Inactivity task"
 msgstr "Inatividade"
 
 #: tpl/edit_team.html
+#: tpl/issue_info.html
+#: tpl/team_activity_report.html
+#: tpl/ajax/weekTaskDetails.html
+#: tpl/menu/global_menu.html
+#: tpl/set_holidays.html
+#: tpl/planning_report.html
+#: tpl/check.html
+#: tpl/time_tracking.html
+#: tpl/modal/update_issueBacklog.html
+#: tpl/modal/edit_issueNote.html
+#: tpl/form/bugSelector.html
+#: tpl/project_activity_report.html
+#: reports/export_csv_weekly.php:182
+msgid "Task"
+msgstr "Tarefa"
+
+#: tpl/edit_team.html
 msgid "Inactivity tasks"
 msgstr "Inatividade"
 
 #: tpl/edit_team.html
-msgid "No OnDuty task defined"
-msgstr "Nenhuma tarefa de plantão definido"
+msgid "No 'inactivity' task defined in your SideTasks projects."
+msgstr ""
 
 #: tpl/edit_team.html
-msgid "Cette tache ne sera plus consideree comme astreinte."
-msgstr "Esta tarefa não será mais considerado como retrabalho"
+msgid "This task will no longer be identified as an 'OnDuty' task."
+msgstr ""
 
 #: tpl/edit_team.html
-msgid "delete OnDuty"
+#, fuzzy
+msgid "delete OnDuty task"
 msgstr "apagar retrabalho"
 
 #: tpl/edit_team.html
-msgid "No previous data"
-msgstr "Sem dados anteriores"
+msgid "Timetrack durations list"
+msgstr ""
 
 #: tpl/edit_team.html
-msgid "Delete team"
-msgstr "Remover equipe"
+msgid ""
+"These are the values proposed in the Timetracking page, when adding a "
+"timetrack."
+msgstr ""
+
+#: tpl/edit_team.html
+#: tpl/menu/global_menu.html
+msgid "Display"
+msgstr "Exibir"
+
+#: tpl/edit_team.html
+#, fuzzy
+msgid "add a custom duration"
+msgstr "Effort Estimé"
+
+#: tpl/edit_team.html
+msgid "save"
+msgstr ""
+
+#: tpl/edit_team.html
+#, fuzzy
+msgid "Delete duration"
+msgstr "Duração"
+
+#: tpl/edit_team.html
+#, fuzzy
+msgid "Deleted the following duration ?"
+msgstr "Apagar o registro de tempo a seguir ?"
 
 #: tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
 msgstr "Você deve ser um gerente de equipe para acessar esta pagina."
+
+#: tpl/issue_info.html
+msgid "External ID"
+msgstr "ID externo"
+
+#: tpl/issue_info.html
+msgid "Mantis ID"
+msgstr "Mantis ID"
+
+#: tpl/issue_info.html
+msgid "External Ref"
+msgstr "Ref. Externa"
+
+#: tpl/issue_info.html
+#: tpl/blog/blogpost_form.html
+#: tpl/ajax/projectDetails.html
+#: tpl/import_issues.html
+#: tpl/servicecontract_info.html
+#: tpl/time_tracking.html
+#: classes/issue.class.php:2186 classes/wbsElement.class.php:582
+#: tools.php:1471
+msgid "Category"
+msgstr "Categoria"
+
+#: tpl/issue_info.html
+#: tpl/planning_report.html
+#: classes/issue.class.php:2199 reports/export_csv_tools.php:57 tools.php:1481
+msgid "Priority"
+msgstr "Prioridade"
+
+#: tpl/issue_info.html
+#: tpl/planning_report.html
+#: classes/issue.class.php:2195 tools.php:1483
+msgid "Severity"
+msgstr "Gravidade"
+
+#: tpl/issue_info.html
+#, fuzzy
+msgid "Relationships"
+msgstr "Resolução"
+
+#: tpl/issue_info.html
+#, fuzzy
+msgid "Relation"
+msgstr "Resolução"
+
+#: tpl/issue_info.html
+#: tpl/forecasting_report.html
+msgid "Overview"
+msgstr "Resumo"
+
+#: tpl/issue_info.html
+msgid "Timetracks"
+msgstr "Atividades"
+
+#: tpl/issue_info.html
+msgid "Time per Status"
+msgstr "Tempo por Status"
+
+#: tpl/issue_info.html
+msgid "Backlog variation"
+msgstr "Variação do BackLog"
+
+#: tpl/issue_info.html
+#: tpl/modal/update_issueBacklog.html
+msgid "Update Backlog"
+msgstr "Update Backlog/acúmulo"
+
+#: tpl/issue_info.html
+msgid "Dates"
+msgstr "Datas"
+
+#: tpl/issue_info.html
+msgid "Deviation"
+msgstr "Desvio"
+
+#: tpl/issue_info.html
+msgid "Time allocation by status"
+msgstr "Alocação de tempo por status"
+
+#: tpl/issue_info.html
+#: tpl/forecasting_report.html
+#: tpl/servicecontract_edit.html
+#: tpl/project_info.html
+msgid "No data"
+msgstr "Sem dados"
+
+#: tpl/export_csv_monthly.html
+msgid "Monthly report"
+msgstr "Relatório mensal"
+
+#: tpl/export_csv_monthly.html
+msgid "Issues form Team projects, including issues assigned to other teams"
+msgstr ""
+"Projetos da equipe, incluindo as tarefas atribuídas a membros de outras "
+"equipes"
+
+#: tpl/export_csv_monthly.html
+msgid "Export Managed Issues"
+msgstr "Exportar casos Mantis "
+
+#: tpl/export_csv_monthly.html
+msgid "Export"
+msgstr "Exportar"
+
+#: tpl/export_csv_monthly.html
+#: tpl/menu/global_menu.html
+#: tpl/project_activity_report.html
+msgid "Projects Activity"
+msgstr "Atividades dos projetos"
+
+#: tpl/export_csv_monthly.html
+msgid "Export Holidays "
+msgstr "Exportar feriados "
+
+#: tpl/prepare_project.html
+msgid "Preparing project:"
+msgstr "Preparação do projeto:"
+
+#: tpl/prepare_project.html
+msgid "Configure existing Projects"
+msgstr "Configuração dos projetos existentes"
+
+#: tpl/prepare_project.html
+msgid "Select the projects to be managed with CoDev Timetracking"
+msgstr "Selecione o projeto para ser gerenciado com o CodevTT"
+
+#: tpl/prepare_project.html
+msgid "Prepare"
+msgstr "Preparar"
+
+#: tpl/blog/blogpost_form.html
+#: tpl/blog/blogpost.html
+#: tpl/form/dateRangeSelector.html
+msgid "To"
+msgstr "Para"
+
+#: tpl/blog/blogpost.html
+msgid "Author"
+msgstr "Autor"
+
+#: tpl/tools/wbsEditor.html
+#: tpl/tools/wbsReader.html
+msgid "Reload"
+msgstr ""
+
+#: tpl/tools/wbsEditor.html
+msgid "WBS Root element cannot be renamed."
+msgstr ""
+
+#: tpl/tools/wbsEditor.html
+msgid "Root element cannot be deleted."
+msgstr ""
+
+#: tpl/tools/wbsEditor.html
+msgid "Delete Failed: Folder must be empty."
+msgstr ""
+
+#: tpl/tools/wbsEditor.html
+msgid "New Folder"
+msgstr ""
+
+#: tpl/tools/wbsEditor.html
+#, fuzzy
+msgid "Rename"
+msgstr "Arquivo"
+
+#: tpl/tools/wbsEditor.html
+#, fuzzy
+msgid "Add subfolder"
+msgstr "Adicionar usuário"
+
+#: tpl/team_activity_report.html
+#: tpl/menu/global_menu.html
+msgid "Weekly Activity"
+msgstr "Atividade semanal"
+
+#: tpl/team_activity_report.html
+#: tpl/time_tracking.html
+msgid "Previous week"
+msgstr "Semana anterior"
+
+#: tpl/team_activity_report.html
+#: tpl/time_tracking.html
+msgid "Next week"
+msgstr "Próxima semana"
+
+#: tpl/team_activity_report.html
+#: tpl/project_activity_report.html
+msgid "Detailed"
+msgstr "Detalhar"
+
+#: tpl/team_activity_report.html
+#, fuzzy
+msgid "Timesheets"
+msgstr "Atividades"
+
+#: tpl/team_activity_report.html
+msgid "sum(Backlog) of assigned tasks"
+msgstr "soma(Backlog) dos atribuído atuais"
+
+#: tpl/team_activity_report.html
+msgid "Workload"
+msgstr "carga"
+
+#: tpl/team_activity_report.html
+#: tpl/project_activity_report.html
+msgid "Target version"
+msgstr "Meta da versão"
+
+#: tpl/team_activity_report.html
+msgid "Timesheet notes"
+msgstr ""
+
+#: tpl/team_activity_report.html
+#, fuzzy
+msgid "All Tasks"
+msgstr "Todos os casos"
+
+#: tpl/team_activity_report.html
+msgid "Note"
+msgstr ""
+
+#: tpl/team_activity_report.html
+#, fuzzy
+msgid "Read by"
+msgstr "Lecture"
+
+#: tpl/team_activity_report.html
+#, fuzzy
+msgid "Action"
+msgstr "Ações"
+
+#: tpl/team_activity_report.html
+msgid "Mark as read"
+msgstr ""
+
+#: tpl/team_activity_report.html
+#, fuzzy
+msgid "Delete note"
+msgstr "Remover equipe"
+
+#: tpl/ajax/weekTaskDetails.html
+#: tpl/ajax/issueGeneralInfo.html
+msgid "update backlog"
+msgstr "atualizar backlog"
+
+#: tpl/ajax/weekTaskDetails.html
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+msgid "TOTAL"
+msgstr "TOTAL"
+
+#: tpl/ajax/issueGeneralInfo.html
+msgid "Support included"
+msgstr "Suporte incluso"
+
+#: tpl/ajax/issueGeneralInfo.html
+msgid "Support NOT included"
+msgstr "Suporte NÃO incluso"
+
+#: tpl/menu/global_menu.html
+msgid "Home"
+msgstr "Início"
+
+#: tpl/menu/global_menu.html
+msgid "TimeTracking & team activity"
+msgstr "Acompanhamento e atividade da equipe"
+
+#: tpl/menu/global_menu.html
+msgid "Time Tracking"
+msgstr "Acompanhamento de tempo"
+
+#: tpl/menu/global_menu.html
+msgid "Holidays Reports"
+msgstr "Relatório de feriados"
+
+#: tpl/menu/global_menu.html
+msgid "Holidays"
+msgstr "Feriados"
+
+#: tpl/menu/global_menu.html
+msgid "Check DeadLines"
+msgstr "Verificar vencimento"
+
+#: tpl/menu/global_menu.html
+msgid "Planning"
+msgstr "Planejamento"
+
+#: tpl/menu/global_menu.html
+msgid "Gantt Chart"
+msgstr "Diagrama de Gantt"
+
+#: tpl/menu/global_menu.html
+msgid "Gantt"
+msgstr "Gantt"
+
+#: tpl/menu/global_menu.html
+msgid "Task Information"
+msgstr "Informação do caso"
+
+#: tpl/menu/global_menu.html
+msgid "Project Information"
+msgstr "Informações do projeto"
+
+#: tpl/menu/global_menu.html
+msgid "Team Statistics"
+msgstr "Estatísticas equipe"
+
+#: tpl/menu/global_menu.html
+msgid "Forecasting"
+msgstr "Previsão"
+
+#: tpl/menu/global_menu.html
+msgid "Period Statistics"
+msgstr "Estatísticas"
+
+#: tpl/menu/global_menu.html
+msgid "History"
+msgstr "Histórico"
+
+#: tpl/menu/global_menu.html
+msgid "Contracts & Commands"
+msgstr "Contrato & Comando"
+
+#: tpl/menu/global_menu.html
+msgid "Contracts"
+msgstr "Contrato"
+
+#: tpl/menu/global_menu.html
+#: tpl/servicecontract_info.html
+msgid "ServiceContract"
+msgstr "Contrato de serviço"
+
+#: tpl/menu/global_menu.html
+msgid "Mantis Reports"
+msgstr "Ocorrências Mantis"
+
+#: tpl/menu/global_menu.html
+msgid "Check"
+msgstr "Check"
+
+#: tpl/menu/global_menu.html
+msgid "Import / Export"
+msgstr "Importar / Exportar"
+
+#: tpl/menu/global_menu.html
+msgid "Import Issues"
+msgstr "Importar casos"
+
+#: tpl/menu/global_menu.html
+msgid "Export Weekly Report"
+msgstr "Exportar relatório semanal"
+
+#: tpl/menu/global_menu.html
+msgid "Export Monthly Report"
+msgstr "Exportae relatório mensal"
+
+#: tpl/menu/global_menu.html
+msgid "Export to LibreOffice"
+msgstr ""
+
+#: tpl/menu/global_menu.html
+msgid "Blog"
+msgstr "Blog"
+
+#: tpl/menu/global_menu.html
+#: install/install_step3.php:870 install/install_menu.inc.php:68
+msgid "Documentation"
+msgstr "Documentação"
+
+#: tpl/menu/global_menu.html
+msgid "Productivity Reports"
+msgstr "Indicadores de produção"
+
+#: tpl/menu/global_menu.html
+msgid "PHP Doc"
+msgstr "PHP Doc"
+
+#: tpl/menu/global_menu.html
+msgid "CoDev Administration"
+msgstr "Administração CoDev"
+
+#: tpl/menu/global_menu.html
+msgid "Create Team"
+msgstr "Créer équipe"
+
+#: tpl/menu/global_menu.html
+msgid "Edit Team"
+msgstr "Editar equipe"
+
+#: tpl/menu/global_menu.html
+msgid "Edit Jobs"
+msgstr "Editar cargos"
+
+#: tpl/menu/global_menu.html
+msgid "Edit Holidays"
+msgstr "Editar feriados"
+
+#: tpl/menu/global_menu.html
+msgid "Prepare Projects"
+msgstr "Preparar projetos "
+
+#: tpl/menu/global_menu.html
+msgid "Clone Projects"
+msgstr "Clonar um projeto"
+
+#: tpl/menu/global_menu.html
+msgid "Logs"
+msgstr "Logs"
+
+#: tpl/menu/global_menu.html
+#: tpl/uninstall.html
+msgid "Uninstall"
+msgstr "Desinstalar"
+
+#: tpl/menu/global_menu.html
+msgid "About CodevTT"
+msgstr ""
+
+#: tpl/set_holidays.html
+#: tpl/time_tracking.html
+#. --- define the list of tasks the user can display
+#. All projects from teams where I'm a Developper or Manager AND Observer
+#: reports/export_odt.php:83 reports/export_odt.php:113
+#: reports/export_odt.php:164 reports/export_odt_ajax.php:32
+#: reports/export_odt_ajax.php:61 reports/issue_info.php:46
+#: smarty_tools_ajax.php:46
+msgid "(all)"
+msgstr "(todos)"
+
+#: tpl/set_holidays.html
+#: tpl/time_tracking.html
+#: tpl/modal/update_issueBacklog.html
+msgid "Duration (in days)"
+msgstr "Duração (em dias)"
+
+#: tpl/set_holidays.html
+msgid "Monday"
+msgstr "Lundi"
+
+#: tpl/set_holidays.html
+msgid "Tuesday"
+msgstr "Mardi"
+
+#: tpl/set_holidays.html
+msgid "Wednesday"
+msgstr "Mercredi"
+
+#: tpl/set_holidays.html
+msgid "Thursday"
+msgstr "Jeudi"
+
+#: tpl/set_holidays.html
+msgid "Friday"
+msgstr "Vendredi"
+
+#: tpl/edit_jobs.html
+msgid "Job Name"
+msgstr "Nome do cargo"
+
+#: tpl/edit_jobs.html
+msgid "Job Color"
+msgstr "Cor do cargo"
+
+#: tpl/edit_jobs.html
+#: tpl/planning_report.html
+#: tpl/edit_holidays.html
+#: install/install_step3.php:658 install/install_step3.php:664
+#: install/install_step3.php:670 install/install_step3.php:675
+#: install/install_step3.php:681 install/install_step3.php:686
+msgid "Color"
+msgstr "Cor"
+
+#: tpl/edit_jobs.html
+#: tpl/edit_holidays.html
+#: install/install_step3.php:648
+msgid "open a colorPicker in a new Tab"
+msgstr "Abror seleção de cor em nova aba"
+
+#: tpl/edit_jobs.html
+msgid "Desirez-vous vraiment supprimer definitivement le poste"
+msgstr "Você realmente deseja excluir permanentemente o cargo"
+
+#: tpl/edit_jobs.html
+msgid "delete Job"
+msgstr "Apagar cargo"
+
+#: tpl/edit_jobs.html
+msgid "Job Assignations"
+msgstr "Atribuições do cargo"
+
+#: tpl/edit_jobs.html
+msgid "Les champs suivants ont ete oublies"
+msgstr "Os seguintes campos foram esquecidos"
+
+#: tpl/edit_jobs.html
+msgid "single selection"
+msgstr "selecão única"
+
+#: tpl/edit_jobs.html
+msgid "multiple selection"
+msgstr "selecão múltipla"
+
+#: tpl/edit_jobs.html
+msgid "Desirez-vous vraiment supprimer definitivement l'association"
+msgstr "Você realmente deseja excluir permanentemente a associação"
+
+#: tpl/edit_jobs.html
+msgid "delete Project Association"
+msgstr "remover a associação com o projeto"
+
+#: tpl/template.html
+msgid "Disconnect"
+msgstr ""
+
+#: tpl/template.html
+msgid ""
+"Note: For a better user experience, use a standards compliant browser such "
+"as :"
+msgstr ""
+
+#: tpl/template.html
+#: tpl/import_issues.html
+msgid "or"
+msgstr "ou"
+
+#: tpl/planning_report.html
+msgid "zoom in"
+msgstr "zoom in"
+
+#: tpl/planning_report.html
+msgid "zoom out"
+msgstr "zoom out"
+
+#: tpl/planning_report.html
+#: tpl/modal/consistency_check.html
+msgid "Click to show errors"
+msgstr "Clique para ver os erros"
+
+#: tpl/planning_report.html
+#: management/command_info.php:126 management/command_info.php:127
+#: management/servicecontract_info.php:91
+#: management/servicecontract_info.php:92 management/commandset_info.php:95
+#: reports/productivity_report.php:201 reports/issue_info.php:85
+#: reports/issue_info.php:86 timetracking/team_activity_report.php:65
+#: timetracking/time_tracking.php:278
+#: timetracking/team_monthly_activity_report.php:75
+msgid "Errors"
+msgstr "Erros"
+
+#: tpl/planning_report.html
+#, fuzzy
+msgid "Unassigned tasks"
+msgstr "assigné à"
+
+#: tpl/planning_report.html
+#, fuzzy
+msgid "Team's backlog"
+msgstr "Consommé + RAF"
+
+#: tpl/planning_report.html
+#, fuzzy
+msgid "tasks"
+msgstr "Casos"
+
+#: tpl/planning_report.html
+msgid "workload"
+msgstr "carga"
+
+#: tpl/planning_report.html
+msgid "nbDaysToDeadLine"
+msgstr "Num dias restantes"
+
+#: tpl/planning_report.html
+#: tpl/time_tracking.html
+#: tpl/modal/update_issueBacklog.html
+msgid "Duration"
+msgstr "Duração"
+
+#: tpl/planning_report.html
+msgid "Monitored"
+msgstr "Monitorado"
+
+#: tpl/planning_report.html
+#: reports/productivity_report.php:424
+msgid "day"
+msgstr "dia"
+
+#: tpl/filters.html
+msgid "Set project filters"
+msgstr "Definir filtros de projeto"
+
+#: tpl/check.html
+msgid " Error(s) in Mantis Tasks"
+msgstr " Erro(s) nos casos Mantis"
+
+#: tpl/check.html
+#, fuzzy
+msgid "extRef"
+msgstr "RefExt"
+
+#: tpl/check.html
+msgid "last modification date"
+msgstr "data última modificação"
+
+#: tpl/check.html
+msgid "Level"
+msgstr "Severidade"
+
+#: tpl/check.html
+msgid "Error Description"
+msgstr "Descrição de erro"
+
+#: tpl/forecasting_report.html
+msgid "Computed on task NOT Resolved/Closed on "
+msgstr "Cálculo de casos NÃO Fechados/Resolvidos"
+
+#: tpl/forecasting_report.html
+msgid "Unassigned tasks will not be displayed"
+msgstr ""
+
+#: tpl/forecasting_report.html
+msgid "deviation"
+msgstr "Desvio"
+
+#: tpl/forecasting_report.html
+msgid "Task list"
+msgstr "Lista de casos"
+
+#: tpl/forecasting_report.html
+msgid "Open tasks that should have been delivered."
+msgstr ""
+
+#: tpl/forecasting_report.html
+#, fuzzy
+msgid "No late task."
+msgstr "Nenhum caso resolvido..."
+
+#: tpl/forecasting_report.html
+#: tpl/statistics.html
+msgid "man-days"
+msgstr "dias-homem"
+
+#: tpl/forecasting_report.html
+msgid ""
+"Nombre de jours-homme disponibles sur la periode (hors vacances et taches "
+"externes)"
+msgstr ""
+"Número dias-homem disponíveis no período (excluíndo feriados dias de folga)"
+
+#: tpl/forecasting_report.html
+#: tpl/statistics.html
+msgid "nb production days"
+msgstr "Núm de dias de produção"
+
+#: tpl/import_issues.html
+msgid "Select CSV file"
+msgstr "Selecionar arquivo CSV"
+
+#: tpl/import_issues.html
+msgid "Import Mantis Issues"
+msgstr "Importar casos Mantis"
+
+#: tpl/import_issues.html
+msgid "File Format"
+msgstr "Formato do arquivo"
+
+#: tpl/import_issues.html
+msgid "Standard CSV format with :"
+msgstr "Arquivo CSV padrão:"
+
+#: tpl/import_issues.html
+msgid "delimiter"
+msgstr "separador"
+
+#: tpl/import_issues.html
+msgid "enclosure"
+msgstr "enclosure"
+
+#: tpl/import_issues.html
+msgid "Date format"
+msgstr "Formato da Data"
+
+#: tpl/import_issues.html
+msgid "Number format"
+msgstr "Formato numérico"
+
+#: tpl/import_issues.html
+msgid "Encoding"
+msgstr "Codificação"
+
+#: tpl/import_issues.html
+msgid ""
+"It is highly recommended to use <strong>UTF-8</strong> but ASCII and "
+"ISO-8859-1 (MS-Windows) are also suported."
+msgstr ""
+"É altamente recomendável usar <strong>UTF-8</strong> mas ASCII e ISO-8859-1 "
+"(MS-Windows) também são suportados."
+
+#: tpl/import_issues.html
+msgid "Columns"
+msgstr "Colunas"
+
+#: tpl/import_issues.html
+msgid ""
+"the file must contain 6 columns, the 1st line contains the column names."
+msgstr ""
+"O arquivo deve conter 6 colunas, a primeira linha deve ter o nome das colunas"
+
+#: tpl/import_issues.html
+msgid ""
+"Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef"
+msgstr ""
+"Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef"
+
+#: tpl/import_issues.html
+msgid "File"
+msgstr "Arquivo"
+
+#: tpl/import_issues.html
+msgid "File extension"
+msgstr "Extensão do arquivo"
+
+#: tpl/import_issues.html
+msgid "Preview import"
+msgstr "Visualizar"
+
+#: tpl/import_issues.html
+msgid "Set All"
+msgstr "Aplicar a todos"
+
+#: tpl/import_issues.html
+msgid "TargetVersion"
+msgstr "Versão de destino/previsão"
+
+#: tpl/import_issues.html
+msgid "Category not set on all issues"
+msgstr ""
+
+#: tpl/import_issues.html
+#, fuzzy
+msgid "Type not set on all issues"
+msgstr "Tempo total gasto neste caso"
+
+#: tpl/import_issues.html
+msgid "Import done !"
+msgstr "Importação finalizada!"
+
+#: tpl/import_issues.html
+msgid "Mantis issues to create:"
+msgstr "Casos Mantis a criar:"
+
+#: tpl/commandset_info.html
+msgid "--- Create New CommandSet ---"
+msgstr "-- Criar um novo grupo de comandos ---"
+
+#: tpl/commandset_info.html
+msgid "Service Contract"
+msgstr "Contrato de Serviço"
+
+#: tpl/commandset_info.html
+#, fuzzy
+msgid "Cmds Budget"
+msgstr "Orçamento"
+
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+#, fuzzy
+msgid "Detailed Charges"
+msgstr "Mgr Detalhado"
+
+#: tpl/commandset_info.html
+#: tpl/servicecontract_info.html
+msgid "No Command found."
+msgstr "Comando não localizado."
+
+#: tpl/servicecontract_info.html
+msgid "--- Create New ServiceContract ---"
+msgstr "-- Criar um novo Contrato de Serviço ---"
+
+#: tpl/servicecontract_info.html
+#: install/install_step4.php:56 install/install_step4.php:68
+msgid "Go to"
+msgstr "Ir para"
+
+#: tpl/servicecontract_info.html
+msgid "No sidetasks found."
+msgstr "Não há casos relacionados "
+
+#: tpl/servicecontract_info.html
+msgid "All tasks"
+msgstr "Todos os casos"
+
+#: tpl/servicecontract_info.html
+msgid "No Total found."
+msgstr "Total não localizado."
+
+#: tpl/servicecontract_info.html
+msgid "Note: SideTasks already defined in Commands are not displayed."
+msgstr ""
+"Nota: Estes casos relacionados estão definidos em comandos e não serão "
+"exibidos"
+
+#: tpl/servicecontract_info.html
+#, fuzzy
+msgid "No provision found."
+msgstr "Não há casos."
+
+#: tpl/statistics.html
+msgid "Start Year"
+msgstr "Ano inicio"
+
+#: tpl/statistics.html
+msgid "Submitted / Resolved Issues"
+msgstr "Reportados / Casos resolvidos"
+
+#: tpl/statistics.html
+msgid "Efficiency - System Disponibility"
+msgstr "Taxa de eficiência - Disponibilidade do sistema"
+
+#: tpl/statistics.html
+msgid "Reopened Rate"
+msgstr "Taxa de reabertura"
+
+#: tpl/statistics.html
+msgid "Developers Workload"
+msgstr "Capacidade de desenvolvimento"
+
+#: tpl/statistics.html
+msgid "Submitted"
+msgstr "Reportados"
+
+#: tpl/statistics.html
+#, fuzzy
+msgid "Nb of submitted tasks EXCEPT SideTasks"
+msgstr "Num de casos reportado EXCETO casos correlatos e FDL"
+
+#: tpl/statistics.html
+msgid "Resolved"
+msgstr "Resolvidos"
+
+#: tpl/statistics.html
+msgid "Nb of resolved tasks EXCEPT SideTasks and reopened tasks"
+msgstr "Num de casos resolvidos EXCETO casos correlatos e casos reabertos"
+
+#: tpl/statistics.html
+msgid "show values"
+msgstr ""
+
+#: tpl/statistics.html
+msgid "Nb submissions"
+msgstr "Num de relatos"
+
+#: tpl/statistics.html
+msgid "Nb Resolved"
+msgstr "Num resolvidos"
+
+#: tpl/statistics.html
+#, fuzzy
+msgid "Submitted / Resolved Issues (ExtRefOnly)"
+msgstr "Reportados / Casos resolvidos"
+
+#: tpl/statistics.html
+msgid "% Tasks"
+msgstr "% Casos"
+
+#: tpl/statistics.html
+msgid "Percentage of tasks delivered before the deadLine"
+msgstr "Percentual de casos entregues antes do vencimento"
+
+#: tpl/statistics.html
+msgid "% Tasks Delivered on time"
+msgstr "% casos entregues em tempo"
+
+#: tpl/statistics.html
+#, fuzzy
+msgid "Effort deviation on resolved tasks (regarding the MgrEffortEstim)"
+msgstr "Desvio de esforço - Casos resolvidos no período"
+
+#: tpl/statistics.html
+#, fuzzy
+msgid "Effort deviation on resolved tasks (regarding the EffortEstim)"
+msgstr "Desvio de esforço - Casos resolvidos no período"
+
+#: tpl/statistics.html
+msgid "No Support"
+msgstr "Sem suporte"
+
+#: tpl/statistics.html
+#: reports/export_csv_tools.php:61
+msgid "BI"
+msgstr "BI"
+
+#: tpl/statistics.html
+#: reports/export_csv_tools.php:62
+msgid "BS"
+msgstr "BS"
+
+#: tpl/statistics.html
+#, fuzzy
+msgid "Effort Deviation (ExtRefOnly)"
+msgstr "Desvio de esforço"
+
+#: tpl/statistics.html
+msgid ""
+"Exclude side tasks to get the percent of time spent working on the projects"
+msgstr ""
+"Desconsiderar tarefas correlatas para obter o percentual de tempo de "
+"trabalho no projeto"
+
+#: tpl/statistics.html
+msgid "Efficiency"
+msgstr "Taxa de eficiência"
+
+#: tpl/statistics.html
+#, c-format
+msgid "% Efficiency"
+msgstr "% Eficiência"
+
+#: tpl/statistics.html
+#, c-format
+msgid "% Sys Disp."
+msgstr "% Disp Sys"
+
+#: tpl/statistics.html
+msgid "Sys Disp."
+msgstr "Sys Disp"
+
+#: tpl/statistics.html
+msgid "Number of reopened external tasks (tasks having an ExternalRef)."
+msgstr ""
+"Número de casos externos reabertos (casos que possuem referência externa)"
+
+#: tpl/statistics.html
+msgid "% Reopened"
+msgstr "% de retour"
+
+#: tpl/statistics.html
+msgid "Compare the number of reopened tasks to the number of resolved tasks"
+msgstr "Comparar o número de casos reabertos com o número de casos resolvidos"
+
+#: tpl/statistics.html
+msgid "Nb Reopened"
+msgstr "Num reabertos"
+
+#: tpl/statistics.html
+msgid "Available man-days on the period (excluding leave and external tasks)"
+msgstr ""
+
+#: tpl/statistics.html
+msgid "Sorry, you do NOT have access to this page."
+msgstr "Desculpe, você nao tem acesso a esta página."
+
+#: tpl/time_tracking.html
+msgid "ERROR"
+msgstr "ERRO"
+
+#: tpl/time_tracking.html
+msgid "Query FAILED"
+msgstr "Query ERRO"
+
+#: tpl/time_tracking.html
+#: tpl/modal/login.html
+msgid "Please wait..."
+msgstr "Aguarde..."
+
+#: tpl/time_tracking.html
+#: tpl/form/dateRangeSelector.html
+msgid "From"
+msgstr "de"
+
+#: tpl/time_tracking.html
+#: tpl/form/selectFiltersDialogbox.html
+msgid "Task Filters"
+msgstr "Filtros"
+
+#: tpl/time_tracking.html
+msgid "Reduce the tasks selection by setting some filters"
+msgstr "Reduzir a seleção de casos adicionando alguns filtros"
+
+#: tpl/time_tracking.html
+msgid "Hide tasks not assigned to me"
+msgstr "Ocultar casos não atribuidos a mim"
+
+#: tpl/time_tracking.html
+msgid "Hide resolved tasks"
+msgstr "Ocultar casos resolvidos"
+
+#: tpl/time_tracking.html
+#, fuzzy
+msgid "Hide closed tasks"
+msgstr "Ocultar casos resolvidos"
+
+#: tpl/time_tracking.html
+msgid "Week Imputations"
+msgstr "quebra semanal"
+
+#: tpl/time_tracking.html
+msgid "Ext.ID"
+msgstr "Ref.Ext"
+
+#: tpl/time_tracking.html
+msgid "Future Imputations"
+msgstr "Quebras futuras"
+
+#: tpl/time_tracking.html
+msgid "Delete track"
+msgstr "Apagar pista/track"
+
+#: tpl/time_tracking.html
+msgid "Deleted the following timetrack ?"
+msgstr "Apagar o registro de tempo a seguir ?"
+
+#: tpl/gantt_report.html
+msgid "Gant report"
+msgstr "Diagrama de Gantt"
+
+#: tpl/modal/change_managedUser.html
+#, fuzzy
+msgid "Select User"
+msgstr "Selecionar tudo"
+
+#: tpl/modal/change_managedUser.html
+#, fuzzy
+msgid "Select team user"
+msgstr "Remover equipe"
+
+#: tpl/modal/change_managedUser.html
+msgid "Change user"
+msgstr ""
+
+#: tpl/modal/login.html
+msgid "Length of"
+msgstr ""
+
+#: tpl/modal/login.html
+msgid "must be between"
+msgstr ""
+
+#: tpl/modal/login.html
+msgid "and"
+msgstr ""
+
+#: tpl/modal/login.html
+msgid "CodevTT Identification"
+msgstr "Identificação CodevTT"
+
+#: tpl/modal/login.html
+msgid "password"
+msgstr "Senha"
+
+#: tpl/modal/login.html
+#: tpl/modal/select_issues.html
+msgid "OK"
+msgstr "OK"
+
+#: tpl/modal/login.html
+msgid "Loading"
+msgstr "Carregando"
+
+#: tpl/modal/login.html
+#, fuzzy
+msgid "Login failed."
+msgstr "l'identification a échouée !"
+
+#: tpl/modal/login.html
+msgid "Login"
+msgstr "Login"
+
+#: tpl/modal/login.html
+msgid "Password"
+msgstr "Senha"
+
+#: tpl/modal/login.html
+msgid "Lost your password?"
+msgstr ""
+
+#: tpl/modal/login.html
+msgid "Redirection"
+msgstr "Redirecionando"
+
+#: tpl/modal/update_issueBacklog.html
+#, fuzzy
+msgid "Current backlog"
+msgstr "Casos atuais"
+
+#: tpl/modal/update_issueBacklog.html
+msgid "Task not resolved, backlog cannot be '0'"
+msgstr ""
+
+#: tpl/modal/edit_issueNote.html
+msgid "Edit timesheet note"
+msgstr ""
+
+#: tpl/modal/edit_issueNote.html
+#, fuzzy
+msgid "Delete timesheet note for task "
+msgstr "Apagar esta equipe ?"
+
+#: tpl/modal/select_issues.html
+msgid "No task selected !"
+msgstr "sem caso selecionado !"
+
+#: tpl/modal/select_issues.html
+msgid "Browse..."
+msgstr "Exibir..."
+
+#: tpl/modal/select_issues.html
+msgid "Select all"
+msgstr "Selecionar tudo"
 
 #: tpl/edit_holidays.html
 msgid "Add fixed holidays"
@@ -2089,15 +3121,6 @@ msgid "Holiday Description"
 msgstr "Descrição do feriado"
 
 #: tpl/edit_holidays.html
-#: tpl/planning_report.html
-#: tpl/edit_jobs.html
-#: install/install_step3.php:488 install/install_step3.php:494
-#: install/install_step3.php:500 install/install_step3.php:505
-#: install/install_step3.php:511 install/install_step3.php:516
-msgid "Color"
-msgstr "Cor"
-
-#: tpl/edit_holidays.html
 msgid "Desirez-vous vraiment supprimer definitivement cette date ?"
 msgstr "Você tem certeza que deseja apagar a data?"
 
@@ -2105,136 +3128,25 @@ msgstr "Você tem certeza que deseja apagar a data?"
 msgid "delete Holiday"
 msgstr "remover feriado"
 
-#: tpl/planning_report.html
-msgid "zoom in"
-msgstr "zoom in"
-
-#: tpl/planning_report.html
-msgid "zoom out"
-msgstr "zoom out"
-
-#: tpl/planning_report.html
-#: management/servicecontract_info.php:73
-#: management/servicecontract_info.php:74 management/commandset_info.php:83
-#: management/command_info.php:81 management/command_info.php:82
-#: reports/issue_info.php:82 reports/issue_info.php:83
-#: reports/productivity_report.php:163
-#: timetracking/team_activity_report.php:79
-msgid "Errors"
-msgstr "Erros"
-
-#: tpl/planning_report.html
-msgid "workload"
-msgstr "carga"
-
-#: tpl/planning_report.html
-msgid "nbDaysToDeadLine"
-msgstr "Num dias restantes"
-
-#: tpl/planning_report.html
-msgid "Attributes"
-msgstr "Propriedades"
-
-#: tpl/planning_report.html
-msgid "Priority"
-msgstr "Prioridade"
-
-#: tpl/planning_report.html
-msgid "Severity"
-msgstr "Gravidade"
-
-#: tpl/planning_report.html
-msgid "Monitored"
-msgstr "Monitorado"
-
-#: tpl/planning_report.html
-#: reports/productivity_report.php:378
-msgid "day"
-msgstr "dia"
-
-#: tpl/gantt_report.html
-msgid "Gant report"
-msgstr "Diagrama de Gantt"
-
-#: tpl/template.html
-msgid "Logged in as "
-msgstr "Logado como"
-
-#: tpl/template.html
-msgid "log out"
-msgstr "Desconectar"
+#: tpl/form/dateRangeSelector.html
+msgid "Start Date"
+msgstr "Data inicial"
 
 #: tpl/form/dateRangeSelector.html
 msgid "End Date (included)"
 msgstr "Data final (inclusive)"
 
-#: tpl/form/projectFilterDialogbox.html
+#: tpl/form/selectFiltersDialogbox.html
 msgid "Drag & drop the filters to apply"
 msgstr "Clique e arraste os filtros para aplicar"
 
-#: tpl/form/projectFilterDialogbox.html
+#: tpl/form/selectFiltersDialogbox.html
 msgid "Available Filters"
 msgstr "Filtros Disponíveis"
 
-#: tpl/form/projectFilterDialogbox.html
+#: tpl/form/selectFiltersDialogbox.html
 msgid "Applied Filters"
 msgstr "Os filtros aplicados"
-
-#: tpl/servicecontract_edit.html
-msgid "New command"
-msgstr "Novo comando"
-
-#: tpl/servicecontract_edit.html
-msgid "StartDate"
-msgstr "Data incial"
-
-#: tpl/servicecontract_edit.html
-msgid "EndDate"
-msgstr "Data final"
-
-#: tpl/servicecontract_edit.html
-msgid "Delete ServiceContract"
-msgstr "Apagar contrato de serviço"
-
-#: tpl/servicecontract_edit.html
-msgid "Delete this ServiceContract ?"
-msgstr "Apagar este contrato de serviço ?"
-
-#: tpl/servicecontract_edit.html
-msgid "Nb CommandSets"
-msgstr "Nb CommandSets"
-
-#: tpl/servicecontract_edit.html
-msgid "SideTasks Projects"
-msgstr "Projetos SideTasks"
-
-#: tpl/servicecontract_edit.html
-msgid "--- New CommandSet ---"
-msgstr "--- Novo Conjunto de comandos ---"
-
-#: tpl/servicecontract_edit.html
-msgid "Remove"
-msgstr "Remover"
-
-#: tpl/servicecontract_edit.html
-msgid "delete Contract-CommandSet association"
-msgstr "apagar conjunto de comandos associados ao contrato"
-
-#: tpl/servicecontract_edit.html
-msgid "Remove CommandSet from this Contract ?"
-msgstr "Remover o conjunto de comandos deste contrato de serviço ?"
-
-#: tpl/servicecontract_edit.html
-msgid "delete Contract-Project association"
-msgstr "apagar associação do projeto de contrato de serviço "
-
-#: tpl/servicecontract_edit.html
-msgid "Remove Project"
-msgstr "Remover projeto"
-
-#: tpl/servicecontract_edit.html
-msgid "Remove Project from this Contract ?"
-msgstr "Remover o projeto deste contrato ?"
 
 #: tpl/uninstall.html
 msgid "Do you want to remove CodevTT from your Mantis server ?"
@@ -2308,185 +3220,105 @@ msgstr "Impossivel de apagar o arquivo"
 msgid "Failed"
 msgstr "Falha"
 
-#: tpl/check.html
-msgid " Error(s) in Mantis Tasks"
-msgstr " Erro(s) nos casos Mantis"
-
-#: tpl/check.html
-msgid "last modification date"
-msgstr "data última modificação"
-
-#: tpl/check.html
-msgid "Level"
-msgstr "Severidade"
-
-#: tpl/check.html
-#: tpl/import_issues.html
-msgid "TargetVersion"
-msgstr "Versão de destino/previsão"
-
-#: tpl/check.html
-msgid "Error Description"
-msgstr "Descrição de erro"
-
-#: tpl/plugin/activity_indicator_ajax1.html
-#: indicator_plugins/activity_indicator.class.php:214
-msgid "SideTask"
-msgstr "CasoCorrelato"
-
-#: tpl/plugin/activity_indicator_ajax1.html
-#: indicator_plugins/activity_indicator.class.php:213
-msgid "Other"
-msgstr "Outros"
-
-#: tpl/plugin/activity_indicator_ajax1.html
-#: indicator_plugins/activity_indicator.class.php:215
-msgid "External"
-msgstr "Externo"
-
-#: tpl/import_issues.html
-msgid "Select CSV file"
-msgstr "Selecionar arquivo CSV"
-
-#: tpl/import_issues.html
-msgid "Import Mantis Issues"
-msgstr "Importar casos Mantis"
-
-#: tpl/import_issues.html
-msgid "File Format"
-msgstr "Formato do arquivo"
-
-#: tpl/import_issues.html
-msgid "Standard CSV format with :"
-msgstr "Arquivo CSV padrão:"
-
-#: tpl/import_issues.html
-msgid "delimiter"
-msgstr "separador"
-
-#: tpl/import_issues.html
-msgid "enclosure"
-msgstr "enclosure"
-
-#: tpl/import_issues.html
-msgid "Date format"
-msgstr "Formato da Data"
-
-#: tpl/import_issues.html
-msgid "Number format"
-msgstr "Formato numérico"
-
-#: tpl/import_issues.html
-msgid "or"
-msgstr "ou"
-
-#: tpl/import_issues.html
-msgid "Encoding"
-msgstr "Codificação"
-
-#: tpl/import_issues.html
-msgid ""
-"It is highly recommended to use <strong>UTF-8</strong> but ASCII and "
-"ISO-8859-1 (MS-Windows) are also suported."
-msgstr ""
-"É altamente recomendável usar <strong>UTF-8</strong> mas ASCII e ISO-8859-1 "
-"(MS-Windows) também são suportados."
-
-#: tpl/import_issues.html
-msgid "Columns"
-msgstr "Colunas"
-
-#: tpl/import_issues.html
-msgid ""
-"the file must contain 6 columns, the 1st line contains the column names."
-msgstr ""
-"O arquivo deve conter 6 colunas, a primeira linha deve ter o nome das colunas"
-
-#: tpl/import_issues.html
-msgid ""
-"Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef"
-msgstr ""
-"Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef"
-
-#: tpl/import_issues.html
-msgid "File"
-msgstr "Arquivo"
-
-#: tpl/import_issues.html
-msgid "File extension"
-msgstr "Extensão do arquivo"
-
-#: tpl/import_issues.html
-msgid "Preview import"
-msgstr "Visualizar"
-
-#: tpl/import_issues.html
-msgid "Set All"
-msgstr "Aplicar a todos"
-
-#: tpl/import_issues.html
-msgid "Category not set on all issues"
-msgstr ""
-
-#: tpl/import_issues.html
-msgid "Import done !"
-msgstr "Importação finalizada!"
-
-#: tpl/import_issues.html
-msgid "Mantis issues to create:"
-msgstr "Casos Mantis a criar:"
-
-#: tpl/commandset_edit.html
-msgid "Delete CommandSet"
-msgstr "Remover grupo de comandos"
-
-#: tpl/commandset_edit.html
-msgid "Delete this CommandSet ?"
-msgstr "Remover este grupo de comandos?"
-
-#: tpl/commandset_edit.html
-msgid "Nb Commands"
-msgstr "Núm de comandos"
-
-#: tpl/commandset_edit.html
-msgid "Service Contracts"
+#: tpl/servicecontract_edit.html
+#, fuzzy
+msgid "New service contract"
 msgstr "Contrato de Serviço"
 
-#: tpl/commandset_edit.html
-msgid "--- New Command ---"
-msgstr "--- Novo Comando ---"
+#: tpl/servicecontract_edit.html
+msgid "StartDate"
+msgstr "Data incial"
 
-#: tpl/commandset_edit.html
-msgid "Remove Command"
-msgstr "Remover Comando"
+#: tpl/servicecontract_edit.html
+msgid "EndDate"
+msgstr "Data final"
 
-#: tpl/commandset_edit.html
-msgid "Remove Command from this CommandSet ?"
-msgstr "Remover este comando do grupo de comando ?"
+#: tpl/servicecontract_edit.html
+#, fuzzy
+msgid "Service contract name"
+msgstr "Contrato de Serviço"
 
-#: tpl/commandset_edit.html
-msgid "Create the CommandSet to add some commands."
-msgstr "Criar um grupo de comandos para adicionar um comando"
+#: tpl/servicecontract_edit.html
+msgid "Delete ServiceContract"
+msgstr "Apagar contrato de serviço"
 
-#: tpl/prepare_project.html
-msgid "Preparing project:"
-msgstr "Preparação do projeto:"
+#: tpl/servicecontract_edit.html
+msgid "Delete this ServiceContract ?"
+msgstr "Apagar este contrato de serviço ?"
 
-#: tpl/prepare_project.html
-msgid "Configure existing Projects"
-msgstr "Configuração dos projetos existentes"
+#: tpl/servicecontract_edit.html
+msgid "Nb CommandSets"
+msgstr "Nb CommandSets"
 
-#: tpl/prepare_project.html
-msgid "Select the projects to be managed with CoDev Timetracking"
-msgstr "Selecione o projeto para ser gerenciado com o CodevTT"
+#: tpl/servicecontract_edit.html
+msgid "SideTasks Projects"
+msgstr "Projetos SideTasks"
 
-#: tpl/prepare_project.html
-msgid "Prepare"
-msgstr "Preparar"
+#: tpl/servicecontract_edit.html
+msgid "--- New CommandSet ---"
+msgstr "--- Novo Conjunto de comandos ---"
 
-#: tpl/export_csv_weekly.html
-msgid "Weekly report"
-msgstr "Relatório semanal"
+#: tpl/servicecontract_edit.html
+msgid "delete Contract-CommandSet association"
+msgstr "apagar conjunto de comandos associados ao contrato"
+
+#: tpl/servicecontract_edit.html
+msgid "Remove CommandSet from this Contract ?"
+msgstr "Remover o conjunto de comandos deste contrato de serviço ?"
+
+#: tpl/servicecontract_edit.html
+msgid "delete Contract-Project association"
+msgstr "apagar associação do projeto de contrato de serviço "
+
+#: tpl/servicecontract_edit.html
+msgid "Remove Project"
+msgstr "Remover projeto"
+
+#: tpl/servicecontract_edit.html
+msgid "Remove Project from this Contract ?"
+msgstr "Remover o projeto deste contrato ?"
+
+#: tpl/mantis_reports.html
+msgid "Bilan mensuel SAUF SuiviOp."
+msgstr "Saldo mensal exceto SuiviOp"
+
+#: tpl/mantis_reports.html
+msgid "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
+msgstr "Saldo mensal (número de registos / estado, no final do mês)"
+
+#: tpl/project_activity_report.html
+#, fuzzy
+msgid "Users"
+msgstr "Usuário"
+
+#: tpl/project_activity_report.html
+#, fuzzy
+msgid "Tasks per project"
+msgstr "Carga do projeto"
+
+#: tpl/project_activity_report.html
+msgid "Total time spent on this issue"
+msgstr "Tempo total gasto neste caso"
+
+#: tpl/project_activity_report.html
+#, fuzzy
+msgid "No data available"
+msgstr "Não disponível"
+
+#: tpl/project_activity_report.html
+#, fuzzy
+msgid "Time spent on Projects per users"
+msgstr "nombre de jours passés en développement sur les projets"
+
+#: tpl/project_activity_report.html
+#, fuzzy
+msgid "With ExternalTasks Project"
+msgstr "CodevTT Projeto de casos externos"
+
+#: tpl/project_activity_report.html
+#, fuzzy
+msgid "With SideTasks Project"
+msgstr "Projeto de tarefas correlatas"
 
 #: tpl/index.html
 msgid "IE may not correctly display this website"
@@ -2499,12 +3331,8 @@ msgstr ""
 "web"
 
 #: tpl/index.html
-msgid "Task information"
-msgstr "Informações dos casos"
-
-#: tpl/index.html
-msgid "Weekly activity"
-msgstr "Atividade semanal"
+msgid "A new CodevTT version is available !"
+msgstr ""
 
 #: tpl/index.html
 msgid "Derive par rapport a l estimation preliminaire"
@@ -2531,10 +3359,6 @@ msgid "Project Info"
 msgstr "Info Projet"
 
 #: tpl/project_info.html
-msgid "Detailed Mgr"
-msgstr "Mgr Detalhado"
-
-#: tpl/project_info.html
 msgid "Drift current tasks"
 msgstr "Desvio em casos atuais"
 
@@ -2542,90 +3366,69 @@ msgstr "Desvio em casos atuais"
 msgid "Drift resolved tasks"
 msgstr "Desvio em casos resolvidos"
 
-#: tpl/edit_jobs.html
-msgid "Jobs"
-msgstr "Cargos"
+#: admin/edit_team.php:52
+msgid "Couldn't delete the team"
+msgstr "Impossivel de apagar a equipe: "
 
-#: tpl/edit_jobs.html
-msgid "Job Name"
-msgstr "Nome do cargo"
+#: admin/edit_team.php:90
+msgid "Couldn't update the team leader"
+msgstr "Não foi possível alterar o gerente da equipe"
 
-#: tpl/edit_jobs.html
-msgid "Job Color"
-msgstr "Cor do cargo"
+#: admin/edit_team.php:101
+msgid "Couldn't update the creation date"
+msgstr "Não foi possível altterar a data da criação"
 
-#: tpl/edit_jobs.html
-msgid "Desirez-vous vraiment supprimer definitivement le poste"
-msgstr "Você realmente deseja excluir permanentemente o cargo"
+#: admin/edit_team.php:106
+msgid "Couldn't enable/disable team"
+msgstr "Impossivel de ativar / desativar equipe"
 
-#: tpl/edit_jobs.html
-msgid "delete Job"
-msgstr "Apagar cargo"
+#: admin/edit_team.php:185
+msgid "Couldn't delete the member of the team"
+msgstr "Não foi possível remover o projeto da equipe"
 
-#: tpl/edit_jobs.html
-msgid "Job Assignations"
-msgstr "Atribuições do cargo"
+#: admin/edit_team.php:199 admin/edit_team.php:202
+msgid "Couldn't add the project to the team"
+msgstr "Não foi possível adicionar o projeto a equipe"
 
-#: tpl/edit_jobs.html
-msgid "Les champs suivants ont ete oublies"
-msgstr "Os seguintes campos foram esquecidos"
+#: admin/edit_team.php:208
+msgid "Could NOT remove the project from the team"
+msgstr "Não foi possível remover o projeto a equipe"
 
-#: tpl/edit_jobs.html
-msgid "single selection"
-msgstr "selecão única"
+#: admin/edit_team.php:260
+#, fuzzy
+msgid "Configure Tooltips"
+msgstr "Configuration"
 
-#: tpl/edit_jobs.html
-msgid "multiple selection"
-msgstr "selecão múltipla"
+#: admin/edit_team.php:325
+msgid "enabled"
+msgstr "ativo"
 
-#: tpl/edit_jobs.html
-msgid "Desirez-vous vraiment supprimer definitivement l'association"
-msgstr "Você realmente deseja excluir permanentemente a associação"
+#: admin/edit_team.php:325
+msgid "disabled"
+msgstr "inativo"
 
-#: tpl/edit_jobs.html
-msgid "delete Project Association"
-msgstr "remover a associação com o projeto"
+#: admin/edit_team_ajax.php:68
+msgid "Issue tooltips for project"
+msgstr ""
 
-#: tpl/ajax/weekTaskDetails.html
-#: tpl/ajax/generalInfo.html
-msgid "update backlog"
-msgstr "atualizar backlog"
+#: admin/edit_team_ajax.php:69
+#, fuzzy
+msgid "Drag & drop the items to be displayed in the Issue tooltip"
+msgstr "Clique e arraste os filtros para aplicar"
 
-#: tpl/ajax/generalInfo.html
-msgid "Reestimated"
-msgstr "Reestimado"
+#: admin/edit_team_ajax.php:70
+#, fuzzy
+msgid "Available fields"
+msgstr "Filtros Disponíveis"
 
-#: tpl/ajax/generalInfo.html
-msgid "Support included"
-msgstr "Suporte incluso"
+#: admin/edit_team_ajax.php:71
+#, fuzzy
+msgid "Tooltip"
+msgstr "Ferramentas"
 
-#: tpl/ajax/generalInfo.html
-msgid "Support NOT included"
-msgstr "Suporte NÃO incluso"
-
-#: tpl/ajax/generalInfo.html
-msgid "EffortDeviation -Support"
-msgstr "Desvio -Suporte"
-
-#: tpl/ajax/generalInfo.html
-msgid "EffortDeviation +Support"
-msgstr "Desvio +Suporte"
-
-#: admin/create_team.php:79
-msgid "Provision"
-msgstr "Provisão"
-
-#: admin/edit_jobs.php:61
-msgid "Couldn't add the job association"
-msgstr "Não foi possível adicionar a associação trabalho"
-
-#: admin/edit_jobs.php:73 admin/edit_jobs.php:87
-msgid "Couldn't remove the job association"
-msgstr "Não foi possível remover a associação trabalho"
-
-#: admin/edit_jobs.php:79
-msgid "Couldn't delete the job"
-msgstr "Impossivel de apagar o cargo "
+#: admin/logs.php:58
+msgid "Sorry, logfile not found:"
+msgstr "Desculpe, arquivo de log não localizado:"
 
 #: admin/edit_holidays.php:46
 msgid "Couldn't add the holiday"
@@ -2635,45 +3438,21 @@ msgstr "Não foi possível adicionar o feriado"
 msgid "Couldn't remove the holiday"
 msgstr "Não foi possível remover o feriado"
 
-#: admin/logs.php:58
-msgid "Sorry, logfile not found:"
-msgstr "Desculpe, arquivo de log não localizado:"
+#: admin/edit_jobs.php:64
+msgid "Couldn't add the job association"
+msgstr "Não foi possível adicionar a associação trabalho"
 
-#: admin/edit_team.php:52
-msgid "Couldn't delete the team"
-msgstr "Impossivel de apagar a equipe: "
+#: admin/edit_jobs.php:72
+msgid "This job must not be deleted."
+msgstr ""
 
-#: admin/edit_team.php:88
-msgid "Couldn't update the team leader"
-msgstr "Não foi possível alterar o gerente da equipe"
+#: admin/edit_jobs.php:78 admin/edit_jobs.php:94
+msgid "Couldn't remove the job association"
+msgstr "Não foi possível remover a associação trabalho"
 
-#: admin/edit_team.php:99
-msgid "Couldn't update the creation date"
-msgstr "Não foi possível altterar a data da criação"
-
-#: admin/edit_team.php:104
-msgid "Couldn't enable/disable team"
-msgstr "Impossivel de ativar / desativar equipe"
-
-#: admin/edit_team.php:143
-msgid "Couldn't delete the member of the team"
-msgstr "Não foi possível remover o projeto da equipe"
-
-#: admin/edit_team.php:156 admin/edit_team.php:159
-msgid "Couldn't add the project to the team"
-msgstr "Não foi possível adicionar o projeto a equipe"
-
-#: admin/edit_team.php:164
-msgid "Could NOT remove the project from the team"
-msgstr "Não foi possível remover o projeto a equipe"
-
-#: admin/edit_team.php:270
-msgid "enabled"
-msgstr "ativo"
-
-#: admin/edit_team.php:270
-msgid "disabled"
-msgstr "inativo"
+#: admin/edit_jobs.php:84
+msgid "Couldn't delete the job"
+msgstr "Impossivel de apagar o cargo "
 
 #: blog/blog.php:100
 msgid "Ack"
@@ -2683,132 +3462,279 @@ msgstr "Ack"
 msgid "Hide"
 msgstr "Ocultar"
 
-#: classes/consistency_check_fdj.class.php:85
-msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
-msgstr "BI not specified: BI = Time(Analysis + Dev + Tests)"
-
-#: classes/consistency_check_fdj.class.php:86
-#: classes/consistency_check_fdj.class.php:95
-#: classes/consistency_check_fdj.class.php:106
-#: classes/consistency_check2.class.php:74
-#: classes/consistency_check.class.php:175
-#: classes/consistency_check.class.php:219
-#: classes/consistency_check.class.php:327
-#: classes/consistency_check.class.php:375 reports/productivity_report.php:371
-#: reports/productivity_report.php:379 reports/productivity_report.php:391
-msgid "Error"
-msgstr "Erro"
-
-#: classes/consistency_check_fdj.class.php:94
-msgid "Backlog not specified: Backlog = Time(BI - Analysis)"
-msgstr "Backlog not specified: Backlog = Time(BI - Analysis)"
-
-#: classes/consistency_check_fdj.class.php:105
-msgid "Once analysed, a Task must be assigned to 'FDJ' for validation"
-msgstr "Após análise, um formulário deve ser atribuído a 'FDJ \"para validação"
-
-#: classes/blog_manager.class.php:52
+#: classes/blog_manager.class.php:50
 msgid "Acknowledged"
 msgstr "Aceito"
 
-#: classes/blog_manager.class.php:54
+#: classes/blog_manager.class.php:52
 msgid "Hidden"
 msgstr "Oculta"
 
-#: classes/blog_manager.class.php:140
+#: classes/blog_manager.class.php:138
 msgid "Low"
 msgstr "Baixa"
 
-#: classes/blog_manager.class.php:142
+#: classes/blog_manager.class.php:140
 msgid "Normal"
 msgstr "Normal"
 
-#: classes/blog_manager.class.php:144
+#: classes/blog_manager.class.php:142
 msgid "High"
 msgstr "Alta"
 
-#: classes/scheduler.class.php:87 reports/planning_report.php:180
-msgid "monitored"
-msgstr "Monitorado"
+#: classes/issue.class.php:59
+#, fuzzy
+msgid "Duplicate of"
+msgstr "Data final"
 
-#: classes/consistency_check2.class.php:76
-#: classes/consistency_check.class.php:265 reports/planning_report.php:223
+#: classes/issue.class.php:60
+msgid "Has duplicate"
+msgstr ""
+
+#: classes/issue.class.php:61 classes/issue.class.php:62
+msgid "Related to"
+msgstr ""
+
+#: classes/issue.class.php:63
+msgid "Parent of"
+msgstr ""
+
+#: classes/issue.class.php:64
+msgid "Child of"
+msgstr ""
+
+#: classes/issue.class.php:65
+msgid "Constrained by"
+msgstr ""
+
+#: classes/issue.class.php:66
+#, fuzzy
+msgid "Constrains"
+msgstr "Administração CoDev"
+
+#: classes/issue.class.php:2159 classes/wbsElement.class.php:585
+#: tools.php:1463
+msgid "Tags"
+msgstr ""
+
+#: classes/issue.class.php:2167
+#, fuzzy
+msgid "none"
+msgstr "(nenhum)"
+
+#: classes/issue.class.php:2172
+#, fuzzy
+msgid "DriftColor"
+msgstr "Desvio"
+
+#: classes/issue.class.php:2175 tools.php:229
+#, fuzzy
+msgid "DriftMgr"
+msgstr "Desvio Mgr"
+
+#: classes/issue.class.php:2176
+#, fuzzy
+msgid "DriftMgrColor"
+msgstr "Desvio Mgr"
+
+#: classes/issue.class.php:2193 tools.php:1477
+#, fuzzy
+msgid "Assigned"
+msgstr "Atribuido a"
+
+#: classes/issue.class.php:2201 tools.php:1485
+msgid "ETA"
+msgstr "ETA"
+
+#: classes/consistency_check2.class.php:63
+#: classes/consistency_check_fdj.class.php:77
+#: classes/consistency_check_fdj.class.php:86
+#: classes/consistency_check_fdj.class.php:97
+#: classes/consistency_check.class.php:165
+#: classes/consistency_check.class.php:209
+#: classes/consistency_check.class.php:318
+#: classes/consistency_check.class.php:366 reports/productivity_report.php:417
+#: reports/productivity_report.php:425 reports/productivity_report.php:437
+#: timetracking/team_monthly_activity_report.php:129
+msgid "Error"
+msgstr "Erro"
+
+#: classes/consistency_check2.class.php:65
+#: classes/consistency_check.class.php:256
 msgid "Warning"
 msgstr "Alerta"
 
-#: classes/consistency_check2.class.php:78
+#: classes/consistency_check2.class.php:67
 msgid "Info"
 msgstr "Informação"
 
-#: classes/consistency_check2.class.php:80 reports/planning_report.php:222
-#: tests/odt.php:88 tests/odt.php:98
+#: classes/consistency_check2.class.php:69 reports/export_odt.php:272
+#: reports/export_odt.php:285 tests/odt.php:81 tests/odt.php:94
 msgid "unknown"
 msgstr "desconhecido"
 
-#: classes/consistency_check2.class.php:242
-#: classes/consistency_check.class.php:218
+#: classes/consistency_check2.class.php:200
+msgid "Backlog on resolved issues should be 0"
+msgstr ""
+
+#: classes/consistency_check2.class.php:201
+msgid "Backlog on unresolved issues should not be 0"
+msgstr ""
+
+#: classes/consistency_check2.class.php:202
+#, fuzzy
+msgid "EffortEstim should not be 0"
+msgstr "EffortEstim Não especificado"
+
+#: classes/consistency_check2.class.php:203
+msgid "There should be no timetracks on \"new\" issues "
+msgstr ""
+
+#: classes/consistency_check2.class.php:204
+#, fuzzy
+msgid "Issues should be referenced in a Command"
+msgstr "não está referenciado em qualquer grupo de comandos."
+
+#: classes/consistency_check2.class.php:205
+#, fuzzy
+msgid "Commands should be referenced in a CommandSet"
+msgstr "não está referenciado em qualquer grupo de comandos."
+
+#: classes/consistency_check2.class.php:206
+#, fuzzy
+msgid "CommandSets should be referenced in a ServiceContract"
+msgstr "não está referenciado em qualquer Contrato de Serviço. "
+
+#: classes/consistency_check2.class.php:207
+msgid "Issues should be assigned to someone"
+msgstr ""
+
+#: classes/consistency_check2.class.php:208
+msgid ""
+"Check timetracks on removed issues (not needed if mantis plugin is enabled)"
+msgstr ""
+
+#: classes/consistency_check2.class.php:313
+#: classes/consistency_check.class.php:208
 msgid "Backlog should be 0 (not "
 msgstr ""
 
-#: classes/consistency_check2.class.php:264
+#: classes/consistency_check2.class.php:335
 msgid "Backlog must be defined !"
 msgstr "Backlog deve ser definedo !"
 
-#: classes/consistency_check2.class.php:266
-#: classes/consistency_check.class.php:264
+#: classes/consistency_check2.class.php:337
+#: classes/consistency_check.class.php:255
 msgid "Backlog == 0: Backlog may not be up to date."
 msgstr "Backlog == 0: Backlog não pode ser atualizado."
 
-#: classes/consistency_check2.class.php:312
-#: classes/consistency_check.class.php:326
+#: classes/consistency_check2.class.php:383
+#: classes/consistency_check.class.php:317
 msgid "MgrEffortEstim not set."
 msgstr "MgrEffortEstim  Não especificado"
 
-#: classes/consistency_check2.class.php:344
+#: classes/consistency_check2.class.php:415
 msgid "EffortEstim not set."
 msgstr "EffortEstim Não especificado"
 
-#: classes/consistency_check2.class.php:370
-#: classes/consistency_check.class.php:374
+#: classes/consistency_check2.class.php:441
+#: classes/consistency_check.class.php:365
 msgid "Status should not be"
 msgstr "O staus não deve ser "
 
-#: classes/consistency_check2.class.php:408
+#: classes/consistency_check2.class.php:479
 msgid "The task is not assigned to anybody."
 msgstr "Os casos não estão atribuidos "
 
-#: classes/consistency_check2.class.php:466
+#: classes/consistency_check2.class.php:537
 msgid "The task is not referenced in any Command."
 msgstr "Casos não referenciados em nenhum comando."
 
-#: classes/consistency_check2.class.php:503
+#: classes/consistency_check2.class.php:574
 msgid "is not referenced in any CommandSet"
 msgstr "não está referenciado em qualquer grupo de comandos."
 
-#: classes/consistency_check2.class.php:531
+#: classes/consistency_check2.class.php:602
 msgid "is not referenced in any ServiceContract"
 msgstr "não está referenciado em qualquer Contrato de Serviço. "
 
-#: classes/consistency_check2.class.php:601 timetracking/time_tracking.php:308
+#: classes/consistency_check2.class.php:677
 msgid "incomplete (missing "
 msgstr "incompleto (faltando "
 
-#: classes/consistency_check2.class.php:601 timetracking/time_tracking.php:308
+#: classes/consistency_check2.class.php:677
 msgid " days"
 msgstr " dias"
 
-#: classes/consistency_check2.class.php:603
-#: reports/productivity_report.php:378 timetracking/time_tracking.php:310
+#: classes/consistency_check2.class.php:679
+#: reports/productivity_report.php:424
 msgid "inconsistent"
 msgstr "inconsistente"
 
 #. skip dates in the future
-#: classes/consistency_check2.class.php:616
-#: reports/productivity_report.php:390 timetracking/time_tracking.php:324
+#: classes/consistency_check2.class.php:692
+#: reports/productivity_report.php:436
 msgid "not defined."
 msgstr "não definido."
 
-#: classes/consistency_check.class.php:174
+#: classes/consistency_check2.class.php:712
+msgid "No default project workflow defined in mantis DB"
+msgstr ""
+
+#: classes/scheduler.class.php:81 reports/planning_report.php:185
+msgid "monitored"
+msgstr "Monitorado"
+
+#: classes/command.class.php:59
+msgid "to be sent"
+msgstr ""
+
+#: classes/command.class.php:60
+msgid "Sent"
+msgstr ""
+
+#: classes/command.class.php:61
+msgid "to be validated"
+msgstr ""
+
+#: classes/command.class.php:62
+msgid "validated"
+msgstr ""
+
+#: classes/command.class.php:63
+msgid "to be closed"
+msgstr ""
+
+#: classes/command.class.php:64
+#, fuzzy
+msgid "closed"
+msgstr "enclosure"
+
+#: classes/command.class.php:65
+msgid "bill must be sent"
+msgstr ""
+
+#: classes/command.class.php:66
+msgid "bill sent"
+msgstr ""
+
+#: classes/command.class.php:67
+msgid "payed"
+msgstr ""
+
+#: classes/consistency_check_fdj.class.php:76
+msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
+msgstr "BI not specified: BI = Time(Analysis + Dev + Tests)"
+
+#: classes/consistency_check_fdj.class.php:85
+msgid "Backlog not specified: Backlog = Time(BI - Analysis)"
+msgstr "Backlog not specified: Backlog = Time(BI - Analysis)"
+
+#: classes/consistency_check_fdj.class.php:96
+msgid "Once analysed, a Task must be assigned to 'FDJ' for validation"
+msgstr "Após análise, um formulário deve ser atribuído a 'FDJ \"para validação"
+
+#: classes/consistency_check.class.php:164
 msgid ""
 "Delivery date not specified: If a delivery sheet is specified, then a "
 "Delivery Date is requested."
@@ -2816,98 +3742,115 @@ msgstr ""
 "Data de entrega não especificado: Se uma folha de entrega é especificado, "
 "então uma data de entrega é solicitada."
 
-#: filters/IssuePublicPrivateFilter.php:52
-msgid "Sort issues: public/private"
-msgstr "Ordenar casos: públicos/privados"
-
-#: filters/IssuePublicPrivateFilter.php:60
-msgid "Issue Public/Private"
-msgstr "Caso público/privado"
-
-#: filters/IssueExtIdFilter.php:52
-msgid "Sort issues: with/without External ID"
-msgstr "Ordenar casos: com/sem referencia externa"
-
-#: filters/IssueExtIdFilter.php:60
-msgid "Issue External ID"
-msgstr "ID externo"
-
-#: filters/ProjectCategoryFilter.php:55
-msgid "Sort issues per project categories"
-msgstr "Ordenar casos por categorias de projeto"
-
-#: filters/ProjectCategoryFilter.php:63
-msgid "Project Category"
-msgstr "Categoria do projeto"
-
-#: filters/IssueTagFilter.php:55
-msgid "Sort issues per tags"
-msgstr "Ordenar casos por etiquetas"
-
-#: filters/IssueTagFilter.php:63
-msgid "Issue Tag"
-msgstr "Tag caso"
-
-#: filters/ProjectVersionFilter.php:50
+#: filters/ProjectVersionFilter.php:45
 msgid "Sort issues per Project TargetVersion"
 msgstr "Ordenar casos por TargetVersion do projeto"
 
-#: filters/ProjectVersionFilter.php:58
+#: filters/ProjectVersionFilter.php:53
 msgid "Project TargetVersion"
 msgstr "Versão alvo de projeto"
 
-#: graphs/gantt_graph.php:93
+#: filters/IssuePublicPrivateFilter.php:48
+msgid "Sort issues: public/private"
+msgstr "Ordenar casos: públicos/privados"
+
+#: filters/IssuePublicPrivateFilter.php:56
+msgid "Issue Public/Private"
+msgstr "Caso público/privado"
+
+#: filters/ProjectCategoryFilter.php:49
+msgid "Sort issues per project categories"
+msgstr "Ordenar casos por categorias de projeto"
+
+#: filters/ProjectCategoryFilter.php:57
+msgid "Project Category"
+msgstr "Categoria do projeto"
+
+#: filters/IssueExtIdFilter.php:49
+msgid "Sort issues: with/without External ID"
+msgstr "Ordenar casos: com/sem referencia externa"
+
+#: filters/IssueExtIdFilter.php:57
+msgid "Issue External ID"
+msgstr "ID externo"
+
+#: filters/IssueCodevTypeFilter.php:55
+msgid "Sort issues per CustomField: CodevTT_Type"
+msgstr ""
+
+#: filters/IssueCodevTypeFilter.php:63
+#, fuzzy
+msgid "Issue Type"
+msgstr "Tag caso"
+
+#: filters/ProjectFilter.php:51
+#, fuzzy
+msgid "Sort issues per Project"
+msgstr "Ordenar casos por etiquetas"
+
+#: filters/IssueTagFilter.php:49
+msgid "Sort issues per tags"
+msgstr "Ordenar casos por etiquetas"
+
+#: filters/IssueTagFilter.php:57
+msgid "Issue Tag"
+msgstr "Tag caso"
+
+#: graphs/gantt_graph.php:97
 msgid "Project(s)"
 msgstr "Projeto(s)"
 
-#: graphs/gantt_graph.php:95 reports/gantt_report.php:51
-#: smarty_tools_ajax.php:33
+#: graphs/gantt_graph.php:99 reports/gantt_report.php:41
+#: smarty_tools_ajax.php:35
 msgid "All projects"
 msgstr "Todo os Projetos"
 
-#: import/import_issues.php:116
+#: import/import_issues.php:115
 msgid "Please upload files with the following extension: "
 msgstr "Por favor efetue upload com as seguintes extensões:"
 
-#: indicator_plugins/days_per_job_indicator.class.php:56
+#: indicator_plugins/BacklogVariationIndicator/BacklogVariationIndicator.class.php:286
+#, fuzzy
+msgid "Average backlog"
+msgstr "atualizar backlog"
+
+#: indicator_plugins/StatusHistoryIndicator/StatusHistoryIndicator.class.php:194
+#: management/commandset_tools.php:120 management/command_tools.php:103
+#: management/servicecontract_tools.php:275 reports/planning_report.php:325
+#: reports/planning_report.php:405
+msgid "Y-m-d"
+msgstr "dd-mm-yyyy"
+
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:410
+#: reports/project_info.php:324
+msgid "New Tasks"
+msgstr "Novos casos"
+
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:411
+#: reports/project_info.php:325
+msgid "Current Tasks"
+msgstr "Casos atuais"
+
+#: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:412
+#: reports/project_info.php:326
+msgid "Resolved Tasks"
+msgstr "Casos resolvidos"
+
+#: indicator_plugins/DaysPerJobIndicator/DaysPerJobIndicator.class.php:56
 msgid "Working days per Job"
 msgstr "Dias de trabalho por cargo"
 
-#: install/install_step1.php:25
-msgid "Install - Step 1"
-msgstr "Instalação - Etapa 1"
+#: indicator_plugins/ActivityIndicator/ActivityIndicator.class.php:277
+msgid "Other"
+msgstr "Outros"
 
-#: install/install_step1.php:166 install/install_step3.php:418
-msgid "Prerequisites"
-msgstr "Prerequisitos"
+#: indicator_plugins/ActivityIndicator/ActivityIndicator.class.php:278
+msgid "External"
+msgstr "Externo"
 
-#: install/install_step1.php:172 install/install_step3.php:421
-msgid "Actions"
-msgstr "Ações"
-
-#: install/install_step1.php:186
-msgid "Mantis Database Info"
-msgstr "Base de dados Mantis"
-
-#: install/install_step1.php:190
-msgid "Hostname"
-msgstr "Servidor"
-
-#: install/install_step1.php:194
-msgid "Database Name"
-msgstr "Base de dados"
-
-#: install/install_step1.php:210
-msgid "Proceed Step 1"
-msgstr "Executar etapa 1"
-
-#: install/install_step4.php:25
-msgid "Installation finished"
-msgstr "Instalação finalizada"
-
-#: install/install.php:25 install/install_menu.inc.php:22
-msgid "Install"
-msgstr "Instalação"
+#: indicator_plugins/ActivityIndicator/ActivityIndicator.class.php:283
+msgid "SideTask"
+msgstr "CasoCorrelato"
 
 #: install/install_step2.php:25
 msgid "Install - Step 2"
@@ -2925,23 +3868,27 @@ msgstr "Pasta do Mantis"
 msgid "URL to mantis"
 msgstr "URL do Mantis"
 
-#: install/install_step2.php:124
+#: install/install_step2.php:119
+msgid "URL to CodevTT"
+msgstr ""
+
+#: install/install_step2.php:129
 msgid "Proceed Step 2"
 msgstr "Executar Etapa 2"
 
-#: install/install_step2.php:235
+#: install/install_step2.php:245
 msgid "status Names as defined in Mantis (status_enum_string)"
 msgstr "status Names as defined in Mantis (status_enum_string)"
 
-#: install/install_step2.php:239
+#: install/install_step2.php:249
 msgid "priority Names as defined in Mantis (priority_enum_string)"
 msgstr "priority Names as defined in Mantis (priority_enum_string)"
 
-#: install/install_step2.php:244
+#: install/install_step2.php:254
 msgid "severity Names as defined in Mantis (severity_enum_string)"
 msgstr "severity Names as defined in Mantis (severity_enum_string)"
 
-#: install/install_step2.php:249
+#: install/install_step2.php:259
 msgid "resolution Names as defined in Mantis (resolution_enum_string)"
 msgstr "resolution Names as defined in Mantis (resolution_enum_string)"
 
@@ -2949,129 +3896,326 @@ msgstr "resolution Names as defined in Mantis (resolution_enum_string)"
 msgid "Install - Step 3"
 msgstr "Instalação - Etapa 3"
 
-#. create admin team
-#: install/install_step3.php:183
-msgid "CoDevTT Administrators team"
+#: install/install_step3.php:188
+#, fuzzy
+msgid "CodevTT Administrators team"
 msgstr "Equipe Administração CodevTT"
-
-#: install/install_step3.php:210
-msgid "Mantis/CoDevTT administration"
-msgstr "administração Mantis/CoDevTT"
-
-#. echo "DEBUG create Variable : ".Config::id_astreintesTaskList."<br/>";
-#: install/install_step3.php:220
-msgid "The absence SideTasks considered as astreinte"
-msgstr ""
 
 #. echo "DEBUG create Variable : ".Config::id_ClientTeamid."<br/>";
 #. TODO should be a table, there can be more than one client !
-#: install/install_step3.php:225
+#. TODO clients are team specific !
+#: install/install_step3.php:220
 msgid "Customer teamId"
 msgstr "Código da equipe cliente"
 
-#: install/install_step3.php:383
+#: install/install_step3.php:418
 msgid "CodevTT_EffortEstim"
 msgstr "CodevTT_Esforço inicial"
 
-#: install/install_step3.php:390
+#: install/install_step3.php:421
+#, fuzzy
+msgid "CodevTT_Type"
+msgstr "CodevTT_Vencimento"
+
+#: install/install_step3.php:428
 msgid "CodevTT_Manager EffortEstim"
 msgstr "CodevTT_Estimativa da gerência"
 
-#: install/install_step3.php:394
+#: install/install_step3.php:434
 msgid "CodevTT_External ID"
 msgstr "CodevTT_Referencia Externa"
 
-#: install/install_step3.php:395
-msgid "CodevTT_Dead Line"
+#: install/install_step3.php:437
+#, fuzzy
+msgid "CodevTT_Deadline"
 msgstr "CodevTT_Vencimento"
 
-#: install/install_step3.php:398
-msgid "CodevTT_Aditional Effort"
+#: install/install_step3.php:440
+#, fuzzy
+msgid "CodevTT_Additional Effort"
 msgstr "CodevTT_Esforço adicional"
 
-#: install/install_step3.php:404
+#: install/install_step3.php:446
 msgid "CodevTT_Backlog"
 msgstr "CodevTT_Backlog"
 
 #. createCustomField(T_("CodevTT_Delivery ticket"),   $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
-#: install/install_step3.php:411
+#: install/install_step3.php:453
 msgid "CodevTT_Delivery Date"
 msgstr "CodevTT_Data entrega"
 
 #. ------ Reports
-#: install/install_step3.php:441
-msgid "Path to output files (logs, reports, ...)"
+#: install/install_step3.php:493
+#, fuzzy
+msgid "Path to output files"
 msgstr "Pasta para saída (logs, relatórios, ...)"
 
-#: install/install_step3.php:467
+#: install/install_step3.php:494
+msgid "Path to log files and other temporary files."
+msgstr ""
+
+#: install/install_step3.php:494
+msgid ""
+"Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need "
+"to create it first and give read/write access."
+msgstr ""
+
+#. ------ Status
+#: install/install_step3.php:511
+#, fuzzy
+msgid "Workflow"
+msgstr "carga"
+
+#: install/install_step3.php:512
+msgid "Set equivalences in accordance to your Mantis workflow"
+msgstr ""
+
+#. ------ Administrator
+#: install/install_step3.php:570
+#, fuzzy
+msgid "CodevTT Administrator"
+msgstr "Equipe Administração CodevTT"
+
+#: install/install_step3.php:582
+msgid "More administrators can be defined later, for now you just need one."
+msgstr ""
+
+#. ------- External ID
+#: install/install_step3.php:586
+#, fuzzy
+msgid "Tasks external ID field"
+msgstr "ID externo"
+
+#: install/install_step3.php:608
+msgid "Create a new CustomField"
+msgstr ""
+
+#: install/install_step3.php:610
+#, fuzzy
+msgid "Use this CustomField :"
+msgstr "Campos personalizados"
+
+#: install/install_step3.php:637
 msgid "Default Jobs"
 msgstr "Número de cargos"
 
-#: install/install_step3.php:474
-msgid "CoDev support management"
+#: install/install_step3.php:644
+#, fuzzy
+msgid "CodevTT support management"
 msgstr "gestão do suporte"
 
-#: install/install_step3.php:478
-msgid "open a colorPicker in a new Tab"
-msgstr "Abror seleção de cor em nova aba"
-
-#: install/install_step3.php:485
+#: install/install_step3.php:655
 msgid "Specific to SideTasks"
 msgstr "Específica para casos correlatos"
 
-#: install/install_step3.php:535
+#: install/install_step3.php:693
+#, fuzzy
+msgid "Select the projects to be managed with CodevTT"
+msgstr "Selecione o projeto para ser gerenciado com o CodevTT"
+
+#: install/install_step3.php:705
 msgid "Proceed Step 3"
 msgstr "Executar Etapa 3"
 
-#: install/install_step3.php:592
+#: install/install_step3.php:834
 msgid "CodevTT admin"
 msgstr "CodevTT admin"
 
-#: install/install_step3.php:620
+#: install/install_step3.php:863
 msgid "Other external activity"
 msgstr "Outra atividade externa"
 
-#: install/install_step3.php:621
+#: install/install_step3.php:864
 msgid "Leave"
 msgstr "Ausência"
 
-#: install/install_step3.php:622
+#: install/install_step3.php:865
+#, fuzzy
+msgid "Sick Leave"
+msgstr "Ausência"
+
+#: install/install_step3.php:866
 msgid "Study of the existing"
 msgstr "Estudo da existência"
 
-#: install/install_step3.php:623
+#: install/install_step3.php:867
 msgid "Analyse"
 msgstr "Analise"
 
-#: install/install_step3.php:624
+#: install/install_step3.php:868
 msgid "Development"
 msgstr "Desenvolvimento"
 
-#: install/install_step3.php:625
+#: install/install_step3.php:869
 msgid "Tests"
 msgstr "Testes"
 
-#: install/install_step3.php:670
+#: install/install_step3.php:944
 msgid "CodevTT_ExternalTasks"
 msgstr "CodevTT Casos Externos"
 
-#: install/install_step3.php:670
+#: install/install_step3.php:944
 msgid "CodevTT ExternalTasks Project"
 msgstr "CodevTT Projeto de casos externos"
 
-#. cat="[All Projects] General", status="closed"
-#: install/install_step3.php:690
+#. cat="OtherInternal", status="closed"
+#: install/install_step3.php:992
 msgid "Any external task, NOT referenced in any mantis project"
 msgstr "Qualquer caso externo, SEM referência em qualquer projeto mantis"
 
 #. --- Create the 'Leave' task in ExternalTasks Project
-#: install/install_step3.php:693
-msgid "On holiday, sick leave, ..."
+#: install/install_step3.php:995
+#, fuzzy
+msgid "On holiday, leave, ..."
 msgstr "em feriado, licença médica, ..."
 
-#: install/install_step3.php:694
-msgid "Common Leave task"
-msgstr "Common Leave task"
+#: install/install_step3.php:996
+msgid "Sick"
+msgstr ""
+
+#: install/install_step4.php:25
+#, fuzzy
+msgid "Install - Step 4"
+msgstr "Instalação - Etapa 1"
+
+#: install/install_step4.php:51
+msgid "Create a default project workflow in Mantis"
+msgstr ""
+
+#: install/install_step4.php:52
+msgid ""
+"The Mantis default workflow is not load in the database unless you change it "
+"with the Mantis administration GUI."
+msgstr ""
+
+#: install/install_step4.php:54 install/install_step4.php:67
+msgid "Login to Mantis as 'Administrator'."
+msgstr ""
+
+#: install/install_step4.php:55
+#, fuzzy
+msgid "Select project 'All projects'"
+msgstr "Definir filtros de projeto"
+
+#: install/install_step4.php:56
+#, fuzzy
+msgid "manage workflow transitions"
+msgstr "Ciclo de trabalho"
+
+#: install/install_step4.php:57
+msgid "Change the workflow (change one of the 'next status' checkboxes)"
+msgstr ""
+
+#: install/install_step4.php:58
+msgid "Click the 'Update Configuration' button"
+msgstr ""
+
+#: install/install_step4.php:59
+msgid "Rollback the workflow to the initial state"
+msgstr ""
+
+#: install/install_step4.php:60
+msgid "Click the 'Update Configuration' button again"
+msgstr ""
+
+#: install/install_step4.php:65
+msgid "Activate Mantis Plugins"
+msgstr ""
+
+#: install/install_step4.php:68
+msgid "manage plugins"
+msgstr ""
+
+#: install/install_step4.php:69
+msgid "Install the CodevTT plugin."
+msgstr ""
+
+#: install/install_step4.php:70
+msgid "Install the FilterBugList plugin."
+msgstr ""
+
+#: install/install_step4.php:75
+msgid "Install Firefox Greasemonkey addon"
+msgstr ""
+
+#: install/install_step4.php:76
+msgid "Note: This step is optional"
+msgstr ""
+
+#: install/install_step4.php:78
+#, fuzzy
+msgid "Install addon:"
+msgstr "Instalação"
+
+#: install/install_step4.php:79
+msgid "Load script:"
+msgstr ""
+
+#: install/install_step4.php:85
+#, fuzzy
+msgid "Done !"
+msgstr "Finalizado"
+
+#: install/install_step1.php:25
+msgid "Install - Step 1"
+msgstr "Instalação - Etapa 1"
+
+#: install/install_step1.php:201
+msgid "Prerequisites"
+msgstr "Prerequisitos"
+
+#: install/install_step1.php:207
+msgid "Actions"
+msgstr "Ações"
+
+#: install/install_step1.php:221
+msgid "Mantis Database Info"
+msgstr "Base de dados Mantis"
+
+#: install/install_step1.php:225
+msgid "Hostname"
+msgstr "Servidor"
+
+#: install/install_step1.php:229
+msgid "Database Name"
+msgstr "Base de dados"
+
+#: install/install_step1.php:243
+msgid ""
+"WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> "
+"mysql user (This can be changed in config.ini when installation is finished)."
+msgstr ""
+
+#: install/install_step1.php:246
+#, fuzzy
+msgid "Proxy Settings"
+msgstr "Opções"
+
+#: install/install_step1.php:247
+msgid "CodevTT will check for updates."
+msgstr ""
+
+#: install/install_step1.php:250
+#, fuzzy
+msgid "Enable proxy"
+msgstr "Ativo"
+
+#: install/install_step1.php:251
+#, fuzzy
+msgid "Server"
+msgstr "Service"
+
+#: install/install_step1.php:252
+msgid "Port"
+msgstr ""
+
+#: install/install_step1.php:259
+msgid "Proceed Step 1"
+msgstr "Executar etapa 1"
+
+#: install/install_menu.inc.php:22 install/install.php:25
+msgid "Install"
+msgstr "Instalação"
 
 #: install/install_menu.inc.php:26
 msgid "Step 1"
@@ -3085,46 +4229,82 @@ msgstr "Etapa 2"
 msgid "Step 3"
 msgstr "Etapa 3"
 
-#: management/command_edit.php:188 management/servicecontract_edit.php:140
-#: management/commandset_edit.php:137
-msgid "Save"
-msgstr "Enregistrer"
+#: install/install_menu.inc.php:38
+#, fuzzy
+msgid "Step 4"
+msgstr "Etapa 1"
 
-#: management/command_edit.php:202
+#: install/install_step5.php:25
+msgid "Installation finished"
+msgstr "Instalação finalizada"
+
+#: management/command_edit.php:225
 msgid "Add tasks to Command"
 msgstr "Adicionar tarefa ao Command"
 
-#: management/command_edit.php:203
+#: management/command_edit.php:226
 msgid "Add multiple tasks"
 msgstr "Adicionar multiplas tarefas"
 
-#: management/command_edit.php:204
+#: management/command_edit.php:227
 msgid "Add selection"
 msgstr "Adicionar seleção"
 
-#: management/command_edit.php:205
+#: management/command_edit.php:228
 msgid "Note: Tasks already assigned to a Command are not displayed."
 msgstr ""
 "Nota: Estes casos relacionados estão definidos em comandos e não serão "
 "exibidos."
 
-#: management/command_edit.php:206
+#: management/command_edit.php:229
 msgid "Add the selected issues to the Command ?"
 msgstr "Adicionar os casos selecionados a Command ?"
 
-#: management/commandset_info.php:84
+#: management/commandset_info.php:96
 msgid "Errors affecting the CommandSet"
 msgstr ""
 
-#. TODO smarty error msg
-#: management/commandset_info.php:95
-msgid "Sorry, You are not allowed to see this commandSet"
+#: management/command_edit_ajax.php:51
+msgid "Provisions updated FAILED !"
 msgstr ""
 
-#. TODO smarty error msg
-#: management/command_info.php:93
-msgid "Sorry, You are not allowed to see this command"
+#: management/servicecontract_tools.php:182
+msgid "Provision"
+msgstr "Provisão"
+
+#: reports/statistics.php:85
+msgid "No projects in this team"
 msgstr ""
+
+#: reports/productivity_report.php:202
+#: timetracking/team_activity_report.php:66 timetracking/time_tracking.php:279
+#: timetracking/team_monthly_activity_report.php:76
+msgid "days are incomplete or undefined"
+msgstr "dias estão incompletos ou indefinidos"
+
+#: reports/productivity_report.php:217
+msgid "All sideTasks Projects"
+msgstr "Todas tarefas correlatas do Projeto"
+
+#: reports/productivity_report.php:416
+msgid "incomplete"
+msgstr "incompleto"
+
+#: reports/productivity_report.php:416
+msgid "missing"
+msgstr "faltando"
+
+#: reports/export_csv_weekly.php:84 reports/export_csv_weekly.php:90
+msgid "Export Week"
+msgstr "Exportar semana"
+
+#: reports/export_csv_weekly.php:84
+msgid "Member Activity"
+msgstr "Atividade da equipe"
+
+#: reports/export_csv_weekly.php:104
+msgid "Export Holidays"
+msgstr "Exportar feriados"
 
 #: reports/export_csv_tools.php:49
 msgid "m_id"
@@ -3138,7 +4318,7 @@ msgstr "Versão do produto"
 msgid "Resolution"
 msgstr "Resolução"
 
-#: reports/export_csv_tools.php:66
+#: reports/export_csv_tools.php:66 tools.php:1420
 msgid "Delivery Date"
 msgstr "Data de liberação"
 
@@ -3146,119 +4326,208 @@ msgstr "Data de liberação"
 msgid "Delivery Sheet"
 msgstr "Planilha de entrega"
 
-#: reports/export_csv_weekly.php:94 reports/export_csv_weekly.php:100
-msgid "Export Week"
-msgstr "Exportar semana"
-
-#: reports/export_csv_weekly.php:94
-msgid "Member Activity"
-msgstr "Atividade da equipe"
-
-#: reports/export_csv_weekly.php:114
-msgid "Export Holidays"
-msgstr "Exportar feriados"
-
-#: reports/statistics.php:81
-msgid "No projects in this team"
-msgstr ""
-
-#: reports/planning_report.php:177
+#: reports/planning_report.php:182
 msgid "onTime"
 msgstr "dans les temps"
 
-#: reports/planning_report.php:178
+#: reports/planning_report.php:183
 msgid "NOT onTime"
 msgstr "en retard"
 
-#: reports/planning_report.php:179
+#: reports/planning_report.php:184
 msgid "no deadLine"
 msgstr "sans deadLine"
 
-#: reports/planning_report.php:225
-msgid "tasks are not assigned to anybody."
-msgstr "Casos não atribuídos."
-
-#: reports/planning_report.php:315 reports/planning_report.php:397
-msgid "Y-m-d"
-msgstr "dd-mm-yyyy"
-
-#: reports/issue_info.php:120
+#: reports/issue_info.php:418
 msgid "Backlog (days)"
 msgstr "Backlog (dias)"
-
-#: reports/productivity_report.php:164
-#: timetracking/team_activity_report.php:80
-msgid "days are incomplete or undefined"
-msgstr "dias estão incompletos ou indefinidos"
-
-#: reports/productivity_report.php:179
-msgid "All sideTasks Projects"
-msgstr "Todas tarefas correlatas do Projeto"
-
-#: reports/productivity_report.php:370
-msgid "incomplete"
-msgstr "incompleto"
-
-#: reports/productivity_report.php:370
-msgid "missing"
-msgstr "faltando"
-
-#: reports/project_info.php:151
-msgid "Sorry, you are not allowed to view the details of this project"
-msgstr "Désolé, vous n'êtes pas autorisé à voir le détail de ce projet"
-
-#: reports/project_info.php:382
-msgid "New Tasks"
-msgstr "Novos casos"
-
-#: reports/project_info.php:383
-msgid "Current Tasks"
-msgstr "Casos atuais"
-
-#: reports/project_info.php:384
-msgid "Resolved Tasks"
-msgstr "Casos resolvidos"
 
 #: tests/odt.php:8
 msgid "Test: export to ODT"
 msgstr "Test: Exportar para ODT"
 
-#: tests/odt.php:154
+#: tests/odt.php:177
 msgid "Sorry, there are no projects defined for your team."
 msgstr ""
 
-#: timetracking/holidays_report.php:95
-msgid "today"
-msgstr "hoje"
-
-#: timetracking/time_tracking_tools.php:59 timetracking/time_tracking.php:399
+#: timetracking/team_activity_report.php:179
+#: timetracking/time_tracking_tools.php:70
+#: timetracking/time_tracking_tools.php:429 timetracking/time_tracking.php:374
+#: timetracking/team_monthly_activity_report.php:130
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Erro: Caso não localizado na base de dados do mantis!"
 
-#: timetracking/time_tracking_tools.php:99 timetracking/time_tracking.php:128
-msgid "%Y-%m-%d"
-msgstr "%Y-%m-%d"
+#: timetracking/time_tracking_tools.php:176
+msgid "Click to add a note"
+msgstr ""
 
-#: timetracking/time_tracking.php:172
-msgid "Failed to delete the tasks"
+#: timetracking/holidays_report.php:65
+#, fuzzy
+msgid "External Tasks"
+msgstr "Tache externe"
+
+#: timetracking/holidays_report.php:70
+#, fuzzy
+msgid "Sidetasks Inactivity"
+msgstr "Inatividade"
+
+#: timetracking/holidays_report.php:121
+msgid "today"
+msgstr "hoje"
+
+#. light grey
+#: timetracking/holidays_report.php:181
+msgid "User not in team"
+msgstr ""
+
+#: timetracking/time_tracking.php:131
+msgid "Timetrack not added: Job has not specified."
+msgstr ""
+
+#: timetracking/time_tracking.php:173
+#, fuzzy
+msgid "Failed to delete the timetrack !"
 msgstr "Falha ao apagar as tarefas"
-
-#: index.php:187
-msgid "Tasks need to be assigned."
-msgstr "Casos que precisam ser atribuídos"
 
 #: smarty_tools.php:120
 msgid "W"
 msgstr "W"
+
+#: tools.php:1414
+#, fuzzy
+msgid "AddEffortEstim"
+msgstr "Esforço inicial"
+
+#~ msgid "man-day"
+#~ msgstr "dias-homem"
+
+#~ msgid "Jump"
+#~ msgstr "Ir"
+
+#~ msgid "Reestimated Mgr"
+#~ msgstr "Reestimado Mgr"
+
+#~ msgid "Backlog Mgr"
+#~ msgstr "Backlog Mgr"
+
+#~ msgid "Short List: "
+#~ msgstr "Lista compacta: "
+
+#~ msgid "Historical Progression Chart"
+#~ msgstr "Gráfico de progresso"
+
+#~ msgid "Theoric"
+#~ msgstr "Teórico"
+
+#~ msgid "Real"
+#~ msgstr "Real"
+
+#~ msgid "% Progress"
+#~ msgstr "Progresso"
+
+#~ msgid "Team Activity"
+#~ msgstr "Atividade da equipe"
+
+#~ msgid "Feedback"
+#~ msgstr "Feedback"
+
+#~ msgid "Admin Guide"
+#~ msgstr "Guia do administrador"
+
+#~ msgid "Missing dates"
+#~ msgstr "Campos faltantes"
+
+#~ msgid "Team Description"
+#~ msgstr "Descrição da equipe"
+
+#~ msgid "Team Leader"
+#~ msgstr "Gerente da equipe"
+
+#~ msgid "Budget for Management,Garantie,Risk..."
+#~ msgstr "Orçamento do projeto, Garantias,Riscos..."
+
+#~ msgid "Sorry, you do NOT have access to this page"
+#~ msgstr "Desculpe, você não possui permissão de acesso a esta página"
+
+#~ msgid "Reporter un bug / Demander un &eacute;volution"
+#~ msgstr "Reportar um bug / Demandar uma evolução"
+
+#~ msgid ""
+#~ "Pour reporter des bug sur CodevTT ou demander des &eacute;volutions merci "
+#~ "de vous rendre sur:"
+#~ msgstr ""
+#~ "Pour reporter des bug sur CodevTT ou demander des évolutions merci de "
+#~ "vous rendre sur:"
+
+#~ msgid "N'oubliez pas de mentionner vos coordon&eacute;es pour tout retour."
+#~ msgstr "N'oubliez pas de mentionner vos coordonées pour tout retour."
+
+#~ msgid "Estimated effort"
+#~ msgstr "Esforço estimado"
+
+#~ msgid "End Date"
+#~ msgstr "Data Final"
+
+#~ msgid "Team Edition"
+#~ msgstr "Editar equipe"
+
+#~ msgid "Leader"
+#~ msgstr "Gerente"
+
+#~ msgid "In here you can specify which inactivity tasks are 'OnDuty'"
+#~ msgstr ""
+#~ "Aqui você pode especificar quais são as tarefas inatividade 'Plantão'"
+
+#~ msgid "No OnDuty task defined"
+#~ msgstr "Nenhuma tarefa de plantão definido"
+
+#~ msgid "Cette tache ne sera plus consideree comme astreinte."
+#~ msgstr "Esta tarefa não será mais considerado como retrabalho"
+
+#~ msgid "No previous data"
+#~ msgstr "Sem dados anteriores"
+
+#~ msgid "Logged in as "
+#~ msgstr "Logado como"
+
+#~ msgid "log out"
+#~ msgstr "Desconectar"
+
+#~ msgid "Task information"
+#~ msgstr "Informações dos casos"
+
+#~ msgid "Weekly activity"
+#~ msgstr "Atividade semanal"
+
+#~ msgid "EffortDeviation -Support"
+#~ msgstr "Desvio -Suporte"
+
+#~ msgid "EffortDeviation +Support"
+#~ msgstr "Desvio +Suporte"
+
+#~ msgid "Mantis/CoDevTT administration"
+#~ msgstr "administração Mantis/CoDevTT"
+
+#~ msgid "Common Leave task"
+#~ msgstr "Common Leave task"
+
+#~ msgid "tasks are not assigned to anybody."
+#~ msgstr "Casos não atribuídos."
+
+#~ msgid "Sorry, you are not allowed to view the details of this project"
+#~ msgstr "Désolé, vous n'êtes pas autorisé à voir le détail de ce projet"
+
+#~ msgid "%Y-%m-%d"
+#~ msgstr "%Y-%m-%d"
+
+#~ msgid "Tasks need to be assigned."
+#~ msgstr "Casos que precisam ser atribuídos"
 
 #~ msgid "t"
 #~ msgstr "t"
 
 #~ msgid "Date depart"
 #~ msgstr "Data inicial"
-
-#~ msgid "Date fin"
-#~ msgstr "Data final"
 
 #~ msgid "Import Export"
 #~ msgstr "Importar Exportar"
@@ -3308,9 +4577,6 @@ msgstr "W"
 #~ msgid "Dates manquantes"
 #~ msgstr "Dias faltantes"
 
-#~ msgid "Monthly Activity"
-#~ msgstr "Atividade mensal"
-
 #~ msgid "Task info"
 #~ msgstr "Info caso"
 
@@ -3343,9 +4609,6 @@ msgstr "W"
 
 #~ msgid "Generate Excel Sheet"
 #~ msgstr "Exportar planilha Excel"
-
-#~ msgid "Export to CSV"
-#~ msgstr "Exportar CSV"
 
 #~ msgid "Sorry, you need to <a href='../'>login</a> to access this page."
 #~ msgstr ""
@@ -3388,12 +4651,6 @@ msgstr "W"
 #~ msgid "Monthly"
 #~ msgstr "Mensuel"
 
-#~ msgid "Import Tasks to Mantis"
-#~ msgstr "Import Fiches Mantis"
-
-#~ msgid "No Stats available."
-#~ msgstr "statistiques non disponibles"
-
 #~ msgid "Clone Project Settings"
 #~ msgstr "Clonner Configuration Projet"
 
@@ -3409,9 +4666,6 @@ msgstr "W"
 #~ msgid "Percentage of submitted tasks having been reopened in the period"
 #~ msgstr ""
 #~ "Pourcentage de fiches réouvertes par rapport au nombre de fiches Reçues"
-
-#~ msgid "ExternalTask"
-#~ msgstr "Tache externe"
 
 #~ msgid "OnDuty"
 #~ msgstr "Astreinte"
@@ -3479,14 +4733,8 @@ msgstr "W"
 #~ msgid "status"
 #~ msgstr "statut"
 
-#~ msgid "assigned to"
-#~ msgstr "assigné à"
-
 #~ msgid "--- not assigned ---"
 #~ msgstr "--- non assigné ---"
-
-#~ msgid "Service"
-#~ msgstr "Service"
 
 #~ msgid "Remove Command from this Service ?"
 #~ msgstr "Retirer La commande de cette MacroCommande ?"
@@ -3502,9 +4750,6 @@ msgstr "W"
 
 #~ msgid "Remove Engagement"
 #~ msgstr "Enlever Engagement"
-
-#~ msgid "Average Daily Rate"
-#~ msgstr "Taux Journalier Moyen"
 
 #~ msgid "Euro"
 #~ msgstr "Euro"
@@ -3524,38 +4769,14 @@ msgstr "W"
 #~ msgid "Activity by task"
 #~ msgstr "Activité par tâche"
 
-#~ msgid "Resolved tasks"
-#~ msgstr "Tâches résolues"
-
 #~ msgid "Efficiency and System Disponibility"
 #~ msgstr "Taux d'efficacité et Disponibilité système"
 
 #~ msgid "Tasks need MgrEffortEstim to be set."
 #~ msgstr "Taches ont une Charge_Mgr non renseignée"
 
-#~ msgid "Read"
-#~ msgstr "Lecture"
-
-#~ msgid "Monday"
-#~ msgstr "Lundi"
-
-#~ msgid "Tuesday"
-#~ msgstr "Mardi"
-
-#~ msgid "Wednesday"
-#~ msgstr "Mercredi"
-
-#~ msgid "Thursday"
-#~ msgstr "Jeudi"
-
-#~ msgid "Friday"
-#~ msgstr "Vendredi"
-
 #~ msgid " Projects Activity"
 #~ msgstr " Activité Projets"
-
-#~ msgid "percent"
-#~ msgstr "pourcent"
 
 #~ msgid "Saturday"
 #~ msgstr "Samedi"
@@ -3578,17 +4799,8 @@ msgstr "W"
 #~ msgid "No Error."
 #~ msgstr "Pas d'Erreur"
 
-#~ msgid "Load Estimation"
-#~ msgstr "Effort Estimé"
-
-#~ msgid "login failed !"
-#~ msgstr "l'identification a échouée !"
-
 #~ msgid "on duty"
 #~ msgstr "Astreinte"
-
-#~ msgid "Days spent on projects"
-#~ msgstr "nombre de jours passés en développement sur les projets"
 
 #~ msgid "Cycle flow"
 #~ msgstr "Cycle de vie"
@@ -3604,9 +4816,6 @@ msgstr "W"
 
 #~ msgid "Productivity Rate"
 #~ msgstr "Taux de productivité"
-
-#~ msgid "Ratio between the estimated time and the elapsed time"
-#~ msgstr "Rapport entre le budget initial et le temps consommé sur les fiches"
 
 #~ msgid "Prod Rate MgrEffortEstim"
 #~ msgstr "Taux de prod Charge_Mgr"
@@ -3634,9 +4843,6 @@ msgstr "W"
 
 #~ msgid "AFTER analysis"
 #~ msgstr "APRES analyse"
-
-#~ msgid "Config items"
-#~ msgstr "Configuration"
 
 #~ msgid "Tools: serialize"
 #~ msgstr "Outils: sérialisation"
@@ -3693,9 +4899,6 @@ msgstr "W"
 #~ msgid "Drift +Support"
 #~ msgstr "Dérive +Support"
 
-#~ msgid "ETA"
-#~ msgstr "ETA"
-
 #~ msgid "TC issue"
 #~ msgstr "Fiche TC"
 
@@ -3707,12 +4910,6 @@ msgstr "W"
 
 #~ msgid "Total elapsed"
 #~ msgstr "Total consommé"
-
-#~ msgid "elapsed + Backlog"
-#~ msgstr "Consommé + RAF"
-
-#~ msgid "elapsed in period"
-#~ msgstr "consommé dans la période"
 
 #~ msgid "Productivity Rate ETA"
 #~ msgstr "Taux de productivité ETA"
