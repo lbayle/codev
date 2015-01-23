@@ -10,9 +10,6 @@
 
    <br>
    <br>
-   <br>
-   <br>
-   <br>
 
 </div>
 
@@ -35,6 +32,7 @@
 
 {if isset($latestVersionInfo) }
 <div style="margin-top: 2em;">
+   <hr>
    <h2>{t}A new CodevTT version is available !{/t}</h2>
    <table class="invisible">
       <tbody>
@@ -50,9 +48,15 @@
          </tr>
       </tbody>
    </table>
+   <hr>
 </div>
 {/if}
 
+{if isset($displayFairPlay)}
+<hr>
+{include file="modal/fairplay.html"}
+<hr>
+{/if}
 
 {if isset($driftedTasks)}
 <!-- Consistency errors -->

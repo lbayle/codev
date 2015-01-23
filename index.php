@@ -41,11 +41,11 @@ class IndexController extends Controller {
       if(Tools::isConnectedUser()) {
 
          $isAdmin = $this->session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId));
+         $isManager = $this->session_user->isTeamManager($this->teamid);
 
          // check codevtt version
          if (1 == Constants::$isCheckLatestVersion) {
             try {
-               $isManager = $this->session_user->isTeamManager($this->teamid);
                if ($isAdmin || ($isManager && (date('d') < 4))) {
                   $latestVersionInfo = Tools::getLatestVersionInfo(3);
                   if (FALSE !== $latestVersionInfo) {
@@ -59,7 +59,17 @@ class IndexController extends Controller {
                // (no log, even logs could raise errors)
             }
          }
-
+         
+         // if CodevTT installed since at least 6 month,
+         // then display FairPlay message every 3 month (mar, jun, sep, dec) during 3 days.
+         if (($isManager || $isAdmin) && 
+             (0 == date('m') % 3) && (date('d') > 27) &&
+             (time() - Constants::$codevInstall_timestamp > (60*60*24 * 180))    
+            ) {
+            $this->smartyHelper->assign('displayFairPlay', true);
+            $this->smartyHelper->assign('codevInstall_date', date('Y-m-d', Constants::$codevInstall_timestamp));
+         }
+         
          if ($isAdmin) {
             // check global configuration
             $cerrList = ConsistencyCheck2::checkMantisDefaultProjectWorkflow();
