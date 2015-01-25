@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-21 14:58+0100\n"
+"POT-Creation-Date: 2015-01-25 23:30+0100\n"
 "PO-Revision-Date: 2012-09-17 08:09-0300\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -73,15 +73,15 @@ msgstr "Exportar CSV"
 #: tpl/index.html
 #: tpl/project_info.html
 #. insert in front
-#: classes/issue_selection.class.php:280
+#: classes/issue.class.php:2190 classes/issue_selection.class.php:280
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
-#: management/command_info.php:221 management/servicecontract_info.php:148
-#: management/commandset_info.php:152 reports/productivity_report.php:231
+#: management/command_info.php:223 management/servicecontract_info.php:150
+#: management/commandset_info.php:153 reports/productivity_report.php:231
 #: reports/export_csv_tools.php:51 reports/productivity_report_tools.php:42
 #: reports/productivity_report_tools.php:80 reports/planning_report.php:214
 #: reports/project_info.php:278 reports/project_info.php:289
-#: reports/project_info.php:301 index.php:185 tools.php:1475
+#: reports/project_info.php:301 index.php:195 tools.php:1474
 msgid "Summary"
 msgstr "Descrição"
 
@@ -110,14 +110,14 @@ msgstr "Descrição"
 #: tpl/project_info.html
 #. write header
 #. WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
-#: classes/issue.class.php:2184 classes/wbsElement.class.php:581
-#: classes/issue_selection.class.php:279 filters/ProjectFilter.php:59
-#: management/command_info.php:220 management/servicecontract_info.php:147
-#: management/commandset_info.php:151 reports/productivity_report.php:230
-#: reports/export_csv_tools.php:48 reports/productivity_report_tools.php:41
+#: classes/wbsElement.class.php:581 classes/issue_selection.class.php:279
+#: filters/ProjectFilter.php:59 management/command_info.php:222
+#: management/servicecontract_info.php:149 management/commandset_info.php:152
+#: reports/productivity_report.php:230 reports/export_csv_tools.php:48
+#: reports/productivity_report_tools.php:41
 #: reports/productivity_report_tools.php:79 reports/planning_report.php:213
 #: reports/project_info.php:277 reports/project_info.php:288
-#: reports/project_info.php:300 tests/odt.php:25 index.php:184 tools.php:1469
+#: reports/project_info.php:300 tests/odt.php:25 index.php:194 tools.php:1468
 msgid "Project"
 msgstr "Projeto"
 
@@ -160,8 +160,8 @@ msgstr "Progresso"
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:260
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:318
 #: reports/productivity_report_tools.php:44 reports/project_info.php:180
-#: reports/project_info.php:237 tests/filters.php:71 tools.php:1402
-#: tools.php:1411
+#: reports/project_info.php:237 tests/filters.php:71 tools.php:1401
+#: tools.php:1410
 msgid "Backlog"
 msgstr "Retorno"
 
@@ -233,7 +233,6 @@ msgid "Productivity indicators"
 msgstr "Indicadores de produção"
 
 #: tpl/productivity_report.html
-#: tpl/forecasting_report.html
 #: tpl/statistics.html
 msgid "Adherence to deadlines"
 msgstr "Cumprimento dos prazos"
@@ -340,6 +339,7 @@ msgid "Job"
 msgstr "Serviço"
 
 #: tpl/productivity_report.html
+#: tpl/tools/dashboard.html
 msgid "Indicator"
 msgstr "Indicador"
 
@@ -351,7 +351,6 @@ msgid "Value"
 msgstr "Valor"
 
 #: tpl/productivity_report.html
-#: tpl/forecasting_report.html
 msgid "Available Workload"
 msgstr "Capacidade de produção"
 
@@ -439,7 +438,7 @@ msgstr ""
 #: tpl/statistics.html
 #: tpl/modal/update_issueBacklog.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:315
-#: reports/project_info.php:234 tools.php:1408
+#: reports/project_info.php:234 tools.php:1407
 msgid "EffortEstim"
 msgstr "Esforço inicial"
 
@@ -525,7 +524,6 @@ msgstr "Desvio em casos resolvidos"
 #: tpl/modal/update_issueBacklog.html
 #: tpl/index.html
 #: tpl/project_info.html
-#: classes/issue.class.php:2171
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:262
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:320
 #: reports/productivity_report_tools.php:45 reports/project_info.php:182
@@ -622,7 +620,7 @@ msgstr "Desvio"
 #: tpl/servicecontract_info.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:314
 #: reports/export_csv_tools.php:60 reports/project_info.php:233
-#: tests/filters.php:68 tools.php:1405
+#: tests/filters.php:68 tools.php:1404
 msgid "MgrEffortEstim"
 msgstr "Esforço estinado Mgr"
 
@@ -671,8 +669,8 @@ msgstr "Reestimado"
 #: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
 #: tpl/modal/update_issueBacklog.html
+#: classes/issue.class.php:2169
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:317
-#: indicator_plugins/ActivityIndicator/ActivityIndicator.class.php:276
 #: reports/productivity_report_tools.php:43
 #: reports/productivity_report_tools.php:81 reports/project_info.php:236
 #: tests/filters.php:70
@@ -687,7 +685,7 @@ msgstr "decorrido"
 #: tpl/project_activity_report.html
 #: tpl/index.html
 #: tpl/project_info.html
-#: reports/export_csv_weekly.php:141 reports/export_csv_tools.php:64
+#: reports/export_csv_tools.php:64
 msgid "BL"
 msgstr "BL"
 
@@ -720,6 +718,7 @@ msgid "Drift relatively to (EE + AddEE)"
 msgstr "Desvio relativo ao BI + BS"
 
 #: tpl/productivity_report.html
+#: tpl/plugin_manager.html
 #: tpl/command_info.html
 #: tpl/export_odt.html
 #: tpl/edit_team.html
@@ -733,7 +732,7 @@ msgstr "Desvio relativo ao BI + BS"
 #: tpl/project_activity_report.html
 #: tpl/project_info.html
 #: classes/wbsElement.class.php:583 reports/export_csv_tools.php:52
-#: reports/project_info.php:302 tools.php:1473
+#: reports/project_info.php:302 tools.php:1472
 msgid "Status"
 msgstr "Status"
 
@@ -821,6 +820,7 @@ msgid "Reference"
 msgstr "Referencia"
 
 #: tpl/command_edit.html
+#: tpl/plugin_manager.html
 #: tpl/command_info.html
 #: tpl/servicecontract_info.html
 #: tpl/servicecontract_edit.html
@@ -841,11 +841,13 @@ msgstr "Relator"
 #: tpl/create_team.html
 #: tpl/edit_team.html
 #: tpl/issue_info.html
+#: tpl/tools/dashboard.html
 #: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
 #: tpl/time_tracking.html
 #: tpl/edit_holidays.html
 #: tpl/servicecontract_edit.html
+#: reports/export_csv_weekly.php:184
 msgid "Description"
 msgstr "Descrição"
 
@@ -865,7 +867,6 @@ msgid "End date"
 msgstr "Date Fin"
 
 #: tpl/command_edit.html
-#: tpl/forecasting_report.html
 #: tpl/import_issues.html
 #: tpl/modal/update_issueBacklog.html
 msgid "Deadline"
@@ -988,6 +989,7 @@ msgstr "Adicionar um caso"
 #: tpl/command_edit.html
 #: tpl/commandset_edit.html
 #: tpl/edit_team.html
+#: tpl/tools/dashboard.html
 #: tpl/menu/global_menu.html
 #: tpl/set_holidays.html
 #: tpl/edit_jobs.html
@@ -1007,7 +1009,7 @@ msgstr "Criar o comando para adicionar alguns casos"
 #: tpl/modal/select_issues.html
 #: tpl/project_activity_report.html
 #: tpl/project_info.html
-#: classes/issue.class.php:2197 tools.php:1479
+#: classes/issue.class.php:2197 tools.php:1478
 msgid "Target"
 msgstr "Meta"
 
@@ -1089,8 +1091,8 @@ msgstr "Provisão"
 
 #: tpl/command_edit.html
 #: tpl/tools/wbsEditor.html
-#: management/commandset_edit.php:126 management/command_edit.php:205
-#: management/servicecontract_edit.php:141
+#: tpl/tools/dashboard.html
+#: management/command_edit.php:205 management/servicecontract_edit.php:141
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -1100,7 +1102,6 @@ msgstr "Enregistrer"
 #: tpl/edit_team.html
 #: tpl/team_activity_report.html
 #: tpl/planning_report.html
-#: tpl/forecasting_report.html
 #: tpl/import_issues.html
 #: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
@@ -1256,6 +1257,48 @@ msgstr "Comando"
 msgid "Create the CommandSet to add some commands."
 msgstr "Criar um grupo de comandos para adicionar um comando"
 
+#: tpl/plugin_manager.html
+msgid "Check for new plugins in 'plugins' directory."
+msgstr ""
+
+#: tpl/plugin_manager.html
+msgid "Discover new plugins"
+msgstr ""
+
+#: tpl/plugin_manager.html
+msgid "Plugin"
+msgstr ""
+
+#: tpl/plugin_manager.html
+#: tpl/issue_info.html
+#: tpl/blog/blogpost_form.html
+#: tpl/ajax/projectDetails.html
+#: tpl/import_issues.html
+#: tpl/servicecontract_info.html
+#: tpl/time_tracking.html
+#: classes/wbsElement.class.php:582 tools.php:1470
+msgid "Category"
+msgstr "Categoria"
+
+#: tpl/plugin_manager.html
+msgid "Domain(s)"
+msgstr ""
+
+#: tpl/plugin_manager.html
+#, fuzzy
+msgid "Enable Plugin"
+msgstr "Ativo"
+
+#: tpl/plugin_manager.html
+msgid "Disable Plugin"
+msgstr ""
+
+#: tpl/plugin_manager.html
+#: tpl/time_tracking.html
+#: tpl/modal/login.html
+msgid "Please wait..."
+msgstr "Aguarde..."
+
 #: tpl/bvi.html
 #, fuzzy
 msgid "Average Backlog Variation"
@@ -1320,7 +1363,7 @@ msgstr "Sem configuração definida, utilizando configuração padrão."
 #: tpl/edit_jobs.html
 #: tpl/edit_holidays.html
 #: tpl/uninstall.html
-#: admin/logs.php:64
+#: admin/logs.php:64 tests/plugin.php:87
 msgid "Sorry, you need to be in the admin-team to access this page."
 msgstr "Desculpe, você deve ser membro do time-admin para acessar esta página."
 
@@ -1440,18 +1483,12 @@ msgstr "Encargos"
 
 #: tpl/command_info.html
 #: tpl/issue_info.html
+#: tpl/tools/dashboard.html
 #: tpl/planning_report.html
 #: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
 msgid "Attributes"
 msgstr "Propriedades"
-
-#: tpl/command_info.html
-#: tpl/menu/global_menu.html
-#: tpl/commandset_info.html
-#: tpl/servicecontract_info.html
-msgid "Activity"
-msgstr "Atividade"
 
 #: tpl/command_info.html
 #: tpl/commandset_info.html
@@ -1466,7 +1503,6 @@ msgstr "Provisão"
 
 #: tpl/command_info.html
 #: tpl/commandset_info.html
-#: tpl/servicecontract_info.html
 msgid "None"
 msgstr ""
 
@@ -1485,7 +1521,6 @@ msgstr ""
 #: tpl/check.html
 #: tpl/forecasting_report.html
 #: tpl/import_issues.html
-#: install/install_step1.php:233
 msgid "User"
 msgstr "Usuário"
 
@@ -1493,54 +1528,6 @@ msgstr "Usuário"
 #: tpl/servicecontract_info.html
 msgid "No task found."
 msgstr "Não há casos."
-
-#: tpl/command_info.html
-#: tpl/commandset_info.html
-#: tpl/servicecontract_info.html
-msgid "Bug Status History"
-msgstr ""
-
-#: tpl/command_info.html
-#: tpl/commandset_info.html
-#: tpl/servicecontract_info.html
-#, fuzzy
-msgid "Progress History"
-msgstr "Progresso Mgr"
-
-#: tpl/command_info.html
-#: tpl/commandset_info.html
-msgid "Budget-Drift History"
-msgstr ""
-
-#: tpl/command_info.html
-#, fuzzy
-msgid "Reopened Issues"
-msgstr "Casos reabertos"
-
-#: tpl/command_info.html
-#: tpl/commandset_info.html
-#: tpl/servicecontract_info.html
-msgid "Internal Bugs Status History"
-msgstr ""
-
-#: tpl/command_info.html
-#: tpl/commandset_info.html
-#: tpl/servicecontract_info.html
-msgid "Graph showing the number of internal bugs per status."
-msgstr ""
-
-#: tpl/command_info.html
-#: tpl/commandset_info.html
-#: tpl/servicecontract_info.html
-msgid "Internal bugs have the following caracteristics:"
-msgstr ""
-
-#: tpl/command_info.html
-#: tpl/commandset_info.html
-#: tpl/servicecontract_info.html
-#, fuzzy
-msgid "External Reference"
-msgstr "Ref. Externa"
 
 #: tpl/export_odt.html
 msgid "The following fields need to be set"
@@ -1681,7 +1668,6 @@ msgid "Support, Doc, Training, Wiki, ..."
 msgstr "Suporte, Doc, Formatação, Wiki, ..."
 
 #: tpl/create_team.html
-#: indicator_plugins/ActivityIndicator/ActivityIndicator.class.php:279
 msgid "Inactivity"
 msgstr "Inatividade"
 
@@ -2000,25 +1986,14 @@ msgid "External Ref"
 msgstr "Ref. Externa"
 
 #: tpl/issue_info.html
-#: tpl/blog/blogpost_form.html
-#: tpl/ajax/projectDetails.html
-#: tpl/import_issues.html
-#: tpl/servicecontract_info.html
-#: tpl/time_tracking.html
-#: classes/issue.class.php:2186 classes/wbsElement.class.php:582
-#: tools.php:1471
-msgid "Category"
-msgstr "Categoria"
-
-#: tpl/issue_info.html
 #: tpl/planning_report.html
-#: classes/issue.class.php:2199 reports/export_csv_tools.php:57 tools.php:1481
+#: classes/issue.class.php:2199 reports/export_csv_tools.php:57 tools.php:1480
 msgid "Priority"
 msgstr "Prioridade"
 
 #: tpl/issue_info.html
 #: tpl/planning_report.html
-#: classes/issue.class.php:2195 tools.php:1483
+#: classes/issue.class.php:2195 tools.php:1482
 msgid "Severity"
 msgstr "Gravidade"
 
@@ -2158,6 +2133,19 @@ msgstr "Arquivo"
 msgid "Add subfolder"
 msgstr "Adicionar usuário"
 
+#: tpl/tools/dashboard.html
+msgid "Add an indicator to the dashboard"
+msgstr ""
+
+#: tpl/tools/dashboard.html
+msgid "Save dashboard settings"
+msgstr ""
+
+#: tpl/tools/dashboard.html
+#, fuzzy
+msgid "Add Indicator"
+msgstr "Indicador"
+
 #: tpl/team_activity_report.html
 #: tpl/menu/global_menu.html
 msgid "Weekly Activity"
@@ -2256,6 +2244,10 @@ msgid "TimeTracking & team activity"
 msgstr "Acompanhamento e atividade da equipe"
 
 #: tpl/menu/global_menu.html
+msgid "Activity"
+msgstr "Atividade"
+
+#: tpl/menu/global_menu.html
 msgid "Time Tracking"
 msgstr "Acompanhamento de tempo"
 
@@ -2298,6 +2290,10 @@ msgstr "Estatísticas equipe"
 #: tpl/menu/global_menu.html
 msgid "Forecasting"
 msgstr "Previsão"
+
+#: tpl/menu/global_menu.html
+msgid "Dashboard"
+msgstr ""
 
 #: tpl/menu/global_menu.html
 msgid "Period Statistics"
@@ -2392,6 +2388,11 @@ msgstr "Preparar projetos "
 #: tpl/menu/global_menu.html
 msgid "Clone Projects"
 msgstr "Clonar um projeto"
+
+#: tpl/menu/global_menu.html
+#, fuzzy
+msgid "Plugin Manager"
+msgstr "Gerente"
 
 #: tpl/menu/global_menu.html
 msgid "Logs"
@@ -2615,32 +2616,6 @@ msgstr "Desvio"
 #: tpl/forecasting_report.html
 msgid "Task list"
 msgstr "Lista de casos"
-
-#: tpl/forecasting_report.html
-msgid "Open tasks that should have been delivered."
-msgstr ""
-
-#: tpl/forecasting_report.html
-#, fuzzy
-msgid "No late task."
-msgstr "Nenhum caso resolvido..."
-
-#: tpl/forecasting_report.html
-#: tpl/statistics.html
-msgid "man-days"
-msgstr "dias-homem"
-
-#: tpl/forecasting_report.html
-msgid ""
-"Nombre de jours-homme disponibles sur la periode (hors vacances et taches "
-"externes)"
-msgstr ""
-"Número dias-homem disponíveis no período (excluíndo feriados dias de folga)"
-
-#: tpl/forecasting_report.html
-#: tpl/statistics.html
-msgid "nb production days"
-msgstr "Núm de dias de produção"
 
 #: tpl/import_issues.html
 msgid "Select CSV file"
@@ -2933,8 +2908,16 @@ msgid "Nb Reopened"
 msgstr "Num reabertos"
 
 #: tpl/statistics.html
+msgid "man-days"
+msgstr "dias-homem"
+
+#: tpl/statistics.html
 msgid "Available man-days on the period (excluding leave and external tasks)"
 msgstr ""
+
+#: tpl/statistics.html
+msgid "nb production days"
+msgstr "Núm de dias de produção"
 
 #: tpl/statistics.html
 msgid "Sorry, you do NOT have access to this page."
@@ -2947,11 +2930,6 @@ msgstr "ERRO"
 #: tpl/time_tracking.html
 msgid "Query FAILED"
 msgstr "Query ERRO"
-
-#: tpl/time_tracking.html
-#: tpl/modal/login.html
-msgid "Please wait..."
-msgstr "Aguarde..."
 
 #: tpl/time_tracking.html
 #: tpl/form/dateRangeSelector.html
@@ -3085,6 +3063,18 @@ msgstr ""
 #, fuzzy
 msgid "Delete timesheet note for task "
 msgstr "Apagar esta equipe ?"
+
+#: tpl/modal/fairplay.html
+msgid "Fair play !"
+msgstr ""
+
+#: tpl/modal/fairplay.html
+msgid "You are using CodevTT since"
+msgstr ""
+
+#: tpl/modal/fairplay.html
+msgid "If you like this software, please consider making a donation."
+msgstr ""
 
 #: tpl/modal/select_issues.html
 msgid "No task selected !"
@@ -3454,6 +3444,10 @@ msgstr "Não foi possível remover a associação trabalho"
 msgid "Couldn't delete the job"
 msgstr "Impossivel de apagar o cargo "
 
+#: admin/plugin_manager.php:65
+msgid "Could not create classmap: "
+msgstr ""
+
 #: blog/blog.php:100
 msgid "Ack"
 msgstr "Ack"
@@ -3513,7 +3507,7 @@ msgid "Constrains"
 msgstr "Administração CoDev"
 
 #: classes/issue.class.php:2159 classes/wbsElement.class.php:585
-#: tools.php:1463
+#: tools.php:1462
 msgid "Tags"
 msgstr ""
 
@@ -3537,14 +3531,24 @@ msgstr "Desvio Mgr"
 msgid "DriftMgrColor"
 msgstr "Desvio Mgr"
 
-#: classes/issue.class.php:2193 tools.php:1477
+#: classes/issue.class.php:2193 tools.php:1476
 #, fuzzy
 msgid "Assigned"
 msgstr "Atribuido a"
 
-#: classes/issue.class.php:2201 tools.php:1485
+#: classes/issue.class.php:2201 tools.php:1484
 msgid "ETA"
 msgstr "ETA"
+
+#: classes/PluginManager.class.php:79
+#, fuzzy
+msgid "Disabled"
+msgstr "inativo"
+
+#: classes/PluginManager.class.php:80
+#, fuzzy
+msgid "Removed"
+msgstr "Remover"
 
 #: classes/consistency_check2.class.php:63
 #: classes/consistency_check_fdj.class.php:77
@@ -3835,22 +3839,6 @@ msgstr "Casos atuais"
 #: reports/project_info.php:326
 msgid "Resolved Tasks"
 msgstr "Casos resolvidos"
-
-#: indicator_plugins/DaysPerJobIndicator/DaysPerJobIndicator.class.php:56
-msgid "Working days per Job"
-msgstr "Dias de trabalho por cargo"
-
-#: indicator_plugins/ActivityIndicator/ActivityIndicator.class.php:277
-msgid "Other"
-msgstr "Outros"
-
-#: indicator_plugins/ActivityIndicator/ActivityIndicator.class.php:278
-msgid "External"
-msgstr "Externo"
-
-#: indicator_plugins/ActivityIndicator/ActivityIndicator.class.php:283
-msgid "SideTask"
-msgstr "CasoCorrelato"
 
 #: install/install_step2.php:25
 msgid "Install - Step 2"
@@ -4318,7 +4306,7 @@ msgstr "Versão do produto"
 msgid "Resolution"
 msgstr "Resolução"
 
-#: reports/export_csv_tools.php:66 tools.php:1420
+#: reports/export_csv_tools.php:66 tools.php:1419
 msgid "Delivery Date"
 msgstr "Data de liberação"
 
@@ -4337,6 +4325,11 @@ msgstr "en retard"
 #: reports/planning_report.php:184
 msgid "no deadLine"
 msgstr "sans deadLine"
+
+#: reports/team_dashboard.php:78
+#, fuzzy
+msgid "Sorry, you need to be identified."
+msgstr "Você deve ser um gerente de equipe para acessar esta pagina."
 
 #: reports/issue_info.php:418
 msgid "Backlog (days)"
@@ -4393,10 +4386,45 @@ msgstr "Falha ao apagar as tarefas"
 msgid "W"
 msgstr "W"
 
-#: tools.php:1414
+#: tools.php:1413
 #, fuzzy
 msgid "AddEffortEstim"
 msgstr "Esforço inicial"
+
+#, fuzzy
+#~ msgid "Progress History"
+#~ msgstr "Progresso Mgr"
+
+#, fuzzy
+#~ msgid "Reopened Issues"
+#~ msgstr "Casos reabertos"
+
+#, fuzzy
+#~ msgid "External Reference"
+#~ msgstr "Ref. Externa"
+
+#, fuzzy
+#~ msgid "No late task."
+#~ msgstr "Nenhum caso resolvido..."
+
+#~ msgid ""
+#~ "Nombre de jours-homme disponibles sur la periode (hors vacances et taches "
+#~ "externes)"
+#~ msgstr ""
+#~ "Número dias-homem disponíveis no período (excluíndo feriados dias de "
+#~ "folga)"
+
+#~ msgid "Working days per Job"
+#~ msgstr "Dias de trabalho por cargo"
+
+#~ msgid "Other"
+#~ msgstr "Outros"
+
+#~ msgid "External"
+#~ msgstr "Externo"
+
+#~ msgid "SideTask"
+#~ msgstr "CasoCorrelato"
 
 #~ msgid "man-day"
 #~ msgstr "dias-homem"
