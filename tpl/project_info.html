@@ -19,9 +19,18 @@
 
    {if isset($projectid)}
       <h3>{t}Project Info{/t}</h3>
-      {include file="$detailedChargesIndicatorFile"}
+      
+         <div id="tabsCommand" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_detailed_charges">{t}Charges{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_drift">{t}drift{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
+      </ul>
 
-
+      <div id="tab_detailed_charges">{include file="$detailedChargesIndicatorFile"}</div>
+      <div id="tab_indicators">{include file="tools/dashboard.html"}</div>
+      <div id="tab_drift">
+         
       {if isset($currentIssuesInDrift) || isset($resolvedIssuesInDrift)}
       <h3 style="margin-top: 2em">{t}Tasks in drift{/t}</h3>
       <div id="tabsDrift" class="tabs {$ui_tabs_jquery}">
@@ -101,6 +110,8 @@
          </div>
       </div>
       {/if}
+      </div>
+
    {/if}
    {if isset($error)}
    <p class="center ui-state-error-text">{$error}</p>

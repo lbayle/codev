@@ -48,8 +48,57 @@ class ProjectInfoTools {
       return $smartyVariable;
    }
 
+   /**
+    *
+    * @param SmartyHelper $smartyHelper
+    * @param Command $prj
+    * @param int $userid
+    */
+   public static function dashboardSettings(SmartyHelper $smartyHelper, Project $prj, $userid, $teamid) {
 
+      $pluginDataProvider = PluginDataProvider::getInstance();
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $prj->getIssueSelection());
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $teamid);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $userid);
+
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $startT = $team->getDate();
+      $now = time();
+      $endT = mktime(23, 59, 59, date('m', $now), date('d', $now), date('Y', $now));
+      if ($startT > $endT ) {
+         $startT = strtotime('today midnight');
+      }
+      //echo "start $startT end $endT<br>";
+      
+      // Calculate a nice day interval
+      $nbWeeks = ($endT - $startT) / 60 / 60 / 24;
+      $interval = ceil($nbWeeks / 20);
+
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startT);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endT);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_INTERVAL, $interval);
+
+      // save the DataProvider for Ajax calls
+      $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);
+
+      // create the Dashboard
+      $dashboard = new Dashboard('Project'.$prj->getId());
+      $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_PROJECT);
+      $dashboard->setCategories(array(
+          IndicatorPluginInterface::CATEGORY_QUALITY,
+          IndicatorPluginInterface::CATEGORY_ACTIVITY,
+          IndicatorPluginInterface::CATEGORY_ROADMAP,
+          IndicatorPluginInterface::CATEGORY_PLANNING,
+          IndicatorPluginInterface::CATEGORY_RISK,
+         ));
+      $dashboard->setTeamid($teamid);
+      $dashboard->setUserid($userid);
+
+      $data = $dashboard->getSmartyVariables($smartyHelper);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+   }
 
 }
 
-?>

@@ -111,8 +111,12 @@ class ProjectInfoController extends Controller {
                $this->smartyHelper->assign("currentIssuesInDrift", $currentIssuesInDrift);
                $this->smartyHelper->assign("resolvedIssuesInDrift", $resolvedIssuesInDrift);
                
-               //plugins
+               // indicator_plugins (old style plugins - deprecated)
                $this->smartyHelper->assign('detailedChargesIndicatorFile', DetailedChargesIndicator::getSmartyFilename());
+               
+                  // Dashboard
+                  ProjectInfoTools::dashboardSettings($this->smartyHelper, $project, $this->session_userid, $this->teamid);
+               
             }
          }
       }

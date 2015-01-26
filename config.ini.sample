@@ -69,6 +69,7 @@ check_latest_version = 1
 
 [dashboardDefaultPlugins]
 Team = "AvailableWorkforceIndicator"
+;Project = ""
 Command = "LoadPerUserIndicator,ProgressHistoryIndicator2"
 CommandSet = "LoadPerUserIndicator"
 ServiceContract = "LoadPerJobIndicator2,ProgressHistoryIndicator2,EffortEstimReliabilityIndicator2"

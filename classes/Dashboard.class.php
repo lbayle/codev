@@ -181,9 +181,11 @@ class Dashboard {
             $defaultPlugins = Constants::$dashboardDefaultPlugins[$this->domain];
             
             $pluginAttributes = array();
-            foreach ($defaultPlugins as $pluginClassName) {
-               $pluginAttributes[] = array('pluginClassName' => $pluginClassName);
-               //self::$logger->error($this->domain." default plugin: ".$pluginClassName);
+            if ($defaultPlugins) {
+               foreach ($defaultPlugins as $pluginClassName) {
+                  $pluginAttributes[] = array('pluginClassName' => $pluginClassName);
+                  //self::$logger->error($this->domain." default plugin: ".$pluginClassName);
+               }
             }
             $this->settings = array(
                self::SETTINGS_DASHBOARD_TITLE   => 'Dashboard Title',
