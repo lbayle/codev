@@ -1,0 +1,91 @@
+<div class="driftAlertIndicator">
+   <div class="pluginInitFunction"  style="display: none;">driftAlertIndicatorJsInit</div>
+   <br>
+   <div  id="tabsDriftAlertIndicator" class="tabs {$ui_tabs_jquery}">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#driftAlertIndicator_tabCurrentDrift">{t}Drift current tasks{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#driftAlertIndicator_tabResolvedDrift">{t}Drift resolved tasks{/t}</a></li>
+      </ul>
+      <div id="driftAlertIndicator_tabCurrentDrift">
+         {if $driftAlertIndicator_currentIssuesInDrift}
+         <table class="datatable_minimal">
+            <!--<caption>{t}Tasks in drift{/t}</caption>-->
+            <thead>
+               <tr>
+                  <th>{t}ID{/t}</th>
+                  <th>{t}Project{/t}</th>
+                  <th>{t}Target{/t}</th>
+                  {if $isManager}<th title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
+                  <th title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
+                  <th title="{t}Backlog{/t}">{t}BL{/t}</th>
+                  <th>{t}Progress{/t}</th>
+                  <th>{t}Status{/t}</th>
+                  <th>{t}Summary{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$driftAlertIndicator_currentIssuesInDrift key=name item=i}
+               <tr>
+                  <td nowrap="nowrap">{$i.mantisURL} {$i.issueURL}</td>
+                  <td>{$i.projectName}</td>
+                  <td nowrap="nowrap">{$i.targetVersion}</td>
+                  {if $isManager}<td style="width: 6em;{if $i.driftMgrColor}background-color: #{$i.driftMgrColor};{/if}">{$i.driftMgr}</td>{/if}
+                  <td style="width: 6em;{if $i.driftColor}background-color: #{$i.driftColor};{/if}">{$i.drift}</td>
+                  <td>{$i.backlog}</td>
+                  <td><div class="progress">{$i.progress}%</div></td>
+                  <td>{$i.currentStatusName}</td>
+                  <td>{$i.summary}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+         {else}
+         {t}No data{/t}
+         {/if}
+      </div>
+      <div id="driftAlertIndicator_tabResolvedDrift">
+         {if $driftAlertIndicator_resolvedIssuesInDrift}
+         <table class="datatable_minimal">
+            <!--<caption>{t}Tasks in drift{/t}</caption>-->
+            <thead>
+               <tr>
+                  <th>{t}ID{/t}</th>
+                  <th>{t}Project{/t}</th>
+                  <th>{t}Target{/t}</th>
+                  {if $isManager}<th style="width: 6em;" title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
+                  <th style="width: 6em;" title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
+                  <th>{t}Status{/t}</th>
+                  <th>{t}Summary{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$driftAlertIndicator_resolvedIssuesInDrift key=name item=i}
+               <tr>
+                  <td nowrap="nowrap">{$i.mantisURL} {$i.issueURL}</td>
+                  <td>{$i.projectName}</td>
+                  <td nowrap="nowrap">{$i.targetVersion}</td>
+                  {if $isManager}<td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}</td>{/if}
+                  <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}</td>
+                  <td>{$i.currentStatusName}</td>
+                  <td>{$i.summary}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+         {else}
+         {t}No data{/t}
+         {/if}
+      </div>
+   </div>
+
+</div>
+
+<script type="text/javascript">
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function driftAlertIndicatorJsInit() {
+      console.log('driftlineAlertIndicatorJsInit');
+   };
+</script>
+</div>
