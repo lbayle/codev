@@ -128,7 +128,7 @@ class Tools {
          if (!$isIcon) {
             return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" title="'.$title.'" '.$target.'>'.$bugid.'</a>';
          } else {
-            return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" $target><img title="'.$title.'" align="absmiddle" src="images/mantis_ico.gif" /></a>';
+            return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" '.$target.'><img title="'.$title.'" align="absmiddle" src="images/mantis_ico.gif" /></a>';
          }
       } else if(is_array($title)) {
          $tooltip = self::getTooltip($title);
@@ -141,7 +141,7 @@ class Tools {
          if (!$isIcon) {
             return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" title="'.$title.'" '.$target.'>'.$bugid.'</a>';
          } else {
-            return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" $target><img title="'.$title.'" align="absmiddle" src="images/mantis_ico.gif" /></a>';
+            return '<a href="'.Constants::$mantisURL.'/view.php?id='.$bugid.'" '.$target.'><img title="'.$title.'" align="absmiddle" src="images/mantis_ico.gif" /></a>';
          }
       }
    }

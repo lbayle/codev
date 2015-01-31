@@ -31,7 +31,7 @@
 
       <!-- Dynatree -->
       <!-- TODO: load only on pages using dynatree -->
-      <link href="lib/dynatree/dist/skin/ui.dynatree.css" rel="stylesheet" type="text/css" id="skinSheet">
+      <link href="lib/dynatree/dist/skin/ui.dynatree.css" rel="stylesheet" type="text/css" id="skinSheet"/>
       <script src="lib/dynatree/dist/jquery.dynatree.min.js" type="text/javascript"></script>
 
       <!-- JQUERY for touchscreens: must be included after jQuery UI. -->
@@ -66,7 +66,7 @@
                </div>
                {if isset($username)}
                <div style="text-align:right; margin-top:1em;">
-                  {$realname} | <a href="logout.php" title="Save user settings & logout">{t}Disconnect{/t}</a>
+                  {$realname} | <a href="logout.php" title="Save user settings &amp; logout">{t}Disconnect{/t}</a>
                </div>
                <div style="text-align:right; margin-top:0.6em;">
                   <span class="floatr">{include file="form/teamForm.html"}</span>
