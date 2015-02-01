@@ -1,0 +1,29 @@
+<div class="loadPerProjectIndicator_ajax">
+   {if $loadPerProjectIndicator_tableData}
+   <table  class="display float"  style="width: 500px;">
+      <caption><span style="font-weight: normal; font-size: 12px;">{$loadPerProjectIndicator_tableData.workdays} {t}workdays{/t}</span></caption>
+      <thead>
+         <tr>
+            <th>{t}Project{/t}</th>
+            <th>{t}Elapsed{/t}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach $loadPerProjectIndicator_tableData.projectLoad as $prjName => $load}
+         <tr>
+            <td>{$prjName}</td>
+            <td>{$load}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+      <tfoot>
+         <tr>
+            <td>{t}TOTAL{/t}</td>
+            <td>{$loadPerProjectIndicator_tableData.totalLoad}</td>
+         </tr>
+      </tfoot>
+   </table>
+   {else}
+   {t}No data.{/t}
+   {/if}
+</div>
