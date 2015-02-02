@@ -93,7 +93,6 @@ class IssueInfoController extends Controller {
                      $this->smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, ($isManager || $isObserver), $displaySupport));
                      
                      $timeTracks = $issue->getTimeTracks();
-                     $this->smartyHelper->assign('jobDetails', $this->getJobDetails($timeTracks));
                      $this->smartyHelper->assign('timeDrift', $this->getTimeDrift($issue));
 
                      $this->smartyHelper->assign('months', $this->getCalendar($issue,$timeTracks));
@@ -160,39 +159,6 @@ class IssueInfoController extends Controller {
          }
       }
       return $commands;
-   }
-
-   /**
-    * Get job details of an issue
-    * @param TimeTrack[] $timeTracks
-    * @return mixed[]
-    */
-   private function getJobDetails(array $timeTracks) {
-      $durationByJob = array();
-      $jobs = new Jobs();
-      $totalDuration = 0;
-      foreach ($timeTracks as $tt) {
-         $duration = $tt->getDuration();
-         $jobid = $tt->getJobId();
-         if(array_key_exists($jobid,$durationByJob)) {
-            $durationByJob[$jobid] += $duration;
-         } else {
-            $durationByJob[$jobid] = $duration;
-         }
-         $totalDuration += $duration;
-      }
-
-      $jobDetails = NULL;
-      foreach ($durationByJob as $jid => $duration) {
-         $jobDetails[] = array(
-            "jobColor" => $jobs->getJobColor($jid),
-            "jobName" => $jobs->getJobName($jid),
-            "duration" => $duration,
-            "durationRate" => round(($duration*100 / $totalDuration))
-         );
-      }
-
-      return $jobDetails;
    }
 
    /**
