@@ -146,12 +146,16 @@
       {include file="tools/graph.html"}
       <div id="tabsIssueInfo" class="tabs {$ui_tabs_jquery}" style="margin-top:3em;">
          <ul class="{$ui_tabs_jquery_ul}">
-            <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-1">{t}Overview{/t}</a></li>
-            <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-2">{t}Timetracks{/t}</a></li>
+            <li class="{$ui_tabs_jquery_li}"><a href="#tab_overview">{t}Overview{/t}</a></li>
+            <li class="{$ui_tabs_jquery_li}"><a href="#tab_timetracks">{t}Timetracks{/t}</a></li>
             <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-3">{t}Time per Status{/t}</a></li>
             <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-4">{t}Backlog variation{/t}</a></li>
+            <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
          </ul>
-         <div id="tabsName-1">
+
+         <div id="tab_indicators">{include file="tools/dashboard.html"}</div>
+
+         <div id="tab_overview">
             <!-- General info -->
             <div id="issueGeneralInfo" class="float">
                {include file="ajax/issueGeneralInfo.html"}
@@ -318,7 +322,7 @@
             <div class="ui-helper-clearfix"></div>
          </div>
 
-         <div id="tabsName-2">
+         <div id="tab_timetracks">
             <!-- Jobs details by months -->
             {if $months}
             {foreach from=$months key=id item=i}

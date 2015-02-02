@@ -110,10 +110,69 @@ class IssueInfoTools {
       ksort($relationshipsInfo);
       return $relationshipsInfo;
    }
-   
+
+   /**
+    *
+    * @param SmartyHelper $smartyHelper
+    * @param Issue $issue
+    * @param int $userid
+    * @param int $teamid
+    */
+   public static function dashboardSettings(SmartyHelper $smartyHelper, Issue $issue, $userid, $teamid) {
+
+      $isel = new IssueSelection();
+      $isel->addIssue($issue->getId());
+
+      $pluginDataProvider = PluginDataProvider::getInstance();
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $isel);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $teamid);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $userid);
+
+      // start date is min(1st_timetrack, issue_creation_date)
+      $startT = $issue->getDateSubmission();
+      $firstTT = $issue->getFirstTimetrack();
+      if (NULL != $firstTT) {
+         $startT = min(array($issue->getDateSubmission(), $firstTT->getDate()));
+      }
+
+      // end date is last_timetrack or now if none
+      $eTs = (NULL == $firstTT) ? time() : $issue->getLatestTimetrack()->getDate();
+      $endT = mktime(23, 59, 59, date('m', $eTs), date('d', $eTs), date('Y', $eTs));
+
+      //echo "start $startT end $endT<br>";
+
+      // Calculate a nice day interval
+      $nbWeeks = ($endT - $startT) / 60 / 60 / 24;
+      $interval = ceil($nbWeeks / 20);
+
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startT);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endT);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_INTERVAL, $interval);
+
+      // save the DataProvider for Ajax calls
+      $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);
+
+      // create the Dashboard
+      $dashboard = new Dashboard('Task'.$issue->getId());
+      $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_TASK);
+      $dashboard->setCategories(array(
+          IndicatorPluginInterface::CATEGORY_QUALITY,
+          IndicatorPluginInterface::CATEGORY_ACTIVITY,
+          IndicatorPluginInterface::CATEGORY_ROADMAP,
+          IndicatorPluginInterface::CATEGORY_PLANNING,
+          IndicatorPluginInterface::CATEGORY_RISK,
+         ));
+      $dashboard->setTeamid($teamid);
+      $dashboard->setUserid($userid);
+
+      $data = $dashboard->getSmartyVariables($smartyHelper);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+   }
+
 }
 
 // Initialize complex static variables
 IssueInfoTools::staticInit();
 
-?>

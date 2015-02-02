@@ -114,6 +114,9 @@ class IssueInfoController extends Controller {
                   $projects = SmartyTools::getSmartyArray($projList,$defaultProjectid);
                   $_SESSION['projectid'] = $defaultProjectid;
 
+                  // Dashboard
+                  IssueInfoTools::dashboardSettings($this->smartyHelper, $issue, $this->session_userid, $this->teamid);
+
                } catch (Exception $e) {
                   self::$logger->warn("issue $bug_id not found in mantis DB !");
                }
