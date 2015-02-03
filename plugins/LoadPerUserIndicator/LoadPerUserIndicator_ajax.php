@@ -43,11 +43,21 @@ if(Tools::isConnectedUser() && isset($_GET['action'])) {
                $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerUser_startdate"));
                $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerUser_enddate"));
          
+               $attributesJsonStr = Tools::getSecureGETStringValue('attributesJsonStr');
+               $attributesArray = json_decode(stripslashes($attributesJsonStr), true);
+               $showSidetasks = (0 == $attributesArray[LoadPerUserIndicator::OPTION_SHOW_SIDETASKS]) ? false : true;
+
                // update dataProvider
                $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
                $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
-               
+
                $indicator = new LoadPerUserIndicator($pluginDataProvider);
+
+               // override plugin settings with current attributes
+               $indicator->setPluginSettings(array(
+                   LoadPerUserIndicator::OPTION_SHOW_SIDETASKS => $showSidetasks,
+               ));
+
                $indicator->execute();
                $data = $indicator->getSmartyVariablesForAjax(); 
 
@@ -78,4 +88,4 @@ if(Tools::isConnectedUser() && isset($_GET['action'])) {
    Tools::sendUnauthorizedAccess();
 }
 
-?>
+

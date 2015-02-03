@@ -26,9 +26,6 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
    // if false, sidetasks (found in IssueSel) will be included in 'elapsed'
    // if true, sidetasks (found in IssueSel) will be displayed as 'sidetask'
    const OPTION_SHOW_SIDETASKS = 'showSidetasks';
-
-   const OPTION_IS_GRAPH_ONLY = 'isGraphOnly';
-   const OPTION_IS_TABLE_ONLY = 'isTableOnly';
    const OPTION_DATE_RANGE    = 'dateRange';
    
    
@@ -46,8 +43,6 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
 
    // config options from Dashboard
    private $showSidetasks;
-   private $isGraphOnly;
-   private $isTableOnly;
    private $dateRange;  // defaultRange | currentWeek | currentMonth
    
    // internal
@@ -61,10 +56,11 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
       self::$logger = Logger::getLogger(__CLASS__);
 
       self::$domains = array (
-         self::DOMAIN_COMMAND,
+         self::DOMAIN_TASK,
          self::DOMAIN_TEAM,
          self::DOMAIN_USER,
          self::DOMAIN_PROJECT,
+         self::DOMAIN_COMMAND,
          self::DOMAIN_COMMAND_SET,
          self::DOMAIN_SERVICE_CONTRACT,
       );
@@ -144,8 +140,6 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
       // if false, sidetasks (found in IssueSel) will be included in 'elapsed'
       // if true, sidetasks (found in IssueSel) will be displayed as 'sidetask'
       $this->showSidetasks = false;
-      $this->isGraphOnly = false;
-      $this->isTableOnly = false;
       $this->dateRange = 'defaultRange';
 
       if(self::$logger->isDebugEnabled()) {
@@ -163,12 +157,6 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          // override default with user preferences
          if (array_key_exists(self::OPTION_SHOW_SIDETASKS, $pluginSettings)) {
             $this->showSidetasks = $pluginSettings[self::OPTION_SHOW_SIDETASKS];
-         }
-         if (array_key_exists(self::OPTION_IS_GRAPH_ONLY, $pluginSettings)) {
-            $this->isGraphOnly = $pluginSettings[self::OPTION_IS_GRAPH_ONLY];
-         }
-         if (array_key_exists(self::OPTION_IS_TABLE_ONLY, $pluginSettings)) {
-            $this->isTableOnly = $pluginSettings[self::OPTION_IS_TABLE_ONLY];
          }
          if (array_key_exists(self::OPTION_DATE_RANGE, $pluginSettings)) {
             $this->dateRange = $pluginSettings[self::OPTION_DATE_RANGE];
@@ -212,7 +200,6 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
       // get timetracks for each Issue,
       $issueList = $this->inputIssueSel->getIssueList();
       $bugidList = array_keys($issueList);
-      //$formatedBugidString = implode( ', ', array_keys($issueList));
 
       $query = "SELECT * FROM `codev_timetracking_table` ".
                "WHERE userid IN (".$formatedUseridString.") ";
@@ -255,7 +242,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          $duration = $tt->getDuration();
          try {
             if ($extProjId == $tt->getProjectId()) {
-               #echo "external ".$tt->getIssueId()."<br>";
+               #self::$logger->error("external ".$tt->getIssueId());
                if ($extTasksCatLeave == $issue->getCategoryId()) {
                   if(array_key_exists('leave',$usersActivity[$userid])) {
                      $usersActivity[$userid]['leave'] += $duration;
@@ -271,7 +258,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
                }
 
             } else if ($issue->isSideTaskIssue($teams)) {
-               #echo "sidetask ".$tt->getIssueId()."<br>";
+               #self::$logger->error("execute showSidetasks = ".$this->showSidetasks.' cat='.$cat);
 
                // if sideTask is in the IssueSelection, then it is considered as 'normal',
                // else it should not be included
@@ -300,7 +287,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
                   }
                }
             } else if (in_array($issueId, $bugidList)) {
-               #echo "selection ".$tt->getIssueId()."<br>";
+               #self::$logger->error("selection ".$tt->getIssueId());
                if(array_key_exists('elapsed',$usersActivity[$userid])) {
                   $usersActivity[$userid]['elapsed'] += $duration;
                } else {
@@ -359,7 +346,6 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
       $totalActivity['external'] = $totalExternal;
       $totalActivity['elapsed'] = $totalElapsed;
       $totalActivity['other'] = $totalOther;
-      $totalActivity['activity_indicator_ajax1_html'] = $this->getSmartySubFilename();
       if ($this->showSidetasks) {
          $totalActivity['sidetask'] += $totalSidetask;
       }
@@ -397,11 +383,6 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          'loadPerUserIndicator_jqplotSeriesColors' => $seriesColors, // TODO get rid of this
          'loadPerUserIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
          'loadPerUserIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
-
-         // add pluginSettings (if needed by smarty)
-         'activityIndicator_'.self::OPTION_SHOW_SIDETASKS => $this->showSidetasks,
-         'activityIndicator_'.self::OPTION_IS_GRAPH_ONLY => $this->isGraphOnly,
-         'activityIndicator_'.self::OPTION_IS_TABLE_ONLY => $this->isTableOnly,
       );
       
       if (false == $isAjaxCall) {
@@ -420,4 +401,3 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
 // Initialize complex static variables
 LoadPerUserIndicator::staticInit();
 
-?>
