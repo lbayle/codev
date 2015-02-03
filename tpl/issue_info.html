@@ -268,32 +268,6 @@
                </form>
             </div>
 
-            <!-- Job details -->
-            <div class="float" style="margin-left: 5em">
-               <table>
-                  <thead>
-                     <tr>
-                        <th>{t}Job{/t}</th>
-                        <th>{t}Nb Days{/t}</th>
-                        <th></th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     {foreach from=$jobDetails key=id item=i}
-                     <tr>
-                        <td>
-                           <div class="generatedImage float" style="background-color: #{$i.jobColor};"></div>
-                           <div class="float">{$i.jobName}</div>
-                           <div class="ui-helper-clearfix"></div>
-                        </td>
-                        <td>{$i.duration}</td>
-                        <td><div class="progress">{$i.durationRate}%</div></td>
-                     </tr>
-                     {/foreach}
-                  </tbody>
-               </table>
-            </div>
-
             <!-- Dates -->
             <div class="float" style="margin-left: 5em">
                <table>
