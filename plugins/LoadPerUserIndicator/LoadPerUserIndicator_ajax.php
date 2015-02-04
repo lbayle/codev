@@ -45,7 +45,8 @@ if(Tools::isConnectedUser() && isset($_GET['action'])) {
          
                $attributesJsonStr = Tools::getSecureGETStringValue('attributesJsonStr');
                $attributesArray = json_decode(stripslashes($attributesJsonStr), true);
-               $showSidetasks = (0 == $attributesArray[LoadPerUserIndicator::OPTION_SHOW_SIDETASKS]) ? false : true;
+               $showSidetasks = ('on' != $attributesArray[LoadPerUserIndicator::OPTION_SHOW_SIDETASKS]) ? false : true;
+               //$logger->error("showSidetasks = ".var_export($showSidetasks, true).' attr '.$attributesArray[LoadPerUserIndicator::OPTION_SHOW_SIDETASKS]);
 
                // update dataProvider
                $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
