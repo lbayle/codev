@@ -451,13 +451,38 @@ class Issue extends Model implements Comparable {
     * @return bool true if Tools or Workshop category
     * @throws Exception
     */
-   public function isSideTaskIssue(array $teamidList = NULL) {
+   public function isSideTaskNonProductionIssue(array $teamidList = NULL) {
       $project = ProjectCache::getInstance()->getProject($this->projectId);
 
       try {
          if (($project->isSideTasksProject($teamidList)) &&
             ($project->getCategory(Project::cat_st_tools) != $this->categoryId) &&
             ($project->getCategory(Project::cat_st_workshop)   != $this->categoryId)) {
+
+            #if(self::$logger->isDebugEnabled()) {
+            #   self::$logger->debug("$this->bugId is a NonProduction sideTask.");
+            #}
+            return TRUE;
+         }
+      } catch (Exception $e) {
+         self::$logger->warn("isSideTaskNonProductionIssue(): ".$e->getMessage());
+         throw $e;
+      }
+      return FALSE;
+   }
+
+   /**
+    * is this issue in a sideTaskProject of this team ?
+    * 
+    * @param array $teamidList
+    * @return boolean
+    * @throws Exception
+    */
+   public function isSideTaskIssue(array $teamidList = NULL) {
+      $project = ProjectCache::getInstance()->getProject($this->projectId);
+
+      try {
+         if ($project->isSideTasksProject($teamidList)) {
 
             #if(self::$logger->isDebugEnabled()) {
             #   self::$logger->debug("$this->bugId is a sideTask.");

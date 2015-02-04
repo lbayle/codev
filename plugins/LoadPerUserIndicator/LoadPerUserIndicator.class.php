@@ -257,7 +257,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
                   }
                }
 
-            } else if ($issue->isSideTaskIssue($teams)) {
+            } else if ($issue->isSideTaskNonProductionIssue($teams)) {
                #self::$logger->error("execute showSidetasks = ".$this->showSidetasks.' cat='.$cat);
 
                // if sideTask is in the IssueSelection, then it is considered as 'normal',

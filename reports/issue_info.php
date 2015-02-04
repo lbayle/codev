@@ -337,7 +337,7 @@ class IssueInfoController extends Controller {
       // REM do not display SuiviOp tasks
       $durations = NULL;
       try {
-         if (!$issue->isSideTaskIssue()) {
+         if (!$issue->isSideTaskNonProductionIssue()) {
             foreach($issue->getStatusList() as $status) {
                $durations[] = Tools::getDurationLiteral($status->duration);
             }
