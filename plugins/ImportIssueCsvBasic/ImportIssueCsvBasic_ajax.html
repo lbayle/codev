@@ -1,0 +1,162 @@
+<div class="importIssueCsvBasic_ajax">
+   {if isset($importIssueCsvBasic_errorMsg)}
+   <div style="margin-top:1em;">
+      <span class="ui-state-error-text">ERROR: {$importIssueCsvBasic_errorMsg}</span>
+   </div>
+   {else}
+   
+   <!-- GLOBAL VALUES BUTTONS  -->
+   <div class="left" id="globalValuesDiv" style="margin-top:6em;">
+      <table class='invisible' id="addInfoTable">
+         <tr>
+            <td>{t}Team{/t}</td>
+            <td>:</td>
+            <td>{$importIssueCsvBasic_teamName}</td>
+            <td></td>
+         </tr>
+         <tr>
+            <td>{t}Project{/t}</td>
+            <td>:</td>
+            <td>{$importIssueCsvBasic_projectName}</td>
+            <td></td>
+         </tr>
+         <tr>
+            <td>{t}File{/t}</td>
+            <td>:</td>
+            <td>{$importIssueCsvBasic_filename}</td>
+            <td></td>
+         </tr>
+         <tr>
+            <td>{t}Type{/t}</td>
+            <td>:</td>
+            <td>
+               <select id="globalType" name="globalType">
+                  <option selected="selected" value="Task">Task</option>
+                  <option value="Bug">Bug</option>
+               </select>
+               <span style="color:red">*</span>
+            </td>
+            <td><button type='button' name="btSetAllTypes" id="btSetAllTypes">{t}Set All{/t}</button></td>
+         </tr>
+         <tr>
+            <td>{t}Category{/t}</td>
+            <td>:</td>
+            <td>
+               <select id="globalCategoryid" name="globalCategoryid">
+                  {foreach from=$importIssueCsvBasic_categoryList key=id item=i}
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  {/foreach}
+               </select>
+               <span style="color:red">*</span>
+            </td>
+            <td><button type='button' name="btSetAllCategories" id="btSetAllCategories">{t}Set All{/t}</button></td>
+         </tr>
+         <tr>
+            <td>{t}Command{/t}</td>
+            <td>:</td>
+            <td>
+               <select id="globalCommandid" name="globalCommandid">
+                  {foreach from=$importIssueCsvBasic_commandList key=id item=i}
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  {/foreach}
+               </select>
+            </td>
+            <td><button type='button' name="btSetAllCommands" id="btSetAllCommands">{t}Set All{/t}</button></td>
+         </tr>
+         <tr>
+            <td>{t}TargetVersion{/t}</td>
+            <td>:</td>
+            <td>
+               <select id="globalTargetversionid" name="globalTargetversionid">
+                  {foreach from=$importIssueCsvBasic_targetversionList key=id item=i}
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  {/foreach}
+               </select>
+            </td>
+            <td><button type='button' name="btSetAllTargetVersions" id="btSetAllTargetVersions">{t}Set All{/t}</button></td>
+         </tr>
+         <tr>
+            <td>{t}User{/t}</td>
+            <td>:</td>
+            <td>
+               <select id="globalUserid" name="globalUserid">
+                  {foreach from=$importIssueCsvBasic_userList key=id item=i}
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  {/foreach}
+               </select>
+            </td>
+            <td><button type='button' name="btSetAllUsers" id="btSetAllUsers">{t}Set All{/t}</button></td>
+         </tr>
+         <tr>
+            <td><label for="globalDeadline">{t}Deadline{/t}</label></td>
+            <td>:</td>
+            <td><input type="text" id="globalDeadline" class="datepicker" name="date" maxlength="10" size="10" title="{t}Date{/t}" /></td>
+            <td><button type='button' name="btSetAllDeadlines" id="btSetAllDeadlines">{t}Set All{/t}</button></td>
+         </tr>
+      </table>
+
+   </div>
+
+   <button type='button' name="btImportIssues" id="btImportIssues"><img border='0' align='absmiddle' src="images/b_save.png" alt="Save icon"/> {t}Import{/t}</button>
+   
+   <!-- DISPLAY ISSUES TABLE -->
+   <div style="margin-top:1em;">
+
+      {if $importIssueCsvBasic_newIssues}
+      <table id="issues_table" class="display">
+         <caption>{t}Mantis issues to create:{/t}</caption>
+         <thead>
+            <tr>
+               <th>Id</th>
+               <th>Summary</th>
+               <th>Charge Mgr</th>
+               <th>Charge</th>
+               <th>Deadline</th>
+               <th>ExtRef</th>
+               <th>Type</th>
+               <th>Category</th>
+               <th>Command</th>
+               <th>TargetVersion</th>
+               <th>User</th>
+            </tr>
+         </thead>
+         <tbody>
+            {foreach from=$importIssueCsvBasic_newIssues key=id item=i}
+            <tr id="issueTable-{$i.lineNum}">
+               <td class="lineNum" align='right'>{$i.lineNum}</td>
+               <td class="summary" align='left' {if isset($i.summary_attr)}{$i.summary_attr}{/if}>{$i.summary}</td>
+               <td class="mgrEffortEstim" align='right'>{$i.mgrEffortEstim}</td>
+               <td class="effortEstim" align='right'>{$i.effortEstim}</td>
+               <td class="deadline">{$i.deadline}</td>
+               <td class="extRef" align='left'>{$i.extRef}</td>
+               <td class="type" align='left'>{if isset($i.type)}{$i.type}{/if}</td>
+               <td class="category" align='left'>{if isset($i.category)}{$i.category}{/if}</td>
+               <td class="command" align='left'>{if isset($i.command)}{$i.command}{/if}</td>
+               <td class="targetVersion" align='left'>{if isset($i.targetVersion)}{$i.targetVersion}{/if}</td>
+               <td class="userName" align='left'>{if isset($i.userName)}{$i.userName}{/if}</td>
+            </tr>
+            {/foreach}
+         </tbody>
+      </table>
+
+      <div class="ui-helper-hidden">
+         <table id="issues_data">
+            <tbody>
+               {foreach from=$newIssues key=id item=i}
+               <tr id="issueData-{$i.lineNum}">
+                  <td class="description">{$i.description}</td>
+                  <td class="type"></td>
+                  <td class="commandid"></td>
+                  <td class="categoryid"></td>
+                  <td class="targetversionid"></td>
+                  <td class="userid"></td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+      </div>
+      {/if}
+   </div>   
+   {/if}
+</div>
+

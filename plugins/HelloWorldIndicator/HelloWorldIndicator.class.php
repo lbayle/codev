@@ -56,6 +56,7 @@ class HelloWorldIndicator extends IndicatorPluginAbstract {
          self::DOMAIN_COMMAND_SET,
          self::DOMAIN_SERVICE_CONTRACT,
          self::DOMAIN_ADMIN,
+         self::DOMAIN_IMPORT_EXPORT,
       );
       self::$categories = array (
          self::CATEGORY_QUALITY
