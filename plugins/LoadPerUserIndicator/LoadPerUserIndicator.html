@@ -9,6 +9,7 @@
          <input type="text" class="loadPerUser_enddatepicker datepicker" name="loadPerUser_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
          <input class="loadPerUser_submit" type="submit" value="{t}Display{/t}" />
          <input type="hidden" name="action" value="getLoadPerUserIndicator" />
+         <input type="hidden" name="attributesJsonStr" value="" />
       </fieldset>
    </form>
 </div>
@@ -22,6 +23,19 @@
 </div>
 
 <script type="text/javascript">
+
+   // ------------------------
+   // save user settings (attributesJsonStr) in form
+   function updateForm() {
+      var form = jQuery('.loadPerUserIndicator_dateRange_form');
+      
+      // save userSettings in the attributesJsonStr so it can be restored
+      // (none)
+
+      // Note: LoadPerUserIndicatorAttr is declared in dashboard.html
+      var attributesJsonStr = jQuery('.LoadPerUserIndicatorAttr.attributesJsonStr');
+      form.find('input[name=attributesJsonStr]').val(attributesJsonStr);
+   }
 
    // this function will be run at jQuery(document).ready (see dashboard.html) or
    // when a new widjet is added to the dashboard.
@@ -51,6 +65,9 @@
       jQuery('.loadPerUser_submit').click(function(event) {
          /* stop form from submitting normally */
          event.preventDefault();
+
+         // send attributesJsonStr because the ajax php need to know about 'userSettings'
+         updateForm();
 
          var form = jQuery('.loadPerUserIndicator_dateRange_form');
          var url = form.attr('action');
