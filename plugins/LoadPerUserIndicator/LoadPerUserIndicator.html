@@ -24,19 +24,6 @@
 
 <script type="text/javascript">
 
-   // ------------------------
-   // save user settings & config settings (attributesJsonStr) in form
-   function updateForm() {
-      var form = jQuery('.loadPerUserIndicator_dateRange_form');
-      
-      // save userSettings in the attributesJsonStr so it can be restored
-      // (none)
-
-      // Note: LoadPerUserIndicatorAttr is declared in dashboard.html
-      var attr = jQuery('.LoadPerUserIndicatorAttr.attributesJsonStr');
-      form.find('input[name=attributesJsonStr]').val(attr.text());
-   }
-
    // this function will be run at jQuery(document).ready (see dashboard.html) or
    // when a new widjet is added to the dashboard.
    function loadPerUserIndicatorJsInit() {
@@ -65,11 +52,13 @@
       jQuery('.loadPerUser_submit').click(function(event) {
          /* stop form from submitting normally */
          event.preventDefault();
-
-         // send attributesJsonStr because the ajax php need to know about 'userSettings'
-         updateForm();
-
          var form = jQuery('.loadPerUserIndicator_dateRange_form');
+
+         // send attributesJsonStr because the ajax php need to know about 'showSidetasks'
+         // Note: LoadPerUserIndicatorAttr is declared in dashboard.html
+         var attr = jQuery('.LoadPerUserIndicatorAttr.attributesJsonStr');
+         form.find('input[name=attributesJsonStr]').val(attr.text());
+
          var url = form.attr('action');
          var type = form.attr('method');
          jQuery.ajax({
