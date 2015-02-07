@@ -610,32 +610,32 @@ class Project extends Model {
       return $catId;
    }
 
-   public function addIssueProjManagement($issueSummary, $issueDesc=" ") {
+   public function addIssueProjManagement($issueSummary, $issueDesc="...") {
       $cat_id = $this->getCategory(self::cat_mngt_regular);
       return $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
    }
 
-   public function addIssueInactivity($issueSummary, $issueDesc=" ") {
+   public function addIssueInactivity($issueSummary, $issueDesc="...") {
       $cat_id = $this->getCategory(self::cat_st_inactivity);
       return $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
    }
 
-   public function addIssueIncident($issueSummary, $issueDesc=" ") {
+   public function addIssueIncident($issueSummary, $issueDesc="...") {
       $cat_id = $this->getCategory(self::cat_st_incident);
       return $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
    }
 
-   public function addIssueTools($issueSummary, $issueDesc=" ") {
+   public function addIssueTools($issueSummary, $issueDesc="...") {
       $cat_id = $this->getCategory(self::cat_st_tools);
       return $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
    }
 
-   public function addIssueWorkshop($issueSummary, $issueDesc=" ") {
+   public function addIssueWorkshop($issueSummary, $issueDesc="...") {
       $cat_id = $this->getCategory(self::cat_st_workshop);
       return $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
    }
 
-   private function addSideTaskIssue($catType, $issueSummary, $issueDesc=" ") {
+   private function addSideTaskIssue($catType, $issueSummary, $issueDesc="...") {
       $cat_id = $this->getCategory($catType);
       $bugt_id = $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
       return $bugt_id;
