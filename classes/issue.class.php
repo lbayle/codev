@@ -442,7 +442,7 @@ class Issue extends Model implements Comparable {
    /**
     * WARNING (best effort)
     *
-    * Ex: vacation or Incident tasks are not production issues.
+    * Ex: Inactivity or Incident tasks are not production issues.
     *     but tools and workshop are production issues.
     *
     * Note: the project type is specific to a team, so you need to specify
@@ -456,8 +456,8 @@ class Issue extends Model implements Comparable {
 
       try {
          if (($project->isSideTasksProject($teamidList)) &&
-            ($project->getCategory(Project::cat_st_tools) != $this->categoryId) &&
-            ($project->getCategory(Project::cat_st_workshop)   != $this->categoryId)) {
+            (($project->getCategory(Project::cat_st_inactivity) == $this->categoryId) ||
+            ($project->getCategory(Project::cat_st_incident) == $this->categoryId))) {
 
             #if(self::$logger->isDebugEnabled()) {
             #   self::$logger->debug("$this->bugId is a NonProduction sideTask.");
