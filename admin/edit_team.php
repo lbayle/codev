@@ -154,8 +154,22 @@ class EditTeamController extends Controller {
 
                } elseif ($action == 'createSideTaskProject') {
                   $stprojName = Tools::getSecurePOSTStringValue('stprojName');
-                  $team->createSideTaskProject($stprojName);
+                  $stproj_id = $team->createSideTaskProject($stprojName);
+                  if ($stproj_id > 0) {
+                     $stproj = ProjectCache::getInstance()->getProject($stproj_id);
+                     
+                     // add teamLeader as Mantis manager of the SideTaskProject
+                     $leader = UserCache::getInstance()->getUser($team->getLeaderId());
+                     $access_level = 70; // TODO mantis manager
+                     $leader->setProjectAccessLevel($stproj_id, $access_level);
 
+                     // add SideTaskProject Categories
+                     $stproj->addCategoryProjManagement(T_("Project Management"));
+                     $stproj->addCategoryInactivity(T_("Inactivity"));
+                     $stproj->addCategoryIncident(T_("Incident"));
+                     $stproj->addCategoryTools(T_("Tools"));
+                     $stproj->addCategoryWorkshop(T_("Team Workshop"));
+                  }
                } elseif (isset($_POST["deleteValue"])) {
                	  $duration = TimeTrackingTools::getDurationList($displayed_teamid);
                	  $duration_value = Tools::getSecurePOSTStringValue('deleteValue');
