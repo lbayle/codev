@@ -370,7 +370,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
 
       $formatedColors = array("#92C5FC", "#C2DFFF", "#75FFDA", "#A8FFBD");
       if ($this->showSidetasks) {
-         $jqplotData[T_('SideTask')] = $totalActivity['sidetask'];
+         $jqplotData[T_('Waste')] = $totalActivity['sidetask'];
          $formatedColors[] = "#FFF494";
       } else {
       }
