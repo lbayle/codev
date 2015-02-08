@@ -52,6 +52,7 @@ max_tooltips_per_page = 500
 ; logo_image_startDate_endDate = "images/doodle_logo.png" (date "MMdd")
 logo_image_0207_0214 = "images/codevtt_logo_03_stvalentin.png"
 logo_image_0317_0317 = "images/codevtt_logo_03_stpatrick.jpg"
+logo_image_0401_0401 = "images/codevtt_logo_03_april_1st.jpg"
 logo_image_0421_0425 = "images/codevtt_logo_03_easter.png"
 logo_image_1031_1031 = "images/codevtt_logo_03_halloween.png"
 logo_image_1220_1227 = "images/codevtt_logo_03_christmas.png"
@@ -68,6 +69,8 @@ task_duration_list = "1:1,0.9:0.9,0.8:0.8,0.75:0.75,0.7:0.7,0.6:0.6,0.5:0.5,0.4:
 check_latest_version = 1
 
 [dashboardDefaultPlugins]
+;User = ""
+;Task = ""
 Team = "AvailableWorkforceIndicator"
 ;Project = ""
 Command = "LoadPerUserIndicator,ProgressHistoryIndicator2"
