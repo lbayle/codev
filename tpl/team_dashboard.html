@@ -1,3 +1,22 @@
 <div id="content" style="margin-left:10em;margin-right:10em">
+   
+   <div class="center">
+      <script type="text/javascript">
+         jQuery(document).ready(function(){
+            jQuery('#computeButton').click(function() {
+               var form = jQuery('#formSetDateRange');
+               form.submit();
+            });
+         });
+      </script>
+      <form id="formSetDateRange" name="form1" class="formWithTabsHistory" method="get" action="{$page}">
+         <fieldset>
+            {include file="form/dateRangeSelector.html"}
+            <input type="hidden" name="action" value="setDateRange" />
+            <input id="computeButton" type="button" value="{t}Compute{/t}" />
+         </fieldset>
+      </form>
+   </div>
+   
 {include file="tools/dashboard.html"}
 </div>

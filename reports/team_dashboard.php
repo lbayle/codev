@@ -34,12 +34,23 @@ class TeamDashboardController extends Controller {
 
          $team = TeamCache::getInstance()->getTeam($this->teamid);
          
-         
-         //$startTimestamp = $team->getDate(); // creationDate
-         //$endTimestamp = time();
-         $startTimestamp = strtotime("first day of this month");
-         $endTimestamp = strtotime("last day of this month");
-         
+         $action = filter_input(INPUT_GET, 'action');
+         if ('setDateRange' === $action) {
+            $startdate = filter_input(INPUT_GET, 'startdate');
+            $startTimestamp = Tools::date2timestamp($startdate);
+            
+            $enddate = filter_input(INPUT_GET, 'enddate');
+            $endTimestamp = Tools::date2timestamp($enddate);
+            $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
+         } else {
+            //$startTimestamp = $team->getDate(); // creationDate
+            //$endTimestamp = time();
+            $startTimestamp = strtotime("first day of this month");
+            $endTimestamp = strtotime("last day of this month");
+         }
+         $this->smartyHelper->assign('startDate', date("Y-m-d", $startTimestamp));
+         $this->smartyHelper->assign('endDate', date("Y-m-d", $endTimestamp));
+
          // create issueSelection with issues from team projects
          $teamIssues = $team->getTeamIssueList(true, true); // with disabledProjects ?
          $teamIssueSelection = new IssueSelection('Team'.$this->teamid.'ISel');         
