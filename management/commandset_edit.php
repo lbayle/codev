@@ -75,9 +75,6 @@ class CommandSetEditController extends Controller {
                      $commandsetid = CommandSet::create($cmdsetName, $this->teamid);
 
                      $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
-
-                     // set all fields
-                     $this->updateCommandSetInfo($cmdset);
                   } catch(Exception $e) {
                      // Smartify
                      echo "Can't create the CommandSet because the CommandSet name is already used";

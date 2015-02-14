@@ -38,6 +38,7 @@
                      <span style="color:red">*</span>
                   </td>
                </tr>
+               {if isset($commandsetid)}
                <tr>
                   <th><label for="commandsetReference">{t}Reference{/t}</label></th>
                   <td><input type="text" style="font-family: sans-serif" name="commandsetReference" id="commandsetReference" value="{if isset($commandsetReference)}{$commandsetReference}{/if}" /></td>
@@ -51,11 +52,12 @@
                   <td><input type="text" id="commandsetDate" name="commandsetDate" class="datepicker" maxlength="10" size="10" title="{t}Date{/t}" />
                   </td>
                </tr>
-               <tr>
+               {/if}
+               <tr {if !isset($commandsetid)}style="display:none;"{/if}>
                   <th><label for="commandsetCost">{t}Cost{/t}</label></th>
                   <td><input type="text" style="font-family: sans-serif" name="commandsetCost" id="commandsetCost" value="{if isset($commandsetCost)}{$commandsetCost}{/if}" /> {t}EUR{/t}</td>
                </tr>
-               <tr>
+               <tr {if !isset($commandsetid)}style="display:none;"{/if}>
                   <th><label for="commandsetBudget">{t}Budget{/t}</th>
                   <td><input type="text" style="font-family: sans-serif" name="commandsetBudget" id="commandsetBudget" value="{if isset($commandsetBudget)}{$commandsetBudget}{/if}" /> {t}days{/t}</td>
                </tr>
