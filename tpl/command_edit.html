@@ -59,6 +59,7 @@
                         <span style="color:red">*</span>
                      </td>
                   </tr>
+                  {if isset($commandid)}
                   <tr>
                      <th><label for="cmdReference">{t}Reference{/t}</label></th>
                      <td><input type="text" style="font-family: sans-serif" name="cmdReference" id="cmdReference" value="{if isset($cmdReference)}{$cmdReference}{/if}"></td>
@@ -96,11 +97,13 @@
                         </select>
                      </td>
                   </tr>
+                  {/if}
+                  <tr {if !isset($commandid)}style="display:none;"{/if}>
                      <th><label for="cmdTotalSoldDays" title="MgrEE + Provisions">{t}Sold Charge{/t}</label></th>
                      <td><input type="text" style="font-family: sans-serif" name="cmdTotalSoldDays" id="cmdTotalSoldDays" value="{if isset($cmdTotalSoldDays)}{$cmdTotalSoldDays}{/if}"> {t}days{/t}
                      </td>
                   </tr>
-                  <tr>
+                  <tr {if !isset($commandid)}style="display:none;"{/if}>
                      <th title="{t}Average Daily Rate{/t}"><label for="cmdAverageDailyRate">{t}Default ADR{/t}</label></th>
                      <td><input type="text" style="font-family: sans-serif" name="cmdAverageDailyRate" id="cmdAverageDailyRate" value="{if isset($cmdAverageDailyRate)}{$cmdAverageDailyRate}{/if}"> {t}EUR{/t}
                      </td>
