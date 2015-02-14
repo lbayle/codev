@@ -647,16 +647,24 @@ class Tools {
     * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
     * @return string The value or die if there is a problem
     */
-   public static function getSecurePOSTStringValue($key,$defaultValue = NULL) {
-      if(isset($_POST[$key])) {
-         return Tools::escape_string($_POST[$key]);
+   public static function getSecurePOSTStringValue($key,$defaultValue = NULL, $isSqlEscape = TRUE) {
+      
+      // FALSE if filter fails, NULL if key is undefined
+      $val = filter_input(INPUT_POST, $key);
+
+      // empty string is also considered as a fail
+      if (empty($val)) {
+         if (NULL !== $defaultValue) {
+            $val = $defaultValue;
+         } else {
+            self::sendBadRequest("No POST value for ".$key);
+            die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+         }
       }
-      else if(isset($defaultValue)) {
-         return $defaultValue;
-      }
-      else {
-         self::sendBadRequest("No POST value for ".$key);
-         die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+      if (TRUE === $isSqlEscape) {
+         return SqlWrapper::getInstance()->sql_real_escape_string($val);
+      } else {
+         return $val;
       }
    }
 
@@ -688,16 +696,21 @@ class Tools {
     * @return int The value or die if there is a problem
     */
    public static function getSecurePOSTNumberValue($key,$defaultValue = NULL) {
-      $value = self::getSecurePOSTStringValue($key,$defaultValue);
-      if(strlen($value) == 0) {
-         $value = $defaultValue;
-      }
-      if (is_numeric($value)) {
-         return $value;
-      } else {
-         self::sendBadRequest('Attempt to set non_numeric value ('.$value.') for '.$key);
+      // FALSE if filter fails, NULL if key is undefined
+      $val = filter_input(INPUT_POST, $key, FILTER_VALIDATE_FLOAT);
+      if (FALSE === $val) {
+         self::sendBadRequest('Attempt to set non_numeric value ('.$val.') for '.$key);
          die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
       }
+      if (NULL === $val) {
+         if (NULL !== $defaultValue) {
+            $val = $defaultValue;
+         } else {
+            self::sendBadRequest("No POST value for ".$key);
+            die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+         }
+      }
+      return $val;
    }
 
    /**
@@ -728,16 +741,22 @@ class Tools {
     * @return int The value or die if there is a problem
     */
    public static function getSecurePOSTIntValue($key,$defaultValue = NULL) {
-      $value = self::getSecurePOSTStringValue($key,$defaultValue);
-      if(strlen(trim($value)) == 0) {
-         $value = $defaultValue;
-      }
-      if (is_numeric(trim($value))) {
-         return intval($value);
-      } else {
-         self::sendBadRequest('Attempt to set non_numeric value ('.$value.') for '.$key);
+      
+      // FALSE if filter fails, NULL if key is undefined
+      $val = filter_input(INPUT_POST, $key, FILTER_VALIDATE_INT);
+      if (FALSE === $val) {
+         self::sendBadRequest('Attempt to set non_numeric value ('.$val.') for '.$key);
          die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
       }
+      if (NULL === $val) {
+         if (NULL !== $defaultValue) {
+            $val = $defaultValue;
+         } else {
+            self::sendBadRequest("No POST value for ".$key);
+            die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+         }
+      }
+      return intval($val);
    }
 
    /**
