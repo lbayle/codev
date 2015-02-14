@@ -863,11 +863,11 @@ if ("false" == $is_modified) {
 $task_otherActivity = isset($_POST['task_otherActivity']) ? $_POST['task_otherActivity'] : T_("Other external activity");
 $task_leave     = isset($_POST['task_leave']) ? $_POST['task_leave'] : T_("Leave");
 $task_sickleave = isset($_POST['task_sickleave']) ? $_POST['task_sickleave'] : T_("Sick Leave");
-$job1           = isset($_POST['job1']) ? $_POST['job1'] : T_("Study of the existing");
-$job2           = isset($_POST['job2']) ? $_POST['job2'] : T_("Analyse");
-$job3           = isset($_POST['job3']) ? $_POST['job3'] : T_("Development");
-$job4           = isset($_POST['job4']) ? $_POST['job4'] : T_("Tests");
-$job5           = isset($_POST['job5']) ? $_POST['job5'] : T_("Documentation");
+$job1           = Tools::getSecurePOSTStringValue('job1', T_("Study of the existing"));
+$job2           = Tools::getSecurePOSTStringValue('job2', T_("Analyse"));
+$job3           = Tools::getSecurePOSTStringValue('job3', T_("Development"));
+$job4           = Tools::getSecurePOSTStringValue('job4', T_("Tests"));
+$job5           = Tools::getSecurePOSTStringValue('job5', T_("Documentation"));
 $job_support    = "Support";
 $job_sideTasks  = "N/A";
 $job1_color       = isset($_POST['job1_color']) ? $_POST['job1_color'] : "FFF494";

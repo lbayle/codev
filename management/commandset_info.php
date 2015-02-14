@@ -113,7 +113,7 @@ class CommandSetInfoController extends Controller {
                unset($_SESSION['cmdid']);
                unset($_SESSION['servicecontractid']);
 
-               $action = Tools::getSecurePOSTStringValue('action', '');
+               $action = filter_input(INPUT_POST, 'action');
                if ('displayCommandSet' == $action) {
                   header('Location:commandset_edit.php?commandsetid=0');
                }

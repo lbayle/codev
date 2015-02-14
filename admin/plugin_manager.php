@@ -44,7 +44,9 @@ class PluginManagerController extends Controller {
             $this->smartyHelper->assign('accessDenied', TRUE);
          } else {
 
-            $action = Tools::getSecurePOSTStringValue('action', 'display');
+            $action = filter_input(INPUT_POST, 'action');
+            if (empty($action)) { $action = 'display'; }
+            
             $pm = PluginManager::getInstance();
 
             // === ACTIONS =====================================================

@@ -29,8 +29,8 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
 
    $logger = Logger::getLogger("dashboardAjax");
 
-   $action = Tools::getSecurePOSTStringValue('action', 'none');
-   
+   $action = filter_input(INPUT_POST, 'action');
+
    if ($action == 'getPluginConfigInfo') {
 
       $pluginClassName = Tools::getSecurePOSTStringValue('pluginClassName');
@@ -122,5 +122,3 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
    
 }
 
-
-?>

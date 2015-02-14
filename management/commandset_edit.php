@@ -60,8 +60,8 @@ class CommandSetEditController extends Controller {
                $commandsetid = $_SESSION['commandsetid'];
             }
 
-            $action = Tools::getSecurePOSTStringValue('action', '');
-
+            $action = filter_input(INPUT_POST, 'action');
+            
             if (0 == $commandsetid) {
                // -------- CREATE CMDSET -------
                if ("createCmdset" == $action) {

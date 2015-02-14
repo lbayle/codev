@@ -60,7 +60,7 @@ class ServiceContractEditController extends Controller {
             } else if(isset($_SESSION['servicecontractid'])) {
                $servicecontractid = $_SESSION['servicecontractid'];
             }
-            $action = Tools::getSecurePOSTStringValue('action', '');
+            $action = filter_input(INPUT_POST, 'action');
 
             if (0 == $servicecontractid) {
                //  CREATE service contract

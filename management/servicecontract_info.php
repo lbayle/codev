@@ -110,7 +110,7 @@ class ServiceContractInfoController extends Controller {
                unset($_SESSION['cmdid']);
                unset($_SESSION['commandsetid']);
 
-               $action = Tools::getSecurePOSTStringValue('action', '');
+               $action = filter_input(INPUT_POST, 'action');
                if ('displayServiceContract' == $action) {
                   header('Location:servicecontract_edit.php?servicecontractid=0');
                }
