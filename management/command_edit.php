@@ -100,8 +100,6 @@ class CommandEditController extends Controller {
 
                      $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
-                     // set all fields
-                     $this->updateCmdInfo($cmd);
                   } catch(Exception $e) {
                      // Smartify
                      echo "Can't create the command because the command name is already used";
