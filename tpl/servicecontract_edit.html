@@ -54,6 +54,7 @@
                      <span style="color:red">*</span>
                   </td>
                </tr>
+               {if isset($servicecontractid)}
                <tr>
                   <th><label for="servicecontractReference">{t}Reference{/t}</label></th>
                   <td><input type="text" name="servicecontractReference" id="servicecontractReference" value="{if isset($servicecontractReference)}{$servicecontractReference}{/if}"></td>
@@ -78,6 +79,7 @@
                   <th><label for="enddatepicker">{t}End date{/t}</label></th>
                   <td><input type="text" id="enddatepicker" name="serviceContractEndDate" class="datepicker" maxlength="10" size="10" title="{t}EndDate{/t}" /></td>
                </tr>
+               {/if}
                {if isset($servicecontractStateList)}
                <tr>
                   <th><label for="stateSelector">{t}State{/t}</label></th>

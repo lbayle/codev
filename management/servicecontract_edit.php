@@ -75,9 +75,6 @@ class ServiceContractEditController extends Controller {
                      $servicecontractid = ServiceContract::create($contractName, $this->teamid);
 
                      $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-
-                     // set all fields
-                     $this->updateServiceContractInfo($contract);
                   } catch(Exception $e) {
                      // Smartify
                      echo "Can't create the ServiceContract because the ServiceContract name is already used";

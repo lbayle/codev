@@ -208,9 +208,8 @@ class ServiceContract extends Model {
    }
 
    public function setName($name) {
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($name);  // should be in controler, not here
-      $this->name = $formattedValue;
-      $query = "UPDATE `codev_servicecontract_table` SET name = '$formattedValue' WHERE id = ".$this->id.";";
+      $this->name = $name;
+      $query = "UPDATE `codev_servicecontract_table` SET name = '$name' WHERE id = ".$this->id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -265,9 +264,8 @@ class ServiceContract extends Model {
    }
 
    public function setDesc($description) {
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($description);  // should be in controler, not here
-      $this->description = $formattedValue;
-      $query = "UPDATE `codev_servicecontract_table` SET description = '$formattedValue' WHERE id = ".$this->id.";";
+      $this->description = $description;
+      $query = "UPDATE `codev_servicecontract_table` SET description = '$description' WHERE id = ".$this->id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
