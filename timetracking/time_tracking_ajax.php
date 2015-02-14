@@ -135,8 +135,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
       } else if ($action == 'saveIssueNote') {
          $bugid       = Tools::getSecurePOSTIntValue('bugid');
          $reporter_id = $session_user;
-         $issueNoteText = Tools::getSecurePOSTStringValue('issuenote_text');
-
+         $issueNoteText = filter_input(INPUT_POST, 'issuenote_text');
          IssueNote::setTimesheetNote($bugid, $issueNoteText, $reporter_id);
 
          // return data
