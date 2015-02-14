@@ -1256,17 +1256,17 @@ class Project extends Model {
       if(NULL == $this->versionDateCache) {
          $this->versionDateCache = array();
       }
-
+      $sqlWrapper = SqlWrapper::getInstance();
       if(!array_key_exists($target_version,$this->versionDateCache)) {
          $query = "SELECT date_order FROM `mantis_project_version_table` ".
                   "WHERE project_id=$this->id ".
-                  "AND version='".mysql_real_escape_string($target_version)."';";
+                  "AND version='".$sqlWrapper->sql_real_escape_string($target_version)."';";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $targetVersionDate = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
+         $targetVersionDate = (0 != $sqlWrapper->sql_num_rows($result)) ? $sqlWrapper->sql_result($result, 0) : 0;
 
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("$this->id target_version date = ".date("Y-m-d", $targetVersionDate));

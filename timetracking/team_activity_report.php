@@ -354,7 +354,7 @@ class TeamActivityReportController extends Controller {
             $tooltipAttr = array (
                'reporter' => $user->getRealname(),
                'date' => date('Y-m-d H:i', $issueNote->getLastModified()),
-               'Note' => $note,
+               'Note' => $note, // TODO htmlspecialchars ?
             );
             $readByList = $issueNote->getReadByList(TRUE);
             if (0 != count($readByList)) {

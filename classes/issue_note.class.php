@@ -71,8 +71,6 @@ class IssueNote {
     *
     * create a new note for an issue
     *
-	 * REM: prevent SQL injections must be done by the controler !
-	 *
     * @param type $bug_id
     * @param type $reporter_id
     * @param type $text
@@ -82,31 +80,31 @@ class IssueNote {
    public static function create($bug_id, $reporter_id, $text='', $type=self::type_bugnote, $private=FALSE) {
 
       $view_state = ($private) ? self::viewState_private : self::viewState_public;
-
-      $query2 = "INSERT INTO `mantis_bugnote_text_table` (`note`) VALUES ('$text');";
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      $sqlWrapper = SqlWrapper::getInstance();
+      $query2 = "INSERT INTO `mantis_bugnote_text_table` (`note`) VALUES ('".$sqlWrapper->sql_real_escape_string($text)."');";
+      $result2 = $sqlWrapper->sql_query($query2);
       if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $bugnote_text_id = SqlWrapper::getInstance()->sql_insert_id();
+      $bugnote_text_id = $sqlWrapper->sql_insert_id();
 
       $timestamp = time();
       $query = 'INSERT INTO `mantis_bugnote_table` '.
               '(`bug_id`, `reporter_id`, `view_state`, `note_type`, `bugnote_text_id`, `date_submitted`, `last_modified`) '.
               "VALUES ('$bug_id', '$reporter_id', '$view_state', '$type', '$bugnote_text_id', '$timestamp', '$timestamp');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sqlWrapper->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $bugnote_id = SqlWrapper::getInstance()->sql_insert_id();
+      $bugnote_id = $sqlWrapper->sql_insert_id();
 
       // log BUGNOTE_ADD in Issue history
       $query3 = 'INSERT INTO `mantis_bug_history_table` '.
 				'( user_id, bug_id, date_modified, type, old_value ) '.
 				"VALUES ( $reporter_id, $bug_id, ".time().', '.self::history_BugnoteAdded.", $bugnote_id)";
-      $result3 = SqlWrapper::getInstance()->sql_query($query3);
+      $result3 = $sqlWrapper->sql_query($query3);
       if (!$result3) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -326,7 +324,6 @@ class IssueNote {
 
    /**
     *
-	 * REM: prevent SQL injections must be done by the controler !
     */
    public function setText($text, $user_id) {
 
@@ -339,10 +336,10 @@ class IssueNote {
       if ( $this->revisionCount() < 1 ) {
          $this->revisionAdd($oldText, $this->reporter_id, $this->last_modified);
       }
-
-      $query = "UPDATE `mantis_bugnote_text_table` SET note='$text' ".
+      $sqlWrapper = SqlWrapper::getInstance();
+      $query = "UPDATE `mantis_bugnote_text_table` SET note='".$sqlWrapper->sql_real_escape_string($text)."' ".
                "WHERE id=" . $this->bugnote_text_id;
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sqlWrapper->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -351,7 +348,7 @@ class IssueNote {
 	   # updated the last_updated date
       $now = time();
    	$query2 = "UPDATE `mantis_bugnote_table` SET last_modified=$now WHERE id= $this->id";
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      $result2 = $sqlWrapper->sql_query($query2);
       if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -364,7 +361,7 @@ class IssueNote {
       $query3 = 'INSERT INTO `mantis_bug_history_table` '.
 				'( user_id, bug_id, date_modified, type, old_value, new_value ) '.
 				"VALUES ( $user_id, ".$this->bug_id.", ".time().', '.self::history_BugnoteUpdated.', '.$this->id.", $revision_id)";
-      $result3 = SqlWrapper::getInstance()->sql_query($query3);
+      $result3 = $sqlWrapper->sql_query($query3);
       if (!$result3) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -391,8 +388,6 @@ class IssueNote {
    }
 
    /**
-	 * REM: prevent SQL injections must be done by the controler !
-    *
     * @param type $text
     * @param type $user_id
     * @param type $timestamp
@@ -402,7 +397,7 @@ class IssueNote {
 
       $query = "INSERT INTO `mantis_bug_revision_table` (bug_id, bugnote_id, user_id, timestamp, type, value) ".
                "VALUES ($this->bug_id, $this->id, $user_id, $timestamp, ".
-               self::rev_type_bugnote.", '$text')";
+               self::rev_type_bugnote.", '".SqlWrapper::getInstance()->sql_real_escape_string($text)."')";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -519,4 +514,4 @@ class IssueNote {
 
 IssueNote::staticInit();
 
-?>
+
