@@ -799,11 +799,23 @@ function installMantisPlugin($pluginName, $isReplace=true) {
       }
 
       if (!$result) {
-         echo "<span class='error_font'>mantis plugin installation failed: CodevTT plugin must be installed manualy.</span><br/>";
+         echo "<span class='error_font'>mantis plugin installation failed: $pluginName plugin must be installed manualy.</span><br/>";
       }
+      
+      // activate plugin
+      $query = "INSERT INTO mantis_plugin_table (basename, enabled, protected, priority)".
+              " SELECT * FROM (SELECT '$pluginName', '1', '0', '3') AS tmp".
+              " WHERE NOT EXISTS (".
+              " SELECT basename FROM mantis_plugin_table WHERE basename = '$pluginName') LIMIT 1;";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span class='warn_font'>mantis $pluginName plugin must be activated manualy.</span><br/>";
+      }
+      
+      
    } catch (Exception $e) {
       echo "<span class='error_font'>mantis plugin installation failed: " . $e->getMessage() . "</span><br/>";
-      echo "<span class='error_font'>CodevTT plugin must be installed manualy.</span><br/>";
+      echo "<span class='error_font'>$pluginName plugin must be installed manualy.</span><br/>";
       $result = false;
    }
    return $result;
