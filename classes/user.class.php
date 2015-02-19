@@ -622,8 +622,6 @@ class User extends Model {
    public function getAvailableWorkforce($startTimestamp, $endTimestamp, $team_id = NULL) {
       $holidays = Holidays::getInstance();
 
-      $nbOpenDaysInPeriod = 0;
-
       $arrivalDate = $this->getArrivalDate($team_id);
       $departureDate = $this->getDepartureDate($team_id);
 
@@ -637,8 +635,9 @@ class User extends Model {
          $departureDate = $endTimestamp;
       }
 
-      if ($departureDate < $startTimestamp)
+      if ($departureDate < $startTimestamp) {
          return 0;
+      }
 
       // restrict timestamp to the period where the user is working on the project
       $startT = ($arrivalDate > $startTimestamp) ? $arrivalDate : $startTimestamp;
@@ -648,36 +647,30 @@ class User extends Model {
          self::$logger->debug("getAvailableWorkload user.startT=" . date("Y-m-d", $startT) . " user.endT=" . date("Y-m-d", $endT));
       }
 
-      // get $nbOpenDaysInPeriod
-      for ($i = $startT; $i <= $endT; $i += (60 * 60 * 24)) {
-         // monday to friday
-         if (NULL == $holidays->isHoliday($i)) {
-            $nbOpenDaysInPeriod++;
-         }
-      }
-
       $timeTracks = $this->getTimeTracks($startT, $endT);
       $issueIds = array();
       foreach ($timeTracks as $timeTrack) {
          $issueIds[] = $timeTrack->getIssueId();
       }
-
-      $nbDaysOf = array_sum($this->getDaysOfInPeriod($timeTracks, $issueIds));
-      $prodDaysForecast = $nbOpenDaysInPeriod - $nbDaysOf;
-
-      // remove externalTasks timetracks
+      $daysOf   = $this->getDaysOfInPeriod($timeTracks, $issueIds);
       $extTasks = $this->getExternalTasksInPeriod($timeTracks, $issueIds);
-      $nbExternal = 0;
-      foreach ($extTasks as $extTask) {
-         $nbExternal += $extTask["duration"];
+
+      $prodDaysForecast = 0;
+      for ($i = $startT; $i <= $endT; $i += (60 * 60 * 24)) {
+
+         // workforce = 1
+         // remove external task
+         // remove dayOf
+         // if (workforce == 1) && isHoliday then day=0
+
+         $dayWorkforce = 1;
+         if (isset($extTasks[$i])) { $dayWorkforce -= $extTasks[$i]["duration"]; }
+         if (isset($daysOf[$i])) { $dayWorkforce -= $daysOf[$i]["duration"]; }
+         if ((1 == $dayWorkforce) && (NULL != $holidays->isHoliday($i))) {
+            $dayWorkforce = 0;
+         }
+         $prodDaysForecast += $dayWorkforce;
       }
-
-      $prodDaysForecast -= $nbExternal;
-
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("user $this->id timestamp = " . date('Y-m-d', $startT) . " to " . date('Y-m-d', $endT) . " =>  ($nbOpenDaysInPeriod - $nbDaysOf - $nbExternal ) = $prodDaysForecast");
-      }
-
       return $prodDaysForecast;
    }
 
