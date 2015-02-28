@@ -184,6 +184,7 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                         var divHeadObj = jQuery('<div></div>').addClass("widget-head").append(jQuery('<h3></h3>').html(widget.title));
                         var divContentObj = jQuery('<div></div>').addClass("widget-content").html(widget.content);
                         var divObj = jQuery('<div style="display: none;" class="attributesJsonStr"/>').html(widget.attributesJsonStr);
+                        divObj.addClass(widget.pClassName+'Attr');
                         liObj.append(divObj).append(divHeadObj).append(divContentObj);
                         ulObj.prepend(liObj);
       

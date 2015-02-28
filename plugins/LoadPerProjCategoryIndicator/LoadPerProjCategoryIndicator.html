@@ -59,7 +59,6 @@
       jQuery('.loadPerProjCategory_submit').click(function(event) {
          /* stop form from submitting normally */
          event.preventDefault();
-
          var form = jQuery('.loadPerProjCategoryIndicator_dateRange_form');
          
          // save the selected projectId in the attributesJsonStr so it can be restored
@@ -72,12 +71,10 @@
          // send attributesJsonStr because the ajax php need to know about 'isDisplayTasks' and 'projectId'
          form.find('input[name=attributesJsonStr]').val(attributesJsonStr);
          
-         var url = form.attr('action');
-         var type = form.attr('method');
          jQuery.ajax({
             async: false,
-            type: type,
-            url: url,
+            type: form.attr('method'),
+            url: form.attr('action'),
             dataType:"json",
             data: form.serialize(),
             success: function(data) {
@@ -86,6 +83,7 @@
                   var chart = jQuery('.loadPerProjCategoryIndicatorChart');
                   var chartoptions = chart.data('plotoptions');
                   var jqplotData = jQuery.parseJSON('['+data['loadPerProjCategoryIndicator_jqplotData']+']');
+                  chart.empty();
                   chart.jqplot(jqplotData, chartoptions);
                }
             },

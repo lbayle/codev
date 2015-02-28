@@ -328,6 +328,7 @@ class Dashboard {
          'title' => $widgetTitle,
          'desc' => $pluginClassName::getDesc(),
          'category' => implode(',', $pluginClassName::getCategories()),
+         'pClassName' => $pluginClassName,
          'attributesJsonStr' => json_encode($pluginAttributes),
          'jsFiles' => $pluginClassName::getJsFiles(),
          'cssFiles' => $pluginClassName::getCssFiles(),
