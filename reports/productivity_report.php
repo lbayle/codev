@@ -22,12 +22,15 @@ require('../path.inc.php');
 
 class ProductivityReportsController extends Controller {
 
+   private static $logger;
+
    /**
     * Initialize complex static variables
     * @static
     */
    public static function staticInit() {
       // Nothing special
+      self::$logger = Logger::getLogger(__CLASS__);
    }
 
    protected function display() {
@@ -202,6 +205,8 @@ class ProductivityReportsController extends Controller {
                   $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
                   $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
                }
+            } else {
+               $this->smartyHelper->assign('projectid', 0);
             }
          }
       }

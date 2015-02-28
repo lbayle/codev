@@ -745,7 +745,7 @@ class Tools {
       // FALSE if filter fails, NULL if key is undefined
       $val = filter_input(INPUT_POST, $key, FILTER_VALIDATE_INT);
       if (FALSE === $val) {
-         self::sendBadRequest('Attempt to set non_numeric value ('.$val.') for '.$key);
+         self::sendBadRequest('Attempt to set non_numeric value ('.var_export($val, true).') for '.$key);
          die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
       }
       if (NULL === $val) {
