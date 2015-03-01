@@ -92,7 +92,6 @@ class TeamDashboardController extends Controller {
 }
 
 TeamDashboardController::staticInit();
-$controller = new TeamDashboardController('../', 'Team Indicators','ProdReports');
+$controller = new TeamDashboardController('../', 'Team statistics','ProdReports');
 $controller->execute();
 
-?>
