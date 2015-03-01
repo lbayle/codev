@@ -1641,7 +1641,6 @@ class Tools {
       // TODO check classmap.ser permissions 
       $classmap = Constants::$codevRootDir.'/classmap.ser';
       $classmapCopy = Constants::$codevRootDir.'/classmap.ser.old';
-      $errorRename = "The rename of ".$classmap." into ".$classmapCopy." failed";
       
       
       if (!is_writable($classmap)) {
@@ -1650,7 +1649,9 @@ class Tools {
       
       // save previous classmap.ser file        
       if(!rename($classmap,$classmapCopy)){
-         throw new Exception($errorRename);
+         $errorRename = "Failed to rename ".$classmap." into ".$classmapCopy;
+         self::$logger->error($errorRename);
+         //throw new Exception($errorRename);
       }
 
       // reload classmap, so that new classes are accessible
@@ -1663,6 +1664,9 @@ class Tools {
       $data = serialize($_autoloader);
       if(!file_put_contents(Constants::$codevRootDir.'/classmap.ser',$data)) {
 
+         if (!file_exists($classmapCopy)) {
+            throw new Exception("Classmap creation failed + no backup file found for ".$classmap);
+         }
          if(!rename($classmapCopy,$classmap)){
             throw new Exception("Classmap creation failed + could not revert to ".$classmapCopy);
          } else {
