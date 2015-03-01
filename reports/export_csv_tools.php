@@ -234,7 +234,7 @@ class ExportCsvTools {
                $issueIds[] = $timeTrack->getIssueId();
             }
             
-            $daysOf = $user1->getDaysOfInPeriod($timeTracks, $issueIds);
+            $daysOf = $user1->getDaysOfInPeriod($timeTracks, $issueIds, $teamid);
 
             // concatenate days
             $startBlockTimestamp = 0;

@@ -474,12 +474,11 @@ class User extends Model {
     * @param int[] $issueIds
     * @return mixed[][]   array(date => array('duration','type','title'))
     */
-   public function getDaysOfInPeriod($timeTracks, $issueIds) {
+   public function getDaysOfInPeriod($timeTracks, $issueIds, $teamid) {
       $daysOf = array();  // day => duration
       if(count($issueIds) > 0) {
          $issues = Issue::getIssues($issueIds);
 
-         $teamidList = array_keys($this->getTeamList());
          foreach ($timeTracks as $timeTrack) {
             try {
                $issue = $issues[$timeTrack->getIssueId()];
@@ -489,7 +488,7 @@ class User extends Model {
                   $issue = IssueCache::getInstance()->getIssue($timeTrack->getIssueId());
                }
 
-               if ($issue->isVacation($teamidList)) {
+               if ($issue->isVacation($teamid)) {
                   if (isset($daysOf[$timeTrack->getDate()])) {
                      $daysOf[$timeTrack->getDate()]['duration'] += $timeTrack->getDuration();
                   } else {
@@ -502,7 +501,8 @@ class User extends Model {
                   #echo "DEBUG user $this->userid daysOf[".date("j", $timeTrack->date)."] = ".$daysOf[date("j", $timeTrack->date)]." (+$timeTrack->duration)<br/>";
                }
             } catch (Exception $e) {
-               self::$logger->error("getDaysOfInPeriod(): issue ".$timeTrack->getIssueId().": " . $e->getMessage());
+               self::$logger->error("getDaysOfInPeriod(): user $this->id issue ".$timeTrack->getIssueId()." tt_date=".date("Y-m-d", $timeTrack->getDate()).": " . $e->getMessage());
+               self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
             }
          }
       }
@@ -619,7 +619,7 @@ class User extends Model {
     * @param int $team_id
     * @return int
     */
-   public function getAvailableWorkforce($startTimestamp, $endTimestamp, $team_id = NULL) {
+   public function getAvailableWorkforce($startTimestamp, $endTimestamp, $team_id) {
       $holidays = Holidays::getInstance();
 
       $arrivalDate = $this->getArrivalDate($team_id);
@@ -652,7 +652,7 @@ class User extends Model {
       foreach ($timeTracks as $timeTrack) {
          $issueIds[] = $timeTrack->getIssueId();
       }
-      $daysOf   = $this->getDaysOfInPeriod($timeTracks, $issueIds);
+      $daysOf   = $this->getDaysOfInPeriod($timeTracks, $issueIds, $team_id);
       $extTasks = $this->getExternalTasksInPeriod($timeTracks, $issueIds);
 
       $prodDaysForecast = 0;

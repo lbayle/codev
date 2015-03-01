@@ -220,7 +220,7 @@ class TimeTracking {
          try {
             $issue = IssueCache::getInstance()->getIssue($timeTrack->getIssueId());
             if ((in_array ($issue->getProjectId(), $this->sideTaskprojectList)) &&
-               (!$issue->isVacation(array($this->team_id)))) {
+               (!$issue->isVacation($this->team_id))) {
                $prodDays += $timeTrack->getDuration();
             }
          } catch (Exception $e) {

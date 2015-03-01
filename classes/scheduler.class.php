@@ -95,7 +95,7 @@ class ScheduledTask {
     * @param bool $addMonitored
     * @return ScheduledTask[] array of ScheduledTask
     */
-   public static function scheduleUser(User $user, $today, $addMonitored = false) {
+   public static function scheduleUser(User $user, $today, $teamid, $addMonitored = false) {
       $scheduledTaskList = array();
 
       // get Ordered List of Issues to schedule
@@ -119,9 +119,9 @@ class ScheduledTask {
 
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("issue ".$issue->getId()."   -- user->getAvailableWorkload(".$today.", ".$issue->getDeadLine().")");
-            self::$logger->debug("issue ".$issue->getId()." nbDaysToDeadLine=".$user->getAvailableWorkforce($today, $issue->getDeadLine()));
+            self::$logger->debug("issue ".$issue->getId()." nbDaysToDeadLine=".$user->getAvailableWorkforce($today, $issue->getDeadLine()), $teamid);
          }
-         $currentST->nbDaysToDeadLine = $user->getAvailableWorkforce($today, $issue->getDeadLine());
+         $currentST->nbDaysToDeadLine = $user->getAvailableWorkforce($today, $issue->getDeadLine(), $teamid);
          $currentST->projectName = $issue->getProjectName();
          $currentST->summary = $issue->getSummary();
          $currentST->priorityName = $issue->getPriorityName();
@@ -160,7 +160,7 @@ class ScheduledTask {
 
             $currentST = new ScheduledTask($issue->getId(), $issue->getDeadLine(), $issueDuration);
 
-            $currentST->nbDaysToDeadLine = $user->getAvailableWorkforce($today, $issue->getDeadLine());
+            $currentST->nbDaysToDeadLine = $user->getAvailableWorkforce($today, $issue->getDeadLine(), $teamid);
             $currentST->projectName = $issue->getProjectName();
             $currentST->summary = $issue->getSummary();
             $currentST->priorityName = $issue->getPriorityName();

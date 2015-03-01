@@ -497,22 +497,20 @@ class Issue extends Model implements Comparable {
    }
 
    /**
-    * WARNING (best effort)
-    *
     * check if issue is in a SideTaskProject AND in the Inactivity category.
     *
-    * Note: the project type is specific to a team, so you need to specify
-    * a team list. see Project::isSideTasksProject() for more info
-    *
-    * @param int[] $teamidList
+    * Note: the project type is specific to a team
+    * 
+    * @param int $teamid
     * @return bool true if Inactivity task
     * @throws Exception
     */
-   public function isVacation(array $teamidList = NULL) {
-      $project = ProjectCache::getInstance()->getProject($this->projectId);
-
+   public function isVacation($teamid) {
       try {
-         if (($project->isSideTasksProject($teamidList)) &&
+         $project = ProjectCache::getInstance()->getProject($this->projectId);
+         $team = TeamCache::getInstance()->getTeam($teamid);
+         
+         if (($team->isSideTasksProject($this->projectId)) &&
             ($project->getCategory(Project::cat_st_inactivity) == $this->categoryId)) {
 
             #if(self::$logger->isDebugEnabled()) {
