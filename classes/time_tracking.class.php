@@ -271,7 +271,7 @@ class TimeTracking {
    public function getAvailableWorkload() {
       if(!is_numeric($this->availableWorkload)) {
          $accessLevel_dev = Team::accessLevel_dev;
-         #$accessLevel_manager = Team::accessLevel_manager;
+         $accessLevel_manager = Team::accessLevel_manager;
 
          $this->availableWorkload = 0;
 
@@ -280,8 +280,7 @@ class TimeTracking {
                   "FROM `mantis_user_table` as user ".
                   "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
                   "WHERE team_user.team_id = $this->team_id ".
-                  //"AND (team_user.access_level = $accessLevel_dev OR team_user.access_level = $accessLevel_manager)".
-                  "AND team_user.access_level = $accessLevel_dev;";
+                  "AND team_user.access_level IN ($accessLevel_dev, $accessLevel_manager);";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
