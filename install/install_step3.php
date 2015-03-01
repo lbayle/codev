@@ -478,9 +478,9 @@ Config::getInstance()->setQuiet(true);
 
 
 function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
-                     $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,
-                     $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
-                     $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
+                     $isJob2, $isJob3, $isJob4, $isJob5,
+                     $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
+                     $jobSupport_color, $jobNA_color, $job2_color, $job3_color, $job4_color, $job5_color,
                      $projectList, $groupExtID, $extIdCustomFieldCandidates, $extIdCustomField, $userList, $admin_id,
                      $statusList, $status_new, $status_feedback, $status_open, $status_closed,
                      $is_modified = "false") {
@@ -657,13 +657,6 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
    echo "    </td>\n";
    echo "    <td>".T_("Color").":  <input name='jobNA_color' id='jobNA_color' type='text' value='$jobNA_color' size='6' maxlength='6' style='background-color: #$jobNA_color;' onblur='javascript: refresh()'></td>";
    echo "  </tr>\n";
-   echo "  <tr>\n";
-   $isChecked = $isJob1 ? "CHECKED" : "";
-   echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_job1' id='cb_job1' /></td>\n";
-   echo '    <td><input size="40" type="text" name="job1"  id="job1" value="'.$job1.'"></td>'."\n";
-   echo "    <td>".T_("Color").": <input name='job1_color' id='job1_color' type='text' value='$job1_color' size='6' style='background-color: #$job1_color;' onblur='javascript: refresh()'></td>";
-   echo "  </tr>\n";
-   echo "  <tr>\n";
    $isChecked = $isJob2 ? "CHECKED" : "";
    echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_job2' id='cb_job2' /></td>\n";
    echo '    <td><input size="40" type="text" name="job2"  id="job2" value="'.$job2.'"></td>'."\n";
@@ -846,14 +839,12 @@ $adminTeamLeaderId    = isset($_POST['codevttAdmin']) ? $_POST['codevttAdmin'] :
 // between an unchecked checkBox and an unset checkbox variable
 if ("false" == $is_modified) {
 
-   $isJob1 = true;;
    $isJob2 = true;;
    $isJob3 = true;;
    $isJob4 = true;;
    $isJob5 = true;;
 
 } else {
-   $isJob1   = $_POST['cb_job1'];
    $isJob2   = $_POST['cb_job2'];
    $isJob3   = $_POST['cb_job3'];
    $isJob4   = $_POST['cb_job4'];
@@ -863,14 +854,12 @@ if ("false" == $is_modified) {
 $task_otherActivity = isset($_POST['task_otherActivity']) ? $_POST['task_otherActivity'] : T_("Other external activity");
 $task_leave     = isset($_POST['task_leave']) ? $_POST['task_leave'] : T_("Leave");
 $task_sickleave = isset($_POST['task_sickleave']) ? $_POST['task_sickleave'] : T_("Sick Leave");
-$job1           = isset($_POST['job1']) ? $_POST['job1'] : T_("Study of the existing");
 $job2           = isset($_POST['job2']) ? $_POST['job2'] : T_("Analyse");
 $job3           = isset($_POST['job3']) ? $_POST['job3'] : T_("Development");
 $job4           = isset($_POST['job4']) ? $_POST['job4'] : T_("Tests");
 $job5           = isset($_POST['job5']) ? $_POST['job5'] : T_("Documentation");
 $job_support    = "Support";
 $job_sideTasks  = "N/A";
-$job1_color       = isset($_POST['job1_color']) ? $_POST['job1_color'] : "FFF494";
 $job2_color       = isset($_POST['job2_color']) ? $_POST['job2_color'] : "FFCD85";
 $job3_color       = isset($_POST['job3_color']) ? $_POST['job3_color'] : "C2DFFF";
 $job4_color       = isset($_POST['job4_color']) ? $_POST['job4_color'] : "92C5FC";
@@ -1000,9 +989,6 @@ if ("proceedStep3" == $action) {
    // Note: N/A job association to ExternalTasksProject already done in Install::createExternalTasksProject()
 
    echo "DEBUG 13/16 Create default jobs<br/>";
-   if ($isJob1) {
-      Jobs::create($job1, Job::type_commonJob, $job1_color);
-   }
    if ($isJob2) {
       Jobs::create($job2, Job::type_commonJob, $job2_color);
    }
@@ -1055,9 +1041,9 @@ if ("proceedStep3" == $action) {
 $extIdCustomFieldCandidates = getExtIdCustomFieldCandidates();
 
 displayForm($originPage, $codevOutputDir, $checkReportsDirError,
-   $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,
-   $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
-   $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
+   $isJob2, $isJob3, $isJob4, $isJob5,
+   $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
+   $jobSupport_color, $jobNA_color, $job2_color, $job3_color, $job4_color, $job5_color,
    $projectList, $groupExtID, $extIdCustomFieldCandidates, $extIdCustomField, $userList, $admin_id,
    $statusList, $status_new, $status_feedback, $status_open, $status_closed,
    $is_modified);
