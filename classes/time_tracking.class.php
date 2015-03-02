@@ -176,7 +176,7 @@ class TimeTracking {
     * - Observers excluded
     * @return number
     */
-   public function getProdDays() {
+   private function getProdDays() {
       if(!is_numeric($this->prodDays)) {
          $this->prodDays = 0;
 
@@ -205,7 +205,7 @@ class TimeTracking {
     * @param bool $isDeveloppersOnly : do not include time spent by Managers (default = false)
     * @return number
     */
-   public function getProdDaysSideTasks($isDeveloppersOnly = false) {
+   private function getProdDaysSideTasks($isDeveloppersOnly = false) {
       $prodDays = 0;
 
       $timeTracks = $this->getTimeTracks();
@@ -228,41 +228,6 @@ class TimeTracking {
          }
       }
       return $prodDays;
-   }
-
-   /**
-    * Returns the number of days spent on Management Tasks
-    * - Observers excluded
-    * @return number
-    */
-   public function getManagementDays() {
-      if(!is_numeric($this->managementDays)) {
-         $this->managementDays = 0;
-
-         $timeTracks = $this->getTimeTracks();
-         foreach($timeTracks as $timeTrack) {
-            $user = UserCache::getInstance()->getUser($timeTrack->getUserId());
-
-            if ((!$user->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) &&
-               (!$user->isTeamManager($this->team_id, $this->startTimestamp, $this->endTimestamp))) {
-               self::$logger->warn("getManagementDays(): timetrack ".$timeTrack->getId()." not included because user ".$user->getId()." (".$user->getName().") was not a DEVELOPPER/MANAGER within the timestamp");
-               continue; // skip this timeTrack
-            }
-
-            try {
-               $issue = IssueCache::getInstance()->getIssue($timeTrack->getIssueId());
-
-               if ((in_array($issue->getProjectId(), $this->sideTaskprojectList)) &&
-                  ($issue->isProjManagement(array($this->team_id)))) {
-                  $this->managementDays += $timeTrack->getDuration();
-               }
-            } catch (Exception $e) {
-               self::$logger->error("getManagementDays(): issue ".$timeTrack->getIssueId().": ".$e->getMessage());
-            }
-         }
-
-      }
-      return $this->managementDays;
    }
 
    /**
@@ -440,7 +405,7 @@ class TimeTracking {
     *
     * TODO move this method to IssueSelection class
     */
-   public function getIssuesTimeDriftStats(array $issueList) {
+   private function getIssuesTimeDriftStats(array $issueList) {
       if (NULL == $issueList) {
          echo "<div style='color:red'>ERROR getIssuesTimeDriftStats: Issue List is NULL !<br/></div>";
          return array();
@@ -505,7 +470,7 @@ class TimeTracking {
     *
     * TODO move this method to IssueSelection class
     */
-   public function getIssuesDriftStats(array $issueList, $withSupport = true) {
+   private function getIssuesDriftStats(array $issueList, $withSupport = true) {
       if (NULL == $issueList) {
          echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is NULL !<br/></div>";
          self::$logger->error("getIssuesDriftStats(): Issue List is NULL !");
@@ -687,73 +652,6 @@ class TimeTracking {
       return $this->systemDisponibilityRate;
    }
 
-   /**
-    * @param int $job_id
-    * @return number
-    */
-   public function getWorkingDaysPerJob($job_id) {
-      $accessLevel_dev = Team::accessLevel_dev;
-      $accessLevel_manager = Team::accessLevel_manager;
-
-      $query = "SELECT timetracking.userid, timetracking.bugid, timetracking.duration ".
-               "FROM `codev_timetracking_table` as timetracking ".
-               "JOIN `codev_team_user_table` as team_user ON timetracking.userid = team_user.user_id ".
-               "WHERE timetracking.date >= $this->startTimestamp AND timetracking.date < $this->endTimestamp ".
-               "AND timetracking.jobid = $job_id ".
-               "AND team_user.team_id = $this->team_id ".
-               "AND team_user.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
-               "AND timetracking.bugid IN ".
-               "(SELECT bug.id ".
-               "FROM `mantis_bug_table` as bug ".
-               "JOIN `codev_team_project_table` as team_project ON bug.project_id = team_project.project_id ".
-               "WHERE team_project.team_id = $this->team_id);";
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-
-      $workingDaysPerJob = 0;
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $workingDaysPerJob += $row->duration;
-
-         // DEBUG
-         //$u = UserCache::getInstance()->getUser($row->userid);
-         //$issue = IssueCache::getInstance()->getIssue($row->bugid);
-         //    echo "Debug -- getWorkingDaysPerJob -- workingDaysPerJob : team $this->team_id  job $job_id user $row->userid ".$u->getName()." bug $row->bugid ".$issue->summary." duration $row->duration<br/>";
-      }
-      return $workingDaysPerJob;
-   }
-
-   /**
-    * @param int $project_id
-    * @return number
-    */
-   public function getWorkingDaysPerProject($project_id) {
-      $workingDaysPerProject = 0;
-
-      $timeTracks = $this->getTimeTracks();
-      foreach($timeTracks as $timeTrack) {
-         try {
-            $issue = IssueCache::getInstance()->getIssue($timeTrack->getIssueId());
-
-            if ($issue->getProjectId() == $project_id) {
-               $workingDaysPerProject += $timeTrack->getDuration();
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("getWorkingDaysPerProject: proj=$project_id, duration=".$timeTrack->getDuration().", bugid=".$timeTrack->getIssueId().", userid=".$timeTrack->getUserId().", ".date("Y-m-d", $timeTrack->getDate()));
-               }
-            }
-         } catch (Exception $e) {
-            self::$logger->warn("getWorkingDaysPerProject($project_id) : Issue ".$timeTrack->getIssueId()." not found in Mantis DB.");
-         }
-      }
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getWorkingDaysPerProject: proj=$project_id, totalDuration=$workingDaysPerProject");
-      }
-      return $workingDaysPerProject;
-   }
-
 	/**
     * Calculates the time each user spends on the teams projects.
     */
@@ -920,40 +818,6 @@ class TimeTracking {
       }
 
       return $missingDays;
-   }
-
-   /**
-    * returns $durationPerCategory[CategoryName][bugid] = duration
-    * @param int $project_id
-    * @return array[]
-    */
-   public function getProjectDetails($project_id) {
-      $durationPerCategory = array();
-
-      $timeTracks = $this->getTimeTracks();
-      foreach($timeTracks as $timeTrack) {
-         try {
-            $issue = IssueCache::getInstance()->getIssue($timeTrack->getIssueId());
-
-            if ($issue->getProjectId() == $project_id) {
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("project[$project_id][" . $issue->getCategoryName() . "]( bug ".$timeTrack->getIssueId().") = ".$timeTrack->getDuration());
-               }
-
-               if (!array_key_exists($issue->getCategoryName(), $durationPerCategory)) {
-                  $durationPerCategory[$issue->getCategoryName()] = array();
-               }
-               if(array_key_exists($timeTrack->getIssueId(),$durationPerCategory[$issue->getCategoryName()])) {
-                  $durationPerCategory[$issue->getCategoryName()][$timeTrack->getIssueId()] += $timeTrack->getDuration();
-               } else {
-                  $durationPerCategory[$issue->getCategoryName()][$timeTrack->getIssueId()] = $timeTrack->getDuration();
-               }
-            }
-         } catch (Exception $e) {
-            self::$logger->warn("getProjectDetails($project_id) issue ".$timeTrack->getIssueId()." not found in Mantis DB (duration = ".$timeTrack->getDuration()." on ".date('Y-m-d', $timeTrack->getDate()).')');
-         }
-      }
-      return $durationPerCategory;
    }
 
    /**
@@ -1166,21 +1030,6 @@ class TimeTracking {
    }
 
    /**
-    * $countReopened / $countSubmitted
-    * @return number
-    */
-   public function getReopenedRate() {
-      $countReopened = count($this->getReopened()); // extRefOnly
-      $countSubmitted = $this->getSubmitted(TRUE); // extRefOnly
-
-      $rate = 0;
-      if ($countSubmitted != 0)  {
-         $rate = $countReopened / $countSubmitted;
-      }
-      return $rate;
-   }
-
-   /**
     * $countReopened / $countResolved
     *
     * Note: internal tasks (tasks having no ExternalReference) NOT INCLUDED
@@ -1204,4 +1053,4 @@ class TimeTracking {
 // Initialize complex static variables
 TimeTracking::staticInit();
 
-?>
+
