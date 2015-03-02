@@ -30,7 +30,7 @@ the content of this dialog is furnished by the plugin and loaded by ajax
             <form class="formAddDashboardPlugin" name="formAddDashboardPlugin" method="post" action="{$page}" >
                <fieldset>
                   <strong>{t}Indicator{/t}:</strong>
-                  <select class="cbPluginCandidates select2" name="pluginClassName" style="margin-left:1em;  width:350px;">
+                  <select class="cbPluginCandidates" name="pluginClassName" style="margin-left:1em;  width:350px;">
                      <option value="0"></option>
                      {foreach from=$dashboardPluginCandidates key=id item=i}
                      <option value="{$i.pluginClassName}">{$i.title} [{$i.category}]</option>
@@ -81,6 +81,20 @@ the content of this dialog is furnished by the plugin and loaded by ajax
 
     <script type="text/javascript">
       function addDashboardPlugin(){
+         
+         // hide already displayed plugins from candidates list
+         // Note: this does not work with a select2 combobox
+         jQuery('.attributesJsonStr').each(function() {
+            var attributesJson = jQuery.parseJSON($(this).text());
+            var pClassName = attributesJson['pluginClassName'];
+            jQuery(".cbPluginCandidates option[value="+ pClassName + "]").hide();
+         });
+         // remove selection
+         jQuery(".cbPluginCandidates option[value='0']").attr('selected', 'selected');
+         jQuery('.pluginDescription').html('');
+         jQuery(".pluginAttributes").html('');
+         jQuery(".pluginConfig").hide();
+         
          jQuery(".dialogAddDashboardPlugin").dialog("open");
       }
 
