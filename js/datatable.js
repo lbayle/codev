@@ -53,4 +53,32 @@ jQuery(document).ready(function(){
       "sDom": '<"H"r>t'
    });
 
+   // with custom button
+   jQuery('.datatable_csv').dataTable({
+      "sScrollY": "700px",
+      "bPaginate": false,
+      "bScrollCollapse": true,
+      "bFilter": true,
+      "bSort": true,
+      "bInfo": false,
+      "bAutoWidth": false,
+      "sDom": '<"H"Tfr>t',
+      "oTableTools": {
+         aButtons: [
+            {
+               sExtends: 'text',
+               sButtonText: 'CSV',
+               //"sButtonClass": "my_button_class",
+               "sFieldSeperator": ";",
+               "sFieldBoundary": '"',
+               "mColumns": "visible",
+               fnClick: function (button, conf) {
+                  var content = this.fnGetTableData(conf);
+                  //console.log("fnGetTableData",  content);
+                  saveTextAs(content, 'datatable.csv');
+               }
+             }   
+         ]
+      }
+   });
 });
