@@ -54,12 +54,12 @@ jQuery(document).ready(function(){
       "bSort": true,
       "bInfo": false,
       "bAutoWidth": false,
-      "sDom": '<"H"Tf>t',
+      "sDom": '<"H"Tfr>t',
       "oTableTools": {
          aButtons: [
             {
                sExtends: 'text',
-               sButtonText: 'Excel',
+               sButtonText: '<img src="images/b_export_xls.gif" title="Export to CSV" />',
                //"sButtonClass": "my_button_class",
                "sFieldSeperator": ";",
                "sFieldBoundary": '"',
@@ -74,3 +74,4 @@ jQuery(document).ready(function(){
       }
    });
 });
+
