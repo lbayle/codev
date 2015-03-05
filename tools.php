@@ -698,8 +698,8 @@ class Tools {
    public static function getSecurePOSTNumberValue($key,$defaultValue = NULL) {
       // FALSE if filter fails, NULL if key is undefined
       $val = filter_input(INPUT_POST, $key, FILTER_VALIDATE_FLOAT);
-      if (FALSE === $val) {
-         self::sendBadRequest('Attempt to set non_numeric value ('.$val.') for '.$key);
+      if ((FALSE === $val) && (!empty($_POST[$key]))) {
+         self::sendBadRequest('Attempt to set non_numeric value ('.var_export(filter_input(INPUT_POST, $key), true).') for '.$key);
          die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
       }
       if (NULL === $val) {
@@ -744,11 +744,11 @@ class Tools {
       
       // FALSE if filter fails, NULL if key is undefined
       $val = filter_input(INPUT_POST, $key, FILTER_VALIDATE_INT);
-      if (FALSE === $val) {
-         self::sendBadRequest('Attempt to set non_numeric value ('.var_export($val, true).') for '.$key);
+      if ((FALSE === $val) && (!empty($_POST[$key]))) {
+         self::sendBadRequest('Attempt to set non_numeric value ('.var_export(filter_input(INPUT_POST, $key), true).') for '.$key);
          die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
       }
-      if (NULL === $val) {
+      if (empty($val)) {
          if (NULL !== $defaultValue) {
             $val = $defaultValue;
          } else {
