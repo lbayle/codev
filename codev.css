@@ -308,6 +308,11 @@ table.invisible tbody tr:hover {
    margin-top: -1px;
    -webkit-overflow-scrolling: touch;
 }
+
+a.DTTT_button {
+	padding: 0px 3px;
+}
+
 /* END Datatable */
 
 /* START PowerTip Plugin */
