@@ -256,7 +256,7 @@ img.ui-datepicker-trigger {
 
 
 /* START Datatable */
-table.datatable, table.datatable_minimal, table.display {
+table.datatable, table.datatable_minimal, table.datatable_csv, table.display {
    padding: 0;
    border: 0;
 }
