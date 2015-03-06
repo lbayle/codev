@@ -434,8 +434,12 @@
          {/if}
 
          {if $timetrackingTuples}
-         <table style="width: 100%; margin-top:2em;">
-            <caption>{t}Future Imputations{/t}</caption>
+         <div style="margin-top: 2em; font-size: larger; font-weight: bold;
+            text-align: left; margin-left: .5em; margin-bottom: .4em;">
+            {t}Future Imputations{/t}
+         </div>
+         <script type="text/javascript" src="js_min/datatable.min.js"></script>
+         <table class="datatable_minimal" style="width: 100%;">
             <thead>
                <tr>
                   <th></th>
