@@ -1034,7 +1034,7 @@ class Team extends Model {
       if (!in_array($bugid, $onDutyTaskList)) {
          $onDutyTaskList[] = $bugid;
          $imploded = implode(',', $onDutyTaskList);
-         Config::setValue(Config::id_onDutyTaskList, $imploded, configType_array, NULL, 0, 0, $this->id);
+         Config::setValue(Config::id_onDutyTaskList, $imploded, Config::configType_array, NULL, 0, 0, $this->id);
          $this->onDutyTaskList = $onDutyTaskList;
       }
    }
@@ -1048,7 +1048,7 @@ class Team extends Model {
          unset($onDutyTaskList[$key]);
 
          $imploded = (0 == count($onDutyTaskList)) ? "" : implode(',', $onDutyTaskList);
-         Config::setValue(Config::id_onDutyTaskList, $imploded, configType_array, NULL, 0, 0, $this->id);
+         Config::setValue(Config::id_onDutyTaskList, $imploded, Config::configType_array, NULL, 0, 0, $this->id);
          $this->onDutyTaskList = $onDutyTaskList;
       }
 
