@@ -644,7 +644,7 @@ class User extends Model {
       $endT = ($departureDate < $endTimestamp) ? $departureDate : $endTimestamp;
 
       if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getAvailableWorkload user.startT=" . date("Y-m-d", $startT) . " user.endT=" . date("Y-m-d", $endT));
+         self::$logger->debug("getAvailableWorkload user.startT=" . date("Y-m-d H:i:s", $startT) . " user.endT=" . date("Y-m-d H:i:s", $endT));
       }
 
       $timeTracks = $this->getTimeTracks($startT, $endT);
@@ -656,7 +656,7 @@ class User extends Model {
       $extTasks = $this->getExternalTasksInPeriod($timeTracks, $issueIds);
 
       $prodDaysForecast = 0;
-      for ($i = $startT; $i <= $endT; $i += (60 * 60 * 24)) {
+      for ($i = $startT; $i <= $endT; $i=strtotime("+1 day",$i)) {
 
          // workforce = 1
          // remove external task
