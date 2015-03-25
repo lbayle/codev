@@ -649,7 +649,7 @@ class User extends Model {
       }
 
       // get $nbOpenDaysInPeriod
-      for ($i = $startT; $i <= $endT; $i += (60 * 60 * 24)) {
+      for ($i = $startT; $i <= $endT; $i=strtotime("+1 day",$i)) {
          // monday to friday
          if (NULL == $holidays->isHoliday($i)) {
             $nbOpenDaysInPeriod++;
