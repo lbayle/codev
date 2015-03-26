@@ -91,7 +91,7 @@ class HolidaysReportController extends Controller {
          for ($i = 1; $i <= 12; $i++) {
             $monthTimestamp = mktime(0, 0, 0, $i, 1, $year);
             $nbDaysInMonth = date("t", $monthTimestamp);
-            $endMonthTimestamp = mktime(0, 0, 0, $i, $nbDaysInMonth, $year);
+            $endMonthTimestamp = strtotime("last day of this month", $monthTimestamp);
             $months[$i] = array(
                "name" => Tools::formatDate("%B %Y", $monthTimestamp),
                "idcaption" => Tools::formatDate("%B", $monthTimestamp),

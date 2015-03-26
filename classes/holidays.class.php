@@ -209,8 +209,13 @@ class Holidays {
     * @return int Number of workdays in the period
     */
    public function getWorkdays($startT, $endT) {
-       $nbDays = floor(strtotime("+1 day",$endT - $startT) / (60 * 60 * 24));
-       $nbHolidays = $this->getNbHolidays($startT, $endT);
+
+      #$nbDays = floor(strtotime("+1 day",$endT - $startT) / (60 * 60 * 24));
+      $date1 = new DateTime(date("Y-m-d", $startT));
+      $date2 = new DateTime(date("Y-m-d", $endT));
+      $nbDays = $date2->diff($date1)->format("%a") + 1;
+
+      $nbHolidays = $this->getNbHolidays($startT, $endT);
        return $nbDays - $nbHolidays;
    }
 
