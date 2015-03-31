@@ -68,5 +68,8 @@ task_duration_list = "1:1,0.9:0.9,0.8:0.8,0.75:0.75,0.7:0.7,0.6:0.6,0.5:0.5,0.4:
 ;proxy = "proxy:8080"
 check_latest_version = 1
 
-;User = ""
-;Task = ""
+[email]
+; --- cronjob (every Friday at 2:00 AM):
+; --- 0 2 * * 5 php /var/www/html/codevtt/tools/send_timetrack_emails.php
+enable_email_notification = 1
+

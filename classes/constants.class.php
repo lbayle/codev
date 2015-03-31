@@ -99,6 +99,11 @@ class Constants {
       '0.05' => '0.05',
       );
    
+   // ---EMAIL---
+   public static $emailSettings = array(
+      'enable_email_notification' => 0,  // default is disabled
+   );
+   
    /**
     * If true, then no info/warning messages will be displayed.
     * this shall only be set during install procedures.
@@ -219,6 +224,13 @@ class Constants {
          }
       }
 
+      $emailSettings = $ini_array['email'];
+      if (is_array($emailSettings)) {
+         foreach ($emailSettings as $key => $val) {
+            self::$emailSettings[$key] = $val;
+         }
+      }
+
       // -----
 
       /* FIXME WORKAROUND: SQL procedures still use codev_config_table.bug_resolved_status_threshold ! */
@@ -297,6 +309,13 @@ class Constants {
       }
       $internet['check_latest_version'] = self::$isCheckLatestVersion;
       
+      $emailSettings = array();
+      $emailSettings[] = '; --- cronjob (every Friday at 2:00 AM):';
+      $emailSettings[] = '; --- 0 2 * * 5 php /var/www/html/codevtt/tools/send_timetrack_emails.php';
+      foreach (self::$emailSettings as $key => $val) {
+         $emailSettings[$key] = $val;
+      }
+      
       $ini_array = array();
       $ini_array[] = '; This file is part of CodevTT.';
       $ini_array[] = '; - The Variables in here can be customized to your needs';
@@ -323,6 +342,7 @@ class Constants {
       $ini_array[] = '';
       $ini_array['internet'] = $internet;
       $ini_array[] = '';
+      $ini_array['email'] = $emailSettings;
       $ini_array[] = '';
 
       return Tools::write_php_ini($ini_array, $file);
@@ -334,4 +354,4 @@ class Constants {
 Constants::staticInit();
 Constants::parseConfigFile();
 
-?>
+
