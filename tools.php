@@ -1655,7 +1655,22 @@ class Tools {
          }
       }
    }
-   
+
+   /**
+   * Return true if the parameter is an empty string or a string
+   * containing only whitespace, false otherwise
+   * @param string $p_var String to test whether it is blank.
+   * @return boolean
+   * @access public
+   */
+   public static function is_blank( $p_var ) {
+      $p_var = trim( $p_var );
+      $t_str_len = strlen( $p_var );
+      if( 0 == $t_str_len ) {
+         return true;
+      }
+      return false;
+   }
 }
 
 // Initialize complex static variables

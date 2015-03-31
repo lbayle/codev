@@ -107,6 +107,12 @@ class Constants {
        'CommandSet' => 'LoadPerUserIndicator',
        'ServiceContract' => 'LoadPerJobIndicator2,ProgressHistoryIndicator2,EffortEstimReliabilityIndicator2',
    );
+
+   // ---EMAIL---
+   public static $emailSettings = array(
+      'enable_email_notification' => 0,  // default is disabled
+   );
+
    
    /**
     * If true, then no info/warning messages will be displayed.
@@ -235,6 +241,13 @@ class Constants {
          }
       }
 
+      $emailSettings = $ini_array['email'];
+      if (is_array($emailSettings)) {
+         foreach ($emailSettings as $key => $val) {
+            self::$emailSettings[$key] = $val;
+         }
+      }
+
       // -----
 
       /* FIXME WORKAROUND: SQL procedures still use codev_config_table.bug_resolved_status_threshold ! */
@@ -318,6 +331,12 @@ class Constants {
          $dashboards[$key] = implode(',', $value);
       }
       
+      $emailSettings = array();
+      $emailSettings[] = '; --- cronjob (every Friday at 2:00 AM):';
+      $emailSettings[] = '; --- 0 2 * * 5 php /var/www/html/codevtt/tools/send_timetrack_emails.php';
+      foreach (self::$emailSettings as $key => $val) {
+         $emailSettings[$key] = $val;
+      }
       
       $ini_array = array();
       $ini_array[] = '; This file is part of CodevTT.';
@@ -347,6 +366,7 @@ class Constants {
       $ini_array[] = '';
       $ini_array['dashboardDefaultPlugins'] = $dashboards;
       $ini_array[] = '';
+      $ini_array['email'] = $emailSettings;
       $ini_array[] = '';
 
       return Tools::write_php_ini($ini_array, $file);
@@ -358,4 +378,4 @@ class Constants {
 Constants::staticInit();
 Constants::parseConfigFile();
 
-?>
+

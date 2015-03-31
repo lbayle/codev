@@ -71,9 +71,15 @@ check_latest_version = 1
 [dashboardDefaultPlugins]
 ;User = ""
 ;Task = ""
-Team = "AvailableWorkforceIndicator"
 ;Project = ""
+Team = "AvailableWorkforceIndicator"
 Command = "LoadPerUserIndicator,ProgressHistoryIndicator2"
 CommandSet = "LoadPerUserIndicator"
 ServiceContract = "LoadPerJobIndicator2,ProgressHistoryIndicator2,EffortEstimReliabilityIndicator2"
+
+[email]
+; --- cronjob (every Friday at 2:00 AM):
+; --- 0 2 * * 5 php /var/www/html/codevtt/tools/send_timetrack_emails.php
+enable_email_notification = 1
+
 
