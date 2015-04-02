@@ -36,11 +36,13 @@ class Team extends Model {
       self::$defaultGeneralPrefsList = array(
           'forbidAddTimetracksOnClosed' => 1,
           'displayCalculatedBacklogInDialogbox' => 0,
+          'sendTimesheetEmailNotification' => 0,
          );
 
       self::$generalPrefsDescriptionList = array(
           'forbidAddTimetracksOnClosed'         => 'Forbid adding timetracks on closed issues',
           'displayCalculatedBacklogInDialogbox' => 'Display calculated backlog as default value in the updateBacklog dialogbox',
+          'sendTimesheetEmailNotification'    => 'Send timesheet email reminder',
          );
 
    }
@@ -1199,8 +1201,27 @@ class Team extends Model {
       Config::setValue(Config::id_teamGeneralPreferences, $keyvalue, Config::configType_keyValue, NULL, 0, 0, $this->id);
    }
 
+   /**
+    * send an email to each member with the list of all incomplete/missing days in the period
+    */
+   public function sendTimesheetEmails($startTimestamp=NULL, $endTimestamp=NULL) {
+
+      if ((1 == Constants::$emailSettings['enable_email_notification']) &&
+          (1 == $this->getGeneralPreference('sendTimesheetEmailNotification'))) {
+
+         $users = $this->getActiveMembers();
+         foreach ($users as $id => $name) {
+            try {
+               $user = UserCache::getInstance()->getUser($id);
+               $user->sendTimesheetEmail($this->id, $startTimestamp, $endTimestamp);
+            } catch (Exception $e) {
+               self::$logger->error("sendTimetrackEmails: Could not send mail to $name");
+            }
+         }
+      }
+   }
 }
 
 Team::staticInit();
 
-?>
+

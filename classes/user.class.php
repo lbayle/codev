@@ -64,6 +64,11 @@ class User extends Model {
    private $realName;
 
    /**
+    * @var string email
+    */
+   private $email;
+
+   /**
     * @var array Filters
     */
    private $timetrackingFilters;
@@ -266,6 +271,20 @@ class User extends Model {
    public function getRealname() {
       return $this->realName;
    }
+
+   public function getEmail() {
+      if (NULL == $this->email) {
+         $query = "SELECT email FROM `mantis_user_table` WHERE id='$this->id';";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $this->email = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
+      }
+      return $this->email;
+   }
+
 
    /**
     * @param int $team_id
@@ -1542,9 +1561,153 @@ class User extends Model {
       return $recentIssues;
    }
 
+   /**
+    * Returns an array of (date => duration) containing all days where duration != 1
+    *
+    * Note: this is a replacement for Timetracking::checkIncompleteDays()
+    *
+    * @param int $userid
+    * @param bool $isStrictlyTimestamp
+    * @return number[]
+    */
+   public function checkIncompleteDays($startTimestamp = NULL, $endTimestamp = NULL) {
+      // Get all dates that must be checked
+      $query = "SELECT date, SUM(duration) as count FROM `codev_timetracking_table` ".
+               "WHERE userid = $this->id ";
+      if (NULL != $startTimestamp) {
+         $query .= "AND date >= $startTimestamp ";
+      }
+      if (NULL != $endTimestamp) {
+         $query .= "AND date < $endTimestamp ";
+      }
+      $query .= "GROUP BY date ORDER BY date;";
+
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      $incompleteDays = array(); // unique date => sum durations
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $value = round($row->count, 3);
+         if ($value != 1) {
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("user $this->id incompleteDays[$row->date]=".$value);
+            }
+            $incompleteDays[$row->date] = $value;
+         }
+      }
+
+      return $incompleteDays;
+   }
+
+   /**
+    * Find days which are not 'sat' or 'sun' or FixedHoliday and that have no timeTrack entry.
+    *
+    * Note: this is a replacement for Timetracking::checkMissingDays()
+    *
+    * @param int $userid
+    * @return number[]
+    */
+   public function checkMissingDays($team_id, $startTimestamp = NULL, $endTimestamp = NULL) {
+      $holidays = Holidays::getInstance();
+      $missingDays = array();
+      
+      if (NULL == $endTimestamp) {
+         $endTimestamp= mktime(0, 0, 0, date("m"), date("d"), date("Y"));
+      }
+
+      if ((!$this->isTeamDeveloper($team_id, $startTimestamp, $endTimestamp)) &&
+         (!$this->isTeamManager($team_id, $startTimestamp, $endTimestamp))) {
+         // User was not yet present
+         return $missingDays;
+      }
+      $arrivalTimestamp = $this->getArrivalDate($team_id);
+      $departureTimestamp = $this->getDepartureDate($team_id);
+
+      // reduce timestamp if needed
+      $startT = ($arrivalTimestamp > $startTimestamp) ? $arrivalTimestamp : $startTimestamp;
+
+      $endT = $endTimestamp;
+      if ((0 != $departureTimestamp) && ($departureTimestamp < $endTimestamp)) {
+         $endT = $departureTimestamp;
+      }
+
+      $weekTimestamps = array();
+      $timestamp = $startT;
+      while ($timestamp <= $endT) {
+         // monday to friday
+         if (NULL == $holidays->isHoliday($timestamp)) {
+            $weekTimestamps[] = $timestamp;
+         }
+         $timestamp = strtotime("+1 day",$timestamp);
+      }
+
+      if(count($weekTimestamps) > 0) {
+         $query = "SELECT DISTINCT date ".
+                  "FROM `codev_timetracking_table` ".
+                  "WHERE userid = $this->id AND date IN (".implode(', ', $weekTimestamps).");";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         $daysWithTimeTracks = array();
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $daysWithTimeTracks[] = $row->date;
+         }
+         $missingDays = array_diff($weekTimestamps, $daysWithTimeTracks);
+      }
+
+      return $missingDays;
+   }
+   
+   /**
+    * send an email with the list of all incomplete/missing days in the period
+    */
+   public function sendTimesheetEmail($team_id = NULL, $startTimestamp=NULL, $endTimestamp=NULL) {
+
+      $emailAddress = $this->getEmail();
+      if (NULL == $emailAddress) {
+         self::$logger->error("sendTimetrackEmails: user $this->id (".$this->getRealname().") has no email address.");
+         return FALSE;
+      }
+
+      $emailSubject=T_('[CodevTT] Timesheet reminder !');
+
+      $emailBody=T_('Dear ').$this->getRealname().",\n\n".
+         T_('Please fill your CodevTT timesheet, the following dates must be updated:')."\n\n";
+
+      try {
+         $incompleteDays = $this->checkIncompleteDays($startTimestamp, $endTimestamp);
+         $missingDays = $this->checkMissingDays($team_id, $startTimestamp, $endTimestamp);
+
+
+         echo "User $this->id ".$this->getName()."<br>";
+         foreach($incompleteDays as $date => $duration) {
+            $emailBody .= date("Y-m-d", $date).' '.T_("incomplete (missing ").(1 - $duration).' '.T_('days').")\n";
+         }
+         foreach($missingDays as $date) {
+            $emailBody .= date("Y-m-d", $date).' '.T_("not defined.")."\n";
+         }
+
+         #self::$logger->debug($emailBody);
+         Email::getInstance()->sendEmail( $emailAddress, $emailSubject, $emailBody );
+
+      } catch (Exception $e) {
+         self::$logger->error("sendTimetrackEmails: Could not send email to user $this->id (".$this->getRealname().") team $team_id");
+         self::$logger->error("sendTimetrackEmails: ".$e->getTraceAsString());
+         return FALSE;
+      }
+      return TRUE;
+   }
+
 }
 
 // Initialize complex static variables
 User::staticInit();
 
-?>
+
