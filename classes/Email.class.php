@@ -146,7 +146,7 @@ class Email {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      self::$logger->error('email sent to '.$emailData->email);
+      #self::$logger->error('email sent to '.$emailData->email);
       return TRUE;
    }
 
