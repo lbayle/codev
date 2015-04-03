@@ -1672,24 +1672,25 @@ class User extends Model {
       $emailSubject=T_('[CodevTT] Timesheet reminder !');
 
       $emailBody=T_('Dear ').$this->getRealname().",\n\n".
-         T_('Please fill your CodevTT timesheet, the following dates must be updated:')."\n\n";
+         T_('Please fill your CodevTT timesheet:')."\n\n";
 
       try {
          $incompleteDays = $this->checkIncompleteDays($startTimestamp, $endTimestamp);
          $missingDays = $this->checkMissingDays($team_id, $startTimestamp, $endTimestamp);
 
+         $nbDays = count($incompleteDays) + count($missingDays);
+         echo "User $this->id ".$this->getName()." ($nbDays days)<br>";
+         if ($nbDays > 0) {
+            foreach($incompleteDays as $date => $duration) {
+               $emailBody .= date("Y-m-d", $date).' '.T_("incomplete (missing ").(1 - $duration).' '.T_('day').")\n";
+            }
+            foreach($missingDays as $date) {
+               $emailBody .= date("Y-m-d", $date).' '.T_("not defined.")."\n";
+            }
 
-         echo "User $this->id ".$this->getName()."<br>";
-         foreach($incompleteDays as $date => $duration) {
-            $emailBody .= date("Y-m-d", $date).' '.T_("incomplete (missing ").(1 - $duration).' '.T_('days').")\n";
+            #self::$logger->debug($emailBody);
+            Email::getInstance()->sendEmail( $emailAddress, $emailSubject, $emailBody );
          }
-         foreach($missingDays as $date) {
-            $emailBody .= date("Y-m-d", $date).' '.T_("not defined.")."\n";
-         }
-
-         #self::$logger->debug($emailBody);
-         Email::getInstance()->sendEmail( $emailAddress, $emailSubject, $emailBody );
-
       } catch (Exception $e) {
          self::$logger->error("sendTimetrackEmails: Could not send email to user $this->id (".$this->getRealname().") team $team_id");
          self::$logger->error("sendTimetrackEmails: ".$e->getTraceAsString());
