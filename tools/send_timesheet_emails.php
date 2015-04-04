@@ -27,11 +27,25 @@ require_once('i18n/i18n.inc.php');
 // =========== MAIN ==========
 $logger = Logger::getLogger("sendTimetrackEmails");
 
+# Make sure this script doesn't run via the webserver
+if( php_sapi_name() != 'cli' ) {
+	echo "send_timesheet_emails.php is not allowed to run through the webserver.";
+   $logger->error("send_timesheet_emails.php is not allowed to run through the webserver.");
+	exit( 1 );
+}
+
 
 if (1 == Constants::$emailSettings['enable_email_notification']) {
 
-   //$team_id = 20; // RSI_TMA_Sante
-   $team_id = isset($_GET['teamid']) ? $_GET['teamid'] : NULL;
+   if ( count($argv) > 1) {
+      if (is_numeric($argv[1])) {
+         $team_id = intval($argv[1]);
+      } else {
+         echo 'cmd line arg "'.$argv[1].'" is not a team_id !'."\n";
+         $logger->error('cmd line arg "'.$argv[1].'" is not a team_id !');
+         exit( 2 );
+      }
+   }
 
    //$startT = strtotime("first day of last month");
    //$endT = strtotime("-1 days", time());
@@ -49,22 +63,14 @@ if (1 == Constants::$emailSettings['enable_email_notification']) {
 
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $team = TeamCache::getInstance()->getTeam($row->id);
-         echo "=== Team $row->id : ".$team->getName()."<br>";
+         echo "=== Team $row->id : ".$team->getName()."\n";
          $team->sendTimesheetEmails($startT, $endT);
       }
    } else {
       $team = TeamCache::getInstance()->getTeam($team_id);
-      echo "=== Team $team_id : ".$team->getName()."<br>";
+      echo "=== Team $team_id : ".$team->getName()."\n";
       $team->sendTimesheetEmails($startT, $endT);
 
    }
-
-
-
-
-
-   #$user_id = 2; // lbayle
-   #$user = UserCache::getInstance()->getUser($user_id);
-   #$user->sendTimetrackEmails($team_id, $startT, $endT);
 
 }
