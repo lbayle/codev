@@ -333,7 +333,7 @@ class Constants {
       
       $emailSettings = array();
       $emailSettings[] = '; --- cronjob (every Friday at 2:00 AM):';
-      $emailSettings[] = '; --- 0 2 * * 5 php /var/www/html/codevtt/tools/send_timetrack_emails.php';
+      $emailSettings[] = '; --- 0 2 * * 5 php /var/www/html/codevtt/tools/send_timesheet_emails.php';
       foreach (self::$emailSettings as $key => $val) {
          $emailSettings[$key] = $val;
       }

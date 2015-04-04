@@ -1,6 +1,6 @@
 <?php
-require('../include/session.inc.php');
-require('../path.inc.php');
+require(realpath(dirname(__FILE__)).'/../include/session.inc.php');
+require(realpath(dirname(__FILE__)).'/../path.inc.php');
 
 // Note: i18n is included by the Controler class, but Ajax dos not use it...
 require_once('i18n/i18n.inc.php');
@@ -30,28 +30,34 @@ $logger = Logger::getLogger("sendTimetrackEmails");
 
 if (1 == Constants::$emailSettings['enable_email_notification']) {
 
-   $team_id = 20; // RSI_TMA_Sante
+   //$team_id = 20; // RSI_TMA_Sante
+   $team_id = isset($_GET['teamid']) ? $_GET['teamid'] : NULL;
 
    //$startT = strtotime("first day of last month");
    //$endT = strtotime("-1 days", time());
    $endT = time();
    $endT = mktime(0, 0, 0, date('m', $endT), date('d',$endT), date('Y', $endT));
 
+   if (is_null($team_id)) {
+      $query = "SELECT id FROM `codev_team_table` WHERE enabled = 1;";
 
-   $query = "SELECT id FROM `codev_team_table` WHERE enabled = 1;";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
 
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      exit;
-   }
-
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-      $team = TeamCache::getInstance()->getTeam($row->id);
-      echo "=== Team $row->id : ".$team->getName()."<br>";
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $team = TeamCache::getInstance()->getTeam($row->id);
+         echo "=== Team $row->id : ".$team->getName()."<br>";
+         $team->sendTimesheetEmails($startT, $endT);
+      }
+   } else {
+      $team = TeamCache::getInstance()->getTeam($team_id);
+      echo "=== Team $team_id : ".$team->getName()."<br>";
       $team->sendTimesheetEmails($startT, $endT);
-   }
 
+   }
 
 
 
