@@ -1686,7 +1686,7 @@ class User extends Model {
          $missingDays = $this->checkMissingDays($team_id, $startTimestamp, $endTimestamp);
 
          $nbDays = count($incompleteDays) + count($missingDays);
-         echo "User $this->id ".$this->getName()." ($nbDays days)<br>";
+         echo "User $this->id \t".$this->getName()."    ($nbDays days)\n";
          if ($nbDays > 0) {
             foreach($incompleteDays as $date => $duration) {
                $emailBody .= date("Y-m-d", $date).' '.T_("incomplete (missing ").(1 - $duration).' '.T_('day').")\n";
