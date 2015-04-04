@@ -33,7 +33,8 @@ if (1 == Constants::$emailSettings['enable_email_notification']) {
    $team_id = 20; // RSI_TMA_Sante
 
    //$startT = strtotime("first day of last month");
-   $endT = strtotime("-1 days", time());
+   //$endT = strtotime("-1 days", time());
+   $endT = time();
    $endT = mktime(0, 0, 0, date('m', $endT), date('d',$endT), date('Y', $endT));
 
 
