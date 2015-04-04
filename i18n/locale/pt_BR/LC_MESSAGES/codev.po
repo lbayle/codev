@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-21 14:58+0100\n"
+"POT-Creation-Date: 2015-04-04 16:28+0200\n"
 "PO-Revision-Date: 2012-09-17 08:09-0300\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -77,11 +77,11 @@ msgstr "Exportar CSV"
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
 #: management/command_info.php:221 management/servicecontract_info.php:148
-#: management/commandset_info.php:152 reports/productivity_report.php:231
+#: management/commandset_info.php:152 reports/productivity_report.php:236
 #: reports/export_csv_tools.php:51 reports/productivity_report_tools.php:42
 #: reports/productivity_report_tools.php:80 reports/planning_report.php:214
 #: reports/project_info.php:278 reports/project_info.php:289
-#: reports/project_info.php:301 index.php:185 tools.php:1475
+#: reports/project_info.php:301 index.php:195 tools.php:1475
 msgid "Summary"
 msgstr "Descrição"
 
@@ -113,11 +113,11 @@ msgstr "Descrição"
 #: classes/issue.class.php:2184 classes/wbsElement.class.php:581
 #: classes/issue_selection.class.php:279 filters/ProjectFilter.php:59
 #: management/command_info.php:220 management/servicecontract_info.php:147
-#: management/commandset_info.php:151 reports/productivity_report.php:230
+#: management/commandset_info.php:151 reports/productivity_report.php:235
 #: reports/export_csv_tools.php:48 reports/productivity_report_tools.php:41
 #: reports/productivity_report_tools.php:79 reports/planning_report.php:213
 #: reports/project_info.php:277 reports/project_info.php:288
-#: reports/project_info.php:300 tests/odt.php:25 index.php:184 tools.php:1469
+#: reports/project_info.php:300 tests/odt.php:25 index.php:194 tools.php:1469
 msgid "Project"
 msgstr "Projeto"
 
@@ -271,8 +271,9 @@ msgstr "Projetos"
 
 #: tpl/productivity_report.html
 #: tpl/create_team.html
+#. add SideTaskProject Categories
 #. 4) --- add SideTaskProject Categories
-#: reports/productivity_report.php:65
+#: reports/productivity_report.php:68
 msgid "Project Management"
 msgstr "Gerenciamento projeto"
 
@@ -1089,8 +1090,8 @@ msgstr "Provisão"
 
 #: tpl/command_edit.html
 #: tpl/tools/wbsEditor.html
-#: management/commandset_edit.php:126 management/command_edit.php:205
-#: management/servicecontract_edit.php:141
+#: management/commandset_edit.php:123 management/command_edit.php:203
+#: management/servicecontract_edit.php:138
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -1729,7 +1730,7 @@ msgstr "(Geral) Documentação WIKI"
 #. Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
 #. Display Empty Command Form
 #. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
-#: management/command_edit.php:113 management/servicecontract_edit.php:89
+#: management/command_edit.php:111 management/servicecontract_edit.php:86
 msgid "Create"
 msgstr "Criar"
 
@@ -2353,7 +2354,7 @@ msgid "Blog"
 msgstr "Blog"
 
 #: tpl/menu/global_menu.html
-#: install/install_step3.php:870 install/install_menu.inc.php:68
+#: install/install_step3.php:860 install/install_menu.inc.php:68
 msgid "Documentation"
 msgstr "Documentação"
 
@@ -2454,9 +2455,9 @@ msgstr "Cor do cargo"
 #: tpl/edit_jobs.html
 #: tpl/planning_report.html
 #: tpl/edit_holidays.html
-#: install/install_step3.php:658 install/install_step3.php:664
-#: install/install_step3.php:670 install/install_step3.php:675
-#: install/install_step3.php:681 install/install_step3.php:686
+#: install/install_step3.php:658 install/install_step3.php:663
+#: install/install_step3.php:668 install/install_step3.php:674
+#: install/install_step3.php:679
 msgid "Color"
 msgstr "Cor"
 
@@ -2530,7 +2531,7 @@ msgstr "Clique para ver os erros"
 #: management/command_info.php:126 management/command_info.php:127
 #: management/servicecontract_info.php:91
 #: management/servicecontract_info.php:92 management/commandset_info.php:95
-#: reports/productivity_report.php:201 reports/issue_info.php:85
+#: reports/productivity_report.php:204 reports/issue_info.php:85
 #: reports/issue_info.php:86 timetracking/team_activity_report.php:65
 #: timetracking/time_tracking.php:278
 #: timetracking/team_monthly_activity_report.php:75
@@ -2571,7 +2572,7 @@ msgid "Monitored"
 msgstr "Monitorado"
 
 #: tpl/planning_report.html
-#: reports/productivity_report.php:424
+#: reports/productivity_report.php:421 reports/productivity_report.php:429
 msgid "day"
 msgstr "dia"
 
@@ -3086,6 +3087,18 @@ msgstr ""
 msgid "Delete timesheet note for task "
 msgstr "Apagar esta equipe ?"
 
+#: tpl/modal/fairplay.html
+msgid "Fair play !"
+msgstr ""
+
+#: tpl/modal/fairplay.html
+msgid "You are using CodevTT since"
+msgstr ""
+
+#: tpl/modal/fairplay.html
+msgid "If you like this software, please consider making a donation."
+msgstr ""
+
 #: tpl/modal/select_issues.html
 msgid "No task selected !"
 msgstr "sem caso selecionado !"
@@ -3382,28 +3395,28 @@ msgstr "Não foi possível altterar a data da criação"
 msgid "Couldn't enable/disable team"
 msgstr "Impossivel de ativar / desativar equipe"
 
-#: admin/edit_team.php:185
+#: admin/edit_team.php:199
 msgid "Couldn't delete the member of the team"
 msgstr "Não foi possível remover o projeto da equipe"
 
-#: admin/edit_team.php:199 admin/edit_team.php:202
+#: admin/edit_team.php:213 admin/edit_team.php:216
 msgid "Couldn't add the project to the team"
 msgstr "Não foi possível adicionar o projeto a equipe"
 
-#: admin/edit_team.php:208
+#: admin/edit_team.php:222
 msgid "Could NOT remove the project from the team"
 msgstr "Não foi possível remover o projeto a equipe"
 
-#: admin/edit_team.php:260
+#: admin/edit_team.php:274
 #, fuzzy
 msgid "Configure Tooltips"
 msgstr "Configuration"
 
-#: admin/edit_team.php:325
+#: admin/edit_team.php:339
 msgid "enabled"
 msgstr "ativo"
 
-#: admin/edit_team.php:325
+#: admin/edit_team.php:339
 msgid "disabled"
 msgstr "inativo"
 
@@ -3461,6 +3474,28 @@ msgstr "Ack"
 #: blog/blog.php:101
 msgid "Hide"
 msgstr "Ocultar"
+
+#: classes/user.class.php:1679
+msgid "[CodevTT] Timesheet reminder !"
+msgstr ""
+
+#: classes/user.class.php:1681
+msgid "Dear "
+msgstr ""
+
+#: classes/user.class.php:1682
+msgid "Please fill your CodevTT timesheet:"
+msgstr ""
+
+#: classes/user.class.php:1692 classes/consistency_check2.class.php:677
+msgid "incomplete (missing "
+msgstr "incompleto (faltando "
+
+#. skip dates in the future
+#: classes/user.class.php:1695 classes/consistency_check2.class.php:692
+#: reports/productivity_report.php:441
+msgid "not defined."
+msgstr "não definido."
 
 #: classes/blog_manager.class.php:50
 msgid "Acknowledged"
@@ -3553,8 +3588,8 @@ msgstr "ETA"
 #: classes/consistency_check.class.php:165
 #: classes/consistency_check.class.php:209
 #: classes/consistency_check.class.php:318
-#: classes/consistency_check.class.php:366 reports/productivity_report.php:417
-#: reports/productivity_report.php:425 reports/productivity_report.php:437
+#: classes/consistency_check.class.php:366 reports/productivity_report.php:422
+#: reports/productivity_report.php:430 reports/productivity_report.php:442
 #: timetracking/team_monthly_activity_report.php:129
 msgid "Error"
 msgstr "Erro"
@@ -3659,23 +3694,13 @@ msgid "is not referenced in any ServiceContract"
 msgstr "não está referenciado em qualquer Contrato de Serviço. "
 
 #: classes/consistency_check2.class.php:677
-msgid "incomplete (missing "
-msgstr "incompleto (faltando "
-
-#: classes/consistency_check2.class.php:677
 msgid " days"
 msgstr " dias"
 
 #: classes/consistency_check2.class.php:679
-#: reports/productivity_report.php:424
+#: reports/productivity_report.php:429
 msgid "inconsistent"
 msgstr "inconsistente"
-
-#. skip dates in the future
-#: classes/consistency_check2.class.php:692
-#: reports/productivity_report.php:436
-msgid "not defined."
-msgstr "não definido."
 
 #: classes/consistency_check2.class.php:712
 msgid "No default project workflow defined in mantis DB"
@@ -4008,68 +4033,64 @@ msgstr "gestão do suporte"
 msgid "Specific to SideTasks"
 msgstr "Específica para casos correlatos"
 
-#: install/install_step3.php:693
+#: install/install_step3.php:686
 #, fuzzy
 msgid "Select the projects to be managed with CodevTT"
 msgstr "Selecione o projeto para ser gerenciado com o CodevTT"
 
-#: install/install_step3.php:705
+#: install/install_step3.php:698
 msgid "Proceed Step 3"
 msgstr "Executar Etapa 3"
 
-#: install/install_step3.php:834
+#: install/install_step3.php:827
 msgid "CodevTT admin"
 msgstr "CodevTT admin"
 
-#: install/install_step3.php:863
+#: install/install_step3.php:854
 msgid "Other external activity"
 msgstr "Outra atividade externa"
 
-#: install/install_step3.php:864
+#: install/install_step3.php:855
 msgid "Leave"
 msgstr "Ausência"
 
-#: install/install_step3.php:865
+#: install/install_step3.php:856
 #, fuzzy
 msgid "Sick Leave"
 msgstr "Ausência"
 
-#: install/install_step3.php:866
-msgid "Study of the existing"
-msgstr "Estudo da existência"
-
-#: install/install_step3.php:867
+#: install/install_step3.php:857
 msgid "Analyse"
 msgstr "Analise"
 
-#: install/install_step3.php:868
+#: install/install_step3.php:858
 msgid "Development"
 msgstr "Desenvolvimento"
 
-#: install/install_step3.php:869
+#: install/install_step3.php:859
 msgid "Tests"
 msgstr "Testes"
 
-#: install/install_step3.php:944
+#: install/install_step3.php:933
 msgid "CodevTT_ExternalTasks"
 msgstr "CodevTT Casos Externos"
 
-#: install/install_step3.php:944
+#: install/install_step3.php:933
 msgid "CodevTT ExternalTasks Project"
 msgstr "CodevTT Projeto de casos externos"
 
 #. cat="OtherInternal", status="closed"
-#: install/install_step3.php:992
+#: install/install_step3.php:981
 msgid "Any external task, NOT referenced in any mantis project"
 msgstr "Qualquer caso externo, SEM referência em qualquer projeto mantis"
 
 #. --- Create the 'Leave' task in ExternalTasks Project
-#: install/install_step3.php:995
+#: install/install_step3.php:984
 #, fuzzy
 msgid "On holiday, leave, ..."
 msgstr "em feriado, licença médica, ..."
 
-#: install/install_step3.php:996
+#: install/install_step3.php:985
 msgid "Sick"
 msgstr ""
 
@@ -4238,25 +4259,25 @@ msgstr "Etapa 1"
 msgid "Installation finished"
 msgstr "Instalação finalizada"
 
-#: management/command_edit.php:225
+#: management/command_edit.php:223
 msgid "Add tasks to Command"
 msgstr "Adicionar tarefa ao Command"
 
-#: management/command_edit.php:226
+#: management/command_edit.php:224
 msgid "Add multiple tasks"
 msgstr "Adicionar multiplas tarefas"
 
-#: management/command_edit.php:227
+#: management/command_edit.php:225
 msgid "Add selection"
 msgstr "Adicionar seleção"
 
-#: management/command_edit.php:228
+#: management/command_edit.php:226
 msgid "Note: Tasks already assigned to a Command are not displayed."
 msgstr ""
 "Nota: Estes casos relacionados estão definidos em comandos e não serão "
 "exibidos."
 
-#: management/command_edit.php:229
+#: management/command_edit.php:227
 msgid "Add the selected issues to the Command ?"
 msgstr "Adicionar os casos selecionados a Command ?"
 
@@ -4276,21 +4297,21 @@ msgstr "Provisão"
 msgid "No projects in this team"
 msgstr ""
 
-#: reports/productivity_report.php:202
+#: reports/productivity_report.php:205
 #: timetracking/team_activity_report.php:66 timetracking/time_tracking.php:279
 #: timetracking/team_monthly_activity_report.php:76
 msgid "days are incomplete or undefined"
 msgstr "dias estão incompletos ou indefinidos"
 
-#: reports/productivity_report.php:217
+#: reports/productivity_report.php:222
 msgid "All sideTasks Projects"
 msgstr "Todas tarefas correlatas do Projeto"
 
-#: reports/productivity_report.php:416
+#: reports/productivity_report.php:421
 msgid "incomplete"
 msgstr "incompleto"
 
-#: reports/productivity_report.php:416
+#: reports/productivity_report.php:421
 msgid "missing"
 msgstr "faltando"
 
@@ -4397,6 +4418,9 @@ msgstr "W"
 #, fuzzy
 msgid "AddEffortEstim"
 msgstr "Esforço inicial"
+
+#~ msgid "Study of the existing"
+#~ msgstr "Estudo da existência"
 
 #~ msgid "man-day"
 #~ msgstr "dias-homem"
