@@ -70,6 +70,6 @@ check_latest_version = 1
 
 [email]
 ; --- cronjob (every Friday at 2:00 AM):
-; --- 0 2 * * 5 php /var/www/html/codevtt/tools/send_timetrack_emails.php
+; --- 0 2 * * 5 php /var/www/html/codevtt/tools/send_timesheet_emails.php
 enable_email_notification = 1
 
