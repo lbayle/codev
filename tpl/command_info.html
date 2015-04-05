@@ -319,9 +319,8 @@
                      <th>{t}Progress{/t}</th>
                      {if isset($isManager) && $isManager}
                      <th>{t}MgrEffortEstim{/t}</th>
-                     {else}
-                     <th>{t}EffortEstim{/t}</th>
                      {/if}
+                     <th>{t}EffortEstim{/t}</th>
                      <th>{t}Elapsed{/t}</th>
                      <th title="{t}Backlog{/t}">{t}BL{/t}</th>
                      {if isset($isManager) && $isManager}
@@ -346,9 +345,8 @@
                      <td style="width:1em;" nowrap="nowrap"><div class="progress">{$issue.progress}%</div></td>
                      {if isset($isManager) && $isManager}
                      <td style="width:1em;" nowrap="nowrap">{$issue.mgrEffortEstim}</td>
-                     {else}
-                     <td style="width:1em;" nowrap="nowrap">{$issue.effortEstim}</td>
                      {/if}
+                     <td style="width:1em;" nowrap="nowrap">{$issue.effortEstim}</td>
                      <td style="width:1em;" nowrap="nowrap">{$issue.elapsed}</td>
                      <td style="width:1em;" nowrap="nowrap">{$issue.duration}</td>
                      {if isset($isManager) && $isManager}
