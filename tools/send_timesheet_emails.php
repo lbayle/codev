@@ -63,12 +63,10 @@ if (1 == Constants::$emailSettings['enable_email_notification']) {
 
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $team = TeamCache::getInstance()->getTeam($row->id);
-         echo "=== Team $row->id : ".$team->getName()."\n";
          $team->sendTimesheetEmails($startT, $endT);
       }
    } else {
       $team = TeamCache::getInstance()->getTeam($team_id);
-      echo "=== Team $team_id : ".$team->getName()."\n";
       $team->sendTimesheetEmails($startT, $endT);
 
    }
