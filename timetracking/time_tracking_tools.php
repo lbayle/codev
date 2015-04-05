@@ -423,6 +423,7 @@ class TimeTrackingTools {
          $currentStatus = $issue->getCurrentStatus();
          $availableStatusList = $issue->getAvailableStatusList(true);
          $bugResolvedStatusThreshold = $issue->getBugResolvedStatusThreshold();
+         $bugStatusNew = Constants::$status_new;
          $deadline = $issue->getDeadLine();
       } catch (Exception $e) {
          $backlog = '!';
@@ -439,6 +440,7 @@ class TimeTrackingTools {
          $currentStatus = 0;
          $availableStatusList = array();
          $bugResolvedStatusThreshold = 0;
+         $bugStatusNew = Constants::$status_new;
          $deadline = null;
       }
 
@@ -461,6 +463,7 @@ class TimeTrackingTools {
          'currentStatus' => $currentStatus,
          'availableStatusList' => $availableStatusList,
          'bugResolvedStatusThreshold' =>  $bugResolvedStatusThreshold,
+         'bugStatusNew' =>  $bugStatusNew,
          'trackDuration' => $trackDuration,
          'trackJobid' => $trackJobid,
       );

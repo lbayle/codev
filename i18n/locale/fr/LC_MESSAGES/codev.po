@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-04 16:28+0200\n"
+"POT-Creation-Date: 2015-04-06 00:31+0200\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -3006,6 +3006,10 @@ msgstr "RAF actuel"
 msgid "Task not resolved, backlog cannot be '0'"
 msgstr "Tâche non résolue, le RAF ne peut être nul"
 
+#: tpl/modal/update_issueBacklog.html
+msgid "Status can't be : "
+msgstr "Le status ne devrait pas être : "
+
 #: tpl/modal/edit_issueNote.html
 msgid "Edit timesheet note"
 msgstr "Editer la note"
@@ -3388,24 +3392,24 @@ msgstr "Vu !"
 msgid "Hide"
 msgstr "Cacher"
 
-#: classes/user.class.php:1679
+#: classes/user.class.php:1688
 msgid "[CodevTT] Timesheet reminder !"
 msgstr "[CodevTT] Saisie du CRA !"
 
-#: classes/user.class.php:1681
+#: classes/user.class.php:1690
 msgid "Dear "
 msgstr "Cher(e) "
 
-#: classes/user.class.php:1682
+#: classes/user.class.php:1691
 msgid "Please fill your CodevTT timesheet:"
 msgstr "Merci de saisir votre compte rendu d'activité: "
 
-#: classes/user.class.php:1692 classes/consistency_check2.class.php:677
+#: classes/user.class.php:1701 classes/consistency_check2.class.php:677
 msgid "incomplete (missing "
 msgstr "incomplet (manque "
 
 #. skip dates in the future
-#: classes/user.class.php:1695 classes/consistency_check2.class.php:692
+#: classes/user.class.php:1704 classes/consistency_check2.class.php:692
 #: reports/productivity_report.php:441
 msgid "not defined."
 msgstr "non défini."
@@ -4261,7 +4265,7 @@ msgstr "Désolé, il n'y a pas de projets définis pour cette équipe."
 
 #: timetracking/team_activity_report.php:179
 #: timetracking/time_tracking_tools.php:70
-#: timetracking/time_tracking_tools.php:429 timetracking/time_tracking.php:374
+#: timetracking/time_tracking_tools.php:430 timetracking/time_tracking.php:374
 #: timetracking/team_monthly_activity_report.php:130
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Erreur : Tâche introuvable dans la BDD Mantis !"

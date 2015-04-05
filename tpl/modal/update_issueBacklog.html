@@ -63,6 +63,8 @@
 
          <input type="hidden" name="statusid" value="" />
          <input type="hidden" name="bugResolvedStatusThreshold" id="bugResolvedStatusThreshold" value="" />
+         <input type="hidden" name="bugStatusNew" id="bugStatusNew" value="" />
+         <input type="hidden" name="statusNameNew" id="statusNameNew" value="" />
       </fieldset>
    </form>
 
@@ -170,6 +172,8 @@
 			formUpdateBacklog.find("input[name=trackDate]").val(data['trackDate']);
 
          formUpdateBacklog.find("input[name=bugResolvedStatusThreshold]").val(data['bugResolvedStatusThreshold']);
+         formUpdateBacklog.find("input[name=bugStatusNew]").val(data['bugStatusNew']);
+         formUpdateBacklog.find("input[name=statusNameNew]").val(data['availableStatusList'][data['bugStatusNew']]);
 
 			var dialogBoxTitle = '{t}Task{/t} ' + data['dialogBoxTitle'] + ' - {t}Update Backlog{/t}';
 			jQuery("#update_backlog_dialog_form").dialog("option", "title", dialogBoxTitle);
@@ -229,6 +233,9 @@
       jQuery('#status').on('change', function() {
          var selectedStatus = jQuery("#status").children(":selected").attr("id");
          jQuery("#formUpdateBacklog").find("input[name=statusid]").val(selectedStatus);
+
+         updateTips(" ");
+
       });
 
 		var backlog = jQuery("#backlog"),
@@ -253,14 +260,18 @@
 			}
 		}
 
-		function checkStatus(backlog, selectedStatus, bugResolvedStatusThreshold, msg) {
+		function checkStatus(backlog, selectedStatus, bugResolvedStatusThreshold, bugStatusNew, statusNameNew) {
 			if ((selectedStatus < bugResolvedStatusThreshold) && (0 == backlog.val())) {
 				backlog.addClass("ui-state-error");
-				updateTips(msg);
+				updateTips("{t}Task not resolved, backlog cannot be '0'{/t}");
 				return false;
-			} else {
-				return true;
 			}
+			if ((selectedStatus == bugStatusNew) && (0 < backlog.val())) {
+				backlog.addClass("ui-state-error");
+				updateTips("{t}Status can't be : {/t}" + statusNameNew);
+				return false;
+			}
+			return true;
 		}
 
 		function isBacklogDialogFieldsValid() {
@@ -270,8 +281,11 @@
 			bValid = bValid && checkRegexp(jQuery("#backlog"), /^[0-9]+(\.[0-9][0-9]?5?)?$/i, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
 			
 			var bugResolvedStatusThreshold = jQuery("#bugResolvedStatusThreshold").val();
+			var bugStatusNew = jQuery("#bugStatusNew").val();
+			var statusNameNew = jQuery("#statusNameNew").val();
+
 			var selectedStatus = jQuery("#status").children(":selected").attr("id");
-			bValid = bValid && checkStatus(jQuery("#backlog"), selectedStatus, bugResolvedStatusThreshold, "{t}Task not resolved, backlog cannot be '0'{/t}");
+			bValid = bValid && checkStatus(jQuery("#backlog"), selectedStatus, bugResolvedStatusThreshold, bugStatusNew, statusNameNew);
 			return bValid;
 		}
 
