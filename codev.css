@@ -309,7 +309,7 @@ table.invisible tbody tr:hover {
    -webkit-overflow-scrolling: touch;
 }
 
-a.DTTT_button {
+.DTTT_container a.DTTT_button {
 	padding: 0px 3px;
 }
 
