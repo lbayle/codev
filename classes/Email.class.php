@@ -74,7 +74,7 @@ class Email {
     * @param array  $p_headers   Array of additional headers to send with the email.
     * @return boolean
     */
-   public function sendEmail( $p_recipient, $p_subject, $p_message, array $p_headers = null ) {
+   public function sendEmail( $p_recipient, $p_subject, $p_message, $p_submitted = null, array $p_headers = null ) {
 
       $t_recipient = trim( $p_recipient );
       $t_subject = self::string_strip_hrefs( trim( $p_subject ) );
@@ -92,6 +92,7 @@ class Email {
       $t_email_data->email = $t_recipient;
       $t_email_data->subject = $t_subject;
       $t_email_data->body = $t_message;
+      $t_email_data->submitted = $p_submitted;
       $t_email_data->metadata = array();
       $t_email_data->metadata['headers'] = $p_headers === null ? array() : $p_headers;
       $t_email_data->metadata['priority'] = 5; # Urgent = 1, Not Urgent = 5, Disable = 0
@@ -132,6 +133,10 @@ class Email {
          return FALSE;
       }
 
+      if( Tools::is_blank( $emailData->submitted ) ) {
+         $emailData->submitted = time();
+      }
+
       $sqlWrapper = SqlWrapper::getInstance();
       $c_email    = $sqlWrapper->sql_real_escape_string($emailData->email);
       $c_subject  = $sqlWrapper->sql_real_escape_string($emailData->subject);
@@ -139,7 +144,7 @@ class Email {
       $c_metadata = serialize( $emailData->metadata );
 
       $query = "INSERT  INTO `mantis_email_table` (`email`, `subject`, `body`, `submitted`, `metadata`) ".
-         "VALUES ('$c_email', '$c_subject', '$c_body', ".time().", '$c_metadata');";
+         "VALUES ('$c_email', '$c_subject', '$c_body', ".$emailData->submitted.", '$c_metadata');";
       #echo "queue email: $query<br>";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {

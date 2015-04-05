@@ -68,6 +68,8 @@ class User extends Model {
     */
    private $email;
 
+   private $enabled;
+
    /**
     * @var array Filters
     */
@@ -171,7 +173,7 @@ class User extends Model {
     */
    private function initialize($row) {
       if(NULL == $row) {
-         $query = "SELECT username, realname " .
+         $query = "SELECT username, realname, enabled " .
                   "FROM `mantis_user_table` " .
                   "WHERE id = $this->id;";
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -188,6 +190,7 @@ class User extends Model {
       if(NULL != $row) {
          $this->name = $row->username;
          $this->realName = $row->realname;
+         $this->enabled = (1 == $row->enabled);
       } else {
          $this->name = "(unknown $this->id)";
       }
@@ -285,6 +288,12 @@ class User extends Model {
       return $this->email;
    }
 
+   /**
+    * @return bool isEnabled
+    */
+   public function isEnabled() {
+      return $this->enabled;
+   }
 
    /**
     * @param int $team_id
@@ -1689,6 +1698,11 @@ class User extends Model {
             }
 
             #self::$logger->debug($emailBody);
+
+            #$now = time();
+            #$emailDate = mktime(0, 0, 0, date('m', $now), date('d',$now), date('Y', $now));
+            #SELECT count(*) FROM `mantis_email_table` WHERE `subject` LIKE '%CodevTT%' AND `email` = '$emailAddress' AND submitted= '$emailDate'
+            
             Email::getInstance()->sendEmail( $emailAddress, $emailSubject, $emailBody );
          }
       } catch (Exception $e) {

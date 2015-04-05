@@ -1206,14 +1206,18 @@ class Team extends Model {
     */
    public function sendTimesheetEmails($startTimestamp=NULL, $endTimestamp=NULL) {
 
-      if ((1 == Constants::$emailSettings['enable_email_notification']) &&
+      if (($this->isEnabled()) &&
+          (1 == Constants::$emailSettings['enable_email_notification']) &&
           (1 == $this->getGeneralPreference('sendTimesheetEmailNotification'))) {
 
+         echo "=== Team $this->id : ".$this->getName()."\n";
          $users = $this->getActiveMembers();
          foreach ($users as $id => $name) {
             try {
                $user = UserCache::getInstance()->getUser($id);
-               $user->sendTimesheetEmail($this->id, $startTimestamp, $endTimestamp);
+               if ($user->isEnabled()) {
+                  $user->sendTimesheetEmail($this->id, $startTimestamp, $endTimestamp);
+               }
             } catch (Exception $e) {
                self::$logger->error("sendTimetrackEmails: Could not send mail to $name");
             }
