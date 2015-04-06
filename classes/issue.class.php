@@ -1752,6 +1752,16 @@ class Issue extends Model implements Comparable {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
+      // Add to history
+      $now = time();
+      $old_handlerId = $this->getHandlerId();
+      $query2 = "INSERT INTO `mantis_bug_history_table`  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
+               "VALUES ('".$_SESSION['userid']."','$this->bugId','handler_id', '$old_handlerId', '$value', '0', '".$now."');";
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      if (!$result2) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
    }
    
    /**

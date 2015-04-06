@@ -425,6 +425,12 @@ class TimeTrackingTools {
          $bugResolvedStatusThreshold = $issue->getBugResolvedStatusThreshold();
          $bugStatusNew = Constants::$status_new;
          $deadline = $issue->getDeadLine();
+         $handlerId = $issue->getHandlerId();
+         $handler = UserCache::getInstance()->getUser($handlerId);
+         $handlerName = $handler->getName();
+         
+         $managedUser = UserCache::getInstance()->getUser($managedUserid);
+         $managedUserName = $managedUser->getName();
       } catch (Exception $e) {
          $backlog = '!';
          $summary = '<span class="error_font">'.T_('Error: Task not found in Mantis DB !').'</span>';
@@ -442,6 +448,9 @@ class TimeTrackingTools {
          $bugResolvedStatusThreshold = 0;
          $bugStatusNew = Constants::$status_new;
          $deadline = null;
+         $handlerId = 0;
+         $handlerName = 'ERROR';
+         $managedUserName = 'ERROR';
       }
 
       // prepare json data for the BacklogDialogbox
@@ -449,6 +458,7 @@ class TimeTrackingTools {
       $totalEE = $effortEstim + $effortAdd;
       $issueInfo = array(
          'trackUserid' => $managedUserid,
+         'trackUserName' => $managedUserName,
          'currentBacklog' => $backlog,
          'bugid' => $bugid,
          'summary' => $summary,
@@ -466,6 +476,8 @@ class TimeTrackingTools {
          'bugStatusNew' =>  $bugStatusNew,
          'trackDuration' => $trackDuration,
          'trackJobid' => $trackJobid,
+         'handlerId' => $handlerId,
+         'handlerName' => $handlerName,
       );
 
       if (0 !== $trackDuration) {
