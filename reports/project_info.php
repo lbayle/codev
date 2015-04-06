@@ -357,11 +357,14 @@ class ProjectInfoController extends Controller {
       } else if ($drift > 1) {
          $driftColor = "#fcbdbd";
       }
+      
+      $handler = UserCache::getInstance()->getUser($issue->getHandlerId());
 
       return array(
          'issueURL' => Tools::issueInfoURL($issue->getId()),
          'mantisURL' => Tools::mantisIssueURL($issue->getId(), NULL, true),
          'projectName' => $issue->getProjectName(),
+         'handlerName' => $handler->getName(),
          'targetVersion' => $issue->getTargetVersion(),
          'driftMgrColor' => $driftMgrColor,
          'driftMgr' => $driftMgr,
@@ -381,4 +384,4 @@ ProjectInfoController::staticInit();
 $controller = new ProjectInfoController('../', 'Project Info','ProjectInfo');
 $controller->execute();
 
-?>
+

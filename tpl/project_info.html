@@ -37,6 +37,7 @@
                   <tr>
                      <th>{t}ID{/t}</th>
                      <th>{t}Project{/t}</th>
+                     <th>{t}User{/t}</th>
                      <th>{t}Target{/t}</th>
                      {if $isManager}<th title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
                      <th title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
@@ -51,6 +52,7 @@
                   <tr>
                      <td nowrap="nowrap">{$i.mantisURL} {$i.issueURL}</td>
                      <td>{$i.projectName}</td>
+                     <td>{$i.handlerName}</td>
                      <td nowrap="nowrap">{$i.targetVersion}</td>
                      {if $isManager}<td style="width: 6em;{if $i.driftMgrColor}background-color: #{$i.driftMgrColor};{/if}">{$i.driftMgr}</td>{/if}
                      <td style="width: 6em;{if $i.driftColor}background-color: #{$i.driftColor};{/if}">{$i.drift}</td>
@@ -74,6 +76,7 @@
                   <tr>
                      <th>{t}ID{/t}</th>
                      <th>{t}Project{/t}</th>
+                     <th>{t}User{/t}</th>
                      <th>{t}Target{/t}</th>
                      {if $isManager}<th style="width: 6em;" title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
                      <th style="width: 6em;" title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
@@ -86,6 +89,7 @@
                   <tr>
                      <td nowrap="nowrap">{$i.mantisURL} {$i.issueURL}</td>
                      <td>{$i.projectName}</td>
+                     <td>{$i.handlerName}</td>
                      <td nowrap="nowrap">{$i.targetVersion}</td>
                      {if $isManager}<td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}</td>{/if}
                      <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}</td>
