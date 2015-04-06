@@ -32,6 +32,11 @@
                   <td colspan="3"><hr></td>
                </tr>
                <tr>
+                  <th><label for="handlerid">{t}Assigned to{/t} :</label></th>
+                  <td><select id="handlerid" name="handlerid"> </select></td>
+                  <td></td>
+               </tr>
+               <tr>
                   <th><label for="status">{t}Status{/t} :</label></th>
                   <td><select id="status" name="status"> </select></td>
                   <td></td>
@@ -196,8 +201,24 @@
 				}
 			}
 
-			// set timeToAdd
-			jQuery('#timeToAdd').empty();
+         // set assignedTo
+         jQuery('#handlerid').empty();
+         if (data['trackUserid'] != data['handlerId']) {
+            jQuery('#handlerid').append(
+               jQuery('<option>').attr('id', data['trackUserid']).attr('value', data['trackUserid']).append(data['trackUserName'])
+            );
+         }
+         jQuery('#handlerid').append(
+            jQuery('<option>').attr('id', data['handlerId']).attr('value', data['handlerId']).attr('selected', 'selected').append(data['handlerName'])
+         );
+         // auto-assign if task is not assigned yet.
+         if (0 == data['handlerId']) {
+            console.log('handlerId 0');
+            $("#handlerid").val(data['trackUserid']);
+         }
+
+         // set timeToAdd
+         jQuery('#timeToAdd').empty();
 
          if (0 == data['trackDuration']) {
             $('#tr_timeToAdd').hide();

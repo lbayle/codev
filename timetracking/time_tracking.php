@@ -114,7 +114,7 @@ class TimeTrackingController extends Controller {
             }
             elseif ("addTimetrack" == $action) {
                // updateBacklogDialogbox with 'addTimetrack' action
-               // add track AND update backlog & status
+               // add track AND update backlog & status & handlerId
 
                // TODO merge addTrack & addTimetrack actions !
 
@@ -125,6 +125,7 @@ class TimeTrackingController extends Controller {
                $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
                $job          = Tools::getSecurePOSTIntValue('trackJobid');
                $duration     = Tools::getSecurePOSTNumberValue('timeToAdd');
+               $handlerId    = Tools::getSecurePOSTNumberValue('handlerid');
 
                // check jobid (bug happens sometime...
                if(0 == $job) {
@@ -154,6 +155,12 @@ class TimeTrackingController extends Controller {
                   $newStatus = Tools::getSecurePOSTIntValue('statusid');
                   $issue->setStatus($newStatus);
 
+                  // set handlerId
+                  if ($handlerId != $issue->getHandlerId()) {
+                     // TODO security check (userid exists/valid ?)
+                     $issue->setHandler($handlerId);
+                  }
+                  
                   $defaultProjectid = $issue->getProjectId();
                }                  
                // Don't show job and duration after add track
