@@ -1681,7 +1681,8 @@ class User extends Model {
       $emailSubject=T_('[CodevTT] Timesheet reminder !');
 
       $emailBody=T_('Dear ').$this->getRealname().",\n\n".
-         T_('Please fill your CodevTT timesheet:')."\n\n";
+         T_('Please fill your CodevTT timesheet:')."\n\n".
+         Constants::$codevURL."\n\n";
 
       try {
          $incompleteDays = $this->checkIncompleteDays($startTimestamp, $endTimestamp);
