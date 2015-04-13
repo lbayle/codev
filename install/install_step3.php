@@ -214,13 +214,7 @@ function createAdminTeam($name, $leader_id) {
 
 function setConfigItems() {
 
-   #echo "DEBUG create Variable : ".Config::id_ClientTeamid."<br/>";
-   # TODO should be a table, there can be more than one client !
-   # TODO clients are team specific !
-   $desc = T_("Customer teamId");
-   Config::getInstance()->setValue(Config::id_ClientTeamid, NULL, Config::configType_int, $desc);
-
-
+   // nothing to do.
 }
 
 
@@ -916,7 +910,7 @@ if ("proceedStep3" == $action) {
    }
 
    echo "DEBUG 2/16 create default Config variables<br/>";
-   setConfigItems();
+   //setConfigItems();
 
    echo "DEBUG 3/16 update Mantis custom files<br/>";
    updateMantisCustomFiles();
