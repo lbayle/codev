@@ -106,7 +106,7 @@ class Config {
    const id_defaultTeamId = "defaultTeamId";
    const id_defaultLanguage = "defaultLanguage";
    const id_defaultProjectId = "defaultProjectId";
-   const id_ClientTeamid = "client_teamid"; // FDJ_teamid (FIXME there can be more than one customer !)
+   #const id_ClientTeamid = "client_teamid"; // DEPRECATED since 1.0.3
    const id_projectFilters = "projectFilters";
    const id_commandFilters = "commandFilters";
    const id_commandSetFilters = "commandSetFilters";
