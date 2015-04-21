@@ -10,7 +10,7 @@
    </div>
    
    <div style="margin-top:2em">
-   <table>
+   <table class="datatable_csv" style="width:50%">
       <thead>
          <tr>
             <th></th>
@@ -76,6 +76,13 @@
          jQuery(".infoMsg").html('{t}Please wait...{/t}');
          form.submit();
       }
+         jQuery(document).ready(function() {
+            jQuery.ajax({
+               url: "js_min/datatable.min.js",
+               dataType: "script",
+               cache: true
+            });
+         });
    </script>
    
 </div>
