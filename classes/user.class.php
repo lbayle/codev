@@ -34,6 +34,13 @@ class User extends Model {
    private static $users;
 
    /**
+    *
+    * @var array planning_report options 
+    */
+   public static $defaultPlanningOptions;
+   public static $defaultPlanningOptionsDesc;
+   
+   /**
     * @var int The id
     */
    private $id;
@@ -156,6 +163,14 @@ class User extends Model {
     */
    public static function staticInit() {
       self::$logger = Logger::getLogger(__CLASS__);
+      
+      self::$defaultPlanningOptions = array(
+          'displayExtRef' => 0,
+         );
+
+      self::$defaultPlanningOptionsDesc = array(
+          'displayExtRef'         => 'Display ExtRef instead of mantis_id',
+         );
    }
 
    /**
@@ -1714,6 +1729,60 @@ class User extends Model {
       return TRUE;
    }
 
+   /**
+    * 
+    * @param int $team_id
+    * @param array $planningOptions as key:value
+    */
+   public function setPlanningOptions($team_id, $planningOptions) {
+      $this->planningOptions = $planningOptions;
+
+      $keyvalue = Tools::doubleImplode(':', ',', $this->planningOptions);
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("Write user $this->id, team $team_id, planningOptions = $keyvalue");
+      }
+
+      // save new settings
+      Config::setValue(Config::id_planningOptions, $keyvalue, Config::configType_keyValue, NULL, 0, $this->id, $team_id );
+   }
+   
+   /**
+    *
+    * @return array ('optionName' => [0,1] isEnabled)
+    */
+   public function getPlanningOptions($team_id) {
+
+      if (empty($this->planningOptions)) {
+
+         $checkList = Config::getValue(Config::id_planningOptions, array($this->id, 0, $team_id, 0, 0, 0), true);
+
+         // get default checkList if not found
+         $this->planningOptions = User::$defaultPlanningOptions;
+
+         // update with user specific items
+         if ($checkList != NULL && is_array($checkList)) {
+            foreach ($checkList as $name => $enabled) {
+
+               if (!array_key_exists($name, $this->planningOptions)) {
+                  self::$logger->warn("user $this->id team $team_id: remove unknown/deprecated planningOption: $name");
+               } else {
+                  $this->planningOptions["$name"] = $enabled;
+               }
+            }
+         }
+      }
+
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("user $this->id team $this->id planningOptions = ". Tools::doubleImplode(':', ',',  $this->planningOptions));
+      }
+      return $this->planningOptions;
+   }
+
+   public function getPlanningOption($team_id, $optionKey) {
+      $options = $this->getPlanningOptions($team_id);
+      return $options["$optionKey"];
+   }
+   
 }
 
 // Initialize complex static variables
