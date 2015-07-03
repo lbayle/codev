@@ -140,6 +140,14 @@ class PlanningReportController extends Controller {
                $this->smartyHelper->assign('unassigned_MEE', $unassigendSel->mgrEffortEstim);
                $this->smartyHelper->assign('unassigned_EE', ($unassigendSel->effortEstim + $unassigendSel->effortAdd));
 
+               // get planningOptions
+               $keyvalue = Tools::getSecurePOSTStringValue('planningOptions', '');
+               if (!empty($keyvalue)) { 
+                  $planningOptions = Tools::doubleExplode(':', ',', $keyvalue);
+                  $this->session_user->setPlanningOptions($this->teamid, $planningOptions);
+               }
+               $this->smartyHelper->assign('planningOptions', $this->getPlanningOptions());
+               
                $today = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
                $graphSize = ("undefined" != $pageWidth) ? $pageWidth - 150 : 800;
 
@@ -384,9 +392,13 @@ class PlanningReportController extends Controller {
 
          $drawnTaskPixSize = $taskPixSize - 1;
 
+         $optDisplayExtRef = $this->session_user->getPlanningOption($teamid, 'displayExtRef');
+         $displayedId = (1 == $optDisplayExtRef) ? $issue->getTcId() : $scheduledTask->getIssueId();
+         
          $sTask = array(
             "bugid" => $scheduledTask->getIssueId(),
             "extRef" => $issue->getTcId(),
+            "displayedId" => $displayedId,
             "title" => $formatedTitle,
             "width" => $drawnTaskPixSize,
             "color" => $color,
@@ -411,6 +423,23 @@ class PlanningReportController extends Controller {
       return $scheduledTasks;
    }
 
+   private function getPlanningOptions() {
+
+      $planningOptions = $this->session_user->getPlanningOptions($this->teamid);
+
+      $options = array();
+      foreach ($planningOptions as $name => $enabled) {
+
+         $options["$name"] = array(
+             'name'       => $name,
+             'label'      => T_(User::$defaultPlanningOptionsDesc["$name"]),
+             'isChecked'  => $enabled,
+             'isDisabled' => false
+         );
+      }
+      return $options;
+   }
+   
 }
 
 // ========== MAIN ===========
@@ -418,4 +447,3 @@ PlanningReportController::staticInit();
 $controller = new PlanningReportController('../', 'Planning','Planning');
 $controller->execute();
 
-?>

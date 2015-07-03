@@ -39,17 +39,66 @@
                form.find("input[name=width]").val(myWidth);
                form.submit();
             });
+
+            jQuery("#planningOptions_link").click(function() {
+               jQuery(".planningOptionsDialog").dialog("open");
+               return false;
+            });
+
+            jQuery(".planningOptionsDialog").dialog({
+               autoOpen: false,
+               height: 'auto',
+               width: "auto",
+               modal: true,
+               buttons: {
+                  Ok: function() {
+                     // stop form from submitting normally 
+                     //event.preventDefault();
+
+                     // get selected checkItems
+                     var form = jQuery("#zoomForm");
+                     var planningOptionItems = "";
+                     jQuery(".planningOptionsItem").each(function() {
+                        var itemName = jQuery(this).attr("name");
+                        var isChecked = jQuery(this).attr('checked') ? 1 : 0;
+                        planningOptionItems += itemName+":"+isChecked+",";
+                     });
+                     form.find("input[name=planningOptions]").val(planningOptionItems)
+
+                     jQuery(this).dialog( "close" );
+                     form.submit();
+                  },
+                  Cancel: function() {
+                     jQuery(this).dialog( "close" );
+                  }
+               }
+            });
          });
       </script>
       <form id="zoomForm" name="zoomForm" method="post" action="{$page}">
          <fieldset>
             &nbsp;<a title="{t}zoom in{/t}" id="zoomIn" href="{$page}"><img style="vertical-align: middle;" src="images/zoom_in.png" alt="{t}zoom in{/t}" /></a>
             &nbsp;<a title="{t}zoom out{/t}" id="zoomOut" href="{$page}"><img style="vertical-align: middle;" src="images/zoom_out.png" alt="{t}zoom out{/t}" /></a>
+            &nbsp;<a title="{t}Options{/t}" id="planningOptions_link" href="{$page}"><img style="vertical-align: middle;" src="images/b_config.png"/></a>
             <input type="hidden" name="width" value="{$width}" />
+            <input type="hidden" name="planningOptions" value="">
          </fieldset>
       </form>
    </div>
 
+   <div class="planningOptionsDialog ui-helper-hidden" title="{t}Planning Options{/t}">
+      <table class="invisible userSettings_table">
+       <tbody>
+         {foreach from=$planningOptions key=id item=i}
+          <tr class="userSettings_tr">
+             <td class="right"><input id="{$i.name}" name="{$i.name}" class="planningOptionsItem opt_enabled" type="checkbox" {if $i.isChecked}checked="checked"{/if} {if $i.isDisabled}disabled="disabled"{/if}></td>
+             <td class="left opt_label">{$i.label}</td>
+          </tr>
+         {/foreach}
+       </tbody>
+      </table>
+   </div>
+   
    {if $consistencyErrors}
    <script type="text/javascript">
       jQuery(function() {
@@ -143,7 +192,7 @@
                   <div style="margin-top: 2px;">
                      <img width="5" height="20" src="images/blank.png" alt="" />
                      {foreach from=$i.scheduledTasks key=id1 item=j}
-                     <a class="task haveTooltip" target="_blank" href="reports/issue_info.php?bugid={$j.bugid}" style="margin-right: 1px;display:inline-block;"><img alt="{$j.bugid}" src="graphs/scheduledtask.png.php?height=20&width={$j.width}&text={$j.bugid}&color={$j.color}{if $j.strike}&strike{/if}" height="20" width="{$j.width}" /></a>
+                     <a class="task haveTooltip" target="_blank" href="reports/issue_info.php?bugid={$j.bugid}" style="margin-right: 1px;display:inline-block;"><img alt="{$j.bugid}" src="graphs/scheduledtask.png.php?height=20&width={$j.width}&text={$j.displayedId}&color={$j.color}{if $j.strike}&strike{/if}" height="20" width="{$j.width}" /></a>
                      <!-- tooltip element -->
                      <div class="tooltip ui-helper-hidden">
                         <table style="margin:0;border:0;padding:0;background-color:white;">
