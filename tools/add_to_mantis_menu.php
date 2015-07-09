@@ -100,7 +100,7 @@ function addCustomMenuItem($name, $url) {
 # ============= MAIN =============
 
 removeCustomMenuItem('CodevTT');
-addCustomMenuItem('CodevTT', '../codevtt/index.php');
+addCustomMenuItem('CodevTT', Constants::$codevURL);
 
 
 ?>
