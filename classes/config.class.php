@@ -67,8 +67,8 @@ class ConfigItem {
 class Config {
 
    // TODO Move to a more appropriate class
-   const codevVersion = "v1.0.2";
-   const codevVersionDate = "21 Jan 2015";
+   const codevVersion = "v1.0.3";
+   const codevVersionDate = "09 Aug 2015";
    const databaseVersion = 13; // used to check codev_config_table.database_version and apply upgrades.
 
    const configType_int = 1;
@@ -152,6 +152,7 @@ class Config {
       "v1.0.0" => "(17 Mar  2014) - Relationships, timetrack duration, check_latest_version, CmdStateFilter, periodic leaves",
       "v1.0.1" => "(16 Aug  2014) - fix:Gantt+CSVimport+graphColors+WBSrootName, Hide admin menu, install:proxy+checkMantisDefaultProjectWorkflow",
       "v1.0.2" => "(21 Jan  2015) - fix:WBS+more, MantisPlugin, FilterBugList, Jobs, Commands:totalProv, MinifyJS, EditTeam:combobox, Logs, Holidays:filters, ExportCSV",
+      "v1.0.3" => "(09 Aug  2015) - fix:Planning+SqlInjection+EscapeChars+NonNumeric+more, PlanningOptions, TimesheetEmails, BacklogDialogbox:status+handler, install:activatePlugins",
    );
 
    /**
