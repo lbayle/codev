@@ -80,7 +80,7 @@ $g_notify_flags = array (
 
 # -------------------------------------------------------------
 # --- customize workflow ---
-# see also custom_constant_inc.php and custom_strings_inc.php
+# see also custom_constants_inc.php and custom_strings_inc.php
 $g_status_enum_string = '10:new,20:feedback,30:acknowledged,40:analyzed,50:open,80:resolved,82:validated,85:delivered,90:closed';
 
 $g_status_colors['analyzed']  = '#fff494';
