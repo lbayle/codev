@@ -133,7 +133,7 @@ function createLog4phpFile() {
  * (add relationships, functions, etc.)
  *
  * Files to update:
- * custom_constant_inc.php
+ * custom_constants_inc.php
  * custom_strings_inc.php
  * custom_relationships_inc.php
  *

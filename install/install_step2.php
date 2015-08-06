@@ -144,7 +144,7 @@ $default_url_codevtt           = 'http://'.$hostname.'/codevtt'; // 'http://'.$_
 
 $filename_strings              = "strings_english.txt";
 $filename_custom_strings       = "custom_strings_inc.php";
-$filename_custom_constant      = "custom_constant_inc.php";
+$filename_custom_constants      = "custom_constants_inc.php";
 $filename_custom_relationships = "custom_relationships_inc.php";
 
 $path_mantis = Tools::getSecurePOSTStringValue('path_mantis', $default_path_mantis);
@@ -225,7 +225,7 @@ if ("proceedStep2" == $action) {
          $retCode = false;
       }
    }
-   $path = $path_mantis.DIRECTORY_SEPARATOR.$filename_custom_constant;
+   $path = $path_mantis.DIRECTORY_SEPARATOR.$filename_custom_constants;
    if (file_exists($path)) {
       if (!is_writable($path)) {
          echo "<span class='error_font'>".$path." is NOT writable</span><br/>";
