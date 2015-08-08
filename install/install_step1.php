@@ -307,14 +307,14 @@ if ("setDatabaseInfo" == $action) {
    
    
       
-   echo "DEBUG 1/3 create config.ini file<br/>";
+   echo "DEBUG 1/4 create config.ini file<br/>";
    $errStr = createConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $proxy_host, $proxy_port);
    if (NULL != $errStr) {
       echo "<span class='error_font'>".$errStr."</span><br/>";
       exit;
    }
 
-   echo "DEBUG 2/3 execSQLscript2 - create Tables<br/>";
+   echo "DEBUG 2/4 execSQLscript2 - create Tables<br/>";
    //$retCode = Tools::execSQLscript2(Install::FILENAME_TABLES);
    $retCode = SqlParser::execSqlScript(Install::FILENAME_TABLES);
    if (0 != $retCode) {
@@ -327,7 +327,7 @@ if ("setDatabaseInfo" == $action) {
       exit;
    }
 
-   echo "DEBUG 3/3 execSQLscript2 - create Procedures<br/>";
+   echo "DEBUG 3/4 execSQLscript2 - create Procedures<br/>";
    // procedures are defined in install/codevtt_procedures.php
    foreach ($codevtt_sqlProcedures as $query) {
       $result = SqlWrapper::getInstance()->sql_query(trim($query));
@@ -336,6 +336,12 @@ if ("setDatabaseInfo" == $action) {
          exit;
       }
    }
+
+   echo "DEBUG 4/4 Perf: CREATE INDEX handler_id ON mantis_bug_table <br/>";
+   $request = "CREATE INDEX `handler_id` ON `mantis_bug_table` (`handler_id`); ";
+   $result = SqlWrapper::getInstance()->sql_query($request);
+   // Note: we do not care about the result: if failed, then the INDEX already exists. 
+
 
    // everything went fine, goto step2
    echo ("<script type='text/javascript'> parent.location.replace('install_step2.php'); </script>");

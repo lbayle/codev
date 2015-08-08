@@ -25,7 +25,7 @@
 --
 -- tune MantisBT tables for CodevTT needs
 --
-CREATE INDEX `handler_id` ON `mantis_bug_table` (`handler_id`);
+-- CREATE INDEX `handler_id` ON `mantis_bug_table` (`handler_id`);
 
 
 --
