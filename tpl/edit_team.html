@@ -241,7 +241,7 @@
                            <select name="f_src_teamid" id="f_src_teamid">
                               <option value="0"></option>
                               {foreach from=$teams key=id item=i}
-                              {if !$i.selected}<option value="{$id}">{$i.name}</option>{/if}
+                              {if $id != $team->getId()}<option value="{$id}">{$i.name}</option>{/if}
                               {/foreach}
                            </select>
                         </td>
