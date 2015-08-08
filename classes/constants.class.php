@@ -110,7 +110,7 @@ class Constants {
 
    // ---EMAIL---
    public static $emailSettings = array(
-      'enable_email_notification' => 0,  // default is disabled
+      'enable_email_notification' => 1,  // default is enabled
    );
 
    
