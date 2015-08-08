@@ -93,6 +93,7 @@ class CommandEditController extends Controller {
                   // the command name cannot contain commas (,) because it is used as
                   // field separator in FilterManager
                   $cmdName = str_replace(',', '', $cmdName);
+                  $cmdName = str_replace("\t", ' ', $cmdName);
 
                   try {
                      $cmdid = Command::create($cmdName, $this->teamid);
@@ -255,7 +256,8 @@ class CommandEditController extends Controller {
       // UGLY WORKAROUND
       // the command name cannot contain commas (,) because it is used as
       // field separator in FilterManager
-      $formattedValue = str_replace(',', '', $formattedValue);
+      $formattedValue = str_replace(',', ' ', $formattedValue);
+      $formattedValue = str_replace("\t", ' ', $formattedValue);
 
       $cmd->setName($formattedValue);
 
