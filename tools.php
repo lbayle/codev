@@ -1085,7 +1085,7 @@ class Tools {
     * @return string the escaped string, or false on error.
     */
    public static function escape_string($unescaped_string) {
-      return SqlWrapper::getInstance()->sql_real_escape_string($unescaped_string);
+      return SqlWrapper::sql_real_escape_string($unescaped_string);
    }
 
    /**

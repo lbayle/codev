@@ -204,11 +204,14 @@ class SqlWrapper {
 
    /**
     * Escapes special characters in a string for use in an SQL statement
+    * 
+    * Note: this method must be static because of install step_1.
+    * 
     * @static
     * @param string $unescaped_string The string that is to be escaped.
     * @return string the escaped string, or false on error.
     */
-   public function sql_real_escape_string($unescaped_string) {
+   public static function sql_real_escape_string($unescaped_string) {
       return mysql_real_escape_string($unescaped_string);
    }
 

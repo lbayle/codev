@@ -197,7 +197,7 @@ class WBSElement extends Model {
 		if (!is_null($bug_id)) { $query .= ", '$bug_id'"; }
 		if (!is_null($parent_id)) { $query .= ", '$parent_id'"; }
 		if (!is_null($root_id)) { $query .= ", '$root_id'"; }
-		if (!is_null($title)) { $query .= ", '".SqlWrapper::getInstance()->sql_real_escape_string($title)."'"; }
+		if (!is_null($title)) { $query .= ", '".SqlWrapper::sql_real_escape_string($title)."'"; }
 		if (!is_null($icon)) { $query .= ", '$icon'"; }
 		if (!is_null($font)) { $query .= ", '$font'"; }
 		if (!is_null($color)) { $query .= ", '$color'"; }
@@ -294,7 +294,7 @@ class WBSElement extends Model {
    public function update() {
 
       $query = "UPDATE `codev_wbs_table` SET ".
-              "`title` = '" . SqlWrapper::getInstance()->sql_real_escape_string($this->title) . "'" .
+              "`title` = '" . SqlWrapper::sql_real_escape_string($this->title) . "'" .
               ", `order` = " . $this->order .
               ", `parent_id` = " . (is_null($this->parentId) ? "NULL" : $this->parentId) .
               ", `icon` = " . (is_null($this->icon) ? "NULL" : $this->icon).

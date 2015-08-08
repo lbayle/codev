@@ -576,7 +576,7 @@ class Project extends Model {
     */
    private function addCategory($catType, $catName) {
       // create category for SideTask Project
-      $formattedCatName = SqlWrapper::getInstance()->sql_real_escape_string($catName);
+      $formattedCatName = SqlWrapper::sql_real_escape_string($catName);
       $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) VALUES ('$this->id','0','$formattedCatName', '0');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -646,7 +646,7 @@ class Project extends Model {
       $priority = 10;
       $reproducibility = 100;
 
-      $formattedIssueDesc = SqlWrapper::getInstance()->sql_real_escape_string($issueDesc);
+      $formattedIssueDesc = SqlWrapper::sql_real_escape_string($issueDesc);
       $query = "INSERT INTO `mantis_bug_text_table`  (`description`, `steps_to_reproduce`, `additional_information`) VALUES ('".$formattedIssueDesc."', '', '');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -655,7 +655,7 @@ class Project extends Model {
       }
       $bug_text_id = SqlWrapper::getInstance()->sql_insert_id();
 
-      $formattedIssueSummary = SqlWrapper::getInstance()->sql_real_escape_string($issueSummary);
+      $formattedIssueSummary = SqlWrapper::sql_real_escape_string($issueSummary);
       $query = "INSERT INTO `mantis_bug_table` (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
                "VALUES ($this->id,$cat_id,'$formattedIssueSummary',$priority,$reproducibility,$issueStatus,$bug_text_id,$today,$today);";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -1260,7 +1260,7 @@ class Project extends Model {
       if(!array_key_exists($target_version,$this->versionDateCache)) {
          $query = "SELECT date_order FROM `mantis_project_version_table` ".
                   "WHERE project_id=$this->id ".
-                  "AND version='".$sqlWrapper->sql_real_escape_string($target_version)."';";
+                  "AND version='".SqlWrapper::sql_real_escape_string($target_version)."';";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
