@@ -538,10 +538,31 @@ class ConsistencyCheck2 {
                $cerr->severity = ConsistencyError2::severity_warn;
                $cerrList[] = $cerr;
             } else if ($nbTuples > 1) {
-               $cerr = new ConsistencyError2($issue->getId(), $issue->getHandlerId(), $issue->getCurrentStatus(),
-               $issue->getLastUpdate(), T_("The task is referenced in $nbTuples Commands."));
-               $cerr->severity = ConsistencyError2::severity_warn;
-               $cerrList[] = $cerr;
+ 
+               // a task referenced in 2 Commands is not error if in two != teams
+               $query = "SELECT team_id FROM `codev_command_table`, `codev_command_bug_table` "
+                       . "WHERE codev_command_table.id = codev_command_bug_table.command_id "
+                       . "AND codev_command_bug_table.bug_id = ".$issue->getId().";";
+               $result = SqlWrapper::getInstance()->sql_query($query);
+               if (!$result) {
+                  echo "<span style='color:red'>ERROR: Query FAILED</span>";
+                  exit;
+               }
+               $tmpTeamId = 0;
+               while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+                  if (0 == $tmpTeamId) {
+                     $tmpTeamId = $row->team_id;
+                  } else {
+                     if ($tmpTeamId == $row->team_id) {
+                        # issue in 2 commands of the same team is a warning
+                        $cerr = new ConsistencyError2($issue->getId(), $issue->getHandlerId(), $issue->getCurrentStatus(),
+                        $issue->getLastUpdate(), T_("The task is referenced in $nbTuples Commands."));
+                        $cerr->severity = ConsistencyError2::severity_warn;
+                        $cerrList[] = $cerr;
+                        break;
+                     }
+                  }
+               }
             }
             if(self::$logger->isDebugEnabled()) {
                self::$logger->debug("checkIssuesNotInCommand(): issue ".$issue->getId()." referenced in $nbTuples Commands.");
