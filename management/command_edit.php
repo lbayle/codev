@@ -89,10 +89,10 @@ class CommandEditController extends Controller {
 
                   $cmdName = Tools::getSecurePOSTStringValue('cmdName');
 
-                  // UGLY WORKAROUND
-                  // the command name cannot contain commas (,) because it is used as
-                  // field separator in FilterManager
-                  $cmdName = str_replace(',', '', $cmdName);
+                  // TODO UGLY WORKAROUND: command name cannot contain commas (,) because it is used as field separator in FilterManager
+                  // TODO UGLY WORKAROUND: quotes (') or TABs in command names break html & javascript
+                  $cmdName = str_replace(",", ' ', $cmdName);
+                  $cmdName = str_replace("'", ' ', $cmdName);
                   $cmdName = str_replace("\t", ' ', $cmdName);
 
                   try {
@@ -253,10 +253,10 @@ class CommandEditController extends Controller {
       $cmd->setTeamid($cmd_teamid);
 
       $formattedValue = Tools::getSecurePOSTStringValue('cmdName');
-      // UGLY WORKAROUND
-      // the command name cannot contain commas (,) because it is used as
-      // field separator in FilterManager
-      $formattedValue = str_replace(',', ' ', $formattedValue);
+      // TODO UGLY WORKAROUND: command name cannot contain commas (,) because it is used as field separator in FilterManager
+      // TODO UGLY WORKAROUND: quotes (') in command names break html & javascript
+      $formattedValue = str_replace("'", ' ', $formattedValue);
+      $formattedValue = str_replace(",", ' ', $formattedValue);
       $formattedValue = str_replace("\t", ' ', $formattedValue);
 
       $cmd->setName($formattedValue);

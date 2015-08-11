@@ -128,10 +128,11 @@ class ImportIssuesController extends Controller {
                   $projectTargetVersion = $this->getProjectTargetVersion($projectid);
                   $activeMembers = $team->getActiveMembers();
 
-                  // TODO UGLY WORKAROUND: commas (') in command names break html & javascript
-                  // TODO UGLY WORKAROUND: tabs in command names break html & javascript
+                  // TODO UGLY WORKAROUND: command name cannot contain commas (,) because it is used as field separator in FilterManager
+                  // TODO UGLY WORKAROUND: quotes (') or TABs in command names break html & javascript
                   $smartyCmdList = array();
                   foreach ($commands as $id => $name) {
+                     //$n = str_replace(",", ' ', $name);
                      $n = str_replace("'", ' ', $name);
                      $n = str_replace("\t", ' ', $n);
                      $smartyCmdList[$id] = array(
@@ -249,8 +250,8 @@ class ImportIssuesController extends Controller {
       if (0 != count($cmdList)) {
          foreach ($cmdList as $id => $cmd) {
             
-            // TODO UGLY WORKAROUND
-            // the command name cannot contain quotes (') or tabs because it breaks the javascript of CSV import...
+            // TODO UGLY WORKAROUND: command name cannot contain commas (,) because it is used as field separator in FilterManager
+            // TODO UGLY WORKAROUND: quotes (') or TABs in command names break html & javascript
             $cmdName = str_replace("'", ' ', $cmd->getName());
             $cmdName = str_replace("\t", ' ', $cmd->getName());
 
