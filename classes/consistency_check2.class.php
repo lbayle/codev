@@ -311,7 +311,7 @@ class ConsistencyCheck2 {
                $issue->getCurrentStatus(),
                $issue->getLastUpdate(),
                T_("Backlog should be 0 (not ".$issue->getBacklog().")."));
-            $cerr->severity = ConsistencyError2::severity_error;
+            $cerr->severity = ConsistencyError2::severity_warn;
 
             $cerrList[] = $cerr;
          }
