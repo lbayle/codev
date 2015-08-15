@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-09 22:29+0200\n"
+"POT-Creation-Date: 2015-08-15 03:01+0200\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -1073,7 +1073,7 @@ msgstr "Ajouter Provision"
 
 #: tpl/command_edit.html
 #: tpl/tools/wbsEditor.html
-#: management/commandset_edit.php:123 management/command_edit.php:204
+#: management/commandset_edit.php:123 management/command_edit.php:201
 #: management/servicecontract_edit.php:138
 msgid "Save"
 msgstr "Enregistrer"
@@ -1686,7 +1686,7 @@ msgstr "(generique) Mise à jour du WIKI"
 #. Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
 #. Display Empty Command Form
 #. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
-#: management/command_edit.php:112 management/servicecontract_edit.php:86
+#: management/command_edit.php:109 management/servicecontract_edit.php:86
 msgid "Create"
 msgstr "Créer"
 
@@ -4154,24 +4154,24 @@ msgstr "Etape 4"
 msgid "Installation finished"
 msgstr "Installation terminée"
 
-#: management/command_edit.php:224
+#: management/command_edit.php:221
 msgid "Add tasks to Command"
 msgstr "Ajouter les tâches à la commande ?"
 
-#: management/command_edit.php:225
+#: management/command_edit.php:222
 msgid "Add multiple tasks"
 msgstr "Ajouter plusieurs tâches"
 
-#: management/command_edit.php:226
+#: management/command_edit.php:223
 msgid "Add selection"
 msgstr "Ajouter la sélection"
 
-#: management/command_edit.php:227
+#: management/command_edit.php:224
 msgid "Note: Tasks already assigned to a Command are not displayed."
 msgstr ""
 "Note : Les tâches annexes définies dans les Commandes ne sont pas affichées."
 
-#: management/command_edit.php:228
+#: management/command_edit.php:225
 msgid "Add the selected issues to the Command ?"
 msgstr "Ajouter les Tâches sélectionnées à la commande ?"
 
@@ -4252,6 +4252,10 @@ msgstr "en retard"
 #: reports/planning_report.php:192
 msgid "no deadLine"
 msgstr "sans deadLine"
+
+#: reports/planning_report.php:447
+msgid "Workload planning"
+msgstr "Planning des charges"
 
 #: reports/issue_info.php:418
 msgid "Backlog (days)"
