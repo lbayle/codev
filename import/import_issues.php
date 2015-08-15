@@ -128,16 +128,11 @@ class ImportIssuesController extends Controller {
                   $projectTargetVersion = $this->getProjectTargetVersion($projectid);
                   $activeMembers = $team->getActiveMembers();
 
-                  // TODO UGLY WORKAROUND: command name cannot contain commas (,) because it is used as field separator in FilterManager
-                  // TODO UGLY WORKAROUND: quotes (') or TABs in command names break html & javascript
                   $smartyCmdList = array();
                   foreach ($commands as $id => $name) {
-                     //$n = str_replace(",", ' ', $name);
-                     $n = str_replace("'", ' ', $name);
-                     $n = str_replace("\t", ' ', $n);
                      $smartyCmdList[$id] = array(
                         'id' => $id,
-                        'name' => $n,
+                        'name' => $name,
                         'selected' => $id == 0
                      );
                   }
@@ -249,13 +244,7 @@ class ImportIssuesController extends Controller {
       $items = array();
       if (0 != count($cmdList)) {
          foreach ($cmdList as $id => $cmd) {
-            
-            // TODO UGLY WORKAROUND: command name cannot contain commas (,) because it is used as field separator in FilterManager
-            // TODO UGLY WORKAROUND: quotes (') or TABs in command names break html & javascript
-            $cmdName = str_replace("'", ' ', $cmd->getName());
-            $cmdName = str_replace("\t", ' ', $cmd->getName());
-
-            $items[$id] = $cmdName;
+            $items[$id] = $cmd->getName();
          }
       }
       return $items;
