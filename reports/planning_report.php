@@ -93,6 +93,19 @@ class DeadLine {
          return "images/arrow_down_blue.png";
       }
    }
+
+   public function getFormattedIssueList($optDisplayExtRef) {
+
+      $taskIdList = array();
+
+      foreach ($this->issueList as $bugid) {
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+         $displayedId = (1 == $optDisplayExtRef) ? $issue->getTcId() : $issue->getId();
+         $taskIdList[] = $displayedId;
+      }
+
+      return implode(', ', $taskIdList);
+   }
 }
 
 class PlanningReportController extends Controller {
@@ -269,7 +282,7 @@ class PlanningReportController extends Controller {
          $taks[] = array(
             "workload" => $workloads[$userName],
             "username" => $userName,
-            "deadlines" => $this->getUserDeadLines($userName, $dayPixSize, $scheduledTaskList),
+            "deadlines" => $this->getUserDeadLines($teamid, $dayPixSize, $scheduledTaskList),
             "scheduledTasks" => $this->getScheduledTasks($userName, $dayPixSize, $scheduledTaskList, $teamid)
          );
       }
@@ -286,7 +299,7 @@ class PlanningReportController extends Controller {
     * @param ScheduledTask[] $scheduledTaskList
     * @return mixed[][]
     */
-   private function getUserDeadLines($userName, $dayPixSize, array $scheduledTaskList) {
+   private function getUserDeadLines($teamid, $dayPixSize, array $scheduledTaskList) {
       $deadLineTriggerWidth = 10;
       $deadLines = array();
 
@@ -322,6 +335,9 @@ class PlanningReportController extends Controller {
       $dline = reset($deadLines);
       $isDeadline = 0 != $dline->nbDaysToDeadLine;
 
+      // display ExtRef in tooltips...
+      $optDisplayExtRef = $this->session_user->getPlanningOption($teamid, 'displayExtRef');
+
       // display deadLines
       $curPos=0;
       $deadline = array();
@@ -334,7 +350,7 @@ class PlanningReportController extends Controller {
                "url" => $dline->getImageURL(),
                "title" => $dline->toString(),
                "nbDaysToDeadLine" => $dline->nbDaysToDeadLine,
-               "deadlineIssues" => implode(', ', $dline->issueList),
+               "deadlineIssues" => $dline->getFormattedIssueList($optDisplayExtRef),
             );
 
             if ($offset > 0) {
