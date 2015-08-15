@@ -1,2 +1,7 @@
-Résumé;Charge mgr;Charge init;Description;Deadline;Ref Externe 
-Tâches developpement 1;5;3,5;La description détaillée de la tâche num 1;1983-08-15;ADEL0012345
+Summary;MgrEffortEstim;EffortEstim;Description;Deadline;External Ref 
+FAKE_TASK: Update GUI;5;3,5;"This is the Mantis 'Description' field
+there can be more than one line of description here.";2015-08-15;QC_39022
+FAKE_TASK: Update backend;6;5;;;QC_41714
+FAKE_TASK: Create delivery tools;0;10;"Did you notice, that MgrEffortEstim= 0 whereas EffortEstim =10 ? 
+This is because it's an internal task that has not been charged to the custommer.";;
+;;;;;
