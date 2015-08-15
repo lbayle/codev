@@ -120,62 +120,63 @@
                   placeholder : '',
                   "height": "14px"
                });
-               if(Object.keys(jQuery.parseJSON('{$jed_commandList}')).length > 0) {
+
+               if(Object.keys({$jed_commandList}).length > 0) {
                   jQuery(this).find('.command').editable( function(value, settings) {
                      // set id in data table
                      var dataRow = getDataRowFromIssueRow(jQuery(this).parent());
                      dataRow.find('td.commandid').text(value);
 
                      // set displayed value
-                     var items = JSON.parse(settings.data);
+                     var items = settings.data;
                      return(items[value]);
                   }, {
-                     data: '{$jed_commandList}',
+                     data: {$jed_commandList},
                      type: 'select',
                      submit: 'OK',
                      placeholder : '',
                      "height": "14px"
                   });
                }
-               if(Object.keys(jQuery.parseJSON('{$jed_categoryList}')).length > 0) {
+               if(Object.keys({$jed_categoryList}).length > 0) {
                   jQuery(this).find('.category').editable( function(value, settings) {
                      // set id in data table
                      var dataRow = getDataRowFromIssueRow(jQuery(this).parent());
                      dataRow.find('td.categoryid').text(value);
-                     var items = JSON.parse(settings.data);
+                     var items = settings.data;
                      return(items[value]);
                   }, {
-                     data: '{$jed_categoryList}',
+                     data: {$jed_categoryList},
                      type: 'select',
                      submit: 'OK',
                      placeholder : '',
                      "height": "14px"
                   });
                }
-               if(Object.keys(jQuery.parseJSON('{$jed_targetVersionList}')).length > 0) {
+               if(Object.keys({$jed_targetVersionList}).length > 0) {
                   jQuery(this).find('.targetVersion').editable( function(value, settings) {
                      // set id in data table
                      var dataRow = getDataRowFromIssueRow(jQuery(this).parent());
                      dataRow.find('td.targetversionid').text(value);
-                     var items = JSON.parse(settings.data);
+                     var items = settings.data;
                      return(items[value]);
                   }, {
-                     data: '{$jed_targetVersionList}',
+                     data: {$jed_targetVersionList},
                      type: 'select',
                      submit: 'OK',
                      placeholder : '',
                      "height": "14px"
                   });
                }
-               if(Object.keys(jQuery.parseJSON('{$jed_userList}')).length > 0) {
+               if(Object.keys({$jed_userList}).length > 0) {
                   jQuery(this).find('.userName').editable( function(value, settings) {
                      // set id in data table
                      var dataRow = getDataRowFromIssueRow(jQuery(this).parent());
                      dataRow.find('td.userid').text(value);
-                     var items = JSON.parse(settings.data);
+                     var items = settings.data;
                      return(items[value]);
                   }, {
-                     data: '{$jed_userList}',
+                     data: {$jed_userList},
                      type: 'select',
                      submit: 'OK',
                      placeholder : '',
