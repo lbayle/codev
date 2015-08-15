@@ -2,7 +2,7 @@
 
 DIR_PREV=$(pwd)
 
-TMP_DIR=/tmp/codevt_release
+TMP_DIR=/tmp/codevtt_release
 RELEASE_DATE=$(date +%Y%m%d)
 
 GIT_BRANCH="master"
@@ -138,9 +138,9 @@ f_ovh()
 
 CheckArgs $@
 
-DIR_RELEASE=${TMP_DIR}/codevtt_${GIT_BRANCH}
-ZIP_FILE="codevtt_${GIT_BRANCH}_${RELEASE_DATE}.zip"
-TGZ_FILE="codevtt_${GIT_BRANCH}_${RELEASE_DATE}.tgz"
+DIR_RELEASE=${TMP_DIR}/codevtt_v${GIT_BRANCH}
+ZIP_FILE="codevtt_v${GIT_BRANCH}_${RELEASE_DATE}.zip"
+TGZ_FILE="codevtt_v${GIT_BRANCH}_${RELEASE_DATE}.tgz"
 
 mkdir -p ${TMP_DIR}
 if [ ! -d "${TMP_DIR}" ]; then
@@ -151,7 +151,7 @@ fi
 # make a copy of the git repo
 cd ${TMP_DIR}
 rm -rf ${DIR_RELEASE}
-git clone ${GIT_REPO} codevtt_${GIT_BRANCH}
+git clone ${GIT_REPO} codevtt_v${GIT_BRANCH}
 cd ${DIR_RELEASE}
 echo "git checkout ${GIT_BRANCH}"
 git checkout -q ${GIT_BRANCH} 2>&1 > /dev/null
@@ -174,7 +174,7 @@ fi
 echo "create ZIP file: ${TMP_DIR}/${ZIP_FILE}"
 cd ${TMP_DIR}
 if [ -f ${TMP_DIR}/${ZIP_FILE} ] ; then rm ${TMP_DIR}/${ZIP_FILE} ; fi
-zip -r ${ZIP_FILE} codevtt_${GIT_BRANCH} 2>&1 > /dev/null
+zip -r ${ZIP_FILE} codevtt_v${GIT_BRANCH} 2>&1 > /dev/null
 retCode=$?
 if [ 0 -ne $retCode ] ; then
  echo "ERROR $retCode : ZIP failed !"
