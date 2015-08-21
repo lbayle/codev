@@ -93,6 +93,7 @@ class IssueInfoController extends Controller {
                      $this->smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, ($isManager || $isObserver), $displaySupport));
                      
                      $timeTracks = $issue->getTimeTracks();
+                     $this->smartyHelper->assign('jobDetails', $this->getJobDetails($timeTracks));
                      $this->smartyHelper->assign('timeDrift', $this->getTimeDrift($issue));
 
                      $this->smartyHelper->assign('months', $this->getCalendar($issue,$timeTracks));
@@ -159,6 +160,27 @@ class IssueInfoController extends Controller {
          }
       }
       return $commands;
+   }
+
+   /**
+    * Get info (color & name) for the jobs found in timetracks
+    * @param TimeTrack[] $timeTracks
+    * @return mixed[]
+    */
+   private function getJobDetails(array $timeTracks) {
+      $jobs = new Jobs();
+
+      $jobDetails = array();
+      foreach ($timeTracks as $tt) {
+         $jobid = $tt->getJobId();
+         if(!array_key_exists($jobid,$jobDetails)) {
+            $jobDetails[$jobid] = array(
+               "jobColor" => $jobs->getJobColor($jobid),
+               "jobName" => $jobs->getJobName($jobid),
+            );
+         }
+      }
+      return $jobDetails;
    }
 
    /**
