@@ -23,7 +23,7 @@ CheckArgs ()
       case $1 in
 
          --locale | -l )
-	        shift
+            shift
             LOCALE="$1"
             ;;
 
@@ -43,7 +43,7 @@ CheckArgs ()
          * )
             echo "WARNING: Unknown arg '$1' (skipped)"
             
-	    ;;
+        ;;
       esac
       shift
    done
@@ -117,9 +117,12 @@ f_createTemplateFile ()
     echo "ERROR: template file ${templatePoFile} not found !"
     exit 1
   else
+    sed -i s/charset=CHARSET/charset=UTF-8/g ${templatePoFile}
+    sed -i "s/Language: /Language: ${LOCALE}/g" ${templatePoFile}
+    
     if [ -f ${FILE_PO} ]
     then
-      sed --in-place ${templatePoFile} --expression='s/CHARSET/UTF-8/'
+      sed -i s/charset=CHARSET/charset=UTF-8/g ${FILE_PO}
 
       echo "  - merge with existing ${FILE_PO}"
       msgmerge -o ${mergedPoFile} ${FILE_PO} ${templatePoFile}
@@ -141,6 +144,7 @@ f_createTemplateFile ()
       mv ${templatePoFile} ${FILE_PO}
     fi
     sed -i 's|#. tpl|#: tpl|g' ${FILE_PO}
+
   fi
 }
 
@@ -171,15 +175,19 @@ f_genFileList $DIR_LIST
 if [ "Yes" == "$doTemplate" ]
 then
   f_createTemplateFile
-  echo "READY."
-  echo "  - Now edit $FILE_PO and run script again with option --compile"
+  #echo "READY."
 fi
 
 if [ "Yes" == "$doCompile" ]
 then
   f_compileTemplateFile
   rm i18n/locale/smarty.c
-  echo "DONE."
+  #echo "DONE."
+  echo " "  
   echo "  - Locale file generated: $FILE_MO"
+else
+  echo " "  
+  echo "  - Now edit $FILE_PO and run script again with option --compile"
 fi
+echo " "  
 

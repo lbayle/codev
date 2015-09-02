@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-06 00:23+0200\n"
+"POT-Creation-Date: 2015-09-03 00:49+0200\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -71,12 +71,12 @@ msgstr "Export CSV"
 #: tpl/modal/select_issues.html
 #: tpl/index.html
 #. insert in front
-#: classes/issue.class.php:2213 classes/issue_selection.class.php:280
+#: classes/issue.class.php:2223 classes/issue_selection.class.php:280
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
 #: management/command_info.php:223 management/servicecontract_info.php:150
 #: management/commandset_info.php:153 reports/export_csv_tools.php:51
-#: reports/planning_report.php:214 reports/project_info.php:282
+#: reports/planning_report.php:235 reports/project_info.php:282
 #: reports/project_info.php:293 reports/project_info.php:305 index.php:195
 #: tools.php:1474
 msgid "Summary"
@@ -110,7 +110,7 @@ msgstr "Description"
 #: classes/wbsElement.class.php:581 classes/issue_selection.class.php:279
 #: filters/ProjectFilter.php:59 management/command_info.php:222
 #: management/servicecontract_info.php:149 management/commandset_info.php:152
-#: reports/export_csv_tools.php:48 reports/planning_report.php:213
+#: reports/export_csv_tools.php:48 reports/planning_report.php:234
 #: reports/project_info.php:281 reports/project_info.php:292
 #: reports/project_info.php:304 tests/odt.php:25 index.php:194 tools.php:1468
 msgid "Project"
@@ -649,7 +649,7 @@ msgstr "Réestimé"
 #: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
 #: tpl/modal/update_issueBacklog.html
-#: classes/issue.class.php:2192
+#: classes/issue.class.php:2202
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:317
 #: reports/project_info.php:240 tests/filters.php:70
 msgid "Elapsed"
@@ -860,7 +860,7 @@ msgstr "Charges Vendues"
 #: tpl/command_info.html
 #: tpl/issue_info.html
 #: tpl/planning_report.html
-#: classes/consistency_check2.class.php:679 classes/scheduler.class.php:74
+#: classes/consistency_check2.class.php:700 classes/scheduler.class.php:74
 msgid "days"
 msgstr "jours"
 
@@ -972,7 +972,7 @@ msgstr "Créez la commande avant d'y ajouter des tâches."
 #: tpl/team_activity_report.html
 #: tpl/modal/select_issues.html
 #: tpl/project_activity_report.html
-#: classes/issue.class.php:2220 tools.php:1478
+#: classes/issue.class.php:2230 tools.php:1478
 msgid "Target"
 msgstr "V.Ciblée"
 
@@ -1054,7 +1054,7 @@ msgstr "Ajouter Provision"
 #: tpl/command_edit.html
 #: tpl/tools/wbsEditor.html
 #: tpl/tools/dashboard.html
-#: management/command_edit.php:203 management/servicecontract_edit.php:138
+#: management/command_edit.php:201 management/servicecontract_edit.php:138
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -1204,7 +1204,7 @@ msgstr "Réf"
 #: tpl/import_issues.html
 #: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
-#: classes/consistency_check2.class.php:574
+#: classes/consistency_check2.class.php:595
 msgid "Command"
 msgstr "Commande"
 
@@ -1507,8 +1507,8 @@ msgstr "Emis par"
 
 #: tpl/export_odt.html
 #: tpl/issue_info.html
-#: classes/wbsElement.class.php:584 reports/export_csv_weekly.php:185
-#: reports/export_csv_tools.php:68
+#: tpl/modal/update_issueBacklog.html
+#: reports/export_csv_weekly.php:185 reports/export_csv_tools.php:68
 msgid "Assigned to"
 msgstr "Assigné à"
 
@@ -1654,7 +1654,7 @@ msgstr "(generique) Mise à jour du WIKI"
 #. Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
 #. Display Empty Command Form
 #. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
-#: management/command_edit.php:111 management/servicecontract_edit.php:86
+#: management/command_edit.php:109 management/servicecontract_edit.php:86
 msgid "Create"
 msgstr "Créer"
 
@@ -1920,13 +1920,13 @@ msgstr "Réf. Externe"
 
 #: tpl/issue_info.html
 #: tpl/planning_report.html
-#: classes/issue.class.php:2222 reports/export_csv_tools.php:57 tools.php:1480
+#: classes/issue.class.php:2232 reports/export_csv_tools.php:57 tools.php:1480
 msgid "Priority"
 msgstr "Priorité"
 
 #: tpl/issue_info.html
 #: tpl/planning_report.html
-#: classes/issue.class.php:2218 tools.php:1482
+#: classes/issue.class.php:2228 tools.php:1482
 msgid "Severity"
 msgstr "Criticité"
 
@@ -2263,7 +2263,7 @@ msgid "Blog"
 msgstr "Blog"
 
 #: tpl/menu/global_menu.html
-#: install/install_step3.php:872 install/install_menu.inc.php:68
+#: install/install_step3.php:866 install/install_menu.inc.php:68
 msgid "Documentation"
 msgstr "Documentation"
 
@@ -2368,15 +2368,15 @@ msgstr "Couleur du poste"
 #: tpl/edit_jobs.html
 #: tpl/planning_report.html
 #: tpl/edit_holidays.html
-#: install/install_step3.php:658 install/install_step3.php:663
-#: install/install_step3.php:668 install/install_step3.php:674
-#: install/install_step3.php:679
+#: install/install_step3.php:652 install/install_step3.php:657
+#: install/install_step3.php:662 install/install_step3.php:668
+#: install/install_step3.php:673
 msgid "Color"
 msgstr "Couleur"
 
 #: tpl/edit_jobs.html
 #: tpl/edit_holidays.html
-#: install/install_step3.php:648
+#: install/install_step3.php:642
 msgid "open a colorPicker in a new Tab"
 msgstr "Ouvrir un sélecteur de couleur dans un nouvel onglet"
 
@@ -2438,6 +2438,14 @@ msgid "zoom out"
 msgstr "réduire l'échelle"
 
 #: tpl/planning_report.html
+msgid "Options"
+msgstr "Options"
+
+#: tpl/planning_report.html
+msgid "Planning Options"
+msgstr "Options du planning"
+
+#: tpl/planning_report.html
 #: tpl/modal/consistency_check.html
 msgid "Click to show errors"
 msgstr "Cliquer pour afficher les erreurs"
@@ -2447,7 +2455,7 @@ msgstr "Cliquer pour afficher les erreurs"
 #: management/servicecontract_info.php:91
 #: management/servicecontract_info.php:92 management/commandset_info.php:95
 #: reports/issue_info.php:85 reports/issue_info.php:86
-#: timetracking/team_activity_report.php:65 timetracking/time_tracking.php:278
+#: timetracking/team_activity_report.php:65 timetracking/time_tracking.php:285
 #: timetracking/team_monthly_activity_report.php:75
 msgid "Errors"
 msgstr "Erreurs"
@@ -3336,24 +3344,24 @@ msgstr "Vu !"
 msgid "Hide"
 msgstr "Cacher"
 
-#: classes/user.class.php:1681
+#: classes/user.class.php:1696
 msgid "[CodevTT] Timesheet reminder !"
 msgstr "[CodevTT] Saisie du CRA !"
 
-#: classes/user.class.php:1683
+#: classes/user.class.php:1698
 msgid "Dear "
 msgstr "Cher(e) "
 
-#: classes/user.class.php:1684
+#: classes/user.class.php:1699
 msgid "Please fill your CodevTT timesheet:"
 msgstr "Merci de saisir votre compte rendu d'activité: "
 
-#: classes/user.class.php:1694 classes/consistency_check2.class.php:677
+#: classes/user.class.php:1710 classes/consistency_check2.class.php:698
 msgid "incomplete (missing "
 msgstr "incomplet (manque "
 
 #. skip dates in the future
-#: classes/user.class.php:1697 classes/consistency_check2.class.php:692
+#: classes/user.class.php:1713 classes/consistency_check2.class.php:713
 msgid "not defined."
 msgstr "non défini."
 
@@ -3405,32 +3413,32 @@ msgstr "Contraint par"
 msgid "Constrains"
 msgstr "Contraint"
 
-#: classes/issue.class.php:2182 classes/wbsElement.class.php:585
+#: classes/issue.class.php:2192 classes/wbsElement.class.php:585
 #: tools.php:1462
 msgid "Tags"
 msgstr "Balises"
 
-#: classes/issue.class.php:2190
+#: classes/issue.class.php:2200
 msgid "none"
 msgstr "aucun(e)"
 
-#: classes/issue.class.php:2195
+#: classes/issue.class.php:2205
 msgid "DriftColor"
 msgstr "DriftColor"
 
-#: classes/issue.class.php:2198 tools.php:229
+#: classes/issue.class.php:2208 tools.php:229
 msgid "DriftMgr"
 msgstr "Dérive Mgr"
 
-#: classes/issue.class.php:2199
+#: classes/issue.class.php:2209
 msgid "DriftMgrColor"
 msgstr "DriftMgrColor"
 
-#: classes/issue.class.php:2216 tools.php:1476
+#: classes/issue.class.php:2226 tools.php:1476
 msgid "Assigned"
 msgstr "Assigné à"
 
-#: classes/issue.class.php:2224 tools.php:1484
+#: classes/issue.class.php:2234 tools.php:1484
 msgid "ETA"
 msgstr "ETA"
 
@@ -3545,28 +3553,28 @@ msgstr "La tâche n'est assignée à personne"
 msgid "The task is not referenced in any Command."
 msgstr "La tâche n'est référencée dans aucune commande."
 
-#: classes/consistency_check2.class.php:574
+#: classes/consistency_check2.class.php:595
 msgid "is not referenced in any CommandSet"
 msgstr "n'est référencée dans aucune MacroCommande."
 
-#: classes/consistency_check2.class.php:602
+#: classes/consistency_check2.class.php:623
 msgid "is not referenced in any ServiceContract"
 msgstr "n'est référencée dans aucun Contrat de Service."
 
-#: classes/consistency_check2.class.php:677
+#: classes/consistency_check2.class.php:698
 msgid " days"
 msgstr " jours"
 
-#: classes/consistency_check2.class.php:679
+#: classes/consistency_check2.class.php:700
 msgid "inconsistent"
 msgstr "incohérent"
 
-#: classes/consistency_check2.class.php:712
+#: classes/consistency_check2.class.php:733
 msgid "No default project workflow defined in mantis DB"
 msgstr ""
 "Aucun cycle de vie (workflow) par défaut n'est défini dans la BDD mantis"
 
-#: classes/scheduler.class.php:81 reports/planning_report.php:185
+#: classes/scheduler.class.php:81 reports/planning_report.php:206
 msgid "monitored"
 msgstr "suivie"
 
@@ -3697,8 +3705,8 @@ msgstr "Moyenne des RAF"
 
 #: indicator_plugins/StatusHistoryIndicator/StatusHistoryIndicator.class.php:194
 #: management/commandset_tools.php:120 management/command_tools.php:103
-#: management/servicecontract_tools.php:275 reports/planning_report.php:325
-#: reports/planning_report.php:405
+#: management/servicecontract_tools.php:275 reports/planning_report.php:349
+#: reports/planning_report.php:433
 msgid "Y-m-d"
 msgstr "d-m-Y"
 
@@ -3766,56 +3774,49 @@ msgstr "Installation - Etape 3"
 msgid "CodevTT Administrators team"
 msgstr "Equipe d'administration CodevTT"
 
-#. echo "DEBUG create Variable : ".Config::id_ClientTeamid."<br/>";
-#. TODO should be a table, there can be more than one client !
-#. TODO clients are team specific !
-#: install/install_step3.php:220
-msgid "Customer teamId"
-msgstr "teamId du client"
-
-#: install/install_step3.php:418
+#: install/install_step3.php:412
 msgid "CodevTT_EffortEstim"
 msgstr "CodevTT_Charge Initiale"
 
-#: install/install_step3.php:421
+#: install/install_step3.php:415
 msgid "CodevTT_Type"
 msgstr "CodevTT_Type"
 
-#: install/install_step3.php:428
+#: install/install_step3.php:422
 msgid "CodevTT_Manager EffortEstim"
 msgstr "CodevTT_Charge Manager"
 
-#: install/install_step3.php:434
+#: install/install_step3.php:428
 msgid "CodevTT_External ID"
 msgstr "CodevTT_Ref. Externe"
 
-#: install/install_step3.php:437
+#: install/install_step3.php:431
 msgid "CodevTT_Deadline"
 msgstr "CodevTT_Deadline"
 
-#: install/install_step3.php:440
+#: install/install_step3.php:434
 msgid "CodevTT_Additional Effort"
 msgstr "CodevTT_Charge Additionnelle"
 
-#: install/install_step3.php:446
+#: install/install_step3.php:440
 msgid "CodevTT_Backlog"
 msgstr "CodevTT_RAF"
 
 #. createCustomField(T_("CodevTT_Delivery ticket"),   $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
-#: install/install_step3.php:453
+#: install/install_step3.php:447
 msgid "CodevTT_Delivery Date"
 msgstr "CodevTT_Date Livraison"
 
 #. ------ Reports
-#: install/install_step3.php:493
+#: install/install_step3.php:487
 msgid "Path to output files"
 msgstr "Répertoire d'export"
 
-#: install/install_step3.php:494
+#: install/install_step3.php:488
 msgid "Path to log files and other temporary files."
 msgstr "Dossier de logs et autres fchiers temporaires."
 
-#: install/install_step3.php:494
+#: install/install_step3.php:488
 msgid ""
 "Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need "
 "to create it first and give read/write access."
@@ -3824,103 +3825,103 @@ msgstr ""
 "créer avec les droits en lecture/écriture."
 
 #. ------ Status
-#: install/install_step3.php:511
+#: install/install_step3.php:505
 msgid "Workflow"
 msgstr "Workflow"
 
-#: install/install_step3.php:512
+#: install/install_step3.php:506
 msgid "Set equivalences in accordance to your Mantis workflow"
 msgstr "Précisez les équivalences en fonction de votre workflow Mantis"
 
 #. ------ Administrator
-#: install/install_step3.php:570
+#: install/install_step3.php:564
 msgid "CodevTT Administrator"
 msgstr "Administrateur CodevTT"
 
-#: install/install_step3.php:582
+#: install/install_step3.php:576
 msgid "More administrators can be defined later, for now you just need one."
 msgstr "D'autres administrateurs pourront être ajoutés ultérieurement."
 
 #. ------- External ID
-#: install/install_step3.php:586
+#: install/install_step3.php:580
 msgid "Tasks external ID field"
 msgstr "Champ personnalisé de la Réf. externe"
 
-#: install/install_step3.php:608
+#: install/install_step3.php:602
 msgid "Create a new CustomField"
 msgstr "Créer un champ personnalisé"
 
-#: install/install_step3.php:610
+#: install/install_step3.php:604
 msgid "Use this CustomField :"
 msgstr "Utiliser ce champ personnalisé :"
 
-#: install/install_step3.php:637
+#: install/install_step3.php:631
 msgid "Default Jobs"
 msgstr "Postes par défaut"
 
-#: install/install_step3.php:644
+#: install/install_step3.php:638
 msgid "CodevTT support management"
 msgstr "gestion du support"
 
-#: install/install_step3.php:655
+#: install/install_step3.php:649
 msgid "Specific to SideTasks"
 msgstr "Spécificité des tâches annexes"
 
-#: install/install_step3.php:686
+#: install/install_step3.php:680
 msgid "Select the projects to be managed with CodevTT"
 msgstr "Sélectionnez les projets à gérer avec CodevTT"
 
-#: install/install_step3.php:698
+#: install/install_step3.php:692
 msgid "Proceed Step 3"
 msgstr "Exécuter Etape 3"
 
-#: install/install_step3.php:839
+#: install/install_step3.php:833
 msgid "CodevTT admin"
 msgstr "CodevTT admin"
 
-#: install/install_step3.php:866
+#: install/install_step3.php:860
 msgid "Other external activity"
 msgstr "autre activité"
 
-#: install/install_step3.php:867
+#: install/install_step3.php:861
 msgid "Leave"
 msgstr "Absence"
 
-#: install/install_step3.php:868
+#: install/install_step3.php:862
 msgid "Sick Leave"
 msgstr "Maladie"
 
-#: install/install_step3.php:869
+#: install/install_step3.php:863
 msgid "Analyse"
 msgstr "Analyse"
 
-#: install/install_step3.php:870
+#: install/install_step3.php:864
 msgid "Development"
 msgstr "Dévelopement"
 
-#: install/install_step3.php:871
+#: install/install_step3.php:865
 msgid "Tests"
 msgstr "Tests"
 
-#: install/install_step3.php:945
+#: install/install_step3.php:939
 msgid "CodevTT_ExternalTasks"
 msgstr "CodevTT Taches Externes"
 
-#: install/install_step3.php:945
+#: install/install_step3.php:939
 msgid "CodevTT ExternalTasks Project"
 msgstr "CodevTT Projet de taches externes"
 
 #. cat="OtherInternal", status="closed"
-#: install/install_step3.php:993
+#: install/install_step3.php:987
 msgid "Any external task, NOT referenced in any mantis project"
 msgstr "Toutes activités non référencées dans un projet mantis"
 
 #. --- Create the 'Leave' task in ExternalTasks Project
-#: install/install_step3.php:996
+#: install/install_step3.php:990
 msgid "On holiday, leave, ..."
 msgstr "Congé, Maladie, ..."
 
-#: install/install_step3.php:997
+#: install/install_step3.php:991
 msgid "Sick"
 msgstr "Maladie"
 
@@ -4085,24 +4086,24 @@ msgstr "Etape 4"
 msgid "Installation finished"
 msgstr "Installation terminée"
 
-#: management/command_edit.php:223
+#: management/command_edit.php:221
 msgid "Add tasks to Command"
 msgstr "Ajouter les tâches à la commande ?"
 
-#: management/command_edit.php:224
+#: management/command_edit.php:222
 msgid "Add multiple tasks"
 msgstr "Ajouter plusieurs tâches"
 
-#: management/command_edit.php:225
+#: management/command_edit.php:223
 msgid "Add selection"
 msgstr "Ajouter la sélection"
 
-#: management/command_edit.php:226
+#: management/command_edit.php:224
 msgid "Note: Tasks already assigned to a Command are not displayed."
 msgstr ""
 "Note : Les tâches annexes définies dans les Commandes ne sont pas affichées."
 
-#: management/command_edit.php:227
+#: management/command_edit.php:225
 msgid "Add the selected issues to the Command ?"
 msgstr "Ajouter les Tâches sélectionnées à la commande ?"
 
@@ -4154,15 +4155,15 @@ msgstr "Date Livraison"
 msgid "Delivery Sheet"
 msgstr "Fiche De Livraison"
 
-#: reports/planning_report.php:182
+#: reports/planning_report.php:203
 msgid "onTime"
 msgstr "dans les temps"
 
-#: reports/planning_report.php:183
+#: reports/planning_report.php:204
 msgid "NOT onTime"
 msgstr "en retard"
 
-#: reports/planning_report.php:184
+#: reports/planning_report.php:205
 msgid "no deadLine"
 msgstr "sans deadLine"
 
@@ -4170,7 +4171,7 @@ msgstr "sans deadLine"
 msgid "Sorry, you need to be identified."
 msgstr "Vous devez être identifié."
 
-#: reports/issue_info.php:387
+#: reports/issue_info.php:409
 msgid "Backlog (days)"
 msgstr "RAF (jours)"
 
@@ -4182,14 +4183,14 @@ msgstr "Test : exporter in ODT"
 msgid "Sorry, there are no projects defined for your team."
 msgstr "Désolé, il n'y a pas de projets définis pour cette équipe."
 
-#: timetracking/team_activity_report.php:66 timetracking/time_tracking.php:279
+#: timetracking/team_activity_report.php:66 timetracking/time_tracking.php:286
 #: timetracking/team_monthly_activity_report.php:76
 msgid "days are incomplete or undefined"
 msgstr "jours sont incomplets ou non définis"
 
 #: timetracking/team_activity_report.php:179
 #: timetracking/time_tracking_tools.php:70
-#: timetracking/time_tracking_tools.php:430 timetracking/time_tracking.php:374
+#: timetracking/time_tracking_tools.php:436 timetracking/time_tracking.php:381
 #: timetracking/team_monthly_activity_report.php:130
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Erreur : Tâche introuvable dans la BDD Mantis !"
@@ -4215,11 +4216,11 @@ msgstr "aujourd'hui"
 msgid "User not in team"
 msgstr "L'utilisateur ne fait pas partie de l'équipe"
 
-#: timetracking/time_tracking.php:131
+#: timetracking/time_tracking.php:132
 msgid "Timetrack not added: Job has not specified."
 msgstr "Imputation non créée: le poste doit être spécifié"
 
-#: timetracking/time_tracking.php:173
+#: timetracking/time_tracking.php:180
 msgid "Failed to delete the timetrack !"
 msgstr "Impossible de supprimer l'imputation !"
 
@@ -4230,6 +4231,9 @@ msgstr "S"
 #: tools.php:1413
 msgid "AddEffortEstim"
 msgstr "Charge Additionnelle"
+
+#~ msgid "Customer teamId"
+#~ msgstr "teamId du client"
 
 #~ msgid "Forecasting"
 #~ msgstr "Prévisionnel"

@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-17 00:06+0200\n"
+"POT-Creation-Date: 2015-09-03 00:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: es-ES\n"
+"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -75,7 +76,7 @@ msgstr ""
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
 #: management/command_info.php:223 management/servicecontract_info.php:150
 #: management/commandset_info.php:153 reports/export_csv_tools.php:51
-#: reports/planning_report.php:214 reports/project_info.php:282
+#: reports/planning_report.php:235 reports/project_info.php:282
 #: reports/project_info.php:293 reports/project_info.php:305 index.php:195
 #: tools.php:1474
 msgid "Summary"
@@ -109,7 +110,7 @@ msgstr ""
 #: classes/wbsElement.class.php:581 classes/issue_selection.class.php:279
 #: filters/ProjectFilter.php:59 management/command_info.php:222
 #: management/servicecontract_info.php:149 management/commandset_info.php:152
-#: reports/export_csv_tools.php:48 reports/planning_report.php:213
+#: reports/export_csv_tools.php:48 reports/planning_report.php:234
 #: reports/project_info.php:281 reports/project_info.php:292
 #: reports/project_info.php:304 tests/odt.php:25 index.php:194 tools.php:1468
 msgid "Project"
@@ -851,7 +852,7 @@ msgstr ""
 #: tpl/command_info.html
 #: tpl/issue_info.html
 #: tpl/planning_report.html
-#: classes/consistency_check2.class.php:679 classes/scheduler.class.php:74
+#: classes/consistency_check2.class.php:700 classes/scheduler.class.php:74
 msgid "days"
 msgstr ""
 
@@ -1045,7 +1046,7 @@ msgstr ""
 #: tpl/command_edit.html
 #: tpl/tools/wbsEditor.html
 #: tpl/tools/dashboard.html
-#: management/command_edit.php:203 management/servicecontract_edit.php:138
+#: management/command_edit.php:201 management/servicecontract_edit.php:138
 msgid "Save"
 msgstr ""
 
@@ -1195,7 +1196,7 @@ msgstr ""
 #: tpl/import_issues.html
 #: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
-#: classes/consistency_check2.class.php:574
+#: classes/consistency_check2.class.php:595
 msgid "Command"
 msgstr ""
 
@@ -1639,7 +1640,7 @@ msgstr ""
 #. Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
 #. Display Empty Command Form
 #. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
-#: management/command_edit.php:111 management/servicecontract_edit.php:86
+#: management/command_edit.php:109 management/servicecontract_edit.php:86
 msgid "Create"
 msgstr ""
 
@@ -2407,6 +2408,14 @@ msgstr ""
 
 #: tpl/planning_report.html
 msgid "zoom out"
+msgstr ""
+
+#: tpl/planning_report.html
+msgid "Options"
+msgstr ""
+
+#: tpl/planning_report.html
+msgid "Planning Options"
 msgstr ""
 
 #: tpl/planning_report.html
@@ -3291,24 +3300,24 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: classes/user.class.php:1681
+#: classes/user.class.php:1696
 msgid "[CodevTT] Timesheet reminder !"
 msgstr ""
 
-#: classes/user.class.php:1683
+#: classes/user.class.php:1698
 msgid "Dear "
 msgstr ""
 
-#: classes/user.class.php:1684
+#: classes/user.class.php:1699
 msgid "Please fill your CodevTT timesheet:"
 msgstr ""
 
-#: classes/user.class.php:1695 classes/consistency_check2.class.php:677
+#: classes/user.class.php:1710 classes/consistency_check2.class.php:698
 msgid "incomplete (missing "
 msgstr ""
 
 #. skip dates in the future
-#: classes/user.class.php:1698 classes/consistency_check2.class.php:692
+#: classes/user.class.php:1713 classes/consistency_check2.class.php:713
 msgid "not defined."
 msgstr ""
 
@@ -3496,27 +3505,27 @@ msgstr ""
 msgid "The task is not referenced in any Command."
 msgstr ""
 
-#: classes/consistency_check2.class.php:574
+#: classes/consistency_check2.class.php:595
 msgid "is not referenced in any CommandSet"
 msgstr ""
 
-#: classes/consistency_check2.class.php:602
+#: classes/consistency_check2.class.php:623
 msgid "is not referenced in any ServiceContract"
 msgstr ""
 
-#: classes/consistency_check2.class.php:677
+#: classes/consistency_check2.class.php:698
 msgid " days"
 msgstr ""
 
-#: classes/consistency_check2.class.php:679
+#: classes/consistency_check2.class.php:700
 msgid "inconsistent"
 msgstr ""
 
-#: classes/consistency_check2.class.php:712
+#: classes/consistency_check2.class.php:733
 msgid "No default project workflow defined in mantis DB"
 msgstr ""
 
-#: classes/scheduler.class.php:81 reports/planning_report.php:185
+#: classes/scheduler.class.php:81 reports/planning_report.php:206
 msgid "monitored"
 msgstr ""
 
@@ -3645,8 +3654,8 @@ msgstr ""
 
 #: indicator_plugins/StatusHistoryIndicator/StatusHistoryIndicator.class.php:194
 #: management/commandset_tools.php:120 management/command_tools.php:103
-#: management/servicecontract_tools.php:275 reports/planning_report.php:325
-#: reports/planning_report.php:405
+#: management/servicecontract_tools.php:275 reports/planning_report.php:349
+#: reports/planning_report.php:433
 msgid "Y-m-d"
 msgstr ""
 
@@ -4018,23 +4027,23 @@ msgstr ""
 msgid "Installation finished"
 msgstr ""
 
-#: management/command_edit.php:223
+#: management/command_edit.php:221
 msgid "Add tasks to Command"
 msgstr ""
 
-#: management/command_edit.php:224
+#: management/command_edit.php:222
 msgid "Add multiple tasks"
 msgstr ""
 
-#: management/command_edit.php:225
+#: management/command_edit.php:223
 msgid "Add selection"
 msgstr ""
 
-#: management/command_edit.php:226
+#: management/command_edit.php:224
 msgid "Note: Tasks already assigned to a Command are not displayed."
 msgstr ""
 
-#: management/command_edit.php:227
+#: management/command_edit.php:225
 msgid "Add the selected issues to the Command ?"
 msgstr ""
 
@@ -4086,15 +4095,15 @@ msgstr ""
 msgid "Delivery Sheet"
 msgstr ""
 
-#: reports/planning_report.php:182
+#: reports/planning_report.php:203
 msgid "onTime"
 msgstr ""
 
-#: reports/planning_report.php:183
+#: reports/planning_report.php:204
 msgid "NOT onTime"
 msgstr ""
 
-#: reports/planning_report.php:184
+#: reports/planning_report.php:205
 msgid "no deadLine"
 msgstr ""
 
@@ -4102,7 +4111,7 @@ msgstr ""
 msgid "Sorry, you need to be identified."
 msgstr ""
 
-#: reports/issue_info.php:387
+#: reports/issue_info.php:409
 msgid "Backlog (days)"
 msgstr ""
 
