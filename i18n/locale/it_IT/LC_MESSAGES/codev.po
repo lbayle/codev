@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-09 23:47+0200\n"
-"PO-Revision-Date: 2015-09-09 08:25+0200\n"
+"POT-Creation-Date: 2015-09-15 22:17+0200\n"
+"PO-Revision-Date: 2015-09-09 11:15+0200\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it\n"
@@ -224,7 +224,7 @@ msgstr "Indicatore di produttività"
 #: tpl/productivity_report.html
 #: tpl/statistics.html
 msgid "Adherence to deadlines"
-msgstr "Rispetto dei tempi di consegna"
+msgstr "Rispetto dele scadenze"
 
 #: tpl/productivity_report.html
 #: tpl/forecasting_report.html
@@ -440,7 +440,7 @@ msgstr "elaborato"
 
 #: tpl/productivity_report.html
 msgid "Tasks having no deadLine are not reported here"
-msgstr "Le attività senza Linea di fine non sono rappresentate qui."
+msgstr "Le attività senza scadenza non sono rappresentate qui."
 
 #: tpl/productivity_report.html
 #: tpl/command_edit.html
@@ -478,7 +478,7 @@ msgstr "Data consegna"
 #: tpl/issue_info.html
 #: tpl/planning_report.html
 msgid "DeadLine"
-msgstr "DeadLine"
+msgstr "Scadenza"
 
 #: tpl/productivity_report.html
 msgid "Tasks delivered on time"
@@ -666,7 +666,7 @@ msgstr "RAF"
 #: tpl/productivity_report.html
 #: tpl/forecasting_report.html
 msgid "Drift relatively to the managers Estimation"
-msgstr "Tendenza relativo alla stima del Manager"
+msgstr "Tendenza relativa alla stima del Manager"
 
 #: tpl/productivity_report.html
 #: tpl/command_info.html
@@ -681,7 +681,7 @@ msgstr "Tendenza relativo alla stima del Manager"
 #: reports/project_info.php:185 reports/project_info.php:242
 #: tests/filters.php:72
 msgid "Drift Mgr"
-msgstr "Tendenza Mgr"
+msgstr "Mgr Tendenza"
 
 #: tpl/productivity_report.html
 #: tpl/forecasting_report.html
@@ -708,15 +708,15 @@ msgstr "Stato"
 
 #: tpl/productivity_report.html
 msgid "Drift - Tasks (ExtRefOnly)"
-msgstr "Tendenza - Attività esterne (ExtRefOnly)"
+msgstr "Tendenza - Attività (ExtRefOnly)"
 
 #: tpl/productivity_report.html
 msgid "Drift (ExtRefOnly)"
-msgstr "Tendenza - Attività esterne (ExtRefOnly)"
+msgstr "Tendenza - (ExtRefOnly)"
 
 #: tpl/productivity_report.html
 msgid "Drift ExtRefOnly"
-msgstr "Tendenza - Attività esterne (ExtRefOnly)"
+msgstr "Tendenza ExtRefOnly"
 
 #: tpl/productivity_report.html
 msgid "Tasks without ExternalRef are excluded"
@@ -838,7 +838,7 @@ msgstr "Data fine"
 #: tpl/import_issues.html
 #: tpl/modal/update_issueBacklog.html
 msgid "Deadline"
-msgstr "Linea di arrivo"
+msgstr "Scadenza"
 
 #: tpl/command_edit.html
 #: tpl/command_info.html
@@ -1166,7 +1166,7 @@ msgstr "Eliminare questa Macro?"
 
 #: tpl/commandset_edit.html
 msgid "Nb Commands"
-msgstr "N° Comandi"
+msgstr "N° Ordini"
 
 #: tpl/commandset_edit.html
 msgid "Service Contracts"
@@ -1176,7 +1176,7 @@ msgstr "Contratti di servizio"
 #: tpl/issue_info.html
 #: tpl/servicecontract_info.html
 msgid "Commands"
-msgstr "Comandi"
+msgstr "Ordini"
 
 #: tpl/commandset_edit.html
 msgid "--- New Command ---"
@@ -1207,7 +1207,7 @@ msgstr "Ordine"
 
 #: tpl/commandset_edit.html
 msgid "Create the CommandSet to add some commands."
-msgstr "Crea la Macro per aggiungere i Comandi."
+msgstr "Crea la Macro per aggiungere gli Ordini."
 
 #: tpl/plugin_manager.html
 msgid "Check for new plugins in 'plugins' directory."
@@ -1341,7 +1341,7 @@ msgstr "Risultati in"
 
 #: tpl/command_info.html
 msgid "Set command filters"
-msgstr "Filtro comandi"
+msgstr "Filtro ordini"
 
 #: tpl/command_info.html
 msgid "--- Create New Command ---"
@@ -1359,11 +1359,11 @@ msgstr "Seleziona"
 
 #: tpl/command_info.html
 msgid "Command Filters"
-msgstr "Filtro Comandi"
+msgstr "Filtro Ordini"
 
 #: tpl/command_info.html
 msgid "Reduce the command selection by setting some filters"
-msgstr "Riduci la lista Comandi impostando alcuni filtri"
+msgstr "Riduci la lista Ordini impostando alcuni filtri"
 
 #: tpl/command_info.html
 msgid "Open task list in Mantis"
@@ -1558,7 +1558,7 @@ msgstr "Aggiungi il progetto delle attività esterne comuni"
 
 #: tpl/create_team.html
 msgid "Create specific SideTask Project"
-msgstr "Crea un progetto specifico delle attività collaterali "
+msgstr "Crea un progetto specifico di attività collaterale "
 
 #: tpl/create_team.html
 msgid ""
@@ -1674,7 +1674,7 @@ msgstr "Preferenze"
 
 #: tpl/edit_team.html
 msgid "Timetrack Durations"
-msgstr "Durata della traccia"
+msgstr "Durata della traccia lavoro"
 
 #: tpl/edit_team.html
 msgid "OnDuty tasks"
@@ -1854,7 +1854,7 @@ msgstr "Inattività"
 
 #: tpl/edit_team.html
 msgid "No 'inactivity' task defined in your SideTasks projects."
-msgstr "Nessun compito SideTasks ' inattività ' definito nei vostri progetti ."
+msgstr "Nessuna 'inattività' definito nei vostri progetti ."
 
 #: tpl/edit_team.html
 msgid "This task will no longer be identified as an 'OnDuty' task."
@@ -1866,15 +1866,15 @@ msgstr "Cancella attività OnDuty"
 
 #: tpl/edit_team.html
 msgid "Timetrack durations list"
-msgstr "Lista di durata timetrack"
+msgstr "Lista di durata delle tracce lavoro"
 
 #: tpl/edit_team.html
 msgid ""
 "These are the values proposed in the Timetracking page, when adding a "
 "timetrack."
 msgstr ""
-"Questi sono i valori proposti nella pagina timetracking, quando si aggiunge "
-"un TimeTrack."
+"Questi sono i valori proposti nella pagina delle tracce lavoro, quando si "
+"aggiunge una traccia lavoro."
 
 #: tpl/edit_team.html
 #: tpl/menu/global_menu.html
@@ -1940,7 +1940,7 @@ msgstr "Panoramica"
 
 #: tpl/issue_info.html
 msgid "Timetracks"
-msgstr "Timetracks"
+msgstr "Tracce lavoro"
 
 #: tpl/issue_info.html
 msgid "Time per Status"
@@ -2009,8 +2009,9 @@ msgid "Configure existing Projects"
 msgstr "Configura progetti esistenti"
 
 #: tpl/prepare_project.html
-msgid "Select the projects to be managed with CoDev Timetracking"
-msgstr "Seleziona i progetti da gestire con CodevTT"
+#, fuzzy
+msgid "Select the projects to be managed with CoDevTT"
+msgstr "Selezionare i progetti da gestire con CodevTT"
 
 #: tpl/prepare_project.html
 msgid "Prepare"
@@ -2090,7 +2091,7 @@ msgstr "Dettaglio"
 
 #: tpl/team_activity_report.html
 msgid "Timesheets"
-msgstr "Scheda attività"
+msgstr "Fogli lavoro"
 
 #: tpl/team_activity_report.html
 msgid "sum(Backlog) of assigned tasks"
@@ -2158,7 +2159,7 @@ msgstr "Home"
 
 #: tpl/menu/global_menu.html
 msgid "TimeTracking & team activity"
-msgstr "Monitoraggio & Attività del Team"
+msgstr "Tracce lavoro & Attività del Team"
 
 #: tpl/menu/global_menu.html
 msgid "Activity"
@@ -2198,7 +2199,7 @@ msgstr "Info attività"
 
 #: tpl/menu/global_menu.html
 msgid "Project Information"
-msgstr "Informaziuoni progetto"
+msgstr "Informazioni progetto"
 
 #: tpl/menu/global_menu.html
 msgid "Team Statistics"
@@ -2377,8 +2378,9 @@ msgid "open a colorPicker in a new Tab"
 msgstr "Apri il selettore del colore in una nuova scheda"
 
 #: tpl/edit_jobs.html
-msgid "Desirez-vous vraiment supprimer definitivement le poste"
-msgstr "Vuoi davvero cancellare questo job?"
+#, fuzzy
+msgid "Delete job"
+msgstr "Cancella il job"
 
 #: tpl/edit_jobs.html
 msgid "delete Job"
@@ -2389,8 +2391,9 @@ msgid "Job Assignations"
 msgstr "Assegna il job"
 
 #: tpl/edit_jobs.html
-msgid "Les champs suivants ont ete oublies"
-msgstr "I campi seguenti sono stati dimenticati"
+#, fuzzy
+msgid "Missing fields :"
+msgstr "Campo mancante"
 
 #: tpl/edit_jobs.html
 msgid "single selection"
@@ -2401,8 +2404,9 @@ msgid "multiple selection"
 msgstr "Selezione multipla"
 
 #: tpl/edit_jobs.html
-msgid "Desirez-vous vraiment supprimer definitivement l'association"
-msgstr "Vuoi davvero eliminare l'associazione?"
+#, fuzzy
+msgid "Remove this link :"
+msgstr "Elimina attività"
 
 #: tpl/edit_jobs.html
 msgid "delete Project Association"
@@ -2587,7 +2591,7 @@ msgstr ""
 msgid ""
 "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef"
 msgstr ""
-"Summario ; MgrEffortEstim ; EffortEstim ; Descrizione ; Data fine ; "
+"Sommario ; MgrEffortEstim ; EffortEstim ; Descrizione ; Scadenza ; "
 "ExternalRef"
 
 #: tpl/import_issues.html
@@ -2659,7 +2663,7 @@ msgstr "Vai a"
 
 #: tpl/servicecontract_info.html
 msgid "No sidetasks found."
-msgstr "Nessuna attività inclusa."
+msgstr "Nessuna attività collaterale inclusa."
 
 #: tpl/servicecontract_info.html
 msgid "All tasks"
@@ -2672,7 +2676,8 @@ msgstr "Nessun totale trovato."
 #: tpl/servicecontract_info.html
 msgid "Note: SideTasks already defined in Commands are not displayed."
 msgstr ""
-"Nota : Le attività incluse definite negli ordini non verranno mostrate."
+"Nota : Le attività colaterali incluse definite negli ordini non verranno "
+"mostrate."
 
 #: tpl/servicecontract_info.html
 msgid "No provision found."
@@ -2887,7 +2892,7 @@ msgstr "Cancella assegnazione"
 
 #: tpl/time_tracking.html
 msgid "Deleted the following timetrack ?"
-msgstr "Cancellare l'assegnazione seguente?"
+msgstr "Cancellare la traccia lavoro seguente?"
 
 #: tpl/gantt_report.html
 msgid "Gant report"
@@ -2972,7 +2977,7 @@ msgstr "Modifica nota"
 
 #: tpl/modal/edit_issueNote.html
 msgid "Delete timesheet note for task "
-msgstr "Cancella nota"
+msgstr "Cancella foglio lavoro per l'attività"
 
 #: tpl/modal/fairplay.html
 msgid "Fair play !"
@@ -3207,7 +3212,7 @@ msgstr "Incluso progetto attività esterne"
 
 #: tpl/project_activity_report.html
 msgid "With SideTasks Project"
-msgstr "Incluso progetto attività interne"
+msgstr "Incluso progetto attività collaterali"
 
 #: tpl/index.html
 msgid "IE may not correctly display this website"
@@ -3486,7 +3491,7 @@ msgstr "EffortEstim  non dovrebbe essere 0"
 
 #: classes/consistency_check2.class.php:203
 msgid "There should be no timetracks on \"new\" issues "
-msgstr "Non dovrebbero esserci fogli lavoro su nuovi tickets"
+msgstr "Non dovrebbero esserci tracce lavoro su nuovi tickets"
 
 #: classes/consistency_check2.class.php:204
 msgid "Issues should be referenced in a Command"
@@ -3508,8 +3513,8 @@ msgstr "I tickets dovrebbero essere assegnati a qualcuno"
 msgid ""
 "Check timetracks on removed issues (not needed if mantis plugin is enabled)"
 msgstr ""
-"Controlla i fogli lavoro sui tickets eliminati (non necessario se il plugin "
-"Mantis è abilitato)"
+"Controlla le tracce lavoro sui tickets eliminati (non necessario se il "
+"plugin Mantis è abilitato)"
 
 #: classes/consistency_check2.class.php:313
 #: classes/consistency_check.class.php:208
@@ -3841,7 +3846,7 @@ msgstr ""
 #. ------- External ID
 #: install/install_step3.php:580
 msgid "Tasks external ID field"
-msgstr "Tasks external ID field"
+msgstr "Campo ID attività esterna"
 
 #: install/install_step3.php:602
 msgid "Create a new CustomField"
@@ -3861,7 +3866,7 @@ msgstr "Codevtt gestione supporto"
 
 #: install/install_step3.php:649
 msgid "Specific to SideTasks"
-msgstr "Specific to SideTasks"
+msgstr "Specifico per attività collaterali"
 
 #: install/install_step3.php:680
 msgid "Select the projects to be managed with CodevTT"
@@ -3877,7 +3882,7 @@ msgstr "CodevTT admin"
 
 #: install/install_step3.php:860
 msgid "Other external activity"
-msgstr "altre attività"
+msgstr "altre attività esterne"
 
 #: install/install_step3.php:861
 msgid "Leave"
@@ -4165,7 +4170,7 @@ msgstr "in ritardo"
 
 #: reports/planning_report.php:205
 msgid "no deadLine"
-msgstr "senza data fine lavoro"
+msgstr "senza scadenza"
 
 #: reports/team_dashboard.php:89
 #, fuzzy
@@ -4219,11 +4224,11 @@ msgstr "Utente non nel Team"
 
 #: timetracking/time_tracking.php:132
 msgid "Timetrack not added: Job has not specified."
-msgstr "Timetrack non aggiunta, il job non è stato specificato."
+msgstr "Traccia lavoro non aggiunta, il job non è stato specificato."
 
 #: timetracking/time_tracking.php:180
 msgid "Failed to delete the timetrack !"
-msgstr "Impossibile cancellare il timetrack!"
+msgstr "Impossibile cancellare la traccia lavoro!"
 
 #: smarty_tools.php:120
 msgid "W"
@@ -4240,25 +4245,37 @@ msgstr "AddEffortEstim"
 #~ msgstr "Avanzamento History"
 
 #~ msgid "Budget-Drift History"
-#~ msgstr "Avanzamento Tendenza Budget"
+#~ msgstr "Budget Tendenza - History"
 
 #~ msgid "Reopened Issues"
 #~ msgstr "Attività riaperte"
 
 #~ msgid "Internal Bugs Status History"
-#~ msgstr "Avanzamento dei bugs interni"
+#~ msgstr "Avanzamento dei tickets interni"
 
 #~ msgid "Graph showing the number of internal bugs per status."
-#~ msgstr "Grafico del numero dei bugs interni per stato."
+#~ msgstr "Grafico del numero dei tickets interni per stato."
 
 #~ msgid "Internal bugs have the following caracteristics:"
-#~ msgstr "I bugs interni sono identificati da:"
+#~ msgstr "I tickets interni sono identificati da:"
 
 #~ msgid "External Reference"
 #~ msgstr "Riferimenti esterni"
 
+#~ msgid "Select the projects to be managed with CoDev Timetracking"
+#~ msgstr "Seleziona i progetti da gestire con CodevTT tracce lavoro"
+
 #~ msgid "Forecasting"
 #~ msgstr "Previsioni"
+
+#~ msgid "You really want to delete this job?"
+#~ msgstr "Vuoi davvero cancellare questo job?"
+
+#~ msgid "Following fields have been forgotten"
+#~ msgstr "I campi seguenti sono stati dimenticati"
+
+#~ msgid "You really want to delete the association?"
+#~ msgstr "Vuoi davvero eliminare l'associazione?"
 
 #~ msgid "Open tasks that should have been delivered."
 #~ msgstr "Attività aperte ma non consegnate."
@@ -4292,7 +4309,7 @@ msgstr "AddEffortEstim"
 #~ msgstr "Esterne"
 
 #~ msgid "SideTask"
-#~ msgstr "Attività annesse"
+#~ msgstr "Attività colaterali"
 
 #~ msgid "All sideTasks Projects"
 #~ msgstr "Progetti attività collaterali"
