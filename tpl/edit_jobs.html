@@ -61,7 +61,7 @@
       <div style="margin-top: 1em;">
          <script type="text/javascript">
             function deleteJob(id, description){
-               var confirmString = "{t}Desirez-vous vraiment supprimer definitivement le poste{/t} '" + description + "' ?";
+               var confirmString = "{t}Delete job{/t} '" + description + "' ?";
                if (confirm(confirmString)) {
                   var form = jQuery("#deleteJobForm");
                   form.find("input[name=job_id]").val(id);
@@ -112,7 +112,7 @@
                jQuery("#addAssociationProject").click(function() {
                   // check fields
                   var foundError = 0;
-                  var msgString = "{t}Les champs suivants ont ete oublies{/t}:\n";
+                  var msgString = "{t}Missing fields :{/t}\n";
 
                   var form = jQuery("#addJobProjectAssociationForm");
                   var select = form.find("select[name=projects]").val();
@@ -171,7 +171,7 @@
    <div style="margin-top: 2em;">
       <script type="text/javascript">
          function deleteJobProjectAssociation(id, description){
-            var confirmString = "{t}Desirez-vous vraiment supprimer definitivement l'association{/t} '" + description + "' ?";
+            var confirmString = "{t}Remove this link :{/t} '" + description + "' ?";
             if (confirm(confirmString)) {
                var form = jQuery("#deleteJobProjectAssociationForm");
                form.find("input[name=asso_id]").val(id);
