@@ -222,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `codev_timetracking_table` (
   `jobid` int(11) NOT NULL,
   `date` int(11) DEFAULT NULL,
   `duration` float DEFAULT NULL,
-  `commiter_id` int(11) DEFAULT NULL,
+  `committer_id` int(11) DEFAULT NULL,
   `commit_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `bugid` (`bugid`),

@@ -1,0 +1,44 @@
+<div id="content" style="margin-left:10em;margin-right:10em">
+   {if isset($isGranted) && $isGranted}
+
+   <form id="formTimetracksInfo" method="post" class="formWithTabsHistory" action="{$page}">
+      <fieldset>
+         {include file="form/dateRangeSelector.html"}
+			<input type="hidden" name="action" value="displayTimetracksInfo" />
+         <input type="submit" value="{t}Display{/t}" />
+      </fieldset>
+    </form>
+
+   {if isset($timetracks)}
+      <script type="text/javascript" src="js_min/datatable.min.js"></script>
+      <table id="tt_table" class="datatable">
+         <thead>
+            <tr>
+               <th>{t}Date{/t}</th>
+               <th>{t}User{/t}</th>
+               <th>{t}Committer{/t}</th>
+               <th>{t}Commit date{/t}</th>
+               <th>{t}Job{/t}</th>
+               <th>{t}Duration{/t}</th>
+               <th>{t}Task{/t}</th>
+            </tr>
+         </thead>
+         <tbody>
+            {foreach from=$timetracks item=i key=id}
+            <tr>
+               <td>{$i.date}</td>
+               <td>{$i.user}</td>
+               <td>{$i.committer}</td>
+               <td>{$i.commit_date}</td>
+               <td>{$i.job}</td>
+               <td>{$i.duration}</td>
+               <td>{$i.task_id} / {$i.task_extRef} - {$i.task_summary}</td>
+            </tr>
+            {/foreach}
+         </tbody>
+      </table>
+      {/if}
+   {else}
+   <p class="center ui-state-error-text">{$error}</p>
+   {/if}
+</div>

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-03 00:49+0200\n"
+"POT-Creation-Date: 2015-09-18 00:26+0200\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -326,6 +326,8 @@ msgstr "Non disponible."
 #: tpl/set_holidays.html
 #: tpl/edit_jobs.html
 #: tpl/time_tracking.html
+#: tpl/timetracks_info.html
+#: reports/export_csv_weekly.php:183
 msgid "Job"
 msgstr "Poste"
 
@@ -1069,6 +1071,7 @@ msgstr "Enregistrer"
 #: tpl/servicecontract_info.html
 #: tpl/statistics.html
 #: tpl/time_tracking.html
+#: tpl/timetracks_info.html
 #: tpl/edit_holidays.html
 #: tpl/mantis_reports.html
 msgid "Date"
@@ -1317,7 +1320,8 @@ msgstr ""
 #: tpl/edit_jobs.html
 #: tpl/edit_holidays.html
 #: tpl/uninstall.html
-#: admin/logs.php:64 tests/plugin.php:87
+#: admin/logs.php:64 admin/timetracks_info.php:115
+#: admin/timetracks_info.php:118 tests/plugin.php:87
 msgid "Sorry, you need to be in the admin-team to access this page."
 msgstr "Vous devez faire partie de l'équipe d'admin pour accéder à cette page."
 
@@ -1467,6 +1471,8 @@ msgstr "Provision NON inclue dans 'check budget'"
 #: tpl/check.html
 #: tpl/forecasting_report.html
 #: tpl/import_issues.html
+#: tpl/timetracks_info.html
+#: install/install_step1.php:233
 msgid "User"
 msgstr "Utilisateur"
 
@@ -1843,11 +1849,12 @@ msgstr "Inactivité"
 #: tpl/planning_report.html
 #: tpl/check.html
 #: tpl/time_tracking.html
+#: tpl/timetracks_info.html
 #: tpl/modal/update_issueBacklog.html
 #: tpl/modal/edit_issueNote.html
 #: tpl/form/bugSelector.html
 #: tpl/project_activity_report.html
-#: reports/export_csv_weekly.php:182
+#: reports/export_csv_weekly.php:140 reports/export_csv_weekly.php:182
 msgid "Task"
 msgstr "Tâche"
 
@@ -1883,6 +1890,7 @@ msgstr ""
 
 #: tpl/edit_team.html
 #: tpl/menu/global_menu.html
+#: tpl/timetracks_info.html
 msgid "Display"
 msgstr "Afficher"
 
@@ -1944,8 +1952,9 @@ msgid "Overview"
 msgstr "Résumé"
 
 #: tpl/issue_info.html
+#: tpl/menu/global_menu.html
 msgid "Timetracks"
-msgstr "Activité"
+msgstr "Imputations"
 
 #: tpl/issue_info.html
 msgid "Time per Status"
@@ -2015,7 +2024,7 @@ msgid "Configure existing Projects"
 msgstr "Configuration des projets existants"
 
 #: tpl/prepare_project.html
-msgid "Select the projects to be managed with CoDev Timetracking"
+msgid "Select the projects to be managed with CoDevTT"
 msgstr "Sélectionnez les projets à gérer avec CodevTT"
 
 #: tpl/prepare_project.html
@@ -2381,8 +2390,8 @@ msgid "open a colorPicker in a new Tab"
 msgstr "Ouvrir un sélecteur de couleur dans un nouvel onglet"
 
 #: tpl/edit_jobs.html
-msgid "Desirez-vous vraiment supprimer definitivement le poste"
-msgstr "Désirez-vous vraiment supprimer définitivement le poste"
+msgid "Delete job"
+msgstr "Supprimer ce Poste"
 
 #: tpl/edit_jobs.html
 msgid "delete Job"
@@ -2393,8 +2402,8 @@ msgid "Job Assignations"
 msgstr "Assignations de Postes"
 
 #: tpl/edit_jobs.html
-msgid "Les champs suivants ont ete oublies"
-msgstr "Les champs suivants ont ete oubliés"
+msgid "Missing fields :"
+msgstr "Champs manquants :"
 
 #: tpl/edit_jobs.html
 msgid "single selection"
@@ -2405,8 +2414,8 @@ msgid "multiple selection"
 msgstr "sélection multiple"
 
 #: tpl/edit_jobs.html
-msgid "Desirez-vous vraiment supprimer definitivement l'association"
-msgstr "Désirez-vous vraiment supprimer définitivement l'association"
+msgid "Remove this link :"
+msgstr "Enlever l'association"
 
 #: tpl/edit_jobs.html
 msgid "delete Project Association"
@@ -2482,6 +2491,7 @@ msgstr "NbJoursRestants"
 
 #: tpl/planning_report.html
 #: tpl/time_tracking.html
+#: tpl/timetracks_info.html
 #: tpl/modal/update_issueBacklog.html
 msgid "Duration"
 msgstr "Durée"
@@ -2896,6 +2906,14 @@ msgstr "Supprimer l'imputation suivante ?"
 #: tpl/gantt_report.html
 msgid "Gant report"
 msgstr "Diagramme de Gantt"
+
+#: tpl/timetracks_info.html
+msgid "Committer"
+msgstr ""
+
+#: tpl/timetracks_info.html
+msgid "Commit date"
+msgstr ""
 
 #: tpl/modal/change_managedUser.html
 msgid "Select User"
@@ -4231,6 +4249,18 @@ msgstr "S"
 #: tools.php:1413
 msgid "AddEffortEstim"
 msgstr "Charge Additionnelle"
+
+#~ msgid "Select the projects to be managed with CoDev Timetracking"
+#~ msgstr "Sélectionnez les projets à gérer avec CodevTT"
+
+#~ msgid "Desirez-vous vraiment supprimer definitivement le poste"
+#~ msgstr "Désirez-vous vraiment supprimer définitivement le poste"
+
+#~ msgid "Les champs suivants ont ete oublies"
+#~ msgstr "Les champs suivants ont ete oubliés"
+
+#~ msgid "Desirez-vous vraiment supprimer definitivement l'association"
+#~ msgstr "Désirez-vous vraiment supprimer définitivement l'association"
 
 #~ msgid "Customer teamId"
 #~ msgstr "teamId du client"

@@ -40,6 +40,8 @@ class TimeTrack extends Model {
    private $jobId;
    private $date;
    private $duration;
+   private $committer_id;
+   private $commit_date;
 
    private $projectId;
    private $categoryId;
@@ -75,6 +77,8 @@ class TimeTrack extends Model {
       $this->jobId = $row->jobid;
       $this->date = $row->date;
       $this->duration = $row->duration;
+      $this->committer_id = $row->committer_id;
+      $this->commit_date = $row->commit_date;
 
       #echo "DEBUG TimeTrack $this->id $this->userId $this->bugId $this->jobId $this->date $this->duration $this->issue_projectId<br/>";
    }
@@ -101,14 +105,15 @@ class TimeTrack extends Model {
 
    /**
     * @static
-    * @param int $userid
+    * @param int $userid the user that worked on the task
     * @param int $bugid
     * @param int $job
     * @param int $timestamp
     * @param number $duration
+    * @param int $committer_id the user who added the timetrack (user or his manager)
     * @return int
     */
-   public static function create($userid, $bugid, $job, $timestamp, $duration) {
+   public static function create($userid, $bugid, $job, $timestamp, $duration, $committer_id) {
 
       if ((0 == $userid) ||
           (0 == $bugid) ||
@@ -118,8 +123,8 @@ class TimeTrack extends Model {
          self::$logger->error("create track : userid = $userid, bugid = $bugid, job = $job, timestamp = $timestamp, duration = $duration");
          return 0;
           }
-
-      $query = "INSERT INTO `codev_timetracking_table`  (`userid`, `bugid`, `jobid`, `date`, `duration`) VALUES ('$userid','$bugid','$job','$timestamp', '$duration');";
+      $commit_date=time();
+      $query = "INSERT INTO `codev_timetracking_table`  (`userid`, `bugid`, `jobid`, `date`, `duration`, `committer_id`, `commit_date`) VALUES ('$userid','$bugid','$job','$timestamp', '$duration', '$committer_id', '$commit_date');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -206,8 +211,15 @@ class TimeTrack extends Model {
       return $this->duration;
    }
 
+   public function getCommitterId() {
+      return $this->committer_id;
+   }
+   public function getCommitDate() {
+      return $this->commit_date;
+   }
+
 }
 
 TimeTrack::staticInit();
 
-?>
+

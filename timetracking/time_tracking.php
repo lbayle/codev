@@ -102,7 +102,7 @@ class TimeTrackingController extends Controller {
                $duration = Tools::getSecurePOSTNumberValue('duree');
 
                // dialogBox is not called, then track must be saved to DB
-               $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration);
+               $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration, $this->session_userid);
                if(self::$logger->isDebugEnabled()) {
                   self::$logger->debug("Track $trackid added  : userid=$managed_userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
                }
@@ -140,7 +140,7 @@ class TimeTrackingController extends Controller {
                } else {
                   $timestamp = (0 !== $defaultDate) ? Tools::date2timestamp($defaultDate) : 0;
 
-                  $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration);
+                  $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration, $this->session_userid);
                   if(self::$logger->isDebugEnabled()) {
                      self::$logger->debug("Track $trackid added  : userid=$managed_userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
                   }

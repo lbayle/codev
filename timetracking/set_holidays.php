@@ -112,7 +112,7 @@ class SetHolidaysController extends Controller {
 	                           if(self::$logger->isDebugEnabled()) {
 	                              self::$logger->debug(date("Y-m-d", $timestamp)." duration $imput job $job");
 	                           }
-	                           TimeTrack::create($managed_user->getId(), $defaultBugid, $job, $timestamp, $imput);
+	                           TimeTrack::create($managed_user->getId(), $defaultBugid, $job, $timestamp, $imput, $this->session_userid);
 	                        }
                         }
                      }
