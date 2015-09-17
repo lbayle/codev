@@ -291,18 +291,11 @@ function update_v12_to_v13() {
 }
 
 /**
- * update 1.0.x to 1.1.x (DB v11 to DB v12)
+ * update 1.0.3 to 1.0.4 (DB v13 to DB v14)
  *
  */
 function update_v13_to_v14() {
 
-   echo "- Update classmap.ser<br>";
-   try {
-      Tools::createClassMap();
-   } catch (Exception $e) {
-      echo "<span class='error_font'>Could not create classmap: ".$e->getMessage()."</span><br/>";
-      exit;
-   }
 
    $sqlScriptFilename = '../install/codevtt_update_v13_v14.sql';
    if (!file_exists($sqlScriptFilename)) {
@@ -317,6 +310,35 @@ function update_v13_to_v14() {
       exit;
    }
 }
+
+/**
+ * update 1.0.x to 1.1.0 (DB v14 to DB v15)
+ *
+ */
+function update_v14_to_v15() {
+
+   echo "- Update classmap.ser<br>";
+   try {
+      Tools::createClassMap();
+   } catch (Exception $e) {
+      echo "<span class='error_font'>Could not create classmap: ".$e->getMessage()."</span><br/>";
+      exit;
+   }
+
+   $sqlScriptFilename = '../install/codevtt_update_v14_v15.sql';
+   if (!file_exists($sqlScriptFilename)) {
+      echo "<span class='error_font'>SQL script not found:$sqlScriptFilename</span><br/>";
+      exit;
+   }
+   // execute the SQL script
+   echo "- Execute SQL script: $sqlScriptFilename<br>";
+   $retCode = Tools::execSQLscript2($sqlScriptFilename);
+   if (0 != $retCode) {
+      echo "<span class='error_font'>Could not execSQLscript: $sqlScriptFilename</span><br/>";
+      exit;
+   }
+}
+
 
 // =========== MAIN ==========
 $logger = Logger::getLogger("versionUpdater");

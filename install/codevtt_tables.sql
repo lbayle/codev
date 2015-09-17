@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
-('database_version', 14, 1),
+('database_version', 15, 1),
 ('blogCategories', '1:General,2:Imputations', 3);
 
 
@@ -222,6 +222,8 @@ CREATE TABLE IF NOT EXISTS `codev_timetracking_table` (
   `jobid` int(11) NOT NULL,
   `date` int(11) DEFAULT NULL,
   `duration` float DEFAULT NULL,
+  `commiter_id` int(11) DEFAULT NULL,
+  `commit_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `bugid` (`bugid`),
   KEY `userid` (`userid`),
