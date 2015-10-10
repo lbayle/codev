@@ -198,7 +198,7 @@ class PlanningReportController extends Controller {
                $dayPixSize = round($dayPixSize);
                #echo "DEBUG dayPixSize = $dayPixSize<br/>\n";
 
-               $this->smartyHelper->assign('planning', $this->getPlanning($nbDaysToDisplay, $dayPixSize, $allTasksLists, $workloads, $this->teamid));
+               $this->smartyHelper->assign('planning', $this->getPlanning($nbDaysToDisplay, $dayPixSize, $allTasksLists, $workloads, $this->teamid, $this->session_userid, $isManager));
                $this->smartyHelper->assign('colors', array(
                   "green" => T_("onTime"),
                   "red"   => T_("NOT onTime"),
@@ -271,7 +271,7 @@ class PlanningReportController extends Controller {
     * @param int $teamid
     * @return mixed[][][] The planning
     */
-   private function getPlanning($nbDaysToDisplay, $dayPixSize, array $allTasksLists, array $workloads, $teamid) {
+   private function getPlanning($nbDaysToDisplay, $dayPixSize, array $allTasksLists, array $workloads, $teamid, $session_userid, $isManager) {
       $days = array();
       for ($i = 0; $i < $nbDaysToDisplay; $i++) {
          $days[] = $dayPixSize - 1;
@@ -283,7 +283,7 @@ class PlanningReportController extends Controller {
             "workload" => $workloads[$userName],
             "username" => $userName,
             "deadlines" => $this->getUserDeadLines($teamid, $dayPixSize, $scheduledTaskList),
-            "scheduledTasks" => $this->getScheduledTasks($userName, $dayPixSize, $scheduledTaskList, $teamid)
+            "scheduledTasks" => $this->getScheduledTasks($userName, $dayPixSize, $scheduledTaskList, $teamid, $session_userid, $isManager)
          );
       }
 
@@ -378,7 +378,7 @@ class PlanningReportController extends Controller {
     * @param int $teamid
     * @return mixed[][]
     */
-   private function getScheduledTasks($userName, $dayPixSize, array $scheduledTaskList, $teamid) {
+   private function getScheduledTasks($userName, $dayPixSize, array $scheduledTaskList, $teamid, $session_userid, $isManager) {
       $totalPix = 0;
 
       $projList = TeamCache::getInstance()->getTeam($teamid)->getProjects();
@@ -410,7 +410,9 @@ class PlanningReportController extends Controller {
 
          $optDisplayExtRef = $this->session_user->getPlanningOption($teamid, 'displayExtRef');
          $displayedId = (1 == $optDisplayExtRef) ? $issue->getTcId() : $scheduledTask->getIssueId();
-         
+
+         $taskTooltip = $this->getTaskTooltip($issue, $scheduledTask, $teamid, $session_userid, $isManager);
+
          $sTask = array(
             "bugid" => $scheduledTask->getIssueId(),
             "extRef" => $issue->getTcId(),
@@ -419,12 +421,7 @@ class PlanningReportController extends Controller {
             "width" => $drawnTaskPixSize,
             "color" => $color,
             "strike" => !array_key_exists($issue->getProjectId(),$projList),
-            "duration" => $scheduledTask->getDuration(),
-            "priorityName" => $scheduledTask->getPriorityName(),
-            "severityName" => $scheduledTask->getSeverityName(),
-            "statusName" => $scheduledTask->getStatusName(),
-            "projectName" => $scheduledTask->getProjectName(),
-            "summary" => $scheduledTask->getSummary(),
+            "taskTooltip" => $taskTooltip,
          );
          if ($scheduledTask->isMonitored()) {
             $sTask["handlerName"] = $scheduledTask->getHandlerName();
@@ -455,7 +452,52 @@ class PlanningReportController extends Controller {
       }
       return $options;
    }
-   
+
+   private function getTaskTooltip($issue, $scheduledTask, $teamid, $session_userid, $isManager) {
+
+      $finalTooltipAttr = array();
+
+      $tooltipAttr = $issue->getTooltipItems($teamid, $session_userid, $isManager);
+      unset($tooltipAttr[T_('Status')]);
+      unset($tooltipAttr[T_('Priority')]);
+      unset($tooltipAttr[T_('Severity')]);
+      unset($tooltipAttr[T_('External ID')]);
+      unset($tooltipAttr[T_('Backlog')]);
+
+      // insert in front
+      if (!empty($issue->getTcId())) {
+         $finalTooltipAttr[T_('Task')] = $scheduledTask->getIssueId().' / '.$issue->getTcId();
+      } else {
+         $finalTooltipAttr[T_('Task')] = $scheduledTask->getIssueId();
+      }
+      if (array_key_exists($tooltipAttr, T_('Project'))) {
+         $finalTooltipAttr[T_('Project')] = $tooltipAttr[T_('Project')];
+      }
+      $finalTooltipAttr[T_('Summary')] = $scheduledTask->getSummary();
+
+      $finalTooltipAttr += $tooltipAttr;
+      $finalTooltipAttr[' '] = ' ';
+
+      $finalTooltipAttr[T_('Attributes')] =
+         T_('Status').': '.$scheduledTask->getStatusName().' - '.
+         T_('Priority').': '.$scheduledTask->getPriorityName().' - '.
+         T_('Severity').': '.$scheduledTask->getSeverityName();
+#         $finalTooltipAttr[T_('Attributes')] =
+#            T_('Status').':<strong>'.$scheduledTask->getStatusName().'</strong>,&nbsp; '.
+#            T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
+#            T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
+
+      $finalTooltipAttr[T_('Duration')] = $scheduledTask->getDuration().' '.T_('days');
+
+      if ($scheduledTask->getDeadline() > 0) {
+         $finalTooltipAttr[T_('DeadLine')] = date(T_("Y-m-d"), $scheduledTask->getDeadline());
+      }
+      if ($scheduledTask->isMonitored()) {
+         $finalTooltipAttr[T_('Monitored')] = $scheduledTask->getHandlerName();
+      }
+
+      return Tools::getTooltip($finalTooltipAttr);
+   }
 }
 
 // ========== MAIN ===========

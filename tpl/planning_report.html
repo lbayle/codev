@@ -194,48 +194,7 @@
                      {foreach from=$i.scheduledTasks key=id1 item=j}
                      <a class="task haveTooltip" target="_blank" href="reports/issue_info.php?bugid={$j.bugid}" style="margin-right: 1px;display:inline-block;"><img alt="{$j.bugid}" src="graphs/scheduledtask.png.php?height=20&width={$j.width}&text={$j.displayedId}&color={$j.color}{if $j.strike}&strike{/if}" height="20" width="{$j.width}" /></a>
                      <!-- tooltip element -->
-                     <div class="tooltip ui-helper-hidden">
-                        <table style="margin:0;border:0;padding:0;background-color:white;">
-                           <tbody>
-                              <tr>
-                                 <td style="color:blue;width:35px;">{t}Task{/t}</td>
-                                 <td>{$j.bugid} {if !empty($j.extRef)} / {$j.extRef}{/if}</td>
-                              </tr>
-                              <tr>
-                                 <td style="color:blue;width:35px;">{t}Project{/t}</td>
-                                 <td>{$j.projectName}</td>
-                              </tr>
-                              <tr>
-                                 <td style="color:blue;width:35px;" VALIGN="top">{t}Summary{/t}</td>
-                                 <td>{$j.summary}</td>
-                              </tr>
-                              <tr>
-                                 <td style="color:blue;width:35px;">&nbsp;</td>
-                                 <td></td>
-                              </tr>
-                              <tr>
-                                 <td style="color:blue;width:35px;">{t}Attributes{/t}</td>
-                                 <td>{t}Status{/t}:<strong>{$j.statusName}</strong>,&nbsp; {t}Priority{/t}:<strong>{$j.priorityName}</strong>,&nbsp; {t}Severity{/t}:<strong>{$j.severityName}</strong></td>
-                              </tr>
-                              <tr>
-                                 <td style="color:blue;width:35px;">{t}Duration{/t}</td>
-                                 <td>{$j.duration} {t}days{/t}</td>
-                              </tr>
-                              {if isset($j.deadLine)}
-                              <tr>
-                                 <td style="color:blue;width:35px;">{t}DeadLine{/t}</td>
-                                 <td>{$j.deadLine}</td>
-                              </tr>
-                              {/if}
-                              {if isset($j.handlerName)}
-                              <tr>
-                                 <td style="color:orange;width:35px;">{t}Monitored{/t}</td>
-                                 <td>({$j.handlerName})</td>
-                              </tr>
-                              {/if}
-                           </tbody>
-                        </table>
-                     </div>
+                     {$j.taskTooltip}
                      {/foreach}
                   </div>
                </td>
