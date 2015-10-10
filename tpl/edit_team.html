@@ -108,6 +108,8 @@
             </fieldset>
          </form>
 
+
+         {if $allowDeleteTeam}
          <h2>{t}Delete team{/t}</h2>
          <script type="text/javascript">
             jQuery(document).ready(function() {
@@ -126,7 +128,7 @@
                <input type="hidden" name="deletedteam" value="{$team->getId()}" />
             </fieldset>
          </form>
-
+         {/if}
       </div>
       <div id="tabTeamMembers">
          <h2>{t}Team Members{/t}</h2>

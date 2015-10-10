@@ -82,6 +82,10 @@ class EditTeamController extends Controller {
 
                $team = TeamCache::getInstance()->getTeam($displayed_teamid);
 
+               if ($displayed_teamid != Config::getInstance()->getValue(Config::id_adminTeamId)) {
+                  $this->smartyHelper->assign('allowDeleteTeam', 1);
+               }
+
                // ----------- actions ----------
                $action = isset($_POST['action']) ? $_POST['action'] : '';
                if ($action == "updateTeamLeader") {
@@ -245,7 +249,6 @@ class EditTeamController extends Controller {
                      'selected' => $id == $selectedUserid,
                   );
                }
-
 
                $this->smartyHelper->assign('users', $smartyUserList);
                $this->smartyHelper->assign('date', date("Y-m-d", $team->getDate()));
