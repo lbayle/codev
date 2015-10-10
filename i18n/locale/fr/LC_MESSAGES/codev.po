@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-18 00:26+0200\n"
+"POT-Creation-Date: 2015-10-11 00:27+0200\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -61,7 +61,6 @@ msgstr "Export CSV"
 #: tpl/command_edit.html
 #: tpl/command_info.html
 #: tpl/blog/blogpost_form.html
-#: tpl/planning_report.html
 #: tpl/check.html
 #: tpl/forecasting_report.html
 #: tpl/commandset_info.html
@@ -71,14 +70,14 @@ msgstr "Export CSV"
 #: tpl/modal/select_issues.html
 #: tpl/index.html
 #. insert in front
-#: classes/issue.class.php:2223 classes/issue_selection.class.php:280
+#: classes/issue_selection.class.php:280
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
 #: management/command_info.php:223 management/servicecontract_info.php:150
 #: management/commandset_info.php:153 reports/export_csv_tools.php:51
-#: reports/planning_report.php:235 reports/project_info.php:282
-#: reports/project_info.php:293 reports/project_info.php:305 index.php:195
-#: tools.php:1474
+#: reports/planning_report.php:235 reports/planning_report.php:476
+#: reports/project_info.php:282 reports/project_info.php:293
+#: reports/project_info.php:305 index.php:195 tools.php:1474
 msgid "Summary"
 msgstr "Description"
 
@@ -93,7 +92,6 @@ msgstr "Description"
 #: tpl/menu/global_menu.html
 #: tpl/set_holidays.html
 #: tpl/edit_jobs.html
-#: tpl/planning_report.html
 #: tpl/filters.html
 #: tpl/check.html
 #: tpl/forecasting_report.html
@@ -107,12 +105,14 @@ msgstr "Description"
 #: tpl/project_info.html
 #. write header
 #. WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
-#: classes/wbsElement.class.php:581 classes/issue_selection.class.php:279
-#: filters/ProjectFilter.php:59 management/command_info.php:222
-#: management/servicecontract_info.php:149 management/commandset_info.php:152
-#: reports/export_csv_tools.php:48 reports/planning_report.php:234
-#: reports/project_info.php:281 reports/project_info.php:292
-#: reports/project_info.php:304 tests/odt.php:25 index.php:194 tools.php:1468
+#: classes/issue.class.php:2217 classes/wbsElement.class.php:581
+#: classes/issue_selection.class.php:279 filters/ProjectFilter.php:59
+#: management/command_info.php:222 management/servicecontract_info.php:149
+#: management/commandset_info.php:152 reports/export_csv_tools.php:48
+#: reports/planning_report.php:234 reports/planning_report.php:473
+#: reports/planning_report.php:474 reports/project_info.php:281
+#: reports/project_info.php:292 reports/project_info.php:304 tests/odt.php:25
+#: index.php:194 tools.php:1468
 msgid "Project"
 msgstr "Projet"
 
@@ -152,8 +152,9 @@ msgstr "Avancement"
 #. $titles[] = T_("Elapsed");
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:260
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:318
-#: reports/project_info.php:184 reports/project_info.php:241
-#: tests/filters.php:71 tools.php:1401 tools.php:1410
+#: reports/planning_report.php:465 reports/project_info.php:184
+#: reports/project_info.php:241 tests/filters.php:71 tools.php:1401
+#: tools.php:1410
 msgid "Backlog"
 msgstr "Reste à faire"
 
@@ -481,7 +482,7 @@ msgstr "Date Livraison"
 
 #: tpl/productivity_report.html
 #: tpl/issue_info.html
-#: tpl/planning_report.html
+#: reports/export_csv_tools.php:55 reports/planning_report.php:493
 msgid "DeadLine"
 msgstr "DeadLine"
 
@@ -699,15 +700,15 @@ msgstr "Dérive par rapport au BI + BS"
 #: tpl/export_odt.html
 #: tpl/edit_team.html
 #: tpl/issue_info.html
-#: tpl/planning_report.html
 #: tpl/check.html
 #: tpl/forecasting_report.html
 #: tpl/time_tracking.html
 #: tpl/modal/update_issueBacklog.html
 #: tpl/modal/select_issues.html
 #: tpl/project_activity_report.html
-#: classes/wbsElement.class.php:583 reports/export_csv_tools.php:52
-#: reports/project_info.php:306 tools.php:1472
+#: classes/issue.class.php:2221 classes/wbsElement.class.php:583
+#: reports/export_csv_tools.php:52 reports/planning_report.php:461
+#: reports/planning_report.php:482 reports/project_info.php:306 tools.php:1472
 msgid "Status"
 msgstr "Statut"
 
@@ -767,10 +768,11 @@ msgstr "Nouvelle Commande"
 #: tpl/import_issues.html
 #: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
+#: tpl/timetracks_info.html
 #: tpl/form/teamForm.html
 #: tpl/form/teamSelector.html
 #: tpl/servicecontract_edit.html
-#: graphs/gantt_graph.php:97 graphs/gantt_graph.php:99
+#: graphs/gantt_graph.php:99
 msgid "Team"
 msgstr "Equipe"
 
@@ -862,7 +864,7 @@ msgstr "Charges Vendues"
 #: tpl/command_info.html
 #: tpl/issue_info.html
 #: tpl/planning_report.html
-#: classes/consistency_check2.class.php:700 classes/scheduler.class.php:74
+#: classes/scheduler.class.php:74 reports/planning_report.php:490
 msgid "days"
 msgstr "jours"
 
@@ -1320,8 +1322,8 @@ msgstr ""
 #: tpl/edit_jobs.html
 #: tpl/edit_holidays.html
 #: tpl/uninstall.html
-#: admin/logs.php:64 admin/timetracks_info.php:115
-#: admin/timetracks_info.php:118 tests/plugin.php:87
+#: admin/logs.php:64 admin/timetracks_info.php:134
+#: admin/timetracks_info.php:137 tests/plugin.php:87
 msgid "Sorry, you need to be in the admin-team to access this page."
 msgstr "Vous devez faire partie de l'équipe d'admin pour accéder à cette page."
 
@@ -1433,7 +1435,6 @@ msgstr "Charges"
 #: tpl/command_info.html
 #: tpl/issue_info.html
 #: tpl/tools/dashboard.html
-#: tpl/planning_report.html
 #: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
 msgid "Attributes"
@@ -1846,7 +1847,6 @@ msgstr "Inactivité"
 #: tpl/ajax/weekTaskDetails.html
 #: tpl/menu/global_menu.html
 #: tpl/set_holidays.html
-#: tpl/planning_report.html
 #: tpl/check.html
 #: tpl/time_tracking.html
 #: tpl/timetracks_info.html
@@ -1854,7 +1854,8 @@ msgstr "Inactivité"
 #: tpl/modal/edit_issueNote.html
 #: tpl/form/bugSelector.html
 #: tpl/project_activity_report.html
-#: reports/export_csv_weekly.php:140 reports/export_csv_weekly.php:182
+#: reports/export_csv_weekly.php:182 reports/planning_report.php:469
+#: reports/planning_report.php:471
 msgid "Task"
 msgstr "Tâche"
 
@@ -1927,14 +1928,14 @@ msgid "External Ref"
 msgstr "Réf. Externe"
 
 #: tpl/issue_info.html
-#: tpl/planning_report.html
-#: classes/issue.class.php:2232 reports/export_csv_tools.php:57 tools.php:1480
+#: reports/export_csv_tools.php:57 reports/planning_report.php:462
+#: reports/planning_report.php:483 tools.php:1480
 msgid "Priority"
 msgstr "Priorité"
 
 #: tpl/issue_info.html
-#: tpl/planning_report.html
-#: classes/issue.class.php:2228 tools.php:1482
+#: reports/planning_report.php:463 reports/planning_report.php:484
+#: tools.php:1482
 msgid "Severity"
 msgstr "Criticité"
 
@@ -2490,17 +2491,6 @@ msgid "nbDaysToDeadLine"
 msgstr "NbJoursRestants"
 
 #: tpl/planning_report.html
-#: tpl/time_tracking.html
-#: tpl/timetracks_info.html
-#: tpl/modal/update_issueBacklog.html
-msgid "Duration"
-msgstr "Durée"
-
-#: tpl/planning_report.html
-msgid "Monitored"
-msgstr "Suivie"
-
-#: tpl/planning_report.html
 msgid "day"
 msgstr "jour"
 
@@ -2856,6 +2846,17 @@ msgstr "ERREUR"
 #: tpl/time_tracking.html
 msgid "Query FAILED"
 msgstr "ECHEC de requête"
+
+#: tpl/time_tracking.html
+#: tpl/timetracks_info.html
+#: tpl/modal/update_issueBacklog.html
+#. $finalTooltipAttr[T_('Attributes')] =
+#. T_('Status').':<strong>'.$scheduledTask->getStatusName().'</strong>,&nbsp; '.
+#. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
+#. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
+#: reports/planning_report.php:490
+msgid "Duration"
+msgstr "Durée"
 
 #: tpl/time_tracking.html
 #: tpl/form/dateRangeSelector.html
@@ -3270,39 +3271,39 @@ msgstr " Erreur(s) dans vos Tâches"
 msgid "Couldn't delete the team"
 msgstr "La suppression de l'équipe a échouée"
 
-#: admin/edit_team.php:90
+#: admin/edit_team.php:94
 msgid "Couldn't update the team leader"
 msgstr "La mise à jour du team leader a échouée"
 
-#: admin/edit_team.php:101
+#: admin/edit_team.php:105
 msgid "Couldn't update the creation date"
 msgstr "La mise à jour de la date de création a échouée"
 
-#: admin/edit_team.php:106
+#: admin/edit_team.php:110
 msgid "Couldn't enable/disable team"
 msgstr "Impossible d'activer/désactiver l'équipe"
 
-#: admin/edit_team.php:199
+#: admin/edit_team.php:203
 msgid "Couldn't delete the member of the team"
 msgstr "Le retrait de l'utilisateur à échouée"
 
-#: admin/edit_team.php:213 admin/edit_team.php:216
+#: admin/edit_team.php:217 admin/edit_team.php:220
 msgid "Couldn't add the project to the team"
 msgstr "L'ajout du projet a échouée"
 
-#: admin/edit_team.php:222
+#: admin/edit_team.php:226
 msgid "Could NOT remove the project from the team"
 msgstr "Le retrait du projet a échoué"
 
-#: admin/edit_team.php:274
+#: admin/edit_team.php:277
 msgid "Configure Tooltips"
 msgstr "Configuration des infobulles"
 
-#: admin/edit_team.php:339
+#: admin/edit_team.php:342
 msgid "enabled"
 msgstr "activé"
 
-#: admin/edit_team.php:339
+#: admin/edit_team.php:342
 msgid "disabled"
 msgstr "désactivé"
 
@@ -3362,24 +3363,28 @@ msgstr "Vu !"
 msgid "Hide"
 msgstr "Cacher"
 
-#: classes/user.class.php:1696
+#: classes/user.class.php:1703
+msgid "for team"
+msgstr "pour l'équipe"
+
+#: classes/user.class.php:1705
 msgid "[CodevTT] Timesheet reminder !"
 msgstr "[CodevTT] Saisie du CRA !"
 
-#: classes/user.class.php:1698
+#: classes/user.class.php:1707
 msgid "Dear "
 msgstr "Cher(e) "
 
-#: classes/user.class.php:1699
-msgid "Please fill your CodevTT timesheet:"
-msgstr "Merci de saisir votre compte rendu d'activité: "
+#: classes/user.class.php:1708
+msgid "Please fill your CodevTT timesheet"
+msgstr "Merci de saisir votre compte rendu d'activité "
 
-#: classes/user.class.php:1710 classes/consistency_check2.class.php:698
+#: classes/user.class.php:1719 classes/consistency_check2.class.php:698
 msgid "incomplete (missing "
 msgstr "incomplet (manque "
 
 #. skip dates in the future
-#: classes/user.class.php:1713 classes/consistency_check2.class.php:713
+#: classes/user.class.php:1722 classes/consistency_check2.class.php:713
 msgid "not defined."
 msgstr "non défini."
 
@@ -3724,7 +3729,7 @@ msgstr "Moyenne des RAF"
 #: indicator_plugins/StatusHistoryIndicator/StatusHistoryIndicator.class.php:194
 #: management/commandset_tools.php:120 management/command_tools.php:103
 #: management/servicecontract_tools.php:275 reports/planning_report.php:349
-#: reports/planning_report.php:433
+#: reports/planning_report.php:430 reports/planning_report.php:493
 msgid "Y-m-d"
 msgstr "d-m-Y"
 
@@ -4185,6 +4190,10 @@ msgstr "en retard"
 msgid "no deadLine"
 msgstr "sans deadLine"
 
+#: reports/planning_report.php:496
+msgid "Monitored"
+msgstr "Suivie"
+
 #: reports/team_dashboard.php:89
 msgid "Sorry, you need to be identified."
 msgstr "Vous devez être identifié."
@@ -4261,9 +4270,6 @@ msgstr "Charge Additionnelle"
 
 #~ msgid "Desirez-vous vraiment supprimer definitivement l'association"
 #~ msgstr "Désirez-vous vraiment supprimer définitivement l'association"
-
-#~ msgid "Customer teamId"
-#~ msgstr "teamId du client"
 
 #~ msgid "Forecasting"
 #~ msgstr "Prévisionnel"

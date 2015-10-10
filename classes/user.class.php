@@ -1693,10 +1693,19 @@ class User extends Model {
          return FALSE;
       }
 
+      // send email in user's language
+      $locale = $this->getDefaultLanguage();
+      if (NULL != $locale) { $_SESSION['locale'] = $locale; }
+
+
+      if (NULL != $team_id) {
+         $team = TeamCache::getInstance()->getTeam($team_id);
+         $teamString = ' '.T_('for team').' '.$team->getName();
+      }
       $emailSubject=T_('[CodevTT] Timesheet reminder !');
 
       $emailBody=T_('Dear ').$this->getRealname().",\n\n".
-         T_('Please fill your CodevTT timesheet:')."\n\n".
+         T_('Please fill your CodevTT timesheet').$teamString." :\n\n".
          Constants::$codevURL."\n\n";
 
       try {
