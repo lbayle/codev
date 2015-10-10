@@ -3,6 +3,12 @@
 
    <form id="formTimetracksInfo" method="post" class="formWithTabsHistory" action="{$page}">
       <fieldset>
+         <label for="displayed_teamid">{t}Team{/t}: </label>
+         <select id="displayed_teamid" name="displayed_teamid">
+         {foreach from=$availableTeams key=id item=i}
+            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+         {/foreach}
+         </select>
          {include file="form/dateRangeSelector.html"}
 			<input type="hidden" name="action" value="displayTimetracksInfo" />
          <input type="submit" value="{t}Display{/t}" />

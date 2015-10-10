@@ -47,66 +47,85 @@ class TimetrackInfoController extends Controller {
             $enddate = Tools::getSecurePOSTStringValue("enddate",Tools::formatDate("%Y-%m-%d",$weekDates[5]));
             $this->smartyHelper->assign('endDate', $enddate);
 
+            // use the teamid set in the form, if not defined (first page call) use session teamid
+            $teamList = Team::getTeams(true);
+            if (isset($_POST['displayed_teamid'])) {
+               $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+
+            } else if(isset($_SESSION['teamid']) && array_key_exists($this->teamid,$teamList)) {
+               $displayed_teamid = $this->teamid;
+
+            } else {
+               $teamIds = array_keys($teamList);
+               if(count($teamIds) > 0) {
+                  $displayed_teamid = $teamIds[0];
+               } else {
+                  $displayed_teamid = 0;
+               }
+            }
+            $this->smartyHelper->assign('availableTeams', SmartyTools::getSmartyArray($teamList,$displayed_teamid));
+
+
+
             if ('displayTimetracksInfo' == $_POST['action']) {
 
                // get dateRangeSelector data
                $startTimestamp = Tools::date2timestamp($startdate);
                $endTimestamp = Tools::date2timestamp($enddate);
                $endTimestamp = mktime(23, 59, 59, date('m', $endTimestamp), date('d',$endTimestamp), date('Y', $endTimestamp));
-               
-               $members = TeamCache::getInstance()->getTeam($this->teamid)->getMembers();
-               $memberIdList = array_keys($members);
-               $formatedMembers = implode( ', ', $memberIdList);
 
-               $query = "SELECT * FROM `codev_timetracking_table` " .
-                        "WHERE date >= $startTimestamp AND date <= $endTimestamp " .
-                        "AND userid IN ($formatedMembers)" .
-                        "ORDER BY date;";
+               $members = TeamCache::getInstance()->getTeam($displayed_teamid)->getActiveMembers();
 
-               #self::$logger->error($query);
-
-               $result = SqlWrapper::getInstance()->sql_query($query);
-               if (!$result) {
-                  echo "<span style='color:red'>ERROR: Query FAILED</span>";
-                  exit;
-               }
-
-               $jobs = new Jobs();
                $timetracks = array();
-               while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-                  $tt = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
+               if (!empty($members)) {
+                  $memberIdList = array_keys($members);
+                  $formatedMembers = implode( ', ', $memberIdList);
 
-                  $user = UserCache::getInstance()->getUser($tt->getUserId());
-                  $issue = IssueCache::getInstance()->getIssue($tt->getIssueId());
+                  $query = "SELECT * FROM `codev_timetracking_table` " .
+                           "WHERE date >= $startTimestamp AND date <= $endTimestamp " .
+                           "AND userid IN ($formatedMembers)" .
+                           "ORDER BY date;";
 
-                  if(!is_null($tt->getCommitterId())) {
-                     $committer = UserCache::getInstance()->getUser($tt->getCommitterId());
-                     $committer_name = $committer->getName();
-                     $commit_date = date('Y-m-d H:i:s', $tt->getCommitDate());
-                  } else {
-                     $committer_name = ''; // this info does not exist before v1.0.4
-                     $commit_date = '';
+                  #self::$logger->error($query);
+
+                  $result = SqlWrapper::getInstance()->sql_query($query);
+                  if (!$result) {
+                     echo "<span style='color:red'>ERROR: Query FAILED</span>";
+                     exit;
                   }
 
-                  $timetracks[$row->id] = array(
-                     #'id' => $row->id,
-                     'user' => $user->getName(),
-                     'date' => date('Y-m-d', $tt->getDate()),
-                     'job' => $jobs->getJobName($tt->getJobId()),
-                     'duration' => $tt->getDuration(),
-                     'committer' => $committer_name,
-                     'commit_date' => $commit_date,
-                     'task_id' => $issue->getId(),
-                     'task_extRef' => $issue->getTcId(),
-                     'task_summary' => $issue->getSummary(),
-                  );
+                  $jobs = new Jobs();
+                  while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+                     $tt = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
 
+                     $user = UserCache::getInstance()->getUser($tt->getUserId());
+                     $issue = IssueCache::getInstance()->getIssue($tt->getIssueId());
+
+                     if(!is_null($tt->getCommitterId())) {
+                        $committer = UserCache::getInstance()->getUser($tt->getCommitterId());
+                        $committer_name = $committer->getName();
+                        $commit_date = date('Y-m-d H:i:s', $tt->getCommitDate());
+                     } else {
+                        $committer_name = ''; // this info does not exist before v1.0.4
+                        $commit_date = '';
+                     }
+
+                     $timetracks[$row->id] = array(
+                        #'id' => $row->id,
+                        'user' => $user->getName(),
+                        'date' => date('Y-m-d', $tt->getDate()),
+                        'job' => $jobs->getJobName($tt->getJobId()),
+                        'duration' => $tt->getDuration(),
+                        'committer' => $committer_name,
+                        'commit_date' => $commit_date,
+                        'task_id' => $issue->getId(),
+                        'task_extRef' => $issue->getTcId(),
+                        'task_summary' => $issue->getSummary(),
+                     );
+
+                  }
                }
                $this->smartyHelper->assign('timetracks', $timetracks);
-  
-
-
-
             }
 
 
