@@ -18,6 +18,7 @@ jQuery(document).ready(function(){
     TableTools.DEFAULTS.aButtons = [ "copy", "xls" ];
     TableTools.DEFAULTS.sSwfPath = "lib/DataTables/extensions/TableTools/swf/copy_csv_xls.swf";
 
+    // DEPRECATED: uses Flash
    jQuery('.datatable').dataTable({
       "sScrollY": "700px",
       "bPaginate": false,
