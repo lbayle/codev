@@ -463,6 +463,7 @@ class PlanningReportController extends Controller {
       unset($tooltipAttr[T_('Severity')]);
       unset($tooltipAttr[T_('External ID')]);
       unset($tooltipAttr[T_('Backlog')]);
+      unset($tooltipAttr[T_('Deadline')]);
 
       // insert in front
       $extRef = $issue->getTcId();
@@ -491,7 +492,7 @@ class PlanningReportController extends Controller {
       $finalTooltipAttr[T_('Duration')] = $scheduledTask->getDuration().' '.T_('days');
 
       if ($scheduledTask->getDeadline() > 0) {
-         $finalTooltipAttr[T_('DeadLine')] = date(T_("Y-m-d"), $scheduledTask->getDeadline());
+         $finalTooltipAttr[T_('Deadline')] = date(T_("Y-m-d"), $scheduledTask->getDeadline());
       }
       if ($scheduledTask->isMonitored()) {
          $finalTooltipAttr[T_('Monitored')] = $scheduledTask->getHandlerName();
