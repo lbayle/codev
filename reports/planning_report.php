@@ -472,7 +472,7 @@ class PlanningReportController extends Controller {
       } else {
          $finalTooltipAttr[T_('Task')] = $scheduledTask->getIssueId();
       }
-      if (array_key_exists($tooltipAttr, T_('Project'))) {
+      if (array_key_exists(T_('Project'), $tooltipAttr)) {
          $finalTooltipAttr[T_('Project')] = $tooltipAttr[T_('Project')];
       }
       $finalTooltipAttr[T_('Summary')] = $scheduledTask->getSummary();
