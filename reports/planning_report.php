@@ -465,8 +465,9 @@ class PlanningReportController extends Controller {
       unset($tooltipAttr[T_('Backlog')]);
 
       // insert in front
-      if (!empty($issue->getTcId())) {
-         $finalTooltipAttr[T_('Task')] = $scheduledTask->getIssueId().' / '.$issue->getTcId();
+      $extRef = $issue->getTcId();
+      if (!empty($extRef)) {
+         $finalTooltipAttr[T_('Task')] = $scheduledTask->getIssueId().' / '.$extRef;
       } else {
          $finalTooltipAttr[T_('Task')] = $scheduledTask->getIssueId();
       }
