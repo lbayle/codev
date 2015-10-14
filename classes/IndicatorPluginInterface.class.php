@@ -34,6 +34,7 @@ interface IndicatorPluginInterface {
    const DOMAIN_PROJECT          = 'Project';
    const DOMAIN_TASK             = 'Task';
    const DOMAIN_IMPORT_EXPORT    = 'Import_Export';
+   const DOMAIN_ADMIN             = 'Admin';
 
    // KPI category
    const CATEGORY_PLANNING  = 'Planning';  // backlog
