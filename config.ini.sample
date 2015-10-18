@@ -72,6 +72,7 @@ check_latest_version = 1
 ;User = ""
 ;Task = ""
 ;Project = ""
+;Admin = ""
 Team = "AvailableWorkforceIndicator"
 Command = "LoadPerUserIndicator,ProgressHistoryIndicator2"
 CommandSet = "LoadPerUserIndicator"

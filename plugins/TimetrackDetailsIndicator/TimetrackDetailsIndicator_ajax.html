@@ -1,0 +1,28 @@
+<div class="timetrackDetails_ajax">
+   <table id="timetrackDetailsIndicator_tt_table" class="datatable_csv">
+      <thead>
+         <tr>
+            <th>{t}Date{/t}</th>
+            <th>{t}User{/t}</th>
+            <th>{t}Committer{/t}</th>
+            <th>{t}Commit date{/t}</th>
+            <th>{t}Job{/t}</th>
+            <th>{t}Duration{/t}</th>
+            <th>{t}Task{/t}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$timetrackDetailsIndicator_timetracks item=i key=id}
+         <tr>
+            <td>{$i.date}</td>
+            <td>{$i.user}</td>
+            <td>{$i.committer}</td>
+            <td>{$i.commit_date}</td>
+            <td>{$i.job}</td>
+            <td>{$i.duration}</td>
+            <td>{$i.task_id} / {$i.task_extRef} - {$i.task_summary}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
+</div>

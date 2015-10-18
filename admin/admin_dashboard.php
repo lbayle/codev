@@ -39,6 +39,11 @@ class AdminDashboardController extends Controller {
          // feed the PluginDataProvider
          $pluginDataProvider = PluginDataProvider::getInstance();
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $this->session_userid);
+         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $this->teamid);
+
+         $weekDates = Tools::week_dates(date('W'),date('Y'));
+         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $weekDates[1]);
+         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $weekDates[5]);
 
          // save the DataProvider for Ajax calls
          $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);

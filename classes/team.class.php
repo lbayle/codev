@@ -915,6 +915,7 @@ class Team extends Model {
 
    /**
     * Get all teams by name
+    * @param bool $withDisabled if true, include disabled teams
     * @return string[int] : name[id]
     */
    public static function getTeams($withDisabled=false) {

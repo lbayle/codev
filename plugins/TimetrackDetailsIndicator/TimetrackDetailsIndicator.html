@@ -1,0 +1,72 @@
+<div class="TimetrackDetailsIndicator">
+
+<div align="left" style="margin-top:1em;">
+   <form id="timetrackDetailsIndicator_dateRange_form" method="get" action="{$timetrackDetailsIndicator_ajaxPhpURL}">
+      <fieldset>
+         <label for="displayed_teamid">{t}Team{/t}: </label>
+         <select class="timetrackDetails_displayedTeam" name="timetrackDetails_displayedTeam" >
+         {foreach from=$timetrackDetailsIndicator_availableTeams key=id item=i}
+            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+         {/foreach}
+         </select>
+         <input type="text" class="timetrackDetails_startdatepicker datepicker" name="timetrackDetails_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <input type="text" class="timetrackDetails_enddatepicker datepicker" name="timetrackDetails_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date{/t}" />
+         <input class="timetrackDetails_submit" type="submit" value="{t}Display{/t}" />
+         <input type="hidden" name="action" value="getTimetrackDetailsIndicator" />
+      </fieldset>
+   </form>
+</div>
+<div>
+   <div class="pluginInitFunction"  style="display: none;">timetrackDetailsIndicatorJsInit</div>
+   <div class="timetrackDetailsIndicatorDiv" align="left" style="margin-top: 1em;">
+      {include file="`$timetrackDetailsIndicator_ajaxFile`"}
+   </div>
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<script type="text/javascript">
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function timetrackDetailsIndicatorJsInit() {
+
+      // ------------------------
+      // datepicker
+
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+      // Set the date
+      var startDatePicker = jQuery(".timetrackDetails_startdatepicker").datepicker("setDate" ,"{$timetrackDetailsIndicator_startDate}");
+      var endDatePicker   = jQuery(".timetrackDetails_enddatepicker").datepicker("setDate" ,"{$timetrackDetailsIndicator_endDate}");
+
+      // ------------------------
+      // on reload with new date range
+      jQuery('.timetrackDetails_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+
+         var form = jQuery('#timetrackDetailsIndicator_dateRange_form');
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: type,
+            url: url,
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+               jQuery(".timetrackDetailsIndicatorDiv").html(jQuery.trim(data['timetrackDetails_htmlContent']));
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+      });
+   };
+</script>
+</div>

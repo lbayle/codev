@@ -55,6 +55,7 @@ class HelloWorldIndicator extends IndicatorPluginAbstract {
          self::DOMAIN_PROJECT,
          self::DOMAIN_COMMAND_SET,
          self::DOMAIN_SERVICE_CONTRACT,
+         self::DOMAIN_ADMIN,
       );
       self::$categories = array (
          self::CATEGORY_QUALITY
@@ -112,7 +113,7 @@ class HelloWorldIndicator extends IndicatorPluginAbstract {
          $this->startTimestamp = time();
       }
 
-      // set default pluginSettings
+      // set default pluginSettings (not provided by the PluginDataProvider)
       $this->isDateDisplayed = true;
 
       if(self::$logger->isDebugEnabled()) {

@@ -106,6 +106,7 @@ class Constants {
        'Command' => 'LoadPerUserIndicator,ProgressHistoryIndicator2',
        'CommandSet' => 'LoadPerUserIndicator',
        'ServiceContract' => 'LoadPerJobIndicator2,ProgressHistoryIndicator2,EffortEstimReliabilityIndicator2',
+       'Admin' => 'TimetrackDetailsIndicator',
    );
 
    // ---EMAIL---
