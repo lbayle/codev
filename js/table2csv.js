@@ -32,7 +32,8 @@ jQuery.fn.table2CSV = function(options) {
     // actual data
     $(el).find('tr').each(function() {
         var tmpRow = [];
-        $(this).filter(':visible').find('th, td').each(function() {
+        //$(this).filter(':visible').find('th, td').each(function() {
+        $(this).find('th, td').each(function() {
             if ($(this).css('display') != 'none') tmpRow[tmpRow.length] = formatData($(this).html());
         });
         row2CSV(tmpRow);

@@ -94,6 +94,9 @@ table.gray tbody {
    background-color: transparent;
 }
 
+.pointer {
+   cursor: pointer;
+}
 
 .hover {
    cursor: pointer;
