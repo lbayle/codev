@@ -56,10 +56,13 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
             // construct the html table
             foreach ($data as $smartyKey => $smartyVariable) {
                $smartyHelper->assign($smartyKey, $smartyVariable);
-               #$logger->debug("key $smartyKey = ".var_export($smartyVariable, true));
             }
             $html = $smartyHelper->fetch(TimetrackDetailsIndicator::getSmartySubFilename());
             $data['timetrackDetails_htmlContent'] = $html;
+
+            // set JS libraries that must be load
+            $data['timetrackDetails_jsFiles'] = TimetrackDetailsIndicator::getJsFiles();
+            $data['timetrackDetails_cssFiles'] = TimetrackDetailsIndicator::getCssFiles();
 
             // return html & chart data
             $jsonData = json_encode($data);

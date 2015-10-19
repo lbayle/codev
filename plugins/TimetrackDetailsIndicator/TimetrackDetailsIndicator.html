@@ -57,7 +57,18 @@
             dataType:"json",
             data: form.serialize(),
             success: function(data) {
+               
                jQuery(".timetrackDetailsIndicatorDiv").html(jQuery.trim(data['timetrackDetails_htmlContent']));
+                       
+               //console.log('js files to load:', data['timetrackDetails_jsFiles']);
+               jQuery.each(data['timetrackDetails_jsFiles'], function( index, value ) {
+                  jQuery.ajax({
+                        async: false,
+                        url: value,
+                        dataType: "script"
+                  });
+               });   
+               //console.log('js load done');
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
