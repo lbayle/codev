@@ -87,7 +87,8 @@ class TimetrackDetailsIndicator extends IndicatorPluginAbstract {
    }
    public static function getJsFiles() {
       return array(
-         'js/datepicker.js',
+         'js_min/datepicker.min.js',
+         'js_min/datatable.min.js',
       );
    }
 
