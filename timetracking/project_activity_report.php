@@ -155,18 +155,20 @@ class ProjectActivityReportController extends Controller {
    private function getWorkingDaysPerProjectPerUser($startTimestamp, $endTimestamp, $isExtTasksPrj, $isSideTasksPrj) {
       
       $team = TeamCache::getInstance()->getTeam($this->teamid);
-      $userList = $team->getUsers();
+      $activeMembers = $team->getActiveMembers($startTimestamp, $endTimestamp, TRUE);
+      $activeMembersIds = array_keys($activeMembers);
       $usersData = array();
       
       // Time spend by user for each project (depending on the chosen Timestamp)
-      foreach($userList as $user) {
+      foreach($activeMembersIds as $user_id) {
+         $user = UserCache::getInstance()->getUser($user_id);
          $timeTracks = $user->getTimeTracks($startTimestamp, $endTimestamp);
          
          $userElapsedPerProject = array();
          foreach($timeTracks as $timeTrack) {
             $userElapsedPerProject[$timeTrack->getProjectId()] += $timeTrack->getDuration();
          }
-         $usersData[$user->getId()] = $userElapsedPerProject;
+         $usersData[$user_id] = $userElapsedPerProject;
       }
       
       
@@ -181,19 +183,19 @@ class ProjectActivityReportController extends Controller {
       
       // Time elapsed per user and per project (plus total per user)
       $usersSmartyData = array();
-      foreach($userList as $user) {
+      foreach($activeMembers as $user_id => $realName) {
          $elapsedPerProject = array();
          $userTotal = 0;
          foreach (array_keys($projList) as $projId){
-            $val = $usersData[$user->getId()][$projId];
+            $val = $usersData[$user_id][$projId];
             $elapsedPerProject[$projId] = $val;
             $userTotal += $val;
          }
          
       // Formatting for Smarty   
          $usersSmartyData[] = array (
-            'id' => $user->getId(),
-            'name' => $user->getRealname(),
+            'id' => $user_id,
+            'name' => $realName,
             'elapsedPerProject' => $elapsedPerProject,
             'total' => $userTotal,
          );
@@ -203,7 +205,7 @@ class ProjectActivityReportController extends Controller {
       $totalAllProj = 0;
       $totalPerProj = array();
       foreach (array_keys($projList) as $projId) {
-         foreach(array_keys($team->getMembers()) as $userId) {
+         foreach($activeMembersIds as $userId) {
             $totalAllProj += $usersData[$userId][$projId];
             $totalPerProj[$projId] += $usersData[$userId][$projId];
          }
