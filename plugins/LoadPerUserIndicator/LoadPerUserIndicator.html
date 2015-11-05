@@ -19,6 +19,24 @@
       {include file="`$loadPerUserIndicator_ajaxFile`"}
    </div>
    <div class="loadPerUserIndicatorChart pie_chart chart float" style="top: -9px;"></div>
+      <div class="floatr" style=" width: 16px">
+      <a class="loadPerUserIndicatorHelpDialog_link float" href="">
+         <img title="Help" src="images/help_icon.gif"/>
+      </a>
+      <a class="float" href="">
+         <img onclick="$('.loadPerUserIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'loadPerUser.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
+      </a>
+   </div>
+   <div class="loadPerUserIndicatorHelpDialog ui-helper-hidden" title="{t}Load per User{/t}">
+      <p>{t}bla bla{/t}<br>
+      </p>
+      <p>
+         <strong>{t}bla bla{/t}</strong><br>
+         <br>
+         <span style="color:blue"><em>{t}Formula{/t} : {t}SUM(userWorkforce * availability * prodCoef){/t}</em></span>
+      </p>
+   </div>
+
    <div class="ui-helper-clearfix"></div>
 </div>
 
@@ -83,6 +101,15 @@
                }
             }
          });
+      });
+
+      jQuery(".loadPerUserIndicatorHelpDialog_link").click(function() {
+         jQuery(".loadPerUserIndicatorHelpDialog").dialog("open");
+         return false;
+      });
+      jQuery(".loadPerUserIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
       });
 
       // ------------------------
