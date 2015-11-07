@@ -19,21 +19,38 @@
       {include file="`$loadPerUserIndicator_ajaxFile`"}
    </div>
    <div class="loadPerUserIndicatorChart pie_chart chart float" style="top: -9px;"></div>
-      <div class="floatr" style=" width: 16px">
-      <a class="loadPerUserIndicatorHelpDialog_link float" href="">
+   <div class="floatr" style=" width: 16px">
+      <span class="loadPerUserIndicatorHelpDialog_link float pointer">
          <img title="Help" src="images/help_icon.gif"/>
-      </a>
-      <a class="float" href="">
-         <img onclick="$('.loadPerUserIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'loadPerUser.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
-      </a>
+      </span>
+      <span class="float pointer">
+         <img title="Export to CSV" src="images/b_export_xls.gif" onclick="$('.loadPerUserIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'loadPerUser.csv'{literal}}{/literal})">
+      </span>
    </div>
    <div class="loadPerUserIndicatorHelpDialog ui-helper-hidden" title="{t}Load per User{/t}">
-      <p>{t}bla bla{/t}<br>
-      </p>
       <p>
-         <strong>{t}bla bla{/t}</strong><br>
+         <strong>{t}Description{/t}:</strong><br>
+         {t}Check all the timetracks of the period and return their repartition per User{/t}
          <br>
-         <span style="color:blue"><em>{t}Formula{/t} : {t}SUM(userWorkforce * availability * prodCoef){/t}</em></span>
+      </p>
+      <hr>
+      <p style="margin-top:1em;">
+         <strong>{t}Elapsed{/t}</strong><br>
+         {t}Time spent on the projects & sideTasks of the current task selection{/t}
+         <br><br>
+         <strong>{t}Waste{/t}</strong><br>
+         {t}'Incident' and 'Inactivity' sideTasks of the current selection.<br>
+         (if 'waste' option has not been selected, this will be included in 'elapsed'){/t}
+         <br><br>
+         <strong>{t}Other{/t}</strong><br>
+         {t}The time spent on tasks & sideTasks that are not in the current task selection{/t}
+         <br><br>
+         <strong>{t}External{/t}</strong><br>
+         {t}External tasks except 'Leave' category{/t}
+         <br><br>
+         <strong>{t}Inactivity{/t}</strong><br>
+         {t}External leave tasks & inactivity sideTasks that are not in the current task selection{/t}
+         <br>
       </p>
    </div>
 
