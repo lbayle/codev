@@ -98,10 +98,11 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
    }
    public static function getJsFiles() {
       return array(
-         'js/datepicker.js',
+         'js_min/datepicker.min.js',
          'lib/jquery.jqplot/jquery.jqplot.min.js',
          'lib/jquery.jqplot/plugins/jqplot.pieRenderer.min.js',
-         'js/chart.js',
+         'js_min/chart.min.js',
+         'js_min/table2csv.min.js',
       );
    }
 

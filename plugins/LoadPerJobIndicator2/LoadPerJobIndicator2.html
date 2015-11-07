@@ -18,6 +18,22 @@
       {include file="`$loadPerJobIndicator_ajaxFile`"}
    </div>
    <div class="loadPerJobIndicatorChart pie_chart chart float" style="top: -9px;"></div>
+   <div class="floatr" style=" width: 16px">
+      <span class="loadPerJobIndicatorHelpDialog_link float pointer">
+         <img title="Help" src="images/help_icon.gif"/>
+      </span>
+      <span class="float pointer">
+         <img title="{t}Export to CSV{/t}" src="images/b_export_xls.gif" onclick="$('.loadPerJobIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'loadPerJob.csv'{literal}}{/literal})">
+      </span>
+   </div>
+   <div class="loadPerJobIndicatorHelpDialog ui-helper-hidden" title="{t}Load per User{/t}">
+      <p>
+         <strong>{t}Description{/t}:</strong><br>
+         {t}Check all the timetracks of the period and return their repartition per Job{/t}
+         <br>
+      </p>
+   </div>
+
    <div class="ui-helper-clearfix"></div>
 </div>
 
@@ -80,6 +96,15 @@
                }
             }
          });
+      });
+
+      jQuery(".loadPerJobIndicatorHelpDialog_link").click(function() {
+         jQuery(".loadPerJobIndicatorHelpDialog").dialog("open");
+         return false;
+      });
+      jQuery(".loadPerJobIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
       });
 
       // ------------------------
