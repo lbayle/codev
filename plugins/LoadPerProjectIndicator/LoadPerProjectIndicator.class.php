@@ -100,10 +100,10 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
    }
    public static function getJsFiles() {
       return array(
-          'js/datepicker.js',
+         'js_min/datepicker.min.js',
          'lib/jquery.jqplot/jquery.jqplot.min.js',
          'lib/jquery.jqplot/plugins/jqplot.pieRenderer.min.js',
-         'js/chart.js', // TODO get rid of chart.js
+         'js_min/chart.min.js', // TODO get rid of chart.js
       );
    }
 

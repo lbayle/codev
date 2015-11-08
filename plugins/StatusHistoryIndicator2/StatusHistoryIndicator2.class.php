@@ -96,7 +96,7 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
          'lib/jquery.jqplot/jquery.jqplot.min.js',
          'lib/jquery.jqplot/plugins/jqplot.canvasTextRenderer.min.js',
          'lib/jquery.jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
-         'js/chart.js',
+         'js_min/chart.min.js',
       );
    }
 

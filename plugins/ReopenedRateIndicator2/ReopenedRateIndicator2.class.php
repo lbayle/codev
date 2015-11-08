@@ -92,13 +92,13 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
    }
    public static function getJsFiles() {
       return array(
-         'js/helpdialog.js',
-         'js/progress.js',
+         'js_min/helpdialog.min.js',
+         'js_min/progress.min.js',
          'lib/jquery.jqplot/jquery.jqplot.min.js',
          'lib/jquery.jqplot/plugins/jqplot.dateAxisRenderer.min.js',
          'lib/jquery.jqplot/plugins/jqplot.pointLabels.min.js',
          //'lib/jquery.jqplot/plugins/jqplot.canvasOverlay.min.js',
-         'js/chart.js',
+         'js_min/chart.min.js',
       );
    }
 

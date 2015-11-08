@@ -93,7 +93,7 @@ class HelloWorldIndicator extends IndicatorPluginAbstract {
    }
    public static function getJsFiles() {
       return array(
-         'js/datepicker.js',
+         'js_min/datepicker.min.js',
       );
    }
 

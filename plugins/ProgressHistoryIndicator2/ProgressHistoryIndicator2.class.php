@@ -93,11 +93,11 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
    }
    public static function getJsFiles() {
       return array(
-         'js/helpdialog.js',
+         'js_min/helpdialog.min.js',
          'lib/jquery.jqplot/jquery.jqplot.min.js',
          'lib/jquery.jqplot/plugins/jqplot.dateAxisRenderer.min.js',
          'lib/jquery.jqplot/plugins/jqplot.pointLabels.min.js',
-         'js/chart.js',
+         'js_min/chart.min.js',
       );
    }
 
