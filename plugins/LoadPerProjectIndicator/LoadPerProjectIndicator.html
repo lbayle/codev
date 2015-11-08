@@ -18,6 +18,23 @@
       {include file="`$loadPerProjectIndicator_ajaxFile`"}
    </div>
    <div class="loadPerProjectIndicatorChart pie_chart chart float" style="top: -9px;"></div>
+
+   <div class="floatr" style=" width: 16px">
+      <span class="loadPerProjectIndicatorHelpDialog_link float pointer">
+         <img title="{t}Help{/t}" src="images/help_icon.gif"/>
+      </span>
+      <span class="float pointer">
+         <img title="{t}Export to CSV{/t}" src="images/b_export_xls.gif" onclick="$('.loadPerProjectIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'loadPerProject.csv'{literal}}{/literal})">
+      </span>
+   </div>
+   <div class="loadPerProjectIndicatorHelpDialog ui-helper-hidden" title="{t}Load per Project{/t}">
+      <p>
+         <strong>{t}Description{/t}:</strong><br>
+         {t}Check all the timetracks of the period and return their repartition per Project{/t}
+         <br>
+      </p>
+   </div>
+
    <div class="ui-helper-clearfix"></div>
 </div>
 
@@ -77,6 +94,15 @@
                }
             }
          });
+      });
+
+      jQuery(".loadPerProjectIndicatorHelpDialog_link").click(function() {
+         jQuery(".loadPerProjectIndicatorHelpDialog").dialog("open");
+         return false;
+      });
+      jQuery(".loadPerProjectIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
       });
 
       // ------------------------

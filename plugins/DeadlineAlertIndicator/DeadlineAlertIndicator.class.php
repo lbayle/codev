@@ -89,8 +89,8 @@ class DeadlineAlertIndicator extends IndicatorPluginAbstract {
    }
    public static function getJsFiles() {
       return array(
-         'js_min/datepicker.min.js',
          'js_min/progress.min.js',
+         'js_min/datatable.min.js',
       );
    }
 

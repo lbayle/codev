@@ -6,19 +6,19 @@
    <div class="inlineBlock" style="margin-top:1em;">
       <ul>
          <li>
-            <a class="reopenedRateIndicator2HelpDialog_link" href="">
-               <img title="{t}help{/t}" src="images/help_icon.gif"/>
-            </a>
+            <span class="reopenedRateIndicator2HelpDialog_link float pointer">
+               <img title="{t}Help{/t}" src="images/help_icon.gif"/>
+            </span>
          </li>
          <li>
-            <a class="reopenedRateIndicator2ValuesDialog_link" href="">
+            <span class="reopenedRateIndicator2ValuesDialog_link float pointer">
                <img title="{t}show values{/t}" src="images/b_browse.png"/>
-            </a>
+            </span>
          </li>
          <li>
-            <a href="">
-               <img onclick="$('.reopenedRateIndicator2ValuesTable').table2CSV({literal}{{/literal}filename : 'reopenedRate.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
-            </a>
+            <span class="float pointer">
+               <img title="{t}Export to CSV{/t}" src="images/b_export_xls.gif" onclick="$('.reopenedRateIndicator2ValuesTable').table2CSV({literal}{{/literal}filename : 'reopenedRate.csv'{literal}}{/literal})"/>
+            </span>
          </li>
       </ul>
    </div>

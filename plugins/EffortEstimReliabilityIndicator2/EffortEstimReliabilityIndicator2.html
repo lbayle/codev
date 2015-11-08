@@ -6,16 +6,26 @@
    <div class="inlineBlock" style="margin-top:1em;">
       <ul>
          <li>
-            <a class="effortEstimReliabilityIndicator2ValuesDialog_link" href="">
-               <img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/>
-            </a>
+            <span class="effortEstimReliabilityIndicator2HelpDialog_link pointer">
+               <img title="{t}Help{/t}" src="images/help_icon.gif"/>
+            </span>
          </li>
          <li>
-            <a href="">
-               <img onclick="$('.effortEstimReliabilityIndicator2ValuesTable').table2CSV({literal}{{/literal}filename : 'budgetDrift.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
-            </a>
+            <span class="effortEstimReliabilityIndicator2ValuesDialog_link pointer">
+               <img title="{t}show values{/t}" src="images/b_browse.png"/>
+            </span>
+         </li>
+         <li>
+            <span class="pointer">
+               <img title="{t}Export to CSV{/t}" src="images/b_export_xls.gif" onclick="$('.effortEstimReliabilityIndicator2ValuesTable').table2CSV({literal}{{/literal}filename : 'budgetDrift.csv'{literal}}{/literal})"/>
+            </span>
          </li>
       </ul>
+   </div>
+   <div class="effortEstimReliabilityIndicator2HelpDialog ui-helper-hidden" title="{t}Effort estimation reliability rate{/t}">
+      <p><strong>{t}Description{/t}</strong><br>
+         TODO
+      </p>
    </div>
    
    <div class="ui-helper-clearfix"></div>
