@@ -1,0 +1,85 @@
+<div class="backlogPerUserIndicator">
+
+<div>
+   <div class="pluginInitFunction"  style="display: none;">backlogPerUserIndicatorJsInit</div>
+   
+   <div class="backlogPerUserIndicatorDiv" align="left" style="margin-top: 1em;">
+
+      {if isset($backlogPerUserIndicator_userArray) && !empty($backlogPerUserIndicator_userArray)}
+      <div style="width: 95%;">
+      <table class="backlogPerUserIndicatorValuesTable display float" >
+         <thead>
+            <tr>
+               <th>{t}User{/t}</th>
+               <th>{t}Backlog{/t}</th>
+               <th>{t}Progress{/t}</th>
+               <th>{t}Nb tasks{/t}</th>
+               <th>{t}Tasks{/t}</th>
+            </tr>
+         </thead>
+         <tbody>
+            {foreach from=$backlogPerUserIndicator_userArray key=id item=i}
+            <tr>
+               <td>{$i.handlerName}</td>
+               <td>{$i.backlog}</td>
+               <td><div class="progress">{$i.progress}%</div></td>
+               <td>{$i.nbTasks}</td>
+               <td>{$i.taskList}</td>
+            </tr>
+            {/foreach}
+         </tbody>
+         <tfoot>
+            <tr>
+               <td>{t}TOTAL{/t}</td>
+               <td>{$backlogPerUserIndicator_totalArray.backlog}</td>
+               <td><div class="progress">{$backlogPerUserIndicator_totalArray.progress}%</div></td>
+               <td>{$backlogPerUserIndicator_totalArray.nbTasks}</td>
+               <td>{$backlogPerUserIndicator_totalArray.taskList}</td>
+            </tr>
+         </tfoot>
+      </table>
+      </div>
+      {else}
+      {t}No task with backlog{/t}
+      {/if}
+   </div>
+
+   <div class="floatr" style=" width: 16px">
+      <span class="backlogPerUserIndicatorHelpDialog_link float pointer">
+         <img title="Help" src="images/help_icon.gif"/>
+      </span>
+      <span class="float pointer">
+         <img title="Export to CSV" src="images/b_export_xls.gif" onclick="$('.backlogPerUserIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'backlogPerUser.csv'{literal}}{/literal})">
+      </span>
+   </div>
+   <div class="backlogPerUserIndicatorHelpDialog ui-helper-hidden" title="{t}Load per User{/t}">
+      <p>
+         <strong>{t}Description{/t}:</strong><br>
+         {t}For each user, return the sum of the backlog of its assigned tasks{/t}
+         <br>
+      </p>
+   </div>
+
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<script type="text/javascript">
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function backlogPerUserIndicatorJsInit() {
+
+      console.log('backlogPerUserIndicatorJsInit');
+      
+      jQuery(".backlogPerUserIndicatorHelpDialog_link").click(function() {
+         jQuery(".backlogPerUserIndicatorHelpDialog").dialog("open");
+         return false;
+      });
+      jQuery(".backlogPerUserIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
+      });
+
+   };
+</script>
+</div>
