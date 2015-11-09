@@ -156,7 +156,7 @@ class BacklogPerUserIndicator extends IndicatorPluginAbstract {
       $userList=array();
       $formattedTaskListPerUser = array();
       $iSelPerUser = array();
-
+      $iSelOpenTasks = new IssueSelection('nonResolved');
       /* @var $issue Issue */
       foreach ($issueList as $issue) {
 
@@ -180,7 +180,7 @@ class BacklogPerUserIndicator extends IndicatorPluginAbstract {
                   $iSelPerUser[$userId] = new IssueSelection('user_'.$userId);
                }
                $iSelPerUser[$userId]->addIssue($issue->getId());
-
+               $iSelOpenTasks->addIssue($issue->getId());
             }
 
          } catch (Exception $e) {
@@ -242,9 +242,9 @@ class BacklogPerUserIndicator extends IndicatorPluginAbstract {
       // Total
       $totalArray = array(
          'handlerName' => T_('TOTAL'),
-         'backlog' => $this->inputIssueSel->duration,
-         'nbTasks' => count($issueList),
-         'progress' => round($this->inputIssueSel->getProgress() * 100),
+         'backlog' => $iSelOpenTasks->duration,
+         'nbTasks' => count($iSelOpenTasks->getIssueList()),
+         'progress' => round($iSelOpenTasks->getProgress() * 100),
          'taskList' => '',
       );
 
