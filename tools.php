@@ -155,16 +155,19 @@ class Tools {
     * @param bool $inNewTab
     * @return string
     */
-   public static function issueInfoURL($bugid, $title=NULL, $inNewTab=FALSE) {
+   public static function issueInfoURL($bugid, $title=NULL, $inNewTab=FALSE, $displayedTaskId=NULL) {
       $target = $inNewTab ? 'target="_blank"' : '';
+      if (is_null($displayedTaskId)) {
+          $displayedTaskId = $bugid;
+      }
       if (is_null($title)) {
          $title = "View info";
-         return '<a '.$target.' href="reports/issue_info.php?bugid='.$bugid.'" title="'.$title.'">'.$bugid.'</a>';
+         return '<a '.$target.' href="reports/issue_info.php?bugid='.$bugid.'" title="'.$title.'">'.$displayedTaskId.'</a>';
       } else if(is_array($title)) {
          $tooltip = self::getTooltip($title);
-         return '<a class="haveTooltip" '.$target.' href="reports/issue_info.php?bugid='.$bugid.'">'.$bugid.'</a>'.$tooltip;
+         return '<a class="haveTooltip" '.$target.' href="reports/issue_info.php?bugid='.$bugid.'">'.$displayedTaskId.'</a>'.$tooltip;
       } else {
-         return '<a '.$target.' href="reports/issue_info.php?bugid='.$bugid.'" title="'.$title.'">'.$bugid.'</a>';
+         return '<a '.$target.' href="reports/issue_info.php?bugid='.$bugid.'" title="'.$title.'">'.$displayedTaskId.'</a>';
       }
    }
 

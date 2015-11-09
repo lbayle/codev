@@ -25,6 +25,8 @@
  */
 class BacklogPerUserIndicator extends IndicatorPluginAbstract {
 
+   const OPTION_IS_EXT_REF = 'isExtRef';
+   
    /**
     * @var Logger The logger
     */
@@ -36,6 +38,9 @@ class BacklogPerUserIndicator extends IndicatorPluginAbstract {
    private $teamid;
    private $sessionUserid;
    private $isManager;
+
+   // config options from Dashboard
+   private $isExtRef;
 
    // internal
    protected $execData;
@@ -125,6 +130,9 @@ class BacklogPerUserIndicator extends IndicatorPluginAbstract {
       } catch (Exception $e) {
          $this->isManager = NULL;
       }
+      // set default pluginSettings (not provided by the PluginDataProvider)
+      $this->isExtRef = false;
+      
    }
 
    /**
@@ -135,6 +143,9 @@ class BacklogPerUserIndicator extends IndicatorPluginAbstract {
    public function setPluginSettings($pluginSettings) {
       if (NULL != $pluginSettings) {
          // override default with user preferences
+         if (array_key_exists(self::OPTION_IS_EXT_REF, $pluginSettings)) {
+            $this->isExtRef = $pluginSettings[self::OPTION_IS_EXT_REF];
+         }
       }
    }
 
@@ -172,10 +183,18 @@ class BacklogPerUserIndicator extends IndicatorPluginAbstract {
                } else {
                   $userList[0] = '(unknown 0)';
                }
-
+               
+               if (!$this->isExtRef) {
+                  $displayedTaskId = NULL;
+               } else {
+                   $displayedTaskId = (NULL != $issue->getTcId() && false != trim($issue->getTcId())) ? $issue->getTcId() : 'm-'.$issue->getId();
+               }
+               
                $tooltipAttr = $issue->getTooltipItems($this->teamid, $this->sessionUserid, $this->isManager);
-               $formattedTaskListPerUser[$userId][] = Tools::issueInfoURL($issue->getId(), $tooltipAttr);
-
+               // add task summary in front
+               $tooltipAttr = array(T_('Summary') => $issue->getSummary()) + $tooltipAttr;
+               $formattedTaskListPerUser[$userId][] = Tools::issueInfoURL($issue->getId(), $tooltipAttr, FALSE, $displayedTaskId);
+               
                if (!array_key_exists($userId, $iSelPerUser)) {
                   $iSelPerUser[$userId] = new IssueSelection('user_'.$userId);
                }
@@ -259,6 +278,9 @@ class BacklogPerUserIndicator extends IndicatorPluginAbstract {
       $smartyVariables = array(
          'backlogPerUserIndicator_userArray' => $this->execData['userArray'],
          'backlogPerUserIndicator_totalArray' => $this->execData['totalArray'],
+
+          // add pluginSettings (if needed by smarty)
+         'backlogPerUserIndicator_'.self::OPTION_IS_EXT_REF => $this->isExtRef,
       );
 
       if (false == $isAjaxCall) {
