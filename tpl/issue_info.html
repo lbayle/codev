@@ -98,7 +98,10 @@
                <td valign='top'>: </td>
                <td>
                   {foreach from=$parentCommands key=id item=i}
+                  <div id="divCmd_{$i.id}">
+                  <span class="pointer"><img onclick="removeFromCmd('{$i.id}', '{$i.name|escape}');return false;" align="absmiddle" title="{t}Remove from command{/t}" src="images/b_drop.png"/></span>
                   <a href='management/command_info.php?cmdid={$i.id}'>{if isset($i.reference)}{$i.reference} {/if}{$i.name}</a><br />
+                  </div>
                   {/foreach}
                </td>
             </tr>
@@ -143,6 +146,19 @@
          </tbody>
       </table>
 
+      <div id="formRemoveFromCmd_dialog" title="{t}Remove from Command{/t}" class="ui-helper-hidden">
+         <p><span class="ui-icon ui-icon-alert float" style="margin-right: 7px;"></span>
+            {t}Remove from :{/t} <span id="formRemoveFromCmd_cmdName">cmdName</span>
+         </p>
+         <form id="formRemoveFromCmd" name="formRemoveFromCmd" method="get" action="{$ajaxPage}" >
+            <fieldset>
+               <input type="hidden" name="action" value="removeFromCmd" />
+               <input type="hidden" name="bugid"  value="{$issueGeneralInfo.issueId}" />
+               <input type="hidden" name="cmdid"  value="0" />
+            </fieldset>
+         </form>
+      </div>      
+      
       {include file="tools/graph.html"}
       <div id="tabsIssueInfo" class="tabs {$ui_tabs_jquery}" style="margin-top:3em;">
          <ul class="{$ui_tabs_jquery_ul}">
@@ -162,10 +178,59 @@
             </div>
 
             <script type="text/javascript">
+               
+               function removeFromCmd(cmdid, cmdName){
+                  //var dialog = jQuery("#formRemoveFromCmd_dialog");
+                  //dialog.find(".desc_id").text(commandsetid);
+                  jQuery("#formRemoveFromCmd_cmdName").text(cmdName);
+                  jQuery("#formRemoveFromCmd").find("input[name=cmdid]").val(cmdid);
+                  jQuery("#formRemoveFromCmd_dialog").dialog( "open" );
+               }
+               
                jQuery(document).ready(function() {
                   var backlog = jQuery("#backlog"),
                      allFields = jQuery([]).add(backlog),
                      tips = jQuery("#validateTips");
+
+                  jQuery("#formRemoveFromCmd_dialog").dialog({
+                     autoOpen: false,
+                     resizable: true,
+                     width: "auto",
+                     modal: true,
+                     buttons: {
+                        "{t}Remove{/t}": function() {
+                           jQuery("#formRemoveFromCmd").submit();
+                        },
+                        Cancel: function() {
+                           jQuery(this).dialog("close");
+                        }
+                     }
+                  });
+
+                  jQuery("#formRemoveFromCmd").submit(function(event) {
+                     event.preventDefault();
+                     var form = jQuery(this);
+                     jQuery.ajax({
+                        type: form.attr("method"),
+                        url: form.attr("action"),
+                        data: form.serialize(),
+                        dataType:"json",
+                        success: function(data) {
+                           if ('SUCCESS' === data.statusMsg) {
+                              // remove command from list
+                              var elem = document.getElementById('divCmd_'+data.cmdid);
+                              elem.parentElement.removeChild(elem);
+                           } else {
+                              alert(data.statusMsg);
+                           }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                           console.log(textStatus, errorThrown);   
+                           alert(errorThrown);
+                        }
+                     });
+                     jQuery("#formRemoveFromCmd_dialog").dialog("close");
+                  });
 
                   function updateTips(t) {
                      tips.text(t)

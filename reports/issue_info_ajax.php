@@ -23,28 +23,52 @@ require('../path.inc.php');
 // Note: i18n is included by the Controler class, but Ajax dos not use it...
 require_once('i18n/i18n.inc.php');
 
-if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
+if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
 
-   if(isset($_GET['action'])) {
+   $action = Tools::getSecureGETStringValue('action', 'none');
+   $logger = Logger::getLogger("IssueInfo_ajax");
 
-      $smartyHelper = new SmartyHelper();
-      if($_GET['action'] == 'getGeneralInfo') {
-         $issue = IssueCache::getInstance()->getIssue(Tools::getSecureGETIntValue('bugid'));
-         $user = UserCache::getInstance()->getUser($_SESSION['userid']);
-         $managedTeamList = $user->getManagedTeamList();
-         $managedProjList = count($managedTeamList) > 0 ? $user->getProjectList($managedTeamList, true, false) : array();
-         $oTeamList = $user->getObservedTeamList();
-         $observedProjList = count($oTeamList) > 0 ? $user->getProjectList($oTeamList, true, false) : array();
+   $smartyHelper = new SmartyHelper();
+   if('getGeneralInfo' == $action) {
+      $issue = IssueCache::getInstance()->getIssue(Tools::getSecureGETIntValue('bugid'));
+      $user = UserCache::getInstance()->getUser($_SESSION['userid']);
+      $managedTeamList = $user->getManagedTeamList();
+      $managedProjList = count($managedTeamList) > 0 ? $user->getProjectList($managedTeamList, true, false) : array();
+      $oTeamList = $user->getObservedTeamList();
+      $observedProjList = count($oTeamList) > 0 ? $user->getProjectList($oTeamList, true, false) : array();
 
-         $isManager = (array_key_exists($issue->getProjectId(), $managedProjList)) ? true : false;
-         $isObserver = (array_key_exists($issue->getProjectId(), $observedProjList)) ? true : false;
+      $isManager = (array_key_exists($issue->getProjectId(), $managedProjList)) ? true : false;
+      $isObserver = (array_key_exists($issue->getProjectId(), $observedProjList)) ? true : false;
 
-         $smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, ($isManager || $isObserver)));
-         $smartyHelper->display('ajax/issueGeneralInfo');
+      $smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, ($isManager || $isObserver)));
+      $smartyHelper->display('ajax/issueGeneralInfo');
+
+   } else if ('removeFromCmd' == $action) {
+      $cmdid = Tools::getSecureGETIntValue('cmdid');
+      $bugid = Tools::getSecureGETIntValue('bugid');
+      $userid = $_SESSION['userid'];
+      try {
+         // cmd,user,issue must exist
+         // user must be manager in the cmd's team
+         $user = UserCache::getInstance()->getUser($userid);
+         $cmd = CommandCache::getInstance()->getCommand($cmdid);
+         $cmdTeamid = $cmd->getTeamid();
+         
+         if ($user->isTeamManager($cmdTeamid)) {
+            $cmd->removeIssue($bugid);
+            $jsonData=json_encode(array('statusMsg' => 'SUCCESS', 'cmdid' => $cmdid));
+         } else {
+            $logger->error("removeFromCmd: NOT_MANAGER user=$userid issue=$bugid cmd=$cmdid");
+            $jsonData=json_encode(array('statusMsg' => T_('Sorry, only managers can remove tasks from commands')));
+         }
+         // return ajax data
+         echo $jsonData;
+         
+      } catch (Exception $e) {
+         Tools::sendBadRequest("Error: removeFromCmd bad values: user=$userid issue=$bugid cmd=$cmdid");
       }
-      else {
-         Tools::sendNotFoundAccess();
-      }
+   } else {
+      Tools::sendNotFoundAccess();
    }
 }
 else {
