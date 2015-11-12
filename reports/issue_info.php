@@ -89,7 +89,8 @@ class IssueInfoController extends Controller {
 
                      $isManager = (array_key_exists($issue->getProjectId(), $managedProjList)) ? true : false;
                      $isObserver = (array_key_exists($issue->getProjectId(), $observedProjList)) ? true : false;
-                     $this->smartyHelper->assign('isManager', ($isManager || $isObserver));
+                     $this->smartyHelper->assign('isManager', $isManager);
+                     $this->smartyHelper->assign('isObserver', $isObserver);
                      $this->smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, ($isManager || $isObserver), $displaySupport));
                      
                      $timeTracks = $issue->getTimeTracks();

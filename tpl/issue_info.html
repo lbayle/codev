@@ -97,12 +97,22 @@
                <th valign='top'>{t}Commands{/t}</th>
                <td valign='top'>: </td>
                <td>
+                  <div id="cmdList">
                   {foreach from=$parentCommands key=id item=i}
                   <div id="divCmd_{$i.id}">
+                  {if $isManager}
                   <span class="pointer"><img onclick="removeFromCmd('{$i.id}', '{$i.name|escape}');return false;" align="absmiddle" title="{t}Remove from command{/t}" src="images/b_drop.png"/></span>
+                  {/if}
                   <a href='management/command_info.php?cmdid={$i.id}'>{if isset($i.reference)}{$i.reference} {/if}{$i.name}</a><br />
                   </div>
                   {/foreach}
+                  </div>
+                  {if $isManager}
+                  <div id="divAddCmd">
+                  <span id="addToCmd_link" class="pointer"><img align="absmiddle" title="{t}Add to command{/t}" src="images/b_add2.gif"/></span>
+                  <span class="help_font">{t}Add to command{/t}<br></span>
+                  </div>
+                  {/if}
                </td>
             </tr>
             <tr>
@@ -145,7 +155,7 @@
            {/if}
          </tbody>
       </table>
-
+      {if $isManager}
       <div id="formRemoveFromCmd_dialog" title="{t}Remove from Command{/t}" class="ui-helper-hidden">
          <p><span class="ui-icon ui-icon-alert float" style="margin-right: 7px;"></span>
             {t}Remove from :{/t} <span id="formRemoveFromCmd_cmdName">cmdName</span>
@@ -158,7 +168,18 @@
             </fieldset>
          </form>
       </div>      
-      
+      <div id="formAddToCmd_dialog" title="{t}Add to Command{/t}" class="ui-helper-hidden">
+         <form id="formAddToCmd" name="formAddToCmd" method="get" action="{$ajaxPage}" >
+            <fieldset>
+               {t}Command{/t} : 
+               <select class="cbCmdCandidates" name="cmdid" style="margin-left:1em;  width:400px;">
+               </select>
+               <input type="hidden" name="action" value="addToCmd" />
+               <input type="hidden" name="bugid"  value="{$issueGeneralInfo.issueId}" />
+            </fieldset>
+         </form>
+      </div>      
+      {/if}
       {include file="tools/graph.html"}
       <div id="tabsIssueInfo" class="tabs {$ui_tabs_jquery}" style="margin-top:3em;">
          <ul class="{$ui_tabs_jquery_ul}">
@@ -230,6 +251,85 @@
                         }
                      });
                      jQuery("#formRemoveFromCmd_dialog").dialog("close");
+                  });
+
+                  jQuery("#addToCmd_link").click(function() {
+                     // fill cmdCandidates
+                     jQuery.ajax({
+                        type: "GET",
+                        url: "{$ajaxPage}",
+                        data: "action=getCmdCandidates&bugid={$issueGeneralInfo.issueId}",
+                        dataType:"json",
+                        success: function(data) {
+                           if ('SUCCESS' === data.statusMsg) {
+                              // fill cbCmdCandidates
+                              var cbCmds = jQuery(".cbCmdCandidates");
+                              cbCmds.empty();
+                              //cbCmds.select2('data', null);
+
+                              var cmdCandidates = data.cmdCandidates;
+                              for (var id in cmdCandidates) {
+                                 if (cmdCandidates.hasOwnProperty(id)) {
+                                    cbCmds.append(
+                                       jQuery('<option>').attr('value', id).append(cmdCandidates[id])
+                                    );
+                                 }
+                              }
+                           } else {
+                              alert(data.statusMsg);
+                           }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                           console.log(textStatus, errorThrown);   
+                           alert(errorThrown);
+                        }
+                     });
+                     
+                     
+                     jQuery("#formAddToCmd_dialog").dialog("open");
+                     return false;
+                  });
+                  jQuery("#formAddToCmd_dialog").dialog({
+                     autoOpen: false,
+                     resizable: true,
+                     width: "auto",
+                     modal: true,
+                     buttons: {
+                        "{t}Add{/t}": function() {
+                           jQuery("#formAddToCmd").submit();
+                        },
+                        Cancel: function() {
+                           jQuery(this).dialog("close");
+                        }
+                     }
+                  });
+                  jQuery("#formAddToCmd").submit(function(event) {
+                     event.preventDefault();
+                     var form = jQuery(this);
+                     jQuery.ajax({
+                        type: form.attr("method"),
+                        url: form.attr("action"),
+                        data: form.serialize(),
+                        dataType:"json",
+                        success: function(data) {
+                           if ('SUCCESS' === data.statusMsg) {
+                              // add command to list
+                              var imgObj = jQuery('<img></img>').attr('align', "absmiddle").attr('title', "{t}Remove from command{/t}").attr('src', "images/b_drop.png");
+                              imgObj.attr('onclick', "removeFromCmd('"+data.cmdid+"', '"+data.cmdName+"');return false;");
+                              var aObj = jQuery('<a></a>').attr('href', "management/command_info.php?cmdid="+data.cmdid).html(data.cmdName);
+                              var spanObj = jQuery('<span></span>').addClass("pointer").append(imgObj);
+                              var divCmdObj = jQuery('<div></div>').attr('id', 'divCmd_'+data.cmdid).append(spanObj).append(aObj);
+                              jQuery("#cmdList").append(divCmdObj);
+                           } else {
+                              alert(data.statusMsg);
+                           }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                           console.log(textStatus, errorThrown);   
+                           alert(errorThrown);
+                        }
+                     });
+                     jQuery("#formAddToCmd_dialog").dialog("close");
                   });
 
                   function updateTips(t) {

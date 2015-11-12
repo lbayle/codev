@@ -67,6 +67,80 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       } catch (Exception $e) {
          Tools::sendBadRequest("Error: removeFromCmd bad values: user=$userid issue=$bugid cmd=$cmdid");
       }
+   } else if ('getCmdCandidates' === $action) {
+      $bugid = Tools::getSecureGETIntValue('bugid');
+      $teamid = $_SESSION['teamid'];
+      $userid = $_SESSION['userid'];
+
+      try {
+         // user must be manager
+         // issue must be in team's projects
+         
+         $user = UserCache::getInstance()->getUser($userid);
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+         $team = TeamCache::getInstance()->getTeam($teamid);
+         $prjList = $team->getProjects();
+         $issueCmds = $issue->getCommandList();
+         
+         if (!$user->isTeamManager($teamid)) {
+            $logger->error("removeFromCmd: NOT_MANAGER user=$userid issue=$bugid cmd=$cmdid");
+            $jsonData=json_encode(array('statusMsg' => T_('Sorry, only managers can remove tasks from commands')));
+         } else if (!array_key_exists($issue->getProjectId(), $prjList)) {
+            $jsonData=json_encode(array('statusMsg' => T_("Sorry, this task is not in your team's projects")));
+         } else {
+            $cmds = $team->getCommands();
+            $cmdList = array();
+            /* @var $cmd Command */
+            foreach ($cmds as $cmd) {
+               // Note: closed Cmds not displayed is enough, add a filter would be too much...
+               if ((!array_key_exists($cmd->getId(), $issueCmds)) &&
+                    $cmd->getState() < Command::state_closed ) {
+                  $cmdList[$cmd->getId()] = $cmd->getName();
+               }
+            }
+            $jsonData=json_encode(array('statusMsg' => 'SUCCESS', 'cmdCandidates' => $cmdList));
+         }
+         // return ajax data
+         echo $jsonData;
+         
+      } catch (Exception $e) {
+         Tools::sendBadRequest("Error: removeFromCmd bad values: user=$userid issue=$bugid cmd=$cmdid");
+      }
+      
+   } else if ('addToCmd' === $action) {
+      $cmdid = Tools::getSecureGETIntValue('cmdid');
+      $bugid = Tools::getSecureGETIntValue('bugid');
+      $userid = $_SESSION['userid'];
+      $teamid = $_SESSION['teamid'];
+      try {
+         // cmd,user,issue must exist
+         // user must be manager
+         // cmd must be in team's cmds
+         // issue must be in team's projects
+
+         $user = UserCache::getInstance()->getUser($userid);
+         $cmd = CommandCache::getInstance()->getCommand($cmdid);
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+         $team = TeamCache::getInstance()->getTeam($teamid);
+         $prjList = $team->getProjects();
+         
+         if (!$user->isTeamManager($teamid)) {
+            $logger->error("removeFromCmd: NOT_MANAGER user=$userid issue=$bugid cmd=$cmdid");
+            $jsonData=json_encode(array('statusMsg' => T_('Sorry, only managers can remove tasks from commands')));
+         }  else if (!array_key_exists($issue->getProjectId(), $prjList)) {
+            $jsonData=json_encode(array('statusMsg' => T_("Sorry, this task is not in your team's projects")));
+         }  else if ($teamid != $cmd->getTeamid()) {
+            Tools::sendBadRequest("Error: removeFromCmd bad cmdid: user=$userid teamid=$teamid cmd=$cmdid");
+         }  else {
+            $cmd->addIssue($bugid, true);
+            $jsonData=json_encode(array('statusMsg' => 'SUCCESS', 'cmdid' => $cmdid, 'cmdName' => $cmd->getName()));
+         }
+         // return ajax data
+         echo $jsonData;
+         
+      } catch (Exception $e) {
+         Tools::sendBadRequest("Error: removeFromCmd bad values: user=$userid issue=$bugid cmd=$cmdid");
+      }
    } else {
       Tools::sendNotFoundAccess();
    }
