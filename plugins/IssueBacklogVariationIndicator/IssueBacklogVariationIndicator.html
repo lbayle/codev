@@ -1,0 +1,112 @@
+<div class="issueBacklogVariationIndicator">
+<div class="pluginInitFunction"  style="display: none;">issueBacklogVariationIndicatorJsInit</div>
+{if isset($issueBacklogVariationIndicator_jqplotData)}
+<div>
+   <div class="issueBacklogVariationIndicatorChart date_chart_with_horizontal_line chart inlineBlock" style="width:95%;"></div>
+   <div class="inlineBlock" style="margin-top:1em;">
+      <ul>
+         <li>
+            <span class="issueBacklogVariationIndicatorHelpDialog_link pointer">
+               <img title="{t}Help{/t}" src="images/help_icon.gif"/>
+            </span>
+         </li>
+         <li>
+            <span class="issueBacklogVariationIndicatorValuesDialog_link pointer">
+               <img title="{t}show values{/t}" src="images/b_browse.png"/>
+            </span>
+         </li>
+         <li>
+            <span class="pointer">
+               <img title="{t}Export to CSV{/t}" src="images/b_export_xls.gif" onclick="$('.issueBacklogVariationIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'issueBacklogVariation.csv'{literal}}{/literal})"/>
+            </span>
+         </li>
+      </ul>
+   </div>
+   <div class="issueBacklogVariationIndicatorHelpDialog ui-helper-hidden" title="{t}Task backlog variation{/t}">
+      <p><strong>{t}Description{/t}</strong><br>
+         TODO
+      </p>
+   </div>
+   
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<div class="issueBacklogVariationIndicatorValuesDialog ui-helper-hidden" title="{t}Task backlog variation{/t}">
+
+    <table title="{t}Task backlog variation{/t}" class="issueBacklogVariationIndicatorValuesTable">
+       <thead>
+          <tr>
+             <th>{t}Date{/t}</th>
+             <th>{t}Backlog{/t}</th>
+          </tr>
+       </thead>
+       <tbody>
+          {foreach $issueBacklogVariationIndicator_tableData as $date => $backlog}
+          <tr>
+             <td class="right">{$date}</td>
+             <td class="right">{$backlog}</td>
+          </tr>
+          {/foreach}
+       </tbody>
+    </table>
+</div>
+{else}
+   {t}No data.{/t}
+{/if}
+
+<script type="text/javascript">
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function issueBacklogVariationIndicatorJsInit() {
+
+      {if $issueBacklogVariationIndicator_jqplotData}
+
+      jQuery(".issueBacklogVariationIndicatorHelpDialog_link").click(function() {
+         jQuery(".issueBacklogVariationIndicatorHelpDialog").dialog("open");
+         return false;
+      });
+      jQuery(".issueBacklogVariationIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
+      });
+
+      jQuery(".issueBacklogVariationIndicatorValuesDialog_link").click(function() {
+         jQuery(".issueBacklogVariationIndicatorValuesDialog").dialog("open");
+         return false;
+      });
+      jQuery(".issueBacklogVariationIndicatorValuesDialog").dialog({
+         autoOpen: false,
+         height: 'auto',
+         width: "auto",
+         hide: "fade"
+      });
+
+      // ------------------------
+      // display initial chart
+      var chart = jQuery('.issueBacklogVariationIndicatorChart');
+      var chartoptions = chart.data('plotoptions');
+
+      chartoptions.legend.show = false;
+      chartoptions.axes.yaxis.label = "{$issueBacklogVariationIndicator_jqplotYaxisLabel}";
+      chartoptions.axes.xaxis.min = "{$issueBacklogVariationIndicator_plotMinDate}";
+      chartoptions.axes.xaxis.max = "{$issueBacklogVariationIndicator_plotMaxDate}";
+      chartoptions.axes.yaxis.min = 0;
+      chartoptions.axes.xaxis.tickInterval = "{$issueBacklogVariationIndicator_interval} week";
+      chart.jqplot([{$issueBacklogVariationIndicator_jqplotData}], chartoptions);
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      {/if}
+   }
+
+</script>
+</div>

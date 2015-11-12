@@ -194,7 +194,6 @@
             <li class="{$ui_tabs_jquery_li}"><a href="#tab_overview">{t}Overview{/t}</a></li>
             <li class="{$ui_tabs_jquery_li}"><a href="#tab_timetracks">{t}Timetracks{/t}</a></li>
             <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-3">{t}Time per Status{/t}</a></li>
-            <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-4">{t}Backlog variation{/t}</a></li>
             <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
          </ul>
 
@@ -530,26 +529,6 @@
                   </tr>
                </tbody>
             </table>
-            {/if}
-         </div>
-         <div id="tabsName-4">
-            {if isset($backlog_jqplotData)}
-            <script type="text/javascript">
-               jQuery(document).ready(function() {
-                  var chartoptions = jQuery('#backlogChart').data('plotoptions');
-                  chartoptions.legend.show = false;
-                  chartoptions.title.text = '{$backlog_jqplotTitle}';
-                  chartoptions.axes.yaxis.label = "{$backlog_jqplotYaxisLabel}";
-                  chartoptions.axes.xaxis.min = "{$backlog_plotMinDate}";
-                  chartoptions.axes.xaxis.max = "{$backlog_plotMaxDate}";
-                  chartoptions.axes.yaxis.min = 0;
-                  chartoptions.axes.xaxis.tickInterval = "{$backlog_interval} week";
-                  jQuery('#backlogChart').jqplot([{$backlog_jqplotData}], chartoptions);
-               });
-            </script>
-            <div id="backlogChart" class="day_date_chart chart" style="width: 99%"></div>
-            {else}
-            <p>{t}No data{/t}</p>
             {/if}
          </div>
       </div>

@@ -105,12 +105,6 @@ class IssueInfoController extends Controller {
                      $this->smartyHelper->assign('parentCommands', $parentCmds);
                      $this->smartyHelper->assign('nbParentCommands', count($parentCmds));
 
-                     // get Backlog history
-                     $data = $this->getBacklogGraph($issue);
-                     foreach ($data as $smartyKey => $smartyVariable) {
-                        $this->smartyHelper->assign($smartyKey, $smartyVariable);
-                     }
-
                   }
                   $projects = SmartyTools::getSmartyArray($projList,$defaultProjectid);
                   $_SESSION['projectid'] = $defaultProjectid;
@@ -373,46 +367,6 @@ class IssueInfoController extends Controller {
          "statusNames" => $statusNamesSmarty,
          "durations" => $durations
       );
-   }
-
-   /**
-    * @param Issue $issue
-    * @return string
-    */
-   private function getBacklogGraph(Issue $issue) {
-
-      $backlogList = $issue->getBacklogHistory();
-
-      $formattedBlList = array();
-      foreach ($backlogList as $t => $b) {
-         $formattedBlList[Tools::formatDate("%Y-%m-%d", $t)] = $b;
-      }
-
-      // Graph start/stop dates
-      reset($formattedBlList);
-      $plotMinDate = key($formattedBlList);
-      end($formattedBlList);
-      $plotMaxDate = key($formattedBlList);
-
-      // Calculate a nice week interval
-      $minTimestamp = Tools::date2timestamp($plotMinDate);
-      $maxTimestamp = Tools::date2timestamp($plotMaxDate);
-      $nbWeeks = ($maxTimestamp - $minTimestamp) / 60 / 60 / 24 / 7;
-      $interval = ceil($nbWeeks / 10);
-
-      $jqplotData = Tools::array2plot($formattedBlList);
-
-      return array(
-         'backlog_interval'         => $interval,
-         'backlog_plotMinDate'      => $plotMinDate,
-         'backlog_plotMaxDate'      => $plotMaxDate,
-         'backlog_jqplotTitle'      => T_('Backlog variation'),
-         'backlog_jqplotYaxisLabel' => T_('Backlog (days)'),
-         'backlog_jqplotData'       => $jqplotData,
-      );
-
-
-
    }
 
 }
