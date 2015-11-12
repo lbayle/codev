@@ -240,21 +240,26 @@
 <script type="text/javascript">
    jQuery(document).ready(function() {
 
+      jQuery("#commandsetid").change(function() {
+         if ('0' !== this.value) {
+            var form = jQuery('#selectForm');
+            form.submit();
+         }
+      });
+
       jQuery("#sendForm").click(function() {
          var form = jQuery('#selectForm');
          form.submit();
       });
 
-         jQuery('input[type=radio]').change(function() {
-            if(jQuery(this).attr('id') == "radio1") {
-               jQuery(".provisionTotalList").show();
-               jQuery(".provisionsList").hide();
-            } else if(jQuery(this).attr('id') == "radio2") {
-               jQuery(".provisionTotalList").hide();
-               jQuery(".provisionsList").show();
-            }
-         });
-
-
+      jQuery('input[type=radio]').change(function() {
+         if(jQuery(this).attr('id') == "radio1") {
+            jQuery(".provisionTotalList").show();
+            jQuery(".provisionsList").hide();
+         } else if(jQuery(this).attr('id') == "radio2") {
+            jQuery(".provisionTotalList").hide();
+            jQuery(".provisionsList").show();
+         }
+      });
    });
 </script>

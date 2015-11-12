@@ -32,6 +32,18 @@
    {if isset($error)}
    <p class="center ui-state-error-text">{$error}</p>
    {/if}
+   
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery("#projectid").change(function() {
+            if ('0' !== this.value) {
+               var form = jQuery('#mainForm');
+               form.submit();
+            }
+         });
+      });
+   </script>
+   
 {else}
 <p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
 {/if}

@@ -17,7 +17,7 @@
                      jQuery("#result").hide();
                   },
                   error: function(jqXHR, textStatus, errorThrown) {
-                     if(errorThrown == 'Forbidden') {
+                     if(errorThrown === 'Forbidden') {
                         window.location = '{$page}';
                      } else {
                         alert(errorThrown);
@@ -25,9 +25,17 @@
                   }
                });
             });
+
+            jQuery("#bugid").change(function() {
+                  console.log('submit form1');
+               if ('0' !== this.value) {
+                  var form = jQuery('#form1');
+                  form.submit();
+               }
+            });
          });
       </script>
-      <form name="form1" class="formWithTabsHistory" method="get" action="{$page}">
+      <form id="form1" name="form1" class="formWithTabsHistory" method="get" action="{$page}">
          <fieldset>
             <select id="projectid" title="{t}Project{/t}">
               {foreach from=$projects key=id item=i}

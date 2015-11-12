@@ -423,6 +423,14 @@
          });
 
       jQuery(document).ready(function() {
+         
+         jQuery("#servicecontractid").change(function() {
+            if ('0' !== this.value) {
+               var form = jQuery('#selectForm');
+               form.submit();
+            }
+         });
+         
          jQuery.ajax({
             url: "js_min/datatable.min.js",
             dataType: "script",
