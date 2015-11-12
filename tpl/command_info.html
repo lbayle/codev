@@ -1,45 +1,7 @@
 <script type="text/javascript">
    jQuery(document).ready(function() {
 
-      jQuery("#btDisplayPage").click(function() {
-         var form = jQuery('#mainForm');
-         form.find("input[name=action]").val("displayCommand");
-         form.submit();
-      });
 
-      jQuery("#btCmdStateFilter").click(function(event) {
-           event.preventDefault();
-           jQuery("#setCmdStateFilter_dialog_form" ).dialog( "open" );
-      });
-
-      jQuery("#setCmdStateFilter_dialog_form" ).dialog({
-           autoOpen: false,
-           height: 'auto',
-           width: 500,
-           modal: true,
-           buttons: {
-              Ok: function() {
-                 var form = jQuery("#formSetStateFilter");
-
-                 //  get selected week days
-                 var checkItems = "";
-                 jQuery(".cb_cmdStateFilter").each(function() {
-                    var itemName = jQuery(this).attr("name");
-                    var isChecked = jQuery(this).attr('checked') ? 1 : 0;
-                    checkItems += itemName+":"+isChecked+",";
-                 });
-                 //alert("selected command states: "+checkItems);
-                 form.find("input[name=checkedCmdStateFilters]").val(checkItems)
-
-                 // TODO get selected item from mainForm combobox
-                 form.find("input[name=cmdid]").val(jQuery("#cmdid").val()); 
-                 form.submit();
-              },
-              Cancel: function() {
-                 jQuery(this).dialog( "close" );
-              }
-           }
-      });
     });
 </script>
 
@@ -368,15 +330,64 @@
    <script type="text/javascript">
       jQuery(document).ready(function() {
 
-         jQuery('input[type=radio]').change(function() {
-            if(jQuery(this).attr('id') == "radio1") {
-               jQuery(".provisionTotalList").show();
-               jQuery(".provisionsList").hide();
-            } else if(jQuery(this).attr('id') == "radio2") {
-               jQuery(".provisionTotalList").hide();
-               jQuery(".provisionsList").show();
+         jQuery("#cmdid").change(function() {
+            if ('0' !== this.value) {
+               var form = jQuery('#mainForm');
+               form.find("input[name=action]").val("displayCommand");
+               form.submit();
             }
          });
+
+
+         jQuery("#btDisplayPage").click(function() {
+            var form = jQuery('#mainForm');
+            form.find("input[name=action]").val("displayCommand");
+            form.submit();
+         });
+
+         jQuery("#btCmdStateFilter").click(function(event) {
+              event.preventDefault();
+              jQuery("#setCmdStateFilter_dialog_form" ).dialog( "open" );
+         });
+
+         jQuery("#setCmdStateFilter_dialog_form" ).dialog({
+              autoOpen: false,
+              height: 'auto',
+              width: 500,
+              modal: true,
+              buttons: {
+                 Ok: function() {
+                    var form = jQuery("#formSetStateFilter");
+
+                    //  get selected week days
+                    var checkItems = "";
+                    jQuery(".cb_cmdStateFilter").each(function() {
+                       var itemName = jQuery(this).attr("name");
+                       var isChecked = jQuery(this).attr('checked') ? 1 : 0;
+                       checkItems += itemName+":"+isChecked+",";
+                    });
+                    //alert("selected command states: "+checkItems);
+                    form.find("input[name=checkedCmdStateFilters]").val(checkItems)
+
+                    // TODO get selected item from mainForm combobox
+                    form.find("input[name=cmdid]").val(jQuery("#cmdid").val()); 
+                    form.submit();
+                 },
+                 Cancel: function() {
+                    jQuery(this).dialog( "close" );
+                 }
+              }
+         });
+
+         jQuery('input[type=radio]').change(function() {
+               if(jQuery(this).attr('id') == "radio1") {
+                  jQuery(".provisionTotalList").show();
+                  jQuery(".provisionsList").hide();
+               } else if(jQuery(this).attr('id') == "radio2") {
+                  jQuery(".provisionTotalList").hide();
+                  jQuery(".provisionsList").show();
+               }
+            });
 
          jQuery.ajax({
             url: "js_min/datatable.min.js",
