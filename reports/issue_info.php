@@ -53,12 +53,21 @@ class IssueInfoController extends Controller {
             $projList = $allProject + $devProjList + $managedProjList + $observedProjList;
 
             // if 'support' is set in the URL, display graphs for 'with/without Support'
-            $displaySupport = isset($_GET['support']) ? true : false;
+            $displaySupport = filter_input(INPUT_GET, 'support') ? true : false;
             if($displaySupport) {
                $this->smartyHelper->assign('support', $displaySupport);
             }
 
-            $bug_id = Tools::getSecureGETIntValue('bugid', 0);
+            if(filter_input(INPUT_GET, 'bugid')) {
+               $bug_id = Tools::getSecureGETIntValue('bugid', 0);
+            }
+            else if(isset($_SESSION['bugid'])) {
+               $bug_id = $_SESSION['bugid'];
+            } else {
+               $bug_id = 0;
+               unset($_SESSION['bugid']);
+            }
+
             $bugs = NULL;
             $projects = NULL;
             if($bug_id != 0) {
@@ -108,12 +117,14 @@ class IssueInfoController extends Controller {
                   }
                   $projects = SmartyTools::getSmartyArray($projList,$defaultProjectid);
                   $_SESSION['projectid'] = $defaultProjectid;
+                  $_SESSION['bugid'] = $bug_id;
 
                   // Dashboard
                   IssueInfoTools::dashboardSettings($this->smartyHelper, $issue, $this->session_userid, $this->teamid);
 
                } catch (Exception $e) {
                   self::$logger->warn("issue $bug_id not found in mantis DB !");
+                  unset($_SESSION['bugid']);
                }
 
             } else {
@@ -128,6 +139,7 @@ class IssueInfoController extends Controller {
                   $projects = SmartyTools::getSmartyArray($projList,$defaultProjectid);
                } catch (Exception $e) {
                   self::$logger->warn("issue $bug_id not found in mantis DB !");
+                  unset($_SESSION['bugid']);
                }
             }
             $this->smartyHelper->assign('bugs', $bugs);
