@@ -1,0 +1,61 @@
+<div class="timePerStatusIndicator">
+
+<div>
+   <div class="pluginInitFunction"  style="display: none;">timePerStatusIndicatorJsInit</div>
+   <div class="timePerStatusIndicatorDiv" align="left" style="width: 95%; margin-top: 1em;">
+      {if $timePerStatusIndicator_statusNames}
+      <table class="timePerStatusIndicatorValuesTable display float">
+         <thead>
+            <tr>
+               {foreach from=$timePerStatusIndicator_statusNames key=id item=i}
+               <th>{$i}</th>
+               {/foreach}
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               {foreach from=$timePerStatusIndicator_durations key=id item=i}
+               <td>{$i}</td>
+               {/foreach}
+            </tr>
+         </tbody>
+      </table>
+      {/if}
+   </div>
+   <div class="floatr" style=" width: 16px">
+      <span class="timePerStatusIndicatorHelpDialog_link float pointer">
+         <img title="Help" src="images/help_icon.gif"/>
+      </span>
+      <span class="float pointer">
+         <img title="Export to CSV" src="images/b_export_xls.gif" onclick="$('.timePerStatusIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'timePerStatus.csv'{literal}}{/literal})">
+      </span>
+   </div>
+   <div class="timePerStatusIndicatorHelpDialog ui-helper-hidden" title="{t}Load per User{/t}">
+      <p>
+         <strong>{t}Description{/t}:</strong><br>
+         {t}Time allocation by status{/t}
+         <br>
+      </p>
+   </div>
+
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<script type="text/javascript">
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is add to the dashboard.
+   function timePerStatusIndicatorJsInit() {
+      console.log('timePerStatusIndicatorJsInit');
+
+      jQuery(".timePerStatusIndicatorHelpDialog_link").click(function() {
+         jQuery(".timePerStatusIndicatorHelpDialog").dialog("open");
+         return false;
+      });
+      jQuery(".timePerStatusIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
+      });
+   };
+</script>
+</div>

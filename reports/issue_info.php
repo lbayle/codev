@@ -107,7 +107,6 @@ class IssueInfoController extends Controller {
                      $this->smartyHelper->assign('timeDrift', $this->getTimeDrift($issue));
 
                      $this->smartyHelper->assign('months', $this->getCalendar($issue,$timeTracks));
-                     $this->smartyHelper->assign('durationsByStatus', $this->getDurationsByStatus($issue));
 
                      // set Commands I belong to
                      $parentCmds = $this->getParentCommands($issue);
@@ -342,45 +341,6 @@ class IssueInfoController extends Controller {
          "users" => $users
       );
    }
-
-   /**
-    * Table Repartition du temps par status
-    * @param Issue $issue The issue
-    * @return mixed[]
-    */
-   private function getDurationsByStatus(Issue $issue) {
-      # WARN: use of FDJ custom
-      //$issue = new IssueFDJ($issue_->bugId);
-
-      $issue->computeDurationsPerStatus();
-
-      $statusNamesSmarty = NULL;
-      foreach($issue->getStatusList() as $status_id => $status) {
-         if(array_key_exists($status_id,Constants::$statusNames)) {
-            $statusNamesSmarty[] = Constants::$statusNames[$status_id];
-         } else {
-            self::$logger->error("Status ".$status_id." not found in statusNames constants");
-         }
-      }
-
-      // REM do not display SuiviOp tasks
-      $durations = NULL;
-      try {
-         if (!$issue->isSideTaskNonProductionIssue()) {
-            foreach($issue->getStatusList() as $status) {
-               $durations[] = Tools::getDurationLiteral($status->duration);
-            }
-         }
-      } catch (Exception $e) {
-         self::$logger->error("displayDurationsByStatus(): issue ".$issue->getId().": ".$e->getMessage());
-      }
-
-      return array(
-         "statusNames" => $statusNamesSmarty,
-         "durations" => $durations
-      );
-   }
-
 }
 
 // ========== MAIN ===========
@@ -388,4 +348,4 @@ IssueInfoController::staticInit();
 $controller = new IssueInfoController('../', 'Task Info','IssueInfo');
 $controller->execute();
 
-?>
+

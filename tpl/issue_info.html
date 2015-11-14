@@ -193,7 +193,6 @@
          <ul class="{$ui_tabs_jquery_ul}">
             <li class="{$ui_tabs_jquery_li}"><a href="#tab_overview">{t}Overview{/t}</a></li>
             <li class="{$ui_tabs_jquery_li}"><a href="#tab_timetracks">{t}Timetracks{/t}</a></li>
-            <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-3">{t}Time per Status{/t}</a></li>
             <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
          </ul>
 
@@ -506,29 +505,6 @@
             </div>
             {/foreach}
             <div class="ui-helper-clearfix"></div>
-            {/if}
-         </div>
-
-         <div id="tabsName-3">
-            <!-- Time allocation -->
-            {if $durationsByStatus}
-            <table>
-               <caption>{t}Time allocation by status{/t}</caption>
-               <thead>
-                  <tr>
-                     {foreach from=$durationsByStatus.statusNames key=id item=i}
-                     <th>{$i}</th>
-                     {/foreach}
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     {foreach from=$durationsByStatus.durations key=id item=i}
-                     <td>{$i}</td>
-                     {/foreach}
-                  </tr>
-               </tbody>
-            </table>
             {/if}
          </div>
       </div>
