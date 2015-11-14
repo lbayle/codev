@@ -74,7 +74,7 @@ the content of this dialog is furnished by the plugin and loaded by ajax
 
     </div>
 
-    <script type="text/javascript" src="lib/inettuts/inettuts_codevtt.js"></script>
+    <script type="text/javascript" src="lib/inettuts/inettuts_codevtt.min.js"></script>
    {foreach from=$dashboardPluginJsFiles key=id item=i}
     <script type="text/javascript" src="{$i}"></script>
    {/foreach}
@@ -205,7 +205,7 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                         // load JS dependencies
                         jQuery.ajax({
                               async: false,
-                              url: "lib/inettuts/inettuts_codevtt.js",
+                              url: "lib/inettuts/inettuts_codevtt.min.js",
                               dataType: "script"
                         });
                         //console.log('js files to load:', widget.jsFiles);
