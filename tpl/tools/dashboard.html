@@ -223,6 +223,8 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                         //console.log("pluginInitFunction", functionName);
                         window[functionName]();
                         divContentObj.find('#jqplot_target_1').attr('id', 'jqplot_target_' + widget.id);
+
+                        jQuery(".btSaveDashboard").click();
                         
                         jQuery(".dialogAddDashboardPlugin").dialog("close");
                      },
@@ -247,20 +249,35 @@ the content of this dialog is furnished by the plugin and loaded by ajax
             var widget= $(this).closest( ".widget" );   
             var wcontent = widget.children(".widget-content");
             var isCollapsed = !wcontent.is(':visible');
-            console.log('isCollapsed', isCollapsed);
             
             var attr = widget.children(".attributesJsonStr");
             var attributesJson = jQuery.parseJSON(attr.text());
             attributesJson['isCollapsed'] = isCollapsed;
             var attributesJsonStr = JSON.stringify(attributesJson);
             attr.text(attributesJsonStr);
-            
-            // load the widget if it was collapsed (first time only)
+
+            // load the widget if it was collapsed (TODO: first time only)
             if (!isCollapsed) {
                var initFct = widget.find(".pluginInitFunction").text();
-               console.log('pluginInitFunction = ', initFct);
                window[initFct]();
             }
+
+            //if(!isPageLoad) {
+            // TODO: do not save at page load, only on user click
+            console.warn('TODO collapse: do not save at page load, only on user click !');
+            jQuery(".btSaveDashboard").click();
+            //}
+         });
+
+         jQuery(".remove").click(function() {
+            console.warn('TODO btSaveDashboard should not save this removed plugin !');
+
+            // save dashboard
+            // TODO: i don't know why, but the removed plugin is still saved by the dashboard !
+            //var widget= $(this).closest( ".widget" );
+            //var column= $(this).closest( ".column" );
+            //column.removeChild(widget);
+            jQuery(".btSaveDashboard").click();
          });
 
          jQuery(".btSaveDashboard").click(function() {
@@ -277,7 +294,7 @@ the content of this dialog is furnished by the plugin and loaded by ajax
             dashboardSettingsJson['dashboardTitle'] = "{$dashboardTitle}";
             dashboardSettingsJson['displayedPlugins'] = widgetAttributes;
             var dashboardSettingsJsonStr = JSON.stringify(dashboardSettingsJson);
-            console.log('str = ' , dashboardSettingsJsonStr);
+            //console.log('JsonStr = ' , dashboardSettingsJsonStr);
             
             jQuery.ajax({
                type: "POST",
@@ -305,17 +322,13 @@ the content of this dialog is furnished by the plugin and loaded by ajax
             var attr = widget.children(".attributesJsonStr");
             var attributesJson = jQuery.parseJSON(attr.text());
             var isCollapsed = attributesJson['isCollapsed'];
-            console.log('isCollapsed', isCollapsed);
-            
-            // call the pluginInitFunction if not collapsed
-            if (!isCollapsed) {
-               var initFct = this.innerHTML;
-               console.log('pluginInitFunction = ', initFct);
-               window[initFct]();
-            } else {
-               // collapse the widget, do not initialize
+            if (isCollapsed) {
                widget.find('.collapse').trigger('click');
             }
+            
+            // call the pluginInitFunction
+            var initFct = this.innerHTML;
+            window[initFct]();
          });
          
       });
