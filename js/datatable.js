@@ -15,25 +15,9 @@ jQuery(document).ready(function(){
       cache: true
    });
    
-    TableTools.DEFAULTS.aButtons = [ "copy", "xls" ];
-    TableTools.DEFAULTS.sSwfPath = "lib/DataTables/extensions/TableTools/swf/copy_csv_xls.swf";
-
-    // DEPRECATED: uses Flash
-   jQuery('.datatable').dataTable({
-      "sScrollY": "700px",
-      "bPaginate": false,
-      "bScrollCollapse": true,
-      "bFilter": true,
-      "bSort": true,
-      "bInfo": false,
-      "bAutoWidth": false,
-      // Adapt the jQuery css
-      //"bJQueryUI": true,
-      "sDom": '<"H"Tfr>t'
-   });
-
    // simple table: no filtering, no sorting, no export, but with scrollbar
    jQuery('.datatable_minimal').dataTable({
+      retrieve: true, // WARN http://datatables.net/manual/tech-notes/3
       "sScrollY": "700px",
       "bPaginate": false,
       "bScrollCollapse": true,
@@ -48,6 +32,7 @@ jQuery(document).ready(function(){
 
    // with custom button
    jQuery('.datatable_csv').dataTable({
+      retrieve: true, // WARN http://datatables.net/manual/tech-notes/3
       "sScrollY": "700px",
       "bPaginate": false,
       "bScrollCollapse": true,
