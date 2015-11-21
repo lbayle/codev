@@ -153,7 +153,7 @@ class IssueInfoTools {
       $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);
 
       // create the Dashboard
-      $dashboard = new Dashboard('Task'.$issue->getId());
+      $dashboard = new Dashboard('Tasks_prj'.$issue->getProjectId()); // settings are common all tasks of a project
       $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_TASK);
       $dashboard->setCategories(array(
           IndicatorPluginInterface::CATEGORY_QUALITY,
