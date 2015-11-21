@@ -219,7 +219,7 @@ class ImportIssuesController extends Controller {
             if ('' != $data[0]) {
                $newIssue = array();
                $newIssue['lineNum'] = $row;
-               $newIssue['summary'] = Tools::convertToUTF8($data[0]);
+               $newIssue['summary'] = preg_replace('![\t\r\n]+!',' ',Tools::convertToUTF8($data[0]));
                $newIssue['mgrEffortEstim'] = str_replace(",", ".", Tools::convertToUTF8($data[1])); // 3,5 => 3.5
                $newIssue['effortEstim'] = str_replace(",", ".", Tools::convertToUTF8($data[2])); // 3,5 => 3.5
                $newIssue['description'] = Tools::convertToUTF8($data[3]);

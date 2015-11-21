@@ -348,7 +348,7 @@ class TimeTrackingTools {
                $issues[$issue->getId()] = array(
                   'id' => $issue->getId(),
                   'tcId' => $issue->getTcId(),
-                  'summary' => $issue->getSummary(),
+                  'summary' => htmlspecialchars(preg_replace('![\t\r\n]+!',' ',$issue->getSummary())),
                   'selected' => $issue->getId() == $defaultBugid);
                krsort($issues);
             }

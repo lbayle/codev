@@ -39,7 +39,7 @@ class IssueInfoTools {
       $drift = $issue->getDrift($withSupport);
       $issueGeneralInfo = array(
          "issueId" => $issue->getId(),
-         "issueSummary" => htmlspecialchars($issue->getSummary()),
+         "issueSummary" => htmlspecialchars(preg_replace('![\t\r\n]+!',' ',$issue->getSummary())),
          "issueType" => $issue->getType(),
          "issueDescription" => htmlspecialchars($issue->getDescription()),
          "projectName" => $issue->getProjectName(),

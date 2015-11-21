@@ -359,6 +359,8 @@ class TimeTrackingController extends Controller {
             $formatedJobName = str_replace("'", "\'", $jobName);
             $formatedSummary = str_replace("'", "\'", $issue->getSummary());
             $formatedSummary = str_replace('"', "\'", $formatedSummary);
+            $formatedSummary = htmlspecialchars(preg_replace('![\t\r\n]+!',' ',$formatedSummary));
+
             //$totalEstim = $issue->effortEstim + $issue->effortAdd;
 
             $timetrackingTuples[$row->id] = array(
@@ -373,7 +375,7 @@ class TimeTrackingController extends Controller {
                'issueURL' => Tools::issueInfoURL($row->bugid),
                'issueId' => $issue->getTcId(),
                'projectName' => $issue->getProjectName(),
-               'issueSummary' => $issue->getSummary(),
+               'issueSummary' => htmlspecialchars(preg_replace('![\t\r\n]+!',' ',$issue->getSummary())),
                'jobName' => $jobName,
                'categoryName' => $issue->getCategoryName(),
                'currentStatusName' => $issue->getCurrentStatusName());
