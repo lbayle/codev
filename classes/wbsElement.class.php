@@ -609,7 +609,7 @@ class WBSElement extends Model {
             $detail='';
             if ($hasDetail) {
                $bugids = $this->getBugidList($this->id);
-               $isel = new IssueSelection("wbs_".$wbselement->getId());
+               $isel = new IssueSelection("wbs_".$this->id);
                foreach($bugids as $bugid) {
                   try {
                      $isel->addIssue($bugid);
