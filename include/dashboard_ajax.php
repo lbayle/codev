@@ -25,7 +25,10 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
-if (Tools::isConnectedUser() && (isset($_POST['action']))) {
+// Note: i18n is included by the Controler class, but Ajax dos not use it...
+require_once('i18n/i18n.inc.php');
+
+if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
    $logger = Logger::getLogger("dashboardAjax");
 
@@ -47,6 +50,7 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
          $data = array(
             'description'    => htmlspecialchars($pDesc),
             'attributesHtml' => $html,
+            'statusMsg'      => 'SUCCESS',
          );
 
          // return html & description string
@@ -54,7 +58,7 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
 
       } catch (Exception $e) {
          $logger->error("addDashboardPlugin error: ".$e->getMessage());
-         // TODO send an error msg...
+         $jsonData=json_encode(array('statusMsg' => T_('ERROR: could not get plugin configuration info')));
       }
       echo $jsonData;
 
@@ -89,12 +93,13 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
          // return the created plugin instance to the dashboard
          $data = array(
             'widget'    => $widget,
+            'statusMsg'      => 'SUCCESS',
          );
          $jsonData = json_encode($data);
       } catch (Exception $e) {
          $logger->error("addDashboardPlugin error: ".$e->getMessage());
          $logger->error("addDashboardPlugin stacktrace: ".$e->getTraceAsString());
-         // TODO send an error msg...
+         $jsonData=json_encode(array('statusMsg' => T_('ERROR: could not get plugin widget')));
       }
       echo $jsonData;
       
@@ -104,21 +109,29 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
       $userid = $_SESSION['userid'];
       $teamid = $_SESSION['teamid'];
       
-      // dashboardSettingsJsonStr is a json string containing dashboard & indicator settings.
-      $dashboardSettingsJsonStr = Tools::getSecurePOSTStringValue('dashboardSettingsJsonStr');
-      $dashboardSettings = json_decode(stripslashes($dashboardSettingsJsonStr), true);
+      try {
+         // dashboardSettingsJsonStr is a json string containing dashboard & indicator settings.
+         $dashboardSettingsJsonStr = Tools::getSecurePOSTStringValue('dashboardSettingsJsonStr');
+         $dashboardSettings = json_decode(stripslashes($dashboardSettingsJsonStr), true);
 
-      //$logger->error("dashboardSettings = " . var_export($dashboardSettings, true));
-      
-      $dashboard = new Dashboard($dashboardId);
-      $dashboard->saveSettings($dashboardSettings, $teamid, $userid);
+         //$logger->error("dashboardSettings = " . var_export($dashboardSettings, true));
 
-      // TODO
-      // if user is team admin or manager, save also settings for [team]
-      // so that team users will have a default setting for the team.
-      //$dashboard->saveSettings($settings, $teamid);
+         $dashboard = new Dashboard($dashboardId);
+         $dashboard->saveSettings($dashboardSettings, $teamid, $userid);
 
+         // TODO
+         // if user is team admin or manager, save also settings for [team]
+         // so that team users will have a default setting for the team.
+         //$dashboard->saveSettings($settings, $teamid);
+
+         $jsonData=json_encode(array('statusMsg' => 'SUCCESS'));
+         
+      } catch (Exception $e) {
+         $logger->error("saveDashboardSettings error: ".$e->getMessage());
+         $logger->error("saveDashboardSettings stacktrace: ".$e->getTraceAsString());
+         $jsonData=json_encode(array('statusMsg' => T_('ERROR: could not save dashboard settings, please contact your administrator.')));
+      }
+      echo $jsonData;
    } 
-   
 }
 

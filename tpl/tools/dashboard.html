@@ -49,6 +49,7 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                      </div>
                   </div>
                   </div>
+                  <div><label class="addDashboardErrorMsg error_font" ></label></div>
                   <input type="hidden" name="action" value="addDashboardPlugin" />
                   <input type="hidden" name="pluginAttributesJsonStr" value="0" />
                </fieldset>
@@ -93,6 +94,7 @@ the content of this dialog is furnished by the plugin and loaded by ajax
          jQuery(".cbPluginCandidates option[value='0']").attr('selected', 'selected');
          jQuery('.pluginDescription').html('');
          jQuery(".pluginAttributes").html('');
+         jQuery(".addDashboardErrorMsg").html('');
          jQuery(".pluginConfig").hide();
          
          jQuery(".dialogAddDashboardPlugin").dialog("open");
@@ -173,60 +175,68 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                      dataType:"json",
                      data: dataToSend,
                      success: function(data) {
-                        //console.log(data['widget']);
-                        var widget = data.widget;
+                        if (null === data) {
+                           jQuery(".addDashboardErrorMsg").html("ERROR: could not load plugin, please contact your administrator");
+                        } else {
+                           if ('SUCCESS' !== data.statusMsg) {
+                              jQuery(".addDashboardErrorMsg").html(data.statusMsg);
+                           } else {
+                              console.log(data['widget']);
+                              var widget = data.widget;
 
-                        // load CSS dependencies
-                        jQuery("<link/>", {
-                           rel: "stylesheet",
-                           type: "text/css",
-                           href: "lib/inettuts/inettuts_codevtt.css"
-                        }).appendTo("head");
+                              // load CSS dependencies
+                              jQuery("<link/>", {
+                                 rel: "stylesheet",
+                                 type: "text/css",
+                                 href: "lib/inettuts/inettuts_codevtt.css"
+                              }).appendTo("head");
 
-                        //console.log('css files to load:', widget.cssFiles);
-                        jQuery.each(widget.cssFiles, function( index, value ) {
-                           jQuery("<link/>", {
-                              rel: "stylesheet",
-                              type: "text/css",
-                              href: value
-                           }).appendTo("head");
-                        });      
+                              //console.log('css files to load:', widget.cssFiles);
+                              jQuery.each(widget.cssFiles, function( index, value ) {
+                                 jQuery("<link/>", {
+                                    rel: "stylesheet",
+                                    type: "text/css",
+                                    href: value
+                                 }).appendTo("head");
+                              });
 
-                        // add new Widget to the dashboard
-                        var ulObj = jQuery(".inettuts-column1");
-                        var liObj = jQuery('<li></li>').addClass("widget").addClass(widget.color).attr('id', widget.id);
-                        var divHeadObj = jQuery('<div></div>').addClass("widget-head").append(jQuery('<h3></h3>').html(widget.title));
-                        var divContentObj = jQuery('<div></div>').addClass("widget-content").html(widget.content);
-                        var divObj = jQuery('<div style="display: none;" class="attributesJsonStr"/>').html(widget.attributesJsonStr);
-                        divObj.addClass(widget.pClassName+'Attr');
-                        liObj.append(divObj).append(divHeadObj).append(divContentObj);
-                        ulObj.prepend(liObj);
-      
-                        // load JS dependencies
-                        jQuery.ajax({
-                              async: false,
-                              url: "lib/inettuts/inettuts_codevtt.min.js",
-                              dataType: "script"
-                        });
-                        //console.log('js files to load:', widget.jsFiles);
-                        jQuery.each(widget.jsFiles, function( index, value ) {
-                           jQuery.ajax({
-                                 async: false,
-                                 url: value,
-                                 dataType: "script"
-                           });
-                        });   
-                        //console.log('js load done');
+                              // add new Widget to the dashboard
+                              var ulObj = jQuery(".inettuts-column1");
+                              var liObj = jQuery('<li></li>').addClass("widget").addClass(widget.color).attr('id', widget.id);
+                              var divHeadObj = jQuery('<div></div>').addClass("widget-head").append(jQuery('<h3></h3>').html(widget.title));
+                              var divContentObj = jQuery('<div></div>').addClass("widget-content").html(widget.content);
+                              var divObj = jQuery('<div style="display: none;" class="attributesJsonStr"/>').html(widget.attributesJsonStr);
+                              divObj.addClass(widget.pClassName+'Attr');
+                              liObj.append(divObj).append(divHeadObj).append(divContentObj);
+                              ulObj.prepend(liObj);
 
-                        // execute plugin initialization function
-                        var functionName = jQuery(widget.content).find('.pluginInitFunction').text();
-                        //console.log("pluginInitFunction", functionName);
-                        window[functionName]();
-                        divContentObj.find('#jqplot_target_1').attr('id', 'jqplot_target_' + widget.id);
+                              // load JS dependencies
+                              jQuery.ajax({
+                                    async: false,
+                                    url: "lib/inettuts/inettuts_codevtt.min.js",
+                                    dataType: "script"
+                              });
+                              //console.log('js files to load:', widget.jsFiles);
+                              jQuery.each(widget.jsFiles, function( index, value ) {
+                                 jQuery.ajax({
+                                       async: false,
+                                       url: value,
+                                       dataType: "script"
+                                 });
+                              });
+                              //console.log('js load done');
 
-                        jQuery(".btSaveDashboard").click();
-                        
-                        jQuery(".dialogAddDashboardPlugin").dialog("close");
+                              // execute plugin initialization function
+                              var functionName = jQuery(widget.content).find('.pluginInitFunction').text();
+                              //console.log("pluginInitFunction", functionName);
+                              window[functionName]();
+                              divContentObj.find('#jqplot_target_1').attr('id', 'jqplot_target_' + widget.id);
+
+                              jQuery(".btSaveDashboard").click();
+                              jQuery(".addDashboardErrorMsg").html('');
+                              jQuery(".dialogAddDashboardPlugin").dialog("close");
+                           }
+                        }
                      },
                      error:  function(data) {
                         console.error('ERROR data = ', data);
@@ -237,6 +247,7 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                   });
                },
                Cancel: function() {
+                  jQuery(".addDashboardErrorMsg").html('');
                   jQuery(this).dialog("close");
                }
             }
@@ -306,9 +317,13 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                          isTeamDefaultSettings: "0"
                  },
                  success: function(data) {
+                     if ((null === data) || ('SUCCESS' !== data.statusMsg)) {
+                       alert(data.statusMsg);
+                     }
                  },
-                 error:  function() {
-                    alert("saveDashboardSettings ERROR!");
+                 error:  function(jqXHR, textStatus, errorThrown) {
+                     console.error(textStatus, errorThrown);
+                     alert('ERROR saveDashboardSettings: '+errorThrown);
                  }
             });
             
