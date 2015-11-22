@@ -129,7 +129,7 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
       } catch (Exception $e) {
          $logger->error("saveDashboardSettings error: ".$e->getMessage());
          $logger->error("saveDashboardSettings stacktrace: ".$e->getTraceAsString());
-         $jsonData=json_encode(array('statusMsg' => T_('ERROR: could not save dashboard settings, please contact your administrator.')));
+         $jsonData=json_encode(array('statusMsg' => T_('ERROR: could not save dashboard settings, please contact your administrator')));
       }
       echo $jsonData;
    } 

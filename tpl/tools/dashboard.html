@@ -317,7 +317,9 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                          isTeamDefaultSettings: "0"
                  },
                  success: function(data) {
-                     if ((null === data) || ('SUCCESS' !== data.statusMsg)) {
+                     if (null === data) {
+                       alert('ERROR: could not save dashboard settings, please contact your administrator');
+                     } else if ('SUCCESS' !== data.statusMsg) {
                        alert(data.statusMsg);
                      }
                  },
