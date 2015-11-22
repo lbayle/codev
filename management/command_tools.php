@@ -195,6 +195,9 @@ class CommandTools {
       $endTimestamp = max(array($latestTrackTimestamp, $lastUpdatedTimestamp));
       #echo "getLatestTimetrack = ".date('Y-m-d', $latestTrackTimestamp)." getLastUpdated = ".date('Y-m-d', $lastUpdatedTimestamp).' endDate = '.date('Y-m-d', $endTimestamp).'<br>';
 
+      if (0 == $endTimestamp) {
+         $endTimestamp = $startTimestamp;
+      }
 
       // Calculate a nice day interval
       $nbWeeks = ($endTimestamp - $startTimestamp) / 60 / 60 / 24;

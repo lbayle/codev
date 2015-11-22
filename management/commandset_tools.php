@@ -208,6 +208,10 @@ class CommandSetTools {
       $lastUpdatedTimestamp = $cmdIssueSel->getLastUpdated();
       $endTimestamp = max(array($latestTrackTimestamp, $lastUpdatedTimestamp));
 
+      if (0 == $endTimestamp) {
+         $endTimestamp = $startTimestamp;
+      }
+
       // Calculate a nice day interval
       $nbWeeks = ($endTimestamp - $startTimestamp) / 60 / 60 / 24;
       $interval = ceil($nbWeeks / 20);
