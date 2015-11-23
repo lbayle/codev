@@ -281,13 +281,6 @@ the content of this dialog is furnished by the plugin and loaded by ajax
          });
 
          jQuery(".remove").click(function() {
-            console.warn('TODO btSaveDashboard should not save this removed plugin !');
-
-            // save dashboard
-            // TODO: i don't know why, but the removed plugin is still saved by the dashboard !
-            //var widget= $(this).closest( ".widget" );
-            //var column= $(this).closest( ".column" );
-            //column.removeChild(widget);
             jQuery(".btSaveDashboard").click();
          });
 
@@ -296,9 +289,12 @@ the content of this dialog is furnished by the plugin and loaded by ajax
             
             // Parse the dashboard to get all Widgets and their attributesJsonStr
             var widgetAttributes = [];
-            jQuery('.attributesJsonStr').each(function() {
-               var attributesJson = jQuery.parseJSON(this.innerHTML);
-               widgetAttributes.push(attributesJson);
+            jQuery('.widget:has(.attributesJsonStr)').each(function() {
+               var $widget = $(this);
+               if (true !== $widget.data('isSlidingUp')) {
+                  var attributesJson = jQuery.parseJSON($widget.find('.attributesJsonStr').html());
+                  widgetAttributes.push(attributesJson);
+               }
             });
 
             var dashboardSettingsJson = {};
