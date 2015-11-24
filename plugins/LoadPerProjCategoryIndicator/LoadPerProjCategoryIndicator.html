@@ -86,7 +86,7 @@
                   chart.empty();
                   chart.jqplot(jqplotData, chartoptions);
                }
-               jQuery(".btSaveDashboard").click();
+               saveDashboard();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                if(errorThrown == 'Forbidden') {
