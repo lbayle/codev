@@ -68,10 +68,14 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
    }
 
    public static function getName() {
-      return 'Load per Job';
+      return T_('Load per Job');
    }
-   public static function getDesc() {
-      return 'Check all the timetracks of the period and return their repartition per Job';
+   public static function getDesc($isShortDesc = true) {
+      $desc = T_('Check all the timetracks of the period and return their repartition per Job');
+      if (!$isShortDesc) {
+         $desc .= '<br><br>';
+      }
+      return $desc;
    }
    public static function getAuthor() {
       return 'CodevTT (GPL v3)';

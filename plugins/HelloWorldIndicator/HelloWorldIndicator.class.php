@@ -63,10 +63,10 @@ class HelloWorldIndicator extends IndicatorPluginAbstract {
    }
 
    public static function getName() {
-      return 'Hello World';
+      return T_('Hello World');
    }
-   public static function getDesc() {
-      return 'A simple HelloWorld plugin';
+   public static function getDesc($isShortDesc = true) {
+      return T_('A simple HelloWorld plugin');
    }
    public static function getAuthor() {
       return 'CodevTT (GPL v3)';

@@ -57,10 +57,10 @@ class TimetrackDetailsIndicator extends IndicatorPluginAbstract {
    }
 
    public static function getName() {
-      return 'Timetrack details';
+      return T_('Timetrack details');
    }
-   public static function getDesc() {
-      return 'Display additional info on timetracks';
+   public static function getDesc($isShortDesc = true) {
+      return T_('Display additional info on timetracks');
    }
    public static function getAuthor() {
       return 'CodevTT (GPL v3)';

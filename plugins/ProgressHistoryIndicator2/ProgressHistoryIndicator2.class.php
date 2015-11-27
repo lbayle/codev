@@ -59,10 +59,10 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
 
 
    public static function getName() {
-      return 'Progress history';
+      return T_('Progress history');
    }
    public static function getDesc($isShortDesc = true) {
-      $desc = 'Display the progress history';
+      $desc = T_('Display the progress history');
       if (!$isShortDesc) {
          $desc .= '<br><br>';
       }

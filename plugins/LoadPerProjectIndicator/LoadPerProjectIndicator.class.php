@@ -70,10 +70,10 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
    }
 
    public static function getName() {
-      return 'Load per Project';
+      return T_('Load per Project');
    }
-   public static function getDesc() {
-      return 'Check all the timetracks of the period and return their repartition per Project';
+   public static function getDesc($isShortDesc = true) {
+      return T_('Check all the timetracks of the period and return their repartition per Project');
    }
    public static function getAuthor() {
       return 'CodevTT (GPL v3)';

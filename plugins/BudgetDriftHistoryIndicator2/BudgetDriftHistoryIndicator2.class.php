@@ -60,10 +60,10 @@ class BudgetDriftHistoryIndicator2 extends IndicatorPluginAbstract {
    }
 
    public static function getName() {
-      return 'Budget drift history';
+      return T_('Budget drift history');
    }
    public static function getDesc($isShortDesc = true) {
-      $desc = 'Display the budget history';
+      $desc = T_('Display the budget history');
       if (!$isShortDesc) {
          $desc .= '<br><br>';
       }

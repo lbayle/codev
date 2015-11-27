@@ -59,11 +59,15 @@ class DriftAlertIndicator extends IndicatorPluginAbstract {
 
    public static function getName() {
       //return T_('Task drift alert');
-      return 'Task drift alert';
+      return T_('Task drift alert');
    }
-   public static function getDesc() {
+   public static function getDesc($isShortDesc = true) {
       //return T_('Display tasks in drift');
-      return 'Display tasks in drift';
+      $desc = T_('Display tasks where the elapsed time is greater than the estimated effort');
+      if (!$isShortDesc) {
+         $desc .= '<br><br>';
+      }
+      return $desc;
    }
    public static function getAuthor() {
       return 'CodevTT (GPL v3)';

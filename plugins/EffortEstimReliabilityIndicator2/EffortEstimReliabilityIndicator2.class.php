@@ -62,15 +62,15 @@ class EffortEstimReliabilityIndicator2 extends IndicatorPluginAbstract {
    }
 
    public static function getName() {
-      return 'Effort estimation reliability rate';
+      return T_('Effort estimation reliability rate');
    }
    public static function getDesc($isShortDesc = true) {
-      $desc = 'Display the EffortEstim reliability rate history<br>'.
-         'rate = EffortEstim / elapsed (on resolved tasks only)';
+      $desc = T_('Display the EffortEstim reliability rate history')."<br>".
+         T_('rate = EffortEstim / elapsed (on resolved tasks only)');
       if (!$isShortDesc) {
-         $desc .= '<br><br>REM: An issue that has been reopened before endTimestamp will NOT be recorded.<br>'.
-            '(For the bugs that where re-opened, the EffortEstim may not have been re-estimated,<br>'.
-            'and thus the result is not reliable.)';
+         $desc .= "<br><br>".
+            T_('REM: An issue that has been reopened before endTimestamp will NOT be recorded.')."<br>"
+            .T_('(For the bugs that where re-opened, the EffortEstim may not have been re-estimated, and thus the result is not reliable.)');
       }
       return $desc;
    }

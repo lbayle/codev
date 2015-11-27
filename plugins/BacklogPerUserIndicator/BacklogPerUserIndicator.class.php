@@ -66,10 +66,14 @@ class BacklogPerUserIndicator extends IndicatorPluginAbstract {
    }
 
    public static function getName() {
-      return 'Backlog per User';
+      return T_('Backlog per User');
    }
-   public static function getDesc() {
-      return 'Check all the tasks and return the backlog per User';
+   public static function getDesc($isShortDesc = true) {
+      $desc = T_('Check all the tasks and return the backlog per User');
+      if (!$isShortDesc) {
+         $desc .= '<br><br>';
+      }
+      return $desc;
    }
    public static function getAuthor() {
       return 'CodevTT (GPL v3)';

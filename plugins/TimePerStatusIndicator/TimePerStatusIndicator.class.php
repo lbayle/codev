@@ -59,10 +59,10 @@ class TimePerStatusIndicator extends IndicatorPluginAbstract {
    }
 
    public static function getName() {
-      return 'Time per status';
+      return T_('Time per status');
    }
-   public static function getDesc() {
-      return 'Time allocation by status';
+   public static function getDesc($isShortDesc = true) {
+      return T_('Time allocation by status');
    }
    public static function getAuthor() {
       return 'CodevTT (GPL v3)';

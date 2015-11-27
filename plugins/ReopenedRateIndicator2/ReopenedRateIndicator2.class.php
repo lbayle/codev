@@ -58,10 +58,10 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
    }
 
    public static function getName() {
-      return 'Reopened rate history';
+      return T_('Reopened rate history');
    }
    public static function getDesc($isShortDesc = true) {
-      $desc = 'Display the bug reopened rate history';
+      $desc = T_('Display the bug reopened rate history');
       if (!$isShortDesc) {
          $desc .= '<br><br>';
       }

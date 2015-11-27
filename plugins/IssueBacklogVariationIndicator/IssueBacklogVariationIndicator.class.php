@@ -52,10 +52,10 @@ class IssueBacklogVariationIndicator extends IndicatorPluginAbstract {
    }
 
    public static function getName() {
-      return 'Task backlog variation';
+      return T_('Task burndown chart');
    }
    public static function getDesc($isShortDesc = true) {
-      $desc = 'Display task backlog updates since the task creation';
+      $desc = T_('Display task backlog updates since the task creation');
       return $desc;
    }
    public static function getAuthor() {

@@ -59,10 +59,14 @@ class DeadlineAlertIndicator extends IndicatorPluginAbstract {
    }
 
    public static function getName() {
-      return 'Task deadlines alert';
+      return T_('Task deadlines alert');
    }
-   public static function getDesc() {
-      return 'Display unresolved tasks that should have been delivered';
+   public static function getDesc($isShortDesc = true) {
+      $desc = T_('Display unresolved tasks that should have been delivered');
+      if (!$isShortDesc) {
+         $desc .= '<br><br>';
+      }
+      return $desc;
    }
    public static function getAuthor() {
       return 'CodevTT (GPL v3)';

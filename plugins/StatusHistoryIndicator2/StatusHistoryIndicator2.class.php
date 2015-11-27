@@ -63,10 +63,10 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
    }
 
    public static function getName() {
-      return 'Issue Status History';
+      return T_('Issue Status History');
    }
-   public static function getDesc() {
-      return "Display Issue Status history";
+   public static function getDesc($isShortDesc = true) {
+      return T_('Display Issue Status history');
    }
    public static function getAuthor() {
       return 'CodevTT (GPL v3)';

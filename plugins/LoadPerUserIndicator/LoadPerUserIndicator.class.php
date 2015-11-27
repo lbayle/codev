@@ -70,10 +70,10 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
    }
 
    public static function getName() {
-      return 'Load per User';
+      return T_('Load per User');
    }
-   public static function getDesc() {
-      return 'Check all the timetracks of the period and return their repartition per User';
+   public static function getDesc($isShortDesc = true) {
+      return T_('Check all the timetracks of the period and return their repartition per User');
    }
    public static function getAuthor() {
       return 'CodevTT (GPL v3)';
