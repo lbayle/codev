@@ -143,6 +143,8 @@ the content of this dialog is furnished by the plugin and loaded by ajax
          
          jQuery(".cbPluginCandidates").change(function() {
             if ('0' !== this.value) {
+               jQuery(".addDashboardErrorMsg").html('');
+
                jQuery.ajax({
                   type: "POST",
                     url: 'include/dashboard_ajax.php',
@@ -151,19 +153,36 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                             action: "getPluginConfigInfo"
                     },
                     success: function(data) {
-                       jQuery('.pluginDescription').html(data['description']);
-                       jQuery(".pluginAttributes").html(jQuery.trim(data['attributesHtml']));
-                       jQuery(".pluginConfig").show();
+                      if (null === data) {
+                        jQuery(".addDashboardErrorMsg").html("ERROR: could not get plugin configuration info,<br> please contact your administrator");
+                        jQuery('.pluginDescription').html('');
+                        jQuery(".pluginAttributes").html('');
+                        jQuery(".pluginConfig").hide();
+                      } else {
+                        if ('SUCCESS' !== data.statusMsg) {
+                           jQuery('.pluginDescription').html('');
+                           jQuery(".pluginAttributes").html('');
+                           jQuery(".pluginConfig").hide();
+                           jQuery(".addDashboardErrorMsg").html(data.statusMsg);
+                        } else {
+                           jQuery('.pluginDescription').html(data['description']);
+                           jQuery(".pluginAttributes").html(jQuery.trim(data['attributesHtml']));
+                           jQuery(".pluginConfig").show();
+                        }
+                     }
                     },
                     error:  function() {
-                       alert("getPluginConfigInfo ERROR!");
+                       jQuery('.pluginDescription').html('');
+                       jQuery(".pluginAttributes").html('');
+                       jQuery(".pluginConfig").hide();
+                       jQuery(".addDashboardErrorMsg").html("ERROR getPluginConfigInfo: please contact your administrator");
                     }
                });
             } else {
                jQuery('.pluginDescription').html('');
                jQuery(".pluginAttributes").html('');
                jQuery(".pluginConfig").hide();
-
+               jQuery(".addDashboardErrorMsg").html('');
             }
          });
 
@@ -192,17 +211,14 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                   // (qui est un **objet JSON** en fait, puisque JSON = JavaScript Object Notation ;)
                   var pluginAttributesArray = $pluginElements.serializeArray();
 
-                  // on récupère la liste des checkbox non cochées
-                  // on effectue manuellement un "serializeArray" dessus
-                  // on rajoute cette liste "manuelle" à la liste retournée par jQuery
+                  // unchecked checkboxes are ommitted by the serializeArray, they need to be add manualy
                   var uncheckedElements = $pluginElements.filter('input[type=checkbox]:not(:checked)');
                   var uncheckedElementsArray = uncheckedElements.map(function(i, checkbox){ return { name:checkbox.name, value:0 }; }).get();
                   pluginAttributesArray = pluginAttributesArray.concat(uncheckedElementsArray);
 
-                  // on transforme cet **objet JSON** en **chaine JSON**
                   var pluginOptionsJSONString = JSON.stringify(pluginAttributesArray);
 
-                  // hidden fields: processed data returned returned by ajax
+                  // hidden fields: processed data returned by ajax
                   var formElements = form.find(':input'+ajaxFieldSelector);
                   formElements.filter('[name=pluginAttributesJsonStr]').val(pluginOptionsJSONString);
                   var dataToSend = formElements.serializeArray();
@@ -220,7 +236,6 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                            if ('SUCCESS' !== data.statusMsg) {
                               jQuery(".addDashboardErrorMsg").html(data.statusMsg);
                            } else {
-                              console.log(data['widget']);
                               var widget = data.widget;
 
                               // load CSS dependencies
@@ -280,7 +295,7 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                      error:  function(data) {
                         console.error('ERROR data = ', data);
                         jQuery(".dialogAddDashboardPlugin").dialog("close");
-                        alert("AddDashboardPlugin ERROR!");
+                        jQuery(".addDashboardErrorMsg").html("AddDashboardPlugin ERROR!");
                         //deferred.reject(); // call the 'fail' callback (if defined)
                      }
                   });
