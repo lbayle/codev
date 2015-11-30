@@ -78,7 +78,13 @@ the content of this dialog is furnished by the plugin and loaded by ajax
 
     <script type="text/javascript">
       function addDashboardPlugin(){
-         
+
+         // show all plugins
+         jQuery(".cbPluginCandidates > option").each(function() {
+            //jQuery(this).show();
+            jQuery(".cbPluginCandidates option[value="+ this.value + "]").show();
+         });
+
          // hide already displayed plugins from candidates list
          // Note: this does not work with a select2 combobox
          jQuery('.attributesJsonStr').each(function() {
