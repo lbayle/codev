@@ -92,7 +92,8 @@ the content of this dialog is furnished by the plugin and loaded by ajax
          jQuery(".pluginAttributes").html('');
          jQuery(".addDashboardErrorMsg").html('');
          jQuery(".pluginConfig").hide();
-         
+         jQuery(".dashboardDialog_btAdd .ui-button-text").html("{t}Add{/t}"); // remove spinner
+
          jQuery(".dialogAddDashboardPlugin").dialog("open");
       }
 
@@ -191,8 +192,12 @@ the content of this dialog is furnished by the plugin and loaded by ajax
             resizable: true,
             width: "auto",
             modal: true,
+            create:function () {
+               $(this).closest(".ui-dialog").find(".ui-button:first").addClass("dashboardDialog_btAdd");
+            },
             buttons: {
-               "Add": function() {
+               "{t}Add{/t}": function() {
+                  jQuery(".dashboardDialog_btAdd .ui-button-text").html("<img src='images/spinner.gif' width='16' height='16' alt='{t}Loading{/t}' />");
 
                   // on définit le sélecteur permettant de différencier:
                   // - les champs type "options du plugin" (ceux qui sont affichés)
@@ -232,9 +237,11 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                      success: function(data) {
                         if (null === data) {
                            jQuery(".addDashboardErrorMsg").html("ERROR: could not load plugin, please contact your administrator");
+                           jQuery(".dashboardDialog_btAdd .ui-button-text").html("{t}Add{/t}");
                         } else {
                            if ('SUCCESS' !== data.statusMsg) {
                               jQuery(".addDashboardErrorMsg").html(data.statusMsg);
+                              jQuery(".dashboardDialog_btAdd .ui-button-text").html("{t}Add{/t}");
                            } else {
                               var widget = data.widget;
 
@@ -294,13 +301,13 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                      },
                      error:  function(data) {
                         console.error('ERROR data = ', data);
-                        jQuery(".dialogAddDashboardPlugin").dialog("close");
+                        jQuery(".dashboardDialog_btAdd .ui-button-text").html("{t}Add{/t}");
                         jQuery(".addDashboardErrorMsg").html("AddDashboardPlugin ERROR!");
                         //deferred.reject(); // call the 'fail' callback (if defined)
                      }
                   });
                },
-               Cancel: function() {
+               "{t}Cancel{/t}": function() {
                   jQuery(".addDashboardErrorMsg").html('');
                   jQuery(this).dialog("close");
                }
