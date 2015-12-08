@@ -143,17 +143,33 @@ function updateMantisCustomFiles() {
 
    $mantisPath = Constants::$mantisPath;
 
-   $retCode1 = appendToFile($mantisPath.'/custom_constants_inc.php',
+   // --- check mantis version (config files have been moved in v1.3)
+   if (is_dir($mantisPath.DIRECTORY_SEPARATOR.'config')) {
+      // mantis v1.3 or higher
+      $path_mantis_config = $mantisPath.DIRECTORY_SEPARATOR.'config';
+   } else {
+      // mantis 1.2
+      $path_mantis_config = $mantisPath;
+   }
+
+   if(!is_writable($path_mantis_config)) {
+      return "ERROR: Path to mantis config ". $path_mantis_config." is NOT writable";
+   }
+
+   $retCode1 = appendToFile($path_mantis_config.'/custom_constants_inc.php',
                             Install::FILENAME_CUSTOM_CONSTANTS_CODEVTT,
                             'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY');
+   if(!is_null($retCode1)) { return $retCode1; }
 
-   $retCode2 = appendToFile($mantisPath.'/custom_strings_inc.php',
+   $retCode2 = appendToFile($path_mantis_config.'/custom_strings_inc.php',
                             Install::FILENAME_CUSTOM_STRINGS_CODEVTT,
                             's_rel_constrained_by');
+   if(!is_null($retCode2)) { return $retCode2; }
 
-   $retCode3 = appendToFile($mantisPath.'/custom_relationships_inc.php',
+   $retCode3 = appendToFile($path_mantis_config.'/custom_relationships_inc.php',
                             Install::FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT,
                             'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY');
+   return $retCode3;
 }
 
 /**
@@ -913,7 +929,11 @@ if ("proceedStep3" == $action) {
    //setConfigItems();
 
    echo "DEBUG 3/16 update Mantis custom files<br/>";
-   updateMantisCustomFiles();
+   $errStr = updateMantisCustomFiles();
+   if (!is_null($errStr)) {
+      echo "<span class='error_font'>".$errStr."</span><br/>";
+      $installStepFailed = TRUE;
+   }
 
    echo "DEBUG 4/16 add CodevTT to Mantis menu<br/>";
    removeCustomMenuItem('CodevTT');

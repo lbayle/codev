@@ -144,7 +144,7 @@ $default_url_codevtt           = 'http://'.$hostname.'/codevtt'; // 'http://'.$_
 
 $filename_strings              = "strings_english.txt";
 $filename_custom_strings       = "custom_strings_inc.php";
-$filename_custom_constants      = "custom_constants_inc.php";
+$filename_custom_constants     = "custom_constants_inc.php";
 $filename_custom_relationships = "custom_relationships_inc.php";
 
 $path_mantis = Tools::getSecurePOSTStringValue('path_mantis', $default_path_mantis);
@@ -163,8 +163,22 @@ if ("proceedStep2" == $action) {
       echo "<span class='error_font'>Path to mantis ". $path_mantis." doesn't exist</span><br/>";
       exit;
    }
+
+   // --- check mantis version (config files have been moved in v1.3)
+   if (is_dir($path_mantis.DIRECTORY_SEPARATOR.'config')) {
+      // mantis v1.3 or higher
+      $path_mantis_config = $path_mantis.DIRECTORY_SEPARATOR.'config';
+   } else {
+      // mantis 1.2
+      $path_mantis_config = $path_mantis;
+   }
+
    if(!is_writable($path_mantis)) {
       echo "<span class='error_font'>Path to mantis ". $path_mantis." is NOT writable</span><br/>";
+      exit;
+   }
+   if(!is_writable($path_mantis_config)) {
+      echo "<span class='error_font'>Path to mantis config ". $path_mantis_config." is NOT writable</span><br/>";
       exit;
    }
 
@@ -190,14 +204,14 @@ if ("proceedStep2" == $action) {
       echo "File not loaded: $path_strings<br />";
    }
 
-   $path_custom_strings = $path_mantis.DIRECTORY_SEPARATOR.$filename_custom_strings;
+   $path_custom_strings = $path_mantis_config.DIRECTORY_SEPARATOR.$filename_custom_strings;
    if (file_exists($path_custom_strings)) {
       include_once($path_custom_strings);
    } else {
       echo "File not loaded: $path_custom_strings<br />";
    }
 
-   $filename_config_inc = $path_mantis.DIRECTORY_SEPARATOR."config_inc.php";
+   $filename_config_inc = $path_mantis_config.DIRECTORY_SEPARATOR."config_inc.php";
    if (file_exists($filename_config_inc)) {
       include_once($filename_config_inc);
    } else {
@@ -225,14 +239,14 @@ if ("proceedStep2" == $action) {
          $retCode = false;
       }
    }
-   $path = $path_mantis.DIRECTORY_SEPARATOR.$filename_custom_constants;
+   $path = $path_mantis_config.DIRECTORY_SEPARATOR.$filename_custom_constants;
    if (file_exists($path)) {
       if (!is_writable($path)) {
          echo "<span class='error_font'>".$path." is NOT writable</span><br/>";
          $retCode = false;
       }
    }
-   $path = $path_mantis.DIRECTORY_SEPARATOR.$filename_custom_relationships;
+   $path = $path_mantis_config.DIRECTORY_SEPARATOR.$filename_custom_relationships;
    if (file_exists($path)) {
       if (!is_writable($path)) {
          echo "<span class='error_font'>".$path." is NOT writable</span><br/>";
