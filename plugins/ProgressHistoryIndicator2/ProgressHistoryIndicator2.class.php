@@ -28,7 +28,9 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
    private static $categories;
 
    // config options from dataProvider
+   /** @var IssueSelection */
    private $inputIssueSel;
+
    private $startTimestamp;
    private $endTimestamp;
 
@@ -326,14 +328,15 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
 
       } // foreach timestamp
 
-      // PERF logging is slow, factorize errors
-      if ($nbZeroDivErrors1 > 0) {
-         self::$logger->error("$nbZeroDivErrors1 Division by zero ! (mgrEffortEstim)");
+      if (count($this->inputIssueSel->getIssueList()) > 0) {
+         // PERF logging is slow, factorize errors
+         if ($nbZeroDivErrors1 > 0) {
+            self::$logger->error("$nbZeroDivErrors1 Division by zero ! (mgrEffortEstim)");
+         }
+         if ($nbZeroDivErrors2 > 0) {
+            self::$logger->error("$nbZeroDivErrors2 Division by zero ! (elapsed + realBacklog)");
+         }
       }
-      if ($nbZeroDivErrors2 > 0) {
-         self::$logger->error("$nbZeroDivErrors2 Division by zero ! (elapsed + realBacklog)");
-      }
-
       $this->execData = array();
       $this->execData['theo'] = $theoBacklog;
       $this->execData['real'] = $realBacklog;
