@@ -38,7 +38,7 @@
         }
 
         jQuery("#login_container").dialog({
-            title: '{t}CodevTT Identification{/t}',
+            title: 'CodevTT {$codevVersion}',
             autoOpen: true,
             dialogClass: 'no-close',
             closeOnEscape: false,
@@ -121,11 +121,26 @@
         <fieldset>
             <label for="codev_login">{t}Login{/t}: </label><br /><input name="codev_login" type="text" id="codev_login" /><br /><br />
             <label for="codev_passwd">{t}Password{/t}: </label><br /><input name="codev_passwd" type="password" id="codev_passwd" />
+            <div  style="margin-top:2em;">
+               <label>DEMO logins :</label>
+               <table>
+                  <caption></caption>
+                  <tr>
+                     <th>login</th>
+                     <th>password</th>
+                  </tr>
+                  <tr>
+                     <td>manager</td>
+                     <td>manager2012</td>
+                  </tr>
+                  <tr>
+                     <td>user1</td>
+                     <td>user2012</td>
+                  </tr>
+               </table>
+            </div>
             <input type="hidden" name="action" value="login" />
         </fieldset>
-      <p>
-         <a href="{$mantisURL}/lost_pwd_page.php">{t}Lost your password?{/t}</a>
-      </p>
     </form>
     <p id="validateTips"></p>
     <div id="login_success" class="ui-helper-hidden" style="text-align:center;">

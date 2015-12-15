@@ -44,20 +44,7 @@ class EditTeamController extends Controller {
          if(count($teamList) > 0) {
 
             if (isset($_POST['deletedteam'])) {
-               $teamidToDelete = Tools::getSecurePOSTIntValue("deletedteam");
-               if(array_key_exists($teamidToDelete,$teamList)) {
-
-                  $retCode = Team::delete($teamidToDelete);
-                  if (!$retCode) {
-                     $this->smartyHelper->assign('error', T_("Couldn't delete the team"));
-                  } else {
-                     if ($teamidToDelete == $_SESSION['teamid']) {
-                        unset($_SESSION['teamid']);
-                        $this->updateTeamSelector();
-                     }
-                     unset($teamList[$teamidToDelete]);
-                  }
-               }
+                $this->smartyHelper->assign('error', T_("Delete team deactivated on DEMO !"));
             }
 
             // use the teamid set in the form, if not defined (first page call) use session teamid
