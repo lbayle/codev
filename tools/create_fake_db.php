@@ -1,24 +1,25 @@
 <?php
-require('../include/session.inc.php');
+require(realpath(dirname(__FILE__)).'/../include/session.inc.php');
+require(realpath(dirname(__FILE__)).'/../path.inc.php');
 
 /*
    This file is part of CodevTT
-
-   CodevTT is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   CodevTT is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require('../path.inc.php');
+$logger = Logger::getLogger("create_fake_db");
+
+# Make sure this script doesn't run via the webserver
+if( php_sapi_name() != 'cli' ) {
+	echo "create_fake_db.php is not allowed to run through the webserver.\n ";
+   $logger->error("send_timesheet_emails.php is not allowed to run through the webserver.");
+	exit( 1 );
+}
+
+
+
 
 /*
  *
@@ -45,379 +46,234 @@ demander le projet, puis:
 function execQuery($query) {
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
+      echo "ERROR: Query FAILED $query\n";
       exit;
    }
    return $result;
 }
 
-function create_fake_db($projectidList, $formattedFieldList, $projectNames, $StrReplacements) {
+function create_fake_db($formattedFieldList) {
    
    $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
 
-   // remove ALL files from ALL PROJECTS  (OVH upload fails) 
-   $query  = "DELETE FROM `mantis_bug_file_table` ";
-   $result = execQuery($query);
+   $stProjTypeProject=Config::getInstance()->getValue(Config::id_externalTasksProject); // 1
+
+
+   updateUsers();
+   updateTeams();
+   updateProjects();
    
-   // rename project categories
-   $formattedProjList = implode(',', $projectidList);
-   $query  = "SELECT * from `mantis_category_table` WHERE `project_id` IN ($formattedProjList)";
-   $result1 = execQuery($query);
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
-      $query  = "UPDATE `mantis_category_table` SET `name`='Category_".$row->project_id.$row->id."' WHERE `id`='$row->id' ";
-      $result2 = execQuery($query);
-   }   
    
-   echo "-  Clean issues...<br>"; flush();
+   echo "-  Clean issues...\n"; flush();
    $j = 0;
-   foreach($projectidList as $projid) {
+
+   // all prj except SideTasksProjects (and externalTasksPrj)
+   $resProjects = execQuery("SELECT * from `mantis_project_table` WHERE id NOT IN (SELECT DISTINCT project_id FROM `codev_team_project_table` WHERE type = $stProjTypeProject)");
+   while($rowPrj = SqlWrapper::getInstance()->sql_fetch_object($resProjects))	{
+
+      $projid = $rowPrj->id;
+
+      if ($stProjTypeProject === $projid) { continue; } // skip externalTasksPrj
+
 
       // change project name
-      $query  = "UPDATE `mantis_project_table` SET `name`='".$projectNames[$j]."' where `id`='$projid'";
-      $result = execQuery($query);
+      execQuery("UPDATE `mantis_project_table` SET `name`='Project_".$projid."' where `id`='$projid'");
       $j++;
 
-      $query  = "DELETE FROM `mantis_email_table` ";
-      $result = execQuery($query);
+      execQuery("DELETE FROM `mantis_email_table` ");
 
       // clean project issues
-      $query  = "SELECT * from `mantis_bug_table` WHERE `project_id`='$projid'";
-      $result1 = execQuery($query);
+      $result1 = execQuery("SELECT * from `mantis_bug_table` WHERE `project_id`='$projid'");
       $i = 0;
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
 
          $i++;
-         #echo "process project $projid issue $row->id <br>";
+         #echo "process project $projid issue $row->id";
 
-         $query  = "UPDATE `mantis_bug_table` SET `summary`='task p".$projid."_$i ' WHERE `id`='$row->id' ";
-         $result = execQuery($query);
+         $query  = "UPDATE `mantis_bug_table` SET `summary`='task p".$projid."_".$row->id." ' WHERE `id`='$row->id' ";
+         execQuery($query);
 
          $query  = "UPDATE `mantis_bug_text_table` SET `description`='this is a fake issue...' WHERE `id`='$row->bug_text_id' ";
-         $result = execQuery($query);
+         execQuery($query);
 
          $query  = "DELETE FROM `mantis_bugnote_table` WHERE `bug_id`='$row->id' ";
-         $result = execQuery($query);
-
-         #$query  = "DELETE FROM `mantis_bug_file_table` WHERE `bug_id`='$row->id' ";
-         #$result = execQuery($query);
+         execQuery($query);
 
          $query  = "UPDATE `mantis_bug_revision_table` SET `value` = 'revision on fake issue' WHERE `bug_id`='$row->id' ";
-         $result = execQuery($query);
+         execQuery($query);
          
          $query  = "DELETE FROM `mantis_bug_history_table` WHERE `bug_id`='$row->id' AND `field_name` IN ($formattedFieldList)";
-         $result = execQuery($query);
+         execQuery($query);
 
          $query  = "UPDATE `mantis_custom_field_string_table` SET `value`='R".($projid*2).($i*231)."' WHERE `field_id`='".$extIdField."' AND `bug_id`='$row->id' AND `value` <> '' ";
-         $result = execQuery($query);
+         execQuery($query);
 
          
       } // issue
    } // proj
 
    // commands
-   echo "-  Clean commands...<br>"; flush();
-   $query  = "UPDATE `codev_command_table` SET `reporter` = 'Joe the customer'";
-   $result = execQuery($query);
-   $query  = "UPDATE `codev_command_table` SET `description` = 'fake description...'";
-   $result = execQuery($query);
+   echo "-  Clean commands...\n"; flush();
+   execQuery("UPDATE codev_command_table SET `reporter` = 'Joe the customer'");
+   execQuery("UPDATE codev_command_table SET `description` = 'fake description...'");
 
-/*
-   $query  = "SELECT * from `codev_command_table`";
-   $result1 = execQuery($query);
+   $result1 = execQuery("SELECT * from `codev_command_table`");
    $i = 0;
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
       $i++;
-      $query  = "UPDATE `codev_command_table` SET `cost` = '".($i*123+1001200)."00' WHERE `id` ='$row->id' ";
-      $result = execQuery($query);
+      execQuery("UPDATE codev_command_table set `name` = 'cmd_$row->id' WHERE `id` ='$row->id' ");
+      execQuery("UPDATE codev_command_table set `reference` = 'Ref_$row->id".($i*4)."' WHERE `id` ='$row->id'");
+//      $query  = "UPDATE `codev_command_table` SET `cost` = '".($i*123+1001200)."00' WHERE `id` ='$row->id' ";
+//      execQuery($query);
    }   
-*/
-   // commandSets
-   $query  = "UPDATE `codev_commandset_table` SET `description` = 'fake description...'";
-   $result = execQuery($query);
 
-   $query  = "SELECT * from `codev_commandset_table`";
-   $result1 = execQuery($query);
+   // commandSets
+   execQuery("UPDATE `codev_commandset_table` SET `description` = 'fake description...'");
+
+   $result1 = execQuery("SELECT * from `codev_commandset_table`");
    $i = 0;
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
       $i++;
-      $query  = "UPDATE `codev_commandset_table` SET `reference` = 'Ref_$row->id".($i*3)."' WHERE `id` ='$row->id' ";
-      $result = execQuery($query);
+      execQuery("UPDATE codev_commandset_table set `name` = 'cset_$row->id' WHERE `id` ='$row->id'");
+      execQuery("UPDATE codev_commandset_table SET `reference` = 'Ref_$row->id".($i*3)."' WHERE `id` ='$row->id' ");
       
       //$query  = "UPDATE `codev_commandset_table` SET `budget` = '".($i*623+2001200)."50' WHERE `id` ='$row->id' ";
-      //$result = execQuery($query);
+      //execQuery($query);
    }   
 
    // ServiceContract
-   $query  = "UPDATE `codev_servicecontract_table` SET `reporter` = 'Joe the customer'";
-   $result = execQuery($query);
-   $query  = "UPDATE `codev_servicecontract_table` SET `description` = 'fake description...'";
-   $result = execQuery($query);
+   execQuery("UPDATE `codev_servicecontract_table` SET `reporter` = 'Joe the customer'");
+   execQuery("UPDATE `codev_servicecontract_table` SET `description` = 'fake description...'");
 
-   $query  = "SELECT * from `codev_servicecontract_table`";
-   $result1 = execQuery($query);
+   $result1 = execQuery("SELECT * from `codev_servicecontract_table`");
    $i = 0;
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
       $i++;
-      $query  = "UPDATE `codev_servicecontract_table` SET `reference` = 'OTP_$row->id".($i*3)."' WHERE `id` ='$row->id' ";
-      $result = execQuery($query);
+      execQuery("UPDATE codev_servicecontract_table set `name` = 'sc_$row->id' WHERE `id` ='$row->id'");
+      execQuery("UPDATE codev_servicecontract_table SET `reference` = 'OTP_$row->id".($i*3)."' WHERE `id` ='$row->id' ");
    }   
 
    
-   stringReplacements($StrReplacements);
 
-   updateUsers();
-   updateTeams();
-   updateProjects();
-
-}
-
-function stringReplacements($StrReplacements) {
-   // string replacements
-   echo "-  Clean strings...<br>"; flush();
-
-   $i = 0;
-   foreach ($StrReplacements as $orig => $dest) {
-      $query  = "UPDATE codev_command_table set `name` = REPLACE(`name`,'$orig','$dest')";
-      $result = execQuery($query);
-      $query  = "UPDATE codev_command_table set `reference` = REPLACE(`reference`,'$orig','$dest')";
-      $result = execQuery($query);
-
-      $query  = "UPDATE codev_servicecontract_table set `name` = REPLACE(`name`,'$orig','$dest')";
-      $result = execQuery($query);
-      $query  = "UPDATE codev_commandset_table set `name` = REPLACE(`name`,'$orig','$dest')";
-      $result = execQuery($query);
-
-      $query  = "UPDATE codev_wbs_table set `title` = REPLACE(`title`,'$orig','$dest')";
-      $result = execQuery($query);
-
-      $query  = "UPDATE mantis_bug_table set `summary` = REPLACE(`summary`,'$orig','$dest')";
-      $result = execQuery($query);
-
-      $query  = "UPDATE mantis_custom_field_string_table set `value` = REPLACE(`value`,'$orig','$dest')";
-      $result = execQuery($query);
-
-      $query  = "UPDATE codev_command_provision_table set `summary` = REPLACE(`summary`,'$orig','$dest')";
-      $result = execQuery($query);
-
-      # NO ! this breaks planning deadlines
-      #$query  = "UPDATE mantis_project_version_table set `version` = REPLACE(`version`,'$orig','$dest')";
-      #$result = execQuery($query);
-
-      $query  = "UPDATE mantis_project_version_table set `description` = REPLACE(`description`,'$orig','$dest')";
-      $result = execQuery($query);
-   }
 }
 
 
 function updateUsers() {
-   echo "-  Clean users...<br>"; flush();
+   echo "-  Clean users...\n"; flush();
 
-   $userNames = array(
-      '4' => "User TWO",
-      '5' => "User THREE",
-      '6' => "User FOUR",
-      '7' => "User FIVE",
-      '8' => "User SIX",
-      '9' => "User SEVEN",
-      '10' => "User EIGHT",
-      '11' => "User NINE",
-      '12' => "User TEN",
-      '13' => "User ELEVEN",
-      '14' => "User TWELVE",
-      '15' => "User THIRTEEN",
-      '16' => "User FOURTEEN",
-      '17' => "User FIFTEEN",
-      '18' => "User SIXTEEN",
-      '19' => "User SEVENTEEN",
-      '20' => "User EIGHTEEN",
-      '21' => "User 19",
-      '22' => "User 20",
-      '23' => "User 21",
-      '24' => "User 22",
-      '25' => "User 23",
-      '26' => "User 24");
-
-   $query  = "SELECT id from `mantis_user_table` WHERE id NOT IN (1, 2, 3, 5, 8)"; // administrator, manager, lbayle, nvelin, user1
+   $mgrId=37;
+   $usrId=41; // 44
+   $lbayleId=2;
+   $query  = "SELECT id from `mantis_user_table` WHERE id NOT IN (1, $lbayleId, $mgrId, $usrId)"; // administrator, manager, lbayle, user1
    $result1 = execQuery($query);
    $i = 0;
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
       $i++;
-      $query  = "UPDATE `mantis_user_table` SET `realname` = '".$userNames[$row->id]."' WHERE `id` ='$row->id' ";
-      $result = execQuery($query);
+      $query  = "UPDATE `mantis_user_table` SET `realname` = 'User NAME".$row->id."' WHERE `id` ='$row->id' ";
+      execQuery($query);
       $query  = "UPDATE `mantis_user_table` SET `username` = 'user".$row->id."' WHERE `id` ='$row->id' ";
-      $result = execQuery($query);
-      $query  = "UPDATE `mantis_user_table` SET `email` = 'user".$row->id."@codevtt.org' WHERE `id` ='$row->id' ";
-      $result = execQuery($query);
+      execQuery($query);
+      $query  = "UPDATE `mantis_user_table` SET `email` = 'user".$row->id."@yahoo.com' WHERE `id` ='$row->id' ";
+      execQuery($query);
       $query  = "UPDATE `mantis_user_table` SET `password` = '5ebe2294ecd0e0f08eab7690d2a6ee69' WHERE `id` ='$row->id' ";
-      $result = execQuery($query);
+      execQuery($query);
    }
 
    // john the manager
-   $query  = "UPDATE `mantis_user_table` SET `realname` = 'John the MANAGER' WHERE `id` ='2' ";
-   $result = execQuery($query);
-   $query  = "UPDATE `mantis_user_table` SET `username` = 'manager' WHERE `id` ='2' ";
-   $result = execQuery($query);
-   $query  = "UPDATE `mantis_user_table` SET `email` = 'manager@codevtt.org' WHERE `id` ='2' ";
-   $result = execQuery($query);
-   $query  = "UPDATE `mantis_user_table` SET `password` = 'e26f604637ae454f792f4fcbff878bd1' WHERE `id` ='2' ";
-   $result = execQuery($query); // passwd: manager2012
+   $query  = "UPDATE `mantis_user_table` SET `realname` = 'John the MANAGER' WHERE `id` ='$mgrId' ";
+   execQuery($query);
+   $query  = "UPDATE `mantis_user_table` SET `username` = 'manager' WHERE `id` ='$mgrId' ";
+   execQuery($query);
+   $query  = "UPDATE `mantis_user_table` SET `email` = 'manager@yahoo.com' WHERE `id` ='$mgrId' ";
+   execQuery($query);
+   $query  = "UPDATE `mantis_user_table` SET `password` = 'e26f604637ae454f792f4fcbff878bd1' WHERE `id` ='$mgrId' ";
+   execQuery($query); // passwd: manager2012
 
    // user1
-   $query  = "UPDATE `mantis_user_table` SET `realname` = 'User ONE' WHERE `id` ='8' ";
-   $result = execQuery($query);
-   $query  = "UPDATE `mantis_user_table` SET `username` = 'user1' WHERE `id` ='8' ";
-   $result = execQuery($query);
-   $query  = "UPDATE `mantis_user_table` SET `email` = 'user1@codevtt.org' WHERE `id` ='8' ";
-   $result = execQuery($query);
-   $query  = "UPDATE `mantis_user_table` SET `password` = 'ea36a50f4c8944dacadb16e6ca0dd582' WHERE `id` ='8' ";
-   $result = execQuery($query); // passwd: user2012
+   $query  = "UPDATE `mantis_user_table` SET `realname` = 'User ONE' WHERE `id` ='$usrId' ";
+   execQuery($query);
+   $query  = "UPDATE `mantis_user_table` SET `username` = 'user1' WHERE `id` ='$usrId' ";
+   execQuery($query);
+   $query  = "UPDATE `mantis_user_table` SET `email` = 'user1@yahoo.com' WHERE `id` ='$usrId' ";
+   execQuery($query);
+   $query  = "UPDATE `mantis_user_table` SET `password` = 'ea36a50f4c8944dacadb16e6ca0dd582' WHERE `id` ='$usrId' ";
+   execQuery($query); // passwd: user2012
 
-   // admin
+   // admin (password must be changed manualy in OVH !!)
    $query  = "UPDATE `mantis_user_table` SET `password` = 'e26f604637ae454f792f4fcbff878bd1' WHERE `id` ='1' ";
-   $result = execQuery($query);
+   execQuery($query);
 }
 
 function updateTeams() {
 
-   echo "-  Clean teams...<br>"; flush();
+   echo "-  Clean teams...\n"; flush();
+   
+   $mgrId=37;
+   $lbayleId=2;
+   $demoTeamId=11;
+   $stprojId=24;
+
+   execQuery("UPDATE `codev_team_table` SET `leader_id` = '$lbayleId' ");
+
+   //execQuery("UPDATE `codev_team_user_table` SET access_level = 10 WHERE team_id <> $demoTeamId AND user_id = $mgrId");
+   execQuery("DELETE FROM `codev_team_user_table` WHERE team_id <> $demoTeamId AND user_id = $mgrId");
+
+
+   $resTeams = execQuery("SELECT * FROM `codev_team_table` WHERE id NOT IN (1, $demoTeamId)");
+   while($rowTeam = SqlWrapper::getInstance()->sql_fetch_object($resTeams))	{
+
+      execQuery("UPDATE `codev_team_table` SET `name` = 'Team".$rowTeam->id."' WHERE `id` ='$rowTeam->id' ");
+   }
 
    // codev_admin team
-   $query  = "DELETE FROM `codev_team_user_table` WHERE `team_id` ='1' AND user_id NOT IN (1,3)"; // admin,lbayle
-   $result = execQuery($query);
+   $query  = "DELETE FROM `codev_team_user_table` WHERE `team_id` ='1' AND user_id NOT IN (1,$lbayleId)"; // admin,lbayle
+   execQuery($query);
 
    // demo team
-   $query  = "UPDATE `codev_team_table` SET `name` = 'DEMO_Team' WHERE `id` ='4' ";
-   $result = execQuery($query);
-   $query  = "UPDATE `codev_team_table` SET `leader_id` = '2' WHERE `id` ='4' ";
-   $result = execQuery($query);
-   $query  = "UPDATE `codev_team_table` SET `description` = '' WHERE `id` ='4' ";
-   $result = execQuery($query);
-   $query  = "UPDATE `mantis_project_table` SET `name` = 'SideTasks DEMO_Team' WHERE `id` ='15' ";
-   $result = execQuery($query);
+   execQuery("UPDATE `codev_team_table` SET `name` = 'DEMO_Team' WHERE `id` ='$demoTeamId' ");
+   execQuery("UPDATE `codev_team_table` SET `leader_id` = '$mgrId' WHERE `id` ='$demoTeamId' ");
+   execQuery("UPDATE `codev_team_table` SET `description` = '' WHERE `id` ='$demoTeamId' ");
+   execQuery("UPDATE `mantis_project_table` SET `name` = 'SideTasks DEMO_Team' WHERE `id` ='$stprojId' ");
 
-   // CodevTT team
-   $query  = "UPDATE `codev_team_table` SET `name` = 'CodevTT' WHERE `id` ='10' ";
-   $result = execQuery($query);
-   
 }
 
 function updateProjects() {
 
-   echo "-  Clean projects...<br>"; flush();
+   echo "-  Clean projects...\n"; flush();
 
-   $query  = "UPDATE `mantis_project_table` SET `name` = 'ExternalTasks' WHERE `id` ='1' ";
-   $result = execQuery($query);
-   
-   $query  = "UPDATE `mantis_project_table` SET `name` = 'SideTasks DEMO_Team' WHERE `id` ='15' ";
-   $result = execQuery($query);
-   $query  = "UPDATE `mantis_project_table` SET `description` = '' WHERE `id` ='15' ";
-   $result = execQuery($query);
-   
-   $query  = "UPDATE `mantis_project_table` SET `name` = 'SideTasks CodevTT' WHERE `id` ='49' ";
-   $result = execQuery($query);
-   
-   // template XXX
-   $query  = "DELETE FROM `mantis_project_table` WHERE `id` ='12'";
-   $result = execQuery($query);
+   $stprojId=24;
 
-   // template CodevTT
-   $query  = "DELETE FROM `mantis_project_table` WHERE `id` ='13'";
-   $result = execQuery($query);
+   // remove ALL files from ALL PROJECTS  (OVH upload fails)
+   execQuery("DELETE FROM `mantis_bug_file_table` ");
+   execQuery("UPDATE `mantis_project_table` SET `description` = '' ");
+
+   $resStProjects = execQuery("SELECT DISTINCT project_id FROM `codev_team_project_table` WHERE type = 1");
+   while($rowStPrj = SqlWrapper::getInstance()->sql_fetch_object($resStProjects))	{
+
+      execQuery("UPDATE `mantis_project_table` SET `name` = 'SideTasks $rowStPrj->project_id' WHERE `id` ='$rowStPrj->project_id' ");
+   }
+
+   // rename project categories
+/*
+   $result1 = execQuery("SELECT * from `mantis_category_table`");
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
+      $query  = "UPDATE `mantis_category_table` SET `name`='Category_".$row->project_id.$row->id."' WHERE `id`='$row->id' ";
+      $result2 = execQuery($query);
+   }
+*/
+   // external tasks project
+   execQuery("UPDATE `mantis_project_table` SET `name` = 'ExternalTasks' WHERE `id` ='1' ");
+
+   // demo projects
+   execQuery("UPDATE `mantis_project_table` SET `name` = 'SideTasks DEMO_Team' WHERE `id` ='$stprojId' ");
 
 }
 
 // ================ MAIN =================
-$logger = Logger::getLogger("create_fake_db");
-
-$projectidList = array(14,16,18,19,23,24,25,39,51,54,55,56,57);
-
-$projectNames = array(
-    'TSUNO',
-    'ZORGLUB',
-    'CORTO',
-    'PIZZICATO',
-    'BIMBO',
-    'ENIGMA',
-    'PURCELL',
-    'TONSAI',
-    'LAMA',
-    'ZOLA',
-    'BERHAULT',
-    'RAVEL',
-    'OHANA',
-    'BIRELLI',
-    'PASTORIUS',
-    'HUNZA WATER',
-    'GAUDI',
-    'FIANAR',
-    'BARBAPAPA',
-    'LAHORE',
-    '',
-   );
-
-$StrReplacements = array(
-    'CMS_INDE' => 'TSUNO',
-    'INDE' => 'TSUNO',
-    'BRESIL' => 'ZORGLUB',
-    'SBR' => 'ZORG',
-    'BARRACUDA' => 'CORTO',
-    'BARR' => 'CORTO',
-    'NG4' => 'PIZZICATO',
-    'DCNS' => 'PACC',
-    'OPMNT' => 'CALC',
-    'PMFL' => 'MAKI',
-    'CMSADM' => 'GALEH',
-    'CMS' => 'TAZ',
-    'GEMO' => 'OPI',
-    'FdP' => 'Cmd',
-    'CK' => 'OP',
-    'IAM51' => 'MAYA',
-    'TRAIN' => 'ATT',
-    'BARR' => 'MOM',
-    'OJT' => 'POO',
-    'COMSYS' => 'TOO',
-    'SBR' => 'EXX',
-);
-
 
 $fieldNamesToClear = array(
-             'Version souhaitee de realisation',
              'Version produit interne',
              'Version produit client',
-             'Version GEMO de réalisation décidée',
-             'Version de realisation interne',
-             'Version de realisation',
-             'Version ciblée DCNS',
-             'Traitement a appliquer',
-             'Rea_CoutRealisation',
-             'Produit niveau 1',
-             'Pièces jointes ADEL',
-#             "Phase d'analyse",
-             'Phase activite detection de la FFT',
-             'Origine',
-             'Niveau produit interne',
-             'Informations complementaires',
-             'FFT mère',
-             'FFT fille',
-             'Emetteur ADEL',
-             'Description',
-             'Dcl_AutreIdentifiant',
-             'Dci_VersionCibleeN',
-             'Dci_ProduitClientVersion',
-             'Dci_Produit',
-             'Commentaire realisation',
-             'Commentaire du controle',
-             'Commentaire de réalisation DCNS',
-             'Commentaire de décision DCNS',
-             'Avis',
-             'Attachments.filename',
-             'Attachments.description',
-             'Anomalie documentaire',
-             'Ana_TypeAnomalie',
-             'Analyse',
-             'Reference externe',
-             'Nouveau bogue du client ',
-             'Projet'
              );
 
 $formattedFieldList = '';
@@ -426,8 +282,7 @@ foreach ($fieldNamesToClear as $fname) {
    $formattedFieldList .= "'".$fname."'"; // add quotes
 }
 
+create_fake_db($formattedFieldList);
 
-create_fake_db($projectidList, $formattedFieldList, $projectNames, $StrReplacements);
-
- echo '<br>Done.';
-?>
+ echo "Done.\n";
+ 
