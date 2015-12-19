@@ -97,6 +97,7 @@
                 node.focus();
               });
         } else {
+           console.error("WBS Root element cannot be renamed.")
            alert('{t}WBS Root element cannot be renamed.{/t}');
         }
      }
@@ -110,8 +111,10 @@
                 nodesToDelete.push(node.data.key);
              }
          } else if (node.getLevel() == 1) {
+            console.error("Root element cannot be deleted.")
             alert("{t}Root element cannot be deleted.{/t}");
          } else {
+            console.error("Delete Failed: Folder must be empty.")
             alert("{t}Delete Failed: Folder must be empty.{/t}");
          }
       }
@@ -153,6 +156,7 @@
               },
               error:  function() {
                  alert("WBS Save ERROR!");
+                 console.error("WBS Save ERROR!")
                  deferred.reject(); // call the 'fail' callback (if defined)
               }
          });

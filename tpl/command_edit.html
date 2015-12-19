@@ -157,7 +157,23 @@
                }
 
                if (0 == foundError) {
+                  {if isset($commandid)}
+                  // function defined in wbsEditor.html
+                  var deferred = saveTree();
+                  // set success callback:
+                  deferred.done(function () {
+                     // If WBS save ok, then save & quit
+                     form.submit();
+                  });
+                  // set error callback:
+                  deferred.fail(function () {
+                     $("#tree").dynatree("destroy");
+                     initTree();
+                  });
+                  {else}
                   form.submit();
+                  {/if}
+                  
                } else {
                   alert(msgString);
                }
