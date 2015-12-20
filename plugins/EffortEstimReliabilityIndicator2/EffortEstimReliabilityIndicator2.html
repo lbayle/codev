@@ -1,5 +1,6 @@
 <div class="effortEstimReliabilityIndicator2">
 <div class="pluginInitFunction"  style="display: none;">effortEstimReliabilityIndicator2JsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">effortEstimReliabilityIndicator2JsDestroy</div>
 {if isset($effortEstimReliabilityIndicator2_jqplotData)}
 <div>
    <div class="effortEstimReliabilityIndicator2Chart date_chart_with_horizontal_line chart inlineBlock" style="width:95%;"></div>
@@ -57,6 +58,12 @@
 {/if}
 
 <script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function effortEstimReliabilityIndicator2JsDestroy() {
+      jQuery(".effortEstimReliabilityIndicator2HelpDialog").dialog('destroy').remove();
+      jQuery(".effortEstimReliabilityIndicator2ValuesDialog").dialog('destroy').remove();
+   }
 
    // this function will be run at jQuery(document).ready (see dashboard.html) or
    // when a new widjet is added to the dashboard.
