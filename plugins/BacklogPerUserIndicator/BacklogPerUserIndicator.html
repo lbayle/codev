@@ -2,6 +2,7 @@
 
 <div>
    <div class="pluginInitFunction"  style="display: none;">backlogPerUserIndicatorJsInit</div>
+   <div class="pluginDestroyFunction"  style="display: none;">backlogPerUserIndicatorJsDestroy</div>
    
    <div class="backlogPerUserIndicatorDiv" align="left" style="margin-top: 1em;">
 
@@ -64,6 +65,11 @@
 </div>
 
 <script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function backlogPerUserIndicatorJsDestroy() {
+      jQuery(".backlogPerUserIndicatorHelpDialog").dialog('destroy').remove();
+   }
 
    // this function will be run at jQuery(document).ready (see dashboard.html) or
    // when a new widjet is added to the dashboard.

@@ -1,4 +1,6 @@
 <div class="LoadPerProjCategoryIndicator">
+<div class="pluginInitFunction"  style="display: none;">loadPerProjCategoryIndicatorJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">loadPerProjCategoryIndicatorJsDestroy</div>
 
 <div align="left" style="margin-top:1em;">
    <form class="loadPerProjCategoryIndicator_dateRange_form" method="get" action="{$loadPerProjCategoryIndicator_ajaxPhpURL}">
@@ -21,7 +23,6 @@
    </form>
 </div>
 <div>
-   <div class="pluginInitFunction"  style="display: none;">loadPerProjCategoryIndicatorJsInit</div>
    <div class="loadPerProjCategoryIndicatorDiv" align="left" style="margin-top: 1em;">
       {include file="`$loadPerProjCategoryIndicator_ajaxFile`"}
    </div>
@@ -30,6 +31,12 @@
 </div>
 
 <script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function loadPerProjCategoryIndicatorJsDestroy() {
+      console.log('loadPerProjCategoryIndicatorJsDestroy');
+      //jQuery(".loadPerProjCategoryIndicatorHelpDialog").dialog('destroy').remove();
+   }
 
    // this function will be run at jQuery(document).ready (see dashboard.html) or
    // when a new widjet is added to the dashboard.

@@ -1,5 +1,6 @@
 <div class="driftAlertIndicator">
    <div class="pluginInitFunction"  style="display: none;">driftAlertIndicatorJsInit</div>
+   <div class="pluginDestroyFunction"  style="display: none;">driftAlertIndicatorJsDestroy</div>
    <br>
    <div  id="tabsDriftAlertIndicator" class="tabs {$ui_tabs_jquery}">
       <ul class="{$ui_tabs_jquery_ul}">
@@ -79,6 +80,12 @@
    </div>
 
 <script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function driftAlertIndicatorJsDestroy() {
+      console.log('driftlineAlertIndicatorJsDestroy');
+      //jQuery(".driftAlertIndicatorHelpDialog").dialog('destroy').remove();
+   }
 
    // this function will be run at jQuery(document).ready (see dashboard.html) or
    // when a new widjet is added to the dashboard.

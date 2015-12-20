@@ -1,5 +1,6 @@
 <div class="reopenedRateIndicator2">
 <div class="pluginInitFunction"  style="display: none;">reopenedRateIndicator2JsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">reopenedRateIndicator2JsDestroy</div>
 {if isset($reopenedRateIndicator2_jqplotData)}
 <div>
    <div class="reopenedRateIndicator2Chart date_chart chart inlineBlock" style="width:95%;"></div>
@@ -67,6 +68,12 @@
 {/if}
 
 <script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function reopenedRateIndicator2JsDestroy() {
+      jQuery(".reopenedRateIndicator2HelpDialog").dialog('destroy').remove();
+      jQuery(".reopenedRateIndicator2ValuesDialog").dialog('destroy').remove();
+   }
 
    // this function will be run at jQuery(document).ready (see dashboard.html) or
    // when a new widjet is added to the dashboard.

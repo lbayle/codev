@@ -1,4 +1,6 @@
 <div class="loadPerJob">
+<div class="pluginInitFunction"  style="display: none;">loadPerJobIndicatorJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">loadPerJobIndicatorJsDestroy</div>
 
 <div align="left" style="margin-top:1em;">
    <form id="loadPerJobIndicator_dateRange_form" method="get" action="{$loadPerJobIndicator_ajaxPhpURL}">
@@ -13,7 +15,6 @@
    </form>
 </div>
 <div>
-   <div class="pluginInitFunction"  style="display: none;">loadPerJobIndicatorJsInit</div>
    <div class="loadPerJobIndicatorDiv" align="left" style="margin-top: 1em;">
       {include file="`$loadPerJobIndicator_ajaxFile`"}
    </div>
@@ -38,6 +39,11 @@
 </div>
 
 <script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function loadPerJobIndicatorJsDestroy() {
+      jQuery(".loadPerJobIndicatorHelpDialog").dialog('destroy').remove();
+   }
 
    // this function will be run at jQuery(document).ready (see dashboard.html) or
    // when a new widjet is added to the dashboard.

@@ -1,7 +1,8 @@
 <div class="timePerStatusIndicator">
+<div class="pluginInitFunction"  style="display: none;">timePerStatusIndicatorJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">timePerStatusIndicatorJsDestroy</div>
 
 <div>
-   <div class="pluginInitFunction"  style="display: none;">timePerStatusIndicatorJsInit</div>
    <div class="timePerStatusIndicatorDiv" align="left" style="width: 95%; margin-top: 1em;">
       {if $timePerStatusIndicator_statusNames}
       <table class="timePerStatusIndicatorValuesTable display float">
@@ -42,6 +43,10 @@
 </div>
 
 <script type="text/javascript">
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function timePerStatusIndicatorJsDestroy() {
+      jQuery(".timePerStatusIndicatorHelpDialog").dialog('destroy').remove();
+   }
 
    // this function will be run at jQuery(document).ready (see dashboard.html) or
    // when a new widjet is add to the dashboard.

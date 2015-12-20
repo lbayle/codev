@@ -2,6 +2,7 @@
 
 <div>
    <div class="pluginInitFunction"  style="display: none;">deadlineAlertIndicatorJsInit</div>
+   <div class="pluginDestroyFunction"  style="display: none;">deadlineAlertIndicatorJsDestroy</div>
    <div class="deadlineAlertIndicatorDiv" align="left" style="margin-top: 1em;">
       {if isset($deadlineAlertIndicator_issueArray) && !empty($deadlineAlertIndicator_issueArray)}
       <table class="datatable_csv">
@@ -43,6 +44,12 @@
 </div>
 
 <script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function deadlineAlertIndicatorJsDestroy() {
+      console.log('deadlineAlertIndicatorJsDestroy');
+      //jQuery(".deadlineAlertIndicatorHelpDialog").dialog('destroy').remove();
+   }
 
    // this function will be run at jQuery(document).ready (see dashboard.html) or
    // when a new widjet is added to the dashboard.
