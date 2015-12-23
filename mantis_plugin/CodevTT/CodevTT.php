@@ -20,7 +20,7 @@ class CodevTTPlugin extends MantisPlugin {
       $this->description = plugin_lang_get('description');
       $this->page = '';
 
-      $this->version = '0.6.1';
+      $this->version = '0.6.2';
       $this->requires = array(
           'MantisCore' => '1.2.0',
       );
@@ -235,7 +235,7 @@ class CodevTTPlugin extends MantisPlugin {
       #echo "project_id=$project_id<br>";
 
       $cmdList = $this->getAvailableCommands($project_id);
-      if (O != count($cmdList)) {
+      if (0 != count($cmdList)) {
       
          $size = (count($cmdList) < 3) ? 3 : 5;
 
