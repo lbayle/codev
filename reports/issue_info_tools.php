@@ -100,10 +100,12 @@ class IssueInfoTools {
 
          foreach ($bugids as $bugid) {
             $relatedIssue = IssueCache::getInstance()->getIssue($bugid);
+            $summary = htmlspecialchars(preg_replace('![\t\r\n]+!',' ',$relatedIssue->getSummary()));
             $relationshipsInfo["$bugid"] = array('url' => Tools::issueInfoURL($bugid),
                                                  'relationship' => $typeLabel,
                                                  'status' => $relatedIssue->getCurrentStatusName(),
                                                  'progress' => round(100 * $relatedIssue->getProgress()),
+                                                 'summary' => $summary
                                                  );
          }
       }

@@ -1,40 +1,6 @@
 <div id="content">
    {if isset($projects)}
    <div class="center" style="margin-top: 2em">
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-            jQuery("#projectid").change(function() {
-               var projectid = jQuery(this).val();
-               jQuery.ajax({
-                  type: "GET",
-                  url: "smarty_tools_ajax.php",
-                  data: "action=getProjectIssues&projectid="+projectid+"&bugid="+jQuery("#bugid").val(),
-                  success: function(data) {
-                     jQuery("#bugSelector").html(jQuery.trim(data));
-                     updateWidgets("#bugSelector");
-
-                     // Hide result because the form is no more consistent with the result
-                     jQuery("#result").hide();
-                  },
-                  error: function(jqXHR, textStatus, errorThrown) {
-                     if(errorThrown === 'Forbidden') {
-                        window.location = '{$page}';
-                     } else {
-                        alert(errorThrown);
-                     }
-                  }
-               });
-            });
-
-            jQuery("#bugid").change(function() {
-                  console.log('submit form1');
-               if ('0' !== this.value) {
-                  var form = jQuery('#form1');
-                  form.submit();
-               }
-            });
-         });
-      </script>
       <form id="form1" name="form1" class="formWithTabsHistory" method="get" action="{$page}">
          <fieldset>
             <select id="projectid" title="{t}Project{/t}">
@@ -49,6 +15,10 @@
             <input type="submit" value="{t}Select{/t}" />
          </fieldset>
       </form>
+
+      <script type="text/javascript">
+      </script>
+
    </div>
 
    <div id="result">
@@ -63,86 +33,104 @@
          <h2>{$issueGeneralInfo.mantisURL} {$issueGeneralInfo.issueURL} : {$issueGeneralInfo.issueSummary}</h2>
       </div>
 
-      <table style='text-align:left;margin-top:4em;' class="center invisible">
-         <tbody>
-            <!--tr>
-               <th>{t}Mantis ID{/t}</th>
-               <td>{$issueGeneralInfo.issueURL}</td>
-            </tr-->
-            {if $issueGeneralInfo.issueExtRef}
-            <tr>
-               <th>{t}External Ref{/t}</th>
-               <td>: </td>
-               <td>{$issueGeneralInfo.issueExtRef}</td>
-            </tr>
-            {/if}
-            <tr>
-               <th>{t}Project{/t}</th>
-               <td>: </td>
-               <td>{$issueGeneralInfo.projectName}</td>
-            </tr>
-            <tr>
-               <th>{t}Category{/t}</th>
-               <td>: </td>
-               <td>{$issueGeneralInfo.categoryName}</td>
-            </tr>
-            <tr>
-               <th>{t}Assigned to{/t}</th>
-               <td>: </td>
-               <td>{$issueGeneralInfo.handlerName}</td>
-            </tr>
-            <tr>
-               <th>{t}Attributes{/t}</th>
-               <td>: </td>
-               <td>{t}Status{/t}: <strong>{$issueGeneralInfo.statusName}</strong>,&nbsp; {t}Priority{/t}: <strong>{$issueGeneralInfo.priorityName}</strong>,&nbsp; {t}Severity{/t}: <strong>{$issueGeneralInfo.severityName}</strong></td>
-            </tr>
-            <tr>
-               <th>{t}Type{/t}</th>
-               <td>: </td>
-               <td>{$issueGeneralInfo.issueType}</td>
-            </tr>
-            <tr>
-               <th valign='top'>{t}Commands{/t}</th>
-               <td valign='top'>: </td>
-               <td>
-                  <div id="cmdList">
-                  {foreach from=$parentCommands key=id item=i}
-                  <div id="divCmd_{$i.id}">
-                  {if $isManager}
-                  <span class="pointer"><img onclick="removeFromCmd('{$i.id}', '{$i.name|escape}');return false;" align="absmiddle" title="{t}Remove from command{/t}" src="images/b_drop.png"/></span>
-                  {/if}
-                  <a href='management/command_info.php?cmdid={$i.id}'>{if isset($i.reference)}{$i.reference} {/if}{$i.name}</a><br />
-                  </div>
-                  {/foreach}
-                  </div>
-                  {if $isManager}
-                  <div id="divAddCmd">
-                  <span id="addToCmd_link" class="pointer"><img align="absmiddle" title="{t}Add to command{/t}" src="images/b_add2.gif"/></span>
-                  <span class="help_font">{t}Add to command{/t}<br></span>
-                  </div>
-                  {/if}
-               </td>
-            </tr>
-            <tr>
-               <th valign="top">{t}Description{/t}</th>
-               <td valign="top">: </td>
-               <td><textarea rows='6' cols='120' name='description'  id='description'>{$issueGeneralInfo.issueDescription}</textarea></td>
-            </tr>
-            {if $issueGeneralInfo.relationships}
-            <!-- Relationships details -->
-           <div id="issueRelationshipsInfo" class="float">
-               <div style="margin-top: 2em;">
+      <div id="divCmds" style="margin-top:2em;">
+         <table class="invisible">
+            <tbody>
+               <tr>
+                  <td style="vertical-align:top; font-weight:bold;">{t}Commands{/t} : </td>
+                  <td>
+                     <div id="cmdList">
+                     {foreach from=$parentCommands key=id item=i}
+                     <div id="divCmd_{$i.id}">
+                     {if $isManager}
+                     <span class="pointer"><img onclick="removeFromCmd('{$i.id}', '{$i.name|escape}');return false;" align="absmiddle" title="{t}Remove from command{/t}" src="images/b_drop.png"/></span>
+                     {/if}
+                     <a href='management/command_info.php?cmdid={$i.id}'>{if isset($i.reference)}{$i.reference} {/if}{$i.name}</a><br />
+                     </div>
+                     {/foreach}
+                     </div>
+                     {if $isManager}
+                     <div id="divAddCmd">
+                     <span id="addToCmd_link" class="pointer"><img align="absmiddle" title="{t}Add to command{/t}" src="images/b_add2.gif"/></span>
+                     <span class="help_font">{t}Add to command{/t}<br></span>
+                     </div>
+                     {/if}
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+
+      <div id="tabsIssueInfo" class="tabs {$ui_tabs_jquery}" style="margin-top:1em;">
+         <ul class="{$ui_tabs_jquery_ul}">
+            <li class="{$ui_tabs_jquery_li}"><a href="#tab_overview">{t}Properties{/t}</a></li>
+            <li class="{$ui_tabs_jquery_li}"><a href="#tab_timetracks">{t}Timetracks{/t}</a></li>
+            <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
+         </ul>
+
+         <div id="tab_indicators">{include file="tools/dashboard.html"}</div>
+
+         <div id="tab_overview">
+
+            <!-- General info -->
+            <h3>{t}Time tracking{/t}</h3>
+            <div id="issueGeneralInfo">
+               {include file="ajax/issueGeneralInfo.html"}
+            </div>
+
+            <div id="xxxx" style="margin-top:2em;">
+               <h3>{t}Task Info{/t}</h3>
+               <table class="center" >
+                  <thead>
+                     <tr>
+                        <th>{t}External Ref{/t}</th>
+                        <th>{t}Assigned to{/t}</th>
+                        <th>{t}Status{/t}</th>
+                        <th>{t}Project{/t}</th>
+                        <th>{t}Category{/t}</th>
+                        <th>{t}Type{/t}</th>
+                        <th>{t}Priority{/t}</th>
+                        <th>{t}Severity{/t}</th>
+                        <th>{t}Deadline{/t}</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>{$issueGeneralInfo.issueExtRef}</td>
+                        <td>{$issueGeneralInfo.handlerName}</td>
+                        <td>{$issueGeneralInfo.statusName}</td>
+                        <td>{$issueGeneralInfo.projectName}</td>
+                        <td>{$issueGeneralInfo.categoryName}</td>
+                        <td>{$issueGeneralInfo.issueType}</td>
+                        <td>{$issueGeneralInfo.priorityName}</td>
+                        <td>{$issueGeneralInfo.severityName}</td>
+                        <td>
+                        {if isset($timeDrift.deadLine)}
+                           {$timeDrift.deadLine}
+                           {$timeDrift.tooltip}
+                        {/if}
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="9" title="{t}Description{/t}"><textarea rows='6' style="border: none; width: 100%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;">{$issueGeneralInfo.issueDescription}</textarea></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+
+            <div id="divRelationships" style="margin-top:2em;">
+               {if $issueGeneralInfo.relationships}
+               <!-- Relationships details -->
                <table class="invisible">
                   <tr>
-                     <th valign="top">{t}Relationships{/t}</th>
-                     <td valign="top">: </td>
                      <td>
                         <table>
                              <tr>
-                                <th valign="top" title='{t}Relation{/t}'>{t}Relation{/t}</th>
-                                <th valign="top" title='{t}Task{/t}'>{t}Task{/t}</th>
-                                <th valign="top" title='{t}Status{/t}'>{t}Status{/t}</th>
-                                <th valign="top" title='{t}Progress{/t}'>{t}Progress{/t}</th>
+                                <th valign="top">{t}Relation{/t}</th>
+                                <th valign="top">{t}Task{/t}</th>
+                                <th valign="top">{t}Status{/t}</th>
+                                <th valign="top">{t}Progress{/t}</th>
+                                <th valign="top">{t}Summary{/t}</th>
                              </tr>
                            <tbody>
                           {foreach $issueGeneralInfo.relationships as $relatedIssue}
@@ -151,6 +139,7 @@
                                    <td>{$relatedIssue.url}</td>
                                    <td>{$relatedIssue.status}</td>
                                    <td>{$relatedIssue.progress}%</td>
+                                   <td>{$relatedIssue.summary}%</td>
                              </tr>
                           {/foreach}
                           </tbody>
@@ -158,275 +147,9 @@
                      </td>
                   </tr>
                </table>
-               </div>
-            </div>
-           {/if}
-         </tbody>
-      </table>
-      {if $isManager}
-      <div id="formRemoveFromCmd_dialog" title="{t}Remove from Command{/t}" class="ui-helper-hidden">
-         <p><span class="ui-icon ui-icon-alert float" style="margin-right: 7px;"></span>
-            {t}Remove from :{/t} <span id="formRemoveFromCmd_cmdName">cmdName</span>
-         </p>
-         <form id="formRemoveFromCmd" name="formRemoveFromCmd" method="get" action="{$ajaxPage}" >
-            <fieldset>
-               <input type="hidden" name="action" value="removeFromCmd" />
-               <input type="hidden" name="bugid"  value="{$issueGeneralInfo.issueId}" />
-               <input type="hidden" name="cmdid"  value="0" />
-            </fieldset>
-         </form>
-      </div>      
-      <div id="formAddToCmd_dialog" title="{t}Add to Command{/t}" class="ui-helper-hidden">
-         <form id="formAddToCmd" name="formAddToCmd" method="get" action="{$ajaxPage}" >
-            <fieldset>
-               {t}Command{/t} : 
-               <select class="cbCmdCandidates" name="cmdid" style="margin-left:1em;  width:400px;">
-               </select>
-               <input type="hidden" name="action" value="addToCmd" />
-               <input type="hidden" name="bugid"  value="{$issueGeneralInfo.issueId}" />
-            </fieldset>
-         </form>
-      </div>      
-      {/if}
-      {include file="tools/graph.html"}
-      <div id="tabsIssueInfo" class="tabs {$ui_tabs_jquery}" style="margin-top:3em;">
-         <ul class="{$ui_tabs_jquery_ul}">
-            <li class="{$ui_tabs_jquery_li}"><a href="#tab_overview">{t}Overview{/t}</a></li>
-            <li class="{$ui_tabs_jquery_li}"><a href="#tab_timetracks">{t}Timetracks{/t}</a></li>
-            <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
-         </ul>
-
-         <div id="tab_indicators">{include file="tools/dashboard.html"}</div>
-
-         <div id="tab_overview">
-            <!-- General info -->
-            <div id="issueGeneralInfo" class="float">
-               {include file="ajax/issueGeneralInfo.html"}
+               {/if}
             </div>
 
-            <script type="text/javascript">
-               
-               function removeFromCmd(cmdid, cmdName){
-                  //var dialog = jQuery("#formRemoveFromCmd_dialog");
-                  //dialog.find(".desc_id").text(commandsetid);
-                  jQuery("#formRemoveFromCmd_cmdName").text(cmdName);
-                  jQuery("#formRemoveFromCmd").find("input[name=cmdid]").val(cmdid);
-                  jQuery("#formRemoveFromCmd_dialog").dialog( "open" );
-               }
-               
-               jQuery(document).ready(function() {
-                  var backlog = jQuery("#backlog"),
-                     allFields = jQuery([]).add(backlog),
-                     tips = jQuery("#validateTips");
-
-                  jQuery("#formRemoveFromCmd_dialog").dialog({
-                     autoOpen: false,
-                     resizable: true,
-                     width: "auto",
-                     modal: true,
-                     buttons: {
-                        "{t}Remove{/t}": function() {
-                           jQuery("#formRemoveFromCmd").submit();
-                        },
-                        Cancel: function() {
-                           jQuery(this).dialog("close");
-                        }
-                     }
-                  });
-
-                  jQuery("#formRemoveFromCmd").submit(function(event) {
-                     event.preventDefault();
-                     var form = jQuery(this);
-                     jQuery.ajax({
-                        type: form.attr("method"),
-                        url: form.attr("action"),
-                        data: form.serialize(),
-                        dataType:"json",
-                        success: function(data) {
-                           if ('SUCCESS' === data.statusMsg) {
-                              // remove command from list
-                              var elem = document.getElementById('divCmd_'+data.cmdid);
-                              elem.parentElement.removeChild(elem);
-                           } else {
-                              alert(data.statusMsg);
-                           }
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                           console.log(textStatus, errorThrown);   
-                           alert(errorThrown);
-                        }
-                     });
-                     jQuery("#formRemoveFromCmd_dialog").dialog("close");
-                  });
-
-                  jQuery("#addToCmd_link").click(function() {
-                     // fill cmdCandidates
-                     jQuery.ajax({
-                        type: "GET",
-                        url: "{$ajaxPage}",
-                        data: "action=getCmdCandidates&bugid={$issueGeneralInfo.issueId}",
-                        dataType:"json",
-                        success: function(data) {
-                           if ('SUCCESS' === data.statusMsg) {
-                              // fill cbCmdCandidates
-                              var cbCmds = jQuery(".cbCmdCandidates");
-                              cbCmds.empty();
-                              //cbCmds.select2('data', null);
-
-                              var cmdCandidates = data.cmdCandidates;
-                              for (var id in cmdCandidates) {
-                                 if (cmdCandidates.hasOwnProperty(id)) {
-                                    cbCmds.append(
-                                       jQuery('<option>').attr('value', id).append(cmdCandidates[id])
-                                    );
-                                 }
-                              }
-                           } else {
-                              alert(data.statusMsg);
-                           }
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                           console.log(textStatus, errorThrown);   
-                           alert(errorThrown);
-                        }
-                     });
-                     
-                     
-                     jQuery("#formAddToCmd_dialog").dialog("open");
-                     return false;
-                  });
-                  jQuery("#formAddToCmd_dialog").dialog({
-                     autoOpen: false,
-                     resizable: true,
-                     width: "auto",
-                     modal: true,
-                     buttons: {
-                        "{t}Add{/t}": function() {
-                           jQuery("#formAddToCmd").submit();
-                        },
-                        Cancel: function() {
-                           jQuery(this).dialog("close");
-                        }
-                     }
-                  });
-                  jQuery("#formAddToCmd").submit(function(event) {
-                     event.preventDefault();
-                     var form = jQuery(this);
-                     jQuery.ajax({
-                        type: form.attr("method"),
-                        url: form.attr("action"),
-                        data: form.serialize(),
-                        dataType:"json",
-                        success: function(data) {
-                           if ('SUCCESS' === data.statusMsg) {
-                              // add command to list
-                              var imgObj = jQuery('<img></img>').attr('align', "absmiddle").attr('title', "{t}Remove from command{/t}").attr('src', "images/b_drop.png");
-                              imgObj.attr('onclick', "removeFromCmd('"+data.cmdid+"', '"+data.cmdName+"');return false;");
-                              var aObj = jQuery('<a></a>').attr('href', "management/command_info.php?cmdid="+data.cmdid).html(data.cmdName);
-                              var spanObj = jQuery('<span></span>').addClass("pointer").append(imgObj);
-                              var divCmdObj = jQuery('<div></div>').attr('id', 'divCmd_'+data.cmdid).append(spanObj).append(aObj);
-                              jQuery("#cmdList").append(divCmdObj);
-                           } else {
-                              alert(data.statusMsg);
-                           }
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                           console.log(textStatus, errorThrown);   
-                           alert(errorThrown);
-                        }
-                     });
-                     jQuery("#formAddToCmd_dialog").dialog("close");
-                  });
-
-                  function updateTips(t) {
-                     tips.text(t)
-                        .addClass("ui-state-highlight");
-                     setTimeout(function() {
-                        tips.removeClass("ui-state-highlight", 1500);
-                     }, 500);
-                  }
-
-                  function checkRegexp(o, regexp, n) {
-                     if (!(regexp.test(o.val()))) {
-                        o.addClass("ui-state-error");
-                        updateTips(n);
-                        return false;
-                     } else {
-                        return true;
-                     }
-                  }
-
-                  jQuery("#update_backlog_dialog_form").dialog({
-                     autoOpen: false,
-                     height: 200,
-                     width: 500,
-                     modal: true,
-                     open: function() {
-                        // Select input field contents
-                        jQuery("#backlog").select();
-                     },
-                     buttons: {
-                        "{t}Update{/t}": function() {
-                           jQuery("#formUpdateBacklog").submit();
-                        },
-                        Cancel: function() {
-                           jQuery(this).dialog("close");
-                           allFields.val("").removeClass("ui-state-error");
-                           backlog.val({$issueGeneralInfo.issueBacklog});
-                           updateTips("{$issueGeneralInfo.issueSummary}");
-                        }
-                     }
-                  });
-
-                  jQuery("#formUpdateBacklog").submit(function(event) {
-                     /* stop form from submitting normally */
-                     event.preventDefault();
-
-                     var bValid = true;
-                     allFields.removeClass("ui-state-error");
-                     bValid = bValid && checkRegexp(backlog, /^[0-9]+(\.[0-9][0-9]?5?)?$/i, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
-
-                     if (bValid) {
-                        /* get some values from elements on the page: */
-                        var form = jQuery(this);
-
-                        jQuery.ajax({
-                           type: form.attr("method"),
-                           url: form.attr("action"),
-                           data: form.serialize(),
-                           success: function(data) {
-                              var bugid = jQuery("#bugid").val();
-                              jQuery.ajax({
-                                 type: "GET",
-                                 url: "reports/issue_info_ajax.php",
-                                 data: "action=getGeneralInfo&bugid="+bugid,
-                                 success: function(data) {
-                                    jQuery("#issueGeneralInfo").html(jQuery.trim(data));
-                                    updateWidgets("#issueGeneralInfo");
-                                 },
-                                 error: function(jqXHR, textStatus, errorThrown) {
-                                    if(errorThrown == 'Forbidden') {
-                                       window.location = '{$page}';
-                                    } else {
-                                       alert(errorThrown);
-                                    }
-                                 }
-                              });
-                           },
-                           error: function(jqXHR, textStatus, errorThrown) {
-                              if(errorThrown == 'Forbidden') {
-                                 window.location = '{$page}';
-                              } else {
-                                 alert(errorThrown);
-                              }
-                           }
-                        });
-
-                        jQuery("#update_backlog_dialog_form").dialog("close");
-                     }
-                  });
-               });
-            </script>
             <div id="update_backlog_dialog_form" title="{t}Task{/t} {$issueGeneralInfo.issueId}{if isset($issueGeneralInfo.issueTcId)} / {$issueGeneralInfo.issueTcId}{/if} - {t}Update Backlog{/t}" class="ui-helper-hidden">
                <p id="validateTips">{$issueGeneralInfo.issueSummary}</p>
                <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="smarty_tools_ajax.php" >
@@ -439,31 +162,6 @@
                </form>
             </div>
 
-            <!-- Dates -->
-            <div class="float" style="margin-left: 5em">
-               <table>
-                  <thead>
-                     <tr>
-                        <th>{t}Dates{/t}</th>
-                        <th></th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td>{t}DeadLine{/t}</td>
-                        <td>{if isset($timeDrift.deadLine)}{$timeDrift.deadLine}{/if}</td>
-                     </tr>
-                     <tr>
-                        <td>{t}DeliveryDate{/t}</td>
-                        <td>{if isset($timeDrift.deliveryDate)}{$timeDrift.deliveryDate}{/if}</td>
-                     </tr>
-                     <tr>
-                        <td>{t}Deviation{/t}</td>
-                        <td {if isset($timeDrift.driftColor)}style="background-color: #{$timeDrift.driftColor}"{/if}>{if isset($timeDrift.drift)}{$timeDrift.drift} {t}days{/t}{/if}</td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
             <div class="ui-helper-clearfix"></div>
          </div>
 
@@ -510,7 +208,290 @@
       </div>
       {/if}
 
+         {if $isManager}
+      <div id="formRemoveFromCmd_dialog" title="{t}Remove from Command{/t}" class="ui-helper-hidden">
+         <p><span class="ui-icon ui-icon-alert float" style="margin-right: 7px;"></span>
+            {t}Remove from :{/t} <span id="formRemoveFromCmd_cmdName">cmdName</span>
+         </p>
+         <form id="formRemoveFromCmd" name="formRemoveFromCmd" method="get" action="{$ajaxPage}" >
+            <fieldset>
+               <input type="hidden" name="action" value="removeFromCmd" />
+               <input type="hidden" name="bugid"  value="{$issueGeneralInfo.issueId}" />
+               <input type="hidden" name="cmdid"  value="0" />
+            </fieldset>
+         </form>
+      </div>
+      <div id="formAddToCmd_dialog" title="{t}Add to Command{/t}" class="ui-helper-hidden">
+         <form id="formAddToCmd" name="formAddToCmd" method="get" action="{$ajaxPage}" >
+            <fieldset>
+               {t}Command{/t} :
+               <select class="cbCmdCandidates" name="cmdid" style="margin-left:1em;  width:400px;">
+               </select>
+               <input type="hidden" name="action" value="addToCmd" />
+               <input type="hidden" name="bugid"  value="{$issueGeneralInfo.issueId}" />
+            </fieldset>
+         </form>
+      </div>
+      {/if}
+
    </div>
+
+
+   <script type="text/javascript">
+
+      function removeFromCmd(cmdid, cmdName){
+         //var dialog = jQuery("#formRemoveFromCmd_dialog");
+         //dialog.find(".desc_id").text(commandsetid);
+         jQuery("#formRemoveFromCmd_cmdName").text(cmdName);
+         jQuery("#formRemoveFromCmd").find("input[name=cmdid]").val(cmdid);
+         jQuery("#formRemoveFromCmd_dialog").dialog( "open" );
+      }
+
+      jQuery(document).ready(function() {
+
+         jQuery("#projectid").change(function() {
+            var projectid = jQuery(this).val();
+            jQuery.ajax({
+               type: "GET",
+               url: "smarty_tools_ajax.php",
+               data: "action=getProjectIssues&projectid="+projectid+"&bugid="+jQuery("#bugid").val(),
+               success: function(data) {
+                  jQuery("#bugSelector").html(jQuery.trim(data));
+                  updateWidgets("#bugSelector");
+
+                  // Hide result because the form is no more consistent with the result
+                  jQuery("#result").hide();
+               },
+               error: function(jqXHR, textStatus, errorThrown) {
+                  if(errorThrown === 'Forbidden') {
+                     window.location = '{$page}';
+                  } else {
+                     alert(errorThrown);
+                  }
+               }
+            });
+         });
+
+         jQuery("#bugid").change(function() {
+               console.log('submit form1');
+            if ('0' !== this.value) {
+               var form = jQuery('#form1');
+               form.submit();
+            }
+         });
+
+         var backlog = jQuery("#backlog"),
+            allFields = jQuery([]).add(backlog),
+            tips = jQuery("#validateTips");
+
+         jQuery("#formRemoveFromCmd_dialog").dialog({
+            autoOpen: false,
+            resizable: true,
+            width: "auto",
+            modal: true,
+            buttons: {
+               "{t}Remove{/t}": function() {
+                  jQuery("#formRemoveFromCmd").submit();
+               },
+               Cancel: function() {
+                  jQuery(this).dialog("close");
+               }
+            }
+         });
+
+         jQuery("#formRemoveFromCmd").submit(function(event) {
+            event.preventDefault();
+            var form = jQuery(this);
+            jQuery.ajax({
+               type: form.attr("method"),
+               url: form.attr("action"),
+               data: form.serialize(),
+               dataType:"json",
+               success: function(data) {
+                  if ('SUCCESS' === data.statusMsg) {
+                     // remove command from list
+                     var elem = document.getElementById('divCmd_'+data.cmdid);
+                     elem.parentElement.removeChild(elem);
+                  } else {
+                     alert(data.statusMsg);
+                  }
+               },
+               error: function(jqXHR, textStatus, errorThrown) {
+                  console.log(textStatus, errorThrown);
+                  alert(errorThrown);
+               }
+            });
+            jQuery("#formRemoveFromCmd_dialog").dialog("close");
+         });
+
+         jQuery("#addToCmd_link").click(function() {
+            // fill cmdCandidates
+            jQuery.ajax({
+               type: "GET",
+               url: "{$ajaxPage}",
+               data: "action=getCmdCandidates&bugid={$issueGeneralInfo.issueId}",
+               dataType:"json",
+               success: function(data) {
+                  if ('SUCCESS' === data.statusMsg) {
+                     // fill cbCmdCandidates
+                     var cbCmds = jQuery(".cbCmdCandidates");
+                     cbCmds.empty();
+                     //cbCmds.select2('data', null);
+
+                     var cmdCandidates = data.cmdCandidates;
+                     for (var id in cmdCandidates) {
+                        if (cmdCandidates.hasOwnProperty(id)) {
+                           cbCmds.append(
+                              jQuery('<option>').attr('value', id).append(cmdCandidates[id])
+                           );
+                        }
+                     }
+                  } else {
+                     alert(data.statusMsg);
+                  }
+               },
+               error: function(jqXHR, textStatus, errorThrown) {
+                  console.log(textStatus, errorThrown);
+                  alert(errorThrown);
+               }
+            });
+
+
+            jQuery("#formAddToCmd_dialog").dialog("open");
+            return false;
+         });
+         jQuery("#formAddToCmd_dialog").dialog({
+            autoOpen: false,
+            resizable: true,
+            width: "auto",
+            modal: true,
+            buttons: {
+               "{t}Add{/t}": function() {
+                  jQuery("#formAddToCmd").submit();
+               },
+               Cancel: function() {
+                  jQuery(this).dialog("close");
+               }
+            }
+         });
+         jQuery("#formAddToCmd").submit(function(event) {
+            event.preventDefault();
+            var form = jQuery(this);
+            jQuery.ajax({
+               type: form.attr("method"),
+               url: form.attr("action"),
+               data: form.serialize(),
+               dataType:"json",
+               success: function(data) {
+                  if ('SUCCESS' === data.statusMsg) {
+                     // add command to list
+                     var imgObj = jQuery('<img></img>').attr('align', "absmiddle").attr('title', "{t}Remove from command{/t}").attr('src', "images/b_drop.png");
+                     imgObj.attr('onclick', "removeFromCmd('"+data.cmdid+"', '"+data.cmdName+"');return false;");
+                     var aObj = jQuery('<a></a>').attr('href', "management/command_info.php?cmdid="+data.cmdid).html(data.cmdName);
+                     var spanObj = jQuery('<span></span>').addClass("pointer").append(imgObj);
+                     var divCmdObj = jQuery('<div></div>').attr('id', 'divCmd_'+data.cmdid).append(spanObj).append(aObj);
+                     jQuery("#cmdList").append(divCmdObj);
+                  } else {
+                     alert(data.statusMsg);
+                  }
+               },
+               error: function(jqXHR, textStatus, errorThrown) {
+                  console.log(textStatus, errorThrown);
+                  alert(errorThrown);
+               }
+            });
+            jQuery("#formAddToCmd_dialog").dialog("close");
+         });
+
+         function updateTips(t) {
+            tips.text(t)
+               .addClass("ui-state-highlight");
+            setTimeout(function() {
+               tips.removeClass("ui-state-highlight", 1500);
+            }, 500);
+         }
+
+         function checkRegexp(o, regexp, n) {
+            if (!(regexp.test(o.val()))) {
+               o.addClass("ui-state-error");
+               updateTips(n);
+               return false;
+            } else {
+               return true;
+            }
+         }
+
+         jQuery("#update_backlog_dialog_form").dialog({
+            autoOpen: false,
+            height: 200,
+            width: 500,
+            modal: true,
+            open: function() {
+               // Select input field contents
+               jQuery("#backlog").select();
+            },
+            buttons: {
+               "{t}Update{/t}": function() {
+                  jQuery("#formUpdateBacklog").submit();
+               },
+               Cancel: function() {
+                  jQuery(this).dialog("close");
+                  allFields.val("").removeClass("ui-state-error");
+                  backlog.val({$issueGeneralInfo.issueBacklog});
+                  updateTips("{$issueGeneralInfo.issueSummary}");
+               }
+            }
+         });
+
+         jQuery("#formUpdateBacklog").submit(function(event) {
+            /* stop form from submitting normally */
+            event.preventDefault();
+
+            var bValid = true;
+            allFields.removeClass("ui-state-error");
+            bValid = bValid && checkRegexp(backlog, /^[0-9]+(\.[0-9][0-9]?5?)?$/i, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
+
+            if (bValid) {
+               /* get some values from elements on the page: */
+               var form = jQuery(this);
+
+               jQuery.ajax({
+                  type: form.attr("method"),
+                  url: form.attr("action"),
+                  data: form.serialize(),
+                  success: function(data) {
+                     var bugid = jQuery("#bugid").val();
+                     jQuery.ajax({
+                        type: "GET",
+                        url: "reports/issue_info_ajax.php",
+                        data: "action=getGeneralInfo&bugid="+bugid,
+                        success: function(data) {
+                           jQuery("#issueGeneralInfo").html(jQuery.trim(data));
+                           updateWidgets("#issueGeneralInfo");
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                           if(errorThrown == 'Forbidden') {
+                              window.location = '{$page}';
+                           } else {
+                              alert(errorThrown);
+                           }
+                        }
+                     });
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                     if(errorThrown == 'Forbidden') {
+                        window.location = '{$page}';
+                     } else {
+                        alert(errorThrown);
+                     }
+                  }
+               });
+
+               jQuery("#update_backlog_dialog_form").dialog("close");
+            }
+         });
+      });
+   </script>
 
    {else}
    <p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>

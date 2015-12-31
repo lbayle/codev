@@ -36,11 +36,15 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       $managedProjList = count($managedTeamList) > 0 ? $user->getProjectList($managedTeamList, true, false) : array();
       $oTeamList = $user->getObservedTeamList();
       $observedProjList = count($oTeamList) > 0 ? $user->getProjectList($oTeamList, true, false) : array();
+      $teamid = $_SESSION['teamid'];
 
-      $isManager = (array_key_exists($issue->getProjectId(), $managedProjList)) ? true : false;
-      $isObserver = (array_key_exists($issue->getProjectId(), $observedProjList)) ? true : false;
+      $smartyHelper->assign('isManager', $user->isTeamManager($teamid));
+      $smartyHelper->assign('isObserver', $user->isTeamObserver($teamid));
 
-      $smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, ($isManager || $isObserver)));
+      $isManagerView = (array_key_exists($issue->getProjectId(), $managedProjList)) ? true : false;
+      $isObserverView = (array_key_exists($issue->getProjectId(), $observedProjList)) ? true : false;
+
+      $smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, ($isManagerView || $isObserverView)));
       $smartyHelper->display('ajax/issueGeneralInfo');
 
    } else if ('removeFromCmd' == $action) {
@@ -84,7 +88,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
          
          if (!$user->isTeamManager($teamid)) {
             $logger->error("removeFromCmd: NOT_MANAGER user=$userid issue=$bugid cmd=$cmdid");
-            $jsonData=json_encode(array('statusMsg' => T_('Sorry, only managers can remove tasks from commands')));
+            $jsonData=json_encode(array('statusMsg' => T_('Sorry, only managers can add tasks from commands')));
          } else if (!array_key_exists($issue->getProjectId(), $prjList)) {
             $jsonData=json_encode(array('statusMsg' => T_("Sorry, this task is not in your team's projects")));
          } else {
@@ -126,7 +130,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
          
          if (!$user->isTeamManager($teamid)) {
             $logger->error("removeFromCmd: NOT_MANAGER user=$userid issue=$bugid cmd=$cmdid");
-            $jsonData=json_encode(array('statusMsg' => T_('Sorry, only managers can remove tasks from commands')));
+            $jsonData=json_encode(array('statusMsg' => T_('Sorry, only managers can add tasks from commands')));
          }  else if (!array_key_exists($issue->getProjectId(), $prjList)) {
             $jsonData=json_encode(array('statusMsg' => T_("Sorry, this task is not in your team's projects")));
          }  else if ($teamid != $cmd->getTeamid()) {

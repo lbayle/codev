@@ -38,6 +38,7 @@ class IssueInfoController extends Controller {
    protected function display() {
       if(Tools::isConnectedUser()) {
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
+         $teamid = $_SESSION['teamid'];
          $teamList = $user->getTeamList();
 
          if (count($teamList) > 0) {
@@ -96,11 +97,12 @@ class IssueInfoController extends Controller {
                         $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
                      }
 
-                     $isManager = (array_key_exists($issue->getProjectId(), $managedProjList)) ? true : false;
-                     $isObserver = (array_key_exists($issue->getProjectId(), $observedProjList)) ? true : false;
-                     $this->smartyHelper->assign('isManager', $isManager);
-                     $this->smartyHelper->assign('isObserver', $isObserver);
-                     $this->smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, ($isManager || $isObserver), $displaySupport));
+                     $this->smartyHelper->assign('isManager', $user->isTeamManager($teamid));
+                     $this->smartyHelper->assign('isObserver', $user->isTeamObserver($teamid));
+
+                     $isManagerView = (array_key_exists($issue->getProjectId(), $managedProjList)) ? true : false;
+                     $isObserverView = (array_key_exists($issue->getProjectId(), $observedProjList)) ? true : false;
+                     $this->smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, ($isManagerView || $isObserverView), $displaySupport));
                      
                      $timeTracks = $issue->getTimeTracks();
                      $this->smartyHelper->assign('jobDetails', $this->getJobDetails($timeTracks));
@@ -201,17 +203,26 @@ class IssueInfoController extends Controller {
       if (!is_null($deadline) && (0 != $deadline)) {
          $timeDriftSmarty["deadLine"] = Tools::formatDate("%d %b %Y", $deadline);
       }
+      $tooltipAttr = array();
 
       if (NULL != $issue->getDeliveryDate()) {
-         $timeDriftSmarty["deliveryDate"] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
+         //$timeDriftSmarty["deliveryDate"] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
+         $tooltipAttr[T_('DeliveryDate')] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
+         $btImage='images/b_markAsRead.png';
       }
 
       $timeDrift = $issue->getTimeDrift();
       if (!is_string($timeDrift)) {
-         $timeDriftSmarty["driftColor"] = $issue->getDriftColor($timeDrift);
-         $timeDriftSmarty["drift"] = round($timeDrift);
-      }
+         $tooltipAttr[T_('DriftColor')] = $issue->getDriftColor($timeDrift);
+         $tooltipAttr[T_('Drift')] = round($timeDrift);
 
+         if (round($timeDrift) > 0) { $btImage='images/b_error.png'; }
+      }
+      
+      if (0 !== count($tooltipAttr)) {
+         $tooltip = Tools::imgWithTooltip($btImage, $tooltipAttr);
+         $timeDriftSmarty["tooltip"] = $tooltip;
+      }
       return $timeDriftSmarty;
    }
 
