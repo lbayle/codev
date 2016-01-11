@@ -66,6 +66,7 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
       $pluginAttributesJsonStr = Tools::getSecurePOSTStringValue('pluginAttributesJsonStr');
       $pluginAttributesJsonArray = json_decode(stripslashes($pluginAttributesJsonStr), true);
+      $dashboardId = Tools::getSecurePOSTStringValue('dashboardId');
 
       //$logger->error("pluginAttributes = " . var_export($pluginAttributesJsonArray, true));
 
@@ -80,11 +81,11 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
       try {
 
-         if (!isset($_SESSION[PluginDataProviderInterface::SESSION_ID])) {
-            $logger->error("DataProvider not found in _SESSION !");
+         if (!isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
+            throw new Exception("DataProvider not found in _SESSION !");
          } else {
 
-            $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID]);
+            $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId]);
 
             $smartyHelper = new SmartyHelper();
             $widget = Dashboard::getWidget($pluginDataProvider, $smartyHelper, $pluginAttributes, 'idx_'.time());

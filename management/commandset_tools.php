@@ -318,11 +318,13 @@ class CommandSetTools {
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $params['endTimestamp']);
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_INTERVAL, $params['interval']);
 
+      $dashboardName = 'CommandSet'.$cmdset->getId();
+
       // save the DataProvider for Ajax calls
-      $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);
+      $_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardName] = serialize($pluginDataProvider);
 
       // create the Dashboard
-      $dashboard = new Dashboard('CommandSet'.$cmdset->getId());
+      $dashboard = new Dashboard($dashboardName);
       $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_COMMAND_SET);
       $dashboard->setCategories(array(
           IndicatorPluginInterface::CATEGORY_QUALITY,

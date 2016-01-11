@@ -34,7 +34,7 @@ THE SOFTWARE.
  */
 interface PluginDataProviderInterface {
 
-   const SESSION_ID = 'pluginDataProvider';
+   const SESSION_ID = 'pluginDataProvider_';
 
    /*
     * Note: all params will not always be avalable, 

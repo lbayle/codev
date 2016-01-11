@@ -360,11 +360,13 @@ class CommandTools {
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $params['endTimestamp']);
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_INTERVAL, $params['interval']);
 
+      $dashboardName = 'Command'.$cmd->getId();
+
       // save the DataProvider for Ajax calls
-      $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);
+      $_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardName] = serialize($pluginDataProvider);
 
       // create the Dashboard
-      $dashboard = new Dashboard('Command'.$cmd->getId());
+      $dashboard = new Dashboard($dashboardName);
       $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_COMMAND);
       $dashboard->setCategories(array(
           IndicatorPluginInterface::CATEGORY_QUALITY,

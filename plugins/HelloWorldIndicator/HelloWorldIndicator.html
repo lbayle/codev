@@ -10,6 +10,7 @@
          <input type="text" class="helloWorld_startdatepicker datepicker" name="helloWorld_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
          <input class="helloWorld_submit" type="submit" value="{t}Display{/t}" />
          <input type="hidden" name="action" value="getHelloWorldIndicator" />
+         <input type="hidden" name="dashboardId" value="" />
       </fieldset>
    </form>
    {/if}
@@ -50,6 +51,10 @@
          event.preventDefault();
 
          var form = jQuery('#helloWorldIndicator_dateRange_form');
+
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
          var url = form.attr('action');
          var type = form.attr('method');
          jQuery.ajax({

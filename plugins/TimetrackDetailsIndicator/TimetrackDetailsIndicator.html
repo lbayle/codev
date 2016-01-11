@@ -15,6 +15,7 @@
          <input type="text" class="timetrackDetails_enddatepicker datepicker" name="timetrackDetails_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date{/t}" />
          <input class="timetrackDetails_submit" type="submit" value="{t}Display{/t}" />
          <input type="hidden" name="action" value="getTimetrackDetailsIndicator" />
+         <input type="hidden" name="dashboardId" value="" />
       </fieldset>
    </form>
 </div>
@@ -55,6 +56,10 @@
          event.preventDefault();
 
          var form = jQuery('#timetrackDetailsIndicator_dateRange_form');
+
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
          var url = form.attr('action');
          var type = form.attr('method');
          jQuery.ajax({

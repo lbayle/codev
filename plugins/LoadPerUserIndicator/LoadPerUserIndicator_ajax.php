@@ -33,10 +33,12 @@ if(Tools::isConnectedUser() && isset($_GET['action'])) {
 
       $smartyHelper = new SmartyHelper();
       if($action == 'getLoadPerUserIndicator') {
-         
-         if(isset($_SESSION[PluginDataProviderInterface::SESSION_ID])) {
+
+         $dashboardId = Tools::getSecureGETStringValue('dashboardId');
+
+         if(isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
             
-            $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID]);
+            $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId]);
             if (FALSE != $pluginDataProvider) {
 
                // TODO do not log exception if date = 01-01-1970

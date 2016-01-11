@@ -26,13 +26,14 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
 
    $logger = Logger::getLogger("TimetrackDetailsIndicator_ajax");
    $action = Tools::getSecureGETStringValue('action', 'none');
+   $dashboardId = Tools::getSecureGETStringValue('dashboardId');
    
    $smartyHelper = new SmartyHelper();
    if('getTimetrackDetailsIndicator' == $action) {
 
-      if(isset($_SESSION[PluginDataProviderInterface::SESSION_ID])) {
+      if(isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
 
-         $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID]);
+         $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId]);
          if (FALSE != $pluginDataProvider) {
 
             $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("timetrackDetails_startdate"));

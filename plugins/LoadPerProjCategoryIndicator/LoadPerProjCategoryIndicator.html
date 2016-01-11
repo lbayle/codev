@@ -19,6 +19,7 @@
          <input class="loadPerProjCategory_submit" type="submit" value="{t}Display{/t}" />
          <input type="hidden" name="action" value="getLoadPerProjCategoryIndicator" />
          <input type="hidden" name="attributesJsonStr" value="" />
+         <input type="hidden" name="dashboardId" value="" />
       </fieldset>
    </form>
 </div>
@@ -77,7 +78,10 @@
          
          // send attributesJsonStr because the ajax php need to know about 'isDisplayTasks' and 'projectId'
          form.find('input[name=attributesJsonStr]').val(attributesJsonStr);
-         
+
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
          jQuery.ajax({
             async: false,
             type: form.attr('method'),

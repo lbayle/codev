@@ -151,11 +151,13 @@ class IssueInfoTools {
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endT);
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_INTERVAL, $interval);
 
+      $dashboardName = 'Tasks_prj'.$issue->getProjectId();
+
       // save the DataProvider for Ajax calls
-      $_SESSION[PluginDataProviderInterface::SESSION_ID] = serialize($pluginDataProvider);
+      $_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardName] = serialize($pluginDataProvider);
 
       // create the Dashboard
-      $dashboard = new Dashboard('Tasks_prj'.$issue->getProjectId()); // settings are common all tasks of a project
+      $dashboard = new Dashboard($dashboardName); // settings are common all tasks of a project
       $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_TASK);
       $dashboard->setCategories(array(
           IndicatorPluginInterface::CATEGORY_QUALITY,

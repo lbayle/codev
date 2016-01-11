@@ -11,6 +11,7 @@
          <input type="text" class="loadPerProject_enddatepicker datepicker" name="loadPerProject_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
          <input class="loadPerProject_submit" type="submit" value="{t}Display{/t}" />
          <input type="hidden" name="action" value="getLoadPerProjectIndicator" />
+         <input type="hidden" name="dashboardId" value="" />
       </fieldset>
    </form>
 </div>
@@ -76,6 +77,10 @@
          event.preventDefault();
 
          var form = jQuery('.loadPerProjectIndicator_dateRange_form');
+
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
          var url = form.attr('action');
          var type = form.attr('method');
          jQuery.ajax({

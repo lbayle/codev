@@ -1,4 +1,4 @@
-<div id="inettutsDashboard">
+<div class="codevttDashboard" data-dashboardId="{$dashboardId}">
 <!--
 This file is associated to
 - classes/Dashboard.class.php
@@ -47,6 +47,7 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                   </div>
                   <div><label class="addDashboardErrorMsg error_font" ></label></div>
                   <input type="hidden" name="action" value="addDashboardPlugin" />
+                  <input type="hidden" name="dashboardId" value="{$dashboardId}" />
                   <input type="hidden" name="pluginAttributesJsonStr" value="0" />
                </fieldset>
             </form>
@@ -157,7 +158,8 @@ the content of this dialog is furnished by the plugin and loaded by ajax
                     url: 'include/dashboard_ajax.php',
                     dataType:"json",
                     data: { pluginClassName: this.value,
-                            action: "getPluginConfigInfo"
+                            action: "getPluginConfigInfo",
+                            dashboardId: "{$dashboardId}"
                     },
                     success: function(data) {
                       if (null === data) {

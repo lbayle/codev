@@ -12,6 +12,7 @@
          <input class="loadPerUser_submit" type="submit" value="{t}Display{/t}" />
          <input type="hidden" name="action" value="getLoadPerUserIndicator" />
          <input type="hidden" name="attributesJsonStr" value="" />
+         <input type="hidden" name="dashboardId" value="" />
       </fieldset>
    </form>
 </div>
@@ -94,6 +95,9 @@
          /* stop form from submitting normally */
          event.preventDefault();
          var form = jQuery('.loadPerUserIndicator_dateRange_form');
+
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
 
          // send attributesJsonStr because the ajax php need to know about 'showSidetasks'
          // Note: LoadPerUserIndicatorAttr is declared in dashboard.html

@@ -26,13 +26,14 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
 
    $logger = Logger::getLogger("HelloWorldIndicator_ajax");
    $action = Tools::getSecureGETStringValue('action', 'none');
+   $dashboardId = Tools::getSecureGETStringValue('dashboardId');
    
    $smartyHelper = new SmartyHelper();
    if('getHelloWorldIndicator' == $action) {
 
-      if(isset($_SESSION[PluginDataProviderInterface::SESSION_ID])) {
+      if(isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
 
-         $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID]);
+         $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId]);
          if (FALSE != $pluginDataProvider) {
 
             $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("helloWorld_startdate"));
@@ -70,4 +71,4 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
    Tools::sendUnauthorizedAccess();
 }
 
-?>
+

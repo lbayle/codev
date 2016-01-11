@@ -29,14 +29,15 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
    $logger = Logger::getLogger("LoadPerJobIndicator2_ajax");
 
    if(isset($_GET['action'])) {
-#echo "action = ".$_GET['action']."<br>";
+
       $smartyHelper = new SmartyHelper();
       if($_GET['action'] == 'getLoadPerJobIndicator2') {
-         
-         
-         if(isset($_SESSION[PluginDataProviderInterface::SESSION_ID])) {
+
+         $dashboardId = Tools::getSecureGETStringValue('dashboardId');
+
+         if(isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
             
-            $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID]);
+            $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId]);
             if (FALSE != $pluginDataProvider) {
                
                $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_startdate"));
@@ -77,4 +78,4 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
    Tools::sendUnauthorizedAccess();
 }
 
-?>
+
