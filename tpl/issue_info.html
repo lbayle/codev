@@ -45,14 +45,14 @@
                      {if $isManager}
                      <span class="pointer"><img onclick="removeFromCmd('{$i.id}', '{$i.name|escape}');return false;" align="absmiddle" title="{t}Remove from command{/t}" src="images/b_drop.png"/></span>
                      {/if}
-                     <a href='management/command_info.php?cmdid={$i.id}'>{if isset($i.reference)}{$i.reference} {/if}{$i.name}</a><br />
+                     <a href='management/command_info.php?cmdid={$i.id}'>{if isset($i.reference)}{$i.reference} {/if}{$i.name}</a>
                      </div>
                      {/foreach}
                      </div>
                      {if $isManager}
                      <div id="divAddCmd">
                      <span id="addToCmd_link" class="pointer"><img align="absmiddle" title="{t}Add to command{/t}" src="images/b_add2.gif"/></span>
-                     <span class="help_font">{t}Add to command{/t}<br></span>
+                     <span class="help_font">{t}Add to command{/t}</span>
                      </div>
                      {/if}
                   </td>
