@@ -116,9 +116,12 @@ class SmartyTools {
    public static function getWeeks($weekid, $year) {
       $weeks = array();
       for ($i = 1; $i <= 53; $i++) {
-         $wDates = Tools::week_dates($i,$year);
-         $monday = strftime(T_('W').'%V | %d %b', strtotime("Monday",$wDates[1]));
-         $friday = strftime("%d %b", strtotime("Friday",$wDates[1]));
+
+         $date_string = $year . 'W' . sprintf('%02d', $i);
+         $mondayTimestamp = strtotime($date_string);
+         $monday = T_('W').$i.' | '.strftime('%d %b', strtotime("Monday",$mondayTimestamp));
+         $friday = strftime("%d %b", strtotime("Friday",$mondayTimestamp));
+         
          $weeks[] = array(
             'id' => $i,
             'value' => utf8_encode(ucwords($monday)." - ".ucwords($friday)),

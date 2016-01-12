@@ -349,31 +349,6 @@ class Tools {
    }
 
    /**
-    * get the week starting date by giving a week number and the year. Monday first day in week
-    * @static
-    * @param int $week
-    * @param int $year
-    * @return int timestamp  monday 0:00 of the given week
-    */
-   public static function weekStartDate($week,$year) {
-      /*
-      If you want the timestamp of the start of the ISO Week (i.e. on Monday) as defined by ISO 8601, you can use this one liner:
-         $isoWeekStartTime = strtotime(date('o-\\WW')); // {isoYear}-W{isoWeekNumber}
-
-      You can also find out the start of week of any time and format it into an ISO date with another one liner like this:
-         $isoWeekStartDate = date('Y-m-d', strtotime(date('o-\\WW', $time)));
-      */
-
-      $week -= 1;
-      $timestamp        = strtotime("1.1.$year + $week weeks");
-      $isoWeekStartDate = strtotime(date('o-\\WW', $timestamp));
-
-      #echo "DEBUG isoWeekStartTime $isoWeekStartDate ".date('Y-m-d', $isoWeekStartDate).'<br>';
-
-      return $isoWeekStartDate;
-   }
-
-   /**
     * Function that returns the timestamp for each day in a week
     * @static
     * @param int $week
@@ -381,7 +356,9 @@ class Tools {
     * @return int[]
     */
    public static function week_dates($week, $year) {
-      $monday = self::weekStartDate($week,$year);
+
+      $date_string = $year . 'W' . sprintf('%02d', $week);
+      $monday = strtotime($date_string);
 
       $week_dates = array();
       $week_dates[1] = $monday; // Monday
