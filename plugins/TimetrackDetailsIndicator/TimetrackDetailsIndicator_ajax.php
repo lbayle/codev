@@ -25,56 +25,54 @@ require_once('i18n/i18n.inc.php');
 if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
 
    $logger = Logger::getLogger("TimetrackDetailsIndicator_ajax");
-   $action = Tools::getSecureGETStringValue('action', 'none');
+   $action = Tools::getSecureGETStringValue('action');
    $dashboardId = Tools::getSecureGETStringValue('dashboardId');
-   
+
+   if(!isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
+      $logger->error("PluginDataProvider not set (dashboardId = $dashboardId");
+      Tools::sendBadRequest("PluginDataProvider not set");
+   }
+   $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId]);
+   if (FALSE == $pluginDataProvider) {
+      $logger->error("PluginDataProvider unserialize error (dashboardId = $dashboardId");
+      Tools::sendBadRequest("PluginDataProvider unserialize error");
+   }
+
    $smartyHelper = new SmartyHelper();
    if('getTimetrackDetailsIndicator' == $action) {
 
-      if(isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
+      $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("timetrackDetails_startdate"));
+      $endTimestamp   = Tools::date2timestamp(Tools::getSecureGETStringValue("timetrackDetails_enddate"));
+      $displayedTeam  = Tools::getSecureGETIntValue("timetrackDetails_displayedTeam", 0);
 
-         $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId]);
-         if (FALSE != $pluginDataProvider) {
+      // update dataProvider
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
 
-            $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("timetrackDetails_startdate"));
-            $endTimestamp   = Tools::date2timestamp(Tools::getSecureGETStringValue("timetrackDetails_enddate"));
-            $displayedTeam  = Tools::getSecureGETIntValue("timetrackDetails_displayedTeam", 0);
-                    
-            // update dataProvider
-            $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
-            $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
+      $indicator = new TimetrackDetailsIndicator($pluginDataProvider);
 
-            $indicator = new TimetrackDetailsIndicator($pluginDataProvider);
+      // override plugin settings with current attributes
+      $indicator->setPluginSettings(array(
+          TimetrackDetailsIndicator::OPTION_DISPLAYED_TEAM => $displayedTeam,
+      ));
 
-            // override plugin settings with current attributes
-            $indicator->setPluginSettings(array(
-                TimetrackDetailsIndicator::OPTION_DISPLAYED_TEAM => $displayedTeam,
-            ));
+      $indicator->execute();
+      $data = $indicator->getSmartyVariablesForAjax();
 
-            $indicator->execute();
-            $data = $indicator->getSmartyVariablesForAjax();
-
-            // construct the html table
-            foreach ($data as $smartyKey => $smartyVariable) {
-               $smartyHelper->assign($smartyKey, $smartyVariable);
-            }
-            $html = $smartyHelper->fetch(TimetrackDetailsIndicator::getSmartySubFilename());
-            $data['timetrackDetails_htmlContent'] = $html;
-
-            // set JS libraries that must be load
-            $data['timetrackDetails_jsFiles'] = TimetrackDetailsIndicator::getJsFiles();
-            $data['timetrackDetails_cssFiles'] = TimetrackDetailsIndicator::getCssFiles();
-
-            // return html & chart data
-            $jsonData = json_encode($data);
-            echo $jsonData;
-
-         } else {
-            Tools::sendBadRequest("PluginDataProvider unserialize error");
-         }
-      } else {
-         Tools::sendBadRequest("PluginDataProvider not set");
+      // construct the html table
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
       }
+      $html = $smartyHelper->fetch(TimetrackDetailsIndicator::getSmartySubFilename());
+      $data['timetrackDetails_htmlContent'] = $html;
+
+      // set JS libraries that must be load
+      $data['timetrackDetails_jsFiles'] = TimetrackDetailsIndicator::getJsFiles();
+      $data['timetrackDetails_cssFiles'] = TimetrackDetailsIndicator::getCssFiles();
+
+      // return html & chart data
+      $jsonData = json_encode($data);
+      echo $jsonData;
 
    } else {
       Tools::sendNotFoundAccess();

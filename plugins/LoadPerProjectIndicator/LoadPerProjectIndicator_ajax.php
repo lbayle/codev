@@ -22,58 +22,53 @@ require('../../path.inc.php');
 // Note: i18n is included by the Controler class, but Ajax dos not use it...
 require_once('i18n/i18n.inc.php');
 
-if(Tools::isConnectedUser() && isset($_GET['action'])) {
+if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
    
    $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
    
    $logger = Logger::getLogger("LoadPerProjectIndicator_ajax");
+   $action = Tools::getSecureGETStringValue('action');
+   $dashboardId = Tools::getSecureGETStringValue('dashboardId');
 
-   $action = Tools::getSecureGETStringValue('action', '');
-   if(!empty($action)) {
+   if(!isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
+      $logger->error("PluginDataProvider not set (dashboardId = $dashboardId");
+      Tools::sendBadRequest("PluginDataProvider not set");
+   }
+   $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId]);
+   if (FALSE == $pluginDataProvider) {
+      $logger->error("PluginDataProvider unserialize error (dashboardId = $dashboardId");
+      Tools::sendBadRequest("PluginDataProvider unserialize error");
+   }
 
-      $smartyHelper = new SmartyHelper();
-      if($action == 'getLoadPerProjectIndicator') {
-         
-         $dashboardId = Tools::getSecureGETStringValue('dashboardId');
-         if(isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
-            
-            $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId]);
-            if (FALSE != $pluginDataProvider) {
+   $smartyHelper = new SmartyHelper();
+   if('getLoadPerProjectIndicator' == $action) {
 
-               // TODO do not log exception if date = 01-01-1970
-               $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerProject_startdate"));
-               $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerProject_enddate"));
-         
-               // update dataProvider
-               $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
-               $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
-               
-               $indicator = new LoadPerProjectIndicator($pluginDataProvider);
-               $indicator->execute();
-               $data = $indicator->getSmartyVariablesForAjax(); 
+      // TODO do not log exception if date = 01-01-1970
+      $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerProject_startdate"));
+      $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerProject_enddate"));
 
-               // construct the html table
-               foreach ($data as $smartyKey => $smartyVariable) {
-                  $smartyHelper->assign($smartyKey, $smartyVariable);
-                  #$logger->debug("key $smartyKey = ".var_export($smartyVariable, true));
-               }
-               $html = $smartyHelper->fetch(LoadPerProjectIndicator::getSmartySubFilename());
-               $data['loadPerProject_htmlContent'] = $html;
+      // update dataProvider
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
 
-               // return html & chart data
-               $jsonData = json_encode($data);
-               echo $jsonData;
+      $indicator = new LoadPerProjectIndicator($pluginDataProvider);
+      $indicator->execute();
+      $data = $indicator->getSmartyVariablesForAjax(); 
 
-            } else {
-               Tools::sendBadRequest("PluginDataProvider unserialize error");
-            }
-         } else {
-            Tools::sendBadRequest("PluginDataProvider not set");
-         }
-
-      } else {
-         Tools::sendNotFoundAccess();
+      // construct the html table
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+         #$logger->debug("key $smartyKey = ".var_export($smartyVariable, true));
       }
+      $html = $smartyHelper->fetch(LoadPerProjectIndicator::getSmartySubFilename());
+      $data['loadPerProject_htmlContent'] = $html;
+
+      // return html & chart data
+      $jsonData = json_encode($data);
+      echo $jsonData;
+
+   } else {
+      Tools::sendNotFoundAccess();
    }
 } else {
    Tools::sendUnauthorizedAccess();

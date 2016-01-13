@@ -22,70 +22,64 @@ require('../../path.inc.php');
 // Note: i18n is included by the Controler class, but Ajax dos not use it...
 require_once('i18n/i18n.inc.php');
 
-if(Tools::isConnectedUser() && isset($_GET['action'])) {
+if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
    
    $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
    
    $logger = Logger::getLogger("LoadPerUserIndicator_ajax");
+   $action = Tools::getSecureGETStringValue('action');
+   $dashboardId = Tools::getSecureGETStringValue('dashboardId');
 
-   $action = Tools::getSecureGETStringValue('action', '');
-   if(!empty($action)) {
+   if(!isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
+      $logger->error("PluginDataProvider not set (dashboardId = $dashboardId");
+      Tools::sendBadRequest("PluginDataProvider not set");
+   }
+   $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId]);
+   if (FALSE == $pluginDataProvider) {
+      $logger->error("PluginDataProvider unserialize error (dashboardId = $dashboardId");
+      Tools::sendBadRequest("PluginDataProvider unserialize error");
+   }
 
-      $smartyHelper = new SmartyHelper();
-      if($action == 'getLoadPerUserIndicator') {
+   $smartyHelper = new SmartyHelper();
+   if('getLoadPerUserIndicator' == $action) {
 
-         $dashboardId = Tools::getSecureGETStringValue('dashboardId');
+      // TODO do not log exception if date = 01-01-1970
+      $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerUser_startdate"));
+      $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerUser_enddate"));
 
-         if(isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
-            
-            $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId]);
-            if (FALSE != $pluginDataProvider) {
+      $attributesJsonStr = Tools::getSecureGETStringValue('attributesJsonStr');
+      $attributesArray = json_decode(stripslashes($attributesJsonStr), true);
+      $showSidetasks = ('on' != $attributesArray[LoadPerUserIndicator::OPTION_SHOW_SIDETASKS]) ? false : true;
+      //$logger->error("showSidetasks = ".var_export($showSidetasks, true).' attr '.$attributesArray[LoadPerUserIndicator::OPTION_SHOW_SIDETASKS]);
 
-               // TODO do not log exception if date = 01-01-1970
-               $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerUser_startdate"));
-               $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerUser_enddate"));
-         
-               $attributesJsonStr = Tools::getSecureGETStringValue('attributesJsonStr');
-               $attributesArray = json_decode(stripslashes($attributesJsonStr), true);
-               $showSidetasks = ('on' != $attributesArray[LoadPerUserIndicator::OPTION_SHOW_SIDETASKS]) ? false : true;
-               //$logger->error("showSidetasks = ".var_export($showSidetasks, true).' attr '.$attributesArray[LoadPerUserIndicator::OPTION_SHOW_SIDETASKS]);
+      // update dataProvider
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
 
-               // update dataProvider
-               $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
-               $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
+      $indicator = new LoadPerUserIndicator($pluginDataProvider);
 
-               $indicator = new LoadPerUserIndicator($pluginDataProvider);
+      // override plugin settings with current attributes
+      $indicator->setPluginSettings(array(
+          LoadPerUserIndicator::OPTION_SHOW_SIDETASKS => $showSidetasks,
+      ));
 
-               // override plugin settings with current attributes
-               $indicator->setPluginSettings(array(
-                   LoadPerUserIndicator::OPTION_SHOW_SIDETASKS => $showSidetasks,
-               ));
+      $indicator->execute();
+      $data = $indicator->getSmartyVariablesForAjax(); 
 
-               $indicator->execute();
-               $data = $indicator->getSmartyVariablesForAjax(); 
-
-               // construct the html table
-               foreach ($data as $smartyKey => $smartyVariable) {
-                  $smartyHelper->assign($smartyKey, $smartyVariable);
-                  #$logger->debug("key $smartyKey = ".var_export($smartyVariable, true));
-               }
-               $html = $smartyHelper->fetch(LoadPerUserIndicator::getSmartySubFilename());
-               $data['loadPerUser_htmlContent'] = $html;
-
-               // return html & chart data
-               $jsonData = json_encode($data);
-               echo $jsonData;
-
-            } else {
-               Tools::sendBadRequest("PluginDataProvider unserialize error");
-            }
-         } else {
-            Tools::sendBadRequest("PluginDataProvider not set");
-         }
-
-      } else {
-         Tools::sendNotFoundAccess();
+      // construct the html table
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+         #$logger->debug("key $smartyKey = ".var_export($smartyVariable, true));
       }
+      $html = $smartyHelper->fetch(LoadPerUserIndicator::getSmartySubFilename());
+      $data['loadPerUser_htmlContent'] = $html;
+
+      // return html & chart data
+      $jsonData = json_encode($data);
+      echo $jsonData;
+
+   } else {
+      Tools::sendNotFoundAccess();
    }
 } else {
    Tools::sendUnauthorizedAccess();

@@ -22,57 +22,52 @@ require('../../path.inc.php');
 // Note: i18n is included by the Controler class, but Ajax dos not use it...
 require_once('i18n/i18n.inc.php');
 
-if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
+if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
    
    $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
    
    $logger = Logger::getLogger("LoadPerJobIndicator2_ajax");
+   $action = Tools::getSecureGETStringValue('action');
+   $dashboardId = Tools::getSecureGETStringValue('dashboardId');
 
-   if(isset($_GET['action'])) {
+   if(!isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
+      $logger->error("PluginDataProvider not set (dashboardId = $dashboardId");
+      Tools::sendBadRequest("PluginDataProvider not set");
+   }
+   $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId]);
+   if (FALSE == $pluginDataProvider) {
+      $logger->error("PluginDataProvider unserialize error (dashboardId = $dashboardId");
+      Tools::sendBadRequest("PluginDataProvider unserialize error");
+   }
 
-      $smartyHelper = new SmartyHelper();
-      if($_GET['action'] == 'getLoadPerJobIndicator2') {
+   $smartyHelper = new SmartyHelper();
+   if('getLoadPerJobIndicator2' == $action) {
 
-         $dashboardId = Tools::getSecureGETStringValue('dashboardId');
+      $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_startdate"));
+      $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_enddate"));
 
-         if(isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
-            
-            $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId]);
-            if (FALSE != $pluginDataProvider) {
-               
-               $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_startdate"));
-               $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("loadPerJob_enddate"));
-         
-               // update dataProvider
-               $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
-               $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
-               
-               $indicator = new LoadPerJobIndicator2($pluginDataProvider);
-               $indicator->execute();
-               $data = $indicator->getSmartyVariablesForAjax(); 
+      // update dataProvider
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
 
-               // construct the html table
-               foreach ($data as $smartyKey => $smartyVariable) {
-                  $smartyHelper->assign($smartyKey, $smartyVariable);
-                  #$logger->debug("key $smartyKey = ".var_export($smartyVariable, true));
-               }
-               $html = $smartyHelper->fetch(LoadPerJobIndicator2::getSmartySubFilename());
-               $data['loadPerJob_htmlTable'] = $html;
+      $indicator = new LoadPerJobIndicator2($pluginDataProvider);
+      $indicator->execute();
+      $data = $indicator->getSmartyVariablesForAjax(); 
 
-               // return html & chart data
-               $jsonData = json_encode($data);
-               echo $jsonData;
-
-            } else {
-               Tools::sendBadRequest("PluginDataProvider unserialize error");
-            }
-         } else {
-            Tools::sendBadRequest("PluginDataProvider not set");
-         }
-
-      } else {
-         Tools::sendNotFoundAccess();
+      // construct the html table
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+         #$logger->debug("key $smartyKey = ".var_export($smartyVariable, true));
       }
+      $html = $smartyHelper->fetch(LoadPerJobIndicator2::getSmartySubFilename());
+      $data['loadPerJob_htmlTable'] = $html;
+
+      // return html & chart data
+      $jsonData = json_encode($data);
+      echo $jsonData;
+
+   } else {
+      Tools::sendNotFoundAccess();
    }
 } else {
    Tools::sendUnauthorizedAccess();

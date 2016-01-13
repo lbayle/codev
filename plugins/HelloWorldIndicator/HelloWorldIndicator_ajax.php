@@ -25,44 +25,42 @@ require_once('i18n/i18n.inc.php');
 if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
 
    $logger = Logger::getLogger("HelloWorldIndicator_ajax");
-   $action = Tools::getSecureGETStringValue('action', 'none');
+   $action = Tools::getSecureGETStringValue('action');
    $dashboardId = Tools::getSecureGETStringValue('dashboardId');
-   
+
+   if(!isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
+      $logger->error("PluginDataProvider not set (dashboardId = $dashboardId");
+      Tools::sendBadRequest("PluginDataProvider not set");
+   }
+   $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId]);
+   if (FALSE == $pluginDataProvider) {
+      $logger->error("PluginDataProvider unserialize error (dashboardId = $dashboardId");
+      Tools::sendBadRequest("PluginDataProvider unserialize error");
+   }
+
    $smartyHelper = new SmartyHelper();
    if('getHelloWorldIndicator' == $action) {
 
-      if(isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
+      $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("helloWorld_startdate"));
 
-         $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId]);
-         if (FALSE != $pluginDataProvider) {
+      // update dataProvider
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
 
-            $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("helloWorld_startdate"));
+      $indicator = new HelloWorldIndicator($pluginDataProvider);
+      $indicator->execute();
+      $data = $indicator->getSmartyVariablesForAjax();
 
-            // update dataProvider
-            $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
-
-            $indicator = new HelloWorldIndicator($pluginDataProvider);
-            $indicator->execute();
-            $data = $indicator->getSmartyVariablesForAjax();
-
-            // construct the html table
-            foreach ($data as $smartyKey => $smartyVariable) {
-               $smartyHelper->assign($smartyKey, $smartyVariable);
-               #$logger->debug("key $smartyKey = ".var_export($smartyVariable, true));
-            }
-            $html = $smartyHelper->fetch(HelloWorldIndicator::getSmartySubFilename());
-            $data['helloWorld_htmlContent'] = $html;
-
-            // return html & chart data
-            $jsonData = json_encode($data);
-            echo $jsonData;
-
-         } else {
-            Tools::sendBadRequest("PluginDataProvider unserialize error");
-         }
-      } else {
-         Tools::sendBadRequest("PluginDataProvider not set");
+      // construct the html table
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+         #$logger->debug("key $smartyKey = ".var_export($smartyVariable, true));
       }
+      $html = $smartyHelper->fetch(HelloWorldIndicator::getSmartySubFilename());
+      $data['helloWorld_htmlContent'] = $html;
+
+      // return html & chart data
+      $jsonData = json_encode($data);
+      echo $jsonData;
 
    } else {
       Tools::sendNotFoundAccess();
