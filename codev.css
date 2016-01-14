@@ -407,7 +407,6 @@ table.invisible tbody tr:hover {
 
 /* START Dropdown */
 
-/* LEVEL TWO */
 ul.submenu {
    z-index: 1;
    visibility: hidden;
@@ -445,8 +444,30 @@ ul.submenu ul {
    left: 100%;
    top: 0;
 }
-ul.dropdown li:hover > ul.submenu {
-   visibility: visible;
+
+.dropdown-li-opened .submenu {
+        visibility: visible;
+}
+.submenu {
+       visibility: hidden;
+}
+.dropdown-icon { width: 16px; height: 16px; background-image: url(images/dropdown-icons_808080_256x240.png); display: inline-block;}
+.dropdown-icon-triangle-1-s { background-position: -64px -16px; }
+
+.dropdown-title {
+  padding: 0.2em 1em;
+  padding-right: 0.5em;
+  float: left;
+  text-decoration: none; 
+  font-size: 12px; 
+  font-weight: normal; 
+  text-shadow: 0 1px 0 rgba(255,255,255,0.5); 
+  color: black;
+}
+
+.ui-state-active .dropdown-title {
+  font-weight: bold;
+  color: black;
 }
 
 /* END Dropdown */

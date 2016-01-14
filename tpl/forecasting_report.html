@@ -29,9 +29,9 @@
    {if isset($currentDeviationStats)}
    <script type="text/javascript">
       jQuery(document).ready(function() {
-         jQuery("#dialog_CurrentDriftStats_link").click(function() {
+         jQuery("#dialog_CurrentDriftStats_link").click(function(e) {
+            e.preventDefault();
             jQuery("#dialog_CurrentDriftStats").dialog("open");
-            return false;
          });
          jQuery("#dialog_CurrentDriftStats").dialog({
             autoOpen: false,
@@ -39,9 +39,9 @@
             width: "auto",
             hide: "fade"
          });
-         jQuery("#dialog_AdherenceToDeadlines_link").click(function() {
+         jQuery("#dialog_AdherenceToDeadlines_link").click(function(e) {
+            e.preventDefault();
             jQuery("#dialog_AdherenceToDeadlines").dialog("open");
-            return false;
          });
          jQuery("#dialog_AdherenceToDeadlines").dialog({
             autoOpen: false,

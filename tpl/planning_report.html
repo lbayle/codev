@@ -40,9 +40,9 @@
                form.submit();
             });
 
-            jQuery("#planningOptions_link").click(function() {
+            jQuery("#planningOptions_link").click(function(e) {
+               e.preventDefault();
                jQuery(".planningOptionsDialog").dialog("open");
-               return false;
             });
 
             jQuery(".planningOptionsDialog").dialog({
