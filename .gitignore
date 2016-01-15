@@ -1,6 +1,7 @@
 .project
 .settings
 *~
+*.sublime-*
 config.ini
 log4php.xml
 constants.php
