@@ -87,7 +87,6 @@ class SqlParser {
       foreach($sql_queries as $query){
          $result = SqlWrapper::getInstance()->sql_query(trim($query));
          if (!$result) {
-            echo "<span style='color:red'>ERROR: Query $i FAILED</span>";
             return -1;
          }
          ++$i;

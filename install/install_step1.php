@@ -48,7 +48,6 @@ $logger = Logger::getLogger("install");
       //if (0 == document.forms["databaseForm"].db_mantis_password.value)     { msgString += Password"\n"; ++foundError; }
 
       if (0 == foundError) {
-         document.forms["databaseForm"].action.value="setDatabaseInfo";
          document.forms["databaseForm"].submit();
       } else {
          alert(msgString);
@@ -92,20 +91,15 @@ function checkDBConnection($db_mantis_host = 'localhost',
 
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      return "ERROR: Could not access Mantis database";
-      //echo "<span style='color:red'>ERROR: Query FAILED AAA</span>";
-      //exit;
+      throw new Exception("ERROR: Could not access Mantis database");
    }
    if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
-      return "ERROR: Could not get mantis_config_table.database_version";
+      throw new Exception("ERROR: Could not get mantis_config_table.database_version");
    }
    $row = SqlWrapper::getInstance()->sql_fetch_object($result);
    $database_version = $row->value;
 
-   echo "DEBUG: Mantis database_version = $database_version<br/>";
-
-
-   return NULL;
+   return $database_version;
 }
 
 /**
@@ -156,8 +150,9 @@ function checkDBprivileges($db_mantis_database = 'bugtracker') {
    if (NULL != $errStr) {
       $allPriv = implode(', ', $mandatoryPriv);
       $errStr .= "Please add the following privileges: $allPriv";
+      throw new Exception($errStr);
+
    }
-   return $errStr;
 }
 
 
@@ -190,29 +185,8 @@ function createConfigFile($db_mantis_host = 'localhost',
    $retCode = Constants::writeConfigFile();
 
    if (!$retCode) {
-      // TODO throw exception...
-      return "ERROR: Could not create file ".Constants::$config_file;
+      throw new Exception("ERROR: Could not create file ".Constants::$config_file);
    }
-   return NULL;
-}
-
-
-function displayStepInfo() {
-   echo "<h2>".T_("Prerequisites")."</h2>\n";
-   echo "<ul>\n";
-   echo "<li>Successfully installed Mantis</li>";
-   echo "<li>user 'apache' has write access to CodevTT directory</li>";
-   echo "<li>MySQL 'codev' user created with access to Mantis DB</li>";
-   echo "</ul>\n";
-   echo "<h2>".T_("Actions")."</h2>\n";
-   echo "<ul>\n";
-   echo "<li>Create database configuration file for CodevTT</li>";
-   echo "<li>Create CodevTT database tables</li>";
-   echo "<li>Add CodevTT specific custom fields to Mantis</li>";
-   echo "<li>Create ExternalTasks Project</li>";
-   echo "<li>Create CodevTT Admin team</li>";
-   echo "</ul>\n";
-   echo "";
 }
 
 function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, $db_mantis_user, $db_mantis_pass) {
@@ -242,6 +216,8 @@ function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, 
 	if (Tools::isWindowsServer()) {
 		echo "<br><span class='warn_font'>".T_("WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished).")."</span><br>";
 	}
+	echo '<br><span class="error_font" id="errorMsg" style="font-size:larger; font-weight: bold;"></span><br>';
+
    echo "  <br/>\n";
    echo "<h2>".T_("Proxy Settings")."</h2>\n";
    echo "<span class='help_font'>".T_("CodevTT will check for updates.")."</span><br>";
@@ -259,92 +235,107 @@ function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, 
    echo "<input type=button style='font-size:150%' value='".T_("Proceed Step 1")."' onclick='setDatabaseInfo()'>\n";
    echo "</div>\n";
 
-   echo "<input type=hidden name=action      value=noAction>\n";
-   echo "<input type=hidden name=isProxyEnabled value=0/>\n";
+   echo "<input type='hidden' name='action'      value='setDatabaseInfo'>\n";
+   echo "<input type='hidden' name='isProxyEnabled' value='0'/>\n";
    echo "</form>";
+   echo "<br/>\n";
+   echo "<br/>\n";
+}
+
+/**
+ * override filter_input to handle errors
+ * @param int $type INPUT_POST or INPUT_GET
+ * @param string $variable_name
+ * @param string $defaultValue
+ * @param int $filter
+ * @return string value
+ */
+ function getHttpVariable($type, $variable_name, $defaultValue=NULL, $filter = FILTER_DEFAULT) {
+   $value = filter_input($type, $variable_name, $filter);
+   if (NULL === $value) {
+      // undefined
+      $value = $defaultValue;
+   }
+   if (FALSE === $value) {
+      echo "<span class='error_font'>Could not get ".$variable_name."</span><br/>";
+      exit;
+   }
+   return $value;
 }
 
 // ================ MAIN =================
 $originPage = "install_step1.php";
 
-$db_mantis_host = Tools::getSecurePOSTStringValue('db_mantis_host', 'localhost');
-$db_mantis_database = Tools::getSecurePOSTStringValue('db_mantis_database', 'bugtracker');
-$db_mantis_user = Tools::getSecurePOSTStringValue('db_mantis_user', Tools::isWindowsServer() ? 'root' : 'mantisdbuser');
-$db_mantis_pass = Tools::getSecurePOSTStringValue('db_mantis_pass', '');
+$db_mantis_host = (string)getHttpVariable(INPUT_POST, 'db_mantis_host', 'localhost');
+$db_mantis_database = (string)getHttpVariable(INPUT_POST, 'db_mantis_database', 'bugtracker');
+$db_mantis_user = (string)getHttpVariable(INPUT_POST, 'db_mantis_user', Tools::isWindowsServer() ? 'root' : 'mantisdbuser');
+$db_mantis_pass = (string)getHttpVariable(INPUT_POST, 'db_mantis_pass', '');
 
-$isProxyEnabled = Tools::getSecurePOSTStringValue('isProxyEnabled', '0');
+$isProxyEnabled = (string)getHttpVariable(INPUT_POST, 'isProxyEnabled', '0');
 if ('1' == $isProxyEnabled) {
-   $proxy_host = Tools::getSecurePOSTStringValue('proxy_host', '');
-   $proxy_port = Tools::getSecurePOSTStringValue('proxy_port', '');
+   $proxy_host = (string)getHttpVariable(INPUT_POST, 'proxy_host', '');
+   $proxy_port = (string)getHttpVariable(INPUT_POST, 'proxy_port', '');
 } else {
    $proxy_host = NULL;
    $proxy_port = NULL;
 }
 
-$action = Tools::getSecurePOSTStringValue('action', '');
-
-#displayStepInfo();
-#echo "<hr align='left' width='20%'/>\n";
-
 displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, $db_mantis_user, $db_mantis_pass);
+
+$action = (string)getHttpVariable(INPUT_POST, 'action', 'none');
 
 if ("setDatabaseInfo" == $action) {
 
-   $errStr = checkDBConnection($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
-   if (NULL != $errStr) {
-      echo "<span class='error_font'>".$errStr."</span><br/>";
-      exit;
-   }
+   try {
 
-   // check if I can create CodevTT tables & procedures
-   $errStr = checkDBprivileges($db_mantis_database);
-   if (NULL != $errStr) {
-      echo "<span class='error_font'>".$errStr."</span><br/>";
-      exit;
-   }
+      $database_version = checkDBConnection($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG: Mantis database_version = $database_version\");</script>";
 
-   // get proxy settings
-   
-   
-      
-   echo "DEBUG 1/4 create config.ini file<br/>";
-   $errStr = createConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $proxy_host, $proxy_port);
-   if (NULL != $errStr) {
-      echo "<span class='error_font'>".$errStr."</span><br/>";
-      exit;
-   }
+      checkDBprivileges($db_mantis_database);
 
-   echo "DEBUG 2/4 execSQLscript2 - create Tables<br/>";
-   //$retCode = Tools::execSQLscript2(Install::FILENAME_TABLES);
-   $retCode = SqlParser::execSqlScript(Install::FILENAME_TABLES);
-   if (0 != $retCode) {
-      echo "<span class='error_font'>Could not execSQLscript: ".Install::FILENAME_TABLES.'</span><br/>';
-      exit;
-   }
-   $request = "SELECT value from `codev_config_table` WHERE `config_id` = 'database_version' ";
-   if (!SqlWrapper::getInstance()->sql_query($request)) {
-      echo "<span class='error_font'>CodevTT database tables not created.</span><br/>";
-      exit;
-   }
+      echo "<script type=\"text/javascript\">console.log(\"Step 1/4 create config.ini file\");</script>";
+      createConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $proxy_host, $proxy_port);
 
-   echo "DEBUG 3/4 execSQLscript2 - create Procedures<br/>";
-   // procedures are defined in install/codevtt_procedures.php
-   foreach ($codevtt_sqlProcedures as $query) {
-      $result = SqlWrapper::getInstance()->sql_query(trim($query));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query $i FAILED</span>";
-         exit;
+      echo "<script type=\"text/javascript\">console.log(\"Step 2/4 execSQLscript2 - create Tables\");</script>";
+      //$retCode = Tools::execSQLscript2(Install::FILENAME_TABLES);
+      $retCode = SqlParser::execSqlScript(Install::FILENAME_TABLES);
+      if (0 != $retCode) {
+         throw new Exception('ERROR: Could not execute SQL script: '.Install::FILENAME_TABLES);
       }
+      $request = "SELECT value from `codev_config_table` WHERE `config_id` = 'database_version' ";
+      if (!SqlWrapper::getInstance()->sql_query($request)) {
+         throw new Exception('ERROR: CodevTT database tables not created.');
+      }
+
+      echo "<script type=\"text/javascript\">console.log(\"Step 3/4 execSQLscript2 - create Procedures\");</script>";
+      // procedures are defined in install/codevtt_procedures.php
+      foreach ($codevtt_sqlProcedures as $query) {
+         $result = SqlWrapper::getInstance()->sql_query(trim($query));
+         if (!$result) {
+            throw new Exception('ERROR: SQL procedure creation failed FAILED');
+         }
+      }
+
+      echo "<script type=\"text/javascript\">console.log(\"Step 4/4 Perf: CREATE INDEX handler_id ON mantis_bug_table\");</script>";
+      $request = "CREATE INDEX `handler_id` ON `mantis_bug_table` (`handler_id`); ";
+      $result = SqlWrapper::getInstance()->sql_query($request);
+      // Note: we do not care about the result: if failed, then the INDEX already exists.
+
+      // everything went fine, goto step2
+      echo ("<script type='text/javascript'> parent.location.replace('install_step2.php'); </script>");
+
+   } catch (Exception $ex) {
+
+      echo "<script type=\"text/javascript\">document.getElementById(\"errorMsg\").innerHTML=\"".$ex->getMessage()."\";</script>";
+
+      if (file_exists(Constants::$config_file)) {
+         echo "<script type=\"text/javascript\">console.log(\"ROLLBACK: remove config file\");</script>";
+         $retCode = unlink(Constants::$config_file);
+         if (!$retCode) {
+            echo "<script type=\"text/javascript\">console.error(\"ERROR: could not remove config file\");</script>";
+         }
+      }
+      exit;
    }
 
-   echo "DEBUG 4/4 Perf: CREATE INDEX handler_id ON mantis_bug_table <br/>";
-   $request = "CREATE INDEX `handler_id` ON `mantis_bug_table` (`handler_id`); ";
-   $result = SqlWrapper::getInstance()->sql_query($request);
-   // Note: we do not care about the result: if failed, then the INDEX already exists. 
-
-
-   // everything went fine, goto step2
-   echo ("<script type='text/javascript'> parent.location.replace('install_step2.php'); </script>");
 }
-
-?>

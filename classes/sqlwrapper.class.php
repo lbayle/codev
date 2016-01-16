@@ -68,8 +68,15 @@ class SqlWrapper {
       $this->username = $username;
       $this->password = $password;
       $this->database_name = $database_name;
-      $this->link = mysql_connect($server, $username, $password, false, MYSQL_CLIENT_COMPRESS) or die("Could not connect to database: " . $this->sql_error());
-      mysql_select_db($database_name, $this->link) or die("<span class='error_font'>Could not select database: " . $this->sql_error()."</span>");
+
+      $this->link = mysql_connect($server, $username, $password, false, MYSQL_CLIENT_COMPRESS);
+      if (FALSE === $this->link) {
+         throw new Exception("Could not connect to database: " . $this->sql_error());
+      }
+      $retCode = mysql_select_db($database_name, $this->link);
+      if (FALSE === $retCode) {
+         throw new Exception("Could not select database: " . $this->sql_error());
+      }
       mysql_query('SET CHARACTER SET utf8');
       mysql_query('SET NAMES utf8');
    }
