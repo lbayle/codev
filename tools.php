@@ -1135,7 +1135,7 @@ class Tools {
          }
          fclose($fp);
       } else {
-         echo "ERROR : safefilerewrite() could not write to file: $fileName<br>";
+         //echo "ERROR : safefilerewrite() could not write to file: $fileName<br>";
          return FALSE;
       }
       return TRUE;

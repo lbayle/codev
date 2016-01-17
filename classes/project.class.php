@@ -176,7 +176,7 @@ class Project extends Model {
     */
    public static function exists($id) {
       if (NULL == $id) {
-         self::$logger->warn("exists(): $id == NULL.");
+         self::$logger->warn("exists(): id == NULL.");
          return FALSE;
       }
 
@@ -201,6 +201,30 @@ class Project extends Model {
    }
 
    /**
+    * 
+    * @static
+    * @param $projectName
+    * @return projectId or -1 if not found or FALSE on error
+    */
+   public static function getIdFormName($projectName) {
+      if (NULL == $projectName) {
+         self::$logger->warn("getIdFormName(): projectName == NULL.");
+         return false;
+      }
+      // check if name exists
+      $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $projectid = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : -1;
+
+      // no error, but -1 if not found
+      return $projectid;
+   }
+
+   /**
     * Create project, categories & assign N/A job
     * @static
     * @param $projectName
@@ -217,7 +241,7 @@ class Project extends Model {
 
       $projectid = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : -1;
       if (-1 != $projectid) {
-         echo "ERROR: Project name already exists ($projectName)<br/>\n";
+         self::$logger->error("createExternalTasksProject($projectName): Project name already exist");
          return $projectid;
       }
 

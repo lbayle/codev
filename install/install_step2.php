@@ -139,6 +139,22 @@ function displayForm($originPage, $path_mantis, $url_mantis, $url_codevtt) {
    echo "</form>";
 }
 
+/**
+ * Add a new entry in MantisBT menu (main_menu_custom_options)
+ *
+ * ex: addCustomMenuItem('CodevTT', '../codev/index.php')
+ *
+ */
+function addCustomMenuItem($name, $url) {
+
+   // $tok = strtok($_SERVER["SCRIPT_NAME"], "/");
+   // $url = '../'.$tok.'/index.php';  #  ../codevtt/index.php
+
+   // TODO add this line to config_inc.php :
+   //array_push($g_main_menu_custom_options, array( "CodevTT", NULL, 'http://localhost/codevtt/' ));
+}
+
+
 // ================ MAIN =================
 $originPage = "install_step2.php";
 $default_path_mantis           = dirname(BASE_PATH).DIRECTORY_SEPARATOR."mantis"; // "/var/www/html/mantis";

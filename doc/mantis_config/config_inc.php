@@ -10,9 +10,13 @@ $g_hostname      = 'localhost';
 $g_db_username   = 'mantis';
 $g_db_password   = 'secret_password';
 $g_database_name = 'bugtracker';
-$g_db_type       = 'mysql';
+$g_db_type       = 'mysqli';
 
 # -------------------------------------------------------------
+
+# --- Add CodevTT to mantis main menu ---
+array_push($g_main_menu_custom_options, array( "CodevTT", NULL, '../codevtt/index.php' ));
+
 # --- Cosmetic ---
 $g_window_title     = 'Mantis - CodevTT';
 # $g_logo_image     = 'images/mantis_logo.png';

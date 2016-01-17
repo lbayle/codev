@@ -28,6 +28,8 @@ require_once('install/install_header.inc.php');
 Config::getInstance()->setQuiet(true);
 
 require_once('install/install_menu.inc.php');
+
+$logger = Logger::getLogger("install");
 ?>
 
 <script type="text/javascript">
@@ -68,16 +70,23 @@ function createGreasemonkeyFile() {
    // write dest file
    $fp = fopen(Install::FILENAME_GREASEMONKEY, 'w');
    if (FALSE == $fp) {
-      return "ERROR: creating file " . Install::FILENAME_GREASEMONKEY;
+      throw new Exception ("ERROR: creating file " . Install::FILENAME_GREASEMONKEY);
    }
    if (FALSE == fwrite($fp, $str, strlen($str))) {
       fclose($fp);
+      echo "<script type=\"text/javascript\">console.error(ERROR: could not write to file " . Install::FILENAME_GREASEMONKEY."\");</script>";
       return "ERROR: could not write to file " . Install::FILENAME_GREASEMONKEY;
+      // no exception, because this is not blocking
    }
    fclose($fp);
    return NULL;
 }
 
+/**
+ *
+ * @return null
+ * @throws Exception
+ */
 function createLog4phpFile() {
 
    //read the source file
@@ -90,42 +99,43 @@ function createLog4phpFile() {
 
    // create log4php.xml file
    if (FALSE === file_put_contents(Install::FILENAME_LOG4PHP, $str)) {
-      return "ERROR : could not create logger configuration file: ".Install::FILENAME_LOG4PHP;
+      throw new Exception ("could not create logger configuration file: ".Install::FILENAME_LOG4PHP);
    }
    return NULL;
 }
 
 
-   /**
-    * append content of $toAppendFile at the end of $destFile
-    * $destFile is created if !exists
+/**
+ * append content of $toAppendFile at the end of $destFile
+ * $destFile is created if !exists
 
-    * @param String $destFile file to edit
-    * @param String $toAppendFile content to append
-    * @param String $checkStr if str found in $destFile, work will not be done.
-    */
-   function appendToFile($destFile, $toAppendFile, $checkStr = NULL) {
+ * @param String $destFile file to edit
+ * @param String $toAppendFile content to append
+ * @param String $checkStr if str found in $destFile, work will not be done.
+ * @throws Exception
+ */
+function appendToFile($destFile, $toAppendFile, $checkStr = NULL) {
 
-      // write constants
-      $content = @file_get_contents($toAppendFile, true);
-      if (FALSE === $content) {
-         return "ERROR: Could not read file: " . $toAppendFile . "</br>";
-      } else {
-         if (is_null($checkStr)) { $checkStr = $content; }
+   // write constants
+   $content = @file_get_contents($toAppendFile, true);
+   if (FALSE === $content) {
+      throw new Exception ("Could not read file: " . $toAppendFile);
+   } else {
+      if (is_null($checkStr)) { $checkStr = $content; }
 
-         // check if already added
-         $destContent = @file_get_contents($destFile);
-         if ((!file_exists($destFile)) ||
-             (FALSE === strpos($destContent, $checkStr))) {
-            $errStr = @file_put_contents($destFile, $content, FILE_APPEND);
-            if (FALSE === $errStr) {
-               return "ERROR: Could not update file " . $destFile . ": $errStr</br>";
-            }
+      // check if already added
+      $destContent = @file_get_contents($destFile);
+      if ((!file_exists($destFile)) ||
+          (FALSE === strpos($destContent, $checkStr))) {
+         $errStr = @file_put_contents($destFile, $content, FILE_APPEND);
+         if (FALSE === $errStr) {
+            throw new Exception ("Could not update file " . $destFile . ": ".$errStr);
          }
       }
-      // SUCCESS
-      return NULL;
    }
+   // SUCCESS
+   return NULL;
+}
 
 /**
  * insert CodevTT config in Mantis custom files.
@@ -153,23 +163,21 @@ function updateMantisCustomFiles() {
    }
 
    if(!is_writable($path_mantis_config)) {
-      return "ERROR: Path to mantis config ". $path_mantis_config." is NOT writable";
+      throw new Exception("Path to mantis config ". $path_mantis_config." is NOT writable");
    }
 
-   $retCode1 = appendToFile($path_mantis_config.'/custom_constants_inc.php',
-                            Install::FILENAME_CUSTOM_CONSTANTS_CODEVTT,
-                            'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY');
-   if(!is_null($retCode1)) { return $retCode1; }
+   appendToFile($path_mantis_config.'/custom_constants_inc.php',
+                Install::FILENAME_CUSTOM_CONSTANTS_CODEVTT,
+                'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY');
 
-   $retCode2 = appendToFile($path_mantis_config.'/custom_strings_inc.php',
-                            Install::FILENAME_CUSTOM_STRINGS_CODEVTT,
-                            's_rel_constrained_by');
-   if(!is_null($retCode2)) { return $retCode2; }
+   appendToFile($path_mantis_config.'/custom_strings_inc.php',
+                Install::FILENAME_CUSTOM_STRINGS_CODEVTT,
+                's_rel_constrained_by');
 
-   $retCode3 = appendToFile($path_mantis_config.'/custom_relationships_inc.php',
-                            Install::FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT,
-                            'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY');
-   return $retCode3;
+   appendToFile($path_mantis_config.'/custom_relationships_inc.php',
+                  Install::FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT,
+                  'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY');
+   return NULL;
 }
 
 /**
@@ -177,11 +185,19 @@ function updateMantisCustomFiles() {
  * @param string $projectName
  * @param string $projectDesc
  * @return int|string
+ * @throws Exception
  */
-function createExternalTasksProject($projectName = "CodevTT_ExternalTasks", $projectDesc = "CoDevTT ExternalTasks Project") {
+function createExternalTasksProject($projectName = "CodevTT_ExternalTasks", $projectDesc = "CodevTT ExternalTasks Project") {
    // create project
-   $projectid = Project::createExternalTasksProject($projectName, $projectDesc);
-
+   $projectid = Project::getIdFormName($projectName);
+   if (false === $projectid) {
+      throw new Exception("CodevTT external tasks project creation failed");
+   }
+   if (-1 !== $projectid) {
+      echo "<script type=\"text/javascript\">console.info(\"INFO: CodevTT external tasks project already exists: $projectName\");</script>";
+   } else {
+      $projectid = Project::createExternalTasksProject($projectName, $projectDesc);
+   }
    return $projectid;
 }
 
@@ -200,7 +216,7 @@ function createAdminTeam($name, $leader_id) {
 
    // create admin team
    $teamId = Team::getIdFromName($name);
-   if (-1 == $teamId) {
+   if (-1 === $teamId) {
       $teamId = Team::create($name, T_("CodevTT Administrators team"), $leader_id, $today);
    }
 
@@ -217,13 +233,13 @@ function createAdminTeam($name, $leader_id) {
       $adminTeam->setEnabled(false);
 
       // add default ExternalTasksProject
-      // TODO does Admin team needs ExternalTasksProject ?
+      // TODO does Admin team need ExternalTasksProject ?
       $adminTeam->addExternalTasksProject();
 
       // NOTE: CodevTT Admin team does not need any side task project.
 
    } else {
-      echo "ERROR: $name team creation failed</br>";
+      throw new Exception ("Admin Team creation failed: ".$name);
    }
    return $teamId;
 }
@@ -233,92 +249,6 @@ function setConfigItems() {
    // nothing to do.
 }
 
-
-/**
- * remove existing entries from mantis menu
- *
- * @param string $name 'CodevTT'
- */
-function removeCustomMenuItem($name) {
-
-   // get current mantis custom menu entries
-   $query = "SELECT value FROM `mantis_config_table` WHERE config_id = 'main_menu_custom_options'";
-   $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>" . mysql_error() . "</span>");
-
-   $serialized = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
-
-   // add entry
-   if ((!is_null($serialized)) && ("" != $serialized)) {
-
-      $menuItems = unserialize($serialized);
-
-      foreach($menuItems as $key => $item) {
-         if (in_array($name, $item)) {
-            echo "remove key=$key<br>";
-            unset($menuItems[$key]);
-         }
-      }
-
-      $newSerialized = serialize($menuItems);
-
-      // update mantis menu
-      if (NULL != $serialized) {
-         $query = "UPDATE `mantis_config_table` SET value = '$newSerialized' " .
-            "WHERE config_id = 'main_menu_custom_options'";
-      } else {
-         $query = "INSERT INTO `mantis_config_table` (`config_id`, `value`, `type`, `access_reqd`) " .
-            "VALUES ('main_menu_custom_options', '$newSerialized', '3', '90');";
-      }
-      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>" . mysql_error() . "</span>");
-
-
-   } else {
-      // echo "no custom menu entries found<br>";
-   }
-
-
-}
-
-/**
- * Add a new entry in MantisBT menu (main_menu_custom_options)
- *
- * ex: addCustomMenuItem('CodevTT', '../codev/index.php')
- *
- * @param string $name
- * @param string $url
- * @return string
- */
-function addCustomMenuItem($name, $url) {
-   $pos = '10'; // invariant
-
-   // get current mantis custom menu entries
-   $query = "SELECT value FROM `mantis_config_table` WHERE config_id = 'main_menu_custom_options'";
-   $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>" . mysql_error() . "</span>");
-
-   $serialized = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
-
-   // add entry
-   if ((NULL != $serialized) && ("" != $serialized)) {
-      $menuItems = unserialize($serialized);
-   } else {
-      $menuItems = array();
-   }
-
-   $menuItems[] = array($name, $pos, $url);
-   $newSerialized = serialize($menuItems);
-
-   // update mantis menu
-   if (NULL != $serialized) {
-      $query = "UPDATE `mantis_config_table` SET value = '$newSerialized' " .
-         "WHERE config_id = 'main_menu_custom_options'";
-   } else {
-      $query = "INSERT INTO `mantis_config_table` (`config_id`, `value`, `type`, `access_reqd`) " .
-         "VALUES ('main_menu_custom_options', '$newSerialized', '3', '90');";
-   }
-   mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>" . mysql_error() . "</span>");
-
-   return $newSerialized;
-}
 
 // get existing Mantis custom fields
 $fieldList = array();
@@ -353,11 +283,14 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
       $attributes["display_resolved"] = 0;
       $attributes["display_closed"] = 0;
 
-      echo "<span class='warn_font'>WARN: using default attributes for CustomField $fieldName</span><br/>";
+      echo "<script type=\"text/javascript\">console.warn(\"WARN: using default attributes for CustomField $fieldName\");</script>";
    }
 
    $query = "SELECT id, name FROM `mantis_custom_field_table`";
-   $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>" . mysql_error() . "</span>");
+   $result = SqlWrapper::getInstance()->sql_query($query);
+   if (!$result) {
+      throw new Exception ("create custom field FAILED");
+   }
    while ($row = mysql_fetch_object($result)) {
       $fieldList["$row->name"] = $row->id;
    }
@@ -383,14 +316,17 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
       $query2 .= ", '$possible_values', '$default_value'";
       $query2 .= ");";
 
-      #echo "DEBUG INSERT $fieldName --- query $query2 <br/>";
+      #echo "DEBUG INSERT $fieldName --- query $query2 <br>";
 
-      $result2 = mysql_query($query2) or die("<span style='color:red'>Query FAILED: $query2 <br/>" . mysql_error() . "</span>");
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      if (!$result2) {
+         throw new Exception ("create custom field failed: $configId");
+      }
       $fieldId = mysql_insert_id();
 
-      #echo "custom field '$configId' created.<br/>";
+      #echo "custom field '$configId' created.<br>";
    } else {
-      echo "<span class='success_font'>INFO: custom field '$configId' already exists.</span><br/>";
+      echo "<script type=\"text/javascript\">console.info(\"INFO: custom field '$configId' already exists.\");</script>";
    }
 
    // add to codev_config_table
@@ -475,7 +411,10 @@ function getExtIdCustomFieldCandidates() {
    $mType_numeric = 1;
 
    $query = "SELECT * FROM `mantis_custom_field_table` WHERE `type` IN ($mType_string, $mType_numeric) ORDER BY name";
-   $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>" . mysql_error() . "</span>");
+   $result = SqlWrapper::getInstance()->sql_query($query);
+   if (!$result) {
+      throw new Exception("get ExtId candidates FAILED");
+   }
 
    $candidates = array();
    while ($row = mysql_fetch_object($result)) {
@@ -497,11 +436,19 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
 
    checkMantisPluginDir();
 
-   echo "<form id='form1' name='form1' method='post' action='$originPage' >\n";
+   // ---
+   echo "\n".'<div id="divErrMsg" style="display: none;">';
+   echo "\n".'   <span class="error_font" style="font-size:larger; font-weight: bold;">Please fix the following errors and try again:</span><br><br>';
+	echo "\n".'   <span class="error_font" id="errorMsg"></span><br>';
+   echo "\n".'</div>';
+
+
+   echo "\n<form id='form1' name='form1' method='post' action='$originPage' >\n";
 
    // ------ Reports
    echo "<h2>".T_("Path to output files")."</h2>\n";
-   echo "<span class='help_font'>".T_("Path to log files and other temporary files.")."<br>".T_("Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access.")."</span><br><br>\n";
+   // T_("Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access.")
+   echo "<span class='help_font'>".T_("Path to log files and other temporary files.")."</span><br><br>\n";
    echo "<code><input size='50' type='text' style='font-family: sans-serif' name='outputDir'  id='outputDir' value='$defaultOutputDir'></code></td>\n";
    echo "<input type=button value='".T_("Check")."' onClick='javascript: checkReportsDir()'>\n";
 
@@ -514,8 +461,8 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
       }
    }
 
-   echo "  <br/>\n";
-   echo "  <br/>\n";
+   echo "  <br>\n";
+   echo "  <br>\n";
 
    // ------ Status
    echo "<h2>".T_("Workflow")."</h2>\n";
@@ -643,7 +590,7 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
      echo "  </tr>\n";
    */
    // ------
-   echo "  <br/>\n";
+   echo "  <br>\n";
    echo "<h2>".T_("Default Jobs")."</h2>\n";
    echo "<table class='invisible'>\n";
    echo "  <tr>\n";
@@ -691,10 +638,10 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
    echo "</table>\n";
 
    // ------ Add custom fields to existing projects
-   echo "  <br/>\n";
+   echo "  <br>\n";
    echo "<h2>".T_("Configure existing Projects")."</h2>\n";
-   echo "<span class='help_font'>".T_("Select the projects to be managed with CodevTT")."</span><br/>\n";
-   echo "  <br/>\n";
+   echo "<span class='help_font'>".T_("Select the projects to be managed with CodevTT")."</span><br>\n";
+   echo "  <br>\n";
 
    echo "<select name='projects[]' multiple size='5'>\n";
    foreach ($projectList as $id => $name) {
@@ -702,8 +649,8 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
    }
    echo "</select>\n";
 
-   echo "  <br/>\n";
-   echo "  <br/>\n";
+   echo "  <br>\n";
+   echo "  <br>\n";
    echo "<div  style='text-align: center;'>\n";
    echo "<input type=button style='font-size:150%' value='".T_("Proceed Step 3")."' onClick='javascript: proceedStep3()'>\n";
    echo "</div>\n";
@@ -729,9 +676,7 @@ function getProjectList() {
       foreach($projects as $id => $name) {
          // exclude ExternalTasksProject
          if ($extproj_id == $id) {
-            if($logger->isDebugEnabled()) {
-               $logger->debug("project $id: ExternalTasksProject is excluded");
-            }
+            echo "<script type=\"text/javascript\">console.log(\"   getProjectList - project $id: ExternalTasksProject is excluded\");</script>";
             continue;
          }
 
@@ -739,16 +684,12 @@ function getProjectList() {
          try {
             $p = ProjectCache::getInstance()->getProject($id);
             if ($p->isSideTasksProject()) {
-               if($logger->isDebugEnabled()) {
-                  $logger->debug("project $id: sideTaskProjects are excluded");
-               }
+               echo "<script type=\"text/javascript\">console.log(\"   getProjectList - project $id: sideTaskProjects are excluded\");</script>";
                continue;
             }
          } catch (Exception $e) {
             // could not determinate, so the project should be included in the list
-            if($logger->isDebugEnabled()) {
-               $logger->debug("project $id: Unknown type, project included anyway.");
-            }
+            echo "<script type=\"text/javascript\">console.log(\"   getProjectList - project $id: Unknown type, project included anyway\");</script>";
             // nothing to do.
          }
          $smartyProjects[$id] = $name;
@@ -764,7 +705,7 @@ function checkMantisPluginDir() {
 
    if (!is_writable($mantisPluginDir)) {
       echo '<br>';
-      echo "<span class='warn_font'>WARN: <b>'" . $mantisPluginDir . "'</b> directory is <b>NOT writable</b>: Please give write access to user '<b>".exec('whoami')."</b>' if you want the Mantis plugin to be installed.</span><br/>";
+      echo "<span class='warn_font'>WARN: <b>'" . $mantisPluginDir . "'</b> directory is <b>NOT writable</b>: Please give write access to user '<b>".exec('whoami')."</b>' if you want the Mantis plugin to be installed.</span><br>";
       echo '<br>';
       return false;
    }
@@ -774,7 +715,7 @@ function checkMantisPluginDir() {
 /**
  * copy plugin in mantis plugins directory
  *
- * @return bool true if success
+ * @return NULL or error string
  */
 function installMantisPlugin($pluginName, $isReplace=true) {
    try {
@@ -785,31 +726,29 @@ function installMantisPlugin($pluginName, $isReplace=true) {
       $destDir = $mantisPluginDir . DIRECTORY_SEPARATOR . $pluginName;
 
       if (!is_writable($mantisPluginDir)) {
-         echo "<span class='warn_font'>Path to mantis plugins directory '" . $mantisPluginDir . "' is NOT writable: $pluginName plugin must be installed manualy.</span><br/>";
-         return false;
+         return "ERROR Path to mantis plugins directory '" . $mantisPluginDir . "' is NOT writable: $pluginName plugin must be installed manualy.";
       }
       
       // do not replace if already installed
       if (!$isReplace && is_dir($destDir)) {
-         echo "<span class='success_font'>Mantis $pluginName plugin is already installed.</span><br/>";
-         return true;
+         echo "<script type=\"text/javascript\">console.info(\"INFO Mantis $pluginName plugin is already installed\");</script>";
+         return NULL;
       }
 
-      // remove previous installed CodevTT plugin
+      // remove previous installed plugin
       if (is_writable($destDir)) {
          Tools::deleteDir($destDir);
       }
 
-      // copy CodevTT plugin
+      // copy plugin
       if (is_dir($srcDir)) {
          $result = Tools::recurse_copy($srcDir, $destDir);
       } else {
-         echo "<span class='error_font'>plugin directory '" . $srcDir . "' NOT found: $pluginName plugin must be installed manualy.</span><br/>";
-         return false;
+         return "ERROR: plugin directory '" . $srcDir . "' NOT found: $pluginName plugin must be installed manualy";
       }
 
       if (!$result) {
-         echo "<span class='error_font'>mantis plugin installation failed: $pluginName plugin must be installed manualy.</span><br/>";
+         return "ERROR: mantis plugin installation failed: $pluginName plugin must be installed manualy";
       }
       
       // activate plugin
@@ -819,16 +758,14 @@ function installMantisPlugin($pluginName, $isReplace=true) {
               " SELECT basename FROM mantis_plugin_table WHERE basename = '$pluginName') LIMIT 1;";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         echo "<span class='warn_font'>mantis $pluginName plugin must be activated manualy.</span><br/>";
+         return "WARNING: mantis $pluginName plugin must be activated manualy";
       }
       
-      
    } catch (Exception $e) {
-      echo "<span class='error_font'>mantis plugin installation failed: " . $e->getMessage() . "</span><br/>";
-      echo "<span class='error_font'>$pluginName plugin must be installed manualy.</span><br/>";
-      $result = false;
+      echo "<script type=\"text/javascript\">console.error(\"ERROR mantis plugin installation failed: " . $e->getMessage()."\");</script>";
+      return "ERROR: mantis $pluginName plugin installation failed: " . $e->getMessage();
    }
-   return $result;
+   return NULL;
 }
 
 /**
@@ -900,7 +837,11 @@ $admin_id = isset($_POST['codevttAdmin']) ? $_POST['codevttAdmin'] : 1;
 $groupExtID = isset($_POST['groupExtID']) ? $_POST['groupExtID'] : 'createExtID';
 $extIdCustomField = isset($_POST['extIdCustomField']) ? $_POST['extIdCustomField'] : 0;
 
+
+echo "<script type=\"text/javascript\">console.log(\"DEBUG getProjectList\");</script>";
 $projectList = getProjectList();
+
+echo "<script type=\"text/javascript\">console.log(\"DEBUG getUsers\");</script>";
 $userList = User::getUsers();
 
 #$checkReportsDirError = NULL;
@@ -913,155 +854,8 @@ if (NULL === $checkReportsDirError) { $checkReportsDirError = "SUCCESS !"; }
 #   $checkReportsDirError = Tools::checkWriteAccess($codevOutputDir);
 #   if (NULL === $checkReportsDirError) { $checkReportsDirError = "SUCCESS !"; }
 
-#} else if ("proceedStep3" == $action) {
-if ("proceedStep3" == $action) {
-
-   $installStepFailed = FALSE;
-
-   echo "DEBUG 1/16 create Greasemonkey file<br/>";
-   $errStr = createGreasemonkeyFile();
-   if (NULL != $errStr) {
-      echo "<span class='error_font'>".$errStr."</span><br/>";
-      $installStepFailed = TRUE;
-   }
-
-   echo "DEBUG 2/16 create default Config variables<br/>";
-   //setConfigItems();
-
-   echo "DEBUG 3/16 update Mantis custom files<br/>";
-   $errStr = updateMantisCustomFiles();
-   if (!is_null($errStr)) {
-      echo "<span class='error_font'>".$errStr."</span><br/>";
-      $installStepFailed = TRUE;
-   }
-
-   echo "DEBUG 4/16 add CodevTT to Mantis menu<br/>";
-   removeCustomMenuItem('CodevTT');
-   $tok = strtok($_SERVER["SCRIPT_NAME"], "/");
-   addCustomMenuItem('CodevTT', '../'.$tok.'/index.php');  #  ../codev/index.php
-
-   echo "DEBUG 5/16 create CodevTT Custom Fields<br/>";
-   if ('createExtID' == $groupExtID) {
-      $isCreateExtIdField = TRUE;
-   } else {
-      if ('0' != $extIdCustomField) {
-         // add existing to codev_config_table
-         Config::getInstance()->setValue("customField_ExtId", $extIdCustomField, Config::configType_int);
-         $isCreateExtIdField = FALSE;
-      } else {
-         // if none selected, create one...
-         $isCreateExtIdField = TRUE;
-      }
-   }
-   createCustomFields($isCreateExtIdField);
-
-   echo "DEBUG 6/16 create ExternalTasks Project<br/>";
-   $extproj_id = createExternalTasksProject(T_("CodevTT_ExternalTasks"), T_("CodevTT ExternalTasks Project"));
-
-   $adminLeader = UserCache::getInstance()->getUser($adminTeamLeaderId);
-   echo "DEBUG 7/16 createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
-   createAdminTeam($adminTeamName, $adminTeamLeaderId);
-
-
-   echo "DEBUG 8/16 update status list<br/>";
-   Constants::$status_new          = $status_new;
-   Constants::$status_feedback     = $status_feedback;
-   Constants::$status_open         = $status_open;
-   Constants::$status_closed       = $status_closed;
-
-   // Set path for .CSV reports (Excel)
-   echo "DEBUG 9/16 add CodevTT output directory<br/>";
-   Constants::$codevOutputDir = $codevOutputDir;
-   Constants::$codevtt_logfile = $codevOutputDir.'/logs/codevtt.log';
-
-   $retCode = Constants::writeConfigFile();
-   if (FALSE == $retCode) {
-      echo "<span class='error_font'>ERROR: could not update config file: ".Constants::$config_file."</span><br/>";
-      $installStepFailed = TRUE;
-      exit;
-   }
-
-   echo "DEBUG 10/16 create Logger configuration file<br/>";
-   $errStr = createLog4phpFile();
-   if (NULL != $errStr) {
-      echo "<span class='error_font'>".$errStr."</span><br/>";
-      $installStepFailed = TRUE;
-      exit;
-   }
-
-   echo "DEBUG 11/16 create output directories (logs, reports, cache)<br/>";
-   $errStr = Tools::checkOutputDirectories();
-   if (NULL !== $errStr) {
-      echo "<span class='error_font'>".nl2br($errStr)."</span><br/>";
-      $installStepFailed = TRUE;
-      exit;
-   }
-
-   // Create default tasks
-   echo "DEBUG 12/16 Create external tasks<br/>";
-   $extproj = ProjectCache::getInstance()->getProject($extproj_id);
-   $extTasksCatLeave = Config::getInstance()->getValue(Config::id_externalTasksCat_leave);
-   $extTasksCatOther = Config::getInstance()->getValue(Config::id_externalTasksCat_otherInternal);
-
-   // cat="OtherInternal", status="closed"
-   $extproj->addIssue($extTasksCatOther, $task_otherActivity, T_("Any external task, NOT referenced in any mantis project"), 90);
-
-   // --- Create the 'Leave' task in ExternalTasks Project
-   $extproj->addIssue($extTasksCatLeave, $task_leave, T_("On holiday, leave, ..."), 90);
-   $extproj->addIssue($extTasksCatLeave, $task_sickleave, T_("Sick"), 90);
-
-   // Create default jobs
-   // Note: Support & N/A jobs already created by SQL file
-   // Note: N/A job association to ExternalTasksProject already done in Install::createExternalTasksProject()
-
-   echo "DEBUG 13/16 Create default jobs<br/>";
-   if ($isJob2) {
-      Jobs::create($job2, Job::type_commonJob, $job2_color);
-   }
-   if ($isJob3) {
-      Jobs::create($job3, Job::type_commonJob, $job3_color);
-   }
-   if ($isJob4) {
-      Jobs::create($job4, Job::type_commonJob, $job4_color);
-   }
-   if ($isJob5) {
-      Jobs::create($job5, Job::type_commonJob, $job5_color);
-   }
-
-   // Set default Issue tooltip content
-   echo "DEBUG 14/16 Set default content for Issue tooltip <br/>";
-   $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
-   $backlogField = Config::getInstance()->getValue(Config::id_customField_backlog);
-   $fieldList = array('project_id', 'category_id', 'custom_'.$customField_type,
-       'codevtt_elapsed', 'custom_'.$backlogField, 'codevtt_drift');
-   $serialized = serialize($fieldList);
-   Config::setValue('issue_tooltip_fields', $serialized, Config::configType_string, 'fields to be displayed in issue tooltip');
-
-
-   // Add custom fields to existing projects
-   echo "DEBUG 15/16 Prepare existing projects<br/>";
-   if(isset($_POST['projects']) && !empty($_POST['projects'])){
-      $selectedProjects = $_POST['projects'];
-      foreach($selectedProjects as $projectid){
-         $project = ProjectCache::getInstance()->getProject($projectid);
-         echo "DEBUG prepare project: ".$project->getName()."<br/>";
-         Project::prepareProjectToCodev($projectid);
-      }
-   }
-
-   echo "DEBUG 16/16 Install Mantis plugins<br/>";
-   installMantisPlugin('CodevTT', true);
-   installMantisPlugin('FilterBugList', false);
-
-   echo "DEBUG done.<br/>";
-
-   // load homepage
-   #echo ("<script type='text/javascript'> alert('install done.'); </script>");
-   echo ("<script type='text/javascript'> parent.location.replace('install_step4.php'); </script>");
-}
 
 // ----- DISPLAY PAGE
-#displayStepInfo();
 #echo "<hr align='left' width='20%'/>\n";
 
 $extIdCustomFieldCandidates = getExtIdCustomFieldCandidates();
@@ -1073,6 +867,166 @@ displayForm($originPage, $codevOutputDir, $checkReportsDirError,
    $projectList, $groupExtID, $extIdCustomFieldCandidates, $extIdCustomField, $userList, $admin_id,
    $statusList, $status_new, $status_feedback, $status_open, $status_closed,
    $is_modified);
+
+
+#} else if ("proceedStep3" == $action) {
+if ("proceedStep3" == $action) {
+
+   $errMsg = '';
+
+   try {
+
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG create Greasemonkey file\");</script>";
+      $errStr = createGreasemonkeyFile();
+      if (NULL !== $errStr) {
+         echo "<script type=\"text/javascript\">console.error(\"$errStr\");</script>";
+         $errMsg .= $errStr.'<br>';
+      }
+
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG update Mantis custom files\");</script>";
+      updateMantisCustomFiles();
+
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG create CodevTT Custom Fields\");</script>";
+      if ('createExtID' == $groupExtID) {
+         $isCreateExtIdField = TRUE;
+      } else {
+         if ('0' != $extIdCustomField) {
+            // add existing to codev_config_table
+            Config::getInstance()->setValue("customField_ExtId", $extIdCustomField, Config::configType_int);
+            $isCreateExtIdField = FALSE;
+         } else {
+            // if none selected, create one...
+            $isCreateExtIdField = TRUE;
+         }
+      }
+      createCustomFields($isCreateExtIdField);
+
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG create ExternalTasks Project\");</script>";
+      $extproj_id = createExternalTasksProject(T_("CodevTT_ExternalTasks"), T_("CodevTT ExternalTasks Project"));
+
+      $adminLeader = UserCache::getInstance()->getUser($adminTeamLeaderId);
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG createAdminTeam  with leader:  ".$adminLeader->getName()."\");</script>";
+      createAdminTeam($adminTeamName, $adminTeamLeaderId);
+
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG update status list\");</script>";
+      Constants::$status_new          = $status_new;
+      Constants::$status_feedback     = $status_feedback;
+      Constants::$status_open         = $status_open;
+      Constants::$status_closed       = $status_closed;
+
+      // Set path for .CSV reports (Excel)
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG add CodevTT output directory\");</script>";
+      Constants::$codevOutputDir = $codevOutputDir;
+      Constants::$codevtt_logfile = $codevOutputDir.'/logs/codevtt.log';
+
+      $retCode = Constants::writeConfigFile();
+      if (FALSE === $retCode) {
+         throw new Exception("could not update config file: ".Constants::$config_file);
+      }
+
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG create Logger configuration file\");</script>";
+      createLog4phpFile();
+
+
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG create output directories (logs, reports, cache)\");</script>";
+      $retCode = Tools::checkOutputDirectories();
+      if (NULL !== $retCode) {
+         throw new Exception(nl2br($retCode));
+      }
+
+      // Create default tasks
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG create external tasks\");</script>";
+      $extproj = ProjectCache::getInstance()->getProject($extproj_id);
+      $extTasksCatLeave = Config::getInstance()->getValue(Config::id_externalTasksCat_leave);
+      $extTasksCatOther = Config::getInstance()->getValue(Config::id_externalTasksCat_otherInternal);
+
+      // cat="OtherInternal", status="closed"
+      $extproj->addIssue($extTasksCatOther, $task_otherActivity, T_("Any external task, NOT referenced in any mantis project"), 90);
+
+      // --- Create the 'Leave' task in ExternalTasks Project
+      $extproj->addIssue($extTasksCatLeave, $task_leave, T_("On holiday, leave, ..."), 90);
+      $extproj->addIssue($extTasksCatLeave, $task_sickleave, T_("Sick"), 90);
+
+      // Create default jobs
+      // Note: Support & N/A jobs already created by SQL file
+      // Note: N/A job association to ExternalTasksProject already done in Install::createExternalTasksProject()
+
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG create default jobs\");</script>";
+      if ($isJob2) {
+         Jobs::create($job2, Job::type_commonJob, $job2_color);
+      }
+      if ($isJob3) {
+         Jobs::create($job3, Job::type_commonJob, $job3_color);
+      }
+      if ($isJob4) {
+         Jobs::create($job4, Job::type_commonJob, $job4_color);
+      }
+      if ($isJob5) {
+         Jobs::create($job5, Job::type_commonJob, $job5_color);
+      }
+
+      // Set default Issue tooltip content
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG set default content for Issue tooltip\");</script>";
+      $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
+      $backlogField = Config::getInstance()->getValue(Config::id_customField_backlog);
+      $fieldList = array('project_id', 'category_id', 'custom_'.$customField_type, 'status',
+          'codevtt_elapsed', 'custom_'.$backlogField, 'codevtt_drift');
+      $serialized = serialize($fieldList);
+      Config::setValue(Config::id_issueTooltipFields, $serialized, Config::configType_string, 'fields to be displayed in issue tooltip');
+
+      // Add custom fields to existing projects
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG prepare existing projects\");</script>";
+      if(isset($_POST['projects']) && !empty($_POST['projects'])){
+         $selectedProjects = $_POST['projects'];
+         foreach($selectedProjects as $projectid){
+            $project = ProjectCache::getInstance()->getProject($projectid);
+            echo "<script type=\"text/javascript\">console.log(\"   prepare project: ".$project->getName()."\");</script>";
+            Project::prepareProjectToCodev($projectid);
+         }
+      }
+
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG install Mantis plugin: CodevTT\");</script>";
+      $errStr = installMantisPlugin('CodevTT', true);
+      if (NULL !== $errStr) {
+         echo "<script type=\"text/javascript\">console.error(\"$errStr\");</script>";
+         $errMsg .= $errStr.'<br>';
+      }
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG install Mantis plugin: FilterBugList\");</script>";
+      $errStr = installMantisPlugin('FilterBugList', false);
+      if (NULL !== $errStr) {
+         echo "<script type=\"text/javascript\">console.error(\"$errStr\");</script>";
+         $errMsg .= $errStr.'<br>';
+      }
+
+
+      // === consistency check !
+      // these errors are not as severe as exceptions, they do not block 
+      if ('' !== $errMsg) {
+         echo '<script type="text/javascript">';
+         echo '  document.getElementById("divErrMsg").style.display = "block";';
+         echo "  document.getElementById(\"errorMsg\").innerHTML=\"".$errMsg."\";";
+         echo '</script>';
+         exit;
+      }
+
+      // FINISHED: load Step4
+      #echo ("<script type='text/javascript'> alert('install done.'); </script>");
+      echo ("<script type='text/javascript'> parent.location.replace('install_step4.php'); </script>");
+
+   } catch (Exception $e) {
+      echo "<script type=\"text/javascript\">console.error(\"FATAL ".$e->getMessage()."\");</script>";
+
+      // === consistency check !
+      echo '<script type="text/javascript">';
+      echo '  document.getElementById("divErrMsg").style.display = "block";';
+      echo "  document.getElementById(\"errorMsg\").innerHTML=\"".$e->getMessage()."\";";
+      echo '</script>';
+      exit;
+   }
+
+
+} // end proceedStep3
+
 
 ?>
 
