@@ -87,8 +87,8 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
          $issueCmds = $issue->getCommandList();
          
          if (!$user->isTeamManager($teamid)) {
-            $logger->error("removeFromCmd: NOT_MANAGER user=$userid issue=$bugid cmd=$cmdid");
-            $jsonData=json_encode(array('statusMsg' => T_('Sorry, only managers can add tasks from commands')));
+            $logger->error("getCmdCandidates: NOT_MANAGER user=$userid issue=$bugid cmd=$cmdid");
+            $jsonData=json_encode(array('statusMsg' => T_('Sorry, only managers can add tasks to commands')));
          } else if (!array_key_exists($issue->getProjectId(), $prjList)) {
             $jsonData=json_encode(array('statusMsg' => T_("Sorry, this task is not in your team's projects")));
          } else {
@@ -108,7 +108,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
          echo $jsonData;
          
       } catch (Exception $e) {
-         Tools::sendBadRequest("Error: removeFromCmd bad values: user=$userid issue=$bugid cmd=$cmdid");
+         Tools::sendBadRequest("Error: getCmdCandidates bad values: user=$userid issue=$bugid cmd=$cmdid");
       }
       
    } else if ('addToCmd' === $action) {
@@ -129,12 +129,12 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
          $prjList = $team->getProjects();
          
          if (!$user->isTeamManager($teamid)) {
-            $logger->error("removeFromCmd: NOT_MANAGER user=$userid issue=$bugid cmd=$cmdid");
-            $jsonData=json_encode(array('statusMsg' => T_('Sorry, only managers can add tasks from commands')));
+            $logger->error("addToCmd: NOT_MANAGER user=$userid issue=$bugid cmd=$cmdid");
+            $jsonData=json_encode(array('statusMsg' => T_('Sorry, only managers can add tasks to commands')));
          }  else if (!array_key_exists($issue->getProjectId(), $prjList)) {
             $jsonData=json_encode(array('statusMsg' => T_("Sorry, this task is not in your team's projects")));
          }  else if ($teamid != $cmd->getTeamid()) {
-            Tools::sendBadRequest("Error: removeFromCmd bad cmdid: user=$userid teamid=$teamid cmd=$cmdid");
+            Tools::sendBadRequest("Error: addToCmd bad cmdid: user=$userid teamid=$teamid cmd=$cmdid");
          }  else {
             $cmd->addIssue($bugid, true);
             $jsonData=json_encode(array('statusMsg' => 'SUCCESS', 'cmdid' => $cmdid, 'cmdName' => $cmd->getName()));
@@ -143,7 +143,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
          echo $jsonData;
          
       } catch (Exception $e) {
-         Tools::sendBadRequest("Error: removeFromCmd bad values: user=$userid issue=$bugid cmd=$cmdid");
+         Tools::sendBadRequest("Error: addToCmd bad values: user=$userid issue=$bugid cmd=$cmdid");
       }
    } else {
       Tools::sendNotFoundAccess();

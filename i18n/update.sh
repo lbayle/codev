@@ -125,7 +125,7 @@ f_createTemplateFile ()
       sed -i s/charset=CHARSET/charset=UTF-8/g ${FILE_PO}
 
       echo "  - merge with existing ${FILE_PO}"
-      msgmerge -o ${mergedPoFile} ${FILE_PO} ${templatePoFile}
+      msgmerge --no-wrap -o ${mergedPoFile} ${FILE_PO} ${templatePoFile}
       retCode=$?
       if [ 0 -ne $retCode ]
       then
