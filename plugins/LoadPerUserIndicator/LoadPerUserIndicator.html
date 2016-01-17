@@ -130,9 +130,9 @@
          });
       });
 
-      jQuery(".loadPerUserIndicatorHelpDialog_link").click(function() {
+      jQuery(".loadPerUserIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
          jQuery(".loadPerUserIndicatorHelpDialog").dialog("open");
-         return false;
       });
       jQuery(".loadPerUserIndicatorHelpDialog").dialog({
          autoOpen: false,

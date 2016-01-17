@@ -77,9 +77,9 @@
 
       console.log('backlogPerUserIndicatorJsInit');
       
-      jQuery(".backlogPerUserIndicatorHelpDialog_link").click(function() {
+      jQuery(".backlogPerUserIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
          jQuery(".backlogPerUserIndicatorHelpDialog").dialog("open");
-         return false;
       });
       jQuery(".backlogPerUserIndicatorHelpDialog").dialog({
          autoOpen: false,

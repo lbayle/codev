@@ -107,9 +107,9 @@
          });
       });
 
-      jQuery(".loadPerProjectIndicatorHelpDialog_link").click(function() {
+      jQuery(".loadPerProjectIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
          jQuery(".loadPerProjectIndicatorHelpDialog").dialog("open");
-         return false;
       });
       jQuery(".loadPerProjectIndicatorHelpDialog").dialog({
          autoOpen: false,

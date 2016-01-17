@@ -53,9 +53,9 @@
    function timePerStatusIndicatorJsInit() {
       console.log('timePerStatusIndicatorJsInit');
 
-      jQuery(".timePerStatusIndicatorHelpDialog_link").click(function() {
+      jQuery(".timePerStatusIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
          jQuery(".timePerStatusIndicatorHelpDialog").dialog("open");
-         return false;
       });
       jQuery(".timePerStatusIndicatorHelpDialog").dialog({
          autoOpen: false,

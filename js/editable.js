@@ -32,9 +32,9 @@ jQuery(document).ready(function() {
             changeMonth: false,
             changeYear: false,
             selectOtherMonths: false
-         }).bind('click', function() {
+         }).bind('click', function(e) {
+            e.preventDefault();
             jQuery(this).datepicker('show');
-            return false;
          }).bind('dateSelected', function(e, selectedDate, $td) {
             form.submit();
          });

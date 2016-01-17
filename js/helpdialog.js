@@ -6,9 +6,9 @@
  */
 jQuery(document).ready(function(){
    jQuery.each(jQuery(".help_link"),function() {
-      jQuery(this).click(function() {
+      jQuery(this).click(function(e) {
+         e.preventDefault();
          jQuery("#"+jQuery(this).attr("id").replace("_link","")).dialog("open");
-         return false;
       });
    });
    jQuery(".help_dialog").dialog({

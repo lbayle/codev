@@ -42,9 +42,9 @@
    // or when a new widget is added to the dashboard.
    function progressHistoryIndicator2JsInit() {
       
-      jQuery(".progressHistoryIndicator2HelpDialog_link").click(function() {
+      jQuery(".progressHistoryIndicator2HelpDialog_link").click(function(e) {
+         e.preventDefault();
          jQuery(".progressHistoryIndicator2HelpDialog").dialog("open");
-         return false;
       });
       jQuery(".progressHistoryIndicator2HelpDialog").dialog({
          autoOpen: false,

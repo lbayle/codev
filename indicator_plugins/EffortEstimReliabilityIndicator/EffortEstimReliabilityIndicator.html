@@ -26,9 +26,9 @@ $(document).ready(function(){
 <a id="dialog_prodRateValues_link" href="{$page}"><img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/></a>
 <script type="text/javascript">
    jQuery(document).ready(function() {
-      jQuery("#dialog_prodRateValues_link").click(function() {
+      jQuery("#dialog_prodRateValues_link").click(function(e) {
+         e.preventDefault();
          jQuery("#dialog_prodRateValues").dialog("open");
-         return false;
       });
       jQuery("#dialog_prodRateValues").dialog({
          autoOpen: false,

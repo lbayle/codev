@@ -76,18 +76,18 @@
       
       {if isset($budgetDriftHistoryIndicator2_jqplotPercentData)}
 
-      jQuery(".budgetDriftHistoryIndicator2HelpDialog_link").click(function() {
+      jQuery(".budgetDriftHistoryIndicator2HelpDialog_link").click(function(e) {
+         e.preventDefault();
          jQuery(".budgetDriftHistoryIndicator2HelpDialog").dialog("open");
-         return false;
       });
       jQuery(".budgetDriftHistoryIndicator2HelpDialog").dialog({
          autoOpen: false,
          hide: "fade"
       });
 
-      jQuery(".budgetDriftHistoryIndicator2ValuesDialog_link").click(function() {
+      jQuery(".budgetDriftHistoryIndicator2ValuesDialog_link").click(function(e) {
+         e.preventDefault();
          jQuery(".budgetDriftHistoryIndicator2ValuesDialog").dialog("open");
-         return false;
       });
       jQuery(".budgetDriftHistoryIndicator2ValuesDialog").dialog({
          autoOpen: false,

@@ -81,18 +81,18 @@
 
       {if isset($reopenedRateIndicator2_jqplotData)}
 
-      jQuery(".reopenedRateIndicator2HelpDialog_link").click(function() {
+      jQuery(".reopenedRateIndicator2HelpDialog_link").click(function(e) {
+         e.preventDefault();
          jQuery(".reopenedRateIndicator2HelpDialog").dialog("open");
-         return false;
       });
       jQuery(".reopenedRateIndicator2HelpDialog").dialog({
          autoOpen: false,
          hide: "fade"
       });
 
-      jQuery(".reopenedRateIndicator2ValuesDialog_link").click(function() {
+      jQuery(".reopenedRateIndicator2ValuesDialog_link").click(function(e) {
+         e.preventDefault();
          jQuery(".reopenedRateIndicator2ValuesDialog").dialog("open");
-         return false;
       });
       jQuery(".reopenedRateIndicator2ValuesDialog").dialog({
          autoOpen: false,

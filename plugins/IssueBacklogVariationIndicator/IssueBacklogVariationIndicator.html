@@ -69,18 +69,18 @@
 
       {if $issueBacklogVariationIndicator_jqplotData}
 
-      jQuery(".issueBacklogVariationIndicatorHelpDialog_link").click(function() {
+      jQuery(".issueBacklogVariationIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
          jQuery(".issueBacklogVariationIndicatorHelpDialog").dialog("open");
-         return false;
       });
       jQuery(".issueBacklogVariationIndicatorHelpDialog").dialog({
          autoOpen: false,
          hide: "fade"
       });
 
-      jQuery(".issueBacklogVariationIndicatorValuesDialog_link").click(function() {
+      jQuery(".issueBacklogVariationIndicatorValuesDialog_link").click(function(e) {
+         e.preventDefault();
          jQuery(".issueBacklogVariationIndicatorValuesDialog").dialog("open");
-         return false;
       });
       jQuery(".issueBacklogVariationIndicatorValuesDialog").dialog({
          autoOpen: false,

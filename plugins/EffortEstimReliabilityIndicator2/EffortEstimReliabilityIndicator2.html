@@ -71,18 +71,18 @@
 
       {if $effortEstimReliabilityIndicator2_jqplotData}
 
-      jQuery(".effortEstimReliabilityIndicator2HelpDialog_link").click(function() {
+      jQuery(".effortEstimReliabilityIndicator2HelpDialog_link").click(function(e) {
+         e.preventDefault();
          jQuery(".effortEstimReliabilityIndicator2HelpDialog").dialog("open");
-         return false;
       });
       jQuery(".effortEstimReliabilityIndicator2HelpDialog").dialog({
          autoOpen: false,
          hide: "fade"
       });
 
-      jQuery(".effortEstimReliabilityIndicator2ValuesDialog_link").click(function() {
+      jQuery(".effortEstimReliabilityIndicator2ValuesDialog_link").click(function(e) {
+         e.preventDefault();
          jQuery(".effortEstimReliabilityIndicator2ValuesDialog").dialog("open");
-         return false;
       });
       jQuery(".effortEstimReliabilityIndicator2ValuesDialog").dialog({
          autoOpen: false,

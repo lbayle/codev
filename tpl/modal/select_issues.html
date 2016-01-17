@@ -38,10 +38,10 @@ This opens a popup window displaying an issue list.
          }
       });
    
-      jQuery("#dialog_selectIssues_link").click(function() {
+      jQuery("#dialog_selectIssues_link").click(function(e) {
+         e.preventDefault();
          dialog.dialog("open");
          oTable.fnAdjustColumnSizing();
-         return false;
       });
 
       // select/deselect all rows

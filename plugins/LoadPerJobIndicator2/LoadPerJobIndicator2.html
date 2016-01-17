@@ -109,9 +109,9 @@
          });
       });
 
-      jQuery(".loadPerJobIndicatorHelpDialog_link").click(function() {
+      jQuery(".loadPerJobIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
          jQuery(".loadPerJobIndicatorHelpDialog").dialog("open");
-         return false;
       });
       jQuery(".loadPerJobIndicatorHelpDialog").dialog({
          autoOpen: false,
