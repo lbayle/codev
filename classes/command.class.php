@@ -797,11 +797,25 @@ class Command extends Model {
       $issueSel = $this->getIssueSelection();
       $issueList = $issueSel->getIssueList();
       $ccheck = new ConsistencyCheck2($issueList, $this->teamid);
-      return $ccheck->check();
+      $cerrList = $ccheck->check();
+
+      // check if sold days is set.
+      if (0 != $this->totalSoldDays) {
+
+         $checkTotalSoldDays = $this->getTotalSoldDays() - $this->getIssueSelection()->mgrEffortEstim - $this->getProvisionDays();
+         $checkTotalSoldDays = round($checkTotalSoldDays, 2);
+         if (0 !== checkTotalSoldDays) {
+            $errMsg = T_("The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'").
+                      ' ('.T_("balance")." = $checkTotalSoldDays ".T_('days').')';
+            $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL, $errMsg);
+            array_unshift($cerrList, $cerr);
+         }
+      }
+      return $cerrList;
    }
 
 }
 
 Command::staticInit();
 
-?>
+

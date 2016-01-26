@@ -41,17 +41,16 @@ class ConsistencyError2 implements Comparable {
    public $desc;
    public $timestamp;
    public $status;
+   public $severity;
 
-   public $severity; // unused
-
-   public function __construct($bugId, $userId, $status, $timestamp, $desc) {
+   public function __construct($bugId, $userId, $status, $timestamp, $desc, $severity = self::severity_error) {
       $this->bugId = $bugId;
       $this->userId = $userId;
       $this->status = $status;
       $this->timestamp = $timestamp;
       $this->desc = $desc;
 
-      $this->severity = self::severity_error;
+      $this->severity = $severity;
    }
 
    /**
