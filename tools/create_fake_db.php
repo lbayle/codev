@@ -56,7 +56,7 @@ function create_fake_db($formattedFieldList) {
    
    $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
 
-   $stProjTypeProject=Config::getInstance()->getValue(Config::id_externalTasksProject); // 1
+   $extProjTypeProject=Config::getInstance()->getValue(Config::id_externalTasksProject); // 1
 
 
    updateUsers();
@@ -64,16 +64,16 @@ function create_fake_db($formattedFieldList) {
    updateProjects();
    
    
-   echo "-  Clean issues...\n"; flush();
+   echo "-  Clean issues...<br>"; flush();
    $j = 0;
 
    // all prj except SideTasksProjects (and externalTasksPrj)
-   $resProjects = execQuery("SELECT * from `mantis_project_table` WHERE id NOT IN (SELECT DISTINCT project_id FROM `codev_team_project_table` WHERE type = $stProjTypeProject)");
+   $resProjects = execQuery("SELECT * from `mantis_project_table` WHERE id NOT IN (SELECT DISTINCT project_id FROM `codev_team_project_table` WHERE type = 1)");
    while($rowPrj = SqlWrapper::getInstance()->sql_fetch_object($resProjects))	{
 
       $projid = $rowPrj->id;
 
-      if ($stProjTypeProject === $projid) { continue; } // skip externalTasksPrj
+      if ($extProjTypeProject === $projid) { continue; } // skip externalTasksPrj
 
 
       // change project name
@@ -113,7 +113,7 @@ function create_fake_db($formattedFieldList) {
    } // proj
 
    // commands
-   echo "-  Clean commands...\n"; flush();
+   echo "-  Clean commands...<br>"; flush();
    execQuery("UPDATE codev_command_table SET `reporter` = 'Joe the customer'");
    execQuery("UPDATE codev_command_table SET `description` = 'fake description...'");
 
@@ -121,8 +121,8 @@ function create_fake_db($formattedFieldList) {
    $i = 0;
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
       $i++;
-      execQuery("UPDATE codev_command_table set `name` = 'cmd_$row->id' WHERE `id` ='$row->id' ");
-      execQuery("UPDATE codev_command_table set `reference` = 'Ref_$row->id".($i*4)."' WHERE `id` ='$row->id'");
+      execQuery("UPDATE codev_command_table set `name` = 'command_$row->id' WHERE `id` ='$row->id' ");
+      execQuery("UPDATE codev_command_table set `reference` = 'R$row->id' WHERE `id` ='$row->id'");
 //      $query  = "UPDATE `codev_command_table` SET `cost` = '".($i*123+1001200)."00' WHERE `id` ='$row->id' ";
 //      execQuery($query);
    }   
@@ -134,8 +134,8 @@ function create_fake_db($formattedFieldList) {
    $i = 0;
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
       $i++;
-      execQuery("UPDATE codev_commandset_table set `name` = 'cset_$row->id' WHERE `id` ='$row->id'");
-      execQuery("UPDATE codev_commandset_table SET `reference` = 'Ref_$row->id".($i*3)."' WHERE `id` ='$row->id' ");
+      execQuery("UPDATE codev_commandset_table set `name` = 'CommantSet_$row->id' WHERE `id` ='$row->id'");
+      execQuery("UPDATE codev_commandset_table SET `reference` = 'Ref_$row->id' WHERE `id` ='$row->id' ");
       
       //$query  = "UPDATE `codev_commandset_table` SET `budget` = '".($i*623+2001200)."50' WHERE `id` ='$row->id' ";
       //execQuery($query);
@@ -149,8 +149,8 @@ function create_fake_db($formattedFieldList) {
    $i = 0;
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
       $i++;
-      execQuery("UPDATE codev_servicecontract_table set `name` = 'sc_$row->id' WHERE `id` ='$row->id'");
-      execQuery("UPDATE codev_servicecontract_table SET `reference` = 'OTP_$row->id".($i*3)."' WHERE `id` ='$row->id' ");
+      execQuery("UPDATE codev_servicecontract_table set `name` = 'serviceContract_$row->id' WHERE `id` ='$row->id'");
+      execQuery("UPDATE codev_servicecontract_table SET `reference` = 'OTP_$row->id' WHERE `id` ='$row->id' ");
    }   
 
    
@@ -159,7 +159,7 @@ function create_fake_db($formattedFieldList) {
 
 
 function updateUsers() {
-   echo "-  Clean users...\n"; flush();
+   echo "-  Clean users...<br>"; flush();
 
    $mgrId=37;
    $usrId=41; // 44
@@ -206,7 +206,7 @@ function updateUsers() {
 
 function updateTeams() {
 
-   echo "-  Clean teams...\n"; flush();
+   echo "-  Clean teams...<br>"; flush();
    
    $mgrId=37;
    $lbayleId=2;
@@ -239,19 +239,18 @@ function updateTeams() {
 
 function updateProjects() {
 
-   echo "-  Clean projects...\n"; flush();
+   echo "-  Clean projects...<br>"; flush();
 
    $stprojId=24;
+   $extprojId= Config::getInstance()->getValue(Config::id_externalTasksProject); // 3
 
    // remove ALL files from ALL PROJECTS  (OVH upload fails)
    execQuery("DELETE FROM `mantis_bug_file_table` ");
    execQuery("UPDATE `mantis_project_table` SET `description` = '' ");
 
-   $resStProjects = execQuery("SELECT DISTINCT project_id FROM `codev_team_project_table` WHERE type = 1");
-   while($rowStPrj = SqlWrapper::getInstance()->sql_fetch_object($resStProjects))	{
+   //SELECT DISTINCT pt.project_id, p.name FROM `codev_team_project_table` as pt, `mantis_project_table` as p WHERE type = 1 AND p.id = pt.project_id;
 
-      execQuery("UPDATE `mantis_project_table` SET `name` = 'SideTasks $rowStPrj->project_id' WHERE `id` ='$rowStPrj->project_id' ");
-   }
+   execQuery("UPDATE `mantis_project_table` SET `name` = CONCAT('SideTasks Project_',id) WHERE id in (SELECT DISTINCT project_id FROM `codev_team_project_table` WHERE type = 1)");
 
    // rename project categories
 /*
@@ -262,12 +261,20 @@ function updateProjects() {
    }
 */
    // external tasks project
-   execQuery("UPDATE `mantis_project_table` SET `name` = 'ExternalTasks' WHERE `id` ='1' ");
+   execQuery("UPDATE `mantis_project_table` SET `name` = 'ExternalTasks' WHERE `id` ='$extprojId' ");
 
    // demo projects
    execQuery("UPDATE `mantis_project_table` SET `name` = 'SideTasks DEMO_Team' WHERE `id` ='$stprojId' ");
 
 }
+
+function i18n() {
+
+   // the original DB is in french, convert strings
+   // TODO
+}
+
+
 
 // ================ MAIN =================
 
@@ -284,5 +291,5 @@ foreach ($fieldNamesToClear as $fname) {
 
 create_fake_db($formattedFieldList);
 
- echo "Done.\n";
+ echo "Done.<br>";
  
