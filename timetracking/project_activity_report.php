@@ -111,6 +111,8 @@ class ProjectActivityReportController extends Controller {
          $bugDetailedList = "";
          foreach ($bugList as $bugid => $jobs) {
             $issue = IssueCache::getInstance()->getIssue($bugid);
+            $user = UserCache::getInstance()->getUser($issue->getHandlerId());
+
             $totalTime = 0;
             $tr_class = ($row_id & 1) ? "row_even" : "row_odd";
 
@@ -135,6 +137,7 @@ class ProjectActivityReportController extends Controller {
                'category' => $issue->getCategoryName(),
                'targetVersion' => $issue->getTargetVersion(),
                'currentStatusName' => $issue->getCurrentStatusName(),
+               'handlerName' => $user->getName(),
                'progress' => round(100 * $issue->getProgress()),
                'backlog' => $issue->getBacklog(),
                'totalTime' => $totalTime,
