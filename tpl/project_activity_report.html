@@ -47,6 +47,7 @@
                            <th>{$j}</th>
                            {/foreach}
                            {/if}
+                           <th style="width: 10em;" title="{t}Category{/t}">{t}Category{/t}</th>
                            <th style="width: 10em;" title="{t}Target version{/t}">{t}Target{/t}</th>
                            <th style="width: 7em;">{t}Status{/t}</th>
                            <th style="width: 1em;">{t}Progress{/t}</th>
@@ -63,6 +64,7 @@
                            <td>{$l}</td>
                            {/foreach}
                            {/if}
+                           <td nowrap="nowrap">{$k.category}</td>
                            <td nowrap="nowrap">{$k.targetVersion}</td>
                            <td nowrap="nowrap">{$k.currentStatusName}</td>
                            <td><div class="progress">{$k.progress}%</div></td>

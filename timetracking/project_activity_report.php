@@ -132,6 +132,7 @@ class ProjectActivityReportController extends Controller {
                'class' => $tr_class,
                'description' => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary()),
                'jobList' => $subJobList,
+               'category' => $issue->getCategoryName(),
                'targetVersion' => $issue->getTargetVersion(),
                'currentStatusName' => $issue->getCurrentStatusName(),
                'progress' => round(100 * $issue->getProgress()),
