@@ -96,6 +96,16 @@
                </table>
             </td>
          </tr>
+         {if (isset($checkTotalSoldDays) && ($checkTotalSoldDays != 0))}
+         <tr>
+            <th></th>
+            <td></td>
+            <td>
+               <img  border="0"  src="images/b_error.png" alt="ERROR"/>
+               <span  class="error_font">{t}The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'{/t} ({t}balance{/t} = {$checkTotalSoldDays} {t}days{/t})</span>
+            </td>
+         </tr>
+         {/if}
          {/if}
 
 

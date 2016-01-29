@@ -804,7 +804,7 @@ class Command extends Model {
 
          $checkTotalSoldDays = $this->getTotalSoldDays() - $this->getIssueSelection()->mgrEffortEstim - $this->getProvisionDays();
          $checkTotalSoldDays = round($checkTotalSoldDays, 2);
-         if (0 !== checkTotalSoldDays) {
+         if (0 != $checkTotalSoldDays) {
             $errMsg = T_("The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'").
                       ' ('.T_("balance")." = $checkTotalSoldDays ".T_('days').')';
             $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL, $errMsg);
