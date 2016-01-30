@@ -41,7 +41,7 @@ function displayPage() {
    $rootMantisURL = is_null(Constants::$mantisURL) ? '../../mantis/' : Constants::$mantisURL;
    if ('/' !== substr($rootMantisURL, -1)) { $rootMantisURL .= '/'; }
 
-   echo "<h1 class='center'>Manual steps</h1>";
+   echo "<h1 class='center'>".T_('Manual steps')."</h1>";
 
    echo "<div style='margin-top:6em;'>";
 
