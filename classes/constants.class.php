@@ -102,11 +102,11 @@ class Constants {
    // --- DASHBOARDS ---
    // Note: keys are IndicatorPluginInterface::DOMAIN_XXX
    public static $dashboardDefaultPlugins = array (
-       'Team' => 'AvailableWorkforceIndicator',
-       'Command' => 'LoadPerUserIndicator,ProgressHistoryIndicator2',
-       'CommandSet' => 'LoadPerUserIndicator',
-       'ServiceContract' => 'LoadPerJobIndicator2,ProgressHistoryIndicator2,EffortEstimReliabilityIndicator2',
-       'Admin' => 'TimetrackDetailsIndicator',
+       'Team' => array('AvailableWorkforceIndicator','LoadPerUserIndicator','LoadPerJobIndicator2'),
+       'Command' => array('LoadPerUserIndicator','ProgressHistoryIndicator2'),
+       'CommandSet' => array('LoadPerUserIndicator'),
+       'ServiceContract' => array('LoadPerJobIndicator2','ProgressHistoryIndicator2','EffortEstimReliabilityIndicator2'),
+       'Admin' => array('TimetrackDetailsIndicator'),
    );
 
    // ---EMAIL---
