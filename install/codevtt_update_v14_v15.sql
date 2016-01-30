@@ -20,15 +20,23 @@ CREATE TABLE IF NOT EXISTS `codev_plugin_table` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `codev_plugin_table` (`name`, `status`, `domains`, `categories`, `version`, `description`) VALUES
-('BudgetDriftHistoryIndicator2', 1, 'Command,CommandSet', 'Roadmap', '1.0.0', 'Display the budget history'),
-('EffortEstimReliabilityIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display the EffortEstim reliability rate history<br>rate = EffortEstim / elapsed (on resolved tasks only)'),
-('HelloWorldIndicator', 1, 'Command,Team,User,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'A simple HelloWorld plugin'),
-('LoadPerJobIndicator2', 1, 'Command,Team,User,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Check all the timetracks of the period and return their repartition per Job'),
-('LoadPerProjCategoryIndicator', 1, 'Team,Project,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the timetracks of the period and return their repartition per project categories'),
-('LoadPerUserIndicator', 1, 'Command,Team,User,Project,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the timetracks of the period and return their repartition per User'),
-('ProgressHistoryIndicator2', 1, 'Command,CommandSet', 'Roadmap', '1.0.0', 'Display the progress history'),
-('ReopenedRateIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display the bug reopened rate history'),
-('StatusHistoryIndicator2', 1, 'Command,Team,User,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display Issue Status history');
+('AvailableWorkforceIndicator', 1, 'Team', 'Planning', '1.0.0', 'Man-days available in period, except leaves and external tasks'),
+('BacklogPerUserIndicator', 1, 'Team,User,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Répartition du RAF des tâches de la sélection par utilisateur'),
+('BudgetDriftHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Affiche la dérive Budget'),
+('DeadlineAlertIndicator', 1, 'User,Team,Project,Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Affiche les tâches ayant du être livrées (date jalon dépassée)'),
+('DriftAlertIndicator', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Risk', '1.0.0', 'Tâches dont le consommé est supérieur à la charge initiale'),
+('EffortEstimReliabilityIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Taux de fiabilité de la Charge estimée (ChargeMgr, ChargeInit)<br>Taux = charge estimée / consommé (tâches résolues uniquement)'),
+('HelloWorldIndicator', 0, 'Command,Team,User,Project,CommandSet,ServiceContract,Admin', 'Quality', '1.0.0', 'un plugin exemple pour développeurs'),
+('IssueBacklogVariationIndicator', 1, 'Task', 'Roadmap', '1.0.0', 'Affiche l''évolution du RAF dans le temps (burndown chart)'),
+('LoadPerJobIndicator2', 1, 'Task,Team,User,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Affiche le consommé sur la période, réparti par poste'),
+('LoadPerProjCategoryIndicator', 1, 'Team,Project,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Affiche le consommé sur la période, réparti par catégorie projet'),
+('LoadPerProjectIndicator', 1, 'User,Team,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Affiche le consommé sur la période, réparti par projet'),
+('LoadPerUserIndicator', 1, 'Task,Team,User,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Affiche le consommé sur la période, réparti par utilisateur'),
+('ProgressHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Affiche la progression de l''avancement dans le temps'),
+('ReopenedRateIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Historique du nombre de fiches ayant été réouvertes'),
+('StatusHistoryIndicator2', 1, 'Command,Team,User,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Affiche l''évolution de la répartition des tâches par statut'),
+('TimePerStatusIndicator', 1, 'Task', 'Roadmap', '1.0.0', 'Répartition du temps par status'),
+('TimetrackDetailsIndicator', 1, 'Admin', 'Admin', '1.0.0', 'Affiche des informations suplémentaires sur les imputations');
 
 -- tag version
 UPDATE `codev_config_table` SET `value`='15' WHERE `config_id`='database_version';
