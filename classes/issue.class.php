@@ -2295,7 +2295,11 @@ class Issue extends Model implements Comparable {
       $timestamp = mktime(23, 59, 59, date('m', $dateSubmission), date('d', $dateSubmission), date('Y', $dateSubmission));
       if (!in_array($timestamp, $timestamps)) {
          $midnightTimestamp = mktime(0, 0, 0, date('m', $dateSubmission), date('d', $dateSubmission), date('Y', $dateSubmission));
-         $backlogList["$midnightTimestamp"] = $this->getEffortEstim();
+         $effortEstim =  $this->getEffortEstim();
+         if (NULL != $effortEstim) {
+            // NULL happens on sideTasks
+            $backlogList["$midnightTimestamp"] = $effortEstim;
+         }
       }
 
       // add latest value
@@ -2308,8 +2312,11 @@ class Issue extends Model implements Comparable {
          if(is_null($backlog) || !is_numeric($backlog)) {
             $backlog = $this->getEffortEstim();
          }
-         $midnightTimestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
-         $backlogList[$midnightTimestamp] = $backlog;
+         if (NULL != $backlog) {
+            // NULL happens on sideTasks
+            $midnightTimestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
+            $backlogList[$midnightTimestamp] = $backlog;
+         }
       }
       ksort($backlogList);
       return $backlogList;

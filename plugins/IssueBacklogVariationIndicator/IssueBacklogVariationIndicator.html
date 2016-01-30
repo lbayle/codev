@@ -67,8 +67,6 @@
    // when a new widjet is added to the dashboard.
    function issueBacklogVariationIndicatorJsInit() {
 
-      {if $issueBacklogVariationIndicator_jqplotData}
-
       jQuery(".issueBacklogVariationIndicatorHelpDialog_link").click(function(e) {
          e.preventDefault();
          jQuery(".issueBacklogVariationIndicatorHelpDialog").dialog("open");
@@ -91,6 +89,7 @@
 
       // ------------------------
       // display initial chart
+      {if $issueBacklogVariationIndicator_jqplotData}
       var chart = jQuery('.issueBacklogVariationIndicatorChart');
       var chartoptions = chart.data('plotoptions');
 
@@ -101,17 +100,6 @@
       chartoptions.axes.yaxis.min = 0;
       chartoptions.axes.xaxis.tickInterval = "{$issueBacklogVariationIndicator_interval} week";
       chart.jqplot([{$issueBacklogVariationIndicator_jqplotData}], chartoptions);
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
       {/if}
    }
 

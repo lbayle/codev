@@ -148,7 +148,7 @@ class IssueBacklogVariationIndicator extends IndicatorPluginAbstract {
       $nbWeeks = ($maxTimestamp - $minTimestamp) / 60 / 60 / 24 / 7;
       $interval = ceil($nbWeeks / 10);
 
-      $jqplotData = Tools::array2plot($formattedBlList);
+      $jqplotData =  empty($formattedBlList) ? NULL : Tools::array2plot($formattedBlList);
 
       $this->execData = array(
          'issueBacklogVariationIndicator_interval'         => $interval,
