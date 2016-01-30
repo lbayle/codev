@@ -722,11 +722,22 @@ function installMantisPlugin($pluginName, $isReplace=true) {
 
       $mantisPluginDir = Constants::$mantisPath . DIRECTORY_SEPARATOR . 'plugins';
 
-      $srcDir = realpath("..") . DIRECTORY_SEPARATOR . 'mantis_plugin' . DIRECTORY_SEPARATOR . $pluginName;
+   // --- check mantis version (config files have been moved in v1.3)
+   if (is_dir(Constants::$mantisPath.DIRECTORY_SEPARATOR.'config')) {
+      // mantis v1.3 or higher
+      $srcDir = realpath("..") . DIRECTORY_SEPARATOR . 'mantis_plugin' . DIRECTORY_SEPARATOR . 'mantis_1_3' . DIRECTORY_SEPARATOR . $pluginName;
+   } else {
+      // mantis 1.2
+      $srcDir = realpath("..") . DIRECTORY_SEPARATOR . 'mantis_plugin' . DIRECTORY_SEPARATOR . 'mantis_1_2' . DIRECTORY_SEPARATOR . $pluginName;
+   }
+
       $destDir = $mantisPluginDir . DIRECTORY_SEPARATOR . $pluginName;
 
       if (!is_writable($mantisPluginDir)) {
          return "ERROR Path to mantis plugins directory '" . $mantisPluginDir . "' is NOT writable: $pluginName plugin must be installed manualy.";
+      }
+      if (!is_dir($srcDir)) {
+         return "ERROR mantis plugin directory '" . $srcDir . "' NOT found !";
       }
       
       // do not replace if already installed
