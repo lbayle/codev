@@ -1092,6 +1092,7 @@ class Tools {
     * @return bool true if json string
     */
    public static function isJson($string) {
+    if (is_numeric($string)) { return false; }
     json_decode($string);
     return (json_last_error() == JSON_ERROR_NONE);
    }
