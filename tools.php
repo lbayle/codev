@@ -30,7 +30,7 @@ class Tools {
     * array id => name
     */
    private static $customFieldNames;
-
+   private static $MantisDbVersion;
 
 
    /**
@@ -51,6 +51,25 @@ class Tools {
       return (strnatcmp(phpversion(),$checkVersion) >= 0);
    }
 
+   /**
+    * @return true if mantis v1.3.x (database_version >= 201)
+    */
+   public static function isMantisV1_3() {
+
+      if (is_null(self::$MantisDbVersion)) {
+         $query = "SELECT value FROM `mantis_config_table` WHERE `config_id` = 'database_version';";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+            self::$MantisDbVersion = (int)SqlWrapper::getInstance()->sql_result($result, 0);
+         }
+      }
+      // 201 is v1.3.0-rc1
+      return (self::$MantisDbVersion >= 201);
+   }
 
 
    /**

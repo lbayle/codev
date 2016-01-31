@@ -1108,14 +1108,18 @@ class Project extends Model {
       $serialized = $row->value;
 
       if ((NULL == $serialized) || ("" == $serialized)) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("Bad workflow defined for project $this->id");
-         }
+         self::$logger->error("Bad workflow defined for project $this->id");
          return NULL;
       }
 
-      $unserialized = unserialize($serialized);
-
+      if (Tools::isMantisV1_3()) {
+         $unserialized = json_decode( $serialized, true );
+      } else {
+         $unserialized = unserialize($serialized);
+      }
+      if (NULL == $unserialized) {
+         self::$logger->error("getWorkflowTransitions: Could not unserialize status_enum_workflow: ".$serialized);
+      }
       return $unserialized;
    }
 
@@ -1498,7 +1502,11 @@ class Project extends Model {
          if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
             $serialized = SqlWrapper::getInstance()->sql_result($result, 0);
 
-            $unserialized = unserialize($serialized);
+            if (Tools::isMantisV1_3()) {
+               $unserialized = json_decode( $serialized, true );
+            } else {
+               $unserialized = unserialize($serialized);
+            }
             $this->issueTooltipFieldsCache[$key] = $unserialized;
          } else {
             // TODO get default value (project_id = 0)
