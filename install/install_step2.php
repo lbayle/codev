@@ -212,13 +212,13 @@ if ("proceedStep2" == $action) {
    }
 
    // --- check mantis core files
-   $filename_core_constant_inc = $path_mantis.DIRECTORY_SEPARATOR."core".DIRECTORY_SEPARATOR."constant_inc.php";
-   if (!file_exists($filename_core_constant_inc)) {
-      $errMsg .= 'File not found : '. $filename_core_constant_inc.'<br>';
+   $path_core_constant_inc = $path_mantis.DIRECTORY_SEPARATOR."core".DIRECTORY_SEPARATOR."constant_inc.php";
+   if (!file_exists($path_core_constant_inc)) {
+      $errMsg .= 'File not found : '. $path_core_constant_inc.'<br>';
    }
-   $filename_config_defaults_inc = $path_mantis.DIRECTORY_SEPARATOR."config_defaults_inc.php";
-   if (!file_exists($filename_config_defaults_inc)) {
-      $errMsg .= 'File not found : '. $filename_config_defaults_inc.'<br>';
+   $path_config_defaults_inc = $path_mantis.DIRECTORY_SEPARATOR."config_defaults_inc.php";
+   if (!file_exists($path_config_defaults_inc)) {
+      $errMsg .= 'File not found : '. $path_config_defaults_inc.'<br>';
    }
    $path_core_strings = $path_mantis.DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$filename_strings;
    if (!file_exists($path_core_strings)) {
@@ -267,8 +267,9 @@ if ("proceedStep2" == $action) {
    // === let's do the job ...
 
    // --- load mantis configuration files to get default values
-   include_once($filename_core_constant_inc);
-   include_once($filename_config_defaults_inc);
+   include_once($path_core_constant_inc);
+   include_once($path_custom_constants);
+   include_once($path_config_defaults_inc);
    include_once($path_core_strings);
 
    // --- check & load mantis custom files (override default values)
@@ -290,6 +291,7 @@ if ("proceedStep2" == $action) {
    $priority_enum_string = isset($g_priority_enum_string) ? $g_priority_enum_string : $s_priority_enum_string;
    $severity_enum_string = isset($g_severity_enum_string) ? $g_severity_enum_string : $s_severity_enum_string;
    $resolution_enum_string = isset($g_resolution_enum_string) ? $g_resolution_enum_string : $s_resolution_enum_string;
+   $status_enum_workflow = isset($g_status_enum_workflow) ? $g_status_enum_workflow : $s_status_enum_workflow;
 
    // and set codev Config variables
 
@@ -309,8 +311,14 @@ if ("proceedStep2" == $action) {
    echo "<script type=\"text/javascript\">console.log(\"DEBUG add bug_resolved_status_threshold = $g_bug_resolved_status_threshold\");</script>";
    Constants::$bug_resolved_status_threshold = $bug_resolved_status_threshold;
 
-   echo "<script type=\"text/javascript\">console.log(\"DEBUG create ".Constants::$config_file."\");</script>";
-   $errStr = createConstantsFile($path_mantis, $url_mantis, $url_codevtt);
+   echo "<script type=\"text/javascript\">console.log(\"DEBUG add status_enum_workflow\");</script>";
+   Constants::$status_enum_workflow = $status_enum_workflow;
+   if (!is_array(Constants::$status_enum_workflow)) {
+      $errStr .= "Could not retrieve status_enum_workflow form Mantis config files<br>";
+   }
+
+   echo "<script type=\"text/javascript\">console.log(\"DEBUG create ".str_replace('\\', '/', Constants::$config_file)."\");</script>";
+   $errStr .= createConstantsFile($path_mantis, $url_mantis, $url_codevtt);
    if (NULL != $errStr) {
       echo '<script type="text/javascript">';
       echo '  document.getElementById("divErrMsg").style.display = "block";';

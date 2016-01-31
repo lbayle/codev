@@ -1101,24 +1101,28 @@ class Project extends Model {
          exit;
       }
       if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
-         self::$logger->error("No default project workflow defined in mantis DB");
-         return NULL;
+         // return default from config.ini file
+         self::$logger->debug("Default status_enum_workflow for project $this->id");
+         return Constants::$status_enum_workflow;
       }
       $row = SqlWrapper::getInstance()->sql_fetch_object($result);
       $serialized = $row->value;
 
       if ((NULL == $serialized) || ("" == $serialized)) {
-         self::$logger->error("Bad workflow defined for project $this->id");
+         self::$logger->error("Bad status_enum_workflow for project $this->id");
          return NULL;
       }
 
       if (Tools::isMantisV1_3()) {
          $unserialized = json_decode( $serialized, true );
+         if (NULL === $unserialized) {
+            self::$logger->error("Config::status_enum_workflow json_decode error: ".json_last_error_msg());
+         }
       } else {
          $unserialized = unserialize($serialized);
       }
       if (NULL == $unserialized) {
-         self::$logger->error("getWorkflowTransitions: Could not unserialize status_enum_workflow: ".$serialized);
+         self::$logger->error("getWorkflowTransitions: Could not get status_enum_workflow for project $this->id: ".$serialized);
       }
       return $unserialized;
    }

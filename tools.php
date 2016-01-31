@@ -1088,6 +1088,15 @@ class Tools {
    }
 
    /**
+    * @param type $string
+    * @return bool true if json string
+    */
+   public static function isJson($string) {
+    json_decode($string);
+    return (json_last_error() == JSON_ERROR_NONE);
+   }
+
+   /**
     * write ini file (read with parse_ini_file)
     *
     * source: http://www.php.net/manual/en/function.parse-ini-file.php
@@ -1114,7 +1123,11 @@ class Tools {
                   // write comments as is.
                   $res[] = $sval;
                } else {
-                  $res[] = "$skey = ".(is_numeric($sval) ? $sval : '"'.$sval.'"');
+                  if (self::isJson($sval)) {
+                     $res[] = "$skey = '$sval'";
+                  } else {
+                     $res[] = "$skey = ".(is_numeric($sval) ? $sval : '"'.$sval.'"');
+                  }
                }
             }
          } else {
@@ -1122,7 +1135,12 @@ class Tools {
                // write comments as is.
                $res[] = $val;
             } else {
-               $res[] = "$key = ".(is_numeric($val) ? $val : '"'.$val.'"');
+               // json strings must be enclosed with single quotes
+               if (self::isJson($val)) {
+                  $res[] = "$key = '$val'";
+               } else {
+                  $res[] = "$key = ".(is_numeric($val) ? $val : '"'.$val.'"');
+               }
             }
 
          }

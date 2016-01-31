@@ -47,6 +47,7 @@ class Constants {
    public static $resolution_names;
    public static $severity_names;
    public static $bug_resolved_status_threshold;
+   public static $status_enum_workflow;
 
    // --- RESOLUTION ---
    public static $resolution_fixed;
@@ -102,11 +103,11 @@ class Constants {
    // --- DASHBOARDS ---
    // Note: keys are IndicatorPluginInterface::DOMAIN_XXX
    public static $dashboardDefaultPlugins = array (
+       'Admin' => array('TimetrackDetailsIndicator'),
        'Team' => array('AvailableWorkforceIndicator','LoadPerUserIndicator','LoadPerJobIndicator2'),
        'Command' => array('LoadPerUserIndicator','ProgressHistoryIndicator2'),
        'CommandSet' => array('LoadPerUserIndicator'),
        'ServiceContract' => array('LoadPerJobIndicator2','ProgressHistoryIndicator2','EffortEstimReliabilityIndicator2'),
-       'Admin' => array('TimetrackDetailsIndicator'),
    );
 
    // ---EMAIL---
@@ -181,7 +182,10 @@ class Constants {
       self::$resolution_names = Tools::doubleExplode(':', ',', $mantis['resolution_enum_string']);
       self::$severity_names   = Tools::doubleExplode(':', ',', $mantis['severity_enum_string']);
       self::$bug_resolved_status_threshold = $mantis['bug_resolved_status_threshold'];
-
+      self::$status_enum_workflow = json_decode($mantis['status_enum_workflow'], true); // jsonStr to array
+      if (NULL === self::$status_enum_workflow) {
+         self::$logger->error("Config::status_enum_workflow json_decode error: ".json_last_error_msg());
+      }
       $status = $ini_array['status'];
       self::$status_new          = $status['status_new'];
       self::$status_feedback     = $status['status_feedback'];
@@ -286,6 +290,7 @@ class Constants {
       $mantis['resolution_enum_string'] = self::$resolution_names ? Tools::doubleImplode(':', ',', self::$resolution_names) : ' ';
       $mantis['severity_enum_string']   = self::$severity_names ? Tools::doubleImplode(':', ',', self::$severity_names) : ' ';
       $mantis['bug_resolved_status_threshold'] = self::$bug_resolved_status_threshold;
+      $mantis['status_enum_workflow'] = json_encode(self::$status_enum_workflow); // array to jsonStr
 
       $status = array();
       $status[] = '; Note: CodevTT needs some status to be defined (new, feedback, open, closed)';

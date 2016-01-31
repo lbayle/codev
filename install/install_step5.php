@@ -47,7 +47,6 @@ function displayPage() {
       <h2>What's next ?</h2>
 
       <ul>
-         <li>Check the generated configuration files: <b>config.ini</b> & <b>log4php.xml</b></li><br>
          <li><a href='".$rootWebSite."index.php' title='CodevTT & Mantis share the same users' target='_blank't>login !</a></li>
          <li>Go to the <a href='".$rootWebSite."admin/create_team.php' target='_blank't>create team</a> page and create your team</li>
          <li>In the <a href='".$rootWebSite."admin/edit_team.php' target='_blank't>edit team</a> page, add members & projects to your team</li>
@@ -79,4 +78,4 @@ function displayFooter() {
 displayPage();
 displayFooter();
 
-?>
+

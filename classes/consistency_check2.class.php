@@ -717,7 +717,7 @@ class ConsistencyCheck2 {
       return $cerrList;
    }
 
-   public static function checkMantisDefaultProjectWorkflow() { 
+   public static function checkMantisDefaultProjectWorkflow() {
       $cerrList = array();
       $query = "SELECT * FROM `mantis_config_table` ".
                "WHERE project_id = 0 ".
@@ -729,9 +729,11 @@ class ConsistencyCheck2 {
          exit;
       }
       if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
-         $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL, T_("No default project workflow defined in mantis DB"));
-         $cerr->severity = ConsistencyError2::severity_error;
-         $cerrList[] = $cerr;
+         if (!is_array(Constants::$status_enum_workflow)) {
+            $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL, T_("No default project workflow defined, check config file: ".Constants::$config_file));
+            $cerr->severity = ConsistencyError2::severity_error;
+            $cerrList[] = $cerr;
+         }
       }
       return $cerrList;
    }
@@ -741,4 +743,3 @@ class ConsistencyCheck2 {
 
 ConsistencyCheck2::staticInit();
 
-?>
