@@ -169,11 +169,16 @@ $filename_custom_strings       = "custom_strings_inc.php";
 $filename_custom_constants     = "custom_constants_inc.php";
 $filename_custom_relationships = "custom_relationships_inc.php";
 
-$path_mantis = Tools::getSecurePOSTStringValue('path_mantis', $default_path_mantis);
-$url_mantis = Tools::getSecurePOSTStringValue('url_mantis', $default_url_mantis);
-$url_codevtt = Tools::getSecurePOSTStringValue('url_codevtt', $default_url_codevtt);
+$path_mantis = filter_input(INPUT_POST, 'path_mantis');
+if (NULL == $path_mantis) { $path_mantis = $default_path_mantis; }
 
-$action = Tools::getSecurePOSTStringValue('action', '');
+$url_mantis = filter_input(INPUT_POST, 'url_mantis');
+if (NULL == $url_mantis) { $url_mantis = $default_url_mantis; }
+
+$url_codevtt = filter_input(INPUT_POST, 'url_codevtt');
+if (NULL == $url_codevtt) { $url_codevtt = $default_url_codevtt; }
+
+$action = filter_input(INPUT_POST, 'action');
 
 #displayStepInfo();
 #echo "<hr align='left' width='20%'/>\n";
