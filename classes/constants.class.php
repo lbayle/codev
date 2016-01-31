@@ -183,9 +183,7 @@ class Constants {
       self::$severity_names   = Tools::doubleExplode(':', ',', $mantis['severity_enum_string']);
       self::$bug_resolved_status_threshold = $mantis['bug_resolved_status_threshold'];
       self::$status_enum_workflow = json_decode($mantis['status_enum_workflow'], true); // jsonStr to array
-      if (NULL === self::$status_enum_workflow) {
-         self::$logger->error("Config::status_enum_workflow json_decode error: ".json_last_error_msg());
-      }
+      
       $status = $ini_array['status'];
       self::$status_new          = $status['status_new'];
       self::$status_feedback     = $status['status_feedback'];
