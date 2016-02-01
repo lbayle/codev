@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-26 22:56+0100\n"
+"POT-Creation-Date: 2016-02-01 21:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,14 +75,14 @@ msgstr ""
 #: classes/issue.class.php:2223 classes/issue_selection.class.php:280
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
-#: management/command_info.php:223 management/servicecontract_info.php:150
+#: management/command_info.php:228 management/servicecontract_info.php:150
 #: management/commandset_info.php:153 reports/export_csv_tools.php:51
 #: reports/planning_report.php:235 reports/planning_report.php:478
 #: reports/project_info.php:282 reports/project_info.php:293
 #: reports/project_info.php:305
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
-#: index.php:195 tools.php:1454
+#: index.php:195 tools.php:1492
 msgid "Summary"
 msgstr ""
 
@@ -112,13 +112,13 @@ msgstr ""
 #. WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
 #: classes/issue.class.php:2217 classes/wbsElement.class.php:581
 #: classes/issue_selection.class.php:279 filters/ProjectFilter.php:59
-#: management/command_info.php:222 management/servicecontract_info.php:149
+#: management/command_info.php:227 management/servicecontract_info.php:149
 #: management/commandset_info.php:152 reports/export_csv_tools.php:48
 #: reports/planning_report.php:234 reports/planning_report.php:475
 #: reports/planning_report.php:476 reports/project_info.php:281
 #: reports/project_info.php:292 reports/project_info.php:304 tests/odt.php:25
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:224
-#: index.php:194 tools.php:1448
+#: index.php:194 tools.php:1486
 msgid "Project"
 msgstr ""
 
@@ -159,8 +159,8 @@ msgstr ""
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:260
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:318
 #: reports/planning_report.php:465 reports/project_info.php:184
-#: reports/project_info.php:241 tests/filters.php:71 tools.php:1381
-#: tools.php:1390
+#: reports/project_info.php:241 tests/filters.php:71 tools.php:1419
+#: tools.php:1428
 msgid "Backlog"
 msgstr ""
 
@@ -424,7 +424,7 @@ msgstr ""
 #: tpl/statistics.html
 #: tpl/modal/update_issueBacklog.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:315
-#: reports/project_info.php:238 tools.php:1387
+#: reports/project_info.php:238 tools.php:1425
 msgid "EffortEstim"
 msgstr ""
 
@@ -510,7 +510,7 @@ msgstr ""
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:320
 #: reports/issue_info.php:217 reports/project_info.php:186
 #: reports/project_info.php:243 reports/project_info.php:294
-#: reports/project_info.php:307 tools.php:230
+#: reports/project_info.php:307 tools.php:249
 msgid "Drift"
 msgstr ""
 
@@ -601,7 +601,7 @@ msgstr ""
 #: tpl/servicecontract_info.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:314
 #: reports/export_csv_tools.php:60 reports/project_info.php:237
-#: tests/filters.php:68 tools.php:1384
+#: tests/filters.php:68 tools.php:1422
 msgid "MgrEffortEstim"
 msgstr ""
 
@@ -705,9 +705,9 @@ msgstr ""
 #: tpl/modal/update_issueBacklog.html
 #: tpl/modal/select_issues.html
 #: tpl/project_activity_report.html
-#: classes/issue.class.php:2221 classes/wbsElement.class.php:583
-#: reports/export_csv_tools.php:52 reports/planning_report.php:461
-#: reports/planning_report.php:484 reports/project_info.php:306 tools.php:1452
+#: classes/wbsElement.class.php:583 reports/export_csv_tools.php:52
+#: reports/planning_report.php:461 reports/planning_report.php:484
+#: reports/project_info.php:306 tools.php:1490
 msgid "Status"
 msgstr ""
 
@@ -844,7 +844,7 @@ msgstr ""
 #: tpl/import_issues.html
 #: tpl/modal/update_issueBacklog.html
 #: reports/planning_report.php:466 reports/planning_report.php:495
-#: tools.php:1396
+#: tools.php:1434
 msgid "Deadline"
 msgstr ""
 
@@ -979,7 +979,7 @@ msgstr ""
 #: tpl/team_activity_report.html
 #: tpl/modal/select_issues.html
 #: tpl/project_activity_report.html
-#: classes/issue.class.php:2230 tools.php:1458
+#: classes/issue.class.php:2230 tools.php:1496
 msgid "Target"
 msgstr ""
 
@@ -1239,7 +1239,8 @@ msgstr ""
 #: tpl/import_issues.html
 #: tpl/servicecontract_info.html
 #: tpl/time_tracking.html
-#: classes/wbsElement.class.php:582 tools.php:1450
+#: tpl/project_activity_report.html
+#: classes/wbsElement.class.php:582 tools.php:1488
 msgid "Category"
 msgstr ""
 
@@ -1408,6 +1409,14 @@ msgid "Drift days * AverageDailyRate"
 msgstr ""
 
 #: tpl/command_info.html
+msgid "The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'"
+msgstr ""
+
+#: tpl/command_info.html
+msgid "balance"
+msgstr ""
+
+#: tpl/command_info.html
 #: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
 msgid "Edit"
@@ -1460,6 +1469,8 @@ msgstr ""
 #: tpl/check.html
 #: tpl/forecasting_report.html
 #: tpl/import_issues.html
+#: tpl/project_activity_report.html
+#: install/install_step1.php:207
 msgid "User"
 msgstr ""
 
@@ -1916,13 +1927,13 @@ msgstr ""
 
 #: tpl/issue_info.html
 #: reports/export_csv_tools.php:57 reports/planning_report.php:462
-#: reports/planning_report.php:485 tools.php:1460
+#: reports/planning_report.php:485 tools.php:1498
 msgid "Priority"
 msgstr ""
 
 #: tpl/issue_info.html
 #: reports/planning_report.php:463 reports/planning_report.php:486
-#: tools.php:1462
+#: tools.php:1500
 msgid "Severity"
 msgstr ""
 
@@ -2236,7 +2247,7 @@ msgid "Blog"
 msgstr ""
 
 #: tpl/menu/global_menu.html
-#: install/install_step3.php:819 install/install_menu.inc.php:68
+#: install/install_step3.php:830 install/install_menu.inc.php:68
 msgid "Documentation"
 msgstr ""
 
@@ -2628,7 +2639,7 @@ msgid "--- Create New ServiceContract ---"
 msgstr ""
 
 #: tpl/servicecontract_info.html
-#: install/install_step4.php:56 install/install_step4.php:68
+#: install/install_step4.php:51
 msgid "Go to"
 msgstr ""
 
@@ -3388,7 +3399,7 @@ msgid "Constrains"
 msgstr ""
 
 #: classes/issue.class.php:2192 classes/wbsElement.class.php:585
-#: tools.php:1442
+#: tools.php:1480
 msgid "Tags"
 msgstr ""
 
@@ -3400,7 +3411,7 @@ msgstr ""
 msgid "DriftColor"
 msgstr ""
 
-#: classes/issue.class.php:2208 tools.php:232
+#: classes/issue.class.php:2208 tools.php:251
 msgid "DriftMgr"
 msgstr ""
 
@@ -3408,11 +3419,11 @@ msgstr ""
 msgid "DriftMgrColor"
 msgstr ""
 
-#: classes/issue.class.php:2226 tools.php:1456
+#: classes/issue.class.php:2226 tools.php:1494
 msgid "Assigned"
 msgstr ""
 
-#: classes/issue.class.php:2234 tools.php:1464
+#: classes/issue.class.php:2234 tools.php:1502
 msgid "ETA"
 msgstr ""
 
@@ -3538,8 +3549,8 @@ msgstr ""
 msgid "inconsistent"
 msgstr ""
 
-#: classes/consistency_check2.class.php:732
-msgid "No default project workflow defined in mantis DB"
+#: classes/consistency_check2.class.php:733
+msgid "No default project workflow defined, check config file: "
 msgstr ""
 
 #: classes/scheduler.class.php:81 reports/planning_report.php:206
@@ -3580,14 +3591,6 @@ msgstr ""
 
 #: classes/command.class.php:67
 msgid "payed"
-msgstr ""
-
-#: classes/command.class.php:808
-msgid "The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'"
-msgstr ""
-
-#: classes/command.class.php:809
-msgid "balance"
 msgstr ""
 
 #: classes/consistency_check_fdj.class.php:76
@@ -3824,53 +3827,53 @@ msgstr ""
 msgid "Proceed Step 3"
 msgstr ""
 
-#: install/install_step3.php:786
+#: install/install_step3.php:797
 msgid "CodevTT admin"
 msgstr ""
 
-#: install/install_step3.php:813
+#: install/install_step3.php:824
 msgid "Other external activity"
 msgstr ""
 
-#: install/install_step3.php:814
+#: install/install_step3.php:825
 msgid "Leave"
 msgstr ""
 
-#: install/install_step3.php:815
+#: install/install_step3.php:826
 msgid "Sick Leave"
 msgstr ""
 
-#: install/install_step3.php:816
+#: install/install_step3.php:827
 msgid "Analyse"
 msgstr ""
 
-#: install/install_step3.php:817
+#: install/install_step3.php:828
 msgid "Development"
 msgstr ""
 
-#: install/install_step3.php:818
+#: install/install_step3.php:829
 msgid "Tests"
 msgstr ""
 
-#: install/install_step3.php:905
+#: install/install_step3.php:916
 msgid "CodevTT_ExternalTasks"
 msgstr ""
 
-#: install/install_step3.php:905
+#: install/install_step3.php:916
 msgid "CodevTT ExternalTasks Project"
 msgstr ""
 
 #. cat="OtherInternal", status="closed"
-#: install/install_step3.php:944
+#: install/install_step3.php:955
 msgid "Any external task, NOT referenced in any mantis project"
 msgstr ""
 
 #. --- Create the 'Leave' task in ExternalTasks Project
-#: install/install_step3.php:947
+#: install/install_step3.php:958
 msgid "On holiday, leave, ..."
 msgstr ""
 
-#: install/install_step3.php:948
+#: install/install_step3.php:959
 msgid "Sick"
 msgstr ""
 
@@ -3878,75 +3881,70 @@ msgstr ""
 msgid "Install - Step 4"
 msgstr ""
 
-#: install/install_step4.php:51
-msgid "Create a default project workflow in Mantis"
+#: install/install_step4.php:44
+msgid "Manual steps"
 msgstr ""
 
-#: install/install_step4.php:52
-msgid "The Mantis default workflow is not load in the database unless you change it with the Mantis administration GUI."
-msgstr ""
-
-#: install/install_step4.php:54 install/install_step4.php:67
-msgid "Login to Mantis as 'Administrator'."
-msgstr ""
-
-#: install/install_step4.php:55
-msgid "Select project 'All projects'"
-msgstr ""
-
-#: install/install_step4.php:56
-msgid "manage workflow transitions"
-msgstr ""
-
-#: install/install_step4.php:57
-msgid "Change the workflow (change one of the 'next status' checkboxes)"
-msgstr ""
-
-#: install/install_step4.php:58
-msgid "Click the 'Update Configuration' button"
-msgstr ""
-
-#: install/install_step4.php:59
-msgid "Rollback the workflow to the initial state"
-msgstr ""
-
-#: install/install_step4.php:60
-msgid "Click the 'Update Configuration' button again"
-msgstr ""
-
-#: install/install_step4.php:65
+#: install/install_step4.php:48
 msgid "Check Mantis Plugins"
 msgstr ""
 
-#: install/install_step4.php:68
+#: install/install_step4.php:50
+msgid "Login to Mantis as 'Administrator'."
+msgstr ""
+
+#: install/install_step4.php:51
 msgid "manage plugins"
 msgstr ""
 
-#: install/install_step4.php:69
+#: install/install_step4.php:52
 msgid "Check that the <b>CodevTT</b> plugin is installed and activated."
 msgstr ""
 
-#: install/install_step4.php:70
+#: install/install_step4.php:53
 msgid "Check that the <b>FilterBugList</b> plugin is installed and activated"
 msgstr ""
 
-#: install/install_step4.php:75
+#. echo '<br>';
+#: install/install_step4.php:58
+msgid "Check generated configuration files"
+msgstr ""
+
+#: install/install_step4.php:60
+msgid "Mantis Path & URL in "
+msgstr ""
+
+#: install/install_step4.php:61
+msgid "Log directory in "
+msgstr ""
+
+#. echo '<br>';
+#: install/install_step4.php:66
+msgid "Remove CodevTT Installation files"
+msgstr ""
+
+#: install/install_step4.php:68
+msgid "For security reasons, delete the following directory: "
+msgstr ""
+
+#. echo '<br>';
+#: install/install_step4.php:73
 msgid "Install Firefox Greasemonkey addon"
 msgstr ""
 
-#: install/install_step4.php:76
+#: install/install_step4.php:74
 msgid "Note: This step is optional"
 msgstr ""
 
-#: install/install_step4.php:78
+#: install/install_step4.php:76
 msgid "Install addon:"
 msgstr ""
 
-#: install/install_step4.php:79
+#: install/install_step4.php:77
 msgid "Load script:"
 msgstr ""
 
-#: install/install_step4.php:85
+#: install/install_step4.php:83
 msgid "Done !"
 msgstr ""
 
@@ -4078,7 +4076,7 @@ msgstr ""
 msgid "Resolution"
 msgstr ""
 
-#: reports/export_csv_tools.php:66 tools.php:1399
+#: reports/export_csv_tools.php:66 tools.php:1437
 msgid "Delivery Date"
 msgstr ""
 
@@ -4337,6 +4335,6 @@ msgstr ""
 msgid "W"
 msgstr ""
 
-#: tools.php:1393
+#: tools.php:1431
 msgid "AddEffortEstim"
 msgstr ""

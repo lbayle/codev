@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-26 22:56+0100\n"
+"POT-Creation-Date: 2016-02-01 21:22+0100\n"
 "PO-Revision-Date: 2015-09-09 11:15+0200\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
@@ -73,14 +73,14 @@ msgstr "Esporta CSV"
 #: classes/issue.class.php:2223 classes/issue_selection.class.php:280
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
-#: management/command_info.php:223 management/servicecontract_info.php:150
+#: management/command_info.php:228 management/servicecontract_info.php:150
 #: management/commandset_info.php:153 reports/export_csv_tools.php:51
 #: reports/planning_report.php:235 reports/planning_report.php:478
 #: reports/project_info.php:282 reports/project_info.php:293
 #: reports/project_info.php:305
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
-#: index.php:195 tools.php:1454
+#: index.php:195 tools.php:1492
 msgid "Summary"
 msgstr "Descrizione"
 
@@ -110,13 +110,13 @@ msgstr "Descrizione"
 #. WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
 #: classes/issue.class.php:2217 classes/wbsElement.class.php:581
 #: classes/issue_selection.class.php:279 filters/ProjectFilter.php:59
-#: management/command_info.php:222 management/servicecontract_info.php:149
+#: management/command_info.php:227 management/servicecontract_info.php:149
 #: management/commandset_info.php:152 reports/export_csv_tools.php:48
 #: reports/planning_report.php:234 reports/planning_report.php:475
 #: reports/planning_report.php:476 reports/project_info.php:281
 #: reports/project_info.php:292 reports/project_info.php:304 tests/odt.php:25
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:224
-#: index.php:194 tools.php:1448
+#: index.php:194 tools.php:1486
 msgid "Project"
 msgstr "Progetto"
 
@@ -157,8 +157,8 @@ msgstr "Avanzamento"
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:260
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:318
 #: reports/planning_report.php:465 reports/project_info.php:184
-#: reports/project_info.php:241 tests/filters.php:71 tools.php:1381
-#: tools.php:1390
+#: reports/project_info.php:241 tests/filters.php:71 tools.php:1419
+#: tools.php:1428
 msgid "Backlog"
 msgstr "Ancora da fare"
 
@@ -422,7 +422,7 @@ msgstr "tasso = 1 : stima perfetta.<br>tasso &lt; 1 : sottostimato<br>tasso &gt;
 #: tpl/statistics.html
 #: tpl/modal/update_issueBacklog.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:315
-#: reports/project_info.php:238 tools.php:1387
+#: reports/project_info.php:238 tools.php:1425
 msgid "EffortEstim"
 msgstr "Carico iniziale"
 
@@ -508,7 +508,7 @@ msgstr "Tendenza - Tutte le attività"
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:320
 #: reports/issue_info.php:217 reports/project_info.php:186
 #: reports/project_info.php:243 reports/project_info.php:294
-#: reports/project_info.php:307 tools.php:230
+#: reports/project_info.php:307 tools.php:249
 msgid "Drift"
 msgstr "Tendenza"
 
@@ -599,7 +599,7 @@ msgstr "Distacco Stima"
 #: tpl/servicecontract_info.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:314
 #: reports/export_csv_tools.php:60 reports/project_info.php:237
-#: tests/filters.php:68 tools.php:1384
+#: tests/filters.php:68 tools.php:1422
 msgid "MgrEffortEstim"
 msgstr "Carico Mgr"
 
@@ -703,9 +703,9 @@ msgstr "Tendenza per rapporto al BI + BS"
 #: tpl/modal/update_issueBacklog.html
 #: tpl/modal/select_issues.html
 #: tpl/project_activity_report.html
-#: classes/issue.class.php:2221 classes/wbsElement.class.php:583
-#: reports/export_csv_tools.php:52 reports/planning_report.php:461
-#: reports/planning_report.php:484 reports/project_info.php:306 tools.php:1452
+#: classes/wbsElement.class.php:583 reports/export_csv_tools.php:52
+#: reports/planning_report.php:461 reports/planning_report.php:484
+#: reports/project_info.php:306 tools.php:1490
 msgid "Status"
 msgstr "Stato"
 
@@ -842,7 +842,7 @@ msgstr "Data fine"
 #: tpl/import_issues.html
 #: tpl/modal/update_issueBacklog.html
 #: reports/planning_report.php:466 reports/planning_report.php:495
-#: tools.php:1396
+#: tools.php:1434
 msgid "Deadline"
 msgstr "Scadenza"
 
@@ -977,7 +977,7 @@ msgstr "Crea l'ordine per aggiungere attività."
 #: tpl/team_activity_report.html
 #: tpl/modal/select_issues.html
 #: tpl/project_activity_report.html
-#: classes/issue.class.php:2230 tools.php:1458
+#: classes/issue.class.php:2230 tools.php:1496
 msgid "Target"
 msgstr "Obiettivo"
 
@@ -1237,7 +1237,8 @@ msgstr ""
 #: tpl/import_issues.html
 #: tpl/servicecontract_info.html
 #: tpl/time_tracking.html
-#: classes/wbsElement.class.php:582 tools.php:1450
+#: tpl/project_activity_report.html
+#: classes/wbsElement.class.php:582 tools.php:1488
 msgid "Category"
 msgstr "Categoria"
 
@@ -1407,6 +1408,15 @@ msgid "Drift days * AverageDailyRate"
 msgstr "Tendenza giorni * AverageDailyRate"
 
 #: tpl/command_info.html
+#, fuzzy
+msgid "The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'"
+msgstr "ERRORE: Il carico totale (MgrEffortEstim + Disposizioni) devono essere uguali al 'Carico venduto'"
+
+#: tpl/command_info.html
+msgid "balance"
+msgstr "bilancio"
+
+#: tpl/command_info.html
 #: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
 msgid "Edit"
@@ -1459,6 +1469,8 @@ msgstr "Disposizioni NON incluse in 'check budget'"
 #: tpl/check.html
 #: tpl/forecasting_report.html
 #: tpl/import_issues.html
+#: tpl/project_activity_report.html
+#: install/install_step1.php:207
 msgid "User"
 msgstr "User"
 
@@ -1919,13 +1931,13 @@ msgstr "Rif. Esterno"
 
 #: tpl/issue_info.html
 #: reports/export_csv_tools.php:57 reports/planning_report.php:462
-#: reports/planning_report.php:485 tools.php:1460
+#: reports/planning_report.php:485 tools.php:1498
 msgid "Priority"
 msgstr "Priorità"
 
 #: tpl/issue_info.html
 #: reports/planning_report.php:463 reports/planning_report.php:486
-#: tools.php:1462
+#: tools.php:1500
 msgid "Severity"
 msgstr "Gravità"
 
@@ -2246,7 +2258,7 @@ msgid "Blog"
 msgstr "Blog"
 
 #: tpl/menu/global_menu.html
-#: install/install_step3.php:819 install/install_menu.inc.php:68
+#: install/install_step3.php:830 install/install_menu.inc.php:68
 msgid "Documentation"
 msgstr "Documentazione"
 
@@ -2644,7 +2656,7 @@ msgid "--- Create New ServiceContract ---"
 msgstr "-- Crea un nuovo contratto di servizio ---"
 
 #: tpl/servicecontract_info.html
-#: install/install_step4.php:56 install/install_step4.php:68
+#: install/install_step4.php:51
 msgid "Go to"
 msgstr "Vai a"
 
@@ -3409,7 +3421,7 @@ msgid "Constrains"
 msgstr "Vincoli"
 
 #: classes/issue.class.php:2192 classes/wbsElement.class.php:585
-#: tools.php:1442
+#: tools.php:1480
 msgid "Tags"
 msgstr "Tags"
 
@@ -3421,7 +3433,7 @@ msgstr "nessun"
 msgid "DriftColor"
 msgstr "DriftColor"
 
-#: classes/issue.class.php:2208 tools.php:232
+#: classes/issue.class.php:2208 tools.php:251
 msgid "DriftMgr"
 msgstr "Mgr Tendenza"
 
@@ -3429,11 +3441,11 @@ msgstr "Mgr Tendenza"
 msgid "DriftMgrColor"
 msgstr "DriftMgrColor"
 
-#: classes/issue.class.php:2226 tools.php:1456
+#: classes/issue.class.php:2226 tools.php:1494
 msgid "Assigned"
 msgstr "Assegnato a"
 
-#: classes/issue.class.php:2234 tools.php:1464
+#: classes/issue.class.php:2234 tools.php:1502
 msgid "ETA"
 msgstr "ETA"
 
@@ -3561,8 +3573,9 @@ msgstr "giorni"
 msgid "inconsistent"
 msgstr "inconsistente"
 
-#: classes/consistency_check2.class.php:732
-msgid "No default project workflow defined in mantis DB"
+#: classes/consistency_check2.class.php:733
+#, fuzzy
+msgid "No default project workflow defined, check config file: "
 msgstr "Nessun progetto di default è stato definito in Mantis"
 
 #: classes/scheduler.class.php:81 reports/planning_report.php:206
@@ -3604,15 +3617,6 @@ msgstr "Fattura emessa"
 #: classes/command.class.php:67
 msgid "payed"
 msgstr "Fatturato"
-
-#: classes/command.class.php:808
-#, fuzzy
-msgid "The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'"
-msgstr "ERRORE: Il carico totale (MgrEffortEstim + Disposizioni) devono essere uguali al 'Carico venduto'"
-
-#: classes/command.class.php:809
-msgid "balance"
-msgstr "bilancio"
 
 #: classes/consistency_check_fdj.class.php:76
 msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
@@ -3848,53 +3852,53 @@ msgstr "Selezionare i progetti da gestire con CodevTT"
 msgid "Proceed Step 3"
 msgstr "Eseguo passo 3"
 
-#: install/install_step3.php:786
+#: install/install_step3.php:797
 msgid "CodevTT admin"
 msgstr "CodevTT admin"
 
-#: install/install_step3.php:813
+#: install/install_step3.php:824
 msgid "Other external activity"
 msgstr "altre attività esterne"
 
-#: install/install_step3.php:814
+#: install/install_step3.php:825
 msgid "Leave"
 msgstr "Assenza"
 
-#: install/install_step3.php:815
+#: install/install_step3.php:826
 msgid "Sick Leave"
 msgstr "Malattia"
 
-#: install/install_step3.php:816
+#: install/install_step3.php:827
 msgid "Analyse"
 msgstr "Analisi"
 
-#: install/install_step3.php:817
+#: install/install_step3.php:828
 msgid "Development"
 msgstr "Sviluppo"
 
-#: install/install_step3.php:818
+#: install/install_step3.php:829
 msgid "Tests"
 msgstr "Tests"
 
-#: install/install_step3.php:905
+#: install/install_step3.php:916
 msgid "CodevTT_ExternalTasks"
 msgstr "CodevTT attività esterne"
 
-#: install/install_step3.php:905
+#: install/install_step3.php:916
 msgid "CodevTT ExternalTasks Project"
 msgstr "CodevTT Progetto delle attività esterne"
 
 #. cat="OtherInternal", status="closed"
-#: install/install_step3.php:944
+#: install/install_step3.php:955
 msgid "Any external task, NOT referenced in any mantis project"
 msgstr "Ogni attività esterna non collegata a Mantis"
 
 #. --- Create the 'Leave' task in ExternalTasks Project
-#: install/install_step3.php:947
+#: install/install_step3.php:958
 msgid "On holiday, leave, ..."
 msgstr "In vacanza, malattia, ..."
 
-#: install/install_step3.php:948
+#: install/install_step3.php:959
 msgid "Sick"
 msgstr "Malattia"
 
@@ -3902,75 +3906,72 @@ msgstr "Malattia"
 msgid "Install - Step 4"
 msgstr "Installazione - passo 4"
 
-#: install/install_step4.php:51
-msgid "Create a default project workflow in Mantis"
-msgstr "Crea un progetto di default in Mantis"
+#: install/install_step4.php:44
+msgid "Manual steps"
+msgstr ""
 
-#: install/install_step4.php:52
-msgid "The Mantis default workflow is not load in the database unless you change it with the Mantis administration GUI."
-msgstr "Il workflow predefinito Mantis non è caricato nel database, modificalo con la GUI di amministrazione Mantis ."
-
-#: install/install_step4.php:54 install/install_step4.php:67
-msgid "Login to Mantis as 'Administrator'."
-msgstr "Login in Mantis come 'Amministratore'."
-
-#: install/install_step4.php:55
-msgid "Select project 'All projects'"
-msgstr "Seleziona il progetto 'tutti i progetti'"
-
-#: install/install_step4.php:56
-msgid "manage workflow transitions"
-msgstr "Gestione workflow"
-
-#: install/install_step4.php:57
-msgid "Change the workflow (change one of the 'next status' checkboxes)"
-msgstr "Modificare il workflow (cambia una delle caselle di controllo 'prossimo stato')"
-
-#: install/install_step4.php:58
-msgid "Click the 'Update Configuration' button"
-msgstr "Clicca sul tasto 'Aggiorna configurazione'"
-
-#: install/install_step4.php:59
-msgid "Rollback the workflow to the initial state"
-msgstr "Ripristina le impostazioni del workflow"
-
-#: install/install_step4.php:60
-msgid "Click the 'Update Configuration' button again"
-msgstr "Clicca sul tasto 'Aggiorna configurazione' di nuovo"
-
-#: install/install_step4.php:65
+#: install/install_step4.php:48
 msgid "Check Mantis Plugins"
 msgstr "Controllo del plugin Mantis"
 
-#: install/install_step4.php:68
+#: install/install_step4.php:50
+msgid "Login to Mantis as 'Administrator'."
+msgstr "Login in Mantis come 'Amministratore'."
+
+#: install/install_step4.php:51
 msgid "manage plugins"
 msgstr "Gestione plugin"
 
-#: install/install_step4.php:69
+#: install/install_step4.php:52
 msgid "Check that the <b>CodevTT</b> plugin is installed and activated."
 msgstr "Controllare che il < b > CodevTT < / b > plugin sia installato e attivato ."
 
-#: install/install_step4.php:70
+#: install/install_step4.php:53
 msgid "Check that the <b>FilterBugList</b> plugin is installed and activated"
 msgstr "Controllare che il < b > FilterBugList < / b > plugin sia installato e attivato ."
 
-#: install/install_step4.php:75
+#. echo '<br>';
+#: install/install_step4.php:58
+msgid "Check generated configuration files"
+msgstr ""
+
+#: install/install_step4.php:60
+msgid "Mantis Path & URL in "
+msgstr ""
+
+#: install/install_step4.php:61
+msgid "Log directory in "
+msgstr ""
+
+#. echo '<br>';
+#: install/install_step4.php:66
+#, fuzzy
+msgid "Remove CodevTT Installation files"
+msgstr "Cancello i file di configurazione di CodevTT"
+
+#: install/install_step4.php:68
+#, fuzzy
+msgid "For security reasons, delete the following directory: "
+msgstr "Cancella MANUALMENTE i seguenti progetti:"
+
+#. echo '<br>';
+#: install/install_step4.php:73
 msgid "Install Firefox Greasemonkey addon"
 msgstr "Installa il modulo Firefox Greasemonkey"
 
-#: install/install_step4.php:76
+#: install/install_step4.php:74
 msgid "Note: This step is optional"
 msgstr "Nota: questo step è opzionale"
 
-#: install/install_step4.php:78
+#: install/install_step4.php:76
 msgid "Install addon:"
 msgstr "Installa il modulo: "
 
-#: install/install_step4.php:79
+#: install/install_step4.php:77
 msgid "Load script:"
 msgstr "Carica lo script:"
 
-#: install/install_step4.php:85
+#: install/install_step4.php:83
 msgid "Done !"
 msgstr "Fatto !"
 
@@ -4102,7 +4103,7 @@ msgstr "Versione prodotto"
 msgid "Resolution"
 msgstr "Risoluzione"
 
-#: reports/export_csv_tools.php:66 tools.php:1399
+#: reports/export_csv_tools.php:66 tools.php:1437
 msgid "Delivery Date"
 msgstr "Data consegna"
 
@@ -4388,9 +4389,33 @@ msgstr "sconosciuto"
 msgid "W"
 msgstr "S"
 
-#: tools.php:1393
+#: tools.php:1431
 msgid "AddEffortEstim"
 msgstr "AddEffortEstim"
+
+#~ msgid "Create a default project workflow in Mantis"
+#~ msgstr "Crea un progetto di default in Mantis"
+
+#~ msgid "The Mantis default workflow is not load in the database unless you change it with the Mantis administration GUI."
+#~ msgstr "Il workflow predefinito Mantis non è caricato nel database, modificalo con la GUI di amministrazione Mantis ."
+
+#~ msgid "Select project 'All projects'"
+#~ msgstr "Seleziona il progetto 'tutti i progetti'"
+
+#~ msgid "manage workflow transitions"
+#~ msgstr "Gestione workflow"
+
+#~ msgid "Change the workflow (change one of the 'next status' checkboxes)"
+#~ msgstr "Modificare il workflow (cambia una delle caselle di controllo 'prossimo stato')"
+
+#~ msgid "Click the 'Update Configuration' button"
+#~ msgstr "Clicca sul tasto 'Aggiorna configurazione'"
+
+#~ msgid "Rollback the workflow to the initial state"
+#~ msgstr "Ripristina le impostazioni del workflow"
+
+#~ msgid "Click the 'Update Configuration' button again"
+#~ msgstr "Clicca sul tasto 'Aggiorna configurazione' di nuovo"
 
 #~ msgid "Mantis ID"
 #~ msgstr "Mantis ID"
