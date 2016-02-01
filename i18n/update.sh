@@ -1,5 +1,6 @@
 #!/bin/bash
 
+DIR_CODEVTT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 PRJ_NAME=codev
 
 #SRC_FILE="index.php"
@@ -97,7 +98,7 @@ f_genFileList ()
 f_createTemplateFile ()
 {
   local mergedPoFile=".${PRJ_NAME}.po.merge_${LOCALE}"
-  local templatePoFile=".${PRJ_NAME}.po.template"
+  local templatePoFile="${DIR_CODEVTT}/i18n/locale/codevtt.pot"
 
   rm -f ${mergedPoFile}
   rm -f ${templatePoFile}
@@ -139,9 +140,9 @@ f_createTemplateFile ()
         echo "ERROR $retCode: mv ${mergedPoFile} ${FILE_PO}"
         exit 1
       fi
-      rm -f ${templatePoFile}
+      #rm -f ${templatePoFile}
     else
-      mv ${templatePoFile} ${FILE_PO}
+      cp ${templatePoFile} ${FILE_PO}
     fi
     sed -i 's|#. tpl|#: tpl|g' ${FILE_PO}
 
@@ -162,12 +163,13 @@ f_compileTemplateFile ()
 CheckArgs $@
 
 #DIR_LIST="admin classes reports timetracking tools $(ls *.php)"
-
-DIR_LOCALE="./i18n/locale/${LOCALE}/LC_MESSAGES"
+DIR_LOCALE="${DIR_CODEVTT}/i18n/locale/${LOCALE}/LC_MESSAGES"
 mkdir -p "$DIR_LOCALE"
 
 FILE_PO="${DIR_LOCALE}/${PRJ_NAME}.po"
 FILE_MO="${DIR_LOCALE}/${PRJ_NAME}.mo"
+
+cd ${DIR_CODEVTT}
 
 f_genFileList $DIR_LIST
 
@@ -181,7 +183,7 @@ fi
 if [ "Yes" == "$doCompile" ]
 then
   f_compileTemplateFile
-  rm i18n/locale/smarty.c
+  rm ${DIR_CODEVTT}/i18n/locale/smarty.c
   #echo "DONE."
   echo " "  
   echo "  - Locale file generated: $FILE_MO"
