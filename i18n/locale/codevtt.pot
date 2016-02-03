@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-01 22:23+0100\n"
+"POT-Creation-Date: 2016-02-03 21:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -979,10 +979,10 @@ msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
+#. tpl/issue_info.html
 #. tpl/team_activity_report.html
 #. tpl/modal/select_issues.html
 #. tpl/project_activity_report.html
-#: classes/issue.class.php:2230 tools.php:1496
 msgid "Target"
 msgstr ""
 
@@ -1951,6 +1951,12 @@ msgid "Severity"
 msgstr ""
 
 #. tpl/issue_info.html
+#. tpl/team_activity_report.html
+#. tpl/project_activity_report.html
+msgid "Target version"
+msgstr ""
+
+#. tpl/issue_info.html
 msgid "Relation"
 msgstr ""
 
@@ -2099,11 +2105,6 @@ msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "Workload"
-msgstr ""
-
-#. tpl/team_activity_report.html
-#. tpl/project_activity_report.html
-msgid "Target version"
 msgstr ""
 
 #. tpl/team_activity_report.html

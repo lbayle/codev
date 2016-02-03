@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-01 22:32+0100\n"
+"POT-Creation-Date: 2016-02-03 21:32+0100\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -976,10 +976,10 @@ msgstr "Créez la commande avant d'y ajouter des tâches."
 
 #: tpl/command_edit.html
 #: tpl/command_info.html
+#: tpl/issue_info.html
 #: tpl/team_activity_report.html
 #: tpl/modal/select_issues.html
 #: tpl/project_activity_report.html
-#: classes/issue.class.php:2230 tools.php:1496
 msgid "Target"
 msgstr "V.Ciblée"
 
@@ -1938,6 +1938,12 @@ msgid "Severity"
 msgstr "Criticité"
 
 #: tpl/issue_info.html
+#: tpl/team_activity_report.html
+#: tpl/project_activity_report.html
+msgid "Target version"
+msgstr "Version ciblée"
+
+#: tpl/issue_info.html
 msgid "Relation"
 msgstr "Relation"
 
@@ -2087,11 +2093,6 @@ msgstr "somme(RAF) des tâches assignées"
 #: tpl/team_activity_report.html
 msgid "Workload"
 msgstr "Charge"
-
-#: tpl/team_activity_report.html
-#: tpl/project_activity_report.html
-msgid "Target version"
-msgstr "Version ciblée"
 
 #: tpl/team_activity_report.html
 msgid "Timesheet notes"
