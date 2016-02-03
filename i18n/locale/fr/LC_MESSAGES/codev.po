@@ -19,7 +19,7 @@ msgstr ""
 
 #: tpl/doc.html
 msgid "Documentation is available at "
-msgstr "La Documentation est disponible sur le site "
+msgstr "La documentation est disponible sur le site "
 
 #: tpl/doc.html
 msgid "CodevTT Documentation Wiki"
@@ -289,7 +289,7 @@ msgstr "TachesAnnexes: Gestion de Projet"
 
 #: tpl/productivity_report.html
 msgid "Days spent on project management tasks"
-msgstr "nombre de jours passés en gestion de projets"
+msgstr "Nombre de jours passés en gestion de projets"
 
 #: tpl/productivity_report.html
 msgid "SideTasks: Others"
@@ -297,7 +297,7 @@ msgstr "Autres TachesAnnexes"
 
 #: tpl/productivity_report.html
 msgid "Days spent on sideTasks, except project management and inactivity tasks"
-msgstr "Nbre de jours passes sur les TachesAnnexes à l'exception de la gestion de projet et des absences"
+msgstr "Nbre de jours passés sur les TachesAnnexes à l'exception de la gestion de projet et des absences"
 
 #: tpl/productivity_report.html
 msgid "Production Days : total"
@@ -369,11 +369,11 @@ msgstr "Taux de fiabilité de la Charge_Initiale"
 
 #: tpl/productivity_report.html
 msgid "Workload Forecasting (holidays & externalTasks not included, developers only)"
-msgstr "prévision de capacité (hors congés & taches externes, développeurs seuls)"
+msgstr "Prévision de capacité (hors congés & taches externes, développeurs seuls)"
 
 #: tpl/productivity_report.html
 msgid "Development workload (developers only)"
-msgstr "temps consommé en développement (développeurs seuls)"
+msgstr "Temps consommé en développement (développeurs seuls)"
 
 #: tpl/productivity_report.html
 msgid "ProjProdDays"
@@ -385,7 +385,7 @@ msgstr "Jours de Production: Total"
 
 #: tpl/productivity_report.html
 msgid "Platform Availability"
-msgstr "disponibilité de la plateforme de dévelopement"
+msgstr "Disponibilité de la plateforme de dévelopement"
 
 #: tpl/productivity_report.html
 msgid "breakdownDays"
@@ -403,7 +403,7 @@ msgstr "Fiabilité de l'estimation de charge"
 #: tpl/productivity_report.html
 #: tpl/statistics.html
 msgid "Compares the effort estimation to the elapsed time."
-msgstr "Compare la Charge initiale au consommé"
+msgstr "Compare la charge initiale au consommé"
 
 #: tpl/productivity_report.html
 #: tpl/statistics.html
@@ -492,11 +492,11 @@ msgstr "Liste des tâches pour Charge_Init"
 
 #: tpl/productivity_report.html
 msgid "Note: Drift on tasks resolved in the period"
-msgstr "Note: Dérive sue les fiches résolues dans la période"
+msgstr "Note: Dérive sur les fiches résolues dans la période"
 
 #: tpl/productivity_report.html
 msgid "Drift - All tasks"
-msgstr "Dérive - toutes les taches"
+msgstr "Dérive - toutes les tâches"
 
 #: tpl/productivity_report.html
 #: tpl/command_info.html
@@ -530,7 +530,7 @@ msgstr "Les fiches réouvertes ne sont pas comptabilisées"
 #: tpl/productivity_report.html
 #: tpl/forecasting_report.html
 msgid "If < 0 then ahead on planning."
-msgstr "Si négatif, avance sur le planing."
+msgstr "Si négatif, avance sur le planning."
 
 #: tpl/productivity_report.html
 #: tpl/forecasting_report.html
@@ -565,7 +565,7 @@ msgstr "Tâches en avance"
 #: tpl/productivity_report.html
 #: tpl/forecasting_report.html
 msgid "Tasks resolved in less time than the estimated effort"
-msgstr "Tâches resolues en moins de temps que prévu dans le budget initial"
+msgstr "Tâches résolues en moins de temps que prévu dans le budget initial"
 
 #: tpl/productivity_report.html
 msgid "Effort deviation"
@@ -574,7 +574,7 @@ msgstr "Dérive"
 #: tpl/productivity_report.html
 #: tpl/forecasting_report.html
 msgid "Manager Estimation"
-msgstr "Charge Estimé par le manager"
+msgstr "Charge estimée par le manager"
 
 #: tpl/productivity_report.html
 #: tpl/forecasting_report.html
@@ -737,7 +737,7 @@ msgstr "Pas de dérive sur les tâches externes"
 
 #: tpl/productivity_report.html
 msgid "nb resolved"
-msgstr "nb Résolues"
+msgstr "nb résolues"
 
 #: tpl/productivity_report.html
 msgid "nb reopened"
@@ -757,7 +757,7 @@ msgstr "Fiches réouvertes dans la période"
 
 #: tpl/command_edit.html
 msgid "New command"
-msgstr "Nouvelle Commande"
+msgstr "Nouvelle commande"
 
 #: tpl/command_edit.html
 #: tpl/commandset_edit.html
@@ -830,14 +830,14 @@ msgstr "Description"
 #: tpl/servicecontract_edit.html
 #: reports/export_csv_tools.php:54
 msgid "Start date"
-msgstr "Date Debut"
+msgstr "Date début"
 
 #: tpl/command_edit.html
 #: tpl/command_info.html
 #: tpl/servicecontract_info.html
 #: tpl/servicecontract_edit.html
 msgid "End date"
-msgstr "Date Fin"
+msgstr "Date fin"
 
 #: tpl/command_edit.html
 #: tpl/issue_info.html
@@ -858,7 +858,7 @@ msgstr "Etat"
 #: tpl/command_edit.html
 #: tpl/command_info.html
 msgid "Sold Charge"
-msgstr "Charges Vendues"
+msgstr "Charges vendues"
 
 #: tpl/command_edit.html
 #: tpl/commandset_edit.html
@@ -903,7 +903,7 @@ msgstr "Champ non renseigné"
 
 #: tpl/command_edit.html
 msgid "Command name"
-msgstr "Nom de la Commande"
+msgstr "Nom de la commande"
 
 #: tpl/command_edit.html
 #: tpl/commandset_edit.html
@@ -912,11 +912,11 @@ msgstr "Non numérique"
 
 #: tpl/command_edit.html
 msgid "Delete Command"
-msgstr "Supprimer Commande"
+msgstr "Supprimer commande"
 
 #: tpl/command_edit.html
 msgid "Delete this Command ?"
-msgstr "effacer cette Commande ?"
+msgstr "Effacer cette commande ?"
 
 #: tpl/command_edit.html
 msgid "Nb tasks"
@@ -926,7 +926,7 @@ msgstr "Nb tâches"
 #: tpl/servicecontract_info.html
 #: tpl/servicecontract_edit.html
 msgid "CommandSets"
-msgstr "MacroCommandes"
+msgstr "Macro commandes"
 
 #: tpl/command_edit.html
 #: tpl/command_info.html
@@ -942,7 +942,7 @@ msgstr "Provisions"
 
 #: tpl/command_edit.html
 msgid "Parent CommandSets"
-msgstr "MacroCommandes parentes"
+msgstr "Macro Commandes parentes"
 
 #: tpl/command_edit.html
 msgid "task id"
@@ -1000,7 +1000,7 @@ msgstr "Enlever la Tâche"
 
 #: tpl/command_edit.html
 msgid "Remove Task from this Command ?"
-msgstr "Retirer la Tâche de cette Commande ?"
+msgstr "Retirer la tâche de cette commande ?"
 
 #: tpl/command_edit.html
 #: tpl/commandset_edit.html
@@ -1012,12 +1012,12 @@ msgstr "Id"
 
 #: tpl/command_edit.html
 msgid "Create the Command before assigning it to a CommandSet."
-msgstr "Créez la Commande avant de l'ajouter à une MacroCommande."
+msgstr "Créez la commande avant de l'ajouter à une Macro Commande."
 
 #: tpl/command_edit.html
 #: tpl/servicecontract_info.html
 msgid "No CommandSet found."
-msgstr "Pas de MacroCommande."
+msgstr "Pas de Macro Commande."
 
 #: tpl/command_edit.html
 #: tpl/command_info.html
@@ -1026,25 +1026,25 @@ msgstr "Pas de MacroCommande."
 #: tpl/servicecontract_info.html
 #: tpl/servicecontract_edit.html
 msgid "CommandSet"
-msgstr "MacroCommande"
+msgstr "Macro Commande"
 
 #: tpl/command_edit.html
 #: tpl/commandset_edit.html
 msgid "delete CommandSet-Command association"
-msgstr "supprimer l'association Commande-MacroCommande"
+msgstr "supprimer l'association Commande-Macro Commande"
 
 #: tpl/command_edit.html
 #: tpl/servicecontract_edit.html
 msgid "Remove CommandSet"
-msgstr "Supprimer MacroCommande"
+msgstr "Supprimer Macro Commande"
 
 #: tpl/command_edit.html
 msgid "Remove this Command from the CommandSet ?"
-msgstr "Retirer la Commande de cette MacroCommande ?"
+msgstr "Retirer la commande de cette Macro Commande ?"
 
 #: tpl/command_edit.html
 msgid "Create the Command first."
-msgstr "Créez la Commande avant d'y ajouter des tâches."
+msgstr "Créez la commande avant d'y ajouter des tâches."
 
 #: tpl/command_edit.html
 msgid "Provisions successfully updated."
@@ -1121,7 +1121,7 @@ msgstr "Ajouter au 'check budget'"
 
 #: tpl/command_edit.html
 msgid "delete Provision"
-msgstr "supprimer Provision"
+msgstr "Supprimer Provision"
 
 #: tpl/command_edit.html
 msgid "Add to 'check budget'"
@@ -1133,7 +1133,7 @@ msgstr "Supprimer Provision"
 
 #: tpl/command_edit.html
 msgid "Delete from the Command ?"
-msgstr "Effacer de la Commande ?"
+msgstr "Effacer de la commande ?"
 
 #: tpl/command_edit.html
 #: tpl/commandset_edit.html
@@ -1145,7 +1145,7 @@ msgstr "Vous devez être Manager pour accéder à cette page."
 
 #: tpl/commandset_edit.html
 msgid "New command set"
-msgstr "Nouvelle MacroCommande"
+msgstr "Nouvelle Macro Commande"
 
 #: tpl/commandset_edit.html
 msgid "Cost"
@@ -1161,23 +1161,23 @@ msgstr "Montant"
 #: tpl/edit_holidays.html
 #: tpl/servicecontract_edit.html
 msgid "Some fields are missing:"
-msgstr "Les champs suivants ont ete oubliés :"
+msgstr "Les champs suivants ont été oubliés :"
 
 #: tpl/commandset_edit.html
 msgid "Command set name"
-msgstr "Nom de la MacroCommande"
+msgstr "Nom de la Macro Commande"
 
 #: tpl/commandset_edit.html
 msgid "Delete CommandSet"
-msgstr "Suppression MacroCommande"
+msgstr "Suppression Macro Commande"
 
 #: tpl/commandset_edit.html
 msgid "Delete this CommandSet ?"
-msgstr "Supprimer cette MacroCommande ?"
+msgstr "Supprimer cette Macro Commande ?"
 
 #: tpl/commandset_edit.html
 msgid "Nb Commands"
-msgstr "Nb Commandes"
+msgstr "Nb commandes"
 
 #: tpl/commandset_edit.html
 msgid "Service Contracts"
@@ -1191,15 +1191,15 @@ msgstr "Commandes"
 
 #: tpl/commandset_edit.html
 msgid "--- New Command ---"
-msgstr "--- Nouvelle Commande ---"
+msgstr "--- Nouvelle commande ---"
 
 #: tpl/commandset_edit.html
 msgid "Remove Command"
-msgstr "Supprimer Commande"
+msgstr "Supprimer commande"
 
 #: tpl/commandset_edit.html
 msgid "Remove Command from this CommandSet ?"
-msgstr "Retirer la Commande de cette MacroCommande ?"
+msgstr "Retirer la commande de cette Macro Commande ?"
 
 #: tpl/commandset_edit.html
 #: tpl/commandset_info.html
@@ -1218,7 +1218,7 @@ msgstr "Commande"
 
 #: tpl/commandset_edit.html
 msgid "Create the CommandSet to add some commands."
-msgstr "Créez la MacroCommande avant d'y ajouter des Commandes."
+msgstr "Créez la Macro Commande avant d'y ajouter des commandes."
 
 #: tpl/plugin_manager.html
 msgid "Check for new plugins in 'plugins' directory."
@@ -1272,7 +1272,7 @@ msgstr "Aucune donnée."
 
 #: tpl/workflow.html
 msgid "Are you sure you want to change"
-msgstr "Etes vous sur de vouloir changer la configuration de"
+msgstr "Etes-vous sûr de vouloir changer la configuration de"
 
 #: tpl/workflow.html
 msgid "settings ?"
@@ -1356,7 +1356,7 @@ msgstr "Filtrer les commandes"
 
 #: tpl/command_info.html
 msgid "--- Create New Command ---"
-msgstr "-- Créer une Nouvelle Commande ---"
+msgstr "-- Créer une Nouvelle commande ---"
 
 #: tpl/command_info.html
 #: tpl/issue_info.html
@@ -1862,7 +1862,7 @@ msgstr "effacer cette Astreinte"
 
 #: tpl/edit_team.html
 msgid "Timetrack durations list"
-msgstr "Liste des durées pour les imputation"
+msgstr "Liste des durées pour les imputations"
 
 #: tpl/edit_team.html
 msgid "These are the values proposed in the Timetracking page, when adding a timetrack."
@@ -2017,15 +2017,15 @@ msgstr "Recharger"
 
 #: tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
-msgstr "La racine du WBS ne peut être renomé"
+msgstr "La racine du WBS ne peut être renommée"
 
 #: tpl/tools/wbsEditor.html
 msgid "Root element cannot be deleted."
-msgstr "La racine du WBS ne peut être supprimé"
+msgstr "La racine du WBS ne peut être supprimée"
 
 #: tpl/tools/wbsEditor.html
 msgid "Delete Failed: Folder must be empty."
-msgstr "Suppression impossible: le Dossier doit être vide."
+msgstr "Suppression impossible: le dossier doit être vide."
 
 #: tpl/tools/wbsEditor.html
 msgid "New Folder"
@@ -2033,7 +2033,7 @@ msgstr "Nouveau dossier"
 
 #: tpl/tools/wbsEditor.html
 msgid "Rename"
-msgstr "Renomer"
+msgstr "Renommer"
 
 #: tpl/tools/wbsEditor.html
 msgid "Add subfolder"
@@ -2086,7 +2086,7 @@ msgstr "somme(RAF) des tâches assignées"
 
 #: tpl/team_activity_report.html
 msgid "Workload"
-msgstr "charge"
+msgstr "Charge"
 
 #: tpl/team_activity_report.html
 #: tpl/project_activity_report.html
@@ -2622,7 +2622,7 @@ msgstr "Contrat de Service"
 
 #: tpl/commandset_info.html
 msgid "Cmds Budget"
-msgstr "Budjet Commandes"
+msgstr "Budget commandes"
 
 #: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
@@ -2632,7 +2632,7 @@ msgstr "Charges Détaillées"
 #: tpl/commandset_info.html
 #: tpl/servicecontract_info.html
 msgid "No Command found."
-msgstr "Pas de Commande."
+msgstr "Pas de commande."
 
 #: tpl/servicecontract_info.html
 msgid "--- Create New ServiceContract ---"
@@ -2657,7 +2657,7 @@ msgstr "Pas de Totaux disponibles."
 
 #: tpl/servicecontract_info.html
 msgid "Note: SideTasks already defined in Commands are not displayed."
-msgstr "Note : Les tâches annexes définies dans les Commandes ne sont pas affichées."
+msgstr "Note : Les tâches annexes définies dans les commandes ne sont pas affichées."
 
 #: tpl/servicecontract_info.html
 msgid "No provision found."
@@ -2690,7 +2690,7 @@ msgstr "Ouvertes"
 
 #: tpl/statistics.html
 msgid "Nb of submitted tasks EXCEPT SideTasks"
-msgstr "Nbre de fiches Créées SAUF TachesAnnexes"
+msgstr "Nbre de fiches créées SAUF TachesAnnexes"
 
 #: tpl/statistics.html
 msgid "Resolved"
@@ -2706,15 +2706,15 @@ msgstr "afficher les valeurs"
 
 #: tpl/statistics.html
 msgid "Nb submissions"
-msgstr "Nb Ouvertes"
+msgstr "Nb ouvertes"
 
 #: tpl/statistics.html
 msgid "Nb Resolved"
-msgstr "Nb Résolues"
+msgstr "Nb résolues"
 
 #: tpl/statistics.html
 msgid "Submitted / Resolved Issues (ExtRefOnly)"
-msgstr "Tâches ouvertes / Résolues (ExtRefOnly)"
+msgstr "Tâches ouvertes / résolues (ExtRefOnly)"
 
 #: tpl/statistics.html
 msgid "% Tasks"
@@ -2841,19 +2841,19 @@ msgstr "Filtres"
 
 #: tpl/time_tracking.html
 msgid "Reduce the tasks selection by setting some filters"
-msgstr "Réduisez la liste des taches en ajoutant des filtres"
+msgstr "Réduisez la liste des tâches en ajoutant des filtres"
 
 #: tpl/time_tracking.html
 msgid "Hide tasks not assigned to me"
-msgstr "Cacher les taches qui ne me sont pas assignées"
+msgstr "Cacher les tâches qui ne me sont pas assignées"
 
 #: tpl/time_tracking.html
 msgid "Hide resolved tasks"
-msgstr "Cacher les taches résolues"
+msgstr "Cacher les tâches résolues"
 
 #: tpl/time_tracking.html
 msgid "Hide closed tasks"
-msgstr "Cacher les taches fermées"
+msgstr "Cacher les tâches fermées"
 
 #: tpl/time_tracking.html
 msgid "Week Imputations"
@@ -2865,7 +2865,7 @@ msgstr "Réf.Ext"
 
 #: tpl/time_tracking.html
 msgid "Future Imputations"
-msgstr "Imputations Futures"
+msgstr "Imputations futures"
 
 #: tpl/time_tracking.html
 msgid "Delete track"
@@ -3006,7 +3006,7 @@ msgstr "effacer cette date"
 
 #: tpl/form/dateRangeSelector.html
 msgid "Start Date"
-msgstr "Date Début"
+msgstr "Date début"
 
 #: tpl/form/dateRangeSelector.html
 msgid "End Date (included)"
@@ -3014,7 +3014,7 @@ msgstr "Date de fin (inclue)"
 
 #: tpl/form/selectFiltersDialogbox.html
 msgid "Drag & drop the filters to apply"
-msgstr "Glissez et deposez les filtres"
+msgstr "Glissez et déposez les filtres"
 
 #: tpl/form/selectFiltersDialogbox.html
 msgid "Available Filters"
@@ -3030,7 +3030,7 @@ msgstr "Voulez-vous désinstaller CodevTT de votre serveur Mantis ?"
 
 #: tpl/uninstall.html
 msgid "This step will clean Mantis DB."
-msgstr "Cette étape nétoiera la BDD Mantis"
+msgstr "Cette étape nettoiera la BDD Mantis"
 
 #: tpl/uninstall.html
 msgid "Backup data"
@@ -3170,7 +3170,7 @@ msgstr "Tâches par Projet"
 
 #: tpl/project_activity_report.html
 msgid "Total time spent on this issue"
-msgstr "Temps total passé sur cette Tâche"
+msgstr "Temps total passé sur cette tâche"
 
 #: tpl/project_activity_report.html
 msgid "No data available"
@@ -3238,12 +3238,12 @@ msgstr "Impossible d'activer/désactiver l'équipe"
 
 #: admin/edit_team.php:203 admin/edit_team_OVH.php:172
 msgid "Couldn't delete the member of the team"
-msgstr "Le retrait de l'utilisateur à échouée"
+msgstr "Le retrait de l'utilisateur à échoué"
 
 #: admin/edit_team.php:217 admin/edit_team.php:220 admin/edit_team_OVH.php:186
 #: admin/edit_team_OVH.php:189
 msgid "Couldn't add the project to the team"
-msgstr "L'ajout du projet a échouée"
+msgstr "L'ajout du projet a échoué"
 
 #: admin/edit_team.php:226 admin/edit_team_OVH.php:195
 msgid "Could NOT remove the project from the team"
@@ -3267,7 +3267,7 @@ msgstr "Infobulles pour le projet"
 
 #: admin/edit_team_ajax.php:69
 msgid "Drag & drop the items to be displayed in the Issue tooltip"
-msgstr "Glissez et deposez les champs à afficher dans l'infobulle"
+msgstr "Glissez et déposez les champs à afficher dans l'infobulle"
 
 #: admin/edit_team_ajax.php:70
 msgid "Available fields"
@@ -3475,19 +3475,19 @@ msgstr "La Charge Initiale doit être renseigné."
 
 #: classes/consistency_check2.class.php:202
 msgid "There should be no timetracks on \"new\" issues "
-msgstr "Il ne doit pas y avoir d'imputations sur des tâche dont le status est 'déclaré'"
+msgstr "Il ne doit pas y avoir d'imputations sur des tâches dont le status est 'déclaré'"
 
 #: classes/consistency_check2.class.php:203
 msgid "Issues should be referenced in a Command"
-msgstr "Les Tâches doivent être déclarés dans une Commande."
+msgstr "Les tâches doivent être déclarés dans une commande."
 
 #: classes/consistency_check2.class.php:204
 msgid "Commands should be referenced in a CommandSet"
-msgstr "Les Commandes doivent être déclarés dans une  MacroCommande."
+msgstr "Les commandes doivent être déclarées dans une Macro Commande."
 
 #: classes/consistency_check2.class.php:205
 msgid "CommandSets should be referenced in a ServiceContract"
-msgstr "Les MacroCommandes doivent être déclarés dans un Contrat de Service."
+msgstr "Les Macro Commandes doivent être déclarés dans un Contrat de Service."
 
 #: classes/consistency_check2.class.php:206
 msgid "Issues should be assigned to someone"
@@ -3495,7 +3495,7 @@ msgstr "Les tâches doivent être assignées"
 
 #: classes/consistency_check2.class.php:207
 msgid "Check timetracks on removed issues (not needed if mantis plugin is enabled)"
-msgstr "Notifier les imputation sur des fiches mantis inexistantes (pas nécessaire si plugin mantis activé)"
+msgstr "Notifier les imputations sur des fiches mantis inexistantes (pas nécessaire si plugin mantis activé)"
 
 #: classes/consistency_check2.class.php:312
 #: classes/consistency_check.class.php:208
@@ -3504,7 +3504,7 @@ msgstr "Le RAF devrait être = 0  (et non "
 
 #: classes/consistency_check2.class.php:334
 msgid "Backlog must be defined !"
-msgstr "Le RAF doit etre défini !"
+msgstr "Le RAF doit être défini !"
 
 #: classes/consistency_check2.class.php:336
 #: classes/consistency_check.class.php:255
@@ -3518,7 +3518,7 @@ msgstr "Charge_Mgr non renseigné."
 
 #: classes/consistency_check2.class.php:414
 msgid "EffortEstim not set."
-msgstr "Charge non renseigné."
+msgstr "Charge non renseignée."
 
 #: classes/consistency_check2.class.php:440
 #: classes/consistency_check.class.php:365
@@ -3535,7 +3535,7 @@ msgstr "La tâche n'est référencée dans aucune commande."
 
 #: classes/consistency_check2.class.php:594
 msgid "is not referenced in any CommandSet"
-msgstr "n'est référencée dans aucune MacroCommande."
+msgstr "n'est référencée dans aucune Macro Commande."
 
 #: classes/consistency_check2.class.php:622
 msgid "is not referenced in any ServiceContract"
@@ -3689,7 +3689,7 @@ msgstr "d-m-Y"
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:410
 #: reports/project_info.php:328
 msgid "New Tasks"
-msgstr "Nouvelles Tâches"
+msgstr "Nouvelles tâches"
 
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:411
 #: reports/project_info.php:329
@@ -3925,7 +3925,7 @@ msgstr "Supprimer les fichiers d'installation"
 
 #: install/install_step4.php:68
 msgid "For security reasons, delete the following directory: "
-msgstr "Pour aison de sécurité, supprimez le dossier: "
+msgstr "Pour raison de sécurité, supprimez le dossier: "
 
 #. echo '<br>';
 #: install/install_step4.php:73
@@ -4030,15 +4030,15 @@ msgstr "Ajouter la sélection"
 
 #: management/command_edit.php:224
 msgid "Note: Tasks already assigned to a Command are not displayed."
-msgstr "Note : Les tâches annexes définies dans les Commandes ne sont pas affichées."
+msgstr "Note : Les tâches annexes définies dans les commandes ne sont pas affichées."
 
 #: management/command_edit.php:225
 msgid "Add the selected issues to the Command ?"
-msgstr "Ajouter les Tâches sélectionnées à la commande ?"
+msgstr "Ajouter les tâches sélectionnées à la commande ?"
 
 #: management/commandset_info.php:96
 msgid "Errors affecting the CommandSet"
-msgstr "Erreurs impactant la MacroCommande"
+msgstr "Erreurs impactant la Macro Commande"
 
 #: management/command_edit_ajax.php:51
 msgid "Provisions updated FAILED !"
@@ -4275,7 +4275,7 @@ msgstr "Taux de fiabilité de l'estimation de charge"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:68
 msgid "Display the EffortEstim reliability rate history"
-msgstr "Taux de fiabilité de la Charge estimée (ChargeMgr, ChargeInit)"
+msgstr "Taux de fiabilité de la charge estimée (ChargeMgr, ChargeInit)"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:69
 msgid "rate = EffortEstim / elapsed (on resolved tasks only)"
