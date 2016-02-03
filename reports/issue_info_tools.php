@@ -50,6 +50,7 @@ class IssueInfoTools {
          'statusName'=> $issue->getCurrentStatusName(),
          'priorityName'=> $issue->getPriorityName(),
          'severityName'=> $issue->getSeverityName(),
+         'targetVersion'=> $issue->getTargetVersion(),
          'handlerName'=> UserCache::getInstance()->getUser($issue->getHandlerId())->getName(),
 
          "issueEffortTitle" => $issue->getEffortEstim().' + '.$issue->getEffortAdd(),
