@@ -1,5 +1,7 @@
 <div id="content" style="margin-left:10em;margin-right:10em">
-   
+   {if isset($error)}
+   <span style="color:red">{t}ERROR{/t} : {$error}</span>
+   {else}
    <div class="center">
       <script type="text/javascript">
          jQuery(document).ready(function(){
@@ -16,7 +18,8 @@
             <input id="computeButton" type="button" value="{t}Compute{/t}" />
          </fieldset>
       </form>
+   {include file="tools/dashboard.html"}
+   {/if}
    </div>
    
-{include file="tools/dashboard.html"}
 </div>

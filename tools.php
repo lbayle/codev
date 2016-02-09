@@ -552,20 +552,22 @@ class Tools {
     * @return bool
     */
    public static function execSQLscript($sqlFile) {
-      echo "DEBUG 2/3 execSQLscript $sqlFile<br>";
+      #echo "DEBUG execSQLscript $sqlFile<br>";
       $request = "SELECT LOAD_FILE('".$sqlFile."')";
 
       $result = SqlWrapper::getInstance()->sql_query($request);
 
       if (!$result) {
          $error = "ERROR : ".$request." : ".SqlWrapper::getInstance()->sql_error();
-         echo "<span class='error_font'>$error</span><br />";
+         echo "<span class='error_font'>$error</span><br>";
          exit;
       }
 
       if (is_null(SqlWrapper::getInstance()->sql_result($result, 0))) {
-         $error = 'ERROR : could not LOAD_FILE ('.$sqlFile.') : NULL returned.';
-         echo "<span class='error_font'>$error</span><br />";
+         $error = 'ERROR : could not LOAD_FILE ('.$sqlFile.')';
+         echo "<span class='error_font'>$error</span><br>";
+         $error = 'RETRY with SQL query...';
+         echo "<span class='info_font'>$error</span><br>";
 
          // SELECT LOAD_FILE doesn't work on all OS !
          $request = "";
@@ -609,7 +611,8 @@ class Tools {
       //   echo "FAILED (err $retCode) could not exec mysql commands from file: $sqlFile</br>";
       //}
       if(0 != $retCode) {
-         if(self::execSQLscript(dirname(__FILE__).DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR.$sqlFile)) {
+         //if(self::execSQLscript(dirname(__FILE__).DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR.$sqlFile)) {
+         if(self::execSQLscript($sqlFile)) {
             return 0;
          } else {
             return -1;

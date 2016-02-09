@@ -24,6 +24,7 @@ class Constants {
    public static $codevtt_logfile;
 
    public static $homepage_title;
+   public static $logoImageDefault   = "images/codevtt_logo_03_mini.png";
    public static $logoImage   = "images/codevtt_logo_03_mini.png";
    public static $doodles   = array(
       'logo_image_0207_0214' => 'images/codevtt_logo_03_stvalentin.png',
@@ -266,10 +267,11 @@ class Constants {
 
 
       $general = array();
-      $general['codevInstall_timestamp'] =  $today = Tools::date2timestamp(date("Y-m-d")); #self::$codevInstall_timestamp;
+      $install_timestamp = (NULL == self::$codevInstall_timestamp) ? Tools::date2timestamp(date("Y-m-d")) : self::$codevInstall_timestamp;
+      $general['codevInstall_timestamp'] =  $install_timestamp;
       $general['codevtt_logfile']        = self::$codevtt_logfile;
       $general['homepage_title']         = self::$homepage_title;
-      $general['logo_image']             = self::$logoImage;
+      $general['logo_image']             = self::$logoImageDefault;
       $general['codevtt_output_dir']     = self::$codevOutputDir;
       $general['codevtt_dir']            = self::$codevRootDir;
       $general['mantis_dir']             = self::$mantisPath;

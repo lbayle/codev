@@ -21,13 +21,29 @@ include_once('../include/session.inc.php');
 
 require('../path.inc.php');
 
-
-
+echo '<style type="text/css">
+.help_font {
+  font-style: italic;
+  color: gray;
+}
+.error_font {
+  font-style: italic;
+  color: red;
+}
+.warn_font {
+  font-style: italic;
+  color: orange;
+}
+.success_font {
+  font-style: italic;
+  color: blue;
+}
+</style>';
 
 function execQuery($query) {
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      echo "<span style='color:red'>ERROR: Query FAILED $query<br/>" . mysql_error() . "</span>";
+      echo "<span style='color:red'>ERROR: Query FAILED $query<br/>" . SqlWrapper::getInstance()->sql_error() . "</span>";
       exit;
    }
    return $result;
@@ -113,7 +129,7 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
  */
 function update_v9_to_v10() {
 
-   $sqlScriptFilename = '../install/codevtt_update_v9_v10.sql';
+   $sqlScriptFilename = Constants::$codevRootDir.'/install/codevtt_update_v9_v10.sql';
    if (!file_exists($sqlScriptFilename)) {
       echo "ERROR: SQL script not found:$sqlScriptFilename<br>";
       exit;
@@ -181,7 +197,7 @@ function update_v10_to_v11() {
  */
 function update_v11_to_v12() {
 
-   $sqlScriptFilename = '../install/codevtt_update_v11_v12.sql';
+   $sqlScriptFilename = Constants::$codevRootDir.'/install/codevtt_update_v11_v12.sql';
    if (!file_exists($sqlScriptFilename)) {
       echo "ERROR: SQL script not found:$sqlScriptFilename<br>";
       exit;
@@ -224,10 +240,6 @@ function update_v11_to_v12() {
 
    #echo "<br>SUCCESS: Update 0.99.21 to 0.99.22 (DB v11 to DB v12)<br>";
    return TRUE;
-
-
-
-
 }
 
 /**
@@ -237,7 +249,7 @@ function update_v11_to_v12() {
  */
 function update_v12_to_v13() {
 
-   $sqlScriptFilename = '../install/codevtt_update_v12_v13.sql';
+   $sqlScriptFilename = Constants::$codevRootDir.'/install/codevtt_update_v12_v13.sql';
    if (!file_exists($sqlScriptFilename)) {
       echo "ERROR: SQL script not found:$sqlScriptFilename<br>";
       exit;
@@ -297,7 +309,7 @@ function update_v12_to_v13() {
 function update_v13_to_v14() {
 
 
-   $sqlScriptFilename = '../install/codevtt_update_v13_v14.sql';
+   $sqlScriptFilename = Constants::$codevRootDir.'/install/codevtt_update_v13_v14.sql';
    if (!file_exists($sqlScriptFilename)) {
       echo "<span class='error_font'>SQL script not found:$sqlScriptFilename</span><br/>";
       exit;
@@ -314,6 +326,11 @@ function update_v13_to_v14() {
 /**
  * update 1.0.x to 1.1.0 (DB v14 to DB v15)
  *
+ * - clasmap.ser
+ * - config.ini
+ * - remove from mantis menu
+ * - mantis-plugins if mantis v1.3
+ * - DB
  */
 function update_v14_to_v15() {
 
@@ -325,20 +342,181 @@ function update_v14_to_v15() {
       exit;
    }
 
-   $sqlScriptFilename = '../install/codevtt_update_v14_v15.sql';
+   echo "- Add [mantis] 'status_enum_workflow' to config.ini<br>";
+   // reload mantis config files
+   $path_config_defaults_inc = Constants::$mantisPath.DIRECTORY_SEPARATOR."config_defaults_inc.php";
+   $path_core_constant_inc = Constants::$mantisPath.DIRECTORY_SEPARATOR."core".DIRECTORY_SEPARATOR."constant_inc.php";
+
+   $path_mantis_config = Constants::$mantisPath;
+   if (is_dir(Constants::$mantisPath.DIRECTORY_SEPARATOR.'config')) {
+      $path_mantis_config .= DIRECTORY_SEPARATOR.'config'; // mantis v1.3 or higher
+   }
+   $path_mantis_config_inc=$path_mantis_config.DIRECTORY_SEPARATOR.'config_inc.php';
+   $path_custom_constants = $path_mantis_config.DIRECTORY_SEPARATOR.'custom_constants_inc.php';
+
+   global $g_status_enum_workflow;
+   include_once($path_core_constant_inc);
+   include_once($path_custom_constants);
+   include_once($path_config_defaults_inc);
+   include_once($path_mantis_config_inc);
+
+   // set status_enum_workflow
+   Constants::$status_enum_workflow = $g_status_enum_workflow;
+   if (!is_array(Constants::$status_enum_workflow)) {
+      echo "<span class='error_font'>Could not retrieve status_enum_workflow from Mantis config files</span><br/>";
+      exit;
+   }
+
+   // write new config file
+   if (!update_config_file()) {
+      // ask for manual update
+      echo "<span class='error_font'>Could not update config.ini</span><br/>";
+      exit;
+   }
+
+   // if Mantis 1.3, plugins must be updated
+   if (Tools::isMantisV1_3()) {
+         echo "- Remove 'CodevTT' from Mantis main menu (CodevTT v1.0.x is incompatible with Mantis v1.3.x)<br>";
+         $query = "DELETE FROM `mantis_config_table` WHERE config_id = 'main_menu_custom_options'";
+         $result = execQuery($query);
+
+         echo "- Install Mantis plugin: CodevTT (for mantis v1.3.x)<br>";
+      if (checkMantisPluginDir()) {
+         $errStr = installMantisPlugin('CodevTT', true);
+         if (NULL !== $errStr) {
+            echo "<span class='error_font'>Please update 'CodevTT' mantis-plugin manualy</span><br/>";
+            echo "<script type=\"text/javascript\">console.error(\"$errStr\");</script>";
+         }
+         echo "- Install Mantis plugin: FilterBugList (for mantis v1.3.x)<br>";
+         $errStr = installMantisPlugin('FilterBugList', true);
+         if (NULL !== $errStr) {
+            echo "<span class='error_font'>Please update 'FilterBugList' mantis-plugin manualy</span><br/>";
+            echo "<script type=\"text/javascript\">console.error(\"$errStr\");</script>";
+         }
+      }
+   }
+
+   // execute the SQL script
+   $sqlScriptFilename = Constants::$codevRootDir.'/install/codevtt_update_v14_v15.sql';
    if (!file_exists($sqlScriptFilename)) {
       echo "<span class='error_font'>SQL script not found:$sqlScriptFilename</span><br/>";
       exit;
    }
-   // execute the SQL script
    echo "- Execute SQL script: $sqlScriptFilename<br>";
    $retCode = Tools::execSQLscript2($sqlScriptFilename);
    if (0 != $retCode) {
       echo "<span class='error_font'>Could not execSQLscript: $sqlScriptFilename</span><br/>";
       exit;
    }
+
 }
 
+/**
+ * Some new variables may have been added, this rewrites the config.ini
+ * file with new default values.
+ *
+ */
+function update_config_file() {
+
+   // check if config.ini is writable
+   if (!is_writable(Constants::$config_file)) {
+      echo "<span class='warn_font'>File not writable : ".Constants::$config_file.'</span><br/>';
+      return false;
+   }
+
+   // backup config.ini to config.ini.old_YYYYMMDDHHmmss
+   if (is_writable(Constants::$codevRootDir)) {
+      if (FALSE == copy (Constants::$config_file,
+                         Constants::$config_file.'.old_'.date('YmdHis'))) {
+         echo "<span class='warn_font'>Could not backup config.ini file</span><br/>";
+      }
+   } else {
+      echo "<span class='warn_font'>Could not backup config.ini file (directory not writable)</span><br/>";
+   }
+
+   // write new config.ini file
+   return Constants::writeConfigFile();
+}
+
+
+function checkMantisPluginDir() {
+   $mantisPluginDir = Constants::$mantisPath . DIRECTORY_SEPARATOR . 'plugins';
+
+   if (!is_writable($mantisPluginDir)) {
+      echo '<br>';
+      echo "<span class='warn_font'>WARN: <b>'" . $mantisPluginDir . "'</b> directory is <b>NOT writable</b>: Please give write access to user '<b>".exec('whoami')."</b>' if you want the Mantis plugin to be installed.</span><br>";
+      echo '<br>';
+      return false;
+   }
+   return true;
+}
+
+/**
+ * copy plugin in mantis plugins directory
+ * info: same functyion exists in install_step3.php
+ * @return NULL or error string
+ */
+function installMantisPlugin($pluginName, $isReplace=true) {
+   try {
+
+      $mantisPluginDir = Constants::$mantisPath . DIRECTORY_SEPARATOR . 'plugins';
+
+   // --- check mantis version (config files have been moved in v1.3)
+   if (is_dir(Constants::$mantisPath.DIRECTORY_SEPARATOR.'config')) {
+      // mantis v1.3 or higher
+      $srcDir = Constants::$codevRootDir . DIRECTORY_SEPARATOR . 'mantis_plugin' . DIRECTORY_SEPARATOR . 'mantis_1_3' . DIRECTORY_SEPARATOR . $pluginName;
+   } else {
+      // mantis 1.2
+      $srcDir = Constants::$codevRootDir . DIRECTORY_SEPARATOR . 'mantis_plugin' . DIRECTORY_SEPARATOR . 'mantis_1_2' . DIRECTORY_SEPARATOR . $pluginName;
+   }
+
+      $destDir = $mantisPluginDir . DIRECTORY_SEPARATOR . $pluginName;
+
+      if (!is_writable($mantisPluginDir)) {
+         return "ERROR Path to mantis plugins directory '" . $mantisPluginDir . "' is NOT writable: $pluginName plugin must be installed manualy.";
+      }
+      if (!is_dir($srcDir)) {
+         return "ERROR mantis plugin directory '" . $srcDir . "' NOT found !";
+      }
+
+      // do not replace if already installed
+      if (!$isReplace && is_dir($destDir)) {
+         echo "<script type=\"text/javascript\">console.info(\"INFO Mantis $pluginName plugin is already installed\");</script>";
+         return NULL;
+      }
+
+      // remove previous installed plugin
+      if (is_writable($destDir)) {
+         Tools::deleteDir($destDir);
+      }
+
+      // copy plugin
+      if (is_dir($srcDir)) {
+         $result = Tools::recurse_copy($srcDir, $destDir);
+      } else {
+         return "ERROR: plugin directory '" . $srcDir . "' NOT found: $pluginName plugin must be installed manualy";
+      }
+
+      if (!$result) {
+         return "ERROR: mantis plugin installation failed: $pluginName plugin must be installed manualy";
+      }
+
+      // activate plugin
+      $query = "INSERT INTO mantis_plugin_table (basename, enabled, protected, priority)".
+              " SELECT * FROM (SELECT '$pluginName', '1', '0', '3') AS tmp".
+              " WHERE NOT EXISTS (".
+              " SELECT basename FROM mantis_plugin_table WHERE basename = '$pluginName') LIMIT 1;";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         return "WARNING: mantis $pluginName plugin must be activated manualy";
+      }
+
+   } catch (Exception $e) {
+      echo "<script type=\"text/javascript\">console.error(\"ERROR mantis plugin installation failed: " . $e->getMessage()."\");</script>";
+      return "ERROR: mantis $pluginName plugin installation failed: " . $e->getMessage();
+   }
+   return NULL;
+}
 
 // =========== MAIN ==========
 $logger = Logger::getLogger("versionUpdater");
@@ -382,4 +560,4 @@ if ($currentDatabaseVersion < Config::databaseVersion) {
 
 }
 
-?>
+

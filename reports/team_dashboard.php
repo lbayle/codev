@@ -32,60 +32,64 @@ class TeamDashboardController extends Controller {
 	protected function display() {
 		if (Tools::isConnectedUser()) {
 
-         $team = TeamCache::getInstance()->getTeam($this->teamid);
-         
-         $action = filter_input(INPUT_GET, 'action');
-         if ('setDateRange' === $action) {
-            $startdate = filter_input(INPUT_GET, 'startdate');
-            $startTimestamp = Tools::date2timestamp($startdate);
-            
-            $enddate = filter_input(INPUT_GET, 'enddate');
-            $endTimestamp = Tools::date2timestamp($enddate);
-            $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
+         if (0 != $this->teamid) {
+            $team = TeamCache::getInstance()->getTeam($this->teamid);
+
+            $action = filter_input(INPUT_GET, 'action');
+            if ('setDateRange' === $action) {
+               $startdate = filter_input(INPUT_GET, 'startdate');
+               $startTimestamp = Tools::date2timestamp($startdate);
+
+               $enddate = filter_input(INPUT_GET, 'enddate');
+               $endTimestamp = Tools::date2timestamp($enddate);
+               $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
+            } else {
+               //$startTimestamp = $team->getDate(); // creationDate
+               //$endTimestamp = time();
+               $startTimestamp = strtotime("first day of this month");
+               $endTimestamp = strtotime("last day of this month");
+            }
+            $this->smartyHelper->assign('startDate', date("Y-m-d", $startTimestamp));
+            $this->smartyHelper->assign('endDate', date("Y-m-d", $endTimestamp));
+
+            // create issueSelection with issues from team projects
+            $teamIssues = $team->getTeamIssueList(true, true); // with disabledProjects ?
+            $teamIssueSelection = new IssueSelection('Team'.$this->teamid.'ISel');
+            $teamIssueSelection->addIssueList($teamIssues);
+
+            // feed the PluginDataProvider
+            $pluginDataProvider = PluginDataProvider::getInstance();
+            $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $teamIssueSelection);
+            $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $this->teamid);
+            $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
+            $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
+            $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $this->session_userid);
+
+            $dashboardName = 'Team'.$this->teamid;
+
+            // save the DataProvider for Ajax calls
+            $_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardName] = serialize($pluginDataProvider);
+
+            // create the Dashboard
+            $dashboard = new Dashboard($dashboardName);
+            $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_TEAM);
+            $dashboard->setCategories(array(
+                IndicatorPluginInterface::CATEGORY_QUALITY,
+                IndicatorPluginInterface::CATEGORY_ACTIVITY,
+                IndicatorPluginInterface::CATEGORY_ROADMAP,
+                IndicatorPluginInterface::CATEGORY_PLANNING,
+                IndicatorPluginInterface::CATEGORY_RISK,
+                IndicatorPluginInterface::CATEGORY_TEAM,
+               ));
+            $dashboard->setTeamid($this->teamid);
+            $dashboard->setUserid($this->session_userid);
+
+            $data = $dashboard->getSmartyVariables($this->smartyHelper);
+            foreach ($data as $smartyKey => $smartyVariable) {
+               $this->smartyHelper->assign($smartyKey, $smartyVariable);
+            }
          } else {
-            //$startTimestamp = $team->getDate(); // creationDate
-            //$endTimestamp = time();
-            $startTimestamp = strtotime("first day of this month");
-            $endTimestamp = strtotime("last day of this month");
-         }
-         $this->smartyHelper->assign('startDate', date("Y-m-d", $startTimestamp));
-         $this->smartyHelper->assign('endDate', date("Y-m-d", $endTimestamp));
-
-         // create issueSelection with issues from team projects
-         $teamIssues = $team->getTeamIssueList(true, true); // with disabledProjects ?
-         $teamIssueSelection = new IssueSelection('Team'.$this->teamid.'ISel');         
-         $teamIssueSelection->addIssueList($teamIssues);
-         
-         // feed the PluginDataProvider
-         $pluginDataProvider = PluginDataProvider::getInstance();
-         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $teamIssueSelection);
-         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $this->teamid);
-         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
-         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
-         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $this->session_userid);
-
-         $dashboardName = 'Team'.$this->teamid;
-
-         // save the DataProvider for Ajax calls
-         $_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardName] = serialize($pluginDataProvider);
-
-         // create the Dashboard
-         $dashboard = new Dashboard($dashboardName);
-         $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_TEAM);
-         $dashboard->setCategories(array(
-             IndicatorPluginInterface::CATEGORY_QUALITY,
-             IndicatorPluginInterface::CATEGORY_ACTIVITY,
-             IndicatorPluginInterface::CATEGORY_ROADMAP,
-             IndicatorPluginInterface::CATEGORY_PLANNING,
-             IndicatorPluginInterface::CATEGORY_RISK,
-             IndicatorPluginInterface::CATEGORY_TEAM,
-            ));
-         $dashboard->setTeamid($this->teamid);
-         $dashboard->setUserid($this->session_userid);
-
-         $data = $dashboard->getSmartyVariables($this->smartyHelper);
-         foreach ($data as $smartyKey => $smartyVariable) {
-            $this->smartyHelper->assign($smartyKey, $smartyVariable);
+            $this->smartyHelper->assign('error',T_('Please select a team to access this page.'));
          }
 		} else {
 			$this->smartyHelper->assign('error',T_('Sorry, you need to be identified.'));

@@ -296,7 +296,7 @@ if ("proceedStep2" == $action) {
    $priority_enum_string = isset($g_priority_enum_string) ? $g_priority_enum_string : $s_priority_enum_string;
    $severity_enum_string = isset($g_severity_enum_string) ? $g_severity_enum_string : $s_severity_enum_string;
    $resolution_enum_string = isset($g_resolution_enum_string) ? $g_resolution_enum_string : $s_resolution_enum_string;
-   $status_enum_workflow = isset($g_status_enum_workflow) ? $g_status_enum_workflow : $s_status_enum_workflow;
+   $status_enum_workflow = $g_status_enum_workflow;
 
    // and set codev Config variables
 

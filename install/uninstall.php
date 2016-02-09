@@ -80,7 +80,7 @@ class UninstallController extends Controller {
                $this->smartyHelper->assign('stepThreeResult', $result);
 
                if($result) {
-                  $result = Tools::execSQLscript2("uninstall.sql");
+                  $result = Tools::execSQLscript2(Constants::$codevRootDir.'/install/uninstall.sql');
                }
                $this->smartyHelper->assign('stepFourResult', $result);
 
