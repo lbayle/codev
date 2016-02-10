@@ -122,6 +122,7 @@ f_release()
   rm "${DIR_RELEASE}/classes/blog_manager.class.php"
   rm "${DIR_RELEASE}/classes/blogpost_cache.class.php"
 
+  chmod a+rw ${DIR_RELEASE}/classmap.ser
 }
 
 f_ovh()
