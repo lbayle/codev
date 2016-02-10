@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-03 21:32+0100\n"
+"POT-Creation-Date: 2016-02-10 09:30+0100\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -82,7 +82,7 @@ msgstr "Export CSV"
 #: reports/project_info.php:305
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
-#: index.php:195 tools.php:1492
+#: index.php:195 tools.php:1495
 msgid "Summary"
 msgstr "Description"
 
@@ -118,7 +118,7 @@ msgstr "Description"
 #: reports/planning_report.php:476 reports/project_info.php:281
 #: reports/project_info.php:292 reports/project_info.php:304 tests/odt.php:25
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:224
-#: index.php:194 tools.php:1486
+#: index.php:194 tools.php:1489
 msgid "Project"
 msgstr "Projet"
 
@@ -159,8 +159,8 @@ msgstr "Avancement"
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:260
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:318
 #: reports/planning_report.php:465 reports/project_info.php:184
-#: reports/project_info.php:241 tests/filters.php:71 tools.php:1419
-#: tools.php:1428
+#: reports/project_info.php:241 tests/filters.php:71 tools.php:1422
+#: tools.php:1431
 msgid "Backlog"
 msgstr "Reste à faire"
 
@@ -200,6 +200,7 @@ msgstr "Total"
 #: tpl/mantis_reports.html
 #: tpl/project_activity_report.html
 #: tpl/project_info.html
+#: reports/team_dashboard.php:92
 msgid "Please select a team to access this page."
 msgstr "Sélectionnez une équipe dans la liste déroulante en haut à droite de cette page."
 
@@ -424,7 +425,7 @@ msgstr "taux = 1 : estimation parfaite.<br>taux &lt; 1 : sous-estimé<br>taux &g
 #: tpl/statistics.html
 #: tpl/modal/update_issueBacklog.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:315
-#: reports/project_info.php:238 tools.php:1425
+#: reports/project_info.php:238 tools.php:1428
 msgid "EffortEstim"
 msgstr "Charge Init"
 
@@ -601,7 +602,7 @@ msgstr "Dérive"
 #: tpl/servicecontract_info.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:314
 #: reports/export_csv_tools.php:60 reports/project_info.php:237
-#: tests/filters.php:68 tools.php:1422
+#: tests/filters.php:68 tools.php:1425
 msgid "MgrEffortEstim"
 msgstr "Charge Mgr"
 
@@ -707,7 +708,7 @@ msgstr "Dérive par rapport au BI + BS"
 #: tpl/project_activity_report.html
 #: classes/wbsElement.class.php:583 reports/export_csv_tools.php:52
 #: reports/planning_report.php:461 reports/planning_report.php:484
-#: reports/project_info.php:306 tools.php:1490
+#: reports/project_info.php:306 tools.php:1493
 msgid "Status"
 msgstr "Statut"
 
@@ -844,7 +845,7 @@ msgstr "Date fin"
 #: tpl/import_issues.html
 #: tpl/modal/update_issueBacklog.html
 #: reports/planning_report.php:466 reports/planning_report.php:495
-#: tools.php:1434
+#: tools.php:1437
 msgid "Deadline"
 msgstr "Deadline"
 
@@ -1240,7 +1241,7 @@ msgstr "Plugin"
 #: tpl/servicecontract_info.html
 #: tpl/time_tracking.html
 #: tpl/project_activity_report.html
-#: classes/wbsElement.class.php:582 tools.php:1488
+#: classes/wbsElement.class.php:582 tools.php:1491
 msgid "Category"
 msgstr "Catégorie"
 
@@ -1927,13 +1928,13 @@ msgstr "Réf. Externe"
 
 #: tpl/issue_info.html
 #: reports/export_csv_tools.php:57 reports/planning_report.php:462
-#: reports/planning_report.php:485 tools.php:1498
+#: reports/planning_report.php:485 tools.php:1501
 msgid "Priority"
 msgstr "Priorité"
 
 #: tpl/issue_info.html
 #: reports/planning_report.php:463 reports/planning_report.php:486
-#: tools.php:1500
+#: tools.php:1503
 msgid "Severity"
 msgstr "Criticité"
 
@@ -2406,18 +2407,15 @@ msgid "delete Project Association"
 msgstr "supprimer l'association au Projet"
 
 #: tpl/template.html
-#: tpl/template_OVH.html
 msgid "Disconnect"
 msgstr "Déconnecter"
 
 #: tpl/template.html
-#: tpl/template_OVH.html
 msgid "Note: For a better user experience, use a standards compliant browser such as :"
 msgstr "En cas de problèmes, veuillez utiliser un navigateur respectant les standards du web, comme : "
 
 #: tpl/template.html
 #: tpl/import_issues.html
-#: tpl/template_OVH.html
 msgid "or"
 msgstr "ou"
 
@@ -2635,6 +2633,11 @@ msgstr "Charges Détaillées"
 msgid "No Command found."
 msgstr "Pas de commande."
 
+#: tpl/team_dashboard.html
+#: tpl/time_tracking.html
+msgid "ERROR"
+msgstr "ERREUR"
+
 #: tpl/servicecontract_info.html
 msgid "--- Create New ServiceContract ---"
 msgstr "-- Créer un Nouveau Contrat de Service ---"
@@ -2812,10 +2815,6 @@ msgstr "Nbre de jours de Production"
 #: tpl/statistics.html
 msgid "Sorry, you do NOT have access to this page."
 msgstr "Désolé, vous n'avez pas accès à cette page."
-
-#: tpl/time_tracking.html
-msgid "ERROR"
-msgstr "ERREUR"
 
 #: tpl/time_tracking.html
 msgid "Query FAILED"
@@ -3225,40 +3224,39 @@ msgstr " Erreur(s) dans vos Tâches"
 msgid "Couldn't delete the team"
 msgstr "La suppression de l'équipe a échouée"
 
-#: admin/edit_team.php:94 admin/edit_team_OVH.php:77
+#: admin/edit_team.php:94
 msgid "Couldn't update the team leader"
 msgstr "La mise à jour du team leader a échouée"
 
-#: admin/edit_team.php:105 admin/edit_team_OVH.php:88
+#: admin/edit_team.php:105
 msgid "Couldn't update the creation date"
 msgstr "La mise à jour de la date de création a échouée"
 
-#: admin/edit_team.php:110 admin/edit_team_OVH.php:93
+#: admin/edit_team.php:110
 msgid "Couldn't enable/disable team"
 msgstr "Impossible d'activer/désactiver l'équipe"
 
-#: admin/edit_team.php:203 admin/edit_team_OVH.php:172
+#: admin/edit_team.php:203
 msgid "Couldn't delete the member of the team"
 msgstr "Le retrait de l'utilisateur à échoué"
 
-#: admin/edit_team.php:217 admin/edit_team.php:220 admin/edit_team_OVH.php:186
-#: admin/edit_team_OVH.php:189
+#: admin/edit_team.php:217 admin/edit_team.php:220
 msgid "Couldn't add the project to the team"
 msgstr "L'ajout du projet a échoué"
 
-#: admin/edit_team.php:226 admin/edit_team_OVH.php:195
+#: admin/edit_team.php:226
 msgid "Could NOT remove the project from the team"
 msgstr "Le retrait du projet a échoué"
 
-#: admin/edit_team.php:277 admin/edit_team_OVH.php:232
+#: admin/edit_team.php:277
 msgid "Configure Tooltips"
 msgstr "Configuration des infobulles"
 
-#: admin/edit_team.php:342 admin/edit_team_OVH.php:297
+#: admin/edit_team.php:342
 msgid "enabled"
 msgstr "activé"
 
-#: admin/edit_team.php:342 admin/edit_team_OVH.php:297
+#: admin/edit_team.php:342
 msgid "disabled"
 msgstr "désactivé"
 
@@ -3310,11 +3308,7 @@ msgstr "Impossible de supprimer le poste"
 msgid "Could not create classmap: "
 msgstr "Impossible de créer la classmap:"
 
-#: admin/edit_team_OVH.php:47
-msgid "Delete team deactivated on DEMO !"
-msgstr "La suppression de l'équipe est désactivée pour la DEMO !"
-
-#: admin/admin_dashboard.php:72 reports/team_dashboard.php:91
+#: admin/admin_dashboard.php:72 reports/team_dashboard.php:95
 msgid "Sorry, you need to be identified."
 msgstr "Vous devez être identifié."
 
@@ -3400,7 +3394,7 @@ msgid "Constrains"
 msgstr "Contraint"
 
 #: classes/issue.class.php:2192 classes/wbsElement.class.php:585
-#: tools.php:1480
+#: tools.php:1483
 msgid "Tags"
 msgstr "Balises"
 
@@ -3420,11 +3414,11 @@ msgstr "Dérive Mgr"
 msgid "DriftMgrColor"
 msgstr "DriftMgrColor"
 
-#: classes/issue.class.php:2226 tools.php:1494
+#: classes/issue.class.php:2226 tools.php:1497
 msgid "Assigned"
 msgstr "Assigné à"
 
-#: classes/issue.class.php:2234 tools.php:1502
+#: classes/issue.class.php:2234 tools.php:1505
 msgid "ETA"
 msgstr "ETA"
 
@@ -4077,7 +4071,7 @@ msgstr "Version Produit"
 msgid "Resolution"
 msgstr "Resolution"
 
-#: reports/export_csv_tools.php:66 tools.php:1437
+#: reports/export_csv_tools.php:66 tools.php:1440
 msgid "Delivery Date"
 msgstr "Date Livraison"
 
@@ -4336,9 +4330,12 @@ msgstr "inconnu"
 msgid "W"
 msgstr "S"
 
-#: tools.php:1431
+#: tools.php:1434
 msgid "AddEffortEstim"
 msgstr "Charge Additionnelle"
+
+#~ msgid "Delete team deactivated on DEMO !"
+#~ msgstr "La suppression de l'équipe est désactivée pour la DEMO !"
 
 #~ msgid "Create a default project workflow in Mantis"
 #~ msgstr "Créez un cycle de vie par defaut dans Mantis"

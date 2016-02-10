@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-03 21:32+0100\n"
+"POT-Creation-Date: 2016-02-10 09:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,7 +82,7 @@ msgstr ""
 #: reports/project_info.php:305
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
-#: index.php:195 tools.php:1492
+#: index.php:195 tools.php:1495
 msgid "Summary"
 msgstr ""
 
@@ -118,7 +118,7 @@ msgstr ""
 #: reports/planning_report.php:476 reports/project_info.php:281
 #: reports/project_info.php:292 reports/project_info.php:304 tests/odt.php:25
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:224
-#: index.php:194 tools.php:1486
+#: index.php:194 tools.php:1489
 msgid "Project"
 msgstr ""
 
@@ -159,8 +159,8 @@ msgstr ""
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:260
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:318
 #: reports/planning_report.php:465 reports/project_info.php:184
-#: reports/project_info.php:241 tests/filters.php:71 tools.php:1419
-#: tools.php:1428
+#: reports/project_info.php:241 tests/filters.php:71 tools.php:1422
+#: tools.php:1431
 msgid "Backlog"
 msgstr ""
 
@@ -200,6 +200,7 @@ msgstr ""
 #. tpl/mantis_reports.html
 #. tpl/project_activity_report.html
 #. tpl/project_info.html
+#: reports/team_dashboard.php:92
 msgid "Please select a team to access this page."
 msgstr ""
 
@@ -427,7 +428,7 @@ msgstr ""
 #. tpl/statistics.html
 #. tpl/modal/update_issueBacklog.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:315
-#: reports/project_info.php:238 tools.php:1425
+#: reports/project_info.php:238 tools.php:1428
 msgid "EffortEstim"
 msgstr ""
 
@@ -604,7 +605,7 @@ msgstr ""
 #. tpl/servicecontract_info.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:314
 #: reports/export_csv_tools.php:60 reports/project_info.php:237
-#: tests/filters.php:68 tools.php:1422
+#: tests/filters.php:68 tools.php:1425
 msgid "MgrEffortEstim"
 msgstr ""
 
@@ -710,7 +711,7 @@ msgstr ""
 #. tpl/project_activity_report.html
 #: classes/wbsElement.class.php:583 reports/export_csv_tools.php:52
 #: reports/planning_report.php:461 reports/planning_report.php:484
-#: reports/project_info.php:306 tools.php:1490
+#: reports/project_info.php:306 tools.php:1493
 msgid "Status"
 msgstr ""
 
@@ -847,7 +848,7 @@ msgstr ""
 #. tpl/import_issues.html
 #. tpl/modal/update_issueBacklog.html
 #: reports/planning_report.php:466 reports/planning_report.php:495
-#: tools.php:1434
+#: tools.php:1437
 msgid "Deadline"
 msgstr ""
 
@@ -1243,7 +1244,7 @@ msgstr ""
 #. tpl/servicecontract_info.html
 #. tpl/time_tracking.html
 #. tpl/project_activity_report.html
-#: classes/wbsElement.class.php:582 tools.php:1488
+#: classes/wbsElement.class.php:582 tools.php:1491
 msgid "Category"
 msgstr ""
 
@@ -1940,13 +1941,13 @@ msgstr ""
 
 #. tpl/issue_info.html
 #: reports/export_csv_tools.php:57 reports/planning_report.php:462
-#: reports/planning_report.php:485 tools.php:1498
+#: reports/planning_report.php:485 tools.php:1501
 msgid "Priority"
 msgstr ""
 
 #. tpl/issue_info.html
 #: reports/planning_report.php:463 reports/planning_report.php:486
-#: tools.php:1500
+#: tools.php:1503
 msgid "Severity"
 msgstr ""
 
@@ -2419,12 +2420,10 @@ msgid "delete Project Association"
 msgstr ""
 
 #. tpl/template.html
-#. tpl/template_OVH.html
 msgid "Disconnect"
 msgstr ""
 
 #. tpl/template.html
-#. tpl/template_OVH.html
 msgid ""
 "Note: For a better user experience, use a standards compliant browser such "
 "as :"
@@ -2432,7 +2431,6 @@ msgstr ""
 
 #. tpl/template.html
 #. tpl/import_issues.html
-#. tpl/template_OVH.html
 msgid "or"
 msgstr ""
 
@@ -2654,6 +2652,11 @@ msgstr ""
 msgid "No Command found."
 msgstr ""
 
+#. tpl/team_dashboard.html
+#. tpl/time_tracking.html
+msgid "ERROR"
+msgstr ""
+
 #. tpl/servicecontract_info.html
 msgid "--- Create New ServiceContract ---"
 msgstr ""
@@ -2831,10 +2834,6 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Sorry, you do NOT have access to this page."
-msgstr ""
-
-#. tpl/time_tracking.html
-msgid "ERROR"
 msgstr ""
 
 #. tpl/time_tracking.html
@@ -3247,40 +3246,39 @@ msgstr ""
 msgid "Couldn't delete the team"
 msgstr ""
 
-#: admin/edit_team.php:94 admin/edit_team_OVH.php:77
+#: admin/edit_team.php:94
 msgid "Couldn't update the team leader"
 msgstr ""
 
-#: admin/edit_team.php:105 admin/edit_team_OVH.php:88
+#: admin/edit_team.php:105
 msgid "Couldn't update the creation date"
 msgstr ""
 
-#: admin/edit_team.php:110 admin/edit_team_OVH.php:93
+#: admin/edit_team.php:110
 msgid "Couldn't enable/disable team"
 msgstr ""
 
-#: admin/edit_team.php:203 admin/edit_team_OVH.php:172
+#: admin/edit_team.php:203
 msgid "Couldn't delete the member of the team"
 msgstr ""
 
-#: admin/edit_team.php:217 admin/edit_team.php:220 admin/edit_team_OVH.php:186
-#: admin/edit_team_OVH.php:189
+#: admin/edit_team.php:217 admin/edit_team.php:220
 msgid "Couldn't add the project to the team"
 msgstr ""
 
-#: admin/edit_team.php:226 admin/edit_team_OVH.php:195
+#: admin/edit_team.php:226
 msgid "Could NOT remove the project from the team"
 msgstr ""
 
-#: admin/edit_team.php:277 admin/edit_team_OVH.php:232
+#: admin/edit_team.php:277
 msgid "Configure Tooltips"
 msgstr ""
 
-#: admin/edit_team.php:342 admin/edit_team_OVH.php:297
+#: admin/edit_team.php:342
 msgid "enabled"
 msgstr ""
 
-#: admin/edit_team.php:342 admin/edit_team_OVH.php:297
+#: admin/edit_team.php:342
 msgid "disabled"
 msgstr ""
 
@@ -3332,11 +3330,7 @@ msgstr ""
 msgid "Could not create classmap: "
 msgstr ""
 
-#: admin/edit_team_OVH.php:47
-msgid "Delete team deactivated on DEMO !"
-msgstr ""
-
-#: admin/admin_dashboard.php:72 reports/team_dashboard.php:91
+#: admin/admin_dashboard.php:72 reports/team_dashboard.php:95
 msgid "Sorry, you need to be identified."
 msgstr ""
 
@@ -3422,7 +3416,7 @@ msgid "Constrains"
 msgstr ""
 
 #: classes/issue.class.php:2192 classes/wbsElement.class.php:585
-#: tools.php:1480
+#: tools.php:1483
 msgid "Tags"
 msgstr ""
 
@@ -3442,11 +3436,11 @@ msgstr ""
 msgid "DriftMgrColor"
 msgstr ""
 
-#: classes/issue.class.php:2226 tools.php:1494
+#: classes/issue.class.php:2226 tools.php:1497
 msgid "Assigned"
 msgstr ""
 
-#: classes/issue.class.php:2234 tools.php:1502
+#: classes/issue.class.php:2234 tools.php:1505
 msgid "ETA"
 msgstr ""
 
@@ -4104,7 +4098,7 @@ msgstr ""
 msgid "Resolution"
 msgstr ""
 
-#: reports/export_csv_tools.php:66 tools.php:1437
+#: reports/export_csv_tools.php:66 tools.php:1440
 msgid "Delivery Date"
 msgstr ""
 
@@ -4374,6 +4368,6 @@ msgstr ""
 msgid "W"
 msgstr ""
 
-#: tools.php:1431
+#: tools.php:1434
 msgid "AddEffortEstim"
 msgstr ""
