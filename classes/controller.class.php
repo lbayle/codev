@@ -77,6 +77,8 @@ abstract class Controller {
             $this->smartyHelper->assign('isAdmin', true);
          }
 
+         $locale = getLocale();
+         $this->smartyHelper->assign('locale', $locale);
       }
 
    }

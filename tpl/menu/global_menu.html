@@ -87,8 +87,9 @@
          <span class="dropdown-icon dropdown-icon-triangle-1-s"></span>
          <ul class="submenu">
             <li><a href='doc/doc.php'>{t}Documentation{/t}</a></li>
-            <!--<li><a href='doc/indicateurs_de_production.php'>{t}Productivity Reports{/t}</a></li>-->
-            <!--li><a href='doc/phpdoc/html/index.html' >{t}PHP Doc{/t}</a></li-->
+            {if ('fr' === $locale)}
+            <li><a href='doc/doc_cnil.php'>CNIL</a></li>
+            {/if}
          </ul>
       </li>
       <li class="ui-corner-top {if $activeGlobalMenuItem == 'Admin'} ui-state-active{else} ui-state-default{/if}">
