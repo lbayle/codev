@@ -1,42 +1,34 @@
-# Translation of CodevTT to Brazilian Portuguese (português do Brasil)
+# Translation of CodevTT to Simplified Chinese (中文（简体）‎)
 # Exported from translatewiki.net
 #
-# Author: Arthurteb303
+# Author: Liuxinyu970226
 msgid ""
 msgstr ""
 ""
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-26 22:56+0100\n"
 "PO-Revision-Date: 2016-02-19 20:43:42+0000\n"
-"Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
-"Language-Team: French <kde-i18n-doc@kde.org>\n"
-"Language: pt_br\n"
-"MIME-Version: 1.0\n"
+"X-POT-Import-Date: 2016-02-19 20:40:57+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_cn\n"
 "X-Generator: MediaWiki 1.27.0-alpha; Translate 2016-01-29\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-POT-Import-Date: 2016-02-19 20:40:57+0000\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. tpl/doc.html
-#, fuzzy
 msgid "Documentation is available at "
-msgstr "statistiques non disponibles"
+msgstr "文档可在此找到\\"
 
 #. tpl/doc.html
-#, fuzzy
 msgid "CodevTT Documentation Wiki"
-msgstr "Documentação"
+msgstr "CodevTT文档Wiki"
 
 #. tpl/doc.html
 msgid "GreaseMonkey script: "
-msgstr ""
+msgstr "油猴子脚本：\\"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/menu/global_menu.html
 msgid "Monthly Activity"
-msgstr "Atividade mensal"
+msgstr "每月活动"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/productivity_report.html
@@ -47,19 +39,18 @@ msgstr "Atividade mensal"
 #. tpl/gantt_report.html
 #. tpl/project_activity_report.html
 msgid "Compute"
-msgstr "Calcular"
+msgstr "计算"
 
 #. tpl/team_monthly_activity_report.html
-#, fuzzy
 msgid "Tasks per User"
-msgstr "Filtros"
+msgstr "每位用户的任务"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/holidays_report.html
 #. tpl/team_activity_report.html
 #. tpl/project_activity_report.html
 msgid "Export to CSV"
-msgstr "Exportar CSV"
+msgstr "导出为CSV"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/productivity_report.html
@@ -89,7 +80,7 @@ msgstr "Exportar CSV"
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
 #: index.php:195 tools.php:1495
 msgid "Summary"
-msgstr "Descrição"
+msgstr "摘要"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/productivity_report.html
@@ -125,7 +116,7 @@ msgstr "Descrição"
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:224
 #: index.php:194 tools.php:1489
 msgid "Project"
-msgstr "Projeto"
+msgstr "项目"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/productivity_report.html
@@ -144,7 +135,7 @@ msgstr "Projeto"
 #: reports/export_csv_tools.php:65 reports/project_info.php:181
 #: reports/project_info.php:236
 msgid "Progress"
-msgstr "Progresso"
+msgstr "进度"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/productivity_report.html
@@ -167,12 +158,11 @@ msgstr "Progresso"
 #: reports/project_info.php:241 tests/filters.php:71 tools.php:1422
 #: tools.php:1431
 msgid "Backlog"
-msgstr "Retorno"
+msgstr "积压工作"
 
 #. tpl/team_monthly_activity_report.html
-#, fuzzy
 msgid "Elapsed in period"
-msgstr "consommé dans la période"
+msgstr "运行周期"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/productivity_report.html
@@ -183,7 +173,7 @@ msgstr "consommé dans la période"
 #. tpl/project_activity_report.html
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:291
 msgid "Total"
-msgstr "Total"
+msgstr "总计"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/productivity_report.html
@@ -208,129 +198,129 @@ msgstr "Total"
 #. tpl/project_info.html
 #: reports/team_dashboard.php:92
 msgid "Please select a team to access this page."
-msgstr "Desculpe, voce precisar ser menbro do grupo para acessar esta página."
+msgstr "请选择一个团队以访问该页面。"
 
 #. tpl/logs.html
 msgid "Line"
-msgstr "Linha"
+msgstr "行"
 
 #. tpl/logs.html
 msgid "Log"
-msgstr "Log"
+msgstr "日志"
 
 #. tpl/productivity_report.html
 msgid "Production days"
-msgstr "Dias de produção"
+msgstr "生产日期"
 
 #. tpl/productivity_report.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:71
 msgid "Load per Job"
-msgstr "Carga por cargo"
+msgstr "每个工作的负荷"
 
 #. tpl/productivity_report.html
 msgid "Project Detail"
-msgstr "Detalhes do projeto"
+msgstr "项目详情"
 
 #. tpl/productivity_report.html
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:73
 msgid "Load per Project"
-msgstr "Carga do projeto"
+msgstr "每个项目的负荷"
 
 #. tpl/productivity_report.html
 msgid "Productivity indicators"
-msgstr "Indicadores de produção"
+msgstr "生产率指标"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "Adherence to deadlines"
-msgstr "Cumprimento dos prazos"
+msgstr "坚持到截止日期"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. tpl/statistics.html
 msgid "Effort Deviation"
-msgstr "Desvio de esforço"
+msgstr "努力偏差"
 
 #. tpl/productivity_report.html
 msgid "Reopened tasks"
-msgstr "Casos reabertos"
+msgstr "重启的任务"
 
 #. tpl/productivity_report.html
 msgid "Production Days"
-msgstr "Dias de produção"
+msgstr "生产日期"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. tpl/statistics.html
 msgid "Help"
-msgstr "Ajuda"
+msgstr "帮助"
 
 #. tpl/productivity_report.html
 #. tpl/ajax/projectDetails.html
 msgid "Nb Days"
-msgstr "Nb dias"
+msgstr "Nb日"
 
 #. tpl/productivity_report.html
 #. tpl/edit_jobs.html
 msgid "Projects"
-msgstr "Projetos"
+msgstr "项目"
 
 #. tpl/productivity_report.html
 #. tpl/create_team.html
 #. add SideTaskProject Categories
 #. 4) --- add SideTaskProject Categories
 msgid "Project Management"
-msgstr "Gerenciamento projeto"
+msgstr "项目管理"
 
 #. tpl/productivity_report.html
 msgid "Other SideTasks"
-msgstr "Outros casos correlatos"
+msgstr "其他端任务"
 
 #. tpl/productivity_report.html
 msgid "Days spent on the projects during the period (team members only)"
-msgstr "Dias gastos no projeto durante o período (apenas membros da equipe)"
+msgstr "周期内在项目上花费的时间（仅限团队成员）"
 
 #. tpl/productivity_report.html
 msgid "SideTasks: Project Management"
-msgstr "CasosCorrelatos: Gestão do projeto"
+msgstr "端任务：项目管理"
 
 #. tpl/productivity_report.html
 msgid "Days spent on project management tasks"
-msgstr "Dias gastos no projeto de gerenciamento de casos"
+msgstr "在项目管理任务上花费的时间"
 
 #. tpl/productivity_report.html
 msgid "SideTasks: Others"
-msgstr "Outros casos correlatos"
+msgstr "端任务：其他"
 
 #. tpl/productivity_report.html
 msgid "Days spent on sideTasks, except project management and inactivity tasks"
-msgstr "Número em dias de casos correlatos, exceto gerenciamento de projeto e casos inativos"
+msgstr "在端任务上花费的时间，除了项目管理和不活跃任务外"
 
 #. tpl/productivity_report.html
 msgid "Production Days : total"
-msgstr "Dias de produção : Total"
+msgstr "生产日期：总计"
 
 #. tpl/productivity_report.html
 msgid "number of days billed"
-msgstr "Número de dias faturados"
+msgstr "收费天数"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. tpl/statistics.html
 msgid "Formula"
-msgstr "Fórmula"
+msgstr "公式"
 
 #. tpl/productivity_report.html
 msgid "projects"
-msgstr "projetos"
+msgstr "项目"
 
 #. tpl/productivity_report.html
 msgid "sideTasks"
-msgstr "Casos correlatos"
+msgstr "端任务"
 
 #. tpl/productivity_report.html
 msgid "Not available."
-msgstr "Não disponível"
+msgstr "不可用。"
 
 #. tpl/productivity_report.html
 #. tpl/team_activity_report.html
@@ -339,93 +329,88 @@ msgstr "Não disponível"
 #. tpl/edit_jobs.html
 #. tpl/time_tracking.html
 msgid "Job"
-msgstr "Serviço"
+msgstr "工作"
 
 #. tpl/productivity_report.html
 #. tpl/tools/dashboard.html
 msgid "Indicator"
-msgstr "Indicador"
+msgstr "指示器"
 
 #. tpl/productivity_report.html
 #. tpl/workflow.html
 #. tpl/edit_team.html
 #. tpl/forecasting_report.html
 msgid "Value"
-msgstr "Valor"
+msgstr "值"
 
 #. tpl/productivity_report.html
 msgid "Available Workload"
-msgstr "Capacidade de produção"
+msgstr "可用工作负荷"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "Efficiency Rate"
-msgstr "Taxa de eficiência"
+msgstr "有效率"
 
 #. tpl/productivity_report.html
 msgid "System Availability"
-msgstr "Disponibilidade do sistema"
+msgstr "系统可用性"
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "MgrEffortEstim Reliability Rate"
-msgstr "MgrEffortEstim  Não especificado"
+msgstr "MgrEffortEstim可靠率"
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "EffortEstim Reliability Rate"
-msgstr "EffortEstim Não especificado"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Workload Forecasting (holidays & externalTasks not included, developers only)"
-msgstr "previsão de capacidade (horas e casos externos não inclusos, apenas desenvolvimento)"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Development workload (developers only)"
-msgstr "Tempo consumido no desenvolvimento(apenas desenvolvimento)"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "ProjProdDays"
-msgstr "Dias de produção: Projetos"
+msgstr "项目生产日期"
 
 #. tpl/productivity_report.html
 msgid "TotalProdDays"
-msgstr "Dias de produção: Total"
+msgstr "总计生产日期"
 
 #. tpl/productivity_report.html
 msgid "Platform Availability"
-msgstr "Disponibilidade da plataforma de desenvolvimento"
+msgstr "平台可用性"
 
 #. tpl/productivity_report.html
 msgid "breakdownDays"
-msgstr "Indisponibilidade do sistema"
+msgstr "故障日期"
 
 #. tpl/productivity_report.html
 msgid "prodDays"
-msgstr "Dias de produção"
+msgstr "生产日期"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
-#, fuzzy
 msgid "EffortEstim Reliability"
-msgstr "EffortEstim Não especificado"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
-#, fuzzy
 msgid "Compares the effort estimation to the elapsed time."
-msgstr "Rapport entre le budget initial et le temps consommé sur les fiches"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
-#, fuzzy
 msgid "(on resolved tasks only)"
-msgstr "Nenhum caso resolvido..."
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "rate = 1 : estimation was perfect.<br>rate &lt; 1 : underestimated<br>rate &gt; 1 : overestimated"
-msgstr ""
+msgstr "rate = 1：估计完美。<br>rate &lt; 1：低估<br>rate &gt; 1：高估"
 
 #. tpl/productivity_report.html
 #. tpl/command_info.html
@@ -438,24 +423,23 @@ msgstr ""
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:315
 #: reports/project_info.php:238 tools.php:1428
 msgid "EffortEstim"
-msgstr "Esforço inicial"
+msgstr "努力估计"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
-#, fuzzy
 msgid "EffortAdd"
-msgstr "Esforço inicial"
+msgstr "努力增加"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 #: classes/consistency_check2.class.php:440
 #: classes/consistency_check.class.php:365
 msgid "elapsed"
-msgstr "decorridos"
+msgstr "时间过去"
 
 #. tpl/productivity_report.html
 msgid "Tasks having no deadLine are not reported here"
-msgstr "Casos sem vencimento não estão listados aqui"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/command_edit.html
@@ -466,52 +450,50 @@ msgstr "Casos sem vencimento não estão listados aqui"
 #. tpl/servicecontract_info.html
 #. tpl/project_activity_report.html
 msgid "Tasks"
-msgstr "Casos"
+msgstr "任务"
 
 #. tpl/productivity_report.html
 msgid "Tasks NOT delivered on time"
-msgstr "Casos entregues após o vencimento"
+msgstr "未按时交付的任务"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "nb tasks"
-msgstr "núm de casos"
+msgstr "nb任务"
 
 #. tpl/productivity_report.html
 #. tpl/filters.html
 #. tpl/forecasting_report.html
 #: classes/time_tracking.class.php:447
 msgid "nb days"
-msgstr "núm. dias"
+msgstr "nb日"
 
 #. tpl/productivity_report.html
 #. $timeDriftSmarty["deliveryDate"] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
 #: reports/issue_info.php:210
 msgid "DeliveryDate"
-msgstr "Data entrega"
+msgstr "交货日期"
 
 #. tpl/productivity_report.html
 #: reports/export_csv_tools.php:55
 msgid "DeadLine"
-msgstr "Vencimento"
+msgstr "截止期限"
 
 #. tpl/productivity_report.html
 msgid "Tasks delivered on time"
-msgstr "Casos entregues antes do vencimento"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Task list for EffortEstim"
-msgstr "Lista de casos para definir o esforço"
+msgstr ""
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "Note: Drift on tasks resolved in the period"
-msgstr "Desvio de esforço - Casos resolvidos no período"
+msgstr ""
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "Drift - All tasks"
-msgstr "Desvio em casos resolvidos"
+msgstr "漂移 - 所有任务"
 
 #. tpl/productivity_report.html
 #. tpl/command_info.html
@@ -527,84 +509,84 @@ msgstr "Desvio em casos resolvidos"
 #: reports/project_info.php:243 reports/project_info.php:294
 #: reports/project_info.php:307 tools.php:249
 msgid "Drift"
-msgstr "Desvio"
+msgstr "漂移"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Overflow day quantity"
-msgstr "Num de dias de atraso"
+msgstr "溢出天量"
 
 #. tpl/productivity_report.html
 msgid "Computed on task Resolved/Closed in the given period"
-msgstr "Cálculo sobre os casos Resolvidos/Fechadis no período"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Reopened tasks are not taken into account"
-msgstr "Casos reabertos não estão sendo considerados"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "If < 0 then ahead on planning."
-msgstr "Se negativo, avance no planejamento."
+msgstr "如果< 0则提前计划。"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. tpl/index.html
 msgid "Tasks in drift"
-msgstr "Casos à deriva"
+msgstr "在漂移的任务"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks for which the elapsed time is greater than the estimated effort"
-msgstr "Casos que estão maiores que o esforço previsto"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "drift"
-msgstr "desvio"
+msgstr "漂移"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks in time"
-msgstr "Tarefas cumpridas"
+msgstr "适时任务"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks resolved in time"
-msgstr "Tarefas resolvidas no período"
+msgstr "适时解决的任务"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks ahead"
-msgstr "Próximas tarefas"
+msgstr "前面的任务"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks resolved in less time than the estimated effort"
-msgstr "Casos resolvidos antes do tempo previsto"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Effort deviation"
-msgstr "Desvio"
+msgstr "努力偏差"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Manager Estimation"
-msgstr "Carga prevista pelo gerente"
+msgstr "经理估计"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Manager"
-msgstr "Gerente"
+msgstr "经理"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks Mgr"
-msgstr "Casos Mgr"
+msgstr "任务经理"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "EffortDeviation"
-msgstr "Desvio"
+msgstr "努力偏差"
 
 #. tpl/productivity_report.html
 #. tpl/command_info.html
@@ -618,11 +600,11 @@ msgstr "Desvio"
 #: reports/export_csv_tools.php:60 reports/project_info.php:237
 #: tests/filters.php:68 tools.php:1425
 msgid "MgrEffortEstim"
-msgstr "Esforço estinado Mgr"
+msgstr "MgrEffortEstim"
 
 #. tpl/productivity_report.html
 msgid "No resolved tasks..."
-msgstr "Nenhum caso resolvido..."
+msgstr "没有已解决的任务..."
 
 #. tpl/productivity_report.html
 #. tpl/command_edit.html
@@ -640,7 +622,7 @@ msgstr "ID"
 #. tpl/modal/select_issues.html
 #: reports/export_csv_tools.php:50
 msgid "ExtRef"
-msgstr "RefExt"
+msgstr "ExtRef"
 
 #. tpl/productivity_report.html
 #. tpl/command_info.html
@@ -654,7 +636,7 @@ msgstr "RefExt"
 #: reports/project_info.php:182 reports/project_info.php:239
 #: tests/filters.php:69
 msgid "Reestimated"
-msgstr "Reestimado"
+msgstr "重新估计"
 
 #. tpl/productivity_report.html
 #. tpl/command_info.html
@@ -670,7 +652,7 @@ msgstr "Reestimado"
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:226
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:366
 msgid "Elapsed"
-msgstr "decorrido"
+msgstr "时间过去"
 
 #. tpl/productivity_report.html
 #. tpl/command_info.html
@@ -686,7 +668,7 @@ msgstr "BL"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Drift relatively to the managers Estimation"
-msgstr "Desvio relativo ao esforço previsto pelo gerente"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/command_info.html
@@ -701,12 +683,12 @@ msgstr "Desvio relativo ao esforço previsto pelo gerente"
 #: reports/project_info.php:185 reports/project_info.php:242
 #: tests/filters.php:72
 msgid "Drift Mgr"
-msgstr "Desvio Mgr"
+msgstr "漂移经理"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Drift relatively to (EE + AddEE)"
-msgstr "Desvio relativo ao BI + BS"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/plugin_manager.html
@@ -724,7 +706,7 @@ msgstr "Desvio relativo ao BI + BS"
 #: reports/planning_report.php:461 reports/planning_report.php:484
 #: reports/project_info.php:306 tools.php:1493
 msgid "Status"
-msgstr "Status"
+msgstr "状态"
 
 #. tpl/productivity_report.html
 msgid "Drift - Tasks (ExtRefOnly)"
@@ -743,38 +725,36 @@ msgid "Tasks without ExternalRef are excluded"
 msgstr ""
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "Reopened tasks are not included"
-msgstr "Casos reabertos não estão sendo considerados"
+msgstr "未包括重启的任务"
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "No Drift on External tasks."
-msgstr "Exibir casos externos"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "nb resolved"
-msgstr "Num resolvidos"
+msgstr "nb已解决"
 
 #. tpl/productivity_report.html
 msgid "nb reopened"
-msgstr "Núm reabertos"
+msgstr "nb已重启"
 
 #. tpl/productivity_report.html
 msgid "nb reopened / nb resolved"
-msgstr "Núm reabertos / Núm resolvidos"
+msgstr "nb已重启/nb已解决"
 
 #. tpl/productivity_report.html
 msgid "Rate"
-msgstr "Taxa"
+msgstr "比率"
 
 #. tpl/productivity_report.html
 msgid "tasks having been reopened in the period"
-msgstr "Casos reabertos no período"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "New command"
-msgstr "Novo comando"
+msgstr "新命令"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -789,7 +769,7 @@ msgstr "Novo comando"
 #. tpl/servicecontract_edit.html
 #: graphs/gantt_graph.php:97 graphs/gantt_graph.php:99
 msgid "Team"
-msgstr "Equipe"
+msgstr "团队"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -798,7 +778,7 @@ msgstr "Equipe"
 #. tpl/modal/change_managedUser.html
 #. tpl/servicecontract_edit.html
 msgid "Name"
-msgstr "Nome"
+msgstr "名称"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -807,7 +787,7 @@ msgstr "Nome"
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "Reference"
-msgstr "Referencia"
+msgstr "参考文献"
 
 #. tpl/command_edit.html
 #. tpl/plugin_manager.html
@@ -815,7 +795,7 @@ msgstr "Referencia"
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "Version"
-msgstr "Versão"
+msgstr "版本"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -823,7 +803,7 @@ msgstr "Versão"
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "Reporter"
-msgstr "Relator"
+msgstr "报告者"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -839,7 +819,7 @@ msgstr "Relator"
 #. tpl/servicecontract_edit.html
 #: reports/export_csv_weekly.php:184
 msgid "Description"
-msgstr "Descrição"
+msgstr "描述"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -847,14 +827,14 @@ msgstr "Descrição"
 #. tpl/servicecontract_edit.html
 #: reports/export_csv_tools.php:54
 msgid "Start date"
-msgstr "Data inicial"
+msgstr "开始日期"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "End date"
-msgstr "Date Fin"
+msgstr "结束日期"
 
 #. tpl/command_edit.html
 #. tpl/issue_info.html
@@ -863,20 +843,19 @@ msgstr "Date Fin"
 #: reports/planning_report.php:466 reports/planning_report.php:495
 #: tools.php:1437
 msgid "Deadline"
-msgstr "Vencimento"
+msgstr "截止期限"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "State"
-msgstr "Estado"
+msgstr "州"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
-#, fuzzy
 msgid "Sold Charge"
-msgstr "Encargos"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -886,25 +865,24 @@ msgstr "Encargos"
 #: classes/consistency_check2.class.php:699 classes/scheduler.class.php:74
 #: classes/command.class.php:809 reports/planning_report.php:492
 msgid "days"
-msgstr "dias"
+msgstr "日"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "Average Daily Rate"
-msgstr "Taux Journalier Moyen"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
-#, fuzzy
 msgid "Default ADR"
-msgstr "Número de cargos"
+msgstr "默认ADR"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
 msgid "EUR"
-msgstr "Reais"
+msgstr "EUR"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -913,72 +891,67 @@ msgstr "Reais"
 #. tpl/servicecontract_edit.html
 #. TODO only if i'm the owner
 msgid "Delete"
-msgstr "Apagar"
+msgstr "删除"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
-#, fuzzy
 msgid "Field is missing"
-msgstr "Alguns campos estão faltando:"
+msgstr ""
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Command name"
-msgstr "Comando"
+msgstr "命令名称"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
 msgid "Not a number"
-msgstr ""
+msgstr "不是一个数字"
 
 #. tpl/command_edit.html
 msgid "Delete Command"
-msgstr "Remover comando"
+msgstr "删除命令"
 
 #. tpl/command_edit.html
 msgid "Delete this Command ?"
-msgstr "Remover este comando?"
+msgstr "删除该命令？"
 
 #. tpl/command_edit.html
 msgid "Nb tasks"
-msgstr "Núm casos"
+msgstr "Nb任务"
 
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "CommandSets"
-msgstr "CommandSets"
+msgstr "命令集"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
-#, fuzzy
 msgid "WBS"
-msgstr "BS"
+msgstr "WBS"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
-#, fuzzy
 msgid "Provisions"
-msgstr "Provisão"
+msgstr "规定"
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Parent CommandSets"
-msgstr "CommandSets"
+msgstr "父命令集"
 
 #. tpl/command_edit.html
 msgid "task id"
-msgstr "id caso"
+msgstr "任务ID"
 
 #. tpl/command_edit.html
 msgid "Missing field"
-msgstr "Campos faltante"
+msgstr "丢失字段"
 
 #. tpl/command_edit.html
 msgid "Add task"
-msgstr "Adicionar um caso"
+msgstr "添加任务"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -992,11 +965,11 @@ msgstr "Adicionar um caso"
 #. tpl/edit_holidays.html
 #. tpl/servicecontract_edit.html
 msgid "Add"
-msgstr "Adicionar"
+msgstr "添加"
 
 #. tpl/command_edit.html
 msgid "Create the Command to add some tasks."
-msgstr "Criar o comando para adicionar alguns casos"
+msgstr "创建命令以添加一些任务。"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -1005,26 +978,26 @@ msgstr "Criar o comando para adicionar alguns casos"
 #. tpl/modal/select_issues.html
 #. tpl/project_activity_report.html
 msgid "Target"
-msgstr "Meta"
+msgstr "目标"
 
 #. tpl/command_edit.html
 msgid "delete Command-Task association"
-msgstr "apagar associação de casos de comandos"
+msgstr "删除命令-任务关联"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
 #. tpl/issue_info.html
 #. tpl/servicecontract_edit.html
 msgid "Remove"
-msgstr "Remover"
+msgstr "移除"
 
 #. tpl/command_edit.html
 msgid "Remove Task"
-msgstr "Remover caso"
+msgstr "移除任务"
 
 #. tpl/command_edit.html
 msgid "Remove Task from this Command ?"
-msgstr "Remover caso deste comando ?"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -1032,16 +1005,16 @@ msgstr "Remover caso deste comando ?"
 #. tpl/time_tracking.html
 #. tpl/servicecontract_edit.html
 msgid "Id"
-msgstr "Id"
+msgstr "ID"
 
 #. tpl/command_edit.html
 msgid "Create the Command before assigning it to a CommandSet."
-msgstr "Criar um Comando antes de atribuir a um conjunto de comando"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
 msgid "No CommandSet found."
-msgstr "Não há conjunto de Comando."
+msgstr "找不到命令集。"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -1050,25 +1023,25 @@ msgstr "Não há conjunto de Comando."
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "CommandSet"
-msgstr "Conjunto de comandos"
+msgstr "命令集"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
 msgid "delete CommandSet-Command association"
-msgstr "remover associação de commando do grupo de comando"
+msgstr "删除命令集-命令关联"
 
 #. tpl/command_edit.html
 #. tpl/servicecontract_edit.html
 msgid "Remove CommandSet"
-msgstr "Remover conjunto de comandos"
+msgstr "移除命令集"
 
 #. tpl/command_edit.html
 msgid "Remove this Command from the CommandSet ?"
-msgstr "Remover este Comando do grupo de Comando?"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "Create the Command first."
-msgstr "Crie o comando antes de adicionar casos"
+msgstr "首先创建命令集。"
 
 #. tpl/command_edit.html
 msgid "Provisions successfully updated."
@@ -1077,19 +1050,18 @@ msgstr ""
 #. tpl/command_edit.html
 #. tpl/export_odt.html
 msgid "errorThrown"
-msgstr "errorThrown"
+msgstr "错误抛出"
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Add Provision"
-msgstr "Provisão"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/tools/wbsEditor.html
 #: management/commandset_edit.php:123 management/command_edit.php:201
 #: management/servicecontract_edit.php:138
 msgid "Save"
-msgstr "Enregistrer"
+msgstr "保存"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -1105,7 +1077,7 @@ msgstr "Enregistrer"
 #. tpl/edit_holidays.html
 #. tpl/mantis_reports.html
 msgid "Date"
-msgstr "Data"
+msgstr "日期"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -1116,15 +1088,14 @@ msgstr "Data"
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "Type"
-msgstr "Tipo"
+msgstr "类型"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
-#, fuzzy
 msgid "Budget Days"
-msgstr "Orçamento"
+msgstr "预算日"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -1132,55 +1103,50 @@ msgstr "Orçamento"
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "Budget"
-msgstr "Orçamento"
+msgstr "预算"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "ADR"
-msgstr ""
+msgstr "ADR"
 
 #. tpl/command_edit.html
 msgid "add to budget check"
 msgstr ""
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "delete Provision"
-msgstr "Provisão"
-
-#. tpl/command_edit.html
-msgid "Add to 'check budget'"
 msgstr ""
 
 #. tpl/command_edit.html
-#, fuzzy
-msgid "Delete Provision"
-msgstr "Provisão"
+msgid "Add to 'check budget'"
+msgstr "添加至“检查预算”"
 
 #. tpl/command_edit.html
-#, fuzzy
+msgid "Delete Provision"
+msgstr ""
+
+#. tpl/command_edit.html
 msgid "Delete from the Command ?"
-msgstr "Remover este comando?"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
-#, fuzzy
 msgid "Sorry, only managers can access this page."
-msgstr "Você deve ser um gerente de equipe para acessar esta pagina."
+msgstr "对不起，只有经理可以访问该页面。"
 
 #. tpl/commandset_edit.html
-#, fuzzy
 msgid "New command set"
-msgstr "Novo comando"
+msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "Cost"
-msgstr "Custo"
+msgstr "费用"
 
 #. tpl/commandset_edit.html
 #. tpl/create_team.html
@@ -1192,52 +1158,51 @@ msgstr "Custo"
 #. tpl/edit_holidays.html
 #. tpl/servicecontract_edit.html
 msgid "Some fields are missing:"
-msgstr "Alguns campos estão faltando:"
+msgstr "缺少一些字段："
 
 #. tpl/commandset_edit.html
-#, fuzzy
 msgid "Command set name"
-msgstr "Conjunto de comandos"
+msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "Delete CommandSet"
-msgstr "Remover grupo de comandos"
+msgstr "删除命令集"
 
 #. tpl/commandset_edit.html
 msgid "Delete this CommandSet ?"
-msgstr "Remover este grupo de comandos?"
+msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "Nb Commands"
-msgstr "Núm de comandos"
+msgstr "Nb命令"
 
 #. tpl/commandset_edit.html
 msgid "Service Contracts"
-msgstr "Contrato de Serviço"
+msgstr ""
 
 #. tpl/commandset_edit.html
 #. tpl/issue_info.html
 #. tpl/servicecontract_info.html
 msgid "Commands"
-msgstr "Comandos"
+msgstr "命令"
 
 #. tpl/commandset_edit.html
 msgid "--- New Command ---"
-msgstr "--- Novo Comando ---"
+msgstr "--- 新命令 ---"
 
 #. tpl/commandset_edit.html
 msgid "Remove Command"
-msgstr "Remover Comando"
+msgstr "移除命令"
 
 #. tpl/commandset_edit.html
 msgid "Remove Command from this CommandSet ?"
-msgstr "Remover este comando do grupo de comando ?"
+msgstr ""
 
 #. tpl/commandset_edit.html
 #. tpl/commandset_info.html
 #. tpl/servicecontract_edit.html
 msgid "Ref"
-msgstr "Ref"
+msgstr "参考"
 
 #. tpl/commandset_edit.html
 #. tpl/issue_info.html
@@ -1246,11 +1211,11 @@ msgstr "Ref"
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "Command"
-msgstr "Comando"
+msgstr "命令"
 
 #. tpl/commandset_edit.html
 msgid "Create the CommandSet to add some commands."
-msgstr "Criar um grupo de comandos para adicionar um comando"
+msgstr ""
 
 #. tpl/plugin_manager.html
 msgid "Check for new plugins in 'plugins' directory."
@@ -1262,7 +1227,7 @@ msgstr ""
 
 #. tpl/plugin_manager.html
 msgid "Plugin"
-msgstr ""
+msgstr "插件"
 
 #. tpl/plugin_manager.html
 #. tpl/issue_info.html
@@ -1274,84 +1239,81 @@ msgstr ""
 #. tpl/project_activity_report.html
 #: classes/wbsElement.class.php:582 tools.php:1491
 msgid "Category"
-msgstr "Categoria"
+msgstr "分类"
 
 #. tpl/plugin_manager.html
 msgid "Domain(s)"
-msgstr ""
+msgstr "域"
 
 #. tpl/plugin_manager.html
-#, fuzzy
 msgid "Enable Plugin"
-msgstr "Ativo"
+msgstr "启用插件"
 
 #. tpl/plugin_manager.html
 msgid "Disable Plugin"
-msgstr ""
+msgstr "禁用插件"
 
 #. tpl/plugin_manager.html
 #. tpl/time_tracking.html
 #. tpl/modal/login.html
 msgid "Please wait..."
-msgstr "Aguarde..."
+msgstr "请稍等..."
 
 #. tpl/bvi.html
-#, fuzzy
 msgid "Average Backlog Variation"
-msgstr "Variação do BackLog"
+msgstr ""
 
 #. tpl/bvi.html
-#, fuzzy
 msgid "No data."
-msgstr "Sem dados"
+msgstr "没有数据。"
 
 #. tpl/workflow.html
 msgid "Are you sure you want to change"
-msgstr "Você tem certeza que deseja alterar"
+msgstr "您确定要更改"
 
 #. tpl/workflow.html
 msgid "settings ?"
-msgstr " ?"
+msgstr "设置？"
 
 #. tpl/workflow.html
 msgid "Clonning"
-msgstr "Duplicar"
+msgstr "正在克隆"
 
 #. tpl/workflow.html
 msgid "into"
-msgstr "em"
+msgstr "到"
 
 #. tpl/workflow.html
 msgid "Clone project settings"
-msgstr "Duplicar a configuração do projeto"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Clone From"
-msgstr "Duplicar de"
+msgstr "克隆表单"
 
 #. tpl/workflow.html
 msgid "Clone To"
-msgstr "Duplicar para"
+msgstr "克隆至"
 
 #. tpl/workflow.html
 msgid "Workflow transitions"
-msgstr "Ciclo de trabalho"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Settings"
-msgstr "Opções"
+msgstr "设置"
 
 #. tpl/workflow.html
 msgid "No workflow transitions defined, using default configuration."
-msgstr "Sem ciclo de trabalho definidos, utilizando a configuração padrão."
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Configuration Option"
-msgstr "Opções de configuração"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "No configuration options defined, using default configuration."
-msgstr "Sem configuração definida, utilizando configuração padrão."
+msgstr ""
 
 #. tpl/workflow.html
 #. tpl/create_team.html
@@ -1361,38 +1323,37 @@ msgstr "Sem configuração definida, utilizando configuração padrão."
 #. tpl/uninstall.html
 #: admin/logs.php:64
 msgid "Sorry, you need to be in the admin-team to access this page."
-msgstr "Desculpe, você deve ser membro do time-admin para acessar esta página."
+msgstr ""
 
 #. tpl/export_csv_weekly.html
 msgid "Weekly report"
-msgstr "Relatório semanal"
+msgstr "每周报告"
 
 #. tpl/export_csv_weekly.html
 #. tpl/team_activity_report.html
 #. tpl/time_tracking.html
 msgid "Week"
-msgstr "Semana"
+msgstr "周"
 
 #. tpl/export_csv_weekly.html
 #. tpl/export_csv_monthly.html
 #. tpl/prepare_project.html
 #. tpl/uninstall.html
 msgid "Done"
-msgstr "Finalizado"
+msgstr "完成"
 
 #. tpl/export_csv_weekly.html
 #. tpl/export_csv_monthly.html
 msgid "Results in"
-msgstr "Resultados em "
+msgstr "结果位于"
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Set command filters"
-msgstr "Filtrar casos"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "--- Create New Command ---"
-msgstr "-- Criar novo comando ---"
+msgstr "--- 创建新命令 ---"
 
 #. tpl/command_info.html
 #. tpl/issue_info.html
@@ -1401,59 +1362,48 @@ msgstr "-- Criar novo comando ---"
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 #. tpl/project_info.html
-#, fuzzy
 msgid "Select"
-msgstr "Selecionar tudo"
+msgstr "选择"
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Command Filters"
-msgstr "Comandos"
+msgstr ""
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Reduce the command selection by setting some filters"
-msgstr "Reduzir a seleção de casos adicionando alguns filtros"
+msgstr ""
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Open task list in Mantis"
-msgstr "Import Fiches Mantis"
+msgstr ""
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "MgrEffortEstim + Checked Provisions"
-msgstr "Precisão de esforço"
+msgstr ""
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Reestimated (days)"
-msgstr "Reestimado"
+msgstr ""
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Drift (days)"
-msgstr "Duração (em dias)"
+msgstr ""
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Drift (percent)"
-msgstr "pourcent"
+msgstr ""
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Days"
-msgstr "Nb dias"
+msgstr "日"
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Reestimated days * AverageDailyRate"
-msgstr "Taux Journalier Moyen"
+msgstr "重估日 * 平均日产量"
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Drift days * AverageDailyRate"
-msgstr "Taux Journalier Moyen"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'"
@@ -1461,20 +1411,20 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "balance"
-msgstr ""
+msgstr "抵消"
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "Edit"
-msgstr "Editar"
+msgstr "编辑"
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 #. tpl/project_info.html
 msgid "Charges"
-msgstr "Encargos"
+msgstr ""
 
 #. tpl/command_info.html
 #. tpl/tools/dashboard.html
@@ -1482,7 +1432,7 @@ msgstr "Encargos"
 #. tpl/servicecontract_info.html
 #: reports/planning_report.php:483
 msgid "Attributes"
-msgstr "Propriedades"
+msgstr ""
 
 #. tpl/command_info.html
 #. tpl/issue_info.html
@@ -1490,12 +1440,11 @@ msgstr "Propriedades"
 #. tpl/servicecontract_info.html
 #. tpl/project_info.html
 msgid "Indicators"
-msgstr "Indicadores"
+msgstr "指示器"
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Tasks & Provisions"
-msgstr "Provisão"
+msgstr ""
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
@@ -1520,21 +1469,20 @@ msgstr ""
 #. tpl/project_activity_report.html
 #: install/install_step1.php:207
 msgid "User"
-msgstr "Usuário"
+msgstr "用户"
 
 #. tpl/command_info.html
 #. tpl/servicecontract_info.html
 msgid "No task found."
-msgstr "Não há casos."
+msgstr ""
 
 #. tpl/export_odt.html
 msgid "The following fields need to be set"
 msgstr ""
 
 #. tpl/export_odt.html
-#, fuzzy
 msgid "Reporters"
-msgstr "Relator"
+msgstr ""
 
 #. tpl/export_odt.html
 msgid "Handlers"
@@ -1542,166 +1490,161 @@ msgstr ""
 
 #. tpl/export_odt.html
 msgid "ODT Template"
-msgstr ""
+msgstr "ODT模板"
 
 #. tpl/export_odt.html
 #. tpl/create_team.html
 msgid "Categories"
-msgstr "Categorias"
+msgstr "分类"
 
 #. tpl/export_odt.html
 #. tpl/holidays_report.html
-#, fuzzy
 msgid "Filters"
-msgstr "Filtros"
+msgstr "过滤器"
 
 #. tpl/export_odt.html
-#, fuzzy
 msgid "Reported by"
-msgstr "Relator"
+msgstr "报告者："
 
 #. tpl/export_odt.html
 #. tpl/issue_info.html
 #. tpl/modal/update_issueBacklog.html
 #: reports/export_csv_weekly.php:185 reports/export_csv_tools.php:68
 msgid "Assigned to"
-msgstr "Atribuido a"
+msgstr ""
 
 #. tpl/export_odt.html
-#, fuzzy
 msgid "Download"
-msgstr "carga"
+msgstr "下载"
 
 #. tpl/holidays_report.html
 msgid "Year"
-msgstr "Ano"
+msgstr "年"
 
 #. tpl/holidays_report.html
 #. tpl/time_tracking.html
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Set filters"
-msgstr "Filtrar casos"
+msgstr "设置过滤器"
 
 #. tpl/holidays_report.html
-#, fuzzy
 msgid "Displayed tasks"
-msgstr "Tâches résolues"
+msgstr ""
 
 #. tpl/holidays_report.html
 msgid "workdays"
-msgstr "dias úteis"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Team Name"
-msgstr "Nome da equipe"
+msgstr "团队名称"
 
 #. tpl/create_team.html
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Team Administrator"
-msgstr "Administração CoDev"
+msgstr "团队管理员"
 
 #. tpl/create_team.html
 #. tpl/servicecontract_info.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:245
 msgid "SideTasks"
-msgstr "SideTasks"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Team Info"
-msgstr "Descrição da equipe"
+msgstr "团队信息"
 
 #. tpl/create_team.html
 msgid "SideTasks Project"
-msgstr "Projeto de tarefas correlatas"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Add common ExternalTasks Project"
-msgstr "Adicionar projeto de casos externos"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Create specific SideTask Project"
-msgstr "Criar um proeto específico para casos recorrelatos"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "WARNING: Disabling SideTasks project creation is generaly NOT a good idea,so don't do it unless you know exactly what you are doing."
-msgstr "ATENÇÃO: Desabilitar o projeto de casos correlatos geralmente não é uma boa idéia, pois assim você não sabe exatamente o que você está fazendo."
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Project Name"
-msgstr "Nome do projeto"
+msgstr "项目名称"
 
 #. tpl/create_team.html
 msgid "Meeting, Pre-sales, ProjectManagement, ..."
-msgstr "Reunião, orçamentos, gerenciamento do projeto, ..."
+msgstr ""
 
 #. tpl/create_team.html
 #: admin/create_team.php:92
 msgid "Incident"
-msgstr "Incidente"
+msgstr "事件"
 
 #. tpl/create_team.html
 msgid "Server or Platform down, ..."
-msgstr "Servidor inacessível, ..."
+msgstr "服务器或平台停机..."
 
 #. tpl/create_team.html
 #: admin/create_team.php:95
 msgid "Tools"
-msgstr "Ferramentas"
+msgstr "工具"
 
 #. tpl/create_team.html
 msgid "Sys. Admin, Scritps, ..."
-msgstr "Admin Sys, Scripts, ..."
+msgstr "系统管理员、脚本..."
 
 #. tpl/create_team.html
 #: admin/create_team.php:98
 msgid "Team Workshop"
-msgstr "Grupo de trabalho"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Support, Doc, Training, Wiki, ..."
-msgstr "Suporte, Doc, Formatação, Wiki, ..."
+msgstr "支持、文档、培训、Wiki..."
 
 #. tpl/create_team.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:369
 msgid "Inactivity"
-msgstr "Inatividade"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "On Duty, other special cases"
-msgstr "de plantão, outros casos especiais"
+msgstr "值班，其他特殊情况"
 
 #. tpl/create_team.html
 msgid "Custom Fields"
-msgstr "Campos personalizados"
+msgstr "自定义字段"
 
 #. tpl/create_team.html
 msgid "CodevTT custom fields"
-msgstr "Campos CodevTT"
+msgstr "CodevTT自定义字段"
 
 #. tpl/create_team.html
 msgid "MgrEffortEstim, EffortEstim, AddEffort, Backlog, DeadLine, DeliveryDate"
-msgstr "gerenciar esforço, adicionar esforço, Backlog, Vencimento, Data de entrega"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "(generic) Project Management"
-msgstr "(geral) Gerenciamento do projeto"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "(generic) Meeting"
-msgstr "(geral) Reunião"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "(generic) Network is down"
-msgstr "(geral) Problemas técnicos"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "(generic) Compilation Scripts"
-msgstr "(Geral) Scripts de compilação"
+msgstr "（一般）编译脚本"
 
 #. tpl/create_team.html
 msgid "(generic) Update team WIKI"
-msgstr "(Geral) Documentação WIKI"
+msgstr ""
 
 #. tpl/create_team.html
 #. Display Empty Command Form
@@ -1712,154 +1655,145 @@ msgstr "(Geral) Documentação WIKI"
 #. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
 #: management/command_edit.php:109 management/servicecontract_edit.php:86
 msgid "Create"
-msgstr "Criar"
+msgstr "创建"
 
 #. tpl/edit_team.html
 msgid "General"
-msgstr ""
+msgstr "一般"
 
 #. tpl/edit_team.html
 msgid "Team Members"
-msgstr "Membros da equipe"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Team Projects"
-msgstr "Projetos da equipe"
+msgstr "团队项目"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Preferences"
-msgstr "Referencia"
+msgstr "参数设置"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Timetrack Durations"
-msgstr "Atividades"
+msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "OnDuty tasks"
-msgstr "Adicionar tarefas de plantão"
+msgstr "值班任务"
 
 #. tpl/edit_team.html
 #. tpl/issue_info.html
 #. tpl/index.html
 msgid "Update"
-msgstr "Atualização"
+msgstr "更新"
 
 #. tpl/edit_team.html
 msgid "Creation Date"
-msgstr "Data da criação"
+msgstr "创建日期"
 
 #. tpl/edit_team.html
 msgid "Enabled"
-msgstr "Ativo"
+msgstr "已启用"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report."
-msgstr "Nota: Um <i>Gerente</i> deve ser declarado como <i>membro da equipe</i> para ele ser incluso no relatório de produtividade da equipe"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Delete team"
-msgstr "Remover equipe"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Team Member"
-msgstr "Membros da equipe"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Source Team"
-msgstr "Equipe de fontes"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Member"
-msgstr "Membro"
+msgstr "成员"
 
 #. tpl/edit_team.html
 msgid "Role"
-msgstr "Grupo"
+msgstr "角色"
 
 #. tpl/edit_team.html
 msgid "Arrival-Date"
-msgstr "Data entrada"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Add User"
-msgstr "Adicionar usuário"
+msgstr "添加用户"
 
 #. tpl/edit_team.html
 msgid "Departure-Date"
-msgstr "Data da saída"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "set Departure Date"
-msgstr "informar data de saída"
+msgstr "设置出发日期"
 
 #. tpl/edit_team.html
 msgid "Import all users from team"
-msgstr "Importar membros da equipe"
+msgstr ""
 
 #. tpl/edit_team.html
 #. tpl/import_issues.html
 msgid "Import"
-msgstr "Importar"
+msgstr "导入"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Remove user from this team ?"
-msgstr "Remover caso deste comando ?"
+msgstr ""
 
 #. tpl/edit_team.html
 #. tpl/modal/login.html
 msgid "login"
-msgstr "Usuário"
+msgstr "登录"
 
 #. tpl/edit_team.html
 msgid "Arrival date in the team"
-msgstr "Data de entrada na equipe"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Arrival Date"
-msgstr "Data de chegada"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Departure date from the team"
-msgstr "Data de saída da equipe"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Departure Date"
-msgstr "Data da saída"
+msgstr "出发日期"
 
 #. tpl/edit_team.html
 #. tpl/time_tracking.html
 msgid "delete this row"
-msgstr "apagar esta linha"
+msgstr "删除该行"
 
 #. tpl/edit_team.html
 #. tpl/edit_jobs.html
 msgid "Jobs"
-msgstr "Cargos"
+msgstr "工作"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Create SideTasksProject"
-msgstr "Criar um proeto específico para casos recorrelatos"
+msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Project name"
-msgstr "Nome do projeto"
+msgstr "项目名称"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Create project"
-msgstr "Preparar projetos "
+msgstr "创建项目"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Issue Tooltips"
-msgstr "Tag caso"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Tooltip fields"
@@ -1872,15 +1806,15 @@ msgstr ""
 #. tpl/edit_team.html
 #. tpl/menu/global_menu.html
 msgid "Consistency Check"
-msgstr "Teste de integridade"
-
-#. tpl/edit_team.html
-msgid "Enable/Disable alerts"
 msgstr ""
 
 #. tpl/edit_team.html
+msgid "Enable/Disable alerts"
+msgstr "启用/禁用提醒"
+
+#. tpl/edit_team.html
 msgid "Add OnDuty tasks"
-msgstr "Adicionar tarefas de plantão"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly different behaviour."
@@ -1888,7 +1822,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Inactivity task"
-msgstr "Inatividade"
+msgstr ""
 
 #. tpl/edit_team.html
 #. tpl/issue_info.html
@@ -1905,11 +1839,11 @@ msgstr "Inatividade"
 #: reports/export_csv_weekly.php:182 reports/planning_report.php:471
 #: reports/planning_report.php:473
 msgid "Task"
-msgstr "Tarefa"
+msgstr "任务"
 
 #. tpl/edit_team.html
 msgid "Inactivity tasks"
-msgstr "Inatividade"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "No 'inactivity' task defined in your SideTasks projects."
@@ -1917,12 +1851,11 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "This task will no longer be identified as an 'OnDuty' task."
-msgstr ""
+msgstr "该任务将不再被识别为“OnDuty”任务。"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "delete OnDuty task"
-msgstr "apagar retrabalho"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Timetrack durations list"
@@ -1935,162 +1868,150 @@ msgstr ""
 #. tpl/edit_team.html
 #. tpl/menu/global_menu.html
 msgid "Display"
-msgstr "Exibir"
+msgstr "显示"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "add a custom duration"
-msgstr "Effort Estimé"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "save"
+msgstr "保存"
+
+#. tpl/edit_team.html
+msgid "Delete duration"
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
-msgid "Delete duration"
-msgstr "Duração"
-
-#. tpl/edit_team.html
-#, fuzzy
 msgid "Deleted the following duration ?"
-msgstr "Apagar o registro de tempo a seguir ?"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
-msgstr "Você deve ser um gerente de equipe para acessar esta pagina."
-
-#. tpl/issue_info.html
-msgid "External ID"
-msgstr "ID externo"
-
-#. tpl/issue_info.html
-#, fuzzy
-msgid "Remove from command"
-msgstr "Remover Comando"
-
-#. tpl/issue_info.html
-#, fuzzy
-msgid "Add to command"
-msgstr "Adicionar tarefa ao Command"
-
-#. tpl/issue_info.html
-msgid "Properties"
 msgstr ""
 
 #. tpl/issue_info.html
+msgid "External ID"
+msgstr "外部ID"
+
+#. tpl/issue_info.html
+msgid "Remove from command"
+msgstr "从命令中移除"
+
+#. tpl/issue_info.html
+msgid "Add to command"
+msgstr "添加至命令"
+
+#. tpl/issue_info.html
+msgid "Properties"
+msgstr "属性"
+
+#. tpl/issue_info.html
 msgid "Timetracks"
-msgstr "Atividades"
+msgstr ""
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Time tracking"
-msgstr "Acompanhamento de tempo"
+msgstr ""
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Task Info"
-msgstr "Info caso"
+msgstr "任务信息"
 
 #. tpl/issue_info.html
 msgid "External Ref"
-msgstr "Ref. Externa"
+msgstr "外部参考"
 
 #. tpl/issue_info.html
 #: reports/export_csv_tools.php:57 reports/planning_report.php:462
 #: reports/planning_report.php:485 tools.php:1501
 msgid "Priority"
-msgstr "Prioridade"
+msgstr "优先级"
 
 #. tpl/issue_info.html
 #: reports/planning_report.php:463 reports/planning_report.php:486
 #: tools.php:1503
 msgid "Severity"
-msgstr "Gravidade"
+msgstr "严重性"
 
 #. tpl/issue_info.html
 #. tpl/team_activity_report.html
 #. tpl/project_activity_report.html
 msgid "Target version"
-msgstr "Meta da versão"
+msgstr ""
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Relation"
-msgstr "Resolução"
+msgstr ""
 
 #. tpl/issue_info.html
 #. tpl/modal/update_issueBacklog.html
 msgid "Update Backlog"
-msgstr "Update Backlog/acúmulo"
+msgstr ""
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Remove from Command"
-msgstr "Remover Comando"
+msgstr "从命令中移除"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Remove from :"
-msgstr "Remover Comando"
+msgstr "移除自："
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Add to Command"
-msgstr "Adicionar tarefa ao Command"
+msgstr ""
 
 #. tpl/export_csv_monthly.html
 msgid "Monthly report"
-msgstr "Relatório mensal"
+msgstr ""
 
 #. tpl/export_csv_monthly.html
 msgid "Issues form Team projects, including issues assigned to other teams"
-msgstr "Projetos da equipe, incluindo as tarefas atribuídas a membros de outras equipes"
+msgstr ""
 
 #. tpl/export_csv_monthly.html
 msgid "Export Managed Issues"
-msgstr "Exportar casos Mantis "
+msgstr "导出已管理问题"
 
 #. tpl/export_csv_monthly.html
 msgid "Export"
-msgstr "Exportar"
+msgstr "导出"
 
 #. tpl/export_csv_monthly.html
 #. tpl/menu/global_menu.html
 #. tpl/project_activity_report.html
 msgid "Projects Activity"
-msgstr "Atividades dos projetos"
+msgstr ""
 
 #. tpl/export_csv_monthly.html
 msgid "Export Holidays "
-msgstr "Exportar feriados "
+msgstr ""
 
 #. tpl/prepare_project.html
 msgid "Preparing project:"
-msgstr "Preparação do projeto:"
+msgstr ""
 
 #. tpl/prepare_project.html
 msgid "Configure existing Projects"
-msgstr "Configuração dos projetos existentes"
+msgstr ""
 
 #. tpl/prepare_project.html
-#, fuzzy
 msgid "Select the projects to be managed with CoDevTT"
-msgstr "Selecione o projeto para ser gerenciado com o CodevTT"
+msgstr "选择项目以与CoDevTT一起管理"
 
 #. tpl/prepare_project.html
 msgid "Prepare"
-msgstr "Preparar"
+msgstr "预备"
 
 #. tpl/blog/blogpost_form.html
 #. tpl/blog/blogpost.html
 #. tpl/form/dateRangeSelector.html
 msgid "To"
-msgstr "Para"
+msgstr "至"
 
 #. tpl/blog/blogpost.html
 msgid "Author"
-msgstr "Autor"
+msgstr "作者"
 
 #. tpl/tools/wbsEditor.html
 #. tpl/tools/wbsReader.html
@@ -2111,218 +2032,209 @@ msgstr ""
 
 #. tpl/tools/wbsEditor.html
 msgid "New Folder"
-msgstr ""
+msgstr "新文件夹"
 
 #. tpl/tools/wbsEditor.html
-#, fuzzy
 msgid "Rename"
-msgstr "Arquivo"
+msgstr "重命名"
 
 #. tpl/tools/wbsEditor.html
-#, fuzzy
 msgid "Add subfolder"
-msgstr "Adicionar usuário"
+msgstr ""
 
 #. tpl/tools/dashboard.html
 msgid "Add an indicator to the dashboard"
 msgstr ""
 
 #. tpl/tools/dashboard.html
-#, fuzzy
 msgid "Add Indicator"
-msgstr "Indicador"
+msgstr "添加指示器"
 
 #. tpl/tools/dashboard.html
 #. tpl/modal/login.html
 msgid "Loading"
-msgstr "Carregando"
+msgstr "正在载入"
 
 #. tpl/tools/dashboard.html
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #. tpl/team_activity_report.html
 #. tpl/menu/global_menu.html
 msgid "Weekly Activity"
-msgstr "Atividade semanal"
+msgstr "每周活跃"
 
 #. tpl/team_activity_report.html
 #. tpl/time_tracking.html
 msgid "Previous week"
-msgstr "Semana anterior"
+msgstr "上周"
 
 #. tpl/team_activity_report.html
 #. tpl/time_tracking.html
 msgid "Next week"
-msgstr "Próxima semana"
+msgstr "下周"
 
 #. tpl/team_activity_report.html
 #. tpl/project_activity_report.html
 msgid "Detailed"
-msgstr "Detalhar"
+msgstr ""
 
 #. tpl/team_activity_report.html
-#, fuzzy
 msgid "Timesheets"
-msgstr "Atividades"
+msgstr "工时表"
 
 #. tpl/team_activity_report.html
 msgid "sum(Backlog) of assigned tasks"
-msgstr "soma(Backlog) dos atribuído atuais"
+msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "Workload"
-msgstr "carga"
+msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "Timesheet notes"
-msgstr ""
+msgstr "工时表注释"
 
 #. tpl/team_activity_report.html
-#, fuzzy
 msgid "All Tasks"
-msgstr "Todos os casos"
+msgstr "所有任务"
 
 #. tpl/team_activity_report.html
 msgid "Note"
-msgstr ""
+msgstr "注意"
 
 #. tpl/team_activity_report.html
-#, fuzzy
 msgid "Read by"
-msgstr "Lecture"
+msgstr "阅读自"
 
 #. tpl/team_activity_report.html
-#, fuzzy
 msgid "Action"
-msgstr "Ações"
+msgstr "操作"
 
 #. tpl/team_activity_report.html
 msgid "Mark as read"
-msgstr ""
+msgstr "标记为已读"
 
 #. tpl/team_activity_report.html
-#, fuzzy
 msgid "Delete note"
-msgstr "Remover equipe"
+msgstr "删除注释"
 
 #. tpl/ajax/weekTaskDetails.html
 #. tpl/ajax/issueGeneralInfo.html
 msgid "update backlog"
-msgstr "atualizar backlog"
+msgstr "更新待办"
 
 #. tpl/ajax/weekTaskDetails.html
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:267
 msgid "TOTAL"
-msgstr "TOTAL"
+msgstr "总计"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support included"
-msgstr "Suporte incluso"
+msgstr ""
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support NOT included"
-msgstr "Suporte NÃO incluso"
+msgstr "未包括的支持"
 
 #. tpl/menu/global_menu.html
 msgid "Home"
-msgstr "Início"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "TimeTracking & team activity"
-msgstr "Acompanhamento e atividade da equipe"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Activity"
-msgstr "Atividade"
+msgstr "活动"
 
 #. tpl/menu/global_menu.html
 msgid "Time Tracking"
-msgstr "Acompanhamento de tempo"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Holidays Reports"
-msgstr "Relatório de feriados"
+msgstr "假日报告"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Leaves"
-msgstr "Ausência"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Check DeadLines"
-msgstr "Verificar vencimento"
+msgstr "检查截止日期"
 
 #. tpl/menu/global_menu.html
 msgid "Planning"
-msgstr "Planejamento"
+msgstr "正在计划"
 
 #. tpl/menu/global_menu.html
 msgid "Gantt Chart"
-msgstr "Diagrama de Gantt"
+msgstr "甘特图"
 
 #. tpl/menu/global_menu.html
 msgid "Gantt"
-msgstr "Gantt"
+msgstr "甘特图"
 
 #. tpl/menu/global_menu.html
 msgid "Task Information"
-msgstr "Informação do caso"
+msgstr "任务信息"
 
 #. tpl/menu/global_menu.html
 msgid "Project Information"
-msgstr "Informações do projeto"
+msgstr "项目信息"
 
 #. tpl/menu/global_menu.html
 msgid "Team Statistics"
-msgstr "Estatísticas equipe"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Period Statistics"
-msgstr "Estatísticas"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "History"
-msgstr "Histórico"
+msgstr "历史"
 
 #. tpl/menu/global_menu.html
 msgid "Contracts & Commands"
-msgstr "Contrato & Comando"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Contracts"
-msgstr "Contrato"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 #. tpl/servicecontract_info.html
 msgid "ServiceContract"
-msgstr "Contrato de serviço"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Mantis Reports"
-msgstr "Ocorrências Mantis"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Check"
-msgstr "Check"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Import / Export"
-msgstr "Importar / Exportar"
+msgstr "导入 / 导出"
 
 #. tpl/menu/global_menu.html
 msgid "Import Issues"
-msgstr "Importar casos"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Export Weekly Report"
-msgstr "Exportar relatório semanal"
+msgstr "导出每周报告"
 
 #. tpl/menu/global_menu.html
 msgid "Export Monthly Report"
-msgstr "Exportae relatório mensal"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Export to LibreOffice"
@@ -2330,72 +2242,69 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Blog"
-msgstr "Blog"
+msgstr "博客"
 
 #. tpl/menu/global_menu.html
 #: install/install_step3.php:830 install/install_menu.inc.php:68
 msgid "Documentation"
-msgstr "Documentação"
+msgstr "文档"
 
 #. tpl/menu/global_menu.html
 msgid "Productivity Reports"
-msgstr "Indicadores de produção"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "PHP Doc"
-msgstr "PHP Doc"
+msgstr "PHP文档"
 
 #. tpl/menu/global_menu.html
 msgid "CoDev Administration"
-msgstr "Administração CoDev"
+msgstr ""
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Admin"
-msgstr "Guia do administrador"
+msgstr "管理"
 
 #. tpl/menu/global_menu.html
 msgid "Create Team"
-msgstr "Créer équipe"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Edit Team"
-msgstr "Editar equipe"
+msgstr "编辑团队"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Tools & Statistics"
-msgstr "Estatísticas equipe"
+msgstr "工具和统计"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Jobs"
-msgstr "Editar cargos"
+msgstr "编辑工作"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Holidays"
-msgstr "Editar feriados"
+msgstr "编辑假日"
 
 #. tpl/menu/global_menu.html
 msgid "Prepare Projects"
-msgstr "Preparar projetos "
+msgstr "准备项目"
 
 #. tpl/menu/global_menu.html
 msgid "Clone Projects"
-msgstr "Clonar um projeto"
+msgstr "克隆项目"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Plugin Manager"
-msgstr "Gerente"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Logs"
-msgstr "Logs"
+msgstr "日志"
 
 #. tpl/menu/global_menu.html
 #. tpl/uninstall.html
 msgid "Uninstall"
-msgstr "Desinstalar"
+msgstr "卸载"
 
 #. tpl/menu/global_menu.html
 msgid "About CodevTT"
@@ -2410,41 +2319,41 @@ msgstr ""
 #: reports/export_odt_ajax.php:61 reports/issue_info.php:47
 #: smarty_tools_ajax.php:46
 msgid "(all)"
-msgstr "(todos)"
+msgstr "（所有）"
 
 #. tpl/set_holidays.html
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
 msgid "Duration (in days)"
-msgstr "Duração (em dias)"
+msgstr ""
 
 #. tpl/set_holidays.html
 msgid "Monday"
-msgstr "Lundi"
+msgstr "星期一"
 
 #. tpl/set_holidays.html
 msgid "Tuesday"
-msgstr "Mardi"
+msgstr "星期二"
 
 #. tpl/set_holidays.html
 msgid "Wednesday"
-msgstr "Mercredi"
+msgstr "星期三"
 
 #. tpl/set_holidays.html
 msgid "Thursday"
-msgstr "Jeudi"
+msgstr "星期四"
 
 #. tpl/set_holidays.html
 msgid "Friday"
-msgstr "Vendredi"
+msgstr "星期五"
 
 #. tpl/edit_jobs.html
 msgid "Job Name"
-msgstr "Nome do cargo"
+msgstr "工作名称"
 
 #. tpl/edit_jobs.html
 msgid "Job Color"
-msgstr "Cor do cargo"
+msgstr ""
 
 #. tpl/edit_jobs.html
 #. tpl/planning_report.html
@@ -2453,52 +2362,49 @@ msgstr "Cor do cargo"
 #: install/install_step3.php:625 install/install_step3.php:631
 #: install/install_step3.php:636
 msgid "Color"
-msgstr "Cor"
+msgstr "颜色"
 
 #. tpl/edit_jobs.html
 #. tpl/edit_holidays.html
 #: install/install_step3.php:605
 msgid "open a colorPicker in a new Tab"
-msgstr "Abror seleção de cor em nova aba"
+msgstr ""
 
 #. tpl/edit_jobs.html
-#, fuzzy
 msgid "Delete job"
-msgstr "Apagar cargo"
+msgstr "删除工作"
 
 #. tpl/edit_jobs.html
 msgid "delete Job"
-msgstr "Apagar cargo"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Job Assignations"
-msgstr "Atribuições do cargo"
+msgstr ""
 
 #. tpl/edit_jobs.html
-#, fuzzy
 msgid "Missing fields :"
-msgstr "Campos faltante"
+msgstr "丢失字段："
 
 #. tpl/edit_jobs.html
 msgid "single selection"
-msgstr "selecão única"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "multiple selection"
-msgstr "selecão múltipla"
+msgstr ""
 
 #. tpl/edit_jobs.html
-#, fuzzy
 msgid "Remove this link :"
-msgstr "Remover caso"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "delete Project Association"
-msgstr "remover a associação com o projeto"
+msgstr ""
 
 #. tpl/template.html
 msgid "Disconnect"
-msgstr ""
+msgstr "断开连接"
 
 #. tpl/template.html
 msgid "Note: For a better user experience, use a standards compliant browser such as :"
@@ -2507,30 +2413,28 @@ msgstr ""
 #. tpl/template.html
 #. tpl/import_issues.html
 msgid "or"
-msgstr "ou"
+msgstr "或"
 
 #. tpl/planning_report.html
 msgid "zoom in"
-msgstr "zoom in"
+msgstr "放大"
 
 #. tpl/planning_report.html
 msgid "zoom out"
-msgstr "zoom out"
+msgstr "缩小"
 
 #. tpl/planning_report.html
-#, fuzzy
 msgid "Options"
-msgstr "Ações"
+msgstr "选项"
 
 #. tpl/planning_report.html
-#, fuzzy
 msgid "Planning Options"
-msgstr "Planejamento"
+msgstr ""
 
 #. tpl/planning_report.html
 #. tpl/modal/consistency_check.html
 msgid "Click to show errors"
-msgstr "Clique para ver os erros"
+msgstr ""
 
 #. tpl/planning_report.html
 #: management/command_info.php:126 management/command_info.php:127
@@ -2540,63 +2444,59 @@ msgstr "Clique para ver os erros"
 #: timetracking/team_activity_report.php:65 timetracking/time_tracking.php:285
 #: timetracking/team_monthly_activity_report.php:75
 msgid "Errors"
-msgstr "Erros"
+msgstr "错误"
 
 #. tpl/planning_report.html
-#, fuzzy
 msgid "Unassigned tasks"
-msgstr "assigné à"
+msgstr "未分配任务"
 
 #. tpl/planning_report.html
-#, fuzzy
 msgid "Team's backlog"
-msgstr "Consommé + RAF"
+msgstr "团队积压工作"
 
 #. tpl/planning_report.html
-#, fuzzy
 msgid "tasks"
-msgstr "Casos"
+msgstr ""
 
 #. tpl/planning_report.html
 msgid "workload"
-msgstr "carga"
+msgstr ""
 
 #. tpl/planning_report.html
 msgid "nbDaysToDeadLine"
-msgstr "Num dias restantes"
+msgstr ""
 
 #. tpl/planning_report.html
 msgid "day"
-msgstr "dia"
+msgstr "日"
 
 #. tpl/filters.html
 msgid "Set project filters"
-msgstr "Definir filtros de projeto"
+msgstr ""
 
 #. tpl/check.html
 msgid " Error(s) in Mantis Tasks"
-msgstr " Erro(s) nos casos Mantis"
+msgstr ""
 
 #. tpl/check.html
-#, fuzzy
 msgid "extRef"
-msgstr "RefExt"
+msgstr ""
 
 #. tpl/check.html
 msgid "last modification date"
-msgstr "data última modificação"
+msgstr ""
 
 #. tpl/check.html
 msgid "Level"
-msgstr "Severidade"
+msgstr "等级"
 
 #. tpl/check.html
 msgid "Error Description"
-msgstr "Descrição de erro"
+msgstr "错误描述"
 
 #. tpl/forecasting_report.html
 msgid "Computed on task NOT Resolved/Closed on "
-msgstr "Cálculo de casos NÃO Fechados/Resolvidos"
+msgstr "计算在未解决的任务/关闭于\\"
 
 #. tpl/forecasting_report.html
 msgid "Unassigned tasks will not be displayed"
@@ -2604,250 +2504,241 @@ msgstr ""
 
 #. tpl/forecasting_report.html
 msgid "deviation"
-msgstr "Desvio"
+msgstr ""
 
 #. tpl/forecasting_report.html
 msgid "Overview"
-msgstr "Resumo"
+msgstr "概述"
 
 #. tpl/forecasting_report.html
 msgid "Task list"
-msgstr "Lista de casos"
+msgstr "任务列表"
 
 #. tpl/forecasting_report.html
 #. tpl/servicecontract_edit.html
 msgid "No data"
-msgstr "Sem dados"
+msgstr "没有数据"
 
 #. tpl/import_issues.html
 msgid "Select CSV file"
-msgstr "Selecionar arquivo CSV"
+msgstr "选择CSV文件"
 
 #. tpl/import_issues.html
 msgid "Import Mantis Issues"
-msgstr "Importar casos Mantis"
-
-#. tpl/import_issues.html
-msgid "File Format"
-msgstr "Formato do arquivo"
-
-#. tpl/import_issues.html
-msgid "Standard CSV format with :"
-msgstr "Arquivo CSV padrão:"
-
-#. tpl/import_issues.html
-msgid "delimiter"
-msgstr "separador"
-
-#. tpl/import_issues.html
-msgid "enclosure"
-msgstr "enclosure"
-
-#. tpl/import_issues.html
-msgid "Date format"
-msgstr "Formato da Data"
-
-#. tpl/import_issues.html
-msgid "Number format"
-msgstr "Formato numérico"
-
-#. tpl/import_issues.html
-msgid "Encoding"
-msgstr "Codificação"
-
-#. tpl/import_issues.html
-msgid "It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported."
-msgstr "É altamente recomendável usar <strong>UTF-8</strong> mas ASCII e ISO-8859-1 (MS-Windows) também são suportados."
-
-#. tpl/import_issues.html
-msgid "Columns"
-msgstr "Colunas"
-
-#. tpl/import_issues.html
-msgid "the file must contain 6 columns, the 1st line contains the column names."
-msgstr "O arquivo deve conter 6 colunas, a primeira linha deve ter o nome das colunas"
-
-#. tpl/import_issues.html
-msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef"
-msgstr "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef"
-
-#. tpl/import_issues.html
-msgid "File"
-msgstr "Arquivo"
-
-#. tpl/import_issues.html
-msgid "File extension"
-msgstr "Extensão do arquivo"
-
-#. tpl/import_issues.html
-msgid "Preview import"
-msgstr "Visualizar"
-
-#. tpl/import_issues.html
-msgid "Set All"
-msgstr "Aplicar a todos"
-
-#. tpl/import_issues.html
-msgid "TargetVersion"
-msgstr "Versão de destino/previsão"
-
-#. tpl/import_issues.html
-msgid "Category not set on all issues"
 msgstr ""
 
 #. tpl/import_issues.html
-#, fuzzy
+msgid "File Format"
+msgstr "文件格式"
+
+#. tpl/import_issues.html
+msgid "Standard CSV format with :"
+msgstr ""
+
+#. tpl/import_issues.html
+msgid "delimiter"
+msgstr ""
+
+#. tpl/import_issues.html
+msgid "enclosure"
+msgstr ""
+
+#. tpl/import_issues.html
+msgid "Date format"
+msgstr ""
+
+#. tpl/import_issues.html
+msgid "Number format"
+msgstr "数字格式"
+
+#. tpl/import_issues.html
+msgid "Encoding"
+msgstr "正在编码"
+
+#. tpl/import_issues.html
+msgid "It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported."
+msgstr "强烈建议使用<strong>UTF-8</strong>，但也支持ASCII和ISO-8859-1（微软Windows）。"
+
+#. tpl/import_issues.html
+msgid "Columns"
+msgstr ""
+
+#. tpl/import_issues.html
+msgid "the file must contain 6 columns, the 1st line contains the column names."
+msgstr "文件必须包含6列，第一行包含列名。"
+
+#. tpl/import_issues.html
+msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef"
+msgstr "摘要；MgrEffortEstim；努力估计；描述；截止期限；外部参考"
+
+#. tpl/import_issues.html
+msgid "File"
+msgstr "文件"
+
+#. tpl/import_issues.html
+msgid "File extension"
+msgstr ""
+
+#. tpl/import_issues.html
+msgid "Preview import"
+msgstr ""
+
+#. tpl/import_issues.html
+msgid "Set All"
+msgstr "设置所有"
+
+#. tpl/import_issues.html
+msgid "TargetVersion"
+msgstr ""
+
+#. tpl/import_issues.html
+msgid "Category not set on all issues"
+msgstr "分类未在所有问题中设置"
+
+#. tpl/import_issues.html
 msgid "Type not set on all issues"
-msgstr "Tempo total gasto neste caso"
+msgstr ""
 
 #. tpl/import_issues.html
 msgid "Import done !"
-msgstr "Importação finalizada!"
+msgstr ""
 
 #. tpl/import_issues.html
 msgid "Mantis issues to create:"
-msgstr "Casos Mantis a criar:"
+msgstr ""
 
 #. tpl/commandset_info.html
 msgid "--- Create New CommandSet ---"
-msgstr "-- Criar um novo grupo de comandos ---"
+msgstr "--- 创建新命令集 ---"
 
 #. tpl/commandset_info.html
 msgid "Service Contract"
-msgstr "Contrato de Serviço"
+msgstr ""
 
 #. tpl/commandset_info.html
-#, fuzzy
 msgid "Cmds Budget"
-msgstr "Orçamento"
+msgstr ""
 
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
-#, fuzzy
 msgid "Detailed Charges"
-msgstr "Mgr Detalhado"
+msgstr ""
 
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "No Command found."
-msgstr "Comando não localizado."
+msgstr ""
 
 #. tpl/team_dashboard.html
 #. tpl/time_tracking.html
 msgid "ERROR"
-msgstr "ERRO"
+msgstr "错误"
 
 #. tpl/servicecontract_info.html
 msgid "--- Create New ServiceContract ---"
-msgstr "-- Criar um novo Contrato de Serviço ---"
+msgstr "--- 创建新服务合同 ---"
 
 #. tpl/servicecontract_info.html
 #: install/install_step4.php:51
 msgid "Go to"
-msgstr "Ir para"
+msgstr "转到"
 
 #. tpl/servicecontract_info.html
 msgid "No sidetasks found."
-msgstr "Não há casos relacionados "
+msgstr "找不到边缘任务。"
 
 #. tpl/servicecontract_info.html
 msgid "All tasks"
-msgstr "Todos os casos"
+msgstr "所有任务"
 
 #. tpl/servicecontract_info.html
 msgid "No Total found."
-msgstr "Total não localizado."
+msgstr ""
 
 #. tpl/servicecontract_info.html
 msgid "Note: SideTasks already defined in Commands are not displayed."
-msgstr "Nota: Estes casos relacionados estão definidos em comandos e não serão exibidos"
+msgstr ""
 
 #. tpl/servicecontract_info.html
-#, fuzzy
 msgid "No provision found."
-msgstr "Não há casos."
-
-#. tpl/statistics.html
-msgid "Start Year"
-msgstr "Ano inicio"
-
-#. tpl/statistics.html
-msgid "Submitted / Resolved Issues"
-msgstr "Reportados / Casos resolvidos"
-
-#. tpl/statistics.html
-msgid "Efficiency - System Disponibility"
-msgstr "Taxa de eficiência - Disponibilidade do sistema"
-
-#. tpl/statistics.html
-msgid "Reopened Rate"
-msgstr "Taxa de reabertura"
-
-#. tpl/statistics.html
-#: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:67
-#, fuzzy
-msgid "Available Workforce"
-msgstr "Capacidade de produção"
-
-#. tpl/statistics.html
-msgid "Submitted"
-msgstr "Reportados"
-
-#. tpl/statistics.html
-#, fuzzy
-msgid "Nb of submitted tasks EXCEPT SideTasks"
-msgstr "Num de casos reportado EXCETO casos correlatos e FDL"
-
-#. tpl/statistics.html
-msgid "Resolved"
-msgstr "Resolvidos"
-
-#. tpl/statistics.html
-msgid "Nb of resolved tasks EXCEPT SideTasks and reopened tasks"
-msgstr "Num de casos resolvidos EXCETO casos correlatos e casos reabertos"
-
-#. tpl/statistics.html
-msgid "show values"
 msgstr ""
 
 #. tpl/statistics.html
+msgid "Start Year"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Submitted / Resolved Issues"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Efficiency - System Disponibility"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Reopened Rate"
+msgstr ""
+
+#. tpl/statistics.html
+#: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:67
+msgid "Available Workforce"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Submitted"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Nb of submitted tasks EXCEPT SideTasks"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Resolved"
+msgstr "已解决"
+
+#. tpl/statistics.html
+msgid "Nb of resolved tasks EXCEPT SideTasks and reopened tasks"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "show values"
+msgstr "显示值"
+
+#. tpl/statistics.html
 msgid "Nb submissions"
-msgstr "Num de relatos"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Nb Resolved"
-msgstr "Num resolvidos"
+msgstr "Nb已解决"
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "Submitted / Resolved Issues (ExtRefOnly)"
-msgstr "Reportados / Casos resolvidos"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "% Tasks"
-msgstr "% Casos"
+msgstr "%任务"
 
 #. tpl/statistics.html
 msgid "Percentage of tasks delivered before the deadLine"
-msgstr "Percentual de casos entregues antes do vencimento"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "% Tasks Delivered on time"
-msgstr "% casos entregues em tempo"
+msgstr ""
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "Effort deviation on resolved tasks (regarding the MgrEffortEstim)"
-msgstr "Desvio de esforço - Casos resolvidos no período"
+msgstr ""
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "Effort deviation on resolved tasks (regarding the EffortEstim)"
-msgstr "Desvio de esforço - Casos resolvidos no período"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "No Support"
-msgstr "Sem suporte"
+msgstr "无支持"
 
 #. tpl/statistics.html
 #: reports/export_csv_tools.php:61
@@ -2860,51 +2751,50 @@ msgid "BS"
 msgstr "BS"
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "Effort Deviation (ExtRefOnly)"
-msgstr "Desvio de esforço"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Exclude side tasks to get the percent of time spent working on the projects"
-msgstr "Desconsiderar tarefas correlatas para obter o percentual de tempo de trabalho no projeto"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Efficiency"
-msgstr "Taxa de eficiência"
+msgstr "效率"
 
 #. tpl/statistics.html
 #, c-format
 msgid "% Efficiency"
-msgstr "% Eficiência"
+msgstr "%效率"
 
 #. tpl/statistics.html
 #, c-format
 msgid "% Sys Disp."
-msgstr "% Disp Sys"
+msgstr "%系统显示"
 
 #. tpl/statistics.html
 msgid "Sys Disp."
-msgstr "Sys Disp"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Number of reopened external tasks (tasks having an ExternalRef)."
-msgstr "Número de casos externos reabertos (casos que possuem referência externa)"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "% Reopened"
-msgstr "% de retour"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Compare the number of reopened tasks to the number of resolved tasks"
-msgstr "Comparar o número de casos reabertos com o número de casos resolvidos"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Nb Reopened"
-msgstr "Num reabertos"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "man-days"
-msgstr "dias-homem"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Available man-days on the period (excluding leave and external tasks)"
@@ -2912,19 +2802,19 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Developers Workload"
-msgstr "Capacidade de desenvolvimento"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "nb production days"
-msgstr "Núm de dias de produção"
+msgstr "nb生产日期"
 
 #. tpl/statistics.html
 msgid "Sorry, you do NOT have access to this page."
-msgstr "Desculpe, você nao tem acesso a esta página."
+msgstr "对不起，您没有对该页面的访问权。"
 
 #. tpl/time_tracking.html
 msgid "Query FAILED"
-msgstr "Query ERRO"
+msgstr "查询失败"
 
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
@@ -2933,141 +2823,134 @@ msgstr "Query ERRO"
 #. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
 #. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
 msgid "Duration"
-msgstr "Duração"
+msgstr ""
 
 #. tpl/time_tracking.html
 #. tpl/form/dateRangeSelector.html
 msgid "From"
-msgstr "de"
+msgstr "从"
 
 #. tpl/time_tracking.html
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Task Filters"
-msgstr "Filtros"
+msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Reduce the tasks selection by setting some filters"
-msgstr "Reduzir a seleção de casos adicionando alguns filtros"
+msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Hide tasks not assigned to me"
-msgstr "Ocultar casos não atribuidos a mim"
+msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Hide resolved tasks"
-msgstr "Ocultar casos resolvidos"
+msgstr ""
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Hide closed tasks"
-msgstr "Ocultar casos resolvidos"
+msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Week Imputations"
-msgstr "quebra semanal"
+msgstr "周推测"
 
 #. tpl/time_tracking.html
 msgid "Ext.ID"
-msgstr "Ref.Ext"
+msgstr "Ext.ID"
 
 #. tpl/time_tracking.html
 msgid "Future Imputations"
-msgstr "Quebras futuras"
+msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Delete track"
-msgstr "Apagar pista/track"
+msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Deleted the following timetrack ?"
-msgstr "Apagar o registro de tempo a seguir ?"
+msgstr "删除以下时间跟踪么？"
 
 #. tpl/gantt_report.html
 msgid "Gant report"
-msgstr "Diagrama de Gantt"
+msgstr "甘特报告"
 
 #. tpl/modal/change_managedUser.html
-#, fuzzy
 msgid "Select User"
-msgstr "Selecionar tudo"
+msgstr "选择用户"
 
 #. tpl/modal/change_managedUser.html
-#, fuzzy
 msgid "Select team user"
-msgstr "Remover equipe"
+msgstr "选择团队用户"
 
 #. tpl/modal/change_managedUser.html
 msgid "Change user"
-msgstr ""
+msgstr "更改用户"
 
 #. tpl/modal/login.html
 msgid "Length of"
-msgstr ""
+msgstr "长度："
 
 #. tpl/modal/login.html
 msgid "must be between"
-msgstr ""
+msgstr "必须介于"
 
 #. tpl/modal/login.html
 msgid "and"
-msgstr ""
+msgstr "和"
 
 #. tpl/modal/login.html
 msgid "CodevTT Identification"
-msgstr "Identificação CodevTT"
+msgstr ""
 
 #. tpl/modal/login.html
 msgid "password"
-msgstr "Senha"
+msgstr "密码"
 
 #. tpl/modal/login.html
 #. tpl/modal/select_issues.html
 msgid "OK"
-msgstr "OK"
+msgstr "确定"
 
 #. tpl/modal/login.html
-#, fuzzy
 msgid "Login failed."
-msgstr "l'identification a échouée !"
+msgstr "登录失败。"
 
 #. tpl/modal/login.html
 msgid "Login"
-msgstr "Login"
+msgstr "登录"
 
 #. tpl/modal/login.html
 msgid "Password"
-msgstr "Senha"
+msgstr "密码"
 
 #. tpl/modal/login.html
 msgid "Lost your password?"
-msgstr ""
+msgstr "忘记您的密码？"
 
 #. tpl/modal/login.html
 msgid "Redirection"
-msgstr "Redirecionando"
+msgstr "重定向"
 
 #. tpl/modal/update_issueBacklog.html
-#, fuzzy
 msgid "Current backlog"
-msgstr "Casos atuais"
+msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Task not resolved, backlog cannot be '0'"
-msgstr ""
+msgstr "任务未解决，积压工作不能为“0”"
 
 #. tpl/modal/update_issueBacklog.html
-#, fuzzy
 msgid "Status can't be : "
-msgstr "O staus não deve ser "
+msgstr ""
 
 #. tpl/modal/edit_issueNote.html
 msgid "Edit timesheet note"
-msgstr ""
+msgstr "编辑工时表注释"
 
 #. tpl/modal/edit_issueNote.html
-#, fuzzy
 msgid "Delete timesheet note for task "
-msgstr "Apagar esta equipe ?"
+msgstr ""
 
 #. tpl/modal/fairplay.html
 msgid "Fair play !"
@@ -3075,7 +2958,7 @@ msgstr ""
 
 #. tpl/modal/fairplay.html
 msgid "You are using CodevTT since"
-msgstr ""
+msgstr "您正在使用CodevTT自从"
 
 #. tpl/modal/fairplay.html
 msgid "If you like this software, please consider making a donation."
@@ -3083,373 +2966,361 @@ msgstr ""
 
 #. tpl/modal/select_issues.html
 msgid "No task selected !"
-msgstr "sem caso selecionado !"
+msgstr ""
 
 #. tpl/modal/select_issues.html
 msgid "Browse..."
-msgstr "Exibir..."
+msgstr "浏览..."
 
 #. tpl/modal/select_issues.html
 msgid "Select all"
-msgstr "Selecionar tudo"
+msgstr "全选"
 
 #. tpl/edit_holidays.html
 msgid "Add fixed holidays"
-msgstr "Adicionar aos feriados fixos"
+msgstr ""
 
 #. tpl/edit_holidays.html
 msgid "In here you can set National Days, religious holidays, etc."
-msgstr "Adicione aqui os feriados nacionais, feriados religiosos ou férias coletivas da empresa."
+msgstr ""
 
 #. tpl/edit_holidays.html
 msgid "Note: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong."
-msgstr "Nota: adicionando RTT não é uma boa idéia, usuários podem decidir trabalhar qualquer dia e a \"previsão diária de produção\" estará errada."
+msgstr "注意：添加RTT不是一个好主意，用户可以决定无论如何都要工作，并且生产日期预测将出错。"
 
 #. tpl/edit_holidays.html
 msgid "Holiday Description"
-msgstr "Descrição do feriado"
+msgstr "假日描述"
 
 #. tpl/edit_holidays.html
 msgid "Desirez-vous vraiment supprimer definitivement cette date ?"
-msgstr "Você tem certeza que deseja apagar a data?"
+msgstr ""
 
 #. tpl/edit_holidays.html
 msgid "delete Holiday"
-msgstr "remover feriado"
+msgstr ""
 
 #. tpl/form/dateRangeSelector.html
 msgid "Start Date"
-msgstr "Data inicial"
+msgstr "开始日期"
 
 #. tpl/form/dateRangeSelector.html
 msgid "End Date (included)"
-msgstr "Data final (inclusive)"
+msgstr ""
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Drag & drop the filters to apply"
-msgstr "Clique e arraste os filtros para aplicar"
+msgstr ""
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Available Filters"
-msgstr "Filtros Disponíveis"
+msgstr "可用过滤器"
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Applied Filters"
-msgstr "Os filtros aplicados"
+msgstr "应用的过滤器"
 
 #. tpl/uninstall.html
 msgid "Do you want to remove CodevTT from your Mantis server ?"
-msgstr "Você quer desinstalar o CodevTT de seu servidor Mantis ?"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "This step will clean Mantis DB."
-msgstr "Este passo irá zerar a base de dados do Mantis"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Backup data"
-msgstr "Dados de backup"
+msgstr "备份数据"
 
 #. tpl/uninstall.html
 msgid "Backup file will ve saved in CodevTT reports directory"
-msgstr "O arquivo de backup será salvo na pasta de relatórios do CodevTT"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Filename"
-msgstr "Arquivo"
+msgstr "文件名"
 
 #. tpl/uninstall.html
 msgid "Backup"
-msgstr "Backup"
+msgstr "备份"
 
 #. tpl/uninstall.html
 msgid "Dumping MantisDB to"
-msgstr "Salvando MantisDB para"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Backup successfully done"
-msgstr "Backup efetuado com sucesso"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Uninstall aborted !"
-msgstr "Desinstalação cancelada"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT from Mantis menu:"
-msgstr "Remover CodevTT a partir do menu Mantis:"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "TODO"
-msgstr "TODO"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT specific projects"
-msgstr "Remover CodevTT dos projetos específicos"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
-msgstr "Por favor delete MANUALMENTE os seguintes projetos:"
+msgstr "请手动删除以下项目："
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT customFields:"
-msgstr "Remover CodevTT Campos:"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT tables from MantisDB:"
-msgstr "Remover tabelas CodevTT do MantisDB:"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT config files:"
-msgstr "Remover CodevTT arquivos de configuração:"
+msgstr "移除CodevTT配置文件："
 
 #. tpl/uninstall.html
 msgid "ERROR: Could not delete files"
-msgstr "Impossivel de apagar o arquivo"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Failed"
-msgstr "Falha"
+msgstr "失败"
 
 #. tpl/servicecontract_edit.html
-#, fuzzy
 msgid "New service contract"
-msgstr "Contrato de Serviço"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "StartDate"
-msgstr "Data incial"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "EndDate"
-msgstr "Data final"
+msgstr "结束日期"
 
 #. tpl/servicecontract_edit.html
-#, fuzzy
 msgid "Service contract name"
-msgstr "Contrato de Serviço"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "Delete ServiceContract"
-msgstr "Apagar contrato de serviço"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "Delete this ServiceContract ?"
-msgstr "Apagar este contrato de serviço ?"
+msgstr "删除该劳务合同？"
 
 #. tpl/servicecontract_edit.html
 msgid "Nb CommandSets"
-msgstr "Nb CommandSets"
+msgstr "Nb命令集"
 
 #. tpl/servicecontract_edit.html
 msgid "SideTasks Projects"
-msgstr "Projetos SideTasks"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "--- New CommandSet ---"
-msgstr "--- Novo Conjunto de comandos ---"
+msgstr "--- 新命令集 ---"
 
 #. tpl/servicecontract_edit.html
 msgid "delete Contract-CommandSet association"
-msgstr "apagar conjunto de comandos associados ao contrato"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "Remove CommandSet from this Contract ?"
-msgstr "Remover o conjunto de comandos deste contrato de serviço ?"
+msgstr "是否从该合同中移除命令集？"
 
 #. tpl/servicecontract_edit.html
 msgid "delete Contract-Project association"
-msgstr "apagar associação do projeto de contrato de serviço "
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project"
-msgstr "Remover projeto"
+msgstr "移除项目"
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project from this Contract ?"
-msgstr "Remover o projeto deste contrato ?"
+msgstr ""
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel SAUF SuiviOp."
-msgstr "Saldo mensal exceto SuiviOp"
+msgstr ""
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
-msgstr "Saldo mensal (número de registos / estado, no final do mês)"
+msgstr ""
 
 #. tpl/project_activity_report.html
-#, fuzzy
 msgid "Users"
-msgstr "Usuário"
+msgstr "用户"
 
 #. tpl/project_activity_report.html
-#, fuzzy
 msgid "Tasks per project"
-msgstr "Carga do projeto"
+msgstr "每个项目的任务"
 
 #. tpl/project_activity_report.html
 msgid "Total time spent on this issue"
-msgstr "Tempo total gasto neste caso"
+msgstr ""
 
 #. tpl/project_activity_report.html
-#, fuzzy
 msgid "No data available"
-msgstr "Não disponível"
+msgstr "没有可用数据"
 
 #. tpl/project_activity_report.html
-#, fuzzy
 msgid "Time spent on Projects per users"
-msgstr "nombre de jours passés en développement sur les projets"
+msgstr ""
 
 #. tpl/project_activity_report.html
-#, fuzzy
 msgid "With ExternalTasks Project"
-msgstr "CodevTT Projeto de casos externos"
+msgstr ""
 
 #. tpl/project_activity_report.html
-#, fuzzy
 msgid "With SideTasks Project"
-msgstr "Projeto de tarefas correlatas"
+msgstr ""
 
 #. tpl/index.html
 msgid "IE may not correctly display this website"
-msgstr "Internet Explorer não exibe corretamente este site,<br/>"
+msgstr "IE可能不会正确显示该网站"
 
 #. tpl/index.html
 msgid "please consider using a standard complient web-browser"
-msgstr "em caso de problemas, utilize um navegador que é compativel com as padrões web"
+msgstr "请考虑使用符合标准的web浏览器"
 
 #. tpl/index.html
 msgid "A new CodevTT version is available !"
 msgstr ""
 
 #. tpl/index.html
+#, fuzzy
 msgid "Derive par rapport a l estimation preliminaire"
-msgstr "Derivada em relação à estimativa preliminar"
+msgstr "Derive par rapport a l estimation preliminaire"
 
 #. tpl/index.html
 msgid "Derive PrelEE"
-msgstr "Derivar PrelEE"
+msgstr ""
 
 #. tpl/index.html
+#, fuzzy
 msgid "Derive par rapport au BI+BS"
-msgstr "Derivado da BS + BI"
+msgstr "Derive par rapport au BI+BS"
 
 #. tpl/index.html
 msgid "update Backlog"
-msgstr "atualizar Backlog"
+msgstr ""
 
 #. tpl/index.html
 msgid "Errors in your Tasks"
-msgstr " Erro(s) em seu(s) casos"
+msgstr "您的任务中的错误"
 
 #: admin/edit_team.php:52
 msgid "Couldn't delete the team"
-msgstr "Impossivel de apagar a equipe: "
+msgstr ""
 
 #: admin/edit_team.php:94
 msgid "Couldn't update the team leader"
-msgstr "Não foi possível alterar o gerente da equipe"
+msgstr ""
 
 #: admin/edit_team.php:105
 msgid "Couldn't update the creation date"
-msgstr "Não foi possível altterar a data da criação"
+msgstr ""
 
 #: admin/edit_team.php:110
 msgid "Couldn't enable/disable team"
-msgstr "Impossivel de ativar / desativar equipe"
+msgstr ""
 
 #: admin/edit_team.php:203
 msgid "Couldn't delete the member of the team"
-msgstr "Não foi possível remover o projeto da equipe"
+msgstr ""
 
 #: admin/edit_team.php:217 admin/edit_team.php:220
 msgid "Couldn't add the project to the team"
-msgstr "Não foi possível adicionar o projeto a equipe"
+msgstr ""
 
 #: admin/edit_team.php:226
 msgid "Could NOT remove the project from the team"
-msgstr "Não foi possível remover o projeto a equipe"
+msgstr ""
 
 #: admin/edit_team.php:277
-#, fuzzy
 msgid "Configure Tooltips"
-msgstr "Configuration"
+msgstr ""
 
 #: admin/edit_team.php:342
 msgid "enabled"
-msgstr "ativo"
+msgstr ""
 
 #: admin/edit_team.php:342
 msgid "disabled"
-msgstr "inativo"
+msgstr "已禁用"
 
 #: admin/edit_team_ajax.php:68
 msgid "Issue tooltips for project"
 msgstr ""
 
 #: admin/edit_team_ajax.php:69
-#, fuzzy
 msgid "Drag & drop the items to be displayed in the Issue tooltip"
-msgstr "Clique e arraste os filtros para aplicar"
+msgstr ""
 
 #: admin/edit_team_ajax.php:70
-#, fuzzy
 msgid "Available fields"
-msgstr "Filtros Disponíveis"
+msgstr ""
 
 #: admin/edit_team_ajax.php:71
-#, fuzzy
 msgid "Tooltip"
-msgstr "Ferramentas"
+msgstr ""
 
 #: admin/logs.php:58
 msgid "Sorry, logfile not found:"
-msgstr "Desculpe, arquivo de log não localizado:"
+msgstr "对不起，找不到日志文件："
 
 #: admin/edit_holidays.php:46
 msgid "Couldn't add the holiday"
-msgstr "Não foi possível adicionar o feriado"
+msgstr ""
 
 #: admin/edit_holidays.php:51
 msgid "Couldn't remove the holiday"
-msgstr "Não foi possível remover o feriado"
+msgstr ""
 
 #: admin/edit_jobs.php:64
 msgid "Couldn't add the job association"
-msgstr "Não foi possível adicionar a associação trabalho"
+msgstr ""
 
 #: admin/edit_jobs.php:72
 msgid "This job must not be deleted."
-msgstr ""
+msgstr "该工作不得删除。"
 
 #: admin/edit_jobs.php:78 admin/edit_jobs.php:94
 msgid "Couldn't remove the job association"
-msgstr "Não foi possível remover a associação trabalho"
+msgstr ""
 
 #: admin/edit_jobs.php:84
 msgid "Couldn't delete the job"
-msgstr "Impossivel de apagar o cargo "
+msgstr ""
 
 #: admin/plugin_manager.php:67
 msgid "Could not create classmap: "
-msgstr ""
+msgstr "不能创建classmap：\\"
 
 #: admin/admin_dashboard.php:72 reports/team_dashboard.php:95
-#, fuzzy
 msgid "Sorry, you need to be identified."
-msgstr "Você deve ser um gerente de equipe para acessar esta pagina."
+msgstr ""
 
 #: blog/blog.php:100
 msgid "Ack"
-msgstr "Ack"
+msgstr "收到"
 
 #: blog/blog.php:101
 msgid "Hide"
-msgstr "Ocultar"
+msgstr "隐藏"
 
 #: classes/user.class.php:1703
-#, fuzzy
 msgid "for team"
-msgstr "Código da equipe cliente"
+msgstr "用于团队"
 
 #: classes/user.class.php:1705
 msgid "[CodevTT] Timesheet reminder !"
@@ -3457,7 +3328,7 @@ msgstr ""
 
 #: classes/user.class.php:1707
 msgid "Dear "
-msgstr ""
+msgstr "亲爱的\\"
 
 #: classes/user.class.php:1708
 msgid "Please fill your CodevTT timesheet"
@@ -3465,37 +3336,36 @@ msgstr ""
 
 #: classes/user.class.php:1719 classes/consistency_check2.class.php:697
 msgid "incomplete (missing "
-msgstr "incompleto (faltando "
+msgstr ""
 
 #. skip dates in the future
 #: classes/user.class.php:1722 classes/consistency_check2.class.php:712
 msgid "not defined."
-msgstr "não definido."
+msgstr "未定义。"
 
 #: classes/blog_manager.class.php:50
 msgid "Acknowledged"
-msgstr "Aceito"
+msgstr "已承认"
 
 #: classes/blog_manager.class.php:52
 msgid "Hidden"
-msgstr "Oculta"
+msgstr "已隐藏"
 
 #: classes/blog_manager.class.php:138
 msgid "Low"
-msgstr "Baixa"
+msgstr "低"
 
 #: classes/blog_manager.class.php:140
 msgid "Normal"
-msgstr "Normal"
+msgstr "标准"
 
 #: classes/blog_manager.class.php:142
 msgid "High"
-msgstr "Alta"
+msgstr "高"
 
 #: classes/issue.class.php:59
-#, fuzzy
 msgid "Duplicate of"
-msgstr "Data final"
+msgstr "与此重复"
 
 #: classes/issue.class.php:60
 msgid "Has duplicate"
@@ -3503,68 +3373,60 @@ msgstr ""
 
 #: classes/issue.class.php:61 classes/issue.class.php:62
 msgid "Related to"
-msgstr ""
+msgstr "有关"
 
 #: classes/issue.class.php:63
 msgid "Parent of"
-msgstr ""
+msgstr "子项："
 
 #: classes/issue.class.php:64
 msgid "Child of"
-msgstr ""
+msgstr "父项："
 
 #: classes/issue.class.php:65
 msgid "Constrained by"
 msgstr ""
 
 #: classes/issue.class.php:66
-#, fuzzy
 msgid "Constrains"
-msgstr "Administração CoDev"
+msgstr ""
 
 #: classes/issue.class.php:2192 classes/wbsElement.class.php:585
 #: tools.php:1483
 msgid "Tags"
-msgstr ""
+msgstr "标签"
 
 #: classes/issue.class.php:2200
-#, fuzzy
 msgid "none"
-msgstr "(nenhum)"
+msgstr ""
 
 #: classes/issue.class.php:2205 reports/issue_info.php:216
-#, fuzzy
 msgid "DriftColor"
-msgstr "Desvio"
+msgstr "漂移颜色"
 
 #: classes/issue.class.php:2208 tools.php:251
-#, fuzzy
 msgid "DriftMgr"
-msgstr "Desvio Mgr"
+msgstr ""
 
 #: classes/issue.class.php:2209
-#, fuzzy
 msgid "DriftMgrColor"
-msgstr "Desvio Mgr"
+msgstr ""
 
 #: classes/issue.class.php:2226 tools.php:1497
-#, fuzzy
 msgid "Assigned"
-msgstr "Atribuido a"
+msgstr "已分派"
 
 #: classes/issue.class.php:2234 tools.php:1505
 msgid "ETA"
 msgstr "ETA"
 
 #: classes/PluginManager.class.php:79
-#, fuzzy
 msgid "Disabled"
-msgstr "inativo"
+msgstr "已禁用"
 
 #: classes/PluginManager.class.php:80
-#, fuzzy
 msgid "Removed"
-msgstr "Remover"
+msgstr "已移除"
 
 #: classes/consistency_check2.class.php:62
 #: classes/consistency_check_fdj.class.php:77
@@ -3576,21 +3438,21 @@ msgstr "Remover"
 #: classes/consistency_check.class.php:366
 #: timetracking/team_monthly_activity_report.php:129
 msgid "Error"
-msgstr "Erro"
+msgstr "错误"
 
 #: classes/consistency_check2.class.php:64
 #: classes/consistency_check.class.php:256
 msgid "Warning"
-msgstr "Alerta"
+msgstr "警告"
 
 #: classes/consistency_check2.class.php:66
 msgid "Info"
-msgstr "Informação"
+msgstr "信息"
 
 #: classes/consistency_check2.class.php:68 reports/export_odt.php:272
 #: reports/export_odt.php:285 tests/odt.php:81 tests/odt.php:94
 msgid "unknown"
-msgstr "desconhecido"
+msgstr "未知"
 
 #: classes/consistency_check2.class.php:199
 msgid "Backlog on resolved issues should be 0"
@@ -3601,28 +3463,24 @@ msgid "Backlog on unresolved issues should not be 0"
 msgstr ""
 
 #: classes/consistency_check2.class.php:201
-#, fuzzy
 msgid "EffortEstim should not be 0"
-msgstr "EffortEstim Não especificado"
+msgstr ""
 
 #: classes/consistency_check2.class.php:202
 msgid "There should be no timetracks on \"new\" issues "
 msgstr ""
 
 #: classes/consistency_check2.class.php:203
-#, fuzzy
 msgid "Issues should be referenced in a Command"
-msgstr "não está referenciado em qualquer grupo de comandos."
+msgstr "问题应引用于命令中"
 
 #: classes/consistency_check2.class.php:204
-#, fuzzy
 msgid "Commands should be referenced in a CommandSet"
-msgstr "não está referenciado em qualquer grupo de comandos."
+msgstr ""
 
 #: classes/consistency_check2.class.php:205
-#, fuzzy
 msgid "CommandSets should be referenced in a ServiceContract"
-msgstr "não está referenciado em qualquer Contrato de Serviço. "
+msgstr ""
 
 #: classes/consistency_check2.class.php:206
 msgid "Issues should be assigned to someone"
@@ -3630,7 +3488,7 @@ msgstr ""
 
 #: classes/consistency_check2.class.php:207
 msgid "Check timetracks on removed issues (not needed if mantis plugin is enabled)"
-msgstr ""
+msgstr "检查已移除问题上的时间跟踪（当启用mantis插件时不需要）"
 
 #: classes/consistency_check2.class.php:312
 #: classes/consistency_check.class.php:208
@@ -3639,50 +3497,50 @@ msgstr ""
 
 #: classes/consistency_check2.class.php:334
 msgid "Backlog must be defined !"
-msgstr "Backlog deve ser definedo !"
+msgstr "积压工作必须被定义！"
 
 #: classes/consistency_check2.class.php:336
 #: classes/consistency_check.class.php:255
 msgid "Backlog == 0: Backlog may not be up to date."
-msgstr "Backlog == 0: Backlog não pode ser atualizado."
+msgstr ""
 
 #: classes/consistency_check2.class.php:382
 #: classes/consistency_check.class.php:317
 msgid "MgrEffortEstim not set."
-msgstr "MgrEffortEstim  Não especificado"
+msgstr ""
 
 #: classes/consistency_check2.class.php:414
 msgid "EffortEstim not set."
-msgstr "EffortEstim Não especificado"
+msgstr "EffortEstim未设置。"
 
 #: classes/consistency_check2.class.php:440
 #: classes/consistency_check.class.php:365
 msgid "Status should not be"
-msgstr "O staus não deve ser "
+msgstr "状态不应为"
 
 #: classes/consistency_check2.class.php:478
 msgid "The task is not assigned to anybody."
-msgstr "Os casos não estão atribuidos "
+msgstr ""
 
 #: classes/consistency_check2.class.php:536
 msgid "The task is not referenced in any Command."
-msgstr "Casos não referenciados em nenhum comando."
+msgstr ""
 
 #: classes/consistency_check2.class.php:594
 msgid "is not referenced in any CommandSet"
-msgstr "não está referenciado em qualquer grupo de comandos."
+msgstr ""
 
 #: classes/consistency_check2.class.php:622
 msgid "is not referenced in any ServiceContract"
-msgstr "não está referenciado em qualquer Contrato de Serviço. "
+msgstr ""
 
 #: classes/consistency_check2.class.php:697
 msgid " days"
-msgstr " dias"
+msgstr ""
 
 #: classes/consistency_check2.class.php:699
 msgid "inconsistent"
-msgstr "inconsistente"
+msgstr ""
 
 #: classes/consistency_check2.class.php:733
 msgid "No default project workflow defined, check config file: "
@@ -3690,7 +3548,7 @@ msgstr ""
 
 #: classes/scheduler.class.php:81 reports/planning_report.php:206
 msgid "monitored"
-msgstr "Monitorado"
+msgstr "已监测"
 
 #: classes/command.class.php:59
 msgid "to be sent"
@@ -3698,7 +3556,7 @@ msgstr ""
 
 #: classes/command.class.php:60
 msgid "Sent"
-msgstr "Enviado"
+msgstr "已发送"
 
 #: classes/command.class.php:61
 msgid "to be validated"
@@ -3706,16 +3564,15 @@ msgstr ""
 
 #: classes/command.class.php:62
 msgid "validated"
-msgstr ""
+msgstr "已确认"
 
 #: classes/command.class.php:63
 msgid "to be closed"
 msgstr ""
 
 #: classes/command.class.php:64
-#, fuzzy
 msgid "closed"
-msgstr "enclosure"
+msgstr "已关闭"
 
 #: classes/command.class.php:65
 msgid "bill must be sent"
@@ -3727,95 +3584,92 @@ msgstr ""
 
 #: classes/command.class.php:67
 msgid "payed"
-msgstr ""
+msgstr "已支付"
 
 #: classes/consistency_check_fdj.class.php:76
 msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
-msgstr "BI not specified: BI = Time(Analysis + Dev + Tests)"
+msgstr ""
 
 #: classes/consistency_check_fdj.class.php:85
 msgid "Backlog not specified: Backlog = Time(BI - Analysis)"
-msgstr "Backlog not specified: Backlog = Time(BI - Analysis)"
+msgstr ""
 
 #: classes/consistency_check_fdj.class.php:96
 msgid "Once analysed, a Task must be assigned to 'FDJ' for validation"
-msgstr "Após análise, um formulário deve ser atribuído a 'FDJ \"para validação"
+msgstr ""
 
 #: classes/consistency_check.class.php:164
 msgid "Delivery date not specified: If a delivery sheet is specified, then a Delivery Date is requested."
-msgstr "Data de entrega não especificado: Se uma folha de entrega é especificado, então uma data de entrega é solicitada."
+msgstr ""
 
 #: filters/ProjectVersionFilter.php:45
 msgid "Sort issues per Project TargetVersion"
-msgstr "Ordenar casos por TargetVersion do projeto"
+msgstr ""
 
 #: filters/ProjectVersionFilter.php:53
 msgid "Project TargetVersion"
-msgstr "Versão alvo de projeto"
+msgstr ""
 
 #: filters/IssuePublicPrivateFilter.php:48
 msgid "Sort issues: public/private"
-msgstr "Ordenar casos: públicos/privados"
+msgstr "排序问题：公开/私有"
 
 #: filters/IssuePublicPrivateFilter.php:56
 msgid "Issue Public/Private"
-msgstr "Caso público/privado"
+msgstr ""
 
 #: filters/ProjectCategoryFilter.php:49
 msgid "Sort issues per project categories"
-msgstr "Ordenar casos por categorias de projeto"
+msgstr ""
 
 #: filters/ProjectCategoryFilter.php:57
 msgid "Project Category"
-msgstr "Categoria do projeto"
+msgstr "项目分类"
 
 #: filters/IssueExtIdFilter.php:49
 msgid "Sort issues: with/without External ID"
-msgstr "Ordenar casos: com/sem referencia externa"
+msgstr ""
 
 #: filters/IssueExtIdFilter.php:57
 msgid "Issue External ID"
-msgstr "ID externo"
+msgstr "问题外部ID"
 
 #: filters/IssueCodevTypeFilter.php:55
 msgid "Sort issues per CustomField: CodevTT_Type"
 msgstr ""
 
 #: filters/IssueCodevTypeFilter.php:63
-#, fuzzy
 msgid "Issue Type"
-msgstr "Tag caso"
+msgstr ""
 
 #: filters/ProjectFilter.php:51
-#, fuzzy
 msgid "Sort issues per Project"
-msgstr "Ordenar casos por etiquetas"
+msgstr ""
 
 #: filters/IssueTagFilter.php:49
 msgid "Sort issues per tags"
-msgstr "Ordenar casos por etiquetas"
+msgstr ""
 
 #: filters/IssueTagFilter.php:57
 msgid "Issue Tag"
-msgstr "Tag caso"
+msgstr ""
 
 #: graphs/gantt_graph.php:97
 msgid "Project(s)"
-msgstr "Projeto(s)"
+msgstr "项目"
 
 #: graphs/gantt_graph.php:99 reports/gantt_report.php:41
 #: smarty_tools_ajax.php:35
 msgid "All projects"
-msgstr "Todo os Projetos"
+msgstr "所有项目"
 
 #: import/import_issues.php:115
 msgid "Please upload files with the following extension: "
-msgstr "Por favor efetue upload com as seguintes extensões:"
+msgstr ""
 
 #: indicator_plugins/BacklogVariationIndicator/BacklogVariationIndicator.class.php:286
-#, fuzzy
 msgid "Average backlog"
-msgstr "atualizar backlog"
+msgstr ""
 
 #: indicator_plugins/StatusHistoryIndicator/StatusHistoryIndicator.class.php:194
 #: management/commandset_tools.php:120 management/command_tools.php:103
@@ -3823,97 +3677,92 @@ msgstr "atualizar backlog"
 #: reports/planning_report.php:430 reports/planning_report.php:495
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:331
 msgid "Y-m-d"
-msgstr "dd-mm-yyyy"
+msgstr "Y-m-d"
 
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:410
 #: reports/project_info.php:328
 msgid "New Tasks"
-msgstr "Novos casos"
+msgstr ""
 
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:411
 #: reports/project_info.php:329
 msgid "Current Tasks"
-msgstr "Casos atuais"
+msgstr ""
 
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:412
 #: reports/project_info.php:330
 msgid "Resolved Tasks"
-msgstr "Casos resolvidos"
+msgstr ""
 
 #: install/install_step2.php:25
 msgid "Install - Step 2"
-msgstr "Instalação - Etapa 2"
+msgstr "安装 - 第2步"
 
 #: install/install_step2.php:104
 msgid "Get Mantis customizations"
-msgstr "Obter customizações do Mantis"
+msgstr ""
 
 #: install/install_step2.php:109
 msgid "Path to mantis"
-msgstr "Pasta do Mantis"
+msgstr ""
 
 #: install/install_step2.php:114
 msgid "URL to mantis"
-msgstr "URL do Mantis"
+msgstr ""
 
 #: install/install_step2.php:119
 msgid "URL to CodevTT"
-msgstr ""
+msgstr "至CodevTT的URL"
 
 #: install/install_step2.php:134
 msgid "Proceed Step 2"
-msgstr "Executar Etapa 2"
+msgstr ""
 
 #: install/install_step3.php:25
 msgid "Install - Step 3"
-msgstr "Instalação - Etapa 3"
+msgstr "安装 - 第3步"
 
 #: install/install_step3.php:220
-#, fuzzy
 msgid "CodevTT Administrators team"
-msgstr "Equipe Administração CodevTT"
+msgstr "CodevTT管理员团队"
 
 #: install/install_step3.php:364
 msgid "CodevTT_EffortEstim"
-msgstr "CodevTT_Esforço inicial"
+msgstr ""
 
 #: install/install_step3.php:367
-#, fuzzy
 msgid "CodevTT_Type"
-msgstr "CodevTT_Vencimento"
+msgstr "CodevTT_类型"
 
 #: install/install_step3.php:374
 msgid "CodevTT_Manager EffortEstim"
-msgstr "CodevTT_Estimativa da gerência"
+msgstr ""
 
 #: install/install_step3.php:380
 msgid "CodevTT_External ID"
-msgstr "CodevTT_Referencia Externa"
+msgstr "CodevTT_外部ID"
 
 #: install/install_step3.php:383
-#, fuzzy
 msgid "CodevTT_Deadline"
-msgstr "CodevTT_Vencimento"
+msgstr ""
 
 #: install/install_step3.php:386
-#, fuzzy
 msgid "CodevTT_Additional Effort"
-msgstr "CodevTT_Esforço adicional"
+msgstr ""
 
 #: install/install_step3.php:392
 msgid "CodevTT_Backlog"
-msgstr "CodevTT_Backlog"
+msgstr "CodevTT_积压工作"
 
 #. createCustomField(T_("CodevTT_Delivery ticket"),   $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
 #: install/install_step3.php:399
 msgid "CodevTT_Delivery Date"
-msgstr "CodevTT_Data entrega"
+msgstr ""
 
 #. ------ Reports
 #: install/install_step3.php:449
-#, fuzzy
 msgid "Path to output files"
-msgstr "Pasta para saída (logs, relatórios, ...)"
+msgstr ""
 
 #. T_("Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access.")
 #: install/install_step3.php:451
@@ -3922,9 +3771,8 @@ msgstr ""
 
 #. ------ Status
 #: install/install_step3.php:468
-#, fuzzy
 msgid "Workflow"
-msgstr "carga"
+msgstr "工作流"
 
 #: install/install_step3.php:469
 msgid "Set equivalences in accordance to your Mantis workflow"
@@ -3932,9 +3780,8 @@ msgstr ""
 
 #. ------ Administrator
 #: install/install_step3.php:527
-#, fuzzy
 msgid "CodevTT Administrator"
-msgstr "Equipe Administração CodevTT"
+msgstr ""
 
 #: install/install_step3.php:539
 msgid "More administrators can be defined later, for now you just need one."
@@ -3942,97 +3789,90 @@ msgstr ""
 
 #. ------- External ID
 #: install/install_step3.php:543
-#, fuzzy
 msgid "Tasks external ID field"
-msgstr "ID externo"
+msgstr ""
 
 #: install/install_step3.php:565
 msgid "Create a new CustomField"
 msgstr ""
 
 #: install/install_step3.php:567
-#, fuzzy
 msgid "Use this CustomField :"
-msgstr "Campos personalizados"
+msgstr "使用该自定义字段："
 
 #: install/install_step3.php:594
 msgid "Default Jobs"
-msgstr "Número de cargos"
+msgstr ""
 
 #: install/install_step3.php:601
-#, fuzzy
 msgid "CodevTT support management"
-msgstr "gestão do suporte"
+msgstr "CodevTT支持管理"
 
 #: install/install_step3.php:612
 msgid "Specific to SideTasks"
-msgstr "Específica para casos correlatos"
+msgstr ""
 
 #: install/install_step3.php:643
-#, fuzzy
 msgid "Select the projects to be managed with CodevTT"
-msgstr "Selecione o projeto para ser gerenciado com o CodevTT"
+msgstr ""
 
 #: install/install_step3.php:655
 msgid "Proceed Step 3"
-msgstr "Executar Etapa 3"
+msgstr "已进行第3步"
 
 #: install/install_step3.php:797
 msgid "CodevTT admin"
-msgstr "CodevTT admin"
+msgstr "CodevTT管理员"
 
 #: install/install_step3.php:824
 msgid "Other external activity"
-msgstr "Outra atividade externa"
+msgstr ""
 
 #: install/install_step3.php:825
 msgid "Leave"
-msgstr "Ausência"
+msgstr "离开"
 
 #: install/install_step3.php:826
-#, fuzzy
 msgid "Sick Leave"
-msgstr "Ausência"
+msgstr ""
 
 #: install/install_step3.php:827
 msgid "Analyse"
-msgstr "Analise"
+msgstr "分析"
 
 #: install/install_step3.php:828
 msgid "Development"
-msgstr "Desenvolvimento"
+msgstr "开发"
 
 #: install/install_step3.php:829
 msgid "Tests"
-msgstr "Testes"
+msgstr "测试"
 
 #: install/install_step3.php:916
 msgid "CodevTT_ExternalTasks"
-msgstr "CodevTT Casos Externos"
+msgstr ""
 
 #: install/install_step3.php:916
 msgid "CodevTT ExternalTasks Project"
-msgstr "CodevTT Projeto de casos externos"
+msgstr ""
 
 #. cat="OtherInternal", status="closed"
 #: install/install_step3.php:955
 msgid "Any external task, NOT referenced in any mantis project"
-msgstr "Qualquer caso externo, SEM referência em qualquer projeto mantis"
+msgstr "任何外部任务，未被任何mantis项目引用"
 
 #. --- Create the 'Leave' task in ExternalTasks Project
 #: install/install_step3.php:958
-#, fuzzy
 msgid "On holiday, leave, ..."
-msgstr "em feriado, licença médica, ..."
+msgstr ""
 
 #: install/install_step3.php:959
 msgid "Sick"
-msgstr ""
+msgstr "厌恶"
 
 #: install/install_step4.php:25
-#, fuzzy
 msgid "Install - Step 4"
-msgstr "Instalação - Etapa 1"
+msgstr "安装 - 第4步"
 
 #: install/install_step4.php:44
 msgid "Manual steps"
@@ -4065,7 +3905,7 @@ msgstr ""
 
 #: install/install_step4.php:60
 msgid "Mantis Path & URL in "
-msgstr ""
+msgstr "Mantis路径和URL位于\\"
 
 #: install/install_step4.php:61
 msgid "Log directory in "
@@ -4087,113 +3927,107 @@ msgstr ""
 
 #: install/install_step4.php:74
 msgid "Note: This step is optional"
-msgstr ""
+msgstr "注意：该步骤可选"
 
 #: install/install_step4.php:76
-#, fuzzy
 msgid "Install addon:"
-msgstr "Instalação"
+msgstr ""
 
 #: install/install_step4.php:77
 msgid "Load script:"
-msgstr ""
+msgstr "加载脚本："
 
 #: install/install_step4.php:83
-#, fuzzy
 msgid "Done !"
-msgstr "Finalizado"
+msgstr "完成！"
 
 #: install/install_step1.php:25
 msgid "Install - Step 1"
-msgstr "Instalação - Etapa 1"
+msgstr "安装 - 第1步"
 
 #: install/install_step1.php:195
 msgid "Mantis Database Info"
-msgstr "Base de dados Mantis"
+msgstr "Mantis数据库信息"
 
 #: install/install_step1.php:199
 msgid "Hostname"
-msgstr "Servidor"
+msgstr "主机名"
 
 #: install/install_step1.php:203
 msgid "Database Name"
-msgstr "Base de dados"
+msgstr "数据库名称"
 
 #: install/install_step1.php:217
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
 msgstr ""
 
 #: install/install_step1.php:222
-#, fuzzy
 msgid "Proxy Settings"
-msgstr "Opções"
+msgstr ""
 
 #: install/install_step1.php:223
 msgid "CodevTT will check for updates."
 msgstr ""
 
 #: install/install_step1.php:226
-#, fuzzy
 msgid "Enable proxy"
-msgstr "Ativo"
+msgstr ""
 
 #: install/install_step1.php:227
-#, fuzzy
 msgid "Server"
-msgstr "Service"
+msgstr ""
 
 #: install/install_step1.php:228
 msgid "Port"
-msgstr ""
+msgstr "端口"
 
 #: install/install_step1.php:235
 msgid "Proceed Step 1"
-msgstr "Executar etapa 1"
+msgstr "已进行第1步"
 
 #: install/install_menu.inc.php:22 install/install.php:25
 msgid "Install"
-msgstr "Instalação"
+msgstr "安装"
 
 #: install/install_menu.inc.php:26
 msgid "Step 1"
-msgstr "Etapa 1"
+msgstr "第1步"
 
 #: install/install_menu.inc.php:30
 msgid "Step 2"
-msgstr "Etapa 2"
+msgstr "第2步"
 
 #: install/install_menu.inc.php:34
 msgid "Step 3"
-msgstr "Etapa 3"
+msgstr "第3步"
 
 #: install/install_menu.inc.php:38
-#, fuzzy
 msgid "Step 4"
-msgstr "Etapa 1"
+msgstr "第4步"
 
 #: install/install_step5.php:25
 msgid "Installation finished"
-msgstr "Instalação finalizada"
+msgstr ""
 
 #: management/command_edit.php:221
 msgid "Add tasks to Command"
-msgstr "Adicionar tarefa ao Command"
+msgstr ""
 
 #: management/command_edit.php:222
 msgid "Add multiple tasks"
-msgstr "Adicionar multiplas tarefas"
+msgstr ""
 
 #: management/command_edit.php:223
 msgid "Add selection"
-msgstr "Adicionar seleção"
+msgstr ""
 
 #: management/command_edit.php:224
 msgid "Note: Tasks already assigned to a Command are not displayed."
-msgstr "Nota: Estes casos relacionados estão definidos em comandos e não serão exibidos."
+msgstr ""
 
 #: management/command_edit.php:225
 msgid "Add the selected issues to the Command ?"
-msgstr "Adicionar os casos selecionados a Command ?"
+msgstr ""
 
 #: management/commandset_info.php:96
 msgid "Errors affecting the CommandSet"
@@ -4205,7 +4039,7 @@ msgstr ""
 
 #: management/servicecontract_tools.php:182
 msgid "Provision"
-msgstr "Provisão"
+msgstr ""
 
 #: reports/statistics.php:85
 msgid "No projects in this team"
@@ -4213,69 +4047,67 @@ msgstr ""
 
 #: reports/export_csv_weekly.php:84 reports/export_csv_weekly.php:90
 msgid "Export Week"
-msgstr "Exportar semana"
+msgstr "导出周"
 
 #: reports/export_csv_weekly.php:84
 msgid "Member Activity"
-msgstr "Atividade da equipe"
+msgstr "成员活跃"
 
 #: reports/export_csv_weekly.php:104
 msgid "Export Holidays"
-msgstr "Exportar feriados"
+msgstr ""
 
 #: reports/export_csv_tools.php:49
 msgid "m_id"
-msgstr "Caso Mantis"
+msgstr "m_id"
 
 #: reports/export_csv_tools.php:56
 msgid "Product Version"
-msgstr "Versão do produto"
+msgstr "产品版本"
 
 #: reports/export_csv_tools.php:59
 msgid "Resolution"
-msgstr "Resolução"
+msgstr "分辨率"
 
 #: reports/export_csv_tools.php:66 tools.php:1440
 msgid "Delivery Date"
-msgstr "Data de liberação"
+msgstr ""
 
 #: reports/export_csv_tools.php:67
 msgid "Delivery Sheet"
-msgstr "Planilha de entrega"
+msgstr "送货单"
 
 #: reports/planning_report.php:203
 msgid "onTime"
-msgstr "dans les temps"
+msgstr ""
 
 #: reports/planning_report.php:204
 msgid "NOT onTime"
-msgstr "en retard"
+msgstr "不定时"
 
 #: reports/planning_report.php:205
 msgid "no deadLine"
-msgstr "sans deadLine"
+msgstr ""
 
 #: reports/planning_report.php:498
 msgid "Monitored"
-msgstr "Monitorado"
+msgstr ""
 
 #: reports/issue_info_ajax.php:66
-#, fuzzy
 msgid "Sorry, only managers can remove tasks from commands"
-msgstr "Você deve ser um gerente de equipe para acessar esta pagina."
+msgstr ""
 
 #: reports/issue_info_ajax.php:91 reports/issue_info_ajax.php:133
-#, fuzzy
 msgid "Sorry, only managers can add tasks to commands"
-msgstr "Você deve ser um gerente de equipe para acessar esta pagina."
+msgstr ""
 
 #: reports/issue_info_ajax.php:93 reports/issue_info_ajax.php:135
 msgid "Sorry, this task is not in your team's projects"
-msgstr ""
+msgstr "对不起，该任务未在您团队的项目中"
 
 #: tests/odt.php:8
 msgid "Test: export to ODT"
-msgstr "Test: Exportar para ODT"
+msgstr ""
 
 #: tests/odt.php:177
 msgid "Sorry, there are no projects defined for your team."
@@ -4284,46 +4116,43 @@ msgstr ""
 #: timetracking/team_activity_report.php:66 timetracking/time_tracking.php:286
 #: timetracking/team_monthly_activity_report.php:76
 msgid "days are incomplete or undefined"
-msgstr "dias estão incompletos ou indefinidos"
+msgstr ""
 
 #: timetracking/team_activity_report.php:179
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:436 timetracking/time_tracking.php:383
 #: timetracking/team_monthly_activity_report.php:130
 msgid "Error: Task not found in Mantis DB !"
-msgstr "Erro: Caso não localizado na base de dados do mantis!"
+msgstr "错误：在Mantis数据库中找不到任务！"
 
 #: timetracking/time_tracking_tools.php:176
 msgid "Click to add a note"
-msgstr ""
+msgstr "点击以添加一条注释"
 
 #: timetracking/holidays_report.php:65
-#, fuzzy
 msgid "External Tasks"
-msgstr "Tache externe"
+msgstr ""
 
 #: timetracking/holidays_report.php:70
-#, fuzzy
 msgid "Sidetasks Inactivity"
-msgstr "Inatividade"
+msgstr "边缘任务不活跃"
 
 #: timetracking/holidays_report.php:121
 msgid "today"
-msgstr "hoje"
+msgstr "今天"
 
 #. light grey
 #: timetracking/holidays_report.php:181
 msgid "User not in team"
-msgstr ""
+msgstr "未在团队中的用户"
 
 #: timetracking/time_tracking.php:132
 msgid "Timetrack not added: Job has not specified."
 msgstr ""
 
 #: timetracking/time_tracking.php:180
-#, fuzzy
 msgid "Failed to delete the timetrack !"
-msgstr "Falha ao apagar as tarefas"
+msgstr ""
 
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:74
 msgid "Check all the timetracks of the period and return their repartition per Job"
@@ -4331,45 +4160,39 @@ msgstr ""
 
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:231
 msgid "Management"
-msgstr "Gerenciamento"
+msgstr "管理"
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:70
-#, fuzzy
 msgid "Load per project categories"
-msgstr "Ordenar casos por categorias de projeto"
+msgstr ""
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:73
 msgid "Check all the timetracks of the period and return their repartition per project categories"
 msgstr ""
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:344
-#, fuzzy
 msgid "All Sidetasks Projects"
-msgstr "Todas tarefas correlatas do Projeto"
+msgstr ""
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:345
-#, fuzzy
 msgid "All Production Projects"
-msgstr "Jours de Production : Projets"
+msgstr ""
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:346
-#, fuzzy
 msgid "All Projects"
-msgstr "Todo os Projetos"
+msgstr "所有项目"
 
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:61
-#, fuzzy
 msgid "Reopened rate history"
-msgstr "Taxa de reabertura"
+msgstr ""
 
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:64
 msgid "Display the bug reopened rate history"
 msgstr ""
 
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:73
-#, fuzzy
 msgid "Load per User"
-msgstr "Filtros"
+msgstr "每位用户加载的"
 
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:76
 msgid "Check all the timetracks of the period and return their repartition per User"
@@ -4377,34 +4200,31 @@ msgstr ""
 
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:367
 msgid "Other"
-msgstr "Outros"
+msgstr "其他"
 
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:368
 msgid "External"
-msgstr "Externo"
+msgstr "外部"
 
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:374
 msgid "Waste"
-msgstr ""
+msgstr "浪费"
 
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:64
-#, fuzzy
 msgid "Progress history"
-msgstr "Progresso Mgr"
+msgstr "进度历史"
 
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:67
-#, fuzzy
 msgid "Display the progress history"
-msgstr "Progresso Mgr"
+msgstr ""
 
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:66
 msgid "Issue Status History"
 msgstr ""
 
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:69
-#, fuzzy
 msgid "Display Issue Status history"
-msgstr "Tâches résolues"
+msgstr "显示问题状态历史"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:55
 msgid "Task burndown chart"
@@ -4416,7 +4236,7 @@ msgstr ""
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:157
 msgid "Backlog (days)"
-msgstr "Backlog (dias)"
+msgstr ""
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:63
 msgid "Budget drift history"
@@ -4427,100 +4247,88 @@ msgid "Display the budget history"
 msgstr ""
 
 #: plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.class.php:62
-#, fuzzy
 msgid "Task deadlines alert"
-msgstr "Lista de casos"
+msgstr ""
 
 #: plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.class.php:65
 msgid "Display unresolved tasks that should have been delivered"
 msgstr ""
 
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:60
-#, fuzzy
 msgid "Timetrack details"
-msgstr "Atividades"
+msgstr ""
 
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:63
 msgid "Display additional info on timetracks"
-msgstr ""
+msgstr "在时间跟踪上显示额外信息"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
-#, fuzzy
 msgid "Effort estimation reliability rate"
-msgstr "EffortEstim Não especificado"
+msgstr ""
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:68
-#, fuzzy
 msgid "Display the EffortEstim reliability rate history"
-msgstr "EffortEstim Não especificado"
+msgstr ""
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:69
-#, fuzzy
 msgid "rate = EffortEstim / elapsed (on resolved tasks only)"
-msgstr "Nenhum caso resolvido..."
+msgstr ""
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:72
 msgid "REM: An issue that has been reopened before endTimestamp will NOT be recorded."
-msgstr ""
+msgstr "REM：在结束时间戳之前重启的问题将不被记录。"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:73
 msgid "(For the bugs that where re-opened, the EffortEstim may not have been re-estimated, and thus the result is not reliable.)"
-msgstr ""
+msgstr "（对于重启的错误，EffortEstim可能不会被重新评估，并因此结果不可靠。）"
 
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:66
-#, fuzzy
 msgid "Hello World"
-msgstr "Capacidade de desenvolvimento"
+msgstr "您好世界"
 
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:69
 msgid "A simple HelloWorld plugin"
-msgstr ""
+msgstr "一个简单的您好世界插件"
 
 #. return T_('Task drift alert');
 #: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:62
-#, fuzzy
 msgid "Task drift alert"
-msgstr "Casos à deriva"
+msgstr ""
 
 #. return T_('Display tasks in drift');
 #: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:66
-#, fuzzy
 msgid "Display tasks where the elapsed time is greater than the estimated effort"
-msgstr "Casos que estão maiores que o esforço previsto"
+msgstr ""
 
 #: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:62
-#, fuzzy
 msgid "Time per status"
-msgstr "Tempo por Status"
+msgstr ""
 
 #: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:65
 msgid "Time allocation by status"
-msgstr "Alocação de tempo por status"
+msgstr ""
 
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:76
 msgid "Check all the timetracks of the period and return their repartition per Project"
 msgstr ""
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:69
-#, fuzzy
 msgid "Backlog per User"
-msgstr "Filtros"
+msgstr "每位用户的积压工作"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:72
 msgid "Check all the tasks and return the backlog per User"
 msgstr ""
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:258
-#, fuzzy
 msgid "(unknown 0)"
-msgstr "desconhecido"
+msgstr "（未知 0）"
 
 #: smarty_tools.php:122
 msgid "W"
 msgstr "W"
 
 #: tools.php:1434
-#, fuzzy
 msgid "AddEffortEstim"
-msgstr "Esforço inicial"
+msgstr ""
 
