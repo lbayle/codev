@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 ""
-"PO-Revision-Date: 2016-02-19 20:43:42+0000\n"
-"X-POT-Import-Date: 2016-02-19 20:40:57+0000\n"
+"PO-Revision-Date: 2016-02-22 07:38:02+0000\n"
+"X-POT-Import-Date: 2016-02-19 20:45:34+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: qqq\n"
@@ -795,7 +795,7 @@ msgstr ""
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "Version"
-msgstr ""
+msgstr "{{Identical|Version}}"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -843,7 +843,7 @@ msgstr ""
 #: reports/planning_report.php:466 reports/planning_report.php:495
 #: tools.php:1437
 msgid "Deadline"
-msgstr ""
+msgstr "{{Identical|Deadline}}"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -923,7 +923,7 @@ msgstr ""
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "CommandSets"
-msgstr ""
+msgstr "{{Identical|CommandSet}}"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -1088,7 +1088,7 @@ msgstr "{{Identical|Date}}"
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "Type"
-msgstr ""
+msgstr "{{Identical|Type}}"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -1273,11 +1273,11 @@ msgstr ""
 
 #. tpl/workflow.html
 msgid "settings ?"
-msgstr ""
+msgstr "{{Identical|Settings}}"
 
 #. tpl/workflow.html
 msgid "Clonning"
-msgstr ""
+msgstr "{{Identical|Clonning}}"
 
 #. tpl/workflow.html
 msgid "into"
@@ -1449,7 +1449,7 @@ msgstr ""
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "None"
-msgstr ""
+msgstr "{{Identical|None}}"
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
@@ -1482,11 +1482,11 @@ msgstr ""
 
 #. tpl/export_odt.html
 msgid "Reporters"
-msgstr ""
+msgstr "{{Identical|Reporter}}"
 
 #. tpl/export_odt.html
 msgid "Handlers"
-msgstr ""
+msgstr "{{Identical|Handler}}"
 
 #. tpl/export_odt.html
 msgid "ODT Template"
@@ -1608,7 +1608,7 @@ msgstr ""
 #. tpl/create_team.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:369
 msgid "Inactivity"
-msgstr ""
+msgstr "{{Identical|Inactivity}}"
 
 #. tpl/create_team.html
 msgid "On Duty, other special cases"
@@ -1751,7 +1751,7 @@ msgstr ""
 #. tpl/edit_team.html
 #. tpl/modal/login.html
 msgid "login"
-msgstr ""
+msgstr "{{Identical|Log in}}"
 
 #. tpl/edit_team.html
 msgid "Arrival date in the team"
@@ -1876,7 +1876,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "save"
-msgstr ""
+msgstr "{{Identical|Save}}"
 
 #. tpl/edit_team.html
 msgid "Delete duration"
@@ -1942,7 +1942,7 @@ msgstr ""
 
 #. tpl/issue_info.html
 msgid "Relation"
-msgstr ""
+msgstr "{{Identical|Relation}}"
 
 #. tpl/issue_info.html
 #. tpl/modal/update_issueBacklog.html
@@ -2016,7 +2016,7 @@ msgstr ""
 #. tpl/tools/wbsEditor.html
 #. tpl/tools/wbsReader.html
 msgid "Reload"
-msgstr ""
+msgstr "{{Identical|Reload}}"
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
@@ -2081,7 +2081,7 @@ msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "Timesheets"
-msgstr ""
+msgstr "{{Identical|Timesheet}}"
 
 #. tpl/team_activity_report.html
 msgid "sum(Backlog) of assigned tasks"
@@ -2141,7 +2141,7 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Home"
-msgstr ""
+msgstr "{{Identical|Home}}"
 
 #. tpl/menu/global_menu.html
 msgid "TimeTracking & team activity"
@@ -2205,7 +2205,7 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Contracts"
-msgstr ""
+msgstr "{{Identical|Contract}}"
 
 #. tpl/menu/global_menu.html
 #. tpl/servicecontract_info.html
@@ -2218,11 +2218,11 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Check"
-msgstr ""
+msgstr "{{Identical|Check}}"
 
 #. tpl/menu/global_menu.html
 msgid "Import / Export"
-msgstr ""
+msgstr "{{Identical|Import}}\n{{Identical|Export}}"
 
 #. tpl/menu/global_menu.html
 msgid "Import Issues"
@@ -2299,7 +2299,7 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Logs"
-msgstr ""
+msgstr "{{Identical|Log}}"
 
 #. tpl/menu/global_menu.html
 #. tpl/uninstall.html
@@ -2362,7 +2362,7 @@ msgstr ""
 #: install/install_step3.php:625 install/install_step3.php:631
 #: install/install_step3.php:636
 msgid "Color"
-msgstr ""
+msgstr "{{Identical|Color}}"
 
 #. tpl/edit_jobs.html
 #. tpl/edit_holidays.html
@@ -2413,7 +2413,7 @@ msgstr ""
 #. tpl/template.html
 #. tpl/import_issues.html
 msgid "or"
-msgstr ""
+msgstr "{{Identical|Or}}"
 
 #. tpl/planning_report.html
 msgid "zoom in"
@@ -2456,7 +2456,7 @@ msgstr ""
 
 #. tpl/planning_report.html
 msgid "tasks"
-msgstr ""
+msgstr "{{Identical|Task}}"
 
 #. tpl/planning_report.html
 msgid "workload"
@@ -2504,11 +2504,11 @@ msgstr ""
 
 #. tpl/forecasting_report.html
 msgid "deviation"
-msgstr ""
+msgstr "{{Identical|Deviation}}"
 
 #. tpl/forecasting_report.html
 msgid "Overview"
-msgstr ""
+msgstr "{{Identical|Overview}}"
 
 #. tpl/forecasting_report.html
 msgid "Task list"
@@ -2561,7 +2561,7 @@ msgstr ""
 
 #. tpl/import_issues.html
 msgid "Columns"
-msgstr ""
+msgstr "{{Identical|Column}}"
 
 #. tpl/import_issues.html
 msgid "the file must contain 6 columns, the 1st line contains the column names."
@@ -2686,7 +2686,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Submitted"
-msgstr ""
+msgstr "{{Identical|Submitted}}"
 
 #. tpl/statistics.html
 msgid "Nb of submitted tasks EXCEPT SideTasks"
@@ -2760,7 +2760,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Efficiency"
-msgstr ""
+msgstr "{{Identical|Efficiency}}"
 
 #. tpl/statistics.html
 #, c-format
@@ -2782,7 +2782,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "% Reopened"
-msgstr ""
+msgstr "{{Identical|Reopened}}"
 
 #. tpl/statistics.html
 msgid "Compare the number of reopened tasks to the number of resolved tasks"
@@ -2823,12 +2823,12 @@ msgstr ""
 #. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
 #. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
 msgid "Duration"
-msgstr ""
+msgstr "{{Identical|Duration}}"
 
 #. tpl/time_tracking.html
 #. tpl/form/dateRangeSelector.html
 msgid "From"
-msgstr ""
+msgstr "{{Identical|From}}"
 
 #. tpl/time_tracking.html
 #. tpl/form/selectFiltersDialogbox.html
@@ -2918,7 +2918,7 @@ msgstr ""
 
 #. tpl/modal/login.html
 msgid "Login"
-msgstr ""
+msgstr "{{Identical|Log in}}"
 
 #. tpl/modal/login.html
 msgid "Password"
@@ -3102,7 +3102,7 @@ msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "EndDate"
-msgstr ""
+msgstr "{{Identical|End date}}"
 
 #. tpl/servicecontract_edit.html
 msgid "Service contract name"
@@ -3250,7 +3250,7 @@ msgstr ""
 
 #: admin/edit_team.php:342
 msgid "enabled"
-msgstr ""
+msgstr "{{Identical|Enabled}}"
 
 #: admin/edit_team.php:342
 msgid "disabled"
@@ -3314,7 +3314,7 @@ msgstr ""
 
 #: blog/blog.php:101
 msgid "Hide"
-msgstr ""
+msgstr "{{Identical|Hide}}"
 
 #: classes/user.class.php:1703
 msgid "for team"
@@ -3326,7 +3326,7 @@ msgstr ""
 
 #: classes/user.class.php:1707
 msgid "Dear "
-msgstr ""
+msgstr "{{Identical|Dear}}"
 
 #: classes/user.class.php:1708
 msgid "Please fill your CodevTT timesheet"
@@ -3424,7 +3424,7 @@ msgstr "{{Identical|Disabled}}"
 
 #: classes/PluginManager.class.php:80
 msgid "Removed"
-msgstr ""
+msgstr "{{Identical|Removed}}"
 
 #: classes/consistency_check2.class.php:62
 #: classes/consistency_check_fdj.class.php:77
@@ -3445,7 +3445,7 @@ msgstr "{{Identical|Warning}}"
 
 #: classes/consistency_check2.class.php:66
 msgid "Info"
-msgstr ""
+msgstr "{{Identical|Info}}"
 
 #: classes/consistency_check2.class.php:68 reports/export_odt.php:272
 #: reports/export_odt.php:285 tests/odt.php:81 tests/odt.php:94
@@ -3534,11 +3534,11 @@ msgstr ""
 
 #: classes/consistency_check2.class.php:697
 msgid " days"
-msgstr ""
+msgstr "{{Identical|Day}}"
 
 #: classes/consistency_check2.class.php:699
 msgid "inconsistent"
-msgstr ""
+msgstr "{{Identical|Inconsistent}}"
 
 #: classes/consistency_check2.class.php:733
 msgid "No default project workflow defined, check config file: "
@@ -3840,11 +3840,11 @@ msgstr "{{Identical|Analyse}}"
 
 #: install/install_step3.php:828
 msgid "Development"
-msgstr ""
+msgstr "{{Identical|Development}}"
 
 #: install/install_step3.php:829
 msgid "Tests"
-msgstr ""
+msgstr "{{Identical|Test}}"
 
 #: install/install_step3.php:916
 msgid "CodevTT_ExternalTasks"
@@ -3973,7 +3973,7 @@ msgstr ""
 
 #: install/install_step1.php:227
 msgid "Server"
-msgstr ""
+msgstr "{{Identical|Server}}"
 
 #: install/install_step1.php:228
 msgid "Port"
@@ -4065,7 +4065,7 @@ msgstr ""
 
 #: reports/export_csv_tools.php:59
 msgid "Resolution"
-msgstr ""
+msgstr "{{Identical|Resolution}}"
 
 #: reports/export_csv_tools.php:66 tools.php:1440
 msgid "Delivery Date"
@@ -4137,7 +4137,7 @@ msgstr ""
 
 #: timetracking/holidays_report.php:121
 msgid "today"
-msgstr ""
+msgstr "{{Identical|Today}}"
 
 #. light grey
 #: timetracking/holidays_report.php:181
