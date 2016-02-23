@@ -31,6 +31,9 @@ if($locale === "fr") {
 } elseif($locale === "nl_NL") {
    // Try many values because OS doesn't have the same constants
    $phpLocale = setlocale(LC_ALL,"nl_NL","nl","Netherlands");
+} elseif($locale === "zh_CN") {
+   // Try many values because OS doesn't have the same constants
+   $phpLocale = setlocale(LC_ALL,"zh_CN","cn","Chinese");
 } else {
    // No locale set, it's because visitors modify the url, so forbidden reply
    header('HTTP/1.1 403 Forbidden');
@@ -117,10 +120,12 @@ function getLocale() {
          } elseif (strpos($lang, 'pt') === 0) {
             $locale = 'pt_BR';
             break;
+         } elseif (strpos($lang, 'cn') === 0) {
+            $locale = 'zh_CN';
+            break;
          }
       }
    }
    return $locale;
 }
 
-?>
