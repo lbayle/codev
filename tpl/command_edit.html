@@ -233,7 +233,7 @@
          <form id="formDeleteCommand" name="formDeleteCommand" method="post" action="{$page}" >
             <fieldset>
                <input type="hidden" name="action" value="deleteCommand" />
-               <input type="hidden" name="commandid" value="{$commandid}" />
+               <input type="hidden" name="cmdid" value="{$commandid}" />
                <input type="hidden" name="teamid" value="{$teamid}" />
             </fieldset>
          </form>
@@ -913,7 +913,7 @@ var provData;
                   <input type="hidden" name="prov_summary" value="0" />
                   <input type="hidden" name="action" value="addProvision" />
                   <input type="hidden" name="teamid" value="{$teamid}" />
-                  <input type="hidden" name="commandid" value="{$cmdid}" />
+                  <input type="hidden" name="cmdid" value="{$cmdid}" />
                   <input type="hidden" name="isInCheckBudget" value="{$isInCheckBudget}"/>
                </fieldset>
             </form>
