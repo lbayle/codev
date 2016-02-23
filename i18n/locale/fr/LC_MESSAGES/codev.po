@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-10 09:30+0100\n"
+"POT-Creation-Date: 2016-02-23 15:58+0100\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -28,6 +28,10 @@ msgstr "Documentation CodevTT"
 #: tpl/doc.html
 msgid "GreaseMonkey script: "
 msgstr "Script GreaseMonkey: "
+
+#: tpl/doc.html
+msgid "You can help on transtations: "
+msgstr ""
 
 #: tpl/team_monthly_activity_report.html
 #: tpl/menu/global_menu.html
@@ -2254,16 +2258,8 @@ msgid "Documentation"
 msgstr "Documentation"
 
 #: tpl/menu/global_menu.html
-msgid "Productivity Reports"
-msgstr "Indicateurs de production"
-
-#: tpl/menu/global_menu.html
-msgid "PHP Doc"
-msgstr "Doc API"
-
-#: tpl/menu/global_menu.html
-msgid "CoDev Administration"
-msgstr "Administration CodevTT"
+msgid "CodevTT Administration"
+msgstr "Administration de CodevTT"
 
 #: tpl/menu/global_menu.html
 msgid "Admin"
@@ -2767,12 +2763,12 @@ msgid "Efficiency"
 msgstr "Taux d'efficacité"
 
 #: tpl/statistics.html
-#, fuzzy, c-format
+#, c-format
 msgid "% Efficiency"
 msgstr "% d'efficacité"
 
 #: tpl/statistics.html
-#, fuzzy, c-format
+#, c-format
 msgid "% Sys Disp."
 msgstr "% Disp Sys"
 
@@ -4333,6 +4329,15 @@ msgstr "S"
 #: tools.php:1434
 msgid "AddEffortEstim"
 msgstr "Charge Additionnelle"
+
+#~ msgid "Productivity Reports"
+#~ msgstr "Indicateurs de production"
+
+#~ msgid "PHP Doc"
+#~ msgstr "Doc API"
+
+#~ msgid "CoDev Administration"
+#~ msgstr "Administration CodevTT"
 
 #~ msgid "Delete team deactivated on DEMO !"
 #~ msgstr "La suppression de l'équipe est désactivée pour la DEMO !"

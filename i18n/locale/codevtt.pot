@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-10 09:30+0100\n"
+"POT-Creation-Date: 2016-02-23 15:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,6 +27,10 @@ msgstr ""
 
 #. tpl/doc.html
 msgid "GreaseMonkey script: "
+msgstr ""
+
+#. tpl/doc.html
+msgid "You can help on transtations: "
 msgstr ""
 
 #. tpl/team_monthly_activity_report.html
@@ -2267,15 +2271,7 @@ msgid "Documentation"
 msgstr ""
 
 #. tpl/menu/global_menu.html
-msgid "Productivity Reports"
-msgstr ""
-
-#. tpl/menu/global_menu.html
-msgid "PHP Doc"
-msgstr ""
-
-#. tpl/menu/global_menu.html
-msgid "CoDev Administration"
+msgid "CodevTT Administration"
 msgstr ""
 
 #. tpl/menu/global_menu.html

@@ -28,6 +28,9 @@ if($locale === "fr") {
 } elseif($locale === "it_IT") {
    // Try many values because OS doesn't have the same constants
    $phpLocale = setlocale(LC_ALL,"it_IT","it","Italian");
+} elseif($locale === "es_ES") {
+   // Try many values because OS doesn't have the same constants
+   $phpLocale = setlocale(LC_ALL,"es_ES","es","Spanish");
 } elseif($locale === "nl_NL") {
    // Try many values because OS doesn't have the same constants
    $phpLocale = setlocale(LC_ALL,"nl_NL","nl","Netherlands");
@@ -113,6 +116,9 @@ function getLocale() {
             break;
          } elseif (strpos($lang, 'it') === 0) {
             $locale = 'it_IT';
+            break;
+         } elseif (strpos($lang, 'es') === 0) {
+            $locale = 'es_ES';
             break;
          } elseif (strpos($lang, 'nl') === 0) {
             $locale = 'nl_NL';
