@@ -29,7 +29,7 @@ msgid "GreaseMonkey script: "
 msgstr "油猴子脚本：\\"
 
 #. tpl/doc.html
-msgid "You can help on transtations: "
+msgid "You can help on translations: "
 msgstr ""
 
 #. tpl/team_monthly_activity_report.html

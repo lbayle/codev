@@ -27,7 +27,7 @@ msgid "GreaseMonkey script: "
 msgstr "Script GreaseMonkey: "
 
 #. tpl/doc.html
-msgid "You can help on transtations: "
+msgid "You can help on translations: "
 msgstr "Vous pouvez aider aux traductions : "
 
 #. tpl/team_monthly_activity_report.html
