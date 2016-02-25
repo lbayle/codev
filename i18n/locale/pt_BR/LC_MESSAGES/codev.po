@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-26 22:56+0100\n"
-"PO-Revision-Date: 2016-02-22 07:38:02+0000\n"
+"PO-Revision-Date: 2016-02-25 08:12:07+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: MediaWiki 1.27.0-alpha; Translate 2016-01-29\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-POT-Import-Date: 2016-02-19 20:45:34+0000\n"
+"X-POT-Import-Date: 2016-02-25 07:27:21+0000\n"
 
 #. tpl/doc.html
 #, fuzzy
@@ -31,6 +31,10 @@ msgstr "Documentação"
 
 #. tpl/doc.html
 msgid "GreaseMonkey script: "
+msgstr ""
+
+#. tpl/doc.html
+msgid "You can help on transtations: "
 msgstr ""
 
 #. tpl/team_monthly_activity_report.html
@@ -2338,16 +2342,8 @@ msgid "Documentation"
 msgstr "Documentação"
 
 #. tpl/menu/global_menu.html
-msgid "Productivity Reports"
-msgstr "Indicadores de produção"
-
-#. tpl/menu/global_menu.html
-msgid "PHP Doc"
-msgstr "PHP Doc"
-
-#. tpl/menu/global_menu.html
-msgid "CoDev Administration"
-msgstr "Administração CoDev"
+msgid "CodevTT Administration"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 #, fuzzy

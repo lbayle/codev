@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 ""
-"PO-Revision-Date: 2016-02-22 07:38:02+0000\n"
-"X-POT-Import-Date: 2016-02-19 20:45:34+0000\n"
+"PO-Revision-Date: 2016-02-25 08:12:07+0000\n"
+"X-POT-Import-Date: 2016-02-25 07:27:21+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: qqq\n"
@@ -23,6 +23,10 @@ msgstr ""
 
 #. tpl/doc.html
 msgid "GreaseMonkey script: "
+msgstr ""
+
+#. tpl/doc.html
+msgid "You can help on transtations: "
 msgstr ""
 
 #. tpl/team_monthly_activity_report.html
@@ -2077,7 +2081,7 @@ msgstr ""
 #. tpl/team_activity_report.html
 #. tpl/project_activity_report.html
 msgid "Detailed"
-msgstr ""
+msgstr "{{Identical|Detailed}}"
 
 #. tpl/team_activity_report.html
 msgid "Timesheets"
@@ -2161,7 +2165,7 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Leaves"
-msgstr ""
+msgstr "{{Identical|Leave}}"
 
 #. tpl/menu/global_menu.html
 msgid "Check DeadLines"
@@ -2250,15 +2254,7 @@ msgid "Documentation"
 msgstr "{{Identical|Documentation}}"
 
 #. tpl/menu/global_menu.html
-msgid "Productivity Reports"
-msgstr ""
-
-#. tpl/menu/global_menu.html
-msgid "PHP Doc"
-msgstr ""
-
-#. tpl/menu/global_menu.html
-msgid "CoDev Administration"
+msgid "CodevTT Administration"
 msgstr ""
 
 #. tpl/menu/global_menu.html
@@ -2537,7 +2533,7 @@ msgstr ""
 
 #. tpl/import_issues.html
 msgid "delimiter"
-msgstr ""
+msgstr "{{Identical|Delimiter}}"
 
 #. tpl/import_issues.html
 msgid "enclosure"
