@@ -8,11 +8,11 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-23 15:27+0100\n"
-"PO-Revision-Date: 2016-02-25 08:12:08+0000\n"
+"PO-Revision-Date: 2016-02-29 16:09:31+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2016-02-25 07:27:21+0000\n"
+"X-POT-Import-Date: 2016-02-25 09:52:13+0000\n"
 "X-Generator: MediaWiki 1.27.0-alpha; Translate 2016-01-29\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -30,7 +30,7 @@ msgstr "油猴子脚本：\\"
 
 #. tpl/doc.html
 msgid "You can help on translations: "
-msgstr ""
+msgstr "您可以帮助翻译：\\"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/menu/global_menu.html
@@ -1177,7 +1177,7 @@ msgstr "删除命令集"
 
 #. tpl/commandset_edit.html
 msgid "Delete this CommandSet ?"
-msgstr ""
+msgstr "删除该命令集？"
 
 #. tpl/commandset_edit.html
 msgid "Nb Commands"
@@ -1316,7 +1316,7 @@ msgstr "未定义工作流过渡，正在使用默认配置。"
 
 #. tpl/workflow.html
 msgid "Configuration Option"
-msgstr ""
+msgstr "配置选项"
 
 #. tpl/workflow.html
 msgid "No configuration options defined, using default configuration."
@@ -1439,7 +1439,7 @@ msgstr "费用"
 #. tpl/servicecontract_info.html
 #: reports/planning_report.php:483
 msgid "Attributes"
-msgstr ""
+msgstr "属性"
 
 #. tpl/command_info.html
 #. tpl/issue_info.html
@@ -1518,7 +1518,7 @@ msgstr "报告者："
 #. tpl/modal/update_issueBacklog.html
 #: reports/export_csv_weekly.php:185 reports/export_csv_tools.php:68
 msgid "Assigned to"
-msgstr ""
+msgstr "分配给"
 
 #. tpl/export_odt.html
 msgid "Download"
@@ -1540,7 +1540,7 @@ msgstr ""
 
 #. tpl/holidays_report.html
 msgid "workdays"
-msgstr ""
+msgstr "工作日"
 
 #. tpl/create_team.html
 msgid "Team Name"
@@ -1708,7 +1708,7 @@ msgstr "注意：<em>团队管理员</em>也必须被声明为<em>团队成员</
 
 #. tpl/edit_team.html
 msgid "Delete team"
-msgstr ""
+msgstr "删除团队"
 
 #. tpl/edit_team.html
 msgid "Team Member"
@@ -1854,7 +1854,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "No 'inactivity' task defined in your SideTasks projects."
-msgstr ""
+msgstr "在您的边缘任务项目中没有“不活跃的”任务。"
 
 #. tpl/edit_team.html
 msgid "This task will no longer be identified as an 'OnDuty' task."
@@ -2160,7 +2160,7 @@ msgstr "活动"
 
 #. tpl/menu/global_menu.html
 msgid "Time Tracking"
-msgstr ""
+msgstr "时间跟踪"
 
 #. tpl/menu/global_menu.html
 msgid "Holidays Reports"
@@ -2196,7 +2196,7 @@ msgstr "项目信息"
 
 #. tpl/menu/global_menu.html
 msgid "Team Statistics"
-msgstr ""
+msgstr "团队统计"
 
 #. tpl/menu/global_menu.html
 msgid "Period Statistics"
@@ -2258,7 +2258,7 @@ msgstr "文档"
 
 #. tpl/menu/global_menu.html
 msgid "CodevTT Administration"
-msgstr ""
+msgstr "CodevTT管理"
 
 #. tpl/menu/global_menu.html
 msgid "Admin"
@@ -2352,7 +2352,7 @@ msgstr "工作名称"
 
 #. tpl/edit_jobs.html
 msgid "Job Color"
-msgstr ""
+msgstr "工作颜色"
 
 #. tpl/edit_jobs.html
 #. tpl/planning_report.html
@@ -2375,7 +2375,7 @@ msgstr "删除工作"
 
 #. tpl/edit_jobs.html
 msgid "delete Job"
-msgstr ""
+msgstr "删除工作"
 
 #. tpl/edit_jobs.html
 msgid "Job Assignations"
@@ -2524,7 +2524,7 @@ msgstr "选择CSV文件"
 
 #. tpl/import_issues.html
 msgid "Import Mantis Issues"
-msgstr ""
+msgstr "导入Mantis问题"
 
 #. tpl/import_issues.html
 msgid "File Format"
@@ -2588,7 +2588,7 @@ msgstr "设置所有"
 
 #. tpl/import_issues.html
 msgid "TargetVersion"
-msgstr ""
+msgstr "目标版本"
 
 #. tpl/import_issues.html
 msgid "Category not set on all issues"
@@ -2664,11 +2664,11 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Start Year"
-msgstr ""
+msgstr "起始年"
 
 #. tpl/statistics.html
 msgid "Submitted / Resolved Issues"
-msgstr ""
+msgstr "已提交/已解决的问题"
 
 #. tpl/statistics.html
 msgid "Efficiency - System Disponibility"
@@ -2689,7 +2689,7 @@ msgstr "已提交"
 
 #. tpl/statistics.html
 msgid "Nb of submitted tasks EXCEPT SideTasks"
-msgstr ""
+msgstr "除边缘任务外，提交任务的Nb"
 
 #. tpl/statistics.html
 msgid "Resolved"
@@ -2705,7 +2705,7 @@ msgstr "显示值"
 
 #. tpl/statistics.html
 msgid "Nb submissions"
-msgstr ""
+msgstr "Nb意见书"
 
 #. tpl/statistics.html
 msgid "Nb Resolved"
@@ -2836,7 +2836,7 @@ msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Reduce the tasks selection by setting some filters"
-msgstr ""
+msgstr "通过设置一些过滤器减少任务选择"
 
 #. tpl/time_tracking.html
 msgid "Hide tasks not assigned to me"
@@ -2941,7 +2941,7 @@ msgstr "任务未解决，积压工作不能为“0”"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Status can't be : "
-msgstr ""
+msgstr "状态不能是：\\"
 
 #. tpl/modal/edit_issueNote.html
 msgid "Edit timesheet note"
@@ -2977,11 +2977,11 @@ msgstr "全选"
 
 #. tpl/edit_holidays.html
 msgid "Add fixed holidays"
-msgstr ""
+msgstr "添加固定的假期"
 
 #. tpl/edit_holidays.html
 msgid "In here you can set National Days, religious holidays, etc."
-msgstr ""
+msgstr "在这里您可以设置国家纪念日、宗教节日等"
 
 #. tpl/edit_holidays.html
 msgid "Note: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong."
@@ -3173,7 +3173,7 @@ msgstr "没有可用数据"
 
 #. tpl/project_activity_report.html
 msgid "Time spent on Projects per users"
-msgstr ""
+msgstr "每位用户在项目上花费的时间"
 
 #. tpl/project_activity_report.html
 msgid "With ExternalTasks Project"
@@ -3181,7 +3181,7 @@ msgstr ""
 
 #. tpl/project_activity_report.html
 msgid "With SideTasks Project"
-msgstr ""
+msgstr "带边缘任务项目"
 
 #. tpl/index.html
 msgid "IE may not correctly display this website"
@@ -3259,7 +3259,7 @@ msgstr "已禁用"
 
 #: admin/edit_team_ajax.php:68
 msgid "Issue tooltips for project"
-msgstr ""
+msgstr "用于项目的问题提示"
 
 #: admin/edit_team_ajax.php:69
 msgid "Drag & drop the items to be displayed in the Issue tooltip"
@@ -3271,7 +3271,7 @@ msgstr "可用字段"
 
 #: admin/edit_team_ajax.php:71
 msgid "Tooltip"
-msgstr ""
+msgstr "提示信息"
 
 #: admin/logs.php:58
 msgid "Sorry, logfile not found:"
@@ -3397,7 +3397,7 @@ msgstr "标签"
 
 #: classes/issue.class.php:2200
 msgid "none"
-msgstr ""
+msgstr "无"
 
 #: classes/issue.class.php:2205 reports/issue_info.php:216
 msgid "DriftColor"
@@ -3405,7 +3405,7 @@ msgstr "漂移颜色"
 
 #: classes/issue.class.php:2208 tools.php:251
 msgid "DriftMgr"
-msgstr ""
+msgstr "漂移经理"
 
 #: classes/issue.class.php:2209
 msgid "DriftMgrColor"
@@ -3651,7 +3651,7 @@ msgstr "按标签排序问题"
 
 #: filters/IssueTagFilter.php:57
 msgid "Issue Tag"
-msgstr ""
+msgstr "问题标签"
 
 #: graphs/gantt_graph.php:97
 msgid "Project(s)"
@@ -3664,7 +3664,7 @@ msgstr "所有项目"
 
 #: import/import_issues.php:115
 msgid "Please upload files with the following extension: "
-msgstr ""
+msgstr "请上传带以下扩展名的文件：\\"
 
 #: indicator_plugins/BacklogVariationIndicator/BacklogVariationIndicator.class.php:286
 msgid "Average backlog"
@@ -3743,7 +3743,7 @@ msgstr "CodevTT_外部ID"
 
 #: install/install_step3.php:383
 msgid "CodevTT_Deadline"
-msgstr ""
+msgstr "CodevTT_截止期限"
 
 #: install/install_step3.php:386
 msgid "CodevTT_Additional Effort"
@@ -3766,7 +3766,7 @@ msgstr ""
 #. T_("Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access.")
 #: install/install_step3.php:451
 msgid "Path to log files and other temporary files."
-msgstr ""
+msgstr "至日志文件和其他临时文件的目录。"
 
 #. ------ Status
 #: install/install_step3.php:468
@@ -3863,7 +3863,7 @@ msgstr "任何外部任务，未被任何mantis项目引用"
 #. --- Create the 'Leave' task in ExternalTasks Project
 #: install/install_step3.php:958
 msgid "On holiday, leave, ..."
-msgstr ""
+msgstr "在度假、离开..."
 
 #: install/install_step3.php:959
 msgid "Sick"
@@ -3883,7 +3883,7 @@ msgstr ""
 
 #: install/install_step4.php:50
 msgid "Login to Mantis as 'Administrator'."
-msgstr ""
+msgstr "以“管理员”身份登录至Mantis。"
 
 #: install/install_step4.php:51
 msgid "manage plugins"
@@ -4054,7 +4054,7 @@ msgstr "成员活跃"
 
 #: reports/export_csv_weekly.php:104
 msgid "Export Holidays"
-msgstr ""
+msgstr "导出假日"
 
 #: reports/export_csv_tools.php:49
 msgid "m_id"
@@ -4078,7 +4078,7 @@ msgstr "送货单"
 
 #: reports/planning_report.php:203
 msgid "onTime"
-msgstr ""
+msgstr "准时"
 
 #: reports/planning_report.php:204
 msgid "NOT onTime"
@@ -4090,7 +4090,7 @@ msgstr "无截止期限"
 
 #: reports/planning_report.php:498
 msgid "Monitored"
-msgstr ""
+msgstr "已检测"
 
 #: reports/issue_info_ajax.php:66
 msgid "Sorry, only managers can remove tasks from commands"
@@ -4130,7 +4130,7 @@ msgstr "点击以添加一条注释"
 
 #: timetracking/holidays_report.php:65
 msgid "External Tasks"
-msgstr ""
+msgstr "外部任务"
 
 #: timetracking/holidays_report.php:70
 msgid "Sidetasks Inactivity"
@@ -4243,11 +4243,11 @@ msgstr "预算漂移历史"
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:66
 msgid "Display the budget history"
-msgstr ""
+msgstr "显示预算历史"
 
 #: plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.class.php:62
 msgid "Task deadlines alert"
-msgstr ""
+msgstr "任务截止日期提醒"
 
 #: plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.class.php:65
 msgid "Display unresolved tasks that should have been delivered"
