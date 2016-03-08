@@ -80,10 +80,12 @@
                         <th style="width: 500px;">{t}CommandSet{/t}</th>
                         <!--th width="100">{t}Team{/t}</th-->
                         <th>{t}MgrEffortEstim{/t}</th>
+                        <th>{t}EffortEstim{/t}</th>
                         <th title="backlog + elapsed">{t}Reestimated{/t}</th>
                         <th>{t}Elapsed{/t}</th>
                         <th>{t}Backlog{/t}</th>
                         <th>{t}Drift Mgr{/t}</th>
+                        <th>{t}Drift{/t}</th>
                         <th>{t}Progress{/t}</th>
                      </tr>
                   </thead>
@@ -93,10 +95,12 @@
                         <!--td>{$id}</td-->
                         <td align="left"><a href="management/commandset_info.php?commandsetid={$id}"><img align="absmiddle" src="images/b_goto.png" alt="{t}Go to{/t} {$cmdset.name}" /></a> {$cmdset.name}</td>
                         <!--td>{$cmdset.team}</td-->
+                        <td>{$cmdset.mgrEffortEstim}</td>
                         <td>{$cmdset.effortEstim}</td>
                         <td>{$cmdset.reestimated}</td>
                         <td>{$cmdset.elapsed}</td>
                         <td>{$cmdset.backlog}</td>
+                        <td {$cmdset.driftMgrColor}>{$cmdset.driftMgr}</td>
                         <td {$cmdset.driftColor}>{$cmdset.drift}</td>
                         <td><div class="progress">{$cmdset.progress}%</div></td>
                      </tr>
@@ -108,9 +112,11 @@
                         <td title="{$id}">{t}TOTAL{/t}</td>
                         <!--td></td-->
                         <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
+                        <td>{$cmdsetTotalDetailedMgr.mgrEffortEstim}</td>
                         <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
                         <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
                         <td>{$cmdsetTotalDetailedMgr.backlog}</td>
+                        <td {$cmdsetTotalDetailedMgr.driftMgrColor}>{$cmdsetTotalDetailedMgr.driftMgr}</td>
                         <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
                         <td><div class="progress">{$cmdsetTotalDetailedMgr.progress}%</div></td>
                      </tr>
@@ -129,10 +135,12 @@
                         <th style="width: 500px;">{t}Command{/t}</th>
                         <!--th width="100">{t}Team{/t}</th-->
                         <th>{t}MgrEffortEstim{/t}</th>
+                        <th>{t}EffortEstim{/t}</th>
                         <th title="backlog + elapsed">{t}Reestimated{/t}</th>
                         <th>{t}Elapsed{/t}</th>
                         <th>{t}Backlog{/t}</th>
                         <th>{t}Drift Mgr{/t}</th>
+                        <th>{t}Drift{/t}</th>
                         <th>{t}Progress{/t}</th>
                      </tr>
                   </thead>
@@ -142,10 +150,12 @@
                         <!--td>{$id}</td-->
                         <td align="left"><a href="management/command_info.php?cmdid={$cmd.id}"><img align="absmiddle" src="images/b_goto.png" alt="{t}Go to{/t} {$cmd.reference} - {$cmd.name}" /></a> {$cmd.reference} - {$cmd.name}</td>
                         <!--td>{$cmd.team}</td-->
+                        <td>{$cmd.mgrEffortEstim}</td>
                         <td>{$cmd.effortEstim}</td>
                         <td>{$cmd.reestimated}</td>
                         <td>{$cmd.elapsed}</td>
                         <td>{$cmd.backlog}</td>
+                        <td {$cmd.driftMgrColor}>{$cmd.driftMgr}</td>
                         <td {$cmd.driftColor}>{$cmd.drift}</td>
                         <td><div class="progress">{$cmd.progress}%</div></td>
                      </tr>
@@ -156,10 +166,12 @@
                         <!--td></td-->
                         <td>{t}TOTAL{/t}</td>
                         <!--td></td-->
+                        <td>{$cmdsetTotalDetailedMgr.mgrEffortEstim}</td>
                         <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
                         <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
                         <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
                         <td>{$cmdsetTotalDetailedMgr.backlog}</td>
+                        <td {$cmdsetTotalDetailedMgr.driftMgrColor}>{$cmdsetTotalDetailedMgr.driftMgr}</td>
                         <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
                         <td><div class="progress">{$cmdsetTotalDetailedMgr.progress}%</div></td>
                      </tr>
@@ -202,11 +214,11 @@
                   <tr>
                      <!--td></td-->
                      <td>{t}TOTAL{/t}</td>
-                     <td>{$sidetasksTotalDetailedMgr.effortEstim}</td>
+                     <td>{$sidetasksTotalDetailedMgr.mgrEffortEstim}</td>
                      <!--td>{$sidetasksTotalDetailedMgr.reestimated}</td-->
                      <td>{$sidetasksTotalDetailedMgr.elapsed}</td>
                      <!--td>{$sidetasksTotalDetailedMgr.backlog}</td-->
-                     <td {$sidetasksTotalDetailedMgr.driftColor}>{$sidetasksTotalDetailedMgr.drift}</td>
+                     <td {$sidetasksTotalDetailedMgr.driftMgrColor}>{$sidetasksTotalDetailedMgr.driftMgr}</td>
                   </tr>
                </tfoot>
             </table>
@@ -233,31 +245,31 @@
                   <tr>
                      <!--td></td-->
                      <td align="left">{t}Tasks{/t}</td>
-                     <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
+                     <td>{$cmdsetTotalDetailedMgr.mgrEffortEstim}</td>
                      <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
                      <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
                      <td>{$cmdsetTotalDetailedMgr.backlog}</td>
-                     <td>{$cmdsetTotalDetailedMgr.drift}</td>
+                     <td>{$cmdsetTotalDetailedMgr.driftMgr}</td>
                   </tr>
                   <tr>
                      <!--td></td-->
                      <td align="left">{t}SideTasks{/t}</td>
-                     <td>{$sidetasksTotalDetailedMgr.effortEstim}</td>
+                     <td>{$sidetasksTotalDetailedMgr.mgrEffortEstim}</td>
                      <td>{$sidetasksTotalDetailedMgr.reestimated}</td>
                      <td>{$sidetasksTotalDetailedMgr.elapsed}</td>
                      <td>{$sidetasksTotalDetailedMgr.backlog}</td>
-                     <td>{$sidetasksTotalDetailedMgr.drift}</td>
+                     <td>{$sidetasksTotalDetailedMgr.driftMgr}</td>
                   </tr>
                </tbody>
                <tfoot>
                   <tr>
                      <!--td></td-->
                      <td>{t}TOTAL{/t}</td>
-                     <td>{$servicecontractTotalDetailedMgr.effortEstim}</td>
+                     <td>{$servicecontractTotalDetailedMgr.mgrEffortEstim}</td>
                      <td>{$servicecontractTotalDetailedMgr.reestimated}</td>
                      <td>{$servicecontractTotalDetailedMgr.elapsed}</td>
                      <td>{$servicecontractTotalDetailedMgr.backlog}</td>
-                     <td {$servicecontractTotalDetailedMgr.driftColor}>{$servicecontractTotalDetailedMgr.drift}</td>
+                     <td {$servicecontractTotalDetailedMgr.driftMgrColor}>{$servicecontractTotalDetailedMgr.driftMgr}</td>
                   </tr>
                </tfoot>
             </table>

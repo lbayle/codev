@@ -174,18 +174,24 @@ class SmartyTools {
       //$formatedList  = implode( ',', array_keys($issueSelection->getIssueList()));
 
       $valuesMgr = $issueSelection->getDriftMgr();
+      $valuesDrift = $issueSelection->getDrift();
 
       $driftMgrColor = IssueSelection::getDriftColor($valuesMgr['percent']);
       $formatteddriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
+      $driftColor = IssueSelection::getDriftColor($valuesDrift['percent']);
+      $formattedDriftColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftColor.";' ";
 
       $selectionDetailedMgr = array('name' => $issueSelection->name,
          //'progress' => round(100 * $pv->getProgress()),
-         'effortEstim' => ($issueSelection->mgrEffortEstim + $issueSelection->getProvision()),
+         'effortEstim' => ($issueSelection->effortEstim + $issueSelection->getProvision()),
+         'mgrEffortEstim' => ($issueSelection->mgrEffortEstim + $issueSelection->getProvision()),
          'reestimated' => $issueSelection->getReestimated(),
          'elapsed' => $issueSelection->elapsed,
          'backlog' => $issueSelection->duration,
-         'driftColor' => $formatteddriftMgrColor,
-         'drift' => round($valuesMgr['nbDays'],2),
+         'driftMgrColor' => $formatteddriftMgrColor,
+         'driftMgr' => round($valuesMgr['nbDays'],2),
+         'driftColor' => $formattedDriftColor,
+         'drift' => round($valuesDrift['nbDays'],2),
          'progress' => round(100 * $issueSelection->getProgress(),2),
 
       );
@@ -240,4 +246,4 @@ class SmartyTools {
 
 SmartyTools::staticInit();
 
-?>
+
