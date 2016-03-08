@@ -107,8 +107,16 @@ if (Tools::isConnectedUser()) {
 
             try {
                $issue = IssueCache::getInstance()->getIssue($bid);
+
+               // try to fix (add issue to WBS)
+               try {
+                  $wbsChild = new WBSElement(NULL, $wbsid, $bid, $wbsid);
+                  echo "<br>INFO Add issue $bid to WBS $wbsid <br>";
+               } catch (Exception $e) {
+                  echo "ERROR Could not add issue $bid to WBS $wbsid<br>";
+               }
             } catch (Exception $e) {
-               echo "ERROR issue $bid does not exist in Mantis !</span><br>";
+               echo "ERROR issue $bid does not exist in Mantis !<br>";
             }
          } else {
             echo "$bid, ";
@@ -128,4 +136,3 @@ if (Tools::isConnectedUser()) {
 }
 
 
-?>
