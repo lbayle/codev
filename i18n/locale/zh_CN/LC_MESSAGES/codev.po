@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-01 22:19+0100\n"
-"PO-Revision-Date: 2016-03-03 07:19:05+0000\n"
+"PO-Revision-Date: 2016-03-09 12:37:13+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1682,7 +1682,7 @@ msgstr "参数设置"
 
 #. tpl/edit_team.html
 msgid "Timetrack Durations"
-msgstr ""
+msgstr "时间跟踪期间"
 
 #. tpl/edit_team.html
 msgid "OnDuty tasks"
@@ -1712,7 +1712,7 @@ msgstr "删除团队"
 
 #. tpl/edit_team.html
 msgid "Team Member"
-msgstr ""
+msgstr "团队成员"
 
 #. tpl/edit_team.html
 msgid "Source Team"
@@ -1736,7 +1736,7 @@ msgstr "添加用户"
 
 #. tpl/edit_team.html
 msgid "Departure-Date"
-msgstr ""
+msgstr "出发日期"
 
 #. tpl/edit_team.html
 msgid "set Departure Date"
@@ -1919,7 +1919,7 @@ msgstr "时间跟踪"
 
 #. tpl/issue_info.html
 msgid "Time tracking"
-msgstr ""
+msgstr "时间跟踪"
 
 #. tpl/issue_info.html
 msgid "Task Info"
@@ -3813,7 +3813,7 @@ msgstr ""
 
 #: install/install_step3.php:643
 msgid "Select the projects to be managed with CodevTT"
-msgstr ""
+msgstr "选择项目以与CodevTT一起管理"
 
 #: install/install_step3.php:655
 msgid "Proceed Step 3"
@@ -3887,7 +3887,7 @@ msgstr "以“管理员”身份登录至Mantis。"
 
 #: install/install_step4.php:51
 msgid "manage plugins"
-msgstr ""
+msgstr "管理插件"
 
 #: install/install_step4.php:52
 msgid "Check that the <b>CodevTT</b> plugin is installed and activated."
@@ -3970,7 +3970,7 @@ msgstr ""
 
 #: install/install_step1.php:226
 msgid "Enable proxy"
-msgstr ""
+msgstr "启用代理"
 
 #: install/install_step1.php:227
 msgid "Server"
@@ -4006,7 +4006,7 @@ msgstr "第4步"
 
 #: install/install_step5.php:25
 msgid "Installation finished"
-msgstr ""
+msgstr "安装完成"
 
 #: management/command_edit.php:221
 msgid "Add tasks to Command"
