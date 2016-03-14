@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 ""
-"PO-Revision-Date: 2016-03-09 12:37:28+0000\n"
+"PO-Revision-Date: 2016-03-14 07:06:40+0000\n"
 "X-POT-Import-Date: 2016-02-25 09:52:13+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1305,7 +1305,7 @@ msgstr ""
 
 #. tpl/workflow.html
 msgid "Settings"
-msgstr "{{Identical|Setting}}"
+msgstr "{{Identical|Settings}}"
 
 #. tpl/workflow.html
 msgid "No workflow transitions defined, using default configuration."
@@ -1936,7 +1936,7 @@ msgstr ""
 #: reports/planning_report.php:463 reports/planning_report.php:486
 #: tools.php:1503
 msgid "Severity"
-msgstr ""
+msgstr "{{Identical|Severity}}"
 
 #. tpl/issue_info.html
 #. tpl/team_activity_report.html
@@ -2537,7 +2537,7 @@ msgstr "{{Identical|Delimiter}}"
 
 #. tpl/import_issues.html
 msgid "enclosure"
-msgstr ""
+msgstr "{{Identical|Enclosure}}"
 
 #. tpl/import_issues.html
 msgid "Date format"
@@ -3058,7 +3058,7 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "TODO"
-msgstr ""
+msgstr "{{Identical|Todo}}"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT specific projects"
@@ -3383,7 +3383,7 @@ msgstr ""
 
 #: classes/issue.class.php:66
 msgid "Constrains"
-msgstr ""
+msgstr "{{Identical|Constrain}}"
 
 #: classes/issue.class.php:2192 classes/wbsElement.class.php:585
 #: tools.php:1483
@@ -3945,7 +3945,7 @@ msgstr ""
 
 #: install/install_step1.php:199
 msgid "Hostname"
-msgstr ""
+msgstr "{{Identical|Hostname}}"
 
 #: install/install_step1.php:203
 msgid "Database Name"
@@ -4033,7 +4033,7 @@ msgstr ""
 
 #: management/servicecontract_tools.php:182
 msgid "Provision"
-msgstr ""
+msgstr "{{Identical|Provision}}"
 
 #: reports/statistics.php:85
 msgid "No projects in this team"

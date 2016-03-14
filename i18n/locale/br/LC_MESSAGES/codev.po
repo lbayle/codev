@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 ""
-"PO-Revision-Date: 2016-03-09 12:37:08+0000\n"
+"PO-Revision-Date: 2016-03-14 07:06:22+0000\n"
 "X-POT-Import-Date: 2016-02-25 09:52:13+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -909,7 +909,7 @@ msgstr "Anv an urzhiad"
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
 msgid "Not a number"
-msgstr ""
+msgstr "N'eo ket un niverenn"
 
 #. tpl/command_edit.html
 msgid "Delete Command"
@@ -1269,7 +1269,7 @@ msgstr ""
 
 #. tpl/bvi.html
 msgid "No data."
-msgstr "Roadenn ebet."
+msgstr "Roadenn ebet"
 
 #. tpl/workflow.html
 msgid "Are you sure you want to change"
@@ -1580,12 +1580,12 @@ msgstr "Anv raktres"
 
 #. tpl/create_team.html
 msgid "Meeting, Pre-sales, ProjectManagement, ..."
-msgstr ""
+msgstr "Emvod, a-raok gwerzh, heuliañ raktresoù, ...."
 
 #. tpl/create_team.html
 #: admin/create_team.php:92
 msgid "Incident"
-msgstr ""
+msgstr "Gwallzarvoud"
 
 #. tpl/create_team.html
 msgid "Server or Platform down, ..."
@@ -1598,7 +1598,7 @@ msgstr "Ostilhoù"
 
 #. tpl/create_team.html
 msgid "Sys. Admin, Scritps, ..."
-msgstr ""
+msgstr "Melestadur Reizhiad, Skriptoù...."
 
 #. tpl/create_team.html
 #: admin/create_team.php:98
@@ -1713,7 +1713,7 @@ msgstr "Ezel ar skipailh"
 
 #. tpl/edit_team.html
 msgid "Source Team"
-msgstr ""
+msgstr "Skipailh Mammenn"
 
 #. tpl/edit_team.html
 msgid "Member"
@@ -1781,7 +1781,7 @@ msgstr "Diverkañ ar bajenn-mañ"
 #. tpl/edit_team.html
 #. tpl/edit_jobs.html
 msgid "Jobs"
-msgstr ""
+msgstr "Labourioù"
 
 #. tpl/edit_team.html
 msgid "Create SideTasksProject"
@@ -1801,7 +1801,7 @@ msgstr "Lagadennoù an trevelloù"
 
 #. tpl/edit_team.html
 msgid "Tooltip fields"
-msgstr ""
+msgstr "Maeziennoù lagadennoù"
 
 #. tpl/edit_team.html
 msgid "No custom IssueTooltips defined for your projects."
@@ -1892,7 +1892,7 @@ msgstr "Dilemel ar pad da-heul ?"
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
-msgstr ""
+msgstr "Rankout a rit bezañ Teamleader evit mont d'ar bajenn-mañ."
 
 #. tpl/issue_info.html
 msgid "External ID"
@@ -2173,7 +2173,7 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Planning"
-msgstr ""
+msgstr "Implij-amzer"
 
 #. tpl/menu/global_menu.html
 msgid "Gantt Chart"
@@ -2295,7 +2295,7 @@ msgstr "Merour lugantoù"
 
 #. tpl/menu/global_menu.html
 msgid "Logs"
-msgstr ""
+msgstr "Marilhoù"
 
 #. tpl/menu/global_menu.html
 #. tpl/uninstall.html
@@ -2392,7 +2392,7 @@ msgstr "Dibab lies"
 
 #. tpl/edit_jobs.html
 msgid "Remove this link :"
-msgstr ""
+msgstr "Dilemel al liamm-mañ :"
 
 #. tpl/edit_jobs.html
 msgid "delete Project Association"
@@ -2480,11 +2480,11 @@ msgstr ""
 
 #. tpl/check.html
 msgid "last modification date"
-msgstr ""
+msgstr "Deiz ar c'hemm diwezhañ"
 
 #. tpl/check.html
 msgid "Level"
-msgstr ""
+msgstr "Live"
 
 #. tpl/check.html
 msgid "Error Description"
@@ -2561,11 +2561,11 @@ msgstr "Bannoù"
 
 #. tpl/import_issues.html
 msgid "the file must contain 6 columns, the 1st line contains the column names."
-msgstr ""
+msgstr "Ar restr a zle bezañ 6 bann enni, al linenn gentañ zo anvioù ar maeziennoù enni"
 
 #. tpl/import_issues.html
 msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef"
-msgstr ""
+msgstr "Taolenn :  MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef"
 
 #. tpl/import_issues.html
 msgid "File"
@@ -2577,7 +2577,7 @@ msgstr "Astenn ar restr"
 
 #. tpl/import_issues.html
 msgid "Preview import"
-msgstr ""
+msgstr "Alberz"
 
 #. tpl/import_issues.html
 msgid "Set All"
@@ -2589,7 +2589,7 @@ msgstr "Doare buket"
 
 #. tpl/import_issues.html
 msgid "Category not set on all issues"
-msgstr ""
+msgstr "Ar rummad a rank bezañ dielfennet evit an holl drevelloù."
 
 #. tpl/import_issues.html
 msgid "Type not set on all issues"
@@ -2673,7 +2673,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Reopened Rate"
-msgstr ""
+msgstr "Feur distreiñ"
 
 #. tpl/statistics.html
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:67
@@ -2739,12 +2739,12 @@ msgstr ""
 #. tpl/statistics.html
 #: reports/export_csv_tools.php:61
 msgid "BI"
-msgstr ""
+msgstr "BI"
 
 #. tpl/statistics.html
 #: reports/export_csv_tools.php:62
 msgid "BS"
-msgstr ""
+msgstr "BS"
 
 #. tpl/statistics.html
 msgid "Effort Deviation (ExtRefOnly)"
@@ -2790,7 +2790,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "man-days"
-msgstr ""
+msgstr "deiz-gwaz"
 
 #. tpl/statistics.html
 msgid "Available man-days on the period (excluding leave and external tasks)"
@@ -2802,7 +2802,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "nb production days"
-msgstr ""
+msgstr "Niver a zevezhioù produiñ"
 
 #. tpl/statistics.html
 msgid "Sorry, you do NOT have access to this page."
@@ -2810,7 +2810,7 @@ msgstr "Hon digarezit, ne c'hallit ket diraez ar bajenn-mañ."
 
 #. tpl/time_tracking.html
 msgid "Query FAILED"
-msgstr ""
+msgstr "Reked c'hwitet"
 
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
@@ -2824,7 +2824,7 @@ msgstr "Pad"
 #. tpl/time_tracking.html
 #. tpl/form/dateRangeSelector.html
 msgid "From"
-msgstr ""
+msgstr "Eus"
 
 #. tpl/time_tracking.html
 #. tpl/form/selectFiltersDialogbox.html
@@ -3010,15 +3010,15 @@ msgstr ""
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Available Filters"
-msgstr ""
+msgstr "Siloù a zo da gaout"
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Applied Filters"
-msgstr ""
+msgstr "Siloù oberiant"
 
 #. tpl/uninstall.html
 msgid "Do you want to remove CodevTT from your Mantis server ?"
-msgstr ""
+msgstr "C'hoant ho peus da zistaliañ CodevTT eus ho servijer Mantis ?"
 
 #. tpl/uninstall.html
 msgid "This step will clean Mantis DB."
@@ -3026,19 +3026,19 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "Backup data"
-msgstr ""
+msgstr "Saveteiñ ar roadennoù"
 
 #. tpl/uninstall.html
 msgid "Backup file will ve saved in CodevTT reports directory"
-msgstr ""
+msgstr "Generet e vo ar restr saveteiñ e kavlec'h an danevelloù"
 
 #. tpl/uninstall.html
 msgid "Filename"
-msgstr ""
+msgstr "Anv ar restr"
 
 #. tpl/uninstall.html
 msgid "Backup"
-msgstr ""
+msgstr "Saveteiñ"
 
 #. tpl/uninstall.html
 msgid "Dumping MantisDB to"
@@ -3058,19 +3058,19 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "TODO"
-msgstr ""
+msgstr "TODO"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT specific projects"
-msgstr ""
+msgstr "Dilemel Raktresoù diabarzh CodevTT"
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
-msgstr ""
+msgstr "Dilemel ar raktresoù-mañ gant an dorn, ma plij :"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT customFields:"
-msgstr ""
+msgstr "Dilemel ar maeziennoù personelaet CodevTT :"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT tables from MantisDB:"
@@ -3082,39 +3082,39 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "ERROR: Could not delete files"
-msgstr ""
+msgstr "FAZI : Ne c'haller ket dilemel ar restroù"
 
 #. tpl/uninstall.html
 msgid "Failed"
-msgstr ""
+msgstr "C'hwitet"
 
 #. tpl/servicecontract_edit.html
 msgid "New service contract"
-msgstr ""
+msgstr "Kevrat-servij nevez"
 
 #. tpl/servicecontract_edit.html
 msgid "StartDate"
-msgstr ""
+msgstr "Deiziad deroù"
 
 #. tpl/servicecontract_edit.html
 msgid "EndDate"
-msgstr ""
+msgstr "Deiziad fin"
 
 #. tpl/servicecontract_edit.html
 msgid "Service contract name"
-msgstr ""
+msgstr "Anv ar Gevrat-servij"
 
 #. tpl/servicecontract_edit.html
 msgid "Delete ServiceContract"
-msgstr ""
+msgstr "Dilemel ar Gevrat-servij"
 
 #. tpl/servicecontract_edit.html
 msgid "Delete this ServiceContract ?"
-msgstr ""
+msgstr "Dilemel ar Gevrat-servij-mañ ?"
 
 #. tpl/servicecontract_edit.html
 msgid "Nb CommandSets"
-msgstr ""
+msgstr "Nv. a Vakroioù-urzhiad"
 
 #. tpl/servicecontract_edit.html
 msgid "SideTasks Projects"
@@ -3122,7 +3122,7 @@ msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "--- New CommandSet ---"
-msgstr ""
+msgstr "--- Makro-urzhiad Nevez ---"
 
 #. tpl/servicecontract_edit.html
 msgid "delete Contract-CommandSet association"
@@ -3130,7 +3130,7 @@ msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "Remove CommandSet from this Contract ?"
-msgstr ""
+msgstr "Dilemel ar Makro-Urzhiad evit ar Gevrat-servij-mañ ?"
 
 #. tpl/servicecontract_edit.html
 msgid "delete Contract-Project association"
@@ -3138,11 +3138,11 @@ msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project"
-msgstr ""
+msgstr "Dilemel Raktres"
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project from this Contract ?"
-msgstr ""
+msgstr "Dilemel raktres ar Gevrat-servij-mañ ?"
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel SAUF SuiviOp."
@@ -3154,19 +3154,19 @@ msgstr ""
 
 #. tpl/project_activity_report.html
 msgid "Users"
-msgstr ""
+msgstr "Implijerien"
 
 #. tpl/project_activity_report.html
 msgid "Tasks per project"
-msgstr ""
+msgstr "Trevelloù dre Raktres"
 
 #. tpl/project_activity_report.html
 msgid "Total time spent on this issue"
-msgstr ""
+msgstr "Amzer hollek tremenet war an trevell-mañ"
 
 #. tpl/project_activity_report.html
 msgid "No data available"
-msgstr ""
+msgstr "n'eus ket roadennoù da gaout"
 
 #. tpl/project_activity_report.html
 msgid "Time spent on Projects per users"
@@ -3174,7 +3174,7 @@ msgstr ""
 
 #. tpl/project_activity_report.html
 msgid "With ExternalTasks Project"
-msgstr ""
+msgstr "Gant ar raktres trevelloù diavaez"
 
 #. tpl/project_activity_report.html
 msgid "With SideTasks Project"
@@ -3190,7 +3190,7 @@ msgstr ""
 
 #. tpl/index.html
 msgid "A new CodevTT version is available !"
-msgstr ""
+msgstr "Un doare CodevTT  nevez a c'haller kaout !"
 
 #. tpl/index.html
 msgid "Derive par rapport a l estimation preliminaire"
@@ -3210,23 +3210,23 @@ msgstr ""
 
 #. tpl/index.html
 msgid "Errors in your Tasks"
-msgstr ""
+msgstr "Fazi(où) en ho Trevelloù"
 
 #: admin/edit_team.php:52
 msgid "Couldn't delete the team"
-msgstr ""
+msgstr "C'hwitet eo bet dilamadur ar skipailh"
 
 #: admin/edit_team.php:94
 msgid "Couldn't update the team leader"
-msgstr ""
+msgstr "C'hwitet eo hizivadur an team leader"
 
 #: admin/edit_team.php:105
 msgid "Couldn't update the creation date"
-msgstr ""
+msgstr "C'hwitet eo hizivadur an deiziad krouiñ"
 
 #: admin/edit_team.php:110
 msgid "Couldn't enable/disable team"
-msgstr ""
+msgstr "Ne c'haller ket gweredekaat/diweredekaat ar skipailh"
 
 #: admin/edit_team.php:203
 msgid "Couldn't delete the member of the team"
@@ -3242,31 +3242,31 @@ msgstr ""
 
 #: admin/edit_team.php:277
 msgid "Configure Tooltips"
-msgstr ""
+msgstr "Kefluniañ al lagadennoù-titouriñ"
 
 #: admin/edit_team.php:342
 msgid "enabled"
-msgstr ""
+msgstr "gweredekaet"
 
 #: admin/edit_team.php:342
 msgid "disabled"
-msgstr ""
+msgstr "diweredekaet"
 
 #: admin/edit_team_ajax.php:68
 msgid "Issue tooltips for project"
-msgstr ""
+msgstr "titouroù-lagadennoù evit ar raktres"
 
 #: admin/edit_team_ajax.php:69
 msgid "Drag & drop the items to be displayed in the Issue tooltip"
-msgstr ""
+msgstr "Riklañ-dilec'hiañ ar maeziennoù da ziskwel el lagadennoù-titouriñ"
 
 #: admin/edit_team_ajax.php:70
 msgid "Available fields"
-msgstr ""
+msgstr "Maeziennoù a c'haller kaout"
 
 #: admin/edit_team_ajax.php:71
 msgid "Tooltip"
-msgstr ""
+msgstr "Lagadennoù-titouriñ"
 
 #: admin/logs.php:58
 msgid "Sorry, logfile not found:"
@@ -3274,11 +3274,11 @@ msgstr ""
 
 #: admin/edit_holidays.php:46
 msgid "Couldn't add the holiday"
-msgstr ""
+msgstr "Ne c'haller ket ouzhpennañ an ezvezañs-se"
 
 #: admin/edit_holidays.php:51
 msgid "Couldn't remove the holiday"
-msgstr ""
+msgstr "Ne c'haller ket dilemel an ezvezañs-se"
 
 #: admin/edit_jobs.php:64
 msgid "Couldn't add the job association"

@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-01 22:19+0100\n"
-"PO-Revision-Date: 2016-03-09 12:37:13+0000\n"
+"PO-Revision-Date: 2016-03-14 07:06:26+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1481,11 +1481,11 @@ msgstr "用户"
 #. tpl/command_info.html
 #. tpl/servicecontract_info.html
 msgid "No task found."
-msgstr ""
+msgstr "找不到任务。"
 
 #. tpl/export_odt.html
 msgid "The following fields need to be set"
-msgstr ""
+msgstr "以下字段需要设置"
 
 #. tpl/export_odt.html
 msgid "Reporters"
@@ -1536,7 +1536,7 @@ msgstr "设置过滤器"
 
 #. tpl/holidays_report.html
 msgid "Displayed tasks"
-msgstr ""
+msgstr "显示的任务"
 
 #. tpl/holidays_report.html
 msgid "workdays"
@@ -1563,7 +1563,7 @@ msgstr "团队信息"
 
 #. tpl/create_team.html
 msgid "SideTasks Project"
-msgstr ""
+msgstr "边缘任务项目"
 
 #. tpl/create_team.html
 msgid "Add common ExternalTasks Project"
@@ -2266,7 +2266,7 @@ msgstr "管理"
 
 #. tpl/menu/global_menu.html
 msgid "Create Team"
-msgstr ""
+msgstr "创建团队"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Team"
@@ -2540,7 +2540,7 @@ msgstr "定界符"
 
 #. tpl/import_issues.html
 msgid "enclosure"
-msgstr ""
+msgstr "附件"
 
 #. tpl/import_issues.html
 msgid "Date format"
@@ -2933,7 +2933,7 @@ msgstr "重定向"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Current backlog"
-msgstr ""
+msgstr "当前积压工作"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Task not resolved, backlog cannot be '0'"
@@ -3061,7 +3061,7 @@ msgstr "从Mantis菜单中移除CodevTT："
 
 #. tpl/uninstall.html
 msgid "TODO"
-msgstr ""
+msgstr "待办事项"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT specific projects"
@@ -3097,7 +3097,7 @@ msgstr "新劳务合同"
 
 #. tpl/servicecontract_edit.html
 msgid "StartDate"
-msgstr ""
+msgstr "开始日期"
 
 #. tpl/servicecontract_edit.html
 msgid "EndDate"
@@ -3165,7 +3165,7 @@ msgstr "每个项目的任务"
 
 #. tpl/project_activity_report.html
 msgid "Total time spent on this issue"
-msgstr ""
+msgstr "该问题上的总共时间花费"
 
 #. tpl/project_activity_report.html
 msgid "No data available"
@@ -3177,7 +3177,7 @@ msgstr "每位用户在项目上花费的时间"
 
 #. tpl/project_activity_report.html
 msgid "With ExternalTasks Project"
-msgstr ""
+msgstr "带外部任务项目"
 
 #. tpl/project_activity_report.html
 msgid "With SideTasks Project"
@@ -3193,7 +3193,7 @@ msgstr "请考虑使用符合标准的web浏览器"
 
 #. tpl/index.html
 msgid "A new CodevTT version is available !"
-msgstr ""
+msgstr "新的CodevTT版本可用！"
 
 #. tpl/index.html
 #, fuzzy
@@ -3211,7 +3211,7 @@ msgstr "Derive par rapport au BI+BS"
 
 #. tpl/index.html
 msgid "update Backlog"
-msgstr ""
+msgstr "更新积压工作"
 
 #. tpl/index.html
 msgid "Errors in your Tasks"
@@ -3219,23 +3219,23 @@ msgstr "您的任务中的错误"
 
 #: admin/edit_team.php:52
 msgid "Couldn't delete the team"
-msgstr ""
+msgstr "不能删除团队"
 
 #: admin/edit_team.php:94
 msgid "Couldn't update the team leader"
-msgstr ""
+msgstr "不能更新团队主管"
 
 #: admin/edit_team.php:105
 msgid "Couldn't update the creation date"
-msgstr ""
+msgstr "不能更新创建日期"
 
 #: admin/edit_team.php:110
 msgid "Couldn't enable/disable team"
-msgstr ""
+msgstr "不能启用/禁用团队"
 
 #: admin/edit_team.php:203
 msgid "Couldn't delete the member of the team"
-msgstr ""
+msgstr "不能删除团队的成员"
 
 #: admin/edit_team.php:217 admin/edit_team.php:220
 msgid "Couldn't add the project to the team"
@@ -3335,7 +3335,7 @@ msgstr "请填充您的工时表"
 
 #: classes/user.class.php:1719 classes/consistency_check2.class.php:697
 msgid "incomplete (missing "
-msgstr ""
+msgstr "不完整（缺少\\"
 
 #. skip dates in the future
 #: classes/user.class.php:1722 classes/consistency_check2.class.php:712
@@ -3368,7 +3368,7 @@ msgstr "与此重复"
 
 #: classes/issue.class.php:60
 msgid "Has duplicate"
-msgstr ""
+msgstr "有重复"
 
 #: classes/issue.class.php:61 classes/issue.class.php:62
 msgid "Related to"
@@ -3388,7 +3388,7 @@ msgstr "约束自"
 
 #: classes/issue.class.php:66
 msgid "Constrains"
-msgstr ""
+msgstr "约束"
 
 #: classes/issue.class.php:2192 classes/wbsElement.class.php:585
 #: tools.php:1483
@@ -3849,7 +3849,7 @@ msgstr "测试"
 
 #: install/install_step3.php:916
 msgid "CodevTT_ExternalTasks"
-msgstr ""
+msgstr "CodevTT_外部任务"
 
 #: install/install_step3.php:916
 msgid "CodevTT ExternalTasks Project"
@@ -4038,7 +4038,7 @@ msgstr ""
 
 #: management/servicecontract_tools.php:182
 msgid "Provision"
-msgstr ""
+msgstr "规定"
 
 #: reports/statistics.php:85
 msgid "No projects in this team"
@@ -4329,5 +4329,5 @@ msgstr "W"
 
 #: tools.php:1434
 msgid "AddEffortEstim"
-msgstr ""
+msgstr "添加努力估计"
 

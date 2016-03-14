@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-01 21:22+0100\n"
-"PO-Revision-Date: 2016-03-09 12:37:13+0000\n"
+"PO-Revision-Date: 2016-03-14 07:06:26+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -1481,7 +1481,7 @@ msgstr "Disposizioni NON incluse in 'check budget'"
 #. tpl/project_activity_report.html
 #: install/install_step1.php:207
 msgid "User"
-msgstr "User"
+msgstr "Utente"
 
 #. tpl/command_info.html
 #. tpl/servicecontract_info.html
