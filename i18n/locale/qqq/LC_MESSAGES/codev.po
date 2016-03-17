@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 ""
-"PO-Revision-Date: 2016-03-14 07:06:40+0000\n"
+"PO-Revision-Date: 2016-03-17 07:45:40+0000\n"
 "X-POT-Import-Date: 2016-02-25 09:52:13+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -422,6 +422,7 @@ msgstr ""
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/planning_report.html
 #. tpl/forecasting_report.html
+#. tpl/servicecontract_info.html
 #. tpl/statistics.html
 #. tpl/modal/update_issueBacklog.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:315
@@ -504,6 +505,7 @@ msgstr ""
 #. tpl/tools/wbsReader.html
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/forecasting_report.html
+#. tpl/servicecontract_info.html
 #. tpl/statistics.html
 #. tpl/modal/update_issueBacklog.html
 #. tpl/index.html

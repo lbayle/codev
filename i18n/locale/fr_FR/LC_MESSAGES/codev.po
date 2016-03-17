@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 ""
-"PO-Revision-Date: 2016-03-14 07:06:25+0000\n"
+"PO-Revision-Date: 2016-03-17 07:45:26+0000\n"
 "X-POT-Import-Date: 2016-02-25 09:52:13+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -423,6 +423,7 @@ msgstr "taux = 1 : estimation parfaite.<br>taux &lt; 1 : sous-estimé<br>taux &g
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/planning_report.html
 #. tpl/forecasting_report.html
+#. tpl/servicecontract_info.html
 #. tpl/statistics.html
 #. tpl/modal/update_issueBacklog.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:315
@@ -505,6 +506,7 @@ msgstr "Dérive - toutes les tâches"
 #. tpl/tools/wbsReader.html
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/forecasting_report.html
+#. tpl/servicecontract_info.html
 #. tpl/statistics.html
 #. tpl/modal/update_issueBacklog.html
 #. tpl/index.html
