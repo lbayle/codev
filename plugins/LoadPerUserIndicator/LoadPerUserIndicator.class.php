@@ -193,32 +193,36 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
       $team = TeamCache::getInstance()->getTeam($this->teamid);
 
       $members = $team->getActiveMembers($this->startTimestamp, $this->endTimestamp);
-      $formatedUseridString = implode( ', ', array_keys($members));
+      
+      if (count($members) > 0) {
+        $formatedUseridString = implode( ', ', array_keys($members));
 
-      $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
-      $extTasksCatLeave = Config::getInstance()->getValue(Config::id_externalTasksCat_leave);
+        $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
+        $extTasksCatLeave = Config::getInstance()->getValue(Config::id_externalTasksCat_leave);
 
-      // get timetracks for each Issue,
-      $issueList = $this->inputIssueSel->getIssueList();
-      $bugidList = array_keys($issueList);
+        // get timetracks for each Issue,
+        $issueList = $this->inputIssueSel->getIssueList();
+        $bugidList = array_keys($issueList);
 
-      $query = "SELECT * FROM `codev_timetracking_table` ".
-               "WHERE userid IN (".$formatedUseridString.") ";
+        $query = "SELECT * FROM `codev_timetracking_table` ".
+                 "WHERE userid IN (".$formatedUseridString.") ";
 
-      if (isset($this->startTimestamp)) { $query .= "AND date >= $this->startTimestamp "; }
-      if (isset($this->endTimestamp))   { $query .= "AND date <= $this->endTimestamp "; }
-      $query .= " ORDER BY bugid";
+        if (isset($this->startTimestamp)) { $query .= "AND date >= $this->startTimestamp "; }
+        if (isset($this->endTimestamp))   { $query .= "AND date <= $this->endTimestamp "; }
+        $query .= " ORDER BY bugid";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+        $result = SqlWrapper::getInstance()->sql_query($query);
+        if (!$result) {
+           echo "<span style='color:red'>ERROR: Query FAILED</span>";
+           exit;
+        }
+        $timeTracks = array();
+        while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+           $timeTracks[$row->id] = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
+        }
+      } else {
+          $timeTracks = array();
       }
-      $timeTracks = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $timeTracks[$row->id] = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
-      }
-
       // ---
       // un tablean de users avec repartition temps en categories: regular,external,sidetask
       $teams = array($this->teamid);
