@@ -188,6 +188,7 @@ class ConsistencyCheck2 {
           'checkEffortEstim' => 1,
           'checkTimeTracksOnNewIssues' => 1,
           'checkIssuesNotInCommand' => 0,
+          'checkIssuesNotInMultipleCommands' => 1,
           'checkCommandsNotInCommandset' => 0,
           'checkCommandSetNotInServiceContract' => 0,
           'checkUnassignedTasks' => 0,
@@ -201,6 +202,7 @@ class ConsistencyCheck2 {
           'checkEffortEstim' => T_('EffortEstim should not be 0'),
           'checkTimeTracksOnNewIssues' => T_('There should be no timetracks on "new" issues '),
           'checkIssuesNotInCommand' => T_('Issues should be referenced in a Command'),
+          'checkIssuesNotInMultipleCommands' => T_('issues should not be referenced in multiple commands'),
           'checkCommandsNotInCommandset' => T_('Commands should be referenced in a CommandSet'),
           'checkCommandSetNotInServiceContract' => T_('CommandSets should be referenced in a ServiceContract'),
           'checkUnassignedTasks' => T_('Issues should be assigned to someone'),
@@ -486,8 +488,7 @@ class ConsistencyCheck2 {
 
 
    /**
-    * Check issues that are not referenced in a Command (error)
-    * Check issues referenced in more than one Command (warning)
+    * Check issues that are not referenced in a Command (warn)
     *
     * Note: SideTasks not checked (they are directly added into the ServiceContract)
     *
@@ -530,14 +531,65 @@ class ConsistencyCheck2 {
             if(array_key_exists($issue->getId(), $commandsByIssue)) {
                $nbTuples = $commandsByIssue[$issue->getId()];
             }
-
             if (0 == $nbTuples) {
                $cerr = new ConsistencyError2($issue->getId(), $issue->getHandlerId(), $issue->getCurrentStatus(),
                   $issue->getLastUpdate(), T_("The task is not referenced in any Command."));
                $cerr->severity = ConsistencyError2::severity_warn;
                $cerrList[] = $cerr;
-            } else if ($nbTuples > 1) {
- 
+            }
+         }
+      }
+
+      return $cerrList;
+   }
+
+   /**
+    * Check issues referenced in more than one Command (warn)
+    *
+    * Note: SideTasks not checked (they are directly added into the ServiceContract)
+    *
+    *  @return ConsistencyError2[]
+    */
+   public function checkIssuesNotInMultipleCommands() {
+      $cerrList = array();
+
+      if(count($this->issueList) > 0) {
+
+         $query = "SELECT bug_id, COUNT(command_id) as count FROM `codev_command_bug_table` WHERE bug_id IN (".$this->formattedBugidList.") GROUP BY bug_id;";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         $commandsByIssue = array();
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $commandsByIssue[$row->bug_id] = $row->count;
+         }
+
+         foreach ($this->issueList as $issue) {
+            $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
+
+            $teamList = (NULL == $this->teamId) ? NULL: array($this->teamId);
+
+            try {
+               if (($project->isSideTasksProject($teamList)) || ($project->isNoStatsProject($teamList))) {
+                  // exclude SideTasks: they are not referenced in a command,
+                  // they are directly added into the ServiceContract
+                  continue;
+               }
+            } catch (Exception $e) {
+               self::$logger->error("checkIssuesNotInCommand(): issue ".$issue->getId()." not checked : ".$e->getMessage());
+               continue;
+            }
+
+            $nbTuples = 0;
+            if(array_key_exists($issue->getId(), $commandsByIssue)) {
+               $nbTuples = $commandsByIssue[$issue->getId()];
+            }
+
+            if ($nbTuples > 1) {
+
                // a task referenced in 2 Commands is not error if in two != teams
                $query = "SELECT team_id FROM `codev_command_table`, `codev_command_bug_table` "
                        . "WHERE codev_command_table.id = codev_command_bug_table.command_id "
