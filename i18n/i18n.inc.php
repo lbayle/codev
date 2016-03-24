@@ -45,6 +45,15 @@ if($locale === "fr") {
 
 T_setlocale(LC_ALL, $phpLocale);
 
+try {
+   if (($_SESSION['locale'] != $locale) && Tools::isConnectedUser() && isset($_SESSION['teamid'])) {
+      $user =  UserCache::getInstance()->getUser($_SESSION['userid']);
+      $user->setDefaultLanguage($locale);
+   }
+} catch (Exception $e) {
+   #$logger->error('could not setDefaultLanguage ('.$locale.') for user '.$_SESSION['userid']);
+}
+
 $_SESSION['locale'] = $locale;
 
 // we want 3.5 always to be displayed '3.5' and not '3,5'

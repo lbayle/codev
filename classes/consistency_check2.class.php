@@ -202,7 +202,7 @@ class ConsistencyCheck2 {
           'checkEffortEstim' => T_('EffortEstim should not be 0'),
           'checkTimeTracksOnNewIssues' => T_('There should be no timetracks on "new" issues '),
           'checkIssuesNotInCommand' => T_('Issues should be referenced in a Command'),
-          'checkIssuesNotInMultipleCommands' => T_('issues should not be referenced in multiple commands'),
+          'checkIssuesNotInMultipleCommands' => T_('Issues should not be referenced in multiple commands'),
           'checkCommandsNotInCommandset' => T_('Commands should be referenced in a CommandSet'),
           'checkCommandSetNotInServiceContract' => T_('CommandSets should be referenced in a ServiceContract'),
           'checkUnassignedTasks' => T_('Issues should be assigned to someone'),
