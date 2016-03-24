@@ -2,13 +2,14 @@
 # Exported from translatewiki.net
 #
 # Author: Arthurteb303
+# Author: Luk3
 msgid ""
 msgstr ""
 ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-16 22:28+0100\n"
-"PO-Revision-Date: 2016-03-21 06:07:45+0000\n"
+"PO-Revision-Date: 2016-03-24 06:13:08+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -20,22 +21,20 @@ msgstr ""
 "X-POT-Import-Date: 2016-02-25 09:52:13+0000\n"
 
 #. tpl/doc.html
-#, fuzzy
 msgid "Documentation is available at "
-msgstr "statistiques non disponibles"
+msgstr "Documentação disponível em "
 
 #. tpl/doc.html
-#, fuzzy
 msgid "CodevTT Documentation Wiki"
-msgstr "Documentação"
+msgstr "Wiki para documentação de CodevTT"
 
 #. tpl/doc.html
 msgid "GreaseMonkey script: "
-msgstr ""
+msgstr "Script de GreaseMonkey: "
 
 #. tpl/doc.html
 msgid "You can help on translations: "
-msgstr ""
+msgstr "Você pode ajudar nas traduções: "
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/menu/global_menu.html
@@ -54,9 +53,8 @@ msgid "Compute"
 msgstr "Calcular"
 
 #. tpl/team_monthly_activity_report.html
-#, fuzzy
 msgid "Tasks per User"
-msgstr "Filtros"
+msgstr "Tarefas por Usuário"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/holidays_report.html
@@ -174,9 +172,8 @@ msgid "Backlog"
 msgstr "Retorno"
 
 #. tpl/team_monthly_activity_report.html
-#, fuzzy
 msgid "Elapsed in period"
-msgstr "consommé dans la période"
+msgstr "Decorrido no período"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/productivity_report.html
@@ -371,14 +368,12 @@ msgid "System Availability"
 msgstr "Disponibilidade do sistema"
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "MgrEffortEstim Reliability Rate"
-msgstr "MgrEffortEstim  Não especificado"
+msgstr "Classificação de Confiabilidade do MgrEffortEstim"
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "EffortEstim Reliability Rate"
-msgstr "EffortEstim Não especificado"
+msgstr "Classificação de Confiabilidade do EffortEstim"
 
 #. tpl/productivity_report.html
 msgid "Workload Forecasting (holidays & externalTasks not included, developers only)"
@@ -410,26 +405,23 @@ msgstr "Dias de produção"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
-#, fuzzy
 msgid "EffortEstim Reliability"
-msgstr "EffortEstim Não especificado"
+msgstr "Confiabilidade do EffortEstim"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
-#, fuzzy
 msgid "Compares the effort estimation to the elapsed time."
-msgstr "Rapport entre le budget initial et le temps consommé sur les fiches"
+msgstr "Compara a estimativa de esforço no tempo decorrido."
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
-#, fuzzy
 msgid "(on resolved tasks only)"
-msgstr "Nenhum caso resolvido..."
+msgstr "(somente tarefas resolvidas)"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "rate = 1 : estimation was perfect.<br>rate &lt; 1 : underestimated<br>rate &gt; 1 : overestimated"
-msgstr ""
+msgstr "taxa = 1 : estimativa foi perfeita.<br>taxa &lt; 1 : subestimado<br>taxa &gt; 1 : superestimado"
 
 #. tpl/productivity_report.html
 #. tpl/command_info.html
@@ -509,14 +501,12 @@ msgid "Task list for EffortEstim"
 msgstr "Lista de casos para definir o esforço"
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "Note: Drift on tasks resolved in the period"
-msgstr "Desvio de esforço - Casos resolvidos no período"
+msgstr "Nota:Desvio de esforços resolvidos no período"
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "Drift - All tasks"
-msgstr "Desvio em casos resolvidos"
+msgstr "Desvio - Todas as tarefas"
 
 #. tpl/productivity_report.html
 #. tpl/command_info.html
