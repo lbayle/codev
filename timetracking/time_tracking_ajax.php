@@ -136,7 +136,14 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $bugid       = Tools::getSecurePOSTIntValue('bugid');
          $reporter_id = $session_user;
          $issueNoteText = filter_input(INPUT_POST, 'issuenote_text');
-         IssueNote::setTimesheetNote($bugid, $issueNoteText, $reporter_id);
+         $isTimesheetNote = Tools::getSecurePOSTIntValue('isTimesheetNote');
+
+         if ($isTimesheetNote) {
+            IssueNote::setTimesheetNote($bugid, $issueNoteText, $reporter_id);
+         } else {
+            // create a normal issue note
+            IssueNote::create($bugid, $reporter_id, $issueNoteText);
+         }
 
          // return data
          // the complete WeekTaskDetails Div must be updated

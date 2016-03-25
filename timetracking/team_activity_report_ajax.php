@@ -54,14 +54,11 @@ if(Tools::isConnectedUser() && (isset($_POST['action']))) {
          $bugid = Tools::getSecurePOSTIntValue('bugid');
          $bugnoteid = Tools::getSecurePOSTIntValue('bugnote_id');
 
-         $retCode = IssueNote::delete($bugnoteid, $bugid, $userid);
-         if ($retCode) {
-            $data = 'OK';
-         } else {
-            $data = 'ERROR';
-            // TODO return ERROR
-            Tools::sendBadRequest("Could not delete note.");
-         }
+         // note could be deleted, but it will be transformed in a 'normal' note (remove codevtt tags)
+         //$retCode = IssueNote::delete($bugnoteid, $bugid, $userid);
+         $issueNote = new IssueNote($bugnoteid);
+         $noteText = $issueNote->getText(); // remove tags
+         $retCode = $issueNote->setText($noteText, $issueNote->getReporterId());
 
          // return data
          echo $data;
