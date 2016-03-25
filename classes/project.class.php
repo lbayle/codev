@@ -1506,11 +1506,7 @@ class Project extends Model {
          if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
             $serialized = SqlWrapper::getInstance()->sql_result($result, 0);
 
-            if (Tools::isMantisV1_3()) {
-               $unserialized = json_decode( $serialized, true );
-            } else {
-               $unserialized = unserialize($serialized);
-            }
+            $unserialized = unserialize($serialized);
             $this->issueTooltipFieldsCache[$key] = $unserialized;
          } else {
             // TODO get default value (project_id = 0)
