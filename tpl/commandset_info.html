@@ -90,10 +90,12 @@
                   <th>{t}Command{/t}</th>
                   <th>{t}Team{/t}</th>
                   <th>{t}MgrEffortEstim{/t}</th>
+                  <th>{t}EffortEstim{/t}</th>
                   <th title="backlog + elapsed">{t}Reestimated{/t}</th>
                   <th>{t}Elapsed{/t}</th>
                   <th>{t}Backlog{/t}</th>
                   <th>{t}Drift Mgr{/t}</th>
+                  <th>{t}Drift{/t}</th>
                   <th>{t}Progress{/t}</th>
                </tr>
             </thead>
@@ -104,10 +106,12 @@
                   <td align="right"><a href="management/command_info.php?cmdid={$id}"><img title="goto" align="absmiddle" src="images/b_goto.png" /></a> {$cmd.reference}</td>
                   <td title="{$id}"  align="left">{$cmd.name}</td>
                   <td>{$cmd.team}</td>
+                  <td>{$cmd.mgrEffortEstim}</td>
                   <td>{$cmd.effortEstim}</td>
                   <td>{$cmd.reestimated}</td>
                   <td>{$cmd.elapsed}</td>
                   <td>{$cmd.backlog}</td>
+                  <td {$cmd.driftMgrColor}>{$cmd.driftMgr}</td>
                   <td {$cmd.driftColor}>{$cmd.drift}</td>
                   <td><div class="progress">{$cmd.progress}%</div></td>
                </tr>
@@ -119,10 +123,12 @@
                   <td></td>
                   <td>{t}TOTAL{/t}</td>
                   <td></td>
+                  <td>{$cmdsetDetailedMgr.mgrEffortEstim}</td>
                   <td>{$cmdsetDetailedMgr.effortEstim}</td>
                   <td>{$cmdsetDetailedMgr.reestimated}</td>
                   <td>{$cmdsetDetailedMgr.elapsed}</td>
                   <td>{$cmdsetDetailedMgr.backlog}</td>
+                  <td {$cmdsetDetailedMgr.driftMgrColor}>{$cmdsetDetailedMgr.driftMgr}</td>
                   <td {$cmdsetDetailedMgr.driftColor}>{$cmdsetDetailedMgr.drift}</td>
                   <td><div class="progress">{$cmdsetDetailedMgr.progress}%</div></td>
                </tr>
