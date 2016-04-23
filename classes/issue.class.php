@@ -380,7 +380,7 @@ class Issue extends Model implements Comparable {
     */
    public function setType($value) {
       $typeCustomField = Config::getInstance()->getValue(Config::id_customField_type);
-      $this->setCustomField($typeCustomField, $value);
+      $this->setCustomField($typeCustomField, $value, 'codevtt_type');
       $this->type = $value;
    }
 
@@ -622,9 +622,11 @@ class Issue extends Model implements Comparable {
     * if deadLineCustomField is set, return this value,
     * else if TargetVersion date is specified return it,
     * else return NULL
+    *
+    * @param type $raw if TRUE, do not check TargetVersion (default=FALSE)
     * @return int
     */
-   public function getDeadLine() {
+   public function getDeadLine($raw=FALSE) {
       if(!$this->customFieldInitialized) {
          $this->customFieldInitialized = true;
          $this->initializeCustomField();
@@ -634,8 +636,8 @@ class Issue extends Model implements Comparable {
       // REM: already set in initialize()
       if (NULL != $this->deadLine) { return $this->deadLine; }
 
-      // check if
-      if (NULL != $this->target_version) {
+      
+      if ((FALSE == $raw) && (NULL != $this->target_version)) {
          $project = ProjectCache::getInstance()->getProject($this->projectId);
          return $project->getVersionDate($this->target_version);
       }
@@ -930,13 +932,7 @@ class Issue extends Model implements Comparable {
     * @return int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift !
     */
    public function getDriftMgr($withSupport = TRUE) {
-/*
-      if ($withSupport) {
-         $myElapsed = $this->elapsed;
-      } else {
-         $myElapsed = $this->elapsed - $this->getElapsed(Jobs::JOB_SUPPORT);
-      }
-*/
+
       if (!is_null($this->driftMgr)) {
          #if (self::$logger->isDebugEnabled()) {
          #   self::$logger->debug("getDriftMgr(".$this->bugId."): (from cache) ".$this->driftMgr);
@@ -1039,7 +1035,7 @@ class Issue extends Model implements Comparable {
     */
    public function getDriftColor($drift = NULL) {
       if (!isset($drift)) {
-         $drift = $this->getDrift(FALSE);
+         $drift = $this->getDrift();
       }
 
       if (0 < $drift) {
@@ -1245,15 +1241,6 @@ class Issue extends Model implements Comparable {
          self::$logger->debug("setBacklog old_value=$old_backlog   new_value=$backlog");
       }
 
-      // TODO should be done only once... in Constants singleton ?
-      $query = "SELECT name FROM `mantis_custom_field_table` WHERE id = $backlogCustomField";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      $field_name    = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "Backlog (BL)";
-
       $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $backlogCustomField";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -1266,31 +1253,22 @@ class Issue extends Model implements Comparable {
       } else {
          $query2 = "INSERT INTO `mantis_custom_field_string_table` (`field_id`, `bug_id`, `value`) VALUES ('$backlogCustomField', '$this->bugId', '$backlog');";
       }
-      $result = SqlWrapper::getInstance()->sql_query($query2);
-      if (!$result) {
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
       $this->backlog = $backlog;
 
       // Add to history
-      $now = time();
-      $query = "INSERT INTO `mantis_bug_history_table`  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
-               "VALUES ('".$_SESSION['userid']."','$this->bugId','$field_name', '$old_backlog', '$backlog', '0', '".$now."');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
+      $query3 = "SELECT name FROM `mantis_custom_field_table` WHERE id = $backlogCustomField";
+      $result3 = SqlWrapper::getInstance()->sql_query($query3);
+      if (!$result3) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-
-      // update lastUpdated field
-      $query = "UPDATE `mantis_bug_table` SET last_updated = '".$now."' WHERE id = $this->bugId";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-
+      $field_name = (0 != SqlWrapper::getInstance()->sql_num_rows($result3)) ? SqlWrapper::getInstance()->sql_result($result3, 0) : "codevtt_backlog";
+      $this->setMantisBugHistory($field_name, $old_backlog, $backlog);
    }
 
    /**
@@ -1766,6 +1744,34 @@ class Issue extends Model implements Comparable {
    }
 
    /**
+    * 
+    * @param type $field_name
+    * @param type $old_value
+    * @param type $new_value
+    * @param type $type
+    */
+   private function setMantisBugHistory($field_name, $old_value, $new_value, $type=0) {
+      // Add to history
+      $now = time();
+      $query = "INSERT INTO `mantis_bug_history_table`  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
+               "VALUES ('".$_SESSION['userid']."','$this->bugId','$field_name', '$old_value', '$new_value', '".$type."', '".$now."');";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+
+      // update lastUpdated field
+      $query2 = "UPDATE `mantis_bug_table` SET last_updated = '".$now."' WHERE id = $this->bugId";
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      if (!$result2) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+   }
+
+   /**
     * @param type $value
     */
    public function setHandler($value) {
@@ -1776,39 +1782,42 @@ class Issue extends Model implements Comparable {
          exit;
       }
       // Add to history
-      $now = time();
-      $old_handlerId = $this->getHandlerId();
-      $query2 = "INSERT INTO `mantis_bug_history_table`  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
-               "VALUES ('".$_SESSION['userid']."','$this->bugId','handler_id', '$old_handlerId', '$value', '0', '".$now."');";
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
-      if (!$result2) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $old_handlerId = $this->handlerId;
+      $this->handlerId = $value;
+      $this->setMantisBugHistory('handler_id', $old_handlerId, $value);
    }
    
    /**
-    * @param type $value
+    * Set target version (by id).
+    *
+    * @param type $versionId version id or '0' to remove.
     */
-   public function setTargetVersion($value) {
-      $query = "SELECT version from `mantis_project_version_table` WHERE id=$value ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+   public function setTargetVersion($versionId) {
+
+      if (0 == $versionId) {
+         $version = ''; // remove version
+      } else {
+         $query = "SELECT version from `mantis_project_version_table` WHERE id=$versionId ";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $version = $row->version;
       }
-      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-      $version = $row->version;
-         
       $query = "UPDATE `mantis_bug_table` SET target_version = '$version' WHERE id=$this->bugId ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
+      $old_tversion = $this->target_version;
+      $this->target_version = $version;
+      $this->setMantisBugHistory('target_version', $old_tversion, $version); // TODO old_version
    }
 
-   private function setCustomField($field_id, $value) {
+   private function setCustomField($field_id, $value, $field_name=NULL) {
       $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $field_id";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -1816,16 +1825,29 @@ class Issue extends Model implements Comparable {
          exit;
       }
       if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $old_value=$row->value;
          $query2 = "UPDATE `mantis_custom_field_string_table` SET value = '$value' WHERE bug_id=$this->bugId AND field_id = $field_id";
       } else {
          $query2 = "INSERT INTO `mantis_custom_field_string_table` (`field_id`, `bug_id`, `value`) VALUES ('$field_id', '$this->bugId', '$value');";
       }
-      $result = SqlWrapper::getInstance()->sql_query($query2);
-      if (!$result) {
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
+
+      // update bug history
+      if (NULL == $field_name) {
+         $query3 = "SELECT name FROM `mantis_custom_field_table` WHERE id = $field_id";
+         $result3 = SqlWrapper::getInstance()->sql_query($query3);
+         if (!$result3) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $field_name = (0 != SqlWrapper::getInstance()->sql_num_rows($result3)) ? SqlWrapper::getInstance()->sql_result($result3, 0) : 'custom_'.$field_id;
+      }
+      $this->setMantisBugHistory($field_name, $old_value, $value);
    }
 
    /**
@@ -1843,8 +1865,8 @@ class Issue extends Model implements Comparable {
     * @param type $value
     */
    public function setEffortEstim($value) {
-      $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
-      $this->setCustomField($extRefCustomField, $value);
+      $field_id = Config::getInstance()->getValue(Config::id_customField_effortEstim);
+      $this->setCustomField($field_id, $value);
       $this->effortEstim = $value;
    }
 
@@ -1853,8 +1875,8 @@ class Issue extends Model implements Comparable {
     * @param type $value
     */
    public function setMgrEffortEstim($value) {
-      $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
-      $this->setCustomField($extRefCustomField, $value);
+      $field_id = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
+      $this->setCustomField($field_id, $value);
       $this->mgrEffortEstim = $value;
    }
 
@@ -1863,11 +1885,20 @@ class Issue extends Model implements Comparable {
     * @param type $value
     */
    public function setDeadline($value) {
-      $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
-      $this->setCustomField($extRefCustomField, $value);
+      $field_id = Config::getInstance()->getValue(Config::id_customField_deadLine);
+      $this->setCustomField($field_id, $value);
       $this->deadLine = $value;
    }
    
+   /**
+    * update DB and current instance
+    * @param type $value
+    */
+   public function setDeliveryDate($value) {
+      $field_id = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
+      $this->setCustomField($field_id, $value);
+      $this->deliveryDate = $value;
+   }
 
    /**
     * Get issues from an issue id list
@@ -2379,13 +2410,7 @@ class Issue extends Model implements Comparable {
          }
 
          // Add to history
-         $now = time();
-         $query = "INSERT INTO `mantis_bug_history_table`  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
-                  "VALUES ('".$_SESSION['userid']."','$this->bugId','status', '$this->currentStatus', '$newStatusId', '0', '".$now."');";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            self::$logger->error("setStatus($newStatusId) : could not update history table.");
-         }
+         $this->setMantisBugHistory('status', $this->currentStatus, $newStatusId);
 
          $this->currentStatus = $newStatusId;
       }

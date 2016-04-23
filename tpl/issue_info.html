@@ -1,4 +1,6 @@
 <div id="content">
+   <script type="text/javascript" src="js_min/datepicker.min.js"></script>
+
    {if isset($projects)}
    <div class="center" style="margin-top: 2em">
       <form id="form1" name="form1" class="formWithTabsHistory" method="get" action="{$page}">
@@ -73,14 +75,18 @@
          <div id="tab_overview">
 
             <!-- General info -->
-            <h3>{t}Time tracking{/t}</h3>
-            <div id="issueGeneralInfo">
+            <h3>
+               <span id="updateTimetracking_link" >{t}Time tracking{/t} &nbsp;&nbsp;<img class="pointer" align="absmiddle" title="{t}Update timetracking{/t}" src="images/b_edit.png"/></span>
+            </h3>
+            <div id="issueGeneralInfo" style="margin-top:0.5em;">
                {include file="ajax/issueGeneralInfo.html"}
             </div>
 
-            <div id="xxxx" style="margin-top:2em;">
-               <h3>{t}Task Info{/t}</h3>
-               <table class="center" >
+            <div id="divTaskInfo" style="margin-top:2em;">
+               <h3>
+                  <span id="updateTaskInfo_link" >{t}Task Info{/t} &nbsp;&nbsp;<img class="pointer" align="absmiddle" title="{t}Update task info{/t}" src="images/b_edit.png"/></span>
+               </h3>
+               <table class="center" style="margin-top:0.5em;">
                   <thead>
                      <tr>
                         <th>{t}External Ref{/t}</th>
@@ -97,16 +103,16 @@
                   </thead>
                   <tbody>
                      <tr>
-                        <td>{$issueGeneralInfo.issueExtRef}</td>
-                        <td>{$issueGeneralInfo.handlerName}</td>
-                        <td>{$issueGeneralInfo.statusName}</td>
-                        <td>{$issueGeneralInfo.projectName}</td>
-                        <td>{$issueGeneralInfo.categoryName}</td>
-                        <td>{$issueGeneralInfo.issueType}</td>
-                        <td>{$issueGeneralInfo.priorityName}</td>
-                        <td>{$issueGeneralInfo.severityName}</td>
-                        <td>{$issueGeneralInfo.targetVersion}</td>
-                        <td>
+                        <td id="ti_issueExtRef">{$issueGeneralInfo.issueExtRef}</td>
+                        <td id="ti_handlerName">{$issueGeneralInfo.handlerName}</td>
+                        <td id="ti_statusName">{$issueGeneralInfo.statusName}</td>
+                        <td id="ti_projectName">{$issueGeneralInfo.projectName}</td>
+                        <td id="ti_categoryName">{$issueGeneralInfo.categoryName}</td>
+                        <td id="ti_issueType">{$issueGeneralInfo.issueType}</td>
+                        <td id="ti_priorityName">{$issueGeneralInfo.priorityName}</td>
+                        <td id="ti_severityName">{$issueGeneralInfo.severityName}</td>
+                        <td id="ti_targetVersion" title="{$issueGeneralInfo.targetVersionDate}">{$issueGeneralInfo.targetVersion}</td>
+                        <td id="ti_deadLine">
                         {if isset($timeDrift.deadLine)}
                            {$timeDrift.deadLine}
                            {$timeDrift.tooltip}
@@ -150,18 +156,6 @@
                   </tr>
                </table>
                {/if}
-            </div>
-
-            <div id="update_backlog_dialog_form" title="{t}Task{/t} {$issueGeneralInfo.issueId}{if isset($issueGeneralInfo.issueTcId)} / {$issueGeneralInfo.issueTcId}{/if} - {t}Update Backlog{/t}" class="ui-helper-hidden">
-               <p id="validateTips">{$issueGeneralInfo.issueSummary}</p>
-               <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="smarty_tools_ajax.php" >
-                  <fieldset>
-                     <label for="backlog">{t}Backlog{/t}:</label>
-                     <input type="text" id="backlog" name="backlog" size="3" class="text" value="{$issueGeneralInfo.issueBacklog}" />
-                     <input type="hidden" id="bugid" name="bugid"  value="{$issueGeneralInfo.issueId}" />
-                     <input type="hidden" name="action" value="updateBacklogAction" />
-                  </fieldset>
-               </form>
             </div>
 
             <div class="ui-helper-clearfix"></div>
@@ -210,7 +204,35 @@
       </div>
       {/if}
 
-         {if $isManager}
+      <div id="formUpdateTimetracking_dialog" title="{t}Update timetracking values{/t}" class="ui-helper-hidden">
+         <form id="formUpdateTimetracking" name="formUpdateTimetracking" method="get" action="{$ajaxPage}" >
+            <fieldset>
+               <label style="margin-top: 1em"><b>{t}Task{/t} : </b>{$issueGeneralInfo.issueId}{if isset($issueGeneralInfo.issueExtRef)} / {$issueGeneralInfo.issueExtRef}{/if}</label>
+               <table style="margin-top: 1em">
+                  <tbody>
+                     <tr>
+                        {if $isManager}
+                        <th>{t}MgrEffortEstim{/t}</th>
+                        {/if}
+                        <th>{t}EffortEstim{/t}</th>
+                        <th>{t}Backlog{/t}</th>
+                     </tr>
+                     <tr>
+                        {if $isManager}
+                        <td><input type="text" id="fut_issueMgrEffortEstim" name="fut_issueMgrEffortEstim" class="text" style="width: 100%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"/></td>
+                        {/if}
+                        <td><input type="text" id="fut_issueEffortEstim" name="fut_issueEffortEstim" class="text" style="width: 100%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;" /></td>
+                        <td><input type="text" id="fut_backlog" name="fut_backlog" class="text" style="width: 100%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;" /></td>
+                     </tr>
+                  </tbody>
+               </table>
+               <label id="fut_validateTips" class="error_font" ></label>
+               <input type="hidden" name="action" value="updateTimetracking" />
+               <input type="hidden" name="bugid"  value="{$issueGeneralInfo.issueId}" />
+            </fieldset>
+         </form>
+      </div>
+      {if $isManager}
       <div id="formRemoveFromCmd_dialog" title="{t}Remove from Command{/t}" class="ui-helper-hidden">
          <p><span class="ui-icon ui-icon-alert float" style="margin-right: 7px;"></span>
             {t}Remove from :{/t} <span id="formRemoveFromCmd_cmdName">cmdName</span>
@@ -234,6 +256,80 @@
             </fieldset>
          </form>
       </div>
+      <div id="formUpdateTaskInfo_dialog" title="{t}Update task info{/t}" class="ui-helper-hidden">
+         <form id="formUpdateTaskInfo" name="formUpdateTaskInfo" method="get" action="{$ajaxPage}" >
+            <fieldset>
+
+               <table class="invisible">
+                  <tbody>
+                     <tr>
+                        <th><label>{t}Task{/t} :</label></th>
+                        <td><label>{$issueGeneralInfo.issueId}{if isset($issueGeneralInfo.issueExtRef)} / {$issueGeneralInfo.issueExtRef}{/if}</label></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th><label for="futi_extRef">{t}External Ref{/t} :</label></th>
+                        <td><input type="text" id="futi_extRef" name="futi_extRef" size="15" class="text" /></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th><label for="futi_cbHandlerId">{t}Assigned to{/t} :</label></th>
+                        <td><select id="futi_cbHandlerId" name="futi_cbHandlerId"> </select></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th><label for="futi_cbStatus">{t}Status{/t} :</label></th>
+                        <td><select id="futi_cbStatus" name="futi_cbStatus"> </select></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th><label for="futi_codevttType">{t}Type{/t} :</label></th>
+                        <td><select id="futi_codevttType" name="futi_codevttType">
+                              <option value="Bug">Bug</option>
+                              <option value="Task">Task</option>
+                           </select>
+                        </td>
+                        <td></td>
+                     </tr>
+                     <!--tr>
+                        <th><label for="futi_priority">{t}Priority{/t} :</label></th>
+                        <td><select id="futi_priority" name="futi_priority"> </select></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th><label for="futi_severity">{t}Severity{/t} :</label></th>
+                        <td><select id="futi_severity" name="futi_severity"> </select></td>
+                        <td></td>
+                     </tr-->
+                     <tr>
+                        <th><label for="futi_cbTargetVersion">{t}Target{/t} :</label></th>
+                        <td><select id="futi_cbTargetVersion" name="futi_cbTargetVersion"> </select></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th><label for="futi_deadlineDatepicker">{t}Deadline{/t} :</label></th>
+                        <td>
+                           <input type="text"  class="datepicker" id="futi_deadlineDatepicker" name="futi_deadlineDatepicker" autocomplete="off" maxlength="10" size="10" />
+                           <input type="checkbox" title="{t}set/remove task specific deadline{/t}" id="futi_isDeadline" name="futi_isDeadline" style="vertical-align: middle;"/>
+                        </td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th><label for="futi_deliveryDatepicker">{t}Delivery date{/t} :</label></th>
+                        <td>
+                           <input type="text"  class="datepicker" id="futi_deliveryDatepicker" name="futi_deliveryDatepicker" autocomplete="off" maxlength="10" size="10" />
+                           <input type="checkbox" title="{t}set/remove delivery date{/t}" id="futi_isDelivery" name="futi_isDelivery" style="vertical-align: middle;"/>
+                        </td>
+                        <td></td>
+                     </tr>
+                  </tbody>
+               </table>
+               <label id="futi_validateTips" class="error_font" ></label>
+               <input type="hidden" name="action" value="updateTaskInfo" />
+               <input type="hidden" name="bugid"  value="{$issueGeneralInfo.issueId}" />
+            </fieldset>
+         </form>
+      </div>
       {/if}
 
    </div>
@@ -248,43 +344,349 @@
          jQuery("#formRemoveFromCmd").find("input[name=cmdid]").val(cmdid);
          jQuery("#formRemoveFromCmd_dialog").dialog( "open" );
       }
+      function updateGeneralInfo() {
+         var bugid = {$issueGeneralInfo.issueId}; //jQuery("#bugid").val();
+         jQuery.ajax({
+            type: "GET",
+            url: "reports/issue_info_ajax.php",
+            data: "action=getGeneralInfo&bugid="+bugid,
+            success: function(data) {
+               jQuery("#issueGeneralInfo").html(jQuery.trim(data));
+               updateWidgets("#issueGeneralInfo");
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               } else {
+                  alert(errorThrown);
+               }
+            }
+         });
+      }
 
       jQuery(document).ready(function() {
 
-         jQuery("#projectid").change(function() {
-            var projectid = jQuery(this).val();
+      // =================================================================
+      // Task selection form
+
+      jQuery("#projectid").change(function() {
+         var projectid = jQuery(this).val();
+         jQuery.ajax({
+            type: "GET",
+            url: "smarty_tools_ajax.php",
+            data: "action=getProjectIssues&projectid="+projectid+"&bugid="+jQuery("#bugid").val(),
+            success: function(data) {
+               jQuery("#bugSelector").html(jQuery.trim(data));
+               updateWidgets("#bugSelector");
+
+               // Hide result because the form is no more consistent with the result
+               jQuery("#result").hide();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown === 'Forbidden') {
+                  window.location = '{$page}';
+               } else {
+                  console.error(textStatus, errorThrown);
+                  alert(errorThrown);
+               }
+            }
+         });
+      });
+
+      jQuery("#bugid").change(function() {
+            console.log('submit form1');
+         if ('0' !== this.value) {
+            var form = jQuery('#form1');
+            form.submit();
+         }
+      });
+
+      // =================================================================
+      var fut_backlog = jQuery("#fut_backlog"),
+          fut_issueMgrEffortEstim = jQuery("#fut_issueMgrEffortEstim"),
+          fut_issueEffortEstim = jQuery("#fut_issueEffortEstim"),
+          fut_allFields = jQuery([]).add(fut_backlog).add(fut_issueMgrEffortEstim).add(fut_issueEffortEstim);
+
+      // used to check formUpdateTimetracking_dialog values
+      var bugResolvedStatusThreshold, bugStatusNew, statusNameNew, currentStatus;
+
+
+      function checkRegexp(oField, regexp, oMsgLabel, msg) {
+         if (!(regexp.test(oField.val()))) {
+            oField.addClass("ui-state-error");
+            oMsgLabel.text(msg); // .addClass("ui-state-highlight");
+            //setTimeout(function() { oMsgLabel.removeClass("ui-state-highlight", 1500); }, 500);
+            return false;
+         } else {
+            return true;
+         }
+      }
+
+      function checkStatus(oBacklog, oMsgLabel) {
+         if ((currentStatus < bugResolvedStatusThreshold) && (0 == oBacklog.val())) {
+            oBacklog.addClass("ui-state-error");
+            oMsgLabel.text("{t}Task not resolved, backlog cannot be '0'{/t}");
+            return false;
+         }
+         if ((currentStatus >= bugResolvedStatusThreshold) && (0 != oBacklog.val())) {
+            oBacklog.addClass("ui-state-error");
+            oMsgLabel.text("{t}Task is resolved, backlog should be '0'{/t}");
+            //return false;
+         }
+         if ((currentStatus == bugStatusNew) && (0 < oBacklog.val())) {
+            oBacklog.addClass("ui-state-error");
+            oMsgLabel.text("{t}Status can't be : {/t}" + statusNameNew);
+            return false;
+         }
+         return true;
+      }
+
+      function isTimetrackingFieldsValid() {
+
+         var bValid = true;
+         var fut_validateTips = jQuery("#fut_validateTips");
+         fut_allFields.removeClass("ui-state-error");
+         fut_validateTips.text('');
+         bValid = bValid && checkRegexp(fut_issueMgrEffortEstim, /^[0-9]+(\.[0-9][0-9]?5?)?$/i, fut_validateTips, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
+         bValid = bValid && checkRegexp(fut_issueEffortEstim, /^[0-9]+(\.[0-9][0-9]?5?)?$/i, fut_validateTips, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
+         bValid = bValid && checkRegexp(fut_backlog, /^[0-9]+(\.[0-9][0-9]?5?)?$/i, fut_validateTips, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
+         bValid = bValid && checkStatus(fut_backlog, fut_validateTips);
+         return bValid;
+      }
+
+         // =================================================================
+         jQuery("#updateTimetracking_link").click(function(e) {
+            e.preventDefault();
+
+            // fill cmdCandidates
             jQuery.ajax({
                type: "GET",
-               url: "smarty_tools_ajax.php",
-               data: "action=getProjectIssues&projectid="+projectid+"&bugid="+jQuery("#bugid").val(),
+               url: "{$ajaxPage}",
+               data: "action=getTimetracking&bugid={$issueGeneralInfo.issueId}",
+               dataType:"json",
                success: function(data) {
-                  jQuery("#bugSelector").html(jQuery.trim(data));
-                  updateWidgets("#bugSelector");
+                  if ('SUCCESS' === data.statusMsg) {
 
-                  // Hide result because the form is no more consistent with the result
-                  jQuery("#result").hide();
+                     fut_issueMgrEffortEstim.val(data.issueMgrEffortEstim);
+                     fut_issueEffortEstim.val(data.issueEffortEstim);
+                     fut_backlog.val(data.issueBacklog);
+
+                     bugResolvedStatusThreshold = data.bugResolvedStatusThreshold;
+                     bugStatusNew = data.bugStatusNew;
+                     statusNameNew = data.statusNameNew;
+                     currentStatus = data.issueCurrentStatus;
+
+                     checkStatus(fut_backlog, jQuery("#fut_validateTips"));
+                     jQuery("#formUpdateTimetracking_dialog").dialog("open");
+                  } else {
+                     console.error("Ajax statusMsg", data.statusMsg);
+                     alert(data.statusMsg);
+                  }
                },
                error: function(jqXHR, textStatus, errorThrown) {
-                  if(errorThrown === 'Forbidden') {
-                     window.location = '{$page}';
-                  } else {
-                     alert(errorThrown);
-                  }
+                  console.error(textStatus, errorThrown);
+                  alert("ERROR: Please contact your CodevTT administrator");
                }
             });
          });
 
-         jQuery("#bugid").change(function() {
-               console.log('submit form1');
-            if ('0' !== this.value) {
-               var form = jQuery('#form1');
-               form.submit();
+         jQuery("#formUpdateTimetracking_dialog").dialog({
+            autoOpen: false,
+            resizable: true,
+            width: "auto",
+            modal: true,
+            buttons: {
+               "{t}Update{/t}": function() {
+                  var bValid = isTimetrackingFieldsValid();
+                  if (bValid) {
+                     jQuery("#formUpdateTimetracking").submit();
+                  }
+               },
+               "{t}Cancel{/t}": function() {
+                  jQuery(this).dialog("close");
+               }
             }
          });
+         jQuery("#formUpdateTimetracking").submit(function(event) {
+            event.preventDefault();
+            var form = jQuery(this);
+            jQuery.ajax({
+               type: form.attr("method"),
+               url: form.attr("action"),
+               data: form.serialize(),
+               dataType:"json",
+               success: function(data) {
+                  if ('SUCCESS' === data.statusMsg) {
+                     // values saved, update displayed values
+                     updateGeneralInfo();
+                  } else {
+                     alert(data.statusMsg);
+                  }
+               },
+               error: function(jqXHR, textStatus, errorThrown) {
+                  console.error(textStatus, errorThrown);
+                  alert("ERROR: Please contact your CodevTT administrator");
+               }
+            });
+            jQuery("#formUpdateTimetracking_dialog").dialog("close");
+         });
 
-         var backlog = jQuery("#backlog"),
-            allFields = jQuery([]).add(backlog),
-            tips = jQuery("#validateTips");
+         // =================================================================
+         jQuery("#updateTaskInfo_link").click(function(e) {
+            e.preventDefault();
+
+            // TODO Ajax to update dialog fields/combobox with current values
+            jQuery.ajax({
+               type: "GET",
+               url: "{$ajaxPage}",
+               data: "action=getTaskInfo&bugid={$issueGeneralInfo.issueId}",
+               dataType:"json",
+               success: function(data) {
+                  if ('SUCCESS' === data.statusMsg) {
+                     jQuery('#futi_extRef').val(data.extRef);
+                     jQuery('#futi_codevttType').val(data.codevttType);
+                     var cb = jQuery("#futi_cbHandlerId");
+                     cb.empty();
+                     cb.append(new Option('', '0'));
+                     var candidates = data.availableHandlerList;
+                     for (var id in candidates) {
+                        if (candidates.hasOwnProperty(id)) {
+                           cb.append(
+                              jQuery('<option>').attr('value', id).append(candidates[id])
+                           );
+                        }
+                     }
+                     cb.val(data.currentHandlerId);
+                     cb = jQuery("#futi_cbStatus");
+                     cb.empty();
+                     candidates = data.availableStatusList;
+                     for (var id in candidates) {
+                        if (candidates.hasOwnProperty(id)) {
+                           cb.append(
+                              jQuery('<option>').attr('value', id).append(candidates[id])
+                           );
+                        }
+                     }
+                     cb.val(data.currentStatus);
+                     cb = jQuery("#futi_cbTargetVersion");
+                     cb.empty();
+                     cb.append(new Option('', '0'));
+                     candidates = data.availableTargetVersion;
+                     for (var id in candidates) {
+                        if (candidates.hasOwnProperty(id)) {
+                           cb.append(
+                              jQuery('<option>').attr('value', id).append(candidates[id])
+                           );
+                        }
+                     }
+                     cb.val(data.targetVersionId);
+
+                     jQuery('#futi_deadlineDatepicker').val(data.deadline);
+                     if (data.deadline) {
+                        jQuery('#futi_deadlineDatepicker').val(data.deadline);
+                        jQuery("#futi_deadlineDatepicker").removeAttr('disabled');
+                        $('#futi_isDeadline').prop('checked', true);
+                     } else {
+                        $('#futi_isDeadline').prop('checked', false);
+                        jQuery("#futi_deadlineDatepicker").attr("disabled", "true");
+                     }
+                     if (data.deliveryDate) {
+                        jQuery('#futi_deliveryDatepicker').val(data.deliveryDate);
+                        jQuery("#futi_deliveryDatepicker").removeAttr('disabled');
+                        $('#futi_isDelivery').attr('checked', true);
+                     } else {
+                        $('#futi_isDelivery').attr('checked', false);
+                        jQuery("#futi_deliveryDatepicker").attr("disabled", "true");
+                     }
+                     jQuery("#formUpdateTaskInfo_dialog").dialog("open");
+                  } else {
+                     console.error("statusMsg", data.statusMsg);
+                     alert(data.statusMsg);
+                  }
+               },
+               error: function(jqXHR, textStatus, errorThrown) {
+                  console.error(textStatus, errorThrown);
+                  alert("ERROR: Please contact your CodevTT administrator");
+               }
+            });
+
+         });
+         jQuery("#formUpdateTaskInfo_dialog").dialog({
+            autoOpen: false,
+            resizable: true,
+            width: "auto",
+            modal: true,
+            buttons: {
+               "{t}Update{/t}": function() {
+                  jQuery("#formUpdateTaskInfo").submit();
+               },
+               "{t}Cancel{/t}": function() {
+                  jQuery(this).dialog("close");
+               }
+            }
+         });
+         jQuery("#formUpdateTaskInfo").submit(function(event) {
+            event.preventDefault();
+            var form = jQuery(this);
+            jQuery.ajax({
+               type: form.attr("method"),
+               url: form.attr("action"),
+               data: form.serialize(),
+               dataType:"json",
+               success: function(data) {
+                  if ('SUCCESS' === data.statusMsg) {
+                     jQuery('#ti_issueExtRef').text(data.issueExtRef);
+                     jQuery('#ti_handlerName').text(data.handlerName);
+                     jQuery('#ti_statusName').text(data.statusName);
+                     jQuery('#ti_projectName').text(data.projectName);
+                     jQuery('#ti_categoryName').text(data.categoryName);
+                     jQuery('#ti_issueType').text(data.issueType);
+                     jQuery('#ti_priorityName').text(data.priorityName);
+                     jQuery('#ti_severityName').text(data.severityName);
+                     jQuery('#ti_targetVersion').text(data.targetVersion);
+                     var timeDrift = data.timeDrift;
+                     jQuery('#ti_deadLine').empty();
+                     if (timeDrift.tooltip && timeDrift.deadLine) {
+                        jQuery('#ti_deadLine').html(timeDrift.deadLine + ' ' + timeDrift.tooltip);
+                     } else {
+                        jQuery('#ti_deadLine').html(timeDrift.deadLine);
+                     }
+                     updateWidgets("#divTaskInfo"); // TODO why error ?
+
+                     // if status changed, Backlog & progress may need update
+                     if ('yes' === data.isUpdateGeneralInfo) {
+                        updateGeneralInfo();
+                     }
+                  } else {
+                     console.error("statusMsg", data.statusMsg);
+                     alert(data.statusMsg);
+                  }
+               },
+               error: function(jqXHR, textStatus, errorThrown) {
+                  console.error(textStatus, errorThrown);
+                  alert("ERROR: Please contact your CodevTT administrator");
+               }
+            });
+            jQuery("#formUpdateTaskInfo_dialog").dialog("close");
+         });
+
+         jQuery("#futi_isDeadline").change(function() {
+               if ($(this).is(":checked")) {
+                  jQuery("#futi_deadlineDatepicker").removeAttr('disabled');
+               } else {
+                  jQuery("#futi_deadlineDatepicker").attr("disabled", "true");
+               }
+         });
+         jQuery("#futi_isDelivery").change(function() {
+               if ($(this).is(":checked")) {
+                  jQuery("#futi_deliveryDatepicker").removeAttr('disabled');
+               } else {
+                  jQuery("#futi_deliveryDatepicker").attr("disabled", "true");
+               }
+         });
+
+         // =================================================================
+
 
          jQuery("#formRemoveFromCmd_dialog").dialog({
             autoOpen: false,
@@ -319,8 +721,8 @@
                   }
                },
                error: function(jqXHR, textStatus, errorThrown) {
-                  console.log(textStatus, errorThrown);
-                  alert(errorThrown);
+                  console.error(textStatus, errorThrown);
+                  alert("ERROR: Please contact your CodevTT administrator");
                }
             });
             jQuery("#formRemoveFromCmd_dialog").dialog("close");
@@ -354,8 +756,8 @@
                   }
                },
                error: function(jqXHR, textStatus, errorThrown) {
-                  console.log(textStatus, errorThrown);
-                  alert(errorThrown);
+                  console.error(textStatus, errorThrown);
+                  alert("ERROR: Please contact your CodevTT administrator");
                }
             });
 
@@ -398,100 +800,13 @@
                   }
                },
                error: function(jqXHR, textStatus, errorThrown) {
-                  console.log(textStatus, errorThrown);
-                  alert(errorThrown);
+                  console.error(textStatus, errorThrown);
+                  alert("ERROR: Please contact your CodevTT administrator");
                }
             });
             jQuery("#formAddToCmd_dialog").dialog("close");
          });
 
-         function updateTips(t) {
-            tips.text(t)
-               .addClass("ui-state-highlight");
-            setTimeout(function() {
-               tips.removeClass("ui-state-highlight", 1500);
-            }, 500);
-         }
-
-         function checkRegexp(o, regexp, n) {
-            if (!(regexp.test(o.val()))) {
-               o.addClass("ui-state-error");
-               updateTips(n);
-               return false;
-            } else {
-               return true;
-            }
-         }
-
-         jQuery("#update_backlog_dialog_form").dialog({
-            autoOpen: false,
-            height: 200,
-            width: 500,
-            modal: true,
-            open: function() {
-               // Select input field contents
-               jQuery("#backlog").select();
-            },
-            buttons: {
-               "{t}Update{/t}": function() {
-                  jQuery("#formUpdateBacklog").submit();
-               },
-               Cancel: function() {
-                  jQuery(this).dialog("close");
-                  allFields.val("").removeClass("ui-state-error");
-                  backlog.val({$issueGeneralInfo.issueBacklog});
-                  updateTips("{$issueGeneralInfo.issueSummary}");
-               }
-            }
-         });
-
-         jQuery("#formUpdateBacklog").submit(function(event) {
-            /* stop form from submitting normally */
-            event.preventDefault();
-
-            var bValid = true;
-            allFields.removeClass("ui-state-error");
-            bValid = bValid && checkRegexp(backlog, /^[0-9]+(\.[0-9][0-9]?5?)?$/i, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
-
-            if (bValid) {
-               /* get some values from elements on the page: */
-               var form = jQuery(this);
-
-               jQuery.ajax({
-                  type: form.attr("method"),
-                  url: form.attr("action"),
-                  data: form.serialize(),
-                  success: function(data) {
-                     var bugid = jQuery("#bugid").val();
-                     jQuery.ajax({
-                        type: "GET",
-                        url: "reports/issue_info_ajax.php",
-                        data: "action=getGeneralInfo&bugid="+bugid,
-                        success: function(data) {
-                           jQuery("#issueGeneralInfo").html(jQuery.trim(data));
-                           updateWidgets("#issueGeneralInfo");
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                           if(errorThrown == 'Forbidden') {
-                              window.location = '{$page}';
-                           } else {
-                              alert(errorThrown);
-                           }
-                        }
-                     });
-                  },
-                  error: function(jqXHR, textStatus, errorThrown) {
-                     if(errorThrown == 'Forbidden') {
-                        window.location = '{$page}';
-                     } else {
-                        alert(errorThrown);
-                     }
-                  }
-               });
-
-               jQuery("#update_backlog_dialog_form").dialog("close");
-            }
-         });
       });
    </script>
 

@@ -505,9 +505,9 @@ class TimeTracking {
       $bugidEqualList = "";
       foreach ($issueList as $issue) {
          // compute total drift
-         $issueDrift = $issue->getDrift($withSupport);
+         $issueDrift = $issue->getDrift();
          $derive += $issueDrift;
-         $issueDriftMgrEE = $issue->getDriftMgr($withSupport);
+         $issueDriftMgrEE = $issue->getDriftMgr();
          $deriveETA += $issueDriftMgrEE;
 
          if(self::$logger->isDebugEnabled()) {

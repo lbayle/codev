@@ -134,7 +134,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
          }  else if (!array_key_exists($issue->getProjectId(), $prjList)) {
             $jsonData=json_encode(array('statusMsg' => T_("Sorry, this task is not in your team's projects")));
          }  else if ($teamid != $cmd->getTeamid()) {
-            Tools::sendBadRequest("Error: addToCmd bad cmdid: user=$userid teamid=$teamid cmd=$cmdid");
+            Tools::sendBadRequest("Error: addToCmd bad teamid: user=$userid teamid=$teamid cmd=$cmdid");
          }  else {
             $cmd->addIssue($bugid, true);
             $jsonData=json_encode(array('statusMsg' => 'SUCCESS', 'cmdid' => $cmdid, 'cmdName' => $cmd->getName()));
@@ -144,6 +144,198 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
          
       } catch (Exception $e) {
          Tools::sendBadRequest("Error: addToCmd bad values: user=$userid issue=$bugid cmd=$cmdid");
+      }
+   } else if ('getTimetracking' == $action) {
+      $bugid  = Tools::getSecureGETIntValue('bugid');
+      $userid = $_SESSION['userid'];
+      $teamid = $_SESSION['teamid'];
+
+      try {
+         $user = UserCache::getInstance()->getUser($userid);
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+         $team = TeamCache::getInstance()->getTeam($teamid);
+
+         $values = array(
+            'statusMsg' => 'SUCCESS',
+            'bugStatusNew' => Constants::$status_new,
+            'statusNameNew' => Constants::$statusNames[Constants::$status_new],
+            'bugResolvedStatusThreshold' => $issue->getBugResolvedStatusThreshold(),
+            'issueCurrentStatus' => $issue->getCurrentStatus(),
+            'issueEffortEstim' => $issue->getEffortEstim(),
+            'issueBacklog' => $issue->getBacklog(),
+         );
+         
+         if ($user->isTeamManager($teamid)) {
+            $values['issueMgrEffortEstim'] = $issue->getMgrEffortEstim();
+         }
+         $jsonData=json_encode($values);
+         // return ajax data
+         echo $jsonData;
+      } catch (Exception $e) {
+         Tools::sendBadRequest("Error: getTimetracking bad values: user=$userid issue=$bugid");
+      }
+
+   } else if ('updateTimetracking' == $action) {
+      $bugid             = Tools::getSecureGETIntValue('bugid');
+      $newMgrEffortEstim = Tools::getSecureGETNumberValue('fut_issueMgrEffortEstim');
+      $newEffortEstim    = Tools::getSecureGETNumberValue('fut_issueEffortEstim');
+      $newBacklog        = Tools::getSecureGETNumberValue('fut_backlog');
+      $userid = $_SESSION['userid'];
+      $teamid = $_SESSION['teamid'];
+      try {
+         $user = UserCache::getInstance()->getUser($userid);
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+         $team = TeamCache::getInstance()->getTeam($teamid);
+         $prjList = $team->getProjects();
+
+         if (!array_key_exists($issue->getProjectId(), $prjList)) {
+            $jsonData=json_encode(array('statusMsg' => T_("Sorry, this task is not in your team's projects")));
+         }  else {
+            // update values
+            if ($user->isTeamManager($teamid) && 
+                ($newMgrEffortEstim != $issue->getMgrEffortEstim())) {
+               $issue->setMgrEffortEstim($newMgrEffortEstim);
+            }
+            if ($newEffortEstim != $issue->getEffortEstim()) {
+               $issue->setEffortEstim($newEffortEstim);
+            }
+            if ($newBacklog != $issue->getBacklog()) {
+               $issue->setBacklog($newBacklog);
+            }
+            $jsonData=json_encode(array('statusMsg' => 'SUCCESS'));
+         }
+         // return ajax data
+         echo $jsonData;
+      } catch (Exception $e) {
+         Tools::sendBadRequest("Error: updateTimetracking bad values: user=$userid issue=$bugid");
+      }
+   } else if ('getTaskInfo' == $action) {
+      $bugid  = Tools::getSecureGETIntValue('bugid');
+      $userid = $_SESSION['userid'];
+      $teamid = $_SESSION['teamid'];
+
+      try {
+         $user = UserCache::getInstance()->getUser($userid);
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+         $team = TeamCache::getInstance()->getTeam($teamid);
+         $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
+
+         // get data to fill combobox fields
+         $versionList = $project->getProjectVersions(FALSE);
+         //asort($versionList);
+         $targetVersionId = array_search($issue->getTargetVersion(), $versionList);
+
+         $availableHandlerList = $team->getActiveMembers(NULL,NULL,TRUE);
+         #asort($availableHandlerList);
+         $taskInfo = array(
+            'statusMsg' => 'SUCCESS',
+            'issueId' => $issue->getId(),
+            'extRef' => $issue->getTcId(),
+            'currentHandlerId' => $issue->getHandlerId(),
+            'availableHandlerList' => $availableHandlerList,
+            'codevttType' => $issue->getType(),
+            'currentStatus' =>  $issue->getCurrentStatus(),
+            'availableStatusList' => $issue->getAvailableStatusList(true),
+            'targetVersionId' => $targetVersionId,
+            'availableTargetVersion' => $versionList,
+         );
+         if (NULL != $issue->getDeadLine(TRUE)) {
+            $taskInfo['deadline'] = date("Y-m-d", $issue->getDeadLine());
+         }
+         if (NULL != $issue->getDeliveryDate()) {
+            $taskInfo['deliveryDate'] = date("Y-m-d", $issue->getDeliveryDate());
+         }
+
+         $jsonData=json_encode($taskInfo);
+         echo $jsonData;
+
+      } catch (Exception $e) {
+         Tools::sendBadRequest("Error: getTaskInfo bad values: user=$userid issue=$bugid");
+      }
+   } else if ('updateTaskInfo' == $action) {
+      $bugid  = Tools::getSecureGETIntValue('bugid');
+      $newExtRef = Tools::getSecureGETStringValue('futi_extRef', ''); // empty is allowed
+      $newHandlerId = Tools::getSecureGETIntValue('futi_cbHandlerId');
+      $newStatus = Tools::getSecureGETIntValue('futi_cbStatus');
+      $newType = Tools::getSecureGETStringValue('futi_codevttType');
+      //$newPriority = Tools::getSecureGETIntValue('futi_priority');
+      //$newSeverity = Tools::getSecureGETIntValue('futi_severity');
+      $newTargetVersionId = Tools::getSecureGETStringValue('futi_cbTargetVersion');
+
+      // may not be specified
+      $formatedDeadline = Tools::getSecureGETStringValue('futi_deadlineDatepicker', 'undefined'); // empty is allowed
+      $formatedDeliveryDate = Tools::getSecureGETStringValue('futi_deliveryDatepicker', 'undefined'); // empty is allowed
+
+      try {
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+
+         if (('undefined' === $formatedDeadline) || ('' === $formatedDeadline)) {
+            $newDeadline = null; // delete value in DB
+         } else {
+            $newDeadline = Tools::date2timestamp($formatedDeadline);
+         }
+         if (('undefined' === $formatedDeliveryDate) || ('' === $formatedDeliveryDate)) {
+            $newDeliveryDate = null;  // delete value in DB
+         } else {
+            $newDeliveryDate = Tools::date2timestamp($formatedDeliveryDate);
+         }
+         
+         // update values
+         if ($newExtRef != $issue->getTcId()) {
+            $issue->setExternalRef($newExtRef);
+         }
+         if ($newHandlerId != $issue->getHandlerId()) {
+            $issue->setHandler($newHandlerId);
+         }
+         if ($newStatus != $issue->getStatus()) {
+            $issue->setStatus($newStatus);
+            if ($newStatus >= $issue->getBugResolvedStatusThreshold()) {
+               $issue->setBacklog(0);
+               $isUpdateGeneralInfo = 'yes';
+            }
+         }
+         if ($newType != $issue->getType()) {
+            $issue->setType($newType);
+         }
+
+         // TODO priority & severity
+
+         $newTargetVersionName = (0 == $newTargetVersionId) ? '' : Project::getProjectVersionName($newTargetVersionId);
+         if ($newTargetVersionName != $issue->getTargetVersion()) {
+            $issue->setTargetVersion($newTargetVersionId);
+         }
+         if ($newDeadline != $issue->getDeadLine()) {
+            $issue->setDeadline($newDeadline);
+         }
+         if ($newDeliveryDate != $issue->getDeliveryDate()) {
+            $issue->setDeliveryDate($newDeliveryDate);
+         }
+
+         // send data to update divTaskInfo
+         if (0 != $issue->getHandlerId()) {
+            $handlerName = UserCache::getInstance()->getUser($issue->getHandlerId())->getName();
+         } else {
+            $handlerName = '';
+         }
+         $taskInfo = array(
+            'statusMsg' => 'SUCCESS',
+            'issueExtRef' => $issue->getTcId(),
+            'handlerName'=> $handlerName,
+            'statusName'=> $issue->getCurrentStatusName(),
+            'projectName' => $issue->getProjectName(),
+            'categoryName' => $issue->getCategoryName(),
+            'issueType' => $issue->getType(),
+            'priorityName'=> $issue->getPriorityName(),
+            'severityName'=> $issue->getSeverityName(),
+            'targetVersion'=> $issue->getTargetVersion(),
+            'timeDrift' => IssueInfoTools::getTimeDrift($issue),
+            'isUpdateGeneralInfo' => $isUpdateGeneralInfo,
+         );
+         $jsonData=json_encode($taskInfo);
+         echo $jsonData;
+
+      } catch (Exception $e) {
+         Tools::sendBadRequest("Error: updateTaskInfo bad values: user=$userid issue=$bugid");
       }
    } else {
       Tools::sendNotFoundAccess();

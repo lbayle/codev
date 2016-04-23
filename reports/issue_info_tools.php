@@ -30,61 +30,99 @@ class IssueInfoTools {
     * Get general info of an issue
     * @param Issue $issue The issue
     * @param bool $isManager if true: show MgrEffortEstim column
-    * @param bool $displaySupport If true, display support
     * @return mixed[]
     */
-   public static function getIssueGeneralInfo(Issue $issue, $isManager=false, $displaySupport=false) {
-      $withSupport = true;  // include support in elapsed & Drift
+   public static function getIssueGeneralInfo(Issue $issue, $isManager=false) {
 
-      $drift = $issue->getDrift($withSupport);
+      if ($issue->getTargetVersion()) {
+         $t = Project::getProjectVersionTimestamp($issue->getProjectId(), $issue->getTargetVersion());
+         $targetVersionDate = (1 == $t) ? T_("No date defined") : date('Y-m-d', $t);
+      } else {
+         $targetVersionDate = T_("No target version defined");
+      }
+
+      $drift = $issue->getDrift();
+      if (0 != $issue->getHandlerId()) {
+         $handlerName = UserCache::getInstance()->getUser($issue->getHandlerId())->getName();
+      } else {
+         $handlerName = '';
+      }
+
       $issueGeneralInfo = array(
-         "issueId" => $issue->getId(),
-         "issueSummary" => htmlspecialchars(preg_replace('![\t\r\n]+!',' ',$issue->getSummary())),
-         "issueType" => $issue->getType(),
-         "issueDescription" => htmlspecialchars($issue->getDescription()),
-         "projectName" => $issue->getProjectName(),
-         "categoryName" => $issue->getCategoryName(),
-         "issueExtRef" => $issue->getTcId(),
+         'issueId' => $issue->getId(),
+         'issueSummary' => htmlspecialchars(preg_replace('![\t\r\n]+!',' ',$issue->getSummary())),
+         'issueType' => $issue->getType(),
+         'issueDescription' => htmlspecialchars($issue->getDescription()),
+         'projectName' => $issue->getProjectName(),
+         'categoryName' => $issue->getCategoryName(),
+         'issueExtRef' => $issue->getTcId(),
          'mantisURL'=> Tools::mantisIssueURL($issue->getId(), NULL, true),
          'issueURL' => Tools::mantisIssueURL($issue->getId()),
          'statusName'=> $issue->getCurrentStatusName(),
+         'currentStatus' => $issue->getCurrentStatus(),
+         'availableStatusList' => $issue->getAvailableStatusList(true),
          'priorityName'=> $issue->getPriorityName(),
          'severityName'=> $issue->getSeverityName(),
          'targetVersion'=> $issue->getTargetVersion(),
-         'handlerName'=> UserCache::getInstance()->getUser($issue->getHandlerId())->getName(),
+         'targetVersionDate'=> $targetVersionDate,
+         'handlerName'=> $handlerName,
 
          "issueEffortTitle" => $issue->getEffortEstim().' + '.$issue->getEffortAdd(),
          "issueEffort" => $issue->getEffortEstim() + $issue->getEffortAdd(),
          "issueReestimated" => $issue->getReestimated(),
+         'issueElapsed' => $issue->getElapsed(),
          "issueBacklog" => $issue->getBacklog(),
          "issueDriftColor" => $issue->getDriftColor($drift),
          "issueDrift" => round($drift, 2),
          "progress" => round(100 * $issue->getProgress()),
          'relationships' => self::getFormattedRelationshipsInfo($issue),
+         'bugResolvedStatusThreshold' => $issue->getBugResolvedStatusThreshold(),
       	);
       if($isManager) {
          $issueGeneralInfo['issueMgrEffortEstim'] = $issue->getMgrEffortEstim();
-         $driftMgr = $issue->getDriftMgr($withSupport);
+         $driftMgr = $issue->getDriftMgr();
          $issueGeneralInfo['issueDriftMgrColor'] = $issue->getDriftColor($driftMgr);
          $issueGeneralInfo['issueDriftMgr'] = round($driftMgr, 2);
       }
-      if ($withSupport) {
-         $issueGeneralInfo['issueElapsed'] = $issue->getElapsed();
-      } else {
-         $issueGeneralInfo['issueElapsed'] = $issue->getElapsed() - $issue->getElapsed(Jobs::JOB_SUPPORT);
-      }
-      if ($displaySupport) {
-         if ($isManager) {
-            $driftMgr = $issue->getDriftMgr(!$withSupport);
-            $issueGeneralInfo['issueDriftMgrSupportColor'] = $issue->getDriftColor($driftMgr);
-            $issueGeneralInfo['issueDriftMgrSupport'] = round($driftMgr, 2);
-         }
-         $drift = $issue->getDrift(!$withSupport);
-         $issueGeneralInfo['issueDriftSupportColor'] = $issue->getDriftColor($drift);
-         $issueGeneralInfo['issueDriftSupport'] = round($drift, 2);
-      }
 
       return $issueGeneralInfo;
+   }
+
+   /**
+    * Get time drift of an issue
+    * @param Issue $issue The issue
+    * @return mixed[]
+    */
+   public static function getTimeDrift(Issue $issue) {
+      $timeDriftSmarty = array();
+
+      $deadline = $issue->getDeadLine();
+      if (!is_null($deadline) && (0 != $deadline)) {
+         //$timeDriftSmarty["deadLine"] = Tools::formatDate("%d %b %Y", $deadline);
+         $timeDriftSmarty["deadLine"] =  date("Y-m-d", $deadline);
+      }
+      $tooltipAttr = array();
+
+      if (NULL != $issue->getDeliveryDate()) {
+         //$timeDriftSmarty["deliveryDate"] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
+         //$tooltipAttr[T_('DeliveryDate')] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
+         $tooltipAttr[T_('DeliveryDate')] = date("Y-m-d", $issue->getDeliveryDate());
+         $btImage='images/b_markAsRead.png';
+      }
+
+      $timeDrift = $issue->getTimeDrift();
+      if (!is_string($timeDrift)) {
+         $tooltipAttr[T_('DriftColor')] = $issue->getDriftColor($timeDrift);
+         $tooltipAttr[T_('Drift')] = round($timeDrift);
+
+         if (round($timeDrift) > 0) { $btImage='images/b_error.png'; }
+      }
+
+      if (0 !== count($tooltipAttr)) {
+         $tooltip = Tools::imgWithTooltip($btImage, $tooltipAttr);
+         $timeDriftSmarty["tooltip"] = $tooltip;
+      }
+      return $timeDriftSmarty;
    }
 
    /**

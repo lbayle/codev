@@ -425,7 +425,7 @@ class Project extends Model {
 
    /**
     * @static
-    * @param int $id
+    * @param int $id version id
     * @return string The version name
     */
    public static function getProjectVersionName($id) {
@@ -436,6 +436,23 @@ class Project extends Model {
          exit;
       }
 
+      return SqlWrapper::getInstance()->sql_result($result);
+   }
+
+   /**
+    *
+    * @param type $project_id
+    * @param type $version literal ex: "V15.1"
+    * @return string The version timestamp
+    */
+   public static function getProjectVersionTimestamp($project_id, $version) {
+      $query = "SELECT date_order FROM `mantis_project_version_table` "
+              . 'WHERE `project_id` = '.$project_id.' AND `version` = "'.$version.'";';
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
       return SqlWrapper::getInstance()->sql_result($result);
    }
 
@@ -490,11 +507,15 @@ class Project extends Model {
    /**
     * @return sitrng[] id => versionName
     */
-   public function getProjectVersions() {
+   public function getProjectVersions($withObsolete=TRUE) {
       if (NULL == $this->versionCache) {
          $this->versionCache = array();
 
-         $query = "SELECT id, version FROM `mantis_project_version_table` WHERE project_id = ".$this->id.";";
+         $query = "SELECT id, version FROM `mantis_project_version_table` WHERE project_id = ".$this->id;
+         if (FALSE == $withObsolete) {
+            $query .= " AND obsolete=0";
+         }
+
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";

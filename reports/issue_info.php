@@ -102,11 +102,11 @@ class IssueInfoController extends Controller {
 
                      $isManagerView = (array_key_exists($issue->getProjectId(), $managedProjList)) ? true : false;
                      $isObserverView = (array_key_exists($issue->getProjectId(), $observedProjList)) ? true : false;
-                     $this->smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, ($isManagerView || $isObserverView), $displaySupport));
+                     $this->smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, ($isManagerView || $isObserverView)));
                      
                      $timeTracks = $issue->getTimeTracks();
                      $this->smartyHelper->assign('jobDetails', $this->getJobDetails($timeTracks));
-                     $this->smartyHelper->assign('timeDrift', $this->getTimeDrift($issue));
+                     $this->smartyHelper->assign('timeDrift', IssueInfoTools::getTimeDrift($issue));
 
                      $this->smartyHelper->assign('months', $this->getCalendar($issue,$timeTracks));
 
@@ -189,41 +189,6 @@ class IssueInfoController extends Controller {
          }
       }
       return $jobDetails;
-   }
-
-   /**
-    * Get time drift of an issue
-    * @param Issue $issue The issue
-    * @return mixed[]
-    */
-   private function getTimeDrift(Issue $issue) {
-      $timeDriftSmarty = array();
-
-      $deadline = $issue->getDeadLine();
-      if (!is_null($deadline) && (0 != $deadline)) {
-         $timeDriftSmarty["deadLine"] = Tools::formatDate("%d %b %Y", $deadline);
-      }
-      $tooltipAttr = array();
-
-      if (NULL != $issue->getDeliveryDate()) {
-         //$timeDriftSmarty["deliveryDate"] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
-         $tooltipAttr[T_('DeliveryDate')] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
-         $btImage='images/b_markAsRead.png';
-      }
-
-      $timeDrift = $issue->getTimeDrift();
-      if (!is_string($timeDrift)) {
-         $tooltipAttr[T_('DriftColor')] = $issue->getDriftColor($timeDrift);
-         $tooltipAttr[T_('Drift')] = round($timeDrift);
-
-         if (round($timeDrift) > 0) { $btImage='images/b_error.png'; }
-      }
-      
-      if (0 !== count($tooltipAttr)) {
-         $tooltip = Tools::imgWithTooltip($btImage, $tooltipAttr);
-         $timeDriftSmarty["tooltip"] = $tooltip;
-      }
-      return $timeDriftSmarty;
    }
 
    /**
