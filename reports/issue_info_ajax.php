@@ -151,24 +151,35 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       $teamid = $_SESSION['teamid'];
 
       try {
+         // user,issue must exist
+         // user must be team active member (manager, developper)
+         // issue must be in team's projects
          $user = UserCache::getInstance()->getUser($userid);
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $team = TeamCache::getInstance()->getTeam($teamid);
+         $prjList = $team->getProjects();
+         $activeMembers = $team->getActiveMembers();
 
-         $values = array(
-            'statusMsg' => 'SUCCESS',
-            'bugStatusNew' => Constants::$status_new,
-            'statusNameNew' => Constants::$statusNames[Constants::$status_new],
-            'bugResolvedStatusThreshold' => $issue->getBugResolvedStatusThreshold(),
-            'issueCurrentStatus' => $issue->getCurrentStatus(),
-            'issueEffortEstim' => $issue->getEffortEstim(),
-            'issueBacklog' => $issue->getBacklog(),
-         );
-         
-         if ($user->isTeamManager($teamid)) {
-            $values['issueMgrEffortEstim'] = $issue->getMgrEffortEstim();
+         if (!array_key_exists($userid, $activeMembers)) {
+            $jsonData=json_encode(array('statusMsg' => T_("Sorry, you're not an active member of this team")));
+         } else if (!array_key_exists($issue->getProjectId(), $prjList)) {
+            $jsonData=json_encode(array('statusMsg' => T_("Sorry, this task is not in your team's projects")));
+         } else {
+            $values = array(
+               'statusMsg' => 'SUCCESS',
+               'bugStatusNew' => Constants::$status_new,
+               'statusNameNew' => Constants::$statusNames[Constants::$status_new],
+               'bugResolvedStatusThreshold' => $issue->getBugResolvedStatusThreshold(),
+               'issueCurrentStatus' => $issue->getCurrentStatus(),
+               'issueEffortEstim' => $issue->getEffortEstim(),
+               'issueBacklog' => $issue->getBacklog(),
+            );
+
+            if ($user->isTeamManager($teamid)) {
+               $values['issueMgrEffortEstim'] = $issue->getMgrEffortEstim();
+            }
+            $jsonData=json_encode($values);
          }
-         $jsonData=json_encode($values);
          // return ajax data
          echo $jsonData;
       } catch (Exception $e) {
@@ -177,24 +188,31 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
 
    } else if ('updateTimetracking' == $action) {
       $bugid             = Tools::getSecureGETIntValue('bugid');
-      $newMgrEffortEstim = Tools::getSecureGETNumberValue('fut_issueMgrEffortEstim');
       $newEffortEstim    = Tools::getSecureGETNumberValue('fut_issueEffortEstim');
       $newBacklog        = Tools::getSecureGETNumberValue('fut_backlog');
       $userid = $_SESSION['userid'];
       $teamid = $_SESSION['teamid'];
       try {
+         // user,issue must exist
+         // user must be team active member (manager, developper)
+         // issue must be in team's projects
          $user = UserCache::getInstance()->getUser($userid);
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $team = TeamCache::getInstance()->getTeam($teamid);
          $prjList = $team->getProjects();
+         $activeMembers = $team->getActiveMembers();
 
-         if (!array_key_exists($issue->getProjectId(), $prjList)) {
+         if (!array_key_exists($userid, $activeMembers)) {
+            $jsonData=json_encode(array('statusMsg' => T_("Sorry, you're not an active member of this team")));
+         } else if (!array_key_exists($issue->getProjectId(), $prjList)) {
             $jsonData=json_encode(array('statusMsg' => T_("Sorry, this task is not in your team's projects")));
          }  else {
             // update values
-            if ($user->isTeamManager($teamid) && 
-                ($newMgrEffortEstim != $issue->getMgrEffortEstim())) {
-               $issue->setMgrEffortEstim($newMgrEffortEstim);
+            if ($user->isTeamManager($teamid)) {
+               $newMgrEffortEstim = Tools::getSecureGETNumberValue('fut_issueMgrEffortEstim');
+               if ($newMgrEffortEstim != $issue->getMgrEffortEstim()) {
+                  $issue->setMgrEffortEstim($newMgrEffortEstim);
+               }
             }
             if ($newEffortEstim != $issue->getEffortEstim()) {
                $issue->setEffortEstim($newEffortEstim);
@@ -215,44 +233,57 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       $teamid = $_SESSION['teamid'];
 
       try {
+         // user,issue must exist
+         // user must be team active member (manager, developper)
+         // issue must be in team's projects
          $user = UserCache::getInstance()->getUser($userid);
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $team = TeamCache::getInstance()->getTeam($teamid);
          $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
+         $prjList = $team->getProjects();
+         $activeMembers = $team->getActiveMembers();
 
-         // get data to fill combobox fields
-         $versionList = $project->getProjectVersions(FALSE);
-         //asort($versionList);
-         $targetVersionId = array_search($issue->getTargetVersion(), $versionList);
+         if (!array_key_exists($userid, $activeMembers)) {
+            $jsonData=json_encode(array('statusMsg' => T_("Sorry, you're not an active member of this team")));
+         } else if (!array_key_exists($issue->getProjectId(), $prjList)) {
+            $jsonData=json_encode(array('statusMsg' => T_("Sorry, this task is not in your team's projects")));
+         }  else {
 
-         $availableHandlerList = $team->getActiveMembers(NULL,NULL,TRUE);
-         #asort($availableHandlerList);
-         $taskInfo = array(
-            'statusMsg' => 'SUCCESS',
-            'issueId' => $issue->getId(),
-            'extRef' => $issue->getTcId(),
-            'currentHandlerId' => $issue->getHandlerId(),
-            'availableHandlerList' => $availableHandlerList,
-            'codevttType' => $issue->getType(),
-            'currentStatus' =>  $issue->getCurrentStatus(),
-            'availableStatusList' => $issue->getAvailableStatusList(true),
-            'targetVersionId' => $targetVersionId,
-            'availableTargetVersion' => $versionList,
-         );
-         if (NULL != $issue->getDeadLine(TRUE)) {
-            $taskInfo['deadline'] = date("Y-m-d", $issue->getDeadLine());
+            // get data to fill combobox fields
+            $versionList = $project->getProjectVersions(FALSE);
+            //asort($versionList);
+            $targetVersionId = array_search($issue->getTargetVersion(), $versionList);
+
+            $availableHandlerList = $team->getActiveMembers(NULL,NULL,TRUE);
+            #asort($availableHandlerList);
+            $taskInfo = array(
+               'statusMsg' => 'SUCCESS',
+               'issueId' => $issue->getId(),
+               'extRef' => $issue->getTcId(),
+               'currentHandlerId' => $issue->getHandlerId(),
+               'availableHandlerList' => $availableHandlerList,
+               'codevttType' => $issue->getType(),
+               'currentStatus' =>  $issue->getCurrentStatus(),
+               'availableStatusList' => $issue->getAvailableStatusList(true),
+               'targetVersionId' => $targetVersionId,
+               'availableTargetVersion' => $versionList,
+            );
+            if (NULL != $issue->getDeadLine(TRUE)) {
+               $taskInfo['deadline'] = date("Y-m-d", $issue->getDeadLine());
+            }
+            if (NULL != $issue->getDeliveryDate()) {
+               $taskInfo['deliveryDate'] = date("Y-m-d", $issue->getDeliveryDate());
+            }
+            $jsonData=json_encode($taskInfo);
          }
-         if (NULL != $issue->getDeliveryDate()) {
-            $taskInfo['deliveryDate'] = date("Y-m-d", $issue->getDeliveryDate());
-         }
-
-         $jsonData=json_encode($taskInfo);
          echo $jsonData;
 
       } catch (Exception $e) {
          Tools::sendBadRequest("Error: getTaskInfo bad values: user=$userid issue=$bugid");
       }
    } else if ('updateTaskInfo' == $action) {
+      $userid = $_SESSION['userid'];
+      $teamid = $_SESSION['teamid'];
       $bugid  = Tools::getSecureGETIntValue('bugid');
       $newExtRef = Tools::getSecureGETStringValue('futi_extRef', ''); // empty is allowed
       $newHandlerId = Tools::getSecureGETIntValue('futi_cbHandlerId');
@@ -267,71 +298,86 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       $formatedDeliveryDate = Tools::getSecureGETStringValue('futi_deliveryDatepicker', 'undefined'); // empty is allowed
 
       try {
+         // user,issue must exist
+         // user must be team active member (manager, developper)
+         // issue must be in team's projects
+         $user = UserCache::getInstance()->getUser($userid);
          $issue = IssueCache::getInstance()->getIssue($bugid);
+         $team = TeamCache::getInstance()->getTeam($teamid);
+         $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
+         $prjList = $team->getProjects();
+         $activeMembers = $team->getActiveMembers();
 
-         if (('undefined' === $formatedDeadline) || ('' === $formatedDeadline)) {
-            $newDeadline = null; // delete value in DB
-         } else {
-            $newDeadline = Tools::date2timestamp($formatedDeadline);
-         }
-         if (('undefined' === $formatedDeliveryDate) || ('' === $formatedDeliveryDate)) {
-            $newDeliveryDate = null;  // delete value in DB
-         } else {
-            $newDeliveryDate = Tools::date2timestamp($formatedDeliveryDate);
-         }
-         
-         // update values
-         if ($newExtRef != $issue->getTcId()) {
-            $issue->setExternalRef($newExtRef);
-         }
-         if ($newHandlerId != $issue->getHandlerId()) {
-            $issue->setHandler($newHandlerId);
-         }
-         if ($newStatus != $issue->getStatus()) {
-            $issue->setStatus($newStatus);
-            if ($newStatus >= $issue->getBugResolvedStatusThreshold()) {
-               $issue->setBacklog(0);
-               $isUpdateGeneralInfo = 'yes';
+         if (!array_key_exists($userid, $activeMembers)) {
+            $jsonData=json_encode(array('statusMsg' => T_("Sorry, you're not an active member of this team")));
+         } else if (!array_key_exists($issue->getProjectId(), $prjList)) {
+            $jsonData=json_encode(array('statusMsg' => T_("Sorry, this task is not in your team's projects")));
+         }  else {
+
+            if (('undefined' === $formatedDeadline) || ('' === $formatedDeadline)) {
+               $newDeadline = null; // delete value in DB
+            } else {
+               $newDeadline = Tools::date2timestamp($formatedDeadline);
             }
-         }
-         if ($newType != $issue->getType()) {
-            $issue->setType($newType);
-         }
+            if (('undefined' === $formatedDeliveryDate) || ('' === $formatedDeliveryDate)) {
+               $newDeliveryDate = null;  // delete value in DB
+            } else {
+               $newDeliveryDate = Tools::date2timestamp($formatedDeliveryDate);
+            }
 
-         // TODO priority & severity
+            // update values
+            if ($newExtRef != $issue->getTcId()) {
+               $issue->setExternalRef($newExtRef);
+            }
+            if ($newHandlerId != $issue->getHandlerId()) {
+               $issue->setHandler($newHandlerId);
+            }
+            if ($newStatus != $issue->getStatus()) {
+               $issue->setStatus($newStatus);
+               if ($newStatus >= $issue->getBugResolvedStatusThreshold()) {
+                  $issue->setBacklog(0);
+                  $isUpdateGeneralInfo = 'yes';
+               }
+            }
+            if ($newType != $issue->getType()) {
+               $issue->setType($newType);
+            }
 
-         $newTargetVersionName = (0 == $newTargetVersionId) ? '' : Project::getProjectVersionName($newTargetVersionId);
-         if ($newTargetVersionName != $issue->getTargetVersion()) {
-            $issue->setTargetVersion($newTargetVersionId);
-         }
-         if ($newDeadline != $issue->getDeadLine()) {
-            $issue->setDeadline($newDeadline);
-         }
-         if ($newDeliveryDate != $issue->getDeliveryDate()) {
-            $issue->setDeliveryDate($newDeliveryDate);
-         }
+            // TODO priority & severity
 
-         // send data to update divTaskInfo
-         if (0 != $issue->getHandlerId()) {
-            $handlerName = UserCache::getInstance()->getUser($issue->getHandlerId())->getName();
-         } else {
-            $handlerName = '';
+            $newTargetVersionName = (0 == $newTargetVersionId) ? '' : Project::getProjectVersionName($newTargetVersionId);
+            if ($newTargetVersionName != $issue->getTargetVersion()) {
+               $issue->setTargetVersion($newTargetVersionId);
+            }
+            if ($newDeadline != $issue->getDeadLine()) {
+               $issue->setDeadline($newDeadline);
+            }
+            if ($newDeliveryDate != $issue->getDeliveryDate()) {
+               $issue->setDeliveryDate($newDeliveryDate);
+            }
+
+            // send data to update divTaskInfo
+            if (0 != $issue->getHandlerId()) {
+               $handlerName = UserCache::getInstance()->getUser($issue->getHandlerId())->getName();
+            } else {
+               $handlerName = '';
+            }
+            $taskInfo = array(
+               'statusMsg' => 'SUCCESS',
+               'issueExtRef' => $issue->getTcId(),
+               'handlerName'=> $handlerName,
+               'statusName'=> $issue->getCurrentStatusName(),
+               'projectName' => $issue->getProjectName(),
+               'categoryName' => $issue->getCategoryName(),
+               'issueType' => $issue->getType(),
+               'priorityName'=> $issue->getPriorityName(),
+               'severityName'=> $issue->getSeverityName(),
+               'targetVersion'=> $issue->getTargetVersion(),
+               'timeDrift' => IssueInfoTools::getTimeDrift($issue),
+               'isUpdateGeneralInfo' => $isUpdateGeneralInfo,
+            );
+            $jsonData=json_encode($taskInfo);
          }
-         $taskInfo = array(
-            'statusMsg' => 'SUCCESS',
-            'issueExtRef' => $issue->getTcId(),
-            'handlerName'=> $handlerName,
-            'statusName'=> $issue->getCurrentStatusName(),
-            'projectName' => $issue->getProjectName(),
-            'categoryName' => $issue->getCategoryName(),
-            'issueType' => $issue->getType(),
-            'priorityName'=> $issue->getPriorityName(),
-            'severityName'=> $issue->getSeverityName(),
-            'targetVersion'=> $issue->getTargetVersion(),
-            'timeDrift' => IssueInfoTools::getTimeDrift($issue),
-            'isUpdateGeneralInfo' => $isUpdateGeneralInfo,
-         );
-         $jsonData=json_encode($taskInfo);
          echo $jsonData;
 
       } catch (Exception $e) {
