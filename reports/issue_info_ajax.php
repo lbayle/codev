@@ -383,6 +383,43 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       } catch (Exception $e) {
          Tools::sendBadRequest("Error: updateTaskInfo bad values: user=$userid issue=$bugid");
       }
+   }  else if ('getMantisNotes' == $action) {
+      $userid = $_SESSION['userid'];
+      $teamid = $_SESSION['teamid'];
+      $bugid  = Tools::getSecureGETIntValue('bugid');
+
+      try {
+         // user,issue must exist
+         $user = UserCache::getInstance()->getUser($userid);
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+         $team = TeamCache::getInstance()->getTeam($teamid);
+
+         $issueNoteList = $issue->getIssueNoteList();
+
+         $formatedNotes = array();
+         foreach ($issueNoteList as $noteId => $issueNote) {
+            $reporter = UserCache::getInstance()->getUser($issueNote->getReporterId());
+            $noteInfo = array (
+                'noteId' => $noteId,
+                'reporterName' => $reporter->getRealname(),
+                'dateSubmitted' => date('Y-m-d H:i:s', $issueNote->getDateSubmitted()),
+                'dateLastModified' => date('Y-m-d H:i:s', $issueNote->getLastModified()),
+                'text' => nl2br(htmlspecialchars($issueNote->getText(TRUE))), // raw ?
+            );
+            $formatedNotes[$issueNote->getId()] = $noteInfo;
+         }
+
+         $dataIssueNotes = array(
+            'statusMsg' => 'SUCCESS',
+            'taskNotes' => $formatedNotes,
+         );
+         $jsonData=json_encode($dataIssueNotes);
+         echo $jsonData;
+
+      } catch (Exception $e) {
+         Tools::sendBadRequest("Error: updateTaskInfo bad values: user=$userid issue=$bugid");
+      }
+
    } else {
       Tools::sendNotFoundAccess();
    }
