@@ -20,9 +20,24 @@ class CodevTTPlugin extends MantisPlugin {
       $this->description = plugin_lang_get('description');
       $this->page = '';
 
-      $this->version = '0.6.3';
+      $this->version = '0.7.0';
+
+/*
+    if( version_compare( MANTIS_VERSION, '1.3', '<') ) {
+      # this is version 1.2.x
       $this->requires = array(
-          'MantisCore' => '1.3.0'
+        "MantisCore" => "1.2",
+      );
+    } else {
+      # this is version 1.3.x
+      $this->requires = array(
+        "MantisCore" => "1.3"
+      );
+    }
+*/
+
+      $this->requires = array(
+          'MantisCore' => '1.3'
       );
 
       $this->author = 'CodevTT';
@@ -49,20 +64,40 @@ class CodevTTPlugin extends MantisPlugin {
 
           'EVENT_VIEW_BUG_DETAILS' => 'view_bug_form',
 
-          # check BEFORE DELETE (but unfortunately after the 'are you sure?' page...)
+          // check BEFORE DELETE (but unfortunately after the 'are you sure?' page...)
           'EVENT_BUG_DELETED' => 'checkTimetracks',
 
           'EVENT_UPDATE_BUG' => 'checkStatusChanged',
 
+          // add filter to the 'view bugs' page
+          'EVENT_FILTER_FIELDS'  => 'filter_cmd_fields',
+
+          // display 'Commands' column in 'view bugs' page
+          'EVENT_FILTER_COLUMNS' => 'filter_cmd_columns'
       );
 
       # contributed to MantisBT 1.3
+      #if( version_compare( MANTIS_VERSION, '1.3', '>') ) {
       if (!is_null($g_event_cache['EVENT_MANAGE_PROJECT_DELETE'])) {
          $hooks['EVENT_MANAGE_PROJECT_DELETE'] = 'projectDelete';
       }
-
+      #}
       return $hooks;
    }
+
+  function filter_cmd_fields($p_event) {
+    require_once( 'classes/FilterCommandField.class.php' );
+    return array(
+      'FilterCommandField'
+    );
+  }
+
+  function filter_cmd_columns() {
+    require_once( 'classes/CommandColumn.class.php' );
+    return array(
+      'CommandColumn' => 'CommandColumn'
+    );
+  }
 
    /**
     *
@@ -177,17 +212,17 @@ class CodevTTPlugin extends MantisPlugin {
     *
     */
    private function getAvailableCommands($project_id) {
-      
+
       $cmdList = array();
-      
+
       $userid = current_user_get_field( 'id' );
 
-      // find user teams 
+      // find user teams
       $query = "SELECT DISTINCT codev_team_table.id, codev_team_table.name " .
                "FROM `codev_team_user_table`, `codev_team_table` " .
                "WHERE codev_team_user_table.team_id = codev_team_table.id ".
                "AND   codev_team_user_table.user_id = " . db_param();
-      
+
       // only teams where project is defined
       $query .= "AND 1 = is_project_in_team(" . (int)$project_id . ", codev_team_table.id) ";
 
@@ -207,12 +242,12 @@ class CodevTTPlugin extends MantisPlugin {
          $query = "SELECT id, name, reference FROM `codev_command_table` ".
                   "WHERE team_id IN (" . $formattedTeamList . ") ".
                   "AND enabled = 1 ";
-      
+
          // do not include closed commands.
          $query .= "AND state < 6 "; // WARN: HARDCODED value of Command::$state_closed
-         
+
          $query .= "ORDER BY reference, name";
-         
+
          $result = db_query($query);
          $cmdList = array();
          while ($row = db_fetch_array($result)) {
@@ -233,7 +268,7 @@ class CodevTTPlugin extends MantisPlugin {
 
       $cmdList = $this->getAvailableCommands($project_id);
       if (0 != count($cmdList)) {
-      
+
          $size = (count($cmdList) < 3) ? 3 : 6;
 
          echo '<div class="field-container">';
@@ -251,11 +286,9 @@ class CodevTTPlugin extends MantisPlugin {
    /**
     * show bug's commands in bug view page
     * @param type $event
-    * @param type $t_bug_id 
+    * @param type $t_bug_id
     */
    public function view_bug_form($event, $t_bug_id) {
-
-//select codev_command_table.* from codev_command_bug_table, codev_command_table where bug_id = '358' and codev_command_bug_table.command_id = codev_command_table.id
 
       $query  = "SELECT codev_command_table.* FROM `codev_command_bug_table`, `codev_command_table` ".
                  "WHERE codev_command_bug_table.bug_id=" . db_param() . " " .
