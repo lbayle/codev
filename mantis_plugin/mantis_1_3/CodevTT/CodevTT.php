@@ -45,6 +45,13 @@ class CodevTTPlugin extends MantisPlugin {
       $this->url = 'http://codevtt.org';
    }
 
+  public function init() {
+    require_once( 'classes/FilterCommandField.class.php' );
+    require_once( 'classes/CommandColumn.class.php' );
+    require_once( 'classes/ElapsedColumn.class.php' );
+
+  }
+
    /**
     * Default plugin configuration.
     */
@@ -86,16 +93,15 @@ class CodevTTPlugin extends MantisPlugin {
    }
 
   function filter_cmd_fields($p_event) {
-    require_once( 'classes/FilterCommandField.class.php' );
     return array(
-      'FilterCommandField'
+      'FilterCommandField',
     );
   }
 
   function filter_cmd_columns() {
-    require_once( 'classes/CommandColumn.class.php' );
     return array(
-      'CommandColumn' => 'CommandColumn'
+      'CommandColumn' => 'CommandColumn',
+      'ElapsedColumn' => 'ElapsedColumn'
     );
   }
 
