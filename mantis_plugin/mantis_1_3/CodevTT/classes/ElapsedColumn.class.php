@@ -4,7 +4,7 @@ class ElapsedColumn extends MantisColumn {
    private $cache = array();
 
    public function __construct() {
-      $this->title = 'Elapsed time';
+      $this->title = 'CodevTT_Elapsed';
       $this->column = 'Elapsed';
       $this->sortable = false;
    }
@@ -27,7 +27,7 @@ class ElapsedColumn extends MantisColumn {
     return array();
   }
 
-   public function cache( $p_bugs ) {
+   public function cache( array $p_bugs ) {
       if ( count( $p_bugs ) < 1 ) {
          return;
       }

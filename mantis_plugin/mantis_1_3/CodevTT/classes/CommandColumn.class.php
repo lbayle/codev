@@ -27,7 +27,7 @@ class CommandColumn extends MantisColumn {
     return array();
   }
 
-   public function cache( $p_bugs ) {
+   public function cache( array $p_bugs ) {
       if ( count( $p_bugs ) < 1 ) {
          return;
       }
