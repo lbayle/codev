@@ -220,7 +220,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
             if ($newBacklog != $issue->getBacklog()) {
                $issue->setBacklog($newBacklog);
             }
-            $jsonData=json_encode(array('statusMsg' => 'SUCCESS'));
+            $jsonData=json_encode(array('statusMsg' => 'SUCCESS', 'issueId' => $issue->getId()));
          }
          // return ajax data
          echo $jsonData;
@@ -364,6 +364,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
             }
             $taskInfo = array(
                'statusMsg' => 'SUCCESS',
+               'issueId' => $bugid,
                'issueExtRef' => $issue->getTcId(),
                'handlerName'=> $handlerName,
                'statusName'=> $issue->getCurrentStatusName(),

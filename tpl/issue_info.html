@@ -376,8 +376,8 @@
          jQuery("#formRemoveFromCmd").find("input[name=cmdid]").val(cmdid);
          jQuery("#formRemoveFromCmd_dialog").dialog( "open" );
       }
-      function updateGeneralInfo() {
-         var bugid = {$issueGeneralInfo.issueId}; //jQuery("#bugid").val();
+      function updateGeneralInfo(bugid) {
+         //var bugid = {$issueGeneralInfo.issueId}; //jQuery("#bugid").val();
          jQuery.ajax({
             type: "GET",
             url: "reports/issue_info_ajax.php",
@@ -552,7 +552,7 @@
                success: function(data) {
                   if ('SUCCESS' === data.statusMsg) {
                      // values saved, update displayed values
-                     updateGeneralInfo();
+                     updateGeneralInfo(data.issueId);
                   } else {
                      alert(data.statusMsg);
                   }
@@ -689,7 +689,7 @@
 
                      // if status changed, Backlog & progress may need update
                      if ('yes' === data.isUpdateGeneralInfo) {
-                        updateGeneralInfo();
+                        updateGeneralInfo(data.issueId);
                      }
                   } else {
                      console.error("statusMsg", data.statusMsg);
