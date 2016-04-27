@@ -4,28 +4,11 @@ class ElapsedColumn extends MantisColumn {
    private $cache = array();
 
    public function __construct() {
-      $this->title = 'CodevTT_Elapsed';
+      $this->title = 'Elapsed';
       $this->column = 'Elapsed';
       $this->sortable = false;
    }
 
-  /**
-   * Build the SQL query elements 'join' and 'order' as used by
-   * core/filter_api.php to create the filter sorting query.
-   * @param string $p_direction Sorting order ('ASC' or 'DESC').
-   * @return array Keyed-array with query elements; see developer guide
-   */
-  public function sortquery( $p_direction ) {
-/*    $t_version_id = $this->id;
-    $t_bug_table = db_get_table( 'mantis_bug_table' );
-    $t_status_table = plugin_table( 'status', 'ProductMatrix' );
-    return array(
-      'join' => "LEFT JOIN $t_status_table pvmst ON $t_bug_table.id=pvmst.bug_id AND pvmst.version_id=$t_version_id",
-      'order' => "pvmst.status $p_dir",
-    );
-*/
-    return array();
-  }
 
    public function cache( array $p_bugs ) {
       if ( count( $p_bugs ) < 1 ) {
@@ -84,4 +67,23 @@ class ElapsedColumn extends MantisColumn {
       echo $elapsed;
    }
 */
+   
+  /**
+   * Build the SQL query elements 'join' and 'order' as used by
+   * core/filter_api.php to create the filter sorting query.
+   * @param string $p_direction Sorting order ('ASC' or 'DESC').
+   * @return array Keyed-array with query elements; see developer guide
+   */
+  public function sortquery( $p_direction ) {
+/*    $t_version_id = $this->id;
+    $t_bug_table = db_get_table( 'mantis_bug_table' );
+    $t_status_table = plugin_table( 'status', 'ProductMatrix' );
+    return array(
+      'join' => "LEFT JOIN $t_status_table pvmst ON $t_bug_table.id=pvmst.bug_id AND pvmst.version_id=$t_version_id",
+      'order' => "pvmst.status $p_dir",
+    );
+*/
+    return array();
+  }
+
 }

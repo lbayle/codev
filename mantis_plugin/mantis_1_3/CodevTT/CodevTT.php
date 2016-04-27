@@ -61,10 +61,16 @@ class CodevTTPlugin extends MantisPlugin {
 
       //la liste des EVENT se trouve dans core/events_inc.php
       //la construction de l'affichage se fait dans core/html_api.php
+
       $hooks = array(
-          //'EVENT_REPORT_BUG_DATA' => 'report_bug_data',
-          'EVENT_REPORT_BUG' => 'assignCommand',
+
+          // Report new issue page.
           'EVENT_REPORT_BUG_FORM' => 'report_bug_form',
+          'EVENT_REPORT_BUG'      => 'assignCommand',
+
+          // Update issue page.
+          'EVENT_UPDATE_BUG_FORM' => 'update_bug_form',
+          'EVENT_UPDATE_BUG'      => 'update_bug',
 
           #Uncomment the following line to show codevtt in main menu
           //'EVENT_MENU_MAIN' => 'add_codevtt_menu',
@@ -73,8 +79,6 @@ class CodevTTPlugin extends MantisPlugin {
 
           // check BEFORE DELETE (but unfortunately after the 'are you sure?' page...)
           'EVENT_BUG_DELETED' => 'checkTimetracks',
-
-          'EVENT_UPDATE_BUG' => 'checkStatusChanged',
 
           // add filter to the 'view bugs' page
           'EVENT_FILTER_FIELDS'  => 'filter_cmd_fields',
@@ -108,9 +112,9 @@ class CodevTTPlugin extends MantisPlugin {
    /**
     *
     * @param string $event
-    * @param array $t_bug_data
+    * @param BugData $t_bug_data
     */
-   public function assignCommand($event, $t_bug_data) {
+   public function assignCommand($event, BugData $t_bug_data) {
       #$command_ids = gpc_get_int_array( 'command_id');
 
       $t_bug_id = $t_bug_data->id;
@@ -181,38 +185,6 @@ class CodevTTPlugin extends MantisPlugin {
       }
    }
 
-   public function update_bug_form($event, $t_bug_id) {
-
-      $assigned_query = "SELECT `command_id` FROM `codev_command_bug_table` WHERE `bug_id` = " . db_param();
-      $assigned_request = db_query($assigned_query, array( $t_bug_id ));
-      $assigned_commands = array();
-      $index = 0;
-      while ($row = db_fetch_array( $assigned_request )) {
-         $assigned_commands[$index++] = $row['command_id'];
-      }
-
-      $query = "SELECT `id`, `name`, `reference`, `team_id` FROM `codev_command_table` ORDER BY `reference`,`name`";
-      $command_request = db_query($query);
-      //TODO filter with team id
-      echo '<tr>';
-      echo '<td class="category">';
-      echo plugin_lang_get('command');
-      echo'</td>
-            <td>
-            <select multiple="multiple"  size="5" name="command_id[]">';
-      while ($command_array = db_fetch_array($command_request)) {
-         echo '<option value="' . $command_array['id'] . '"';
-         if (in_array($command_array['id'], $assigned_commands)) {
-            echo ' selected="selected"';
-         }
-         echo' >' . $command_array['reference'] . ': ' . $command_array['name'] . '</option>';
-      }
-      echo '</select>
-            </td>
-            </tr>
-            ';
-   }
-
    /**
     * returns the commands from the current users's teams.
     *
@@ -267,11 +239,9 @@ class CodevTTPlugin extends MantisPlugin {
     * display combobox to select the command in 'report bug' page
     * @param type $event_id
     */
-   public function report_bug_form($event_id) {
+   public function report_bug_form($event, $bug_id) {
 
       $project_id=helper_get_current_project();
-      #echo "project_id=$project_id<br>";
-
       $cmdList = $this->getAvailableCommands($project_id);
       if (0 != count($cmdList)) {
 
@@ -288,6 +258,47 @@ class CodevTTPlugin extends MantisPlugin {
          echo '</div>';
       }
    }
+
+   /**
+    * display combobox to select the command in 'update bug' page
+    * @param type $event
+    * @param type $t_bug_id
+    */
+   public function update_bug_form($event, $t_bug_id) {
+
+      $assigned_query = "SELECT `command_id` FROM `codev_command_bug_table` WHERE `bug_id` = " . db_param();
+      $assigned_request = db_query($assigned_query, array( $t_bug_id ));
+      $assigned_commands = array();
+      while ($row = db_fetch_array( $assigned_request )) {
+         $assigned_commands[] = $row['command_id'];
+      }
+
+      $t_bug = bug_get( $t_bug_id, true );
+      $t_project_id = $t_bug->project_id;
+      $cmdList = $this->getAvailableCommands($t_project_id);
+      if (0 != count($cmdList)) {
+
+         $size = (count($cmdList) < 3) ? 3 : 6;
+
+         echo '<tr>';
+         echo '<td class="category">'.plugin_lang_get('command').'</td>';
+         echo '<td><select multiple="multiple"  size="'.$size.'" id="codevtt_command_id" name="codevtt_command_id">';
+         foreach ($cmdList as $id => $name) {
+            echo '<option value="' . $id . '"';
+            if (in_array($id, $assigned_commands)) {
+               echo ' selected="selected"';
+            }
+            echo ' >' . $name. '</option>';
+         }
+         echo '</select></td></tr>';
+      }
+   }
+
+   public function update_bug($event, BugData $bug_data) {
+      $this->checkStatusChanged($event, $bug_data);
+      $this->assignCommand($event, $bug_data);
+   }
+
 
    /**
     * show bug's commands in bug view page
@@ -344,7 +355,7 @@ class CodevTTPlugin extends MantisPlugin {
    }
 
 
-   public function checkStatusChanged($event, $bug_data) {
+   public function checkStatusChanged($event, BugData $bug_data) {
 
       #echo "checkStatusChanged: event = $event, bugid = $bug_data->id status = $bug_data->status<br>";
 
