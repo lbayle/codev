@@ -22,20 +22,6 @@ class CodevTTPlugin extends MantisPlugin {
 
       $this->version = '0.7.0';
 
-/*
-    if( version_compare( MANTIS_VERSION, '1.3', '<') ) {
-      # this is version 1.2.x
-      $this->requires = array(
-        "MantisCore" => "1.2",
-      );
-    } else {
-      # this is version 1.3.x
-      $this->requires = array(
-        "MantisCore" => "1.3"
-      );
-    }
-*/
-
       $this->requires = array(
           'MantisCore' => '1.3'
       );
@@ -49,7 +35,7 @@ class CodevTTPlugin extends MantisPlugin {
     require_once( 'classes/FilterCommandField.class.php' );
     require_once( 'classes/CommandColumn.class.php' );
     require_once( 'classes/ElapsedColumn.class.php' );
-
+    require_api( 'logging_api.php' );
   }
 
    /**
@@ -66,7 +52,7 @@ class CodevTTPlugin extends MantisPlugin {
 
           // Report new issue page.
           'EVENT_REPORT_BUG_FORM' => 'report_bug_form',
-          'EVENT_REPORT_BUG'      => 'assignCommand',
+          'EVENT_REPORT_BUG'      => 'report_bug',
 
           // Update issue page.
           'EVENT_UPDATE_BUG_FORM' => 'update_bug_form',
@@ -110,136 +96,11 @@ class CodevTTPlugin extends MantisPlugin {
   }
 
    /**
-    *
-    * @param string $event
-    * @param BugData $t_bug_data
-    */
-   public function assignCommand($event, BugData $t_bug_data) {
-      #$command_ids = gpc_get_int_array( 'command_id');
-
-      $t_bug_id = $t_bug_data->id;
-
-      // delete all existing bug-command associations
-      if ($event != 'EVENT_REPORT_BUG_FORM') {
-         $delete_query = "DELETE FROM codev_command_bug_table WHERE bug_id=" . db_param();
-         $delete_result = db_query($delete_query, array( $t_bug_id ));
-      }
-
-      // === create bug-command associations
-      if (isset($_POST['command_id'])) {
-         $command_ids = $_POST['command_id'];
-
-         $query = "INSERT INTO `codev_command_bug_table` (`command_id`, `bug_id`) VALUES";
-         $separator = "";
-         //TODO test if command id is valid !!!!
-         foreach ($command_ids as $command_id) {
-            $query = $query . $separator . " (" . db_param() . ", " . db_param() . ")";
-            $separator = ",";
-         }
-         $query = $query . ";";
-         $result = db_query($query, array( $command_id, $t_bug_id ) );
-
-         // === add to WBS
-         // 1) get the wbs_id of this command
-         $query2 = "SELECT name, wbs_id FROM codev_command_table WHERE id = " . db_param();
-         $result2 = db_query($query2, array( $command_id ));
-		 $row2 = db_fetch_array( $result2 );
-         $wbs_id = $row2['wbs_id'];
-         $cmd_name = $row2['name'];
-
-         // 2) if wbs_id is null, the root element must be created
-         // (this happens only once when upgrading from 0.99.24 or below)
-         $order = 1;
-         if (is_null($wbs_id)) {
-            #echo "Create WBS root element for Command $command_id<br>";
-            // add root element
-            $query3 = "INSERT INTO codev_wbs_table  (`order`, `expand`, `title`) ".
-                    "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ")";
-            $result3 = db_query($query3, array( 1, 1, $cmd_name ));
-            $wbs_id = db_insert_id();
-
-            $query4 = "UPDATE codev_command_table SET wbs_id = " . db_param() . " WHERE id = " . db_param();
-            $result4 = db_query($query4, array( $wbs_id, $command_id ));
-
-            // 2.1) add all existing issues to the WBS
-            $query6 = "SELECT bug_id from codev_command_bug_table WHERE command_id = " . db_param() . " ORDER BY bug_id";
-            $result6 = db_query($query6, array( $command_id));
-            while ($row6 = db_fetch_array( $result6 )) {
-               #echo "add issue $row6->bug_id to command $command_id<br>";
-               $query7 = "INSERT INTO codev_wbs_table  (`root_id`, `parent_id`, `bug_id`, `order`, `expand`) ".
-                       "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ")";
-               #echo "SQL query7 = $query7<br>";
-               $result7 = db_query($query7, array( $wbs_id, $wbs_id, $row6['bug_id'], $order, 0));
-               $order += 1;
-            }
-
-
-         } else {
-            // 3) add bug_id to the wbs root element
-            $query5 = "INSERT INTO codev_wbs_table  (`root_id`, `parent_id`, `bug_id`, `order`, `expand`) ".
-                    "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ")";
-            #echo "SQL query5 = $query5<br>";
-            $result5 = db_query($query5, array( $wbs_id, $wbs_id, $t_bug_id, $order, 0 ));
-         }
-
-      }
-   }
-
-   /**
-    * returns the commands from the current users's teams.
-    *
-    */
-   private function getAvailableCommands($project_id) {
-
-      $cmdList = array();
-
-      $userid = current_user_get_field( 'id' );
-
-      // find user teams
-      $query = "SELECT DISTINCT codev_team_table.id, codev_team_table.name " .
-               "FROM `codev_team_user_table`, `codev_team_table` " .
-               "WHERE codev_team_user_table.team_id = codev_team_table.id ".
-               "AND   codev_team_user_table.user_id = " . db_param();
-
-      // only teams where project is defined
-      $query .= "AND 1 = is_project_in_team(" . (int)$project_id . ", codev_team_table.id) ";
-
-      $query .= "ORDER BY codev_team_table.name";
-
-      $result = db_query($query, array( $userid));
-      $teamidList = array();
-      while ($row = db_fetch_array($result)) {
-         $teamidList[] = $row['id'];
-         #echo "getAvailableCommands() FOUND $row['id'] - $row['name']<br/>";
-      }
-
-      // find team Commands
-      if (0 != count($teamidList)) {
-         $formattedTeamList = implode(", ", $teamidList);
-
-         $query = "SELECT id, name, reference FROM `codev_command_table` ".
-                  "WHERE team_id IN (" . $formattedTeamList . ") ".
-                  "AND enabled = 1 ";
-
-         // do not include closed commands.
-         $query .= "AND state < 6 "; // WARN: HARDCODED value of Command::$state_closed
-
-         $query .= "ORDER BY reference, name";
-
-         $result = db_query($query);
-         $cmdList = array();
-         while ($row = db_fetch_array($result)) {
-            $cmdList[$row['id']] = $row['reference'] . " :: " . $row['name'];
-         }
-      }
-      return $cmdList;
-   }
-
-   /**
     * display combobox to select the command in 'report bug' page
     * @param type $event_id
     */
    public function report_bug_form($event, $bug_id) {
+      log_event(LOG_FILTERING, "report_bug_form | event= $event");
 
       $project_id=helper_get_current_project();
       $cmdList = $this->getAvailableCommands($project_id);
@@ -249,7 +110,8 @@ class CodevTTPlugin extends MantisPlugin {
 
          echo '<div class="field-container">';
          echo '<label><span>'.plugin_lang_get('command').'</span></label>';
-         echo ' <select multiple="multiple"  size="'.$size.'" id="codevtt_command_id" name="codevtt_command_id">';
+         echo ' <select multiple="multiple"  id="codevtt_command_id" name="codevtt_command_id[]" size="'.$size.'">';
+         echo ' <option value="0" selected="selected"></option>';
          foreach ($cmdList as $id => $name) {
             echo '<option value="' . $id . '" >' . $name . '</option>';
          }
@@ -259,12 +121,29 @@ class CodevTTPlugin extends MantisPlugin {
       }
    }
 
+   public function report_bug($event, BugData $p_bug_data) {
+      log_event(LOG_FILTERING, "report_bug | event= $event");
+      log_event(LOG_FILTERING, "report_bug | _POST= ".var_export($_POST, true));
+
+      $command_ids = gpc_get_int_array( 'codevtt_command_id');
+
+      // delete all existing bug-command associations (should not happen on bug creation !)
+      //$delete_query = "DELETE FROM codev_command_bug_table WHERE bug_id=" . db_param();
+      //db_query($delete_query, array( $p_bug_data->id ));
+
+      foreach ($command_ids as $command_id) {
+        log_event(LOG_FILTERING, "report_bug | assign bug_id= $p_bug_data->id to Command $command_id");
+        $this->assignCommand($p_bug_data->id, $command_id);
+      }
+   }
+
    /**
     * display combobox to select the command in 'update bug' page
     * @param type $event
     * @param type $t_bug_id
     */
    public function update_bug_form($event, $t_bug_id) {
+      log_event(LOG_FILTERING, "report_bug | event= $event");
 
       $assigned_query = "SELECT `command_id` FROM `codev_command_bug_table` WHERE `bug_id` = " . db_param();
       $assigned_request = db_query($assigned_query, array( $t_bug_id ));
@@ -282,7 +161,7 @@ class CodevTTPlugin extends MantisPlugin {
 
          echo '<tr>';
          echo '<td class="category">'.plugin_lang_get('command').'</td>';
-         echo '<td><select multiple="multiple"  size="'.$size.'" id="codevtt_command_id" name="codevtt_command_id">';
+         echo '<td><select multiple="multiple"  size="'.$size.'" id="codevtt_command_id" name="codevtt_command_id[]">';
          foreach ($cmdList as $id => $name) {
             echo '<option value="' . $id . '"';
             if (in_array($id, $assigned_commands)) {
@@ -295,8 +174,15 @@ class CodevTTPlugin extends MantisPlugin {
    }
 
    public function update_bug($event, BugData $bug_data) {
+      log_event(LOG_FILTERING, "report_bug | event= $event");
+      log_event(LOG_FILTERING, "report_bug | _POST= ".var_export($_POST, true));
+
+      // if status changed to 'resolved' then set Backlog = 0
       $this->checkStatusChanged($event, $bug_data);
-      $this->assignCommand($event, $bug_data);
+
+      // add/remove issue to selected commands
+      // WARN find out which ones must be removed !
+      //$this->assignCommand($event, $bug_data);
    }
 
 
@@ -357,10 +243,7 @@ class CodevTTPlugin extends MantisPlugin {
 
    public function checkStatusChanged($event, BugData $bug_data) {
 
-      #echo "checkStatusChanged: event = $event, bugid = $bug_data->id status = $bug_data->status<br>";
-
       // if status changed to 'resolved' then set Backlog = 0
-      #$query = "SELECT COUNT(id) FROM `mantis_bug_table` WHERE id = $bug_data->id AND status >= get_issue_resolved_status_threshold($bug_data->id)";
       $query = 'SELECT COUNT(id) as cnt FROM `mantis_bug_table` WHERE id = ' . db_param() . ' AND ' . db_param() . ' = get_issue_resolved_status_threshold(' . db_param() . ')';
       $result = db_query($query, array( $bug_data->id, $bug_data->status, $bug_data->id) );
       $row = db_fetch_array( $result );
@@ -404,4 +287,110 @@ class CodevTTPlugin extends MantisPlugin {
       }
    }
 
+   private function getUserTeams( $project_id ) {
+
+      $userid = current_user_get_field( 'id' );
+
+      // find user teams
+      $query = "SELECT DISTINCT codev_team_table.id, codev_team_table.name " .
+               "FROM `codev_team_user_table`, `codev_team_table` " .
+               "WHERE codev_team_user_table.team_id = codev_team_table.id ".
+               "AND   codev_team_user_table.user_id = " . db_param();
+
+      // only teams where project is defined
+      $query .= "AND 1 = is_project_in_team(" . db_param() . ", codev_team_table.id) ";
+      $query .= "ORDER BY codev_team_table.name";
+
+      $result = db_query($query, array( $userid, (int)$project_id));
+      $teamidList = array();
+      while ($row = db_fetch_array($result)) {
+         $teamidList[] = $row['id'];
+      }
+      return $teamidList;
+   }
+
+   /**
+    * returns the commands from the current users's teams.
+    *
+    */
+   private function getAvailableCommands($project_id) {
+
+      $cmdList = array();
+
+      $teamidList = $this->getUserTeams( $project_id );
+
+      // find team Commands
+      if (0 != count($teamidList)) {
+         $formattedTeamList = implode(", ", $teamidList);
+
+         $query = "SELECT id, name, reference FROM `codev_command_table` ".
+                  "WHERE team_id IN (" . $formattedTeamList . ") ".
+                  "AND enabled = 1 ";
+
+         // do not include closed commands.
+         $query .= "AND state < 6 "; // WARN: HARDCODED value of Command::$state_closed
+         $query .= "ORDER BY reference, name";
+
+         $result = db_query($query);
+         $cmdList = array();
+         while ($row = db_fetch_array($result)) {
+            $cmdList[$row['id']] = $row['reference'] . " :: " . $row['name'];
+         }
+      }
+      return $cmdList;
+   }
+
+   /**
+    * assign a bug to a command
+    */
+   public function assignCommand($p_bug_id, $command_id) {
+
+     //TODO test if command id is valid !!!!
+
+     // === create bug-command associations
+     $query = "INSERT INTO `codev_command_bug_table` (`command_id`, `bug_id`) VALUES";
+     $query .= " (" . db_param() . ", " . db_param() . ");";
+     db_query($query, array( $command_id, $p_bug_id ) );
+
+     // === add to WBS
+     // 1) get the wbs_id of this command
+     $query2 = "SELECT name, wbs_id FROM codev_command_table WHERE id = " . db_param();
+     $result2 = db_query($query2, array( $command_id ));
+     $row2 = db_fetch_array( $result2 );
+     $wbs_id = $row2['wbs_id'];
+     $cmd_name = $row2['name'];
+
+     // 2) if wbs_id is null, the root element must be created
+     // (this happens only once when upgrading from 0.99.24 or below)
+     $order = 1;
+     if (is_null($wbs_id)) {
+        #echo "Create WBS root element for Command $command_id<br>";
+        // add root element
+        $query3 = "INSERT INTO codev_wbs_table  (`order`, `expand`, `title`) ".
+                "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ")";
+        db_query($query3, array( 1, 1, $cmd_name ));
+        $wbs_id = db_insert_id();
+
+        $query4 = "UPDATE codev_command_table SET wbs_id = " . db_param() . " WHERE id = " . db_param();
+        db_query($query4, array( $wbs_id, $command_id ));
+
+        // 2.1) add all existing issues to the WBS
+        $query6 = "SELECT bug_id from codev_command_bug_table WHERE command_id = " . db_param() . " ORDER BY bug_id";
+        $result6 = db_query($query6, array( $command_id));
+        while ($row6 = db_fetch_array( $result6 )) {
+           #echo "add issue $row6->bug_id to command $command_id<br>";
+           $query7 = "INSERT INTO codev_wbs_table  (`root_id`, `parent_id`, `bug_id`, `order`, `expand`) ".
+                   "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ")";
+           #echo "SQL query7 = $query7<br>";
+           $result7 = db_query($query7, array( $wbs_id, $wbs_id, $row6['bug_id'], $order, 0));
+           $order += 1;
+        }
+     } else {
+        // 3) add bug_id to the wbs root element
+        $query5 = "INSERT INTO codev_wbs_table  (`root_id`, `parent_id`, `bug_id`, `order`, `expand`) ".
+                "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ")";
+        #echo "SQL query5 = $query5<br>";
+        db_query($query5, array( $wbs_id, $wbs_id, $p_bug_id, $order, 0 ));
+     }
+   }
 }
