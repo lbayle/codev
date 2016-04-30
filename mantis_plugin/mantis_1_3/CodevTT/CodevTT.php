@@ -64,13 +64,13 @@ class CodevTTPlugin extends MantisPlugin {
           'EVENT_VIEW_BUG_DETAILS' => 'view_bug_form',
 
           // check BEFORE DELETE (but unfortunately after the 'are you sure?' page...)
-          'EVENT_BUG_DELETED' => 'checkTimetracks',
+          'EVENT_BUG_DELETED' => 'bug_delete',
 
           // add filter to the 'view bugs' page
-          'EVENT_FILTER_FIELDS'  => 'filter_cmd_fields',
+          'EVENT_FILTER_FIELDS'  => 'filter_fields',
 
           // display 'Commands' column in 'view bugs' page
-          'EVENT_FILTER_COLUMNS' => 'filter_cmd_columns'
+          'EVENT_FILTER_COLUMNS' => 'filter_columns'
       );
 
       # contributed to MantisBT 1.3
@@ -82,17 +82,31 @@ class CodevTTPlugin extends MantisPlugin {
       return $hooks;
    }
 
-  function filter_cmd_fields($p_event) {
-    return array(
-      'FilterCommandField',
-    );
+  function filter_fields($p_event) {
+     $filters = array();
+     $project_id=helper_get_current_project();
+
+     // do not display command filter if user < DEVELOPER
+     if (!$this->isAccessGranted($project_id)) {
+        log_event(LOG_FILTERING, "report_bug_form | user not allowed use Command filter");
+     } else {
+        $filters[] = 'FilterCommandField';
+     }
+     return $filters;
   }
 
-  function filter_cmd_columns() {
-    return array(
-      'CommandColumn' => 'CommandColumn',
-      'ElapsedColumn' => 'ElapsedColumn'
-    );
+  function filter_columns() {
+     $columns = array();
+     $project_id=helper_get_current_project();
+
+     // do not display command filter if user < DEVELOPER
+     if (!$this->isAccessGranted($project_id)) {
+        log_event(LOG_FILTERING, "report_bug_form | user not allowed to display CodevTT columns");
+     } else {
+        $columns['CommandColumn'] = 'CommandColumn';
+        $columns['ElapsedColumn'] = 'ElapsedColumn';
+     }
+     return $columns;
   }
 
    /**
@@ -103,21 +117,27 @@ class CodevTTPlugin extends MantisPlugin {
       log_event(LOG_FILTERING, "report_bug_form | event= $event");
 
       $project_id=helper_get_current_project();
-      $cmdList = $this->getAvailableCommands($project_id);
-      if (0 != count($cmdList)) {
 
-         $size = (count($cmdList) < 3) ? 3 : 6;
+      // do not display command combobox if user < DEVELOPER
+      if (!$this->isAccessGranted($project_id)) {
+         log_event(LOG_FILTERING, "report_bug_form | user not allowed to set Commands");
+      } else {
+         $cmdList = $this->getAvailableCommands($project_id);
+         if (0 != count($cmdList)) {
 
-         echo '<div class="field-container">';
-         echo '<label><span>'.plugin_lang_get('command').'</span></label>';
-         echo ' <select multiple="multiple"  id="codevtt_command_id" name="codevtt_command_id[]" size="'.$size.'">';
-         echo ' <option value="0" selected="selected"></option>';
-         foreach ($cmdList as $id => $name) {
-            echo '<option value="' . $id . '" >' . $name . '</option>';
+            $size = (count($cmdList) < 3) ? 3 : 6;
+
+            echo '<div class="field-container">';
+            echo '<label><span>'.plugin_lang_get('command').'</span></label>';
+            echo ' <select multiple="multiple"  id="codevtt_command_id" name="codevtt_command_id[]" size="'.$size.'">';
+            echo ' <option value="0" selected="selected"></option>';
+            foreach ($cmdList as $id => $name) {
+               echo '<option value="' . $id . '" >' . $name . '</option>';
+            }
+            echo ' </select>';
+            echo '<span class="label-style"></span>';
+            echo '</div>';
          }
-         echo ' </select>';
-         echo '<span class="label-style"></span>';
-         echo '</div>';
       }
    }
 
@@ -125,11 +145,16 @@ class CodevTTPlugin extends MantisPlugin {
       log_event(LOG_FILTERING, "report_bug | event= $event");
       #log_event(LOG_FILTERING, "report_bug | _POST= ".var_export($_POST, true));
 
-      $command_ids = gpc_get_int_array( 'codevtt_command_id');
+      // do not display command combobox if user < DEVELOPER
+      if (!$this->isAccessGranted($p_bug_data->project_id)) {
+         log_event(LOG_FILTERING, "report_bug_form | user not allowed to set Commands");
+      } else {
+         $command_ids = gpc_get_int_array( 'codevtt_command_id');
 
-      foreach ($command_ids as $command_id) {
-        log_event(LOG_FILTERING, "report_bug | assign bug_id= $p_bug_data->id to Command $command_id");
-        $this->assignCommand($p_bug_data->id, $command_id);
+         foreach ($command_ids as $command_id) {
+           log_event(LOG_FILTERING, "report_bug | assign bug_id= $p_bug_data->id to Command $command_id");
+           $this->assignCommand($p_bug_data->id, $command_id);
+         }
       }
    }
 
@@ -141,31 +166,38 @@ class CodevTTPlugin extends MantisPlugin {
    public function update_bug_form($event, $t_bug_id) {
       log_event(LOG_FILTERING, "report_bug | event= $event");
 
-      $assigned_query = "SELECT `command_id` FROM `codev_command_bug_table` WHERE `bug_id` = " . db_param();
-      $assigned_request = db_query($assigned_query, array( $t_bug_id ));
-      $assigned_commands = array();
-      while ($row = db_fetch_array( $assigned_request )) {
-         $assigned_commands[] = $row['command_id'];
-      }
+      $project_id=helper_get_current_project();
 
-      $t_bug = bug_get( $t_bug_id, true );
-      $t_project_id = $t_bug->project_id;
-      $cmdList = $this->getAvailableCommands($t_project_id);
-      if (0 != count($cmdList)) {
-
-         $size = (count($cmdList) < 3) ? 3 : 6;
-
-         echo '<tr>';
-         echo '<td class="category">'.plugin_lang_get('command').'</td>';
-         echo '<td><select multiple="multiple"  size="'.$size.'" id="codevtt_command_id" name="codevtt_command_id[]">';
-         foreach ($cmdList as $id => $name) {
-            echo '<option value="' . $id . '"';
-            if (in_array($id, $assigned_commands)) {
-               echo ' selected="selected"';
-            }
-            echo ' >' . $name. '</option>';
+      // do not display command combobox if user < DEVELOPER
+      if (!$this->isAccessGranted($project_id)) {
+         log_event(LOG_FILTERING, "report_bug_form | user not allowed to update Commands");
+      } else {
+         $assigned_query = "SELECT `command_id` FROM `codev_command_bug_table` WHERE `bug_id` = " . db_param();
+         $assigned_request = db_query($assigned_query, array( $t_bug_id ));
+         $assigned_commands = array();
+         while ($row = db_fetch_array( $assigned_request )) {
+            $assigned_commands[] = $row['command_id'];
          }
-         echo '</select></td></tr>';
+
+         $t_bug = bug_get( $t_bug_id, true );
+         $t_project_id = $t_bug->project_id;
+         $cmdList = $this->getAvailableCommands($t_project_id);
+         if (0 != count($cmdList)) {
+
+            $size = (count($cmdList) < 3) ? 3 : 6;
+
+            echo '<tr>';
+            echo '<td class="category">'.plugin_lang_get('command').'</td>';
+            echo '<td><select multiple="multiple"  size="'.$size.'" id="codevtt_command_id" name="codevtt_command_id[]">';
+            foreach ($cmdList as $id => $name) {
+               echo '<option value="' . $id . '"';
+               if (in_array($id, $assigned_commands)) {
+                  echo ' selected="selected"';
+               }
+               echo ' >' . $name. '</option>';
+            }
+            echo '</select></td></tr>';
+         }
       }
    }
 
@@ -176,29 +208,34 @@ class CodevTTPlugin extends MantisPlugin {
       // if status changed to 'resolved' then set Backlog = 0
       $this->checkStatusChanged($event, $p_bug_data);
 
-      $prev_command_ids=array_keys($this->getAssignedCommands($p_bug_data->id));
-      $new_command_ids = gpc_get_int_array( 'codevtt_command_id');
+      // do not display command combobox if user < DEVELOPER
+      if (!$this->isAccessGranted($p_bug_data->project_id)) {
+         log_event(LOG_FILTERING, "report_bug_form | user not allowed to update Commands");
+      } else {
+         $prev_command_ids=array_keys($this->getAssignedCommands($p_bug_data->id));
+         $new_command_ids = gpc_get_int_array( 'codevtt_command_id');
 
-      //log_event(LOG_FILTERING, "update_bug | prev_command_ids=".var_export($prev_command_ids, true));
-      //log_event(LOG_FILTERING, "update_bug | new_command_ids=".var_export($new_command_ids, true));
+         //log_event(LOG_FILTERING, "update_bug | prev_command_ids=".var_export($prev_command_ids, true));
+         //log_event(LOG_FILTERING, "update_bug | new_command_ids=".var_export($new_command_ids, true));
 
-      // 1) find out which ones must be removed
-      // (remove if present in prev_command_ids and not in new_command_ids)
-      foreach ($prev_command_ids as $prev_cmd_id) {
-        if (!in_array($prev_cmd_id, $new_command_ids)) {
-          $delete_query = "DELETE FROM codev_command_bug_table WHERE bug_id=" . db_param()." AND command_id=" . db_param();
-          log_event(LOG_FILTERING, "update_bug | remove Command $prev_cmd_id");
-          db_query($delete_query, array( $p_bug_data->id, $prev_cmd_id ));
-        }
-      }
+         // 1) find out which ones must be removed
+         // (remove if present in prev_command_ids and not in new_command_ids)
+         foreach ($prev_command_ids as $prev_cmd_id) {
+           if (!in_array($prev_cmd_id, $new_command_ids)) {
+             $delete_query = "DELETE FROM codev_command_bug_table WHERE bug_id=" . db_param()." AND command_id=" . db_param();
+             log_event(LOG_FILTERING, "update_bug | remove Command $prev_cmd_id");
+             db_query($delete_query, array( $p_bug_data->id, $prev_cmd_id ));
+           }
+         }
 
-      // 2) find out which ones are not already assigned
-      // (add if present in new_command_ids and not in prev_command_ids)
-      foreach ($new_command_ids as $new_cmd_id) {
-        if (!in_array($new_cmd_id, $prev_command_ids)) {
-          log_event(LOG_FILTERING, "update_bug | add Command $new_cmd_id");
-          $this->assignCommand($p_bug_data->id, $new_cmd_id);
-        }
+         // 2) find out which ones are not already assigned
+         // (add if present in new_command_ids and not in prev_command_ids)
+         foreach ($new_command_ids as $new_cmd_id) {
+           if (!in_array($new_cmd_id, $prev_command_ids)) {
+             log_event(LOG_FILTERING, "update_bug | add Command $new_cmd_id");
+             $this->assignCommand($p_bug_data->id, $new_cmd_id);
+           }
+         }
       }
    }
 
@@ -210,24 +247,31 @@ class CodevTTPlugin extends MantisPlugin {
     */
    public function view_bug_form($event, $t_bug_id) {
 
-      $query  = "SELECT codev_command_table.* FROM `codev_command_bug_table`, `codev_command_table` ".
-                 "WHERE codev_command_bug_table.bug_id=" . db_param() . " " .
-                 "AND codev_command_table.id = codev_command_bug_table.command_id ".
-                 "ORDER BY codev_command_table.name";
+      $project_id=helper_get_current_project();
 
-      $result = db_query($query, array( $t_bug_id ));
-      $commandList = array();
-      while ($row = db_fetch_array( $result )) {
-         $commandList[$row['id']] = $row['reference'] . " - " . $row['name'];
-      }
-      if (0 != count($commandList)) {
+      // do not display command combobox if user < DEVELOPER
+      if (!$this->isAccessGranted($project_id)) {
+         log_event(LOG_FILTERING, "report_bug_form | user not allowed to view Commands");
+      } else {
+         $query  = "SELECT codev_command_table.* FROM `codev_command_bug_table`, `codev_command_table` ".
+                    "WHERE codev_command_bug_table.bug_id=" . db_param() . " " .
+                    "AND codev_command_table.id = codev_command_bug_table.command_id ".
+                    "ORDER BY codev_command_table.name";
 
-         $formattedCmdList = implode('<br>', $commandList);
+         $result = db_query($query, array( $t_bug_id ));
+         $commandList = array();
+         while ($row = db_fetch_array( $result )) {
+            $commandList[$row['id']] = $row['reference'] . " - " . $row['name'];
+         }
+         if (0 != count($commandList)) {
 
-         echo '<tr>';
-         echo '   <td class="category">'.plugin_lang_get('command').'</td>';
-         echo '   <td colspan="5" >'.$formattedCmdList.'</td>';
-         echo '</tr>';
+            $formattedCmdList = implode('<br>', $commandList);
+
+            echo '<tr>';
+            echo '   <td class="category">'.plugin_lang_get('command').'</td>';
+            echo '   <td colspan="5" >'.$formattedCmdList.'</td>';
+            echo '</tr>';
+         }
       }
    }
 
@@ -237,7 +281,7 @@ class CodevTTPlugin extends MantisPlugin {
     * @param type $event
     * @param type $bug_id
     */
-   public function checkTimetracks($event, $bug_id) {
+   public function bug_delete($event, $bug_id) {
 
       $query = "SELECT codev_timetracking_table.date, codev_timetracking_table.userid, codev_timetracking_table.duration, ".
               "mantis_user_table.username, mantis_user_table.realname ".
@@ -427,5 +471,20 @@ class CodevTTPlugin extends MantisPlugin {
         #echo "SQL query5 = $query5<br>";
         db_query($query5, array( $wbs_id, $wbs_id, $p_bug_id, $order, 0 ));
      }
+   }
+
+   /**
+    *
+    * @param type $project_id
+    */
+   private function isAccessGranted($project_id = null) {
+      $user_id = current_user_get_field( 'id' );
+
+      // TODO mantis rights or CodevTT rights ?!
+      $accessLevel = access_get_project_level( $project_id, $user_id );
+
+      $isGranted = ($accessLevel >= DEVELOPER );
+
+      return $isGranted;
    }
 }
