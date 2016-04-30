@@ -123,13 +123,9 @@ class CodevTTPlugin extends MantisPlugin {
 
    public function report_bug($event, BugData $p_bug_data) {
       log_event(LOG_FILTERING, "report_bug | event= $event");
-      log_event(LOG_FILTERING, "report_bug | _POST= ".var_export($_POST, true));
+      #log_event(LOG_FILTERING, "report_bug | _POST= ".var_export($_POST, true));
 
       $command_ids = gpc_get_int_array( 'codevtt_command_id');
-
-      // delete all existing bug-command associations (should not happen on bug creation !)
-      //$delete_query = "DELETE FROM codev_command_bug_table WHERE bug_id=" . db_param();
-      //db_query($delete_query, array( $p_bug_data->id ));
 
       foreach ($command_ids as $command_id) {
         log_event(LOG_FILTERING, "report_bug | assign bug_id= $p_bug_data->id to Command $command_id");
@@ -173,16 +169,37 @@ class CodevTTPlugin extends MantisPlugin {
       }
    }
 
-   public function update_bug($event, BugData $bug_data) {
-      log_event(LOG_FILTERING, "report_bug | event= $event");
-      log_event(LOG_FILTERING, "report_bug | _POST= ".var_export($_POST, true));
+   public function update_bug($event, BugData $p_bug_data) {
+      log_event(LOG_FILTERING, "update_bug | event= $event");
+      #log_event(LOG_FILTERING, "update_bug | _POST= ".var_export($_POST, true));
 
       // if status changed to 'resolved' then set Backlog = 0
-      $this->checkStatusChanged($event, $bug_data);
+      $this->checkStatusChanged($event, $p_bug_data);
 
-      // add/remove issue to selected commands
-      // WARN find out which ones must be removed !
-      //$this->assignCommand($event, $bug_data);
+      $prev_command_ids=array_keys($this->getAssignedCommands($p_bug_data->id));
+      $new_command_ids = gpc_get_int_array( 'codevtt_command_id');
+
+      //log_event(LOG_FILTERING, "update_bug | prev_command_ids=".var_export($prev_command_ids, true));
+      //log_event(LOG_FILTERING, "update_bug | new_command_ids=".var_export($new_command_ids, true));
+
+      // 1) find out which ones must be removed
+      // (remove if present in prev_command_ids and not in new_command_ids)
+      foreach ($prev_command_ids as $prev_cmd_id) {
+        if (!in_array($prev_cmd_id, $new_command_ids)) {
+          $delete_query = "DELETE FROM codev_command_bug_table WHERE bug_id=" . db_param()." AND command_id=" . db_param();
+          log_event(LOG_FILTERING, "update_bug | remove Command $prev_cmd_id");
+          db_query($delete_query, array( $p_bug_data->id, $prev_cmd_id ));
+        }
+      }
+
+      // 2) find out which ones are not already assigned
+      // (add if present in new_command_ids and not in prev_command_ids)
+      foreach ($new_command_ids as $new_cmd_id) {
+        if (!in_array($new_cmd_id, $prev_command_ids)) {
+          log_event(LOG_FILTERING, "update_bug | add Command $new_cmd_id");
+          $this->assignCommand($p_bug_data->id, $new_cmd_id);
+        }
+      }
    }
 
 
@@ -339,6 +356,24 @@ class CodevTTPlugin extends MantisPlugin {
       }
       return $cmdList;
    }
+
+   public function getAssignedCommands($p_bug_id) {
+        log_event(LOG_FILTERING, "getAssignedCommands | bug_id=$p_bug_id");
+
+     $cmdList = array();
+
+     $query = "SELECT codev_command_table.id, codev_command_table.name, codev_command_table.reference FROM `codev_command_table` ".
+              "JOIN `codev_command_bug_table` ON codev_command_table.id = codev_command_bug_table.command_id ".
+              "WHERE codev_command_bug_table.bug_id = ".db_param();
+
+     $result = db_query($query, array( $p_bug_id));
+     while($row = db_fetch_array($result)) {
+        $cmdList[$row['id']] = $row['reference'] . " :: " . $row['name'];
+        log_event(LOG_FILTERING, "getAssignedCommands | bug $p_bug_id is in command ".$row['id'].' - '.$row['name']);
+     }
+     return $cmdList;
+   }
+
 
    /**
     * assign a bug to a command
