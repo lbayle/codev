@@ -22,12 +22,14 @@ require('../path.inc.php');
 
 class EditJobsController extends Controller {
 
+   private static $logger;
    /**
     * Initialize complex static variables
     * @static
     */
    public static function staticInit() {
       // Nothing special
+       self::$logger = Logger::getLogger(__CLASS__);
    }
 
    protected function display() {
@@ -36,6 +38,10 @@ class EditJobsController extends Controller {
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
          if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
             $this->smartyHelper->assign('jobType', Job::$typeNames);
+
+            // set random color
+            $rndJobColor = sprintf('%06X', mt_rand(0, 0xFFFFFF));
+            $this->smartyHelper->assign('rndJobColor', $rndJobColor);
 
             $action = Tools::getSecurePOSTStringValue('action', 'none');
 
@@ -46,8 +52,15 @@ class EditJobsController extends Controller {
 
                // TODO check if not already in table !
 
-               // save to DB
-               Jobs::create($job_name, $job_type, $job_color);
+               //Check for a hex color string without hash 'c1c2b4'
+               $job_color_trim = trim(str_replace("#", "", $job_color));
+               if(preg_match('/^[a-f0-9]{6}$/i', $job_color_trim)) {
+                  // save to DB
+                  Jobs::create($job_name, $job_type, $job_color_trim);
+               } else {
+                  $this->smartyHelper->assign('error', T_("Invalid Color : '$job_color' ($job_color_trim)"));
+               }
+
 
             } elseif ('addAssociationProject' == $action) {
 

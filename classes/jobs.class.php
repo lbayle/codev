@@ -26,8 +26,8 @@ class Job extends Model implements Comparable {
   const type_assignedJob = 1;     // jobs specific to one or more projects are type 1
 
   public static $typeNames = array(
+     self::type_assignedJob => "Assigned",
      self::type_commonJob => "Common",
-     self::type_assignedJob => "Assigned"
   );
 
    private $id;
