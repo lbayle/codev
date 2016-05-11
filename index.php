@@ -105,6 +105,9 @@ class IndexController extends Controller {
             $this->smartyHelper->assign('consistencyErrors', $consistencyErrors);
          }
       }
+
+      // homepage dashboard configuration
+      $this->setDashboard();
    }
 
    /**
@@ -201,6 +204,48 @@ class IndexController extends Controller {
       return $consistencyErrors;
    }
 
+   private function setDashboard() {
+
+      $team = TeamCache::getInstance()->getTeam($this->teamid);
+      $projList = $team->getProjects(false, false, false);
+      $issueList = $this->session_user->getAssignedIssues($projList, false);
+      $issueSel = new IssueSelection('userAssigned');
+      $issueSel->addIssueList($issueList);
+
+      // feed the PluginDataProvider
+      $pluginDataProvider = PluginDataProvider::getInstance();
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $this->session_userid);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $this->teamid);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $issueSel);
+
+      $dashboardName = 'homepage'.$this->teamid;
+
+      // save the DataProvider for Ajax calls
+      $_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardName] = serialize($pluginDataProvider);
+
+      // create the Dashboard
+      $dashboard = new Dashboard($dashboardName);
+      $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_HOMEPAGE);
+      $dashboard->setCategories(array(
+          IndicatorPluginInterface::CATEGORY_QUALITY,
+          IndicatorPluginInterface::CATEGORY_ACTIVITY,
+          IndicatorPluginInterface::CATEGORY_ROADMAP,
+          IndicatorPluginInterface::CATEGORY_PLANNING,
+          IndicatorPluginInterface::CATEGORY_RISK,
+          IndicatorPluginInterface::CATEGORY_TEAM,
+          IndicatorPluginInterface::CATEGORY_ADMIN,
+          IndicatorPluginInterface::CATEGORY_INTERNAL,
+         ));
+      $dashboard->setTeamid($this->teamid);
+      $dashboard->setUserid($this->session_userid);
+
+      $data = $dashboard->getSmartyVariables($this->smartyHelper);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $this->smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+
+   }
+
 }
 
 // ========== MAIN ===========
@@ -208,4 +253,4 @@ IndexController::staticInit();
 $controller = new IndexController('./', Constants::$homepage_title,'index');
 $controller->execute();
 
-?>
+

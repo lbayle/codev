@@ -24,7 +24,8 @@ interface IndicatorPluginInterface {
 
    const INDICATOR_PLUGINS_DIR = 'plugins';
 
-   // CodevTT
+   // A dashboard is associated to one and only one domain.
+   // A plugin can be displayed in multiple domains
    const DOMAIN_HOMEPAGE         = 'Homepage';
    const DOMAIN_COMMAND          = 'Command';
    const DOMAIN_COMMAND_SET      = 'CommandSet';
@@ -34,9 +35,11 @@ interface IndicatorPluginInterface {
    const DOMAIN_PROJECT          = 'Project';
    const DOMAIN_TASK             = 'Task';
    const DOMAIN_IMPORT_EXPORT    = 'Import_Export';
-   const DOMAIN_ADMIN             = 'Admin';
+   const DOMAIN_ADMIN            = 'Admin';
 
    // KPI category
+   // A dashboard can display multiple categorues
+   // A plugin should have one and only one category
    const CATEGORY_PLANNING  = 'Planning';  // backlog
    const CATEGORY_ROADMAP   = 'Roadmap';   // deadlines
    const CATEGORY_QUALITY   = 'Quality';   // bugs
@@ -45,6 +48,7 @@ interface IndicatorPluginInterface {
    const CATEGORY_RISK      = 'Risk';
    const CATEGORY_ACTIVITY  = 'Activity';  // LoadPerUser, LoadPerJob?
    const CATEGORY_ADMIN     = 'Admin';     // CodevTT usage statistics, ConsistencyChecks, ...
+   const CATEGORY_INTERNAL  = 'Internal';  // CodevTT blogWall, ...
 
    /**
     * Short name (title)
