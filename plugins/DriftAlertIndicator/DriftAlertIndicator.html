@@ -5,7 +5,9 @@
    <div  id="tabsDriftAlertIndicator" class="tabs {$ui_tabs_jquery}">
       <ul class="{$ui_tabs_jquery_ul}">
          <li class="{$ui_tabs_jquery_li}"><a href="#driftAlertIndicator_tabCurrentDrift">{t}Drift current tasks{/t}</a></li>
+         {if $driftAlertIndicator_resolvedIssuesInDrift}
          <li class="{$ui_tabs_jquery_li}"><a href="#driftAlertIndicator_tabResolvedDrift">{t}Drift resolved tasks{/t}</a></li>
+         {/if}
       </ul>
       <div id="driftAlertIndicator_tabCurrentDrift">
          {if $driftAlertIndicator_currentIssuesInDrift}
@@ -44,8 +46,8 @@
          {t}No data{/t}
          {/if}
       </div>
+      {if $driftAlertIndicator_resolvedIssuesInDrift}
       <div id="driftAlertIndicator_tabResolvedDrift">
-         {if $driftAlertIndicator_resolvedIssuesInDrift}
          <table class="datatable_csv">
             <!--<caption>{t}Tasks in drift{/t}</caption>-->
             <thead>
@@ -73,10 +75,8 @@
                {/foreach}
             </tbody>
          </table>
-         {else}
-         {t}No data{/t}
-         {/if}
       </div>
+      {/if}
    </div>
 
 <script type="text/javascript">

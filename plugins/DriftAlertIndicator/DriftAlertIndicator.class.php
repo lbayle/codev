@@ -46,6 +46,8 @@ class DriftAlertIndicator extends IndicatorPluginAbstract {
       self::$logger = Logger::getLogger(__CLASS__);
 
       self::$domains = array (
+         self::DOMAIN_HOMEPAGE,
+         self::DOMAIN_USER,
          self::DOMAIN_TEAM,
          self::DOMAIN_PROJECT,
          self::DOMAIN_COMMAND,

@@ -84,19 +84,6 @@ class IndexController extends Controller {
             }
          }
 
-         // updateBacklog DialogBox
-         if (isset($_POST['bugid'])) {
-            $bugid = Tools::getSecurePOSTStringValue('bugid');
-            $backlog = Tools::getSecurePOSTStringValue('backlog', '');
-            $issue = IssueCache::getInstance()->getIssue($bugid);
-            $issue->setBacklog($backlog);
-         }
-
-         $driftedTasks = $this->getIssuesInDrift();
-         if(isset($driftedTasks)) {
-            $this->smartyHelper->assign('driftedTasks', $driftedTasks);
-         }
-
          // Consistency errors
          $consistencyErrors = $this->getConsistencyErrors();
 
@@ -108,59 +95,6 @@ class IndexController extends Controller {
 
       // homepage dashboard configuration
       $this->setDashboard();
-   }
-
-   /**
-    * Get issues in drift
-    * @param User $this->session_user
-    * @return mixed[]
-    */
-   private function getIssuesInDrift() {
-
-      $driftedTasks = array();
-
-      if (0 != $this->teamid) {
-
-         // get all teams except those where i'm Observer
-         #$dTeamList = $this->session_user->getDevTeamList();
-         #$mTeamList = $this->session_user->getManagedTeamList();
-         #$teamList = $dTeamList + $mTeamList;           // array_merge does not work ?!
-
-         $teamList = array($this->teamid => $this->teamList[$this->teamid]);
-
-         // except disabled projects
-         $projList = $this->session_user->getProjectList($teamList, true, false);
-
-         $allIssueList = $this->session_user->getAssignedIssues($projList);
-         $issueList = array();
-
-         foreach ($allIssueList as $issue) {
-            $driftEE = $issue->getDrift();
-            if ($driftEE >= 1) {
-               $issueList[] = $issue;
-            }
-         }
-         if (count($issueList) > 0) {
-            foreach ($issueList as $issue) {
-               // TODO: check if issue in team project list ?
-               $driftEE = $issue->getDrift();
-
-               $formatedTitle = $issue->getFormattedIds();
-               $formatedSummary = str_replace("'", "\'", $issue->getSummary());
-               $formatedSummary = str_replace('"', "\'", $formatedSummary);
-
-               $driftedTasks[] = array('issueInfoURL' => Tools::issueInfoURL($issue->getId()),
-                  'projectName' => $issue->getProjectName(),
-                  'driftEE' => $driftEE,
-                  'formatedTitle' => $formatedTitle,
-                  'bugId' => $issue->getId(),
-                  'backlog' => $issue->getBacklog(),
-                  'formatedSummary' => $formatedSummary,
-                  'summary' => $issue->getSummary());
-            }
-         }
-      }
-      return $driftedTasks;
    }
 
    /**
