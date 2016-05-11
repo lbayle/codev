@@ -100,10 +100,6 @@ class IndexController extends Controller {
          // Consistency errors
          $consistencyErrors = $this->getConsistencyErrors();
 
-         // no specific Mgr errors right now
-         #$consistencyErrorsMgr = $this->getConsistencyErrorsMgr($this->session_user);
-         #$consistencyErrors = array_merge($consistencyErrors, $consistencyErrorsMgr);
-
          if(count($consistencyErrors) > 0) {
             $this->smartyHelper->assign('consistencyErrorsTitle', count($consistencyErrors).' '.T_("Errors in your Tasks"));
             $this->smartyHelper->assign('consistencyErrors', $consistencyErrors);
@@ -201,29 +197,6 @@ class IndexController extends Controller {
             }
          }
       }
-
-      return $consistencyErrors;
-   }
-
-   /**
-    * managers get some more consistencyErrors
-    * @param User $this->session_user
-    * @return mixed[]
-    */
-   private function getConsistencyErrorsMgr() {
-      $consistencyErrors = array(); // if null, array_merge fails !
-/*
-      $mTeamList = array_keys($this->session_user->getManagedTeamList());
-      $lTeamList = array_keys($this->session_user->getLeadedTeamList());
-      $teamList = array_merge($mTeamList, $lTeamList);
-
-      $issueList = array();
-      foreach ($teamList as $teamid) {
-         $issues = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true, false);
-         $issueList = array_merge($issueList, $issues);
-      }
-*/
-      // nothing to check right now...
 
       return $consistencyErrors;
    }

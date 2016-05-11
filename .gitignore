@@ -24,4 +24,5 @@ templates_c
 /doc/phpdoc/html
 
 plugins/AvailableWorkforceIndicator
+plugins/BlogPlugin
 

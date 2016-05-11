@@ -1008,23 +1008,8 @@ class User extends Model {
          $issueList[] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
-      if (self::$logger->isDebugEnabled()) {
-         $formatedList = implode(', ', array_keys($issueList));
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getAssignedIssues: List BEFORE sort = " . $formatedList);
-         }
-      }
-
       // quickSort the list
       Tools::usort($issueList);
-
-      if (self::$logger->isDebugEnabled()) {
-         $formatedList = implode(', ', array_keys($issueList));
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getAssignedIssues: List AFTER Sort = " . $formatedList);
-         }
-      }
-
       return $issueList;
    }
 
