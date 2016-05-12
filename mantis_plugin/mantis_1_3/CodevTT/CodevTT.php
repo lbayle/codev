@@ -225,6 +225,11 @@ class CodevTTPlugin extends MantisPlugin {
              $delete_query = "DELETE FROM codev_command_bug_table WHERE bug_id=" . db_param()." AND command_id=" . db_param();
              log_event(LOG_FILTERING, "update_bug | remove Command $prev_cmd_id");
              db_query($delete_query, array( $p_bug_data->id, $prev_cmd_id ));
+
+             // remove from WBS
+             $delete_from_wbs_query = "DELETE FROM `codev_wbs_table` WHERE root_id = (SELECT wbs_id from codev_command_table where id = ".db_param().") AND bug_id = ".db_param();
+             db_query($delete_from_wbs_query, array( $prev_cmd_id, $p_bug_data->id ));
+             
            }
          }
 
