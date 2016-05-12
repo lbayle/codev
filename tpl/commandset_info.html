@@ -206,6 +206,7 @@
                     <table>
                        <tr>
                           <th>{t}Date{/t}</th>
+                          <th>{t}Command{/t}</th>
                           <th>{t}Type{/t}</th>
                           <th>{t}Budget Days{/t}</th>
                           <th>{t}Budget{/t}</th>
@@ -216,6 +217,7 @@
                        {foreach $cmdProvisionList as $id => $prov}
                        <tr>
                           <td>{$prov.date}</td>
+                          <td>{$prov.cmd_name}</td>
                           <td>{$prov.type}</td>
                           <td>{$prov.budget_days}</td>
                           <td style="text-align:right">{$prov.budget} {$prov.currency}</td>
