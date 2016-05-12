@@ -2,13 +2,15 @@
    <div class="pluginInitFunction"  style="display: none;">driftAlertIndicatorJsInit</div>
    <div class="pluginDestroyFunction"  style="display: none;">driftAlertIndicatorJsDestroy</div>
    <br>
+   {if $driftAlertIndicator_resolvedIssuesInDrift}
    <div  id="tabsDriftAlertIndicator" class="tabs {$ui_tabs_jquery}">
       <ul class="{$ui_tabs_jquery_ul}">
          <li class="{$ui_tabs_jquery_li}"><a href="#driftAlertIndicator_tabCurrentDrift">{t}Drift current tasks{/t}</a></li>
-         {if $driftAlertIndicator_resolvedIssuesInDrift}
          <li class="{$ui_tabs_jquery_li}"><a href="#driftAlertIndicator_tabResolvedDrift">{t}Drift resolved tasks{/t}</a></li>
-         {/if}
       </ul>
+   {else}
+   <div  id="tabsDriftAlertIndicator">
+   {/if}
       <div id="driftAlertIndicator_tabCurrentDrift">
          {if $driftAlertIndicator_currentIssuesInDrift}
          <table class="datatable_csv">

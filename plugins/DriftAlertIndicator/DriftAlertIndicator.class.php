@@ -24,6 +24,7 @@
  */
 class DriftAlertIndicator extends IndicatorPluginAbstract {
 
+   const OPTION_IS_RESOLVED_ISSUES_DISPLAYED = 'isResolvedIssuesDisplayed';
 
    private static $logger;
    private static $domains;
@@ -33,6 +34,9 @@ class DriftAlertIndicator extends IndicatorPluginAbstract {
    private $inputIssueSel;
    private $teamid;
    private $session_userid;
+
+   // config options from Dashboard
+   private $isResolvedIssuesDisplayed;
 
    // internal
    protected $execData;
@@ -126,7 +130,8 @@ class DriftAlertIndicator extends IndicatorPluginAbstract {
          throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_SESSION_USER_ID);
       }
 
-      // set default pluginSettings
+      // set default pluginSettings (not provided by the PluginDataProvider)
+      $this->isResolvedIssuesDisplayed = false;
    }
 
    /**
@@ -138,9 +143,9 @@ class DriftAlertIndicator extends IndicatorPluginAbstract {
 
       if (NULL != $pluginSettings) {
          // override default with user preferences
-//         if (array_key_exists(self::OPTION_IS_DATE_DISPLAYED, $pluginSettings)) {
-//            $this->isDateDisplayed = $pluginSettings[self::OPTION_IS_DATE_DISPLAYED];
-//         }
+         if (array_key_exists(self::OPTION_IS_RESOLVED_ISSUES_DISPLAYED, $pluginSettings)) {
+            $this->isResolvedIssuesDisplayed = $pluginSettings[self::OPTION_IS_RESOLVED_ISSUES_DISPLAYED];
+         }
       }
    }
 
@@ -202,7 +207,9 @@ class DriftAlertIndicator extends IndicatorPluginAbstract {
          $smartyIssue = $this->getSmartyDirftedIssue($issue, ($isManager || $isObserver));
          if(NULL != $smartyIssue) {
             if ($issue->isResolved()) {
-               $resolvedIssuesInDrift[] = $smartyIssue;
+               if ($this->isResolvedIssuesDisplayed) {
+                  $resolvedIssuesInDrift[] = $smartyIssue;
+               }
             } else {
                $currentIssuesInDrift[] = $smartyIssue;
             }
@@ -228,6 +235,7 @@ class DriftAlertIndicator extends IndicatorPluginAbstract {
          'driftAlertIndicator_resolvedIssuesInDrift' => $this->execData['resolvedIssuesInDrift'],
 
          // add pluginSettings (if needed by smarty)
+         'driftAlertIndicator_'.self::OPTION_IS_RESOLVED_ISSUES_DISPLAYED => $this->isResolvedIssuesDisplayed,
       );
 
       if (false == $isAjaxCall) {
