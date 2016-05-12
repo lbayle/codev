@@ -91,10 +91,13 @@ class IndexController extends Controller {
             $this->smartyHelper->assign('consistencyErrorsTitle', count($consistencyErrors).' '.T_("Errors in your Tasks"));
             $this->smartyHelper->assign('consistencyErrors', $consistencyErrors);
          }
+
+         if (0 != $this->teamid) {
+           // homepage dashboard configuration
+            $this->setDashboard();
+         }
       }
 
-      // homepage dashboard configuration
-      $this->setDashboard();
    }
 
    /**
