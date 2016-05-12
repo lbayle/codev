@@ -1,0 +1,76 @@
+<div class="issueConsistencyCheck">
+<div class="pluginInitFunction"  style="display: none;">issueConsistencyCheckJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">issueConsistencyCheckJsDestroy</div>
+
+<div>
+   <div class="issueConsistencyCheckDiv" align="left" style="width: 95%; margin-top: 1em;">
+      {if $issueConsistencyCheck_errors}
+      <table class="issueConsistencyCheckValuesTable display float">
+         <thead>
+            <tr>
+               <th>{t}ID{/t}</th>
+               <th>{t}User{/t}</th>
+               <th>{t}Project{/t}</th>
+               <th>{t}Status{/t}</th>
+               <th>{t}Level{/t}</th>
+               <th>{t}Error Description{/t}</th>
+            </tr>
+         </thead>
+         <tbody>
+            {foreach from=$issueConsistencyCheck_errors key=id item=i}
+            <tr>
+               <td>{$i.mantisURL} {$i.issueURL}</td>
+               <td><span>{$i.userName}</span></td>
+               <td><span>{$i.project}</span></td>
+               <td><span>{$i.status}</span></td>
+               <td><span style='{$i.severityColor}'>{$i.severity}</span></td>
+               <td><span style='{$i.severityColor}'>{$i.errDesc}</span></td>
+            </tr>
+            {/foreach}
+         </tbody>
+      </table>
+      {else}
+      {t}No errors{/t}
+      {/if}
+   </div>
+   <div class="floatr" style=" width: 16px">
+      <span class="issueConsistencyCheckHelpDialog_link float pointer">
+         <img title="Help" src="images/help_icon.gif"/>
+      </span>
+      <span class="float pointer">
+         <img title="Export to CSV" src="images/b_export_xls.gif" onclick="$('.issueConsistencyCheckValuesTable').table2CSV({literal}{{/literal}filename : 'consistencyCheck.csv'{literal}}{/literal})">
+      </span>
+   </div>
+   <div class="issueConsistencyCheckHelpDialog ui-helper-hidden" title="{t}Consistency check{/t}">
+      <p>
+         <strong>{t}Description{/t}:</strong><br>
+         {t}Check for errors in issues{/t}
+         <br>
+      </p>
+   </div>
+
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<script type="text/javascript">
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function issueConsistencyCheckJsDestroy() {
+      jQuery(".issueConsistencyCheckHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is add to the dashboard.
+   function issueConsistencyCheckJsInit() {
+      console.log('issueConsistencyCheckJsInit');
+
+      jQuery(".issueConsistencyCheckHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".issueConsistencyCheckHelpDialog").dialog("open");
+      });
+      jQuery(".issueConsistencyCheckHelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
+      });
+   };
+</script>
+</div>

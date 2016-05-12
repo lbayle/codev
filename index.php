@@ -84,14 +84,6 @@ class IndexController extends Controller {
             }
          }
 
-         // Consistency errors
-         $consistencyErrors = $this->getConsistencyErrors();
-
-         if(count($consistencyErrors) > 0) {
-            $this->smartyHelper->assign('consistencyErrorsTitle', count($consistencyErrors).' '.T_("Errors in your Tasks"));
-            $this->smartyHelper->assign('consistencyErrors', $consistencyErrors);
-         }
-
          if (0 != $this->teamid) {
            // homepage dashboard configuration
             $this->setDashboard();
@@ -100,52 +92,11 @@ class IndexController extends Controller {
 
    }
 
-   /**
-    * Get consistency errors
-    * @return mixed[]
-    */
-   private function getConsistencyErrors() {
-      $consistencyErrors = array(); // if null, array_merge fails !
-
-      if (0 != $this->teamid) {
-
-         // only this team's projects
-         #$teamList = $this->teamList;
-         $teamList = array($this->teamid => $this->teamList[$this->teamid]);
-
-         // except disabled projects
-         $projList = $this->session_user->getProjectList($teamList, true, false);
-
-         $issueList = $this->session_user->getAssignedIssues($projList, true);
-
-         $ccheck = new ConsistencyCheck2($issueList, $this->teamid);
-
-         $cerrList = $ccheck->check();
-
-         if (count($cerrList) > 0) {
-            foreach ($cerrList as $cerr) {
-               if ($this->session_user->getId() == $cerr->userId) {
-                  $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-                  $titleAttr = array(
-                      T_('Project') => $issue->getProjectName(),
-                      T_('Summary') => $issue->getSummary(),
-                  );
-                  $consistencyErrors[] = array('issueURL' => Tools::issueInfoURL($cerr->bugId, $titleAttr),
-                     'status' => Constants::$statusNames[$cerr->status],
-                     'desc' => $cerr->desc);
-               }
-            }
-         }
-      }
-
-      return $consistencyErrors;
-   }
-
    private function setDashboard() {
 
       $team = TeamCache::getInstance()->getTeam($this->teamid);
       $projList = $team->getProjects(false, false, false);
-      $issueList = $this->session_user->getAssignedIssues($projList, false);
+      $issueList = $this->session_user->getAssignedIssues($projList, true);
       $issueSel = new IssueSelection('userAssigned');
       $issueSel->addIssueList($issueList);
 

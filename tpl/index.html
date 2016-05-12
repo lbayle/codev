@@ -58,40 +58,17 @@
 <hr>
 {/if}
 
-{if isset($consistencyErrors)}
-<!-- Consistency errors -->
-<div style="margin-top:2em;">
-   <script type="text/javascript">
-      jQuery(document).ready(function() {
-         jQuery("#accordion").accordion({
-            collapsible: true, 
-            autoHeight: false, 
-            clearStyle: true
-         });
-      });
-   </script>
-   <div align="left">
-      <div id="accordion" style="width:550px;" >
-         <h3><a href="{$page}">{$consistencyErrors|count} {t}Errors in your Tasks{/t}</a></h3>
-         <div class="left">
-            <table class="invisible">
-               <tbody>
-                  {foreach from=$consistencyErrors key=id item=i}
-                  <tr>
-                     <td>{if isset($i.issueURL)}{$i.issueURL}{/if}</td>
-                     <td class="ui-state-error-text">{$i.status}</td>
-                     <td class="ui-state-error-text" {if isset($i.addInfo)}title="{$i.addInfo}"{/if}>{$i.desc}</td>
-                  </tr>
-                  {/foreach}
-               </tbody>
-            </table>
-         </div>
-      </div>
-   </div>
-</div>
-{/if}
-
 <!-- homepage dashboard -->
 <div>
 {include file="tools/dashboard.html"}
 </div>
+
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+      jQuery.ajax({
+         url: "js_min/datatable.min.js",
+         dataType: "script",
+         cache: true
+      });
+   });
+</script>
