@@ -18,7 +18,7 @@
  */
 
 /**
- * This is a toolbox fot the plugin
+ * This is a toolbox for the CodevTT plugin
  *
  */
 class IssueMantisPluginHelper {
@@ -93,4 +93,4 @@ class IssueMantisPluginHelper {
    }
 }
 
-?>
+
