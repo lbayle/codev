@@ -50,6 +50,9 @@ interface PluginDataProviderInterface {
    
    // commands
    const PARAM_PROVISION_DAYS = 'provisionDays';
+
+   // serviceContract
+   const PARAM_SERVICE_CONTRACT_ID = 'serviceContractId';
    
    public function getCodevVersion();
    public function getParam($key);

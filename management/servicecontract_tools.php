@@ -460,6 +460,7 @@ class ServiceContractTools {
    public static function dashboardSettings(SmartyHelper $smartyHelper, ServiceContract $servicecontract, $userid) {
 
       $pluginDataProvider = PluginDataProvider::getInstance();
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SERVICE_CONTRACT_ID, $servicecontract->getId());
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $servicecontract->getIssueSelection(CommandSet::type_general, Command::type_general));
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $servicecontract->getTeamid());
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_PROVISION_DAYS, $servicecontract->getProvisionDays(CommandSet::type_general, Command::type_general, TRUE));
