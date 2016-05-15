@@ -961,7 +961,9 @@ class Smarty extends Smarty_Internal_TemplateBase
      */
     public function setCompileDir($compile_dir)
     {
-        $this->compile_dir = $this->_realpath($compile_dir . DS, true);
+        // LoB update 3.1.8 to 3.1.28 broke 'non-relative' path
+        //$this->compile_dir = $this->_realpath($compile_dir . DS, true); // this is from 3.1.28
+        $this->compile_dir = rtrim($compile_dir, '/\\') . DS;             // this is from 3.1.8
         if (!isset(Smarty::$_muted_directories[$this->compile_dir])) {
             Smarty::$_muted_directories[$this->compile_dir] = null;
         }
@@ -995,7 +997,9 @@ class Smarty extends Smarty_Internal_TemplateBase
      */
     public function setCacheDir($cache_dir)
     {
-        $this->cache_dir = $this->_realpath($cache_dir . DS, true);
+        // LoB update 3.1.8 to 3.1.28 broke 'non-relative' path
+        //$this->cache_dir = $this->_realpath($cache_dir . DS, true); // this is from 3.1.28
+        $this->cache_dir = rtrim($cache_dir, '/\\') . DS;             // this is from 3.1.8
         if (!isset(Smarty::$_muted_directories[$this->cache_dir])) {
             Smarty::$_muted_directories[$this->cache_dir] = null;
         }
