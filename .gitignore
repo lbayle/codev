@@ -25,4 +25,4 @@ templates_c
 
 plugins/AvailableWorkforceIndicator
 plugins/BlogPlugin
-
+plugins/RsiTypeAnoLoadIndicator
