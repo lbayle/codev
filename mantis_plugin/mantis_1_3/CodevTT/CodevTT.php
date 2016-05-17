@@ -149,11 +149,13 @@ class CodevTTPlugin extends MantisPlugin {
       if (!$this->isAccessGranted($p_bug_data->project_id)) {
          log_event(LOG_FILTERING, "report_bug_form | user not allowed to set Commands");
       } else {
-         $command_ids = gpc_get_int_array( 'codevtt_command_id');
+         if (gpc_isset( 'codevtt_command_id' )) {
+            $command_ids = gpc_get_int_array( 'codevtt_command_id');
 
-         foreach ($command_ids as $command_id) {
-           log_event(LOG_FILTERING, "report_bug | assign bug_id= $p_bug_data->id to Command $command_id");
-           $this->assignCommand($p_bug_data->id, $command_id);
+            foreach ($command_ids as $command_id) {
+              log_event(LOG_FILTERING, "report_bug | assign bug_id= $p_bug_data->id to Command $command_id");
+              $this->assignCommand($p_bug_data->id, $command_id);
+            }
          }
       }
    }
@@ -212,34 +214,36 @@ class CodevTTPlugin extends MantisPlugin {
       if (!$this->isAccessGranted($p_bug_data->project_id)) {
          log_event(LOG_FILTERING, "report_bug_form | user not allowed to update Commands");
       } else {
-         $prev_command_ids=array_keys($this->getAssignedCommands($p_bug_data->id));
-         $new_command_ids = gpc_get_int_array( 'codevtt_command_id');
+         if (gpc_isset( 'codevtt_command_id' )) {
+            $prev_command_ids=array_keys($this->getAssignedCommands($p_bug_data->id));
+            $new_command_ids = gpc_get_int_array( 'codevtt_command_id');
 
-         //log_event(LOG_FILTERING, "update_bug | prev_command_ids=".var_export($prev_command_ids, true));
-         //log_event(LOG_FILTERING, "update_bug | new_command_ids=".var_export($new_command_ids, true));
+            //log_event(LOG_FILTERING, "update_bug | prev_command_ids=".var_export($prev_command_ids, true));
+            //log_event(LOG_FILTERING, "update_bug | new_command_ids=".var_export($new_command_ids, true));
 
-         // 1) find out which ones must be removed
-         // (remove if present in prev_command_ids and not in new_command_ids)
-         foreach ($prev_command_ids as $prev_cmd_id) {
-           if (!in_array($prev_cmd_id, $new_command_ids)) {
-             $delete_query = "DELETE FROM codev_command_bug_table WHERE bug_id=" . db_param()." AND command_id=" . db_param();
-             log_event(LOG_FILTERING, "update_bug | remove Command $prev_cmd_id");
-             db_query($delete_query, array( $p_bug_data->id, $prev_cmd_id ));
+            // 1) find out which ones must be removed
+            // (remove if present in prev_command_ids and not in new_command_ids)
+            foreach ($prev_command_ids as $prev_cmd_id) {
+              if (!in_array($prev_cmd_id, $new_command_ids)) {
+                $delete_query = "DELETE FROM codev_command_bug_table WHERE bug_id=" . db_param()." AND command_id=" . db_param();
+                log_event(LOG_FILTERING, "update_bug | remove Command $prev_cmd_id");
+                db_query($delete_query, array( $p_bug_data->id, $prev_cmd_id ));
 
-             // remove from WBS
-             $delete_from_wbs_query = "DELETE FROM `codev_wbs_table` WHERE root_id = (SELECT wbs_id from codev_command_table where id = ".db_param().") AND bug_id = ".db_param();
-             db_query($delete_from_wbs_query, array( $prev_cmd_id, $p_bug_data->id ));
-             
-           }
-         }
+                // remove from WBS
+                $delete_from_wbs_query = "DELETE FROM `codev_wbs_table` WHERE root_id = (SELECT wbs_id from codev_command_table where id = ".db_param().") AND bug_id = ".db_param();
+                db_query($delete_from_wbs_query, array( $prev_cmd_id, $p_bug_data->id ));
 
-         // 2) find out which ones are not already assigned
-         // (add if present in new_command_ids and not in prev_command_ids)
-         foreach ($new_command_ids as $new_cmd_id) {
-           if (!in_array($new_cmd_id, $prev_command_ids)) {
-             log_event(LOG_FILTERING, "update_bug | add Command $new_cmd_id");
-             $this->assignCommand($p_bug_data->id, $new_cmd_id);
-           }
+              }
+            }
+
+            // 2) find out which ones are not already assigned
+            // (add if present in new_command_ids and not in prev_command_ids)
+            foreach ($new_command_ids as $new_cmd_id) {
+              if (!in_array($new_cmd_id, $prev_command_ids)) {
+                log_event(LOG_FILTERING, "update_bug | add Command $new_cmd_id");
+                $this->assignCommand($p_bug_data->id, $new_cmd_id);
+              }
+            }
          }
       }
    }
