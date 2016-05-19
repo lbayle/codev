@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 ""
-"PO-Revision-Date: 2016-05-16 05:24:57+0000\n"
-"X-POT-Import-Date: 2016-04-25 04:51:55+0000\n"
+"PO-Revision-Date: 2016-06-06 06:06:52+0000\n"
+"X-POT-Import-Date: 2016-05-19 07:18:35+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: qqq\n"
@@ -63,7 +63,6 @@ msgstr ""
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/issue_info.html
-#. tpl/blog/blogpost_form.html
 #. tpl/check.html
 #. tpl/forecasting_report.html
 #. tpl/commandset_info.html
@@ -71,7 +70,6 @@ msgstr ""
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
 #. tpl/modal/select_issues.html
-#. tpl/index.html
 #. insert in front
 #. add task summary in front
 #: classes/issue.class.php:2254 classes/issue_selection.class.php:280
@@ -84,7 +82,7 @@ msgstr ""
 #: reports/project_info.php:305
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
-#: index.php:195 tools.php:1495
+#: tools.php:1495
 msgid "Summary"
 msgstr "{{Identical|Summary}}"
 
@@ -108,19 +106,18 @@ msgstr "{{Identical|Summary}}"
 #. tpl/modal/select_issues.html
 #. tpl/form/projectSelector.html
 #. tpl/servicecontract_edit.html
-#. tpl/index.html
 #. tpl/project_info.html
 #. write header
 #. WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
-#: classes/issue.class.php:2248 classes/wbsElement.class.php:581
-#: classes/issue_selection.class.php:279 filters/ProjectFilter.php:59
-#: management/command_info.php:227 management/servicecontract_info.php:149
-#: management/commandset_info.php:152 reports/export_csv_tools.php:48
-#: reports/planning_report.php:234 reports/planning_report.php:475
-#: reports/planning_report.php:476 reports/project_info.php:281
-#: reports/project_info.php:292 reports/project_info.php:304 tests/odt.php:25
+#: classes/wbsElement.class.php:581 classes/issue_selection.class.php:279
+#: filters/ProjectFilter.php:59 management/command_info.php:227
+#: management/servicecontract_info.php:149 management/commandset_info.php:152
+#: reports/export_csv_tools.php:48 reports/planning_report.php:234
+#: reports/planning_report.php:475 reports/planning_report.php:476
+#: reports/project_info.php:281 reports/project_info.php:292
+#: reports/project_info.php:304 tests/odt.php:25
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:224
-#: index.php:194 tools.php:1489
+#: tools.php:1489
 msgid "Project"
 msgstr "{{Identical|Project}}"
 
@@ -156,7 +153,6 @@ msgstr "{{Identical|Progress}}"
 #. tpl/servicecontract_info.html
 #. tpl/modal/update_issueBacklog.html
 #. tpl/project_activity_report.html
-#. tpl/index.html
 #. $titles[] = T_("Elapsed");
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:260
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:318
@@ -514,8 +510,6 @@ msgstr ""
 #. tpl/servicecontract_info.html
 #. tpl/statistics.html
 #. tpl/modal/update_issueBacklog.html
-#. tpl/index.html
-#: classes/issue.class.php:2235
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:262
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:320
 #: reports/issue_info_tools.php:116 reports/project_info.php:186
@@ -544,7 +538,6 @@ msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
-#. tpl/index.html
 msgid "Tasks in drift"
 msgstr ""
 
@@ -627,7 +620,6 @@ msgstr ""
 #. tpl/servicecontract_info.html
 #. tpl/time_tracking.html
 #. tpl/modal/select_issues.html
-#. tpl/index.html
 msgid "ID"
 msgstr "{{Identical|ID}}"
 
@@ -674,8 +666,7 @@ msgstr "{{Identical|Elapsed}}"
 #. tpl/ajax/weekTaskDetails.html
 #. tpl/forecasting_report.html
 #. tpl/project_activity_report.html
-#. tpl/index.html
-#: reports/export_csv_weekly.php:141 reports/export_csv_tools.php:64
+#: reports/export_csv_tools.php:64
 msgid "BL"
 msgstr ""
 
@@ -902,7 +893,6 @@ msgstr ""
 #. tpl/edit_team.html
 #. tpl/tools/wbsEditor.html
 #. tpl/servicecontract_edit.html
-#. TODO only if i'm the owner
 msgid "Delete"
 msgstr "{{Identical|Delete}}"
 
@@ -1226,6 +1216,7 @@ msgstr ""
 #. tpl/import_issues.html
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
+#: classes/consistency_check2.class.php:646
 msgid "Command"
 msgstr "{{Identical|Command}}"
 
@@ -1247,13 +1238,13 @@ msgstr "{{Identical|Plugin}}"
 
 #. tpl/plugin_manager.html
 #. tpl/issue_info.html
-#. tpl/blog/blogpost_form.html
 #. tpl/ajax/projectDetails.html
 #. tpl/import_issues.html
 #. tpl/servicecontract_info.html
 #. tpl/time_tracking.html
 #. tpl/project_activity_report.html
-#: classes/wbsElement.class.php:582 tools.php:1491
+#: classes/issue.class.php:2250 classes/wbsElement.class.php:582
+#: tools.php:1491
 msgid "Category"
 msgstr "{{Identical|Category}}"
 
@@ -1700,7 +1691,6 @@ msgstr ""
 
 #. tpl/edit_team.html
 #. tpl/issue_info.html
-#. tpl/index.html
 msgid "Update"
 msgstr "{{Identical|Update}}"
 
@@ -2075,16 +2065,6 @@ msgstr ""
 #. tpl/prepare_project.html
 msgid "Prepare"
 msgstr "{{Identical|Prepare}}"
-
-#. tpl/blog/blogpost_form.html
-#. tpl/blog/blogpost.html
-#. tpl/form/dateRangeSelector.html
-msgid "To"
-msgstr ""
-
-#. tpl/blog/blogpost.html
-msgid "Author"
-msgstr "{{Identical|Author}}"
 
 #. tpl/tools/wbsEditor.html
 #. tpl/tools/wbsReader.html
@@ -3065,6 +3045,10 @@ msgid "Start Date"
 msgstr ""
 
 #. tpl/form/dateRangeSelector.html
+msgid "To"
+msgstr ""
+
+#. tpl/form/dateRangeSelector.html
 msgid "End Date (included)"
 msgstr ""
 
@@ -3256,26 +3240,6 @@ msgstr ""
 msgid "A new CodevTT version is available !"
 msgstr ""
 
-#. tpl/index.html
-msgid "Derive par rapport a l estimation preliminaire"
-msgstr ""
-
-#. tpl/index.html
-msgid "Derive PrelEE"
-msgstr ""
-
-#. tpl/index.html
-msgid "Derive par rapport au BI+BS"
-msgstr ""
-
-#. tpl/index.html
-msgid "update Backlog"
-msgstr ""
-
-#. tpl/index.html
-msgid "Errors in your Tasks"
-msgstr ""
-
 #: admin/edit_team.php:52
 msgid "Couldn't delete the team"
 msgstr ""
@@ -3344,19 +3308,19 @@ msgstr ""
 msgid "Couldn't remove the holiday"
 msgstr ""
 
-#: admin/edit_jobs.php:64
+#: admin/edit_jobs.php:77
 msgid "Couldn't add the job association"
 msgstr ""
 
-#: admin/edit_jobs.php:72
+#: admin/edit_jobs.php:85
 msgid "This job must not be deleted."
 msgstr ""
 
-#: admin/edit_jobs.php:78 admin/edit_jobs.php:94
+#: admin/edit_jobs.php:91 admin/edit_jobs.php:107
 msgid "Couldn't remove the job association"
 msgstr ""
 
-#: admin/edit_jobs.php:84
+#: admin/edit_jobs.php:97
 msgid "Couldn't delete the job"
 msgstr ""
 
@@ -3368,57 +3332,29 @@ msgstr ""
 msgid "Sorry, you need to be identified."
 msgstr ""
 
-#: blog/blog.php:100
-msgid "Ack"
-msgstr "{{Identical|Ack}}"
-
-#: blog/blog.php:101
-msgid "Hide"
-msgstr "{{Identical|Hide}}"
-
-#: classes/user.class.php:1703
+#: classes/user.class.php:1688
 msgid "for team"
 msgstr ""
 
-#: classes/user.class.php:1705
+#: classes/user.class.php:1690
 msgid "[CodevTT] Timesheet reminder !"
 msgstr ""
 
-#: classes/user.class.php:1707
+#: classes/user.class.php:1692
 msgid "Dear "
 msgstr "{{Identical|Dear}}"
 
-#: classes/user.class.php:1708
+#: classes/user.class.php:1693
 msgid "Please fill your CodevTT timesheet"
 msgstr ""
 
-#: classes/user.class.php:1719 classes/consistency_check2.class.php:749
+#: classes/user.class.php:1704 classes/consistency_check2.class.php:749
 msgid "incomplete (missing "
 msgstr ""
 
 #. skip dates in the future
-#: classes/user.class.php:1722 classes/consistency_check2.class.php:764
+#: classes/user.class.php:1707 classes/consistency_check2.class.php:764
 msgid "not defined."
-msgstr ""
-
-#: classes/blog_manager.class.php:50
-msgid "Acknowledged"
-msgstr ""
-
-#: classes/blog_manager.class.php:52
-msgid "Hidden"
-msgstr "{{Identical|Hidden}}"
-
-#: classes/blog_manager.class.php:138
-msgid "Low"
-msgstr ""
-
-#: classes/blog_manager.class.php:140
-msgid "Normal"
-msgstr "{{Identical|Normal}}"
-
-#: classes/blog_manager.class.php:142
-msgid "High"
 msgstr ""
 
 #: classes/issue.class.php:59
@@ -4259,6 +4195,22 @@ msgstr ""
 msgid "All Projects"
 msgstr ""
 
+#: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:59
+msgid "Management load history"
+msgstr ""
+
+#: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:62
+msgid "Compares the elapsed time on management sideTasks to the management provisions"
+msgstr ""
+
+#: plugins/IssueConsistencyCheck/IssueConsistencyCheck.class.php:59
+msgid "Issue consistency check"
+msgstr ""
+
+#: plugins/IssueConsistencyCheck/IssueConsistencyCheck.class.php:62
+msgid "Check for errors in issues"
+msgstr ""
+
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:61
 msgid "Reopened rate history"
 msgstr ""
@@ -4368,12 +4320,12 @@ msgid "A simple HelloWorld plugin"
 msgstr ""
 
 #. return T_('Task drift alert');
-#: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:62
+#: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:68
 msgid "Task drift alert"
 msgstr ""
 
 #. return T_('Display tasks in drift');
-#: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:66
+#: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:72
 msgid "Display tasks where the elapsed time is greater than the estimated effort"
 msgstr ""
 
