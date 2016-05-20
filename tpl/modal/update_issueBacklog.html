@@ -246,17 +246,26 @@
          }
 			jQuery("#update_backlog_dialog_form").dialog("open");
 		}
-
-
+      
+      function changeBackLogValue() {
+         var bugResolvedStatusThreshold = jQuery("#bugResolvedStatusThreshold").val();
+         var selectedStatusId = jQuery("#status").children(":selected").attr("id");
+         if(selectedStatusId >= bugResolvedStatusThreshold) {
+            $("#backlog").val("0");
+         }
+         else{
+            $("#backlog").val("");
+         }
+      }
+      
 	jQuery(document).ready(function() {
 
       // add eventHandler to update formUpdateBacklog field when status is changed in combobox
       jQuery('#status').on('change', function() {
-         var selectedStatus = jQuery("#status").children(":selected").attr("id");
-         jQuery("#formUpdateBacklog").find("input[name=statusid]").val(selectedStatus);
-
+         changeBackLogValue();
+         var selectedStatusId = jQuery("#status").children(":selected").attr("id");
+         jQuery("#formUpdateBacklog").find("input[name=statusid]").val(selectedStatusId);
          updateTips(" ");
-
       });
 
 		var backlog = jQuery("#backlog"),
@@ -318,6 +327,7 @@
 			open: function() {
 				// Select input field contents
 				jQuery("#backlog").select();
+            changeBackLogValue();
 			},
 			buttons: {
 				Ok: function() {
