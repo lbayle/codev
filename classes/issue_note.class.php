@@ -22,7 +22,8 @@ class IssueNote {
    const type_reminder = 1;        // Mantis ( 'REMINDER', 1 )
    const type_timetracking = 2;    // Mantis ( 'TIME_TRACKING', 2 )
    const type_timesheetNote = 108; // CodevTT
-
+   const type_timetrackNote = 109;
+   
    const history_BugnoteAdded   = 2; // Mantis ('BUGNOTE_ADDED', 2 )
    const history_BugnoteUpdated = 3; // Mantis ('BUGNOTE_UPDATED', 3 )
    const history_BugnoteDeleted = 4; // Mantis ('BUGNOTE_DELETED', 4 )
@@ -34,6 +35,7 @@ class IssueNote {
 
    const tagid_timesheetNote = 'CODEVTT_TAG_TIMESHEET_NOTE';
    const tagid_NoteReadBy    = 'CODEVTT_TAG_READ_BY';
+   const tagid_timetrackNote = 'CODEVTT_TAG_TIMETRACKING_NOTE';
 
    const tag_begin = '<!-- ';
    const tag_sep = ' --- ';
@@ -83,12 +85,13 @@ class IssueNote {
       $sqlWrapper = SqlWrapper::getInstance();
       $query2 = "INSERT INTO `mantis_bugnote_text_table` (`note`) VALUES ('".SqlWrapper::sql_real_escape_string($text)."');";
       $result2 = $sqlWrapper->sql_query($query2);
+
       if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
       $bugnote_text_id = $sqlWrapper->sql_insert_id();
-
+      
       $timestamp = time();
       $query = 'INSERT INTO `mantis_bugnote_table` '.
               '(`bug_id`, `reporter_id`, `view_state`, `note_type`, `bugnote_text_id`, `date_submitted`, `last_modified`) '.
@@ -109,7 +112,6 @@ class IssueNote {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-
       return $bugnote_id;
    }
 
@@ -118,7 +120,7 @@ class IssueNote {
     */
    public static function delete($id, $bugid, $userid) {
       // TODO
-      self::$logger->debug("Delete note $id");
+      self::$logger->error("Delete note $id");
 
       # Remove the bugnote text
       $query = 'DELETE FROM `mantis_bugnote_text_table` WHERE id=' .
@@ -146,7 +148,6 @@ class IssueNote {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-
    	return true;
    }
 
@@ -207,6 +208,43 @@ class IssueNote {
 
          $issueNote->setText($text, $reporter_id);
          $bugnote_id = $issueNote->getId();
+      }
+   }
+   
+     /**
+    * add/update the TimetheetNote of an Issue
+    * @param type $bug_id
+    * @param type $text
+    */
+   public static function setTimetrackNote($bug_id, $track_id, $text, $reporter_id) {
+
+      self::$logger->debug("Task $bug_id setTimesheetNote:[$text]");
+
+      // add TAG in front (if not found)
+      if (FALSE === strpos($text, self::tagid_timetrackNote)) {
+         $tag = self::tag_begin . self::tagid_timetrackNote . ' ' . $track_id . self::tag_doNotRemove . self::tag_end;
+         $text = $tag . "\n" . $text;
+      }
+
+      $issueNote = self::getTimesheetNote($bug_id);
+      if (is_null($issueNote)) {
+         $bugnote_id = self::create($bug_id, $reporter_id, $text, self::type_timetrackNote, TRUE);
+      } else {
+         # notify users that the note has changed
+         $text = self::removeAllReadByTags($text);
+
+         $issueNote->setText($text, $reporter_id);
+         $bugnote_id = $issueNote->getId();
+      }
+      
+
+      
+      $query = "INSERT INTO `codev_timetrack_note_table` (timetrackid, noteid) VALUES ($track_id, $bugnote_id)";
+      
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
    }
 

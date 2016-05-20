@@ -37,12 +37,16 @@ class Team extends Model {
           'forbidAddTimetracksOnClosed' => 1,
           'displayCalculatedBacklogInDialogbox' => 0,
           'sendTimesheetEmailNotification' => 1,
+          'useTrackUO' => 0,
+          'useTrackNote' => 1,
          );
 
       self::$generalPrefsDescriptionList = array(
           'forbidAddTimetracksOnClosed'         => 'Forbid adding timetracks on closed issues',
           'displayCalculatedBacklogInDialogbox' => 'Display calculated backlog as default value in the updateBacklog dialogbox',
           'sendTimesheetEmailNotification'    => 'Send timesheet email reminder',
+          'useTrackUO'  => 'add UO input field in the updateBacklog dialogbox',
+          'useTrackNote'  => 'add timetrack note input field in the updateBacklog dialogbox'
          );
 
    }

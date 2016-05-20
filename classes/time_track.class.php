@@ -137,25 +137,57 @@ class TimeTrack extends Model {
     * Remove the current track
     * @return bool True if the track is removed
     */
-   public function remove() {
+   public function remove($userid) {
       $query = 'DELETE FROM `codev_timetracking_table` WHERE id='.$this->id.';';
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          return false;
-      } else {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("Track $this->id deleted: userid=$this->userId bugid=$this->bugId job=$this->jobId duration=$this->duration timestamp=$this->date");
-         }
-         return true;
       }
+
+      if(!UniteOeuvre::remove($this->id)){
+         self::$logger->error("Delete UO for track=$this->id FAILED.");
+      }
+      if(!$this->removeNote($userid)){
+         self::$logger->error("Delete note for track=$this->id FAILED.");
+      }
+      return true;
    }
+
+   /**
+    *
+    * @param int $userid the one that removed the note
+    * @return boolean
+    */
+   public function removeNote($userid) {
+      $retCode = false;
+
+      $query = "SELECT `noteid` FROM `codev_timetrack_note_table` WHERE timetrackid=$this->id;";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         return false;
+      }
+
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+         $noteid = SqlWrapper::getInstance()->sql_result($result, 0);
+         IssueNote::delete($noteid, $this->bugId, $userid);
+      } else {
+         self::$logger->error("No track_note defined for timetrack_id = $this->id");
+      }
+
+      $query2 = "DELETE FROM `codev_timetrack_note_table` WHERE timetrackid = $this->id;";
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+
+      return ($result2) ? true : false;
+   }
+   
 
    /**
     * update Backlog and delete TimeTrack
     * @param int $trackid
+    * @param int $userid the one that deletes the timetrack
     */
-   public static function delete($trackid) {
-      // increase backlog (only if 'backlog' already has a value)
+   public static function delete($trackid, $userid) {
+      // increase backlog (only if "backlog' already has a value)
       $timetrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
       $bugid = $timetrack->bugId;
       $duration = $timetrack->duration;
@@ -166,7 +198,7 @@ class TimeTrack extends Model {
       }
 
       // delete track
-      if (!$timetrack->remove()) {
+      if (!$timetrack->remove($userid)) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -218,6 +250,32 @@ class TimeTrack extends Model {
       return $this->commit_date;
    }
 
+   public function getNote() {
+      $query = "SELECT noteid FROM `codev_timetrack_note_table` WHERE timetrack_id =". $this->id .";";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if(isset($result)) {
+         $query2 = "SELECT note FROM `mantis_bugnote_text_table` WHERE id=$result";
+         $result2 = SqlWrapper::getInstance()->sql_query($query2);
+         if(isset($result2)){
+            return $result2;
+         }
+         else{
+            $query3 = 'DELETE FROM `codev_timetrack_note_table` WHERE id='.$this->id.';';
+            $result3 = SqlWrapper::getInstance()->sql_query($query3);
+            return "No note for this time track";
+         }
+      }
+      else {
+         return "No note for this time track";
+      }
+//       select from timetrack_note_table where track_id = $this->id
+//       
+//       si NULL, clean timetrack_note_table
+//       
+//       note = new IssueNote
+//       return note->getTimetrackNote(); // enleve le tag
+   }
+  
 }
 
 TimeTrack::staticInit();

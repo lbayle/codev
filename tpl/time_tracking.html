@@ -404,6 +404,7 @@
                   <th title="Mantis ID">{t}ID{/t}</th>
                   <th>{t}Ext.ID{/t}</th>
                   <th>{t}Duration{/t}</th>
+                  {if $isU0Displayed}<th>{t}UO{/t}</th>{/if}
                   <th>{t}Job{/t}</th>
                   <th>{t}Project{/t}</th>
                   <th>{t}Category{/t}</th>
@@ -422,6 +423,7 @@
                   <td>{$i.issueURL}</td>
                   <td>{$i.issueId}</td>
                   <td>{$i.duration}</td>
+                  {if $isU0Displayed}<td>{$i.UO}</td>{/if}
                   <td>{$i.jobName}</td>
                   <td>{$i.projectName}</td>
                   <td nowrap="nowrap">{$i.categoryName}</td>
@@ -434,46 +436,48 @@
          {/if}
 
          {if $timetrackingTuples}
-         <div style="margin-top: 2em; font-size: larger; font-weight: bold;
-            text-align: left; margin-left: .5em; margin-bottom: .4em;">
+         <div style="margin-top: 2em;">
             {t}Future Imputations{/t}
+         
+            <script type="text/javascript" src="js_min/datatable.min.js"></script>
+            <table style="margin-top: 2em; width: 100%;">
+               <thead>
+                  <tr>
+                     <th></th>
+                     <th>{t}Date{/t}</th>
+                     <th title="Mantis ID">{t}ID{/t}</th>
+                     <th>{t}Ext.ID{/t}</th>
+                     <th>{t}Duration{/t}</th>
+                     {if $isU0Displayed}<th>{t}UO{/t}</th>{/if}
+                     <th>{t}Project{/t}</th>
+                     <th>{t}Description{/t}</th>
+                     <th>{t}Job{/t}</th>
+                     <th>{t}Category{/t}</th>
+                     <th>{t}Status{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$timetrackingTuples key=id item=i}
+                  <tr>
+                     <td class="ui-state-error-text" style="width:1em;">
+                        <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
+                           onclick="deleteTrack('{$id}','{$i.date}','{$i.formatedId}','{$i.duration}','{$i.formatedJobName}', '{$i.summary}');return false;"></a>
+                     </td>
+                     <td style="width: 170px;">{$i.cosmeticDate}</td>
+                     <td>{$i.issueURL}</td>
+                     <td>{$i.issueId}</td>
+                     <td>{$i.duration}</td>
+                     {if $isU0Displayed}<td>{$i.UO}</td>{/if}
+                     <td>{$i.projectName}</td>
+                     <td>{$i.issueSummary}</td>
+                     <td>{$i.jobName}</td>
+                     <td nowrap="nowrap">{$i.categoryName}</td>
+                     <td>{$i.currentStatusName}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+            </table>
          </div>
-         <script type="text/javascript" src="js_min/datatable.min.js"></script>
-         <table class="datatable_minimal" style="width: 100%;">
-            <thead>
-               <tr>
-                  <th></th>
-                  <th>{t}Date{/t}</th>
-                  <th title="Mantis ID">{t}ID{/t}</th>
-                  <th>{t}Ext.ID{/t}</th>
-                  <th>{t}Duration{/t}</th>
-                  <th>{t}Project{/t}</th>
-                  <th>{t}Description{/t}</th>
-                  <th>{t}Job{/t}</th>
-                  <th>{t}Category{/t}</th>
-                  <th>{t}Status{/t}</th>
-               </tr>
-            </thead>
-            <tbody>
-               {foreach from=$timetrackingTuples key=id item=i}
-               <tr>
-                  <td class="ui-state-error-text" style="width:1em;">
-                     <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
-                        onclick="deleteTrack('{$id}','{$i.date}','{$i.formatedId}','{$i.duration}','{$i.formatedJobName}', '{$i.summary}');return false;"></a>
-                  </td>
-                  <td style="width: 170px;">{$i.cosmeticDate}</td>
-                  <td>{$i.issueURL}</td>
-                  <td>{$i.issueId}</td>
-                  <td>{$i.duration}</td>
-                  <td>{$i.projectName}</td>
-                  <td>{$i.issueSummary}</td>
-                  <td>{$i.jobName}</td>
-                  <td nowrap="nowrap">{$i.categoryName}</td>
-                  <td>{$i.currentStatusName}</td>
-               </tr>
-               {/foreach}
-            </tbody>
-         </table>
          {/if}
 
          <script type="text/javascript">

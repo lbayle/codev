@@ -187,7 +187,7 @@ class TimeTrackingTools {
             // Note: (this would generate an error on addTimetrack)
             $team = TeamCache::getInstance()->getTeam($teamid);
             $isTeamProject = !is_null($team->getProjectType($projectId));
-
+            
             $weekTasks[$bugid."_".$jobid] = array(
                'bugid' => $bugid,
                'description' => $description,

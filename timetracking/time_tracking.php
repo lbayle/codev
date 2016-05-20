@@ -113,6 +113,7 @@ class TimeTrackingController extends Controller {
                $defaultProjectid = Tools::getSecurePOSTIntValue('projectid');
             }
             elseif ("addTimetrack" == $action) {
+               
                // updateBacklogDialogbox with 'addTimetrack' action
                // add track AND update backlog & status & handlerId
 
@@ -126,6 +127,13 @@ class TimeTrackingController extends Controller {
                $job          = Tools::getSecurePOSTIntValue('trackJobid');
                $duration     = Tools::getSecurePOSTNumberValue('timeToAdd');
                $handlerId    = Tools::getSecurePOSTNumberValue('handlerid');
+               
+               if (1 == $team->getGeneralPreference('useTrackUO')) {
+                  $UOValue      = Tools::getSecurePOSTNumberValue('UO');
+               }
+               if (1 == $team->getGeneralPreference('useTrackNote')) {
+                  $issue_note   = filter_input(INPUT_POST, 'issue_note');
+               }
 
                // check jobid (bug happens sometime...
                if(0 == $job) {
@@ -139,12 +147,25 @@ class TimeTrackingController extends Controller {
                   
                } else {
                   $timestamp = (0 !== $defaultDate) ? Tools::date2timestamp($defaultDate) : 0;
-
+                  
                   $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration, $this->session_userid);
                   if(self::$logger->isDebugEnabled()) {
                      self::$logger->debug("Track $trackid added  : userid=$managed_userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
                   }
-
+                  
+                       
+                  if (1 == $team->getGeneralPreference('useTrackUO')) {
+                     $UOId = UniteOeuvre::create($trackid, $UOValue);
+                     $this->smartyHelper->assign('UOId',$UOId);
+                     if(self::$logger->isDebugEnabled()) {
+                        self::$logger->debug("UO $UOId added  : UOvalue=$UOValue");
+                     }
+                  }
+                  
+                  if (1 == $team->getGeneralPreference('useTrackNote')) {
+                     IssueNote::setTimetrackNote($defaultBugid, $trackid, $issue_note, $managed_userid);
+                  }
+                  
                   $issue = IssueCache::getInstance()->getIssue($defaultBugid);
 
                   // setBacklog
@@ -166,21 +187,21 @@ class TimeTrackingController extends Controller {
                // Don't show job and duration after add track
                $job = 0;
                $duration = 0;
-            }
-            elseif ("deleteTrack" == $action) {
+            } elseif ("deleteTrack" == $action) {
                $trackid = Tools::getSecurePOSTIntValue('trackid');
                $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
                $defaultBugid = $timeTrack->getIssueId();
                $duration = $timeTrack->getDuration();
                $job = $timeTrack->getJobId();
                $defaultDate = date("Y-m-d", $timeTrack->getDate());
-
+               
                // delete track
-               if(!$timeTrack->remove()) {
+               if(!$timeTrack->remove($this->session_userid)) {
                   $this->smartyHelper->assign('error', T_("Failed to delete the timetrack !"));
                   self::$logger->error("Delete track $trackid  : FAILED.");
                }
-
+              
+               
                if (0 == $defaultBugid) {
                   self::$logger->error("Delete track : bug_id=0");
                   $defaultProjectid  = 0;
@@ -220,7 +241,22 @@ class TimeTrackingController extends Controller {
                   $defaultProjectid = $issue->getProjectId();
                }
             }
-
+            
+            // Check the preference in the administration
+            if (1 == $team->getGeneralPreference('useTrackUO')) {
+               $isU0Displayed  = true;
+            }
+            else {
+               $isU0Displayed  = false;
+            }
+            
+            if (1 == $team->getGeneralPreference('useTrackNote')) {
+               $isTrackNoteDisplayed = true;
+            }
+            else {
+               $isTrackNoteDisplayed  = false;
+            }
+            
             // Display user name
             $this->smartyHelper->assign('managedUser_realname', $managed_user->getRealname());
             $this->smartyHelper->assign('userid', $managed_userid);
@@ -251,7 +287,13 @@ class TimeTrackingController extends Controller {
 
             $this->smartyHelper->assign('weeks', SmartyTools::getWeeks($weekid, $year));
             $this->smartyHelper->assign('years', SmartyTools::getYears($year,1));
-
+            
+            // Display UO
+            $this->smartyHelper->assign('isU0Displayed', $isU0Displayed);
+            
+            // Display note
+            $this->smartyHelper->assign('isTrackNoteDisplayed', $isTrackNoteDisplayed);
+            
             $weekDates = Tools::week_dates($weekid,$year);
             $startTimestamp = $weekDates[1];
             $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
@@ -362,7 +404,7 @@ class TimeTrackingController extends Controller {
             $formatedSummary = htmlspecialchars(preg_replace('![\t\r\n]+!',' ',$formatedSummary));
 
             //$totalEstim = $issue->effortEstim + $issue->effortAdd;
-
+            
             $timetrackingTuples[$row->id] = array(
                'timestamp' => $row->date,
                'date' => $formatedDate,
@@ -378,7 +420,8 @@ class TimeTrackingController extends Controller {
                'issueSummary' => htmlspecialchars(preg_replace('![\t\r\n]+!',' ',$issue->getSummary())),
                'jobName' => $jobName,
                'categoryName' => $issue->getCategoryName(),
-               'currentStatusName' => $issue->getCurrentStatusName());
+               'currentStatusName' => $issue->getCurrentStatusName(),
+               'UO' => UniteOeuvre::getUO($row->id));
          } catch (Exception $e) {
             $summary = T_('Error: Task not found in Mantis DB !');
             $timetrackingTuples[$row->id] = array(
@@ -391,11 +434,12 @@ class TimeTrackingController extends Controller {
                'projectName' => '!',
                'issueSummary' => '<span class="error_font">'.$summary.'</span>',
                'categoryName' => '!',
-               'currentStatusName' => '!'
+               'currentStatusName' => '!',
+               'UO' => '!'
             );
          }
       }
-
+      
       $currentTimeTrackingTuples = array();
       $futureTimeTrackingTuples = array();
       foreach ($timetrackingTuples as $trackId => $timeTrackingTuple) {
@@ -406,7 +450,9 @@ class TimeTrackingController extends Controller {
          }
          unset($timeTrackingTuple['timestamp']);
       }
-
+      
+      
+      
       return array(
          "current" => $currentTimeTrackingTuples,
          "future" => $futureTimeTrackingTuples
