@@ -120,7 +120,7 @@ class IssueNote {
     */
    public static function delete($id, $bugid, $userid) {
       // TODO
-      self::$logger->error("Delete note $id");
+      //self::$logger->error("Delete note $id");
 
       # Remove the bugnote text
       $query = 'DELETE FROM `mantis_bugnote_text_table` WHERE id=' .

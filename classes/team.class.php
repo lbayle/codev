@@ -38,7 +38,7 @@ class Team extends Model {
           'displayCalculatedBacklogInDialogbox' => 0,
           'sendTimesheetEmailNotification' => 1,
           'useTrackUO' => 0,
-          'useTrackNote' => 1,
+          'useTrackNote' => 0,
          );
 
       self::$generalPrefsDescriptionList = array(
