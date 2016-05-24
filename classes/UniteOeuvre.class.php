@@ -111,6 +111,28 @@ class UniteOeuvre {
          exit;
       }
    }
+   
+   
+   public static function getDriftColor($bugResolvedStatusThreshold, $currentStatus ,$drift = NULL) {
+      if (0 < $drift) {
+         if ($currentStatus < $bugResolvedStatusThreshold) {
+            $color = "#ff6a6e";
+         } else {
+            $color = "#fcbdbd";
+         }
+      } elseif (0 > $drift) {
+         if ($currentStatus < $bugResolvedStatusThreshold) {
+            $color = "#61ed66";
+         } else {
+            $color = "#bdfcbd";
+         }
+      } else {
+         $color = NULL;
+      }
+
+      return $color;
+   }
+   
 }
 
 UniteOeuvre::staticInit();

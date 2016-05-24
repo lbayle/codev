@@ -1,0 +1,76 @@
+<div class="fdjBacklogUOPerTaskIndicator">
+
+<div>
+   <div class="pluginInitFunction"  style="display: none;">fdjBacklogUOPerTaskIndicatorJsInit</div>
+   <div class="pluginDestroyFunction"  style="display: none;">fdjBacklogUOPerTaskIndicatorJsDestroy</div>
+   
+   <div class="fdjBacklogUOPerTaskIndicatorDiv" align="left" style="margin-top: 1em;">
+
+      {if isset($fdjBacklogUOPerTaskIndicator_taskArray) && !empty($fdjBacklogUOPerTaskIndicator_taskArray)}
+      <div style="width: 95%;">
+      <table class="fdjBacklogUOPerTaskIndicatorValuesTable display float" >
+         <thead>
+            <tr>
+               <th>Charge init UO</th>
+               <th>Consommé UO</th>
+               <th>Dérive UO</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <td class="right">{$fdjBacklogUOPerTaskIndicator_taskArray.chargeInitUO}</td>
+               <td class="right">{$fdjBacklogUOPerTaskIndicator_taskArray.elapsed}</td>
+               <td class="right" style="background-color: {$fdjBacklogUOPerTaskIndicator_taskArray.driftColor}">{$fdjBacklogUOPerTaskIndicator_taskArray.drift}</td>
+            </tr>
+         </tbody>
+      </table>
+      </div>
+      {else}
+      Aucune tache
+      {/if}
+   </div>
+
+   <div class="floatr" style=" width: 16px">
+      <span class="fdjBacklogUOPerTaskIndicatorHelpDialog_link float pointer">
+         <img title="Help" src="images/help_icon.gif"/>
+      </span>
+      <span class="float pointer">
+         <img title="{t}Export to CSV{/t}" src="images/b_export_xls.gif" onclick="$('.fdjBacklogUOPerTaskIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'backlogPerUser.csv'{literal}}{/literal})">
+      </span>
+   </div>
+   <div class="fdjBacklogUOPerTaskIndicatorHelpDialog ui-helper-hidden" title="UO par tache">
+      <p>
+         <strong>Description:</strong><br>
+         Tableau de suivit des UO pour la tache courante
+         <br>
+      </p>
+   </div>
+
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function fdjBacklogUOPerTaskIndicatorJsDestroy() {
+      jQuery(".fdjBacklogUOPerTaskIndicatorHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function fdjBacklogUOPerTaskIndicatorJsInit() {
+
+      console.log('fdjBacklogUOPerTaskIndicatorJsInit');
+      
+      jQuery(".fdjBacklogUOPerTaskIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".fdjBacklogUOPerTaskIndicatorHelpDialog").dialog("open");
+      });
+      jQuery(".fdjBacklogUOPerTaskIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
+      });
+
+   };
+</script>
+</div>
