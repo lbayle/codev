@@ -247,25 +247,27 @@
 			jQuery("#update_backlog_dialog_form").dialog("open");
 		}
       
-      function changeBackLogValue() {
+      function changeBackLogValue(previousStatus) {
          var bugResolvedStatusThreshold = jQuery("#bugResolvedStatusThreshold").val();
          var selectedStatusId = jQuery("#status").children(":selected").attr("id");
          if(selectedStatusId >= bugResolvedStatusThreshold) {
             $("#backlog").val("0");
          }
-         else{
-            $("#backlog").val("");
-         }
+         if(selectedStatusId < bugResolvedStatusThreshold && previousStatus >= bugResolvedStatusThreshold) {
+             $("#backlog").val("");
+          }
       }
       
 	jQuery(document).ready(function() {
 
       // add eventHandler to update formUpdateBacklog field when status is changed in combobox
-      jQuery('#status').on('change', function() {
-         changeBackLogValue();
+      jQuery('#status').on('focus', function () {
+         previousStatus = jQuery("#status").children(":selected").attr("id");
+      }).on('change', function() {
+         jQuery("#status").blur();
+         changeBackLogValue(previousStatus);
          var selectedStatusId = jQuery("#status").children(":selected").attr("id");
          jQuery("#formUpdateBacklog").find("input[name=statusid]").val(selectedStatusId);
-         updateTips(" ");
       });
 
 		var backlog = jQuery("#backlog"),
@@ -327,7 +329,7 @@
 			open: function() {
 				// Select input field contents
 				jQuery("#backlog").select();
-            changeBackLogValue();
+            changeBackLogValue(0);
 			},
 			buttons: {
 				Ok: function() {
@@ -344,7 +346,7 @@
 			close: function() {
 				allFields.val("").removeClass("ui-state-error");
 				allFields.css("backgroundColor", "transparent");
-            tips.hide(); // the window is reused for BL updates
+            updateTips(""); // the window is reused for BL updates
 			}
 		});
 
