@@ -157,14 +157,25 @@ class FdjTimetracksPerTaskWithUOIndicator extends IndicatorPluginAbstract {
          }
          
          
+//         $query3 = "SELECT id, username FROM `mantis_user_table` WHERE ($formated_trackids);";
+//         $result3 = SqlWrapper::getInstance()->sql_query($query3);
+//         if(SqlWrapper::getInstance()->mysql_num_rows($result2) != 0) {
+//            while($row3 = SqlWrapper::getInstance()->sql_fetch_object($result3)) {
+//               $UOs[$row3->timetrackid] = $row3->value;
+//            }
+//         }
+         
       }
      
       foreach ($timetracks as $trackid => $track) {
+         
+         $user = UserCache::getInstance()->getUser($track->getUserId());
             $timetracksArray[$trackid] = array(
+               'user' => $user->getRealname(),
                'dateTimetrack' => Tools::formatDate("%Y-%m-%d", $track->getDate()),
-               'CategorieProject' => $this->issue->getCategoryName(),
-               'Note' => $track->getNote(),
-               'UO' => round($UOs[$trackid], 2),
+               'categorieProject' => $this->issue->getCategoryName(),
+               'note' => $track->getNote(),
+               'uo' => round($UOs[$trackid], 2),
             );
       }
 

@@ -117,20 +117,6 @@ class FdjBacklogUOPerTaskIndicator extends IndicatorPluginAbstract {
          throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
       }
 
-      $bugidList = array_keys($this->inputIssueSel->getIssueList());
-      foreach($bugidList as $bugid){
-         $this->issue = IssueCache::getInstance()->getIssue($bugid);
-         $this->timetracks = array_merge($this->timetracks, array_keys($this->issue->getTimetracks()));
-         
-         $query = "SELECT value FROM `mantis_custom_field_string_table` ".
-              "WHERE bug_id=$bugid ".
-              "AND field_id = (SELECT id FROM `mantis_custom_field_table` where name = '$this->customFieldName')";
-
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if(SqlWrapper::getInstance()->mysql_num_rows($result) != 0) {
-            $this->chargeInitUO += SqlWrapper::getInstance()->sql_result($result, 0);
-         }
-      }
    }
 
    /**
@@ -152,6 +138,21 @@ class FdjBacklogUOPerTaskIndicator extends IndicatorPluginAbstract {
     *
     */
    public function execute() {
+      
+      $bugidList = array_keys($this->inputIssueSel->getIssueList());
+      foreach($bugidList as $bugid){
+         $this->issue = IssueCache::getInstance()->getIssue($bugid);
+         $this->timetracks = array_merge($this->timetracks, array_keys($this->issue->getTimetracks()));
+         
+         $query = "SELECT value FROM `mantis_custom_field_string_table` ".
+              "WHERE bug_id=$bugid ".
+              "AND field_id = (SELECT id FROM `mantis_custom_field_table` where name = '$this->customFieldName')";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if(SqlWrapper::getInstance()->mysql_num_rows($result) != 0) {
+            $this->chargeInitUO += SqlWrapper::getInstance()->sql_result($result, 0);
+         }
+      }
 
       $formated_trackids = implode(', ', $this->timetracks);
       
@@ -168,26 +169,11 @@ class FdjBacklogUOPerTaskIndicator extends IndicatorPluginAbstract {
          $SumUO = 0;
       }
       
-//      $query2 = "SELECT value FROM `mantis_custom_field_string_table` ".
-//              "WHERE bug_id=$bugid ".
-//              "AND field_id = (SELECT id FROM `mantis_custom_field_table` where name = '$customFieldName')";
-//
-//      $result2 = SqlWrapper::getInstance()->sql_query($query2);
-//      $chargeInitUO = get_resource_type($result2);     
-//       
-//      if(SqlWrapper::getInstance()->mysql_num_rows($result2) != 0) {
-//         $chargeInitUO = SqlWrapper::getInstance()->sql_result($result2, 0);
-//      }
-//      else{
-//         $chargeInitUO = 0;
-//      }
-      
       $drift = $SumUO - $this->chargeInitUO;
       
       $driftColor = UniteOeuvre::getDriftColor($this->issue->getBugResolvedStatusThreshold(), $this->issue->getCurrentStatus(), $drift);
 
       $taskArray = array (
-          //'summary' => $this->issue->getSummary(),
           'chargeInitUO' => round($this->chargeInitUO,2),
           'elapsed' => round($SumUO,2),
           'drift' => round($drift,2),
@@ -196,7 +182,6 @@ class FdjBacklogUOPerTaskIndicator extends IndicatorPluginAbstract {
 
       $this->execData = array();
       $this->execData['taskArray'] = $taskArray;
-      //$this->execData['totalArray'] = $totalArray; 
       
       return $this->execData;
    }

@@ -11,6 +11,7 @@
       <table class="fdjTimetracksPerTaskWithUOIndicatorValuesTable display float" >
          <thead>
             <tr>
+               <th>{t}User{/t}</th>
                <th>Date imputation</th>
                <th>Categorie projet</th>
                <th>UO</th>
@@ -20,10 +21,11 @@
          <tbody>
             {foreach from=$fdjTimetracksPerTaskWithUOIndicator_timetracksArray key=id item=i}
             <tr>
+               <td>{$i.user}</td>
                <td>{$i.dateTimetrack}</td>
-               <td>{$i.CategorieProject}</td>
-               <td>{$i.UO}</td>
-               <td>{$i.Note}</td>
+               <td>{$i.categorieProject}</td>
+               <td>{$i.uo}</td>
+               <td>{$i.note}</td>
             </tr>
             {/foreach}
          </tbody>

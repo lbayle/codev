@@ -288,9 +288,9 @@ class TimeTrack extends Model {
       }
    }
    
-   public function getNote($raw=FALSE) {
+   public function getNote() {
       
-     // if (NULL == $note) {
+     if (NULL == $this->note) {
          
          $query = "SELECT note FROM `mantis_bugnote_text_table` ".
                  "WHERE id=(SELECT bugnote_text_id FROM `mantis_bugnote_table` ".
@@ -301,14 +301,16 @@ class TimeTrack extends Model {
          if(SqlWrapper::getInstance()->sql_num_rows($result) == 0) {
             $query3 = 'DELETE FROM `codev_timetrack_note_table` WHERE timetrackid='.$this->id.';';
             $result3 = SqlWrapper::getInstance()->sql_query($query3);
-            return "No note for this time track";
+            $this->note = "";
          }
          else
          {
             $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-            $row->note = str_replace(array("\r", "\n"), '', $row->note);
-            return strip_tags($row->note);
+            $this->note = str_replace(array("\r", "\n"), '', $row->note);
+            $this->note = strip_tags($this->note);
          }
+     }
+     return $this->note;
    }
 }
 TimeTrack::staticInit();
