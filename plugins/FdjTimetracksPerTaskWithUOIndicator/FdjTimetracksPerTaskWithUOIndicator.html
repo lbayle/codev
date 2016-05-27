@@ -1,0 +1,78 @@
+<div class="fdjTimetracksPerTaskWithUOIndicator">
+
+<div>
+   <div class="pluginInitFunction"  style="display: none;">fdjTimetracksPerTaskWithUOIndicatorJsInit</div>
+   <div class="pluginDestroyFunction"  style="display: none;">fdjTimetracksPerTaskWithUOIndicatorJsDestroy</div>
+   
+   
+   
+   <div class="fdjTimetracksPerTaskWithUOIndicatorDiv" align="left" style="margin-top: 1em;">
+      <div style="width: 95%;">
+      <table class="fdjTimetracksPerTaskWithUOIndicatorValuesTable display float" >
+         <thead>
+            <tr>
+               <th>Date imputation</th>
+               <th>Categorie projet</th>
+               <th>UO</th>
+               <th>Note</th>
+            </tr>
+         </thead>
+         <tbody>
+            {foreach from=$fdjTimetracksPerTaskWithUOIndicator_timetracksArray key=id item=i}
+            <tr>
+               <td>{$i.dateTimetrack}</td>
+               <td>{$i.CategorieProject}</td>
+               <td>{$i.UO}</td>
+               <td>{$i.Note}</td>
+            </tr>
+            {/foreach}
+         </tbody>
+      </table>
+      </div>
+
+   </div>
+
+   <div class="floatr" style=" width: 16px">
+      <span class="fdjTimetracksPerTaskWithUOIndicatorHelpDialog_link float pointer">
+         <img title="Help" src="images/help_icon.gif"/>
+      </span>
+      <span class="float pointer">
+         <img title="{t}Export to CSV{/t}" src="images/b_export_xls.gif" onclick="$('.fdjTimetracksPerTaskWithUOIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'fdjTimetracksPerTaskWithUO.csv'{literal}}{/literal})">
+      </span>
+   </div>
+   <div class="fdjTimetracksPerTaskWithUOIndicatorHelpDialog ui-helper-hidden" title="UO par tache">
+      <p>
+         <strong>Description:</strong><br>
+         Tableau de suivit des UO pour la tache courante
+         <br>
+      </p>
+   </div>
+
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function fdjTimetracksPerTaskWithUOIndicatorJsDestroy() {
+      jQuery(".fdjTimetracksPerTaskWithUOIndicatorHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function fdjTimetracksPerTaskWithUOIndicatorJsInit() {
+
+      console.log('fdjTimetracksPerTaskWithUOIndicatorJsInit');
+      
+      jQuery(".fdjTimetracksPerTaskWithUOIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".fdjTimetracksPerTaskWithUOIndicatorHelpDialog").dialog("open");
+      });
+      jQuery(".fdjTimetracksPerTaskWithUOIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
+      });
+
+   };
+</script>
+</div>

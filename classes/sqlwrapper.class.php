@@ -368,6 +368,10 @@ class SqlWrapper {
    public function getCountByQuery() {
       return $this->countByQuery;
    }
+   
+   public function mysql_num_rows($result) {
+      return mysql_num_rows($result);
+   }
 
    /**
     * Get the connection link

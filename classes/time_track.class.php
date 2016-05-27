@@ -42,6 +42,7 @@ class TimeTrack extends Model {
    private $duration;
    private $committer_id;
    private $commit_date;
+   private $note;
 
    private $projectId;
    private $categoryId;
@@ -250,34 +251,66 @@ class TimeTrack extends Model {
       return $this->commit_date;
    }
 
-   public function getNote() {
-      $query = "SELECT noteid FROM `codev_timetrack_note_table` WHERE timetrack_id =". $this->id .";";
+     /**
+    * add/update the TimetheetNote of an Issue
+    * @param type $bug_id
+    * @param type $text
+    */
+   public static function setNote($bug_id, $track_id, $text, $reporter_id) {
+
+      self::$logger->debug("Task $bug_id setTimesheetNote:[$text]");
+
+      // add TAG in front (if not found)
+      if (FALSE === strpos($text, self::tagid_timetrackNote)) {
+         $tag = self::tag_begin . self::tagid_timetrackNote . ' ' . $track_id . self::tag_doNotRemove . self::tag_end;
+         $text = $tag . "\n" . $text;
+      }
+
+      $issueNote = self::getTimesheetNote($bug_id);
+      if (is_null($issueNote)) {
+         $bugnote_id = self::create($bug_id, $reporter_id, $text, self::type_timetrackNote, TRUE);
+      } else {
+         # notify users that the note has changed
+         $text = self::removeAllReadByTags($text);
+
+         $issueNote->setText($text, $reporter_id);
+         $bugnote_id = $issueNote->getId();
+      }
+      
+
+      
+      $query = "INSERT INTO `codev_timetrack_note_table` (timetrackid, noteid) VALUES ($track_id, $bugnote_id)";
+      
       $result = SqlWrapper::getInstance()->sql_query($query);
-      if(isset($result)) {
-         $query2 = "SELECT note FROM `mantis_bugnote_text_table` WHERE id=$result";
-         $result2 = SqlWrapper::getInstance()->sql_query($query2);
-         if(isset($result2)){
-            return $result2;
-         }
-         else{
-            $query3 = 'DELETE FROM `codev_timetrack_note_table` WHERE id='.$this->id.';';
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+   }
+   
+   public function getNote($raw=FALSE) {
+      
+     // if (NULL == $note) {
+         
+         $query = "SELECT note FROM `mantis_bugnote_text_table` ".
+                 "WHERE id=(SELECT bugnote_text_id FROM `mantis_bugnote_table` ".
+                            "WHERE bugnote_text_id=(SELECT noteid FROM `codev_timetrack_note_table` ".
+                                                                  "WHERE timetrackid=$this->id))";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         
+         if(SqlWrapper::getInstance()->sql_num_rows($result) == 0) {
+            $query3 = 'DELETE FROM `codev_timetrack_note_table` WHERE timetrackid='.$this->id.';';
             $result3 = SqlWrapper::getInstance()->sql_query($query3);
             return "No note for this time track";
          }
-      }
-      else {
-         return "No note for this time track";
-      }
-//       select from timetrack_note_table where track_id = $this->id
-//       
-//       si NULL, clean timetrack_note_table
-//       
-//       note = new IssueNote
-//       return note->getTimetrackNote(); // enleve le tag
+         else
+         {
+            $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+            $row->note = str_replace(array("\r", "\n"), '', $row->note);
+            return strip_tags($row->note);
+         }
    }
-  
 }
-
 TimeTrack::staticInit();
 
 
