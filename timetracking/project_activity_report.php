@@ -132,7 +132,9 @@ class ProjectActivityReportController extends Controller {
 
             $bugDetailedList[$bugid] = array(
                'class' => $tr_class,
-               'description' => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary()),
+               'bugid' => Tools::issueInfoURL($bugid),
+               'extRef' => $issue->getTcId(),
+               'summary' => htmlspecialchars($issue->getSummary()),
                'jobList' => $subJobList,
                'category' => $issue->getCategoryName(),
                'type' => $issue->getType(),

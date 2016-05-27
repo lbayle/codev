@@ -41,7 +41,9 @@
                      <caption><img onclick="$('#tabProj_{$i.id}').table2CSV({literal}{{/literal}filename : '{$i.name}.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" /></caption>
                      <thead>
                         <tr>
-                           <th>{t}Task{/t}</th>
+                           <th>{t}ID{/t}</th>
+                           <th>{t}ExtRef{/t}</th>
+                           <th>{t}Summary{/t}</th>
                            {if $i.jobList}
                            {foreach $i.jobList as $j}
                            <th>{$j}</th>
@@ -60,7 +62,9 @@
                      <tbody>
                         {foreach from=$i.bugList key=id item=k}
                         <tr>
-                           <td>{$k.description}</td>
+                           <td>{$k.bugid}</td>
+                           <td>{$k.extRef}</td>
+                           <td>{$k.summary}</td>
                            {if $isJobDetails && $k.jobList}
                            {foreach $k.jobList as $l}
                            <td>{$l}</td>
