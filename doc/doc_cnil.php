@@ -31,7 +31,11 @@ class DocCnilController extends Controller {
    }
 
    protected function display() {
-      // Nothing special
+
+      if (NULL != Constants::$cnil_company) {
+         $this->smartyHelper->assign('cnil_company', Constants::$cnil_company);
+         $this->smartyHelper->assign('cnil_contact_email', Constants::$cnil_contact_email);
+      }
    }
 
 }

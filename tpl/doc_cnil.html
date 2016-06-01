@@ -1,4 +1,8 @@
-<div  style="margin-left:40px ; margin-top:3em;">
+<div id="CNIL_common_text" style="margin-left:40px ; margin-top:3em;">
+
+   <b>CodevTT permet de faire le suivi d'activit&eacute; des employ&eacute;s sur un projet.</b><br>
+   <br>
+
    CodevTT & Mantis enregistrent des donn&eacute;es personnelles dans la base de donn&eacute;es.<br>
    Ces informations sont les suivantes:<br>
    <ul>
@@ -10,8 +14,16 @@
       <li>Date de cr&eacute;ation des imputations</li>
       <li>Données de connexion: date, nom, adresse IP, navigateur</li>
    </ul>
-   <br>
-   Votre employeur s'engage &agrave; supprimer les donn&eacute;es apr&egrave;s un d&eacute;lai de 5 ans, ou &agrave; la fin du projet si celui-ci d&eacute;pase la limite des 5 ans.<br>
-   Les donn&eacute;es personnelles peuvent &ecirc;tre supprim&eacute;es sur demande &agrave; tout moment.
+
 </div>
 
+{if isset($cnil_company)}
+<hr  style="margin-left:40px; width:40%;" align="left">
+
+<div id="CNIL_custom_text" style="margin-left:40px; margin-top:1em;">
+   Editeur : {$cnil_company} <br><br>
+
+   Pour consulter vos droits, contactez: <A HREF="mailto:{$cnil_contact_email}">{$cnil_contact_email}</A>
+</div>
+{/if}
+<br>

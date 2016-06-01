@@ -13,6 +13,11 @@ codevtt_url = "https://localhost/codevtt"
 mantis_dir = /var/www/html/mantis
 codevtt_dir = /var/www/html/codevtt
 
+; French "Commission nationale de l'informatique et des libertés" (optional)
+;[cnil]
+;company = "Atos BSD / Atos SudEst"
+;contact_email = "dpo-france@atos.net"
+
 [database]
 db_mantis_host      = "localhost"
 db_mantis_database  = "bugtracker"

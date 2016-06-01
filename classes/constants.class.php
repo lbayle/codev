@@ -116,6 +116,11 @@ class Constants {
       'enable_email_notification' => 1,  // default is enabled
    );
 
+   // ---CNIL---
+   // French "Commission nationale de l'informatique et des libertés"
+   public static $cnil_company = NULL;
+   public static $cnil_contact_email = NULL;
+
    
    /**
     * If true, then no info/warning messages will be displayed.
@@ -170,6 +175,10 @@ class Constants {
       self::$codevRootDir           = $general['codevtt_dir'];
       self::$mantisPath             = $general['mantis_dir'];
       self::$mantisURL              = $general['mantis_url'];
+
+      $cnil = $ini_array['cnil'];
+      self::$cnil_company       = $cnil['company'];
+      self::$cnil_contact_email = $cnil['contact_email'];
 
       $database = $ini_array['database'];
       self::$db_mantis_host     = $database['db_mantis_host'];
@@ -278,6 +287,10 @@ class Constants {
       $general['mantis_url']             = self::$mantisURL;
       $general['codevtt_url']            = self::$codevURL;
 
+      $cnil = array();
+      $cnil['company'] = self::$cnil_company;
+      $cnil['contact_email'] = self::$cnil_contact_email;
+
       $database = array();
       $database['db_mantis_host']     = self::$db_mantis_host;
       $database['db_mantis_database'] = self::$db_mantis_database;
@@ -351,6 +364,9 @@ class Constants {
 
       $ini_array[] = '';
       $ini_array['general']       = $general;
+      $ini_array[] = '';
+      $ini_array[] = '; French "Commission nationale de l\'informatique et des libertés" (optional)';
+      $ini_array['cnil']          = $cnil;
       $ini_array[] = '';
       $ini_array['database']      = $database;
       $ini_array[] = '';
