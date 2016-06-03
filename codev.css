@@ -504,3 +504,28 @@ ul.submenu ul {
    cursor: pointer;
    background-image: url("images/b_export_xls.gif");
 }
+
+.moveIssueTimetracks form input
+{
+    margin: 5px 0px;
+}
+
+.moveIssueTimetracks_message
+{
+    margin: 10px 0px;
+}
+
+.moveIssueTimetracks .datepicker
+{
+    width: 40%;
+}
+
+.moveIssueTimetracks_table
+{
+    margin: 10px 0px;
+}
+
+.moveIssueTimetracks span.ui-button-text
+{
+    font-size: 12px;
+}

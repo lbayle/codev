@@ -1,0 +1,404 @@
+<div class="moveIssueTimetracks">
+    <div class="pluginInitFunction"  style="display: none;">moveIssueTimetracksJsInit</div>
+    <div class="pluginDestroyFunction"  style="display: none;">moveIssueTimetracksJsDestroy</div>
+
+    <div>
+        <div class="moveIssueTimetracks" align="left" style="width: 95%; margin-top: 1em;">
+            <div align="left" style="margin-top:1em;">
+                <form class="moveIssueTimetracks_getTimetracksForm" method="post" action="{$moveIssueTimetracks_ajaxPhpURL}">
+                    <table class="moveIssueTimetracks_table">
+                        <tr>
+                            <td><label for="moveIssueTimetracks_displayedTeam">{t}Team{/t}: </label></td>
+                            <td>
+                                    <select class="moveIssueTimetracks_displayedTeam select2" name="moveIssueTimetracks_displayedTeam" style="width: 100%;">
+                                        {foreach from=$moveIssueTimetracks_availableTeams key=id item=i}
+                                        <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                                        {/foreach}
+                                    </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><label for="moveIssueTimetracks_displayedUser">{t}User{/t}: </label></td>
+                            <td>
+                                <select class="moveIssueTimetracks_displayedUser select2" name="moveIssueTimetracks_displayedUser" multiple style="min-width: 300px; vertical-align:top;">
+                                    {foreach from=$moveIssueTimetracks_teamUserList key=id item=i}
+                                    <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                                    {/foreach}
+                                </select>
+                                <label><input type="checkbox" class="moveIssueTimetracks_selectAllUsers">{t}Select All{/t}</label>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>{t}Dates{/t}: </label>
+                            </td>
+                            <td>
+                                <input type="text" class="moveIssueTimetracks_startdatepicker datepicker" name="moveIssueTimetracks_startdate" placeholder="{t}Start{/t}" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+
+                                 <input type="text" class="moveIssueTimetracks_enddatepicker datepicker" name="moveIssueTimetracks_enddate" placeholder="{t}End{/t}" autocomplete="off" maxlength="10" size="10" title="{t}End Date{/t}" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>{t}Tasks{/t}: </label>
+                            </td>
+                            <td>
+                                <input name="moveIssueTimetracks_bugidOrigin" placeholder="{t}Origin{/t}"/>
+
+                                <input name="moveIssueTimetracks_bugidDestination" placeholder="{t}Destination{/t}"/>
+
+                                <input class="moveIssueTimetracks_getSubmit" type="submit" value="{t}Display{/t}" />
+                                <input type="hidden" name="action" value="getMoveIssueTimetracks" />
+                                <input type="hidden" name="dashboardId" value="" />
+                            </td>
+                        </tr>
+                        
+
+                    </table>
+                </form>
+                
+            </div>
+        </div>
+        
+        <div>
+            <span class="moveIssueTimetracks_javascriptFieldValidation moveIssueTimetracks_message" style="color:red;" hidden>
+                {t}Please, fill all fields correctly{/t}
+            </span>
+            <span class="moveIssueTimetracks_javascriptTaskFieldValidation moveIssueTimetracks_message" style="color:red;" hidden>
+                {t}Destination task must be different from origin{/t}
+            </span>
+        </div>
+        
+        <div class="moveIssueTimetracks_filterSummary" >
+            <table  class="moveIssueTimetracks_table">
+                <tr>
+                    <td><b>{t}Origin task : {/t}</b></td>
+                    <td style="min-width: 100px;"><span class="moveIssueTimetracks_originTaskSummary" ></span></td>
+                    <td rowspan="2">
+                        <form class="moveIssueTimetracks_moveTimetracksForm" method="post" action="{$moveIssueTimetracks_ajaxPhpURL}">
+                            <input class="moveIssueTimetracks_moveSubmit" type="submit" value="{t}Move selected timetracks{/t}" />
+                            <input type="hidden" name="bugidDestination" value="" />
+                            <input type="hidden" name="action" value="moveIssueTimetracks" />
+                            <input type="hidden" name="dashboardId" value="" />
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>{t}Destination task : {/t}</b></td>
+                    <td><span class="moveIssueTimetracks_destinationTaskSummary"></span></td>
+                </tr>
+            </table>
+            
+        </div>
+        
+        <span class="moveIssueTimetracks_warningCreationDate" style="color:red;" hidden>
+            {t}WARNING : In order to move timetracks, destination task creation date will be moved to {/t}
+            <span class="moveIssueTimetracks_originTaskCreationDate"></span>.
+        </span>
+        
+        <div>
+            <span class="moveIssueTimetracks_errorsFromServer moveIssueTimetracks_message" style="color:red;" hidden>
+                
+            </span>
+        </div>
+        
+        <div>
+            <span class="moveIssueTimetracks_success moveIssueTimetracks_message" style="color:green;" hidden>
+                {t}Timetracks moved with success !{/t}
+            </span>
+        </div>
+
+        <div>
+            <div class="moveIssueTimetracksTab" align="left" style="margin-top: 1em;">
+                
+            </div>
+            <div class="ui-helper-clearfix"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+        function moveIssueTimetracksJsDestroy() {
+            jQuery(".moveIssueTimetracksHelpDialog").dialog('destroy').remove();
+        }
+        
+        // select all users
+        jQuery(".moveIssueTimetracks_selectAllUsers").click(function(){
+            if(jQuery(".moveIssueTimetracks_selectAllUsers").is(':checked') ){
+                jQuery(".moveIssueTimetracks_displayedUser > option").prop("selected","selected");
+                jQuery(".moveIssueTimetracks_displayedUser").trigger("change");
+            }else{
+                jQuery(".moveIssueTimetracks_displayedUser > option").removeAttr("selected");
+                 jQuery(".moveIssueTimetracks_displayedUser").trigger("change");
+             }
+        });
+
+        // this function will be run at jQuery(document).ready (see dashboard.html) or
+        // when a new widjet is add to the dashboard.
+        function moveIssueTimetracksJsInit() 
+        {
+            console.log('moveIssueTimetracksJsInit');
+            // ------------------------------------------------
+            // datepicker
+
+            {if $locale != en}
+            jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+            {/if}
+
+            // Set the datepickers
+            var startDatePicker = jQuery(".moveIssueTimetracks_startdatepicker").datepicker("setDate", "{$moveIssueTimetracks_startDate}");
+            var endDatePicker = jQuery(".moveIssueTimetracks_enddatepicker").datepicker("setDate", "{$moveIssueTimetracks_endDate}");
+            
+            
+            // ------------------------------------------------
+            // on select team, we update users
+            jQuery('select.moveIssueTimetracks_displayedTeam').on("change", function(event) {
+                    
+                jQuery(".moveIssueTimetracks_selectAllUsers").prop( "checked", false );
+                
+                /* stop form from submitting normally */
+                event.preventDefault();
+                
+                var form = jQuery('.moveIssueTimetracks_getTimetracksForm');
+                
+                var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+                form.find("input[name=dashboardId]").val(dashboardId);
+                
+                var data = "dashboardId=" + form.find("input[name=dashboardId]").val() 
+                        + "&action=getUsersFromTeam" 
+                        + "&moveIssueTimetracks_displayedTeam=" + form.find("select.moveIssueTimetracks_displayedTeam").val();
+                
+                
+                // send in ajax
+                jQuery.ajax({
+                    async: false,
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    dataType:"json",
+                    data: data,
+                    success: function(data) 
+                    {
+                        var users = data['moveIssueTimetracks_teamUserList'];
+                        // Get select element to update
+                        var userSelect = jQuery("select.moveIssueTimetracks_displayedUser");
+                        // Clear the list
+                        userSelect.empty();
+                        // Clear selection
+                        jQuery("div.moveIssueTimetracks_displayedUser .select2-search-choice").remove();
+                        for (var user in users){
+                            if (users.hasOwnProperty(user)) {
+                                userSelect.append(jQuery('<option>').attr('value', user).append(users[user]));
+                            }
+                        }
+                        removeTabAndClearSummary();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) 
+                    {
+                        if (errorThrown == 'Forbidden') {
+                            window.location = '{$page}';
+                        }
+                    }
+                });
+            });
+
+
+
+            // ------------------------------------------------
+            // submit filters to get timetracks
+            jQuery('.moveIssueTimetracks_getSubmit').click(function(event) {
+                
+                removeTabAndClearSummary();
+                
+
+                /* stop form from submitting normally */
+                event.preventDefault();
+                var form = jQuery('.moveIssueTimetracks_getTimetracksForm');
+                
+                // test if fields are filled
+                // get list of selected users
+                var userList = jQuery("select.moveIssueTimetracks_displayedUser").eq(0);
+                var selectedUserList = userList.val();
+                var beginDate = form.find("[name=moveIssueTimetracks_startdate]").val();
+                var endDate = form.find("[name=moveIssueTimetracks_enddate]").val();
+                var originTaskId = form.find("[name=moveIssueTimetracks_bugidOrigin]").val();
+                var destinationTaskId = form.find("[name=moveIssueTimetracks_bugidDestination]").val();
+                
+                if(selectedUserList == null || beginDate == "" || endDate == "" || originTaskId == "" || destinationTaskId == "" || !$.isNumeric(originTaskId) || !$.isNumeric(destinationTaskId))
+                {
+                    jQuery(".moveIssueTimetracks_javascriptFieldValidation").show();
+                }
+                else
+                {
+                    if(originTaskId == destinationTaskId)
+                    {
+                        jQuery(".moveIssueTimetracks_javascriptTaskFieldValidation").show();
+                    }
+                    else
+                    {
+                        
+                
+                        var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+                        form.find("input[name=dashboardId]").val(dashboardId);
+
+
+
+                        // prepare data to send
+                        var parsedSelectedUserList = JSON.stringify(selectedUserList);
+                        var data = form.serialize() + "&moveIssueTimetracks_displayedUser=" + parsedSelectedUserList;
+
+                        // send filters in ajax
+                        jQuery.ajax({
+                            async: false,
+                            type: form.attr('method'),
+                            url: form.attr('action'),
+                            dataType:"json",
+                            data: data,
+                            success: function(data) 
+                            {
+
+                                
+                                if(data["statusMsg"] == "SUCCESS")
+                                {
+                                    jQuery(".moveIssueTimetracksTab").html(jQuery.trim(data['moveIssueTimetracks_htmlContent']));
+
+                                    jQuery.each(data['moveIssueTimetracks_jsFiles'], function(index, value) {
+                                        jQuery.ajax({
+                                        async: false,
+                                                url: value,
+                                                dataType: "script"
+                                        });
+                                    });
+
+                                    // filters summary 
+                                    var filterSummary = jQuery(".moveIssueTimetracks_filterSummary");
+                                    var originTaskSummary = filterSummary.find(".moveIssueTimetracks_originTaskSummary");
+                                    var destinationTaskSummary = filterSummary.find(".moveIssueTimetracks_destinationTaskSummary");
+
+                                    originTaskSummary.empty();
+                                    destinationTaskSummary.empty();
+
+                                    originTaskSummary.html(data["moveIssueTimetracks_selectedOriginTaskSummary"]);
+                                    destinationTaskSummary.html(data["moveIssueTimetracks_selectedDestinationTaskSummary"]);
+
+
+                                    // set bugid destination on hidden field
+                                    var bugidDestination = jQuery(".moveIssueTimetracks_moveTimetracksForm [name=bugidDestination]");
+                                    bugidDestination.val(data["moveIssueTimetracks_selectedDestinationTask"]);
+
+                                    // warning creation date
+                                    var warningCreationDate = jQuery(".moveIssueTimetracks_warningCreationDate");
+                                    if(data["moveIssueTimetracks_isDestinationTaskCreationDatePosterior"])
+                                    {
+                                        var originTaskCreationDate = warningCreationDate.find(".moveIssueTimetracks_originTaskCreationDate");
+                                        originTaskCreationDate.html(data["moveIssueTimetracks_originTaskCreationDate"]);
+                                        warningCreationDate.show();
+                                    }
+                                    else
+                                    {
+                                        warningCreationDate.hide();
+                                    }  
+
+                                    filterSummary.show();
+                                }
+                                else
+                                {
+                                    removeTabAndClearSummary();
+                                    jQuery(".moveIssueTimetracks_errorsFromServer").show().html(data["statusMsg"]);
+                                }
+
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) 
+                            {
+                                if (errorThrown == 'Forbidden') {
+                                    window.location = '{$page}';
+                                }
+                            }
+                        });
+                    }
+                    
+                }
+            });
+            
+    
+    
+            // ------------------------------------------------
+            // move timetracks
+            jQuery('.moveIssueTimetracks_moveSubmit').click(function(event) {
+
+                /* stop form from submitting normally */
+                event.preventDefault();
+                var form = jQuery('.moveIssueTimetracks_moveTimetracksForm');
+                
+                var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+                form.find("input[name=dashboardId]").val(dashboardId);
+                
+                // get timetracks ids from the table
+                timetracksTable = jQuery("table.moveIssueTimetracks_tt_table");
+                timetracks = timetracksTable.find("tbody tr");
+                timetracksIds = [];
+                for(var i=0 ; i<timetracks.length ; i++ )
+                {
+                    // keep only checked timetracks
+                    if(timetracks.eq(i).find("td input:checked").length != 0)
+                    {
+                        timetracksIds.push(timetracks[i].getAttribute("data-id"));
+                    }
+                }
+                
+                // Prepare data to send
+                var data = form.serialize() + "&moveIssueTimetracks_timetracksIds=" + JSON.stringify(timetracksIds);
+                
+                
+                // send in ajax
+                jQuery.ajax({
+                    async: false,
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    dataType:"json",
+                    data: data,
+                    success: function(data) 
+                    {
+                        if(data["statusMsg"] == "SUCCESS")
+                        {
+                            removeTabAndClearSummary();
+                            jQuery(".moveIssueTimetracks_success").show();
+                        }
+                        else
+                        {
+                            jQuery(".moveIssueTimetracks_errorsFromServer").show().html(data["statusMsg"]);
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) 
+                    {
+                        if (errorThrown == 'Forbidden') {
+                            window.location = '{$page}';
+                        }
+                    }
+                });
+            });
+    //    ------------------------------------------------
+    }
+            
+    function removeTabAndClearSummary()
+    {
+        var filterSummary = jQuery(".moveIssueTimetracks_filterSummary");
+//        filterSummary.hide();
+//        filterSummary.find(".moveIssueTimetracks_originTaskSummary").empty();
+//        filterSummary.find(".moveIssueTimetracks_destinationTaskSummary").empty();
+//        filterSummary.find(".moveIssueTimetracks_warningCreationDate").hide();
+//        filterSummary.find(".moveIssueTimetracks_originTaskCreationDate").empty();
+        filterSummary.find(".moveIssueTimetracks_moveTimetracksForm [name=bugidDestination]").val("");
+        
+        jQuery(".moveIssueTimetracks_errorsFromServer").hide();
+        jQuery(".moveIssueTimetracks_success").hide();
+        
+        jQuery(".moveIssueTimetracksTab").empty();
+        
+        jQuery(".moveIssueTimetracks_javascriptFieldValidation").hide();
+        jQuery(".moveIssueTimetracks_javascriptTaskFieldValidation").hide();
+    }
+    </script>
+</div>

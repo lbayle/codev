@@ -1,0 +1,30 @@
+<div class="moveIssueTimetracks_ajax">
+   <table class="moveIssueTimetracks_tt_table datatable_csv">
+      <thead>
+         <tr>
+            <th></th>
+            <th>{t}Date{/t}</th>
+            <th>{t}User{/t}</th>
+<!--            <th>{t}Committer{/t}</th>
+            <th>{t}Commit date{/t}</th>-->
+            <th>{t}Job{/t}</th>
+            <th>{t}Duration{/t}</th>
+            <th>{t}Task{/t}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$moveIssueTimetracks_timetracks item=i key=id}
+         <tr data-id="{$i.id}">
+            <td><input type="checkbox" checked/></td>
+            <td>{$i.date}</td>
+            <td>{$i.user}</td>
+<!--            <td>{$i.committer}</td>
+            <td>{$i.commit_date}</td>-->
+            <td>{$i.job}</td>
+            <td>{$i.duration}</td>
+            <td>{$i.task_id} / {$i.task_extRef} - {$i.task_summary}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
+</div>

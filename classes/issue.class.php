@@ -2418,7 +2418,22 @@ class Issue extends Model implements Comparable {
       return true;
    }
    
- 
+   /**
+    * Set submission date
+    * @param timestamp $newSubmissionTimestampDate
+    */
+   public function setDateSubmission($newSubmissionTimestampDate)
+   {
+       $query = "UPDATE 'mantis_bug_table' SET submitted_date=$newSubmissionTimestampDate";
+       
+       $result = SqlWrapper::getInstance()->sql_query($query);
+        if (!$result) {
+           self::$logger->error("Query failed. Impossible to change submission date on issue" . $this->bugId);
+           return false;
+        }
+       
+       $this->dateSubmission = $newSubmissionTimestampDate;
+   }
 }
 
 Issue::staticInit();
