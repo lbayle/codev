@@ -91,7 +91,7 @@ class ImportIssueCsvBasic  extends IndicatorPluginAbstract {
       return array(
          'js_min/datepicker.min.js',
          'js_min/editable.min.js',
-         'lib/datatables/media/js/jquery.dataTables.min.js'
+         'lib/DataTables/media/js/jquery.dataTables.min.js',
       );
    }
 
@@ -213,6 +213,7 @@ class ImportIssueCsvBasic  extends IndicatorPluginAbstract {
          throw new Exception($err_msg);
       }
       self::$logger->error('tmpFilename='. $tmpFilename);
+      
       return $tmpFilename;
    }
    
@@ -230,10 +231,10 @@ class ImportIssueCsvBasic  extends IndicatorPluginAbstract {
       // Can't be use with PHP 5.1
       $file->setFlags(SplFileObject::READ_CSV);
       $file->setCsvControl($delimiter,$enclosure,$escape);
-      foreach ($file as $row) {
-         //var_dump($row);
-         self::$logger->error('SplFileObject row='.  var_export($row, true));
-      }
+//      foreach ($file as $row) {
+//         //var_dump($row);
+//         self::$logger->error('SplFileObject row='.  var_export($row, true));
+//      }
       
       $row = 0;
       while (!$file->eof()) {
@@ -256,42 +257,131 @@ class ImportIssueCsvBasic  extends IndicatorPluginAbstract {
             }
          }
       }
+      
       return $issues;
    }
+   
+   
+   /**
+    * @param Team $team
+    * @return string[]
+    */
+   function getCommands(Team $team) {
+      $cmdList = $team->getCommands();
+
+      $items = array();
+      if (0 != count($cmdList)) {
+         foreach ($cmdList as $id => $cmd) {
+            $items[$id] = $cmd->getName();
+         }
+      }
+      return $items;
+   }
+
+   /**
+    * @param int $projectid
+    * @return string[]
+    */
+   private function getProjectCategories($projectid) {
+      $catList = array();
+      if (0 != $projectid) {
+         $prj = ProjectCache::getInstance()->getProject($projectid);
+         $catList = $prj->getCategories();
+      }
+      return $catList;
+   }
+
+   /**
+    * @param int $projectid
+    * @return string[]
+    */
+   private function getProjectTargetVersion($projectid) {
+      $versions = array();
+      if (0 != $projectid) {
+         $prj = ProjectCache::getInstance()->getProject($projectid);
+         $versions = $prj->getProjectVersions();
+      }
+      return $versions;
+   }
+   
    
   /**
     *
     */
-   public function execute() {
+    public function execute() {
+        if (Tools::isConnectedUser()) {
 
-      $this->execData = array ();
-      
-      $isAccessGranted = $this->isAccessGranted();
-      if ($isAccessGranted) {
-         try {
-            
-            $team = TeamCache::getInstance()->getTeam($this->teamid);
-            // exclude noStatsProjects and disabled projects
-            $this->execData['projects'] = $team->getProjects(false, false);
-            
-            // if file is defined
-            if (!empty($this->csvFilename)) {
-               
-               // read CSV file
-               $issues =      $this->getIssuesFromCSV($this->csvFilename);
+            // except Observed teams
+            $dTeamList = $this->session_user->getDevTeamList();
+            $lTeamList = $this->session_user->getLeadedTeamList();
+            $managedTeamList = $this->session_user->getManagedTeamList();
+            $teamList = $dTeamList + $lTeamList + $managedTeamList;
 
-               // set GLOBAL VALUES BUTTONS
-            
+            $isAccessGranted = $this->isAccessGranted();
+            if (!$isAccessGranted) {
+                $this->execData['accessDenied'] = TRUE;
+            } else {
+                
+                $this->execData['accessDenied'] = FALSE;
+
+                $team = TeamCache::getInstance()->getTeam($this->teamid);
+
+                $this->execData['teamid'] = $this->teamid;
+                if (0 != $this->teamid) {
+                   $this->execData['teamName'] = $team->getName();
+                }
+
+                // use the projectid set in the form, if not defined (first page call) use session projectid
+                if (isset($this->selectedProject)) {
+                    $projectid = $this->selectedProject;
+                    $_SESSION['projectid'] = $projectid;
+                } else {
+                    $projectid = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
+                }
+                $this->execData['projectid'] = $projectid;
+                if (0 != $projectid) {
+                    $proj = ProjectCache::getInstance()->getProject($projectid);
+                    $this->execData['projectName'] = $proj->getName();
+                }
+
+                $this->execData['teams'] = $teamList;
+                // exclude noStatsProjects and disabled projects
+                $this->execData['projects'] =  $team->getProjects(false, false);
+                
+                if (isset($_FILES['uploaded_csv'])) {
+                    try {
+                        $filename = $this->getSourceFile();
+
+                        // --- READ CSV FILE ---
+                        $this->execData['issues'] = $this->getIssuesFromCSV($filename);
+
+                        $this->execData['filename'] = $filename;
+
+                        $commands = $this->getCommands($team);
+
+                        $smartyCmdList = array();
+                        foreach ($commands as $id => $name) {
+                           $smartyCmdList[$id] = array(
+                              'id' => $id,
+                              'name' => $name,
+                              'selected' => $id == 0
+                           );
+                        }
+                        
+                        $this->execData['filename'] = $this->csvFilename;
+
+                        $this->execData['commands'] = $commands;
+                        $this->execData['projectCategories'] = $this->getProjectCategories($this->selectedProject);
+                        $this->execData['projectTargetVersion'] = $this->getProjectTargetVersion($this->selectedProject);
+                        $this->execData['activeMembers'] = $team->getActiveMembers();
+                        
+                    } catch (Exception $ex) {
+                        $this->execData['errorMsg'] = $ex->getMessage();
+                    }
+                }
             }
+        }
             
-            
-
-         } catch (Exception $e) {
-            $this->execData['errorMsg'] = $e->getMessage();
-         }
-      } else {
-         $this->execData['accessDenied'] = TRUE;
-      }      
       return $this->execData;
    }
 
@@ -300,33 +390,31 @@ class ImportIssueCsvBasic  extends IndicatorPluginAbstract {
     * @param boolean $isAjaxCall
     * @return array
     */
-   public function getSmartyVariables($isAjaxCall = false) {
-/*
-      $this->smartyHelper->assign('projectid', $projectid);
-      if (0 != $projectid) {
-         $proj = ProjectCache::getInstance()->getProject($projectid);
-         $this->smartyHelper->assign('projectName', $proj->getName());
-      }
-
-      $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$this->teamid));
-      // exclude noStatsProjects and disabled projects
-      $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($team->getProjects(false, false),$projectid));
-               $this->smartyHelper->assign('newIssues', $this->getIssuesFromCSV($tmpFilename));
-                  $this->smartyHelper->assign('filename', $filename);
-
-                  $this->smartyHelper->assign('commandList', $smartyCmdList);
-                  $this->smartyHelper->assign('categoryList', SmartyTools::getSmartyArray($projectCategories, 0));
-                  $this->smartyHelper->assign('targetversionList', SmartyTools::getSmartyArray($projectTargetVersion, 0));
-                  $this->smartyHelper->assign('userList', SmartyTools::getSmartyArray($activeMembers, 0));
-
-                  $this->smartyHelper->assign('jed_commandList', Tools::array2json($commands));
-                  $this->smartyHelper->assign('jed_categoryList', Tools::array2json($projectCategories));
-                  $this->smartyHelper->assign('jed_targetVersionList', Tools::array2json($projectTargetVersion));
-                  $this->smartyHelper->assign('jed_userList', Tools::array2json($activeMembers));
-      
-*/      
-      
-      $smartyVariables = array();
+    public function getSmartyVariables($isAjaxCall = false) {
+        
+        $smartyVariables = array();
+        
+        if($this->execData['issues'] != null)
+        {
+            $smartyVariables['importIssueCsvBasic_projectid'] = $this->execData['projectid'];
+            
+            $smartyVariables['importIssueCsvBasic_teamName'] =  $this->execData['teamName'];
+            $smartyVariables['importIssueCsvBasic_projectName'] = $this->execData['projectName'];
+            $smartyVariables['importIssueCsvBasic_filename'] = $this->execData['filename'];
+            
+            $smartyVariables['importIssueCsvBasic_commandList'] = SmartyTools::getSmartyArray($this->execData['commands'], 0);
+            $smartyVariables['importIssueCsvBasic_categoryList'] = SmartyTools::getSmartyArray($this->execData['projectCategories'], 0);
+            $smartyVariables['importIssueCsvBasic_targetversionList'] = SmartyTools::getSmartyArray($this->execData['projectTargetVersion'], 0);
+            $smartyVariables['importIssueCsvBasic_userList'] = SmartyTools::getSmartyArray($this->execData['activeMembers'], 0);
+            
+            $smartyVariables['jed_commandList'] = Tools::array2json($this->execData['commands']);
+            $smartyVariables['jed_categoryList'] = Tools::array2json($this->execData['projectCategories']);
+            $smartyVariables['jed_targetVersionList'] = Tools::array2json($this->execData['projectTargetVersion']);
+            $smartyVariables['jed_userList'] = Tools::array2json($this->execData['activeMembers']);
+            
+            $smartyVariables['importIssueCsvBasic_newIssues'] = $this->execData['issues'];
+        }
+        
       
       if (array_key_exists('errorMsg', $this->execData)) {
          $smartyVariables['importIssueCsvBasic_errorMsg'] = $this->execData['errorMsg'];
@@ -338,8 +426,9 @@ class ImportIssueCsvBasic  extends IndicatorPluginAbstract {
 
       if (false == $isAjaxCall) {
          $smartyVariables['importIssueCsvBasic_ajaxFile'] = self::getSmartySubFilename();
-         $smartyVariables['importIssueCsvBasic_ajaxPhpURL'] = self::getAjaxPhpURL();
       }
+      $smartyVariables['importIssueCsvBasic_ajaxPhpURL'] = self::getAjaxPhpURL();
+      
       return $smartyVariables;
    }
 

@@ -96,8 +96,266 @@
       </table>
 
    </div>
+   
 
-   <button type='button' name="btImportIssues" id="btImportIssues"><img border='0' align='absmiddle' src="images/b_save.png" alt="Save icon"/> {t}Import{/t}</button>
+<!--Select in table-->
+<script type="text/javascript">
+    
+      function getDataRowFromIssueRow(issueRow) {
+          
+         var dataRowId = issueRow.attr('id').replace('issueTable','issueData');
+         return jQuery("#"+dataRowId);
+      }
+      
+        // Instead of using "OK" submit button on cells of table (for date)
+        $('#issues_table tbody tr td form input').live('change', function () {
+             $(this).parent().submit();
+        });
+        
+
+      jQuery(document).ready(function() {
+          
+      
+         jQuery.ajax({
+            url: "lib/DataTables/media/js/jquery.dataTables.min.js",
+            dataType: "script",
+            async: false,
+            cache: true
+         });
+
+         {if $locale != en}
+         jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
+         {/if}
+
+         var oTable = jQuery('#issues_table').dataTable( {
+            "bProcessing": false,
+            "sScrollY": "700px",
+            "bPaginate": false,
+            "bScrollCollapse": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false,
+
+            "fnDrawCallback": function () {
+               jQuery(this).find('.summary').editable( function(value, settings) { return(value); }, {
+                  data: function(value, settings) { return value; },
+                  type: 'textarea',
+                  onblur: 'submit',
+                  placeholder : '',
+                  "height": "14px"
+               });
+               jQuery(this).find('.mgrEffortEstim').editable( function(value, settings) { return(value); }, {
+                  data: function(value, settings) { return value; },
+                  type: 'textarea',
+                  onblur: 'submit',
+                  placeholder : '',
+                  "height": "14px"
+               });
+               jQuery(this).find('.effortEstim').editable( function(value, settings) { return(value); }, {
+                  data: function(value, settings) { return value; },
+                  type: 'textarea',
+                  onblur: 'submit',
+                  placeholder : '',
+                  "height": "14px"
+               });
+
+               if(Object.keys({$jed_commandList}).length > 0) {
+                  jQuery(this).find('.command').editable( function(value, settings) {
+                     // set id in data table
+                     var dataRow = getDataRowFromIssueRow(jQuery(this).parent());
+                     dataRow.find('td.commandid').text(value);
+
+                     // set displayed value
+                     var items = settings.data;
+                     return(items[value]);
+                  }, {
+                     data: {$jed_commandList},
+                     type: 'select',
+                     onblur: 'submit',
+                     placeholder : '',
+                     "height": "14px"
+                  });
+               }
+               if(Object.keys({$jed_categoryList}).length > 0) {
+                  jQuery(this).find('.category').editable( function(value, settings) {
+                     // set id in data table
+                     var dataRow = getDataRowFromIssueRow(jQuery(this).parent());
+                     dataRow.find('td.categoryid').text(value);
+                     var items = settings.data;
+                     return(items[value]);
+                  }, {
+                     data: {$jed_categoryList},
+                     type: 'select',
+                     onblur: 'submit',
+                     placeholder : '',
+                     "height": "14px"
+                  });
+               }
+               if(Object.keys({$jed_targetVersionList}).length > 0) {
+                  jQuery(this).find('.targetVersion').editable( function(value, settings) {
+                     // set id in data table
+                     var dataRow = getDataRowFromIssueRow(jQuery(this).parent());
+                     dataRow.find('td.targetversionid').text(value);
+                     var items = settings.data;
+                     return(items[value]);
+                  }, {
+                     data: {$jed_targetVersionList},
+                     type: 'select',
+                     onblur: 'submit',
+                     placeholder : '',
+                     "height": "14px"
+                  });
+               }
+               if(Object.keys({$jed_userList}).length > 0) {
+                  jQuery(this).find('.userName').editable( function(value, settings) {
+                     // set id in data table
+                     var dataRow = getDataRowFromIssueRow(jQuery(this).parent());
+                     dataRow.find('td.userid').text(value);
+                     var items = settings.data;
+                     return(items[value]);
+                  }, {
+                     data: {$jed_userList},
+                     type: 'select',
+                     onblur: 'submit',
+                     placeholder : '',
+                     "height": "14px"
+                  });
+               }
+               jQuery(this).find('.type').editable( function(value, settings) {
+                  // set id in data table
+                  var dataRow = getDataRowFromIssueRow(jQuery(this).parent());
+                  dataRow.find('td.type').text(value);
+                  var items = JSON.parse(settings.data);
+                  return(items[value]);
+               }, {
+                  data: '["Task","Bug"]',
+                  type: 'select',
+                  onblur: 'submit',
+                  placeholder : '',
+                  "height": "14px"
+               });
+               jQuery(this).find(".deadline").editable(function(value, settings) { return(value); }, {
+                  type: 'datepicker',
+                  //event: 'dblclick',
+                  submit: '',
+                  placeholder : '',
+                  width: '100px'
+               });
+            }
+         });
+      });
+   </script>
+   
+   
+<!--Apply to all-->
+<script type="text/javascript">
+    
+    
+      
+    jQuery(document).ready(function() {
+
+       var oTable = jQuery('#issues_table').dataTable();
+
+       var rows = oTable.find('tbody tr');
+
+       jQuery("#btSetAllCommands").click(function(event) {
+          // you cannot set data if column is hidden !
+          rows.each( function () {
+             var select = jQuery('#globalCommandid option:selected');
+             var value = select.text();
+             var key = select.val();
+
+             jQuery(this).find('td.command').text(value);
+
+             // set id in data table
+             var dataRow = getDataRowFromIssueRow(jQuery(this));
+             dataRow.find('td.commandid').text(key);
+          });
+       });
+
+       jQuery("#btSetAllCategories").click(function(event) {
+          // you cannot set data if column is hidden !
+          rows.each( function () {
+             var select = jQuery('#globalCategoryid option:selected');
+             var value = select.text();
+             var key = select.val();
+
+             jQuery(this).find('td.category').text(value);
+
+             // set id in data table
+             var dataRow = getDataRowFromIssueRow(jQuery(this));
+             dataRow.find('td.categoryid').text(key);
+          });
+       });
+
+       jQuery("#btSetAllTargetVersions").click(function(event) {
+          // you cannot set data if column is hidden !
+          rows.each( function () {
+             var select = jQuery('#globalTargetversionid option:selected');
+             var value = select.text();
+             var key = select.val();
+
+             jQuery(this).find('td.targetVersion').text(value);
+
+             // set id in data table
+             var dataRow = getDataRowFromIssueRow(jQuery(this));
+             dataRow.find('td.targetversionid').text(key);
+          });
+       });
+
+       jQuery("#btSetAllUsers").click(function(event) {
+          // you cannot set data if column is hidden !
+          rows.each( function () {
+             var select = jQuery('#globalUserid option:selected');
+             var value = select.text();
+             var key = select.val();
+
+             jQuery(this).find('td.userName').text(value);
+
+             // set id in data table
+             var dataRow = getDataRowFromIssueRow(jQuery(this));
+             dataRow.find('td.userid').text(key);
+          });
+       });
+
+       jQuery("#btSetAllTypes").click(function(event) {
+          // you cannot set data if column is hidden !
+          rows.each( function () {
+             var select = jQuery('#globalType option:selected');
+             var value = select.text();
+
+             jQuery(this).find('td.type').text(value);
+
+             // set id in data table
+             var dataRow = getDataRowFromIssueRow(jQuery(this));
+             dataRow.find('td.type').text(value);
+          });
+       });
+
+       jQuery("#btSetAllDeadlines").click(function(event) {
+          // you cannot set data if column is hidden !
+          oTable.find('tbody tr').each( function () {
+             var value = jQuery('#globalDeadline').val();
+             jQuery(this).find('td.deadline').text(value);
+          });
+       });
+
+       // Set the date
+       {if isset($date)}
+       jQuery("#globalDeadline").datepicker("setDate" ,"{$date}");
+       {/if}
+    });
+ </script>
+    
+     <form method="post" action="{$importIssueCsvBasic_ajaxPhpURL}" class="importIssueCsvBasic_formImport">
+        <button type='button' name="btImportIssues" id="btImportIssues"><img border='0' align='absmiddle' src="images/b_save.png" alt="Save icon"/> {t}Import{/t}</button>
+    </form>
+  
+    <div class="importIssueCsvBasic_validationMessage error_font error_container">   
+    </div>
+    <div class="importIssueCsvBasic_successMessage success_font success_container">   
+    </div>
    
    <!-- DISPLAY ISSUES TABLE -->
    <div style="margin-top:1em;">
@@ -142,7 +400,7 @@
       <div class="ui-helper-hidden">
          <table id="issues_data">
             <tbody>
-               {foreach from=$newIssues key=id item=i}
+               {foreach from=$importIssueCsvBasic_newIssues key=id item=i}
                <tr id="issueData-{$i.lineNum}">
                   <td class="description">{$i.description}</td>
                   <td class="type"></td>
@@ -160,3 +418,117 @@
    {/if}
 </div>
 
+<!--Import button-->
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        
+        
+
+       jQuery.ajax({
+          url: "lib/jquery.scrollTo/jquery.scrollTo-min.js",
+          dataType: "script",
+          async: false,
+          cache: true
+       });
+
+       var oTable = jQuery('#issues_table').dataTable();
+       var scroller = jQuery(oTable.fnSettings().nTable.parentNode);
+       var validationErrorContainer = jQuery(".importIssueCsvBasic_validationMessage");
+
+       jQuery("#btImportIssues").click(function(event) {
+           validationErrorContainer.html('');
+          var rows = oTable.find('tbody tr');
+
+          var categories = rows.find('td.category');
+          for(i = 0 ; i < categories.length ; i++) {
+             if(categories.text().length == 0) {
+                validationErrorContainer.html('{t}Category not set on all issues{/t}');
+                return false;
+             }
+          }
+          var types = rows.find('td.type');
+          for(i = 0 ; i < types.length ; i++) {
+             if(types.text().length == 0) {
+                 validationErrorContainer.html('{t}Type not set on all issues{/t}');
+                return false;
+             }
+          }
+          jQuery(this).attr("disabled", "true");
+          jQuery("#globalValuesDiv").find('input, select, button').attr("disabled", "true");
+          jQuery("body").css('cursor','progress');
+
+          var len = rows.length;
+
+          var i = 0;
+          function saveRow() {
+             var row = jQuery(rows[i]);
+             scroller.scrollTo(row, 1);
+             var lineNumCell = row.find('td.lineNum');
+
+             var dataRow = getDataRowFromIssueRow(row);
+
+             var extRef          = row.find('td.extRef').text();
+             var summary         = row.find('td.summary').text();
+             var mgrEffortEstim  = row.find('td.mgrEffortEstim').text();
+             var effortEstim     = row.find('td.effortEstim').text();
+             var deadline        = row.find('td.deadline').text();
+             var type            = dataRow.find('td.type').text();
+             var commandid       = dataRow.find('td.commandid').text();
+             var categoryid      = dataRow.find('td.categoryid').text();
+             var targetversionid = dataRow.find('td.targetversionid').text();
+             var userid          = dataRow.find('td.userid').text();
+             var description     = dataRow.find('td.description').text();
+             
+             var formImport = jQuery("form.importIssueCsvBasic_formImport");
+             var dashboardId = formImport.parents('.codevttDashboard').attr('data-dashboardId');
+
+             jQuery.ajax({
+                type: formImport.attr('method'),
+                async: false,
+                url:  formImport.attr('action'),
+                data: {
+                   action: "importRow",
+                   projectid: "{$importIssueCsvBasic_projectid}",
+                   dashboardId: dashboardId,
+                   extRef: extRef,
+                   summary: summary,
+                   mgrEffortEstim: mgrEffortEstim,
+                   effortEstim: effortEstim,
+                   type: type,
+                   commandid: commandid,
+                   categoryid: categoryid,
+                   targetversionid: targetversionid,
+                   userid: userid,
+                   deadline: deadline,
+                   description: description
+                },
+                success: function(data) {
+                   // replace lineNum with bugid
+                   lineNumCell.html(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                   if(errorThrown == 'Forbidden') {
+                      window.location = '{$page}';
+                   } else {
+                      alert(errorThrown);
+                   }
+                }
+             });
+
+             i++;
+             if (i < len) {
+                // To avoid browser freezing, we save one row and wait 0 ms before saving the next row
+                setTimeout(saveRow, 0);
+             } else {
+                // At the end, scroll to top, reset the cursor and alert the user
+                scroller.scrollTo(rows[0], 1);
+                jQuery("body").css('cursor','auto');
+                jQuery(".importIssueCsvBasic_successMessage").html("{t}Import done !{/t}");
+             }
+          }
+
+          // Recursive style, saveRow() save only one row and recall saveRow() to save the next
+          saveRow();
+       });
+    });
+</script>

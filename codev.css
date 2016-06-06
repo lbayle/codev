@@ -529,3 +529,12 @@ ul.submenu ul {
 {
     font-size: 12px;
 }
+.error_container
+{
+    margin: 10px 0px;
+}
+
+.success_container
+{
+    margin: 10px 0px;
+}

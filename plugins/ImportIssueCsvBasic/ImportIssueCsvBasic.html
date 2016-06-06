@@ -6,7 +6,7 @@
    
 <div align="left" style="margin-top:1em;">
    <!-- CSV FILE SELECTION -->
-   <form method="get" action="{$importIssueCsvBasic_ajaxPhpURL}" enctype="multipart/form-data" class="importIssueCsvBasic_formUploadFile">
+   <form method="post" action="{$importIssueCsvBasic_ajaxPhpURL}" enctype="multipart/form-data" class="importIssueCsvBasic_formUploadFile">
       <fieldset>
          <label>{t}Project{/t}: </label>
          <select name="projectid">
@@ -18,6 +18,9 @@
          <input type="submit" class="importIssueCsvBasic_btUpload" value="{t}Preview import{/t}" />
       </fieldset>
    </form>
+</div>
+
+<div class="importIssueCsvBasic_uploadValidationMessage error_font error_container">   
 </div>
 
 {if isset($importIssueCsvBasic_errorMsg)}
@@ -33,79 +36,89 @@
 
 <script type="text/javascript">
    
-   // this function will be run at jQuery(document).ready (see dashboard.html)
-   // or when a new widget is added to the dashboard.
-   function importIssueCsvBasicJsInit() {
+    // this function will be run at jQuery(document).ready (see dashboard.html)
+    // or when a new widget is added to the dashboard.
+    function importIssueCsvBasicJsInit() {
 
-      var files;
+        var files;
 
-      // http://abandon.ie/notebook/simple-file-uploads-using-jquery-ajax
-      // save the file data to a file variable for later use.
-      $('input[type=file]').on('change', function(event) {
-        files = event.target.files;
-        console.log("files", files);
-      });
-      
+        // http://abandon.ie/notebook/simple-file-uploads-using-jquery-ajax
+        // save the file data to a file variable for later use.
+        $('input[type=file]').on('change', function(event) {
+          files = event.target.files;
+        });
 
-      jQuery(".importIssueCsvBasic_btUpload").click(function(event) {
-         /* stop form from submitting normally */
-         event.preventDefault();
+        var uploadValidationMessageContainer = jQuery(".importIssueCsvBasic_uploadValidationMessage");
+        
+        jQuery(".importIssueCsvBasic_btUpload").click(function(event) {
+            /* stop form from submitting normally */
+            event.preventDefault();
+            
+            uploadValidationMessageContainer.html('');
 
-         // check fields
-         var foundError = 0;
-         var msgString = "{t}Some fields are missing:{/t}\n\n";
+            // check fields
+            var foundError = 0;
+            var msgString = "{t}Some fields are missing:{/t}\n\n";
 
-         var form = jQuery(".importIssueCsvBasic_formUploadFile");
+            var form = jQuery(".importIssueCsvBasic_formUploadFile");
 
-         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+            var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
 
-         if (0 == form.find("input[name=projectid]").val()) {
-            msgString += "{t}Project{/t}\n";
-            ++foundError;
-         }
-         if (0 == form.find("input[name=uploaded_csv]").val()) {
-            msgString += "{t}File{/t}\n";
-            ++foundError;
-         }
-         if (0 != foundError) {
-            alert(msgString);
-         } else {
+            if (0 == form.find("select[name=projectid]").val()) {
+               msgString += "{t}Project{/t}\n";
+               ++foundError;
+            }
+            if (0 == form.find("input[name=uploaded_csv]").val()) {
+               msgString += "{t}File{/t}\n";
+               ++foundError;
+            }
+            if (0 != foundError) {
+               uploadValidationMessageContainer.html(msgString);
+            } else {
 
-            // Create a formdata object and add the files
-            var data = new FormData();
-            $.each(files, function(key, value)
-            {
-                data.append(key, value);
-            });
-            data.append("MAX_FILE_SIZE", "2097152");
-            data.append("action", "uploadCsvFile");
-            data.append("dashboardId", dashboardId);
+                // Create a formdata object and add the files
+                var data = new FormData();
+                $.each(files, function(key, value)
+                {
+                    data.append("uploaded_csv", value);
+                });
+                // add other fields
+                data.append("action", "uploadCsvFile");
+                data.append("dashboardId", dashboardId);
+                data.append("projectId", jQuery(".importIssueCsvBasic_formUploadFile select[name=projectid]").val());
 
-            console.log("data", data);
+                jQuery.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action') + "?importData",
+                    data: data,
+                    processData: false, // Don't process the files
+                    contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                    success: function(data) {
+                        
+                        data = JSON.parse(data);
+                        jQuery(".importIssueCsvBasic_htmlContent").html(data['importIssueCsvBasic_htmlContent']);
 
-            jQuery.ajax({
-               async: false,
-               type: form.attr('method'),
-               url: form.attr('action') + "?importData",
-               dataType:"json",
-               //data: form.serialize(),
-               data: data,
-               processData: false, // Don't process the files
-               contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-               success: function(data) {
-                  jQuery(".importIssueCsvBasic_htmlContent").html(jQuery.trim(data['importIssueCsvBasic_htmlContent']));
-               },
-               error: function(jqXHR, textStatus, errorThrown) {
-                  if(errorThrown == 'Forbidden') {
-                     window.location = '{$page}';
-                  }
-               }
-            });
-         }
-      });
-      
-      
-   };
+                        jQuery.each(data['timetrackDetails_jsFiles'], function( index, value ) {
+                            jQuery.ajax({
+                              async: false,
+                              url: value,
+                              dataType: "script"
+                            });
+                        });   
+                        
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        if(errorThrown == 'Forbidden') {
+                            window.location = '{$page}';
+                        }
+                    }
+                });
+            }
+        });
+
+
+    };
 </script>
 {/if}
 </div>
+
