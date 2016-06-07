@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-19 00:26+0200\n"
+"POT-Creation-Date: 2016-06-07 23:05+0200\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -72,9 +72,10 @@ msgstr "Export CSV"
 #: tpl/time_tracking.html
 #: tpl/modal/update_issueBacklog.html
 #: tpl/modal/select_issues.html
+#: tpl/project_activity_report.html
 #. insert in front
 #. add task summary in front
-#: classes/issue.class.php:2254 classes/issue_selection.class.php:280
+#: classes/issue_selection.class.php:317
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
 #: management/command_info.php:228 management/servicecontract_info.php:150
@@ -111,7 +112,7 @@ msgstr "Description"
 #: tpl/project_info.html
 #. write header
 #. WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
-#: classes/wbsElement.class.php:581 classes/issue_selection.class.php:279
+#: classes/wbsElement.class.php:581 classes/issue_selection.class.php:316
 #: filters/ProjectFilter.php:59 management/command_info.php:227
 #: management/servicecontract_info.php:149 management/commandset_info.php:152
 #: reports/export_csv_tools.php:48 reports/planning_report.php:234
@@ -622,13 +623,15 @@ msgstr "Pas de tâches résolues..."
 #: tpl/servicecontract_info.html
 #: tpl/time_tracking.html
 #: tpl/modal/select_issues.html
+#: tpl/project_activity_report.html
 msgid "ID"
 msgstr "ID"
 
 #: tpl/productivity_report.html
 #: tpl/command_info.html
 #: tpl/modal/select_issues.html
-#: reports/export_csv_tools.php:50
+#: tpl/project_activity_report.html
+#: classes/issue_selection.class.php:321 reports/export_csv_tools.php:50
 msgid "ExtRef"
 msgstr "RefExt"
 
@@ -1844,9 +1847,8 @@ msgstr "Inactivité"
 #: tpl/modal/update_issueBacklog.html
 #: tpl/modal/edit_issueNote.html
 #: tpl/form/bugSelector.html
-#: tpl/project_activity_report.html
-#: reports/export_csv_weekly.php:140 reports/export_csv_weekly.php:182
-#: reports/planning_report.php:471 reports/planning_report.php:473
+#: reports/export_csv_weekly.php:182 reports/planning_report.php:471
+#: reports/planning_report.php:473
 msgid "Task"
 msgstr "Tâche"
 
@@ -2271,6 +2273,10 @@ msgid "Import / Export"
 msgstr "Import / Export"
 
 #: tpl/menu/global_menu.html
+msgid "Import Dashboard"
+msgstr "Tableau de bord des imports/exports"
+
+#: tpl/menu/global_menu.html
 msgid "Import Issues"
 msgstr "Import Fiches"
 
@@ -2294,6 +2300,10 @@ msgstr "Blog"
 #: install/install_step3.php:830 install/install_menu.inc.php:68
 msgid "Documentation"
 msgstr "Documentation"
+
+#: tpl/menu/global_menu.html
+msgid "About CodevTT"
+msgstr "A propos de CodevTT"
 
 #: tpl/menu/global_menu.html
 msgid "CodevTT Administration"
@@ -2343,10 +2353,6 @@ msgstr "Logs"
 #: tpl/uninstall.html
 msgid "Uninstall"
 msgstr "Désinstaller"
-
-#: tpl/menu/global_menu.html
-msgid "About CodevTT"
-msgstr "A propos de CodevTT"
 
 #: tpl/set_holidays.html
 #: tpl/time_tracking.html
@@ -3330,7 +3336,8 @@ msgstr "Impossible de supprimer le poste"
 msgid "Could not create classmap: "
 msgstr "Impossible de créer la classmap:"
 
-#: admin/admin_dashboard.php:72 reports/team_dashboard.php:95
+#: admin/admin_dashboard.php:72 import/import_dashboard.php:64
+#: reports/team_dashboard.php:95
 msgid "Sorry, you need to be identified."
 msgstr "Vous devez être identifié."
 
@@ -3664,6 +3671,7 @@ msgid "All projects"
 msgstr "Tous les Projets"
 
 #: import/import_issues.php:115
+#: plugins/ImportIssueCsvBasic/ImportIssueCsvBasic.class.php:203
 msgid "Please upload files with the following extension: "
 msgstr "Veuillez charger des fichiers ayant comme extension : "
 
@@ -4198,22 +4206,20 @@ msgid "All Projects"
 msgstr "Tous les Projets"
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:59
-#, fuzzy
 msgid "Management load history"
-msgstr "Management"
+msgstr "Historique de la charge de pilotage"
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:62
 msgid "Compares the elapsed time on management sideTasks to the management provisions"
-msgstr ""
+msgstr "Compare le consommé en gestion de projet à la somme des provisions de Management"
 
 #: plugins/IssueConsistencyCheck/IssueConsistencyCheck.class.php:59
-#, fuzzy
 msgid "Issue consistency check"
-msgstr "Test d'intégrité"
+msgstr "Test d'intégrité des tâches"
 
 #: plugins/IssueConsistencyCheck/IssueConsistencyCheck.class.php:62
 msgid "Check for errors in issues"
-msgstr ""
+msgstr "Recherche les erreurs d'intégrité dans les tâches"
 
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:61
 msgid "Reopened rate history"
@@ -4287,6 +4293,38 @@ msgstr "Alerte sur dates jalons"
 msgid "Display unresolved tasks that should have been delivered"
 msgstr "Affiche les tâches ayant du être livrées (date jalon dépassée)"
 
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:71
+msgid "Please, fill all fields"
+msgstr "Veuillez renseigner tous les champs"
+
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:75
+msgid "Destination task must be different from origin"
+msgstr "La tâcje destinataire doit être différente de la tâche d'origine"
+
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:85
+msgid "This origin task doesn't exist"
+msgstr "La tâche d'origine n'existe pas"
+
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:117
+msgid "This destination task doesn't exist"
+msgstr "La tâche destinataire n'existe pas"
+
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:120
+msgid "No timetracks for this search"
+msgstr "Pas d'imputations"
+
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:171
+msgid "Please, display timetracks before moving them"
+msgstr "Veuillez afficher les imputations avant de les déplacer"
+
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:57
+msgid "Move Issue Timetracks"
+msgstr "Déplacer les imputations"
+
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:61
+msgid "Move timetracks of issues"
+msgstr "Déplacer des imputations d'une tâche à une autre"
+
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:60
 msgid "Timetrack details"
 msgstr "Imputations détaillées"
@@ -4315,11 +4353,11 @@ msgstr "REM: Les tâches réouvertes et non encore résolues ne sont pas prises 
 msgid "(For the bugs that where re-opened, the EffortEstim may not have been re-estimated, and thus the result is not reliable.)"
 msgstr "(si l'estimation de charge de ces tâches n'a pas été mise à jour, les résultats seront faussés)"
 
-#: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:66
+#: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:67
 msgid "Hello World"
 msgstr "Hello World"
 
-#: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:69
+#: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:70
 msgid "A simple HelloWorld plugin"
 msgstr "un plugin exemple pour développeurs"
 
@@ -4494,9 +4532,6 @@ msgstr "Charge Additionnelle"
 #~ msgid "Forecasting"
 #~ msgstr "Prévisionnel"
 
-#~ msgid "Dashboard"
-#~ msgstr "Tableau de bord"
-
 #~ msgid "Project Info"
 #~ msgstr "Info Projet"
 
@@ -4667,9 +4702,6 @@ msgstr "Charge Additionnelle"
 
 #~ msgid "%Y-%m-%d"
 #~ msgstr "%d-%m-%Y"
-
-#~ msgid "Forbid adding timetracks on closed issues"
-#~ msgstr "Interdire les imputations sur les tâches fermées"
 
 #~ msgid "Display calculated backlog as default value in the updateBacklog dialogbox"
 #~ msgstr "Proposer un RAF calculé comme valeur par defaut dans la boite de dialogue de la mise à jour du RAF"

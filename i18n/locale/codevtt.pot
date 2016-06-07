@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-19 00:27+0200\n"
+"POT-Creation-Date: 2016-06-07 23:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: zh_CN\n"
+"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -72,9 +72,10 @@ msgstr ""
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
 #. tpl/modal/select_issues.html
+#. tpl/project_activity_report.html
 #. insert in front
 #. add task summary in front
-#: classes/issue.class.php:2254 classes/issue_selection.class.php:280
+#: classes/issue_selection.class.php:317
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
 #: management/command_info.php:228 management/servicecontract_info.php:150
@@ -111,7 +112,7 @@ msgstr ""
 #. tpl/project_info.html
 #. write header
 #. WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
-#: classes/wbsElement.class.php:581 classes/issue_selection.class.php:279
+#: classes/wbsElement.class.php:581 classes/issue_selection.class.php:316
 #: filters/ProjectFilter.php:59 management/command_info.php:227
 #: management/servicecontract_info.php:149 management/commandset_info.php:152
 #: reports/export_csv_tools.php:48 reports/planning_report.php:234
@@ -625,13 +626,15 @@ msgstr ""
 #. tpl/servicecontract_info.html
 #. tpl/time_tracking.html
 #. tpl/modal/select_issues.html
+#. tpl/project_activity_report.html
 msgid "ID"
 msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/command_info.html
 #. tpl/modal/select_issues.html
-#: reports/export_csv_tools.php:50
+#. tpl/project_activity_report.html
+#: classes/issue_selection.class.php:321 reports/export_csv_tools.php:50
 msgid "ExtRef"
 msgstr ""
 
@@ -1855,9 +1858,8 @@ msgstr ""
 #. tpl/modal/update_issueBacklog.html
 #. tpl/modal/edit_issueNote.html
 #. tpl/form/bugSelector.html
-#. tpl/project_activity_report.html
-#: reports/export_csv_weekly.php:140 reports/export_csv_weekly.php:182
-#: reports/planning_report.php:471 reports/planning_report.php:473
+#: reports/export_csv_weekly.php:182 reports/planning_report.php:471
+#: reports/planning_report.php:473
 msgid "Task"
 msgstr ""
 
@@ -2284,6 +2286,10 @@ msgid "Import / Export"
 msgstr ""
 
 #. tpl/menu/global_menu.html
+msgid "Import Dashboard"
+msgstr ""
+
+#. tpl/menu/global_menu.html
 msgid "Import Issues"
 msgstr ""
 
@@ -2306,6 +2312,10 @@ msgstr ""
 #. tpl/menu/global_menu.html
 #: install/install_step3.php:830 install/install_menu.inc.php:68
 msgid "Documentation"
+msgstr ""
+
+#. tpl/menu/global_menu.html
+msgid "About CodevTT"
 msgstr ""
 
 #. tpl/menu/global_menu.html
@@ -2355,10 +2365,6 @@ msgstr ""
 #. tpl/menu/global_menu.html
 #. tpl/uninstall.html
 msgid "Uninstall"
-msgstr ""
-
-#. tpl/menu/global_menu.html
-msgid "About CodevTT"
 msgstr ""
 
 #. tpl/set_holidays.html
@@ -3352,7 +3358,8 @@ msgstr ""
 msgid "Could not create classmap: "
 msgstr ""
 
-#: admin/admin_dashboard.php:72 reports/team_dashboard.php:95
+#: admin/admin_dashboard.php:72 import/import_dashboard.php:64
+#: reports/team_dashboard.php:95
 msgid "Sorry, you need to be identified."
 msgstr ""
 
@@ -3689,6 +3696,7 @@ msgid "All projects"
 msgstr ""
 
 #: import/import_issues.php:115
+#: plugins/ImportIssueCsvBasic/ImportIssueCsvBasic.class.php:203
 msgid "Please upload files with the following extension: "
 msgstr ""
 
@@ -4318,6 +4326,38 @@ msgstr ""
 msgid "Display unresolved tasks that should have been delivered"
 msgstr ""
 
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:71
+msgid "Please, fill all fields"
+msgstr ""
+
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:75
+msgid "Destination task must be different from origin"
+msgstr ""
+
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:85
+msgid "This origin task doesn't exist"
+msgstr ""
+
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:117
+msgid "This destination task doesn't exist"
+msgstr ""
+
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:120
+msgid "No timetracks for this search"
+msgstr ""
+
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:171
+msgid "Please, display timetracks before moving them"
+msgstr ""
+
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:57
+msgid "Move Issue Timetracks"
+msgstr ""
+
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:61
+msgid "Move timetracks of issues"
+msgstr ""
+
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:60
 msgid "Timetrack details"
 msgstr ""
@@ -4350,11 +4390,11 @@ msgid ""
 "estimated, and thus the result is not reliable.)"
 msgstr ""
 
-#: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:66
+#: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:67
 msgid "Hello World"
 msgstr ""
 
-#: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:69
+#: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:70
 msgid "A simple HelloWorld plugin"
 msgstr ""
 
