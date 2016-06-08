@@ -14,6 +14,12 @@ $g_db_type       = 'mysqli';
 
 # -------------------------------------------------------------
 
+# set path if behind a reverse_proxy
+#$g_path = 'https://your-server/prjmngt/mantis/';
+
+# --- Security ---
+$g_crypto_master_salt = 'your-very-secret-key'; #  Random string of at least 16 chars, unique to the installation
+
 # --- Add CodevTT to mantis main menu ---
 array_push($g_main_menu_custom_options, array( "CodevTT", NULL, '../codevtt/index.php' ));
 
