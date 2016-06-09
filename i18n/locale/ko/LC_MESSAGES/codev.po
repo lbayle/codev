@@ -1,40 +1,41 @@
-# Translation of CodevTT to Breton (brezhoneg)
+# Translation of CodevTT to Korean (한국어)
 # Exported from translatewiki.net
 #
-# Author: Gwenn-Ael
+# Author: Jonghaya
+# Author: Revi
+# Author: Ykhwong
+# Author: 아라
 msgid ""
 msgstr ""
 ""
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-07 22:54+0200\n"
-"PO-Revision-Date: 2016-07-28 05:52:51+0000\n"
-"Language: br\n"
+"PO-Revision-Date: 2016-07-28 05:52:53+0000\n"
+"X-POT-Import-Date: 2016-06-08 04:50:50+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2016-06-08 04:50:50+0000\n"
+"Language: ko\n"
 "X-Generator: MediaWiki 1.28.0-alpha; Translate 2016-04-06\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. tpl/doc.html
 msgid "Documentation is available at "
-msgstr "An teuliadur a c'haller kavout el lec'hienn "
+msgstr "\\ 에 문서가 있습니다"
 
 #. tpl/doc.html
 msgid "CodevTT Documentation Wiki"
-msgstr "Teuliadur CodevTT"
+msgstr "CodevTT 문서화 위키"
 
 #. tpl/doc.html
 msgid "GreaseMonkey script: "
-msgstr "Skript GreaseMonkey:\\"
+msgstr "GreaseMonkey 스크립트: "
 
 #. tpl/doc.html
 msgid "You can help on translations: "
-msgstr "Gallout a rit sikour d'ober troidigezhioù : "
+msgstr "여기에서 번역을 도울 수 있습니다: "
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/menu/global_menu.html
 msgid "Monthly Activity"
-msgstr "Obererezh miziek"
+msgstr "월간 활동"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/productivity_report.html
@@ -45,18 +46,18 @@ msgstr "Obererezh miziek"
 #. tpl/gantt_report.html
 #. tpl/project_activity_report.html
 msgid "Compute"
-msgstr "Jediñ"
+msgstr "연산"
 
 #. tpl/team_monthly_activity_report.html
 msgid "Tasks per User"
-msgstr "Trevelloù dre implijer"
+msgstr "사용자당 작업"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/holidays_report.html
 #. tpl/team_activity_report.html
 #. tpl/project_activity_report.html
 msgid "Export to CSV"
-msgstr "Ezporzhiañ da CVS"
+msgstr "CSV로 내보내기"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/productivity_report.html
@@ -85,7 +86,7 @@ msgstr "Ezporzhiañ da CVS"
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
 #: tools.php:1495
 msgid "Summary"
-msgstr "Taolenn"
+msgstr "요약"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/productivity_report.html
@@ -120,7 +121,7 @@ msgstr "Taolenn"
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:224
 #: tools.php:1489
 msgid "Project"
-msgstr "Raktres"
+msgstr "프로젝트"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/productivity_report.html
@@ -139,7 +140,7 @@ msgstr "Raktres"
 #: reports/export_csv_tools.php:65 reports/project_info.php:181
 #: reports/project_info.php:236
 msgid "Progress"
-msgstr "Araokaat"
+msgstr "진행도"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/productivity_report.html
@@ -161,11 +162,11 @@ msgstr "Araokaat"
 #: reports/project_info.php:241 tests/filters.php:71 tools.php:1422
 #: tools.php:1431
 msgid "Backlog"
-msgstr "A chom d'ober"
+msgstr "백로그"
 
 #. tpl/team_monthly_activity_report.html
 msgid "Elapsed in period"
-msgstr "Bevezet er mare"
+msgstr ""
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/productivity_report.html
@@ -176,7 +177,7 @@ msgstr "Bevezet er mare"
 #. tpl/project_activity_report.html
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:291
 msgid "Total"
-msgstr "Hollad"
+msgstr "총"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/productivity_report.html
@@ -201,42 +202,42 @@ msgstr "Hollad"
 #. tpl/project_info.html
 #: reports/team_dashboard.php:92
 msgid "Please select a team to access this page."
-msgstr "Dibabit ur skipailh, mar plij, evit diraez ar bajenn-mañ."
+msgstr "이 문서에 접근하려면 팀을 선택해 주십시오."
 
 #. tpl/logs.html
 msgid "Line"
-msgstr "Linenn"
+msgstr "줄"
 
 #. tpl/logs.html
 msgid "Log"
-msgstr "Log"
+msgstr "로그"
 
 #. tpl/productivity_report.html
 msgid "Production days"
-msgstr "Deizioù produiñ"
+msgstr "생산일"
 
 #. tpl/productivity_report.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:71
 msgid "Load per Job"
-msgstr "Karg dre bost"
+msgstr "일별로 불러오기"
 
 #. tpl/productivity_report.html
 msgid "Project Detail"
-msgstr "Munud ar raktres"
+msgstr "프로젝트 세부 사항"
 
 #. tpl/productivity_report.html
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:73
 msgid "Load per Project"
-msgstr "Karg dre Raktres"
+msgstr "프로젝트당 불러오기"
 
 #. tpl/productivity_report.html
 msgid "Productivity indicators"
-msgstr "Titourennoù produüsted"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "Adherence to deadlines"
-msgstr "Doujañ d'an termenoù degas"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -246,84 +247,84 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Reopened tasks"
-msgstr "Trevelloù addigoret"
+msgstr "다시 열린 작업"
 
 #. tpl/productivity_report.html
 msgid "Production Days"
-msgstr "Deizioù produiñ"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. tpl/statistics.html
 msgid "Help"
-msgstr "Skoazell"
+msgstr "도움말"
 
 #. tpl/productivity_report.html
 #. tpl/ajax/projectDetails.html
 msgid "Nb Days"
-msgstr "Nv a zeizioù"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/edit_jobs.html
 msgid "Projects"
-msgstr "Raktresoù"
+msgstr "프로젝트"
 
 #. tpl/productivity_report.html
 #. tpl/create_team.html
 #. add SideTaskProject Categories
 #. 4) --- add SideTaskProject Categories
 msgid "Project Management"
-msgstr "Merañ ar raktres"
+msgstr "프로젝트 관리"
 
 #. tpl/productivity_report.html
 msgid "Other SideTasks"
-msgstr "Trevelloù kar all"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Days spent on the projects during the period (team members only)"
-msgstr "Niver a zeizioù en deus tremenet ar skipailh war ar raktresoù e-pad ar mare (evit izili ar skipailh hepken)"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "SideTasks: Project Management"
-msgstr "Trevelloù kar : Merañ ar raktres"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Days spent on project management tasks"
-msgstr "Niver a zeizioù tremenet evit merañ ar raktresoù"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "SideTasks: Others"
-msgstr "Trevelloù kar all"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Days spent on sideTasks, except project management and inactivity tasks"
-msgstr "Niver a zeizioù tremenet war an Trevelloù Kar nemet merañ ar raktres hag an ezvezañsoù"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Production Days : total"
-msgstr "Deizoù produiñ : hollad"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "number of days billed"
-msgstr "Niver a zeizioù fakturennet"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. tpl/statistics.html
 msgid "Formula"
-msgstr "Formulenn"
+msgstr "공식"
 
 #. tpl/productivity_report.html
 msgid "projects"
-msgstr "raktresoù"
+msgstr "프로젝트"
 
 #. tpl/productivity_report.html
 msgid "sideTasks"
-msgstr "Trevelloù Kar"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Not available."
-msgstr "N'eo ket hegerz"
+msgstr "사용할 수 없음."
 
 #. tpl/productivity_report.html
 #. tpl/team_activity_report.html
@@ -332,40 +333,40 @@ msgstr "N'eo ket hegerz"
 #. tpl/edit_jobs.html
 #. tpl/time_tracking.html
 msgid "Job"
-msgstr "Labour"
+msgstr "작업"
 
 #. tpl/productivity_report.html
 #. tpl/tools/dashboard.html
 msgid "Indicator"
-msgstr "Titourenn"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/workflow.html
 #. tpl/edit_team.html
 #. tpl/forecasting_report.html
 msgid "Value"
-msgstr "Talvoudenn"
+msgstr "값"
 
 #. tpl/productivity_report.html
 msgid "Available Workload"
-msgstr "Barregezh produiñ"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "Efficiency Rate"
-msgstr "Feur efedsted"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "System Availability"
-msgstr "Hegerzded Reizhiad"
+msgstr "시스템 가용성"
 
 #. tpl/productivity_report.html
 msgid "MgrEffortEstim Reliability Rate"
-msgstr "Feur fiziusted ar garg_Mgr"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "EffortEstim Reliability Rate"
-msgstr "Feur fiziusted ar garg kentañ"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Workload Forecasting (holidays & externalTasks not included, developers only)"
@@ -373,32 +374,32 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Development workload (developers only)"
-msgstr "Amzer bevezet e diorroerien"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "ProjProdDays"
-msgstr "Deizioù produiñ : Raktresoù"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "TotalProdDays"
-msgstr "Deizioù produiñ : hollad"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Platform Availability"
-msgstr "Hergerzded ar savenn diorren"
+msgstr "플랫폼 가용성"
 
 #. tpl/productivity_report.html
 msgid "breakdownDays"
-msgstr "Dihegerzded Reizhiad"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "prodDays"
-msgstr "Deizioù produiñ"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "EffortEstim Reliability"
-msgstr "Fiziusted e priziañ ar garg"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
@@ -408,12 +409,12 @@ msgstr ""
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "(on resolved tasks only)"
-msgstr "(war an trevelloù diskoulmet hepken)"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "rate = 1 : estimation was perfect.<br>rate &lt; 1 : underestimated<br>rate &gt; 1 : overestimated"
-msgstr "feur = 1 : prizadur peurvat. <br>feur &lt; 1 : isprizet<br> feur &gt, 1 : dreistprizet"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/command_info.html
@@ -429,19 +430,19 @@ msgstr "feur = 1 : prizadur peurvat. <br>feur &lt; 1 : isprizet<br> feur &gt, 1 
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:315
 #: reports/project_info.php:238 tools.php:1428
 msgid "EffortEstim"
-msgstr "Karg kentañ"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "EffortAdd"
-msgstr "Karg ouzhpennet"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 #: classes/consistency_check2.class.php:442
 #: classes/consistency_check.class.php:365
 msgid "elapsed"
-msgstr "bevezet"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Tasks having no deadLine are not reported here"
@@ -456,43 +457,43 @@ msgstr ""
 #. tpl/servicecontract_info.html
 #. tpl/project_activity_report.html
 msgid "Tasks"
-msgstr "Trevelloù"
+msgstr "작업"
 
 #. tpl/productivity_report.html
 msgid "Tasks NOT delivered on time"
-msgstr "Trevelloù n'int ket degaset e koulz."
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "nb tasks"
-msgstr "Nv a drevelloù"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/filters.html
 #. tpl/forecasting_report.html
 #: classes/time_tracking.class.php:447
 msgid "nb days"
-msgstr "Nv a zeizioù"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. $timeDriftSmarty["deliveryDate"] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
 #. $tooltipAttr[T_('DeliveryDate')] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
 #: reports/issue_info_tools.php:109
 msgid "DeliveryDate"
-msgstr "Deiziad degas"
+msgstr ""
 
 #. tpl/productivity_report.html
 #: reports/export_csv_tools.php:55
 msgid "DeadLine"
-msgstr "DeadLine"
+msgstr "기한"
 
 #. tpl/productivity_report.html
 msgid "Tasks delivered on time"
-msgstr "Trevelloù degaset e koulz"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Task list for EffortEstim"
-msgstr "Roll ar c'hargoù evit Karg_kentañ"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Note: Drift on tasks resolved in the period"
@@ -530,7 +531,7 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Reopened tasks are not taken into account"
-msgstr "Ne vez ket kontet an trevelloù addigoret"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -554,12 +555,12 @@ msgstr ""
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks in time"
-msgstr ""
+msgstr "시간에서의 작업"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks resolved in time"
-msgstr ""
+msgstr "시간에서 해결된 작업"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -583,12 +584,12 @@ msgstr ""
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Manager"
-msgstr "Merour"
+msgstr "매니저"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks Mgr"
-msgstr ""
+msgstr "작업 매니저"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -612,7 +613,7 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "No resolved tasks..."
-msgstr ""
+msgstr "해결된 작업 없음..."
 
 #. tpl/productivity_report.html
 #. tpl/command_edit.html
@@ -631,7 +632,7 @@ msgstr "ID"
 #. tpl/project_activity_report.html
 #: classes/issue_selection.class.php:321 reports/export_csv_tools.php:50
 msgid "ExtRef"
-msgstr ""
+msgstr "외부참조"
 
 #. tpl/productivity_report.html
 #. tpl/command_info.html
@@ -671,7 +672,7 @@ msgstr ""
 #. tpl/project_activity_report.html
 #: reports/export_csv_tools.php:64
 msgid "BL"
-msgstr ""
+msgstr "BL"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -714,7 +715,7 @@ msgstr ""
 #: reports/export_csv_tools.php:52 reports/planning_report.php:461
 #: reports/planning_report.php:484 reports/project_info.php:306 tools.php:1493
 msgid "Status"
-msgstr "Statud"
+msgstr "상태"
 
 #. tpl/productivity_report.html
 msgid "Drift - Tasks (ExtRefOnly)"
@@ -754,15 +755,15 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Rate"
-msgstr "Feur"
+msgstr "평가"
 
 #. tpl/productivity_report.html
 msgid "tasks having been reopened in the period"
-msgstr "Trevelloù addigoret evit ar mare"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "New command"
-msgstr "Urhiad nevez"
+msgstr "새 명령"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -777,7 +778,7 @@ msgstr "Urhiad nevez"
 #. tpl/servicecontract_edit.html
 #: graphs/gantt_graph.php:97 graphs/gantt_graph.php:99
 msgid "Team"
-msgstr "Skipailh"
+msgstr "팀"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -786,7 +787,7 @@ msgstr "Skipailh"
 #. tpl/modal/change_managedUser.html
 #. tpl/servicecontract_edit.html
 msgid "Name"
-msgstr "Anv"
+msgstr "이름"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -795,7 +796,7 @@ msgstr "Anv"
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "Reference"
-msgstr "Daveenn"
+msgstr "참조"
 
 #. tpl/command_edit.html
 #. tpl/plugin_manager.html
@@ -803,7 +804,7 @@ msgstr "Daveenn"
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "Version"
-msgstr "Doare"
+msgstr "버전"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -811,7 +812,7 @@ msgstr "Doare"
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "Reporter"
-msgstr "Titourer"
+msgstr "보고자"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -827,7 +828,7 @@ msgstr "Titourer"
 #. tpl/servicecontract_edit.html
 #: reports/export_csv_weekly.php:184
 msgid "Description"
-msgstr "Deskrivadur"
+msgstr "설명"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -835,14 +836,14 @@ msgstr "Deskrivadur"
 #. tpl/servicecontract_edit.html
 #: reports/export_csv_tools.php:54
 msgid "Start date"
-msgstr "Deiziad kregiñ"
+msgstr "시작 날짜"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "End date"
-msgstr "Deiziad echuiñ"
+msgstr "끝 날짜"
 
 #. tpl/command_edit.html
 #. tpl/issue_info.html
@@ -850,19 +851,19 @@ msgstr "Deiziad echuiñ"
 #. tpl/modal/update_issueBacklog.html
 #: reports/planning_report.php:495 tools.php:1437
 msgid "Deadline"
-msgstr ""
+msgstr "기한"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "State"
-msgstr "Stad"
+msgstr "상태"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 msgid "Sold Charge"
-msgstr "Kargoù gwerzhet"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -872,19 +873,19 @@ msgstr "Kargoù gwerzhet"
 #: classes/consistency_check2.class.php:751 classes/scheduler.class.php:74
 #: classes/command.class.php:809 reports/planning_report.php:492
 msgid "days"
-msgstr "deizioù"
+msgstr "일"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "Average Daily Rate"
-msgstr "Feur pemdeziek etre"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 msgid "Default ADR"
-msgstr ""
+msgstr "기본 ADR"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -897,39 +898,39 @@ msgstr "EUR"
 #. tpl/tools/wbsEditor.html
 #. tpl/servicecontract_edit.html
 msgid "Delete"
-msgstr "Dilemel"
+msgstr "삭제"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
 msgid "Field is missing"
-msgstr "Maezienn disoñjet"
+msgstr "필드가 없습니다"
 
 #. tpl/command_edit.html
 msgid "Command name"
-msgstr "Anv an urzhiad"
+msgstr "명령 이름"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
 msgid "Not a number"
-msgstr "N'eo ket un niverenn"
+msgstr "숫자가 아님"
 
 #. tpl/command_edit.html
 msgid "Delete Command"
-msgstr "Dilemel an urzhiad"
+msgstr "명령 삭제"
 
 #. tpl/command_edit.html
 msgid "Delete this Command ?"
-msgstr "Dilemel an urzhiad-se ?"
+msgstr "이 명령을 삭제하겠습니까 ?"
 
 #. tpl/command_edit.html
 msgid "Nb tasks"
-msgstr "Nv a drevelloù"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "CommandSets"
-msgstr "Makro-urzhiadoù"
+msgstr "명령집합"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -945,19 +946,19 @@ msgstr ""
 
 #. tpl/command_edit.html
 msgid "Parent CommandSets"
-msgstr "Makro Urzhiadoù peuzheñvel"
+msgstr "부모 명령집합"
 
 #. tpl/command_edit.html
 msgid "task id"
-msgstr "id trevell"
+msgstr "작업 id"
 
 #. tpl/command_edit.html
 msgid "Missing field"
-msgstr "Maezienn diank"
+msgstr "필드 없음"
 
 #. tpl/command_edit.html
 msgid "Add task"
-msgstr "Ouzhpennañ un drevell"
+msgstr "작업 추가"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -971,11 +972,11 @@ msgstr "Ouzhpennañ un drevell"
 #. tpl/edit_holidays.html
 #. tpl/servicecontract_edit.html
 msgid "Add"
-msgstr "Ouzhpennañ"
+msgstr "추가"
 
 #. tpl/command_edit.html
 msgid "Create the Command to add some tasks."
-msgstr "Krouiñ an urzhiad a-raok ouzhpennañ trevelloù."
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -985,7 +986,7 @@ msgstr "Krouiñ an urzhiad a-raok ouzhpennañ trevelloù."
 #. tpl/project_activity_report.html
 #: classes/issue.class.php:2261 tools.php:1499
 msgid "Target"
-msgstr "Pal"
+msgstr "대상"
 
 #. tpl/command_edit.html
 msgid "delete Command-Task association"
@@ -996,15 +997,15 @@ msgstr ""
 #. tpl/issue_info.html
 #. tpl/servicecontract_edit.html
 msgid "Remove"
-msgstr "Dilemel"
+msgstr "제거"
 
 #. tpl/command_edit.html
 msgid "Remove Task"
-msgstr "Dilemel an drevell"
+msgstr "작업 제거"
 
 #. tpl/command_edit.html
 msgid "Remove Task from this Command ?"
-msgstr "Dilemel trevell an urzhiad-se ?"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -1016,12 +1017,12 @@ msgstr "Id"
 
 #. tpl/command_edit.html
 msgid "Create the Command before assigning it to a CommandSet."
-msgstr "Krouiñ an urzhiad a-raok ouzhpennañ anezhi ouzh ur Makro-urzhiad"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
 msgid "No CommandSet found."
-msgstr "Makro-urzhiad ebet"
+msgstr "명령집합을 찾을 수 없습니다."
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -1030,7 +1031,7 @@ msgstr "Makro-urzhiad ebet"
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "CommandSet"
-msgstr "Makro-urzhiad"
+msgstr "명령집합"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -1040,15 +1041,15 @@ msgstr ""
 #. tpl/command_edit.html
 #. tpl/servicecontract_edit.html
 msgid "Remove CommandSet"
-msgstr "Dilemel Makro-urzhiad"
+msgstr "명령집합 제거"
 
 #. tpl/command_edit.html
 msgid "Remove this Command from the CommandSet ?"
-msgstr "Dilemel an Urzhiad eus ar Makro-urzhiad ?"
+msgstr "명령집합에서 이 명령을 제거하겠습니까 ?"
 
 #. tpl/command_edit.html
 msgid "Create the Command first."
-msgstr "Krouiñ an Urzhiad kentañ."
+msgstr "먼저 명령을 만드세요."
 
 #. tpl/command_edit.html
 msgid "Provisions successfully updated."
@@ -1057,7 +1058,7 @@ msgstr ""
 #. tpl/command_edit.html
 #. tpl/export_odt.html
 msgid "errorThrown"
-msgstr "errorThrown"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "Add Provision"
@@ -1068,7 +1069,7 @@ msgstr ""
 #: management/commandset_edit.php:123 management/command_edit.php:201
 #: management/servicecontract_edit.php:138
 msgid "Save"
-msgstr "Enrollañ"
+msgstr "저장"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -1085,7 +1086,7 @@ msgstr "Enrollañ"
 #. tpl/edit_holidays.html
 #. tpl/mantis_reports.html
 msgid "Date"
-msgstr "Deiziad"
+msgstr "날짜"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -1097,14 +1098,14 @@ msgstr "Deiziad"
 #. tpl/servicecontract_info.html
 #. tpl/project_activity_report.html
 msgid "Type"
-msgstr "Seurt"
+msgstr "형식"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "Budget Days"
-msgstr "Budjed e deizioù"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -1112,18 +1113,18 @@ msgstr "Budjed e deizioù"
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "Budget"
-msgstr "Budjed"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "ADR"
-msgstr ""
+msgstr "ADR"
 
 #. tpl/command_edit.html
 msgid "add to budget check"
-msgstr "Ouzphennañ d'ar \"gwiriañ budjed\""
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "delete Provision"
@@ -1139,7 +1140,7 @@ msgstr ""
 
 #. tpl/command_edit.html
 msgid "Delete from the Command ?"
-msgstr "Diverkañ eus an Urzhiad ?"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -1147,15 +1148,15 @@ msgstr "Diverkañ eus an Urzhiad ?"
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 msgid "Sorry, only managers can access this page."
-msgstr "Rankout a rit bezañ Merour evit diraez ar bajenn-mañ."
+msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "New command set"
-msgstr "Makro-urzhiad nevez"
+msgstr "새 명령 집합"
 
 #. tpl/commandset_edit.html
 msgid "Cost"
-msgstr "Koust"
+msgstr "비용"
 
 #. tpl/commandset_edit.html
 #. tpl/create_team.html
@@ -1167,51 +1168,51 @@ msgstr "Koust"
 #. tpl/edit_holidays.html
 #. tpl/servicecontract_edit.html
 msgid "Some fields are missing:"
-msgstr "Disoñjet eo bet ar maeziennoù-mañ :"
+msgstr "일부 필드가 존재하지 않습니다:"
 
 #. tpl/commandset_edit.html
 msgid "Command set name"
-msgstr "Anv ar Makro-urzhiad"
+msgstr "명령 집합 이름"
 
 #. tpl/commandset_edit.html
 msgid "Delete CommandSet"
-msgstr "Dilemel Makro-Urzhiad"
+msgstr "명령집합 삭제"
 
 #. tpl/commandset_edit.html
 msgid "Delete this CommandSet ?"
-msgstr "Dilement ar Makro-Urzhiad-se ?"
+msgstr "이 명령집합을 삭제하겠습니까 ?"
 
 #. tpl/commandset_edit.html
 msgid "Nb Commands"
-msgstr "Nv Makro-urzhiadioù"
+msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "Service Contracts"
-msgstr "Kevrat Servij"
+msgstr ""
 
 #. tpl/commandset_edit.html
 #. tpl/issue_info.html
 #. tpl/servicecontract_info.html
 msgid "Commands"
-msgstr "Urzhiadoù"
+msgstr "명령"
 
 #. tpl/commandset_edit.html
 msgid "--- New Command ---"
-msgstr "--- Urzhiad nevez ---"
+msgstr "--- 새 명령 ---"
 
 #. tpl/commandset_edit.html
 msgid "Remove Command"
-msgstr "Dilemel Urzhiad"
+msgstr "명령 제거"
 
 #. tpl/commandset_edit.html
 msgid "Remove Command from this CommandSet ?"
-msgstr "Dilemel an Urzhiad eus ar Makro-urzhiad ?"
+msgstr ""
 
 #. tpl/commandset_edit.html
 #. tpl/commandset_info.html
 #. tpl/servicecontract_edit.html
 msgid "Ref"
-msgstr "Dave"
+msgstr "참조"
 
 #. tpl/commandset_edit.html
 #. tpl/issue_info.html
@@ -1221,23 +1222,23 @@ msgstr "Dave"
 #. tpl/servicecontract_info.html
 #: classes/consistency_check2.class.php:646
 msgid "Command"
-msgstr "Urzhiad"
+msgstr "명령"
 
 #. tpl/commandset_edit.html
 msgid "Create the CommandSet to add some commands."
-msgstr "Krouiñ ar Makro-Urzhiad a-raok ouzhpennañ urzhiadoù dezhañ."
+msgstr ""
 
 #. tpl/plugin_manager.html
 msgid "Check for new plugins in 'plugins' directory."
-msgstr "Klask lugantoù er c'havlec'h \"lugantoù\"."
+msgstr ""
 
 #. tpl/plugin_manager.html
 msgid "Discover new plugins"
-msgstr "Klask lugantoù nevez"
+msgstr ""
 
 #. tpl/plugin_manager.html
 msgid "Plugin"
-msgstr "Lugant"
+msgstr "플러그인"
 
 #. tpl/plugin_manager.html
 #. tpl/issue_info.html
@@ -1249,25 +1250,25 @@ msgstr "Lugant"
 #: classes/issue.class.php:2250 classes/wbsElement.class.php:582
 #: tools.php:1491
 msgid "Category"
-msgstr "Rummad"
+msgstr "분류"
 
 #. tpl/plugin_manager.html
 msgid "Domain(s)"
-msgstr "Domani(où)"
+msgstr "도메인"
 
 #. tpl/plugin_manager.html
 msgid "Enable Plugin"
-msgstr "Gweredekaat al lugant"
+msgstr "플러그인 사용"
 
 #. tpl/plugin_manager.html
 msgid "Disable Plugin"
-msgstr "Diweredekaat al lugant"
+msgstr "플러그인 사용 안 함"
 
 #. tpl/plugin_manager.html
 #. tpl/time_tracking.html
 #. tpl/modal/login.html
 msgid "Please wait..."
-msgstr "Gortozit mar plij..."
+msgstr "기다려 주십시오..."
 
 #. tpl/bvi.html
 msgid "Average Backlog Variation"
@@ -1275,55 +1276,55 @@ msgstr ""
 
 #. tpl/bvi.html
 msgid "No data."
-msgstr "Roadenn ebet"
+msgstr "데이터 없음."
 
 #. tpl/workflow.html
 msgid "Are you sure you want to change"
-msgstr "Ha sur oc'h e fell deoc'h cheñch ar c'hefluniadur ?"
+msgstr "변경하시겠습니까"
 
 #. tpl/workflow.html
 msgid "settings ?"
-msgstr "Arventennoù"
+msgstr "설정하겠습니까 ?"
 
 #. tpl/workflow.html
 msgid "Clonning"
-msgstr "Klonañ"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "into"
-msgstr "Titouroù"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Clone project settings"
-msgstr "Klonañ ar c'hefluniadur raktres"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Clone From"
-msgstr "Klonañ"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Clone To"
-msgstr "Klonañ war-zu"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Workflow transitions"
-msgstr "Kelc'hiadoù buhez"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Settings"
-msgstr "Arventennoù"
+msgstr "설정"
 
 #. tpl/workflow.html
 msgid "No workflow transitions defined, using default configuration."
-msgstr "N'eus bet termenet kelc'hiad buhez ebet, implijout ar c'hefluniadur dre ziouer"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Configuration Option"
-msgstr "Dibarzh ar C'hefluniadur"
+msgstr "구성 옵션"
 
 #. tpl/workflow.html
 msgid "No configuration options defined, using default configuration."
-msgstr "N'eus bet termenet dibarzh ebet, implij ar c'hefluniadur dre ziouer."
+msgstr ""
 
 #. tpl/workflow.html
 #. tpl/create_team.html
@@ -1333,37 +1334,37 @@ msgstr "N'eus bet termenet dibarzh ebet, implij ar c'hefluniadur dre ziouer."
 #. tpl/uninstall.html
 #: admin/logs.php:64
 msgid "Sorry, you need to be in the admin-team to access this page."
-msgstr "Rankout a rit bezañ lodenn eus ar skipailh merañ evit diraez ar bajenn-mañ."
+msgstr ""
 
 #. tpl/export_csv_weekly.html
 msgid "Weekly report"
-msgstr "Danevell sizhuniek"
+msgstr ""
 
 #. tpl/export_csv_weekly.html
 #. tpl/team_activity_report.html
 #. tpl/time_tracking.html
 msgid "Week"
-msgstr "Sizhun"
+msgstr ""
 
 #. tpl/export_csv_weekly.html
 #. tpl/export_csv_monthly.html
 #. tpl/prepare_project.html
 #. tpl/uninstall.html
 msgid "Done"
-msgstr "Graet"
+msgstr "완료"
 
 #. tpl/export_csv_weekly.html
 #. tpl/export_csv_monthly.html
 msgid "Results in"
-msgstr "Disoc'hoù e"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "Set command filters"
-msgstr "Silañ an urzhiadoù"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "--- Create New Command ---"
-msgstr "-- Krouiñ ur Makro-urzhiad nevez --"
+msgstr "--- 새 명령 만들기 ---"
 
 #. tpl/command_info.html
 #. tpl/issue_info.html
@@ -1373,19 +1374,19 @@ msgstr "-- Krouiñ ur Makro-urzhiad nevez --"
 #. tpl/servicecontract_info.html
 #. tpl/project_info.html
 msgid "Select"
-msgstr "Diuzañ"
+msgstr "선택"
 
 #. tpl/command_info.html
 msgid "Command Filters"
-msgstr "Siloù urzhiadoù"
+msgstr "명령 필터"
 
 #. tpl/command_info.html
 msgid "Reduce the command selection by setting some filters"
-msgstr "Bihanaat ar roll urzhiadoù en ur ouzhpennañ siloù"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "Open task list in Mantis"
-msgstr "Diskwel trevelloù e Mantis"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "MgrEffortEstim + Checked Provisions"
@@ -1393,7 +1394,7 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "Reestimated (days)"
-msgstr "Adprizet (deizioù)"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "Drift (days)"
@@ -1405,7 +1406,7 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "Days"
-msgstr "Deizioù"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "Reestimated days * AverageDailyRate"
@@ -1427,14 +1428,14 @@ msgstr ""
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "Edit"
-msgstr "Kemmañ"
+msgstr "편집"
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 #. tpl/project_info.html
 msgid "Charges"
-msgstr "Kargoù"
+msgstr ""
 
 #. tpl/command_info.html
 #. tpl/tools/dashboard.html
@@ -1442,7 +1443,7 @@ msgstr "Kargoù"
 #. tpl/servicecontract_info.html
 #: reports/planning_report.php:483
 msgid "Attributes"
-msgstr "Perzhioù"
+msgstr "특성"
 
 #. tpl/command_info.html
 #. tpl/issue_info.html
@@ -1450,7 +1451,7 @@ msgstr "Perzhioù"
 #. tpl/servicecontract_info.html
 #. tpl/project_info.html
 msgid "Indicators"
-msgstr "Titourennoù"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "Tasks & Provisions"
@@ -1459,7 +1460,7 @@ msgstr ""
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "None"
-msgstr "Hini ebet"
+msgstr "없음"
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
@@ -1479,20 +1480,20 @@ msgstr ""
 #. tpl/import_issues.html
 #. tpl/project_activity_report.html
 msgid "User"
-msgstr "Implijer"
+msgstr "사용자"
 
 #. tpl/command_info.html
 #. tpl/servicecontract_info.html
 msgid "No task found."
-msgstr "N'eus bet kavet trevell ebet."
+msgstr ""
 
 #. tpl/export_odt.html
 msgid "The following fields need to be set"
-msgstr "Ar maeziennoù-mañ a rank bezañ titouret"
+msgstr ""
 
 #. tpl/export_odt.html
 msgid "Reporters"
-msgstr ""
+msgstr "보고자"
 
 #. tpl/export_odt.html
 msgid "Handlers"
@@ -1500,21 +1501,21 @@ msgstr ""
 
 #. tpl/export_odt.html
 msgid "ODT Template"
-msgstr ""
+msgstr "ODT 템플릿"
 
 #. tpl/export_odt.html
 #. tpl/create_team.html
 msgid "Categories"
-msgstr "Rummadoù"
+msgstr "분류"
 
 #. tpl/export_odt.html
 #. tpl/holidays_report.html
 msgid "Filters"
-msgstr "Siloù"
+msgstr "필터"
 
 #. tpl/export_odt.html
 msgid "Reported by"
-msgstr ""
+msgstr "보고자"
 
 #. tpl/export_odt.html
 #. tpl/issue_info.html
@@ -1526,73 +1527,73 @@ msgstr ""
 
 #. tpl/export_odt.html
 msgid "Download"
-msgstr "Pellgargañ"
+msgstr "다운로드"
 
 #. tpl/holidays_report.html
 msgid "Year"
-msgstr "Bloaz"
+msgstr "년"
 
 #. tpl/holidays_report.html
 #. tpl/time_tracking.html
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Set filters"
-msgstr "Silañ an trevelloù"
+msgstr "필터 설정"
 
 #. tpl/holidays_report.html
 msgid "Displayed tasks"
-msgstr "Trevelloù diskwelet"
+msgstr "표시된 작업"
 
 #. tpl/holidays_report.html
 msgid "workdays"
-msgstr "deizioù oberet"
+msgstr "작업일"
 
 #. tpl/create_team.html
 msgid "Team Name"
-msgstr "Anv ar skipailh"
+msgstr "팀 이름"
 
 #. tpl/create_team.html
 #. tpl/edit_team.html
 msgid "Team Administrator"
-msgstr "Merour Skipailh"
+msgstr "팀 관리자"
 
 #. tpl/create_team.html
 #. tpl/servicecontract_info.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:245
 msgid "SideTasks"
-msgstr "Trevelloù kar"
+msgstr "사이드작업"
 
 #. tpl/create_team.html
 msgid "Team Info"
-msgstr "Deskrivadur ar skipailh"
+msgstr "팀 정보"
 
 #. tpl/create_team.html
 msgid "SideTasks Project"
-msgstr "Raktresoù Trevelloù kar"
+msgstr "사이드작업 프로젝트"
 
 #. tpl/create_team.html
 msgid "Add common ExternalTasks Project"
-msgstr "Ouzhpennañ ar raktres trevelloù diabarzh boutin"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Create specific SideTask Project"
-msgstr "Krouiñ ur raktres Trevelloù kar arbennik"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "WARNING: Disabling SideTasks project creation is generaly NOT a good idea,so don't do it unless you know exactly what you are doing."
-msgstr "DIWALLIT ! Chom hep krouiñ ur raktres Trevelloù kar n'eo ket ur soñj mat dre vras, ha miret eo evit un implij araokaet."
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Project Name"
-msgstr "Anv raktres"
+msgstr "프로젝트 이름"
 
 #. tpl/create_team.html
 msgid "Meeting, Pre-sales, ProjectManagement, ..."
-msgstr "Emvod, a-raok gwerzh, heuliañ raktresoù, ...."
+msgstr ""
 
 #. tpl/create_team.html
 #: admin/create_team.php:92
 msgid "Incident"
-msgstr "Gwallzarvoud"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Server or Platform down, ..."
@@ -1601,11 +1602,11 @@ msgstr ""
 #. tpl/create_team.html
 #: admin/create_team.php:95
 msgid "Tools"
-msgstr "Ostilhoù"
+msgstr "도구"
 
 #. tpl/create_team.html
 msgid "Sys. Admin, Scritps, ..."
-msgstr "Melestadur Reizhiad, Skriptoù...."
+msgstr ""
 
 #. tpl/create_team.html
 #: admin/create_team.php:98
@@ -1627,11 +1628,11 @@ msgstr ""
 
 #. tpl/create_team.html
 msgid "Custom Fields"
-msgstr "Maeziennoù personelaet"
+msgstr "사용자 지정 필드"
 
 #. tpl/create_team.html
 msgid "CodevTT custom fields"
-msgstr "Maeziennoù  CodevTT"
+msgstr "CodevTT 사용자 지정 필드"
 
 #. tpl/create_team.html
 msgid "MgrEffortEstim, EffortEstim, AddEffort, Backlog, DeadLine, DeliveryDate"
@@ -1639,23 +1640,23 @@ msgstr ""
 
 #. tpl/create_team.html
 msgid "(generic) Project Management"
-msgstr "(generek) Merañ raktres"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "(generic) Meeting"
-msgstr "(generek) Emvod"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "(generic) Network is down"
-msgstr "(generek)Dihegerzded rouedad"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "(generic) Compilation Scripts"
-msgstr "(generek) Kempunañ Skriptoù"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "(generic) Update team WIKI"
-msgstr "(generek)Hizivaat WIKI"
+msgstr ""
 
 #. tpl/create_team.html
 #. Display Empty Command Form
@@ -1666,23 +1667,23 @@ msgstr "(generek)Hizivaat WIKI"
 #. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
 #: management/command_edit.php:109 management/servicecontract_edit.php:86
 msgid "Create"
-msgstr "Krouiñ"
+msgstr "만들기"
 
 #. tpl/edit_team.html
 msgid "General"
-msgstr "Hollek"
+msgstr "일반"
 
 #. tpl/edit_team.html
 msgid "Team Members"
-msgstr "Izli ar spipailh"
+msgstr "팀 구성원"
 
 #. tpl/edit_team.html
 msgid "Team Projects"
-msgstr "Raktresoù ar skipailh"
+msgstr "팀 프로젝트"
 
 #. tpl/edit_team.html
 msgid "Preferences"
-msgstr "Penndibaboù"
+msgstr "환경 설정"
 
 #. tpl/edit_team.html
 msgid "Timetrack Durations"
@@ -1695,51 +1696,51 @@ msgstr ""
 #. tpl/edit_team.html
 #. tpl/issue_info.html
 msgid "Update"
-msgstr "Hizivaat"
+msgstr "업데이트"
 
 #. tpl/edit_team.html
 msgid "Creation Date"
-msgstr "Deiziad krouiñ"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Enabled"
-msgstr "Gweredekaet"
+msgstr "활성화됨"
 
 #. tpl/edit_team.html
 msgid "Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report."
-msgstr "Notenn : Un <em>Team Admin</em> a rank bezañ disklêriet evel <em>TeamMember</em> evit bezañ kemeret e kont gant ar merkerioù produiñ."
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Delete team"
-msgstr "Diverkañ ar skipailh"
+msgstr "팀 삭제"
 
 #. tpl/edit_team.html
 msgid "Team Member"
-msgstr "Ezel ar skipailh"
+msgstr "팀 구성원"
 
 #. tpl/edit_team.html
 msgid "Source Team"
-msgstr "Skipailh Mammenn"
+msgstr "소스 팀"
 
 #. tpl/edit_team.html
 msgid "Member"
-msgstr "Ezel"
+msgstr "구성원"
 
 #. tpl/edit_team.html
 msgid "Role"
-msgstr "Roll"
+msgstr "역할"
 
 #. tpl/edit_team.html
 msgid "Arrival-Date"
-msgstr "Deiziad erruout"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Add User"
-msgstr "Ouzhpennañ implijer"
+msgstr "사용자 추가"
 
 #. tpl/edit_team.html
 msgid "Departure-Date"
-msgstr "Deiziad loc'hañ"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "set Departure Date"
@@ -1747,47 +1748,47 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Import all users from team"
-msgstr "Enporzhiañ izili ar skipailh"
+msgstr ""
 
 #. tpl/edit_team.html
 #. tpl/import_issues.html
 msgid "Import"
-msgstr "Enporzhiañ"
+msgstr "가져오기"
 
 #. tpl/edit_team.html
 msgid "Remove user from this team ?"
-msgstr "Tennañ an implijer eus ar skipailh-mañ ?"
+msgstr ""
 
 #. tpl/edit_team.html
 #. tpl/modal/login.html
 msgid "login"
-msgstr "Kevreañ"
+msgstr "로그인"
 
 #. tpl/edit_team.html
 msgid "Arrival date in the team"
-msgstr "Deiziad erruout er skipailh"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Arrival Date"
-msgstr "Deiziad erruout"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Departure date from the team"
-msgstr "Deiziad loc'hañ ar skipailh"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Departure Date"
-msgstr "Deiziad loc'hañ"
+msgstr ""
 
 #. tpl/edit_team.html
 #. tpl/time_tracking.html
 msgid "delete this row"
-msgstr "Diverkañ ar bajenn-mañ"
+msgstr ""
 
 #. tpl/edit_team.html
 #. tpl/edit_jobs.html
 msgid "Jobs"
-msgstr "Labourioù"
+msgstr "일"
 
 #. tpl/edit_team.html
 msgid "Create SideTasksProject"
@@ -1795,23 +1796,23 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Project name"
-msgstr "Anv ar raktres"
+msgstr "프로젝트 이름"
 
 #. tpl/edit_team.html
 msgid "Create project"
-msgstr "Krouiñ ur raktres"
+msgstr "프로젝트 만들기"
 
 #. tpl/edit_team.html
 msgid "Issue Tooltips"
-msgstr "Lagadennoù an trevelloù"
+msgstr "이슈 툴팁"
 
 #. tpl/edit_team.html
 msgid "Tooltip fields"
-msgstr "Maeziennoù lagadennoù"
+msgstr "툴팁 필드"
 
 #. tpl/edit_team.html
 msgid "No custom IssueTooltips defined for your projects."
-msgstr ""
+msgstr "프로젝트에 지정된 사용자 지정 이슈툴팁이 없습니다."
 
 #. tpl/edit_team.html
 #. tpl/menu/global_menu.html
@@ -1820,7 +1821,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Enable/Disable alerts"
-msgstr ""
+msgstr "경보 활성화/비활성화"
 
 #. tpl/edit_team.html
 msgid "Add OnDuty tasks"
@@ -1848,7 +1849,7 @@ msgstr ""
 #: reports/export_csv_weekly.php:182 reports/planning_report.php:471
 #: reports/planning_report.php:473
 msgid "Task"
-msgstr "Trevell"
+msgstr "작업"
 
 #. tpl/edit_team.html
 msgid "Inactivity tasks"
@@ -1877,31 +1878,31 @@ msgstr ""
 #. tpl/edit_team.html
 #. tpl/menu/global_menu.html
 msgid "Display"
-msgstr "Diskwel"
+msgstr "표시"
 
 #. tpl/edit_team.html
 msgid "add a custom duration"
-msgstr "Ouzhpennañ ur pad"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "save"
-msgstr "Saveteiñ"
+msgstr "저장"
 
 #. tpl/edit_team.html
 msgid "Delete duration"
-msgstr "Dilemel ur pad"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Deleted the following duration ?"
-msgstr "Dilemel ar pad da-heul ?"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
-msgstr "Rankout a rit bezañ Teamleader evit mont d'ar bajenn-mañ."
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "External ID"
-msgstr "Daveenn diavaez"
+msgstr "외부 ID"
 
 #. tpl/issue_info.html
 msgid "Remove from command"
@@ -1909,43 +1910,42 @@ msgstr ""
 
 #. tpl/issue_info.html
 msgid "Add to command"
-msgstr "Ouzhpennañ an urzhiad"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "Properties"
-msgstr "Perzhioù"
+msgstr "속성"
 
 #. tpl/issue_info.html
 msgid "Timetracks"
-msgstr ""
+msgstr "시간트랙"
 
 #. tpl/issue_info.html
 msgid "Time tracking"
-msgstr "Heuliañ an obererezh"
+msgstr "시간 트래킹"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Update timetracking"
-msgstr "Heuliañ an obererezh"
+msgstr "시간트래킹 업데이트"
 
 #. tpl/issue_info.html
 msgid "Task Info"
-msgstr ""
+msgstr "작업 정보"
 
 #. tpl/issue_info.html
 msgid "Update task info"
-msgstr ""
+msgstr "작업 정보 업데이트"
 
 #. tpl/issue_info.html
 msgid "External Ref"
-msgstr "Daveenn diavaez"
+msgstr "외부 참조"
 
 #. tpl/issue_info.html
 #: classes/issue.class.php:2263 reports/export_csv_tools.php:57
 #: reports/planning_report.php:462 reports/planning_report.php:485
 #: tools.php:1501
 msgid "Priority"
-msgstr "Kentwir"
+msgstr "우선 순위"
 
 #. tpl/issue_info.html
 #: classes/issue.class.php:2259 reports/planning_report.php:463
@@ -1957,21 +1957,19 @@ msgstr ""
 #. tpl/team_activity_report.html
 #. tpl/project_activity_report.html
 msgid "Target version"
-msgstr ""
+msgstr "목표 버전"
 
 #. tpl/issue_info.html
 msgid "Relation"
-msgstr "Darempred"
+msgstr ""
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Mantis notes"
-msgstr "Danevelloù Mantis"
+msgstr ""
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Get mantis notes"
-msgstr "Danevelloù Mantis"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "Click refresh button to display..."
@@ -1980,7 +1978,7 @@ msgstr ""
 #. tpl/issue_info.html
 #. tpl/team_activity_report.html
 msgid "Note"
-msgstr "Notenn"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "Update timetracking values"
@@ -1992,20 +1990,19 @@ msgstr ""
 
 #. tpl/issue_info.html
 msgid "Remove from :"
-msgstr ""
+msgstr "다음에서 제거 :"
 
 #. tpl/issue_info.html
 msgid "Add to Command"
-msgstr "Ouzhpennañ d'an urzhiad"
+msgstr "명령에 추가"
 
 #. tpl/issue_info.html
 msgid "set/remove task specific deadline"
 msgstr ""
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Delivery date"
-msgstr "Deiziad degas"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "set/remove delivery date"
@@ -2023,12 +2020,12 @@ msgstr ""
 #. tpl/issue_info.html
 #. tpl/modal/update_issueBacklog.html
 msgid "Status can't be : "
-msgstr "Ne c'hall ket ar statud bezañ : "
+msgstr ""
 
 #. tpl/issue_info.html
 #. tpl/tools/dashboard.html
 msgid "Cancel"
-msgstr "Nullañ"
+msgstr "취소"
 
 #. tpl/export_csv_monthly.html
 msgid "Monthly report"
@@ -2036,70 +2033,70 @@ msgstr ""
 
 #. tpl/export_csv_monthly.html
 msgid "Issues form Team projects, including issues assigned to other teams"
-msgstr ""
+msgstr "다른 팀에게 할당된 이슈를 포함하는, 팀 프로젝트에서의 이슈"
 
 #. tpl/export_csv_monthly.html
 msgid "Export Managed Issues"
-msgstr ""
+msgstr "관리되는 이슈 내보내기"
 
 #. tpl/export_csv_monthly.html
 msgid "Export"
-msgstr "ezporzh"
+msgstr "내보내기"
 
 #. tpl/export_csv_monthly.html
 #. tpl/menu/global_menu.html
 #. tpl/project_activity_report.html
 msgid "Projects Activity"
-msgstr "Obererezh Raktresoù"
+msgstr "프로젝트 활동"
 
 #. tpl/export_csv_monthly.html
 msgid "Export Holidays "
-msgstr "Ezporzhiañ Vakañsoù "
+msgstr ""
 
 #. tpl/prepare_project.html
 msgid "Preparing project:"
-msgstr "Prientiñ ar raktres :"
+msgstr ""
 
 #. tpl/prepare_project.html
 msgid "Configure existing Projects"
-msgstr "Kefluniañ ar raktresoù a zo anezho"
+msgstr ""
 
 #. tpl/prepare_project.html
 msgid "Select the projects to be managed with CoDevTT"
-msgstr "Diuzit ar raktresoù da vezañ meret gant CoDevTT"
+msgstr ""
 
 #. tpl/prepare_project.html
 msgid "Prepare"
-msgstr "Prientiñ"
+msgstr "준비"
 
 #. tpl/tools/wbsEditor.html
 #. tpl/tools/wbsReader.html
 msgid "Reload"
-msgstr "Adkargañ"
+msgstr "다시 불러오기"
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
-msgstr "Gwrizienn ar WBS  ne c'hall ket bezañ adanvet"
+msgstr ""
 
 #. tpl/tools/wbsEditor.html
 msgid "Root element cannot be deleted."
-msgstr "Gwrizienn ar WBS ne c'hall ket bezañ dilamet."
+msgstr ""
 
 #. tpl/tools/wbsEditor.html
 msgid "Delete Failed: Folder must be empty."
-msgstr "Ne c'haller ket dilemel : goullo e rank bezañ an teuliad"
+msgstr ""
 
 #. tpl/tools/wbsEditor.html
 msgid "New Folder"
-msgstr "Teuliad nevez"
+msgstr "새 폴더"
 
 #. tpl/tools/wbsEditor.html
 msgid "Rename"
-msgstr "Adenvel"
+msgstr "이름 바꾸기"
 
 #. tpl/tools/wbsEditor.html
 msgid "Add subfolder"
-msgstr "Ouzhpennañ un isteuliad"
+msgstr "하위 폴더 추가"
 
 #. tpl/tools/dashboard.html
 msgid "Add an indicator to the dashboard"
@@ -2112,27 +2109,27 @@ msgstr ""
 #. tpl/tools/dashboard.html
 #. tpl/modal/login.html
 msgid "Loading"
-msgstr "O kargañ"
+msgstr "불러오는 중"
 
 #. tpl/team_activity_report.html
 #. tpl/menu/global_menu.html
 msgid "Weekly Activity"
-msgstr "Obererezh sizhuniek"
+msgstr ""
 
 #. tpl/team_activity_report.html
 #. tpl/time_tracking.html
 msgid "Previous week"
-msgstr "Sizun gent"
+msgstr ""
 
 #. tpl/team_activity_report.html
 #. tpl/time_tracking.html
 msgid "Next week"
-msgstr "Sizhun da-heul"
+msgstr ""
 
 #. tpl/team_activity_report.html
 #. tpl/project_activity_report.html
 msgid "Detailed"
-msgstr "Dre ar munud"
+msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "Timesheets"
@@ -2144,7 +2141,7 @@ msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "Workload"
-msgstr "Karg"
+msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "Timesheet notes"
@@ -2152,23 +2149,23 @@ msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "All Tasks"
-msgstr "An holl drevelloù"
+msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "Read by"
-msgstr "Gwelet gant"
+msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "Action"
-msgstr "Ober"
+msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "Mark as read"
-msgstr "Merkañ evel lennet"
+msgstr "읽은 것으로 표시"
 
 #. tpl/team_activity_report.html
 msgid "Delete note"
-msgstr "Dilemel an notenn"
+msgstr ""
 
 #. tpl/ajax/weekTaskDetails.html
 msgid "update backlog"
@@ -2179,7 +2176,7 @@ msgstr ""
 #. tpl/servicecontract_info.html
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:267
 msgid "TOTAL"
-msgstr "HOLLAD"
+msgstr ""
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support included"
@@ -2191,7 +2188,7 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Home"
-msgstr "Degemer"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "TimeTracking & team activity"
@@ -2199,7 +2196,7 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Activity"
-msgstr "Obererezh"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Time Tracking"
@@ -2211,7 +2208,7 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Leaves"
-msgstr "Ezvezañsoù"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Check DeadLines"
@@ -2219,11 +2216,11 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Planning"
-msgstr "Implij-amzer"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Gantt Chart"
-msgstr "Diagramm Gantt"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Gantt"
@@ -2231,130 +2228,130 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Task Information"
-msgstr "Titouroù diwar-benn an drevell"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Project Information"
-msgstr "Titouroù diwar-benn ur raktres"
+msgstr "프로젝트 정보"
 
 #. tpl/menu/global_menu.html
 msgid "Team Statistics"
-msgstr "Stadegoù skipailh"
+msgstr "팀 통계"
 
 #. tpl/menu/global_menu.html
 msgid "Period Statistics"
-msgstr "Stadegoù"
+msgstr "기간 통계"
 
 #. tpl/menu/global_menu.html
 msgid "History"
-msgstr "Istor"
+msgstr "역사"
 
 #. tpl/menu/global_menu.html
 msgid "Contracts & Commands"
-msgstr "Kevratoù & Urzhiadoù"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Contracts"
-msgstr "Kevratoù"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 #. tpl/servicecontract_info.html
 msgid "ServiceContract"
-msgstr "Kevrat Servij"
-
-#. tpl/menu/global_menu.html
-msgid "Mantis Reports"
-msgstr "Danevelloù Mantis"
-
-#. tpl/menu/global_menu.html
-msgid "Check"
-msgstr "Gwiriañ"
-
-#. tpl/menu/global_menu.html
-msgid "Import / Export"
-msgstr "Enporzhiañ/Ezporzhiañ"
-
-#. tpl/menu/global_menu.html
-msgid "Import Dashboard"
 msgstr ""
 
 #. tpl/menu/global_menu.html
+msgid "Mantis Reports"
+msgstr ""
+
+#. tpl/menu/global_menu.html
+msgid "Check"
+msgstr ""
+
+#. tpl/menu/global_menu.html
+msgid "Import / Export"
+msgstr "가져오기 / 내보내기"
+
+#. tpl/menu/global_menu.html
+msgid "Import Dashboard"
+msgstr "가져오기 대쉬보드"
+
+#. tpl/menu/global_menu.html
 msgid "Import Issues"
-msgstr "Enporzhiañ Fichennoù"
+msgstr "이슈 가져오기"
 
 #. tpl/menu/global_menu.html
 msgid "Export Weekly Report"
-msgstr "Ezporzhiañ Danevell Sizhuniek"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Export Monthly Report"
-msgstr "Ezporzhiañ Danevell Miziek"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Export to LibreOffice"
-msgstr "Ezporzhiañ war-zu LibreOffice"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Blog"
-msgstr "Blog"
+msgstr "블로그"
 
 #. tpl/menu/global_menu.html
 #: install/install_step3.php:830 install/install_menu.inc.php:68
 msgid "Documentation"
-msgstr "Teuliadur"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "About CodevTT"
-msgstr "Diwar-benn CodevTT"
+msgstr "CodevTT 정보"
 
 #. tpl/menu/global_menu.html
 msgid "CodevTT Administration"
-msgstr "Melestradur CodevTT"
+msgstr "CodevTT 관리"
 
 #. tpl/menu/global_menu.html
 msgid "Admin"
-msgstr "Melestradurezh"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Create Team"
-msgstr "Krouiñ Skipailh"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Edit Team"
-msgstr "Kemmañ skipailh"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Tools & Statistics"
-msgstr "Ostilhoù & Stadegoù"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Edit Jobs"
-msgstr "Kemmañ postoù"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Edit Holidays"
-msgstr "Kemmañ ezvezañsoù"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Prepare Projects"
-msgstr "Prientiñ Raktresoù"
+msgstr "프로젝트 준비"
 
 #. tpl/menu/global_menu.html
 msgid "Clone Projects"
-msgstr "Klonañ Raktresoù"
+msgstr "프로젝트 복제"
 
 #. tpl/menu/global_menu.html
 msgid "Plugin Manager"
-msgstr "Merour lugantoù"
+msgstr "플러그인 관리자"
 
 #. tpl/menu/global_menu.html
 msgid "Logs"
-msgstr "Marilhoù"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 #. tpl/uninstall.html
 msgid "Uninstall"
-msgstr "Distaliañ"
+msgstr "제거"
 
 #. tpl/set_holidays.html
 #. tpl/time_tracking.html
@@ -2365,41 +2362,41 @@ msgstr "Distaliañ"
 #: reports/export_odt_ajax.php:61 reports/issue_info.php:47
 #: smarty_tools_ajax.php:46
 msgid "(all)"
-msgstr "(pep tra)"
+msgstr "(모두)"
 
 #. tpl/set_holidays.html
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
 msgid "Duration (in days)"
-msgstr "Pad (e deizioù)"
+msgstr ""
 
 #. tpl/set_holidays.html
 msgid "Monday"
-msgstr "Lun"
+msgstr "월요일"
 
 #. tpl/set_holidays.html
 msgid "Tuesday"
-msgstr "Meurzh"
+msgstr "화요일"
 
 #. tpl/set_holidays.html
 msgid "Wednesday"
-msgstr "Merc'her"
+msgstr "수요일"
 
 #. tpl/set_holidays.html
 msgid "Thursday"
-msgstr "Yaou"
+msgstr "목요일"
 
 #. tpl/set_holidays.html
 msgid "Friday"
-msgstr "Gwener"
+msgstr "금요일"
 
 #. tpl/edit_jobs.html
 msgid "Job Name"
-msgstr "Anv ar Post"
+msgstr "일 이름"
 
 #. tpl/edit_jobs.html
 msgid "Job Color"
-msgstr "Liv ar Post"
+msgstr "일 색"
 
 #. tpl/edit_jobs.html
 #. tpl/planning_report.html
@@ -2408,21 +2405,21 @@ msgstr "Liv ar Post"
 #: install/install_step3.php:625 install/install_step3.php:631
 #: install/install_step3.php:636
 msgid "Color"
-msgstr "Liv"
+msgstr "색"
 
 #. tpl/edit_jobs.html
 #. tpl/edit_holidays.html
 #: install/install_step3.php:605
 msgid "open a colorPicker in a new Tab"
-msgstr "Digeriñ un diuzer liv en un ivinell nevez"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Delete job"
-msgstr "Dilemel ar Post-mañ"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "delete Job"
-msgstr "Dilemel ar Post-mañ"
+msgstr "일 삭제"
 
 #. tpl/edit_jobs.html
 msgid "Job Assignations"
@@ -2430,19 +2427,19 @@ msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Missing fields :"
-msgstr "Maeziennoù diank :"
+msgstr "필드 없음 :"
 
 #. tpl/edit_jobs.html
 msgid "single selection"
-msgstr "Dibab unan"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "multiple selection"
-msgstr "Dibab lies"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Remove this link :"
-msgstr "Dilemel al liamm-mañ :"
+msgstr "이 링크 제거 :"
 
 #. tpl/edit_jobs.html
 msgid "delete Project Association"
@@ -2450,37 +2447,37 @@ msgstr ""
 
 #. tpl/template.html
 msgid "Disconnect"
-msgstr "Digevreañ"
+msgstr "연결 끊기"
 
 #. tpl/template.html
 msgid "Note: For a better user experience, use a standards compliant browser such as :"
-msgstr "Ma c'hoarvez kudennoù, implijit, mar plij, ur merdeer a zouj da standardoù ar web, evel: "
+msgstr ""
 
 #. tpl/template.html
 #. tpl/import_issues.html
 msgid "or"
-msgstr "pe"
+msgstr "또는"
 
 #. tpl/planning_report.html
 msgid "zoom in"
-msgstr "zoumañ"
+msgstr "확대"
 
 #. tpl/planning_report.html
 msgid "zoom out"
-msgstr "dizoumañ"
+msgstr "축소"
 
 #. tpl/planning_report.html
 msgid "Options"
-msgstr "Dibarzhioù"
+msgstr "옵션"
 
 #. tpl/planning_report.html
 msgid "Planning Options"
-msgstr "Dibarzhioù an implij-amzer"
+msgstr ""
 
 #. tpl/planning_report.html
 #. tpl/modal/consistency_check.html
 msgid "Click to show errors"
-msgstr "Klikañ evit diskouez ar fazioù"
+msgstr "오류를 보려면 클릭하십시오"
 
 #. tpl/planning_report.html
 #: management/command_info.php:126 management/command_info.php:127
@@ -2490,7 +2487,7 @@ msgstr "Klikañ evit diskouez ar fazioù"
 #: timetracking/team_activity_report.php:65 timetracking/time_tracking.php:285
 #: timetracking/team_monthly_activity_report.php:75
 msgid "Errors"
-msgstr "Fazioù"
+msgstr "오류"
 
 #. tpl/planning_report.html
 msgid "Unassigned tasks"
@@ -2502,43 +2499,43 @@ msgstr ""
 
 #. tpl/planning_report.html
 msgid "tasks"
-msgstr "Trevelloù"
+msgstr "작업"
 
 #. tpl/planning_report.html
 msgid "workload"
-msgstr "Karg"
+msgstr ""
 
 #. tpl/planning_report.html
 msgid "nbDaysToDeadLine"
-msgstr "NvDeizioùAChom"
+msgstr ""
 
 #. tpl/planning_report.html
 msgid "day"
-msgstr "deiz"
+msgstr "일"
 
 #. tpl/filters.html
 msgid "Set project filters"
-msgstr "Ouzhpennañ siloù"
+msgstr "프로젝트 필터 설정"
 
 #. tpl/check.html
 msgid " Error(s) in Mantis Tasks"
-msgstr "Fazi(où) en trevelloù Mantis"
-
-#. tpl/check.html
-msgid "extRef"
 msgstr ""
 
 #. tpl/check.html
+msgid "extRef"
+msgstr "외부참조"
+
+#. tpl/check.html
 msgid "last modification date"
-msgstr "Deiz ar c'hemm diwezhañ"
+msgstr "마지막 갱신일"
 
 #. tpl/check.html
 msgid "Level"
-msgstr "Live"
+msgstr "단계"
 
 #. tpl/check.html
 msgid "Error Description"
-msgstr "Deskrivadur ar fazi"
+msgstr "오류 설명"
 
 #. tpl/forecasting_report.html
 msgid "Computed on task NOT Resolved/Closed on "
@@ -2554,36 +2551,36 @@ msgstr ""
 
 #. tpl/forecasting_report.html
 msgid "Overview"
-msgstr "Diverradenn"
+msgstr "개요"
 
 #. tpl/forecasting_report.html
 msgid "Task list"
-msgstr "Roll an trevelloù"
+msgstr "작업 목록"
 
 #. tpl/forecasting_report.html
 #. tpl/servicecontract_edit.html
 msgid "No data"
-msgstr "Roadenn ebet"
+msgstr "데이터 없음"
 
 #. tpl/import_issues.html
 msgid "Select CSV file"
-msgstr "Diuzañ ar restr CSV"
+msgstr "CSV 파일 선택"
 
 #. tpl/import_issues.html
 msgid "Import Mantis Issues"
-msgstr "Enporzhiañ Fichennoù Mantis"
+msgstr "맨티스 이슈 가져오기"
 
 #. tpl/import_issues.html
 msgid "File Format"
-msgstr "Furmad ar restr"
+msgstr "파일 형식"
 
 #. tpl/import_issues.html
 msgid "Standard CSV format with :"
-msgstr "Restr CSV skoueriek  gant :"
+msgstr ""
 
 #. tpl/import_issues.html
 msgid "delimiter"
-msgstr "disranner"
+msgstr ""
 
 #. tpl/import_issues.html
 msgid "enclosure"
@@ -2591,119 +2588,119 @@ msgstr ""
 
 #. tpl/import_issues.html
 msgid "Date format"
-msgstr "Furmad an deiziad"
+msgstr "날짜 형식"
 
 #. tpl/import_issues.html
 msgid "Number format"
-msgstr "Furmad niverel"
+msgstr "숫자 형식"
 
 #. tpl/import_issues.html
 msgid "Encoding"
-msgstr "Enkodañ"
+msgstr "인코딩"
 
 #. tpl/import_issues.html
 msgid "It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported."
-msgstr "Erbedet eo enkodañ e <strong>UTF-8</strong> met ASCII hag ISO-8859-1 a vez embreget ivez."
+msgstr "<strong>UTF-8</strong>을 사용할 것을 권장하지만, ASCII와 ISO-8859-1 (MS-Windows)도 지원합니다."
 
 #. tpl/import_issues.html
 msgid "Columns"
-msgstr "Bannoù"
+msgstr "열"
 
 #. tpl/import_issues.html
 msgid "the file must contain 6 columns, the 1st line contains the column names."
-msgstr "Ar restr a zle bezañ 6 bann enni, al linenn gentañ zo anvioù ar maeziennoù enni"
-
-#. tpl/import_issues.html
-msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef"
-msgstr "Taolenn :  MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef"
-
-#. tpl/import_issues.html
-msgid "File"
-msgstr "Restr"
-
-#. tpl/import_issues.html
-msgid "File extension"
-msgstr "Astenn ar restr"
-
-#. tpl/import_issues.html
-msgid "Preview import"
-msgstr "Alberz"
-
-#. tpl/import_issues.html
-msgid "Set All"
-msgstr "Diuzañ pep tra"
-
-#. tpl/import_issues.html
-msgid "TargetVersion"
-msgstr "Doare buket"
-
-#. tpl/import_issues.html
-msgid "Category not set on all issues"
-msgstr "Ar rummad a rank bezañ dielfennet evit an holl drevelloù."
-
-#. tpl/import_issues.html
-msgid "Type not set on all issues"
 msgstr ""
 
 #. tpl/import_issues.html
+msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef"
+msgstr ""
+
+#. tpl/import_issues.html
+msgid "File"
+msgstr "파일"
+
+#. tpl/import_issues.html
+msgid "File extension"
+msgstr "파일 확장자"
+
+#. tpl/import_issues.html
+msgid "Preview import"
+msgstr "가져오기 미리 보기"
+
+#. tpl/import_issues.html
+msgid "Set All"
+msgstr "모두 설정"
+
+#. tpl/import_issues.html
+msgid "TargetVersion"
+msgstr "목표버전"
+
+#. tpl/import_issues.html
+msgid "Category not set on all issues"
+msgstr "분류가 모든 이슈에서 설정되어 있지 않음"
+
+#. tpl/import_issues.html
+msgid "Type not set on all issues"
+msgstr "유형이 모든 이슈에서 설정되어 있지 않음"
+
+#. tpl/import_issues.html
 msgid "Import done !"
-msgstr "Enporzh graet !"
+msgstr "가져오기를 마쳤습니다 !"
 
 #. tpl/import_issues.html
 msgid "Mantis issues to create:"
-msgstr "Fichennoù Mantis evit krouiñ"
+msgstr "만들 맨티스 이슈:"
 
 #. tpl/commandset_info.html
 msgid "--- Create New CommandSet ---"
-msgstr "--- Krouiñ ur Makro-Urzhiad nevez ---"
+msgstr "--- 새 명령집합 만들기 ---"
 
 #. tpl/commandset_info.html
 msgid "Service Contract"
-msgstr "Kevrat Servij"
+msgstr ""
 
 #. tpl/commandset_info.html
 msgid "Cmds Budget"
-msgstr "Budjed urzhiadoù"
+msgstr ""
 
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "Detailed Charges"
-msgstr "Kargoù dre ar munud"
+msgstr ""
 
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "No Command found."
-msgstr "Urzhid ebet"
+msgstr ""
 
 #. tpl/team_dashboard.html
 #. tpl/time_tracking.html
 msgid "ERROR"
-msgstr "FAZI"
+msgstr "오류"
 
 #. tpl/servicecontract_info.html
 msgid "--- Create New ServiceContract ---"
-msgstr "--- Krouiñ ur Gevrat Servij nevez"
+msgstr ""
 
 #. tpl/servicecontract_info.html
 #: install/install_step4.php:51
 msgid "Go to"
-msgstr "Mont da"
+msgstr ""
 
 #. tpl/servicecontract_info.html
 msgid "No sidetasks found."
-msgstr "Trevell kar ebet"
+msgstr "사이드작업을 찾을 수 없습니다."
 
 #. tpl/servicecontract_info.html
 msgid "All tasks"
-msgstr "An holl drevelloù"
+msgstr "모든 작업"
 
 #. tpl/servicecontract_info.html
 msgid "No Total found."
-msgstr "Hollad ebet da gaout"
+msgstr "총계를 찾을 수 없습니다."
 
 #. tpl/servicecontract_info.html
 msgid "Note: SideTasks already defined in Commands are not displayed."
-msgstr "Notenn : n'eo dikwelet an trevelloù kar en urzhiadoù."
+msgstr ""
 
 #. tpl/servicecontract_info.html
 msgid "No provision found."
@@ -2711,11 +2708,11 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Start Year"
-msgstr "Dezioù kregiñ"
+msgstr "시작 연도"
 
 #. tpl/statistics.html
 msgid "Submitted / Resolved Issues"
-msgstr ""
+msgstr "제출된 / 해결된 이슈"
 
 #. tpl/statistics.html
 msgid "Efficiency - System Disponibility"
@@ -2723,16 +2720,16 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Reopened Rate"
-msgstr "Feur distreiñ"
+msgstr ""
 
 #. tpl/statistics.html
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:67
 msgid "Available Workforce"
-msgstr "Barregezh produiñ"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Submitted"
-msgstr ""
+msgstr "제출됨"
 
 #. tpl/statistics.html
 msgid "Nb of submitted tasks EXCEPT SideTasks"
@@ -2740,7 +2737,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Resolved"
-msgstr ""
+msgstr "해결됨"
 
 #. tpl/statistics.html
 msgid "Nb of resolved tasks EXCEPT SideTasks and reopened tasks"
@@ -2748,11 +2745,11 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "show values"
-msgstr "Diskouz an talvoudennoù"
+msgstr "값 보기"
 
 #. tpl/statistics.html
 msgid "Nb submissions"
-msgstr "Nv digor"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Nb Resolved"
@@ -2760,11 +2757,11 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Submitted / Resolved Issues (ExtRefOnly)"
-msgstr ""
+msgstr "제출된 / 해결된 이슈 (외부참조용)"
 
 #. tpl/statistics.html
 msgid "% Tasks"
-msgstr ""
+msgstr "작업 %개"
 
 #. tpl/statistics.html
 msgid "Percentage of tasks delivered before the deadLine"
@@ -2806,12 +2803,12 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Efficiency"
-msgstr "Feur efedusted"
+msgstr ""
 
 #. tpl/statistics.html
 #, c-format
 msgid "% Efficiency"
-msgstr "% Effedusted"
+msgstr ""
 
 #. tpl/statistics.html
 #, c-format
@@ -2828,7 +2825,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "% Reopened"
-msgstr ""
+msgstr "%개 다시 열림"
 
 #. tpl/statistics.html
 msgid "Compare the number of reopened tasks to the number of resolved tasks"
@@ -2840,7 +2837,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "man-days"
-msgstr "deiz-gwaz"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Available man-days on the period (excluding leave and external tasks)"
@@ -2852,15 +2849,15 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "nb production days"
-msgstr "Niver a zevezhioù produiñ"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Sorry, you do NOT have access to this page."
-msgstr "Hon digarezit, ne c'hallit ket diraez ar bajenn-mañ."
+msgstr "죄송합니다. 이 문서에 접근할 권한이 없습니다."
 
 #. tpl/time_tracking.html
 msgid "Query FAILED"
-msgstr "Reked c'hwitet"
+msgstr "쿼리 실패"
 
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
@@ -2869,21 +2866,21 @@ msgstr "Reked c'hwitet"
 #. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
 #. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
 msgid "Duration"
-msgstr "Pad"
+msgstr ""
 
 #. tpl/time_tracking.html
 #. tpl/form/dateRangeSelector.html
 msgid "From"
-msgstr "Eus"
+msgstr ""
 
 #. tpl/time_tracking.html
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Task Filters"
-msgstr "Siloù"
+msgstr "작업 필터"
 
 #. tpl/time_tracking.html
 msgid "Reduce the tasks selection by setting some filters"
-msgstr "Bihanait roll an trevelloù en ur ouzhpennañ siloù"
+msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Hide tasks not assigned to me"
@@ -2895,7 +2892,7 @@ msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Hide closed tasks"
-msgstr "Kuzhat an trevelloù serret"
+msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Week Imputations"
@@ -2903,7 +2900,7 @@ msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Ext.ID"
-msgstr ""
+msgstr "외부.ID"
 
 #. tpl/time_tracking.html
 msgid "Future Imputations"
@@ -2919,72 +2916,72 @@ msgstr ""
 
 #. tpl/gantt_report.html
 msgid "Gant report"
-msgstr "Diagramm gant"
+msgstr ""
 
 #. tpl/modal/change_managedUser.html
 msgid "Select User"
-msgstr "Diuziñ un implijer"
+msgstr "사용자 선택"
 
 #. tpl/modal/change_managedUser.html
 msgid "Select team user"
-msgstr "Diuziñ un ezel eus ar skipailh"
+msgstr ""
 
 #. tpl/modal/change_managedUser.html
 msgid "Change user"
-msgstr "Chenñch implijer"
+msgstr "사용자 변경"
 
 #. tpl/modal/login.html
 msgid "Length of"
-msgstr "Hed"
+msgstr ""
 
 #. tpl/modal/login.html
 msgid "must be between"
-msgstr "a rank bezañ etre"
+msgstr ""
 
 #. tpl/modal/login.html
 msgid "and"
-msgstr "ha"
+msgstr "그리고"
 
 #. tpl/modal/login.html
 msgid "CodevTT Identification"
-msgstr "Anavezout CodevTT"
+msgstr ""
 
 #. tpl/modal/login.html
 msgid "password"
-msgstr "Ger-tremen"
+msgstr "비밀번호"
 
 #. tpl/modal/login.html
 #. tpl/modal/select_issues.html
 msgid "OK"
-msgstr "Mat eo"
+msgstr "확인"
 
 #. tpl/modal/login.html
 msgid "Login failed."
-msgstr "C'hwitet eo ar c'hevreañ."
+msgstr "로그인에 실패했습니다."
 
 #. tpl/modal/login.html
 msgid "Login"
-msgstr "Kevreañ"
+msgstr "로그인"
 
 #. tpl/modal/login.html
 msgid "Password"
-msgstr "Ger-tremen"
+msgstr "비밀번호"
 
 #. tpl/modal/login.html
 msgid "Lost your password?"
-msgstr "Ankouaet ho ker-tremen ganeoc'h ?"
+msgstr "비밀번호를 잊으셨나요?"
 
 #. tpl/modal/login.html
 msgid "Redirection"
-msgstr "Adkas"
+msgstr "리다이렉션"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Current backlog"
-msgstr ""
+msgstr "현재 백로그"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Update Backlog"
-msgstr ""
+msgstr "백로그 업데이트"
 
 #. tpl/modal/edit_issueNote.html
 msgid "If unchecked, a 'standard' mantis note will be created"
@@ -2996,43 +2993,43 @@ msgstr ""
 
 #. tpl/modal/edit_issueNote.html
 msgid "Edit timesheet note"
-msgstr "Kemmañ an notenn"
+msgstr ""
 
 #. tpl/modal/edit_issueNote.html
 msgid "Delete timesheet note for task "
-msgstr "Diverkañ an notenn drevelloù "
+msgstr ""
 
 #. tpl/modal/fairplay.html
 msgid "Fair play !"
-msgstr "C'hoari reizh !"
+msgstr ""
 
 #. tpl/modal/fairplay.html
 msgid "You are using CodevTT since"
-msgstr "Implijout a rit CodevTT abaoe"
+msgstr ""
 
 #. tpl/modal/fairplay.html
 msgid "If you like this software, please consider making a donation."
-msgstr "Ma plij deoc'h ar meziant-mañ, grit un donezon deomp !"
+msgstr ""
 
 #. tpl/modal/select_issues.html
 msgid "No task selected !"
-msgstr "N'eus bet diuzet trevell ebet !"
+msgstr ""
 
 #. tpl/modal/select_issues.html
 msgid "Browse..."
-msgstr "Merdeiñ..."
+msgstr "찾아보기..."
 
 #. tpl/modal/select_issues.html
 msgid "Select all"
-msgstr "Diuzañ pep tra"
+msgstr "모두 선택"
 
 #. tpl/edit_holidays.html
 msgid "Add fixed holidays"
-msgstr "Ouzhpennañ vakañsoù"
+msgstr ""
 
 #. tpl/edit_holidays.html
 msgid "In here you can set National Days, religious holidays, etc."
-msgstr "Ouzhpennañ an Deizioù Broadel, ar gouelioù relijiel, pe ehan bloaz an embregerezhioù amañ."
+msgstr ""
 
 #. tpl/edit_holidays.html
 msgid "Note: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong."
@@ -3040,43 +3037,43 @@ msgstr ""
 
 #. tpl/edit_holidays.html
 msgid "Holiday Description"
-msgstr "Deskrivadur vakañsoù"
+msgstr ""
 
 #. tpl/edit_holidays.html
 msgid "Desirez-vous vraiment supprimer definitivement cette date ?"
-msgstr "Ha c'hoant ho peus da zilemel an deiziad-se da vat ?"
+msgstr ""
 
 #. tpl/edit_holidays.html
 msgid "delete Holiday"
-msgstr "Dilemel Vakañsoù"
+msgstr ""
 
 #. tpl/form/dateRangeSelector.html
 msgid "Start Date"
-msgstr "Deiziad kregiñ"
+msgstr "시작 날짜"
 
 #. tpl/form/dateRangeSelector.html
 msgid "To"
-msgstr "Da"
+msgstr ""
 
 #. tpl/form/dateRangeSelector.html
 msgid "End Date (included)"
-msgstr "Deiziad echuiñ (laket e-barzh)"
+msgstr "끝 날짜 (포함)"
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Drag & drop the filters to apply"
-msgstr ""
+msgstr "적용할 필터를 끌어서 놓으십시오"
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Available Filters"
-msgstr "Siloù a zo da gaout"
+msgstr "이용 가능한 필터"
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Applied Filters"
-msgstr "Siloù oberiant"
+msgstr "적용된 필터"
 
 #. tpl/uninstall.html
 msgid "Do you want to remove CodevTT from your Mantis server ?"
-msgstr "C'hoant ho peus da zistaliañ CodevTT eus ho servijer Mantis ?"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "This step will clean Mantis DB."
@@ -3084,19 +3081,19 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "Backup data"
-msgstr "Saveteiñ ar roadennoù"
+msgstr "데이터 백업"
 
 #. tpl/uninstall.html
 msgid "Backup file will ve saved in CodevTT reports directory"
-msgstr "Generet e vo ar restr saveteiñ e kavlec'h an danevelloù"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Filename"
-msgstr "Anv ar restr"
+msgstr "파일 이름"
 
 #. tpl/uninstall.html
 msgid "Backup"
-msgstr "Saveteiñ"
+msgstr "백업"
 
 #. tpl/uninstall.html
 msgid "Dumping MantisDB to"
@@ -3104,11 +3101,11 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "Backup successfully done"
-msgstr ""
+msgstr "백업을 성공적으로 마쳤습니다"
 
 #. tpl/uninstall.html
 msgid "Uninstall aborted !"
-msgstr ""
+msgstr "제거가 중단되었습니다 !"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT from Mantis menu:"
@@ -3116,19 +3113,19 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "TODO"
-msgstr "TODO"
+msgstr "할 일"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT specific projects"
-msgstr "Dilemel Raktresoù diabarzh CodevTT"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
-msgstr "Dilemel ar raktresoù-mañ gant an dorn, ma plij :"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT customFields:"
-msgstr "Dilemel ar maeziennoù personelaet CodevTT :"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT tables from MantisDB:"
@@ -3140,47 +3137,47 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "ERROR: Could not delete files"
-msgstr "FAZI : Ne c'haller ket dilemel ar restroù"
+msgstr "오류: 파일을 삭제하지 못했습니다"
 
 #. tpl/uninstall.html
 msgid "Failed"
-msgstr "C'hwitet"
+msgstr "실패했습니다"
 
 #. tpl/servicecontract_edit.html
 msgid "New service contract"
-msgstr "Kevrat-servij nevez"
-
-#. tpl/servicecontract_edit.html
-msgid "StartDate"
-msgstr "Deiziad deroù"
-
-#. tpl/servicecontract_edit.html
-msgid "EndDate"
-msgstr "Deiziad fin"
-
-#. tpl/servicecontract_edit.html
-msgid "Service contract name"
-msgstr "Anv ar Gevrat-servij"
-
-#. tpl/servicecontract_edit.html
-msgid "Delete ServiceContract"
-msgstr "Dilemel ar Gevrat-servij"
-
-#. tpl/servicecontract_edit.html
-msgid "Delete this ServiceContract ?"
-msgstr "Dilemel ar Gevrat-servij-mañ ?"
-
-#. tpl/servicecontract_edit.html
-msgid "Nb CommandSets"
-msgstr "Nv. a Vakroioù-urzhiad"
-
-#. tpl/servicecontract_edit.html
-msgid "SideTasks Projects"
 msgstr ""
 
 #. tpl/servicecontract_edit.html
+msgid "StartDate"
+msgstr "시작날짜"
+
+#. tpl/servicecontract_edit.html
+msgid "EndDate"
+msgstr "끝날짜"
+
+#. tpl/servicecontract_edit.html
+msgid "Service contract name"
+msgstr ""
+
+#. tpl/servicecontract_edit.html
+msgid "Delete ServiceContract"
+msgstr ""
+
+#. tpl/servicecontract_edit.html
+msgid "Delete this ServiceContract ?"
+msgstr ""
+
+#. tpl/servicecontract_edit.html
+msgid "Nb CommandSets"
+msgstr ""
+
+#. tpl/servicecontract_edit.html
+msgid "SideTasks Projects"
+msgstr "사이드작업 프로젝트"
+
+#. tpl/servicecontract_edit.html
 msgid "--- New CommandSet ---"
-msgstr "--- Makro-urzhiad Nevez ---"
+msgstr "--- 새 명령집합 ---"
 
 #. tpl/servicecontract_edit.html
 msgid "delete Contract-CommandSet association"
@@ -3188,7 +3185,7 @@ msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "Remove CommandSet from this Contract ?"
-msgstr "Dilemel ar Makro-Urzhiad evit ar Gevrat-servij-mañ ?"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "delete Contract-Project association"
@@ -3196,11 +3193,11 @@ msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project"
-msgstr "Dilemel Raktres"
+msgstr "프로젝트 제거"
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project from this Contract ?"
-msgstr "Dilemel raktres ar Gevrat-servij-mañ ?"
+msgstr ""
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel SAUF SuiviOp."
@@ -3212,19 +3209,19 @@ msgstr ""
 
 #. tpl/project_activity_report.html
 msgid "Users"
-msgstr "Implijerien"
+msgstr "사용자"
 
 #. tpl/project_activity_report.html
 msgid "Tasks per project"
-msgstr "Trevelloù dre Raktres"
+msgstr "프로젝트별 작업"
 
 #. tpl/project_activity_report.html
 msgid "Total time spent on this issue"
-msgstr "Amzer hollek tremenet war an trevell-mañ"
+msgstr "이 이슈에서 총 걸린 시간"
 
 #. tpl/project_activity_report.html
 msgid "No data available"
-msgstr "n'eus ket roadennoù da gaout"
+msgstr "이용 가능한 데이터 없음"
 
 #. tpl/project_activity_report.html
 msgid "Time spent on Projects per users"
@@ -3232,7 +3229,7 @@ msgstr ""
 
 #. tpl/project_activity_report.html
 msgid "With ExternalTasks Project"
-msgstr "Gant ar raktres trevelloù diavaez"
+msgstr ""
 
 #. tpl/project_activity_report.html
 msgid "With SideTasks Project"
@@ -3240,31 +3237,31 @@ msgstr ""
 
 #. tpl/index.html
 msgid "IE may not correctly display this website"
-msgstr ""
+msgstr "IE는 이 웹사이트를 올바르게 보여주지 못할 수 있습니다"
 
 #. tpl/index.html
 msgid "please consider using a standard complient web-browser"
-msgstr ""
+msgstr "표준 호환 웹 브라우저를 이용하는 것을 고려해 주십시오"
 
 #. tpl/index.html
 msgid "A new CodevTT version is available !"
-msgstr "Un doare CodevTT  nevez a c'haller kaout !"
+msgstr "새로운 CodevTT 버전을 이용할 수 있습니다 !"
 
 #: admin/edit_team.php:52
 msgid "Couldn't delete the team"
-msgstr "C'hwitet eo bet dilamadur ar skipailh"
+msgstr ""
 
 #: admin/edit_team.php:94
 msgid "Couldn't update the team leader"
-msgstr "C'hwitet eo hizivadur an team leader"
+msgstr ""
 
 #: admin/edit_team.php:105
 msgid "Couldn't update the creation date"
-msgstr "C'hwitet eo hizivadur an deiziad krouiñ"
+msgstr ""
 
 #: admin/edit_team.php:110
 msgid "Couldn't enable/disable team"
-msgstr "Ne c'haller ket gweredekaat/diweredekaat ar skipailh"
+msgstr ""
 
 #: admin/edit_team.php:203
 msgid "Couldn't delete the member of the team"
@@ -3280,43 +3277,43 @@ msgstr ""
 
 #: admin/edit_team.php:277
 msgid "Configure Tooltips"
-msgstr "Kefluniañ al lagadennoù-titouriñ"
+msgstr "툴팁 구성"
 
 #: admin/edit_team.php:342
 msgid "enabled"
-msgstr "gweredekaet"
+msgstr "활성화됨"
 
 #: admin/edit_team.php:342
 msgid "disabled"
-msgstr "diweredekaet"
+msgstr "비활성화됨"
 
 #: admin/edit_team_ajax.php:68
 msgid "Issue tooltips for project"
-msgstr "titouroù-lagadennoù evit ar raktres"
+msgstr "프로젝트의 이슈 툴팁"
 
 #: admin/edit_team_ajax.php:69
 msgid "Drag & drop the items to be displayed in the Issue tooltip"
-msgstr "Riklañ-dilec'hiañ ar maeziennoù da ziskwel el lagadennoù-titouriñ"
+msgstr "이슈 툴팁에 표시되는 항목을 드래그 앤 드롭"
 
 #: admin/edit_team_ajax.php:70
 msgid "Available fields"
-msgstr "Maeziennoù a c'haller kaout"
+msgstr "이용 가능한 필드"
 
 #: admin/edit_team_ajax.php:71
 msgid "Tooltip"
-msgstr "Lagadennoù-titouriñ"
+msgstr "툴팁"
 
 #: admin/logs.php:58
 msgid "Sorry, logfile not found:"
-msgstr ""
+msgstr "죄송합니다. 로그 파일을 찾을 수 없습니다:"
 
 #: admin/edit_holidays.php:46
 msgid "Couldn't add the holiday"
-msgstr "Ne c'haller ket ouzhpennañ an ezvezañs-se"
+msgstr ""
 
 #: admin/edit_holidays.php:51
 msgid "Couldn't remove the holiday"
-msgstr "Ne c'haller ket dilemel an ezvezañs-se"
+msgstr ""
 
 #: admin/edit_jobs.php:77
 msgid "Couldn't add the job association"
@@ -3353,7 +3350,7 @@ msgstr ""
 
 #: classes/user.class.php:1692
 msgid "Dear "
-msgstr ""
+msgstr "\\님에게"
 
 #: classes/user.class.php:1693
 msgid "Please fill your CodevTT timesheet"
@@ -3399,11 +3396,11 @@ msgstr ""
 #: classes/issue.class.php:2223 classes/wbsElement.class.php:585
 #: tools.php:1483
 msgid "Tags"
-msgstr ""
+msgstr "태그"
 
 #: classes/issue.class.php:2231
 msgid "none"
-msgstr ""
+msgstr "없음"
 
 #: classes/issue.class.php:2236 reports/issue_info_tools.php:115
 msgid "DriftColor"
@@ -3419,7 +3416,7 @@ msgstr ""
 
 #: classes/issue.class.php:2257 tools.php:1497
 msgid "Assigned"
-msgstr ""
+msgstr "할당됨"
 
 #: classes/issue.class.php:2265 tools.php:1505
 msgid "ETA"
@@ -3427,11 +3424,11 @@ msgstr ""
 
 #: classes/PluginManager.class.php:79
 msgid "Disabled"
-msgstr ""
+msgstr "비활성화됨"
 
 #: classes/PluginManager.class.php:80
 msgid "Removed"
-msgstr ""
+msgstr "제거됨"
 
 #: classes/consistency_check2.class.php:62
 #: classes/consistency_check_fdj.class.php:77
@@ -3443,29 +3440,29 @@ msgstr ""
 #: classes/consistency_check.class.php:366
 #: timetracking/team_monthly_activity_report.php:129
 msgid "Error"
-msgstr ""
+msgstr "오류"
 
 #: classes/consistency_check2.class.php:64
 #: classes/consistency_check.class.php:256
 msgid "Warning"
-msgstr ""
+msgstr "경고"
 
 #: classes/consistency_check2.class.php:66
 msgid "Info"
-msgstr ""
+msgstr "정보"
 
 #: classes/consistency_check2.class.php:68 reports/export_odt.php:272
 #: reports/export_odt.php:285 tests/odt.php:81 tests/odt.php:94
 msgid "unknown"
-msgstr ""
+msgstr "알 수 없음"
 
 #: classes/consistency_check2.class.php:200
 msgid "Backlog on resolved issues should be 0"
-msgstr ""
+msgstr "해결된 이슈의 백로그는 0이어야 합니다"
 
 #: classes/consistency_check2.class.php:201
 msgid "Backlog on unresolved issues should not be 0"
-msgstr ""
+msgstr "해결되지 않은 이슈의 백로그는 0이 아니어야 합니다"
 
 #: classes/consistency_check2.class.php:202
 msgid "EffortEstim should not be 0"
@@ -3473,15 +3470,15 @@ msgstr ""
 
 #: classes/consistency_check2.class.php:203
 msgid "There should be no timetracks on \"new\" issues "
-msgstr ""
+msgstr "\"새\" 이슈 \\에서의 시간트랙이 없어야 합니다"
 
 #: classes/consistency_check2.class.php:204
 msgid "Issues should be referenced in a Command"
-msgstr ""
+msgstr "이슈는 명령에 참조되어야 합니다"
 
 #: classes/consistency_check2.class.php:205
 msgid "Issues should not be referenced in multiple commands"
-msgstr ""
+msgstr "이슈는 여러 명령에서 참조되어서는 안 됩니다"
 
 #: classes/consistency_check2.class.php:206
 msgid "Commands should be referenced in a CommandSet"
@@ -3493,11 +3490,11 @@ msgstr ""
 
 #: classes/consistency_check2.class.php:208
 msgid "Issues should be assigned to someone"
-msgstr ""
+msgstr "이슈는 누군가에게 할당되어야 합니다"
 
 #: classes/consistency_check2.class.php:209
 msgid "Check timetracks on removed issues (not needed if mantis plugin is enabled)"
-msgstr ""
+msgstr "제거된 이슈에서의 시간트랙을 확인 (맨티스 플러그인이 활성화된 경우 필요하지 않음)"
 
 #: classes/consistency_check2.class.php:314
 #: classes/consistency_check.class.php:208
@@ -3545,11 +3542,11 @@ msgstr ""
 
 #: classes/consistency_check2.class.php:749
 msgid " days"
-msgstr ""
+msgstr "일"
 
 #: classes/consistency_check2.class.php:751
 msgid "inconsistent"
-msgstr ""
+msgstr "일관성 없음"
 
 #: classes/consistency_check2.class.php:785
 msgid "No default project workflow defined, check config file: "
@@ -3565,7 +3562,7 @@ msgstr ""
 
 #: classes/command.class.php:60
 msgid "Sent"
-msgstr ""
+msgstr "보내기"
 
 #: classes/command.class.php:61
 msgid "to be validated"
@@ -3581,7 +3578,7 @@ msgstr ""
 
 #: classes/command.class.php:64
 msgid "closed"
-msgstr ""
+msgstr "닫힘"
 
 #: classes/command.class.php:65
 msgid "bill must be sent"
@@ -3613,64 +3610,64 @@ msgstr ""
 
 #: filters/ProjectVersionFilter.php:45
 msgid "Sort issues per Project TargetVersion"
-msgstr ""
+msgstr "프로젝트 대상버전별 이슈 정렬"
 
 #: filters/ProjectVersionFilter.php:53
 msgid "Project TargetVersion"
-msgstr ""
+msgstr "프로젝트 목표버전"
 
 #: filters/IssuePublicPrivateFilter.php:48
 msgid "Sort issues: public/private"
-msgstr ""
+msgstr "이슈 정렬: 공개/비공개"
 
 #: filters/IssuePublicPrivateFilter.php:56
 msgid "Issue Public/Private"
-msgstr ""
+msgstr "이슈 공개/비공개"
 
 #: filters/ProjectCategoryFilter.php:49
 msgid "Sort issues per project categories"
-msgstr ""
+msgstr "프로젝트 분류별 이슈 정렬"
 
 #: filters/ProjectCategoryFilter.php:57
 msgid "Project Category"
-msgstr ""
+msgstr "프로젝트 분류"
 
 #: filters/IssueExtIdFilter.php:49
 msgid "Sort issues: with/without External ID"
-msgstr ""
+msgstr "이슈 정렬: 외부 ID와 함께/없이"
 
 #: filters/IssueExtIdFilter.php:57
 msgid "Issue External ID"
-msgstr ""
+msgstr "이슈 바깥 ID"
 
 #: filters/IssueCodevTypeFilter.php:55
 msgid "Sort issues per CustomField: CodevTT_Type"
-msgstr ""
+msgstr "사용자지정필드별 이슈 정렬: CodevTT_Type"
 
 #: filters/IssueCodevTypeFilter.php:63
 msgid "Issue Type"
-msgstr ""
+msgstr "이슈 유형"
 
 #: filters/ProjectFilter.php:51
 msgid "Sort issues per Project"
-msgstr ""
+msgstr "프로젝트별 이슈 정렬"
 
 #: filters/IssueTagFilter.php:49
 msgid "Sort issues per tags"
-msgstr ""
+msgstr "태그별 이슈 정렬"
 
 #: filters/IssueTagFilter.php:57
 msgid "Issue Tag"
-msgstr ""
+msgstr "이슈 태그"
 
 #: graphs/gantt_graph.php:97
 msgid "Project(s)"
-msgstr ""
+msgstr "프로젝트"
 
 #: graphs/gantt_graph.php:99 reports/gantt_report.php:41
 #: smarty_tools_ajax.php:35
 msgid "All projects"
-msgstr ""
+msgstr "모든 프로젝트"
 
 #: import/import_issues.php:115
 #: plugins/ImportIssueCsvBasic/ImportIssueCsvBasic.class.php:203
@@ -3687,7 +3684,7 @@ msgstr ""
 #: reports/planning_report.php:430 reports/planning_report.php:495
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:331
 msgid "Y-m-d"
-msgstr ""
+msgstr "Y-m-d"
 
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:410
 #: reports/project_info.php:328
@@ -3706,7 +3703,7 @@ msgstr ""
 
 #: install/install_step2.php:25
 msgid "Install - Step 2"
-msgstr ""
+msgstr "설치 - 2단계"
 
 #: install/install_step2.php:104
 msgid "Get Mantis customizations"
@@ -3726,11 +3723,11 @@ msgstr ""
 
 #: install/install_step2.php:134
 msgid "Proceed Step 2"
-msgstr ""
+msgstr "2단계 진행하기"
 
 #: install/install_step3.php:25
 msgid "Install - Step 3"
-msgstr ""
+msgstr "설치 - 3단계"
 
 #: install/install_step3.php:220
 msgid "CodevTT Administrators team"
@@ -3772,7 +3769,7 @@ msgstr ""
 #. ------ Reports
 #: install/install_step3.php:449
 msgid "Path to output files"
-msgstr ""
+msgstr "출력 파일 경로"
 
 #. T_("Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access.")
 #: install/install_step3.php:451
@@ -3782,7 +3779,7 @@ msgstr ""
 #. ------ Status
 #: install/install_step3.php:468
 msgid "Workflow"
-msgstr ""
+msgstr "워크플로우"
 
 #: install/install_step3.php:469
 msgid "Set equivalences in accordance to your Mantis workflow"
@@ -3791,7 +3788,7 @@ msgstr ""
 #. ------ Administrator
 #: install/install_step3.php:527
 msgid "CodevTT Administrator"
-msgstr ""
+msgstr "CodevTT 관리자"
 
 #: install/install_step3.php:539
 msgid "More administrators can be defined later, for now you just need one."
@@ -3828,7 +3825,7 @@ msgstr ""
 
 #: install/install_step3.php:655
 msgid "Proceed Step 3"
-msgstr ""
+msgstr "3단계 진행하기"
 
 #: install/install_step3.php:797
 msgid "CodevTT admin"
@@ -3882,7 +3879,7 @@ msgstr ""
 
 #: install/install_step4.php:25
 msgid "Install - Step 4"
-msgstr ""
+msgstr "설치 - 4단계"
 
 #: install/install_step4.php:44
 msgid "Manual steps"
@@ -3928,7 +3925,7 @@ msgstr ""
 
 #: install/install_step4.php:68
 msgid "For security reasons, delete the following directory: "
-msgstr ""
+msgstr "보안 상의 이유로 다음의 디렉터리를 삭제하십시오: "
 
 #. echo '<br>';
 #: install/install_step4.php:73
@@ -3937,7 +3934,7 @@ msgstr ""
 
 #: install/install_step4.php:74
 msgid "Note: This step is optional"
-msgstr ""
+msgstr "참고: 이 단계는 선택 사항입니다"
 
 #: install/install_step4.php:76
 msgid "Install addon:"
@@ -3949,23 +3946,23 @@ msgstr ""
 
 #: install/install_step4.php:83
 msgid "Done !"
-msgstr ""
+msgstr "끝났습니다 !"
 
 #: install/install_step1.php:25
 msgid "Install - Step 1"
-msgstr ""
+msgstr "설치 - 1단계"
 
 #: install/install_step1.php:195
 msgid "Mantis Database Info"
-msgstr ""
+msgstr "Mantis 데이터베이스 정보"
 
 #: install/install_step1.php:199
 msgid "Hostname"
-msgstr ""
+msgstr "호스트 이름"
 
 #: install/install_step1.php:203
 msgid "Database Name"
-msgstr ""
+msgstr "데이터베이스 이름"
 
 #: install/install_step1.php:217
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
@@ -3973,51 +3970,51 @@ msgstr ""
 
 #: install/install_step1.php:222
 msgid "Proxy Settings"
-msgstr ""
+msgstr "프록시 설정"
 
 #: install/install_step1.php:223
 msgid "CodevTT will check for updates."
-msgstr ""
+msgstr "CodevTT가 업데이트를 확인합니다."
 
 #: install/install_step1.php:226
 msgid "Enable proxy"
-msgstr ""
+msgstr "프록시 사용"
 
 #: install/install_step1.php:227
 msgid "Server"
-msgstr ""
+msgstr "서버"
 
 #: install/install_step1.php:228
 msgid "Port"
-msgstr ""
+msgstr "포트"
 
 #: install/install_step1.php:235
 msgid "Proceed Step 1"
-msgstr ""
+msgstr "1단계 진행하기"
 
 #: install/install_menu.inc.php:22 install/install.php:25
 msgid "Install"
-msgstr ""
+msgstr "설치"
 
 #: install/install_menu.inc.php:26
 msgid "Step 1"
-msgstr ""
+msgstr "1단계"
 
 #: install/install_menu.inc.php:30
 msgid "Step 2"
-msgstr ""
+msgstr "2단계"
 
 #: install/install_menu.inc.php:34
 msgid "Step 3"
-msgstr ""
+msgstr "3단계"
 
 #: install/install_menu.inc.php:38
 msgid "Step 4"
-msgstr ""
+msgstr "4단계"
 
 #: install/install_step5.php:25
 msgid "Installation finished"
-msgstr ""
+msgstr "설치를 마쳤습니다"
 
 #: management/command_edit.php:221
 msgid "Add tasks to Command"
@@ -4037,7 +4034,7 @@ msgstr ""
 
 #: management/command_edit.php:225
 msgid "Add the selected issues to the Command ?"
-msgstr ""
+msgstr "명령에 선택된 이슈를 추가하겠습니까 ?"
 
 #: management/commandset_info.php:96
 msgid "Errors affecting the CommandSet"
@@ -4057,7 +4054,7 @@ msgstr ""
 
 #: reports/issue_info_tools.php:39
 msgid "No date defined"
-msgstr ""
+msgstr "정의한 날짜가 없습니다"
 
 #: reports/issue_info_tools.php:41
 msgid "No target version defined"
@@ -4077,11 +4074,11 @@ msgstr ""
 
 #: reports/export_csv_tools.php:49
 msgid "m_id"
-msgstr ""
+msgstr "m_id"
 
 #: reports/export_csv_tools.php:56
 msgid "Product Version"
-msgstr ""
+msgstr "제품 버전"
 
 #: reports/export_csv_tools.php:59
 msgid "Resolution"
@@ -4127,9 +4124,8 @@ msgstr ""
 
 #: reports/issue_info_ajax.php:164 reports/issue_info_ajax.php:206
 #: reports/issue_info_ajax.php:247 reports/issue_info_ajax.php:312
-#, fuzzy
 msgid "Sorry, you're not an active member of this team"
-msgstr "Hon digarezit, ne c'hallit ket diraez ar bajenn-mañ."
+msgstr ""
 
 #: tests/odt.php:8
 msgid "Test: export to ODT"
@@ -4165,7 +4161,7 @@ msgstr ""
 
 #: timetracking/holidays_report.php:121
 msgid "today"
-msgstr ""
+msgstr "오늘"
 
 #. light grey
 #: timetracking/holidays_report.php:181
@@ -4206,7 +4202,7 @@ msgstr ""
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:346
 msgid "All Projects"
-msgstr ""
+msgstr "모든 프로젝트"
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:59
 msgid "Management load history"
@@ -4218,11 +4214,11 @@ msgstr ""
 
 #: plugins/IssueConsistencyCheck/IssueConsistencyCheck.class.php:59
 msgid "Issue consistency check"
-msgstr ""
+msgstr "이슈 일관성 검사"
 
 #: plugins/IssueConsistencyCheck/IssueConsistencyCheck.class.php:62
 msgid "Check for errors in issues"
-msgstr ""
+msgstr "이슈에서의 오류를 확인"
 
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:61
 msgid "Reopened rate history"
@@ -4262,11 +4258,11 @@ msgstr ""
 
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:66
 msgid "Issue Status History"
-msgstr ""
+msgstr "이슈 상태 역사"
 
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:69
 msgid "Display Issue Status history"
-msgstr ""
+msgstr "이슈 상태 역사 표시"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:55
 msgid "Task burndown chart"
@@ -4290,44 +4286,43 @@ msgstr ""
 
 #: plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.class.php:62
 msgid "Task deadlines alert"
-msgstr ""
+msgstr "작업 마감일 경보"
 
 #: plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.class.php:65
 msgid "Display unresolved tasks that should have been delivered"
 msgstr ""
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:71
-#, fuzzy
 msgid "Please, fill all fields"
-msgstr "Maeziennoù a c'haller kaout"
+msgstr "모든 칸을 채워주세요."
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:75
 msgid "Destination task must be different from origin"
-msgstr ""
+msgstr "최종 작업은 원본과 달라야 합니다."
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:85
 msgid "This origin task doesn't exist"
-msgstr ""
+msgstr "이 원본 작업이 없습니다."
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:117
 msgid "This destination task doesn't exist"
-msgstr ""
+msgstr "최종 작업이 없습니다."
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:120
 msgid "No timetracks for this search"
-msgstr ""
+msgstr "이 검색에 시간기록이 없음"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:171
 msgid "Please, display timetracks before moving them"
-msgstr ""
+msgstr "이동하기 전에 시간기록을 표시하세요."
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:57
 msgid "Move Issue Timetracks"
-msgstr ""
+msgstr "이슈의 시간기록 이동하기"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:61
 msgid "Move timetracks of issues"
-msgstr ""
+msgstr "이슈의 시간기록을 이동"
 
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:60
 msgid "Timetrack details"
@@ -4351,7 +4346,7 @@ msgstr ""
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:72
 msgid "REM: An issue that has been reopened before endTimestamp will NOT be recorded."
-msgstr ""
+msgstr "REM: endTimestamp가 기록되지 않기 전에 이슈가 재개되었습니다."
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:73
 msgid "(For the bugs that where re-opened, the EffortEstim may not have been re-estimated, and thus the result is not reliable.)"
@@ -4359,11 +4354,11 @@ msgstr ""
 
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:67
 msgid "Hello World"
-msgstr ""
+msgstr "Hello World"
 
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:70
 msgid "A simple HelloWorld plugin"
-msgstr ""
+msgstr "단순 HelloWorld 플러그인"
 
 #. return T_('Task drift alert');
 #: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:68
@@ -4389,7 +4384,7 @@ msgstr ""
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:69
 msgid "Backlog per User"
-msgstr ""
+msgstr "사용자별 백로그"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:72
 msgid "Check all the tasks and return the backlog per User"
