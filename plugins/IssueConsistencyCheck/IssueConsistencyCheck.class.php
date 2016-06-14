@@ -180,7 +180,6 @@ class IssueConsistencyCheck extends IndicatorPluginAbstract {
          "nbErrors" => count($consistencyErrors),
          "errors" => $consistencyErrors,
       );
-      self::$logger->error('nbErrors: '.count($consistencyErrors));
       return $this->execData;
    }
 
