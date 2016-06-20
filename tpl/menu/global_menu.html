@@ -43,7 +43,12 @@
                url.attr("href",url.attr("href")+"?width="+myWidth);
             });
          </script>
-         <a id="planningUrl" href="reports/planning_report.php" title="{t}Check DeadLines{/t}" class="button">{t}Planning{/t}</a>
+         <span class="dropdown-title" title="{t}Check DeadLines{/t}">{t}Planning{/t}</span>
+         <span class="dropdown-icon dropdown-icon-triangle-1-s"></span>
+         <ul class="submenu">
+            <li><a id="planningUrl" href="reports/planning_report.php" class="button">{t}Planning{/t}</a></li>
+            <li><a href='reports/scheduler.php'>{t}Scheduler{/t}</a></li>
+         </ul>
       </li>
       <li class="ui-corner-top {if $activeGlobalMenuItem == 'Gantt'} ui-state-active{else} ui-state-default{/if}"><a href="reports/gantt_report.php" title="{t}Gantt Chart{/t}" class="button">{t}Gantt{/t}</a></li>
       <li class="ui-corner-top {if $activeGlobalMenuItem == 'IssueInfo'} ui-state-active{else} ui-state-default{/if}" style="margin-left:2%;"><a href="reports/issue_info.php" title="{t}Task Information{/t}" class="button">{t}Task{/t}</a></li>
