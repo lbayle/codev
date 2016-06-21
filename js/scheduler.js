@@ -1,22 +1,14 @@
 
 var jsonUserData;
 var jsonTimetrackData;
+var jsonProjectionData;
 
 scheduler.locale.labels.m_tab = "Timeline Month";
 scheduler.locale.labels.section_custom="Section";
 scheduler.config.start_on_monday = true;
 scheduler.config.xml_date="%Y-%m-%d %h:%i";
 
-dateTimeReviver = function (key, value) {
-    var a;
-    if (typeof value === 'string') {
-        a = /\/Date\((\d*)\)\//.exec(value);
-        if (a) {
-            return new Date(+a[1]);
-        }
-    }
-    return value;
-   };
+
 
 //var sections=[
 //    {key:1, label:"Res1"},
@@ -39,7 +31,19 @@ $.ajax({ url: 'reports/scheduler_ajax.php',
          data: {action: 'getOldTimetrack'},
          type: 'post',
          success: function(data) {
-            jsonTimetrackData = JSON.parse(data, dateTimeReviver);
+            jsonTimetrackData = JSON.parse(data);
+         },
+         error: function(errormsg) {
+            console.log(errormsg);
+         }
+});
+
+$.ajax({ url: 'reports/scheduler_ajax.php',
+         async:false,
+         data: {action: 'getProjection'},
+         type: 'post',
+         success: function(data) {
+            jsonProjectionData = JSON.parse(data);
          },
          error: function(errormsg) {
             console.log(errormsg);
@@ -76,16 +80,7 @@ scheduler.init('scheduler_here', d, "mTimeline");
       scheduler.config.full_day = true;
       
 scheduler.parse(jsonTimetrackData,"json");
-var f = [
-    {text:"task1", start_date:"2016-06-15", end_date:"2016-06-18 12:00", 
-     user_id:"1"},
-    {text:"task2",start_date:"2016-06-16 00:00", end_date:"2016-07-28 00:00", 
-     user_id:"2", color:"red"},
-    {text:"task2", start_date:"2016-06-16 00:00", end_date:"2016-06-17 00:00", 
-     user_id:"1"}
-];
-console.log(jsonTimetrackData);
-console.log(f);
+scheduler.parse(jsonProjectionData,"json");
 
 //scheduler.parse([
 //    {text:"task1", start_date:"2016-06-15", end_date:"2016-06-18 12:00", 

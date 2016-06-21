@@ -29,8 +29,11 @@ if(Tools::isConnectedUser() && isset($_POST['action'])) {
          getTeam();
           break;
       case 'getOldTimetrack':
-          getOldTimetrack();
-          break;
+         getOldTimetrack();
+         break;
+      case 'getProjection':
+         getProjection();
+         break;
       default:
           Tools::sendNotFoundAccess();
           break;
@@ -74,7 +77,17 @@ function getOldTimetrack() {
          array_push($allTimetracks, $pushdata);
       }
    }
+
    echo json_encode($allTimetracks);
 }
+
+function getProjection(){
+   $s = new SchedulerManager();
+   $data = $s->execute();
+   $logger = Logger::getLogger("coucou");
+   $logger->error($data);
+   echo json_encode($data);
+}
+
 
 ?>

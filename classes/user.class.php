@@ -428,6 +428,34 @@ class User extends Model {
        }
        return false;
    }
+   
+   /**
+    * Check if user already exist in Mantis database
+    * @param string $username
+    * @return boolean : true if user already exist, false if not
+    */
+   public static function existsId($id)
+   {
+       if($id != null)
+       {
+            $query = "SELECT count(*) as count FROM mantis_user_table WHERE id = '$id'";
+            $result = SqlWrapper::getInstance()->sql_query($query);
+            if (!$result) {
+               echo "<span style='color:red'>ERROR: Query FAILED</span>";
+               exit;
+            }
+            
+            while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+                $count = $row->count;
+            }
+            
+            if($count != 0)
+            {
+                return true;
+            }
+       }
+       return false;
+   }
 
    /**
     * if no team specified, choose the oldest arrival date
