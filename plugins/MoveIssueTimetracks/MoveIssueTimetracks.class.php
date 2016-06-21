@@ -94,6 +94,7 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
         return array(
             'js_min/datepicker.min.js',
             'js_min/datatable.min.js',
+            'lib/select2/select2.min.js'
         );
     }
 
