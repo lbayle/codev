@@ -1,0 +1,174 @@
+<div class="ImportUsers">
+    {if (isset($accessDenied) && (1 == $accessDenied)) }
+    <p class="center ui-state-error-text">{t}You need to be manager to import issues.{/t}</p>
+    {else}
+    <div class="pluginInitFunction"  style="display: none;">importUsersJsInit</div>
+
+    <div align="left" style="margin-top:1em;">
+        
+        <!-- FILE SELECTION -->
+        <form method="post" action="{$importUsers_ajaxPhpURL}" enctype="multipart/form-data" class="importUsers_formUploadFile">
+            <fieldset>
+                <label>{t}Team{/t}: </label>
+                <select name="teamId">
+                    {foreach from=$importUsers_teams key=id item=i}
+                    <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                    {/foreach}
+                </select>
+                <input type="file" class="importUsers_file" name="uploaded_csv" accept=".csv, text/csv, application/csv, text/comma-separated-values" />
+                <input type="submit" class="importUsers_btUpload" value="{t}Preview import{/t}" />
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="importUsers_uploadValidationMessage error_font error_container">   
+    </div>
+    
+    <div>
+        <div class="floatr" style=" width: 16px">
+            <span class="importUsers_HelpDialog_link float pointer">
+               <img title="Help" src="images/help_icon.gif"/>
+            </span>
+         </div>
+         <div class="importUsers_HelpDialog ui-helper-hidden" title="{t}Time per status{/t}">
+            <p>
+               <strong>{t}Description{/t}:</strong><br>
+               {t}Import users adding them to selected team and project team.{/t}
+               
+            </p>
+            <br>
+            <p>
+                <strong>{t}Before import{/t}:</strong><br>
+                {t}Select a team and a file with users information. Click on{/t}"{t}Display{/t}".
+            </p>
+            <br>
+            <p>
+                {t}Users appears on a table. <span class="warn_font">Users wich already exist</span> are colored. <br>
+                If you decide to import users which already exist, they will not be created but assigned to team and projects of team.{/t}
+            </p>
+            <br>
+            <p>
+                <strong>{t}After import{/t}:</strong><br>
+                {t}When you import users, <span class="success_font">username, codevTT role and project access level</span> are colored except{/t} :<br>
+                {t}- If user can't be created (ex : already exists), <span class="warn_font">username</span> is colored{/t}<br>
+                {t}- If user can't be added to team (ex : already belong to team), <span class="error_font">codevTT role</span> is colored{/t}<br>
+                {t}- If user already belong to team, <span class="warn_font">codevTT role</span> is colored{/t}<br>
+                {t}- If user can't be affected to project team (ex : already affected to project), <span class="warn_font">project access level</span> is colored{/t}
+            </p>
+         </div>
+         <div class="ui-helper-clearfix"></div>
+    </div>
+
+    {if isset($importUsers_errorMsg)}
+    <div style="margin-top:1em;">
+        <span class="ui-state-error-text">ERROR: {$importUsers_errorMsg}</span>
+    </div>
+    {else}
+    <hr>
+    <div class="importUsers_htmlContent">
+    </div>
+    {/if}
+
+
+    <script type="text/javascript">
+
+        // this function will be run at jQuery(document).ready (see dashboard.html)
+        // or when a new widget is added to the dashboard.
+        function importUsersJsInit() {
+            
+            jQuery(".importUsers_HelpDialog_link").click(function(e) {
+                e.preventDefault();
+                jQuery(".importUsers_HelpDialog").dialog("open");
+            });
+            jQuery(".importUsers_HelpDialog").dialog({
+               autoOpen: false,
+               hide: "fade"
+            });
+
+            var files;
+
+            // http://abandon.ie/notebook/simple-file-uploads-using-jquery-ajax
+            // save the file data to a file variable for later use.
+            $('input[type=file]').on('change', function (event) {
+                files = event.target.files;
+            });
+
+            var uploadValidationMessageContainer = jQuery(".importUsers_uploadValidationMessage");
+
+            jQuery(".importUsers_btUpload").click(function (event) {
+                /* stop form from submitting normally */
+                event.preventDefault();
+
+                uploadValidationMessageContainer.html('');
+
+                // check fields
+                var foundError = 0;
+                var msgString = "{t}Some fields are missing:{/t}\n\n";
+
+                var form = jQuery(".importUsers_formUploadFile");
+
+                var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+                
+                if (0 == form.find("select[name=teamId]").val()) {
+                    msgString += "{t}Team{/t}\n";
+                    ++foundError;
+                }
+                if (0 == form.find("input[name=uploaded_csv]").val()) {
+                    msgString += "{t}File{/t}\n";
+                    ++foundError;
+                }
+                if (0 != foundError) {
+                    uploadValidationMessageContainer.html(msgString);
+                } else {
+
+                    // Create a formdata object and add the files
+                    var data = new FormData();
+                    $.each(files, function (key, value)
+                    {
+                        data.append("uploaded_csv", value);
+                    });
+                    // add other fields
+                    data.append("action", "uploadCsvFile");
+                    data.append("dashboardId", dashboardId);
+                    data.append("teamId", jQuery(".importUsers_formUploadFile select[name=teamId]").val());
+
+                    jQuery.ajax({
+                        type: form.attr('method'),
+                        url: form.attr('action') + "?importData",
+                        data: data,
+                        processData: false, // Don't process the files
+                        contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                        success: function (data) {
+
+                            data = JSON.parse(data);
+                            jQuery(".importUsers_htmlContent").html(data['importUsers_htmlContent']);
+
+                            jQuery.each(data['importUsers_jsFiles'], function (index, value) {
+                                jQuery.ajax({
+                                    async: false,
+                                    url: value,
+                                    dataType: "script"
+                                });
+                            });
+
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            if (errorThrown == 'Forbidden') {
+                                window.location = '{$page}';
+                            }
+                        }
+                    });
+                }
+            });
+
+
+        }
+        
+    // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+    function timePerStatusIndicatorJsDestroy() {
+        jQuery(".importUsers_HelpDialog").dialog('destroy').remove();
+    }
+    </script>
+    {/if}
+</div>
+

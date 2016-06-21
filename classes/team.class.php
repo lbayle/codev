@@ -696,20 +696,32 @@ class Team extends Model {
       }
       return $this->serviceContractList;
    }
+   
 
    /**
-    * @param int $memberid
-    * @param int $arrivalTimestamp
-    * @param int $memberAccess
+    * Add a member to the team
+    * @param type $memberid
+    * @param type $arrivalTimestamp
+    * @param type $memberAccess
+    * @return boolean : true if user has been added to team, false if team had already user
     */
    public function addMember($memberid, $arrivalTimestamp, $memberAccess) {
-      $query = "INSERT INTO `codev_team_user_table`  (`user_id`, `team_id`, `arrival_date`, `departure_date`, `access_level`) ".
-               "VALUES ('$memberid','$this->id','$arrivalTimestamp', '0', '$memberAccess');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+       
+        if(!UserCache::getInstance()->getUser($memberid)->isTeamMember($this->id))
+        {
+            $query = "INSERT INTO `codev_team_user_table`  (`user_id`, `team_id`, `arrival_date`, `departure_date`, `access_level`) ".
+                    "VALUES ('$memberid','$this->id','$arrivalTimestamp', '0', '$memberAccess');";
+            $result = SqlWrapper::getInstance()->sql_query($query);
+            if (!$result) {
+                echo "<span style='color:red'>ERROR: Query FAILED</span>";
+                exit;
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
    }
 
    public function setMemberDepartureDate($memberid, $departureTimestamp) {

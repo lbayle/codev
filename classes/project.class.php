@@ -104,7 +104,7 @@ class Project extends Model {
     * @param resource $details The project details
     * @throws Exception if $id = 0
     */
-   public function __construct($id, $details) {
+   public function __construct($id, $details = NULL) {
       if (0 == $id) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("Creating a Project with id=0 is not allowed.");
@@ -1566,7 +1566,35 @@ class Project extends Model {
          unset($this->issueTooltipFieldsCache[$key]);
       }
    }
+   
+    /**
+     * 
+     * @param type $memberId
+     * @return boolean : true if the project has the member, false if not
+     */
+    public function hasMember($memberId)
+    {
+        $query = "SELECT count(*) as count FROM `mantis_project_user_list_table` WHERE user_id = $memberId AND project_id = $this->id";
 
+        $result = SqlWrapper::getInstance()->sql_query($query);
+        if (!$result) {
+           echo "<span style='color:red'>ERROR: Query FAILED</span>";
+           exit;
+        }
+
+        while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $count = $row->count;
+        }
+
+        if($count != 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 }
 

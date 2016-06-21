@@ -1,0 +1,336 @@
+<div class="importUsers_ajax">
+    {if isset($importUsers_errorMsg)}
+    <div style="margin-top:1em;">
+        <span class="ui-state-error-text">ERROR: {$importUsers_errorMsg}</span>
+    </div>
+    {else}
+    
+    <div>
+        <span>{t}Team{/t} : {$importUsers_teamName}</span>
+    </div>
+
+    <form method="post" action="{$importUsers_ajaxPhpURL}" class="importUsers_formImport">
+        <fieldset>
+            <label><input type="radio" name="importUsers_passwordByMail" value="1" checked class="importUsers_passwordRadio">{t}Send password by mail{/t}</label><br>
+            <label><input type="radio" name="importUsers_passwordByMail" value="0" class="importUsers_passwordRadio">{t}Generate password{/t}</label><br>
+        </fieldset>
+        <fieldset>
+            <input type="hidden" class="importUsers_teamId" name="importUsers_teamId" value="{$importUsers_teamId}">
+            <button type='button' name="btImportUsers" class="importUsers_btnImportUsers"><img border='0' align='absmiddle' src="images/b_save.png" alt="Save icon"/> {t}Import{/t}</button>
+        </fieldset>
+    </form>
+
+    <div class="importUsers_validationMessage error_font error_container">   
+    </div>
+    <div class="importUsers_successMessage success_font success_container">   
+    </div>
+    <div class="importUsers_passwordMessage success_font success_container">   
+    </div>
+
+    <!-- DISPLAY USERS TABLE -->
+    <div style="margin-top:1em;">
+
+        {if $importUsers_newUsers}
+        <table id="users_table" class="display">
+            <caption>{t}Mantis users to create:{/t}</caption>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>{t}Name{/t}</th>
+                    <th>{t}First name{/t}</th>
+                    <th>{t}Username{/t}*</th>
+                    <th>{t}Email{/t}</th>
+                    <th>{t}Project access level{/t}*</th>
+                    <th>{t}CodevTT role{/t}*</th>
+                    <th>{t}Date of entry in team{/t}*</th>
+                </tr>
+            </thead>
+            <tbody>
+                {foreach from=$importUsers_newUsers key=id item=i}
+                <tr id="userTable-{$i.lineNum}" >
+                    <td class="lineNum" align='right'>{$i.lineNum}</td>
+                    <td class="name" align='right'>{$i.name}</td>
+                    <td class="firstname" align='right'>{$i.firstname}</td>
+                    <td class="username {if $i.alreadyExist}warn_font{/if}" align='left'>{$i.username}</td>
+                    <td class="email">{$i.email}</td>
+                    <td class="projectAccessLevel">{$i.projectAccessLevel.name}</td>
+                    <td class="codevTTRole">{$i.codevTTRole.name}</td>
+                    <td class="entryDate" align='left'>{$i.entryDate}</td>
+                </tr>
+                {/foreach}
+            </tbody>
+        </table>
+
+        <div class="ui-helper-hidden">
+            <table id="users_data">
+                <tbody>
+                    {foreach from=$importUsers_newUsers key=id item=i}
+                    <tr id="userData-{$i.lineNum}">
+                        <td class="projectAccessLevelId">{$i.projectAccessLevel.id}</td>
+                        <td class="codevTTRoleId">{$i.codevTTRole.id}</td>
+                    </tr>
+                    {/foreach}
+                </tbody>
+            </table>
+        </div>
+        {/if}
+    </div>   
+    {/if}
+</div>
+
+
+{if !isset($importUsers_errorMsg)}
+<!--Select in table-->
+<script type="text/javascript">
+
+    function getDataRowFromUserRow(userRow) {
+        var dataRowId = userRow.attr('id').replace('userTable', 'userData');
+        return jQuery("#" + dataRowId);
+    }
+
+    // Instead of using "OK" submit button on cells of table (for date)
+    $('#users_table tbody tr td form input').live('change', function () {
+        $(this).parent().submit();
+    });
+    
+    jQuery(document).ready(function() {
+
+        jQuery.ajax({
+        url: "lib/DataTables/media/js/jquery.dataTables.min.js",
+                dataType: "script",
+                async: false,
+                cache: true
+        });
+
+        {if $locale != en}
+        jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
+        {/if}
+
+            var oTable = jQuery('#users_table').dataTable({
+            "bProcessing": false,
+            "sScrollY": "700px",
+            "bPaginate": false,
+            "bScrollCollapse": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "fnDrawCallback": function () {
+                    
+                jQuery(this).find('.username').editable( function(value, settings) { return(value); }, {
+                    data: function(value, settings) { return value; },
+                    type: 'textarea',
+                    onblur: 'submit',
+                    placeholder : '',
+                    "height": "14px"
+                });
+                    
+                if (Object.keys({$importUsers_projectAccessLevels}).length > 0) {
+                    jQuery(this).find('.projectAccessLevel').editable(function(value, settings) {
+                        // set id in data table 
+                        var dataRow = getDataRowFromUserRow(jQuery(this).parent());
+                        dataRow.find('td.projectAccessLevelId').text(value);
+                        // set displayed value
+                        var items = settings.data;
+                        return(items[value]);
+                    }, 
+                    {
+                        data: {$importUsers_projectAccessLevels},
+                        type: 'select',
+                        onblur: 'submit',
+                        placeholder : '',
+                        "height": "14px"
+                    });
+                }
+                
+                if (Object.keys({$importUsers_codevTTRoles}).length > 0) {
+                    jQuery(this).find('.codevTTRole').editable(function(value, settings) {
+                        // set id in data table
+                        var dataRow = getDataRowFromUserRow(jQuery(this).parent());
+                        dataRow.find('td.codevTTRoleId').text(value);
+                        // set displayed value
+                        var items = settings.data;
+                        return(items[value]);
+                    }, 
+                    {
+                        data: {$importUsers_codevTTRoles},
+                        type: 'select',
+                        onblur: 'submit',
+                        placeholder : '',
+                        "height": "14px"
+                    });
+                }
+                
+                jQuery(this).find(".entryDate").editable(function(value, settings) { return(value); }, {
+                  type: 'datepicker',
+                  //event: 'dblclick',
+                  onblur: 'submit',
+                  submit: 'OK',
+                  placeholder : '',
+                  width: '100px'
+               });
+
+            }
+        });
+    });
+</script>
+
+<!--Import button-->
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+
+
+        jQuery.ajax({
+            url: "lib/jquery.scrollTo/jquery.scrollTo-min.js",
+                    dataType: "script",
+                    async: false,
+                    cache: true
+        });
+
+        var oTable = jQuery('#users_table').dataTable();
+        var scroller = jQuery(oTable.fnSettings().nTable.parentNode);
+        var validationErrorContainer = jQuery(".importUsers_validationMessage");
+        
+        jQuery(".importUsers_btnImportUsers").click(function(event) {
+            validationErrorContainer.html('');
+            var rows = oTable.find('tbody tr');
+            
+            var usernames = rows.find('td.username');
+            for(i = 0 ; i < usernames.length ; i++) {
+                if(0 == usernames.eq(i).text().length || '' == usernames.eq(i).text() || null == usernames.eq(i).text()) {
+                    validationErrorContainer.html('{t}Username not set on all users{/t}');
+                    return false;
+                }
+            }
+            
+            var projectAccessLevels = rows.find('td.projectAccessLevel');
+            for(i = 0 ; i < projectAccessLevels.length ; i++) {
+                if(0 == projectAccessLevels.eq(i).text().length || '' == projectAccessLevels.eq(i).text() || null == projectAccessLevels.eq(i).text()) {
+                    validationErrorContainer.html('{t}Project access level not set on all users{/t}');
+                    return false;
+                }
+            }
+            
+            var codevTTRoles = rows.find('td.codevTTRole');
+            for(i = 0 ; i < codevTTRoles.length ; i++) {
+                if(0 == codevTTRoles.eq(i).text().length || '' == codevTTRoles.eq(i).text() || null == codevTTRoles.eq(i).text()) {
+                    validationErrorContainer.html('{t}CodevTT roles not set on all users{/t}');
+                    return false;
+                }
+            }
+            
+            var entryDates = rows.find('td.entryDate');
+            for(i = 0 ; i < entryDates.length ; i++) {
+                if(0 == entryDates.eq(i).text().length || '' == entryDates.eq(i).text() || null == entryDates.eq(i).text()) {
+                    validationErrorContainer.html('{t}Date of entry in team not set on all users{/t}');
+                    return false;
+                }
+            }
+            
+            var formImport = jQuery("form.importUsers_formImport");
+            var users = [];
+            for(var i=0 ; i<rows.length ; i++)
+            {
+                var row = jQuery(rows[i]);
+                var dataRow = getDataRowFromUserRow(row);
+                
+                var user = {
+                    lineNum             : row.find('td.lineNum').text(),
+                    username            : row.find('td.username').text(),
+                    name                : row.find('td.name').text(),
+                    firstname           : row.find('td.firstname').text(),
+                    email               : row.find('td.email').text(),
+                    projectAccessLevel  : dataRow.find('td.projectAccessLevelId').text(),
+                    codevTTRole         : dataRow.find('td.codevTTRoleId').text(), 
+                    entryDate           : row.find('td.entryDate').text(),
+                };
+                
+                users.push(user);
+            }
+            
+            var dashboardId = formImport.parents('.codevttDashboard').attr('data-dashboardId');
+            var teamId = formImport.find(".importUsers_teamId").val();
+            var passwordByMail = formImport.find("[name=importUsers_passwordByMail]:checked").val();
+            users = JSON.stringify(users);
+            
+            jQuery(".importUsers_btnImportUsers").prop( "disabled", "true" );
+            jQuery(".importUsers_passwordRadio").prop( "disabled", "true" );
+            
+            jQuery.ajax({
+                type: formImport.attr('method'),
+                async: false,
+                url:  formImport.attr('action'),
+                data: {
+                    action          : "importRow",
+                    dashboardId     : dashboardId,
+                    teamId          : teamId,
+                    passwordByMail  : passwordByMail,
+                    users           : users
+                },
+                success: function(data) {
+                    data = JSON.parse(data);
+                    
+                    data["importUsers_usersStatus"].forEach(function(element){
+                        var row = jQuery('#users_table tr#userTable-' + element["lineNum"]);
+                        
+                        var username = row.find(".username");
+                        username.removeClass("success_font warn_font success_font");
+                        if(element["creationFailed"])
+                        {
+                            username.addClass("warn_font");
+                        }
+                        else
+                        {
+                            row.find(".username").addClass("success_font");
+                        }
+                        
+                        var codevTTRole = row.find(".codevTTRole");
+                        codevTTRole.removeClass("success_font warn_font success_font");
+                        if(element["addToTeamFailed"])
+                        {
+                            codevTTRole.addClass("error_font");
+                        }
+                        else
+                        {
+                            if(element["alreadyBelongToTeam"])
+                            {
+                                codevTTRole.addClass("warn_font");
+                            }
+                            else
+                            {
+                                codevTTRole.addClass("success_font");
+                            }
+                        }
+                        
+                        var projectAccessLevel = row.find(".projectAccessLevel");
+                        projectAccessLevel.removeClass("success_font warn_font success_font");
+                        if(element["addToProjectsFailed"])
+                        {
+                            projectAccessLevel.addClass("warn_font");
+                        }
+                        else
+                        {
+                            projectAccessLevel.addClass("success_font");
+                        }
+                    });
+                    
+                    if(null != data["importUsers_password"])
+                    {
+                        jQuery(".importUsers_successMessage").html("{t}Import Done ! The password for every created users is{/t} : <strong>" + data["importUsers_password"] + "</strong>");
+                    }
+                    
+                    
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    if (errorThrown == 'Forbidden') {
+                        window.location = '{$page}';
+                    } else {
+                        alert(errorThrown);
+                    }
+                }
+            });
+            
+        });
+    });
+</script>
+{/if}

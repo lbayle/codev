@@ -400,6 +400,34 @@ class User extends Model {
       }
       return $this->teamMemberCache[$key];
    }
+   
+   /**
+    * Check if user already exist in Mantis database
+    * @param string $username
+    * @return boolean : true if user already exist, false if not
+    */
+   public static function exists($username)
+   {
+       if($username != null)
+       {
+            $query = "SELECT count(*) as count FROM mantis_user_table WHERE username = '$username'";
+            $result = SqlWrapper::getInstance()->sql_query($query);
+            if (!$result) {
+               echo "<span style='color:red'>ERROR: Query FAILED</span>";
+               exit;
+            }
+            
+            while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+                $count = $row->count;
+            }
+            
+            if($count != 0)
+            {
+                return true;
+            }
+       }
+       return false;
+   }
 
    /**
     * if no team specified, choose the oldest arrival date
@@ -1776,6 +1804,69 @@ class User extends Model {
       $options = $this->getPlanningOptions($team_id);
       return $options["$optionKey"];
    }
+   
+   /**
+    * Create user in Mantis database
+    * @param string $username
+    * @param string $realName
+    * @param string $email
+    * @param integer $mantisAccessLevel
+    * @param timestamp $entryDate
+    * @throws Exception
+    */
+    public static function createUserInMantisDB($username, $realName, $email, $password, $mantisAccessLevel = 25, $entryDate = null)
+    {
+        if($entryDate == null)
+        {
+            $entryDate = time();
+        }
+
+        if(null != $username && null != $realName && null != $email)
+        {
+            if(self::exists($username))
+            {
+                throw new Exception("User already exist : ".$username);
+            }
+            else
+            {
+                $crypto = new Crypto();
+                $cookieString = $crypto->auth_generate_unique_cookie_string();
+                $lastVisit = time();
+                $cryptedPassword = $crypto->auth_process_plain_password($password);
+                // Insert user in mantis user table
+                $query = "INSERT INTO mantis_user_table (`username`, `realname`, `email`, `password`, `enabled`, `access_level`, `cookie_string`, `last_visit`, `date_created`) "
+                        . "VALUES ('$username', '$realName', '$email', '$cryptedPassword', 1, $mantisAccessLevel, '$cookieString', $lastVisit, $entryDate)";
+                $result = SqlWrapper::getInstance()->sql_query($query);
+                if (!$result) {
+                    echo "<span style='color:red'>ERROR: Query FAILED</span>";
+                    exit;
+                }
+            }
+        }
+    }
+    
+    /**
+     * Affect user to a project according project access level
+     * @param integer $projectId
+     * @param integer $projectAccessLevelId : default = 55 (developer)
+     * @return boolean : true if user has been affected to project, false if he was already affected
+     */
+    public function affectToProject($projectId, $projectAccessLevelId = 55)
+    {
+        $project = new Project($projectId);
+        
+        if(!$project->hasMember($this->id))
+        {
+            $query = "INSERT INTO mantis_project_user_list_table (`project_id`, `user_id`, `access_level`) VALUES ($projectId, $this->id, $projectAccessLevelId)";
+            $result = SqlWrapper::getInstance()->sql_query($query);
+            if (!$result) {
+                echo "<span style='color:red'>ERROR: Query FAILED</span>";
+                exit;
+            }
+            return true;
+        }
+        return false;
+    }
    
 }
 
