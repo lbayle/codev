@@ -148,8 +148,8 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
 
         // set JS libraries that must be load
-        $data['moveIssueTimetracks_jsFiles'] = TimetrackDetailsIndicator::getJsFiles();
-        $data['moveIssueTimetracks_cssFiles'] = TimetrackDetailsIndicator::getCssFiles();
+        $data['moveIssueTimetracks_jsFiles'] = MoveIssueTimetracks::getJsFiles();
+        $data['moveIssueTimetracks_cssFiles'] = MoveIssueTimetracks::getCssFiles();
 
         // return data (just an integer value)
         $jsonData = json_encode($data);
