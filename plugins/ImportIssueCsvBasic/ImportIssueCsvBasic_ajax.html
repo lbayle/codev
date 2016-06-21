@@ -238,7 +238,8 @@
                jQuery(this).find(".deadline").editable(function(value, settings) { return(value); }, {
                   type: 'datepicker',
                   //event: 'dblclick',
-                  submit: '',
+                  onblur: 'submit',
+                  submit: "OK",
                   placeholder : '',
                   width: '100px'
                });
@@ -441,14 +442,14 @@
 
           var categories = rows.find('td.category');
           for(i = 0 ; i < categories.length ; i++) {
-             if(categories.text().length == 0) {
+             if(0 == categories.eq(i).text().length) {
                 validationErrorContainer.html('{t}Category not set on all issues{/t}');
                 return false;
              }
           }
           var types = rows.find('td.type');
           for(i = 0 ; i < types.length ; i++) {
-             if(types.text().length == 0) {
+             if(0 == types.eq(i).text().length) {
                  validationErrorContainer.html('{t}Type not set on all issues{/t}');
                 return false;
              }

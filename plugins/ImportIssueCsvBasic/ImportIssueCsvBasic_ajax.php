@@ -64,8 +64,8 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
       $data['importIssueCsvBasic_htmlContent'] = $html;
       
       // set JS libraries that must be load
-      $data['timetrackDetails_jsFiles'] = ImportIssueCsvBasic::getJsFiles();
-      $data['timetrackDetails_cssFiles'] = ImportIssueCsvBasic::getCssFiles();
+      $data['importIssueCsvBasic_jsFiles'] = ImportIssueCsvBasic::getJsFiles();
+      $data['importIssueCsvBasic_cssFiles'] = ImportIssueCsvBasic::getCssFiles();
 
       // return data (just an integer value)
       $jsonData = json_encode($data);

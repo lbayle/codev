@@ -369,11 +369,12 @@ class ImportIssueCsvBasic  extends IndicatorPluginAbstract {
                         }
                         
                         $this->execData['filename'] = $this->csvFilename;
-
-                        $this->execData['commands'] = $commands;
+                        
+                        $blankArray = array(null => "");
+                        $this->execData['commands'] = $blankArray + $commands;
                         $this->execData['projectCategories'] = $this->getProjectCategories($this->selectedProject);
-                        $this->execData['projectTargetVersion'] = $this->getProjectTargetVersion($this->selectedProject);
-                        $this->execData['activeMembers'] = $team->getActiveMembers();
+                        $this->execData['projectTargetVersion'] = $blankArray + $this->getProjectTargetVersion($this->selectedProject);
+                        $this->execData['activeMembers'] = $blankArray + $team->getActiveMembers();
                         
                     } catch (Exception $ex) {
                         $this->execData['errorMsg'] = $ex->getMessage();
@@ -384,7 +385,7 @@ class ImportIssueCsvBasic  extends IndicatorPluginAbstract {
             
       return $this->execData;
    }
-
+   
    /**
     *
     * @param boolean $isAjaxCall

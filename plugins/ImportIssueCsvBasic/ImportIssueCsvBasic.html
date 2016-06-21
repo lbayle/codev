@@ -98,7 +98,7 @@
                         data = JSON.parse(data);
                         jQuery(".importIssueCsvBasic_htmlContent").html(data['importIssueCsvBasic_htmlContent']);
 
-                        jQuery.each(data['timetrackDetails_jsFiles'], function( index, value ) {
+                        jQuery.each(data['importIssueCsvBasic_jsFiles'], function( index, value ) {
                             jQuery.ajax({
                               async: false,
                               url: value,
