@@ -28,8 +28,8 @@ class SchedulerTaskProvider {
     private static $logger;
     // Origin task list. No modifications have to be done on it if it is not null
     private $todoTaskList;
-    // List of candidate task for attribution (has time, has priority deadline, don't depend of an other task)
-    private $candidateTaskList;
+    // List of pool of candidate task for attribution (has time, has priority deadline, don't depend of an other task)
+    private $candidateTaskPoolList;
     // List of user candidate task for attribution (candidateTaskList inner joined with user tasks)
     private $userCandidateTaskList;
 
@@ -53,12 +53,29 @@ class SchedulerTaskProvider {
      * @param type $tasksIdArray : array of task id
      */
     public function createCandidateTaskList($tasksIdArray) {
+        
+//        self::$logger->error("-----------------------todoTaskList-------------------------");
+//        self::$logger->error($tasksIdArray);
+        
         // If it hasn't be done, initialize todoTaskList 
         if (null == $this->todoTaskList) {
             $this->todoTaskList = $tasksIdArray;
         }
 
         if (null != $tasksIdArray) {
+            
+            // ---------- Remove tasks which depend of other task ----------
+            
+            foreach ($tasksIdArray as $taskIdKey => $taskId) {
+                $task = IssueCache::getInstance()->getIssue($taskId);
+                $taskRelationships = $task->getRelationships();
+
+                // If task is constrained by another task
+                $taskConstrainersIds = $taskRelationships['' + Constants::$relationship_constrained_by];
+                if (0 != count($taskConstrainersIds)) {
+                    unset($tasksIdArray[$taskIdKey]);
+                }
+            }
 
             // ---------- Make pools of tasks according to deadlines ----------
 
@@ -70,42 +87,24 @@ class SchedulerTaskProvider {
 
             // Sort by timestamp from older date to recent date
             ksort($tasksPerDeadLine, SORT_NUMERIC);
-            // Keep tasks without dead line
-            $taskWithoutDeadLine[null] = $tasksPerDeadLine[null];
-            // Remove tasks without dead line from the array
-            unset($tasksPerDeadLine[null]);
-            // Add tasks without dead line to the end of array
-            $tasksPerDeadLine = $tasksPerDeadLine + $taskWithoutDeadLine;
-            // Replace key by numbers
-            $tasksPerDeadLine = array_values($tasksPerDeadLine);
-
-            // ---------- In the first pool, remove tasks which depend of another task ----------
-
-            $firstPool = $tasksPerDeadLine[0];
-
-            // For each task of the pool
-            foreach ($firstPool as $taskIdKey => $taskId) {
-                $task = IssueCache::getInstance()->getIssue($taskId);
-                $taskRelationships = $task->getRelationships();
-
-                // If task is constrained by another task
-                $taskConstrainersIds = $taskRelationships['' + Constants::$relationship_constrained_by];
-                if (0 != count($taskConstrainersIds)) {
-                    // For every constrainers
-                    foreach ($taskConstrainersIds as $taskConstrainerId) {
-                        // If constrainer belong to first pool array
-                        if (in_array($taskConstrainerId, $firstPool)) {
-                            // Remove the task wich is constrained
-                            unset($firstPool[$taskIdKey]);
-                        }
-                    }
-                }
+            
+            // If some task havn't deadline
+            if(null != $tasksPerDeadLine[null])
+            {
+               // Keep tasks without dead line
+               $taskWithoutDeadLine[null] = $tasksPerDeadLine[null];
+               // Remove tasks without dead line from the array
+               unset($tasksPerDeadLine[null]);
+               // Add tasks without dead line to the end of array
+               $tasksPerDeadLine = $tasksPerDeadLine + $taskWithoutDeadLine;
             }
+            
+            // Replace key by numbers
+            $this->candidateTaskPoolList = array_values($tasksPerDeadLine);
 
-            $this->candidateTaskList = $firstPool;
-
-//        self::$logger->error("-----------------------candidateTaskList-------------------------");
-//        self::$logger->error($this->candidateTaskList);
+            
+//        self::$logger->error("-----------------------candidateTaskPoolList-------------------------");
+//        self::$logger->error($this->candidateTaskPoolList);
         }
     }
 
@@ -116,16 +115,20 @@ class SchedulerTaskProvider {
      * @param type $cursor : id of previous retourned task
      * @return task id : If the next task doesn't exist, return the first. If no task, return null
      */
-    public function getNextUserTask($userId, $cursor = NULL) {
+    public function getNextUserTask($assignedUserTasks, $cursor = NULL) {
+        
+//        self::$logger->error("------------------------assignedUserTasks------------------------");
+//        self::$logger->error($assignedUserTasks);
 
         // If candidateTaskList hasn't been setted
-        if (null == $this->candidateTaskList) {
+        if (null == $this->candidateTaskPoolList) {
             return null;
         }
 
-        $this->createUserCandidateTaskList($userId);
+        $this->createUserCandidateTaskList($assignedUserTasks);
 //        self::$logger->error("------------------------userCandidateTaskList------------------------");
 //        self::$logger->error($this->userCandidateTaskList);
+        
         // If user has no more task
         if (null == $this->userCandidateTaskList) {
             return null;
@@ -167,40 +170,34 @@ class SchedulerTaskProvider {
                 $process = false;
             }
         } while ($process);
-
+        
+//        self::$logger->error("------------------------$nextTask------------------------");
+//        self::$logger->error("     ".$nextTask."     ");
         return $nextTask;
     }
 
     /**
      * Create the user candidate task list
-     * It is an inner join of user tasks and candidate tasks
-     * @param type $userId
+     * It is an inner join of user tasks and first candidate tasks list containing user assigned task
+     * @param type $assignedUserTasks : task assigned to the user
      */
-    private function createUserCandidateTaskList($userId) {
+    private function createUserCandidateTaskList($assignedUserTasks) {
 
-        $user = null;
-        // If it exist
-        if (User::existsId($userId)) {
-            $user = UserCache::getInstance()->getUser($userId);
 
-            if (null != $user) {
-                // Get user assigned issues
-                $userTasksList = $user->getAssignedIssues();
-                foreach ($userTasksList as $userTask) {
-                    $userTaskIdList[] = $userTask->getId();
-                }
-
-          self::$logger->error("------------------------userTaskIdList------------------------");
-          self::$logger->error($userTaskIdList);
-                // Get inner joined array of candidate tasks and user tasks
-                if(NULL != $userTaskIdList){
-                   $this->userCandidateTaskList = $this->arraysInnerJoin($userTaskIdList, $this->candidateTaskList);
-                }
-                
+        $userCandidateTaskList = null;
+        // For each candidate task list
+        foreach($this->candidateTaskPoolList as $candidateTaskPool)
+        {
+            // Inner join candidate task list to assigned user task
+            $userCandidateTaskList = $this->arraysInnerJoin($assignedUserTasks, $candidateTaskPool);
+            // If there is task in userCandidateTaskList
+            if(null != $userCandidateTaskList)
+            {
+                break;
             }
-        } else {
-            $this->userCandidateTaskList = null;
         }
+        
+        $this->userCandidateTaskList = $userCandidateTaskList;
     }
 
     private function arraysInnerJoin($array1, $array2) {
