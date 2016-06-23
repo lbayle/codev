@@ -49,14 +49,19 @@ class SchedulerManager{
    public function execute() {
       $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
       $currentDay = mktime(0, 0, 0);
-      $projectionDay = 10;
+      $projectionDay = 180;
       $endDate = $currentDay+$projectionDay*24*60*60;
       for($date = $currentDay; $date < $endDate; $date+=24*60*60) {
-         foreach ($this->userTaskList as $userId=>$userTasks) {
+         foreach ($this->userTaskList as $userId=>$userData) {
             $midnightTimestamp = $date;
             $userAvailableTime = $this->getUserAvailableTime($userId, $midnightTimestamp);
-            while(0 < $userAvailableTime && !empty($userTasks)){
-                  $nextTaskId = $this->schedulerTaskProvider->getNextUserTask($userTasks);
+            //self::$logger->error($userAvailableTime);
+            while(0 < $userAvailableTime && !empty($this->userTaskList[$userId]["tasks"])){
+                  self::$logger->error($userData["tasks"]);
+                  self::$logger->error($userData["cursor"]);
+                  $nextTaskId = $this->schedulerTaskProvider->getNextUserTask(array_keys($this->userTaskList[$userId]["tasks"]), $this->userTaskList[$userId]["cursor"]);
+                  self::$logger->error($nextTaskId);
+                  $this->userTaskList[$userId]["cursor"] = $nextTaskId;
                   //self::$logger->error($nextTaskId);
                   if(NULL != $nextTaskId){
                      $timeUsed = $this->decreaseBacklog($userId, $nextTaskId, $userAvailableTime);
@@ -64,15 +69,17 @@ class SchedulerManager{
                         $userAvailableTime -= $timeUsed;
                         $endT = $midnightTimestamp + $timeUsed*24*60*60;
                         $ganttActivity = new GanttActivity($nextTaskId, $userId, $midnightTimestamp, $endT);
-                        //$midnightTimestamp = $endT;
+                        $midnightTimestamp = $endT;
                         //self::$logger->error($ganttActivity);
                         $ganttActivity->setColor("red");
                         $this->transformGanttActivityToDxhtmlData($ganttActivity);
                      }
+                     else{
+                        $userAvailableTime = 0;
+                     }
                   }
                   else{
                      $userAvailableTime = 0;
-                     unset($this->userTaskList[$userId]);
                   }
             }
          }
@@ -100,27 +107,35 @@ class SchedulerManager{
    }
    
    private function setBouchon(){
-      $this->userTaskList = array(169 => array(4289 => 8, 9670 => 3), 74 => array(9670 => 10), 134 => array(4289 => 4));
-      $this->todoTaskIdList[4289] = 12;
-      $this->todoTaskIdList[9670] = 13;
+      $this->userTaskList = array(169 => array("cursor" => NULL, "tasks" => array(4289 => 8, 9670 => 4.5)), 74 => array("cursor" => NULL, "tasks" => array(9670 => 13)), 134 => array("cursor" => NULL, "tasks" => array(4289 => 11)));
+      $this->todoTaskIdList[4289] = 19;
+      $this->todoTaskIdList[9670] = 16;
    }
    
    
    //Todo
    private function decreaseBacklog($userId, $taskid, $userAvailableTime) {
-      if($this->userTaskList[$userId][$taskid] >= $userAvailableTime)
+      
+   if($this->userTaskList[$userId]["tasks"][$taskid] >= $userAvailableTime)
       {
-         $this->userTaskList[$userId][$taskid] -= $userAvailableTime;
+         $this->userTaskList[$userId]["tasks"][$taskid] -= $userAvailableTime;
+         $this->todoTaskIdList[$taskid] -= $userAvailableTime;
          $timeUsed = $userAvailableTime;
       }
       else{
-         $timeUsed = $this->userTaskList[$userId][$taskid];
+         $timeUsed = $this->userTaskList[$userId]["tasks"][$taskid];
          //$this->todoTaskIdList[$taskid] = 0;
-         unset($this->todoTaskIdList[$taskid]);
-         unset($this->userTaskList[$userId][$taskid]);
-         if(!empty($this->todoTaskIdList)){
+         //unset($this->todoTaskIdList[$taskid]);
+         unset($this->userTaskList[$userId]["tasks"][$taskid]);
+         if(0 == $this->todoTaskIdList[$taskid]){
+            unset($this->todoTaskIdList[$taskid]);
             $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
          }
+         self::$logger->error($this->userTaskList[$userId]["tasks"][$taskid]);
+         self::$logger->error($timeUsed."zzzzzzzzzzzzzzzzzzz");
+//         if(!empty($this->todoTaskIdList)){
+//            $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
+//         }
       }
       return $timeUsed;
    }
