@@ -263,11 +263,15 @@ class ImportUsers extends IndicatorPluginAbstract {
                     $newUser = array();
                     $newUser['lineNum'] = $row - 1;
                     $newUser['username'] = strtolower(Tools::convertToUTF8($data[1])[0] . Tools::convertToUTF8($data[0]));
-                    $newUser['name'] = Tools::convertToUTF8($data[0]);
+                    $newUser['name'] = strtoupper(Tools::convertToUTF8($data[0]));
                     $newUser['firstname'] = Tools::convertToUTF8($data[1]);
                     $newUser['email'] = Tools::convertToUTF8($data[2]);
-                    $date = date_create_from_format('d/m/Y', Tools::convertToUTF8($data[3]));
-                    $newUser['entryDate'] = date('Y-m-d', $date->getTimestamp());
+                    $date = date_create_from_format('Y-m-d', Tools::convertToUTF8($data[3]));
+                    // If date has corret format
+                    if($date)
+                    {
+                       $newUser['entryDate'] = date('Y-m-d', $date->getTimestamp());
+                    }
                     $users[] = $newUser;
                 }
             }
