@@ -55,11 +55,9 @@ class SchedulerManager{
          foreach ($this->userTaskList as $userId=>$userData) {
             $midnightTimestamp = $date;
             $userAvailableTime = $this->getUserAvailableTime($userId, $midnightTimestamp);
-            //self::$logger->error($userAvailableTime);
             while(0 < $userAvailableTime && !empty($this->userTaskList[$userId]["tasks"])){
                   $nextTaskId = $this->schedulerTaskProvider->getNextUserTask(array_keys($this->userTaskList[$userId]["tasks"]), $this->userTaskList[$userId]["cursor"]);
                   $this->userTaskList[$userId]["cursor"] = $nextTaskId;
-                  //self::$logger->error($nextTaskId);
                   if(NULL != $nextTaskId){
                      $timeUsed = $this->decreaseBacklog($userId, $nextTaskId, $userAvailableTime);
                      if(0 != $timeUsed){
@@ -67,7 +65,6 @@ class SchedulerManager{
                         $endT = $midnightTimestamp + $timeUsed*24*60*60;
                         $ganttActivity = new GanttActivity($nextTaskId, $userId, $midnightTimestamp, $endT);
                         $midnightTimestamp = $endT;
-                        //self::$logger->error($ganttActivity);
                         $ganttActivity->setColor("red");
                         $this->transformGanttActivityToDxhtmlData($ganttActivity);
                      }
@@ -81,7 +78,6 @@ class SchedulerManager{
             }
          }
       }
-      //self::$logger->error($this->data);
       return $this->data;
    }
    
@@ -103,6 +99,10 @@ class SchedulerManager{
 //      $this->todoTaskIdList[9670] = 12;
    }
    
+   public function setUserTaskList($jsonUserTaskList){
+      $this->userTaskList = $jsonUserTaskList;
+   }
+   
    private function setBouchon(){
       $this->userTaskList = array(169 => array("cursor" => NULL, "tasks" => array(4289 => 8, 9670 => 4.5)), 74 => array("cursor" => NULL, "tasks" => array(9670 => 13)), 134 => array("cursor" => NULL, "tasks" => array(4289 => 11)));
       $this->todoTaskIdList[4289] = 19;
@@ -121,16 +121,11 @@ class SchedulerManager{
       }
       else{
          $timeUsed = $this->userTaskList[$userId]["tasks"][$taskid];
-         //$this->todoTaskIdList[$taskid] = 0;
-         //unset($this->todoTaskIdList[$taskid]);
          unset($this->userTaskList[$userId]["tasks"][$taskid]);
          if(0 == $this->todoTaskIdList[$taskid]){
             unset($this->todoTaskIdList[$taskid]);
             $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
          }
-//         if(!empty($this->todoTaskIdList)){
-//            $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
-//         }
       }
       return $timeUsed;
    }
@@ -149,6 +144,10 @@ class SchedulerManager{
       $endDateParse = date('Y-m-d H:i:s', $endDate);
       $pushdata = array("text"=>"$ganttActivity->bugid","start_date"=>"$dateParse" ,"end_date"=>"$endDateParse" ,"user_id"=>"$ganttActivity->userid", "color"=>"$ganttActivity->color");
       array_push($this->data, $pushdata);
+   }
+   
+   public static function updateTasksPerUser($jsonData) {
+      Config::setValue($id, $value, $type, $project_id=0, $user_id=0, $team_id=0, $command_id=0, $cset_id=0, $service_id=0);
    }
 }
 

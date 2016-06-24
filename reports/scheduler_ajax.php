@@ -27,7 +27,6 @@ $SchedAjaxLogger = Logger::getLogger("scheduler_ajax");
 if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
    $action = Tools::getSecurePOSTStringValue('action', 'none');
-
       //$smartyHelper = new SmartyHelper();
    switch ($action) {
       case 'getTeam':
@@ -114,12 +113,18 @@ function getOldTimetrack() {
 
 function getProjection(){
    $logger = Logger::getLogger("scheduler_ajax");
-
+   $jsonUserTaskList = getUserTaskList();
+   
    try {
       $s = new SchedulerManager();
+      $team_id = $_SESSION['teamid'];
+      $user_id = $_SESSION['userid'];
+      $project_id = $_SESSION['projectid'];
+      Config::setValue("TasksPerUsersPerManager", $jsonUserTaskList, 4, "", $project_id, $user_id, $team_id);
+      //$s->setUserTaskList($jsonUserTaskList);
+      
       $data = $s->execute();
       echo json_encode($data);
-      
    } catch (Exception $e) {
       // TODO handle exception
       $logger->error("getProjection: exception raised !!");
@@ -211,4 +216,22 @@ function getTaskUserList()
    echo $jsonData;
 }
 
+function getUserTaskList() {
+   $tasksUserList = $_SESSION['tasksUserList'];
+   $userTaskList = array();
+   if(NULL != $tasksUserList) {
+      $logger = Logger::getLogger("scheduler_ajax");
+      $logger->error($_SESSION['tasksUserList']);
+      foreach ($tasksUserList as $taskid=>$userIdList){
+         foreach($userIdList as $userId=>$duration){
+            $userTaskList[$userId] = array_merge($userTaskList[$userId],array($taskid,$duration));
+         }
+      }
+   }
+   $logger->error($userTaskList);
+//   $_SESSION['tasksUserList'];
+   return $userTaskList;
+}
+
+//$_SESSION['tasksUserList']['id_de_tache']['id_du_user'] = temps_du_user
 
