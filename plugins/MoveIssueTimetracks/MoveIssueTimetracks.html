@@ -125,23 +125,24 @@
             jQuery(".moveIssueTimetracksHelpDialog").dialog('destroy').remove();
         }
         
-        // select all users
-        jQuery(".moveIssueTimetracks_selectAllUsers").click(function(){
-            if(jQuery(".moveIssueTimetracks_selectAllUsers").is(':checked') ){
-                jQuery(".moveIssueTimetracks_displayedUser > option").prop("selected","selected");
-                jQuery(".moveIssueTimetracks_displayedUser").trigger("change");
-            }else{
-                jQuery(".moveIssueTimetracks_displayedUser > option").removeAttr("selected");
-                 jQuery(".moveIssueTimetracks_displayedUser").trigger("change");
-             }
-        });
-
         // this function will be run at jQuery(document).ready (see dashboard.html) or
         // when a new widjet is add to the dashboard.
         function moveIssueTimetracksJsInit() 
         {
             updateWidgets(".moveIssueTimetracks");
             console.log('moveIssueTimetracksJsInit');
+            
+            // select all users
+            jQuery(".moveIssueTimetracks_selectAllUsers").click(function(){
+               if(jQuery(".moveIssueTimetracks_selectAllUsers").is(':checked') ){
+                  jQuery(".moveIssueTimetracks_displayedUser > option").prop("selected","selected");
+                  jQuery(".moveIssueTimetracks_displayedUser").trigger("change");
+               }else{
+                  jQuery(".moveIssueTimetracks_displayedUser > option").removeAttr("selected");
+                  jQuery(".moveIssueTimetracks_displayedUser").trigger("change");
+               }
+            });
+        
             // ------------------------------------------------
             // datepicker
 
