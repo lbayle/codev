@@ -3,8 +3,9 @@
 <p class="center ui-state-error-text">{t}You need to be manager to import issues.{/t}</p>
 {else}
 <div class="pluginInitFunction"  style="display: none;">importIssueCsvBasicJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">importIssueCsvBasicJsDestroy</div>
    
-<div align="left" style="margin-top:1em;">
+<div align="left" style="margin-top:1em;" class="center">
    <!-- CSV FILE SELECTION -->
    <form method="post" action="{$importIssueCsvBasic_ajaxPhpURL}" enctype="multipart/form-data" class="importIssueCsvBasic_formUploadFile">
       <fieldset>
@@ -18,6 +19,34 @@
          <input type="submit" class="importIssueCsvBasic_btUpload" value="{t}Preview import{/t}" />
       </fieldset>
    </form>
+</div>
+
+<div style="margin-top:2em;" class="center">
+      <span>{t}Import templates{/t}: </span>
+      <span style="padding-left: 1em">
+         <a href="include/download.php?importTemplates&f=import_template.xls">XLS</a>
+         or
+         <a href="include/download.php?importTemplates&f=import_template.csv">CSV</a>
+      </span>
+   </div>
+
+<div>
+   <div class="floatr" style=" width: 16px">
+       <span class="importIssueCsvBasic_HelpDialog_link float pointer">
+          <img title="Help" src="images/help_icon.gif"/>
+       </span>
+    </div>
+    <div class="importIssueCsvBasic_HelpDialog ui-helper-hidden" title="{t}Import issues{/t}">
+         <p><strong>{t}File Format{/t}</strong><br />{t}Standard CSV format with :{/t}<br>
+           {t}delimiter{/t} = <span style="color:blue">;</span><br>
+           {t}enclosure{/t} = <span style="color:blue">"</span><br>
+           {t}Date format{/t} = <span style="color:blue">YYY-MM-DD</span><br>
+           {t}Number format{/t} = <span style="color:blue">3.5</span> {t}or{/t} <span style="color:blue">3,5</span>
+         </p>
+         <p><strong>{t}Encoding{/t}</strong><br />{t}It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported.{/t}<br /></p>
+         <p><strong>{t}Columns{/t}</strong><br />{t}the file must contain 6 columns, the 1st line contains the column names.{/t}<br /><br /><span style="color:blue">{t}Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef{/t}</span></p>
+    </div>
+    <div class="ui-helper-clearfix"></div>
 </div>
 
 <div class="importIssueCsvBasic_uploadValidationMessage error_font error_container">   
@@ -35,10 +64,23 @@
 
 
 <script type="text/javascript">
-   
+      // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+    function importIssueCsvBasicJsDestroy() {
+        jQuery(".importIssueCsvBasic_HelpDialog").dialog('destroy').remove();
+    }
+    
     // this function will be run at jQuery(document).ready (see dashboard.html)
     // or when a new widget is added to the dashboard.
     function importIssueCsvBasicJsInit() {
+       
+         jQuery(".importIssueCsvBasic_HelpDialog_link").click(function(e) {
+            e.preventDefault();
+            jQuery(".importIssueCsvBasic_HelpDialog").dialog("open");
+         });
+         jQuery(".importIssueCsvBasic_HelpDialog").dialog({
+            autoOpen: false,
+            hide: "fade"
+         });
 
         var files;
 
@@ -118,6 +160,8 @@
 
 
     };
+    
+    
 </script>
 {/if}
 </div>
