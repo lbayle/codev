@@ -26,6 +26,10 @@ class SchedulerController extends Controller {
     * @var Logger The logger
     */
    private static $logger;
+   
+   
+   // internal
+   protected $execData;
 
    /**
     * Initialize complex static variables
@@ -37,9 +41,27 @@ class SchedulerController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
+         $team = TeamCache::getInstance()->getTeam($this->teamid);
+         $taskList = $team->getTeamIssueList();
+         
+         $taskIdList[null] = T_("Select a task");
+         foreach($taskList as $key => $task)
+         {
+            $taskIdList[$key] = $task->getSummary();
+         }
+         
+         
+         $taskIdList = SmartyTools::getSmartyArray($taskIdList, null);
+         $smarty = $this->smartyHelper->assign("scheduler_taskList", $taskIdList);
+         
+         
+         $userList = $team->getActiveMembers();
+         $userList = SmartyTools::getSmartyArray($userList, null);
+         $smarty = $this->smartyHelper->assign("scheduler_userList", $userList);
+         
+         
       }
    }
-   
    
    
 }

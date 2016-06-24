@@ -57,10 +57,7 @@ class SchedulerManager{
             $userAvailableTime = $this->getUserAvailableTime($userId, $midnightTimestamp);
             //self::$logger->error($userAvailableTime);
             while(0 < $userAvailableTime && !empty($this->userTaskList[$userId]["tasks"])){
-                  self::$logger->error($userData["tasks"]);
-                  self::$logger->error($userData["cursor"]);
                   $nextTaskId = $this->schedulerTaskProvider->getNextUserTask(array_keys($this->userTaskList[$userId]["tasks"]), $this->userTaskList[$userId]["cursor"]);
-                  self::$logger->error($nextTaskId);
                   $this->userTaskList[$userId]["cursor"] = $nextTaskId;
                   //self::$logger->error($nextTaskId);
                   if(NULL != $nextTaskId){
@@ -131,8 +128,6 @@ class SchedulerManager{
             unset($this->todoTaskIdList[$taskid]);
             $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
          }
-         self::$logger->error($this->userTaskList[$userId]["tasks"][$taskid]);
-         self::$logger->error($timeUsed."zzzzzzzzzzzzzzzzzzz");
 //         if(!empty($this->todoTaskIdList)){
 //            $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
 //         }
