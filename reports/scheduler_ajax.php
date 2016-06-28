@@ -39,7 +39,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          getProjection();
          break;
       case 'setTaskUserList':
-         setTaskUserList();
+         setTimePerUserList();
          break;
       case 'getTaskUserList':
          getTaskUserList();
@@ -112,9 +112,8 @@ function getOldTimetrack() {
 }
 
 function getProjection(){
-   $logger = Logger::getLogger("scheduler_ajax");
-   $jsonUserTaskList = getUserTaskList();
-   
+   global $SchedAjaxLogger;
+
    try {
       $s = new SchedulerManager();
       $team_id = $_SESSION['teamid'];
@@ -127,19 +126,20 @@ function getProjection(){
       echo json_encode($data);
    } catch (Exception $e) {
       // TODO handle exception
-      $logger->error("getProjection: exception raised !!");
+      $SchedAjaxLogger->error("getProjection: exception raised !!");
    }
 }
 
-function setTaskUserList()
+function setTimePerUserList()
 {
-   $logger = Logger::getLogger("scheduler_ajax");
-   $logger->error('---------- setTaskUserList ----------');
+   global $SchedAjaxLogger;
+   $SchedAjaxLogger->error('---------- setTimePerUserList ----------');
    
    $taskId = Tools::getSecurePOSTStringValue('taskId');
-   $logger->error($taskId);
+   $SchedAjaxLogger->error($taskId);
    $usersTimeList = Tools::getSecurePOSTStringValue('taskUserList');
    $usersTimeList = json_decode(stripslashes($usersTimeList), true);
+   
    
    if(null != $taskId)
    {
@@ -149,25 +149,49 @@ function setTaskUserList()
          {
             $taskUserList[$userTime['userId']] = $userTime['userTime'];
          }
-         $_SESSION['tasksUserList'][$taskId] = $taskUserList;
-         $logger->error($_SESSION['tasksUserList']);
+         
+         $uptadeSuccessful = SchedulerManager::updateTimePerUserListOfTask($taskId, $taskUserList, $_SESSION['userid'], $_SESSION['teamid']);
+         if($uptadeSuccessful)
+         {
+            $data['scheduler_status'] = "SUCCESS";
+         }
+         else {
+            $data['scheduler_status'] = T_("Invalid modifications");
+         }
+         
       }
    }
    
-   $data['scheduler_status'] = "SUCCESS";
-
+   // Get time per user per task list
+   $timePerUserPerTaskLibelleList = null;
+   $timePerUserPerTaskList = SchedulerManager::getTimePerUserPerTaskList($_SESSION['userid'], $_SESSION['teamid']);
+   // Set time Per User Per Task List with libelle
+   foreach($timePerUserPerTaskList as $taskIdKey => $timePerUserList)
+   {
+      $taskSummary = IssueCache::getInstance()->getIssue($taskIdKey)->getSummary();
+      foreach($timePerUserList as $userIdKey => $time)
+      {
+         $userName = UserCache::getInstance()->getUser($userIdKey)->getName();
+         $timePerUserPerTaskLibelleList[$taskIdKey]['users'][$userName] = $time;
+         $timePerUserPerTaskLibelleList[$taskIdKey]['taskName'] = $taskSummary;
+      }
+   }
+   
+   $data['scheduler_timePerUserPerTaskLibelleList'] = $timePerUserPerTaskLibelleList;
    // return data (just an integer value)
    $jsonData = json_encode($data);
    echo $jsonData;
 }
 
+
 function getTaskUserList()
 {
-   $logger = Logger::getLogger("scheduler_ajax");
-   $logger->error('---------- getTaskUserList ----------');
+   global $SchedAjaxLogger;
+   $SchedAjaxLogger->error('---------- getTaskUserList ----------');
+   
+   $taskEffortEstim = 0;
    
    $taskId = Tools::getSecurePOSTStringValue('taskId');
-   $logger->error($taskId);
    
    // Get team members
    $team = TeamCache::getInstance()->getTeam($_SESSION['teamid']);
@@ -177,21 +201,49 @@ function getTaskUserList()
    $tasksUserList = null;
    if(null != $taskId)
    {
-      if(null != $_SESSION['tasksUserList'])
+      $taskHandlerId = IssueCache::getInstance()->getIssue($taskId)->getHandlerId();
+      $taskEffortEstim = IssueCache::getInstance()->getIssue($taskId)->getEffortEstim();
+      
+      // Get task user list
+      $tasksUserList = SchedulerManager::getTimePerUserListOfTask($taskId, $_SESSION['userid'], $_SESSION['teamid']);
+      
+      // If task user list exist in BD
+      if(null != $tasksUserList)
       {
-         if(null != $_SESSION['tasksUserList'][$taskId])
+         if(null != $taskHandlerId)
          {
-            // Get task user list
-            $tasksUserList = $_SESSION['tasksUserList'][$taskId];
-
-            // Set unselected user list : For each user of the task
-            foreach($tasksUserList as $key => $user)
+            // If task handler doesnt't belong to task user list
+            if(!array_key_exists($taskHandlerId, $tasksUserList))
             {
-               // Remove user of unselected user list
-               unset($unselectedUserList[$key]);
+               // Calculate total users affected time
+               $totalUsersTime = 0;
+               foreach($tasksUserList as $time)
+               {
+                  $totalUsersTime += $time;
+               }
+               // Add task handler to list and affect to him the rest of time
+               $tasksUserList[$taskHandlerId] = $taskEffortEstim - $totalUsersTime;
             }
          }
       }
+      else
+      {
+         if(null != $taskHandlerId)
+         {
+            // Add task handler to list
+            $tasksUserList[$taskHandlerId] = $taskEffortEstim;
+         }
+      }
+      
+      // Set unselected user list : For each user of the task
+      foreach($tasksUserList as $key => $user)
+      {
+         // Remove user of unselected user list
+         unset($unselectedUserList[$key]);
+      }      
+      
+      
+      
    }
 
    // Set selected user list : For each unselected user
@@ -204,12 +256,14 @@ function getTaskUserList()
    asort($unselectedUserList);
    asort($selectedUserList);
    
-   $taskEffortEstim = IssueCache::getInstance()->getIssue($taskId)->getEffortEstim();
-
+   
+   
    $data['scheduler_unselectedUserList'] = $unselectedUserList;
    $data['scheduler_selectedUserList'] = $selectedUserList;
    $data['scheduler_taskUserList'] = $tasksUserList;
    $data['scheduler_taskEffortEstim'] = $taskEffortEstim;
+   $data['scheduler_taskHandlerId'] = $taskHandlerId;
+   
    
    // return data (just an integer value)
    $jsonData = json_encode($data);
@@ -220,15 +274,15 @@ function getUserTaskList() {
    $tasksUserList = $_SESSION['tasksUserList'];
    $userTaskList = array();
    if(NULL != $tasksUserList) {
-      $logger = Logger::getLogger("scheduler_ajax");
-      $logger->error($_SESSION['tasksUserList']);
+      $SchedAjaxLogger = Logger::getLogger("scheduler_ajax");
+      $SchedAjaxLogger->error($_SESSION['tasksUserList']);
       foreach ($tasksUserList as $taskid=>$userIdList){
          foreach($userIdList as $userId=>$duration){
             $userTaskList[$userId] = array_merge($userTaskList[$userId],array($taskid,$duration));
          }
       }
    }
-   $logger->error($userTaskList);
+   $SchedAjaxLogger->error($userTaskList);
 //   $_SESSION['tasksUserList'];
    return $userTaskList;
 }

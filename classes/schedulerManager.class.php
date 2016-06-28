@@ -149,6 +149,152 @@ class SchedulerManager{
    public static function updateTasksPerUser($jsonData) {
       Config::setValue($id, $value, $type, $project_id=0, $user_id=0, $team_id=0, $command_id=0, $cset_id=0, $service_id=0);
    }
+   
+   /**
+    * Get [$userId => [$taskId => $time]] of user/team
+    * @param type $userId
+    * @param type $teamId
+    * @return associative array : [$userId => [$taskId => $time]]
+    */
+   public static function getTimePerTaskPerUserList($userId, $teamId = null)
+   {
+      $timePerTaskPerUserJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
+      $timePerTaskPerUser = json_decode($timePerTaskPerUserJson, true); // [$userId => [$taskId => $time]]
+      return $timePerTaskPerUser;
+   }
+   
+   /**
+    * Get [$taskId => [$userId => $time]] of user/team
+    * @param type $userId
+    * @param type $teamId
+    * @return associative array : [$taskId => [$userId => $time]]
+    */
+   public static function getTimePerUserPerTaskList($userId, $teamId = null)
+   {
+      $timePerTaskPerUserJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
+      $timePerTaskPerUser = json_decode($timePerTaskPerUserJson, true); // [$userId => [$taskId => $time]]
+      
+      $timePerUserPerTask = null;
+      if(null != $timePerTaskPerUser)
+      {
+         foreach($timePerTaskPerUser as $userIdKey => $timePerTask)
+         {
+            foreach($timePerTask as $taskIdKey => $time)
+            {
+               $timePerUserPerTask[$taskIdKey][$userIdKey] = $time;
+            }
+         }
+      }
+      
+      return $timePerUserPerTask;
+   }
+   
+   /**
+    * Update time of user of a task
+    * Associative array created : [$userId => [$taskId => $time]]
+    * @param type $taskId
+    * @param type $userTimeList : Associative array : [$userId => $time]
+    * @param type $userId : current User id
+    * @param type $teamId : curent user team id
+    * @return boolean : true if updated, false if not
+    */
+   public static function updateTimePerUserListOfTask($taskId, $userTimeList, $userId, $teamId)
+   {
+      
+      if(self::isTimePerUserListValid($taskId, $userTimeList))
+      {
+         // Get old configuration
+         $userTaskTimeListJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
+         $userTaskTimeList = json_decode($userTaskTimeListJson, true);
+
+         // If options already exist
+         if(null != $userTaskTimeList)
+         {
+            if(null != $userTimeList)
+            {
+               // For each users formerly affected to the task, remove time concerning the task 
+               foreach($userTaskTimeList as $keyUserId => $taskTimeList)
+               {
+                  unset($userTaskTimeList[$keyUserId][$taskId]); 
+               }
+            }
+         }
+
+         // For each users newly affected to the task, add time concerning the task
+         foreach($userTimeList as $keyUser => $userTime)
+         {
+            $userTaskTimeList[$keyUser][$taskId] = $userTime;
+         }
+
+         $userTaskTimeListJson = json_encode($userTaskTimeList);
+         
+         
+         Config::setValue(Config::id_schedulerOptions, $userTaskTimeListJson, Config::configType_string, NULL, 0, $userId, $teamId);
+         
+         return true;
+      }
+      
+      return false;
+   }
+   
+   /**
+    * Get [$user => $time] of task
+    * @param type $taskId
+    * @param type $userId : id of current user
+    * @param type $teamId : curent user team id
+    * @returns associative array : [$user => $time]
+    */
+   public static function getTimePerUserListOfTask($taskId, $userId, $teamId)
+   {
+      // Get config from BD 
+      $userTaskTimeListJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
+      // Associative array getted : [$userId => [$taskId => $time]]
+      $userTaskTimeList = json_decode($userTaskTimeListJson, true);
+      
+      
+      $userTimeList = null;
+      if(null != $userTaskTimeList)
+      {
+         // Foreach user of BD list
+         foreach($userTaskTimeList as $keyUserId => $taskTimeList)
+         {
+            // if task is affected to user
+            if(null != $taskTimeList[$taskId])
+            {
+               $userTimeList[$keyUserId] = $taskTimeList[$taskId];
+            }
+         }
+      }
+      
+      return $userTimeList;
+   }
+   
+   
+   
+   /**
+    * 
+    * @param type $taskId
+    * @param type $userTimeList : Associative array : [$userId => $time]
+    */
+   public static function isTimePerUserListValid($taskId, $userTimeList)
+   {
+      $totalUsersTime = 0;
+      $estimedTime = IssueCache::getInstance()->getIssue($taskId)->getEffortEstim();
+      
+      foreach ($userTimeList as $userTime)
+      {
+         $totalUsersTime += $userTime;
+      }
+      
+      if($totalUsersTime == $estimedTime)
+      {
+         return true;
+      }
+      else
+      {
+         return false;
+      }
+   }
 }
 
 SchedulerManager::staticInit();

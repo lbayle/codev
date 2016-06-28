@@ -40,47 +40,88 @@
       </div>
       
       <div id="tabsScheduler_tabOptions">
+         <strong>
+            {t}Affect users to tasks{/t}
+         </strong>
          <form>
-            <label>{t}Task{/t}: </label>
-            <select class="scheduler_taskList select2" style="min-width:300px;">
-               {foreach from=$scheduler_taskList key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-               {/foreach}
-            </select>
-            <label>{t}Total estimed effort{/t}: </label>
-            <span class="scheduler_taskEffortEstim">0</span>
-         </form>
-         <form>
-            <label>{t}User{/t}: </label>
-            <select class="scheduler_userList select2" style="min-width:300px;">
-               {foreach from=$scheduler_userList key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-               {/foreach}
-            </select>
-            <input type="button" value="{t}Add user{/t}" class="scheduler_addUserButton">
-         </form>
-         <form class="scheduler_addedUsers">
             <table>
-               <thead>
-                  <th></th>
-                  <th>{t}User{/t}</th>
-                  <th>{t}Time on task{/t}</th>
-                  <th></th>
-               </thead>
                <tbody>
+                  <tr>
+                     <td>
+                        <label>{t}Task{/t}: </label>
+                     </td>
+                     <td>
+                        <select class="scheduler_taskList select2" style="min-width:300px;">
+                           {foreach from=$scheduler_taskList key=id item=i}
+                           <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.id} - {$i.name}</option>
+                           {/foreach}
+                        </select>
+                     </td>
+                  </tr>
+                  <tr class="scheduler_usersAffectations" hidden>
+                     <td>
+                        <label>{t}User{/t}: </label>
+                     </td>
+                     <td>
+                        <select class="scheduler_userList select2" style="min-width:300px;">
+                           {foreach from=$scheduler_userList key=id item=i}
+                           <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                           {/foreach}
+                        </select>
+                     </td>
+                     <td>
+                        <input type="button" value="{t}Add user{/t}" class="scheduler_addUserButton">
+                     </td>
+                  </tr>
                </tbody>
             </table>
+            
          </form>
-         <label>{t}Total affected effort{/t}: </label>
-         <span class="scheduler_totalAffectedEffortComparison">
-            <span class="scheduler_totalAffectedEffort">0</span>
-            <span>/</span>
-            <span class="scheduler_taskEffortEstim">0</span>
-         </span>
+         <div class="scheduler_usersAffectations" hidden>
+            <div class="scheduler_addedUsers">
+               <table>
+                  <thead>
+                     <th></th>
+                     <th>{t}User{/t}</th>
+                     <th>{t}Time on task{/t}</th>
+                     <th></th>
+                  </thead>
+                  <tbody>
+                  </tbody>
+               </table>
+            </div>
+            
+            <div>
+               <label>{t}Total affected effort{/t}: </label>
+               <span class="scheduler_totalAffectedEffortComparison">
+                  <span class="scheduler_totalAffectedEffort">0</span>
+                  <span>/</span>
+                  <span class="scheduler_taskEffortEstim">0</span>
+               </span>
+            </div>
+
+            <div>
+               <input type="button" value="{t}Save modifications for this task{/t}" class="scheduler_saveTaskModificationsButton" disabled>
+            </div>
+            <div class="scheduler_messageSave success_font">
+            </div>
+            
+            <div>
+               <input type="button" value="{t}Generate planning{/t}" class="scheduler_generatePlanningButton" disabled>
+            </div>
+         </div>
          
-         <form>
-            <input type="button" value="{t}Save modifications for this task{/t}" class="scheduler_saveTaskModificationsButton" disabled>
-         </form>
+         <div class="scheduler_timePerUsersPerTaskSummary">
+            <table>
+               <thead>
+                  <th>{t}Task{/t}</th>
+                  <th>{t}Users{/t}</th>
+               </thead>
+               <tbody>
+                  
+               </tbody>
+            </table>
+         </div>
       </div>
    </div>
 </div>
@@ -89,4 +130,15 @@
 
 <script src="js/scheduler.js" type="text/javascript"></script>
 <script src="js/schedulerOptions.js" type="text/javascript"></script>
+
+<script>
+   
+   // Declare javascript variable with smarty variable
+   var timePerUserPerTask = {$scheduler_taskId};
+   
+   $(document).ready(function(){
+      initSchedulerOptions();
+   });
+   
+</script>
 

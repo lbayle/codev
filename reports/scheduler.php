@@ -42,24 +42,48 @@ class SchedulerController extends Controller {
    protected function display() {
       if(Tools::isConnectedUser()) {
          $team = TeamCache::getInstance()->getTeam($this->teamid);
-         $taskList = $team->getTeamIssueList();
+         $taskList = $team->getTeamIssueList(false, false);
          
+         // Get config from BD 
+         $timePerUserPerTaskList = SchedulerManager::getTimePerUserPerTaskList($_SESSION['userid'], $_SESSION['teamid']);
+         
+         // Set task id list
          $taskIdList[null] = T_("Select a task");
          foreach($taskList as $key => $task)
          {
-            $taskIdList[$key] = $task->getSummary();
+            if(0 < $task->getEffortEstim())
+            {
+               $taskIdList[$key] = $task->getSummary();
+            }
+         }
+         
+         // Set time Per User Per Task List with libelle
+         $timePerUserPerTaskLibelleList = null;
+         foreach($timePerUserPerTaskList as $taskIdKey => $timePerUserList)
+         {
+            $taskSummary = IssueCache::getInstance()->getIssue($taskIdKey)->getSummary();
+            foreach($timePerUserList as $userIdKey => $time)
+            {
+               $userName = UserCache::getInstance()->getUser($userIdKey)->getName();
+               $timePerUserPerTaskLibelleList[$taskIdKey]['users'][$userName] = $time;
+               $timePerUserPerTaskLibelleList[$taskIdKey]['taskName'] = $taskSummary;
+            }
          }
          
          
-         $taskIdList = SmartyTools::getSmartyArray($taskIdList, null);
-         $smarty = $this->smartyHelper->assign("scheduler_taskList", $taskIdList);
          
+         self::$logger->error('-------------------------$timePerUserPerTaskLibelleList');
+         self::$logger->error($timePerUserPerTaskLibelleList);
+         $this->smartyHelper->assign("scheduler_timePerUserPerTaskLibelleList", $timePerUserPerTaskLibelleList);
+         
+         $taskIdList = SmartyTools::getSmartyArray($taskIdList, null);
+         $this->smartyHelper->assign("scheduler_taskList", $taskIdList);
          
          $userList = $team->getActiveMembers();
          $userList = SmartyTools::getSmartyArray($userList, null);
-         $smarty = $this->smartyHelper->assign("scheduler_userList", $userList);
+         $this->smartyHelper->assign("scheduler_userList", $userList);
          
-         
+         $this->smartyHelper->assign("scheduler_taskId", json_encode($timePerUserPerTaskLibelleList));
       }
    }
    

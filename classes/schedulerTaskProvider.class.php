@@ -71,7 +71,7 @@ class SchedulerTaskProvider {
                 $taskRelationships = $task->getRelationships();
 
                 // If task is constrained by another task
-                $taskConstrainersIds = $taskRelationships['' + Constants::$relationship_constrained_by];
+                $taskConstrainersIds = $taskRelationships[Constants::$relationship_constrained_by];
                 if (0 != count($taskConstrainersIds)) {
                     unset($tasksIdArray[$taskIdKey]);
                 }
@@ -151,15 +151,17 @@ class SchedulerTaskProvider {
         // ---------- Process : search next task ----------
 
         $process = true;
+        $nbTodoTasks = count($this->todoTaskList);
         do {
             // Pass to next task
-            $nextCursorPosition += 1;
+            //$nextCursorPosition += 1;
+            $nextCursorPosition = ($nextCursorPosition + 1) % $nbTodoTasks;
 
-            // If cursor position is higher than number of task in todoTaskList
-            if (count($this->todoTaskList) <= $nextCursorPosition) {
-                // Define cursor to the first position
-                $nextCursorPosition = 0;
-            }
+//            // If cursor position is higher than number of task in todoTaskList
+//            if (count($this->todoTaskList) <= $nextCursorPosition) {
+//                // Define cursor to the first position
+//                $nextCursorPosition = 0;
+//            }
 
             $nextTask = $this->todoTaskList[$nextCursorPosition];
 
