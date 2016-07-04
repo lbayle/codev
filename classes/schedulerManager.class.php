@@ -69,7 +69,7 @@ class SchedulerManager{
                         $midnightTimestamp = $endT;
                         $color = $this->getColor($midnightTimestamp, $nextTaskId);
                         $ganttActivity->setColor($color);
-                        array_push($this->data, $ganttActivity->transformGanttActivityToDxhtmlData($ganttActivity));
+                        array_push($this->data, $ganttActivity->getDxhtmlData());
                      }
                      else{
                         $userAvailableTime = 0;
@@ -325,4 +325,3 @@ class SchedulerManager{
 
 SchedulerManager::staticInit();
 
-?>

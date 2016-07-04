@@ -119,13 +119,18 @@ class GanttActivity implements Comparable {
       
       return $bar;
    }
-   
-   public function transformGanttActivityToDxhtmlData($ganttActivity){
-      $date = $ganttActivity->startTimestamp;
-      $dateParse = date('Y-m-d H:i:s', $date);
-      $endDate = $ganttActivity->endTimestamp;
-      $endDateParse = date('Y-m-d H:i:s', $endDate);
-      $pushdata = array("text"=>"$ganttActivity->bugid","start_date"=>"$dateParse" ,"end_date"=>"$endDateParse" ,"user_id"=>"$ganttActivity->userid", "color"=>"$ganttActivity->color");
+
+   /**
+    * 
+    * @return type
+    */
+   public function getDxhtmlData(){
+      $pushdata = array(
+          'text'        => $this->bugid,
+          'start_date'  => date('Y-m-d H:i:s', $this->startTimestamp),
+          'end_date'    => date('Y-m-d H:i:s', $this->endTimestamp),
+          'user_id'     => $this->userid,
+          'color'       => $this->color);
       return $pushdata;
    }
 
