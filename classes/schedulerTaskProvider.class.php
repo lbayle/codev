@@ -117,8 +117,8 @@ class SchedulerTaskProvider {
      */
     public function getNextUserTask($assignedUserTasks, $cursor = NULL) {
         
-//        self::$logger->error("------------------------assignedUserTasks------------------------");
-//        self::$logger->error($assignedUserTasks);
+        self::$logger->error("------------------------assignedUserTasks------------------------");
+        self::$logger->error($assignedUserTasks);
 
         // If candidateTaskList hasn't been setted
         if (null == $this->candidateTaskPoolList) {

@@ -59,21 +59,24 @@ class SchedulerController extends Controller {
          
          // Set time Per User Per Task List with libelle
          $timePerUserPerTaskLibelleList = null;
-         foreach($timePerUserPerTaskList as $taskIdKey => $timePerUserList)
-         {
-            $taskSummary = IssueCache::getInstance()->getIssue($taskIdKey)->getSummary();
-            foreach($timePerUserList as $userIdKey => $time)
+         if(NULL != $timePerUserPerTaskList){
+            foreach($timePerUserPerTaskList as $taskIdKey => $timePerUserList)
             {
-               $userName = UserCache::getInstance()->getUser($userIdKey)->getName();
-               $timePerUserPerTaskLibelleList[$taskIdKey]['users'][$userName] = $time;
-               $timePerUserPerTaskLibelleList[$taskIdKey]['taskName'] = $taskSummary;
+               $taskSummary = IssueCache::getInstance()->getIssue($taskIdKey)->getSummary();
+               foreach($timePerUserList as $userIdKey => $time)
+               {
+                  $userName = UserCache::getInstance()->getUser($userIdKey)->getName();
+                  $timePerUserPerTaskLibelleList[$taskIdKey]['users'][$userName] = $time;
+                  $timePerUserPerTaskLibelleList[$taskIdKey]['taskName'] = $taskSummary;
+               }
             }
          }
+
          
          
          
-         self::$logger->error('-------------------------$timePerUserPerTaskLibelleList');
-         self::$logger->error($timePerUserPerTaskLibelleList);
+//         self::$logger->error('-------------------------$timePerUserPerTaskLibelleList');
+//         self::$logger->error($timePerUserPerTaskLibelleList);
          $this->smartyHelper->assign("scheduler_timePerUserPerTaskLibelleList", $timePerUserPerTaskLibelleList);
          
          $taskIdList = SmartyTools::getSmartyArray($taskIdList, null);
