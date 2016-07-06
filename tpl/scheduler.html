@@ -1,9 +1,10 @@
 <script src="lib/dhtmlxScheduler/dhtmlxscheduler.js" type="text/javascript"></script>
 <script src="lib/dhtmlxScheduler/ext/dhtmlxscheduler_timeline.js" type="text/javascript"></script>
+<script src="http://export.dhtmlx.com/scheduler/api.js"></script>  
 <link rel="stylesheet" href="lib/dhtmlxScheduler/dhtmlxscheduler_flat.css" type="text/css">
 <style type="text/css" media="screen">
 
-   table {
+   div.dhx_cal_data table {
       background-color: #fff;
       border: 0px;
       padding: 0px;
@@ -24,6 +25,7 @@
       <ul class="{$ui_tabs_jquery_ul}">
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabPlanning">{t}Planning{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabOptions">{t}Options{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabRAF">{t}RAF{/t}</a></li>
       </ul>
       
       <div id="tabsScheduler_tabPlanning" >
@@ -123,9 +125,20 @@
             </table>
          </div>
       </div>
+      <div id="tabsScheduler_tabRAF">
+         <table>
+            <thead>
+               <th>User</th>
+               <th>Task</th>
+               <th>Backlog</th>
+            </thead>
+            <tbody id="backlogTableBody">
+            </tbody>
+         </table>
+      </div>
    </div>
 </div>
-
+<input value="Export to Excel" type="button" onclick='exportToExcel()'>
 <button onclick="createSchedulerTable()"></button>
 
 <script src="js/scheduler.js" type="text/javascript"></script>
@@ -135,10 +148,36 @@
    
    // Declare javascript variable with smarty variable
    var timePerUserPerTask = {$scheduler_taskId};
+   var jsonTimetrackData;
+   var jsonUserData;
+   var jsonProjectionData;
    
-   $(document).ready(function(){
+   scheduler.locale.labels.m_tab = "Timeline Month";
+   scheduler.locale.labels.section_custom="Section";
+   scheduler.config.xml_date="%Y-%m-%d %h:%i";
+   
+
+
+
+   scheduler.config.readonly = true;
+   scheduler.config.full_day = true;
+
+
+   $( "#tabsScheduler" ).on( "tabscreate", function( event, ui ) {
       initSchedulerOptions();
+      createSchedulerTable();
    });
+   
+   function exportToExcel() {
+      scheduler.exportToExcel(
+         { name:"My document", columns:[
+            { id:"user_id",  header:"user", width:20 },
+            { id:"text",  header:"Title", width:20 },
+            { id:"start_date",  header:"Start date", width:20 },
+            { id:"end_date",  header:"Start date", width:20 }
+         ]}
+      );
+   }
    
 </script>
 

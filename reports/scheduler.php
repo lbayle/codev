@@ -51,9 +51,14 @@ class SchedulerController extends Controller {
          $taskIdList[null] = T_("Select a task");
          foreach($taskList as $key => $task)
          {
-            if(0 < $task->getEffortEstim())
-            {
-               $taskIdList[$key] = $task->getSummary();
+            $statusThreshold = $task->getBugResolvedStatusThreshold();
+            $status = $task->getStatus();
+            
+            if($status < $statusThreshold){
+               if(0 < $task->getEffortEstim())
+               {
+                  $taskIdList[$key] = $task->getSummary();
+               }
             }
          }
          
