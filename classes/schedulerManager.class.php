@@ -54,7 +54,7 @@ class SchedulerManager{
 //      self::$logger->error($this->userTaskList);
       $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
       $currentDay = mktime(0, 0, 0);
-      $projectionDay = 3;
+      $projectionDay = 30;
       $endDate = $currentDay+$projectionDay*24*60*60;
       for($date = $currentDay; $date < $endDate; $date+=24*60*60) {
          foreach ($this->userTaskList as $userId=>$userData) {

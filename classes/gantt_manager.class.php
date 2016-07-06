@@ -125,12 +125,14 @@ class GanttActivity implements Comparable {
     * @return type
     */
    public function getDxhtmlData(){
+      $desc = IssueCache::getInstance()->getIssue($this->bugid)->getSummary();
       $pushdata = array(
           'text'        => $this->bugid,
           'start_date'  => date('Y-m-d H:i:s', $this->startTimestamp),
           'end_date'    => date('Y-m-d H:i:s', $this->endTimestamp),
           'user_id'     => $this->userid,
-          'color'       => $this->color);
+          'color'       => $this->color,
+          'desc'        => $desc);
       return $pushdata;
    }
 

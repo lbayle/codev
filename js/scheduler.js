@@ -67,21 +67,23 @@ function createSchedulerTable() {
    $.when(jsonUserDataPromise, jsonTimetrackDataPromise, jsonProjectionDataPromise).done(function(){
       scheduler.parse(jsonProjectionData["activity"],"json");
 
-      $.each(jsonProjectionData["backlog"], function(userName, taskArray){
-         var i = 0;
-         $.each(taskArray.tasks, function(taskid, backlog){
-            var trObject = $("#backlogTableBody").append("<tr></tr>");
-            if(0 === i){
-               var tdUserObject = trObject.append("<td>"+userName+"</td>");
-            }
-            else{
-               var tdUserObject = trObject.append("<td></td>");
-            }
-            i++;
-            var tdTaskObject = trObject.append('<td><a href="reports/issue_info.php?bugid='+taskid+'">'+taskid+'</a></td>');
-            var tdBacklogObject = trObject.append("<td>"+backlog+"</td>");
+      if(undefined !== jsonProjectionData["backlog"]){
+         $.each(jsonProjectionData["backlog"], function(userName, taskArray){
+            var i = 0;
+            $.each(taskArray.tasks, function(taskid, backlog){
+               var trObject = $("#backlogTableBody").append("<tr></tr>");
+               if(0 === i){
+                  var tdUserObject = trObject.append("<td>"+userName+"</td>");
+               }
+               else{
+                  var tdUserObject = trObject.append("<td></td>");
+               }
+               i++;
+               var tdTaskObject = trObject.append('<td><a href="reports/issue_info.php?bugid='+taskid+'">'+taskid+'</a></td>');
+               var tdBacklogObject = trObject.append("<td>"+backlog+"</td>");
+            });
          });
-      });
+      }
    });
 }
 

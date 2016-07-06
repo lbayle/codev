@@ -1,5 +1,6 @@
 <script src="lib/dhtmlxScheduler/dhtmlxscheduler.js" type="text/javascript"></script>
 <script src="lib/dhtmlxScheduler/ext/dhtmlxscheduler_timeline.js" type="text/javascript"></script>
+<script src="lib/dhtmlxScheduler/ext/dhtmlxscheduler_tooltip.js" type="text/javascript"></script>
 <script src="http://export.dhtmlx.com/scheduler/api.js"></script>  
 <link rel="stylesheet" href="lib/dhtmlxScheduler/dhtmlxscheduler_flat.css" type="text/css">
 <style type="text/css" media="screen">
@@ -153,15 +154,26 @@
    var jsonProjectionData;
    
    scheduler.locale.labels.m_tab = "Timeline Month";
-   scheduler.locale.labels.section_custom="Section";
+   //scheduler.locale.labels.section_custom="Section";
    scheduler.config.xml_date="%Y-%m-%d %h:%i";
    
 
 
 
    scheduler.config.readonly = true;
+   //scheduler.config.details_on_dblclick = true;
+
+   //scheduler.config.readonly_form = true;
    scheduler.config.full_day = true;
 
+   dhtmlXTooltip.config.className = 'dhtmlXTooltip tooltip'; 
+   dhtmlXTooltip.config.timeout_to_display = 50; 
+   dhtmlXTooltip.config.delta_x = 15; 
+   dhtmlXTooltip.config.delta_y = -20;
+   scheduler.templates.tooltip_text = function(start,end,event) {
+      console.log(event);
+      return event.desc;
+   };
 
    $( "#tabsScheduler" ).on( "tabscreate", function( event, ui ) {
       initSchedulerOptions();

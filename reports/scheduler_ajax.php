@@ -98,7 +98,7 @@ function getOldTimetrack() {
             $dateParse = date('Y-m-d H:i:s', $midnightTimestamp);
             $endTimestamp = $midnightTimestamp + $timetrack->getDuration()* 86400; // 24*60*60;
             $endDateParse = date('Y-m-d H:i:s', $endTimestamp);
-            $pushdata = array("text"=>"$issue_name","start_date"=>"$dateParse" ,"end_date"=>"$endDateParse" ,"user_id"=>$userId, "color"=>"grey");
+            $pushdata = array("text"=>"$issue_name","start_date"=>"$dateParse" ,"end_date"=>"$endDateParse" ,"user_id"=>$userId, "color"=>"grey", "desc"=>"$issue_name");
             //$pushdata = array("text"=>"$timetrack_id", "user_id"=>$key);
             array_push($allTimetracks, $pushdata);
          }
