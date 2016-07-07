@@ -43,7 +43,7 @@ class SchedulerManager{
    private $userTaskList = array();
    private $userCursorList = array();
 
-
+   private $userLatestActivity = array();
 
    private $schedulerTaskProvider;
    private $data = array();
@@ -76,32 +76,61 @@ class SchedulerManager{
                   $this->userCursorList[$userId] = $nextTaskId;
 //                  self::$logger->error($userId);
 //                  self::$logger->error($this->userCursorList[$userId]);
-                  if(NULL != $nextTaskId){
+                  if(NULL != $nextTaskId) {
                      $timeUsed = $this->decreaseBacklog($userId, $nextTaskId, $userAvailableTime);
-                     if(0 != $timeUsed){
+                     if(0 != $timeUsed) {
                         $userAvailableTime -= $timeUsed;
                         $endT = $midnightTimestamp + $timeUsed*24*60*60;
-                        $ganttActivity = new GanttActivity($nextTaskId, $userId, $midnightTimestamp, $endT);
+                        $color = $this->getColor($endT, $nextTaskId);
+
+                        // update latest activity or create a new one if different task
+                        $prevActivity = $this->userLatestActivity[$userId];
+                        if (NULL == $prevActivity) {
+                           // first activity fot this user
+                           $ganttActivity = new GanttActivity($nextTaskId, $userId, $midnightTimestamp, $endT);
+                           $ganttActivity->setColor($color);
+                           $this->userLatestActivity[$userId] = $ganttActivity;
+                        } else {
+                           // if same issue, just extend $prevActivity endTimestamp
+                           if (($prevActivity->bugid == $nextTaskId) &&
+                               ($prevActivity->endTimestamp == $midnightTimestamp)) {
+                              $prevActivity->endTimestamp = $endT;
+                              $prevActivity->setColor($color);
+                           } else {
+                              // store previous activity
+                              array_push($this->data["activity"], $prevActivity->getDxhtmlData());
+
+                              // create a new one
+                              $ganttActivity = new GanttActivity($nextTaskId, $userId, $midnightTimestamp, $endT);
+                              $ganttActivity->setColor($color);
+                              $this->userLatestActivity[$userId] = $ganttActivity;
+                           }
+                        }
+
+                        // next activity will start at the end of the previous one.
                         $midnightTimestamp = $endT;
-                        $color = $this->getColor($midnightTimestamp, $nextTaskId);
-                        $ganttActivity->setColor($color);
-                        array_push($this->data["activity"], $ganttActivity->getDxhtmlData());
-                     }
-                     else{
+                     } else {
+                        // $timeUsed
                         $userAvailableTime = 0;
                      }
-                  }
-                  else{
+                  } else {
+                     // $nextTaskId
                      $userAvailableTime = 0;
                   }
+            } // while $userAvailableTime
+         } // foreach userid
 
-            }
-         }
-         if(empty($this->userTaskList))
-         {
+         if(empty($this->userTaskList)) {
+            // all tasks of each user have been planified, no need to continue calendar
             break;
          }
+      } // day
+
+      // store latest activities, still in cache
+      foreach ($this->userLatestActivity as $userId => $ganttActivity) {
+         array_push($this->data["activity"], $ganttActivity->getDxhtmlData());
       }
+
       $this->createBacklogData();
       return $this->data;
    }
