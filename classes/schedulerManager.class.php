@@ -63,9 +63,14 @@ class SchedulerManager{
    public function execute() {
 //      self::$logger->error($this->todoTaskIdList);
 //      self::$logger->error($this->userTaskList);
+
+      // sort todoTaskIdList once for all,
+      // this avoids schedulerTaskProvider to do it at each createCandidateTaskList() call
+      $this->sortTodoTaskIdList();
+
       $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
       $currentDay = mktime(0, 0, 0);
-      $projectionDay = 30;
+      $projectionDay = 120;
       $endDate = $currentDay+$projectionDay*24*60*60;
       for($date = $currentDay; $date < $endDate; $date+=24*60*60) {
          foreach ($this->userTaskList as $userId=>$userData) {
@@ -144,8 +149,31 @@ class SchedulerManager{
          $this->data["backlog"][$userName] = $taskList;
       }
    }
-   
-   //done
+
+   /**
+    * some schedulerTaskProvider use their own sort criteria,
+    * but others may use the initial order.
+    * This method ensures that the nitial todoList is ordered with
+    * the standard Issue ordering algorithm -> see Issue::compare().
+    */
+   private function sortTodoTaskIdList() {
+      $issueList = array();
+
+      foreach (array_keys($this->todoTaskIdList) as $bugid) {
+         $issueList[$bugid] = IssueCache::getInstance()->getIssue($bugid);
+      }
+      // use standard Issue compare method
+      Tools::usort($issueList);
+
+      $newTodoList = array();
+      foreach ($issueList as $issue) {
+         $bugid = $issue->getId();
+         $newTodoList[$bugid] = $this->todoTaskIdList[$bugid];
+      }
+      unset($this->todoTaskIdList);
+      $this->todoTaskIdList = $newTodoList;
+   }
+
    /**
     * Set todoTaskList value
     */

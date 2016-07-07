@@ -46,24 +46,24 @@ class SchedulerTaskProvider0 {
     /**
      * Create the candidate Task list
      * it remove tasks constrained by other tasks.
-     * @param type $tasksIdArray : array of task id
+     * @param type $todoTasks : array of task id
      */
-    public function createCandidateTaskList($tasksIdArray) {
+    public function createCandidateTaskList($todoTasks) {
         $beginT = time();
         
         self::$logger->error("==== createCandidateTaskList ");
-        //self::$logger->error("tasksIdArray : ".implode(', ', $tasksIdArray));
+        self::$logger->error("todoTasks : ".implode(', ', $todoTasks));
         
         // If it hasn't be done, initialize todoTaskList 
         if (null == $this->todoTaskList) {
             self::$logger->error("initializing todoTaskList (first call)");
-            $this->todoTaskList = $tasksIdArray;
+            $this->todoTaskList = $todoTasks;
         }
 
-        if (null != $tasksIdArray) {
+        if (null != $todoTasks) {
             
             // ---------- Remove tasks constrained by another task ----------
-            foreach ($tasksIdArray as $taskIdKey => $taskId) {
+            foreach ($todoTasks as $taskIdKey => $taskId) {
                 $task = IssueCache::getInstance()->getIssue($taskId);
                 $taskRelationships = $task->getRelationships();
 
@@ -74,41 +74,28 @@ class SchedulerTaskProvider0 {
                      // constraining task is in the todoList: current task must wait
                      if (in_array($bugid, $this->todoTaskList)) {
                          //self::$logger->error("task $taskId removed: constrained by $bugid (found in todoList)");
-                         unset($tasksIdArray[$taskIdKey]);
+                         unset($todoTasks[$taskIdKey]);
                          break;
                      }
                      // constraining task is not in the todoList, but is not resolved: current task must wait
                      $issue = IssueCache::getInstance()->getIssue($bugid);
                      if ($issue->isResolved()) {
                          self::$logger->error("task $taskId removed: constrained by $bugid (isResolved)");
-                         unset($tasksIdArray[$taskIdKey]);
+                         unset($todoTasks[$taskIdKey]);
                          break;
                      }
                   }
                 }
             }
 
-            // tasks are ordered by priority
-            $issueList = array();
-            foreach ($tasksIdArray as $taskId) {
-                $issueList[$taskId] = IssueCache::getInstance()->getIssue($taskId);
-            }
-
-
-            // TODO : extremely slow because of this sort !!
-            Tools::usort($issueList);
-
             // create on ordered bugid list
-            $this->candidateTaskList = array();
-            foreach ($issueList as $issue) {
-                $this->candidateTaskList[] = $issue->getId();
-            }
+            $this->candidateTaskList = $todoTasks;
         }
         $duration = time() - $beginT;
         if ($duration > 3) {
-         self::$logger->error("createCandidateTaskList elapsed = $duration");
+         self::$logger->error("createCandidateTaskList execTime = $duration");
         }
-        //self::$logger->error("candidateTaskList : ".implode(', ', $this->candidateTaskList));
+        self::$logger->error("candidateTaskList : ".implode(', ', $this->candidateTaskList));
     }
 
     /**
@@ -136,7 +123,7 @@ class SchedulerTaskProvider0 {
         //self::$logger->error("nextTask = $nextTask");
         $duration = time() - $beginT;
         if ($duration > 3) {
-           self::$logger->error("getNextUserTask elapsed = $duration");
+           self::$logger->error("getNextUserTask execTime = $duration");
         }
         return $nextTask;
     }
