@@ -32,8 +32,19 @@ class SchedulerManager{
    }
    
    private $team_id;
+
+   /**
+    * Tasks to be planified
+    * @var array[bugid] => duration
+    */
    private $todoTaskIdList = array();
+
+
    private $userTaskList = array();
+   private $userCursorList = array();
+
+
+
    private $schedulerTaskProvider;
    private $data = array();
 
@@ -61,10 +72,10 @@ class SchedulerManager{
             $midnightTimestamp = $date;
             $userAvailableTime = $this->getUserAvailableTime($userId, $midnightTimestamp);
             while(0 < $userAvailableTime && array_key_exists($userId, $this->userTaskList)){
-                  $nextTaskId = $this->schedulerTaskProvider->getNextUserTask(array_keys($this->userTaskList[$userId]["tasks"]), $this->userTaskList[$userId]["cursor"]);
-                  $this->userTaskList[$userId]["cursor"] = $nextTaskId;
+                  $nextTaskId = $this->schedulerTaskProvider->getNextUserTask(array_keys($this->userTaskList[$userId]), $this->userCursorList[$userId]);
+                  $this->userCursorList[$userId] = $nextTaskId;
 //                  self::$logger->error($userId);
-//                  self::$logger->error($this->userTaskList[$userId]["cursor"]);
+//                  self::$logger->error($this->userCursorList[$userId]);
                   if(NULL != $nextTaskId){
                      $timeUsed = $this->decreaseBacklog($userId, $nextTaskId, $userAvailableTime);
                      if(0 != $timeUsed){
@@ -117,10 +128,10 @@ class SchedulerManager{
 //      self::$logger->error($jsonUserTaskList);
 //      self::$logger->error($this->userTaskList);
       foreach($jsonUserTaskList as $useridkey=>$tasklist){
-         foreach($tasklist['tasks'] as $taskId=>$duration){
-            $this->userTaskList[$useridkey]['tasks'][$taskId] = $jsonUserTaskList[$useridkey]['tasks'][$taskId];
+         foreach($tasklist as $taskId=>$duration){
+            $this->userTaskList[$useridkey][$taskId] = $jsonUserTaskList[$useridkey][$taskId];
          }
-         $this->userTaskList[$useridkey]['cursor'] = null;
+         $this->userCursorList[$useridkey] = null;
       }
    }
    
@@ -138,18 +149,18 @@ class SchedulerManager{
 
    private function decreaseBacklog($userId, $taskid, $userAvailableTime) {
       
-   if($this->userTaskList[$userId]["tasks"][$taskid] > $userAvailableTime)
+      if($this->userTaskList[$userId][$taskid] > $userAvailableTime)
       {
-         $this->userTaskList[$userId]["tasks"][$taskid] -= $userAvailableTime;
+         $this->userTaskList[$userId][$taskid] -= $userAvailableTime;
          $this->todoTaskIdList[$taskid] -= $userAvailableTime;
          $timeUsed = $userAvailableTime;
       }
       else{
          //self::$logger->error("unset");
-         $timeUsed = $this->userTaskList[$userId]["tasks"][$taskid];
-         unset($this->userTaskList[$userId]["tasks"][$taskid]);
+         $timeUsed = $this->userTaskList[$userId][$taskid];
+         unset($this->userTaskList[$userId][$taskid]);
          $this->todoTaskIdList[$taskid] -= $userAvailableTime;
-         if(empty($this->userTaskList[$userId]["tasks"])){
+         if(empty($this->userTaskList[$userId])){
             unset($this->userTaskList[$userId]);
          }
          if(0 >= $this->todoTaskIdList[$taskid]){
@@ -365,7 +376,10 @@ class SchedulerManager{
    private function addHandlerTask(){
          $team = TeamCache::getInstance()->getTeam($this->team_id);
          $taskList = $team->getTeamIssueList(false, false);
-         
+
+         // TODO: t'as essayé ca ?
+         //$taskList = $team->getCurrentIssueList(false, true, false);
+
          $activeTeam = $team->getActiveMembers();
          
          foreach($taskList as $key => $task)
@@ -382,8 +396,8 @@ class SchedulerManager{
                   {
                      $taskId = $task->getId();
                      $this->todoTaskIdList[$taskId] = $effEstim;
-                     $this->userTaskList[$handlerId]['tasks'][$taskId] = $effEstim;
-                     $this->userTaskList[$handlerId]['cursor'] = null;
+                     $this->userTaskList[$handlerId][$taskId] = $effEstim;
+                     $this->userCursorList[$handlerId] = null;
                   }
                }
             }

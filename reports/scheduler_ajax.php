@@ -288,7 +288,7 @@ function transformToSchedulerModel($timePerTaskPerUserList){
    $schedulerTimePerTaskPerUserList = array();
    if(NULL != $timePerTaskPerUserList) {
       foreach ($timePerTaskPerUserList as $userIdKey=>$taskList){
-            $schedulerTimePerTaskPerUserList[$userIdKey]["tasks"] = $taskList;
+            $schedulerTimePerTaskPerUserList[$userIdKey] = $taskList;
       }
    }
    return $schedulerTimePerTaskPerUserList;

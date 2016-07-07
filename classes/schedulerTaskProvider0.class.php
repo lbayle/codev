@@ -1,0 +1,146 @@
+<?php
+
+/*
+  This file is part of CoDevTT.
+
+  CoDev-Timetracking is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  CoDevTT is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * Provide methodes to get a task according to priority, dependances, user tasks
+ */
+class SchedulerTaskProvider0 {
+
+    /**
+     * @var Logger The logger
+     */
+    private static $logger;
+    // Origin task list. No modifications have to be done on it if it is not null
+    private $todoTaskList;
+
+    private $candidateTaskList;
+
+    /**
+     * Initialize complex static variables
+     * @static
+     */
+    public static function staticInit() {
+        self::$logger = Logger::getLogger(__CLASS__);
+    }
+
+    public function __construct() {
+        $this->todoTaskList = null;
+    }
+
+    /**
+     * Create the candidate Task list
+     * it remove tasks constrained by other tasks.
+     * @param type $tasksIdArray : array of task id
+     */
+    public function createCandidateTaskList($tasksIdArray) {
+        $beginT = time();
+        
+        self::$logger->error("==== createCandidateTaskList ");
+        //self::$logger->error("tasksIdArray : ".implode(', ', $tasksIdArray));
+        
+        // If it hasn't be done, initialize todoTaskList 
+        if (null == $this->todoTaskList) {
+            self::$logger->error("initializing todoTaskList (first call)");
+            $this->todoTaskList = $tasksIdArray;
+        }
+
+        if (null != $tasksIdArray) {
+            
+            // ---------- Remove tasks constrained by another task ----------
+            foreach ($tasksIdArray as $taskIdKey => $taskId) {
+                $task = IssueCache::getInstance()->getIssue($taskId);
+                $taskRelationships = $task->getRelationships();
+
+                // If task is constrained by another task
+                $constrainingTasks = $taskRelationships[Constants::$relationship_constrained_by];
+                if (is_array($constrainingTasks)) {
+                  foreach ($constrainingTasks as $bugid) {
+                     // constraining task is in the todoList: current task must wait
+                     if (in_array($bugid, $this->todoTaskList)) {
+                         //self::$logger->error("task $taskId removed: constrained by $bugid (found in todoList)");
+                         unset($tasksIdArray[$taskIdKey]);
+                         break;
+                     }
+                     // constraining task is not in the todoList, but is not resolved: current task must wait
+                     $issue = IssueCache::getInstance()->getIssue($bugid);
+                     if ($issue->isResolved()) {
+                         self::$logger->error("task $taskId removed: constrained by $bugid (isResolved)");
+                         unset($tasksIdArray[$taskIdKey]);
+                         break;
+                     }
+                  }
+                }
+            }
+
+            // tasks are ordered by priority
+            $issueList = array();
+            foreach ($tasksIdArray as $taskId) {
+                $issueList[$taskId] = IssueCache::getInstance()->getIssue($taskId);
+            }
+
+
+            // TODO : extremely slow because of this sort !!
+            Tools::usort($issueList);
+
+            // create on ordered bugid list
+            $this->candidateTaskList = array();
+            foreach ($issueList as $issue) {
+                $this->candidateTaskList[] = $issue->getId();
+            }
+        }
+        $duration = time() - $beginT;
+        if ($duration > 3) {
+         self::$logger->error("createCandidateTaskList elapsed = $duration");
+        }
+        //self::$logger->error("candidateTaskList : ".implode(', ', $this->candidateTaskList));
+    }
+
+    /**
+     * Get next user task
+     *
+     * 
+     * @param type $assignedUserTasks
+     * @param type $cursor : id of previous retourned task
+     * @return task id : If the next task doesn't exist, return the first. If no task, return null
+     */
+    public function getNextUserTask($assignedUserTasks, $cursor = NULL) {
+
+        $beginT = time();
+        //self::$logger->error("assignedUserTasks : ".implode(', ', $assignedUserTasks));
+
+        // find highest priority task assigned to the user
+        foreach ($this->candidateTaskList as $candidate) {
+           if (in_array($candidate, $assignedUserTasks)) {
+              // found
+              $nextTask = $candidate;
+              break;
+           }
+        }
+
+        //self::$logger->error("nextTask = $nextTask");
+        $duration = time() - $beginT;
+        if ($duration > 3) {
+           self::$logger->error("getNextUserTask elapsed = $duration");
+        }
+        return $nextTask;
+    }
+
+}
+
+SchedulerTaskProvider0::staticInit();
