@@ -71,21 +71,21 @@ class SchedulerManager{
       $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
       $currentDay = mktime(0, 0, 0);
       $projectionDay = 120;
-      $endDate = $currentDay+$projectionDay*24*60*60;
-      for($date = $currentDay; $date < $endDate; $date+=24*60*60) {
+      $endDate = strtotime("+$projectionDay day",$currentDay);
+      
+      for($date = $currentDay; $date < $endDate; $date=strtotime("+1 day",$date)) {
+
          foreach ($this->userTaskList as $userId=>$userData) {
             $midnightTimestamp = $date;
             $userAvailableTime = $this->getUserAvailableTime($userId, $midnightTimestamp);
             while(0 < $userAvailableTime && array_key_exists($userId, $this->userTaskList)){
                   $nextTaskId = $this->schedulerTaskProvider->getNextUserTask(array_keys($this->userTaskList[$userId]), $this->userCursorList[$userId]);
                   $this->userCursorList[$userId] = $nextTaskId;
-//                  self::$logger->error($userId);
-//                  self::$logger->error($this->userCursorList[$userId]);
                   if(NULL != $nextTaskId) {
                      $timeUsed = $this->decreaseBacklog($userId, $nextTaskId, $userAvailableTime);
                      if(0 != $timeUsed) {
                         $userAvailableTime -= $timeUsed;
-                        $endT = $midnightTimestamp + $timeUsed*24*60*60;
+                        $endT = $midnightTimestamp + $timeUsed*86400; // 24*60*60 (day -> ms);
                         $color = $this->getColor($endT, $nextTaskId);
 
                         // update latest activity or create a new one if different task
