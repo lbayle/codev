@@ -72,12 +72,12 @@ class SchedulerTaskProvider0 implements SchedulerTaskProviderInterface {
                 if (is_array($constrainingTasks)) {
                   foreach ($constrainingTasks as $bugid) {
                      // constraining task is in the todoList: current task must wait
-                     if (in_array($bugid, $this->todoTaskList)) {
+                     if (in_array($bugid, $todoTasks)) {
                          //self::$logger->error("task $taskId removed: constrained by $bugid (found in todoList)");
                          unset($todoTasks[$taskIdKey]);
                          break;
                      }
-                     // constraining task is not in the todoList, but is not resolved: current task must wait
+                     // constraining task is not in the todoList, but is not resolved: current task must wait (forever)
                      $issue = IssueCache::getInstance()->getIssue($bugid);
                      if ($issue->isResolved()) {
                          //self::$logger->error("task $taskId removed: constrained by $bugid (isResolved)");
@@ -91,9 +91,9 @@ class SchedulerTaskProvider0 implements SchedulerTaskProviderInterface {
             // create on ordered bugid list
             $this->candidateTaskList = $todoTasks;
         }
-        $duration = time() - $beginT;
-        if ($duration > 3) {
-         self::$logger->error("createCandidateTaskList execTime = $duration");
+        $execTime = time() - $beginT;
+        if ($execTime > 3) {
+         self::$logger->error("createCandidateTaskList execTime = $execTime");
         }
         self::$logger->error("candidateTaskList : ".implode(', ', $this->candidateTaskList));
     }
@@ -121,9 +121,9 @@ class SchedulerTaskProvider0 implements SchedulerTaskProviderInterface {
         }
 
         //self::$logger->error("nextTask = $nextTask");
-        $duration = time() - $beginT;
-        if ($duration > 3) {
-           self::$logger->error("getNextUserTask execTime = $duration");
+        $execTime = time() - $beginT;
+        if ($execTime > 3) {
+           self::$logger->error("getNextUserTask execTime = $execTime");
         }
         return $nextTask;
     }
