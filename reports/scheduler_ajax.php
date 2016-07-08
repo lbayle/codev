@@ -91,15 +91,6 @@ function getOldTimetrack() {
          foreach($timeTracks as $timetrack){
 
             $issue_id = $timetrack->getIssueId();
-            if (Issue::exists($issue_id)) {
-               $issue = IssueCache::getInstance()->getIssue($issue_id);
-               $issue_name = $issue->getSummary();
-               $color = getTimetrackColor($issue, $team);
-            } else {
-               // issue does not exist in Mantis DB
-               $issue_name = "Err_$issue_id";
-               $color = 'grey';
-            }
             $startTimestamp = $timetrack->getDate();
             $endTimestamp = $startTimestamp + $timetrack->getDuration()* 86400; // 24*60*60;
 
@@ -108,11 +99,9 @@ function getOldTimetrack() {
                $prevTimetrack = array(
                    'startTimestamp' => $startTimestamp,
                    'endTimestamp'   => $endTimestamp,
-                   'bugid'         => $issue_id,
-                   "text"           => $issue_name,
-                   "user_id"        => $userId,
-                   "color"          => $color,
-                   "desc"           => $issue_name);
+                   'endMidnightTimestamp' => $endTimestamp,
+                   'bugid'          => $issue_id,
+                   );
             } else {
                // if same issue, just extend $prevTimetrack endTimestamp
                if (($prevTimetrack['bugid'] == $issue_id) &&
@@ -123,9 +112,8 @@ function getOldTimetrack() {
                } else {
 
                   // store previous timetrack
-                  $prevTimetrack['start_date'] = date('Y-m-d H:i:s', $prevTimetrack['startTimestamp']);
-                  $prevTimetrack['end_date']   = date('Y-m-d H:i:s', $prevTimetrack['endTimestamp']);
-                  array_push($allTimetracks, $prevTimetrack);
+                  $dxhtmlData = formatActivity($prevTimetrack, $team, $userId);
+                  array_push($allTimetracks, $dxhtmlData);
                   
                   // if same day than prevTimetrack, append to it
                   if ($prevTimetrack['endMidnightTimestamp'] == $startTimestamp) {
@@ -138,18 +126,14 @@ function getOldTimetrack() {
                       'startTimestamp' => $startTimestamp,
                       'endTimestamp'   => $endTimestamp,
                       'endMidnightTimestamp' => mktime(0, 0, 0, date('m', $endTimestamp), date('d', $endTimestamp), date('Y', $endTimestamp)),
-                      'bugid'         => $issue_id,
-                      "text"           => $issue_name,
-                      "user_id"        => $userId,
-                      "color"          => $color,
-                      "desc"           => $issue_name);
+                      'bugid'          => $issue_id,
+                     );
                }
             }
          }
          // store latest timetrack strike still in cache
-         $prevTimetrack['start_date'] = date('Y-m-d H:i:s', $prevTimetrack['startTimestamp']);
-         $prevTimetrack['end_date']   = date('Y-m-d H:i:s', $prevTimetrack['endTimestamp']);
-         array_push($allTimetracks, $prevTimetrack);
+         $dxhtmlData = formatActivity($prevTimetrack, $team, $userId);
+         array_push($allTimetracks, $dxhtmlData);
       }
    } catch (Exception $e) {
       // TODO handle exception
@@ -160,30 +144,61 @@ function getOldTimetrack() {
 }
 
 /**
- * get timetrack color depending on issue type
+ * get timetrack color & text depending on issue type
  * @param Issue $issue
  * @param Team $team
  * @return string color
  */
-function getTimetrackColor(Issue $issue, Team $team) {
+function formatActivity(array $activity, Team $team, $userId) {
 
-   // TODO: check if timetrack is on an issue of the team's projects.
-   // if not, display other color
+   // could be static
+   $teamProjects = array_keys($team->getProjects());
 
-   $projectid = $issue->getProjectId();
-   $prj = ProjectCache::getInstance()->getProject($projectid);
+   $bugid = $activity['bugid'];
 
-   $team->getProjects();
+   if (!Issue::exists($bugid)) {
+      $color = 'orange';
+      $text = "Err_$bugid";
+      $desc = "Task $bugid does not exist in Mantis DB !";
+   } else {
+      $issue = IssueCache::getInstance()->getIssue($activity['bugid']);
+      $projectid = $issue->getProjectId();
+      $prj = ProjectCache::getInstance()->getProject($projectid);
 
-   if ($prj->isExternalTasksProject()) { 
-      return 'lightgrey';
+      if ($prj->isExternalTasksProject()) {
+         $color = 'lightgrey';
+         $text = $issue->getSummary();
+         $desc = $issue->getSummary();
+      } else {
+         if (in_array($projectid, $teamProjects)) {
+            if ($team->isSideTasksProject($projectid)) {
+               $text = $issue->getSummary();
+               $desc = $issue->getSummary();
+               $color =  '#81BEF7';
+            } else {
+               $text = $bugid;
+               $desc = "[$bugid] ".$issue->getSummary();
+               $color =  "#8181F7";
+            }
+         } else {
+            // user worked for another team
+            $text = $bugid;
+            $desc = "[$bugid] ".$issue->getSummary();
+            $color =  '#A4A4A4';
+         }
+      }
    }
 
-   //if ($team->isSideTasksProject($projectid)) {
-      return '#A4A4A4'; // '#BDBDBD'; // '#58D3F7'; // 'lightblue';
-   //} else {
-   //   return "blue";
-   //}
+   $dxhtmlData = array(
+       'start_date' => date('Y-m-d H:i:s', $activity['startTimestamp']),
+       'end_date'   => date('Y-m-d H:i:s', $activity['endTimestamp']),
+       'bugid'      => $bugid,
+       "user_id"    => $userId,
+       "text"       => $text,
+       "color"      => $color,
+       "desc"       => $desc);
+
+   return $dxhtmlData;
 }
 
 function getProjection(){
