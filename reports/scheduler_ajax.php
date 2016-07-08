@@ -128,11 +128,11 @@ function getProjection(){
       // en effet, le dispatch est fait à partir du EffortEstim (charge initiale)
       // et le RAF dépends de ce que les utilisateurs ont estimé suite aux imputations
       // qu'ils ont déja effectués.
-      $tasksList = SchedulerManager::getTimePerTaskList($user_id, $team_id);
-      
+
+//      $tasksList = SchedulerManager::getTimePerTaskList($user_id, $team_id);
 //      $SchedAjaxLogger->error($tasksList);
-      
-      $s->setTasks($tasksList);
+//      $s->setTasks($tasksList);
+
       $s->setUserTaskList($schedulerTimePerTaskPerUserList);
       
       $data = $s->execute();
