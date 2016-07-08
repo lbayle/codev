@@ -68,6 +68,7 @@ function initSchedulerOptions(){
       var trUser = document.createElement("tr");
       trUser.setAttribute("data-userId", userId);
       
+      // Remove column
       var tdRemoveUser = document.createElement("td");
       tdRemoveUser.setAttribute("class", "ui-state-error-text");
       trUser.appendChild(tdRemoveUser);
@@ -79,12 +80,13 @@ function initSchedulerOptions(){
          tdRemoveUser.appendChild(removeButton);
       }
       
-      
+      // Username column
       var tdName = document.createElement("td");
       tdName.innerHTML = "" + userName;
       tdName.setAttribute("class", "scheduler_userName"); 
       trUser.appendChild(tdName);
       
+      // Time column
       var tdTimeIput = document.createElement("td");
       tdTimeIput.setAttribute("class", "scheduler_userTime");
       trUser.appendChild(tdTimeIput);
@@ -95,7 +97,9 @@ function initSchedulerOptions(){
       timeInput.innerHTML = "0";
       tdTimeIput.appendChild(timeInput);
       
+      // Button time column
       var tdAddTime = document.createElement("td");
+      tdAddTime.setAttribute("class", "scheduler_addTime");
       trUser.appendChild(tdAddTime);
       
       var minusButton = document.createElement("input");
@@ -110,10 +114,20 @@ function initSchedulerOptions(){
       plusButton.setAttribute("class", "scheduler_plusButton");
       tdAddTime.appendChild(plusButton);
       
+      // Auto time affectation column
+      var tdAutoTimeAffectation = document.createElement("td");
+      tdAutoTimeAffectation.setAttribute("class", "scheduler_autoAffectation");
+      trUser.appendChild(tdAutoTimeAffectation);
+      
+      var autoAffectationButton = document.createElement("input");
+      autoAffectationButton.setAttribute("type", "checkbox"); 
+      tdAutoTimeAffectation.appendChild(autoAffectationButton);
+      
       addedUsers.find("table tbody").append(trUser);
       
       checkTotalEffort();
       
+      // Events
       $(minusButton).on("click", function(){
          
          var timeInput = $(this).parent().parent().find(".scheduler_userTime input");
@@ -136,6 +150,27 @@ function initSchedulerOptions(){
          var newValue = parseFloat($(this).val());
          newValue = newValue < 0 ? 0 : newValue;
          $(this).val(newValue);
+         checkTotalEffort();
+      });
+      
+      $(autoAffectationButton).on("click", function(){
+
+         var isChecked = $(this).prop("checked");
+         var timeInput = $(this).parent().parent().find(".scheduler_userTime input");
+         var addTimeInputs = $(this).parent().parent().find(".scheduler_addTime input");
+         
+         timeInput.prop( "disabled", isChecked);
+         addTimeInputs.prop( "disabled", isChecked);
+         
+         if(isChecked)
+         {
+            timeInput.val(null);
+         }
+         else
+         {
+            timeInput.val("0");
+         }
+         
          checkTotalEffort();
       });
       
@@ -171,17 +206,27 @@ function initSchedulerOptions(){
    {
       var userTable = jQuery(".scheduler_addedUsers table tbody");
       var usersTime = userTable.find(".scheduler_userTime input");
+      var usersAutoAffect = userTable.find(".scheduler_autoAffectation input");
       var selectedTaskId = jQuery("select.scheduler_taskList option:selected").val();
+      // One or more user have auto affected time
+      var atLeastOneAutoAffectation = false;
       
       // Add users time
       var totalUserTime = 0;
       for(var i=0 ; i<usersTime.length ; i++)
       {
-         totalUserTime = parseFloat(totalUserTime) + parseFloat(usersTime.eq(i).val());
+         var userTime = isNaN(parseFloat(usersTime.eq(i).val())) ? 0 : parseFloat(usersTime.eq(i).val());
+         totalUserTime = parseFloat(totalUserTime) + userTime;
+         if(usersAutoAffect.eq(i).prop("checked"))
+         {
+            atLeastOneAutoAffectation = true;
+         }
+         
       }
       
       // Write total users time
       jQuery(".scheduler_totalAffectedEffort").text(totalUserTime);
+      
       
       var totalAffectedEffortComparison = jQuery(".scheduler_totalAffectedEffortComparison");
       var saveTaskModificationsButton = jQuery(".scheduler_saveTaskModificationsButton");
@@ -189,8 +234,8 @@ function initSchedulerOptions(){
       // Get total estimed effort on task
       var totalEstimedEffort = parseFloat(jQuery(".scheduler_taskEffortEstim").eq(0).text());
 
-      // Check if total users effort is equal to estimed effort
-      if(totalEstimedEffort == totalUserTime && "" != selectedTaskId)
+      // Check if total users effort is equal to estimed effort or if at least one user time is auto affected
+      if((totalEstimedEffort == totalUserTime || atLeastOneAutoAffectation) && "" != selectedTaskId)
       {
          totalAffectedEffortComparison.removeClass("error_font");
          totalAffectedEffortComparison.addClass("success_font");

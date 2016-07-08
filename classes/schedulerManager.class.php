@@ -414,13 +414,20 @@ class SchedulerManager{
    {
       $totalUsersTime = 0;
       $estimedTime = IssueCache::getInstance()->getIssue($taskId)->getEffortEstim();
+      $atLeastOneAutoAffectedUser = false; // at least one user has auto affected time
       
       foreach ($userTimeList as $userTime)
       {
+         // If a user has auto affected time
+         if(null == $userTime)
+         {
+            $atLeastOneAutoAffectedUser = true;
+            break;
+         }
          $totalUsersTime += $userTime;
       }
       
-      if($totalUsersTime == $estimedTime)
+      if($totalUsersTime == $estimedTime || $atLeastOneAutoAffectedUser)
       {
          return true;
       }
