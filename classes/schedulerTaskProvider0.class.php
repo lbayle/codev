@@ -20,7 +20,7 @@
 /**
  * Provide methodes to get a task according to priority, dependances, user tasks
  */
-class SchedulerTaskProvider0 {
+class SchedulerTaskProvider0 implements SchedulerTaskProviderInterface {
 
     /**
      * @var Logger The logger
@@ -80,7 +80,7 @@ class SchedulerTaskProvider0 {
                      // constraining task is not in the todoList, but is not resolved: current task must wait
                      $issue = IssueCache::getInstance()->getIssue($bugid);
                      if ($issue->isResolved()) {
-                         self::$logger->error("task $taskId removed: constrained by $bugid (isResolved)");
+                         //self::$logger->error("task $taskId removed: constrained by $bugid (isResolved)");
                          unset($todoTasks[$taskIdKey]);
                          break;
                      }

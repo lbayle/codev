@@ -61,8 +61,6 @@ class SchedulerManager{
    }
    
    public function execute() {
-//      self::$logger->error($this->todoTaskIdList);
-//      self::$logger->error($this->userTaskList);
 
       // sort todoTaskIdList once for all,
       // this avoids schedulerTaskProvider to do it at each createCandidateTaskList() call
@@ -75,9 +73,11 @@ class SchedulerManager{
       
       for($date = $currentDay; $date < $endDate; $date=strtotime("+1 day",$date)) {
 
-         foreach ($this->userTaskList as $userId=>$userData) {
+         $users = array_keys($this->userTaskList);
+         foreach ($users as $userId) {
             $midnightTimestamp = $date;
             $userAvailableTime = $this->getUserAvailableTime($userId, $midnightTimestamp);
+
             while(0 < $userAvailableTime && array_key_exists($userId, $this->userTaskList)){
                   $nextTaskId = $this->schedulerTaskProvider->getNextUserTask(array_keys($this->userTaskList[$userId]), $this->userCursorList[$userId]);
                   $this->userCursorList[$userId] = $nextTaskId;
@@ -115,11 +115,11 @@ class SchedulerManager{
                         // next activity will start at the end of the previous one.
                         $midnightTimestamp = $endT;
                      } else {
-                        // $timeUsed
+                        // $timeUsed == 0
                         $userAvailableTime = 0;
                      }
                   } else {
-                     // $nextTaskId
+                     // $nextTaskId == NULL
                      $userAvailableTime = 0;
                   }
             } // while $userAvailableTime
@@ -132,7 +132,7 @@ class SchedulerManager{
       } // day
 
       // store latest activities, still in cache
-      foreach ($this->userLatestActivity as $userId => $ganttActivity) {
+      foreach ($this->userLatestActivity as $ganttActivity) {
          array_push($this->data["activity"], $ganttActivity->getDxhtmlData());
       }
 

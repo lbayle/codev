@@ -20,7 +20,7 @@
 /**
  * Provide methodes to get a task according to priority, dependances, user tasks
  */
-class SchedulerTaskProvider {
+class SchedulerTaskProvider implements SchedulerTaskProviderInterface {
 
     /**
      * @var Logger The logger
@@ -214,4 +214,3 @@ class SchedulerTaskProvider {
 }
 
 SchedulerTaskProvider::staticInit();
-?>
