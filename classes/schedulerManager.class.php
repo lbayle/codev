@@ -457,8 +457,6 @@ class SchedulerManager{
                $this->userCursorList[$handlerId] = null;
             }
          }
-         self::$logger->error($this->todoTaskIdList);
-         self::$logger->error($this->userTaskList);
    }
 }
 

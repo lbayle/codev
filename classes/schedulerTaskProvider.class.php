@@ -20,30 +20,42 @@
 /**
  * Provide methodes to get a task according to priority, dependances, user tasks
  */
-class SchedulerTaskProvider implements SchedulerTaskProviderInterface {
+class SchedulerTaskProvider extends SchedulerTaskProviderAbstract {
 
-    /**
-     * @var Logger The logger
-     */
-    private static $logger;
-    // Origin task list. No modifications have to be done on it if it is not null
-    private $todoTaskList;
-    // List of pool of candidate task for attribution (has time, has priority deadline, don't depend of an other task)
-    private $candidateTaskPoolList;
-    // List of user candidate task for attribution (candidateTaskList inner joined with user tasks)
-    private $userCandidateTaskList;
+   private static $logger;
 
-    /**
-     * Initialize complex static variables
-     * @static
-     */
-    public static function staticInit() {
-        self::$logger = Logger::getLogger(__CLASS__);
-    }
+   // Origin task list. No modifications have to be done on it if it is not null
+   private $todoTaskList;
+   // List of pool of candidate task for attribution (has time, has priority deadline, don't depend of an other task)
+   private $candidateTaskPoolList;
+   // List of user candidate task for attribution (candidateTaskList inner joined with user tasks)
+   private $userCandidateTaskList;
 
-    public function __construct() {
-        $this->todoTaskList = null;
-    }
+   /**
+    * Initialize static variables
+    * @static
+    */
+   public static function staticInit() {
+       self::$logger = Logger::getLogger(__CLASS__);
+   }
+
+   /**
+    * One liner description for settings (radio-button text)
+    */
+   public function getShortDesc() {
+      return "Deadline pool-based scheduling";
+   }
+
+   /**
+    * detailed description
+    */
+   public function getDesc() {
+      return "...";
+   }
+
+   public function __construct() {
+       $this->todoTaskList = null;
+   }
 
     /**
      * Create the candidate Task list
@@ -64,41 +76,7 @@ class SchedulerTaskProvider implements SchedulerTaskProviderInterface {
 
         if (null != $tasksIdArray) {
             
-            // ---------- Remove tasks which depend of other task ----------
-            
-            // Remove tasks constrained by tasks which don't belong to original list and which aren't resolved
-            // Remove tasks which are constrained by a task wich belong to parameter list (and by this way, not resolved)
-            foreach ($tasksIdArray as $taskIdKey => $taskId) {
-               $task = IssueCache::getInstance()->getIssue($taskId);
-               $taskRelationships = $task->getRelationships();
-
-               // If task is constrained by other tasks
-               $taskConstrainersIds = $taskRelationships[Constants::$relationship_constrained_by];
-               if(null != $taskConstrainersIds)
-               {
-                  // For each constrainers tasks
-                  foreach($taskConstrainersIds as $taskContrainerId)
-                  {
-                     // If constrainer task don't belong to original list (and by this way, don't belong to parameter list)
-                     if(!in_array($taskContrainerId, $this->todoTaskList))
-                     {
-                        $constrainerTask = IssueCache::getInstance()->getIssue($taskContrainerId);
-                        // If constrainer task is not resolved
-                        if(!$constrainerTask->isResolved())
-                        {
-                           // Remove constrained task
-                           unset($tasksIdArray[$taskIdKey]);
-                        }
-                     }
-                     // Else if constrainer task belong to parameter list
-                     else if(in_array($taskContrainerId, $tasksIdArray))
-                     {
-                        // Remove constrained task
-                        unset($tasksIdArray[$taskIdKey]);
-                     }
-                  }
-               }
-            }
+            $tasksIdArray = $this->removeConstrainedTasks($tasksIdArray);
 
             // ---------- Make pools of tasks according to deadlines ----------
 
