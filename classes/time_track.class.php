@@ -338,6 +338,15 @@ class TimeTrack extends Model {
       if ($timetrackB->getDate() < $timetrackA->getDate()) {
          return 1;
       }
+
+      // same day
+      if ($timetrackB->getCommitDate() > $timetrackA->getCommitDate()) {
+         return -1;
+      }
+      if ($timetrackB->getCommitDate() < $timetrackA->getCommitDate()) {
+         return 1;
+      }
+
       return 0;
    }   
 }
