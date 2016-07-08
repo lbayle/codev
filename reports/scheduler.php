@@ -68,11 +68,13 @@ class SchedulerController extends Controller {
             foreach($timePerUserPerTaskList as $taskIdKey => $timePerUserList)
             {
                $taskSummary = IssueCache::getInstance()->getIssue($taskIdKey)->getSummary();
+               $taskExternalReference = IssueCache::getInstance()->getIssue($taskIdKey)->getTcId();
                foreach($timePerUserList as $userIdKey => $time)
                {
                   $userName = UserCache::getInstance()->getUser($userIdKey)->getName();
                   $timePerUserPerTaskLibelleList[$taskIdKey]['users'][$userName] = $time;
                   $timePerUserPerTaskLibelleList[$taskIdKey]['taskName'] = $taskSummary;
+                  $timePerUserPerTaskLibelleList[$taskIdKey]['externalReference'] = $taskExternalReference;
                }
             }
          }

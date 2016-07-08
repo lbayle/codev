@@ -245,9 +245,17 @@ function initSchedulerOptions(){
          taskTr.setAttribute("class", "scheduler_taskRow");
          timePerUserPerTaskSummaryTableBody.append(taskTr);
          
+         var taskIdTd = document.createElement("td");
+         taskIdTd.innerHTML = task;
+         taskTr.appendChild(taskIdTd);
+         
          var taskTd = document.createElement("td");
-         taskTd.innerHTML = task + " - " + timePerUserPerTask[task]['taskName'];
+         taskTd.innerHTML = timePerUserPerTask[task]['taskName'];
          taskTr.appendChild(taskTd);
+         
+         var taskExternalReferenceTd = document.createElement("td");
+         taskExternalReferenceTd.innerHTML = timePerUserPerTask[task]['externalReference'];
+         taskTr.appendChild(taskExternalReferenceTd);
          
          var usersTd = document.createElement("td");
          usersTd.innerHTML = "";

@@ -189,14 +189,16 @@ function setTimePerUserList()
    foreach($timePerUserPerTaskList as $taskIdKey => $timePerUserList)
    {
       $taskSummary = IssueCache::getInstance()->getIssue($taskIdKey)->getSummary();
+      $taskExternalReference = IssueCache::getInstance()->getIssue($taskIdKey)->getTcId();
       foreach($timePerUserList as $userIdKey => $time)
       {
          $userName = UserCache::getInstance()->getUser($userIdKey)->getName();
          $timePerUserPerTaskLibelleList[$taskIdKey]['users'][$userName] = $time;
          $timePerUserPerTaskLibelleList[$taskIdKey]['taskName'] = $taskSummary;
+         $timePerUserPerTaskLibelleList[$taskIdKey]['externalReference'] = $taskExternalReference;
       }
    }
-   
+   $SchedAjaxLogger->error($taskExternalReference);
    $data['scheduler_timePerUserPerTaskLibelleList'] = $timePerUserPerTaskLibelleList;
    // return data (just an integer value)
    $jsonData = json_encode($data);
@@ -254,7 +256,7 @@ function getTaskUserList()
             $tasksUserList[$taskHandlerId] = $taskEffortEstim;
          }
       }
-      
+            
       // Set unselected user list : For each user of the task
       foreach($tasksUserList as $key => $user)
       {
@@ -272,8 +274,6 @@ function getTaskUserList()
 
    asort($unselectedUserList);
    asort($selectedUserList);
-   
-   
    
    $data['scheduler_unselectedUserList'] = $unselectedUserList;
    $data['scheduler_selectedUserList'] = $selectedUserList;
