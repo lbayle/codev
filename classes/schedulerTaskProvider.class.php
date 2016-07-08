@@ -66,15 +66,38 @@ class SchedulerTaskProvider implements SchedulerTaskProviderInterface {
             
             // ---------- Remove tasks which depend of other task ----------
             
+            // Remove tasks constrained by tasks which don't belong to original list and which aren't resolved
+            // Remove tasks which are constrained by a task wich belong to parameter list (and by this way, not resolved)
             foreach ($tasksIdArray as $taskIdKey => $taskId) {
-                $task = IssueCache::getInstance()->getIssue($taskId);
-                $taskRelationships = $task->getRelationships();
+               $task = IssueCache::getInstance()->getIssue($taskId);
+               $taskRelationships = $task->getRelationships();
 
-                // If task is constrained by another task
-                $taskConstrainersIds = $taskRelationships[Constants::$relationship_constrained_by];
-                if (0 != count($taskConstrainersIds)) {
-                    unset($tasksIdArray[$taskIdKey]);
-                }
+               // If task is constrained by other tasks
+               $taskConstrainersIds = $taskRelationships[Constants::$relationship_constrained_by];
+               if(null != $taskConstrainersIds)
+               {
+                  // For each constrainers tasks
+                  foreach($taskConstrainersIds as $taskContrainerId)
+                  {
+                     // If constrainer task don't belong to original list (and by this way, don't belong to parameter list)
+                     if(!in_array($taskContrainerId, $this->todoTaskList))
+                     {
+                        $constrainerTask = IssueCache::getInstance()->getIssue($taskContrainerId);
+                        // If constrainer task is not resolved
+                        if(!$constrainerTask->isResolved())
+                        {
+                           // Remove constrained task
+                           unset($tasksIdArray[$taskIdKey]);
+                        }
+                     }
+                     // Else if constrainer task belong to parameter list
+                     else if(in_array($taskContrainerId, $tasksIdArray))
+                     {
+                        // Remove constrained task
+                        unset($tasksIdArray[$taskIdKey]);
+                     }
+                  }
+               }
             }
 
             // ---------- Make pools of tasks according to deadlines ----------
@@ -191,7 +214,7 @@ class SchedulerTaskProvider implements SchedulerTaskProviderInterface {
         foreach($this->candidateTaskPoolList as $candidateTaskPool)
         {
             // Inner join candidate task list to assigned user task
-            $userCandidateTaskList = $this->arraysInnerJoin($assignedUserTasks, $candidateTaskPool);
+            $userCandidateTaskList = array_intersect($assignedUserTasks, $candidateTaskPool);
             // If there is task in userCandidateTaskList
             if(null != $userCandidateTaskList)
             {
@@ -200,16 +223,6 @@ class SchedulerTaskProvider implements SchedulerTaskProviderInterface {
         }
         
         $this->userCandidateTaskList = $userCandidateTaskList;
-    }
-
-    private function arraysInnerJoin($array1, $array2) {
-        $innerJoinedArray = null;
-        foreach ($array1 as $key => $row) {
-            if (in_array($row, $array2)) {
-                $innerJoinedArray[$key] = $row;
-            }
-        }
-        return $innerJoinedArray;
     }
 }
 
