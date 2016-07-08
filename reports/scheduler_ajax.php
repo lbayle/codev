@@ -116,19 +116,28 @@ function getOldTimetrack() {
             } else {
                // if same issue, just extend $prevTimetrack endTimestamp
                if (($prevTimetrack['bugid'] == $issue_id) &&
-                   ($prevTimetrack['endTimestamp'] == $startTimestamp)) {
+                   ($prevTimetrack['endMidnightTimestamp'] == $startTimestamp)) {
+                  $endTimestamp += ($prevTimetrack['endTimestamp'] - $prevTimetrack['endMidnightTimestamp']);
                   $prevTimetrack['endTimestamp'] = $endTimestamp;
-                  $prevTimetrack['end_date'] = date('Y-m-d H:i:s', $endTimestamp);
+                  $prevTimetrack['endMidnightTimestamp'] = mktime(0, 0, 0, date('m', $endTimestamp), date('d', $endTimestamp), date('Y', $endTimestamp));
                } else {
+
                   // store previous timetrack
                   $prevTimetrack['start_date'] = date('Y-m-d H:i:s', $prevTimetrack['startTimestamp']);
                   $prevTimetrack['end_date']   = date('Y-m-d H:i:s', $prevTimetrack['endTimestamp']);
                   array_push($allTimetracks, $prevTimetrack);
+                  
+                  // if same day than prevTimetrack, append to it
+                  if ($prevTimetrack['endMidnightTimestamp'] == $startTimestamp) {
+                     $startTimestamp = $prevTimetrack['endTimestamp'];
+                     $endTimestamp += ($prevTimetrack['endTimestamp'] - $prevTimetrack['endMidnightTimestamp']);
+                  }
 
                   // create a new one
                   $prevTimetrack = array(
                       'startTimestamp' => $startTimestamp,
                       'endTimestamp'   => $endTimestamp,
+                      'endMidnightTimestamp' => mktime(0, 0, 0, date('m', $endTimestamp), date('d', $endTimestamp), date('Y', $endTimestamp)),
                       'bugid'         => $issue_id,
                       "text"           => $issue_name,
                       "user_id"        => $userId,
