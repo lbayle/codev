@@ -323,6 +323,23 @@ class TimeTrack extends Model {
          exit;
       }
    }
+   
+   /**
+    * Sort older to newer
+    * @param Issue $timetrackA
+    * @param Issue $timetrackB
+    * @return int -1 if $timetrackB is more recent, 1 if $timetrackB is older, 0 if same day
+    */
+   public static function compare(Comparable $timetrackA, Comparable $timetrackB) {
+
+      if ($timetrackB->getDate() > $timetrackA->getDate()) {
+         return -1;
+      }
+      if ($timetrackB->getDate() < $timetrackA->getDate()) {
+         return 1;
+      }
+      return 0;
+   }   
 }
 TimeTrack::staticInit();
 

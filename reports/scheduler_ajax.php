@@ -68,7 +68,7 @@ function getTeam(){
 
 function getOldTimetrack() {
    global $SchedAjaxLogger;
-   
+
    try {
       $timeTracks = array();
       $allTimetracks = array();
@@ -79,10 +79,16 @@ function getOldTimetrack() {
       foreach($mList as $userId => $m) {
 
          $user = UserCache::getInstance()->getUser($userId);
-         $endOfCycle = strtotime("+3 month", mktime(0, 0, 0));
-         $timeTracks = $user->getTimeTracks($user->getArrivalDate($team_id), $endOfCycle);
+         $prevTimetrack = NULL;
 
-         foreach($timeTracks as $timetrack_id=>$timetrack){
+         //$startOfCycle = $user->getArrivalDate($team_id);
+         $startOfCycle = strtotime("-1 month", mktime(0, 0, 0)); // TODO remove this hardcoded value !
+         $timeTracks = $user->getTimeTracks($startOfCycle, $endOfCycle);
+
+         // sort older to newer
+         Tools::usort($timeTracks);
+
+         foreach($timeTracks as $timetrack){
 
             // TODO: check if timetrack is on an issue of the team's projects. if not, display other color
             
@@ -94,14 +100,47 @@ function getOldTimetrack() {
                // issue does not exist in Mantis DB
                $issue_name = "Err_$issue_id";
             }
-            $midnightTimestamp = $timetrack->getDate();
-            $dateParse = date('Y-m-d H:i:s', $midnightTimestamp);
-            $endTimestamp = $midnightTimestamp + $timetrack->getDuration()* 86400; // 24*60*60;
-            $endDateParse = date('Y-m-d H:i:s', $endTimestamp);
-            $pushdata = array("text"=>"$issue_name","start_date"=>"$dateParse" ,"end_date"=>"$endDateParse" ,"user_id"=>$userId, "color"=>"grey", "desc"=>"$issue_name");
-            //$pushdata = array("text"=>"$timetrack_id", "user_id"=>$key);
-            array_push($allTimetracks, $pushdata);
+            $startTimestamp = $timetrack->getDate();
+            $endTimestamp = $startTimestamp + $timetrack->getDuration()* 86400; // 24*60*60;
+
+            if (NULL == $prevTimetrack) {
+               // first timetrack fot this user
+               $prevTimetrack = array(
+                   'startTimestamp' => $startTimestamp,
+                   'endTimestamp'   => $endTimestamp,
+                   'bugid'         => $issue_id,
+                   "text"           => $issue_name,
+                   "user_id"        => $userId,
+                   "color"          => "grey",
+                   "desc"           => $issue_name);
+            } else {
+               // if same issue, just extend $prevActivity endTimestamp
+               if (($prevTimetrack['bugid'] == $issue_id) &&
+                   ($prevTimetrack['endTimestamp'] == $startTimestamp)) {
+                  $prevTimetrack['endTimestamp'] = $endTimestamp;
+                  $prevTimetrack['end_date'] = date('Y-m-d H:i:s', $endTimestamp);
+               } else {
+                  // store previous timetrack
+                  $prevTimetrack['start_date'] = date('Y-m-d H:i:s', $prevTimetrack['startTimestamp']);
+                  $prevTimetrack['end_date']   = date('Y-m-d H:i:s', $prevTimetrack['endTimestamp']);
+                  array_push($allTimetracks, $prevTimetrack);
+
+                  // create a new one
+                  $prevTimetrack = array(
+                      'startTimestamp' => $startTimestamp,
+                      'endTimestamp'   => $endTimestamp,
+                      'bugid'         => $issue_id,
+                      "text"           => $issue_name,
+                      "user_id"        => $userId,
+                      "color"          => "grey",
+                      "desc"           => $issue_name);
+               }
+            }
          }
+         // store latest timetrack strike still in cache
+         $prevTimetrack['start_date'] = date('Y-m-d H:i:s', $prevTimetrack['startTimestamp']);
+         $prevTimetrack['end_date']   = date('Y-m-d H:i:s', $prevTimetrack['endTimestamp']);
+         array_push($allTimetracks, $prevTimetrack);
       }
    } catch (Exception $e) {
       // TODO handle exception
