@@ -90,15 +90,15 @@ function getOldTimetrack() {
 
          foreach($timeTracks as $timetrack){
 
-            // TODO: check if timetrack is on an issue of the team's projects. if not, display other color
-            
             $issue_id = $timetrack->getIssueId();
             if (Issue::exists($issue_id)) {
                $issue = IssueCache::getInstance()->getIssue($issue_id);
                $issue_name = $issue->getSummary();
+               $color = getTimetrackColor($issue, $team);
             } else {
                // issue does not exist in Mantis DB
                $issue_name = "Err_$issue_id";
+               $color = 'grey';
             }
             $startTimestamp = $timetrack->getDate();
             $endTimestamp = $startTimestamp + $timetrack->getDuration()* 86400; // 24*60*60;
@@ -111,10 +111,10 @@ function getOldTimetrack() {
                    'bugid'         => $issue_id,
                    "text"           => $issue_name,
                    "user_id"        => $userId,
-                   "color"          => "grey",
+                   "color"          => $color,
                    "desc"           => $issue_name);
             } else {
-               // if same issue, just extend $prevActivity endTimestamp
+               // if same issue, just extend $prevTimetrack endTimestamp
                if (($prevTimetrack['bugid'] == $issue_id) &&
                    ($prevTimetrack['endTimestamp'] == $startTimestamp)) {
                   $prevTimetrack['endTimestamp'] = $endTimestamp;
@@ -132,7 +132,7 @@ function getOldTimetrack() {
                       'bugid'         => $issue_id,
                       "text"           => $issue_name,
                       "user_id"        => $userId,
-                      "color"          => "grey",
+                      "color"          => $color,
                       "desc"           => $issue_name);
                }
             }
@@ -148,6 +148,33 @@ function getOldTimetrack() {
    }
 
    echo json_encode($allTimetracks);
+}
+
+/**
+ * get timetrack color depending on issue type
+ * @param Issue $issue
+ * @param Team $team
+ * @return string color
+ */
+function getTimetrackColor(Issue $issue, Team $team) {
+
+   // TODO: check if timetrack is on an issue of the team's projects.
+   // if not, display other color
+
+   $projectid = $issue->getProjectId();
+   $prj = ProjectCache::getInstance()->getProject($projectid);
+
+   $team->getProjects();
+
+   if ($prj->isExternalTasksProject()) { 
+      return 'lightgrey';
+   }
+
+   //if ($team->isSideTasksProject($projectid)) {
+      return '#A4A4A4'; // '#BDBDBD'; // '#58D3F7'; // 'lightblue';
+   //} else {
+   //   return "blue";
+   //}
 }
 
 function getProjection(){
