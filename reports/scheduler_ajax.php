@@ -121,12 +121,15 @@ function getProjection(){
 
       $timePerTaskPerUserList = SchedulerManager::getTimePerTaskPerUserList($user_id, $team_id);
       $schedulerTimePerTaskPerUserList = transformToSchedulerModel($timePerTaskPerUserList);
-//      $SchedAjaxLogger->error('$schedulerTimePerTaskPerUserList');
-//      $SchedAjaxLogger->error($schedulerTimePerTaskPerUserList);
-      
+
+      // TODO LoB: ici je pense qu'il y a une erreur :
+      // le RAF d'une tache n'a rien a voir avec ce qui a ete dispatché sur les users
+      // dans les settings.
+      // en effet, le dispatch est fait à partir du EffortEstim (charge initiale)
+      // et le RAF dépends de ce que les utilisateurs ont estimé suite aux imputations
+      // qu'ils ont déja effectués.
       $tasksList = SchedulerManager::getTimePerTaskList($user_id, $team_id);
       
-//      $SchedAjaxLogger->error('$tasksList');
 //      $SchedAjaxLogger->error($tasksList);
       
       $s->setTasks($tasksList);

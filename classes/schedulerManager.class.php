@@ -429,37 +429,29 @@ class SchedulerManager{
          return false;
       }
    }
-   
+
+   /**
+    *
+    */
    private function addHandlerTask(){
          $team = TeamCache::getInstance()->getTeam($this->team_id);
-         $taskList = $team->getTeamIssueList(false, false);
+         $issueList = $team->getCurrentIssueList(false, true, false);
 
-         // TODO: t'as essayé ca ?
-         //$taskList = $team->getCurrentIssueList(false, true, false);
-
-         $activeTeam = $team->getActiveMembers();
-         
-         foreach($taskList as $key => $task)
+         foreach($issueList as $bugid => $issue)
          {
-            $statusThreshold = $task->getBugResolvedStatusThreshold();
-            $status = $task->getStatus();
-            
-            if($status < $statusThreshold){
-               $handlerId = $task->getHandlerId();
-            
-               if(array_key_exists($handlerId, $activeTeam)){
-                  $effEstim = $task->getEffortEstim();
-                  if(0 < $effEstim)
-                  {
-                     $taskId = $task->getId();
-                     $this->todoTaskIdList[$taskId] = $effEstim;
-                     $this->userTaskList[$handlerId][$taskId] = $effEstim;
-                     $this->userCursorList[$handlerId] = null;
-                  }
-               }
+            $handlerId = $issue->getHandlerId();
+
+            // duration is the Backlog of the task, or if not set, the MAX(EffortEstim, mgrEffortEstim)
+            $duration = $issue->getDuration();
+            if(0 < $duration)
+            {
+               $this->todoTaskIdList[$bugid] = $duration;
+               $this->userTaskList[$handlerId][$bugid] = $duration; // $issue->getEffortEstim();
+               $this->userCursorList[$handlerId] = null;
             }
          }
-         //self::$logger->error($this->userTaskList);
+         self::$logger->error($this->todoTaskIdList);
+         self::$logger->error($this->userTaskList);
    }
 }
 
