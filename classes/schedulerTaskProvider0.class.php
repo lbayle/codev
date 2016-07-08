@@ -62,19 +62,19 @@ class SchedulerTaskProvider0 extends SchedulerTaskProviderAbstract {
      */
     public function createCandidateTaskList($todoTasks) {
         
-        self::$logger->error("==== createCandidateTaskList ");
-        self::$logger->error("todoTasks : ".implode(', ', $todoTasks));
+        //self::$logger->error("==== createCandidateTaskList ");
+        //self::$logger->error("todoTasks : ".implode(', ', $todoTasks));
         
         // If it hasn't be done, initialize todoTaskList 
         if (null == $this->todoTaskList) {
-            self::$logger->error("initializing todoTaskList (first call)");
+            //self::$logger->error("initializing todoTaskList (first call)");
             $this->todoTaskList = $todoTasks;
         }
 
         if (null != $todoTasks) {
             $this->candidateTaskList = $this->removeConstrainedTasks($todoTasks);
         }
-        self::$logger->error("candidateTaskList : ".implode(', ', $this->candidateTaskList));
+        //self::$logger->error("candidateTaskList : ".implode(', ', $this->candidateTaskList));
     }
 
     /**
@@ -87,7 +87,6 @@ class SchedulerTaskProvider0 extends SchedulerTaskProviderAbstract {
      */
     public function getNextUserTask($assignedUserTasks, $cursor = NULL) {
 
-        $beginT = time();
         //self::$logger->error("assignedUserTasks : ".implode(', ', $assignedUserTasks));
 
         // find highest priority task assigned to the user
@@ -100,10 +99,6 @@ class SchedulerTaskProvider0 extends SchedulerTaskProviderAbstract {
         }
 
         //self::$logger->error("nextTask = $nextTask");
-        $execTime = time() - $beginT;
-        if ($execTime > 3) {
-           self::$logger->error("getNextUserTask execTime = $execTime");
-        }
         return $nextTask;
     }
 

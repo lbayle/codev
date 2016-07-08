@@ -1,30 +1,27 @@
 <?php
 /*
-   This file is part of CoDevTT.
+   This file is part of CodevTT
 
-   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   CodevTT is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
 
-   CoDevTT is distributed in the hope that it will be useful,
+   CodevTT is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
+   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class SchedulerManager{
+class SchedulerManager {
 
-   /**
-    * @var Logger The logger
-    */
    private static $logger;
 
    /**
-    * Initialize complex static variables
+    * Initialize static variables
     * @static
     */
    public static function staticInit() {
@@ -39,25 +36,42 @@ class SchedulerManager{
     */
    private $todoTaskIdList = array();
 
-
+   /**
+    * Scheduler settings allow to define the max time that
+    * a user is allowed to spent on a task (time quota).
+    * Quota can be NULL if user has no quota for this task ('auto' mode)
+    *
+    * @var array[userid] = array(bugid => time quota)
+    */
    private $userTaskList = array();
+
+   /**
+    * while processing, keep track of the latest planified task for each user.
+    * @var array[userid] => bugid
+    */
    private $userCursorList = array();
 
+   /**
+    * while processing, cache to concat consecutive activities in one strike
+    * (for the same user on the same task)
+    * @var array[userid] => GanttActivity
+    */
    private $userLatestActivity = array();
 
+   /**
+    * Part of the engine responsible for choosing the next task to planify
+    * @var SchedulerTaskProviderAbstract
+    */
    private $schedulerTaskProvider;
+
    private $data = array();
 
    public function __construct() {
       $this->team_id = $_SESSION['teamid'];
       $this->data["activity"] = array();
-//      $mList = TeamCache::getInstance()->getTeam($this->team_id)->getActiveMembers();
-//      $this->userTaskList = array_keys($mList);
-      //$this->setTasks();
-        //$this->setBouchon();
       
       $this->addHandlerTask();
-      $this->schedulerTaskProvider = new SchedulerTaskProvider();
+      $this->schedulerTaskProvider = new SchedulerTaskProvider0();
    }
    
    public function execute() {
@@ -68,22 +82,22 @@ class SchedulerManager{
 
       $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
       $currentDay = mktime(0, 0, 0);
-      $projectionDay = 120;
+      $projectionDay = 90;
       $endDate = strtotime("+$projectionDay day",$currentDay);
       
-      for($date = $currentDay; $date < $endDate; $date=strtotime("+1 day",$date)) {
+      for ($date = $currentDay; $date < $endDate; $date=strtotime("+1 day",$date)) {
 
          $users = array_keys($this->userTaskList);
          foreach ($users as $userId) {
             $midnightTimestamp = $date;
             $userAvailableTime = $this->getUserAvailableTime($userId, $midnightTimestamp);
 
-            while(0 < $userAvailableTime && array_key_exists($userId, $this->userTaskList)){
+            while(0 < $userAvailableTime && array_key_exists($userId, $this->userTaskList)) {
                   $nextTaskId = $this->schedulerTaskProvider->getNextUserTask(array_keys($this->userTaskList[$userId]), $this->userCursorList[$userId]);
                   $this->userCursorList[$userId] = $nextTaskId;
-                  if(NULL != $nextTaskId) {
+                  if (NULL != $nextTaskId) {
                      $timeUsed = $this->decreaseBacklog($userId, $nextTaskId, $userAvailableTime);
-                     if(0 != $timeUsed) {
+                     if (0 != $timeUsed) {
                         $userAvailableTime -= $timeUsed;
                         $endT = $midnightTimestamp + $timeUsed*86400; // 24*60*60 (day -> ms);
                         $color = $this->getColor($endT, $nextTaskId);
@@ -125,7 +139,7 @@ class SchedulerManager{
             } // while $userAvailableTime
          } // foreach userid
 
-         if(empty($this->userTaskList)) {
+         if (empty($this->userTaskList)) {
             // all tasks of each user have been planified, no need to continue calendar
             break;
          }
@@ -140,9 +154,9 @@ class SchedulerManager{
       return $this->data;
    }
    
-   private function createBacklogData(){
+   private function createBacklogData() {
       //$this->data["backlog"] = $this->userTaskList;
-      foreach($this->userTaskList as $userid=>$taskList){
+      foreach($this->userTaskList as $userid=>$taskList) {
          $user = UserCache::getInstance()->getUser($userid);
          $userName = $user->getRealname();
          
@@ -175,49 +189,59 @@ class SchedulerManager{
    }
 
    /**
-    * Set todoTaskList value
+    * Initialize $userTaskList with the scheduler settings
+    *
+    * @param type $jsonUserTaskList
     */
-   public function setTasks($tasksUserList){
-      $this->todoTaskIdList = array_replace($this->todoTaskIdList, $tasksUserList);
-   }
-   
-   public function setUserTaskList($jsonUserTaskList){
-//      self::$logger->error($jsonUserTaskList);
-//      self::$logger->error($this->userTaskList);
-      foreach($jsonUserTaskList as $useridkey=>$tasklist){
-         foreach($tasklist as $taskId=>$duration){
+   public function setUserTaskList($jsonUserTaskList) {
+
+      foreach($jsonUserTaskList as $useridkey=>$tasklist) {
+         foreach($tasklist as $taskId=>$duration) {
             $this->userTaskList[$useridkey][$taskId] = $jsonUserTaskList[$useridkey][$taskId];
          }
          $this->userCursorList[$useridkey] = null;
       }
    }
-   
-   private function getColor($midnightTimestamp, $taskId){
+
+   /**
+    * 
+    * @param int $midnightTimestamp
+    * @param int $taskId
+    * @return string
+    */
+   private function getColor($midnightTimestamp, $taskId) {
       $task = IssueCache::getInstance()->getIssue($taskId);
-      //self::$logger->error($task->getDeadLine());
       $deadline = $task->getDeadLine();
-      if(($midnightTimestamp < $deadline) || (null == $deadline)){
-         return "green";
+      if (NULL == $deadline) {
+         return 'lightgreen';
       }
-      else{
+      if ($midnightTimestamp < $deadline) {
+         return "green";
+      } else {
          return "red";
       }
    }   
 
+   /**
+    * TODO : describe actions ...
+    *
+    * @param int $userId
+    * @param int $taskid
+    * @param int $userAvailableTime
+    * @return int Effective time spent on the task for this activity
+    */
    private function decreaseBacklog($userId, $taskid, $userAvailableTime) {
       
-      if($this->userTaskList[$userId][$taskid] > $userAvailableTime)
-      {
+      if($this->userTaskList[$userId][$taskid] > $userAvailableTime) {
          $this->userTaskList[$userId][$taskid] -= $userAvailableTime;
          $this->todoTaskIdList[$taskid] -= $userAvailableTime;
          $timeUsed = $userAvailableTime;
-      }
-      else{
-         //self::$logger->error("unset");
+      } else {
          $timeUsed = $this->userTaskList[$userId][$taskid];
          unset($this->userTaskList[$userId][$taskid]);
          $this->todoTaskIdList[$taskid] -= $userAvailableTime;
-         if(empty($this->userTaskList[$userId])){
+
+         if (empty($this->userTaskList[$userId])) {
             unset($this->userTaskList[$userId]);
          }
          if(0 >= $this->todoTaskIdList[$taskid]){
@@ -225,32 +249,21 @@ class SchedulerManager{
             $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
          }
       }
-     
-//      self::$logger->error(UserCache::getInstance()->getUser($userId)->getName());
-//      self::$logger->error($this->userTaskList);
-//      self::$logger->error($taskid);
-//      self::$logger->error($this->todoTaskIdList[$taskid]);
       return $timeUsed;
    }
    
-   private function getUserAvailableTime($userId, $midnightTimestamp){
+   private function getUserAvailableTime($userId, $midnightTimestamp) {
       $user = UserCache::getInstance()->getUser($userId);
       return $user->getAvailableTime($midnightTimestamp);
    }
 
-
-   public static function updateTasksPerUser($jsonData) {
-      Config::setValue($id, $value, $type, $project_id=0, $user_id=0, $team_id=0, $command_id=0, $cset_id=0, $service_id=0);
-   }
-   
    /**
     * Get [$userId => [$taskId => $time]] of user/team
     * @param type $userId
     * @param type $teamId
     * @return associative array : [$userId => [$taskId => $time]]
     */
-   public static function getTimePerTaskPerUserList($userId, $teamId = null)
-   {
+   public static function getTimePerTaskPerUserList($userId, $teamId = null) {
       $timePerTaskPerUserJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
       $timePerTaskPerUser = json_decode($timePerTaskPerUserJson, true); // [$userId => [$taskId => $time]]
       //self::$logger->error($timePerTaskPerUser);
@@ -263,57 +276,19 @@ class SchedulerManager{
     * @param type $teamId
     * @return associative array : [$taskId => [$userId => $time]]
     */
-   public static function getTimePerUserPerTaskList($userId, $teamId = null)
-   {
+   public static function getTimePerUserPerTaskList($userId, $teamId = null) {
       $timePerTaskPerUserJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
       $timePerTaskPerUser = json_decode($timePerTaskPerUserJson, true); // [$userId => [$taskId => $time]]
       
       $timePerUserPerTask = null;
-      if(null != $timePerTaskPerUser)
-      {
-         foreach($timePerTaskPerUser as $userIdKey => $timePerTask)
-         {
-            foreach($timePerTask as $taskIdKey => $time)
-            {
+      if (null != $timePerTaskPerUser) {
+         foreach ($timePerTaskPerUser as $userIdKey => $timePerTask) {
+            foreach ($timePerTask as $taskIdKey => $time) {
                $timePerUserPerTask[$taskIdKey][$userIdKey] = $time;
             }
          }
       }
-      
       return $timePerUserPerTask;
-   }
-   
-      /**
-    * Get [$taskId => $time] of user/team
-    * @param type $userId
-    * @param type $teamId
-    * @return associative array : [$taskId => $time]
-    */
-   public static function getTimePerTaskList($userId, $teamId = null)
-   {
-      $timePerTaskPerUserJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
-      $timePerTaskPerUser = json_decode($timePerTaskPerUserJson, true); // [$userId => [$taskId => $time]]
-      
-      $timePerTask = array();
-      if(null != $timePerTaskPerUser)
-      {
-         foreach($timePerTaskPerUser as $userIdKey => $timePerTaskPerUser)
-         {
-            foreach($timePerTaskPerUser as $taskIdKey => $time)
-            {
-//               if(NULL == $timePerTask[$taskIdKey]){
-//                  $timePerTask[$taskIdKey] = 0;
-//               }
-//               else{
-//                  $timePerTask[$taskIdKey] += $time;
-//               }
-               $timePerTask[$taskIdKey] += $time;
-            }
-            
-         }
-      }
-      
-      return $timePerTask;
    }
    
    /**
@@ -325,46 +300,37 @@ class SchedulerManager{
     * @param type $teamId : curent user team id
     * @return boolean : true if updated, false if not
     */
-   public static function updateTimePerUserListOfTask($taskId, $userTimeList, $userId, $teamId)
-   {
-      
-      if(self::isTimePerUserListValid($taskId, $userTimeList))
-      {
+   public static function updateTimePerUserListOfTask($taskId, $userTimeList, $userId, $teamId) {
+
+      if (self::isTimePerUserListValid($taskId, $userTimeList)) {
          // Get old configuration
          $userTaskTimeListJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
          $userTaskTimeList = json_decode($userTaskTimeListJson, true);
 
          // If options already exist
-         if(null != $userTaskTimeList)
-         {
-            if(null != $userTimeList)
-            {
+         if (null != $userTaskTimeList) {
+            if (null != $userTimeList) {
                // For each users formerly affected to the task, remove time concerning the task 
-               foreach($userTaskTimeList as $keyUserId => $taskTimeList)
-               {
+               foreach ($userTaskTimeList as $keyUserId => $taskTimeList) {
                   unset($userTaskTimeList[$keyUserId][$taskId]); 
                }
             }
          }
-         
-         foreach($userTaskTimeList as $keyUserId => $taskTimeList)
-         {
-            if(null == $userTaskTimeList[$keyUserId])
-            {
+
+         foreach ($userTaskTimeList as $keyUserId => $taskTimeList) {
+            if(null == $userTaskTimeList[$keyUserId]) {
                unset($userTaskTimeList[$keyUserId]);
             }
          }
-         
+
          // For each users newly affected to the task, add time concerning the task
-         foreach($userTimeList as $keyUser => $userTime)
-         {
+         foreach ($userTimeList as $keyUser => $userTime) {
             $userTaskTimeList[$keyUser][$taskId] = $userTime;
          }
 
          $userTaskTimeListJson = json_encode($userTaskTimeList);
-         
          Config::setValue(Config::id_schedulerOptions, $userTaskTimeListJson, Config::configType_string, NULL, 0, $userId, $teamId);
-         
+
          return true;
       }
       
@@ -378,20 +344,16 @@ class SchedulerManager{
     * @param type $teamId : curent user team id
     * @returns associative array : [$user => $time]
     */
-   public static function getTimePerUserListOfTask($taskId, $userId, $teamId)
-   {
+   public static function getTimePerUserListOfTask($taskId, $userId, $teamId) {
       // Get config from BD 
       $userTaskTimeListJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
       // Associative array getted : [$userId => [$taskId => $time]]
       $userTaskTimeList = json_decode($userTaskTimeListJson, true);
-      
-      
+
       $userTimeList = null;
-      if(null != $userTaskTimeList)
-      {
+      if(null != $userTaskTimeList) {
          // Foreach user of BD list
-         foreach($userTaskTimeList as $keyUserId => $taskTimeList)
-         {
+         foreach($userTaskTimeList as $keyUserId => $taskTimeList) {
             // if task is affected to user
             if(null != $taskTimeList[$taskId])
             {
@@ -399,7 +361,6 @@ class SchedulerManager{
             }
          }
       }
-      
       return $userTimeList;
    }
    
@@ -410,29 +371,23 @@ class SchedulerManager{
     * @param type $taskId
     * @param type $userTimeList : Associative array : [$userId => $time]
     */
-   public static function isTimePerUserListValid($taskId, $userTimeList)
-   {
+   public static function isTimePerUserListValid($taskId, $userTimeList) {
       $totalUsersTime = 0;
       $estimedTime = IssueCache::getInstance()->getIssue($taskId)->getEffortEstim();
       $atLeastOneAutoAffectedUser = false; // at least one user has auto affected time
       
-      foreach ($userTimeList as $userTime)
-      {
+      foreach ($userTimeList as $userTime) {
          // If a user has auto affected time
-         if(null == $userTime)
-         {
+         if(null == $userTime) {
             $atLeastOneAutoAffectedUser = true;
             break;
          }
          $totalUsersTime += $userTime;
       }
       
-      if($totalUsersTime == $estimedTime || $atLeastOneAutoAffectedUser)
-      {
+      if(($totalUsersTime == $estimedTime) || $atLeastOneAutoAffectedUser) {
          return true;
-      }
-      else
-      {
+      } else {
          return false;
       }
    }
@@ -440,25 +395,21 @@ class SchedulerManager{
    /**
     *
     */
-   private function addHandlerTask(){
-         $team = TeamCache::getInstance()->getTeam($this->team_id);
-         $issueList = $team->getCurrentIssueList(false, true, false);
+   private function addHandlerTask() {
+      $team = TeamCache::getInstance()->getTeam($this->team_id);
+      $issueList = $team->getCurrentIssueList(false, true, false);
 
-         foreach($issueList as $bugid => $issue)
-         {
-            $handlerId = $issue->getHandlerId();
+      foreach($issueList as $bugid => $issue) {
+         $handlerId = $issue->getHandlerId();
 
-            // duration is the Backlog of the task, or if not set, the MAX(EffortEstim, mgrEffortEstim)
-            $duration = $issue->getDuration();
-            if(0 < $duration)
-            {
-               $this->todoTaskIdList[$bugid] = $duration;
-               $this->userTaskList[$handlerId][$bugid] = $duration; // $issue->getEffortEstim();
-               $this->userCursorList[$handlerId] = null;
-            }
+         // duration is the Backlog of the task, or if not set, the MAX(EffortEstim, mgrEffortEstim)
+         $duration = $issue->getDuration();
+         if(0 < $duration) {
+            $this->todoTaskIdList[$bugid] = $duration;
+            $this->userTaskList[$handlerId][$bugid] = $duration; // $issue->getEffortEstim();
+            $this->userCursorList[$handlerId] = null;
          }
+      }
    }
 }
-
 SchedulerManager::staticInit();
-

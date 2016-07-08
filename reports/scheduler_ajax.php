@@ -2,20 +2,20 @@
 require('../include/session.inc.php');
 
 /*
-   This file is part of CoDev-Timetracking.
+   This file is part of CodevTT
 
-   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   CodevTT is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
 
-   CoDev-Timetracking is distributed in the hope that it will be useful,
+   CodevTT is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 require('../path.inc.php');
 
@@ -27,7 +27,6 @@ $SchedAjaxLogger = Logger::getLogger("scheduler_ajax");
 if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
    $action = Tools::getSecurePOSTStringValue('action', 'none');
-      //$smartyHelper = new SmartyHelper();
    switch ($action) {
       case 'getTeam':
          getTeam();
@@ -48,18 +47,17 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
           Tools::sendNotFoundAccess();
           break;
    }
-}
-else {
+} else {
    Tools::sendUnauthorizedAccess();
 }
 
-function getTeam(){
+function getTeam() {
    global $SchedAjaxLogger;
    
    $data = array();
    $team_id = $_SESSION['teamid'];
    $mList = TeamCache::getInstance()->getTeam($team_id)->getActiveMembers();
-   foreach($mList as $key=>$m){
+   foreach ($mList as $key => $m) {
       $pushdata = array("key"=>"$key", "label"=>"$m");
       array_push($data, $pushdata);
    }
@@ -74,7 +72,7 @@ function getOldTimetrack() {
       $allTimetracks = array();
       $team_id = $_SESSION['teamid'];
       $team = TeamCache::getInstance()->getTeam($team_id);
-      
+
       $mList = $team->getActiveMembers();
       foreach($mList as $userId => $m) {
 
@@ -83,12 +81,14 @@ function getOldTimetrack() {
 
          //$startOfCycle = $user->getArrivalDate($team_id);
          $startOfCycle = strtotime("-1 month", mktime(0, 0, 0)); // TODO remove this hardcoded value !
+         $endOfCycle = strtotime("+3 month", mktime(0, 0, 0)); // TODO remove this hardcoded value !
+
          $timeTracks = $user->getTimeTracks($startOfCycle, $endOfCycle);
 
          // sort older to newer
          Tools::usort($timeTracks);
 
-         foreach($timeTracks as $timetrack){
+         foreach($timeTracks as $timetrack) {
 
             $issue_id = $timetrack->getIssueId();
             $startTimestamp = $timetrack->getDate();
@@ -110,7 +110,6 @@ function getOldTimetrack() {
                   $prevTimetrack['endTimestamp'] = $endTimestamp;
                   $prevTimetrack['endMidnightTimestamp'] = mktime(0, 0, 0, date('m', $endTimestamp), date('d', $endTimestamp), date('Y', $endTimestamp));
                } else {
-
                   // store previous timetrack
                   $dxhtmlData = formatActivity($prevTimetrack, $team, $userId);
                   array_push($allTimetracks, $dxhtmlData);
@@ -201,7 +200,7 @@ function formatActivity(array $activity, Team $team, $userId) {
    return $dxhtmlData;
 }
 
-function getProjection(){
+function getProjection() {
    global $SchedAjaxLogger;
 
    try {
@@ -211,17 +210,6 @@ function getProjection(){
 
       $timePerTaskPerUserList = SchedulerManager::getTimePerTaskPerUserList($user_id, $team_id);
       $schedulerTimePerTaskPerUserList = transformToSchedulerModel($timePerTaskPerUserList);
-
-      // TODO LoB: ici je pense qu'il y a une erreur :
-      // le RAF d'une tache n'a rien a voir avec ce qui a ete dispatché sur les users
-      // dans les settings.
-      // en effet, le dispatch est fait à partir du EffortEstim (charge initiale)
-      // et le RAF dépends de ce que les utilisateurs ont estimé suite aux imputations
-      // qu'ils ont déja effectués.
-
-//      $tasksList = SchedulerManager::getTimePerTaskList($user_id, $team_id);
-//      $SchedAjaxLogger->error($tasksList);
-//      $s->setTasks($tasksList);
 
       $s->setUserTaskList($schedulerTimePerTaskPerUserList);
       
@@ -242,8 +230,7 @@ function getProjection(){
 //   }
 //}
 
-function setTimePerUserList()
-{
+function setTimePerUserList() {
    global $SchedAjaxLogger;
    //$SchedAjaxLogger->error('---------- setTimePerUserList ----------');
    
@@ -253,20 +240,15 @@ function setTimePerUserList()
    $usersTimeList = json_decode(stripslashes($usersTimeList), true);
    
    
-   if(null != $taskId)
-   {
-      if(null != $usersTimeList)
-      {
-         foreach($usersTimeList as $userTime)
-         {
+   if(null != $taskId) {
+      if(null != $usersTimeList) {
+         foreach($usersTimeList as $userTime) {
             $taskUserList[$userTime['userId']] = $userTime['userTime'];
          }
          $uptadeSuccessful = SchedulerManager::updateTimePerUserListOfTask($taskId, $taskUserList, $_SESSION['userid'], $_SESSION['teamid']);
-         if($uptadeSuccessful)
-         {
+         if($uptadeSuccessful) {
             $data['scheduler_status'] = "SUCCESS";
-         }
-         else {
+         } else {
             $data['scheduler_status'] = T_("Invalid modifications");
          }
       }
@@ -275,13 +257,13 @@ function setTimePerUserList()
    // Get time per user per task list
    $timePerUserPerTaskLibelleList = null;
    $timePerUserPerTaskList = SchedulerManager::getTimePerUserPerTaskList($_SESSION['userid'], $_SESSION['teamid']);
-   // Set time Per User Per Task List with libelle
-   foreach($timePerUserPerTaskList as $taskIdKey => $timePerUserList)
-   {
+
+   // Set time Per User Per Task List with label
+   foreach($timePerUserPerTaskList as $taskIdKey => $timePerUserList) {
       $taskSummary = IssueCache::getInstance()->getIssue($taskIdKey)->getSummary();
       $taskExternalReference = IssueCache::getInstance()->getIssue($taskIdKey)->getTcId();
-      foreach($timePerUserList as $userIdKey => $time)
-      {
+
+      foreach($timePerUserList as $userIdKey => $time) {
          $userName = UserCache::getInstance()->getUser($userIdKey)->getName();
          $timePerUserPerTaskLibelleList[$taskIdKey]['users'][$userName] = $time;
          $timePerUserPerTaskLibelleList[$taskIdKey]['taskName'] = $taskSummary;
@@ -296,8 +278,7 @@ function setTimePerUserList()
 }
 
 
-function getTaskUserList()
-{
+function getTaskUserList() {
    global $SchedAjaxLogger;
    //$SchedAjaxLogger->error('---------- getTaskUserList ----------');
    
@@ -311,8 +292,7 @@ function getTaskUserList()
    $selectedUserList = $unselectedUserList;
 
    $tasksUserList = null;
-   if(null != $taskId)
-   {
+   if(null != $taskId) {
       $taskHandlerId = IssueCache::getInstance()->getIssue($taskId)->getHandlerId();
       $taskEffortEstim = IssueCache::getInstance()->getIssue($taskId)->getEffortEstim();
       
@@ -320,44 +300,35 @@ function getTaskUserList()
       $tasksUserList = SchedulerManager::getTimePerUserListOfTask($taskId, $_SESSION['userid'], $_SESSION['teamid']);
       
       // If task user list exist in BD
-      if(null != $tasksUserList)
-      {
-         if(null != $taskHandlerId)
-         {
+      if(null != $tasksUserList) {
+         if(null != $taskHandlerId) {
             // If task handler doesnt't belong to task user list
-            if(!array_key_exists($taskHandlerId, $tasksUserList))
-            {
+            if(!array_key_exists($taskHandlerId, $tasksUserList)) {
                // Calculate total users affected time
                $totalUsersTime = 0;
-               foreach($tasksUserList as $time)
-               {
+               foreach($tasksUserList as $time) {
                   $totalUsersTime += $time;
                }
                // Add task handler to list and affect to him the rest of time
                $tasksUserList[$taskHandlerId] = $taskEffortEstim - $totalUsersTime;
             }
          }
-      }
-      else
-      {
-         if(null != $taskHandlerId)
-         {
+      } else {
+         if (null != $taskHandlerId) {
             // Add task handler to list
             $tasksUserList[$taskHandlerId] = $taskEffortEstim;
          }
       }
             
       // Set unselected user list : For each user of the task
-      foreach($tasksUserList as $key => $user)
-      {
+      foreach($tasksUserList as $key => $user) {
          // Remove user of unselected user list
          unset($unselectedUserList[$key]);
       }      
    }
 
    // Set selected user list : For each unselected user
-   foreach($unselectedUserList as $key => $user)
-   {
+   foreach($unselectedUserList as $key => $user) {
       // remove user of selected user list
       unset($selectedUserList[$key]);
    }
@@ -377,10 +348,10 @@ function getTaskUserList()
    echo $jsonData;
 }
 
-function transformToSchedulerModel($timePerTaskPerUserList){
+function transformToSchedulerModel($timePerTaskPerUserList) {
    $schedulerTimePerTaskPerUserList = array();
-   if(NULL != $timePerTaskPerUserList) {
-      foreach ($timePerTaskPerUserList as $userIdKey=>$taskList){
+   if (NULL != $timePerTaskPerUserList) {
+      foreach ($timePerTaskPerUserList as $userIdKey=>$taskList) {
             $schedulerTimePerTaskPerUserList[$userIdKey] = $taskList;
       }
    }
