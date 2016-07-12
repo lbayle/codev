@@ -1,4 +1,5 @@
 function initSchedulerOptions(){
+   jQuery(".scheduler_timePerUsersPerTaskSummary table");
    // timePerUserPerTask is defined in html
    setTimePerUsersPerTaskSummaryTable(timePerUserPerTask);
    
@@ -278,7 +279,7 @@ function initSchedulerOptions(){
     */
    function setTimePerUsersPerTaskSummaryTable(timePerUserPerTask)
    {
-      var timePerUserPerTaskSummaryTable = jQuery(".scheduler_timePerUsersPerTaskSummary");
+      var timePerUserPerTaskSummaryTable = jQuery(".scheduler_timePerUsersPerTaskSummary table");
       var timePerUserPerTaskSummaryTableBody = timePerUserPerTaskSummaryTable.find("tbody");
       timePerUserPerTaskSummaryTableBody.empty();
       
@@ -289,6 +290,14 @@ function initSchedulerOptions(){
          taskTr.setAttribute("data-taskId", task);
          taskTr.setAttribute("class", "scheduler_taskRow");
          timePerUserPerTaskSummaryTableBody.append(taskTr);
+         
+         var removeTaskTd = document.createElement("td");
+         removeTaskTd.setAttribute("class", "ui-state-error-text");
+         taskTr.appendChild(removeTaskTd);
+         
+         var removeButton = document.createElement("a");
+         removeButton.setAttribute("class", "ui-icon"); 
+         removeTaskTd.appendChild(removeButton);
          
          var taskIdTd = document.createElement("td");
          taskIdTd.innerHTML = task;
@@ -315,8 +324,8 @@ function initSchedulerOptions(){
          usersTd.innerHTML = timePerUser.join(", ");
          
          // On task row click
-         $(taskTr).on("click", function(){
-            var taskId = $(this).attr("data-taskId");
+         $(taskTd).on("click", function(){
+            var taskId = jQuery(this).parent(".scheduler_taskRow").attr("data-taskId");
             var taskList = jQuery("select.scheduler_taskList");
 
             // Select task
@@ -324,7 +333,43 @@ function initSchedulerOptions(){
             // Trigger change event on task list to update
             taskList.trigger("change");
          });
+         
+         // On remove button click
+         $(removeButton).on("click", function(){
+            var parentRow = jQuery(this).parent("td").parent("tr.scheduler_taskRow");
+            var taskId = parentRow.attr("data-taskId");
+
+            jQuery.ajax({ 
+               url: 'reports/scheduler_ajax.php',
+               async:false,
+               data: {
+                  action: 'setTaskUserList',
+                  taskId: taskId,
+                  taskUserList: "",
+               },
+               type: 'post',
+               success: function(data) {
+                  data = JSON.parse(data);
+                  var messageSaveContainer = jQuery(".scheduler_messageSave");
+                  if("SUCCESS" == data["scheduler_status"])
+                  {
+                  }
+                  else
+                  {
+                  }
+
+                  if(null != data['scheduler_timePerUserPerTaskLibelleList'])
+                  {
+                     setTimePerUsersPerTaskSummaryTable(data['scheduler_timePerUserPerTaskLibelleList']);
+                  }
+               },
+               error: function(errormsg) {
+                  console.log(errormsg);
+               }
+            });
+         });
       }
+      
    }
    
    // ++++++++++ Events ++++++++++

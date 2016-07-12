@@ -277,8 +277,7 @@ class SchedulerManager {
     * @return associative array : [$taskId => [$userId => $time]]
     */
    public static function getTimePerUserPerTaskList($userId, $teamId = null) {
-      $timePerTaskPerUserJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
-      $timePerTaskPerUser = json_decode($timePerTaskPerUserJson, true); // [$userId => [$taskId => $time]]
+      $timePerTaskPerUser = self::getTimePerTaskPerUserList($userId, $teamId);
       
       $timePerUserPerTask = null;
       if (null != $timePerTaskPerUser) {
@@ -304,17 +303,15 @@ class SchedulerManager {
 
       if (self::isTimePerUserListValid($taskId, $userTimeList)) {
          // Get old configuration
-         $userTaskTimeListJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
-         $userTaskTimeList = json_decode($userTaskTimeListJson, true);
+         $userTaskTimeList = self::getTimePerTaskPerUserList($userId, $teamId);
 
          // If options already exist
          if (null != $userTaskTimeList) {
-            if (null != $userTimeList) {
-               // For each users formerly affected to the task, remove time concerning the task 
-               foreach ($userTaskTimeList as $keyUserId => $taskTimeList) {
-                  unset($userTaskTimeList[$keyUserId][$taskId]); 
-               }
+            // For each users formerly affected to the task, remove time concerning the task 
+            foreach ($userTaskTimeList as $keyUserId => $taskTimeList) {
+               unset($userTaskTimeList[$keyUserId][$taskId]); 
             }
+            
          }
 
          foreach ($userTaskTimeList as $keyUserId => $taskTimeList) {
@@ -327,14 +324,74 @@ class SchedulerManager {
          foreach ($userTimeList as $keyUser => $userTime) {
             $userTaskTimeList[$keyUser][$taskId] = $userTime;
          }
-
-         $userTaskTimeListJson = json_encode($userTaskTimeList);
-         Config::setValue(Config::id_schedulerOptions, $userTaskTimeListJson, Config::configType_string, NULL, 0, $userId, $teamId);
+         
+         self::setTimePerTaskPerUserList($userTaskTimeList, $userId, $teamId);
 
          return true;
       }
       
       return false;
+   }
+   
+   /**
+    * Remove all users time of specified task
+    * @param type $taskId
+    * @param type $userId : id of current user
+    * @param type $teamId : curent user team id
+    */
+   public static function removeTimePerUserOfTask($taskId, $userId, $teamId)
+   {
+      $timePerUserPerTask = self::getTimePerUserPerTaskList($userId, $teamId);
+      
+      if(null != $timePerUserPerTask)
+      {
+         if(null != $taskId)
+         {
+            
+            // Remove the task
+            unset($timePerUserPerTask[$taskId]);
+            self::$logger->error($timePerUserPerTask);
+            self::setTimePerUserPerTaskList($timePerUserPerTask, $userId, $teamId);
+            
+            return true;
+         }
+      }
+      return false;
+   }
+   
+   /**
+    * Set time of users of tasks in DB
+    * @param type $timePerUserPerTask : [$taskId => [$userId => $time]]
+    * @param type $userId : id of current user
+    * @param type $teamId : curent user team id
+    */
+   public static function setTimePerUserPerTaskList($timePerUserPerTask, $userId, $teamId)
+   {
+      $timePerTaskPerUser = null;
+      if(null !=$timePerUserPerTask)
+      {
+         foreach ($timePerUserPerTask as $taskId => $timePerUser)
+         {
+            foreach($timePerUser as $userIdKey => $time)
+            {
+               $timePerTaskPerUser[$userIdKey][$taskId] = $time;
+            }
+         }
+         self::setTimePerTaskPerUserList($timePerTaskPerUser, $userId, $teamId);
+      }
+      
+   }
+   
+   /**
+    * Set time of users of tasks in DB
+    * @param type $timePerTaskPerUser : [$userId => [$taskId => $time]]
+    * @param type $userId : id of current user
+    * @param type $teamId : curent user team id
+    */
+   public static function setTimePerTaskPerUserList($timePerTaskPerUser, $userId, $teamId)
+   {
+      $timePerTaskPerUserJson = json_encode($timePerTaskPerUser);
+      Config::setValue(Config::id_schedulerOptions, $timePerTaskPerUserJson, Config::configType_string, NULL, 0, $userId, $teamId);
    }
    
    /**
@@ -346,9 +403,7 @@ class SchedulerManager {
     */
    public static function getTimePerUserListOfTask($taskId, $userId, $teamId) {
       // Get config from BD 
-      $userTaskTimeListJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
-      // Associative array getted : [$userId => [$taskId => $time]]
-      $userTaskTimeList = json_decode($userTaskTimeListJson, true);
+      $userTaskTimeList = self::getTimePerTaskPerUserList($userId, $teamId);
 
       $userTimeList = null;
       if(null != $userTaskTimeList) {
@@ -363,7 +418,7 @@ class SchedulerManager {
       }
       return $userTimeList;
    }
-   
+      
    
    
    /**

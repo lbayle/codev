@@ -84,55 +84,59 @@ function getOldTimetrack() {
          $endOfCycle = strtotime("+3 month", mktime(0, 0, 0)); // TODO remove this hardcoded value !
 
          $timeTracks = $user->getTimeTracks($startOfCycle, $endOfCycle);
+         
+         if(null != $timeTracks)
+         {
+            // sort older to newer
+            Tools::usort($timeTracks);
 
-         // sort older to newer
-         Tools::usort($timeTracks);
+            foreach($timeTracks as $timetrack) {
 
-         foreach($timeTracks as $timetrack) {
+               $issue_id = $timetrack->getIssueId();
+               $startTimestamp = $timetrack->getDate();
+               $endTimestamp = $startTimestamp + $timetrack->getDuration()* 86400; // 24*60*60;
 
-            $issue_id = $timetrack->getIssueId();
-            $startTimestamp = $timetrack->getDate();
-            $endTimestamp = $startTimestamp + $timetrack->getDuration()* 86400; // 24*60*60;
-
-            if (NULL == $prevTimetrack) {
-               // first timetrack fot this user
-               $prevTimetrack = array(
-                   'startTimestamp' => $startTimestamp,
-                   'endTimestamp'   => $endTimestamp,
-                   'endMidnightTimestamp' => $endTimestamp,
-                   'bugid'          => $issue_id,
-                   );
-            } else {
-               // if same issue, just extend $prevTimetrack endTimestamp
-               if (($prevTimetrack['bugid'] == $issue_id) &&
-                   ($prevTimetrack['endMidnightTimestamp'] == $startTimestamp)) {
-                  $endTimestamp += ($prevTimetrack['endTimestamp'] - $prevTimetrack['endMidnightTimestamp']);
-                  $prevTimetrack['endTimestamp'] = $endTimestamp;
-                  $prevTimetrack['endMidnightTimestamp'] = mktime(0, 0, 0, date('m', $endTimestamp), date('d', $endTimestamp), date('Y', $endTimestamp));
-               } else {
-                  // store previous timetrack
-                  $dxhtmlData = formatActivity($prevTimetrack, $team, $userId);
-                  array_push($allTimetracks, $dxhtmlData);
-                  
-                  // if same day than prevTimetrack, append to it
-                  if ($prevTimetrack['endMidnightTimestamp'] == $startTimestamp) {
-                     $startTimestamp = $prevTimetrack['endTimestamp'];
-                     $endTimestamp += ($prevTimetrack['endTimestamp'] - $prevTimetrack['endMidnightTimestamp']);
-                  }
-
-                  // create a new one
+               if (NULL == $prevTimetrack) {
+                  // first timetrack fot this user
                   $prevTimetrack = array(
                       'startTimestamp' => $startTimestamp,
                       'endTimestamp'   => $endTimestamp,
-                      'endMidnightTimestamp' => mktime(0, 0, 0, date('m', $endTimestamp), date('d', $endTimestamp), date('Y', $endTimestamp)),
+                      'endMidnightTimestamp' => $endTimestamp,
                       'bugid'          => $issue_id,
-                     );
+                      );
+               } else {
+                  // if same issue, just extend $prevTimetrack endTimestamp
+                  if (($prevTimetrack['bugid'] == $issue_id) &&
+                      ($prevTimetrack['endMidnightTimestamp'] == $startTimestamp)) {
+                     $endTimestamp += ($prevTimetrack['endTimestamp'] - $prevTimetrack['endMidnightTimestamp']);
+                     $prevTimetrack['endTimestamp'] = $endTimestamp;
+                     $prevTimetrack['endMidnightTimestamp'] = mktime(0, 0, 0, date('m', $endTimestamp), date('d', $endTimestamp), date('Y', $endTimestamp));
+                  } else {
+                     // store previous timetrack
+                     $dxhtmlData = formatActivity($prevTimetrack, $team, $userId);
+                     array_push($allTimetracks, $dxhtmlData);
+
+                     // if same day than prevTimetrack, append to it
+                     if ($prevTimetrack['endMidnightTimestamp'] == $startTimestamp) {
+                        $startTimestamp = $prevTimetrack['endTimestamp'];
+                        $endTimestamp += ($prevTimetrack['endTimestamp'] - $prevTimetrack['endMidnightTimestamp']);
+                     }
+
+                     // create a new one
+                     $prevTimetrack = array(
+                         'startTimestamp' => $startTimestamp,
+                         'endTimestamp'   => $endTimestamp,
+                         'endMidnightTimestamp' => mktime(0, 0, 0, date('m', $endTimestamp), date('d', $endTimestamp), date('Y', $endTimestamp)),
+                         'bugid'          => $issue_id,
+                        );
+                  }
                }
             }
+            // store latest timetrack strike still in cache
+            $dxhtmlData = formatActivity($prevTimetrack, $team, $userId);
+            array_push($allTimetracks, $dxhtmlData);
          }
-         // store latest timetrack strike still in cache
-         $dxhtmlData = formatActivity($prevTimetrack, $team, $userId);
-         array_push($allTimetracks, $dxhtmlData);
+         
       }
    } catch (Exception $e) {
       // TODO handle exception
@@ -246,11 +250,19 @@ function setTimePerUserList() {
             $taskUserList[$userTime['userId']] = $userTime['userTime'];
          }
          $uptadeSuccessful = SchedulerManager::updateTimePerUserListOfTask($taskId, $taskUserList, $_SESSION['userid'], $_SESSION['teamid']);
-         if($uptadeSuccessful) {
-            $data['scheduler_status'] = "SUCCESS";
-         } else {
-            $data['scheduler_status'] = T_("Invalid modifications");
-         }
+         
+      }
+      else
+      {
+         $SchedAjaxLogger->error('---------- task ----------');
+         $SchedAjaxLogger->error($taskId);
+         $uptadeSuccessful = SchedulerManager::removeTimePerUserOfTask($taskId, $_SESSION['userid'], $_SESSION['teamid']);
+      }
+      
+      if($uptadeSuccessful) {
+         $data['scheduler_status'] = "SUCCESS";
+      } else {
+         $data['scheduler_status'] = T_("Invalid modifications");
       }
    }
    
@@ -346,6 +358,17 @@ function getTaskUserList() {
    // return data (just an integer value)
    $jsonData = json_encode($data);
    echo $jsonData;
+}
+
+function removeTimePerUserList() {
+   global $SchedAjaxLogger;
+   
+   $taskId = Tools::getSecurePOSTStringValue('taskId');
+   
+   if(null != $taskId) {
+      
+      SchedulerManager::updateTimePerUserListOfTask($taskId, null, $_SESSION['userid'], $_SESSION['teamid']);
+   }
 }
 
 function transformToSchedulerModel($timePerTaskPerUserList) {
