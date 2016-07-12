@@ -79,11 +79,17 @@ class SchedulerController extends Controller {
             }
          }
 
+         // Get scheduler task provider list
+         $schedulerManager = new SchedulerManager();
+         $taskProviderList = $schedulerManager->getSchedulerTaskProviderList();
+         $taskProviderDescriptionList = null;
+         foreach($taskProviderList as $taskProvider)
+         {
+            $taskProviderDescriptionList[] = $taskProvider->getShortDesc();
+         }
+         $selectedTaskProviderId = SchedulerManager::getUserOption("taskProvider", $_SESSION['userid'], $_SESSION['teamid']);
          
          
-         
-//         self::$logger->error('-------------------------$timePerUserPerTaskLibelleList');
-//         self::$logger->error($timePerUserPerTaskLibelleList);
          $this->smartyHelper->assign("scheduler_timePerUserPerTaskLibelleList", $timePerUserPerTaskLibelleList);
          
          $taskIdList = SmartyTools::getSmartyArray($taskIdList, null);
@@ -94,6 +100,9 @@ class SchedulerController extends Controller {
          $this->smartyHelper->assign("scheduler_userList", $userList);
          
          $this->smartyHelper->assign("scheduler_taskId", json_encode($timePerUserPerTaskLibelleList));
+         
+         $taskProviderDescriptionList = SmartyTools::getSmartyArray($taskProviderDescriptionList, $selectedTaskProviderId);
+         $this->smartyHelper->assign("scheduler_taskProviderList", $taskProviderDescriptionList);
       }
    }
    

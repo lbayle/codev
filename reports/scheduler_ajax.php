@@ -43,6 +43,9 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
       case 'getTaskUserList':
          getTaskUserList();
          break;
+      case 'setOptions':
+         setOptions();
+         break;
       default:
           Tools::sendNotFoundAccess();
           break;
@@ -212,10 +215,14 @@ function getProjection() {
       $team_id = $_SESSION['teamid'];
       $user_id = $_SESSION['userid'];
 
+      // Set timePerTaskPerUserList of scheduler manager
       $timePerTaskPerUserList = SchedulerManager::getTimePerTaskPerUserList($user_id, $team_id);
       $schedulerTimePerTaskPerUserList = transformToSchedulerModel($timePerTaskPerUserList);
-
       $s->setUserTaskList($schedulerTimePerTaskPerUserList);
+      
+      // Set task provider of scheduler manager
+      $taskProviderId = SchedulerManager::getUserOption("taskProvider", $user_id, $team_id);
+      $s->setTaskProvider($taskProviderId);
       
       $data = $s->execute();
       echo json_encode($data);
@@ -379,6 +386,15 @@ function transformToSchedulerModel($timePerTaskPerUserList) {
       }
    }
    return $schedulerTimePerTaskPerUserList;
+}
+
+function setOptions()
+{
+   global $SchedAjaxLogger;
+   
+   $taskProviderId = Tools::getSecurePOSTStringValue('taskProvider');
+   
+   SchedulerManager::setUserOption("taskProvider", $taskProviderId, $_SESSION['userid'], $_SESSION['teamid']);
 }
 
 //$_SESSION['tasksUserList']['id_de_tache']['id_du_user'] = temps_du_user

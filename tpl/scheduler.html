@@ -25,6 +25,7 @@
       
       <ul class="{$ui_tabs_jquery_ul}">
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabPlanning">{t}Planning{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabAffectations">{t}Affectations{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabOptions">{t}Options{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabRAF">{t}RAF{/t}</a></li>
       </ul>
@@ -42,7 +43,7 @@
          </div>
       </div>
       
-      <div id="tabsScheduler_tabOptions">
+      <div id="tabsScheduler_tabAffectations">
          <strong>
             {t}Affect users to tasks{/t}
          </strong>
@@ -130,6 +131,17 @@
             </table>
          </div>
       </div>
+      
+      <div id="tabsScheduler_tabOptions" >
+         <form>
+            {foreach from=$scheduler_taskProviderList key=id item=taskProvider}
+            <label><input class="scheduler_taskProvider" type="radio" name="scheduler_taskProvider" value="{$id}" {if $taskProvider.selected}checked{/if}>{$taskProvider.name}</label><br>
+            {/foreach}
+         
+            <input class="scheduler_saveOptionsButton" type="button" value="{t}Save options{/t}">
+         </form>
+      </div>
+      
       <div id="tabsScheduler_tabRAF">
          <table>
             <thead>

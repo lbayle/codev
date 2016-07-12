@@ -503,6 +503,26 @@ function initSchedulerOptions(){
    });
    
    
-   
+   // On save options Button click
+   jQuery("#tabsScheduler_tabOptions .scheduler_saveOptionsButton").on("click", function(){
+      
+      var taskProviderId = jQuery("#tabsScheduler_tabOptions .scheduler_taskProvider:checked").val();
+
+      
+      jQuery.ajax({ 
+            url: 'reports/scheduler_ajax.php',
+            async:false,
+            data: {
+               action: 'setOptions',
+               taskProvider: taskProviderId,
+            },
+            type: 'post',
+            success: function(data) {
+            },
+            error: function(errormsg) {
+               console.log(errormsg);
+            }
+         });
+   });
 
 }
