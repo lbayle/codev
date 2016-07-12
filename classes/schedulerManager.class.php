@@ -379,15 +379,14 @@ class SchedulerManager {
          if (null != $userTaskTimeList) {
             // For each users formerly affected to the task, remove time concerning the task 
             foreach ($userTaskTimeList as $keyUserId => $taskTimeList) {
-               unset($userTaskTimeList[$keyUserId][$taskId]); 
+               if(null == $userTaskTimeList[$keyUserId]) {
+                  unset($userTaskTimeList[$keyUserId]);
+               }
+               else{
+                  unset($userTaskTimeList[$keyUserId][$taskId]); 
+               }
             }
             
-         }
-
-         foreach ($userTaskTimeList as $keyUserId => $taskTimeList) {
-            if(null == $userTaskTimeList[$keyUserId]) {
-               unset($userTaskTimeList[$keyUserId]);
-            }
          }
          
          $task = IssueCache::getInstance()->getIssue($taskId);
@@ -405,19 +404,22 @@ class SchedulerManager {
                $userAuto[$keyUser][$taskId] = 0;
             }
          }
-         $timePerUserAuto = round($effEstim/count($userAuto), 1);
-         $diff = $timePerUserAuto*count($userAuto) - $effEstim;
-         
-         foreach($userAuto as $keyUser => $userTime){
-               if($diff <= $timePerUserAuto) {
-                  $userTaskTimeList[$keyUser][$taskId] = round($timePerUserAuto - $diff,1);
-                  $diff = 0;
-               }
-               else{
-                  $userTaskTimeList[$keyUser][$taskId] = 0;
-                  $diff -= $timePerUserAuto;
-               }
+         if(null != $userAuto){
+            $timePerUserAuto = round($effEstim/count($userAuto), 1);
+            $diff = $timePerUserAuto*count($userAuto) - $effEstim;
+
+            foreach($userAuto as $keyUser => $userTime){
+                  if($diff <= $timePerUserAuto) {
+                     $userTaskTimeList[$keyUser][$taskId] = round($timePerUserAuto - $diff,1);
+                     $diff = 0;
+                  }
+                  else{
+                     $userTaskTimeList[$keyUser][$taskId] = 0;
+                     $diff -= $timePerUserAuto;
+                  }
+            }
          }
+
          
          self::setTimePerTaskPerUserList($userTaskTimeList, $userId, $teamId);
 
