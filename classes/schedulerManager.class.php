@@ -210,7 +210,11 @@ class SchedulerManager {
       }
    }
    
-   public function setTaskProvider($taskProviderId = 0){
+   public function setTaskProvider($taskProviderId = null){
+      if(null == $taskProviderId)
+      {
+         $taskProviderId = 0;
+      }
       $this->schedulerTaskProvider = $this->schedulerTaskProviderList[$taskProviderId];
    }
 
@@ -277,6 +281,7 @@ class SchedulerManager {
    public static function getUserOptions($userId, $teamId = null)
    {
       $userOptionsJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
+      
       if(null != $userOptionsJson)
       {
          $userOptions = json_decode($userOptionsJson, true); 
@@ -296,6 +301,7 @@ class SchedulerManager {
    public static function getUserOption($optionName, $userId, $teamId = null)
    {
       $userOptions = self::getUserOptions($userId, $teamId);
+      
       if(null != $userOptions)
       {
          return $userOptions["$optionName"];
@@ -325,8 +331,6 @@ class SchedulerManager {
       $timePerUserPerTask = null;
       if (null != $timePerTaskPerUser) {
          foreach ($timePerTaskPerUser as $userIdKey => $timePerTask) {
-            self::$logger->error('$timePerTask');
-            self::$logger->error($timePerTask);
             foreach ($timePerTask as $taskIdKey => $time) {
                $timePerUserPerTask[$taskIdKey][$userIdKey] = $time;
             }
@@ -419,7 +423,6 @@ class SchedulerManager {
                   }
             }
          }
-
          
          self::setTimePerTaskPerUserList($userTaskTimeList, $userId, $teamId);
 
@@ -456,21 +459,6 @@ class SchedulerManager {
    }
    
    
-   
-   /**
-    * 
-    * @param type $options : [["timePerTaskPerUser"],["schedulerTaskProvider"],...]
-    * @param type $userId
-    * @param type $teamId
-    */
-   public static function setUserOptions($options, $userId, $teamId)
-   {
-      if(null != $options)
-      {
-         
-      }
-   }
-   
    /**
     * Set a specific option option of the user / team
     * @param string $optionName
@@ -501,7 +489,7 @@ class SchedulerManager {
     */
    public static function setTimePerTaskPerUserList($timePerTaskPerUser, $userId, $teamId)
    {
-      self::setUserOption("timePerTaskPerUser", $timePerTaskPerUser, $teamId, $userId);
+      self::setUserOption("timePerTaskPerUser", $timePerTaskPerUser, $userId, $teamId);
    }
    
    /**

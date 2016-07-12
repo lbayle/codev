@@ -251,7 +251,6 @@ function setTimePerUserList() {
    $usersTimeList = Tools::getSecurePOSTStringValue('taskUserList');
    $usersTimeList = json_decode(stripslashes($usersTimeList), true);
    
-   
    if(null != $taskId) {
       if(null != $usersTimeList) {
          foreach($usersTimeList as $userTime) {
@@ -278,16 +277,19 @@ function setTimePerUserList() {
    $timePerUserPerTaskLibelleList = null;
    $timePerUserPerTaskList = SchedulerManager::getTimePerUserPerTaskList($_SESSION['userid'], $_SESSION['teamid']);
 
-   // Set time Per User Per Task List with label
-   foreach($timePerUserPerTaskList as $taskIdKey => $timePerUserList) {
-      $taskSummary = IssueCache::getInstance()->getIssue($taskIdKey)->getSummary();
-      $taskExternalReference = IssueCache::getInstance()->getIssue($taskIdKey)->getTcId();
+   if(null != $timePerUserPerTaskList)
+   {
+      // Set time Per User Per Task List with label
+      foreach($timePerUserPerTaskList as $taskIdKey => $timePerUserList) {
+         $taskSummary = IssueCache::getInstance()->getIssue($taskIdKey)->getSummary();
+         $taskExternalReference = IssueCache::getInstance()->getIssue($taskIdKey)->getTcId();
 
-      foreach($timePerUserList as $userIdKey => $time) {
-         $userName = UserCache::getInstance()->getUser($userIdKey)->getName();
-         $timePerUserPerTaskLibelleList[$taskIdKey]['users'][$userName] = $time;
-         $timePerUserPerTaskLibelleList[$taskIdKey]['taskName'] = $taskSummary;
-         $timePerUserPerTaskLibelleList[$taskIdKey]['externalReference'] = $taskExternalReference;
+         foreach($timePerUserList as $userIdKey => $time) {
+            $userName = UserCache::getInstance()->getUser($userIdKey)->getName();
+            $timePerUserPerTaskLibelleList[$taskIdKey]['users'][$userName] = $time;
+            $timePerUserPerTaskLibelleList[$taskIdKey]['taskName'] = $taskSummary;
+            $timePerUserPerTaskLibelleList[$taskIdKey]['externalReference'] = $taskExternalReference;
+         }
       }
    }
    $SchedAjaxLogger->error($taskExternalReference);
