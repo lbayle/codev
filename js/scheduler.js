@@ -3,6 +3,8 @@
 function createSchedulerTable() {
    
    scheduler.clearAll();
+   
+   $('#loading').show();  // show loading indicator
 
    var jsonUserDataPromise = $.ajax({ url: 'reports/scheduler_ajax.php',
             data: {action: 'getTeam'},
@@ -66,11 +68,11 @@ function createSchedulerTable() {
    
    $.when(jsonUserDataPromise, jsonTimetrackDataPromise, jsonProjectionDataPromise).done(function(){
       scheduler.parse(jsonProjectionData["activity"],"json");
-
+      
       if(undefined !== jsonProjectionData["backlog"]){
          $.each(jsonProjectionData["backlog"], function(userName, taskArray){
             var i = 0;
-            $.each(taskArray.tasks, function(taskid, backlog){
+            $.each(taskArray, function(taskid, backlog){
                var trObject = $("#backlogTableBody").append("<tr></tr>");
                if(0 === i){
                   var tdUserObject = trObject.append("<td>"+userName+"</td>");
@@ -81,9 +83,10 @@ function createSchedulerTable() {
                i++;
                var tdTaskObject = trObject.append('<td><a href="reports/issue_info.php?bugid='+taskid+'">'+taskid+'</a></td>');
                var tdBacklogObject = trObject.append("<td>"+backlog+"</td>");
-            });
+            });              
          });
       }
+      $('#loading').hide();  // hide loading indicator
    });
 }
 

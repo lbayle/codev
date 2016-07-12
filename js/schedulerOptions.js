@@ -199,7 +199,6 @@ function initSchedulerOptions(){
             checkTotalEffort();
          });
       }
-      
    }
    
    
@@ -218,13 +217,14 @@ function initSchedulerOptions(){
       {
          var userTime = isNaN(parseFloat(usersTime.eq(i).val())) ? 0 : parseFloat(usersTime.eq(i).val());
          totalUserTime = parseFloat(totalUserTime) + userTime;
+         totalUserTime = totalUserTime.toFixed(1);
          if(usersAutoAffect.eq(i).prop("checked"))
          {
             atLeastOneAutoAffectation = true;
          }
          
       }
-      
+      console.log(totalUserTime);
       // Write total users time
       jQuery(".scheduler_totalAffectedEffort").text(totalUserTime);
       

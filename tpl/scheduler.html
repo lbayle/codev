@@ -18,11 +18,24 @@
    .dhx_cal_navline {
       z-index:0;
    }
-
+   
+   #loading {
+      z-index: 100;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      margin-top: -64px;
+      margin-left: -64px;
+   }
+   
 </style>
+
+<div id="loading">
+   <img src="images/giantSpinner.gif">
+</div>
+
 <div class="scheduler">
    <div id="tabsScheduler" class="float tabs {$ui_tabs_jquery}" style="width:100%; margin-top:1em;" >
-      
       <ul class="{$ui_tabs_jquery_ul}">
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabPlanning">{t}Planning{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabAffectations">{t}Affectations{/t}</a></li>
@@ -196,6 +209,8 @@
       initSchedulerOptions();
       createSchedulerTable();
    });
+   
+
    
    function exportToExcel() {
       scheduler.exportToExcel(

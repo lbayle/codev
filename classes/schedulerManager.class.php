@@ -325,6 +325,8 @@ class SchedulerManager {
       $timePerUserPerTask = null;
       if (null != $timePerTaskPerUser) {
          foreach ($timePerTaskPerUser as $userIdKey => $timePerTask) {
+            self::$logger->error('$timePerTask');
+            self::$logger->error($timePerTask);
             foreach ($timePerTask as $taskIdKey => $time) {
                $timePerUserPerTask[$taskIdKey][$userIdKey] = $time;
             }
@@ -387,10 +389,34 @@ class SchedulerManager {
                unset($userTaskTimeList[$keyUserId]);
             }
          }
-
+         
+         $task = IssueCache::getInstance()->getIssue($taskId);
+         $effEstim = $task->getEffortEstim();
+         
+         $userAuto = array();
+         
          // For each users newly affected to the task, add time concerning the task
          foreach ($userTimeList as $keyUser => $userTime) {
-            $userTaskTimeList[$keyUser][$taskId] = $userTime;
+            if(null != $userTime){
+               $userTaskTimeList[$keyUser][$taskId] = $userTime;
+               $effEstim -= $userTime;
+            }
+            else{
+               $userAuto[$keyUser][$taskId] = 0;
+            }
+         }
+         $timePerUserAuto = round($effEstim/count($userAuto), 1);
+         $diff = $timePerUserAuto*count($userAuto) - $effEstim;
+         
+         foreach($userAuto as $keyUser => $userTime){
+               if($diff <= $timePerUserAuto) {
+                  $userTaskTimeList[$keyUser][$taskId] = round($timePerUserAuto - $diff,1);
+                  $diff = 0;
+               }
+               else{
+                  $userTaskTimeList[$keyUser][$taskId] = 0;
+                  $diff -= $timePerUserAuto;
+               }
          }
          
          self::setTimePerTaskPerUserList($userTaskTimeList, $userId, $teamId);

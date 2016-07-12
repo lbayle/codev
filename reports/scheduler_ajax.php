@@ -136,10 +136,11 @@ function getOldTimetrack() {
                }
             }
             // store latest timetrack strike still in cache
-            $dxhtmlData = formatActivity($prevTimetrack, $team, $userId);
+            if(null != $prevTimetrack){
+               $dxhtmlData = formatActivity($prevTimetrack, $team, $userId);
+            }
             array_push($allTimetracks, $dxhtmlData);
          }
-         
       }
    } catch (Exception $e) {
       // TODO handle exception
