@@ -93,18 +93,28 @@ class SchedulerManager {
       $timePerTaskPerUserList = self::transformToTimePerTaskPerUserList($timePerUserPerTaskList);
       
       $this->setUserTaskList($timePerTaskPerUserList);
-      
+
+       $timePerTask = array();
+       if(null != $timePerUserPerTaskList)
+       {
+          foreach($timePerUserPerTaskList as $taskIdKey => $timePerUser)
+          {
+             $task = IssueCache::getInstance()->getIssue($taskIdKey);
+             $timePerTask[$taskIdKey] = $task->getEffortEstim();
+          }
+       }
+      $this->setTasks($timePerTask);
       // Set task provider of scheduler manager
       $taskProviderId = self::getUserOption("taskProvider", $this->user_id, $this->team_id);
       $this->setTaskProvider($taskProviderId);
    }
    
    public function execute() {
-
+      
       // sort todoTaskIdList once for all,
       // this avoids schedulerTaskProvider to do it at each createCandidateTaskList() call
       $this->sortTodoTaskIdList();
-
+      
       $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
       $currentDay = mktime(0, 0, 0);
       $projectionDay = 90;
@@ -174,9 +184,13 @@ class SchedulerManager {
       foreach ($this->userLatestActivity as $ganttActivity) {
          array_push($this->data["activity"], $ganttActivity->getDxhtmlData());
       }
-
+      
       $this->createBacklogData();
       return $this->data;
+   }
+   
+   public function setTasks($tasksUserList){
+      $this->todoTaskIdList = array_replace($this->todoTaskIdList, $tasksUserList);
    }
    
    private function createBacklogData() {
@@ -266,7 +280,6 @@ class SchedulerManager {
     * @return int Effective time spent on the task for this activity
     */
    private function decreaseBacklog($userId, $taskid, $userAvailableTime) {
-      
       if($this->userTaskList[$userId][$taskid] > $userAvailableTime) {
          $this->userTaskList[$userId][$taskid] -= $userAvailableTime;
          $this->todoTaskIdList[$taskid] -= $userAvailableTime;
@@ -274,12 +287,12 @@ class SchedulerManager {
       } else {
          $timeUsed = $this->userTaskList[$userId][$taskid];
          unset($this->userTaskList[$userId][$taskid]);
-         $this->todoTaskIdList[$taskid] -= $userAvailableTime;
+         $this->todoTaskIdList[$taskid] -= $timeUsed;
 
          if (empty($this->userTaskList[$userId])) {
             unset($this->userTaskList[$userId]);
          }
-         if(0 >= $this->todoTaskIdList[$taskid]){
+         if(0 >= round($this->todoTaskIdList[$taskid],2)){
             unset($this->todoTaskIdList[$taskid]);
             $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
          }
@@ -390,21 +403,14 @@ class SchedulerManager {
     * @return boolean : true if updated, false if not
     */
    public static function updateTimePerUserListOfTask($taskId, $userTimeList, $userId, $teamId) {
-
       if (self::isTimePerUserListValid($taskId, $userTimeList)) {
          // Get old configuration
          $userTaskTimeList = self::getTimePerTaskPerUserList($userId, $teamId);
-
          // If options already exist
          if (null != $userTaskTimeList) {
             // For each users formerly affected to the task, remove time concerning the task 
             foreach ($userTaskTimeList as $keyUserId => $taskTimeList) {
-               if(null == $userTaskTimeList[$keyUserId]) {
                   unset($userTaskTimeList[$keyUserId]);
-               }
-               else{
-                  unset($userTaskTimeList[$keyUserId][$taskId]); 
-               }
             }
          }
          
@@ -412,7 +418,6 @@ class SchedulerManager {
          foreach ($userTimeList as $keyUser => $userTime) {
             $userTaskTimeList[$keyUser][$taskId] = $userTime;
          }
-         
          self::setTimePerTaskPerUserList($userTaskTimeList, $userId, $teamId);
 
          return true;
@@ -542,7 +547,7 @@ class SchedulerManager {
          $handlerId = $issue->getHandlerId();
 
          // duration is the Backlog of the task, or if not set, the MAX(EffortEstim, mgrEffortEstim)
-         $duration = $issue->getDuration();
+         $duration = $issue->getEffortEstim();
          if(0 < $duration) {
             $this->todoTaskIdList[$bugid] = $duration;
             $this->userTaskList[$handlerId][$bugid] = $duration; // $issue->getEffortEstim();
