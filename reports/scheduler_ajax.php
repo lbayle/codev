@@ -251,8 +251,8 @@ function setTimePerUserList() {
       }
       else
       {
-         $SchedAjaxLogger->error('---------- task ----------');
-         $SchedAjaxLogger->error($taskId);
+//         $SchedAjaxLogger->error('---------- task ----------');
+//         $SchedAjaxLogger->error($taskId);
          $uptadeSuccessful = SchedulerManager::removeTimePerUserOfTask($taskId, $_SESSION['userid'], $_SESSION['teamid']);
       }
       

@@ -219,13 +219,15 @@ class SchedulerManager {
     * @param type $jsonUserTaskList
     */
    public function setUserTaskList($jsonUserTaskList) {
-
-      foreach($jsonUserTaskList as $useridkey=>$tasklist) {
-         foreach($tasklist as $taskId=>$duration) {
-            $this->userTaskList[$useridkey][$taskId] = $jsonUserTaskList[$useridkey][$taskId];
+      if(null != $jsonUserTaskList){
+         foreach($jsonUserTaskList as $useridkey=>$tasklist) {
+            foreach($tasklist as $taskId=>$duration) {
+               $this->userTaskList[$useridkey][$taskId] = $jsonUserTaskList[$useridkey][$taskId];
+            }
+            $this->userCursorList[$useridkey] = null;
          }
-         $this->userCursorList[$useridkey] = null;
       }
+      
    }
    
    public function setTaskProvider($taskProviderId = null){
@@ -559,40 +561,42 @@ class SchedulerManager {
     * @return $timePerUserPerTaskList
     */
    public static function calculateAutoAffectation($timePerUserPerTaskList){
-      
-      foreach($timePerUserPerTaskList as $taskIdKey => $timePerUser)
-      {
-         $task = IssueCache::getInstance()->getIssue($taskIdKey);
-         $effEstim = $task->getEffortEstim();
-         
-         $userAuto = array();
-         
-         // For each users newly affected to the task, add time concerning the task
-         foreach ($timePerUser as $keyUser => $userTime) {
-            if(null != $userTime){
-               $effEstim -= $userTime;
-            }
-            else{
-               $userAuto[$keyUser][$taskIdKey] = 0;
-            }
-         }
-         
-         if(null != $userAuto){
-            $timePerUserAuto = round($effEstim/count($userAuto), 1);
-            $diff = $timePerUserAuto*count($userAuto) - $effEstim;
+      if(null != $timePerUserPerTaskList){
+         foreach($timePerUserPerTaskList as $taskIdKey => $timePerUser)
+         {
+            $task = IssueCache::getInstance()->getIssue($taskIdKey);
+            $effEstim = $task->getEffortEstim();
 
-            foreach($userAuto as $keyUser => $userTime){
-                  if($diff <= $timePerUserAuto) {
-                     $timePerUserPerTaskList[$taskIdKey][$keyUser] = round($timePerUserAuto - $diff,1);
-                     $diff = 0;
-                  }
-                  else{
-                     $timePerUserPerTaskList[$taskIdKey][$keyUser] = 0;
-                     $diff -= $timePerUserAuto;
-                  }
+            $userAuto = array();
+
+            // For each users newly affected to the task, add time concerning the task
+            foreach ($timePerUser as $keyUser => $userTime) {
+               if(null != $userTime){
+                  $effEstim -= $userTime;
+               }
+               else{
+                  $userAuto[$keyUser][$taskIdKey] = 0;
+               }
+            }
+
+            if(null != $userAuto){
+               $timePerUserAuto = round($effEstim/count($userAuto), 1);
+               $diff = $timePerUserAuto*count($userAuto) - $effEstim;
+
+               foreach($userAuto as $keyUser => $userTime){
+                     if($diff <= $timePerUserAuto) {
+                        $timePerUserPerTaskList[$taskIdKey][$keyUser] = round($timePerUserAuto - $diff,1);
+                        $diff = 0;
+                     }
+                     else{
+                        $timePerUserPerTaskList[$taskIdKey][$keyUser] = 0;
+                        $diff -= $timePerUserAuto;
+                     }
+               }
             }
          }
       }
+      
       return $timePerUserPerTaskList;
    }
    
