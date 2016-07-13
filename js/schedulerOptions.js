@@ -59,6 +59,11 @@ function initSchedulerOptions(){
          time = 0;
       }
       
+      if(null == time)
+      {
+         time = "";
+      }
+      
       if("" == time)
       {
          autoAffectation = true;
@@ -440,7 +445,7 @@ function initSchedulerOptions(){
          jQuery(".scheduler_userList option:selected").remove();
          jQuery(".scheduler_userList").select2("val", null);;
 
-         addUser(userId, userName, 0, true);
+         addUser(userId, userName, null, true);
       }
       
    });

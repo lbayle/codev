@@ -291,7 +291,7 @@ class SchedulerManager {
    }
    
    /**
-    * Get scheduler options of user / team
+    * Get scheduler options of user / team from DB
     * @param type $userId
     * @param type $teamId
     * @return type
@@ -310,7 +310,7 @@ class SchedulerManager {
    }
    
    /**
-    * Get user specific option
+    * Get user specific option from DB
     * @param string $optionName
     * @param type $userId
     * @param type $teamId
@@ -328,7 +328,7 @@ class SchedulerManager {
    }
 
    /**
-    * Get [$userId => [$taskId => $time]] of user/team
+    * Get [$userId => [$taskId => $time]] of user/team from DB
     * @param type $userId
     * @param type $teamId
     * @return associative array : [$userId => [$taskId => $time]]
@@ -338,7 +338,7 @@ class SchedulerManager {
    }
    
    /**
-    * Get [$taskId => [$userId => $time]] of user/team
+    * Get [$taskId => [$userId => $time]] of user/team from DB
     * @param type $userId
     * @param type $teamId
     * @return associative array : [$taskId => [$userId => $time]]
@@ -358,7 +358,7 @@ class SchedulerManager {
    }
    
    /**
-    * Get [$user => $time] of task
+    * Get [$user => $time] of task from DB
     * @param type $taskId
     * @param type $userId : id of current user
     * @param type $teamId : curent user team id
@@ -447,7 +447,7 @@ class SchedulerManager {
    
    
    /**
-    * Set a specific option option of the user / team
+    * Set a specific option option of the user / team in DB
     * @param string $optionName
     * @param type $option
     * @param type $userId
@@ -553,6 +553,11 @@ class SchedulerManager {
       return $this->schedulerTaskProviderList;
    }
    
+   /**
+    * Calculate time for users who have automatic affectation according to total task time
+    * @param type $timePerUserPerTaskList
+    * @return $timePerUserPerTaskList
+    */
    public static function calculateAutoAffectation($timePerUserPerTaskList){
       
       foreach($timePerUserPerTaskList as $taskIdKey => $timePerUser)
@@ -591,6 +596,11 @@ class SchedulerManager {
       return $timePerUserPerTaskList;
    }
    
+   /**
+    * Transform [$taskId => [$userId => $time]] in [$userId => [$taskId => $time]]
+    * @param type $timePerUserPerTaskList
+    * @return array : [$userId => [$taskId => $time]]
+    */
    public static function transformToTimePerTaskPerUserList($timePerUserPerTaskList)
    {
       $timePerTaskPerUserList = null;
