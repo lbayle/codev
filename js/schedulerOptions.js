@@ -53,9 +53,15 @@ function initSchedulerOptions(){
    // Add a user to the selected user table
    function addUser(userId, userName, time, removable)
    {
-      if(null == time || 0 > time)
+      var autoAffectation = false;
+      if(0 > time)
       {
          time = 0;
+      }
+      
+      if("" == time)
+      {
+         autoAffectation = true;
       }
       
       if(null == removable)
@@ -95,7 +101,7 @@ function initSchedulerOptions(){
       var timeInput = document.createElement("input");
       timeInput.setAttribute("type", "text"); 
       timeInput.setAttribute("value", time);
-      timeInput.innerHTML = "0";
+      timeInput.disabled = autoAffectation;
       tdTimeIput.appendChild(timeInput);
       
       // Button time column
@@ -107,12 +113,14 @@ function initSchedulerOptions(){
       minusButton.setAttribute("type", "button"); 
       minusButton.setAttribute("value", "-");
       minusButton.setAttribute("class", "scheduler_minusButton");
+      minusButton.disabled = autoAffectation;
       tdAddTime.appendChild(minusButton);
       
       var plusButton = document.createElement("input");
       plusButton.setAttribute("type", "button"); 
       plusButton.setAttribute("value", "+");
       plusButton.setAttribute("class", "scheduler_plusButton");
+      plusButton.disabled = autoAffectation;
       tdAddTime.appendChild(plusButton);
       
       // Auto time affectation column
@@ -122,6 +130,7 @@ function initSchedulerOptions(){
       
       var autoAffectationButton = document.createElement("input");
       autoAffectationButton.setAttribute("type", "checkbox"); 
+      autoAffectationButton.checked = autoAffectation; 
       tdAutoTimeAffectation.appendChild(autoAffectationButton);
       
       addedUsers.find("table tbody").append(trUser);

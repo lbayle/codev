@@ -213,17 +213,7 @@ function getProjection() {
 
    try {
       $s = new SchedulerManager();
-      $team_id = $_SESSION['teamid'];
-      $user_id = $_SESSION['userid'];
-
-      // Set timePerTaskPerUserList of scheduler manager
-      $timePerTaskPerUserList = SchedulerManager::getTimePerTaskPerUserList($user_id, $team_id);
-      $schedulerTimePerTaskPerUserList = transformToSchedulerModel($timePerTaskPerUserList);
-      $s->setUserTaskList($schedulerTimePerTaskPerUserList);
-      
-      // Set task provider of scheduler manager
-      $taskProviderId = SchedulerManager::getUserOption("taskProvider", $user_id, $team_id);
-      $s->setTaskProvider($taskProviderId);
+      $s->init();
       
       $data = $s->execute();
       echo json_encode($data);
@@ -292,7 +282,7 @@ function setTimePerUserList() {
          }
       }
    }
-   $SchedAjaxLogger->error($taskExternalReference);
+   
    $data['scheduler_timePerUserPerTaskLibelleList'] = $timePerUserPerTaskLibelleList;
    // return data (just an integer value)
    $jsonData = json_encode($data);
@@ -379,16 +369,6 @@ function removeTimePerUserList() {
       
       SchedulerManager::updateTimePerUserListOfTask($taskId, null, $_SESSION['userid'], $_SESSION['teamid']);
    }
-}
-
-function transformToSchedulerModel($timePerTaskPerUserList) {
-   $schedulerTimePerTaskPerUserList = array();
-   if (NULL != $timePerTaskPerUserList) {
-      foreach ($timePerTaskPerUserList as $userIdKey=>$taskList) {
-            $schedulerTimePerTaskPerUserList[$userIdKey] = $taskList;
-      }
-   }
-   return $schedulerTimePerTaskPerUserList;
 }
 
 function setOptions()

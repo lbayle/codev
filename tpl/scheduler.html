@@ -123,10 +123,10 @@
             </div>
             <div class="scheduler_messageSave success_font">
             </div>
-            
-            <div>
-               <input type="button" value="{t}Generate planning{/t}" class="scheduler_generatePlanningButton" disabled>
-            </div>
+         </div>
+         
+         <div class="center">
+               <input type="button" value="{t}Generate planning{/t}" class="scheduler_generatePlanningButton" onclick="generatePlanning()">
          </div>
          
          <div class="scheduler_timePerUsersPerTaskSummary">
@@ -182,6 +182,13 @@
    var jsonTimetrackData;
    var jsonUserData;
    var jsonProjectionData;
+   
+   // Open planning tab and generate it
+   function generatePlanning()
+   {
+      window.location.hash = '#tabsScheduler';
+      createSchedulerTable();
+   }
    
    scheduler.locale.labels.m_tab = "Timeline Month";
    //scheduler.locale.labels.section_custom="Section";

@@ -29,6 +29,7 @@ class SchedulerManager {
    }
    
    private $team_id;
+   private $user_id;
 
    /**
     * Tasks to be planified
@@ -74,11 +75,28 @@ class SchedulerManager {
 
    public function __construct() {
       $this->team_id = $_SESSION['teamid'];
+      $this->user_id = $_SESSION['userid'];
       $this->data["activity"] = array();
       
       $this->addHandlerTask();
       $this->schedulerTaskProvider = new SchedulerTaskProvider0();
       $this->schedulerTaskProviderList = array(new SchedulerTaskProvider0(), new SchedulerTaskProvider());
+   }
+   
+   public function init()
+   {
+      // Set timePerTaskPerUserList of scheduler manager
+      $timePerUserPerTaskList = self::getTimePerUserPerTaskList($this->user_id, $this->team_id);
+      $timePerTaskPerUserList = null;
+      
+      $timePerUserPerTaskList = self::calculateAutoAffectation($timePerUserPerTaskList);
+      $timePerTaskPerUserList = self::transformToTimePerTaskPerUserList($timePerUserPerTaskList);
+      
+      $this->setUserTaskList($timePerTaskPerUserList);
+      
+      // Set task provider of scheduler manager
+      $taskProviderId = self::getUserOption("taskProvider", $this->user_id, $this->team_id);
+      $this->setTaskProvider($taskProviderId);
    }
    
    public function execute() {
@@ -354,11 +372,7 @@ class SchedulerManager {
       if(null != $userTaskTimeList) {
          // Foreach user of BD list
          foreach($userTaskTimeList as $keyUserId => $taskTimeList) {
-            // if task is affected to user
-            if(null != $taskTimeList[$taskId])
-            {
-               $userTimeList[$keyUserId] = $taskTimeList[$taskId];
-            }
+            $userTimeList[$keyUserId] = $taskTimeList[$taskId];
          }
       }
       return $userTimeList;
@@ -390,38 +404,11 @@ class SchedulerManager {
                   unset($userTaskTimeList[$keyUserId][$taskId]); 
                }
             }
-            
          }
-         
-         $task = IssueCache::getInstance()->getIssue($taskId);
-         $effEstim = $task->getEffortEstim();
-         
-         $userAuto = array();
          
          // For each users newly affected to the task, add time concerning the task
          foreach ($userTimeList as $keyUser => $userTime) {
-            if(null != $userTime){
-               $userTaskTimeList[$keyUser][$taskId] = $userTime;
-               $effEstim -= $userTime;
-            }
-            else{
-               $userAuto[$keyUser][$taskId] = 0;
-            }
-         }
-         if(null != $userAuto){
-            $timePerUserAuto = round($effEstim/count($userAuto), 1);
-            $diff = $timePerUserAuto*count($userAuto) - $effEstim;
-
-            foreach($userAuto as $keyUser => $userTime){
-                  if($diff <= $timePerUserAuto) {
-                     $userTaskTimeList[$keyUser][$taskId] = round($timePerUserAuto - $diff,1);
-                     $diff = 0;
-                  }
-                  else{
-                     $userTaskTimeList[$keyUser][$taskId] = 0;
-                     $diff -= $timePerUserAuto;
-                  }
-            }
+            $userTaskTimeList[$keyUser][$taskId] = $userTime;
          }
          
          self::setTimePerTaskPerUserList($userTaskTimeList, $userId, $teamId);
@@ -449,7 +436,7 @@ class SchedulerManager {
             
             // Remove the task
             unset($timePerUserPerTask[$taskId]);
-            self::$logger->error($timePerUserPerTask);
+            
             self::setTimePerUserPerTaskList($timePerUserPerTask, $userId, $teamId);
             
             return true;
@@ -564,6 +551,57 @@ class SchedulerManager {
    
    public function getSchedulerTaskProviderList(){
       return $this->schedulerTaskProviderList;
+   }
+   
+   public static function calculateAutoAffectation($timePerUserPerTaskList){
+      
+      foreach($timePerUserPerTaskList as $taskIdKey => $timePerUser)
+      {
+         $task = IssueCache::getInstance()->getIssue($taskIdKey);
+         $effEstim = $task->getEffortEstim();
+         
+         $userAuto = array();
+         
+         // For each users newly affected to the task, add time concerning the task
+         foreach ($timePerUser as $keyUser => $userTime) {
+            if(null != $userTime){
+               $effEstim -= $userTime;
+            }
+            else{
+               $userAuto[$keyUser][$taskIdKey] = 0;
+            }
+         }
+         
+         if(null != $userAuto){
+            $timePerUserAuto = round($effEstim/count($userAuto), 1);
+            $diff = $timePerUserAuto*count($userAuto) - $effEstim;
+
+            foreach($userAuto as $keyUser => $userTime){
+                  if($diff <= $timePerUserAuto) {
+                     $timePerUserPerTaskList[$taskIdKey][$keyUser] = round($timePerUserAuto - $diff,1);
+                     $diff = 0;
+                  }
+                  else{
+                     $timePerUserPerTaskList[$taskIdKey][$keyUser] = 0;
+                     $diff -= $timePerUserAuto;
+                  }
+            }
+         }
+      }
+      return $timePerUserPerTaskList;
+   }
+   
+   public static function transformToTimePerTaskPerUserList($timePerUserPerTaskList)
+   {
+      $timePerTaskPerUserList = null;
+      if (null != $timePerUserPerTaskList) {
+         foreach ($timePerUserPerTaskList as $taskIdKey => $timePerUser) {
+            foreach ($timePerUser as $userIdKey => $time) {
+               $timePerTaskPerUserList[$userIdKey][$taskIdKey] = $time;
+            }
+         }
+      }
+      return $timePerTaskPerUserList;
    }
 }
 SchedulerManager::staticInit();
