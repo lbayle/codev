@@ -1,7 +1,7 @@
 
 
 function createSchedulerTable() {
-   
+   $( "#backlogTableBody" ).empty();
    scheduler.clearAll();
    
    $('#loading').show();  // show loading indicator
