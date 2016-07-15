@@ -117,16 +117,6 @@ class SchedulerManager {
       
       $this->setUserTaskList($timePerTaskPerUserList);
 
-       $timePerTask = array();
-       if(null != $timePerUserPerTaskList)
-       {
-          foreach($timePerUserPerTaskList as $taskIdKey => $timePerUser)
-          {
-             $task = IssueCache::getInstance()->getIssue($taskIdKey);
-             $timePerTask[$taskIdKey] = $task->getEffortEstim();
-          }
-       }
-      $this->setTasks($timePerTask);
       
       // Set task provider of scheduler manager
       $taskProviderName = self::getUserOption(self::OPTION_taskProvider, $this->user_id, $this->team_id);
@@ -216,11 +206,7 @@ class SchedulerManager {
       $this->createBacklogData();
       return $this->data;
    }
-   
-   public function setTasks($tasksUserList){
-      $this->todoTaskIdList = array_replace($this->todoTaskIdList, $tasksUserList);
-   }
-   
+
    private function createBacklogData() {
       //$this->data["backlog"] = $this->userTaskList;
       foreach($this->userTaskList as $userid=>$taskList) {
@@ -603,10 +589,10 @@ class SchedulerManager {
          $handlerId = $issue->getHandlerId();
 
          // duration is the Backlog of the task, or if not set, the MAX(EffortEstim, mgrEffortEstim)
-         $duration = $issue->getEffortEstim();
+         $duration = $issue->getDuration();
          if(0 < $duration) {
             $this->todoTaskIdList[$bugid] = $duration;
-            $this->userTaskList[$handlerId][$bugid] = $duration; // $issue->getEffortEstim();
+            $this->userTaskList[$handlerId][$bugid] = $duration;
             $this->userCursorList[$handlerId] = null;
          }
       }
@@ -630,14 +616,14 @@ class SchedulerManager {
          foreach($timePerUserPerTaskList as $taskIdKey => $timePerUser)
          {
             $task = IssueCache::getInstance()->getIssue($taskIdKey);
-            $effEstim = $task->getEffortEstim();
+            $backlog = $task->getDuration();
 
             $userAuto = array();
 
             // For each users newly affected to the task, add time concerning the task
             foreach ($timePerUser as $keyUser => $userTime) {
                if(null != $userTime){
-                  $effEstim -= $userTime;
+                  $backlog -= $userTime;
                }
                else{
                   $userAuto[$keyUser][$taskIdKey] = 0;
@@ -645,8 +631,8 @@ class SchedulerManager {
             }
 
             if(null != $userAuto){
-               $timePerUserAuto = round($effEstim/count($userAuto), 1);
-               $diff = $timePerUserAuto*count($userAuto) - $effEstim;
+               $timePerUserAuto = round($backlog/count($userAuto), 1);
+               $diff = $timePerUserAuto*count($userAuto) - $backlog;
 
                foreach($userAuto as $keyUser => $userTime){
                      if($diff <= $timePerUserAuto) {
