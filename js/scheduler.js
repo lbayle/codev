@@ -1,6 +1,21 @@
 
-
-function createSchedulerTable() {
+/**
+ * 
+ * @param {boolean} redirect : true if user is redirect to planning tab
+ * @returns {undefined}
+ */
+function createSchedulerTable(redirect) {
+   if(null == redirect)
+   {
+      redirect = false;
+   }
+   if(redirect)
+   {
+      // Redirect to planning tab
+      window.location.hash = '#tabsScheduler';
+   }
+   
+   
    $( "#backlogTableBody" ).empty();
    scheduler.clearAll();
    

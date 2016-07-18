@@ -1,7 +1,37 @@
 function initSchedulerOptions(){
-   jQuery(".scheduler_timePerUsersPerTaskSummary table");
-   // timePerUserPerTask is defined in html
-   setTimePerUsersPerTaskSummaryTable(timePerUserPerTask);
+   
+   
+   
+   // ================ Initialization ================
+      
+  
+   // Ask to server already affected tasks (to feel summary table)
+   jQuery.ajax({ 
+      url: 'reports/scheduler_ajax.php',
+      async:false,
+      data: {
+         action: 'getAllTaskUserList',
+      },
+      type: 'post',
+      success: function(data) {
+         data = JSON.parse(data);
+         console.log("data : ", data);
+         if(null != data['scheduler_timePerUserPerTaskLibelleList'])
+         {
+            setTimePerUsersPerTaskSummaryTable(data['scheduler_timePerUserPerTaskLibelleList']);
+         }
+
+      },
+      error: function(errormsg) {
+         console.log(errormsg);
+      }
+   });
+   
+   
+   
+         
+   // ================ Functions ================
+   
    
    function reinitializeTableAndSelects(unselectedUserList, selectedUserList, taskUserList, taskHandlerId)
    {
@@ -50,7 +80,14 @@ function initSchedulerOptions(){
       checkTotalEffort();
    }
    
-   // Add a user to the selected user table
+   /*
+    * Add a user to the selected user table
+    * @param {int} userId
+    * @param {string} userName
+    * @param {int} time : affected time of user on task
+    * @param {boolean} removable : true if user can be removed of the list
+    * @returns {undefined}
+    */
    function addUser(userId, userName, time, removable)
    {
       var autoAffectation = false;
@@ -215,7 +252,11 @@ function initSchedulerOptions(){
       }
    }
    
-   
+   /*
+    * Check if total affected effort correspond to total task effort
+    * Enable/Disable button if effort is ok/ko
+    * @returns {undefined}
+    */
    function checkTotalEffort()
    {
       var userTable = jQuery(".scheduler_addedUsers table tbody");
@@ -238,7 +279,7 @@ function initSchedulerOptions(){
          }
          
       }
-      console.log(totalUserTime);
+      
       // Write total users time
       jQuery(".scheduler_totalAffectedEffort").text(totalUserTime);
       
@@ -386,7 +427,10 @@ function initSchedulerOptions(){
       
    }
    
-   // ++++++++++ Events ++++++++++
+   
+   
+   // ================ Events ================
+   
    
    // On change in the task list
    jQuery(".scheduler_taskList").on("change", function(){

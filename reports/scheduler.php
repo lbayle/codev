@@ -44,8 +44,6 @@ class SchedulerController extends Controller {
          $team = TeamCache::getInstance()->getTeam($this->teamid);
          $taskList = $team->getTeamIssueList(false, false);
          
-         // Get config from BD 
-         $timePerUserPerTaskList = SchedulerManager::getTimePerUserPerTaskList($_SESSION['userid'], $_SESSION['teamid']);
          
          // Set task id list
          $taskIdList[null] = T_("Select a task");
@@ -62,22 +60,6 @@ class SchedulerController extends Controller {
             }
          }
          
-         // Set time Per User Per Task List with libelle
-         $timePerUserPerTaskLibelleList = null;
-         if(NULL != $timePerUserPerTaskList){
-            foreach($timePerUserPerTaskList as $taskIdKey => $timePerUserList)
-            {
-               $taskSummary = IssueCache::getInstance()->getIssue($taskIdKey)->getSummary();
-               $taskExternalReference = IssueCache::getInstance()->getIssue($taskIdKey)->getTcId();
-               foreach($timePerUserList as $userIdKey => $time)
-               {
-                  $userName = UserCache::getInstance()->getUser($userIdKey)->getName();
-                  $timePerUserPerTaskLibelleList[$taskIdKey]['users'][$userName] = $time;
-                  $timePerUserPerTaskLibelleList[$taskIdKey]['taskName'] = $taskSummary;
-                  $timePerUserPerTaskLibelleList[$taskIdKey]['externalReference'] = $taskExternalReference;
-               }
-            }
-         }
 
          // Get scheduler task provider list
          $schedulerManager = new SchedulerManager();
@@ -90,7 +72,6 @@ class SchedulerController extends Controller {
          $selectedTaskProviderId = SchedulerManager::getUserOption("taskProvider", $_SESSION['userid'], $_SESSION['teamid']);
          
          
-         $this->smartyHelper->assign("scheduler_timePerUserPerTaskLibelleList", $timePerUserPerTaskLibelleList);
          
          $taskIdList = SmartyTools::getSmartyArray($taskIdList, null);
          $this->smartyHelper->assign("scheduler_taskList", $taskIdList);
@@ -98,8 +79,6 @@ class SchedulerController extends Controller {
          $userList = $team->getActiveMembers();
          $userList = SmartyTools::getSmartyArray($userList, null);
          $this->smartyHelper->assign("scheduler_userList", $userList);
-         
-         $this->smartyHelper->assign("scheduler_taskId", json_encode($timePerUserPerTaskLibelleList));
          
          $taskProviderDescriptionList = SmartyTools::getSmartyArray($taskProviderDescriptionList, $selectedTaskProviderId);
          $this->smartyHelper->assign("scheduler_taskProviderList", $taskProviderDescriptionList);

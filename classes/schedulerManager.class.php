@@ -381,15 +381,20 @@ class SchedulerManager {
     */
    public static function getTimePerUserListOfTask($taskId, $userId, $teamId) {
       // Get config from BD 
-      $userTaskTimeList = self::getTimePerTaskPerUserList($userId, $teamId);
+      $timePerUserPerTaskList = self::getTimePerUserPerTaskList($userId, $teamId);
 
       $userTimeList = null;
-      if(null != $userTaskTimeList) {
-         // Foreach user of BD list
-         foreach($userTaskTimeList as $keyUserId => $taskTimeList) {
-            $userTimeList[$keyUserId] = $taskTimeList[$taskId];
+      if(null != $timePerUserPerTaskList)
+      {
+         if(null != $timePerUserPerTaskList[$taskId]) 
+         {
+            // Foreach user affected to the task
+            foreach($timePerUserPerTaskList[$taskId] as $userIdKey => $time) {
+               $userTimeList[$userIdKey] = $time;
+            }
          }
       }
+      
       return $userTimeList;
    }
    
@@ -410,7 +415,7 @@ class SchedulerManager {
          if (null != $userTaskTimeList) {
             // For each users formerly affected to the task, remove time concerning the task 
             foreach ($userTaskTimeList as $keyUserId => $taskTimeList) {
-                  unset($userTaskTimeList[$keyUserId]);
+                  unset($userTaskTimeList[$keyUserId][$taskId]);
             }
          }
          

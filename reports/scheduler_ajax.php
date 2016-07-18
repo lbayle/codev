@@ -38,7 +38,11 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          getProjection();
          break;
       case 'setTaskUserList':
-         setTimePerUserList();
+         $data = setTimePerUserList();
+         getAllTaskUserList($data);
+         break;
+      case 'getAllTaskUserList':
+         getAllTaskUserList(null);
          break;
       case 'getTaskUserList':
          getTaskUserList();
@@ -262,6 +266,19 @@ function setTimePerUserList() {
          $data['scheduler_status'] = T_("Invalid modifications");
       }
    }
+   return $data;
+}
+
+/**
+ * Get time per user per task list [$task => [$userId => $time]]
+ * With information of task (label, external reference,...)
+ * @global type $SchedAjaxLogger
+ * @param array $data : previous computed information to send to view
+ */
+function getAllTaskUserList($data = false)
+{
+   global $SchedAjaxLogger;
+   //$SchedAjaxLogger->error('---------- getAllTaskUserList ----------');
    
    // Get time per user per task list
    $timePerUserPerTaskLibelleList = null;
@@ -284,12 +301,15 @@ function setTimePerUserList() {
    }
    
    $data['scheduler_timePerUserPerTaskLibelleList'] = $timePerUserPerTaskLibelleList;
-   // return data (just an integer value)
+
    $jsonData = json_encode($data);
    echo $jsonData;
 }
 
-
+/**
+ * Get to the view the list of user and their time on a task [$userId => $time]
+ * @global type $SchedAjaxLogger
+ */
 function getTaskUserList() {
    global $SchedAjaxLogger;
    //$SchedAjaxLogger->error('---------- getTaskUserList ----------');

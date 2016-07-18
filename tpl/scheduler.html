@@ -126,7 +126,7 @@
          </div>
          
          <div class="center">
-               <input type="button" value="{t}Generate planning{/t}" class="scheduler_generatePlanningButton" onclick="generatePlanning()">
+               <input type="button" value="{t}Generate planning{/t}" class="scheduler_generatePlanningButton" onclick="createSchedulerTable(true)">
          </div>
          
          <div class="scheduler_timePerUsersPerTaskSummary">
@@ -169,7 +169,7 @@
    </div>
 </div>
 <input value="Export to Excel" type="button" onclick='exportToExcel()'>
-<button onclick="createSchedulerTable()"></button>
+<button onclick="createSchedulerTable(true)"></button>
 
 <script src="js/scheduler.js" type="text/javascript"></script>
 <script src="js/schedulerOptions.js" type="text/javascript"></script>
@@ -177,18 +177,10 @@
 
 <script>
    
-   // Declare javascript variable with smarty variable
-   var timePerUserPerTask = {$scheduler_taskId};
    var jsonTimetrackData;
    var jsonUserData;
    var jsonProjectionData;
    
-   // Open planning tab and generate it
-   function generatePlanning()
-   {
-      window.location.hash = '#tabsScheduler';
-      createSchedulerTable();
-   }
    
    scheduler.locale.labels.m_tab = "Timeline Month";
    //scheduler.locale.labels.section_custom="Section";
@@ -214,7 +206,7 @@
 
    $( "#tabsScheduler" ).on( "tabscreate", function( event, ui ) {
       initSchedulerOptions();
-      createSchedulerTable();
+      createSchedulerTable(false);
    });
    
 
