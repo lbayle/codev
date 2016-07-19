@@ -283,24 +283,39 @@ function getAllTaskUserList($data = false)
    // Get time per user per task list
    $timePerUserPerTaskLibelleList = null;
    $timePerUserPerTaskList = SchedulerManager::getTimePerUserPerTaskList($_SESSION['userid'], $_SESSION['teamid']);
-
+   
    if(null != $timePerUserPerTaskList)
    {
       // Set time Per User Per Task List with label
       foreach($timePerUserPerTaskList as $taskIdKey => $timePerUserList) {
-         $taskSummary = IssueCache::getInstance()->getIssue($taskIdKey)->getSummary();
-         $taskExternalReference = IssueCache::getInstance()->getIssue($taskIdKey)->getTcId();
+         $taskInfos = IssueCache::getInstance()->getIssue($taskIdKey);
+         $taskSummary = $taskInfos->getSummary();
+         $taskExternalReference = $taskInfos->getTcId();
 
          foreach($timePerUserList as $userIdKey => $time) {
             $userName = UserCache::getInstance()->getUser($userIdKey)->getName();
             $timePerUserPerTaskLibelleList[$taskIdKey]['users'][$userName] = $time;
-            $timePerUserPerTaskLibelleList[$taskIdKey]['taskName'] = $taskSummary;
+            $timePerUserPerTaskLibelleList[$taskIdKey]['summary'] = $taskSummary;
             $timePerUserPerTaskLibelleList[$taskIdKey]['externalReference'] = $taskExternalReference;
+            
          }
       }
    }
    
-   $data['scheduler_timePerUserPerTaskLibelleList'] = $timePerUserPerTaskLibelleList;
+   $data['scheduler_timePerUserPerTaskInfosList'] = $timePerUserPerTaskLibelleList;
+   
+   // Create ajax file path
+   $sepChar = DIRECTORY_SEPARATOR;
+   $directory = Constants::$codevRootDir.$sepChar. "tpl" .$sepChar. "ajax" .$sepChar. schedulerAffectationSummary .".html";
+   
+   // Generate html table
+   $smartyHelper = new SmartyHelper();
+   foreach ($data as $smartyKey => $smartyVariable) {
+      $smartyHelper->assign($smartyKey, $smartyVariable);
+   }
+   $html = $smartyHelper->fetch($directory);
+   
+   $data["scheduler_summaryTableHTML"] = $html;
 
    $jsonData = json_encode($data);
    echo $jsonData;

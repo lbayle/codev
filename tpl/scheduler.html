@@ -130,18 +130,6 @@
          </div>
          
          <div class="scheduler_timePerUsersPerTaskSummary">
-            <table class="datatable_csv">
-               <thead>
-                  <th></th>
-                  <th>{t}Task id{/t}</th>
-                  <th>{t}Task name{/t}</th>
-                  <th>{t}External reference{/t}</th>
-                  <th>{t}Users{/t}</th>
-               </thead>
-               <tbody>
-                  
-               </tbody>
-            </table>
          </div>
       </div>
       
@@ -186,7 +174,12 @@
    //scheduler.locale.labels.section_custom="Section";
    scheduler.config.xml_date="%Y-%m-%d %h:%i";
    
-   
+   function refreshPlanning() { 
+      // Set a little timeout to refresh planning after tab openned
+      setTimeout(function(){ 
+         scheduler.updateView();
+      }, 10);
+   };
 
 
    scheduler.config.readonly = true;

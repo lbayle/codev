@@ -1,0 +1,50 @@
+
+<div >
+   <table id="tabsScheduler_AffectationSummaryTable" class="datatable_csv">
+      <thead>
+         <th></th>
+         
+         <th>{t}Task Id{/t}</th>
+         <th></th>
+         <th>{t}Task Name{/t}</th>
+         <th>{t}External Reference{/t}</th>
+         <th>{t}Users{/t}</th>
+         
+      </thead>
+      <tbody>
+         {foreach from=$scheduler_timePerUserPerTaskInfosList key=taskId item=$task}
+         <tr class="scheduler_taskRow" data-taskId="{$taskId}">
+            <td class="ui-state-error-text pointer"><a class="ui-icon"></a></td>
+            
+            <td><a href="reports/issue_info.php?bugid={$taskId}">{$taskId}</a></td>
+            <td class="summaryTableTaskDisplay pointer"><img src="images/b_goto.png"></td>
+            <td>{$task.summary}</td>
+            <td>{$task.externalReference}</td>
+            <td>
+               {foreach from=$task.users key=$userName item=$time}
+               <span>{$userName} ({$time})  </span>
+               {/foreach}
+            </td>
+            
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
+</div>
+
+<!--Can cause problems on datatables
+   Added to remake "just added table" a datatable-->
+<script src="js_min/datatable.min.js" type="text/javascript"></script>
+
+<script>
+   jQuery(".summaryTableTaskDisplay").on("click", function(){
+      var taskId = jQuery(this).parent(".scheduler_taskRow").attr("data-taskId");
+      var taskList = jQuery("select.scheduler_taskList");
+
+      // Select task
+      taskList.val(taskId);
+      // Trigger change event on task list to update
+      taskList.trigger("change");
+   });
+   
+</script>

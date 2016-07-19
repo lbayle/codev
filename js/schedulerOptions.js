@@ -15,10 +15,10 @@ function initSchedulerOptions(){
       type: 'post',
       success: function(data) {
          data = JSON.parse(data);
-         console.log("data : ", data);
-         if(null != data['scheduler_timePerUserPerTaskLibelleList'])
+         
+         if(null != data['scheduler_summaryTableHTML'])
          {
-            setTimePerUsersPerTaskSummaryTable(data['scheduler_timePerUserPerTaskLibelleList']);
+           setTimePerUsersPerTaskSummaryTable(data['scheduler_summaryTableHTML']);
          }
 
       },
@@ -328,103 +328,14 @@ function initSchedulerOptions(){
    
    /**
     * Set summary table
-    * @param {type} timePerUserPerTask : [taskId => 'users' => [user => time], 
-    *                                               'taskId' => taskId]
+    * @param {html} timePerUserPerTaskHTML : table in html
     * @returns {undefined}
     */
-   function setTimePerUsersPerTaskSummaryTable(timePerUserPerTask)
+   function setTimePerUsersPerTaskSummaryTable(timePerUserPerTaskHTML)
    {
-      var timePerUserPerTaskSummaryTable = jQuery(".scheduler_timePerUsersPerTaskSummary table");
-      var timePerUserPerTaskSummaryTableBody = timePerUserPerTaskSummaryTable.find("tbody");
-      timePerUserPerTaskSummaryTableBody.empty();
-      
-      // For each task
-      for(var task in timePerUserPerTask)
-      {
-         var taskTr = document.createElement("tr");
-         taskTr.setAttribute("data-taskId", task);
-         taskTr.setAttribute("class", "scheduler_taskRow");
-         timePerUserPerTaskSummaryTableBody.append(taskTr);
-         
-         var removeTaskTd = document.createElement("td");
-         removeTaskTd.setAttribute("class", "ui-state-error-text");
-         taskTr.appendChild(removeTaskTd);
-         
-         var removeButton = document.createElement("a");
-         removeButton.setAttribute("class", "ui-icon"); 
-         removeTaskTd.appendChild(removeButton);
-         
-         var taskIdTd = document.createElement("td");
-         taskIdTd.innerHTML = task;
-         taskTr.appendChild(taskIdTd);
-         
-         var taskTd = document.createElement("td");
-         taskTd.innerHTML = timePerUserPerTask[task]['taskName'];
-         taskTr.appendChild(taskTd);
-         
-         var taskExternalReferenceTd = document.createElement("td");
-         taskExternalReferenceTd.innerHTML = timePerUserPerTask[task]['externalReference'];
-         taskTr.appendChild(taskExternalReferenceTd);
-         
-         var usersTd = document.createElement("td");
-         usersTd.innerHTML = "";
-         taskTr.appendChild(usersTd);
-            
-         var timePerUser = [];
-         // For each user
-         for(var user in timePerUserPerTask[task]['users'])
-         {
-            timePerUser.push(user + " (" + timePerUserPerTask[task]['users'][user] + ")");
-         }
-         usersTd.innerHTML = timePerUser.join(", ");
-         
-         // On task row click
-         $(taskTd).on("click", function(){
-            var taskId = jQuery(this).parent(".scheduler_taskRow").attr("data-taskId");
-            var taskList = jQuery("select.scheduler_taskList");
-
-            // Select task
-            taskList.val(taskId);
-            // Trigger change event on task list to update
-            taskList.trigger("change");
-         });
-         
-         // On remove button click
-         $(removeButton).on("click", function(){
-            var parentRow = jQuery(this).parent("td").parent("tr.scheduler_taskRow");
-            var taskId = parentRow.attr("data-taskId");
-
-            jQuery.ajax({ 
-               url: 'reports/scheduler_ajax.php',
-               async:false,
-               data: {
-                  action: 'setTaskUserList',
-                  taskId: taskId,
-                  taskUserList: "",
-               },
-               type: 'post',
-               success: function(data) {
-                  data = JSON.parse(data);
-                  var messageSaveContainer = jQuery(".scheduler_messageSave");
-                  if("SUCCESS" == data["scheduler_status"])
-                  {
-                  }
-                  else
-                  {
-                  }
-
-                  if(null != data['scheduler_timePerUserPerTaskLibelleList'])
-                  {
-                     setTimePerUsersPerTaskSummaryTable(data['scheduler_timePerUserPerTaskLibelleList']);
-                  }
-               },
-               error: function(errormsg) {
-                  console.log(errormsg);
-               }
-            });
-         });
-      }
-      
+      var timePerUserPerTaskSummary = jQuery(".scheduler_timePerUsersPerTaskSummary");
+      timePerUserPerTaskSummary.empty();
+      timePerUserPerTaskSummary.html(timePerUserPerTaskHTML);
    }
    
    
@@ -546,9 +457,9 @@ function initSchedulerOptions(){
                   messageSaveContainer.text(data["scheduler_status"]);
                }
                
-               if(null != data['scheduler_timePerUserPerTaskLibelleList'])
+               if(null != data['scheduler_summaryTableHTML'])
                {
-                  setTimePerUsersPerTaskSummaryTable(data['scheduler_timePerUserPerTaskLibelleList']);
+                  setTimePerUsersPerTaskSummaryTable(data['scheduler_summaryTableHTML']);
                }
                
             },
