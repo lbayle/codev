@@ -37,7 +37,7 @@
 <div class="scheduler">
    <div id="tabsScheduler" class="float tabs {$ui_tabs_jquery}" style="width:100%; margin-top:1em;" >
       <ul class="{$ui_tabs_jquery_ul}">
-         <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabPlanning">{t}Planning{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabPlanning" onclick="refreshPlanning()">{t}Planning{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabAffectations">{t}Affectations{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabOptions">{t}Options{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabRAF">{t}RAF{/t}</a></li>
@@ -186,7 +186,7 @@
    //scheduler.locale.labels.section_custom="Section";
    scheduler.config.xml_date="%Y-%m-%d %h:%i";
    
-
+   
 
 
    scheduler.config.readonly = true;

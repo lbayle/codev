@@ -105,3 +105,10 @@ function createSchedulerTable(redirect) {
    });
 }
 
+function refreshPlanning() { 
+   // Set a little timeout to refresh planning after tab openned
+   setTimeout(function(){ 
+      scheduler.updateView();
+   }, 10);
+};
+
