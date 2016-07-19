@@ -56,6 +56,9 @@
          </div>
       </div>
       
+      
+      
+      
       <div id="tabsScheduler_tabAffectations">
          <strong>
             {t}Affect users to tasks{/t}
@@ -133,7 +136,12 @@
          </div>
       </div>
       
+      
+      
       <div id="tabsScheduler_tabOptions" >
+         <strong>
+            {t}Choose a configuration :{/t}
+         </strong>
          <form>
             {foreach from=$scheduler_taskProviderList key=id item=taskProvider}
             <label><input class="scheduler_taskProvider" type="radio" name="scheduler_taskProvider" value="{$id}" {if $taskProvider.selected}checked{/if}>{$taskProvider.name}</label><br>
@@ -142,6 +150,8 @@
             <input class="scheduler_saveOptionsButton" type="button" value="{t}Save options{/t}">
          </form>
       </div>
+      
+      
       
       <div id="tabsScheduler_tabRAF">
          <table>
