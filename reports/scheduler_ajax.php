@@ -351,19 +351,14 @@ function getTaskUserList() {
          if(null != $taskHandlerId) {
             // If task handler doesnt't belong to task user list
             if(!array_key_exists($taskHandlerId, $tasksUserList)) {
-               // Calculate total users affected time
-               $totalUsersTime = 0;
-               foreach($tasksUserList as $time) {
-                  $totalUsersTime += $time;
-               }
-               // Add task handler to list and affect to him the rest of time
-               $tasksUserList[$taskHandlerId] = $taskEffortEstim - $totalUsersTime;
+               // Add task handler to list
+               $tasksUserList[$taskHandlerId] = null;
             }
          }
       } else {
          if (null != $taskHandlerId) {
             // Add task handler to list
-            $tasksUserList[$taskHandlerId] = $taskEffortEstim;
+            $tasksUserList[$taskHandlerId] = null;
          }
       }
             
