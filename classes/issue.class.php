@@ -1414,19 +1414,6 @@ class Issue extends Model implements Comparable {
          return -1;
       }
 
-      // Tasks currently open are higher priority
-      if (($issueB->currentStatus == Constants::$status_open) && ($issueA->currentStatus != Constants::$status_open)) {
-         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-         #   self::$logger->trace("compare $issueA->bugId < $issueB->bugId (status_openned)");
-         #}
-         return 1;
-      } else if (($issueA->currentStatus == Constants::$status_open) && ($issueB->currentStatus != Constants::$status_open)) {
-         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
-         #   self::$logger->trace("compare $issueA->bugId > $issueB->bugId (status_openned)");
-         #}
-         return -1;
-      }
-
       // the one that has NO deadLine is lower priority
       if ((NULL == $issueA->getDeadLine()) && (NULL != $issueB->getDeadLine())) {
          #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
@@ -1510,6 +1497,19 @@ class Issue extends Model implements Comparable {
       #if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
       #   self::$logger->trace("no important diff found, so we compare the bugid : $issueA->bugId <=> $issueB->bugId");
       #}
+
+      // Tasks currently open are higher priority
+      if (($issueB->currentStatus == Constants::$status_open) && ($issueA->currentStatus != Constants::$status_open)) {
+         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId < $issueB->bugId (status_openned)");
+         #}
+         return 1;
+      } else if (($issueA->currentStatus == Constants::$status_open) && ($issueB->currentStatus != Constants::$status_open)) {
+         #if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         #   self::$logger->trace("compare $issueA->bugId > $issueB->bugId (status_openned)");
+         #}
+         return -1;
+      }
 
       // Lower if the bug id, higher is the priority
       if($issueA->bugId > $issueB->bugId) {
