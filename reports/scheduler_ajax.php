@@ -416,7 +416,7 @@ function setOptions()
    
    $taskProviderId = Tools::getSecurePOSTStringValue('taskProvider');
    
-   SchedulerManager::setUserOption("taskProvider", $taskProviderId, $_SESSION['userid'], $_SESSION['teamid']);
+   SchedulerManager::setUserOption(SchedulerManager::OPTION_taskProvider, $taskProviderId, $_SESSION['userid'], $_SESSION['teamid']);
 }
 
 //$_SESSION['tasksUserList']['id_de_tache']['id_du_user'] = temps_du_user

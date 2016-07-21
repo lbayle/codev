@@ -71,7 +71,7 @@ class SchedulerController extends Controller {
             $taskProviderDescriptionList[$taskProviderName] = $taskProviderReflection->newInstance()->getShortDesc();
          }
          // Get selected scheduler task provider 
-         $selectedTaskProviderName = SchedulerManager::getUserOption("taskProvider", $_SESSION['userid'], $_SESSION['teamid']);
+         $selectedTaskProviderName = SchedulerManager::getUserOption(SchedulerManager::OPTION_taskProvider, $_SESSION['userid'], $_SESSION['teamid']);
          if(!in_array($selectedTaskProviderName, $taskProviderList))
          {
             $selectedTaskProviderName = $taskProviderList[0];

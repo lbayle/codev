@@ -18,6 +18,11 @@
 
 class SchedulerManager {
 
+   const OPTION_timePerTaskPerUser = 'timePerTaskPerUser';
+   const OPTION_taskProvider       = 'taskProvider';
+   const OPTION_isDisplayExtRef    = 'isDisplayExtRef';
+   const OPTION_nbDaysForecast     = 'nbDaysForecast';
+
    private static $logger;
 
    /**
@@ -79,7 +84,6 @@ class SchedulerManager {
       $this->data["activity"] = array();
       
       $this->addHandlerTask();
-      $this->schedulerTaskProvider = new SchedulerTaskProvider0();
       $this->schedulerTaskProviderList = array("SchedulerTaskProvider0", "SchedulerTaskProvider");
    }
    
@@ -106,7 +110,7 @@ class SchedulerManager {
       $this->setTasks($timePerTask);
       
       // Set task provider of scheduler manager
-      $taskProviderName = self::getUserOption("taskProvider", $this->user_id, $this->team_id);
+      $taskProviderName = self::getUserOption(self::OPTION_taskProvider, $this->user_id, $this->team_id);
       $this->setTaskProvider($taskProviderName);
    }
    
@@ -249,6 +253,7 @@ class SchedulerManager {
       if(!in_array($taskProviderName, $this->schedulerTaskProviderList))
       {
          $taskProviderName = $this->schedulerTaskProviderList[0];
+         self::$logger->error("setTaskProvider($taskProviderName): Unknown taskProvider, using default.");
       }
       
       // Instantiate scheduler provider
@@ -340,10 +345,10 @@ class SchedulerManager {
       $userOptions = self::getUserOptions($userId, $teamId);
       
       if(null != $userOptions)
-      {
-         return $userOptions["$optionName"];
+      if(null == $userOptions) {
+         self::$logger->error("getUserOption($optionName): option not set, return null");
       }
-      return null;
+      return $userOptions["$optionName"];
    }
 
    /**
@@ -353,7 +358,7 @@ class SchedulerManager {
     * @return associative array : [$userId => [$taskId => $time]]
     */
    public static function getTimePerTaskPerUserList($userId, $teamId = null) {
-      return self::getUserOption("timePerTaskPerUser", $userId, $teamId);
+      return self::getUserOption(self::OPTION_timePerTaskPerUser, $userId, $teamId);
    }
    
    /**
@@ -492,7 +497,7 @@ class SchedulerManager {
     */
    public static function setTimePerTaskPerUserList($timePerTaskPerUser, $userId, $teamId)
    {
-      self::setUserOption("timePerTaskPerUser", $timePerTaskPerUser, $userId, $teamId);
+      self::setUserOption(self::OPTION_timePerTaskPerUser, $timePerTaskPerUser, $userId, $teamId);
    }
    
    /**
