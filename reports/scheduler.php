@@ -65,11 +65,17 @@ class SchedulerController extends Controller {
          $schedulerManager = new SchedulerManager();
          $taskProviderList = $schedulerManager->getSchedulerTaskProviderList();
          $taskProviderDescriptionList = null;
-         foreach($taskProviderList as $taskProvider)
+         foreach($taskProviderList as $taskProviderName)
          {
-            $taskProviderDescriptionList[] = $taskProvider->getShortDesc();
+            $taskProviderReflection = new ReflectionClass($taskProviderName);
+            $taskProviderDescriptionList[$taskProviderName] = $taskProviderReflection->newInstance()->getShortDesc();
          }
-         $selectedTaskProviderId = SchedulerManager::getUserOption("taskProvider", $_SESSION['userid'], $_SESSION['teamid']);
+         // Get selected scheduler task provider 
+         $selectedTaskProviderName = SchedulerManager::getUserOption("taskProvider", $_SESSION['userid'], $_SESSION['teamid']);
+         if(!in_array($selectedTaskProviderName, $taskProviderList))
+         {
+            $selectedTaskProviderName = $taskProviderList[0];
+         }
          
          
          
@@ -80,7 +86,7 @@ class SchedulerController extends Controller {
          $userList = SmartyTools::getSmartyArray($userList, null);
          $this->smartyHelper->assign("scheduler_userList", $userList);
          
-         $taskProviderDescriptionList = SmartyTools::getSmartyArray($taskProviderDescriptionList, $selectedTaskProviderId);
+         $taskProviderDescriptionList = SmartyTools::getSmartyArray($taskProviderDescriptionList, $selectedTaskProviderName);
          $this->smartyHelper->assign("scheduler_taskProviderList", $taskProviderDescriptionList);
       }
    }

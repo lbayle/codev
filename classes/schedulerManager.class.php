@@ -80,7 +80,7 @@ class SchedulerManager {
       
       $this->addHandlerTask();
       $this->schedulerTaskProvider = new SchedulerTaskProvider0();
-      $this->schedulerTaskProviderList = array(new SchedulerTaskProvider0(), new SchedulerTaskProvider());
+      $this->schedulerTaskProviderList = array("SchedulerTaskProvider0", "SchedulerTaskProvider");
    }
    
    public function init()
@@ -104,9 +104,10 @@ class SchedulerManager {
           }
        }
       $this->setTasks($timePerTask);
+      
       // Set task provider of scheduler manager
-      $taskProviderId = self::getUserOption("taskProvider", $this->user_id, $this->team_id);
-      $this->setTaskProvider($taskProviderId);
+      $taskProviderName = self::getUserOption("taskProvider", $this->user_id, $this->team_id);
+      $this->setTaskProvider($taskProviderName);
    }
    
    public function execute() {
@@ -244,12 +245,15 @@ class SchedulerManager {
       
    }
    
-   public function setTaskProvider($taskProviderId = null){
-      if(null == $taskProviderId)
+   public function setTaskProvider($taskProviderName = null){
+      if(!in_array($taskProviderName, $this->schedulerTaskProviderList))
       {
-         $taskProviderId = 0;
+         $taskProviderName = $this->schedulerTaskProviderList[0];
       }
-      $this->schedulerTaskProvider = $this->schedulerTaskProviderList[$taskProviderId];
+      
+      // Instantiate scheduler provider
+      $providerReflection = new ReflectionClass($taskProviderName); 
+      $this->schedulerTaskProvider = $providerReflection->newInstance();
    }
 
    /**
