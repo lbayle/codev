@@ -14,7 +14,7 @@
       <tbody>
          {foreach from=$scheduler_timePerUserPerTaskInfosList key=taskId item=$task}
          <tr class="scheduler_taskRow" data-taskId="{$taskId}">
-            <td class="ui-state-error-text pointer"><a class="ui-icon"></a></td>
+            <td class="ui-state-error-text pointer removeTaskAffectation"><a class="ui-icon"></a></td>
             
             <td><a href="reports/issue_info.php?bugid={$taskId}">{$taskId}</a></td>
             <td class="summaryTableTaskDisplay pointer"><img src="images/b_goto.png"></td>
@@ -46,5 +46,56 @@
       // Trigger change event on task list to update
       taskList.trigger("change");
    });
+   
+   // On remove button click
+$(".removeTaskAffectation").on("click", function(){
+   var parentRow = jQuery(this).parent("tr.scheduler_taskRow");
+   var taskId = parentRow.attr("data-taskId");
+
+   jQuery.ajax({ 
+      url: 'reports/scheduler_ajax.php',
+      async:false,
+      data: {
+         action: 'setTaskUserList',
+         taskId: taskId,
+         taskUserList: "",
+      },
+      type: 'post',
+      success: function(data) {
+         data = JSON.parse(data);
+         
+         if(null != data['scheduler_summaryTableHTML'])
+         {
+           setTimePerUsersPerTaskSummaryTable(data['scheduler_summaryTableHTML']);
+         }
+         
+         var messageSaveContainer = jQuery(".scheduler_messageSave");
+         if(null != data["scheduler_message"])
+         {
+            if("SUCCESS" == data["scheduler_status"])
+            {
+               messageSaveContainer.removeClass("error_font");
+               messageSaveContainer.addClass("success_font");
+               messageSaveContainer.text(data["scheduler_message"]);
+            }
+            else
+            {
+               messageSaveContainer.removeClass("success_font");
+               messageSaveContainer.addClass("error_font");
+               messageSaveContainer.text(data["scheduler_message"]);
+            }
+         }
+         else
+         {
+            console.log("error : no message received from server");
+         }
+         
+      },
+      error: function(errormsg) {
+         console.log(errormsg);
+      }
+   });
+});
+
    
 </script>

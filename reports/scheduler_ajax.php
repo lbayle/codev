@@ -246,24 +246,33 @@ function setTimePerUserList() {
    $usersTimeList = json_decode(stripslashes($usersTimeList), true);
    
    if(null != $taskId) {
-      if(null != $usersTimeList) {
-         foreach($usersTimeList as $userTime) {
+      $taskSummary = IssueCache::getInstance()->getIssue($taskId)->getSummary();
+      
+      // If list of user exist => we add users to task
+      if(null != $usersTimeList) 
+      {
+         foreach($usersTimeList as $userTime) 
+         {
             $taskUserList[$userTime['userId']] = $userTime['userTime'];
          }
          $uptadeSuccessful = SchedulerManager::updateTimePerUserListOfTask($taskId, $taskUserList, $_SESSION['userid'], $_SESSION['teamid']);
          
+         $data['scheduler_message'] = T_("Users have been affected to task : ") . $taskSummary;
       }
-      else
+      else // If list of user doesn't exist => we remove users to task
       {
-//         $SchedAjaxLogger->error('---------- task ----------');
-//         $SchedAjaxLogger->error($taskId);
          $uptadeSuccessful = SchedulerManager::removeTimePerUserOfTask($taskId, $_SESSION['userid'], $_SESSION['teamid']);
+         
+         $data['scheduler_message'] = T_("Users have been remove from task : ") . $taskSummary;
       }
       
       if($uptadeSuccessful) {
+         
          $data['scheduler_status'] = "SUCCESS";
+         
       } else {
          $data['scheduler_status'] = T_("Invalid modifications");
+         $data['scheduler_message'] = T_("Invalid modifications");
       }
    }
    return $data;

@@ -208,6 +208,7 @@
    };
 
    $( "#tabsScheduler" ).on( "tabscreate", function( event, ui ) {
+      initSchedulerAffectations();
       initSchedulerOptions();
       createSchedulerTable(false);
    });

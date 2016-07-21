@@ -1,4 +1,22 @@
-function initSchedulerOptions(){
+
+/**
+* Set summary table
+* @param {html} timePerUserPerTaskHTML : table in html
+* @returns {undefined}
+*/
+function setTimePerUsersPerTaskSummaryTable(timePerUserPerTaskHTML)
+{
+   var timePerUserPerTaskSummary = jQuery(".scheduler_timePerUsersPerTaskSummary");
+   timePerUserPerTaskSummary.empty();
+   timePerUserPerTaskSummary.html(timePerUserPerTaskHTML);
+}
+
+
+/**
+ * Initialize scheduler affectations tab
+ * @returns {undefined}
+ */
+function initSchedulerAffectations(){
    
    
    
@@ -326,17 +344,7 @@ function initSchedulerOptions(){
       checkRegexp($(input), /^[0-9]+(\.[0-9][0-9]?5?)?$/i, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
    }
    
-   /**
-    * Set summary table
-    * @param {html} timePerUserPerTaskHTML : table in html
-    * @returns {undefined}
-    */
-   function setTimePerUsersPerTaskSummaryTable(timePerUserPerTaskHTML)
-   {
-      var timePerUserPerTaskSummary = jQuery(".scheduler_timePerUsersPerTaskSummary");
-      timePerUserPerTaskSummary.empty();
-      timePerUserPerTaskSummary.html(timePerUserPerTaskHTML);
-   }
+   
    
    
    
@@ -444,17 +452,24 @@ function initSchedulerOptions(){
             success: function(data) {
                data = JSON.parse(data);
                var messageSaveContainer = jQuery(".scheduler_messageSave");
-               if("SUCCESS" == data["scheduler_status"])
+               if(null != data["scheduler_message"])
                {
-                  messageSaveContainer.removeClass("error_font");
-                  messageSaveContainer.addClass("success_font");
-                  messageSaveContainer.text("{t}Users have been affected to task{/t}: " + selectedTaskSummary);
+                  if("SUCCESS" == data["scheduler_status"])
+                  {
+                     messageSaveContainer.removeClass("error_font");
+                     messageSaveContainer.addClass("success_font");
+                     messageSaveContainer.text(data["scheduler_message"]);
+                  }
+                  else
+                  {
+                     messageSaveContainer.removeClass("success_font");
+                     messageSaveContainer.addClass("error_font");
+                     messageSaveContainer.text(data["scheduler_message"]);
+                  }
                }
                else
                {
-                  messageSaveContainer.removeClass("success_font");
-                  messageSaveContainer.addClass("error_font");
-                  messageSaveContainer.text(data["scheduler_status"]);
+                  console.log("error : no message received from server");
                }
                
                if(null != data['scheduler_summaryTableHTML'])
@@ -470,28 +485,35 @@ function initSchedulerOptions(){
       }
       
    });
-   
-   
+
+}
+
+
+
+/**
+ * Initialize scheduler options
+ * @returns {undefined}
+ */
+function initSchedulerOptions(){
    // On save options Button click
    jQuery("#tabsScheduler_tabOptions .scheduler_saveOptionsButton").on("click", function(){
-      
+
       var taskProviderId = jQuery("#tabsScheduler_tabOptions .scheduler_taskProvider:checked").val();
 
-      
-      jQuery.ajax({ 
-            url: 'reports/scheduler_ajax.php',
-            async:false,
-            data: {
-               action: 'setOptions',
-               taskProvider: taskProviderId,
-            },
-            type: 'post',
-            success: function(data) {
-            },
-            error: function(errormsg) {
-               console.log(errormsg);
-            }
-         });
-   });
 
+      jQuery.ajax({ 
+         url: 'reports/scheduler_ajax.php',
+         async:false,
+         data: {
+            action: 'setOptions',
+            taskProvider: taskProviderId,
+         },
+         type: 'post',
+         success: function(data) {
+         },
+         error: function(errormsg) {
+            console.log(errormsg);
+         }
+      });
+   });
 }
