@@ -13,7 +13,7 @@
       </thead>
       <tbody>
          {foreach from=$scheduler_timePerUserPerTaskInfosList key=taskId item=$task}
-         <tr class="scheduler_taskRow" data-taskId="{$taskId}">
+         <tr class="scheduler_taskRow" data-taskId="{$taskId}" data-projectId="{$task.projectId}">
             <td class="ui-state-error-text pointer removeTaskAffectation"><a class="ui-icon"></a></td>
             
             <td><a href="reports/issue_info.php?bugid={$taskId}">{$taskId}</a></td>
@@ -37,14 +37,29 @@
 <script src="js_min/datatable.min.js" type="text/javascript"></script>
 
 <script>
+   // On display task button click
    jQuery(".summaryTableTaskDisplay").on("click", function(){
       var taskId = jQuery(this).parent(".scheduler_taskRow").attr("data-taskId");
+      var projectId = jQuery(this).parent(".scheduler_taskRow").attr("data-projectId");
       var taskList = jQuery("select.scheduler_taskList");
-
-      // Select task
-      taskList.val(taskId);
-      // Trigger change event on task list to update
-      taskList.trigger("change");
+      var projectList = jQuery("select.scheduler_projectList");
+      
+      // If clicked task exist in select list
+      if(null != taskList.find("option[value=" + taskId + "]").val())
+      {
+         // Select task
+         taskList.val(taskId);
+         // Trigger change event on task list to update
+         taskList.trigger("change");
+      }
+      else
+      {
+         projectList.val(projectId);
+         projectList.trigger("change");
+         taskList.val(taskId);
+         taskList.trigger("change");
+      }
+      
    });
    
    // On remove button click

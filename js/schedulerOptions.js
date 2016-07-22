@@ -11,6 +11,38 @@ function setTimePerUsersPerTaskSummaryTable(timePerUserPerTaskHTML)
    timePerUserPerTaskSummary.html(timePerUserPerTaskHTML);
 }
 
+/**
+* Set the task select list
+* @param {type} taskList : [id => name]
+* @returns {undefined}
+*/
+function setTaskSelectList(taskList)
+{
+   var taskSelectList = jQuery("select.scheduler_taskList");
+   // Disable select2 to update list
+   taskSelectList.select2("destroy");
+
+   taskSelectList.empty();
+
+   // Set unselected user list
+   if(null != taskList)
+   {
+      for(var taskId in taskList)
+      {
+         var taskOption = document.createElement("option");
+         taskOption.setAttribute("value", taskId);
+         taskOption.innerHTML = taskList[taskId];
+
+         // Add element to select list
+         taskSelectList.append(taskOption);
+      }
+      taskSelectList.trigger("change");
+   }
+
+   // Enable select2 to update list
+   taskSelectList.select2();
+}
+
 
 /**
  * Initialize scheduler affectations tab
@@ -348,7 +380,45 @@ function initSchedulerAffectations(){
    
    
    
+   
+   
+   
+   
    // ================ Events ================
+   
+   
+   // On change in the project list
+   jQuery(".scheduler_projectList").on("change", function(){
+      var selectedProjectId = jQuery("select.scheduler_projectList option:selected").val();
+      
+      if("" != selectedProjectId)
+      {
+
+         // Get tasks
+         jQuery.ajax({ 
+            url: 'reports/scheduler_ajax.php',
+            async:false,
+            data: {
+               action: 'getTaskList',
+               projectId: selectedProjectId,
+            },
+            type: 'post',
+            success: function(data) {
+               data = JSON.parse(data);
+               
+               if(null != data["scheduler_taskList"])
+               {
+                  setTaskSelectList(data["scheduler_taskList"]);
+               }
+               
+
+            },
+            error: function(errormsg) {
+               console.log(errormsg);
+            }
+         });
+      }
+   });
    
    
    // On change in the task list
@@ -499,7 +569,8 @@ function initSchedulerOptions(){
    jQuery("#tabsScheduler_tabOptions .scheduler_saveOptionsButton").on("click", function(){
 
       var taskProviderId = jQuery("#tabsScheduler_tabOptions .scheduler_taskProvider:checked").val();
-
+      var displayableInfo = jQuery("#tabsScheduler_tabOptions .scheduler_displayableInfo:checked").val();
+      this.disabled = true;
 
       jQuery.ajax({ 
          url: 'reports/scheduler_ajax.php',
@@ -507,13 +578,37 @@ function initSchedulerOptions(){
          data: {
             action: 'setOptions',
             taskProvider: taskProviderId,
+            displayableInfo: displayableInfo
          },
          type: 'post',
          success: function(data) {
+            data = JSON.parse(data);
+            var messageSaveOptionsContainer = jQuery(".scheduler_messageSaveOptions");
+            if("SUCCESS" == data["scheduler_status"])
+            {
+               messageSaveOptionsContainer.removeClass("error_font");
+               messageSaveOptionsContainer.addClass("success_font");
+               messageSaveOptionsContainer.text(data["scheduler_message"]);
+            }
+            else
+            {
+               messageSaveOptionsContainer.removeClass("success_font");
+               messageSaveOptionsContainer.addClass("error_font");
+               messageSaveOptionsContainer.text(data["scheduler_message"]);
+            }
          },
          error: function(errormsg) {
             console.log(errormsg);
          }
       });
+   });
+   
+   // On option element change
+   jQuery(".scheduler_optionElement").on("change", function(){
+      // Clear update message
+      var messageSaveOptionsContainer = jQuery(".scheduler_messageSaveOptions");
+      messageSaveOptionsContainer.empty();
+      var saveOptionButton = jQuery("#tabsScheduler_tabOptions .scheduler_saveOptionsButton");
+      saveOptionButton.prop("disabled", false);
    });
 }

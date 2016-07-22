@@ -538,3 +538,8 @@ ul.submenu ul {
 {
     margin: 10px 0px;
 }
+
+.vertical-middle
+{
+   vertical-align: middle;
+}

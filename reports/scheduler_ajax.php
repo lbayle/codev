@@ -37,6 +37,9 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
       case 'getProjection':
          getProjection();
          break;
+      case 'getTaskList':
+         getTaskList();
+         break;
       case 'setTaskUserList':
          $data = setTimePerUserList();
          getAllTaskUserList($data);
@@ -227,6 +230,42 @@ function getProjection() {
    }
 }
 
+
+/**
+ * Get task list according to selected project
+ */
+function getTaskList()
+{
+   global $SchedAjaxLogger;
+   
+   $projectId = Tools::getSecurePOSTStringValue('projectId');
+   
+   if(null != $projectId)
+   {
+      $project = ProjectCache::getInstance()->getProject($projectId);
+      $taskList = $project->getIssues();
+   }
+   
+   // Set task id list
+   foreach($taskList as $key => $task)
+   {
+      $statusThreshold = $task->getBugResolvedStatusThreshold();
+      $status = $task->getStatus();
+
+      if($status < $statusThreshold){
+         if(0 < $task->getEffortEstim())
+         {
+            $taskIdList[$key] = $task->getSummary();
+         }
+      }
+   }
+   
+   $data['scheduler_taskList'] = $taskIdList;
+   
+   $jsonData = json_encode($data);
+   echo $jsonData;
+}
+
 //function setTimeDefaultHandler(){
 //   global $SchedAjaxLogger;
 //   foreach()
@@ -300,13 +339,14 @@ function getAllTaskUserList($data = false)
          $taskInfos = IssueCache::getInstance()->getIssue($taskIdKey);
          $taskSummary = $taskInfos->getSummary();
          $taskExternalReference = $taskInfos->getTcId();
+         $projectId = $taskInfos->getProjectId();
 
          foreach($timePerUserList as $userIdKey => $time) {
             $userName = UserCache::getInstance()->getUser($userIdKey)->getName();
             $timePerUserPerTaskLibelleList[$taskIdKey]['users'][$userName] = $time;
             $timePerUserPerTaskLibelleList[$taskIdKey]['summary'] = $taskSummary;
             $timePerUserPerTaskLibelleList[$taskIdKey]['externalReference'] = $taskExternalReference;
-            
+            $timePerUserPerTaskLibelleList[$taskIdKey]['projectId'] = $projectId;
          }
       }
    }
@@ -415,8 +455,17 @@ function setOptions()
    global $SchedAjaxLogger;
    
    $taskProviderId = Tools::getSecurePOSTStringValue('taskProvider');
-   
+   $displayableInfo = Tools::getSecurePOSTStringValue('displayableInfo');
+
    SchedulerManager::setUserOption(SchedulerManager::OPTION_taskProvider, $taskProviderId, $_SESSION['userid'], $_SESSION['teamid']);
+   SchedulerManager::setUserOption(SchedulerManager::OPTION_displayedInfo, $displayableInfo, $_SESSION['userid'], $_SESSION['teamid']);
+   
+   $data['scheduler_status'] = "SUCCESS";
+   $data['scheduler_message'] = T_("Options saved successfully");
+   
+   // return data (just an integer value)
+   $jsonData = json_encode($data);
+   echo $jsonData;
 }
 
 //$_SESSION['tasksUserList']['id_de_tache']['id_du_user'] = temps_du_user

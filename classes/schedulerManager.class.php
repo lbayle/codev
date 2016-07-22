@@ -20,6 +20,7 @@ class SchedulerManager {
 
    const OPTION_timePerTaskPerUser = 'timePerTaskPerUser';
    const OPTION_taskProvider       = 'taskProvider';
+   const OPTION_displayedInfo      = 'displayedInfo';
    const OPTION_isDisplayExtRef    = 'isDisplayExtRef';
    const OPTION_nbDaysForecast     = 'nbDaysForecast';
 
@@ -75,6 +76,20 @@ class SchedulerManager {
     * @var array of SchedulerTaskProviderAbstract
     */
    private $schedulerTaskProviderList;
+   
+   /**
+    * Displayed task info 
+    * The information which is displayed for task affectation on planning
+    * For exemple : taskId
+    * @var type 
+    */
+   private $schedulerDisplayedInfo;
+   
+   /**
+    * List of displayable task info
+    * @var type 
+    */
+   private $schedulerDisplayableInfoList;
 
    private $data = array();
 
@@ -85,6 +100,10 @@ class SchedulerManager {
       
       $this->addHandlerTask();
       $this->schedulerTaskProviderList = array("SchedulerTaskProvider0", "SchedulerTaskProvider");
+      $this->schedulerDisplayableInfoList = array(
+          "taskId" => T_("Task Id"), 
+          "externalReference" => T_("External Reference")
+      );
    }
    
    public function init()
@@ -112,6 +131,10 @@ class SchedulerManager {
       // Set task provider of scheduler manager
       $taskProviderName = self::getUserOption(self::OPTION_taskProvider, $this->user_id, $this->team_id);
       $this->setTaskProvider($taskProviderName);
+      
+      // Set displayed info of scheduler manager
+      $displayedInfoName = self::getUserOption(self::OPTION_displayedInfo, $this->user_id, $this->team_id);
+      $this->setDisplayedOption($displayedInfoName);
    }
    
    public function execute() {
@@ -249,6 +272,10 @@ class SchedulerManager {
       
    }
    
+   /**
+    * Set task provider of scheduler manager
+    * @param type $taskProviderName
+    */
    public function setTaskProvider($taskProviderName = null){
       if(!in_array($taskProviderName, $this->schedulerTaskProviderList))
       {
@@ -259,6 +286,21 @@ class SchedulerManager {
       // Instantiate scheduler provider
       $providerReflection = new ReflectionClass($taskProviderName); 
       $this->schedulerTaskProvider = $providerReflection->newInstance();
+   }
+   
+   /**
+    * Set displayed info of scheduler manager
+    * @param type $displayedInfoName
+    */
+   public function setDisplayedOption($displayedInfoName = null)
+   {
+      if(!array_key_exists($displayedInfoName, $this->schedulerDisplayableInfoList))
+      {
+         // Select first element of array
+         reset($this->schedulerDisplayableInfoList);
+         $displayedInfoName = key($this->schedulerDisplayableInfoList);
+      }
+      $this->schedulerDisplayedInfo = $displayedInfoName;
    }
 
    /**
@@ -572,6 +614,10 @@ class SchedulerManager {
    
    public function getSchedulerTaskProviderList(){
       return $this->schedulerTaskProviderList;
+   }
+   
+   public function getDisplayableTaskInfoList(){
+      return $this->schedulerDisplayableInfoList;
    }
    
    /**
