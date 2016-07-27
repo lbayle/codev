@@ -118,7 +118,13 @@ class CommandProvision {
       $budgetDays_cent = floatval($budget_days) * 100; // store 1.15 days in an int
       $adr_cent = floatval($average_daily_rate) * 100;
       $formattedIsInCheckBudget = $isInCheckBudget ? 1 : 0;
-      $summary = str_replace("'", "''", $summary);
+      $summary = SqlWrapper::getInstance()->sql_real_escape_string($summary);
+
+      if (FALSE === $provSummary){
+         throw new Exception("La description comporte des erreurs");
+      }
+
+      //$summary = str_replace("'", "''", $summary);
       $query = "INSERT INTO `codev_command_provision_table` ".
               " (`command_id`, `date`, `type`, `budget_days`, `budget`, `average_daily_rate`, `currency`, `summary`, `is_in_check_budget` ";
       if(!is_null($description)) { $query .= ", `description`"; }
@@ -145,6 +151,22 @@ class CommandProvision {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
+   }
+
+   /**
+    *
+    * @param type $typeName
+    * @return int type_id   or FALSE if not found
+    */
+   public static function getProvisionTypeidFromName($typeName) {
+
+      self::$provisionNames;
+      $typeId = array_search ( $typeName , self::$provisionNames );
+
+      if (FALSE === $typeId) {
+         self::$logger->error("Provision type '$typeName' does not Exist !");
+      }
+      return $typeId;
    }
 
    public function getDate() {
