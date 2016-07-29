@@ -41,70 +41,75 @@ class SchedulerController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
-         $team = TeamCache::getInstance()->getTeam($this->teamid);
-         $projectList = $team->getProjects(false, false, false);
-         $taskList = $team->getTeamIssueList(false, false);
-         $userList = $team->getActiveMembers();
-         $schedulerManager = new SchedulerManager();
-         
-         
-         // Set task id list
-         $taskIdList[null] = T_("Select a task");
-         foreach($taskList as $key => $task)
-         {
-            $statusThreshold = $task->getBugResolvedStatusThreshold();
-            $status = $task->getStatus();
-            
-            if($status < $statusThreshold){
-               if(0 < $task->getEffortEstim())
-               {
-                  $taskIdList[$key] = $task->getSummary();
+         // only teamMembers & observers can access this page
+         if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+         } else {
+            $team = TeamCache::getInstance()->getTeam($this->teamid);
+            $projectList = $team->getProjects(false, false, false);
+            $taskList = $team->getTeamIssueList(false, false);
+            $userList = $team->getActiveMembers();
+            $schedulerManager = new SchedulerManager();
+
+
+            // Set task id list
+            $taskIdList[null] = T_("Select a task");
+            foreach($taskList as $key => $task)
+            {
+               $statusThreshold = $task->getBugResolvedStatusThreshold();
+               $status = $task->getStatus();
+
+               if($status < $statusThreshold){
+                  if(0 < $task->getEffortEstim())
+                  {
+                     $taskIdList[$key] = $task->getSummary();
+                  }
                }
             }
+
+
+            // Get scheduler task provider list
+            $taskProviderList = $schedulerManager->getSchedulerTaskProviderList();
+            $taskProviderDescriptionList = null;
+            foreach($taskProviderList as $taskProviderName)
+            {
+               $taskProviderReflection = new ReflectionClass($taskProviderName);
+               $taskProviderDescriptionList[$taskProviderName] = $taskProviderReflection->newInstance()->getShortDesc();
+            }
+            // Get selected scheduler task provider 
+            $selectedTaskProviderName = SchedulerManager::getUserOption(SchedulerManager::OPTION_taskProvider, $_SESSION['userid'], $_SESSION['teamid']);
+            if(!in_array($selectedTaskProviderName, $taskProviderList))
+            {
+               $selectedTaskProviderName = $taskProviderList[0];
+            }
+
+
+            // Get displayed info list
+            $displayableInfoList = $schedulerManager->getDisplayableTaskInfoList();
+            $selectedDisplayableInfo = SchedulerManager::getUserOption(SchedulerManager::OPTION_displayedInfo, $_SESSION['userid'], $_SESSION['teamid']);
+            if(!array_key_exists($selectedDisplayableInfo, $displayableInfoList))
+            {
+               // Select first element of array
+               reset($displayableInfoList);
+               $selectedDisplayableInfo = key($displayableInfoList);
+            }
+
+
+            $projectList = SmartyTools::getSmartyArray($projectList, null);
+            $this->smartyHelper->assign("scheduler_projectList", $projectList);
+
+            $taskIdList = SmartyTools::getSmartyArray($taskIdList, null);
+            $this->smartyHelper->assign("scheduler_taskList", $taskIdList);
+
+            $userList = SmartyTools::getSmartyArray($userList, null);
+            $this->smartyHelper->assign("scheduler_userList", $userList);
+
+            $taskProviderDescriptionList = SmartyTools::getSmartyArray($taskProviderDescriptionList, $selectedTaskProviderName);
+            $this->smartyHelper->assign("scheduler_taskProviderList", $taskProviderDescriptionList);
+
+            $displayableInfoList = SmartyTools::getSmartyArray($displayableInfoList, $selectedDisplayableInfo);
+            $this->smartyHelper->assign("scheduler_displayableInfoList", $displayableInfoList);
          }
-         
-         
-         // Get scheduler task provider list
-         $taskProviderList = $schedulerManager->getSchedulerTaskProviderList();
-         $taskProviderDescriptionList = null;
-         foreach($taskProviderList as $taskProviderName)
-         {
-            $taskProviderReflection = new ReflectionClass($taskProviderName);
-            $taskProviderDescriptionList[$taskProviderName] = $taskProviderReflection->newInstance()->getShortDesc();
-         }
-         // Get selected scheduler task provider 
-         $selectedTaskProviderName = SchedulerManager::getUserOption(SchedulerManager::OPTION_taskProvider, $_SESSION['userid'], $_SESSION['teamid']);
-         if(!in_array($selectedTaskProviderName, $taskProviderList))
-         {
-            $selectedTaskProviderName = $taskProviderList[0];
-         }
-         
-         
-         // Get displayed info list
-         $displayableInfoList = $schedulerManager->getDisplayableTaskInfoList();
-         $selectedDisplayableInfo = SchedulerManager::getUserOption(SchedulerManager::OPTION_displayedInfo, $_SESSION['userid'], $_SESSION['teamid']);
-         if(!array_key_exists($selectedDisplayableInfo, $displayableInfoList))
-         {
-            // Select first element of array
-            reset($displayableInfoList);
-            $selectedDisplayableInfo = key($displayableInfoList);
-         }
-         
-         
-         $projectList = SmartyTools::getSmartyArray($projectList, null);
-         $this->smartyHelper->assign("scheduler_projectList", $projectList);
-         
-         $taskIdList = SmartyTools::getSmartyArray($taskIdList, null);
-         $this->smartyHelper->assign("scheduler_taskList", $taskIdList);
-         
-         $userList = SmartyTools::getSmartyArray($userList, null);
-         $this->smartyHelper->assign("scheduler_userList", $userList);
-         
-         $taskProviderDescriptionList = SmartyTools::getSmartyArray($taskProviderDescriptionList, $selectedTaskProviderName);
-         $this->smartyHelper->assign("scheduler_taskProviderList", $taskProviderDescriptionList);
-         
-         $displayableInfoList = SmartyTools::getSmartyArray($displayableInfoList, $selectedDisplayableInfo);
-         $this->smartyHelper->assign("scheduler_displayableInfoList", $displayableInfoList);
       }
    }
    

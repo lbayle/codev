@@ -584,16 +584,17 @@ class SchedulerManager {
    private function addHandlerTask() {
       $team = TeamCache::getInstance()->getTeam($this->team_id);
       $issueList = $team->getCurrentIssueList(false, true, false);
+      if(null != $issueList){
+         foreach($issueList as $bugid => $issue) {
+            $handlerId = $issue->getHandlerId();
 
-      foreach($issueList as $bugid => $issue) {
-         $handlerId = $issue->getHandlerId();
-
-         // duration is the Backlog of the task, or if not set, the MAX(EffortEstim, mgrEffortEstim)
-         $duration = $issue->getDuration();
-         if(0 < $duration) {
-            $this->todoTaskIdList[$bugid] = $duration;
-            $this->userTaskList[$handlerId][$bugid] = $duration;
-            $this->userCursorList[$handlerId] = null;
+            // duration is the Backlog of the task, or if not set, the MAX(EffortEstim, mgrEffortEstim)
+            $duration = $issue->getDuration();
+            if(0 < $duration) {
+               $this->todoTaskIdList[$bugid] = $duration;
+               $this->userTaskList[$handlerId][$bugid] = $duration;
+               $this->userCursorList[$handlerId] = null;
+            }
          }
       }
    }

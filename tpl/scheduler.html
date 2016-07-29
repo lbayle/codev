@@ -29,7 +29,7 @@
    }
    
 </style>
-
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
 <div id="loading">
    <img src="images/giantSpinner.gif">
 </div>
@@ -203,7 +203,9 @@
       </div>
    </div>
 </div>
-
+{else}
+<p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
+{/if}
 
 <script src="js/scheduler.js" type="text/javascript"></script>
 <script src="js/schedulerOptions.js" type="text/javascript"></script>
