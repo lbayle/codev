@@ -455,7 +455,7 @@
       }
 
       function checkStatus(oBacklog, oMsgLabel) {
-         if ((currentStatus < bugResolvedStatusThreshold) && (0 == oBacklog.val())) {
+         if ((currentStatus < bugResolvedStatusThreshold) && (currentStatus > bugStatusNew) && (0 == oBacklog.val())) {
             oBacklog.addClass("ui-state-error");
             oMsgLabel.text("{t}Task not resolved, backlog cannot be '0'{/t}");
             return false;
@@ -467,7 +467,7 @@
          }
          if ((currentStatus == bugStatusNew) && (0 < oBacklog.val())) {
             oBacklog.addClass("ui-state-error");
-            oMsgLabel.text("{t}Status can't be : {/t}" + statusNameNew);
+            oMsgLabel.text("{t}Backlog should not be set if status is : {/t}" + statusNameNew);
             return false;
          }
          return true;
@@ -483,8 +483,12 @@
          bValid = bValid && checkRegexp(fut_issueMgrEffortEstim, /^[0-9]+(\.[0-9][0-9]?5?)?$/i, fut_validateTips, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
          {/if}
          bValid = bValid && checkRegexp(fut_issueEffortEstim, /^[0-9]+(\.[0-9][0-9]?5?)?$/i, fut_validateTips, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
-         bValid = bValid && checkRegexp(fut_backlog, /^[0-9]+(\.[0-9][0-9]?5?)?$/i, fut_validateTips, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
          bValid = bValid && checkStatus(fut_backlog, fut_validateTips);
+
+         // backlog should not be set, if status is 'New'
+         if ((currentStatus > bugStatusNew) && (null != fut_backlog.val())) {
+            bValid = bValid && checkRegexp(fut_backlog, /^[0-9]+(\.[0-9][0-9]?5?)?$/i, fut_validateTips, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
+         }
          return bValid;
       }
 

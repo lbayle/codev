@@ -189,7 +189,14 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
    } else if ('updateTimetracking' == $action) {
       $bugid             = Tools::getSecureGETIntValue('bugid');
       $newEffortEstim    = Tools::getSecureGETNumberValue('fut_issueEffortEstim');
-      $newBacklog        = Tools::getSecureGETNumberValue('fut_backlog');
+
+      // newBacklog can be NULL (empty string) if status == 'New'
+      $newBacklog        = filter_input(INPUT_GET, 'fut_backlog');
+      if ( ('' !== $newBacklog) && (!is_numeric($newBacklog))) {
+         self::sendBadRequest('Attempt to set non_numeric value ('.$newBacklog.') for fut_backlog');
+         die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+      }
+
       $userid = $_SESSION['userid'];
       $teamid = $_SESSION['teamid'];
       try {
