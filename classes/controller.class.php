@@ -62,6 +62,9 @@ abstract class Controller {
          }
          $this->smartyHelper->assign('teamid', $this->teamid);
 
+         $team = TeamCache::getInstance()->getTeam($this->teamid);
+         $this->smartyHelper->assign('teamName', $team->getName());
+
          $this->session_userid = $_SESSION['userid'];
          $this->session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
          $this->teamList = $this->session_user->getTeamList();
