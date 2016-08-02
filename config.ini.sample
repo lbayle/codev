@@ -75,14 +75,16 @@ task_duration_list = "1:1,0.9:0.9,0.8:0.8,0.75:0.75,0.7:0.7,0.6:0.6,0.5:0.5,0.4:
 check_latest_version = 1
 
 [dashboardDefaultPlugins]
+;Homepage = "BlogPlugin"
 ;User = ""
 ;Task = ""
 ;Project = ""
-Admin = "TimetrackDetailsIndicator"
 Team = "AvailableWorkforceIndicator"
 Command = "LoadPerUserIndicator,ProgressHistoryIndicator2"
 CommandSet = "LoadPerUserIndicator"
 ServiceContract = "LoadPerJobIndicator2,ProgressHistoryIndicator2,EffortEstimReliabilityIndicator2"
+Import_Export = "ImportIssueCsvBasic, ImportUsers"
+Admin = "TimetrackDetailsIndicator"
 
 [email]
 ; --- cronjob (every Friday at 2:00 AM):

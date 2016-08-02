@@ -102,13 +102,15 @@ class Constants {
       );
    
    // --- DASHBOARDS ---
-   // Note: keys are IndicatorPluginInterface::DOMAIN_XXX
+   // Note: keys defined in IndicatorPluginInterface::DOMAIN_XXX
    public static $dashboardDefaultPlugins = array (
-       'Admin' => array('TimetrackDetailsIndicator'),
+       //'Homepage' => array('BlogPlugin'),
        'Team' => array('AvailableWorkforceIndicator','LoadPerUserIndicator','LoadPerJobIndicator2'),
        'Command' => array('LoadPerUserIndicator','ProgressHistoryIndicator2'),
        'CommandSet' => array('LoadPerUserIndicator'),
        'ServiceContract' => array('LoadPerJobIndicator2','ProgressHistoryIndicator2','EffortEstimReliabilityIndicator2'),
+       'Import_Export' => array('ImportIssueCsvBasic', 'ImportUsers'),
+       'Admin' => array('TimetrackDetailsIndicator'),
    );
 
    // ---EMAIL---
