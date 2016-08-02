@@ -717,9 +717,7 @@ class Team extends Model {
                 exit;
             }
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
    }

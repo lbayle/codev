@@ -42,42 +42,31 @@
          </div>
          <div class="importUsers_HelpDialog ui-helper-hidden" title="{t}Time per status{/t}">
             <p>
-               <strong>{t}Description{/t}:</strong><br>
-               {t}Import users adding them to selected team and project team.{/t}
-               
+               <strong>{t}Description{/t}</strong><br>
+               - {t}Create Mantis users{/t}<br>
+               - {t}Add users to CodevTT team & projects{/t}<br>
+               <br>
+               {t}Only team-leaders & administrators are allowed to do this action.{/t}
             </p>
             <br>
             <p><strong>{t}File Format{/t}</strong><br />{t}Standard CSV format with :{/t}<br>
                {t}delimiter{/t} = <span style="color:blue">;</span><br>
-               {t}enclosure{/t} = <span style="color:blue">"</span><br>
-               {t}Date format{/t} = <span style="color:blue">YYY-MM-DD</span><br>
-               {t}Number format{/t} = <span style="color:blue">3.5</span> {t}or{/t} <span style="color:blue">3,5</span>
+               {t}Date format{/t} = <span style="color:blue">YYYY-MM-DD</span><br>
             </p>
             <br>
             <p>
-                <strong>{t}Before import{/t}:</strong><br>
-                {t}Select a team and a file with users information. Click on{/t}"{t}Display{/t}".
+                 <strong>{t}Options{/t}</strong><br>
+                <i>- {t}Send password by mail{/t}</i> : {t}Send a unique password per email to each user{/t}.<br>
+                <i>- {t}Generate password{/t}</i> : {t}Display a generated password (valid for all created users){/t}.
             </p>
+
             <br>
             <p>
-                {t}Users appears on a table. <span class="warn_font">Users wich already exist</span> are colored. <br>
-                If you decide to import users which already exist, they will not be created but assigned to team and projects of team.{/t}
-            </p>
-            <br>
-            <p>
-                <strong>{t}Options{/t}:</strong><br>
-                <i>- {t}Send password by mail{/t}</i> : {t}send by mail a different password to each user{/t}.<br>
-                <i>- {t}Generate password{/t}</i> : {t}generate a common password for every users and display it when import is done{/t}.
-            </p>
-            <br>
-            <br>
-            <p>
-                <strong>{t}After import{/t}:</strong><br>
-                {t}When you import users, <span class="success_font">username, codevTT role and project access level</span> are colored except{/t} :<br>
-                {t}- If user can't be created (ex : already exists), <span class="warn_font">username</span> is colored{/t}<br>
-                {t}- If user can't be added to team (ex : already belong to team), <span class="error_font">codevTT role</span> is colored{/t}<br>
-                {t}- If user already belong to team, <span class="warn_font">codevTT role</span> is colored{/t}<br>
-                {t}- If user can't be affected to project team (ex : already affected to project), <span class="warn_font">project access level</span> is colored{/t}
+                <strong>{t}Colors{/t}</strong><br>
+                <span class="warn_font">{t}username{/t}</span> : {t}User already exists{/t}<br>
+                <span class="warn_font">{t}project access level{/t}</span> : {t}User can't be added to mantis projects{/t}<br>
+                <span class="warn_font">{t}codevTT role{/t}</span> : {t}User already belong to this team{/t}<br>
+                <span class="error_font">{t}codevTT role{/t}</span> : {t}User can't be added to this team{/t}<br>
             </p>
          </div>
          <div class="ui-helper-clearfix"></div>

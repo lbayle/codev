@@ -41,7 +41,7 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
         Tools::sendBadRequest("PluginDataProvider unserialize error");
     }
 
-    if ('uploadCsvFile' === $action) { // Upload file
+    if ('uploadCsvFile' === $action) {
         $smartyHelper = new SmartyHelper();
         $selectedTeamId = Tools::getSecurePOSTIntValue('teamId');
         $filename = null;
@@ -127,27 +127,26 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
         // return data
         $jsonData = json_encode($data);
         echo $jsonData;
-    } else if ("importRow" == $action) { // Import
+    } else if ("importRow" == $action) {
         $password = null;
         $usersStatus = [];
 
         $selectedTeamId = Tools::getSecurePOSTStringValue('teamId');
         $passwordByMail = Tools::getSecurePOSTStringValue('passwordByMail');
 
-        $users = Tools::getSecurePOSTStringValue('users');
-        $users = json_decode(stripslashes($users), true);
+        $usersStr = Tools::getSecurePOSTStringValue('users');
+        $users = json_decode(stripslashes($usersStr), true);
 
-        // If we don't send password by email, a unique password is generate for all users
+        // generated a common password for all users
+        $crypto = new Crypto();
         if ('0' == $passwordByMail) {
-            $crypto = new Crypto();
             $password = $crypto->crypto_generate_uri_safe_nonce(12);
         }
 
         foreach ($users as $userData) {
             $userStatus['lineNum'] = $userData['lineNum'];
-            // If we send password by email, a password is generate for each user
             if ('1' == $passwordByMail) {
-                $crypto = new Crypto();
+               // generated a unique password per user
                 $password = $crypto->crypto_generate_uri_safe_nonce(12);
             }
 
@@ -158,28 +157,23 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             try {
                 User::createUserInMantisDB($userData['username'], $realName, $userData['email'], $password, 25, $userData['entryDate']);
                 if ('1' == $passwordByMail) {
-                    $email = new Email();
                     $message = T_('Dear ') . $realName . ",\n\n" .
                             T_('Here is your password for CodevTT and Mantis : ') . $password . " \n\n" .
                             T_('Please, change your password on your first connection.') . " \n\n" .
                             T_('Regards \n\n') .
                             T_('CodevTT Team');
-                    $email->sendEmail($realName, T_("[CodevTT] Your password"), $message);
+                    Email::getInstance()->sendEmail($realName, T_("[CodevTT] Your password"), $message);
                 }
             } catch (Exception $ex) {
                 $userStatus['creationFailed'] = true;
             }
 
-            // Check user existence
-            $userExist = User::exists($userData['username']);
-
-            // If user exist
-            if ($userExist) {
-                $userId = User::getUserId($userData['username']);
-                $user = UserCache::getInstance()->getUser($userId);
-
+            if (User::exists($userData['username'])) {
+                // Add user to CodevTT team
                 try {
-                    // Add user in codevTT team
+                    $userId = User::getUserId($userData['username']);
+                    $user = UserCache::getInstance()->getUser($userId);
+
                     $team = TeamCache::getInstance()->getTeam($selectedTeamId);
                     $memberAdded = $team->addMember($userId, $userData['entryDate'], $userData['codevTTRole']);
 
@@ -190,13 +184,12 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                     $userStatus['addToTeamFailed'] = true;
                 }
 
-                // Get team projects (no $noStatsProject, no $withDisabled, no $sideTasksProjects)
-                $projectsId = $team->getProjects(false, false, false);
-
-                if (null != $projectsId) {
+                // Affect team projects to user
+                $projectList = $team->getProjects(false, false, false);
+                if (0 != count($projectList)) {
                     try {
-                        foreach ($projectsId as $projectId => $projectName) {
-                            // Affect team projects to user
+                        foreach ($projectList as $projectId => $projectName) {
+                            // TODO: check projectAccessLevel is valid
                             $affectedToProject = $user->affectToProject($projectId, $userData['projectAccessLevel']);
                             if (!$affectedToProject) {
                                 $userStatus['addToProjectsFailed'] = true;
@@ -207,16 +200,11 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                     }
                 }
             }
-
             $usersStatus[] = $userStatus;
         }
 
-        if ('1' == $passwordByMail) {
-            $password = null;
-        }
-
         $data = array(
-            'importUsers_password' => $password,
+            'importUsers_password' => ('1' == $passwordByMail) ? null : $password,
             'importUsers_usersStatus' => $usersStatus
         );
         

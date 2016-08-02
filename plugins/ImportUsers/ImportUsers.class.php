@@ -284,13 +284,15 @@ class ImportUsers extends IndicatorPluginAbstract {
      *
      */
     public function execute() {
-        if (Tools::isConnectedUser()) {
-            
-            $this->execData['teams'] = Team::getTeams();
-            
-        }
 
-        return $this->execData;
+      if ($this->session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
+         // admins can edit any team
+         $this->execData['teams'] = Team::getTeams();
+      } else {
+         // only teamLeaders, not even managers
+         $this->execData['teams']  = $this->session_user->getLeadedTeamList();
+      }
+      return $this->execData;
     }
 
     /**
