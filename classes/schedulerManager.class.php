@@ -97,6 +97,16 @@ class SchedulerManager {
     */
    private $schedulerDisplayableInfoList;
 
+
+   /**
+    * keep task start & end dates for Gantt & activity colors
+    * bugid => array{ 'startTimestamp' = timestamp,
+    *                 'endTimestamp'   = timestamp}
+    *
+    * @var array of array
+    */
+   private $todoTaskDates = array();
+
    private $data = array();
 
    public function __construct() {
@@ -159,7 +169,14 @@ class SchedulerManager {
                      if (0 != $timeUsed) {
                         $userAvailableTime -= $timeUsed;
                         $endT = $midnightTimestamp + $timeUsed*86400; // 24*60*60 (day -> ms);
-                        $this->setTodoTaskIsLateList($endT, $nextTaskId);
+
+                        // store/update task dates
+                        if (!array_key_exists($nextTaskId, $this->todoTaskDates)) {
+                           $this->todoTaskDates[$nextTaskId] = array ('startTimestamp' => $midnightTimestamp,
+                                                                      'endTimestamp'   => $endT);
+                        } else {
+                           $this->todoTaskDates[$nextTaskId]['endTimestamp'] = $endT;
+                        }
 
                         // update latest activity or create a new one if different task
                         $prevActivity = $this->userLatestActivity[$userId];
@@ -211,39 +228,46 @@ class SchedulerManager {
       return $this->data;
    }
    
-//   private function setTaskListColor($taskId, $color){
-//      $this->todoTaskColorList[$taskId] = $color;
-//   }
-   
+  
    private function adjustColor(){
-     
+
+      $warnThreshold = 5 ; // TODO: set as option (5 days before deadline)
+
       foreach($this->data["activity"] as $key=>$data){
-        $taskId = $data["text"];
-        $deadline = IssueCache::getInstance()->getIssue($taskId)->getDeadLine();
-        $start_date = strtotime($data["start_date"]);
-        $end_date = strtotime($data["end_date"]);
         
-        //start date and end date < deadline date and task schedule to finish before deadline
-        if($start_date < $deadline && $end_date < $deadline && !$this->todoTaskIsLateList[$taskId]){
-           $this->data["activity"][$key]["color"] = "green";
+         $bugid = $data["text"]; // TODO Oh ! ca c'est moche !!! et si je change le texte !?! ca pete !!!!!!
+        $deadline = IssueCache::getInstance()->getIssue($bugid)->getDeadLine();
+
+        if (NULL == $deadline) {
+           // task has no deadline => light green
+           $this->data["activity"][$key]["color"] = 'lightgreen';
+           continue;
         }
-        
-         //start date and end date < deadline date but task schedule to finish after deadline
-        else if($start_date < $deadline && $end_date < $deadline && $this->todoTaskIsLateList[$taskId]){
-           $this->data["activity"][$key]["color"] = "#FFBA00";
-        }
-        
-        //start date < deadline and end date > deadline date and task schedule to finish after deadline
-        else if($start_date < $deadline && $end_date > $deadline && $this->todoTaskIsLateList[$taskId]){
-           $this->data["activity"][$key]["color"] = "#E88022";
-        }
-        
-        //start date and end date > deadline date and task schedule to finish after deadline
-        else if($start_date > $deadline && $end_date > $deadline && $this->todoTaskIsLateList[$taskId]){
-           $this->data["activity"][$key]["color"] = "#FF421F";
+
+        $warnline = strtotime('-'.$warnThreshold.' days', $deadline);  // n days before deadline
+        $activityEndDate = strtotime($data["end_date"]);
+        $taskEndTimestamp = $this->todoTaskDates[$bugid]['endTimestamp'];
+
+        if ($taskEndTimestamp > $deadline) {
+           // task is late, but:
+           if ($activityEndDate < $deadline) {
+              // this activity ends before deadline => light red
+              $this->data['activity'][$key]['color'] = '#FF816B';
+           } else {
+              // this activity ends after deadline => red
+              $this->data['activity'][$key]['color'] = '#FF421F';
+           }
+        } else {
+           // task is on time, but:
+           if ($taskEndTimestamp > $warnline) {
+              // task ends shortly before the deadline => orange
+              $this->data['activity'][$key]["color"] = '#FFBA00';
+           } else {
+              //  task is on time => green
+              $this->data['activity'][$key]["color"] = 'green';
+           }
         }
       }
-      
    }
 
    private function createBacklogData() {
@@ -327,25 +351,6 @@ class SchedulerManager {
       }
       $this->schedulerDisplayedInfo = $displayedInfoName;
    }
-
-   /**
-    * 
-    * @param int $midnightTimestamp
-    * @param int $taskId
-    * @return string
-    */
-   private function setTodoTaskIsLateList($midnightTimestamp, $taskId) {
-      $task = IssueCache::getInstance()->getIssue($taskId);
-      $deadline = $task->getDeadLine();
-      if (NULL == $deadline) {
-         $this->todoTaskIsLateList[$taskId] = false;
-      }
-      if ($midnightTimestamp < $deadline) {
-         $this->todoTaskIsLateList[$taskId] = false;
-      } else {
-         $this->todoTaskIsLateList[$taskId] = true;
-      }
-   }   
 
    /**
     * TODO : describe actions ...
