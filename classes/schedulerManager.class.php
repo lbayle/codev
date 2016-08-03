@@ -42,6 +42,12 @@ class SchedulerManager {
     * @var array[bugid] => duration
     */
    private $todoTaskIdList = array();
+   
+   /**
+    * Tasks to be planified
+    * @var array[bugid] => isLate
+    */
+   private $todoTaskIsLateList = array();
 
    /**
     * Scheduler settings allow to define the max time that
@@ -153,28 +159,25 @@ class SchedulerManager {
                      if (0 != $timeUsed) {
                         $userAvailableTime -= $timeUsed;
                         $endT = $midnightTimestamp + $timeUsed*86400; // 24*60*60 (day -> ms);
-                        $color = $this->getColor($endT, $nextTaskId);
+                        $this->setTodoTaskIsLateList($endT, $nextTaskId);
 
                         // update latest activity or create a new one if different task
                         $prevActivity = $this->userLatestActivity[$userId];
                         if (NULL == $prevActivity) {
                            // first activity fot this user
                            $ganttActivity = new GanttActivity($nextTaskId, $userId, $midnightTimestamp, $endT);
-                           $ganttActivity->setColor($color);
                            $this->userLatestActivity[$userId] = $ganttActivity;
                         } else {
                            // if same issue, just extend $prevActivity endTimestamp
                            if (($prevActivity->bugid == $nextTaskId) &&
                                ($prevActivity->endTimestamp == $midnightTimestamp)) {
                               $prevActivity->endTimestamp = $endT;
-                              $prevActivity->setColor($color);
                            } else {
                               // store previous activity
                               array_push($this->data["activity"], $prevActivity->getDxhtmlData());
 
                               // create a new one
                               $ganttActivity = new GanttActivity($nextTaskId, $userId, $midnightTimestamp, $endT);
-                              $ganttActivity->setColor($color);
                               $this->userLatestActivity[$userId] = $ganttActivity;
                            }
                         }
@@ -204,7 +207,43 @@ class SchedulerManager {
       }
       
       $this->createBacklogData();
+      $this->adjustColor();
       return $this->data;
+   }
+   
+//   private function setTaskListColor($taskId, $color){
+//      $this->todoTaskColorList[$taskId] = $color;
+//   }
+   
+   private function adjustColor(){
+     
+      foreach($this->data["activity"] as $key=>$data){
+        $taskId = $data["text"];
+        $deadline = IssueCache::getInstance()->getIssue($taskId)->getDeadLine();
+        $start_date = strtotime($data["start_date"]);
+        $end_date = strtotime($data["end_date"]);
+        
+        //start date and end date < deadline date and task schedule to finish before deadline
+        if($start_date < $deadline && $end_date < $deadline && !$this->todoTaskIsLateList[$taskId]){
+           $this->data["activity"][$key]["color"] = "green";
+        }
+        
+         //start date and end date < deadline date but task schedule to finish after deadline
+        else if($start_date < $deadline && $end_date < $deadline && $this->todoTaskIsLateList[$taskId]){
+           $this->data["activity"][$key]["color"] = "#FFBA00";
+        }
+        
+        //start date < deadline and end date > deadline date and task schedule to finish after deadline
+        else if($start_date < $deadline && $end_date > $deadline && $this->todoTaskIsLateList[$taskId]){
+           $this->data["activity"][$key]["color"] = "#E88022";
+        }
+        
+        //start date and end date > deadline date and task schedule to finish after deadline
+        else if($start_date > $deadline && $end_date > $deadline && $this->todoTaskIsLateList[$taskId]){
+           $this->data["activity"][$key]["color"] = "#FF421F";
+        }
+      }
+      
    }
 
    private function createBacklogData() {
@@ -295,16 +334,16 @@ class SchedulerManager {
     * @param int $taskId
     * @return string
     */
-   private function getColor($midnightTimestamp, $taskId) {
+   private function setTodoTaskIsLateList($midnightTimestamp, $taskId) {
       $task = IssueCache::getInstance()->getIssue($taskId);
       $deadline = $task->getDeadLine();
       if (NULL == $deadline) {
-         return 'lightgreen';
+         $this->todoTaskIsLateList[$taskId] = false;
       }
       if ($midnightTimestamp < $deadline) {
-         return "green";
+         $this->todoTaskIsLateList[$taskId] = false;
       } else {
-         return "red";
+         $this->todoTaskIsLateList[$taskId] = true;
       }
    }   
 
