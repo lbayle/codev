@@ -84,16 +84,8 @@ class SchedulerController extends Controller {
             }
 
 
-            // Get displayed info list
-            $displayableInfoList = $schedulerManager->getDisplayableTaskInfoList();
-            $selectedDisplayableInfo = SchedulerManager::getUserOption(SchedulerManager::OPTION_displayedInfo, $_SESSION['userid'], $_SESSION['teamid']);
-            if(!array_key_exists($selectedDisplayableInfo, $displayableInfoList))
-            {
-               // Select first element of array
-               reset($displayableInfoList);
-               $selectedDisplayableInfo = key($displayableInfoList);
-            }
-
+            $optDisplayExtRef = SchedulerManager::getUserOption(SchedulerManager::OPTION_isDisplayExtRef, $_SESSION['userid'], $_SESSION['teamid']);
+            $this->smartyHelper->assign("isDisplayExtRef", $optDisplayExtRef);
 
             $projectList = SmartyTools::getSmartyArray($projectList, null);
             $this->smartyHelper->assign("scheduler_projectList", $projectList);
@@ -107,8 +99,6 @@ class SchedulerController extends Controller {
             $taskProviderDescriptionList = SmartyTools::getSmartyArray($taskProviderDescriptionList, $selectedTaskProviderName);
             $this->smartyHelper->assign("scheduler_taskProviderList", $taskProviderDescriptionList);
 
-            $displayableInfoList = SmartyTools::getSmartyArray($displayableInfoList, $selectedDisplayableInfo);
-            $this->smartyHelper->assign("scheduler_displayableInfoList", $displayableInfoList);
          }
       }
    }

@@ -156,25 +156,20 @@
       
       
       <div id="tabsScheduler_tabOptions" >
-         <h2 class="center">
-            <strong>{t}Options{/t}</strong>
-         </h2>
-         
          <form>
             <div>
-               <strong>{t}Choose a configuration :{/t}</strong>
+               <strong>{t}Scheduling method{/t}</strong>
             </div>
             {foreach from=$scheduler_taskProviderList key=id item=taskProvider}
             <label><input class="scheduler_taskProvider scheduler_optionElement" type="radio" name="scheduler_taskProvider" value="{$id}" {if $taskProvider.selected}checked{/if}>{$taskProvider.name}</label><br>
             {/foreach}
             
+            <br>
             <div>
-               <strong>{t}Choose which information display in planning :{/t}</strong>
+               <strong>{t}Options{/t}</strong>
             </div>
-            
-            {foreach from=$scheduler_displayableInfoList key=id item=displayableInfo}
-            <label><input class="scheduler_displayableInfo scheduler_optionElement" type="radio" name="scheduler_displayableInfo" value="{$id}" {if $displayableInfo.selected}checked{/if}>{$displayableInfo.name}</label><br>
-            {/foreach}
+            <input id="isDisplayExtRef" class="scheduler_optionElement" type="checkbox" {if ($isDisplayExtRef)}checked="checked"{/if}/>{t}Display ExtRef instead of mantis_id{/t}
+            <br>
             
             <div class="center">
                <button class="scheduler_saveOptionsButton" disabled>

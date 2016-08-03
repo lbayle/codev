@@ -455,10 +455,10 @@ function setOptions()
    global $SchedAjaxLogger;
    
    $taskProviderId = Tools::getSecurePOSTStringValue('taskProvider');
-   $displayableInfo = Tools::getSecurePOSTStringValue('displayableInfo');
+   $isDisplayExtRef = Tools::getSecurePOSTStringValue('isDisplayExtRef');
 
    SchedulerManager::setUserOption(SchedulerManager::OPTION_taskProvider, $taskProviderId, $_SESSION['userid'], $_SESSION['teamid']);
-   SchedulerManager::setUserOption(SchedulerManager::OPTION_displayedInfo, $displayableInfo, $_SESSION['userid'], $_SESSION['teamid']);
+   SchedulerManager::setUserOption(SchedulerManager::OPTION_isDisplayExtRef, $isDisplayExtRef, $_SESSION['userid'], $_SESSION['teamid']);
    
    $data['scheduler_status'] = "SUCCESS";
    $data['scheduler_message'] = T_("Options saved successfully");

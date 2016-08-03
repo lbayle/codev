@@ -91,11 +91,6 @@ class SchedulerManager {
     */
    private $schedulerDisplayedInfo;
    
-   /**
-    * List of displayable task info
-    * @var type 
-    */
-   private $schedulerDisplayableInfoList;
 
 
    /**
@@ -116,10 +111,6 @@ class SchedulerManager {
       
       $this->addHandlerTask();
       $this->schedulerTaskProviderList = array("SchedulerTaskProvider0", "SchedulerTaskProvider");
-      $this->schedulerDisplayableInfoList = array(
-          "taskId" => T_("Task Id"), 
-          "externalReference" => T_("External Reference")
-      );
    }
    
    public function init()
@@ -145,8 +136,11 @@ class SchedulerManager {
    
    public function execute() {
       
+      $isDisplayExtRef = $taskProviderName = self::getUserOption(self::OPTION_isDisplayExtRef, $this->user_id, $this->team_id);
+
+      
       // sort todoTaskIdList once for all,
-      // this avoids schedulerTaskProvider to do it at each createCandidateTaskList() call
+      // this avoids schedulerTaskProvider to do it at each call to createCandidateTaskList()
       $this->sortTodoTaskIdList();
       
       $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
@@ -191,7 +185,7 @@ class SchedulerManager {
                               $prevActivity->endTimestamp = $endT;
                            } else {
                               // store previous activity
-                              array_push($this->data["activity"], $prevActivity->getDxhtmlData());
+                              array_push($this->data["activity"], $prevActivity->getDxhtmlData($isDisplayExtRef));
 
                               // create a new one
                               $ganttActivity = new GanttActivity($nextTaskId, $userId, $midnightTimestamp, $endT);
@@ -220,7 +214,7 @@ class SchedulerManager {
 
       // store latest activities, still in cache
       foreach ($this->userLatestActivity as $ganttActivity) {
-         array_push($this->data["activity"], $ganttActivity->getDxhtmlData());
+         array_push($this->data["activity"], $ganttActivity->getDxhtmlData($isDisplayExtRef));
       }
       
       $this->createBacklogData();
@@ -235,7 +229,7 @@ class SchedulerManager {
 
       foreach($this->data["activity"] as $key=>$data){
         
-         $bugid = $data["text"]; // TODO Oh ! ca c'est moche !!! et si je change le texte !?! ca pete !!!!!!
+        $bugid = $data["bugid"];
         $deadline = IssueCache::getInstance()->getIssue($bugid)->getDeadLine();
 
         if (NULL == $deadline) {
@@ -416,11 +410,11 @@ class SchedulerManager {
    {
       $userOptions = self::getUserOptions($userId, $teamId);
       
-      if(null != $userOptions)
       if(null == $userOptions) {
          self::$logger->error("getUserOption($optionName): option not set, return null");
+         return null;
       }
-      return $userOptions["$optionName"];
+      return $userOptions[$optionName];
    }
 
    /**

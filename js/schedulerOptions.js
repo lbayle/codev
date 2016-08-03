@@ -377,13 +377,6 @@ function initSchedulerAffectations(){
    }
    
    
-   
-   
-   
-   
-   
-   
-   
    // ================ Events ================
    
    
@@ -569,7 +562,7 @@ function initSchedulerOptions(){
    jQuery("#tabsScheduler_tabOptions .scheduler_saveOptionsButton").on("click", function(){
 
       var taskProviderId = jQuery("#tabsScheduler_tabOptions .scheduler_taskProvider:checked").val();
-      var displayableInfo = jQuery("#tabsScheduler_tabOptions .scheduler_displayableInfo:checked").val();
+      var isDisplayExtRef = jQuery("#tabsScheduler_tabOptions #isDisplayExtRef").attr('checked') ? 1 : 0;
       this.disabled = true;
 
       jQuery.ajax({ 
@@ -578,7 +571,7 @@ function initSchedulerOptions(){
          data: {
             action: 'setOptions',
             taskProvider: taskProviderId,
-            displayableInfo: displayableInfo
+            isDisplayExtRef: isDisplayExtRef
          },
          type: 'post',
          success: function(data) {
