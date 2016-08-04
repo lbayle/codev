@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
-('database_version', 15, 1),
+('database_version', 16, 1),
 ('blogCategories', '1:General,2:Imputations', 3);
 
 
@@ -481,6 +481,24 @@ INSERT INTO `codev_plugin_table` (`name`, `status`, `domains`, `categories`, `ve
 ('StatusHistoryIndicator2', 1, 'Command,Team,User,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Affiche l''évolution de la répartition des tâches par statut'),
 ('TimePerStatusIndicator', 1, 'Task', 'Roadmap', '1.0.0', 'Répartition du temps par status'),
 ('TimetrackDetailsIndicator', 1, 'Admin', 'Admin', '1.0.0', 'Affiche des informations suplémentaires sur les imputations');
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `codev_timetrack_note_table`
+--
+
+CREATE TABLE IF NOT EXISTS `codev_timetrack_note_table` (
+  `timetrackid` int(11) NOT NULL,
+  `noteid` int(11) NOT NULL,
+  PRIMARY KEY (`timetrackid`, `noteid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+
+
+
+
 
 -- /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 -- /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

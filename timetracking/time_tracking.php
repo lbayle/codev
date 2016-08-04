@@ -126,6 +126,10 @@ class TimeTrackingController extends Controller {
                $job          = Tools::getSecurePOSTIntValue('trackJobid');
                $duration     = Tools::getSecurePOSTNumberValue('timeToAdd');
                $handlerId    = Tools::getSecurePOSTNumberValue('handlerid');
+               
+               if (1 == $team->getGeneralPreference('useTrackNote')) {
+                  $issue_note   = filter_input(INPUT_POST, 'issue_note');
+               }
 
                // check jobid (bug happens sometime...
                if(0 == $job) {
@@ -143,6 +147,10 @@ class TimeTrackingController extends Controller {
                   $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration, $this->session_userid);
                   if(self::$logger->isDebugEnabled()) {
                      self::$logger->debug("Track $trackid added  : userid=$managed_userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
+                  }
+
+                  if (1 == $team->getGeneralPreference('useTrackNote') && strlen($issue_note)!=0) {
+                     TimeTrack::setNote($defaultBugid, $trackid, $issue_note, $managed_userid);
                   }
 
                   $issue = IssueCache::getInstance()->getIssue($defaultBugid);
@@ -176,7 +184,7 @@ class TimeTrackingController extends Controller {
                $defaultDate = date("Y-m-d", $timeTrack->getDate());
 
                // delete track
-               if(!$timeTrack->remove()) {
+               if(!$timeTrack->remove($this->session_userid)) {
                   $this->smartyHelper->assign('error', T_("Failed to delete the timetrack !"));
                   self::$logger->error("Delete track $trackid  : FAILED.");
                }
@@ -287,6 +295,9 @@ class TimeTrackingController extends Controller {
             }
 
             $this->smartyHelper->assign('isForbidAddTimetracksOnClosed', (1 == $team->getGeneralPreference('forbidAddTimetracksOnClosed')) ? true : false);
+
+            $isTrackNoteDisplayed = (0 == $team->getGeneralPreference('useTrackNote')) ? false : true;
+            $this->smartyHelper->assign('isTrackNoteDisplayed', $isTrackNoteDisplayed);
          }
       }
    }
@@ -378,7 +389,8 @@ class TimeTrackingController extends Controller {
                'issueSummary' => htmlspecialchars(preg_replace('![\t\r\n]+!',' ',$issue->getSummary())),
                'jobName' => $jobName,
                'categoryName' => $issue->getCategoryName(),
-               'currentStatusName' => $issue->getCurrentStatusName());
+               'currentStatusName' => $issue->getCurrentStatusName(),
+               );
          } catch (Exception $e) {
             $summary = T_('Error: Task not found in Mantis DB !');
             $timetrackingTuples[$row->id] = array(
@@ -422,4 +434,4 @@ TimeTrackingController::staticInit();
 $controller = new TimeTrackingController('../', 'Time Tracking','TimeTracking');
 $controller->execute();
 
-?>
+

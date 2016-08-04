@@ -369,6 +369,10 @@ class SqlWrapper {
       return $this->countByQuery;
    }
 
+   public function mysql_num_rows($result) {
+      return mysql_num_rows($result);
+   }
+
    /**
     * Get the connection link
     * @return resource a MySQL link identifier on success or false on failure.
