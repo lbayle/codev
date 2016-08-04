@@ -1,3 +1,5 @@
+
+
 <div id="content" class="center">
 
 
@@ -109,7 +111,6 @@
                            );
                         }
                      }
-
                   }
                });
             }
@@ -363,6 +364,7 @@
                });
             });
          </script>
+         
          <form id="formUpdateWeek" name="formUpdateWeek" method="post" action="{$page}">
             <fieldset>
                <label>{t}Week{/t}</label>
@@ -400,6 +402,7 @@
             <thead>
                <tr>
                   <th></th>
+                  <th></th>
                   <th>{t}Date{/t}</th>
                   <th title="Mantis ID">{t}ID{/t}</th>
                   <th>{t}Ext.ID{/t}</th>
@@ -411,12 +414,15 @@
                   <th>{t}Status{/t}</th>
                </tr>
             </thead>
-            <tbody>
+            <tbody id="weekTimetrackingTuples">
                {foreach from=$weekTimetrackingTuples key=id item=i}
                <tr>
                   <td class="ui-state-error-text" style="width:1em;">
                      <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
                         onclick="deleteTrack('{$id}','{$i.date}','{$i.formatedId}','{$i.duration}','{$i.formatedJobName}','{$i.summary}');return false;"></a>
+                  </td>
+                  <td>
+                     <img id="editTimeTrack" src="images/b_edit.png" alt="Edit icon" onclick="openEditTimetrackModal('{$id}','{$i.date}','{$i.duration}','{$i.summary}')"/>
                   </td>
                   <td width="170">{$i.cosmeticDate}</td>
                   <td>{$i.issueURL}</td>
@@ -475,7 +481,7 @@
             </table>
          </div>
          {/if}
-
+         
          <script type="text/javascript">
             function deleteTrack(trackid, date, bugid, duration, job, description){
                jQuery("#desc_date").text(date);
@@ -556,3 +562,5 @@
    {/if}
 
 </div>
+
+{include file="modal/editTimetrackModal.html"}

@@ -133,6 +133,24 @@ class TimeTrack extends Model {
       }
       return SqlWrapper::getInstance()->sql_insert_id();
    }
+   
+   
+   public function update($date, $duration, $note = NULL) {
+      $this->date = strtotime($date);
+      $this->duration = $duration;
+      
+      $query = 'UPDATE `codev_timetracking_table` SET `date`='.$this->date.', `duration`='.$this->duration.' WHERE id='.$this->id.';';
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      
+      if (!$result) {
+         return false;
+      }
+      if(NULL != $note){
+         $this->removeNote($this->userId);
+         self::setNote($this->bugId, $this->id, $note, $this->userId);
+      }
+      return true;
+   }
 
    /**
     * Remove the current track
@@ -249,29 +267,25 @@ class TimeTrack extends Model {
    }
 
 
-   public function getNote() {
-
-     if (NULL == $this->note) {
-
+   public static function getNote($timetrackId) {
          $query = "SELECT note FROM `mantis_bugnote_text_table` ".
                  "WHERE id=(SELECT bugnote_text_id FROM `mantis_bugnote_table` ".
                             "WHERE bugnote_text_id=(SELECT noteid FROM `codev_timetrack_note_table` ".
-                                                                  "WHERE timetrackid=$this->id))";
+                                                                  "WHERE timetrackid=$timetrackId))";
          $result = SqlWrapper::getInstance()->sql_query($query);
 
          if(SqlWrapper::getInstance()->sql_num_rows($result) == 0) {
-            $query3 = 'DELETE FROM `codev_timetrack_note_table` WHERE timetrackid='.$this->id.';';
+            $query3 = 'DELETE FROM `codev_timetrack_note_table` WHERE timetrackid='.$timetrackId.';';
             $result3 = SqlWrapper::getInstance()->sql_query($query3);
-            $this->note = "";
+            $note = "";
          }
          else
          {
             $row = SqlWrapper::getInstance()->sql_fetch_object($result);
             $pattern = '/^'.IssueNote::tag_begin.IssueNote::tagid_timetrackNote.'.*'.IssueNote::tag_end.'\n/';
-            $this->note = trim(preg_replace($pattern, '', $row->note));
+            $note = trim(preg_replace($pattern, '', $row->note));
          }
-     }
-     return $this->note;
+         return $note;
    }
 
       public static function setNote($bug_id, $track_id, $text, $reporter_id) {

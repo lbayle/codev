@@ -1,0 +1,19 @@
+<div id="editTimetrackModal">
+   <div id="taskSummary"></div>
+      
+   {if $isTrackNoteDisplayed}
+      <p><b>{t}Note{/t}:</b><br>
+      <textarea id="issue_note_edit" class="issue_note" name="issue_note"  style="width:100%;background-color:white;" rows="2"></textarea>
+   {/if}
+   
+   {t}Duration{/t} :
+   <select id="timeToEdit" name="timeToEdit" title="{t}Duration (in days){/t}"></select>
+   
+   <label for="datepickerEditer">{t}Date{/t}:</label>
+   <input type="text" id="datepickerEditer" class="datepicker" name="date" maxlength="10" size="10" title="{t}Date{/t}" />
+        
+   <input type="hidden" id="timetrackId" name="timetrackId"/>
+</div>
+
+<script src="js/editTimetrack.js"></script>
+
