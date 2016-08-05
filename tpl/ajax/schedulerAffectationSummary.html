@@ -68,7 +68,7 @@ $(".removeTaskAffectation").on("click", function(){
    var taskId = parentRow.attr("data-taskId");
 
    jQuery.ajax({ 
-      url: 'reports/scheduler_ajax.php',
+      url: 'scheduler/scheduler_ajax.php',
       async:false,
       data: {
          action: 'setTaskUserList',

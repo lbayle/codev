@@ -57,7 +57,7 @@ function initSchedulerAffectations(){
   
    // Ask to server already affected tasks (to feel summary table)
    jQuery.ajax({ 
-      url: 'reports/scheduler_ajax.php',
+      url: 'scheduler/scheduler_ajax.php',
       async:false,
       data: {
          action: 'getAllTaskUserList',
@@ -389,7 +389,7 @@ function initSchedulerAffectations(){
 
          // Get tasks
          jQuery.ajax({ 
-            url: 'reports/scheduler_ajax.php',
+            url: 'scheduler/scheduler_ajax.php',
             async:false,
             data: {
                action: 'getTaskList',
@@ -425,7 +425,7 @@ function initSchedulerAffectations(){
          usersAffectationsContainer.show();
          // Get users and their time from the server
          jQuery.ajax({ 
-            url: 'reports/scheduler_ajax.php',
+            url: 'scheduler/scheduler_ajax.php',
             async:false,
             data: {
                action: 'getTaskUserList',
@@ -504,7 +504,7 @@ function initSchedulerAffectations(){
          todoUsers = JSON.stringify(todoUsers);
 
          jQuery.ajax({ 
-            url: 'reports/scheduler_ajax.php',
+            url: 'scheduler/scheduler_ajax.php',
             async:false,
             data: {
                action: 'setTaskUserList',
@@ -566,7 +566,7 @@ function initSchedulerOptions(){
       this.disabled = true;
 
       jQuery.ajax({ 
-         url: 'reports/scheduler_ajax.php',
+         url: 'scheduler/scheduler_ajax.php',
          async:false,
          data: {
             action: 'setOptions',

@@ -21,7 +21,7 @@ function createSchedulerTable(redirect) {
    
    $('#loading').show();  // show loading indicator
 
-   var jsonUserDataPromise = $.ajax({ url: 'reports/scheduler_ajax.php',
+   var jsonUserDataPromise = $.ajax({ url: 'scheduler/scheduler_ajax.php',
             data: {action: 'getTeam'},
             type: 'post',
             success: function(data) {
@@ -32,7 +32,7 @@ function createSchedulerTable(redirect) {
             }
    });
    
-   var jsonTimetrackDataPromise = $.ajax({ url: 'reports/scheduler_ajax.php',
+   var jsonTimetrackDataPromise = $.ajax({ url: 'scheduler/scheduler_ajax.php',
             data: {action: 'getOldTimetrack'},
             type: 'post',
             success: function(data) {
@@ -45,7 +45,7 @@ function createSchedulerTable(redirect) {
    
    //if(NULL $_SESSION['tasksUserList'])
    
-    var jsonProjectionDataPromise = $.ajax({ url: 'reports/scheduler_ajax.php',
+    var jsonProjectionDataPromise = $.ajax({ url: 'scheduler/scheduler_ajax.php',
             data: {action: 'getProjection'},
             type: 'post',
             success: function(data) {
