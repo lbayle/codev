@@ -91,7 +91,7 @@ class TimeTrack extends Model implements Comparable {
     * @return int -1 if $timetrackB is more recent, 1 if $timetrackB is older, 0 if same day
     */
    public static function compare(Comparable $timetrackA, Comparable $timetrackB) {
-self::$logger->error('timetrack compare');
+
       if ($timetrackB->getDate() > $timetrackA->getDate()) {
          return -1;
       }

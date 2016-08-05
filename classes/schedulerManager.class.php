@@ -20,7 +20,6 @@ class SchedulerManager {
 
    const OPTION_timePerTaskPerUser = 'timePerTaskPerUser';
    const OPTION_taskProvider       = 'taskProvider';
-   const OPTION_displayedInfo      = 'displayedInfo';
    const OPTION_isDisplayExtRef    = 'isDisplayExtRef';
    const OPTION_nbDaysForecast     = 'nbDaysForecast';
 
@@ -43,12 +42,6 @@ class SchedulerManager {
     */
    private $todoTaskIdList = array();
    
-   /**
-    * Tasks to be planified
-    * @var array[bugid] => isLate
-    */
-   private $todoTaskIsLateList = array();
-
    /**
     * Scheduler settings allow to define the max time that
     * a user is allowed to spent on a task (time quota).
@@ -84,16 +77,6 @@ class SchedulerManager {
    private $schedulerTaskProviderList;
    
    /**
-    * Displayed task info 
-    * The information which is displayed for task affectation on planning
-    * For exemple : taskId
-    * @var type 
-    */
-   private $schedulerDisplayedInfo;
-   
-
-
-   /**
     * keep task start & end dates for Gantt & activity colors
     * bugid => array{ 'startTimestamp' = timestamp,
     *                 'endTimestamp'   = timestamp}
@@ -105,16 +88,20 @@ class SchedulerManager {
    private $data = array();
 
    public function __construct() {
+      self::$logger->error("constructeur");
+
       $this->team_id = $_SESSION['teamid'];
       $this->user_id = $_SESSION['userid'];
       $this->data["activity"] = array();
       
       $this->addHandlerTask();
-      $this->schedulerTaskProviderList = array("SchedulerTaskProvider0", "SchedulerTaskProvider");
+      $this->schedulerTaskProviderList = array('SchedulerTaskProvider0', 'SchedulerTaskProvider');
    }
    
    public function init()
    {
+      self::$logger->error("init");
+
       // Set timePerTaskPerUserList of scheduler manager
       $timePerUserPerTaskList = self::getTimePerUserPerTaskList($this->user_id, $this->team_id);
       $timePerTaskPerUserList = null;
@@ -129,23 +116,19 @@ class SchedulerManager {
       $taskProviderName = self::getUserOption(self::OPTION_taskProvider, $this->user_id, $this->team_id);
       $this->setTaskProvider($taskProviderName);
       
-      // Set displayed info of scheduler manager
-      $displayedInfoName = self::getUserOption(self::OPTION_displayedInfo, $this->user_id, $this->team_id);
-      $this->setDisplayedOption($displayedInfoName);
    }
    
    public function execute() {
       
-      $isDisplayExtRef = $taskProviderName = self::getUserOption(self::OPTION_isDisplayExtRef, $this->user_id, $this->team_id);
+      $isDisplayExtRef = self::getUserOption(self::OPTION_isDisplayExtRef, $this->user_id, $this->team_id);
+      $projectionDay   = self::getUserOption(self::OPTION_nbDaysForecast, $this->user_id, $this->team_id);
 
-      
       // sort todoTaskIdList once for all,
       // this avoids schedulerTaskProvider to do it at each call to createCandidateTaskList()
       $this->sortTodoTaskIdList();
       
       $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
       $currentDay = mktime(0, 0, 0);
-      $projectionDay = 90;
       $endDate = strtotime("+$projectionDay day",$currentDay);
       
       for ($date = $currentDay; $date < $endDate; $date=strtotime("+1 day",$date)) {
@@ -332,21 +315,6 @@ class SchedulerManager {
    }
    
    /**
-    * Set displayed info of scheduler manager
-    * @param type $displayedInfoName
-    */
-   public function setDisplayedOption($displayedInfoName = null)
-   {
-      if(!array_key_exists($displayedInfoName, $this->schedulerDisplayableInfoList))
-      {
-         // Select first element of array
-         reset($this->schedulerDisplayableInfoList);
-         $displayedInfoName = key($this->schedulerDisplayableInfoList);
-      }
-      $this->schedulerDisplayedInfo = $displayedInfoName;
-   }
-
-   /**
     * TODO : describe actions ...
     *
     * @param int $userId
@@ -388,15 +356,23 @@ class SchedulerManager {
     */
    public static function getUserOptions($userId, $teamId = null)
    {
-      $userOptionsJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
-      
-      if(null != $userOptionsJson)
-      {
-         $userOptions = json_decode($userOptionsJson, true); 
+      // set default values (if new options are added, user may not have them)
+      $userOptions = array (
+         self::OPTION_taskProvider => 'SchedulerTaskProvider0', // $this->schedulerTaskProviderList[0],
+         self::OPTION_isDisplayExtRef => FALSE,
+         self::OPTION_nbDaysForecast => 90, // 3 month
+         self::OPTION_timePerTaskPerUser => NULL,
+      );
 
-         return $userOptions; 
+      // override default values with user settings
+      $userOptionsJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
+      if(null != $userOptionsJson) {
+         $options = json_decode($userOptionsJson, true);
+         foreach ($options as $key => $value) {
+            $userOptions[$key] = $value;
+         }
       }
-      return null;
+      return $userOptions;
    }
    
    /**
@@ -409,11 +385,7 @@ class SchedulerManager {
    public static function getUserOption($optionName, $userId, $teamId = null)
    {
       $userOptions = self::getUserOptions($userId, $teamId);
-      
-      if(null == $userOptions) {
-         self::$logger->error("getUserOption($optionName): option not set, return null");
-         return null;
-      }
+//      self::$logger->error("getUserOption($optionName, $userId, $teamId) = ". $userOptions[$optionName]);
       return $userOptions[$optionName];
    }
 

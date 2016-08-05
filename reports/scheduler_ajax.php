@@ -32,7 +32,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          getTeam();
           break;
       case 'getOldTimetrack':
-         getOldTimetrack();
+         getExistingTimetrack();
          break;
       case 'getProjection':
          getProjection();
@@ -74,7 +74,7 @@ function getTeam() {
    echo json_encode($data);
 }
 
-function getOldTimetrack() {
+function getExistingTimetrack() {
    global $SchedAjaxLogger;
 
    try {
