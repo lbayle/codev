@@ -19,7 +19,7 @@
 /**
  * TimeTrackTuple
  */
-class TimeTrack extends Model {
+class TimeTrack extends Model implements Comparable {
 
    /**
     * @var Logger The logger
@@ -82,6 +82,32 @@ class TimeTrack extends Model {
       $this->commit_date = $row->commit_date;
 
       #echo "DEBUG TimeTrack $this->id $this->userId $this->bugId $this->jobId $this->date $this->duration $this->issue_projectId<br/>";
+   }
+
+   /**
+    * Sort older to newer
+    * @param Issue $timetrackA
+    * @param Issue $timetrackB
+    * @return int -1 if $timetrackB is more recent, 1 if $timetrackB is older, 0 if same day
+    */
+   public static function compare(Comparable $timetrackA, Comparable $timetrackB) {
+self::$logger->error('timetrack compare');
+      if ($timetrackB->getDate() > $timetrackA->getDate()) {
+         return -1;
+      }
+      if ($timetrackB->getDate() < $timetrackA->getDate()) {
+         return 1;
+      }
+
+      // same day
+      if ($timetrackB->getCommitDate() > $timetrackA->getCommitDate()) {
+         return -1;
+      }
+      if ($timetrackB->getCommitDate() < $timetrackA->getCommitDate()) {
+         return 1;
+      }
+
+      return 0;
    }
 
    public function getProjectId() {
@@ -324,31 +350,6 @@ class TimeTrack extends Model {
       }
    }
    
-   /**
-    * Sort older to newer
-    * @param Issue $timetrackA
-    * @param Issue $timetrackB
-    * @return int -1 if $timetrackB is more recent, 1 if $timetrackB is older, 0 if same day
-    */
-   public static function compare(Comparable $timetrackA, Comparable $timetrackB) {
-
-      if ($timetrackB->getDate() > $timetrackA->getDate()) {
-         return -1;
-      }
-      if ($timetrackB->getDate() < $timetrackA->getDate()) {
-         return 1;
-      }
-
-      // same day
-      if ($timetrackB->getCommitDate() > $timetrackA->getCommitDate()) {
-         return -1;
-      }
-      if ($timetrackB->getCommitDate() < $timetrackA->getCommitDate()) {
-         return 1;
-      }
-
-      return 0;
-   }   
 }
 TimeTrack::staticInit();
 
