@@ -108,5 +108,5 @@ class SchedulerController extends Controller {
 
 // ========== MAIN ===========
 SchedulerController::staticInit();
-$controller = new SchedulerController('../', 'Timeline scheduler','Scheduler');
+$controller = new SchedulerController('../', 'Timeline scheduler','Planning');
 $controller->execute();
