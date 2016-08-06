@@ -62,13 +62,6 @@ class SchedulerManager {
    private $userCursorList = array();
 
    /**
-    * while processing, cache to concat consecutive activities in one strike
-    * (for the same user on the same task)
-    * @var array[userid] => GanttActivity
-    */
-   private $userLatestActivity = array();
-
-   /**
     * Part of the engine responsible for choosing the next task to planify
     * @var SchedulerTaskProviderAbstract
     */
@@ -91,48 +84,64 @@ class SchedulerManager {
 
    private $data = array();
 
-   public function __construct() {
-      self::$logger->error("constructeur");
+   public function __construct($userid, $teamid) {
 
-      $this->team_id = $_SESSION['teamid'];
-      $this->user_id = $_SESSION['userid'];
-      $this->data["activity"] = array();
+      $this->team_id = $teamid;
+      $this->user_id = $userid;
       
-      $this->addHandlerTask();
       $this->schedulerTaskProviderList = array('SchedulerTaskProvider0', 'SchedulerTaskProvider');
    }
-   
-   public function init()
-   {
-      self::$logger->error("init");
+
+   /**
+    * TODO : describe actions ...
+    *
+    */
+   private function initExec() {
+
+      $this->data["activity"] = array();
+
+      // Set task provider
+      $taskProviderName = $this->getUserOption(self::OPTION_taskProvider, $this->user_id, $this->team_id);
+      $this->setTaskProvider($taskProviderName);
+
+      $this->addHandlerTask();
 
       // Set setUserTaskList (calculateAutoAffectation)
       $timePerTaskPerUser = $this->getUserOption(self::OPTION_timePerTaskPerUser, $this->user_id, $this->team_id);
-      $timePerUserPerTasks = self::transposeTo_TimePerUserPerTaskList($timePerTaskPerUser);
+      $timePerUserPerTasks = self::transposeTo_TimePerUserPerTask($timePerTaskPerUser);
       $timePerUserPerTaskList = $this->computeAutoAssignation($timePerUserPerTasks);
-      $timePerTaskPerUserList = self::transposeTo_TimePerTaskPerUserList($timePerUserPerTaskList);
+      $timePerTaskPerUserList = self::transposeTo_TimePerTaskPerUser($timePerUserPerTaskList);
       $this->setUserTaskList($timePerTaskPerUserList);
-
       
-      // Set task provider of scheduler manager
-      $taskProviderName = $this->getUserOption(self::OPTION_taskProvider, $this->user_id, $this->team_id);
-      $this->setTaskProvider($taskProviderName);
-      
-   }
-   
-   public function execute() {
-      
-      $isDisplayExtRef = $this->getUserOption(self::OPTION_isDisplayExtRef, $this->user_id, $this->team_id);
-      $projectionDay   = $this->getUserOption(self::OPTION_nbDaysForecast, $this->user_id, $this->team_id);
-
       // sort todoTaskIdList once for all,
       // this avoids schedulerTaskProvider to do it at each call to createCandidateTaskList()
       $this->sortTodoTaskIdList();
-      
+
+   }
+
+   /**
+    * TODO : describe actions ...
+    *
+    * @return type
+    */
+   public function execute() {
+
+      /*
+       * while processing, cache to concat consecutive activities in one strike
+       * (for the same user on the same task)
+       * @var array[userid] => GanttActivity
+       */
+      $userLatestActivity = array();
+
+      $isDisplayExtRef = $this->getUserOption(self::OPTION_isDisplayExtRef, $this->user_id, $this->team_id);
+      $projectionDay   = $this->getUserOption(self::OPTION_nbDaysForecast, $this->user_id, $this->team_id);
+
+      $this->initExec();
+
       $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
       $currentDay = mktime(0, 0, 0);
       $endDate = strtotime("+$projectionDay day",$currentDay);
-      
+
       for ($date = $currentDay; $date < $endDate; $date=strtotime("+1 day",$date)) {
 
          $users = array_keys($this->userTaskList);
@@ -158,11 +167,11 @@ class SchedulerManager {
                         }
 
                         // update latest activity or create a new one if different task
-                        $prevActivity = $this->userLatestActivity[$userId];
+                        $prevActivity = $userLatestActivity[$userId];
                         if (NULL == $prevActivity) {
                            // first activity fot this user
                            $ganttActivity = new GanttActivity($nextTaskId, $userId, $midnightTimestamp, $endT);
-                           $this->userLatestActivity[$userId] = $ganttActivity;
+                           $userLatestActivity[$userId] = $ganttActivity;
                         } else {
                            // if same issue, just extend $prevActivity endTimestamp
                            if (($prevActivity->bugid == $nextTaskId) &&
@@ -174,7 +183,7 @@ class SchedulerManager {
 
                               // create a new one
                               $ganttActivity = new GanttActivity($nextTaskId, $userId, $midnightTimestamp, $endT);
-                              $this->userLatestActivity[$userId] = $ganttActivity;
+                              $userLatestActivity[$userId] = $ganttActivity;
                            }
                         }
 
@@ -198,16 +207,152 @@ class SchedulerManager {
       } // day
 
       // store latest activities, still in cache
-      foreach ($this->userLatestActivity as $ganttActivity) {
+      foreach ($userLatestActivity as $ganttActivity) {
          array_push($this->data["activity"], $ganttActivity->getDxhtmlData($isDisplayExtRef));
       }
-      
+
       $this->createBacklogData();
       $this->adjustColor();
       return $this->data;
    }
+
+   /**
+    * TODO : describe actions ...
+    *
+    * @param int $userId
+    * @param int $taskid
+    * @param int $userAvailableTime
+    * @return int Effective time spent on the task for this activity
+    */
+   private function decreaseBacklog($userId, $taskid, $userAvailableTime) {
+      if($this->userTaskList[$userId][$taskid] > $userAvailableTime) {
+         $this->userTaskList[$userId][$taskid] -= $userAvailableTime;
+         $this->todoTaskIdList[$taskid] -= $userAvailableTime;
+         $timeUsed = $userAvailableTime;
+      } else {
+         $timeUsed = $this->userTaskList[$userId][$taskid];
+         unset($this->userTaskList[$userId][$taskid]);
+         $this->todoTaskIdList[$taskid] -= $timeUsed;
+
+         if (empty($this->userTaskList[$userId])) {
+            unset($this->userTaskList[$userId]);
+         }
+         if(0 >= round($this->todoTaskIdList[$taskid],2)){
+            unset($this->todoTaskIdList[$taskid]);
+            $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
+         }
+      }
+      return $timeUsed;
+   }
+
+   /**
+    * TODO : describe actions ...
+    *
+    */
+   private function addHandlerTask() {
+      $team = TeamCache::getInstance()->getTeam($this->team_id);
+      $issueList = $team->getCurrentIssueList(false, true, false);
+      if(null != $issueList){
+         foreach($issueList as $bugid => $issue) {
+            $handlerId = $issue->getHandlerId();
+
+            // duration is the Backlog of the task, or if not set, the MAX(EffortEstim, mgrEffortEstim)
+            $duration = $issue->getDuration();
+            if(0 < $duration) {
+               $this->todoTaskIdList[$bugid] = $duration;
+               $this->userTaskList[$handlerId][$bugid] = $duration;
+               $this->userCursorList[$handlerId] = null;
+            }
+         }
+      }
+   }
    
-  
+   /**
+    * Compute time for users with auto-assignation according to task duration
+    * 
+    * @param type $timePerUserPerTaskList
+    * @return $timePerUserPerTaskList
+    */
+   private function computeAutoAssignation($timePerUserPerTaskList){
+      if (null != $timePerUserPerTaskList) {
+         foreach($timePerUserPerTaskList as $taskIdKey => $timePerUser) {
+            $task = IssueCache::getInstance()->getIssue($taskIdKey);
+            $backlog = $task->getDuration();
+
+            $userAuto = array();
+
+            // For each users newly affected to the task, add time concerning the task
+            foreach ($timePerUser as $keyUser => $userTime) {
+               if(null != $userTime) {
+                  $backlog -= $userTime;
+               } else {
+                  $userAuto[$keyUser][$taskIdKey] = 0;
+               }
+            }
+
+            if (null != $userAuto) {
+               $timePerUserAuto = round($backlog/count($userAuto), 1);
+               $diff = $timePerUserAuto*count($userAuto) - $backlog;
+
+               foreach ($userAuto as $keyUser => $userTime) {
+                     if($diff <= $timePerUserAuto) {
+                        $timePerUserPerTaskList[$taskIdKey][$keyUser] = round($timePerUserAuto - $diff,1);
+                        $diff = 0;
+                     } else {
+                        $timePerUserPerTaskList[$taskIdKey][$keyUser] = 0;
+                        $diff -= $timePerUserAuto;
+                     }
+               }
+            }
+         }
+      }
+      return $timePerUserPerTaskList;
+   }
+
+   /**
+    * Initialize $userTaskList with the scheduler settings
+    *
+    * @param type $jsonUserTaskList
+    */
+   private function setUserTaskList($jsonUserTaskList) {
+      if(null != $jsonUserTaskList){
+         foreach($jsonUserTaskList as $useridkey=>$tasklist) {
+            foreach($tasklist as $taskId=>$duration) {
+               $this->userTaskList[$useridkey][$taskId] = $jsonUserTaskList[$useridkey][$taskId];
+            }
+            $this->userCursorList[$useridkey] = null;
+         }
+      }
+   }
+
+   /**
+    * some schedulerTaskProvider use their own sort criteria,
+    * but others may use the initial order.
+    * This method ensures that the nitial todoList is ordered with
+    * the standard Issue ordering algorithm -> see Issue::compare().
+    */
+   private function sortTodoTaskIdList() {
+      $issueList = array();
+
+      foreach (array_keys($this->todoTaskIdList) as $bugid) {
+         $issueList[$bugid] = IssueCache::getInstance()->getIssue($bugid);
+      }
+      // use standard Issue compare method
+      Tools::usort($issueList);
+
+      $newTodoList = array();
+      foreach ($issueList as $issue) {
+         $bugid = $issue->getId();
+         $newTodoList[$bugid] = $this->todoTaskIdList[$bugid];
+      }
+      unset($this->todoTaskIdList);
+      $this->todoTaskIdList = $newTodoList;
+   }
+
+   
+   /**
+    * depending on deadline, change task activity colors
+    */
    private function adjustColor(){
 
       $warnThreshold   = $this->getUserOption(self::OPTION_warnThreshold, $this->user_id, $this->team_id);
@@ -249,6 +394,10 @@ class SchedulerManager {
       }
    }
 
+   /**
+    * TODO : describe actions ...
+    *
+    */
    private function createBacklogData() {
       //$this->data["backlog"] = $this->userTaskList;
       foreach($this->userTaskList as $userid=>$taskList) {
@@ -259,54 +408,14 @@ class SchedulerManager {
       }
    }
 
-   /**
-    * some schedulerTaskProvider use their own sort criteria,
-    * but others may use the initial order.
-    * This method ensures that the nitial todoList is ordered with
-    * the standard Issue ordering algorithm -> see Issue::compare().
-    */
-   private function sortTodoTaskIdList() {
-      $issueList = array();
-
-      foreach (array_keys($this->todoTaskIdList) as $bugid) {
-         $issueList[$bugid] = IssueCache::getInstance()->getIssue($bugid);
-      }
-      // use standard Issue compare method
-      Tools::usort($issueList);
-
-      $newTodoList = array();
-      foreach ($issueList as $issue) {
-         $bugid = $issue->getId();
-         $newTodoList[$bugid] = $this->todoTaskIdList[$bugid];
-      }
-      unset($this->todoTaskIdList);
-      $this->todoTaskIdList = $newTodoList;
-   }
-
-   /**
-    * Initialize $userTaskList with the scheduler settings
-    *
-    * @param type $jsonUserTaskList
-    */
-   public function setUserTaskList($jsonUserTaskList) {
-      if(null != $jsonUserTaskList){
-         foreach($jsonUserTaskList as $useridkey=>$tasklist) {
-            foreach($tasklist as $taskId=>$duration) {
-               $this->userTaskList[$useridkey][$taskId] = $jsonUserTaskList[$useridkey][$taskId];
-            }
-            $this->userCursorList[$useridkey] = null;
-         }
-      }
-      
-   }
-   
+ 
    /**
     * Set task provider of scheduler manager
     * @param type $taskProviderName
     */
-   public function setTaskProvider($taskProviderName = null){
-      if(!in_array($taskProviderName, $this->schedulerTaskProviderList))
-      {
+   public function setTaskProvider($taskProviderName = null) {
+
+      if(!in_array($taskProviderName, $this->schedulerTaskProviderList)) {
          $taskProviderName = $this->schedulerTaskProviderList[0];
          self::$logger->error("setTaskProvider($taskProviderName): Unknown taskProvider, using default.");
       }
@@ -316,34 +425,6 @@ class SchedulerManager {
       $this->schedulerTaskProvider = $providerReflection->newInstance();
    }
    
-   /**
-    * TODO : describe actions ...
-    *
-    * @param int $userId
-    * @param int $taskid
-    * @param int $userAvailableTime
-    * @return int Effective time spent on the task for this activity
-    */
-   private function decreaseBacklog($userId, $taskid, $userAvailableTime) {
-      if($this->userTaskList[$userId][$taskid] > $userAvailableTime) {
-         $this->userTaskList[$userId][$taskid] -= $userAvailableTime;
-         $this->todoTaskIdList[$taskid] -= $userAvailableTime;
-         $timeUsed = $userAvailableTime;
-      } else {
-         $timeUsed = $this->userTaskList[$userId][$taskid];
-         unset($this->userTaskList[$userId][$taskid]);
-         $this->todoTaskIdList[$taskid] -= $timeUsed;
-
-         if (empty($this->userTaskList[$userId])) {
-            unset($this->userTaskList[$userId]);
-         }
-         if(0 >= round($this->todoTaskIdList[$taskid],2)){
-            unset($this->todoTaskIdList[$taskid]);
-            $this->schedulerTaskProvider->createCandidateTaskList(array_keys($this->todoTaskIdList));
-         }
-      }
-      return $timeUsed;
-   }
    
    private function getUserAvailableTime($userId, $midnightTimestamp) {
       $user = UserCache::getInstance()->getUser($userId);
@@ -420,6 +501,15 @@ class SchedulerManager {
    }
 
    /**
+    *
+    * @return string current TaskProfider class name
+    */
+   public function getSchedulerTaskProviderList(){
+      return $this->schedulerTaskProviderList;
+   }
+
+   /**
+    * ========= STATIC ========
     * this is a double check, JS does first round.
     * 
     * TODO: rules must be updated
@@ -448,71 +538,6 @@ class SchedulerManager {
       }
    }
 
-   /**
-    *
-    */
-   private function addHandlerTask() {
-      $team = TeamCache::getInstance()->getTeam($this->team_id);
-      $issueList = $team->getCurrentIssueList(false, true, false);
-      if(null != $issueList){
-         foreach($issueList as $bugid => $issue) {
-            $handlerId = $issue->getHandlerId();
-
-            // duration is the Backlog of the task, or if not set, the MAX(EffortEstim, mgrEffortEstim)
-            $duration = $issue->getDuration();
-            if(0 < $duration) {
-               $this->todoTaskIdList[$bugid] = $duration;
-               $this->userTaskList[$handlerId][$bugid] = $duration;
-               $this->userCursorList[$handlerId] = null;
-            }
-         }
-      }
-   }
-   
-   public function getSchedulerTaskProviderList(){
-      return $this->schedulerTaskProviderList;
-   }
-   
-   /**
-    * Compute time for users who have automatic affectation according to total task time
-    * @param type $timePerUserPerTaskList
-    * @return $timePerUserPerTaskList
-    */
-   private function computeAutoAssignation($timePerUserPerTaskList){
-      if (null != $timePerUserPerTaskList) {
-         foreach($timePerUserPerTaskList as $taskIdKey => $timePerUser) {
-            $task = IssueCache::getInstance()->getIssue($taskIdKey);
-            $backlog = $task->getDuration();
-
-            $userAuto = array();
-
-            // For each users newly affected to the task, add time concerning the task
-            foreach ($timePerUser as $keyUser => $userTime) {
-               if(null != $userTime) {
-                  $backlog -= $userTime;
-               } else {
-                  $userAuto[$keyUser][$taskIdKey] = 0;
-               }
-            }
-
-            if (null != $userAuto) {
-               $timePerUserAuto = round($backlog/count($userAuto), 1);
-               $diff = $timePerUserAuto*count($userAuto) - $backlog;
-
-               foreach ($userAuto as $keyUser => $userTime) {
-                     if($diff <= $timePerUserAuto) {
-                        $timePerUserPerTaskList[$taskIdKey][$keyUser] = round($timePerUserAuto - $diff,1);
-                        $diff = 0;
-                     } else {
-                        $timePerUserPerTaskList[$taskIdKey][$keyUser] = 0;
-                        $diff -= $timePerUserAuto;
-                     }
-               }
-            }
-         }
-      }
-      return $timePerUserPerTaskList;
-   }
 
    /**
     * ========= STATIC ========
@@ -524,7 +549,7 @@ class SchedulerManager {
     * @param type $teamId
     * @return array : [$taskId => [$userId => $time]]
     */
-   public static function transposeTo_TimePerUserPerTaskList($timePerTaskPerUser) {
+   public static function transposeTo_TimePerUserPerTask($timePerTaskPerUser) {
 
       $timePerUserPerTask = null;
       if (null != $timePerTaskPerUser) {
@@ -547,7 +572,7 @@ class SchedulerManager {
     * @param type $timePerUserPerTaskList
     * @return array : [$userId => [$taskId => $time]]
     */
-   public static function transposeTo_TimePerTaskPerUserList($timePerUserPerTaskList)
+   public static function transposeTo_TimePerTaskPerUser($timePerUserPerTaskList)
    {
       $timePerTaskPerUserList = null;
       if (null != $timePerUserPerTaskList) {

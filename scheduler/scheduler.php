@@ -49,11 +49,11 @@ class SchedulerController extends Controller {
             $projectList = $team->getProjects(false, false, false);
             $taskList = $team->getTeamIssueList(false, false);
             $userList = $team->getActiveMembers();
-            $schedulerManager = new SchedulerManager();
+            $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
 
             // TODO use this value to stop scheduler computing if OPTION_nbDaysForecast is too big
-            $max_time = ini_get("max_execution_time");
-            self::$logger->error('max_execution_time = '.$max_time);
+            //$max_time = ini_get("max_execution_time");
+            //self::$logger->error('max_execution_time = '.$max_time);
 
             // Set task id list
             $taskIdList[null] = T_("Select a task");

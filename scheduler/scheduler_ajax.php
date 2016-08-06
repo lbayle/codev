@@ -62,7 +62,6 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 }
 
 function getTeam() {
-   global $schedAjaxLogger;
    
    $data = array();
    $team_id = $_SESSION['teamid'];
@@ -215,14 +214,16 @@ function formatActivity(array $activity, Team $team, $userId) {
    return $dxhtmlData;
 }
 
+/**
+ * Compute planning !
+ */
 function getProjection() {
    global $schedAjaxLogger;
 
    try {
-      $s = new SchedulerManager();
-      $s->init();
+      $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
       
-      $data = $s->execute();
+      $data = $schedulerManager->execute();
       echo json_encode($data);
    } catch (Exception $e) {
       // TODO handle exception
@@ -235,7 +236,6 @@ function getProjection() {
  * Get task list according to selected project
  */
 function getTaskList() {
-   global $schedAjaxLogger;
    
    $projectId = Tools::getSecurePOSTStringValue('projectId');
    
@@ -266,11 +266,9 @@ function getTaskList() {
  *
  * Update scheduler 'timePerTaskPerUser' option
  *
- * @global type $schedAjaxLogger
  */
 function setTimePerUserList() {
-   global $schedAjaxLogger;
-
+ 
    $bugid = Tools::getSecurePOSTStringValue('taskId');
    $uTimeList = Tools::getSecurePOSTStringValue('taskUserList'); // [ [ 'userId' => id, 'userTime' => days ] ]
    $usersTimeList = json_decode(stripslashes($uTimeList), true);
@@ -280,9 +278,9 @@ function setTimePerUserList() {
       $assignedUsers[$userTime['userId']] = $userTime['userTime'];
    }
 
-   $schedulerManager = new SchedulerManager();
+   $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
    $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser, $_SESSION['userid'], $_SESSION['teamid']);
-   $timePerUserPerTask = SchedulerManager::transposeTo_TimePerUserPerTaskList($timePerTaskPerUser);
+   $timePerUserPerTask = SchedulerManager::transposeTo_TimePerUserPerTask($timePerTaskPerUser);
 
    // clear: remove previous settings for this task
    unset($timePerUserPerTask[$bugid]);
@@ -301,7 +299,7 @@ function setTimePerUserList() {
       }
    }
 
-   $new_timePerTaskPerUser = SchedulerManager::transposeTo_TimePerTaskPerUserList($timePerUserPerTask);
+   $new_timePerTaskPerUser = SchedulerManager::transposeTo_TimePerTaskPerUser($timePerUserPerTask);
    $schedulerManager->setUserOption(SchedulerManager::OPTION_timePerTaskPerUser, $new_timePerTaskPerUser, $_SESSION['userid'], $_SESSION['teamid']);
 
    $data['scheduler_status'] = "SUCCESS";
@@ -312,21 +310,18 @@ function setTimePerUserList() {
 /**
  * Get time per user per task list [$task => [$userId => $time]]
  * With information of task (label, external reference,...)
- * @global type $schedAjaxLogger
+ * 
  * @param array $data : previous computed information to send to view
  */
 function getAllTaskUserList($data = false) {
-   global $schedAjaxLogger;
-   //$SchedAjaxLogger->error('---------- getAllTaskUserList ----------');
    
    // Get time per user per task list
    $timePerUserPerTaskLibelleList = null;
 
-   // TODO
-   $schedulerManager = new SchedulerManager();
+   $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
    $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser, $_SESSION['userid'], $_SESSION['teamid']);
    
-   $timePerUserPerTaskList = SchedulerManager::transposeTo_TimePerUserPerTaskList($timePerTaskPerUser);
+   $timePerUserPerTaskList = SchedulerManager::transposeTo_TimePerUserPerTask($timePerTaskPerUser);
    
    if(null != $timePerUserPerTaskList)
    {
@@ -368,11 +363,8 @@ function getAllTaskUserList($data = false) {
 
 /**
  * Get to the view the list of user and their time on a task [$userId => $time]
- * @global type $schedAjaxLogger
  */
 function getTaskUserList() {
-   global $schedAjaxLogger;
-   //$SchedAjaxLogger->error('---------- getTaskUserList ----------');
    
    $taskEffortEstim = 0;
    
@@ -389,13 +381,12 @@ function getTaskUserList() {
       $taskEffortEstim = IssueCache::getInstance()->getIssue($taskId)->getEffortEstim();
       
       // Get task user list
-      // TODO
-      $schedulerManager = new SchedulerManager();
+      $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
       $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser, $_SESSION['userid'], $_SESSION['teamid']);
 
       // For this task, get the assigned time per user from userOptions
       // [$taskId => [$userId => $time]]
-      $timePerUserPerTaskList = SchedulerManager::transposeTo_TimePerUserPerTaskList($timePerTaskPerUser);
+      $timePerUserPerTaskList = SchedulerManager::transposeTo_TimePerUserPerTask($timePerTaskPerUser);
       $tasksUserList = $timePerUserPerTaskList[$taskId];
 
       // If task user list exist in BD
@@ -442,8 +433,10 @@ function getTaskUserList() {
    echo $jsonData;
 }
 
+/**
+ * Save user settings
+ */
 function setOptions() {
-   global $schedAjaxLogger;
    
    $taskProviderId  = Tools::getSecurePOSTStringValue('taskProvider');
    $isDisplayExtRef = Tools::getSecurePOSTStringValue('isDisplayExtRef');
