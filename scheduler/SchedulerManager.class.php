@@ -18,7 +18,7 @@
 
 class SchedulerManager {
 
-   const OPTION_timePerTaskPerUser = 'timePerTaskPerUser'; // array
+   const OPTION_timePerTaskPerUser = 'timePerTaskPerUser'; // array [$userId => [$taskId => $time]]
    const OPTION_taskProvider       = 'taskProvider';    // Scheduling method
    const OPTION_isDisplayExtRef    = 'isDisplayExtRef';
    const OPTION_nbDaysForecast     = 'nbDaysForecast';  // nb days to compute
@@ -38,6 +38,7 @@ class SchedulerManager {
    
    private $team_id;
    private $user_id;
+   private $userOptions;
 
    /**
     * Tasks to be planified
@@ -105,26 +106,24 @@ class SchedulerManager {
    {
       self::$logger->error("init");
 
-      // Set timePerTaskPerUserList of scheduler manager
-      $timePerUserPerTaskList = self::getTimePerUserPerTaskList($this->user_id, $this->team_id);
-      $timePerTaskPerUserList = null;
-      
-      $timePerUserPerTaskList = self::calculateAutoAffectation($timePerUserPerTaskList);
-      $timePerTaskPerUserList = self::transformToTimePerTaskPerUserList($timePerUserPerTaskList);
-      
+      // Set setUserTaskList (calculateAutoAffectation)
+      $timePerTaskPerUser = $this->getUserOption(self::OPTION_timePerTaskPerUser, $this->user_id, $this->team_id);
+      $timePerUserPerTasks = self::transposeTo_TimePerUserPerTaskList($timePerTaskPerUser);
+      $timePerUserPerTaskList = $this->computeAutoAssignation($timePerUserPerTasks);
+      $timePerTaskPerUserList = self::transposeTo_TimePerTaskPerUserList($timePerUserPerTaskList);
       $this->setUserTaskList($timePerTaskPerUserList);
 
       
       // Set task provider of scheduler manager
-      $taskProviderName = self::getUserOption(self::OPTION_taskProvider, $this->user_id, $this->team_id);
+      $taskProviderName = $this->getUserOption(self::OPTION_taskProvider, $this->user_id, $this->team_id);
       $this->setTaskProvider($taskProviderName);
       
    }
    
    public function execute() {
       
-      $isDisplayExtRef = self::getUserOption(self::OPTION_isDisplayExtRef, $this->user_id, $this->team_id);
-      $projectionDay   = self::getUserOption(self::OPTION_nbDaysForecast, $this->user_id, $this->team_id);
+      $isDisplayExtRef = $this->getUserOption(self::OPTION_isDisplayExtRef, $this->user_id, $this->team_id);
+      $projectionDay   = $this->getUserOption(self::OPTION_nbDaysForecast, $this->user_id, $this->team_id);
 
       // sort todoTaskIdList once for all,
       // this avoids schedulerTaskProvider to do it at each call to createCandidateTaskList()
@@ -211,7 +210,7 @@ class SchedulerManager {
   
    private function adjustColor(){
 
-      $warnThreshold   = self::getUserOption(self::OPTION_warnThreshold, $this->user_id, $this->team_id);
+      $warnThreshold   = $this->getUserOption(self::OPTION_warnThreshold, $this->user_id, $this->team_id);
 
       foreach($this->data["activity"] as $key=>$data){
         
@@ -357,28 +356,31 @@ class SchedulerManager {
     * @param type $teamId
     * @return type
     */
-   public static function getUserOptions($userId, $teamId = null)
-   {
-      // set default values (if new options are added, user may not have them)
-      $userOptions = array (
-         self::OPTION_taskProvider => 'SchedulerTaskProvider0', // $this->schedulerTaskProviderList[0],
-         self::OPTION_isDisplayExtRef => FALSE,
-         self::OPTION_nbDaysForecast => 90,  // 90 days = 3 month
-         self::OPTION_nbDaysToDisplay => 30, // 30 days = 1 month
-         self::OPTION_warnThreshold => 5,    // 5 days before deadline
-         self::OPTION_displayedUsers => NULL,
-         self::OPTION_timePerTaskPerUser => NULL,
-      );
+   public function getUserOptions($userId, $teamId = null, $reload = FALSE) {
 
-      // override default values with user settings
-      $userOptionsJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
-      if(null != $userOptionsJson) {
-         $options = json_decode($userOptionsJson, true);
-         foreach ($options as $key => $value) {
-            $userOptions[$key] = $value;
+      if (NULL == $this->userOptions || $reload) {
+
+         // set default values (if new options are added, user may not have them)
+         $this->userOptions = array (
+            self::OPTION_taskProvider => 'SchedulerTaskProvider0', // $this->schedulerTaskProviderList[0],
+            self::OPTION_isDisplayExtRef => FALSE,
+            self::OPTION_nbDaysForecast => 90,  // 90 days = 3 month
+            self::OPTION_nbDaysToDisplay => 30, // 30 days = 1 month
+            self::OPTION_warnThreshold => 5,    // 5 days before deadline
+            self::OPTION_displayedUsers => NULL,
+            self::OPTION_timePerTaskPerUser => NULL,
+         );
+
+         // override default values with user settings
+         $userOptionsJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
+         if(null != $userOptionsJson) {
+            $options = json_decode($userOptionsJson, true);
+            foreach ($options as $key => $value) {
+               $this->userOptions[$key] = $value;
+            }
          }
       }
-      return $userOptions;
+      return $this->userOptions;
    }
    
    /**
@@ -388,129 +390,12 @@ class SchedulerManager {
     * @param type $teamId
     * @return type
     */
-   public static function getUserOption($optionName, $userId, $teamId = null)
+   public function getUserOption($optionName, $userId, $teamId = null)
    {
-      $userOptions = self::getUserOptions($userId, $teamId);
+      $userOptions = $this->getUserOptions($userId, $teamId);
 //      self::$logger->error("getUserOption($optionName, $userId, $teamId) = ". $userOptions[$optionName]);
       return $userOptions[$optionName];
    }
-
-   /**
-    * Get [$userId => [$taskId => $time]] of user/team from DB
-    * @param type $userId
-    * @param type $teamId
-    * @return associative array : [$userId => [$taskId => $time]]
-    */
-   public static function getTimePerTaskPerUserList($userId, $teamId = null) {
-      return self::getUserOption(self::OPTION_timePerTaskPerUser, $userId, $teamId);
-   }
-   
-   /**
-    * Get [$taskId => [$userId => $time]] of user/team from DB
-    * @param type $userId
-    * @param type $teamId
-    * @return associative array : [$taskId => [$userId => $time]]
-    */
-   public static function getTimePerUserPerTaskList($userId, $teamId = null) {
-      $timePerTaskPerUser = self::getTimePerTaskPerUserList($userId, $teamId);
-      
-      $timePerUserPerTask = null;
-      if (null != $timePerTaskPerUser) {
-         foreach ($timePerTaskPerUser as $userIdKey => $timePerTask) {
-            foreach ($timePerTask as $taskIdKey => $time) {
-               $timePerUserPerTask[$taskIdKey][$userIdKey] = $time;
-            }
-         }
-      }
-      return $timePerUserPerTask;
-   }
-   
-   /**
-    * Get [$user => $time] of task from DB
-    * @param type $taskId
-    * @param type $userId : id of current user
-    * @param type $teamId : curent user team id
-    * @returns associative array : [$user => $time]
-    */
-   public static function getTimePerUserListOfTask($taskId, $userId, $teamId) {
-      // Get config from BD 
-      $timePerUserPerTaskList = self::getTimePerUserPerTaskList($userId, $teamId);
-
-      $userTimeList = null;
-      if(null != $timePerUserPerTaskList)
-      {
-         if(null != $timePerUserPerTaskList[$taskId]) 
-         {
-            // Foreach user affected to the task
-            foreach($timePerUserPerTaskList[$taskId] as $userIdKey => $time) {
-               $userTimeList[$userIdKey] = $time;
-            }
-         }
-      }
-      
-      return $userTimeList;
-   }
-   
-   /**
-    * Update time of user of a task
-    * Associative array created : [$userId => [$taskId => $time]]
-    * @param type $taskId
-    * @param type $userTimeList : Associative array : [$userId => $time]
-    * @param type $userId : current User id
-    * @param type $teamId : curent user team id
-    * @return boolean : true if updated, false if not
-    */
-   public static function updateTimePerUserListOfTask($taskId, $userTimeList, $userId, $teamId) {
-      if (self::isTimePerUserListValid($taskId, $userTimeList)) {
-         // Get old configuration
-         $userTaskTimeList = self::getTimePerTaskPerUserList($userId, $teamId);
-         // If options already exist
-         if (null != $userTaskTimeList) {
-            // For each users formerly affected to the task, remove time concerning the task 
-            foreach ($userTaskTimeList as $keyUserId => $taskTimeList) {
-                  unset($userTaskTimeList[$keyUserId][$taskId]);
-            }
-         }
-         
-         // For each users newly affected to the task, add time concerning the task
-         foreach ($userTimeList as $keyUser => $userTime) {
-            $userTaskTimeList[$keyUser][$taskId] = $userTime;
-         }
-         self::setTimePerTaskPerUserList($userTaskTimeList, $userId, $teamId);
-
-         return true;
-      }
-      
-      return false;
-   }
-   
-   /**
-    * Remove all users time of specified task
-    * @param type $taskId
-    * @param type $userId : id of current user
-    * @param type $teamId : curent user team id
-    */
-   public static function removeTimePerUserOfTask($taskId, $userId, $teamId)
-   {
-      $timePerUserPerTask = self::getTimePerUserPerTaskList($userId, $teamId);
-      
-      if(null != $timePerUserPerTask)
-      {
-         if(null != $taskId)
-         {
-            
-            // Remove the task
-            unset($timePerUserPerTask[$taskId]);
-            
-            self::setTimePerUserPerTaskList($timePerUserPerTask, $userId, $teamId);
-            
-            return true;
-         }
-      }
-      return false;
-   }
-   
-   
    /**
     * Set a specific option option of the user / team in DB
     * @param string $optionName
@@ -518,59 +403,27 @@ class SchedulerManager {
     * @param type $userId
     * @param type $teamId
     */
-   public static function setUserOption($optionName, $value, $userId, $teamId)
+   public function setUserOption($optionName, $value, $userId, $teamId)
    {
-      $userOptions = self::getUserOptions($userId, $teamId);
-      
-      if(null == $userOptions[$optionName]) {
+      $userOptions = $this->getUserOptions($userId, $teamId);
+
+      if (!array_key_exists($optionName, $userOptions)) {
          // key always exists (at least with default value)
          self::$logger->error("setUserOption($optionName, $value, $userId, $teamId): unknown optionName !");
          return false;
-      } 
-      
+      }
+
       //self::$logger->error("setUserOption($optionName, $value, $userId, $teamId)"); // DEBUG
       $userOptions[$optionName] = $value;
       $userOptionsJson = json_encode($userOptions);
       Config::setValue(Config::id_schedulerOptions, $userOptionsJson, Config::configType_string, NULL, 0, $userId, $teamId);
    }
-   
+
    /**
-    * Set time of users of tasks in DB
-    * @param type $timePerTaskPerUser : [$userId => [$taskId => $time]]
-    * @param type $userId : id of current user
-    * @param type $teamId : curent user team id
-    */
-   public static function setTimePerTaskPerUserList($timePerTaskPerUser, $userId, $teamId)
-   {
-      self::setUserOption(self::OPTION_timePerTaskPerUser, $timePerTaskPerUser, $userId, $teamId);
-   }
-   
-   /**
-    * Set time of users of tasks in DB
-    * @param type $timePerUserPerTask : [$taskId => [$userId => $time]]
-    * @param type $userId : id of current user
-    * @param type $teamId : curent user team id
-    */
-   public static function setTimePerUserPerTaskList($timePerUserPerTask, $userId, $teamId)
-   {
-      $timePerTaskPerUser = null;
-      if(null !=$timePerUserPerTask)
-      {
-         foreach ($timePerUserPerTask as $taskId => $timePerUser)
-         {
-            foreach($timePerUser as $userIdKey => $time)
-            {
-               $timePerTaskPerUser[$userIdKey][$taskId] = $time;
-            }
-         }
-         self::setTimePerTaskPerUserList($timePerTaskPerUser, $userId, $teamId);
-      }
-      
-   }
-   
-   
-   /**
+    * this is a double check, JS does first round.
     * 
+    * TODO: rules must be updated
+    *
     * @param type $taskId
     * @param type $userTimeList : Associative array : [$userId => $time]
     */
@@ -620,19 +473,14 @@ class SchedulerManager {
       return $this->schedulerTaskProviderList;
    }
    
-   public function getDisplayableTaskInfoList(){
-      return $this->schedulerDisplayableInfoList;
-   }
-   
    /**
-    * Calculate time for users who have automatic affectation according to total task time
+    * Compute time for users who have automatic affectation according to total task time
     * @param type $timePerUserPerTaskList
     * @return $timePerUserPerTaskList
     */
-   public static function calculateAutoAffectation($timePerUserPerTaskList){
-      if(null != $timePerUserPerTaskList){
-         foreach($timePerUserPerTaskList as $taskIdKey => $timePerUser)
-         {
+   private function computeAutoAssignation($timePerUserPerTaskList){
+      if (null != $timePerUserPerTaskList) {
+         foreach($timePerUserPerTaskList as $taskIdKey => $timePerUser) {
             $task = IssueCache::getInstance()->getIssue($taskIdKey);
             $backlog = $task->getDuration();
 
@@ -640,24 +488,22 @@ class SchedulerManager {
 
             // For each users newly affected to the task, add time concerning the task
             foreach ($timePerUser as $keyUser => $userTime) {
-               if(null != $userTime){
+               if(null != $userTime) {
                   $backlog -= $userTime;
-               }
-               else{
+               } else {
                   $userAuto[$keyUser][$taskIdKey] = 0;
                }
             }
 
-            if(null != $userAuto){
+            if (null != $userAuto) {
                $timePerUserAuto = round($backlog/count($userAuto), 1);
                $diff = $timePerUserAuto*count($userAuto) - $backlog;
 
-               foreach($userAuto as $keyUser => $userTime){
+               foreach ($userAuto as $keyUser => $userTime) {
                      if($diff <= $timePerUserAuto) {
                         $timePerUserPerTaskList[$taskIdKey][$keyUser] = round($timePerUserAuto - $diff,1);
                         $diff = 0;
-                     }
-                     else{
+                     } else {
                         $timePerUserPerTaskList[$taskIdKey][$keyUser] = 0;
                         $diff -= $timePerUserAuto;
                      }
@@ -665,16 +511,43 @@ class SchedulerManager {
             }
          }
       }
-      
       return $timePerUserPerTaskList;
    }
-   
+
    /**
-    * Transform [$taskId => [$userId => $time]] in [$userId => [$taskId => $time]]
+    * ========= STATIC ========
+    * Matrix conversion
+    * IN  = [$userId => [$taskId => $time]]   (OPTION_timePerTaskPerUser)
+    * OUT = [$taskId => [$userId => $time]]
+    *
+    * @param type $userId
+    * @param type $teamId
+    * @return array : [$taskId => [$userId => $time]]
+    */
+   public static function transposeTo_TimePerUserPerTaskList($timePerTaskPerUser) {
+
+      $timePerUserPerTask = null;
+      if (null != $timePerTaskPerUser) {
+         foreach ($timePerTaskPerUser as $userIdKey => $timePerTask) {
+            foreach ($timePerTask as $taskIdKey => $time) {
+               $timePerUserPerTask[$taskIdKey][$userIdKey] = $time;
+            }
+         }
+      }
+      return $timePerUserPerTask;
+   }
+
+   /**
+    *
+    * ========= STATIC ========
+    * Matrix conversion
+    * IN  = [$taskId => [$userId => $time]]
+    * OUT = [$userId => [$taskId => $time]]   (OPTION_timePerTaskPerUser)
+    * 
     * @param type $timePerUserPerTaskList
     * @return array : [$userId => [$taskId => $time]]
     */
-   public static function transformToTimePerTaskPerUserList($timePerUserPerTaskList)
+   public static function transposeTo_TimePerTaskPerUserList($timePerUserPerTaskList)
    {
       $timePerTaskPerUserList = null;
       if (null != $timePerUserPerTaskList) {
@@ -686,5 +559,6 @@ class SchedulerManager {
       }
       return $timePerTaskPerUserList;
    }
+
 }
 SchedulerManager::staticInit();

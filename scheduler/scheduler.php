@@ -80,14 +80,14 @@ class SchedulerController extends Controller {
                $taskProviderDescriptionList[$taskProviderName] = $taskProviderReflection->newInstance()->getShortDesc();
             }
             // Get selected scheduler task provider 
-            $selectedTaskProviderName = SchedulerManager::getUserOption(SchedulerManager::OPTION_taskProvider, $_SESSION['userid'], $_SESSION['teamid']);
+            $selectedTaskProviderName = $schedulerManager->getUserOption(SchedulerManager::OPTION_taskProvider, $_SESSION['userid'], $_SESSION['teamid']);
             if(!in_array($selectedTaskProviderName, $taskProviderList))
             {
                $selectedTaskProviderName = $taskProviderList[0];
             }
 
 
-            $optDisplayExtRef = SchedulerManager::getUserOption(SchedulerManager::OPTION_isDisplayExtRef, $_SESSION['userid'], $_SESSION['teamid']);
+            $optDisplayExtRef = $schedulerManager->getUserOption(SchedulerManager::OPTION_isDisplayExtRef, $_SESSION['userid'], $_SESSION['teamid']);
             $this->smartyHelper->assign("isDisplayExtRef", $optDisplayExtRef);
 
             $projectList = SmartyTools::getSmartyArray($projectList, null);
@@ -107,7 +107,7 @@ class SchedulerController extends Controller {
             $this->smartyHelper->assign('scheduler_windowStartDate', $windowStartDate);
 
             // displayed window : nb days displayed (default 30 days)
-            $nbDaysToDisplay = SchedulerManager::getUserOption(SchedulerManager::OPTION_nbDaysToDisplay, $_SESSION['userid'], $_SESSION['teamid']);
+            $nbDaysToDisplay = $schedulerManager->getUserOption(SchedulerManager::OPTION_nbDaysToDisplay, $_SESSION['userid'], $_SESSION['teamid']);
             $this->smartyHelper->assign('scheduler_nbDaysToDisplay', $nbDaysToDisplay);
 
             $nbDaysToDisplayList = SmartyTools::getSmartyArray(array(
@@ -118,10 +118,10 @@ class SchedulerController extends Controller {
             $this->smartyHelper->assign('nbDaysToDisplayList', $nbDaysToDisplayList);
 
             // nb days to compute (default 90 days)
-            $nbDaysToCompute = SchedulerManager::getUserOption(SchedulerManager::OPTION_nbDaysForecast, $_SESSION['userid'], $_SESSION['teamid']);
+            $nbDaysToCompute = $schedulerManager->getUserOption(SchedulerManager::OPTION_nbDaysForecast, $_SESSION['userid'], $_SESSION['teamid']);
             $this->smartyHelper->assign('scheduler_nbDaysToCompute', $nbDaysToCompute);
 
-            $warnThreshold = SchedulerManager::getUserOption(SchedulerManager::OPTION_warnThreshold, $_SESSION['userid'], $_SESSION['teamid']);
+            $warnThreshold = $schedulerManager->getUserOption(SchedulerManager::OPTION_warnThreshold, $_SESSION['userid'], $_SESSION['teamid']);
             $this->smartyHelper->assign('scheduler_warnThreshold', $warnThreshold);
 
          }

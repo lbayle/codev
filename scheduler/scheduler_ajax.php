@@ -22,7 +22,7 @@ require('../path.inc.php');
 // Note: i18n is included by the Controler class, but Ajax dos not use it...
 require_once('i18n/i18n.inc.php');
 
-$SchedAjaxLogger = Logger::getLogger("scheduler_ajax");
+$schedAjaxLogger = Logger::getLogger("scheduler_ajax");
 
 if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
@@ -62,7 +62,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 }
 
 function getTeam() {
-   global $SchedAjaxLogger;
+   global $schedAjaxLogger;
    
    $data = array();
    $team_id = $_SESSION['teamid'];
@@ -75,7 +75,7 @@ function getTeam() {
 }
 
 function getExistingTimetrack() {
-   global $SchedAjaxLogger;
+   global $schedAjaxLogger;
 
    try {
       $timeTracks = array();
@@ -90,7 +90,7 @@ function getExistingTimetrack() {
          $prevTimetrack = NULL;
 
          //$startOfCycle = $user->getArrivalDate($team_id);
-         $startOfCycle = strtotime("-1 month", mktime(0, 0, 0)); // TODO remove this hardcoded value !
+         $startOfCycle = strtotime("-2 month", mktime(0, 0, 0)); // TODO remove this hardcoded value !
          $endOfCycle = strtotime("+3 month", mktime(0, 0, 0)); // TODO remove this hardcoded value !
 
          $timeTracks = $user->getTimeTracks($startOfCycle, $endOfCycle);
@@ -151,7 +151,7 @@ function getExistingTimetrack() {
       }
    } catch (Exception $e) {
       // TODO handle exception
-      $SchedAjaxLogger->error("getOldTimetrack: exception raised !!");
+      $schedAjaxLogger->error("getOldTimetrack: exception raised !!");
    }
 
    echo json_encode($allTimetracks);
@@ -216,7 +216,7 @@ function formatActivity(array $activity, Team $team, $userId) {
 }
 
 function getProjection() {
-   global $SchedAjaxLogger;
+   global $schedAjaxLogger;
 
    try {
       $s = new SchedulerManager();
@@ -226,7 +226,7 @@ function getProjection() {
       echo json_encode($data);
    } catch (Exception $e) {
       // TODO handle exception
-      $SchedAjaxLogger->error("getProjection: exception raised !!");
+      $schedAjaxLogger->error("getProjection: exception raised !!");
    }
 }
 
@@ -234,21 +234,18 @@ function getProjection() {
 /**
  * Get task list according to selected project
  */
-function getTaskList()
-{
-   global $SchedAjaxLogger;
+function getTaskList() {
+   global $schedAjaxLogger;
    
    $projectId = Tools::getSecurePOSTStringValue('projectId');
    
-   if(null != $projectId)
-   {
+   if(null != $projectId) {
       $project = ProjectCache::getInstance()->getProject($projectId);
       $taskList = $project->getIssues();
    }
    
    // Set task id list
-   foreach($taskList as $key => $task)
-   {
+   foreach($taskList as $key => $task) {
       $statusThreshold = $task->getBugResolvedStatusThreshold();
       $status = $task->getStatus();
 
@@ -259,78 +256,77 @@ function getTaskList()
          }
       }
    }
-   
    $data['scheduler_taskList'] = $taskIdList;
-   
    $jsonData = json_encode($data);
    echo $jsonData;
 }
 
-//function setTimeDefaultHandler(){
-//   global $SchedAjaxLogger;
-//   foreach()
-//   $uptadeSuccessful = SchedulerManager::updateTimePerUserListOfTask($taskId, $taskUserList, $_SESSION['userid'], $_SESSION['teamid']);
-//   if(!$uptadeSuccessful){
-//      $SchedAjaxLogger->error("updateTimePerUserListOfTask: exception raised !!");
-//   }
-//}
-
+/**
+ * Scheduler Affectations
+ *
+ * Update scheduler 'timePerTaskPerUser' option
+ *
+ * @global type $schedAjaxLogger
+ */
 function setTimePerUserList() {
-   global $SchedAjaxLogger;
-   //$SchedAjaxLogger->error('---------- setTimePerUserList ----------');
-   
-   $taskId = Tools::getSecurePOSTStringValue('taskId');
-   //$SchedAjaxLogger->error($taskId);
-   $usersTimeList = Tools::getSecurePOSTStringValue('taskUserList');
-   $usersTimeList = json_decode(stripslashes($usersTimeList), true);
-   
-   if(null != $taskId) {
-      $taskSummary = IssueCache::getInstance()->getIssue($taskId)->getSummary();
-      
-      // If list of user exist => we add users to task
-      if(null != $usersTimeList) 
-      {
-         foreach($usersTimeList as $userTime) 
-         {
-            $taskUserList[$userTime['userId']] = $userTime['userTime'];
-         }
-         $uptadeSuccessful = SchedulerManager::updateTimePerUserListOfTask($taskId, $taskUserList, $_SESSION['userid'], $_SESSION['teamid']);
-         
-         $data['scheduler_message'] = T_("Users have been affected to task : ") . $taskSummary;
+   global $schedAjaxLogger;
+
+   $bugid = Tools::getSecurePOSTStringValue('taskId');
+   $uTimeList = Tools::getSecurePOSTStringValue('taskUserList'); // [ [ 'userId' => id, 'userTime' => days ] ]
+   $usersTimeList = json_decode(stripslashes($uTimeList), true);
+
+   foreach($usersTimeList as $userTime) {
+      // Note: if (userTime == NULL) => auto mode
+      $assignedUsers[$userTime['userId']] = $userTime['userTime'];
+   }
+
+   $schedulerManager = new SchedulerManager();
+   $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser, $_SESSION['userid'], $_SESSION['teamid']);
+   $timePerUserPerTask = SchedulerManager::transposeTo_TimePerUserPerTaskList($timePerTaskPerUser);
+
+   // clear: remove previous settings for this task
+   unset($timePerUserPerTask[$bugid]);
+
+   // add new users to task
+   if (null != $assignedUsers) {
+      if (!SchedulerManager::isTimePerUserListValid($bugid, $assignedUsers)) {
+         $data['scheduler_status'] = "ERROR";
+         $data['scheduler_message'] = T_("Assignments rules not valid for task") . " $bugid";
+         return $data;
       }
-      else // If list of user doesn't exist => we remove users to task
-      {
-         $uptadeSuccessful = SchedulerManager::removeTimePerUserOfTask($taskId, $_SESSION['userid'], $_SESSION['teamid']);
-         
-         $data['scheduler_message'] = T_("Users have been remove from task : ") . $taskSummary;
-      }
-      
-      if($uptadeSuccessful) {
-         
-         $data['scheduler_status'] = "SUCCESS";
-         
-      } else {
-         $data['scheduler_status'] = T_("Invalid modifications");
-         $data['scheduler_message'] = T_("Invalid modifications");
+
+      foreach($assignedUsers as $userid => $assignedTime) {
+         // Note: if userTime == NULL => auto mode
+         $timePerUserPerTask[$bugid][$userid] = $assignedTime;
       }
    }
+
+   $new_timePerTaskPerUser = SchedulerManager::transposeTo_TimePerTaskPerUserList($timePerUserPerTask);
+   $schedulerManager->setUserOption(SchedulerManager::OPTION_timePerTaskPerUser, $new_timePerTaskPerUser, $_SESSION['userid'], $_SESSION['teamid']);
+
+   $data['scheduler_status'] = "SUCCESS";
+   $data['scheduler_message'] = T_("Assignments updated for task") . " $bugid";
    return $data;
 }
 
 /**
  * Get time per user per task list [$task => [$userId => $time]]
  * With information of task (label, external reference,...)
- * @global type $SchedAjaxLogger
+ * @global type $schedAjaxLogger
  * @param array $data : previous computed information to send to view
  */
-function getAllTaskUserList($data = false)
-{
-   global $SchedAjaxLogger;
+function getAllTaskUserList($data = false) {
+   global $schedAjaxLogger;
    //$SchedAjaxLogger->error('---------- getAllTaskUserList ----------');
    
    // Get time per user per task list
    $timePerUserPerTaskLibelleList = null;
-   $timePerUserPerTaskList = SchedulerManager::getTimePerUserPerTaskList($_SESSION['userid'], $_SESSION['teamid']);
+
+   // TODO
+   $schedulerManager = new SchedulerManager();
+   $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser, $_SESSION['userid'], $_SESSION['teamid']);
+   
+   $timePerUserPerTaskList = SchedulerManager::transposeTo_TimePerUserPerTaskList($timePerTaskPerUser);
    
    if(null != $timePerUserPerTaskList)
    {
@@ -372,10 +368,10 @@ function getAllTaskUserList($data = false)
 
 /**
  * Get to the view the list of user and their time on a task [$userId => $time]
- * @global type $SchedAjaxLogger
+ * @global type $schedAjaxLogger
  */
 function getTaskUserList() {
-   global $SchedAjaxLogger;
+   global $schedAjaxLogger;
    //$SchedAjaxLogger->error('---------- getTaskUserList ----------');
    
    $taskEffortEstim = 0;
@@ -393,8 +389,15 @@ function getTaskUserList() {
       $taskEffortEstim = IssueCache::getInstance()->getIssue($taskId)->getEffortEstim();
       
       // Get task user list
-      $tasksUserList = SchedulerManager::getTimePerUserListOfTask($taskId, $_SESSION['userid'], $_SESSION['teamid']);
-      
+      // TODO
+      $schedulerManager = new SchedulerManager();
+      $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser, $_SESSION['userid'], $_SESSION['teamid']);
+
+      // For this task, get the assigned time per user from userOptions
+      // [$taskId => [$userId => $time]]
+      $timePerUserPerTaskList = SchedulerManager::transposeTo_TimePerUserPerTaskList($timePerTaskPerUser);
+      $tasksUserList = $timePerUserPerTaskList[$taskId];
+
       // If task user list exist in BD
       if(null != $tasksUserList) {
          if(null != $taskHandlerId) {
@@ -439,20 +442,8 @@ function getTaskUserList() {
    echo $jsonData;
 }
 
-function removeTimePerUserList() {
-   global $SchedAjaxLogger;
-   
-   $taskId = Tools::getSecurePOSTStringValue('taskId');
-   
-   if(null != $taskId) {
-      
-      SchedulerManager::updateTimePerUserListOfTask($taskId, null, $_SESSION['userid'], $_SESSION['teamid']);
-   }
-}
-
-function setOptions()
-{
-   global $SchedAjaxLogger;
+function setOptions() {
+   global $schedAjaxLogger;
    
    $taskProviderId  = Tools::getSecurePOSTStringValue('taskProvider');
    $isDisplayExtRef = Tools::getSecurePOSTStringValue('isDisplayExtRef');
@@ -476,5 +467,5 @@ function setOptions()
    echo $jsonData;
 }
 
-//$_SESSION['tasksUserList']['id_de_tache']['id_du_user'] = temps_du_user
+
 
