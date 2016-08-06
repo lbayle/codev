@@ -56,7 +56,7 @@ function createSchedulerTable(redirect) {
             }
    });
    
-   var d = new Date();
+   var scheduler_windowStartDate = new Date(); // 'YYYY-MM-DD' scheduler_windowStartDate
    
    $.when(jsonUserDataPromise).done(function(){
       scheduler.createTimelineView({
@@ -64,9 +64,9 @@ function createSchedulerTable(redirect) {
          x_unit:	"day",
          x_date: "%j %M",
          x_step: 1,
-         x_size: 30,
+         x_size: 30,  // scheduler_nbDaysToDisplay
          x_start: 0,
-         x_length: 30,
+         x_length: 30,  // scheduler_nbDaysToDisplay
          event_dy : 'full',
          y_unit:jsonUserData,
          y_property:"user_id", 
@@ -74,7 +74,7 @@ function createSchedulerTable(redirect) {
          render:"bar",
       });
    
-      scheduler.init('scheduler_here', d, "mTimeline");
+      scheduler.init('scheduler_here', scheduler_windowStartDate, "mTimeline");
    });
    
    $.when(jsonUserDataPromise, jsonTimetrackDataPromise).done(function(){

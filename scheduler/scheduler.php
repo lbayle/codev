@@ -51,6 +51,9 @@ class SchedulerController extends Controller {
             $userList = $team->getActiveMembers();
             $schedulerManager = new SchedulerManager();
 
+            // TODO use this value to stop scheduler computing if OPTION_nbDaysForecast is too big
+            $max_time = ini_get("max_execution_time");
+            self::$logger->error('max_execution_time = '.$max_time);
 
             // Set task id list
             $taskIdList[null] = T_("Select a task");
@@ -98,6 +101,25 @@ class SchedulerController extends Controller {
 
             $taskProviderDescriptionList = SmartyTools::getSmartyArray($taskProviderDescriptionList, $selectedTaskProviderName);
             $this->smartyHelper->assign("scheduler_taskProviderList", $taskProviderDescriptionList);
+
+            // start date of the displayed window
+            $windowStartDate = date('Y-m-d', strtotime('first day of this week'));
+            $this->smartyHelper->assign('scheduler_windowStartDate', $windowStartDate);
+
+            // displayed window : nb days displayed (default 30 days)
+            $nbDaysToDisplay = SchedulerManager::getUserOption(SchedulerManager::OPTION_nbDaysToDisplay, $_SESSION['userid'], $_SESSION['teamid']);
+            $this->smartyHelper->assign('scheduler_nbDaysToDisplay', $nbDaysToDisplay);
+
+            $nbDaysToDisplayList = SmartyTools::getSmartyArray(array(
+                        15 => T_('2 weeks'),
+                        30 => T_('1 month'),
+                        60 => T_('2 months'),
+                        90 => T_('3 months')), $nbDaysToDisplay);
+            $this->smartyHelper->assign('nbDaysToDisplayList', $nbDaysToDisplayList);
+
+            // nb days to compute (default 90 days)
+            $nbDaysToCompute = SchedulerManager::getUserOption(SchedulerManager::OPTION_nbDaysForecast, $_SESSION['userid'], $_SESSION['teamid']);
+            $this->smartyHelper->assign('scheduler_nbDaysToCompute', $nbDaysToCompute);
 
          }
       }

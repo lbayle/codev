@@ -18,10 +18,12 @@
 
 class SchedulerManager {
 
-   const OPTION_timePerTaskPerUser = 'timePerTaskPerUser';
-   const OPTION_taskProvider       = 'taskProvider';
+   const OPTION_timePerTaskPerUser = 'timePerTaskPerUser'; // array
+   const OPTION_taskProvider       = 'taskProvider';    // Scheduling method
    const OPTION_isDisplayExtRef    = 'isDisplayExtRef';
-   const OPTION_nbDaysForecast     = 'nbDaysForecast';
+   const OPTION_nbDaysForecast     = 'nbDaysForecast';  // nb days to compute
+   const OPTION_displayedUsers     = 'displayedUsers';  // array(userid): display subset of team users
+   const OPTION_nbDaysToDisplay    = 'nbDaysToDisplay'; // displayed window
 
    private static $logger;
 
@@ -241,7 +243,7 @@ class SchedulerManager {
               $this->data['activity'][$key]["color"] = '#FFBA00';
            } else {
               //  task is on time => green
-              $this->data['activity'][$key]["color"] = 'green';
+              $this->data['activity'][$key]["color"] =  '#009900'; // 'green';
            }
         }
       }
@@ -360,7 +362,9 @@ class SchedulerManager {
       $userOptions = array (
          self::OPTION_taskProvider => 'SchedulerTaskProvider0', // $this->schedulerTaskProviderList[0],
          self::OPTION_isDisplayExtRef => FALSE,
-         self::OPTION_nbDaysForecast => 90, // 3 month
+         self::OPTION_nbDaysForecast => 90,  // 90 days = 3 month
+         self::OPTION_nbDaysToDisplay => 30, // 30 days = 1 month
+         self::OPTION_displayedUsers => NULL,
          self::OPTION_timePerTaskPerUser => NULL,
       );
 
@@ -508,21 +512,22 @@ class SchedulerManager {
    /**
     * Set a specific option option of the user / team in DB
     * @param string $optionName
-    * @param type $option
+    * @param type $value
     * @param type $userId
     * @param type $teamId
     */
-   public static function setUserOption($optionName, $option, $userId, $teamId)
+   public static function setUserOption($optionName, $value, $userId, $teamId)
    {
       $userOptions = self::getUserOptions($userId, $teamId);
       
-      if(null != $userOptions["$optionName"])
-      {
-         unset($userOptions["$optionName"]);
-      }
+      if(null == $userOptions[$optionName]) {
+         // key always exists (at least with default value)
+         self::$logger->error("setUserOption($optionName, $value, $userId, $teamId): unknown optionName !");
+         return false;
+      } 
       
-      $userOptions["$optionName"] = $option;
-      
+      //self::$logger->error("setUserOption($optionName, $value, $userId, $teamId)"); // DEBUG
+      $userOptions[$optionName] = $value;
       $userOptionsJson = json_encode($userOptions);
       Config::setValue(Config::id_schedulerOptions, $userOptionsJson, Config::configType_string, NULL, 0, $userId, $teamId);
    }

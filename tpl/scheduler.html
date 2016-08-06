@@ -43,18 +43,18 @@
    <div class="right" style="margin-top: 1em;">
       <button class="scheduler_generatePlanningButton" onclick="createSchedulerTable(true)" >
          <img class="vertical-middle" src="images/b_refresh.png" alt="refresh icon">
-         <span class="vertical-middle">{t}Generate planning{/t}</span>
+         <span class="vertical-middle">{t}Reload{/t}</span>
       </button>
       <button onclick='exportToExcel()'>
          <img class="vertical-middle" src="images/b_export_xls.gif" alt="xls export icon">
-         <span class="vertical-middle">{t}Export to Excel{/t}</span>
+         <span class="vertical-middle">{t}Export{/t}</span>
       </button>
    </div>
    
    <div id="tabsScheduler" class="float tabs {$ui_tabs_jquery}" style="width:100%; margin-top:1em;" >
       <ul class="{$ui_tabs_jquery_ul}">
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabPlanning" onclick="refreshPlanning()">{t}Planning{/t}</a></li>
-         <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabAffectations">{t}Affectations{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabAffectations">{t}Assignment{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabOptions">{t}Options{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabRAF">{t}RAF{/t}</a></li>
       </ul>
@@ -170,7 +170,16 @@
             </div>
             <input id="isDisplayExtRef" class="scheduler_optionElement" type="checkbox" {if ($isDisplayExtRef)}checked="checked"{/if}/>{t}Display ExtRef instead of mantis_id{/t}
             <br>
-            
+            <label>{t}Displayed window size{/t} :</label>
+            <select  id="nbDaysToDisplay" class="scheduler_optionElement" >
+            {foreach from=$nbDaysToDisplayList key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+            {/foreach}
+            </select>
+            <br>
+            <label>{t}Number of days to compute{/t} :</label>
+            <input id="nbDaysForecast" class="scheduler_optionElement" value="{$scheduler_nbDaysToCompute}"/>
+            <br>
             <div class="center">
                <button class="scheduler_saveOptionsButton" disabled>
                   <img class="scheduler_image vertical-middle" src="images/b_save.png" alt="save icon">
