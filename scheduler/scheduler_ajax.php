@@ -241,19 +241,13 @@ function getTaskList() {
    
    if(null != $projectId) {
       $project = ProjectCache::getInstance()->getProject($projectId);
-      $taskList = $project->getIssues();
+      $taskList = $project->getIssues(0, true); // hide resolved tasks
    }
-   
+
    // Set task id list
    foreach($taskList as $key => $task) {
-      $statusThreshold = $task->getBugResolvedStatusThreshold();
-      $status = $task->getStatus();
-
-      if($status < $statusThreshold){
-         if(0 < $task->getEffortEstim())
-         {
-            $taskIdList[$key] = $task->getSummary();
-         }
+      if(0 < $task->getDuration()) {
+         $taskIdList[$key] = $task->getSummary();
       }
    }
    $data['scheduler_taskList'] = $taskIdList;
