@@ -458,6 +458,7 @@ function setOptions()
    $isDisplayExtRef = Tools::getSecurePOSTStringValue('isDisplayExtRef');
    $nbDaysToDisplay = Tools::getSecurePOSTIntValue('nbDaysToDisplay');
    $nbDaysForecast  = Tools::getSecurePOSTIntValue('nbDaysForecast');
+   $warnThreshold   = Tools::getSecurePOSTIntValue('warnThreshold');
 
    // TODO check values !
 
@@ -465,6 +466,7 @@ function setOptions()
    SchedulerManager::setUserOption(SchedulerManager::OPTION_isDisplayExtRef, $isDisplayExtRef, $_SESSION['userid'], $_SESSION['teamid']);
    SchedulerManager::setUserOption(SchedulerManager::OPTION_nbDaysToDisplay, $nbDaysToDisplay, $_SESSION['userid'], $_SESSION['teamid']);
    SchedulerManager::setUserOption(SchedulerManager::OPTION_nbDaysForecast, $nbDaysForecast, $_SESSION['userid'], $_SESSION['teamid']);
+   SchedulerManager::setUserOption(SchedulerManager::OPTION_warnThreshold,  $warnThreshold,  $_SESSION['userid'], $_SESSION['teamid']);
    
    $data['scheduler_status'] = "SUCCESS";
    $data['scheduler_message'] = T_("Options saved successfully");

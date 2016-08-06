@@ -24,6 +24,7 @@ class SchedulerManager {
    const OPTION_nbDaysForecast     = 'nbDaysForecast';  // nb days to compute
    const OPTION_displayedUsers     = 'displayedUsers';  // array(userid): display subset of team users
    const OPTION_nbDaysToDisplay    = 'nbDaysToDisplay'; // displayed window
+   const OPTION_warnThreshold      = 'warnThreshold';   // warn if ends n days before deadline
 
    private static $logger;
 
@@ -210,7 +211,7 @@ class SchedulerManager {
   
    private function adjustColor(){
 
-      $warnThreshold = 5 ; // TODO: set as option (5 days before deadline)
+      $warnThreshold   = self::getUserOption(self::OPTION_warnThreshold, $this->user_id, $this->team_id);
 
       foreach($this->data["activity"] as $key=>$data){
         
@@ -364,6 +365,7 @@ class SchedulerManager {
          self::OPTION_isDisplayExtRef => FALSE,
          self::OPTION_nbDaysForecast => 90,  // 90 days = 3 month
          self::OPTION_nbDaysToDisplay => 30, // 30 days = 1 month
+         self::OPTION_warnThreshold => 5,    // 5 days before deadline
          self::OPTION_displayedUsers => NULL,
          self::OPTION_timePerTaskPerUser => NULL,
       );

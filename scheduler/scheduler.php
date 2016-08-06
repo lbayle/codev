@@ -121,6 +121,9 @@ class SchedulerController extends Controller {
             $nbDaysToCompute = SchedulerManager::getUserOption(SchedulerManager::OPTION_nbDaysForecast, $_SESSION['userid'], $_SESSION['teamid']);
             $this->smartyHelper->assign('scheduler_nbDaysToCompute', $nbDaysToCompute);
 
+            $warnThreshold = SchedulerManager::getUserOption(SchedulerManager::OPTION_warnThreshold, $_SESSION['userid'], $_SESSION['teamid']);
+            $this->smartyHelper->assign('scheduler_warnThreshold', $warnThreshold);
+
          }
       }
    }

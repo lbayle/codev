@@ -565,6 +565,7 @@ function initSchedulerOptions(){
       var isDisplayExtRef = jQuery("#tabsScheduler_tabOptions #isDisplayExtRef").attr('checked') ? 1 : 0;
       var nbDaysToDisplay = jQuery("#tabsScheduler_tabOptions #nbDaysToDisplay").val();
       var nbDaysForecast = jQuery("#tabsScheduler_tabOptions #nbDaysForecast").val();
+      var warnThreshold  = jQuery("#tabsScheduler_tabOptions #warnThreshold").val();
       this.disabled = true;
 
       jQuery.ajax({ 
@@ -575,7 +576,8 @@ function initSchedulerOptions(){
             taskProvider: taskProviderId,
             isDisplayExtRef: isDisplayExtRef,
             nbDaysToDisplay: nbDaysToDisplay,
-            nbDaysForecast: nbDaysForecast
+            nbDaysForecast: nbDaysForecast,
+            warnThreshold: warnThreshold
          },
          type: 'post',
          success: function(data) {
