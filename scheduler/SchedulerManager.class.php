@@ -494,9 +494,8 @@ class SchedulerManager {
          return false;
       }
 
-      //self::$logger->error("setUserOption($optionName, $value, $userId, $teamId)"); // DEBUG
-      $userOptions[$optionName] = $value;
-      $userOptionsJson = json_encode($userOptions);
+      $this->userOptions[$optionName] = $value;
+      $userOptionsJson = json_encode($this->userOptions);
       Config::setValue(Config::id_schedulerOptions, $userOptionsJson, Config::configType_string, NULL, 0, $userId, $teamId);
    }
 

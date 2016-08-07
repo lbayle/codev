@@ -76,6 +76,9 @@ function getTeam() {
 function getExistingTimetrack() {
    global $schedAjaxLogger;
 
+   $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
+   $isDisplayExtRef = $schedulerManager->getUserOption(SchedulerManager::OPTION_isDisplayExtRef, $_SESSION['userid'], $_SESSION['teamid']);
+
    try {
       $timeTracks = array();
       $allTimetracks = array();
@@ -122,7 +125,7 @@ function getExistingTimetrack() {
                      $prevTimetrack['endMidnightTimestamp'] = mktime(0, 0, 0, date('m', $endTimestamp), date('d', $endTimestamp), date('Y', $endTimestamp));
                   } else {
                      // store previous timetrack
-                     $dxhtmlData = formatActivity($prevTimetrack, $team, $userId);
+                     $dxhtmlData = formatActivity($prevTimetrack, $team, $userId, $isDisplayExtRef);
                      array_push($allTimetracks, $dxhtmlData);
 
                      // if same day than prevTimetrack, append to it
@@ -143,7 +146,7 @@ function getExistingTimetrack() {
             }
             // store latest timetrack strike still in cache
             if(null != $prevTimetrack){
-               $dxhtmlData = formatActivity($prevTimetrack, $team, $userId);
+               $dxhtmlData = formatActivity($prevTimetrack, $team, $userId, $isDisplayExtRef);
             }
             array_push($allTimetracks, $dxhtmlData);
          }
@@ -162,7 +165,7 @@ function getExistingTimetrack() {
  * @param Team $team
  * @return string color
  */
-function formatActivity(array $activity, Team $team, $userId) {
+function formatActivity(array $activity, Team $team, $userId, $isExtRef) {
 
    // could be static
    $teamProjects = array_keys($team->getProjects());
@@ -177,6 +180,12 @@ function formatActivity(array $activity, Team $team, $userId) {
       $issue = IssueCache::getInstance()->getIssue($activity['bugid']);
       $projectid = $issue->getProjectId();
       $prj = ProjectCache::getInstance()->getProject($projectid);
+      if ($isExtRef) {
+         $extRef = $issue->getTcId();
+         if (NULL == $extRef) {
+            $extRef = 'm'.$bugid;
+         }
+      }
 
       if ($prj->isExternalTasksProject()) {
          $color = 'lightgrey';
@@ -189,13 +198,13 @@ function formatActivity(array $activity, Team $team, $userId) {
                $desc = $issue->getSummary();
                $color =  '#81BEF7';
             } else {
-               $text = $bugid;
+               $text = ($isExtRef) ? $extRef : $bugid;
                $desc = "[$bugid] ".$issue->getSummary();
                $color =  "#8181F7";
             }
          } else {
             // user worked for another team
-            $text = $bugid;
+            $text = ($isExtRef) ? $extRef : $bugid;
             $desc = "[$bugid] ".$issue->getSummary();
             $color =  '#A4A4A4';
          }
@@ -262,7 +271,7 @@ function getTaskList() {
  *
  */
 function setTimePerUserList() {
- 
+
    $bugid = Tools::getSecurePOSTStringValue('taskId');
    $uTimeList = Tools::getSecurePOSTStringValue('taskUserList'); // [ [ 'userId' => id, 'userTime' => days ] ]
    $usersTimeList = json_decode(stripslashes($uTimeList), true);
@@ -434,18 +443,19 @@ function getTaskUserList() {
 function setOptions() {
    
    $taskProviderId  = Tools::getSecurePOSTStringValue('taskProvider');
-   $isDisplayExtRef = Tools::getSecurePOSTStringValue('isDisplayExtRef');
+   $isDisplayExtRef = Tools::getSecurePOSTIntValue('isDisplayExtRef');
    $nbDaysToDisplay = Tools::getSecurePOSTIntValue('nbDaysToDisplay');
    $nbDaysForecast  = Tools::getSecurePOSTIntValue('nbDaysForecast');
    $warnThreshold   = Tools::getSecurePOSTIntValue('warnThreshold');
 
    // TODO check values !
 
-   SchedulerManager::setUserOption(SchedulerManager::OPTION_taskProvider, $taskProviderId, $_SESSION['userid'], $_SESSION['teamid']);
-   SchedulerManager::setUserOption(SchedulerManager::OPTION_isDisplayExtRef, $isDisplayExtRef, $_SESSION['userid'], $_SESSION['teamid']);
-   SchedulerManager::setUserOption(SchedulerManager::OPTION_nbDaysToDisplay, $nbDaysToDisplay, $_SESSION['userid'], $_SESSION['teamid']);
-   SchedulerManager::setUserOption(SchedulerManager::OPTION_nbDaysForecast, $nbDaysForecast, $_SESSION['userid'], $_SESSION['teamid']);
-   SchedulerManager::setUserOption(SchedulerManager::OPTION_warnThreshold,  $warnThreshold,  $_SESSION['userid'], $_SESSION['teamid']);
+   $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
+   $schedulerManager->setUserOption(SchedulerManager::OPTION_taskProvider, $taskProviderId, $_SESSION['userid'], $_SESSION['teamid']);
+   $schedulerManager->setUserOption(SchedulerManager::OPTION_isDisplayExtRef, $isDisplayExtRef, $_SESSION['userid'], $_SESSION['teamid']);
+   $schedulerManager->setUserOption(SchedulerManager::OPTION_nbDaysToDisplay, $nbDaysToDisplay, $_SESSION['userid'], $_SESSION['teamid']);
+   $schedulerManager->setUserOption(SchedulerManager::OPTION_nbDaysForecast, $nbDaysForecast, $_SESSION['userid'], $_SESSION['teamid']);
+   $schedulerManager->setUserOption(SchedulerManager::OPTION_warnThreshold,  $warnThreshold,  $_SESSION['userid'], $_SESSION['teamid']);
    
    $data['scheduler_status'] = "SUCCESS";
    $data['scheduler_message'] = T_("Options saved successfully");
