@@ -3,29 +3,27 @@
    <table id="tabsScheduler_AffectationSummaryTable" class="datatable_csv">
       <thead>
          <th></th>
-         
-         <th>{t}Task Id{/t}</th>
-         <th></th>
-         <th>{t}Task Name{/t}</th>
-         <th>{t}External Reference{/t}</th>
-         <th>{t}Users{/t}</th>
-         
+         <th>{t}ID{/t}</th>
+         <th>{t}ExtRef{/t}</th>
+         <th>{t}Assigned users{/t}</th>
+         <th>{t}Summary{/t}</th>
       </thead>
       <tbody>
          {foreach from=$scheduler_timePerUserPerTaskInfosList key=taskId item=$task}
          <tr class="scheduler_taskRow" data-taskId="{$taskId}" data-projectId="{$task.projectId}">
-            <td class="ui-state-error-text pointer removeTaskAffectation"><a class="ui-icon"></a></td>
+            <td style="width:38px;" class="ui-state-error-text">
+               <a class="removeTaskAffectation ui-icon pointer" align="absmiddle"></a>
+               <img class="summaryTableTaskDisplay pointer" align="absmiddle" src="images/b_edit.png">
+            </td>
             
-            <td><a href="reports/issue_info.php?bugid={$taskId}">{$taskId}</a></td>
-            <td class="summaryTableTaskDisplay pointer"><img src="images/b_goto.png"></td>
-            <td>{$task.summary}</td>
-            <td>{$task.externalReference}</td>
+            <td><a href="reports/issue_info.php?bugid={$taskId}">{$task.mantisURL} {$task.issueURL}</a></td>
+            <td>{$task.extRef}</td>
             <td>
                {foreach from=$task.users key=$userName item=$time}
                <span>{$userName} ({$time})  </span>
                {/foreach}
             </td>
-            
+            <td>{$task.summary}</td>
          </tr>
          {/foreach}
       </tbody>
@@ -39,8 +37,9 @@
 <script>
    // On display task button click
    jQuery(".summaryTableTaskDisplay").on("click", function(){
-      var taskId = jQuery(this).parent(".scheduler_taskRow").attr("data-taskId");
-      var projectId = jQuery(this).parent(".scheduler_taskRow").attr("data-projectId");
+      var parentRow = jQuery(this).closest("tr.scheduler_taskRow");
+      var taskId = parentRow.attr("data-taskId");
+      var projectId = parentRow.attr("data-projectId");
       var taskList = jQuery("select.scheduler_taskList");
       var projectList = jQuery("select.scheduler_projectList");
       
@@ -64,7 +63,7 @@
    
    // On remove button click
 $(".removeTaskAffectation").on("click", function(){
-   var parentRow = jQuery(this).parent("tr.scheduler_taskRow");
+   var parentRow = jQuery(this).closest("tr.scheduler_taskRow");
    var taskId = parentRow.attr("data-taskId");
 
    jQuery.ajax({ 

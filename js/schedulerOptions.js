@@ -335,7 +335,7 @@ function initSchedulerAffectations(){
       
       
       var totalAffectedEffortComparison = jQuery(".scheduler_totalAffectedEffortComparison");
-      var saveTaskModificationsButton = jQuery(".scheduler_saveTaskModificationsButton");
+      var saveTaskModificationsButton = jQuery(".scheduler_saveUserAssignmentButton");
       
       // Get total estimed effort on task
       var totalEstimedEffort = parseFloat(jQuery(".scheduler_taskEffortEstim").eq(0).text());
@@ -477,7 +477,7 @@ function initSchedulerAffectations(){
    });
    
    // On save Task Modifications Button click
-   jQuery(".scheduler_saveTaskModificationsButton").on("click", function(){
+   jQuery(".scheduler_saveUserAssignmentButton").on("click", function(){
       
       var userTable = jQuery(".scheduler_addedUsers table tbody");
       var selectedTaskId = jQuery(".scheduler_taskList option:selected").val();

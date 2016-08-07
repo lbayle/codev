@@ -77,7 +77,7 @@
       
       <div id="tabsScheduler_tabAffectations">
          <h2 class="center">
-            <strong>{t}Affectation of users on tasks{/t}</strong>
+            <strong>{t}User assignment{/t}</strong>
          </h2>
          
          
@@ -126,12 +126,18 @@
                   <tfoot>
                      <tr>
                         <td colspan="5" class="center" style="padding: 0.5em;">
-                           <label>{t}Total affected effort{/t}: </label>
-                           <span class="scheduler_totalAffectedEffortComparison">
-                              <span class="scheduler_totalAffectedEffort">0</span>
-                              <span>/</span>
-                              <span class="scheduler_taskEffortEstim">0</span>
-                           </span>
+                           <div>
+                              <label>{t}Total assigned effort{/t}: </label>
+                              <span class="scheduler_totalAffectedEffortComparison">
+                                 <span class="scheduler_totalAffectedEffort">0</span>
+                                 <span>/</span>
+                                 <span class="scheduler_taskEffortEstim">0</span>
+                              </span>
+                           </div>
+                           <button class="scheduler_saveUserAssignmentButton" disabled title="{t}Save user assignment for this task{/t}">
+                              <img class="scheduler_image vertical-middle" src="images/b_save.png" alt="save icon">
+                              <span class="vertical-middle">{t}Save{/t}</span>
+                           </button>
                         </td>
                      </tr>
                   </tfoot>
@@ -139,10 +145,6 @@
             </div>
             
             <div class="center">
-               <button class="scheduler_saveTaskModificationsButton" disabled>
-                  <img class="scheduler_image vertical-middle" src="images/b_save.png" alt="save icon">
-                  <span class="vertical-middle">{t}Save modifications for this task{/t}</span>
-               </button>
                
                <div class="scheduler_messageSave success_font">
                </div>
@@ -170,7 +172,7 @@
             </div>
             <input id="isDisplayExtRef" class="scheduler_optionElement" type="checkbox" {if ($isDisplayExtRef)}checked="checked"{/if}/>{t}Display ExtRef instead of mantis_id{/t}
             <br>
-            <label>{t}Displayed window size{/t} :</label>
+            <label>{t}Number of days to display{/t} :</label>
             <select  id="nbDaysToDisplay" class="scheduler_optionElement" >
             {foreach from=$nbDaysToDisplayList key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>

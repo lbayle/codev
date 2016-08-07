@@ -317,22 +317,23 @@ function getAllTaskUserList($data = false) {
    
    $timePerUserPerTaskList = SchedulerManager::transposeTo_TimePerUserPerTask($timePerTaskPerUser);
    
-   if(null != $timePerUserPerTaskList)
-   {
+   if(null != $timePerUserPerTaskList) {
       // Set time Per User Per Task List with label
       foreach($timePerUserPerTaskList as $taskIdKey => $timePerUserList) {
-         $taskInfos = IssueCache::getInstance()->getIssue($taskIdKey);
-         $taskSummary = $taskInfos->getSummary();
-         $taskExternalReference = $taskInfos->getTcId();
-         $projectId = $taskInfos->getProjectId();
-
+         $issue = IssueCache::getInstance()->getIssue($taskIdKey);
+         $assignedUsers = array();
          foreach($timePerUserList as $userIdKey => $time) {
             $userName = UserCache::getInstance()->getUser($userIdKey)->getName();
-            $timePerUserPerTaskLibelleList[$taskIdKey]['users'][$userName] = $time;
-            $timePerUserPerTaskLibelleList[$taskIdKey]['summary'] = $taskSummary;
-            $timePerUserPerTaskLibelleList[$taskIdKey]['externalReference'] = $taskExternalReference;
-            $timePerUserPerTaskLibelleList[$taskIdKey]['projectId'] = $projectId;
+            $assignedUsers[$userName] = (NULL == $time) ? T_('auto') : $time;
          }
+         $timePerUserPerTaskLibelleList[$taskIdKey] = array(
+            'issueURL' => Tools::issueInfoURL($issue->getId()),
+            'mantisURL' => Tools::mantisIssueURL($issue->getId(), NULL, true),
+            'extRef' => $issue->getTcId(),
+            'summary' => $issue->getSummary(),
+            'projectId' => $issue->getProjectId(),
+            'users' => $assignedUsers,
+         );
       }
    }
    
@@ -340,7 +341,7 @@ function getAllTaskUserList($data = false) {
    
    // Create ajax file path
    $sepChar = DIRECTORY_SEPARATOR;
-   $directory = Constants::$codevRootDir.$sepChar. "tpl" .$sepChar. "ajax" .$sepChar. schedulerAffectationSummary .".html";
+   $directory = Constants::$codevRootDir.$sepChar.'tpl'.$sepChar.'ajax'.$sepChar.'schedulerAffectationSummary.html';
    
    // Generate html table
    $smartyHelper = new SmartyHelper();
