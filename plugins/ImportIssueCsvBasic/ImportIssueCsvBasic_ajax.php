@@ -106,10 +106,6 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $command->addIssue($bugid, true); // DBonly
       }
 
-      if($logger->isDebugEnabled()) {
-         $logger->debug("Import bugid=$bugid $extRef - $summary - $mgrEffortEstim - $effortEstim - $commandid - $categoryid - $targetversionid - $userid");
-      }
-      $logger->error(Tools::mantisIssueURL($bugid, NULL, TRUE)." ".Tools::issueInfoURL($bugid, NULL));
       // RETURN VALUE
       echo Tools::mantisIssueURL($bugid, NULL, TRUE)." ".Tools::issueInfoURL($bugid, NULL);
    }else {

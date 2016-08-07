@@ -170,7 +170,7 @@ class TimeTrack extends Model {
          $noteid = SqlWrapper::getInstance()->sql_result($result, 0);
          IssueNote::delete($noteid, $this->bugId, $userid);
       } else {
-         self::$logger->error("No track_note defined for timetrack_id = $this->id");
+         self::$logger->warn("No track_note defined for timetrack_id = $this->id");
       }
 
       $query2 = "DELETE FROM `codev_timetrack_note_table` WHERE timetrackid = $this->id;";

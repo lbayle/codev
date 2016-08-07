@@ -102,8 +102,6 @@ class ImportIssueCsvBasic  extends IndicatorPluginAbstract {
     */
    public function initialize(PluginDataProviderInterface $pluginDataProv) {
 
-      self::$logger->error("Params = ".var_export($pluginDataProv, true));
-
       if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_TEAM_ID)) {
          $this->teamid = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_TEAM_ID);
       } else {
@@ -212,7 +210,6 @@ class ImportIssueCsvBasic  extends IndicatorPluginAbstract {
       if (NULL !== $err_msg) {
          throw new Exception($err_msg);
       }
-      self::$logger->error('tmpFilename='. $tmpFilename);
       
       return $tmpFilename;
    }
