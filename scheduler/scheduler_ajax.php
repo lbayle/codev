@@ -71,12 +71,27 @@ function getSchedulerConfig() {
       array_push($userData, $pushdata);
    }
 
-   // start date of the displayed window
-   $windowStartDate = date('Y-m-d', strtotime('monday this week'));
-
    // displayed window : nb days displayed (default 30 days)
    $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
    $nbDaysToDisplay = $schedulerManager->getUserOption(SchedulerManager::OPTION_nbDaysToDisplay, $_SESSION['userid'], $_SESSION['teamid']);
+
+   // start date of the displayed window ex: 'monday this week'
+   $strDate = $schedulerManager->getUserOption(SchedulerManager::OPTION_windowStartDate, $_SESSION['userid'], $_SESSION['teamid']);
+
+   switch ($strDate) {
+      case 'today':
+         $windowStartDate = date('Y-m-d');
+         break;
+      case 'thisWeek':
+         $windowStartDate = date('Y-m-d', strtotime('monday this week'));
+         break;
+      case 'thisMonth':
+         //$windowStartDate = date('Y-m-d', strtotime('first day of this month'));
+         $windowStartDate = date('Y-m-d', strtotime('monday this week', strtotime('first day of this month')));
+         break;
+      default:
+         $windowStartDate = date('Y-m-d');
+   }
 
    $data = array(
       'windowStartDate' => $windowStartDate,
@@ -459,6 +474,7 @@ function setOptions() {
    $taskProviderId  = Tools::getSecurePOSTStringValue('taskProvider');
    $isDisplayExtRef = Tools::getSecurePOSTIntValue('isDisplayExtRef');
    $nbDaysToDisplay = Tools::getSecurePOSTIntValue('nbDaysToDisplay');
+   $windowStartDate = Tools::getSecurePOSTStringValue('windowStartDate');
    $nbDaysForecast  = Tools::getSecurePOSTIntValue('nbDaysForecast');
    $warnThreshold   = Tools::getSecurePOSTIntValue('warnThreshold');
 
@@ -468,6 +484,7 @@ function setOptions() {
    $schedulerManager->setUserOption(SchedulerManager::OPTION_taskProvider, $taskProviderId, $_SESSION['userid'], $_SESSION['teamid']);
    $schedulerManager->setUserOption(SchedulerManager::OPTION_isDisplayExtRef, $isDisplayExtRef, $_SESSION['userid'], $_SESSION['teamid']);
    $schedulerManager->setUserOption(SchedulerManager::OPTION_nbDaysToDisplay, $nbDaysToDisplay, $_SESSION['userid'], $_SESSION['teamid']);
+   $schedulerManager->setUserOption(SchedulerManager::OPTION_windowStartDate, $windowStartDate, $_SESSION['userid'], $_SESSION['teamid']);
    $schedulerManager->setUserOption(SchedulerManager::OPTION_nbDaysForecast, $nbDaysForecast, $_SESSION['userid'], $_SESSION['teamid']);
    $schedulerManager->setUserOption(SchedulerManager::OPTION_warnThreshold,  $warnThreshold,  $_SESSION['userid'], $_SESSION['teamid']);
    

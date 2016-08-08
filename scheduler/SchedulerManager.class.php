@@ -24,6 +24,7 @@ class SchedulerManager {
    const OPTION_nbDaysForecast     = 'nbDaysForecast';  // nb days to compute
    const OPTION_displayedUsers     = 'displayedUsers';  // array(userid): display subset of team users
    const OPTION_nbDaysToDisplay    = 'nbDaysToDisplay'; // displayed window
+   const OPTION_windowStartDate    = 'windowStartDate'; // "today", "monday this week", "first day of this month"
    const OPTION_warnThreshold      = 'warnThreshold';   // warn if ends n days before deadline
 
    private static $logger;
@@ -447,6 +448,8 @@ class SchedulerManager {
             self::OPTION_isDisplayExtRef => FALSE,
             self::OPTION_nbDaysForecast => 90,  // 90 days = 3 month
             self::OPTION_nbDaysToDisplay => 30, // 30 days = 1 month
+            self::OPTION_windowStartDate => 'thisWeek',
+
             self::OPTION_warnThreshold => 5,    // 5 days before deadline
             self::OPTION_displayedUsers => NULL,
             self::OPTION_timePerTaskPerUser => NULL,

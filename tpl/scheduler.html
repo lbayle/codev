@@ -172,6 +172,13 @@
             </div>
             <input id="isDisplayExtRef" class="scheduler_optionElement" type="checkbox" {if ($isDisplayExtRef)}checked="checked"{/if}/>{t}Display ExtRef instead of mantis_id{/t}
             <br>
+            <label>{t}Initial date{/t} :</label>
+            <select  id="windowStartDate" class="scheduler_optionElement" >
+            {foreach from=$windowStartDateList key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+            {/foreach}
+            </select>
+            <br>
             <label>{t}Number of days to display{/t} :</label>
             <select  id="nbDaysToDisplay" class="scheduler_optionElement" >
             {foreach from=$nbDaysToDisplayList key=id item=i}

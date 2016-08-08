@@ -90,17 +90,25 @@ class SchedulerController extends Controller {
             $optDisplayExtRef = $schedulerManager->getUserOption(SchedulerManager::OPTION_isDisplayExtRef, $_SESSION['userid'], $_SESSION['teamid']);
             $this->smartyHelper->assign("isDisplayExtRef", $optDisplayExtRef);
 
-            $projectList = SmartyTools::getSmartyArray($projectList, null);
-            $this->smartyHelper->assign("scheduler_projectList", $projectList);
+            $schedProjects = SmartyTools::getSmartyArray($projectList, null);
+            $this->smartyHelper->assign("scheduler_projectList", $schedProjects);
 
             $taskIdList = SmartyTools::getSmartyArray($taskIdList, null);
             $this->smartyHelper->assign("scheduler_taskList", $taskIdList);
 
-            $userList = SmartyTools::getSmartyArray($userList, null);
-            $this->smartyHelper->assign("scheduler_userList", $userList);
+            $schedUsers = SmartyTools::getSmartyArray($userList, null);
+            $this->smartyHelper->assign("scheduler_userList", $schedUsers);
 
-            $taskProviderDescriptionList = SmartyTools::getSmartyArray($taskProviderDescriptionList, $selectedTaskProviderName);
-            $this->smartyHelper->assign("scheduler_taskProviderList", $taskProviderDescriptionList);
+            $taskProviderDescriptions = SmartyTools::getSmartyArray($taskProviderDescriptionList, $selectedTaskProviderName);
+            $this->smartyHelper->assign("scheduler_taskProviderList", $taskProviderDescriptions);
+
+            // displayed window : first start date
+            $windowStartDate = $schedulerManager->getUserOption(SchedulerManager::OPTION_windowStartDate, $_SESSION['userid'], $_SESSION['teamid']);
+            $windowStartDateList = SmartyTools::getSmartyArray(array(
+                        'today' => T_('Today'),
+                        'thisWeek' => T_('Monday this week'),
+                        'thisMonth' => T_('First week of this month')), $windowStartDate);
+            $this->smartyHelper->assign('windowStartDateList', $windowStartDateList);
 
             // displayed window : nb days displayed (default 30 days)
             $nbDaysToDisplay = $schedulerManager->getUserOption(SchedulerManager::OPTION_nbDaysToDisplay, $_SESSION['userid'], $_SESSION['teamid']);
