@@ -28,10 +28,10 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
    $action = Tools::getSecurePOSTStringValue('action', 'none');
    switch ($action) {
-      case 'getTeam':
-         getTeam();
+      case 'getSchedulerConfig':
+         getSchedulerConfig();
           break;
-      case 'getOldTimetrack':
+      case 'getExistingTimetracks':
          getExistingTimetrack();
          break;
       case 'getProjection':
@@ -61,15 +61,29 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
    Tools::sendUnauthorizedAccess();
 }
 
-function getTeam() {
+function getSchedulerConfig() {
    
-   $data = array();
+   $userData = array();
    $team_id = $_SESSION['teamid'];
    $mList = TeamCache::getInstance()->getTeam($team_id)->getActiveMembers();
    foreach ($mList as $key => $m) {
       $pushdata = array("key"=>"$key", "label"=>"$m");
-      array_push($data, $pushdata);
+      array_push($userData, $pushdata);
    }
+
+   // start date of the displayed window
+   $windowStartDate = date('Y-m-d', strtotime('monday this week'));
+
+   // displayed window : nb days displayed (default 30 days)
+   $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
+   $nbDaysToDisplay = $schedulerManager->getUserOption(SchedulerManager::OPTION_nbDaysToDisplay, $_SESSION['userid'], $_SESSION['teamid']);
+
+   $data = array(
+      'windowStartDate' => $windowStartDate,
+      'nbDaysToDisplay' => $nbDaysToDisplay,
+      'userData'        => $userData,
+   );
+
    echo json_encode($data);
 }
 

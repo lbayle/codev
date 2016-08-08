@@ -102,14 +102,8 @@ class SchedulerController extends Controller {
             $taskProviderDescriptionList = SmartyTools::getSmartyArray($taskProviderDescriptionList, $selectedTaskProviderName);
             $this->smartyHelper->assign("scheduler_taskProviderList", $taskProviderDescriptionList);
 
-            // start date of the displayed window
-            $windowStartDate = date('Y-m-d', strtotime('first day of this week'));
-            $this->smartyHelper->assign('scheduler_windowStartDate', $windowStartDate);
-
             // displayed window : nb days displayed (default 30 days)
             $nbDaysToDisplay = $schedulerManager->getUserOption(SchedulerManager::OPTION_nbDaysToDisplay, $_SESSION['userid'], $_SESSION['teamid']);
-            $this->smartyHelper->assign('scheduler_nbDaysToDisplay', $nbDaysToDisplay);
-
             $nbDaysToDisplayList = SmartyTools::getSmartyArray(array(
                         15 => T_('2 weeks'),
                         30 => T_('1 month'),
