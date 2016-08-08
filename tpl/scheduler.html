@@ -169,43 +169,61 @@
             <br>
             <div>
                <strong>{t}Options{/t}</strong>
+
+               <table class="invisible">
+                  <tr>
+                     <td colspan="2">
+                        <input id="isDisplayExtRef" class="scheduler_optionElement" type="checkbox" {if ($isDisplayExtRef)}checked="checked"{/if}/>{t}Display ExtRef instead of mantis_id{/t}
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <select  id="windowStartDate" class="scheduler_optionElement" >
+                        {foreach from=$windowStartDateList key=id item=i}
+                           <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                        {/foreach}
+                        </select>
+                     </td>
+                     <td><label>{t}Initial date{/t}</label></td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <select  id="nbDaysToDisplay" class="scheduler_optionElement" style="width:100%">
+                        {foreach from=$nbDaysToDisplayList key=id item=i}
+                           <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                        {/foreach}
+                        </select>
+                     </td>
+                     <td><label>{t}Number of days to display{/t}</label></td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <input id="nbDaysForecast" class="scheduler_optionElement" style="text-align:right" value="{$scheduler_nbDaysToCompute}"/>
+                     </td>
+                     <td><label>{t}Number of days to compute{/t}</label></td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <input id="warnThreshold" class="scheduler_optionElement" style="text-align:right" value="{$scheduler_warnThreshold}"/>
+                     </td>
+                     <td><label>{t}Task warning threshold (n days before dealine){/t}</label></td>
+                  </tr>
+               </table>
             </div>
-            <input id="isDisplayExtRef" class="scheduler_optionElement" type="checkbox" {if ($isDisplayExtRef)}checked="checked"{/if}/>{t}Display ExtRef instead of mantis_id{/t}
             <br>
-            <label>{t}Initial date{/t} :</label>
-            <select  id="windowStartDate" class="scheduler_optionElement" >
-            {foreach from=$windowStartDateList key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-            {/foreach}
-            </select>
-            <br>
-            <label>{t}Number of days to display{/t} :</label>
-            <select  id="nbDaysToDisplay" class="scheduler_optionElement" >
-            {foreach from=$nbDaysToDisplayList key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-            {/foreach}
-            </select>
-            <br>
-            <label>{t}Number of days to compute{/t} :</label>
-            <input id="nbDaysForecast" class="scheduler_optionElement" value="{$scheduler_nbDaysToCompute}"/>
-            <br>
-            <label>{t}Task warning threshold (n days before dealine){/t} :</label>
-            <input id="warnThreshold" class="scheduler_optionElement" value="{$scheduler_warnThreshold}"/>
-            <br>
-            <div class="center">
+            <div class="center" style="margin-top: 1em;">
                <button class="scheduler_saveOptionsButton" disabled>
                   <img class="scheduler_image vertical-middle" src="images/b_save.png" alt="save icon">
                   <span class="vertical-middle">{t}Save options{/t}</span>
                </button>
                
-               <div class="scheduler_messageSaveOptions success_font">
+               <div class="scheduler_messageSaveOptions success_font" style="margin-top: 0.5em;">
                </div>
             </div>
          </form>
       </div>
-      
-      
-      
+
+
       <div id="tabsScheduler_tabRAF">
          <table>
             <thead>
