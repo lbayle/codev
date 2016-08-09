@@ -5,6 +5,9 @@
          <th></th>
          <th>{t}ID{/t}</th>
          <th>{t}ExtRef{/t}</th>
+         <th>{t}MgrEffortEstim{/t}</th>
+         <th>{t}EffortEstim{/t}</th>
+         <th>{t}Backlog{/t}</th>
          <th>{t}Assigned users{/t}</th>
          <th>{t}Summary{/t}</th>
       </thead>
@@ -18,6 +21,9 @@
             
             <td><a href="reports/issue_info.php?bugid={$taskId}">{$task.mantisURL} {$task.issueURL}</a></td>
             <td>{$task.extRef}</td>
+            <td>{$task.mgrEffortEstim}</td>
+            <td>{$task.effortEstim}</td>
+            <td>{$task.backlog}</td>
             <td>
                {foreach from=$task.users key=$userName item=$time}
                <span>{$userName} ({$time})  </span>

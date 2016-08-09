@@ -513,6 +513,15 @@ class SchedulerManager {
    }
 
    /**
+    *
+    * @return array [bugid => ['startTimestamp' = t1, 'endTimestamp' = t2]]
+    */
+   public function getComputedTaskDates() {
+      return $this->todoTaskDates;
+   }
+   
+
+   /**
     * ========= STATIC ========
     * this is a double check, JS does first round.
     * 
