@@ -102,13 +102,13 @@ class SchedulerManager {
       $this->data["activity"] = array();
 
       // Set task provider
-      $taskProviderName = $this->getUserOption(self::OPTION_taskProvider, $this->user_id, $this->team_id);
+      $taskProviderName = $this->getUserOption(self::OPTION_taskProvider);
       $this->setTaskProvider($taskProviderName);
 
       $this->addHandlerTask();
 
       // Set setUserTaskList (calculateAutoAffectation)
-      $timePerTaskPerUser = $this->getUserOption(self::OPTION_timePerTaskPerUser, $this->user_id, $this->team_id);
+      $timePerTaskPerUser = $this->getUserOption(self::OPTION_timePerTaskPerUser);
       $timePerUserPerTasks = self::transposeTo_TimePerUserPerTask($timePerTaskPerUser);
       $timePerUserPerTaskList = $this->computeAutoAssignation($timePerUserPerTasks);
       $timePerTaskPerUserList = self::transposeTo_TimePerTaskPerUser($timePerUserPerTaskList);
@@ -134,8 +134,8 @@ class SchedulerManager {
        */
       $userLatestActivity = array();
 
-      $isDisplayExtRef = $this->getUserOption(self::OPTION_isDisplayExtRef, $this->user_id, $this->team_id);
-      $projectionDay   = $this->getUserOption(self::OPTION_nbDaysForecast, $this->user_id, $this->team_id);
+      $isDisplayExtRef = $this->getUserOption(self::OPTION_isDisplayExtRef);
+      $projectionDay   = $this->getUserOption(self::OPTION_nbDaysForecast);
 
       $this->initExec();
 
@@ -356,7 +356,7 @@ class SchedulerManager {
     */
    private function adjustColor(){
 
-      $warnThreshold   = $this->getUserOption(self::OPTION_warnThreshold, $this->user_id, $this->team_id);
+      $warnThreshold   = $this->getUserOption(self::OPTION_warnThreshold);
 
       foreach($this->data["activity"] as $key=>$data){
         
@@ -435,10 +435,9 @@ class SchedulerManager {
    /**
     * Get scheduler options of user / team from DB
     * @param type $userId
-    * @param type $teamId
     * @return type
     */
-   public function getUserOptions($userId, $teamId = null, $reload = FALSE) {
+   private function getUserOptions($userId, $reload = FALSE) {
 
       if (NULL == $this->userOptions || $reload) {
 
@@ -456,7 +455,7 @@ class SchedulerManager {
          );
 
          // override default values with user settings
-         $userOptionsJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $teamId, 0, 0, 0), true);
+         $userOptionsJson = Config::getValue(Config::id_schedulerOptions, array($userId, 0, $this->team_id, 0, 0, 0), true);
          if(null != $userOptionsJson) {
             $options = json_decode($userOptionsJson, true);
             foreach ($options as $key => $value) {
@@ -474,12 +473,14 @@ class SchedulerManager {
     * @param type $teamId
     * @return type
     */
-   public function getUserOption($optionName, $userId, $teamId = null)
-   {
-      $userOptions = $this->getUserOptions($userId, $teamId);
-//      self::$logger->error("getUserOption($optionName, $userId, $teamId) = ". $userOptions[$optionName]);
+   public function getUserOption($optionName, $userId = -1) {
+
+      if (-1 == $userId) { $userId = $this->user_id; }
+      $userOptions = $this->getUserOptions($userId);
+//      self::$logger->error("getUserOption($optionName, $userId) = ". $userOptions[$optionName]);
       return $userOptions[$optionName];
    }
+
    /**
     * Set a specific option option of the user / team in DB
     * @param string $optionName
@@ -487,19 +488,20 @@ class SchedulerManager {
     * @param type $userId
     * @param type $teamId
     */
-   public function setUserOption($optionName, $value, $userId, $teamId)
-   {
-      $userOptions = $this->getUserOptions($userId, $teamId);
+   public function setUserOption($optionName, $value, $userId = -1) {
+
+      if (-1 == $userId) { $userId = $this->user_id; }
+      $userOptions = $this->getUserOptions($userId);
 
       if (!array_key_exists($optionName, $userOptions)) {
          // key always exists (at least with default value)
-         self::$logger->error("setUserOption($optionName, $value, $userId, $teamId): unknown optionName !");
+         self::$logger->error("setUserOption($optionName, $value, $userId): unknown optionName !");
          return false;
       }
 
       $this->userOptions[$optionName] = $value;
       $userOptionsJson = json_encode($this->userOptions);
-      Config::setValue(Config::id_schedulerOptions, $userOptionsJson, Config::configType_string, NULL, 0, $userId, $teamId);
+      Config::setValue(Config::id_schedulerOptions, $userOptionsJson, Config::configType_string, NULL, 0, $userId, $this->team_id);
    }
 
    /**

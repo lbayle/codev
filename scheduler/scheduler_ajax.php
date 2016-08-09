@@ -73,10 +73,10 @@ function getSchedulerConfig() {
 
    // displayed window : nb days displayed (default 30 days)
    $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
-   $nbDaysToDisplay = $schedulerManager->getUserOption(SchedulerManager::OPTION_nbDaysToDisplay, $_SESSION['userid'], $_SESSION['teamid']);
+   $nbDaysToDisplay = $schedulerManager->getUserOption(SchedulerManager::OPTION_nbDaysToDisplay);
 
    // start date of the displayed window ex: 'monday this week'
-   $strDate = $schedulerManager->getUserOption(SchedulerManager::OPTION_windowStartDate, $_SESSION['userid'], $_SESSION['teamid']);
+   $strDate = $schedulerManager->getUserOption(SchedulerManager::OPTION_windowStartDate);
 
    switch ($strDate) {
       case 'today':
@@ -106,7 +106,7 @@ function getExistingTimetrack() {
    global $schedAjaxLogger;
 
    $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
-   $isDisplayExtRef = $schedulerManager->getUserOption(SchedulerManager::OPTION_isDisplayExtRef, $_SESSION['userid'], $_SESSION['teamid']);
+   $isDisplayExtRef = $schedulerManager->getUserOption(SchedulerManager::OPTION_isDisplayExtRef);
 
    try {
       $timeTracks = array();
@@ -311,7 +311,7 @@ function setTimePerUserList() {
    }
 
    $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
-   $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser, $_SESSION['userid'], $_SESSION['teamid']);
+   $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser);
    $timePerUserPerTask = SchedulerManager::transposeTo_TimePerUserPerTask($timePerTaskPerUser);
 
    // clear: remove previous settings for this task
@@ -332,7 +332,7 @@ function setTimePerUserList() {
    }
 
    $new_timePerTaskPerUser = SchedulerManager::transposeTo_TimePerTaskPerUser($timePerUserPerTask);
-   $schedulerManager->setUserOption(SchedulerManager::OPTION_timePerTaskPerUser, $new_timePerTaskPerUser, $_SESSION['userid'], $_SESSION['teamid']);
+   $schedulerManager->setUserOption(SchedulerManager::OPTION_timePerTaskPerUser, $new_timePerTaskPerUser);
 
    $data['scheduler_status'] = "SUCCESS";
    $data['scheduler_message'] = T_("Assignments updated for task") . " $bugid";
@@ -351,7 +351,7 @@ function getAllTaskUserList($data = false) {
    $timePerUserPerTaskLibelleList = null;
 
    $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
-   $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser, $_SESSION['userid'], $_SESSION['teamid']);
+   $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser);
    
    $timePerUserPerTaskList = SchedulerManager::transposeTo_TimePerUserPerTask($timePerTaskPerUser);
    
@@ -415,7 +415,7 @@ function getTaskUserList() {
       
       // Get task user list
       $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
-      $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser, $_SESSION['userid'], $_SESSION['teamid']);
+      $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser);
 
       // For this task, get the assigned time per user from userOptions
       // [$taskId => [$userId => $time]]
@@ -481,12 +481,12 @@ function setOptions() {
    // TODO check values !
 
    $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
-   $schedulerManager->setUserOption(SchedulerManager::OPTION_taskProvider, $taskProviderId, $_SESSION['userid'], $_SESSION['teamid']);
-   $schedulerManager->setUserOption(SchedulerManager::OPTION_isDisplayExtRef, $isDisplayExtRef, $_SESSION['userid'], $_SESSION['teamid']);
-   $schedulerManager->setUserOption(SchedulerManager::OPTION_nbDaysToDisplay, $nbDaysToDisplay, $_SESSION['userid'], $_SESSION['teamid']);
-   $schedulerManager->setUserOption(SchedulerManager::OPTION_windowStartDate, $windowStartDate, $_SESSION['userid'], $_SESSION['teamid']);
-   $schedulerManager->setUserOption(SchedulerManager::OPTION_nbDaysForecast, $nbDaysForecast, $_SESSION['userid'], $_SESSION['teamid']);
-   $schedulerManager->setUserOption(SchedulerManager::OPTION_warnThreshold,  $warnThreshold,  $_SESSION['userid'], $_SESSION['teamid']);
+   $schedulerManager->setUserOption(SchedulerManager::OPTION_taskProvider, $taskProviderId);
+   $schedulerManager->setUserOption(SchedulerManager::OPTION_isDisplayExtRef, $isDisplayExtRef);
+   $schedulerManager->setUserOption(SchedulerManager::OPTION_nbDaysToDisplay, $nbDaysToDisplay);
+   $schedulerManager->setUserOption(SchedulerManager::OPTION_windowStartDate, $windowStartDate);
+   $schedulerManager->setUserOption(SchedulerManager::OPTION_nbDaysForecast, $nbDaysForecast);
+   $schedulerManager->setUserOption(SchedulerManager::OPTION_warnThreshold,  $warnThreshold);
    
    $data['scheduler_status'] = "SUCCESS";
    $data['scheduler_message'] = T_("Options saved successfully");
