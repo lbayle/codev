@@ -2509,8 +2509,8 @@ msgid "External ID"
 msgstr "Référence externe"
 
 #: tpl/issue_info.html
-msgid "Remove from command"
-msgstr "Sortir de la commande"
+msgid "Remove task from command"
+msgstr "Sortir la tâche de la commande"
 
 #: tpl/issue_info.html
 msgid "Add to command"
