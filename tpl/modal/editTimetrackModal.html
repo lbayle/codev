@@ -1,18 +1,29 @@
-<div id="editWeekTimetrack_dialog">
+<div id="editWeekTimetrack_dialog" title="{t}Edit timetrack{/t}">
    <div id="taskSummary"></div>
-      
-   {t}Duration{/t} :
-   <select id="timeToEdit" name="timeToEdit" title="{t}Duration (in days){/t}"></select>
-   <br>
-   <label for="datepickerEditer">{t}Date{/t}:</label>
-   <input type="text" id="datepickerEditer" class="datepicker" name="date" maxlength="10" size="10" title="{t}Date{/t}" />
-   {if $isTrackNoteDisplayed}
-      <p><b>{t}Note{/t}:</b><br>
-      <textarea id="issue_note_edit" class="issue_note" name="issue_note"  style="width:100%;background-color:white;" rows="2"></textarea>
-   {/if}
-        
-   <input type="hidden" id="timetrackId" name="timetrackId"/>
+   <table class="invisible">
+      <tbody>
+         <tr>
+            <td colspan="3"><hr></td>
+         </tr>
+         <tr id="tr_timeToAdd">
+            <th>{t}Duration{/t} :</th>
+            <td><select id="timeToEdit" name="timeToEdit" title="{t}Duration (in days){/t}"></select></td>
+         </tr>
+         <tr>
+            <th><label for="datepickerEditer">{t}Date{/t}:</label></th>
+            <td><input type="text" id="datepickerEditer" class="datepicker" name="date" maxlength="10" size="10" title="{t}Date{/t}" /></td>
+         </tr>
+         {if $isTrackNoteDisplayed}
+         <tr>
+            <th>{t}Note{/t}:</th>
+            <td   width="450px"><textarea id="issue_note_edit" class="issue_note" name="issue_note"  style="width:100%;background-color:white;" rows="2"></textarea></td>
+         </tr>
+         {/if}
+         <input type="hidden" id="timetrackId" name="timetrackId"/>
+      </tbody>
+   </table>
 </div>
+
 
 <script src="js/editTimetrack.js"></script>
 
