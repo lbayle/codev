@@ -22,7 +22,7 @@ require('../path.inc.php');
 // Note: i18n is included by the Controler class, but Ajax dos not use it...
 require_once('i18n/i18n.inc.php');
 
-if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
+if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
 	$logger = Logger::getLogger("TimeTrackingAjax");
 
@@ -31,11 +31,12 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 
    // TODO check $session_user & teamid ?
 
-   #$action = $_POST['action'];
    $action = Tools::getSecurePOSTStringValue('action');
 
    if(isset($action)) {
       $smartyHelper = new SmartyHelper();
+      
+      // ================================================================
       if ("getIssuesAndDurations" == $action) {
 
          // TODO check session_user is allowed to manage user ( & get issue list...)
@@ -64,6 +65,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          // return data
          echo $jsonData;
 
+      // ================================================================
       } elseif($action == 'getUpdateBacklogData') {
 
 			// get info to display the updateBacklog dialogbox
@@ -91,6 +93,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          // return data
 			echo $updateBacklogJsonData;
 
+      // ================================================================
 		} else if($action == 'updateBacklog') {
          // updateBacklogDoalogbox with 'updateBacklog' action
 
@@ -112,6 +115,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid);
          $smartyHelper->display('ajax/weekTaskDetails');
 
+      // ================================================================
       } else if ($action == 'getIssueNoteText') {
          $bugid = Tools::getSecurePOSTIntValue('bugid');
          $issueNote = IssueNote::getTimesheetNote($bugid);
@@ -132,6 +136,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          // return data
          echo $jsonData;
 
+      // ================================================================
       } else if ($action == 'saveIssueNote') {
          $bugid       = Tools::getSecurePOSTIntValue('bugid');
          $reporter_id = $session_user;
@@ -153,7 +158,75 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 
          setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid);
          $smartyHelper->display('ajax/weekTaskDetails');
+
+      // ================================================================
+      } else if ($action == 'getEditTimetrackData') {
+         $timetrackId = Tools::getSecurePOSTStringValue('timetrackId');
+
+         try {
+            $tt = TimeTrackCache::getInstance()->getTimeTrack($timetrackId);
+            $issue = IssueCache::getInstance()->getIssue($tt->getIssueId());
+
+            $durationsList = TimeTrackingTools::getDurationList($teamid);
+
+            // return data
+            $data = array(
+               'statusMsg' => 'SUCCESS',
+               'durationsList' => $durationsList,
+               'duration' => $tt->getDuration(),
+               'note' => $tt->getNote(),
+               'issueSummary' => $issue->getSummary(),
+               'date' => date("Y-m-d", $tt->getDate()),
+            );
+         } catch (Exception $e) {
+            $data = array(
+               'statusMsg' => 'Could not get timetrack data',
+            );
+         }
+         $jsonData = json_encode($data);
+         // return data
+         echo $jsonData;
+
+      // ================================================================
+      } else if ($action == 'updateTimetrack') {
+
+         $timetrackId = Tools::getSecurePOSTIntValue('timetrackId');
+         $weekid = Tools::getSecurePOSTIntValue('weekid');
+         $year = Tools::getSecurePOSTIntValue('year');
+         $userid = Tools::getSecurePOSTIntValue('userid',$session_user);
+
+         $team = TeamCache::getInstance()->getTeam($teamid);
+
+         $dateStr = Tools::getSecurePOSTStringValue('date');
+         $date = strtotime($dateStr);
+
+         $duration = Tools::getSecurePOSTNumberValue('duration');
+         $timetrack = TimeTrackCache::getInstance()->getTimeTrack($timetrackId);
+         $note = NULL;
+
+         if (1 == $team->getGeneralPreference('useTrackNote')) {
+            $note = Tools::getSecurePOSTStringValue('note');
+         }
+
+         $updateDone = $timetrack->update($date, $duration, $note );
+         $statusMsg = ($updateDone) ? "SUCCESS" : "timetrack update failed.";
+
+         // the complete WeekTaskDetails Div must be updated
+         setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid);
+         $html = $smartyHelper->fetch('ajax/weekTaskDetails');
+
+         $data = array(
+            'statusMsg' => $statusMsg,
+            'timetrackId' => $timetrackId,
+            'cosmeticDate' => Tools::formatDate("%Y-%m-%d - %A", $timetrack->getDate()),
+            'timesheetHtml' => $html,
+         );
+         $jsonData = json_encode($data);
+
+         // return data
+         echo $jsonData;
       }
+
    }
 }
 else {

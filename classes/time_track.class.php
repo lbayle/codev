@@ -136,7 +136,7 @@ class TimeTrack extends Model {
    
    
    public function update($date, $duration, $note = NULL) {
-      $this->date = strtotime($date);
+      $this->date = $date;
       $this->duration = $duration;
       
       $query = 'UPDATE `codev_timetracking_table` SET `date`='.$this->date.', `duration`='.$this->duration.' WHERE id='.$this->id.';';
@@ -267,25 +267,29 @@ class TimeTrack extends Model {
    }
 
 
-   public static function getNote($timetrackId) {
+   public function getNote() {
+
+      if (NULL == $this->note) {
+
          $query = "SELECT note FROM `mantis_bugnote_text_table` ".
                  "WHERE id=(SELECT bugnote_text_id FROM `mantis_bugnote_table` ".
                             "WHERE bugnote_text_id=(SELECT noteid FROM `codev_timetrack_note_table` ".
-                                                                  "WHERE timetrackid=$timetrackId))";
+                                                                  "WHERE timetrackid=$this->id))";
          $result = SqlWrapper::getInstance()->sql_query($query);
 
          if(SqlWrapper::getInstance()->sql_num_rows($result) == 0) {
-            $query3 = 'DELETE FROM `codev_timetrack_note_table` WHERE timetrackid='.$timetrackId.';';
+            $query3 = 'DELETE FROM `codev_timetrack_note_table` WHERE timetrackid='.$this->id.';';
             $result3 = SqlWrapper::getInstance()->sql_query($query3);
-            $note = "";
-         }
-         else
-         {
+            $this->note = "";
+
+         } else {
             $row = SqlWrapper::getInstance()->sql_fetch_object($result);
             $pattern = '/^'.IssueNote::tag_begin.IssueNote::tagid_timetrackNote.'.*'.IssueNote::tag_end.'\n/';
-            $note = trim(preg_replace($pattern, '', $row->note));
+            $this->note = trim(preg_replace($pattern, '', $row->note));
          }
-         return $note;
+      }
+      return $this->note;
+
    }
 
       public static function setNote($bug_id, $track_id, $text, $reporter_id) {

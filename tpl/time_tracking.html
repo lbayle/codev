@@ -416,18 +416,18 @@
             </thead>
             <tbody id="weekTimetrackingTuples">
                {foreach from=$weekTimetrackingTuples key=id item=i}
-               <tr>
+               <tr class="weekTimetrack" data-weekTimetrackId="{$id}">
                   <td class="ui-state-error-text" style="width:1em;">
                      <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
                         onclick="deleteTrack('{$id}','{$i.date}','{$i.formatedId}','{$i.duration}','{$i.formatedJobName}','{$i.summary}');return false;"></a>
                   </td>
                   <td>
-                     <img id="editTimeTrack" src="images/b_edit.png" alt="Edit icon" onclick="openEditTimetrackModal('{$id}','{$i.date}','{$i.duration}','{$i.summary}')"/>
+                     <img  id="editWeekTimetrack_link" class="pointer" align="absmiddle" title="{t}Edit timetrack{/t}" src="images/b_edit.png"/>
                   </td>
-                  <td width="170">{$i.cosmeticDate}</td>
+                  <td class="weekTimetrack_date" width="170">{$i.cosmeticDate}</td>
                   <td>{$i.issueURL}</td>
                   <td>{$i.issueId}</td>
-                  <td>{$i.duration}</td>
+                  <td class="weekTimetrack_duration">{$i.duration}</td>
                   <td>{$i.jobName}</td>
                   <td>{$i.projectName}</td>
                   <td nowrap="nowrap">{$i.categoryName}</td>
@@ -554,7 +554,17 @@
       {/if}
 
    </div>
+   
+   <script type="text/javascript">
+      var timetrackingPageCommonData = {
+         userid:"{$userid}",
+         weekid:"{$weekid}",
+         year:"{$year}",
+         ajaxPage:"{$ajaxPage}"
+      };
+   </script>
 
+   {include file="modal/editTimetrackModal.html"}
 
    {/if}
    {else}
@@ -563,4 +573,3 @@
 
 </div>
 
-{include file="modal/editTimetrackModal.html"}
