@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-30 16:01+0200\n"
+"POT-Creation-Date: 2016-08-23 21:04+0200\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -295,8 +295,8 @@ msgid "Import / Export"
 msgstr "Import / Export"
 
 #: tpl/menu/global_menu.html
-msgid "Import Dashboard"
-msgstr "Tableau de bord des imports/exports"
+msgid "Import/Export tools"
+msgstr "Outils Import/Export"
 
 #: tpl/menu/global_menu.html
 msgid "Import Issues"
@@ -686,6 +686,7 @@ msgstr "Autres TachesAnnexes"
 #: tpl/team_monthly_activity_report.html
 #: tpl/command_info.html
 #: tpl/servicecontract_info.html
+#: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:301
 msgid "Total"
 msgstr "Total"
 
@@ -1560,7 +1561,6 @@ msgstr "ECHEC de requête"
 #. T_('Status').':<strong>'.$scheduledTask->getStatusName().'</strong>,&nbsp; '.
 #. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
 #. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
-#: reports/planning_report.php:492
 msgid "Duration"
 msgstr "Durée"
 
@@ -1643,6 +1643,10 @@ msgid "delete this row"
 msgstr "effacer cette ligne"
 
 #: tpl/time_tracking.html
+msgid "Edit timetrack"
+msgstr "Mise à jour d'imputation"
+
+#: tpl/time_tracking.html
 msgid "Future Imputations"
 msgstr "Imputations futures"
 
@@ -1653,6 +1657,13 @@ msgstr "Supprimer l'imputation"
 #: tpl/time_tracking.html
 msgid "Deleted the following timetrack ?"
 msgstr "Supprimer l'imputation suivante ?"
+
+#: tpl/time_tracking.html
+#: tpl/modal/update_issueBacklog.html
+#: tpl/team_activity_report.html
+#: tpl/issue_info.html
+msgid "Note"
+msgstr "Note"
 
 #: tpl/prepare_project.html
 msgid "Preparing project:"
@@ -1905,11 +1916,6 @@ msgstr "Note de CRA"
 #: tpl/team_activity_report.html
 msgid "All Tasks"
 msgstr "Toutes les tâches"
-
-#: tpl/team_activity_report.html
-#: tpl/issue_info.html
-msgid "Note"
-msgstr "Note"
 
 #: tpl/team_activity_report.html
 #: tpl/command_edit.html
@@ -2373,6 +2379,7 @@ msgid "Reopened Rate"
 msgstr "Taux de Retour"
 
 #: tpl/statistics.html
+#: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:71
 msgid "Available Workforce"
 msgstr "Capacité de production"
 
@@ -2576,10 +2583,6 @@ msgstr "Clickez le bouton de mise à jour pour afficher les notes..."
 #: tpl/issue_info.html
 msgid "Update timetracking values"
 msgstr "Mise à jour des temps"
-
-#: tpl/issue_info.html
-msgid "Remove from Command"
-msgstr "Sortir de la commande"
 
 #: tpl/issue_info.html
 msgid "Remove from :"
@@ -3193,7 +3196,7 @@ msgstr "Options du planning"
 #: management/servicecontract_info.php:92 management/commandset_info.php:95
 #: reports/issue_info.php:95 reports/issue_info.php:96
 #: timetracking/team_monthly_activity_report.php:75
-#: timetracking/time_tracking.php:285 timetracking/team_activity_report.php:65
+#: timetracking/time_tracking.php:293 timetracking/team_activity_report.php:65
 msgid "Errors"
 msgstr "Erreurs"
 
@@ -3549,7 +3552,7 @@ msgstr "pour l'équipe"
 msgid "[CodevTT] Timesheet reminder !"
 msgstr "[CodevTT] Saisie du CRA !"
 
-#: classes/user.class.php:1720 plugins/ImportUsers/ImportUsers_ajax.php:162
+#: classes/user.class.php:1720 plugins/ImportUsers/ImportUsers_ajax.php:160
 msgid "Dear "
 msgstr "Cher(e) "
 
@@ -3667,7 +3670,7 @@ msgid "All projects"
 msgstr "Tous les Projets"
 
 #: import/import_issues.php:115
-#: plugins/ImportIssueCsvBasic/ImportIssueCsvBasic.class.php:203
+#: plugins/ImportIssueCsvBasic/ImportIssueCsvBasic.class.php:201
 #: plugins/ImportUsers/ImportUsers.class.php:223
 msgid "Please upload files with the following extension: "
 msgstr "Veuillez charger des fichiers ayant comme extension : "
@@ -3695,6 +3698,8 @@ msgstr "Tâches résolues"
 #: management/commandset_tools.php:120 management/command_tools.php:103
 #: management/servicecontract_tools.php:275 reports/planning_report.php:349
 #: reports/planning_report.php:430 reports/planning_report.php:495
+#: plugins/RsiTypeAnoLoadIndicator/RsiTypeAnoLoadIndicator.class.php:321
+#: plugins/RsiTypeAnoLoadIndicator/RsiTypeAnoLoadIndicator.class.php:341
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:331
 msgid "Y-m-d"
 msgstr "d-m-Y"
@@ -4136,7 +4141,7 @@ msgstr "Désolé, il n'y a pas de projets définis pour cette équipe."
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:436
 #: timetracking/team_monthly_activity_report.php:130
-#: timetracking/time_tracking.php:383 timetracking/team_activity_report.php:179
+#: timetracking/time_tracking.php:395 timetracking/team_activity_report.php:179
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Erreur : Tâche introuvable dans la BDD Mantis !"
 
@@ -4145,7 +4150,7 @@ msgid "Click to add a note"
 msgstr "Cliquer pour ajouter une note"
 
 #: timetracking/team_monthly_activity_report.php:76
-#: timetracking/time_tracking.php:286 timetracking/team_activity_report.php:66
+#: timetracking/time_tracking.php:294 timetracking/team_activity_report.php:66
 msgid "days are incomplete or undefined"
 msgstr "jours sont incomplets ou non définis"
 
@@ -4166,11 +4171,11 @@ msgstr "aujourd'hui"
 msgid "User not in team"
 msgstr "L'utilisateur ne fait pas partie de l'équipe"
 
-#: timetracking/time_tracking.php:132
+#: timetracking/time_tracking.php:136
 msgid "Timetrack not added: Job has not specified."
 msgstr "Imputation non créée: le poste doit être spécifié"
 
-#: timetracking/time_tracking.php:180
+#: timetracking/time_tracking.php:188
 msgid "Failed to delete the timetrack !"
 msgstr "Impossible de supprimer l'imputation !"
 
@@ -4217,6 +4222,34 @@ msgstr "Répartition du RAF des tâches de la sélection par utilisateur"
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:258
 msgid "(unknown 0)"
 msgstr "inconnu"
+
+#: plugins/BlogPlugin/BlogActivity.class.php:53
+msgid "Acknowledged"
+msgstr "Validé"
+
+#: plugins/BlogPlugin/BlogActivity.class.php:55
+msgid "Hidden"
+msgstr "Caché"
+
+#: plugins/BlogPlugin/BlogPlugin.class.php:57
+msgid "Blog posts"
+msgstr "Messages"
+
+#: plugins/BlogPlugin/BlogPlugin.class.php:60
+msgid "Display messages on the homepage"
+msgstr "Afficher les messages sur la page de garde"
+
+#: plugins/BlogPlugin/BlogPost.class.php:94
+msgid "Low"
+msgstr "Mineure"
+
+#: plugins/BlogPlugin/BlogPost.class.php:96
+msgid "Normal"
+msgstr "Normale"
+
+#: plugins/BlogPlugin/BlogPost.class.php:98
+msgid "High"
+msgstr "Haute"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:57
 msgid "Move Issue Timetracks"
@@ -4290,6 +4323,10 @@ msgstr "Projets de production"
 msgid "All Projects"
 msgstr "Tous les Projets"
 
+#: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
+msgid "Man-days available in period, except leaves and external tasks"
+msgstr "Nbre de jours-hommes disponibles sur la période (taches annexes et externes exclues)"
+
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:76
 msgid "Check all the timetracks of the period and return their repartition per Project"
 msgstr "Affiche le consommé sur la période, réparti par projet"
@@ -4326,23 +4363,23 @@ msgstr "Répartition du temps par status"
 msgid "Your are not allowed to import users"
 msgstr "Désolé, vous n'êtes pas autorisé à créer des utilisateurs"
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:163
+#: plugins/ImportUsers/ImportUsers_ajax.php:161
 msgid "Here is your password for CodevTT and Mantis : "
 msgstr "Voici votre mot de passe pour CodevTT et Mantis : "
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:164
+#: plugins/ImportUsers/ImportUsers_ajax.php:162
 msgid "Please, change your password on your first connection."
 msgstr "Veuillez changer votre mot de passe à la première connexion."
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:165
+#: plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Regards \\n\\n"
 msgstr "Cordialement \\n\\n"
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:166
+#: plugins/ImportUsers/ImportUsers_ajax.php:164
 msgid "CodevTT Team"
 msgstr "Equipe CodevTT"
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:167
+#: plugins/ImportUsers/ImportUsers_ajax.php:165
 msgid "[CodevTT] Your password"
 msgstr "[CodevTT] Votre mot de passe"
 
@@ -4424,6 +4461,15 @@ msgstr "S"
 msgid "AddEffortEstim"
 msgstr "Charge Additionnelle"
 
+#~ msgid "Remove task from Command"
+#~ msgstr "Sortir la tâche de la commande"
+
+#~ msgid "Import Dashboard"
+#~ msgstr "Tableau de bord des imports/exports"
+
+#~ msgid "Remove from Command"
+#~ msgstr "Sortir de la commande"
+
 #~ msgid "Author"
 #~ msgstr "Auteur"
 
@@ -4441,21 +4487,6 @@ msgstr "Charge Additionnelle"
 
 #~ msgid "Hide"
 #~ msgstr "Cacher"
-
-#~ msgid "Acknowledged"
-#~ msgstr "Validé"
-
-#~ msgid "Hidden"
-#~ msgstr "Caché"
-
-#~ msgid "Low"
-#~ msgstr "Mineure"
-
-#~ msgid "Normal"
-#~ msgstr "Normale"
-
-#~ msgid "High"
-#~ msgstr "Haute"
 
 #~ msgid "Productivity Reports"
 #~ msgstr "Indicateurs de production"
@@ -4804,9 +4835,6 @@ msgstr "Charge Additionnelle"
 
 #~ msgid "Logged in as "
 #~ msgstr "Connecté sous "
-
-#~ msgid "log out"
-#~ msgstr "déconnexion"
 
 #~ msgid "Sorry, you do NOT have access to this page"
 #~ msgstr "Désolé, vous n'avez pas accès à cette page."
