@@ -17,7 +17,7 @@
 jQuery(document).ready(function() {
 
    //========================================================
-   jQuery("#editWeekTimetrack_link").click(function(e) {
+   jQuery(".editWeekTimetrack_link").click(function(e) {
       e.preventDefault();
 
       // find timetrackId

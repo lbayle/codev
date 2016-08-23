@@ -422,7 +422,7 @@
                         onclick="deleteTrack('{$id}','{$i.date}','{$i.formatedId}','{$i.duration}','{$i.formatedJobName}','{$i.summary}');return false;"></a>
                   </td>
                   <td>
-                     <img  id="editWeekTimetrack_link" class="pointer" align="absmiddle" title="{t}Edit timetrack{/t}" src="images/b_edit.png"/>
+                     <img class="editWeekTimetrack_link pointer" align="absmiddle" title="{t}Edit timetrack{/t}" src="images/b_edit.png"/>
                   </td>
                   <td class="weekTimetrack_date" width="170">{$i.cosmeticDate}</td>
                   <td>{$i.issueURL}</td>
@@ -550,21 +550,47 @@
                </fieldset>
             </form>
          </div>
+
+         <div id="editWeekTimetrack_dialog" title="{t}Edit timetrack{/t}">
+            <div id="taskSummary"></div>
+            <table class="invisible">
+               <tbody>
+                  <tr>
+                     <td colspan="3"><hr></td>
+                  </tr>
+                  <tr id="tr_timeToAdd">
+                     <th>{t}Duration{/t} :</th>
+                     <td><select id="timeToEdit" name="timeToEdit" title="{t}Duration (in days){/t}"></select></td>
+                  </tr>
+                  <tr>
+                     <th><label for="datepickerEditer">{t}Date{/t}:</label></th>
+                     <td><input type="text" id="datepickerEditer" class="datepicker" name="date" maxlength="10" size="10" title="{t}Date{/t}" /></td>
+                  </tr>
+                  {if $isTrackNoteDisplayed}
+                  <tr>
+                     <th>{t}Note{/t}:</th>
+                     <td   width="450px"><textarea id="issue_note_edit" class="issue_note" name="issue_note"  style="width:100%;background-color:white;" rows="2"></textarea></td>
+                  </tr>
+                  {/if}
+                  <input type="hidden" id="timetrackId" name="timetrackId"/>
+               </tbody>
+            </table>
+         </div>
       </div>
       {/if}
 
    </div>
    
    <script type="text/javascript">
+      // this is to transmit SMARTY variables to time_tracking.js
       var timetrackingPageCommonData = {
-         userid:"{$userid}",
+         userid:"{$userid}", // (managedUserid)
          weekid:"{$weekid}",
          year:"{$year}",
          ajaxPage:"{$ajaxPage}"
       };
    </script>
-
-   {include file="modal/editTimetrackModal.html"}
+   <script src="js/time_tracking.js"></script>
 
    {/if}
    {else}
