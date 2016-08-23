@@ -1,0 +1,41 @@
+	<style type="text/css">
+		html, body{ height:100%; padding:0px; margin:0px; overflow: hidden;}
+	</style>
+
+
+<script src="lib/dhtmlxGantt/dhtmlxgantt.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" href="lib/dhtmlxGantt/dhtmlxgantt.css" type="text/css" media="screen" title="no title" charset="utf-8">
+
+<!--script type="text/javascript" src="../common/testdata.js"></script-->
+
+<style type="text/css" media="screen">
+
+   html, body{ height:100%; padding:0px; margin:0px; overflow: hidden;}
+
+</style>
+
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
+<div class="center" style="margin-top:2em;  font-weight:bold; color:red">
+   ATTENTION: Ce gantt est en cours de développement, ne vous y fiez pas !
+</div>
+
+<div id="dxhtmlGantt" style='margin-top:2em; width:1000px; height:400px;'></div>
+
+
+<script type="text/javascript">
+   // Transmit SMARTY variables to JS file
+   var ganttPageSmartyData = {
+      userid:"{$userid}",
+      ajaxPage:"{$ajaxPage}",
+      i18n_OK:"{t}OK{/t}",
+      i18n_Cancel:"{t}Cancel{/t}"
+   };
+
+   gantt.init("dxhtmlGantt");
+   
+</script>
+<script src="js/gantt.js"></script>
+
+{else}
+<p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
+{/if}
