@@ -15,7 +15,41 @@
    along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-console.log("ganttPageSmartyData", ganttPageSmartyData);
+function setGanttOptions() {
+   //gantt.config.start_date = new Date(ganttPageSmartyData.windowStartDate); // 'YYYY-MM-DD'
+   //gantt.config.end_date =  new Date(ganttPageSmartyData.windowEndDate); // 'YYYY-MM-DD'
+   
+
+   gantt.config.date_grid = "%Y-%m-%d";
+   gantt.config.readonly = true;
+   gantt.config.row_height = 22;
+   gantt.config.subscales = [{unit:"week", step:1, date:"Week #%W"}];
+
+   gantt.templates.scale_cell_class = function(date){
+      if(date.getDay()==0||date.getDay()==6){ return "weekend"; }
+   };
+   gantt.templates.task_cell_class = function(item,date){
+      if(date.getDay()==0||date.getDay()==6){ return "weekend"; }
+   };
+   gantt.templates.tooltip_text = function(start,end,task){
+      return task.tooltipHtml;
+   };
+   gantt.templates.task_text=function(start,end,task){
+      return task.barText;
+   };
+   gantt.templates.rightside_text = function(start, end, task){
+      return '(' + task.assignedTo + ')';
+   };
+
+   //default columns definition
+   gantt.config.columns = [
+      {name:"text",       label:"Task",  width:"*", tree:true },
+      {name:"start_date", label:"Start", align: "center" },
+      {name:"end_date",   label:"End", template:function(obj){ return obj.end_date; }},
+      {name:"duration",   label:"Duration",   align: "center" },
+   ];
+
+}
 
 /**
  *
@@ -32,8 +66,6 @@ function computeGantt(redirect) {
 
 
    // ajax call to get tasks
-console.log("compute gantt here !");
-
    var jsonGanttTasksPromise = $.ajax({
       url: ganttPageSmartyData.ajaxPage,
       data: {action: 'getGanttTasks'},

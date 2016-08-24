@@ -34,28 +34,49 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
             $data = $schedulerManager->execute();
             $taskDates = $schedulerManager->getComputedTaskDates();
+            $isExtRef = $schedulerManager->getUserOption(SchedulerManager::OPTION_isDisplayExtRef);
 
             // TODO get tasks dependencies
             // TODO convert $taskDates to $dxhtmlGanttTasks
             $tasksData = array();
+            $bugid_to_idx = array();
             $idx = 1;
             foreach($taskDates as $bugid => $taskDates) {
+               // TODO set startDate to first timestrack (if exists)
                $duration = round(($taskDates['endTimestamp'] - $taskDates['startTimestamp']) / 86400, 2); // 24*60*60 (ms -> day);
                $issue = IssueCache::getInstance()->getIssue($bugid);
-               $displayedText = "$bugid / ".$issue->getTcId();
+               
+               if ($isExtRef) {
+                  $extRef = $issue->getTcId();
+                  if (NULL == $extRef) { $extRef = 'm'.$bugid; }
+                  $griddText =$extRef.' | '.$issue->getSummary();
+                  $barText = $extRef;
+               } else {
+                  $griddText = $bugid.' | '.$issue->getSummary();
+                  $barText = $bugid;
+               }
                $tasksData[] = array(
                    'id' => $idx,
-                   'text' => $displayedText,
-                   'start_date' => date('d-m-Y', $taskDates['startTimestamp']),
+                   'text' => $griddText,
+                   'start_date' => date('d-m-Y', $taskDates['startTimestamp']), // core
                    'duration' => $duration,
                    'progress' => $issue->getProgress() ,
-                   'open' => true,
-                   #'parent' => 1
+                   #'open' => true,
+                   #'color' => 'lightblue',         // TODO
+                   #'textColor' => 'black',         // TODO
+                   #'progressColor' => 'blue',      // TODO
+                   #'parent' => 1,
+                   #'readonly' => true
+                   // custom:
+                   'barText' => $barText,
+                   'tooltipHtml' => 'TODO',        // TODO
+                   'assignedTo' => 'toto, titi',   // TODO
                );
+               $bugid_to_idx[$bugid] = $idx;
                ++$idx;
             }
 
-$ganttAjaxLogger->error($tasksData);
+            //$ganttAjaxLogger->error($tasksData);
 
             $tasksLinks = array();
 /*
