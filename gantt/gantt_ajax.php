@@ -22,7 +22,7 @@ require('../path.inc.php');
 // Note: i18n is included by the Controler class, but Ajax dos not use it...
 require_once('i18n/i18n.inc.php');
 
-$schedAjaxLogger = Logger::getLogger("gantt_ajax");
+$ganttAjaxLogger = Logger::getLogger("gantt_ajax");
 
 if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
@@ -37,6 +37,38 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
             // TODO get tasks dependencies
             // TODO convert $taskDates to $dxhtmlGanttTasks
+            $tasksData = array();
+            $idx = 1;
+            foreach($taskDates as $bugid => $taskDates) {
+               $duration = round(($taskDates['endTimestamp'] - $taskDates['startTimestamp']) / 86400, 2); // 24*60*60 (ms -> day);
+               $issue = IssueCache::getInstance()->getIssue($bugid);
+               $displayedText = "$bugid / ".$issue->getTcId();
+               $tasksData[] = array(
+                   'id' => $idx,
+                   'text' => $displayedText,
+                   'start_date' => date('d-m-Y', $taskDates['startTimestamp']),
+                   'duration' => $duration,
+                   'progress' => $issue->getProgress() ,
+                   'open' => true,
+                   #'parent' => 1
+               );
+               ++$idx;
+            }
+
+$ganttAjaxLogger->error($tasksData);
+
+            $tasksLinks = array();
+/*
+        {id:1, source:1, target:2, type:"1"},
+        {id:2, source:1, target:3, type:"1"},
+        {id:3, source:3, target:4, type:"1"},
+        {id:4, source:4, target:5, type:"0"},
+        {id:5, source:5, target:6, type:"0"}
+*/
+            $dxhtmlGanttTasks = array(
+                'data' => $tasksData,
+                'links' => $tasksLinks,
+            );
 
             $jsonData = array(
                'statusMsg' => 'SUCCESS',

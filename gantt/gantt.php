@@ -45,10 +45,7 @@ class GanttController extends Controller {
          if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
             $this->smartyHelper->assign('accessDenied', TRUE);
          } else {
-            $team = TeamCache::getInstance()->getTeam($this->teamid);
-
-            $schedulerManager = new SchedulerManager($this->session_userid, $this->teamid);
-
+            // set other smarty variables...
 
          }
       }
