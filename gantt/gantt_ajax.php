@@ -47,13 +47,16 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             $idx = 1;
             foreach($taskDates as $bugid => $taskDates) {
                // TODO set startDate to first timestrack (if exists)
-               $duration = round(($taskDates['endTimestamp'] - $taskDates['startTimestamp']) / 86400, 2); // 24*60*60 (ms -> day);
                $issue = IssueCache::getInstance()->getIssue($bugid);
+
+               $duration_real = round(($taskDates['endTimestamp'] - $taskDates['startTimestamp']) / 86400, 2); // 24*60*60 (ms -> day);
+               $duration = ($duration_real < 0) ? 1 : round($duration_real); // fix dxhtml bug ?
+               
                
                if ($isExtRef) {
                   $extRef = $issue->getTcId();
                   if (empty($extRef)) { $extRef = 'm'.$bugid; }
-                  $griddText =$extRef; // .' | '.$issue->getSummary();
+                  $griddText =$extRef .' (m'.$issue->getId().')';
                   $barText = $extRef;
                } else {
                   $griddText = $bugid; // .' | '.$issue->getSummary();
@@ -63,7 +66,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                $tasksData[] = array(
                    'id' => $idx,
                    'text' => $griddText,
-                   'start_date' => date('d-m-Y', $taskDates['startTimestamp']), // core
+                   'start_date' => date('d-m-Y H:i', $taskDates['startTimestamp']), // core
                    'duration' => $duration,
                    'progress' => $issue->getProgress() ,
                    #'open' => true,
@@ -73,6 +76,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                    #'parent' => 1,
                    #'readonly' => true
                    // custom:
+                   'duration_real' => $duration_real,
                    'barText' => $barText,
                    'tooltipHtml' => $taskTooltip,        // TODO
                    'assignedTo' => 'toto, titi',   // TODO
@@ -127,7 +131,7 @@ function getTaskTooltip_minimal($issue, $teamid, $session_userid, $isManager) {
       $finalTooltipAttr[T_('Task')] = $issue->getId();
    }
    $finalTooltipAttr[T_('Summary')] = $issue->getSummary();
-   
+   $finalTooltipAttr[T_('Progress')] = round(($issue->getProgress() * 100)).'%';
    if ($issue->getDeadline() > 0) {
       $finalTooltipAttr[T_('Deadline')] = date(T_("Y-m-d"), $issue->getDeadline());
    }

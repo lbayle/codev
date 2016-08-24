@@ -16,14 +16,18 @@
 */
 
 function setGanttOptions() {
-   //gantt.config.start_date = new Date(ganttPageSmartyData.windowStartDate); // 'YYYY-MM-DD'
-   //gantt.config.end_date =  new Date(ganttPageSmartyData.windowEndDate); // 'YYYY-MM-DD'
-   
+   gantt.config.start_date = new Date(ganttPageSmartyData.windowStartDate); // 'YYYY-MM-DD'
+   gantt.config.end_date =  new Date(ganttPageSmartyData.windowEndDate); // 'YYYY-MM-DD'
+
 
    gantt.config.date_grid = "%Y-%m-%d";
    gantt.config.readonly = true;
    gantt.config.row_height = 22;
-   gantt.config.subscales = [{unit:"week", step:1, date:"Week #%W"}];
+
+   gantt.config.date_scale = "%d/%m";
+   //gantt.config.subscales = [{unit:"week", step:1, date:"Week #%W"}];
+   gantt.config.subscales = [{unit:"month", step:1, date:"%F"}];
+	gantt.config.xml_date="%d-%m-%Y %H:%i";
 
    gantt.templates.scale_cell_class = function(date){
       if(date.getDay()==0||date.getDay()==6){ return "weekend"; }
@@ -46,7 +50,7 @@ function setGanttOptions() {
       {name:"text",       label:"Task",  width:"*", tree:true },
       {name:"start_date", label:"Start", align: "center" },
       {name:"end_date",   label:"End", template:function(obj){ return obj.end_date; }},
-      {name:"duration",   label:"Duration",   align: "center" },
+      {name:"duration",   label:"Backlog", align: "center", template:function(obj){ return obj.duration_real; } },
    ];
 
 }

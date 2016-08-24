@@ -46,6 +46,9 @@ class GanttController extends Controller {
             $this->smartyHelper->assign('accessDenied', TRUE);
          } else {
             // set other smarty variables...
+            $this->smartyHelper->assign('windowStartDate', date('Y-m-d'));
+            $this->smartyHelper->assign('windowEndDate', date('Y-m-d', strtotime("+1 month", mktime(0, 0, 0))));
+
 
          }
       }
