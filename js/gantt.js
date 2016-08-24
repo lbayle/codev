@@ -16,3 +16,51 @@
 */
 
 console.log("ganttPageSmartyData", ganttPageSmartyData);
+
+/**
+ *
+ * @param {boolean} redirect : true if user is redirect to planning tab
+ * @returns {undefined}
+ */
+function computeGantt(redirect) {
+   if(null === redirect) { redirect = false; }
+   if(redirect) {
+      // Redirect to gantt tab
+      window.location.hash = '#tabGantt_gantt';
+   }
+   $('#loading').show();  // show spinner
+
+
+   // ajax call to get tasks
+console.log("compute gantt here !");
+
+   var jsonGanttTasksPromise = $.ajax({
+      url: ganttPageSmartyData.ajaxPage,
+      data: {action: 'getGanttTasks'},
+      type: 'post',
+      dataType:"json",
+      success: function(data) {
+         if("SUCCESS" === data.statusMsg) {
+
+            jsonGanttTasks = data.ganttTasks;
+         } else {
+            $('#loading').hide();  // hide spinner
+            console.error("Ajax statusMsg", data.statusMsg);
+            alert(data.statusMsg);
+         }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+         $('#loading').hide();  // hide spinner
+         console.error(textStatus, errorThrown);
+         alert("ERROR: Please contact your CodevTT administrator");
+      }
+   });
+
+   $.when(jsonGanttTasksPromise).done(function(){
+      //gantt.parse(jsonGanttTasks,"json");
+      gantt.parse(jsonGanttTasks);
+
+      $('#loading').hide();  // hide spinner
+   });
+
+}
