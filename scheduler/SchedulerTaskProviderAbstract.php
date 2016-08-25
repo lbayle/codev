@@ -67,6 +67,27 @@ abstract class SchedulerTaskProviderAbstract {
     * @return array
     */
    protected function removeConstrainedTasks(array $todoTasks) {
+      //self::$logger->error("removeConstrainedTasks: INITIAL nb todoTasks: ".count($this->todoTaskList));
+      //self::$logger->error("removeConstrainedTasks: nb todoTasks: ".count($todoTasks));
+
+      /*
+       * si planifiee et non terminee:
+       *    la constrainingTask est présente dans $todoTasks
+       *    => remove constrainedTask
+       * si planifiée et terminee:
+       *    la constrainingTask est absente de $todoTasks
+       *    la constrainingTask est présente dans $this->todoTaskList (liste initiale)
+       *    => keep constrainedTask
+       * si non planifiee et non resolved
+       *    la constrainingTask est absente de $todoTasks
+       *    la constrainingTask est absente de $this->todoTaskList
+       *    => remove constrainedTask (wait forever)
+       * si non planifiee et resolved
+       *    la constrainingTask est absente de $todoTasks
+       *    la constrainingTask est absente de $this->todoTaskList
+       *    => keep constrainedTask
+       */
+
 
       // ---------- Remove tasks constrained by another task ----------
       foreach ($todoTasks as $taskIdKey => $taskId) {
@@ -76,19 +97,20 @@ abstract class SchedulerTaskProviderAbstract {
           // If task is constrained by another task
           $constrainingTasks = $taskRelationships[Constants::$relationship_constrained_by];
           if (is_array($constrainingTasks)) {
-            foreach ($constrainingTasks as $bugid) {
+            foreach ($constrainingTasks as $constrainingBugid) {
                // constraining task is in the todoList: current task must wait
-               if (in_array($bugid, $todoTasks)) {
-                   //self::$logger->error("task $taskId removed: constrained by $bugid (found in todoList)");
+               if (in_array($constrainingBugid, $todoTasks)) {
+                   //self::$logger->error("task $taskId removed: constrained by $constrainingBugid (found in todoList)");
                    unset($todoTasks[$taskIdKey]);
-                   break;
-               }
-               // constraining task is not in the todoList, but is not resolved: current task must wait (forever)
-               $issue = IssueCache::getInstance()->getIssue($bugid);
-               if (!$issue->isResolved()) {
-                   //self::$logger->error("task $taskId removed: constrained by $bugid (not resolved)");
-                   unset($todoTasks[$taskIdKey]);
-                   break;
+                   break; // no need to check other constraining tasks
+               } else {
+                  $issue = IssueCache::getInstance()->getIssue($constrainingBugid);
+                  if ((!in_array($constrainingBugid, $this->todoTaskList)) &&
+                      (!$issue->isResolved())) {
+                      //self::$logger->error("task $taskId removed: constrained by $constrainingBugid (not resolved)");
+                      unset($todoTasks[$taskIdKey]);
+                      break; // no need to check other constraining tasks
+                  }
                }
             }
           }

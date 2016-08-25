@@ -25,7 +25,7 @@ class SchedulerTaskProvider extends SchedulerTaskProviderAbstract {
    private static $logger;
 
    // Origin task list. No modifications have to be done on it if it is not null
-   private $todoTaskList;
+   protected $todoTaskList;
    // List of pool of candidate task for attribution (has time, has priority deadline, don't depend of an other task)
    private $candidateTaskPoolList;
    // List of user candidate task for attribution (candidateTaskList inner joined with user tasks)

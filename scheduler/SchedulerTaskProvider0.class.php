@@ -25,7 +25,7 @@ class SchedulerTaskProvider0 extends SchedulerTaskProviderAbstract {
     private static $logger;
 
     // Origin task list. No modifications have to be done on it if it is not null
-    private $todoTaskList;
+    protected $todoTaskList;
 
     private $candidateTaskList;
 
