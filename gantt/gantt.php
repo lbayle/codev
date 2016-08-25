@@ -46,11 +46,6 @@ class GanttController extends Controller {
             $this->smartyHelper->assign('accessDenied', TRUE);
          } else {
             $this->smartyHelper->assign('windowStartDate', date('Y-m-d'));
-            
-            // warn: endDate may hide some tasks if too short
-            $this->smartyHelper->assign('windowEndDate', date('Y-m-d', strtotime("+1 year", mktime(0, 0, 0))));
-
-
          }
       }
    }

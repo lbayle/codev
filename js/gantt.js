@@ -17,8 +17,6 @@
 
 function setGanttOptions() {
    gantt.config.start_date = new Date(ganttPageSmartyData.windowStartDate); // 'YYYY-MM-DD'
-   gantt.config.end_date =  new Date(ganttPageSmartyData.windowEndDate); // 'YYYY-MM-DD'
-
 
    gantt.config.date_grid = "%Y-%m-%d";
    gantt.config.readonly = true;
@@ -26,7 +24,7 @@ function setGanttOptions() {
 
    gantt.config.date_scale = "%d/%m";
    //gantt.config.subscales = [{unit:"week", step:1, date:"Week #%W"}];
-   gantt.config.subscales = [{unit:"month", step:1, date:"%F"}];
+   gantt.config.subscales = [{unit:"month", step:1, date:"%F %Y"}];
 	gantt.config.xml_date="%d-%m-%Y %H:%i";
 
    gantt.templates.scale_cell_class = function(date){
@@ -79,6 +77,7 @@ function computeGantt(redirect) {
          if("SUCCESS" === data.statusMsg) {
 
             jsonGanttTasks = data.ganttTasks;
+            gantt.config.end_date =  new Date(data.ganttEndDate); // 'YYYY-MM-DD'
          } else {
             $('#loading').hide();  // hide spinner
             console.error("Ajax statusMsg", data.statusMsg);

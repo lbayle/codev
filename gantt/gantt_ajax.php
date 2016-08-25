@@ -39,6 +39,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             $schedulerManager = new SchedulerManager($session_userid, $teamid);
             $data = $schedulerManager->execute();
             $tasksDates = $schedulerManager->getComputedTaskDates();
+            $schedEndTimerstamp = $schedulerManager->getSchedulerEndTimestamp();
             $isExtRef = $schedulerManager->getUserOption(SchedulerManager::OPTION_isDisplayExtRef);
 
             // convert $taskDates to $dxhtmlGanttTasks
@@ -124,6 +125,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             $jsonData = array(
                'statusMsg' => 'SUCCESS',
                'ganttTasks' => $dxhtmlGanttTasks,
+               'ganttEndDate' => date('Y-m-d', $schedEndTimerstamp),
             );
          } catch (Exception $e) {
             //$statusMsg = $e->getMessage();

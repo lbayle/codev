@@ -82,6 +82,7 @@ class SchedulerManager {
     * @var array of array
     */
    private $todoTaskDates = array();
+   private $schedEndTimerstamp;
 
    private $data = array();
 
@@ -351,6 +352,20 @@ class SchedulerManager {
    }
 
    
+   /**
+    * return endTimestamp of the very last scheduled task
+    */
+   public function getSchedulerEndTimestamp() {
+      if (0 == $this->schedEndTimerstamp) {
+         foreach($this->todoTaskDates as $bugid=>$dates) {
+            if ($this->schedEndTimerstamp < $dates['endTimestamp']) {
+               $this->schedEndTimerstamp = $dates['endTimestamp'];
+            }
+         }
+      }
+      return $this->schedEndTimerstamp;
+   }
+
    /**
     * depending on deadline, change task activity colors
     */
