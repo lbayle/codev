@@ -213,7 +213,7 @@ class SchedulerManager {
       }
 
       $this->createBacklogData();
-      $this->adjustColor();
+      $this->adjustColors();
       return $this->data;
    }
 
@@ -354,44 +354,48 @@ class SchedulerManager {
    /**
     * depending on deadline, change task activity colors
     */
-   private function adjustColor(){
+   private function adjustColors() {
 
-      $warnThreshold   = $this->getUserOption(self::OPTION_warnThreshold);
-
-      foreach($this->data["activity"] as $key=>$data){
-        
+      foreach($this->data["activity"] as $key=>$data) {
         $bugid = $data["bugid"];
-        $deadline = IssueCache::getInstance()->getIssue($bugid)->getDeadLine();
-
-        if (NULL == $deadline) {
-           // task has no deadline => light green
-           $this->data["activity"][$key]["color"] = 'lightgreen';
-           continue;
-        }
-
-        $warnline = strtotime('-'.$warnThreshold.' days', $deadline);  // n days before deadline
         $activityEndDate = strtotime($data["end_date"]);
         $taskEndTimestamp = $this->todoTaskDates[$bugid]['endTimestamp'];
+        
+        $color = $this->getColor($bugid, $taskEndTimestamp, $activityEndDate);
+        $this->data['activity'][$key]['color'] = $color;
+      }
+   }
 
-        if ($taskEndTimestamp > $deadline) {
-           // task is late, but:
-           if ($activityEndDate < $deadline) {
-              // this activity ends before deadline => light red
-              $this->data['activity'][$key]['color'] = '#FF816B';
-           } else {
-              // this activity ends after deadline => red
-              $this->data['activity'][$key]['color'] = '#FF421F';
-           }
-        } else {
-           // task is on time, but:
-           if ($taskEndTimestamp > $warnline) {
-              // task ends shortly before the deadline => orange
-              $this->data['activity'][$key]["color"] = '#FFBA00';
-           } else {
-              //  task is on time => green
-              $this->data['activity'][$key]["color"] =  '#009900'; // 'green';
-           }
-        }
+   /**
+    * get task color depending on it's deadline
+    */
+   public function getColor($bugid, $taskEndTimestamp, $activityEndDate = NULL) {
+      $warnThreshold   = $this->getUserOption(self::OPTION_warnThreshold);
+      $deadline = IssueCache::getInstance()->getIssue($bugid)->getDeadLine();
+
+      // task has no deadline => light green
+      if (NULL == $deadline) { return 'lightgreen'; }
+
+      $warnline = strtotime('-'.$warnThreshold.' days', $deadline);  // n days before deadline
+
+      if ($taskEndTimestamp > $deadline) {
+         // task is late, but:
+         if ((NULL != $activityEndDate) && ($activityEndDate < $deadline)) {
+            // this activity ends before deadline => light red
+            return '#FF816B';
+         } else {
+            // this activity ends after deadline => red
+            return '#FF421F';
+         }
+      } else {
+         // task is on time, but:
+         if ($taskEndTimestamp > $warnline) {
+            // task ends shortly before the deadline => orange
+            return '#FFBA00';
+         } else {
+            //  task is on time => green
+            return '#009900'; // 'green';
+         }
       }
    }
 

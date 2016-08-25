@@ -38,23 +38,24 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
             $schedulerManager = new SchedulerManager($session_userid, $teamid);
             $data = $schedulerManager->execute();
-            $taskDates = $schedulerManager->getComputedTaskDates();
+            $tasksDates = $schedulerManager->getComputedTaskDates();
             $isExtRef = $schedulerManager->getUserOption(SchedulerManager::OPTION_isDisplayExtRef);
 
             // convert $taskDates to $dxhtmlGanttTasks
             $tasksData = array();
             $bugid_to_idx = array();
             $idx = 1;
-            foreach($taskDates as $bugid => $taskDates) {
-               // TODO OPTION set startDate to first timestrack (if exists)
+            foreach($tasksDates as $bugid => $taskDates) {
+               // OPTION set startDate to first timestrack (if exists)
                $issue = IssueCache::getInstance()->getIssue($bugid);
 
                $duration_real = round($issue->getDuration(), 2);
 
                $duration_tmp = round(($taskDates['endTimestamp'] - $taskDates['startTimestamp']) / 86400, 2); // 24*60*60 (ms -> day);
                $duration = ($duration_tmp < 0) ? 1 : round($duration_tmp); // fix dxhtml bug ?
-               
-               
+
+               $color = $schedulerManager->getColor($bugid, $taskDates['endTimestamp']);
+
                if ($isExtRef) {
                   $extRef = $issue->getTcId();
                   if (empty($extRef)) { $extRef = 'm'.$bugid; }
@@ -65,16 +66,16 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                   $barText = $bugid;
                }
                $taskTooltip = getTaskTooltip_minimal($issue, $teamid, $session_userid, $isManager);
+
                $tasksData[] = array(
                    'id' => $idx,
                    'text' => $griddText,
                    'start_date' => date('d-m-Y H:i', $taskDates['startTimestamp']), // core
                    'duration' => $duration,
                    'progress' => $issue->getProgress() ,
+                   'color' =>  $color,
                    #'open' => true,
-                   #'color' => 'lightblue',         // TODO
-                   #'textColor' => 'black',         // TODO
-                   #'progressColor' => 'blue',      // TODO
+                   #'textColor' => 'black',
                    #'parent' => 1,
                    #'readonly' => true
                    // custom:
