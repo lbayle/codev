@@ -46,7 +46,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             $bugid_to_idx = array();
             $idx = 1;
             foreach($taskDates as $bugid => $taskDates) {
-               // TODO set startDate to first timestrack (if exists)
+               // TODO OPTION set startDate to first timestrack (if exists)
                $issue = IssueCache::getInstance()->getIssue($bugid);
 
                $duration_real = round($issue->getDuration(), 2);
@@ -87,17 +87,35 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                ++$idx;
             }
 
-            //$ganttAjaxLogger->error($tasksData);
+            $ganttAjaxLogger->error("nb displayed tasks in gantt: ".count($bugid_to_idx));
+            //$ganttAjaxLogger->error($bugid_to_idx);
 
-            // TODO get tasks dependencies
+            // TODO OPTION get tasks dependencies
             $tasksLinks = array();
-/*
-        {id:1, source:1, target:2, type:"1"},
-        {id:2, source:1, target:3, type:"1"},
-        {id:3, source:3, target:4, type:"1"},
-        {id:4, source:4, target:5, type:"0"},
-        {id:5, source:5, target:6, type:"0"}
-*/
+            $j = 0;
+            foreach ($bugid_to_idx as $bugid => $idx) {
+               $issue = IssueCache::getInstance()->getIssue($bugid);
+
+               $relationships = $issue->getRelationships();
+               $constrainsList = $relationships[Constants::$relationship_constrains];
+               if (NULL !== $constrainsList) {
+                  foreach ($constrainsList as $constrainedBugid) {
+                     if (array_key_exists($constrainedBugid, $bugid_to_idx)) {
+                        $tasksLinks[] = array(
+                            'id' => $j,
+                            'source' => $idx,
+                            'target' => $bugid_to_idx[$constrainedBugid],
+                            'type' => '0', // 0:finish_to_start
+                        );
+                        ++$j;
+                     } else {
+                        $ganttAjaxLogger->error("WARN link $bugid -> $constrainedBugid : $constrainedBugid not in gantt chart");
+                     }
+                  }
+               }
+            }
+            $ganttAjaxLogger->error($tasksLinks);
+
             $dxhtmlGanttTasks = array(
                 'data' => $tasksData,
                 'links' => $tasksLinks,
@@ -109,8 +127,9 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             );
          } catch (Exception $e) {
             //$statusMsg = $e->getMessage();
+            $ganttAjaxLogger->error($e->getMessage());
             $jsonData = array(
-               'statusMsg' => 'ERROR'
+               'statusMsg' => $e->getMessage() // 'ERROR'
             );
          }
          echo json_encode($jsonData);
