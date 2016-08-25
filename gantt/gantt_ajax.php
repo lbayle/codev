@@ -42,6 +42,9 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             $schedEndTimerstamp = $schedulerManager->getSchedulerEndTimestamp();
             $isExtRef = $schedulerManager->getUserOption(SchedulerManager::OPTION_isDisplayExtRef);
 
+            $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser);
+            $timePerUserPerTaskList = SchedulerManager::transposeTo_TimePerUserPerTask($timePerTaskPerUser);
+
             // convert $taskDates to $dxhtmlGanttTasks
             $tasksData = array();
             $bugid_to_idx = array();
@@ -51,11 +54,8 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                $issue = IssueCache::getInstance()->getIssue($bugid);
 
                $duration_real = round($issue->getDuration(), 2);
-
                $duration_tmp = round(($taskDates['endTimestamp'] - $taskDates['startTimestamp']) / 86400, 2); // 24*60*60 (ms -> day);
                $duration = ($duration_tmp < 0) ? 1 : round($duration_tmp); // fix dxhtml bug ?
-
-               $color = $schedulerManager->getColor($bugid, $taskDates['endTimestamp']);
 
                if ($isExtRef) {
                   $extRef = $issue->getTcId();
@@ -66,9 +66,11 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                   $griddText = $bugid; // .' | '.$issue->getSummary();
                   $barText = $bugid;
                }
-               $taskTooltip = getTaskTooltip_minimal($issue, $teamid, $session_userid, $isManager);
 
-               $tasksData[] = array(
+               $color = $schedulerManager->getColor($bugid, $taskDates['endTimestamp']);
+               $taskTooltip = getTaskTooltip_minimal($issue, $teamid, $session_userid, $isManager, $timePerUserPerTaskList);
+
+               $data = array(
                    'id' => $idx,
                    'text' => $griddText,
                    'start_date' => date('d-m-Y H:i', $taskDates['startTimestamp']), // core
@@ -83,8 +85,11 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                    'duration_real' => $duration_real,
                    'barText' => $barText,
                    'tooltipHtml' => $taskTooltip,
-                   'assignedTo' => 'toto, titi',   // TODO
+                   'assignedTo' => implode(', ', getAssignedUsers($bugid, $timePerUserPerTaskList)),
                );
+               if ('lightgreen' == $color) { $data['textColor'] = 'black'; }
+
+               $tasksData[] = $data;
                $bugid_to_idx[$bugid] = $idx;
                ++$idx;
             }
@@ -109,13 +114,11 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                         );
                         ++$j;
                      } else {
-                        $ganttAjaxLogger->error("WARN link $bugid -> $constrainedBugid : $constrainedBugid not in gantt chart");
+                        //$ganttAjaxLogger->warn("gantt link $bugid -> $constrainedBugid : $constrainedBugid not in gantt chart");
                      }
                   }
                }
             }
-            $ganttAjaxLogger->error("nb links: ".count($tasksLinks));
-            //$ganttAjaxLogger->error($tasksLinks);
 
             $dxhtmlGanttTasks = array(
                 'data' => $tasksData,
@@ -144,7 +147,38 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
    Tools::sendUnauthorizedAccess();
 }
 
-function getTaskTooltip_minimal($issue, $teamid, $session_userid, $isManager) {
+/**
+ * 
+ */
+function getAssignedUsers($bugid, $timePerUserPerTaskList, $isShortDesc = TRUE) {
+   $assignedUsers = array();
+   if ((null != $timePerUserPerTaskList) && (null != $timePerUserPerTaskList[$bugid])) {
+      $timePerUserList = $timePerUserPerTaskList[$bugid];
+
+      foreach($timePerUserList as $userid => $time) {
+         $userName = UserCache::getInstance()->getUser($userid)->getName();
+
+         if (!$isShortDesc) {
+            $timeStr = (NULL == $time) ? T_('auto') : $time;
+            $userName .= "($timeStr)";
+         }
+         $assignedUsers[$userid] = $userName;
+      }
+   } else {
+      $issue = IssueCache::getInstance()->getIssue($bugid);
+      $handlerid = $issue->getHandlerId();
+      if ($handlerid) {
+         $handler = UserCache::getInstance()->getUser($handlerid);
+         $assignedUsers[$userid] = $handler->getName();
+      }
+   }
+   return $assignedUsers;
+}
+
+/**
+ *
+ */
+function getTaskTooltip_minimal($issue, $teamid, $session_userid, $isManager, $timePerUserPerTaskList) {
    $finalTooltipAttr = array();
 
    $extRef = $issue->getTcId();
@@ -154,6 +188,7 @@ function getTaskTooltip_minimal($issue, $teamid, $session_userid, $isManager) {
       $finalTooltipAttr[T_('Task')] = $issue->getId();
    }
    $finalTooltipAttr[T_('Summary')] = $issue->getSummary();
+   $finalTooltipAttr[T_('Assigned to')] = implode(', ', getAssignedUsers($issue->getId(), $timePerUserPerTaskList, FALSE));
    $finalTooltipAttr[T_('Progress')] = round(($issue->getProgress() * 100)).'%';
    if ($issue->getDeadline() > 0) {
       $finalTooltipAttr[T_('Deadline')] = date(T_("Y-m-d"), $issue->getDeadline());

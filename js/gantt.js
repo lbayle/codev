@@ -40,7 +40,7 @@ function setGanttOptions() {
       return task.barText;
    };
    gantt.templates.rightside_text = function(start, end, task){
-      return '(' + task.assignedTo + ')';
+      return task.assignedTo;
    };
 
    //default columns definition
