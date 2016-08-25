@@ -93,8 +93,9 @@ function computeGantt(redirect) {
    });
 
    $.when(jsonGanttTasksPromise).done(function(){
-      //gantt.parse(jsonGanttTasks,"json");
       gantt.parse(jsonGanttTasks);
+      console.log("number of tasks currently loaded in the gantt", gantt.getTaskCount());
+      console.log("number of tasks visible on the screen (those that are not collapsed)", gantt.getVisibleTaskCount());
 
       $('#loading').hide();  // hide spinner
    });

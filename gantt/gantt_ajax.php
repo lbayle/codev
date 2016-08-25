@@ -74,24 +74,22 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                    'duration' => $duration,
                    'progress' => $issue->getProgress() ,
                    'color' =>  $color,
-                   #'open' => true,
+                   'open' => true,
                    #'textColor' => 'black',
                    #'parent' => 1,
                    #'readonly' => true
                    // custom:
                    'duration_real' => $duration_real,
                    'barText' => $barText,
-                   'tooltipHtml' => $taskTooltip,        // TODO
+                   'tooltipHtml' => $taskTooltip,
                    'assignedTo' => 'toto, titi',   // TODO
                );
                $bugid_to_idx[$bugid] = $idx;
                ++$idx;
             }
+            //$ganttAjaxLogger->error("nb displayed tasks in gantt: ".count($tasksData));
 
-            $ganttAjaxLogger->error("nb displayed tasks in gantt: ".count($bugid_to_idx));
-            //$ganttAjaxLogger->error($bugid_to_idx);
-
-            // TODO OPTION get tasks dependencies
+            // set tasks dependencies
             $tasksLinks = array();
             $j = 0;
             foreach ($bugid_to_idx as $bugid => $idx) {
@@ -115,7 +113,8 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                   }
                }
             }
-            $ganttAjaxLogger->error($tasksLinks);
+            $ganttAjaxLogger->error("nb links: ".count($tasksLinks));
+            //$ganttAjaxLogger->error($tasksLinks);
 
             $dxhtmlGanttTasks = array(
                 'data' => $tasksData,

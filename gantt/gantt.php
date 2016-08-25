@@ -45,9 +45,10 @@ class GanttController extends Controller {
          if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
             $this->smartyHelper->assign('accessDenied', TRUE);
          } else {
-            // set other smarty variables...
             $this->smartyHelper->assign('windowStartDate', date('Y-m-d'));
-            $this->smartyHelper->assign('windowEndDate', date('Y-m-d', strtotime("+1 month", mktime(0, 0, 0))));
+            
+            // warn: endDate may hide some tasks if too short
+            $this->smartyHelper->assign('windowEndDate', date('Y-m-d', strtotime("+1 year", mktime(0, 0, 0))));
 
 
          }
