@@ -47,7 +47,7 @@ function setGanttOptions() {
    gantt.config.columns = [
       {name:"text",       label:"Task",  width:"*", tree:true },
       {name:"start_date", label:"Start", align: "center" },
-      {name:"end_date",   label:"End", template:function(obj){ return obj.end_date; }},
+      {name:"end_date",   label:"End", template:function(obj){ return obj.end_date_real; }},
       {name:"duration",   label:"Backlog", align: "center", template:function(obj){ return obj.duration_real; } },
    ];
 

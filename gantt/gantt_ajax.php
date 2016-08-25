@@ -57,6 +57,8 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                $duration_tmp = round(($taskDates['endTimestamp'] - $taskDates['startTimestamp']) / 86400, 2); // 24*60*60 (ms -> day);
                $duration = ($duration_tmp < 0) ? 1 : round($duration_tmp); // fix dxhtml bug ?
 
+
+
                if ($isExtRef) {
                   $extRef = $issue->getTcId();
                   if (empty($extRef)) { $extRef = 'm'.$bugid; }
@@ -83,6 +85,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                    #'readonly' => true
                    // custom:
                    'duration_real' => $duration_real,
+                   'end_date_real' => date('Y-m-d', $taskDates['endTimestamp']),
                    'barText' => $barText,
                    'tooltipHtml' => $taskTooltip,
                    'assignedTo' => implode(', ', getAssignedUsers($bugid, $timePerUserPerTaskList)),
