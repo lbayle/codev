@@ -271,7 +271,7 @@
    dhtmlXTooltip.config.delta_x = 15; 
    dhtmlXTooltip.config.delta_y = -20;
    scheduler.templates.tooltip_text = function(start,end,event) {
-      return event.desc;
+      return event.tooltipHtml;
    };
 
    $( "#tabsScheduler" ).on( "tabscreate", function( event, ui ) {

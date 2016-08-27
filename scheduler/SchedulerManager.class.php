@@ -38,7 +38,7 @@ class SchedulerManager {
    }
    
    private $team_id;
-   private $user_id;
+   private $session_userid;
    private $userOptions;
 
    /**
@@ -84,12 +84,14 @@ class SchedulerManager {
    private $todoTaskDates = array();
    private $schedEndTimerstamp;
 
+   private $schedEvents = array();
+
    private $data = array();
 
    public function __construct($userid, $teamid) {
 
       $this->team_id = $teamid;
-      $this->user_id = $userid;
+      $this->session_userid = $userid;
       
       $this->schedulerTaskProviderList = array('SchedulerTaskProvider0', 'SchedulerTaskProvider');
    }
@@ -131,9 +133,9 @@ class SchedulerManager {
       /*
        * while processing, cache to concat consecutive activities in one strike
        * (for the same user on the same task)
-       * @var array[userid] => GanttActivity
+       * @var array[userid] => SchedulerEvent
        */
-      $userLatestActivity = array();
+      $userLatestEvent = array();
 
       $isDisplayExtRef = $this->getUserOption(self::OPTION_isDisplayExtRef);
       $projectionDay   = $this->getUserOption(self::OPTION_nbDaysForecast);
@@ -169,23 +171,23 @@ class SchedulerManager {
                         }
 
                         // update latest activity or create a new one if different task
-                        $prevActivity = $userLatestActivity[$userId];
-                        if (NULL == $prevActivity) {
+                        $prevEvent = $userLatestEvent[$userId];
+                        if (NULL == $prevEvent) {
                            // first activity fot this user
-                           $ganttActivity = new GanttActivity($nextTaskId, $userId, $midnightTimestamp, $endT);
-                           $userLatestActivity[$userId] = $ganttActivity;
+                           $event = new SchedulerEvent($nextTaskId, $userId, $midnightTimestamp, $endT);
+                           $userLatestEvent[$userId] = $event;
                         } else {
                            // if same issue, just extend $prevActivity endTimestamp
-                           if (($prevActivity->bugid == $nextTaskId) &&
-                               ($prevActivity->endTimestamp == $midnightTimestamp)) {
-                              $prevActivity->endTimestamp = $endT;
+                           if (($prevEvent->bugid == $nextTaskId) &&
+                               ($prevEvent->endTimestamp == $midnightTimestamp)) {
+                              $prevEvent->endTimestamp = $endT;
                            } else {
                               // store previous activity
-                              array_push($this->data["activity"], $prevActivity->getDxhtmlData($isDisplayExtRef));
+                              array_push($this->schedEvents, $prevEvent);
 
                               // create a new one
-                              $ganttActivity = new GanttActivity($nextTaskId, $userId, $midnightTimestamp, $endT);
-                              $userLatestActivity[$userId] = $ganttActivity;
+                              $event = new SchedulerEvent($nextTaskId, $userId, $midnightTimestamp, $endT);
+                              $userLatestEvent[$userId] = $event;
                            }
                         }
 
@@ -209,12 +211,18 @@ class SchedulerManager {
       } // day
 
       // store latest activities, still in cache
-      foreach ($userLatestActivity as $ganttActivity) {
-         array_push($this->data["activity"], $ganttActivity->getDxhtmlData($isDisplayExtRef));
+      foreach ($userLatestEvent as $evt) {
+         array_push($this->schedEvents, $evt);
       }
 
       $this->createBacklogData();
+
       $this->adjustColors();
+      $session_user = UserCache::getInstance()->getUser($this->session_userid);
+      $isManager = $session_user->isTeamManager($this->team_id);
+      foreach($this->schedEvents as $evt) {
+         $this->data["activity"][] = $evt->getDxhtmlData($this->team_id, $this->session_userid, $isManager, $isDisplayExtRef);
+      }
       return $this->data;
    }
 
@@ -371,20 +379,17 @@ class SchedulerManager {
     */
    private function adjustColors() {
 
-      foreach($this->data["activity"] as $key=>$data) {
-        $bugid = $data["bugid"];
-        $activityEndDate = strtotime($data["end_date"]);
-        $taskEndTimestamp = $this->todoTaskDates[$bugid]['endTimestamp'];
-        
-        $color = $this->getColor($bugid, $taskEndTimestamp, $activityEndDate);
-        $this->data['activity'][$key]['color'] = $color;
+      foreach($this->schedEvents as $evt) {
+        $taskEndTimestamp = $this->todoTaskDates[$evt->bugid]['endTimestamp'];
+        $color = $this->getColor($evt->bugid, $taskEndTimestamp, $evt->endTimestamp);
+        $evt->color = $color;
       }
    }
 
    /**
     * get task color depending on it's deadline
     */
-   public function getColor($bugid, $taskEndTimestamp, $activityEndDate = NULL) {
+   public function getColor($bugid, $taskEndTimestamp, $eventEndDate = NULL) {
       $warnThreshold   = $this->getUserOption(self::OPTION_warnThreshold);
       $deadline = IssueCache::getInstance()->getIssue($bugid)->getDeadLine();
 
@@ -395,7 +400,7 @@ class SchedulerManager {
 
       if ($taskEndTimestamp > $deadline) {
          // task is late, but:
-         if ((NULL != $activityEndDate) && ($activityEndDate < $deadline)) {
+         if ((NULL != $eventEndDate) && ($eventEndDate < $deadline)) {
             // this activity ends before deadline => light red
             return '#FF816B';
          } else {
@@ -494,7 +499,7 @@ class SchedulerManager {
     */
    public function getUserOption($optionName, $userId = -1) {
 
-      if (-1 == $userId) { $userId = $this->user_id; }
+      if (-1 == $userId) { $userId = $this->session_userid; }
       $userOptions = $this->getUserOptions($userId);
 //      self::$logger->error("getUserOption($optionName, $userId) = ". $userOptions[$optionName]);
       return $userOptions[$optionName];
@@ -509,7 +514,7 @@ class SchedulerManager {
     */
    public function setUserOption($optionName, $value, $userId = -1) {
 
-      if (-1 == $userId) { $userId = $this->user_id; }
+      if (-1 == $userId) { $userId = $this->session_userid; }
       $userOptions = $this->getUserOptions($userId);
 
       if (!array_key_exists($optionName, $userOptions)) {

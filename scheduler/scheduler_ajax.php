@@ -247,7 +247,7 @@ function formatActivity(array $activity, Team $team, $userId, $isExtRef) {
        "user_id"    => $userId,
        "text"       => $text,
        "color"      => $color,
-       "desc"       => $desc);
+       "tooltipHtml"  => $desc);
 
    return $dxhtmlData;
 }
