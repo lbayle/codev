@@ -51,6 +51,16 @@ function setGanttOptions() {
       {name:"duration",   label:"Backlog", align: "center", template:function(obj){ return obj.duration_real; } },
    ];
 
+   // set filter on
+    gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
+      var summaryFilter = $("#summaryFilter").val();
+      if (task.text.toString().toLowerCase().indexOf(summaryFilter) >= 0) {
+         return true;
+      }
+      // not candidate, return false
+		return false;
+    });
+
 }
 
 /**
