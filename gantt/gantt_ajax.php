@@ -89,6 +89,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                    'barText' => $barText,
                    'tooltipHtml' => $taskTooltip,
                    'assignedTo' => implode(', ', getAssignedUsers($bugid, $timePerUserPerTaskList)),
+                   'summary' => $issue->getSummary(),
                );
                if ('lightgreen' == $color) { $data['textColor'] = 'black'; }
 

@@ -57,8 +57,14 @@ function setGanttOptions() {
       if (task.text.toString().toLowerCase().indexOf(summaryFilter) >= 0) {
          return true;
       }
+      if (task.summary.toString().toLowerCase().indexOf(summaryFilter) >= 0) {
+         return true;
+      }
+      if (task.assignedTo.toString().toLowerCase().indexOf(summaryFilter) >= 0) {
+         return true;
+      }
       // not candidate, return false
-		return false;
+      return false;
     });
 
 }
