@@ -10,7 +10,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-23 21:01+0200\n"
-"PO-Revision-Date: 2016-08-25 05:27:16+0000\n"
+"PO-Revision-Date: 2016-09-22 05:20:56+0000\n"
 "Language: es_es\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -296,9 +296,8 @@ msgid "Import / Export"
 msgstr "Importar/Exportar"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Import/Export tools"
-msgstr "Importar/Exportar"
+msgstr "Herramientasde de importación/exportación"
 
 #. tpl/menu/global_menu.html
 msgid "Import Issues"
@@ -4243,12 +4242,11 @@ msgstr ""
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:60
 msgid "Display messages on the homepage"
-msgstr ""
+msgstr "Mostrar mensajes en la portada"
 
 #: plugins/BlogPlugin/BlogPost.class.php:94
-#, fuzzy
 msgid "Low"
-msgstr "Registro"
+msgstr "Bajo"
 
 #: plugins/BlogPlugin/BlogPost.class.php:96
 #, fuzzy

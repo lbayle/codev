@@ -10,7 +10,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-23 21:02+0200\n"
-"PO-Revision-Date: 2016-08-25 05:27:17+0000\n"
+"PO-Revision-Date: 2016-09-22 05:20:57+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1644,9 +1644,8 @@ msgid "delete this row"
 msgstr ""
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Edit timetrack"
-msgstr "시간트래킹 업데이트"
+msgstr "타임트랙 편집"
 
 #. tpl/time_tracking.html
 msgid "Future Imputations"

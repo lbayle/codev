@@ -7,7 +7,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-23 21:02+0200\n"
-"PO-Revision-Date: 2016-08-25 05:27:18+0000\n"
+"PO-Revision-Date: 2016-09-22 05:20:59+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -293,9 +293,8 @@ msgid "Import / Export"
 msgstr "Amportassion / Esportassion"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Import/Export tools"
-msgstr "Amportassion / Esportassion"
+msgstr "Utiss Amportassion / Esportassion"
 
 #. tpl/menu/global_menu.html
 msgid "Import Issues"
@@ -377,7 +376,7 @@ msgstr "Disanstalé"
 
 #. tpl/check.html
 msgid " Error(s) in Mantis Tasks"
-msgstr ""
+msgstr "Eror ant ij travaj ëd Mantis"
 
 #. tpl/check.html
 #. tpl/import_issues.html
@@ -392,11 +391,11 @@ msgstr "Utent"
 
 #. tpl/check.html
 msgid "extRef"
-msgstr ""
+msgstr "ArfEst"
 
 #. tpl/check.html
 msgid "last modification date"
-msgstr ""
+msgstr "dàita dl'ùltima modìfica"
 
 #. tpl/check.html
 #. tpl/productivity_report.html
@@ -429,11 +428,11 @@ msgstr "Resumé"
 
 #. tpl/check.html
 msgid "Level"
-msgstr ""
+msgstr "Livel"
 
 #. tpl/check.html
 msgid "Error Description"
-msgstr ""
+msgstr "Descrission ëd l'eror"
 
 #. tpl/check.html
 #. tpl/project_info.html
@@ -478,11 +477,11 @@ msgstr "A-i manca chèich camp:"
 
 #. tpl/edit_jobs.html
 msgid "Job Name"
-msgstr ""
+msgstr "Nòm dël travaj"
 
 #. tpl/edit_jobs.html
 msgid "Job Color"
-msgstr ""
+msgstr "Color dël travaj"
 
 #. tpl/edit_jobs.html
 #. tpl/import_issues.html
@@ -503,29 +502,29 @@ msgstr "Sòrt"
 #: install/install_step3.php:620 install/install_step3.php:625
 #: install/install_step3.php:631 install/install_step3.php:636
 msgid "Color"
-msgstr ""
+msgstr "Color"
 
 #. tpl/edit_jobs.html
 #. tpl/edit_holidays.html
 #: install/install_step3.php:605
 msgid "open a colorPicker in a new Tab"
-msgstr ""
+msgstr "duverté un seletor ëd color an na neuva scheda"
 
 #. tpl/edit_jobs.html
 msgid "Delete job"
-msgstr ""
+msgstr "Dëscancelé 's travaj"
 
 #. tpl/edit_jobs.html
 msgid "delete Job"
-msgstr ""
+msgstr "dëscancelé 's travaj"
 
 #. tpl/edit_jobs.html
 msgid "Job Assignations"
-msgstr ""
+msgstr "Assignassion ëd travaj"
 
 #. tpl/edit_jobs.html
 msgid "Missing fields :"
-msgstr ""
+msgstr "Camp mancant:"
 
 #. tpl/edit_jobs.html
 #. tpl/productivity_report.html
@@ -543,19 +542,19 @@ msgstr "Travaj"
 
 #. tpl/edit_jobs.html
 msgid "single selection"
-msgstr ""
+msgstr "selession ùnica"
 
 #. tpl/edit_jobs.html
 msgid "multiple selection"
-msgstr ""
+msgstr "selession mùltipla"
 
 #. tpl/edit_jobs.html
 msgid "Remove this link :"
-msgstr ""
+msgstr "Gavé sa liura:"
 
 #. tpl/edit_jobs.html
 msgid "delete Project Association"
-msgstr ""
+msgstr "eliminé l'associassion al Proget"
 
 #. tpl/edit_jobs.html
 #. tpl/uninstall.html
@@ -568,16 +567,16 @@ msgstr "An dëspias, a dev fé part ëd l'echip dl'aministrassion për acede a s
 
 #. tpl/template.html
 msgid "Disconnect"
-msgstr ""
+msgstr "Seurte dal sistema"
 
 #. tpl/template.html
 msgid "Note: For a better user experience, use a standards compliant browser such as :"
-msgstr ""
+msgstr "Nòta: Për na mej esperiensa, ch'a deuvra un navigador ch'a rispeta jë stàndard, tanme:"
 
 #. tpl/template.html
 #. tpl/import_issues.html
 msgid "or"
-msgstr ""
+msgstr "o"
 
 #. tpl/project_info.html
 #. tpl/commandset_info.html
@@ -1186,7 +1185,7 @@ msgstr "travaj ch'a son ëstàit torna duvertà ant ël perìod"
 
 #. tpl/gantt_report.html
 msgid "Gant report"
-msgstr ""
+msgstr "Rapòrt ëd Gantt"
 
 #. tpl/commandset_edit.html
 msgid "New command set"
@@ -1366,59 +1365,59 @@ msgstr "An dëspias, mach ij mansé a peulo acede a costa pàgina."
 
 #. tpl/uninstall.html
 msgid "Do you want to remove CodevTT from your Mantis server ?"
-msgstr ""
+msgstr "Veul-lo gavé CodevTT da sò servent Mantis?"
 
 #. tpl/uninstall.html
 msgid "This step will clean Mantis DB."
-msgstr ""
+msgstr "Costa tapa a polidërà la BËD Mantis."
 
 #. tpl/uninstall.html
 msgid "Backup data"
-msgstr ""
+msgstr "Fé na còpia dij dàit"
 
 #. tpl/uninstall.html
 msgid "Backup file will ve saved in CodevTT reports directory"
-msgstr ""
+msgstr "L'archivi ëd còpia a sarà argistrà ant ël dossié dij rapòrt CodevTT"
 
 #. tpl/uninstall.html
 msgid "Filename"
-msgstr ""
+msgstr "Nòm dl'archivi"
 
 #. tpl/uninstall.html
 msgid "Backup"
-msgstr ""
+msgstr "Còpia ëd sigurëssa"
 
 #. tpl/uninstall.html
 msgid "Dumping MantisDB to"
-msgstr ""
+msgstr "Campé la BËD Mantis vers"
 
 #. tpl/uninstall.html
 msgid "Backup successfully done"
-msgstr ""
+msgstr "Còpia riussìa"
 
 #. tpl/uninstall.html
 msgid "Uninstall aborted !"
-msgstr ""
+msgstr "Disanstalassion anterompùa!"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT from Mantis menu:"
-msgstr ""
+msgstr "Gavé CodevTT da lë mnù ëd Mantis:"
 
 #. tpl/uninstall.html
 msgid "TODO"
-msgstr ""
+msgstr "DA FÉ"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT specific projects"
-msgstr ""
+msgstr "Gavé dij proget ëspessìfich ëd CodevTT"
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
-msgstr ""
+msgstr "Për piasì, dëscancelé A MAN ij proget sì-dapress:"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT customFields:"
-msgstr ""
+msgstr "Gavé ij camp përsonalisà ëd CodevTT:"
 
 #. tpl/uninstall.html
 #. tpl/prepare_project.html
@@ -1429,83 +1428,83 @@ msgstr "Livrà"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT tables from MantisDB:"
-msgstr ""
+msgstr "Gavé le tàule ëd CodevTT da la BËD Mantis:"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT config files:"
-msgstr ""
+msgstr "Gavé j'archivi ëd configurassion ëd CodevTT:"
 
 #. tpl/uninstall.html
 msgid "ERROR: Could not delete files"
-msgstr ""
+msgstr "EROR: A l'é nen podusse dëscancelé j'archivi"
 
 #. tpl/uninstall.html
 msgid "Failed"
-msgstr ""
+msgstr "Falì"
 
 #. tpl/import_issues.html
 msgid "Select CSV file"
-msgstr ""
+msgstr "Selession ëd l'archivi CSV"
 
 #. tpl/import_issues.html
 msgid "Import Mantis Issues"
-msgstr ""
+msgstr "Amporté le schede Mantis"
 
 #. tpl/import_issues.html
 msgid "File Format"
-msgstr ""
+msgstr "Formà d'archivi"
 
 #. tpl/import_issues.html
 msgid "Standard CSV format with :"
-msgstr ""
+msgstr "Formà CSV stàndard con:"
 
 #. tpl/import_issues.html
 msgid "delimiter"
-msgstr ""
+msgstr "separator"
 
 #. tpl/import_issues.html
 msgid "enclosure"
-msgstr ""
+msgstr "anquadrament"
 
 #. tpl/import_issues.html
 msgid "Date format"
-msgstr ""
+msgstr "Formà ëd dàita"
 
 #. tpl/import_issues.html
 msgid "Number format"
-msgstr ""
+msgstr "Formà numérich"
 
 #. tpl/import_issues.html
 msgid "Encoding"
-msgstr ""
+msgstr "Codìfica"
 
 #. tpl/import_issues.html
 msgid "It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported."
-msgstr ""
+msgstr "As arcomanda ëd dovré <strong>UTF-8</strong> ma ASCII e ISO-8859-1 (MS-Windows) a son ëdcò mantnù."
 
 #. tpl/import_issues.html
 msgid "Columns"
-msgstr ""
+msgstr "Colòne"
 
 #. tpl/import_issues.html
 msgid "the file must contain 6 columns, the 1st line contains the column names."
-msgstr ""
+msgstr "l'archivi a dev conten-e almanch 6 colòne, con la prima linia ch'a conten ij nòm ëd le colòne."
 
 #. tpl/import_issues.html
 msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef"
-msgstr ""
+msgstr "Resumé ; Stim dlë sfòrs Mgr ; Stim dlë sfòrs ; Descrission ; Scadensa ; Arf Estern"
 
 #. tpl/import_issues.html
 msgid "File"
-msgstr ""
+msgstr "Archivi"
 
 #. tpl/import_issues.html
 msgid "File extension"
-msgstr ""
+msgstr "Estension ëd l'archivi"
 
 #. tpl/import_issues.html
 msgid "Preview import"
-msgstr ""
+msgstr "Visualisassion"
 
 #. tpl/import_issues.html
 msgid "Set All"
@@ -1642,9 +1641,8 @@ msgid "delete this row"
 msgstr "dëscancelé costa linia"
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Edit timetrack"
-msgstr "Agiornament dël contròl d'atività"
+msgstr "Modifiché ij programa"
 
 #. tpl/time_tracking.html
 msgid "Future Imputations"
@@ -2516,9 +2514,8 @@ msgid "External ID"
 msgstr "Identificativ estern"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Remove task from command"
-msgstr "Gavé da la comanda"
+msgstr "Gavé ël travaj da la comanda"
 
 #. tpl/issue_info.html
 msgid "Add to command"
@@ -4241,9 +4238,8 @@ msgid "Display messages on the homepage"
 msgstr ""
 
 #: plugins/BlogPlugin/BlogPost.class.php:94
-#, fuzzy
 msgid "Low"
-msgstr "Argistr"
+msgstr "Bass"
 
 #: plugins/BlogPlugin/BlogPost.class.php:96
 msgid "Normal"

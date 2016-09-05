@@ -7,7 +7,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-07 22:54+0200\n"
-"PO-Revision-Date: 2016-08-25 05:27:15+0000\n"
+"PO-Revision-Date: 2016-09-22 05:20:54+0000\n"
 "Language: br\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -88,7 +88,7 @@ msgstr "Degemer"
 
 #. tpl/menu/global_menu.html
 msgid "TimeTracking & team activity"
-msgstr ""
+msgstr "Heuliañ an amzer & Obererezh skipailh"
 
 #. tpl/menu/global_menu.html
 msgid "Activity"
@@ -96,7 +96,7 @@ msgstr "Obererezh"
 
 #. tpl/menu/global_menu.html
 msgid "Time Tracking"
-msgstr ""
+msgstr "Heuliañ an amzer"
 
 #. tpl/menu/global_menu.html
 #. tpl/team_activity_report.html
@@ -117,7 +117,7 @@ msgstr "Obererezh Raktresoù"
 
 #. tpl/menu/global_menu.html
 msgid "Holidays Reports"
-msgstr ""
+msgstr "Heuliañ an ehanoù"
 
 #. tpl/menu/global_menu.html
 msgid "Leaves"
@@ -144,7 +144,7 @@ msgstr "Ouzhpennañ"
 
 #. tpl/menu/global_menu.html
 msgid "Check DeadLines"
-msgstr ""
+msgstr "Doujañ d'an DeadLines"
 
 #. tpl/menu/global_menu.html
 msgid "Planning"
@@ -156,7 +156,7 @@ msgstr "Diagramm Gantt"
 
 #. tpl/menu/global_menu.html
 msgid "Gantt"
-msgstr ""
+msgstr "Gantt"
 
 #. tpl/menu/global_menu.html
 msgid "Task Information"
@@ -282,7 +282,7 @@ msgstr "Danevelloù Mantis"
 #. tpl/menu/global_menu.html
 #. tpl/edit_team.html
 msgid "Consistency Check"
-msgstr ""
+msgstr "Prouad anterinded"
 
 #. tpl/menu/global_menu.html
 msgid "Check"
@@ -294,7 +294,7 @@ msgstr "Enporzhiañ/Ezporzhiañ"
 
 #. tpl/menu/global_menu.html
 msgid "Import/Export tools"
-msgstr ""
+msgstr "Binvioù Enporzhiañ/Ezporzhiañ"
 
 #. tpl/menu/global_menu.html
 msgid "Import Issues"

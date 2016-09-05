@@ -3,6 +3,7 @@
 #
 # Author: Gomoko
 # Author: Trial
+# Author: Urhixidur
 # Author: Wladek92
 msgid ""
 msgstr ""
@@ -10,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-23 21:06+0200\n"
-"PO-Revision-Date: 2016-08-25 05:27:17+0000\n"
+"PO-Revision-Date: 2016-09-22 05:20:56+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -1489,7 +1490,7 @@ msgstr "Encodage"
 
 #. tpl/import_issues.html
 msgid "It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported."
-msgstr "Il est recommandé d'encoder en <strong>UTF-8</strong> mais ASCII et ISO-8859-1 (MS-Windows) sont également supportés."
+msgstr "Il est recommandé d’encoder en <strong>UTF-8</strong> mais ASCII et ISO-8859-1 (MS-Windows) sont également pris en charge."
 
 #. tpl/import_issues.html
 msgid "Columns"
@@ -2444,7 +2445,7 @@ msgstr "Nbre de jours de dépassement sur les tâches résolues dans la période
 
 #. tpl/statistics.html
 msgid "No Support"
-msgstr "Sans Support"
+msgstr "Sans support"
 
 #. tpl/statistics.html
 #: reports/export_csv_tools.php:61
@@ -2818,7 +2819,7 @@ msgstr "Capitalisation"
 
 #. tpl/create_team.html
 msgid "Support, Doc, Training, Wiki, ..."
-msgstr "Support, Doc, Formation, Wiki, ..."
+msgstr "Soutien, documentation, formation, Wiki…"
 
 #. tpl/create_team.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:373

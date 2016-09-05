@@ -2,15 +2,17 @@
 # Exported from translatewiki.net
 #
 # Author: Arthurteb303
+# Author: Cristofer Alves
 # Author: Luk3
 # Author: Tark
+# Author: WikiUser22222
 msgid ""
 msgstr ""
 ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-23 21:02+0200\n"
-"PO-Revision-Date: 2016-08-25 05:27:18+0000\n"
+"PO-Revision-Date: 2016-09-22 05:21:00+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -575,11 +577,11 @@ msgstr "Desculpe, você deve ser membro do time-admin para acessar esta página.
 
 #. tpl/template.html
 msgid "Disconnect"
-msgstr ""
+msgstr "Desconectar"
 
 #. tpl/template.html
 msgid "Note: For a better user experience, use a standards compliant browser such as :"
-msgstr ""
+msgstr "Nota: Para uma melhor experiência do usuário, use um navegador compatível com os padrões, tais como:"
 
 #. tpl/template.html
 #. tpl/import_issues.html
@@ -1934,7 +1936,7 @@ msgstr "carga"
 
 #. tpl/team_activity_report.html
 msgid "Timesheet notes"
-msgstr ""
+msgstr "Notas de quadro de horários"
 
 #. tpl/team_activity_report.html
 msgid "All Tasks"
@@ -1974,7 +1976,7 @@ msgstr "em caso de problemas, utilize um navegador que é compativel com as padr
 
 #. tpl/index.html
 msgid "A new CodevTT version is available !"
-msgstr ""
+msgstr "Uma nova versão de CodevTT está disponível!"
 
 #. tpl/command_edit.html
 msgid "New command"
@@ -2016,9 +2018,8 @@ msgstr "Taux Journalier Moyen"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
-#, fuzzy
 msgid "Default ADR"
-msgstr "Número de cargos"
+msgstr "Padrão ADR"
 
 #. tpl/command_edit.html
 msgid "Command name"
