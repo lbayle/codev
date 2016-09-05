@@ -49,7 +49,7 @@ class IndexController extends Controller {
                if ($isAdmin || ($isManager && (date('d') < 4))) {
                   $latestVersionInfo = Tools::getLatestVersionInfo(3);
                   if (FALSE !== $latestVersionInfo) {
-                     if ( Config::codevVersion != $latestVersionInfo['version'] ) {
+                     if ( strcasecmp(Config::codevVersion, $latestVersionInfo['version']) < 0 ) {
                         $this->smartyHelper->assign('latestVersionInfo', $latestVersionInfo);
                      }
                   }
