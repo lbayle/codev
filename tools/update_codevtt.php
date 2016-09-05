@@ -20,6 +20,7 @@ include_once('../include/session.inc.php');
  */
 
 require('../path.inc.php');
+require_once('../i18n/i18n.inc.php');
 
 echo '<style type="text/css">
 .help_font {
@@ -123,6 +124,10 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
    // add to codev_config_table
    Config::getInstance()->setValue($configId, $fieldId, Config::configType_int);
 }
+
+// ======================================================
+// update actions
+// ======================================================
 
 /**
  * update 0.99.18 to 0.99.19 (DB v9 to DB v10)
@@ -412,6 +417,62 @@ function update_v14_to_v15() {
 }
 
 /**
+ * update 1.1.0 to 1.2.0 (DB v15 to DB v16)
+ *
+ * - clasmap.ser
+ * - mantis-plugins 0.7.0
+ * - DB
+ */
+function update_v15_to_v16() {
+
+   try {
+      echo "- Update classmap.ser<br>";
+      Tools::createClassMap();
+
+      echo "- Discover new plugins (Must be enabled manualy from the Admin/PluginManager page)<br>";
+      $pm = PluginManager::getInstance();
+      $pm->discoverNewPlugins();
+   } catch (Exception $e) {
+      echo "<span class='error_font'>Could not create classmap: ".$e->getMessage()."</span><br/>";
+      exit;
+   }
+
+   // CodevTT plugins must be updated (0.6.3 -> 0.7.0)
+   echo "- Update Mantis plugin: CodevTT (0.7.0)<br>";
+   if (checkMantisPluginDir()) {
+      $errStr = installMantisPlugin('CodevTT', true);
+      if (NULL !== $errStr) {
+         echo "<span class='error_font'>Please update 'CodevTT' mantis-plugin manualy</span><br/>";
+         echo "<script type=\"text/javascript\">console.error(\"$errStr\");</script>";
+      }
+      echo "- Install Mantis plugin: FilterBugList<br>";
+      $errStr = installMantisPlugin('FilterBugList', true);
+      if (NULL !== $errStr) {
+         echo "<span class='error_font'>Please update 'FilterBugList' mantis-plugin manualy</span><br/>";
+         echo "<script type=\"text/javascript\">console.error(\"$errStr\");</script>";
+      }
+   }
+
+   // execute the SQL script
+   $sqlScriptFilename = Constants::$codevRootDir.'/install/codevtt_update_v15_v16.sql';
+   if (!file_exists($sqlScriptFilename)) {
+      echo "<span class='error_font'>SQL script not found:$sqlScriptFilename</span><br/>";
+      exit;
+   }
+   echo "- Execute SQL script: $sqlScriptFilename<br>";
+   $retCode = Tools::execSQLscript2($sqlScriptFilename);
+   if (0 != $retCode) {
+      echo "<span class='error_font'>Could not execSQLscript: $sqlScriptFilename</span><br/>";
+      exit;
+   }
+}
+
+// ======================================================
+// toolbox
+// ======================================================
+
+
+/**
  * Some new variables may have been added, this rewrites the config.ini
  * file with new default values.
  *
@@ -437,7 +498,6 @@ function update_config_file() {
    // write new config.ini file
    return Constants::writeConfigFile();
 }
-
 
 function checkMantisPluginDir() {
    $mantisPluginDir = Constants::$mantisPath . DIRECTORY_SEPARATOR . 'plugins';
