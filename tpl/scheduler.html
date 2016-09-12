@@ -27,7 +27,11 @@
       margin-top: -64px;
       margin-left: -64px;
    }
-   
+
+	.weekend{
+		background: #f4f7f4;
+	}
+
 </style>
 {if (!isset($accessDenied) || (0 == $accessDenied)) }
 <div id="loading">
@@ -49,7 +53,7 @@
    
    <div id="tabsScheduler" class="float tabs {$ui_tabs_jquery}" style="width:100%; margin-top:1em;" >
       <ul class="{$ui_tabs_jquery_ul}">
-         <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabPlanning" onclick="refreshPlanning()">{t}Planning{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabPlanning">{t}Planning{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabAffectations">{t}Assignment{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabOptions">{t}Options{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabRAF">{t}RAF{/t}</a></li>
@@ -248,19 +252,16 @@
    //scheduler.locale.labels.section_custom="Section";
    scheduler.config.xml_date="%Y-%m-%d %h:%i";
    
-   function refreshPlanning() { 
-      // Set a little timeout to refresh planning after tab openned
-      setTimeout(function(){ 
-         scheduler.updateView();
-      }, 10);
-   };
-
-
    scheduler.config.readonly = true;
    //scheduler.config.details_on_dblclick = true;
 
    //scheduler.config.readonly_form = true;
    scheduler.config.full_day = true;
+
+   // dxhtml pro version only :-(
+   scheduler.templates.timeline_cell_class = function(evs, date, section){
+       if(date.getDay()==0||date.getDay()==6){ return "weekend"; }
+   };
 
    dhtmlXTooltip.config.className = 'dhtmlXTooltip tooltip'; 
    dhtmlXTooltip.config.timeout_to_display = 50; 

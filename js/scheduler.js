@@ -5,12 +5,10 @@
  * @returns {undefined}
  */
 function createSchedulerTable(redirect) {
-   if(null == redirect)
-   {
+   if(null == redirect) {
       redirect = false;
    }
-   if(redirect)
-   {
+   if(redirect) {
       // Redirect to planning tab
       window.location.hash = '#tabsScheduler';
    }
@@ -112,10 +110,4 @@ function createSchedulerTable(redirect) {
    });
 }
 
-function refreshPlanning() { 
-   // Set a little timeout to refresh planning after tab openned
-   setTimeout(function(){ 
-      scheduler.updateView();
-   }, 10);
-};
 

@@ -469,7 +469,7 @@ class SchedulerManager {
          $this->userOptions = array (
             self::OPTION_taskProvider => 'SchedulerTaskProvider0', // $this->schedulerTaskProviderList[0],
             self::OPTION_isDisplayExtRef => FALSE,
-            self::OPTION_nbDaysForecast => 90,  // 90 days = 3 month
+            self::OPTION_nbDaysForecast => 180,  // 90 days = 3 month
             self::OPTION_nbDaysToDisplay => 30, // 30 days = 1 month
             self::OPTION_windowStartDate => 'thisWeek',
 
