@@ -75,6 +75,10 @@
    
    <script type="text/javascript">
       jQuery(document).ready(function() {
+
+         // scroll to current month
+         jQuery('html, body').animate({ldelim}scrollTop: jQuery("#{$thisMonth}").offset().top {rdelim}, 500);
+
          var form = jQuery("#form1");
 
          jQuery("#displayed_teamid").change(function() {

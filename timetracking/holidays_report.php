@@ -102,6 +102,7 @@ class HolidaysReportController extends Controller {
             );
          }
          $this->smartyHelper->assign('months', $months);
+         $this->smartyHelper->assign('thisMonth', Tools::formatDate("%B", time()));
       }
    }
 
