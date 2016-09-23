@@ -56,6 +56,7 @@ class HolidaysReportController extends Controller {
             $filters = array(
                 'isExternalTasks' => 1,
                 'isSidetasksInactivity' => 1,
+                'isOtherTeamsActivity' => 1,
                 );
          }
 
@@ -69,6 +70,11 @@ class HolidaysReportController extends Controller {
                'filterId' => 'isSidetasksInactivity',
                'filterName' => T_('Sidetasks Inactivity'),
                'isChecked' => $filters['isSidetasksInactivity'],
+            );
+         $filterInfo[] = array(
+               'filterId' => 'isOtherTeamsActivity',
+               'filterName' => T_('Activity on other teams'),
+               'isChecked' => $filters['isOtherTeamsActivity'],
             );
          $this->smartyHelper->assign('filterInfo', $filterInfo);
          $this->smartyHelper->assign('checkedFilters', $filtersStr);
@@ -86,6 +92,7 @@ class HolidaysReportController extends Controller {
 
          $team = TeamCache::getInstance()->getTeam($displayed_teamid);
          $users = $team->getUsers();
+         $teamProjects = $team->getProjects();
 
          $months = array();
          for ($i = 1; $i <= 12; $i++) {
@@ -96,7 +103,7 @@ class HolidaysReportController extends Controller {
                "name" => Tools::formatDate("%B %Y", $monthTimestamp),
                "idcaption" => Tools::formatDate("%B", $monthTimestamp),
                "days" => $this->getDays($nbDaysInMonth, $i, $year),
-               "users" => $this->getDaysUsers($i, $year, $displayed_teamid, $users, $nbDaysInMonth, $filters),
+               "users" => $this->getDaysUsers($i, $year, $displayed_teamid, $users, $nbDaysInMonth, $filters, $teamProjects),
                "workdays" => Holidays::getInstance()->getWorkdays($monthTimestamp, $endMonthTimestamp),
                "filename_csv" => date("Ym", $monthTimestamp).'_'.str_replace(' ', '_', $team->getName()).'_holidays.csv',
             );
@@ -141,11 +148,12 @@ class HolidaysReportController extends Controller {
     * @param bool $isExternalTasks True if external tasks wanted, else false
     * @return mixed[string]
     */
-   function getDaysUsers($month, $year, $teamid, array $users, $nbDaysInMonth, $filters) {
+   function getDaysUsers($month, $year, $teamid, array $users, $nbDaysInMonth, $filters, $teamProjects) {
       $holidays = Holidays::getInstance();
-      
+
       $isExternalTasks = $filters['isExternalTasks'];
       $isSidetasksInactivity = $filters['isSidetasksInactivity'];
+      $isOtherTeamsActivity = $filters['isOtherTeamsActivity'];
       
       $startT = mktime(0, 0, 0, $month, 1, $year);
       $endT = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
@@ -161,8 +169,13 @@ class HolidaysReportController extends Controller {
 
             $timeTracks = $user->getTimeTracks($startT, $endT);
             $issueIds = array();
+            $otherTeamsActivity = array();
             foreach ($timeTracks as $timeTrack) {
                $issueIds[] = $timeTrack->getIssueId();
+               if (($isOtherTeamsActivity) &&
+                   (!array_key_exists($timeTrack->getProjectId(), $teamProjects))) {
+                  $otherTeamsActivity[$timeTrack->getDate()]['duration'] += $timeTrack->getDuration();
+               }
             }
 
             $daysOf = $user->getDaysOfInPeriod($timeTracks, $issueIds, $teamid);
@@ -211,6 +224,14 @@ class HolidaysReportController extends Controller {
                         "value" => $daysOf[$timestamp]['duration']
                      );
                   }
+               } elseif ($isOtherTeamsActivity &&
+                         (isset($otherTeamsActivity[$timestamp]) && (NULL != $otherTeamsActivity[$timestamp]))) {
+                  $days[$i] = array(
+                     "color" => 'FCABD1', // orange
+                     "align" => true,
+                     "value" => $otherTeamsActivity[$timestamp]['duration'],
+                     "title" => htmlentities(T_('Other team')),
+                  );
                }
 
                if(!isset($days[$i]) ) {
@@ -245,4 +266,4 @@ HolidaysReportController::staticInit();
 $controller = new HolidaysReportController('../', 'Holidays Report','Holiday');
 $controller->execute();
 
-?>
+
