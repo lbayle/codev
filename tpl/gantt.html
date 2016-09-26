@@ -87,7 +87,15 @@
       computeGantt(false);
    });
 
+$('#summaryFilter').bind("enterKey",function(e){
+   gantt.refreshData();
+});
 
+$('#summaryFilter').keyup(function(e){
+    if(e.keyCode == 13) {
+        $(this).trigger("enterKey");
+    }
+});
 </script>
 <script src="js/gantt.js"></script>
 </div>
