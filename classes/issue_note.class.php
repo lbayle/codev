@@ -65,6 +65,7 @@ class IssueNote {
    private $date_submitted;
    private $last_modified;
    private $note;
+   private $tag;
    private $type; // mantis bugnote types : ( 'BUGNOTE', 0 ), ( 'REMINDER', 1 ) ( 'TIME_TRACKING', 2 );
 
    private $readByList; // array(userid => timestamp)
@@ -315,17 +316,22 @@ class IssueNote {
 
       // remove tagid_timesheetNote & tagid_NoteReadBy
       if (!$raw) {
+         
+         // remove CODEVTT_TAG_TIMESHEET_NOTE
          $tag = self::tag_begin . self::tagid_timesheetNote . self::tag_doNotRemove . self::tag_end;
          $text = trim(str_replace($tag, '', $text));
+
+         //$regex_remove = '/<!-- CODEVTT_TAG_TIMETRACKING_NOTE.* -->/';
+         $regex_remove = '/'. self::tag_begin . self::tagid_timetrackNote . '.*' . self::tag_end . '/';
+         $text = preg_replace ( $regex_remove , '' , $text);
       }
 
       // remove ReadBy tags
       if ($removeReadBy) {
          $text = self::removeAllReadByTags($text);
-         $text = trim($text);
       }
 
-      return $text;
+      return trim($text);
    }
 
    /**
@@ -513,9 +519,23 @@ class IssueNote {
       } else {
          return $this->readByList;
       }
-
    }
 
+   /**
+    * get Note origin: MANTIS, TIMESHEET, TIMETRACK
+    */
+   public function getOriginTag() {
+      if (NULL == $this->tag) {
+         if (FALSE !== strpos ( $this->note , self::tagid_timesheetNote)) {
+            $this->tag = 'Timesheet';
+         } else if (FALSE !== strpos ( $this->note , self::tagid_timetrackNote)) {
+            $this->tag = 'Timetrack';
+         } else {
+            $this->tag =  'Mantis';
+         }
+      }
+      return $this->tag;
+   }
 }
 
 IssueNote::staticInit();

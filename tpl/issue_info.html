@@ -180,6 +180,7 @@
                      <tr>
                         <th valign="top">{t}Date{/t}</th>
                         <th valign="top">{t}User{/t}</th>
+                        <th valign="top">{t}Type{/t}</th>
                         <th valign="top">{t}Note{/t}</th>
                      </tr>
                      </thead>
@@ -862,6 +863,7 @@
                          var $tr = jQuery('<tr>').append(
                              jQuery('<td>').text(item.dateSubmitted),
                              jQuery('<td>').text(item.reporterName),
+                             jQuery('<td>').text(item.originTag),
                              jQuery('<td>').html(item.text)
                          );
                          var $line = $tr.wrap('<p>');

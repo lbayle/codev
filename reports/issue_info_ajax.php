@@ -411,8 +411,9 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
                 'noteId' => $noteId,
                 'reporterName' => $reporter->getRealname(),
                 'dateSubmitted' => date('Y-m-d H:i:s', $issueNote->getDateSubmitted()),
+                'originTag' => T_($issueNote->getOriginTag()),
                 'dateLastModified' => date('Y-m-d H:i:s', $issueNote->getLastModified()),
-                'text' => nl2br(htmlspecialchars($issueNote->getText(TRUE))), // raw ?
+                'text' => nl2br(htmlspecialchars($issueNote->getText(FALSE, TRUE))), // tags removed, not readBy
             );
             $formatedNotes[$issueNote->getId()] = $noteInfo;
          }
