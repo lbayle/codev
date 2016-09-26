@@ -346,7 +346,7 @@ class PlanningReportController extends Controller {
 
          if ($offset >= 0) {
             $deadline[$date] = array(
-               "date" => date(T_("Y-m-d"), $date),
+               "date" => date('Y-m-d', $date),
                "url" => $dline->getImageURL(),
                "title" => $dline->toString(),
                "nbDaysToDeadLine" => $dline->nbDaysToDeadLine,
@@ -427,7 +427,7 @@ class PlanningReportController extends Controller {
             $sTask["handlerName"] = $scheduledTask->getHandlerName();
          }
          if ($scheduledTask->getDeadline() > 0) {
-            $sTask["deadLine"] = date(T_("Y-m-d"), $scheduledTask->getDeadline());
+            $sTask["deadLine"] = date('Y-m-d', $scheduledTask->getDeadline());
          }
          $scheduledTasks[$scheduledTask->getIssueId()] = $sTask;
 
@@ -492,7 +492,7 @@ class PlanningReportController extends Controller {
       $finalTooltipAttr[T_('Duration')] = $scheduledTask->getDuration().' '.T_('days');
 
       if ($scheduledTask->getDeadline() > 0) {
-         $finalTooltipAttr[T_('Deadline')] = date(T_("Y-m-d"), $scheduledTask->getDeadline());
+         $finalTooltipAttr[T_('Deadline')] = date('Y-m-d', $scheduledTask->getDeadline());
       }
       if ($scheduledTask->isMonitored()) {
          $finalTooltipAttr[T_('Monitored')] = $scheduledTask->getHandlerName();

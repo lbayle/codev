@@ -272,7 +272,7 @@ class ServiceContractTools {
 
          $provArray["$id"] = array(
             'id' => $id,
-            'date' => date(T_("Y-m-d"), $prov->getDate()),
+            'date' => date('Y-m-d', $prov->getDate()),
             'type' => CommandProvision::$provisionNames[$prov->getType()],
             'budget_days' => $prov->getProvisionDays(),
             'budget' => $prov->getProvisionBudget(),

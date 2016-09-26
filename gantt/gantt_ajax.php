@@ -195,7 +195,7 @@ function getTaskTooltip_minimal($issue, $teamid, $session_userid, $isManager, $t
    $finalTooltipAttr[T_('Assigned to')] = implode(', ', getAssignedUsers($issue->getId(), $timePerUserPerTaskList, FALSE));
    $finalTooltipAttr[T_('Progress')] = round(($issue->getProgress() * 100)).'%';
    if ($issue->getDeadline() > 0) {
-      $finalTooltipAttr[T_('Deadline')] = date(T_("Y-m-d"), $issue->getDeadline());
+      $finalTooltipAttr[T_('Deadline')] = date('Y-m-d', $issue->getDeadline());
    }
 
    $htmlTooltip =
@@ -232,7 +232,7 @@ function getTaskTooltip($issue, $teamid, $session_userid, $isManager) {
    $finalTooltipAttr += $tooltipAttr;
 
    if ($issue->getDeadline() > 0) {
-      $finalTooltipAttr[T_('Deadline')] = date(T_("Y-m-d"), $issue->getDeadline());
+      $finalTooltipAttr[T_('Deadline')] = date('Y-m-d', $issue->getDeadline());
    }
 
    // HTML

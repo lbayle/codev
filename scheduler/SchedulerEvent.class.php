@@ -88,7 +88,7 @@ class SchedulerEvent {
       //$finalTooltipAttr[T_('Assigned to')] = implode(', ', getAssignedUsers($issue->getId(), $timePerUserPerTaskList, FALSE));
 
       if ($issue->getDeadline() > 0) {
-         $finalTooltipAttr[T_('Deadline')] = date(T_("Y-m-d"), $issue->getDeadline());
+         $finalTooltipAttr[T_('Deadline')] = date('Y-m-d', $issue->getDeadline());
       }
 
       $htmlTooltip =
@@ -140,7 +140,7 @@ class SchedulerEvent {
       $finalTooltipAttr[T_('Backlog')] = $issue->getDuration().' '.T_('days');
 
       if ($issue->getDeadline() > 0) {
-         $finalTooltipAttr[T_('Deadline')] = date(T_("Y-m-d"), $issue->getDeadline());
+         $finalTooltipAttr[T_('Deadline')] = date('Y-m-d', $issue->getDeadline());
       }
 
       $driftColor = NULL;

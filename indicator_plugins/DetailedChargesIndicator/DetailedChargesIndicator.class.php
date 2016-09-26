@@ -224,7 +224,7 @@ class DetailedChargesIndicator implements IndicatorPlugin {
          if ('ProjectVersion' == get_class($isel)) {
             $vdate =  $isel->getVersionDate();
             if (is_numeric($vdate)) {
-               $date = date(T_("Y-m-d"),$vdate);
+               $date = date('Y-m-d',$vdate);
             }
          }
          */
