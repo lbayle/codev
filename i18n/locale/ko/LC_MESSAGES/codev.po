@@ -1,6 +1,7 @@
 # Translation of CodevTT to Korean (한국어)
 # Exported from translatewiki.net
 #
+# Author: Jerrykim306
 # Author: Jonghaya
 # Author: Revi
 # Author: Ykhwong
@@ -10,12 +11,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-23 21:02+0200\n"
-"PO-Revision-Date: 2016-09-22 05:20:57+0000\n"
+"PO-Revision-Date: 2016-11-04 20:21:02+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2016-08-24 05:20:18+0000\n"
-"X-Generator: MediaWiki 1.28.0-alpha; Translate 2016-04-06\n"
+"X-Generator: MediaWiki 1.29.0-alpha; Translate 2016-10-28\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. tpl/plugin_manager.html
@@ -99,7 +100,7 @@ msgstr "활동"
 
 #. tpl/menu/global_menu.html
 msgid "Time Tracking"
-msgstr ""
+msgstr "시간 추적"
 
 #. tpl/menu/global_menu.html
 #. tpl/team_activity_report.html
@@ -151,7 +152,7 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Planning"
-msgstr ""
+msgstr "계획중"
 
 #. tpl/menu/global_menu.html
 msgid "Gantt Chart"
@@ -334,7 +335,7 @@ msgstr "CodevTT 관리"
 
 #. tpl/menu/global_menu.html
 msgid "Admin"
-msgstr ""
+msgstr "관리자"
 
 #. tpl/menu/global_menu.html
 msgid "Create Team"
@@ -354,7 +355,7 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Edit Holidays"
-msgstr ""
+msgstr "휴일 편집"
 
 #. tpl/menu/global_menu.html
 msgid "Prepare Projects"
@@ -370,7 +371,7 @@ msgstr "플러그인 관리자"
 
 #. tpl/menu/global_menu.html
 msgid "Logs"
-msgstr ""
+msgstr "기록 목록"
 
 #. tpl/menu/global_menu.html
 #. tpl/uninstall.html
@@ -844,7 +845,7 @@ msgstr ""
 #: classes/consistency_check2.class.php:442
 #: classes/consistency_check.class.php:365
 msgid "elapsed"
-msgstr ""
+msgstr "경과됨"
 
 #. tpl/productivity_report.html
 msgid "Tasks having no deadLine are not reported here"
@@ -1083,7 +1084,7 @@ msgstr ""
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:226
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:370
 msgid "Elapsed"
-msgstr ""
+msgstr "경과됨"
 
 #. tpl/productivity_report.html
 #. tpl/modal/update_issueBacklog.html
@@ -1623,12 +1624,12 @@ msgstr ""
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
 msgid "Previous week"
-msgstr ""
+msgstr "지난주"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
 msgid "Next week"
-msgstr ""
+msgstr "다음주"
 
 #. tpl/time_tracking.html
 msgid "Week Imputations"
@@ -1653,7 +1654,7 @@ msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Delete track"
-msgstr ""
+msgstr "트랙 삭제"
 
 #. tpl/time_tracking.html
 msgid "Deleted the following timetrack ?"
@@ -1940,7 +1941,7 @@ msgstr "읽은 것으로 표시"
 
 #. tpl/team_activity_report.html
 msgid "Delete note"
-msgstr ""
+msgstr "메모 삭제"
 
 #. tpl/index.html
 msgid "IE may not correctly display this website"
@@ -2243,7 +2244,7 @@ msgstr "특성"
 #. tpl/servicecontract_info.html
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:267
 msgid "TOTAL"
-msgstr ""
+msgstr "총합"
 
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
@@ -2517,9 +2518,8 @@ msgid "External ID"
 msgstr "외부 ID"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Remove task from command"
-msgstr "명령 제거"
+msgstr "명령에서 작업 취소"
 
 #. tpl/issue_info.html
 msgid "Add to command"
@@ -4242,9 +4242,8 @@ msgid "Display messages on the homepage"
 msgstr "홈페이지에 메시지를 보여줍니다"
 
 #: plugins/BlogPlugin/BlogPost.class.php:94
-#, fuzzy
 msgid "Low"
-msgstr "로그"
+msgstr "낮음"
 
 #: plugins/BlogPlugin/BlogPost.class.php:96
 msgid "Normal"

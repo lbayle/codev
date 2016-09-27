@@ -8,12 +8,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-23 21:02+0200\n"
-"PO-Revision-Date: 2016-09-22 05:20:58+0000\n"
+"PO-Revision-Date: 2016-11-04 20:21:02+0000\n"
 "Language: lt\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2016-08-24 05:20:18+0000\n"
-"X-Generator: MediaWiki 1.28.0-alpha; Translate 2016-04-06\n"
+"X-Generator: MediaWiki 1.29.0-alpha; Translate 2016-10-28\n"
 "Plural-Forms: nplurals=3; plural=(n%10 == 1 && n%100 != 11) ? 0 : ( (n%10 >= 2 && (n%100 < 10 || n%100 >= 20)) ? 1 : 2 );\n"
 
 #. tpl/plugin_manager.html
@@ -369,7 +369,7 @@ msgstr "Įskiepių Tvarkyklė"
 
 #. tpl/menu/global_menu.html
 msgid "Logs"
-msgstr ""
+msgstr "Žurnalai"
 
 #. tpl/menu/global_menu.html
 #. tpl/uninstall.html

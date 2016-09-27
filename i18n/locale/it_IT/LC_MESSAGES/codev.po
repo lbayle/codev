@@ -2,6 +2,8 @@
 # Exported from translatewiki.net
 #
 # Author: Beta16
+# Author: Fitoschido
+# Author: Selven
 # Author: Walter Raffoni
 msgid ""
 msgstr ""
@@ -9,14 +11,14 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-23 21:01+0200\n"
-"PO-Revision-Date: 2016-09-22 05:20:57+0000\n"
+"PO-Revision-Date: 2016-11-04 20:21:02+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: MediaWiki 1.28.0-alpha; Translate 2016-04-06\n"
+"X-Generator: MediaWiki 1.29.0-alpha; Translate 2016-10-28\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-POT-Import-Date: 2016-08-24 05:20:18+0000\n"
@@ -316,7 +318,7 @@ msgstr "Esporta rapporti mensili"
 
 #. tpl/menu/global_menu.html
 msgid "Export to LibreOffice"
-msgstr "Exporta verso Office"
+msgstr "Exporta verso LibreOffice"
 
 #. tpl/menu/global_menu.html
 msgid "Blog"
@@ -345,7 +347,7 @@ msgstr "Crea Team"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Team"
-msgstr "Modifica Team"
+msgstr "Modifica team"
 
 #. tpl/menu/global_menu.html
 msgid "Tools & Statistics"
@@ -1328,7 +1330,7 @@ msgstr "--- Nuovo Ordine ---"
 #. tpl/servicecontract_edit.html
 #. tpl/issue_info.html
 msgid "Remove"
-msgstr "Elimina"
+msgstr "Rimuovi"
 
 #. tpl/commandset_edit.html
 msgid "Remove Command"
@@ -1387,7 +1389,7 @@ msgstr "Il backup dei files verrà salvato nella directory dei reports in CodevT
 
 #. tpl/uninstall.html
 msgid "Filename"
-msgstr "Nome fileNom du Fichier"
+msgstr "Nome del file"
 
 #. tpl/uninstall.html
 msgid "Backup"
@@ -2749,7 +2751,7 @@ msgstr "Aggiungi indicatore"
 
 #. tpl/create_team.html
 msgid "Team Name"
-msgstr "Nome del Team"
+msgstr "Nome del team"
 
 #. tpl/create_team.html
 #. tpl/edit_team.html
@@ -2970,7 +2972,7 @@ msgstr "Nota : Un <em>Team Admin</em> deve anche essere dichiarato come <em>Memb
 
 #. tpl/edit_team.html
 msgid "Delete team"
-msgstr "Elimina Team"
+msgstr "Cancella team"
 
 #. tpl/edit_team.html
 msgid "Team Member"
@@ -4233,12 +4235,10 @@ msgid "(unknown 0)"
 msgstr "(sconosciuto 0)"
 
 #: plugins/BlogPlugin/BlogActivity.class.php:53
-#, fuzzy
 msgid "Acknowledged"
 msgstr "Validato"
 
 #: plugins/BlogPlugin/BlogActivity.class.php:55
-#, fuzzy
 msgid "Hidden"
 msgstr "Nascosto"
 
@@ -4251,17 +4251,14 @@ msgid "Display messages on the homepage"
 msgstr "Visualizza i messaggi nella pagina principale"
 
 #: plugins/BlogPlugin/BlogPost.class.php:94
-#, fuzzy
 msgid "Low"
-msgstr "Log"
+msgstr "Basso"
 
 #: plugins/BlogPlugin/BlogPost.class.php:96
-#, fuzzy
 msgid "Normal"
 msgstr "Normale"
 
 #: plugins/BlogPlugin/BlogPost.class.php:98
-#, fuzzy
 msgid "High"
 msgstr "Alto"
 
@@ -4472,14 +4469,12 @@ msgid "Display the budget history"
 msgstr "Affiche le RAF"
 
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:66
-#, fuzzy
 msgid "Issue Status History"
-msgstr "History dello stato dei bugs"
+msgstr "Storico dello stato dei bugs"
 
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:69
-#, fuzzy
 msgid "Display Issue Status history"
-msgstr "History dello stato dei bugs"
+msgstr "Mostra storico dello stato dei bugs"
 
 #: smarty_tools.php:122
 msgid "W"

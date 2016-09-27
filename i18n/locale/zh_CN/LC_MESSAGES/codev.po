@@ -8,12 +8,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-23 21:02+0200\n"
-"PO-Revision-Date: 2016-09-22 05:21:00+0000\n"
+"PO-Revision-Date: 2016-11-04 20:21:04+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2016-08-24 05:20:18+0000\n"
-"X-Generator: MediaWiki 1.28.0-alpha; Translate 2016-04-06\n"
+"X-Generator: MediaWiki 1.29.0-alpha; Translate 2016-10-28\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. tpl/plugin_manager.html
@@ -1647,7 +1647,7 @@ msgstr "编辑时间跟踪"
 
 #. tpl/time_tracking.html
 msgid "Future Imputations"
-msgstr ""
+msgstr "今后估值"
 
 #. tpl/time_tracking.html
 msgid "Delete track"
@@ -2084,7 +2084,7 @@ msgstr "首先创建命令集。"
 
 #. tpl/command_edit.html
 msgid "Provisions successfully updated."
-msgstr ""
+msgstr "已成功更新规定。"
 
 #. tpl/command_edit.html
 #. tpl/export_odt.html
@@ -2122,7 +2122,7 @@ msgstr "添加至预算检查中"
 
 #. tpl/command_edit.html
 msgid "delete Provision"
-msgstr "删除准备"
+msgstr "删除规定"
 
 #. tpl/command_edit.html
 msgid "Add to 'check budget'"
@@ -2179,7 +2179,7 @@ msgstr "没有数据"
 
 #. tpl/servicecontract_edit.html
 msgid "delete Contract-CommandSet association"
-msgstr ""
+msgstr "删除合同-命令集关联"
 
 #. tpl/servicecontract_edit.html
 msgid "Remove CommandSet from this Contract ?"
@@ -2248,7 +2248,7 @@ msgstr "总计"
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "No Command found."
-msgstr ""
+msgstr "找不到命令。"
 
 #. tpl/commandset_info.html
 #. tpl/command_info.html
@@ -2414,7 +2414,7 @@ msgstr "Nb已解决"
 
 #. tpl/statistics.html
 msgid "Submitted / Resolved Issues (ExtRefOnly)"
-msgstr ""
+msgstr "已提交/已解决的问题（仅限ExtRef）"
 
 #. tpl/statistics.html
 msgid "% Tasks"
@@ -2808,7 +2808,7 @@ msgstr "系统管理员、脚本..."
 #. tpl/create_team.html
 #: admin/create_team.php:98
 msgid "Team Workshop"
-msgstr ""
+msgstr "团队车间"
 
 #. tpl/create_team.html
 msgid "Support, Doc, Training, Wiki, ..."
@@ -2886,7 +2886,7 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "MgrEffortEstim + Checked Provisions"
-msgstr ""
+msgstr "Mgr影响估计+已检查规定"
 
 #. tpl/command_info.html
 msgid "Reestimated (days)"
@@ -2914,7 +2914,7 @@ msgstr "漂移日 * 平均每日租金"
 
 #. tpl/command_info.html
 msgid "The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'"
-msgstr ""
+msgstr "总装载量（Mgr影响估计+规定）应等于“经销量”"
 
 #. tpl/command_info.html
 msgid "balance"
@@ -2922,7 +2922,7 @@ msgstr "抵消"
 
 #. tpl/command_info.html
 msgid "Tasks & Provisions"
-msgstr "任务和预备"
+msgstr "任务和规定"
 
 #. tpl/command_info.html
 #. tpl/servicecontract_info.html
@@ -3039,7 +3039,7 @@ msgstr "创建项目"
 
 #. tpl/edit_team.html
 msgid "Issue Tooltips"
-msgstr ""
+msgstr "问题工具提示"
 
 #. tpl/edit_team.html
 msgid "Tooltip fields"
@@ -3148,7 +3148,7 @@ msgstr ""
 
 #. tpl/servicecontract_info.html
 msgid "No provision found."
-msgstr ""
+msgstr "找不到规定。"
 
 #. tpl/export_csv_monthly.html
 msgid "Monthly report"
@@ -3599,7 +3599,7 @@ msgstr "已关闭"
 
 #: classes/command.class.php:65
 msgid "bill must be sent"
-msgstr ""
+msgstr "账单必须送出"
 
 #: classes/command.class.php:66
 msgid "bill sent"
@@ -3779,7 +3779,7 @@ msgstr "安装 - 第2步"
 
 #: install/install_step2.php:104
 msgid "Get Mantis customizations"
-msgstr ""
+msgstr "获取Mantis自定义"
 
 #: install/install_step2.php:109
 msgid "Path to mantis"
@@ -4022,7 +4022,7 @@ msgstr "完成！"
 
 #: management/command_edit_ajax.php:51
 msgid "Provisions updated FAILED !"
-msgstr ""
+msgstr "规定更新失败！"
 
 #: management/servicecontract_tools.php:182
 msgid "Provision"
@@ -4178,7 +4178,7 @@ msgstr ""
 
 #: timetracking/time_tracking.php:188
 msgid "Failed to delete the timetrack !"
-msgstr ""
+msgstr "删除工时表失败！"
 
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:60
 msgid "Timetrack details"
@@ -4225,12 +4225,10 @@ msgid "(unknown 0)"
 msgstr "（未知 0）"
 
 #: plugins/BlogPlugin/BlogActivity.class.php:53
-#, fuzzy
 msgid "Acknowledged"
 msgstr "已承认"
 
 #: plugins/BlogPlugin/BlogActivity.class.php:55
-#, fuzzy
 msgid "Hidden"
 msgstr "已隐藏"
 
@@ -4247,12 +4245,10 @@ msgid "Low"
 msgstr "低"
 
 #: plugins/BlogPlugin/BlogPost.class.php:96
-#, fuzzy
 msgid "Normal"
 msgstr "正常"
 
 #: plugins/BlogPlugin/BlogPost.class.php:98
-#, fuzzy
 msgid "High"
 msgstr "高"
 

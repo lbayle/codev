@@ -2,17 +2,18 @@
 # Exported from translatewiki.net
 #
 # Author: Borichèt
+# Author: Fitoschido
 msgid ""
 msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-23 21:02+0200\n"
-"PO-Revision-Date: 2016-09-22 05:20:59+0000\n"
+"PO-Revision-Date: 2016-11-04 20:21:03+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2016-08-24 05:20:18+0000\n"
-"X-Generator: MediaWiki 1.28.0-alpha; Translate 2016-04-06\n"
+"X-Generator: MediaWiki 1.29.0-alpha; Translate 2016-10-28\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. tpl/plugin_manager.html
@@ -310,7 +311,7 @@ msgstr "Esportassion dël rapòrt mensil"
 
 #. tpl/menu/global_menu.html
 msgid "Export to LibreOffice"
-msgstr "Esportassion vers UfissiLìber"
+msgstr "Esportassion vers LibreOffice"
 
 #. tpl/menu/global_menu.html
 msgid "Blog"
@@ -1508,11 +1509,11 @@ msgstr "Visualisassion"
 
 #. tpl/import_issues.html
 msgid "Set All"
-msgstr ""
+msgstr "Apliché a tuti"
 
 #. tpl/import_issues.html
 msgid "TargetVersion"
-msgstr ""
+msgstr "Version bërsaj"
 
 #. tpl/import_issues.html
 #. tpl/modal/update_issueBacklog.html
@@ -1525,15 +1526,15 @@ msgstr "Scadensa"
 
 #. tpl/import_issues.html
 msgid "Category not set on all issues"
-msgstr ""
+msgstr "La categorìa a l'é nen ëstàita fissà për tuti ij problema"
 
 #. tpl/import_issues.html
 msgid "Type not set on all issues"
-msgstr ""
+msgstr "Ël tipo a l'é nen ëstàit fissà për tuti ij problema"
 
 #. tpl/import_issues.html
 msgid "Import done !"
-msgstr ""
+msgstr "Amportassion livrà!"
 
 #. tpl/import_issues.html
 #. tpl/edit_team.html
@@ -1542,16 +1543,16 @@ msgstr "Amporté"
 
 #. tpl/import_issues.html
 msgid "Mantis issues to create:"
-msgstr ""
+msgstr "Oget Mantis da creé:"
 
 #. tpl/time_tracking.html
 #. tpl/team_dashboard.html
 msgid "ERROR"
-msgstr ""
+msgstr "EROR"
 
 #. tpl/time_tracking.html
 msgid "Query FAILED"
-msgstr ""
+msgstr "Arcesta FALÌA"
 
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
@@ -1565,7 +1566,7 @@ msgstr "Durà"
 #. tpl/time_tracking.html
 #. tpl/form/dateRangeSelector.html
 msgid "From"
-msgstr ""
+msgstr "Dal"
 
 #. tpl/time_tracking.html
 #. tpl/set_holidays.html
@@ -1576,7 +1577,7 @@ msgstr ""
 #: reports/export_odt.php:113 reports/export_odt.php:164
 #: smarty_tools_ajax.php:46
 msgid "(all)"
-msgstr ""
+msgstr "(tuti)"
 
 #. tpl/time_tracking.html
 #. tpl/form/selectFiltersDialogbox.html
@@ -1593,23 +1594,23 @@ msgstr "Durà (an di)"
 #. tpl/time_tracking.html
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Task Filters"
-msgstr ""
+msgstr "Filtr dij travaj"
 
 #. tpl/time_tracking.html
 msgid "Reduce the tasks selection by setting some filters"
-msgstr ""
+msgstr "Ch'a arduva la selession dij travaj an piassand dij filtr"
 
 #. tpl/time_tracking.html
 msgid "Hide tasks not assigned to me"
-msgstr ""
+msgstr "Stërmé ij travaj nen assigmà a mi"
 
 #. tpl/time_tracking.html
 msgid "Hide resolved tasks"
-msgstr ""
+msgstr "Stërmé ij travaj livrà"
 
 #. tpl/time_tracking.html
 msgid "Hide closed tasks"
-msgstr ""
+msgstr "Stërmé ij travaj sarà"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
@@ -1620,20 +1621,20 @@ msgstr "Sman-a"
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
 msgid "Previous week"
-msgstr ""
+msgstr "Sman-a prima"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
 msgid "Next week"
-msgstr ""
+msgstr "Sman-a ch'a-i ven"
 
 #. tpl/time_tracking.html
 msgid "Week Imputations"
-msgstr ""
+msgstr "Argoment dla sman-a"
 
 #. tpl/time_tracking.html
 msgid "Ext.ID"
-msgstr ""
+msgstr "Identificativ estern"
 
 #. tpl/time_tracking.html
 #. tpl/edit_team.html
@@ -1646,15 +1647,15 @@ msgstr "Modifiché ij programa"
 
 #. tpl/time_tracking.html
 msgid "Future Imputations"
-msgstr ""
+msgstr "Argoment a vnì"
 
 #. tpl/time_tracking.html
 msgid "Delete track"
-msgstr ""
+msgstr "Dëscancelé l'argistr"
 
 #. tpl/time_tracking.html
 msgid "Deleted the following timetrack ?"
-msgstr ""
+msgstr "Dëscancelé ël programa sì-dapress?"
 
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
@@ -1681,27 +1682,27 @@ msgstr "Pronté"
 
 #. tpl/form/dateRangeSelector.html
 msgid "Start Date"
-msgstr ""
+msgstr "Dàita d'inissi"
 
 #. tpl/form/dateRangeSelector.html
 msgid "To"
-msgstr ""
+msgstr "Al"
 
 #. tpl/form/dateRangeSelector.html
 msgid "End Date (included)"
-msgstr ""
+msgstr "Dàita ëd fin (comprèisa)"
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Drag & drop the filters to apply"
-msgstr ""
+msgstr "Tiré e piassé ij filtr da apliché"
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Available Filters"
-msgstr ""
+msgstr "Filtr disponìbij"
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Applied Filters"
-msgstr ""
+msgstr "Filtr ativ"
 
 #. tpl/modal/select_issues.html
 msgid "No task selected !"
@@ -1814,7 +1815,7 @@ msgstr "Selessioné n'utent ëd l'echip"
 
 #. tpl/modal/change_managedUser.html
 msgid "Change user"
-msgstr ""
+msgstr "Cangé d'utent"
 
 #. tpl/modal/consistency_check.html
 #. tpl/planning_report.html
@@ -1851,16 +1852,16 @@ msgstr "S'a-i pias ës programa, ch'a pensa si fé na donassion."
 
 #. tpl/project_activity_report.html
 msgid "Users"
-msgstr ""
+msgstr "Utent"
 
 #. tpl/project_activity_report.html
 msgid "Tasks per project"
-msgstr ""
+msgstr "Travaj për proget"
 
 #. tpl/project_activity_report.html
 #. tpl/team_activity_report.html
 msgid "Detailed"
-msgstr ""
+msgstr "Detajà"
 
 #. tpl/project_activity_report.html
 #. tpl/team_activity_report.html
@@ -1877,43 +1878,43 @@ msgstr "Version bërsaj"
 
 #. tpl/project_activity_report.html
 msgid "Total time spent on this issue"
-msgstr ""
+msgstr "Temp total passà an s'ës problema"
 
 #. tpl/project_activity_report.html
 msgid "No data available"
-msgstr ""
+msgstr "Gnun dàit disponìbil"
 
 #. tpl/project_activity_report.html
 msgid "Time spent on Projects per users"
-msgstr ""
+msgstr "Temp passà an sij proget për utent"
 
 #. tpl/project_activity_report.html
 msgid "With ExternalTasks Project"
-msgstr ""
+msgstr "Con ël proget ëd travaj estern"
 
 #. tpl/project_activity_report.html
 msgid "With SideTasks Project"
-msgstr ""
+msgstr "Con ij proget ëd travaj tacà"
 
 #. tpl/team_activity_report.html
 msgid "Timesheets"
-msgstr ""
+msgstr "Programa cronològich"
 
 #. tpl/team_activity_report.html
 msgid "sum(Backlog) of assigned tasks"
-msgstr ""
+msgstr "soma(aretrà) dij travaj assignà"
 
 #. tpl/team_activity_report.html
 msgid "Workload"
-msgstr ""
+msgstr "Badò"
 
 #. tpl/team_activity_report.html
 msgid "Timesheet notes"
-msgstr ""
+msgstr "Nòte dël programa"
 
 #. tpl/team_activity_report.html
 msgid "All Tasks"
-msgstr ""
+msgstr "Tuti ij travaj"
 
 #. tpl/team_activity_report.html
 #. tpl/command_edit.html
@@ -1925,31 +1926,31 @@ msgstr "Signalant"
 
 #. tpl/team_activity_report.html
 msgid "Read by"
-msgstr ""
+msgstr "Lesù da"
 
 #. tpl/team_activity_report.html
 msgid "Action"
-msgstr ""
+msgstr "Assion"
 
 #. tpl/team_activity_report.html
 msgid "Mark as read"
-msgstr ""
+msgstr "Marché coma lesù"
 
 #. tpl/team_activity_report.html
 msgid "Delete note"
-msgstr ""
+msgstr "Dëscancelé la nòta"
 
 #. tpl/index.html
 msgid "IE may not correctly display this website"
-msgstr ""
+msgstr "A podrìa esse che IE a visualisa nen bin ës sit"
 
 #. tpl/index.html
 msgid "please consider using a standard complient web-browser"
-msgstr ""
+msgstr "për piasì, ch'a pensa a dovré un navigador dl'aragnà ch'a rispeta jë stàndard"
 
 #. tpl/index.html
 msgid "A new CodevTT version is available !"
-msgstr ""
+msgstr "Na neuva version ëd CodevTT a l'é disponìbil!"
 
 #. tpl/command_edit.html
 msgid "New command"
@@ -2137,84 +2138,84 @@ msgstr "Dëscancelé da la comanda?"
 
 #. tpl/servicecontract_edit.html
 msgid "New service contract"
-msgstr ""
+msgstr "Neuv contrat ëd servissi"
 
 #. tpl/servicecontract_edit.html
 msgid "StartDate"
-msgstr ""
+msgstr "Dàita d'inissi"
 
 #. tpl/servicecontract_edit.html
 msgid "EndDate"
-msgstr ""
+msgstr "Dàita ëd fin"
 
 #. tpl/servicecontract_edit.html
 msgid "Service contract name"
-msgstr ""
+msgstr "Nòm dël contrat ëd servissi"
 
 #. tpl/servicecontract_edit.html
 msgid "Delete ServiceContract"
-msgstr ""
+msgstr "Eliminé ël contrat ëd servissi"
 
 #. tpl/servicecontract_edit.html
 msgid "Delete this ServiceContract ?"
-msgstr ""
+msgstr "Eliminé 's contrat ëd servissi?"
 
 #. tpl/servicecontract_edit.html
 msgid "Nb CommandSets"
-msgstr ""
+msgstr "Nùmer d'ampostassion ëd comande"
 
 #. tpl/servicecontract_edit.html
 msgid "SideTasks Projects"
-msgstr ""
+msgstr "Proget Travaj marginaj"
 
 #. tpl/servicecontract_edit.html
 msgid "--- New CommandSet ---"
-msgstr ""
+msgstr "--- Neuv paràmeter ëd comanda ---"
 
 #. tpl/servicecontract_edit.html
 #. tpl/forecasting_report.html
 msgid "No data"
-msgstr ""
+msgstr "Gnun dàit"
 
 #. tpl/servicecontract_edit.html
 msgid "delete Contract-CommandSet association"
-msgstr ""
+msgstr "gavé l'associassion Contrat-Paràmeter ëd comanda"
 
 #. tpl/servicecontract_edit.html
 msgid "Remove CommandSet from this Contract ?"
-msgstr ""
+msgstr "Gavé ij Paràmeter ëd comanda da 's Contrat?"
 
 #. tpl/servicecontract_edit.html
 msgid "delete Contract-Project association"
-msgstr ""
+msgstr "gavé l'associassion Contrat-Proget"
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project"
-msgstr ""
+msgstr "Eliminé ël proget"
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project from this Contract ?"
-msgstr ""
+msgstr "Eliminé 'l Proget da 's Contrat?"
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel SAUF SuiviOp."
-msgstr ""
+msgstr "Bilans mensil GAVÀ SuiviOp."
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
-msgstr ""
+msgstr "Bilans mensil (nùmer dë schede pr'ëstat a la fin dël mèis)"
 
 #. tpl/commandset_info.html
 msgid "--- Create New CommandSet ---"
-msgstr ""
+msgstr "-- Creé ën neuv paràmeter ëd comanda ---"
 
 #. tpl/commandset_info.html
 msgid "Service Contract"
-msgstr ""
+msgstr "Contrat ëd servissi"
 
 #. tpl/commandset_info.html
 msgid "Cmds Budget"
-msgstr ""
+msgstr "Comande ëd bilansi"
 
 #. tpl/commandset_info.html
 #. tpl/command_info.html
@@ -2225,7 +2226,7 @@ msgstr "Modifiché"
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "Detailed Charges"
-msgstr ""
+msgstr "Badò detajà"
 
 #. tpl/commandset_info.html
 #. tpl/tools/dashboard.html
@@ -2240,12 +2241,12 @@ msgstr "Atribù"
 #. tpl/servicecontract_info.html
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:267
 msgid "TOTAL"
-msgstr ""
+msgstr "TOTAL"
 
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "No Command found."
-msgstr ""
+msgstr "Gnun-a comanda trovà."
 
 #. tpl/commandset_info.html
 #. tpl/command_info.html
@@ -2264,23 +2265,23 @@ msgstr "Provista PA ancludùa an 'verìfica ëd bilansi'"
 
 #. tpl/forecasting_report.html
 msgid "Computed on task NOT Resolved/Closed on "
-msgstr ""
+msgstr "Calcolà an sij travaj NEN arzolvù/sarà a "
 
 #. tpl/forecasting_report.html
 msgid "Unassigned tasks will not be displayed"
-msgstr ""
+msgstr "Ij travaj nen assignà a saran nen ësmonù"
 
 #. tpl/forecasting_report.html
 msgid "deviation"
-msgstr ""
+msgstr "deviassion"
 
 #. tpl/forecasting_report.html
 msgid "Overview"
-msgstr ""
+msgstr "Resumé"
 
 #. tpl/forecasting_report.html
 msgid "Task list"
-msgstr ""
+msgstr "Lista dij travaj"
 
 #. tpl/team_monthly_activity_report.html
 msgid "Tasks per User"
@@ -2300,31 +2301,31 @@ msgstr "Gnun dàit."
 
 #. tpl/filters.html
 msgid "Set project filters"
-msgstr ""
+msgstr "Amposté dij filtr ëd proget"
 
 #. tpl/edit_holidays.html
 msgid "Add fixed holidays"
-msgstr ""
+msgstr "Gionté dle vacanse fisse"
 
 #. tpl/edit_holidays.html
 msgid "In here you can set National Days, religious holidays, etc."
-msgstr ""
+msgstr "Ambelessì a peul gionté le feste nassionaj, le feste religiose e via fòrt."
 
 #. tpl/edit_holidays.html
 msgid "Note: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong."
-msgstr ""
+msgstr "Nòta: gionté dij RTT a l'é nen na bon-a idèja, j'utent a podrìo decide ëd travajé istess e la prevision dij di 'd produssion a sarìa falà."
 
 #. tpl/edit_holidays.html
 msgid "Holiday Description"
-msgstr ""
+msgstr "Descrission dle vacanse"
 
 #. tpl/edit_holidays.html
 msgid "Desirez-vous vraiment supprimer definitivement cette date ?"
-msgstr ""
+msgstr "Veul-lo për da bon eliminé costa dàita ëd fasson definitiva?"
 
 #. tpl/edit_holidays.html
 msgid "delete Holiday"
-msgstr ""
+msgstr "eliminé la festa"
 
 #. tpl/export_odt.html
 msgid "The following fields need to be set"
@@ -2362,132 +2363,132 @@ msgstr "Dëscarié"
 
 #. tpl/statistics.html
 msgid "Start Year"
-msgstr ""
+msgstr "Ann ëd partensa"
 
 #. tpl/statistics.html
 msgid "Submitted / Resolved Issues"
-msgstr ""
+msgstr "Problema duvertà/arzolvù"
 
 #. tpl/statistics.html
 msgid "Efficiency - System Disponibility"
-msgstr ""
+msgstr "Eficensa - Disponibilità dël sistema"
 
 #. tpl/statistics.html
 msgid "Reopened Rate"
-msgstr ""
+msgstr "Tass ëd riduverture"
 
 #. tpl/statistics.html
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:71
 msgid "Available Workforce"
-msgstr ""
+msgstr "Capassità ëd produssion"
 
 #. tpl/statistics.html
 msgid "Submitted"
-msgstr ""
+msgstr "Mandà"
 
 #. tpl/statistics.html
 msgid "Nb of submitted tasks EXCEPT SideTasks"
-msgstr ""
+msgstr "Nùmer ëd travaj mandà GAVÀ ij travaj marginaj"
 
 #. tpl/statistics.html
 msgid "Resolved"
-msgstr ""
+msgstr "Arzolvù"
 
 #. tpl/statistics.html
 msgid "Nb of resolved tasks EXCEPT SideTasks and reopened tasks"
-msgstr ""
+msgstr "Nùmer ëd travaj livrà GAVÀ ij travaj marginaj e ij travaj torna duvertà"
 
 #. tpl/statistics.html
 msgid "show values"
-msgstr ""
+msgstr "smon-e ij valor"
 
 #. tpl/statistics.html
 msgid "Nb submissions"
-msgstr ""
+msgstr "Nùmer ëd ròbe mandà"
 
 #. tpl/statistics.html
 msgid "Nb Resolved"
-msgstr ""
+msgstr "Nùmer ëd ròbe arzolvùe"
 
 #. tpl/statistics.html
 msgid "Submitted / Resolved Issues (ExtRefOnly)"
-msgstr ""
+msgstr "Problema sot-ponù / arzolvù (ExtRefOnly)"
 
 #. tpl/statistics.html
 msgid "% Tasks"
-msgstr ""
+msgstr "% Travaj"
 
 #. tpl/statistics.html
 msgid "Percentage of tasks delivered before the deadLine"
-msgstr ""
+msgstr "Përsentual ëd travaj livrà prima dla scadensa"
 
 #. tpl/statistics.html
 msgid "% Tasks Delivered on time"
-msgstr ""
+msgstr "% Travaj livrà a temp"
 
 #. tpl/statistics.html
 msgid "Effort deviation on resolved tasks (regarding the MgrEffortEstim)"
-msgstr ""
+msgstr "Deviassion dlë sfòrs an sij travaj arzolvù (rësguardant lë Stim dë Sfòrs dël Mansé)"
 
 #. tpl/statistics.html
 msgid "Effort deviation on resolved tasks (regarding the EffortEstim)"
-msgstr ""
+msgstr "Deviassion dlë sfòrs an sij travaj arzolvù (rësguardant lë Stim dlë Sfòrs)"
 
 #. tpl/statistics.html
 msgid "No Support"
-msgstr ""
+msgstr "Gnun supòrt"
 
 #. tpl/statistics.html
 #: reports/export_csv_tools.php:61
 msgid "BI"
-msgstr ""
+msgstr "BI"
 
 #. tpl/statistics.html
 #: reports/export_csv_tools.php:62
 msgid "BS"
-msgstr ""
+msgstr "BS"
 
 #. tpl/statistics.html
 msgid "Effort Deviation (ExtRefOnly)"
-msgstr ""
+msgstr "Deviassion dlë sfòrs (ExtRefOnly)"
 
 #. tpl/statistics.html
 msgid "Exclude side tasks to get the percent of time spent working on the projects"
-msgstr ""
+msgstr "Gavé ij travaj marginaj për avèj la përsentual ëd temp passà a travajé an sij proget"
 
 #. tpl/statistics.html
 msgid "Efficiency"
-msgstr ""
+msgstr "Eficensa"
 
 #. tpl/statistics.html
 #, c-format
 msgid "% Efficiency"
-msgstr ""
+msgstr "% d'eficensa"
 
 #. tpl/statistics.html
 #, c-format
 msgid "% Sys Disp."
-msgstr ""
+msgstr "% Disp. Sist."
 
 #. tpl/statistics.html
 msgid "Sys Disp."
-msgstr ""
+msgstr "Disp. Sist."
 
 #. tpl/statistics.html
 msgid "Number of reopened external tasks (tasks having an ExternalRef)."
-msgstr ""
+msgstr "Nùmer ëd travaj estern torna duvertà (travaj ch'a l'han n'arferiment estern)."
 
 #. tpl/statistics.html
 msgid "% Reopened"
-msgstr ""
+msgstr "% ëd torna duvertà"
 
 #. tpl/statistics.html
 msgid "Compare the number of reopened tasks to the number of resolved tasks"
-msgstr ""
+msgstr "Comparé ël nùmer ëd travaj torna duvertà al nùmer ëd travaj arzolvù"
 
 #. tpl/statistics.html
 msgid "Nb Reopened"
-msgstr ""
+msgstr "Nùmer ëd duvertà torna"
 
 #. tpl/statistics.html
 msgid "man-days"
