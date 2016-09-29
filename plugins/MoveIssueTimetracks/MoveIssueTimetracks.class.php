@@ -204,7 +204,7 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
                 $timetrack = new TimeTrack($timetrackId);
                 if($timetrack->getDate() < $destinationTask->getDateSubmission())
                 {
-                    $destinationTask->setDateSubmission($timetrack->getStartTimestamp());
+                    $destinationTask->setDateSubmission($timetrack->getDate());
                 }
             }
             
