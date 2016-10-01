@@ -67,8 +67,8 @@ class ConfigItem {
 class Config {
 
    // TODO Move to a more appropriate class
-   const codevVersion = "v1.2.0";
-   const codevVersionDate = "1st Oct. 2016";
+   const codevVersion = "v1.2.0_beta";
+   const codevVersionDate = ""; // 1st Oct. 2016
    const databaseVersion = 16; // used to check codev_config_table.database_version and apply upgrades.
 
    const configType_int = 1;
