@@ -111,6 +111,11 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
         } else {
             throw new Exception("Missing parameter: " . PluginDataProviderInterface::PARAM_SESSION_USER_ID);
         }
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_TEAM_ID)) {
+         $this->teamid = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_TEAM_ID);
+      } else {
+         throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_TEAM_ID);
+      }
 
         // set default pluginSettings
     }
@@ -137,7 +142,6 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
      */
     public function getTimetracks($users, $beginDate, $endDate, $task)
     {
-        $timetracks = null;
         if ($users != null && $beginDate != null && $endDate != null && $task != null) {
             $formatedUsers = implode( ', ', $users);
             
@@ -226,15 +230,32 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
      * Table Repartition du temps par status
      */
     public function execute() {
-        // get team
-        $teamList = Team::getTeams(true);
 
-        // get users of first team
-        $teamUserList = TeamCache::getInstance()->getTeam(key($teamList))->getMembers();
+         $team = TeamCache::getInstance()->getTeam($this->teamid);
+         $session_user = UserCache::getInstance()->getUser($this->sessionUserId);
+         $isAdmin = $session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId));
+
+         if ($isAdmin) {
+           // Administrators can manage all teams
+           $teamList = Team::getTeams(true);
+           $teamMembers = $team->getMembers();
+         } else {
+            // others can only manage their own team
+            $teamList = array($this->teamid => $team->getName());
+
+            if (($team->getLeaderId() === $this->sessionUserId) ||
+                ($session_user->isTeamManager($this->teamid))) {
+               // teamLeader & managers can manage all team members
+               $teamMembers = $team->getMembers();
+            } else {
+               // others can only move their own timetracks
+               $teamMembers = array($session_user->getId() => $session_user->getName());
+            }
+         }
 
         $this->execData = array(
             'teamList' => $teamList,
-            'teamUserList' => $teamUserList
+            'teamMembers' => $teamMembers
         );
         return $this->execData;
     }
@@ -246,12 +267,12 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
      */
     public function getSmartyVariables($isAjaxCall = false) {
 
-        $availableTeams = SmartyTools::getSmartyArray($this->execData['teamList'], NULL);
-        $teamUserList = SmartyTools::getSmartyArray($this->execData['teamUserList'], NULL);
+        $availableTeams = SmartyTools::getSmartyArray($this->execData['teamList'], $this->teamid);
+        $teamMembers = SmartyTools::getSmartyArray($this->execData['teamMembers'], NULL);
 
         $smartyVariables = array(
             'moveIssueTimetracks_availableTeams' => $availableTeams,
-            'moveIssueTimetracks_teamUserList' => $teamUserList,
+            'moveIssueTimetracks_teamUserList' => $teamMembers,
         );
 
         if (false == $isAjaxCall) {
