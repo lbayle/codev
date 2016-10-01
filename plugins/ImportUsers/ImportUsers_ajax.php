@@ -154,8 +154,9 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
             // Create user in Mantis DB
             $realName = $userData['firstname'] . " " . $userData['name'];
+            $username = str_replace(' ', '', $userData['username']);
             try {
-                User::createUserInMantisDB($userData['username'], $realName, $userData['email'], $password, 25, $userData['entryDate']);
+                User::createUserInMantisDB($username, $realName, $userData['email'], $password, 25, $userData['entryDate']);
                 if ('1' == $passwordByMail) {
                     $message = T_('Dear ') . $realName . ",\n\n" .
                             T_('Here is your password for CodevTT and Mantis : ') . $password . " \n\n" .
@@ -168,10 +169,10 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                 $userStatus['creationFailed'] = true;
             }
 
-            if (User::exists($userData['username'])) {
+            if (User::exists($username)) {
                 // Add user to CodevTT team
                 try {
-                    $userId = User::getUserId($userData['username']);
+                    $userId = User::getUserId($username);
                     $user = UserCache::getInstance()->getUser($userId);
 
                     $team = TeamCache::getInstance()->getTeam($selectedTeamId);

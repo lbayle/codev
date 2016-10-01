@@ -231,8 +231,6 @@ class ImportUsers extends IndicatorPluginAbstract {
         if (NULL !== $err_msg) {
             throw new Exception($err_msg);
         }
-        self::$logger->error('tmpFilename=' . $tmpFilename);
-
         return $tmpFilename;
     }
     
@@ -260,9 +258,13 @@ class ImportUsers extends IndicatorPluginAbstract {
                 } // skip column names
                 // mandatory fields
                 if ('' != $data[0] && '' != $data[1] && '' != $data[2]) {
+
+                    // "John MAC FERSON" => "jmacferson"
+                    $username = str_replace(' ', '', strtolower($data[1][0] . $data[0]));
+
                     $newUser = array();
                     $newUser['lineNum'] = $row - 1;
-                    $newUser['username'] = strtolower(Tools::convertToUTF8($data[1])[0] . Tools::convertToUTF8($data[0]));
+                    $newUser['username'] = Tools::convertToUTF8($username);
                     $newUser['name'] = strtoupper(Tools::convertToUTF8($data[0]));
                     $newUser['firstname'] = Tools::convertToUTF8($data[1]);
                     $newUser['email'] = Tools::convertToUTF8($data[2]);
