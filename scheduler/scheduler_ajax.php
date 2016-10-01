@@ -403,9 +403,7 @@ function getAllTaskUserList($data = false) {
  */
 function getTaskUserList() {
    
-   $taskEffortEstim = 0;
-   
-   $taskId = Tools::getSecurePOSTStringValue('taskId');
+   $taskId = Tools::getSecurePOSTIntValue('taskId');
    
    // Get team members
    $team = TeamCache::getInstance()->getTeam($_SESSION['teamid']);
@@ -413,9 +411,10 @@ function getTaskUserList() {
    $selectedUserList = $unselectedUserList;
 
    $tasksUserList = null;
-   if(null != $taskId) {
-      $taskHandlerId = IssueCache::getInstance()->getIssue($taskId)->getHandlerId();
-      $taskEffortEstim = IssueCache::getInstance()->getIssue($taskId)->getEffortEstim();
+   if (null != $taskId) {
+      $issue = IssueCache::getInstance()->getIssue($taskId);
+      $taskHandlerId = $issue->getHandlerId();
+      $taskDuration = $issue->getDuration();
       
       // Get task user list
       $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
@@ -461,7 +460,7 @@ function getTaskUserList() {
    $data['scheduler_unselectedUserList'] = $unselectedUserList;
    $data['scheduler_selectedUserList'] = $selectedUserList;
    $data['scheduler_taskUserList'] = $tasksUserList;
-   $data['scheduler_taskEffortEstim'] = $taskEffortEstim;
+   $data['scheduler_taskDuration'] = $taskDuration;
    $data['scheduler_taskHandlerId'] = $taskHandlerId;
    
    

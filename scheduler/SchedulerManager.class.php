@@ -549,14 +549,12 @@ class SchedulerManager {
     * ========= STATIC ========
     * this is a double check, JS does first round.
     * 
-    * TODO: rules must be updated
-    *
     * @param type $taskId
     * @param type $userTimeList : Associative array : [$userId => $time]
     */
    public static function isTimePerUserListValid($taskId, $userTimeList) {
       $totalUsersTime = 0;
-      $estimedTime = IssueCache::getInstance()->getIssue($taskId)->getEffortEstim();
+      $taskDuration = IssueCache::getInstance()->getIssue($taskId)->getDuration();
       $atLeastOneAutoAffectedUser = false; // at least one user has auto affected time
       
       foreach ($userTimeList as $userTime) {
@@ -568,7 +566,7 @@ class SchedulerManager {
          $totalUsersTime += $userTime;
       }
       
-      if(($totalUsersTime == $estimedTime) || $atLeastOneAutoAffectedUser) {
+      if(($totalUsersTime >= $taskDuration) || $atLeastOneAutoAffectedUser) {
          return true;
       } else {
          return false;

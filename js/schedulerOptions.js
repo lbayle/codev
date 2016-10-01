@@ -337,11 +337,10 @@ function initSchedulerAffectations(){
       var totalAffectedEffortComparison = jQuery(".scheduler_totalAffectedEffortComparison");
       var saveTaskModificationsButton = jQuery(".scheduler_saveUserAssignmentButton");
       
-      // Get total estimed effort on task
-      var totalEstimedEffort = parseFloat(jQuery(".scheduler_taskEffortEstim").eq(0).text());
+      var taskDuration = parseFloat(jQuery(".scheduler_taskDuration").eq(0).text());
 
       // Check if total users effort is equal to estimed effort or if at least one user time is auto affected
-      if((totalEstimedEffort == totalUserTime || atLeastOneAutoAffectation) && "" != selectedTaskId)
+      if((totalUserTime >= taskDuration || atLeastOneAutoAffectation) && "" != selectedTaskId)
       {
          totalAffectedEffortComparison.removeClass("error_font");
          totalAffectedEffortComparison.addClass("success_font");
@@ -432,19 +431,17 @@ function initSchedulerAffectations(){
                taskId: selectedTaskId,
             },
             type: 'post',
+            dataType:"json",
             success: function(data) {
-               data = JSON.parse(data);
 
-               if(null != data['scheduler_taskEffortEstim'])
-               {
-                  jQuery(".scheduler_taskEffortEstim").text(data['scheduler_taskEffortEstim']);
+               if(null != data.scheduler_taskDuration) {
+                  jQuery(".scheduler_taskDuration").text(data.scheduler_taskDuration);
                }
-
-               reinitializeTableAndSelects(data['scheduler_unselectedUserList'], data['scheduler_selectedUserList'], data['scheduler_taskUserList'], data['scheduler_taskHandlerId']);
-               
+               reinitializeTableAndSelects(data.scheduler_unselectedUserList, data.scheduler_selectedUserList, data.scheduler_taskUserList, data.scheduler_taskHandlerId);
             },
-            error: function(errormsg) {
-               console.log(errormsg);
+            error: function(jqXHR, textStatus, errorThrown) {
+               console.error(textStatus, errorThrown);
+               alert("ERROR: Please contact your CodevTT administrator");
             }
          });
       }
