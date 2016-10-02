@@ -35,6 +35,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
    if(isset($action)) {
       $smartyHelper = new SmartyHelper();
+      $team = TeamCache::getInstance()->getTeam($teamid);
       
       // ================================================================
       if ("getIssuesAndDurations" == $action) {
@@ -44,7 +45,6 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $defaultProjectid = Tools::getSecurePOSTIntValue('projectid');
          $managedUserid = Tools::getSecurePOSTIntValue('managedUserid');
 
-         $team = TeamCache::getInstance()->getTeam($teamid);
          $projList = $team->getProjects(true, false);
 
          $managedUser = UserCache::getInstance()->getUser($managedUserid);
@@ -169,11 +169,17 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
             $durationsList = TimeTrackingTools::getDurationList($teamid);
 
+            $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
+            $projType = $team->getProjectType($issue->getProjectId());
+            $availableJobs = $project->getJobList($projType);
+
             // return data
             $data = array(
                'statusMsg' => 'SUCCESS',
                'durationsList' => $durationsList,
+               'availableJobs' => $availableJobs,
                'duration' => $tt->getDuration(),
+               'jobid' => $tt->getJobId(),
                'note' => $tt->getNote(),
                'issueSummary' => $issue->getSummary(),
                'date' => date("Y-m-d", $tt->getDate()),
@@ -201,6 +207,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $date = strtotime($dateStr);
 
          $duration = Tools::getSecurePOSTNumberValue('duration');
+         $jobid = Tools::getSecurePOSTIntValue('jobid');
          $timetrack = TimeTrackCache::getInstance()->getTimeTrack($timetrackId);
          $note = NULL;
 
@@ -208,17 +215,19 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             $note = Tools::getSecurePOSTStringValue('note');
          }
 
-         $updateDone = $timetrack->update($date, $duration, $note );
+         $updateDone = $timetrack->update($date, $duration, $jobid, $note );
          $statusMsg = ($updateDone) ? "SUCCESS" : "timetrack update failed.";
 
          // the complete WeekTaskDetails Div must be updated
          setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid);
          $html = $smartyHelper->fetch('ajax/weekTaskDetails');
 
+         $jobs = new Jobs();
          $data = array(
             'statusMsg' => $statusMsg,
             'timetrackId' => $timetrackId,
             'cosmeticDate' => Tools::formatDate("%Y-%m-%d - %A", $timetrack->getDate()),
+            'jobName' => $jobs->getJobName($jobid),
             'timesheetHtml' => $html,
          );
          $jsonData = json_encode($data);

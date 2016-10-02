@@ -43,8 +43,18 @@ jQuery(document).ready(function() {
                      );
                   }
                }
+               $('#editJob').empty();
+               var availableJobs = data.availableJobs;
+               for (var id in availableJobs) {
+                  if (availableJobs.hasOwnProperty(id)) {
+                     $('#editJob').append(
+                        $('<option>').attr('value', id).append(availableJobs[id])
+                     );
+                  }
+               }
                $("#timetrackId").val(timetrackId);
                $("#timeToEdit").val(data.duration);
+               $("#editJob").val(data.jobid);
                $("#issue_note_edit").val(data.note);
                $("#taskSummary").text(data.issueSummary);
                $("#datepickerEditer").datepicker("setDate" ,data.date);
@@ -74,6 +84,7 @@ jQuery(document).ready(function() {
                         var note = $("#issue_note_edit").val();
                         var date = $("#datepickerEditer").val();
                         var duration = $("#timeToEdit").val();
+                        var jobid = $("#editJob").val();
                         var timetrackId = $("#timetrackId").val();
 
                         $.ajax({
@@ -86,18 +97,19 @@ jQuery(document).ready(function() {
                               note: note,
                               date: date,
                               duration: duration,
+                              jobid: jobid,
                               userid:timetrackingPageCommonData.userid,
                               weekid:timetrackingPageCommonData.weekid,
                               year:timetrackingPageCommonData.year
                            },
                            success: function(data) {
-console.log("data", data);
                               if ('SUCCESS' === data.statusMsg) {
 
                                  // update weekTimetracks table
                                  var myTr = $("#weekTimetrackingTuples .weekTimetrack[data-weekTimetrackId^="+timetrackId+"]");
                                  myTr.find(".weekTimetrack_duration").text(duration);
                                  myTr.find(".weekTimetrack_date").text(data.cosmeticDate);
+                                 myTr.find(".weekTimetrack_jobName").text(data.jobName);
                                  
                                  // update complete timesheet
                                  jQuery("#weekTaskDetailsDiv").html(jQuery.trim(data.timesheetHtml));

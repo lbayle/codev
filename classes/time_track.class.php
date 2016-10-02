@@ -161,11 +161,13 @@ class TimeTrack extends Model implements Comparable {
    }
    
    
-   public function update($date, $duration, $note = NULL) {
+   public function update($date, $duration, $jobid, $note = NULL) {
       $this->date = $date;
       $this->duration = $duration;
+      $this->jobId = $jobid;
+      $commitDate = time();
       
-      $query = 'UPDATE `codev_timetracking_table` SET `date`='.$this->date.', `duration`='.$this->duration.' WHERE id='.$this->id.';';
+      $query = 'UPDATE `codev_timetracking_table` SET `date`='.$this->date.', `duration`='.$this->duration.', `jobid`='.$this->jobId.', `commit_date`='.$commitDate.' WHERE id='.$this->id.';';
       $result = SqlWrapper::getInstance()->sql_query($query);
       
       if (!$result) {

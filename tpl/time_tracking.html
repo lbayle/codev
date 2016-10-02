@@ -428,7 +428,7 @@
                   <td>{$i.issueURL}</td>
                   <td>{$i.issueId}</td>
                   <td class="weekTimetrack_duration">{$i.duration}</td>
-                  <td>{$i.jobName}</td>
+                  <td class="weekTimetrack_jobName" >{$i.jobName}</td>
                   <td>{$i.projectName}</td>
                   <td nowrap="nowrap">{$i.categoryName}</td>
                   <td>{$i.issueSummary}</td>
@@ -561,6 +561,10 @@
                   <tr id="tr_timeToAdd">
                      <th>{t}Duration{/t} :</th>
                      <td><select id="timeToEdit" name="timeToEdit" title="{t}Duration (in days){/t}"></select></td>
+                  </tr>
+                  <tr id="tr_editJob">
+                     <th>{t}Job{/t} :</th>
+                     <td><select id="editJob" name="editJob" title="{t}Job{/t}"></select></td>
                   </tr>
                   <tr>
                      <th><label for="datepickerEditer">{t}Date{/t}:</label></th>
