@@ -11,8 +11,8 @@
 
     <form method="post" action="{$importUsers_ajaxPhpURL}" class="importUsers_formImport">
         <fieldset>
-            <label><input type="radio" name="importUsers_passwordByMail" value="1" checked class="importUsers_passwordRadio">{t}Send password by mail{/t}</label><br>
-            <label><input type="radio" name="importUsers_passwordByMail" value="0" class="importUsers_passwordRadio">{t}Generate password{/t}</label><br>
+            <label><input type="radio" name="importUsers_passwordByMail" value="1" {if (false == $importUsers_isEmailEnabled)}disabled{else}checked{/if} class="importUsers_passwordRadio">{t}Send password by mail{/t}</label><br>
+            <label><input type="radio" name="importUsers_passwordByMail" value="0" {if (false == $importUsers_isEmailEnabled)}checked{/if} class="importUsers_passwordRadio">{t}Generate password{/t}</label><br>
         </fieldset>
         <fieldset>
             <input type="hidden" class="importUsers_teamId" name="importUsers_teamId" value="{$importUsers_teamId}">

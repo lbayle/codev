@@ -93,6 +93,7 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             }
             
             $data = array(
+                'importUsers_isEmailEnabled' => (1 == Constants::$emailSettings['enable_email_notification']),
                 'importUsers_errMsg' => $errMsg,
                 'importUsers_filename' => $filename,
                 'importUsers_newUsers' => $newUsers,
