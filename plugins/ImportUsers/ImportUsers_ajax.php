@@ -164,7 +164,7 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                             T_('Please, change your password on your first connection.') . " \n\n" .
                             T_('Regards \n\n') .
                             T_('CodevTT Team');
-                    Email::getInstance()->sendEmail($realName, T_("[CodevTT] Your password"), $message);
+                    Email::getInstance()->sendEmail($userData['email'], T_("[CodevTT] Your password"), $message);
                 }
             } catch (Exception $ex) {
                 $userStatus['creationFailed'] = true;
