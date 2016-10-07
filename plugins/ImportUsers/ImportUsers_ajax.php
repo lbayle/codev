@@ -162,8 +162,9 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                     $message = T_('Dear ') . $realName . ",\n\n" .
                             T_('Here is your password for CodevTT and Mantis : ') . $password . " \n\n" .
                             T_('Please, change your password on your first connection.') . " \n\n" .
-                            T_('Regards \n\n') .
-                            T_('CodevTT Team');
+                            T_('CodevTT URL: ') . Constants::$codevURL ." \n" .
+                            T_('Mantis  URL: ') . Constants::$mantisURL ." \n\n" .
+                            T_("Best regards");
                     Email::getInstance()->sendEmail($userData['email'], T_("[CodevTT] Your password"), $message);
                 }
             } catch (Exception $ex) {
