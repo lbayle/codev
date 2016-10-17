@@ -48,15 +48,17 @@ function login($user, $password) {
 	 }
 
     $password = md5($password);
+    $now = time();
 
     $formattedUser = SqlWrapper::sql_real_escape_string($user);
     $formattedPass = SqlWrapper::sql_real_escape_string($password);
-    $query = "SELECT id, username, realname FROM `mantis_user_table` WHERE username = '".$formattedUser."' AND password = '".$formattedPass."' AND enabled = 1;";
+    $query = "SELECT id, username, realname, last_visit FROM `mantis_user_table` WHERE username = '".$formattedUser."' AND password = '".$formattedPass."' AND enabled = 1;";
     $result = SqlWrapper::getInstance()->sql_query($query);
     if ($result && SqlWrapper::getInstance()->sql_num_rows($result) == 1 && $row_login = SqlWrapper::getInstance()->sql_fetch_object($result)) {
         $_SESSION['userid'] = $row_login->id;
         $_SESSION['username'] = $row_login->username;
         $_SESSION['realname'] = $row_login->realname;
+        $lastVisitTimestamp = $row_login->last_visit;
 
         try {
             $user =  UserCache::getInstance()->getUser($row_login->id);
@@ -70,12 +72,15 @@ function login($user, $password) {
             $projid = $user->getDefaultProject();
             if (0 != $projid) { $_SESSION['projectid'] = $projid; }
 
+            $query2 = "UPDATE `mantis_user_table` SET last_visit = ".$now." WHERE username = '".$formattedUser."';";
+            SqlWrapper::getInstance()->sql_query($query2);
+
          } catch (Exception $e) {
             if ($isLog && self::$logger->isDebugEnabled()) {
                $logger->debug("could not load preferences for user $row_login->id");
             }
          }
-			if ($isLog) {
+			if (($isLog) && ($now > ($lastVisitTimestamp + 2))) {
             $ua = Tools::getBrowser();
             $browserStr = $ua['name'] . ' ' . $ua['version'] . ' (' .$ua['platform'].')'; 
             $logger->info('user '.$row_login->id.' '.$row_login->username.' ('.$row_login->realname.'), Team '.$user->getDefaultTeam().', '.$browserStr);
