@@ -384,5 +384,6 @@ class CommandTools {
       }
 
    }
+   // </editor-fold>
 }
 

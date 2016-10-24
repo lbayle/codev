@@ -236,6 +236,48 @@ class WBSElement extends Model {
    }
 
    /**
+    * 
+    * @param string $title title of the wbsElement
+    * @param int $rootId
+    * @param int $parentId
+    * @param int $isFolder search for folders only
+    * @return int id or NULL if not found
+    * @throws Exception if multiple rows found
+    */
+   public static function getIdByTitle($title, $rootId = NULL, $parentId = NULL, $isFolder = FALSE) {
+      $query = "SELECT id FROM `codev_wbs_table` WHERE title = '$title' ";
+
+      if (NULL !== $rootId) {
+         $query .= "AND root_id = $rootId ";
+      }
+      if (NULL !== $parentId) {
+         // usefull if tree has parents with same name: /name1/name1/name1
+         $query .= "AND parent_id = $parentId ";
+      }
+      if ($isFolder) {
+         $query .= "AND bug_id IS NULL ";
+      }
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $nbRows  = SqlWrapper::getInstance()->sql_num_rows($result);
+      switch ($nbRows) {
+         case 0:
+            // not found
+            $id = NULL;
+            break;
+         case 1:
+            $id = SqlWrapper::getInstance()->sql_result($result, 0);
+            break;
+         default:
+            throw new Exception("Found multiple wbsElement with title=$title and rootId=$rootId");
+      }
+      return $id;
+   }
+
+   /**
     *
     * @return array
     */

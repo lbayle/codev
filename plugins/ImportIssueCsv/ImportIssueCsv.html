@@ -1,0 +1,168 @@
+<div class="ImportIssueCsv">
+{if (isset($accessDenied) && (1 == $accessDenied)) }
+<p class="center ui-state-error-text">{t}You need to be manager to import issues.{/t}</p>
+{else}
+<div class="pluginInitFunction"  style="display: none;">importIssueCsvJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">importIssueCsvJsDestroy</div>
+   
+<div align="left" style="margin-top:1em;" class="center">
+   <!-- CSV FILE SELECTION -->
+   <form method="post" action="{$importIssueCsv_ajaxPhpURL}" enctype="multipart/form-data" class="importIssueCsv_formUploadFile">
+      <fieldset>
+         <label>{t}Project{/t}: </label>
+         <select name="projectid">
+            {foreach from=$importIssueCsv_projects key=id item=i}
+            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+            {/foreach}
+         </select>
+         <input type="file" class="importIssueCsv_file" name="uploaded_csv" accept=".csv, text/csv, application/csv, text/comma-separated-values" />
+         <input type="submit" class="importIssueCsv_btUpload" value="{t}Preview import{/t}" />
+      </fieldset>
+   </form>
+</div>
+
+<div style="margin-top:2em;" class="center">
+      <span>{t}Import templates{/t}: </span>
+      <span style="padding-left: 1em">
+         <a href="include/download.php?plugin=ImportIssueCsv&f=import_issue_template.xls">XLS</a>
+         or
+         <a href="include/download.php?plugin=ImportIssueCsv&f=import_issue_template.csv">CSV</a>
+      </span>
+   </div>
+
+<div>
+   <div class="floatr" style=" width: 16px">
+       <span class="importIssueCsv_HelpDialog_link float pointer">
+          <img title="Help" src="images/help_icon.gif"/>
+       </span>
+    </div>
+    <div class="importIssueCsv_HelpDialog ui-helper-hidden" title="{t}Import issues{/t}">
+         <p><strong>{t}File Format{/t}</strong><br />{t}Standard CSV format with :{/t}<br>
+           {t}delimiter{/t} = <span style="color:blue">;</span><br>
+           {t}enclosure{/t} = <span style="color:blue">"</span><br>
+           {t}Date format{/t} = <span style="color:blue">YYYY-MM-DD</span><br>
+           {t}Number format{/t} = <span style="color:blue">3.5</span> {t}or{/t} <span style="color:blue">3,5</span>
+         </p>
+         <p><strong>{t}Encoding{/t}</strong><br />{t}It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported.{/t}<br /></p>
+         <p><strong>{t}Columns{/t}</strong><br />{t}the file must contain 7 columns, the 1st line contains the column names.{/t}<br /><br /><span style="color:blue">{t}Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef ; WBS tree{/t}</span></p>
+    </div>
+    <div class="ui-helper-clearfix"></div>
+</div>
+
+<div class="importIssueCsv_uploadValidationMessage error_font error_container">   
+</div>
+
+{if isset($importIssueCsv_errorMsg)}
+<div style="margin-top:1em;">
+   <span class="ui-state-error-text">ERROR: {$importIssueCsv_errorMsg}</span>
+</div>
+{else}
+   <hr>
+   <div class="importIssueCsv_htmlContent">
+   </div>
+{/if}
+
+
+<script type="text/javascript">
+      // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+    function importIssueCsvJsDestroy() {
+        jQuery(".importIssueCsv_HelpDialog").dialog('destroy').remove();
+    }
+    
+    // this function will be run at jQuery(document).ready (see dashboard.html)
+    // or when a new widget is added to the dashboard.
+    function importIssueCsvJsInit() {
+       
+         jQuery(".importIssueCsv_HelpDialog_link").click(function(e) {
+            e.preventDefault();
+            jQuery(".importIssueCsv_HelpDialog").dialog("open");
+         });
+         jQuery(".importIssueCsv_HelpDialog").dialog({
+            autoOpen: false,
+            hide: "fade"
+         });
+
+        var files;
+
+        // http://abandon.ie/notebook/simple-file-uploads-using-jquery-ajax
+        // save the file data to a file variable for later use.
+        $('input[type=file]').on('change', function(event) {
+          files = event.target.files;
+        });
+
+        var uploadValidationMessageContainer = jQuery(".importIssueCsv_uploadValidationMessage");
+        
+        jQuery(".importIssueCsv_btUpload").click(function(event) {
+            /* stop form from submitting normally */
+            event.preventDefault();
+            
+            uploadValidationMessageContainer.html('');
+
+            // check fields
+            var foundError = 0;
+            var msgString = "{t}Some fields are missing:{/t}\n\n";
+
+            var form = jQuery(".importIssueCsv_formUploadFile");
+
+            var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+
+            if (0 == form.find("select[name=projectid]").val()) {
+               msgString += "{t}Project{/t}\n";
+               ++foundError;
+            }
+            if (0 == form.find("input[name=uploaded_csv]").val()) {
+               msgString += "{t}File{/t}\n";
+               ++foundError;
+            }
+            if (0 != foundError) {
+               uploadValidationMessageContainer.html(msgString);
+            } else {
+
+                // Create a formdata object and add the files
+                var data = new FormData();
+                $.each(files, function(key, value)
+                {
+                    data.append("uploaded_csv", value);
+                });
+                // add other fields
+                data.append("action", "uploadCsvFile");
+                data.append("dashboardId", dashboardId);
+                data.append("projectId", jQuery(".importIssueCsv_formUploadFile select[name=projectid]").val());
+
+                jQuery.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action') + "?importData",
+                    data: data,
+                    processData: false, // Don't process the files
+                    contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                    success: function(data) {
+                        
+                        data = JSON.parse(data);
+                        jQuery(".importIssueCsv_htmlContent").html(data['importIssueCsv_htmlContent']);
+
+                        jQuery.each(data['importIssueCsv_jsFiles'], function( index, value ) {
+                            jQuery.ajax({
+                              async: false,
+                              url: value,
+                              dataType: "script"
+                            });
+                        });   
+                        
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        if(errorThrown == 'Forbidden') {
+                            window.location = '{$page}';
+                        }
+                    }
+                });
+            }
+        });
+
+
+    };
+    
+    
+</script>
+{/if}
+</div>
+

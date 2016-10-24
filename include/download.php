@@ -23,9 +23,13 @@ if (Tools::isConnectedUser()) {
 
    // CodevTT specific
    if (isset($_GET['importTemplates'])) {
-      $codevReportsDir = '..'.DIRECTORY_SEPARATOR.'import'.DIRECTORY_SEPARATOR;
+      $codevReportsDir = Constants::$codevRootDir.DIRECTORY_SEPARATOR.'import'.DIRECTORY_SEPARATOR;
    } else {
       $codevReportsDir = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR;
+   }
+   $pluginClassName = filter_input(INPUT_GET, 'plugin');
+   if (!is_null($pluginClassName) && (FALSE != $pluginClassName)) {
+      $codevReportsDir = Constants::$codevRootDir.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$pluginClassName.DIRECTORY_SEPARATOR;
    }
 
    // Allow direct file download (hotlinking)?

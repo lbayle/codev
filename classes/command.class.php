@@ -672,7 +672,7 @@ class Command extends Model {
     * @return int insertion id if success, NULL on failure
     * @throws Exception
     */
-   public function addIssue($bugid, $isDBonly = false) {
+   public function addIssue($bugid, $isDBonly = false, $wbsParentId = null) {
       // security check
       if (!is_numeric($bugid)) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
@@ -686,6 +686,7 @@ class Command extends Model {
          $issue = IssueCache::getInstance()->getIssue($bugid);
       } catch (Exception $e) {
          self::$logger->error("addIssue($bugid): issue $bugid does not exist !");
+         // TODO WARN echo may break ajax call !
          echo "<span style='color:red'>ERROR: issue  '$bugid' does not exist !</span>";
          return NULL;
       }
@@ -705,7 +706,9 @@ class Command extends Model {
          $id = SqlWrapper::getInstance()->sql_insert_id();
 
          // add to WBS
-         $wbsChild = new WBSElement(NULL, $this->wbsid, $bugid, $this->wbsid);
+         // add to specific WBS folder element (not always $this->wbsid)
+         $parentId = is_null($wbsParentId) ? $this->wbsid : $wbsParentId;
+         $wbsChild = new WBSElement(/* $id */ NULL, /* $root_id */ $this->wbsid, $bugid, $parentId);
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("Add issue $bugid from command $this->id to WBS root_id=$this->wbsid wbse_id=".$wbsChild->getId());
          }
@@ -813,6 +816,22 @@ class Command extends Model {
       }
       return $cerrList;
    }
+
+   // <editor-fold desc="WBS" defaultstate="collapsed">
+   //   public function getSubFolder($title) {
+   //      $query = "SELECT * FROM `codev_wbs_table` WHERE root_id = $this->wbsid AND title = '$title';";
+   //      $result = SqlWrapper::getInstance()->sql_query($query);
+   //      if (!$result) {
+   //         return null;
+   //      }
+   //      return SqlWrapper::getInstance()->sql_fetch_object($result);
+   //   }
+   //
+   //   public function createSubFolder($parentId, $order, $title) {
+   //      $parentId = is_null($parentId) ? $this->wbsid : $parentId;
+   //      return new WBSElement(null, $this->wbsid, null, $parentId, $order, $title);
+   //   }
+   // </editor-fold>
 
 }
 
