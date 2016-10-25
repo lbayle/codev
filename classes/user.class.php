@@ -1602,7 +1602,7 @@ class User extends Model {
 
       if ((NULL != $bugidList) && (count($bugidList) > 0)) {
          $formattedList = implode(", ",$bugidList);
-         $query .= "AND bugid IN ($formattedList)";
+         $query .= "AND bugid IN ($formattedList) ";
       }
 
       $query .= "ORDER BY date DESC LIMIT $limit";
