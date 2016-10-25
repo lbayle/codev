@@ -304,7 +304,7 @@ class ImportUsers extends IndicatorPluginAbstract {
      */
     public function getSmartyVariables($isAjaxCall = false) {
         
-        $smartyVariables['importUsers_teams'] = SmartyTools::getSmartyArray($this->execData['teams'], 0);
+        $smartyVariables['importUsers_teams'] = SmartyTools::getSmartyArray($this->execData['teams'], $this->teamid);
         
         if (false == $isAjaxCall) {
             $smartyVariables['importUsers_ajaxFile'] = self::getSmartySubFilename();
