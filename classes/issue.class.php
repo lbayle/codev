@@ -2192,10 +2192,20 @@ class Issue extends Model implements Comparable {
                      $this->tooltipItemsCache[$name] = $this->getEffortAdd();
                      break;
                   case $deadLineField:
-                     $this->tooltipItemsCache[$name] = date('Y-m-d', $this->getDeadLine());
+                     $deadline = $this->getDeadLine();
+                     if ((NULL != $deadline) && (0 != $deadline)) {
+                        $this->tooltipItemsCache[$name] = date('Y-m-d', $deadline);
+                     } else {
+                        $this->tooltipItemsCache[$name] = '';
+                     }
                      break;
                   case $deliveryDateField:
-                     $this->tooltipItemsCache[$name] = date('Y-m-d', $this->getDeliveryDate());
+                     $deliveryDate = $this->getDeliveryDate();
+                     if ((NULL != $deliveryDate) && (0 != $deliveryDate)) {
+                        $this->tooltipItemsCache[$name] = date('Y-m-d', $deliveryDate);
+                     } else {
+                        $this->tooltipItemsCache[$name] = '';
+                     }
                      break;
                   case $customField_type:
                      $this->tooltipItemsCache[$name] = $this->getType();
