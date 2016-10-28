@@ -36,7 +36,7 @@ class Team extends Model {
       self::$defaultGeneralPrefsList = array(
           'forbidAddTimetracksOnClosed' => 1,
           'displayCalculatedBacklogInDialogbox' => 0,
-          'useTrackNote' => 0,
+          'useTrackNote' => 1,
           'sendTimesheetEmailNotification' => 1,
          );
 
