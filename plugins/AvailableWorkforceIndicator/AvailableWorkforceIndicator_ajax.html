@@ -1,0 +1,27 @@
+<div class="availableWorkforceIndicator_ajax"  style="width:100%;">
+   <table class="availableWorkforceIndicatorValuesTable datatable_minimal">
+    <thead>
+       <tr>
+         {foreach from=$availableWorkforceIndicator_tableHeader item=i}
+          <th class="right">{$i}</th>
+         {/foreach}
+       </tr>
+    </thead>
+    <tbody>
+      {foreach from=$availableWorkforceIndicator_tableData key=id item=i}
+       <tr>
+         {foreach from=$i item=j}
+          <td class="right">{$j}</td>
+         {/foreach}
+       </tr>
+      {/foreach}
+    </tbody>
+    <tfoot>
+       <tr>
+         {foreach from=$availableWorkforceIndicator_tableFooter item=i}
+          <td class="right">{$i}</td>
+         {/foreach}
+       </tr>
+    </tfoot>
+   </table>
+</div>

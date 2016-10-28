@@ -1,0 +1,272 @@
+<div class="AvailableWorkforceIndicator">
+<div class="pluginInitFunction"  style="display: none;">availableWorkforceIndicatorJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">availableWorkforceIndicatorJsDestroy</div>
+{if isset($availableWorkforceIndicator_jqplotData)}
+<div align="left" style="margin-top:1em;">
+   <form class="availableWorkforceIndicator_dateRange_form" method="get" action="{$availableWorkforceIndicator_ajaxPhpURL}">
+      <fieldset>
+         <label for="availableWorkforce_startdatepicker">{t}From{/t}:</label>
+         <input type="text" class="availableWorkforce_startdatepicker datepicker" name="availableWorkforce_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="availableWorkforce_enddatepicker">{t}To{/t}:</label>
+         <input type="text" class="availableWorkforce_enddatepicker datepicker" name="availableWorkforce_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <input class="availableWorkforce_submit" type="submit" title="{t}Compute{/t}" value=">>" />
+         <label class="availableWorkforce_rangevalue" style="margin-left:1.5em; font-weight:bold;">{$availableWorkforceIndicator_rangeValue}</label>
+         <label style="margin-left:0.5em; font-weight:bold;">{t}man-days{/t}</label>
+         <input type="hidden" name="action" value="" />
+         <input type="hidden" name="attributesJsonStr" value="" />
+         <input type="hidden" name="dashboardId" value="" />
+      </fieldset>
+   </form>
+</div>
+
+<div>
+   <div id="tabsAvailableWorkforceIndicator" class="float tabs {$ui_tabs_jquery}" style="width:95%; margin-top:1em;" >
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#availableWorkforceIndicator_tabGraph">{t}Graph{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#availableWorkforceIndicator_tabValues">{t}Values{/t}</a></li>
+      </ul>
+      <div id="availableWorkforceIndicator_tabGraph">
+         <div class="availableWorkforceIndicatorChart date_chart chart" style="width:100%;"></div>
+      </div>
+      <div id="availableWorkforceIndicator_tabValues">
+         {include file="`$availableWorkforceIndicator_ajaxFile`"}
+      </div>
+   </div>
+
+   <div class="floatr" style="margin-top:1em; width: 16px">
+   <a class="availableWorkforceIndicatorHelpDialog_link float" href="">
+      <img title="Help" src="images/help_icon.gif"/>
+   </a>
+   <a class="availableWorkforceIndicatorConfig_link float" href="">
+      <img title="{t}Options{/t}" src="images/b_config.png"/>
+   </a>
+   <!--a class="availableWorkforceIndicatorValuesDialog_link float" href="">
+      <img title="{t}show values{/t}" src="images/b_browse.png"/>
+   </a-->
+   <span class="float pointer">
+      <img onclick="$('.availableWorkforceIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'availWorkforce.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
+   </span>
+   </div>
+</div>
+<!--div class="availableWorkforceIndicatorValuesDialog ui-helper-hidden" title="{t}Available Workforce{/t}">
+   {include file="`$availableWorkforceIndicator_ajaxFile`"}
+</div-->
+<div class="availableWorkforceIndicatorOptionDialog ui-helper-hidden" title="{t}Available Workforce Options{/t}">
+   <table class="invisible userSettings_table">
+    <thead>
+       <tr>
+          <th class="left"></th>
+          <th class="left">{t}User{/t}</th>
+          <th class="left">{t}Availability{/t}</th>
+          <th class="left" title="{t}Productivity Coefficient{/t}">{t}Prod. Coef{/t}</th>
+       </tr>
+    </thead>
+    <tbody>
+      {foreach from=$availableWorkforceIndicator_userSettings key=id item=i}
+       <tr class="userSettings_tr">
+          <td class="right"><input class="opt_enabled" type="checkbox" {if $i.enabled}checked="checked"{/if}></td>
+          <td class="left opt_name">{$i.name}</td>
+          <td class="right"><input class="opt_availability" value="{$i.availability}">%</td>
+          <td class="right"><input class="opt_prodCoef" value="{$i.prodCoef}"></td>
+          <td class="ui-helper-hidden opt_userid">{$id}</td>
+       </tr>
+      {/foreach}
+    </tbody>
+   </table>
+</div>
+<div class="availableWorkforceIndicatorHelpDialog ui-helper-hidden" title="{t}Available Workforce{/t}">
+   <p>
+      <strong>TODO</strong><br>
+      <br>
+      <span style="color:blue"><em>{t}Formula{/t} : {t}SUM(userWorkforce * availability * prodCoef){/t}</em></span>
+   </p>
+</div>
+
+<div class="ui-helper-clearfix"></div>
+{else}
+   {t}No data.{/t}
+{/if}
+
+<script type="text/javascript">
+   
+   function availableWorkforceIndicator_updateForm() {
+      var form = jQuery('.availableWorkforceIndicator_dateRange_form');
+      
+      // send attributesJsonStr because the ajax php need to know about 'userSettings'
+      var userSettings = {};
+      $(".userSettings_table .userSettings_tr").each(function() {
+         var opt_enabled = $(this).find(".opt_enabled").attr('checked') ? 1 : 0;
+         var opt_userid  = $(this).find(".opt_userid").html();
+         var opt_availability = $(this).find(".opt_availability").val();
+         var opt_prodCoef = $(this).find(".opt_prodCoef").val();
+
+         // TODO consistency check (NaN, ...)
+
+         var userData = new Object();
+         userData.enabled      = opt_enabled;
+         userData.availability = opt_availability;
+         userData.prodCoef     = opt_prodCoef;
+
+         userSettings[opt_userid] = userData;
+      });
+
+      // save userSettings in the attributesJsonStr so it can be restored
+      var attr = jQuery('.AvailableWorkforceIndicatorAttr.attributesJsonStr');
+      var attributesJson = jQuery.parseJSON(attr.text());
+      attributesJson['userSettings'] = userSettings;
+      var attributesJsonStr = JSON.stringify(attributesJson);
+      attr.text(attributesJsonStr);
+      //console.log('attributesJsonStr=',attributesJsonStr);
+
+      form.find('input[name=attributesJsonStr]').val(attributesJsonStr);
+   }
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function availableWorkforceIndicatorJsDestroy() {
+      jQuery(".availableWorkforceIndicatorHelpDialog").dialog('destroy').remove();
+      //jQuery(".availableWorkforceIndicatorValuesDialog").dialog('destroy').remove();
+      jQuery(".availableWorkforceIndicatorOptionDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html)
+   // or when a new widget is added to the dashboard.
+   function availableWorkforceIndicatorJsInit() {
+
+      {if isset($availableWorkforceIndicator_jqplotData)}
+      // Set the date
+      var startDatePicker = jQuery(".availableWorkforce_startdatepicker").datepicker("setDate" ,"{$availableWorkforceIndicator_startDatepicker}");
+      var endDatePicker = jQuery(".availableWorkforce_enddatepicker").datepicker("setDate" ,"{$availableWorkforceIndicator_endDatepicker}");
+
+      // ------------------------
+      // on reload with new date range
+      jQuery('.availableWorkforce_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+         
+         // send attributesJsonStr because the ajax php need to know about 'userSettings'
+         availableWorkforceIndicator_updateForm();
+         
+         var form = jQuery('.availableWorkforceIndicator_dateRange_form');
+         form.find('input[name=action]').val("getAvailableWorkforceRangeValue");
+
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
+         jQuery.ajax({
+            async: false,
+            type: form.attr('method'),
+            url: form.attr('action'),
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+               jQuery(".availableWorkforce_rangevalue").text(jQuery.trim(data['availableWorkforceIndicator_rangeValue']));
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+      });
+
+      jQuery(".availableWorkforceIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".availableWorkforceIndicatorHelpDialog").dialog("open");
+      });
+      jQuery(".availableWorkforceIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
+      });
+      //jQuery(".availableWorkforceIndicatorValuesDialog_link").click(function() {
+      //   e.preventDefault();
+      //   jQuery(".availableWorkforceIndicatorValuesDialog").dialog("open");
+      //});
+      //jQuery(".availableWorkforceIndicatorValuesDialog").dialog({
+      //   autoOpen: false,
+      //   height: 'auto',
+      //   width: "auto",
+      //   hide: "fade"
+      //});
+      jQuery(".availableWorkforceIndicatorConfig_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".availableWorkforceIndicatorOptionDialog").dialog("open");
+      });
+      jQuery(".availableWorkforceIndicatorOptionDialog").dialog({
+         autoOpen: false,
+         height: 'auto',
+         width: "auto",
+         //hide: "fade",
+         modal: true,
+         buttons: {
+            Ok: function() {
+               // stop form from submitting normally 
+               //event.preventDefault();
+
+               // send attributesJsonStr because the ajax php need to know about 'userSettings'
+               availableWorkforceIndicator_updateForm();
+               
+               
+               // ajax call to update indicator
+               var form = jQuery('.availableWorkforceIndicator_dateRange_form');
+               form.find('input[name=action]').val("updateUserSettings");
+
+               // WARN: Dialogbox is declared in <body>, and there is no parents('.codevttDashboard') !!!
+               //var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+               var dashboardId = $('.codevttDashboard').attr('data-dashboardId');
+               form.find("input[name=dashboardId]").val(dashboardId);
+
+               jQuery.ajax({
+                  async: false,
+                  type: form.attr('method'),
+                  url: form.attr('action'),
+                  dataType:"json",
+                  data: form.serialize(),
+                  success: function(data) {
+                     jQuery(".availableWorkforce_rangevalue").text(jQuery.trim(data['availableWorkforceIndicator_rangeValue']));
+                     jQuery("#availableWorkforceIndicator_tabValues").html(jQuery.trim(data['availableWorkforceIndicator_htmlContent']));
+
+                     if (data['availableWorkforceIndicator_jqplotData']) {
+                        var chart = jQuery('.availableWorkforceIndicatorChart');
+                        var chartoptions = chart.data('plotoptions');
+                        chartoptions.axes.xaxis.min = data['availableWorkforceIndicator_jqplotMinDate'];
+                        chartoptions.axes.xaxis.max = data['availableWorkforceIndicator_jqplotMaxDate'];
+
+                        var jsonData = jQuery.parseJSON(data['availableWorkforceIndicator_jqplotData']);
+                        chart.empty();
+                        chart.jqplot(jsonData, chartoptions);
+                     }
+                     saveDashboard();
+
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                     if(errorThrown == 'Forbidden') {
+                        window.location = '{$page}';
+                     }
+                  }
+               });
+               jQuery(this).dialog( "close" );
+               
+            },
+            Cancel: function() {
+               // TODO restore previous values
+               jQuery(this).dialog( "close" );
+            }
+         }
+      });
+
+      var chart = jQuery('.availableWorkforceIndicatorChart');
+      var chartoptions = chart.data('plotoptions');
+
+      //chartoptions.title.text = "{t}Available workforce{/t}";
+      chartoptions.legend.location = 'se';
+      chartoptions.series[0].label = "{t}man-days{/t}";
+      chartoptions.axes.xaxis.min = "{$availableWorkforceIndicator_jqplotMinDate}";
+      chartoptions.axes.xaxis.max = "{$availableWorkforceIndicator_jqplotMaxDate}";
+      //chartoptions.axes.yaxis.min = 0;
+      chart.jqplot({$availableWorkforceIndicator_jqplotData}, chartoptions);
+      {/if}
+
+   };
+</script>
+</div>
+
