@@ -1,6 +1,0 @@
-Summary;Mgr EffortEstim;EffortEstim;Description;Deadline;Ext Ref.
-Task one;5;3,5;"Full description of the task.
-Please note that Description, Deadline & External referance are optional";2016-02-10;
-Task two;0;5;"This task is an internal task, it has not been sold, this is why MgrEffortEstim = 0. 
-But of course, the developper has 5 days to do  the task.";;
-Task three;3;3;;;

@@ -817,22 +817,6 @@ class Command extends Model {
       return $cerrList;
    }
 
-   // <editor-fold desc="WBS" defaultstate="collapsed">
-   //   public function getSubFolder($title) {
-   //      $query = "SELECT * FROM `codev_wbs_table` WHERE root_id = $this->wbsid AND title = '$title';";
-   //      $result = SqlWrapper::getInstance()->sql_query($query);
-   //      if (!$result) {
-   //         return null;
-   //      }
-   //      return SqlWrapper::getInstance()->sql_fetch_object($result);
-   //   }
-   //
-   //   public function createSubFolder($parentId, $order, $title) {
-   //      $parentId = is_null($parentId) ? $this->wbsid : $parentId;
-   //      return new WBSElement(null, $this->wbsid, null, $parentId, $order, $title);
-   //   }
-   // </editor-fold>
-
 }
 
 Command::staticInit();
