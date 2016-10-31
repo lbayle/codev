@@ -32,7 +32,7 @@ class Crypto {
      * @return type
      */
     public function generate_cookie_string() {
-        if (Tools::isMantisV1_3()) {
+        if (!Tools::isMantisV1_2()) {
             return $this->crypto_generate_uri_safe_nonce(64);
         } else {
             return $this->auth_generate_cookie_string();

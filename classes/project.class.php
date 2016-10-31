@@ -1134,7 +1134,7 @@ class Project extends Model {
          return NULL;
       }
 
-      if (Tools::isMantisV1_3()) {
+      if (!Tools::isMantisV1_2()) {
          $unserialized = json_decode( $serialized, true );
          if (NULL === $unserialized) {
             self::$logger->error("Config::status_enum_workflow json_decode error: ".json_last_error_msg());

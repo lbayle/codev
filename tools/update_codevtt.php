@@ -380,7 +380,7 @@ function update_v14_to_v15() {
    }
 
    // if Mantis 1.3, plugins must be updated
-   if (Tools::isMantisV1_3()) {
+   if (!Tools::isMantisV1_2()) {
          echo "- Remove 'CodevTT' from Mantis main menu (CodevTT v1.0.x is incompatible with Mantis v1.3.x)<br>";
          $query = "DELETE FROM `mantis_config_table` WHERE config_id = 'main_menu_custom_options'";
          $result = execQuery($query);
@@ -521,15 +521,24 @@ function installMantisPlugin($pluginName, $isReplace=true) {
 
       $mantisPluginDir = Constants::$mantisPath . DIRECTORY_SEPARATOR . 'plugins';
 
-   // --- check mantis version (config files have been moved in v1.3)
-   if (is_dir(Constants::$mantisPath.DIRECTORY_SEPARATOR.'config')) {
-      // mantis v1.3 or higher
-      $srcDir = Constants::$codevRootDir . DIRECTORY_SEPARATOR . 'mantis_plugin' . DIRECTORY_SEPARATOR . 'mantis_1_3' . DIRECTORY_SEPARATOR . $pluginName;
-   } else {
-      // mantis 1.2
-      $srcDir = Constants::$codevRootDir . DIRECTORY_SEPARATOR . 'mantis_plugin' . DIRECTORY_SEPARATOR . 'mantis_1_2' . DIRECTORY_SEPARATOR . $pluginName;
-   }
+      // load core/constant_inc.php and check for 'MANTIS_VERSION'
+      $mantisVersion = Tools::getMantisVersion(Constants::$mantisPath);
+      if (NULL != $mantisVersion) {
+         if (version_compare($mantisVersion, '1.2', 'ge') && version_compare($mantisVersion, '1.3', 'lt')) {
+            $mantis_plugin_version = 'mantis_1_2';
 
+         } else if (version_compare($mantisVersion, '1.3', 'ge') && version_compare($mantisVersion, '2.0', 'lt')) {
+            $mantis_plugin_version = 'mantis_1_3';
+
+         } else if (version_compare($mantisVersion, '2.0', 'ge')) {
+            $mantis_plugin_version = 'mantis_2_0';
+         } else {
+            return "ERROR unsupported mantis version : $mantisVersion";
+         }
+      } else {
+         return "ERROR could not guess mantis version !";
+      }
+      $srcDir = Constants::$codevRootDir . DIRECTORY_SEPARATOR . 'mantis_plugin' . DIRECTORY_SEPARATOR . $mantis_plugin_version . DIRECTORY_SEPARATOR . $pluginName;
       $destDir = $mantisPluginDir . DIRECTORY_SEPARATOR . $pluginName;
 
       if (!is_writable($mantisPluginDir)) {

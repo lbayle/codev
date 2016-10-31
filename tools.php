@@ -52,9 +52,9 @@ class Tools {
    }
 
    /**
-    * @return true if mantis v1.3.x (database_version >= 201)
+    * @return true if mantis v1.2.x (database_version < 201)
     */
-   public static function isMantisV1_3() {
+   public static function isMantisV1_2() {
 
       if (is_null(self::$MantisDbVersion)) {
          $query = "SELECT value FROM `mantis_config_table` WHERE `config_id` = 'database_version';";
@@ -68,9 +68,36 @@ class Tools {
          }
       }
       // 201 is v1.3.0-rc1
-      return (self::$MantisDbVersion >= 201);
+      return (self::$MantisDbVersion < 201);
    }
 
+   /**
+    * There are two ways to check for mantis version : DB schema version & config files
+    * I'd prefer to check for DB version, but v1.3 and v2.0 share same DB version.
+    *
+    * WARN: access to mantis installation directory must be granted !
+    *       this also implies that CodevTT & Mantis are on the same server...
+    *
+    * @param type $mantisPath mantis installation directory (Constants::$mantisPath)
+    * @return string '2.0.0-rc.1' (MANTIS_VERSION) or NULL if not found
+    */
+   public static function getMantisVersion($mantisPath) {
+      $path_constant_inc = $mantisPath.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.'constant_inc.php';
+
+      if (!file_exists($path_constant_inc)) {
+         self::$logger->error("getMantisVersion(): file not found: $path_constant_inc");
+         return NULL;
+      }
+      if (!is_readable($path_constant_inc)) {
+         self::$logger->error("getMantisVersion(): could not read: $path_constant_inc");
+         return NULL;
+      }
+      include_once($path_constant_inc);
+      $mantisVersion=MANTIS_VERSION;
+
+      self::$logger->error("getMantisVersion(): mantisVersion = '$mantisVersion'");
+      return $mantisVersion;
+   }
 
    /**
     * @static

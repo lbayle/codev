@@ -76,7 +76,7 @@ function removeCustomMenuItem($name) {
 
 // ========== MAIN ===========
 
-if (!Tools::isMantisV1_3()) {
+if (Tools::isMantisV1_2()) {
    echo "Remove 'CodevTT' from Mantis main menu<br>";
    removeCustomMenuItem('CodevTT');
 } else {
