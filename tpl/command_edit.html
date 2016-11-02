@@ -595,9 +595,13 @@
                <form method="post" action="{$ajaxPage}" enctype="multipart/form-data" id="formCmdEditUploadFile">
                   <input  id="fileInput" type="file" accept=".csv, text/csv, application/csv, text/comma-separated-values"/>
                   <button id="btImpotProvision" type="button"><img border="0" align="absmiddle" alt="Add icon" src="images/import.ico">{t}CSV Import{/t}</button>
+                  <span style="padding-left: 2em">{t}Import templates{/t}: </span>
+                  <span><a href="include/download.php?importTemplates&f=import_provisions_template.xls">XLS</a></span>
+
                </form>
             </div>
-            <div>
+            <hr>
+            <div style="margin-top: 1em;">
                <button id="btAddProvision" type="button" style="center"><img border="0" align="absmiddle" alt="Add icon" src="images/b_add.png"> {t}Add Provision{/t}</button>
                <button id="btSaveProvisions" disabled="disabled" type="button" class="floatr"><img  border="0" align="absmiddle" src="images/b_save.png" alt="Save icon"/> {t}Save{/t}</button>
             </div>
