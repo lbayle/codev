@@ -82,39 +82,39 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                if (1 == $row) {     // skip column names
                   continue;
                } else {
-                  $myDate = $data[0];
+                  $myDate = Tools::convertToUTF8($data[0]);
                   $date = DateTime::createFromFormat('Y-m-d', $myDate);
-                  $type = $data[1];
-                  $typeId = CommandProvision::getProvisionTypeidFromName($type);
-                  $myBudgetDays = $data[2];
-                  $myBudget = $data[3];
-                  $myAverageDailyRate = $data[4];
-                  $mySummary = $data[5];
+                  $provType = Tools::convertToUTF8($data[1]);
+                  $provTypeId = CommandProvision::getProvisionTypeidFromName($provType);
+                  $myBudgetDays = str_replace(",", ".", Tools::convertToUTF8($data[2])); // 3,5 => 3.5
+                  $myBudget = str_replace(",", ".", Tools::convertToUTF8($data[3]));
+                  $myAverageDailyRate = str_replace(",", ".", Tools::convertToUTF8($data[4]));
+                  $mySummary = Tools::convertToUTF8($data[5]);
                   if(FALSE === $date) {
-                     throw new Exception("Problème de date");
+                     throw new Exception("Could not parse date (Y-m-d) : ".$myDate);
                   }
                   
-                  if (false === $typeId){
-                     throw new Exception("Le type n'existe pas");
+                  if (false === $provTypeId){
+                     throw new Exception("Unknown provision type: ". $provType);
                   }
                   
                   if (!is_numeric($myBudgetDays) || $myBudgetDays < 0){
-                     throw new Exception("Le budget en jour n'est pas valide");
+                     throw new Exception("Invalid BudgetDays: ".$myBudgetDays);
                   }
                   
                   if (!is_numeric($myBudget) || $myBudget < 0){
-                     throw new Exception("Le budget n'est pas valide");
+                     throw new Exception("Invalid budget: ".$myBudget);
                   }
                   
                   if (!is_numeric($myAverageDailyRate) || $myAverageDailyRate < 0){
-                     throw new Exception("Le budget en jour n'est pas valide");
+                     throw new Exception("Invalid AverageDailyRate: ".$myAverageDailyRate);
                   }
                   
-                  $isMngtProv = ( $provMngtName === $type);
+                  $isMngtProv = ( $provMngtName === $provType);
                   $prov = array(
                       'date' => $myDate,
-                      'type' => $type,
-                      'type_id' =>  $typeId,
+                      'type' => $provType,
+                      'type_id' =>  $provTypeId,
                       'budget_days' => $myBudgetDays,
                       'budget' => $myBudget,
                       'average_daily_rate' => $myAverageDailyRate,
@@ -130,7 +130,6 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             'statusMsg' => 'SUCCESS',
             'provData' => $provData,
          );
-//         $logger->error($jsonData);
       } catch (Exception $e) {
          $jsonData =  array(
             'statusMsg' => 'ERROR could not upload file',
