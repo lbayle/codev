@@ -2434,7 +2434,7 @@ class Issue extends Model implements Comparable {
     */
    public function setDateSubmission($newSubmissionTimestampDate)
    {
-       $query = "UPDATE 'mantis_bug_table' SET submitted_date=$newSubmissionTimestampDate";
+       $query = "UPDATE `mantis_bug_table` SET date_submitted=$newSubmissionTimestampDate WHERE id=".$this->bugId;
        
        $result = SqlWrapper::getInstance()->sql_query($query);
         if (!$result) {
