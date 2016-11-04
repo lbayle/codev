@@ -21,192 +21,6 @@
    {/if}
 
    <div>
-      <script type="text/javascript" src="js_min/datepicker.min.js"></script>
-      <script type="text/javascript">
-
-         function getIssuesAndDurations(event) {
-
-            /* stop form from submitting normally */
-            event.preventDefault();
-
-            var bValid = true;
-            if (bValid) {
-               var projectid = jQuery("#projectid").val();
-               var formGetIssuesAndDurations = jQuery('#getIssuesAndDurationsForm');
-               formGetIssuesAndDurations.find("input[name=projectid]").val(projectid);
-
-               // ajax call may be slow, empty the task list first.
-               var bugidSelect = jQuery('#bugid');
-               bugidSelect.empty();
-               bugidSelect.select2('data', null);
-               bugidSelect.append(jQuery('<option>').attr('value', '0').append('{t}Please wait...{/t}').attr('selected', 'selected'));
-
-               jQuery.ajax({
-                  url: '{$ajaxPage}',
-                  type: formGetIssuesAndDurations.attr("method"),
-                  dataType:"json",
-                  data: formGetIssuesAndDurations.serialize(),
-                  success: function(data) {
-
-                     // fill job combobox values
-                     bugidSelect.empty();
-                     bugidSelect.select2('data', null);
-                     var availableIssues = data['availableIssues'];
-                     
-                     //var nbIssues = Object.keys(availableIssues).length; (IE not compatible with ecmascript5...)
-                     var nbIssues = 0;
-                     for(var k in availableIssues) {
-                        if (availableIssues.hasOwnProperty(k)) {
-                           nbIssues++;
-                        }
-                     }
-                     if (nbIssues > 1) {
-                        bugidSelect.append(jQuery('<option>').attr('value', '0').append('').attr('selected', 'selected'));
-                     }
-                     var summary = '';
-                     var issueInfo;
-                     for (var id in availableIssues) {
-
-                        if (availableIssues.hasOwnProperty(id)) {
-                           issueInfo = availableIssues[id];
-                           if ((null != issueInfo['tcId']) && ('' != issueInfo['tcId'])) {
-                              summary = id + ' / ' + issueInfo['tcId'] + ' : ' + issueInfo['summary'];
-                           } else {
-                              summary = id + ' : ' + issueInfo['summary'];
-                           }
-                           bugidSelect.append(
-                              jQuery('<option>').attr('value', id).append(summary)
-                           );
-                        }
-                     }
-                     // fill job combobox values
-                     var jobSelect = jQuery('#job');
-                     jobSelect.empty();
-                     var availableJobs = data['availableJobs'];
-                     //var nbJobs = Object.keys(availableJobs).length; (IE not compatible with ecmascript5...)
-                     var nbJobs = 0;
-                     for(var k in availableJobs) {
-                        if (availableJobs.hasOwnProperty(k)) {
-                           nbJobs++;
-                        }
-                     }
-                     
-                     if (nbJobs > 1) {
-                        jobSelect.append(jQuery('<option>').attr('value', '0').append('').attr('selected', 'selected'));
-                     }
-                     for (var id in availableJobs) {
-                        if (availableJobs.hasOwnProperty(id)) {
-                           jobSelect.append(
-                              jQuery('<option>').attr('value', id).append(availableJobs[id])
-                           );
-                        }
-                     }
-                     // fill duration combobox values
-                     jQuery('#duree').empty();
-                     var availableDurationList = data['availableDurations'];
-                     for (var id in availableDurationList) {
-                        if (availableDurationList.hasOwnProperty(id)) {
-                           jQuery('#duree').append(
-                              jQuery('<option>').attr('value', id).append(availableDurationList[id])
-                           );
-                        }
-                     }
-                  }
-               });
-            }
-         }
-
-         jQuery(document).ready(function() {
-
-            // Set the date
-            {if $locale != en}
-            jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
-            {/if}
-            jQuery("#datepicker").datepicker("setDate" ,"{$date}");
-
-            // on project change, taskList & jobList must be updated
-            jQuery("#projectid").change(function(event) {
-               // use ajax to update fields
-               getIssuesAndDurations(event);
-            });
-
-            jQuery("#filters").click(function(event) {
-               event.preventDefault();
-               jQuery("#setfilter_dialog_form" ).dialog( "open" );
-            });
-
-            jQuery("#bugid").change(function() {
-
-
-               // if projectId not set: do it, to update jobs
-               // TODO do not use form1, use Ajax
-               if ('0' === jQuery("#projectid").val()) {
-                  var form1 = jQuery("#form1");
-                  form1.find("input[name=action]").val("setBugId");
-
-                  // Keep value of Week form
-                  form1.find("input[name=weekid]").val(jQuery("#weekid").val());
-                  form1.find("input[name=year]").val(jQuery("#year").val());
-                  form1.submit();
-               }
-            });
-
-            jQuery("#btAddTrack").click(function() {
-               // check fields
-               var foundError = 0;
-               var msgString = "{t}Some fields are missing:{/t}\n\n";
-
-               var form1 = jQuery("#form1");
-               var bugid = form1.find("select[name=bugid]").val();
-               var jobid = form1.find("select[name=job]").val();
-               var trackDuration = form1.find("select[name=duree]").val();
-
-               //if (0 == document.forms["form1"].projectid.value) { msgString += "Projet\n"; ++foundError; }
-               if ('0' === bugid) {
-                  msgString += "{t}Task{/t}\n";
-                  ++foundError;
-               }
-               if ('0' === jobid) {
-                  msgString += "{t}Job{/t}\n";
-                  ++foundError;
-               }
-               if ('0' === trackDuration) {
-                  msgString += "{t}Duration{/t}\n";
-                  ++foundError;
-               }
-
-               if (0 === foundError) {
-                  var trackDate = jQuery("#datepicker").val(); // YYYY-mm-dd
-
-						// getUpdateBacklogData() uses Ajax (async). The deferred object is used to
-						// define the success/error callbacks to the ajax call.
-						// So the action on getUpdateBacklogData() will be treated asynchronously too.
-                  var deferred = getUpdateBacklogData(bugid, '{$userid}', jobid, trackDuration, trackDate);
-
-                  // set success callback
-                  deferred.done(function (updateBacklogJsonData) {
-
-	                  // if "BacklogUpdateNotNeeded" then submit form1, else raise UpdateBacklogDialogBox
-                     if ( 'BacklogUpdateNotNeeded' === updateBacklogJsonData['diagnostic'] ) {
-                        form1.find("input[name=action]").val("addTrack");
-                        form1.submit();
-                     } else {
-                        // by default formUpdateBacklog has a submit action to send data via ajax
-                        // so here, it must be deactivated to submit the form 'normaly'.
-                        jQuery("#formUpdateBacklog").off('submit');
-
-                        // open dialogbox and send data without Ajax
-								openUpdateBacklogDialogbox(updateBacklogJsonData);
-							}
-						});
-						// set error callback:
-						//deferred.fail(function (updateBacklogJsonData) { console.error('fail', updateBacklogJsonData);});
-               } else {
-                  alert(msgString);
-               }
-            });
-         });
-      </script>
       <form id="form1" name="form1" method="post" action="{$page}">
          <fieldset>
             <label for="datepicker">{t}From{/t}:</label>
@@ -264,32 +78,6 @@
          </fieldset>
       </form>
 
-
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-            jQuery("#setfilter_dialog_form" ).dialog({
-               autoOpen: false,
-               height: 'auto',
-               width: 500,
-               modal: true,
-               buttons: {
-                  Ok: function() {
-                     var form = jQuery("#formSetFilters");
-                     form.find("input[name=projectid]").val(jQuery("#projectid").val());
-                     form.find("input[name=bugid]").val(jQuery("#bugid").val());
-                     form.find("input[name=job]").val(jQuery("#job").val());
-                     form.find("input[name=duree]").val(jQuery("#duree").val());
-                     form.find("input[name=weekid]").val(jQuery("#weekid").val());
-                     form.find("input[name=year]").val(jQuery("#year").val());
-                     form.submit();
-                  },
-                  Cancel: function() {
-                     jQuery(this).dialog( "close" );
-                  }
-               }
-            });
-         });
-      </script>
       <div id="setfilter_dialog_form" title="{t}Task Filters{/t}" class="ui-helper-hidden">
          <p id="setfilter_desc">{t}Reduce the tasks selection by setting some filters{/t}</p>
          <form id="formSetFilters" name="formSetFilters" method="post" action="{$page}" >
@@ -323,48 +111,6 @@
 
    <div align="center" style="display: inline-block;">
       <div style="margin-top: 2em;">
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               var formUpdateWeek = jQuery("#formUpdateWeek");
-
-               function updateFormWeek() {
-                  formUpdateWeek.find("input[name=projectid]").val(jQuery("#projectid").val());
-                  formUpdateWeek.find("input[name=bugid]").val(jQuery("#bugid").val());
-                  formUpdateWeek.find("input[name=job]").val(jQuery("#job").val());
-                  formUpdateWeek.find("input[name=duree]").val(jQuery("#duree").val());
-               }
-
-               jQuery("#previousweek").click(function() {
-                  updateFormWeek();
-
-                  var weekid = jQuery("#weekid").val();
-                  if (1 != weekid) {
-                     formUpdateWeek.find("select[name=weekid]").val(--weekid);
-                  }
-                  formUpdateWeek.submit();
-               });
-
-               jQuery("#nextweek").click(function() {
-                  updateFormWeek();
-
-                  var weekid = jQuery("#weekid").val();
-                  if (weekid <= 52) {
-                     formUpdateWeek.find("select[name=weekid]").val(++weekid);
-                  } else {
-                     formUpdateWeek.find("select[name=weekid]").val(1);
-                     var year = jQuery("#year").val();
-                     formUpdateWeek.find("select[name=year]").val(++year);
-                  }
-                  formUpdateWeek.submit();
-               });
-
-               jQuery("#weekid, #year").change(function() {
-                  updateFormWeek();
-                  formUpdateWeek.submit();
-               });
-            });
-         </script>
-         
          <form id="formUpdateWeek" name="formUpdateWeek" method="post" action="{$page}">
             <fieldset>
                <label>{t}Week{/t}</label>
@@ -443,7 +189,6 @@
          <div style="margin-top: 2em;">
             {t}Future timetracks{/t}
          
-            <script type="text/javascript" src="js_min/datatable.min.js"></script>
             <table style="margin-top: 2em; width: 100%;">
                <thead>
                   <tr>
@@ -482,37 +227,6 @@
          </div>
          {/if}
          
-         <script type="text/javascript">
-            function deleteTrack(trackid, date, bugid, duration, job, description){
-               jQuery("#desc_date").text(date);
-               jQuery("#desc_id").text(bugid);
-               jQuery("#desc_duration").text(duration);
-               jQuery("#desc_job").text(job);
-               jQuery("#desc_summary").text(description);
-
-               jQuery("#formDeleteTrack").find("input[name=trackid]").val(trackid);
-
-               jQuery("#deleteTrack_dialog_form").dialog("open");
-            }
-
-            jQuery(document).ready(function() {
-               // delete track dialogBox
-               jQuery("#deleteTrack_dialog_form").dialog({
-                  autoOpen: false,
-                  resizable: true,
-                  width: "auto",
-                  modal: true,
-                  buttons: {
-                     "Delete": function() {
-                        jQuery("#formDeleteTrack").submit();
-                     },
-                     Cancel: function() {
-                        jQuery(this).dialog("close");
-                     }
-                  }
-               });
-            });
-         </script>
          <div id="deleteTrack_dialog_form" title="{t}Delete track{/t}" class="ui-helper-hidden">
             <p class="ui-state-error-text"><span class="ui-icon float" style="margin:0 7px 20px 0;"></span>{t}Deleted the following timetrack ?{/t}</p>
             <table class="invisible">
@@ -587,13 +301,24 @@
    
    <script type="text/javascript">
       // this is to transmit SMARTY variables to time_tracking.js
-      var timetrackingPageCommonData = {
+      var timetrackingSmartyData = {
          userid:"{$userid}", // (managedUserid)
          weekid:"{$weekid}",
          year:"{$year}",
-         ajaxPage:"{$ajaxPage}"
+         ajaxPage:"{$ajaxPage}",
+         datepickerLocale:"{$locale}",
+         datepickerDate:"{$date}",
+         // i18n
+         i18n_Cancel:"{t}Cancel{/t}",
+         i18n_pleaseWait:"{t}Please wait...{/t}",
+         i18n_someFieldsAreMissing:"{t}Some fields are missing:{/t}",
+         i18n_task:"{t}Task{/t}",
+         i18n_job:"{t}Job{/t}",
+         i18n_duration:"{t}Duration{/t}",
       };
    </script>
+   <script type="text/javascript" src="js_min/datepicker.min.js"></script>
+   <script type="text/javascript" src="js_min/datatable.min.js"></script>
    <script src="js/time_tracking.js"></script>
 
    {/if}

@@ -14,9 +14,285 @@
    You should have received a copy of the GNU General Public License
    along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+function getIssuesAndDurations(event) {
+
+   /* stop form from submitting normally */
+   event.preventDefault();
+
+   var bValid = true;
+   if (bValid) {
+      var projectid = jQuery("#projectid").val();
+      var formGetIssuesAndDurations = jQuery('#getIssuesAndDurationsForm');
+      formGetIssuesAndDurations.find("input[name=projectid]").val(projectid);
+
+      // ajax call may be slow, empty the task list first.
+      var bugidSelect = jQuery('#bugid');
+      bugidSelect.empty();
+      bugidSelect.select2('data', null);
+      bugidSelect.append(jQuery('<option>').attr('value', '0').append(timetrackingSmartyData.i18n_pleaseWait).attr('selected', 'selected'));
+
+      jQuery.ajax({
+         url: timetrackingSmartyData.ajaxPage,
+         type: formGetIssuesAndDurations.attr("method"),
+         dataType:"json",
+         data: formGetIssuesAndDurations.serialize(),
+         success: function(data) {
+
+            // fill job combobox values
+            bugidSelect.empty();
+            bugidSelect.select2('data', null);
+            var availableIssues = data['availableIssues'];
+
+            //var nbIssues = Object.keys(availableIssues).length; (IE not compatible with ecmascript5...)
+            var nbIssues = 0;
+            for(var k in availableIssues) {
+               if (availableIssues.hasOwnProperty(k)) {
+                  nbIssues++;
+               }
+            }
+            if (nbIssues > 1) {
+               bugidSelect.append(jQuery('<option>').attr('value', '0').append('').attr('selected', 'selected'));
+            }
+            var summary = '';
+            var issueInfo;
+            for (var id in availableIssues) {
+
+               if (availableIssues.hasOwnProperty(id)) {
+                  issueInfo = availableIssues[id];
+                  if ((null != issueInfo['tcId']) && ('' != issueInfo['tcId'])) {
+                     summary = id + ' / ' + issueInfo['tcId'] + ' : ' + issueInfo['summary'];
+                  } else {
+                     summary = id + ' : ' + issueInfo['summary'];
+                  }
+                  bugidSelect.append(
+                     jQuery('<option>').attr('value', id).append(summary)
+                  );
+               }
+            }
+            // fill job combobox values
+            var jobSelect = jQuery('#job');
+            jobSelect.empty();
+            var availableJobs = data['availableJobs'];
+            //var nbJobs = Object.keys(availableJobs).length; (IE not compatible with ecmascript5...)
+            var nbJobs = 0;
+            for(var k in availableJobs) {
+               if (availableJobs.hasOwnProperty(k)) {
+                  nbJobs++;
+               }
+            }
+
+            if (nbJobs > 1) {
+               jobSelect.append(jQuery('<option>').attr('value', '0').append('').attr('selected', 'selected'));
+            }
+            for (var id in availableJobs) {
+               if (availableJobs.hasOwnProperty(id)) {
+                  jobSelect.append(
+                     jQuery('<option>').attr('value', id).append(availableJobs[id])
+                  );
+               }
+            }
+            // fill duration combobox values
+            jQuery('#duree').empty();
+            var availableDurationList = data['availableDurations'];
+            for (var id in availableDurationList) {
+               if (availableDurationList.hasOwnProperty(id)) {
+                  jQuery('#duree').append(
+                     jQuery('<option>').attr('value', id).append(availableDurationList[id])
+                  );
+               }
+            }
+         }
+      });
+   }
+}
+
+// ============================================
+function deleteTrack(trackid, date, bugid, duration, job, description){
+   jQuery("#desc_date").text(date);
+   jQuery("#desc_id").text(bugid);
+   jQuery("#desc_duration").text(duration);
+   jQuery("#desc_job").text(job);
+   jQuery("#desc_summary").text(description);
+
+   jQuery("#formDeleteTrack").find("input[name=trackid]").val(trackid);
+
+   jQuery("#deleteTrack_dialog_form").dialog("open");
+}
+
+// ================== DOCUMENT READY ====================
 jQuery(document).ready(function() {
 
-   //========================================================
+         // Set the date
+   if (timetrackingSmartyData.datepickerLocale != 'en') {
+      jQuery.datepicker.setDefaults($.datepicker.regional[timetrackingSmartyData.datepickerLocale]);
+   }
+
+   jQuery("#datepicker").datepicker("setDate" ,timetrackingSmartyData.datepickerDate);
+
+   // on project change, taskList & jobList must be updated
+   jQuery("#projectid").change(function(event) {
+      // use ajax to update fields
+      getIssuesAndDurations(event);
+   });
+
+   jQuery("#filters").click(function(event) {
+      event.preventDefault();
+      jQuery("#setfilter_dialog_form" ).dialog( "open" );
+   });
+
+   jQuery("#bugid").change(function() {
+
+
+      // if projectId not set: do it, to update jobs
+      // TODO do not use form1, use Ajax
+      if ('0' === jQuery("#projectid").val()) {
+         var form1 = jQuery("#form1");
+         form1.find("input[name=action]").val("setBugId");
+
+         // Keep value of Week form
+         form1.find("input[name=weekid]").val(jQuery("#weekid").val());
+         form1.find("input[name=year]").val(jQuery("#year").val());
+         form1.submit();
+      }
+   });
+
+   jQuery("#btAddTrack").click(function() {
+      // check fields
+      var foundError = 0;
+      var msgString = timetrackingSmartyData.i18n_someFieldsAreMissing + "\n\n";
+
+      var form1 = jQuery("#form1");
+      var bugid = form1.find("select[name=bugid]").val();
+      var jobid = form1.find("select[name=job]").val();
+      var trackDuration = form1.find("select[name=duree]").val();
+
+      //if (0 == document.forms["form1"].projectid.value) { msgString += "Projet\n"; ++foundError; }
+      if ('0' === bugid) {
+         msgString += timetrackingSmartyData.i18n_task + "\n";
+         ++foundError;
+      }
+      if ('0' === jobid) {
+         msgString += timetrackingSmartyData.i18n_job + "\n";
+         ++foundError;
+      }
+      if ('0' === trackDuration) {
+         msgString += timetrackingSmartyData.i18n_duration + "\n";
+         ++foundError;
+      }
+
+      if (0 === foundError) {
+         var trackDate = jQuery("#datepicker").val(); // YYYY-mm-dd
+
+         // getUpdateBacklogData() uses Ajax (async). The deferred object is used to
+         // define the success/error callbacks to the ajax call.
+         // So the action on getUpdateBacklogData() will be treated asynchronously too.
+         var deferred = getUpdateBacklogData(bugid, timetrackingSmartyData.userid, jobid, trackDuration, trackDate);
+
+         // set success callback
+         deferred.done(function (updateBacklogJsonData) {
+
+            // if "BacklogUpdateNotNeeded" then submit form1, else raise UpdateBacklogDialogBox
+            if ( 'BacklogUpdateNotNeeded' === updateBacklogJsonData['diagnostic'] ) {
+               form1.find("input[name=action]").val("addTrack");
+               form1.submit();
+            } else {
+               // by default formUpdateBacklog has a submit action to send data via ajax
+               // so here, it must be deactivated to submit the form 'normaly'.
+               jQuery("#formUpdateBacklog").off('submit');
+
+               // open dialogbox and send data without Ajax
+               openUpdateBacklogDialogbox(updateBacklogJsonData);
+            }
+         });
+         // set error callback:
+         //deferred.fail(function (updateBacklogJsonData) { console.error('fail', updateBacklogJsonData);});
+      } else {
+         alert(msgString);
+      }
+   });
+
+   //----------------------------------------------------------
+   jQuery("#setfilter_dialog_form" ).dialog({
+      autoOpen: false,
+      height: 'auto',
+      width: 500,
+      modal: true,
+      buttons: {
+         Ok: function() {
+            var form = jQuery("#formSetFilters");
+            form.find("input[name=projectid]").val(jQuery("#projectid").val());
+            form.find("input[name=bugid]").val(jQuery("#bugid").val());
+            form.find("input[name=job]").val(jQuery("#job").val());
+            form.find("input[name=duree]").val(jQuery("#duree").val());
+            form.find("input[name=weekid]").val(jQuery("#weekid").val());
+            form.find("input[name=year]").val(jQuery("#year").val());
+            form.submit();
+         },
+         Cancel: function() {
+            jQuery(this).dialog( "close" );
+         }
+      }
+   });
+
+
+   //----------------------------------------------------------
+   var formUpdateWeek = jQuery("#formUpdateWeek");
+
+   function updateFormWeek() {
+      formUpdateWeek.find("input[name=projectid]").val(jQuery("#projectid").val());
+      formUpdateWeek.find("input[name=bugid]").val(jQuery("#bugid").val());
+      formUpdateWeek.find("input[name=job]").val(jQuery("#job").val());
+      formUpdateWeek.find("input[name=duree]").val(jQuery("#duree").val());
+   }
+
+   jQuery("#previousweek").click(function() {
+      updateFormWeek();
+
+      var weekid = jQuery("#weekid").val();
+      if (1 != weekid) {
+         formUpdateWeek.find("select[name=weekid]").val(--weekid);
+      }
+      formUpdateWeek.submit();
+   });
+
+   jQuery("#nextweek").click(function() {
+      updateFormWeek();
+
+      var weekid = jQuery("#weekid").val();
+      if (weekid <= 52) {
+         formUpdateWeek.find("select[name=weekid]").val(++weekid);
+      } else {
+         formUpdateWeek.find("select[name=weekid]").val(1);
+         var year = jQuery("#year").val();
+         formUpdateWeek.find("select[name=year]").val(++year);
+      }
+      formUpdateWeek.submit();
+   });
+
+   jQuery("#weekid, #year").change(function() {
+      updateFormWeek();
+      formUpdateWeek.submit();
+   });
+
+   //----------------------------------------------------------
+   // delete track dialogBox
+   jQuery("#deleteTrack_dialog_form").dialog({
+      autoOpen: false,
+      resizable: true,
+      width: "auto",
+      modal: true,
+      buttons: {
+         "Delete": function() {
+            jQuery("#formDeleteTrack").submit();
+         },
+         Cancel: function() {
+            jQuery(this).dialog("close");
+         }
+      }
+   });
+
+   //----------------------------------------------------------
    jQuery(".editWeekTimetrack_link").click(function(e) {
       e.preventDefault();
 
@@ -26,7 +302,7 @@ jQuery(document).ready(function() {
       // get timetrack data
       jQuery.ajax({
          type: "POST",
-         url:  timetrackingPageCommonData.ajaxPage, // "timetracking/time_tracking_ajax.php", // {$ajaxPage}",
+         url:  timetrackingSmartyData.ajaxPage, // "timetracking/time_tracking_ajax.php",
          data: { action: 'getEditTimetrackData',
                  timetrackId: timetrackId
          },
@@ -88,7 +364,7 @@ jQuery(document).ready(function() {
                         var timetrackId = $("#timetrackId").val();
 
                         $.ajax({
-                           url: timetrackingPageCommonData.ajaxPage,
+                           url: timetrackingSmartyData.ajaxPage,
                            type: "POST",
                            dataType:"json",
                            data: {
@@ -98,9 +374,9 @@ jQuery(document).ready(function() {
                               date: date,
                               duration: duration,
                               jobid: jobid,
-                              userid:timetrackingPageCommonData.userid,
-                              weekid:timetrackingPageCommonData.weekid,
-                              year:timetrackingPageCommonData.year
+                              userid:timetrackingSmartyData.userid,
+                              weekid:timetrackingSmartyData.weekid,
+                              year:timetrackingSmartyData.year
                            },
                            success: function(data) {
                               if ('SUCCESS' === data.statusMsg) {
