@@ -4,13 +4,15 @@
 # npm install uglify-js
 # ll ~/node_modules/uglify-js/bin/
 
-
+DIR_CODEVTT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 DIR_CURRENT=$(pwd)
 
-BIN_UGLIFYJS=~/node_modules/uglify-js/bin/uglifyjs
+#BIN_UGLIFYJS=~/node_modules/uglify-js/bin/uglifyjs
+#BIN_UGLIFYJS=/usr/bin/uglifyjs
+BIN_UGLIFYJS=uglifyjs
 
-DIR_JS_FILES=/var/www/html/codevtt/js
-DIR_MIN_JS_FILES=/var/www/html/codevtt/js_min
+DIR_JS_FILES=${DIR_CODEVTT}/js
+DIR_MIN_JS_FILES=${DIR_CODEVTT}/js_min
 
 
 #### MAIN ######################################
