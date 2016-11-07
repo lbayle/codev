@@ -67,6 +67,6 @@ class ImportDashboardController extends Controller {
 }
 
 ImportDashboardController::staticInit();
-$controller = new ImportDashboardController('../', 'Import Dashboard','ImportExport');
+$controller = new ImportDashboardController('../', 'Import / Export','ImportExport');
 $controller->execute();
 

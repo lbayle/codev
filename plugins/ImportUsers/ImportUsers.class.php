@@ -61,11 +61,11 @@ class ImportUsers extends IndicatorPluginAbstract {
     }
 
     public static function getName() {
-        return 'Import users';
+        return T_('Import users');
     }
 
     public static function getDesc($isShortDesc = true) {
-        return 'Import a list of users to MantisBT / CodevTT';
+        return T_('Import a list of users to MantisBT / CodevTT');
     }
 
     public static function getAuthor() {
