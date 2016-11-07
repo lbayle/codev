@@ -164,7 +164,7 @@ class TimetrackDetailsIndicator extends IndicatorPluginAbstract {
       $timetracks = array();
       if (0 != $this->displayedTeam) {
          
-         $members = TeamCache::getInstance()->getTeam($this->displayedTeam)->getActiveMembers();
+         $members = TeamCache::getInstance()->getTeam($this->displayedTeam)->getMembers();
 
          if (!empty($members)) {
             $memberIdList = array_keys($members);
