@@ -65,7 +65,12 @@ class ImportUsers extends IndicatorPluginAbstract {
     }
 
     public static function getDesc($isShortDesc = true) {
-        return T_('Import a list of users to MantisBT / CodevTT');
+       $desc = T_('Import a list of users to MantisBT / CodevTT');
+       if (!$isShortDesc) {
+         $desc .= '<br><br>';
+         $desc .= T_('Note: only available for administrators & team leaders');
+       }
+       return $desc;
     }
 
     public static function getAuthor() {
