@@ -1306,12 +1306,13 @@ class Tools {
    public static function usingBrowserIE()
    {
        $u_agent = $_SERVER['HTTP_USER_AGENT'];
-       $ub = FALSE;
-       if(preg_match('/MSIE/i',$u_agent))
+       $isIE = FALSE;
+       if ((strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE) ||
+           (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== FALSE)) //For Supporting IE 11
        {
-           $ub = TRUE;
+           $isIE = TRUE;
        }
-       return $ub;
+       return $isIE;
    }
 
    /**
