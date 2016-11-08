@@ -111,7 +111,7 @@ if (file_exists(Constants::$config_file)) {
       echo '<tr><td valign="top">'.T_($title).'</td><td>'.$test_result.'</td></tr>';
    }
 
-   $test_result = "Please ensure that user '<b>".exec('whoami')."</b>' has write access to your <b>mantis</b> directory";
+   $test_result = "(Manual check) Please ensure that user '<b>".exec('whoami')."</b>' has write access to your <b>mantis</b> directory";
    echo '<tr><td valign="top">Write access to MantisBT directory</td><td><span class="success_font">'.$test_result.'</span></td></tr>';
    echo "</table>\n";
 

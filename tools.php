@@ -1347,6 +1347,11 @@ class Tools {
            $bname = 'Internet Explorer';
            $ub = "MSIE";
        }
+       elseif(preg_match('/Trident/i',$u_agent) && !preg_match('/Opera/i',$u_agent))
+       {
+           $bname = 'Internet Explorer';
+           $ub = "MSIE"; // IE 11
+       }
        elseif(preg_match('/Firefox/i',$u_agent))
        {
            $bname = 'Mozilla Firefox';

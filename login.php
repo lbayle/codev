@@ -67,7 +67,23 @@ function login($user, $password) {
             if (NULL != $locale) { $_SESSION['locale'] = $locale; }
 
             $teamid = $user->getDefaultTeam();
-            if (0 != $teamid) { $_SESSION['teamid'] = $teamid; }
+            if (0 != $teamid) {
+               $_SESSION['teamid'] = $teamid;
+               
+            } else {
+               // no default team (user's first connection): 
+               // find out if user is already affected to a team and set as default team
+               $query = "SELECT team_id FROM `codev_team_user_table` WHERE user_id = '".$user->getId().
+                       "' ORDER BY arrival_date DESC LIMIT 1;";
+               $result = SqlWrapper::getInstance()->sql_query($query);
+               if ($result && 1 == SqlWrapper::getInstance()->sql_num_rows($result)) {
+                  $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+                  $teamid = $row->team_id;
+                  $user->setDefaultTeam($teamid);
+                  $_SESSION['teamid'] = $teamid;
+               }
+
+            }
             
             $projid = $user->getDefaultProject();
             if (0 != $projid) { $_SESSION['projectid'] = $projid; }
