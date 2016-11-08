@@ -102,7 +102,7 @@ class ServiceContractEditController extends Controller {
 
                   if (0 == $commandsetid) {
                      #$_SESSION['commandsetid'] = 0;
-                     header('Location:command_edit.php?commandsetid=0');
+                     header('Location:commandset_edit.php?commandsetid=0');
                   } else {
                      $contract->addCommandSet($commandsetid, CommandSet::type_general);
                   }
