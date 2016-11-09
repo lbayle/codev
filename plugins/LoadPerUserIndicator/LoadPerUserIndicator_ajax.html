@@ -9,9 +9,11 @@
             {if isset($loadPerUserIndicator_tableData.totalActivity.sidetask)}
             <th>{t}Waste{/t}</th>
             {/if}
+            {if $loadPerUserIndicator_showAllActivity}
             <th>{t}Other{/t}</th>
             <th>{t}External{/t}</th>
             <th>{t}Inactivity{/t}</th>
+            {/if}
          </tr>
       </thead>
       <tbody>
@@ -22,9 +24,11 @@
             {if isset($loadPerUserIndicator_tableData.totalActivity.sidetask)}
             <td>{$activityList.sidetask}</td>
             {/if}
+            {if $loadPerUserIndicator_showAllActivity}
             <td>{if isset($activityList.other)}{$activityList.other}{/if}</td>
             <td>{if isset($activityList.external)}{$activityList.external}{/if}</td>
             <td>{if isset($activityList.leave)}{$activityList.leave}{/if}</td>
+            {/if}
          </tr>
          {/foreach}
       </tbody>
@@ -35,9 +39,11 @@
             {if isset($loadPerUserIndicator_tableData.totalActivity.sidetask)}
             <td>{$loadPerUserIndicator_tableData.totalActivity.sidetask}</td>
             {/if}
+            {if $loadPerUserIndicator_showAllActivity}
             <td>{$loadPerUserIndicator_tableData.totalActivity.other}</td>
             <td>{$loadPerUserIndicator_tableData.totalActivity.external}</td>
             <td>{$loadPerUserIndicator_tableData.totalActivity.leave}</td>
+            {/if}
          </tr>
       </tfoot>
    </table>

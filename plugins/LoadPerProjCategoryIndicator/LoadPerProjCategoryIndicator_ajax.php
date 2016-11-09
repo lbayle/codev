@@ -50,7 +50,9 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       $attributesArray = json_decode(stripslashes($attributesJsonStr), true);
 
       $selectedProject = $attributesArray['projectid'];
-      $isDisplayTasks  = $attributesArray['isDisplayTasks'];
+
+      $isDisplayTasks = ('on' !== $attributesArray[LoadPerProjCategoryIndicator::OPTION_DISPLAY_TASKS]) ? false : true;
+      $logger->error("isDisplayTasks = ".var_export($isDisplayTasks, true).' attr '.$attributesArray[LoadPerProjCategoryIndicator::OPTION_DISPLAY_TASKS]);
 
       // update dataProvider
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);

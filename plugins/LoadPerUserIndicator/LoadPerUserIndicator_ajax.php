@@ -49,8 +49,12 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
 
       $attributesJsonStr = Tools::getSecureGETStringValue('attributesJsonStr');
       $attributesArray = json_decode(stripslashes($attributesJsonStr), true);
-      $showSidetasks = ('on' != $attributesArray[LoadPerUserIndicator::OPTION_SHOW_SIDETASKS]) ? false : true;
+
+      $showSidetasks = ('on' !== $attributesArray[LoadPerUserIndicator::OPTION_SHOW_SIDETASKS]) ? false : true;
       //$logger->error("showSidetasks = ".var_export($showSidetasks, true).' attr '.$attributesArray[LoadPerUserIndicator::OPTION_SHOW_SIDETASKS]);
+
+      $showAllActivity = ('on' !== $attributesArray[LoadPerUserIndicator::OPTION_SHOW_ALL_ACTIVITY]) ? false : true;
+      //$logger->error("showAllActivity = ".var_export($showAllActivity, true).' attr '.$attributesArray[LoadPerUserIndicator::OPTION_SHOW_ALL_ACTIVITY]);
 
       // update dataProvider
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
@@ -61,6 +65,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       // override plugin settings with current attributes
       $indicator->setPluginSettings(array(
           LoadPerUserIndicator::OPTION_SHOW_SIDETASKS => $showSidetasks,
+          LoadPerUserIndicator::OPTION_SHOW_ALL_ACTIVITY => $showAllActivity,
       ));
 
       $indicator->execute();

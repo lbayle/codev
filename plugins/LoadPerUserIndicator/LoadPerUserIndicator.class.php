@@ -27,6 +27,10 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
    // if true, sidetasks (found in IssueSel) will be displayed as 'sidetask'
    const OPTION_SHOW_SIDETASKS = 'showSidetasks';
    const OPTION_DATE_RANGE    = 'dateRange';
+
+   // if false, display only the elapsed time on the IssueSel
+   // if true, display elapsed user's complete activity (other, external, inactivity)
+   const OPTION_SHOW_ALL_ACTIVITY = 'showAllActivity';
    
    
    /**
@@ -44,6 +48,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
    // config options from Dashboard
    private $showSidetasks;
    private $dateRange;  // defaultRange | currentWeek | currentMonth
+   private $showAllActivity; // boolean
    
    // internal
    protected $execData;
@@ -142,6 +147,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
       // if true, sidetasks (found in IssueSel) will be displayed as 'sidetask'
       $this->showSidetasks = false;
       $this->dateRange = 'defaultRange';
+      $this->showAllActivity = false;
 
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("checkParams() ISel=".$this->inputIssueSel->name.' startTimestamp='.$this->startTimestamp.' endTimestamp='.$this->endTimestamp);
@@ -158,6 +164,9 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          // override default with user preferences
          if (array_key_exists(self::OPTION_SHOW_SIDETASKS, $pluginSettings)) {
             $this->showSidetasks = $pluginSettings[self::OPTION_SHOW_SIDETASKS];
+         }
+         if (array_key_exists(self::OPTION_SHOW_ALL_ACTIVITY, $pluginSettings)) {
+            $this->showAllActivity = $pluginSettings[self::OPTION_SHOW_ALL_ACTIVITY];
          }
          if (array_key_exists(self::OPTION_DATE_RANGE, $pluginSettings)) {
             $this->dateRange = $pluginSettings[self::OPTION_DATE_RANGE];
@@ -207,9 +216,13 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
         $query = "SELECT * FROM `codev_timetracking_table` ".
                  "WHERE userid IN (".$formatedUseridString.") ";
 
+        if (false == $this->showAllActivity) {
+           $formatedBugidString = implode( ', ', $bugidList);
+           $query .= "AND bugid IN (".$formatedBugidString.") ";
+        }
+
         if (isset($this->startTimestamp)) { $query .= "AND date >= $this->startTimestamp "; }
         if (isset($this->endTimestamp))   { $query .= "AND date <= $this->endTimestamp "; }
-        $query .= " ORDER BY bugid";
 
         $result = SqlWrapper::getInstance()->sql_query($query);
         if (!$result) {
@@ -388,6 +401,8 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          'loadPerUserIndicator_jqplotSeriesColors' => $seriesColors, // TODO get rid of this
          'loadPerUserIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
          'loadPerUserIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
+         'loadPerUserIndicator_showSidetasks' =>  $this->showSidetasks,
+         'loadPerUserIndicator_showAllActivity' =>  $this->showAllActivity
       );
       
       if (false == $isAjaxCall) {
