@@ -216,7 +216,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
         $query = "SELECT * FROM `codev_timetracking_table` ".
                  "WHERE userid IN (".$formatedUseridString.") ";
 
-        if (false == $this->showAllActivity) {
+        if ((false == $this->showAllActivity) && (0 < count($bugidList))) {
            $formatedBugidString = implode( ', ', $bugidList);
            $query .= "AND bugid IN (".$formatedBugidString.") ";
         }
