@@ -22,12 +22,10 @@ require('../path.inc.php');
 
 class CommandInfoController extends Controller {
 
-   /**
-    * Initialize complex static variables
-    * @static
-    */
+   private static $logger;
+
    public static function staticInit() {
-      // Nothing special
+      self::$logger = Logger::getLogger(__CLASS__);
    }
 
    protected function display() {
@@ -153,6 +151,24 @@ class CommandInfoController extends Controller {
                   // Dashboard
                   CommandTools::dashboardSettings($this->smartyHelper, $cmd, $this->session_userid);
 
+                  // Gantt
+                  // TODO move this section to the ajax page
+                  $ganttWindowStartTimestamp = time();
+                  $cmdIssueList = $cmd->getIssueSelection()->getIssueList();
+                  foreach ($cmdIssueList as $issue) {
+                     // unassigned tasks are not displayed in gantt
+                     // unresolved tasks have a starting date >= today (scheduler/gantt default)
+                     // tasks with no timetracks are not displayed in gantt
+                     if ((0 != $issue->getHandlerId()) && $issue->isResolved()) {
+                        $tt = $issue->getFirstTimetrack();
+                        if ((NULL != $tt) && ($tt->getDate() < $ganttWindowStartTimestamp)) {
+                           $ganttWindowStartTimestamp = $tt->getDate();
+                           $mybugid = $issue->getId();
+                        }
+                     }
+                  }
+                  self::$logger->error("ganttWindowStartDate $mybugid = ".date('Y-m-d', $ganttWindowStartTimestamp));
+                  $this->smartyHelper->assign('ganttWindowStartDate',  date('Y-m-d', $ganttWindowStartTimestamp));
 
                }
             } else {
@@ -247,4 +263,3 @@ CommandInfoController::staticInit();
 $controller = new CommandInfoController('../', 'Command','Management');
 $controller->execute();
 
-?>

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# on CentOS 7, install epel repo, then:
+# yum install uglify-js
+
+# or:
 # sudo yum install nodejs npm
 # npm install uglify-js
 # ll ~/node_modules/uglify-js/bin/

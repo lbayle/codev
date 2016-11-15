@@ -26,7 +26,7 @@ $ganttAjaxLogger = Logger::getLogger("gantt_ajax");
 
 if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
-   $action = Tools::getSecurePOSTStringValue('action', 'none');
+   $action = filter_input(INPUT_POST, 'action');
 
    switch ($action) {
       case 'getGanttTasks':
