@@ -18,6 +18,7 @@ CheckArgs ()
    doNew="No"
    doCompile="No"
    doTemplate="Yes"
+   doAllLocales="Yes"
 
    while [ "x" != "x$*" ]
    do
@@ -26,14 +27,11 @@ CheckArgs ()
          --locale | -l )
             shift
             LOCALE="$1"
+            doAllLocales="No"
             ;;
 
          --compile | -c )
             doCompile="Yes"
-            ;;
-
-         --template | -t )
-            doTemplate="Yes"
             ;;
 
          --help | -h )
@@ -72,7 +70,7 @@ f_genFileList ()
   echo "" > $FILE_LIST # clear
 
   # Generate smarty i18n template
-  php ./i18n/tsmarty2c.php > i18n/locale/smarty.c
+  php ${DIR_CODEVTT}/i18n/tsmarty2c.php > ${DIR_CODEVTT}/i18n/locale/smarty.c
   echo "i18n/locale/smarty.c" >> $FILE_LIST
 
   #for i in $dirList
@@ -151,8 +149,30 @@ f_createTemplateFile ()
 
 f_compileTemplateFile ()
 {
-   echo "  - compile to ${FILE_MO}"
+   #echo "  - compile to ${FILE_PO}"
    msgfmt --statistics -o ${FILE_MO} ${FILE_PO}
+}
+
+# do the work for a locale
+# $LOCALE must be set
+function f_exec {
+
+  DIR_LOCALE="${DIR_CODEVTT}/i18n/locale/${LOCALE}/LC_MESSAGES"
+  mkdir -p "$DIR_LOCALE"
+
+  FILE_PO="${DIR_LOCALE}/${PRJ_NAME}.po"
+  FILE_MO="${DIR_LOCALE}/${PRJ_NAME}.mo"
+
+  if [ "Yes" == "$doTemplate" ]; then
+    f_createTemplateFile
+    #echo "READY."
+  fi
+
+  if [ "Yes" == "$doCompile" ]
+  then
+    f_compileTemplateFile
+    #echo "  - Locale file generated: $FILE_MO"
+  fi
 }
 
 # ###############################
@@ -162,34 +182,32 @@ f_compileTemplateFile ()
 # get the name of the HOST if exists in command line argument
 CheckArgs $@
 
-#DIR_LIST="admin classes reports timetracking tools $(ls *.php)"
-DIR_LOCALE="${DIR_CODEVTT}/i18n/locale/${LOCALE}/LC_MESSAGES"
-mkdir -p "$DIR_LOCALE"
-
-FILE_PO="${DIR_LOCALE}/${PRJ_NAME}.po"
-FILE_MO="${DIR_LOCALE}/${PRJ_NAME}.mo"
-
 cd ${DIR_CODEVTT}
-
 f_genFileList $DIR_LIST
 
-
-if [ "Yes" == "$doTemplate" ]
-then
-  f_createTemplateFile
-  #echo "READY."
-fi
-
-if [ "Yes" == "$doCompile" ]
-then
-  f_compileTemplateFile
-  rm ${DIR_CODEVTT}/i18n/locale/smarty.c
-  #echo "DONE."
-  echo " "  
-  echo "  - Locale file generated: $FILE_MO"
+# if locale is not defined, compute all locales
+if [ "No" == "${doAllLocales}" ] ; then
+  echo "DEBUG: only ${LOCALE}"
+  f_exec
 else
-  echo " "  
-  echo "  - Now edit $FILE_PO and run script again with option --compile"
+  # for each locale
+  DIR_ALL_LOCALES=${DIR_CODEVTT}/i18n/locale
+  for myDir in $(find ${DIR_ALL_LOCALES} -mindepth 1 -maxdepth 1 -type d); do
+     LOCALE=$(basename $myDir)
+     if [ 'qqq' != "${LOCALE}" ]; then
+       echo "--- ${LOCALE} ---"
+       f_exec
+       doTemplate="No";
+       #echo " "
+     fi
+  done
 fi
-echo " "  
+
+if [ "Yes" != "$doCompile" ] ; then
+  echo " "
+  echo "  - Now edit .po file(s) and run script again with option --compile"
+else
+  rm ${DIR_CODEVTT}/i18n/locale/smarty.c
+fi
+
 
