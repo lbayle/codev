@@ -20,29 +20,28 @@ if($locale === "fr") {
    // Try many values because OS doesn't have the same constants
    $phpLocale = setlocale(LC_ALL,"en_US","us","usa","en","eng","English");
 } elseif($locale === "pt_BR") {
-   // Try many values because OS doesn't have the same constants
-   $phpLocale = setlocale(LC_ALL,"pt_BR","pt","Portuguese");
+   $phpLocale = setlocale(LC_ALL,"pt_BR","pt","ptb","Portuguese");
 } elseif($locale === "de_DE") {
-   // Try many values because OS doesn't have the same constants
    $phpLocale = setlocale(LC_ALL,"de_DE","de","German");
 } elseif($locale === "it_IT") {
-   // Try many values because OS doesn't have the same constants
    $phpLocale = setlocale(LC_ALL,"it_IT","it","Italian");
 } elseif($locale === "es_ES") {
-   // Try many values because OS doesn't have the same constants
    $phpLocale = setlocale(LC_ALL,"es_ES","es","Spanish");
 } elseif($locale === "nl_NL") {
-   // Try many values because OS doesn't have the same constants
    $phpLocale = setlocale(LC_ALL,"nl_NL","nl","Netherlands");
 } elseif($locale === "zh_CN") {
-   // Try many values because OS doesn't have the same constants
    $phpLocale = setlocale(LC_ALL,"zh_CN","cn","Chinese");
+} elseif($locale === "zh_TW") {
+   $phpLocale = setlocale(LC_ALL,"zh_TW","tw", "cht", "Taiwan", "chinese-traditional");
+} elseif($locale === "lt") {
+   $phpLocale = setlocale(LC_ALL,"lt","lit","Lithuanian");
+} elseif($locale === "ko") {
+   $phpLocale = setlocale(LC_ALL,"ko","kr","kor","Korean");
 } else {
    // No locale set, it's because visitors modify the url, so forbidden reply
    header('HTTP/1.1 403 Forbidden');
    exit;
 }
-
 T_setlocale(LC_ALL, $phpLocale);
 
 try {
@@ -137,6 +136,15 @@ function getLocale() {
             break;
          } elseif (strpos($lang, 'cn') === 0) {
             $locale = 'zh_CN';
+            break;
+         } elseif (strpos($lang, 'tw') === 0) {
+            $locale = 'zh_TW';
+            break;
+         } elseif (strpos($lang, 'lt') === 0) {
+            $locale = 'lt';
+            break;
+         } elseif (strpos($lang, 'ko') === 0) {
+            $locale = 'ko';
             break;
          }
       }

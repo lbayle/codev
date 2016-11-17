@@ -221,18 +221,23 @@ div.menu td {
 
 /* flag-sprites.com : Blogpotato.de small */
 .flag {
-	width: 18px;
-	height: 12px;
+   /* display: inline-block; */
+   width: 18px;
+   height: 12px;
 	background:url(images/flags.png) no-repeat
 }
-.flag.flag-br {background-position: -18px 0}
-.flag.flag-cn {background-position: -36px 0}
-.flag.flag-de {background-position: 0 -12px}
-.flag.flag-es {background-position: -18px -12px}
-.flag.flag-fr {background-position: -36px -12px}
-.flag.flag-gb {background-position: 0 -24px}
-.flag.flag-it {background-position: -18px -24px}
-.flag.flag-nl {background-position: -36px -24px}
+
+.flag.flag-fr { background-position: 0 -12px; }
+.flag.flag-gb { background-position: -18px -12px; }
+.flag.flag-de { background-position: -36px 0; }
+.flag.flag-it { background-position: -36px -12px; }
+.flag.flag-es { background-position: -54px 0; }
+.flag.flag-lt { background-position: 0 -24px; }
+.flag.flag-nl { background-position: -18px -24px; }
+.flag.flag-br { background-position: 0 0; }
+.flag.flag-cn { background-position: -18px 0; }
+.flag.flag-tw { background-position: -36px -24px; }
+.flag.flag-kr { background-position: -54px -12px; }
 
 .progress {
    width:111px;
