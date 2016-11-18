@@ -143,7 +143,7 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
         if ('0' == $passwordByMail) {
             $password = $crypto->crypto_generate_uri_safe_nonce(12);
         }
-
+        $nbErrors = 0;
         foreach ($users as $userData) {
             $userStatus['lineNum'] = $userData['lineNum'];
             if ('1' == $passwordByMail) {
@@ -160,7 +160,9 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                 User::createUserInMantisDB($username, $realName, $userData['email'], $password, 25, $userData['entryDate']);
                 if ('1' == $passwordByMail) {
                     $message = T_('Dear ') . $realName . ",\n\n" .
-                            T_('Here is your password for CodevTT and Mantis : ') . $password . " \n\n" .
+                            T_('Your CodevTT / Mantis account has been created: ')." \n\n" .
+                            T_('Login') . ": ".$username."\n" .
+                            T_('Password') . ": ".$password."\n\n" .
                             T_('Please, change your password on your first connection.') . " \n\n" .
                             T_('CodevTT URL: ') . Constants::$codevURL ." \n" .
                             T_('Mantis  URL: ') . Constants::$mantisURL ." \n\n" .
@@ -169,6 +171,7 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                 }
             } catch (Exception $ex) {
                 $userStatus['creationFailed'] = true;
+                $nbErrors += 1;
             }
 
             if (User::exists($username)) {
@@ -185,6 +188,7 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                     }
                 } catch (Exception $ex) {
                     $userStatus['addToTeamFailed'] = true;
+                    $nbErrors += 1;
                 }
 
                 // Affect team projects to user
@@ -200,6 +204,7 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                         }
                     } catch (Exception $ex) {
                         $userStatus['addToProjectsFailed'] = true;
+                        $nbErrors += 1;
                     }
                 }
             }
@@ -207,6 +212,7 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
         }
 
         $data = array(
+            'importUsers_nbErrors' => $nbErrors,
             'importUsers_password' => ('1' == $passwordByMail) ? null : $password,
             'importUsers_usersStatus' => $usersStatus
         );

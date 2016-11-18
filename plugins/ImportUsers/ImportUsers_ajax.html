@@ -314,9 +314,10 @@
                         }
                     });
                     
-                    if(null != data["importUsers_password"])
-                    {
+                    if(null != data["importUsers_password"]) {
                         jQuery(".importUsers_successMessage").html("{t}Import Done ! The password for every created users is{/t} : <strong>" + data["importUsers_password"] + "</strong>");
+                    } else if (0 == data["importUsers_nbErrors"]) {
+                        jQuery(".importUsers_successMessage").html("{t}Import Done ! An email with login and password has been sent to each user.{/t}");
                     }
                     
                     
