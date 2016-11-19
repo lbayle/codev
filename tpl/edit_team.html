@@ -11,13 +11,6 @@
 <div id="content">
    {if isset($availableTeams)}
    <div align="center">
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-            jQuery("#displayed_teamid").change(function() {
-               jQuery("#displayTeamForm").submit();
-            });
-         });
-      </script>
       <form id="displayTeamForm" name="displayTeamForm" class="formWithTabsHistory" method="post" action="{$page}">
          <fieldset>
             <label for="displayed_teamid">{t}Team{/t}: </label>
@@ -43,27 +36,6 @@
 
       <div id="tabGeneral">
          <h2 title="{$team->getId()}">{$team->getName()}</h2>
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               var form = jQuery("#updateTeamInfoForm");
-
-               jQuery("#btUpdateTeamLeader").click(function() {
-                  form.find("input[name=action]").val("updateTeamLeader");
-                  form.submit();
-               });
-
-               jQuery("#btupdateTeamCreationDate").click(function() {
-                  form.find("input[name=action]").val("updateTeamCreationDate");
-                  form.submit();
-               });
-               jQuery("#bt_teamEnabled").click(function() {
-                  var isTeamEnabled = jQuery("#cb_teamEnabled").attr('checked')?1:0;
-                  form.find("input[name=isTeamEnabled]").val(isTeamEnabled);
-                  form.find("input[name=action]").val("setTeamEnabled");
-                  form.submit();
-               });
-            });
-         </script>
          <form id="updateTeamInfoForm" name="updateTeamInfoForm" class="formWithTabsHistory" method="post" action="{$page}">
             <fieldset>
                <table class="invisible">
@@ -79,17 +51,6 @@
                      <td><input type="button" name="btUpdateTeamLeader" value="{t}Update{/t}" id="btUpdateTeamLeader" /></td>
                   </tr>
                   <tr>
-                     <script type="text/javascript" src="js_min/datepicker.min.js"></script>
-                     <script type="text/javascript">
-                        jQuery(document).ready(function() {
-                           {if $locale != en}
-                           jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
-                           {/if}
-
-                           // Set the date
-                           jQuery("#datepicker").datepicker("setDate" ,"{$date}");
-                        });
-                     </script>
                      <td><label for="datepicker">{t}Creation Date{/t}</label></td>
                      <td><input type="text" id="datepicker" class="datepicker" name="date_createTeam" maxlength="10" size="10" title="{t}Date{/t}" /></td>
                      <td><input style="width:100%" type=button name="btupdateTeamCreationDate" value="{t}Update{/t}" id="btupdateTeamCreationDate" /></td>
@@ -132,69 +93,6 @@
       </div>
       <div id="tabTeamMembers">
          <h2>{t}Team Members{/t}</h2>
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               // Set the date
-               jQuery("#datepicker1").datepicker("setDate" ,"{$arrivalDate}");
-               jQuery("#datepicker2").datepicker("setDate" ,"{$departureDate}");
-
-               var form = jQuery("#addTeamMemberForm");
-
-               jQuery("#btAddMember").click(function() {
-                  // check fields
-                  var foundError = 0;
-                  var msgString = "{t}Some fields are missing:{/t}\n";
-
-                  if (0 == form.find("input[name=memberid]").val()) {
-                     msgString += "{t}Team Member{/t}\n";
-                     ++foundError;
-                  }
-
-                  if (0 == foundError) {
-                     form.find("input[name=action]").val("addTeamMember");
-                     form.submit();
-                  } else {
-                     alert(msgString);
-                  }
-               });
-
-               jQuery("#btSetMemberDepartureDate").click(function() {
-                  // check fields
-                  var foundError = 0;
-                  var msgString = "{t}Some fields are missing:{/t}\n\n";
-
-                  if (0 == form.find("input[name=memberid]").val()) {
-                     msgString += "{t}Team Member{/t}\n";
-                     ++foundError;
-                  }
-
-                  if (0 == foundError) {
-                     form.find("input[name=action]").val("setMemberDepartureDate");
-                     form.submit();
-                  } else {
-                     alert(msgString);
-                  }
-               });
-
-               jQuery("#btAddMembersFrom").click(function() {
-                  // check fields
-                  var foundError = 0;
-                  var msgString = "{t}Some fields are missing:{/t}\n\n";
-
-                  if (0 == form.find("input[name=f_src_teamid]").val()) {
-                     msgString += "{t}Source Team{/t}\n";
-                     ++foundError;
-                  }
-
-                  if (0 == foundError) {
-                     form.find("input[name=action]").val("addMembersFrom");
-                     form.submit();
-                  } else {
-                     alert(msgString);
-                  }
-               });
-            });
-         </script>
          <form id="addTeamMemberForm" name="addTeamMemberForm" class="formWithTabsHistory" method="post" action="{$page}">
             <fieldset>
                <table class="invisible">
@@ -258,16 +156,6 @@
 
          <!-- Display previous entries -->
          <div style="margin-top: 2em;">
-            <script type="text/javascript">
-               function removeTeamMember(id, description) {
-                  var confirmString = "{t}Remove user from this team ?{/t}\n\n" + description;
-                  var form = jQuery("#removeTeamMemberForm");
-                  if (confirm(confirmString)) {
-                     form.find("input[name=deletememberid]").val(id);
-                     form.submit();
-                  }
-               }
-            </script>
             <script type="text/javascript" src="js_min/datatable.min.js"></script>
             <table class="datatable_csv">
                <thead>
@@ -308,28 +196,6 @@
 
       <div id="tabTeamProjects">
          <h2>{t}Team Projects{/t}</h2>
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               jQuery("#btAddProject").click(function() {
-                  // check fields
-                  var foundError = 0;
-                  var msgString = "{t}Some fields are missing:{/t}\n\n";
-
-                  var form = jQuery("#addTeamProjectForm");
-
-                  if (0 == form.find("input[name=addedprojectid]").val()) {
-                     msgString += "{t}Project{/t}\n";
-                     ++foundError;
-                  }
-
-                  if (0 == foundError) {
-                     form.submit();
-                  } else {
-                     alert(msgString);
-                  }
-               });
-            });
-         </script>
          <form id="addTeamProjectForm" name="addTeamProjectForm" class="formWithTabsHistory" method="post" action="{$page}">
             <fieldset>
                <label for="addedprojectid">{t}Project{/t}:</label>
@@ -352,16 +218,6 @@
 
          <!-- Display previous entries -->
          <div style="margin-top: 2em;">
-            <script type="text/javascript">
-               function removeTeamProject(id, description){
-                  var confirmString = "Remove this project from the team ?\n\n" + description;
-                  if (confirm(confirmString)) {
-                     var form = jQuery("#removeTeamProjectForm");
-                     form.find("input[name=deletedprojectid]").val(id);
-                     form.submit();
-                  }
-               }
-            </script>
             <table>
                <thead>
                   <tr>
@@ -419,26 +275,6 @@
 
       <div id="tabPreferences">
          <h2>{t}General{/t}</h2>
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               jQuery("#btSetGeneralPrefs").click(function() {
-                  // check fields
-
-                  var form = jQuery("#generalPrefsForm");
-
-                  // TODO get selected checkItems
-                  var checkItems = "";
-                  jQuery(".generalPrefsItem").each(function() {
-                     var itemName = jQuery(this).attr("name");
-                     var isChecked = jQuery(this).attr('checked') ? 1 : 0;
-                     checkItems += itemName+":"+isChecked+",";
-                  });
-                  //alert("checkItems "+checkItems);
-                  form.find("input[name=checkItems]").val(checkItems)
-                  form.submit();
-               });
-            });
-         </script>
 
          <form id="generalPrefsForm" name="generalPrefsForm" method="post" action="{$page}" class="formWithTabsHistory">
             <fieldset>
@@ -461,8 +297,6 @@
             </fieldset>
          </form>
 
-
-
          <h2>{t}Issue Tooltips{/t}</h2>
          <!-- Display issue tooltip settings -->
          <div style="margin-top: 2em;">
@@ -474,49 +308,10 @@
                   {/foreach}
                </select>
 
-               <script type="text/javascript">
-                  // this function is called by the selectItemsDialogbox, when 'OK' is clicked
-                  function itemSelection_ok_callback(data) {
-                     // update tooltips table
-                     // data contains the new row to add/replace in destination widget.
-                     var response = jQuery.parseJSON(data);
-                     var projectid = response["projectid"];
-                     var line = jQuery("#issueTooltips_proj_"+response["projectid"]);
-                     if (line.length) {
-                        // update existing line
-                        jQuery("#issueTooltips_proj_"+projectid+"_fields").text(response["tooltipFields"]);
-                     } else {
-                        // create new line
-                        jQuery("#issueTooltipsTable").attr("style",""); // remove display:none
-                        jQuery("#noCustomTooltipsInfo").attr("style","display:none");
-                        jQuery("#issueTooltipsTable").append(
-                           jQuery('<tr>').attr('id', "issueTooltips_proj_"+projectid)
-                        );
-                        var deleteLink = jQuery('<a>').attr('class', 'ui-icon').attr('href','{$page}').
-                                                      attr('onclick', "removeIssueTooltip('"+projectid+"','"+response["projectName"]+"');return false;");
-                        jQuery("#issueTooltips_proj_"+projectid).append(
-                           jQuery('<td>').attr('class', 'ui-state-error-text').attr("style","width:1em;").append(deleteLink)
-                        ).append(
-                           jQuery('<td>').text(response["projectName"])
-                        ).append(
-                           jQuery('<td>').attr('id', "issueTooltips_proj_"+projectid+"_fields").text(response["tooltipFields"])
-                        );
-                     }
-                  }
-               </script>
                {include file="form/selectItemsDialogbox.html"}
             </div>
 
             <div style="margin-top: 1em;">
-               <script type="text/javascript">
-                  function removeIssueTooltip(project_id, project_name){
-                     var confirmString = "Remove IssueTooltip customisation for project " + project_name;
-                     if (confirm(confirmString)) {
-                        var form = jQuery("#removeIssueTooltipForm");
-                        form.find("input[name=projectid]").val(project_id);
-                        form.submit();
-                     }
-                  }
                </script>
                {if $issueTooltips}
                <table id="issueTooltipsTable">
@@ -561,26 +356,6 @@
          <br>
          <h2>{t}Consistency Check{/t}</h2>
          <span class="help_font">{t}Enable/Disable alerts{/t}</span>
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               jQuery("#btSetConsistencyChecks").click(function() {
-                  // check fields
-
-                  var form = jQuery("#consistencyCheckForm");
-
-                  // TODO get selected checkItems
-                  var checkItems = "";
-                  jQuery(".consistencyCheckItem").each(function() {
-                     var itemName = jQuery(this).attr("name");
-                     var isChecked = jQuery(this).attr('checked') ? 1 : 0;
-                     checkItems += itemName+":"+isChecked+",";
-                  });
-                  //alert("checkItems "+checkItems);
-                  form.find("input[name=checkItems]").val(checkItems)
-                  form.submit();
-               });
-            });
-         </script>
          <form id="consistencyCheckForm" name="consistencyCheckForm" method="post" action="{$page}" class="formWithTabsHistory">
             <fieldset>
 
@@ -601,8 +376,6 @@
                <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
             </fieldset>
          </form>
-
-
       </div>
 
 
@@ -611,28 +384,6 @@
          <span class="help_font">{t}Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly different behaviour.{/t}</span>
          <br>
          {if $onDutyCandidates}
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               jQuery("#btAddAstreinte").click(function() {
-                  // check fields
-                  var foundError = 0;
-                  var msgString = "{t}Some fields are missing:{/t}\n\n";
-
-                  var form = jQuery("#addAstreinteForm");
-
-                  if (0 == form.find("input[name=addedastreinte_id]").val()) {
-                     msgString += "{t}Inactivity task{/t}\n";
-                     ++foundError;
-                  }
-
-                  if (0 == foundError) {
-                     form.submit();
-                  } else {
-                     alert(msgString);
-                  }
-               });
-            });
-         </script>
          <form id="addAstreinteForm" name="addAstreinteForm" class="formWithTabsHistory" method="post" action="{$page}" style="margin-top: 2em;">
             <fieldset>
                <label for="addedastreinte_id">{t}Task{/t}:</label>
@@ -656,16 +407,6 @@
          <!-- Display defined OnDuty tasks -->
          <div style="margin-top: 2em;">
             {if $onDutyTasks}
-            <script type="text/javascript">
-               function deleteOnDutyTask(id, description){
-                  var confirmString = "{t}This task will no longer be identified as an 'OnDuty' task.{/t}\n" + description;
-                  if (confirm(confirmString)) {
-                     var form = jQuery("#deleteAstreinteForm");
-                     form.find("input[name=deletedastreinte_id]").val(id);
-                     form.submit();
-                  }
-               }
-            </script>
             <table>
                <thead>
                   <tr>
@@ -736,105 +477,6 @@
             {/foreach}
             </tbody>
          </table>
-         <script type="text/javascript">
-            function deleteDuration(value, display){
-               jQuery("#dur_value").text(value);
-               jQuery("#dur_display").text(display);
-               jQuery("#formDeleteDuration").find("input[name=deleteValue]").val(value);
-               jQuery("#formDeleteDuration").find("input[name=displayed_teamid]").val(document.getElementById("displayed_teamid").value);
-               jQuery("#deleteDuration_dialog_form").dialog("open");
-            }
-            
-            function addDuration(){
-             	jQuery("#formAddDuration").find("input[name=addValue]").val(document.getElementById("addValue").value);
-             	jQuery("#formAddDuration").find("input[name=addDisplay]").val(document.getElementById("addDisplay").value);
-             	jQuery("#formAddDuration").find("input[name=displayed_teamid]").val(document.getElementById("displayed_teamid").value);
-             	var msg = validateAdd();
-             	if (msg.length == 0) {
-             		jQuery("#formAddDuration").submit();
-             	} else {
-             		alert(msg);
-             	}
-            }
-            
-            function editDuration(el){
-            	var display = el.innerHTML;
-            	el.onclick = undefined;
-            	var value = el.id.replace("display","");
-            	el.innerHTML = "<input type='text' value='"+display+"' style='background-color:#F3F781;' id='editDisplay"+value+"' />"+
-            				"<a class='ui-icon' title='{t}save{/t}' href='{$page}' style='background:url(images/b_markAsRead.png);' "+
-            				"onclick='updateDuration("+value+");return false;'></a>";
-            }
-            
-            function updateDuration(value){
-            	jQuery("#formUpdateDuration").find("input[name=updateValue]").val(value);
-             	jQuery("#formUpdateDuration").find("input[name=updateDisplay]").val(document.getElementById("editDisplay"+value).value);
-             	jQuery("#formUpdateDuration").find("input[name=displayed_teamid]").val(document.getElementById("displayed_teamid").value);
-             	var msg = validateUpdate();
-             	if (msg.length == 0) {
-             		jQuery("#formUpdateDuration").submit();
-             	} else {
-             		alert(msg);
-             	}
-            }
-            
-            function validateAdd(){
-            	var value = "";
-            	var display = "";
-            	var msg = "";
-           		value = document.forms["formAddDuration"]["addValue"].value;
-           		display = document.forms["formAddDuration"]["addDisplay"].value;
-            	value = value.replace(/\s+/g, '');
-            	display = display.replace(/\s+/g, '');
-            	if (value.length == 0){
-            		msg += "\n Value must be filled out.";
-            	} else {
-            		if (isNaN(value)){
-            			msg += "\n Value must be numeric.";
-            		} else {
-            			value = parseFloat(value);
-            			if (value < 0 || value > 1) {
-            				msg += "\n Value must be between 0 and 1.";
-            			}
-            		}
-            	}
-            	if (display.length == 0){
-            		msg += "\n Display must be filled out.";
-            	}
-            	
-            	return msg;
-            }
-            
-            function validateUpdate(){
-            	var display = "";
-            	var msg = "";
-            	display = document.forms["formUpdateDuration"]["updateDisplay"].value;
-            	display = display.replace(/\s+/g, '');
-            	if (display.length == 0){
-            		msg += "\n Display must be filled out";
-            	}
-            	
-            	return msg;
-            }
-            
-            jQuery(document).ready(function() {
-               // delete track dialogBox
-               jQuery("#deleteDuration_dialog_form").dialog({
-                  autoOpen: false,
-                  resizable: true,
-                  width: "auto",
-                  modal: true,
-                  buttons: {
-                     "Delete": function() {
-                        jQuery("#formDeleteDuration").submit();
-                     },
-                     Cancel: function() {
-                        jQuery(this).dialog("close");
-                     }
-                  }
-               });
-            });
-         </script>
          <div id="deleteDuration_dialog_form" title="{t}Delete duration{/t}" class="ui-helper-hidden">
             <p class="ui-state-error-text"><span class="ui-icon float" style="margin:0 7px 20px 0;"></span>{t}Deleted the following duration ?{/t}</p>
             <table class="invisible">
@@ -873,6 +515,35 @@
          {/if}       
       </div>
    </div>
+
+   <script type="text/javascript">
+      // this is to transmit SMARTY variables to js file
+      var editTeamSmartyData = {
+         page:"{$page}",
+         ajaxPage:"{$ajaxPage}",
+         datepickerLocale:"{$locale}",
+         datepickerDate:"{$date}",
+         datepicker1_arrivalDate:"{$arrivalDate}",
+         datepicker2_departureDate:"{$departureDate}",
+
+         // i18n
+         i18n_someFieldsAreMissing:"{t}Some fields are missing:{/t}",
+         i18n_teamMember:"{t}Team Member{/t}",
+         i18n_sourceTeam:"{t}Source Team{/t}",
+         i18n_project:"{t}Project{/t}",
+         i18n_inactivityTask:"{t}Inactivity task{/t}",
+         i18n_delete:"{t}Delete{/t}",
+         i18n_cancel:"{t}Cancel{/t}",
+         i18n_removeUserFromThisTeam:"{t}Remove user from this team ?{/t}",
+         i18n_removeThisProjectFromTheTeam:"{t}Remove this project from the team ?{/t}",
+         i18n_removeIssueTooltipCustomisationForProject:"{t}Remove IssueTooltip customisation for project{/t}",
+         i18n_noLongerOnDuty:"{t}This task will no longer be identified as an 'OnDuty' task.{/t}",
+         i18n_save:"{t}save{/t}"
+      };
+   </script>
+   <script type="text/javascript" src="js_min/datepicker.min.js"></script>
+   <script src="js_min/edit_team.min.js"></script>
+
    {else}
    <p class="center ui-state-error-text">{t}Sorry, you need to be Team Leader to access this page.{/t}</p>
    {/if}

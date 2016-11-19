@@ -840,7 +840,7 @@ class Project extends Model {
             default:
                echo "ERROR Project.getJobList($type): unknown project type ($type) !";
                $e = new Exception("getJobList($type): unknown project type ($type)");
-               self::$logger->error("EXCEPTION TimeTracking constructor: ".$e->getMessage());
+               self::$logger->error("EXCEPTION getJobList: ".$e->getMessage());
                self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
                return $jobList;
          }
