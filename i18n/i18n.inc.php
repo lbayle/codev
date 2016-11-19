@@ -4,6 +4,8 @@ require_once('gettext.inc');
 # REM: http://localhost/index.php?locale=en   will give you english
 #      http://localhost/index.php?locale=fr   will give you french
 
+# REM: run "locale -a" to see locales installed on the system
+
 $locale = getLocale();
 
 // WORKAROUND : Windows hacks
@@ -34,14 +36,15 @@ if($locale === "fr") {
 } elseif($locale === "zh_TW") {
    $phpLocale = setlocale(LC_ALL,"zh_TW","tw", "cht", "Taiwan", "chinese-traditional");
 } elseif($locale === "lt") {
-   $phpLocale = setlocale(LC_ALL,"lt","lit","Lithuanian");
+   $phpLocale = setlocale(LC_ALL,"lt_LT","lt","lithuanian");
 } elseif($locale === "ko") {
-   $phpLocale = setlocale(LC_ALL,"ko","kr","kor","Korean");
+   $phpLocale = setlocale(LC_ALL,"ko", "ko_KR","korean");
 } else {
    // No locale set, it's because visitors modify the url, so forbidden reply
    header('HTTP/1.1 403 Forbidden');
    exit;
 }
+#file_put_contents("/data/codevtt_tmp_log.txt", "phpLocale=<$phpLocale>\n", FILE_APPEND);
 T_setlocale(LC_ALL, $phpLocale);
 
 try {
