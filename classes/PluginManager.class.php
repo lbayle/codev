@@ -289,9 +289,11 @@ class PluginManager {
             } else {
                if (class_exists($className)) {
                   $displayedName = $className::getName();
+                  $description=$className::getDesc();
                } else {
                   // File exists, but classmap.ser needs an update.
                   $displayedName = $className;
+                  $description=$row->description;
                   $this->setPluginStatus($className, self::PLUGIN_STATUS_REMOVED); // update DB
                   $status = self::PLUGIN_STATUS_REMOVED;
                }
@@ -304,7 +306,7 @@ class PluginManager {
                'domains' => explode(',', $row->domains),
                'categories' => explode(',', $row->categories),
                'version' => $row->version,
-               'description' => $row->description,
+               'description' => $description,
             );
             $plugins[$className] = $plugin;
          }
