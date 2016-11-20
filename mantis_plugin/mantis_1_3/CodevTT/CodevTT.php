@@ -114,7 +114,7 @@ class CodevTTPlugin extends MantisPlugin {
     * @param type $event_id
     */
    public function report_bug_form($event, $bug_id) {
-      log_event(LOG_FILTERING, "report_bug_form | event= $event");
+      #log_event(LOG_FILTERING, "report_bug_form | event= $event");
 
       $project_id=helper_get_current_project();
 
@@ -142,8 +142,7 @@ class CodevTTPlugin extends MantisPlugin {
    }
 
    public function report_bug($event, BugData $p_bug_data) {
-      log_event(LOG_FILTERING, "report_bug | event= $event");
-      #log_event(LOG_FILTERING, "report_bug | _POST= ".var_export($_POST, true));
+      #log_event(LOG_FILTERING, "report_bug | event= $event");
 
       // do not display command combobox if user < DEVELOPER
       if (!$this->isAccessGranted($p_bug_data->project_id)) {
@@ -166,7 +165,7 @@ class CodevTTPlugin extends MantisPlugin {
     * @param type $t_bug_id
     */
    public function update_bug_form($event, $t_bug_id) {
-      log_event(LOG_FILTERING, "report_bug | event= $event");
+      #log_event(LOG_FILTERING, "report_bug | event= $event");
 
       $project_id=helper_get_current_project();
 
@@ -203,19 +202,18 @@ class CodevTTPlugin extends MantisPlugin {
       }
    }
 
-   public function update_bug($event, BugData $p_bug_data) {
-      log_event(LOG_FILTERING, "update_bug | event= $event");
-      #log_event(LOG_FILTERING, "update_bug | _POST= ".var_export($_POST, true));
+   public function update_bug($event, BugData $p_bugData_prev, BugData $p_bugData_new) {
+      #log_event(LOG_FILTERING, "update_bug | event= $event");
 
       // if status changed to 'resolved' then set Backlog = 0
-      $this->checkStatusChanged($event, $p_bug_data);
+      $this->checkStatusChanged($event, $p_bugData_prev, $p_bugData_new);
 
       // do not display command combobox if user < DEVELOPER
-      if (!$this->isAccessGranted($p_bug_data->project_id)) {
+      if (!$this->isAccessGranted($p_bugData_prev->project_id)) {
          log_event(LOG_FILTERING, "report_bug_form | user not allowed to update Commands");
       } else {
          if (gpc_isset( 'codevtt_command_id' )) {
-            $prev_command_ids=array_keys($this->getAssignedCommands($p_bug_data->id));
+            $prev_command_ids=array_keys($this->getAssignedCommands($p_bugData_prev->id));
             $new_command_ids = gpc_get_int_array( 'codevtt_command_id');
 
             //log_event(LOG_FILTERING, "update_bug | prev_command_ids=".var_export($prev_command_ids, true));
@@ -227,11 +225,11 @@ class CodevTTPlugin extends MantisPlugin {
               if (!in_array($prev_cmd_id, $new_command_ids)) {
                 $delete_query = "DELETE FROM codev_command_bug_table WHERE bug_id=" . db_param()." AND command_id=" . db_param();
                 log_event(LOG_FILTERING, "update_bug | remove Command $prev_cmd_id");
-                db_query($delete_query, array( $p_bug_data->id, $prev_cmd_id ));
+                db_query($delete_query, array( $p_bugData_prev->id, $prev_cmd_id ));
 
                 // remove from WBS
                 $delete_from_wbs_query = "DELETE FROM `codev_wbs_table` WHERE root_id = (SELECT wbs_id from codev_command_table where id = ".db_param().") AND bug_id = ".db_param();
-                db_query($delete_from_wbs_query, array( $prev_cmd_id, $p_bug_data->id ));
+                db_query($delete_from_wbs_query, array( $prev_cmd_id, $p_bugData_prev->id ));
 
               }
             }
@@ -241,7 +239,7 @@ class CodevTTPlugin extends MantisPlugin {
             foreach ($new_command_ids as $new_cmd_id) {
               if (!in_array($new_cmd_id, $prev_command_ids)) {
                 log_event(LOG_FILTERING, "update_bug | add Command $new_cmd_id");
-                $this->assignCommand($p_bug_data->id, $new_cmd_id);
+                $this->assignCommand($p_bugData_prev->id, $new_cmd_id);
               }
             }
          }
@@ -311,18 +309,16 @@ class CodevTTPlugin extends MantisPlugin {
    }
 
 
-   public function checkStatusChanged($event, BugData $bug_data) {
+   public function checkStatusChanged($event, BugData $bugData_prev, BugData $bugData_new) {
 
-      // if status changed to 'resolved' then set Backlog = 0
-      $query = 'SELECT COUNT(id) as cnt FROM `mantis_bug_table` WHERE id = ' . db_param() . ' AND ' . db_param() . ' = get_issue_resolved_status_threshold(' . db_param() . ')';
-      $result = db_query($query, array( $bug_data->id, $bug_data->status, $bug_data->id) );
-      $row = db_fetch_array( $result );
+   $t_resolved_status_threshold = config_get( 'bug_resolved_status_threshold', null, null, $bugData_prev->project_id );
 
-      if ($row['cnt'] > 0) {
-         // update backlog
+   // if status changed to 'resolved' then set Backlog = 0
+   // Note: and ($bugData_prev->status < $bugData_new->status) ?
+      if ($bugData_new->status === $t_resolved_status_threshold) {
          try {
-            $issue = new IssueMantisPluginHelper($bug_data->id);
-            $issue->setBacklog(0, $bug_data->handler_id);
+            $issue = new IssueMantisPluginHelper($bugData_prev->id);
+            $issue->setBacklog(0, $bugData_prev->handler_id);
          } catch (Exception $e) {
             // trigger_error
             echo "CodevTT plugin ERROR: ".$e->getMessage().'<br>';
