@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:02+0100\n"
-"PO-Revision-Date: 2016-11-17 08:46:31+0000\n"
+"PO-Revision-Date: 2016-11-24 07:22:07+0000\n"
 "Language: lt\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4180,9 +4180,8 @@ msgid "Sidetasks Inactivity"
 msgstr "Pašalinių užduočių Neveiklumas"
 
 #: timetracking/holidays_report.php:76
-#, fuzzy
 msgid "Activity on other teams"
-msgstr "Prisijungimo prie komandos data"
+msgstr "Veikla kitose komandose"
 
 #: timetracking/holidays_report.php:137
 msgid "today"
@@ -4194,9 +4193,8 @@ msgid "User not in team"
 msgstr "Vartotojas ne komandoje"
 
 #: timetracking/holidays_report.php:241
-#, fuzzy
 msgid "Other team"
-msgstr "komandai"
+msgstr "Kita komanda"
 
 #: timetracking/team_monthly_activity_report.php:76
 #: timetracking/time_tracking.php:294 timetracking/team_activity_report.php:66
@@ -4317,15 +4315,15 @@ msgstr "Visi Projektai"
 
 #: plugins/ImportUsers/ImportUsers.class.php:64
 msgid "Import users"
-msgstr ""
+msgstr "Importuoti vartotojus"
 
 #: plugins/ImportUsers/ImportUsers.class.php:68
 msgid "Import a list of users to MantisBT / CodevTT"
-msgstr ""
+msgstr "Importuoti vartotojų sąrašą į MantisBT / CodevTT"
 
 #: plugins/ImportUsers/ImportUsers.class.php:71
 msgid "Note: only available for administrators & team leaders"
-msgstr ""
+msgstr "Pastaba: prieinama tik administratoriams ir komandos lyderiams"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:108
 msgid "Your are not allowed to import users"

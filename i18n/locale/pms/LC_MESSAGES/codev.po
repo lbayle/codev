@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:02+0100\n"
-"PO-Revision-Date: 2016-11-17 08:46:32+0000\n"
+"PO-Revision-Date: 2016-11-24 07:22:07+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1050,7 +1050,7 @@ msgstr "Tuti ij travaj"
 
 #. tpl/servicecontract_info.html
 msgid "No Total found."
-msgstr ""
+msgstr "Gnun Total trovà."
 
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
@@ -1116,7 +1116,7 @@ msgstr "Descrission"
 
 #. tpl/servicecontract_info.html
 msgid "Note: SideTasks already defined in Commands are not displayed."
-msgstr ""
+msgstr "Nòta: Ij travaj marginaj già definì ant le comande a son nen ësmonù."
 
 #. tpl/servicecontract_info.html
 #. tpl/command_info.html
@@ -1154,7 +1154,7 @@ msgstr "TCM"
 
 #. tpl/servicecontract_info.html
 msgid "No provision found."
-msgstr ""
+msgstr "Gnun-e proviste trovà."
 
 #. tpl/form/dateRangeSelector.html
 #. tpl/time_tracking.html
@@ -1798,7 +1798,7 @@ msgstr "Ël travaj a l'é livrà, la coa a dovrìa esse '0'"
 
 #. tpl/issue_info.html
 msgid "Backlog should not be set if status is : "
-msgstr ""
+msgstr "Ël ritard a dovrìa nen esse definì si lë statù a l'é: "
 
 #. tpl/issue_info.html
 #. tpl/time_tracking.html
@@ -2159,15 +2159,15 @@ msgstr "Di-òm disponìbij an sël perìod (gavà vacanse e travaj estern)"
 
 #. tpl/statistics.html
 msgid "Developers Workload"
-msgstr ""
+msgstr "Badò dij dësvlupador"
 
 #. tpl/statistics.html
 msgid "nb production days"
-msgstr ""
+msgstr "nùmer ëd di ëd produssion"
 
 #. tpl/statistics.html
 msgid "Sorry, you do NOT have access to this page."
-msgstr ""
+msgstr "An dëspias, chiel a l'ha PA l'acess a costa pàgina."
 
 #. tpl/export_odt.html
 msgid "The following fields need to be set"
@@ -2325,7 +2325,7 @@ msgstr "badò"
 
 #. tpl/planning_report.html
 msgid "nbDaysToDeadLine"
-msgstr ""
+msgstr "nùmer ëd di a la scadensa"
 
 #. tpl/planning_report.html
 #. tpl/edit_jobs.html
@@ -2338,7 +2338,7 @@ msgstr "Color"
 
 #. tpl/planning_report.html
 msgid "day"
-msgstr ""
+msgstr "di"
 
 #. tpl/doc.html
 msgid "Documentation is available at "
@@ -2653,7 +2653,7 @@ msgstr "Gionté a la 'verìfica dël bilansi'"
 
 #. tpl/command_edit.html
 msgid "Import provisions CSV"
-msgstr ""
+msgstr "Amporté un CSV ëd proviste"
 
 #. tpl/command_edit.html
 msgid "Delete Provision"
@@ -2738,7 +2738,7 @@ msgstr "Pianificassion dël badò"
 
 #. tpl/menu/global_menu.html
 msgid "Timeline scheduler"
-msgstr ""
+msgstr "Programator ëd pianificassion"
 
 #. tpl/menu/global_menu.html
 #. tpl/gantt.html
@@ -3268,51 +3268,51 @@ msgstr "Comande ëd bilansi"
 
 #: admin/plugin_manager.php:67
 msgid "Could not create classmap: "
-msgstr ""
+msgstr "Impossìbil creé la classmap: "
 
 #: admin/edit_holidays.php:46
 msgid "Couldn't add the holiday"
-msgstr ""
+msgstr "Impossìbil gionté la festa"
 
 #: admin/edit_holidays.php:51
 msgid "Couldn't remove the holiday"
-msgstr ""
+msgstr "Impossìbil gavé la festa"
 
 #: admin/edit_team.php:52
 msgid "Couldn't delete the team"
-msgstr ""
+msgstr "L'eliminassion ëd l'echip a l'ha falì"
 
 #: admin/edit_team.php:94
 msgid "Couldn't update the team leader"
-msgstr ""
+msgstr "L'agiornament dël cap ëd l'echip a l'ha falì"
 
 #: admin/edit_team.php:105
 msgid "Couldn't update the creation date"
-msgstr ""
+msgstr "L'agiornament ëd la dàita ëd creassion a l'ha falì"
 
 #: admin/edit_team.php:110
 msgid "Couldn't enable/disable team"
-msgstr ""
+msgstr "Impossìbil ativé/disativé l'echip"
 
 #: admin/edit_team.php:203
 msgid "Couldn't delete the member of the team"
-msgstr ""
+msgstr "La dëscancelassion dël mèmber ëd l'echip a l'ha falì"
 
 #: admin/edit_team.php:217 admin/edit_team.php:220
 msgid "Couldn't add the project to the team"
-msgstr ""
+msgstr "Impossìbil gionté ël proget a l'echip"
 
 #: admin/edit_team.php:226
 msgid "Could NOT remove the project from the team"
-msgstr ""
+msgstr "A l'é NEN podusse gavé 'l proget da l'echip"
 
 #: admin/edit_team.php:277
 msgid "Configure Tooltips"
-msgstr ""
+msgstr "Configurassion dle gòle ëd sugeriment"
 
 #: admin/edit_team.php:342
 msgid "enabled"
-msgstr ""
+msgstr "ativà"
 
 #: admin/edit_team.php:342
 msgid "disabled"

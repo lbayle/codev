@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:02+0100\n"
-"PO-Revision-Date: 2016-11-17 08:46:30+0000\n"
+"PO-Revision-Date: 2016-11-24 07:22:06+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1954,7 +1954,6 @@ msgid "Display ExtRef instead of mantis_id"
 msgstr ""
 
 #. tpl/scheduler.html
-#, fuzzy
 msgid "Initial date"
 msgstr "시작 날짜"
 
@@ -1987,9 +1986,8 @@ msgid "update backlog"
 msgstr ""
 
 #. tpl/ajax/schedulerAffectationSummary.html
-#, fuzzy
 msgid "Assigned users"
-msgstr "할당됨"
+msgstr "할당된 사용자"
 
 #. tpl/set_holidays.html
 #. tpl/time_tracking.html
@@ -4318,7 +4316,7 @@ msgstr "모든 프로젝트"
 
 #: plugins/ImportUsers/ImportUsers.class.php:64
 msgid "Import users"
-msgstr ""
+msgstr "사용자 가져오기"
 
 #: plugins/ImportUsers/ImportUsers.class.php:68
 msgid "Import a list of users to MantisBT / CodevTT"
@@ -4326,7 +4324,7 @@ msgstr ""
 
 #: plugins/ImportUsers/ImportUsers.class.php:71
 msgid "Note: only available for administrators & team leaders"
-msgstr ""
+msgstr "참고: 관리자 및 팀 리더만 이용할 수 있습니다"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:108
 msgid "Your are not allowed to import users"

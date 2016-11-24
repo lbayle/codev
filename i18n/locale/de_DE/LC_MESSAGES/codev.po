@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:01+0100\n"
-"PO-Revision-Date: 2016-11-17 08:46:28+0000\n"
+"PO-Revision-Date: 2016-11-24 07:22:05+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
@@ -4312,15 +4312,15 @@ msgstr "Alle Projekte"
 
 #: plugins/ImportUsers/ImportUsers.class.php:64
 msgid "Import users"
-msgstr ""
+msgstr "Benutzer importieren"
 
 #: plugins/ImportUsers/ImportUsers.class.php:68
 msgid "Import a list of users to MantisBT / CodevTT"
-msgstr ""
+msgstr "Eine Liste der MantisBT-/CodevTT-Benutzer importieren"
 
 #: plugins/ImportUsers/ImportUsers.class.php:71
 msgid "Note: only available for administrators & team leaders"
-msgstr ""
+msgstr "Hinweis: Nur für Administratoren und Teammanager verfügbar"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:108
 msgid "Your are not allowed to import users"

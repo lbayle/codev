@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:02+0100\n"
-"PO-Revision-Date: 2016-11-17 08:46:30+0000\n"
+"PO-Revision-Date: 2016-11-24 07:22:06+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -4327,15 +4327,15 @@ msgstr "Tutti i progetti"
 
 #: plugins/ImportUsers/ImportUsers.class.php:64
 msgid "Import users"
-msgstr ""
+msgstr "Importa utenti"
 
 #: plugins/ImportUsers/ImportUsers.class.php:68
 msgid "Import a list of users to MantisBT / CodevTT"
-msgstr ""
+msgstr "Importa un elenco di utenti su MantisBT / CodevTT"
 
 #: plugins/ImportUsers/ImportUsers.class.php:71
 msgid "Note: only available for administrators & team leaders"
-msgstr ""
+msgstr "Nota: disponibile solo per gli amministratori e leader del team"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:108
 msgid "Your are not allowed to import users"
