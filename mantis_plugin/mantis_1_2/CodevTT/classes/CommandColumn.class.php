@@ -37,13 +37,11 @@ class CommandColumn extends MantisColumn {
       foreach ( $p_bugs as $t_bug ) {
          $t_bug_ids[] = $t_bug->id;
       }
-      // TODO does not work if task is defined in multiple commands !
       $t_bug_ids = implode( ',', $t_bug_ids );
-      $t_query  = "SELECT b.id, cmd.name FROM $t_bug_table b
+      $t_query  = "SELECT DISTINCT b.id, cmd.name FROM $t_bug_table b
                     INNER JOIN codev_command_bug_table cmd_bugs ON cmd_bugs.bug_id = b.id
                     INNER JOIN codev_command_table cmd ON cmd.id = cmd_bugs.command_id
-                    WHERE b.id IN ( $t_bug_ids )
-                    GROUP BY b.id";
+                    WHERE b.id IN ( $t_bug_ids )";
       $t_result = db_query_bound( $t_query );
       while ( $t_row = db_fetch_array( $t_result ) ) {
          $this->cache[$t_row['id']] = $t_row['name'];

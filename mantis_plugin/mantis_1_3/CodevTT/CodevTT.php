@@ -20,7 +20,7 @@ class CodevTTPlugin extends MantisPlugin {
       $this->description = plugin_lang_get('description');
       $this->page = '';
 
-      $this->version = '0.7.0';
+      $this->version = '0.7.1';
 
       $this->requires = array(
           'MantisCore' => '1.3'
