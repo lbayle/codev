@@ -1597,7 +1597,7 @@ class User extends Model {
 
       $now = time();
 
-      $query = 'SELECT DISTINCT bugid FROM `codev_timetracking_table` '.
+      $query = 'SELECT DISTINCT bugid, date FROM `codev_timetracking_table` '.
               "WHERE userid = $this->id AND date <= $now ";
 
       if ((NULL != $bugidList) && (count($bugidList) > 0)) {
