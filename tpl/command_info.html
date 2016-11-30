@@ -379,11 +379,11 @@
          i18n_OK:"{t}OK{/t}",
          i18n_Cancel:"{t}Cancel{/t}"
       };
-
+{if isset($cmdid)}
       setGanttOptions();
       gantt.init("gantt_here");
       //computeGantt();
-
+{/if}
       $('#summaryFilter').bind("enterKey", function(e) {
          gantt.refreshData();
       });

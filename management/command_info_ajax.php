@@ -184,7 +184,7 @@ if(Tools::isConnectedUser() &&
                }
 
                $color = $schedulerManager->getColor($bugid, $taskDates['endTimestamp']);
-               $taskTooltip = getTaskTooltip_minimal($issue, $teamid, $session_userid, $isManager, $timePerUserPerTaskList);
+               $taskTooltip = getTaskTooltip_minimal($issue, $timePerUserPerTaskList);
 
                $data = array(
                    'id' => $idx,
@@ -270,7 +270,7 @@ if(Tools::isConnectedUser() &&
 /**
  *
  */
-function getTaskTooltip_minimal($issue, $teamid, $timePerUserPerTaskList) {
+function getTaskTooltip_minimal($issue, $timePerUserPerTaskList) {
    $finalTooltipAttr = array();
 
    $extRef = $issue->getTcId();
