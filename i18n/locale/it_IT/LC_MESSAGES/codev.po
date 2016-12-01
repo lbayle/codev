@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:02+0100\n"
-"PO-Revision-Date: 2016-11-28 09:11:05+0000\n"
+"PO-Revision-Date: 2016-12-01 06:37:19+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -4374,7 +4374,7 @@ msgstr "Non ti è consentito importare utenti"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Your CodevTT / Mantis account has been created: "
-msgstr ""
+msgstr "La tua utenza CodevTT / Mantis è stata creata: "
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:166
 msgid "Please, change your password on your first connection."
