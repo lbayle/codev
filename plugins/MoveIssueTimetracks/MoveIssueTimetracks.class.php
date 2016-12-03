@@ -32,6 +32,7 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
     // params from PluginDataProvider
 
     private $teamid;
+    private $domain;
     private $sessionUserId;
     // internal
     protected $execData;
@@ -46,6 +47,8 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
         // A plugin can be displayed in multiple domains
         self::$domains = array(
             self::DOMAIN_ADMIN,
+            self::DOMAIN_TEAM_ADMIN,
+            #self::DOMAIN_USER, // warn, needs to check which timetrack the user is allowed to move
         );
         // A plugin should have only one category
         self::$categories = array(
@@ -58,7 +61,7 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
     }
 
     public static function getDesc($isShortDesc = true) {
-        return T_('Move timetracks of issues');
+        return T_('Move timetracks from one issue to another');
     }
 
     public static function getAuthor() {
@@ -115,6 +118,11 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
          $this->teamid = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_TEAM_ID);
       } else {
          throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_TEAM_ID);
+      }
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN)) {
+         $this->domain = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN);
+      } else {
+         $this->domain = 'unknown';
       }
 
         // set default pluginSettings
@@ -179,6 +187,7 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
                     'date' => date('Y-m-d', $tt->getDate()),
                     'job' => $jobs->getJobName($tt->getJobId()),
                     'duration' => $tt->getDuration(),
+                    //'timetrackNote' => $tt->getNote(),
                     'committer' => $committer_name,
                     'commit_date' => $commit_date,
                     'task_id' => $issue->getId(),
@@ -239,7 +248,7 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
 
     /**
      *
-     * Table Repartition du temps par status
+     * 
      */
     public function execute() {
 
@@ -247,7 +256,7 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
          $session_user = UserCache::getInstance()->getUser($this->sessionUserId);
          $isAdmin = $session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId));
 
-         if ($isAdmin) {
+         if ($isAdmin && (IndicatorPluginInterface::DOMAIN_TEAM_ADMIN !== $this->domain)) {
            // Administrators can manage all teams
            $teamList = Team::getTeams(true);
            $teamMembers = $team->getMembers();
@@ -256,7 +265,7 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
             $teamList = array($this->teamid => $team->getName());
 
             if (($team->getLeaderId() === $this->sessionUserId) ||
-                ($session_user->isTeamManager($this->teamid))) {
+                ($session_user->isTeamManager($this->teamid)) || $isAdmin) {
                // teamLeader & managers can manage all team members
                $teamMembers = $team->getMembers();
             } else {

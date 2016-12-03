@@ -40,6 +40,7 @@ interface PluginDataProviderInterface {
     * Note: all params will not always be avalable, 
     * it is context dependent (see IndicatorPlugin domain).
     */
+   const PARAM_DOMAIN = 'domain';
    const PARAM_TEAM_ID = 'teamid';
    const PARAM_PROJECT_ID = 'projectid';
    const PARAM_SESSION_USER_ID = 'sessionUserId';

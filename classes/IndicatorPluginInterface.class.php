@@ -36,6 +36,7 @@ interface IndicatorPluginInterface {
    const DOMAIN_TASK             = 'Task';
    const DOMAIN_IMPORT_EXPORT    = 'Import_Export';
    const DOMAIN_ADMIN            = 'Admin';
+   const DOMAIN_TEAM_ADMIN       = 'TeamAdmin';
 
    // KPI category
    // A dashboard can display multiple categorues

@@ -281,6 +281,33 @@ class EditTeamController extends Controller {
 
                $teamGeneralPrefs = $this->getTeamGeneralPrefs($team);
                $this->smartyHelper->assign('teamGeneralPrefs', $teamGeneralPrefs);
+
+               // feed the PluginDataProvider
+               $dashboardDomain = IndicatorPluginInterface::DOMAIN_TEAM_ADMIN;
+               $pluginDataProvider = PluginDataProvider::getInstance();
+               $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $this->session_userid);
+               $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $displayed_teamid);
+               $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_DOMAIN, $dashboardDomain);
+
+               $dashboardName = 'EditTeam'; // same settings for all teams
+
+               // save the DataProvider for Ajax calls
+               $_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardName] = serialize($pluginDataProvider);
+
+               // create the Dashboard
+               $dashboard = new Dashboard($dashboardName);
+               $dashboard->setDomain($dashboardDomain);
+               $dashboard->setCategories(array(
+                   IndicatorPluginInterface::CATEGORY_ADMIN,
+                  ));
+               $dashboard->setTeamid($this->teamid);
+               $dashboard->setUserid($this->session_userid);
+
+               $data = $dashboard->getSmartyVariables($this->smartyHelper);
+               foreach ($data as $smartyKey => $smartyVariable) {
+                  $this->smartyHelper->assign($smartyKey, $smartyVariable);
+               }
+
             }
          }
       }
