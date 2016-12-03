@@ -30,7 +30,7 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
     private static $domains;
     private static $categories;
     // params from PluginDataProvider
-    private $inputIssueSel;
+
     private $teamid;
     private $sessionUserId;
     // internal
@@ -193,27 +193,31 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
     /**
      * Move all selected timetracks to destination task
      * @param integer[] $timetracksIds
-     * @param integer[] $destinationTaskId
+     * @param integer[] $destBugId
      */
-    public function moveTimetracks($timetracksIds, $destinationTaskId)
+    public function moveTimetracks($timetracksIds, $destBugId)
     {
-        if($timetracksIds != null && $destinationTaskId != null && $destinationTaskId != 0)
+        if($timetracksIds != null && $destBugId != null && $destBugId != 0)
         {
             $formatedTimetracksIds = implode( ', ', $timetracksIds);
-            $destinationTask = new Issue($destinationTaskId);
+            $destinationTask = new Issue($destBugId);
             
             // Move destination Task Creation date to older timetrack date
+            $destTaskDateSubmission = $destinationTask->getDateSubmission();
             foreach($timetracksIds as $timetrackId)
             {
                 $timetrack = new TimeTrack($timetrackId);
-                if($timetrack->getDate() < $destinationTask->getDateSubmission())
+                if($timetrack->getDate() < $destTaskDateSubmission)
                 {
-                    $destinationTask->setDateSubmission($timetrack->getDate());
+                   $destTaskDateSubmission = $timetrack->getDate();
                 }
+            }
+            if (NULL !== $destTaskDateSubmission) {
+               $destinationTask->setDateSubmission($destTaskDateSubmission);
             }
             
             // Move all selected timetracks to destination task
-            $query = "UPDATE codev_timetracking_table SET bugid='$destinationTaskId' " .
+            $query = "UPDATE codev_timetracking_table SET bugid='$destBugId' " .
                     "WHERE id IN ($formatedTimetracksIds) ";
             
             $result = SqlWrapper::getInstance()->sql_query($query);
@@ -221,7 +225,15 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
                 echo "<span style='color:red'>ERROR: Query FAILED</span>";
                 exit;
             }
-            
+
+            // move timetrack notes
+            $query2 = "UPDATE `mantis_bugnote_table` SET bug_id='$destBugId' where id in (select noteid FROM codev_timetrack_note_table where timetrackid in ($formatedTimetracksIds))";
+            $result2 = SqlWrapper::getInstance()->sql_query($query2);
+            if (!$result2) {
+                echo "<span style='color:red'>ERROR: Query FAILED</span>";
+                exit;
+            }
+
         }
     }
 

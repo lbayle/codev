@@ -167,7 +167,6 @@ class CommandInfoController extends Controller {
                         }
                      }
                   }
-                  self::$logger->error("ganttWindowStartDate $mybugid = ".date('Y-m-d', $ganttWindowStartTimestamp));
                   $this->smartyHelper->assign('ganttWindowStartDate',  date('Y-m-d', $ganttWindowStartTimestamp));
 
                }
