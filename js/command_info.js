@@ -76,7 +76,8 @@ function setGanttOptions() {
  */
 function computeGantt() {
 
-   $('#loading').show();  // show spinner
+   //$('#loading').show();  // show spinner
+   $("#ganttBtImg").attr("src","images/spinner.gif");
 
    // ajax call to get tasks
    var jsonGanttTasksPromise = $.ajax({
@@ -93,13 +94,16 @@ function computeGantt() {
             jsonGanttTasks = data.ganttTasks;
             gantt.config.end_date =  new Date(data.ganttEndDate); // 'YYYY-MM-DD'
          } else {
-            $('#loading').hide();  // hide spinner
+            //$('#loading').hide();  // hide spinner
+            $("#ganttBtImg").attr("src","images/b_refresh.png");
             console.error("Ajax statusMsg", data.statusMsg);
             alert(data.statusMsg);
          }
       },
       error: function(jqXHR, textStatus, errorThrown) {
-         $('#loading').hide();  // hide spinner
+         //$('#loading').hide();  // hide spinner
+         $("#ganttBtImg").attr("src","images/b_refresh.png");
+
          console.error(textStatus, errorThrown);
          alert("ERROR: Please contact your CodevTT administrator");
       }
@@ -110,7 +114,9 @@ function computeGantt() {
       console.log("number of tasks currently loaded in the gantt", gantt.getTaskCount());
       console.log("number of tasks visible on the screen (those that are not collapsed)", gantt.getVisibleTaskCount());
 
-      $('#loading').hide();  // hide spinner
+      //$('#loading').hide();  // hide spinner
+      $("#ganttBtImg").attr("src","images/b_refresh.png");
+
    });
 
 }
@@ -135,7 +141,7 @@ $('#summaryFilter').keyup(function(e){
 // ================== DOCUMENT READY ====================
 jQuery(document).ready(function() {
 
-$('#loading').hide();  // hide spinner
+//$('#loading').hide();  // hide spinner
 
    jQuery("#cmdid").change(function() {
       if ('0' !== this.value) {
