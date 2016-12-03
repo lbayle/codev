@@ -2454,7 +2454,7 @@ msgstr "Serveur inaccessible, ..."
 #: tpl/create_team.html
 #: admin/create_team.php:95
 msgid "Tools"
-msgstr "Outillage"
+msgstr "Outils"
 
 #: tpl/create_team.html
 msgid "Sys. Admin, Scritps, ..."
