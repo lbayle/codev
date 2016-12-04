@@ -543,9 +543,12 @@ function isTimetrackingFieldsValid() {
                    var $line = $tr.wrap('<p>');
                    jQuery('#tableMantisNotes tbody').append($line);
                });
-
-
-
+               // activate datatable
+               jQuery.ajax({
+                     async: false,
+                     url: "js_min/datatable.min.js",
+                     dataType: "script"
+               });
             } else {
                console.error("Ajax statusMsg", data.statusMsg);
                alert(data.statusMsg);
