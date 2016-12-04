@@ -48,6 +48,7 @@ class CommandEditController extends Controller {
                return;
             }
             $this->smartyHelper->assign('isEditGranted', true);
+            $this->smartyHelper->assign('isManager', true);
 
 
             // -------- CHECK  --------
@@ -397,4 +398,4 @@ CommandEditController::staticInit();
 $controller = new CommandEditController('../', 'Command (edition)', 'Management');
 $controller->execute();
 
-?>
+

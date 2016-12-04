@@ -22,10 +22,13 @@ require('../path.inc.php');
 // Note: i18n is included by the Controler class, but Ajax dos not use it...
 require_once('i18n/i18n.inc.php');
 
+$ajaxLogger = Logger::getLogger("commandInfo_ajax");
+
 if(Tools::isConnectedUser() && 
    (filter_input(INPUT_POST, 'action') || filter_input(INPUT_GET, 'action'))) {
 
    // INPUT_GET  for action updateDetailedCharges
+   // INPUT_GET  for action updateTaskData
    // INPUT_POST for action getGanttTasks
    $action = filter_input(INPUT_POST, 'action');
    if (empty($action)) {
@@ -58,6 +61,55 @@ if(Tools::isConnectedUser() &&
          }
          $smartyHelper->display(DetailedChargesIndicator::getSmartySubFilename());
 
+      } else if ('updateTaskData' === $action) {
+         $userid = $_SESSION['userid'];
+         $teamid = $_SESSION['teamid'];
+         try {
+            $user = UserCache::getInstance()->getUser($userid);
+            $team = TeamCache::getInstance()->getTeam($teamid);
+
+            $bugId = Tools::getSecureGETNumberValue('bugId');
+            $updatedValue = Tools::getSecureGETNumberValue('updatedValue');
+            $issue = IssueCache::getInstance()->getIssue($bugId);
+
+            $fieldName = Tools::getSecureGETStringValue('fieldName');
+            switch ($fieldName) {
+               case 'EffortEstim':
+                  $issue->setEffortEstim($updatedValue);
+
+                  echo json_encode(array(
+                      'statusMsg' => 'SUCCESS',
+                      'taskUpdate' => array(
+                          'drift' => $drift = $issue->getDrift(),
+                          'driftColor' => $issue->getDriftColor($drift)
+                      ),
+                  ));
+                  break;
+               case 'MgrEffortEstim':
+                  // lock php, try lock
+                  $issue->setMgrEffortEstim($updatedValue);
+
+                  $commandId = Tools::getSecureGETIntValue('commandId');
+                  $command = CommandCache::getInstance()->getCommand($commandId);
+
+                  echo json_encode(array(
+                      'statusMsg' => 'SUCCESS',
+                      'taskUpdate' => array(
+                          'driftMgr' => $drift = $issue->getDriftMgr(),
+                          'driftColor' => $issue->getDriftColor($drift)
+                      ),
+                      'budgetUpdate' => CommandTools::getBudgetIndicatorValues($command),
+                  ));
+                  break;
+               default:
+                  $ajaxLogger->error("Attempt to change unknown field '$fieldName'");
+                  echo json_encode(array(
+                     'statusMsg' => "Attempt to change unknown field '$fieldName'"
+                   ));
+            }
+         } catch (Exception $e) {
+            Tools::sendBadRequest("Error: updateTaskInfo bad values: user=$userid issue=$bugId");
+         }
       } else if ('getGanttTasks' === $action) {
          // POST
          // TODO: same code exists in gantt_ajax.php ...

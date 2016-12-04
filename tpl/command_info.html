@@ -100,16 +100,16 @@
                      <th></th>
                   </tr>
                   <tr>
-                     <td align='right' title="MgrEffortEstim + Checked Provisions">{$cmdProvAndMeeDays}</td>
-                     <td align='right'  style="background-color:#{$cmdTotalReestimatedColor}" title='{t}Reestimated (days){/t}' >{$cmdTotalReestimated}</td>
-                     <td align='right'  style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift (days){/t}' >{$cmdTotalDrift}</td>
-                     <td align='right'  style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift (percent){/t}' >{$cmdTotalDriftPercent} %</td>
+                     <td id="td_prov_and_mee_days" align='right' title="MgrEffortEstim + Checked Provisions">{$cmdProvAndMeeDays}</td>
+                     <td id="td_total_reestimated" align='right'  style="background-color:#{$cmdTotalReestimatedColor}" title='{t}Reestimated (days){/t}' >{$cmdTotalReestimated}</td>
+                     <td id="td_total_drift" align='right'  style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift (days){/t}' >{$cmdTotalDrift}</td>
+                     <td id="td_total_drift_percent" align='right'  style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift (percent){/t}' >{$cmdTotalDriftPercent} %</td>
                      <th>{t}Days{/t}</th>
                   </tr>
                   <tr>
-                     <td align='right' title ="MgrEffortEstim + Checked Provisions" >{$cmdProvAndMeeCost} </td>
-                     <td align='right' style="background-color:#{$cmdTotalReestimatedCostColor}" title='{t}Reestimated days * AverageDailyRate{/t}' >{$cmdTotalReestimatedCost}</td>
-                     <td align='right' style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift days * AverageDailyRate{/t}' >{$cmdTotalDriftCost}</td>
+                     <td id="td_prov_and_mee_cost" align='right' title ="MgrEffortEstim + Checked Provisions" >{$cmdProvAndMeeCost} </td>
+                     <td id="td_total_reestimated_cost" align='right' style="background-color:#{$cmdTotalReestimatedCostColor}" title='{t}Reestimated days * AverageDailyRate{/t}' >{$cmdTotalReestimatedCost}</td>
+                     <td id="td_total_drift_cost" align='right' style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift days * AverageDailyRate{/t}' >{$cmdTotalDriftCost}</td>
                      <td></td>
                      <th>{$cmdCurrency}</th>
                   </tr>
@@ -137,6 +137,8 @@
       </div>
       {/if}
    </div>
+
+   <div class="alert-message"></div>
 
    <div id="tabsCommand" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
       <ul class="{$ui_tabs_jquery_ul}">
@@ -282,7 +284,7 @@
 
          {if $cmdIssues}
          <div align="center">
-            <table id="issues_table" class="datatable_csv">
+            <table id="issues_table" class="datatable_csv_editable">
                <thead>
                   <tr>
                      <th>{t}ID{/t}</th>
@@ -319,16 +321,18 @@
                      <td style="width:1em;" nowrap="nowrap">{$issue.type}</td>
                      <td style="width:1em;" nowrap="nowrap">{$issue.status}</td>
                      <td style="width:1em;" nowrap="nowrap"><div class="progress">{$issue.progress}%</div></td>
-                     {if isset($isManager) && $isManager}
-                     <td style="width:1em;" nowrap="nowrap">{$issue.mgrEffortEstim}</td>
+                     <!--MgrEfforstEstim TD-->
+                     {if $isManager}
+                     <td {if $isEditGranted}class="td_editable" data-fieldname="MgrEffortEstim"{/if} style="width:1em; position: relative; z-index=9999;" nowrap="nowrap">{$issue.mgrEffortEstim}</td>
                      {/if}
-                     <td style="width:1em;" nowrap="nowrap">{$issue.effortEstim}</td>
+                     <!--EffortEstim TD-->
+                     <td {if !$isObserver}class="td_editable" data-fieldname="EffortEstim"{/if} style="width:1em; position: relative; z-index=9999;" nowrap="nowrap">{$issue.effortEstim}</td>
                      <td style="width:1em;" nowrap="nowrap">{$issue.elapsed}</td>
                      <td style="width:1em;" nowrap="nowrap">{$issue.duration}</td>
-                     {if isset($isManager) && $isManager}
-                     <td style="width:1em;{if isset($issue.driftMgrColor)}background-color:#{$issue.driftMgrColor}{/if}" nowrap="nowrap">{$issue.driftMgr}</td>
+                     {if $isManager || $isObserver}
+                     <td class="td_drift_mgr" style="width:1em;{if isset($issue.driftMgrColor)}background-color:#{$issue.driftMgrColor}{/if}" nowrap="nowrap">{$issue.driftMgr}</td>
                      {else}
-                     <td style="width:1em;{if isset($issue.driftColor)}background-color:#{$issue.driftColor}{/if}" nowrap="nowrap">{$issue.drift}</td>
+                     <td class="td_drift" style="width:1em;{if isset($issue.driftColor)}background-color:#{$issue.driftColor}{/if}" nowrap="nowrap">{$issue.drift}</td>
                      {/if}
                      <td>{$issue.summary}</td>
                   </tr>
@@ -366,6 +370,8 @@
       {/if}
    </div>
    
+   <script src="lib/DataTables/media/js/jquery.dataTables.min.js"></script>
+   <script src="lib/jquery.jeditable/jquery.jeditable.mini.js"></script>
    <script src="lib/dhtmlxGantt/dhtmlxgantt.js" type="text/javascript" charset="utf-8"></script>
    <script src="lib/dhtmlxGantt/ext/dhtmlxgantt_tooltip.js"></script>
    <script src="js_min/command_info.min.js"></script>
@@ -377,7 +383,9 @@
          ajaxPage:"{$ajaxPage}",
          ganttWindowStartDate:"{$ganttWindowStartDate}",
          i18n_OK:"{t}OK{/t}",
-         i18n_Cancel:"{t}Cancel{/t}"
+         i18n_Cancel:"{t}Cancel{/t}",
+         i18n_reloadPageToUpdateIndicators:"<strong>{t}Warning{/t}:</strong>&nbsp;{t}Reload page to update charges & indicators{/t}",
+         i18n_format:"{t}Format{/t}"
       };
 {if isset($cmdid)}
       setGanttOptions();

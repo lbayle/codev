@@ -237,6 +237,42 @@ class CommandTools {
       return $smartyVariable;
    }
 
+   /**
+    * compute budget indicator values
+    * @param Command $cmd
+    * @return array of smarty variables
+    */
+   public static function getBudgetIndicatorValues(Command $cmd) {
+
+      $mgrEE = $cmd->getIssueSelection()->mgrEffortEstim;
+      $cmdProvAndMeeDays = $mgrEE + $cmd->getProvisionDays(TRUE);
+      $cmdProvAndMeeCost = ($mgrEE * $cmd->getAverageDailyRate()) + $cmd->getProvisionBudget(TRUE);
+
+      $cmdTotalReestimated = $cmd->getIssueSelection()->getReestimated();
+      $cmdTotalReestimatedCost = $cmdTotalReestimated * $cmd->getAverageDailyRate();
+
+      $cmdTotalDrift = $cmdTotalReestimated - $cmdProvAndMeeDays;
+      $cmdTotalDriftCost = $cmdTotalReestimatedCost - $cmdProvAndMeeCost;
+      $cmdTotalDriftPercent = (0 == $cmdProvAndMeeDays) ? 0 : round( ($cmdTotalDrift * 100 / $cmdProvAndMeeDays) , 2);
+
+      $cmdTotalDriftColor = ($cmdTotalDrift >= 0) ? "fcbdbd" : "bdfcbd";
+      $cmdTotalReestimatedColor = ($cmdTotalReestimated > $cmdProvAndMeeDays) ? "fcbdbd" : "bdfcbd";
+      $cmdTotalReestimatedCostColor = ($cmdTotalReestimatedCost > $cmdProvAndMeeCost) ? "fcbdbd" : "bdfcbd";
+
+      $budgetValues = array(
+          'cmdProvAndMeeDays'       => round($cmdProvAndMeeDays, 2),
+          'cmdProvAndMeeCost'       => round($cmdProvAndMeeCost, 2),
+          'cmdTotalReestimated'     => round($cmdTotalReestimated, 2),
+          'cmdTotalReestimatedCost' => round($cmdTotalReestimatedCost, 2),
+          'cmdTotalDrift'           => round($cmdTotalDrift, 2),
+          'cmdTotalDriftCost'       => round($cmdTotalDriftCost, 2),
+          'cmdTotalDriftPercent'    => $cmdTotalDriftPercent,
+          'cmdTotalDriftColor'           => $cmdTotalDriftColor,
+          'cmdTotalReestimatedColor'     => $cmdTotalReestimatedColor,
+          'cmdTotalReestimatedCostColor' => $cmdTotalReestimatedCostColor,
+      );
+      return $budgetValues;
+   }
 
    /**
     * @param SmartyHelper $smartyHelper
@@ -244,9 +280,6 @@ class CommandTools {
     */
    public static function displayCommand(SmartyHelper $smartyHelper, Command $cmd, $isManager, $selectedFilters='') {
 
-      if ($isManager) {
-         $smartyHelper->assign('isManager', true);
-      }
 
       $smartyHelper->assign('cmdid', $cmd->getId());
       $smartyHelper->assign('cmdName', $cmd->getName());
@@ -272,50 +305,11 @@ class CommandTools {
       $cmdTotalSoldDays = $cmd->getTotalSoldDays();
       $smartyHelper->assign('cmdTotalSoldDays', $cmdTotalSoldDays);
 
-      // --------------
-
-      // TODO math should not be in here !
-      $mgrEE = $cmd->getIssueSelection()->mgrEffortEstim;
-      $cmdProvAndMeeCost = ($mgrEE * $cmd->getAverageDailyRate()) + $cmd->getProvisionBudget(TRUE);
-      $smartyHelper->assign('cmdProvAndMeeCost', round($cmdProvAndMeeCost, 2));
-      $cmdProvAndMeeDays = $mgrEE + $cmd->getProvisionDays(TRUE);
-      $smartyHelper->assign('cmdProvAndMeeDays', round($cmdProvAndMeeDays, 2));
-
-
-      // TODO math should not be in here !
-      $cmdTotalReestimated = $cmd->getIssueSelection()->getReestimated();
-      $smartyHelper->assign('cmdTotalReestimated',$cmdTotalReestimated);
-      $cmdTotalReestimatedCost = $cmdTotalReestimated * $cmd->getAverageDailyRate();
-      $smartyHelper->assign('cmdTotalReestimatedCost',$cmdTotalReestimatedCost);
-
-      // TODO math should not be in here !
-      #$cmdTotalElapsed = $cmd->getIssueSelection()->getElapsed();
-      #$cmdOutlayCost = $cmdTotalElapsed * $cmd->getAverageDailyRate();
-      #$smartyHelper->assign('cmdOutlayCost',$cmdOutlayCost);
-      #$smartyHelper->assign('cmdTotalElapsed',$cmdTotalElapsed);
-
-      // TODO math should not be in here !
-      $cmdTotalDrift = round($cmdTotalReestimated - $cmdProvAndMeeDays, 2);
-      $cmdTotalDriftCost = round($cmdTotalReestimatedCost - $cmdProvAndMeeCost, 2);
-
-      $cmdTotalDriftPercent = (0 == $cmdProvAndMeeDays) ? 0 : round( ($cmdTotalDrift * 100 / $cmdProvAndMeeDays) , 2);
-      $smartyHelper->assign('cmdTotalDrift',$cmdTotalDrift);
-      $smartyHelper->assign('cmdTotalDriftCost',$cmdTotalDriftCost);
-      $smartyHelper->assign('cmdTotalDriftPercent', $cmdTotalDriftPercent);
-
-      #$color1 = ($cmdOutlayCost > $cmdProvAndMeeCost) ? "fcbdbd" : "bdfcbd";
-      #$smartyHelper->assign('cmdOutlayCostColor', $color1);
-      #$color2 = ($cmdTotalElapsed > $cmdProvAndMeeDays) ? "fcbdbd" : "bdfcbd";
-      #$smartyHelper->assign('cmdTotalElapsedColor',$color2);
-
-      $color3 = ($cmdTotalReestimated > $cmdProvAndMeeDays) ? "fcbdbd" : "bdfcbd";
-      $smartyHelper->assign('cmdTotalReestimatedColor',$color3);
-      $color4 = ($cmdTotalReestimatedCost > $cmdProvAndMeeCost) ? "fcbdbd" : "bdfcbd";
-      $smartyHelper->assign('cmdTotalReestimatedCostColor',$color4);
-      $color5 = ($cmdTotalDrift >= 0) ? "fcbdbd" : "bdfcbd";
-      $smartyHelper->assign('cmdTotalDriftColor',$color5);
-
-      // --------------
+      // budget
+      $budgetIndicSmartyValues = self::getBudgetIndicatorValues($cmd);
+      foreach ($budgetIndicSmartyValues as $smartyKey => $value) {
+         $smartyHelper->assign($smartyKey, $value);
+      }
 
       // set CommandSets I belong to
       $smartyHelper->assign('parentCmdSets', self::getParentCommandSets($cmd));
@@ -382,8 +376,6 @@ class CommandTools {
       foreach ($data as $smartyKey => $smartyVariable) {
          $smartyHelper->assign($smartyKey, $smartyVariable);
       }
-
    }
    // </editor-fold>
 }
-

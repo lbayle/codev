@@ -147,6 +147,8 @@ div.menu td {
 }
 
 #content {
+  display: flex;
+  flex-direction: column;
   margin-top: 3em;
 }
 
@@ -269,7 +271,7 @@ img.ui-datepicker-trigger {
 
 
 /* START Datatable */
-table.datatable, table.datatable_minimal, table.datatable_csv, table.display {
+table.datatable, table.datatable_minimal, table.datatable_csv, table.datatable_csv_editable, table.display {
    padding: 0;
    border: 0;
 }
@@ -549,4 +551,33 @@ ul.submenu ul {
 .vertical-middle
 {
    vertical-align: middle;
+}
+
+.td_editable {
+   cursor: url(images/b_edit.png) 25 15, auto;
+}
+
+.alert-message {
+   margin: auto;
+}
+
+.alert-message > div {
+   background-color: #ffffff;
+   opacity: 0.5;
+   padding: 1em;
+}
+
+.info {
+   background-color: #f1c40f;
+   border: 1px solid #f1c40f;
+}
+
+.info {
+   background-color: #f1c40f;
+   border: 1px solid #f1c40f;
+}
+
+.error {
+   background-color: #e74c3c;
+   border: 1px solid #e74c3c;
 }

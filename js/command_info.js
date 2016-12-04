@@ -212,4 +212,138 @@ jQuery(document).ready(function() {
       dataType: "script",
       cache: true
    });
+
+   // --- editable issue_table fields
+   // Allowed format for MgrEffortEstim & EffortEstim values: 1, 0.3, 2.55 or 2.125
+   var regex = new RegExp(/^[0-9]+(\.[0-9][0-9]?5?)?$/i);
+
+   // Custom input created for editable columuns
+   $.editable.addInputType('effortEstimationInput', {
+      element : function(settings, original) {
+         var input = $('<input id="input_effort_estimation" type="text" title="\'1\', \'0.3\', \'2.55\' or \'2.125\'" required="required">');
+         input.width(settings.width);
+         input.height(settings.height);
+         $(this).append(input);
+         return(input);
+         },
+      // The new value is submited only if it matches with the regex, otherwise, the cell's value is reset.
+      submit: function(settings, original) {
+         var updatedValue = document.getElementById('input_effort_estimation').value;
+         if (regex.test(updatedValue)) {
+            if  (original.revert !== updatedValue) {
+               var form = $('form', this);
+               form.submit();
+            } else {
+               original.reset();
+               $('.alert-message').removeClass('error info').html('');
+               return false;
+            }
+         } else {
+            var alertMessage = $('.alert-message');
+            var message = $('<div />', {
+               html: commandInfoSmartyData.i18n_format + ' : \'1\', \'0.3\', \'2.55\' or \'2.125\'.'
+            });
+            alertMessage.hasClass('info') ? alertMessage.removeClass('info').addClass('error').html(message) : alertMessage.addClass('error').html(message);
+            original.reset();
+            $(original).trigger('dblclick');
+            return false;
+         }
+      }
+   });
+
+   $('#issues_table').find('.td_editable').editable(function (value, settings) {
+      return(value);
+   }, {
+      data: function (value, settings) {
+         return value;
+      },
+      type: 'effortEstimationInput',
+      event: 'dblclick',
+      select: true,
+      placeholder: '',
+      // The new value is submited only if it matches with the regex, otherwise, the cell's value is reset.
+      onblur: function(value) {
+         if (regex.test(value)) {
+            if (this.revert !== value) {
+               var form = $('form', this);
+               form.submit();
+            } else {
+               this.reset();
+               $('.alert-message').removeClass('error info').html('');
+            }
+         } else {
+            var alertMessage = $('.alert-message');
+            var message = $('<div />', {
+               html: commandInfoSmartyData.i18n_format + ' : \'1\', \'0.3\', \'2.55\' or \'2.125\'.'
+            });
+            alertMessage.hasClass('info') ? alertMessage.removeClass('info').addClass('error').html(message) : alertMessage.addClass('error').html(message);
+            this.reset();
+            $(this).trigger('dblclick');
+         }
+      },
+      callback: function (value, settings) {
+         // Getting the class attribut corresponding
+         var fieldName = $(this).attr('data-fieldname');
+
+         if ('EffortEstim' == fieldName) {
+            var tdDrift = $(this).closest('tr').children('td.td_drift');
+         } else if ('MgrEffortEstim' == fieldName) {
+            var tdDriftMgr = $(this).closest('tr').children('td.td_drift_mgr');
+         }
+
+         var bugId = $(this).parent().children(':first-child').text();
+         console.log(commandInfoSmartyData.ajaxPage);
+         $.ajax({
+            type: 'GET',
+            url: commandInfoSmartyData.ajaxPage,
+            data: 'action=updateTaskData&bugId=' + bugId + '&fieldName=' + fieldName + '&updatedValue=' + value + '&commandId=' + commandInfoSmartyData.commandId,
+            dataType: 'json',
+            success: function (data) {
+               if ('SUCCESS' === data.statusMsg) {
+                  var color = (null !== data.taskUpdate.driftColor) ? '#' + data.taskUpdate.driftColor : 'inherit';
+                  if (null !== data.taskUpdate.drift && tdDrift) {
+                     tdDrift.text(data.taskUpdate.drift);
+                     tdDrift.css('background-color', color);
+                  } else if (null !== data.taskUpdate.driftMgr && tdDriftMgr) {
+                     // DriftMgr Update
+                     tdDriftMgr.text(data.taskUpdate.driftMgr);
+                     tdDriftMgr.css('background-color', color);
+
+                     // Budget Update
+                     var totalDriftColor = '#' + data.budgetUpdate.cmdTotalDriftColor;
+                     $('#td_prov_and_mee_days').text(data.budgetUpdate.cmdProvAndMeeDays);
+                     $('#td_total_reestimated').text(data.budgetUpdate.cmdTotalReestimated);
+                     $('#td_total_reestimated').css('background-color', data.budgetUpdate.cmdTotalReestimatedColor);
+                     $('#td_total_drift').text(data.budgetUpdate.cmdTotalDrift);
+                     $('#td_total_drift').css('background-color', totalDriftColor);
+                     $('#td_total_drift_percent').text(data.budgetUpdate.cmdTotalDriftPercent);
+                     $('#td_total_drift_percent').css('background-color', totalDriftColor);
+                     $('#td_prov_and_mee_cost').text(data.budgetUpdate.cmdProvAndMeeCost);
+                     $('#td_total_reestimated_cost').text(data.budgetUpdate.cmdTotalReestimatedCost);
+                     $('#td_total_reestimated_cost').css('background-color', data.budgetUpdate.cmdTotalReestimatedCostColor);
+                     $('#td_total_drift_cost').text(data.budgetUpdate.cmdTotalDriftCost);
+                     $('#td_total_drift_cost').css('background-color', totalDriftColor);
+                  }
+
+                  // WBS Update
+                  $('#bt_loadTree').click();
+
+                  // Update Message
+                  var alertMessage = $('.alert-message');
+                  var message = $('<div />', {
+                        html: commandInfoSmartyData.i18n_reloadPageToUpdateIndicators
+                     });
+                  alertMessage.hasClass('error') ? alertMessage.removeClass('error').addClass('info').html(message) : alertMessage.addClass('info').html(message);
+               } else {
+                  console.error("Ajax statusMsg", data.statusMsg);
+                  alert(data.statusMsg);
+               }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+               console.error(textStatus, errorThrown);
+               alert('ERROR: Please contact your CodevTT administrator.');
+            }
+         });
+      }
+   });
 });

@@ -31,7 +31,7 @@ jQuery(document).ready(function(){
    });
 
    // with custom button
-   jQuery('.datatable_csv').dataTable({
+   jQuery('.datatable_csv, .datatable_csv_editable').dataTable({
       retrieve: true, // WARN http://datatables.net/manual/tech-notes/3
       "sScrollY": "700px",
       "bPaginate": false,

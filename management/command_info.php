@@ -55,12 +55,10 @@ class CommandInfoController extends Controller {
             } else {
                $isManager = $this->session_user->isTeamManager($this->teamid);
                $isObserver = $this->session_user->isTeamObserver($this->teamid);
-               if ($isManager || $isObserver) {
-                  // observers have access to the same info
-                  $this->smartyHelper->assign('isManager', true);
-               }
-            }
 
+               $this->smartyHelper->assign('isManager', $isManager);
+               $this->smartyHelper->assign('isObserver', $isObserver);
+            }   
             $action = Tools::getSecurePOSTStringValue('action', '');
 
             // --- CmdStateFilters
