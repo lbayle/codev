@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-17 22:24+0100\n"
+"POT-Creation-Date: 2016-12-04 23:57+0100\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -42,7 +42,7 @@ msgstr ""
 #. WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
 #: classes/issue.class.php:2258 classes/issue_selection.class.php:316
 #: classes/wbsElement.class.php:623 filters/ProjectFilter.php:59
-#: management/servicecontract_info.php:149 management/command_info.php:227
+#: management/servicecontract_info.php:149 management/command_info.php:242
 #: management/commandset_info.php:152 reports/planning_report.php:234
 #: reports/planning_report.php:475 reports/planning_report.php:476
 #: reports/export_csv_tools.php:48 reports/project_info.php:281
@@ -527,8 +527,8 @@ msgstr "RefExt"
 #. $titles[] = T_("Date");
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:257
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:313
-#: reports/export_csv_tools.php:65 reports/project_info.php:181
-#: reports/project_info.php:236
+#: management/command_info_ajax.php:284 reports/export_csv_tools.php:65
+#: reports/project_info.php:181 reports/project_info.php:236
 msgid "Progress"
 msgstr "Avancement"
 
@@ -656,11 +656,11 @@ msgstr "Statut"
 #: classes/issue.class.php:2264 classes/issue_selection.class.php:317
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
-#: management/servicecontract_info.php:150 management/command_info.php:228
-#: management/commandset_info.php:153 reports/planning_report.php:235
-#: reports/planning_report.php:478 reports/export_csv_tools.php:51
-#: reports/project_info.php:282 reports/project_info.php:293
-#: reports/project_info.php:305
+#: management/servicecontract_info.php:150 management/command_info.php:243
+#: management/command_info_ajax.php:282 management/commandset_info.php:153
+#: reports/planning_report.php:235 reports/planning_report.php:478
+#: reports/export_csv_tools.php:51 reports/project_info.php:282
+#: reports/project_info.php:293 reports/project_info.php:305
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: tools.php:1528
@@ -1203,6 +1203,7 @@ msgstr "Filtres actifs"
 #: tpl/menu/global_menu.html
 #: tpl/modal/edit_issueNote.html
 #: tpl/modal/update_issueBacklog.html
+#: management/command_info_ajax.php:280 reports/planning_report.php:471
 #: reports/planning_report.php:473 reports/export_csv_weekly.php:140
 #: reports/export_csv_weekly.php:182
 msgid "Task"
@@ -1250,6 +1251,11 @@ msgstr "Astreintes"
 
 #: tpl/edit_team.html
 #: tpl/create_team.html
+msgid "Tools"
+msgstr "Outils"
+
+#: tpl/edit_team.html
+#: tpl/create_team.html
 msgid "Team Administrator"
 msgstr "Administrateur Equipe"
 
@@ -1283,25 +1289,6 @@ msgid "Delete"
 msgstr "Supprimer"
 
 #: tpl/edit_team.html
-#: tpl/servicecontract_edit.html
-#: tpl/commandset_edit.html
-#: tpl/set_holidays.html
-#: tpl/time_tracking.html
-#: tpl/create_team.html
-#: tpl/edit_jobs.html
-#: tpl/edit_holidays.html
-msgid "Some fields are missing:"
-msgstr "Les champs suivants ont été oubliés :"
-
-#: tpl/edit_team.html
-msgid "Team Member"
-msgstr "Membre de l'équipe"
-
-#: tpl/edit_team.html
-msgid "Source Team"
-msgstr "équipe source"
-
-#: tpl/edit_team.html
 msgid "Member"
 msgstr "Membre"
 
@@ -1333,10 +1320,6 @@ msgstr "Importer les membres de l'équipe "
 #: tpl/command_edit.html
 msgid "Import"
 msgstr "Importer"
-
-#: tpl/edit_team.html
-msgid "Remove user from this team ?"
-msgstr "Retirer l'utilisateur de cette équipe ?"
 
 #: tpl/edit_team.html
 #: tpl/modal/login.html
@@ -1434,20 +1417,12 @@ msgid "Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly diffe
 msgstr "Note: une astreinte est très semblable à une tâche 'Absence'. Elle est spécifique à l'équipe."
 
 #: tpl/edit_team.html
-msgid "Inactivity task"
-msgstr "Inactivité"
-
-#: tpl/edit_team.html
 msgid "Inactivity tasks"
 msgstr "Inactivités"
 
 #: tpl/edit_team.html
 msgid "No 'inactivity' task defined in your SideTasks projects."
 msgstr "Aucune tâche de catégorie 'inactivité' définie dans les projets de tâches annexes."
-
-#: tpl/edit_team.html
-msgid "This task will no longer be identified as an 'OnDuty' task."
-msgstr "Cette tâche ne sera plus considérée comme astreinte."
 
 #: tpl/edit_team.html
 #: tpl/servicecontract_edit.html
@@ -1479,16 +1454,65 @@ msgid "add a custom duration"
 msgstr "Ajouter une durée"
 
 #: tpl/edit_team.html
-msgid "save"
-msgstr "Enregistrer"
-
-#: tpl/edit_team.html
 msgid "Delete duration"
 msgstr "Supprimer durée"
 
 #: tpl/edit_team.html
 msgid "Deleted the following duration ?"
 msgstr "Supprimer la durée suivante ?"
+
+#: tpl/edit_team.html
+#: tpl/servicecontract_edit.html
+#: tpl/commandset_edit.html
+#: tpl/set_holidays.html
+#: tpl/time_tracking.html
+#: tpl/create_team.html
+#: tpl/edit_jobs.html
+#: tpl/edit_holidays.html
+msgid "Some fields are missing:"
+msgstr "Les champs suivants ont été oubliés :"
+
+#: tpl/edit_team.html
+msgid "Team Member"
+msgstr "Membre de l'équipe"
+
+#: tpl/edit_team.html
+msgid "Source Team"
+msgstr "équipe source"
+
+#: tpl/edit_team.html
+msgid "Inactivity task"
+msgstr "Inactivité"
+
+#: tpl/edit_team.html
+#: tpl/issue_info.html
+#: tpl/time_tracking.html
+#: tpl/tools/dashboard.html
+#: tpl/command_edit.html
+#: tpl/gantt.html
+#: tpl/command_info.html
+msgid "Cancel"
+msgstr "Annuler"
+
+#: tpl/edit_team.html
+msgid "Remove user from this team ?"
+msgstr "Retirer l'utilisateur de cette équipe ?"
+
+#: tpl/edit_team.html
+msgid "Remove this project from the team ?"
+msgstr "Retirer ce projet de l'équipe ?"
+
+#: tpl/edit_team.html
+msgid "Remove IssueTooltip customisation for project"
+msgstr "Supprimer la personnamisation des Infobulles pour le projet"
+
+#: tpl/edit_team.html
+msgid "This task will no longer be identified as an 'OnDuty' task."
+msgstr "Cette tâche ne sera plus considérée comme astreinte."
+
+#: tpl/edit_team.html
+msgid "save"
+msgstr "Enregistrer"
 
 #: tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -1705,8 +1729,8 @@ msgstr "Réf. Externe"
 #: tpl/issue_info.html
 #: tpl/export_odt.html
 #: tpl/modal/update_issueBacklog.html
-#: classes/wbsElement.class.php:626 reports/export_csv_tools.php:68
-#: reports/export_csv_weekly.php:185
+#: classes/wbsElement.class.php:626 management/command_info_ajax.php:283
+#: reports/export_csv_tools.php:68 reports/export_csv_weekly.php:185
 msgid "Assigned to"
 msgstr "Assigné à"
 
@@ -1726,8 +1750,8 @@ msgstr "Criticité"
 #: tpl/issue_info.html
 #: tpl/command_edit.html
 #: tpl/modal/update_issueBacklog.html
-#: reports/planning_report.php:466 reports/planning_report.php:495
-#: tools.php:1470
+#: management/command_info_ajax.php:286 reports/planning_report.php:466
+#: reports/planning_report.php:495 tools.php:1470
 msgid "Deadline"
 msgstr "Deadline"
 
@@ -1801,14 +1825,6 @@ msgstr "Tâche résolue, le RAF devrait être à zero"
 msgid "Backlog should not be set if status is : "
 msgstr "Le RAF devrait pas être renseigné si les status est: "
 
-#: tpl/issue_info.html
-#: tpl/time_tracking.html
-#: tpl/tools/dashboard.html
-#: tpl/command_edit.html
-#: tpl/gantt.html
-msgid "Cancel"
-msgstr "Annuler"
-
 #: tpl/commandset_edit.html
 msgid "New command set"
 msgstr "Nouvelle Macro Commande"
@@ -1877,6 +1893,7 @@ msgstr "Créez la Macro Commande avant d'y ajouter des commandes."
 #: tpl/tools/wbsEditor.html
 #: tpl/tools/wbsReader.html
 #: tpl/gantt.html
+#: tpl/command_info.html
 msgid "Reload"
 msgstr "Recharger"
 
@@ -2300,8 +2317,8 @@ msgstr "Cliquer pour afficher les erreurs"
 
 #: tpl/planning_report.html
 #: management/servicecontract_info.php:91
-#: management/servicecontract_info.php:92 management/command_info.php:126
-#: management/command_info.php:127 management/commandset_info.php:95
+#: management/servicecontract_info.php:92 management/command_info.php:124
+#: management/command_info.php:125 management/commandset_info.php:95
 #: reports/issue_info.php:95 reports/issue_info.php:96
 #: timetracking/team_monthly_activity_report.php:75
 #: timetracking/time_tracking.php:293 timetracking/team_activity_report.php:65
@@ -2450,11 +2467,6 @@ msgstr "Incident"
 #: tpl/create_team.html
 msgid "Server or Platform down, ..."
 msgstr "Serveur inaccessible, ..."
-
-#: tpl/create_team.html
-#: admin/create_team.php:95
-msgid "Tools"
-msgstr "Outils"
 
 #: tpl/create_team.html
 msgid "Sys. Admin, Scritps, ..."
@@ -2743,6 +2755,7 @@ msgstr "Planning calendaire"
 
 #: tpl/menu/global_menu.html
 #: tpl/gantt.html
+#: tpl/command_info.html
 msgid "Gantt"
 msgstr "Gantt"
 
@@ -2873,14 +2886,17 @@ msgid "Uninstall"
 msgstr "Désinstaller"
 
 #: tpl/gantt.html
+#: tpl/command_info.html
 msgid "Task filter:"
 msgstr "Filtre sur les tâches"
 
 #: tpl/gantt.html
+#: tpl/command_info.html
 msgid "Filter"
 msgstr "Filtre"
 
 #: tpl/gantt.html
+#: tpl/command_info.html
 #: tpl/modal/select_issues.html
 #: tpl/modal/login.html
 msgid "OK"
@@ -3232,6 +3248,7 @@ msgid "Login"
 msgstr "Identifiant"
 
 #: tpl/modal/login.html
+#: plugins/ImportUsers/ImportUsers_ajax.php:165
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -3311,11 +3328,11 @@ msgstr "Le retrait du projet a échoué"
 msgid "Configure Tooltips"
 msgstr "Configuration des infobulles"
 
-#: admin/edit_team.php:342
+#: admin/edit_team.php:369
 msgid "enabled"
 msgstr "activé"
 
-#: admin/edit_team.php:342
+#: admin/edit_team.php:369
 msgid "disabled"
 msgstr "désactivé"
 
@@ -4048,6 +4065,10 @@ msgstr "Note : Les tâches annexes définies dans les commandes ne sont pas affi
 msgid "Add the selected issues to the Command ?"
 msgstr "Ajouter les tâches sélectionnées à la commande ?"
 
+#: management/command_info_ajax.php:313
+msgid "auto"
+msgstr "auto"
+
 #: management/command_edit_ajax.php:54
 msgid "Provisions updated FAILED !"
 msgstr "ERREUR lors de la mise à jour des provisions !"
@@ -4324,26 +4345,26 @@ msgid "Your are not allowed to import users"
 msgstr "Désolé, vous n'êtes pas autorisé à créer des utilisateurs"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:163
-msgid "Here is your password for CodevTT and Mantis : "
-msgstr "Voici votre mot de passe pour CodevTT et Mantis : "
+msgid "Your CodevTT / Mantis account has been created: "
+msgstr "Votre compte Codevtt / Mantis a été créé: "
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:164
+#: plugins/ImportUsers/ImportUsers_ajax.php:166
 msgid "Please, change your password on your first connection."
 msgstr "Veuillez changer votre mot de passe à la première connexion."
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:165
+#: plugins/ImportUsers/ImportUsers_ajax.php:167
 msgid "CodevTT URL: "
 msgstr "URL CodevTT: "
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:166
+#: plugins/ImportUsers/ImportUsers_ajax.php:168
 msgid "Mantis  URL: "
 msgstr "URL MantisBT: "
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:167
+#: plugins/ImportUsers/ImportUsers_ajax.php:169
 msgid "Best regards"
 msgstr "Cordialement"
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:168
+#: plugins/ImportUsers/ImportUsers_ajax.php:170
 msgid "[CodevTT] Your password"
 msgstr "[CodevTT] Votre mot de passe"
 
@@ -4441,12 +4462,12 @@ msgstr "REM: Les tâches réouvertes et non encore résolues ne sont pas prises 
 msgid "(For the bugs that where re-opened, the EffortEstim may not have been re-estimated, and thus the result is not reliable.)"
 msgstr "(si l'estimation de charge de ces tâches n'a pas été mise à jour, les résultats seront faussés)"
 
-#: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:57
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:60
 msgid "Move Issue Timetracks"
 msgstr "Déplacer les imputations"
 
-#: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:61
-msgid "Move timetracks of issues"
+#: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:64
+msgid "Move timetracks from one issue to another"
 msgstr "Déplacer des imputations d'une tâche à une autre"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:71
@@ -4480,6 +4501,9 @@ msgstr "S"
 #: tools.php:1467
 msgid "AddEffortEstim"
 msgstr "Charge Additionnelle"
+
+#~ msgid "Here is your password for CodevTT and Mantis : "
+#~ msgstr "Voici votre mot de passe pour CodevTT et Mantis : "
 
 #~ msgid "Select CSV file"
 #~ msgstr "Sélection du fichier CSV"
