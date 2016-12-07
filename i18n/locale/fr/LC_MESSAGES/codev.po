@@ -1890,11 +1890,11 @@ msgstr "Une nouvelle version de CodevTT est disponible !"
 
 #: tpl/mantis_reports.html
 msgid "Bilan mensuel SAUF SuiviOp."
-msgstr ""
+msgstr "Bilan mensuel SAUF SuiviOp."
 
 #: tpl/mantis_reports.html
 msgid "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
-msgstr ""
+msgstr "Bilan mensuel (nbre de fiches / status à la fin du mois)"
 
 #: tpl/commandset_edit.html
 msgid "New command set"
@@ -3554,7 +3554,8 @@ msgstr "Pertes"
 msgid ""
 "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
 "         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
+msgstr "Tâches annexes 'Incident' et 'Inactivité' faisant partie de la sélection".<br>\n"
+"         (Si l'option 'Pertes' est désactivée, ce sera inclu dans le 'consommé')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -3584,7 +3585,8 @@ msgstr "Absences et tâches annexes d'inactivité ne faisant pas partie de la s�
 msgid ""
 "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
 "         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
+msgstr "Afficher les pertes: tâches annexes de catégorie 'Incident' et 'Inactivité' <br>\n"
+"         (si désactivé, ce sera inclu dans le 'consommé')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"

@@ -85,7 +85,7 @@ if (file_exists(Constants::$config_file)) {
    if (!is_writable($testDir)) {
       $isReady = FALSE;
       $test_result  = "<span class='error_font'>".('FAILED').'<br>';
-      $test_result .= '- Does apache user have write access to codevTT directory ?<br>';
+      $test_result .= '- Does apache user have write access to CodevTT directory ?<br>';
       $test_result .= '- Are you sure SELINUX is well configured ?<br></span>';
    } else {
       $test_result = '<span class="success_font">'.('SUCCESS').'</span>';
