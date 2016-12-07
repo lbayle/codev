@@ -41,7 +41,7 @@ class SchedulerTaskProvider0 extends SchedulerTaskProviderAbstract {
     * One liner description for settings (radio-button text)
     */
    public function getShortDesc() {
-      return "Standard issue priority scheduling";
+      return T_("Standard issue priority scheduling");
    }
 
    /**

@@ -108,5 +108,5 @@ function do_dir($dir)
 }
 
 do_dir("tpl");
+do_dir("plugins");
 
-?>

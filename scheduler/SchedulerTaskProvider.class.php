@@ -43,7 +43,7 @@ class SchedulerTaskProvider extends SchedulerTaskProviderAbstract {
     * One liner description for settings (radio-button text)
     */
    public function getShortDesc() {
-      return "Deadline pool-based scheduling";
+      return T_("Daily breakdown scheduling");
    }
 
    /**
