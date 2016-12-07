@@ -17,30 +17,30 @@ putenv('LC_MESSAGES='.$locale);
 
 if($locale === "fr") {
    // Try many values because OS doesn't have the same constants
-   $phpLocale = setlocale(LC_ALL,"fr_FR","fr","fra","French");
+   $phpLocale = setlocale(LC_ALL,"fr_FR.UTF-8","fr.UTF-8","fra.UTF-8","French");
 } elseif($locale === "en") {
    // Try many values because OS doesn't have the same constants
-   $phpLocale = setlocale(LC_ALL,"en_US","us","usa","en","eng","English");
+   $phpLocale = setlocale(LC_ALL,"en_US.UTF-8","us.UTF-8","usa.UTF-8","en.UTF-8","English");
 } elseif($locale === "pt_BR") {
-   $phpLocale = setlocale(LC_ALL,"pt_BR","pt","ptb","Portuguese");
+   $phpLocale = setlocale(LC_ALL,"pt_BR.UTF-8","pt.UTF-8","ptb.UTF-8","Portuguese");
 } elseif($locale === "de_DE") {
-   $phpLocale = setlocale(LC_ALL,"de_DE","de","German");
+   $phpLocale = setlocale(LC_ALL,"de_DE.UTF-8","de.UTF-8","German");
 } elseif($locale === "it_IT") {
-   $phpLocale = setlocale(LC_ALL,"it_IT","it","Italian");
+   $phpLocale = setlocale(LC_ALL,"it_IT.UTF-8","it.UTF-8","Italian");
 } elseif($locale === "es_ES") {
-   $phpLocale = setlocale(LC_ALL,"es_ES","es","Spanish");
+   $phpLocale = setlocale(LC_ALL,"es_ES.UTF-8","es.UTF-8","Spanish");
 } elseif($locale === "nl_NL") {
-   $phpLocale = setlocale(LC_ALL,"nl_NL","nl","Netherlands");
+   $phpLocale = setlocale(LC_ALL,"nl_NL.UTF-8","nl.UTF-8","Netherlands");
 } elseif($locale === "zh_CN") {
-   $phpLocale = setlocale(LC_ALL,"zh_CN","cn","Chinese");
+   $phpLocale = setlocale(LC_ALL,"zh_CN.UTF-8","cn.UTF-8","Chinese");
 } elseif($locale === "zh_TW") {
-   $phpLocale = setlocale(LC_ALL,"zh_TW","tw", "cht", "Taiwan", "chinese-traditional");
+   $phpLocale = setlocale(LC_ALL,"zh_TW.UTF-8","tw.UTF-8", "cht.UTF-8", "Taiwan", "chinese-traditional");
 } elseif($locale === "lt") {
-   $phpLocale = setlocale(LC_ALL,"lt_LT","lt","lithuanian");
+   $phpLocale = setlocale(LC_ALL,"lt_LT.UTF-8","lt.UTF-8","lithuanian");
 } elseif($locale === "ko") {
-   $phpLocale = setlocale(LC_ALL,"ko", "ko_KR","korean");
+   $phpLocale = setlocale(LC_ALL,"ko_KR.UTF-8", "ko.UTF-8","korean");
 } elseif($locale === "ar") {
-   $phpLocale = setlocale(LC_ALL,"ar", "ar_DZ","arab");
+   $phpLocale = setlocale(LC_ALL,"ar_DZ.UTF-8", "ar.UTF-8","arab");
 } else {
    // No locale set, it's because visitors modify the url, so forbidden reply
    header('HTTP/1.1 403 Forbidden');

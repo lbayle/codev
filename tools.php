@@ -464,13 +464,17 @@ class Tools {
 
    /**
     * Format the date in locale
+    * Note: to return in UTF8, the locale must be specified with ".utf8"
+    * example: setlocale(LC_ALL,"ar.utf8", "ar_DZ.utf8","arab");
+    *
     * @static
     * @param string $pattern The pattern to user
     * @param int $timestamp The timestamp to format
     * @return string The localized date
     */
    public static function formatDate($pattern, $timestamp) {
-      return utf8_encode(ucwords(strftime($pattern, $timestamp)));
+      // return utf8_encode(ucwords(strftime($pattern, $timestamp)));
+      return strftime($pattern, $timestamp);
    }
 
    /**

@@ -124,7 +124,7 @@ class SmartyTools {
          
          $weeks[] = array(
             'id' => $i,
-            'value' => utf8_encode(ucwords($monday)." - ".ucwords($friday)),
+            'value' => $monday." - ".$friday,
             'selected' => $i == $weekid
          );
       }
