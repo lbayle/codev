@@ -39,6 +39,8 @@ if($locale === "fr") {
    $phpLocale = setlocale(LC_ALL,"lt_LT","lt","lithuanian");
 } elseif($locale === "ko") {
    $phpLocale = setlocale(LC_ALL,"ko", "ko_KR","korean");
+} elseif($locale === "ar") {
+   $phpLocale = setlocale(LC_ALL,"ar", "ar_DZ","arab");
 } else {
    // No locale set, it's because visitors modify the url, so forbidden reply
    header('HTTP/1.1 403 Forbidden');
@@ -148,6 +150,9 @@ function getLocale() {
             break;
          } elseif (strpos($lang, 'ko') === 0) {
             $locale = 'ko';
+            break;
+         } elseif (strpos($lang, 'ar') === 0) {
+            $locale = 'ar';
             break;
          }
       }
