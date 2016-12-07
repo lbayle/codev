@@ -41,7 +41,6 @@ CheckArgs ()
 
          * )
             echo "WARNING: Unknown arg '$1' (skipped)"
-            
         ;;
       esac
       shift
@@ -197,7 +196,7 @@ else
      if [ 'qqq' != "${LOCALE}" ]; then
        echo "--- ${LOCALE} ---"
        f_exec
-       doTemplate="No";
+       doTemplate="Yes";
        #echo " "
      fi
   done
