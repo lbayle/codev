@@ -3855,7 +3855,7 @@ msgstr "La tâcje destinataire doit être différente de la tâche d'origine"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Origin task"
-msgstr "tâches source"
+msgstr "tâche source"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Move selected timetracks"
