@@ -72,7 +72,7 @@
             </span>
         </div>
         
-        <div class="moveIssueTimetracks_filterSummary" >
+        <div class="moveIssueTimetracks_filterSummary" hidden>
             <table  class="moveIssueTimetracks_table">
                 <tr>
                     <td><b>{t}Origin task{/t} : </b></td>
@@ -396,7 +396,7 @@
         
         jQuery(".moveIssueTimetracks_errorsFromServer").hide();
         jQuery(".moveIssueTimetracks_success").hide();
-        
+        jQuery(".moveIssueTimetracks_filterSummary").hide();
         jQuery(".moveIssueTimetracksTab").empty();
         
         jQuery(".moveIssueTimetracks_javascriptFieldValidation").hide();
