@@ -198,7 +198,7 @@
             var usernames = rows.find('td.username');
             for(i = 0 ; i < usernames.length ; i++) {
                 if(0 == usernames.eq(i).text().length || '' == usernames.eq(i).text() || null == usernames.eq(i).text()) {
-                    validationErrorContainer.html('{t}Username not set on all users{/t}');
+                    validationErrorContainer.html("{t}Username not set on all users{/t}");
                     return false;
                 }
             }
@@ -206,7 +206,7 @@
             var projectAccessLevels = rows.find('td.projectAccessLevel');
             for(i = 0 ; i < projectAccessLevels.length ; i++) {
                 if(0 == projectAccessLevels.eq(i).text().length || '' == projectAccessLevels.eq(i).text() || null == projectAccessLevels.eq(i).text()) {
-                    validationErrorContainer.html('{t}Project access level not set on all users{/t}');
+                    validationErrorContainer.html("{t}Project access level not set on all users{/t}");
                     return false;
                 }
             }
@@ -214,7 +214,7 @@
             var codevTTRoles = rows.find('td.codevTTRole');
             for(i = 0 ; i < codevTTRoles.length ; i++) {
                 if(0 == codevTTRoles.eq(i).text().length || '' == codevTTRoles.eq(i).text() || null == codevTTRoles.eq(i).text()) {
-                    validationErrorContainer.html('{t}CodevTT roles not set on all users{/t}');
+                    validationErrorContainer.html("{t}CodevTT roles not set on all users{/t}");
                     return false;
                 }
             }
@@ -222,7 +222,7 @@
             var entryDates = rows.find('td.entryDate');
             for(i = 0 ; i < entryDates.length ; i++) {
                 if(0 == entryDates.eq(i).text().length || '' == entryDates.eq(i).text() || null == entryDates.eq(i).text()) {
-                    validationErrorContainer.html('{t}Date of entry in team not set on all users{/t}');
+                    validationErrorContainer.html("{t}Date of entry in team not set on all users{/t}");
                     return false;
                 }
             }
