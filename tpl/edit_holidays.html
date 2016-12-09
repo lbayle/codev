@@ -65,7 +65,7 @@
    <div style="margin-top: 2em;">
       <script type="text/javascript">
          function deleteHoliday(id, date, description){
-            var confirmString = "{t}Desirez-vous vraiment supprimer definitivement cette date ?{/t}\n" + date + " - " + description;
+            var confirmString = "{t}Permanently remove this date ?{/t}\n" + date + " - " + description;
             if (confirm(confirmString)) {
                var form = jQuery("#deleteHolidayForm");
                form.find("input[name=hol_id]").val(id);

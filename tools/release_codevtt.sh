@@ -77,15 +77,13 @@ f_release()
   echo "remove DOC files..."
   rm -rf ${DIR_RELEASE}/doc/apache
   rm -rf ${DIR_RELEASE}/doc/architecture
-  rm -rf ${DIR_RELEASE}/doc/en
   rm -rf ${DIR_RELEASE}/doc/fr/Archives
-  rm -rf ${DIR_RELEASE}/doc/fdj
   rm -rf ${DIR_RELEASE}/doc/git_config
   rm -rf ${DIR_RELEASE}/doc/mantis_config/*.sql
   rm -rf ${DIR_RELEASE}/doc/phpdoc
   rm -rf ${DIR_RELEASE}/doc/screenshots
   find   ${DIR_RELEASE}/doc -name "*.od?" | xargs rm
-  rm     ${DIR_RELEASE}/doc/codeswarm_codevtt.config
+  rm -rf ${DIR_RELEASE}/doc/codeswarm
 
   echo "remove IMAGES files..."
   rm ${DIR_RELEASE}/images/*.sumo
@@ -118,8 +116,6 @@ f_release()
   rm -rf ${DIR_RELEASE}/nbproject
 
   # remove beta functionalities
-  rm -rf ${DIR_RELEASE}/blog
-  rm "${DIR_RELEASE}/classes/blog_manager.class.php"
   rm "${DIR_RELEASE}/classes/blogpost_cache.class.php"
 
   chmod a+rw ${DIR_RELEASE}/classmap.ser
