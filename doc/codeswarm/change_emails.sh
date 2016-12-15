@@ -31,13 +31,15 @@ OLD_EMAIL3="codevtt@localhost"
 OLD_EMAIL4="lob@pavilion.(none)"
 OLD_EMAIL5="codev.fdj@atos.net"
 OLD_EMAIL6="lbayle@codev.(none)"
+OLD_EMAIL7"louis.bayle@atos.net"
 
 if [ "$GIT_COMMITTER_EMAIL" = "$OLD_EMAIL1" ] ||
    [ "$GIT_COMMITTER_EMAIL" = "$OLD_EMAIL2" ] ||
    [ "$GIT_COMMITTER_EMAIL" = "$OLD_EMAIL3" ] ||
    [ "$GIT_COMMITTER_EMAIL" = "$OLD_EMAIL4" ] ||
    [ "$GIT_COMMITTER_EMAIL" = "$OLD_EMAIL5" ] ||
-   [ "$GIT_COMMITTER_EMAIL" = "$OLD_EMAIL6" ]
+   [ "$GIT_COMMITTER_EMAIL" = "$OLD_EMAIL6" ] ||
+   [ "$GIT_COMMITTER_EMAIL" = "$OLD_EMAIL7" ]
 then
     export GIT_COMMITTER_NAME="$CORRECT_NAME"
     export GIT_COMMITTER_EMAIL="$CORRECT_EMAIL"
@@ -47,7 +49,8 @@ if [ "$GIT_AUTHOR_EMAIL" = "$OLD_EMAIL1" ] ||
    [ "$GIT_AUTHOR_EMAIL" = "$OLD_EMAIL3" ] ||
    [ "$GIT_AUTHOR_EMAIL" = "$OLD_EMAIL4" ] ||
    [ "$GIT_AUTHOR_EMAIL" = "$OLD_EMAIL5" ] ||
-   [ "$GIT_AUTHOR_EMAIL" = "$OLD_EMAIL6" ]
+   [ "$GIT_AUTHOR_EMAIL" = "$OLD_EMAIL6" ] ||
+   [ "$GIT_AUTHOR_EMAIL" = "$OLD_EMAIL7" ]
 then
     export GIT_AUTHOR_NAME="$CORRECT_NAME"
     export GIT_AUTHOR_EMAIL="$CORRECT_EMAIL"
