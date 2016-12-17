@@ -80,7 +80,8 @@ class UninstallController extends Controller {
                $this->smartyHelper->assign('stepThreeResult', $result);
 
                if($result) {
-                  $result = Tools::execSQLscript2(Constants::$codevRootDir.'/install/uninstall.sql');
+                  #$result = Tools::execSQLscript2(Constants::$codevRootDir.'/install/uninstall.sql');
+                  $result = $this->removeDatabaseTables();
                }
                $this->smartyHelper->assign('stepFourResult', $result);
 
@@ -88,6 +89,11 @@ class UninstallController extends Controller {
                   $result = $this->deleteConfigFiles();
                }
                $this->smartyHelper->assign('stepFiveResult', $result);
+
+               if($result) {
+                  $result = $this->removeMantisPlugins();
+               }
+               $this->smartyHelper->assign('stepSixResult', $result);
 
             } else {
                Config::setQuiet(true);
@@ -165,6 +171,67 @@ class UninstallController extends Controller {
    }
 
    /**
+    * same as uninstall.sql, but loading .sql files does not always work.
+    */
+   function removeDatabaseTables() {
+      $query = "DROP FUNCTION IF EXISTS get_project_resolved_status_threshold;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP FUNCTION IF EXISTS get_issue_resolved_status_threshold;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP FUNCTION IF EXISTS is_project_in_team;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP FUNCTION IF EXISTS is_issue_in_team_commands;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_blog_activity_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_blog_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_commandset_cmd_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_commandset_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_command_bug_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_command_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_config_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_holidays_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_job_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_project_category_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_project_job_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_servicecontract_cmdset_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_servicecontract_stproj_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_servicecontract_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_team_project_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_team_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_team_user_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_timetracking_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_sidetasks_category_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_command_provision_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_wbs_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_plugin_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_timetrack_note_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      return true;
+   }
+
+   /**
     * remove CodevTT Config Files
     * @return bool True if success
     */
@@ -183,27 +250,45 @@ class UninstallController extends Controller {
    }
 
    /**
+    * remove CodevTT plugin, not FilterBugList
+    */
+   function removeMantisPlugins() {
+      $mantisPluginDir = Constants::$mantisPath . DIRECTORY_SEPARATOR . 'plugins';
+      $codevttPluginDir = $mantisPluginDir . DIRECTORY_SEPARATOR . 'CodevTT';
+
+      // remove previous installed plugin
+      if (is_writable($codevttPluginDir)) {
+         Tools::deleteDir($codevttPluginDir);
+      }
+      return true;
+   }
+
+   /**
     * remove CodevTT Config Files
     * @return bool True if success
     */
    function deleteConfigFiles() {
-      if (file_exists(Constants::$config_file)) {
+      if (file_exists(Constants::$config_file) &&
+          is_writable(Constants::$config_file)) {
          $retCode = unlink(Constants::$config_file);
          if (!$retCode) {
             self::$logger->error("ERROR: Could not delete file: " . Constants::$config_file);
             return false;
          }
       }
-      if (file_exists(Constants::$codevtt_logfile)) {
-         $retCode = unlink(Constants::$codevtt_logfile);
+      $log4php_url = Constants::$codevURL.'/log4php.xml';
+      if (file_exists($log4php_url) &&
+          is_writable($log4php_url)) {
+         $retCode = unlink($log4php_url);
          if (!$retCode) {
-            self::$logger->error("ERROR: Could not delete file: " . Constants::$codevtt_logfile);
+            self::$logger->error("ERROR: Could not delete file: " . $log4php_url);
             return false;
          }
       }
 
-      $greasemonkey_url = Constants::$codevURL.'/mantis_monkey.user.js';
-      if (file_exists($greasemonkey_url)) {
+      $greasemonkey_url = Constants::$codevURL . DIRECTORY_SEPARATOR . 'mantis_monkey.user.js';
+      if (file_exists($greasemonkey_url) &&
+          is_writable($greasemonkey_url)) {
          $retCode = unlink($greasemonkey_url);
          if (!$retCode) {
             self::$logger->error("ERROR: Could not delete file: " . $greasemonkey_url);
@@ -222,4 +307,3 @@ UninstallController::staticInit();
 $controller = new UninstallController('../', 'Uninstall','Admin');
 $controller->execute();
 
-?>
