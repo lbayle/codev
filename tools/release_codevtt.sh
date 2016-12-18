@@ -8,6 +8,14 @@ RELEASE_DATE=$(date +%Y%m%d)
 GIT_BRANCH="master"
 GIT_REPO=$(git rev-parse --show-toplevel)
 
+# Win7
+EXE_7Z="/c/Progra~1/7-Zip/7z.exe"
+
+UNAME=$(uname -a)
+
+# MINGW64_NT-6.1 FR-4Q62CW1 2.5.0(0.295/5/3) 2016-03-31 18:47 x86_64 Msys
+[[ "${UNAME}" == *"MINGW64_NT"* ]] && IS_WIN="YES" || IS_WIN="NO"
+
 # --------------
 # check input params
 CheckArgs ()
@@ -171,12 +179,20 @@ fi
 echo "create ZIP file: ${TMP_DIR}/${ZIP_FILE}"
 cd ${TMP_DIR}
 if [ -f ${TMP_DIR}/${ZIP_FILE} ] ; then rm ${TMP_DIR}/${ZIP_FILE} ; fi
-zip -r ${ZIP_FILE} codevtt_${GIT_BRANCH} 2>&1 > /dev/null
+
+if [ $IS_WIN == "NO" ] ; then
+  zip -r ${ZIP_FILE} codevtt_${GIT_BRANCH} 2>&1 > /dev/null
+else
+  # WARN: utilisation du path windows sinon comportement impossible avec le \* en fin de cmd
+  "/C/Program Files/7-Zip/7z" a -tzip "${ZIP_FILE}" "codevtt_${GIT_BRANCH}"
+fi
 retCode=$?
 if [ 0 -ne $retCode ] ; then
  echo "ERROR $retCode : ZIP failed !"
  exit 5;
-fi  
+fi
+
+
 
 cd $DIR_PREV
 
