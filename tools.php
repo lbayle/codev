@@ -598,7 +598,7 @@ class Tools {
          $error = 'ERROR : could not LOAD_FILE ('.$sqlFile.')';
          echo "<span class='error_font'>$error</span><br>";
          $error = 'RETRY with SQL query...';
-         echo "<span class='info_font'>$error</span><br>";
+         echo "<span class='success_font'>$error</span>";
 
          // SELECT LOAD_FILE doesn't work on all OS !
          $request = "";
@@ -617,11 +617,13 @@ class Tools {
          foreach($reqs as $req) {
             if(strlen($req) > 0) {
                if (!SqlWrapper::getInstance()->sql_query($req)) {
+                  echo "<span class='error_font'>FAILED</span><br>";
                   die("ERROR : ".$req." : ".SqlWrapper::getInstance()->sql_error());
                   //return false;
                }
             }
          }
+         echo "<span class='success_font'>SUCCESS</span><br>";
       }
 
       return TRUE;

@@ -47,8 +47,9 @@ if (file_exists(Constants::$config_file)) {
    echo "&nbsp;";
    echo "<a href='".Tools::curPageName()."?locale=it_IT'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-it' title='Italian' width='18px' height='12px' /></a>";
    echo "&nbsp;";
-   echo "<a href='".Tools::curPageName()."?locale=nl_NL'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-nl' title='Netherlands' width='18px' height='12px' /></a>";
+/*   echo "<a href='".Tools::curPageName()."?locale=nl_NL'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-nl' title='Netherlands' width='18px' height='12px' /></a>";
    echo "&nbsp;";
+ */
    echo "<a href='".Tools::curPageName()."?locale=pt_BR'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-br' title='Brazil' width='18px' height='12px' /></a>";
    echo "<br><br><br>";
 
@@ -113,11 +114,24 @@ if (file_exists(Constants::$config_file)) {
 
    $test_result = "(Manual check) Please ensure that user '<b>".exec('whoami')."</b>' has write access to your <b>mantis</b> directory";
    echo '<tr><td valign="top">Write access to MantisBT directory</td><td><span class="success_font">'.$test_result.'</span></td></tr>';
-   echo "</table>\n";
+   echo "</table><br>";
+
+   echo "<h3>".T_("Upgrade instructions")."</h3>";
+   echo T_("If you're upgrading from an older CodevTT version, please <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>read this page</a> and do the following steps:")."<br>";
+   echo "<ul>";
+   echo "<li>".T_("Upgrade mantis first ! (not mandatory)")."</li>";
+   echo "<li>".T_("Copy CodevTT configuration files from your previous installation")."</li>";
+   echo "<li>".T_("Run this script: ")."<a href='".Tools::getServerRootURL()."/tools/update_codevtt.php' target='_blank'>update_codevtt.php</a></li>";
+   echo "</ul>";
+
+
+   echo "<div  style='text-align: center;'>\n";
+   echo '<form><input type="button" style="font-size:150%" value="'.T_("Install").'" onclick="window.location.href=\''.Tools::getServerRootURL().'/install/install_step1.php\'" /></form>';
+   echo "</div>\n";
 
    echo "<br><br><br>";
 
 
 }
 
-?>
+

@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS `codev_timetrack_note_table` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 
--- TODO update plugin table ?
+-- activate all new plugins
+UPDATE `codev_plugin_table` SET `status`='1' WHERE `status`='0';
 
 -- tag version
 UPDATE `codev_config_table` SET `value`='16' WHERE `config_id`='database_version';
