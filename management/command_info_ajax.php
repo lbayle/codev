@@ -206,9 +206,6 @@ if(Tools::isConnectedUser() &&
                ++$idx;
             }
 
-            $logger->error("nb displayed tasks in gantt (resolved only): ".count($tasksData));
-
-
             // add scheduled tasks
             foreach($tasksDates as $bugid => $taskDates) {
 
@@ -263,7 +260,6 @@ if(Tools::isConnectedUser() &&
                $bugid_to_idx[$bugid] = $idx;
                ++$idx;
             }
-            $logger->error("nb displayed tasks in gantt: ".count($tasksData));
 
             // set tasks dependencies
             $tasksLinks = array();

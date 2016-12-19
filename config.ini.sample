@@ -62,8 +62,8 @@ logo_image_0401_0401 = "images/codevtt_logo_03_april_1st.jpg"
 logo_image_0421_0425 = "images/codevtt_logo_03_easter.png"
 logo_image_1031_1031 = "images/codevtt_logo_03_halloween.png"
 logo_image_1220_1227 = "images/codevtt_logo_03_christmas.png"
-logo_image_1231_1231 = "images/codevtt_logo_03_happynewyear.png"
-logo_image_0101_0106 = "images/codevtt_logo_03_happynewyear.png"
+;logo_image_1231_1231 = "images/codevtt_logo_03_happynewyear.png"
+;logo_image_0101_0106 = "images/codevtt_logo_03_happynewyear.png"
 
 [timesheets]
 ; value:displayed_text
@@ -77,14 +77,15 @@ check_latest_version = 1
 [dashboardDefaultPlugins]
 ;Homepage = "BlogPlugin"
 ;User = ""
-;Task = ""
 ;Project = ""
-Team = "AvailableWorkforceIndicator"
+Task = "IssueBacklogVariationIndicator"
+Team = "AvailableWorkforceIndicator,LoadPerUserIndicator,BacklogPerUserIndicator,LoadPerJobIndicator2"
 Command = "LoadPerUserIndicator,ProgressHistoryIndicator2"
-CommandSet = "LoadPerUserIndicator"
-ServiceContract = "LoadPerJobIndicator2,ProgressHistoryIndicator2,EffortEstimReliabilityIndicator2"
-Import_Export = "ImportIssueCsvBasic, ImportUsers"
-Admin = "TimetrackDetailsIndicator"
+CommandSet = "ProgressHistoryIndicator2"
+ServiceContract = "ManagementLoadHistoryIndicator"
+Import_Export = "ImportIssueCsv, ImportUsers"
+Admin = "MoveIssueTimetracks,TimetrackDetailsIndicator"
+EditTeam = "MoveIssueTimetracks"
 
 [email]
 ; --- cronjob (every Friday at 2:00 AM):

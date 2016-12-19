@@ -190,28 +190,31 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
       //$extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
 
       $issueList = $this->inputIssueSel->getIssueList();
-      $formatedBugidString = implode( ', ', array_keys($issueList));
-
-      $query = "SELECT ROUND(SUM(tt.duration), 2) as duration, prj.name as prjName
-               FROM codev_timetracking_table as tt, mantis_project_table as prj, mantis_bug_table as bug 
-               WHERE tt.bugid = bug.id
-               AND bug.project_id = prj.id
-               AND bug.id IN ($formatedBugidString)
-               AND tt.userid IN ($formatedUseridString) ";
-
-      if (isset($this->startTimestamp)) { $query .= " AND tt.date >= $this->startTimestamp "; }
-      if (isset($this->endTimestamp))   { $query .= " AND tt.date <= $this->endTimestamp "; }
-      $query .= " GROUP BY prj.id
-                  ORDER BY `prj`.`name` ASC";
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
       $projectLoad = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $projectLoad["$row->prjName"] = (float)$row->duration;
+
+      if (0 != count($issueList)) {
+         $formatedBugidString = implode( ', ', array_keys($issueList));
+
+         $query = "SELECT ROUND(SUM(tt.duration), 2) as duration, prj.name as prjName
+                  FROM codev_timetracking_table as tt, mantis_project_table as prj, mantis_bug_table as bug
+                  WHERE tt.bugid = bug.id
+                  AND bug.project_id = prj.id
+                  AND bug.id IN ($formatedBugidString)
+                  AND tt.userid IN ($formatedUseridString) ";
+
+         if (isset($this->startTimestamp)) { $query .= " AND tt.date >= $this->startTimestamp "; }
+         if (isset($this->endTimestamp))   { $query .= " AND tt.date <= $this->endTimestamp "; }
+         $query .= " GROUP BY prj.id
+                     ORDER BY `prj`.`name` ASC";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $projectLoad["$row->prjName"] = (float)$row->duration;
+         }
       }
 
       // ---

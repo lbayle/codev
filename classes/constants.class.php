@@ -32,8 +32,8 @@ class Constants {
       'logo_image_0401_0401' => 'images/codevtt_logo_03_april_1st.jpg',
       'logo_image_1031_1031' => 'images/codevtt_logo_03_halloween.png',
       'logo_image_1201_1227' => 'images/codevtt_logo_03_christmas.png',
-      'logo_image_1231_1231' => 'images/codevtt_logo_03_happynewyear.png',
-      'logo_image_0101_0106' => 'images/codevtt_logo_03_happynewyear.png',
+      #'logo_image_1231_1231' => 'images/codevtt_logo_03_happynewyear.png',
+      #'logo_image_0101_0106' => 'images/codevtt_logo_03_happynewyear.png',
       );
    
    // --- DATABASE ---
@@ -105,12 +105,14 @@ class Constants {
    // Note: keys defined in IndicatorPluginInterface::DOMAIN_XXX
    public static $dashboardDefaultPlugins = array (
        //'Homepage' => array('BlogPlugin'),
-       'Team' => array('AvailableWorkforceIndicator','LoadPerUserIndicator','LoadPerJobIndicator2'),
+       'Task' => array('IssueBacklogVariationIndicator'),
+       'Team' => array('AvailableWorkforceIndicator','LoadPerUserIndicator','BacklogPerUserIndicator','LoadPerJobIndicator2'),
        'Command' => array('LoadPerUserIndicator','ProgressHistoryIndicator2'),
-       'CommandSet' => array('LoadPerUserIndicator'),
-       'ServiceContract' => array('LoadPerJobIndicator2','ProgressHistoryIndicator2','EffortEstimReliabilityIndicator2'),
-       'Import_Export' => array('ImportIssueCsvBasic', 'ImportUsers'),
-       'Admin' => array('TimetrackDetailsIndicator'),
+       'CommandSet' => array('ProgressHistoryIndicator2'),
+       'ServiceContract' => array('ManagementLoadHistoryIndicator'),
+       'Import_Export' => array('ImportIssueCsv', 'ImportUsers'),
+       'Admin' => array('MoveIssueTimetracks','TimetrackDetailsIndicator'),
+       'EditTeam' => array('MoveIssueTimetracks'),
    );
 
    // ---EMAIL---
