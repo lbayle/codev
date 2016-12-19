@@ -1,6 +1,7 @@
 <div id="content">
-   {if isset($access)}
-   {if $codevReportsDir}
+{if isset($access)}
+
+{if $codevReportsDir}
    <script type="text/javascript">
       function uninstall() {
          document.forms["form1"].is_modified.value= "true";
@@ -34,49 +35,55 @@
       <input type="hidden" name="action" value="uninstall" />
       <input type="hidden" name="is_modified" value="{$is_modified}" />
    </form>
-   {else}
+{else}
+
+<table class="invisible">
    {if $isBackup}
-   <p>{t}Backup{/t} :<br />
-      {t}Dumping MantisDB to{/t} {$filename} ...<br />
-      {if $backupResult}{t}Backup successfully done{/t}<br />
-      {else}{t}Uninstall aborted !{/t}<br />
-      {/if}
-   </p>
+   <tr>
+      <td>{t}Dumping MantisDB to{/t} {$filename}</td>
+      <td>{if $backupResult}{t}Backup successfully done{/t} {else}{t}Uninstall aborted !{/t} {/if}</td>
+   </tr>
    {/if}
-   {if $stepOneResult}
-   1/5 {t}Remove CodevTT from Mantis menu:{/t}<br />
-   {t}TODO{/t}
-   <br /><br />
-   {if $stepTwoResult}
-   <p>2/5 {t}Remove CodevTT specific projects{/t}<br />
-      {t}Please MANUALY delete the following projects:{/t}
-   </p>
-   <ul>
-      {foreach $prjList as $id => $name}
-      <li title="{$id}">{$name}</li>
-      {/foreach}
-   </ul>
-   <br />
-   3/5 {t}Remove CodevTT customFields:{/t}<br />
-   {if $stepThreeResult}
-   {t}Done{/t}<br /><br />
-   4/5 {t}Remove CodevTT tables from MantisDB:{/t}<br />
-   {if $stepFourResult}
-   {t}Done{/t}<br /><br />
-   5/5 {t}Remove CodevTT config files:{/t}<br />
-   {if $stepFiveResult}{t}Done{/t}
-   {else}<p class="ui-state-error-text">{t}ERROR: Could not delete files{/t}</p>
+   {if $backupResult}
+   <!--tr>
+      <td>{t}Remove CodevTT from Mantis menu:{/t}</td>
+      <td>{if $stepOneResult} {t}TODO{/t} {else} <p class="ui-state-error-text">{t}Failed{/t}</p> {/if}</td>
+   </tr-->
+   <tr>
+      <td>{t}Remove CodevTT customFields:{/t}</td>
+      <td>{if $stepThreeResult} {t}Done{/t} {else} <p class="ui-state-error-text">{t}Failed{/t}</p> {/if}</td>
+   </tr>
+   <tr>
+      <td>{t}Remove CodevTT tables from MantisDB:{/t}</td>
+      <td>{if $stepFourResult} {t}Done{/t} {else} <p class="ui-state-error-text">{t}Failed{/t}</p> {/if}</td>
+   </tr>
+   <tr>
+      <td>{t}Remove CodevTT config files:{/t}</td>
+      <td>{if $stepFiveResult}{t}Done{/t} {else} <p class="ui-state-error-text">{t}Failed{/t}</p> {/if}</td>
+   </tr>
+   <tr>
+      <td>{t}Remove Mantis plugin:{/t}</td>
+      <td>{if $stepSixResult}{t}Done{/t} {else} <p class="ui-state-error-text">{t}Failed{/t}</p> {/if}</td>
+   </tr>
+   <tr>
+      <td>{t}Please MANUALY delete the following projects:{/t}</td>
+      <td>
+         {if $stepTwoResult}
+         <ul>
+            {foreach $prjList as $id => $name}
+            <li title="{$id}">{$name}</li>
+            {/foreach}
+         </ul>
+         {else}<p class="ui-state-error-text">{t}Failed{/t}</p>
+         {/if}
+      </td>
+   </tr>
    {/if}
-   {else}<p class="ui-state-error-text">{t}Failed{/t}</p>
-   {/if}
-   {else}<p class="ui-state-error-text">{t}Failed{/t}</p>
-   {/if}
-   {else}<p class="ui-state-error-text">{t}Failed{/t}</p>
-   {/if}
-   {else}<p class="ui-state-error-text">{t}Failed{/t}</p>
-   {/if}
-   {/if}
-   {else}
-   <p class="center ui-state-error-text">{t}Sorry, you need to be in the admin-team to access this page.{/t}</p>
-   {/if}
+</table>
+
+{/if}
+
+{else}
+<p class="center ui-state-error-text">{t}Sorry, you need to be in the admin-team to access this page.{/t}</p>
+{/if}
 </div>

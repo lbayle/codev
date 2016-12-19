@@ -66,33 +66,24 @@ class UninstallController extends Controller {
                   $this->smartyHelper->assign('backupResult', $result);
                }
 
-               $this->smartyHelper->assign('stepOneResult', $result);
+               // remove from mantis menu
+               //$this->smartyHelper->assign('stepOneResult', true);
 
-               if($result) {
-                  $prjList = $this->displayProjectsToRemove();
-                  $this->smartyHelper->assign('projects', $prjList);
-               }
-               $this->smartyHelper->assign('stepTwoResult', $result);
+               $prjList = $this->displayProjectsToRemove();
+               $this->smartyHelper->assign('prjList', $prjList);
+               $this->smartyHelper->assign('stepTwoResult', true);
 
-               if($result) {
-                  $result = $this->removeCustomFields();
-               }
+               $result = $this->removeCustomFields();
                $this->smartyHelper->assign('stepThreeResult', $result);
 
-               if($result) {
-                  #$result = Tools::execSQLscript2(Constants::$codevRootDir.'/install/uninstall.sql');
-                  $result = $this->removeDatabaseTables();
-               }
+               #$result = Tools::execSQLscript2(Constants::$codevRootDir.'/install/uninstall.sql');
+               $result = $this->removeDatabaseTables();
                $this->smartyHelper->assign('stepFourResult', $result);
 
-               if($result) {
-                  $result = $this->deleteConfigFiles();
-               }
+               $result = $this->deleteConfigFiles();
                $this->smartyHelper->assign('stepFiveResult', $result);
 
-               if($result) {
-                  $result = $this->removeMantisPlugins();
-               }
+               $result = $this->removeMantisPlugins();
                $this->smartyHelper->assign('stepSixResult', $result);
 
             } else {
