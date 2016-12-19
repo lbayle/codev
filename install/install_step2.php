@@ -296,8 +296,20 @@ if ("proceedStep2" == $action) {
    $priority_enum_string = isset($g_priority_enum_string) ? $g_priority_enum_string : $s_priority_enum_string;
    $severity_enum_string = isset($g_severity_enum_string) ? $g_severity_enum_string : $s_severity_enum_string;
    $resolution_enum_string = isset($g_resolution_enum_string) ? $g_resolution_enum_string : $s_resolution_enum_string;
-   $status_enum_workflow = $g_status_enum_workflow;
 
+   if (0 != count($g_status_enum_workflow)) {
+      $status_enum_workflow = $g_status_enum_workflow;
+   } else {
+      // set mantis default workflow (see config_defaults_inc.php)
+      echo '<script type="text/javascript">console.warn("WARNING g_status_enum_workflow not defined in config_inc.php: set to mantis default !");</script>';
+      $status_enum_workflow[NEW_]='20:feedback,30:acknowledged,40:confirmed,50:assigned,80:resolved';
+      $status_enum_workflow[FEEDBACK] ='10:new,30:acknowledged,40:confirmed,50:assigned,80:resolved';
+      $status_enum_workflow[ACKNOWLEDGED] ='20:feedback,40:confirmed,50:assigned,80:resolved';
+      $status_enum_workflow[CONFIRMED] ='20:feedback,50:assigned,80:resolved';
+      $status_enum_workflow[ASSIGNED] ='20:feedback,80:resolved,90:closed';
+      $status_enum_workflow[RESOLVED] ='50:assigned,90:closed';
+      $status_enum_workflow[CLOSED] ='50:assigned';
+   }
    // and set codev Config variables
 
    echo "<script type=\"text/javascript\">console.log(\"DEBUG add statusNames\");</script>";
@@ -316,7 +328,7 @@ if ("proceedStep2" == $action) {
    echo "<script type=\"text/javascript\">console.log(\"DEBUG add bug_resolved_status_threshold = $g_bug_resolved_status_threshold\");</script>";
    Constants::$bug_resolved_status_threshold = $bug_resolved_status_threshold;
 
-   echo "<script type=\"text/javascript\">console.log(\"DEBUG add status_enum_workflow\");</script>";
+   echo '<script type="text/javascript">console.log(\'DEBUG add status_enum_workflow: '.json_encode($status_enum_workflow).'\');</script>';
    Constants::$status_enum_workflow = $status_enum_workflow;
    if (!is_array(Constants::$status_enum_workflow)) {
       $errStr .= "Could not retrieve status_enum_workflow form Mantis config files<br>";
