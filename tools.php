@@ -473,8 +473,11 @@ class Tools {
     * @return string The localized date
     */
    public static function formatDate($pattern, $timestamp) {
-      // return utf8_encode(ucwords(strftime($pattern, $timestamp)));
-      return strftime($pattern, $timestamp);
+      //if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+      //   return utf8_encode(ucwords(strftime($pattern, $timestamp)));
+      //} else {
+         return strftime($pattern, $timestamp);
+      //}
    }
 
    /**

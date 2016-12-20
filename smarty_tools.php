@@ -121,7 +121,13 @@ class SmartyTools {
          $mondayTimestamp = strtotime($date_string);
          $monday = T_('W').$i.' | '.strftime('%d %b', strtotime("Monday",$mondayTimestamp));
          $friday = strftime("%d %b", strtotime("Friday",$mondayTimestamp));
-         
+
+/*      if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+         $monday = utf8_encode($monday);
+         $friday = utf8_encode($friday);
+      }
+*/
+
          $weeks[] = array(
             'id' => $i,
             'value' => $monday." - ".$friday,
