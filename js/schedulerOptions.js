@@ -228,7 +228,9 @@ function initSchedulerAffectations(){
       addedUsers.find("table tbody").append(trUser);
       
       checkTotalEffort();
-      
+      jQuery(".scheduler_messageSave").text("");
+
+
       // Events
       $(minusButton).on("click", function(){
          
@@ -237,6 +239,7 @@ function initSchedulerAffectations(){
          newValue = newValue < 0 ? 0 : newValue;
          timeInput.val(newValue);
          $(timeInput).trigger("change");
+         jQuery(".scheduler_messageSave").text("");
       });
       
       $(plusButton).on("click", function(){
@@ -244,6 +247,7 @@ function initSchedulerAffectations(){
          var timeInput = $(this).parent().parent().find(".scheduler_userTime input");
          timeInput.val(parseInt(timeInput.val()) + 1);
          $(timeInput).trigger("change");
+         jQuery(".scheduler_messageSave").text("");
       });
       
       $(timeInput).on("change", function(){
@@ -253,6 +257,7 @@ function initSchedulerAffectations(){
          newValue = newValue < 0 ? 0 : newValue;
          $(this).val(newValue);
          checkTotalEffort();
+         jQuery(".scheduler_messageSave").text("");
       });
       
       $(autoAffectationButton).on("click", function(){
@@ -274,6 +279,7 @@ function initSchedulerAffectations(){
          }
          
          checkTotalEffort();
+         jQuery(".scheduler_messageSave").text("");
       });
       
       if(removable)
@@ -298,6 +304,7 @@ function initSchedulerAffectations(){
             userList.select2();
 
             checkTotalEffort();
+            jQuery(".scheduler_messageSave").text("");
          });
       }
    }
