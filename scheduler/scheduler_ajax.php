@@ -305,10 +305,13 @@ function setTimePerUserList() {
    $uTimeList = Tools::getSecurePOSTStringValue('taskUserList'); // [ [ 'userId' => id, 'userTime' => days ] ]
    $usersTimeList = json_decode(stripslashes($uTimeList), true);
 
-   foreach($usersTimeList as $userTime) {
-      // Note: if (userTime == NULL) => auto mode
-      $assignedUsers[$userTime['userId']] = $userTime['userTime'];
-   }
+   if (NULL != $usersTimeList) {
+      $assignedUsers = array();
+      foreach($usersTimeList as $userTime) {
+         // Note: if (userTime == NULL) => auto mode
+         $assignedUsers[$userTime['userId']] = $userTime['userTime'];
+      }
+   } // else { $assignedUsers = NULL; }
 
    $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
    $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser);
