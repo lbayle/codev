@@ -54,6 +54,13 @@ function setGanttOptions() {
 
    // set filter on
     gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
+
+      // resolvedFilter
+      if ((task.isResolved) && (! $('#showResolvedFilter').attr('checked'))) {
+         return false;
+      }
+
+      // summaryFilter
       var summaryFilter = $("#summaryFilter").val();
       if (task.text.toString().toLowerCase().indexOf(summaryFilter) >= 0) {
          return true;
@@ -76,7 +83,7 @@ function setGanttOptions() {
  */
 function computeGantt() {
 
-   //$('#loading').show();  // show spinner
+   $('#ganttDiv').show();  // show spinner
    $("#ganttBtImg").attr("src","images/spinner.gif");
 
    // ajax call to get tasks

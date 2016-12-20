@@ -351,20 +351,24 @@
 
          <div id="tabGantt_gantt" >
             <div style='height:20px; padding:5px;'>
-            <button onclick="computeGantt()" >
-               <img class="vertical-middle" id="ganttBtImg" src="images/b_refresh.png" alt="refresh icon">
-               <span class="vertical-middle">{t}Reload{/t}</span>
-            </button>
-               <div class="ganttFilters" id="ganttFilters">
+               <button onclick="computeGantt()" >
+                  <img class="vertical-middle" id="ganttBtImg" src="images/b_refresh.png" alt="refresh icon">
+                  <span class="vertical-middle">{t}Reload{/t}</span>
+               </button>
+            </div>
+            <div id="ganttDiv" class="ui-helper-hidden">
+               <div style='height:20px; padding:5px;' class="ganttFilters" id="ganttFilters">
                   <span>{t}Task filter:{/t} </span>
                   <input id= "summaryFilter" name="summaryFilter"/>
+                  <input id="showResolvedFilter" name="showResolvedFilter" type="checkbox">
+                  <span>{t}Show resolved tasks{/t} </span>
                   <button class="btGanttFilter"  onclick="gantt.refreshData();">
                      <img class="vertical-middle" src="images/b_refresh.png" alt="filter">
                      <span class="vertical-middle">{t}Filter{/t}</span>
                   </button>
                </div>
+               <div id="gantt_here" style='margin-top:2em; width:100%; height:500px;'></div>
             </div>
-            <div id="gantt_here" style='margin-top:2em; width:100%; height:500px;'></div>
          </div>
       </div>
       {/if}

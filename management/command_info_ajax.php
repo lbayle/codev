@@ -198,6 +198,7 @@ if(Tools::isConnectedUser() &&
                    'tooltipHtml' => $taskTooltip,
                    'assignedTo' => $handlerName,
                    'summary' => $issue->getSummary(),
+                   'isResolved' => true,
                );
                //$logger->error($data);
 
@@ -253,6 +254,7 @@ if(Tools::isConnectedUser() &&
                    'tooltipHtml' => $taskTooltip,
                    'assignedTo' => implode(', ', getAssignedUsers($bugid, $timePerUserPerTaskList)),
                    'summary' => $issue->getSummary(),
+                   'isResolved' => false,
                );
                if ('lightgreen' == $color) { $data['textColor'] = 'black'; }
 
