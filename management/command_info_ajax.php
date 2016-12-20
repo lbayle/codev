@@ -138,7 +138,7 @@ if(Tools::isConnectedUser() &&
             $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser);
             $timePerUserPerTaskList = SchedulerManager::transposeTo_TimePerUserPerTask($timePerTaskPerUser);
 
-            $logger->error("nb displayed tasks in cmd: ".count($cmdBugidList));
+            //$logger->error("nb displayed tasks in cmd: ".count($cmdBugidList));
             //$logger->error($cmdBugidList);
 
             $tasksData = array();
@@ -156,9 +156,9 @@ if(Tools::isConnectedUser() &&
                   // issues with no timetrack will not be displayed
                   $key = $tt->getDate().$issue->getId();
                   $orderedResolvedIssueList[$key]= $issue;
-               } else {
-                  $logger->error("no timetrack for ".$issue->getId());
-               }
+               } //else {
+                  //$logger->error("no timetrack for ".$issue->getId());
+               //}
                }
             }
             ksort($orderedResolvedIssueList);
