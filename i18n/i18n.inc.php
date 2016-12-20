@@ -18,7 +18,7 @@ require_once('gettext.inc');
 //echo "<br>current Locale=".T_setlocale(LC_ALL, 0).'<br>';
 
 $codevLocale = codevGetLocale();
-//echo "locale = ".$locale."<br>";
+//echo "locale = ".$codevLocale."<br>";
 
 codevSetLocale($codevLocale);
 
@@ -83,8 +83,25 @@ function codevSetLocale($codevLocale) {
    //putenv('LC_MESSAGES='.$phpLocale);
    // END WORKAROUND
 
+   //TODO --- WINDOWS ERROR ---
+   // on windows: 
+   // when using gettext.inc, setting LC_NUMERIC to en_US.UTF-8, LC_ALL is set too !
+   // when NOT using gettext.inc, locales are not recognized by gettext...
+
    // we want 3.5 always to be displayed '3.5' and not '3,5'
-   //T_setlocale(LC_NUMERIC,"en_US.utf8","us.utf8","usa.utf8","en.utf8","eng.utf8","English");
+   if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+      T_setlocale(LC_NUMERIC,"en_US.UTF-8","en_US.utf8","us.utf8","usa.utf8","en.utf8","eng.utf8","English");
+   }
+   // --------------------------
+
+/*
+   echo "<br>current Locale LC_COLLATE=".T_setlocale(LC_COLLATE, 0).'<br>';
+   echo "<br>current Locale LC_CTYPE=".T_setlocale(LC_CTYPE, 0).'<br>';
+   echo "<br>current Locale LC_MONETARY=".T_setlocale(LC_MONETARY, 0).'<br>';
+   echo "<br>current Locale LC_NUMERIC=".T_setlocale(LC_NUMERIC, 0).'<br>';
+   echo "<br>current Locale LC_TIME=".T_setlocale(LC_TIME, 0).'<br>';
+   echo "<br>current Locale LC_MESSAGES=".T_setlocale(LC_MESSAGES, 0).'<br>';
+*/
 
    $locales_dir = (TRUE === file_exists('./i18n/locale')) ? './i18n/locale' : $locales_dir = '../i18n/locale';
 
