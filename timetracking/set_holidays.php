@@ -47,7 +47,7 @@ class SetHolidaysController extends Controller {
 
             // if first call to this page
             if (!array_key_exists('nextForm',$_POST)) {
-               $activeMembers = $team->getActiveMembers();
+               $activeMembers = $team->getActiveMembers(NULL, NULL, TRUE);
                if ($this->session_user->isTeamManager($this->teamid)) {
                   $this->smartyHelper->assign('users', SmartyTools::getSmartyArray($activeMembers, $this->session_userid));
                } else {
@@ -239,7 +239,6 @@ class SetHolidaysController extends Controller {
 
 // ========== MAIN ===========
 SetHolidaysController::staticInit();
-$controller = new SetHolidaysController('../', 'Add Holidays','Holiday');
+$controller = new SetHolidaysController('../', 'Add leaves','Holiday');
 $controller->execute();
 
-?>

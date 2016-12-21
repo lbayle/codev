@@ -271,7 +271,7 @@ class HolidaysReportController extends Controller {
 
 // ========== MAIN ===========
 HolidaysReportController::staticInit();
-$controller = new HolidaysReportController('../', 'Holidays Report','Holiday');
+$controller = new HolidaysReportController('../', 'Leaves','Holiday');
 $controller->execute();
 
 
