@@ -73,7 +73,7 @@ f_genFileList ()
   echo "i18n/locale/smarty.c" >> $FILE_LIST
 
   #for i in $dirList
-  for i in admin classes doc filters graphs import indicator_plugins install management reports tests timetracking tools plugins $(ls *.php)
+  for i in admin classes doc filters graphs import indicator_plugins install management reports tests timetracking tools plugins scheduler gantt $(ls *.php)
   do
     find "$i" -iname "*.php" -print0 | while IFS= read -rd $'\0' f
     do
