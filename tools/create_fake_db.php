@@ -9,15 +9,36 @@ require(realpath(dirname(__FILE__)).'/../path.inc.php');
    along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* ==================================================
+ * ==== ACTIONS A EFFECTUER APRES EXECUTION =====
+ *
+ * - supprimer les droits d'administration mantis du user 'manager' (qui est temporairement admin, le compte administrator ayant ete desactive)
+ *   => il n'y aura plus aucun admin mantis, il faut reactiver administrator avec phpmyadmin...
+ *
+ * - cloturer les commandes qui ne sont pas interessantes pour la demo (n'en laisser que 2 ou 3)
+ * - postionner le filtre des commandes pour user1 et manager pour ne pas afficher les commandes cloturees
+ * - verifier les plugins affichés dans chaque dashboard
+ * - supprimer user1 de la team 23
+ * - desactiver les doodles ?
+ * 
+ */
+
+
+
 $logger = Logger::getLogger("create_fake_db");
 
 # Make sure this script doesn't run via the webserver
 if( php_sapi_name() != 'cli' ) {
 	echo "create_fake_db.php is not allowed to run through the webserver.\n ";
-   $logger->error("send_timesheet_emails.php is not allowed to run through the webserver.");
+   $logger->error("create_fake_db.php is not allowed to run through the webserver.");
 	exit( 1 );
 }
 
+   $stprojId=73; // 73 =TachesAnnexes RSI_TMA_Sante   // 24;
+   $mgrId=2; // 37;
+   $usrId=134; // 44
+   $lbayleId=2;
+   $demoTeamId=20; //11; // RSI_TMA_Sante
 
 
 
@@ -64,7 +85,7 @@ function create_fake_db($formattedFieldList) {
    updateProjects();
    
    
-   echo "-  Clean issues...<br>"; flush();
+   echo "-  Clean issues...\n"; flush();
    $j = 0;
 
    // all prj except SideTasksProjects (and externalTasksPrj)
@@ -113,7 +134,7 @@ function create_fake_db($formattedFieldList) {
    } // proj
 
    // commands
-   echo "-  Clean commands...<br>"; flush();
+   echo "-  Clean commands...\n"; flush();
    execQuery("UPDATE codev_command_table SET `reporter` = 'Joe the customer'");
    execQuery("UPDATE codev_command_table SET `description` = 'fake description...'");
 
@@ -159,11 +180,16 @@ function create_fake_db($formattedFieldList) {
 
 
 function updateUsers() {
-   echo "-  Clean users...<br>"; flush();
+   echo "-  Clean users...\n"; flush();
 
+   global $usrId;
+   global $mgrId;
+   global $lbayleId;
+/*
    $mgrId=37;
    $usrId=41; // 44
    $lbayleId=2;
+ */
    $query  = "SELECT id from `mantis_user_table` WHERE id NOT IN (1, $lbayleId, $mgrId, $usrId)"; // administrator, manager, lbayle, user1
    $result1 = execQuery($query);
    $i = 0;
@@ -206,12 +232,18 @@ function updateUsers() {
 
 function updateTeams() {
 
-   echo "-  Clean teams...<br>"; flush();
-   
+   echo "-  Clean teams...\n"; flush();
+
+   global $mgrId;
+   global $lbayleId;
+   global $demoTeamId;
+   global $stprojId;
+   /*
    $mgrId=37;
    $lbayleId=2;
    $demoTeamId=11;
    $stprojId=24;
+    */
 
    execQuery("UPDATE `codev_team_table` SET `leader_id` = '$lbayleId' ");
 
@@ -239,7 +271,7 @@ function updateTeams() {
 
 function updateProjects() {
 
-   echo "-  Clean projects...<br>"; flush();
+   echo "-  Clean projects...\n"; flush();
 
    $stprojId=24;
    $extprojId= Config::getInstance()->getValue(Config::id_externalTasksProject); // 3
@@ -291,5 +323,5 @@ foreach ($fieldNamesToClear as $fname) {
 
 create_fake_db($formattedFieldList);
 
- echo "Done.<br>";
+ echo "Done.\n";
  
