@@ -260,6 +260,10 @@ class TimeTrackingController extends Controller {
             $this->smartyHelper->assign('weeks', SmartyTools::getWeeks($weekid, $year));
             $this->smartyHelper->assign('years', SmartyTools::getYears($year,1));
 
+            # In ISO-8601 specification, it says that December 28th is always in the last week of its year.
+            $this->smartyHelper->assign('nbWeeksPrevYear', date("W", strtotime("28 December ".($year-1))));
+            $this->smartyHelper->assign('nbWeeksThisYear', date("W", strtotime("28 December $year")));
+
             $weekDates = Tools::week_dates($weekid,$year);
             $startTimestamp = $weekDates[1];
             $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));

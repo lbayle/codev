@@ -115,7 +115,11 @@ class SmartyTools {
     */
    public static function getWeeks($weekid, $year) {
       $weeks = array();
-      for ($i = 1; $i <= 53; $i++) {
+
+      # In ISO-8601 specification, it says that December 28th is always in the last week of its year.
+      $nbWeeks=date("W", strtotime("28 December $year"));
+
+      for ($i = 1; $i <= $nbWeeks; $i++) {
 
          $date_string = $year . 'W' . sprintf('%02d', $i);
          $mondayTimestamp = strtotime($date_string);
