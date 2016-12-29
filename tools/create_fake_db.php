@@ -34,11 +34,11 @@ if( php_sapi_name() != 'cli' ) {
 	exit( 1 );
 }
 
-   $stprojId=73; // 73 =TachesAnnexes RSI_TMA_Sante   // 24;
-   $mgrId=2; // 37;
-   $usrId=134; // 44
-   $lbayleId=2;
-   $demoTeamId=20; //11; // RSI_TMA_Sante
+   $stprojId=73; // 73 =TachesAnnexes RSI_TMA_Sante
+   $mgrId=2;
+   $usrId=134;
+   $lbayleId=60;
+   $demoTeamId=20; // 20 = RSI_TMA_Sante
 
 
 
@@ -185,11 +185,7 @@ function updateUsers() {
    global $usrId;
    global $mgrId;
    global $lbayleId;
-/*
-   $mgrId=37;
-   $usrId=41; // 44
-   $lbayleId=2;
- */
+
    $query  = "SELECT id from `mantis_user_table` WHERE id NOT IN (1, $lbayleId, $mgrId, $usrId)"; // administrator, manager, lbayle, user1
    $result1 = execQuery($query);
    $i = 0;
@@ -238,12 +234,6 @@ function updateTeams() {
    global $lbayleId;
    global $demoTeamId;
    global $stprojId;
-   /*
-   $mgrId=37;
-   $lbayleId=2;
-   $demoTeamId=11;
-   $stprojId=24;
-    */
 
    execQuery("UPDATE `codev_team_table` SET `leader_id` = '$lbayleId' ");
 
@@ -265,7 +255,6 @@ function updateTeams() {
    execQuery("UPDATE `codev_team_table` SET `name` = 'DEMO_Team' WHERE `id` ='$demoTeamId' ");
    execQuery("UPDATE `codev_team_table` SET `leader_id` = '$mgrId' WHERE `id` ='$demoTeamId' ");
    execQuery("UPDATE `codev_team_table` SET `description` = '' WHERE `id` ='$demoTeamId' ");
-   execQuery("UPDATE `mantis_project_table` SET `name` = 'SideTasks DEMO_Team' WHERE `id` ='$stprojId' ");
 
 }
 
@@ -273,7 +262,7 @@ function updateProjects() {
 
    echo "-  Clean projects...\n"; flush();
 
-   $stprojId=24;
+   global $stprojId;
    $extprojId= Config::getInstance()->getValue(Config::id_externalTasksProject); // 3
 
    // remove ALL files from ALL PROJECTS  (OVH upload fails)
