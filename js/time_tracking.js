@@ -238,6 +238,9 @@ jQuery(document).ready(function() {
 
    //----------------------------------------------------------
    var formUpdateWeek = jQuery("#formUpdateWeek");
+   var formAddTimetrack = jQuery("#form1");
+   var formUpdateBacklog = jQuery("#formUpdateBacklog");
+
 
    function updateFormWeek() {
       formUpdateWeek.find("input[name=projectid]").val(jQuery("#projectid").val());
@@ -254,7 +257,7 @@ jQuery(document).ready(function() {
          formUpdateWeek.find("select[name=weekid]").val(--weekid);
       } else {
          var year = jQuery("#year").val();
-         var prevYear = year - 1;
+         var prevYear = (+year) - (+1); // convert strings to int and decrement
          var lastWeekPrevYear=timetrackingSmartyData.nbWeeksPrevYear;
          formUpdateWeek.find("select[name=weekid]").val(lastWeekPrevYear);
          formUpdateWeek.find("select[name=year]").val(prevYear);
@@ -269,9 +272,11 @@ jQuery(document).ready(function() {
       if (weekid < timetrackingSmartyData.nbWeeksThisYear) {
          formUpdateWeek.find("select[name=weekid]").val(++weekid);
       } else {
-         formUpdateWeek.find("select[name=weekid]").val(1);
          var year = jQuery("#year").val();
-         formUpdateWeek.find("select[name=year]").val(++year);
+         var nextYear = (+year) + (+1); // convert strings to int and increment
+
+         formUpdateWeek.find("select[name=weekid]").val(1);
+         formUpdateWeek.find("select[name=year]").val(nextYear);
       }
       formUpdateWeek.submit();
    });
