@@ -119,6 +119,7 @@ class Config {
    const id_dashboard = 'dashboard_'; // real key will be dashboard_<dashboard_ID>
    const id_planningOptions = 'planningOptions';
    const id_schedulerOptions = 'schedulerOptions';
+   const id_blogPluginOptions = 'blogPluginOptions';
    
    const default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideDevProjects:0";
 
