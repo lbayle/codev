@@ -70,23 +70,17 @@ CREATE TABLE IF NOT EXISTS `codev_holidays_table` (
 -- Contenu de la table `codev_holidays_table`
 --
 
-INSERT INTO `codev_holidays_table` (`id`, `date`, `description`, `color`) VALUES
-(14, 1293836400, 'Reveillon', 'D8D8D8'),
-(25, 1335823200, 'fete du travail', '58CC77'),
-(24, 1333922400, 'lundi de paques', '58CC77'),
-(20, 1279058400, 'fete nationale', '58CC77'),
-(21, 1288566000, 'toussaints', '58CC77'),
-(22, 1289430000, 'armistice', '58CC77'),
-(23, 1293231600, 'noel', 'D8D8D8'),
-(27, 1304805600, 'victoire 1945', 'D8D8D8'),
-(28, 1337205600, 'ascension', '58CC77'),
-(29, 1307916000, 'pentecote', '58CC77'),
-(30, 1342216800, 'fete nationale', 'D8D8D8'),
-(31, 1344981600, 'assomption', '58CC77'),
-(32, 1313359200, 'assomption', '58CC77'),
-(33, 1351724400, 'toussaint', '58CC77'),
-(34, 1352588400, 'armistice', 'D8D8D8'),
-(35, 1356390000, 'noel', '58CC77');
+INSERT INTO `codev_holidays_table` (`date`, `description`, `color`) VALUES
+(1492380000, 'lundi de paques', '58CC77'),
+(1493589600, 'fete du travail', '58CC77'),
+(1494194400, 'victoire 1945', '58CC77'),
+(1495663200, 'ascension', '58CC77'),
+(1496613600, 'pentecote', '58CC77'),
+(1499983200, 'fete nationale', '58CC77'),
+(1502748000, 'assomption', '58CC77'),
+(1509490800, 'toussaint', '58CC77'),
+(1514156400, 'noel', '58CC77'),
+(1514761200, 'reveillon', '58CC77');
 
 -- --------------------------------------------------------
 
@@ -465,23 +459,28 @@ CREATE TABLE IF NOT EXISTS `codev_plugin_table` (
 
 INSERT INTO `codev_plugin_table` (`name`, `status`, `domains`, `categories`, `version`, `description`) VALUES
 ('AvailableWorkforceIndicator', 1, 'Team', 'Planning', '1.0.0', 'Man-days available in period, except leaves and external tasks'),
-('BacklogPerUserIndicator', 1, 'Team,User,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Répartition du RAF des tâches de la sélection par utilisateur'),
-('BudgetDriftHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Affiche la dérive Budget'),
-('DeadlineAlertIndicator', 1, 'User,Team,Project,Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Affiche les tâches ayant du être livrées (date jalon dépassée)'),
-('DriftAlertIndicator', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Risk', '1.0.0', 'Tâches dont le consommé est supérieur à la charge initiale'),
-('EffortEstimReliabilityIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Taux de fiabilité de la Charge estimée (ChargeMgr, ChargeInit)<br>Taux = charge estimée / consommé (tâches résolues uniquement)'),
-('HelloWorldIndicator', 0, 'Command,Team,User,Project,CommandSet,ServiceContract,Admin', 'Quality', '1.0.0', 'un plugin exemple pour développeurs'),
-('IssueBacklogVariationIndicator', 1, 'Task', 'Roadmap', '1.0.0', 'Affiche l''évolution du RAF dans le temps (burndown chart)'),
-('LoadPerJobIndicator2', 1, 'Task,Team,User,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Affiche le consommé sur la période, réparti par poste'),
-('LoadPerProjCategoryIndicator', 1, 'Team,Project,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Affiche le consommé sur la période, réparti par catégorie projet'),
-('LoadPerProjectIndicator', 1, 'User,Team,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Affiche le consommé sur la période, réparti par projet'),
-('LoadPerUserIndicator', 1, 'Task,Team,User,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Affiche le consommé sur la période, réparti par utilisateur'),
-('ProgressHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Affiche la progression de l''avancement dans le temps'),
-('ReopenedRateIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Historique du nombre de fiches ayant été réouvertes'),
-('StatusHistoryIndicator2', 1, 'Command,Team,User,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Affiche l''évolution de la répartition des tâches par statut'),
-('TimePerStatusIndicator', 1, 'Task', 'Roadmap', '1.0.0', 'Répartition du temps par status'),
-('TimetrackDetailsIndicator', 1, 'Admin', 'Admin', '1.0.0', 'Affiche des informations suplémentaires sur les imputations');
-
+('BacklogPerUserIndicator', 1, 'Team,User,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the tasks and return the backlog per User'),
+('BlogPlugin', 0, 'Homepage', 'Internal', '1.0.0', 'Display messages on the homepage'),
+('BudgetDriftHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the budget history'),
+('DeadlineAlertIndicator', 1, 'User,Team,Project,Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display unresolved tasks that should have been delivered'),
+('DriftAlertIndicator', 1, 'Homepage,User,Team,Project,Command,CommandSet,ServiceContract', 'Risk', '1.0.0', 'Display tasks where the elapsed time is greater than the estimated effort'),
+('EffortEstimReliabilityIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display the EffortEstim reliability rate history<br>rate = EffortEstim / elapsed (on resolved tasks only)'),
+('HelloWorldIndicator', 0, 'Homepage,Team,User', 'Quality', '1.0.0', 'A simple HelloWorld plugin'),
+('ImportIssueCsv', 1, 'Import_Export', 'Import', '1.0.0', 'Import a list of issues to MantisBT / CodevTT from a CSV file'),
+('ImportUsers', 1, 'Import_Export', 'Import', '1.0.0', 'Import a list of users to MantisBT / CodevTT'),
+('IssueBacklogVariationIndicator', 1, 'Task', 'Roadmap', '1.0.0', 'Display task backlog updates since the task creation'),
+('IssueConsistencyCheck', 1, 'Homepage', 'Risk', '1.0.0', 'Check for errors in issues'),
+('LoadPerJobIndicator2', 1, 'Task,Team,User,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Check all the timetracks of the period and return their repartition per Job'),
+('LoadPerProjCategoryIndicator', 1, 'Team,Project,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the timetracks of the period and return their repartition per project categories'),
+('LoadPerProjectIndicator', 1, 'User,Team,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the timetracks of the period and return their repartition per Project'),
+('LoadPerUserIndicator', 1, 'Task,Team,User,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the timetracks of the period and return their repartition per User'),
+('ManagementLoadHistoryIndicator', 1, 'ServiceContract', 'Activity', '1.0.0', 'Compares the elapsed time on management sideTasks to the management provisions'),
+('MoveIssueTimetracks', 1, 'Admin,TeamAdmin', 'Admin', '1.0.0', 'Move timetracks from one issue to another'),
+('ProgressHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the progress history'),
+('ReopenedRateIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display the bug reopened rate history'),
+('StatusHistoryIndicator2', 1, 'Command,Team,User,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display Issue Status history'),
+('TimePerStatusIndicator', 1, 'Task', 'Roadmap', '1.0.0', 'Time allocation by status'),
+('TimetrackDetailsIndicator', 1, 'Admin', 'Admin', '1.0.0', 'Display additional info on timetracks');
 
 -- --------------------------------------------------------
 
