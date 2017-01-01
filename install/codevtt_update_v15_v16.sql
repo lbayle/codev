@@ -21,3 +21,7 @@ UPDATE `codev_plugin_table` SET `status`='1' WHERE `status`='0';
 
 -- tag version
 UPDATE `codev_config_table` SET `value`='16' WHERE `config_id`='database_version';
+
+-- prepare for blog plugin
+UPDATE `codev_config_table` SET `value`='1:General,2:Timetracking,3:Admin' WHERE `config_id`='blogCategories';
+
