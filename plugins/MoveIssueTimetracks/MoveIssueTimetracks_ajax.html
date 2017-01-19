@@ -10,6 +10,7 @@
             <th>{t}Job{/t}</th>
             <th>{t}Duration{/t}</th>
             <th>{t}Task{/t}</th>
+            <th>{t}Note{/t}</th>
          </tr>
       </thead>
       <tbody>
@@ -23,6 +24,7 @@
             <td>{$i.job}</td>
             <td>{$i.duration}</td>
             <td>{$i.task_id} / {$i.task_extRef} - {$i.task_summary}</td>
+            <td>{$i.timetrackNote}</td>
          </tr>
          {/foreach}
       </tbody>
