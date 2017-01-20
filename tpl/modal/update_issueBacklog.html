@@ -314,6 +314,11 @@
 				updateTips("{t}Status can't be : {/t}" + statusNameNew);
 				return false;
 			}
+         if ((selectedStatus >= bugResolvedStatusThreshold) && (0 !== backlog.val())) {
+            backlog.addClass("ui-state-error");
+				updateTips("{t}Task resolved, backlog must be '0'{/t}");
+				return false;
+         }
 			return true;
 		}
 
