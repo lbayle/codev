@@ -3091,7 +3091,7 @@ msgstr "Cloner un Projet"
 
 #: tpl/menu/global_menu.html
 msgid "Plugin Manager"
-msgstr "Gestionaire de plugin"
+msgstr "Gestionnaire de plugin"
 
 #: tpl/menu/global_menu.html
 msgid "Logs"
