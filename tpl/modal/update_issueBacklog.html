@@ -53,12 +53,13 @@
                </tr>
             </tbody>
          </table>
-         
          {if $isTrackNoteDisplayed}
-         <p><b>{t}Note{/t}:</b><br>
-         <textarea class="issue_note" name="issue_note"  style="width:100%;background-color:white;" rows="2"></textarea>
+         <p>
+            <label for="note">{t}Note{/t} :</label>
+            <label id="validateTips" class="error_font" ></label>
+            <textarea class="issue_note" name="issue_note" id="issue_note" style="width:100%;background-color:white;" rows="2"></textarea>
+         </p>
          {/if}
-         
          <input type="hidden" name="action" value="unknown" />
 
          <!-- fields for addTrack action -->
@@ -321,19 +322,26 @@
          }
 			return true;
 		}
-
+      
 		function isBacklogDialogFieldsValid() {
 			var bValid = true;
+         updateTips("");
 			backlog.removeClass("ui-state-error");
 			bValid = bValid && checkRegexp(jQuery("#backlog"), /^[0-9]+(\.[0-9][0-9]?5?)?$/i, "format:  '1',  '0.3'  or  '2.55' or '2.125'", false);
 			
 			var bugResolvedStatusThreshold = jQuery("#bugResolvedStatusThreshold").val();
 			var bugStatusNew = jQuery("#bugStatusNew").val();
 			var statusNameNew = jQuery("#statusNameNew").val();
-
+         var issue_note = jQuery("#issue_note").val();
 			var selectedStatus = jQuery("#status").children(":selected").attr("id");
 			bValid = bValid && checkStatus(jQuery("#backlog"), selectedStatus, bugResolvedStatusThreshold, bugStatusNew, statusNameNew);
-			return bValid;
+         {if ($isTrackNoteMandatory)}
+            if (issue_note === '') {            
+               updateTips("{t}Note is require{/t}");
+               bValid = false;
+            }
+        {/if}
+         return bValid;
 		}
 
 		jQuery("#update_backlog_dialog_form").dialog({
@@ -362,10 +370,9 @@
 				allFields.val("").removeClass("ui-state-error");
 				allFields.css("backgroundColor", "transparent");
             updateTips(""); // the window is reused for BL updates
-            {if $isTrackNoteDisplayed}
-            $('.issue_note').val('');
-            {/if}
-
+            if (isTrackNoteDisplayed) {
+               $('.issue_note').val('');
+            }
 			}
 		});
 

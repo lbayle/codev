@@ -37,6 +37,7 @@ class Team extends Model {
           'forbidAddTimetracksOnClosed' => 1,
           'displayCalculatedBacklogInDialogbox' => 0,
           'useTrackNote' => 1,
+          'isTrackNoteMandatory' => 0,
           'sendTimesheetEmailNotification' => 1,
          );
 
@@ -44,6 +45,7 @@ class Team extends Model {
           'forbidAddTimetracksOnClosed'         => 'Forbid adding timetracks on closed issues',
           'displayCalculatedBacklogInDialogbox' => 'Display calculated backlog as default value in the updateBacklog dialogbox',
           'useTrackNote'                        => 'Add a timetrack note input field in the updateBacklog dialogbox',
+          'isTrackNoteMandatory'                => 'The timetrack note in the updateBacklog dialogbox is mandatory',
           'sendTimesheetEmailNotification'      => 'Send timesheet email reminder',
          );
 
