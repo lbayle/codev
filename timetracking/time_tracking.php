@@ -126,42 +126,43 @@ class TimeTrackingController extends Controller {
                $job          = Tools::getSecurePOSTIntValue('trackJobid');
                $duration     = Tools::getSecurePOSTNumberValue('timeToAdd');
                $handlerId    = Tools::getSecurePOSTNumberValue('handlerid');
-               
+               $formattedBacklog = Tools::getSecurePOSTNumberValue('backlog');
+               $newStatus = Tools::getSecurePOSTIntValue('statusid');
+
+               $errMessage = NULL;
+
                if (1 == $team->getGeneralPreference('useTrackNote')) {
                   $issue_note   = filter_input(INPUT_POST, 'issue_note');
-               }
-
-               // check jobid (bug happens sometime...)
-               if(0 == $job) {
-                  $this->smartyHelper->assign('error', T_("Timetrack not added: Job has not specified."));
-                  self::$logger->error("Add track : FAILED. issue=$defaultBugid, jobid=$job, duration=$duration date=$defaultDate");
-               }
-
-               // check bug_id (this happens when user uses the 'back' button of the browser ?)
-               if (0 == $defaultBugid) {
-                  self::$logger->error("Add track : FAILED. issue=0, jobid=$job, duration=$duration date=$defaultDate");
-                  
-               } else {
-                  if (1 == $team->getGeneralPreference('isTrackNoteMandatory') && strlen($issue_note)==0) {
-                     self::$logger->debug("Track $trackid added  : userid=$managed_userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp, commentaire obligatoire");
+                  if (1 == $team->getGeneralPreference('isTrackNoteMandatory') &&
+                      0 == strlen($issue_note)) {
+                     // forbid adding timetrack, return error
+                     $errMessage = T_('Timetrack not added: Timetrack note is mandatory');
                   }
-                  else {
+               }
+
+               if(0 == $job) {
+                  self::$logger->error("Add track : FAILED. issue=$defaultBugid, jobid=$job, duration=$duration date=$defaultDate managed_userid=$managed_userid");
+                  $errMessage = T_("Timetrack not added: Job is not specified");
+               }
+               // check bug_id (this happens when user uses the 'back' button of the browser ?)
+               if(0 == $defaultBugid) {
+                  self::$logger->error("Add track : FAILED. issue=0, jobid=$job, duration=$duration date=$defaultDate managed_userid=$managed_userid");
+                  $errMessage = T_("Timetrack not added: Job is not specified");
+               }
+
+               if (NULL !== $errMessage) {
+                  $this->smartyHelper->assign('error', $errMessage);
+               } else {
+                  // add timetrack
+                  try {
                      $timestamp = (0 !== $defaultDate) ? Tools::date2timestamp($defaultDate) : 0;
                      $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration, $this->session_userid);
-                     if(self::$logger->isDebugEnabled()) {
-                        self::$logger->debug("Track $trackid added  : userid=$managed_userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
-                     }
+
                      if (1 == $team->getGeneralPreference('useTrackNote') && strlen($issue_note)!=0) {
                         TimeTrack::setNote($defaultBugid, $trackid, $issue_note, $managed_userid);
                      }
                      $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-
-                     // setBacklog
-                     $formattedBacklog = Tools::getSecurePOSTNumberValue('backlog');
                      $issue->setBacklog($formattedBacklog);
-                     
-                     // setStatus
-                     $newStatus = Tools::getSecurePOSTIntValue('statusid');
                      $issue->setStatus($newStatus);
 
                      // set handlerId
@@ -170,9 +171,16 @@ class TimeTrackingController extends Controller {
                         $issue->setHandler($handlerId);
                      }
                      $defaultProjectid = $issue->getProjectId();
+                  } catch (Exception $e) {
+                     self::$logger->error("Add track : FAILED. issue=$defaultBugid, jobid=$job, duration=$duration date=$defaultDate managed_userid=$managed_userid");
+                     self::$logger->error("EXCEPTION: ".$e->getMessage());
+
+                     $this->smartyHelper->assign('error', 'Add track : FAILED.');
+                     $defaultProjectid  = 0;
+                     $defaultBugid = 0;
                   }
-                  // Don't show job and duration after add track            
                }
+               // Don't show job and duration after add track
                $job = 0;
                $duration = 0;
             }

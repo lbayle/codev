@@ -277,9 +277,11 @@
       });
       
       var backlog = $("#backlog");
+      var timetrackNote = $("#issue_note");
       var tips = $("#validateTips");
       
 		var allFields = $([]).add(backlog);
+		var allFields = $([]).add(timetrackNote);
       
 		function updateTips(t) {
 			tips.text(t);
@@ -332,12 +334,13 @@
 			var bugResolvedStatusThreshold = jQuery("#bugResolvedStatusThreshold").val();
 			var bugStatusNew = jQuery("#bugStatusNew").val();
 			var statusNameNew = jQuery("#statusNameNew").val();
-         var issue_note = jQuery("#issue_note").val();
 			var selectedStatus = jQuery("#status").children(":selected").attr("id");
 			bValid = bValid && checkStatus(jQuery("#backlog"), selectedStatus, bugResolvedStatusThreshold, bugStatusNew, statusNameNew);
-         {if ($isTrackNoteMandatory)}
-            if (issue_note === '') {            
-               updateTips("{t}Note is require{/t}");
+
+         {if ($isTrackNoteMandatory)} // ($isTrackNoteDisplayed && $isTrackNoteMandatory)
+            if (bValid && timetrackNote.val() === '') {
+               updateTips("{t}Timetrack note is required{/t}");
+               timetrackNote.addClass("ui-state-error");
                bValid = false;
             }
         {/if}
@@ -370,9 +373,9 @@
 				allFields.val("").removeClass("ui-state-error");
 				allFields.css("backgroundColor", "transparent");
             updateTips(""); // the window is reused for BL updates
-            if (isTrackNoteDisplayed) {
-               $('.issue_note').val('');
-            }
+            {if $isTrackNoteDisplayed}
+            $('.issue_note').val('');
+            {/if}
 			}
 		});
 
