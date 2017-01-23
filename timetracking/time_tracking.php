@@ -192,8 +192,18 @@ class TimeTrackingController extends Controller {
                $job = $timeTrack->getJobId();
                $defaultDate = date("Y-m-d", $timeTrack->getDate());
 
+               // check if backlog must be recredited
+               $ttProject = ProjectCache::getInstance()->getProject($timeTrack->getProjectId());
+               if (!$ttProject->isSideTasksProject(array($this->teamid)) &&
+                   !$ttProject->isExternalTasksProject()) {
+                  $isRecreditBacklog = (0 == $team->getGeneralPreference('recreditBacklogOnTimetrackDeletion')) ? false : true;
+               } else {
+                  // no backlog update for external & side tasks
+                  $isRecreditBacklog = false;
+               }
+
                // delete track
-               if(!$timeTrack->remove($this->session_userid)) {
+               if(!$timeTrack->remove($this->session_userid, $isRecreditBacklog)) {
                   $this->smartyHelper->assign('error', T_("Failed to delete the timetrack !"));
                   self::$logger->error("Delete track $trackid  : FAILED.");
                }

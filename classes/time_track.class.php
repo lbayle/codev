@@ -183,13 +183,22 @@ class TimeTrack extends Model implements Comparable {
    /**
     * Remove the current track
     * @param int $userid the one that removed the track
+    * @param bool $isRecreditBacklog if true, add timetrack duration to the task backlog
     * @return bool True if the track is removed
     */
-   public function remove($userid) {
+   public function remove($userid, $isRecreditBacklog=FALSE) {
       $query = 'DELETE FROM `codev_timetracking_table` WHERE id='.$this->id.';';
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          return false;
+      }
+
+      if ($isRecreditBacklog) {
+         $issue = IssueCache::getInstance()->getIssue($this->bugId);
+         if (!is_null($issue->getBacklog())) {
+            $backlog = $issue->getBacklog() + $this->duration;
+            $issue->setBacklog($backlog);
+         }
       }
 
       if(!$this->removeNote($userid)){
@@ -223,29 +232,6 @@ class TimeTrack extends Model implements Comparable {
       $result2 = SqlWrapper::getInstance()->sql_query($query2);
 
       return ($result2) ? true : false;
-   }
-
-   /**
-    * update Backlog and delete TimeTrack
-    * @param int $trackid
-    * @param int $userid the one that deletes the timetrack
-    */
-   public static function delete($trackid, $userid) {
-      // increase backlog (only if "backlog' already has a value)
-      $timetrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
-      $bugid = $timetrack->bugId;
-      $duration = $timetrack->duration;
-      $issue = IssueCache::getInstance()->getIssue($bugid);
-      if (!is_null($issue->getBacklog())) {
-         $backlog = $issue->getBacklog() + $duration;
-         $issue->setBacklog($backlog);
-      }
-
-      // delete track
-      if (!$timetrack->remove($userid)) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
    }
 
    /**
