@@ -555,20 +555,27 @@ class WBSElement extends Model {
                      }
                   }
                   if ($isManager) {
-                     $effortEstim = $isel->getMgrEffortEstim();
-                     $driftInfo = $isel->getDriftMgr();
-                     $reestimated = $isel->getReestimated();
-                  } else {
+                     $mgrEffortEstim = $isel->getMgrEffortEstim();
                      $effortEstim = $isel->getEffortEstim();
                      $driftInfo = $isel->getDrift();
+                     $mgrDriftInfo = $isel->getDriftMgr();
+                     $reestimated = $isel->getReestimated();
+                  } else {
+                     $mgrEffortEstim = '0';
+                     $effortEstim = $isel->getEffortEstim();
+                     $driftInfo = $isel->getDrift();
+                     $mgrDriftInfo = array('nbDays' => 0, 'percent' => 0);
                      $reestimated = '0';
                   }
 
                   $detail = '~' . round(100 * $isel->getProgress())
+                          . '~' . $mgrEffortEstim
                           . '~' . $effortEstim
                           . '~' . $reestimated
                           . '~' . $isel->getElapsed()
                           . '~' . $isel->duration
+                          . '~' . $mgrDriftInfo['nbDays']
+                          . '~' . $isel->getDriftColor($mgrDriftInfo['nbDays'])
                           . '~' . $driftInfo['nbDays']
                           . '~' . $isel->getDriftColor($driftInfo['nbDays']);
                }
@@ -589,20 +596,27 @@ class WBSElement extends Model {
                   if ($hasDetail) {
 
                      if ($isManager) {
-                        $effortEstim = $issue->getMgrEffortEstim();
-                        $drift = $issue->getDriftMgr();
+                        $mgrEffortEstim = $issue->getMgrEffortEstim();
+                        $effortEstim = $issue->getEffortEstim();
+                        $mgrDrift = $issue->getDriftMgr();
+                        $drift = $issue->getDrift();
                         $reestimated = $issue->getReestimated();
                      } else {
+                        $mgrEffortEstim = '0';
                         $effortEstim = $issue->getEffortEstim();
+                        $mgrDrift = '0';
                         $drift = $issue->getDrift();
                         $reestimated = '0';
                      }
 
                      $detail = '~' . round(100 * $issue->getProgress())
+                             . '~' . $mgrEffortEstim
                              . '~' . $effortEstim
                              . '~' . $reestimated
                              . '~' . $issue->getElapsed()
                              . '~' . $issue->getBacklog()
+                             . '~' . $mgrDrift
+                             . '~' . $issue->getDriftColor($mgrDrift)
                              . '~' . $drift
                              . '~' . $issue->getDriftColor($drift);
                   }
@@ -660,24 +674,30 @@ class WBSElement extends Model {
                   }
                }
                if ($isManager) {
-                  $effortEstim = $isel->getMgrEffortEstim();
-                  $driftInfo = $isel->getDriftMgr();
-                  $reestimated = $isel->getReestimated();
-               } else {
+                  $mgrEffortEstim = $isel->getMgrEffortEstim();
                   $effortEstim = $isel->getEffortEstim();
                   $driftInfo = $isel->getDrift();
+                  $mgrDriftInfo = $isel->getDriftMgr();
+                  $reestimated = $isel->getReestimated();
+               } else {
+                  $mgrEffortEstim = '0';
+                  $effortEstim = $isel->getEffortEstim();
+                  $driftInfo = $isel->getDrift();
+                  $mgrDriftInfo = array('nbDays' => 0, 'percent' => 0);
                   $reestimated = '0';
                }
 
                $mgrDriftInfo = $isel->getDriftMgr();
                $detail = '~' . round(100 * $isel->getProgress())
+                       . '~' . $mgrEffortEstim
                        . '~' . $effortEstim
                        . '~' . $reestimated
                        . '~' . $isel->getElapsed()
                        . '~' . $isel->duration
+                       . '~' . $mgrDriftInfo['nbDays']
+                       . '~' . $isel->getDriftColor($mgrDriftInfo['nbDays'])
                        . '~' . $driftInfo['nbDays']
-                       . '~' . $isel->getDriftColor($driftInfo['nbDays']);
-            }
+                       . '~' . $isel->getDriftColor($driftInfo['nbDays']);            }
             $rootArray = array(
                   'title'    => $this->getTitle().$detail,
                   'isFolder' => true,

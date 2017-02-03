@@ -57,6 +57,9 @@
       margin-right: 10px;
       position: relative;
    }
+   .td-mgrEffortEstim {
+      width: 100px;
+   }
    .td-effortEstim {
       width: 100px;
    }
@@ -72,7 +75,10 @@
    .td-drift {
       width: 100px;
    }
-   .td-effortEstim, .td-reestimated, .td-elapsed, .td-backlog, .td-drift {
+   .td-mgrDrift {
+      width: 100px;
+   }
+   .td-mgrEffortEstim, .td-effortEstim, .td-reestimated, .td-elapsed, .td-backlog, .td-mgrDrift, .td-drift {
       border: solid #CCCCCC 1px;
       border-bottom: none;
       padding: 0em 0.5em;
@@ -140,13 +146,19 @@
                    html += "<span class='td-titlebar'>&nbsp;</span>";
                    html += "<span class='td-progress'>&nbsp;</span>";
                    html += "<img  class='td-info' align='absmiddle' src='images/blank.png'/>";
-                   html += "<span class='td-effortEstim' style='font-weight: bold; background-color:#D8D8D8' >" + cols[2] + "&nbsp;</span>";
                    {if $isManager}
-                   html += "<span class='td-reestimated' style='font-weight: bold; background-color:#D8D8D8' >" + cols[3] + "&nbsp;</span>";
+                   html += "<span class='td-mgrEffortEstim' style='font-weight: bold; background-color:#D8D8D8' >" + cols[2] + "&nbsp;</span>";
                    {/if}
-                   html += "<span class='td-elapsed' style='font-weight: bold; background-color:#D8D8D8' >" + cols[4] + "&nbsp;</span>";
-                   html += "<span class='td-backlog' style='font-weight: bold; background-color:#D8D8D8' >" + cols[5] + "&nbsp;</span>";
-                   html += "<span class='td-drift' style='font-weight: bold; background-color:#D8D8D8' >" + cols[6] + "&nbsp;</span>";
+                   html += "<span class='td-effortEstim' style='font-weight: bold; background-color:#D8D8D8' >" + cols[3] + "&nbsp;</span>";
+                   {if $isManager}
+                   html += "<span class='td-reestimated' style='font-weight: bold; background-color:#D8D8D8' >" + cols[4] + "&nbsp;</span>";
+                   {/if}
+                   html += "<span class='td-elapsed' style='font-weight: bold; background-color:#D8D8D8' >" + cols[5] + "&nbsp;</span>";
+                   html += "<span class='td-backlog' style='font-weight: bold; background-color:#D8D8D8' >" + cols[6] + "&nbsp;</span>";
+                   {if $isManager}
+                   html += "<span class='td-mgrDrift' style='font-weight: bold; background-color:#D8D8D8' >" + cols[7] + "&nbsp;</span>";
+                   {/if}
+                   html += "<span class='td-drift' style='font-weight: bold; background-color:#D8D8D8' >" + cols[8] + "&nbsp;</span>";
                   
                } else {
 
@@ -166,13 +178,19 @@
                   } else {
                      html += "<img  class='td-info' align='absmiddle' src='images/blank.png'/>";
                   }
-                   html += "<span class='td-effortEstim'>" + cols[2] + "&nbsp;</span>";
                    {if $isManager}
-                   html += "<span class='td-reestimated'>" + cols[3] + "&nbsp;</span>";
+                   html += "<span class='td-mgrEffortEstim'>" + cols[2] + "&nbsp;</span>";
                    {/if}
-                   html += "<span class='td-elapsed'>" + cols[4] + "&nbsp;</span>";
-                   html += "<span class='td-backlog'>" + cols[5] + "&nbsp;</span>";
-                   html += "<span class='td-drift' style='background-color:#"+cols[7]+"' >" + cols[6] + "&nbsp;</span>";
+                   html += "<span class='td-effortEstim'>" + cols[3] + "&nbsp;</span>";
+                   {if $isManager}
+                   html += "<span class='td-reestimated'>" + cols[4] + "&nbsp;</span>";
+                   {/if}
+                   html += "<span class='td-elapsed'>" + cols[5] + "&nbsp;</span>";
+                   html += "<span class='td-backlog'>" + cols[6] + "&nbsp;</span>";
+                   {if $isManager}
+                   html += "<span class='td-mgrDrift' style='background-color:#"+cols[8]+"' >" + cols[7] + "&nbsp;</span>";
+                   {/if}
+                   html += "<span class='td-drift' style='background-color:#"+cols[10]+"' >" + cols[9] + "&nbsp;</span>";
                  }
                }
                return html + "</a>";
@@ -187,11 +205,7 @@
         // add Title bar
         var rootNode = $("#tree").dynatree("getRoot");
         var childNode = rootNode.addChild({
-           {if $isManager}
-           title: "__TAG_TITLEBAR__~{t}Progress{/t}~{t}MgrEffortEstim{/t}~{t}Reestimated{/t}~{t}Elapsed{/t}~{t}Backlog{/t}~{t}Drift Mgr{/t}",
-           {else}
-           title: "__TAG_TITLEBAR__~{t}Progress{/t}~{t}EffortEstim{/t}~{t}Reestimated{/t}~{t}Elapsed{/t}~{t}Backlog{/t}~{t}Drift{/t}",
-           {/if}
+           title: "__TAG_TITLEBAR__~{t}Progress{/t}~{t}MgrEffortEstim{/t}~{t}EffortEstim{/t}~{t}Reestimated{/t}~{t}Elapsed{/t}~{t}Backlog{/t}~{t}Drift Mgr{/t}~{t}Drift{/t}",
            isFolder: false,
            icon: "blank.png"
         });
