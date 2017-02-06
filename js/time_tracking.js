@@ -269,7 +269,7 @@ jQuery(document).ready(function() {
       updateFormWeek();
 
       var weekid = jQuery("#weekid").val();
-      if (weekid < timetrackingSmartyData.nbWeeksThisYear) {
+      if (parseInt(weekid) < parseInt(timetrackingSmartyData.nbWeeksThisYear)) {
          formUpdateWeek.find("select[name=weekid]").val(++weekid);
       } else {
          var year = jQuery("#year").val();
