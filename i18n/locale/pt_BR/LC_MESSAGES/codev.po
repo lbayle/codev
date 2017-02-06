@@ -6,6 +6,7 @@
 # Author: Eduardo Addad de Oliveira
 # Author: Luk3
 # Author: Tark
+# Author: Warley Felipe C.
 # Author: WikiUser22222
 msgid ""
 msgstr ""
@@ -13,14 +14,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-30 01:00+0100\n"
-"PO-Revision-Date: 2017-01-30 15:34:13+0000\n"
+"PO-Revision-Date: 2017-02-06 06:49:02+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: MediaWiki 1.29.0-alpha; Translate 2016-10-28\n"
+"X-Generator: MediaWiki 1.29.0-alpha; Translate 2017-01-24\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-POT-Import-Date: 2016-12-27 06:42:36+0000\n"
 
@@ -1647,9 +1648,8 @@ msgid "add a custom duration"
 msgstr "Effort Estimé"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Delete duration"
-msgstr "Duração"
+msgstr "Excluir duração"
 
 #. tpl/edit_team.html
 #, fuzzy

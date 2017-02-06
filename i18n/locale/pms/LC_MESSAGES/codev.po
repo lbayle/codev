@@ -8,12 +8,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-30 01:00+0100\n"
-"PO-Revision-Date: 2017-01-30 15:34:13+0000\n"
+"PO-Revision-Date: 2017-02-06 06:49:01+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2016-12-27 06:42:36+0000\n"
-"X-Generator: MediaWiki 1.29.0-alpha; Translate 2016-10-28\n"
+"X-Generator: MediaWiki 1.29.0-alpha; Translate 2017-01-24\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. tpl/filters.html
@@ -5160,63 +5160,63 @@ msgstr "An dëspias, ës travaj a l'é pa ant ij proget ëd soa echip"
 #: reports/issue_info_ajax.php:164 reports/issue_info_ajax.php:213
 #: reports/issue_info_ajax.php:254 reports/issue_info_ajax.php:319
 msgid "Sorry, you're not an active member of this team"
-msgstr ""
+msgstr "An dëspias, chiel a l'é nen un mèmber ativ ëd s'echip."
 
 #: reports/planning_report.php:203
 msgid "onTime"
-msgstr ""
+msgstr "a temp"
 
 #: reports/planning_report.php:204
 msgid "NOT onTime"
-msgstr ""
+msgstr "an ritard"
 
 #: reports/planning_report.php:205
 msgid "no deadLine"
-msgstr ""
+msgstr "sensa scadensa"
 
 #: reports/planning_report.php:498
 msgid "Monitored"
-msgstr ""
+msgstr "Sota contròl"
 
 #: reports/export_csv_tools.php:49
 msgid "m_id"
-msgstr ""
+msgstr "m_id"
 
 #: reports/export_csv_tools.php:56
 msgid "Product Version"
-msgstr ""
+msgstr "Version dël prodot"
 
 #: reports/export_csv_tools.php:59
 msgid "Resolution"
-msgstr ""
+msgstr "Arzolussion"
 
 #: reports/export_csv_tools.php:66 tools.php:1482
 msgid "Delivery Date"
-msgstr ""
+msgstr "Dàita ëd consigna"
 
 #: reports/export_csv_tools.php:67
 msgid "Delivery Sheet"
-msgstr ""
+msgstr "Feuj ëd consigna"
 
 #: reports/export_csv_weekly.php:84 reports/export_csv_weekly.php:90
 msgid "Export Week"
-msgstr ""
+msgstr "Esporté la sman-a"
 
 #: reports/export_csv_weekly.php:84
 msgid "Member Activity"
-msgstr ""
+msgstr "Atività dël mèmber"
 
 #: reports/export_csv_weekly.php:104
 msgid "Export Holidays"
-msgstr ""
+msgstr "Esporté le vacanse"
 
 #: tests/odt.php:8
 msgid "Test: export to ODT"
-msgstr ""
+msgstr "Preuva: esporté an ODT"
 
 #: tests/odt.php:177
 msgid "Sorry, there are no projects defined for your team."
-msgstr ""
+msgstr "An dëspias, a-i é gnun proget definì për soa echip."
 
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:436
@@ -5224,19 +5224,19 @@ msgstr ""
 #: timetracking/time_tracking.php:399
 #: timetracking/team_activity_report.php:179
 msgid "Error: Task not found in Mantis DB !"
-msgstr ""
+msgstr "Eror: Travaj nen trovà ant la BëD Mantis!"
 
 #: timetracking/time_tracking_tools.php:176
 msgid "Click to add a note"
-msgstr ""
+msgstr "Sgnaché për gionté na nòta"
 
 #: timetracking/holidays_report.php:66
 msgid "External Tasks"
-msgstr ""
+msgstr "Travaj estern"
 
 #: timetracking/holidays_report.php:71
 msgid "Sidetasks Inactivity"
-msgstr ""
+msgstr "Inatività dij travaj marginaj"
 
 #: timetracking/holidays_report.php:76
 msgid "Activity on other teams"
@@ -5244,12 +5244,12 @@ msgstr "Atività su d'àutre echip"
 
 #: timetracking/holidays_report.php:137
 msgid "today"
-msgstr ""
+msgstr "ancheuj"
 
 #. light grey
 #: timetracking/holidays_report.php:203
 msgid "User not in team"
-msgstr ""
+msgstr "L'utent a fà nen part ëd l'echip"
 
 #: timetracking/holidays_report.php:241
 msgid "Other team"
@@ -5258,23 +5258,23 @@ msgstr "Àutra echip"
 #: timetracking/team_monthly_activity_report.php:76
 #: timetracking/time_tracking.php:298 timetracking/team_activity_report.php:66
 msgid "days are incomplete or undefined"
-msgstr ""
+msgstr "ij di a son incomplet o nen definì"
 
 #: timetracking/time_tracking.php:136
 msgid "Timetrack not added: Job has not specified."
-msgstr ""
+msgstr "Programa nen giontà: ël travaj a l'é nen ëstàit ëspessificà."
 
 #: timetracking/time_tracking.php:188
 msgid "Failed to delete the timetrack !"
-msgstr ""
+msgstr "Impossìbil eliminé ël programa!"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:72
 msgid "Check all the tasks and return the backlog per User"
-msgstr ""
+msgstr "A verìfica tuti ij travaj e a smon ël ritard për utent"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:258
 msgid "(unknown 0)"
-msgstr ""
+msgstr "(nen conossù 0)"
 
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:63
 msgid "Display additional info on timetracks"
