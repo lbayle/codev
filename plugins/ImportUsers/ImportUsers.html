@@ -5,6 +5,7 @@
     <div class="pluginInitFunction"  style="display: none;">importUsersJsInit</div>
     <div class="pluginDestroyFunction"  style="display: none;">importUsersJsDestroy</div>
 
+    {if !empty($importUsers_teams)}
     <div align="left" style="margin-top:1em;" class="center">
         
         <!-- FILE SELECTION -->
@@ -30,6 +31,13 @@
          <a href="include/download.php?plugin=ImportUsers&f=import_users_template.csv">CSV</a>-->
       </span>
    </div>
+   {else}
+    <div>
+       <br>
+       {t}Only team leaders & CodevTT administrators can create users{/t}
+       <br>
+    </div>
+   {/if}
 
     <div class="importUsers_uploadValidationMessage error_font error_container">   
     </div>
