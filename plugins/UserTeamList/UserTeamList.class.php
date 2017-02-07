@@ -133,7 +133,7 @@ class UserTeamList extends IndicatorPluginAbstract {
       }
       while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $formattedId = sprintf('%03d', $row->id);
-         $userList[$row->id] = "[$formattedId] $row->realname";
+         $userList[$row->id] = "$formattedId | $row->realname";
       }
 
       $teamList = array();
@@ -197,7 +197,6 @@ class UserTeamList extends IndicatorPluginAbstract {
          $smartyVariables['userTeamList_ajaxFile'] = self::getSmartySubFilename();
          $smartyVariables['userTeamList_ajaxPhpURL'] = self::getAjaxPhpURL();
       }
-      self::$logger->error($smartyVariables);
       return $smartyVariables;
    }
 
