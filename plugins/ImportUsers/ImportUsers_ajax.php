@@ -156,8 +156,9 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             // Create user in Mantis DB
             $realName = $userData['firstname'] . " " . $userData['name'];
             $username = str_replace(' ', '', $userData['username']);
+            $mantisCreationDate = min($userData['entryDate'], time());
             try {
-                User::createUserInMantisDB($username, $realName, $userData['email'], $password, 25, $userData['entryDate']);
+                User::createUserInMantisDB($username, $realName, $userData['email'], $password, 25, $mantisCreationDate);
                 if ('1' == $passwordByMail) {
                     $message = T_('Dear ') . $realName . ",\n\n" .
                             T_('Your CodevTT / Mantis account has been created: ')." \n\n" .
