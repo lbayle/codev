@@ -1,0 +1,85 @@
+<div class="UserTeamList">
+<div class="pluginInitFunction"  style="display: none;">userTeamListJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">userTeamListJsDestroy</div>
+
+<div align="left" style="margin-top:1em;">
+   <form id="userTeamList_dateRange_form" method="get" action="{$userTeamList_ajaxPhpURL}">
+      <fieldset>
+         <label for="userTeamList_userid">{t}User{/t}: </label>
+         <select class="userTeamList_userid" name="userTeamList_userid" >
+            <option value="0"></option>
+         {foreach from=$userTeamList_availableUsers key=id item=i}
+            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+         {/foreach}
+         </select>
+         <input class="userTeamList_submit" type="submit" value="{t}Display{/t}" />
+         <input type="hidden" name="action" value="getUserTeamList" />
+         <input type="hidden" name="dashboardId" value="" />
+      </fieldset>
+   </form>
+</div>
+<div>
+   <div class="userTeamListDiv" align="left" style="margin-top: 1em;">
+      {include file="`$userTeamList_ajaxFile`"}
+   </div>
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function userTeamListJsDestroy() {
+      console.log('userTeamListJsDestroy');
+      //jQuery(".userTeamListHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function userTeamListJsInit() {
+
+      // set select2 with width adapted to the content
+      $(".userTeamList_userid").select2({ width: 'resolve' });
+
+      // ------------------------
+      // on reload with new date range
+      jQuery('.userTeamList_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+
+         var form = jQuery('#userTeamList_dateRange_form');
+
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: type,
+            url: url,
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+
+               jQuery(".userTeamListDiv").html(jQuery.trim(data['userTeamList_htmlContent']));
+
+               jQuery.each(data['userTeamList_jsFiles'], function( index, value ) {
+                  jQuery.ajax({
+                        async: false,
+                        url: value,
+                        dataType: "script"
+                  });
+               });
+               //console.log('js load done');
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+      });
+   };
+</script>
+</div>
