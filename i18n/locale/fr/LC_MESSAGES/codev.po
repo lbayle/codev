@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-07 00:47+0100\n"
+"POT-Creation-Date: 2017-02-07 22:10+0100\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -275,13 +275,13 @@ msgstr "Toutes les tâches"
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
+#. plugins/UserTeamList/UserTeamList.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-#: install/install_step1.php:207
 msgid "User"
 msgstr "Utilisateur"
 
@@ -965,12 +965,13 @@ msgstr "Nouvelle Macro Commande"
 #: tpl/form/teamForm.html
 #: tpl/menu/global_menu.html
 #: tpl/commandset_info.html
+#. plugins/UserTeamList/UserTeamList_ajax.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
-#: graphs/gantt_graph.php:97 graphs/gantt_graph.php:99
+#: graphs/gantt_graph.php:99
 msgid "Team"
 msgstr "Equipe"
 
@@ -2363,6 +2364,7 @@ msgid "Member"
 msgstr "Membre"
 
 #: tpl/edit_team.html
+#. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Role"
 msgstr "Rôle"
 
@@ -2478,6 +2480,7 @@ msgstr "Valeur"
 #: tpl/edit_team.html
 #: tpl/menu/global_menu.html
 #. plugins/HelloWorldIndicator/HelloWorldIndicator.html
+#. plugins/UserTeamList/UserTeamList.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
@@ -3018,14 +3021,12 @@ msgid "Status can't be : "
 msgstr "Le status ne peut pas être : "
 
 #: tpl/modal/update_issueBacklog.html
-#, fuzzy
 msgid "Task resolved, backlog must be '0'"
 msgstr "Tâche résolue, le RAF devrait être à zero"
 
 #: tpl/modal/update_issueBacklog.html
-#, fuzzy
 msgid "Timetrack note is required"
-msgstr "Imputation non créée: le poste doit être spécifié"
+msgstr "Veuillez ajouter une note"
 
 #: tpl/modal/login.html
 msgid "Length of"
@@ -3056,7 +3057,7 @@ msgid "Login"
 msgstr "Identifiant"
 
 #: tpl/modal/login.html
-#: plugins/ImportUsers/ImportUsers_ajax.php:165
+#: plugins/ImportUsers/ImportUsers_ajax.php:166
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -3530,6 +3531,7 @@ msgstr "Budget commandes"
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator_cfg.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck_cfg.html
+#. plugins/UserTeamList/UserTeamList_cfg.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_cfg.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_cfg.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
@@ -3768,6 +3770,18 @@ msgstr "Recherche les erreurs d'intégrité dans les tâches"
 #: plugins/IssueConsistencyCheck/IssueConsistencyCheck.class.php:59
 msgid "Issue consistency check"
 msgstr "Test d'intégrité des tâches"
+
+#. plugins/UserTeamList/UserTeamList_ajax.html
+msgid "Arrival date"
+msgstr "Date d'arrivée"
+
+#. plugins/UserTeamList/UserTeamList_ajax.html
+msgid "Departure date"
+msgstr "Date de départ"
+
+#. plugins/UserTeamList/UserTeamList_cfg.html
+msgid "User team list"
+msgstr "Liste des équipes par utilisateur"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_cfg.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
@@ -4680,7 +4694,7 @@ msgstr "pour l'équipe"
 msgid "[CodevTT] Timesheet reminder !"
 msgstr "[CodevTT] Saisie du CRA !"
 
-#: classes/user.class.php:1748 plugins/ImportUsers/ImportUsers_ajax.php:162
+#: classes/user.class.php:1748 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
 msgstr "Cher(e) "
 
@@ -5241,12 +5255,10 @@ msgstr "Désolé, il n'y a pas de projets définis pour cette équipe."
 
 #. forbid adding timetrack, return error
 #: timetracking/time_tracking.php:139
-#, fuzzy
 msgid "Timetrack not added: Timetrack note is mandatory"
-msgstr "Imputation non créée: le poste doit être spécifié"
+msgstr "Imputation non créée: la note doit être spécifié"
 
 #: timetracking/time_tracking.php:145 timetracking/time_tracking.php:150
-#, fuzzy
 msgid "Timetrack not added: Job is not specified"
 msgstr "Imputation non créée: le poste doit être spécifié"
 
@@ -5345,6 +5357,10 @@ msgstr "Alerte sur dates jalons"
 msgid "Display unresolved tasks that should have been delivered"
 msgstr "Affiche les tâches ayant du être livrées (date jalon dépassée)"
 
+#: plugins/UserTeamList/UserTeamList.class.php:63
+msgid "Display a history of all the teams for a given user"
+msgstr "Affiche la liste des équipes pour un utilisateur"
+
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:65
 msgid "Import a list of issues to MantisBT / CodevTT from a CSV file"
 msgstr "Importer une liste de tâches dans MantisBT / CodevTT à partir d'un fichier CSV"
@@ -5385,27 +5401,27 @@ msgstr "Historique du nombre de fiches ayant été réouvertes"
 msgid "Your are not allowed to import users"
 msgstr "Désolé, vous n'êtes pas autorisé à créer des utilisateurs"
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:163
+#: plugins/ImportUsers/ImportUsers_ajax.php:164
 msgid "Your CodevTT / Mantis account has been created: "
 msgstr "Votre compte Codevtt / Mantis a été créé: "
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:166
+#: plugins/ImportUsers/ImportUsers_ajax.php:167
 msgid "Please, change your password on your first connection."
 msgstr "Veuillez changer votre mot de passe à la première connexion."
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:167
+#: plugins/ImportUsers/ImportUsers_ajax.php:168
 msgid "CodevTT URL: "
 msgstr "URL CodevTT: "
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:168
+#: plugins/ImportUsers/ImportUsers_ajax.php:169
 msgid "Mantis  URL: "
 msgstr "URL MantisBT: "
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:169
+#: plugins/ImportUsers/ImportUsers_ajax.php:170
 msgid "Best regards"
 msgstr "Cordialement"
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:170
+#: plugins/ImportUsers/ImportUsers_ajax.php:171
 msgid "[CodevTT] Your password"
 msgstr "[CodevTT] Votre mot de passe"
 

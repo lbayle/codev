@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-07 00:47+0100\n"
+"POT-Creation-Date: 2017-02-07 22:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: br\n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -275,13 +275,13 @@ msgstr ""
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
+#. plugins/UserTeamList/UserTeamList.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-#: install/install_step1.php:207
 msgid "User"
 msgstr ""
 
@@ -969,12 +969,13 @@ msgstr ""
 #. tpl/form/teamForm.html
 #. tpl/menu/global_menu.html
 #. tpl/commandset_info.html
+#. plugins/UserTeamList/UserTeamList_ajax.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
-#: graphs/gantt_graph.php:97 graphs/gantt_graph.php:99
+#: graphs/gantt_graph.php:99
 msgid "Team"
 msgstr ""
 
@@ -2376,6 +2377,7 @@ msgid "Member"
 msgstr ""
 
 #. tpl/edit_team.html
+#. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Role"
 msgstr ""
 
@@ -2495,6 +2497,7 @@ msgstr ""
 #. tpl/edit_team.html
 #. tpl/menu/global_menu.html
 #. plugins/HelloWorldIndicator/HelloWorldIndicator.html
+#. plugins/UserTeamList/UserTeamList.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
@@ -3071,7 +3074,7 @@ msgid "Login"
 msgstr ""
 
 #. tpl/modal/login.html
-#: plugins/ImportUsers/ImportUsers_ajax.php:165
+#: plugins/ImportUsers/ImportUsers_ajax.php:166
 msgid "Password"
 msgstr ""
 
@@ -3546,6 +3549,7 @@ msgstr ""
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator_cfg.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck_cfg.html
+#. plugins/UserTeamList/UserTeamList_cfg.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_cfg.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_cfg.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
@@ -3785,6 +3789,18 @@ msgstr ""
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck_cfg.html
 #: plugins/IssueConsistencyCheck/IssueConsistencyCheck.class.php:59
 msgid "Issue consistency check"
+msgstr ""
+
+#. plugins/UserTeamList/UserTeamList_ajax.html
+msgid "Arrival date"
+msgstr ""
+
+#. plugins/UserTeamList/UserTeamList_ajax.html
+msgid "Departure date"
+msgstr ""
+
+#. plugins/UserTeamList/UserTeamList_cfg.html
+msgid "User team list"
 msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_cfg.html
@@ -4724,7 +4740,7 @@ msgstr ""
 msgid "[CodevTT] Timesheet reminder !"
 msgstr ""
 
-#: classes/user.class.php:1748 plugins/ImportUsers/ImportUsers_ajax.php:162
+#: classes/user.class.php:1748 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
 msgstr ""
 
@@ -5396,6 +5412,10 @@ msgstr ""
 msgid "Display unresolved tasks that should have been delivered"
 msgstr ""
 
+#: plugins/UserTeamList/UserTeamList.class.php:63
+msgid "Display a history of all the teams for a given user"
+msgstr ""
+
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:65
 msgid "Import a list of issues to MantisBT / CodevTT from a CSV file"
 msgstr ""
@@ -5436,27 +5456,27 @@ msgstr ""
 msgid "Your are not allowed to import users"
 msgstr ""
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:163
+#: plugins/ImportUsers/ImportUsers_ajax.php:164
 msgid "Your CodevTT / Mantis account has been created: "
 msgstr ""
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:166
+#: plugins/ImportUsers/ImportUsers_ajax.php:167
 msgid "Please, change your password on your first connection."
 msgstr ""
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:167
+#: plugins/ImportUsers/ImportUsers_ajax.php:168
 msgid "CodevTT URL: "
 msgstr ""
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:168
+#: plugins/ImportUsers/ImportUsers_ajax.php:169
 msgid "Mantis  URL: "
 msgstr ""
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:169
+#: plugins/ImportUsers/ImportUsers_ajax.php:170
 msgid "Best regards"
 msgstr ""
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:170
+#: plugins/ImportUsers/ImportUsers_ajax.php:171
 msgid "[CodevTT] Your password"
 msgstr ""
 
