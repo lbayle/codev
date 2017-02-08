@@ -6,7 +6,7 @@
    <form id="userTeamList_dateRange_form" method="get" action="{$userTeamList_ajaxPhpURL}">
       <fieldset>
          <label for="userTeamList_userid">{t}User{/t}: </label>
-         <select class="userTeamList_userid" name="userTeamList_userid" >
+         <select class="userTeamList_userid" name="userTeamList_userid" style="min-width: 300px;">
             <option value="0"></option>
          {foreach from=$userTeamList_availableUsers key=id item=i}
             <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>

@@ -135,6 +135,10 @@
                      alert(msgString);
                   }
                });
+
+               // set select2 with width adapted to the content
+               $("#job_id").select2({ width: 'resolve' });
+               $("#projects").select2({ width: 'resolve' });
             });
          </script>
          <form id="addJobProjectAssociationForm" name="addJobProjectAssociationForm" method="post" action="{$page}">
@@ -145,14 +149,14 @@
                </tr>
                <tr>
                   <td>
-                     <select name="job_id" size="5">
+                     <select id="job_id" name="job_id" class="select2" style="min-width: 300px;">
                         {foreach from=$assignedJobs key=id item=i}
                         <option value="{$id}">{$i.name}</option>
                         {/foreach}
                      </select>
                   </td>
                   <td>
-                     <select name="projects" multiple="multiple" size="5">
+                     <select id="projects"  name="projects" multiple class="select2" placeHolder="{t}Projects{/t}">
                         {foreach from=$projects key=id item=i}
                         <option value="{$id}">{$i}</option>
                         {/foreach}
