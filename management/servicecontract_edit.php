@@ -201,7 +201,8 @@ class ServiceContractEditController extends Controller {
          $contract->setEndDate(Tools::date2timestamp($formattedValue));
       }
 
-      $contract->setState(SmartyTools::checkNumericValue($_POST['servicecontractState'], true));
+      // State not used for now
+      //$contract->setState(SmartyTools::checkNumericValue($_POST['servicecontractState'], true));
    }
 
    /**
