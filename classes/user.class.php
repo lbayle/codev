@@ -1570,10 +1570,27 @@ class User extends Model {
     * @param int $access_level
     */
    public function setProjectAccessLevel($project_id, $access_level) {
-      $query = "INSERT INTO `mantis_project_user_list_table` (`user_id`, `project_id`, `access_level`) ".
-               "VALUES ('$this->id','$project_id', '$access_level');";
+
+      // check if access rights already defined
+      $query = "SELECT access_level FROM `mantis_project_user_list_table` ".
+               "WHERE `user_id` = $this->id AND `project_id` = $project_id ";
+
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
+
+         $query2 = "INSERT INTO `mantis_project_user_list_table` (`user_id`, `project_id`, `access_level`) ".
+               "VALUES ('$this->id','$project_id', '$access_level');";
+      } else {
+         $query2 = "UPDATE `mantis_project_user_list_table` ".
+                   "SET access_level = '$access_level' ".
+                   "WHERE `user_id` = $this->id AND `project_id` = $project_id ";
+      }
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
