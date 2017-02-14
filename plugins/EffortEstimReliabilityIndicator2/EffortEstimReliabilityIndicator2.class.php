@@ -139,9 +139,7 @@ class EffortEstimReliabilityIndicator2 extends IndicatorPluginAbstract {
 
       $bugidList = array_keys($this->inputIssueSel->getIssueList());
       $this->formatedBugidList = implode(', ', $bugidList);
-      if (empty($this->formatedBugidList)) {
-         throw new Exception('No issues in IssueSelection !');
-      }
+
       $this->bugResolvedStatusThreshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
 
@@ -277,45 +275,50 @@ class EffortEstimReliabilityIndicator2 extends IndicatorPluginAbstract {
     */
    public function execute() {
 
-      $reliabilityTableMEE = array();
-      $reliabilityTableEE = array();
+      if (0 == count($this->inputIssueSel->getIssueList())) {
+               $this->execData = NULL;
+      } else {
+         $reliabilityTableMEE = array();
+         $reliabilityTableEE = array();
 
-      $startTimestamp = mktime(0, 0, 0, date('m', $this->startTimestamp), date('d', $this->startTimestamp), date('Y', $this->startTimestamp));
-      //$startTimestamp = mktime(23, 59, 59, date('m', $this->startTimestamp), date('d', $this->startTimestamp), date('Y', $this->startTimestamp));
-      $endTimestamp   = mktime(23, 59, 59, date('m', $this->endTimestamp), date('d',$this->endTimestamp), date('Y', $this->endTimestamp));
+         $startTimestamp = mktime(0, 0, 0, date('m', $this->startTimestamp), date('d', $this->startTimestamp), date('Y', $this->startTimestamp));
+         //$startTimestamp = mktime(23, 59, 59, date('m', $this->startTimestamp), date('d', $this->startTimestamp), date('Y', $this->startTimestamp));
+         $endTimestamp   = mktime(23, 59, 59, date('m', $this->endTimestamp), date('d',$this->endTimestamp), date('Y', $this->endTimestamp));
 
-      // --------------------
-      // interval = 4
-      // [j1  0h, j4  23h59]
-      // [j5  0h, j8  23h59]
-      // [j9  0h, j12 23h59]
-      $interval = $this->interval - 1; // tweek strtotime
-      $timestamp = $startTimestamp;
-      while ($timestamp < $endTimestamp) {
+         // --------------------
+         // interval = 4
+         // [j1  0h, j4  23h59]
+         // [j5  0h, j8  23h59]
+         // [j9  0h, j12 23h59]
+         $interval = $this->interval - 1; // tweek strtotime
+         $timestamp = $startTimestamp;
+         while ($timestamp < $endTimestamp) {
 
-         // --- find period timestamps
-         $periodStartTimestamp = $timestamp;
-         $tmpTs = strtotime("+$interval day",$timestamp);
-         $periodEndTimestamp = mktime(23, 59, 59, date('m', $tmpTs), date('d',$tmpTs), date('Y', $tmpTs));
-         if ($periodEndTimestamp > $endTimestamp) {
-            $periodEndTimestamp = $endTimestamp;
+            // --- find period timestamps
+            $periodStartTimestamp = $timestamp;
+            $tmpTs = strtotime("+$interval day",$timestamp);
+            $periodEndTimestamp = mktime(23, 59, 59, date('m', $tmpTs), date('d',$tmpTs), date('Y', $tmpTs));
+            if ($periodEndTimestamp > $endTimestamp) {
+               $periodEndTimestamp = $endTimestamp;
+            }
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("period [ ".date("Y-m-d H:i:s", $periodStartTimestamp)." - ".date("Y-m-d H:i:s", $periodEndTimestamp));
+            }
+
+            // --- compute period rate
+            $prodRate = $this->getEffortEstimReliabilityRate($periodStartTimestamp, $periodEndTimestamp);
+
+            $formatedTimestamp = Tools::formatDate("%Y-%m-%d", $periodStartTimestamp);
+            $reliabilityTableMEE[$formatedTimestamp] = $prodRate['MEE'];
+            $reliabilityTableEE[$formatedTimestamp] = $prodRate['EE'];
+
+            $timestamp = $periodEndTimestamp + 1;  // add 1 sec to flip to next day
          }
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("period [ ".date("Y-m-d H:i:s", $periodStartTimestamp)." - ".date("Y-m-d H:i:s", $periodEndTimestamp));
-         }
 
-         // --- compute period rate
-         $prodRate = $this->getEffortEstimReliabilityRate($periodStartTimestamp, $periodEndTimestamp);
-
-         $formatedTimestamp = Tools::formatDate("%Y-%m-%d", $periodStartTimestamp);
-         $reliabilityTableMEE[$formatedTimestamp] = $prodRate['MEE'];
-         $reliabilityTableEE[$formatedTimestamp] = $prodRate['EE'];
-
-         $timestamp = $periodEndTimestamp + 1;  // add 1 sec to flip to next day
+         $this->execData = array();
+         $this->execData['MEE'] = $reliabilityTableMEE;
+         $this->execData['EE'] = $reliabilityTableEE;
       }
-      $this->execData = array();
-      $this->execData['MEE'] = $reliabilityTableMEE;
-      $this->execData['EE'] = $reliabilityTableEE;
    }
 
    /**
@@ -323,33 +326,40 @@ class EffortEstimReliabilityIndicator2 extends IndicatorPluginAbstract {
     * @return type
     */
    public function getSmartyVariables($isAjaxCall = false) {
-      
-      $timestamp = Tools::getStartEndKeys($this->execData['MEE']);
-      $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
-      $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
 
-      $jsonMEE = Tools::array2plot($this->execData['MEE']);
-      $jsonEE  = Tools::array2plot($this->execData['EE']);
+      if (!is_null($this->execData)) {
+         $timestamp = Tools::getStartEndKeys($this->execData['MEE']);
+         $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
+         $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
 
-      $graphData = "[$jsonMEE,$jsonEE]";
+         $jsonMEE = Tools::array2plot($this->execData['MEE']);
+         $jsonEE  = Tools::array2plot($this->execData['EE']);
 
-      #$graphDataColors = '["#fcbdbd", "#c2dfff"]';
+         $graphData = "[$jsonMEE,$jsonEE]";
 
-      $labels = '["MgrEffortEstim ReliabilityRate", "EffortEstim ReliabilityRate"]';
+         #$graphDataColors = '["#fcbdbd", "#c2dfff"]';
 
-      $tableData = array();
-      foreach ($this->execData['MEE'] as $date => $prodRateMEE) {
-         $prodRateEE = $this->execData['EE'][$date];
+         $labels = '["MgrEffortEstim ReliabilityRate", "EffortEstim ReliabilityRate"]';
 
-         $timestamp = Tools::date2timestamp($date);
-         $formattedDate = Tools::formatDate("%Y-%m-%d", $timestamp);
+         $tableData = array();
+         foreach ($this->execData['MEE'] as $date => $prodRateMEE) {
+            $prodRateEE = $this->execData['EE'][$date];
 
-         $tableData[$formattedDate] = array(
-             'prodRateMEE' => round($prodRateMEE, 2),
-             'prodRateEE' => round($prodRateEE, 2)
-         );
+            $timestamp = Tools::date2timestamp($date);
+            $formattedDate = Tools::formatDate("%Y-%m-%d", $timestamp);
+
+            $tableData[$formattedDate] = array(
+                'prodRateMEE' => round($prodRateMEE, 2),
+                'prodRateEE' => round($prodRateEE, 2)
+            );
+         }
+      } else {
+         $tableData = NULL;
+         $graphData = NULL;
+         $labels = NULL;
+         $start = NULL;
+         $end = NULL;
       }
-
       $smartyVariables = array(
          'effortEstimReliabilityIndicator2_tableData' => $tableData,
          'effortEstimReliabilityIndicator2_jqplotData' => $graphData,

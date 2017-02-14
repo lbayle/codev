@@ -18,7 +18,7 @@
          </li>
          <li>
             <span class="pointer">
-               <img title="{t}Export to CSV{/t}" src="images/b_export_xls.gif" onclick="$('.effortEstimReliabilityIndicator2ValuesTable').table2CSV({literal}{{/literal}filename : 'budgetDrift.csv'{literal}}{/literal})"/>
+               <img title="{t}Export to CSV{/t}" src="images/b_export_xls.gif" onclick="$('.effortEstimReliabilityIndicator2ValuesTable').table2CSV({literal}{{/literal}filename : 'reliabilityRate.csv'{literal}}{/literal})"/>
             </span>
          </li>
       </ul>
@@ -111,6 +111,10 @@
       }];
 
       chart.jqplot({$effortEstimReliabilityIndicator2_jqplotData}, chartoptions);
+      {else}
+      var chart = jQuery('.effortEstimReliabilityIndicator2Chart');
+      chart.empty();
+      chart.hide();
       {/if}
    }
 

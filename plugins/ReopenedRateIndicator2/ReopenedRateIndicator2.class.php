@@ -132,9 +132,10 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
 
       $bugidList = array_keys($this->inputIssueSel->getIssueList());
       $this->formatedBugidList = implode(', ', $bugidList);
-      if (empty($this->formatedBugidList)) {
+/*      if (empty($this->formatedBugidList)) {
          throw new Exception('No issues in IssueSelection !');
       }
+ */
       $this->bugResolvedStatusThreshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
 
@@ -311,105 +312,108 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
     */
    public function execute() {
 
-      // -------- elapsed in the period
-      $startTimestamp = mktime(0, 0, 0, date('m', $this->startTimestamp), date('d', $this->startTimestamp), date('Y', $this->startTimestamp));
-      $endTimestamp   = mktime(23, 59, 59, date('m', $this->endTimestamp), date('d', $this->endTimestamp), date('Y', $this->endTimestamp));
+      if (0 == count($this->inputIssueSel->getIssueList())) {
+               $this->execData = NULL;
+      } else {
+         // -------- elapsed in the period
+         $startTimestamp = mktime(0, 0, 0, date('m', $this->startTimestamp), date('d', $this->startTimestamp), date('Y', $this->startTimestamp));
+         $endTimestamp   = mktime(23, 59, 59, date('m', $this->endTimestamp), date('d', $this->endTimestamp), date('Y', $this->endTimestamp));
 
-      $timestampList = Tools::createTimestampList($startTimestamp, $endTimestamp, $this->interval);
+         $timestampList = Tools::createTimestampList($startTimestamp, $endTimestamp, $this->interval);
 
-      // ------ compute
+         // ------ compute
 
-      #$resolvedList = array();
-      #$nbResolvedList = array();
-      $reopenedList = array();
-      $nbReopenedList = array();
-      $validatedList = array();
-      $nbValidatedList = array();
-      $reopenedPercentList = array();
-      $validatedPercentList = array();
+         #$resolvedList = array();
+         #$nbResolvedList = array();
+         $reopenedList = array();
+         $nbReopenedList = array();
+         $validatedList = array();
+         $nbValidatedList = array();
+         $reopenedPercentList = array();
+         $validatedPercentList = array();
 
-      $formattedBugidList = implode(', ', array_keys($this->inputIssueSel->getIssueList()));
+         $formattedBugidList = implode(', ', array_keys($this->inputIssueSel->getIssueList()));
 
-      for($i = 1, $size = count($timestampList); $i < $size; ++$i) {
+         for($i = 1, $size = count($timestampList); $i < $size; ++$i) {
 
-         $start = $timestampList[$i-1];
+            $start = $timestampList[$i-1];
 
-         $lastDay = ($i + 1 < $size) ? strtotime("-1 day",$timestampList[$i]) : $timestampList[$i];
-         $end   = mktime(23, 59, 59, date('m', $lastDay), date('d',$lastDay), date('Y', $lastDay));
+            $lastDay = ($i + 1 < $size) ? strtotime("-1 day",$timestampList[$i]) : $timestampList[$i];
+            $end   = mktime(23, 59, 59, date('m', $lastDay), date('d',$lastDay), date('Y', $lastDay));
 
-         $midnight_timestamp = mktime(0, 0, 0, date('m', $timestampList[$i]), date('d', $timestampList[$i]), date('Y', $timestampList[$i]));
-         $key = Tools::formatDate('%Y-%m-%d', $midnight_timestamp);
+            $midnight_timestamp = mktime(0, 0, 0, date('m', $timestampList[$i]), date('d', $timestampList[$i]), date('Y', $timestampList[$i]));
+            $key = Tools::formatDate('%Y-%m-%d', $midnight_timestamp);
 
-         // -------
+            // -------
 
-         $reopenedBugidList = $this->getReopened($formattedBugidList, $start, $end);
-         $validatedBugidList = $this->getValidated($formattedBugidList, $start, $end);
+            $reopenedBugidList = $this->getReopened($formattedBugidList, $start, $end);
+            $validatedBugidList = $this->getValidated($formattedBugidList, $start, $end);
 
-         // WARN: the tiestamp list may return something like this:
-         // timestamp = 2013-01-14 00:00:00
-         // timestamp = 2013-01-21 00:00:00
-         // timestamp = 2013-01-21 23:59:59
-         if (array_key_exists($key, $reopenedList)) {
-            $reopenedBugidList = array_merge($reopenedBugidList, $reopenedList[$key]);
-            $validatedBugidList = array_merge($validatedBugidList, $validatedList[$key]);
+            // WARN: the tiestamp list may return something like this:
+            // timestamp = 2013-01-14 00:00:00
+            // timestamp = 2013-01-21 00:00:00
+            // timestamp = 2013-01-21 23:59:59
+            if (array_key_exists($key, $reopenedList)) {
+               $reopenedBugidList = array_merge($reopenedBugidList, $reopenedList[$key]);
+               $validatedBugidList = array_merge($validatedBugidList, $validatedList[$key]);
+            }
+
+            // PHP.net: It's often faster to use foreach and array_keys than array_unique
+            $tmpBugidList = array_merge($reopenedBugidList, $validatedBugidList);
+            $allBugidList = array();
+            foreach($tmpBugidList as $val) {
+               $allBugidList[$val] = true;
+            }
+            $allBugidList = array_keys($allBugidList);
+
+            // --------
+            $nbResolved = count($allBugidList);
+            $nbReopened = count($reopenedBugidList);
+            $nbValidated = count($validatedBugidList);
+
+            if (0 != $nbResolved) {
+               $pcentReopened = round((100 * $nbReopened / $nbResolved), 2);
+               $pcentValidated = round((100 * $nbValidated / $nbResolved), 2);
+            } else {
+               $pcentReopened = 0;
+               $pcentValidated = 0;
+            }
+            // ---------
+
+            $reopenedList[$key] = $reopenedBugidList;
+            $validatedList[$key] = $validatedBugidList;
+
+            $nbReopenedList[$key] = $nbReopened;
+            $nbValidatedList[$key] = $nbValidated;
+
+            $reopenedPercentList[$key] = $pcentReopened;
+            $validatedPercentList[$key] = $pcentValidated;
+
+            $tableData[$key] = array(#'nbResolved' => $nbResolved,
+                                     'nbReopened' => $nbReopened,
+                                     'reopenedPercent' => $pcentReopened,
+                                     'nbValidated' => $nbValidated,
+                                     'validatedPercent' => $pcentValidated,
+                                     'dateTooltip' => date('d M H:i:s', $start).' - '.date('d M H:i:s', $end)
+                                    );
+
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("reopened [".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$nbReopened." reopened  : ".implode(', ', $reopenedBugidList));
+               self::$logger->debug("validated[".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$nbValidated." validated : ".implode(', ', $validatedBugidList));
+               #echo '---<br>';
+            }
          }
 
-         // PHP.net: It's often faster to use foreach and array_keys than array_unique
-         $tmpBugidList = array_merge($reopenedBugidList, $validatedBugidList);
-         $allBugidList = array();
-         foreach($tmpBugidList as $val) {
-            $allBugidList[$val] = true;
-         }
-         $allBugidList = array_keys($allBugidList);
+         $this->execData['nbReopened'] = $nbReopenedList;
+         $this->execData['reopenedIssues'] = $reopenedList;
+         $this->execData['reopenedPercent'] = $reopenedPercentList;
 
-         // --------
-         $nbResolved = count($allBugidList);
-         $nbReopened = count($reopenedBugidList);
-         $nbValidated = count($validatedBugidList);
+         $this->execData['nbValidated'] = $nbValidatedList;
+         $this->execData['validatedIssues'] = $validatedList;
+         $this->execData['validatedPercent'] = $validatedPercentList;
 
-         if (0 != $nbResolved) {
-            $pcentReopened = round((100 * $nbReopened / $nbResolved), 2);
-            $pcentValidated = round((100 * $nbValidated / $nbResolved), 2);
-         } else {
-            $pcentReopened = 0;
-            $pcentValidated = 0;
-         }
-         // ---------
-
-         $reopenedList[$key] = $reopenedBugidList;
-         $validatedList[$key] = $validatedBugidList;
-
-         $nbReopenedList[$key] = $nbReopened;
-         $nbValidatedList[$key] = $nbValidated;
-
-         $reopenedPercentList[$key] = $pcentReopened;
-         $validatedPercentList[$key] = $pcentValidated;
-
-         $tableData[$key] = array(#'nbResolved' => $nbResolved,
-                                  'nbReopened' => $nbReopened,
-                                  'reopenedPercent' => $pcentReopened,
-                                  'nbValidated' => $nbValidated,
-                                  'validatedPercent' => $pcentValidated,
-                                  'dateTooltip' => date('d M H:i:s', $start).' - '.date('d M H:i:s', $end)
-                                 );
-
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("reopened [".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$nbReopened." reopened  : ".implode(', ', $reopenedBugidList));
-            self::$logger->debug("validated[".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$nbValidated." validated : ".implode(', ', $validatedBugidList));
-            #echo '---<br>';
-         }
+         $this->execData['tableData'] = $tableData;
       }
-
-      $this->execData['nbReopened'] = $nbReopenedList;
-      $this->execData['reopenedIssues'] = $reopenedList;
-      $this->execData['reopenedPercent'] = $reopenedPercentList;
-
-      $this->execData['nbValidated'] = $nbValidatedList;
-      $this->execData['validatedIssues'] = $validatedList;
-      $this->execData['validatedPercent'] = $validatedPercentList;
-
-      $this->execData['tableData'] = $tableData;
-
       return $this->execData;
    }
 
@@ -419,15 +423,22 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
     */
    public function getSmartyVariables($isAjaxCall = false) {
 
-      $startTimestamp = $this->startTimestamp;
-      $endTimestamp = strtotime(date("Y-m-d",$this->endTimestamp)." +1 month");
+      if (!is_null($this->execData)) {
+         $startTimestamp = $this->startTimestamp;
+         $endTimestamp = strtotime(date("Y-m-d",$this->endTimestamp)." +1 month");
 
-      #$graphData = "[".Tools::array2plot($this->execData['nbValidated']).','.Tools::array2plot($this->execData['nbReopened'])."]";
-      $graphData = "[".Tools::array2plot($this->execData['validatedPercent']).','.Tools::array2plot($this->execData['reopenedPercent'])."]";
-      $interval = ceil($this->interval/20); // TODO why 20 ?
-
+         #$graphData = "[".Tools::array2plot($this->execData['nbValidated']).','.Tools::array2plot($this->execData['nbReopened'])."]";
+         $graphData = "[".Tools::array2plot($this->execData['validatedPercent']).','.Tools::array2plot($this->execData['reopenedPercent'])."]";
+         $interval = ceil($this->interval/20); // TODO why 20 ?
+         $tableData = $this->execData['tableData'];
+      } else {
+         $tableData = NULL;
+         $graphData = NULL;
+         $startTimestamp = 0;
+         $endTimestamp = 0;
+      }
       $smartyVariables = array(
-         'reopenedRateIndicator2_tableData' => $this->execData['tableData'],
+         'reopenedRateIndicator2_tableData' => $tableData,
          'reopenedRateIndicator2_jqplotData' => $graphData,
          'reopenedRateIndicator2_plotMinDate' => Tools::formatDate("%Y-%m-01", $startTimestamp),
          'reopenedRateIndicator2_plotMaxDate' => Tools::formatDate("%Y-%m-01", $endTimestamp),

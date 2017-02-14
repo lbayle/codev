@@ -204,59 +204,62 @@ class BudgetDriftHistoryIndicator2 extends IndicatorPluginAbstract {
     */
    public function execute() {
 
-      // -------- elapsed in the period
-      $startTimestamp = mktime(0, 0, 0, date('m', $this->startTimestamp), date('d', $this->startTimestamp), date('Y', $this->startTimestamp));
-      $endTimestamp   = mktime(23, 59, 59, date('m', $this->endTimestamp), date('d',$this->endTimestamp), date('Y', $this->endTimestamp));
+      if (0 == count($this->inputIssueSel->getIssueList())) {
+               $this->execData = NULL;
+      } else {
+         // -------- elapsed in the period
+         $startTimestamp = mktime(0, 0, 0, date('m', $this->startTimestamp), date('d', $this->startTimestamp), date('Y', $this->startTimestamp));
+         $endTimestamp   = mktime(23, 59, 59, date('m', $this->endTimestamp), date('d',$this->endTimestamp), date('Y', $this->endTimestamp));
 
-      #echo "Backlog start ".date('Y-m-d H:i:s', $startTimestamp)." end ".date('Y-m-d H:i:s', $endTimestamp)." interval ".$this->interval."<br>";
-      $timestampList2  = Tools::createTimestampList($startTimestamp, $endTimestamp, $this->interval);
+         #echo "Backlog start ".date('Y-m-d H:i:s', $startTimestamp)." end ".date('Y-m-d H:i:s', $endTimestamp)." interval ".$this->interval."<br>";
+         $timestampList2  = Tools::createTimestampList($startTimestamp, $endTimestamp, $this->interval);
 
-      $this->getElapsedData($this->inputIssueSel, $timestampList2);
+         $this->getElapsedData($this->inputIssueSel, $timestampList2);
 
-      // ------ compute
-      // CmdTotalDrift = Reestimated - (MEE + Provisions)
+         // ------ compute
+         // CmdTotalDrift = Reestimated - (MEE + Provisions)
 
-      $driftDaysList = array();
-      $driftPercentList = array();
-      $tableData = array();
-      $nbZeroDivErrors1 = 0;
-      foreach ($timestampList2 as $timestamp) {
-         $midnight_timestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
+         $driftDaysList = array();
+         $driftPercentList = array();
+         $tableData = array();
+         $nbZeroDivErrors1 = 0;
+         foreach ($timestampList2 as $timestamp) {
+            $midnight_timestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
 
-         $cmdProvAndMeeDays = $this->inputIssueSel->getMgrEffortEstim($timestamp) + $this->provisionDays;
-         
-			$reestimated = $this->inputIssueSel->getReestimated($timestamp);
+            $cmdProvAndMeeDays = $this->inputIssueSel->getMgrEffortEstim($timestamp) + $this->provisionDays;
 
-         $driftDays = $reestimated - $cmdProvAndMeeDays;
+            $reestimated = $this->inputIssueSel->getReestimated($timestamp);
 
-         if (0 != $cmdProvAndMeeDays) {
-            $driftPercent = ($driftDays * 100 / $cmdProvAndMeeDays);
-         } else {
-            $nbZeroDivErrors1 += 1;
-            $driftPercent = 0;
+            $driftDays = $reestimated - $cmdProvAndMeeDays;
+
+            if (0 != $cmdProvAndMeeDays) {
+               $driftPercent = ($driftDays * 100 / $cmdProvAndMeeDays);
+            } else {
+               $nbZeroDivErrors1 += 1;
+               $driftPercent = 0;
+            }
+            #$totalDriftCost = $totalDrift * $cmd->getAverageDailyRate();
+
+            $key = Tools::formatDate('%Y-%m-%d', $midnight_timestamp);
+            $driftDaysList[$key] = round($driftDays, 2);
+            $driftPercentList[$key] = round($driftPercent, 2);
+            $tableData[$key] = array('driftDays' => $driftDaysList[$key],
+                                     'driftPercent' => $driftPercentList[$key],
+                                     'provAndMeeDays' => $cmdProvAndMeeDays);
+
+            #echo $key." CmdTotalDrift = $reestimated - $cmdProvAndMeeDays = ".$cmdTotalDrift[$key]."<br>";
+
+         } // foreach timestamp
+
+         // PERF logging is slow, factorize errors
+         if ($nbZeroDivErrors1 > 0) {
+            self::$logger->error("$nbZeroDivErrors1 Division by zero ! (cmdProvAndMeeDays)");
          }
-         #$totalDriftCost = $totalDrift * $cmd->getAverageDailyRate();
 
-         $key = Tools::formatDate('%Y-%m-%d', $midnight_timestamp);
-         $driftDaysList[$key] = round($driftDays, 2);
-         $driftPercentList[$key] = round($driftPercent, 2);
-         $tableData[$key] = array('driftDays' => $driftDaysList[$key], 
-                                  'driftPercent' => $driftPercentList[$key],
-                                  'provAndMeeDays' => $cmdProvAndMeeDays);
-
-         #echo $key." CmdTotalDrift = $reestimated - $cmdProvAndMeeDays = ".$cmdTotalDrift[$key]."<br>";
-
-      } // foreach timestamp
-
-      // PERF logging is slow, factorize errors
-      if ($nbZeroDivErrors1 > 0) {
-         self::$logger->error("$nbZeroDivErrors1 Division by zero ! (cmdProvAndMeeDays)");
+         $this->execData['budgetDriftDays'] = $driftDaysList;
+         $this->execData['budgetDriftPercent'] = $driftPercentList;
+         $this->execData['budgetDriftTable'] = $tableData;
       }
-
-      $this->execData['budgetDriftDays'] = $driftDaysList;
-      $this->execData['budgetDriftPercent'] = $driftPercentList;
-      $this->execData['budgetDriftTable'] = $tableData;
-
       //self::$logger->error(var_export($this->execData, true));
       return $this->execData;
    }
@@ -267,15 +270,22 @@ class BudgetDriftHistoryIndicator2 extends IndicatorPluginAbstract {
     */
    public function getSmartyVariables($isAjaxCall = false) {
 
-      $startTimestamp = $this->startTimestamp;
-      $endTimestamp = strtotime(date("Y-m-d",$this->endTimestamp)." +1 month");
+      if (!is_null($this->execData)) {
+         $startTimestamp = $this->startTimestamp;
+         $endTimestamp = strtotime(date("Y-m-d",$this->endTimestamp)." +1 month");
 
-      $interval = ceil($this->interval/20); // TODO why 20 ?
-      #$graphDaysData  = '['.Tools::array2plot($this->execData['budgetDriftDays']).']';
-      $graphPercentData = '['.Tools::array2plot($this->execData['budgetDriftPercent']).']';
-
+         $interval = ceil($this->interval/20); // TODO why 20 ?
+         #$graphDaysData  = '['.Tools::array2plot($this->execData['budgetDriftDays']).']';
+         $graphPercentData = '['.Tools::array2plot($this->execData['budgetDriftPercent']).']';
+         $tableData = $this->execData['budgetDriftTable'];
+      } else {
+         $tableData = NULL;
+         $graphPercentData = NULL;
+         $startTimestamp = 0;
+         $endTimestamp = 0;
+      }
       $smartyVariables = array(
-         'budgetDriftHistoryIndicator2_tableData' => $this->execData['budgetDriftTable'],
+         'budgetDriftHistoryIndicator2_tableData' => $tableData,
          #'budgetDriftHistoryIndicator2_jqplotDaysData' => $graphDaysData,
          'budgetDriftHistoryIndicator2_jqplotPercentData' => $graphPercentData,
          'budgetDriftHistoryIndicator2_jqplotMinDate' => Tools::formatDate("%Y-%m-%d", $startTimestamp),
