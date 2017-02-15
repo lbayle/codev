@@ -1,5 +1,5 @@
 
-# CodevTT #
+# [CodevTT.org](http://codevtt.org) #
 --- Time tracking & project management on Mantis ---
 
 ### Audience
@@ -14,10 +14,8 @@
 
 - CodevTT is an efficient link between the team and the management. Its goal is to give concrete and reliable information on your projects/contracts/teams and intends to reduce the management costs of your projects.
 
-> Since v1.0.0 CodevTT is production ready, we're now working on a plugin management system so that you can easily customize it to your needs and develop your own specific indicators.
-
 ### Notes
->  Complete documentation for [CodevTT](http://codevtt.org) is not yet available but you'll find usefull information [here](http://codevtt.org/site/?page_id=153).
+>  Screenshots for CodevTT are [here](http://codevtt.org/site/?page_id=116).
 
-> Please check the [installation forum](http://codevtt.org/site/?forum=installation) for more information.
+>  Documentation is [here](http://codevtt.org/site/?page_id=153).
 

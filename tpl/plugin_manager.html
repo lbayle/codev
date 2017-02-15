@@ -40,7 +40,7 @@
             </td>
             <td {if 1 == $plugin.status}bgcolor="#BFFFC4"{/if}
                 {if 2 == $plugin.status}bgcolor="#E0E0E0"{/if}>{$plugin.statusName}</td>
-            <td><div class="caption_font">{$plugin.name}</div><br>
+            <td  title="{$plugin_id}"><div class="caption_font">{$plugin.name}</div><br>
                {$plugin.description}</td>
             <td>{$plugin.version}</td>
             <td>{$plugin.categories}</td>
