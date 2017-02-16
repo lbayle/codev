@@ -14,7 +14,7 @@
       <form id="displayTeamForm" name="displayTeamForm" class="formWithTabsHistory" method="post" action="{$page}">
          <fieldset>
             <label for="displayed_teamid">{t}Team{/t}: </label>
-            <select id="displayed_teamid" name="displayed_teamid" class="select2">
+            <select id="displayed_teamid" name="displayed_teamid" class="select2" style="min-width:320px;>
             {foreach from=$availableTeams key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
             {/foreach}

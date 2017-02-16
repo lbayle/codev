@@ -74,14 +74,7 @@ class ExportCSVMonthlyController extends Controller {
                $this->exportProjectMonthlyActivityToCSV($timeTracking, $myFile);
                $this->smartyHelper->assign('projectMonthlyActivityToCSV', basename($myFile));
 
-               // reduce scope to enhance speed
-               $reports = array();
-               for ($i = 1; $i <= 12; $i++) {
-                  $reports[] = basename(ExportCsvTools::exportHolidaystoCSV($i, $year, $this->teamid, $formatedteamName,  Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'));
-               }
-               $this->smartyHelper->assign('reports', $reports);
-
-               $this->smartyHelper->assign('reportsDir', Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports');
+               //$this->smartyHelper->assign('reportsDir', Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports');
             }
          }
       }

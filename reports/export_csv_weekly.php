@@ -92,20 +92,7 @@ class ExportCSVWeeklyController extends Controller {
 
                $this->smartyHelper->assign('reports', $reports);
 
-               $monthsReport = "";
-               // reduce scope to enhance speed
-               $monthsLineReport = "";
-               $startMonth = 1;
-               for ($i = $startMonth; $i <= 12; $i++) {
-                  $myFile = ExportCsvTools::exportHolidaystoCSV($i, $year, $this->teamid, $formatedteamName, Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports');
-                  $monthsLineReport[] = array('file' => basename($myFile));
-               }
-
-               $monthsReport['title'] = T_('Export Holidays').' '.$year;
-               $monthsReport['line'] = $monthsLineReport;
-               $this->smartyHelper->assign('monthsReport', $monthsReport);
-
-               $this->smartyHelper->assign('reportsDir', Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports');
+               //$this->smartyHelper->assign('reportsDir', Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports');
             }
          }
       }

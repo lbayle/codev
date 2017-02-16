@@ -10,7 +10,7 @@
          </fieldset>
       </form>
    </div>
-   {if isset($reports)}
+   {if isset($managedIssuesToCSV)}
       <!-- T_("Team").": ".$teamList[$teamid]."<br/> -->
       <p style="margin-top: 2em">
          <span style="font-weight: bold;" title="{t}Issues form Team projects, including issues assigned to other teams{/t}">- {t}Export Managed Issues{/t}...</span><br/>
@@ -21,14 +21,7 @@
          <span style="padding-left: 3em"><a href="include/download.php?f={$projectMonthlyActivityToCSV}">{$projectMonthlyActivityToCSV}</a></span>
       </p>
       <p style="margin-top: 2em">
-         <span style="font-weight: bold;" title="">- {t}Export Holidays {/t}{$year}...</span><br/>
-         {foreach from=$reports key=file item=i}
-         <span style="padding-left: 3em"><a href="include/download.php?f={$i}">{$i}</a></span><br/>
-         {/foreach}
-      </p>
-      <p style="margin-top: 2em">
          {t}Done{/t}<br/><br/>
-         {t}Results in{/t} {$reportsDir}
       </p>
    {/if}
 {else}

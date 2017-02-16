@@ -29,15 +29,7 @@
    </p>
    {/foreach}
    <p style="margin-top: 2em">
-      <span style="font-weight: bold;" title="">- {$monthsReport.title}...</span><br/>
-      {foreach from=$monthsReport.line key=file item=i}
-      <span style="padding-left: 3em"><a href="include/download.php?f={$i.file}">{$i.file}</a></span>
-      <br/>
-      {/foreach}
-   </p>
-   <p style="margin-top: 2em">
       {t}Done{/t}<br/><br/>
-      {t}Results in{/t} {$reportsDir}
    </p>
    {/if}
 {else}
