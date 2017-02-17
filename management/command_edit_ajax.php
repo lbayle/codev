@@ -27,42 +27,48 @@ $logger = Logger::getLogger("commandEdit_ajax");
 if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
    $action = Tools::getSecurePOSTStringValue('action', 'none');
-   $cmdid = $_SESSION['cmdid'];  // WARN: CommandId should be returned by the page ! what if user opened 2 commands in his browser ?!?
+
+   // use the cmdid set in the form, if not defined use session cmdid
+   if(isset($_POST['cmdid'])) {
+      $cmdid = $_POST['cmdid'];
+      $_SESSION['cmdid'] = $cmdid;
+   } else if(isset($_GET['cmdid'])) {
+      $cmdid = $_GET['cmdid'];
+      $_SESSION['cmdid'] = $cmdid;
+   } else if(isset($_SESSION['cmdid'])) {
+      $cmdid = $_SESSION['cmdid'];
+      $logger->error("WARN: cmdid not defined in form, using _SESSION");
+   }
+   if (0 == $cmdid) {
+      Tools::sendBadRequest('Invalid CommandId: 0');
+   }
 
    if('saveProvisionChanges' == $action) {
-      if(isset($_SESSION['cmdid'])) {
-         if (0 != $cmdid) {
 
-            // <provid>:<isInCheckBudget>,
-            $imploded = Tools::getSecurePOSTStringValue("isInCheckBudgetImploded");
-            $provisions = Tools::doubleExplode(':', ',', $imploded);
+      // <provid>:<isInCheckBudget>,
+      $imploded = Tools::getSecurePOSTStringValue("isInCheckBudgetImploded");
+      $provisions = Tools::doubleExplode(':', ',', $imploded);
 
-            try {
-               // save Provision changes
-               foreach ($provisions as $provid => $isInCheckBudget) {
-                  $prov = new CommandProvision($provid);
+      try {
+         // save Provision changes
+         foreach ($provisions as $provid => $isInCheckBudget) {
+            $prov = new CommandProvision($provid);
 
-                  // securityCheck: does provid belong to this command ?
-                  if ($cmdid == $prov->getCommandId()) {
-                     $prov->setIsInCheckBudget($isInCheckBudget);
-                  } else {
-                     // LOG SECURITY ERROR !!
-                     Tools::sendBadRequest("Provision $provid does not belong to Command $cmdid !");
-                  }
-               }
-            } catch (Exception $e) {
-               Tools::sendBadRequest(T_('Provisions updated FAILED !'));
+            // securityCheck: does provid belong to this command ?
+            if ($cmdid == $prov->getCommandId()) {
+               $prov->setIsInCheckBudget($isInCheckBudget);
+            } else {
+               // LOG SECURITY ERROR !!
+               Tools::sendBadRequest("Provision $provid does not belong to Command $cmdid !");
             }
-
-            // write in 'data'
-            echo ('SUCCESS');
-
-         } else {
-            Tools::sendBadRequest('Invalid CommandId: 0');
          }
-      } else {
-         Tools::sendBadRequest("Command not set");
+      } catch (Exception $e) {
+         Tools::sendBadRequest(T_('Provisions updated FAILED !'));
       }
+
+      // write in 'data'
+      echo ('SUCCESS');
+
    } elseif ('importProvisionCSV' == $action) {
       try {
 
@@ -201,11 +207,6 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
       }
       echo json_encode($jsonDataSend);
 
-//      $logger->error("WAZAAAAA");
-//      $logger->error($provDataReceive);
-      //explode(" ", $pizza)
-      // create 
-      // return 'statusMsg' => 'SUCCESS',
    } else {
       Tools::sendNotFoundAccess();
    }

@@ -65,6 +65,7 @@ class CommandEditController extends Controller {
                $_SESSION['cmdid'] = $cmdid;
             } else if(isset($_SESSION['cmdid'])) {
                $cmdid = $_SESSION['cmdid'];
+               self::$logger->error("WARN: cmdid not defined in form, using _SESSION");
             }
 
             // use the commandsetid set in the form, if not defined (first page call) use session commandsetid

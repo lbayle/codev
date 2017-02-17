@@ -496,6 +496,7 @@
                   <fieldset>
                      <input type="hidden" name="action" value="removeFromCmdSet" />
                      <input type="hidden" name="teamid" value="{$teamid}" />
+                     <input type="hidden" name="cmdid" value="{$cmdid}" />
                      <input type="hidden" name="commandsetid"  value="0" />
                   </fieldset>
                </form>
@@ -597,7 +598,6 @@
                   <button id="btImpotProvision" type="button"><img border="0" align="absmiddle" alt="Add icon" src="images/import.ico">{t}CSV Import{/t}</button>
                   <span style="padding-left: 2em">{t}Import templates{/t}: </span>
                   <span><a href="include/download.php?importTemplates&f=import_provisions_template.xls">XLS</a></span>
-
                </form>
             </div>
             <hr>
@@ -761,7 +761,9 @@ var provData;
                         jQuery.ajax({
                            type: "POST",
                            url: "{$ajaxPage}",
-                           data: { action: "saveProvisionCSV", provdata: provData },
+                           data: { action: "saveProvisionCSV",
+                                   cmdid: "{$cmdid}",
+                                   provdata: provData },
                            dataType: "json",
                            success: function(data) {
                               if ('SUCCESS' === data.statusMsg) {
@@ -813,7 +815,8 @@ var provData;
                   var data = new FormData();
                   data.append("uploaded_csv", files);
                   data.append("action","importProvisionCSV");
-                 
+                  data.append("cmdid","{$cmdid}");
+
                   jQuery.ajax({
                      async: false,
                      type: form.attr('method'),
@@ -918,12 +921,7 @@ var provData;
                </fieldset>
             </form>
          </div>
-<!--         <form id="formImportProvision" name="formImportProvision" method="post" action="{$ajaxPage}" class="formWithTabsHistory" >
-            <fieldset>
-               <input type="hidden" name="action" value="saveProvisionCSV" />
-               <input type="hidden" name="provJsonStr" value="" />
-            </fieldset>
-         </form>-->
+
          <div id="importProvision_dialog_form" title="{t}Import provisions CSV{/t}" class="ui-helper-hidden">
             <fieldset>
                <table class="invisible TableImportProvisionCSV">
