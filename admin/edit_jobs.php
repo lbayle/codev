@@ -65,9 +65,9 @@ class EditJobsController extends Controller {
             } elseif ('addAssociationProject' == $action) {
 
                // Add Job to selected projects
-               $job_id = Tools::getSecurePOSTIntValue('job_id');
-               $proj = explode(",",Tools::getSecurePOSTStringValue('formattedProjects'));
-               foreach($proj as $project_id) {
+               $project_id = Tools::getSecurePOSTIntValue('project');
+               $jobs = explode(",",Tools::getSecurePOSTStringValue('formattedJobs'));
+               foreach($jobs as $job_id) {
                   // TODO check if not already in table !
 
                   // save to DB

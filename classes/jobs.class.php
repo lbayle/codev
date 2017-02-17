@@ -22,12 +22,12 @@
  */
 class Job extends Model implements Comparable {
 
-  const type_commonJob = 0;     // jobs common to all projects are type 0
-  const type_assignedJob = 1;     // jobs specific to one or more projects are type 1
+  const type_commonJob = 0;     // default jobs when project is first add to a team
+  const type_assignedJob = 1;   // jobs not added to projects by default
 
   public static $typeNames = array(
      self::type_assignedJob => "Assigned",
-     self::type_commonJob => "Common",
+     self::type_commonJob => "Default",
   );
 
    private $id;

@@ -18,7 +18,7 @@
 
 class Project extends Model {
 
-   const type_workingProject = 0; // normal projects are type 0
+   const type_workingProject = 0; // DEPRECATED normal projects are type 0
    const type_sideTaskProject = 1; // SuiviOp must be type 1
    const type_noCommonProject = 2; // projects which have only assignedJobs (no common jobs) REM: these projects are not considered as sideTaskProjects
    const type_noStatsProject = 3; // projects that will be excluded from the statistics (ex: FDL)
@@ -46,10 +46,11 @@ class Project extends Model {
    }
 
    public static $typeNames = array(
-      self::type_workingProject  => "Project",
-      self::type_noCommonProject => "Project (no common jobs)",
-      self::type_noStatsProject  => "Project (stats excluded)",
-      self::type_sideTaskProject => "SideTasks");
+      //self::type_workingProject  => "Project", // DEPRECATED
+      self::type_noCommonProject => "Regular project", // previously "Project (no common jobs)"
+      self::type_sideTaskProject => "SideTasks project",
+      self::type_noStatsProject  => "NoStats project (excluded from statistics)",
+   );
 
    public static $catTypeNames = array(
       self::cat_st_inactivity  => "Inactivity",
@@ -816,6 +817,8 @@ class Project extends Model {
                         "JOIN `codev_project_job_table` as project_job ON job.id = project_job.job_id ".
                         "WHERE project_job.project_id = $this->id;";
                break;
+            case self::type_workingProject:  // no break;
+            case self::type_noStatsProject:  // no break;
             case self::type_noCommonProject:
                $query = "SELECT job.id, job.name ".
                         "FROM `codev_job_table` as job ".
@@ -823,15 +826,6 @@ class Project extends Model {
                         "ON job.id = project_job.job_id ".
                         "WHERE project_job.project_id = $this->id ".
                         "ORDER BY job.name ASC;";
-               break;
-            case self::type_workingProject:  // no break;
-            case self::type_noStatsProject:
-               // all other projects
-               $query = "SELECT job.id, job.name ".
-                        "FROM `codev_job_table` as job ".
-                        "LEFT OUTER JOIN `codev_project_job_table` as project_job ".
-                        "ON job.id = project_job.job_id ".
-                        "WHERE job.type = $commonJobType OR project_job.project_id = $this->id;";
                break;
             case (-1):
                // WORKAROUND no type specified, return all available jobs

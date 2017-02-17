@@ -764,7 +764,8 @@ class Team extends Model {
    }
 
    /**
-    * Add a project to the team
+    * Add a project to the team,
+    * Add default jobs to the project (if not already defined)
     *
     * @param int $projectid
     * @param int $projecttype
@@ -774,8 +775,27 @@ class Team extends Model {
       $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$projectid','$this->id','$projecttype');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         return false;
+         throw new Exception("Couldn't add the project to the team (insert project $projectid)");
       }
+      // jobs assignations are not (not yet) specific to a team.
+      // check if jobs already defined
+      $query2 = "SELECT count(1) as cnt FROM `codev_project_job_table` WHERE `project_id` = '$projectid'";
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      if (!$result2) {
+         throw new Exception("Couldn't check existing jobs for project $projectid");
+      }
+      $count = SqlWrapper::getInstance()->sql_result($result2);
+      self::$logger->error("count jobs = $count");
+      if (0 == $count) {
+         // if no job defined yet, then default jobs (previously: commonJobs) must be assigned.
+         $query3 = "INSERT INTO `codev_project_job_table`(`project_id`, `job_id`) ".
+                  "SELECT '$projectid', job.id FROM `codev_job_table` job WHERE `type` = 0 ;";
+         $result3 = SqlWrapper::getInstance()->sql_query($query3);
+         if (!$result3) {
+            throw new Exception("Couldn't add the project to the team (add default jobs)");
+         }
+      }
+
       return true;
    }
 
@@ -985,7 +1005,7 @@ class Team extends Model {
 
 
    /**
-    * Get other projects
+    * Get projects not yet in the team (candidates)
     * @return string[]
     */
    public function getOtherProjects($withDisabledProjects = true) {

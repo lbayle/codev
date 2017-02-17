@@ -212,10 +212,9 @@ class EditTeamController extends Controller {
                         // WARN: Project constructor cannot be used in here.
                         Project::prepareProjectToCodev($projectid);
 
-                        // save to DB
-                        if(!$team->addProject($projectid, $projecttype)) {
-                           $this->smartyHelper->assign('error', T_("Couldn't add the project to the team"));
-                        }
+                        // save to DB, add default jobs if necessary
+                        $team->addProject($projectid, $projecttype);
+
                      } catch (Exception $e) {
                         $this->smartyHelper->assign('error', T_("Couldn't add the project to the team"));
                      }

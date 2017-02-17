@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
-('database_version', 16, 1),
+('database_version', 17, 1),
 ('blogCategories', '1:General,2:Timetracking,3:Admin', 3);
 
 
@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `codev_team_project_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `project_id` int(11) NOT NULL,
   `team_id` int(11) NOT NULL,
-  `type` int(11) NOT NULL DEFAULT '0',
+  `type` int(11) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`),
   KEY `project_id` (`project_id`),
   KEY `team_id` (`team_id`)

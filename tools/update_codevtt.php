@@ -467,6 +467,65 @@ function update_v15_to_v16() {
    }
 }
 
+/**
+ * update 1.2.0 to 1.2.1 (DB v16 to DB v17)
+ *
+ * - clasmap.ser (new plugin: UserTeamList)
+ * - DB projectTypes
+ */
+function update_v16_to_v17() {
+
+   // update pluginManager (new plugin: UserTeamList)
+   try {
+      echo "- Update classmap.ser<br>";
+      Tools::createClassMap();
+
+      echo "- Discover new plugins (Must be enabled manualy from the Admin/PluginManager page)<br>";
+      $pm = PluginManager::getInstance();
+      $pm->discoverNewPlugins();
+   } catch (Exception $e) {
+      echo "<span class='error_font'>Could not create classmap: ".$e->getMessage()."</span><br/>";
+      exit;
+   }
+
+   echo "- Update Jobs / Projects<br>";
+
+   // remove default-jobs assignations for workingProjects (not normal case, prepare for query3)
+   $query = "DELETE FROM  `codev_project_job_table` ".
+           "WHERE project_id IN (SELECT project_id FROM `codev_team_project_table` WHERE `type`= ".Project::type_workingProject.") ".
+           "AND job_id IN (SELECT job.id FROM `codev_job_table` job WHERE `type` = ".Job::type_commonJob.");";
+   execQuery($query);
+
+   // find deprecated workingProjects
+   $query0 = "SELECT mpt.id, mpt.name FROM `codev_team_project_table` ctpt ".
+             "JOIN `mantis_project_table` mpt ON mpt.id = ctpt.project_id ".
+             "WHERE ctpt.type = ".Project::type_workingProject.';';
+   $result0 = execQuery($query0);
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result0)) {
+      // add default-jobs to workingProjects (convert to noCommonJobProject)
+      $query3 = "INSERT INTO `codev_project_job_table`(`project_id`, `job_id`) ".
+                "SELECT ".$row->id.", job.id FROM `codev_job_table` job ".
+                "WHERE `type` = ".Job::type_commonJob.';';
+      echo "&nbsp;&nbsp;&nbsp;Project $row->id ($row->name) updated<br>";
+      execQuery($query3);
+   }
+
+   // convert workingProject (deprecated)  to noCommonJobProject
+   $query4 = "UPDATE `codev_team_project_table` SET `type`= ".Project::type_noCommonProject." WHERE `type`= ".Project::type_workingProject.';';
+   execQuery($query4);
+
+   // remove duplicates
+   $query6 = "DELETE t1 FROM codev_project_job_table AS t1, codev_project_job_table AS t2 ".
+           "WHERE t1.id > t2.id ".
+           "AND t1.project_id = t2.project_id ".
+           "AND t1.job_id = t2.job_id;";
+   execQuery($query6);
+
+   $query5 = "UPDATE `codev_config_table` SET `value`='17' WHERE `config_id`='database_version';";
+   execQuery($query5);
+
+}
+
 // ======================================================
 // toolbox
 // ======================================================
@@ -598,35 +657,44 @@ $logger = Logger::getLogger("versionUpdater");
  *
  */
 
- // check DB version
-$query = "SELECT * from `codev_config_table` WHERE `config_id` = 'database_version' ";
-$result = execQuery($query);
-$row = SqlWrapper::getInstance()->sql_fetch_object($result);
-$currentDatabaseVersion=$row->value;
+if (Tools::isConnectedUser()){
 
-echo "Current  database_version = $currentDatabaseVersion<br>";
-echo "Expected database_version = ".Config::databaseVersion."<br><br>";
+   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-if ($currentDatabaseVersion < Config::databaseVersion) {
-   echo 'An update to version '.Config::codevVersion.' needs to be done.<br><br>';
-   flush();
+   if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
 
-   try {
-      for ($i = $currentDatabaseVersion; $i < Config::databaseVersion; $i++) {
-         $callback = "update_v".($i)."_to_v".($i+1);
-         echo "=== $callback<br>";
+      // check DB version
+     $query = "SELECT * from `codev_config_table` WHERE `config_id` = 'database_version' ";
+     $result = execQuery($query);
+     $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+     $currentDatabaseVersion=$row->value;
 
-         $function =  new ReflectionFunction($callback);
-         $function->invoke();
-         echo "<br>";
-         flush();
+     echo "Current  database_version = $currentDatabaseVersion<br>";
+     echo "Expected database_version = ".Config::databaseVersion."<br><br>";
+
+     if ($currentDatabaseVersion < Config::databaseVersion) {
+        echo 'An update to CodevTT '.Config::codevVersion.' needs to be done.<br><br>';
+        flush();
+
+         try {
+            for ($i = $currentDatabaseVersion; $i < Config::databaseVersion; $i++) {
+               $callback = "update_v".($i)."_to_v".($i+1);
+               echo "=== $callback<br>";
+               $function =  new ReflectionFunction($callback);
+               $function->invoke();
+               echo "<br>";
+               flush();
+            }
+            echo "<br><br>UPDATE DONE.<br>";
+         } catch (Exception $e) {
+            echo "ERROR: ".$e->getMessage()."<br>";
+            exit;
+         }
       }
-   } catch (Exception $e) {
-      echo "ERROR: ".$e->getMessage()."<br>";
-      exit;
+   } else {
+      echo "Sorry, you need to be in the admin-team to access this page.<br>";
    }
-   echo "<br><br>UPDATE DONE.<br>";
-
+} else {
+   echo "Sorry, you need to be in the admin-team to access this page.<br>";
 }
-
 
