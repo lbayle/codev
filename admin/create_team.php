@@ -114,6 +114,9 @@ class CreateTeamController extends Controller {
                         if (isset($_POST['cb_taskOther'])) {
                            $stproj->addIssueWorkshop(Tools::getSecurePOSTStringValue('task_other1'));
                         }
+                        if (isset($_POST['cb_taskWaste'])) {
+                           $stproj->addIssueInactivity(Tools::getSecurePOSTStringValue('task_Waste1'));
+                        }
                      }
                   }
                }
