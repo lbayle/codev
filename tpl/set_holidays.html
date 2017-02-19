@@ -25,7 +25,7 @@
    <form id="formUserAndPeriodSelect" name="formUserAndPeriodSelect" method="post" action="{$page}">
       <fieldset>
          <label for="userid">{t}Name{/t} :</label>
-         <select name="userid" id="userid">
+         <select name="userid" id="userid" class="select2" style="min-width: 300px;">
             {foreach from=$users key=id item=i}
             <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
             {/foreach}

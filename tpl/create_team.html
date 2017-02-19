@@ -53,7 +53,7 @@
                   <tr>
                      <td><label for="teamleader_id">{t}Team Administrator{/t}</label></td>
                      <td>
-                        <select name="teamleader_id" id="teamleader_id">
+                        <select name="teamleader_id" id="teamleader_id" class="select2" style="min-width: 300px;">
                            <option value="0"></option>
                            {foreach from=$users key=id item=i}
                            <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
