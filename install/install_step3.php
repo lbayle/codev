@@ -962,7 +962,7 @@ if ("proceedStep3" == $action) {
       $extTasksCatOther = Config::getInstance()->getValue(Config::id_externalTasksCat_otherInternal);
 
       // cat="OtherInternal", status="closed"
-      $extproj->addIssue($extTasksCatOther, $task_otherActivity, T_("Any external task, NOT referenced in any mantis project"), 90);
+      $extproj->addIssue($extTasksCatOther, $task_otherActivity, T_("Any external task, NOT referenced in any Mantis project"), 90);
 
       // --- Create the 'Leave' task in ExternalTasks Project
       $extproj->addIssue($extTasksCatLeave, $task_leave, T_("On holiday, leave, ..."), 90);

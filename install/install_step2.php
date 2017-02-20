@@ -106,12 +106,12 @@ function displayForm($originPage, $path_mantis, $url_mantis, $url_codevtt) {
    echo "<table class='invisible'>\n";
 
    echo "  <tr>\n";
-   echo "    <td width='120'>".T_("Path to mantis")."</td>\n";
+   echo "    <td width='120'>".T_("Path to Mantis")."</td>\n";
    echo "    <td><input size='50' type='text' style='font-family: sans-serif' name='path_mantis'  id='path_mantis' value='$path_mantis'></td>\n";
    echo "  </tr>\n";
 
    echo "  <tr>\n";
-   echo "    <td width='120'>".T_("URL to mantis")."</td>\n";
+   echo "    <td width='120'>".T_("URL to Mantis")."</td>\n";
    echo "    <td><input size='50' type='text' style='font-family: sans-serif' name='url_mantis'  id='url_mantis' value='$url_mantis'></td>\n";
    echo "  </tr>\n";
 

@@ -119,7 +119,7 @@ if (file_exists(Constants::$config_file)) {
    echo "<h3>".T_("Upgrade instructions")."</h3>";
    echo T_("If you're upgrading from an older CodevTT version, please <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>read this page</a> and do the following steps:")."<br>";
    echo "<ul>";
-   echo "<li>".T_("Upgrade mantis first ! (not mandatory)")."</li>";
+   echo "<li>".T_("Upgrade Mantis first ! (not mandatory)")."</li>";
    echo "<li>".T_("Copy CodevTT configuration files from your previous installation")."</li>";
    echo "<li>".T_("Run this script: ")."<a href='".Tools::getServerRootURL()."/tools/update_codevtt.php' target='_blank'>update_codevtt.php</a></li>";
    echo "</ul>";

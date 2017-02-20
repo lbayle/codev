@@ -206,7 +206,7 @@ class ConsistencyCheck2 {
           'checkCommandsNotInCommandset' => T_('Commands should be referenced in a CommandSet'),
           'checkCommandSetNotInServiceContract' => T_('CommandSets should be referenced in a ServiceContract'),
           'checkUnassignedTasks' => T_('Issues should be assigned to someone'),
-          'checkTimetracksOnRemovedIssues' => T_('Check timetracks on removed issues (not needed if mantis plugin is enabled)'), // for all timetracks of the team, check that the Mantis issue exist.
+          'checkTimetracksOnRemovedIssues' => T_('Check timetracks on removed issues (not needed if Mantis plugin is enabled)'), // for all timetracks of the team, check that the Mantis issue exist.
          );
 
 
