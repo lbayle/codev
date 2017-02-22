@@ -172,15 +172,61 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
             $projType = $team->getProjectType($issue->getProjectId());
             $availableJobs = $project->getJobList($projType);
+            $isRecreditBacklog = (0 == $team->getGeneralPreference('recreditBacklogOnTimetrackDeletion')) ? false : true;
+
 
             // return data
             $data = array(
                'statusMsg' => 'SUCCESS',
                'durationsList' => $durationsList,
+               'backlog' => $issue->getBacklog(),
                'availableJobs' => $availableJobs,
                'duration' => $tt->getDuration(),
                'jobid' => $tt->getJobId(),
                'note' => $tt->getNote(),
+               'issueSummary' => $issue->getSummary(),
+               'date' => date("Y-m-d", $tt->getDate()),
+               'isRecreditBacklog' => $isRecreditBacklog
+            );
+         } catch (Exception $e) {
+            $data = array(
+               'statusMsg' => 'Could not get timetrack data',
+            );
+         }
+         $jsonData = json_encode($data);
+         // return data
+         echo $jsonData;
+
+      // ================================================================
+      } else if ($action == 'getDeleteTimetrackData'){
+
+         $timetrackId = Tools::getSecurePOSTStringValue('timetrackId');
+
+         try {
+            $tt = TimeTrackCache::getInstance()->getTimeTrack($timetrackId);
+            $issue = IssueCache::getInstance()->getIssue($tt->getIssueId());
+            $isRecreditBacklog = (0 == $team->getGeneralPreference('recreditBacklogOnTimetrackDeletion')) ? false : true;
+
+            if ($isRecreditBacklog) {
+               if (!is_null($issue->getBacklog())) {
+                  $diff = (0 !== $duration) ? ($tt->getDuration() - $duration): $tt->getDuration();
+                  $futureBacklog = $issue->getBacklog() + $diff;
+               }
+               else {
+                  $statusMsg = "Backlog update failed.";
+                  $isRecreditBacklog = false;
+               }
+            }
+
+            $jobs = new Jobs();
+            // return data
+            $data = array(
+               'statusMsg' => 'SUCCESS',
+               'isRecreditBacklog' => $isRecreditBacklog,
+               'futureBacklog' => $futureBacklog,
+               'formatedId' => $issue->getFormattedIds(),
+               'duration' => $tt->getDuration(),
+               'jobName' => $jobs->getJobName($tt->getJobId()),
                'issueSummary' => $issue->getSummary(),
                'date' => date("Y-m-d", $tt->getDate()),
             );
@@ -215,6 +261,13 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             $note = Tools::getSecurePOSTStringValue('note');
          }
 
+         $isRecreditBacklog = (0 == $team->getGeneralPreference('recreditBacklogOnTimetrackDeletion')) ? false : true;
+
+         if ($isRecreditBacklog) {
+            $diff = $timetrack->getDuration() - $duration;
+            $timetrack->updateBacklog($diff);
+         }
+
          $updateDone = $timetrack->update($date, $duration, $jobid, $note );
          $statusMsg = ($updateDone) ? "SUCCESS" : "timetrack update failed.";
 
@@ -234,8 +287,9 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
          // return data
          echo $jsonData;
+         
+      // ================================================================
       }
-
    }
 }
 else {

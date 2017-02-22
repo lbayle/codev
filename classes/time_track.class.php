@@ -194,17 +194,21 @@ class TimeTrack extends Model implements Comparable {
       }
 
       if ($isRecreditBacklog) {
-         $issue = IssueCache::getInstance()->getIssue($this->bugId);
-         if (!is_null($issue->getBacklog())) {
-            $backlog = $issue->getBacklog() + $this->duration;
-            $issue->setBacklog($backlog);
-         }
+         $this->updateBacklog($this->duration);
       }
 
       if(!$this->removeNote($userid)){
          self::$logger->error("Delete note for track=$this->id FAILED.");
       }
       return true;
+   }
+
+   public function updateBacklog($diff) {
+      $issue = IssueCache::getInstance()->getIssue($this->bugId);
+      if (!is_null($issue->getBacklog())) {
+         $backlog = $issue->getBacklog() + $diff;
+         $issue->setBacklog($backlog);
+      }
    }
 
    /**

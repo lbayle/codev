@@ -164,8 +164,7 @@
                {foreach from=$weekTimetrackingTuples key=id item=i}
                <tr class="weekTimetrack" data-weekTimetrackId="{$id}">
                   <td class="ui-state-error-text" style="width:1em;">
-                     <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
-                        onclick="deleteTrack('{$id}','{$i.date}','{$i.formatedId}','{$i.duration}','{$i.formatedJobName}','{$i.summary}');return false;"></a>
+                        <a class="deleteWeekTimetrack_link pointer ui-icon" title="{t}delete this row{/t}" href="{$page}"
                   </td>
                   <td>
                      <img class="editWeekTimetrack_link pointer" align="absmiddle" title="{t}Edit timetrack{/t}" src="images/b_edit.png"/>
@@ -205,10 +204,9 @@
                </thead>
                <tbody>
                   {foreach from=$timetrackingTuples key=id item=i}
-                  <tr>
+                  <tr class="weekTimetrack" data-weekTimetrackId="{$id}">
                      <td class="ui-state-error-text" style="width:1em;">
-                        <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
-                           onclick="deleteTrack('{$id}','{$i.date}','{$i.formatedId}','{$i.duration}','{$i.formatedJobName}', '{$i.summary}');return false;"></a>
+                        <a class="deleteWeekTimetrack_link pointer ui-icon" title="{t}delete this row{/t}" href="{$page}"
                      </td>
                      <td style="width: 170px;">{$i.cosmeticDate}</td>
                      <td>{$i.issueURL}</td>
@@ -227,31 +225,28 @@
          {/if}
          
          <div id="deleteTrack_dialog_form" title="{t}Delete track{/t}" class="ui-helper-hidden">
-            <p class="ui-state-error-text"><span class="ui-icon float" style="margin:0 7px 20px 0;"></span>{t}Deleted the following timetrack ?{/t}</p>
-            <table class="invisible">
+            <p><b>{t}Summary{/t}:</b><br>
+            <textarea readonly class="issue_summary" style="width:100%;background-color:white;" rows="2">issue_summary</textarea>
+            </p>
+            <table class = 'gray' style="width:100%;">
+               <thead>
+                  <tr>
+                     <th>{t}Date{/t}</th>
+                     <th>{t}ID{/t}</th>
+                     <th>{t}Duration{/t}</th>
+                     <th>{t}Job{/t}</th>
+                  </tr>
+               </thead>
                <tbody>
-               <tr>
-                  <th>{t}Date{/t} :</th>
-                  <td id="desc_date">date</td>
-               </tr>
-               <tr>
-                  <th>{t}Id{/t} :</th>
-                  <td id="desc_id">id</td>
-               </tr>
-               <tr>
-                  <th>{t}Duration{/t} :</th>
-                  <td id="desc_duration">duration</td>
-               </tr>
-               <tr>
-                  <th>{t}Job{/t} :</th>
-                  <td id="desc_job">job</td>
-               </tr>
-               <tr>
-                  <th>{t}Summary{/t} :</th>
-                  <td id="desc_summary">summary</td>
-               </tr>
+                  <tr>
+                     <td id="desc_date" style="text-align:center;"></td>
+                     <td id="desc_id" style="text-align:center;"></td>
+                     <td id="desc_duration" style="text-align:center;"></td>
+                     <td id="desc_job" style="text-align:center;"></td>
+                  </tr>
                </tbody>
             </table>
+            <span class="help_font" id="backlogChangeInfo"></span>
             <form id="formDeleteTrack" name="formDeleteTrack" method="post" action="{$page}" >
                <fieldset>
                   <input type="hidden" name="trackid" value="0" />
@@ -273,7 +268,8 @@
                   </tr>
                   <tr id="tr_timeToAdd">
                      <th>{t}Duration{/t} :</th>
-                     <td><select id="timeToEdit" name="timeToEdit" title="{t}Duration (in days){/t}"></select></td>
+                     <td><select id="timeToEdit" name="timeToEdit" title="{t}Duration (in days){/t}"></select>
+                     <span class="help_font" id="backlogChangeInfo" name="backlogChangeInfo"></span></td>
                   </tr>
                   <tr id="tr_editJob">
                      <th>{t}Job{/t} :</th>
@@ -321,7 +317,7 @@
    </script>
    <script type="text/javascript" src="js_min/datepicker.min.js"></script>
    <script type="text/javascript" src="js_min/datatable.min.js"></script>
-   <script src="js_min/time_tracking.min.js"></script>
+   <script src="js/time_tracking.js"></script>
 
    {/if}
    {else}

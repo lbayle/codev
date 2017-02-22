@@ -107,19 +107,6 @@ function getIssuesAndDurations(event) {
    }
 }
 
-// ============================================
-function deleteTrack(trackid, date, bugid, duration, job, description){
-   jQuery("#desc_date").text(date);
-   jQuery("#desc_id").text(bugid);
-   jQuery("#desc_duration").text(duration);
-   jQuery("#desc_job").text(job);
-   jQuery("#desc_summary").text(description);
-
-   jQuery("#formDeleteTrack").find("input[name=trackid]").val(trackid);
-
-   jQuery("#deleteTrack_dialog_form").dialog("open");
-}
-
 // ================== DOCUMENT READY ====================
 jQuery(document).ready(function() {
 
@@ -286,6 +273,42 @@ jQuery(document).ready(function() {
       formUpdateWeek.submit();
    });
 
+//----------------------------------------------------------
+   jQuery(".deleteWeekTimetrack_link").click(function(e) {
+      e.preventDefault();
+
+      var timetrackId = $(this).parents('.weekTimetrack').attr('data-weekTimetrackId');
+
+      jQuery.ajax({
+            type: "POST",
+            url:  timetrackingSmartyData.ajaxPage, // "timetracking/time_tracking_ajax.php",
+            data: { action: 'getDeleteTimetrackData',
+                    timetrackId: timetrackId
+            },
+            dataType:"json",
+            success: function(data) {
+               if ('SUCCESS' === data.statusMsg) {
+
+                  jQuery(".issue_summary").text(data.issueSummary);
+                  jQuery("#desc_date").text(data.date);
+                  jQuery("#desc_id").text(data.formatedId); // formatedId : "id / refExt"
+                  jQuery("#desc_duration").text(data.duration);
+                  jQuery("#desc_job").text(data.jobName);
+                  jQuery("#formDeleteTrack").find("input[name=trackid]").val(timetrackId);
+                  jQuery("#backlogChangeInfo").text("");
+
+                  if(data.isRecreditBacklog) {
+                     jQuery("#backlogChangeInfo").text("(Backlog will change to : " + data.futureBacklog + ")");
+                  }
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               console.error(textStatus, errorThrown);
+               alert("ERROR: Please contact your CodevTT administrator");
+            }
+         });
+         jQuery("#deleteTrack_dialog_form").dialog("open");
+      });
    //----------------------------------------------------------
    // delete track dialogBox
    jQuery("#deleteTrack_dialog_form").dialog({
@@ -341,13 +364,22 @@ jQuery(document).ready(function() {
                }
                $("#timetrackId").val(timetrackId);
                $("#timeToEdit").val(data.duration);
+               $('#backlogToEdit').val(data.backlog);
                $("#editJob").val(data.jobid);
                $("#issue_note_edit").val(data.note);
                $("#taskSummary").text(data.issueSummary);
                $("#datepickerEditer").datepicker("setDate" ,data.date);
 
+               var myTr = $("#weekTimetrackingTuples .weekTimetrack[data-weekTimetrackId^="+timetrackId+"]");
+               myTr.attr("data-weekTimetrackBacklog", data.backlog);
+               myTr.attr("data-weekTimetrackDuration", data.duration);
+               myTr.attr("data-weekTimetrackIsRecreditBacklog", data.isRecreditBacklog);
+
                // open edit dialogbox
-               $("#editWeekTimetrack_dialog" ).dialog( "open" );
+               var editWeekTimetrack_dialog = $("#editWeekTimetrack_dialog" );
+               var backlogChangeInfo = editWeekTimetrack_dialog.find('#backlogChangeInfo');
+               backlogChangeInfo.text("");
+               editWeekTimetrack_dialog.dialog( "open" );
             } else {
                console.error("Ajax statusMsg", data.statusMsg);
                alert(data.statusMsg);
@@ -360,6 +392,28 @@ jQuery(document).ready(function() {
       });
    });
 
+   $( "#timeToEdit" ).change(function() {
+
+      var editWeekTimetrackDialog = $('#editWeekTimetrack_dialog');
+      var backlogChangeInfo = editWeekTimetrackDialog.find('#backlogChangeInfo');
+      var timetrackId = editWeekTimetrackDialog.find('#timetrackId').val();
+      var newDuration = parseFloat(editWeekTimetrackDialog.find('#timeToEdit').val());
+
+      var myTr = $("#weekTimetrackingTuples .weekTimetrack[data-weekTimetrackId^="+timetrackId+"]");
+      var oldDuration = parseFloat(myTr.attr("data-weekTimetrackDuration"));
+      var backlog = parseFloat(myTr.attr("data-weekTimetrackBacklog"));
+      var isRecreditBacklog = myTr.attr("data-weekTimetrackIsRecreditBacklog");
+
+      if(isRecreditBacklog === 'true') {
+         if(newDuration !== oldDuration) {
+            var futureBacklog = backlog + oldDuration - newDuration;
+            backlogChangeInfo.text("(Backlog will change to : " + futureBacklog + ")");
+         }
+         else {
+            backlogChangeInfo.text("");
+         }
+      }
+   });
 
    $("#editWeekTimetrack_dialog").dialog({
                autoOpen: false,
@@ -373,6 +427,7 @@ jQuery(document).ready(function() {
                         var duration = $("#timeToEdit").val();
                         var jobid = $("#editJob").val();
                         var timetrackId = $("#timetrackId").val();
+                        var backlog = $("#backlogToEdit").val();
 
                         $.ajax({
                            url: timetrackingSmartyData.ajaxPage,
@@ -397,7 +452,7 @@ jQuery(document).ready(function() {
                                  myTr.find(".weekTimetrack_duration").text(duration);
                                  myTr.find(".weekTimetrack_date").text(data.cosmeticDate);
                                  myTr.find(".weekTimetrack_jobName").text(data.jobName);
-                                 
+
                                  // update complete timesheet
                                  jQuery("#weekTaskDetailsDiv").html(jQuery.trim(data.timesheetHtml));
                                  updateWidgets("#weekTaskDetailsDiv");
