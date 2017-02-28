@@ -115,8 +115,9 @@ class EditJobsController extends Controller {
             $this->smartyHelper->assign('assignedJobs', $jobs);
 
             $projects = Project::getProjects();
+            $this->smartyHelper->assign('jobAssignations', $this->getAssignedJobTuples($projects, $this->teamid));
+            unset($projects[Config::getInstance()->getValue(Config::id_externalTasksProject)]);
             $this->smartyHelper->assign('projects', $projects);
-            $this->smartyHelper->assign('tuples', $this->getAssignedJobTuples($projects));
          }
       }
    }
@@ -182,7 +183,10 @@ class EditJobsController extends Controller {
     * @param array $plist The projects
     * @return mixed[int] The assigned jobs
     */
-   private function getAssignedJobTuples(array $plist) {
+   private function getAssignedJobTuples(array $plist, $teamid) {
+      
+      $team = TeamCache::getInstance()->getTeam($teamid);
+
       $query = "SELECT job.id as job_id, job.name AS job_name, project_job.id, project_job.project_id ".
          "FROM `codev_job_table` as job ".
          "JOIN `codev_project_job_table` as project_job ON job.id = project_job.job_id ".
@@ -199,12 +203,17 @@ class EditJobsController extends Controller {
          $desc = str_replace("'", "\'", $desc);
          $desc = str_replace('"', "\'", $desc);
 
+         // NA for sideTasks & externalTasks project are not remobable
+         $isRemovable =  (Config::getInstance()->getValue(Config::id_externalTasksProject) != $row->project_id) && 
+                             (!((Jobs::JOB_NA == $row->job_id) && ($team->isSideTasksProject($row->project_id))));
+         
          $projects[$row->id] = array(
             "desc" => $desc,
             "jobid" => $row->job_id,
             "jobname" => $row->job_name,
             "projectid" => $row->project_id,
-            "project" => $plist[$row->project_id]
+            "project" => $plist[$row->project_id],
+            "isRemovable" => $isRemovable
          );
       }
 
@@ -218,4 +227,4 @@ EditJobsController::staticInit();
 $controller = new EditJobsController('../', 'CodevTT Administration : Jobs Edition','Admin');
 $controller->execute();
 
-?>
+
