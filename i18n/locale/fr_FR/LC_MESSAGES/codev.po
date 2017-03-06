@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-02-23 07:57:26+0000\n"
+"PO-Revision-Date: 2017-03-13 07:04:40+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -2581,7 +2581,7 @@ msgstr "jour"
 
 #. tpl/plugin_manager.html
 msgid "Check for new plugins in 'plugins' directory."
-msgstr "Recherche de plugins dans le dossier 'plugins'"
+msgstr "Recherche de plugins dans le dossier 'plugins'."
 
 #. tpl/plugin_manager.html
 msgid "Discover new plugins"

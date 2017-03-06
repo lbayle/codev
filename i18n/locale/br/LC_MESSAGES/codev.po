@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-02-27 06:45:59+0000\n"
+"PO-Revision-Date: 2017-03-20 06:21:37+0000\n"
 "Language: br\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -176,11 +176,11 @@ msgstr ""
 #: reports/project_info.php:307 scheduler/SchedulerEvent.class.php:161
 #: gantt/gantt_ajax.php:255 tools.php:276
 msgid "Drift"
-msgstr ""
+msgstr "Tuadur"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support included"
-msgstr ""
+msgstr "Skoazell e-barzh"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support NOT included"
@@ -609,7 +609,7 @@ msgstr "Deiziad echuiñ"
 #: scheduler/SchedulerEvent.class.php:143 gantt/gantt_ajax.php:198
 #: gantt/gantt_ajax.php:226 gantt/gantt_ajax.php:235 tools.php:1479
 msgid "Deadline"
-msgstr ""
+msgstr "Termen echuiñ"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -815,7 +815,7 @@ msgstr "Krouiñ an Urzhiad kentañ."
 
 #. tpl/command_edit.html
 msgid "Provisions successfully updated."
-msgstr ""
+msgstr "Hizivaet eo bet ar pouverzadoù da vat."
 
 #. tpl/command_edit.html
 #. tpl/export_odt.html
@@ -988,11 +988,11 @@ msgstr "Adprizet (deizioù)"
 
 #. tpl/command_info.html
 msgid "Drift (days)"
-msgstr ""
+msgstr "Tuadur (e deizioù)"
 
 #. tpl/command_info.html
 msgid "Drift (percent)"
-msgstr ""
+msgstr "Tuadur (dregantadoù)"
 
 #. tpl/command_info.html
 msgid "Days"
@@ -1892,7 +1892,7 @@ msgstr ""
 
 #. tpl/forecasting_report.html
 msgid "Overview"
-msgstr "Diverradenn"
+msgstr "Brassell"
 
 #. tpl/forecasting_report.html
 #. tpl/productivity_report.html
@@ -2826,7 +2826,7 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Drift - All tasks"
-msgstr ""
+msgstr "Tuadur - an holl drevelloù"
 
 #. tpl/productivity_report.html
 msgid "Computed on task Resolved/Closed in the given period"
@@ -2838,7 +2838,7 @@ msgstr "Ne vez ket kontet an trevelloù addigoret"
 
 #. tpl/productivity_report.html
 msgid "drift"
-msgstr ""
+msgstr "tuadur"
 
 #. tpl/productivity_report.html
 msgid "Effort deviation"
@@ -2850,7 +2850,7 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Drift - Tasks (ExtRefOnly)"
-msgstr ""
+msgstr "Tuadur - Trevelloù (ExtRefOnly)"
 
 #. tpl/productivity_report.html
 msgid "Drift (ExtRefOnly)"
@@ -3470,7 +3470,7 @@ msgstr "Dilemel lugantoù Mantis :"
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
-msgstr "Dilemel ar raktresoù-mañ gant an dorn, ma plij :"
+msgstr "Dilemel ar raktresoù-mañ gant an dorn :"
 
 #. tpl/workflow.html
 msgid "Are you sure you want to change"

@@ -9,7 +9,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:03+0100\n"
-"PO-Revision-Date: 2017-02-23 07:57:33+0000\n"
+"PO-Revision-Date: 2017-03-06 07:46:24+0000\n"
 "Language: qqq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5319,11 +5319,11 @@ msgstr ""
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:68
 msgid "Display the EffortEstim reliability rate history"
-msgstr ""
+msgstr "Translation of \"EffortEstim\" should keep the CamelCase form when possible."
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:69
 msgid "rate = EffortEstim / elapsed (on resolved tasks only)"
-msgstr ""
+msgstr "Translation of \"EffortEstim\" should keep the CamelCase form when possible."
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:72
 msgid "REM: An issue that has been reopened before endTimestamp will NOT be recorded."

@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-02-23 07:57:28+0000\n"
+"PO-Revision-Date: 2017-03-09 06:42:00+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4802,7 +4802,7 @@ msgstr ""
 
 #: install/install.php:122
 msgid "Upgrade Mantis first ! (not mandatory)"
-msgstr ""
+msgstr "먼저 Mantis를 업그레이드하십시오! (필수는 아님)"
 
 #: install/install.php:123
 msgid "Copy CodevTT configuration files from your previous installation"
@@ -4881,13 +4881,12 @@ msgid "Get Mantis customizations"
 msgstr ""
 
 #: install/install_step2.php:109
-#, fuzzy
 msgid "Path to Mantis"
-msgstr "출력 파일 경로"
+msgstr "Mantis 경로"
 
 #: install/install_step2.php:114
 msgid "URL to Mantis"
-msgstr ""
+msgstr "Mantis URL"
 
 #: install/install_step2.php:119
 msgid "URL to CodevTT"

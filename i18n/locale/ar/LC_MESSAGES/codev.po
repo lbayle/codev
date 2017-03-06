@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-02-23 07:57:24+0000\n"
+"PO-Revision-Date: 2017-03-06 07:46:16+0000\n"
 "Language: ar\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2404,9 +2404,8 @@ msgid "Click to show errors"
 msgstr "انقر لعرض الأخطاء"
 
 #. tpl/modal/edit_issueNote.html
-#, fuzzy
 msgid "If unchecked, a 'standard' Mantis note will be created"
-msgstr "إذا تم إلغاء التحديد، سيتم إنشاء ملاحظة mantis \"القياسية\""
+msgstr "إذا تم إلغاء التحديد، سيتم إنشاء ملاحظة Mantis \"القياسية\""
 
 #. tpl/modal/edit_issueNote.html
 msgid "Add as Timesheet note"
@@ -4935,14 +4934,12 @@ msgid "Get Mantis customizations"
 msgstr "الحصول على تخصيصات Mantis"
 
 #: install/install_step2.php:109
-#, fuzzy
 msgid "Path to Mantis"
-msgstr "الطريق إلى mantis"
+msgstr "الطريق إلى Mantis"
 
 #: install/install_step2.php:114
-#, fuzzy
 msgid "URL to Mantis"
-msgstr "URL لmantis"
+msgstr "URL لMantis"
 
 #: install/install_step2.php:119
 msgid "URL to CodevTT"

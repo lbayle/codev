@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-02-27 06:46:00+0000\n"
+"PO-Revision-Date: 2017-03-06 07:46:18+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -2194,7 +2194,7 @@ msgstr "Linea"
 
 #. tpl/logs.html
 msgid "Log"
-msgstr "Log"
+msgstr "Registro"
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel SAUF SuiviOp."
@@ -2379,7 +2379,7 @@ msgstr "Gestione plugin"
 
 #. tpl/menu/global_menu.html
 msgid "Logs"
-msgstr "Logs"
+msgstr "Registri"
 
 #. tpl/menu/global_menu.html
 #. tpl/uninstall.html
