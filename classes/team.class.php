@@ -368,9 +368,7 @@ class Team extends Model {
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $projList[$row->id] = $row->name;
          }
-         if (self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getProjects $key ".implode(',', array_keys($projList)));
-         }
+         #self::$logger->error("getProjects $key ".implode(',', array_keys($projList)));
          $this->projectIdsCache[$key] = $projList;
       }
 

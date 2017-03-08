@@ -420,6 +420,11 @@ class ImportIssueCsv  extends IndicatorPluginAbstract {
          return $smartyVariables;
       }
       
+      if (array_key_exists('accessDenied', $this->execData)) {
+         $smartyVariables['accessDenied'] = TRUE;
+         return $smartyVariables;
+      }
+
       $smartyVariables['importIssueCsv_projects'] = SmartyTools::getSmartyArray($this->execData['projects'],$this->selectedProject);
       
 
