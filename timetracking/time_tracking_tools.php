@@ -329,6 +329,36 @@ class TimeTrackingTools {
          rsort($issueList);
       }
 
+      //------------------------------------
+      // ICI il faut ajouter à IssueList les tâches du projet(s) qui sont co-assignées au user
+      // dans le Scheduler
+      self::$logger->error("handler_id = $handler_id");
+      if (0 != $handler_id) {
+         // Get task user list
+         $schedulerManager = new SchedulerManager($userid, $teamid);
+         $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser);
+
+         if (array_key_exists($handler_id, $timePerTaskPerUser)) {
+            $coassignedBugList = array_keys($timePerTaskPerUser[$handler_id]);
+            self::$logger->error($coassignedBugList);
+
+            // --- j'ai une liste de bugid m'etant assignes, il faut appliquer les filtres
+            // projectid (si != 0)
+            // $isHideResolved, $hideStatusAndAbove
+
+            // foreach bla-bla unset($coassignedBugList[bugid])
+
+            // --- ajouter les bugid restants à IssueList
+
+            // --- rsort($issueList);
+
+         }
+
+      }
+
+      //------------------------------------
+
+
       $issues = array();
       foreach ($issueList as $issue) {
          //$issue = IssueCache::getInstance()->getIssue($bugid);
