@@ -329,36 +329,40 @@ class TimeTrackingTools {
          rsort($issueList);
       }
 
-      //------------------------------------
-      // ICI il faut ajouter à IssueList les tâches du projet(s) qui sont co-assignées au user
-      // dans le Scheduler
-      self::$logger->error("handler_id = $handler_id");
+      // GET coassigned issues from the Scheduler
       if (0 != $handler_id) {
-         // Get task user list
+
+         // GET task user list
          $schedulerManager = new SchedulerManager($userid, $teamid);
          $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser);
 
          if (array_key_exists($handler_id, $timePerTaskPerUser)) {
-            $coassignedBugList = array_keys($timePerTaskPerUser[$handler_id]);
-            self::$logger->error($coassignedBugList);
 
-            // --- j'ai une liste de bugid m'etant assignes, il faut appliquer les filtres
-            // projectid (si != 0)
-            // $isHideResolved, $hideStatusAndAbove
+            // GET current user's coassigned task list
+            $coassignedIssueidList = array_keys($timePerTaskPerUser[$handler_id]);
+            $coassignedIssueList = array();
 
-            // foreach bla-bla unset($coassignedBugList[bugid])
-
-            // --- ajouter les bugid restants à IssueList
-
-            // --- rsort($issueList);
-
+            foreach ($coassignedIssueidList as $coassignedIssueid) {
+               $issue = IssueCache::getInstance()->getIssue($coassignedIssueid);
+               $coassignedIssueList [] = $issue;
+               if((0 !== $projectid) && ($projectid != $issue->getProjectId())) {
+                  unset($coassignedIssueList[$issue]);
+                  continue;
+               }
+               if($isHideResolved && $issue->isResolved()) {
+                  unset($coassignedIssueList[$issue]);
+                  continue;
+               }
+               if((0 !== $hideStatusAndAbove) && ($hideStatusAndAbove <= $issue->getCurrentStatus())) {
+                  unset($coassignedIssueList[$issue]);
+                  continue;
+               }
+            }
+            // ADD Filtered coassigned issues to IssueList
+            $issueList = array_merge($issueList, $coassignedIssueList);
+            rsort($issueList);
          }
-
       }
-
-      //------------------------------------
-
-
       $issues = array();
       foreach ($issueList as $issue) {
          //$issue = IssueCache::getInstance()->getIssue($bugid);

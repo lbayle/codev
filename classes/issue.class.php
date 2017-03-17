@@ -74,7 +74,7 @@ class Issue extends Model implements Comparable {
     */
    protected $bugId;
 
-   private $projectId;  // Capu, peterpan, etc.
+   private $projectId;
    private $categoryId;
    private $eta;
    private $summary;
