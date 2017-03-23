@@ -187,7 +187,7 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
                     'date' => date('Y-m-d', $tt->getDate()),
                     'job' => $jobs->getJobName($tt->getJobId()),
                     'duration' => $tt->getDuration(),
-                    'timetrackNote' => $tt->getNote(),
+                    'timetrackNote' => nl2br(htmlspecialchars($tt->getNote())),
                     'committer' => $committer_name,
                     'commit_date' => $commit_date,
                     'task_id' => $issue->getId(),
