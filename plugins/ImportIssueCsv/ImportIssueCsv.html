@@ -1,9 +1,10 @@
 <div class="ImportIssueCsv">
-{if (isset($accessDenied) && (1 == $accessDenied)) }
-<p class="center ui-state-error-text">{t}You need to be manager to import issues.{/t}</p>
-{else}
 <div class="pluginInitFunction"  style="display: none;">importIssueCsvJsInit</div>
 <div class="pluginDestroyFunction"  style="display: none;">importIssueCsvJsDestroy</div>
+
+{if (isset($importIssueCsv_accessDenied) && (1 == $importIssueCsv_accessDenied)) }
+<p class="center ui-state-error-text">{t}Sorry, only team members can import tasks.{/t}</p>
+{else}
    
 <div align="left" style="margin-top:1em;" class="center">
    <!-- CSV FILE SELECTION -->
@@ -51,6 +52,7 @@
 
 <div class="importIssueCsv_uploadValidationMessage error_font error_container">   
 </div>
+{/if}
 
 {if isset($importIssueCsv_errorMsg)}
 <div style="margin-top:1em;">
@@ -165,6 +167,5 @@
     
     
 </script>
-{/if}
 </div>
 

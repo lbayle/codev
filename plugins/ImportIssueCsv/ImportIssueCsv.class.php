@@ -147,10 +147,13 @@ class ImportIssueCsv  extends IndicatorPluginAbstract {
     * user shall not be observer or customer
     */
    private function isAccessGranted() {
-      if ((0 == $this->teamid) ||
-          ($this->session_user->isTeamObserver($this->teamid)) ||
-          ($this->session_user->isTeamCustomer($this->teamid))
-         ) {
+      if (0 == $this->teamid) {
+         return false;
+      }
+      if ($this->session_user->isTeamObserver($this->teamid)) {
+         return false;
+      }
+      if ($this->session_user->isTeamCustomer($this->teamid)) {
          return false;
       }
       return true;
@@ -320,8 +323,6 @@ class ImportIssueCsv  extends IndicatorPluginAbstract {
                 $this->execData['accessDenied'] = TRUE;
             } else {
                 
-                $this->execData['accessDenied'] = FALSE;
-
                 $team = TeamCache::getInstance()->getTeam($this->teamid);
 
                 $this->execData['teamid'] = $this->teamid;
@@ -421,7 +422,7 @@ class ImportIssueCsv  extends IndicatorPluginAbstract {
       }
       
       if (array_key_exists('accessDenied', $this->execData)) {
-         $smartyVariables['accessDenied'] = TRUE;
+         $smartyVariables['importIssueCsv_accessDenied'] = 1;
          return $smartyVariables;
       }
 
