@@ -47,7 +47,7 @@
             <caption id={$i.idcaption}>
                {$i.name}
                <span style="margin-left: 1em;font-weight: normal;font-size: 12px;">({$i.workdays} {t}workdays{/t})</span>
-               <span style="margin-left: 1em;"><img onclick="$('#table_{$id}').table2CSV({literal}{{/literal}filename : '{$i.filename_csv}'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" /></span>
+               <span style="margin-left: 1em;" class="pointer"><img onclick="$('#table_{$id}').table2CSV({literal}{{/literal}filename : '{$i.filename_csv}'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" /></span>
             </caption>
             <thead>
                <tr>

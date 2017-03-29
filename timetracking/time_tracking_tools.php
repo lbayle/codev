@@ -336,7 +336,8 @@ class TimeTrackingTools {
          $schedulerManager = new SchedulerManager($userid, $teamid);
          $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser);
 
-         if (array_key_exists($handler_id, $timePerTaskPerUser)) {
+         if ((NULL != $timePerTaskPerUser) && 
+             (array_key_exists($handler_id, $timePerTaskPerUser))) {
 
             // GET current user's coassigned task list
             $coassignedIssueidList = array_keys($timePerTaskPerUser[$handler_id]);
@@ -344,19 +345,17 @@ class TimeTrackingTools {
 
             foreach ($coassignedIssueidList as $coassignedIssueid) {
                $issue = IssueCache::getInstance()->getIssue($coassignedIssueid);
-               $coassignedIssueList [] = $issue;
                if((0 !== $projectid) && ($projectid != $issue->getProjectId())) {
-                  unset($coassignedIssueList[$issue]);
                   continue;
                }
                if($isHideResolved && $issue->isResolved()) {
-                  unset($coassignedIssueList[$issue]);
                   continue;
                }
                if((0 !== $hideStatusAndAbove) && ($hideStatusAndAbove <= $issue->getCurrentStatus())) {
-                  unset($coassignedIssueList[$issue]);
                   continue;
                }
+               // user should be able to add timetracks to this issue
+               $coassignedIssueList [] = $issue;
             }
             // ADD Filtered coassigned issues to IssueList
             $issueList = array_merge($issueList, $coassignedIssueList);
