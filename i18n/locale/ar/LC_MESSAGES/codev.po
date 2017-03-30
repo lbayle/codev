@@ -4,6 +4,7 @@
 # Author: ASHmed
 # Author: Maroen1990
 # Author: Mr. Ibrahem
+# Author: Withsalah
 # Author: ديفيد
 # Author: محمد أحمد عبد الفتاح
 msgid ""
@@ -11,7 +12,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-03-06 07:46:16+0000\n"
+"PO-Revision-Date: 2017-03-30 05:36:33+0000\n"
 "Language: ar\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -220,7 +221,7 @@ msgstr ""
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Tasks"
-msgstr ""
+msgstr "مهام"
 
 #. tpl/ajax/schedulerAffectationSummary.html
 #. tpl/command_edit.html
@@ -331,7 +332,7 @@ msgstr "BL"
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #: reports/export_csv_weekly.php:170
 msgid "Job"
-msgstr ""
+msgstr "وظيفة"
 
 #. tpl/ajax/weekTaskDetails.html
 msgid "update backlog"
@@ -612,7 +613,7 @@ msgstr "تاريخ الانتهاء"
 #: scheduler/SchedulerEvent.class.php:143 gantt/gantt_ajax.php:198
 #: gantt/gantt_ajax.php:226 gantt/gantt_ajax.php:235 tools.php:1479
 msgid "Deadline"
-msgstr ""
+msgstr "موعد نهائي"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -635,7 +636,7 @@ msgstr ""
 #: classes/scheduler.class.php:74 reports/planning_report.php:492
 #: scheduler/SchedulerEvent.class.php:140
 msgid "days"
-msgstr ""
+msgstr "أيام"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -660,7 +661,7 @@ msgstr "يورو"
 #. tpl/servicecontract_edit.html
 #. tpl/tools/wbsEditor.html
 msgid "Delete"
-msgstr ""
+msgstr "حذف"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -735,7 +736,7 @@ msgstr "إضافة مهمة"
 #. tpl/time_tracking.html
 #. tpl/tools/dashboard.html
 msgid "Add"
-msgstr ""
+msgstr "إضافة"
 
 #. tpl/command_edit.html
 msgid "Create the Command to add some tasks."
@@ -915,7 +916,7 @@ msgstr "حذف بند"
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import"
-msgstr ""
+msgstr "استيراد"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -925,7 +926,7 @@ msgstr ""
 #. tpl/time_tracking.html
 #. tpl/tools/dashboard.html
 msgid "Cancel"
-msgstr ""
+msgstr "إلغاء"
 
 #. tpl/command_edit.html
 msgid "Add to 'check budget'"
@@ -1021,7 +1022,7 @@ msgstr "توازن"
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
 msgid "Edit"
-msgstr ""
+msgstr "تعديل"
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
@@ -1115,12 +1116,12 @@ msgstr ""
 #. tpl/modal/login.html
 #. tpl/modal/select_issues.html
 msgid "OK"
-msgstr ""
+msgstr "موافق"
 
 #. tpl/command_info.html
 #: classes/consistency_check2.class.php:64
 msgid "Warning"
-msgstr ""
+msgstr "تحذير"
 
 #. tpl/command_info.html
 msgid "Reload page to update charges & indicators"
@@ -1137,7 +1138,7 @@ msgstr "مجموعة أوامر جديدة"
 
 #. tpl/commandset_edit.html
 msgid "Cost"
-msgstr ""
+msgstr "تكلفة"
 
 #. tpl/commandset_edit.html
 #. tpl/create_team.html
@@ -1204,7 +1205,7 @@ msgstr "المرجع"
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #: classes/consistency_check2.class.php:646
 msgid "Command"
-msgstr ""
+msgstr "أمر"
 
 #. tpl/commandset_edit.html
 msgid "Create the CommandSet to add some commands."
@@ -1300,7 +1301,7 @@ msgstr "خادم أو منصة لأسفل، ..."
 #. tpl/edit_team.html
 #: admin/create_team.php:95 admin/edit_team.php:174
 msgid "Tools"
-msgstr ""
+msgstr "أدوات"
 
 #. tpl/create_team.html
 msgid "Sys. Admin, Scritps, ..."
@@ -1377,7 +1378,7 @@ msgstr ""
 #. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
 #: management/commandset_edit.php:86 management/servicecontract_edit.php:86
 msgid "Create"
-msgstr ""
+msgstr "أنشئ"
 
 #. tpl/create_team.html
 #. tpl/edit_holidays.html
@@ -1427,7 +1428,7 @@ msgstr "وصف العطلة"
 #: install/install_step3.php:620 install/install_step3.php:625
 #: install/install_step3.php:631 install/install_step3.php:636
 msgid "Color"
-msgstr ""
+msgstr "لون"
 
 #. tpl/edit_holidays.html
 #. tpl/edit_jobs.html
