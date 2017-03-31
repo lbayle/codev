@@ -51,7 +51,7 @@ if (Tools::isConnectedUser()) {
 
    // check removed issues
    echo "<br>=================<br>Check issues to remove from Command (removed from mantis)<br>";
-   $query0 = "SELECT command_id, bug_id FROM codev_command_bug_table WHERE bug_id NOT IN (SELECT id FROM mantis_bug_table)";
+   $query0 = "SELECT command_id, bug_id FROM codev_command_bug_table WHERE bug_id NOT IN (SELECT id FROM {bug})";
    $result0 = execQuery($query0);
    while ($row = SqlWrapper::getInstance()->sql_fetch_object($result0)) {
       $errMsg = "ERROR issue $row->bug_id does not exist in Mantis but is still defined in Command $row->command_id";
@@ -64,7 +64,7 @@ if (Tools::isConnectedUser()) {
 
    // check removed issues
    echo "Check issues to remove from WBS (removed from mantis)<br>";
-   $query0 = "SELECT root_id, bug_id FROM codev_wbs_table WHERE bug_id NOT IN (SELECT id FROM mantis_bug_table)";
+   $query0 = "SELECT root_id, bug_id FROM codev_wbs_table WHERE bug_id NOT IN (SELECT id FROM {bug})";
    $result0 = execQuery($query0);
    while ($row = SqlWrapper::getInstance()->sql_fetch_object($result0)) {
       $errMsg = "ERROR issue $row->bug_id does not exist in Mantis but is still defined in WBS (root = $row->root_id)";
@@ -163,7 +163,7 @@ if (Tools::isConnectedUser()) {
    }
    
 
-   // "SELECT * FROM codev_command_bug_table WHERE bug_id NOT IN (SELECT id FROM mantis_bug_table)";
+   // "SELECT * FROM codev_command_bug_table WHERE bug_id NOT IN (SELECT id FROM {bug})";
   } else {
      echo "Sorry, you're not identified as a CodevTT administrator.";
   }

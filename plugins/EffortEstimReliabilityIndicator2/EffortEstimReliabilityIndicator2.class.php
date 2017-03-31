@@ -200,18 +200,18 @@ class EffortEstimReliabilityIndicator2 extends IndicatorPluginAbstract {
 
       // --------
       // all bugs which status changed to 'resolved' within the timestamp
-      $query = "SELECT mantis_bug_table.id, ".
-              "mantis_bug_history_table.new_value, ".
-              "mantis_bug_history_table.old_value, ".
-              "mantis_bug_history_table.date_modified ".
-              "FROM `mantis_bug_table`, `mantis_bug_history_table` " .
-              "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id " .
-              "AND mantis_bug_table.id IN ($this->formatedBugidList) " .
-              "AND mantis_bug_history_table.field_name='status' " .
-              "AND mantis_bug_history_table.date_modified >= $startTimestamp " .
-              "AND mantis_bug_history_table.date_modified <  $endTimestamp " .
-              "AND mantis_bug_history_table.new_value = $this->bugResolvedStatusThreshold " .
-              "ORDER BY mantis_bug_table.id DESC";
+      $query = "SELECT {bug}.id, ".
+              "{bug_history}.new_value, ".
+              "{bug_history}.old_value, ".
+              "{bug_history}.date_modified ".
+              "FROM `{bug}`, `{bug_history}` " .
+              "WHERE {bug}.id = {bug_history}.bug_id " .
+              "AND {bug}.id IN ($this->formatedBugidList) " .
+              "AND {bug_history}.field_name='status' " .
+              "AND {bug_history}.date_modified >= $startTimestamp " .
+              "AND {bug_history}.date_modified <  $endTimestamp " .
+              "AND {bug_history}.new_value = $this->bugResolvedStatusThreshold " .
+              "ORDER BY {bug}.id DESC";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {

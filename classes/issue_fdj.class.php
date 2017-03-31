@@ -63,7 +63,7 @@ class IssueFDJ extends Issue {
 
       // Find start_date
       $query = "SELECT id, date_modified, old_value, new_value ".
-               "FROM `mantis_bug_history_table` ".
+               "FROM `{bug_history}` ".
                "WHERE bug_id=$this->bugId ".
                "AND field_name = 'status' ".
                "AND (new_value=".Constants::$status_feedback." OR old_value=".Constants::$status_feedback.") ".
@@ -96,7 +96,7 @@ class IssueFDJ extends Issue {
          // Determinate to whom it was assigned
          // find the last handler_id change before $end_id
          $query2 = "SELECT id, date_modified, old_value, new_value ".
-                   "FROM `mantis_bug_history_table` ".
+                   "FROM `{bug_history}` ".
                    "WHERE bug_id=$this->bugId ".
                    "AND field_name='handler_id' ".
                    $sql_condition.
@@ -127,7 +127,7 @@ class IssueFDJ extends Issue {
             // action, THEN we must take the previous 'assigned to' action in the list.
 
             // Get the next action to check if it is a 'change status'
-            $query3 = "SELECT id, date_modified, field_name FROM `mantis_bug_history_table` WHERE bug_id=$this->bugId AND id > '$latest_assignTo_id' ORDER BY id ASC";
+            $query3 = "SELECT id, date_modified, field_name FROM `{bug_history}` WHERE bug_id=$this->bugId AND id > '$latest_assignTo_id' ORDER BY id ASC";
             $result3 = SqlWrapper::getInstance()->sql_query($query3);
             if (!$result3) {
                echo "<span style='color:red'>ERROR: Query FAILED</span>";

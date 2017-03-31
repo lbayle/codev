@@ -585,7 +585,7 @@ class IssueSelection {
       $lastUpdated = 0;
 
       if(count($this->issueList) > 0) {
-         $query = "SELECT last_updated from `mantis_bug_table` ".
+         $query = "SELECT last_updated from `{bug}` ".
             "WHERE id IN (".implode(', ',array_keys($this->issueList)).") ".
             "ORDER BY last_updated DESC LIMIT 1";
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -612,7 +612,7 @@ class IssueSelection {
    public function getLastUpdatedList($max = 1) {
    	$lastUpdatedList = array();
       if(count($this->issueList) > 0) {
-         $query = "SELECT id, last_updated from `mantis_bug_table` ".
+         $query = "SELECT id, last_updated from `{bug}` ".
             "WHERE id IN (".implode(', ',array_keys($this->issueList)).") ".
             "ORDER BY last_updated DESC LIMIT $max";
          $result = SqlWrapper::getInstance()->sql_query($query);

@@ -289,8 +289,8 @@ class TimeTrack extends Model implements Comparable {
 
       if (NULL == $this->note) {
 
-         $query = "SELECT note FROM `mantis_bugnote_text_table` ".
-                 "WHERE id=(SELECT bugnote_text_id FROM `mantis_bugnote_table` ".
+         $query = "SELECT note FROM `{bugnote_text}` ".
+                 "WHERE id=(SELECT bugnote_text_id FROM `{bugnote}` ".
                             "WHERE bugnote_text_id=(SELECT noteid FROM `codev_timetrack_note_table` ".
                                                                   "WHERE timetrackid=$this->id))";
          $result = SqlWrapper::getInstance()->sql_query($query);

@@ -320,7 +320,7 @@ class EditTeamController extends Controller {
    private function getTeamMembers($teamid) {
       $query = "SELECT user.id as user_id, user.username, user.realname, ".
          "team_user.id, team_user.arrival_date, team_user.departure_date, team_user.team_id, team_user.access_level ".
-         "FROM `mantis_user_table` as user ".
+         "FROM `{user}` as user ".
          "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
          "WHERE team_user.team_id=$teamid ".
          "ORDER BY user.username;";
@@ -353,7 +353,7 @@ class EditTeamController extends Controller {
    private function getTeamProjects($teamid) {
       $query = "SELECT project.id AS project_id, project.name, project.enabled, project.description, ".
          "team_project.id, team_project.type ".
-         "FROM `mantis_project_table` as project ".
+         "FROM `{project}` as project ".
          "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
          "WHERE team_project.team_id=$teamid ".
          "ORDER BY project.name;";
@@ -415,7 +415,7 @@ class EditTeamController extends Controller {
 
       $formatedInactivityCatList = implode( ', ', array_keys($inactivityCatList));
 
-      $query = "SELECT * FROM `mantis_bug_table` ".
+      $query = "SELECT * FROM `{bug}` ".
          "WHERE project_id IN ($formatedInactivityCatList) ";
 
       $astreintesList = $team->getOnDutyTasks();

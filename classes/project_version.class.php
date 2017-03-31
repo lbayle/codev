@@ -29,7 +29,7 @@ class ProjectVersion extends IssueSelection {
    public function getVersionDate() {
       if (NULL == $this->versionDate) {
          $query = "SELECT date_order ".
-                  "FROM `mantis_project_version_table` ".
+                  "FROM `{project_version}` ".
                   "WHERE project_id = $this->projectId ".
                   "AND version = '$this->name';";
 

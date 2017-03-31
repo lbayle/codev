@@ -395,7 +395,7 @@ class ServiceContract extends Model {
       // TODO: if type==NULL return for all types
       if(NULL == $this->sidetasksProjectList) {
          // SidetaskProjects
-         $query = "SELECT project.* FROM `mantis_project_table` as project ".
+         $query = "SELECT project.* FROM `{project}` as project ".
                   "JOIN `codev_servicecontract_stproj_table` as servicecontract_stproj ON project.id = servicecontract_stproj.project_id ".
                   "WHERE servicecontract_stproj.servicecontract_id = $this->id ".
                   "ORDER BY type ASC, project.id ASC;";

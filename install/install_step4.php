@@ -69,14 +69,14 @@ function displayPage() {
    echo '</ul>';
 
 #   echo '<br>';
-
+/*
    echo "<h2>".T_("Install Firefox Greasemonkey addon")."</h2>";
    echo "<span class='help_font'>".T_("Note: This step is optional")."</span>";
    echo "<ul>
          <li>".T_("Install addon:")." <a href='https://addons.mozilla.org/fr/firefox/addon/greasemonkey/' target='_blank't>greasemonkey</a></li>
          <li>".T_("Load script:")." <a href='".$rootWebSite."mantis_monkey.user.js' target='_blank't>mantis_monkey.user.js</a></li>
          </ul>";
-
+*/
    echo "</div>";
 
    echo "<div  style='text-align: center;'>\n";

@@ -20,7 +20,7 @@ class CodevTTPlugin extends MantisPlugin {
       $this->description = plugin_lang_get('description');
       $this->page = '';
 
-      $this->version = '0.7.1';
+      $this->version = '0.7.2';
 
       $this->requires = array(
           'MantisCore' => '2.0'
@@ -288,11 +288,12 @@ class CodevTTPlugin extends MantisPlugin {
     */
    public function bug_delete($event, $bug_id) {
 
+      $mantis_user_table = db_get_table('user');
       $query = "SELECT codev_timetracking_table.date, codev_timetracking_table.userid, codev_timetracking_table.duration, ".
-              "mantis_user_table.username, mantis_user_table.realname ".
-              "FROM `codev_timetracking_table`, `mantis_user_table` ".
+              "$mantis_user_table.username, $mantis_user_table.realname ".
+              "FROM `codev_timetracking_table`, `$mantis_user_table` ".
               "WHERE codev_timetracking_table.bugid = " . db_param() . " ".
-              "AND codev_timetracking_table.userid = mantis_user_table.id ";
+              "AND codev_timetracking_table.userid = $mantis_user_table.id ";
 
       $errMsg = "";
       $result = db_query($query, array( $bug_id ) );
@@ -333,12 +334,14 @@ class CodevTTPlugin extends MantisPlugin {
     */
    public function projectDelete($event, $project_id) {
 
+      $mantis_user_table = db_get_table('user');
+      $mantis_bug_table  = db_get_table('bug');
       $query = "SELECT codev_timetracking_table.bugid, codev_timetracking_table.date, codev_timetracking_table.userid, codev_timetracking_table.duration, ".
-              "mantis_user_table.username, mantis_user_table.realname ".
-              "FROM `codev_timetracking_table`, `mantis_user_table` ".
-              "WHERE codev_timetracking_table.userid = mantis_user_table.id ".
+              "$mantis_user_table.username, $mantis_user_table.realname ".
+              "FROM `codev_timetracking_table`, `$mantis_user_table` ".
+              "WHERE codev_timetracking_table.userid = $mantis_user_table.id ".
               "AND codev_timetracking_table.bugid IN (".
-              "   SELECT id FROM mantis_bug_table WHERE project_id = " . db_param() . ")";
+              "   SELECT id FROM $mantis_bug_table WHERE project_id = " . db_param() . ")";
 
       $errMsg = "";
       $result = db_query($query, array( $project_id ) );

@@ -107,7 +107,7 @@ class UninstallController extends Controller {
       // find sideTasks projects
       $sideTaskProj_id = Project::type_sideTaskProject;
       $query = "SELECT project.id, project.name ".
-         "FROM `mantis_project_table` as project ".
+         "FROM `{project}` as project ".
          "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
          "WHERE team_project.type = $sideTaskProj_id ".
          "ORDER BY project.name DESC;";
@@ -144,15 +144,15 @@ class UninstallController extends Controller {
       );
 
       # delete all values
-      $query = "DELETE FROM `mantis_custom_field_string_table` WHERE field_id IN (".implode(', ', $fieldIds).");";
+      $query = "DELETE FROM `{custom_field_string}` WHERE field_id IN (".implode(', ', $fieldIds).");";
       SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
 
       # delete all project associations
-      $query = "DELETE FROM `mantis_custom_field_project_table` WHERE field_id IN (".implode(', ', $fieldIds).");";
+      $query = "DELETE FROM `{custom_field_project}` WHERE field_id IN (".implode(', ', $fieldIds).");";
       SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
 
       # delete the definition
-      $query = "DELETE FROM `mantis_custom_field_table` WHERE id IN (".implode(', ', $fieldIds).");";
+      $query = "DELETE FROM `{custom_field}` WHERE id IN (".implode(', ', $fieldIds).");";
       SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
 
       #custom_field_clear_cache( $p_field_id );

@@ -274,7 +274,7 @@ class Command extends Model {
     * parse all Commands for issues not found in mantis_bug_table. if any, remove them from the Commands.
     */
    public static function checkCommands() {
-      $query0 = "SELECT command_id, bug_id FROM codev_command_bug_table WHERE bug_id NOT IN (SELECT id FROM mantis_bug_table)";
+      $query0 = "SELECT command_id, bug_id FROM codev_command_bug_table WHERE bug_id NOT IN (SELECT id FROM {bug})";
       $result0 = SqlWrapper::getInstance()->sql_query($query0);
       while ($row = SqlWrapper::getInstance()->sql_fetch_object($result0)) {
          self::$logger->warn("issue $row->bug_id does not exist in Mantis: now removed from Command $row->command_id");
@@ -633,13 +633,13 @@ class Command extends Model {
    public function getIssueSelection() {
       if(NULL == $this->issueSelection) {
          $this->issueSelection = new IssueSelection($this->name);
-         $query = "SELECT bug.* FROM `mantis_bug_table` AS bug ".
+         $query = "SELECT bug.* FROM `{bug}` AS bug ".
                   "JOIN `codev_command_bug_table` AS command_bug ON bug.id = command_bug.bug_id " .
                   "WHERE command_bug.command_id = ".$this->id.";";
          #", `mantis_bug_table`".
          #"WHERE codev_command_bug_table.command_id=$this->id ".
          #"AND codev_command_bug_table.bug_id = mantis_bug_table.id ".
-         #"ORDER BY mantis_bug_table.project_id ASC, mantis_bug_table.target_version DESC, mantis_bug_table.status ASC";
+         #"ORDER BY {bug}.project_id ASC, {bug}.target_version DESC, {bug}.status ASC";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {

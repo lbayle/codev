@@ -143,7 +143,7 @@ class Email {
       $c_body     = SqlWrapper::sql_real_escape_string($emailData->body);
       $c_metadata = serialize( $emailData->metadata );
 
-      $query = "INSERT  INTO `mantis_email_table` (`email`, `subject`, `body`, `submitted`, `metadata`) ".
+      $query = "INSERT  INTO `{email}` (`email`, `subject`, `body`, `submitted`, `metadata`) ".
          "VALUES ('$c_email', '$c_subject', '$c_body', ".$emailData->submitted.", '$c_metadata');";
       #echo "queue email: $query<br>";
       $result = SqlWrapper::getInstance()->sql_query($query);

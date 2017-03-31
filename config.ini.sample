@@ -25,6 +25,8 @@ db_mantis_user      = "mantisdbuser"
 db_mantis_pass      = "secret_password"
 
 [mantis]
+db_table_prefix = "mantis_"
+db_table_suffix = "_table"
 status_enum_string = "10:new,20:feedback,30:acknowledged,40:analyzed,50:open,80:resolved,82:validated,85:delivered,90:closed,"
 priority_enum_string = "10:none,20:low,30:normal,40:high,50:urgent,60:immediate,"
 resolution_enum_string = "10:open,20:fixed,30:reopened,40:unable to duplicate,50:not fixable,60:duplicate,70:not a bug,80:suspended,90:wont fix,"

@@ -286,7 +286,7 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
       echo "<script type=\"text/javascript\">console.warn(\"WARN: using default attributes for CustomField $fieldName\");</script>";
    }
 
-   $query = "SELECT id, name FROM `mantis_custom_field_table`";
+   $query = "SELECT id, name FROM `{custom_field}`";
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
       throw new Exception ("create custom field FAILED");
@@ -297,7 +297,7 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
 
    $fieldId = $fieldList[$fieldName];
    if (!$fieldId) {
-      $query2 = "INSERT INTO `mantis_custom_field_table` " .
+      $query2 = "INSERT INTO `{custom_field}` " .
          "(`name`, `type` ,`access_level_r`," .
          "                 `access_level_rw` ,`require_report` ,`require_update` ,`display_report` ,`display_update` ,`require_resolved` ,`display_resolved` ,`display_closed` ,`require_closed` ";
       $query2 .= ", `possible_values`, `default_value`";
@@ -410,7 +410,7 @@ function getExtIdCustomFieldCandidates() {
    $mType_string = 0;
    $mType_numeric = 1;
 
-   $query = "SELECT * FROM `mantis_custom_field_table` WHERE `type` IN ($mType_string, $mType_numeric) ORDER BY name";
+   $query = "SELECT * FROM `{custom_field}` WHERE `type` IN ($mType_string, $mType_numeric) ORDER BY name";
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
       throw new Exception("get ExtId candidates FAILED");
@@ -773,10 +773,10 @@ function installMantisPlugin($pluginName, $isReplace=true) {
       }
       
       // activate plugin
-      $query = "INSERT INTO mantis_plugin_table (basename, enabled, protected, priority)".
+      $query = "INSERT INTO {plugin} (basename, enabled, protected, priority)".
               " SELECT * FROM (SELECT '$pluginName', '1', '0', '3') AS tmp".
               " WHERE NOT EXISTS (".
-              " SELECT basename FROM mantis_plugin_table WHERE basename = '$pluginName') LIMIT 1;";
+              " SELECT basename FROM {plugin} WHERE basename = '$pluginName') LIMIT 1;";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          return "WARNING: mantis $pluginName plugin must be activated manualy";

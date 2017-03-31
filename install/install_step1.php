@@ -87,7 +87,7 @@ function checkDBConnection($db_mantis_host = 'localhost',
 
    SqlWrapper::createInstance($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
 
-   $query = "SELECT * FROM `mantis_config_table` WHERE config_id = 'database_version' ";
+   $query = "SELECT * FROM `{config}` WHERE config_id = 'database_version' ";
 
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
@@ -165,17 +165,23 @@ function checkDBprivileges($db_mantis_database = 'bugtracker') {
  *
  * @return NULL if Success, ErrorString if Failed
  */
-function createConfigFile($db_mantis_host = 'localhost',
-                               $db_mantis_user = 'mantis',
-                               $db_mantis_pass = '',
-                               $db_mantis_database = 'bugtracker',
-                               $proxy_host = NULL,
-                               $proxy_port = NULL) {
+function createConfigFile($mantisPath,
+                          $db_mantis_host = 'localhost',
+                          $db_mantis_user = 'mantis',
+                          $db_mantis_pass = '',
+                          $db_mantis_database = 'bugtracker',
+                          $db_table_prefix = 'mantis_',
+                          $db_table_suffix = '_table',
+                          $proxy_host = NULL,
+                          $proxy_port = NULL) {
 
    Constants::$db_mantis_host = $db_mantis_host;
    Constants::$db_mantis_user = $db_mantis_user;
    Constants::$db_mantis_pass = $db_mantis_pass;
    Constants::$db_mantis_database = $db_mantis_database;
+   Constants::$mantis_db_table_prefix = $db_table_prefix;
+   Constants::$mantis_db_table_suffix = $db_table_suffix;
+   Constants::$mantisPath = $mantisPath;
 
    if (!is_null($proxy_host) && !is_null($proxy_port)) {
       Constants::$proxy = $proxy_host.':'.$proxy_port;
@@ -189,12 +195,17 @@ function createConfigFile($db_mantis_host = 'localhost',
    }
 }
 
-function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, $db_mantis_user, $db_mantis_pass) {
+function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, $db_mantis_user, $db_mantis_pass, $path_mantis) {
    echo "<form id='databaseForm' name='databaseForm' method='post' action='$originPage' >\n";
 
    echo "<h2>".T_("Mantis Database Info")."</h2>\n";
 
    echo "<table class='invisible'>\n";
+   echo "  <tr>\n";
+   echo "    <td width='120'>".T_("Path to Mantis")."</td>\n";
+   echo "    <td><input size='50' type='text' style='font-family: sans-serif' name='path_mantis'  id='path_mantis' value='$path_mantis'>";
+   echo "    </td>\n";
+   echo "  </tr>\n";
    echo "  <tr>\n";
    echo "    <td width='120'>".T_("Hostname")."</td>\n";
    echo "    <td><input size='50' type='text' name='db_mantis_host'  id='db_mantis_host' value='$db_mantis_host'></td>\n";
@@ -266,6 +277,9 @@ function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, 
 // ================ MAIN =================
 $originPage = "install_step1.php";
 
+$default_path_mantis = dirname(BASE_PATH).DIRECTORY_SEPARATOR."mantis"; // "/var/www/html/mantis";
+$path_mantis = (string)getHttpVariable(INPUT_POST, 'path_mantis', $default_path_mantis);
+
 $db_mantis_host = (string)getHttpVariable(INPUT_POST, 'db_mantis_host', 'localhost');
 $db_mantis_database = (string)getHttpVariable(INPUT_POST, 'db_mantis_database', 'bugtracker');
 $db_mantis_user = (string)getHttpVariable(INPUT_POST, 'db_mantis_user', Tools::isWindowsServer() ? 'root' : 'mantisdbuser');
@@ -280,7 +294,7 @@ if ('1' == $isProxyEnabled) {
    $proxy_port = NULL;
 }
 
-displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, $db_mantis_user, $db_mantis_pass);
+displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, $db_mantis_user, $db_mantis_pass, $path_mantis);
 
 $action = (string)getHttpVariable(INPUT_POST, 'action', 'none');
 
@@ -288,13 +302,49 @@ if ("setDatabaseInfo" == $action) {
 
    try {
 
+      // --- check mantis version (config files have been moved in v1.3)
+      if (is_dir($path_mantis.DIRECTORY_SEPARATOR.'config')) {
+         // mantis v1.3 or higher
+         $path_mantis_config = $path_mantis.DIRECTORY_SEPARATOR.'config';
+      } else {
+         // mantis 1.2
+         $path_mantis_config = $path_mantis;
+      }
+      // retrieve db_table_prefix to check DB access
+      $path_config_defaults_inc  = $path_mantis.DIRECTORY_SEPARATOR.'config_defaults_inc.php';
+      $path_config_inc           = $path_mantis_config.DIRECTORY_SEPARATOR.'config_inc.php';
+
+      if (!file_exists($path_config_defaults_inc)) {
+         throw new Exception('ERROR: File not found : '. $path_config_defaults_inc);
+      }
+      if (!file_exists($path_config_inc)) {
+         throw new Exception('ERROR: File not found : '. $path_config_inc);
+      }
+      include_once($path_config_defaults_inc);
+      include_once($path_config_inc);
+
+      // fix prefix/suffix if missing separator
+      if ( !empty( $g_db_table_prefix ) && ('_' != substr( $g_db_table_prefix, -1 )) ) {
+         $g_db_table_prefix .= '_';
+      }
+      if ( !empty( $g_db_table_suffix ) && ('_' != substr( $g_db_table_suffix, 0, 1 )) ) {
+         $g_db_table_suffix = '_' . $g_db_table_suffix;
+      }
+
+      // used by SqlWrapper (checkDBConnection, checkDBprivileges)
+      Constants::$mantis_db_table_prefix = $g_db_table_prefix;
+      Constants::$mantis_db_table_suffix = $g_db_table_suffix;
+
       $database_version = checkDBConnection($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
       echo "<script type=\"text/javascript\">console.log(\"DEBUG: Mantis database_version = $database_version\");</script>";
 
       checkDBprivileges($db_mantis_database);
 
       echo "<script type=\"text/javascript\">console.log(\"Step 1/4 create config.ini file\");</script>";
-      createConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $proxy_host, $proxy_port);
+      createConfigFile($path_mantis,
+                       $db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database,
+                       $g_db_table_prefix, $g_db_table_suffix,
+                       $proxy_host, $proxy_port);
 
       echo "<script type=\"text/javascript\">console.log(\"Step 2/4 execSQLscript2 - create Tables\");</script>";
       //$retCode = Tools::execSQLscript2(Install::FILENAME_TABLES);
@@ -317,7 +367,7 @@ if ("setDatabaseInfo" == $action) {
       }
 
       echo "<script type=\"text/javascript\">console.log(\"Step 4/4 Perf: CREATE INDEX handler_id ON mantis_bug_table\");</script>";
-      $request = "CREATE INDEX `handler_id` ON `mantis_bug_table` (`handler_id`); ";
+      $request = "CREATE INDEX `handler_id` ON `{bug}` (`handler_id`); ";
       $result = SqlWrapper::getInstance()->sql_query($request);
       // Note: we do not care about the result: if failed, then the INDEX already exists.
 

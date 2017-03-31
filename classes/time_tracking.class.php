@@ -242,7 +242,7 @@ class TimeTracking {
 
          // For all the users of the team
          $query = "SELECT user.* ".
-                  "FROM `mantis_user_table` as user ".
+                  "FROM `{user}` as user ".
                   "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
                   "WHERE team_user.team_id = $this->team_id ".
                   "AND team_user.access_level IN ($accessLevel_dev, $accessLevel_manager);";
@@ -290,8 +290,8 @@ class TimeTracking {
 
          // all issues which deliveryDate is in the period.
          $query = "SELECT bug.* ".
-                  "FROM `mantis_bug_table` as bug ".
-                  "JOIN `mantis_custom_field_string_table` as field ON bug.id = field.bug_id ".
+                  "FROM `{bug}` as bug ".
+                  "JOIN `{custom_field_string}` as field ON bug.id = field.bug_id ".
                   "WHERE field.field_id = $deliveryDateCustomField ".
                   "AND field.value >= $this->startTimestamp AND field.value < $this->endTimestamp ".
                   "ORDER BY bug.id ASC;";
@@ -347,19 +347,19 @@ class TimeTracking {
 
          // all bugs which status changed to 'resolved' whthin the timestamp
          $query = "SELECT bug.* ".
-                  "FROM `mantis_bug_table` as bug ";
+                  "FROM `{bug}` as bug ";
          if ($extRefOnly) {
-            $query .= ", `mantis_custom_field_string_table` ";
+            $query .= ", `{custom_field_string}` ";
          }
 
-         $query .= ", `mantis_bug_history_table` as history ".
+         $query .= ", `{bug_history}` as history ".
                   "WHERE bug.project_id IN ($formatedProjList) ".
                   "AND bug.id = history.bug_id ";
 
          if ($extRefOnly) {
-            $query .= "AND mantis_custom_field_string_table.bug_id = bug.id ";
-            $query .= "AND mantis_custom_field_string_table.field_id = $extIdField ";
-            $query .= "AND mantis_custom_field_string_table.value <> '' ";
+            $query .= "AND {custom_field_string}.bug_id = bug.id ";
+            $query .= "AND {custom_field_string}.field_id = $extIdField ";
+            $query .= "AND {custom_field_string}.value <> '' ";
          }
 
            $query .=  "AND history.field_name='status' ".
@@ -844,8 +844,8 @@ class TimeTracking {
          $formatedProjList = implode( ', ', array_keys($projList));
          $query = "SELECT timetracking.bugid, timetracking.jobid, timetracking.date, timetracking.duration ".
                   "FROM `codev_timetracking_table` as timetracking ".
-                  "JOIN `mantis_bug_table` AS bug ON timetracking.bugid = bug.id ".
-                  "JOIN `mantis_project_table` AS project ON bug.project_id = project.id ".
+                  "JOIN `{bug}` AS bug ON timetracking.bugid = bug.id ".
+                  "JOIN `{project}` AS project ON bug.project_id = project.id ".
                   "WHERE timetracking.userid = $userid ".
                   "AND timetracking.date >= $this->startTimestamp AND timetracking.date < $this->endTimestamp ".
                   "AND bug.project_id in ($formatedProjList);";
@@ -890,7 +890,7 @@ class TimeTracking {
 
       // For all bugs in timestamp
       $query = "SELECT bug.id as bugid, bug.project_id, timetracking.jobid, SUM(timetracking.duration) as duration ".
-               "FROM `codev_timetracking_table` as timetracking, `codev_team_user_table` as team_user, `mantis_bug_table` as bug, `codev_job_table` as job, `mantis_project_table` as project ".
+               "FROM `codev_timetracking_table` as timetracking, `codev_team_user_table` as team_user, `{bug}` as bug, `codev_job_table` as job, `{project}` as project ".
                "WHERE team_user.user_id = timetracking.userid ".
                "AND bug.id = timetracking.bugid ".
                "AND project.id = bug.project_id ".
@@ -950,12 +950,12 @@ class TimeTracking {
          // all bugs which resolution changed to 'reopened' whthin the timestamp
          // having an ExternalReference
          $query = "SELECT bug.*" .
-                  "FROM `mantis_custom_field_string_table`, `mantis_bug_table` as bug ".
-                  "JOIN `mantis_bug_history_table` as history ON bug.id = history.bug_id " .
+                  "FROM `{custom_field_string}`, `{bug}` as bug ".
+                  "JOIN `{bug_history}` as history ON bug.id = history.bug_id " .
                   "WHERE bug.project_id IN ($formatedProjList) " .
-                  "AND mantis_custom_field_string_table.bug_id = bug.id ".
-                  "AND mantis_custom_field_string_table.field_id = $extIdField ".
-                  "AND mantis_custom_field_string_table.value <> '' ".
+                  "AND {custom_field_string}.bug_id = bug.id ".
+                  "AND {custom_field_string}.field_id = $extIdField ".
+                  "AND {custom_field_string}.value <> '' ".
                   "AND history.field_name='status' " .
                   "AND history.date_modified >= $this->startTimestamp AND history.date_modified <  $this->endTimestamp " .
                   "AND history.old_value >= get_project_resolved_status_threshold(bug.project_id) " .
@@ -998,9 +998,9 @@ class TimeTracking {
          $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
 
          $query = "SELECT COUNT(bug.id) as count ".
-                  "FROM `mantis_bug_table` as bug ";
+                  "FROM `{bug}` as bug ";
          if ($extRefOnly) {
-            $query .= ", `mantis_custom_field_string_table` ";
+            $query .= ", `{custom_field_string}` ";
          }
          $query .= "WHERE bug.date_submitted >= $this->startTimestamp AND bug.date_submitted < $this->endTimestamp ";
 
@@ -1011,9 +1011,9 @@ class TimeTracking {
             $query .= " AND bug.project_id IN ($formatedProjects) ";
          }
          if ($extRefOnly) {
-            $query .= "AND mantis_custom_field_string_table.field_id = $extIdField ";
-            $query .= "AND mantis_custom_field_string_table.bug_id = bug.id ";
-            $query .= "AND mantis_custom_field_string_table.value <> '' ";
+            $query .= "AND {custom_field_string}.field_id = $extIdField ";
+            $query .= "AND {custom_field_string}.bug_id = bug.id ";
+            $query .= "AND {custom_field_string}.value <> '' ";
          }
          $query .= ";";
 

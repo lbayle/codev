@@ -182,8 +182,8 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
 
       // 1) get all reopened bugs within the timestamp
       $query = "SELECT bug.* " .
-               "FROM `mantis_bug_table` as bug ".
-               "JOIN `mantis_bug_history_table` as history ON bug.id = history.bug_id " .
+               "FROM `{bug}` as bug ".
+               "JOIN `{bug_history}` as history ON bug.id = history.bug_id " .
                "WHERE bug.id IN ($formattedBugidList) " .
                "AND history.field_name='status' " .
                "AND history.date_modified >= $start AND history.date_modified < $end " .
@@ -231,8 +231,8 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
    private function getValidated($formattedBugidList, $start, $end) {
 
       $query = "SELECT bug.* ".
-               "FROM `mantis_bug_table` as bug ".
-               "JOIN `mantis_bug_history_table` as history ON bug.id = history.bug_id " .
+               "FROM `{bug}` as bug ".
+               "JOIN `{bug_history}` as history ON bug.id = history.bug_id " .
                "WHERE bug.id IN ($formattedBugidList) " .
                "AND history.field_name='status' " .
                "AND history.date_modified >= $start AND history.date_modified < $end " .
@@ -278,7 +278,7 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
 
       // all bugs which status changed to 'resolved' whthin the timestamp
       $query = "SELECT bug.id ".
-               "FROM `mantis_bug_table` as bug, `mantis_bug_history_table` as history ".
+               "FROM `{bug}` as bug, `{bug_history}` as history ".
                "WHERE bug.id IN ($formattedBugidList) " .
                "AND bug.id = history.bug_id ".
                "AND history.field_name='status' ".

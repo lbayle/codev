@@ -698,7 +698,7 @@ class ConsistencyCheck2 {
                   "FROM `codev_timetracking_table` ".
                   "WHERE date >= ".$team->getDate()." ".
                   "AND userid IN ($formatedUsers) ";
-         #"AND    0 = (SELECT COUNT(id) FROM `mantis_bug_table` WHERE id='codev_timetracking_table.bugid' ) ";
+         #"AND    0 = (SELECT COUNT(id) FROM `{bug}` WHERE id='codev_timetracking_table.bugid' ) ";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -771,7 +771,7 @@ class ConsistencyCheck2 {
 
    public static function checkMantisDefaultProjectWorkflow() {
       $cerrList = array();
-      $query = "SELECT * FROM `mantis_config_table` ".
+      $query = "SELECT * FROM `{config}` ".
                "WHERE project_id = 0 ".
                "AND config_id = 'status_enum_workflow' ";
 

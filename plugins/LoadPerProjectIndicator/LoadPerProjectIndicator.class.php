@@ -196,7 +196,7 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
          $formatedBugidString = implode( ', ', array_keys($issueList));
 
          $query = "SELECT ROUND(SUM(tt.duration), 2) as duration, prj.name as prjName
-                  FROM codev_timetracking_table as tt, mantis_project_table as prj, mantis_bug_table as bug
+                  FROM codev_timetracking_table as tt, {project} as prj, {bug} as bug
                   WHERE tt.bugid = bug.id
                   AND bug.project_id = prj.id
                   AND bug.id IN ($formatedBugidString)
