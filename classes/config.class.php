@@ -68,7 +68,7 @@ class Config {
 
    // TODO Move to a more appropriate class
    const codevVersion = "v1.2.1";
-   const codevVersionDate = "2017-02-19";
+   const codevVersionDate = "02 Apr 2017";
    const databaseVersion = 17; // used to check codev_config_table.database_version and apply upgrades.
 
    const configType_int = 1;
@@ -157,7 +157,7 @@ class Config {
       "v1.0.3" => "(15 Aug  2015) - fix:ImportCSV,Planning+SqlInjection+EscapeChars+NonNumeric+more, PlanningOptions, TimesheetEmails, BacklogDialogbox:status+handler, install:activatePlugins",
       "v1.1.0" => "(10 Feb  2016) - PluginManager, Mantis_1_3, MainMenu, NoFLASH, MantisPlugins, fix:WeekDates, fix:PlanningTooltips",
       "v1.2.0" => "(02 Jan  2017) - Scheduler,Gantt,Plugins,i18n,Mantis2.0,min.js",
-      "v1.2.1" => "(11 Feb  2017) - fix:weekDates, fix:backlogCheck, i18n, WBS, teamOptions",
+      "v1.2.1" => "(02 Apr  2017) - fix:weekDates, fix:backlogCheck, i18n, WBS, teamOptions, UserTeamListPlugin, projectTypes",
    );
 
    /**
