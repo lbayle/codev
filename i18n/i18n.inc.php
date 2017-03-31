@@ -69,6 +69,8 @@ function codevSetLocale($codevLocale) {
       $phpLocale = T_setlocale(LC_ALL,"ko_KR.UTF-8", "ko.UTF-8","korean");
    } elseif($codevLocale === "ar") {
       $phpLocale = T_setlocale(LC_ALL,"ar_DZ.UTF-8", "ar.UTF-8","arab");
+   } elseif($codevLocale === "ru") {
+      $phpLocale = T_setlocale(LC_ALL,"ru_RU.UTF-8", "ru.UTF-8","russian");
    } else {
       // set to system default:
       T_setlocale(LC_ALL, NULL);
@@ -196,6 +198,9 @@ function codevGetLocale() {
             break;
          } elseif (strpos($lang, 'ar') === 0) {
             $locale = 'ar';
+            break;
+         } elseif (strpos($lang, 'ru') === 0) {
+            $locale = 'ru';
             break;
          }
       }
