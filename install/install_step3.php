@@ -152,6 +152,7 @@ function appendToFile($destFile, $toAppendFile, $checkStr = NULL) {
 function updateMantisCustomFiles() {
 
    $mantisPath = Constants::$mantisPath;
+   $codevttURL = Constants::$codevURL;
 
    // --- check mantis version (config files have been moved in v1.3)
    if (is_dir($mantisPath.DIRECTORY_SEPARATOR.'config')) {
@@ -177,6 +178,20 @@ function updateMantisCustomFiles() {
    appendToFile($path_mantis_config.'/custom_relationships_inc.php',
                   Install::FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT,
                   'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY');
+
+   // add COdevTT to mantis menu
+   $path_mantis_config_inc = $path_mantis_config.'/config_inc.php';
+   if (is_writable($path_mantis_config_inc)) {
+
+      $stringToAdd  = "# --- Add CodevTT to mantis main menu ---\n";
+      $stringToAdd .= "array_push(\$g_main_menu_custom_options, array( 'CodevTT', NULL, '$codevttURL' ));\n";
+
+      $errStr = @file_put_contents($path_mantis_config_inc, $stringToAdd, FILE_APPEND);
+      if (FALSE === $errStr) {
+         throw new Exception ("Could not update file " . $path_mantis_config_inc . ": ".$errStr);
+      }
+   }
+
    return NULL;
 }
 
