@@ -86,7 +86,7 @@ Command = "LoadPerUserIndicator,ProgressHistoryIndicator2"
 CommandSet = "ProgressHistoryIndicator2"
 ServiceContract = "ManagementLoadHistoryIndicator"
 Import_Export = "ImportIssueCsv, ImportUsers"
-Admin = "MoveIssueTimetracks,TimetrackDetailsIndicator"
+Admin = "MoveIssueTimetracks,TimetrackDetailsIndicator,UserTeamList"
 EditTeam = "MoveIssueTimetracks"
 
 [email]

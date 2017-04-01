@@ -64,7 +64,7 @@ CheckArgs ()
    if [ 0 -ne $? ] ; then
      echo "ERROR: invalid GIT BRANCH: $GIT_BRANCH"
      exit 2;
-   fi  
+   fi
 }
 
 f_displayHelp()

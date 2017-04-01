@@ -524,6 +524,11 @@ function update_v16_to_v17() {
    $query5 = "UPDATE `codev_config_table` SET `value`='17' WHERE `config_id`='database_version';";
    execQuery($query5);
 
+   // activate new plugin UserTeamList
+   $query6 = "INSERT INTO `codev_plugin_table` (`name`, `status`, `domains`, `categories`, `version`, `description`) ".
+      "VALUES ('UserTeamList', 1, 'Admin', 'Admin', '1.0.0', 'Display a history of all the teams for a given user');";
+   execQuery($query6);
+
 }
 
 // ======================================================

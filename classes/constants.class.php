@@ -113,7 +113,7 @@ class Constants {
        'CommandSet' => array('ProgressHistoryIndicator2'),
        'ServiceContract' => array('ManagementLoadHistoryIndicator'),
        'Import_Export' => array('ImportIssueCsv', 'ImportUsers'),
-       'Admin' => array('MoveIssueTimetracks','TimetrackDetailsIndicator'),
+       'Admin' => array('MoveIssueTimetracks','TimetrackDetailsIndicator','UserTeamList'),
        'EditTeam' => array('MoveIssueTimetracks'),
    );
 
