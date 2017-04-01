@@ -200,8 +200,14 @@ class Constants {
       self::$bug_resolved_status_threshold = $mantis['bug_resolved_status_threshold'];
       self::$status_enum_workflow = json_decode($mantis['status_enum_workflow'], true); // jsonStr to array
 
-      self::$mantis_db_table_prefix = $mantis['db_table_prefix'];
-      self::$mantis_db_table_suffix = $mantis['db_table_suffix'];
+      if ( !empty($mantis['db_table_prefix'])) {
+         // variable not set: config.ini file is prior to v1.2.1
+         self::$mantis_db_table_prefix = $mantis['db_table_prefix'];
+      }
+      if ( !empty($mantis['db_table_suffix'])) {
+         // variable not set: config.ini file is prior to v1.2.1
+         self::$mantis_db_table_suffix = $mantis['db_table_suffix'];
+      }
       if ( !empty( self::$mantis_db_table_prefix ) && ('_' != substr( self::$mantis_db_table_prefix, -1 )) ) {
          self::$mantis_db_table_prefix .= '_';
       }
