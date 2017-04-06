@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-04-03 05:22:29+0000\n"
+"PO-Revision-Date: 2017-04-06 05:12:18+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -188,7 +188,7 @@ msgstr "周期内在项目上花费的时间（仅限团队成员）"
 
 #. tpl/productivity_report.html
 msgid "SideTasks: Project Management"
-msgstr "端任务：项目管理"
+msgstr "边缘任务：项目管理"
 
 #. tpl/productivity_report.html
 msgid "Days spent on project management tasks"
@@ -196,11 +196,11 @@ msgstr "在项目管理任务上花费的时间"
 
 #. tpl/productivity_report.html
 msgid "SideTasks: Others"
-msgstr "端任务：其他"
+msgstr "边缘任务：其他"
 
 #. tpl/productivity_report.html
 msgid "Days spent on sideTasks, except project management and inactivity tasks"
-msgstr "在端任务上花费的时间，除了项目管理和不活跃任务外"
+msgstr "在边缘任务上花费的时间，除了项目管理和不活跃任务外"
 
 #. tpl/productivity_report.html
 msgid "Production Days : total"
@@ -227,7 +227,7 @@ msgstr "项目"
 
 #. tpl/productivity_report.html
 msgid "sideTasks"
-msgstr "端任务"
+msgstr "边缘任务"
 
 #. tpl/productivity_report.html
 msgid "Not available."
@@ -404,7 +404,7 @@ msgstr "已按时交付的任务"
 
 #. tpl/productivity_report.html
 msgid "Task list for EffortEstim"
-msgstr "用于EffortEstim的任务列表"
+msgstr "用于努力估计的任务列表"
 
 #. tpl/productivity_report.html
 msgid "Note: Drift on tasks resolved in the period"
@@ -1567,7 +1567,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "The ADC is the default UDC for team members"
-msgstr ""
+msgstr "ADC是团队成员的默认UDC"
 
 #. tpl/edit_team.html
 msgid "Team Currency"
@@ -5494,7 +5494,7 @@ msgstr ""
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:187
 msgid "No AverageDailyCost defined in team settings"
-msgstr ""
+msgstr "在团队设置中没有定义平均日常费用"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:194
 msgid "Sorry, only managers can access this plugin"

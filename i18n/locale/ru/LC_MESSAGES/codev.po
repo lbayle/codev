@@ -13,7 +13,7 @@
 msgid ""
 msgstr ""
 ""
-"PO-Revision-Date: 2017-04-03 05:22:29+0000\n"
+"PO-Revision-Date: 2017-04-06 05:12:17+0000\n"
 "X-POT-Import-Date: 2017-04-02 15:53:05+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1594,7 +1594,7 @@ msgstr "Валюта"
 
 #. tpl/edit_team.html
 msgid "Coef"
-msgstr ""
+msgstr "Коэф."
 
 #. tpl/edit_team.html
 msgid "referal currency"
@@ -5505,7 +5505,7 @@ msgstr "К сожалению, только менеджеры могут пол
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:279
 msgid "Sidetasks"
-msgstr ""
+msgstr "Побочные задания"
 
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:65
 msgid "A simple HelloWorld plugin"

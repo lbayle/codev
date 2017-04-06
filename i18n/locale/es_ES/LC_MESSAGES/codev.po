@@ -14,7 +14,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-04-03 05:22:25+0000\n"
+"PO-Revision-Date: 2017-04-06 05:12:13+0000\n"
 "Language: es_es\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1591,7 +1591,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Currency"
-msgstr ""
+msgstr "Moneda"
 
 #. tpl/edit_team.html
 msgid "Coef"
@@ -2640,7 +2640,7 @@ msgstr "Puedes ayudar con las traducciones: "
 
 #. tpl/doc.html
 msgid "statistics"
-msgstr ""
+msgstr "estadísticas"
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
@@ -4249,7 +4249,7 @@ msgstr "Tareas mostradas"
 #. plugins/CostsIndicator/CostsIndicator.html
 #: plugins/CostsIndicator/CostsIndicator.class.php:65
 msgid "Costs"
-msgstr ""
+msgstr "Costos"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Global cost estimation:"

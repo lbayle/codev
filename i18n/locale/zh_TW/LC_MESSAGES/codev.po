@@ -10,7 +10,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-04-03 05:22:30+0000\n"
+"PO-Revision-Date: 2017-04-06 05:12:18+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1413,7 +1413,7 @@ msgstr "時間表期間"
 
 #. tpl/edit_team.html
 msgid "User Daily Costs"
-msgstr ""
+msgstr "用戶每日成本"
 
 #. tpl/edit_team.html
 msgid "OnDuty tasks"
@@ -1563,7 +1563,7 @@ msgstr "建立專案"
 
 #. tpl/edit_team.html
 msgid "Average Daily Cost"
-msgstr ""
+msgstr "平均每日成本"
 
 #. tpl/edit_team.html
 msgid "The ADC is the default UDC for team members"
@@ -2631,7 +2631,7 @@ msgstr "您可以幫忙翻譯： "
 
 #. tpl/doc.html
 msgid "statistics"
-msgstr ""
+msgstr "統計"
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
@@ -3389,7 +3389,7 @@ msgstr "開啟在Mantis的任務清單"
 
 #. tpl/command_info.html
 msgid "MgrEffortEstim + Checked Provisions (days)"
-msgstr ""
+msgstr "管理成效估計 + 已檢查規範（日）"
 
 #. tpl/command_info.html
 msgid "Reestimated (days)"
@@ -4203,7 +4203,7 @@ msgstr "顯示已解決任務"
 #. plugins/CostsIndicator/CostsIndicator.html
 #: plugins/CostsIndicator/CostsIndicator.class.php:65
 msgid "Costs"
-msgstr ""
+msgstr "成本"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Global cost estimation:"
@@ -5503,7 +5503,7 @@ msgstr ""
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:279
 msgid "Sidetasks"
-msgstr ""
+msgstr "邊際任務"
 
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:65
 msgid "A simple HelloWorld plugin"

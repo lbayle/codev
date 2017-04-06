@@ -2,13 +2,14 @@
 # Exported from translatewiki.net
 #
 # Author: Eitvys200
+# Author: Nuodas
 # Author: Zygimantus
 msgid ""
 msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-04-03 05:22:27+0000\n"
+"PO-Revision-Date: 2017-04-06 05:12:15+0000\n"
 "Language: lt\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -79,7 +80,7 @@ msgstr "Pasirinkti"
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #: classes/time_tracking.class.php:447
 msgid "nb days"
-msgstr ""
+msgstr "nb dienos"
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -154,7 +155,7 @@ msgstr "Pagalba"
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 msgid "Nb Days"
-msgstr ""
+msgstr "Nb Dienos"
 
 #. tpl/productivity_report.html
 msgid "Projects"
@@ -272,19 +273,19 @@ msgstr "Sistemos prieinamumas"
 
 #. tpl/productivity_report.html
 msgid "MgrEffortEstim Reliability Rate"
-msgstr ""
+msgstr "MgrEffortEstim Patikimumo tikrinimas"
 
 #. tpl/productivity_report.html
 msgid "EffortEstim Reliability Rate"
-msgstr ""
+msgstr "EffortEstim Patikimumo tikrinimas"
 
 #. tpl/productivity_report.html
 msgid "Workload Forecasting (holidays & externalTasks not included, developers only)"
-msgstr ""
+msgstr "Krūvio prognozė (šventės ir išorinės užduotys neįskaičiuotos, tik kūrėjams)"
 
 #. tpl/productivity_report.html
 msgid "Development workload (developers only)"
-msgstr ""
+msgstr "Plėtojimo krūvis (tik kūrėjams)"
 
 #. tpl/productivity_report.html
 msgid "ProjProdDays"
@@ -296,7 +297,7 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Platform Availability"
-msgstr ""
+msgstr "Platformos Prieinamumas"
 
 #. tpl/productivity_report.html
 msgid "breakdownDays"

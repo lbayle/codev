@@ -9,7 +9,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:03+0100\n"
-"PO-Revision-Date: 2017-04-03 05:22:32+0000\n"
+"PO-Revision-Date: 2017-04-06 05:12:20+0000\n"
 "Language: qqq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5493,7 +5493,7 @@ msgstr ""
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:187
 msgid "No AverageDailyCost defined in team settings"
-msgstr ""
+msgstr "Translation of \"AverageDailyCost\" should keep the CamelCase form when possible."
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:194
 msgid "Sorry, only managers can access this plugin"

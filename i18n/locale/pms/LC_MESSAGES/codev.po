@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-04-03 05:22:28+0000\n"
+"PO-Revision-Date: 2017-04-06 05:12:16+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1573,55 +1573,55 @@ msgstr "Moneda dl'echip"
 
 #. tpl/edit_team.html
 msgid "Team Average Daily Cost"
-msgstr ""
+msgstr "Cost cotidian medi ëd l'echip"
 
 #. tpl/edit_team.html
 msgid "Default currency for the team."
-msgstr ""
+msgstr "Valuda ëd l'echip për ëstàndard"
 
 #. tpl/edit_team.html
 msgid "All indicators will use this currency and all values defined in other currencies will be converted."
-msgstr ""
+msgstr "Tuti j'andicator a dovrëran sa valuda e tuti ij valor definì an d'àutre valude a saran convertì."
 
 #. tpl/edit_team.html
 msgid "Currency"
-msgstr ""
+msgstr "Valuda"
 
 #. tpl/edit_team.html
 msgid "Coef"
-msgstr ""
+msgstr "Coef"
 
 #. tpl/edit_team.html
 msgid "referal currency"
-msgstr ""
+msgstr "valuda d'arferiment"
 
 #. tpl/edit_team.html
 msgid "TODO: describe how and where it is used in CodevTT"
-msgstr ""
+msgstr "Da fé: descrive coma e andoa a l'é dovrà an CodevTT"
 
 #. tpl/edit_team.html
 msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
-msgstr ""
+msgstr "Ël CCU a l'é ël cost cotidian ëd n'utent, a l'ha la precedensa an sël CCM"
 
 #. tpl/edit_team.html
 msgid "Add UserDailyCost"
-msgstr ""
+msgstr "Gionté ël Cost cotidian utent"
 
 #. tpl/edit_team.html
 msgid "Add user daily cost"
-msgstr ""
+msgstr "Gionté ël cost cotidian ëd n'utent"
 
 #. tpl/edit_team.html
 msgid "Team creation date"
-msgstr ""
+msgstr "Dàita ëd creassion ëd l'echip"
 
 #. tpl/edit_team.html
 msgid "User arrival date"
-msgstr ""
+msgstr "Dàita d'ariv dl'utent"
 
 #. tpl/edit_team.html
 msgid "User Daily Cost"
-msgstr ""
+msgstr "Cost cotidian utent"
 
 #. tpl/edit_team.html
 msgid "Issue Tooltips"
