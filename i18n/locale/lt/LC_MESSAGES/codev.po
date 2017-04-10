@@ -9,7 +9,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-04-06 05:12:15+0000\n"
+"PO-Revision-Date: 2017-04-10 05:13:01+0000\n"
 "Language: lt\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1412,7 +1412,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "User Daily Costs"
-msgstr ""
+msgstr "Vartotojo Dienos Išlaidos"
 
 #. tpl/edit_team.html
 msgid "OnDuty tasks"
@@ -1562,23 +1562,23 @@ msgstr "Kurti projektą"
 
 #. tpl/edit_team.html
 msgid "Average Daily Cost"
-msgstr ""
+msgstr "Vidutinės Dienos Išlaidos"
 
 #. tpl/edit_team.html
 msgid "The ADC is the default UDC for team members"
-msgstr ""
+msgstr "ADC yra numatytasis UDC komandos nariams"
 
 #. tpl/edit_team.html
 msgid "Team Currency"
-msgstr ""
+msgstr "Komandos Valiuta"
 
 #. tpl/edit_team.html
 msgid "Team Average Daily Cost"
-msgstr ""
+msgstr "Komandos Vidutinės Dienos Išlaidos"
 
 #. tpl/edit_team.html
 msgid "Default currency for the team."
-msgstr ""
+msgstr "Numatytoji komandos valiuta."
 
 #. tpl/edit_team.html
 msgid "All indicators will use this currency and all values defined in other currencies will be converted."
@@ -1586,7 +1586,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Currency"
-msgstr ""
+msgstr "Valiuta"
 
 #. tpl/edit_team.html
 msgid "Coef"
@@ -1598,7 +1598,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "TODO: describe how and where it is used in CodevTT"
-msgstr ""
+msgstr "PADARYTI: apibūdinti kaip ir kur tai yra naudojama CodevTT"
 
 #. tpl/edit_team.html
 msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
@@ -1610,19 +1610,19 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Add user daily cost"
-msgstr ""
+msgstr "Pridėti vartotojo kasdienes išlaidas"
 
 #. tpl/edit_team.html
 msgid "Team creation date"
-msgstr ""
+msgstr "Komandos sukūrimo data"
 
 #. tpl/edit_team.html
 msgid "User arrival date"
-msgstr ""
+msgstr "Vartotojo atvykimo data"
 
 #. tpl/edit_team.html
 msgid "User Daily Cost"
-msgstr ""
+msgstr "Vartotojo Dienos Išlaidos"
 
 #. tpl/edit_team.html
 msgid "Issue Tooltips"
@@ -1763,7 +1763,7 @@ msgstr "išsaugoti"
 
 #. tpl/edit_team.html
 msgid "Updated successfully !"
-msgstr ""
+msgstr "Atnaujinta sėkmingai !"
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -2636,7 +2636,7 @@ msgstr "Jūs galite padėti su vertimais: "
 
 #. tpl/doc.html
 msgid "statistics"
-msgstr ""
+msgstr "statistika"
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
@@ -3819,7 +3819,7 @@ msgstr "Importuoti vartotojus"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Sorry, only team members can import tasks."
-msgstr ""
+msgstr "Atsiprašome, tik komandos nariai gali importuoti užduotis."
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4240,7 +4240,7 @@ msgstr "Rodyti išspręstas problemas"
 #. plugins/CostsIndicator/CostsIndicator.html
 #: plugins/CostsIndicator/CostsIndicator.class.php:65
 msgid "Costs"
-msgstr ""
+msgstr "Išlaidos"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Global cost estimation:"
@@ -4577,7 +4577,7 @@ msgstr ""
 
 #: classes/Currencies.class.php:139
 msgid "ERROR: currency already defined"
-msgstr ""
+msgstr "KLAIDA: valiuta jau apibrėžta"
 
 #: classes/consistency_check_fdj.class.php:76
 msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
@@ -5549,11 +5549,11 @@ msgstr ""
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:194
 msgid "Sorry, only managers can access this plugin"
-msgstr ""
+msgstr "Atsiprašome, tik vadovai gali prieiti prie šio įskiepio"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:279
 msgid "Sidetasks"
-msgstr ""
+msgstr "Pašalinės užduotys"
 
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:65
 msgid "A simple HelloWorld plugin"

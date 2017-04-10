@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-04-06 05:12:18+0000\n"
+"PO-Revision-Date: 2017-04-10 05:13:04+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1413,7 +1413,7 @@ msgstr "时间跟踪期间"
 
 #. tpl/edit_team.html
 msgid "User Daily Costs"
-msgstr ""
+msgstr "用户每日花费"
 
 #. tpl/edit_team.html
 msgid "OnDuty tasks"
@@ -1563,7 +1563,7 @@ msgstr "创建项目"
 
 #. tpl/edit_team.html
 msgid "Average Daily Cost"
-msgstr ""
+msgstr "平均每日花费"
 
 #. tpl/edit_team.html
 msgid "The ADC is the default UDC for team members"
@@ -1571,7 +1571,7 @@ msgstr "ADC是团队成员的默认UDC"
 
 #. tpl/edit_team.html
 msgid "Team Currency"
-msgstr ""
+msgstr "团队货币"
 
 #. tpl/edit_team.html
 msgid "Team Average Daily Cost"
@@ -1623,7 +1623,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "User Daily Cost"
-msgstr ""
+msgstr "用户每日花费"
 
 #. tpl/edit_team.html
 msgid "Issue Tooltips"

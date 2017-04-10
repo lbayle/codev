@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-04-06 05:12:16+0000\n"
+"PO-Revision-Date: 2017-04-10 05:13:03+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1762,7 +1762,7 @@ msgstr "argistré"
 
 #. tpl/edit_team.html
 msgid "Updated successfully !"
-msgstr ""
+msgstr "Agiornament riussì!"
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -2629,7 +2629,7 @@ msgstr "A peul giuté con le tradussion: "
 
 #. tpl/doc.html
 msgid "statistics"
-msgstr ""
+msgstr "statìstiche"
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
@@ -3386,7 +3386,7 @@ msgstr "Smon-e la lista dij travaj an Mantis"
 
 #. tpl/command_info.html
 msgid "MgrEffortEstim + Checked Provisions (days)"
-msgstr ""
+msgstr "Stim Mgr + Proviste verificà (di)"
 
 #. tpl/command_info.html
 msgid "Reestimated (days)"
@@ -4200,23 +4200,23 @@ msgstr "Smon-e ij travaj arzolvù"
 #. plugins/CostsIndicator/CostsIndicator.html
 #: plugins/CostsIndicator/CostsIndicator.class.php:65
 msgid "Costs"
-msgstr ""
+msgstr "Cost"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Global cost estimation:"
-msgstr ""
+msgstr "Cost global ëstimà:"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Costs Mgr"
-msgstr ""
+msgstr "Cost Mgr"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the costs of each timetrack."
-msgstr ""
+msgstr "Total dij cost ëd tute le programassion."
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Team AverageDailyCost and UserDailyCosts must be defined in team settings."
-msgstr ""
+msgstr "Ël Cost cotidian medi e ël cost cotidian për utent a devo esse definì ant ij paràmeter ëd l'echip."
 
 #. plugins/HelloWorldIndicator/HelloWorldIndicator_cfg.html
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:62
@@ -4514,19 +4514,19 @@ msgstr "Gòla d'anformassion"
 #. avoid divisions by zero
 #: classes/Currencies.class.php:125
 msgid "ERROR: invalid currency: (coef is null, zero, or not a number)"
-msgstr ""
+msgstr "EROR: Valuda nen bon-a: (coef nul, zero o nen numérich)"
 
 #: classes/Currencies.class.php:130
 msgid "ERROR: First define the referal currency (with coef=1)"
-msgstr ""
+msgstr "EROR: Ch'a ancamin-a a definì la valuda d'arferiment (con coef=1)"
 
 #: classes/Currencies.class.php:135
 msgid "ERROR: there can be only one 'referal' currency (with coef=1)"
-msgstr ""
+msgstr "EROR: a peul mach essie un-a valuda d''arferiment' (con coef=1)"
 
 #: classes/Currencies.class.php:139
 msgid "ERROR: currency already defined"
-msgstr ""
+msgstr "EROR: valuda già definìa"
 
 #: classes/consistency_check_fdj.class.php:76
 msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
@@ -5488,19 +5488,19 @@ msgstr "Smon-e ij travaj anté che ël temp passà a l'é pi grand che lë sfòr
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:68
 msgid "Compute costs, using the UserDailyCosts defined in team settings"
-msgstr ""
+msgstr "Cont dij cost, an dovrand ij Cost cotidian për utent definì ant ij paràmeter dl'echip"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:187
 msgid "No AverageDailyCost defined in team settings"
-msgstr ""
+msgstr "Gnun Cost cotidian medi definì ant ij paràmeter dl'echip"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:194
 msgid "Sorry, only managers can access this plugin"
-msgstr ""
+msgstr "An dëspias, mach ij mansé a peulo acede a s'aplicassion"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:279
 msgid "Sidetasks"
-msgstr ""
+msgstr "Travaj marginaj"
 
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:65
 msgid "A simple HelloWorld plugin"

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-02 11:08+0200\n"
-"PO-Revision-Date: 2017-04-03 05:22:25+0000\n"
+"PO-Revision-Date: 2017-04-10 05:13:00+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -194,7 +194,7 @@ msgstr "Total"
 
 #. tpl/productivity_report.html
 msgid "Days spent on the projects during the period (team members only)"
-msgstr "Nombre de jours que l'équipe a passé sur les projets pendant la période"
+msgstr "Nombre de jours que l'équipe a passés sur les projets pendant la période"
 
 #. tpl/productivity_report.html
 msgid "SideTasks: Project Management"

@@ -10,7 +10,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-04-06 05:12:18+0000\n"
+"PO-Revision-Date: 2017-04-10 05:13:05+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1567,63 +1567,63 @@ msgstr "平均每日成本"
 
 #. tpl/edit_team.html
 msgid "The ADC is the default UDC for team members"
-msgstr ""
+msgstr "ADC 是團隊成員預設的 UDC"
 
 #. tpl/edit_team.html
 msgid "Team Currency"
-msgstr ""
+msgstr "團隊貨幣"
 
 #. tpl/edit_team.html
 msgid "Team Average Daily Cost"
-msgstr ""
+msgstr "團隊平均每日成本"
 
 #. tpl/edit_team.html
 msgid "Default currency for the team."
-msgstr ""
+msgstr "預設團隊貨幣"
 
 #. tpl/edit_team.html
 msgid "All indicators will use this currency and all values defined in other currencies will be converted."
-msgstr ""
+msgstr "所有指示器將使用此貨幣且所有定義其它貨幣的值將會轉換。"
 
 #. tpl/edit_team.html
 msgid "Currency"
-msgstr ""
+msgstr "貨幣"
 
 #. tpl/edit_team.html
 msgid "Coef"
-msgstr ""
+msgstr "係數"
 
 #. tpl/edit_team.html
 msgid "referal currency"
-msgstr ""
+msgstr "推薦貨幣"
 
 #. tpl/edit_team.html
 msgid "TODO: describe how and where it is used in CodevTT"
-msgstr ""
+msgstr "TODO：描述如何及何處來於 CodevTT 使用"
 
 #. tpl/edit_team.html
 msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
-msgstr ""
+msgstr "UDC 是單一用戶每日成本，這是覆寫 ADC 內容"
 
 #. tpl/edit_team.html
 msgid "Add UserDailyCost"
-msgstr ""
+msgstr "添加用戶每日成本"
 
 #. tpl/edit_team.html
 msgid "Add user daily cost"
-msgstr ""
+msgstr "添加用戶每日成本"
 
 #. tpl/edit_team.html
 msgid "Team creation date"
-msgstr ""
+msgstr "團隊創建日期"
 
 #. tpl/edit_team.html
 msgid "User arrival date"
-msgstr ""
+msgstr "用戶抵達日期"
 
 #. tpl/edit_team.html
 msgid "User Daily Cost"
-msgstr ""
+msgstr "用戶每日成本"
 
 #. tpl/edit_team.html
 msgid "Issue Tooltips"
@@ -1764,7 +1764,7 @@ msgstr "儲存"
 
 #. tpl/edit_team.html
 msgid "Updated successfully !"
-msgstr ""
+msgstr "已成功更新！"
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -4207,19 +4207,19 @@ msgstr "成本"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Global cost estimation:"
-msgstr ""
+msgstr "全域成本預算："
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Costs Mgr"
-msgstr ""
+msgstr "成本管理者"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the costs of each timetrack."
-msgstr ""
+msgstr "加總任一時間表成本"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Team AverageDailyCost and UserDailyCosts must be defined in team settings."
-msgstr ""
+msgstr "團隊每日平均成本和用戶每日成本必須定義在團隊設定裡。"
 
 #. plugins/HelloWorldIndicator/HelloWorldIndicator_cfg.html
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:62
@@ -4517,19 +4517,19 @@ msgstr "提示"
 #. avoid divisions by zero
 #: classes/Currencies.class.php:125
 msgid "ERROR: invalid currency: (coef is null, zero, or not a number)"
-msgstr ""
+msgstr "錯誤：無效貨幣（係數為 null、零值、或不是一個號碼）"
 
 #: classes/Currencies.class.php:130
 msgid "ERROR: First define the referal currency (with coef=1)"
-msgstr ""
+msgstr "錯誤：要先定義推薦貨幣（帶有係數 = 1）"
 
 #: classes/Currencies.class.php:135
 msgid "ERROR: there can be only one 'referal' currency (with coef=1)"
-msgstr ""
+msgstr "錯誤：只能存有一個「推薦」貨幣（帶有係數 = 1）"
 
 #: classes/Currencies.class.php:139
 msgid "ERROR: currency already defined"
-msgstr ""
+msgstr "錯誤：貨幣已定義"
 
 #: classes/consistency_check_fdj.class.php:76
 msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
@@ -5491,15 +5491,15 @@ msgstr "顯示已流逝時間大於估計成效的任務"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:68
 msgid "Compute costs, using the UserDailyCosts defined in team settings"
-msgstr ""
+msgstr "計算成本；使用在團隊設定的用戶每日成本定義"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:187
 msgid "No AverageDailyCost defined in team settings"
-msgstr ""
+msgstr "在團隊設定裡沒有定義平均每日成本"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:194
 msgid "Sorry, only managers can access this plugin"
-msgstr ""
+msgstr "很抱歉，僅有管理者可存取此外掛套件"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:279
 msgid "Sidetasks"
