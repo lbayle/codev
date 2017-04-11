@@ -113,7 +113,7 @@ class CommandInfoController extends Controller {
                   $filterList = array_filter($filterList, create_function('$a','return $a!="";'));
                   $selectedFilters = implode(',', $filterList);
 
-                  CommandTools::displayCommand($this->smartyHelper, $cmd, ($isManager || $isObserver), $selectedFilters);
+                  CommandTools::displayCommand($this->smartyHelper, $cmd, ($isManager || $isObserver), $this->teamid, $selectedFilters);
 
                   // ConsistencyCheck
                   $consistencyErrors = $this->getConsistencyErrors($cmd);

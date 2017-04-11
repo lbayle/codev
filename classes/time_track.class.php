@@ -43,6 +43,8 @@ class TimeTrack extends Model implements Comparable {
    private $committer_id;
    private $commit_date;
    private $note;
+   private $cost;
+   private $currency;
 
    private $projectId;
    private $categoryId;
@@ -81,6 +83,12 @@ class TimeTrack extends Model implements Comparable {
       $this->committer_id = $row->committer_id;
       $this->commit_date = $row->commit_date;
 
+      // PERF: initialy, it was planned to store the cost directly in the timetrack to avoid heavy computing,
+      //       but it turns out that it is not necessary, and it is much easier to handle if UDC/ADC changes.
+/*
+      $this->cost = (NULL === $row->cost) ? NULL : $row->cost / 1000000; // (6 decimals)
+      $this->currency = $row->currency;
+*/
       #echo "DEBUG TimeTrack $this->id $this->userId $this->bugId $this->jobId $this->date $this->duration $this->issue_projectId<br/>";
    }
 
@@ -137,10 +145,10 @@ class TimeTrack extends Model implements Comparable {
     * @param int $job
     * @param int $timestamp
     * @param number $duration
-    * @param int $committer_id the user who added the timetrack (user or his manager)
+    * @param int $committerid the user who added the timetrack (user or his manager)
     * @return int
     */
-   public static function create($userid, $bugid, $job, $timestamp, $duration, $committer_id) {
+   public static function create($userid, $bugid, $job, $timestamp, $duration, $committerid, $teamid) {
 
       if ((0 == $userid) ||
           (0 == $bugid) ||
@@ -149,9 +157,28 @@ class TimeTrack extends Model implements Comparable {
           (0 == $duration)) {
          self::$logger->error("create track : userid = $userid, bugid = $bugid, job = $job, timestamp = $timestamp, duration = $duration");
          return 0;
-          }
+      }
+
+      // compute timetrack cost
+      // PERF: initialy, it was planned to store the cost directly in the timetrack to avoid heavy computing,
+      //       but it turns out that it is not necessary, and it is much easier to handle if UDC/ADC changes.
+      $cost = NULL;
+      $currency = NULL;
+/*
+      try {
+         $team= TeamCache::getInstance()->getTeam($teamid);
+         $udr = $team->getUdrValue($userid, $timestamp);
+         $cost = round($duration * $udr, 6) *1000000; // (6 decimals)
+         $currency = $team->getTeamCurrency();
+      } catch (Exception $e) {
+         $cost = NULL;
+      }
+*/
       $commit_date=time();
-      $query = "INSERT INTO `codev_timetracking_table`  (`userid`, `bugid`, `jobid`, `date`, `duration`, `committer_id`, `commit_date`) VALUES ('$userid','$bugid','$job','$timestamp', '$duration', '$committer_id', '$commit_date');";
+      $query  = "INSERT INTO `codev_timetracking_table`  (`userid`, `bugid`, `jobid`, `date`, `duration`, `committer_id`, `commit_date`";
+      $query .= is_null($cost) ? ") " : ", `cost`, `currency`) ";
+      $query .= " VALUES ('$userid','$bugid','$job','$timestamp', '$duration', '$committerid', '$commit_date'";
+      $query .= is_null($cost) ? ") " :  ", '$cost', '$currency');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -284,6 +311,47 @@ class TimeTrack extends Model implements Comparable {
       return $this->commit_date;
    }
 
+   /**
+    * return cost of this timetrack.
+    * if $targetCurrency is NULL, then return in teamCurrency
+    *
+    * if cost == NULL, result depends on $teamid:
+    *  - if $teamid == NULL: return NULL (raw value)
+    *  - if  $teamid > 0 : compute cost with teamADR (no DB update !)
+    *      => if teamADR is undefined, throw exception
+    *
+    * @param string $targetCurrency target currency (default: team currency)
+    * @param type $teamid if not NULL & cost is NULL,  return teamADR
+    * @return float cost if cost is null, return null
+    * @throws Exception
+    */
+   public function getCost($targetCurrency=NULL, $teamid=NULL) {
+
+      if (NULL === $this->cost) { // Note: with type comparison, as cost can be 0 (yes, why not)
+
+         if (NULL == $teamid) { return FALSE; } // raw value
+
+         // search for UDC
+         $team = TeamCache::getInstance()->getTeam($teamid);
+         $udr = $team->getUdcValue($this->userId, $this->date, $team->getTeamCurrency());
+
+         // compute with UDC, but no update in DB !
+         $this->cost = $this->duration * $udr;
+         $this->currency = $team->getTeamCurrency();
+      }
+
+      // convert to target currency
+      if (NULL === $targetCurrency) {
+         $team = TeamCache::getInstance()->getTeam($teamid);
+         $targetCurrency = $team->getTeamCurrency();
+      }
+      if ($targetCurrency !== $this->currency) {
+         $newCost = Currencies::getInstance()->convertValue($this->cost, $this->currency, $targetCurrency);
+         return $newCost;
+      } else {
+         return $this->cost;
+      }
+   }
 
    public function getNote() {
 
@@ -341,7 +409,7 @@ class TimeTrack extends Model implements Comparable {
          exit;
       }
    }
-   
+
 }
 TimeTrack::staticInit();
 

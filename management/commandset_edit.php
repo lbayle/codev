@@ -133,7 +133,7 @@ class CommandSetEditController extends Controller {
 
                $isManager = $this->session_user->isTeamManager($cmdset->getTeamid());
 
-               CommandSetTools::displayCommandSet($this->smartyHelper, $cmdset, $isManager);
+               CommandSetTools::displayCommandSet($this->smartyHelper, $cmdset, $isManager, $this->teamid);
             }
 
             // you can create OR move SC only to managed teams
@@ -176,9 +176,6 @@ class CommandSetEditController extends Controller {
       if ('' != $formattedValue) {
          $cmdset->setDate(Tools::date2timestamp($formattedValue));
       }
-      $cmdset->setCost(SmartyTools::checkNumericValue($_POST['commandsetCost'], true));
-
-      $cmdset->setBudgetDays(SmartyTools::checkNumericValue($_POST['commandsetBudget'], true));
    }
 
    /**
@@ -221,4 +218,3 @@ CommandSetEditController::staticInit();
 $controller = new CommandSetEditController('../', 'CommandSet (edit)','Management');
 $controller->execute();
 
-?>

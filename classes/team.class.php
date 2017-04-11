@@ -77,6 +77,8 @@ class Team extends Model {
    private $description;
    private $leader_id;
    private $date;
+   private $average_daily_cost;
+   private $currency;
 
    private $enabled;
    private $commands_enabled;
@@ -87,9 +89,11 @@ class Team extends Model {
    private $commandSetList;
    private $serviceContractList;
    private $onDutyTaskList;
-   private $durationList;
+
 
    private $consistencyCheckList;
+
+   private $userDailyCostObj;
 
    /**
     * @var string[]
@@ -143,8 +147,14 @@ class Team extends Model {
          $this->leader_id = $row->leader_id;
          $this->enabled = (1 == $row->enabled);
          $this->commands_enabled = (1 == $row->commands_enabled);
-         $this->lock_timetracks_date = $row->lock_timetracks_date;
          $this->date = $row->date;
+         $this->currency = $row->currency;
+         $this->lock_timetracks_date = $row->lock_timetracks_date;
+
+         if (NULL !== $row->average_daily_cost) {
+            $this->average_daily_cost = floatval($row->average_daily_cost) / 100; // (2 decimals)
+         }
+
       } else {
          self::$logger->error('The team '.$this->id." doesn't exists");
       }
@@ -324,6 +334,63 @@ class Team extends Model {
    }
 
    /**
+    * team ADR (default value if UDC not defined
+    * @return float teamADR or NULL if undefined
+    */
+   public function getAverageDailyCost() {
+      return $this->average_daily_cost;
+   }
+
+   /**
+    * add/change the team ADC (default value if UDC not defined)
+    * @param float $teamADC
+    */
+   public function setAverageDailyCost($teamADC) {
+
+      // TODO check floatval errors !
+
+      if ($teamADC !== $this->average_daily_cost) {
+         // convert float to int (ex: 123.5 => 12350 (2 decimals)
+         $newADR = round(floatval($teamADC), 2) * 100;
+
+         $query = "UPDATE `codev_team_table` SET average_daily_cost = $newADR WHERE id ='$this->id';";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $this->average_daily_cost = $teamADC;
+      }
+   }
+
+   /**
+
+    * @return String currency (EUR, USD, ...)
+    */
+   public function getTeamCurrency() {
+      return $this->currency;
+   }
+
+   /**
+    * add/change the team ADR (default value if UDC not defined
+    * @param float $teamADR
+    */
+   public function setTeamCurrency($teamCurrency) {
+
+      // TODO check if currency is in codev_currencies_table !
+
+      if ($teamCurrency !== $this->currency) {
+         $query = "UPDATE `codev_team_table` SET currency = '$teamCurrency' WHERE id ='$this->id';";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $this->currency = $teamCurrency;
+      }
+   }
+
+   /**
     * returns an array of project id => name
     *
     * @param bool $noStatsProject
@@ -424,6 +491,16 @@ class Team extends Model {
    }
 
    /**
+    * @static
+    * @param int $teamid
+    * @return string[]
+    * @deprecated Use TeamCache::getInstance()->getTeam($teamid)->getMembers()
+    */
+   public static function getMemberList($teamid) {
+      return TeamCache::getInstance()->getTeam($teamid)->getMembers();
+   }
+
+   /**
     * @return string[]
     */
    public function getMembers() {
@@ -449,13 +526,35 @@ class Team extends Model {
    }
 
    /**
-    * @static
-    * @param int $teamid
-    * @return string[]
-    * @deprecated Use TeamCache::getInstance()->getTeam($teamid)->getMembers()
+    * Get all users of a team
+    * @return User[] The users (User[id])
     */
-   public static function getMemberList($teamid) {
-      return TeamCache::getInstance()->getTeam($teamid)->getMembers();
+   public function getUsers() {
+      if(NULL == $this->members) {
+
+         $query = "SELECT user.* ".
+                  "FROM `mantis_user_table` as user ".
+                  "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
+                  "WHERE team_user.team_id = $this->id ".
+                  "ORDER BY user.username;";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            return NULL;
+         }
+
+         $this->members = array();
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            UserCache::getInstance()->getUser($row->id, $row);
+            $this->members[$row->id] = $row->username;
+         }
+      }
+
+      $users = array();
+      foreach($this->members as $id => $name) {
+         $users[] = UserCache::getInstance()->getUser($id);
+      }
+
+      return $users;
    }
 
    /**
@@ -484,8 +583,8 @@ class Team extends Model {
                "AND team_user.team_id=$this->id ".
                "AND team_user.access_level IN (".self::accessLevel_dev.', '.self::accessLevel_manager.') '.
                "AND team_user.arrival_date <= $endTimestamp ".
-               "AND (team_user.departure_date = 0 OR team_user.departure_date >= $startTimestamp) ".
-               "ORDER BY user.username;";
+               "AND (team_user.departure_date = 0 OR team_user.departure_date >= $startTimestamp) ";
+      $query .= ($userRealName) ? " ORDER BY user.realname;" : " ORDER BY user.username;";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -499,17 +598,6 @@ class Team extends Model {
       }
 
       return $mList;
-   }
-
-   /**
-    * team members (exept Observers) working on this team at that timestamp
-    * @param int $teamid
-    * @param int $timestamp date (if NULL, today)
-    * @return string[]
-    * @deprecated Use TeamCache::getInstance()->getTeam($teamid)->getActiveMembers($startTimestamp, $endTimestamp)
-    */
-   public static function getActiveMemberList($teamid, $startTimestamp=NULL, $endTimestamp=NULL) {
-      return TeamCache::getInstance()->getTeam($teamid)->getActiveMembers($startTimestamp, $endTimestamp);
    }
 
    /**
@@ -733,6 +821,24 @@ class Team extends Model {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
+   }
+
+   /**
+    *
+    * @param type $memberid
+    * @return int timestamp
+    */
+   public function getMemberArrivalDate($memberid) {
+      $query = "SELECT arrival_date FROM `codev_team_user_table` "
+              ." WHERE user_id = $memberid AND team_id = $this->id "
+              ." ORDER BY arrival_date ASC LIMIT 1";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $arrivalTimestamp = SqlWrapper::getInstance()->sql_result($result);
+      return $arrivalTimestamp;
    }
 
    /**
@@ -968,39 +1074,6 @@ class Team extends Model {
       }
       return $teams;
    }
-
-   /**
-    * Get all users of a team
-    * @return User[] The users (User[id])
-    */
-   public function getUsers() {
-      if(NULL == $this->members) {
-
-         $query = "SELECT user.* ".
-                  "FROM `mantis_user_table` as user ".
-                  "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
-                  "WHERE team_user.team_id = $this->id ".
-                  "ORDER BY user.username;";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            return NULL;
-         }
-
-         $this->members = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            UserCache::getInstance()->getUser($row->id, $row);
-            $this->members[$row->id] = $row->username;
-         }
-      }
-
-      $users = array();
-      foreach($this->members as $id => $name) {
-         $users[] = UserCache::getInstance()->getUser($id);
-      }
-
-      return $users;
-   }
-
 
    /**
     * Get projects not yet in the team (candidates)
@@ -1259,8 +1332,103 @@ class Team extends Model {
          }
       }
    }
-}
 
+   /**
+    *
+    * @return UserDailyCost class instance
+    */
+   public function getUserDailyCostObj() {
+      if (NULL === $this->userDailyCostObj) {
+         $this->userDailyCostObj = new UserDailyCost($this->id);
+      }
+      return $this->userDailyCostObj;
+   }
+
+   /**
+    *
+    * @param int $userid
+    * @param int $timestamp
+    * @param float $userDailyCost
+    * @param string $currency if unset, use teamCurrency
+    * @param string $description
+    * @return id of inserted row or FALSE on error
+    */
+   public function setUserDailyCost($userid, $timestamp, $userDailyCost, $currency = NULL, $description = NULL) {
+      if (NULL === $this->userDailyCostObj) {
+         $this->userDailyCostObj = new UserDailyCost($this->id);
+      }
+      return $this->userDailyCostObj->setUserDailyCost($userid, $timestamp, $userDailyCost, $currency, $description);
+   }
+
+   /**
+    * delete UDC by id
+    * @param type $id
+    */
+   public function deleteUserDailyCost($id) {
+      if (NULL === $this->userDailyCostObj) {
+         $this->userDailyCostObj = new UserDailyCost($this->id);
+      }
+      return $this->userDailyCostObj->deleteUserDailyCost($id);
+   }
+
+   /**
+    * returns the valid UDC struct for a date
+    * if no UDC defined, returns NULL
+    *
+    * valid UDC is the closest start_date <= $timestamp
+    *
+    * Note: this method is used in admin page to check if an UDC has effectively been created
+    *
+    * @param int $userid team member
+    * @param int $timestamp
+    * @return array { 'id', 'timestamp', 'udr', 'currency' } or NULL if not found
+    */
+   public function getUserDailyCost($userid, $timestamp) {
+      if (NULL === $this->userDailyCostObj) {
+         $this->userDailyCostObj = new UserDailyCost($this->id);
+      }
+      return $this->userDailyCostObj->getUserDailyCost($userid, $timestamp);
+   }
+
+   /**
+    * strict search for an UDC definition at the given timestamp
+    *
+    * @param type $userid
+    * @param type $timestamp
+    * @return struct or FALSE if UDC not defined at this date (strictly)
+    */
+   public function existsUserDailyCost($userid, $timestamp) {
+      if (NULL === $this->userDailyCostObj) {
+         $this->userDailyCostObj = new UserDailyCost($this->id);
+      }
+      return $this->userDailyCostObj->existsUserDailyCost($userid, $timestamp);
+   }
+
+   /**
+    * returns the valid UDC value for a user at a specific date
+    * if no UDC defined for this user, result depends on $isRaw
+    *  - $isRay == TRUE  return FALSE
+    *  - $isRay == FALSE return teamADR
+    *
+    * if $isRay == FALSE AND no teamADR defined, throw exception
+    *
+    * Note: this method is used to compute the cost of a timetrack
+    *
+    * @param int $userid team member
+    * @param int $timestamp date of the timetrack
+    * @param type $targetCurrency target currency (default: team currency)
+    * @param type $isRaw if TRUE do not look for teamADC
+    * @return float UDC in the target currency or FALSE if not found
+    * @throws Exception
+    */
+   public function getUdcValue($userid, $timestamp, $targetCurrency=NULL, $isRaw=FALSE) {
+      if (NULL === $this->userDailyCostObj) {
+         $this->userDailyCostObj = new UserDailyCost($this->id);
+      }
+      return $this->userDailyCostObj->getUdcValue($userid, $timestamp, $targetCurrency, $isRaw);
+   }
+
+} // class Team
 Team::staticInit();
 
 

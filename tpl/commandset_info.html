@@ -45,24 +45,6 @@
                {/foreach}
             </td>
          </tr>
-         <tr>
-            <th valign="top">{t}Budget{/t}</th>
-            <td valign="top">: </td>
-            <td>
-               <table>
-                  <tr>
-                     <th valign="top">{t}Budget{/t}</th>
-                     <th valign="top">{t}Cmds Budget{/t}</th>
-                     <th></th>
-                  </tr>
-                  <tr>
-                     <td title="cset budget">{$commandsetCost}</td>
-                     <td title="sum(MgrEE + Provisions)" style="background-color:#{$cmdsProvAndMeeCostColor}" >{$cmdsProvAndMeeCost}</td>
-                     <th>{$commandsetCurrency}</th>
-                  </tr>
-               </table>
-            </td>
-         </tr>
       </table>
       {if isset($isEditGranted) && $isEditGranted}
       <br />
@@ -73,7 +55,7 @@
    {include file="tools/graph.html"}
    <div id="tabsCommandSet" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
       <ul class="{$ui_tabs_jquery_ul}">
-         <li class="{$ui_tabs_jquery_li}"><a href="#tab_charges">{t}Charges{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_charges">{t}Commands{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_detailedCharges">{t}Detailed Charges{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_attributes">{t}Attributes{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_provisions">{t}Provisions{/t}</a></li>
@@ -185,7 +167,7 @@
                         <tr>
                             <td>{$provTotalRow.type}</td>
                             <td>{$provTotalRow.budget_days}</td>
-                            <td>{$provTotalRow.budget}</td>
+                            <td>{$provTotalRow.budget} {$provTotalRow.currency}</td>
                         </tr>
                        {/foreach}
                     </table>

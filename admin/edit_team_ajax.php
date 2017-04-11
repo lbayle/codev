@@ -22,6 +22,8 @@ require('../path.inc.php');
 // Note: i18n is included by the Controler class, but Ajax dos not use it...
 require_once('i18n/i18n.inc.php');
 
+$logger = Logger::getLogger("editTeam_ajax");
+
 function getAvailableTooltipFields($project) {
 
    $fields = array('project_id', 'category_id', 'status', 'summary', 
@@ -51,11 +53,21 @@ function getAvailableTooltipFields($project) {
 
 // ========== MAIN ===========
 
-if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
-   if(isset($_GET['action'])) {
+if(Tools::isConnectedUser() &&
+   (filter_input(INPUT_POST, 'action') || filter_input(INPUT_GET, 'action'))) {
+
+   // INPUT_GET  for action getItemSelectionLists
+   // INPUT_GET  for action processPostSelectionAction
+   // INPUT_POST for action addUserDailyCost
+   $action = filter_input(INPUT_POST, 'action');
+   if (empty($action)) {
+      $action = filter_input(INPUT_GET, 'action');
+   }
+
+   if(!empty($action)) {
       $smartyHelper = new SmartyHelper();
 
-      if ($_GET['action'] == 'getItemSelectionLists') {
+      if ('getItemSelectionLists' == $action) {
          try {
             $implodedSrcRef = Tools::getSecureGETStringValue('itemSelection_srcRef');
             $srcRefList = Tools::doubleExplode(':', ',', $implodedSrcRef);
@@ -89,7 +101,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             Tools::sendBadRequest($e->getMessage());
          }
 
-      } else if ($_GET['action'] == 'processPostSelectionAction') {
+      } else if ('processPostSelectionAction' == $action) {
          try {
          
             $selectedTooltips = Tools::getSecureGETStringValue('selectedItems', NULL);
@@ -131,7 +143,128 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          } catch (Exception $e) {
             Tools::sendBadRequest($e->getMessage());
          }
-         
+      } else if ('updateTeamADR' == $action) {
+         // using POST
+         $data = array();
+         try {
+            $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+            $teamADR = Tools::getSecurePOSTNumberValue('teamAverageDailyCost');
+            $teamCurrency = Tools::getSecurePOSTStringValue('teamCurrency');
+
+            // TOTO check ADR and currency values...
+            
+            $team = TeamCache::getInstance()->getTeam($displayed_teamid);
+            $team->setAverageDailyCost($teamADR);
+            $team->setTeamCurrency($teamCurrency);
+
+            // return status & data
+            $data["statusMsg"] = "SUCCESS";
+            $data["teamCurrency"] = $teamCurrency;
+
+         } catch (Exception $e) {
+            $logger->error("EXCEPTION updateTeamADR: ".$e->getMessage());
+            $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+            Tools::sendBadRequest($e->getMessage());
+         }
+
+         $jsonData = json_encode($data);
+         echo $jsonData;
+
+      } else if ('getUserArrivalDate' == $action) {
+         // using POST
+         $data = array();
+         try {
+            $userid = Tools::getSecurePOSTIntValue('udrUserid');
+            $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+
+            $team = TeamCache::getInstance()->getTeam($displayed_teamid);
+
+            $arrivalTimestamp = $team->getMemberArrivalDate($userid);
+            if ((NULL != $arrivalTimestamp) && ($arrivalTimestamp > 0)) {
+               $data["statusMsg"] = "SUCCESS";
+               $data["arrivalDate"] = date('Y-m-d', $arrivalTimestamp);
+            } else {
+               $user = UserCache::getInstance()->getUser($userid);
+               $data["statusMsg"] = "ERROR: no arrival date found for userid $displayed_teamid";
+               $logger->error("no arrival date found for user $userid on team $displayed_teamid");
+            }
+         } catch (Exception $e) {
+            $logger->error("EXCEPTION getUserArrivalDate: ".$e->getMessage());
+            $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+            Tools::sendBadRequest($e->getMessage());
+         }
+
+         $jsonData = json_encode($data);
+         echo $jsonData;
+
+      } else if ('addUserDailyCost' == $action) {
+         // using POST
+         $data = array();
+         try {
+            $userid = Tools::getSecurePOSTIntValue('udrUserid');
+            $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+            $date = Tools::getSecurePOSTStringValue('udrStartDate');
+            $userDailyCost = Tools::getSecurePOSTNumberValue('userDailyCost');
+            $currency = Tools::getSecurePOSTStringValue('udrCurrency');
+            #$udrDescription = Tools::getSecurePOSTStringValue('udrDescription');
+            $timestamp = Tools::date2timestamp($date);
+
+            // add UDC for user
+            $user = UserCache::getInstance()->getUser($userid);
+            if ($user->isTeamMember($displayed_teamid)) {
+               $team = TeamCache::getInstance()->getTeam($displayed_teamid);
+
+               $udrStruct = $team->existsUserDailyCost($userid, $timestamp);
+               if (FALSE !== $udrStruct) {
+                  $data["statusMsg"] = "ERROR: UDC already defined at ".date('Y-m-d', $udrStruct['timestamp']);
+               } else {
+                  $team->setUserDailyCost($userid, $timestamp, $userDailyCost, $currency); // $udrDescription
+
+                  $udrStruct = $team->getUserDailyCost($userid, $timestamp);
+                  if (NULL !== $udrStruct) {
+                     $udrStruct['userid'] = $userid;
+                     $udrStruct['userName'] = $user->getRealname();
+                     $udrStruct['startDate'] = date('Y-m-d', $timestamp);
+                     $udrStruct['description'] = ''; // $udrDescription
+                     $data["statusMsg"] = "SUCCESS";
+                     $data["udrStruct"] = $udrStruct;
+                  } else {
+                     $data["statusMsg"] = "ERROR: getUserDailyCost returned NULL";
+                  }
+               }
+            }
+         } catch (Exception $e) {
+            $logger->error("EXCEPTION addUserDailyCost: ".$e->getMessage());
+            $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+            Tools::sendBadRequest($e->getMessage());
+         }
+         // return status & data
+         $jsonData = json_encode($data);
+         echo $jsonData;
+
+      } else if ('deleteUDC' == $action) {
+         // using POST
+         $data = array();
+         try {
+            $udrId = Tools::getSecurePOSTIntValue('udrId');
+            $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+
+            // delete
+            $team = TeamCache::getInstance()->getTeam($displayed_teamid);
+            $team->deleteUserDailyCost($udrId);
+
+            $data["statusMsg"] = "SUCCESS";
+            $data["udrId"] = $udrId;
+
+         } catch (Exception $e) {
+            $logger->error("EXCEPTION addUserDailyCost: ".$e->getMessage());
+            $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+            Tools::sendBadRequest($e->getMessage());
+         }
+
+         // return status & data
+         $jsonData = json_encode($data);
+         echo $jsonData;
       } else {
          Tools::sendNotFoundAccess();
       }
@@ -141,4 +274,3 @@ else {
    Tools::sendUnauthorizedAccess();
 }
 
-?>

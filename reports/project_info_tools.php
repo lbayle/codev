@@ -79,13 +79,16 @@ class ProjectInfoTools {
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_INTERVAL, $interval);
 
       $dashboardName = 'Project'.$prj->getId();
+      $dashboardDomain = IndicatorPluginInterface::DOMAIN_PROJECT;
+
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_DOMAIN, $dashboardDomain);
 
       // save the DataProvider for Ajax calls
       $_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardName] = serialize($pluginDataProvider);
 
       // create the Dashboard
       $dashboard = new Dashboard($dashboardName);
-      $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_PROJECT);
+      $dashboard->setDomain($dashboardDomain);
       $dashboard->setCategories(array(
           IndicatorPluginInterface::CATEGORY_QUALITY,
           IndicatorPluginInterface::CATEGORY_ACTIVITY,

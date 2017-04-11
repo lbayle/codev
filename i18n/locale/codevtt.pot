@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-31 20:53+0200\n"
+"POT-Creation-Date: 2017-04-02 11:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,13 +47,13 @@ msgstr ""
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. write header
 #. WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
-#: classes/issue.class.php:2258 classes/issue_selection.class.php:316
-#: classes/wbsElement.class.php:637 filters/ProjectFilter.php:59
-#: management/servicecontract_info.php:149 management/command_info.php:240
-#: management/commandset_info.php:152 reports/planning_report.php:234
-#: reports/planning_report.php:475 reports/planning_report.php:476
-#: reports/export_csv_tools.php:48 reports/project_info.php:281
-#: reports/project_info.php:292 reports/project_info.php:304 tests/odt.php:25
+#: classes/issue_selection.class.php:316 classes/wbsElement.class.php:637
+#: filters/ProjectFilter.php:59 management/servicecontract_info.php:149
+#: management/command_info.php:240 management/commandset_info.php:152
+#: reports/planning_report.php:234 reports/planning_report.php:475
+#: reports/planning_report.php:476 reports/export_csv_tools.php:48
+#: reports/project_info.php:281 reports/project_info.php:292
+#: reports/project_info.php:304 tests/odt.php:25
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:224
 #: scheduler/SchedulerEvent.class.php:127
 #: scheduler/SchedulerEvent.class.php:128 tools.php:1531
@@ -139,6 +139,7 @@ msgid "Production Days"
 msgstr ""
 
 #. tpl/productivity_report.html
+#. tpl/edit_team.html
 #. tpl/forecasting_report.html
 #. tpl/statistics.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
@@ -374,8 +375,9 @@ msgstr ""
 #. tpl/command_info.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
+#. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#: reports/planning_report.php:77
+#: plugins/CostsIndicator/CostsIndicator.class.php:228
 msgid "Tasks"
 msgstr ""
 
@@ -556,7 +558,8 @@ msgstr ""
 #. tpl/command_info.html
 #. tpl/modal/select_issues.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#: classes/issue_selection.class.php:321 reports/export_csv_tools.php:50
+#. plugins/CostsIndicator/CostsIndicator.html
+#: reports/export_csv_tools.php:50
 msgid "ExtRef"
 msgstr ""
 
@@ -591,6 +594,7 @@ msgstr ""
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/CostsIndicator/CostsIndicator.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:258
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:316
 #: reports/project_info.php:182 reports/project_info.php:239
@@ -609,6 +613,7 @@ msgstr ""
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:317
@@ -635,6 +640,7 @@ msgstr ""
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+#. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. $titles[] = T_("Elapsed");
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:260
@@ -673,6 +679,7 @@ msgstr ""
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+#. plugins/CostsIndicator/CostsIndicator.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:261
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:319
 #: reports/project_info.php:185 reports/project_info.php:242
@@ -704,7 +711,7 @@ msgstr ""
 #. unset($tooltipAttr[T_('Project')]);
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
-#: classes/issue.class.php:2262 classes/wbsElement.class.php:639
+#: classes/issue.class.php:2263 classes/wbsElement.class.php:639
 #: reports/planning_report.php:461 reports/planning_report.php:484
 #: reports/export_csv_tools.php:52 reports/project_info.php:306
 #: scheduler/SchedulerEvent.class.php:113
@@ -732,7 +739,7 @@ msgstr ""
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. insert in front
 #. add task summary in front
-#: classes/issue.class.php:2264 classes/issue_selection.class.php:317
+#: classes/issue.class.php:2265 classes/issue_selection.class.php:317
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
 #: management/servicecontract_info.php:150 management/command_info.php:241
@@ -943,7 +950,6 @@ msgstr ""
 #. tpl/project_activity_report.html
 #. tpl/export_csv_monthly.html
 #. tpl/menu/global_menu.html
-#: reports/export_csv_weekly.php:90
 msgid "Projects Activity"
 msgstr ""
 
@@ -1017,7 +1023,7 @@ msgstr ""
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#: install/install_step1.php:207
+#: install/install_step1.php:218
 msgid "User"
 msgstr ""
 
@@ -1067,7 +1073,6 @@ msgstr ""
 #. tpl/servicecontract_info.html
 #. tpl/project_info.html
 #. tpl/command_info.html
-#. tpl/commandset_info.html
 msgid "Charges"
 msgstr ""
 
@@ -1094,6 +1099,7 @@ msgstr ""
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/commandset_info.html
+#: plugins/CostsIndicator/CostsIndicator.class.php:299
 msgid "Provisions"
 msgstr ""
 
@@ -1114,6 +1120,8 @@ msgstr ""
 #. tpl/servicecontract_info.html
 #. tpl/issue_info.html
 #. tpl/commandset_edit.html
+#. tpl/commandset_info.html
+#: classes/issue.class.php:2242
 msgid "Commands"
 msgstr ""
 
@@ -1137,6 +1145,7 @@ msgstr ""
 #. tpl/commandset_info.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
+#. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:267
 msgid "TOTAL"
@@ -1207,9 +1216,11 @@ msgid "Reporter"
 msgstr ""
 
 #. tpl/servicecontract_info.html
+#. tpl/edit_team.html
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
 #. tpl/command_info.html
+#: reports/export_csv_tools.php:54
 msgid "Start date"
 msgstr ""
 
@@ -1237,10 +1248,12 @@ msgstr ""
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/ImportUsers/ImportUsers.html
+#. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
+#: reports/export_csv_weekly.php:171
 msgid "Description"
 msgstr ""
 
@@ -1261,7 +1274,6 @@ msgid "Budget Days"
 msgstr ""
 
 #. tpl/servicecontract_info.html
-#. tpl/commandset_edit.html
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/commandset_info.html
@@ -1357,11 +1369,12 @@ msgstr ""
 #. tpl/modal/edit_issueNote.html
 #. tpl/modal/update_issueBacklog.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
+#. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#: management/command_info_ajax.php:330 reports/planning_report.php:471
-#: reports/planning_report.php:473 reports/export_csv_weekly.php:127
-#: reports/export_csv_weekly.php:169 scheduler/SchedulerEvent.class.php:83
-#: scheduler/SchedulerEvent.class.php:85
+#: management/command_info_ajax.php:328 management/command_info_ajax.php:330
+#: reports/planning_report.php:471 reports/planning_report.php:473
+#: reports/export_csv_weekly.php:127 reports/export_csv_weekly.php:169
+#: scheduler/SchedulerEvent.class.php:83 scheduler/SchedulerEvent.class.php:85
 #: scheduler/SchedulerEvent.class.php:123
 #: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
 #: gantt/gantt_ajax.php:192
@@ -1398,6 +1411,10 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Timetrack Durations"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "User Daily Costs"
 msgstr ""
 
 #. tpl/edit_team.html
@@ -1549,6 +1566,72 @@ msgid "Create project"
 msgstr ""
 
 #. tpl/edit_team.html
+msgid "Average Daily Cost"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "The ADC is the default UDC for team members"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Team Currency"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Team Average Daily Cost"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Default currency for the team."
+msgstr ""
+
+#. tpl/edit_team.html
+msgid ""
+"All indicators will use this currency and all values defined in other "
+"currencies will be converted."
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Currency"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Coef"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "referal currency"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "TODO: describe how and where it is used in CodevTT"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Add UserDailyCost"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Add user daily cost"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Team creation date"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "User arrival date"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "User Daily Cost"
+msgstr ""
+
+#. tpl/edit_team.html
 msgid "Issue Tooltips"
 msgstr ""
 
@@ -1690,6 +1773,10 @@ msgid "save"
 msgstr ""
 
 #. tpl/edit_team.html
+msgid "Updated successfully !"
+msgstr ""
+
+#. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
 msgstr ""
 
@@ -1803,6 +1890,7 @@ msgid "deviation"
 msgstr ""
 
 #. tpl/forecasting_report.html
+#. plugins/CostsIndicator/CostsIndicator.html
 msgid "Overview"
 msgstr ""
 
@@ -1907,7 +1995,7 @@ msgid "Assigned to"
 msgstr ""
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2273 reports/planning_report.php:462
+#: classes/issue.class.php:2274 reports/planning_report.php:462
 #: reports/planning_report.php:485 reports/export_csv_tools.php:57
 #: scheduler/SchedulerEvent.class.php:114
 #: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
@@ -1916,7 +2004,7 @@ msgid "Priority"
 msgstr ""
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2269 reports/planning_report.php:463
+#: classes/issue.class.php:2270 reports/planning_report.php:463
 #: reports/planning_report.php:486 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
 #: tools.php:1545
@@ -1961,13 +2049,11 @@ msgid "Note"
 msgstr ""
 
 #. tpl/issue_info.html
-#. tpl/commandset_edit.html
 #. tpl/planning_report.html
 #. tpl/command_edit.html
 #. tpl/command_info.html
-#: classes/scheduler.class.php:74 classes/consistency_check2.class.php:751
-#: classes/command.class.php:812 reports/planning_report.php:492
-#: scheduler/SchedulerEvent.class.php:140
+#: classes/consistency_check2.class.php:751 classes/command.class.php:786
+#: reports/planning_report.php:492 scheduler/SchedulerEvent.class.php:140
 msgid "days"
 msgstr ""
 
@@ -2013,26 +2099,12 @@ msgid "New command set"
 msgstr ""
 
 #. tpl/commandset_edit.html
-msgid "Cost"
-msgstr ""
-
-#. tpl/commandset_edit.html
-#. tpl/command_edit.html
-msgid "EUR"
-msgstr ""
-
-#. tpl/commandset_edit.html
 #. tpl/command_edit.html
 msgid "Field is missing"
 msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "Command set name"
-msgstr ""
-
-#. tpl/commandset_edit.html
-#. tpl/command_edit.html
-msgid "Not a number"
 msgstr ""
 
 #. tpl/commandset_edit.html
@@ -2140,7 +2212,7 @@ msgstr ""
 #. tpl/scheduler.html
 #. tpl/tools/wbsEditor.html
 #. tpl/command_edit.html
-#: management/command_edit.php:240 management/servicecontract_edit.php:138
+#: management/command_edit.php:205 management/servicecontract_edit.php:138
 msgid "Save"
 msgstr ""
 
@@ -2544,9 +2616,9 @@ msgstr ""
 #. tpl/planning_report.html
 #. tpl/edit_jobs.html
 #. tpl/edit_holidays.html
-#: install/install_step3.php:615 install/install_step3.php:620
-#: install/install_step3.php:625 install/install_step3.php:631
-#: install/install_step3.php:636
+#: install/install_step3.php:630 install/install_step3.php:635
+#: install/install_step3.php:640 install/install_step3.php:646
+#: install/install_step3.php:651
 msgid "Color"
 msgstr ""
 
@@ -2568,6 +2640,10 @@ msgstr ""
 
 #. tpl/doc.html
 msgid "You can help on translations: "
+msgstr ""
+
+#. tpl/doc.html
+msgid "statistics"
 msgstr ""
 
 #. tpl/tools/wbsEditor.html
@@ -2750,7 +2826,7 @@ msgstr ""
 #. Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
 #. Display Empty Command Form
 #. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
-#: management/command_edit.php:111 management/servicecontract_edit.php:86
+#: management/command_edit.php:112 management/servicecontract_edit.php:86
 msgid "Create"
 msgstr ""
 
@@ -2788,12 +2864,11 @@ msgid "Sold Charge"
 msgstr ""
 
 #. tpl/command_edit.html
-#. tpl/command_info.html
-msgid "Default ADR"
+msgid "Command name"
 msgstr ""
 
 #. tpl/command_edit.html
-msgid "Command name"
+msgid "Not a number"
 msgstr ""
 
 #. tpl/command_edit.html
@@ -3050,7 +3125,7 @@ msgid "Blog"
 msgstr ""
 
 #. tpl/menu/global_menu.html
-#: install/install_step3.php:840 install/install_menu.inc.php:68
+#: install/install_step3.php:855 install/install_menu.inc.php:68
 msgid "Documentation"
 msgstr ""
 
@@ -3198,7 +3273,7 @@ msgstr ""
 
 #. tpl/edit_jobs.html
 #. tpl/edit_holidays.html
-#: install/install_step3.php:605
+#: install/install_step3.php:620
 msgid "open a colorPicker in a new Tab"
 msgstr ""
 
@@ -3329,7 +3404,7 @@ msgid "Open task list in Mantis"
 msgstr ""
 
 #. tpl/command_info.html
-msgid "MgrEffortEstim + Checked Provisions"
+msgid "MgrEffortEstim + Checked Provisions (days)"
 msgstr ""
 
 #. tpl/command_info.html
@@ -3349,14 +3424,6 @@ msgid "Days"
 msgstr ""
 
 #. tpl/command_info.html
-msgid "Reestimated days * AverageDailyRate"
-msgstr ""
-
-#. tpl/command_info.html
-msgid "Drift days * AverageDailyRate"
-msgstr ""
-
-#. tpl/command_info.html
 msgid ""
 "The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold "
 "Charge'"
@@ -3364,6 +3431,10 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "balance"
+msgstr ""
+
+#. tpl/command_info.html
+msgid "Default ADR"
 msgstr ""
 
 #. tpl/command_info.html
@@ -3523,10 +3594,6 @@ msgstr ""
 msgid "Service Contract"
 msgstr ""
 
-#. tpl/commandset_info.html
-msgid "Cmds Budget"
-msgstr ""
-
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
 msgstr ""
@@ -3556,6 +3623,7 @@ msgstr ""
 #. plugins/ImportUsers/ImportUsers_cfg.html
 #. plugins/UserTeamList/UserTeamList_cfg.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
+#. plugins/CostsIndicator/CostsIndicator_cfg.html
 #. plugins/HelloWorldIndicator/HelloWorldIndicator_cfg.html
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4089,6 +4157,7 @@ msgid "Only team administrators can create users"
 msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
+#. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator_cfg.html
 #: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:62
@@ -4165,6 +4234,29 @@ msgstr ""
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
 msgid "Display resolved issues"
+msgstr ""
+
+#. plugins/CostsIndicator/CostsIndicator_cfg.html
+#. plugins/CostsIndicator/CostsIndicator.html
+#: plugins/CostsIndicator/CostsIndicator.class.php:65
+msgid "Costs"
+msgstr ""
+
+#. plugins/CostsIndicator/CostsIndicator.html
+msgid "Global cost estimation:"
+msgstr ""
+
+#. plugins/CostsIndicator/CostsIndicator.html
+msgid "Costs Mgr"
+msgstr ""
+
+#. plugins/CostsIndicator/CostsIndicator.html
+msgid "Sum the costs of each timetrack."
+msgstr ""
+
+#. plugins/CostsIndicator/CostsIndicator.html
+msgid ""
+"Team AverageDailyCost and UserDailyCosts must be defined in team settings."
 msgstr ""
 
 #. plugins/HelloWorldIndicator/HelloWorldIndicator_cfg.html
@@ -4393,31 +4485,31 @@ msgstr ""
 msgid "Couldn't remove the holiday"
 msgstr ""
 
-#: admin/edit_team.php:52
+#: admin/edit_team.php:51
 msgid "Couldn't delete the team"
 msgstr ""
 
-#: admin/edit_team.php:94
+#: admin/edit_team.php:93
 msgid "Couldn't update the team leader"
 msgstr ""
 
-#: admin/edit_team.php:105
+#: admin/edit_team.php:104
 msgid "Couldn't update the creation date"
 msgstr ""
 
-#: admin/edit_team.php:110
+#: admin/edit_team.php:109
 msgid "Couldn't enable/disable team"
 msgstr ""
 
-#: admin/edit_team.php:203
+#: admin/edit_team.php:202
 msgid "Couldn't delete the member of the team"
 msgstr ""
 
-#: admin/edit_team.php:219
+#: admin/edit_team.php:218
 msgid "Couldn't add the project to the team"
 msgstr ""
 
-#: admin/edit_team.php:225
+#: admin/edit_team.php:224
 msgid "Could NOT remove the project from the team"
 msgstr ""
 
@@ -4425,11 +4517,11 @@ msgstr ""
 msgid "Configure Tooltips"
 msgstr ""
 
-#: admin/edit_team.php:368
+#: admin/edit_team.php:385
 msgid "enabled"
 msgstr ""
 
-#: admin/edit_team.php:368
+#: admin/edit_team.php:385
 msgid "disabled"
 msgstr ""
 
@@ -4449,8 +4541,8 @@ msgstr ""
 msgid "Couldn't delete the job"
 msgstr ""
 
-#: admin/admin_dashboard.php:72 import/import_dashboard.php:64
-#: reports/team_dashboard.php:95
+#: admin/admin_dashboard.php:75 import/import_dashboard.php:64
+#: reports/team_dashboard.php:98
 msgid "Sorry, you need to be identified."
 msgstr ""
 
@@ -4458,20 +4550,37 @@ msgstr ""
 msgid "Sorry, logfile not found:"
 msgstr ""
 
-#: admin/edit_team_ajax.php:68
+#: admin/edit_team_ajax.php:80
 msgid "Issue tooltips for project"
 msgstr ""
 
-#: admin/edit_team_ajax.php:69
+#: admin/edit_team_ajax.php:81
 msgid "Drag & drop the items to be displayed in the Issue tooltip"
 msgstr ""
 
-#: admin/edit_team_ajax.php:70
+#: admin/edit_team_ajax.php:82
 msgid "Available fields"
 msgstr ""
 
-#: admin/edit_team_ajax.php:71
+#: admin/edit_team_ajax.php:83
 msgid "Tooltip"
+msgstr ""
+
+#. avoid divisions by zero
+#: classes/Currencies.class.php:125
+msgid "ERROR: invalid currency: (coef is null, zero, or not a number)"
+msgstr ""
+
+#: classes/Currencies.class.php:130
+msgid "ERROR: First define the referal currency (with coef=1)"
+msgstr ""
+
+#: classes/Currencies.class.php:135
+msgid "ERROR: there can be only one 'referal' currency (with coef=1)"
+msgstr ""
+
+#: classes/Currencies.class.php:139
+msgid "ERROR: currency already defined"
 msgstr ""
 
 #: classes/consistency_check_fdj.class.php:76
@@ -4526,33 +4635,33 @@ msgstr ""
 msgid "Constrains"
 msgstr ""
 
-#: classes/issue.class.php:2233 classes/wbsElement.class.php:641
+#: classes/issue.class.php:2234 classes/wbsElement.class.php:641
 #: tools.php:1525
 msgid "Tags"
 msgstr ""
 
-#: classes/issue.class.php:2241
+#: classes/issue.class.php:2242
 msgid "none"
 msgstr ""
 
-#: classes/issue.class.php:2246 reports/issue_info_tools.php:115
+#: classes/issue.class.php:2247 reports/issue_info_tools.php:115
 msgid "DriftColor"
 msgstr ""
 
-#: classes/issue.class.php:2249 scheduler/SchedulerEvent.class.php:163
+#: classes/issue.class.php:2250 scheduler/SchedulerEvent.class.php:163
 #: gantt/gantt_ajax.php:257 tools.php:278
 msgid "DriftMgr"
 msgstr ""
 
-#: classes/issue.class.php:2250
+#: classes/issue.class.php:2251
 msgid "DriftMgrColor"
 msgstr ""
 
-#: classes/issue.class.php:2267 tools.php:1539
+#: classes/issue.class.php:2268 tools.php:1539
 msgid "Assigned"
 msgstr ""
 
-#: classes/issue.class.php:2275 tools.php:1547
+#: classes/issue.class.php:2276 tools.php:1547
 msgid "ETA"
 msgstr ""
 
@@ -4821,151 +4930,151 @@ msgstr ""
 msgid "Install - Step 3"
 msgstr ""
 
-#: install/install_step3.php:220
+#: install/install_step3.php:235
 msgid "CodevTT Administrators team"
 msgstr ""
 
-#: install/install_step3.php:364
+#: install/install_step3.php:379
 msgid "CodevTT_EffortEstim"
 msgstr ""
 
-#: install/install_step3.php:367
+#: install/install_step3.php:382
 msgid "CodevTT_Type"
 msgstr ""
 
-#: install/install_step3.php:374
+#: install/install_step3.php:389
 msgid "CodevTT_Manager EffortEstim"
 msgstr ""
 
-#: install/install_step3.php:380
+#: install/install_step3.php:395
 msgid "CodevTT_External ID"
 msgstr ""
 
-#: install/install_step3.php:383
+#: install/install_step3.php:398
 msgid "CodevTT_Deadline"
 msgstr ""
 
-#: install/install_step3.php:386
+#: install/install_step3.php:401
 msgid "CodevTT_Additional Effort"
 msgstr ""
 
-#: install/install_step3.php:392
+#: install/install_step3.php:407
 msgid "CodevTT_Backlog"
 msgstr ""
 
 #. createCustomField(T_("CodevTT_Delivery ticket"),   $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
-#: install/install_step3.php:399
+#: install/install_step3.php:414
 msgid "CodevTT_Delivery Date"
 msgstr ""
 
 #. ------ Reports
-#: install/install_step3.php:449
+#: install/install_step3.php:464
 msgid "Path to output files"
 msgstr ""
 
 #. T_("Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access.")
-#: install/install_step3.php:451
+#: install/install_step3.php:466
 msgid "Path to log files and other temporary files."
 msgstr ""
 
 #. ------ Status
-#: install/install_step3.php:468
+#: install/install_step3.php:483
 msgid "Workflow"
 msgstr ""
 
-#: install/install_step3.php:469
+#: install/install_step3.php:484
 msgid "Set equivalences in accordance to your Mantis workflow"
 msgstr ""
 
 #. ------ Administrator
-#: install/install_step3.php:527
+#: install/install_step3.php:542
 msgid "CodevTT Administrator"
 msgstr ""
 
-#: install/install_step3.php:539
+#: install/install_step3.php:554
 msgid "More administrators can be defined later, for now you just need one."
 msgstr ""
 
 #. ------- External ID
-#: install/install_step3.php:543
+#: install/install_step3.php:558
 msgid "Tasks external ID field"
 msgstr ""
 
-#: install/install_step3.php:565
+#: install/install_step3.php:580
 msgid "Create a new CustomField"
 msgstr ""
 
-#: install/install_step3.php:567
+#: install/install_step3.php:582
 msgid "Use this CustomField :"
 msgstr ""
 
-#: install/install_step3.php:594
+#: install/install_step3.php:609
 msgid "Default Jobs"
 msgstr ""
 
-#: install/install_step3.php:601
+#: install/install_step3.php:616
 msgid "CodevTT support management"
 msgstr ""
 
-#: install/install_step3.php:612
+#: install/install_step3.php:627
 msgid "Specific to SideTasks"
 msgstr ""
 
-#: install/install_step3.php:643
+#: install/install_step3.php:658
 msgid "Select the projects to be managed with CodevTT"
 msgstr ""
 
-#: install/install_step3.php:655
+#: install/install_step3.php:670
 msgid "Proceed Step 3"
 msgstr ""
 
-#: install/install_step3.php:807
+#: install/install_step3.php:822
 msgid "CodevTT admin"
 msgstr ""
 
-#: install/install_step3.php:834
+#: install/install_step3.php:849
 msgid "Other external activity"
 msgstr ""
 
-#: install/install_step3.php:835
+#: install/install_step3.php:850
 msgid "Leave"
 msgstr ""
 
-#: install/install_step3.php:836
+#: install/install_step3.php:851
 msgid "Sick Leave"
 msgstr ""
 
-#: install/install_step3.php:837
+#: install/install_step3.php:852
 msgid "Analyse"
 msgstr ""
 
-#: install/install_step3.php:838
+#: install/install_step3.php:853
 msgid "Development"
 msgstr ""
 
-#: install/install_step3.php:839
+#: install/install_step3.php:854
 msgid "Tests"
 msgstr ""
 
-#: install/install_step3.php:926
+#: install/install_step3.php:941
 msgid "CodevTT_ExternalTasks"
 msgstr ""
 
-#: install/install_step3.php:926
+#: install/install_step3.php:941
 msgid "CodevTT ExternalTasks Project"
 msgstr ""
 
 #. cat="OtherInternal", status="closed"
-#: install/install_step3.php:965
+#: install/install_step3.php:980
 msgid "Any external task, NOT referenced in any Mantis project"
 msgstr ""
 
 #. --- Create the 'Leave' task in ExternalTasks Project
-#: install/install_step3.php:968
+#: install/install_step3.php:983
 msgid "On holiday, leave, ..."
 msgstr ""
 
-#: install/install_step3.php:969
+#: install/install_step3.php:984
 msgid "Sick"
 msgstr ""
 
@@ -4973,23 +5082,19 @@ msgstr ""
 msgid "Install - Step 2"
 msgstr ""
 
-#: install/install_step2.php:104
+#: install/install_step2.php:103
 msgid "Get Mantis customizations"
 msgstr ""
 
-#: install/install_step2.php:109
-msgid "Path to Mantis"
-msgstr ""
-
-#: install/install_step2.php:114
+#: install/install_step2.php:108
 msgid "URL to Mantis"
 msgstr ""
 
-#: install/install_step2.php:119
+#: install/install_step2.php:113
 msgid "URL to CodevTT"
 msgstr ""
 
-#: install/install_step2.php:134
+#: install/install_step2.php:128
 msgid "Proceed Step 2"
 msgstr ""
 
@@ -5047,23 +5152,6 @@ msgstr ""
 msgid "For security reasons, delete the following directory: "
 msgstr ""
 
-#. echo '<br>';
-#: install/install_step4.php:73
-msgid "Install Firefox Greasemonkey addon"
-msgstr ""
-
-#: install/install_step4.php:74
-msgid "Note: This step is optional"
-msgstr ""
-
-#: install/install_step4.php:76
-msgid "Install addon:"
-msgstr ""
-
-#: install/install_step4.php:77
-msgid "Load script:"
-msgstr ""
-
 #: install/install_step4.php:83
 msgid "Done !"
 msgstr ""
@@ -5100,45 +5188,49 @@ msgstr ""
 msgid "Install - Step 1"
 msgstr ""
 
-#: install/install_step1.php:195
+#: install/install_step1.php:201
 msgid "Mantis Database Info"
 msgstr ""
 
-#: install/install_step1.php:199
+#: install/install_step1.php:205
+msgid "Path to Mantis"
+msgstr ""
+
+#: install/install_step1.php:210
 msgid "Hostname"
 msgstr ""
 
-#: install/install_step1.php:203
+#: install/install_step1.php:214
 msgid "Database Name"
 msgstr ""
 
-#: install/install_step1.php:217
+#: install/install_step1.php:228
 msgid ""
 "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> "
 "mysql user (This can be changed in config.ini when installation is finished)."
 msgstr ""
 
-#: install/install_step1.php:222
+#: install/install_step1.php:233
 msgid "Proxy Settings"
 msgstr ""
 
-#: install/install_step1.php:223
+#: install/install_step1.php:234
 msgid "CodevTT will check for updates."
 msgstr ""
 
-#: install/install_step1.php:226
+#: install/install_step1.php:237
 msgid "Enable proxy"
 msgstr ""
 
-#: install/install_step1.php:227
+#: install/install_step1.php:238
 msgid "Server"
 msgstr ""
 
-#: install/install_step1.php:228
+#: install/install_step1.php:239
 msgid "Port"
 msgstr ""
 
-#: install/install_step1.php:235
+#: install/install_step1.php:246
 msgid "Proceed Step 1"
 msgstr ""
 
@@ -5158,23 +5250,23 @@ msgstr ""
 msgid "Step 4"
 msgstr ""
 
-#: management/command_edit.php:260
+#: management/command_edit.php:239
 msgid "Add tasks to Command"
 msgstr ""
 
-#: management/command_edit.php:261
+#: management/command_edit.php:240
 msgid "Add multiple tasks"
 msgstr ""
 
-#: management/command_edit.php:262
+#: management/command_edit.php:241
 msgid "Add selection"
 msgstr ""
 
-#: management/command_edit.php:263
+#: management/command_edit.php:242
 msgid "Note: Tasks already assigned to a Command are not displayed."
 msgstr ""
 
-#: management/command_edit.php:264
+#: management/command_edit.php:243
 msgid "Add the selected issues to the Command ?"
 msgstr ""
 
@@ -5460,6 +5552,22 @@ msgstr ""
 #: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:72
 msgid ""
 "Display tasks where the elapsed time is greater than the estimated effort"
+msgstr ""
+
+#: plugins/CostsIndicator/CostsIndicator.class.php:68
+msgid "Compute costs, using the UserDailyCosts defined in team settings"
+msgstr ""
+
+#: plugins/CostsIndicator/CostsIndicator.class.php:187
+msgid "No AverageDailyCost defined in team settings"
+msgstr ""
+
+#: plugins/CostsIndicator/CostsIndicator.class.php:194
+msgid "Sorry, only managers can access this plugin"
+msgstr ""
+
+#: plugins/CostsIndicator/CostsIndicator.class.php:279
+msgid "Sidetasks"
 msgstr ""
 
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:65

@@ -50,7 +50,11 @@ interface PluginDataProviderInterface {
    const PARAM_INTERVAL = 'interval';
    
    // commands
+   const PARAM_COMMAND_ID = 'cmdid';
    const PARAM_PROVISION_DAYS = 'provisionDays';
+
+   // CommandSet
+   const PARAM_COMMAND_SET_ID = 'cmdSetId';
 
    // serviceContract
    const PARAM_SERVICE_CONTRACT_ID = 'serviceContractId';

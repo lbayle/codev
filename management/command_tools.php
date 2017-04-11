@@ -117,7 +117,7 @@ class CommandTools {
     * @param Command $command
     * @return mixed[]
     */
-   private static function getProvisionTotalList(Command $command, int $type = NULL) {
+   private static function getProvisionTotalList(Command $command, $teamCurrency, int $type = NULL) {
 
       $provTotalArray =  NULL;
       
@@ -131,7 +131,7 @@ class CommandTools {
             // a provision
             $type = CommandProvision::$provisionNames[$prov->getType()];
             $budget_days = $prov->getProvisionDays();
-            $budget = $prov->getProvisionBudget();
+            $budget = $prov->getProvisionBudget($teamCurrency);
 
             // compute total per category
             $provDaysTotalArray["$type"] += $budget_days;
@@ -148,14 +148,15 @@ class CommandTools {
            $provTotalArray[$type] = array(
               'type' => $type,
               'budget_days' => $daysPerType,
-              'budget' => $provBudgetTotalArray[$type],
+              'budget' => sprintf("%01.2f", $provBudgetTotalArray[$type]),
+              'currency' => $teamCurrency,
            );
         }
-        $provTotalArray['TOTAL'
-            ] = array(
-             'type' => 'TOTAL',
-             'budget_days' => $globalDaysTotal,
-             'budget' => $globalBudgetTotal,
+        $provTotalArray['TOTAL'] = array(
+           'type' => 'TOTAL',
+           'budget_days' => $globalDaysTotal,
+           'budget' => sprintf("%01.2f", $globalBudgetTotal),
+           'currency' => $teamCurrency,
          );
       }
       return $provTotalArray;
@@ -246,30 +247,22 @@ class CommandTools {
 
       $mgrEE = $cmd->getIssueSelection()->mgrEffortEstim;
       $cmdProvAndMeeDays = $mgrEE + $cmd->getProvisionDays(TRUE);
-      $cmdProvAndMeeCost = ($mgrEE * $cmd->getAverageDailyRate()) + $cmd->getProvisionBudget(TRUE);
 
       $cmdTotalReestimated = $cmd->getIssueSelection()->getReestimated();
-      $cmdTotalReestimatedCost = $cmdTotalReestimated * $cmd->getAverageDailyRate();
 
       $cmdTotalDrift = $cmdTotalReestimated - $cmdProvAndMeeDays;
-      $cmdTotalDriftCost = $cmdTotalReestimatedCost - $cmdProvAndMeeCost;
       $cmdTotalDriftPercent = (0 == $cmdProvAndMeeDays) ? 0 : round( ($cmdTotalDrift * 100 / $cmdProvAndMeeDays) , 2);
 
       $cmdTotalDriftColor = ($cmdTotalDrift >= 0) ? "fcbdbd" : "bdfcbd";
       $cmdTotalReestimatedColor = ($cmdTotalReestimated > $cmdProvAndMeeDays) ? "fcbdbd" : "bdfcbd";
-      $cmdTotalReestimatedCostColor = ($cmdTotalReestimatedCost > $cmdProvAndMeeCost) ? "fcbdbd" : "bdfcbd";
 
       $budgetValues = array(
           'cmdProvAndMeeDays'       => round($cmdProvAndMeeDays, 2),
-          'cmdProvAndMeeCost'       => round($cmdProvAndMeeCost, 2),
           'cmdTotalReestimated'     => round($cmdTotalReestimated, 2),
-          'cmdTotalReestimatedCost' => round($cmdTotalReestimatedCost, 2),
           'cmdTotalDrift'           => round($cmdTotalDrift, 2),
-          'cmdTotalDriftCost'       => round($cmdTotalDriftCost, 2),
           'cmdTotalDriftPercent'    => $cmdTotalDriftPercent,
           'cmdTotalDriftColor'           => $cmdTotalDriftColor,
           'cmdTotalReestimatedColor'     => $cmdTotalReestimatedColor,
-          'cmdTotalReestimatedCostColor' => $cmdTotalReestimatedCostColor,
       );
       return $budgetValues;
    }
@@ -278,7 +271,7 @@ class CommandTools {
     * @param SmartyHelper $smartyHelper
     * @param Command $cmd
     */
-   public static function displayCommand(SmartyHelper $smartyHelper, Command $cmd, $isManager, $selectedFilters='') {
+   public static function displayCommand(SmartyHelper $smartyHelper, Command $cmd, $isManager, $teamid, $selectedFilters='') {
 
 
       $smartyHelper->assign('cmdid', $cmd->getId());
@@ -288,8 +281,13 @@ class CommandTools {
       $smartyHelper->assign('cmdReporter', $cmd->getReporter());
       $smartyHelper->assign('cmdStateList', self::getCommandStateList($cmd));
       $smartyHelper->assign('cmdState', Command::$stateNames[$cmd->getState()]);
-      $smartyHelper->assign('cmdAverageDailyRate', $cmd->getAverageDailyRate());
-      $smartyHelper->assign('cmdCurrency', $cmd->getCurrency());
+
+      // DEPRECATED, see UserDailyCost
+      if (0 != $cmd->getAverageDailyRate()) {
+         $smartyHelper->assign('cmdAverageDailyRate', $cmd->getAverageDailyRate());
+         $smartyHelper->assign('cmdCurrency', $cmd->getCurrency());
+      }
+
       if (!is_null($cmd->getStartDate())) {
          $smartyHelper->assign('cmdStartDate', date("Y-m-d", $cmd->getStartDate()));
       }
@@ -298,9 +296,11 @@ class CommandTools {
       }
       $smartyHelper->assign('cmdDesc', $cmd->getDesc());
 
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $teamCurrency = $team->getTeamCurrency();
       $smartyHelper->assign('cmdProvisionList', self::getProvisionList($cmd));
       $smartyHelper->assign('cmdProvisionTypeMngt', CommandProvision::provision_mngt);
-      $smartyHelper->assign('cmdProvisionTotalList', self::getProvisionTotalList($cmd));
+      $smartyHelper->assign('cmdProvisionTotalList', self::getProvisionTotalList($cmd, $teamCurrency));
 
       $cmdTotalSoldDays = $cmd->getTotalSoldDays();
       $smartyHelper->assign('cmdTotalSoldDays', $cmdTotalSoldDays);
@@ -348,6 +348,7 @@ class CommandTools {
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $cmd->getTeamid());
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_PROVISION_DAYS, $cmd->getProvisionDays());
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $userid);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_COMMAND_ID, $cmd->getId());
 
       $params = self::computeTimestampsAndInterval($cmd);
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $params['startTimestamp']);
@@ -355,19 +356,23 @@ class CommandTools {
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_INTERVAL, $params['interval']);
 
       $dashboardName = 'Command'.$cmd->getId();
+      $dashboardDomain = IndicatorPluginInterface::DOMAIN_COMMAND;
+
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_DOMAIN, $dashboardDomain);
 
       // save the DataProvider for Ajax calls
       $_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardName] = serialize($pluginDataProvider);
 
       // create the Dashboard
       $dashboard = new Dashboard($dashboardName);
-      $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_COMMAND);
+      $dashboard->setDomain($dashboardDomain);
       $dashboard->setCategories(array(
           IndicatorPluginInterface::CATEGORY_QUALITY,
           IndicatorPluginInterface::CATEGORY_ACTIVITY,
           IndicatorPluginInterface::CATEGORY_ROADMAP,
           IndicatorPluginInterface::CATEGORY_PLANNING,
           IndicatorPluginInterface::CATEGORY_RISK,
+          IndicatorPluginInterface::CATEGORY_FINANCIAL,
          ));
       $dashboard->setTeamid($cmd->getTeamid());
       $dashboard->setUserid($userid);

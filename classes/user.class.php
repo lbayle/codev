@@ -1912,7 +1912,7 @@ class User extends Model {
         }
         return false;
     }
-   
+
 }
 
 // Initialize complex static variables

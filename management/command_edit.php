@@ -41,6 +41,7 @@ class CommandEditController extends Controller {
         if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
             $this->smartyHelper->assign('isEditGranted', FALSE);
         } else {
+            $team = TeamCache::getInstance()->getTeam($this->teamid);
 
             // only managers can edit the SC
             $isManager = $this->session_user->isTeamManager($this->teamid);
@@ -180,55 +181,19 @@ class CommandEditController extends Controller {
                } else if ("addProvision" == $action) {
 
                   # TODO check injections
-                  $prov_date = $_POST['date'];
+                  $prov_date = Tools::getSecurePOSTStringValue('date');
                   $prov_type = $_POST['type'];
-                  $prov_budget = $_POST['budget'];
-                  $prov_budgetDays = $_POST['budgetDays'];
-                  $prov_averageDailyRate = $_POST['averageDailyRate'];
-                  $prov_summary = $_POST['summary'];
+                  $prov_budget = Tools::getSecurePOSTNumberValue('budget');
+                  $prov_budgetDays = Tools::getSecurePOSTNumberValue('budgetDays');
+                  $prov_averageDailyRate = Tools::getSecurePOSTNumberValue('averageDailyRate');
+                  $prov_currency = Tools::getSecurePOSTStringValue('provisionCurrency');
+                  $prov_summary = Tools::getSecurePOSTStringValue('summary');
                   $isInCheckBudget = (0 == Tools::getSecurePOSTIntValue("isInCheckBudget")) ? false : true;
 
                   $timestamp = Tools::date2timestamp($prov_date);
 
-                  CommandProvision::create($cmd->getId(), $timestamp, $prov_type, $prov_summary, $prov_budgetDays, $prov_budget, $prov_averageDailyRate, $isInCheckBudget);
+                  CommandProvision::create($cmd->getId(), $timestamp, $prov_type, $prov_summary, $prov_budgetDays, $prov_budget, $prov_averageDailyRate, $isInCheckBudget, $prov_currency);
 
-               } else if ("importProvision" == $action) {
-                  $rows = $_POST['rows'];
-                  $i = 1;
-
-                  while($i < $rows){
-                     $prov_date = $_POST['date_'.$i];
-                     $prov_type = $_POST['type_'.$i];
-                     $prov_budget = $_POST['budget_'.$i];
-                     $prov_budgetDays = $_POST['budget_days_'.$i];
-                     $prov_averageDailyRate = $_POST['average_daily_rate_'.$i];
-                     $data = explode("_", $_POST['summary_'.$i]);
-                     $tmp="";
-                     for ($j = 0; $j < count($data);$j++){
-                        if ($j == count($data)-1){
-                           $tmp .= $data[$j];
-                        } else {
-                           $tmp .= $data[$j]." ";
-                        }
-                     }
-                     $prov_summary = $tmp;
-                     $isInCheckBudget = ("checked" == $_POST['is_checked_'.$i])? true : false;
-                     
-                     $timestamp = Tools::date2timestamp($prov_date);
-//                     echo " Données du fichier ligne $i : <br/>";
-//                     echo " date : $prov_date <br/>";
-//                     echo " date modifiée : $timestamp <br/>";
-//                     echo " type : $prov_type <br/>";
-//                     echo " budget : $prov_budget <br/>";
-//                     echo " budget jour : $prov_budgetDays <br/>";
-//                     echo " TJM : $prov_averageDailyRate <br/>";
-//                     echo " description : $prov_summary <br/>";
-//                     echo " box : $isInCheckBudget <br/><br/>";
-
-//                CommandProvision::create($cmd->getId(), $timestamp, $prov_type, $prov_summary, $prov_budgetDays, $prov_budget, $prov_averageDailyRate, $isInCheckBudget);
-
-                     $i++;
-                  }
                } else if ("deleteProvision" == $action) {
                   # TODO check injections
                   $provid = $_POST['provid'];
@@ -247,8 +212,22 @@ class CommandEditController extends Controller {
 
                $isManager = $this->session_user->isTeamManager($cmd->getTeamid());
 
-               CommandTools::displayCommand($this->smartyHelper, $cmd, $isManager);
+               CommandTools::displayCommand($this->smartyHelper, $cmd, $isManager, $this->teamid);
                $this->smartyHelper->assign('cmdProvisionType', SmartyTools::getSmartyArray(CommandProvision::$provisionNames, 1));
+
+               // Provisions
+               $currencies = Currencies::getInstance()->getCurrencies();
+               $teamCurrency = $team->getTeamCurrency();
+               foreach ($currencies as $currency => $coef) {
+                  $currencyList[$currency] = array(
+                     'currency' => $currency,
+                     'coef' => $coef,
+                     'selected' => ($currency == $teamCurrency),
+                  );
+               }
+               $this->smartyHelper->assign('currencies', $currencyList);
+               $this->smartyHelper->assign('teamCurrency', $teamCurrency);
+
 
                // WBS
                $this->smartyHelper->assign('wbsRootId', $cmd->getWbsid());
@@ -316,8 +295,6 @@ class CommandEditController extends Controller {
       }
 
       $cmd->setState(SmartyTools::checkNumericValue($_POST['cmdState'], true));
-      $cmd->setAverageDailyRate(SmartyTools::checkNumericValue($_POST['cmdAverageDailyRate'], true));
-
       $cmd->setTotalSoldDays(SmartyTools::checkNumericValue($_POST['cmdTotalSoldDays'], true));
    }
 

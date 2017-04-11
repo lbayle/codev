@@ -134,7 +134,7 @@ class CommandSetTools {
     * @param Command $commandSet
     * @return mixed[]
     */
-   private static function getProvisionTotalList(CommandSet $commandSet, int $type = NULL) {
+   private static function getProvisionTotalList(CommandSet $commandSet, $targetCurrency, int $type = NULL) {
 
       $provTotalArray =  NULL;
       
@@ -148,7 +148,7 @@ class CommandSetTools {
             // a provision
             $type = CommandProvision::$provisionNames[$prov->getType()];
             $budget_days = $prov->getProvisionDays();
-            $budget = $prov->getProvisionBudget();
+            $budget = $prov->getProvisionBudget($targetCurrency);
 
             // compute total per category
             $provDaysTotalArray["$type"] += $budget_days;
@@ -165,14 +165,15 @@ class CommandSetTools {
            $provTotalArray[$type] = array(
               'type' => $type,
               'budget_days' => $daysPerType,
-              'budget' => $provBudgetTotalArray[$type],
+              'budget' => sprintf("%01.2f", $provBudgetTotalArray[$type]),
+              'currency' => $targetCurrency,
            );
         }
-        $provTotalArray['TOTAL'
-            ] = array(
+        $provTotalArray['TOTAL'] = array(
              'type' => 'TOTAL',
              'budget_days' => $globalDaysTotal,
-             'budget' => $globalBudgetTotal,
+             'budget' => sprintf("%01.2f", $globalBudgetTotal),
+             'currency' => $targetCurrency,
          );
       }
       return $provTotalArray;
@@ -252,44 +253,27 @@ class CommandSetTools {
     * @param SmartyHelper $smartyHelper
     * @param CommandSet $commandset
     */
-   public static function displayCommandSet(SmartyHelper $smartyHelper, CommandSet $commandset, $isManager, $selectedFilters = '') {
+   public static function displayCommandSet(SmartyHelper $smartyHelper, CommandSet $commandset, $isManager, $teamid, $selectedFilters = '') {
       #$smartyHelper->assign('commandsetId', $commandset->getId());
       $smartyHelper->assign('teamid', $commandset->getTeamid());
       $smartyHelper->assign('commandsetName', $commandset->getName());
       $smartyHelper->assign('commandsetReference', $commandset->getReference());
       $smartyHelper->assign('commandsetDesc', $commandset->getDesc());
-      $smartyHelper->assign('commandsetBudget', $commandset->getBudgetDays());
-      $smartyHelper->assign('commandsetCost', $commandset->getCost());
-      $smartyHelper->assign('commandsetCurrency', $commandset->getCurrency());
+
       if (!is_null( $commandset->getDate())) {
          $smartyHelper->assign('commandsetDate', Tools::formatDate("%Y-%m-%d", $commandset->getDate()));
       }
       $smartyHelper->assign('cmdList', self::getCommandSetCommands($commandset->getId(), Command::type_general));
       $smartyHelper->assign('cmdsetDetailedMgr', self::getCommandSetDetailedMgr($commandset->getId(), Command::type_general));
 
-      // Budget
-      $cmdList = $commandset->getCommands(Command::type_general);
-      $cmdsProvAndMeeCost = 0;
-      foreach ($cmdList as $cmd) {
-         // TODO math should not be in here !
-         $mgrEE = $cmd->getIssueSelection()->mgrEffortEstim;
-         $cmdProvAndMeeCost = ($mgrEE * $cmd->getAverageDailyRate()) + $cmd->getProvisionBudget(TRUE);
-
-         $cmdsProvAndMeeCost += $cmdProvAndMeeCost;
-      }
-      $smartyHelper->assign('cmdsProvAndMeeCost',$cmdsProvAndMeeCost);
-
-      $color1 = ($cmdProvAndMeeCost > $commandset->getCost()) ? "fcbdbd" : "bdfcbd";
-      $smartyHelper->assign('cmdsProvAndMeeCostColor',$color1);
-
-
-      //$cmdTotalElapsed = $commandset->getIssueSelection()->getElapsed($cmd->$commandset(), $commandset->getDeadline());
       $csetTotalElapsed = $commandset->getIssueSelection(Command::type_general)->getElapsed();
       $smartyHelper->assign('commandsetTotalElapsed',$csetTotalElapsed);
 
 
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $teamCurrency = $team->getTeamCurrency();
       $smartyHelper->assign('cmdProvisionList', self::getProvisionList($commandset));
-      $smartyHelper->assign('cmdProvisionTotalList', self::getProvisionTotalList($commandset));
+      $smartyHelper->assign('cmdProvisionTotalList', self::getProvisionTotalList($commandset, $teamCurrency));
 
       // DetailedChargesIndicator
       $data = self::getDetailedCharges($commandset, $isManager, $selectedFilters);
@@ -312,6 +296,7 @@ class CommandSetTools {
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $cmdset->getTeamid());
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_PROVISION_DAYS, $cmdset->getProvisionDays(Command::type_general, TRUE));
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $userid);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_COMMAND_SET_ID, $cmdset->getId());
 
       $params = self::computeTimestampsAndInterval($cmdset);
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $params['startTimestamp']);
@@ -319,19 +304,23 @@ class CommandSetTools {
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_INTERVAL, $params['interval']);
 
       $dashboardName = 'CommandSet'.$cmdset->getId();
+      $dashboardDomain = IndicatorPluginInterface::DOMAIN_COMMAND_SET;
+
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_DOMAIN, $dashboardDomain);
 
       // save the DataProvider for Ajax calls
       $_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardName] = serialize($pluginDataProvider);
 
       // create the Dashboard
       $dashboard = new Dashboard($dashboardName);
-      $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_COMMAND_SET);
+      $dashboard->setDomain($dashboardDomain);
       $dashboard->setCategories(array(
           IndicatorPluginInterface::CATEGORY_QUALITY,
           IndicatorPluginInterface::CATEGORY_ACTIVITY,
           IndicatorPluginInterface::CATEGORY_ROADMAP,
           IndicatorPluginInterface::CATEGORY_PLANNING,
           IndicatorPluginInterface::CATEGORY_RISK,
+          IndicatorPluginInterface::CATEGORY_FINANCIAL,
          ));
       $dashboard->setTeamid($cmdset->getTeamid());
       $dashboard->setUserid($userid);

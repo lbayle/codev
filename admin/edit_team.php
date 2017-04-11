@@ -22,12 +22,11 @@ require('../path.inc.php');
 
 class EditTeamController extends Controller {
 
-   /**
-    * Initialize complex static variables
-    * @static
-    */
+   private static $logger;
+
    public static function staticInit() {
       // Nothing special
+      self::$logger = Logger::getLogger(__CLASS__);
    }
 
    protected function display() {
@@ -250,13 +249,14 @@ class EditTeamController extends Controller {
                }
 
                $this->smartyHelper->assign('users', $smartyUserList);
-               $this->smartyHelper->assign('date', date("Y-m-d", $team->getDate()));
+               $this->smartyHelper->assign('teamCreationdate', date("Y-m-d", $team->getDate()));
 
                $this->smartyHelper->assign('accessLevel', Team::$accessLevelNames);
 
                $this->smartyHelper->assign('arrivalDate', date("Y-m-d", time()));
                $this->smartyHelper->assign('departureDate', date("Y-m-d", time()));
 
+               // teamMembers: used in teamMembers & UserDailyCost tab
                $this->smartyHelper->assign('teamMembers', $this->getTeamMembers($displayed_teamid));
 
                $this->smartyHelper->assign('teamEnabled', $team->isEnabled());
@@ -280,6 +280,23 @@ class EditTeamController extends Controller {
 
                $teamGeneralPrefs = $this->getTeamGeneralPrefs($team);
                $this->smartyHelper->assign('teamGeneralPrefs', $teamGeneralPrefs);
+
+               // UserDailyCost
+               $currencies = Currencies::getInstance()->getCurrencies();
+               $teamCurrency = $team->getTeamCurrency();
+               foreach ($currencies as $currency => $coef) {
+                  $currencyList[$currency] = array(
+                     'currency' => $currency,
+                     'coef' => $coef,
+                     'selected' => ($currency == $teamCurrency),
+                  );
+               }
+               $this->smartyHelper->assign('currencies', $currencyList);
+               $this->smartyHelper->assign('userDailyCosts', $this->getUserDailyCosts($team));
+               $this->smartyHelper->assign('teamADR', $team->getAverageDailyCost());
+               $this->smartyHelper->assign('teamCurrency', $teamCurrency);
+
+
 
                // feed the PluginDataProvider
                $dashboardDomain = IndicatorPluginInterface::DOMAIN_TEAM_ADMIN;
@@ -550,6 +567,30 @@ class EditTeamController extends Controller {
       return $generalPrefs;
    }
 
+   private function getUserDailyCosts(Team $team) {
+      $udrObj = $team->getUserDailyCostObj();
+      $rawUDCs = $udrObj->getUserDailyCosts();
+
+      $formattedUDCs = array();
+      foreach ($rawUDCs as $userid => $struct1) {
+
+         $user = UserCache::getInstance()->getUser($userid);
+
+         foreach ($struct1 as $timestamp => $values) {
+            $id = $values['id'];
+            $formattedUDCs[$id] = array(
+                'id' => $id,
+                'userid' => $userid,
+                'username' => $user->getRealname(),
+                'start_date' => date('Y-m-d', $timestamp),
+                'udr' => $values['udr'],
+                'currency' => $values['currency'],
+                'description' => $values['description'],
+            );
+         }
+      }
+      return $formattedUDCs;
+   }
 }
 
 // ========== MAIN ===========
@@ -557,4 +598,3 @@ EditTeamController::staticInit();
 $controller = new EditTeamController('../', 'Administration : Team Edition','Admin');
 $controller->execute();
 
-?>

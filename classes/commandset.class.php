@@ -65,9 +65,9 @@ class CommandSet extends Model {
    private $date;
    private $teamid;
    private $serviceContractList;
-   private $cost;
-   private $currency;
-   private $budget_days;
+   private $cost;         // DEPRECATED, see UserDailyCost
+   private $currency;     // DEPRECATED, see UserDailyCost
+   private $budget_days;  // DEPRECATED
 
    // list of commands, ordered by type
    // cmdByTypeList[type][cmdid]
@@ -113,10 +113,10 @@ class CommandSet extends Model {
       $this->description = str_replace("\\r\\n", "\n", preg_replace("/\\\\+/","\\",$row->description));
       $this->date = $row->date;
       $this->teamid = $row->team_id;
-      $this->budget_days = $row->budget_days;
-      $this->cost = $row->budget;
-      $this->currency = $row->currency;
       $this->state = $row->state;
+      $this->budget_days = $row->budget_days; // DEPRECATED
+      $this->cost = $row->budget;             // DEPRECATED, see UserDailyCost
+      $this->currency = $row->currency;       // DEPRECATED, see UserDailyCost
    }
 
    /**
@@ -276,55 +276,6 @@ class CommandSet extends Model {
       if($this->date != $timestamp) {
          $this->date = $timestamp;
          $query = "UPDATE `codev_commandset_table` SET date = '$this->date' WHERE id = ".$this->id.";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-      }
-   }
-
-   public function getBudgetDays() {
-      return ($this->budget_days / 100);
-   }
-
-   public function setBudgetDays($value) {
-      if($this->budget_days != floatval($value) * 100) {
-         $this->budget_days = floatval($value) * 100;
-         $query = "UPDATE `codev_commandset_table` SET budget_days = '$this->budget_days' WHERE id = ".$this->id.";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-      }
-   }
-
-   public function getCost() {
-      // saved in cents
-      return ($this->cost / 100);
-   }
-
-   public function setCost($value) {
-      if($this->cost != floatval($value) * 100) {
-         $this->cost = floatval($value) * 100;
-         $query = "UPDATE `codev_commandset_table` SET budget = '$this->cost' WHERE id = ".$this->id.";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-      }
-   }
-
-   public function getCurrency() {
-      return $this->currency;
-   }
-
-   public function setCurrency($value) {
-      if($this->currency != $value) {
-         $this->currency = $value;
-         $query = "UPDATE `codev_commandset_table` SET currency = '$value' WHERE id = ".$this->id.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -583,4 +534,3 @@ class CommandSet extends Model {
 
 CommandSet::staticInit();
 
-?>

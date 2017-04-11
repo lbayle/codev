@@ -207,6 +207,10 @@ class UninstallController extends Controller {
       SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
       $query = "DROP TABLE IF EXISTS `codev_team_user_table`;";
       SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_userdailycost_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_currencies_table`;";
+      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
       $query = "DROP TABLE IF EXISTS `codev_timetracking_table`;";
       SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
       $query = "DROP TABLE IF EXISTS `codev_sidetasks_category_table`;";

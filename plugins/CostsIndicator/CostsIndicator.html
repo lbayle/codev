@@ -1,0 +1,145 @@
+<div class="costsIndicator">
+<div class="pluginInitFunction"  style="display: none;">costsIndicatorJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">costsIndicatorJsDestroy</div>
+
+<div class="costsIndicatorDiv" align="left">
+
+   <div class="float" style="width:95%; margin-top:1em;" >
+   {t}Global cost estimation:{/t} <span style="font-weight:bold;margin-left:1em;">{$costsIndicator_globalCostEstim} {$costsIndicator_teamCurrency}</span>
+   </div>
+
+   <div id="tabsCostsIndicator" class="float tabs {$ui_tabs_jquery}" style="width:95%; margin-top:1em;" >
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#costsIndicator_tabOverview">{t}Overview{/t}</a></li>
+         {if $costsIndicator_tableValuesLines}
+         <li class="{$ui_tabs_jquery_li}"><a href="#costsIndicator_tabDetailed">{t}Tasks{/t}</a></li>
+         {/if}
+      </ul>
+
+      <div id="costsIndicator_tabOverview">
+         <span class="costsIndicator_generalErrorMsg error_font">{$costsIndicator_generalErrorMsg}</span>
+         {if $costsIndicator_tableSumLines}
+         <div>
+         <table class="costsIndicatorSumTable">
+            <thead>
+               <tr>
+                  <th>{t}Costs Mgr{/t} ({$costsIndicator_teamCurrency})</th>
+                  <th>{t}Costs{/t} ({$costsIndicator_teamCurrency})</th>
+                  <th>{t}Reestimated{/t} ({$costsIndicator_teamCurrency})</th>
+                  <th>{t}Elapsed{/t} ({$costsIndicator_teamCurrency})</th>
+                  <th>{t}Backlog{/t} ({$costsIndicator_teamCurrency})</th>
+                  <th>{t}Drift Mgr{/t} ({$costsIndicator_teamCurrency})</th>
+                  <th>{t}Description{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$costsIndicator_tableSumLines key=id item=tableLine}
+               <tr>
+                  <td style="text-align: right;">{$tableLine.costsMgr}</td>
+                  <td style="text-align: right;">{$tableLine.costs}</td>
+                  <td style="text-align: right;">{$tableLine.reestimated}</td>
+                  <td style="text-align: right;">{$tableLine.elapsed}</td>
+                  <td style="text-align: right;">{$tableLine.backlog}</td>
+                  <td style="text-align: right;background-color:#{$tableLine.driftMgrColor}">{$tableLine.driftMgr}</td>
+                  <td>{$tableLine.description}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+            <tfoot>
+               <tr>
+                  <td style="text-align: right;">{$costsIndicator_tableSumFooter.costsMgr}</td>
+                  <td style="text-align: right;">{$costsIndicator_tableSumFooter.costs}</td>
+                  <td style="text-align: right;">{$costsIndicator_tableSumFooter.reestimated}</td>
+                  <td style="text-align: right;">{$costsIndicator_tableSumFooter.elapsed}</td>
+                  <td style="text-align: right;">{$costsIndicator_tableSumFooter.backlog}</td>
+                  <td style="text-align: right;background-color:#{$costsIndicator_tableSumFooter.driftMgrColor}">{$costsIndicator_tableSumFooter.driftMgr}</td>
+                  <td>{t}TOTAL{/t} ({$costsIndicator_teamCurrency})</td>
+               </tr>
+            </tfoot>
+         </table>
+         </div>
+         {/if}
+      </div>
+
+      <div id="costsIndicator_tabDetailed">
+         {if $costsIndicator_tableValuesLines}
+         <div style="margin-top: 1em;">
+         <table class="costsIndicatorValuesTable datatable_csv">
+            <thead>
+               <tr>
+                  <th>{t}Task{/t}</th>
+                  <th>{t}ExtRef{/t}</th>
+                  <th>{t}Costs Mgr{/t} ({$costsIndicator_teamCurrency})</th>
+                  <th>{t}Costs{/t} ({$costsIndicator_teamCurrency})</th>
+                  <th>{t}Reestimated{/t} ({$costsIndicator_teamCurrency})</th>
+                  <th>{t}Elapsed{/t} ({$costsIndicator_teamCurrency})</th>
+                  <th>{t}Backlog{/t} ({$costsIndicator_teamCurrency})</th>
+                  <th>{t}Drift Mgr{/t} ({$costsIndicator_teamCurrency})</th>
+                  <th>{t}Description{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$costsIndicator_tableValuesLines key=id item=tableLine}
+               <tr>
+                  <td>{$tableLine.issueId}</td>
+                  <td>{$tableLine.extRef}</td>
+                  <td style="text-align: right;">{$tableLine.costsMgr}</td>
+                  <td style="text-align: right;">{$tableLine.costs}</td>
+                  <td style="text-align: right;">{$tableLine.reestimated}</td>
+                  <td style="text-align: right;">{$tableLine.elapsed}</td>
+                  <td style="text-align: right;">{$tableLine.backlog}</td>
+                  <td style="text-align: right;background-color:#{$tableLine.driftMgrColor}">{$tableLine.driftMgr}</td>
+                  <td>{$tableLine.description}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+         </div>
+         {/if}
+      </div>
+   </div>
+
+   <div class="floatr" style="margin-top:1em; width: 16px">
+      <span class="costsIndicatorHelpDialog_link float pointer">
+         <img title="Help" src="images/help_icon.gif"/>
+      </span>
+      <span class="float pointer">
+         <img title="Export to CSV" src="images/b_export_xls.gif" onclick="$('.costsIndicatorSumTable').table2CSV({literal}{{/literal}filename : 'costs_overview.csv'{literal}}{/literal})">
+      </span>
+   </div>
+   <div class="costsIndicatorHelpDialog ui-helper-hidden" title="{t}Time per status{/t}">
+      <p>
+         <strong>{t}Description{/t}:</strong><br>
+         {t}Sum the costs of each timetrack.{/t}<br>
+         {t}Team AverageDailyCost and UserDailyCosts must be defined in team settings.{/t}
+         <br>
+      </p>
+   </div>
+
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<script type="text/javascript">
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function costsIndicatorJsDestroy() {
+      jQuery(".costsIndicatorHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is add to the dashboard.
+   function costsIndicatorJsInit() {
+      console.log('costsIndicatorJsInit');
+
+      jQuery(".costsIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".costsIndicatorHelpDialog").dialog("open");
+      });
+      jQuery(".costsIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "auto",
+         hide: "fade"
+      });
+   };
+</script>
+</div>

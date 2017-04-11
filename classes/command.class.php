@@ -82,10 +82,10 @@ class Command extends Model {
    private $wbsid;
    private $state;
    private $cost;
-   private $currency;
    private $totalSoldDays; // used to check if MgrEE is correctly dispatched on tasks
-   private $averageDailyRate;
    private $enabled;
+   private $currency;         // DEPRECATED, see UserDailyCost
+   private $averageDailyRate; // DEPRECATED, see UserDailyCost
 
    // codev_command_bug_table
    private $issueSelection;
@@ -139,10 +139,10 @@ class Command extends Model {
       $this->wbsid = $row->wbs_id;
       $this->state = $row->state;
       $this->cost = $row->cost;
-      $this->currency = $row->currency;
       $this->totalSoldDays = $row->total_days;
-      $this->averageDailyRate = $row->average_daily_rate;
       $this->enabled = (1 == $row->enabled);
+      $this->currency = $row->currency;                   // DEPRECATED, see UserDailyCost
+      $this->averageDailyRate = $row->average_daily_rate; // DEPRECATED, see UserDailyCost
 
          // commands created before v0.99.25 have no WBS
       if (is_null($this->wbsid)) {
@@ -440,53 +440,27 @@ class Command extends Model {
       }
    }
 
+   /**
+    * @deprecated since version 1.3.0
+    */
    public function getCost() {
       // cost is stored in cents
       return ($this->cost / 100);
    }
 
-   public function setCost($value) {
-      if($this->cost != floatval($value) * 100) {
-         $this->cost = floatval($value) * 100;
-         $query = "UPDATE `codev_command_table` SET cost = '$this->cost' WHERE id = ".$this->id.";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-      }
-   }
-
+   /**
+    * @deprecated since version 1.3.0
+    */
    public function getCurrency() {
       return $this->currency;
    }
 
-   public function setCurrency($value) {
-      if($this->currency != $value) {
-         $this->currency = $value;
-         $query = "UPDATE `codev_command_table` SET currency = '$value' WHERE id = ".$this->id.";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-      }
-   }
-
+   /**
+    * 
+    * @deprecated since version 1.3.0
+    */
    public function getAverageDailyRate() {
       return ($this->averageDailyRate / 100);
-   }
-
-   public function setAverageDailyRate($value) {
-      if($this->averageDailyRate != floatval($value) * 100) {
-         $this->averageDailyRate = floatval($value) * 100;
-         $query = "UPDATE `codev_command_table` SET average_daily_rate = '$this->averageDailyRate' WHERE id = ".$this->id.";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-      }
    }
 
    public function getStartDate() {

@@ -325,11 +325,6 @@ jQuery(document).ready(function() {
                      $('#td_total_drift').css('background-color', totalDriftColor);
                      $('#td_total_drift_percent').text(data.budgetUpdate.cmdTotalDriftPercent);
                      $('#td_total_drift_percent').css('background-color', totalDriftColor);
-                     $('#td_prov_and_mee_cost').text(data.budgetUpdate.cmdProvAndMeeCost);
-                     $('#td_total_reestimated_cost').text(data.budgetUpdate.cmdTotalReestimatedCost);
-                     $('#td_total_reestimated_cost').css('background-color', data.budgetUpdate.cmdTotalReestimatedCostColor);
-                     $('#td_total_drift_cost').text(data.budgetUpdate.cmdTotalDriftCost);
-                     $('#td_total_drift_cost').css('background-color', totalDriftColor);
                   }
 
                   // WBS Update

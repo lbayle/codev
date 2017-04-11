@@ -103,7 +103,7 @@ class CommandProvision {
       $this->date = $row->date;
       $this->type = $row->type;
       $this->budget_days = $row->budget_days;
-      $this->budget = $row->budget;
+      $this->budget = floatval($row->budget) / 100;
       $this->currency = $row->currency;
       $this->average_daily_rate = $row->average_daily_rate;
       $this->summary = $row->summary;
@@ -270,24 +270,14 @@ class CommandProvision {
     *
     * @return float
     */
-   public function getProvisionBudget() {
-      return ($this->budget / 100);
-   }
+   public function getProvisionBudget($targetCurrency = NULL) {
 
-   /**
-    *
-    * @param float $value
-    */
-   public function setBudget($value) {
-      if($this->budget_days != floatval($value) * 100) {
-         $this->budget_days = floatval($value) * 100;
-         $query = "UPDATE `codev_command_provision_table` SET budget = '$this->budget_days' WHERE id = ".$this->id.";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+      if ((NULL != $targetCurrency) && ($targetCurrency !== $this->currency)) {
+         $newBudget = Currencies::getInstance()->convertValue($this->budget, $this->currency, $targetCurrency);
+      } else {
+         $newBudget = $this->budget;
       }
+      return $newBudget;
    }
 
    /**
@@ -414,4 +404,4 @@ class CommandProvision {
 
 // Initialize complex static variables
 CommandProvision::staticInit();
-?>
+

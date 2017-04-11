@@ -147,7 +147,7 @@ class ServiceContractEditController extends Controller {
                $this->smartyHelper->assign('projectList', $projects);
 
                $isManager = $this->session_user->isTeamManager($contract->getTeamid());
-               ServiceContractTools::displayServiceContract($this->smartyHelper, $contract, $isManager);
+               ServiceContractTools::displayServiceContract($this->smartyHelper, $contract, $isManager, $this->teamid);
             }
 
             // you can create OR move SC only to managed teams

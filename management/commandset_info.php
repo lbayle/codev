@@ -87,7 +87,7 @@ class CommandSetInfoController extends Controller {
                      $selectedFilters = $this->session_user->getCommandSetFilters($commandsetid);
                   }
 
-                  CommandSetTools::displayCommandSet($this->smartyHelper, $commandset, ($isManager || $isObserver), $selectedFilters);
+                  CommandSetTools::displayCommandSet($this->smartyHelper, $commandset, ($isManager || $isObserver), $this->teamid, $selectedFilters);
 
                   // ConsistencyCheck
                   $consistencyErrors = $this->getConsistencyErrors($commandset);
@@ -172,4 +172,3 @@ CommandSetInfoController::staticInit();
 $controller = new CommandSetInfoController('../', 'CommandSet','Management');
 $controller->execute();
 
-?>

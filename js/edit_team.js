@@ -208,7 +208,199 @@ jQuery(document).ready(function() {
 
    });
 
+// ----------
+
+   // change user in the AddUserDailyCost dialogBox
+   jQuery("#udrUserid").change(function() {
+      updateAddUdrDlg_userArrivalDate();
+   });
+
+   jQuery(".btAddUserDailyCost").click(function() {
+      jQuery(".addUdrErrorMsg").html('');
+      updateAddUdrDlg_userArrivalDate();
+      jQuery(".dialogAddUserDailyCost").dialog("open");
+   });
+
+   jQuery(".dialogAddUserDailyCost").dialog({
+      autoOpen: false,
+      resizable: true,
+      width: "auto",
+      modal: true,
+      create:function () {
+         // TODO je sais plus a quoi ca sert...
+         $(this).closest(".ui-dialog").find(".ui-button:first").addClass("btAddUserDailyCost");
+      },
+      buttons: [
+         {
+            text: editTeamSmartyData.i18n_add,
+            click: function() {
+
+               // TODO: dataToSend
+               var form = $('#formAddUserDailyCost');
+               jQuery(".addUdrErrorMsg").html('');
+
+               $.ajax({
+                  url: editTeamSmartyData.ajaxPage,
+                  type: form.attr('method'),
+                  dataType:"json",
+                  data: form.serialize(),
+                  success: function(data) {
+                     if (null === data) {
+                        jQuery(".addUdrErrorMsg").html("ERROR: Please contact your CodevTT administrator");
+                     } else {
+                        if ('SUCCESS' !== data.statusMsg) {
+                           jQuery(".addUdrErrorMsg").html(data.statusMsg);
+                        } else {
+                           // add new line to tableUserDailyCosts
+                           var bt_deleteUDC = jQuery('<a align="absmiddle" >').addClass("bt_deleteUDC ui-icon pointer");
+
+                           var trObject = jQuery('<tr>').append(
+                               jQuery('<td style="width:38px;">').addClass("ui-state-error-text").append(bt_deleteUDC),
+                               jQuery('<td>').text(data.udrStruct.userName),
+                               jQuery('<td>').text(data.udrStruct.startDate),
+                               jQuery('<td>').text(data.udrStruct.udr+" "+data.udrStruct.currency),
+                               jQuery('<td>').text(data.udrStruct.description)
+                           ).attr('data-udrId', data.udrStruct.id).addClass("udrRow");
+                           trObject.prependTo('#tableUserDailyCosts tbody');
+
+                           jQuery(".addUdrErrorMsg").html('');
+                           jQuery(".dialogAddUserDailyCost").dialog("close");
+                        }
+                     }
+                  },
+                  error:  function(jqXHR, textStatus, errorThrown) {
+                     console.error('ERROR AddUserDailyCost errorThrown', errorThrown);
+                     jQuery(".addUdrErrorMsg").html("ERROR: Please contact your CodevTT administrator");
+                  }
+               });
+            }
+         },
+         {
+            text: editTeamSmartyData.i18n_cancel,
+            click: function() {
+               jQuery(".addDashboardErrorMsg").html('');
+               jQuery(this).dialog("close");
+            }
+         }
+
+      ]
+   });
+
+   // Note: use 'on' instead of 'click' because we need bubbeling
+   // when new html content is added, buttons need to subscribe to existing events
+   jQuery("#tableUserDailyCosts").on("click", ".bt_deleteUDC", function(e) {
+
+      var parentRow = jQuery(this).closest("tr.udrRow");
+      var udrId = parentRow.attr("data-udrId");
+      jQuery(".deleteUdrErrorMsg").html('');
+
+      // TODO "are you sure ?" dialogbox
+
+      jQuery.ajax({
+         url: editTeamSmartyData.ajaxPage,
+         async:false, // why ?
+         data: {
+            action: 'deleteUDC',
+            displayed_teamid:editTeamSmartyData.displayedTeamId,
+            udrId: udrId
+         },
+         type: 'post',
+         success: function(data) {
+            data = JSON.parse(data);
+
+            if('SUCCESS' !== data.statusMsg) {
+               console.log(data.statusMsg);
+               jQuery(".deleteUdrErrorMsg").html("ERROR: Failed to remove UDC");
+            } else {
+               // remove line from tableUserDailyCosts
+               jQuery(".udrRow[data-udrId='" + data.udrId + "']").remove();
+            }
+         },
+         error: function(jqXHR, textStatus, errorThrown) {
+            console.error('ERROR AddUserDailyCost errorThrown', errorThrown);
+            jQuery(".deleteUdrErrorMsg").html("ERROR: Please contact your CodevTT administrator");
+         }
+      });
+   });
+
+   jQuery("#btUpdateTeamADR").click(function() {
+      var form = $('#formTeamADR');
+      jQuery(".updateTeamAdrInfoMsg").html('');
+      jQuery(".updateTeamAdrErrorMsg").html('');
+
+      $.ajax({
+         url: editTeamSmartyData.ajaxPage,
+         type: form.attr('method'),
+         dataType:"json",
+         data: form.serialize(),
+         success: function(data) {
+            if (null === data) {
+               jQuery(".updateTeamAdrErrorMsg").html("ERROR: Please contact your CodevTT administrator");
+            } else {
+               if ('SUCCESS' !== data.statusMsg) {
+                  jQuery(".updateTeamAdrErrorMsg").html(data.statusMsg);
+               } else {
+                  jQuery(".updateTeamAdrInfoMsg").html(editTeamSmartyData.i18n_updatedSuccessfully);
+                   $('.displayedTeamCurrency').html(data.teamCurrency);
+               }
+            }
+         },
+         error:  function(data) {
+            console.error('ERROR data = ', data);
+            jQuery(".updateTeamAdrErrorMsg").html("UpdateTeamADR ERROR!");
+            //deferred.reject(); // call the 'fail' callback (if defined)
+         }
+      });
+   });
+
+   jQuery(".teamAdrHelpDialog_link").click(function(e) {
+      e.preventDefault();
+      jQuery(".teamAdrHelpDialog").dialog("open");
+   });
+   jQuery(".teamAdrHelpDialog").dialog({
+      autoOpen: false,
+      resizable: true,
+      width: "auto",
+      hide: "fade"
+   });
+   jQuery(".currencyHelpDialog_link").click(function(e) {
+      e.preventDefault();
+      jQuery(".currencyHelpDialog").dialog("open");
+   });
+   jQuery(".currencyHelpDialog").dialog({
+      autoOpen: false,
+      resizable: true,
+      width: "auto",
+      hide: "fade"
+   });
+
 }); // document ready
+
+function updateAddUdrDlg_userArrivalDate() {
+   jQuery.ajax({
+      url: editTeamSmartyData.ajaxPage,
+      data: {
+         action: 'getUserArrivalDate',
+         displayed_teamid:editTeamSmartyData.displayedTeamId,
+         udrUserid: jQuery("#udrUserid").val()
+      },
+      type: 'post',
+      success: function(data) {
+         data = JSON.parse(data);
+
+         if('SUCCESS' !== data.statusMsg) {
+            console.error(data.statusMsg);
+            jQuery("#addUdrDlg_userArrivalDate").html("ERROR");
+         } else {
+            jQuery("#addUdrDlg_userArrivalDate").html(data.arrivalDate);
+         }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+         console.error('ERROR AddUserDailyCost errorThrown', errorThrown);
+         jQuery(".deleteUdrErrorMsg").html("ERROR: Please contact your CodevTT administrator");
+      }
+   });
+}
 
 function removeTeamMember(id, description) {
    var confirmString = editTeamSmartyData.i18n_removeUserFromThisTeam + "\n\n" + description;

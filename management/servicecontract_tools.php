@@ -289,7 +289,7 @@ class ServiceContractTools {
     * @param Command $commandSet
     * @return mixed[]
     */
-   private static function getProvisionTotalList(ServiceContract $contract, int $type = NULL) {
+   private static function getProvisionTotalList(ServiceContract $contract, $targetCurrency, int $type = NULL) {
 
       $provTotalArray =  NULL;
       
@@ -303,7 +303,7 @@ class ServiceContractTools {
             // a provision
             $type = CommandProvision::$provisionNames[$prov->getType()];
             $budget_days = $prov->getProvisionDays();
-            $budget = $prov->getProvisionBudget();
+            $budget = $prov->getProvisionBudget($targetCurrency);
 
             // compute total per category
             $provDaysTotalArray["$type"] += $budget_days;
@@ -320,14 +320,15 @@ class ServiceContractTools {
            $provTotalArray[$type] = array(
               'type' => $type,
               'budget_days' => $daysPerType,
-              'budget' => $provBudgetTotalArray[$type],
+              'budget' => sprintf("%01.2f", $provBudgetTotalArray[$type]),
+              'currency' => $targetCurrency,
            );
         }
-        $provTotalArray['TOTAL'
-            ] = array(
+        $provTotalArray['TOTAL'] = array(
              'type' => 'TOTAL',
              'budget_days' => $globalDaysTotal,
-             'budget' => $globalBudgetTotal,
+             'budget' => sprintf("%01.2f", $globalBudgetTotal),
+             'currency' => $targetCurrency,
          );
       }
       return $provTotalArray;
@@ -406,7 +407,7 @@ class ServiceContractTools {
     * @param SmartyHelper $smartyHelper
     * @param ServiceContract $servicecontract
     */
-   public static function displayServiceContract(SmartyHelper $smartyHelper, $servicecontract, $isManager, $selectedFilters = '') {
+   public static function displayServiceContract(SmartyHelper $smartyHelper, $servicecontract, $isManager, $teamid, $selectedFilters = '') {
       #$smartyHelper->assign('servicecontractId', $servicecontract->getId());
       $smartyHelper->assign('teamid', $servicecontract->getTeamid());
       $smartyHelper->assign('servicecontractName', $servicecontract->getName());
@@ -438,8 +439,10 @@ class ServiceContractTools {
       $smartyHelper->assign('sidetasksList', SmartyTools::getIssueListInfo($issueSelection));
       $smartyHelper->assign('nbSidetasksList', $issueSelection->getNbIssues());
 
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $teamCurrency = $team->getTeamCurrency();
       $smartyHelper->assign('cmdProvisionList', self::getProvisionList($servicecontract));
-      $smartyHelper->assign('cmdProvisionTotalList', self::getProvisionTotalList($servicecontract));
+      $smartyHelper->assign('cmdProvisionTotalList', self::getProvisionTotalList($servicecontract, $teamCurrency));
 
       $smartyHelper->assign('servicecontractTotalDetailedMgr', self::getContractTotalDetailedMgr($servicecontract->getId(), $provDaysByType));
 
@@ -472,19 +475,23 @@ class ServiceContractTools {
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_INTERVAL, $params['interval']);
 
       $dashboardName = 'ServiceContract'.$servicecontract->getId();
+      $dashboardDomain = IndicatorPluginInterface::DOMAIN_SERVICE_CONTRACT;
+
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_DOMAIN, $dashboardDomain);
 
       // save the DataProvider for Ajax calls
       $_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardName] = serialize($pluginDataProvider);
 
       // create the Dashboard
       $dashboard = new Dashboard($dashboardName);
-      $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_SERVICE_CONTRACT);
+      $dashboard->setDomain($dashboardDomain);
       $dashboard->setCategories(array(
           IndicatorPluginInterface::CATEGORY_QUALITY,
           IndicatorPluginInterface::CATEGORY_ACTIVITY,
           IndicatorPluginInterface::CATEGORY_ROADMAP,
           IndicatorPluginInterface::CATEGORY_PLANNING,
           IndicatorPluginInterface::CATEGORY_RISK,
+          IndicatorPluginInterface::CATEGORY_FINANCIAL,
          ));
       $dashboard->setTeamid($servicecontract->getTeamid());
       $dashboard->setUserid($userid);

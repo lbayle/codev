@@ -672,12 +672,28 @@ class IssueSelection {
       return $timeTracks;
    }
 
-}
+   /**
+    * sum the costs of all timetracks
+    * @param type $targetCurrency
+    * @param type $teamid
+    * @return array the 6 basic indicators
+    * @throws Exception
+    */
+   public function getCostStruct($targetCurrency, $teamid) {
+
+      foreach ($this->issueList as $issue) {
+         $issueCosts = $issue->getCostStruct($targetCurrency, $teamid);
+
+         foreach($issueCosts as $key => $value) {
+            $issueCostSums[$key] += $value;
+         }
+      }
+      return $issueCostSums;
+   }
 
 
-
-
+} // class
 
 IssueSelection::staticInit();
 
-?>
+

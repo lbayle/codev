@@ -41,6 +41,8 @@ DROP TABLE IF EXISTS `codev_servicecontract_table`;
 DROP TABLE IF EXISTS `codev_team_project_table`;
 DROP TABLE IF EXISTS `codev_team_table`;
 DROP TABLE IF EXISTS `codev_team_user_table`;
+DROP TABLE IF EXISTS `codev_userdailycost_table`;
+DROP TABLE IF EXISTS `codev_currencies_table`;
 DROP TABLE IF EXISTS `codev_timetracking_table`;
 DROP TABLE IF EXISTS `codev_sidetasks_category_table`;
 DROP TABLE IF EXISTS `codev_command_provision_table`;

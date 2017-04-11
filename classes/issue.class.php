@@ -130,6 +130,7 @@ class Issue extends Model implements Comparable {
 
    // PRIVATE cached fields
    private $holidays;
+   private $costStructList = array();
 
    // other cache fields
    private $bug_resolved_status_threshold;
@@ -2444,8 +2445,51 @@ class Issue extends Model implements Comparable {
        
        $this->dateSubmission = $newSubmissionTimestampDate;
    }
+
+   /**
+    * sum the costs of all timetracks
+    * @param type $targetCurrency
+    * @param type $teamid
+    * @return array the 6 basic indicators
+    * @throws Exception
+    */
+   public function getCostStruct($targetCurrency, $teamid) {
+
+      $key = $targetCurrency.'_'.$teamid;
+
+      if (!array_key_exists($key, $this->costStructList)) {
+         $team = TeamCache::getInstance()->getTeam($teamid);
+         $issueTimetracks = $this->getTimeTracks();
+
+         $handlerUDC = $team->getUdcValue($this->handlerId, time(), $targetCurrency);
+
+         $elapsed = 0;
+         /* @var $tt TimeTrack */
+         foreach ($issueTimetracks as $tt) {
+            $elapsed += $tt->getCost($targetCurrency, $teamid);
+         }
+
+         $backlog = $this->getBacklog() * $handlerUDC;
+         $duration = $this->getDuration() * $handlerUDC;
+         $effortEstim = ($this->getEffortEstim() +  + $this->getEffortAdd()) * $handlerUDC;
+         $mgrEE = $this->getMgrEffortEstim() * $handlerUDC;
+
+         $reestimated = ($elapsed + $duration);
+         $driftMgr = $reestimated - $mgrEE;
+
+         $issueCosts = array(
+            'costsMgr' => $mgrEE,
+            'costs' => $effortEstim,
+            'reestimated' => $reestimated,
+            'elapsed' => $elapsed,
+            'backlog' => $backlog,
+            'driftMgr' => $driftMgr,
+         );
+         $this->costStructList[$key] = $issueCosts;
+      }
+      return $this->costStructList[$key];
+   }
 }
 
 Issue::staticInit();
 
-?>

@@ -83,7 +83,7 @@ class ServiceContractInfoController extends Controller {
                      $selectedFilters = $this->session_user->getServiceContractFilters($servicecontractid);
                   }
 
-                  ServiceContractTools::displayServiceContract($this->smartyHelper, $servicecontract, ($isManager || $isObserver), $selectedFilters);
+                  ServiceContractTools::displayServiceContract($this->smartyHelper, $servicecontract, ($isManager || $isObserver), $this->teamid, $selectedFilters);
 
                   // ConsistencyCheck
                   $consistencyErrors = $this->getConsistencyErrors($servicecontract);

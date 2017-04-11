@@ -93,25 +93,18 @@
             <td>
                <table>
                   <tr>
-                     <th valign="top" title='{t}MgrEffortEstim + Checked Provisions{/t}'>{t}Budget{/t}</th>
+                     <th valign="top" title='{t}MgrEffortEstim + Checked Provisions (days){/t}'>{t}Budget{/t}</th>
                      <th valign="top" title='{t}Reestimated (days){/t}'>{t}Reestimated{/t}</th>
                      <th valign="top" title='{t}Drift (days){/t}'>{t}Drift{/t}</th>
                      <th valign="top" title='{t}Drift (percent){/t}'> </th>
                      <th></th>
                   </tr>
                   <tr>
-                     <td id="td_prov_and_mee_days" align='right' title="MgrEffortEstim + Checked Provisions">{$cmdProvAndMeeDays}</td>
+                     <td id="td_prov_and_mee_days" align='right' title="{t}MgrEffortEstim + Checked Provisions (days){/t}">{$cmdProvAndMeeDays}</td>
                      <td id="td_total_reestimated" align='right'  style="background-color:#{$cmdTotalReestimatedColor}" title='{t}Reestimated (days){/t}' >{$cmdTotalReestimated}</td>
                      <td id="td_total_drift" align='right'  style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift (days){/t}' >{$cmdTotalDrift}</td>
                      <td id="td_total_drift_percent" align='right'  style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift (percent){/t}' >{$cmdTotalDriftPercent} %</td>
                      <th>{t}Days{/t}</th>
-                  </tr>
-                  <tr>
-                     <td id="td_prov_and_mee_cost" align='right' title ="MgrEffortEstim + Checked Provisions" >{$cmdProvAndMeeCost} </td>
-                     <td id="td_total_reestimated_cost" align='right' style="background-color:#{$cmdTotalReestimatedCostColor}" title='{t}Reestimated days * AverageDailyRate{/t}' >{$cmdTotalReestimatedCost}</td>
-                     <td id="td_total_drift_cost" align='right' style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift days * AverageDailyRate{/t}' >{$cmdTotalDriftCost}</td>
-                     <td></td>
-                     <th>{$cmdCurrency}</th>
                   </tr>
                </table>
             </td>
@@ -188,11 +181,13 @@
                <td>{$cmdDeadline}</td>
             </tr>
            {if isset($isManager) && $isManager}
+           {if isset($cmdAverageDailyRate)}
             <tr>
-               <th title="{t}Average Daily Rate{/t}" >{t}Default ADR{/t}</th>
+               <th title="{t}Average Daily Rate{/t}" ><span class="help_font" >{t}Default ADR{/t}</span></th>
                <td valign="top">: </td>
-               <td>{$cmdAverageDailyRate} {$cmdCurrency}</td>
+               <td><span class="help_font" >{$cmdAverageDailyRate} {$cmdCurrency} &nbsp;&nbsp;-- DEPRECATED see UserDailyCost in team settings !</span></td>
             </tr>
+            {/if}
             <tr>
                <th title="{t}Tasks & Provisions{/t}">{t}Sold Charge{/t}</th>
                <td valign="top">: </td>
@@ -229,7 +224,7 @@
                         <tr>
                             <td>{$provTotalRow.type}</td>
                             <td>{$provTotalRow.budget_days}</td>
-                            <td>{$provTotalRow.budget}</td>
+                            <td>{$provTotalRow.budget} {$provTotalRow.currency}</td>
                         </tr>
                        {/foreach}
                     </table>

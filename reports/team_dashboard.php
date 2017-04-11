@@ -66,13 +66,16 @@ class TeamDashboardController extends Controller {
             $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $this->session_userid);
 
             $dashboardName = 'Team'.$this->teamid;
+            $dashboardDomain = IndicatorPluginInterface::DOMAIN_TEAM;
+
+            $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_DOMAIN, $dashboardDomain);
 
             // save the DataProvider for Ajax calls
             $_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardName] = serialize($pluginDataProvider);
 
             // create the Dashboard
             $dashboard = new Dashboard($dashboardName);
-            $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_TEAM);
+            $dashboard->setDomain($dashboardDomain);
             $dashboard->setCategories(array(
                 IndicatorPluginInterface::CATEGORY_QUALITY,
                 IndicatorPluginInterface::CATEGORY_ACTIVITY,

@@ -44,23 +44,15 @@
                   <td><input type="text" style="font-family: sans-serif" name="commandsetReference" id="commandsetReference" value="{if isset($commandsetReference)}{$commandsetReference}{/if}" /></td>
                </tr>
                <tr>
-                  <th><label for="commandsetDesc">{t}Description{/t}</label></th>
-                  <td><textarea rows="4" cols="80" style="font-family: sans-serif" name="commandsetDesc" id="commandsetDesc">{if isset($commandsetDesc)}{$commandsetDesc}{/if}</textarea></td>
-               </tr>
-               <tr>
                   <th><label for="commandsetDate">{t}Date{/t}</label></th>
                   <td><input type="text" id="commandsetDate" name="commandsetDate" class="datepicker" maxlength="10" size="10" title="{t}Date{/t}" />
                   </td>
                </tr>
+               <tr>
+                  <th><label for="commandsetDesc">{t}Description{/t}</label></th>
+                  <td><textarea rows="4" cols="80" style="font-family: sans-serif" name="commandsetDesc" id="commandsetDesc">{if isset($commandsetDesc)}{$commandsetDesc}{/if}</textarea></td>
+               </tr>
                {/if}
-               <tr {if !isset($commandsetid)}style="display:none;"{/if}>
-                  <th><label for="commandsetCost">{t}Cost{/t}</label></th>
-                  <td><input type="text" style="font-family: sans-serif" name="commandsetCost" id="commandsetCost" value="{if isset($commandsetCost)}{$commandsetCost}{/if}" /> {t}EUR{/t}</td>
-               </tr>
-               <tr {if !isset($commandsetid)}style="display:none;"{/if}>
-                  <th><label for="commandsetBudget">{t}Budget{/t}</th>
-                  <td><input type="text" style="font-family: sans-serif" name="commandsetBudget" id="commandsetBudget" value="{if isset($commandsetBudget)}{$commandsetBudget}{/if}" /> {t}days{/t}</td>
-               </tr>
             </table>
             <br />
             {if isset($commandsetid)}<button type="button" name="btDeleteCommandSet" id="btDeleteCommandSet"><img  border="0" align="absmiddle" src="images/b_drop.png" alt="Delete icon"/> {t}Delete{/t}</button>{/if}
@@ -93,20 +85,6 @@
                if (0 == form.find("input[name=commandsetName]").val().length) {
                   msgString += "{t}Field is missing{/t}: {t}Command set name{/t}\n";
                   ++foundError;
-               }
-               if ('' != form.find("input[name=commandsetCost]").val()) {
-                  bValid = checkRegexp(form.find("input[name=commandsetCost]"), /^[0-9]+(\.[0-9]+)?$/i, "format: '1234' or '123.35'");
-                  if (!bValid) {
-                     msgString += "{t}Not a number{/t}: {t}Cost{/t}\n";
-                     ++foundError;
-                  }
-               }
-               if ('' != form.find("input[name=commandsetBudget]").val()) {
-                  bValid = checkRegexp(form.find("input[name=commandsetBudget]"), /^[0-9]+(\.[0-9]+)?$/i, "format: '1234' or '123.35'");
-                  if (!bValid) {
-                     msgString += "{t}Not a number{/t}: {t}Budget{/t}\n";
-                     ++foundError;
-                  }
                }
                if (0 == foundError) {
                   form.submit();

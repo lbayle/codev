@@ -31,6 +31,7 @@
          <li class="{$ui_tabs_jquery_li}"><a href="#tabTeamProjects">{t}Team Projects{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabPreferences">{t}Preferences{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabDuration">{t}Timetrack Durations{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabUserDailyCost">{t}User Daily Costs{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabOnDuty">{t}OnDuty tasks{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabTools">{t}Tools{/t}</a></li>
       </ul>
@@ -273,6 +274,159 @@
          </form>
          </div>
       </div>
+
+      <div id="tabUserDailyCost">
+         <div style="margin-top: 2em;">
+            <h2>{t}Average Daily Cost{/t}</h2>
+            <span class="help_font">{t}The ADC is the default UDC for team members{/t}</span>
+
+            <form id="formTeamADR" name="formTeamADR" method="post" action="{$ajaxPage}" style="margin-top: 2em;">
+               <fieldset>
+               <table class="invisible">
+                  <tbody>
+                     <tr>
+                        <td><label>{t}Team Currency{/t}</label></td>
+                        <td><select name="teamCurrency" id="teamCurrency">
+                            {foreach from=$currencies key=id item=i}
+                            <option value="{$i.currency}" {if $i.selected}selected="selected"{/if}>{$i.currency}</option>
+                            {/foreach}
+                            </select>
+                        </td>
+                        <td><img class="currencyHelpDialog_link pointer"  title="{t}Help{/t}" src="images/help_icon.gif"/></td>
+                     </tr>
+                     <tr>
+                        <td><label>{t}Team Average Daily Cost{/t}</label></td>
+                        <td><input size="10" name="teamAverageDailyCost" type="text" value="{$teamADR}"/> 
+                            <span class="displayedTeamCurrency" style="font-weight:bold">{$teamCurrency}</span>
+                        </td>
+                        <td><img class="teamAdrHelpDialog_link pointer" title="{t}Help{/t}" src="images/help_icon.gif"/></td>
+                     </tr>
+                     <tr>
+                        <td colspan="3">
+                           <input id="btUpdateTeamADR" type="button" value="{t}Update{/t}" />
+                           &nbsp;
+                           <label class="updateTeamAdrInfoMsg success_font" ></label>
+                           <label class="updateTeamAdrErrorMsg error_font" ></label>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <input type="hidden" name="action" value="updateTeamADR" />
+               <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
+               </fieldset>
+            </form>
+            <div class="currencyHelpDialog ui-helper-hidden" title="{t}Team Currency{/t}">
+               <p>
+                  <strong>{t}Description{/t}:</strong>
+                  {t}Default currency for the team.{/t}
+                  <br>
+               </p>
+               <hr>
+               <p style="margin-top:1em;">
+                  {t}All indicators will use this currency and all values defined in other currencies will be converted.{/t}
+
+                  <table style="margin-top: 2em;" class="invisible">
+                     <tr>
+                        <th>{t}Currency{/t}</th>
+                        <th>{t}Coef{/t}</th>
+                        <th></th>
+                     </tr>
+                     {foreach from=$currencies key=id item=i}
+                     <tr>
+                        <td>{$i.currency}</td>
+                        <td>{$i.coef}</td>
+                        <td>{if (1 == $i.coef)}<span class="help_font">&nbsp;{t}referal currency{/t}</span>{/if}</td>
+                     </tr>
+                     {/foreach}
+                  </table>
+               </p>
+            </div>
+            <div class="teamAdrHelpDialog ui-helper-hidden" title="{t}Team Average Daily Cost{/t}">
+               <p>
+                  <strong>{t}Description{/t}:</strong>
+                  {t}The ADC is the default UDC for team members{/t}
+                  <br>
+               </p>
+               <hr>
+               <p style="margin-top:1em;">
+                  {t}TODO: describe how and where it is used in CodevTT{/t}
+                  <br>
+               </p>
+            </div>
+         </div>
+
+         <div style="margin-top: 2em;">
+            <h2>{t}User Daily Costs{/t}</h2>
+            <span class="help_font">{t}The UDC is the cost of a user for a single day, it overrides the ADC{/t}</span>
+
+            <div style="margin-top: 1em;">
+               <button  title="{t}Add UserDailyCost{/t}" class="btAddUserDailyCost">
+                  <img align="absmiddle" border="0" src="images/b_add.png" alt="Add icon">
+                  {t}Add{/t}
+               </button>
+               <label class="deleteUdrErrorMsg error_font" ></label>
+                <div class="dialogAddUserDailyCost ui-helper-hidden" title="{t}Add user daily cost{/t}">
+                   <div  style="width: 600px; margin-top:1em; margin-bottom:1em;">
+                      <table class="invisible">
+                         <tr>
+                            <td>{t}Team creation date{/t}</td>
+                            <td>{$teamCreationdate}</td>
+                         </tr>
+                         <tr>
+                            <td>{t}User arrival date{/t}</td>
+                            <td id="addUdrDlg_userArrivalDate"></td>
+                         </tr>
+                      </table>
+                   </div>
+                   <form id="formAddUserDailyCost" name="formAddUserDailyCost" method="post" action="{$ajaxPage}" >
+                      <fieldset>
+                        <select name="udrUserid" id="udrUserid" class="select2"  style="min-width:300px;" >
+                           {foreach from=$teamMembers key=id item=i}
+                           <option value="{$i.userid}">{$i.realname}</option>
+                           {/foreach}
+                        </select>
+                        <input type="text" id="udrStartDate" name="udrStartDate" class="datepicker" maxlength="10" size="10" title="{t}Start date{/t}" />
+                        <input size="10" name="userDailyCost" type="text" />
+                        <select name="udrCurrency" id="udrCurrency">
+                            {foreach from=$currencies key=id item=i}
+                            <option value="{$i.currency}" {if $i.selected}selected="selected"{/if}>{$i.currency}</option>
+                            {/foreach}
+                        </select>
+                        <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
+                        <input type="hidden" name="action" value="addUserDailyCost" />
+                      </fieldset>
+                   </form>
+                   <label class="addUdrErrorMsg error_font" ></label>
+                </div>
+            </div>
+
+            <table id="tableUserDailyCosts" class="datatable_csv_DEBUG">
+               <thead>
+                  <tr>
+                     <th></th>
+                     <th>{t}Name{/t}</th>
+                     <th>{t}Start date{/t}</th>
+                     <th>{t}User Daily Cost{/t}</th>
+                     <th>{t}Description{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$userDailyCosts key=id item=i}
+                  <tr data-udrId="{$i.id}" class="udrRow">
+                     <td style="width:38px;" class="ui-state-error-text" ><a class="bt_deleteUDC ui-icon pointer" align="absmiddle"></td>
+                     <td title="{$i.userid}">{$i.username}</td>
+                     <td>{$i.start_date}</td>
+                     <td>{$i.udr} {$i.currency}</td>
+                     <td>{$i.description}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+            </table>
+
+
+         </div>
+      </div>
+
       <div id="tabTools">
 {include file="tools/dashboard.html"}
       </div>
@@ -526,9 +680,10 @@
          page:"{$page}",
          ajaxPage:"{$ajaxPage}",
          datepickerLocale:"{$locale}",
-         datepickerDate:"{$date}",
+         datepickerDate:"{$teamCreationdate}",
          datepicker1_arrivalDate:"{$arrivalDate}",
          datepicker2_departureDate:"{$departureDate}",
+         displayedTeamId:"{$team->getId()}",
 
          // i18n
          i18n_someFieldsAreMissing:"{t}Some fields are missing:{/t}",
@@ -536,17 +691,19 @@
          i18n_sourceTeam:"{t}Source Team{/t}",
          i18n_project:"{t}Project{/t}",
          i18n_inactivityTask:"{t}Inactivity task{/t}",
+         i18n_add:"{t}Add{/t}",
          i18n_delete:"{t}Delete{/t}",
          i18n_cancel:"{t}Cancel{/t}",
          i18n_removeUserFromThisTeam:"{t}Remove user from this team ?{/t}",
          i18n_removeThisProjectFromTheTeam:"{t}Remove this project from the team ?{/t}",
          i18n_removeIssueTooltipCustomisationForProject:"{t}Remove IssueTooltip customisation for project{/t}",
          i18n_noLongerOnDuty:"{t}This task will no longer be identified as an 'OnDuty' task.{/t}",
-         i18n_save:"{t}save{/t}"
+         i18n_save:"{t}save{/t}",
+         i18n_updatedSuccessfully:"{t}Updated successfully !{/t}"
       };
    </script>
    <script type="text/javascript" src="js_min/datepicker.min.js"></script>
-   <script src="js_min/edit_team.min.js"></script>
+   <script src="js/edit_team.js"></script>
 
    {else}
    <p class="center ui-state-error-text">{t}Sorry, you need to be Team Leader to access this page.{/t}</p>

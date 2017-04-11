@@ -103,11 +103,6 @@
                      <td><input type="text" style="font-family: sans-serif" name="cmdTotalSoldDays" id="cmdTotalSoldDays" value="{if isset($cmdTotalSoldDays)}{$cmdTotalSoldDays}{/if}"> {t}days{/t}
                      </td>
                   </tr>
-                  <tr {if !isset($commandid)}style="display:none;"{/if}>
-                     <th title="{t}Average Daily Rate{/t}"><label for="cmdAverageDailyRate">{t}Default ADR{/t}</label></th>
-                     <td><input type="text" style="font-family: sans-serif" name="cmdAverageDailyRate" id="cmdAverageDailyRate" value="{if isset($cmdAverageDailyRate)}{$cmdAverageDailyRate}{/if}"> {t}EUR{/t}
-                     </td>
-                  </tr>
                </tbody>
             </table>
             <br />
@@ -145,13 +140,6 @@
                   bValid = checkRegexp(form.find("input[name=cmdTotalSoldDays]"), /^[0-9]+(\.[0-9]+)?$/i, "format: '1234' or '123.35'");
                   if (!bValid) {
                      msgString += "{t}Not a number{/t}: {t}Sold Charge{/t}\n";
-                     ++foundError;
-                  }
-               }
-               if ('' != form.find("input[name=cmdAverageDailyRate]").val()) {
-                  bValid = checkRegexp(form.find("input[name=cmdAverageDailyRate]"), /^[0-9]+(\.[0-9]+)?$/i, "format: '1234' or '123.35'");
-                  if (!bValid) {
-                     msgString += "{t}Not a number{/t}: {t}Default ADR{/t}\n";
                      ++foundError;
                   }
                }
@@ -859,6 +847,12 @@ var provData;
                      }
                   });
                });
+
+               jQuery("#provisionCurrency").on("change", function(e) {
+                  var newCur = jQuery("#provisionCurrency").val();
+                  jQuery(".provisionCurrencyDisplayed").html(newCur);
+               });
+
             });
          </script>
          <div id="addProvision_dialog_form" title="{t}Add Provision{/t}" class="ui-helper-hidden">
@@ -888,18 +882,17 @@ var provData;
                         <tr>
                            <th nowrap="nowrap"><label for="averageDailyRate">{t}Average Daily Rate{/t} :</label></th>
                            <td><input type="text" id="averageDailyRate" name="averageDailyRate" size="10" class="text" value="" />
-                              EUR
+                              <label class="provisionCurrencyDisplayed">{$teamCurrency}</label>
                            </td>
                         </tr>
                         <tr>
                            <th nowrap="nowrap"><label for="budget">{t}Budget{/t} :</label></th>
                            <td><input type="text" id="budget" name="budget" size="10" class="text" value="" />
-                              EUR
-                              <!--select id="currency" name="currency">
-                              {foreach from=$provisionCurrency key=id item=i}
-                                 <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-                              {/foreach}
-                              </select-->
+                              <select name="provisionCurrency" id="provisionCurrency">
+                                  {foreach from=$currencies key=id item=i}
+                                  <option value="{$i.currency}" {if $i.selected}selected="selected"{/if}>{$i.currency}</option>
+                                  {/foreach}
+                              </select>
                            </td>
                         </tr>
                         <tr>
