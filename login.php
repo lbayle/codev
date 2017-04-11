@@ -52,7 +52,7 @@ function login($user, $password) {
 
     $formattedUser = SqlWrapper::sql_real_escape_string($user);
     $formattedPass = SqlWrapper::sql_real_escape_string($password);
-    $query = "SELECT id, username, realname, last_visit FROM `{user}` WHERE username = '".$formattedUser."' AND password = '".$formattedPass."' AND enabled = 1;";
+    $query = "SELECT id, username, realname, last_visit FROM `mantis_user_table` WHERE username = '".$formattedUser."' AND password = '".$formattedPass."' AND enabled = 1;";
     $result = SqlWrapper::getInstance()->sql_query($query);
     if ($result && SqlWrapper::getInstance()->sql_num_rows($result) == 1 && $row_login = SqlWrapper::getInstance()->sql_fetch_object($result)) {
         $_SESSION['userid'] = $row_login->id;
@@ -88,7 +88,7 @@ function login($user, $password) {
             $projid = $user->getDefaultProject();
             if (0 != $projid) { $_SESSION['projectid'] = $projid; }
 
-            $query2 = "UPDATE `{user}` SET last_visit = ".$now." WHERE username = '".$formattedUser."';";
+            $query2 = "UPDATE `mantis_user_table` SET last_visit = ".$now." WHERE username = '".$formattedUser."';";
             SqlWrapper::getInstance()->sql_query($query2);
 
          } catch (Exception $e) {

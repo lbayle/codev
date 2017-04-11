@@ -52,7 +52,7 @@ class BVIController extends Controller {
       $formattedUsers = (0 != $userid) ? $userid : implode(',', array_keys($team->getActiveMembers()));
 
 
-      $query = "SELECT id FROM `{bug}` ".
+      $query = "SELECT id FROM `mantis_bug_table` ".
          "WHERE project_id IN ($formattedProjects) ".
          "AND handler_id IN ($formattedUsers) ".
          "AND status >= get_project_resolved_status_threshold(project_id) ";

@@ -365,7 +365,7 @@ class CommandEditController extends Controller {
 
       $formattedProjectList = implode (', ', array_keys($projects));
 
-      $query  = "SELECT * FROM `{bug}` ".
+      $query  = "SELECT * FROM `mantis_bug_table` ".
          "WHERE project_id IN ($formattedProjectList) ".
          "AND 0 = is_issue_in_team_commands(id, $teamid) ".
          "ORDER BY id DESC";

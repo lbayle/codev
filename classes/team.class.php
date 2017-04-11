@@ -343,7 +343,7 @@ class Team extends Model {
 
       if(!array_key_exists($key, $this->projectIdsCache)) {
          $query = "SELECT project.id, project.name ".
-                  "FROM `{project}` as project ".
+                  "FROM `mantis_project_table` as project ".
                   "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
                   "WHERE team_project.team_id = $this->id ";
 
@@ -390,7 +390,7 @@ class Team extends Model {
 
       if(!array_key_exists($key, $this->projectIdsCache)) {
          $query = "SELECT project.* ".
-                  "FROM `{project}` as project ".
+                  "FROM `mantis_project_table` as project ".
                   "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
                   "WHERE team_project.team_id = $this->id ";
 
@@ -429,7 +429,7 @@ class Team extends Model {
    public function getMembers() {
       if(NULL == $this->members) {
          $query = "SELECT user.id, user.username ".
-                  "FROM `{user}` as user ".
+                  "FROM `mantis_user_table` as user ".
                   "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
                   "WHERE team_user.team_id=$this->id ".
                   "ORDER BY user.username;";
@@ -479,7 +479,7 @@ class Team extends Model {
       }
 
       $query = "SELECT user.id, user.username, user.realname ".
-               "FROM `{user}` as user ".
+               "FROM `mantis_user_table` as user ".
                "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
                "AND team_user.team_id=$this->id ".
                "AND team_user.access_level IN (".self::accessLevel_dev.', '.self::accessLevel_manager.') '.
@@ -548,7 +548,7 @@ class Team extends Model {
       }
 
       $query = "SELECT * ".
-               "FROM `{bug}` ".
+               "FROM `mantis_bug_table` ".
                "WHERE project_id IN ($formatedProjects) ".
                "AND handler_id IN ($formatedMembers) ";
 
@@ -591,7 +591,7 @@ class Team extends Model {
 
       // get Issues that are not Resolved/Closed
       $query = "SELECT * ".
-               "FROM `{bug}` ".
+               "FROM `mantis_bug_table` ".
                "WHERE status < get_project_resolved_status_threshold(project_id) ".
                "AND project_id IN ($formatedProjects) ".
                "AND handler_id IN ($formatedMembers) ";
@@ -977,7 +977,7 @@ class Team extends Model {
       if(NULL == $this->members) {
 
          $query = "SELECT user.* ".
-                  "FROM `{user}` as user ".
+                  "FROM `mantis_user_table` as user ".
                   "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
                   "WHERE team_user.team_id = $this->id ".
                   "ORDER BY user.username;";
@@ -1011,7 +1011,7 @@ class Team extends Model {
       $projects = $this->getProjects(true, $withDisabledProjects);
       $formatedCurProjList = implode( ', ', array_keys($projects));
 
-      $query = "SELECT id, name FROM `{project}`";
+      $query = "SELECT id, name FROM `mantis_project_table`";
 
       if($projects != NULL && count($projects) != 0) {
          $query .= " WHERE id NOT IN ($formatedCurProjList)";
@@ -1104,13 +1104,13 @@ class Team extends Model {
       $issueList = array();
 
       $query_projects = "SELECT project.id ".
-               "FROM `{project}` as project ".
+               "FROM `mantis_project_table` as project ".
                "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
                "WHERE team_project.team_id = $this->id ".
                "AND team_project.type NOT IN (".Project::type_noStatsProject.', '.Project::type_sideTaskProject.') ';
 
       $query = "SELECT * ".
-               "FROM `{bug}` ".
+               "FROM `mantis_bug_table` ".
                "WHERE project_id IN ($query_projects) ".
                "AND handler_id = '0' ".
                "AND status < get_project_resolved_status_threshold(project_id) ".

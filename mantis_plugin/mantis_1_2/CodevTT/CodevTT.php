@@ -315,7 +315,7 @@ class CodevTTPlugin extends MantisPlugin {
    public function checkStatusChanged($event, BugData $bug_data) {
 
       // if status changed to 'resolved' then set Backlog = 0
-      $query = 'SELECT COUNT(id) as cnt FROM `{bug}` WHERE id = ' . db_param() . ' AND ' . db_param() . ' = get_issue_resolved_status_threshold(' . db_param() . ')';
+      $query = 'SELECT COUNT(id) as cnt FROM `mantis_bug_table` WHERE id = ' . db_param() . ' AND ' . db_param() . ' = get_issue_resolved_status_threshold(' . db_param() . ')';
       $result = db_query_bound($query, array( $bug_data->id, $bug_data->status, $bug_data->id) );
       $row = db_fetch_array( $result );
 
@@ -345,7 +345,7 @@ class CodevTTPlugin extends MantisPlugin {
               "FROM `codev_timetracking_table`, `mantis_user_table` ".
               "WHERE codev_timetracking_table.userid = mantis_user_table.id ".
               "AND codev_timetracking_table.bugid IN (".
-              "   SELECT id FROM {bug} WHERE project_id = " . db_param() . ")";
+              "   SELECT id FROM mantis_bug_table WHERE project_id = " . db_param() . ")";
 
       $errMsg = "";
       $result = db_query_bound($query, array( $project_id ) );

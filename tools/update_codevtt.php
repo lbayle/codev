@@ -84,7 +84,7 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
       echo "<span class='warn_font'>WARN: using default attributes for CustomField $fieldName</span><br/>";
    }
 
-   $query = "SELECT id, name FROM `{custom_field}`";
+   $query = "SELECT id, name FROM `mantis_custom_field_table`";
    $result = execQuery($query);
    while ($row = mysql_fetch_object($result)) {
       $fieldList["$row->name"] = $row->id;
@@ -92,7 +92,7 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
 
    $fieldId = $fieldList[$fieldName];
    if (!$fieldId) {
-      $query2 = "INSERT INTO `{custom_field}` " .
+      $query2 = "INSERT INTO `mantis_custom_field_table` " .
          "(`name`, `type` ,`access_level_r`," .
          "                 `access_level_rw` ,`require_report` ,`require_update` ,`display_report` ,`display_update` ,`require_resolved` ,`display_resolved` ,`display_closed` ,`require_closed` ";
       $query2 .= ", `possible_values`, `default_value`";
@@ -219,13 +219,13 @@ function update_v11_to_v12() {
    // --- create new categories for ExternalTasksProject
    $extTasksProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
    // create leave category
-   $query = "INSERT INTO `{category}`  (`project_id`, `user_id`, `name`, `status`) ".
+   $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) ".
             "VALUES ('$extTasksProjId','0','Leave', '0');";
    $result = execQuery($query);
    $catLeaveId = SqlWrapper::getInstance()->sql_insert_id();
 
    // create otherInternal category
-   $query = "INSERT INTO `{category}`  (`project_id`, `user_id`, `name`, `status`) ".
+   $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) ".
             "VALUES ('$extTasksProjId','0','Other activity', '0');";
    $result = execQuery($query);
    $catOtherInternalId = SqlWrapper::getInstance()->sql_insert_id();
@@ -236,9 +236,9 @@ function update_v11_to_v12() {
 
    // update existing issues
    $leaveTaskId = Config::getInstance()->getValue(Config::id_externalTask_leave);
-   $query = "UPDATE `{bug}` SET `category_id`='$catLeaveId' WHERE `id`='$leaveTaskId';";
+   $query = "UPDATE `mantis_bug_table` SET `category_id`='$catLeaveId' WHERE `id`='$leaveTaskId';";
    $result = execQuery($query);
-   $query = "UPDATE `{bug}` SET `category_id`='$catOtherInternalId' ".
+   $query = "UPDATE `mantis_bug_table` SET `category_id`='$catOtherInternalId' ".
            "WHERE `project_id`='$extTasksProjId' ".
            "AND `id` <> '$leaveTaskId';";
    $result = execQuery($query);
@@ -382,7 +382,7 @@ function update_v14_to_v15() {
    // if Mantis 1.3, plugins must be updated
    if (!Tools::isMantisV1_2()) {
          echo "- Remove 'CodevTT' from Mantis main menu (CodevTT v1.0.x is incompatible with Mantis v1.3.x)<br>";
-         $query = "DELETE FROM `{config}` WHERE config_id = 'main_menu_custom_options'";
+         $query = "DELETE FROM `mantis_config_table` WHERE config_id = 'main_menu_custom_options'";
          $result = execQuery($query);
 
          echo "- Install Mantis plugin: CodevTT (for mantis v1.3.x)<br>";
@@ -498,7 +498,7 @@ function update_v16_to_v17() {
 
    // find deprecated workingProjects
    $query0 = "SELECT mpt.id, mpt.name FROM `codev_team_project_table` ctpt ".
-             "JOIN `{project}` mpt ON mpt.id = ctpt.project_id ".
+             "JOIN `mantis_project_table` mpt ON mpt.id = ctpt.project_id ".
              "WHERE ctpt.type = ".Project::type_workingProject.';';
    $result0 = execQuery($query0);
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result0)) {
@@ -630,10 +630,10 @@ function installMantisPlugin($pluginName, $isReplace=true) {
       }
 
       // activate plugin
-      $query = "INSERT INTO {plugin} (basename, enabled, protected, priority)".
+      $query = "INSERT INTO mantis_plugin_table (basename, enabled, protected, priority)".
               " SELECT * FROM (SELECT '$pluginName', '1', '0', '3') AS tmp".
               " WHERE NOT EXISTS (".
-              " SELECT basename FROM {plugin} WHERE basename = '$pluginName') LIMIT 1;";
+              " SELECT basename FROM mantis_plugin_table WHERE basename = '$pluginName') LIMIT 1;";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          return "WARNING: mantis $pluginName plugin must be activated manualy";

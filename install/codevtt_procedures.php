@@ -24,7 +24,7 @@ DETERMINISTIC
 BEGIN
    DECLARE status INT DEFAULT NULL;
 
-   SELECT value INTO status FROM `{config}`
+   SELECT value INTO status FROM `mantis_config_table`
           WHERE config_id = 'bug_resolved_status_threshold'
           AND project_id = proj_id
           LIMIT 1;
@@ -51,7 +51,7 @@ DETERMINISTIC
 BEGIN
    DECLARE proj_id INT DEFAULT NULL;
 
-   SELECT project_id INTO proj_id FROM `{bug}`
+   SELECT project_id INTO proj_id FROM `mantis_bug_table`
              WHERE id = bug_id
              LIMIT 1;
 

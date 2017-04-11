@@ -63,7 +63,7 @@ class Crypto {
      * @access public
      */
     private function auth_is_cookie_string_unique($p_cookie_string) {
-        $query = "SELECT COUNT(*) FROM `{user}` WHERE cookie_string='$p_cookie_string'";
+        $query = "SELECT COUNT(*) FROM mantis_user_table WHERE cookie_string='$p_cookie_string'";
         $result = SqlWrapper::getInstance()->sql_query($query);
 
         if (!$result) {

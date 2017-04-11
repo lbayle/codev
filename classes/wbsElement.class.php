@@ -178,7 +178,7 @@ class WBSElement extends Model {
 				self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
 				throw $e;
 			}
-			$title = null; // issue summary is stored in {bug}
+			$title = null; // issue summary is stored in mantis_bug_table
 		}
 
 		if (is_null($order)) { $order = 1; }
@@ -220,7 +220,7 @@ class WBSElement extends Model {
     * parse all WBSs for issues not found in mantis_bug_table. if any, remove them from the WBS.
     */
    public static function checkWBS() {
-      $query0 = "SELECT root_id, bug_id FROM codev_wbs_table WHERE bug_id NOT IN (SELECT id FROM {bug})";
+      $query0 = "SELECT root_id, bug_id FROM codev_wbs_table WHERE bug_id NOT IN (SELECT id FROM mantis_bug_table)";
       $result0 = SqlWrapper::getInstance()->sql_query($query0);
       while ($row = SqlWrapper::getInstance()->sql_fetch_object($result0)) {
          self::$logger->warn("Issue $row->bug_id does not exist in Mantis: now removed from WBS (root = $row->root_id)");

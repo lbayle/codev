@@ -126,7 +126,7 @@ class Project extends Model {
     */
    public function initialize($row = NULL) {
       if($row == NULL) {
-         $query = "SELECT * FROM `{project}` ".
+         $query = "SELECT * FROM `mantis_project_table` ".
                   "WHERE id = ".$this->id.";";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -184,7 +184,7 @@ class Project extends Model {
       if (NULL == self::$existsCache) { self::$existsCache = array(); }
 
       if (NULL == self::$existsCache[$id]) {
-         $query  = "SELECT COUNT(id) FROM `{project}` WHERE id=".$id.";";
+         $query  = "SELECT COUNT(id) FROM `mantis_project_table` WHERE id=".$id.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -213,7 +213,7 @@ class Project extends Model {
          return false;
       }
       // check if name exists
-      $query  = "SELECT id FROM `{project}` WHERE name='$projectName'";
+      $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -233,7 +233,7 @@ class Project extends Model {
     */
    public static function createExternalTasksProject($projectName, $projectDesc) {
       // check if name exists
-      $query  = "SELECT id FROM `{project}` WHERE name='$projectName'";
+      $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -247,7 +247,7 @@ class Project extends Model {
       }
 
       // create new Project
-      $query = "INSERT INTO `{project}` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
+      $query = "INSERT INTO `mantis_project_table` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
                "VALUES ('$projectName',50,1,50,10,'$projectDesc',1,1);";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -261,7 +261,7 @@ class Project extends Model {
       #REM first call to this function is in install step1, and $statusNames is set in step2. '90' is mantis default value for 'closed'
       $statusNames = NULL; # Constants::$statusNames;
       $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
-      $query = "INSERT INTO `{config}` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
+      $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
                "VALUES ('bug_submit_status', $projectid, 0, 90, 1, '$status_closed');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -270,7 +270,7 @@ class Project extends Model {
       }
 
       // Status to set auto-assigned issues to 'closed'
-      $query = "INSERT INTO `{config}` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
+      $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
                "VALUES ('bug_assigned_status', $projectid, 0, 90, 1, '$status_closed');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -279,7 +279,7 @@ class Project extends Model {
       }
 
       // create leave category
-      $query = "INSERT INTO `{category}`  (`project_id`, `user_id`, `name`, `status`) ".
+      $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) ".
               "VALUES ('$projectid','0','Leave', '0');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -289,7 +289,7 @@ class Project extends Model {
       $catLeaveId = SqlWrapper::getInstance()->sql_insert_id();
 
       // create otherInternal category
-      $query = "INSERT INTO `{category}`  (`project_id`, `user_id`, `name`, `status`) ".
+      $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) ".
               "VALUES ('$projectid','0','Other activity', '0');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -324,7 +324,7 @@ class Project extends Model {
       $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
 
       // check if name exists
-      $query  = "SELECT id FROM `{project}` WHERE name='$projectName'";
+      $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -338,7 +338,7 @@ class Project extends Model {
       }
 
       // create new Project
-      $query = "INSERT INTO `{project}` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
+      $query = "INSERT INTO `mantis_project_table` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
          "VALUES ('$projectName','50','1','50','10','$projectDesc','1','0');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -348,7 +348,7 @@ class Project extends Model {
       $projectid = SqlWrapper::getInstance()->sql_insert_id();
 
       // add custom fields BI,BS,RAE,DeadLine,DeliveryDate
-      $query = "INSERT INTO `{custom_field_project}` (`field_id`, `project_id`, `sequence`) ".
+      $query = "INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) ".
                "VALUES ('$mgrEffortEstimCustomField', '$projectid','2'), ".
                "('$estimEffortCustomField',    '$projectid','3'), ".
                "('$addEffortCustomField',      '$projectid','4'), ".
@@ -367,7 +367,7 @@ class Project extends Model {
       $statusNames = Constants::$statusNames;
       Config::setQuiet(FALSE);
       $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
-      $query = "INSERT INTO `{config}` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
+      $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
                "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -376,7 +376,7 @@ class Project extends Model {
       }
 
       // Status to set auto-assigned issues to 'closed'
-      $query = "INSERT INTO `{config}` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
+      $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
                "VALUES ('bug_assigned_status',  '$projectid','0', '90', '1', '$status_closed');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -394,7 +394,7 @@ class Project extends Model {
     */
    public static function getCategoryName($id) {
       if(!array_key_exists($id, self::$categories)) {
-         $query = "SELECT name FROM `{category}` WHERE id = ".$id.";";
+         $query = "SELECT name FROM `mantis_category_table` WHERE id = ".$id.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -414,7 +414,7 @@ class Project extends Model {
     * @return string The category name
     */
    public static function getCategoryId($name) {
-      $query = "SELECT id FROM `{category}` WHERE name='$name'";
+      $query = "SELECT id FROM `mantis_category_table` WHERE name='$name'";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -430,7 +430,7 @@ class Project extends Model {
     * @return string The version name
     */
    public static function getProjectVersionName($id) {
-      $query = "SELECT version FROM `{project_version}` WHERE id = ".$id.";";
+      $query = "SELECT version FROM `mantis_project_version_table` WHERE id = ".$id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -447,7 +447,7 @@ class Project extends Model {
     * @return string The version timestamp
     */
    public static function getProjectVersionTimestamp($project_id, $version) {
-      $query = "SELECT date_order FROM `{project_version}` "
+      $query = "SELECT date_order FROM `mantis_project_version_table` "
               . 'WHERE `project_id` = '.$project_id.' AND `version` = "'.$version.'";';
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -479,7 +479,7 @@ class Project extends Model {
          }
 
          if ($withInherited) {
-            $queryParents = "SELECT parent_id FROM `{project_hierarchy}` ".
+            $queryParents = "SELECT parent_id FROM `mantis_project_hierarchy_table` ".
                     "WHERE child_id = $this->id ".
                     "AND inherit_parent = 1 ";
             $resultParents = SqlWrapper::getInstance()->sql_query($queryParents);
@@ -492,7 +492,7 @@ class Project extends Model {
             }
          }
 
-         $query = "SELECT id, name FROM `{category}` WHERE project_id IN (".$formattedProjects.");";
+         $query = "SELECT id, name FROM `mantis_category_table` WHERE project_id IN (".$formattedProjects.");";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -512,7 +512,7 @@ class Project extends Model {
       if (NULL == $this->versionCache) {
          $this->versionCache = array();
 
-         $query = "SELECT id, version FROM `{project_version}` WHERE project_id = ".$this->id;
+         $query = "SELECT id, version FROM `mantis_project_version_table` WHERE project_id = ".$this->id;
          if (FALSE == $withObsolete) {
             $query .= " AND obsolete=0";
          }
@@ -545,7 +545,7 @@ class Project extends Model {
       */
 
       // find out which customFields are already associated
-      $query = "SELECT field_id FROM `{custom_field_project}` WHERE project_id = ".$projectid.";";
+      $query = "SELECT field_id FROM `mantis_custom_field_project_table` WHERE project_id = ".$projectid.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -567,7 +567,7 @@ class Project extends Model {
          $existingFields[] = $row->field_id;
       }
 
-      $query = "INSERT INTO `{custom_field_project}` (`field_id`, `project_id`, `sequence`) ".
+      $query = "INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) ".
                "VALUES ";
 
       $found = FALSE;
@@ -623,7 +623,7 @@ class Project extends Model {
    private function addCategory($catType, $catName) {
       // create category for SideTask Project
       $formattedCatName = SqlWrapper::sql_real_escape_string($catName);
-      $query = "INSERT INTO `{category}`  (`project_id`, `user_id`, `name`, `status`) VALUES ('$this->id','0','$formattedCatName', '0');";
+      $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) VALUES ('$this->id','0','$formattedCatName', '0');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -693,7 +693,7 @@ class Project extends Model {
       $reproducibility = 100;
 
       $formattedIssueDesc = SqlWrapper::sql_real_escape_string($issueDesc);
-      $query = "INSERT INTO `{bug_text}`  (`description`, `steps_to_reproduce`, `additional_information`) VALUES ('".$formattedIssueDesc."', '', '');";
+      $query = "INSERT INTO `mantis_bug_text_table`  (`description`, `steps_to_reproduce`, `additional_information`) VALUES ('".$formattedIssueDesc."', '', '');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -702,7 +702,7 @@ class Project extends Model {
       $bug_text_id = SqlWrapper::getInstance()->sql_insert_id();
 
       $formattedIssueSummary = SqlWrapper::sql_real_escape_string($issueSummary);
-      $query = "INSERT INTO `{bug}` (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
+      $query = "INSERT INTO `mantis_bug_table` (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
                "VALUES ($this->id,$cat_id,'$formattedIssueSummary',$priority,$reproducibility,$issueStatus,$bug_text_id,$today,$today);";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -740,7 +740,7 @@ class Project extends Model {
    public function getBugSubmitStatus() {
       if(is_null($this->bug_submit_status)) {
 
-         $query  = "SELECT value FROM `{config}` ".
+         $query  = "SELECT value FROM `mantis_config_table` ".
                  "WHERE config_id = 'bug_submit_status'".
                  "AND project_id = $this->id".
                  " LIMIT 1;";
@@ -870,7 +870,7 @@ class Project extends Model {
       if (NULL == $this->bugidListsCache[$key]) {
          $issueList = array();
 
-         $query = "SELECT id FROM `{bug}` ".
+         $query = "SELECT id FROM `mantis_bug_table` ".
                   "WHERE project_id=$this->id ";
          if (0 != $handler_id) {
             $query  .= "AND handler_id = $handler_id ";
@@ -910,7 +910,7 @@ class Project extends Model {
       if (!array_key_exists($key, $this->bugidListsCache)) {
          $issueList = array();
 
-         $query = "SELECT * FROM `{bug}` ".
+         $query = "SELECT * FROM `mantis_bug_table` ".
                   "WHERE project_id=$this->id ";
          if (0 != $handler_id) {
             $query  .= "AND handler_id = $handler_id ";
@@ -1105,7 +1105,7 @@ class Project extends Model {
    function getWorkflowTransitions() {
 
       // ORDER BY is important, it will ensure to return the project specific value before the generic (0) value
-      $query = "SELECT * FROM `{config}` ".
+      $query = "SELECT * FROM `mantis_config_table` ".
                "WHERE project_id IN (0, $this->id) ".
                "AND config_id = 'status_enum_workflow' ".
                "ORDER BY project_id DESC";
@@ -1178,7 +1178,7 @@ class Project extends Model {
     */
    function getProjectConfig() {
       // find all srcProj specific config
-      $query = "SELECT * FROM `{config}` ".
+      $query = "SELECT * FROM `mantis_config_table` ".
                "WHERE project_id = ".$this->id.";";
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("getProjectConfig: Src query=$query");
@@ -1209,7 +1209,7 @@ class Project extends Model {
     */
    static function cloneAllProjectConfig($srcProjectId, $destProjectId, $strict=TRUE) {
       // find all srcProj specific config
-      $query = "SELECT DISTINCT config_id FROM `{config}` ".
+      $query = "SELECT DISTINCT config_id FROM `mantis_config_table` ".
                "WHERE project_id = ".$srcProjectId.";";
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("cloneAllProjectConfig: Src query=$query");
@@ -1231,7 +1231,7 @@ class Project extends Model {
          self::$logger->debug("cloneAllProjectConfig: SrcConfigList=$formatedSrcConfigList");
       }
 
-      $query = "DELETE FROM `{config}` ".
+      $query = "DELETE FROM `mantis_config_table` ".
                "WHERE project_id=".$destProjectId." ";
       if (!$strict) {
          // delete only config defined for srcProject
@@ -1248,10 +1248,10 @@ class Project extends Model {
 
       //--- clone all srcProj config to destProj
       foreach ($srcConfigList as $cid) {
-         $query = "INSERT INTO `{config}` ".
+         $query = "INSERT INTO `mantis_config_table` ".
                   "(config_id, project_id, user_id, access_reqd, type, value) ".
                   "   (SELECT config_id, $destProjectId, user_id, access_reqd, type, value ".
-                  "    FROM `{config}` ".
+                  "    FROM `mantis_config_table` ".
                   "    WHERE project_id=$srcProjectId ".
                   "    AND config_id='$cid') ";
          if(self::$logger->isDebugEnabled()) {
@@ -1305,7 +1305,7 @@ class Project extends Model {
       }
       $sqlWrapper = SqlWrapper::getInstance();
       if(!array_key_exists($target_version,$this->versionDateCache)) {
-         $query = "SELECT date_order FROM `{project_version}` ".
+         $query = "SELECT date_order FROM `mantis_project_version_table` ".
                   "WHERE project_id=$this->id ".
                   "AND version='".SqlWrapper::sql_real_escape_string($target_version)."';";
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -1377,7 +1377,7 @@ class Project extends Model {
     * @return string[] The projects : name[id]
     */
    public static function getProjects() {
-      $query = 'SELECT id, name FROM `{project}` ORDER BY name;';
+      $query = 'SELECT id, name FROM `mantis_project_table` ORDER BY name;';
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          return NULL;
@@ -1399,7 +1399,7 @@ class Project extends Model {
    public static function getProjectIssues($projectIds) {
       $formatedProjList = implode( ', ', $projectIds);
 
-      $query = "SELECT * FROM `{bug}` " .
+      $query = "SELECT * FROM `mantis_bug_table` " .
                "WHERE project_id IN ($formatedProjList) " .
                "ORDER BY id DESC;";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -1460,11 +1460,11 @@ class Project extends Model {
     */
    public function getCustomFieldsList() {
 
-      $query = "SELECT {custom_field_project}.field_id, {custom_field}.name ".
-              "FROM `{custom_field_project}`, `{custom_field}` ".
-              "WHERE {custom_field_project}.project_id = $this->id ".
-              "AND {custom_field}.id = {custom_field_project}.field_id ".
-              "ORDER BY {custom_field}.name";
+      $query = "SELECT mantis_custom_field_project_table.field_id, mantis_custom_field_table.name ".
+              "FROM `mantis_custom_field_project_table`, `mantis_custom_field_table` ".
+              "WHERE mantis_custom_field_project_table.project_id = $this->id ".
+              "AND mantis_custom_field_table.id = mantis_custom_field_project_table.field_id ".
+              "ORDER BY mantis_custom_field_table.name";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1568,7 +1568,7 @@ class Project extends Model {
      */
     public function hasMember($memberId)
     {
-        $query = "SELECT count(*) as count FROM `{project_user_list}` WHERE user_id = $memberId AND project_id = $this->id";
+        $query = "SELECT count(*) as count FROM `mantis_project_user_list_table` WHERE user_id = $memberId AND project_id = $this->id";
 
         $result = SqlWrapper::getInstance()->sql_query($query);
         if (!$result) {

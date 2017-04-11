@@ -57,7 +57,7 @@ class Tools {
    public static function isMantisV1_2() {
 
       if (is_null(self::$MantisDbVersion)) {
-         $query = "SELECT value FROM `{config}` WHERE `config_id` = 'database_version';";
+         $query = "SELECT value FROM `mantis_config_table` WHERE `config_id` = 'database_version';";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1266,7 +1266,7 @@ class Tools {
          echo "<span class='warn_font'>WARN: using default attributes for CustomField $fieldName</span><br/>";
       }
 
-      $query = "SELECT id, name FROM `{custom_field}`";
+      $query = "SELECT id, name FROM `mantis_custom_field_table`";
       $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>" . mysql_error() . "</span>");
       while ($row = mysql_fetch_object($result)) {
          $fieldList["$row->name"] = $row->id;
@@ -1274,7 +1274,7 @@ class Tools {
 
       $fieldId = $fieldList[$fieldName];
       if (!$fieldId) {
-         $query2 = "INSERT INTO `{custom_field}` " .
+         $query2 = "INSERT INTO `mantis_custom_field_table` " .
             "(`name`, `type` ,`access_level_r`," .
             "                 `access_level_rw` ,`require_report` ,`require_update` ,`display_report` ,`display_update` ,`require_resolved` ,`display_resolved` ,`display_closed` ,`require_closed` ";
          $query2 .= ", `possible_values`, `default_value`";
@@ -1444,7 +1444,7 @@ class Tools {
          $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
 
          self::$customFieldNames = array();
-         $query = "SELECT id, name FROM `{custom_field}` ";
+         $query = "SELECT id, name FROM `mantis_custom_field_table` ";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";

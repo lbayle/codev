@@ -124,7 +124,7 @@ class UserTeamList extends IndicatorPluginAbstract {
     */
    public function execute() {
 
-      $query = "SELECT id, realname FROM `{user}` ORDER BY realname;";
+      $query = "SELECT id, realname FROM `mantis_user_table` ORDER BY realname;";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {

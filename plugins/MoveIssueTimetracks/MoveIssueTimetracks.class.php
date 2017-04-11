@@ -236,7 +236,7 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
             }
 
             // move timetrack notes
-            $query2 = "UPDATE `{bugnote}` SET bug_id='$destBugId' where id in (select noteid FROM codev_timetrack_note_table where timetrackid in ($formatedTimetracksIds))";
+            $query2 = "UPDATE `mantis_bugnote_table` SET bug_id='$destBugId' where id in (select noteid FROM codev_timetrack_note_table where timetrackid in ($formatedTimetracksIds))";
             $result2 = SqlWrapper::getInstance()->sql_query($query2);
             if (!$result2) {
                 echo "<span style='color:red'>ERROR: Query FAILED</span>";

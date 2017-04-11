@@ -177,11 +177,11 @@ class ExportCSVWeeklyController extends Controller {
          Tools::formatDate("%A %d/%m", $weekDates[5])."\n";
       fwrite($fh, $stringData);
 
-      $query = "SELECT codev_team_user_table.user_id, {user}.realname ".
-         "FROM  `codev_team_user_table`, `{user}` ".
+      $query = "SELECT codev_team_user_table.user_id, mantis_user_table.realname ".
+         "FROM  `codev_team_user_table`, `mantis_user_table` ".
          "WHERE  codev_team_user_table.team_id = $teamid ".
-         "AND    codev_team_user_table.user_id = {user}.id ".
-         "ORDER BY {user}.realname";
+         "AND    codev_team_user_table.user_id = mantis_user_table.id ".
+         "ORDER BY mantis_user_table.realname";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {

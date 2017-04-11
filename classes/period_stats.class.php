@@ -111,7 +111,7 @@ class PeriodStats {
 
       // select all but SideTasks & rem 'doublons'
       $query = "SELECT DISTINCT bug.id ".
-               "FROM `{bug}` as bug ".
+               "FROM `mantis_bug_table` as bug ".
                "JOIN `codev_team_project_table` as team_project ON bug.project_id = team_project.project_id ".
                "WHERE team_project.type IN ($formatedProjectTypes) ";
 
@@ -133,7 +133,7 @@ class PeriodStats {
          $bugId1 = $row->id;
          // Find most recent transitions where date < $endTimestamp
          $query2 = "SELECT bug_id, new_value, old_value, date_modified ".
-                   "FROM `{bug_history}` ".
+                   "FROM `mantis_bug_history_table` ".
                    "WHERE field_name='status' ".
                    "AND bug_id =$bugId1 ".
                    "AND date_modified < $this->endTimestamp ".

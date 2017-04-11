@@ -130,16 +130,10 @@ class SqlWrapper {
     * @return resource For SELECT, SHOW, DESCRIBE, EXPLAIN and other statements returns a resource on success, or false on error.
     * For other type of SQL statements, INSERT, UPDATE, DELETE, DROP, etc, returns true on success or false on error.
     */
-   public function sql_query($p_query) {
+   public function sql_query($query) {
       if (self::$logger->isDebugEnabled()) {
          $start = microtime(true);
       }
-
-      // replace {bug} => mantis_bug_table
-   	$query = strtr($p_query, array(
-         '{' => Constants::$mantis_db_table_prefix,
-         '}' => Constants::$mantis_db_table_suffix,
-         ) );
 
       $result = mysql_query($query, $this->link);
 
@@ -410,3 +404,4 @@ class SqlWrapper {
 
 SqlWrapper::staticInit();
 
+?>

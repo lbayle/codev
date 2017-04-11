@@ -177,7 +177,7 @@ class Issue extends Model implements Comparable {
    public function initialize($row = NULL) {
       if($row == NULL) {
          // Get issue info
-         $query = "SELECT * FROM `{bug}` " .
+         $query = "SELECT * FROM `mantis_bug_table` " .
                   "WHERE id = $this->bugId";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -235,7 +235,7 @@ class Issue extends Model implements Comparable {
       $customFields = array(
          $extIdField, $mgrEffortEstimField, $effortEstimField, $backlogField, $addEffortField, $deadLineField, $deliveryDateField, $customField_type #, $deliveryIdField
       );
-      $query = "SELECT field_id, value FROM `{custom_field_string}` ".
+      $query = "SELECT field_id, value FROM `mantis_custom_field_string_table` ".
                "WHERE bug_id = ".$this->bugId." ".
                "AND field_id IN (".implode(',',$customFields).");";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -278,9 +278,9 @@ class Issue extends Model implements Comparable {
 
    public function initializeTags() {
 
-      $query = "SELECT {tag}.* FROM `{tag}` ".
-               "JOIN `{bug_tag}` ON {tag}.id = `{bug_tag}`.tag_id ".
-               "WHERE `{bug_tag}`.bug_id = ".$this->bugId.";";
+      $query = "SELECT mantis_tag_table.* FROM `mantis_tag_table` ".
+               "JOIN `mantis_bug_tag_table` ON mantis_tag_table.id = mantis_bug_tag_table.tag_id ".
+               "WHERE mantis_bug_tag_table.bug_id = ".$this->bugId.";";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -306,7 +306,7 @@ class Issue extends Model implements Comparable {
       if (NULL == self::$existsCache) { self::$existsCache = array(); }
 
       if (!array_key_exists($bugid,self::$existsCache)) {
-         $query  = "SELECT COUNT(id) FROM `{bug}` WHERE id=$bugid ";
+         $query  = "SELECT COUNT(id) FROM `mantis_bug_table` WHERE id=$bugid ";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -338,7 +338,7 @@ class Issue extends Model implements Comparable {
     */
    public function getDescription() {
       if (NULL == $this->description) {
-         $query = "SELECT bt.description FROM {bug_text} bt, {bug} b WHERE b.id=".$this->bugId." AND b.bug_text_id = bt.id";
+         $query = "SELECT bt.description FROM mantis_bug_text_table bt, mantis_bug_table b WHERE b.id=".$this->bugId." AND b.bug_text_id = bt.id";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -389,7 +389,7 @@ class Issue extends Model implements Comparable {
     */
    public function getIssueNoteList() {
       if (NULL == $this->issueNoteList) {
-         $query = "SELECT id FROM `{bugnote}` WHERE bug_id = ".$this->bugId.";";
+         $query = "SELECT id FROM `mantis_bugnote_table` WHERE bug_id = ".$this->bugId.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -650,7 +650,7 @@ class Issue extends Model implements Comparable {
       return $project->getName();
 
       /*
-      $query = "SELECT name FROM `{project}` WHERE id= $this->projectId";
+      $query = "SELECT name FROM `mantis_project_table` WHERE id= $this->projectId";
       $result = SqlWrapper::getInstance()->sql_query($query) or die("Query failed: $query");
       $projectName = SqlWrapper::getInstance()->sql_result($result, 0);
 
@@ -763,8 +763,8 @@ class Issue extends Model implements Comparable {
 
       // TODO should be done only once... in Constants singleton ?
       // find in bug history when was the latest update of the Backlog before $timestamp
-      $query = "SELECT * FROM `{bug_history}` ".
-               "WHERE field_name = (SELECT name FROM `{custom_field}` WHERE id = $backlogCustomFieldId) ".
+      $query = "SELECT * FROM `mantis_bug_history_table` ".
+               "WHERE field_name = (SELECT name FROM `mantis_custom_field_table` WHERE id = $backlogCustomFieldId) ".
                "AND bug_id = '$this->bugId' ".
                "AND date_modified <= '$timestamp' ".
                "ORDER BY date_modified DESC LIMIT 1 ";
@@ -966,7 +966,7 @@ class Issue extends Model implements Comparable {
 
          $this->relationships = array();
 
-         $query = 'SELECT * FROM `{bug_relationship}` '.
+         $query = 'SELECT * FROM `mantis_bug_relationship_table` '.
                   'WHERE source_bug_id='.$this->bugId.' OR destination_bug_id='.$this->bugId;
 
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -1140,7 +1140,7 @@ class Issue extends Model implements Comparable {
       $userList = array();
 
       $query = "SELECT user.id, user.username ".
-               "FROM `{user}` as user, `codev_timetracking_table` as tt, `codev_team_user_table`  ".
+               "FROM `mantis_user_table` as user, `codev_timetracking_table` as tt, `codev_team_user_table`  ".
                "WHERE  tt.userid = user.id ".
                "AND tt.bugid  = ".$this->bugId." ";
 
@@ -1193,7 +1193,7 @@ class Issue extends Model implements Comparable {
          } else {
             // if a timestamp is specified, find the latest status change (strictly) before this date
             $query = "SELECT new_value, old_value, date_modified ".
-                     "FROM `{bug_history}` ".
+                     "FROM `mantis_bug_history_table` ".
                      "WHERE bug_id = $this->bugId ".
                      "AND field_name='status' ".
                      "AND date_modified < $timestamp ".
@@ -1241,7 +1241,7 @@ class Issue extends Model implements Comparable {
          self::$logger->debug("setBacklog old_value=$old_backlog   new_value=$backlog");
       }
 
-      $query = "SELECT * FROM `{custom_field_string}` WHERE bug_id=$this->bugId AND field_id = $backlogCustomField";
+      $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $backlogCustomField";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1249,9 +1249,9 @@ class Issue extends Model implements Comparable {
       }
       if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
 
-         $query2 = "UPDATE `{custom_field_string}` SET value = '$backlog' WHERE bug_id=$this->bugId AND field_id = $backlogCustomField";
+         $query2 = "UPDATE `mantis_custom_field_string_table` SET value = '$backlog' WHERE bug_id=$this->bugId AND field_id = $backlogCustomField";
       } else {
-         $query2 = "INSERT INTO `{custom_field_string}` (`field_id`, `bug_id`, `value`) VALUES ('$backlogCustomField', '$this->bugId', '$backlog');";
+         $query2 = "INSERT INTO `mantis_custom_field_string_table` (`field_id`, `bug_id`, `value`) VALUES ('$backlogCustomField', '$this->bugId', '$backlog');";
       }
       $result2 = SqlWrapper::getInstance()->sql_query($query2);
       if (!$result2) {
@@ -1261,7 +1261,7 @@ class Issue extends Model implements Comparable {
       $this->backlog = $backlog;
 
       // Add to history
-      $query3 = "SELECT name FROM `{custom_field}` WHERE id = $backlogCustomField";
+      $query3 = "SELECT name FROM `mantis_custom_field_table` WHERE id = $backlogCustomField";
       $result3 = SqlWrapper::getInstance()->sql_query($query3);
       if (!$result3) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1309,7 +1309,7 @@ class Issue extends Model implements Comparable {
          $time = $current_date - $this->dateSubmission;
       } else {
          // Bug has changed, search history for status changed
-         $query = "SELECT date_modified FROM `{bug_history}` WHERE bug_id=$this->bugId AND field_name = 'status' AND old_value='".Constants::$status_new."'";
+         $query = "SELECT date_modified FROM `mantis_bug_history_table` WHERE bug_id=$this->bugId AND field_name = 'status' AND old_value='".Constants::$status_new."'";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1344,7 +1344,7 @@ class Issue extends Model implements Comparable {
 
       // Find start_date
       $query = "SELECT id, date_modified, old_value, new_value ".
-               "FROM `{bug_history}` ".
+               "FROM `mantis_bug_history_table` ".
                "WHERE bug_id=$this->bugId ".
                "AND field_name = 'status' ".
                "AND (new_value=$status OR old_value=$status) ORDER BY id";
@@ -1620,7 +1620,7 @@ class Issue extends Model implements Comparable {
       }
 
       $query = "SELECT date_modified ".
-               "FROM `{bug_history}` ".
+               "FROM `mantis_bug_history_table` ".
                "WHERE bug_id=$this->bugId ".
                "AND field_name = 'status' ".
                "AND new_value=$status ORDER BY id LIMIT 1";
@@ -1657,7 +1657,7 @@ class Issue extends Model implements Comparable {
       }
 
       $query = "SELECT date_modified ".
-               "FROM `{bug_history}` ".
+               "FROM `mantis_bug_history_table` ".
                "WHERE bug_id=$this->bugId ".
                "AND field_name = 'status' ".
                "AND new_value=$status ORDER BY id DESC LIMIT 1";
@@ -1753,7 +1753,7 @@ class Issue extends Model implements Comparable {
    private function setMantisBugHistory($field_name, $old_value, $new_value, $type=0) {
       // Add to history
       $now = time();
-      $query = "INSERT INTO `{bug_history}`  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
+      $query = "INSERT INTO `mantis_bug_history_table`  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
                "VALUES ('".$_SESSION['userid']."','$this->bugId','$field_name', '$old_value', '$new_value', '".$type."', '".$now."');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -1763,7 +1763,7 @@ class Issue extends Model implements Comparable {
 
 
       // update lastUpdated field
-      $query2 = "UPDATE `{bug}` SET last_updated = '".$now."' WHERE id = $this->bugId";
+      $query2 = "UPDATE `mantis_bug_table` SET last_updated = '".$now."' WHERE id = $this->bugId";
       $result2 = SqlWrapper::getInstance()->sql_query($query2);
       if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1775,7 +1775,7 @@ class Issue extends Model implements Comparable {
     * @param type $value
     */
    public function setHandler($value) {
-      $query = "UPDATE `{bug}` SET handler_id = '$value' WHERE id=$this->bugId ";
+      $query = "UPDATE `mantis_bug_table` SET handler_id = '$value' WHERE id=$this->bugId ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1797,7 +1797,7 @@ class Issue extends Model implements Comparable {
       if (0 == $versionId) {
          $version = ''; // remove version
       } else {
-         $query = "SELECT version from `{project_version}` WHERE id=$versionId ";
+         $query = "SELECT version from `mantis_project_version_table` WHERE id=$versionId ";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1806,7 +1806,7 @@ class Issue extends Model implements Comparable {
          $row = SqlWrapper::getInstance()->sql_fetch_object($result);
          $version = $row->version;
       }
-      $query = "UPDATE `{bug}` SET target_version = '$version' WHERE id=$this->bugId ";
+      $query = "UPDATE `mantis_bug_table` SET target_version = '$version' WHERE id=$this->bugId ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1818,7 +1818,7 @@ class Issue extends Model implements Comparable {
    }
 
    private function setCustomField($field_id, $value, $field_name=NULL) {
-      $query = "SELECT * FROM `{custom_field_string}` WHERE bug_id=$this->bugId AND field_id = $field_id";
+      $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $field_id";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1827,9 +1827,9 @@ class Issue extends Model implements Comparable {
       if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
          $row = SqlWrapper::getInstance()->sql_fetch_object($result);
          $old_value=$row->value;
-         $query2 = "UPDATE `{custom_field_string}` SET value = '$value' WHERE bug_id=$this->bugId AND field_id = $field_id";
+         $query2 = "UPDATE `mantis_custom_field_string_table` SET value = '$value' WHERE bug_id=$this->bugId AND field_id = $field_id";
       } else {
-         $query2 = "INSERT INTO `{custom_field_string}` (`field_id`, `bug_id`, `value`) VALUES ('$field_id', '$this->bugId', '$value');";
+         $query2 = "INSERT INTO `mantis_custom_field_string_table` (`field_id`, `bug_id`, `value`) VALUES ('$field_id', '$this->bugId', '$value');";
       }
       $result2 = SqlWrapper::getInstance()->sql_query($query2);
       if (!$result2) {
@@ -1839,7 +1839,7 @@ class Issue extends Model implements Comparable {
 
       // update bug history
       if (NULL == $field_name) {
-         $query3 = "SELECT name FROM `{custom_field}` WHERE id = $field_id";
+         $query3 = "SELECT name FROM `mantis_custom_field_table` WHERE id = $field_id";
          $result3 = SqlWrapper::getInstance()->sql_query($query3);
          if (!$result3) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1922,7 +1922,7 @@ class Issue extends Model implements Comparable {
       }
          
       if(count($newIssueIds) > 0) {
-         $query = "SELECT * FROM `{bug}` " .
+         $query = "SELECT * FROM `mantis_bug_table` " .
                   "WHERE id IN (".implode(', ', $newIssueIds).")";
          
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -2213,9 +2213,9 @@ class Issue extends Model implements Comparable {
                   default:
                      // unknown customField, get from DB
                      $query = "SELECT value ".
-                          "FROM `{custom_field_string}` ".
-                          "WHERE {custom_field_string}.bug_id = $this->bugId ".
-                          "AND   {custom_field_string}.field_id = $cfield_id ";
+                          "FROM `mantis_custom_field_string_table` ".
+                          "WHERE mantis_custom_field_string_table.bug_id = $this->bugId ".
+                          "AND   mantis_custom_field_string_table.field_id = $cfield_id ";
                      $result = SqlWrapper::getInstance()->sql_query($query);
                      if (!$result) {
                         echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -2279,7 +2279,7 @@ class Issue extends Model implements Comparable {
                      self::$logger->warn('TOOLTIP field = '.$field.' has no accessor => LOW PERF');
                   }
 
-                  $query = "SELECT $field FROM `{bug}` WHERE id = $this->bugId ";
+                  $query = "SELECT $field FROM `mantis_bug_table` WHERE id = $this->bugId ";
                   $result = SqlWrapper::getInstance()->sql_query($query);
                   if (!$result) {
                      echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -2402,7 +2402,7 @@ class Issue extends Model implements Comparable {
          $allowedStatusList = $this->getAvailableStatusList();
          
          if (array_key_exists($newStatusId, $allowedStatusList)) {
-            $query = "UPDATE `{bug}` SET status = '$newStatusId' WHERE id=$this->bugId ";
+            $query = "UPDATE `mantis_bug_table` SET status = '$newStatusId' WHERE id=$this->bugId ";
             $result = SqlWrapper::getInstance()->sql_query($query);
             if (!$result) {
                self::$logger->error("setStatus($newStatusId) : Query failed. Status has not been changed !");
@@ -2434,7 +2434,7 @@ class Issue extends Model implements Comparable {
     */
    public function setDateSubmission($newSubmissionTimestampDate)
    {
-       $query = "UPDATE `{bug}` SET date_submitted=$newSubmissionTimestampDate WHERE id=".$this->bugId;
+       $query = "UPDATE `mantis_bug_table` SET date_submitted=$newSubmissionTimestampDate WHERE id=".$this->bugId;
        
        $result = SqlWrapper::getInstance()->sql_query($query);
         if (!$result) {

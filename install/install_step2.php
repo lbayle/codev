@@ -51,12 +51,13 @@ require_once('install/install_menu.inc.php');
  *
  * @return NULL if OK, or an error message starting with 'ERROR' .
  */
-function createConstantsFile($mantisURL, $codevURL) {
+function createConstantsFile($mantisPath, $mantisURL, $codevURL) {
 
    // --- general ---
    Constants::$homepage_title = 'Welcome';
    Constants::$codevURL = $codevURL;
    Constants::$mantisURL = $mantisURL;
+   Constants::$mantisPath = $mantisPath;
    Constants::$codevRootDir = dirname(dirname(__FILE__));
    Constants::$codevtt_logfile = Constants::$codevRootDir.'/codevtt.log';
 
@@ -97,12 +98,17 @@ function createConstantsFile($mantisURL, $codevURL) {
    return NULL;
 }
 
-function displayForm($originPage, $url_mantis, $url_codevtt) {
+function displayForm($originPage, $path_mantis, $url_mantis, $url_codevtt) {
 
    echo "<form id='form2' name='form2' method='post' action='$originPage' >\n";
    echo "<h2>".T_("Get Mantis customizations")."</h2>\n";
 
    echo "<table class='invisible'>\n";
+
+   echo "  <tr>\n";
+   echo "    <td width='120'>".T_("Path to Mantis")."</td>\n";
+   echo "    <td><input size='50' type='text' style='font-family: sans-serif' name='path_mantis'  id='path_mantis' value='$path_mantis'></td>\n";
+   echo "  </tr>\n";
 
    echo "  <tr>\n";
    echo "    <td width='120'>".T_("URL to Mantis")."</td>\n";
@@ -151,6 +157,7 @@ function addCustomMenuItem($name, $url) {
 
 // ================ MAIN =================
 $originPage = "install_step2.php";
+$default_path_mantis           = dirname(BASE_PATH).DIRECTORY_SEPARATOR."mantis"; // "/var/www/html/mantis";
 
 $hostname =  Tools::isWindowsServer() ? php_uname('n') : getHostName();
 $default_url_mantis            = 'http://'.$hostname.'/mantis'; // 'http://'.$_SERVER['HTTP_HOST'].'/mantis'; // getHostByName(getHostName())
@@ -162,7 +169,8 @@ $filename_custom_strings       = "custom_strings_inc.php";
 $filename_custom_constants     = "custom_constants_inc.php";
 $filename_custom_relationships = "custom_relationships_inc.php";
 
-$path_mantis = Constants::$mantisPath;
+$path_mantis = filter_input(INPUT_POST, 'path_mantis');
+if (NULL == $path_mantis) { $path_mantis = $default_path_mantis; }
 
 $url_mantis = filter_input(INPUT_POST, 'url_mantis');
 if (NULL == $url_mantis) { $url_mantis = $default_url_mantis; }
@@ -175,7 +183,7 @@ $action = filter_input(INPUT_POST, 'action');
 #displayStepInfo();
 #echo "<hr align='left' width='20%'/>\n";
 
-displayForm($originPage, stripslashes($url_mantis), stripslashes($url_codevtt));
+displayForm($originPage, $path_mantis, stripslashes($url_mantis), stripslashes($url_codevtt));
 
 if ("proceedStep2" == $action) {
 
@@ -327,7 +335,7 @@ if ("proceedStep2" == $action) {
    }
 
    echo "<script type=\"text/javascript\">console.log(\"DEBUG create ".str_replace('\\', '/', Constants::$config_file)."\");</script>";
-   $errStr .= createConstantsFile($url_mantis, $url_codevtt);
+   $errStr .= createConstantsFile($path_mantis, $url_mantis, $url_codevtt);
    if (NULL != $errStr) {
       echo '<script type="text/javascript">';
       echo '  document.getElementById("divErrMsg").style.display = "block";';

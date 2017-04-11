@@ -189,7 +189,7 @@ class User extends Model {
    private function initialize($row) {
       if(NULL == $row) {
          $query = "SELECT username, realname, enabled " .
-                  "FROM `{user}` " .
+                  "FROM `mantis_user_table` " .
                   "WHERE id = $this->id;";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -217,7 +217,7 @@ class User extends Model {
     * @return int The userid (or NULL if not found)
     */
    public static function getUserId($name) {
-      $query = "SELECT id FROM `{user}` WHERE username='$name';";
+      $query = "SELECT id FROM `mantis_user_table` WHERE username='$name';";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -292,7 +292,7 @@ class User extends Model {
 
    public function getEmail() {
       if (NULL == $this->email) {
-         $query = "SELECT email FROM `{user}` WHERE id='$this->id';";
+         $query = "SELECT email FROM `mantis_user_table` WHERE id='$this->id';";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -410,7 +410,7 @@ class User extends Model {
    {
        if($username != null)
        {
-            $query = "SELECT count(*) as count FROM `{user}` WHERE username = '$username'";
+            $query = "SELECT count(*) as count FROM mantis_user_table WHERE username = '$username'";
             $result = SqlWrapper::getInstance()->sql_query($query);
             if (!$result) {
                echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -438,7 +438,7 @@ class User extends Model {
    {
        if($id != null)
        {
-            $query = "SELECT count(*) as count FROM `{user}` WHERE id = '$id'";
+            $query = "SELECT count(*) as count FROM mantis_user_table WHERE id = '$id'";
             $result = SqlWrapper::getInstance()->sql_query($query);
             if (!$result) {
                echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -936,7 +936,7 @@ class User extends Model {
       if (0 != count($teamList)) {
          $formatedTeamList = implode(', ', array_keys($teamList));
          $query = "SELECT DISTINCT project.id, project.name " .
-                  "FROM `{project}` as project " .
+                  "FROM `mantis_project_table` as project " .
                   "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
                   "WHERE team_project.team_id IN ($formatedTeamList) ";
 
@@ -993,7 +993,7 @@ class User extends Model {
       $formatedProjList = implode(', ', array_keys($projList));
 
       // find all issues i'm working on
-      $query = "SELECT * FROM `{bug}` " .
+      $query = "SELECT * FROM `mantis_bug_table` " .
                "WHERE project_id IN ($formatedProjList) " .
                "AND handler_id = $this->id " .
                "AND status < get_project_resolved_status_threshold(project_id) " .
@@ -1046,7 +1046,7 @@ class User extends Model {
 
       $formatedProjList = implode(', ', array_keys($projList));
 
-      $query = "SELECT * FROM `{bug}` " .
+      $query = "SELECT * FROM `mantis_bug_table` " .
                "WHERE project_id IN ($formatedProjList) " .
                "AND handler_id = $this->id ";
 
@@ -1083,8 +1083,8 @@ class User extends Model {
    public function getMonitoredIssues() {
       if(NULL == $this->monitoredIssues) {
          $query = "SELECT DISTINCT bug.* " .
-                  "FROM `{bug}` as bug ".
-                  "JOIN `{bug_monitor}` as monitor ON bug.id = monitor.bug_id " .
+                  "FROM `mantis_bug_table` as bug ".
+                  "JOIN `mantis_bug_monitor_table` as monitor ON bug.id = monitor.bug_id " .
                   "WHERE monitor.user_id = $this->id " .
                   "ORDER BY bug.id DESC;";
 
@@ -1546,7 +1546,7 @@ class User extends Model {
     */
    public static function getUsers() {
       if(NULL == self::$users) {
-         $query = "SELECT id, username FROM `{user}` ORDER BY username";
+         $query = "SELECT id, username FROM `mantis_user_table` ORDER BY username";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             return NULL;
@@ -1572,7 +1572,7 @@ class User extends Model {
    public function setProjectAccessLevel($project_id, $access_level) {
 
       // check if access rights already defined
-      $query = "SELECT access_level FROM `{project_user_list}` ".
+      $query = "SELECT access_level FROM `mantis_project_user_list_table` ".
                "WHERE `user_id` = $this->id AND `project_id` = $project_id ";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -1582,10 +1582,10 @@ class User extends Model {
       }
       if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
 
-         $query2 = "INSERT INTO `{project_user_list}` (`user_id`, `project_id`, `access_level`) ".
+         $query2 = "INSERT INTO `mantis_project_user_list_table` (`user_id`, `project_id`, `access_level`) ".
                "VALUES ('$this->id','$project_id', '$access_level');";
       } else {
-         $query2 = "UPDATE `{project_user_list}` ".
+         $query2 = "UPDATE `mantis_project_user_list_table` ".
                    "SET access_level = '$access_level' ".
                    "WHERE `user_id` = $this->id AND `project_id` = $project_id ";
       }
@@ -1784,7 +1784,7 @@ class User extends Model {
 
             #$now = time();
             #$emailDate = mktime(0, 0, 0, date('m', $now), date('d',$now), date('Y', $now));
-            #SELECT count(*) FROM `{email}` WHERE `subject` LIKE '%CodevTT%' AND `email` = '$emailAddress' AND submitted= '$emailDate'
+            #SELECT count(*) FROM `mantis_email_table` WHERE `subject` LIKE '%CodevTT%' AND `email` = '$emailAddress' AND submitted= '$emailDate'
             
             Email::getInstance()->sendEmail( $emailAddress, $emailSubject, $emailBody );
          }
@@ -1879,7 +1879,7 @@ class User extends Model {
                 $lastVisit = time();
                 $cryptedPassword = $crypto->auth_process_plain_password($password);
                 // Insert user in mantis user table
-                $query = "INSERT INTO `{user}` (`username`, `realname`, `email`, `password`, `enabled`, `access_level`, `cookie_string`, `last_visit`, `date_created`) "
+                $query = "INSERT INTO mantis_user_table (`username`, `realname`, `email`, `password`, `enabled`, `access_level`, `cookie_string`, `last_visit`, `date_created`) "
                         . "VALUES ('$username', '$realName', '$email', '$cryptedPassword', 1, $mantisAccessLevel, '$cookieString', $lastVisit, $entryDate)";
                 $result = SqlWrapper::getInstance()->sql_query($query);
                 if (!$result) {
@@ -1902,7 +1902,7 @@ class User extends Model {
         
         if(!$project->hasMember($this->id))
         {
-            $query = "INSERT INTO {project_user_list} (`project_id`, `user_id`, `access_level`) VALUES ($projectId, $this->id, $projectAccessLevelId)";
+            $query = "INSERT INTO mantis_project_user_list_table (`project_id`, `user_id`, `access_level`) VALUES ($projectId, $this->id, $projectAccessLevelId)";
             $result = SqlWrapper::getInstance()->sql_query($query);
             if (!$result) {
                 echo "<span style='color:red'>ERROR: Query FAILED</span>";

@@ -84,7 +84,7 @@ class IssueNote {
 
       $view_state = ($private) ? self::viewState_private : self::viewState_public;
       $sqlWrapper = SqlWrapper::getInstance();
-      $query2 = "INSERT INTO `{bugnote_text}` (`note`) VALUES ('".SqlWrapper::sql_real_escape_string($text)."');";
+      $query2 = "INSERT INTO `mantis_bugnote_text_table` (`note`) VALUES ('".SqlWrapper::sql_real_escape_string($text)."');";
       $result2 = $sqlWrapper->sql_query($query2);
 
       if (!$result2) {
@@ -99,7 +99,7 @@ class IssueNote {
          $date_submitted = $timestamp;
       }
 
-      $query = 'INSERT INTO `{bugnote}` '.
+      $query = 'INSERT INTO `mantis_bugnote_table` '.
               '(`bug_id`, `reporter_id`, `view_state`, `note_type`, `bugnote_text_id`, `date_submitted`, `last_modified`) '.
               "VALUES ('$bug_id', '$reporter_id', '$view_state', '$type', '$bugnote_text_id', '$date_submitted', '$timestamp');";
       $result = $sqlWrapper->sql_query($query);
@@ -110,7 +110,7 @@ class IssueNote {
       $bugnote_id = $sqlWrapper->sql_insert_id();
 
       // log BUGNOTE_ADD in Issue history
-      $query3 = 'INSERT INTO `{bug_history}` '.
+      $query3 = 'INSERT INTO `mantis_bug_history_table` '.
 				'( user_id, bug_id, date_modified, type, old_value ) '.
 				"VALUES ( $reporter_id, $bug_id, ".$timestamp.', '.self::history_BugnoteAdded.", $bugnote_id)";
       $result3 = $sqlWrapper->sql_query($query3);
@@ -129,8 +129,8 @@ class IssueNote {
       //self::$logger->error("Delete note $id");
 
       # Remove the bugnote text
-      $query = 'DELETE FROM `{bugnote_text}` WHERE id=' .
-            " (SELECT bugnote_text_id FROM `{bugnote}` WHERE id=$id)";
+      $query = 'DELETE FROM `mantis_bugnote_text_table` WHERE id=' .
+            " (SELECT bugnote_text_id FROM `mantis_bugnote_table` WHERE id=$id)";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -138,7 +138,7 @@ class IssueNote {
       }
 
       # Remove the bugnote
-      $query2 = 'DELETE FROM `{bugnote}` WHERE id=' . $id;
+      $query2 = 'DELETE FROM `mantis_bugnote_table` WHERE id=' . $id;
       $result2 = SqlWrapper::getInstance()->sql_query($query2);
       if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -146,7 +146,7 @@ class IssueNote {
       }
 
       // log BUGNOTE_DELETED in Issue history
-      $query3 = 'INSERT INTO `{bug_history}` '.
+      $query3 = 'INSERT INTO `mantis_bug_history_table` '.
 				'( user_id, bug_id, date_modified, type, old_value ) '.
 				"VALUES ( $userid, $bugid, ".time().', '.self::history_BugnoteDeleted.", $id)";
       $result3 = SqlWrapper::getInstance()->sql_query($query3);
@@ -166,9 +166,9 @@ class IssueNote {
    public static function getTimesheetNote($bug_id) {
 
       $query2 = "SELECT note.id, note.bugnote_text_id ".
-               "FROM `{bugnote}` as note ".
+               "FROM `mantis_bugnote_table` as note ".
                "WHERE note.bug_id = $bug_id ".
-               "AND 0 <> (SELECT COUNT(id) FROM {bugnote_text} WHERE id = note.bugnote_text_id AND note LIKE '%".self::tagid_timesheetNote."%') ".
+               "AND 0 <> (SELECT COUNT(id) FROM mantis_bugnote_text_table WHERE id = note.bugnote_text_id AND note LIKE '%".self::tagid_timesheetNote."%') ".
                "ORDER BY note.date_submitted DESC LIMIT 1;";
 
       $result = SqlWrapper::getInstance()->sql_query($query2);
@@ -254,8 +254,8 @@ class IssueNote {
       // Get bugnote info
       $query = "SELECT note.*, ".
                "bugnote_text.note ".
-               "FROM `{bugnote}` as note ".
-               "JOIN `{bugnote_text}` as bugnote_text ON note.bugnote_text_id = bugnote_text.id ".
+               "FROM `mantis_bugnote_table` as note ".
+               "JOIN `mantis_bugnote_text_table` as bugnote_text ON note.bugnote_text_id = bugnote_text.id ".
                "WHERE note.id = $this->id ".
                "ORDER BY note.date_submitted;";
 
@@ -349,7 +349,7 @@ class IssueNote {
          $this->revisionAdd($oldText, $this->reporter_id, $this->last_modified);
       }
       $sqlWrapper = SqlWrapper::getInstance();
-      $query = "UPDATE `{bugnote_text}` SET note='".SqlWrapper::sql_real_escape_string($text)."' ".
+      $query = "UPDATE `mantis_bugnote_text_table` SET note='".SqlWrapper::sql_real_escape_string($text)."' ".
                "WHERE id=" . $this->bugnote_text_id;
       $result = $sqlWrapper->sql_query($query);
       if (!$result) {
@@ -359,7 +359,7 @@ class IssueNote {
 
 	   # updated the last_updated date
       $now = time();
-   	$query2 = "UPDATE `{bugnote}` SET last_modified=$now WHERE id= $this->id";
+   	$query2 = "UPDATE `mantis_bugnote_table` SET last_modified=$now WHERE id= $this->id";
       $result2 = $sqlWrapper->sql_query($query2);
       if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -370,7 +370,7 @@ class IssueNote {
       $revision_id = $this->revisionAdd($text, $user_id, $now);
 
       // log BUGNOTE_UPDATED in Issue history
-      $query3 = 'INSERT INTO `{bug_history}` '.
+      $query3 = 'INSERT INTO `mantis_bug_history_table` '.
 				'( user_id, bug_id, date_modified, type, old_value, new_value ) '.
 				"VALUES ( $user_id, ".$this->bug_id.", ".time().', '.self::history_BugnoteUpdated.', '.$this->id.", $revision_id)";
       $result3 = $sqlWrapper->sql_query($query3);
@@ -384,7 +384,7 @@ class IssueNote {
    }
 
    private function revisionCount() {
-      $query = "SELECT COUNT(id) FROM `{bug_revision}` ".
+      $query = "SELECT COUNT(id) FROM `mantis_bug_revision_table` ".
               "WHERE bug_id= $this->bug_id ".
               "AND bugnote_id= $this->id ".
 		        "AND type= ".self::rev_type_bugnote.';';
@@ -407,7 +407,7 @@ class IssueNote {
     */
    private function revisionAdd($text, $user_id, $timestamp) {
 
-      $query = "INSERT INTO `{bug_revision}` (bug_id, bugnote_id, user_id, timestamp, type, value) ".
+      $query = "INSERT INTO `mantis_bug_revision_table` (bug_id, bugnote_id, user_id, timestamp, type, value) ".
                "VALUES ($this->bug_id, $this->id, $user_id, $timestamp, ".
                self::rev_type_bugnote.", '".SqlWrapper::sql_real_escape_string($text)."')";
       $result = SqlWrapper::getInstance()->sql_query($query);

@@ -191,7 +191,7 @@ class ExportODTController extends Controller {
     */
    private function getIssueSelection($projectid, $categories = NULL, $formattedReporters = NULL, $formattedHandlers = NULL, $formattedStatuses = false) {
 
-      $query = "SELECT id from `{bug}` WHERE project_id = $projectid ";
+      $query = "SELECT id from `mantis_bug_table` WHERE project_id = $projectid ";
 
       if (!empty($categories)) {
          $query .= "AND category_id IN ($categories) ";

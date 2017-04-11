@@ -89,7 +89,7 @@ function create_fake_db($formattedFieldList) {
    $j = 0;
 
    // all prj except SideTasksProjects (and externalTasksPrj)
-   $resProjects = execQuery("SELECT * from `{project}` WHERE id NOT IN (SELECT DISTINCT project_id FROM `codev_team_project_table` WHERE type = 1)");
+   $resProjects = execQuery("SELECT * from `mantis_project_table` WHERE id NOT IN (SELECT DISTINCT project_id FROM `codev_team_project_table` WHERE type = 1)");
    while($rowPrj = SqlWrapper::getInstance()->sql_fetch_object($resProjects))	{
 
       $projid = $rowPrj->id;
@@ -98,35 +98,35 @@ function create_fake_db($formattedFieldList) {
 
 
       // change project name
-      execQuery("UPDATE `{project}` SET `name`='Project_".$projid."' where `id`='$projid'");
+      execQuery("UPDATE `mantis_project_table` SET `name`='Project_".$projid."' where `id`='$projid'");
       $j++;
 
-      execQuery("DELETE FROM `{email}` ");
+      execQuery("DELETE FROM `mantis_email_table` ");
 
       // clean project issues
-      $result1 = execQuery("SELECT * from `{bug}` WHERE `project_id`='$projid'");
+      $result1 = execQuery("SELECT * from `mantis_bug_table` WHERE `project_id`='$projid'");
       $i = 0;
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
 
          $i++;
          #echo "process project $projid issue $row->id";
 
-         $query  = "UPDATE `{bug}` SET `summary`='task p".$projid."_".$row->id." ' WHERE `id`='$row->id' ";
+         $query  = "UPDATE `mantis_bug_table` SET `summary`='task p".$projid."_".$row->id." ' WHERE `id`='$row->id' ";
          execQuery($query);
 
-         $query  = "UPDATE `{bug_text}` SET `description`='this is a fake issue...' WHERE `id`='$row->bug_text_id' ";
+         $query  = "UPDATE `mantis_bug_text_table` SET `description`='this is a fake issue...' WHERE `id`='$row->bug_text_id' ";
          execQuery($query);
 
-         $query  = "DELETE FROM `{bugnote}` WHERE `bug_id`='$row->id' ";
+         $query  = "DELETE FROM `mantis_bugnote_table` WHERE `bug_id`='$row->id' ";
          execQuery($query);
 
-         $query  = "UPDATE `{bug_revision}` SET `value` = 'revision on fake issue' WHERE `bug_id`='$row->id' ";
+         $query  = "UPDATE `mantis_bug_revision_table` SET `value` = 'revision on fake issue' WHERE `bug_id`='$row->id' ";
          execQuery($query);
          
-         $query  = "DELETE FROM `{bug_history}` WHERE `bug_id`='$row->id' AND `field_name` IN ($formattedFieldList)";
+         $query  = "DELETE FROM `mantis_bug_history_table` WHERE `bug_id`='$row->id' AND `field_name` IN ($formattedFieldList)";
          execQuery($query);
 
-         $query  = "UPDATE `{custom_field_string}` SET `value`='R".($projid*2).($i*231)."' WHERE `field_id`='".$extIdField."' AND `bug_id`='$row->id' AND `value` <> '' ";
+         $query  = "UPDATE `mantis_custom_field_string_table` SET `value`='R".($projid*2).($i*231)."' WHERE `field_id`='".$extIdField."' AND `bug_id`='$row->id' AND `value` <> '' ";
          execQuery($query);
 
          
@@ -186,43 +186,43 @@ function updateUsers() {
    global $mgrId;
    global $lbayleId;
 
-   $query  = "SELECT id from `{user}` WHERE id NOT IN (1, $lbayleId, $mgrId, $usrId)"; // administrator, manager, lbayle, user1
+   $query  = "SELECT id from `mantis_user_table` WHERE id NOT IN (1, $lbayleId, $mgrId, $usrId)"; // administrator, manager, lbayle, user1
    $result1 = execQuery($query);
    $i = 0;
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
       $i++;
-      $query  = "UPDATE `{user}` SET `realname` = 'User NAME".$row->id."' WHERE `id` ='$row->id' ";
+      $query  = "UPDATE `mantis_user_table` SET `realname` = 'User NAME".$row->id."' WHERE `id` ='$row->id' ";
       execQuery($query);
-      $query  = "UPDATE `{user}` SET `username` = 'user".$row->id."' WHERE `id` ='$row->id' ";
+      $query  = "UPDATE `mantis_user_table` SET `username` = 'user".$row->id."' WHERE `id` ='$row->id' ";
       execQuery($query);
-      $query  = "UPDATE `{user}` SET `email` = 'user".$row->id."@yahoo.com' WHERE `id` ='$row->id' ";
+      $query  = "UPDATE `mantis_user_table` SET `email` = 'user".$row->id."@yahoo.com' WHERE `id` ='$row->id' ";
       execQuery($query);
-      $query  = "UPDATE `{user}` SET `password` = '5ebe2294ecd0e0f08eab7690d2a6ee69' WHERE `id` ='$row->id' ";
+      $query  = "UPDATE `mantis_user_table` SET `password` = '5ebe2294ecd0e0f08eab7690d2a6ee69' WHERE `id` ='$row->id' ";
       execQuery($query);
    }
 
    // john the manager
-   $query  = "UPDATE `{user}` SET `realname` = 'John the MANAGER' WHERE `id` ='$mgrId' ";
+   $query  = "UPDATE `mantis_user_table` SET `realname` = 'John the MANAGER' WHERE `id` ='$mgrId' ";
    execQuery($query);
-   $query  = "UPDATE `{user}` SET `username` = 'manager' WHERE `id` ='$mgrId' ";
+   $query  = "UPDATE `mantis_user_table` SET `username` = 'manager' WHERE `id` ='$mgrId' ";
    execQuery($query);
-   $query  = "UPDATE `{user}` SET `email` = 'manager@yahoo.com' WHERE `id` ='$mgrId' ";
+   $query  = "UPDATE `mantis_user_table` SET `email` = 'manager@yahoo.com' WHERE `id` ='$mgrId' ";
    execQuery($query);
-   $query  = "UPDATE `{user}` SET `password` = 'e26f604637ae454f792f4fcbff878bd1' WHERE `id` ='$mgrId' ";
+   $query  = "UPDATE `mantis_user_table` SET `password` = 'e26f604637ae454f792f4fcbff878bd1' WHERE `id` ='$mgrId' ";
    execQuery($query); // passwd: manager2012
 
    // user1
-   $query  = "UPDATE `{user}` SET `realname` = 'User ONE' WHERE `id` ='$usrId' ";
+   $query  = "UPDATE `mantis_user_table` SET `realname` = 'User ONE' WHERE `id` ='$usrId' ";
    execQuery($query);
-   $query  = "UPDATE `{user}` SET `username` = 'user1' WHERE `id` ='$usrId' ";
+   $query  = "UPDATE `mantis_user_table` SET `username` = 'user1' WHERE `id` ='$usrId' ";
    execQuery($query);
-   $query  = "UPDATE `{user}` SET `email` = 'user1@yahoo.com' WHERE `id` ='$usrId' ";
+   $query  = "UPDATE `mantis_user_table` SET `email` = 'user1@yahoo.com' WHERE `id` ='$usrId' ";
    execQuery($query);
-   $query  = "UPDATE `{user}` SET `password` = 'ea36a50f4c8944dacadb16e6ca0dd582' WHERE `id` ='$usrId' ";
+   $query  = "UPDATE `mantis_user_table` SET `password` = 'ea36a50f4c8944dacadb16e6ca0dd582' WHERE `id` ='$usrId' ";
    execQuery($query); // passwd: user2012
 
    // admin (password must be changed manualy in OVH !!)
-   $query  = "UPDATE `{user}` SET `password` = 'e26f604637ae454f792f4fcbff878bd1' WHERE `id` ='1' ";
+   $query  = "UPDATE `mantis_user_table` SET `password` = 'e26f604637ae454f792f4fcbff878bd1' WHERE `id` ='1' ";
    execQuery($query);
 }
 
@@ -266,26 +266,26 @@ function updateProjects() {
    $extprojId= Config::getInstance()->getValue(Config::id_externalTasksProject); // 3
 
    // remove ALL files from ALL PROJECTS  (OVH upload fails)
-   execQuery("DELETE FROM `{bug_file}` ");
-   execQuery("UPDATE `{project}` SET `description` = '' ");
+   execQuery("DELETE FROM `mantis_bug_file_table` ");
+   execQuery("UPDATE `mantis_project_table` SET `description` = '' ");
 
-   //SELECT DISTINCT pt.project_id, p.name FROM `codev_team_project_table` as pt, `{project}` as p WHERE type = 1 AND p.id = pt.project_id;
+   //SELECT DISTINCT pt.project_id, p.name FROM `codev_team_project_table` as pt, `mantis_project_table` as p WHERE type = 1 AND p.id = pt.project_id;
 
-   execQuery("UPDATE `{project}` SET `name` = CONCAT('SideTasks Project_',id) WHERE id in (SELECT DISTINCT project_id FROM `codev_team_project_table` WHERE type = 1)");
+   execQuery("UPDATE `mantis_project_table` SET `name` = CONCAT('SideTasks Project_',id) WHERE id in (SELECT DISTINCT project_id FROM `codev_team_project_table` WHERE type = 1)");
 
    // rename project categories
 /*
-   $result1 = execQuery("SELECT * from `{category}`");
+   $result1 = execQuery("SELECT * from `mantis_category_table`");
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
-      $query  = "UPDATE `{category}` SET `name`='Category_".$row->project_id.$row->id."' WHERE `id`='$row->id' ";
+      $query  = "UPDATE `mantis_category_table` SET `name`='Category_".$row->project_id.$row->id."' WHERE `id`='$row->id' ";
       $result2 = execQuery($query);
    }
 */
    // external tasks project
-   execQuery("UPDATE `{project}` SET `name` = 'ExternalTasks' WHERE `id` ='$extprojId' ");
+   execQuery("UPDATE `mantis_project_table` SET `name` = 'ExternalTasks' WHERE `id` ='$extprojId' ");
 
    // demo projects
-   execQuery("UPDATE `{project}` SET `name` = 'SideTasks DEMO_Team' WHERE `id` ='$stprojId' ");
+   execQuery("UPDATE `mantis_project_table` SET `name` = 'SideTasks DEMO_Team' WHERE `id` ='$stprojId' ");
 
 }
 

@@ -49,8 +49,6 @@ class Constants {
    public static $severity_names;
    public static $bug_resolved_status_threshold;
    public static $status_enum_workflow;
-   public static $mantis_db_table_prefix = 'mantis_';
-   public static $mantis_db_table_suffix = '_table';
 
    // --- RESOLUTION ---
    public static $resolution_fixed;
@@ -200,21 +198,6 @@ class Constants {
       self::$bug_resolved_status_threshold = $mantis['bug_resolved_status_threshold'];
       self::$status_enum_workflow = json_decode($mantis['status_enum_workflow'], true); // jsonStr to array
 
-      if ( !empty($mantis['db_table_prefix'])) {
-         // variable not set: config.ini file is prior to v1.2.1
-         self::$mantis_db_table_prefix = $mantis['db_table_prefix'];
-      }
-      if ( !empty($mantis['db_table_suffix'])) {
-         // variable not set: config.ini file is prior to v1.2.1
-         self::$mantis_db_table_suffix = $mantis['db_table_suffix'];
-      }
-      if ( !empty( self::$mantis_db_table_prefix ) && ('_' != substr( self::$mantis_db_table_prefix, -1 )) ) {
-         self::$mantis_db_table_prefix .= '_';
-      }
-      if ( !empty( self::$mantis_db_table_suffix ) && ('_' != substr( self::$mantis_db_table_suffix, 0, 1 )) ) {
-         self::$mantis_db_table_suffix = '_' . self::$mantis_db_table_suffix;
-      }
-      
       $status = $ini_array['status'];
       self::$status_new          = $status['status_new'];
       self::$status_feedback     = $status['status_feedback'];
@@ -325,8 +308,6 @@ class Constants {
       $mantis['severity_enum_string']   = self::$severity_names ? Tools::doubleImplode(':', ',', self::$severity_names) : ' ';
       $mantis['bug_resolved_status_threshold'] = self::$bug_resolved_status_threshold;
       $mantis['status_enum_workflow'] = json_encode(self::$status_enum_workflow); // array to jsonStr
-      $mantis['db_table_prefix'] = self::$mantis_db_table_prefix;
-      $mantis['db_table_suffix'] = self::$mantis_db_table_suffix;
 
       $status = array();
       $status[] = '; Note: CodevTT needs some status to be defined (new, feedback, open, closed)';
