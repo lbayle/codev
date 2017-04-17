@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-04-03 05:22:26+0000\n"
+"PO-Revision-Date: 2017-04-17 07:26:30+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1414,7 +1414,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "User Daily Costs"
-msgstr ""
+msgstr "사용자 일일 비용"
 
 #. tpl/edit_team.html
 msgid "OnDuty tasks"
@@ -1564,7 +1564,7 @@ msgstr "프로젝트 만들기"
 
 #. tpl/edit_team.html
 msgid "Average Daily Cost"
-msgstr ""
+msgstr "평균 일일 비용"
 
 #. tpl/edit_team.html
 msgid "The ADC is the default UDC for team members"
@@ -1576,7 +1576,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Team Average Daily Cost"
-msgstr ""
+msgstr "팀 평균 일일 비용"
 
 #. tpl/edit_team.html
 msgid "Default currency for the team."
@@ -1608,15 +1608,15 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Add UserDailyCost"
-msgstr ""
+msgstr "사용자일일비용 추가"
 
 #. tpl/edit_team.html
 msgid "Add user daily cost"
-msgstr ""
+msgstr "사용자 일일 비용 추가"
 
 #. tpl/edit_team.html
 msgid "Team creation date"
-msgstr ""
+msgstr "팀 생성일"
 
 #. tpl/edit_team.html
 msgid "User arrival date"
@@ -1624,7 +1624,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "User Daily Cost"
-msgstr ""
+msgstr "사용자 일일 비용"
 
 #. tpl/edit_team.html
 msgid "Issue Tooltips"
@@ -2635,7 +2635,7 @@ msgstr "여기에서 번역을 도울 수 있습니다: "
 
 #. tpl/doc.html
 msgid "statistics"
-msgstr ""
+msgstr "통계"
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
@@ -3807,7 +3807,7 @@ msgstr "가져오기 완료 !"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Sorry, only team members can import tasks."
-msgstr ""
+msgstr "죄송하지만, 오직 회원만이 작업을 가져올 수 있습니다."
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4222,7 +4222,7 @@ msgstr "표시된 작업"
 #. plugins/CostsIndicator/CostsIndicator.html
 #: plugins/CostsIndicator/CostsIndicator.class.php:65
 msgid "Costs"
-msgstr ""
+msgstr "비용"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Global cost estimation:"
@@ -5514,7 +5514,7 @@ msgstr ""
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:68
 msgid "Compute costs, using the UserDailyCosts defined in team settings"
-msgstr ""
+msgstr "팀 설정에 정의된 사용자일일비용을 사용하여 비용을 계산합니다"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:187
 msgid "No AverageDailyCost defined in team settings"

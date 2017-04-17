@@ -4,6 +4,7 @@
 # Author: Arthurteb303
 # Author: Cristofer Alves
 # Author: Eduardo Addad de Oliveira
+# Author: Felipe L. Ewald
 # Author: Luk3
 # Author: Tark
 # Author: Warley Felipe C.
@@ -14,7 +15,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-04-03 05:22:28+0000\n"
+"PO-Revision-Date: 2017-04-17 07:26:31+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -1692,9 +1693,8 @@ msgid "Id"
 msgstr "Id"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "delete OnDuty task"
-msgstr "apagar retrabalho"
+msgstr "excluir tarefa OnDuty"
 
 #. tpl/edit_team.html
 msgid "Timetrack durations list"
@@ -2412,9 +2412,8 @@ msgid "% Tasks Delivered on time"
 msgstr "% casos entregues em tempo"
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "Effort deviation on resolved tasks (regarding the MgrEffortEstim)"
-msgstr "Desvio de esforço - Casos resolvidos no período"
+msgstr "Desvio de esforço em tarefas resolvidas (em relação ao MgrEffortEstim)"
 
 #. tpl/statistics.html
 #, fuzzy

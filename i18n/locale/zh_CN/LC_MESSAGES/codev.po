@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-04-10 05:13:04+0000\n"
+"PO-Revision-Date: 2017-04-17 07:26:32+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1575,7 +1575,7 @@ msgstr "团队货币"
 
 #. tpl/edit_team.html
 msgid "Team Average Daily Cost"
-msgstr ""
+msgstr "团队平均每日花费"
 
 #. tpl/edit_team.html
 msgid "Default currency for the team."
@@ -4528,7 +4528,7 @@ msgstr ""
 
 #: classes/Currencies.class.php:139
 msgid "ERROR: currency already defined"
-msgstr ""
+msgstr "错误：货币已被定义"
 
 #: classes/consistency_check_fdj.class.php:76
 msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
