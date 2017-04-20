@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-04-17 07:26:30+0000\n"
+"PO-Revision-Date: 2017-04-20 05:25:29+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1620,7 +1620,7 @@ msgstr "팀 생성일"
 
 #. tpl/edit_team.html
 msgid "User arrival date"
-msgstr ""
+msgstr "사용자 도착일"
 
 #. tpl/edit_team.html
 msgid "User Daily Cost"

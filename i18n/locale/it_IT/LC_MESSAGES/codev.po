@@ -4,6 +4,7 @@
 # Author: Beta16
 # Author: Fitoschido
 # Author: Margherita.mignanelli
+# Author: Samuele2002
 # Author: Selven
 # Author: Walter Raffoni
 msgid ""
@@ -12,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-04-06 05:12:14+0000\n"
+"PO-Revision-Date: 2017-04-20 05:25:29+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -3624,7 +3625,7 @@ msgstr ""
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_cfg.html
 msgid "Title"
-msgstr ""
+msgstr "Titolo"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 msgid "Task ID"
@@ -3913,7 +3914,7 @@ msgstr "settimana"
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "weeks"
-msgstr ""
+msgstr "settimane"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
@@ -3921,7 +3922,7 @@ msgstr ""
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "month"
-msgstr ""
+msgstr "mese"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "BugValidation History Indicator"
@@ -3932,9 +3933,8 @@ msgid "Resolved bugs must be validated. This shows how many bugs have been Rejec
 msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
-#, fuzzy
 msgid "% Validated"
-msgstr "validato"
+msgstr "% convalidato"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having successfully pass the validation tests"
@@ -4105,7 +4105,7 @@ msgstr "Nome utente"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4252,7 +4252,7 @@ msgstr "Attività mostrate"
 #. plugins/CostsIndicator/CostsIndicator.html
 #: plugins/CostsIndicator/CostsIndicator.class.php:65
 msgid "Costs"
-msgstr ""
+msgstr "Costi"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Global cost estimation:"
