@@ -11,12 +11,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-04-20 05:25:29+0000\n"
+"PO-Revision-Date: 2017-05-02 05:49:11+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2017-04-02 15:53:05+0000\n"
-"X-Generator: MediaWiki 1.29.0-alpha; Translate 2017-01-24\n"
+"X-Generator: MediaWiki 1.30.0-alpha; Translate 2017-04-27\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. tpl/filters.html
@@ -4238,7 +4238,7 @@ msgstr ""
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Team AverageDailyCost and UserDailyCosts must be defined in team settings."
-msgstr ""
+msgstr "팀의 AverageDailyCost와 UserDailyCosts는 팀 설정에서 정의되어야 합니다."
 
 #. plugins/HelloWorldIndicator/HelloWorldIndicator_cfg.html
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:62
@@ -5518,7 +5518,7 @@ msgstr "팀 설정에 정의된 사용자일일비용을 사용하여 비용을 
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:187
 msgid "No AverageDailyCost defined in team settings"
-msgstr ""
+msgstr "팀 설정에 AverageDailyCost가 정의되어 있지 않음"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:194
 msgid "Sorry, only managers can access this plugin"
