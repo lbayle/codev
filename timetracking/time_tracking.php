@@ -399,22 +399,26 @@ class TimeTrackingController extends Controller {
 
             //$totalEstim = $issue->effortEstim + $issue->effortAdd;
 
+            $tt = TimeTrackCache::getInstance()->getTimeTrack($row->id);
+            $ttNote = nl2br(htmlspecialchars($tt->getNote()));
+
             $timetrackingTuples[$row->id] = array(
                'timestamp' => $row->date,
                'date' => $formatedDate,
                'formatedId' => $issue->getFormattedIds(),
                'duration' => $row->duration,
                'formatedJobName' => $formatedJobName,
-               'summary' => $formatedSummary,
+               'summary' => $formatedSummary, // TODO duplicated info ???
+               'issueSummary' => htmlspecialchars(preg_replace('![\t\r\n]+!',' ',$issue->getSummary())),
                'cosmeticDate' => $cosmeticDate,
                'mantisURL' => Tools::mantisIssueURL($row->bugid, NULL, true),
                'issueURL' => Tools::issueInfoURL($row->bugid),
                'issueId' => $issue->getTcId(),
                'projectName' => $issue->getProjectName(),
-               'issueSummary' => htmlspecialchars(preg_replace('![\t\r\n]+!',' ',$issue->getSummary())),
                'jobName' => $jobName,
                'categoryName' => $issue->getCategoryName(),
                'currentStatusName' => $issue->getCurrentStatusName(),
+               'timetrackNote' => $ttNote,
                );
          } catch (Exception $e) {
             $summary = T_('Error: Task not found in Mantis DB !');
@@ -428,7 +432,8 @@ class TimeTrackingController extends Controller {
                'projectName' => '!',
                'issueSummary' => '<span class="error_font">'.$summary.'</span>',
                'categoryName' => '!',
-               'currentStatusName' => '!'
+               'currentStatusName' => '!',
+               'timetrackNote' => '!',
             );
          }
       }

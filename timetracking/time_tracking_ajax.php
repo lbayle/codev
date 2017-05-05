@@ -257,8 +257,12 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $timetrack = TimeTrackCache::getInstance()->getTimeTrack($timetrackId);
          $note = NULL;
 
-         if (1 == $team->getGeneralPreference('useTrackNote')) {
-            $note = Tools::getSecurePOSTStringValue('note');
+         $isTrackNoteUsed = $team->getGeneralPreference('useTrackNote');
+
+         if (1 == $isTrackNoteUsed) {
+            // filter_input replaces nl2br(htmlspecialchars($string))
+            // rem: no need to sql_real_escape_string($note);
+            $note = filter_input(INPUT_POST, 'note');
          }
 
          $isRecreditBacklog = (0 == $team->getGeneralPreference('recreditBacklogOnTimetrackDeletion')) ? false : true;
@@ -281,6 +285,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             'timetrackId' => $timetrackId,
             'cosmeticDate' => Tools::formatDate("%Y-%m-%d - %A", $timetrack->getDate()),
             'jobName' => $jobs->getJobName($jobid),
+            'ttNote' => nl2br(htmlspecialchars($timetrack->getNote())),
             'timesheetHtml' => $html,
          );
          $jsonData = json_encode($data);
@@ -339,4 +344,3 @@ function setWeekTaskDetails($smartyHelper, $weekid, $year, $managed_userid, $tea
 
 }
 
-?>

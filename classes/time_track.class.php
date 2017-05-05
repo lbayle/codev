@@ -378,9 +378,9 @@ class TimeTrack extends Model implements Comparable {
 
    }
 
-      public static function setNote($bug_id, $track_id, $text, $reporter_id) {
+   public static function setNote($bug_id, $track_id, $text, $reporter_id) {
       $timetrack = TimeTrackCache::getInstance()->getTimeTrack($track_id);
-      self::$logger->debug("Task $bug_id setTimesheetNote:[$text]");
+      //self::$logger->debug("Task $bug_id setTimetrackNote:[$text]");
 
       // add TAG in front (if not found)
       if (FALSE === strpos($text, IssueNote::tagid_timetrackNote)) {

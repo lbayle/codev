@@ -143,8 +143,11 @@
       {if isset($weekTimetrackingTuples) || isset($timetrackingTuples)}
       <div style="margin-top: 2em;">
          {if isset($weekTimetrackingTuples)}
-         <table style="margin-top: 2em; width: 100%;">
-            <caption>{t}Week timetracks{/t}</caption>
+         <table id="weekTimetracksTable" style="margin-top: 2em; width: 100%;">
+            <caption>
+               {t}Week timetracks{/t}
+               <span style="margin-left: 1em;" class="pointer"><img title="{t}Export to CSV{/t}" src="images/b_export_xls.gif" onclick="$('#weekTimetracksTable').table2CSV({literal}{{/literal}filename : 'weekTimetracks.csv'{literal}}{/literal})"/></span>
+            </caption>
             <thead>
                <tr>
                   <th></th>
@@ -154,10 +157,11 @@
                   <th>{t}Ext.ID{/t}</th>
                   <th>{t}Duration{/t}</th>
                   <th>{t}Job{/t}</th>
-                  <th>{t}Project{/t}</th>
-                  <th>{t}Category{/t}</th>
+                  <!--th>{t}Project{/t}</th-->
+                  <!--th>{t}Category{/t}</th-->
                   <th>{t}Description{/t}</th>
-                  <th>{t}Status{/t}</th>
+                  <th title="{t}Timetrack note{/t}">{t}Note{/t}</th>
+                  <!--th>{t}Status{/t}</th-->
                </tr>
             </thead>
             <tbody id="weekTimetrackingTuples">
@@ -174,10 +178,11 @@
                   <td>{$i.issueId}</td>
                   <td class="weekTimetrack_duration">{$i.duration}</td>
                   <td class="weekTimetrack_jobName" >{$i.jobName}</td>
-                  <td>{$i.projectName}</td>
-                  <td nowrap="nowrap">{$i.categoryName}</td>
+                  <!--td>{$i.projectName}</td-->
+                  <!--td nowrap="nowrap">{$i.categoryName}</td-->
                   <td>{$i.issueSummary}</td>
-                  <td>{$i.currentStatusName}</td>
+                  <td class="weekTimetrack_ttNote">{$i.timetrackNote}</td>
+                  <!--td>{$i.currentStatusName}</td-->
                </tr>
                {/foreach}
             </tbody>

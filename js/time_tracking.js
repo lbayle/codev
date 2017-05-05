@@ -452,6 +452,7 @@ jQuery(document).ready(function() {
                                  myTr.find(".weekTimetrack_duration").text(duration);
                                  myTr.find(".weekTimetrack_date").text(data.cosmeticDate);
                                  myTr.find(".weekTimetrack_jobName").text(data.jobName);
+                                 myTr.find(".weekTimetrack_ttNote").html(data.ttNote);
 
                                  // update complete timesheet
                                  jQuery("#weekTaskDetailsDiv").html(jQuery.trim(data.timesheetHtml));
