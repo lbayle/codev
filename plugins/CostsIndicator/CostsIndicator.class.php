@@ -234,6 +234,7 @@ class CostsIndicator extends IndicatorPluginAbstract {
       $TableSumFooter = $issueCostSums;
 
       // add provisions & sidetasks
+      $nbProvInCheckBudget = 0;
       switch ($this->domain) {
          case IndicatorPluginInterface::DOMAIN_COMMAND:
             $cmd = CommandCache::getInstance()->getCommand($this->cmdid);
@@ -241,6 +242,7 @@ class CostsIndicator extends IndicatorPluginAbstract {
             foreach ($provisions as $prov) {
                if ($prov->isInCheckBudget()) {
                   $provBudget += $prov->getProvisionBudget($teamCurrency);
+                  ++$nbProvInCheckBudget;
                }
             }
             break;
@@ -251,6 +253,7 @@ class CostsIndicator extends IndicatorPluginAbstract {
             foreach ($provisions as $prov) {
                if ($prov->isInCheckBudget()) {
                   $provBudget += $prov->getProvisionBudget($teamCurrency);
+                  ++$nbProvInCheckBudget;
                }
             }
             break;
@@ -260,6 +263,7 @@ class CostsIndicator extends IndicatorPluginAbstract {
             foreach ($provisions as $prov) {
                // all provisions, not only isInCheckBudget
                $provBudget += $prov->getProvisionBudget($teamCurrency);
+               ++$nbProvInCheckBudget;
             }
 
             // ServiceContract also has SideTasks !
@@ -296,7 +300,7 @@ class CostsIndicator extends IndicatorPluginAbstract {
             'elapsed'     => '',
             'backlog'     => '',
             'driftMgr'    => sprintf("%01.2f", ( - $provBudget)),
-            'description' => count($provisions).' '.T_('Provisions'),
+            'description' => $nbProvInCheckBudget.'/'.count($provisions).' '.T_('Provisions'),
          );
          $TableSumFooter['reestimated'] -= $provBudget;
          $TableSumFooter['driftMgr'] -= $provBudget;
