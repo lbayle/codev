@@ -208,6 +208,7 @@ class TimetrackDetailsIndicator extends IndicatorPluginAbstract {
                   'task_id' => $issue->getId(),
                   'task_extRef' => $issue->getTcId(),
                   'task_summary' => $issue->getSummary(),
+                  'tt_note' => $tt->getNote(),
                );
             }
          }
