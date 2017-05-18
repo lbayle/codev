@@ -266,6 +266,7 @@ function getProjection() {
    } catch (Exception $e) {
       // TODO handle exception
       $schedAjaxLogger->error("getProjection: exception raised !!");
+      $schedAjaxLogger->error("getProjection: ".$e->getMessage());
    }
 }
 
@@ -349,6 +350,7 @@ function setTimePerUserList() {
  * @param array $data : previous computed information to send to view
  */
 function getAllTaskUserList($data = false) {
+   global $schedAjaxLogger;
    
    // Get time per user per task list
    $timePerUserPerTaskLibelleList = null;
@@ -361,24 +363,37 @@ function getAllTaskUserList($data = false) {
    if(null != $timePerUserPerTaskList) {
       // Set time Per User Per Task List with label
       foreach($timePerUserPerTaskList as $taskIdKey => $timePerUserList) {
-         $issue = IssueCache::getInstance()->getIssue($taskIdKey);
-         $assignedUsers = array();
-         foreach($timePerUserList as $userIdKey => $time) {
-            $userName = UserCache::getInstance()->getUser($userIdKey)->getName();
-            $assignedUsers[$userName] = (NULL == $time) ? T_('auto') : $time;
+         try {
+            if (!Issue::exists($taskIdKey)) {
+               // TODO remove
+               $schedAjaxLogger->warn("getAllTaskUserList: issue $taskIdKey does not exist");
+               $issue = NULL;
+            } else {
+               $issue = IssueCache::getInstance()->getIssue($taskIdKey);
+               
+            }
+
+            $assignedUsers = array();
+            foreach($timePerUserList as $userIdKey => $time) {
+               $userName = UserCache::getInstance()->getUser($userIdKey)->getName();
+               $assignedUsers[$userName] = (NULL == $time) ? T_('auto') : $time;
+            }
+            $timePerUserPerTaskLibelleList[$taskIdKey] = array(
+               'issueURL' => Tools::issueInfoURL($taskIdKey),
+               'mantisURL' => Tools::mantisIssueURL($taskIdKey, NULL, true),
+               'extRef' => $issue ? $issue->getTcId() : T_('Error'),
+               'mgrEffortEstim' => $issue ? $issue->getMgrEffortEstim() : T_('Error'),
+               'effortEstim' => $issue ? $issue->getEffortEstim() : T_('Error'),
+               'backlog' => $issue ? $issue->getBacklog() : T_('Error'),
+               //'arrivalDate' = should not be defined here, as another ajax call is doing the $schedulerManager->execute()
+               'summary' => $issue ? $issue->getSummary() : T_('Issue not found in MantisDB !'),
+               'projectId' => $issue ? $issue->getProjectId() : T_('Error'),
+               'users' => $assignedUsers,
+            );
+         } catch (Exception $e) {
+            // TODO handle exception 
+            $schedAjaxLogger->error("getAllTaskUserList: ".$e->getMessage());
          }
-         $timePerUserPerTaskLibelleList[$taskIdKey] = array(
-            'issueURL' => Tools::issueInfoURL($issue->getId()),
-            'mantisURL' => Tools::mantisIssueURL($issue->getId(), NULL, true),
-            'extRef' => $issue->getTcId(),
-            'mgrEffortEstim' => $issue->getMgrEffortEstim(),
-            'effortEstim' => $issue->getEffortEstim(),
-            'backlog' => $issue->getBacklog(),
-            //'arrivalDate' = should not be defined here, as another ajax call is doing the $schedulerManager->execute()
-            'summary' => $issue->getSummary(),
-            'projectId' => $issue->getProjectId(),
-            'users' => $assignedUsers,
-         );
       }
    }
    

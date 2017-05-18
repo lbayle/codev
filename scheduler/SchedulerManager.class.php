@@ -286,33 +286,42 @@ class SchedulerManager {
    private function computeAutoAssignation($timePerUserPerTaskList){
       if (null != $timePerUserPerTaskList) {
          foreach($timePerUserPerTaskList as $taskIdKey => $timePerUser) {
-            $task = IssueCache::getInstance()->getIssue($taskIdKey);
-            $backlog = $task->getDuration();
-
-            $userAuto = array();
-
-            // For each users newly affected to the task, add time concerning the task
-            foreach ($timePerUser as $keyUser => $userTime) {
-               if(null != $userTime) {
-                  $backlog -= $userTime;
-               } else {
-                  $userAuto[$keyUser][$taskIdKey] = 0;
+            try {
+               if (!Issue::exists($taskIdKey)) {
+                  continue;
                }
-            }
+               $task = IssueCache::getInstance()->getIssue($taskIdKey);
+               $backlog = $task->getDuration();
 
-            if (null != $userAuto) {
-               $timePerUserAuto = round($backlog/count($userAuto), 1);
-               $diff = $timePerUserAuto*count($userAuto) - $backlog;
+               $userAuto = array();
 
-               foreach ($userAuto as $keyUser => $userTime) {
-                     if($diff <= $timePerUserAuto) {
-                        $timePerUserPerTaskList[$taskIdKey][$keyUser] = round($timePerUserAuto - $diff,1);
-                        $diff = 0;
-                     } else {
-                        $timePerUserPerTaskList[$taskIdKey][$keyUser] = 0;
-                        $diff -= $timePerUserAuto;
-                     }
+               // For each users newly affected to the task, add time concerning the task
+               foreach ($timePerUser as $keyUser => $userTime) {
+                  if(null != $userTime) {
+                     $backlog -= $userTime;
+                  } else {
+                     $userAuto[$keyUser][$taskIdKey] = 0;
+                  }
                }
+
+               if (null != $userAuto) {
+                  $timePerUserAuto = round($backlog/count($userAuto), 1);
+                  $diff = $timePerUserAuto*count($userAuto) - $backlog;
+
+                  foreach ($userAuto as $keyUser => $userTime) {
+                        if($diff <= $timePerUserAuto) {
+                           $timePerUserPerTaskList[$taskIdKey][$keyUser] = round($timePerUserAuto - $diff,1);
+                           $diff = 0;
+                        } else {
+                           $timePerUserPerTaskList[$taskIdKey][$keyUser] = 0;
+                           $diff -= $timePerUserAuto;
+                        }
+                  }
+               }
+            } catch (Exception $e) {
+               // most probably: issue removed from mantis
+               self::$logger->error("computeAutoAssignation: ".$e->getMessage());
+               unset($timePerUserPerTaskList[$taskIdKey]);
             }
          }
       }
