@@ -232,8 +232,14 @@ class TimeTrackingController extends Controller {
                // pre-set form fields
                // find ProjectId to update categories
                $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
-               $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-               $defaultProjectid  = $issue->getProjectId();
+               if (Issue::exists($defaultBugid)) {
+                  $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+                  $defaultProjectid  = $issue->getProjectId();
+               } else {
+                  self::$logger->error("setBugId: issue $defaultBugid not found in MantisDB !");
+                  $defaultProjectid  = 0;
+                  $defaultBugid = 0;
+               }
             }
             elseif ("setFiltersAction" == $action) {
                $isFilter_onlyAssignedTo = isset($_POST["cb_onlyAssignedTo"]) ? '1' : '0';
