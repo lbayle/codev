@@ -248,7 +248,6 @@
                           <th>{t}Type{/t}</th>
                           <th>{t}Budget Days{/t}</th>
                           <th>{t}Budget{/t}</th>
-                          <th title="{t}Average Daily Rate{/t}">{t}ADR{/t}</th>
                           <th>{t}Summary{/t}</th>
                           <th></th>
                        </tr>
@@ -258,7 +257,6 @@
                           <td>{$prov.type}</td>
                           <td>{$prov.budget_days}</td>
                           <td style="text-align:right">{$prov.budget} {$prov.currency}</td>
-                          <td>{$prov.average_daily_rate}</td>
                           <td>{$prov.summary}</td>
                           <td title="{if ($prov.isInCheckBudget)}{t}Provision included in 'check budget'{/t}{else}{t}Provision NOT included in 'check budget'{/t}{/if}"><input {if ($prov.isInCheckBudget)}checked="checked"{/if} type="checkbox" disabled="disabled" id="cb_isInCheckBudget" /></td>
                        </tr>

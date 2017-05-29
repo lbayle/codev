@@ -601,7 +601,6 @@
                   <th>{t}Type{/t}</th>
                   <th>{t}Budget Days{/t}</th>
                   <th>{t}Budget{/t}</th>
-                  <th title="{t}Average Daily Rate{/t}">{t}ADR{/t}</th>
                   <th>{t}Summary{/t}</th>
                   <th title = "{t}add to budget check{/t}"></th>
                </tr>
@@ -616,8 +615,7 @@
                   <td>{$prov.date}</td>
                   <td>{$prov.type}</td>
                   <td>{$prov.budget_days}</td>
-                  <td>{$prov.budget} {$prov.currency}</td>
-                  <td>{$prov.average_daily_rate}</td>
+                  <td style="text-align: right;">{$prov.budget} {$prov.currency}</td>
                   <td>{$prov.summary}</td>
                   <td title="{t}add to budget check{/t}"><input {if ($prov.isInCheckBudget)}checked="checked"{/if} type="checkbox" class="cbIsInCheckBudget" /></td>
                </tr>
@@ -730,7 +728,7 @@ var provData;
                            var type_id  = $(this).find(".type").attr('data-provTypeId');
                            var budget_days  = $(this).find(".budget_days").html();
                            var budget  = $(this).find(".budget").html();
-                           var average_daily_rate  = $(this).find(".average_daily_rate").html();
+                           var currency  = $(this).find(".currency").html();
                            var summary  = $(this).find(".summary").html();
                            var id = i;
 
@@ -739,7 +737,7 @@ var provData;
                            prov.typeIdProv  = type_id;
                            prov.budget_daysProv  = budget_days;
                            prov.budgetProv  = budget;
-                           prov.average_daily_rateProv  = average_daily_rate;
+                           prov.currencyProv  = currency;
                            prov.summaryProv  = summary;
                            prov.cb_isInCheckBudgetProv  = cb_isInCheckBudget;
                            provData[id] = prov;
@@ -762,9 +760,8 @@ var provData;
                                     trObj.append(jQuery("<td class='date'></td>").text(prov.date));
                                     trObj.append(jQuery("<td class='type'></td>").text(prov.type));
                                     trObj.append(jQuery("<td class='budget_days'></td>").text(prov.budget_days));
-                                    trObj.append(jQuery("<td class='budget'></td>").text(prov.budget));
-                                    trObj.append(jQuery("<td class='average_daily_rate'></td>").text(prov.average_daily_rate));
-                                    trObj.append(jQuery("<td class='summary'></td>").text(prov.summary));
+                                    trObj.append(jQuery("<td class='budget'></td>").text(prov.budget+' '+prov.currency));
+                                    trObj.append(jQuery("<td class='summary'></td>").html(prov.summary));
                                     if ("1" === prov.is_checked){
                                        trObj.append(jQuery("<td></td>").html('<input type="checkbox" name="cbIsInCheckBudget_'+key+'" class="cb_isInCheckBudget" value="true" checked/>'));
                                     } else {
@@ -822,7 +819,7 @@ var provData;
                               trObj.append(jQuery("<td class='type'></td>").text(prov.type).attr('data-provTypeId', prov.type_id));
                               trObj.append(jQuery("<td class='budget_days'></td>").text(prov.budget_days));
                               trObj.append(jQuery("<td class='budget'></td>").text(prov.budget));
-                              trObj.append(jQuery("<td class='average_daily_rate'></td>").text(prov.average_daily_rate));
+                              trObj.append(jQuery("<td class='currency'></td>").text(prov.currency));
                               trObj.append(jQuery("<td class='summary'></td>").text(prov.summary));
                               if ('true' === prov.is_checked){
                                  trObj.append(jQuery("<td></td>").html('<input type="checkbox" name="cbIsInCheckBudget_'+key+'" class="cb_isInCheckBudget" value="'+prov.is_checked+'" checked/>'));
@@ -924,7 +921,7 @@ var provData;
                         <th nowrap="nowrap"><label for="type">{t}Type{/t}</label></th>
                         <th nowrap="nowrap"><label for="budgetDays">{t}Budget Days{/t}</label></th>
                         <th nowrap="nowrap"><label for="budget">{t}Budget{/t}</label></th>
-                        <th nowrap="nowrap"><label for="averageDailyRate">{t}Average Daily Rate{/t}</label></th>
+                        <th nowrap="nowrap"><label for="currency">{t}Currency{/t}</label></th>
                         <th nowrap="nowrap"><label for="summary">{t}Summary{/t}</label></th>
                         <th title = "{t}add to budget check{/t}"></th>
                      </tr>

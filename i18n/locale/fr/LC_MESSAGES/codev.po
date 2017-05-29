@@ -3842,7 +3842,7 @@ msgstr "Encodage"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported."
-msgstr "Il est recommandé d'encoder en <strong>UTF-8</strong> mais ASCII et ISO-8859-1 (MS-Windows) sont également supportés."
+msgstr "Il est recommandé d'encoder en <strong>UTF-8</strong> mais ASCII et ISO-8859-1 (MS-Windows) sont également pris en charge."
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Columns"

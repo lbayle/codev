@@ -71,8 +71,9 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
    } elseif ('importProvisionCSV' == $action) {
       try {
+         $currencies = Currencies::getInstance()->getCurrencies();
 
-         // CSV format: Date;Type;budget_day;budget;average_daily_rate;summary
+         // CSV format: Date;Type;budget_day;budget;currency;summary
 
          $tmpfilename = getSourceFile1();
          $delimiter=";";
@@ -94,8 +95,9 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                   $provTypeId = CommandProvision::getProvisionTypeidFromName($provType);
                   $myBudgetDays = str_replace(",", ".", Tools::convertToUTF8($data[2])); // 3,5 => 3.5
                   $myBudget = str_replace(",", ".", Tools::convertToUTF8($data[3]));
-                  $myAverageDailyRate = str_replace(",", ".", Tools::convertToUTF8($data[4]));
+                  $myCurrency = mb_strtoupper(Tools::convertToUTF8($data[4]), 'UTF-8');
                   $mySummary = Tools::convertToUTF8($data[5]);
+
                   if(FALSE === $date) {
                      throw new Exception("Could not parse date (Y-m-d) : ".$myDate);
                   }
@@ -111,9 +113,16 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                   if (!is_numeric($myBudget) || $myBudget < 0){
                      throw new Exception("Invalid budget: ".$myBudget);
                   }
-                  
-                  if (!is_numeric($myAverageDailyRate) || $myAverageDailyRate < 0){
-                     throw new Exception("Invalid AverageDailyRate: ".$myAverageDailyRate);
+
+                  if (!array_key_exists($myCurrency, $currencies)) {
+                     throw new Exception("Invalid currency: ".$myCurrency);
+                  }
+
+                  // compute ADR
+                  if (0 != $myBudgetDays) {
+                     $myAverageDailyRate = $myBudget / $myBudgetDays;
+                  } else {
+                     $myAverageDailyRate = 0;
                   }
                   
                   $isMngtProv = ( $provMngtName === $provType);
@@ -123,6 +132,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                       'type_id' =>  $provTypeId,
                       'budget_days' => $myBudgetDays,
                       'budget' => $myBudget,
+                      'currency' => $myCurrency,
                       'average_daily_rate' => $myAverageDailyRate,
                       'summary' => $mySummary,
                       'is_checked' => $isMngtProv ? "false" : "true",
@@ -147,13 +157,14 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
    } elseif ('saveProvisionCSV' == $action) {
       try{
          $provDataReceived = $_POST['provdata'];
+         $currencies = Currencies::getInstance()->getCurrencies();
          
          foreach($provDataReceived as $provReceived){
             $provDateReceive = $provReceived["dateProv"];
             $provTypeIdReceive = $provReceived["typeIdProv"];
             $provBudgetDaysReceive = $provReceived["budget_daysProv"];
             $provBudgetReceive = $provReceived["budgetProv"];
-            $provAverageDailyRateReceive = $provReceived["average_daily_rateProv"];
+            $provCurrencyReceive = $provReceived["currencyProv"];
             $provSummaryReceive = $provReceived["summaryProv"];
             $provIsInCheckBudgetReceive = $provReceived["cb_isInCheckBudgetProv"];
 
@@ -162,24 +173,30 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             $checkDate = DateTime::createFromFormat('Y-m-d', $provDateReceive);
 
             if(FALSE === $checkDate) {
-               throw new Exception("Problème de date");
+               throw new Exception("Wrong provision date : "+ $provDateReceive);
             }
             if (false === $provTypeIdReceive){
-               throw new Exception("Le type n'existe pas");
+               throw new Exception("Undefined provision type");
             }
             if (!is_numeric($provBudgetDaysReceive) || $provBudgetDaysReceive < 0){
-               throw new Exception("Le budget en jour n'est pas valide");
+               throw new Exception("The days budget is not valid");
             }
             if (!is_numeric($provBudgetReceive) || $provBudgetReceive < 0){
-               throw new Exception("Le budget n'est pas valide");
+               throw new Exception("The currency budget is not valid");
             }
-            if (!is_numeric($provAverageDailyRateReceive) || $provAverageDailyRateReceive < 0){
-               throw new Exception("Le budget en jour n'est pas valide");
+            if (!array_key_exists($provCurrencyReceive, $currencies)) {
+               throw new Exception("Invalid currency: ".$provCurrencyReceive);
             }
 
-            //enregistrer dans la base de donnée voir avec Louis
-            $provId = CommandProvision::create($cmdid, $timestamp, $provTypeIdReceive, $provSummaryReceive, $provBudgetDaysReceive, $provBudgetReceive, $provAverageDailyRateReceive, $provIsInCheckBudgetReceive);
 
+            // compute ADR (but remember that it's unused by CodevTT : deprecated)
+            if (0 != $provBudgetDaysReceive) {
+               $provAverageDailyRate = $provBudgetReceive / $provBudgetDaysReceive;
+            } else {
+               $provAverageDailyRate = 0;
+            }
+
+            $provId = CommandProvision::create($cmdid, $timestamp, $provTypeIdReceive, $provSummaryReceive, $provBudgetDaysReceive, $provBudgetReceive, $provAverageDailyRate, $provIsInCheckBudgetReceive, $provCurrencyReceive);
             
             $provReceived = array(
                'id' => $provId,
@@ -188,7 +205,8 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                'type_id' => $provTypeIdReceive,
                'budget_days' => $provBudgetDaysReceive,
                'budget' => $provBudgetReceive,
-               'average_daily_rate' => $provAverageDailyRateReceive,
+               'currency' => $provCurrencyReceive,
+               'average_daily_rate' => $provAverageDailyRate,
                'summary' => $provSummaryReceive,
                'is_checked' => $provIsInCheckBudgetReceive,
             );
