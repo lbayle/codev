@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 #
 # Author: Metalhead64
+# Author: Palmertim00
 # Author: ThePiscin
 msgid ""
 msgstr ""
@@ -9,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-05-02 05:49:08+0000\n"
+"PO-Revision-Date: 2017-07-03 05:33:03+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
@@ -188,7 +189,7 @@ msgstr "Summe"
 
 #. tpl/productivity_report.html
 msgid "Days spent on the projects during the period (team members only)"
-msgstr "Auf das Projekt gebuchte Tage (nur Teammitglieder)"
+msgstr "Am Projekt arbeitende Tage (nur Teammitglieder)"
 
 #. tpl/productivity_report.html
 msgid "SideTasks: Project Management"

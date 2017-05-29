@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-02 11:08+0200\n"
-"PO-Revision-Date: 2017-05-02 05:49:09+0000\n"
+"PO-Revision-Date: 2017-06-05 05:31:40+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -282,11 +282,11 @@ msgstr "Disponibilité Système"
 
 #. tpl/productivity_report.html
 msgid "MgrEffortEstim Reliability Rate"
-msgstr "Taux de fiabilité de la Charge_Mgr"
+msgstr "Taux de fiabilité de l’{{Mantis:Codev-0eaccd-MgrEffortEstim/fr}}"
 
 #. tpl/productivity_report.html
 msgid "EffortEstim Reliability Rate"
-msgstr "Taux de fiabilité de la Charge_Initiale"
+msgstr "Taux de fiabilité de l’{{Mantis:Codev-a20275-EffortEstim/fr}}"
 
 #. tpl/productivity_report.html
 msgid "Workload Forecasting (holidays & externalTasks not included, developers only)"
@@ -319,7 +319,7 @@ msgstr "Jours de Production"
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "EffortEstim Reliability"
-msgstr "Fiabilité de l'estimation de charge"
+msgstr "Fiabilité de l’{{Mantis:Codev-a20275-EffortEstim/fr}}"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
@@ -353,7 +353,7 @@ msgstr "taux = 1 : estimation parfaite.<br>taux &lt; 1 : sous-estimé<br>taux &g
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:315
 #: reports/project_info.php:238 tools.php:1470
 msgid "EffortEstim"
-msgstr "Charge Init"
+msgstr "EstiméCharge"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
@@ -369,7 +369,7 @@ msgstr "consommé"
 
 #. tpl/productivity_report.html
 msgid "Tasks having no deadLine are not reported here"
-msgstr "Les tâches sans deadLine ne sont pas représentées ici"
+msgstr "Les tâches sans {{Mantis:Codev-fbace7-DeadLine/fr}} ne sont pas représentées ici"
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -401,12 +401,12 @@ msgstr "nb tâches"
 #. $tooltipAttr[T_('DeliveryDate')] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
 #: reports/issue_info_tools.php:109
 msgid "DeliveryDate"
-msgstr "Date Livraison"
+msgstr "DateLivraison"
 
 #. tpl/productivity_report.html
 #: reports/export_csv_tools.php:55
 msgid "DeadLine"
-msgstr "DeadLine"
+msgstr "DateTombée"
 
 #. tpl/productivity_report.html
 msgid "Tasks delivered on time"
@@ -414,7 +414,7 @@ msgstr "Fiches livrées à temps."
 
 #. tpl/productivity_report.html
 msgid "Task list for EffortEstim"
-msgstr "Liste des tâches pour Charge_Init"
+msgstr "Liste des tâches pour {{Mantis:Codev-a20275-EffortEstim/fr}}"
 
 #. tpl/productivity_report.html
 msgid "Note: Drift on tasks resolved in the period"
@@ -504,12 +504,12 @@ msgstr "Dérive"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Manager Estimation"
-msgstr "Charge estimée par le manager"
+msgstr "Charge estimée par le gestionnaire"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Manager"
-msgstr "Manager"
+msgstr "Gestionnaire"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -537,7 +537,7 @@ msgstr "Dérive"
 #: reports/export_csv_tools.php:60 reports/project_info.php:237
 #: tests/filters.php:68 tools.php:1467
 msgid "MgrEffortEstim"
-msgstr "Charge Mgr"
+msgstr "EstiméChargeGest"
 
 #. tpl/productivity_report.html
 msgid "No resolved tasks..."
@@ -668,13 +668,13 @@ msgstr "Reste à faire"
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #: reports/export_csv_tools.php:64 reports/export_csv_weekly.php:128
 msgid "BL"
-msgstr "RAF"
+msgstr "AT"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 msgid "Drift relatively to the managers Estimation"
-msgstr "Dérive par rapport à l'estimation du manager"
+msgstr "Dérive par rapport à l’estimé du gestionnaire"
 
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
@@ -775,7 +775,7 @@ msgstr "Dérive - Tâches Externes"
 
 #. tpl/productivity_report.html
 msgid "Tasks without ExternalRef are excluded"
-msgstr "Les tâches sans référence externes ne sont pas comptabilisées"
+msgstr "Les tâches sans RefExterne ne sont pas comptabilisées"
 
 #. tpl/productivity_report.html
 msgid "Reopened tasks are not included"
@@ -928,7 +928,7 @@ msgstr "Bilan mensuel SAUF SuiviOp."
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
-msgstr "Bilan mensuel (nbre de fiches / status à la fin du mois)"
+msgstr "Bilan mensuel (nombre de fiches / état à la fin du mois)"
 
 #. tpl/mantis_reports.html
 #. tpl/servicecontract_info.html
@@ -1068,7 +1068,7 @@ msgstr "-- Créer un Nouveau Contrat de Service ---"
 #. tpl/command_edit.html
 #. tpl/commandset_info.html
 msgid "Sorry, only managers can access this page."
-msgstr "Vous devez être Manager pour accéder à cette page."
+msgstr "Désolé, seuls les gestionnaires peuvent accéder à cette page."
 
 #. tpl/servicecontract_info.html
 #. tpl/command_info.html
@@ -2020,7 +2020,7 @@ msgstr "Criticité"
 #: scheduler/SchedulerEvent.class.php:143 gantt/gantt_ajax.php:198
 #: gantt/gantt_ajax.php:226 gantt/gantt_ajax.php:235 tools.php:1479
 msgid "Deadline"
-msgstr "Deadline"
+msgstr "{{Mantis:Codev-fbace7-DeadLine/fr}}"
 
 #. tpl/issue_info.html
 msgid "Relation"
@@ -2069,7 +2069,7 @@ msgstr "Ajouter à une commande"
 
 #. tpl/issue_info.html
 msgid "set/remove task specific deadline"
-msgstr "ajouter/enlever la date jalon de la tâche"
+msgstr "ajouter/enlever la date de tombée de la tâche"
 
 #. tpl/issue_info.html
 msgid "Delivery date"
@@ -2082,15 +2082,15 @@ msgstr "ajouter/enlever la date de livraison"
 #. tpl/issue_info.html
 #. tpl/modal/update_issueBacklog.html
 msgid "Task not resolved, backlog cannot be '0'"
-msgstr "Tâche non résolue, le RAF ne peut être nul"
+msgstr "Tâche non résolue, l’arriéré de travail ne peut être nul"
 
 #. tpl/issue_info.html
 msgid "Task is resolved, backlog should be '0'"
-msgstr "Tâche résolue, le RAF devrait être à zero"
+msgstr "Tâche résolue, l’arriéré de travail devrait être nul"
 
 #. tpl/issue_info.html
 msgid "Backlog should not be set if status is : "
-msgstr "Le RAF devrait pas être renseigné si les status est: "
+msgstr "L’arriéré de travail ne devrait pas être renseigné si l’état est : "
 
 #. tpl/commandset_edit.html
 msgid "New command set"
@@ -2169,7 +2169,7 @@ msgstr "Options"
 
 #. tpl/scheduler.html
 msgid "RAF"
-msgstr "RAF"
+msgstr "AT"
 
 #. tpl/scheduler.html
 msgid "User assignment"
@@ -2245,15 +2245,15 @@ msgstr "Enregistrer les options"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support included"
-msgstr "Support inclus"
+msgstr "Soutien inclus"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support NOT included"
-msgstr "Support NON inclus"
+msgstr "Soutien NON inclus"
 
 #. tpl/ajax/weekTaskDetails.html
 msgid "update backlog"
-msgstr "maj du RAF"
+msgstr "arriéré de màj"
 
 #. tpl/ajax/schedulerAffectationSummary.html
 msgid "Assigned users"
@@ -2362,7 +2362,7 @@ msgstr "% Tâches"
 
 #. tpl/statistics.html
 msgid "Percentage of tasks delivered before the deadLine"
-msgstr "Pourcentage de fiches livrées avant la deadLine"
+msgstr "Pourcentage de tâches complétées avant la {{Mantis:Codev-fbace7-DeadLine/fr}}"
 
 #. tpl/statistics.html
 msgid "% Tasks Delivered on time"
@@ -2370,15 +2370,15 @@ msgstr "% Tâches livrées à temps"
 
 #. tpl/statistics.html
 msgid "Effort deviation on resolved tasks (regarding the MgrEffortEstim)"
-msgstr "Nbre de jours de dépassement sur les tâches résolues dans la période (par rapport à la 'Charge Manager')"
+msgstr "Nombre de jours de dépassement des tâches résolues (par rapport à l’'{{Mantis:Codev-0eaccd-MgrEffortEstim/fr}}')"
 
 #. tpl/statistics.html
 msgid "Effort deviation on resolved tasks (regarding the EffortEstim)"
-msgstr "Nbre de jours de dépassement sur les tâches résolues dans la période (par rapport à la 'Charge Initiale')"
+msgstr "Nombre de jours de dépassement des tâches résolues (par rapport à l’'{{Mantis:Codev-a20275-EffortEstim/fr}}')"
 
 #. tpl/statistics.html
 msgid "No Support"
-msgstr "Sans Support"
+msgstr "Sans Soutien"
 
 #. tpl/statistics.html
 #: reports/export_csv_tools.php:61
@@ -2418,7 +2418,7 @@ msgstr "Disp Sys"
 
 #. tpl/statistics.html
 msgid "Number of reopened external tasks (tasks having an ExternalRef)."
-msgstr "Nombre de fiches réouvertes (ayant une ReferenceExterne)"
+msgstr "Nombre de fiches réouvertes (ayant une RefExterne)"
 
 #. tpl/statistics.html
 msgid "% Reopened"
@@ -2594,7 +2594,7 @@ msgstr "Tâches non assignées"
 
 #. tpl/planning_report.html
 msgid "Team's backlog"
-msgstr "Backlog de l'équipe"
+msgstr "Arriéré de travail de l’équipe"
 
 #. tpl/planning_report.html
 msgid "tasks"
@@ -2688,7 +2688,7 @@ msgstr "Journal"
 
 #. tpl/bvi.html
 msgid "Average Backlog Variation"
-msgstr "Evolution de la moyenne des RAF"
+msgstr "Variation moyenne de l’arriéré de travail"
 
 #. tpl/bvi.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
@@ -2758,7 +2758,7 @@ msgstr "Capitalisation"
 
 #. tpl/create_team.html
 msgid "Support, Doc, Training, Wiki, ..."
-msgstr "Support, Doc, Formation, Wiki, ..."
+msgstr "Soutien, Doc, Formation, Wiki, ..."
 
 #. tpl/create_team.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -2782,7 +2782,7 @@ msgstr "Champs CodevTT"
 
 #. tpl/create_team.html
 msgid "MgrEffortEstim, EffortEstim, AddEffort, Backlog, DeadLine, DeliveryDate"
-msgstr "Charge Mgr, Charge, RAF, DeadLine, Date de Livraison"
+msgstr "{{Mantis:Codev-0eaccd-MgrEffortEstim/fr}}, {{Mantis:Codev-a20275-EffortEstim/fr}}, ChargeSuppl, AT, {{Mantis:Codev-fbace7-DeadLine/fr}}, {{Mantis:Codev-1d0799-DeliveryDate/fr}}"
 
 #. tpl/create_team.html
 msgid "These are sample sideTasks, you can create more with Mantis"
@@ -2825,15 +2825,15 @@ msgstr "Créer"
 
 #. tpl/plugin_manager.html
 msgid "Check for new plugins in 'plugins' directory."
-msgstr "Recherche de plugins dans le dossier 'plugins'"
+msgstr "Recherche de greffons dans le dossier 'plugins'"
 
 #. tpl/plugin_manager.html
 msgid "Discover new plugins"
-msgstr "Recherche de nouveaux plugins"
+msgstr "Recherche de nouveaux greffons"
 
 #. tpl/plugin_manager.html
 msgid "Plugin"
-msgstr "Plugin"
+msgstr "Greffon"
 
 #. tpl/plugin_manager.html
 msgid "Domain(s)"
@@ -2841,11 +2841,11 @@ msgstr "Domaine(s)"
 
 #. tpl/plugin_manager.html
 msgid "Enable Plugin"
-msgstr "Activer le plugin"
+msgstr "Activer le greffon"
 
 #. tpl/plugin_manager.html
 msgid "Disable Plugin"
-msgstr "Désactiver le plugin"
+msgstr "Désactiver le greffon"
 
 #. tpl/command_edit.html
 msgid "New command"
@@ -2977,7 +2977,7 @@ msgstr "CRAs"
 
 #. tpl/team_activity_report.html
 msgid "sum(Backlog) of assigned tasks"
-msgstr "somme(RAF) des tâches assignées"
+msgstr "somme(arriéré de travail) des tâches assignées"
 
 #. tpl/team_activity_report.html
 msgid "Workload"
@@ -3115,7 +3115,7 @@ msgstr "Exporter vers LibreOffice"
 
 #. tpl/menu/global_menu.html
 msgid "Blog"
-msgstr "Blog"
+msgstr "Blogue"
 
 #. tpl/menu/global_menu.html
 #: install/install_step3.php:855 install/install_menu.inc.php:68
@@ -3164,7 +3164,7 @@ msgstr "Cloner un Projet"
 
 #. tpl/menu/global_menu.html
 msgid "Plugin Manager"
-msgstr "Gestionnaire de plugin"
+msgstr "Gestionnaire de greffons"
 
 #. tpl/menu/global_menu.html
 msgid "Logs"
@@ -3214,7 +3214,7 @@ msgstr "Nom du Fichier"
 
 #. tpl/uninstall.html
 msgid "Dumping MantisDB to"
-msgstr "Dump de la BDD Mantis vers"
+msgstr "Vidage de la BDD Mantis vers"
 
 #. tpl/uninstall.html
 msgid "Backup successfully done"
@@ -3250,7 +3250,7 @@ msgstr "Suppression des fichiers de configuration de CodevTT :"
 
 #. tpl/uninstall.html
 msgid "Remove Mantis plugin:"
-msgstr "Enlever les plugins Mantis:"
+msgstr "Enlever les greffons Mantis :"
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
@@ -3396,7 +3396,7 @@ msgstr "Afficher les tâches dans Mantis"
 
 #. tpl/command_info.html
 msgid "MgrEffortEstim + Checked Provisions (days)"
-msgstr "Charge Mgr + Provision sélectionnées (jours)"
+msgstr "{{Mantis:Codev-0eaccd-MgrEffortEstim/fr}} + Provisions sélectionnées (jours)"
 
 #. tpl/command_info.html
 msgid "Reestimated (days)"
@@ -3416,7 +3416,7 @@ msgstr "Jours"
 
 #. tpl/command_info.html
 msgid "The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'"
-msgstr "La charge totale (Charge Mgr + Provisions) devrait être égale à la 'Charge vendue'"
+msgstr "La charge totale ({{Mantis:Codev-0eaccd-MgrEffortEstim/fr}} + Provisions) devrait être égale à la 'Charge vendue'"
 
 #. tpl/command_info.html
 msgid "balance"
@@ -3492,19 +3492,19 @@ msgstr "Effacer la note de la tâche "
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Current backlog"
-msgstr "RAF actuel"
+msgstr "Arriéré de travail actuel"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Update Backlog"
-msgstr "Mise à jour du RAF"
+msgstr "Arriéré des mises à jour"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Status can't be : "
-msgstr "Le status ne peut pas être : "
+msgstr "L’état ne peut pas être : "
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Task resolved, backlog must be '0'"
-msgstr "Tâche résolue, le RAF devrait être à zero"
+msgstr "Tâche résolue, l’arriéré de travail doit être nul"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
@@ -3585,17 +3585,17 @@ msgstr "Contrat de Service"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
-msgstr "Pas de tâche avec RAF"
+msgstr "Pas de tâche avec arriéré"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:69
 msgid "Backlog per User"
-msgstr "RAF par utilisateur"
+msgstr "Arriéré de travail par utilisateur"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "For each user, return the sum of the backlog of its assigned tasks"
-msgstr "Pour chaque utilisateur, renvoie la somme du RAF de ses tâches"
+msgstr "Pour chaque utilisateur, renvoie la somme de ses arriérés de tâches"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
@@ -3704,12 +3704,12 @@ msgstr "Avancement théorique"
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Compares the EffortEstim to the Elapsed days"
-msgstr "Compare la Charge initiale au consommé"
+msgstr "Compare l’{{Mantis:Codev-a20275-EffortEstim/fr}} au consommé"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Elapsed / max(MgrEffortEstim, EffortEstim)"
-msgstr "Consommé / max(Charge Mgr, Charge Init)"
+msgstr "Consommé / max({{Mantis:Codev-0eaccd-MgrEffortEstim/fr}}, {{Mantis:Codev-a20275-EffortEstim/fr}})"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -3719,7 +3719,7 @@ msgstr "Avancement Réel"
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Displays the backlog"
-msgstr "Affiche le RAF"
+msgstr "Affiche l’arriéré de travail"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -3851,7 +3851,7 @@ msgstr "Encodage"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported."
-msgstr "Il est recommandé d'encoder en <strong>UTF-8</strong> mais ASCII et ISO-8859-1 (MS-Windows) sont également supportés."
+msgstr "Il est recommandé d’encoder en <strong>UTF-8</strong> mais ASCII et ISO-8859-1 (MS-Windows) sont également pris en charge."
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Columns"
@@ -3863,7 +3863,7 @@ msgstr "Le fichier doit contenir 7 colonnes, la première ligne contenant le tit
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef ; WBS tree"
-msgstr "Titre ; Charge Mgr ; Charge ; Description ; DeadLine ; Ref Externe; branches WBS"
+msgstr "Titre ; {{Mantis:Codev-0eaccd-MgrEffortEstim/fr}} ; {{Mantis:Codev-a20275-EffortEstim/fr}} ; Description ; {{Mantis:Codev-fbace7-DeadLine/fr}} ; RefExterne; branches WBS"
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 msgid "No late task."
@@ -3871,7 +3871,7 @@ msgstr "Pas de tâches en retard."
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator_cfg.html
 msgid "Deadline alerts"
-msgstr "Alertes sur dates jalon"
+msgstr "Alertes de dates de tombée"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:61
@@ -3908,7 +3908,7 @@ msgstr "Taux de refus"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Resolved bugs must be validated. This shows how many bugs have been Rejected or Accepted during the validation stage. Bugs in 'resolved' status (not yet validated) are excluded."
-msgstr "Donne le taux de refus lors de la phase de validation. Les corrections peuvent être acceptées ou refusées. Les bugs dont le status est 'résolu' (non encore validés) ne sont pas pris en compte."
+msgstr "Donne le taux de refus lors de la phase de validation. Les corrections peuvent être acceptées ou refusées. Les bogues dont l’état est 'résolu' (non encore validés) ne sont pas pris en compte."
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Validated"
@@ -3916,11 +3916,11 @@ msgstr "% Validé"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having successfully pass the validation tests"
-msgstr "Nbre de bugs ayant passé avec succès les tests de validation"
+msgstr "Nbre de bogues ayant passé avec succès les tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved' to any higher status (and still in this state at the end of the period)."
-msgstr "Le bug est passé à un status supérieur à 'résolu' (et est toujours dans cet état à la fin de la période)"
+msgstr "Le bogue est passé à un état supérieur à 'résolu' (et est toujours dans cet état à la fin de la période)."
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Rejected"
@@ -3928,11 +3928,11 @@ msgstr "% Refus"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having failed the validation tests"
-msgstr "Affiche le pourcentage de bugs ayant échoué aux tests de validation"
+msgstr "Affiche le pourcentage de bogues ayant échoué aux tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved (or higher) to any lower status (and still unresolved at the end of the period)"
-msgstr "Le bug est passé d'un status 'résolu' (ou supérieur) à un status inférieur (et est toujours non résolu à la fin de la période)"
+msgstr "Le bogue est passé de l’état 'résolu' (ou supérieur) à un état inférieur (et est toujours non résolu à la fin de la période)"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Bug Refusal Rate"
@@ -3940,7 +3940,7 @@ msgstr "Taux de refus"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having fail validation tests"
-msgstr "Nb de bugs ayant échoué aux tests de validation"
+msgstr "Nb de bogues ayant échoué aux tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Fail"
@@ -3948,7 +3948,7 @@ msgstr "Nb Refus"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having pass validation tests"
-msgstr "Nb de bugs ayant passé avec succès les tests de validation"
+msgstr "Nb de bogues ayant passé avec succès les tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Pass"
@@ -3969,7 +3969,7 @@ msgstr "Evolution de la Dérive Budget"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks)."
-msgstr "Compare le budget (Charge Mgr + provisions sélectionnées) au réestimé (nb jours pour finir les tâches)."
+msgstr "Compare le budget ({{Mantis:Codev-0eaccd-MgrEffortEstim/fr}} + provisions sélectionnées) au réestimé (nb jours pour finir les tâches)."
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "% Budget Drift"
@@ -3985,7 +3985,7 @@ msgstr "Dérive Budget"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "MgrEffortEstim + checked provisions"
-msgstr "Charge Mgr + Provision sélectionnées"
+msgstr "{{Mantis:Codev-0eaccd-MgrEffortEstim/fr}} + Provisions sélectionnées"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget Drift Progression Chart"
@@ -4049,7 +4049,7 @@ msgstr "Charge par catégories projet"
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send password by mail"
-msgstr "Envoi du mot de passe par email"
+msgstr "Envoi du mot de passe par courriel"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4070,7 +4070,7 @@ msgstr "Identifiant"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Email"
-msgstr "Email"
+msgstr "Courriel"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4112,7 +4112,7 @@ msgstr "Import terminé ! le mot de passe des utilisateurs créés est"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import Done ! An email with login and password has been sent to each user."
-msgstr "Import terminé ! Un email avec identifiant et mot de passe est envoyé à chaque utilisteur."
+msgstr "Import terminé ! Un courriel avec identifiant et mot de passe est envoyé à chaque utilisateur."
 
 #. plugins/ImportUsers/ImportUsers_cfg.html
 msgid "Import users"
@@ -4120,7 +4120,7 @@ msgstr "Import utilisateurs"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "You need to be manager to import issues."
-msgstr "Désolé, vous devez être manager pour importer des tâches"
+msgstr "Vous devez être gestionnaire pour importer des tâches."
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Only team administrators can create users"
@@ -4132,7 +4132,7 @@ msgstr "Seuls les administrateurs d'équipe sont autorisés à créer des utilis
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator_cfg.html
 #: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:62
 msgid "Time per status"
-msgstr "Temps par Status"
+msgstr "Temps par état"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Create Mantis users"
@@ -4148,7 +4148,7 @@ msgstr "Seuls les Administrateurs sont autorisés à faire cette action."
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send a password per email to each user"
-msgstr "Envoi du mot de passe par email à chaque utilisateur"
+msgstr "Envoi du mot de passe par courriel à chaque utilisateur"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Display a generated password (common to all created users)"
@@ -4240,7 +4240,7 @@ msgstr "Greetings date"
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
 #: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:65
 msgid "Time allocation by status"
-msgstr "Répartition du temps par status"
+msgstr "Répartition du temps par état"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4331,7 +4331,7 @@ msgstr "Pas de Filtre"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Bugs only"
-msgstr "Que les bugs"
+msgstr "Que les bogues"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Tasks only"
@@ -4352,7 +4352,7 @@ msgstr "Tâches sans réf. externe"
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator_cfg.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 msgid "Task backlog variation"
-msgstr "Evolution du RAF"
+msgstr "Variation de l’arriéré de travail"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -4361,15 +4361,15 @@ msgstr "Taux de fiabilité de l'estimation de charge"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "EffortEstim ReliabilityRate"
-msgstr "Taux de fiabilité de la Charge_Initiale"
+msgstr "Taux de fiabilité de l’{{Mantis:Codev-a20275-EffortEstim/fr}}"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "MgrEffortEstim ReliabilityRate"
-msgstr "Taux de fiabilité de la Charge_Mgr"
+msgstr "Taux de fiabilité de l’{{Mantis:Codev-0eaccd-MgrEffortEstim/fr}}"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "EffortEstim reliability history"
-msgstr "Historique de l'estimation de charge"
+msgstr "Historique de l’{{Mantis:Codev-a20275-EffortEstim/fr}}"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Select All"
@@ -4556,7 +4556,7 @@ msgstr "Erreur"
 
 #: classes/consistency_check_fdj.class.php:85
 msgid "Backlog not specified: Backlog = Time(BI - Analysis)"
-msgstr "RAF non renseigné: il doit être égal à temps(BI - Analyse)"
+msgstr "Arriéré de travail non renseigné : il doit être égal à temps(BI - Analyse)"
 
 #: classes/consistency_check_fdj.class.php:96
 msgid "Once analysed, a Task must be assigned to 'FDJ' for validation"
@@ -4668,19 +4668,19 @@ msgstr "inconnu"
 
 #: classes/consistency_check2.class.php:200
 msgid "Backlog on resolved issues should be 0"
-msgstr "Le RAF des tâches résolues doit être = 0"
+msgstr "L’arriéré de travail des tâches résolues devrait être nul"
 
 #: classes/consistency_check2.class.php:201
 msgid "Backlog on unresolved issues should not be 0"
-msgstr "Le RAF des tâches non résolues ne doit pas être = 0"
+msgstr "L’arriéré des tâches non résolues ne devrait pas être nul"
 
 #: classes/consistency_check2.class.php:202
 msgid "EffortEstim should not be 0"
-msgstr "La charge initiale doit être renseignée"
+msgstr "L’{{Mantis:Codev-a20275-EffortEstim/fr}} ne doit pas être nul"
 
 #: classes/consistency_check2.class.php:203
 msgid "There should be no timetracks on \"new\" issues "
-msgstr "Il ne doit pas y avoir d'imputations sur des tâches dont le status est 'déclaré'"
+msgstr "Il ne doit pas y avoir d’imputations sur des tâches dont l’état est 'déclaré'"
 
 #: classes/consistency_check2.class.php:204
 msgid "Issues should be referenced in a Command"
@@ -4704,35 +4704,35 @@ msgstr "Les tâches doivent être assignées"
 
 #: classes/consistency_check2.class.php:209
 msgid "Check timetracks on removed issues (not needed if Mantis plugin is enabled)"
-msgstr "Notifier les imputations sur des fiches mantis inexistantes (pas nécessaire si plugin Mantis activé)"
+msgstr "Notifier les imputations sur des fiches Mantis inexistantes (pas nécessaire si le greffon Mantis est activé)"
 
 #: classes/consistency_check2.class.php:314
 #: classes/consistency_check.class.php:208
 msgid "Backlog should be 0 (not "
-msgstr "Le RAF devrait être = 0  (et non "
+msgstr "L’arriéré de travail devrait être 0 (et non "
 
 #: classes/consistency_check2.class.php:336
 msgid "Backlog must be defined !"
-msgstr "Le RAF doit être défini !"
+msgstr "L’arriéré de travail doit être défini !"
 
 #: classes/consistency_check2.class.php:338
 #: classes/consistency_check.class.php:255
 msgid "Backlog == 0: Backlog may not be up to date."
-msgstr "RAF == 0: Il se peut que le RAF ne soit pas à jour."
+msgstr "AT == 0: Il se peut que l’arriéré de travail ne soit pas à jour."
 
 #: classes/consistency_check2.class.php:384
 #: classes/consistency_check.class.php:317
 msgid "MgrEffortEstim not set."
-msgstr "Charge_Mgr non renseigné."
+msgstr "{{Mantis:Codev-0eaccd-MgrEffortEstim/fr}} non renseigné."
 
 #: classes/consistency_check2.class.php:416
 msgid "EffortEstim not set."
-msgstr "Charge non renseignée."
+msgstr "{{Mantis:Codev-a20275-EffortEstim/fr}} non renseigné."
 
 #: classes/consistency_check2.class.php:442
 #: classes/consistency_check.class.php:365
 msgid "Status should not be"
-msgstr "Le status ne devrait pas être"
+msgstr "L’état ne devrait pas être"
 
 #: classes/consistency_check2.class.php:480
 msgid "The task is not assigned to anybody."
@@ -4861,7 +4861,7 @@ msgstr "d-m-Y"
 
 #: indicator_plugins/BacklogVariationIndicator/BacklogVariationIndicator.class.php:286
 msgid "Average backlog"
-msgstr "Moyenne des RAF"
+msgstr "Arriéré de travail moyen"
 
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:410
 #: reports/project_info.php:328
@@ -4896,7 +4896,7 @@ msgstr "CodevTT_Type"
 
 #: install/install_step3.php:389
 msgid "CodevTT_Manager EffortEstim"
-msgstr "CodevTT_Charge Manager"
+msgstr "CodevTT_Gestionnaire {{Mantis:Codev-a20275-EffortEstim/fr}}"
 
 #: install/install_step3.php:395
 msgid "CodevTT_External ID"
@@ -4927,7 +4927,7 @@ msgstr "Répertoire d'export"
 #. T_("Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access.")
 #: install/install_step3.php:466
 msgid "Path to log files and other temporary files."
-msgstr "Dossier de logs et autres fchiers temporaires."
+msgstr "Dossier de journaux et autres fichiers temporaires."
 
 #. ------ Status
 #: install/install_step3.php:483
@@ -4966,7 +4966,7 @@ msgstr "Postes par défaut"
 
 #: install/install_step3.php:616
 msgid "CodevTT support management"
-msgstr "gestion du support"
+msgstr "gestion du soutien"
 
 #: install/install_step3.php:627
 msgid "Specific to SideTasks"
@@ -5076,11 +5076,11 @@ msgstr "Gérer les plugiciels"
 
 #: install/install_step4.php:52
 msgid "Check that the <b>CodevTT</b> plugin is installed and activated."
-msgstr "Vérifiez que le plugin <b>CodevTT</b> est installé et activé"
+msgstr "Vérifiez que le greffon <b>CodevTT</b> est installé et activé."
 
 #: install/install_step4.php:53
 msgid "Check that the <b>FilterBugList</b> plugin is installed and activated"
-msgstr "Vérifiez que le plugin <b>FilterBugList</b> est installé et activé"
+msgstr "Vérifiez que le greffon <b>FilterBugList</b> est installé et activé"
 
 #. echo '<br>';
 #: install/install_step4.php:58
@@ -5093,7 +5093,7 @@ msgstr "Chemin d'accès et URL de Mantis dans "
 
 #: install/install_step4.php:61
 msgid "Log directory in "
-msgstr "Chemin d'accès aux logs dans "
+msgstr "Chemin d’accès aux journaux dans "
 
 #. echo '<br>';
 #: install/install_step4.php:66
@@ -5159,7 +5159,7 @@ msgstr "ATTENTION Installation Windows: Pour éviter une erreur SUPER utilisateu
 
 #: install/install_step1.php:233
 msgid "Proxy Settings"
-msgstr "Configuration du Proxy"
+msgstr "Configuration du mandataire"
 
 #: install/install_step1.php:234
 msgid "CodevTT will check for updates."
@@ -5167,7 +5167,7 @@ msgstr "CodevTT vérifie si une mise à jour est disponible"
 
 #: install/install_step1.php:237
 msgid "Enable proxy"
-msgstr "Activer le proxy"
+msgstr "Activer le mandataire"
 
 #: install/install_step1.php:238
 msgid "Server"
@@ -5254,11 +5254,11 @@ msgstr "Aucun projet valide n'est défini pour cette équipe"
 
 #: reports/issue_info_ajax.php:66
 msgid "Sorry, only managers can remove tasks from commands"
-msgstr "Vous devez être Manager pour sortir des tâches d'une commande"
+msgstr "Désolé, seuls les gestionnaires peuvent retirer des tâches aux commandes"
 
 #: reports/issue_info_ajax.php:91 reports/issue_info_ajax.php:133
 msgid "Sorry, only managers can add tasks to commands"
-msgstr "Vous devez être Manager pour ajouter des tâches à une commande"
+msgstr "Désolé, seuls les gestionnaires peuvent ajouter des tâches aux commandes"
 
 #: reports/issue_info_ajax.php:93 reports/issue_info_ajax.php:135
 #: reports/issue_info_ajax.php:166 reports/issue_info_ajax.php:215
@@ -5281,7 +5281,7 @@ msgstr "en retard"
 
 #: reports/planning_report.php:205
 msgid "no deadLine"
-msgstr "sans deadLine"
+msgstr "sans {{Mantis:Codev-fbace7-DeadLine/fr}}"
 
 #: reports/planning_report.php:498
 msgid "Monitored"
@@ -5380,7 +5380,7 @@ msgstr "Impossible de supprimer l'imputation !"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:72
 msgid "Check all the tasks and return the backlog per User"
-msgstr "Répartition du RAF des tâches de la sélection par utilisateur"
+msgstr "Arriérés des tâches par utilisateur"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:258
 msgid "(unknown 0)"
@@ -5506,7 +5506,7 @@ msgstr "Aucun coût journalier moyen défini pour l'équipe"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:194
 msgid "Sorry, only managers can access this plugin"
-msgstr "Vous devez être manager pour accéder à ce plugin."
+msgstr "Vous devez être gestionnaire pour accéder à ce greffon."
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:279
 msgid "Sidetasks"
@@ -5514,7 +5514,7 @@ msgstr "TachesAnnexes"
 
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:65
 msgid "A simple HelloWorld plugin"
-msgstr "un plugin exemple pour développeurs"
+msgstr "Un greffon exemplaire HelloWorld"
 
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:67
 msgid "Display the progress history"
@@ -5526,23 +5526,23 @@ msgstr "Affiche l'évolution de la répartition des tâches par statut"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:55
 msgid "Task burndown chart"
-msgstr "Evolution du RAF de la tâche"
+msgstr "Évolution de l’arriéré de travail de la tâche"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:58
 msgid "Display task backlog updates since the task creation"
-msgstr "Affiche l'évolution du RAF dans le temps (burndown chart)"
+msgstr "Affiche les mises à jour de l’arriéré de travail depuis la création de la tâche"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:157
 msgid "Backlog (days)"
-msgstr "RAF (jours)"
+msgstr "Arriéré de travail (jours)"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:68
 msgid "Display the EffortEstim reliability rate history"
-msgstr "Taux de fiabilité de la charge estimée (ChargeMgr, ChargeInit)"
+msgstr "Historique de la fiabilité de l’{{Mantis:Codev-a20275-EffortEstim/fr}}"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:69
 msgid "rate = EffortEstim / elapsed (on resolved tasks only)"
-msgstr "Taux = charge estimée / consommé (tâches résolues uniquement)"
+msgstr "Taux = {{Mantis:Codev-a20275-EffortEstim/fr}} / consommé (tâches résolues uniquement)"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:72
 msgid "REM: An issue that has been reopened before endTimestamp will NOT be recorded."
@@ -5550,7 +5550,7 @@ msgstr "REM: Les tâches réouvertes et non encore résolues ne sont pas prises 
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:73
 msgid "(For the bugs that where re-opened, the EffortEstim may not have been re-estimated, and thus the result is not reliable.)"
-msgstr "(si l'estimation de charge de ces tâches n'a pas été mise à jour, les résultats seront faussés)"
+msgstr "(si l’{{Mantis:Codev-a20275-EffortEstim/fr}} de ces tâches n’a pas été mis à jour, les résultats seront faussés)"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:60
 msgid "Move Issue Timetracks"

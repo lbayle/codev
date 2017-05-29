@@ -14,7 +14,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 00:37+0100\n"
-"PO-Revision-Date: 2017-05-02 05:49:09+0000\n"
+"PO-Revision-Date: 2017-06-05 05:31:39+0000\n"
 "Language: es_es\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2356,7 +2356,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "% Tasks"
-msgstr "% Tareas"
+msgstr "% tareas"
 
 #. tpl/statistics.html
 msgid "Percentage of tasks delivered before the deadLine"
