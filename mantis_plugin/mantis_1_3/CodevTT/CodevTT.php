@@ -20,7 +20,7 @@ class CodevTTPlugin extends MantisPlugin {
       $this->description = plugin_lang_get('description');
       $this->page = '';
 
-      $this->version = '0.7.1';
+      $this->version = '0.7.2';
 
       $this->requires = array(
           'MantisCore' => '1.3'
@@ -394,7 +394,7 @@ class CodevTTPlugin extends MantisPlugin {
                   "AND enabled = 1 ";
 
          // do not include closed commands.
-         $query .= "AND state < 6 "; // WARN: HARDCODED value of Command::$state_closed
+         $query .= "AND (state < 6 OR state IS NULL) "; // WARN: HARDCODED value of Command::$state_closed
          $query .= "ORDER BY reference, name";
 
          $result = db_query($query);

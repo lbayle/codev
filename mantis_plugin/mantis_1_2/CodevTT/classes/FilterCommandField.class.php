@@ -146,7 +146,7 @@ class FilterCommandField extends MantisFilter {
                   "AND enabled = 1 ";
 
          // do not include closed commands.
-         $query .= "AND state < 6 "; // WARN: HARDCODED value of Command::$state_closed
+         $query .= "AND (state < 6 OR state IS NULL) "; // WARN: HARDCODED value of Command::$state_closed
 
          $query .= "ORDER BY reference, name";
 
