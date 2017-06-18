@@ -111,7 +111,20 @@
       <p>
          <strong>{t}Description{/t}:</strong><br>
          {t}Sum the costs of each timetrack.{/t}<br>
-         {t}Team AverageDailyCost and UserDailyCosts must be defined in team settings.{/t}
+         {t}Team AverageDailyCost and UserDailyCosts must be defined in team settings.{/t}<br>
+         <br>
+         - {t}AverageDailyCost is used when no UserDailyCosts is defined for the timetrack's user.{/t}<br>
+         - {t}AverageDailyCost is used if the task is not yet assigned to anyone.{/t}<br>
+         - {t}The backlog is computed with the current assigned user's UserDailyCost{/t}<br>
+      </p>
+      <hr><br>
+      <p>
+         <strong>{t}Tasks{/t}:</strong><br>
+         {t}Respectively sum the MgrEffortEstim, EffortEstim, Reestimated, Elapsed, Backlog of each task.{/t}<br>
+         {t}The backlog depends on the status (always 0 if status >= Resolved){/t}<br>
+         <br>
+         <strong>{t}Provisions{/t}:</strong><br>
+         {t}Sum the Provisions that are 'checked' as included in the budget.{/t}
          <br>
       </p>
    </div>

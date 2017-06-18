@@ -2469,8 +2469,13 @@ class Issue extends Model implements Comparable {
             $elapsed += $tt->getCost($targetCurrency, $teamid);
          }
 
-         $backlog = $this->getBacklog() * $handlerUDC;
+         // Note: the 'real' backlog (as defined in the mantis custom field) will
+         // not be displayed here, because it is very confusing to get reestimated != elapsed + backlog
+         // during a manual check of the displayed values.
+         # $backlog = $this->getBacklog() * $handlerUDC;
          $duration = $this->getDuration() * $handlerUDC;
+
+
          $effortEstim = ($this->getEffortEstim() +  + $this->getEffortAdd()) * $handlerUDC;
          $mgrEE = $this->getMgrEffortEstim() * $handlerUDC;
 
@@ -2482,7 +2487,7 @@ class Issue extends Model implements Comparable {
             'costs' => $effortEstim,
             'reestimated' => $reestimated,
             'elapsed' => $elapsed,
-            'backlog' => $backlog,
+            'backlog' => $duration, #$backlog,
             'driftMgr' => $driftMgr,
          );
          $this->costStructList[$key] = $issueCosts;
