@@ -39,6 +39,7 @@ class CommandTools {
             "bugid" => Tools::issueInfoURL(sprintf("%07d\n", $issue->getId())),
             "extRef" => $issue->getTcId(),
             "project" => $issue->getProjectName(),
+            "category" => $issue->getCategoryName(),
             "target" => $issue->getTargetVersion(),
             "status" => $issue->getCurrentStatusName(),
             "progress" => round(100 * $issue->getProgress()),
