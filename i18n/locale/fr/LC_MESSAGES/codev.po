@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-02 11:08+0200\n"
+"POT-Creation-Date: 2017-07-03 21:50+0200\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -374,6 +374,7 @@ msgstr "Les tâches sans deadLine ne sont pas représentées ici"
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
+#: reports/planning_report.php:77
 #: plugins/CostsIndicator/CostsIndicator.class.php:228
 msgid "Tasks"
 msgstr "Tâches"
@@ -867,6 +868,7 @@ msgstr "jours ouvrés"
 #: tpl/holidays_report.html
 #: tpl/project_activity_report.html
 #: tpl/team_monthly_activity_report.html
+#: tpl/time_tracking.html
 #: tpl/team_activity_report.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
@@ -969,9 +971,11 @@ msgstr "Détaillé"
 #: tpl/ajax/projectDetails.html
 #: tpl/time_tracking.html
 #: tpl/plugin_manager.html
+#: tpl/command_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
-#: classes/wbsElement.class.php:638 tools.php:1533
+#: classes/issue.class.php:2261 classes/wbsElement.class.php:638
+#: tools.php:1533
 msgid "Category"
 msgstr "Catégorie"
 
@@ -1020,7 +1024,7 @@ msgstr "V.Ciblée"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#: install/install_step1.php:218
+#: install/install_step1.php:207
 msgid "User"
 msgstr "Utilisateur"
 
@@ -1096,7 +1100,8 @@ msgstr "TachesAnnexes"
 #: tpl/command_edit.html
 #: tpl/command_info.html
 #: tpl/commandset_info.html
-#: plugins/CostsIndicator/CostsIndicator.class.php:299
+#. plugins/CostsIndicator/CostsIndicator.html
+#: plugins/CostsIndicator/CostsIndicator.class.php:303
 msgid "Provisions"
 msgstr "Provisions"
 
@@ -1286,8 +1291,6 @@ msgid "Average Daily Rate"
 msgstr "Taux Journalier Moyen"
 
 #: tpl/servicecontract_info.html
-#: tpl/command_edit.html
-#: tpl/command_info.html
 #: tpl/commandset_info.html
 msgid "ADR"
 msgstr "TJM"
@@ -1411,8 +1414,8 @@ msgid "Timetrack Durations"
 msgstr "Durées d'imputations"
 
 #: tpl/edit_team.html
-msgid "User Daily Costs"
-msgstr "Coût journalier individuel"
+msgid "Costs management"
+msgstr "Gestion des coûts"
 
 #: tpl/edit_team.html
 msgid "OnDuty tasks"
@@ -1585,6 +1588,7 @@ msgid "All indicators will use this currency and all values defined in other cur
 msgstr "Les indicateurs utiliseront cette devise, les autres devises seront converties vers celle-ci."
 
 #: tpl/edit_team.html
+#: tpl/command_edit.html
 msgid "Currency"
 msgstr "Devise"
 
@@ -1599,6 +1603,10 @@ msgstr "Devise de référence"
 #: tpl/edit_team.html
 msgid "TODO: describe how and where it is used in CodevTT"
 msgstr ""
+
+#: tpl/edit_team.html
+msgid "User Daily Costs"
+msgstr "Coût journalier individuel"
 
 #: tpl/edit_team.html
 msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
@@ -2033,6 +2041,7 @@ msgstr "Clickez le bouton de mise à jour pour afficher les notes..."
 #: tpl/time_tracking.html
 #: tpl/team_activity_report.html
 #: tpl/modal/update_issueBacklog.html
+#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 msgid "Note"
 msgstr "Note"
@@ -2522,6 +2531,10 @@ msgid "Ext.ID"
 msgstr "Réf.Ext"
 
 #: tpl/time_tracking.html
+msgid "Timetrack note"
+msgstr "Note d'imputation"
+
+#: tpl/time_tracking.html
 msgid "Edit timetrack"
 msgstr "Mise à jour d'imputation"
 
@@ -2575,7 +2588,7 @@ msgstr "Cliquer pour afficher les erreurs"
 #: management/command_info.php:123 management/commandset_info.php:95
 #: reports/issue_info.php:95 reports/issue_info.php:96
 #: timetracking/team_monthly_activity_report.php:75
-#: timetracking/time_tracking.php:316 timetracking/team_activity_report.php:65
+#: timetracking/time_tracking.php:322 timetracking/team_activity_report.php:65
 msgid "Errors"
 msgstr "Erreurs"
 
@@ -4219,6 +4232,31 @@ msgstr "Total des coûts de toutes les imputations"
 msgid "Team AverageDailyCost and UserDailyCosts must be defined in team settings."
 msgstr "Le Coût journaliers moyen de l'équipe et/ou les coûts journaliers individuels doivent être définis dans les paramètres de l'équipe"
 
+#. plugins/CostsIndicator/CostsIndicator.html
+msgid "AverageDailyCost is used when no UserDailyCosts is defined for the timetrack's user."
+msgstr "Le Coût-Journalier-Moyen est utilisé lorsqu'aucun Coût-Journalier-Individuel n'est défini pour la personne ayant imputé"
+
+#. plugins/CostsIndicator/CostsIndicator.html
+msgid "AverageDailyCost is used if the task is not yet assigned to anyone."
+msgstr "Le Coût-Journalier-Moyen est utilisé lorsque la tâche n'est assignée à personne"
+
+#. plugins/CostsIndicator/CostsIndicator.html
+msgid "The backlog is computed with the current assigned user's UserDailyCost"
+msgstr "Le RAF est calculé avec le CJI de la personne à qui la tâche est assignée"
+
+#. plugins/CostsIndicator/CostsIndicator.html
+msgid "Respectively sum the MgrEffortEstim, EffortEstim, Reestimated, Elapsed, Backlog of each task."
+msgstr "Respectivement: ChargeMgr, ChargeInit, Réestimé, Consommé, RAF de chaque tâche."
+
+#. plugins/CostsIndicator/CostsIndicator.html
+msgid "The backlog depends on the status (always 0 if status >= Resolved)"
+msgstr "Le RAF dépend du status (toujours null si status >= résolu)"
+
+#. plugins/CostsIndicator/CostsIndicator.html
+#, fuzzy
+msgid "Sum the Provisions that are 'checked' as included in the budget."
+msgstr "Somme des Provisions cochées dans 'check budget'"
+
 #. plugins/HelloWorldIndicator/HelloWorldIndicator_cfg.html
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:62
 msgid "Hello World"
@@ -4550,6 +4588,9 @@ msgstr "BI non renseigné: il doit être égal à temps(Analyse + Dev + Tests)"
 #: classes/consistency_check.class.php:318
 #: classes/consistency_check.class.php:366
 #: timetracking/team_monthly_activity_report.php:129
+#: scheduler/scheduler_ajax.php:384 scheduler/scheduler_ajax.php:385
+#: scheduler/scheduler_ajax.php:386 scheduler/scheduler_ajax.php:387
+#: scheduler/scheduler_ajax.php:390
 msgid "Error"
 msgstr "Erreur"
 
@@ -5033,19 +5074,23 @@ msgstr "Maladie"
 msgid "Install - Step 2"
 msgstr "Installation - Etape 2"
 
-#: install/install_step2.php:103
+#: install/install_step2.php:104
 msgid "Get Mantis customizations"
 msgstr "Récupération de la config Mantis"
 
-#: install/install_step2.php:108
+#: install/install_step2.php:109
+msgid "Path to Mantis"
+msgstr "Répertoire de Mantis"
+
+#: install/install_step2.php:114
 msgid "URL to Mantis"
 msgstr "URL vers Mantis"
 
-#: install/install_step2.php:113
+#: install/install_step2.php:119
 msgid "URL to CodevTT"
 msgstr "URL vers CodevTT"
 
-#: install/install_step2.php:128
+#: install/install_step2.php:134
 msgid "Proceed Step 2"
 msgstr "Exécuter Etape 2"
 
@@ -5103,6 +5148,23 @@ msgstr "Supprimer les fichiers d'installation"
 msgid "For security reasons, delete the following directory: "
 msgstr "Pour raison de sécurité, supprimez le dossier: "
 
+#. echo '<br>';
+#: install/install_step4.php:73
+msgid "Install Firefox Greasemonkey addon"
+msgstr "Installer le module Firefox Greasemonkey"
+
+#: install/install_step4.php:74
+msgid "Note: This step is optional"
+msgstr "Note: Cette étape est optionnelle"
+
+#: install/install_step4.php:76
+msgid "Install addon:"
+msgstr "Installer le module:"
+
+#: install/install_step4.php:77
+msgid "Load script:"
+msgstr "Charger le script:"
+
 #: install/install_step4.php:83
 msgid "Done !"
 msgstr "Terminé !"
@@ -5136,47 +5198,43 @@ msgstr "Lancez ce script: "
 msgid "Install - Step 1"
 msgstr "Installation - Etape 1"
 
-#: install/install_step1.php:201
+#: install/install_step1.php:195
 msgid "Mantis Database Info"
 msgstr "Base de donées Mantis"
 
-#: install/install_step1.php:205
-msgid "Path to Mantis"
-msgstr "Répertoire de Mantis"
-
-#: install/install_step1.php:210
+#: install/install_step1.php:199
 msgid "Hostname"
 msgstr "Serveur"
 
-#: install/install_step1.php:214
+#: install/install_step1.php:203
 msgid "Database Name"
 msgstr "Base de donées"
 
-#: install/install_step1.php:228
+#: install/install_step1.php:217
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
 msgstr "ATTENTION Installation Windows: Pour éviter une erreur SUPER utilisateur, spécifier l'utilisateur mysql <b>root</b> (ceci pourra être changé dans config.ini après l'installation)."
 
-#: install/install_step1.php:233
+#: install/install_step1.php:222
 msgid "Proxy Settings"
 msgstr "Configuration du Proxy"
 
-#: install/install_step1.php:234
+#: install/install_step1.php:223
 msgid "CodevTT will check for updates."
 msgstr "CodevTT vérifie si une mise à jour est disponible"
 
-#: install/install_step1.php:237
+#: install/install_step1.php:226
 msgid "Enable proxy"
 msgstr "Activer le proxy"
 
-#: install/install_step1.php:238
+#: install/install_step1.php:227
 msgid "Server"
 msgstr "Serveur"
 
-#: install/install_step1.php:239
+#: install/install_step1.php:228
 msgid "Port"
 msgstr "Port"
 
-#: install/install_step1.php:246
+#: install/install_step1.php:235
 msgid "Proceed Step 1"
 msgstr "Executer étape 1"
 
@@ -5216,7 +5274,7 @@ msgstr "Note : Les tâches annexes définies dans les commandes ne sont pas affi
 msgid "Add the selected issues to the Command ?"
 msgstr "Ajouter les tâches sélectionnées à la commande ?"
 
-#: management/command_info_ajax.php:363 scheduler/scheduler_ajax.php:368
+#: management/command_info_ajax.php:363 scheduler/scheduler_ajax.php:379
 #: gantt/gantt_ajax.php:166
 msgid "auto"
 msgstr "auto"
@@ -5225,7 +5283,7 @@ msgstr "auto"
 msgid "Provisions updated FAILED !"
 msgstr "ERREUR lors de la mise à jour des provisions !"
 
-#: management/command_edit_ajax.php:260
+#: management/command_edit_ajax.php:278
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:204
 #: plugins/ImportUsers/ImportUsers.class.php:228
 msgid "Please upload files with the following extension: "
@@ -5325,7 +5383,7 @@ msgstr "Désolé, il n'y a pas de projets définis pour cette équipe."
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:469
 #: timetracking/team_monthly_activity_report.php:130
-#: timetracking/time_tracking.php:420
+#: timetracking/time_tracking.php:430
 #: timetracking/team_activity_report.php:179
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Erreur : Tâche introuvable dans la BDD Mantis !"
@@ -5360,7 +5418,7 @@ msgid "Other team"
 msgstr "Autre équipe"
 
 #: timetracking/team_monthly_activity_report.php:76
-#: timetracking/time_tracking.php:317 timetracking/team_activity_report.php:66
+#: timetracking/time_tracking.php:323 timetracking/team_activity_report.php:66
 msgid "days are incomplete or undefined"
 msgstr "jours sont incomplets ou non définis"
 
@@ -5507,7 +5565,7 @@ msgstr "Aucun coût journalier moyen défini pour l'équipe"
 msgid "Sorry, only managers can access this plugin"
 msgstr "Vous devez être manager pour accéder à ce plugin."
 
-#: plugins/CostsIndicator/CostsIndicator.class.php:279
+#: plugins/CostsIndicator/CostsIndicator.class.php:283
 msgid "Sidetasks"
 msgstr "TachesAnnexes"
 
@@ -5619,15 +5677,20 @@ msgstr "2 mois"
 msgid "3 months"
 msgstr "3 mois"
 
-#: scheduler/scheduler_ajax.php:327
+#: scheduler/scheduler_ajax.php:328
 msgid "Assignments rules not valid for task"
 msgstr "Règles d'affectation invalides pour cette tâche"
 
-#: scheduler/scheduler_ajax.php:341
+#: scheduler/scheduler_ajax.php:342
 msgid "Assignments updated for task"
 msgstr "Affectations mises à jour pour la tâche"
 
-#: scheduler/scheduler_ajax.php:498
+#. 'arrivalDate' = should not be defined here, as another ajax call is doing the $schedulerManager->execute()
+#: scheduler/scheduler_ajax.php:389
+msgid "Issue not found in MantisDB !"
+msgstr "Tâche introuvable dans la BDD Mantis !"
+
+#: scheduler/scheduler_ajax.php:513
 msgid "Options saved successfully"
 msgstr "Options enregistrées"
 
@@ -5658,18 +5721,6 @@ msgstr "Charge Additionnelle"
 
 #~ msgid "Cmds Budget"
 #~ msgstr "Budget commandes"
-
-#~ msgid "Install Firefox Greasemonkey addon"
-#~ msgstr "Installer le module Firefox Greasemonkey"
-
-#~ msgid "Note: This step is optional"
-#~ msgstr "Note: Cette étape est optionnelle"
-
-#~ msgid "Install addon:"
-#~ msgstr "Installer le module:"
-
-#~ msgid "Load script:"
-#~ msgstr "Charger le script:"
 
 #~ msgid "Deleted the following timetrack ?"
 #~ msgstr "Supprimer l'imputation suivante ?"
