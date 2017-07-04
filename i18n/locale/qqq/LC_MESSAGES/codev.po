@@ -9,12 +9,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:03+0100\n"
-"PO-Revision-Date: 2017-05-02 05:49:21+0000\n"
+"PO-Revision-Date: 2017-11-09 07:06:46+0000\n"
 "Language: qqq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2017-04-02 15:53:05+0000\n"
-"X-Generator: MediaWiki 1.30.0-alpha; Translate 2017-04-27\n"
+"X-POT-Import-Date: 2017-07-03 20:50:48+0000\n"
+"X-Generator: MediaWiki 1.31.0-alpha; Translate 2017-10-30\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. tpl/filters.html
@@ -374,6 +374,7 @@ msgstr "Translation of \"deadLine\" should keep the lowerCamelCase form when pos
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
+#: reports/planning_report.php:77
 #: plugins/CostsIndicator/CostsIndicator.class.php:228
 msgid "Tasks"
 msgstr "{{Identical|Task}}"
@@ -867,6 +868,7 @@ msgstr "{{Identical|Workday}}"
 #. tpl/holidays_report.html
 #. tpl/project_activity_report.html
 #. tpl/team_monthly_activity_report.html
+#. tpl/time_tracking.html
 #. tpl/team_activity_report.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
@@ -969,9 +971,11 @@ msgstr "{{Identical|Detailed}}"
 #. tpl/ajax/projectDetails.html
 #. tpl/time_tracking.html
 #. tpl/plugin_manager.html
+#. tpl/command_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
-#: classes/wbsElement.class.php:638 tools.php:1533
+#: classes/issue.class.php:2261 classes/wbsElement.class.php:638
+#: tools.php:1533
 msgid "Category"
 msgstr "{{Identical|Category}}"
 
@@ -1020,7 +1024,7 @@ msgstr ""
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#: install/install_step1.php:218
+#: install/install_step1.php:207
 msgid "User"
 msgstr "{{Identical|User}}"
 
@@ -1096,7 +1100,8 @@ msgstr "Translation of this message should keep the CamelCase form when possible
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/commandset_info.html
-#: plugins/CostsIndicator/CostsIndicator.class.php:299
+#. plugins/CostsIndicator/CostsIndicator.html
+#: plugins/CostsIndicator/CostsIndicator.class.php:303
 msgid "Provisions"
 msgstr "{{Identical|Provision}}"
 
@@ -1286,8 +1291,6 @@ msgid "Average Daily Rate"
 msgstr ""
 
 #. tpl/servicecontract_info.html
-#. tpl/command_edit.html
-#. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "ADR"
 msgstr ""
@@ -1411,7 +1414,7 @@ msgid "Timetrack Durations"
 msgstr ""
 
 #. tpl/edit_team.html
-msgid "User Daily Costs"
+msgid "Costs management"
 msgstr ""
 
 #. tpl/edit_team.html
@@ -1585,6 +1588,7 @@ msgid "All indicators will use this currency and all values defined in other cur
 msgstr ""
 
 #. tpl/edit_team.html
+#. tpl/command_edit.html
 msgid "Currency"
 msgstr "{{Identical|Currency}}"
 
@@ -1598,6 +1602,10 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "TODO: describe how and where it is used in CodevTT"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "User Daily Costs"
 msgstr ""
 
 #. tpl/edit_team.html
@@ -2033,6 +2041,7 @@ msgstr ""
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
 #. tpl/modal/update_issueBacklog.html
+#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 msgid "Note"
 msgstr "{{Identical|Note}}"
@@ -2522,6 +2531,10 @@ msgid "Ext.ID"
 msgstr ""
 
 #. tpl/time_tracking.html
+msgid "Timetrack note"
+msgstr ""
+
+#. tpl/time_tracking.html
 msgid "Edit timetrack"
 msgstr ""
 
@@ -2575,7 +2588,7 @@ msgstr ""
 #: management/command_info.php:123 management/commandset_info.php:95
 #: reports/issue_info.php:95 reports/issue_info.php:96
 #: timetracking/team_monthly_activity_report.php:75
-#: timetracking/time_tracking.php:316 timetracking/team_activity_report.php:65
+#: timetracking/time_tracking.php:322 timetracking/team_activity_report.php:65
 msgid "Errors"
 msgstr "{{Identical|Error}}"
 
@@ -4219,6 +4232,30 @@ msgstr ""
 msgid "Team AverageDailyCost and UserDailyCosts must be defined in team settings."
 msgstr ""
 
+#. plugins/CostsIndicator/CostsIndicator.html
+msgid "AverageDailyCost is used when no UserDailyCosts is defined for the timetrack's user."
+msgstr ""
+
+#. plugins/CostsIndicator/CostsIndicator.html
+msgid "AverageDailyCost is used if the task is not yet assigned to anyone."
+msgstr ""
+
+#. plugins/CostsIndicator/CostsIndicator.html
+msgid "The backlog is computed with the current assigned user's UserDailyCost"
+msgstr ""
+
+#. plugins/CostsIndicator/CostsIndicator.html
+msgid "Respectively sum the MgrEffortEstim, EffortEstim, Reestimated, Elapsed, Backlog of each task."
+msgstr ""
+
+#. plugins/CostsIndicator/CostsIndicator.html
+msgid "The backlog depends on the status (always 0 if status >= Resolved)"
+msgstr ""
+
+#. plugins/CostsIndicator/CostsIndicator.html
+msgid "Sum the Provisions that are 'checked' as included in the budget."
+msgstr ""
+
 #. plugins/HelloWorldIndicator/HelloWorldIndicator_cfg.html
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:62
 msgid "Hello World"
@@ -4542,6 +4579,9 @@ msgstr ""
 #: classes/consistency_check.class.php:318
 #: classes/consistency_check.class.php:366
 #: timetracking/team_monthly_activity_report.php:129
+#: scheduler/scheduler_ajax.php:384 scheduler/scheduler_ajax.php:385
+#: scheduler/scheduler_ajax.php:386 scheduler/scheduler_ajax.php:387
+#: scheduler/scheduler_ajax.php:390
 msgid "Error"
 msgstr ""
 
@@ -5025,19 +5065,23 @@ msgstr ""
 msgid "Install - Step 2"
 msgstr ""
 
-#: install/install_step2.php:103
+#: install/install_step2.php:104
 msgid "Get Mantis customizations"
 msgstr ""
 
-#: install/install_step2.php:108
+#: install/install_step2.php:109
+msgid "Path to Mantis"
+msgstr ""
+
+#: install/install_step2.php:114
 msgid "URL to Mantis"
 msgstr ""
 
-#: install/install_step2.php:113
+#: install/install_step2.php:119
 msgid "URL to CodevTT"
 msgstr ""
 
-#: install/install_step2.php:128
+#: install/install_step2.php:134
 msgid "Proceed Step 2"
 msgstr ""
 
@@ -5095,6 +5139,23 @@ msgstr ""
 msgid "For security reasons, delete the following directory: "
 msgstr ""
 
+#. echo '<br>';
+#: install/install_step4.php:73
+msgid "Install Firefox Greasemonkey addon"
+msgstr ""
+
+#: install/install_step4.php:74
+msgid "Note: This step is optional"
+msgstr ""
+
+#: install/install_step4.php:76
+msgid "Install addon:"
+msgstr ""
+
+#: install/install_step4.php:77
+msgid "Load script:"
+msgstr ""
+
 #: install/install_step4.php:83
 msgid "Done !"
 msgstr ""
@@ -5128,47 +5189,43 @@ msgstr ""
 msgid "Install - Step 1"
 msgstr ""
 
-#: install/install_step1.php:201
+#: install/install_step1.php:195
 msgid "Mantis Database Info"
 msgstr ""
 
-#: install/install_step1.php:205
-msgid "Path to Mantis"
-msgstr ""
-
-#: install/install_step1.php:210
+#: install/install_step1.php:199
 msgid "Hostname"
 msgstr "{{Identical|Hostname}}"
 
-#: install/install_step1.php:214
+#: install/install_step1.php:203
 msgid "Database Name"
 msgstr "{{Identical|Database name}}"
 
-#: install/install_step1.php:228
+#: install/install_step1.php:217
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
 msgstr ""
 
-#: install/install_step1.php:233
+#: install/install_step1.php:222
 msgid "Proxy Settings"
 msgstr ""
 
-#: install/install_step1.php:234
+#: install/install_step1.php:223
 msgid "CodevTT will check for updates."
 msgstr ""
 
-#: install/install_step1.php:237
+#: install/install_step1.php:226
 msgid "Enable proxy"
 msgstr ""
 
-#: install/install_step1.php:238
+#: install/install_step1.php:227
 msgid "Server"
 msgstr "{{Identical|Server}}"
 
-#: install/install_step1.php:239
+#: install/install_step1.php:228
 msgid "Port"
 msgstr "{{Identical|Port}}"
 
-#: install/install_step1.php:246
+#: install/install_step1.php:235
 msgid "Proceed Step 1"
 msgstr ""
 
@@ -5208,7 +5265,7 @@ msgstr ""
 msgid "Add the selected issues to the Command ?"
 msgstr ""
 
-#: management/command_info_ajax.php:363 scheduler/scheduler_ajax.php:368
+#: management/command_info_ajax.php:363 scheduler/scheduler_ajax.php:379
 #: gantt/gantt_ajax.php:166
 msgid "auto"
 msgstr "{{Identical|Auto}}"
@@ -5217,7 +5274,7 @@ msgstr "{{Identical|Auto}}"
 msgid "Provisions updated FAILED !"
 msgstr ""
 
-#: management/command_edit_ajax.php:260
+#: management/command_edit_ajax.php:278
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:204
 #: plugins/ImportUsers/ImportUsers.class.php:228
 msgid "Please upload files with the following extension: "
@@ -5317,7 +5374,7 @@ msgstr ""
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:469
 #: timetracking/team_monthly_activity_report.php:130
-#: timetracking/time_tracking.php:420
+#: timetracking/time_tracking.php:430
 #: timetracking/team_activity_report.php:179
 msgid "Error: Task not found in Mantis DB !"
 msgstr ""
@@ -5352,7 +5409,7 @@ msgid "Other team"
 msgstr ""
 
 #: timetracking/team_monthly_activity_report.php:76
-#: timetracking/time_tracking.php:317 timetracking/team_activity_report.php:66
+#: timetracking/time_tracking.php:323 timetracking/team_activity_report.php:66
 msgid "days are incomplete or undefined"
 msgstr ""
 
@@ -5499,7 +5556,7 @@ msgstr "Translation of \"AverageDailyCost\" should keep the CamelCase form when 
 msgid "Sorry, only managers can access this plugin"
 msgstr ""
 
-#: plugins/CostsIndicator/CostsIndicator.class.php:279
+#: plugins/CostsIndicator/CostsIndicator.class.php:283
 msgid "Sidetasks"
 msgstr "{{Identical|Sidetask}}"
 
@@ -5611,15 +5668,20 @@ msgstr ""
 msgid "3 months"
 msgstr ""
 
-#: scheduler/scheduler_ajax.php:327
+#: scheduler/scheduler_ajax.php:328
 msgid "Assignments rules not valid for task"
 msgstr ""
 
-#: scheduler/scheduler_ajax.php:341
+#: scheduler/scheduler_ajax.php:342
 msgid "Assignments updated for task"
 msgstr ""
 
-#: scheduler/scheduler_ajax.php:498
+#. 'arrivalDate' = should not be defined here, as another ajax call is doing the $schedulerManager->execute()
+#: scheduler/scheduler_ajax.php:389
+msgid "Issue not found in MantisDB !"
+msgstr ""
+
+#: scheduler/scheduler_ajax.php:513
 msgid "Options saved successfully"
 msgstr ""
 

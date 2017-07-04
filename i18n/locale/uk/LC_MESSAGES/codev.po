@@ -1,27 +1,20 @@
-# Translation of CodevTT to Spanish (español)
+# Translation of CodevTT to Ukrainian (українська)
 # Exported from translatewiki.net
 #
-# Author: AlvaroMolina
-# Author: Codynguyen1116
-# Author: Dgstranz
-# Author: Fitoschido
-# Author: Igv
-# Author: Lemondoge
-# Author: Macofe
-# Author: Pacoexe
-# Author: Rubentl134
+# Author: Alex Khimich
+# Author: Green Zero
+# Author: SimondR
+# Author: Visem
 msgid ""
 msgstr ""
 ""
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-03 21:50+0200\n"
-"PO-Revision-Date: 2017-11-09 07:06:34+0000\n"
-"Language: es_es\n"
+"PO-Revision-Date: 2017-11-09 07:06:42+0000\n"
+"X-POT-Import-Date: 2017-07-03 20:50:48+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2017-07-03 20:50:48+0000\n"
+"Language: uk\n"
 "X-Generator: MediaWiki 1.31.0-alpha; Translate 2017-10-30\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n%10 == 1 && n%100 != 11) ? 0 : ( (n%10 >= 2 && n%10 <= 4 && (n%100 < 10 || n%100 >= 20)) ? 1 : 2 );\n"
 
 #. tpl/filters.html
 #. tpl/productivity_report.html
@@ -64,11 +57,11 @@ msgstr ""
 #: scheduler/SchedulerEvent.class.php:127
 #: scheduler/SchedulerEvent.class.php:128 tools.php:1531
 msgid "Project"
-msgstr "Proyecto"
+msgstr "Проект"
 
 #. tpl/filters.html
 msgid "Set project filters"
-msgstr "Establecer filtros del proyecto"
+msgstr "Налаштування фільтрів проекту"
 
 #. tpl/filters.html
 #. tpl/servicecontract_info.html
@@ -78,7 +71,7 @@ msgstr "Establecer filtros del proyecto"
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "Select"
-msgstr "Seleccionar"
+msgstr "Вибрати"
 
 #. tpl/filters.html
 #. tpl/productivity_report.html
@@ -86,7 +79,7 @@ msgstr "Seleccionar"
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #: classes/time_tracking.class.php:447
 msgid "nb days"
-msgstr ""
+msgstr "к-сть днів"
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -97,52 +90,52 @@ msgstr ""
 #. tpl/team_dashboard.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Compute"
-msgstr "Calcular"
+msgstr "Обчислити"
 
 #. tpl/productivity_report.html
 msgid "Production days"
-msgstr "Días de producción"
+msgstr "Дні розробки"
 
 #. tpl/productivity_report.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:71
 msgid "Load per Job"
-msgstr "Carga por trabajo"
+msgstr "Навантаження на задачу"
 
 #. tpl/productivity_report.html
 msgid "Project Detail"
-msgstr "Detalles del proyecto"
+msgstr "Деталі проекту"
 
 #. tpl/productivity_report.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:73
 msgid "Load per Project"
-msgstr "Carga por proyecto"
+msgstr "Навантаження на проект"
 
 #. tpl/productivity_report.html
 msgid "Productivity indicators"
-msgstr "Indicadores de productividad"
+msgstr "Показники продуктивності"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "Adherence to deadlines"
-msgstr "Cumplimiento de los plazos"
+msgstr "Дотримання термінів"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. tpl/statistics.html
 msgid "Effort Deviation"
-msgstr "Desviación del esfuerzo"
+msgstr "Відхилення зусиль"
 
 #. tpl/productivity_report.html
 msgid "Reopened tasks"
-msgstr "Tareas reabiertas"
+msgstr "Відновлені задачі"
 
 #. tpl/productivity_report.html
 msgid "Production Days"
-msgstr "Días de producción"
+msgstr "Дні розробки"
 
 #. tpl/productivity_report.html
 #. tpl/edit_team.html
@@ -154,29 +147,29 @@ msgstr "Días de producción"
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "Help"
-msgstr "Ayuda"
+msgstr "Допомога"
 
 #. tpl/productivity_report.html
 #. tpl/ajax/projectDetails.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 msgid "Nb Days"
-msgstr ""
+msgstr "К-сть днів"
 
 #. tpl/productivity_report.html
 msgid "Projects"
-msgstr "Proyectos"
+msgstr "Проекти"
 
 #. tpl/productivity_report.html
 #. tpl/create_team.html
 #. add SideTaskProject Categories
 #. 4) --- add SideTaskProject Categories
 msgid "Project Management"
-msgstr "Gestión de proyectos"
+msgstr "Управління проектами"
 
 #. tpl/productivity_report.html
 msgid "Other SideTasks"
-msgstr "Otras tareas extras"
+msgstr "Інші сторонні задачі"
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -187,35 +180,35 @@ msgstr "Otras tareas extras"
 #. tpl/commandset_info.html
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:301
 msgid "Total"
-msgstr "Total"
+msgstr "Всього"
 
 #. tpl/productivity_report.html
 msgid "Days spent on the projects during the period (team members only)"
-msgstr "Días pasados en los proyectos durante el período (solo miembros del equipo)"
+msgstr "Дні, витрачені на проекти протягом періоду (тільки члени команди)"
 
 #. tpl/productivity_report.html
 msgid "SideTasks: Project Management"
-msgstr "Tareas extras: gestión de proyectos"
+msgstr "Сторонні задачі: Управління Проектами"
 
 #. tpl/productivity_report.html
 msgid "Days spent on project management tasks"
-msgstr "Días pasados en tareas de gestión de proyectos"
+msgstr "Дні, витрачені на задачі управління проектами"
 
 #. tpl/productivity_report.html
 msgid "SideTasks: Others"
-msgstr "Tareas extras: otras"
+msgstr "Сторонні задачі: Інше"
 
 #. tpl/productivity_report.html
 msgid "Days spent on sideTasks, except project management and inactivity tasks"
-msgstr "Días pasados en tareas extras, excepcto tareas de gestión de proyectos y de inactividad"
+msgstr "Дні, витрачені на сторонні задачі, окрім управління проектом та неактивними завданнями гіподинамії"
 
 #. tpl/productivity_report.html
 msgid "Production Days : total"
-msgstr "Días de producción : total"
+msgstr "Днів розробки : разом"
 
 #. tpl/productivity_report.html
 msgid "number of days billed"
-msgstr "número de días facturados"
+msgstr "кількість оплачуваних днів"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -226,19 +219,19 @@ msgstr "número de días facturados"
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Formula"
-msgstr "Fórmula"
+msgstr "Формула"
 
 #. tpl/productivity_report.html
 msgid "projects"
-msgstr "proyectos"
+msgstr "проекти"
 
 #. tpl/productivity_report.html
 msgid "sideTasks"
-msgstr "tareas extras"
+msgstr "Сторонні задачі"
 
 #. tpl/productivity_report.html
 msgid "Not available."
-msgstr "No disponible."
+msgstr "Недоступний."
 
 #. tpl/productivity_report.html
 #. tpl/ajax/weekTaskDetails.html
@@ -250,88 +243,88 @@ msgstr "No disponible."
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #: reports/export_csv_weekly.php:170
 msgid "Job"
-msgstr "Trabajo"
+msgstr "Робота"
 
 #. tpl/productivity_report.html
 #. tpl/tools/dashboard.html
 msgid "Indicator"
-msgstr "Indicador"
+msgstr "Індикатор"
 
 #. tpl/productivity_report.html
 #. tpl/edit_team.html
 #. tpl/forecasting_report.html
 #. tpl/workflow.html
 msgid "Value"
-msgstr "Valor"
+msgstr "Значення"
 
 #. tpl/productivity_report.html
 msgid "Available Workload"
-msgstr "Carga de trabajo disponible"
+msgstr "Доступне Навантаження"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "Efficiency Rate"
-msgstr "Tasa de eficiencia"
+msgstr "Коефіцієнт ефективності"
 
 #. tpl/productivity_report.html
 msgid "System Availability"
-msgstr "Disponibilidad del sistema"
+msgstr "Доступність системи"
 
 #. tpl/productivity_report.html
 msgid "MgrEffortEstim Reliability Rate"
-msgstr "MgrEffortEstim índice de fiabilidad"
+msgstr "MgrEffortEstim Рівень надійності"
 
 #. tpl/productivity_report.html
 msgid "EffortEstim Reliability Rate"
-msgstr "EffortEstim índice de fiabilidad"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Workload Forecasting (holidays & externalTasks not included, developers only)"
-msgstr "Carga de trabajo prevista (días festivos y externalTask no incluidos, solo desarrolladores)"
+msgstr "Прогнозування робочого навантаження (свята і зовнішні задачі, тільки для розробників)"
 
 #. tpl/productivity_report.html
 msgid "Development workload (developers only)"
-msgstr "Carga de trabajo del desarrollo (solo desarrolladores)"
+msgstr "Трудомісткість розробки (розробники тільки)"
 
 #. tpl/productivity_report.html
 msgid "ProjProdDays"
-msgstr "ProjProdDays"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "TotalProdDays"
-msgstr "TotalProdDays"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Platform Availability"
-msgstr "Disponibilidad de la plataforma"
+msgstr "Доступність платформи"
 
 #. tpl/productivity_report.html
 msgid "breakdownDays"
-msgstr "breakdownDays"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "prodDays"
-msgstr "prodDays"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "EffortEstim Reliability"
-msgstr "EffortEstim fiabilidad"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "Compares the effort estimation to the elapsed time."
-msgstr "Compara la estimación del esfuerzo con el tiempo transcurrido."
+msgstr "Порівнює оцінку зусиль до витраченого часу."
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "(on resolved tasks only)"
-msgstr "(solo en tareas resueltas)"
+msgstr "(тільки на вирішених завданнях)"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "rate = 1 : estimation was perfect.<br>rate &lt; 1 : underestimated<br>rate &gt; 1 : overestimated"
-msgstr "índice = 1 : la estimación fue perfecta.<br>índice &lt; 1 : subestimado<br>índice &GT; 1 : sobrestimado"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
@@ -350,23 +343,23 @@ msgstr "índice = 1 : la estimación fue perfecta.<br>índice &lt; 1 : subestima
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:315
 #: reports/project_info.php:238 tools.php:1470
 msgid "EffortEstim"
-msgstr "EffortEstim"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "EffortAdd"
-msgstr "EffortAdd"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 #: classes/consistency_check2.class.php:442
 #: classes/consistency_check.class.php:365
 msgid "elapsed"
-msgstr "transcurrido"
+msgstr "пройшло"
 
 #. tpl/productivity_report.html
 msgid "Tasks having no deadLine are not reported here"
-msgstr "Las tareas sin {{Mantis:Codev-fbace7-DeadLine/es}} no aparecen aquí"
+msgstr "Завдання, які не мають кінцевого строку тут не відображені."
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -383,44 +376,44 @@ msgstr "Las tareas sin {{Mantis:Codev-fbace7-DeadLine/es}} no aparecen aquí"
 #: reports/planning_report.php:77
 #: plugins/CostsIndicator/CostsIndicator.class.php:228
 msgid "Tasks"
-msgstr "Tareas"
+msgstr "Завдання"
 
 #. tpl/productivity_report.html
 msgid "Tasks NOT delivered on time"
-msgstr "Tareas NO entregadas a tiempo"
+msgstr "Завдання виконані НЕ своєчасно"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "nb tasks"
-msgstr ""
+msgstr "к-сть завдань"
 
 #. tpl/productivity_report.html
 #. $timeDriftSmarty["deliveryDate"] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
 #. $tooltipAttr[T_('DeliveryDate')] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
 #: reports/issue_info_tools.php:109
 msgid "DeliveryDate"
-msgstr "Fecha de entrega"
+msgstr "ДатаЗавершення"
 
 #. tpl/productivity_report.html
 #: reports/export_csv_tools.php:55
 msgid "DeadLine"
-msgstr "FechaLímite"
+msgstr "КінцеваДата"
 
 #. tpl/productivity_report.html
 msgid "Tasks delivered on time"
-msgstr "Tareas entregadas a tiempo"
+msgstr "Завдяння, виконані своєчасно"
 
 #. tpl/productivity_report.html
 msgid "Task list for EffortEstim"
-msgstr ""
+msgstr "Список завдань для «Оцінки зусиль»"
 
 #. tpl/productivity_report.html
 msgid "Note: Drift on tasks resolved in the period"
-msgstr ""
+msgstr "Примітка: відхилення на завданнях вирішених в період"
 
 #. tpl/productivity_report.html
 msgid "Drift - All tasks"
-msgstr ""
+msgstr "Відхилення — всі завдання"
 
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
@@ -440,7 +433,7 @@ msgstr ""
 #: reports/project_info.php:307 scheduler/SchedulerEvent.class.php:161
 #: gantt/gantt_ajax.php:255 tools.php:276
 msgid "Drift"
-msgstr ""
+msgstr "Відхилення"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -453,12 +446,12 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Reopened tasks are not taken into account"
-msgstr ""
+msgstr "Повторно відкриті завдання не враховуються"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "If < 0 then ahead on planning."
-msgstr ""
+msgstr "Якщо менье, ніж 0, то вперед на плануванні."
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -478,12 +471,12 @@ msgstr ""
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks in time"
-msgstr "Tareas a tiempo"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks resolved in time"
-msgstr "Tareas resueltas a tiempo"
+msgstr "Завдання, що вирішені вчасно"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -497,17 +490,17 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Effort deviation"
-msgstr "Desviación del esfuerzo"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Manager Estimation"
-msgstr "Estimación del administrador"
+msgstr "Оцінка менеджера"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Manager"
-msgstr "Administrador"
+msgstr "Менеджер"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -539,7 +532,7 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "No resolved tasks..."
-msgstr "Tareas no resueltas..."
+msgstr "Невирішені завдання..."
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -554,7 +547,7 @@ msgstr "Tareas no resueltas..."
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 msgid "ID"
-msgstr "Id."
+msgstr "ID"
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -588,7 +581,7 @@ msgstr ""
 #: reports/project_info.php:181 reports/project_info.php:236
 #: gantt/gantt_ajax.php:196
 msgid "Progress"
-msgstr "Progreso"
+msgstr "Прогрес"
 
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
@@ -604,7 +597,7 @@ msgstr "Progreso"
 #: reports/project_info.php:182 reports/project_info.php:239
 #: tests/filters.php:69
 msgid "Reestimated"
-msgstr "Reestimado"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
@@ -625,7 +618,7 @@ msgstr "Reestimado"
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:226
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:383
 msgid "Elapsed"
-msgstr "Transcurrido"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -655,7 +648,7 @@ msgstr "Transcurrido"
 #: scheduler/SchedulerEvent.class.php:140 gantt/gantt_ajax.php:225
 #: tools.php:1464 tools.php:1473
 msgid "Backlog"
-msgstr "Pendientes"
+msgstr "Відставання"
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -666,7 +659,7 @@ msgstr "Pendientes"
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #: reports/export_csv_tools.php:64 reports/export_csv_weekly.php:128
 msgid "BL"
-msgstr "Atr."
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -722,7 +715,7 @@ msgstr ""
 #: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
 #: tools.php:1535
 msgid "Status"
-msgstr "Estado"
+msgstr "Статус"
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -757,7 +750,7 @@ msgstr "Estado"
 #: scheduler/SchedulerEvent.class.php:130 gantt/gantt_ajax.php:194
 #: gantt/gantt_ajax.php:231 tools.php:1537
 msgid "Summary"
-msgstr "Resumen"
+msgstr "Опис"
 
 #. tpl/productivity_report.html
 msgid "Drift - Tasks (ExtRefOnly)"
@@ -773,11 +766,11 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Tasks without ExternalRef are excluded"
-msgstr ""
+msgstr "Завдання без зовнішніх посилань (ExternalRef) виключені"
 
 #. tpl/productivity_report.html
 msgid "Reopened tasks are not included"
-msgstr "No se incluyen tareas reabiertas"
+msgstr "Повторно відкриті завдання не включені"
 
 #. tpl/productivity_report.html
 msgid "No Drift on External tasks."
@@ -785,23 +778,23 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "nb resolved"
-msgstr ""
+msgstr "№ вирішених"
 
 #. tpl/productivity_report.html
 msgid "nb reopened"
-msgstr ""
+msgstr "№ повторно відкритих"
 
 #. tpl/productivity_report.html
 msgid "nb reopened / nb resolved"
-msgstr ""
+msgstr "№ повторно відкритих / № вирішених"
 
 #. tpl/productivity_report.html
 msgid "Rate"
-msgstr "Tasa"
+msgstr "Оцінити"
 
 #. tpl/productivity_report.html
 msgid "tasks having been reopened in the period"
-msgstr ""
+msgstr "завдання, що були знову відкриті в період"
 
 #. tpl/productivity_report.html
 #. tpl/holidays_report.html
@@ -825,7 +818,7 @@ msgstr ""
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "Please select a team to access this page."
-msgstr "Selecciona un equipo para acceder a esta página."
+msgstr "Будь ласка, виберіть команду для доступу до цієї сторінки."
 
 #. tpl/holidays_report.html
 #. tpl/servicecontract_info.html
@@ -844,32 +837,32 @@ msgstr "Selecciona un equipo para acceder a esta página."
 #. plugins/UserTeamList/UserTeamList_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Team"
-msgstr "Equipo"
+msgstr "Команда"
 
 #. tpl/holidays_report.html
 msgid "Year"
-msgstr "Año"
+msgstr "Рік"
 
 #. tpl/holidays_report.html
 #. tpl/form/selectFiltersDialogbox.html
 #. tpl/time_tracking.html
 msgid "Set filters"
-msgstr "Establecer filtros"
+msgstr "Встановити фільтри"
 
 #. tpl/holidays_report.html
 #. tpl/export_odt.html
 msgid "Filters"
-msgstr "Filtros"
+msgstr "Фільтри"
 
 #. tpl/holidays_report.html
 msgid "Displayed tasks"
-msgstr "Tareas mostradas"
+msgstr "Відображені завдання"
 
 #. tpl/holidays_report.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 msgid "workdays"
-msgstr "días laborables"
+msgstr "робочі дні"
 
 #. tpl/holidays_report.html
 #. tpl/project_activity_report.html
@@ -886,30 +879,30 @@ msgstr "días laborables"
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "Export to CSV"
-msgstr "Exportar a CSV"
+msgstr "Експорт у CSV"
 
 #. tpl/prepare_project.html
 msgid "Preparing project:"
-msgstr "Preparación de proyecto:"
+msgstr "Підготування проекту:"
 
 #. tpl/prepare_project.html
 #. tpl/export_csv_monthly.html
 #. tpl/export_csv_weekly.html
 #. tpl/uninstall.html
 msgid "Done"
-msgstr "Hecho"
+msgstr "Готово"
 
 #. tpl/prepare_project.html
 msgid "Configure existing Projects"
-msgstr "Configurar proyectos existentes"
+msgstr "Налаштувати існуючі проекти"
 
 #. tpl/prepare_project.html
 msgid "Select the projects to be managed with CoDevTT"
-msgstr "Seleccionar los proyectos que se gestionarán con CodevTT"
+msgstr "Виберіть проекти для керування за допомогою CoDevTT"
 
 #. tpl/prepare_project.html
 msgid "Prepare"
-msgstr "Preparar"
+msgstr "Підготувати"
 
 #. tpl/prepare_project.html
 #. tpl/create_team.html
@@ -919,11 +912,11 @@ msgstr "Preparar"
 #. tpl/edit_holidays.html
 #: admin/logs.php:64
 msgid "Sorry, you need to be in the admin-team to access this page."
-msgstr "Debes pertenecer al equipo de administradores para acceder a esta página."
+msgstr "Вибачте, Ви повинні бути в команді адміністратора, щоб отримати доступ до цієї сторінки."
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel SAUF SuiviOp."
-msgstr ""
+msgstr "Bilan mensuel SAUF SuiviOp."
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
@@ -950,26 +943,26 @@ msgstr ""
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 msgid "Date"
-msgstr "Fecha"
+msgstr "Дата"
 
 #. tpl/project_activity_report.html
 #. tpl/export_csv_monthly.html
 #. tpl/menu/global_menu.html
 msgid "Projects Activity"
-msgstr "Actividades de proyectos"
+msgstr "Діяльність проектів"
 
 #. tpl/project_activity_report.html
 msgid "Users"
-msgstr "Usuarios"
+msgstr "Користувачі"
 
 #. tpl/project_activity_report.html
 msgid "Tasks per project"
-msgstr "Tareas por proyecto"
+msgstr "Завдання для проекта"
 
 #. tpl/project_activity_report.html
 #. tpl/team_activity_report.html
 msgid "Detailed"
-msgstr "Detallada"
+msgstr "Деталі"
 
 #. tpl/project_activity_report.html
 #. tpl/servicecontract_info.html
@@ -983,7 +976,7 @@ msgstr "Detallada"
 #: classes/issue.class.php:2261 classes/wbsElement.class.php:638
 #: tools.php:1533
 msgid "Category"
-msgstr "Categoría"
+msgstr "Категорія"
 
 #. tpl/project_activity_report.html
 #. tpl/servicecontract_info.html
@@ -995,13 +988,13 @@ msgstr "Categoría"
 #. tpl/commandset_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Type"
-msgstr "Tipo"
+msgstr "Тип"
 
 #. tpl/project_activity_report.html
 #. tpl/issue_info.html
 #. tpl/team_activity_report.html
 msgid "Target version"
-msgstr ""
+msgstr "Цільова версія"
 
 #. tpl/project_activity_report.html
 #. tpl/issue_info.html
@@ -1011,7 +1004,7 @@ msgstr ""
 #. tpl/modal/select_issues.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 msgid "Target"
-msgstr ""
+msgstr "Ціль"
 
 #. tpl/project_activity_report.html
 #. tpl/forecasting_report.html
@@ -1032,19 +1025,19 @@ msgstr ""
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #: install/install_step1.php:207
 msgid "User"
-msgstr "Usuario"
+msgstr "Користувач"
 
 #. tpl/project_activity_report.html
 msgid "Total time spent on this issue"
-msgstr "Tiempo total empleado en esta incidencia"
+msgstr "Загальний час, витрачений на це питання"
 
 #. tpl/project_activity_report.html
 msgid "No data available"
-msgstr "No hay datos disponibles"
+msgstr "Немає доступних даних"
 
 #. tpl/project_activity_report.html
 msgid "Time spent on Projects per users"
-msgstr "Tiempo empleado en proyectos por usuarios"
+msgstr ""
 
 #. tpl/project_activity_report.html
 msgid "With ExternalTasks Project"
@@ -1057,11 +1050,11 @@ msgstr ""
 #. tpl/servicecontract_info.html
 #. tpl/menu/global_menu.html
 msgid "ServiceContract"
-msgstr ""
+msgstr "Сервісний договір"
 
 #. tpl/servicecontract_info.html
 msgid "--- Create New ServiceContract ---"
-msgstr ""
+msgstr "--- Створити новий сервісний договір ---"
 
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
@@ -1069,19 +1062,19 @@ msgstr ""
 #. tpl/command_edit.html
 #. tpl/commandset_info.html
 msgid "Sorry, only managers can access this page."
-msgstr "Solo los administradores pueden acceder a esta página."
+msgstr "На жаль, доступ до цієї сторінки доступний лише менеджерам."
 
 #. tpl/servicecontract_info.html
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "Edit"
-msgstr "Editar"
+msgstr "Редагувати"
 
 #. tpl/servicecontract_info.html
 #. tpl/project_info.html
 #. tpl/command_info.html
 msgid "Charges"
-msgstr "Cargos"
+msgstr ""
 
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
@@ -1094,13 +1087,13 @@ msgstr ""
 #. tpl/commandset_info.html
 #: reports/planning_report.php:483 scheduler/SchedulerEvent.class.php:135
 msgid "Attributes"
-msgstr "Atributos"
+msgstr "Властивості"
 
 #. tpl/servicecontract_info.html
 #. tpl/create_team.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:245
 msgid "SideTasks"
-msgstr "Tareas extras"
+msgstr ""
 
 #. tpl/servicecontract_info.html
 #. tpl/command_edit.html
@@ -1109,7 +1102,7 @@ msgstr "Tareas extras"
 #. plugins/CostsIndicator/CostsIndicator.html
 #: plugins/CostsIndicator/CostsIndicator.class.php:303
 msgid "Provisions"
-msgstr "Disposiciones"
+msgstr "Положення"
 
 #. tpl/servicecontract_info.html
 #. tpl/project_info.html
@@ -1117,7 +1110,7 @@ msgstr "Disposiciones"
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "Indicators"
-msgstr "Indicadores"
+msgstr "Показники"
 
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
@@ -1131,7 +1124,7 @@ msgstr ""
 #. tpl/commandset_info.html
 #: classes/issue.class.php:2242
 msgid "Commands"
-msgstr "Órdenes"
+msgstr "Команди"
 
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
@@ -1146,7 +1139,7 @@ msgstr ""
 #. tpl/servicecontract_info.html
 #: install/install_step4.php:51
 msgid "Go to"
-msgstr "Ir a"
+msgstr "Перейти на"
 
 #. tpl/servicecontract_info.html
 #. tpl/ajax/weekTaskDetails.html
@@ -1157,7 +1150,7 @@ msgstr "Ir a"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:267
 msgid "TOTAL"
-msgstr "TOTAL"
+msgstr ""
 
 #. tpl/servicecontract_info.html
 #. tpl/command_edit.html
@@ -1172,31 +1165,31 @@ msgstr ""
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #: classes/consistency_check2.class.php:646
 msgid "Command"
-msgstr "Orden"
+msgstr "Команда"
 
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 msgid "No Command found."
-msgstr "No se encontró ninguna orden."
+msgstr "Команда не знайдена."
 
 #. tpl/servicecontract_info.html
 msgid "No sidetasks found."
-msgstr "No se encontraron tareas extras."
+msgstr ""
 
 #. tpl/servicecontract_info.html
 msgid "All tasks"
-msgstr "Todas las tareas."
+msgstr "Всі завдання"
 
 #. tpl/servicecontract_info.html
 msgid "No Total found."
-msgstr "No se encontró un total."
+msgstr ""
 
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
 #. tpl/command_info.html
 msgid "State"
-msgstr "Estado"
+msgstr "Статус"
 
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
@@ -1205,7 +1198,7 @@ msgstr "Estado"
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "Reference"
-msgstr "Referencia"
+msgstr "Посилання"
 
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
@@ -1213,7 +1206,7 @@ msgstr "Referencia"
 #. tpl/command_edit.html
 #. tpl/command_info.html
 msgid "Version"
-msgstr "Versión"
+msgstr "Версія"
 
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
@@ -1221,7 +1214,7 @@ msgstr "Versión"
 #. tpl/team_activity_report.html
 #. tpl/command_info.html
 msgid "Reporter"
-msgstr "Informador"
+msgstr "Доповідач"
 
 #. tpl/servicecontract_info.html
 #. tpl/edit_team.html
@@ -1230,14 +1223,14 @@ msgstr "Informador"
 #. tpl/command_info.html
 #: reports/export_csv_tools.php:54
 msgid "Start date"
-msgstr "Fecha de inicio"
+msgstr "Початкова дата"
 
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
 #. tpl/command_info.html
 msgid "End date"
-msgstr "Fecha de finalización"
+msgstr "Кінцева дата"
 
 #. tpl/servicecontract_info.html
 #. tpl/edit_team.html
@@ -1263,23 +1256,23 @@ msgstr "Fecha de finalización"
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: reports/export_csv_weekly.php:171
 msgid "Description"
-msgstr "Descripción"
+msgstr "Опис"
 
 #. tpl/servicecontract_info.html
 msgid "Note: SideTasks already defined in Commands are not displayed."
-msgstr "Nota: no se muestras las tareas extra ya definidas en los comandos"
+msgstr "Примітка: Додаткові завдання, що вже визначені в командах, не відображаються."
 
 #. tpl/servicecontract_info.html
 #. tpl/command_info.html
 msgid "No task found."
-msgstr "No se encontraron tareas."
+msgstr "Жодне завдання не знайдено."
 
 #. tpl/servicecontract_info.html
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "Budget Days"
-msgstr "Días de presupuesto"
+msgstr "Бюджетні дні"
 
 #. tpl/servicecontract_info.html
 #. tpl/command_edit.html
@@ -1287,23 +1280,23 @@ msgstr "Días de presupuesto"
 #. tpl/commandset_info.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget"
-msgstr "Presupuesto"
+msgstr "Бюджет"
 
 #. tpl/servicecontract_info.html
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "Average Daily Rate"
-msgstr "Tasa diaria promedio"
+msgstr "Середня щоденна вартість"
 
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 msgid "ADR"
-msgstr ""
+msgstr "Середня щоденна вартість"
 
 #. tpl/servicecontract_info.html
 msgid "No provision found."
-msgstr ""
+msgstr "Жодного положення не знайдено."
 
 #. tpl/form/dateRangeSelector.html
 #. tpl/time_tracking.html
@@ -1313,7 +1306,7 @@ msgstr ""
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "From"
-msgstr ""
+msgstr "З"
 
 #. tpl/form/dateRangeSelector.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
@@ -1325,7 +1318,7 @@ msgstr ""
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Start Date"
-msgstr "Fecha de inicio"
+msgstr "Дата початку"
 
 #. tpl/form/dateRangeSelector.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
@@ -1334,7 +1327,7 @@ msgstr "Fecha de inicio"
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "To"
-msgstr ""
+msgstr "До"
 
 #. tpl/form/dateRangeSelector.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
@@ -1343,24 +1336,24 @@ msgstr ""
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "End Date (included)"
-msgstr ""
+msgstr "Дата закінчення (включена)"
 
 #. tpl/form/selectFiltersDialogbox.html
 #. tpl/time_tracking.html
 msgid "Task Filters"
-msgstr "Filtros de tareas"
+msgstr "Фільтри завдань"
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Drag & drop the filters to apply"
-msgstr ""
+msgstr "Перетягніть фільтри для застосування"
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Available Filters"
-msgstr "Filtros disponibles"
+msgstr "Доступні фільтри"
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Applied Filters"
-msgstr "Filtros aplicados"
+msgstr ""
 
 #. tpl/form/bugSelector.html
 #. tpl/edit_team.html
@@ -1385,35 +1378,35 @@ msgstr "Filtros aplicados"
 #: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
 #: gantt/gantt_ajax.php:192
 msgid "Task"
-msgstr "Tarea"
+msgstr "Завдання"
 
 #. tpl/index.html
 msgid "IE may not correctly display this website"
-msgstr "IE quizás no pueda mostrar correctamente este sitio web"
+msgstr "IE може неправильно відображати цей веб-сайт"
 
 #. tpl/index.html
 msgid "please consider using a standard complient web-browser"
-msgstr "considere usar un navegador web que cumpla con los estándares"
+msgstr "розгляньте можливість використання стандартного сумісного веб-браузера"
 
 #. tpl/index.html
 msgid "A new CodevTT version is available !"
-msgstr "¡Hay disponible una nueva versión de CodevTT!"
+msgstr "Доступна нова версія CodevTT!"
 
 #. tpl/edit_team.html
 msgid "General"
-msgstr "General"
+msgstr "Загальне"
 
 #. tpl/edit_team.html
 msgid "Team Members"
-msgstr "Miembros del equipo"
+msgstr "Члени команди"
 
 #. tpl/edit_team.html
 msgid "Team Projects"
-msgstr "Proyectos del equipo"
+msgstr "Проекти команди"
 
 #. tpl/edit_team.html
 msgid "Preferences"
-msgstr "Preferencias"
+msgstr "Налаштування"
 
 #. tpl/edit_team.html
 msgid "Timetrack Durations"
@@ -1421,7 +1414,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Costs management"
-msgstr "Gestión de costos"
+msgstr "Управління витратами"
 
 #. tpl/edit_team.html
 msgid "OnDuty tasks"
@@ -1430,25 +1423,25 @@ msgstr ""
 #. tpl/edit_team.html
 #. tpl/create_team.html
 msgid "Tools"
-msgstr "Herramientas"
+msgstr "Інструменти"
 
 #. tpl/edit_team.html
 #. tpl/create_team.html
 msgid "Team Administrator"
-msgstr "Administrador del equipo"
+msgstr "Адміністратор команди"
 
 #. tpl/edit_team.html
 #. tpl/issue_info.html
 msgid "Update"
-msgstr "Actualizar"
+msgstr "Оновити"
 
 #. tpl/edit_team.html
 msgid "Creation Date"
-msgstr "Fecha de creación"
+msgstr "Дата створення"
 
 #. tpl/edit_team.html
 msgid "Enabled"
-msgstr "Activado"
+msgstr "Увімкнено"
 
 #. tpl/edit_team.html
 msgid "Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report."
@@ -1456,7 +1449,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Delete team"
-msgstr "Eliminar equipo"
+msgstr "Видалити команду"
 
 #. tpl/edit_team.html
 #. tpl/servicecontract_edit.html
@@ -1464,48 +1457,48 @@ msgstr "Eliminar equipo"
 #. tpl/tools/wbsEditor.html
 #. tpl/command_edit.html
 msgid "Delete"
-msgstr "Borrar"
+msgstr "Вилучити"
 
 #. tpl/edit_team.html
 msgid "Member"
-msgstr "Miembro"
+msgstr "Член"
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Role"
-msgstr "Rol"
+msgstr "Роль"
 
 #. tpl/edit_team.html
 msgid "Arrival-Date"
-msgstr "Fecha de llegada"
+msgstr "Дата прибуття"
 
 #. tpl/edit_team.html
 msgid "Add User"
-msgstr "Añadir usuario"
+msgstr "Додати користувача"
 
 #. tpl/edit_team.html
 msgid "Departure-Date"
-msgstr "Fecha de salida"
+msgstr "Дата відправлення"
 
 #. tpl/edit_team.html
 msgid "set Departure Date"
-msgstr "establecer la fecha de salida"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Import all users from team"
-msgstr "Importar todos los usuarios del equipo"
+msgstr ""
 
 #. tpl/edit_team.html
 #. tpl/command_edit.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import"
-msgstr "Importar"
+msgstr "Імпорт"
 
 #. tpl/edit_team.html
 #. tpl/modal/login.html
 msgid "login"
-msgstr "inicio de sesión"
+msgstr "логін"
 
 #. tpl/edit_team.html
 #. tpl/servicecontract_edit.html
@@ -1515,28 +1508,28 @@ msgstr "inicio de sesión"
 #. tpl/modal/change_managedUser.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Name"
-msgstr "Nombre"
+msgstr "Назва"
 
 #. tpl/edit_team.html
 msgid "Arrival date in the team"
-msgstr "Fecha de llegada al equipo"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Arrival Date"
-msgstr "Fecha de llegada"
+msgstr "Дата прибуття"
 
 #. tpl/edit_team.html
 msgid "Departure date from the team"
-msgstr "Fecha de salida del equipo"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Departure Date"
-msgstr "Fecha de salida"
+msgstr "Дата відправлення"
 
 #. tpl/edit_team.html
 #. tpl/time_tracking.html
 msgid "delete this row"
-msgstr "eliminar esta fila"
+msgstr "видалити цей рядок"
 
 #. tpl/edit_team.html
 #. tpl/servicecontract_edit.html
@@ -1550,28 +1543,28 @@ msgstr "eliminar esta fila"
 #. tpl/edit_jobs.html
 #. tpl/edit_holidays.html
 msgid "Add"
-msgstr "Añadir"
+msgstr "Додати"
 
 #. tpl/edit_team.html
 #. tpl/edit_jobs.html
 msgid "Jobs"
-msgstr "Trabajos"
+msgstr "Вакансії"
 
 #. tpl/edit_team.html
 msgid "Create SideTasksProject"
-msgstr ""
+msgstr "Створення додаткових завдань проекту"
 
 #. tpl/edit_team.html
 msgid "Project name"
-msgstr "Nombre del proyecto"
+msgstr "Назва проекту"
 
 #. tpl/edit_team.html
 msgid "Create project"
-msgstr "Crear proyecto"
+msgstr "Створити проект"
 
 #. tpl/edit_team.html
 msgid "Average Daily Cost"
-msgstr ""
+msgstr "Середня щоденна вартість"
 
 #. tpl/edit_team.html
 msgid "The ADC is the default UDC for team members"
@@ -1579,7 +1572,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Team Currency"
-msgstr ""
+msgstr "Командна валюта"
 
 #. tpl/edit_team.html
 msgid "Team Average Daily Cost"
@@ -1596,15 +1589,15 @@ msgstr ""
 #. tpl/edit_team.html
 #. tpl/command_edit.html
 msgid "Currency"
-msgstr "Moneda"
+msgstr "Валюта"
 
 #. tpl/edit_team.html
 msgid "Coef"
-msgstr ""
+msgstr "Коефіцієнт"
 
 #. tpl/edit_team.html
 msgid "referal currency"
-msgstr ""
+msgstr "реферальна валюта"
 
 #. tpl/edit_team.html
 msgid "TODO: describe how and where it is used in CodevTT"
@@ -1612,7 +1605,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "User Daily Costs"
-msgstr ""
+msgstr "Користувацькі щоденні витрати"
 
 #. tpl/edit_team.html
 msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
@@ -1624,11 +1617,11 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Add user daily cost"
-msgstr ""
+msgstr "Додати щоденну вартість користувача"
 
 #. tpl/edit_team.html
 msgid "Team creation date"
-msgstr ""
+msgstr "Дата створення команди"
 
 #. tpl/edit_team.html
 msgid "User arrival date"
@@ -1636,7 +1629,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "User Daily Cost"
-msgstr ""
+msgstr "Користувацькі щоденні витрати"
 
 #. tpl/edit_team.html
 msgid "Issue Tooltips"
@@ -1644,7 +1637,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Tooltip fields"
-msgstr ""
+msgstr "Поля підказок"
 
 #. tpl/edit_team.html
 msgid "No custom IssueTooltips defined for your projects."
@@ -1653,11 +1646,11 @@ msgstr ""
 #. tpl/edit_team.html
 #. tpl/menu/global_menu.html
 msgid "Consistency Check"
-msgstr "Verificación de consistencia"
+msgstr "Перевірка узгодженості"
 
 #. tpl/edit_team.html
 msgid "Enable/Disable alerts"
-msgstr "Activar/desactivar alertas"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Add OnDuty tasks"
@@ -1669,7 +1662,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Inactivity tasks"
-msgstr "Tareas de inactividad"
+msgstr "Бездіяльність"
 
 #. tpl/edit_team.html
 msgid "No 'inactivity' task defined in your SideTasks projects."
@@ -1681,7 +1674,7 @@ msgstr ""
 #. tpl/command_edit.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #. tpl/edit_team.html
 msgid "delete OnDuty task"
@@ -1706,19 +1699,19 @@ msgstr ""
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Display"
-msgstr "Mostrar"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "add a custom duration"
-msgstr "añadir una duración personalizada"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Delete duration"
-msgstr "Eliminar duración"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Deleted the following duration ?"
-msgstr "¿Eliminar la siguiente duración?"
+msgstr ""
 
 #. tpl/edit_team.html
 #. tpl/servicecontract_edit.html
@@ -1731,19 +1724,19 @@ msgstr "¿Eliminar la siguiente duración?"
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Some fields are missing:"
-msgstr "Faltan algunos campos:"
+msgstr "Деякі поля відсутні:"
 
 #. tpl/edit_team.html
 msgid "Team Member"
-msgstr "Miembros del equipo"
+msgstr "Член команди"
 
 #. tpl/edit_team.html
 msgid "Source Team"
-msgstr ""
+msgstr "Вихідна команда"
 
 #. tpl/edit_team.html
 msgid "Inactivity task"
-msgstr "Tarea de inactividad"
+msgstr "Бездіяльність"
 
 #. tpl/edit_team.html
 #. tpl/issue_info.html
@@ -1753,15 +1746,15 @@ msgstr "Tarea de inactividad"
 #. tpl/gantt.html
 #. tpl/command_info.html
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Скасувати"
 
 #. tpl/edit_team.html
 msgid "Remove user from this team ?"
-msgstr "¿Eliminar al usuario de este equipo?"
+msgstr "Видалити користувача з цієї команди ?"
 
 #. tpl/edit_team.html
 msgid "Remove this project from the team ?"
-msgstr ""
+msgstr "Видалити цей проект з команди?"
 
 #. tpl/edit_team.html
 msgid "Remove IssueTooltip customisation for project"
@@ -1773,19 +1766,19 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "save"
-msgstr "guardar"
+msgstr "зберегти"
 
 #. tpl/edit_team.html
 msgid "Updated successfully !"
-msgstr ""
+msgstr "Оновлено успішно!"
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
-msgstr "Debes ser líder del equipo para acceder a esta página."
+msgstr ""
 
 #. tpl/export_csv_monthly.html
 msgid "Monthly report"
-msgstr "Informe mensual"
+msgstr "Місячний звіт"
 
 #. tpl/export_csv_monthly.html
 msgid "Issues form Team projects, including issues assigned to other teams"
@@ -1798,31 +1791,31 @@ msgstr ""
 #. tpl/export_csv_monthly.html
 #. tpl/scheduler.html
 msgid "Export"
-msgstr "Exportar"
+msgstr "Експорт"
 
 #. tpl/servicecontract_edit.html
 msgid "New service contract"
-msgstr ""
+msgstr "Новий сервісний договір"
 
 #. tpl/servicecontract_edit.html
 msgid "StartDate"
-msgstr ""
+msgstr "Дата початку"
 
 #. tpl/servicecontract_edit.html
 msgid "EndDate"
-msgstr ""
+msgstr "Дата закінчення"
 
 #. tpl/servicecontract_edit.html
 msgid "Service contract name"
-msgstr "Nombre del contrato de servicio"
+msgstr "Назва сервісного договору"
 
 #. tpl/servicecontract_edit.html
 msgid "Delete ServiceContract"
-msgstr ""
+msgstr "Видалити Сервісний договір"
 
 #. tpl/servicecontract_edit.html
 msgid "Delete this ServiceContract ?"
-msgstr ""
+msgstr "Видалити цей Сервісний договір?"
 
 #. tpl/servicecontract_edit.html
 msgid "Nb CommandSets"
@@ -1830,7 +1823,7 @@ msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "SideTasks Projects"
-msgstr ""
+msgstr "Додаткові завдання проекту"
 
 #. tpl/servicecontract_edit.html
 msgid "--- New CommandSet ---"
@@ -1840,20 +1833,20 @@ msgstr ""
 #. tpl/forecasting_report.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 msgid "No data"
-msgstr "Sin datos"
+msgstr "Немає даних"
 
 #. tpl/servicecontract_edit.html
 #. tpl/issue_info.html
 #. tpl/commandset_edit.html
 #. tpl/command_edit.html
 msgid "Remove"
-msgstr "Quitar"
+msgstr "Вилучити"
 
 #. tpl/servicecontract_edit.html
 #. tpl/commandset_edit.html
 #. tpl/commandset_info.html
 msgid "Ref"
-msgstr ""
+msgstr "Посилання"
 
 #. tpl/servicecontract_edit.html
 msgid "delete Contract-CommandSet association"
@@ -1874,11 +1867,11 @@ msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project"
-msgstr "Eliminar proyecto"
+msgstr "Видалити проект"
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project from this Contract ?"
-msgstr ""
+msgstr "Видалити проект із цього договору?"
 
 #. tpl/forecasting_report.html
 msgid "Computed on task NOT Resolved/Closed on "
@@ -1886,84 +1879,83 @@ msgstr ""
 
 #. tpl/forecasting_report.html
 msgid "Unassigned tasks will not be displayed"
-msgstr "No se mostrarán las tareas sin asignar"
+msgstr "Незазначені завдання не відображатимуться"
 
 #. tpl/forecasting_report.html
 msgid "deviation"
-msgstr "desviación"
+msgstr "відхилення"
 
 #. tpl/forecasting_report.html
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Overview"
-msgstr "Resumen"
+msgstr "Огляд"
 
 #. tpl/forecasting_report.html
 msgid "Task list"
-msgstr "Lista de tareas"
+msgstr "Список завдань"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/menu/global_menu.html
 msgid "Monthly Activity"
-msgstr "Actividad mensual"
+msgstr "Місячна активність"
 
 #. tpl/team_monthly_activity_report.html
 msgid "Tasks per User"
-msgstr "Tareas por usuario"
+msgstr "Завдання на користувача"
 
 #. tpl/team_monthly_activity_report.html
 msgid "Elapsed in period"
-msgstr "Transcurrido en el período"
+msgstr "Пройшло за період"
 
 #. tpl/export_csv_weekly.html
 msgid "Weekly report"
-msgstr "Informe semanal"
+msgstr "Тижневий звіт"
 
 #. tpl/export_csv_weekly.html
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
 msgid "Week"
-msgstr "Semana"
+msgstr "Тиждень"
 
 #. tpl/check.html
 msgid " Error(s) in Mantis Tasks"
-msgstr "Error(es) en tares de Mantis"
+msgstr "Помилка(и) в завданнях Mantis"
 
 #. tpl/check.html
 msgid "extRef"
-msgstr ""
+msgstr "зовнішні посилання"
 
 #. tpl/check.html
 msgid "last modification date"
-msgstr "fecha de última modificación"
+msgstr "Дата останньої модифікації"
 
 #. tpl/check.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "Level"
-msgstr "Nivel"
+msgstr "Рівень"
 
 #. tpl/check.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "Error Description"
-msgstr "Descripción del error"
+msgstr "Опис помилки"
 
 #. tpl/issue_info.html
 #: scheduler/SchedulerEvent.class.php:116 gantt/gantt_ajax.php:224
 #: tools.php:1458
 msgid "External ID"
-msgstr ""
+msgstr "Зовнішній ідентифікатор"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Remove task from command"
-msgstr "Quitar del comando"
+msgstr "Видалити завдання з команди"
 
 #. tpl/issue_info.html
 msgid "Add to command"
-msgstr "Añadir a la orden"
+msgstr "Додати до команди"
 
 #. tpl/issue_info.html
 msgid "Properties"
-msgstr "Propiedades"
+msgstr "Властивості"
 
 #. tpl/issue_info.html
 msgid "Timetracks"
@@ -1971,23 +1963,23 @@ msgstr ""
 
 #. tpl/issue_info.html
 msgid "Time tracking"
-msgstr ""
+msgstr "Облік часу"
 
 #. tpl/issue_info.html
 msgid "Update timetracking"
-msgstr "Actualizar tiempo de seguimiento"
+msgstr "Оновити облік часу"
 
 #. tpl/issue_info.html
 msgid "Task Info"
-msgstr "Información de la tarea"
+msgstr "Інформація щодо завдань"
 
 #. tpl/issue_info.html
 msgid "Update task info"
-msgstr "Actualizar la información de la tarea"
+msgstr "Оновити інформацію щодо завдань"
 
 #. tpl/issue_info.html
 msgid "External Ref"
-msgstr ""
+msgstr "Зовнішні посилання"
 
 #. tpl/issue_info.html
 #. tpl/export_odt.html
@@ -1996,7 +1988,7 @@ msgstr ""
 #: reports/export_csv_tools.php:68 reports/export_csv_weekly.php:172
 #: gantt/gantt_ajax.php:195
 msgid "Assigned to"
-msgstr "Asignado a"
+msgstr ""
 
 #. tpl/issue_info.html
 #: classes/issue.class.php:2274 reports/planning_report.php:462
@@ -2005,7 +1997,7 @@ msgstr "Asignado a"
 #: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
 #: tools.php:1543
 msgid "Priority"
-msgstr "Prioridad"
+msgstr "Пріоритет"
 
 #. tpl/issue_info.html
 #: classes/issue.class.php:2270 reports/planning_report.php:463
@@ -2013,7 +2005,7 @@ msgstr "Prioridad"
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
 #: tools.php:1545
 msgid "Severity"
-msgstr "Severidad"
+msgstr "Серйозність"
 
 #. tpl/issue_info.html
 #. tpl/command_edit.html
@@ -2026,23 +2018,23 @@ msgstr "Severidad"
 #: scheduler/SchedulerEvent.class.php:143 gantt/gantt_ajax.php:198
 #: gantt/gantt_ajax.php:226 gantt/gantt_ajax.php:235 tools.php:1479
 msgid "Deadline"
-msgstr "Fecha límite"
+msgstr "Граничний термін"
 
 #. tpl/issue_info.html
 msgid "Relation"
-msgstr "Relación"
+msgstr "Відношення"
 
 #. tpl/issue_info.html
 msgid "Mantis notes"
-msgstr "Notas de Mantis"
+msgstr "Нотатки Mantis"
 
 #. tpl/issue_info.html
 msgid "Get mantis notes"
-msgstr "Obtener notas de Mantis"
+msgstr "Отримати нотатки Mantis"
 
 #. tpl/issue_info.html
 msgid "Click refresh button to display..."
-msgstr ""
+msgstr "Натисніть на \"Оновити\", щоб відобразити..."
 
 #. tpl/issue_info.html
 #. tpl/time_tracking.html
@@ -2051,7 +2043,7 @@ msgstr ""
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 msgid "Note"
-msgstr "Nota"
+msgstr "Примітка"
 
 #. tpl/issue_info.html
 #. tpl/planning_report.html
@@ -2060,7 +2052,7 @@ msgstr "Nota"
 #: classes/consistency_check2.class.php:751 classes/command.class.php:786
 #: reports/planning_report.php:492 scheduler/SchedulerEvent.class.php:140
 msgid "days"
-msgstr "días"
+msgstr "днів"
 
 #. tpl/issue_info.html
 msgid "Update timetracking values"
@@ -2068,45 +2060,45 @@ msgstr ""
 
 #. tpl/issue_info.html
 msgid "Remove from :"
-msgstr "Quitar de:"
+msgstr "Вилучити з:"
 
 #. tpl/issue_info.html
 msgid "Add to Command"
-msgstr "Añadir a la orden"
+msgstr "Додати в команду"
 
 #. tpl/issue_info.html
 msgid "set/remove task specific deadline"
-msgstr ""
+msgstr "встановити/видалити заданий термін"
 
 #. tpl/issue_info.html
 msgid "Delivery date"
-msgstr "Fecha de entrega"
+msgstr "Дата доставки"
 
 #. tpl/issue_info.html
 msgid "set/remove delivery date"
-msgstr "establecer/quitar fecha de entrega"
+msgstr "встановити/видалити дату доставки"
 
 #. tpl/issue_info.html
 #. tpl/modal/update_issueBacklog.html
 msgid "Task not resolved, backlog cannot be '0'"
-msgstr ""
+msgstr "Завдання не вирішено, відставання не може дорівнювати '0'"
 
 #. tpl/issue_info.html
 msgid "Task is resolved, backlog should be '0'"
-msgstr ""
+msgstr "Завдання вирішено, відставання має рівнятися '0'"
 
 #. tpl/issue_info.html
 msgid "Backlog should not be set if status is : "
-msgstr ""
+msgstr "Відставання не може бути встановлено, якщо статус: "
 
 #. tpl/commandset_edit.html
 msgid "New command set"
-msgstr "Orden nueva establecida"
+msgstr "Новий набір команд"
 
 #. tpl/commandset_edit.html
 #. tpl/command_edit.html
 msgid "Field is missing"
-msgstr "Falta el campo"
+msgstr "Поле відсутнє"
 
 #. tpl/commandset_edit.html
 msgid "Command set name"
@@ -2122,19 +2114,19 @@ msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "Nb Commands"
-msgstr ""
+msgstr "К-сть команд"
 
 #. tpl/commandset_edit.html
 msgid "Service Contracts"
-msgstr ""
+msgstr "Сервісні договори"
 
 #. tpl/commandset_edit.html
 msgid "--- New Command ---"
-msgstr "--- Orden nueva ---"
+msgstr "--- Нова команда ---"
 
 #. tpl/commandset_edit.html
 msgid "Remove Command"
-msgstr "Quitar orden"
+msgstr "Видалити команду"
 
 #. tpl/commandset_edit.html
 msgid "Remove Command from this CommandSet ?"
@@ -2155,16 +2147,16 @@ msgstr ""
 #. tpl/gantt.html
 #. tpl/command_info.html
 msgid "Reload"
-msgstr "Recargar"
+msgstr "Перезавантажити"
 
 #. tpl/scheduler.html
 #. tpl/menu/global_menu.html
 msgid "Planning"
-msgstr ""
+msgstr "Планування"
 
 #. tpl/scheduler.html
 msgid "Assignment"
-msgstr "Asignación"
+msgstr "Призначення"
 
 #. tpl/scheduler.html
 #. tpl/planning_report.html
@@ -2172,7 +2164,7 @@ msgstr "Asignación"
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Options"
-msgstr "Opciones"
+msgstr "Опції"
 
 #. tpl/scheduler.html
 msgid "RAF"
@@ -2180,24 +2172,23 @@ msgstr ""
 
 #. tpl/scheduler.html
 msgid "User assignment"
-msgstr "Asignación de usuarios"
+msgstr "Призначення користувача"
 
 #. tpl/scheduler.html
 msgid "Add user"
-msgstr "Añadir usuario"
+msgstr "Додати користувача"
 
 #. tpl/scheduler.html
-#, fuzzy
 msgid "Time on task"
-msgstr "Tiempo por estado"
+msgstr "Час на завдання"
 
 #. tpl/scheduler.html
 msgid "Auto"
-msgstr "Automático"
+msgstr "Автоматично"
 
 #. tpl/scheduler.html
 msgid "Total assigned effort"
-msgstr ""
+msgstr "Всього призначено зусилля"
 
 #. tpl/scheduler.html
 #. tpl/time_tracking.html
@@ -2209,22 +2200,22 @@ msgstr ""
 #. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
 #. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
 msgid "Duration"
-msgstr "Duración"
+msgstr "Тривалість"
 
 #. tpl/scheduler.html
 msgid "Save user assignment for this task"
-msgstr ""
+msgstr "Зберегти призначення користувача для цього завдання"
 
 #. tpl/scheduler.html
 #. tpl/tools/wbsEditor.html
 #. tpl/command_edit.html
 #: management/command_edit.php:205 management/servicecontract_edit.php:138
 msgid "Save"
-msgstr "Guardar"
+msgstr "Зберегти"
 
 #. tpl/scheduler.html
 msgid "Scheduling method"
-msgstr ""
+msgstr "Метод розкладу"
 
 #. tpl/scheduler.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
@@ -2233,15 +2224,15 @@ msgstr ""
 
 #. tpl/scheduler.html
 msgid "Initial date"
-msgstr "Fecha inicial"
+msgstr "Початкова дата"
 
 #. tpl/scheduler.html
 msgid "Number of days to display"
-msgstr ""
+msgstr "Кількість днів для відображення"
 
 #. tpl/scheduler.html
 msgid "Number of days to compute"
-msgstr ""
+msgstr "Кількість днів для обчислення"
 
 #. tpl/scheduler.html
 msgid "Task warning threshold (n days before dealine)"
@@ -2249,23 +2240,23 @@ msgstr ""
 
 #. tpl/scheduler.html
 msgid "Save options"
-msgstr "Opciones de guardado"
+msgstr "Зберегти налаштування"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support included"
-msgstr "Asistencia incluida"
+msgstr "Підтримка включена"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support NOT included"
-msgstr "Asistencia NO incluida"
+msgstr "Підтримка НЕ включена"
 
 #. tpl/ajax/weekTaskDetails.html
 msgid "update backlog"
-msgstr "actualizar pendientes"
+msgstr "оновити відставання"
 
 #. tpl/ajax/schedulerAffectationSummary.html
 msgid "Assigned users"
-msgstr "Usuarios asignados"
+msgstr "Призначені користувачі"
 
 #. tpl/set_holidays.html
 #. tpl/time_tracking.html
@@ -2276,45 +2267,45 @@ msgstr "Usuarios asignados"
 #: reports/export_odt.php:113 reports/export_odt.php:164
 #: smarty_tools_ajax.php:46
 msgid "(all)"
-msgstr "(todos)"
+msgstr "(все)"
 
 #. tpl/set_holidays.html
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
 msgid "Duration (in days)"
-msgstr "Duración (en días)"
+msgstr "Тривалість (у днях)"
 
 #. tpl/set_holidays.html
 msgid "Monday"
-msgstr "Lunes"
+msgstr "Понеділок"
 
 #. tpl/set_holidays.html
 msgid "Tuesday"
-msgstr "Martes"
+msgstr "Вівторок"
 
 #. tpl/set_holidays.html
 msgid "Wednesday"
-msgstr "Miércoles"
+msgstr "Середа"
 
 #. tpl/set_holidays.html
 msgid "Thursday"
-msgstr "Jueves"
+msgstr "Четвер"
 
 #. tpl/set_holidays.html
 msgid "Friday"
-msgstr "Viernes"
+msgstr "П'ятниця"
 
 #. tpl/statistics.html
 msgid "Start Year"
-msgstr "Año de inicio"
+msgstr "Дата початку"
 
 #. tpl/statistics.html
 msgid "Submitted / Resolved Issues"
-msgstr "Incidencias enviadas / resueltas"
+msgstr "Представлені / Вирішені проблеми"
 
 #. tpl/statistics.html
 msgid "Efficiency - System Disponibility"
-msgstr ""
+msgstr "Ефективність - Доступність системи"
 
 #. tpl/statistics.html
 msgid "Reopened Rate"
@@ -2329,7 +2320,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Submitted"
-msgstr "Enviada"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Nb of submitted tasks EXCEPT SideTasks"
@@ -2337,7 +2328,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Resolved"
-msgstr "Resuelto"
+msgstr "Вирішено"
 
 #. tpl/statistics.html
 msgid "Nb of resolved tasks EXCEPT SideTasks and reopened tasks"
@@ -2350,7 +2341,7 @@ msgstr ""
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "show values"
-msgstr "mostrar valores"
+msgstr "показати значення"
 
 #. tpl/statistics.html
 msgid "Nb submissions"
@@ -2366,15 +2357,15 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "% Tasks"
-msgstr "% tareas"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Percentage of tasks delivered before the deadLine"
-msgstr "Porcentaje de tareas entregadas antes de la fecha límite"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "% Tasks Delivered on time"
-msgstr "% Tareas entregadas a tiempo"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Effort deviation on resolved tasks (regarding the MgrEffortEstim)"
@@ -2386,7 +2377,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "No Support"
-msgstr "Sin soporte"
+msgstr ""
 
 #. tpl/statistics.html
 #: reports/export_csv_tools.php:61
@@ -2408,12 +2399,12 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Efficiency"
-msgstr "Eficiencia"
+msgstr "Ефективність"
 
 #. tpl/statistics.html
 #, c-format
 msgid "% Efficiency"
-msgstr "% de eficiencia"
+msgstr ""
 
 #. tpl/statistics.html
 #, c-format
@@ -2443,7 +2434,7 @@ msgstr ""
 #. tpl/statistics.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "man-days"
-msgstr "días-hombre"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Available man-days on the period (excluding leave and external tasks)"
@@ -2451,7 +2442,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Developers Workload"
-msgstr "Carga de trabajo de los desarrolladores"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "nb production days"
@@ -2459,19 +2450,19 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Sorry, you do NOT have access to this page."
-msgstr "Disculpas, NO tienes acceso a esta página."
+msgstr ""
 
 #. tpl/export_odt.html
 msgid "The following fields need to be set"
-msgstr "Deben completarse los siguientes campos"
+msgstr ""
 
 #. tpl/export_odt.html
 msgid "Reporters"
-msgstr "Informadores"
+msgstr "Доповідачі"
 
 #. tpl/export_odt.html
 msgid "Handlers"
-msgstr ""
+msgstr "Обробники"
 
 #. tpl/export_odt.html
 msgid "ODT Template"
@@ -2480,7 +2471,7 @@ msgstr ""
 #. tpl/export_odt.html
 #. tpl/create_team.html
 msgid "Categories"
-msgstr "Categorías"
+msgstr "Категорії"
 
 #. tpl/export_odt.html
 #. tpl/command_edit.html
@@ -2489,51 +2480,50 @@ msgstr ""
 
 #. tpl/export_odt.html
 msgid "Reported by"
-msgstr "Informado por:"
+msgstr ""
 
 #. tpl/export_odt.html
 msgid "Download"
-msgstr "Descargar"
+msgstr "Завантажити"
 
 #. tpl/time_tracking.html
 #. tpl/team_dashboard.html
 msgid "ERROR"
-msgstr "ERROR"
+msgstr "ПОМИЛКА"
 
 #. tpl/time_tracking.html
 msgid "Query FAILED"
-msgstr "FALLÓ la consulta"
+msgstr "Запит недійсний"
 
 #. tpl/time_tracking.html
 msgid "Reduce the tasks selection by setting some filters"
-msgstr "Reduce la selección de tareas estableciendo algún filtro"
+msgstr "Скоротіть вибір завдань, встановивши кілька фільтрів"
 
 #. tpl/time_tracking.html
 msgid "Hide tasks not assigned to me"
-msgstr "Ocultar tareas que no se me asignen"
+msgstr "Сховати завдання, що не призначені для мене"
 
 #. tpl/time_tracking.html
 msgid "Hide resolved tasks"
-msgstr "Ocultar tareas resueltas"
+msgstr "Сховати вирішені завдання"
 
 #. tpl/time_tracking.html
 msgid "Hide closed tasks"
-msgstr "Ocultar tareas cerradas"
+msgstr "Сховати закриті завдання"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
 msgid "Previous week"
-msgstr "Semana anterior"
+msgstr "Попередній тиждень"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
 msgid "Next week"
-msgstr "Semana siguiente"
+msgstr "Наступного тижня"
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Week timetracks"
-msgstr "Actualizar tiempo de seguimiento"
+msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Ext.ID"
@@ -2544,28 +2534,26 @@ msgid "Timetrack note"
 msgstr ""
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Edit timetrack"
-msgstr "Actualizar tiempo de seguimiento"
+msgstr ""
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Future timetracks"
-msgstr "Actualizar tiempo de seguimiento"
+msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Delete track"
-msgstr ""
+msgstr "Видалити завдання"
 
 #. tpl/time_tracking.html
 #. tpl/plugin_manager.html
 #. tpl/modal/login.html
 msgid "Please wait..."
-msgstr "Espera un momento…"
+msgstr "Будь ласка, зачекайте…"
 
 #. tpl/template.html
 msgid "Disconnect"
-msgstr "Desconectar"
+msgstr "Від’єднатися"
 
 #. tpl/template.html
 msgid "Note: For a better user experience, use a standards compliant browser such as :"
@@ -2574,24 +2562,24 @@ msgstr ""
 #. tpl/template.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "or"
-msgstr "o"
+msgstr "або"
 
 #. tpl/planning_report.html
 msgid "zoom in"
-msgstr "acercar"
+msgstr "збільшити"
 
 #. tpl/planning_report.html
 msgid "zoom out"
-msgstr "alejar"
+msgstr "зменшити"
 
 #. tpl/planning_report.html
 msgid "Planning Options"
-msgstr ""
+msgstr "Параметри планування"
 
 #. tpl/planning_report.html
 #. tpl/modal/consistency_check.html
 msgid "Click to show errors"
-msgstr "Haz clic para mostrar los errores"
+msgstr "Натисніть, щоб відобразити помилки"
 
 #. tpl/planning_report.html
 #: management/servicecontract_info.php:91
@@ -2601,27 +2589,27 @@ msgstr "Haz clic para mostrar los errores"
 #: timetracking/team_monthly_activity_report.php:75
 #: timetracking/time_tracking.php:322 timetracking/team_activity_report.php:65
 msgid "Errors"
-msgstr "Errores"
+msgstr "Помилки"
 
 #. tpl/planning_report.html
 msgid "Unassigned tasks"
-msgstr "Tareas sin asignar"
+msgstr "Непризначені завдання"
 
 #. tpl/planning_report.html
 msgid "Team's backlog"
-msgstr "Pendientes del equipo"
+msgstr ""
 
 #. tpl/planning_report.html
 msgid "tasks"
-msgstr "tareas"
+msgstr "завдання"
 
 #. tpl/planning_report.html
 msgid "workload"
-msgstr "carga de trabajo"
+msgstr "робоче навантаження"
 
 #. tpl/planning_report.html
 msgid "nbDaysToDeadLine"
-msgstr ""
+msgstr "Днів до кінцевого терміну"
 
 #. tpl/planning_report.html
 #. tpl/edit_jobs.html
@@ -2630,31 +2618,31 @@ msgstr ""
 #: install/install_step3.php:640 install/install_step3.php:646
 #: install/install_step3.php:651
 msgid "Color"
-msgstr "Color"
+msgstr "Колір"
 
 #. tpl/planning_report.html
 msgid "day"
-msgstr "día"
+msgstr "день"
 
 #. tpl/doc.html
 msgid "Documentation is available at "
-msgstr "La documentación está disponible en "
+msgstr "Документація доступна на "
 
 #. tpl/doc.html
 msgid "CodevTT Documentation Wiki"
-msgstr "Wiki para documentación de CodevTT"
+msgstr "CodevTT Вікі-Документація"
 
 #. tpl/doc.html
 msgid "GreaseMonkey script: "
-msgstr "Script de GreaseMonkey: "
+msgstr "GreaseMonkey сценарій: "
 
 #. tpl/doc.html
 msgid "You can help on translations: "
-msgstr "Puedes ayudar con las traducciones: "
+msgstr "Ви можете допомогти з перекладом: "
 
 #. tpl/doc.html
 msgid "statistics"
-msgstr "estadísticas"
+msgstr "статистика"
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
@@ -2662,48 +2650,48 @@ msgstr ""
 
 #. tpl/tools/wbsEditor.html
 msgid "Root element cannot be deleted."
-msgstr ""
+msgstr "Кореневий елемент не можна видалити."
 
 #. tpl/tools/wbsEditor.html
 msgid "Delete Failed: Folder must be empty."
-msgstr ""
+msgstr "Помилка видалення: папка повинна бути порожньою."
 
 #. tpl/tools/wbsEditor.html
 msgid "New Folder"
-msgstr "Carpeta nueva"
+msgstr "Нова папка"
 
 #. tpl/tools/wbsEditor.html
 msgid "Rename"
-msgstr "Cambiar nombre"
+msgstr "Перейменувати"
 
 #. tpl/tools/wbsEditor.html
 msgid "Add subfolder"
-msgstr "Añadir subcarpeta"
+msgstr "Додати підпапку"
 
 #. tpl/tools/dashboard.html
 msgid "Add an indicator to the dashboard"
-msgstr "Añadir un indicador en el panel"
+msgstr "Додати індикатор на приладову панель"
 
 #. tpl/tools/dashboard.html
 msgid "Add Indicator"
-msgstr "Añadir indicador"
+msgstr "Додати індикатор"
 
 #. tpl/tools/dashboard.html
 #. tpl/modal/login.html
 msgid "Loading"
-msgstr "Cargando"
+msgstr "Завантаження"
 
 #. tpl/logs.html
 msgid "Line"
-msgstr "Línea"
+msgstr "Лінія"
 
 #. tpl/logs.html
 msgid "Log"
-msgstr "Registro"
+msgstr "Журнал"
 
 #. tpl/bvi.html
 msgid "Average Backlog Variation"
-msgstr "Variación promedio de pendientes"
+msgstr ""
 
 #. tpl/bvi.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
@@ -2719,19 +2707,19 @@ msgstr "Variación promedio de pendientes"
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "No data."
-msgstr "Sin datos."
+msgstr "Немає даних."
 
 #. tpl/create_team.html
 msgid "Team Name"
-msgstr "Nombre del equipo"
+msgstr "Назва команди"
 
 #. tpl/create_team.html
 msgid "Team Info"
-msgstr "Información del equipo"
+msgstr "Інформація про команду"
 
 #. tpl/create_team.html
 msgid "SideTasks Project"
-msgstr "Proyecto de tareas extras"
+msgstr "Додаткові завдання проекту"
 
 #. tpl/create_team.html
 msgid "Add common ExternalTasks Project"
@@ -2739,7 +2727,7 @@ msgstr ""
 
 #. tpl/create_team.html
 msgid "Create specific SideTask Project"
-msgstr ""
+msgstr "Створіть спеціальний проект для сторонніх завдань"
 
 #. tpl/create_team.html
 msgid "WARNING: Disabling SideTasks project creation is generaly NOT a good idea,so don't do it unless you know exactly what you are doing."
@@ -2747,7 +2735,7 @@ msgstr ""
 
 #. tpl/create_team.html
 msgid "Project Name"
-msgstr "Nombre del proyecto"
+msgstr "Назва проекту"
 
 #. tpl/create_team.html
 msgid "Meeting, Pre-sales, ProjectManagement, ..."
@@ -2756,15 +2744,15 @@ msgstr ""
 #. tpl/create_team.html
 #: admin/create_team.php:92
 msgid "Incident"
-msgstr "Incidente"
+msgstr "Інцидент"
 
 #. tpl/create_team.html
 msgid "Server or Platform down, ..."
-msgstr "Servidor o plataforma caídos, ..."
+msgstr "Впав сервер чи платформа..."
 
 #. tpl/create_team.html
 msgid "Sys. Admin, Scritps, ..."
-msgstr ""
+msgstr "Сист. адміністратор, скрипти,..."
 
 #. tpl/create_team.html
 #: admin/create_team.php:98
@@ -2773,7 +2761,7 @@ msgstr ""
 
 #. tpl/create_team.html
 msgid "Support, Doc, Training, Wiki, ..."
-msgstr "Asistencia, documentación, capacitación, wiki…"
+msgstr ""
 
 #. tpl/create_team.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -2781,7 +2769,7 @@ msgstr "Asistencia, documentación, capacitación, wiki…"
 #: admin/create_team.php:89
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:386
 msgid "Inactivity"
-msgstr "Inactividad"
+msgstr "Бездіяльність"
 
 #. tpl/create_team.html
 msgid "On Duty, Waste, other special cases"
@@ -2789,11 +2777,11 @@ msgstr ""
 
 #. tpl/create_team.html
 msgid "Custom Fields"
-msgstr "Campos personalizados"
+msgstr "Користувацькі поля"
 
 #. tpl/create_team.html
 msgid "CodevTT custom fields"
-msgstr "Campos personalizados de CodevTT"
+msgstr "Користувацькі поля CodevTT"
 
 #. tpl/create_team.html
 msgid "MgrEffortEstim, EffortEstim, AddEffort, Backlog, DeadLine, DeliveryDate"
@@ -2805,27 +2793,27 @@ msgstr ""
 
 #. tpl/create_team.html
 msgid "Project management"
-msgstr "Gestión de proyectos"
+msgstr "Управління проектом"
 
 #. tpl/create_team.html
 msgid "Team meeting"
-msgstr "Reunión de equipo"
+msgstr "Командні збори"
 
 #. tpl/create_team.html
 msgid "Network is down"
-msgstr "La red está caída"
+msgstr "Мережа відключена"
 
 #. tpl/create_team.html
 msgid "Compilation scripts"
-msgstr "Scripts de compilación"
+msgstr "Компіляції скриптів"
 
 #. tpl/create_team.html
 msgid "Update team WIKI"
-msgstr "Actualizar el wiki del equipo"
+msgstr "Оновити команду WIKI"
 
 #. tpl/create_team.html
 msgid "Other activity charged on the project"
-msgstr ""
+msgstr "Інша діяльність, що надається проектом"
 
 #. tpl/create_team.html
 #. Display Empty Command Form
@@ -2836,66 +2824,66 @@ msgstr ""
 #. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
 #: management/command_edit.php:112 management/servicecontract_edit.php:86
 msgid "Create"
-msgstr "Crear"
+msgstr "Створити"
 
 #. tpl/plugin_manager.html
 msgid "Check for new plugins in 'plugins' directory."
-msgstr "Buscar complementos nuevos en el directorio «plugins»."
+msgstr "Перевірте наявність нових плагінів у каталозі 'plugins'"
 
 #. tpl/plugin_manager.html
 msgid "Discover new plugins"
-msgstr "Descubre complementos nuevos"
+msgstr "Відкрийте для себе нові плагіни"
 
 #. tpl/plugin_manager.html
 msgid "Plugin"
-msgstr "Complemento"
+msgstr "Плагін"
 
 #. tpl/plugin_manager.html
 msgid "Domain(s)"
-msgstr "Dominio(s)"
+msgstr "Домен(и)"
 
 #. tpl/plugin_manager.html
 msgid "Enable Plugin"
-msgstr "Activar complemento"
+msgstr "Увімкнути плагін"
 
 #. tpl/plugin_manager.html
 msgid "Disable Plugin"
-msgstr "Desactivar complemento"
+msgstr "Вимкнути плагін"
 
 #. tpl/command_edit.html
 msgid "New command"
-msgstr "Orden nueva"
+msgstr "Нова команда"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 msgid "Sold Charge"
-msgstr ""
+msgstr "Навантаження з продажу"
 
 #. tpl/command_edit.html
 msgid "Command name"
-msgstr "Nombre de la orden"
+msgstr "Назва команди"
 
 #. tpl/command_edit.html
 msgid "Not a number"
-msgstr "No es un número"
+msgstr "Не число"
 
 #. tpl/command_edit.html
 msgid "Delete Command"
-msgstr "Eliminar orden"
+msgstr "Вилучити команду"
 
 #. tpl/command_edit.html
 msgid "Delete this Command ?"
-msgstr "¿Eliminar esta orden?"
+msgstr "Видалити цю команду ?"
 
 #. tpl/command_edit.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "Nb tasks"
-msgstr ""
+msgstr "К-сть завдань"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 msgid "WBS"
-msgstr ""
+msgstr "WBS"
 
 #. tpl/command_edit.html
 msgid "Parent CommandSets"
@@ -2903,31 +2891,31 @@ msgstr ""
 
 #. tpl/command_edit.html
 msgid "task id"
-msgstr ""
+msgstr "ідентифікатор завдання"
 
 #. tpl/command_edit.html
 msgid "Missing field"
-msgstr "Campo faltante"
+msgstr "Відсутнє поле"
 
 #. tpl/command_edit.html
 msgid "Add task"
-msgstr "Añadir tarea"
+msgstr "Додати завдання"
 
 #. tpl/command_edit.html
 msgid "Create the Command to add some tasks."
-msgstr "Crear la orden para añadir algunas tareas."
+msgstr "Створіть команду, щоб додати деякі завдання."
 
 #. tpl/command_edit.html
 msgid "delete Command-Task association"
-msgstr ""
+msgstr "видалити асоціацію Команда—Завдання"
 
 #. tpl/command_edit.html
 msgid "Remove Task"
-msgstr "Quitar tarea"
+msgstr "Вилучити завдання"
 
 #. tpl/command_edit.html
 msgid "Remove Task from this Command ?"
-msgstr "¿Quitar tarea de esta orden?"
+msgstr "Видалити завдання з цієї команди?"
 
 #. tpl/command_edit.html
 msgid "Create the Command before assigning it to a CommandSet."
@@ -2939,35 +2927,35 @@ msgstr ""
 
 #. tpl/command_edit.html
 msgid "Create the Command first."
-msgstr ""
+msgstr "Спочатку створіть команду."
 
 #. tpl/command_edit.html
 msgid "Provisions successfully updated."
-msgstr ""
+msgstr "Положення успішно оновлено."
 
 #. tpl/command_edit.html
 msgid "CSV Import"
-msgstr "Importar de CSV"
+msgstr "Експорт CSV"
 
 #. tpl/command_edit.html
 msgid "Import templates"
-msgstr "Importar plantillas"
+msgstr "Імпортувати шаблони"
 
 #. tpl/command_edit.html
 msgid "Add Provision"
-msgstr ""
+msgstr "Додайте Положення"
 
 #. tpl/command_edit.html
 msgid "add to budget check"
-msgstr "añadir a la verificación del presupuesto"
+msgstr "Додати до перевірки бюджету"
 
 #. tpl/command_edit.html
 msgid "delete Provision"
-msgstr ""
+msgstr "вилучення Положення"
 
 #. tpl/command_edit.html
 msgid "Add to 'check budget'"
-msgstr "Añadir a 'verificación de presupuesto\""
+msgstr "Додати до 'перевірки бюджету'"
 
 #. tpl/command_edit.html
 msgid "Import provisions CSV"
@@ -2975,28 +2963,28 @@ msgstr ""
 
 #. tpl/command_edit.html
 msgid "Delete Provision"
-msgstr ""
+msgstr "Видалення Положення"
 
 #. tpl/command_edit.html
 msgid "Delete from the Command ?"
-msgstr "¿Eliminar de la orden?"
+msgstr "Видалити з команди?"
 
 #. tpl/team_activity_report.html
 #. tpl/menu/global_menu.html
 msgid "Weekly Activity"
-msgstr "Actividad semanal"
+msgstr "Щотижнева діяльність"
 
 #. tpl/team_activity_report.html
 msgid "Timesheets"
-msgstr "Planillas horarias"
+msgstr "Розклад"
 
 #. tpl/team_activity_report.html
 msgid "sum(Backlog) of assigned tasks"
-msgstr "total(Atraso) de tareas asignadas"
+msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "Workload"
-msgstr "Carga de trabajo"
+msgstr "Робоче навантаження"
 
 #. tpl/team_activity_report.html
 msgid "Timesheet notes"
@@ -3004,218 +2992,216 @@ msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "All Tasks"
-msgstr "Todas las tareas"
+msgstr "Усі завдання"
 
 #. tpl/team_activity_report.html
 msgid "Read by"
-msgstr "Leído por"
+msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "Action"
-msgstr "Acción"
+msgstr "Дія"
 
 #. tpl/team_activity_report.html
 msgid "Mark as read"
-msgstr "Marcar como leí­do"
+msgstr "Позначити як прочитане"
 
 #. tpl/team_activity_report.html
 msgid "Delete note"
-msgstr "Eliminar nota"
+msgstr "Видалити примітку"
 
 #. tpl/menu/global_menu.html
 msgid "Home"
-msgstr "Inicio"
+msgstr "Головна"
 
 #. tpl/menu/global_menu.html
 msgid "TimeTracking & team activity"
-msgstr ""
+msgstr "Облік часу та діяльність команди"
 
 #. tpl/menu/global_menu.html
 msgid "Activity"
-msgstr "Actividad"
+msgstr "Діяльність"
 
 #. tpl/menu/global_menu.html
 msgid "Time Tracking"
-msgstr ""
+msgstr "Облік часу"
 
 #. tpl/menu/global_menu.html
 msgid "Holidays Reports"
-msgstr "Informes de feriados"
+msgstr "Звіти щодо свят"
 
 #. tpl/menu/global_menu.html
 msgid "Leaves"
-msgstr ""
+msgstr "Відпустки"
 
 #. tpl/menu/global_menu.html
 msgid "Check DeadLines"
-msgstr "Verificar fechas límite"
+msgstr "Перевірити терміни"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Workload planning"
-msgstr "Carga de trabajo"
+msgstr "Планування робочого навантаження"
 
 #. tpl/menu/global_menu.html
 msgid "Timeline scheduler"
-msgstr ""
+msgstr "Планувальник термінів"
 
 #. tpl/menu/global_menu.html
 #. tpl/gantt.html
 #. tpl/command_info.html
 msgid "Gantt"
-msgstr "Gantt"
+msgstr "Ґант"
 
 #. tpl/menu/global_menu.html
 msgid "Gantt Chart"
-msgstr "Diagrama de Gantt"
+msgstr "Діаграма Ґанта"
 
 #. tpl/menu/global_menu.html
 msgid "Task Information"
-msgstr "Información de la tarea"
+msgstr "Інформація щодо завдань"
 
 #. tpl/menu/global_menu.html
 msgid "Project Information"
-msgstr "Información del proyecto"
+msgstr "Інформація про проект"
 
 #. tpl/menu/global_menu.html
 msgid "Team Statistics"
-msgstr "Estadísticas del equipo"
+msgstr "Статистика команди"
 
 #. tpl/menu/global_menu.html
 msgid "Period Statistics"
-msgstr "Estadísticas del periodo"
+msgstr "Статистика періоду"
 
 #. tpl/menu/global_menu.html
 msgid "History"
-msgstr "Historial"
+msgstr "Історія"
 
 #. tpl/menu/global_menu.html
 msgid "Contracts & Commands"
-msgstr ""
+msgstr "Договори та команди"
 
 #. tpl/menu/global_menu.html
 msgid "Contracts"
-msgstr ""
+msgstr "Договори"
 
 #. tpl/menu/global_menu.html
 msgid "Mantis Reports"
-msgstr "Informes de Mantis"
+msgstr "Звіти Mantis"
 
 #. tpl/menu/global_menu.html
 msgid "Check"
-msgstr "Verificar"
+msgstr "Перевірити"
 
 #. tpl/menu/global_menu.html
 msgid "Import / Export"
-msgstr "Importar/Exportar"
+msgstr "Імпорт/Експорт"
 
 #. tpl/menu/global_menu.html
 msgid "Import/Export tools"
-msgstr "Herramientasde de importación/exportación"
+msgstr "Імпорт/Експорт інструментів"
 
 #. tpl/menu/global_menu.html
 msgid "Import Issues"
-msgstr "Importar incidencias"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Export Weekly Report"
-msgstr "Exportar informe semanal"
+msgstr "Експортний тижневий звіт"
 
 #. tpl/menu/global_menu.html
 msgid "Export Monthly Report"
-msgstr "Exportar informe mensual"
+msgstr "Експортний щомісячний звіт"
 
 #. tpl/menu/global_menu.html
 msgid "Export to LibreOffice"
-msgstr "Exportar a LibreOffice"
+msgstr "Експорт на LibreOffice"
 
 #. tpl/menu/global_menu.html
 msgid "Blog"
-msgstr "Blog"
+msgstr "Блоґ"
 
 #. tpl/menu/global_menu.html
 #: install/install_step3.php:855 install/install_menu.inc.php:68
 msgid "Documentation"
-msgstr "Documentación"
+msgstr "Документація"
 
 #. tpl/menu/global_menu.html
 msgid "About CodevTT"
-msgstr "Acerca de CodevTT"
+msgstr "Про CodevTT"
 
 #. tpl/menu/global_menu.html
 msgid "CodevTT Administration"
-msgstr "Administración de CodevTT"
+msgstr "Адміністрація CodevTT"
 
 #. tpl/menu/global_menu.html
 msgid "Admin"
-msgstr "Administrador"
+msgstr "Адміністрування"
 
 #. tpl/menu/global_menu.html
 msgid "Create Team"
-msgstr "Crear equipo"
+msgstr "Створити команду"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Team"
-msgstr "Editar equipo"
+msgstr "Редагувати команду"
 
 #. tpl/menu/global_menu.html
 msgid "Tools & Statistics"
-msgstr "Herramientas y estadísticas"
+msgstr "Інструменти та статистика"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Jobs"
-msgstr "Editar trabajos"
+msgstr "Редагувати вакансії"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Holidays"
-msgstr "Editar feriados"
+msgstr "Редагувати Святя"
 
 #. tpl/menu/global_menu.html
 msgid "Prepare Projects"
-msgstr "Preparar proyectos"
+msgstr "Підготовка проектів"
 
 #. tpl/menu/global_menu.html
 msgid "Clone Projects"
-msgstr "Clonar proyectos"
+msgstr "Клонування проектів"
 
 #. tpl/menu/global_menu.html
 msgid "Plugin Manager"
-msgstr "Administrador de complementos"
+msgstr "Менеджер плагінів"
 
 #. tpl/menu/global_menu.html
 msgid "Logs"
-msgstr "Registros"
+msgstr "Журнали"
 
 #. tpl/menu/global_menu.html
 #. tpl/uninstall.html
 msgid "Uninstall"
-msgstr "Desinstalar"
+msgstr "Видалити"
 
 #. tpl/gantt.html
 #. tpl/command_info.html
-#, fuzzy
 msgid "Task filter:"
-msgstr "Filtros de tareas"
+msgstr "Фільтр завдань:"
 
 #. tpl/gantt.html
 #. tpl/command_info.html
 msgid "Filter"
-msgstr "Filtro"
+msgstr "Фільтр"
 
 #. tpl/gantt.html
 #. tpl/command_info.html
 #. tpl/modal/select_issues.html
 #. tpl/modal/login.html
 msgid "OK"
-msgstr "Aceptar"
+msgstr "Готово"
 
 #. tpl/uninstall.html
 msgid "Do you want to remove CodevTT from your Mantis server ?"
-msgstr "¿Quieres quitar CodevTT de tu servidor Mantis?"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "This step will clean Mantis DB."
-msgstr "Este paso será limpiar la base de datos de Mantis."
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Backup data"
@@ -3223,11 +3209,11 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "Backup file will be saved in CodevTT reports directory"
-msgstr "El archivo de la copia de respaldo se guardará en el directorio de informes de CodevTT"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Filename"
-msgstr "Nombre de archivo"
+msgstr "Назва файлу"
 
 #. tpl/uninstall.html
 msgid "Dumping MantisDB to"
@@ -3235,23 +3221,23 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "Backup successfully done"
-msgstr "La copia de respaldo se realizó con éxito"
+msgstr "Резервне копіювання успішно виконано"
 
 #. tpl/uninstall.html
 msgid "Uninstall aborted !"
-msgstr "¡Se canceló la desinstalación!"
+msgstr "Видалення перервано!"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT from Mantis menu:"
-msgstr "Quitar CodevTT del menú de Mantis:"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "TODO"
-msgstr "PENDIENTES"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Failed"
-msgstr "Falló"
+msgstr "Помилка"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT customFields:"
@@ -3259,7 +3245,7 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT tables from MantisDB:"
-msgstr "Quitar las tablas de CodevTT de MantisDB:"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT config files:"
@@ -3267,19 +3253,19 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "Remove Mantis plugin:"
-msgstr "Quitar el complemento Mantis:"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
-msgstr "Borra MANUALMENTE los siguientes proyectos:"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Job Assignations"
-msgstr "Asignaciones de trabajo"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Job Name"
-msgstr "Nombre del trabajo"
+msgstr ""
 
 #. tpl/edit_jobs.html
 #. tpl/edit_holidays.html
@@ -3289,15 +3275,15 @@ msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "delete Job"
-msgstr "eliminar trabajo"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "multiple selection"
-msgstr "selección múltiple"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "single selection"
-msgstr "selección única"
+msgstr "єдиний вибір"
 
 #. tpl/edit_jobs.html
 msgid "delete Project Association"
@@ -3305,55 +3291,55 @@ msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Delete job"
-msgstr "Eliminar trabajo"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Remove this link :"
-msgstr "Quitar este enlace:"
+msgstr "Видалити це посилання:"
 
 #. tpl/edit_jobs.html
 msgid "Job Color"
-msgstr "Color del trabajo"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Missing fields :"
-msgstr "Campos faltantes:"
+msgstr "Відсутні поля:"
 
 #. tpl/workflow.html
 msgid "Are you sure you want to change"
-msgstr "¿Confirmas que quieres cambiar"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "settings ?"
-msgstr ""
+msgstr "налаштування ?"
 
 #. tpl/workflow.html
 msgid "Clonning"
-msgstr ""
+msgstr "Клонування"
 
 #. tpl/workflow.html
 msgid "into"
-msgstr ""
+msgstr "в"
 
 #. tpl/workflow.html
 msgid "Clone project settings"
-msgstr "Clonar la configuración del proyecto"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Clone From"
-msgstr "Clonar desde"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Clone To"
-msgstr "Clonar a"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Workflow transitions"
-msgstr "Transiciones de flujo de trabajo"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Settings"
-msgstr "Configuración"
+msgstr "Налаштування"
 
 #. tpl/workflow.html
 msgid "No workflow transitions defined, using default configuration."
@@ -3361,19 +3347,19 @@ msgstr ""
 
 #. tpl/workflow.html
 msgid "Configuration Option"
-msgstr "Opción de configuración"
+msgstr "Параметр конфігурації"
 
 #. tpl/workflow.html
 msgid "No configuration options defined, using default configuration."
-msgstr "No se definió ninguna opción de configuración. Se usa la configuración predeterminada."
+msgstr ""
 
 #. tpl/edit_holidays.html
 msgid "Add fixed holidays"
-msgstr "Agregar feriados fijos"
+msgstr "Додати фіксовані вихідні дні"
 
 #. tpl/edit_holidays.html
 msgid "In here you can set National Days, religious holidays, etc."
-msgstr "Aquí puedes definir los feriados nacionales, fiestas religiosas, etc."
+msgstr "Тут Ви можете встановити Національні Дні, релігійні свята тощо."
 
 #. tpl/edit_holidays.html
 msgid "Note: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong."
@@ -3381,35 +3367,35 @@ msgstr ""
 
 #. tpl/edit_holidays.html
 msgid "Holiday Description"
-msgstr "Descripción del feriado"
+msgstr "Опис свята"
 
 #. tpl/edit_holidays.html
 msgid "Permanently remove this date ?"
-msgstr "¿Eliminar permanentemente esta fecha?"
+msgstr "Остаточно видалити цю дату?"
 
 #. tpl/edit_holidays.html
 msgid "delete Holiday"
-msgstr "eliminar feriado"
+msgstr "Видалити Свято"
 
 #. tpl/command_info.html
 msgid "Set command filters"
-msgstr "Establecer filtros de órdenes"
+msgstr "Встановити командні фільтри"
 
 #. tpl/command_info.html
 msgid "--- Create New Command ---"
-msgstr "--- Crear orden nueva ---"
+msgstr "--- Створити нову команду ---"
 
 #. tpl/command_info.html
 msgid "Command Filters"
-msgstr "Filtros de órdenes"
+msgstr "Фільтри команди"
 
 #. tpl/command_info.html
 msgid "Reduce the command selection by setting some filters"
-msgstr "Reduce la selección de comandos estableciendo algún filtro"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "Open task list in Mantis"
-msgstr "Abrir la lista de tareas en Mantis"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "MgrEffortEstim + Checked Provisions (days)"
@@ -3417,7 +3403,7 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "Reestimated (days)"
-msgstr "Reestimado (días)"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "Drift (days)"
@@ -3429,7 +3415,7 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "Days"
-msgstr "Días"
+msgstr "Днів"
 
 #. tpl/command_info.html
 msgid "The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'"
@@ -3437,7 +3423,7 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "balance"
-msgstr "balance"
+msgstr "баланс"
 
 #. tpl/command_info.html
 msgid "Default ADR"
@@ -3445,12 +3431,12 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "Tasks & Provisions"
-msgstr "Tareas y disposiciones"
+msgstr ""
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "None"
-msgstr "Ninguno"
+msgstr "Немає"
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
@@ -3464,12 +3450,12 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "Show resolved tasks"
-msgstr "Mostrar tareas resueltas"
+msgstr ""
 
 #. tpl/command_info.html
 #: classes/consistency_check.class.php:256
 msgid "Warning"
-msgstr "Advertencia"
+msgstr "Попередження"
 
 #. tpl/command_info.html
 msgid "Reload page to update charges & indicators"
@@ -3477,27 +3463,27 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "Format"
-msgstr "Formato"
+msgstr "Формат"
 
 #. tpl/modal/select_issues.html
 msgid "No task selected !"
-msgstr "Ninguna tarea seleccionada"
+msgstr "Не вибрано жодного завдання!"
 
 #. tpl/modal/select_issues.html
 msgid "Browse..."
-msgstr "Examinar..."
+msgstr ""
 
 #. tpl/modal/select_issues.html
 msgid "Select all"
-msgstr "Seleccionar todo"
+msgstr "Виділити все"
 
 #. tpl/modal/edit_issueNote.html
 msgid "If unchecked, a 'standard' Mantis note will be created"
-msgstr "Si no se selecciona, se creará una nota de Mantis 'estándar'"
+msgstr ""
 
 #. tpl/modal/edit_issueNote.html
 msgid "Add as Timesheet note"
-msgstr "Agregar como parte de horas nota"
+msgstr ""
 
 #. tpl/modal/edit_issueNote.html
 msgid "Edit timesheet note"
@@ -3509,20 +3495,19 @@ msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Current backlog"
-msgstr "Pendientes actuales"
+msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Update Backlog"
-msgstr "Actualizar pendientes"
+msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Status can't be : "
-msgstr "El estado no puede ser : "
+msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
-#, fuzzy
 msgid "Task resolved, backlog must be '0'"
-msgstr "Tareas resueltas a tiempo"
+msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
@@ -3530,68 +3515,68 @@ msgstr ""
 
 #. tpl/modal/fairplay.html
 msgid "Fair play !"
-msgstr ""
+msgstr "Чесна гра!"
 
 #. tpl/modal/fairplay.html
 msgid "You are using CodevTT since"
-msgstr "Estás usando CodevTT desde"
+msgstr ""
 
 #. tpl/modal/fairplay.html
 msgid "If you like this software, please consider making a donation."
-msgstr "Si te gusta este software, considera hacer una donación."
+msgstr ""
 
 #. tpl/modal/login.html
 msgid "Length of"
-msgstr "Longitud de"
+msgstr "Довжина"
 
 #. tpl/modal/login.html
 msgid "must be between"
-msgstr "debe estar entre"
+msgstr "повинен бути між"
 
 #. tpl/modal/login.html
 msgid "and"
-msgstr "y"
+msgstr "і"
 
 #. tpl/modal/login.html
 msgid "CodevTT Identification"
-msgstr "Identificación de CodevTT"
+msgstr ""
 
 #. tpl/modal/login.html
 msgid "password"
-msgstr "contraseña"
+msgstr "пароль"
 
 #. tpl/modal/login.html
 msgid "Login failed."
-msgstr "Falló el inicio de sesión."
+msgstr "Увійти не вдалося."
 
 #. tpl/modal/login.html
 msgid "Login"
-msgstr "Iniciar sesión"
+msgstr ""
 
 #. tpl/modal/login.html
 #: plugins/ImportUsers/ImportUsers_ajax.php:166
 msgid "Password"
-msgstr "Contraseña"
+msgstr "Пароль"
 
 #. tpl/modal/login.html
 msgid "Lost your password?"
-msgstr "¿Has olvidado tu contraseña?"
+msgstr "Забули свій пароль?"
 
 #. tpl/modal/login.html
 msgid "Redirection"
-msgstr "Redirección"
+msgstr "Перенаправлення"
 
 #. tpl/modal/change_managedUser.html
 msgid "Select User"
-msgstr "Seleccionar usuario"
+msgstr "Виберіть користувача"
 
 #. tpl/modal/change_managedUser.html
 msgid "Select team user"
-msgstr "Seleccionar usuario del equipo"
+msgstr ""
 
 #. tpl/modal/change_managedUser.html
 msgid "Change user"
-msgstr "Cambiar usuario"
+msgstr "Змінити користувача"
 
 #. tpl/commandset_info.html
 msgid "--- Create New CommandSet ---"
@@ -3599,7 +3584,7 @@ msgstr ""
 
 #. tpl/commandset_info.html
 msgid "Service Contract"
-msgstr ""
+msgstr "Сервісний договір"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
@@ -3609,7 +3594,7 @@ msgstr ""
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:69
 msgid "Backlog per User"
-msgstr "Pendientes por usuario"
+msgstr ""
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "For each user, return the sum of the backlog of its assigned tasks"
@@ -3640,12 +3625,11 @@ msgstr ""
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_cfg.html
 msgid "Title"
-msgstr "Título"
+msgstr "Назва"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
-#, fuzzy
 msgid "Task ID"
-msgstr "Información de la tarea"
+msgstr ""
 
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:76
@@ -3657,7 +3641,7 @@ msgstr ""
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Date range"
-msgstr ""
+msgstr "Діапазон дати"
 
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
@@ -3676,14 +3660,14 @@ msgstr ""
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "current week"
-msgstr "semana actual"
+msgstr "поточний тиждень"
 
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "current month"
-msgstr "mes actual"
+msgstr "поточний місяць"
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_cfg.html
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:60
@@ -3693,25 +3677,22 @@ msgstr ""
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "End Date"
-msgstr "Fecha de finalización"
+msgstr "Кінцева дата"
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#, fuzzy
 msgid "Committer"
-msgstr "Filtros de órdenes"
+msgstr "Комітер"
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#, fuzzy
 msgid "Commit date"
-msgstr "Fecha inicial"
+msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Progress History Indicator"
-msgstr "Historial de progreso"
+msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -3721,13 +3702,12 @@ msgstr ""
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoretical progress"
-msgstr "Progreso teórico"
+msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Compares the EffortEstim to the Elapsed days"
-msgstr "Compara la estimación del esfuerzo con el tiempo transcurrido."
+msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -3737,13 +3717,12 @@ msgstr ""
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Real progress"
-msgstr "Progreso real"
+msgstr "Дійсний прогрес"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Displays the backlog"
-msgstr "actualizar pendientes"
+msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -3756,19 +3735,16 @@ msgid "Historical Progression Chart"
 msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
-#, fuzzy
 msgid "Mngt Elapsed"
-msgstr "Transcurrido"
+msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
-#, fuzzy
 msgid "Mngt Provisions"
-msgstr "Disposiciones"
+msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
-#, fuzzy
 msgid "Managemnt load history"
-msgstr "Administración"
+msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
@@ -3778,39 +3754,37 @@ msgstr "Administración"
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "Interval"
-msgstr "Intervalo"
+msgstr "Інтервал"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
 msgid "Monthly"
-msgstr "Mensualmente"
+msgstr "Щомісячно"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
 msgid "Weekly"
-msgstr "Semanalmente"
+msgstr "Щотижня"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_cfg.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:62
-#, fuzzy
 msgid "Import issues"
-msgstr "Importar incidencias"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "File"
-msgstr "Archivo"
+msgstr "Файл"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Set All"
-msgstr "Establecer todos"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#, fuzzy
 msgid "TargetVersion"
-msgstr "Versión"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Mantis issues to create:"
@@ -3826,58 +3800,57 @@ msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Type not set on all issues"
-msgstr "El tipo no se estableció en todas las incidencias"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Import done !"
-msgstr "Terminó la importación"
+msgstr "Імпорт зроблено!"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Sorry, only team members can import tasks."
-msgstr ""
+msgstr "На жаль, лише члени команди можуть імпортувати завдання."
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Preview import"
-msgstr "Vista previa de importación"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Import template"
-msgstr "Importar plantilla"
+msgstr "Імпортувати шаблон"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "File Format"
-msgstr "Formatos del archivo"
+msgstr "Формат файлу"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Standard CSV format with :"
-msgstr "Formato CSV estándar con:"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "delimiter"
-msgstr "delimitador"
+msgstr "роздільник"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
-#, fuzzy
 msgid "enclosure"
-msgstr "cerrado"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Date format"
-msgstr "Formato de fecha"
+msgstr "Формат дати"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Number format"
-msgstr "Formato de número"
+msgstr "Числовий формат"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Encoding"
-msgstr "Codificación"
+msgstr "Кодування"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported."
@@ -3885,7 +3858,7 @@ msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Columns"
-msgstr "Columnas"
+msgstr "Стовпці"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "the file must contain 7 columns, the 1st line contains the column names."
@@ -3896,19 +3869,17 @@ msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; Externa
 msgstr ""
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#, fuzzy
 msgid "No late task."
-msgstr "Tareas no resueltas..."
+msgstr ""
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator_cfg.html
-#, fuzzy
 msgid "Deadline alerts"
-msgstr "Fecha límite"
+msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:61
 msgid "Reopened rate history"
-msgstr "Historial de tasa reabierta"
+msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
@@ -3916,7 +3887,7 @@ msgstr "Historial de tasa reabierta"
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "week"
-msgstr "semana"
+msgstr "тиждень"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
@@ -3924,7 +3895,7 @@ msgstr "semana"
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "weeks"
-msgstr "semanas"
+msgstr "тижні"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
@@ -3932,7 +3903,7 @@ msgstr "semanas"
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "month"
-msgstr "mes"
+msgstr "місяць"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "BugValidation History Indicator"
@@ -3943,9 +3914,8 @@ msgid "Resolved bugs must be validated. This shows how many bugs have been Rejec
 msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
-#, fuzzy
 msgid "% Validated"
-msgstr "validado"
+msgstr "% Підтверджено"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having successfully pass the validation tests"
@@ -3957,7 +3927,7 @@ msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Rejected"
-msgstr ""
+msgstr "% Відхилено"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having failed the validation tests"
@@ -3976,9 +3946,8 @@ msgid "Nb of issues having fail validation tests"
 msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
-#, fuzzy
 msgid "Nb Fail"
-msgstr "Falló"
+msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having pass validation tests"
@@ -3994,9 +3963,8 @@ msgid "Check all the timetracks of the period and return their repartition per J
 msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Budget history"
-msgstr "Historial de progreso"
+msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget Drift History Indicator"
@@ -4007,18 +3975,16 @@ msgid "Compares the budget (MgrEffortEstim + checked provisions) to the reestima
 msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#, fuzzy
 msgid "% Budget Drift"
-msgstr "Días de presupuesto"
+msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "( reestimated - budget ) / budget"
 msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#, fuzzy
 msgid "Budget Drift"
-msgstr "Días de presupuesto"
+msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "MgrEffortEstim + checked provisions"
@@ -4030,25 +3996,23 @@ msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"
-msgstr "Gráfico"
+msgstr "Графік"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Values"
-msgstr "Valores"
+msgstr "Значення"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Available Workforce Options"
-msgstr "Carga de trabajo disponible"
+msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Availability"
-msgstr "Disponibilidad del sistema"
+msgstr "Доступність"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Productivity Coefficient"
-msgstr "Coeficiente de productividad"
+msgstr "Коефіцієнт продуктивності"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Prod. Coef"
@@ -4060,16 +4024,15 @@ msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Available workforce"
-msgstr "Mano de obra disponible"
+msgstr ""
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "No errors"
-msgstr "Sin errores"
+msgstr "Немає помилок"
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#, fuzzy
 msgid "Consistency check"
-msgstr "Verificación de consistencia"
+msgstr "Перевірка узгодженості"
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #: plugins/IssueConsistencyCheck/IssueConsistencyCheck.class.php:62
@@ -4078,42 +4041,39 @@ msgstr ""
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck_cfg.html
 #: plugins/IssueConsistencyCheck/IssueConsistencyCheck.class.php:59
-#, fuzzy
 msgid "Issue consistency check"
-msgstr "Verificación de consistencia"
+msgstr ""
 
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:70
 msgid "Load per project categories"
-msgstr "Carga por categorías de proyectos"
-
-#. plugins/ImportUsers/ImportUsers_ajax.html
-#. plugins/ImportUsers/ImportUsers.html
-msgid "Send password by mail"
 msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
+msgid "Send password by mail"
+msgstr "Надіслати пароль поштою"
+
+#. plugins/ImportUsers/ImportUsers_ajax.html
+#. plugins/ImportUsers/ImportUsers.html
 msgid "Generate password"
-msgstr "Generar contraseña"
+msgstr "Сгенерувати пароль"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Mantis users to create:"
 msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "First name"
-msgstr "Nombre de archivo"
+msgstr "Ім'я"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "Username"
-msgstr "Renombrar"
+msgstr "Ім'я користувача"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Email"
-msgstr "Correo electrónico"
+msgstr "Ел. пошта"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4121,20 +4081,17 @@ msgid "Mantis project access level"
 msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "Mantis role"
-msgstr "Notas de Mantis"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "CodevTT role"
-msgstr "Administrador de CodevTT"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "Date of entry in team"
-msgstr "El usuario no está en el equipo"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Username not set on all users"
@@ -4162,16 +4119,15 @@ msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_cfg.html
 msgid "Import users"
-msgstr "Importar usuarios"
+msgstr "Імпортувати користувачів"
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "You need to be manager to import issues."
-msgstr "No se te permite importar usuarios"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Only team administrators can create users"
-msgstr "Sólo los administradores del equipo pueden crear usuarios"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/CostsIndicator/CostsIndicator.html
@@ -4179,16 +4135,15 @@ msgstr "Sólo los administradores del equipo pueden crear usuarios"
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator_cfg.html
 #: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:62
 msgid "Time per status"
-msgstr "Tiempo por estado"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Create Mantis users"
-msgstr "Crear usuarios de Mantis"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "Add users to CodevTT team & projects"
-msgstr "Quitar proyectos específicos de CodevTT"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Only team-leaders & administrators are allowed to do this action."
@@ -4196,74 +4151,69 @@ msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send a password per email to each user"
-msgstr ""
+msgstr "Надсилати пароль на електронну пошту кожного користувачу"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Display a generated password (common to all created users)"
-msgstr ""
+msgstr "Відображати генерований пароль (загальний для всіх створених користувачів)"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Colors"
-msgstr "Colores"
+msgstr "Кольори"
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "username"
-msgstr "Renombrar"
+msgstr "ім'я користувача"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User already exists"
-msgstr "El usuario ya existe"
+msgstr "Такий користувач вже існує"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User can't be added to Mantis projects"
-msgstr "El usuario no puede añadirse a proyectos de Mantis"
+msgstr "Користувач не може бути доданий до проектів Mantis"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User already belong to this team"
-msgstr ""
+msgstr "Користувач вже належить цій команді"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User can't be added to this team"
-msgstr ""
+msgstr "Користувача не можна додати до цієї команди"
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
-msgstr ""
+msgstr "Список команд користувачів"
 
 #. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Arrival date"
-msgstr "Fecha de llegada"
+msgstr ""
 
 #. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Departure date"
-msgstr "Fecha de salida"
+msgstr ""
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#, fuzzy
 msgid "Drift current tasks"
-msgstr "Tareas actuales"
+msgstr ""
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#, fuzzy
 msgid "Drift resolved tasks"
-msgstr "Ocultar tareas resueltas"
+msgstr ""
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
-#, fuzzy
 msgid "Tasks Drift alert"
-msgstr "Tareas por usuario"
+msgstr ""
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
-#, fuzzy
 msgid "Display resolved issues"
-msgstr "Tareas mostradas"
+msgstr ""
 
 #. plugins/CostsIndicator/CostsIndicator_cfg.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #: plugins/CostsIndicator/CostsIndicator.class.php:65
 msgid "Costs"
-msgstr "Costos"
+msgstr ""
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Global cost estimation:"
@@ -4286,9 +4236,8 @@ msgid "AverageDailyCost is used when no UserDailyCosts is defined for the timetr
 msgstr ""
 
 #. plugins/CostsIndicator/CostsIndicator.html
-#, fuzzy
 msgid "AverageDailyCost is used if the task is not yet assigned to anyone."
-msgstr "La tarea no está asignada a nadie."
+msgstr ""
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "The backlog is computed with the current assigned user's UserDailyCost"
@@ -4309,7 +4258,7 @@ msgstr ""
 #. plugins/HelloWorldIndicator/HelloWorldIndicator_cfg.html
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:62
 msgid "Hello World"
-msgstr "Hola mundo"
+msgstr "Привіт, Світ!"
 
 #. plugins/HelloWorldIndicator/HelloWorldIndicator.html
 msgid "Greetings date"
@@ -4318,7 +4267,7 @@ msgstr ""
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
 #: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:65
 msgid "Time allocation by status"
-msgstr "Asignación de tiempo por estado"
+msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4330,19 +4279,19 @@ msgstr ""
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:384
 msgid "Other"
-msgstr "Otro"
+msgstr "Інше"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:385
 msgid "External"
-msgstr "Externo"
+msgstr "Зовнішні"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:78
 msgid "Load per User"
-msgstr "Carga por usuario"
+msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
@@ -4379,36 +4328,33 @@ msgstr ""
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
-msgstr "Teórico"
+msgstr ""
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Real"
-msgstr "Real"
+msgstr ""
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "% Progress"
-msgstr "Progreso"
+msgstr "% Прогрес"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2_cfg.html
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:64
 msgid "Progress history"
-msgstr "Historial de progreso"
+msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:66
 msgid "Issue Status History"
-msgstr "Historial del estado de la incidencia"
+msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Filter on Issue type"
-msgstr "Tipo de incidencia"
+msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "No filter"
-msgstr "Establecer filtros"
+msgstr "Без фільтру"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Bugs only"
@@ -4416,7 +4362,7 @@ msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Tasks only"
-msgstr "Solo tareas"
+msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Filter on External ID"
@@ -4432,9 +4378,8 @@ msgstr ""
 
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator_cfg.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
-#, fuzzy
 msgid "Task backlog variation"
-msgstr "Variación promedio de pendientes"
+msgstr ""
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -4454,66 +4399,61 @@ msgid "EffortEstim reliability history"
 msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Select All"
-msgstr "Seleccionar todo"
+msgstr "Виділити всі"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Dates"
-msgstr "Fechas"
+msgstr "Дати"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Start"
-msgstr "Inicio"
+msgstr "Початок"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "End"
-msgstr "Fin"
+msgstr "Кінець"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Origin"
-msgstr "Origen"
+msgstr "Походження"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Destination"
-msgstr "Destino"
+msgstr "Призначення"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Please, fill all fields correctly"
-msgstr "Completa todos los campos correctamente"
+msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:75
 msgid "Destination task must be different from origin"
-msgstr "La tarea de destino tiene que ser diferente de la de origen"
+msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Origin task"
-msgstr "Tiempo por estado"
+msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Move selected timetracks"
-msgstr "Actualizar tiempo de seguimiento"
+msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Destination task"
-msgstr "Tarea de destino"
+msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "WARNING : In order to move timetracks, destination task creation date will be moved to "
 msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Timetracks moved successfully !"
-msgstr "La copia de respaldo se realizó con éxito"
+msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_cfg.html
-#, fuzzy
 msgid "Move issue timetracks"
-msgstr "Actualizar tiempo de seguimiento"
+msgstr ""
 
 #: admin/plugin_manager.php:67
 msgid "Could not create classmap: "
@@ -4521,23 +4461,23 @@ msgstr ""
 
 #: admin/edit_holidays.php:46
 msgid "Couldn't add the holiday"
-msgstr "No se pudo agregar el feriado"
+msgstr "Не вдалося додати свято"
 
 #: admin/edit_holidays.php:51
 msgid "Couldn't remove the holiday"
-msgstr "No se pudo eliminar el feriado"
+msgstr "Не вдалося вилучити свято"
 
 #: admin/edit_team.php:51
 msgid "Couldn't delete the team"
-msgstr "No se pudo borrar el equipo"
+msgstr "Не вдалося видалити команду"
 
 #: admin/edit_team.php:93
 msgid "Couldn't update the team leader"
-msgstr ""
+msgstr "Не вдалося оновити керівника групи"
 
 #: admin/edit_team.php:104
 msgid "Couldn't update the creation date"
-msgstr "No se pudo actualizar la fecha de creación"
+msgstr "Не вдалось оновити дату створення"
 
 #: admin/edit_team.php:109
 msgid "Couldn't enable/disable team"
@@ -4545,52 +4485,52 @@ msgstr ""
 
 #: admin/edit_team.php:202
 msgid "Couldn't delete the member of the team"
-msgstr "No se pudo eliminar el miembro del equipo"
+msgstr "Не вдалося видалити учасника команди"
 
 #: admin/edit_team.php:218
 msgid "Couldn't add the project to the team"
-msgstr ""
+msgstr "Не вдалося додати проект до команди"
 
 #: admin/edit_team.php:224
 msgid "Could NOT remove the project from the team"
-msgstr ""
+msgstr "Не вдалося вилучити проект з команди"
 
 #: admin/edit_team.php:276
 msgid "Configure Tooltips"
-msgstr ""
+msgstr "Налаштування підказок"
 
 #: admin/edit_team.php:385
 msgid "enabled"
-msgstr "activado"
+msgstr "увімкнено"
 
 #: admin/edit_team.php:385
 msgid "disabled"
-msgstr "desactivado"
+msgstr "вимкнено"
 
 #: admin/edit_jobs.php:77
 msgid "Couldn't add the job association"
-msgstr "No se pudo añadir la asociación del trabajo"
+msgstr ""
 
 #: admin/edit_jobs.php:85
 msgid "This job must not be deleted."
-msgstr "Este trabajo no debe borrarse."
+msgstr ""
 
 #: admin/edit_jobs.php:91 admin/edit_jobs.php:107
 msgid "Couldn't remove the job association"
-msgstr "No se pudo borrar la asociación del trabajo"
+msgstr ""
 
 #: admin/edit_jobs.php:97
 msgid "Couldn't delete the job"
-msgstr "No se pudo borrar el trabajo"
+msgstr "Не вдалося видалити завдання"
 
 #: admin/admin_dashboard.php:75 import/import_dashboard.php:64
 #: reports/team_dashboard.php:98
 msgid "Sorry, you need to be identified."
-msgstr "Disculpas, debes estar identificado."
+msgstr "Вибачте, ви повинні ідентифікуватися."
 
 #: admin/logs.php:58
 msgid "Sorry, logfile not found:"
-msgstr "Disculpas, no se encuentra el archivo de registros:"
+msgstr ""
 
 #: admin/edit_team_ajax.php:80
 msgid "Issue tooltips for project"
@@ -4602,28 +4542,28 @@ msgstr ""
 
 #: admin/edit_team_ajax.php:82
 msgid "Available fields"
-msgstr "Campos disponibles"
+msgstr "Доступні поля"
 
 #: admin/edit_team_ajax.php:83
 msgid "Tooltip"
-msgstr ""
+msgstr "Підказка"
 
 #. avoid divisions by zero
 #: classes/Currencies.class.php:125
 msgid "ERROR: invalid currency: (coef is null, zero, or not a number)"
-msgstr ""
+msgstr "ПОМИЛКА: недійсна валюта: (коефіцієнт нульовий, нуль або не є числом)"
 
 #: classes/Currencies.class.php:130
 msgid "ERROR: First define the referal currency (with coef=1)"
-msgstr ""
+msgstr "ПОМИЛКА: спочатку визначено реферальну валюту (з коефіцієнтом = 1)"
 
 #: classes/Currencies.class.php:135
 msgid "ERROR: there can be only one 'referal' currency (with coef=1)"
-msgstr ""
+msgstr "ПОМИЛКА: може бути тільки одна 'реферальна' валюта (з коефіцієнтом = 1)"
 
 #: classes/Currencies.class.php:139
 msgid "ERROR: currency already defined"
-msgstr ""
+msgstr "ПОМИЛКА: валюта вже визначена"
 
 #: classes/consistency_check_fdj.class.php:76
 msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
@@ -4642,7 +4582,7 @@ msgstr ""
 #: scheduler/scheduler_ajax.php:386 scheduler/scheduler_ajax.php:387
 #: scheduler/scheduler_ajax.php:390
 msgid "Error"
-msgstr "Error"
+msgstr "Помилка"
 
 #: classes/consistency_check_fdj.class.php:85
 msgid "Backlog not specified: Backlog = Time(BI - Analysis)"
@@ -4654,15 +4594,15 @@ msgstr ""
 
 #: classes/issue.class.php:59
 msgid "Duplicate of"
-msgstr "Duplicada de"
+msgstr "Дублікат"
 
 #: classes/issue.class.php:60
 msgid "Has duplicate"
-msgstr "Tiene duplicado"
+msgstr "Має дублікат"
 
 #: classes/issue.class.php:61 classes/issue.class.php:62
 msgid "Related to"
-msgstr "Relacionado con"
+msgstr "Пов'язані з"
 
 #: classes/issue.class.php:63
 msgid "Parent of"
@@ -4674,20 +4614,20 @@ msgstr ""
 
 #: classes/issue.class.php:65
 msgid "Constrained by"
-msgstr "Limitado por"
+msgstr "Обмежується"
 
 #: classes/issue.class.php:66
 msgid "Constrains"
-msgstr ""
+msgstr "Обмеження"
 
 #: classes/issue.class.php:2234 classes/wbsElement.class.php:641
 #: tools.php:1525
 msgid "Tags"
-msgstr "Etiquetas"
+msgstr "Теґи"
 
 #: classes/issue.class.php:2242
 msgid "none"
-msgstr "ninguno"
+msgstr "немає"
 
 #: classes/issue.class.php:2247 reports/issue_info_tools.php:115
 msgid "DriftColor"
@@ -4704,27 +4644,27 @@ msgstr ""
 
 #: classes/issue.class.php:2268 tools.php:1539
 msgid "Assigned"
-msgstr "Asignada"
+msgstr ""
 
 #: classes/issue.class.php:2276 tools.php:1547
 msgid "ETA"
-msgstr "Tiempo estimado"
+msgstr ""
 
 #: classes/PluginManager.class.php:79
 msgid "Disabled"
-msgstr "Desactivado"
+msgstr "Вимкнено"
 
 #: classes/PluginManager.class.php:80
 msgid "Removed"
-msgstr "Eliminado"
+msgstr "Вилучено"
 
 #: classes/scheduler.class.php:81 reports/planning_report.php:206
 msgid "monitored"
-msgstr "monitoreado"
+msgstr ""
 
 #: classes/user.class.php:1761
 msgid "for team"
-msgstr "para el equipo"
+msgstr "для команди"
 
 #: classes/user.class.php:1763
 msgid "[CodevTT] Timesheet reminder !"
@@ -4732,7 +4672,7 @@ msgstr ""
 
 #: classes/user.class.php:1765 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
-msgstr "Estimado "
+msgstr "Шановний "
 
 #: classes/user.class.php:1766
 msgid "Please fill your CodevTT timesheet"
@@ -4740,21 +4680,21 @@ msgstr ""
 
 #: classes/user.class.php:1777 classes/consistency_check2.class.php:749
 msgid "incomplete (missing "
-msgstr "incompleta (falta "
+msgstr ""
 
 #. skip dates in the future
 #: classes/user.class.php:1780 classes/consistency_check2.class.php:764
 msgid "not defined."
-msgstr "no definido."
+msgstr "не визначено."
 
 #: classes/consistency_check2.class.php:66
 msgid "Info"
-msgstr "Información"
+msgstr "Інформація"
 
 #: classes/consistency_check2.class.php:68 reports/export_odt.php:272
 #: reports/export_odt.php:285 tests/odt.php:81 tests/odt.php:94
 msgid "unknown"
-msgstr "desconocido"
+msgstr "невідомо"
 
 #: classes/consistency_check2.class.php:200
 msgid "Backlog on resolved issues should be 0"
@@ -4778,7 +4718,7 @@ msgstr ""
 
 #: classes/consistency_check2.class.php:205
 msgid "Issues should not be referenced in multiple commands"
-msgstr "Los problemas no se debe hacer referencia en múltiples comandos"
+msgstr ""
 
 #: classes/consistency_check2.class.php:206
 msgid "Commands should be referenced in a CommandSet"
@@ -4790,7 +4730,7 @@ msgstr ""
 
 #: classes/consistency_check2.class.php:208
 msgid "Issues should be assigned to someone"
-msgstr "Las incidencias se deben asignar a alguien"
+msgstr ""
 
 #: classes/consistency_check2.class.php:209
 msgid "Check timetracks on removed issues (not needed if Mantis plugin is enabled)"
@@ -4799,11 +4739,11 @@ msgstr ""
 #: classes/consistency_check2.class.php:314
 #: classes/consistency_check.class.php:208
 msgid "Backlog should be 0 (not "
-msgstr "Los pendientes deben ser 0 (no "
+msgstr ""
 
 #: classes/consistency_check2.class.php:336
 msgid "Backlog must be defined !"
-msgstr "¡Se deben definir los pendientes!"
+msgstr ""
 
 #: classes/consistency_check2.class.php:338
 #: classes/consistency_check.class.php:255
@@ -4822,15 +4762,15 @@ msgstr ""
 #: classes/consistency_check2.class.php:442
 #: classes/consistency_check.class.php:365
 msgid "Status should not be"
-msgstr "El estado no debería ser"
+msgstr ""
 
 #: classes/consistency_check2.class.php:480
 msgid "The task is not assigned to anybody."
-msgstr "La tarea no está asignada a nadie."
+msgstr ""
 
 #: classes/consistency_check2.class.php:536
 msgid "The task is not referenced in any Command."
-msgstr "La tarea no está referenciada en ninguna orden."
+msgstr ""
 
 #: classes/consistency_check2.class.php:646
 msgid "is not referenced in any CommandSet"
@@ -4842,11 +4782,11 @@ msgstr ""
 
 #: classes/consistency_check2.class.php:749
 msgid " days"
-msgstr "días"
+msgstr "дні"
 
 #: classes/consistency_check2.class.php:751
 msgid "inconsistent"
-msgstr "inconsistente"
+msgstr "непослідовний"
 
 #: classes/consistency_check2.class.php:785
 msgid "No default project workflow defined, check config file: "
@@ -4858,7 +4798,7 @@ msgstr ""
 
 #: classes/command.class.php:60
 msgid "Sent"
-msgstr "Enviado"
+msgstr "Надіслано"
 
 #: classes/command.class.php:61
 msgid "to be validated"
@@ -4866,15 +4806,15 @@ msgstr ""
 
 #: classes/command.class.php:62
 msgid "validated"
-msgstr "validado"
+msgstr "перевірено"
 
 #: classes/command.class.php:63
 msgid "to be closed"
-msgstr "para cerrarse"
+msgstr ""
 
 #: classes/command.class.php:64
 msgid "closed"
-msgstr "cerrado"
+msgstr ""
 
 #: classes/command.class.php:65
 msgid "bill must be sent"
@@ -4922,7 +4862,7 @@ msgstr ""
 
 #: filters/IssueCodevTypeFilter.php:63
 msgid "Issue Type"
-msgstr "Tipo de incidencia"
+msgstr ""
 
 #: filters/ProjectCategoryFilter.php:49
 msgid "Sort issues per project categories"
@@ -4930,7 +4870,7 @@ msgstr ""
 
 #: filters/ProjectCategoryFilter.php:57
 msgid "Project Category"
-msgstr "Categoría del proyecto"
+msgstr "Категорія проекту"
 
 #: filters/ProjectFilter.php:51
 msgid "Sort issues per Project"
@@ -4947,34 +4887,34 @@ msgstr ""
 #: indicator_plugins/StatusHistoryIndicator/StatusHistoryIndicator.class.php:194
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:331
 msgid "Y-m-d"
-msgstr "A-m-d"
+msgstr ""
 
 #: indicator_plugins/BacklogVariationIndicator/BacklogVariationIndicator.class.php:286
 msgid "Average backlog"
-msgstr "Pendientes promedio"
+msgstr ""
 
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:410
 #: reports/project_info.php:328
 msgid "New Tasks"
-msgstr "Tareas nuevas"
+msgstr "Нові завдання"
 
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:411
 #: reports/project_info.php:329
 msgid "Current Tasks"
-msgstr "Tareas actuales"
+msgstr "Поточні завдання"
 
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:412
 #: reports/project_info.php:330
 msgid "Resolved Tasks"
-msgstr "Tareas resueltas"
+msgstr "Вирішені завдання"
 
 #: install/install_step3.php:25
 msgid "Install - Step 3"
-msgstr ""
+msgstr "Встановлення - Крок 3"
 
 #: install/install_step3.php:235
 msgid "CodevTT Administrators team"
-msgstr "Equipo de administradores de CodevTT"
+msgstr "Команда адміністраторів CodevTT"
 
 #: install/install_step3.php:379
 msgid "CodevTT_EffortEstim"
@@ -5012,17 +4952,17 @@ msgstr ""
 #. ------ Reports
 #: install/install_step3.php:464
 msgid "Path to output files"
-msgstr ""
+msgstr "Шлях до вихідних файлів"
 
 #. T_("Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access.")
 #: install/install_step3.php:466
 msgid "Path to log files and other temporary files."
-msgstr "Ruta a archivos de registros y otros archivos temporales."
+msgstr "Шлях до файлів реєстрації та інших тимчасових файлів."
 
 #. ------ Status
 #: install/install_step3.php:483
 msgid "Workflow"
-msgstr ""
+msgstr "Робочий процес"
 
 #: install/install_step3.php:484
 msgid "Set equivalences in accordance to your Mantis workflow"
@@ -5031,11 +4971,11 @@ msgstr ""
 #. ------ Administrator
 #: install/install_step3.php:542
 msgid "CodevTT Administrator"
-msgstr "Administrador de CodevTT"
+msgstr "Адміністратор CodevTT"
 
 #: install/install_step3.php:554
 msgid "More administrators can be defined later, for now you just need one."
-msgstr "Se pueden definir más administradores después. Por ahora sólo necesitas uno."
+msgstr ""
 
 #. ------- External ID
 #: install/install_step3.php:558
@@ -5052,11 +4992,11 @@ msgstr ""
 
 #: install/install_step3.php:609
 msgid "Default Jobs"
-msgstr "Trabajos predeterminados"
+msgstr ""
 
 #: install/install_step3.php:616
 msgid "CodevTT support management"
-msgstr "Administración de soporte de CodevTT"
+msgstr ""
 
 #: install/install_step3.php:627
 msgid "Specific to SideTasks"
@@ -5064,7 +5004,7 @@ msgstr ""
 
 #: install/install_step3.php:658
 msgid "Select the projects to be managed with CodevTT"
-msgstr "Seleccionar los proyectos que se gestionarán con CodevTT"
+msgstr ""
 
 #: install/install_step3.php:670
 msgid "Proceed Step 3"
@@ -5072,11 +5012,11 @@ msgstr ""
 
 #: install/install_step3.php:822
 msgid "CodevTT admin"
-msgstr "Administrador de CodevTT"
+msgstr ""
 
 #: install/install_step3.php:849
 msgid "Other external activity"
-msgstr "Otra actividad externa"
+msgstr ""
 
 #: install/install_step3.php:850
 msgid "Leave"
@@ -5084,19 +5024,19 @@ msgstr ""
 
 #: install/install_step3.php:851
 msgid "Sick Leave"
-msgstr ""
+msgstr "Лікарняний"
 
 #: install/install_step3.php:852
 msgid "Analyse"
-msgstr "Analizar"
+msgstr ""
 
 #: install/install_step3.php:853
 msgid "Development"
-msgstr "Desarrollo"
+msgstr "Розвиток"
 
 #: install/install_step3.php:854
 msgid "Tests"
-msgstr "Pruebas"
+msgstr "Тести"
 
 #: install/install_step3.php:941
 msgid "CodevTT_ExternalTasks"
@@ -5109,12 +5049,12 @@ msgstr ""
 #. cat="OtherInternal", status="closed"
 #: install/install_step3.php:980
 msgid "Any external task, NOT referenced in any Mantis project"
-msgstr "Cualquier tarea externa, NO referenciada en ningún proyecto Mantis"
+msgstr ""
 
 #. --- Create the 'Leave' task in ExternalTasks Project
 #: install/install_step3.php:983
 msgid "On holiday, leave, ..."
-msgstr "En feriado, dejar, ..."
+msgstr ""
 
 #: install/install_step3.php:984
 msgid "Sick"
@@ -5122,143 +5062,143 @@ msgstr ""
 
 #: install/install_step2.php:25
 msgid "Install - Step 2"
-msgstr ""
+msgstr "Встановлення - Крок 2"
 
 #: install/install_step2.php:104
 msgid "Get Mantis customizations"
-msgstr ""
+msgstr "Отримайте налаштування Mantis"
 
 #: install/install_step2.php:109
 msgid "Path to Mantis"
-msgstr "Camino a Mantis"
+msgstr "Шлях до Mantis"
 
 #: install/install_step2.php:114
 msgid "URL to Mantis"
-msgstr "URL a Mantis"
+msgstr ""
 
 #: install/install_step2.php:119
 msgid "URL to CodevTT"
-msgstr "URL a CodevTT"
+msgstr ""
 
 #: install/install_step2.php:134
 msgid "Proceed Step 2"
-msgstr ""
+msgstr "Продовжуємо Крок 2"
 
 #: install/install_step5.php:25
 msgid "Installation finished"
-msgstr "Finalizó la instalación"
+msgstr "Встановлення завершено"
 
 #: install/install_step4.php:25
 msgid "Install - Step 4"
-msgstr ""
+msgstr "Встановлення - Крок 4"
 
 #: install/install_step4.php:44
 msgid "Manual steps"
-msgstr "Pasos manuales"
+msgstr "Покроковий посібник"
 
 #: install/install_step4.php:48
 msgid "Check Mantis Plugins"
-msgstr "Comprueba los complementos de Mantis"
+msgstr "Перевірте плагіни Mantis"
 
 #: install/install_step4.php:50
 msgid "Login to Mantis as 'Administrator'."
-msgstr "Iniciar sesión en Mantis como 'Administrador'."
+msgstr "Увійдіть до Mantis як 'Адміністратор'."
 
 #: install/install_step4.php:51
 msgid "manage plugins"
-msgstr "administrar complementos"
+msgstr "керування плагінами"
 
 #: install/install_step4.php:52
 msgid "Check that the <b>CodevTT</b> plugin is installed and activated."
-msgstr "Comprueba que el complemento <b>CodevTT</b> esté instalado y activado."
+msgstr "Переконайтеся, що встановлено і активовано плагін <b>CodevTT</b>."
 
 #: install/install_step4.php:53
 msgid "Check that the <b>FilterBugList</b> plugin is installed and activated"
-msgstr "Comprueba que el complemento <b>FilterBugList</b> esté instalado y activado."
+msgstr "Переконайтеся, що встановлено і активовано плагін <b>FilterBugList</b>"
 
 #. echo '<br>';
 #: install/install_step4.php:58
 msgid "Check generated configuration files"
-msgstr ""
+msgstr "Перевірте згенеровані файли налаштування"
 
 #: install/install_step4.php:60
 msgid "Mantis Path & URL in "
-msgstr "Ruta y URL de Mantis en "
+msgstr ""
 
 #: install/install_step4.php:61
 msgid "Log directory in "
-msgstr "Directorio de registros en "
+msgstr ""
 
 #. echo '<br>';
 #: install/install_step4.php:66
 msgid "Remove CodevTT Installation files"
-msgstr "Quitar los archivos de instalación de CodevTT"
+msgstr "Видалити файли встановлення CodevTT"
 
 #: install/install_step4.php:68
 msgid "For security reasons, delete the following directory: "
-msgstr "Por razones de seguridad, elimina el directorio siguiente: "
+msgstr "З міркувань безпеки, видаліть наступний каталог: "
 
 #. echo '<br>';
 #: install/install_step4.php:73
 msgid "Install Firefox Greasemonkey addon"
-msgstr "Instalar el complemento Greasemonkey para Firefox"
+msgstr "Встановіть додаток Firefox Greasemonkey"
 
 #: install/install_step4.php:74
 msgid "Note: This step is optional"
-msgstr "Nota: este paso es opcional"
+msgstr "Примітка: цей крок необов'язковий"
 
 #: install/install_step4.php:76
 msgid "Install addon:"
-msgstr "Instalar el complemento:"
+msgstr "Встановити додаток:"
 
 #: install/install_step4.php:77
 msgid "Load script:"
-msgstr "Cargar script:"
+msgstr "Завантажити скрипт:"
 
 #: install/install_step4.php:83
 msgid "Done !"
-msgstr "¡Hecho!"
+msgstr "Готово!"
 
 #: install/install.php:25 install/install.php:129
 #: install/install_menu.inc.php:22
 msgid "Install"
-msgstr "Instalar"
+msgstr "Встановити"
 
 #: install/install.php:119
 msgid "Upgrade instructions"
-msgstr "Instrucciones de actualización"
+msgstr "Інструкції щодо оновлення"
 
 #: install/install.php:120
 msgid "If you're upgrading from an older CodevTT version, please <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>read this page</a> and do the following steps:"
-msgstr ""
+msgstr "Якщо ви оновлюєте версію CodevTT, будь ласка, <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>прочитайте цю сторінку</a> та виконайте наступні дії:"
 
 #: install/install.php:122
 msgid "Upgrade Mantis first ! (not mandatory)"
-msgstr "¡Primero actualiza Mantis! (no es obligatorio)"
+msgstr "Спочатку поновіть Mantis! (не обов'язково)"
 
 #: install/install.php:123
 msgid "Copy CodevTT configuration files from your previous installation"
-msgstr ""
+msgstr "Скопіюйте файли конфігурації CodevTT з попереднього вставновлення"
 
 #: install/install.php:124
 msgid "Run this script: "
-msgstr "Ejecutar esta secuencia de órdenes: "
+msgstr "Запустіть цей скрипт: "
 
 #: install/install_step1.php:25
 msgid "Install - Step 1"
-msgstr "Instalación - Paso 1"
+msgstr "Встановити - Крок 1"
 
 #: install/install_step1.php:195
 msgid "Mantis Database Info"
-msgstr "Información de la base de datos de Mantis"
+msgstr "Інформація про базу даних Mantis"
 
 #: install/install_step1.php:199
 msgid "Hostname"
-msgstr "Nombre del equipo"
+msgstr "Ім'я хоста"
 
 #: install/install_step1.php:203
 msgid "Database Name"
-msgstr "Nombre de la base de datos"
+msgstr "Назва бази даних:"
 
 #: install/install_step1.php:217
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
@@ -5266,78 +5206,78 @@ msgstr ""
 
 #: install/install_step1.php:222
 msgid "Proxy Settings"
-msgstr "Configuración de proxy"
+msgstr "Налаштування проксі"
 
 #: install/install_step1.php:223
 msgid "CodevTT will check for updates."
-msgstr "CodevTT buscará actualizaciones."
+msgstr "CodevTT перевірятиме наявність оновлень."
 
 #: install/install_step1.php:226
 msgid "Enable proxy"
-msgstr "Activar proxy"
+msgstr "Увімкнути проксі"
 
 #: install/install_step1.php:227
 msgid "Server"
-msgstr "Servidor"
+msgstr "Сервер"
 
 #: install/install_step1.php:228
 msgid "Port"
-msgstr "Puerto"
+msgstr "Порт"
 
 #: install/install_step1.php:235
 msgid "Proceed Step 1"
-msgstr ""
+msgstr "Продовжуємо Крок 1"
 
 #: install/install_menu.inc.php:26
 msgid "Step 1"
-msgstr "Paso 1"
+msgstr "Крок 1"
 
 #: install/install_menu.inc.php:30
 msgid "Step 2"
-msgstr "Paso 2"
+msgstr "Крок 2"
 
 #: install/install_menu.inc.php:34
 msgid "Step 3"
-msgstr "Paso 3"
+msgstr "Крок 3"
 
 #: install/install_menu.inc.php:38
 msgid "Step 4"
-msgstr "Paso 4"
+msgstr "Крок 4"
 
 #: management/command_edit.php:239
 msgid "Add tasks to Command"
-msgstr "Añadir tareas a la orden"
+msgstr "Додайте завдання до команди"
 
 #: management/command_edit.php:240
 msgid "Add multiple tasks"
-msgstr "Agregar múltiples tareas"
+msgstr "Додайте кілька завдань"
 
 #: management/command_edit.php:241
 msgid "Add selection"
-msgstr "Agregar selección"
+msgstr "Додати вибір"
 
 #: management/command_edit.php:242
 msgid "Note: Tasks already assigned to a Command are not displayed."
-msgstr "Nota: no se muestran las tareas ya asignadas a una orden."
+msgstr "Примітка: Завдання, що вже призначені команді, не відображаються."
 
 #: management/command_edit.php:243
 msgid "Add the selected issues to the Command ?"
-msgstr "¿Añadir las incidencias seleccionadas a la orden?"
+msgstr ""
 
 #: management/command_info_ajax.php:363 scheduler/scheduler_ajax.php:379
 #: gantt/gantt_ajax.php:166
 msgid "auto"
-msgstr ""
+msgstr "автоматично"
 
 #: management/command_edit_ajax.php:66
 msgid "Provisions updated FAILED !"
-msgstr ""
+msgstr "ПОМИЛКА під час оновлення положень!"
 
 #: management/command_edit_ajax.php:278
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:204
 #: plugins/ImportUsers/ImportUsers.class.php:228
 msgid "Please upload files with the following extension: "
-msgstr "Sube los archivos con la extensión siguiente: "
+msgstr "Будь ласка, завантажте файли з наступним розширенням: "
 
 #: management/commandset_info.php:96
 msgid "Errors affecting the CommandSet"
@@ -5345,11 +5285,11 @@ msgstr ""
 
 #: management/servicecontract_tools.php:182
 msgid "Provision"
-msgstr ""
+msgstr "Положення"
 
 #: reports/issue_info_tools.php:39
 msgid "No date defined"
-msgstr "Ninguna fecha definida"
+msgstr "Не визначено дату"
 
 #: reports/issue_info_tools.php:41
 msgid "No target version defined"
@@ -5357,78 +5297,78 @@ msgstr ""
 
 #: reports/statistics.php:85
 msgid "No projects in this team"
-msgstr "No hay proyectos en este equipo"
+msgstr "Наразі немає ніяких проектів для цієї команди"
 
 #: reports/issue_info_ajax.php:66
 msgid "Sorry, only managers can remove tasks from commands"
-msgstr "Únicamente los supervisores pueden quitar tareas de las órdenes"
+msgstr "Вибачте, лише керівники можуть видаляти завдання з команд"
 
 #: reports/issue_info_ajax.php:91 reports/issue_info_ajax.php:133
 msgid "Sorry, only managers can add tasks to commands"
-msgstr "Únicamente los supervisores pueden añadir tareas a las órdenes"
+msgstr "Вибачте, лише керівники можуть додавати завдання до команд"
 
 #: reports/issue_info_ajax.php:93 reports/issue_info_ajax.php:135
 #: reports/issue_info_ajax.php:166 reports/issue_info_ajax.php:215
 #: reports/issue_info_ajax.php:256 reports/issue_info_ajax.php:321
 msgid "Sorry, this task is not in your team's projects"
-msgstr "Disculpas, esta tarea no está en los proyectos de tu equipo"
+msgstr "Вибачте, це завдання не в проектах Вашої команди"
 
 #: reports/issue_info_ajax.php:164 reports/issue_info_ajax.php:213
 #: reports/issue_info_ajax.php:254 reports/issue_info_ajax.php:319
 msgid "Sorry, you're not an active member of this team"
-msgstr "Disculpas, no eres un miembro activo de este equipo."
+msgstr "Вибачте, Ви не є активним членом цієї команди"
 
 #: reports/planning_report.php:203
 msgid "onTime"
-msgstr "a tiempo"
+msgstr "вчасно"
 
 #: reports/planning_report.php:204
 msgid "NOT onTime"
-msgstr "NO a tiempo"
+msgstr "запізно"
 
 #: reports/planning_report.php:205
 msgid "no deadLine"
-msgstr "sin fecha límite"
+msgstr "без крайнього терміну"
 
 #: reports/planning_report.php:498
 msgid "Monitored"
-msgstr "Monitoreado"
+msgstr "Контрольований"
 
 #: reports/export_csv_tools.php:49
 msgid "m_id"
-msgstr ""
+msgstr "m_id"
 
 #: reports/export_csv_tools.php:56
 msgid "Product Version"
-msgstr "Versión del producto"
+msgstr "Версія продукту"
 
 #: reports/export_csv_tools.php:59
 msgid "Resolution"
-msgstr "Resolución"
+msgstr "Резолюція"
 
 #: reports/export_csv_tools.php:66 tools.php:1482
 msgid "Delivery Date"
-msgstr "Fecha de entrega"
+msgstr "Дата доставки"
 
 #: reports/export_csv_tools.php:67
 msgid "Delivery Sheet"
-msgstr "Hoja de entrega"
+msgstr ""
 
 #: reports/export_csv_weekly.php:84 reports/export_csv_weekly.php:90
 msgid "Export Week"
-msgstr "Exportar semana"
+msgstr "Експортний тиждень"
 
 #: reports/export_csv_weekly.php:84
 msgid "Member Activity"
-msgstr "Actividad de los miembros"
+msgstr "Діяльність учасника"
 
 #: tests/odt.php:8
 msgid "Test: export to ODT"
-msgstr "Prueba: exportar a ODT"
+msgstr "Тест: експорт в ODT"
 
 #: tests/odt.php:177
 msgid "Sorry, there are no projects defined for your team."
-msgstr "Disculpas, no hay proyectos definidos para tu equipo."
+msgstr "На жаль, для Вашої команди наразі немає проектів."
 
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:469
@@ -5436,42 +5376,41 @@ msgstr "Disculpas, no hay proyectos definidos para tu equipo."
 #: timetracking/time_tracking.php:430
 #: timetracking/team_activity_report.php:179
 msgid "Error: Task not found in Mantis DB !"
-msgstr "Error: la tarea no se encuentra en la base de datos de Mantis."
+msgstr "Помилка: завдання не знайдено в базі даних Mantis!"
 
 #: timetracking/time_tracking_tools.php:176
 msgid "Click to add a note"
-msgstr "Haz para añadir una nota"
+msgstr "Натисніть, щоб додати нотатку"
 
 #: timetracking/holidays_report.php:66
 msgid "External Tasks"
-msgstr "Tareas externas"
+msgstr "Зовнішні завдання"
 
 #: timetracking/holidays_report.php:71
 msgid "Sidetasks Inactivity"
 msgstr ""
 
 #: timetracking/holidays_report.php:76
-#, fuzzy
 msgid "Activity on other teams"
-msgstr "Fecha de llegada al equipo"
+msgstr "Діяльність в інших групах"
 
 #: timetracking/holidays_report.php:137
 msgid "today"
-msgstr "hoy"
+msgstr "сьогодні"
 
 #. light grey
 #: timetracking/holidays_report.php:203
 msgid "User not in team"
-msgstr "El usuario no está en el equipo"
+msgstr "Користувач не належить до команди"
 
 #: timetracking/holidays_report.php:241
 msgid "Other team"
-msgstr "Otro equipo"
+msgstr "Інша команда"
 
 #: timetracking/team_monthly_activity_report.php:76
 #: timetracking/time_tracking.php:323 timetracking/team_activity_report.php:66
 msgid "days are incomplete or undefined"
-msgstr "los días están incompletos o indefinidos"
+msgstr "дні неповні чи невизначені"
 
 #. forbid adding timetrack, return error
 #: timetracking/time_tracking.php:139
@@ -5492,20 +5431,19 @@ msgstr ""
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:258
 msgid "(unknown 0)"
-msgstr "(desconocido 0)"
+msgstr "(невідомо 0)"
 
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:63
 msgid "Display additional info on timetracks"
 msgstr ""
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:59
-#, fuzzy
 msgid "Management load history"
-msgstr "Administración"
+msgstr ""
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:62
 msgid "Compares the elapsed time on management sideTasks to the management provisions"
-msgstr "Compara el tiempo transcurrido en la gestión de sideTasks par alas disposiciones de gestión."
+msgstr ""
 
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:65
 msgid "Import a list of issues to MantisBT / CodevTT from a CSV file"
@@ -5525,7 +5463,7 @@ msgstr ""
 
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:231
 msgid "Management"
-msgstr "Administración"
+msgstr ""
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:63
 msgid "Budget drift history"
@@ -5533,11 +5471,11 @@ msgstr ""
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:66
 msgid "Display the budget history"
-msgstr "Mostrar el historial del presupuesto"
+msgstr ""
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"
-msgstr ""
+msgstr "Людино-днів, що доступні в період, за винятком відпусток і зовнішніх завдань"
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:73
 msgid "Check all the timetracks of the period and return their repartition per project categories"
@@ -5549,48 +5487,47 @@ msgstr ""
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:345
 msgid "All Production Projects"
-msgstr "Todos los proyectos en producción"
+msgstr "Всі виробничі проекти"
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:346
 msgid "All Projects"
-msgstr "Todos los proyectos"
+msgstr "Всі проекти"
 
 #: plugins/ImportUsers/ImportUsers.class.php:68
 msgid "Import a list of users to MantisBT / CodevTT"
-msgstr "Importar una lista de usuarios en MantisBT/CodevTT"
+msgstr "Імпортувати список користувачів у MantisBT / CodevTT"
 
 #: plugins/ImportUsers/ImportUsers.class.php:71
 msgid "Note: only available for administrators & team leaders"
-msgstr "Nota: disponible solo para administradores y líderes de equipo"
+msgstr "Примітка: доступно лише для адміністраторів та керівників команди"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:108
 msgid "Your are not allowed to import users"
-msgstr "No se te permite importar usuarios"
+msgstr "Вам не дозволяється імпортувати користувачів"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:164
 msgid "Your CodevTT / Mantis account has been created: "
-msgstr ""
+msgstr "Був створений Ваш обліковоий запис CodevTT / Mantis: "
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:167
 msgid "Please, change your password on your first connection."
-msgstr "Cambia tu contraseña en tu primera conexión."
+msgstr "Будь ласка, змініть свій пароль на своєму першому підключенні."
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:168
 msgid "CodevTT URL: "
-msgstr "URL de CodevTT: "
+msgstr "URL CodevTT: "
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:169
-#, fuzzy
 msgid "Mantis  URL: "
-msgstr "Ruta y URL de Mantis en "
+msgstr "URL Mantis: "
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:170
 msgid "Best regards"
-msgstr "Atentamente"
+msgstr "З найкращими побажаннями"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:171
 msgid "[CodevTT] Your password"
-msgstr "[CodevTT] Tu contraseña"
+msgstr "[CodevTT] Ваш пароль"
 
 #: plugins/UserTeamList/UserTeamList.class.php:63
 msgid "Display a history of all the teams for a given user"
@@ -5616,7 +5553,7 @@ msgstr ""
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:194
 msgid "Sorry, only managers can access this plugin"
-msgstr ""
+msgstr "На жаль, доступ до цьго плагіна доступний лише менеджерам."
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:283
 msgid "Sidetasks"
@@ -5624,15 +5561,15 @@ msgstr ""
 
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:65
 msgid "A simple HelloWorld plugin"
-msgstr "Un complemento simple de \"Hola mundo\""
+msgstr "Простий плагін Hello World"
 
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:67
 msgid "Display the progress history"
-msgstr "Mostrar el historial de progreso"
+msgstr "Відображення історії прогресу"
 
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:69
 msgid "Display Issue Status history"
-msgstr "Mostrar el historial del estado de la incidencia"
+msgstr ""
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:55
 msgid "Task burndown chart"
@@ -5672,15 +5609,15 @@ msgstr ""
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:71
 msgid "Please, fill all fields"
-msgstr "Completa todos los campos"
+msgstr "Будь ласка, заповніть усі поля"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:85
 msgid "This origin task doesn't exist"
-msgstr "Esta tarea de origen no existe"
+msgstr ""
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:117
 msgid "This destination task doesn't exist"
-msgstr "Esta tarea de destino no existe"
+msgstr ""
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:120
 msgid "No timetracks for this search"
@@ -5700,35 +5637,35 @@ msgstr ""
 #. Set task id list
 #: scheduler/scheduler.php:59
 msgid "Select a task"
-msgstr "Seleccionar tarea"
+msgstr "Виберіть завдання"
 
 #: scheduler/scheduler.php:108
 msgid "Today"
-msgstr "Hoy"
+msgstr "Сьогодні"
 
 #: scheduler/scheduler.php:109
 msgid "Monday this week"
-msgstr "Lunes de esta semana"
+msgstr "Понеділок цього тижня"
 
 #: scheduler/scheduler.php:110
 msgid "First week of this month"
-msgstr "Primera semana de este mes"
+msgstr "Перший тиждень цього місяця"
 
 #: scheduler/scheduler.php:116
 msgid "2 weeks"
-msgstr "2 semanas"
+msgstr "2 тижня"
 
 #: scheduler/scheduler.php:117
 msgid "1 month"
-msgstr "1 mes"
+msgstr "1 місяць"
 
 #: scheduler/scheduler.php:118
 msgid "2 months"
-msgstr "2 meses"
+msgstr "2 місяці"
 
 #: scheduler/scheduler.php:119
 msgid "3 months"
-msgstr "3 meses"
+msgstr "3 місяці"
 
 #: scheduler/scheduler_ajax.php:328
 msgid "Assignments rules not valid for task"
@@ -5740,13 +5677,12 @@ msgstr ""
 
 #. 'arrivalDate' = should not be defined here, as another ajax call is doing the $schedulerManager->execute()
 #: scheduler/scheduler_ajax.php:389
-#, fuzzy
 msgid "Issue not found in MantisDB !"
-msgstr "Error: la tarea no se encuentra en la base de datos de Mantis."
+msgstr "Проблема не знайдена в базі даних Mantis!"
 
 #: scheduler/scheduler_ajax.php:513
 msgid "Options saved successfully"
-msgstr "Opciones guardadas exitosamente"
+msgstr "Налаштування успішно збережені"
 
 #: scheduler/SchedulerTaskProvider0.class.php:44
 msgid "Standard issue priority scheduling"
@@ -5754,7 +5690,7 @@ msgstr ""
 
 #: smarty_tools_ajax.php:35
 msgid "All projects"
-msgstr "Todos los proyectos"
+msgstr "Всі проекти"
 
 #: smarty_tools.php:126
 msgid "W"
