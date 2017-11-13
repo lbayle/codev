@@ -3,13 +3,14 @@
 #
 # Author: Alex Khimich
 # Author: Liuxinyu970226
+# Author: Mirzali
 # Author: Robby
 msgid ""
 msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:03+0100\n"
-"PO-Revision-Date: 2017-11-09 07:06:46+0000\n"
+"PO-Revision-Date: 2017-12-07 07:55:05+0000\n"
 "Language: qqq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -903,7 +904,7 @@ msgstr ""
 
 #. tpl/prepare_project.html
 msgid "Prepare"
-msgstr "{{Identical|Prepare}}"
+msgstr "{{Identical|Amade ke}}"
 
 #. tpl/prepare_project.html
 #. tpl/create_team.html

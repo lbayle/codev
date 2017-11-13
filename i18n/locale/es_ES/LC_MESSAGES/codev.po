@@ -6,6 +6,7 @@
 # Author: Dgstranz
 # Author: Fitoschido
 # Author: Igv
+# Author: KATRINE1992
 # Author: Lemondoge
 # Author: Macofe
 # Author: Pacoexe
@@ -15,7 +16,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-07-03 21:50+0200\n"
-"PO-Revision-Date: 2017-11-09 07:06:34+0000\n"
+"PO-Revision-Date: 2017-11-27 06:53:21+0000\n"
 "Language: es_es\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -86,7 +87,7 @@ msgstr "Seleccionar"
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #: classes/time_tracking.class.php:447
 msgid "nb days"
-msgstr ""
+msgstr "n.º de días"
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -161,7 +162,7 @@ msgstr "Ayuda"
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 msgid "Nb Days"
-msgstr ""
+msgstr "N.º de días"
 
 #. tpl/productivity_report.html
 msgid "Projects"
@@ -392,7 +393,7 @@ msgstr "Tareas NO entregadas a tiempo"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "nb tasks"
-msgstr ""
+msgstr "n.º de tareas"
 
 #. tpl/productivity_report.html
 #. $timeDriftSmarty["deliveryDate"] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
@@ -412,15 +413,15 @@ msgstr "Tareas entregadas a tiempo"
 
 #. tpl/productivity_report.html
 msgid "Task list for EffortEstim"
-msgstr ""
+msgstr "Lista de tareas para EffortEstim"
 
 #. tpl/productivity_report.html
 msgid "Note: Drift on tasks resolved in the period"
-msgstr ""
+msgstr "Nota: Concentrarse en tareas del periodo"
 
 #. tpl/productivity_report.html
 msgid "Drift - All tasks"
-msgstr ""
+msgstr "Drift-Todas tareas"
 
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
@@ -440,40 +441,40 @@ msgstr ""
 #: reports/project_info.php:307 scheduler/SchedulerEvent.class.php:161
 #: gantt/gantt_ajax.php:255 tools.php:276
 msgid "Drift"
-msgstr ""
+msgstr "Drift"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Overflow day quantity"
-msgstr ""
+msgstr "Cantidad del dia de desbordamiento"
 
 #. tpl/productivity_report.html
 msgid "Computed on task Resolved/Closed in the given period"
-msgstr ""
+msgstr "Computado en tarea Resuelta/Cerrada en este periodo"
 
 #. tpl/productivity_report.html
 msgid "Reopened tasks are not taken into account"
-msgstr ""
+msgstr "Tareas abiertas de nuevo no son considerado"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "If < 0 then ahead on planning."
-msgstr ""
+msgstr "Si <0 los planes seran adelante"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 msgid "Tasks in drift"
-msgstr ""
+msgstr "Tareas en drift"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks for which the elapsed time is greater than the estimated effort"
-msgstr ""
+msgstr "Tareas donde el tiempo de retraso es mas grande del esfuerzo estimado"
 
 #. tpl/productivity_report.html
 msgid "drift"
-msgstr ""
+msgstr "drift"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -488,12 +489,12 @@ msgstr "Tareas resueltas a tiempo"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks ahead"
-msgstr ""
+msgstr "Tareas venideras"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks resolved in less time than the estimated effort"
-msgstr ""
+msgstr "Tareas solucionadas en menos tiempo que el esfuerzo estimado"
 
 #. tpl/productivity_report.html
 msgid "Effort deviation"
@@ -512,12 +513,12 @@ msgstr "Administrador"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks Mgr"
-msgstr ""
+msgstr "Gestor de tareas"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "EffortDeviation"
-msgstr ""
+msgstr "EffortDeviation"
 
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
@@ -535,7 +536,7 @@ msgstr ""
 #: reports/export_csv_tools.php:60 reports/project_info.php:237
 #: tests/filters.php:68 tools.php:1467
 msgid "MgrEffortEstim"
-msgstr ""
+msgstr "MgrEffortEstim"
 
 #. tpl/productivity_report.html
 msgid "No resolved tasks..."
@@ -565,7 +566,7 @@ msgstr "Id."
 #. plugins/CostsIndicator/CostsIndicator.html
 #: reports/export_csv_tools.php:50
 msgid "ExtRef"
-msgstr ""
+msgstr "ExtRef"
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -672,7 +673,7 @@ msgstr "Atr."
 #. tpl/forecasting_report.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 msgid "Drift relatively to the managers Estimation"
-msgstr ""
+msgstr "Drift con la Valoracion de directores relativamente"
 
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
@@ -689,13 +690,13 @@ msgstr ""
 #: reports/project_info.php:185 reports/project_info.php:242
 #: tests/filters.php:72
 msgid "Drift Mgr"
-msgstr ""
+msgstr "Drift Mgr"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 msgid "Drift relatively to (EE + AddEE)"
-msgstr ""
+msgstr "Drift relativamente a (EE+AddEE)"
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -761,19 +762,19 @@ msgstr "Resumen"
 
 #. tpl/productivity_report.html
 msgid "Drift - Tasks (ExtRefOnly)"
-msgstr ""
+msgstr "Drift-Tareas (ExtRefSolamente)"
 
 #. tpl/productivity_report.html
 msgid "Drift (ExtRefOnly)"
-msgstr ""
+msgstr "Drift (extRefOnly)"
 
 #. tpl/productivity_report.html
 msgid "Drift ExtRefOnly"
-msgstr ""
+msgstr "Drift ExtRefOnly"
 
 #. tpl/productivity_report.html
 msgid "Tasks without ExternalRef are excluded"
-msgstr ""
+msgstr "Tareas sin ExternalRef son excluido"
 
 #. tpl/productivity_report.html
 msgid "Reopened tasks are not included"
@@ -781,19 +782,19 @@ msgstr "No se incluyen tareas reabiertas"
 
 #. tpl/productivity_report.html
 msgid "No Drift on External tasks."
-msgstr ""
+msgstr "Ningub Drift sobre tareas Externas"
 
 #. tpl/productivity_report.html
 msgid "nb resolved"
-msgstr ""
+msgstr "nb resuelto"
 
 #. tpl/productivity_report.html
 msgid "nb reopened"
-msgstr ""
+msgstr "nb abierto de nuevo"
 
 #. tpl/productivity_report.html
 msgid "nb reopened / nb resolved"
-msgstr ""
+msgstr "nb abierto de nuevo/nb resuelto"
 
 #. tpl/productivity_report.html
 msgid "Rate"
@@ -801,7 +802,7 @@ msgstr "Tasa"
 
 #. tpl/productivity_report.html
 msgid "tasks having been reopened in the period"
-msgstr ""
+msgstr "tareas que han sido abierto de nuevo en este periodo"
 
 #. tpl/productivity_report.html
 #. tpl/holidays_report.html
@@ -923,11 +924,11 @@ msgstr "Debes pertenecer al equipo de administradores para acceder a esta págin
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel SAUF SuiviOp."
-msgstr ""
+msgstr "Saldo mensual EXCEPTO SuiviOp."
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
-msgstr ""
+msgstr "Saldo mensual (número de registros/estado al finalizar el mes)"
 
 #. tpl/mantis_reports.html
 #. tpl/servicecontract_info.html
@@ -1001,7 +1002,7 @@ msgstr "Tipo"
 #. tpl/issue_info.html
 #. tpl/team_activity_report.html
 msgid "Target version"
-msgstr ""
+msgstr "Versión de destino"
 
 #. tpl/project_activity_report.html
 #. tpl/issue_info.html
@@ -1011,7 +1012,7 @@ msgstr ""
 #. tpl/modal/select_issues.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 msgid "Target"
-msgstr ""
+msgstr "Destino"
 
 #. tpl/project_activity_report.html
 #. tpl/forecasting_report.html
@@ -1048,20 +1049,20 @@ msgstr "Tiempo empleado en proyectos por usuarios"
 
 #. tpl/project_activity_report.html
 msgid "With ExternalTasks Project"
-msgstr ""
+msgstr "Con Proyecto de ExternalTasks"
 
 #. tpl/project_activity_report.html
 msgid "With SideTasks Project"
-msgstr ""
+msgstr "Con Proyecto de SideTasks"
 
 #. tpl/servicecontract_info.html
 #. tpl/menu/global_menu.html
 msgid "ServiceContract"
-msgstr ""
+msgstr "ServiceContract"
 
 #. tpl/servicecontract_info.html
 msgid "--- Create New ServiceContract ---"
-msgstr ""
+msgstr "--Crear Nuevo ServiceContract"
 
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
@@ -1086,7 +1087,7 @@ msgstr "Cargos"
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 msgid "Detailed Charges"
-msgstr ""
+msgstr "Cargos detallados"
 
 #. tpl/servicecontract_info.html
 #. tpl/tools/dashboard.html
@@ -1123,7 +1124,7 @@ msgstr "Indicadores"
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
 msgid "CommandSets"
-msgstr ""
+msgstr "Conjuntos de órdenes"
 
 #. tpl/servicecontract_info.html
 #. tpl/issue_info.html
@@ -1141,7 +1142,7 @@ msgstr "Órdenes"
 #. tpl/commandset_info.html
 #: classes/consistency_check2.class.php:674
 msgid "CommandSet"
-msgstr ""
+msgstr "Conjunto de órdenes"
 
 #. tpl/servicecontract_info.html
 #: install/install_step4.php:51
@@ -1162,7 +1163,7 @@ msgstr "TOTAL"
 #. tpl/servicecontract_info.html
 #. tpl/command_edit.html
 msgid "No CommandSet found."
-msgstr ""
+msgstr "No se encontró ningún conjunto de órdenes."
 
 #. tpl/servicecontract_info.html
 #. tpl/issue_info.html
@@ -1299,11 +1300,11 @@ msgstr "Tasa diaria promedio"
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 msgid "ADR"
-msgstr ""
+msgstr "ADR"
 
 #. tpl/servicecontract_info.html
 msgid "No provision found."
-msgstr ""
+msgstr "No se encontró ninguna provisión."
 
 #. tpl/form/dateRangeSelector.html
 #. tpl/time_tracking.html
@@ -1313,7 +1314,7 @@ msgstr ""
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "From"
-msgstr ""
+msgstr "De"
 
 #. tpl/form/dateRangeSelector.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
@@ -1334,7 +1335,7 @@ msgstr "Fecha de inicio"
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "To"
-msgstr ""
+msgstr "A"
 
 #. tpl/form/dateRangeSelector.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
@@ -1343,7 +1344,7 @@ msgstr ""
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "End Date (included)"
-msgstr ""
+msgstr "Fecha de finalización (incluida)"
 
 #. tpl/form/selectFiltersDialogbox.html
 #. tpl/time_tracking.html
@@ -1352,7 +1353,7 @@ msgstr "Filtros de tareas"
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Drag & drop the filters to apply"
-msgstr ""
+msgstr "Arrastra y coloca los filtros para aplicarlos"
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Available Filters"
@@ -1417,7 +1418,7 @@ msgstr "Preferencias"
 
 #. tpl/edit_team.html
 msgid "Timetrack Durations"
-msgstr ""
+msgstr "Duraciones Timetrack"
 
 #. tpl/edit_team.html
 msgid "Costs management"
@@ -1425,7 +1426,7 @@ msgstr "Gestión de costos"
 
 #. tpl/edit_team.html
 msgid "OnDuty tasks"
-msgstr ""
+msgstr "Tareas OnDuty"
 
 #. tpl/edit_team.html
 #. tpl/create_team.html
@@ -1452,7 +1453,7 @@ msgstr "Activado"
 
 #. tpl/edit_team.html
 msgid "Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report."
-msgstr ""
+msgstr "Nota: Un <em>Team Admin</em> debe tambien ser declarado como a <em>TeamMember</em> para ser incluido en el reporte de productividad del equipo."
 
 #. tpl/edit_team.html
 msgid "Delete team"
@@ -1559,7 +1560,7 @@ msgstr "Trabajos"
 
 #. tpl/edit_team.html
 msgid "Create SideTasksProject"
-msgstr ""
+msgstr "Crear Proyecto de SideTasks"
 
 #. tpl/edit_team.html
 msgid "Project name"
@@ -1571,19 +1572,19 @@ msgstr "Crear proyecto"
 
 #. tpl/edit_team.html
 msgid "Average Daily Cost"
-msgstr ""
+msgstr "Promedio del Coste Diario"
 
 #. tpl/edit_team.html
 msgid "The ADC is the default UDC for team members"
-msgstr ""
+msgstr "El ADC es el defecto UDC de los miembros del equipo"
 
 #. tpl/edit_team.html
 msgid "Team Currency"
-msgstr ""
+msgstr "Moneda del equipo"
 
 #. tpl/edit_team.html
 msgid "Team Average Daily Cost"
-msgstr ""
+msgstr "Coste promedio diario del equipo"
 
 #. tpl/edit_team.html
 msgid "Default currency for the team."

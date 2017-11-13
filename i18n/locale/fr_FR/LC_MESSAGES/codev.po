@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 #
 # Author: Derugon
+# Author: Fitoschido
 # Author: Gomoko
 # Author: Nemo bis
 # Author: Urhixidur
@@ -12,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-07-03 21:50+0200\n"
-"PO-Revision-Date: 2017-11-09 07:06:35+0000\n"
+"PO-Revision-Date: 2017-11-20 08:04:12+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -1089,7 +1090,7 @@ msgstr "Charges"
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 msgid "Detailed Charges"
-msgstr "Charges Détaillées"
+msgstr "Charges détaillées"
 
 #. tpl/servicecontract_info.html
 #. tpl/tools/dashboard.html
@@ -3161,7 +3162,7 @@ msgstr "Outils & Statistiques"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Jobs"
-msgstr "Editer Postes"
+msgstr "Modifier Postes"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Holidays"
