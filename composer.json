@@ -1,0 +1,21 @@
+{
+    "name": "codevtt/codevtt",
+    "description": "Timetracking on MantisBT",
+    "type": "project",
+    "require": {
+        "slim/slim": "^3.0"
+    },
+    "license": "GPL v3",
+    "authors": [
+        {
+            "name": "CodevTT Team",
+            "email": "lbayle.work@gmail.com",
+            "homepage": "https://codevtt.org"
+        }
+    ],
+    "config": {
+        "platform": {
+            "php": "5.5.0"
+        }
+    }
+}
