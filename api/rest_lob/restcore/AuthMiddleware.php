@@ -53,31 +53,32 @@ define( 'HEADER_ETAG', 'ETag' );
 # LOGIN METHODS
 define( 'LOGIN_METHOD_COOKIE', 'cookie' );
 define( 'LOGIN_METHOD_API_TOKEN', 'api-token' );
-define( 'LOGIN_METHOD_ANONYMOUS', 'anonymous' );
 
 
 /**
  * A middleware class that handles authentication and authorization to access APIs.
  */
 class AuthMiddleware {
+    
+   private static $logger;
+
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }    
+    
 	public function __invoke( \Slim\Http\Request $request, \Slim\Http\Response $response, callable $next ) {
 		$t_authorization_header = $request->getHeaderLine( HEADER_AUTHORIZATION );
 
 		if( empty( $t_authorization_header ) ) {
 			# Since authorization header is empty, check if user is authenticated by checking the cookie
 			# This mode is used when Web UI javascript calls into the API.
-			#if( auth_is_user_authenticated() ) {
-                            
+			#if( Tools::isConnectedUser() ) {
                             # TODO check PHP session 
-                            
-				#$t_username = user_get_username( auth_get_current_user_id() );
-				#$t_password = auth_get_current_user_cookie( /* auto-login-anonymous */ false );
-				#$t_login_method = LOGIN_METHOD_COOKIE;
+         #                   $t_login_method = LOGIN_METHOD_COOKIE;
+         #                   self::$logger->error("RestAPI: logged in with PHP session !");
 			#} else {
-                            return $response->withStatus( HTTP_STATUS_UNAUTHORIZED, 'API token required' );
-
-                        #    $t_login_method = LOGIN_METHOD_ANONYMOUS;
-                        #    $t_password = '';
+            self::$logger->error("RestAPI: API token required");
+            return $response->withStatus( HTTP_STATUS_UNAUTHORIZED, 'API token required' );
 			#}
 		} else {
 			# TODO: add an index on the token hash for the method below
@@ -108,3 +109,4 @@ class AuthMiddleware {
 			withHeader( HEADER_LOGIN_METHOD, $t_login_method );
 	}
 }
+AuthMiddleware::staticInit();
