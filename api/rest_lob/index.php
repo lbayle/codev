@@ -35,6 +35,7 @@ $g_app->add( new CacheMiddleware() );
 
 # Add CodevTT REST routes
 require_once( $t_restcore_dir . 'test_rest.php' );
+require_once( $t_restcore_dir . 'commands_rest.php' );
 
 # Test logger (TODO remove)
 $logger->error("RestAPI: CodevTT version: " . Config::codevVersion);

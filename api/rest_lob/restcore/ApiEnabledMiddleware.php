@@ -31,11 +31,11 @@ class ApiEnabledMiddleware {
 
 		# If request is coming from UI, then force enable will be true, hence, request shouldn't be blocked
 		# even if API is disabled.
-		if( !$t_force_enable ) {
-			if( config_get( 'webservice_rest_enabled' ) == OFF ) {
-				return $response->withStatus( HTTP_STATUS_UNAVAILABLE, 'API disabled' );
-			}
-		}
+		#if( !$t_force_enable ) {
+		#	if( config_get( 'webservice_rest_enabled' ) == OFF ) {
+		#		return $response->withStatus( HTTP_STATUS_UNAVAILABLE, 'API disabled' );
+		#	}
+		#}
 
 		return $next( $request, $response );
 	}

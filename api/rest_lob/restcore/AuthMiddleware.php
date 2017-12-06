@@ -1,4 +1,6 @@
 <?php
+
+require('include/session.inc.php');
 # MantisBT - A PHP based bugtracking system
 
 # MantisBT is free software: you can redistribute it and/or modify
@@ -67,20 +69,21 @@ class AuthMiddleware {
    }    
     
 	public function __invoke( \Slim\Http\Request $request, \Slim\Http\Response $response, callable $next ) {
-		$t_authorization_header = $request->getHeaderLine( HEADER_AUTHORIZATION );
+		$t_authorization_header = $request->getHeaderLine( 'Authorization' );
 
 		if( empty( $t_authorization_header ) ) {
 			# Since authorization header is empty, check if user is authenticated by checking the cookie
 			# This mode is used when Web UI javascript calls into the API.
-			#if( Tools::isConnectedUser() ) {
+			if( Tools::isConnectedUser() ) {
                             # TODO check PHP session 
-         #                   $t_login_method = LOGIN_METHOD_COOKIE;
-         #                   self::$logger->error("RestAPI: logged in with PHP session !");
-			#} else {
-            self::$logger->error("RestAPI: API token required");
-            return $response->withStatus( HTTP_STATUS_UNAUTHORIZED, 'API token required' );
-			#}
+                           #return $response->withStatus( HTTP_STATUS_UNAUTHORIZED, 'API to     ken required' );
+			} else {
+	            self::$logger->error("RestAPI: API token required");
+	            return $response->withStatus( HTTP_STATUS_UNAUTHORIZED, 'API token required' );
+			}
 		} else {
+			self::$logger->error("RestAPI: Access granted");
+			#return $response->withStatus( 400, 'API worked' );
 			# TODO: add an index on the token hash for the method below
 			#$t_user_id = api_token_get_user( $t_authorization_header );
 			#if( $t_user_id === false ) {
@@ -105,7 +108,7 @@ class AuthMiddleware {
 
 		$t_force_enable = $t_login_method == LOGIN_METHOD_COOKIE;
 		return $next( $request->withAttribute( ATTRIBUTE_FORCE_API_ENABLED, $t_force_enable ), $response )->
-			withHeader( HEADER_USERNAME, $t_username )->
+			withHeader( HEADER_USERNAME, "test")->
 			withHeader( HEADER_LOGIN_METHOD, $t_login_method );
 	}
 }
