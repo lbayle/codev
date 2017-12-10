@@ -155,6 +155,29 @@ function addCustomMenuItem($name, $url) {
 }
 
 
+
+
+/**
+ * FIX ERROR http://codevtt.org/site/?topic=install-step-2-fatal-erroor
+ *
+ * rather than including mantis/core.php here is a copy of this simple function
+ *
+ *
+ * Checks to see if script was queried through the HTTPS protocol
+ * @return boolean True if protocol is HTTPS
+ */
+function http_is_protocol_https() {
+	if( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) ) {
+		return strtolower( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) == 'https';
+	}
+
+	if( !empty( $_SERVER['HTTPS'] ) && ( strtolower( $_SERVER['HTTPS'] ) != 'off' ) ) {
+		return true;
+	}
+
+	return false;
+}
+
 // ================ MAIN =================
 $originPage = "install_step2.php";
 $default_path_mantis           = dirname(BASE_PATH).DIRECTORY_SEPARATOR."mantis"; // "/var/www/html/mantis";
