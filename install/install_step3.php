@@ -653,16 +653,16 @@ function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
    echo "</table>\n";
 
    // ------ Add custom fields to existing projects
-   echo "  <br>\n";
-   echo "<h2>".T_("Configure existing Projects")."</h2>\n";
-   echo "<span class='help_font'>".T_("Select the projects to be managed with CodevTT")."</span><br>\n";
-   echo "  <br>\n";
+   #echo "  <br>\n";
+   #echo "<h2>".T_("Configure existing Projects")."</h2>\n";
+   #echo "<span class='help_font'>".T_("Select the projects to be managed with CodevTT")."</span><br>\n";
+   #echo "  <br>\n";
 
-   echo "<select name='projects[]' multiple size='5'>\n";
-   foreach ($projectList as $id => $name) {
-      echo "<option selected value='$id'>$name</option>\n";
-   }
-   echo "</select>\n";
+   #echo "<select name='projects[]' multiple size='5'>\n";
+   #foreach ($projectList as $id => $name) {
+   #   echo "<option selected value='$id'>$name</option>\n";
+   #}
+   #echo "</select>\n";
 
    echo "  <br>\n";
    echo "  <br>\n";
@@ -874,7 +874,7 @@ $groupExtID = isset($_POST['groupExtID']) ? $_POST['groupExtID'] : 'createExtID'
 $extIdCustomField = isset($_POST['extIdCustomField']) ? $_POST['extIdCustomField'] : 0;
 
 
-echo "<script type=\"text/javascript\">console.log(\"DEBUG getProjectList\");</script>";
+#echo "<script type=\"text/javascript\">console.log(\"DEBUG getProjectList\");</script>";
 $projectList = getProjectList();
 
 echo "<script type=\"text/javascript\">console.log(\"DEBUG getUsers\");</script>";
@@ -1011,15 +1011,15 @@ if ("proceedStep3" == $action) {
       Config::setValue(Config::id_issueTooltipFields, $serialized, Config::configType_string, 'fields to be displayed in issue tooltip');
 
       // Add custom fields to existing projects
-      echo "<script type=\"text/javascript\">console.log(\"DEBUG prepare existing projects\");</script>";
-      if(isset($_POST['projects']) && !empty($_POST['projects'])){
-         $selectedProjects = $_POST['projects'];
-         foreach($selectedProjects as $projectid){
-            $project = ProjectCache::getInstance()->getProject($projectid);
-            echo "<script type=\"text/javascript\">console.log(\"   prepare project: ".$project->getName()."\");</script>";
-            Project::prepareProjectToCodev($projectid);
-         }
-      }
+#      echo "<script type=\"text/javascript\">console.log(\"DEBUG prepare existing projects\");</script>";
+#      if(isset($_POST['projects']) && !empty($_POST['projects'])){
+#         $selectedProjects = $_POST['projects'];
+#         foreach($selectedProjects as $projectid){
+#            $project = ProjectCache::getInstance()->getProject($projectid);
+#            echo "<script type=\"text/javascript\">console.log(\"   prepare project: ".$project->getName()."\");</script>";
+#            Project::prepareProjectToCodev($projectid);
+#         }
+#      }
 
       echo "<script type=\"text/javascript\">console.log(\"DEBUG install Mantis plugin: CodevTT\");</script>";
       $errStr = installMantisPlugin('CodevTT', true);
