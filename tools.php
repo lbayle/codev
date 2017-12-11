@@ -1219,7 +1219,11 @@ class Tools {
    }
 
    public static function isConnectedUser() {
-      return array_key_exists('userid',$_SESSION);
+      if(isset($_SESSION)) {
+         return array_key_exists('userid',$_SESSION);
+      } else {
+         return false;
+      }
    }
 
    public static function endsWith($haystack, $needle)
