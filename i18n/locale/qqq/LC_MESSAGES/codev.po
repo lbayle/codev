@@ -10,12 +10,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:03+0100\n"
-"PO-Revision-Date: 2017-12-07 07:55:05+0000\n"
+"PO-Revision-Date: 2018-02-15 08:46:06+0000\n"
 "Language: qqq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2017-07-03 20:50:48+0000\n"
-"X-Generator: MediaWiki 1.31.0-alpha; Translate 2017-10-30\n"
+"X-POT-Import-Date: 2017-12-10 20:49:19+0000\n"
+"X-Generator: MediaWiki 1.31.0-alpha; Translate 2018-01-30\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. tpl/filters.html
@@ -48,13 +48,13 @@ msgstr ""
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. write header
 #. WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
-#: classes/issue_selection.class.php:316 classes/wbsElement.class.php:637
-#: filters/ProjectFilter.php:59 management/servicecontract_info.php:149
-#: management/command_info.php:240 management/commandset_info.php:152
-#: reports/planning_report.php:234 reports/planning_report.php:475
-#: reports/planning_report.php:476 reports/export_csv_tools.php:48
-#: reports/project_info.php:281 reports/project_info.php:292
-#: reports/project_info.php:304 tests/odt.php:25
+#: classes/issue.class.php:2259 classes/issue_selection.class.php:316
+#: classes/wbsElement.class.php:637 filters/ProjectFilter.php:59
+#: management/servicecontract_info.php:149 management/command_info.php:240
+#: management/commandset_info.php:152 reports/planning_report.php:234
+#: reports/planning_report.php:475 reports/planning_report.php:476
+#: reports/export_csv_tools.php:48 reports/project_info.php:281
+#: reports/project_info.php:292 reports/project_info.php:304 tests/odt.php:25
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:224
 #: scheduler/SchedulerEvent.class.php:127
 #: scheduler/SchedulerEvent.class.php:128 tools.php:1531
@@ -375,7 +375,6 @@ msgstr "Translation of \"deadLine\" should keep the lowerCamelCase form when pos
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#: reports/planning_report.php:77
 #: plugins/CostsIndicator/CostsIndicator.class.php:228
 msgid "Tasks"
 msgstr "{{Identical|Task}}"
@@ -710,10 +709,9 @@ msgstr ""
 #. unset($tooltipAttr[T_('Project')]);
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
-#: classes/issue.class.php:2263 classes/wbsElement.class.php:639
-#: reports/planning_report.php:461 reports/planning_report.php:484
-#: reports/export_csv_tools.php:52 reports/project_info.php:306
-#: scheduler/SchedulerEvent.class.php:113
+#: classes/wbsElement.class.php:639 reports/planning_report.php:461
+#: reports/planning_report.php:484 reports/export_csv_tools.php:52
+#: reports/project_info.php:306 scheduler/SchedulerEvent.class.php:113
 #: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
 #: tools.php:1535
 msgid "Status"
@@ -748,9 +746,8 @@ msgstr "{{Identical|Status}}"
 #: reports/project_info.php:293 reports/project_info.php:305
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
-#: scheduler/SchedulerEvent.class.php:87
-#: scheduler/SchedulerEvent.class.php:130 gantt/gantt_ajax.php:194
-#: gantt/gantt_ajax.php:231 tools.php:1537
+#: scheduler/SchedulerEvent.class.php:87 scheduler/SchedulerEvent.class.php:130
+#: gantt/gantt_ajax.php:194 gantt/gantt_ajax.php:231 tools.php:1537
 msgid "Summary"
 msgstr "{{Identical|Summary}}"
 
@@ -912,7 +909,6 @@ msgstr "{{Identical|Amade ke}}"
 #. tpl/edit_jobs.html
 #. tpl/workflow.html
 #. tpl/edit_holidays.html
-#: admin/logs.php:64
 msgid "Sorry, you need to be in the admin-team to access this page."
 msgstr ""
 
@@ -950,6 +946,7 @@ msgstr "{{Identical|Date}}"
 #. tpl/project_activity_report.html
 #. tpl/export_csv_monthly.html
 #. tpl/menu/global_menu.html
+#: reports/export_csv_weekly.php:90
 msgid "Projects Activity"
 msgstr ""
 
@@ -975,8 +972,7 @@ msgstr "{{Identical|Detailed}}"
 #. tpl/command_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
-#: classes/issue.class.php:2261 classes/wbsElement.class.php:638
-#: tools.php:1533
+#: classes/wbsElement.class.php:638 tools.php:1533
 msgid "Category"
 msgstr "{{Identical|Category}}"
 
@@ -1005,6 +1001,7 @@ msgstr ""
 #. tpl/command_info.html
 #. tpl/modal/select_issues.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+#: classes/issue.class.php:2272 tools.php:1541
 msgid "Target"
 msgstr ""
 
@@ -1025,7 +1022,6 @@ msgstr ""
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#: install/install_step1.php:207
 msgid "User"
 msgstr "{{Identical|User}}"
 
@@ -1087,7 +1083,7 @@ msgstr ""
 #. tpl/tools/dashboard.html
 #. tpl/command_info.html
 #. tpl/commandset_info.html
-#: reports/planning_report.php:483 scheduler/SchedulerEvent.class.php:135
+#: scheduler/SchedulerEvent.class.php:135
 msgid "Attributes"
 msgstr "{{Identical|Attribute}}"
 
@@ -1124,7 +1120,6 @@ msgstr "{{Identical|CommandSet}}"
 #. tpl/issue_info.html
 #. tpl/commandset_edit.html
 #. tpl/commandset_info.html
-#: classes/issue.class.php:2242
 msgid "Commands"
 msgstr "{{Identical|Command}}"
 
@@ -1134,7 +1129,6 @@ msgstr "{{Identical|Command}}"
 #. tpl/menu/global_menu.html
 #. tpl/command_info.html
 #. tpl/commandset_info.html
-#: classes/consistency_check2.class.php:674
 msgid "CommandSet"
 msgstr "{{Identical|Command set}}"
 
@@ -1424,6 +1418,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 #. tpl/create_team.html
+#: admin/edit_team.php:173 admin/create_team.php:95
 msgid "Tools"
 msgstr "{{Identical|Tool}}"
 
@@ -1615,7 +1610,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Add UserDailyCost"
-msgstr ""
+msgstr "Translation of \"UserDailyCost\" should keep the CamelCase form."
 
 #. tpl/edit_team.html
 msgid "Add user daily cost"
@@ -2015,8 +2010,7 @@ msgstr "{{Identical|Severity}}"
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 #: reports/planning_report.php:466 reports/planning_report.php:495
-#: scheduler/SchedulerEvent.class.php:91
-#: scheduler/SchedulerEvent.class.php:118
+#: scheduler/SchedulerEvent.class.php:91 scheduler/SchedulerEvent.class.php:118
 #: scheduler/SchedulerEvent.class.php:143 gantt/gantt_ajax.php:198
 #: gantt/gantt_ajax.php:226 gantt/gantt_ajax.php:235 tools.php:1479
 msgid "Deadline"
@@ -3401,7 +3395,7 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "MgrEffortEstim + Checked Provisions (days)"
-msgstr ""
+msgstr "Translation of \"MgrEffortEstim\" should keep the CamelCase form."
 
 #. tpl/command_info.html
 msgid "Reestimated (days)"
@@ -4213,7 +4207,6 @@ msgstr ""
 
 #. plugins/CostsIndicator/CostsIndicator_cfg.html
 #. plugins/CostsIndicator/CostsIndicator.html
-#: plugins/CostsIndicator/CostsIndicator.class.php:65
 msgid "Costs"
 msgstr "{{Identical|Cost}}"
 
@@ -4622,8 +4615,7 @@ msgstr ""
 msgid "Constrains"
 msgstr "{{Identical|Constrain}}"
 
-#: classes/issue.class.php:2234 classes/wbsElement.class.php:641
-#: tools.php:1525
+#: classes/issue.class.php:2234 classes/wbsElement.class.php:641 tools.php:1525
 msgid "Tags"
 msgstr ""
 
@@ -5004,10 +4996,6 @@ msgstr ""
 msgid "Specific to SideTasks"
 msgstr ""
 
-#: install/install_step3.php:658
-msgid "Select the projects to be managed with CodevTT"
-msgstr ""
-
 #: install/install_step3.php:670
 msgid "Proceed Step 3"
 msgstr ""
@@ -5375,8 +5363,7 @@ msgstr ""
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:469
 #: timetracking/team_monthly_activity_report.php:130
-#: timetracking/time_tracking.php:430
-#: timetracking/team_activity_report.php:179
+#: timetracking/time_tracking.php:430 timetracking/team_activity_report.php:179
 msgid "Error: Task not found in Mantis DB !"
 msgstr ""
 
