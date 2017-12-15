@@ -157,14 +157,14 @@ class AdodbWrapper {
                 throw $e;
        }
       
-      if( !$this->db_check_database_support( $this->database_type ) ) {
+      if( !$this->checkDatabaseSupport( $this->database_type ) ) {
          $e = new Exception('PHP Support for database ('.$this->database_type.') is not enabled ');
          self::$logger->error("EXCEPTION SqlWrapper constructor: ".$e->getMessage());
          self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
 
-      $this->isCheckParams = ( $this->db_is_pgsql() || $this->db_is_mssql() );
+      $this->isCheckParams = ( $this->isPgsql() || $this->isMssql() );
 
       $this->db_param = new MantisDbParam();
       $this->db_connect(NULL, $persistConnect);
@@ -200,7 +200,7 @@ class AdodbWrapper {
             db_query( 'SET NAMES UTF8' );
          }
       } else {
-         $e = new Exception('Could not connect to database: '.$this->$this->db_error_msg());
+         $e = new Exception('Could not connect to database: '.$this->getErrorMsg());
          throw $e;               
       }
 
@@ -214,7 +214,7 @@ class AdodbWrapper {
     * @global stores database connection state
     * @return boolean indicating if the a database connection has been made
     */
-   public function db_is_connected() {
+   public function isConnected() {
       return $this->isDBconnected;
    }
 
@@ -223,7 +223,7 @@ class AdodbWrapper {
     * @param string $p_db_type Database type.
     * @return boolean indicating if php current supports the given database type
     */
-   public function db_check_database_support( $p_db_type ) {
+   private function checkDatabaseSupport( $p_db_type ) {
       switch( $p_db_type ) {
          case 'mysqli':
             $t_support = function_exists( 'mysqli_connect' );
@@ -251,7 +251,7 @@ class AdodbWrapper {
     * Checks if the database driver is MySQL
     * @return boolean true if mysql
     */
-   public function db_is_mysql() {
+   public function isMysql() {
       
       return( 'mysqli' == $this->database_type );
    }
@@ -260,7 +260,7 @@ class AdodbWrapper {
     * Checks if the database driver is PostgreSQL
     * @return boolean true if postgres
     */
-   public function db_is_pgsql() {
+   public function isPgsql() {
       
       return ( 'pgsql' == $this->database_type );
    }
@@ -269,7 +269,7 @@ class AdodbWrapper {
     * Checks if the database driver is MS SQL
     * @return boolean true if mssql
     */
-   public function db_is_mssql() {
+   public function isMssql() {
       
       return (( 'mssqlnative' == $this->database_type ) ||
               ( 'odbc_mssql'  == $this->database_type ));
@@ -279,7 +279,7 @@ class AdodbWrapper {
     * Checks if the database driver is Oracle (oci8)
     * @return boolean true if oracle
     */
-   public function db_is_oracle() {
+   public function isOracle() {
       
       return( 'oci8' == $this->database_type );
    }
@@ -290,9 +290,9 @@ class AdodbWrapper {
     * @param string $p_identifier Identifier to check.
     * @return void
     */
-   public function db_check_identifier_size( $p_identifier ) {
+   public function checkIdentifierSize( $p_identifier ) {
       # Oracle does not support long object names (30 chars max)
-      if( $this->db_is_oracle() && 30 < strlen( $p_identifier ) ) {
+      if( $this->isOracle() && 30 < strlen( $p_identifier ) ) {
          $e = new Exception("Identifier <$p_identifier> is too long");
          self::$logger->error("EXCEPTION SqlWrapper constructor: ".$e->getMessage());
          self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
@@ -316,7 +316,7 @@ class AdodbWrapper {
     * @param boolean $p_pop_param Set to false to leave the parameters on the stack
     * @return IteratorAggregate|boolean adodb result set or false if the query failed.
     */
-   public function db_query( $p_query, array $p_arr_parms = null, $p_limit = -1, $p_offset = -1, $p_pop_param = true ) {
+   public function sql_query( $p_query, array $p_arr_parms = null, $p_limit = -1, $p_offset = -1, $p_pop_param = true ) {
       
 
       $t_start = microtime( true );
@@ -364,8 +364,8 @@ class AdodbWrapper {
       # Pushing params to safeguard the ADOdb parameter count (required for pgsql)
       $this->db_param->push();
 
-      if( $this->db_is_oracle() ) {
-         $p_query = $this->db_oracle_adapt_query_syntax( $p_query, $p_arr_parms );
+      if( $this->isOracle() ) {
+         $p_query = $this->oracleAdaptQuerySyntax( $p_query, $p_arr_parms );
       }
 
       if( ( $p_limit != -1 ) || ( $p_offset != -1 ) ) {
@@ -380,7 +380,7 @@ class AdodbWrapper {
       $t_elapsed = number_format( microtime( true ) - $t_start, 4 );
 
       if( ON == $this->db_log_queries ) {
-         $t_query_text = $this->db_format_query_log_msg( $p_query, $p_arr_parms );
+         $t_query_text = $this->formatQueryLogMsg( $p_query, $p_arr_parms );
          log_event( LOG_DATABASE, array( $t_query_text, $t_elapsed ) );
       } else {
          # If not logging the queries the actual text is not needed
@@ -438,7 +438,7 @@ class AdodbWrapper {
     * @param IteratorAggregate $p_result Database Query Record Set to retrieve record count for.
     * @return integer Record Count
     */
-   public function db_num_rows( IteratorAggregate $p_result ) {
+   public function getNumRows( IteratorAggregate $p_result ) {
       return $p_result->RecordCount();
    }
 
@@ -446,7 +446,7 @@ class AdodbWrapper {
     * Retrieve number of rows affected by a specific database query
     * @return integer Affected Rows
     */
-   public function db_affected_rows() {
+   public function getAffectedRows() {
       return $this->adodb->Affected_Rows();
    }
 
@@ -455,7 +455,7 @@ class AdodbWrapper {
     * @param IteratorAggregate &$p_result Database Query Record Set to retrieve next result for.
     * @return array Database result
     */
-   public function db_fetch_array( IteratorAggregate &$p_result ) {
+   public function fetchArray( IteratorAggregate &$p_result ) {
 
       if( $p_result->EOF ) {
          return false;
@@ -519,10 +519,10 @@ class AdodbWrapper {
     * @param integer                   $p_col_index	Column to retrieve, zero-based (optional).
     * @return mixed Database result
     */
-   public function db_result( $p_result, $p_row_index = 0, $p_col_index = 0 ) {
-      if( $p_result && ( $this->db_num_rows( $p_result ) > 0 ) ) {
+   public function sql_result( $p_result, $p_row_index = 0, $p_col_index = 0 ) {
+      if( $p_result && ( $this->getNumRows( $p_result ) > 0 ) ) {
          $p_result->Move( $p_row_index );
-         $t_row = $this->db_fetch_array( $p_result );
+         $t_row = $this->fetchArray( $p_result );
 
          # Make the array numerically indexed. This is required to retrieve the
          # column ($p_index2), since we use ADODB_FETCH_ASSOC fetch mode.
@@ -540,7 +540,7 @@ class AdodbWrapper {
     * @param string $p_field A valid field name (default 'id').
     * @return integer last successful insert id
     */
-   public function db_insert_id( $p_table = null, $p_field = 'id' ) {
+   public function getInsertId( $p_table = null, $p_field = 'id' ) {
 
       if( isset( $p_table ) ) {
          switch( $this->database_type ) {
@@ -556,8 +556,8 @@ class AdodbWrapper {
                break;
          }
          if( isset( $t_query ) ) {
-            $t_result = $this->db_query( $t_query );
-            return (int)$this->db_result( $t_result );
+            $t_result = $this->sql_query( $t_query );
+            return (int)$this->sql_result( $t_result );
          }
       }
       return $this->adodb->Insert_ID();
@@ -568,12 +568,12 @@ class AdodbWrapper {
     * @param string $p_table_name A valid database table name.
     * @return boolean indicating whether the table exists
     */
-   public function db_table_exists( $p_table_name ) {
+   public function tableExists( $p_table_name ) {
       if( is_blank( $p_table_name ) ) {
          return false;
       }
 
-      $t_tables = $this->db_get_table_list();
+      $t_tables = $this->getTableList();
       if( !is_array( $t_tables ) ) {
          return false;
       }
@@ -595,7 +595,7 @@ class AdodbWrapper {
     * @param string $p_index_name A valid database index name.
     * @return boolean indicating whether the index exists
     */
-   public function db_index_exists( $p_table_name, $p_index_name ) {
+   public function indexExists( $p_table_name, $p_index_name ) {
       
 
       if( is_blank( $p_index_name ) || is_blank( $p_table_name ) ) {
@@ -626,12 +626,12 @@ class AdodbWrapper {
     * @param string $p_table_name A valid database table name.
     * @return boolean indicating whether the field exists
     */
-   public function db_field_exists( $p_field_name, $p_table_name ) {
-      $t_columns = $this->db_field_names( $p_table_name );
+   public function fieldExists( $p_field_name, $p_table_name ) {
+      $t_columns = $this->getFieldNames( $p_table_name );
 
       # ADOdb oci8 driver works with uppercase column names, and as of 5.19 does
       # not provide a way to force them to lowercase
-      if( $this->db_is_oracle() ) {
+      if( $this->isOracle() ) {
          $p_field_name = strtoupper( $p_field_name );
       }
 
@@ -643,7 +643,7 @@ class AdodbWrapper {
     * @param string $p_table_name A valid database table name.
     * @return array array of fields on table
     */
-   public function db_field_names( $p_table_name ) {
+   public function getFieldNames( $p_table_name ) {
       
       $t_columns = $this->adodb->MetaColumnNames( $p_table_name );
       return is_array( $t_columns ) ? $t_columns : array();
@@ -654,7 +654,7 @@ class AdodbWrapper {
     * @return int last error number
     * @todo Use/Behaviour of this function should be reviewed before 1.2.0 final
     */
-   public function db_error_num() {
+   public function getErrorNum() {
       return $this->adodb->ErrorNo();
    }
 
@@ -664,7 +664,7 @@ class AdodbWrapper {
     * @return string last error string
     * @todo Use/Behaviour of this function should be reviewed before 1.2.0 final
     */
-   public function db_error_msg() {
+   public function getErrorMsg() {
       return $this->adodb->ErrorMsg();
    }
 
@@ -673,7 +673,7 @@ class AdodbWrapper {
     * Not really necessary most of the time since a connection is automatically closed when a page finishes loading.
     * @return void
     */
-   public function db_close() {
+   public function close() {
       $t_result = $this->adodb->Close();
    }
 
@@ -684,7 +684,7 @@ class AdodbWrapper {
     * @param string $p_string Raw binary data.
     * @return string prepared database query string
     */
-   public function db_prepare_binary_string( $p_string ) {
+   public function prepareBinaryString( $p_string ) {
       
       switch( $this->database_type ) {
          case 'odbc_mssql':
@@ -730,7 +730,7 @@ class AdodbWrapper {
       $t_like_keyword = ' LIKE ';
 
       if( $p_case_sensitive === false ) {
-         if( $this->db_is_pgsql() ) {
+         if( $this->isPgsql() ) {
             $t_like_keyword = ' ILIKE ';
          }
       }
@@ -764,7 +764,7 @@ class AdodbWrapper {
     * count queries
     * @return integer
     */
-   public function db_count_queries() {
+   public function countQueries() {
       return count( $this->queries_array );
    }
 
@@ -772,7 +772,7 @@ class AdodbWrapper {
     * count unique queries
     * @return integer
     */
-   public function db_count_unique_queries() {
+   public function countUniqueQueries() {
       $t_unique_queries = 0;
       $t_shown_queries = array();
       foreach( $this->queries_array as $t_val_array ) {
@@ -788,7 +788,7 @@ class AdodbWrapper {
     * get total time for queries
     * @return integer
     */
-   public function db_time_queries() {
+   public function timeQueries() {
       
       $t_count = count( $this->queries_array );
       $t_total = 0;
@@ -840,7 +840,7 @@ class AdodbWrapper {
     * get list database tables
     * @return array containing table names
     */
-   public function db_get_table_list() {
+   public function getTableList() {
       $t_tables = $this->adodb->MetaTables( 'TABLE' );
       return $t_tables;
    }
@@ -858,14 +858,14 @@ class AdodbWrapper {
     *                         if null, defaults to the last record inserted in $p_table.
     * @return boolean
     */
-   public function db_update_blob( $p_table, $p_column, $p_val, $p_where = null ) {
+   public function updateBlob( $p_table, $p_column, $p_val, $p_where = null ) {
 
-      if( !$this->db_is_oracle() ) {
+      if( !$this->isOracle() ) {
          return false;
       }
 
       if( null == $p_where ) {
-         $p_where = 'id=' . $this->db_insert_id( $p_table );
+         $p_where = 'id=' . $this->getInsertId( $p_table );
       }
 
       if( ON == $this->db_log_queries ) {
@@ -898,7 +898,7 @@ class AdodbWrapper {
       }
 
       if( !$t_result ) {
-         $e = new Exception("Querry failed: ".$this->db_error_msg());
+         $e = new Exception("Querry failed: ".$this->getErrorMsg());
          self::$logger->error("EXCEPTION SqlWrapper constructor: ".$e->getMessage());
          self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e; 
@@ -914,7 +914,7 @@ class AdodbWrapper {
     * @param string $p_query Query string to sort.
     * @return string Query string with sorted bind variable numbers.
     */
-   public function db_oracle_order_binds_sequentially( $p_query ) {
+   public function oracleOrderBindsSequentially( $p_query ) {
       $t_new_query= '';
       $t_is_odd = true;
       $t_after_quote = false;
@@ -964,7 +964,7 @@ class AdodbWrapper {
     * @param array  &$p_arr_parms Array of parameters matching $p_query, function sorts array keys.
     * @return string Query string with sorted bind variable numbers.
     */
-   public function db_oracle_adapt_query_syntax( $p_query, array &$p_arr_parms = null ) {
+   public function oracleAdaptQuerySyntax( $p_query, array &$p_arr_parms = null ) {
       # Remove "AS" keyword, because not supported with table aliasing
       # - Do not remove text literal within "'" quotes
       # - Will remove all "AS", except when it's part of a "CAST(x AS y)" expression
@@ -1066,7 +1066,7 @@ class AdodbWrapper {
             $t_removed_set_where = '';
 
             # Need to order parameter array element correctly
-            $p_query = $this->db_oracle_order_binds_sequentially( $p_query );
+            $p_query = $this->oracleOrderBindsSequentially( $p_query );
 
             # Find and remove temporarily "SET var1=:bind1, var2=:bind2 WHERE" part
             preg_match( '/^(?P<before_set_where>.*)(?P<set_where>[\s\n\r]*set[\s\n\r]+[\s\n\ra-z0-9_\.=,:\']+)(?P<after_set_where>where[\d\D]*)$/i', $p_query, $t_matches );
@@ -1114,7 +1114,7 @@ class AdodbWrapper {
                # Put temporarily removed "SET ... WHERE" part back
                $p_query = str_replace( $t_set_where_template_str, $t_removed_set_where, $p_query );
                # Need to order parameter array element correctly
-               $p_query = $this->db_oracle_order_binds_sequentially( $p_query );
+               $p_query = $this->oracleOrderBindsSequentially( $p_query );
                # Find and remove temporary "SET var1=:bind1, var2=:bind2 WHERE" part again
                preg_match( '/^(?P<before_set_where>.*)(?P<set_where>[\s\n\r]*set[\s\n\r]+[\s\n\ra-z0-9_\.=,:\']+)(?P<after_set_where>where[\d\D]*)$/i', $p_query, $t_matches );
                $t_removed_set_where = $t_matches['set_where'];
@@ -1142,7 +1142,7 @@ class AdodbWrapper {
             }
          }
       }
-      $p_query = $this->db_oracle_order_binds_sequentially( $p_query );
+      $p_query = $this->oracleOrderBindsSequentially( $p_query );
       return $p_query;
    }
 
@@ -1153,7 +1153,7 @@ class AdodbWrapper {
     * @param string $p_string
     * @return string
     */
-   public function db_mysql_fix_utf8( $p_string ) {
+   public function mysqlFixUtf8( $p_string ) {
       if( !db_is_mysql() ) {
          return $p_string;
       }
@@ -1173,7 +1173,7 @@ class AdodbWrapper {
     * and still want to return an empty result as a transparent return value.
     * @return \ADORecordSet_empty
     */
-   public function db_empty_result() {
+   public function emptyResult() {
       return new ADORecordSet_empty();
    }
 
@@ -1183,7 +1183,7 @@ class AdodbWrapper {
     * @param array $p_arr_parms  Parameter array
     * @return string             Processed query string
     */
-   public function db_format_query_log_msg( $p_query, array $p_arr_parms ) {
+   public function formatQueryLogMsg( $p_query, array $p_arr_parms ) {
       
 
       $t_lastoffset = 0;
@@ -1202,7 +1202,7 @@ class AdodbWrapper {
             # (e.g. from custom fields names)
             $t_utf8_offset = utf8_strlen( substr( $p_query, 0, $t_match_param[1] ), mb_internal_encoding() );
             if( $i <= count( $p_arr_parms ) ) {
-               if( $this->db_is_pgsql() ) {
+               if( $this->isPgsql() ) {
                   # For pgsql, the bound value is indexed by the parameter name
                   $t_index = (int)$t_matches['index'][0];
                   $t_value = $p_arr_parms[$t_index-1];
