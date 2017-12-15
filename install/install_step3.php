@@ -306,7 +306,7 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
    if (!$result) {
       throw new Exception ("create custom field FAILED");
    }
-   while ($row = mysql_fetch_object($result)) {
+   while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       $fieldList["$row->name"] = $row->id;
    }
 
@@ -337,7 +337,7 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
       if (!$result2) {
          throw new Exception ("create custom field failed: $configId");
       }
-      $fieldId = mysql_insert_id();
+      $fieldId = SqlWrapper::getInstance()->sql_insert_id();
 
       #echo "custom field '$configId' created.<br>";
    } else {
@@ -432,7 +432,7 @@ function getExtIdCustomFieldCandidates() {
    }
 
    $candidates = array();
-   while ($row = mysql_fetch_object($result)) {
+   while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       $candidates["$row->id"] = $row->name;
    }
    return $candidates;

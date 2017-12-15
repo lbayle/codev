@@ -23,6 +23,7 @@ db_mantis_host      = "localhost"
 db_mantis_database  = "bugtracker"
 db_mantis_user      = "mantisdbuser"
 db_mantis_pass      = "secret_password"
+db_mantis_type      = "mysqli"
 
 [mantis]
 status_enum_string = "10:new,20:feedback,30:acknowledged,40:analyzed,50:open,80:resolved,82:validated,85:delivered,90:closed,"

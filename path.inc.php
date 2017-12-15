@@ -106,7 +106,7 @@ set_exception_handler('exception_handler');
  * Handle uncaught exceptions
  * @param Exception $e
  */
-function exception_handler(Exception $e) {
+function exception_handler(Throwable $e) {
    $logger = Logger::getLogger("header");
 	$userid = $_SESSION['userid'];
 
@@ -115,4 +115,4 @@ function exception_handler(Exception $e) {
    $logger->error("UNCAUGHT EXCEPTION stack-trace:\n".$e->getTraceAsString());
 }
 
-?>
+

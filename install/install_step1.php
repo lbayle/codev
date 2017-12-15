@@ -42,6 +42,7 @@ $logger = Logger::getLogger("install");
       var foundError = 0;
       var msgString = "The following fields are missing:\n\n";
 
+      if (0 == document.forms["databaseForm"].db_mantis_type.value)     { msgString += "SGBD\n"; ++foundError; }
       if (0 == document.forms["databaseForm"].db_mantis_host.value)     { msgString += "Hostname\n"; ++foundError; }
       if (0 == document.forms["databaseForm"].db_mantis_database.value)     { msgString += "Database\n"; ++foundError; }
       if (0 == document.forms["databaseForm"].db_mantis_user.value)     { msgString += "User\n"; ++foundError; }
@@ -83,9 +84,10 @@ $logger = Logger::getLogger("install");
 function checkDBConnection($db_mantis_host = 'localhost',
                            $db_mantis_user = 'mantis',
                            $db_mantis_pass = '',
-                           $db_mantis_database = 'bugtracker') {
+                           $db_mantis_database = 'bugtracker',
+                           $db_mantis_type = 'mysqli') {
 
-   SqlWrapper::createInstance($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
+   SqlWrapper::createInstance($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $db_mantis_type);
 
    $query = "SELECT * FROM `mantis_config_table` WHERE config_id = 'database_version' ";
 
@@ -169,9 +171,11 @@ function createConfigFile($db_mantis_host = 'localhost',
                                $db_mantis_user = 'mantis',
                                $db_mantis_pass = '',
                                $db_mantis_database = 'bugtracker',
+                               $db_mantis_type = 'mysqli',
                                $proxy_host = NULL,
                                $proxy_port = NULL) {
 
+   Constants::$db_mantis_type = $db_mantis_type;
    Constants::$db_mantis_host = $db_mantis_host;
    Constants::$db_mantis_user = $db_mantis_user;
    Constants::$db_mantis_pass = $db_mantis_pass;
@@ -189,12 +193,16 @@ function createConfigFile($db_mantis_host = 'localhost',
    }
 }
 
-function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, $db_mantis_user, $db_mantis_pass) {
+function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, $db_mantis_user, $db_mantis_pass, $db_mantis_type) {
    echo "<form id='databaseForm' name='databaseForm' method='post' action='$originPage' >\n";
 
    echo "<h2>".T_("Mantis Database Info")."</h2>\n";
 
    echo "<table class='invisible'>\n";
+   echo "  <tr>\n";
+   echo "    <td width='120'>".T_("SGBD")."</td>\n";
+   echo "    <td><input size='50' type='text' name='db_mantis_type'  id='db_mantis_type' value='$db_mantis_type'></td>\n";
+   echo "  </tr>\n";
    echo "  <tr>\n";
    echo "    <td width='120'>".T_("Hostname")."</td>\n";
    echo "    <td><input size='50' type='text' name='db_mantis_host'  id='db_mantis_host' value='$db_mantis_host'></td>\n";
@@ -270,6 +278,7 @@ $db_mantis_host = (string)getHttpVariable(INPUT_POST, 'db_mantis_host', 'localho
 $db_mantis_database = (string)getHttpVariable(INPUT_POST, 'db_mantis_database', 'bugtracker');
 $db_mantis_user = (string)getHttpVariable(INPUT_POST, 'db_mantis_user', Tools::isWindowsServer() ? 'root' : 'mantisdbuser');
 $db_mantis_pass = (string)getHttpVariable(INPUT_POST, 'db_mantis_pass', '');
+$db_mantis_type = (string)getHttpVariable(INPUT_POST, 'db_mantis_type', 'mysqli');
 
 $isProxyEnabled = (string)getHttpVariable(INPUT_POST, 'isProxyEnabled', '0');
 if ('1' == $isProxyEnabled) {
@@ -280,7 +289,7 @@ if ('1' == $isProxyEnabled) {
    $proxy_port = NULL;
 }
 
-displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, $db_mantis_user, $db_mantis_pass);
+displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, $db_mantis_user, $db_mantis_pass, $db_mantis_type);
 
 $action = (string)getHttpVariable(INPUT_POST, 'action', 'none');
 
@@ -288,13 +297,13 @@ if ("setDatabaseInfo" == $action) {
 
    try {
 
-      $database_version = checkDBConnection($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
+      $database_version = checkDBConnection($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $db_mantis_type);
       echo "<script type=\"text/javascript\">console.log(\"DEBUG: Mantis database_version = $database_version\");</script>";
 
       checkDBprivileges($db_mantis_database);
 
       echo "<script type=\"text/javascript\">console.log(\"Step 1/4 create config.ini file\");</script>";
-      createConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $proxy_host, $proxy_port);
+      createConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $db_mantis_type, $proxy_host, $proxy_port);
 
       echo "<script type=\"text/javascript\">console.log(\"Step 2/4 execSQLscript2 - create Tables\");</script>";
       //$retCode = Tools::execSQLscript2(Install::FILENAME_TABLES);

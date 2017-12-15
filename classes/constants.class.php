@@ -37,6 +37,7 @@ class Constants {
       );
    
    // --- DATABASE ---
+   public static $db_mantis_type = 'mysqli';
    public static $db_mantis_host;
    public static $db_mantis_database;
    public static $db_mantis_user;
@@ -185,6 +186,9 @@ class Constants {
       self::$cnil_contact_email = $cnil['contact_email'];
 
       $database = $ini_array['database'];
+      if (array_key_exists('db_mantis_type', $database)) {
+          self::$db_mantis_type     = $database['db_mantis_type'];
+      }
       self::$db_mantis_host     = $database['db_mantis_host'];
       self::$db_mantis_database = $database['db_mantis_database'];
       self::$db_mantis_user     = $database['db_mantis_user'];
@@ -296,6 +300,7 @@ class Constants {
       $cnil['contact_email'] = self::$cnil_contact_email;
 
       $database = array();
+      $database['db_mantis_type']     = self::$db_mantis_type;
       $database['db_mantis_host']     = self::$db_mantis_host;
       $database['db_mantis_database'] = self::$db_mantis_database;
       $database['db_mantis_user']     = self::$db_mantis_user;
