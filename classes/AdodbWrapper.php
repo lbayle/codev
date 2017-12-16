@@ -24,7 +24,12 @@
 class MantisDbParam {
 	public $count = 0;
 	private $stack = array();
+   private $db;
 
+   public function __construct($adodb) {
+      $this->db = $adodb;
+   }
+   
 	/**
 	 * Generate a string to insert a parameter into a database query string
 	 * @return string 'wildcard' matching a parameter in correct ordered format for the current database.
@@ -166,8 +171,8 @@ class AdodbWrapper {
 
       $this->isCheckParams = ( $this->isPgsql() || $this->isMssql() );
 
-      $this->db_param = new MantisDbParam();
       $this->db_connect(NULL, $persistConnect);
+      $this->db_param = new MantisDbParam($this->adodb);
    }
 
 
