@@ -23,7 +23,7 @@ require('../path.inc.php');
 function execQuery($query) {
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      echo "<span style='color:red'>ERROR: Query FAILED $query<br/>" . SqlWrapper::getInstance()->sql_error() . "</span>";
+      echo "<span style='color:red'>ERROR: Query FAILED $query<br/>" . AdodbWrapper::getInstance()->getErrorMsg() . "</span>";
       exit;
    }
    return $result;

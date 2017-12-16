@@ -592,7 +592,7 @@ class Tools {
       $result = SqlWrapper::getInstance()->sql_query($request);
 
       if (!$result) {
-         $error = "ERROR : ".$request." : ".SqlWrapper::getInstance()->sql_error();
+         $error = "ERROR : ".$request." : ".AdodbWrapper::getInstance()->getErrorMsg();
          echo "<span class='error_font'>$error</span><br>";
          exit;
       }
@@ -621,7 +621,7 @@ class Tools {
             if(strlen($req) > 0) {
                if (!SqlWrapper::getInstance()->sql_query($req)) {
                   echo "<span class='error_font'>FAILED</span><br>";
-                  die("ERROR : ".$req." : ".SqlWrapper::getInstance()->sql_error());
+                  die("ERROR : ".$req." : ".AdodbWrapper::getInstance()->getErrorMsg());
                   //return false;
                }
             }
