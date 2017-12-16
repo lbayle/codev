@@ -118,13 +118,8 @@ class CommandProvision {
       $budgetDays_cent = floatval($budget_days) * 100; // store 1.15 days in an int
       $adr_cent = floatval($average_daily_rate) * 100;
       $formattedIsInCheckBudget = $isInCheckBudget ? 1 : 0;
-      $summary = SqlWrapper::getInstance()->sql_real_escape_string($summary);
+      $summary = AdodbWrapper::getInstance()->escapeString($summary);
 
-      if (FALSE === $provSummary){
-         throw new Exception("La description comporte des erreurs");
-      }
-
-      //$summary = str_replace("'", "''", $summary);
       $query = "INSERT INTO `codev_command_provision_table` ".
               " (`command_id`, `date`, `type`, `budget_days`, `budget`, `average_daily_rate`, `currency`, `summary`, `is_in_check_budget` ";
       if(!is_null($description)) { $query .= ", `description`"; }
