@@ -152,14 +152,14 @@ class AdodbWrapper {
                break;
            default:
                 $e = new Exception("Unknown database type: ".$database_type);
-                self::$logger->error("EXCEPTION SqlWrapper constructor: ".$e->getMessage());
+                self::$logger->error("EXCEPTION AdodbWrapper constructor: ".$e->getMessage());
                 self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
                 throw $e;
        }
       
       if( !$this->checkDatabaseSupport( $this->database_type ) ) {
          $e = new Exception('PHP Support for database ('.$this->database_type.') is not enabled ');
-         self::$logger->error("EXCEPTION SqlWrapper constructor: ".$e->getMessage());
+         self::$logger->error("EXCEPTION AdodbWrapper constructor: ".$e->getMessage());
          self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
@@ -294,12 +294,27 @@ class AdodbWrapper {
       # Oracle does not support long object names (30 chars max)
       if( $this->isOracle() && 30 < strlen( $p_identifier ) ) {
          $e = new Exception("Identifier <$p_identifier> is too long");
-         self::$logger->error("EXCEPTION SqlWrapper constructor: ".$e->getMessage());
+         self::$logger->error("EXCEPTION AdodbWrapper constructor: ".$e->getMessage());
          self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
    }
 
+   /**
+    * replacement for mysql_real_escape_string
+    * 
+    *  The function qStr() takes an input string, and allows it to be:
+    *  - Wrapped in single quotes. The value can then be used, for example in an SQL statement.
+    *  - Have quotes inside the string escaped in a way that is appropriate for the database. 
+    *    This is done wherever possible using PHP driver functions e.g. MySQL real_escape_string. 
+
+    * @param type $string
+    * @return type
+    */
+   public function escapeString($string) {
+      return $this->adodb->qStr($string);
+   }
+   
    /**
     * execute query, requires connection to be opened
     * An error will be triggered if there is a problem executing the query.
@@ -395,7 +410,7 @@ class AdodbWrapper {
 
       if( !$t_result ) {
          $e = new Exception("Query failed: ".$p_query);
-         self::$logger->error("EXCEPTION SqlWrapper constructor: ".$e->getMessage());
+         self::$logger->error("EXCEPTION AdodbWrapper constructor: ".$e->getMessage());
          self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       } else {
@@ -899,7 +914,7 @@ class AdodbWrapper {
 
       if( !$t_result ) {
          $e = new Exception("Querry failed: ".$this->getErrorMsg());
-         self::$logger->error("EXCEPTION SqlWrapper constructor: ".$e->getMessage());
+         self::$logger->error("EXCEPTION AdodbWrapper constructor: ".$e->getMessage());
          self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e; 
       }
