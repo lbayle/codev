@@ -150,7 +150,7 @@ class ServiceContract extends Model {
             exit;
          }
 
-         return SqlWrapper::getInstance()->sql_insert_id();
+         return AdodbWrapper::getInstance()->getInsertId();
       } else {
          throw new Exception('Already exists');
       }
@@ -470,7 +470,7 @@ class ServiceContract extends Model {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      return SqlWrapper::getInstance()->sql_insert_id();
+      return AdodbWrapper::getInstance()->getInsertId();
    }
 
    /**
@@ -527,7 +527,7 @@ class ServiceContract extends Model {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         return SqlWrapper::getInstance()->sql_insert_id();
+         return AdodbWrapper::getInstance()->getInsertId();
       }
    }
 

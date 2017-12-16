@@ -184,7 +184,7 @@ class TimeTrack extends Model implements Comparable {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      return SqlWrapper::getInstance()->sql_insert_id();
+      return AdodbWrapper::getInstance()->getInsertId();
    }
    
    

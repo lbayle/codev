@@ -187,7 +187,7 @@ class Jobs {
          exit;
       }
 
-      return SqlWrapper::getInstance()->sql_insert_id();
+      return AdodbWrapper::getInstance()->getInsertId();
    }
 
    /**

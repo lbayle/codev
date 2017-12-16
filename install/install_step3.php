@@ -337,7 +337,7 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
       if (!$result2) {
          throw new Exception ("create custom field failed: $configId");
       }
-      $fieldId = SqlWrapper::getInstance()->sql_insert_id();
+      $fieldId = AdodbWrapper::getInstance()->getInsertId();
 
       #echo "custom field '$configId' created.<br>";
    } else {

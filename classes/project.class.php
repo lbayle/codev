@@ -255,7 +255,7 @@ class Project extends Model {
          exit;
       }
 
-      $projectid = SqlWrapper::getInstance()->sql_insert_id();
+      $projectid = AdodbWrapper::getInstance()->getInsertId();
 
       // when creating an new issue, the status is set to 'closed' (External Tasks have no workflow...)
       #REM first call to this function is in install step1, and $statusNames is set in step2. '90' is mantis default value for 'closed'
@@ -286,7 +286,7 @@ class Project extends Model {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $catLeaveId = SqlWrapper::getInstance()->sql_insert_id();
+      $catLeaveId = AdodbWrapper::getInstance()->getInsertId();
 
       // create otherInternal category
       $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) ".
@@ -296,7 +296,7 @@ class Project extends Model {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $catOtherInternalId = SqlWrapper::getInstance()->sql_insert_id();
+      $catOtherInternalId = AdodbWrapper::getInstance()->getInsertId();
 
       // --- update ExternalTasksProject in codev_config_table
       Config::getInstance()->setValue(Config::id_externalTasksProject, $projectid, Config::configType_int, $projectDesc);
@@ -345,7 +345,7 @@ class Project extends Model {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $projectid = SqlWrapper::getInstance()->sql_insert_id();
+      $projectid = AdodbWrapper::getInstance()->getInsertId();
 
       // add custom fields BI,BS,RAE,DeadLine,DeliveryDate
       $query = "INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) ".
@@ -630,7 +630,7 @@ class Project extends Model {
          exit;
       }
 
-      $catId = SqlWrapper::getInstance()->sql_insert_id();
+      $catId = AdodbWrapper::getInstance()->getInsertId();
 
       $query = "SELECT * FROM `codev_project_category_table` WHERE project_id='$this->id' AND type='$catType';";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -699,7 +699,7 @@ class Project extends Model {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $bug_text_id = SqlWrapper::getInstance()->sql_insert_id();
+      $bug_text_id = AdodbWrapper::getInstance()->getInsertId();
 
       $formattedIssueSummary = AdodbWrapper::getInstance()->escapeString($issueSummary);
       $query = "INSERT INTO `mantis_bug_table` (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
@@ -709,7 +709,7 @@ class Project extends Model {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $bugt_id = SqlWrapper::getInstance()->sql_insert_id();
+      $bugt_id = AdodbWrapper::getInstance()->getInsertId();
 
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("addIssue(): project_id=$this->id, category_id=$cat_id, priority=$priority, reproducibility=$reproducibility, status=$issueStatus, bug_text_id=$bug_text_id, date_submitted=$today, last_updated=$today");

@@ -415,7 +415,7 @@ class IssueNote {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $revision_id = SqlWrapper::getInstance()->sql_insert_id();
+      $revision_id = AdodbWrapper::getInstance()->getInsertId();
       return $revision_id;
    }
 

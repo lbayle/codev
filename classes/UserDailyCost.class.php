@@ -134,7 +134,7 @@ class UserDailyCost {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $id = SqlWrapper::getInstance()->sql_insert_id();
+      $id = AdodbWrapper::getInstance()->getInsertId();
 
       // update $this->userDailyCosts
       // WARN: order (DESC) is important !!

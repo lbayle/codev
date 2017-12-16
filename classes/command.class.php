@@ -204,7 +204,7 @@ class Command extends Model {
             exit;
          }
 
-         return SqlWrapper::getInstance()->sql_insert_id();
+         return AdodbWrapper::getInstance()->getInsertId();
       } else {
          throw new Exception('Already exists');
       }
@@ -677,7 +677,7 @@ class Command extends Model {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $id = SqlWrapper::getInstance()->sql_insert_id();
+         $id = AdodbWrapper::getInstance()->getInsertId();
 
          // add to WBS
          // add to specific WBS folder element (not always $this->wbsid)

@@ -148,7 +148,7 @@ class CommandSet extends Model {
             exit;
          }
 
-         return SqlWrapper::getInstance()->sql_insert_id();
+         return AdodbWrapper::getInstance()->getInsertId();
       } else {
          throw new Exception('Already exists');
       }
@@ -386,7 +386,7 @@ class CommandSet extends Model {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $id = SqlWrapper::getInstance()->sql_insert_id();
+      $id = AdodbWrapper::getInstance()->getInsertId();
       return $id;
    }
 

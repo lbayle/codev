@@ -222,13 +222,13 @@ function update_v11_to_v12() {
    $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) ".
             "VALUES ('$extTasksProjId','0','Leave', '0');";
    $result = execQuery($query);
-   $catLeaveId = SqlWrapper::getInstance()->sql_insert_id();
+   $catLeaveId = AdodbWrapper::getInstance()->getInsertId();
 
    // create otherInternal category
    $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) ".
             "VALUES ('$extTasksProjId','0','Other activity', '0');";
    $result = execQuery($query);
-   $catOtherInternalId = SqlWrapper::getInstance()->sql_insert_id();
+   $catOtherInternalId = AdodbWrapper::getInstance()->getInsertId();
 
    // update codev_config_table
    Config::getInstance()->setValue(Config::id_externalTasksCat_leave, $catLeaveId, Config::configType_int);

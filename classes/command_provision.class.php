@@ -141,7 +141,7 @@ class CommandProvision {
          exit;
       }
 
-      return SqlWrapper::getInstance()->sql_insert_id();
+      return AdodbWrapper::getInstance()->getInsertId();
    }
 
    public static function delete($id) {

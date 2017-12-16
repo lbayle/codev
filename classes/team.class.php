@@ -186,7 +186,7 @@ class Team extends Model {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $teamid = SqlWrapper::getInstance()->sql_insert_id();
+         $teamid = AdodbWrapper::getInstance()->getInsertId();
       } else {
          echo "<span style='color:red'>ERROR: Team name '$name' already exists !</span>";
          $teamid = -1;
