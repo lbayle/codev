@@ -50,8 +50,8 @@ function login($user, $password) {
     $password = md5($password);
     $now = time();
 
-    $formattedUser = SqlWrapper::sql_real_escape_string($user);
-    $formattedPass = SqlWrapper::sql_real_escape_string($password);
+    $formattedUser = AdodbWrapper::getInstance()->escapeString($user);
+    $formattedPass = AdodbWrapper::getInstance()->escapeString($password);
     $query = "SELECT id, username, realname, last_visit FROM `mantis_user_table` WHERE username = '".$formattedUser."' AND password = '".$formattedPass."' AND enabled = 1;";
     $result = SqlWrapper::getInstance()->sql_query($query);
     if ($result && SqlWrapper::getInstance()->sql_num_rows($result) == 1 && $row_login = SqlWrapper::getInstance()->sql_fetch_object($result)) {

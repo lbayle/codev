@@ -155,7 +155,7 @@ class PluginManager {
 
             $reflectionMethod = new ReflectionMethod($row->name, 'getDesc');
             $pDesc = $reflectionMethod->invoke(NULL);
-            $pDesc = SqlWrapper::sql_real_escape_string($pDesc);
+            $pDesc = AdodbWrapper::getInstance()->escapeString($pDesc);
             $reflectionMethod = new ReflectionMethod($row->name, 'getDomains');
             $pDomains = implode(',', $reflectionMethod->invoke(NULL));
             $reflectionMethod = new ReflectionMethod($row->name, 'getCategories');
@@ -188,7 +188,7 @@ class PluginManager {
             #echo "new plugin found: $pName<br>";
             $reflectionMethod = new ReflectionMethod($pName, 'getDesc');
             $pDesc = $reflectionMethod->invoke(NULL);
-            $pDesc = SqlWrapper::sql_real_escape_string($pDesc);
+            $pDesc = AdodbWrapper::getInstance()->escapeString($pDesc);
             $reflectionMethod = new ReflectionMethod($pName, 'getDomains');
             $pDomains = implode(',', $reflectionMethod->invoke(NULL));
             $reflectionMethod = new ReflectionMethod($pName, 'getCategories');

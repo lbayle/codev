@@ -178,8 +178,8 @@ class Team extends Model {
 
       if ($teamid < 0) {
          // create team
-         $formattedName = SqlWrapper::sql_real_escape_string($name);
-         $formattedDesc = SqlWrapper::sql_real_escape_string($description);
+         $formattedName = AdodbWrapper::getInstance()->escapeString($name);
+         $formattedDesc = AdodbWrapper::getInstance()->escapeString($description);
          $query = "INSERT INTO `codev_team_table`  (`name`, `description`, `leader_id`, `date`) VALUES ('".$formattedName."','".$formattedDesc."',".$leader_id.", '".$date."');";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -248,7 +248,7 @@ class Team extends Model {
     * @return int the team id or -1 if not found
     */
    public static function getIdFromName($name) {
-      $formattedName = SqlWrapper::sql_real_escape_string($name);
+      $formattedName = AdodbWrapper::getInstance()->escapeString($name);
       $query = "SELECT id FROM `codev_team_table` WHERE name = '".$formattedName."';";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {

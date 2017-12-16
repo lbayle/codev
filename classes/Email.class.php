@@ -138,9 +138,9 @@ class Email {
       }
 
       $sqlWrapper = SqlWrapper::getInstance();
-      $c_email    = SqlWrapper::sql_real_escape_string($emailData->email);
-      $c_subject  = SqlWrapper::sql_real_escape_string($emailData->subject);
-      $c_body     = SqlWrapper::sql_real_escape_string($emailData->body);
+      $c_email    = AdodbWrapper::getInstance()->escapeString($emailData->email);
+      $c_subject  = AdodbWrapper::getInstance()->escapeString($emailData->subject);
+      $c_body     = AdodbWrapper::getInstance()->escapeString($emailData->body);
       $c_metadata = serialize( $emailData->metadata );
 
       $query = "INSERT  INTO `mantis_email_table` (`email`, `subject`, `body`, `submitted`, `metadata`) ".

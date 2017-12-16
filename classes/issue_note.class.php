@@ -84,7 +84,7 @@ class IssueNote {
 
       $view_state = ($private) ? self::viewState_private : self::viewState_public;
       $sqlWrapper = SqlWrapper::getInstance();
-      $query2 = "INSERT INTO `mantis_bugnote_text_table` (`note`) VALUES ('".SqlWrapper::sql_real_escape_string($text)."');";
+      $query2 = "INSERT INTO `mantis_bugnote_text_table` (`note`) VALUES ('".AdodbWrapper::getInstance()->escapeString($text)."');";
       $result2 = $sqlWrapper->sql_query($query2);
 
       if (!$result2) {
@@ -349,7 +349,7 @@ class IssueNote {
          $this->revisionAdd($oldText, $this->reporter_id, $this->last_modified);
       }
       $sqlWrapper = SqlWrapper::getInstance();
-      $query = "UPDATE `mantis_bugnote_text_table` SET note='".SqlWrapper::sql_real_escape_string($text)."' ".
+      $query = "UPDATE `mantis_bugnote_text_table` SET note='".AdodbWrapper::getInstance()->escapeString($text)."' ".
                "WHERE id=" . $this->bugnote_text_id;
       $result = $sqlWrapper->sql_query($query);
       if (!$result) {
@@ -409,7 +409,7 @@ class IssueNote {
 
       $query = "INSERT INTO `mantis_bug_revision_table` (bug_id, bugnote_id, user_id, timestamp, type, value) ".
                "VALUES ($this->bug_id, $this->id, $user_id, $timestamp, ".
-               self::rev_type_bugnote.", '".SqlWrapper::sql_real_escape_string($text)."')";
+               self::rev_type_bugnote.", '".AdodbWrapper::getInstance()->escapeString($text)."')";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
