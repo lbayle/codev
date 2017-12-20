@@ -3,9 +3,6 @@
 # Access CodevTT classes
 require('../../path.inc.php');
 
-// Note: i18n is included by the Controler class, but RestAPI dos not use it...
-#require_once('i18n/i18n.inc.php');
-
 # Access composer libraries
 require_once( __DIR__ . '/../../vendor/autoload.php' );
 
@@ -16,6 +13,9 @@ require_once( $t_restcore_dir . 'AuthMiddleware.php' );
 require_once( $t_restcore_dir . 'CacheMiddleware.php' );
 require_once( $t_restcore_dir . 'OfflineMiddleware.php' );
 require_once( $t_restcore_dir . 'VersionMiddleware.php' );
+
+// Note: i18n is included by the Controler class, but Ajax dos not use it...
+require_once('i18n/i18n.inc.php');
 
 $logger = Logger::getLogger("RestAPI_index");
 
