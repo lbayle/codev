@@ -36,6 +36,8 @@ $g_app->add( new CacheMiddleware() );
 # Add CodevTT REST routes
 require_once( $t_restcore_dir . 'test_rest.php' );
 require_once( $t_restcore_dir . 'commands_rest.php' );
+require_once( $t_restcore_dir . 'commandSets_rest.php' );
+require_once( $t_restcore_dir . 'issues_rest.php' );
 
 # Test logger (TODO remove)
 $logger->error("RestAPI: CodevTT version: " . Config::codevVersion);
@@ -43,3 +45,4 @@ $logger->error("RestAPI: CodevTT version: " . Config::codevVersion);
 # run Slim
 $g_app->run();
 
+?>

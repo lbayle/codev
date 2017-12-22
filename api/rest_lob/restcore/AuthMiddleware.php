@@ -87,19 +87,19 @@ class AuthMiddleware {
 			$query = "SELECT user_id FROM `mantis_api_token_table` WHERE hash = '$hashToken'";
 		    $result = SqlWrapper::getInstance()->sql_query($query);
 		    if ($result) {
-		    	$row = mysql_fetch_row($result);
+		    	$row = SqlWrapper::getInstance()->sql_fetch_object($result);
+				$_SESSION['userid'] = $row->user_id;
 
-		        $_SESSION['userid'] = $row[0];
 		        $query = "SELECT id, username, realname, last_visit FROM `mantis_user_table` WHERE id = '$_SESSION[userid]'";
 		    	$result = SqlWrapper::getInstance()->sql_query($query);
 		        if($result){
-		    		$row = mysql_fetch_row($result);
-			        $_SESSION['username'] = $row[1];
-			        $_SESSION['realname'] = $row[2];
-			        $lastVisitTimestamp = $row[3];
+		    		$row = SqlWrapper::getInstance()->sql_fetch_object($result);
+			        $_SESSION['username'] = $row->username;
+			        $_SESSION['realname'] = $row->realname;
+			        $lastVisitTimestamp = $row->last_visit;
 
 			        try {
-			            $user =  UserCache::getInstance()->getUser($row[0]);
+			            $user =  UserCache::getInstance()->getUser($row->id);
 
 			            $locale = $user->getDefaultLanguage();
 			            if (NULL != $locale) { $_SESSION['locale'] = $locale; }
