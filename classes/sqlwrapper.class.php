@@ -104,6 +104,12 @@ class SqlWrapper {
     * @return SqlWrapper The SQLWrapper
     */
    public static function getInstance() {
+
+      $e = new Exception("DEPRECATED call to SqlWrapper !!!");
+      self::$logger->error("EXCEPTION SqlWrapper getInstance(): ".$e->getMessage());
+      self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+      throw $e;
+
       if (!isset(self::$instance)) {
          self::createInstance(Constants::$db_mantis_host, Constants::$db_mantis_user,
                               Constants::$db_mantis_pass, Constants::$db_mantis_database);

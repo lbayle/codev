@@ -191,19 +191,20 @@ class Config {
     */
    private function __construct() {
       self::$configVariables = array();
+      $query = 'SELECT * FROM {codev_config_table}';
 
-      $query = "SELECT * FROM `codev_config_table`";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = AdodbWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      
+      while($row = AdodbWrapper::getInstance()->fetchArray($result)) {
          if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("id=$row->config_id, val=$row->value, type=$row->type");
+            self::$logger->debug('id='.$row['config_id'].', val='.$row['value'].', type='.$row['type']);
          }
-         $key = $row->config_id."_".$row->user_id.$row->project_id.$row->team_id.$row->servicecontract_id.$row->commandset_id.$row->command_id;
-         self::$configVariables[$key] = new ConfigItem($row->config_id, $row->value, $row->type);
+         $key = $row['config_id']."_".$row['user_id'].$row['project_id'].$row['team_id'].$row['servicecontract_id'].$row['commandset_id'].$row['command_id'];
+         self::$configVariables[$key] = new ConfigItem($row['config_id'], $row['value'], $row['type']);
       }
 
       if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
@@ -376,49 +377,61 @@ class Config {
     * @param int $servicecontract_id
     */
    public static function setValue($id, $value, $type, $desc=NULL, $project_id=0, $user_id=0, $team_id=0, $command_id=0, $cset_id=0, $service_id=0) {
-      $formattedValue = AdodbWrapper::getInstance()->escapeString($value);
-      $formattedDesc = AdodbWrapper::getInstance()->escapeString($desc);
-
+      
+      $sql = AdodbWrapper::getInstance();
+      
       // add/update DB
-      $query = "SELECT * FROM `codev_config_table` ".
-               "WHERE config_id = '$id' ".
-               "AND project_id = $project_id ".
-               "AND user_id = $user_id ".
-               "AND team_id = $team_id ".
-               "AND command_id = $command_id ".
-               "AND commandset_id = $cset_id ".
-               "AND servicecontract_id = $service_id ";
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = 'SELECT * FROM {codev_config_table} ' .
+         'WHERE config_id ='. $sql->db_param().
+               ' AND project_id ='. $sql->db_param().
+               ' AND user_id ='. $sql->db_param().
+               ' AND team_id ='. $sql->db_param().
+               ' AND command_id = '. $sql->db_param().
+               ' AND commandset_id = '. $sql->db_param().
+               ' AND servicecontract_id = ' . $sql->db_param();
+      
+      $query_params = array($id, $project_id, $user_id, $team_id, $command_id, $cset_id, $service_id);
+      
+      $result = $sql->sql_query($query, $query_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-         $query = "UPDATE `codev_config_table` ".
-                  "SET value = '$formattedValue' ".
-                  "WHERE config_id = '$id' ".
-                  "AND project_id = $project_id ".
-                  "AND user_id = $user_id ".
-                  "AND team_id = $team_id ".
-                  "AND command_id = $command_id ".
-                  "AND commandset_id = $cset_id ".
-                  "AND servicecontract_id = $service_id ";
+      if (0 != $sql->getNumRows($result)) {
+         $query = 'UPDATE {codev_config_table} ' .
+            ' SET value = '.$sql->db_param(). // $formattedValue.
+                  ' WHERE config_id ='. $sql->db_param().
+                  ' AND project_id ='. $sql->db_param().
+                  ' AND user_id ='. $sql->db_param().
+                  ' AND team_id ='. $sql->db_param().
+                  ' AND command_id = '. $sql->db_param().
+                  ' AND commandset_id = '. $sql->db_param().
+                  ' AND servicecontract_id = ' . $sql->db_param();
+         $query_params = array($value,
+                               $id, $project_id, $user_id, $team_id, 
+                               $command_id, $cset_id, $service_id);
+
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("UPDATE setValue $id: $value (t=$type) $desc");
             self::$logger->debug("UPDATE query = $query");
          }
       } else {
-         $query = "INSERT INTO `codev_config_table` ".
-                  "(`config_id`, `value`, `type`, `description`, `project_id`, `user_id`, `team_id`, `command_id`, `commandset_id`, `servicecontract_id`) ".
-                  "VALUES ('$id', '$formattedValue', '$type', '$formattedDesc', $project_id, $user_id, $team_id, $command_id, $cset_id, $service_id);";
+         $query = 'INSERT INTO {codev_config_table} ' .
+            '(config_id, value, type, description, project_id, user_id, team_id, command_id, commandset_id, servicecontract_id) '.
+						 ' VALUES ( ' . $sql->db_param() . ',' . $sql->db_param() . ',' . $sql->db_param() . ',' . $sql->db_param() . ',
+						   			' . $sql->db_param() . ',' . $sql->db_param() . ',' . $sql->db_param() . ',' . $sql->db_param() . ',
+						   			' . $sql->db_param() . ',' . $sql->db_param() . ')';
+            
+         $query_params = array($id, $value, $type, $desc, $project_id, $user_id, $team_id,
+                               $command_id, $cset_id, $service_id);
+            
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("INSERT Config::setValue $id: $value (t=$type) $desc");
             self::$logger->debug("INSERT query = $query");
          }
       }
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $query_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -445,18 +458,23 @@ class Config {
       }
       if (NULL != self::$configVariables[$new_id]) {
 
+         $sql = AdodbWrapper::getInstance();
+        
          // delete from DB
-         $query = "DELETE FROM `codev_config_table` WHERE config_id = '$id'";
-         $cols = array("`user_id`", "`project_id`", "`team_id`", "`servicecontract_id`", "`commandset_id`", "`command_id`");
+         $query = "DELETE FROM {codev_config_table} WHERE config_id = " . $sql->db_param();
+         $query_params = array($id);
+         
+         $cols = array("user_id", "project_id", "team_id", "servicecontract_id", "commandset_id", "command_id");
          if ($arr_subid != NULL && is_array($arr_subid)) {
          	$i = 0;
          	while ($i < count($cols)) {
-         		$query .= " AND ".$cols[$i]."='".$arr_subid[$i]."'";
+         		$query .= ' AND ' . $cols[$i] . ' = ' . $sql->db_param();
+               $query_params[] = $arr_subid[$i];
          		$i++;
          	}
          }
-         $query .= ";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+
+         $result = $sql->sql_query($query, $query_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
@@ -472,4 +490,3 @@ class Config {
 
 Config::staticInit();
 
-?>

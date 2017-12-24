@@ -25,9 +25,11 @@ class MantisDbParam {
 	public $count = 0;
 	private $stack = array();
    private $db;
+   private $database_type;
 
-   public function __construct($adodb) {
+   public function __construct($adodb, $database_type) {
       $this->db = $adodb;
+      $this->database_type = $database_type;
    }
    
 	/**
@@ -50,7 +52,7 @@ class MantisDbParam {
 
 	/**
 	 * Pops the previous value of param count from the stack
-	 * This function is called by {@see db_query()} and should not need
+	 * This function is called by {@see sql_query()} and should not need
 	 * to be executed directly
 	 * @return void
 	 */
@@ -58,7 +60,7 @@ class MantisDbParam {
 		
 
 		$this->count = (int)array_pop( $this->stack );
-		if( $this->db_is_pgsql() ) {
+		if( AdodbWrapper::TYPE_PGSQL == $this->database_type ) {
 			# Manually reset the ADOdb param number to the value we just popped
 			$this->db->_pnum = $this->count;
 		}
@@ -71,6 +73,12 @@ class MantisDbParam {
  */
 class AdodbWrapper {
 
+   const TYPE_MYSQL      = 'mysqli';
+   const TYPE_PGSQL      = 'pgsql';
+   const TYPE_MSSQL      = 'mssqlnative';
+   const TYPE_ODBC_MSSQL = 'odbc_mssql';
+   const TYPE_ORACLE     = 'oci8';
+   
    private static $logger;
    private static $instance;
 
@@ -85,7 +93,8 @@ class AdodbWrapper {
    
    // An array in which all executed queries are stored.  This is used for profiling
    private $queries_array = array();
-
+   private $isLog = false;
+   
    // Stores whether a database connection was successfully opened.
    private $isDBconnected = false;
 
@@ -110,6 +119,10 @@ class AdodbWrapper {
       return self::$instance;
    }
 
+   /**
+    * 
+    * @return AdodbWrapper
+    */
    public static function getInstance() {
       if (!isset(self::$instance)) {
          self::createInstance(Constants::$db_mantis_host, Constants::$db_mantis_user,
@@ -135,25 +148,27 @@ class AdodbWrapper {
       $this->password = $password;
       $this->database_name = $database_name;
       
+      $this->isLog = self::$logger->isDebugEnabled();
+      
        switch ($database_type) {
            case 'mysqli':
-               $this->database_type = 'mysqli';
+               $this->database_type = self::TYPE_MYSQL;
                break;
            case 'postgresql':
            case 'postgres':
            case 'pgsql':
-               $this->database_type = 'pgsql';
+               $this->database_type = self::TYPE_PGSQL;
                break;
            case 'mssql':
            case 'mssqlnative':
-               $this->database_type = 'mssqlnative';
+               $this->database_type = self::TYPE_MSSQL;
                break;
            case 'odbc_mssql':
-               $this->database_type = 'odbc_mssql';
+               $this->database_type = self::TYPE_ODBC_MSSQL;
                break;
            case 'oracle':
            case 'oci8':
-               $this->database_type = 'oci8';
+               $this->database_type = self::TYPE_ORACLE;
                break;
            default:
                 $e = new Exception("Unknown database type: ".$database_type);
@@ -172,7 +187,6 @@ class AdodbWrapper {
       $this->isCheckParams = ( $this->isPgsql() || $this->isMssql() );
 
       $this->db_connect(NULL, $persistConnect);
-      $this->db_param = new MantisDbParam($this->adodb);
    }
 
 
@@ -198,11 +212,14 @@ class AdodbWrapper {
       }
 
       if( $t_result ) {
+         
+         $this->db_param = new MantisDbParam($this->adodb, $this->database_type);
+
          # For MySQL, the charset for the connection needs to be specified.
-         if( db_is_mysql() ) {
+         if( $this->isMysql() ) {
             # @todo Is there a way to translate any charset name to MySQL format? e.g. remote the dashes?
             # @todo Is this needed for other databases?
-            db_query( 'SET NAMES UTF8' );
+            $this->sql_query( 'SET NAMES UTF8' );
          }
       } else {
          $e = new Exception('Could not connect to database: '.$this->getErrorMsg());
@@ -230,19 +247,19 @@ class AdodbWrapper {
     */
    private function checkDatabaseSupport( $p_db_type ) {
       switch( $p_db_type ) {
-         case 'mysqli':
+         case self::TYPE_MYSQL:
             $t_support = function_exists( 'mysqli_connect' );
             break;
-         case 'pgsql':
+         case self::TYPE_PGSQL:
             $t_support = function_exists( 'pg_connect' );
             break;
-         case 'mssqlnative':
+         case self::TYPE_MSSQL:
             $t_support = function_exists( 'sqlsrv_connect' );
             break;
-         case 'oci8':
+         case self::TYPE_ORACLE:
             $t_support = function_exists( 'OCILogon' );
             break;
-         case 'odbc_mssql':
+         case self::TYPE_ODBC_MSSQL:
             $t_support = function_exists( 'odbc_connect' );
             break;
          default:
@@ -258,7 +275,7 @@ class AdodbWrapper {
     */
    public function isMysql() {
       
-      return( 'mysqli' == $this->database_type );
+      return( self::TYPE_MYSQL == $this->database_type );
    }
 
    /**
@@ -267,7 +284,7 @@ class AdodbWrapper {
     */
    public function isPgsql() {
       
-      return ( 'pgsql' == $this->database_type );
+      return ( self::TYPE_PGSQL == $this->database_type );
    }
 
    /**
@@ -276,8 +293,8 @@ class AdodbWrapper {
     */
    public function isMssql() {
       
-      return (( 'mssqlnative' == $this->database_type ) ||
-              ( 'odbc_mssql'  == $this->database_type ));
+      return (( self::TYPE_MSSQL == $this->database_type ) ||
+              ( self::TYPE_ODBC_MSSQL  == $this->database_type ));
    }
 
    /**
@@ -286,7 +303,7 @@ class AdodbWrapper {
     */
    public function isOracle() {
       
-      return( 'oci8' == $this->database_type );
+      return( self::TYPE_ORACLE == $this->database_type );
    }
 
    /**
@@ -306,6 +323,8 @@ class AdodbWrapper {
    }
 
    /**
+    * WARNING: escape is already applied when calling sql_query() !
+    *
     * replacement for mysql_real_escape_string
     * 
     *  The function qStr() takes an input string, and allows it to be:
@@ -316,9 +335,11 @@ class AdodbWrapper {
     * @param type $string
     * @return type
     */
+   /*
    public function escapeString($string) {
       return $this->adodb->qStr($string);
    }
+   */
    
    /**
     * execute query, requires connection to be opened
@@ -331,13 +352,20 @@ class AdodbWrapper {
     * @global boolean indicating whether queries array is populated
     * @param string  $p_query     Parameterlised Query string to execute.
     * @param array   $p_arr_parms Array of parameters matching $p_query.
+    * @param array   $p_isParamPush execute $this->db_param_push() before executing query.
     * @param integer $p_limit     Number of results to return.
     * @param integer $p_offset    Offset query results for paging.
     * @param boolean $p_pop_param Set to false to leave the parameters on the stack
     * @return IteratorAggregate|boolean adodb result set or false if the query failed.
     */
-   public function sql_query( $p_query, array $p_arr_parms = null, $p_limit = -1, $p_offset = -1, $p_pop_param = true ) {
-      
+   public function sql_query($p_query, array $p_arr_parms = null, $p_isParamPush = TRUE, $p_limit = -1, $p_offset = -1, $p_pop_param = true) {
+
+      // This is for convenience (not present in intitial MantisBT function)
+      // it has to be executed in 99% of the queries, so let it be automatic...
+      if (TRUE === $p_isParamPush) {
+         $this->db_param_push();
+      }
+
 
       $t_start = microtime( true );
 
@@ -359,6 +387,13 @@ class AdodbWrapper {
          }
       }
 
+/* bypass prefix/suffix in CodevTT */
+      $s_prefix = '';
+      $s_suffix = '';
+      $p_query = strtr($p_query, array(
+                        '{' => $s_prefix,
+                        '}' => $s_suffix,
+                        ) );      
 /* TODO enable prefix/suffix in CodevTT 
       
       static $s_prefix;
@@ -399,14 +434,11 @@ class AdodbWrapper {
 
       $t_elapsed = number_format( microtime( true ) - $t_start, 4 );
 
-      if( ON == $this->db_log_queries ) {
+      if( $this->isLog ) {
          $t_query_text = $this->formatQueryLogMsg( $p_query, $p_arr_parms );
-         log_event( LOG_DATABASE, array( $t_query_text, $t_elapsed ) );
-      } else {
-         # If not logging the queries the actual text is not needed
-         $t_query_text = '';
+         self::$logger->debug($t_query_text . "[elapsed=$t_elapsed]");
+         array_push( $this->queries_array, array( $t_query_text, $t_elapsed ) );
       }
-      array_push( $this->queries_array, array( $t_query_text, $t_elapsed ) );
 
       # Restore param stack: only pop if asked to AND the query has params
       if( $p_pop_param && !empty( $p_arr_parms ) ) {
@@ -444,7 +476,7 @@ class AdodbWrapper {
    /**
     * Pops the previous parameter count from the stack
     * It is generally not necessary to call this, because the param count is popped
-    * automatically whenever a query is executed via db_query(). There are some
+    * automatically whenever a query is executed via sql_query(). There are some
     * corner cases when doing it manually makes sense, e.g. when a query is built
     * but not executed.
     * @return void
@@ -471,6 +503,21 @@ class AdodbWrapper {
    }
 
    /**
+    *
+    * @param IteratorAggregate $p_result
+    * @return boolean
+    */
+   public function fetchObject( IteratorAggregate &$p_result ) {
+
+      $resultAsArray = $this->fetchArray($p_result);
+
+      if (false === $resultAsArray) { return false; }
+
+      // convert array to object
+      return (object)$resultAsArray;
+   }
+
+   /**
     * Retrieve the next row returned from a specific database query
     * @param IteratorAggregate &$p_result Database Query Record Set to retrieve next result for.
     * @return array Database result
@@ -487,7 +534,7 @@ class AdodbWrapper {
       # Additional handling for specific RDBMS
       switch( $this->database_type ) {
 
-         case 'pgsql':
+         case self::TYPE_PGSQL:
             # pgsql's boolean fields are stored as 't' or 'f' and must be converted
             static $s_current_result = null, $s_convert_needed;
 
@@ -518,7 +565,7 @@ class AdodbWrapper {
             }
             break;
 
-         case 'oci8':
+         case self::TYPE_ORACLE:
             # oci8 returns null values for empty strings, convert them back
             foreach( $t_row as &$t_value ) {
                if( !isset( $t_value ) ) {
@@ -564,14 +611,14 @@ class AdodbWrapper {
 
       if( isset( $p_table ) ) {
          switch( $this->database_type ) {
-            case 'oci':
+            case self::TYPE_ORACLE:
                $t_query = 'SELECT seq_' . $p_table . '.CURRVAL FROM DUAL';
                break;
-            case 'pgsql':
+            case self::TYPE_PGSQL:
                $t_query = 'SELECT currval(\'' . $p_table . '_' . $p_field . '_seq\')';
                break;
-            case 'mssqlnative':
-            case 'odbc_mssql':
+            case self::TYPE_MSSQL:
+            case self::TYPE_ODBC_MSSQL:
                $t_query = 'SELECT IDENT_CURRENT(\'' . $p_table . '\')';
                break;
          }
@@ -599,9 +646,9 @@ class AdodbWrapper {
       }
 
       # Can't use in_array() since it is case sensitive
-      $t_table_name = utf8_strtolower( $p_table_name );
+      $t_table_name = mb_strtolower( $p_table_name );
       foreach( $t_tables as $t_current_table ) {
-         if( utf8_strtolower( $t_current_table ) == $t_table_name ) {
+         if( mb_strtolower( $t_current_table ) == $t_table_name ) {
             return true;
          }
       }
@@ -630,9 +677,9 @@ class AdodbWrapper {
 
       if( !empty( $t_indexes ) ) {
          # Can't use in_array() since it is case sensitive
-         $t_index_name = utf8_strtolower( $p_index_name );
+         $t_index_name = mb_strtolower( $p_index_name );
          foreach( $t_indexes as $t_current_index_name => $t_current_index_obj ) {
-            if( utf8_strtolower( $t_current_index_name ) == $t_index_name ) {
+            if( mb_strtolower( $t_current_index_name ) == $t_index_name ) {
                return true;
             }
          }
@@ -700,22 +747,22 @@ class AdodbWrapper {
    /**
     * Prepare a binary string before DB insertion
     * Use of this function is required for some DB types, to properly encode
-    * BLOB fields prior to calling db_query()
+    * BLOB fields prior to calling sql_query()
     * @param string $p_string Raw binary data.
     * @return string prepared database query string
     */
    public function prepareBinaryString( $p_string ) {
       
       switch( $this->database_type ) {
-         case 'odbc_mssql':
+         case self::TYPE_ODBC_MSSQL:
             $t_content = unpack( 'H*hex', $p_string );
             return '0x' . $t_content['hex'];
             break;
-         case 'pgsql':
+         case self::TYPE_PGSQL:
             return $this->adodb->BlobEncode( $p_string );
             break;
-         case 'mssqlnative':
-         case 'oci8':
+         case self::TYPE_MSSQL:
+         case self::TYPE_ORACLE:
             # Fall through, mssqlnative, oci8 store raw data in BLOB
          default:
             return $p_string;
@@ -888,7 +935,7 @@ class AdodbWrapper {
          $p_where = 'id=' . $this->getInsertId( $p_table );
       }
 
-      if( ON == $this->db_log_queries ) {
+      if($this->isLog) {
          $t_start = microtime( true );
 
          $t_backtrace = debug_backtrace();
@@ -906,14 +953,14 @@ class AdodbWrapper {
 
       $t_result = $this->adodb->UpdateBlob( $p_table, $p_column, $p_val, $p_where );
 
-      if( $this->db_log_queries ) {
+      if( $this->isLog ) {
          $t_elapsed = number_format( microtime( true ) - $t_start, 4 );
          $t_log_data = array(
             'Update BLOB in ' . $p_table . '.' . $p_column . ' where ' . $p_where,
             $t_elapsed,
             $t_caller
          );
-         //log_event( LOG_DATABASE, var_export( $t_log_data, true ) );
+         self::$logger->debug(var_export( $t_log_data, true ));
          array_push( $this->queries_array, $t_log_data );
       }
 
@@ -1174,7 +1221,7 @@ class AdodbWrapper {
     * @return string
     */
    public function mysqlFixUtf8( $p_string ) {
-      if( !db_is_mysql() ) {
+      if( !$this->isMysql() ) {
          return $p_string;
       }
       return preg_replace(
@@ -1188,7 +1235,7 @@ class AdodbWrapper {
    }
 
    /**
-    * Creates an empty record set, compatible with db_query() result
+    * Creates an empty record set, compatible with sql_query() result
     * This object can be used when a query can't be performed, or is not needed,
     * and still want to return an empty result as a transparent return value.
     * @return \ADORecordSet_empty
@@ -1220,7 +1267,7 @@ class AdodbWrapper {
             # Realign the offset returned by preg_match as it is byte-based,
             # which causes issues with UTF-8 characters in the query string
             # (e.g. from custom fields names)
-            $t_utf8_offset = utf8_strlen( substr( $p_query, 0, $t_match_param[1] ), mb_internal_encoding() );
+            $t_utf8_offset = mb_strlen( substr( $p_query, 0, $t_match_param[1] ), mb_internal_encoding() );
             if( $i <= count( $p_arr_parms ) ) {
                if( $this->isPgsql() ) {
                   # For pgsql, the bound value is indexed by the parameter name
@@ -1243,9 +1290,9 @@ class AdodbWrapper {
                   # Skip this token, so replacing it with itself.
                   $t_replace = $t_match_param[0];
                }
-               $p_query = utf8_substr( $p_query, 0, $t_utf8_offset )
+               $p_query = mb_substr( $p_query, 0, $t_utf8_offset )
                   . $t_replace
-                  . utf8_substr( $p_query, $t_utf8_offset + utf8_strlen( $t_match_param[0] ) );
+                  . mb_substr( $p_query, $t_utf8_offset + mb_strlen( $t_match_param[0] ) );
                $t_lastoffset = $t_match_param[1] + strlen( $t_replace ) + 1;
             } else {
                $t_lastoffset = $t_match_param[1] + 1;

@@ -32,6 +32,11 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 // OR
 //date_default_timezone_set("Europe/Paris");
 
+
+// include libs
+require_once('lib/adodb/adodb.inc.php');
+
+
 // Set up the autoloader system
 require_once('lib/dynamic_autoloader/ClassFileMapAutoloader.php');
 $_autoloader = unserialize(file_get_contents(BASE_PATH."/classmap.ser"));

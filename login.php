@@ -24,14 +24,16 @@ require('path.inc.php');
 if(isset($_POST['action'])) {
     if ('login' == $_POST['action']) {
        // Ajax return by 'echo'
-        echo login($_POST['codev_login'],$_POST['codev_passwd']);
+        $retVal = login($_POST['codev_login'],$_POST['codev_passwd']);
+        echo $retVal;
     }
 }
 
-function login($user, $password) {
+function login($username, $password) {
     $logger = Logger::getLogger('login');
-	
-    // WARN: if logger is LoggerAppenderEcho, then logs will break the login Ajax call !
+    $sql = AdodbWrapper::getInstance();
+
+   // WARN: if logger is LoggerAppenderEcho, then logs will break the login Ajax call !
 	 try {
 		$appenders = $logger->getParent()->getAllAppenders();
 		$isLog = true;
@@ -46,22 +48,27 @@ function login($user, $password) {
 		 // logs should never break application
 		 $isLog = false;
 	 }
-
     $password = md5($password);
     $now = time();
 
-    $formattedUser = AdodbWrapper::getInstance()->escapeString($user);
-    $formattedPass = AdodbWrapper::getInstance()->escapeString($password);
-    $query = "SELECT id, username, realname, last_visit FROM `mantis_user_table` WHERE username = '".$formattedUser."' AND password = '".$formattedPass."' AND enabled = 1;";
-    $result = SqlWrapper::getInstance()->sql_query($query);
-    if ($result && SqlWrapper::getInstance()->sql_num_rows($result) == 1 && $row_login = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-        $_SESSION['userid'] = $row_login->id;
-        $_SESSION['username'] = $row_login->username;
-        $_SESSION['realname'] = $row_login->realname;
-        $lastVisitTimestamp = $row_login->last_visit;
+    $query = "SELECT id, username, realname, last_visit FROM {mantis_user_table} " .
+             " WHERE username = " . $sql->db_param() .
+             " AND password = " . $sql->db_param() .
+             " AND enabled = 1";
 
-        try {
-            $user =  UserCache::getInstance()->getUser($row_login->id);
+    $result = $sql->sql_query($query, array($username, $password));
+
+    if ($result &&
+        1 == $sql->getNumRows($result) &&
+        $row_login = $sql->fetchArray($result)) {
+
+         $_SESSION['userid'] = $row_login['id'];
+         $_SESSION['username'] = $row_login['username'];
+         $_SESSION['realname'] = $row_login['realname'];
+         $lastVisitTimestamp = $row_login['last_visit'];
+
+         try {
+            $user = UserCache::getInstance()->getUser($row_login['id']);
 
             $locale = $user->getDefaultLanguage();
             if (NULL != $locale) { $_SESSION['locale'] = $locale; }
@@ -73,37 +80,39 @@ function login($user, $password) {
             } else {
                // no default team (user's first connection): 
                // find out if user is already affected to a team and set as default team
-               $query = "SELECT team_id FROM `codev_team_user_table` WHERE user_id = '".$user->getId().
-                       "' ORDER BY arrival_date DESC LIMIT 1;";
-               $result = SqlWrapper::getInstance()->sql_query($query);
-               if ($result && 1 == SqlWrapper::getInstance()->sql_num_rows($result)) {
-                  $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-                  $teamid = $row->team_id;
+               $query = 'SELECT team_id FROM {codev_team_user_table} WHERE user_id = ' . $sql->db_param() .
+                        ' ORDER BY arrival_date DESC';
+               $query_params = array($user->getId());
+
+               $result = $sql->sql_query($query, $query_params, TRUE, 1); // LIMIT 1
+               if ($result && 1 == $sql->getNumRows($result)) {
+                  $row = $sql->fetchArray($result);
+                  $teamid = $row['team_id'];
                   $user->setDefaultTeam($teamid);
                   $_SESSION['teamid'] = $teamid;
                }
-
             }
             
             $projid = $user->getDefaultProject();
             if (0 != $projid) { $_SESSION['projectid'] = $projid; }
 
-            $query2 = "UPDATE `mantis_user_table` SET last_visit = ".$now." WHERE username = '".$formattedUser."';";
-            SqlWrapper::getInstance()->sql_query($query2);
+            $query2 = "UPDATE {mantis_user_table} SET last_visit = ".$sql->db_param().
+                      " WHERE username = ".$sql->db_param();
+            $sql->sql_query($query2, array($now, $username));
 
          } catch (Exception $e) {
-            if ($isLog && self::$logger->isDebugEnabled()) {
-               $logger->debug("could not load preferences for user $row_login->id");
+            if ($isLog && $logger->isDebugEnabled()) {
+               $logger->debug("could not load preferences for user " . $row_login['id']);
             }
          }
 			if (($isLog) && ($now > ($lastVisitTimestamp + 2))) {
             $ua = Tools::getBrowser();
             $browserStr = $ua['name'] . ' ' . $ua['version'] . ' (' .$ua['platform'].')'; 
-            $logger->info('user '.$row_login->id.' '.$row_login->username.' ('.$row_login->realname.'), Team '.$user->getDefaultTeam().', '.$browserStr);
-			}
-        return TRUE;
+            $logger->info('user ' . $row_login['id'] . ' ' . $row_login['username'] . ' (' . $row_login['realname'] . '), Team ' . $user->getDefaultTeam() . ', ' . $browserStr);
+         }
+         return TRUE;
     } else {
-        #$error = 'login failed !';
+        #$logger->error('login failed !');
         return FALSE;
     }
 }

@@ -188,17 +188,17 @@ class User extends Model {
     */
    private function initialize($row) {
       if(NULL == $row) {
-         $query = "SELECT username, realname, enabled " .
-                  "FROM `mantis_user_table` " .
-                  "WHERE id = $this->id;";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = 'SELECT username, realname, enabled FROM {mantis_user_table} WHERE id = '. $sql->db_param();
+
+         $result = $sql->sql_query($query, array($this->id));
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
-         if(SqlWrapper::getInstance()->sql_num_rows($result)) {
-            $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         if($sql->getNumRows($result)) {
+            $row = $sql->fetchObject($result);
          }
       }
 
@@ -371,30 +371,36 @@ class User extends Model {
       if (NULL == $this->teamMemberCache) {
          $this->teamMemberCache = array();
       }
+      $sql = AdodbWrapper::getInstance();
 
       $key = $team_id . '_' . $accessLevel . ' ' . $startTimestamp . ' ' . $endTimestamp;
 
       if (!array_key_exists($key, $this->teamMemberCache)) {
-         $query = "SELECT COUNT(id) FROM `codev_team_user_table` " .
-                  "WHERE team_id = $team_id " .
-                  "AND user_id = $this->id ";
+         $query = "SELECT COUNT(id) FROM {codev_team_user_table} " .
+                  " WHERE team_id = " . $sql->db_param().
+                  " AND user_id = ". $sql->db_param();
+         $q_params = array($team_id, $this->id);
 
          if (NULL != $accessLevel) {
-            $query .= "AND access_level = $accessLevel ";
+            $query .= " AND access_level = ". $sql->db_param();
+            $q_params[] = $accessLevel;
          }
 
          if ((NULL != $startTimestamp) && (NULL != $endTimestamp)) {
-            $query .= "AND arrival_date <= $endTimestamp AND " .
-                      "(departure_date >= $startTimestamp OR departure_date = 0)";
+            $query .= " AND arrival_date <= ". $sql->db_param() .
+                      " AND (departure_date >= " .$sql->db_param() .
+                      " OR departure_date = 0)";
+            $q_params[] = $endTimestamp;
+            $q_params[] = $startTimestamp;
             // REM: if departure_date = 0, then user stays until the end of the world.
          }
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $nbTuples = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
+         $nbTuples = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
 
          $this->teamMemberCache[$key] = (0 != $nbTuples);
       }
@@ -887,25 +893,29 @@ class User extends Model {
       if($accessLevel == NULL && $this->allTeamList != NULL) {
          return $this->allTeamList;
       }
-      $isEnabled = $withDisabled ? '1' : '0';
+      $sql = AdodbWrapper::getInstance();
+
       $query = "SELECT team.id, team.name " .
-               "FROM `codev_team_table` as team " .
-               "JOIN `codev_team_user_table` as team_user ON team.id = team_user.team_id ".
-               "WHERE   team_user.user_id = $this->id ";
+               "FROM {codev_team_table} as team " .
+               "JOIN {codev_team_user_table} as team_user ON team.id = team_user.team_id ".
+               "WHERE   team_user.user_id = " . $sql->db_param();
+      $query_params = array($this->id);
+
       if (!is_null($accessLevel)) {
-         $query .= "AND team_user.access_level = $accessLevel ";
+         $query .= " AND team_user.access_level = ". $sql->db_param();
+         $query_params[] = $accessLevel;
       }
       if (!$withDisabled) {
-         $query .= "AND team.enabled = 1 ";
+         $query .= " AND team.enabled = 1 ";
       }
 
-      $query .= "ORDER BY team.name;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query .= " ORDER BY team.name;";
+      $result = $sql->sql_query($query, $query_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while ($row = $sql->fetchObject($result)) {
          $teamList[$row->id] = $row->name;
          #echo "getTeamList(".Team::$accessLevelNames[$accessLevel].") FOUND $row->id - $row->name<br/>";
       }
