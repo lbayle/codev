@@ -126,15 +126,17 @@ class Project extends Model {
     */
    public function initialize($row = NULL) {
       if($row == NULL) {
-         $query = "SELECT * FROM `mantis_project_table` ".
-                  "WHERE id = ".$this->id.";";
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM {project} ".
+                  "WHERE id = ".$sql->db_param();
+          $q_params[]=$this->id;
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $row = $sql->fetchObject($result);
       }
 
       $nbTuples = ($row != FALSE);
@@ -158,15 +160,17 @@ class Project extends Model {
     * if SideTaskProject get categories
     */
    public function initializeCategories() {
-      $query = "SELECT * FROM `codev_project_category_table` WHERE project_id = " . $this->id . ";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT * FROM codev_project_category_table WHERE project_id = " . $sql->db_param();
+      $q_params[]=$this->id;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
       $this->categoryList = array();
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while ($row = $sql->fetchObject($result)) {
          $this->categoryList[$row->type] = $row->category_id;
       }
    }
@@ -184,14 +188,16 @@ class Project extends Model {
       if (NULL == self::$existsCache) { self::$existsCache = array(); }
 
       if (NULL == self::$existsCache[$id]) {
-         $query  = "SELECT COUNT(id) FROM `mantis_project_table` WHERE id=".$id.";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query  = "SELECT COUNT(id) FROM {project} WHERE id=".$sql->db_param();
+         $q_params[]=$id;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         #$found  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? true : false;
-         $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
+         #$found  = (0 != $sql->getNumRows($result)) ? true : false;
+         $nbTuples  = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
 
          if (1 != $nbTuples) {
             self::$logger->warn("exists($id): found $nbTuples items.");
@@ -213,13 +219,15 @@ class Project extends Model {
          return false;
       }
       // check if name exists
-      $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query  = "SELECT id FROM {project} WHERE name=".$sql->db_param();
+      $q_params[]=$projectName;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $projectid = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : -1;
+      $projectid = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : -1;
 
       // no error, but -1 if not found
       return $projectid;
@@ -233,23 +241,27 @@ class Project extends Model {
     */
    public static function createExternalTasksProject($projectName, $projectDesc) {
       // check if name exists
-      $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query  = "SELECT id FROM {project} WHERE name=".$sql->db_param();
+      $q_params[]=$projectName;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      $projectid = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : -1;
+      $projectid = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : -1;
       if (-1 != $projectid) {
          self::$logger->error("createExternalTasksProject($projectName): Project name already exist");
          return $projectid;
       }
 
       // create new Project
-      $query = "INSERT INTO `mantis_project_table` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
-               "VALUES ('$projectName',50,1,50,10,'$projectDesc',1,1);";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "INSERT INTO {project} (name, status, enabled, view_state, access_min, description, category_id, inherit_global) ".
+               "VALUES (".$sql->db_param().",50,1,50,10,".$sql->db_param().",1,1);";
+      $q_params[]=$projectName;
+      $q_params[]=$projectDesc;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -261,27 +273,32 @@ class Project extends Model {
       #REM first call to this function is in install step1, and $statusNames is set in step2. '90' is mantis default value for 'closed'
       $statusNames = NULL; # Constants::$statusNames;
       $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
-      $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
-               "VALUES ('bug_submit_status', $projectid, 0, 90, 1, '$status_closed');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "INSERT INTO {config} (config_id,project_id,user_id,access_reqd,type,value) ".
+               "VALUES ('bug_submit_status', ".$sql->db_param().", 0, 90, 1, ".$sql->db_param().")";
+      $q_params[]=$projectid;
+      $q_params[]=$status_closed;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
       // Status to set auto-assigned issues to 'closed'
-      $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
-               "VALUES ('bug_assigned_status', $projectid, 0, 90, 1, '$status_closed');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "INSERT INTO {config} (config_id,project_id,user_id,access_reqd,type,value) ".
+               "VALUES ('bug_assigned_status', ".$sql->db_param().", 0, 90, 1, ".$sql->db_param().")";
+      $q_params[]=$projectid;
+      $q_params[]=$status_closed;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
       // create leave category
-      $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) ".
-              "VALUES ('$projectid','0','Leave', '0');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "INSERT INTO {category}  (project_id, user_id, name, status) ".
+              "VALUES (".$sql->db_param().",'0','Leave', '0');";
+      $q_params[]=$projectid;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -289,9 +306,10 @@ class Project extends Model {
       $catLeaveId = AdodbWrapper::getInstance()->getInsertId();
 
       // create otherInternal category
-      $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) ".
-              "VALUES ('$projectid','0','Other activity', '0');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "INSERT INTO {category}  (project_id, user_id, name, status) ".
+              "VALUES (".$sql->db_param().",'0','Other activity', '0');";
+      $q_params[]=$projectid;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -323,24 +341,29 @@ class Project extends Model {
       $deadLineCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
 
+      $sql = AdodbWrapper::getInstance();
+
       // check if name exists
-      $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query  = "SELECT id FROM {project} WHERE name=".$sql->db_param();
+      $q_params[]=$projectName;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      $projectid = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : -1;
+      $projectid = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : -1;
       if (-1 != $projectid) {
          echo "ERROR: Project name already exists ($projectName)<br/>\n";
          return -1;
       }
 
       // create new Project
-      $query = "INSERT INTO `mantis_project_table` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
-         "VALUES ('$projectName','50','1','50','10','$projectDesc','1','0');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "INSERT INTO {project} (name, status, enabled, view_state, access_min, description, category_id, inherit_global) ".
+         "VALUES (".$sql->db_param().",'50','1','50','10',".$sql->db_param().",'1','0');";
+      $q_params[]=$projectName;
+      $q_params[]=$projectDesc;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -348,14 +371,27 @@ class Project extends Model {
       $projectid = AdodbWrapper::getInstance()->getInsertId();
 
       // add custom fields BI,BS,RAE,DeadLine,DeliveryDate
-      $query = "INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) ".
-               "VALUES ('$mgrEffortEstimCustomField', '$projectid','2'), ".
-               "('$estimEffortCustomField',    '$projectid','3'), ".
-               "('$addEffortCustomField',      '$projectid','4'), ".
-               "('$backlogCustomField',      '$projectid','5'), ".
-               "('$deadLineCustomField',       '$projectid','6'), ".
-               "('$deliveryDateCustomField',   '$projectid','7');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "INSERT INTO {custom_field_project} (field_id, project_id, sequence) ".
+               "VALUES (".$sql->db_param().", ".$sql->db_param().",'2'), ".
+               "(".$sql->db_param().", ".$sql->db_param().",'3'), ".
+               "(".$sql->db_param().", ".$sql->db_param().",'4'), ".
+               "(".$sql->db_param().", ".$sql->db_param().",'5'), ".
+               "(".$sql->db_param().", ".$sql->db_param().",'6'), ".
+               "(".$sql->db_param().", ".$sql->db_param().",'7');";
+      $q_params[]=$mgrEffortEstimCustomField;
+      $q_params[]=$projectid;
+      $q_params[]=$estimEffortCustomField;
+      $q_params[]=$projectid;
+      $q_params[]=$addEffortCustomField;
+      $q_params[]=$projectid;
+      $q_params[]=$backlogCustomField;
+      $q_params[]=$projectid;
+      $q_params[]=$deadLineCustomField;
+      $q_params[]=$projectid;
+      $q_params[]=$deliveryDateCustomField;
+      $q_params[]=$projectid;
+
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -367,18 +403,22 @@ class Project extends Model {
       $statusNames = Constants::$statusNames;
       Config::setQuiet(FALSE);
       $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
-      $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
-               "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "INSERT INTO {config} (config_id,project_id,user_id,access_reqd,type,value) ".
+               "VALUES ('bug_submit_status',  ".$sql->db_param().",'0', '90', '1', ".$sql->db_param().")";
+      $q_params[]=$projectid;
+      $q_params[]=$status_closed;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
       // Status to set auto-assigned issues to 'closed'
-      $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
-               "VALUES ('bug_assigned_status',  '$projectid','0', '90', '1', '$status_closed');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "INSERT INTO {config} (config_id,project_id,user_id,access_reqd,type,value) ".
+               "VALUES ('bug_assigned_status',  ".$sql->db_param().",'0', '90', '1', ".$sql->db_param().")";
+      $q_params[]=$projectid;
+      $q_params[]=$status_closed;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -394,13 +434,15 @@ class Project extends Model {
     */
    public static function getCategoryName($id) {
       if(!array_key_exists($id, self::$categories)) {
-         $query = "SELECT name FROM `mantis_category_table` WHERE id = ".$id.";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT name FROM {category} WHERE id = ".$sql->db_param();
+         $q_params[]=$id;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $categoryName = SqlWrapper::getInstance()->sql_result($result, 0);
+         $categoryName = $sql->sql_result($result, 0);
 
          self::$categories[$id] = $categoryName;
       }
@@ -414,14 +456,16 @@ class Project extends Model {
     * @return string The category name
     */
    public static function getCategoryId($name) {
-      $query = "SELECT id FROM `mantis_category_table` WHERE name='$name'";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id FROM {category} WHERE name=".$sql->db_param();
+      $q_params[]=$name;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      return SqlWrapper::getInstance()->sql_result($result);
+      return $sql->sql_result($result);
    }
 
    /**
@@ -430,14 +474,16 @@ class Project extends Model {
     * @return string The version name
     */
    public static function getProjectVersionName($id) {
-      $query = "SELECT version FROM `mantis_project_version_table` WHERE id = ".$id.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT version FROM {project_version} WHERE id = ".$sql->db_param();
+      $q_params[]=$id;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      return SqlWrapper::getInstance()->sql_result($result);
+      return $sql->sql_result($result);
    }
 
    /**
@@ -447,14 +493,18 @@ class Project extends Model {
     * @return string The version timestamp
     */
    public static function getProjectVersionTimestamp($project_id, $version) {
-      $query = "SELECT date_order FROM `mantis_project_version_table` "
-              . 'WHERE `project_id` = '.$project_id.' AND `version` = "'.$version.'";';
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT date_order FROM {project_version} ".
+               ' WHERE project_id = '.$sql->db_param().
+               ' AND version = '.$sql->db_param();
+      $q_params[]=$project_id;
+      $q_params[]=$version;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      return SqlWrapper::getInstance()->sql_result($result);
+      return $sql->sql_result($result);
    }
 
    public function isEnabled() {
@@ -472,6 +522,8 @@ class Project extends Model {
       //if (is_null($this->categoryCache)) {
          $this->categoryCache = array();
 
+         $sql = AdodbWrapper::getInstance();
+
          // find out if global categories must be added
          $formattedProjects = $this->id;
          if ($withGlobal && $this->inherit_global) {
@@ -479,26 +531,28 @@ class Project extends Model {
          }
 
          if ($withInherited) {
-            $queryParents = "SELECT parent_id FROM `mantis_project_hierarchy_table` ".
-                    "WHERE child_id = $this->id ".
-                    "AND inherit_parent = 1 ";
-            $resultParents = SqlWrapper::getInstance()->sql_query($queryParents);
+            $queryParents = "SELECT parent_id FROM {project_hierarchy} ".
+                    "WHERE child_id = ".$sql->db_param().
+                    " AND inherit_parent = 1 ";
+            $q_params[]=$this->id;
+            $resultParents = $sql->sql_query($queryParents, $q_params);
             if (!$resultParents) {
                echo "<span style='color:red'>ERROR: Query FAILED</span>";
                exit;
             }
-            while($row = SqlWrapper::getInstance()->sql_fetch_object($resultParents)) {
+            while($row = $sql->fetchObject($resultParents)) {
                $formattedProjects .= ','.$row->parent_id;
             }
          }
 
-         $query = "SELECT id, name FROM `mantis_category_table` WHERE project_id IN (".$formattedProjects.");";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $query = "SELECT id, name FROM {category} WHERE project_id IN (".$sql->db_param().")";
+         $q_params[]=$formattedProjects;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $this->categoryCache[$row->id] = $row->name;
          }
       //}
@@ -512,18 +566,20 @@ class Project extends Model {
       if (NULL == $this->versionCache) {
          $this->versionCache = array();
 
-         $query = "SELECT id, version FROM `mantis_project_version_table` WHERE project_id = ".$this->id;
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT id, version FROM {project_version} WHERE project_id = ".$sql->db_param();
+         $q_params[]=$this->id;
          if (FALSE == $withObsolete) {
             $query .= " AND obsolete=0";
          }
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $this->versionCache[$row->id] = $row->version;
          }
       }
@@ -545,8 +601,10 @@ class Project extends Model {
       */
 
       // find out which customFields are already associated
-      $query = "SELECT field_id FROM `mantis_custom_field_project_table` WHERE project_id = ".$projectid.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT field_id FROM {custom_field_project} WHERE project_id = ".$sql->db_param();
+      $q_params[]=$projectid;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -563,22 +621,54 @@ class Project extends Model {
       $typeCustomField = Config::getInstance()->getValue(Config::id_customField_type);
 
       $existingFields = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $existingFields[] = $row->field_id;
       }
 
-      $query = "INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) ".
+      $query = "INSERT INTO {custom_field_project} (field_id, project_id, sequence) ".
                "VALUES ";
 
       $found = FALSE;
-      if (!in_array($typeCustomField, $existingFields))         { $query .= "('$typeCustomField',         '$projectid','101'),"; $found = TRUE; }
-      if (!in_array($tcCustomField, $existingFields))           { $query .= "('$tcCustomField',           '$projectid','102'),"; $found = TRUE; }
-      if (!in_array($mgrEffortEstim, $existingFields))          { $query .= "('$mgrEffortEstim',          '$projectid','103'),"; $found = TRUE; }
-      if (!in_array($estimEffortCustomField, $existingFields))  { $query .= "('$estimEffortCustomField',  '$projectid','104'),"; $found = TRUE; }
-      if (!in_array($addEffortCustomField, $existingFields))    { $query .= "('$addEffortCustomField',    '$projectid','105'),"; $found = TRUE; }
-      if (!in_array($backlogCustomField, $existingFields))      { $query .= "('$backlogCustomField',      '$projectid','106'),"; $found = TRUE; }
-      if (!in_array($deadLineCustomField, $existingFields))     { $query .= "('$deadLineCustomField',     '$projectid','107'),"; $found = TRUE; }
-      if (!in_array($deliveryDateCustomField, $existingFields)) { $query .= "('$deliveryDateCustomField', '$projectid','108'),"; $found = TRUE; }
+      if (!in_array($typeCustomField, $existingFields))         { 
+         $query .= "(".$sql->db_param().", ".$sql->db_param().",'101'),"; $found = TRUE;
+         $q_params[]=$typeCustomField;
+         $q_params[]=$projectid;
+      }
+      if (!in_array($tcCustomField, $existingFields))           { 
+         $query .= "(".$sql->db_param().", ".$sql->db_param().",'102'),"; $found = TRUE;
+         $q_params[]=$tcCustomField;
+         $q_params[]=$projectid;
+      }
+      if (!in_array($mgrEffortEstim, $existingFields))          { 
+         $query .= "(".$sql->db_param().", ".$sql->db_param().",'103'),"; $found = TRUE;
+         $q_params[]=$mgrEffortEstim;
+         $q_params[]=$projectid;
+      }
+      if (!in_array($estimEffortCustomField, $existingFields))  { 
+         $query .= "(".$sql->db_param().", ".$sql->db_param().",'104'),"; $found = TRUE;
+         $q_params[]=$estimEffortCustomField;
+         $q_params[]=$projectid;
+      }
+      if (!in_array($addEffortCustomField, $existingFields))    { 
+         $query .= "(".$sql->db_param().", ".$sql->db_param().",'105'),"; $found = TRUE;
+         $q_params[]=$addEffortCustomField;
+         $q_params[]=$projectid;
+      }
+      if (!in_array($backlogCustomField, $existingFields))      { 
+         $query .= "(".$sql->db_param().", ".$sql->db_param().",'106'),"; $found = TRUE;
+         $q_params[]=$backlogCustomField;
+         $q_params[]=$projectid;
+      }
+      if (!in_array($deadLineCustomField, $existingFields))     { 
+         $query .= "(".$sql->db_param().", ".$sql->db_param().",'107'),"; $found = TRUE;
+         $q_params[]=$deadLineCustomField;
+         $q_params[]=$projectid;
+      }
+      if (!in_array($deliveryDateCustomField, $existingFields)) { 
+         $query .= "(".$sql->db_param().", ".$sql->db_param().",'108'),"; $found = TRUE;
+         $q_params[]=$deliveryDateCustomField;
+         $q_params[]=$projectid;
+      }
       #if (!in_array($deliveryIdCustomField, $existingFields))   { $query .= "('$deliveryIdCustomField',   '$this->id','109'),"; $found = TRUE; }
 
       if ($found) {
@@ -587,7 +677,7 @@ class Project extends Model {
          $query[$pos] = ';';
 
          // add missing custom fields
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
@@ -623,8 +713,12 @@ class Project extends Model {
    private function addCategory($catType, $catName) {
       // create category for SideTask Project
       $formattedCatName = AdodbWrapper::getInstance()->escapeString($catName);
-      $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) VALUES ('$this->id','0','$formattedCatName', '0');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "INSERT INTO {category}  (project_id, user_id, name, status)"
+         . " VALUES (".$sql->db_param().",'0',".$sql->db_param().", '0')";
+      $q_params[]=$this->id;
+      $q_params[]=$formattedCatName;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -632,20 +726,34 @@ class Project extends Model {
 
       $catId = AdodbWrapper::getInstance()->getInsertId();
 
-      $query = "SELECT * FROM `codev_project_category_table` WHERE project_id='$this->id' AND type='$catType';";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "SELECT * FROM codev_project_category_table"
+         . " WHERE project_id=".$sql->db_param()
+         . " AND type=".$sql->db_param();
+      $q_params[]=$this->id;
+      $q_params[]=$catType;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+      if (0 != $sql->getNumRows($result)) {
          // should not happen...
-         $query = "UPDATE `codev_project_category_table` SET category_id = $catId WHERE project_id ='$this->id' AND type='$catType';";
+         $query = "UPDATE codev_project_category_table"
+            . " SET category_id = ".$sql->db_param()
+            . " WHERE project_id =".$sql->db_param()
+            . " AND type=".$sql->db_param();
+         $q_params[]=$catId;
+         $q_params[]=$this->id;
+         $q_params[]=$catType;
       } else {
-         $query = "INSERT INTO `codev_project_category_table`  (`project_id`, `category_id`, `type`) VALUES ('$this->id','$catId','$catType');";
+         $query = "INSERT INTO codev_project_category_table  (project_id, category_id, type)"
+            . " VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().")";
+         $q_params[]=$this->id;
+         $q_params[]=$catId;
+         $q_params[]=$catType;
       }
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -692,19 +800,30 @@ class Project extends Model {
       $priority = 10;
       $reproducibility = 100;
 
-      $formattedIssueDesc = AdodbWrapper::getInstance()->escapeString($issueDesc);
-      $query = "INSERT INTO `mantis_bug_text_table`  (`description`, `steps_to_reproduce`, `additional_information`) VALUES ('".$formattedIssueDesc."', '', '');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "INSERT INTO {bug_text}  (description, steps_to_reproduce, additional_information)"
+         . " VALUES (".$sql->db_param().", '', '')";
+      $q_params[]=$issueDesc;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
       $bug_text_id = AdodbWrapper::getInstance()->getInsertId();
 
-      $formattedIssueSummary = AdodbWrapper::getInstance()->escapeString($issueSummary);
-      $query = "INSERT INTO `mantis_bug_table` (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
-               "VALUES ($this->id,$cat_id,'$formattedIssueSummary',$priority,$reproducibility,$issueStatus,$bug_text_id,$today,$today);";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "INSERT INTO {bug} (project_id, category_id, summary, priority, reproducibility, status, bug_text_id, date_submitted, last_updated) ".
+               "VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().")";
+      $q_params[]=$this->id;
+      $q_params[]=$cat_id;
+      $q_params[]=$issueSummary;
+      $q_params[]=$priority;
+      $q_params[]=$reproducibility;
+      $q_params[]=$issueStatus;
+      $q_params[]=$bug_text_id;
+      $q_params[]=$today;
+      $q_params[]=$today;
+
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -720,13 +839,15 @@ class Project extends Model {
    public function getBugResolvedStatusThreshold() {
       if($this->bug_resolved_status_threshold == NULL) {
          // get $bug_resolved_status_threshold from mantis_config_table or codev_config_table if not found
-         $query  = "SELECT get_project_resolved_status_threshold($this->id) ";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query  = "SELECT get_project_resolved_status_threshold(".$sql->db_param().") ";
+         $q_params[]=$this->id;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $this->bug_resolved_status_threshold = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
+         $this->bug_resolved_status_threshold = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : NULL;
          #echo "DEBUG $this->name .getBugResolvedStatusThreshold() = $this->bug_resolved_status_threshold<br>\n";
       }
       return $this->bug_resolved_status_threshold;
@@ -740,18 +861,19 @@ class Project extends Model {
    public function getBugSubmitStatus() {
       if(is_null($this->bug_submit_status)) {
 
-         $query  = "SELECT value FROM `mantis_config_table` ".
+         $sql = AdodbWrapper::getInstance();
+         $query  = "SELECT value FROM {config} ".
                  "WHERE config_id = 'bug_submit_status'".
-                 "AND project_id = $this->id".
-                 " LIMIT 1;";
+                 " AND project_id =".$sql->db_param();
+         $q_params[]= $this->id;
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-            $this->bug_submit_status = SqlWrapper::getInstance()->sql_result($result, 0);
+         if (0 != $sql->getNumRows($result)) {
+            $this->bug_submit_status = $sql->sql_result($result, 0);
          } else {
             $this->bug_submit_status = Constants::$status_new;
          }
@@ -771,14 +893,16 @@ class Project extends Model {
    private function getDefaultType() {
       self::$logger->error("WORKAROUND method getDefaultType() should not be used !");
 
-      $query = "SELECT type FROM `codev_team_project_table` WHERE project_id = ".$this->id.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT type FROM codev_team_project_table WHERE project_id = ".$sql->db_param();
+      $q_params[]=$this->id;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      return (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : -1;
+      return (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : -1;
    }
 
    /**
@@ -793,6 +917,7 @@ class Project extends Model {
     */
    public function getJobList($type = NULL) {
       $commonJobType = Job::type_commonJob;
+      $sql = AdodbWrapper::getInstance();
 
       $jobList = array();
 
@@ -813,23 +938,25 @@ class Project extends Model {
          switch ($type) {
             case self::type_sideTaskProject:
                $query = "SELECT job.id, job.name ".
-                        "FROM `codev_job_table` as job ".
-                        "JOIN `codev_project_job_table` as project_job ON job.id = project_job.job_id ".
-                        "WHERE project_job.project_id = $this->id;";
+                        " FROM codev_job_table as job ".
+                        " JOIN codev_project_job_table as project_job ON job.id = project_job.job_id ".
+                        " WHERE project_job.project_id = ".$sql->db_param();
+               $q_params[]=$this->id;
                break;
             case self::type_workingProject:  // no break;
             case self::type_noStatsProject:  // no break;
             case self::type_noCommonProject:
                $query = "SELECT job.id, job.name ".
-                        "FROM `codev_job_table` as job ".
-                        "LEFT OUTER JOIN `codev_project_job_table` as project_job ".
-                        "ON job.id = project_job.job_id ".
-                        "WHERE project_job.project_id = $this->id ".
-                        "ORDER BY job.name ASC;";
+                        " FROM codev_job_table as job ".
+                        " LEFT OUTER JOIN codev_project_job_table as project_job ".
+                        " ON job.id = project_job.job_id ".
+                        " WHERE project_job.project_id =  ".$sql->db_param().
+                        " ORDER BY job.name ASC";
+               $q_params[]=$this->id;
                break;
             case (-1):
                // WORKAROUND no type specified, return all available jobs
-               $query  = "SELECT * FROM `codev_job_table`;";
+               $query  = "SELECT * FROM codev_job_table";
                break;
             default:
                echo "ERROR Project.getJobList($type): unknown project type ($type) !";
@@ -839,13 +966,13 @@ class Project extends Model {
                return $jobList;
          }
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-            while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         if (0 != $sql->getNumRows($result)) {
+            while($row = $sql->fetchObject($result)) {
                $jobList[$row->id] = $row->name;
             }
          }
@@ -869,24 +996,27 @@ class Project extends Model {
 
       if (NULL == $this->bugidListsCache[$key]) {
          $issueList = array();
+         $sql = AdodbWrapper::getInstance();
 
-         $query = "SELECT id FROM `mantis_bug_table` ".
-                  "WHERE project_id=$this->id ";
+         $query = "SELECT id FROM {bug} ".
+                  "WHERE project_id=".$sql->db_param();
+         $q_params[]=$this->id;
          if (0 != $handler_id) {
-            $query  .= "AND handler_id = $handler_id ";
+            $query  .= " AND handler_id =  ".$sql->db_param();
+            $q_params[]=$handler_id;
          }
          if ($isHideResolved) {
-            $query  .= "AND status < get_project_resolved_status_threshold(project_id) ";
+            $query  .= " AND status < get_project_resolved_status_threshold(project_id) ";
          }
 
-         $query  .= "ORDER BY id DESC";
+         $query  .= " ORDER BY id DESC";
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $issueList[] = $row->id;
          }
 
@@ -909,27 +1039,31 @@ class Project extends Model {
 
       if (!array_key_exists($key, $this->bugidListsCache)) {
          $issueList = array();
+         $sql = AdodbWrapper::getInstance();
 
-         $query = "SELECT * FROM `mantis_bug_table` ".
-                  "WHERE project_id=$this->id ";
+         $query = "SELECT * FROM {bug} ".
+                  "WHERE project_id= ".$sql->db_param();
+         $q_params[]=$this->id;
          if (0 != $handler_id) {
-            $query  .= "AND handler_id = $handler_id ";
+            $query  .= " AND handler_id =  ".$sql->db_param();
+            $q_params[]=$handler_id;
          }
          if ($isHideResolved) {
-            $query  .= "AND status < get_project_resolved_status_threshold(project_id) ";
+            $query  .= " AND status < get_project_resolved_status_threshold(project_id) ";
          }
          if (0 != $hideStatusAndAbove) {
-            $query  .= "AND status < $hideStatusAndAbove ";
+            $query  .= " AND status <  ".$sql->db_param();
+            $q_params[]=$hideStatusAndAbove;
          }
 
-         $query  .= "ORDER BY id DESC";
+         $query  .= " ORDER BY id DESC";
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);;
          }
 
@@ -949,13 +1083,15 @@ class Project extends Model {
    public function getTeamTypeList() {
       if (NULL == $this->teamTypeList) {
          $this->teamTypeList = array();
-         $query = "SELECT * FROM `codev_team_project_table` WHERE project_id = ".$this->id.";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM codev_team_project_table WHERE project_id = ".$sql->db_param();
+         $q_params[]=$this->id;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             if(self::$logger->isDebugEnabled()) {
                self::$logger->debug("getTeamTypeList: proj $row->project_id team $row->team_id type $row->type");
             }
@@ -1103,24 +1239,26 @@ class Project extends Model {
     * @return array[] of serialized status list
     */
    function getWorkflowTransitions() {
+      $sql = AdodbWrapper::getInstance();
 
       // ORDER BY is important, it will ensure to return the project specific value before the generic (0) value
-      $query = "SELECT * FROM `mantis_config_table` ".
-               "WHERE project_id IN (0, $this->id) ".
-               "AND config_id = 'status_enum_workflow' ".
-               "ORDER BY project_id DESC";
+      $query = "SELECT * FROM {config} ".
+               "WHERE project_id IN (0, ".$sql->db_param().") ".
+               " AND config_id = 'status_enum_workflow' ".
+               " ORDER BY project_id DESC";
+      $q_params[]=$this->id;
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
+      if (0 == $sql->getNumRows($result)) {
          // return default from config.ini file
          self::$logger->debug("Default status_enum_workflow for project $this->id");
          return Constants::$status_enum_workflow;
       }
-      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+      $row = $sql->fetchObject($result);
       $serialized = $row->value;
 
       if ((NULL == $serialized) || ("" == $serialized)) {
@@ -1178,20 +1316,19 @@ class Project extends Model {
     */
    function getProjectConfig() {
       // find all srcProj specific config
-      $query = "SELECT * FROM `mantis_config_table` ".
-               "WHERE project_id = ".$this->id.";";
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getProjectConfig: Src query=$query");
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT * FROM {config} ".
+               "WHERE project_id = ".$sql->db_param();
+      $q_params[]=$this->id;
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
       $configItems = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $configItems[$row->config_id] = $row->value;
       }
       return $configItems;
@@ -1209,19 +1346,21 @@ class Project extends Model {
     */
    static function cloneAllProjectConfig($srcProjectId, $destProjectId, $strict=TRUE) {
       // find all srcProj specific config
-      $query = "SELECT DISTINCT config_id FROM `mantis_config_table` ".
-               "WHERE project_id = ".$srcProjectId.";";
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("cloneAllProjectConfig: Src query=$query");
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT DISTINCT config_id FROM {config} ".
+               "WHERE project_id = ".$sql->db_param();
+      $q_params[]=$srcProjectId;
+      #if(self::$logger->isDebugEnabled()) {
+      #   self::$logger->debug("cloneAllProjectConfig: Src query=$query");
+      #}
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
       $srcConfigList = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $srcConfigList[] = $row->config_id;
       }
 
@@ -1231,16 +1370,18 @@ class Project extends Model {
          self::$logger->debug("cloneAllProjectConfig: SrcConfigList=$formatedSrcConfigList");
       }
 
-      $query = "DELETE FROM `mantis_config_table` ".
-               "WHERE project_id=".$destProjectId." ";
+      $query = "DELETE FROM {config} ".
+               "WHERE project_id=".$sql->db_param();
+      $q_params[]=$destProjectId;
       if (!$strict) {
          // delete only config defined for srcProject
-         $query .= "AND config_id IN ($formatedSrcConfigList) ";
+         $query .= " AND config_id IN (".$sql->db_param().") ";
+         $q_params[]=$formatedSrcConfigList;
       }
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("cloneAllProjectConfig: deleteQuery = $query");
       }
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -1248,16 +1389,19 @@ class Project extends Model {
 
       //--- clone all srcProj config to destProj
       foreach ($srcConfigList as $cid) {
-         $query = "INSERT INTO `mantis_config_table` ".
+         $query = "INSERT INTO {config} ".
                   "(config_id, project_id, user_id, access_reqd, type, value) ".
-                  "   (SELECT config_id, $destProjectId, user_id, access_reqd, type, value ".
-                  "    FROM `mantis_config_table` ".
-                  "    WHERE project_id=$srcProjectId ".
-                  "    AND config_id='$cid') ";
+                  "   (SELECT config_id, ".$sql->db_param().", user_id, access_reqd, type, value ".
+                  "    FROM {config} ".
+                  "    WHERE project_id= ".$sql->db_param().
+                  "    AND config_id=".$sql->db_param().") ";
+         $q_params[]=$destProjectId;
+         $q_params[]=$srcProjectId;
+         $q_params[]=$cid;
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("cloneAllProjectConfig: cloneQuery = $query");
          }
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
@@ -1303,17 +1447,19 @@ class Project extends Model {
       if(NULL == $this->versionDateCache) {
          $this->versionDateCache = array();
       }
-      $sqlWrapper = SqlWrapper::getInstance();
       if(!array_key_exists($target_version,$this->versionDateCache)) {
-         $query = "SELECT date_order FROM `mantis_project_version_table` ".
-                  "WHERE project_id=$this->id ".
-                  "AND version='".AdodbWrapper::getInstance()->escapeString($target_version)."';";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT date_order FROM {project_version} ".
+                  "WHERE project_id= ".$sql->db_param().
+                  " AND version=".$sql->db_param();
+         $q_params[]=$this->id;
+         $q_params[]=$target_version;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $targetVersionDate = (0 != $sqlWrapper->sql_num_rows($result)) ? $sqlWrapper->sql_result($result, 0) : 0;
+         $targetVersionDate = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
 
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("$this->id target_version date = ".date("Y-m-d", $targetVersionDate));
@@ -1377,14 +1523,15 @@ class Project extends Model {
     * @return string[] The projects : name[id]
     */
    public static function getProjects() {
-      $query = 'SELECT id, name FROM `mantis_project_table` ORDER BY name;';
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = 'SELECT id, name FROM {project} ORDER BY name';
+      $result = $sql->sql_query($query);
       if (!$result) {
          return NULL;
       }
 
       $projects = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $projects[$row->id] = $row->name;
       }
 
@@ -1399,17 +1546,19 @@ class Project extends Model {
    public static function getProjectIssues($projectIds) {
       $formatedProjList = implode( ', ', $projectIds);
 
-      $query = "SELECT * FROM `mantis_bug_table` " .
-               "WHERE project_id IN ($formatedProjList) " .
-               "ORDER BY id DESC;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT * FROM {bug} " .
+               " WHERE project_id IN (".$sql->db_param().") " .
+               " ORDER BY id DESC";
+      $q_params[]=$formatedProjList;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
       $issueList = array();
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      if (0 != $sql->getNumRows($result)) {
+         while ($row = $sql->fetchObject($result)) {
             $issueList[] = IssueCache::getInstance()->getIssue($row->id, $row);
          }
          return $issueList;
@@ -1460,18 +1609,20 @@ class Project extends Model {
     */
    public function getCustomFieldsList() {
 
-      $query = "SELECT mantis_custom_field_project_table.field_id, mantis_custom_field_table.name ".
-              "FROM `mantis_custom_field_project_table`, `mantis_custom_field_table` ".
-              "WHERE mantis_custom_field_project_table.project_id = $this->id ".
-              "AND mantis_custom_field_table.id = mantis_custom_field_project_table.field_id ".
-              "ORDER BY mantis_custom_field_table.name";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT {custom_field_project}.field_id, {custom_field}.name ".
+              "FROM {custom_field_project}, {custom_field} ".
+              "WHERE {custom_field_project}.project_id =  ".$sql->db_param().
+              " AND {custom_field}.id = {custom_field_project}.field_id ".
+              " ORDER BY {custom_field}.name";
+      $q_params[]=$this->id;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
       $customFieldsList = array();
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while ($row = $sql->fetchObject($result)) {
          $customFieldsList["$row->field_id"] = $row->name;
       }
       return $customFieldsList;
@@ -1496,30 +1647,35 @@ class Project extends Model {
       if (is_null($this->issueTooltipFieldsCache)) { $this->issueTooltipFieldsCache = array(); }
 
       if (!array_key_exists($key, $this->issueTooltipFieldsCache)) {
-         $query =  "SELECT value FROM `codev_config_table` WHERE `config_id` = '".Config::id_issueTooltipFields."' ";
-         $query .= "AND `project_id` IN (0, $this->id) ";
+         $sql = AdodbWrapper::getInstance();
+         $query =  "SELECT value FROM codev_config_table WHERE config_id = ".$sql->db_param();
+         $query .= " AND project_id IN (0, ".$sql->db_param().") ";
+         $q_params[]=Config::id_issueTooltipFields;
+         $q_params[]=$this->id;
          if (0 != $teamid) {
             // TODO FIXME if team not specified (timetracking.php must be fixed) then this request will skip
             // all 'team' specific settings and systematicaly return the team=0 response.
             // the if (0 != $teamid) will at least return the team specific settings, and the biggest teamid
             // will be chosen.
             // Note: once teamid selector added to timetracking.php, remove the if condition
-            $query .= "AND `team_id` IN (0, $teamid) ";
+            $query .= " AND team_id IN (0, ".$sql->db_param().") ";
+            $q_params[]=$teamid;
          }
-         $query .= "AND `user_id` IN (0, $userid) ";
-         $query .= "ORDER by project_id DESC, team_id DESC, user_id DESC";
+         $query .= " AND user_id IN (0, ".$sql->db_param().") ";
+         $q_params[]=$userid;
+         $query .= " ORDER by project_id DESC, team_id DESC, user_id DESC";
 
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getIssueTooltipFields($teamid, $userid) query = $query");
-         }
+         #if(self::$logger->isDebugEnabled()) {
+         #   self::$logger->debug("getIssueTooltipFields($teamid, $userid) query = $query");
+         #}
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-            $serialized = SqlWrapper::getInstance()->sql_result($result, 0);
+         if (0 != $sql->getNumRows($result)) {
+            $serialized = $sql->sql_result($result, 0);
 
             $unserialized = unserialize($serialized);
             $this->issueTooltipFieldsCache[$key] = $unserialized;
@@ -1566,32 +1722,28 @@ class Project extends Model {
      * @param type $memberId
      * @return boolean : true if the project has the member, false if not
      */
-    public function hasMember($memberId)
-    {
-        $query = "SELECT count(*) as count FROM `mantis_project_user_list_table` WHERE user_id = $memberId AND project_id = $this->id";
+    public function hasMember($memberId) {
+       $sql = AdodbWrapper::getInstance();
+        $query = "SELECT count(1) as count FROM {project_user_list}"
+           . " WHERE user_id = ".$sql->db_param()
+           . " AND project_id = ".$sql->db_param();
+        $q_params[]=$memberId;
+        $q_params[]=$this->id;
 
-        $result = SqlWrapper::getInstance()->sql_query($query);
+        $result = $sql->sql_query($query, $q_params);
         if (!$result) {
            echo "<span style='color:red'>ERROR: Query FAILED</span>";
            exit;
         }
 
-        while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $count = $row->count;
-        }
-
-        if($count != 0)
-        {
+        $count = $sql->getNumRows($result);
+        if($count != 0) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
-
 }
 
 Project::staticInit();
 
-?>
