@@ -203,7 +203,8 @@ class AdodbWrapper {
          throw $e;
       }
 
-      $this->isCheckParams = ( $this->isPgsql() || $this->isMssql() );
+      $this->isCheckParams = TRUE;
+      //$this->isCheckParams = ( $this->isPgsql() || $this->isMssql() );
 
       $this->db_connect(NULL, $persistConnect);
    }
@@ -398,6 +399,17 @@ class AdodbWrapper {
       if( !empty( $p_arr_parms ) && $this->isCheckParams ) {
          $t_params = count( $p_arr_parms );
          for( $i = 0;$i < $t_params;$i++ ) {
+
+            // Objects can't be converted to strings or numbers,
+            // the adodb api does not help to find which query failed,
+            // so this logs the stack-trace to help debugging
+            if (is_object($p_arr_parms[$i])) {
+               $e = new Exception("param[$i] should not be an object : ".get_class( $p_arr_parms[$i] ));
+               //$e = new Exception("SQL query param[$i] should not be an object : ".var_export( $p_arr_parms[$i], true ));
+               self::$logger->error("EXCEPTION sql_query: ".$e->getMessage());
+               self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+            }
+
             if( $p_arr_parms[$i] === false ) {
                $p_arr_parms[$i] = 0;
             } elseif ( true === ($p_arr_parms[$i] ) && ('mssqlnative' == $this->database_type) ) {
