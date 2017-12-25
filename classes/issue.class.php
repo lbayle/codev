@@ -177,15 +177,17 @@ class Issue extends Model implements Comparable {
     */
    public function initialize($row = NULL) {
       if($row == NULL) {
+         $sql = AdodbWrapper::getInstance();
          // Get issue info
-         $query = "SELECT * FROM `mantis_bug_table` " .
-                  "WHERE id = $this->bugId";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $query = "SELECT * FROM {bug} " .
+                  "WHERE id = ".$sql->db_param();
+         $q_params[]=$this->bugId;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $row = $sql->fetchObject($result);
       }
 
       $nbTuples = $row != FALSE;
@@ -236,15 +238,18 @@ class Issue extends Model implements Comparable {
       $customFields = array(
          $extIdField, $mgrEffortEstimField, $effortEstimField, $backlogField, $addEffortField, $deadLineField, $deliveryDateField, $customField_type #, $deliveryIdField
       );
-      $query = "SELECT field_id, value FROM `mantis_custom_field_string_table` ".
-               "WHERE bug_id = ".$this->bugId." ".
-               "AND field_id IN (".implode(',',$customFields).");";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT field_id, value FROM {custom_field_string} ".
+               "WHERE bug_id = ".$sql->db_param().
+               " AND field_id IN (".$sql->db_param().")";
+      $q_params[]=$this->bugId;
+      $q_params[]=implode(',',$customFields);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while ($row = $sql->fetchObject($result)) {
          switch ($row->field_id) {
             case $extIdField:
                $this->extRef = $row->value;
@@ -278,18 +283,19 @@ class Issue extends Model implements Comparable {
    }
 
    public function initializeTags() {
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT {tag}.* FROM {tag} ".
+               "JOIN {bug_tag} ON {tag}.id = {bug_tag}.tag_id ".
+               "WHERE {bug_tag}.bug_id = ".$sql->db_param();
+      $q_params[]=$this->bugId;
 
-      $query = "SELECT mantis_tag_table.* FROM `mantis_tag_table` ".
-               "JOIN `mantis_bug_tag_table` ON mantis_tag_table.id = mantis_bug_tag_table.tag_id ".
-               "WHERE mantis_bug_tag_table.bug_id = ".$this->bugId.";";
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
       $this->tagList = array();
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while ($row = $sql->fetchObject($result)) {
          $this->tagList[$row->id] = $row->name;
       }
    }
@@ -307,14 +313,16 @@ class Issue extends Model implements Comparable {
       if (NULL == self::$existsCache) { self::$existsCache = array(); }
 
       if (!array_key_exists($bugid,self::$existsCache)) {
-         $query  = "SELECT COUNT(id) FROM `mantis_bug_table` WHERE id=$bugid ";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query  = "SELECT COUNT(id) FROM {bug} WHERE id= ".$sql->db_param();
+         $q_params[]=$bugid;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         #$found  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? true : false;
-         $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
+         #$found  = (0 != $sql->getNumRows($result)) ? true : false;
+         $nbTuples  = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
 
          if (1 != $nbTuples) {
             self::$logger->warn("exists($bugid): found $nbTuples items.");
@@ -339,13 +347,17 @@ class Issue extends Model implements Comparable {
     */
    public function getDescription() {
       if (NULL == $this->description) {
-         $query = "SELECT bt.description FROM mantis_bug_text_table bt, mantis_bug_table b WHERE b.id=".$this->bugId." AND b.bug_text_id = bt.id";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT bt.description FROM {bug_text} bt, {bug} b"
+            . " WHERE b.id=".$sql->db_param().
+            " AND b.bug_text_id = bt.id";
+         $q_params[]=$this->bugId;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $row = $sql->fetchObject($result);
          $this->description = $row->description;
       }
       return $this->description;
@@ -390,14 +402,16 @@ class Issue extends Model implements Comparable {
     */
    public function getIssueNoteList() {
       if (NULL == $this->issueNoteList) {
-         $query = "SELECT id FROM `mantis_bugnote_table` WHERE bug_id = ".$this->bugId.";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT id FROM {bugnote} WHERE bug_id = ".$sql->db_param();
+         $q_params[]=$this->bugId;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
          $this->issueNoteList = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $this->issueNoteList[$row->id] = new IssueNote($row->id);
          }
       }
@@ -651,9 +665,9 @@ class Issue extends Model implements Comparable {
       return $project->getName();
 
       /*
-      $query = "SELECT name FROM `mantis_project_table` WHERE id= $this->projectId";
-      $result = SqlWrapper::getInstance()->sql_query($query) or die("Query failed: $query");
-      $projectName = SqlWrapper::getInstance()->sql_result($result, 0);
+      $query = "SELECT name FROM {project} WHERE id= $this->projectId";
+      $result = $sql->sql_query($query, $q_params) or die("Query failed: $query");
+      $projectName = $sql->sql_result($result, 0);
 
       return $projectName;
       */
@@ -702,27 +716,32 @@ class Issue extends Model implements Comparable {
       $key = 'j'.$job_id.'_s'.$startTimestamp.'_e'.$endTimestamp;
       
       if(!array_key_exists("$key", $this->elapsedCache)) {
+         $sql = AdodbWrapper::getInstance();
          $query = "SELECT SUM(duration) as duration ".
-                  "FROM `codev_timetracking_table` ".
-                  "WHERE bugid = ".$this->bugId;
+                  "FROM codev_timetracking_table ".
+                  "WHERE bugid = ".$sql->db_param();
+         $q_params[]=$this->bugId;
 
          if (isset($job_id)) {
-            $query .= " AND jobid = $job_id ";
+            $query .= " AND jobid = ".$sql->db_param();
+            $q_params[]=$job_id;
          }
          if (isset($startTimestamp)) {
-            $query .= " AND date >= $startTimestamp ";
+            $query .= " AND date >= ".$sql->db_param();
+            $q_params[]=$startTimestamp;
          }
          if (isset($endTimestamp)) {
-            $query .= " AND date <= $endTimestamp ";
+            $query .= " AND date <= ".$sql->db_param();
+            $q_params[]=$endTimestamp;
          }
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
-         $this->elapsedCache["$key"] = round(SqlWrapper::getInstance()->sql_result($result),3);
+         $this->elapsedCache["$key"] = round($sql->sql_result($result),3);
          #if(self::$logger->isDebugEnabled()) {
          #   self::$logger->debug("getElapsed(job=".$job_id."): set elapsedCache[$key] = ".$this->elapsedCache["$key"]);
          #}
@@ -761,23 +780,28 @@ class Issue extends Model implements Comparable {
       // find the field_name for the Backlog customField
       // (this should not be here, it's a general info that may be accessed elsewhere)
       $backlogCustomFieldId = Config::getInstance()->getValue(Config::id_customField_backlog);
+      $sql = AdodbWrapper::getInstance();
 
       // TODO should be done only once... in Constants singleton ?
       // find in bug history when was the latest update of the Backlog before $timestamp
-      $query = "SELECT * FROM `mantis_bug_history_table` ".
-               "WHERE field_name = (SELECT name FROM `mantis_custom_field_table` WHERE id = $backlogCustomFieldId) ".
-               "AND bug_id = '$this->bugId' ".
-               "AND date_modified <= '$timestamp' ".
-               "ORDER BY date_modified DESC LIMIT 1 ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "SELECT * FROM {bug_history} ".
+               " WHERE field_name = (SELECT name FROM {custom_field}".
+               " WHERE id = ".$sql->db_param().") ".
+               " AND bug_id = ".$sql->db_param().
+               " AND date_modified <= ".$sql->db_param().
+               " ORDER BY date_modified DESC ";
+      $q_params[]=$backlogCustomFieldId;
+      $q_params[]=$this->bugId;
+      $q_params[]=$timestamp;
+      $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+      if (0 != $sql->getNumRows($result)) {
          // the first result is the closest to the given timestamp
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $row = $sql->fetchObject($result);
          $backlog = $row->new_value;
 
          #if(self::$logger->isDebugEnabled()) {
@@ -966,16 +990,20 @@ class Issue extends Model implements Comparable {
 
 
          $this->relationships = array();
+         $sql = AdodbWrapper::getInstance();
 
-         $query = 'SELECT * FROM `mantis_bug_relationship_table` '.
-                  'WHERE source_bug_id='.$this->bugId.' OR destination_bug_id='.$this->bugId;
+         $query = 'SELECT * FROM {bug_relationship} '.
+                  'WHERE source_bug_id='.$sql->db_param().
+                  ' OR destination_bug_id='.$sql->db_param();
+         $q_params[]=$this->bugId;
+         $q_params[]=$this->bugId;
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             if($row->source_bug_id == $this->bugId) {
                // normal
                $this->relationships["$row->relationship_type"][] = $row->destination_bug_id;
@@ -1001,32 +1029,36 @@ class Issue extends Model implements Comparable {
     * @return int the timestamp of the first TimeTrack
     */
    public function startDate() {
+      $sql = AdodbWrapper::getInstance();
       $query = "SELECT MIN(date) ".
-               "FROM `codev_timetracking_table` ".
-               "WHERE bugid = ".$this->bugId.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+               "FROM codev_timetracking_table ".
+               "WHERE bugid = ".$sql->db_param();
+      $q_params[]=$this->bugId;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      return SqlWrapper::getInstance()->sql_result($result, 0);
+      return $sql->sql_result($result, 0);
    }
 
    /**
     * @return int the timestamp of the latest TimeTrack
     */
    public function endDate() {
+      $sql = AdodbWrapper::getInstance();
       $query = "SELECT MAX(date) ".
-               "FROM `codev_timetracking_table` ".
-               "WHERE bugid = ".$this->bugId.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+               "FROM codev_timetracking_table ".
+               "WHERE bugid = ".$sql->db_param();
+      $q_params[]=$this->bugId;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      return SqlWrapper::getInstance()->sql_result($result, 0);
+      return $sql->sql_result($result, 0);
    }
 
    /**
@@ -1106,27 +1138,32 @@ class Issue extends Model implements Comparable {
     */
    public function getTimeTracks($userid = NULL, $startTimestamp = NULL, $endTimestamp = NULL) {
       $timeTracks = array();
+      $sql = AdodbWrapper::getInstance();
 
-      $query = "SELECT * FROM `codev_timetracking_table` ".
-               "WHERE bugid = ".$this->bugId." ";
+      $query = "SELECT * FROM codev_timetracking_table ".
+               "WHERE bugid = ".$sql->db_param();
+      $q_params[]=$this->bugId;
 
       if (isset($userid)) {
-         $query .= "AND userid = $userid ";
+         $query .= " AND userid = ".$sql->db_param();
+         $q_params[]=$userid;
       }
       if (isset($startTimestamp)) {
-         $query .= "AND date >= $startTimestamp ";
+         $query .= " AND date >= ".$sql->db_param();
+         $q_params[]=$startTimestamp;
       }
       if (isset($endTimestamp)) {
-         $query .= "AND date <= $endTimestamp ";
+         $query .= " AND date <= ".$sql->db_param();
+         $q_params[]=$endTimestamp;
       }
       $query .= " ORDER BY date";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $timeTracks[$row->id] = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
       }
 
@@ -1139,26 +1176,29 @@ class Issue extends Model implements Comparable {
     */
    public function getInvolvedUsers($team_id = NULL) {
       $userList = array();
+      $sql = AdodbWrapper::getInstance();
 
       $query = "SELECT user.id, user.username ".
-               "FROM `mantis_user_table` as user, `codev_timetracking_table` as tt, `codev_team_user_table`  ".
+               "FROM {user} as user, codev_timetracking_table as tt, codev_team_user_table  ".
                "WHERE  tt.userid = user.id ".
-               "AND tt.bugid  = ".$this->bugId." ";
+               " AND tt.bugid  = ".$sql->db_param();
+      $q_params[]=$this->bugId;
 
       if (isset($team_id)) {
-         $query .= "AND codev_team_user_table.team_id = $team_id ".
-                   "AND codev_team_user_table.user_id = user.id ";
+         $query .= " AND codev_team_user_table.team_id = ".$sql->db_param().
+                   " AND codev_team_user_table.user_id = user.id ";
+         $q_params[]=$team_id;
       }
 
       $query .= " ORDER BY user.username";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $userList[$row->id] = $row->username;
       }
 
@@ -1193,21 +1233,24 @@ class Issue extends Model implements Comparable {
 
          } else {
             // if a timestamp is specified, find the latest status change (strictly) before this date
+            $sql = AdodbWrapper::getInstance();
             $query = "SELECT new_value, old_value, date_modified ".
-                     "FROM `mantis_bug_history_table` ".
-                     "WHERE bug_id = $this->bugId ".
-                     "AND field_name='status' ".
-                     "AND date_modified < $timestamp ".
-                     "ORDER BY date_modified DESC";
+                     "FROM {bug_history} ".
+                     "WHERE bug_id = ".$sql->db_param().
+                     " AND field_name='status' ".
+                     " AND date_modified < ".$sql->db_param().
+                     " ORDER BY date_modified DESC";
+            $q_params[]=$this->bugId;
+            $q_params[]=$timestamp;
 
             // get latest result
-            $result = SqlWrapper::getInstance()->sql_query($query);
+            $result = $sql->sql_query($query, $q_params);
             if (!$result) {
                echo "<span style='color:red'>ERROR: Query FAILED</span>";
                exit;
             }
-            if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-               $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+            if (0 != $sql->getNumRows($result)) {
+               $row = $sql->fetchObject($result);
 
                #if (self::$logger->isDebugEnabled()) {
                #   self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId, old_value=$row->old_value, new_value=$row->new_value, date_modified=".date("d F Y", $row->date_modified));
@@ -1241,20 +1284,33 @@ class Issue extends Model implements Comparable {
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("setBacklog old_value=$old_backlog   new_value=$backlog");
       }
-
-      $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $backlogCustomField";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT * FROM {custom_field_string}".
+               " WHERE bug_id=".$sql->db_param().
+               " AND field_id = ".$sql->db_param();
+      $q_params[]=$this->bugId;
+      $q_params[]=$backlogCustomField;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+      if (0 != $sql->getNumRows($result)) {
 
-         $query2 = "UPDATE `mantis_custom_field_string_table` SET value = '$backlog' WHERE bug_id=$this->bugId AND field_id = $backlogCustomField";
+         $query2 = "UPDATE {custom_field_string} SET value = ".$sql->db_param()
+            . " WHERE bug_id=$this->bugId AND field_id = ".$sql->db_param();
+         $q_params2[]=$backlog;
+         $q_params2[]=$backlogCustomField;
       } else {
-         $query2 = "INSERT INTO `mantis_custom_field_string_table` (`field_id`, `bug_id`, `value`) VALUES ('$backlogCustomField', '$this->bugId', '$backlog');";
+         $query2 = "INSERT INTO {custom_field_string} (field_id, bug_id, value)".
+                     ' VALUES ( ' . $sql->db_param() . ','
+                                  . $sql->db_param() . ','
+                                  . $sql->db_param() . ')';
+         $q_params2[]=$backlogCustomField;
+         $q_params2[]=$this->bugId;
+         $q_params2[]=$backlog;
       }
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      $result2 = $sql->sql_query($query2, $q_params2);
       if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -1262,13 +1318,14 @@ class Issue extends Model implements Comparable {
       $this->backlog = $backlog;
 
       // Add to history
-      $query3 = "SELECT name FROM `mantis_custom_field_table` WHERE id = $backlogCustomField";
-      $result3 = SqlWrapper::getInstance()->sql_query($query3);
+      $query3 = "SELECT name FROM {custom_field} WHERE id = ".$sql->db_param();
+      $q_params3[]=$backlogCustomField;
+      $result3 = $sql->sql_query($query3, $q_params3);
       if (!$result3) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $field_name = (0 != SqlWrapper::getInstance()->sql_num_rows($result3)) ? SqlWrapper::getInstance()->sql_result($result3, 0) : "codevtt_backlog";
+      $field_name = (0 != $sql->getNumRows($result3)) ? $sql->sql_result($result3, 0) : "codevtt_backlog";
       $this->setMantisBugHistory($field_name, $old_backlog, $backlog);
    }
 
@@ -1310,13 +1367,18 @@ class Issue extends Model implements Comparable {
          $time = $current_date - $this->dateSubmission;
       } else {
          // Bug has changed, search history for status changed
-         $query = "SELECT date_modified FROM `mantis_bug_history_table` WHERE bug_id=$this->bugId AND field_name = 'status' AND old_value='".Constants::$status_new."'";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT date_modified FROM {bug_history} WHERE bug_id=".$sql->db_param().
+                  " AND field_name = 'status'".
+                  " AND old_value=".$sql->db_param();
+         $q_params[]=$this->bugId;
+         $q_params[]=Constants::$status_new;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $date_modified    = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
+         $date_modified    = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
 
          if (0 == $date_modified) {
             // some SideTasks, are created with status='closed' and have never been set to 'new'.
@@ -1338,6 +1400,7 @@ class Issue extends Model implements Comparable {
       $time = 0;
 
       $current_date = time();
+      $sql = AdodbWrapper::getInstance();
 
       // Status is not 'new' and not 'feedback'
       // the start_date is transition where new_value = status
@@ -1345,24 +1408,29 @@ class Issue extends Model implements Comparable {
 
       // Find start_date
       $query = "SELECT id, date_modified, old_value, new_value ".
-               "FROM `mantis_bug_history_table` ".
-               "WHERE bug_id=$this->bugId ".
-               "AND field_name = 'status' ".
-               "AND (new_value=$status OR old_value=$status) ORDER BY id";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+               "FROM {bug_history} ".
+               " WHERE bug_id= ".$sql->db_param().
+               " AND field_name = 'status' ".
+               " AND (new_value=".$sql->db_param().
+               " OR old_value=".$sql->db_param().
+               ") ORDER BY id";
+      $q_params[]=$this->bugId;
+      $q_params[]=$status;
+      $q_params[]=$status;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("id=$row->id date = $row->date_modified old_value = $row->old_value new_value = $row->new_value");
          }
          $start_date = $row->date_modified;
 
          // Next line is end_date. if FALSE then end_date = current_date
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $row = $sql->fetchObject($result);
          if (FALSE != $row) {
             $end_date = $row->date_modified;
             if(self::$logger->isDebugEnabled()) {
@@ -1620,17 +1688,22 @@ class Issue extends Model implements Comparable {
          return $this->dateSubmission;
       }
 
+      $sql = AdodbWrapper::getInstance();
       $query = "SELECT date_modified ".
-               "FROM `mantis_bug_history_table` ".
-               "WHERE bug_id=$this->bugId ".
-               "AND field_name = 'status' ".
-               "AND new_value=$status ORDER BY id LIMIT 1";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+               "FROM {bug_history} ".
+               "WHERE bug_id= ".$sql->db_param().
+               " AND field_name = 'status' ".
+               " AND new_value=".$sql->db_param().
+               " ORDER BY id ";
+      $q_params[]=$this->bugId;
+      $q_params[]=$status;
+
+      $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $timestamp  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
+      $timestamp  = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : NULL;
 
       /*
       if (NULL == $timestamp) {
@@ -1657,17 +1730,20 @@ class Issue extends Model implements Comparable {
          return $this->dateSubmission;
       }
 
-      $query = "SELECT date_modified ".
-               "FROM `mantis_bug_history_table` ".
-               "WHERE bug_id=$this->bugId ".
-               "AND field_name = 'status' ".
-               "AND new_value=$status ORDER BY id DESC LIMIT 1";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT date_modified  FROM {bug_history} ".
+               " WHERE bug_id= ".$sql->db_param().
+               " AND field_name = 'status' ".
+               " AND new_value=".$sql->db_param().
+               " ORDER BY id DESC";
+      $q_params[]=$this->bugId;
+      $q_params[]=$status;
+      $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $timestamp  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
+      $timestamp  = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : NULL;
 
       /*
       if (NULL == $timestamp) {
@@ -1722,18 +1798,20 @@ class Issue extends Model implements Comparable {
    public function getCommandList() {
       if (NULL == $this->commandList) {
          $this->commandList = array();
-         
-         $query = "SELECT command.* FROM `codev_command_table` as command ".
-                  "JOIN `codev_command_bug_table` as command_bug ON command.id = command_bug.command_id ".
-                  "WHERE command_bug.bug_id = ".$this->bugId.";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT command.* FROM codev_command_table as command ".
+                  "JOIN codev_command_bug_table as command_bug ON command.id = command_bug.command_id ".
+                  "WHERE command_bug.bug_id = ".$sql->db_param();
+         $q_params[]=$this->bugId;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
          // a Command can belong to more than one commandset
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             //$cmd = CommandCache::getInstance()->getCommand($row->id, $row);
             $this->commandList[$row->id] = $row->name;
             if(self::$logger->isDebugEnabled()) {
@@ -1754,9 +1832,23 @@ class Issue extends Model implements Comparable {
    private function setMantisBugHistory($field_name, $old_value, $new_value, $type=0) {
       // Add to history
       $now = time();
-      $query = "INSERT INTO `mantis_bug_history_table`  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
-               "VALUES ('".$_SESSION['userid']."','$this->bugId','$field_name', '$old_value', '$new_value', '".$type."', '".$now."');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "INSERT INTO {bug_history}  (user_id, bug_id, field_name, old_value, new_value, type, date_modified) ".
+               ' VALUES ( ' . $sql->db_param() . ','
+                            . $sql->db_param() . ','
+                            . $sql->db_param() . ','
+                            . $sql->db_param() . ','
+                            . $sql->db_param() . ','
+                            . $sql->db_param() . ','
+                            . $sql->db_param() . ')';
+      $q_params[]=$_SESSION['userid'];
+      $q_params[]=$this->bugId;
+      $q_params[]=$field_name;
+      $q_params[]=$old_value;
+      $q_params[]=$new_value;
+      $q_params[]=$type;
+      $q_params[]=$now;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -1764,8 +1856,11 @@ class Issue extends Model implements Comparable {
 
 
       // update lastUpdated field
-      $query2 = "UPDATE `mantis_bug_table` SET last_updated = '".$now."' WHERE id = $this->bugId";
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      $query2 = "UPDATE {bug} SET last_updated = ".$sql->db_param().
+                " WHERE id = ".$sql->db_param();
+      $q_params2[]=$now;
+      $q_params2[]=$this->bugId;
+      $result2 = $sql->sql_query($query2, $q_params2);
       if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -1776,8 +1871,12 @@ class Issue extends Model implements Comparable {
     * @param type $value
     */
    public function setHandler($value) {
-      $query = "UPDATE `mantis_bug_table` SET handler_id = '$value' WHERE id=$this->bugId ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE {bug} SET handler_id = ".$sql->db_param().
+               " WHERE id= ".$sql->db_param();
+      $q_params[]=$value;
+      $q_params[]=$this->bugId;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -1795,20 +1894,26 @@ class Issue extends Model implements Comparable {
     */
    public function setTargetVersion($versionId) {
 
+      $sql = AdodbWrapper::getInstance();
+
       if (0 == $versionId) {
          $version = ''; // remove version
       } else {
-         $query = "SELECT version from `mantis_project_version_table` WHERE id=$versionId ";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $query = "SELECT version from {project_version} WHERE id= ".$sql->db_param();
+         $q_params[]=$versionId;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $row = $sql->fetchObject($result);
          $version = $row->version;
       }
-      $query = "UPDATE `mantis_bug_table` SET target_version = '$version' WHERE id=$this->bugId ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "UPDATE {bug} SET target_version = ".$sql->db_param().
+               " WHERE id= ".$sql->db_param();
+      $q_params[]=$version;
+      $q_params[]=$this->bugId;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -1819,20 +1924,35 @@ class Issue extends Model implements Comparable {
    }
 
    private function setCustomField($field_id, $value, $field_name=NULL) {
-      $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $field_id";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT * FROM {custom_field_string} WHERE bug_id=".$sql->db_param().
+               " AND field_id = ".$sql->db_param();
+      $q_params[]=$this->bugId;
+      $q_params[]=$field_id;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+      if (0 != $sql->getNumRows($result)) {
+         $row = $sql->fetchObject($result);
          $old_value=$row->value;
-         $query2 = "UPDATE `mantis_custom_field_string_table` SET value = '$value' WHERE bug_id=$this->bugId AND field_id = $field_id";
+         $query2 = "UPDATE {custom_field_string} SET value = ".$sql->db_param()
+            . " WHERE bug_id=".$sql->db_param()
+            . " AND field_id = ".$sql->db_param();
+         $q_params[]=$value;
+         $q_params[]=$this->bugId;
+         $q_params[]=$field_id;
       } else {
-         $query2 = "INSERT INTO `mantis_custom_field_string_table` (`field_id`, `bug_id`, `value`) VALUES ('$field_id', '$this->bugId', '$value');";
+         $query2 = "INSERT INTO {custom_field_string} (field_id, bug_id, value)".
+                     ' VALUES ( ' . $sql->db_param() . ','
+                                  . $sql->db_param() . ','
+                                  . $sql->db_param() . ')';
+         $q_params2[]=$field_id;
+         $q_params2[]=$this->bugId;
+         $q_params2[]=$value;
       }
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      $result2 = $sql->sql_query($query2, $q_params2);
       if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -1840,13 +1960,14 @@ class Issue extends Model implements Comparable {
 
       // update bug history
       if (NULL == $field_name) {
-         $query3 = "SELECT name FROM `mantis_custom_field_table` WHERE id = $field_id";
-         $result3 = SqlWrapper::getInstance()->sql_query($query3);
+         $query3 = "SELECT name FROM {custom_field} WHERE id = ".$sql->db_param();
+         $q_params3[]=$field_id;
+         $result3 = $sql->sql_query($query3, $q_params3);
          if (!$result3) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $field_name = (0 != SqlWrapper::getInstance()->sql_num_rows($result3)) ? SqlWrapper::getInstance()->sql_result($result3, 0) : 'custom_'.$field_id;
+         $field_name = (0 != $sql->getNumRows($result3)) ? $sql->sql_result($result3, 0) : 'custom_'.$field_id;
       }
       $this->setMantisBugHistory($field_name, $old_value, $value);
    }
@@ -1923,16 +2044,18 @@ class Issue extends Model implements Comparable {
       }
          
       if(count($newIssueIds) > 0) {
-         $query = "SELECT * FROM `mantis_bug_table` " .
-                  "WHERE id IN (".implode(', ', $newIssueIds).")";
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM {bug} " .
+                  "WHERE id IN (".$sql->db_param().")";
+         $q_params[]=implode(', ', $newIssueIds);
          
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
          
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $issues[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
          }
       }
@@ -1944,18 +2067,20 @@ class Issue extends Model implements Comparable {
     * @return TimeTrack
     */
    public function getFirstTimetrack() {
-      $query = "SELECT * from `codev_timetracking_table` ".
-               "WHERE bugid = $this->bugId ".
-               "ORDER BY date ASC LIMIT 1";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT * from codev_timetracking_table ".
+               "WHERE bugid =  ".$sql->db_param().
+               " ORDER BY date ASC";
+      $q_params[]=$this->bugId;
+      $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
       $timeTrack = NULL;
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+      if (0 != $sql->getNumRows($result)) {
+         $row = $sql->fetchObject($result);
          $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
       }
       return $timeTrack;
@@ -1965,18 +2090,20 @@ class Issue extends Model implements Comparable {
     * @return TimeTrack
     */
    public function getLatestTimetrack() {
-      $query = "SELECT * from `codev_timetracking_table` ".
-               "WHERE bugid = $this->bugId ".
-               "ORDER BY date DESC LIMIT 1";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT * from codev_timetracking_table ".
+               "WHERE bugid =  ".$sql->db_param().
+               " ORDER BY date DESC ";
+      $q_params[]=$this->bugId;
+      $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
       $timeTrack = NULL;
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+      if (0 != $sql->getNumRows($result)) {
+         $row = $sql->fetchObject($result);
          $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
       }
       return $timeTrack;
@@ -2132,6 +2259,9 @@ class Issue extends Model implements Comparable {
     * @return array fields to be displayed (i18n applied)
     */
    public function getTooltipItems($teamid = 0, $userid = 0, $isManager = NULL) {
+
+      $sql = AdodbWrapper::getInstance();
+
       // NOTE: cache should be an array with key = 'team'.$teamid.'_user'.$userid;
       // but userid & teamid won't change during the http request.
       if (is_null($this->tooltipItemsCache)) {
@@ -2214,16 +2344,18 @@ class Issue extends Model implements Comparable {
                   default:
                      // unknown customField, get from DB
                      $query = "SELECT value ".
-                          "FROM `mantis_custom_field_string_table` ".
-                          "WHERE mantis_custom_field_string_table.bug_id = $this->bugId ".
-                          "AND   mantis_custom_field_string_table.field_id = $cfield_id ";
-                     $result = SqlWrapper::getInstance()->sql_query($query);
+                          "FROM {custom_field_string} ".
+                          "WHERE {custom_field_string}.bug_id =  ".$sql->db_param().
+                          " AND   {custom_field_string}.field_id =  ".$sql->db_param();
+                     $q_params[]=$this->bugId;
+                     $q_params[]=$cfield_id;
+                     $result = $sql->sql_query($query, $q_params);
                      if (!$result) {
                         echo "<span style='color:red'>ERROR: Query FAILED</span>";
                         exit;
                      }
-                     if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-                        $value = SqlWrapper::getInstance()->sql_result($result, 0);
+                     if (0 != $sql->getNumRows($result)) {
+                        $value = $sql->sql_result($result, 0);
                         $this->tooltipItemsCache[$name] = $value;
                      }
                   }
@@ -2280,14 +2412,17 @@ class Issue extends Model implements Comparable {
                      self::$logger->warn('TOOLTIP field = '.$field.' has no accessor => LOW PERF');
                   }
 
-                  $query = "SELECT $field FROM `mantis_bug_table` WHERE id = $this->bugId ";
-                  $result = SqlWrapper::getInstance()->sql_query($query);
+                  $query = "SELECT  ".$sql->db_param().
+                           " FROM {bug} WHERE id =  ".$sql->db_param();
+                  $q_params[]=$field;
+                  $q_params[]=$this->bugId;
+                  $result = $sql->sql_query($query, $q_params);
                   if (!$result) {
                      echo "<span style='color:red'>ERROR: Query FAILED</span>";
                      exit;
                   }
-                  if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-                     $value = SqlWrapper::getInstance()->sql_result($result, 0);
+                  if (0 != $sql->getNumRows($result)) {
+                     $value = $sql->sql_result($result, 0);
                      $this->tooltipItemsCache["$field"] = $value;
                   }
                }
@@ -2403,8 +2538,12 @@ class Issue extends Model implements Comparable {
          $allowedStatusList = $this->getAvailableStatusList();
          
          if (array_key_exists($newStatusId, $allowedStatusList)) {
-            $query = "UPDATE `mantis_bug_table` SET status = '$newStatusId' WHERE id=$this->bugId ";
-            $result = SqlWrapper::getInstance()->sql_query($query);
+            $sql = AdodbWrapper::getInstance();
+            $query = "UPDATE {bug} SET status = ".$sql->db_param().
+                     " WHERE id= ".$sql->db_param();
+            $q_params[]=$newStatusId;
+            $q_params[]=$this->bugId;
+            $result = $sql->sql_query($query, $q_params);
             if (!$result) {
                self::$logger->error("setStatus($newStatusId) : Query failed. Status has not been changed !");
                return false;
@@ -2435,9 +2574,13 @@ class Issue extends Model implements Comparable {
     */
    public function setDateSubmission($newSubmissionTimestampDate)
    {
-       $query = "UPDATE `mantis_bug_table` SET date_submitted=$newSubmissionTimestampDate WHERE id=".$this->bugId;
+      $sql = AdodbWrapper::getInstance();
+       $query = "UPDATE {bug} SET date_submitted=".$sql->db_param().
+                " WHERE id=".$sql->db_param();
+       $q_params[]=$newSubmissionTimestampDate;
+       $q_params[]=$this->bugId;
        
-       $result = SqlWrapper::getInstance()->sql_query($query);
+       $result = $sql->sql_query($query, $q_params);
         if (!$result) {
            self::$logger->error("Query failed. Impossible to change submission date on issue" . $this->bugId);
            return false;
