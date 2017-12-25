@@ -191,7 +191,7 @@ class Config {
     */
    private function __construct() {
       self::$configVariables = array();
-      $query = 'SELECT * FROM {codev_config_table}';
+      $query = 'SELECT * FROM codev_config_table';
 
       $result = AdodbWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -381,7 +381,7 @@ class Config {
       $sql = AdodbWrapper::getInstance();
       
       // add/update DB
-      $query = 'SELECT * FROM {codev_config_table} ' .
+      $query = 'SELECT * FROM codev_config_table ' .
          'WHERE config_id ='. $sql->db_param().
                ' AND project_id ='. $sql->db_param().
                ' AND user_id ='. $sql->db_param().
@@ -398,7 +398,7 @@ class Config {
          exit;
       }
       if (0 != $sql->getNumRows($result)) {
-         $query = 'UPDATE {codev_config_table} ' .
+         $query = 'UPDATE codev_config_table ' .
             ' SET value = '.$sql->db_param(). // $formattedValue.
                   ' WHERE config_id ='. $sql->db_param().
                   ' AND project_id ='. $sql->db_param().
@@ -416,7 +416,7 @@ class Config {
             self::$logger->debug("UPDATE query = $query");
          }
       } else {
-         $query = 'INSERT INTO {codev_config_table} ' .
+         $query = 'INSERT INTO codev_config_table ' .
             '(config_id, value, type, description, project_id, user_id, team_id, command_id, commandset_id, servicecontract_id) '.
 						 ' VALUES ( ' . $sql->db_param() . ',' . $sql->db_param() . ',' . $sql->db_param() . ',' . $sql->db_param() . ',
 						   			' . $sql->db_param() . ',' . $sql->db_param() . ',' . $sql->db_param() . ',' . $sql->db_param() . ',
@@ -461,7 +461,7 @@ class Config {
          $sql = AdodbWrapper::getInstance();
         
          // delete from DB
-         $query = "DELETE FROM {codev_config_table} WHERE config_id = " . $sql->db_param();
+         $query = "DELETE FROM codev_config_table WHERE config_id = " . $sql->db_param();
          $query_params = array($id);
          
          $cols = array("user_id", "project_id", "team_id", "servicecontract_id", "commandset_id", "command_id");

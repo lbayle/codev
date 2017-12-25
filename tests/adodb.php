@@ -41,7 +41,7 @@ class AdodbController extends Controller {
 	private function bug_get_bugnote_count($id) {
 		
       $sql = AdodbWrapper::getInstance();
-      $query = 'SELECT COUNT(1) FROM {mantis_bugnote_table} WHERE bug_id =' . $sql->db_param();
+      $query = 'SELECT COUNT(1) FROM {bugnote} WHERE bug_id =' . $sql->db_param();
       $result = $sql->sql_query($query, array($id));
       return $sql->sql_result($result);
    }

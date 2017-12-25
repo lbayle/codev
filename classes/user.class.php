@@ -189,7 +189,7 @@ class User extends Model {
    private function initialize($row) {
       if(NULL == $row) {
          $sql = AdodbWrapper::getInstance();
-         $query = 'SELECT username, realname, enabled FROM {mantis_user_table} WHERE id = '. $sql->db_param();
+         $query = 'SELECT username, realname, enabled FROM {user} WHERE id = '. $sql->db_param();
 
          $result = $sql->sql_query($query, array($this->id));
          if (!$result) {
@@ -376,7 +376,7 @@ class User extends Model {
       $key = $team_id . '_' . $accessLevel . ' ' . $startTimestamp . ' ' . $endTimestamp;
 
       if (!array_key_exists($key, $this->teamMemberCache)) {
-         $query = "SELECT COUNT(id) FROM {codev_team_user_table} " .
+         $query = "SELECT COUNT(id) FROM codev_team_user_table " .
                   " WHERE team_id = " . $sql->db_param().
                   " AND user_id = ". $sql->db_param();
          $q_params = array($team_id, $this->id);
@@ -896,8 +896,8 @@ class User extends Model {
       $sql = AdodbWrapper::getInstance();
 
       $query = "SELECT team.id, team.name " .
-               "FROM {codev_team_table} as team " .
-               "JOIN {codev_team_user_table} as team_user ON team.id = team_user.team_id ".
+               "FROM codev_team_table as team " .
+               "JOIN codev_team_user_table as team_user ON team.id = team_user.team_id ".
                "WHERE   team_user.user_id = " . $sql->db_param();
       $query_params = array($this->id);
 

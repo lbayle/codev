@@ -143,12 +143,31 @@ class AdodbWrapper {
     */
    private function __construct($hostname, $username, $password, $database_name, $database_type, $persistConnect = false) {
       
+      $this->isLog = self::$logger->isDebugEnabled();
+
       $this->server   = $hostname;
       $this->username = $username;
       $this->password = $password;
       $this->database_name = $database_name;
-      
-      $this->isLog = self::$logger->isDebugEnabled();
+
+      $this->mantis_db_table_prefix = 'mantis_'; # TODO make it configurable, see git fffeb846bd
+      $this->mantis_db_table_suffix = '_table';  # TODO
+
+      // TODO enable mantis prefix/suffix in CodevTT
+/*
+      if( $this->mantis_db_table_prefix === null ) {
+         # Determine table prefix and suffixes including trailing and leading '_'
+         $this->mantis_db_table_prefix = trim( config_get_global( 'db_table_prefix' ) );
+         $this->mantis_db_table_suffix = trim( config_get_global( 'db_table_suffix' ) );
+
+         if( !empty( $this->mantis_db_table_prefix ) && '_' != substr( $this->mantis_db_table_prefix, -1 ) ) {
+            $this->mantis_db_table_prefix .= '_';
+         }
+         if( !empty( $this->mantis_db_table_suffix ) && '_' != substr( $this->mantis_db_table_suffix, 0, 1 ) ) {
+            $this->mantis_db_table_suffix = '_' . $this->mantis_db_table_suffix;
+         }
+      }
+*/
       
        switch ($database_type) {
            case 'mysqli':
@@ -387,35 +406,14 @@ class AdodbWrapper {
          }
       }
 
-/* bypass prefix/suffix in CodevTT */
-      $s_prefix = '';
-      $s_suffix = '';
+      // replace table prefix/suffix (ONLY for mantis tables)
       $p_query = strtr($p_query, array(
-                        '{' => $s_prefix,
-                        '}' => $s_suffix,
-                        ) );      
-/* TODO enable prefix/suffix in CodevTT 
-      
-      static $s_prefix;
-      static $s_suffix;
-      if( $s_prefix === null ) {
-         # Determine table prefix and suffixes including trailing and leading '_'
-         $s_prefix = trim( config_get_global( 'db_table_prefix' ) );
-         $s_suffix = trim( config_get_global( 'db_table_suffix' ) );
-
-         if( !empty( $s_prefix ) && '_' != substr( $s_prefix, -1 ) ) {
-            $s_prefix .= '_';
-         }
-         if( !empty( $s_suffix ) && '_' != substr( $s_suffix, 0, 1 ) ) {
-            $s_suffix = '_' . $s_suffix;
-         }
-      }
-
-      $p_query = strtr($p_query, array(
-                        '{' => $s_prefix,
-                        '}' => $s_suffix,
+                        '{' => $this->mantis_db_table_prefix,
+                        '}' => $this->mantis_db_table_suffix,
                         ) );
-*/
+
+      #self::$logger->error("raw p_query=$p_query");
+      
       # Pushing params to safeguard the ADOdb parameter count (required for pgsql)
       $this->db_param->push();
 

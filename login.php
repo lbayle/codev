@@ -51,7 +51,7 @@ function login($username, $password) {
     $password = md5($password);
     $now = time();
 
-    $query = "SELECT id, username, realname, last_visit FROM {mantis_user_table} " .
+    $query = "SELECT id, username, realname, last_visit FROM {user} " .
              " WHERE username = " . $sql->db_param() .
              " AND password = " . $sql->db_param() .
              " AND enabled = 1";
@@ -80,7 +80,7 @@ function login($username, $password) {
             } else {
                // no default team (user's first connection): 
                // find out if user is already affected to a team and set as default team
-               $query = 'SELECT team_id FROM {codev_team_user_table} WHERE user_id = ' . $sql->db_param() .
+               $query = 'SELECT team_id FROM codev_team_user_table WHERE user_id = ' . $sql->db_param() .
                         ' ORDER BY arrival_date DESC';
                $query_params = array($user->getId());
 
@@ -96,7 +96,7 @@ function login($username, $password) {
             $projid = $user->getDefaultProject();
             if (0 != $projid) { $_SESSION['projectid'] = $projid; }
 
-            $query2 = "UPDATE {mantis_user_table} SET last_visit = ".$sql->db_param().
+            $query2 = "UPDATE {user} SET last_visit = ".$sql->db_param().
                       " WHERE username = ".$sql->db_param();
             $sql->sql_query($query2, array($now, $username));
 
