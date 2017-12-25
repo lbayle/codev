@@ -217,14 +217,16 @@ class User extends Model {
     * @return int The userid (or NULL if not found)
     */
    public static function getUserId($name) {
-      $query = "SELECT id FROM `mantis_user_table` WHERE username='$name';";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id FROM {user} WHERE username=".$sql->db_param();
+      $q_params[]=$name;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      $userid = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
+      $userid = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : NULL;
       return $userid;
 
    }
@@ -292,13 +294,15 @@ class User extends Model {
 
    public function getEmail() {
       if (NULL == $this->email) {
-         $query = "SELECT email FROM `mantis_user_table` WHERE id='$this->id';";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT email FROM {user} WHERE id=".$sql->db_param();
+         $q_params[]=$this->id;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $this->email = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
+         $this->email = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : NULL;
       }
       return $this->email;
    }
@@ -414,16 +418,17 @@ class User extends Model {
     */
    public static function exists($username)
    {
-       if($username != null)
-       {
-            $query = "SELECT count(*) as count FROM mantis_user_table WHERE username = '$username'";
-            $result = SqlWrapper::getInstance()->sql_query($query);
+       if($username != null) {
+          $sql = AdodbWrapper::getInstance();
+            $query = "SELECT count(*) as count FROM {user} WHERE username = ".$sql->db_param();
+            $q_params[]=$username;
+            $result = $sql->sql_query($query, $q_params);
             if (!$result) {
                echo "<span style='color:red'>ERROR: Query FAILED</span>";
                exit;
             }
             
-            while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            while($row = $sql->fetchObject($result)) {
                 $count = $row->count;
             }
             
@@ -442,16 +447,17 @@ class User extends Model {
     */
    public static function existsId($id)
    {
-       if($id != null)
-       {
-            $query = "SELECT count(*) as count FROM mantis_user_table WHERE id = '$id'";
-            $result = SqlWrapper::getInstance()->sql_query($query);
+       if($id != null) {
+          $sql = AdodbWrapper::getInstance();
+            $query = "SELECT count(*) as count FROM {user} WHERE id = ".$sql->db_param();
+            $q_params[]=$id;
+            $result = $sql->sql_query($query, $q_params);
             if (!$result) {
                echo "<span style='color:red'>ERROR: Query FAILED</span>";
                exit;
             }
             
-            while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            while($row = $sql->fetchObject($result)) {
                 $count = $row->count;
             }
             
@@ -475,19 +481,21 @@ class User extends Model {
 
       $key = 't'.$team_id;
       if (!array_key_exists($key, $this->arrivalDateCache)) {
-
-         $query = "SELECT MIN(arrival_date) FROM `codev_team_user_table` " .
-                  "WHERE user_id = $this->id ";
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT MIN(arrival_date) FROM codev_team_user_table " .
+                  "WHERE user_id = ".$sql->db_param();
+         $q_params[]=$this->id;
          if (isset($team_id)) {
-            $query .= "AND team_id = $team_id;";
+            $query .= " AND team_id = ".$sql->db_param();
+            $q_params[]=$team_id;
          }
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-             $arrival_date = SqlWrapper::getInstance()->sql_result($result, 0);
+         if (0 != $sql->getNumRows($result)) {
+             $arrival_date = $sql->sql_result($result, 0);
          } else {
             $arrival_date = time();
             self::$logger->warn("user".$this->id.".getArrivalDate($team_id): no arrival_date found !");
@@ -514,18 +522,20 @@ class User extends Model {
       $key = 't'.$team_id;
       if (!array_key_exists($key, $this->departureDateCache)) {
          $departureDate = 0;
-
-         $query = "SELECT departure_date FROM `codev_team_user_table` " .
-                  "WHERE user_id = $this->id ";
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT departure_date FROM codev_team_user_table " .
+                  "WHERE user_id = ".$sql->db_param();
+         $q_params[]=$this->id;
          if (isset($team_id)) {
-            $query .= "AND team_id = $team_id;";
+            $query .= " AND team_id = ".$sql->db_param();
+            $q_params[]=$team_id;
          }
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while ($row = $sql->fetchObject($result)) {
             if ((NULL == $row->departure_date ) || (0 == $row->departure_date )) {
                $departureDate = 0;
                break;
@@ -556,16 +566,21 @@ class User extends Model {
       $key = $startTimestamp.'-'.$endTimestamp;
 
       if(!array_key_exists($key, $this->timeTracksCache)) {
-         $query = "SELECT * FROM `codev_timetracking_table` " .
-                  "WHERE date >= $startTimestamp AND date <= $endTimestamp " .
-                  "AND userid = $this->id;";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM codev_timetracking_table " .
+                  "WHERE date >= ".$sql->db_param().
+                  " AND date <=  ".$sql->db_param().
+                  " AND userid = ".$sql->db_param();
+         $q_params[]=$startTimestamp;
+         $q_params[]=$endTimestamp;
+         $q_params[]=$this->id;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
          $timeTracks = array();
-         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while ($row = $sql->fetchObject($result)) {
             $timeTracks[] = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
          }
          $this->timeTracksCache[$key] = $timeTracks;
@@ -822,19 +837,20 @@ class User extends Model {
    public function getLeadedTeamList($withDisabled=false) {
       if(NULL == $this->leadedTeams) {
          $this->leadedTeams = array();
-
-         $query = "SELECT DISTINCT id, name FROM `codev_team_table` WHERE leader_id = $this->id ";
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT DISTINCT id, name FROM codev_team_table WHERE leader_id = ".$sql->db_param();
+         $q_params[]=$this->id;
          if (!$withDisabled) {
-            $query .= "AND enabled = 1 ";
+            $query .= " AND enabled = 1 ";
          }
-         $query .= "ORDER BY name";
+         $query .= " ORDER BY name";
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while ($row = $sql->fetchObject($result)) {
             $this->leadedTeams[$row->id] = $row->name;
             #echo "getLeadedTeamList FOUND $row->id - $row->name<br/>";
          }
@@ -944,27 +960,29 @@ class User extends Model {
          $teamList = $this->getTeamList();
       }
       if (0 != count($teamList)) {
+         $sql = AdodbWrapper::getInstance();
          $formatedTeamList = implode(', ', array_keys($teamList));
          $query = "SELECT DISTINCT project.id, project.name " .
-                  "FROM `mantis_project_table` as project " .
-                  "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
-                  "WHERE team_project.team_id IN ($formatedTeamList) ";
+                  "FROM {project} as project " .
+                  "JOIN codev_team_project_table as team_project ON project.id = team_project.project_id ".
+                  "WHERE team_project.team_id IN (".$sql->db_param().") ";
+         $q_params[]=$formatedTeamList;
 
          if (!$noStatsProject) {
-            $query .= "AND team_project.type <> " . Project::type_noStatsProject . " ";
+            $query .= " AND team_project.type <> " . Project::type_noStatsProject. " ";
          }
          if (!$withDisabledProjects) {
-            $query .= "AND project.enabled = 1 ";
+            $query .= " AND project.enabled = 1 ";
          }
 
-         $query .= "ORDER BY project.name;";
+         $query .= " ORDER BY project.name;";
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while ($row = $sql->fetchObject($result)) {
             $projList[$row->id] = $row->name;
          }
       } else {
@@ -1000,20 +1018,23 @@ class User extends Model {
          return $totalBacklog;
       }
 
+      $sql = AdodbWrapper::getInstance();
       $formatedProjList = implode(', ', array_keys($projList));
 
       // find all issues i'm working on
-      $query = "SELECT * FROM `mantis_bug_table` " .
-               "WHERE project_id IN ($formatedProjList) " .
-               "AND handler_id = $this->id " .
-               "AND status < get_project_resolved_status_threshold(project_id) " .
-               "ORDER BY id DESC;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "SELECT * FROM {bug} " .
+               " WHERE project_id IN (".$sql->db_param(). ") " .
+               " AND handler_id =  ".$sql->db_param() .
+               " AND status < get_project_resolved_status_threshold(project_id) " .
+               " ORDER BY id DESC;";
+      $q_params[]=$formatedProjList;
+      $q_params[]=$this->id;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while ($row = $sql->fetchObject($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
          $totalBacklog += $issue->getDuration();
       }
@@ -1055,22 +1076,25 @@ class User extends Model {
       }
 
       $formatedProjList = implode(', ', array_keys($projList));
+      $sql = AdodbWrapper::getInstance();
 
-      $query = "SELECT * FROM `mantis_bug_table` " .
-               "WHERE project_id IN ($formatedProjList) " .
-               "AND handler_id = $this->id ";
+      $query = "SELECT * FROM {bug} " .
+               "WHERE project_id IN (".$sql->db_param() . ") " .
+               " AND handler_id = ".$sql->db_param();
+      $q_params[]=$formatedProjList;
+      $q_params[]=$this->id;
 
       if (!$withResolved) {
-         $query .= "AND status < get_project_resolved_status_threshold(project_id) ";
+         $query .= " AND status < get_project_resolved_status_threshold(project_id) ";
       }
-      $query .= "ORDER BY id DESC;";
+      $query .= " ORDER BY id DESC;";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while ($row = $sql->fetchObject($result)) {
          $issueList[] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
@@ -1092,19 +1116,21 @@ class User extends Model {
     */
    public function getMonitoredIssues() {
       if(NULL == $this->monitoredIssues) {
+         $sql = AdodbWrapper::getInstance();
          $query = "SELECT DISTINCT bug.* " .
-                  "FROM `mantis_bug_table` as bug ".
-                  "JOIN `mantis_bug_monitor_table` as monitor ON bug.id = monitor.bug_id " .
-                  "WHERE monitor.user_id = $this->id " .
-                  "ORDER BY bug.id DESC;";
+                  "FROM {bug} as bug ".
+                  "JOIN {bug_monitor} as monitor ON bug.id = monitor.bug_id " .
+                  "WHERE monitor.user_id = ".$sql->db_param() .
+                  " ORDER BY bug.id DESC;";
+         $q_params[]=$this->id;
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
          $this->monitoredIssues = array();
-         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while ($row = $sql->fetchObject($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->id, $row);
             if ($issue->getCurrentStatus() < $issue->getBugResolvedStatusThreshold()) {
                $this->monitoredIssues[] = $issue;
@@ -1113,7 +1139,6 @@ class User extends Model {
          // quickSort the list
          Tools::usort($this->monitoredIssues);
       }
-
       return $this->monitoredIssues;
    }
 
@@ -1132,18 +1157,21 @@ class User extends Model {
          //echo "DEBUG getAvailableTime:".date('Y-m-d', $timestamp)." isHoliday<br/>\n";
          return 0;
       }
+      $sql = AdodbWrapper::getInstance();
 
       // now check for Timetracks, the time left is free time to work
-      $query = "SELECT SUM(duration) FROM `codev_timetracking_table` " .
-               "WHERE userid = $this->id " .
-               "AND date = $timestamp;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "SELECT SUM(duration) FROM codev_timetracking_table " .
+               "WHERE userid = ".$sql->db_param() .
+               " AND date = ".$sql->db_param();
+      $q_params[]=$this->id;
+      $q_params[]=$timestamp;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      $sum = round(SqlWrapper::getInstance()->sql_result($result), 2);
+      $sum = round($sql->sql_result($result), 2);
       $availTime = (1 - $sum <= 0) ? 0 : (1 - $sum);
 
       //echo "DEBUG getAvailableTime ".date('Y-m-d', $timestamp).": TotalDurations=".$sum."  availTime=$availTime<br/>\n";
@@ -1556,14 +1584,15 @@ class User extends Model {
     */
    public static function getUsers() {
       if(NULL == self::$users) {
-         $query = "SELECT id, username FROM `mantis_user_table` ORDER BY username";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT id, username FROM {user} ORDER BY username";
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             return NULL;
          }
 
          self::$users = array();
-         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while ($row = $sql->fetchObject($result)) {
             self::$users[$row->id] = $row->username;
          }
       }
@@ -1580,26 +1609,40 @@ class User extends Model {
     * @param int $access_level
     */
    public function setProjectAccessLevel($project_id, $access_level) {
+      $sql = AdodbWrapper::getInstance();
 
       // check if access rights already defined
-      $query = "SELECT access_level FROM `mantis_project_user_list_table` ".
-               "WHERE `user_id` = $this->id AND `project_id` = $project_id ";
+      $query = "SELECT access_level FROM {project_user_list} ".
+               " WHERE user_id = ".$sql->db_param().
+               " AND project_id = ".$sql->db_param();
+      $q_params[]=$this->id;
+      $q_params[]=$project_id;
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
+      if (0 == $sql->getNumRows($result)) {
 
-         $query2 = "INSERT INTO `mantis_project_user_list_table` (`user_id`, `project_id`, `access_level`) ".
-               "VALUES ('$this->id','$project_id', '$access_level');";
+         $query2 = "INSERT INTO {project_user_list} (user_id, project_id, access_level) ".
+          ' VALUES ( ' . $sql->db_param() . ','
+              . $sql->db_param() . ','
+              . $sql->db_param() . ')';
+
+         $q_params2[]=$this->id;
+         $q_params2[]=$project_id;
+         $q_params2[]=$access_level;
       } else {
-         $query2 = "UPDATE `mantis_project_user_list_table` ".
-                   "SET access_level = '$access_level' ".
-                   "WHERE `user_id` = $this->id AND `project_id` = $project_id ";
+         $query2 = "UPDATE {project_user_list} ".
+                   " SET access_level = ".$sql->db_param() .
+                   " WHERE user_id = ".$sql->db_param()
+                 . " AND project_id = ".$sql->db_param();
+         $q_params2[]=$access_level;
+         $q_params2[]=$this->id;
+         $q_params2[]=$project_id;
       }
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      $result2 = $sql->sql_query($query2, $q_params2);
       if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -1623,24 +1666,29 @@ class User extends Model {
    public function getRecentlyUsedIssues($limit = 5, $bugidList = NULL) {
 
       $now = time();
+      $sql = AdodbWrapper::getInstance();
 
-      $query = 'SELECT DISTINCT bugid, date FROM `codev_timetracking_table` '.
-              "WHERE userid = $this->id AND date <= $now ";
+      $query = 'SELECT DISTINCT bugid, date FROM codev_timetracking_table '.
+              " WHERE userid = ".$sql->db_param() .
+              " AND date <=  ".$sql->db_param();
+      $q_params[]=$this->id;
+      $q_params[]=$now;
 
       if ((NULL != $bugidList) && (count($bugidList) > 0)) {
          $formattedList = implode(", ",$bugidList);
-         $query .= "AND bugid IN ($formattedList) ";
+         $query .= " AND bugid IN (".$sql->db_param().") ";
+         $q_params[]=$formattedList;
       }
 
-      $query .= "ORDER BY date DESC LIMIT $limit";
+      $query .= " ORDER BY date DESC";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params, TRUE, $limit);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
       $recentIssues = array();
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while ($row = $sql->fetchObject($result)) {
          $recentIssues[] = $row->bugid;
       }
       return $recentIssues;
@@ -1656,25 +1704,30 @@ class User extends Model {
     * @return number[]
     */
    public function checkIncompleteDays($startTimestamp = NULL, $endTimestamp = NULL) {
+      $sql = AdodbWrapper::getInstance();
+
       // Get all dates that must be checked
-      $query = "SELECT date, SUM(duration) as count FROM `codev_timetracking_table` ".
-               "WHERE userid = $this->id ";
+      $query = "SELECT date, SUM(duration) as count FROM codev_timetracking_table ".
+               "WHERE userid = ".$sql->db_param();
+      $q_params[]= $this->id;
       if (NULL != $startTimestamp) {
-         $query .= "AND date >= $startTimestamp ";
+         $query .= " AND date >=  ".$sql->db_param();
+         $q_params[]=$startTimestamp;
       }
       if (NULL != $endTimestamp) {
-         $query .= "AND date < $endTimestamp ";
+         $query .= " AND date <  ".$sql->db_param();
+         $q_params[]=$endTimestamp;
       }
       $query .= "GROUP BY date ORDER BY date;";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
       $incompleteDays = array(); // unique date => sum durations
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $value = round($row->count, 3);
          if ($value != 1) {
             if(self::$logger->isDebugEnabled()) {
@@ -1730,18 +1783,22 @@ class User extends Model {
       }
 
       if(count($weekTimestamps) > 0) {
+         $sql = AdodbWrapper::getInstance();
          $query = "SELECT DISTINCT date ".
-                  "FROM `codev_timetracking_table` ".
-                  "WHERE userid = $this->id AND date IN (".implode(', ', $weekTimestamps).");";
+                  " FROM codev_timetracking_table ".
+                  " WHERE userid = ".$sql->db_param() .
+                  " AND date IN (".$sql->db_param().")";
+         $q_params[]=$this->id;
+         $q_params[]=implode(', ', $weekTimestamps);
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
          $daysWithTimeTracks = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $daysWithTimeTracks[] = $row->date;
          }
          $missingDays = array_diff($weekTimestamps, $daysWithTimeTracks);
@@ -1884,14 +1941,31 @@ class User extends Model {
             }
             else
             {
+               $sql = AdodbWrapper::getInstance();
                 $crypto = new Crypto();
                 $cookieString = $crypto->auth_generate_unique_cookie_string();
                 $lastVisit = time();
                 $cryptedPassword = $crypto->auth_process_plain_password($password);
                 // Insert user in mantis user table
-                $query = "INSERT INTO mantis_user_table (`username`, `realname`, `email`, `password`, `enabled`, `access_level`, `cookie_string`, `last_visit`, `date_created`) "
-                        . "VALUES ('$username', '$realName', '$email', '$cryptedPassword', 1, $mantisAccessLevel, '$cookieString', $lastVisit, $entryDate)";
-                $result = SqlWrapper::getInstance()->sql_query($query);
+                $query = "INSERT INTO {user} (username, realname, email, password, enabled, access_level, cookie_string, last_visit, date_created) "
+                        . ' VALUES ( ' . $sql->db_param() . ','
+                              . $sql->db_param() . ','
+                              . $sql->db_param() . ','
+                              . $sql->db_param() . ','
+                              . $sql->db_param() . ','
+                              . $sql->db_param() . ','
+                              . $sql->db_param() . ','
+                              . $sql->db_param() . ')';
+
+                $q_params[]=$username;
+                $q_params[]=$realName;
+                $q_params[]=$email;
+                $q_params[]=$cryptedPassword;
+                $q_params[]=$mantisAccessLevel;
+                $q_params[]=$cookieString;
+                $q_params[]=$lastVisit;
+                $q_params[]=$entryDate;
+                $result = $sql->sql_query($query, $q_params);
                 if (!$result) {
                     echo "<span style='color:red'>ERROR: Query FAILED</span>";
                     exit;
@@ -1912,8 +1986,16 @@ class User extends Model {
         
         if(!$project->hasMember($this->id))
         {
-            $query = "INSERT INTO mantis_project_user_list_table (`project_id`, `user_id`, `access_level`) VALUES ($projectId, $this->id, $projectAccessLevelId)";
-            $result = SqlWrapper::getInstance()->sql_query($query);
+           $sql = AdodbWrapper::getInstance();
+            $query = "INSERT INTO {project_user_list} (project_id, user_id, access_level)"
+               . ' VALUES ( ' . $sql->db_param() . ','
+                              . $sql->db_param() . ','
+                              . $sql->db_param() . ')';
+
+            $q_params[]=$projectId;
+            $q_params[]=$this->id;
+            $q_params[]=$projectAccessLevelId;
+            $result = $sql->sql_query($query, $q_params);
             if (!$result) {
                 echo "<span style='color:red'>ERROR: Query FAILED</span>";
                 exit;
