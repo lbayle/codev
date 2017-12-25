@@ -132,15 +132,17 @@ class Team extends Model {
     * Initialize with DB
     */
    public function initialize() {
-      $query = 'SELECT * FROM `codev_team_table` WHERE id = '.$this->id.';';
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = 'SELECT * FROM codev_team_table WHERE id = '.$sql->db_param();
+      $q_params[]=$this->id;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      if(SqlWrapper::getInstance()->sql_num_rows($result) == 1) {
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+      if($sql->getNumRows($result) == 1) {
+         $row = $sql->fetchObject($result);
 
          $this->name = $row->name;
          $this->description = $row->description;
@@ -178,10 +180,14 @@ class Team extends Model {
 
       if ($teamid < 0) {
          // create team
-         $formattedName = AdodbWrapper::getInstance()->escapeString($name);
-         $formattedDesc = AdodbWrapper::getInstance()->escapeString($description);
-         $query = "INSERT INTO `codev_team_table`  (`name`, `description`, `leader_id`, `date`) VALUES ('".$formattedName."','".$formattedDesc."',".$leader_id.", '".$date."');";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "INSERT INTO codev_team_table  (name, description, leader_id, date)"
+            . " VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().", ".$sql->db_param().")";
+         $q_params[]=$name;
+         $q_params[]=$description;
+         $q_params[]=$leader_id;
+         $q_params[]=$date;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
@@ -217,22 +223,26 @@ class Team extends Model {
             ServiceContract::delete($id);
          }
 
-         $query = "DELETE FROM `codev_team_project_table` WHERE team_id = $teamidToDelete;";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "DELETE FROM codev_team_project_table WHERE team_id = ".$sql->db_param();
+         $q_params[]=$teamidToDelete;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
             exit;
          }
 
-         $query = "DELETE FROM `codev_team_user_table` WHERE team_id = $teamidToDelete;";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $query = "DELETE FROM codev_team_user_table WHERE team_id = ".$sql->db_param();
+         $q_params[]=$teamidToDelete;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
             exit;
          }
 
-         $query = "DELETE FROM `codev_team_table` WHERE id = $teamidToDelete;";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $query = "DELETE FROM codev_team_table WHERE id = ".$sql->db_param();
+         $q_params[]=$teamidToDelete;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
             exit;
@@ -248,14 +258,15 @@ class Team extends Model {
     * @return int the team id or -1 if not found
     */
    public static function getIdFromName($name) {
-      $formattedName = AdodbWrapper::getInstance()->escapeString($name);
-      $query = "SELECT id FROM `codev_team_table` WHERE name = '".$formattedName."';";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id FROM codev_team_table WHERE name = ".$sql->db_param();
+      $q_params[]=$name;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      return (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : (-1);
+      return (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : (-1);
    }
 
    /**
@@ -279,8 +290,12 @@ class Team extends Model {
       $this->enabled = $isEnabled;
       $val = $isEnabled ? '1' : '0';
 
-      $query = "UPDATE `codev_team_table` SET enabled = $val WHERE id ='$this->id';";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_team_table SET enabled = ".$sql->db_param()
+         . " WHERE id =".$sql->db_param();
+      $q_params[]=$val;
+      $q_params[]=$this->id;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          return false;
@@ -302,8 +317,12 @@ class Team extends Model {
       $this->commands_enabled = $isEnabled;
       $val = $isEnabled ? '1' : '0';
 
-      $query = "UPDATE `codev_team_table` SET commands_enabled = $val WHERE id ='$this->id';";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_team_table SET commands_enabled = ".$sql->db_param()
+         . " WHERE id =".$sql->db_param();
+      $q_params[]=$val;
+      $q_params[]=$this->id;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          return false;
@@ -324,8 +343,12 @@ class Team extends Model {
     * @param int $timestamp
     */
    public function setLockTimetracksDate($timestamp) {
-      $query = "UPDATE `codev_team_table` SET lock_timetracks_date = $timestamp WHERE id ='$this->id';";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_team_table SET lock_timetracks_date = ".$sql->db_param()
+         . " WHERE id =".$sql->db_param();
+      $q_params[]=$timestamp;
+      $q_params[]=$this->id;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -353,8 +376,12 @@ class Team extends Model {
          // convert float to int (ex: 123.5 => 12350 (2 decimals)
          $newADR = round(floatval($teamADC), 2) * 100;
 
-         $query = "UPDATE `codev_team_table` SET average_daily_cost = $newADR WHERE id ='$this->id';";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "UPDATE codev_team_table SET average_daily_cost = ".$sql->db_param()
+            . " WHERE id =".$sql->db_param();
+         $q_params[]=$newADR;
+         $q_params[]=$this->id;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
@@ -380,8 +407,12 @@ class Team extends Model {
       // TODO check if currency is in codev_currencies_table !
 
       if ($teamCurrency !== $this->currency) {
-         $query = "UPDATE `codev_team_table` SET currency = '$teamCurrency' WHERE id ='$this->id';";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "UPDATE codev_team_table SET currency = ".$sql->db_param()
+            . " WHERE id =".$sql->db_param();
+         $q_params[]=$teamCurrency;
+         $q_params[]=$this->id;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
@@ -409,30 +440,34 @@ class Team extends Model {
 
 
       if(!array_key_exists($key, $this->projectIdsCache)) {
+         $sql = AdodbWrapper::getInstance();
          $query = "SELECT project.id, project.name ".
-                  "FROM `mantis_project_table` as project ".
-                  "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
-                  "WHERE team_project.team_id = $this->id ";
+                  "FROM {project} as project ".
+                  "JOIN codev_team_project_table as team_project ON project.id = team_project.project_id ".
+                  "WHERE team_project.team_id =  ".$sql->db_param();
+         $q_params[]=$this->id;
 
          if (!$noStatsProject) {
-            $query .= "AND team_project.type <> ".Project::type_noStatsProject." ";
+            $query .= " AND team_project.type <> ".$sql->db_param();
+            $q_params[]=Project::type_noStatsProject;
          }
          if (!$sideTasksProjects) {
-            $query .= "AND team_project.type <> ".Project::type_sideTaskProject." ";
+            $query .= " AND team_project.type <> ".$sql->db_param();
+            $q_params[]=Project::type_sideTaskProject;
          }
          if (!$withDisabled) {
-            $query .= "AND project.enabled = 1 ";
+            $query .= " AND project.enabled = 1 ";
          }
-         $query .= "ORDER BY project.name;";
+         $query .= " ORDER BY project.name";
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
          $projList = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $projList[$row->id] = $row->name;
          }
          #self::$logger->error("getProjects $key ".implode(',', array_keys($projList)));
@@ -456,27 +491,30 @@ class Team extends Model {
       $key = ''.$noStatsProject;
 
       if(!array_key_exists($key, $this->projectIdsCache)) {
+         $sql = AdodbWrapper::getInstance();
          $query = "SELECT project.* ".
-                  "FROM `mantis_project_table` as project ".
-                  "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
-                  "WHERE team_project.team_id = $this->id ";
+                  " FROM {project} as project ".
+                  " JOIN codev_team_project_table as team_project ON project.id = team_project.project_id ".
+                  " WHERE team_project.team_id = ".$sql->db_param();
+         $q_params[]=$this->id;
 
          if (!$noStatsProject) {
-            $query .= "AND team_project.type <> ".Project::type_noStatsProject." ";
+            $query .= " AND team_project.type <> ".$sql->db_param();
+            $q_params[]=Project::type_noStatsProject;
          }
          if (!$withDisabled) {
-            $query .= "AND project.enabled = 1 ";
+            $query .= " AND project.enabled = 1 ";
          }
-         $query .= "ORDER BY project.name;";
+         $query .= " ORDER BY project.name";
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
          $projList = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             ProjectCache::getInstance()->getProject($row->id, $row);
             $projList[$row->id] = $row->name;
          }
@@ -505,19 +543,21 @@ class Team extends Model {
     */
    public function getMembers() {
       if(NULL == $this->members) {
+         $sql = AdodbWrapper::getInstance();
          $query = "SELECT user.id, user.username ".
-                  "FROM `mantis_user_table` as user ".
-                  "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
-                  "WHERE team_user.team_id=$this->id ".
-                  "ORDER BY user.username;";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+                  " FROM {user} as user ".
+                  " JOIN codev_team_user_table as team_user ON user.id = team_user.user_id ".
+                  " WHERE team_user.team_id= ".$sql->db_param().
+                  " ORDER BY user.username";
+         $q_params[]=$this->id;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
          $this->members = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $this->members[$row->id] = $row->username;
          }
       }
@@ -531,19 +571,20 @@ class Team extends Model {
     */
    public function getUsers() {
       if(NULL == $this->members) {
-
+         $sql = AdodbWrapper::getInstance();
          $query = "SELECT user.* ".
-                  "FROM `mantis_user_table` as user ".
-                  "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
-                  "WHERE team_user.team_id = $this->id ".
-                  "ORDER BY user.username;";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+                  " FROM {user} as user ".
+                  " JOIN codev_team_user_table as team_user ON user.id = team_user.user_id ".
+                  " WHERE team_user.team_id =  ".$sql->db_param().
+                  " ORDER BY user.username;";
+         $q_params[]=$this->id;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             return NULL;
          }
 
          $this->members = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             UserCache::getInstance()->getUser($row->id, $row);
             $this->members[$row->id] = $row->username;
          }
@@ -577,23 +618,29 @@ class Team extends Model {
          }
       }
 
+      $sql = AdodbWrapper::getInstance();
       $query = "SELECT user.id, user.username, user.realname ".
-               "FROM `mantis_user_table` as user ".
-               "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
-               "AND team_user.team_id=$this->id ".
-               "AND team_user.access_level IN (".self::accessLevel_dev.', '.self::accessLevel_manager.') '.
-               "AND team_user.arrival_date <= $endTimestamp ".
-               "AND (team_user.departure_date = 0 OR team_user.departure_date >= $startTimestamp) ";
-      $query .= ($userRealName) ? " ORDER BY user.realname;" : " ORDER BY user.username;";
+               " FROM {user} as user ".
+               " JOIN codev_team_user_table as team_user ON user.id = team_user.user_id ".
+               " AND team_user.team_id= ".$sql->db_param().
+               " AND team_user.access_level IN (".$sql->db_param().', '.$sql->db_param().') '.
+               " AND team_user.arrival_date <=  ".$sql->db_param().
+               " AND (team_user.departure_date = 0 OR team_user.departure_date >= ".$sql->db_param().") ";
+      $query .= ($userRealName) ? " ORDER BY user.realname" : " ORDER BY user.username";
+      $q_params[]=$this->id;
+      $q_params[]=self::accessLevel_dev;
+      $q_params[]=self::accessLevel_manager;
+      $q_params[]=$endTimestamp;
+      $q_params[]=$startTimestamp;
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
       $mList = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $mList[$row->id] = ($userRealName) ? $row->realname : $row->username;
       }
 
@@ -635,17 +682,20 @@ class Team extends Model {
          self::$logger->debug("getTeamIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
       }
 
+      $sql = AdodbWrapper::getInstance();
       $query = "SELECT * ".
-               "FROM `mantis_bug_table` ".
-               "WHERE project_id IN ($formatedProjects) ".
-               "AND handler_id IN ($formatedMembers) ";
+               "FROM {bug} ".
+               "WHERE project_id IN (".$sql->db_param().") ".
+               " AND handler_id IN (".$sql->db_param().") ";
+      $q_params[]=$formatedProjects;
+      $q_params[]=$formatedMembers;
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
@@ -673,31 +723,35 @@ class Team extends Model {
          $formatedMembers .= ', 0';
       }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("Team::getCurrentIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
-      }
+      #if(self::$logger->isDebugEnabled()) {
+      #   self::$logger->debug("Team::getCurrentIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
+      #}
 
       // get Issues that are not Resolved/Closed
+      $sql = AdodbWrapper::getInstance();
       $query = "SELECT * ".
-               "FROM `mantis_bug_table` ".
+               "FROM {bug} ".
                "WHERE status < get_project_resolved_status_threshold(project_id) ".
-               "AND project_id IN ($formatedProjects) ".
-               "AND handler_id IN ($formatedMembers) ";
+               " AND project_id IN (".$sql->db_param().") ".
+               " AND handler_id IN (".$sql->db_param().") ";
+      $q_params[]=$formatedProjects;
+      $q_params[]=$formatedMembers;
 
 
       if (!$addNewIssues) {
-         $query .= "AND status > ".Constants::$status_new." ";
+         $query .= " AND status > ".$sql->db_param();
+         $q_params[]=Constants::$status_new;
       }
 
-      $query .= "ORDER BY id DESC;";
+      $query .= " ORDER BY id DESC;";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          return NULL;
       }
 
       $issueList = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
@@ -713,18 +767,20 @@ class Team extends Model {
     */
    public function getCommands() {
       if (NULL == $this->commandList) {
-         $query = "SELECT * FROM `codev_command_table` ".
-                  "WHERE team_id = $this->id ".
-                  "ORDER BY reference, name;";
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM codev_command_table ".
+                  "WHERE team_id =  ".$sql->db_param().
+                  " ORDER BY reference, name";
+         $q_params[]=$this->id;
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
          $this->commandList = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $this->commandList[$row->id] = CommandCache::getInstance()->getCommand($row->id, $row);
          }
       }
@@ -741,17 +797,19 @@ class Team extends Model {
     */
    public function getCommandSetList() {
       if (NULL == $this->commandSetList) {
-         $query = "SELECT * FROM `codev_commandset_table` ".
-                  "WHERE team_id = $this->id ".
-                  "ORDER BY reference, name;";
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM codev_commandset_table ".
+                  "WHERE team_id =  ".$sql->db_param().
+                  " ORDER BY reference, name";
+         $q_params[]=$this->id;
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
          $this->commandSetList = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $this->commandSetList[$row->id] = CommandSetCache::getInstance()->getCommandSet($row->id, $row);
          }
       }
@@ -768,17 +826,19 @@ class Team extends Model {
     */
    public function getServiceContractList() {
       if (NULL == $this->serviceContractList) {
+         $sql = AdodbWrapper::getInstance();
          $query = "SELECT * ".
-                  "FROM `codev_servicecontract_table` ".
-                  "WHERE team_id = $this->id;";
+                  "FROM codev_servicecontract_table ".
+                  "WHERE team_id = ".$sql->db_param();
+         $q_params[]=$this->id;
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
          $this->serviceContractList = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $this->serviceContractList[$row->id] = ServiceContractCache::getInstance()->getServiceContract($row->id, $row);
          }
       }
@@ -801,9 +861,14 @@ class Team extends Model {
        
         if(!UserCache::getInstance()->getUser($memberid)->isTeamMember($this->id))
         {
-            $query = "INSERT INTO `codev_team_user_table`  (`user_id`, `team_id`, `arrival_date`, `departure_date`, `access_level`) ".
-                    "VALUES ('$memberid','$this->id','$arrivalTimestamp', '0', '$memberAccess');";
-            $result = SqlWrapper::getInstance()->sql_query($query);
+           $sql = AdodbWrapper::getInstance();
+            $query = "INSERT INTO codev_team_user_table  (user_id, team_id, arrival_date, departure_date, access_level) ".
+                    "VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().", '0', ".$sql->db_param().")";
+            $q_params[]=$memberid;
+            $q_params[]=$this->id;
+            $q_params[]=$arrivalTimestamp;
+            $q_params[]=$memberAccess;
+            $result = $sql->sql_query($query, $q_params);
             if (!$result) {
                 echo "<span style='color:red'>ERROR: Query FAILED</span>";
                 exit;
@@ -815,8 +880,14 @@ class Team extends Model {
    }
 
    public function setMemberDepartureDate($memberid, $departureTimestamp) {
-      $query = "UPDATE `codev_team_user_table` SET departure_date = $departureTimestamp WHERE user_id = $memberid AND team_id = $this->id;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_team_user_table SET departure_date = ".$sql->db_param()
+         . " WHERE user_id = ".$sql->db_param()
+         . " AND team_id = ".$sql->db_param();
+      $q_params[]=$departureTimestamp;
+      $q_params[]=$memberid;
+      $q_params[]=$this->id;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -829,15 +900,19 @@ class Team extends Model {
     * @return int timestamp
     */
    public function getMemberArrivalDate($memberid) {
-      $query = "SELECT arrival_date FROM `codev_team_user_table` "
-              ." WHERE user_id = $memberid AND team_id = $this->id "
-              ." ORDER BY arrival_date ASC LIMIT 1";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT arrival_date FROM codev_team_user_table "
+              ." WHERE user_id = ".$sql->db_param()
+              ." AND team_id =  ".$sql->db_param()
+              ." ORDER BY arrival_date ASC";
+      $q_params[]=$memberid;
+      $q_params[]=$this->id;
+      $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $arrivalTimestamp = SqlWrapper::getInstance()->sql_result($result);
+      $arrivalTimestamp = $sql->sql_result($result);
       return $arrivalTimestamp;
    }
 
@@ -848,13 +923,15 @@ class Team extends Model {
     * @param int $src_teamid
     */
    public function addMembersFrom($src_teamid) {
-      $query = "SELECT * from `codev_team_user_table` WHERE team_id = ".$src_teamid.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT * from codev_team_user_table WHERE team_id = ".$sql->db_param();
+      $q_params[]=$src_teamid;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $user = UserCache::getInstance()->getUser($row->user_id);
          if (! $user->isTeamMember($this->id)) {
             $this->addMember($row->user_id,$row->arrival_date, $row->access_level);
@@ -876,25 +953,32 @@ class Team extends Model {
     * @return bool
     */
    public function addProject($projectid, $projecttype) {
-      $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$projectid','$this->id','$projecttype');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "INSERT INTO codev_team_project_table  (project_id, team_id, type)"
+         . " VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().")";
+      $q_params[]=$projectid;
+      $q_params[]=$this->id;
+      $q_params[]=$projecttype;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          throw new Exception("Couldn't add the project to the team (insert project $projectid)");
       }
       // jobs assignations are not (not yet) specific to a team.
       // check if jobs already defined
-      $query2 = "SELECT count(1) as cnt FROM `codev_project_job_table` WHERE `project_id` = '$projectid'";
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      $query2 = "SELECT count(1) as cnt FROM codev_project_job_table WHERE project_id = ".$sql->db_param();
+      $q_params2[]=$projectid;
+      $result2 = $sql->sql_query($query2, $q_params2);
       if (!$result2) {
          throw new Exception("Couldn't check existing jobs for project $projectid");
       }
-      $count = SqlWrapper::getInstance()->sql_result($result2);
+      $count = $sql->sql_result($result2);
       self::$logger->error("count jobs = $count");
       if (0 == $count) {
          // if no job defined yet, then default jobs (previously: commonJobs) must be assigned.
-         $query3 = "INSERT INTO `codev_project_job_table`(`project_id`, `job_id`) ".
-                  "SELECT '$projectid', job.id FROM `codev_job_table` job WHERE `type` = 0 ;";
-         $result3 = SqlWrapper::getInstance()->sql_query($query3);
+         $query3 = "INSERT INTO codev_project_job_table(project_id, job_id) ".
+                  "SELECT ".$sql->db_param().", job.id FROM codev_job_table job WHERE type = 0";
+         $q_params3[]=$projectid;
+         $result3 = $sql->sql_query($query3, $q_params3);
          if (!$result3) {
             throw new Exception("Couldn't add the project to the team (add default jobs)");
          }
@@ -910,8 +994,10 @@ class Team extends Model {
     */
    public function removeProject($projectid) {
       // TODO check if projectid exists in codev_team_project_table
-      $query = "DELETE FROM `codev_team_project_table` WHERE id = ".$projectid.';';
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "DELETE FROM codev_team_project_table WHERE id = ".$sql->db_param();
+      $q_params[]=$projectid;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          self::$logger->error("Could not remove project $projectid from team $this->id");
          return false;
@@ -925,9 +1011,13 @@ class Team extends Model {
       $externalTasksProject = Config::getInstance()->getValue(Config::id_externalTasksProject);
 
       // TODO check if ExternalTasksProject not already in table !
-
-      $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$externalTasksProject','$this->id','$extTasksProjectType');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "INSERT INTO codev_team_project_table  (project_id, team_id, type)"
+         . " VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().")";
+      $q_params[]=$externalTasksProject;
+      $q_params[]=$this->id;
+      $q_params[]=$extTasksProjectType;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -945,9 +1035,13 @@ class Team extends Model {
 
       if (-1 != $projectid) {
          // add new SideTaskProj to the team
-         $query = "INSERT INTO `codev_team_project_table` (`project_id`, `team_id`, `type`) ".
-                  "VALUES ('$projectid','$this->id','$sideTaskProjectType');";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "INSERT INTO codev_team_project_table (project_id, team_id, type) ".
+                  "VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().")";
+         $q_params[]=$projectid;
+         $q_params[]=$this->id;
+         $q_params[]=$sideTaskProjectType;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
@@ -970,8 +1064,11 @@ class Team extends Model {
     * @return bool
     */
    public function setCreationDate($date) {
-      $query = "UPDATE `codev_team_table` SET date = ".$date." WHERE id = ".$this->id.';';
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_team_table SET date = ".$sql->db_param()." WHERE id = ".$sql->db_param();
+      $q_params[]=$date;
+      $q_params[]=$this->id;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          return false;
       }
@@ -984,8 +1081,11 @@ class Team extends Model {
     * @return bool
     */
    public function setLeader($leaderid) {
-      $query = "UPDATE `codev_team_table` SET leader_id = ".$leaderid." WHERE id = ".$this->id.';';
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_team_table SET leader_id = ".$sql->db_param()." WHERE id = ".$sql->db_param();
+      $q_params[]=$leaderid;
+      $q_params[]=$this->id;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          return false;
       }
@@ -999,13 +1099,15 @@ class Team extends Model {
    public function getProjectsType() {
       if($this->projTypeList == NULL) {
          $this->projTypeList = array();
-         $query = "SELECT * FROM `codev_team_project_table` WHERE team_id = $this->id ";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM codev_team_project_table WHERE team_id =  ".$sql->db_param();
+         $q_params[]=$this->id;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             if(self::$logger->isDebugEnabled()) {
                self::$logger->debug("initialize: team $this->id proj $row->project_id type $row->type");
             }
@@ -1059,17 +1161,18 @@ class Team extends Model {
     * @return string[int] : name[id]
     */
    public static function getTeams($withDisabled=false) {
-      $query = "SELECT id, name FROM `codev_team_table` ";
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id, name FROM codev_team_table ";
       if (!$withDisabled) {
-         $query .= "WHERE enabled = 1 ";
+         $query .= " WHERE enabled = 1 ";
       }
-      $query .= "ORDER BY name;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query .= " ORDER BY name";
+      $result = $sql->sql_query($query);
       if (!$result) {
          return NULL;
       }
       $teams = array();
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while ($row = $sql->fetchObject($result)) {
          $teams[$row->id] = $row->name;
       }
       return $teams;
@@ -1084,21 +1187,23 @@ class Team extends Model {
       $projects = $this->getProjects(true, $withDisabledProjects);
       $formatedCurProjList = implode( ', ', array_keys($projects));
 
-      $query = "SELECT id, name FROM `mantis_project_table`";
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id, name FROM {project}";
 
       if($projects != NULL && count($projects) != 0) {
-         $query .= " WHERE id NOT IN ($formatedCurProjList)";
+         $query .= " WHERE id NOT IN (".$sql->db_param().")";
+         $q_params[]=$formatedCurProjList;
       }
 
-      $query .= " ORDER BY name;";
+      $query .= " ORDER BY name";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          return NULL;
       }
 
       $teamProjects = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $teamProjects[$row->id] = $row->name;
       }
 
@@ -1175,26 +1280,31 @@ class Team extends Model {
 
 
       $issueList = array();
+      $sql = AdodbWrapper::getInstance();
 
       $query_projects = "SELECT project.id ".
-               "FROM `mantis_project_table` as project ".
-               "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
-               "WHERE team_project.team_id = $this->id ".
-               "AND team_project.type NOT IN (".Project::type_noStatsProject.', '.Project::type_sideTaskProject.') ';
+               "FROM {project} as project ".
+               "JOIN codev_team_project_table as team_project ON project.id = team_project.project_id ".
+               "WHERE team_project.team_id = ".$sql->db_param().
+               " AND team_project.type NOT IN (".$sql->db_param().', '.$sql->db_param().') ';
+      $q_params[]= $this->id;
+      $q_params[]=Project::type_noStatsProject;
+      $q_params[]=Project::type_sideTaskProject;
 
       $query = "SELECT * ".
-               "FROM `mantis_bug_table` ".
-               "WHERE project_id IN ($query_projects) ".
-               "AND handler_id = '0' ".
-               "AND status < get_project_resolved_status_threshold(project_id) ".
-               "ORDER BY project_id ASC, id ASC";
+               "FROM {bug} ".
+               "WHERE project_id IN (".$sql->db_param().") ".
+               " AND handler_id = '0' ".
+               " AND status < get_project_resolved_status_threshold(project_id) ".
+               " ORDER BY project_id ASC, id ASC";
+      $q_params[]=$query_projects;
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
