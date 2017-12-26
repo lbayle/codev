@@ -28,18 +28,19 @@ class ProjectVersion extends IssueSelection {
 
    public function getVersionDate() {
       if (NULL == $this->versionDate) {
+         $sql = AdodbWrapper::getInstance();
          $query = "SELECT date_order ".
-                  "FROM `mantis_project_version_table` ".
-                  "WHERE project_id = $this->projectId ".
-                  "AND version = '$this->name';";
+                  "FROM {project_version} ".
+                  "WHERE project_id = ".$sql->db_param().
+                  "AND version = ".$sql->db_param();
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, array($this->projectId, $this->name));
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
-         $this->versionDate = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "(none)";
+         $this->versionDate = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : "(none)";
 
          if ($this->versionDate <= 1) { $this->versionDate = "(none)"; }
       }
@@ -49,4 +50,4 @@ class ProjectVersion extends IssueSelection {
 
 }
 
-?>
+
