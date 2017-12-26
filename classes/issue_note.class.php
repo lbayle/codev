@@ -83,15 +83,16 @@ class IssueNote {
    public static function create($bug_id, $reporter_id, $text='', $type=self::type_bugnote, $private=FALSE, $date_submitted=NULL) {
 
       $view_state = ($private) ? self::viewState_private : self::viewState_public;
-      $sqlWrapper = SqlWrapper::getInstance();
-      $query2 = "INSERT INTO `mantis_bugnote_text_table` (`note`) VALUES ('".AdodbWrapper::getInstance()->escapeString($text)."');";
-      $result2 = $sqlWrapper->sql_query($query2);
+      $sql = AdodbWrapper::getInstance();
+      $query2 = "INSERT INTO {bugnote_text} (note)".
+                " VALUES (".$sql->db_param().")";
+      $result2 = $sql->sql_query($query2, array($text));
 
       if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $bugnote_text_id = $sqlWrapper->sql_insert_id();
+      $bugnote_text_id = $sql->getInsertId();
 
       $timestamp = time();
 
@@ -99,21 +100,35 @@ class IssueNote {
          $date_submitted = $timestamp;
       }
 
-      $query = 'INSERT INTO `mantis_bugnote_table` '.
-              '(`bug_id`, `reporter_id`, `view_state`, `note_type`, `bugnote_text_id`, `date_submitted`, `last_modified`) '.
-              "VALUES ('$bug_id', '$reporter_id', '$view_state', '$type', '$bugnote_text_id', '$date_submitted', '$timestamp');";
-      $result = $sqlWrapper->sql_query($query);
+      $query = 'INSERT INTO {bugnote} '.
+              '(bug_id, reporter_id, view_state, note_type, bugnote_text_id, date_submitted, last_modified) '.
+              "VALUES (".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().")";
+
+      $q_params[]=$bug_id;
+      $q_params[]=$reporter_id;
+      $q_params[]=$view_state;
+      $q_params[]=$type;
+      $q_params[]=$bugnote_text_id;
+      $q_params[]=$date_submitted;
+      $q_params[]=$timestamp;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $bugnote_id = $sqlWrapper->sql_insert_id();
+      $bugnote_id = $sql->getInsertId();
 
       // log BUGNOTE_ADD in Issue history
-      $query3 = 'INSERT INTO `mantis_bug_history_table` '.
+      $query3 = 'INSERT INTO {bug_history} '.
 				'( user_id, bug_id, date_modified, type, old_value ) '.
-				"VALUES ( $reporter_id, $bug_id, ".$timestamp.', '.self::history_BugnoteAdded.", $bugnote_id)";
-      $result3 = $sqlWrapper->sql_query($query3);
+				"VALUES ( ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().', '.
+                        $sql->db_param().", ".$sql->db_param().")";
+      $q_params3[]=$reporter_id;
+      $q_params3[]=$bug_id;
+      $q_params3[]=$timestamp;
+      $q_params3[]=self::history_BugnoteAdded;
+      $q_params3[]=$bugnote_id;
+      $result3 = $sql->sql_query($query3, $q_params3);
       if (!$result3) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -129,27 +144,34 @@ class IssueNote {
       //self::$logger->error("Delete note $id");
 
       # Remove the bugnote text
-      $query = 'DELETE FROM `mantis_bugnote_text_table` WHERE id=' .
-            " (SELECT bugnote_text_id FROM `mantis_bugnote_table` WHERE id=$id)";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = 'DELETE FROM {bugnote_text} WHERE id=' .
+            " (SELECT bugnote_text_id FROM {bugnote} WHERE id=".$sql->db_param().")";
+      $result = $sql->sql_query($query, array($id));
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
       # Remove the bugnote
-      $query2 = 'DELETE FROM `mantis_bugnote_table` WHERE id=' . $id;
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      $query2 = 'DELETE FROM {bugnote} WHERE id='.$sql->db_param();
+      $result2 = $sql->sql_query($query2, array($id));
       if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
       // log BUGNOTE_DELETED in Issue history
-      $query3 = 'INSERT INTO `mantis_bug_history_table` '.
+      $query3 = 'INSERT INTO {bug_history} '.
 				'( user_id, bug_id, date_modified, type, old_value ) '.
-				"VALUES ( $userid, $bugid, ".time().', '.self::history_BugnoteDeleted.", $id)";
-      $result3 = SqlWrapper::getInstance()->sql_query($query3);
+				"VALUES ( ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().', '.
+                        $sql->db_param().", ".$sql->db_param().")";
+      $q_params3[]=$userid;
+      $q_params3[]=$bugid;
+      $q_params3[]=time();
+      $q_params3[]=self::history_BugnoteDeleted;
+      $q_params3[]=$id;
+      $result3 = $sql->sql_query($query3, $q_params3);
       if (!$result3) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -165,18 +187,23 @@ class IssueNote {
     */
    public static function getTimesheetNote($bug_id) {
 
+      $sql = AdodbWrapper::getInstance();
       $query2 = "SELECT note.id, note.bugnote_text_id ".
-               "FROM `mantis_bugnote_table` as note ".
-               "WHERE note.bug_id = $bug_id ".
-               "AND 0 <> (SELECT COUNT(id) FROM mantis_bugnote_text_table WHERE id = note.bugnote_text_id AND note LIKE '%".self::tagid_timesheetNote."%') ".
-               "ORDER BY note.date_submitted DESC LIMIT 1;";
+               "FROM {bugnote} as note ".
+               " WHERE note.bug_id =  ".$sql->db_param().
+               " AND 0 <> (SELECT COUNT(id) FROM {bugnote_text}".
+               "            WHERE id = note.bugnote_text_id".
+               "            AND note LIKE ".self::tagid_timesheetNote.$sql->db_param().") ".
+               "ORDER BY note.date_submitted DESC";
+      $q_params[]=$bug_id;
+      $q_params[]='%'.self::tagid_timesheetNote.$sql->db_param().'%';
 
-      $result = SqlWrapper::getInstance()->sql_query($query2);
+      $result = $sql->sql_query($query2, $q_params, TRUE, 1); // LIMIT 1
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+      $row = $sql->fetchObject($result);
 
       #echo "getTimesheetNote($bug_id) Note $row->id, bugnote_text = $row->bugnote_text_id <br>";
       $issueNote = NULL;
@@ -252,19 +279,20 @@ class IssueNote {
 
    private function initialize() {
       // Get bugnote info
+      $sql = AdodbWrapper::getInstance();
       $query = "SELECT note.*, ".
                "bugnote_text.note ".
-               "FROM `mantis_bugnote_table` as note ".
-               "JOIN `mantis_bugnote_text_table` as bugnote_text ON note.bugnote_text_id = bugnote_text.id ".
-               "WHERE note.id = $this->id ".
-               "ORDER BY note.date_submitted;";
+               "FROM {bugnote} as note ".
+               "JOIN {bugnote_text} as bugnote_text ON note.bugnote_text_id = bugnote_text.id ".
+               "WHERE note.id = ".$sql->db_param().
+               " ORDER BY note.date_submitted";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, array( $this->id));
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+      $row = $sql->fetchObject($result);
 
       $this->bug_id = $row->bug_id;
       $this->reporter_id = $row->reporter_id;
@@ -348,10 +376,10 @@ class IssueNote {
       if ( $this->revisionCount() < 1 ) {
          $this->revisionAdd($oldText, $this->reporter_id, $this->last_modified);
       }
-      $sqlWrapper = SqlWrapper::getInstance();
-      $query = "UPDATE `mantis_bugnote_text_table` SET note='".AdodbWrapper::getInstance()->escapeString($text)."' ".
-               "WHERE id=" . $this->bugnote_text_id;
-      $result = $sqlWrapper->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE {bugnote_text} SET note=".$sql->db_param().
+               " WHERE id=" . $sql->db_param();
+      $result = $sql->sql_query($query, array($text, $this->bugnote_text_id));
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -359,8 +387,9 @@ class IssueNote {
 
 	   # updated the last_updated date
       $now = time();
-   	$query2 = "UPDATE `mantis_bugnote_table` SET last_modified=$now WHERE id= $this->id";
-      $result2 = $sqlWrapper->sql_query($query2);
+   	$query2 = "UPDATE {bugnote} SET last_modified=".$sql->db_param().
+                " WHERE id= ".$sql->db_param();
+      $result2 = $sql->sql_query($query2, array($now, $this->id));
       if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -370,10 +399,16 @@ class IssueNote {
       $revision_id = $this->revisionAdd($text, $user_id, $now);
 
       // log BUGNOTE_UPDATED in Issue history
-      $query3 = 'INSERT INTO `mantis_bug_history_table` '.
+      $query3 = 'INSERT INTO {bug_history} '.
 				'( user_id, bug_id, date_modified, type, old_value, new_value ) '.
-				"VALUES ( $user_id, ".$this->bug_id.", ".time().', '.self::history_BugnoteUpdated.', '.$this->id.", $revision_id)";
-      $result3 = $sqlWrapper->sql_query($query3);
+				" VALUES ( ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().', '.$sql->db_param().', '.$sql->db_param().", ".$sql->db_param().")";
+      $q_params3[]=$user_id;
+      $q_params3[]=$this->bug_id;
+      $q_params3[]=time();
+      $q_params3[]=self::history_BugnoteUpdated;
+      $q_params3[]=$this->id;
+      $q_params3[]=$revision_id;
+      $result3 = $sql->sql_query($query3, $q_params3);
       if (!$result3) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -384,17 +419,18 @@ class IssueNote {
    }
 
    private function revisionCount() {
-      $query = "SELECT COUNT(id) FROM `mantis_bug_revision_table` ".
-              "WHERE bug_id= $this->bug_id ".
-              "AND bugnote_id= $this->id ".
-		        "AND type= ".self::rev_type_bugnote.';';
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT COUNT(id) FROM {bug_revision} ".
+              "WHERE bug_id= $this->bug_id ".$sql->db_param().
+              "AND bugnote_id= $this->id ".$sql->db_param().
+		        "AND type= ".self::rev_type_bugnote.$sql->db_param();
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      #$found  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? true : false;
-      $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
+      #$found  = (0 != $sql->getNumRows($result)) ? true : false;
+      $nbTuples  = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
 
       return $nbTuples;
    }
@@ -407,10 +443,11 @@ class IssueNote {
     */
    private function revisionAdd($text, $user_id, $timestamp) {
 
-      $query = "INSERT INTO `mantis_bug_revision_table` (bug_id, bugnote_id, user_id, timestamp, type, value) ".
+      $sql = AdodbWrapper::getInstance();
+      $query = "INSERT INTO {bug_revision} (bug_id, bugnote_id, user_id, timestamp, type, value) ".
                "VALUES ($this->bug_id, $this->id, $user_id, $timestamp, ".
-               self::rev_type_bugnote.", '".AdodbWrapper::getInstance()->escapeString($text)."')";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+               self::rev_type_bugnote.", ".AdodbWrapper::getInstance()->escapeString($text).")";
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;

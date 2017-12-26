@@ -19,7 +19,7 @@
 
 /**
  * This class is base on a partial copy of mantis files "authentication_api.php" and "crypto_api.php" and utility_api.php.
- * It is used to generate cookie string in order to complete the "cookie_string" column of mantis_user_table in mantis database.
+ * It is used to generate cookie string in order to complete the "cookie_string" column of {user} in mantis database.
  *
  * @author a608584
  */
@@ -63,15 +63,16 @@ class Crypto {
      * @access public
      */
     private function auth_is_cookie_string_unique($p_cookie_string) {
-        $query = "SELECT COUNT(*) FROM mantis_user_table WHERE cookie_string='$p_cookie_string'";
-        $result = SqlWrapper::getInstance()->sql_query($query);
+        $sql = AdodbWrapper::getInstance();
+        $query = "SELECT COUNT(*) FROM {user} WHERE cookie_string=".$sql->db_param();
+        $result = $sql->sql_query($query, array($p_cookie_string));
 
         if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
         }
 
-        while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+        while ($row = $sql->fetchObject($result)) {
             $count = $row->count;
         }
 

@@ -111,13 +111,14 @@ class Holidays {
    private function __construct() {
       self::$HolidayList = array();
 
-      $query = 'SELECT * FROM `codev_holidays_table`';
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = 'SELECT * FROM codev_holidays_table';
+      $result = $sql->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          self::$HolidayList[$row->id] = new Holiday($row->id, $row->date, $row->description, $row->color);
       }
    }
@@ -225,14 +226,15 @@ class Holidays {
     * @return mixed[int]
     */
    public static function getHolidays() {
-      $query = 'SELECT * FROM `codev_holidays_table` ORDER BY date DESC';
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = 'SELECT * FROM codev_holidays_table ORDER BY date DESC';
+      $result = $sql->sql_query($query);
       if (!$result) {
          return NULL;
       }
 
       $holidays = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $holidays[$row->id] = array(
             "date" => Tools::formatDate("%d %b %Y (%a)", $row->date),
             "desc" => $row->description,
@@ -252,8 +254,10 @@ class Holidays {
     * @return resource
     */
    public static function save($timestamp, $hol_desc, $hol_color) {
-      $query = "INSERT INTO `codev_holidays_table` (`date`, `description`, `color`) VALUES ('".$timestamp."','".$hol_desc."','".$hol_color."');";
-      return SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "INSERT INTO codev_holidays_table (date, description, color)".
+               " VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().")";
+      return $sql->sql_query($query, array($timestamp, $hol_desc, $hol_color));
    }
 
    /**
@@ -263,8 +267,9 @@ class Holidays {
     * @return resource
     */
    public static function delete($hol_id) {
-      $query = 'DELETE FROM `codev_holidays_table` WHERE id='.$hol_id.';';
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = 'DELETE FROM codev_holidays_table WHERE id='.$sql->db_param().';';
+      $result = $sql->sql_query($query, array($hol_id));
       return $result;
    }
 
@@ -272,4 +277,3 @@ class Holidays {
 
 Holidays::staticInit();
 
-?>
