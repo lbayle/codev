@@ -224,26 +224,29 @@ class IssueSelection {
     */
    public function getElapsed($startTimestamp = NULL, $endTimestamp = NULL) {
       if(count($this->issueList) > 0) {
-         $issueIds = implode(', ', array_keys($this->issueList));
+         $sql = AdodbWrapper::getInstance();
 
          // for each issue, sum all its timetracks within period
-         $query = "SELECT SUM(duration) FROM `codev_timetracking_table` ".
-            "WHERE bugid IN (".$issueIds.") ";
+         $query = "SELECT SUM(duration) FROM codev_timetracking_table ".
+                  " WHERE bugid IN (".$sql->db_param().") ";
+         $q_params[]=implode(', ', array_keys($this->issueList));;
 
          if (isset($startTimestamp)) {
-            $query .= "AND date >= $startTimestamp ";
+            $query .= " AND date >=  ".$sql->db_param();
+            $q_params[]=$startTimestamp;
          }
          if (isset($endTimestamp)) {
-            $query .= "AND date <= $endTimestamp ";
+            $query .= " AND date <=  ".$sql->db_param();
+            $q_params[]=$endTimestamp;
          }
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
-         return round(SqlWrapper::getInstance()->sql_result($result),2);
+         return round($sql->sql_result($result),2);
       } else {
          return 0;
       }
@@ -260,27 +263,30 @@ class IssueSelection {
 
       $issues = array();
       if(count($this->issueList) > 0) {
-         $issueIds = implode(', ', array_keys($this->issueList));
+         $sql = AdodbWrapper::getInstance();
 
          // for each issue, sum all its timetracks within period
-         $query = "SELECT bugid FROM `codev_timetracking_table` ".
-            "WHERE bugid IN (".$issueIds.") ";
+         $query = "SELECT bugid FROM codev_timetracking_table ".
+                  " WHERE bugid IN (".$sql->db_param().") ";
+         $q_params[]=implode(', ', array_keys($this->issueList));
 
          if (isset($startTimestamp)) {
-            $query .= "AND date >= $startTimestamp ";
+            $query .= " AND date >=  ".$sql->db_param();
+            $q_params[]=$startTimestamp;
          }
          if (isset($endTimestamp)) {
-            $query .= "AND date <= $endTimestamp ";
+            $query .= " AND date <=  ".$sql->db_param();
+            $q_params[]=$endTimestamp;
          }
          $query .= "GROUP BY bugid";
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
-         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while ($row = $sql->fetchObject($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->bugid);
             $issues[$row->bugid] = $issue;
          }
@@ -531,18 +537,20 @@ class IssueSelection {
     */
    public function getFirstTimetrack() {
       if(count($this->issueList) > 0) {
-         $query = "SELECT * from `codev_timetracking_table` ".
-            "WHERE bugid IN (".implode(', ',array_keys($this->issueList)).") ".
-            "ORDER BY date ASC LIMIT 1";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * from codev_timetracking_table ".
+            "WHERE bugid IN (".$sql->db_param().") ".
+            " ORDER BY date ASC";
+         $q_params[]=implode(', ',array_keys($this->issueList));
+         $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
          $timeTrack = NULL;
-         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-            $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         if (0 != $sql->getNumRows($result)) {
+            $row = $sql->fetchObject($result);
             $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
          }
 
@@ -557,18 +565,20 @@ class IssueSelection {
     */
    public function getLatestTimetrack() {
       if(count($this->issueList) > 0) {
-         $query = "SELECT * from `codev_timetracking_table` ".
-            "WHERE bugid IN (".implode(', ',array_keys($this->issueList)).") ".
-            "ORDER BY date DESC LIMIT 1";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * from codev_timetracking_table ".
+            "WHERE bugid IN (".$sql->db_param().") ".
+            " ORDER BY date DESC";
+         $q_params[]=implode(', ',array_keys($this->issueList));
+         $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
          $timeTrack = NULL;
-         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-            $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         if (0 != $sql->getNumRows($result)) {
+            $row = $sql->fetchObject($result);
             $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
          }
          return $timeTrack;
@@ -585,17 +595,19 @@ class IssueSelection {
       $lastUpdated = 0;
 
       if(count($this->issueList) > 0) {
-         $query = "SELECT last_updated from `mantis_bug_table` ".
-            "WHERE id IN (".implode(', ',array_keys($this->issueList)).") ".
-            "ORDER BY last_updated DESC LIMIT 1";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT last_updated from {bug} ".
+            "WHERE id IN (".$sql->db_param().") ".
+            " ORDER BY last_updated DESC";
+         $q_params[]=implode(', ',array_keys($this->issueList));
+         $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
-         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-            $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         if (0 != $sql->getNumRows($result)) {
+            $row = $sql->fetchObject($result);
             $lastUpdated = $row->last_updated;
          }
       }
@@ -612,16 +624,18 @@ class IssueSelection {
    public function getLastUpdatedList($max = 1) {
    	$lastUpdatedList = array();
       if(count($this->issueList) > 0) {
-         $query = "SELECT id, last_updated from `mantis_bug_table` ".
-            "WHERE id IN (".implode(', ',array_keys($this->issueList)).") ".
-            "ORDER BY last_updated DESC LIMIT $max";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT id, last_updated from {bug} ".
+            "WHERE id IN (".$sql->db_param().") ".
+            " ORDER BY last_updated DESC";
+         $q_params[]=implode(', ',array_keys($this->issueList));
+         $result = $sql->sql_query($query, $q_params, TRUE, $max); // LIMIT max
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
       
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while ($row = $sql->fetchObject($result)) {
          $lastUpdatedList["$row->id"] = $row->last_updated;
       }
       }
@@ -645,28 +659,28 @@ class IssueSelection {
          return array();
       }
 
-      $formatedBugidString = implode( ', ', array_keys($this->issueList));
-
       // TODO cache results !
-      
-      $query = "SELECT * FROM `codev_timetracking_table` ".
-               "WHERE bugid IN (".$formatedBugidString.") ";
+
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT * FROM codev_timetracking_table ".
+               "WHERE bugid IN (".$sql->db_param().") ";
+      $q_params[]=implode( ', ', array_keys($this->issueList));
 
       if (NULL != $useridList) { 
-         $formatedUseridString = implode( ', ', $useridList);
-         $query .= 'AND userid IN ('.$formatedUseridString.') '; 
+         $query .= 'AND userid IN ('.$sql->db_param().') ';
+         $q_params[]=implode( ', ', $useridList);
       }
-      if (NULL != $startTimestamp) { $query .= "AND date >= $startTimestamp "; }
-      if (NULL != $endTimestamp)   { $query .= "AND date <= $endTimestamp "; }
+      if (NULL != $startTimestamp) { $query .= " AND date >=  ".$sql->db_param(); $q_params[]=$startTimestamp; }
+      if (NULL != $endTimestamp)   { $query .= " AND date <=  ".$sql->db_param(); $q_params[]=$endTimestamp; }
       $query .= ' ORDER BY bugid';
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo '<span style="color:red">ERROR: Query FAILED</span>';
          exit;
       }
       $timeTracks = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $timeTracks[$row->id] = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
       }
       return $timeTracks;

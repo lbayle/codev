@@ -45,6 +45,7 @@ class PeriodStatsReport {
       $now = time();
       $startM = $this->start_month;
       $startD = $this->start_day;
+      $sql = AdodbWrapper::getInstance();
 
       for ($y = $this->start_year; $y <= date('Y'); $y++) {
 
@@ -59,16 +60,16 @@ class PeriodStatsReport {
             $projectList = array();
 
             // only projects for specified team, except excluded projects
-            $query = "SELECT project_id FROM `codev_team_project_table` ".
-               "WHERE team_id = $this->teamid ".
-               "AND codev_team_project_table.type <> ".Project::type_noStatsProject;
+            $query = "SELECT project_id FROM codev_team_project_table ".
+               "WHERE team_id = ".$sql->db_param().
+               "AND codev_team_project_table.type <> ".$sql->db_param();
 
-            $result = SqlWrapper::getInstance()->sql_query($query);
+            $result = $sql->sql_query($query, array($this->teamid, Project::type_noStatsProject));
             if (!$result) {
                echo "<span style='color:red'>ERROR: Query FAILED</span>";
                exit;
             }
-            while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            while($row = $sql->fetchObject($result)) {
                $projectList[] = $row->project_id;
             }
 
@@ -95,4 +96,3 @@ class PeriodStatsReport {
 
 }
 
-?>

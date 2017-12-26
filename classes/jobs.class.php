@@ -115,13 +115,14 @@ class Jobs {
    public function __construct() {
       $this->jobList = array();
 
-      $query = "SELECT * FROM `codev_job_table`";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT * FROM codev_job_table";
+      $result = $sql->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $j = new Job($row->id, $row->name, $row->type, $row->color);
          $this->jobList[$row->id] = $j;
       }
@@ -180,8 +181,10 @@ class Jobs {
     * @return int $job_id
     */
    public static function create($job_name, $job_type, $job_color) {
-      $query = "INSERT INTO `codev_job_table`  (`name`, `type`, `color`) VALUES ('$job_name','$job_type','$job_color');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "INSERT INTO codev_job_table (name, type, color)".
+               " VALUES (".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().")";
+      $result = $sql->sql_query($query, array($job_name,$job_type,$job_color));
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -196,8 +199,10 @@ class Jobs {
     * @param int $job_id
     */
    public static function addJobProjectAssociation($project_id, $job_id) {
-      $query = "INSERT INTO `codev_project_job_table`  (`project_id`, `job_id`) VALUES ('$project_id','$job_id');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "INSERT INTO codev_project_job_table (project_id, job_id)".
+               " VALUES (".$sql->db_param().", ".$sql->db_param().")";
+      $result = $sql->sql_query($query, array($project_id, $job_id));
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -206,4 +211,4 @@ class Jobs {
 
 }
 Jobs::staticInit();
-?>
+

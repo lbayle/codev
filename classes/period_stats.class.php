@@ -108,45 +108,48 @@ class PeriodStats {
     */
    private function countIssues_other() {
       $formatedProjectTypes = implode( ', ', $this->projectTypeList);
+      $sql = AdodbWrapper::getInstance();
 
       // select all but SideTasks & rem 'doublons'
       $query = "SELECT DISTINCT bug.id ".
-               "FROM `mantis_bug_table` as bug ".
-               "JOIN `codev_team_project_table` as team_project ON bug.project_id = team_project.project_id ".
-               "WHERE team_project.type IN ($formatedProjectTypes) ";
+               "FROM {bug} as bug ".
+               "JOIN codev_team_project_table as team_project ON bug.project_id = team_project.project_id ".
+               "WHERE team_project.type IN (".$sql->db_param().") ";
+      $q_params[]=$formatedProjectTypes;
 
       // Only for specified Projects
       if ((isset($this->projectList)) && (0 != count($this->projectList))) {
          $formatedProjects = implode( ', ', $this->projectList);
-         $query .= "AND bug.project_id IN ($formatedProjects) ";
+         $query .= " AND bug.project_id IN (".$sql->db_param().") ";
+         $q_params[]=$formatedProjects;
       }
       $query .= ";";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
       // For each bugId
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $bugId1 = $row->id;
          // Find most recent transitions where date < $endTimestamp
          $query2 = "SELECT bug_id, new_value, old_value, date_modified ".
-                   "FROM `mantis_bug_history_table` ".
+                   "FROM {bug_history} ".
                    "WHERE field_name='status' ".
-                   "AND bug_id =$bugId1 ".
-                   "AND date_modified < $this->endTimestamp ".
-                   "ORDER BY id DESC";
+                   " AND bug_id = ".$sql->db_param().
+                   " AND date_modified < ".$sql->db_param().
+                   " ORDER BY id DESC";
 
-         $result2 = SqlWrapper::getInstance()->sql_query($query2);
+         $result2 = $sql->sql_query($query2, array($bugId1, $this->endTimestamp));
          if (!$result2) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
-         if (0 != SqlWrapper::getInstance()->sql_num_rows($result2)) {
-            $row2 = SqlWrapper::getInstance()->sql_fetch_object($result2);
+         if (0 != $sql->getNumRows($result2)) {
+            $row2 = $sql->fetchObject($result2);
 
             $this->statusCountList[$row2->new_value]++;
             $this->statusIssueList[$row2->new_value][] = $bugId1;
@@ -172,4 +175,4 @@ class PeriodStats {
 
 }
 
-?>
+
