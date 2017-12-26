@@ -499,15 +499,17 @@ class ConsistencyCheck2 {
 
       if(count($this->issueList) > 0) {
 
-         $query = "SELECT bug_id, COUNT(command_id) as count FROM `codev_command_bug_table` WHERE bug_id IN (".$this->formattedBugidList.") GROUP BY bug_id;";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT bug_id, COUNT(command_id) as count FROM codev_command_bug_table".
+                  " WHERE bug_id IN (".$sql->db_param().") GROUP BY bug_id;";
+         $result = $sql->sql_query($query, array($this->formattedBugidList));
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
          $commandsByIssue = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $commandsByIssue[$row->bug_id] = $row->count;
          }
 
@@ -555,15 +557,17 @@ class ConsistencyCheck2 {
 
       if(count($this->issueList) > 0) {
 
-         $query = "SELECT bug_id, COUNT(command_id) as count FROM `codev_command_bug_table` WHERE bug_id IN (".$this->formattedBugidList.") GROUP BY bug_id;";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT bug_id, COUNT(command_id) as count FROM codev_command_bug_table".
+            " WHERE bug_id IN (".$sql->db_param().") GROUP BY bug_id";
+         $result = $sql->sql_query($query, array($this->formattedBugidList));
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
          $commandsByIssue = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $commandsByIssue[$row->bug_id] = $row->count;
          }
 
@@ -591,16 +595,16 @@ class ConsistencyCheck2 {
             if ($nbTuples > 1) {
 
                // a task referenced in 2 Commands is not error if in two != teams
-               $query = "SELECT team_id FROM `codev_command_table`, `codev_command_bug_table` "
+               $query = "SELECT team_id FROM codev_command_table, codev_command_bug_table "
                        . "WHERE codev_command_table.id = codev_command_bug_table.command_id "
-                       . "AND codev_command_bug_table.bug_id = ".$issue->getId().";";
-               $result = SqlWrapper::getInstance()->sql_query($query);
+                       . "AND codev_command_bug_table.bug_id = ".$sql->db_param();
+               $result = $sql->sql_query($query, array($issue->getId()));
                if (!$result) {
                   echo "<span style='color:red'>ERROR: Query FAILED</span>";
                   exit;
                }
                $tmpTeamId = 0;
-               while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+               while($row = $sql->fetchObject($result)) {
                   if (0 == $tmpTeamId) {
                      $tmpTeamId = $row->team_id;
                   } else {
@@ -631,17 +635,18 @@ class ConsistencyCheck2 {
     */
    public function checkCommandsNotInCommandset() {
       $cerrList = array();
+      $sql = AdodbWrapper::getInstance();
 
-      $query = "SELECT id, name, reference FROM `codev_command_table` ".
-               "WHERE team_id = $this->teamId ".
-               "AND id NOT IN (SELECT command_id FROM `codev_commandset_cmd_table`) ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "SELECT id, name, reference FROM codev_command_table ".
+               "WHERE team_id =  ".$sql->db_param().
+               "AND id NOT IN (SELECT command_id FROM codev_commandset_cmd_table) ";
+      $result = $sql->sql_query($query, array($this->teamId));
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL,
             T_("Command")." \"$row->reference $row->name\" ".T_("is not referenced in any CommandSet"));
          $cerr->severity = ConsistencyError2::severity_info;
@@ -659,17 +664,18 @@ class ConsistencyCheck2 {
     */
    public function checkCommandSetNotInServiceContract() {
       $cerrList = array();
+      $sql = AdodbWrapper::getInstance();
 
-      $query = "SELECT id, name, reference FROM `codev_commandset_table` ".
-               "WHERE team_id = $this->teamId ".
-               "AND id NOT IN (SELECT commandset_id FROM `codev_servicecontract_cmdset_table`) ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "SELECT id, name, reference FROM codev_commandset_table ".
+               "WHERE team_id =  ".$sql->db_param().
+               "AND id NOT IN (SELECT commandset_id FROM codev_servicecontract_cmdset_table) ";
+      $result = $sql->sql_query($query, array($this->teamId));
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL,
             T_("CommandSet")." \"$row->reference $row->name\" ".T_("is not referenced in any ServiceContract"));
          $cerr->severity = ConsistencyError2::severity_info;
@@ -687,6 +693,7 @@ class ConsistencyCheck2 {
     */
    public function checkTimetracksOnRemovedIssues() {
       $cerrList = array();
+      $sql = AdodbWrapper::getInstance();
 
       if (NULL != $this->teamId) {
          $team = TeamCache::getInstance()->getTeam($this->teamId);
@@ -695,18 +702,18 @@ class ConsistencyCheck2 {
          $formatedUsers = implode( ', ', array_keys($userList));
 
          $query = "SELECT * ".
-                  "FROM `codev_timetracking_table` ".
-                  "WHERE date >= ".$team->getDate()." ".
-                  "AND userid IN ($formatedUsers) ";
-         #"AND    0 = (SELECT COUNT(id) FROM `mantis_bug_table` WHERE id='codev_timetracking_table.bugid' ) ";
+                  "FROM codev_timetracking_table ".
+                  "WHERE date >= ".$sql->db_param()." ".
+                  "AND userid IN (".$sql->db_param().") ";
+         #"AND    0 = (SELECT COUNT(id) FROM {bug} WHERE id='codev_timetracking_table.bugid' ) ";
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, array($team->getDate(), $formatedUsers));
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             if (!Issue::exists($row->bugid)) {
                $cerr = new ConsistencyError2($row->bugid, $row->userid, NULL,
                   $row->date, T_("Timetrack found on a task that does not exist in Mantis DB (duration = $row->duration)."));
@@ -771,16 +778,18 @@ class ConsistencyCheck2 {
 
    public static function checkMantisDefaultProjectWorkflow() {
       $cerrList = array();
-      $query = "SELECT * FROM `mantis_config_table` ".
+      $sql = AdodbWrapper::getInstance();
+
+      $query = "SELECT * FROM {config} ".
                "WHERE project_id = 0 ".
                "AND config_id = 'status_enum_workflow' ";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
+      if (0 == $sql->getNumRows($result)) {
          if (!is_array(Constants::$status_enum_workflow)) {
             $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL, T_("No default project workflow defined, check config file: ".Constants::$config_file));
             $cerr->severity = ConsistencyError2::severity_error;
