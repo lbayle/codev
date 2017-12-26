@@ -137,16 +137,18 @@ class Email {
          $emailData->submitted = time();
       }
 
-      $sqlWrapper = SqlWrapper::getInstance();
-      $c_email    = AdodbWrapper::getInstance()->escapeString($emailData->email);
-      $c_subject  = AdodbWrapper::getInstance()->escapeString($emailData->subject);
-      $c_body     = AdodbWrapper::getInstance()->escapeString($emailData->body);
-      $c_metadata = serialize( $emailData->metadata );
+      $sql = AdodbWrapper::getInstance();
 
-      $query = "INSERT  INTO `mantis_email_table` (`email`, `subject`, `body`, `submitted`, `metadata`) ".
-         "VALUES ('$c_email', '$c_subject', '$c_body', ".$emailData->submitted.", '$c_metadata');";
+      $query = "INSERT  INTO {email} (email, subject, body, submitted, metadata) ".
+         "VALUES (".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().")";
       #echo "queue email: $query<br>";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $q_params[]=$emailData->email;
+      $q_params[]=$emailData->subject;
+      $q_params[]=$emailData->body;
+      $q_params[]=$emailData->submitted;
+      $q_params[]=serialize($emailData->metadata);
+
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;

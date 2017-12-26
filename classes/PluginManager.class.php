@@ -97,6 +97,7 @@ class PluginManager {
    public function discoverNewPlugins() {
 
       $validPlugins = array();
+      $sql = AdodbWrapper::getInstance();
 
       // foreach directory
       $dirContent = array_diff(scandir(self::$pluginsDir), array('..', '.'));
@@ -126,20 +127,21 @@ class PluginManager {
       self::$logger->debug("validPlugins: ".var_export($validPlugins, true));
 
       // compare with DB list
-      $query = "SELECT * FROM `codev_plugin_table`;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $query = "SELECT * FROM codev_plugin_table";
+      $result = $sql->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
       $hasChanged = false;
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while ($row = $sql->fetchObject($result)) {
          // if not found in validPlugins, set as REMOVED
          if (!array_key_exists($row->name, $validPlugins)) {
             if (self::PLUGIN_STATUS_REMOVED != $row->status) {
                #echo "must set as removed: $row->name<br>";
-               $query2 = "UPDATE `codev_plugin_table` SET `status`=".self::PLUGIN_STATUS_REMOVED." WHERE `name` = '".$row->name."';";
-               $result2 = SqlWrapper::getInstance()->sql_query($query2);
+               $query2 = "UPDATE codev_plugin_table SET status=".$sql->db_param().
+                  " WHERE name = ".$sql->db_param();
+               $result2 = $sql->sql_query($query2, array(self::PLUGIN_STATUS_REMOVED, $row->name));
                if (!$result2) {
                   echo "<span style='color:red'>ERROR: Query FAILED</span>";
                   exit;
@@ -155,7 +157,6 @@ class PluginManager {
 
             $reflectionMethod = new ReflectionMethod($row->name, 'getDesc');
             $pDesc = $reflectionMethod->invoke(NULL);
-            $pDesc = AdodbWrapper::getInstance()->escapeString($pDesc);
             $reflectionMethod = new ReflectionMethod($row->name, 'getDomains');
             $pDomains = implode(',', $reflectionMethod->invoke(NULL));
             $reflectionMethod = new ReflectionMethod($row->name, 'getCategories');
@@ -163,14 +164,20 @@ class PluginManager {
             $reflectionMethod = new ReflectionMethod($row->name, 'getVersion');
             $pVersion = $reflectionMethod->invoke(NULL);
 
-            $query3 = "UPDATE `codev_plugin_table` SET ".
-               "`status`='$pStatus', ".
-               "`domains`='$pDomains', ".
-               "`categories`='$pCat', ".
-               "`version`='$pVersion', ".
-               "`description`='$pDesc' ".
-               "WHERE `name` = '".$row->name."';";
-            $result3 = SqlWrapper::getInstance()->sql_query($query3);
+            $query3 = "UPDATE codev_plugin_table SET ".
+               "status=".$sql->db_param().", ".
+               "domains=".$sql->db_param().", ".
+               "categories=".$sql->db_param().", ".
+               "version=".$sql->db_param().", ".
+               "description=".$sql->db_param()." ".
+               " WHERE name = ".$sql->db_param();
+            $q_params3[]=$pStatus;
+            $q_params3[]=$pDomains;
+            $q_params3[]=$pCat;
+            $q_params3[]=$pVersion;
+            $q_params3[]=$pDesc;
+            $q_params3[]=$row->name;
+            $result3 = $sql->sql_query($query3, $q_params3);
             if (!$result3) {
                echo "<span style='color:red'>ERROR: Query FAILED</span>";
                exit;
@@ -196,10 +203,17 @@ class PluginManager {
             $reflectionMethod = new ReflectionMethod($pName, 'getVersion');
             $pVersion = $reflectionMethod->invoke(NULL);
 
-            $query4 = "INSERT  INTO `codev_plugin_table` (`name`, `description`, `status`, `domains`, `categories`, `version`) ".
-               "VALUES ('$pName', '$pDesc', '".self::PLUGIN_STATUS_DISABLED."', '$pDomains', '$pCat', '$pVersion');";
+            $query4 = "INSERT  INTO codev_plugin_table (name, description, status, domains, categories, version) ".
+               "VALUES (".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().")";
+            $q_params4[]=$pName;
+            $q_params4[]=$pDesc;
+            $q_params4[]=self::PLUGIN_STATUS_DISABLED;
+            $q_params4[]=$pDomains;
+            $q_params4[]=$pCat;
+            $q_params4[]=$pVersion;
+
             #echo "new plugin query: $query4<br>";
-            $result4 = SqlWrapper::getInstance()->sql_query($query4);
+            $result4 = $sql->sql_query($query4, $q_params4);
             if (!$result4) {
                echo "<span style='color:red'>ERROR: Query FAILED</span>";
                exit;
@@ -223,8 +237,10 @@ class PluginManager {
     */
    private function setPluginStatus($className, $status) {
 
-      $query2 = "UPDATE `codev_plugin_table` SET `status`=".$status." WHERE `name` = '".$className."';";
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
+      $sql = AdodbWrapper::getInstance();
+      $query2 = "UPDATE codev_plugin_table SET status=".$sql->db_param().
+                " WHERE name = ".$sql->db_param();
+      $result2 = $sql->sql_query($query2, array($status, $className));
       if (!$result2) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -263,13 +279,14 @@ class PluginManager {
 
          $plugins = array();
 
-         $query = "SELECT * FROM `codev_plugin_table`;";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM codev_plugin_table";
+         $result = $sql->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while ($row = $sql->fetchObject($result)) {
 
             $className = $row->name;
             $status    = $row->status;

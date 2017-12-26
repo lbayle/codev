@@ -45,14 +45,15 @@ class UserDailyCost {
 
       $this->teamid = $teamid;
 
-      $query0 = "SELECT currency, average_daily_cost FROM codev_team_table WHERE id = ".$this->teamid;
-      $result0 = SqlWrapper::getInstance()->sql_query($query0);
+      $sql = AdodbWrapper::getInstance();
+      $query0 = "SELECT currency, average_daily_cost FROM codev_team_table WHERE id = ".$sql->db_param();
+      $result0 = $sql->sql_query($query0, array($this->teamid));
       if (!$result0) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      if(SqlWrapper::getInstance()->sql_num_rows($result0) == 1) {
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result0);
+      if($sql->getNumRows($result0) == 1) {
+         $row = $sql->fetchObject($result0);
 
          $this->teamCurrency = $row->currency;
 
@@ -73,14 +74,14 @@ class UserDailyCost {
       $this->userDailyCosts = array();
 
       $query1 = "SELECT id, user_id, start_date, daily_rate, currency, description FROM codev_userdailycost_table ".
-                " WHERE team_id = ".$this->teamid.
+                " WHERE team_id = ".$sql->db_param().
                 " ORDER BY user_id, start_date DESC"; // ORDER BY start_date DESC is very important !
-      $result1 = SqlWrapper::getInstance()->sql_query($query1);
+      $result1 = $sql->sql_query($query1, array($this->teamid));
       if (!$result1) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result1)) {
+      while ($row = $sql->fetchObject($result1)) {
          
          //convert UDC 12350 => 123.5 (2 decimals)
          $udr = floatval($row->daily_rate) / 100;
@@ -126,10 +127,17 @@ class UserDailyCost {
       // TODO check floatval errors !
       // convert float to int (ex: 123.5 => 12350 (2 decimals)
       $udr = round(floatval($userDailyCost), 2) * 100;
-      
-      $query = "INSERT INTO `codev_userdailycost_table`  (`user_id`, `team_id`, `start_date`, `daily_rate`, `currency`, `description`) "
-              . "VALUES ('".$userid."','".$this->teamid."','".$timestamp."','".$udr."','".$currency."','".$description."');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+
+      $sql = AdodbWrapper::getInstance();
+      $query = "INSERT INTO codev_userdailycost_table (user_id, team_id, start_date, daily_rate, currency, description) "
+              . " VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().")";
+      $q_params[]=$userid;
+      $q_params[]=$this->teamid;
+      $q_params[]=$timestamp;
+      $q_params[]=$udr;
+      $q_params[]=$currency;
+      $q_params[]=$description;
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -167,8 +175,9 @@ class UserDailyCost {
     */
    public function deleteUserDailyCost($id) {
 
-      $query = "DELETE FROM `codev_userdailycost_table` WHERE id = $id ;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "DELETE FROM codev_userdailycost_table WHERE id = ".$sql->db_param();
+      $result = $sql->sql_query($query, array($id));
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;

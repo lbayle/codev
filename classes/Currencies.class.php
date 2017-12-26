@@ -47,10 +47,11 @@ class Currencies {
    private function __construct() {
 
       $this->currencies = array();
+      $sql = AdodbWrapper::getInstance();
       $query0 = "SELECT * FROM codev_currencies_table";
-      $result0 = SqlWrapper::getInstance()->sql_query($query0);
+      $result0 = $sql->sql_query($query0);
 
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result0)) {
+      while ($row = $sql->fetchObject($result0)) {
          $coef = $row->coef / 1000000; // (6 decimals)
          $this->currencies[$row->currency] = $coef;
          if (1 == $coef) { $this->referalCurrency = $row->currency; }
@@ -160,8 +161,9 @@ class Currencies {
       // convert float to int (ex: 0.930709 => 930709 (6 decimals)
       $dbCoef = round(floatval($coef), 6) * 1000000;
 
-      $query = "INSERT INTO `codev_currencies_table`  (`currency`, `coef`) VALUES ('$currency','$dbCoef');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $query = "INSERT INTO codev_currencies_table  (currency, coef) VALUES (".$sql->db_param().",".$sql->db_param().")";
+      $result = $sql->sql_query($query, array($currency, $dbCoef));
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
