@@ -101,13 +101,10 @@ class ServiceContract extends Model {
    private function initialize($row) {
       if($row == NULL) {
          // get info from DB
-         $query  = "SELECT * FROM `codev_servicecontract_table` WHERE id = ".$this->id.";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $sql = AdodbWrapper::getInstance();
+         $query  = "SELECT * FROM codev_servicecontract_table WHERE id = ".$sql->db_param();
+         $result= $sql->sql_query($query, array($this->id));
+         $row = $sql->fetchObject($result);
       }
 
       $this->name = $row->name;
@@ -130,25 +127,18 @@ class ServiceContract extends Model {
     */
    public static function create($name, $teamid) {
 
-      $query = "SELECT count(*) FROM `codev_servicecontract_table` WHERE name = '".$name."';";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT count(*) FROM codev_servicecontract_table WHERE name = ".$sql->db_param();
+      $result = $sql->sql_query($query, array($name));
 
-      $count = SqlWrapper::getInstance()->sql_result($result);
+      $count = $sql->sql_result($result);
 
       if($count == 0) {
 
-         $query = "INSERT INTO `codev_servicecontract_table`  (`name`, `team_id`) ".
-                  "VALUES ('$name', $teamid);";
+         $query = "INSERT INTO codev_servicecontract_table  (name, team_id) ".
+                  "VALUES (".$sql->db_param().", ".$sql->db_param().")";
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array($name, $teamid));
 
          return AdodbWrapper::getInstance()->getInsertId();
       } else {
@@ -163,27 +153,31 @@ class ServiceContract extends Model {
     * @return int $id
     */
    public static function delete($id) {
-      $query = "DELETE FROM `codev_servicecontract_cmdset_table` WHERE servicecontract_id = ".$id.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
+      $sql = AdodbWrapper::getInstance();
+      try {
+         $query = "DELETE FROM codev_servicecontract_cmdset_table WHERE servicecontract_id = ".$sql->db_param();
+         $sql->sql_query($query, array($id));
+      } catch (Exception $e) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
          #exit;
       }
 
-      $query = "DELETE FROM `codev_servicecontract_stproj_table` WHERE servicecontract_id = ".$id.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
+      try {
+         $query = "DELETE FROM codev_servicecontract_stproj_table WHERE servicecontract_id = ".$sql->db_param();
+         $sql->sql_query($query, array($id));
+      } catch (Exception $e) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
          #exit;
       }
 
-      $query = "DELETE FROM `codev_servicecontract_table` WHERE id = ".$id.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
+      try {
+         $query = "DELETE FROM codev_servicecontract_table WHERE id = ".$sql->db_param();
+         $sql->sql_query($query, array($id));
+      } catch (Exception $e) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
-         exit;
+         #exit;
       }
-      return true;
+      return $id;
    }
 
    public function getId() {
@@ -195,12 +189,10 @@ class ServiceContract extends Model {
    }
    public function setTeamid($value) {
       $this->teamid = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET team_id = '$value' WHERE id = ".$this->id.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET team_id = ".$sql->db_param().
+               " WHERE id = ".$sql->db_param();
+      $sql->sql_query($query, array($value, $this->id));
    }
 
    public function getName() {
@@ -209,12 +201,10 @@ class ServiceContract extends Model {
 
    public function setName($name) {
       $this->name = $name;
-      $query = "UPDATE `codev_servicecontract_table` SET name = '$name' WHERE id = ".$this->id.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET name = ".$sql->db_param().
+               " WHERE id = ".$sql->db_param();
+      $sql->sql_query($query, array($name, $this->id));
    }
 
    public function getReference() {
@@ -223,12 +213,10 @@ class ServiceContract extends Model {
 
    public function setReference($value) {
       $this->reference = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET reference = '$value' WHERE id = ".$this->id.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET reference = ".$sql->db_param().
+               " WHERE id = ".$sql->db_param();
+      $sql->sql_query($query, array($value, $this->id));
    }
 
    public function getVersion() {
@@ -237,12 +225,10 @@ class ServiceContract extends Model {
 
    public function setVersion($value) {
       $this->version = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET version = '$value' WHERE id = ".$this->id.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET version = ".$sql->db_param().
+               " WHERE id = ".$sql->db_param();
+      $sql->sql_query($query, array($value, $this->id));
    }
 
    public function getReporter() {
@@ -251,12 +237,10 @@ class ServiceContract extends Model {
 
    public function setReporter($value) {
       $this->reporter = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET reporter = '$value' WHERE id = ".$this->id.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET reporter = ".$sql->db_param().
+               " WHERE id = ".$sql->db_param();
+      $sql->sql_query($query, array($value, $this->id));
    }
 
    public function getDesc() {
@@ -265,12 +249,10 @@ class ServiceContract extends Model {
 
    public function setDesc($description) {
       $this->description = $description;
-      $query = "UPDATE `codev_servicecontract_table` SET description = '$description' WHERE id = ".$this->id.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET description = ".$sql->db_param().
+               " WHERE id = ".$sql->db_param();
+      $sql->sql_query($query, array($description, $this->id));
    }
 
    public function getState() {
@@ -279,12 +261,10 @@ class ServiceContract extends Model {
 
    public function setState($value) {
       $this->state = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET state='$value' WHERE id = ".$this->id.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET state=".$sql->db_param().
+               " WHERE id = ".$sql->db_param();
+      $sql->sql_query($query, array($value, $this->id));
    }
 
    public function getStartDate() {
@@ -293,12 +273,10 @@ class ServiceContract extends Model {
 
    public function setStartDate($value) {
       $this->start_date = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET start_date = '$this->start_date' WHERE id='$this->id' ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET start_date = ".$sql->db_param().
+               " WHERE id=".$sql->db_param();
+      $sql->sql_query($query, array($this->start_date, $this->id));
    }
 
    public function getEndDate() {
@@ -307,12 +285,10 @@ class ServiceContract extends Model {
 
    public function setEndDate($value) {
       $this->end_date = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET end_date = '$this->end_date' WHERE id='$this->id' ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET end_date = ".$sql->db_param().
+               " WHERE id=".$sql->db_param();
+      $sql->sql_query($query, array($this->end_date, $this->id));
    }
 
    /**
@@ -335,18 +311,15 @@ class ServiceContract extends Model {
    private function getCommandSetIds($type = NULL) {
       if(NULL == $this->cmdsetidByTypeList) {
          // CommandSets
-         $query = "SELECT * FROM `codev_servicecontract_cmdset_table` ".
-                  "WHERE servicecontract_id = $this->id ".
-                  "ORDER BY type ASC, commandset_id ASC;";
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM codev_servicecontract_cmdset_table ".
+                  "WHERE servicecontract_id =  ".$sql->db_param().
+                  "ORDER BY type ASC, commandset_id ASC";
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $result = $sql->sql_query($query, array($this->id));
 
          $this->cmdsetidByTypeList = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             if (!array_key_exists($row->type,$this->cmdsetidByTypeList)) {
                $this->cmdsetidByTypeList[$row->type] = array();
             }
@@ -395,18 +368,15 @@ class ServiceContract extends Model {
       // TODO: if type==NULL return for all types
       if(NULL == $this->sidetasksProjectList) {
          // SidetaskProjects
-         $query = "SELECT project.* FROM `mantis_project_table` as project ".
-                  "JOIN `codev_servicecontract_stproj_table` as servicecontract_stproj ON project.id = servicecontract_stproj.project_id ".
-                  "WHERE servicecontract_stproj.servicecontract_id = $this->id ".
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT project.* FROM {project} as project ".
+                  "JOIN codev_servicecontract_stproj_table as servicecontract_stproj ON project.id = servicecontract_stproj.project_id ".
+                  "WHERE servicecontract_stproj.servicecontract_id = ".$sql->db_param().
                   "ORDER BY type ASC, project.id ASC;";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $result = $sql->sql_query($query, array( $this->id));
 
          $this->sidetasksProjectList = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $this->sidetasksProjectList["$row->id"] = ProjectCache::getInstance()->getProject($row->id, $row);
          }
       }
@@ -464,13 +434,12 @@ class ServiceContract extends Model {
       }
       $this->cmdsetidByTypeList[$type][] = $commandset_id;
 
-      $query = "INSERT INTO `codev_servicecontract_cmdset_table` (`servicecontract_id`, `commandset_id`, `type`) VALUES ($this->id, $commandset_id, '$type');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      return AdodbWrapper::getInstance()->getInsertId();
+      $sql = AdodbWrapper::getInstance();
+      $query = "INSERT INTO codev_servicecontract_cmdset_table (servicecontract_id, commandset_id, type)".
+               " VALUES (".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().")";
+      $sql->sql_query($query, array($this->id, $commandset_id, $type));
+
+      return $sql->getInsertId();
    }
 
    /**
@@ -489,12 +458,10 @@ class ServiceContract extends Model {
          }
       }
 
-      $query = "DELETE FROM `codev_servicecontract_cmdset_table` WHERE servicecontract_id = ".$this->id." AND commandset_id = ".$commandset_id.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "DELETE FROM codev_servicecontract_cmdset_table WHERE servicecontract_id = ".$sql->db_param().
+               " AND commandset_id = ".$sql->db_param();
+      $sql->sql_query($query, array($this->id, $commandset_id));
    }
 
    /**
@@ -521,12 +488,11 @@ class ServiceContract extends Model {
       if (!isset($this->sidetasksProjectList["$project_id"])) {
          $this->sidetasksProjectList["$project_id"] = $project;
 
-         $query = "INSERT INTO `codev_servicecontract_stproj_table` (`servicecontract_id`, `project_id`, `type`) VALUES ($this->id, $project_id, '$type');";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql = AdodbWrapper::getInstance();
+         $query = "INSERT INTO codev_servicecontract_stproj_table (servicecontract_id, project_id, type)".
+                  " VALUES (".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().")";
+         $sql->sql_query($query, array($this->id, $project_id, $type));
+
          return AdodbWrapper::getInstance()->getInsertId();
       }
    }
@@ -544,12 +510,11 @@ class ServiceContract extends Model {
          unset($this->sidetasksProjectList[$key]);
       }
 
-      $query = "DELETE FROM `codev_servicecontract_stproj_table` WHERE servicecontract_id = ".$this->id." AND project_id = ".$project_id.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "DELETE FROM codev_servicecontract_stproj_table".
+               " WHERE servicecontract_id = ".$sql->db_param().
+               " AND project_id = ".$sql->db_param();
+      $sql->sql_query($query, array($this->id, $project_id));
    }
 
    /**
@@ -656,23 +621,21 @@ class ServiceContract extends Model {
          }
          $formattedCmdidList = implode(',', $cmdidList);
 
-         $query = "SELECT * FROM `codev_command_provision_table` ".
-                 "WHERE `command_id` IN ($formattedCmdidList) ";
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM codev_command_provision_table ".
+                 "WHERE command_id IN (".$sql->db_param().") ";
+         $q_params[]=$formattedCmdidList;
 
          if (!is_null($prov_type)) {
-            $query .= " AND `type` = ".$prov_type;
+            $query .= " AND type = ".$sql->db_param();
+            $q_params[]=$prov_type;
          }
          $query .= " ORDER BY date ASC, type ASC";
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
-
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $result = $sql->sql_query($query, $q_params);
 
          $this->provisionList[$key] = array();
-         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while ($row = $sql->fetchObject($result)) {
             try {
                $provision = new CommandProvision($row->id, $row);
                $this->provisionList[$key]["$row->id"] = $provision;
@@ -721,4 +684,3 @@ class ServiceContract extends Model {
 
 ServiceContract::staticInit();
 
-?>
