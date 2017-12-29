@@ -137,24 +137,31 @@ class TimeTracking {
       if(NULL == $this->timeTracks) {
          $accessLevel_dev = Team::accessLevel_dev;
          $accessLevel_manager = Team::accessLevel_manager;
+         $sql = AdodbWrapper::getInstance();
 
          // select tasks within timestamp, where user is in the team
          // WARN: users having left the team will be included, this is a pre-filter.
          $query = "SELECT timetracking.* ".
-                  "FROM `codev_timetracking_table` as timetracking ".
-                  "JOIN `codev_team_user_table` as team_user ON timetracking.userid = team_user.user_id ".
-                  "WHERE team_user.team_id = $this->team_id ".
-                  "AND team_user.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
-                  "AND timetracking.date >= $this->startTimestamp AND timetracking.date <= $this->endTimestamp;";
+                  " FROM codev_timetracking_table as timetracking ".
+                  " JOIN codev_team_user_table as team_user ON timetracking.userid = team_user.user_id ".
+                  " WHERE team_user.team_id = ".$sql->db_param().
+                  " AND team_user.access_level IN (".$sql->db_param().", ".$sql->db_param().") ".
+                  " AND timetracking.date >= ".$sql->db_param().
+                  " AND timetracking.date <= ".$sql->db_param();
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $q_params[]= $this->team_id;
+         $q_params[]=$accessLevel_dev;
+         $q_params[]=$accessLevel_manager;
+         $q_params[]=$this->startTimestamp;
+         $q_params[]=$this->endTimestamp;
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
          $this->timeTracks = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
 
             $tt = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
             $user = UserCache::getInstance()->getUser($tt->getUserId());
@@ -237,23 +244,24 @@ class TimeTracking {
       if(!is_numeric($this->availableWorkload)) {
          $accessLevel_dev = Team::accessLevel_dev;
          $accessLevel_manager = Team::accessLevel_manager;
+         $sql = AdodbWrapper::getInstance();
 
          $this->availableWorkload = 0;
 
          // For all the users of the team
          $query = "SELECT user.* ".
-                  "FROM `mantis_user_table` as user ".
-                  "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
-                  "WHERE team_user.team_id = $this->team_id ".
-                  "AND team_user.access_level IN ($accessLevel_dev, $accessLevel_manager);";
+                  "FROM {user} as user ".
+                  "JOIN codev_team_user_table as team_user ON user.id = team_user.user_id ".
+                  "WHERE team_user.team_id =  ".$sql->db_param().
+                  "AND team_user.access_level IN (".$sql->db_param().", ".$sql->db_param().")";
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, array($this->team_id, $accessLevel_dev, $accessLevel_manager));
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $user = UserCache::getInstance()->getUser($row->id, $row);
             $this->availableWorkload += $user->getAvailableWorkforce($this->startTimestamp, $this->endTimestamp, $this->team_id);
          }
@@ -289,20 +297,21 @@ class TimeTracking {
          $issueList = array();
 
          // all issues which deliveryDate is in the period.
+         $sql = AdodbWrapper::getInstance();
          $query = "SELECT bug.* ".
-                  "FROM `mantis_bug_table` as bug ".
-                  "JOIN `mantis_custom_field_string_table` as field ON bug.id = field.bug_id ".
-                  "WHERE field.field_id = $deliveryDateCustomField ".
-                  "AND field.value >= $this->startTimestamp AND field.value < $this->endTimestamp ".
-                  "ORDER BY bug.id ASC;";
+                  " FROM {bug} as bug ".
+                  " JOIN {custom_field_string} as field ON bug.id = field.bug_id ".
+                  " WHERE field.field_id =  ".$sql->db_param().
+                  " AND field.value >= ".$sql->db_param()." AND field.value < ".$sql->db_param().
+                  " ORDER BY bug.id ASC";
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, array($deliveryDateCustomField, $this->startTimestamp, $this->endTimestamp));
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
             // if a deadLine is specified
@@ -336,6 +345,7 @@ class TimeTracking {
       if(is_null($this->resolvedIssues)) { $this->resolvedIssues = array(); }
       if(is_null($this->resolvedIssues[$key])) {
 
+         $sql = AdodbWrapper::getInstance();
          $formatedProjList = implode( ', ', $this->prodProjectList);
          $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
 
@@ -347,34 +357,39 @@ class TimeTracking {
 
          // all bugs which status changed to 'resolved' whthin the timestamp
          $query = "SELECT bug.* ".
-                  "FROM `mantis_bug_table` as bug ";
+                  "FROM {bug} as bug ";
          if ($extRefOnly) {
-            $query .= ", `mantis_custom_field_string_table` ";
+            $query .= ", {custom_field_string} ";
          }
 
-         $query .= ", `mantis_bug_history_table` as history ".
-                  "WHERE bug.project_id IN ($formatedProjList) ".
-                  "AND bug.id = history.bug_id ";
+         $query .= ", {bug_history} as history ".
+                  " WHERE bug.project_id IN (".$sql->db_param().") ".
+                  " AND bug.id = history.bug_id ";
+         $q_params[]=$formatedProjList;
 
          if ($extRefOnly) {
-            $query .= "AND mantis_custom_field_string_table.bug_id = bug.id ";
-            $query .= "AND mantis_custom_field_string_table.field_id = $extIdField ";
-            $query .= "AND mantis_custom_field_string_table.value <> '' ";
+            $query .= " AND {custom_field_string}.bug_id = bug.id ";
+            $query .= " AND {custom_field_string}.field_id = ".$sql->db_param();
+            $query .= " AND {custom_field_string}.value <> '' ";
+            $q_params[]=$extIdField;
          }
 
-           $query .=  "AND history.field_name='status' ".
-                  "AND history.date_modified >= $this->startTimestamp AND history.date_modified < $this->endTimestamp ".
-                  "AND history.new_value = get_project_resolved_status_threshold(project_id) ".
-                  "ORDER BY bug.id DESC;";
+           $query .= " AND history.field_name='status' ".
+                  " AND history.date_modified >= ".$sql->db_param().
+                  " AND history.date_modified < ".$sql->db_param().
+                  " AND history.new_value = get_project_resolved_status_threshold(project_id) ".
+                  " ORDER BY bug.id DESC";
+           $q_params[]=$this->startTimestamp;
+           $q_params[]=$this->endTimestamp;
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
          $this->resolvedIssues[$key] = array();
          $resolvedList = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
             if (!$withReopened) {
@@ -557,7 +572,7 @@ class TimeTracking {
             $driftEqualETA += $issueDriftMgrEE;
          }
       }
-
+/*
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("derive totale (".Tools::formatDate("%B %Y", $this->startTimestamp).") = $derive");
          self::$logger->debug("derive totale ETA(".Tools::formatDate("%B %Y", $this->startTimestamp).") = $deriveETA");
@@ -569,7 +584,7 @@ class TimeTracking {
          self::$logger->debug("Nbre Bugs a l'equilibre ETA: $nbDriftsEqualETA");
          self::$logger->debug("Nbre Bugs en avance     ETA: $nbDriftsNegETA");
       }
-
+*/
       return array(
          "totalDrift" => $derive,
          "totalDriftETA" => $deriveETA,
@@ -726,22 +741,26 @@ class TimeTracking {
     */
    public function checkCompleteDays($userid, $isStrictlyTimestamp = FALSE) {
       // Get all dates that must be checked
+      $sql = AdodbWrapper::getInstance();
       $query = "SELECT date, SUM(duration) as count ".
-               "FROM `codev_timetracking_table` ".
-               "WHERE userid = $userid ";
+               " FROM codev_timetracking_table ".
+               " WHERE userid = ".$sql->db_param();
+      $q_params[]=$userid;
       if ($isStrictlyTimestamp) {
-         $query .= "AND date >= $this->startTimestamp AND date < $this->endTimestamp ";
+         $query .= " AND date >= ".$sql->db_param()." AND date < ".$sql->db_param();
+         $q_params[]=$this->startTimestamp;
+         $q_params[]=$this->endTimestamp;
       }
-      $query .= "GROUP BY date ORDER BY date;";
+      $query .= " GROUP BY date ORDER BY date";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
       $incompleteDays = array(); // unique date => sum durations
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $value = round($row->count, 3);
          $durations[$row->date] = round($row->count, 3);
          if ($value != 1) {
@@ -800,18 +819,22 @@ class TimeTracking {
       }
 
       if(count($weekTimestamps) > 0) {
+         $sql = AdodbWrapper::getInstance();
          $query = "SELECT DISTINCT date ".
-                  "FROM `codev_timetracking_table` ".
-                  "WHERE userid = $userid AND date IN (".implode(', ', $weekTimestamps).");";
+                  " FROM codev_timetracking_table ".
+                  " WHERE userid = ".$sql->db_param().
+                  " AND date IN (".$sql->db_param().");";
+         $q_params[]=$userid;
+         $q_params[]=implode(', ', $weekTimestamps);
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
          $daysWithTimeTracks = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $daysWithTimeTracks[] = $row->date;
          }
          $missingDays = array_diff($weekTimestamps, $daysWithTimeTracks);
@@ -832,32 +855,41 @@ class TimeTracking {
     */
    public function getWeekDetails($userid, $isTeamProjOnly=false) {
       $weekTracks = array();
+      $sql = AdodbWrapper::getInstance();
 
       if (!$isTeamProjOnly) {
          // For all bugs in timestamp
          $query = "SELECT bugid, jobid, date, duration ".
-                  "FROM `codev_timetracking_table` ".
-                  "WHERE date >= $this->startTimestamp AND date < $this->endTimestamp ".
-                  "AND userid = $userid;";
+                  " FROM codev_timetracking_table ".
+                  " WHERE date >= ".$sql->db_param()." AND date < ".$sql->db_param().
+                  " AND userid = ".$sql->db_param();
+         $q_params[]=$this->startTimestamp;
+         $q_params[]=$this->endTimestamp;
+         $q_params[]=$userid;
       } else {
          $projList = TeamCache::getInstance()->getTeam($this->team_id)->getProjects();
          $formatedProjList = implode( ', ', array_keys($projList));
          $query = "SELECT timetracking.bugid, timetracking.jobid, timetracking.date, timetracking.duration ".
-                  "FROM `codev_timetracking_table` as timetracking ".
-                  "JOIN `mantis_bug_table` AS bug ON timetracking.bugid = bug.id ".
-                  "JOIN `mantis_project_table` AS project ON bug.project_id = project.id ".
-                  "WHERE timetracking.userid = $userid ".
-                  "AND timetracking.date >= $this->startTimestamp AND timetracking.date < $this->endTimestamp ".
-                  "AND bug.project_id in ($formatedProjList);";
+                  " FROM codev_timetracking_table as timetracking ".
+                  " JOIN {bug} AS bug ON timetracking.bugid = bug.id ".
+                  " JOIN {project} AS project ON bug.project_id = project.id ".
+                  " WHERE timetracking.userid =  ".$sql->db_param().
+                  " AND timetracking.date >= ".$sql->db_param().
+                  " AND timetracking.date <  ".$sql->db_param().
+                  " AND bug.project_id in (".$sql->db_param().")";
+         $q_params[]=$userid;
+         $q_params[]=$this->startTimestamp;
+         $q_params[]=$this->endTimestamp;
+         $q_params[]=$formatedProjList;
       }
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          if (!array_key_exists($row->bugid,$weekTracks)) {
             $weekTracks[$row->bugid] = array();
             $weekTracks[$row->bugid][$row->jobid] = array();
@@ -889,25 +921,33 @@ class TimeTracking {
       $accessLevel_manager = Team::accessLevel_manager;
 
       // For all bugs in timestamp
+      $sql = AdodbWrapper::getInstance();
       $query = "SELECT bug.id as bugid, bug.project_id, timetracking.jobid, SUM(timetracking.duration) as duration ".
-               "FROM `codev_timetracking_table` as timetracking, `codev_team_user_table` as team_user, `mantis_bug_table` as bug, `codev_job_table` as job, `mantis_project_table` as project ".
-               "WHERE team_user.user_id = timetracking.userid ".
-               "AND bug.id = timetracking.bugid ".
-               "AND project.id = bug.project_id ".
-               "AND job.id = timetracking.jobid ".
-               "AND timetracking.date >= $this->startTimestamp AND timetracking.date < $this->endTimestamp ".
-               "AND team_user.team_id = $this->team_id ".
-               "AND team_user.access_level IN ($accessLevel_dev, $accessLevel_manager) ";
+               " FROM codev_timetracking_table as timetracking, codev_team_user_table as team_user, {bug} as bug, codev_job_table as job, {project} as project ".
+               " WHERE team_user.user_id = timetracking.userid ".
+               " AND bug.id = timetracking.bugid ".
+               " AND project.id = bug.project_id ".
+               " AND job.id = timetracking.jobid ".
+               " AND timetracking.date >= ".$sql->db_param().
+               " AND timetracking.date < ".$sql->db_param().
+               " AND team_user.team_id = ".$sql->db_param().
+               " AND team_user.access_level IN (".$sql->db_param().", ".$sql->db_param().") ";
+      $q_params[]=$this->startTimestamp;
+      $q_params[]=$this->endTimestamp;
+      $q_params[]=$this->team_id;
+      $q_params[]=$accessLevel_dev;
+      $q_params[]=$accessLevel_manager;
 
       if (false != $isTeamProjOnly) {
          $projList = TeamCache::getInstance()->getTeam($this->team_id)->getProjects();
          $formatedProjList = implode( ', ', array_keys($projList));
-         $query.= "AND bug.project_id in ($formatedProjList) ";
+         $query.= " AND bug.project_id in (".$sql->db_param().") ";
+         $q_params[]=$formatedProjList;
       }
 
       $query.= "GROUP BY bug.id, job.id, bug.project_id ORDER BY project.name, bug.id DESC;";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, $q_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
@@ -915,7 +955,7 @@ class TimeTracking {
 
       $projectTracks = array();
 
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          if (!array_key_exists($row->project_id, $projectTracks)) {
             $projectTracks[$row->project_id] = array(); // create array for bug_id
             $projectTracks[$row->project_id][$row->bugid] = array(); // create array for jobs
@@ -949,27 +989,33 @@ class TimeTracking {
 
          // all bugs which resolution changed to 'reopened' whthin the timestamp
          // having an ExternalReference
+         $sql = AdodbWrapper::getInstance();
          $query = "SELECT bug.*" .
-                  "FROM `mantis_custom_field_string_table`, `mantis_bug_table` as bug ".
-                  "JOIN `mantis_bug_history_table` as history ON bug.id = history.bug_id " .
-                  "WHERE bug.project_id IN ($formatedProjList) " .
-                  "AND mantis_custom_field_string_table.bug_id = bug.id ".
-                  "AND mantis_custom_field_string_table.field_id = $extIdField ".
-                  "AND mantis_custom_field_string_table.value <> '' ".
-                  "AND history.field_name='status' " .
-                  "AND history.date_modified >= $this->startTimestamp AND history.date_modified <  $this->endTimestamp " .
-                  "AND history.old_value >= get_project_resolved_status_threshold(bug.project_id) " .
-                  "AND history.new_value <  get_project_resolved_status_threshold(bug.project_id) " .
-                  "GROUP BY bug.id ORDER BY bug.id DESC;";
+                  " FROM {custom_field_string}, {bug} as bug ".
+                  " JOIN {bug_history} as history ON bug.id = history.bug_id " .
+                  " WHERE bug.project_id IN (".$sql->db_param().") " .
+                  " AND {custom_field_string}.bug_id = bug.id ".
+                  " AND {custom_field_string}.field_id = ".$sql->db_param().
+                  " AND {custom_field_string}.value <> '' ".
+                  " AND history.field_name='status' " .
+                  " AND history.date_modified >= ".$sql->db_param().
+                  " AND history.date_modified < ".$sql->db_param().
+                  " AND history.old_value >= get_project_resolved_status_threshold(bug.project_id) " .
+                  " AND history.new_value <  get_project_resolved_status_threshold(bug.project_id) " .
+                  " GROUP BY bug.id ORDER BY bug.id DESC;";
+         $q_params[]=$formatedProjList;
+         $q_params[]=$extIdField;
+         $q_params[]=$this->startTimestamp;
+         $q_params[]=$this->endTimestamp;
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
          $this->reopenedList = array();
-         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while ($row = $sql->fetchObject($result)) {
 
             $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
@@ -996,34 +1042,40 @@ class TimeTracking {
       if(!is_numeric($this->submittedBugs[$key])) {
 
          $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
+         $sql = AdodbWrapper::getInstance();
 
          $query = "SELECT COUNT(bug.id) as count ".
-                  "FROM `mantis_bug_table` as bug ";
+                  " FROM {bug} as bug ";
          if ($extRefOnly) {
-            $query .= ", `mantis_custom_field_string_table` ";
+            $query .= ", {custom_field_string} ";
          }
-         $query .= "WHERE bug.date_submitted >= $this->startTimestamp AND bug.date_submitted < $this->endTimestamp ";
+         $query .= " WHERE bug.date_submitted >= ".$sql->db_param().
+                   " AND bug.date_submitted < ".$sql->db_param();
+         $q_params[]=$this->startTimestamp;
+         $q_params[]=$this->endTimestamp;
 
          // Only for specified Projects
          $projects = $this->prodProjectList;
          if (0 != count($projects)) {
             $formatedProjects = implode( ', ', $projects);
-            $query .= " AND bug.project_id IN ($formatedProjects) ";
+            $query .= " AND bug.project_id IN (".$sql->db_param().") ";
+            $q_params[]=$formatedProjects;
          }
          if ($extRefOnly) {
-            $query .= "AND mantis_custom_field_string_table.field_id = $extIdField ";
-            $query .= "AND mantis_custom_field_string_table.bug_id = bug.id ";
-            $query .= "AND mantis_custom_field_string_table.value <> '' ";
+            $query .= " AND {custom_field_string}.field_id =  ".$sql->db_param();
+            $query .= " AND {custom_field_string}.bug_id = bug.id ";
+            $query .= " AND {custom_field_string}.value <> '' ";
+            $q_params[]=$extIdField;
          }
          $query .= ";";
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
-         $this->submittedBugs[$key] = SqlWrapper::getInstance()->sql_result($result);
+         $this->submittedBugs[$key] = $sql->sql_result($result);
       }
 
       return $this->submittedBugs[$key];

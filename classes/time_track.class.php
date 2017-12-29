@@ -65,14 +65,10 @@ class TimeTrack extends Model implements Comparable {
     */
    public function initialize($row = NULL) {
       if($row == NULL) {
-         $query = 'SELECT * FROM `codev_timetracking_table` WHERE id = '.$this->id.';';
-
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $sql = AdodbWrapper::getInstance();
+         $query = 'SELECT * FROM codev_timetracking_table WHERE id = '.$sql->db_param();
+         $result = $sql->sql_query($query, array($this->id));
+         $row = $sql->fetchObject($result);
       }
 
       $this->userId = $row->userid;
@@ -175,15 +171,23 @@ class TimeTrack extends Model implements Comparable {
       }
 */
       $commit_date=time();
-      $query  = "INSERT INTO `codev_timetracking_table`  (`userid`, `bugid`, `jobid`, `date`, `duration`, `committer_id`, `commit_date`";
-      $query .= is_null($cost) ? ") " : ", `cost`, `currency`) ";
-      $query .= " VALUES ('$userid','$bugid','$job','$timestamp', '$duration', '$committerid', '$commit_date'";
-      $query .= is_null($cost) ? ") " :  ", '$cost', '$currency');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+      $sql = AdodbWrapper::getInstance();
+      $query  = "INSERT INTO codev_timetracking_table  (userid, bugid, jobid, date, duration, committer_id, commit_date";
+      
+      if (!is_null($cost)) {
+         $query .= ", cost, currency";
       }
+      $query .= ") VALUES ($userid,$bugid,$job,$timestamp, $duration, $committerid, $commit_date";
+      $q_params=array($userid,$bugid,$job,$timestamp, $duration, $committerid, $commit_date);
+
+      if (!is_null($cost)) {
+         $query .= ", $cost, $currency";
+         $q_params[]=$cost;
+         $q_params[]=$currency;
+      }
+      $query .= ")";
+
+      $sql->sql_query($query, $q_params);
       return AdodbWrapper::getInstance()->getInsertId();
    }
    
@@ -193,11 +197,16 @@ class TimeTrack extends Model implements Comparable {
       $this->duration = $duration;
       $this->jobId = $jobid;
       $commitDate = time();
-      
-      $query = 'UPDATE `codev_timetracking_table` SET `date`='.$this->date.', `duration`='.$this->duration.', `jobid`='.$this->jobId.', `commit_date`='.$commitDate.' WHERE id='.$this->id.';';
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      
-      if (!$result) {
+
+      try {
+         $sql = AdodbWrapper::getInstance();
+         $query = 'UPDATE codev_timetracking_table SET date='.$sql->db_param().
+                  ', duration='.$sql->db_param().
+                  ', jobid='.$sql->db_param().
+                  ', commit_date='.$sql->db_param().
+                  ' WHERE id='.$sql->db_param();
+         $sql->sql_query($query, array($this->date, $this->duration, $this->jobId, $commitDate, $this->id));
+      } catch ( Exception $e) {
          return false;
       }
       if(NULL != $note){
@@ -214,9 +223,11 @@ class TimeTrack extends Model implements Comparable {
     * @return bool True if the track is removed
     */
    public function remove($userid, $isRecreditBacklog=FALSE) {
-      $query = 'DELETE FROM `codev_timetracking_table` WHERE id='.$this->id.';';
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
+      try {
+         $sql = AdodbWrapper::getInstance();
+         $query = 'DELETE FROM codev_timetracking_table WHERE id='.$sql->db_param();
+         $sql->sql_query($query, array($this->id));
+      } catch ( Exception $e) {
          return false;
       }
 
@@ -244,25 +255,29 @@ class TimeTrack extends Model implements Comparable {
     * @return boolean
     */
    public function removeNote($userid) {
-      $retCode = false;
 
-      $query = "SELECT `noteid` FROM `codev_timetrack_note_table` WHERE timetrackid=$this->id;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
+      $sql = AdodbWrapper::getInstance();
+      try {
+         $query = "SELECT `noteid` FROM codev_timetrack_note_table WHERE timetrackid=".$sql->db_param();
+         $result = $sql->sql_query($query, array($this->id));
+      } catch ( Exception $e) {
          return false;
       }
 
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-         $noteid = SqlWrapper::getInstance()->sql_result($result, 0);
+      if (0 != $sql->getNumRows($result)) {
+         $noteid = $sql->sql_result($result, 0);
          IssueNote::delete($noteid, $this->bugId, $userid);
       } else {
          self::$logger->warn("No track_note defined for timetrack_id = $this->id");
       }
 
-      $query2 = "DELETE FROM `codev_timetrack_note_table` WHERE timetrackid = $this->id;";
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
-
-      return ($result2) ? true : false;
+      try {
+         $query2 = "DELETE FROM codev_timetrack_note_table WHERE timetrackid = ".$sql->db_param();
+         $sql->sql_query($query2, array($this->id));
+      } catch ( Exception $e) {
+         return false;
+      }
+      return true;
    }
 
    /**
@@ -357,19 +372,20 @@ class TimeTrack extends Model implements Comparable {
 
       if (NULL == $this->note) {
 
-         $query = "SELECT note FROM `mantis_bugnote_text_table` ".
-                 "WHERE id=(SELECT bugnote_text_id FROM `mantis_bugnote_table` ".
-                            "WHERE bugnote_text_id=(SELECT noteid FROM `codev_timetrack_note_table` ".
-                                                                  "WHERE timetrackid=$this->id))";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT note FROM {bugnote_text} ".
+                 "WHERE id=(SELECT bugnote_text_id FROM {bugnote} ".
+                            "WHERE bugnote_text_id=(SELECT noteid FROM codev_timetrack_note_table ".
+                                                                  "WHERE timetrackid=".$sql->db_param()."))";
+         $result = $sql->sql_query($query, array($this->id));
 
-         if(SqlWrapper::getInstance()->sql_num_rows($result) == 0) {
-            $query3 = 'DELETE FROM `codev_timetrack_note_table` WHERE timetrackid='.$this->id.';';
-            $result3 = SqlWrapper::getInstance()->sql_query($query3);
+         if($sql->getNumRows($result) == 0) {
+            $query3 = 'DELETE FROM codev_timetrack_note_table WHERE timetrackid='.$sql->db_param();
+            $sql->sql_query($query3, array($this->id));
             $this->note = "";
 
          } else {
-            $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+            $row = $sql->fetchObject($result);
             $pattern = '/^'.IssueNote::tag_begin.IssueNote::tagid_timetrackNote.'.*'.IssueNote::tag_end.'\n/';
             $this->note = trim(preg_replace($pattern, '', $row->note));
          }
@@ -401,13 +417,11 @@ class TimeTrack extends Model implements Comparable {
          $bugnote_id = $issueNote->getId();
       }
 
-      $query = "INSERT INTO `codev_timetrack_note_table` (timetrackid, noteid) VALUES ($track_id, $bugnote_id)";
+      $sql = AdodbWrapper::getInstance();
+      $query = "INSERT INTO codev_timetrack_note_table (timetrackid, noteid)".
+               " VALUES (".$sql->db_param().", ".$sql->db_param().")";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($track_id, $bugnote_id));
    }
 
 }
