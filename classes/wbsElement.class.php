@@ -89,14 +89,11 @@ class WBSElement extends Model {
    public function initialize($row = NULL) {
       if ($row == NULL) {
          // Get info
-         $query = "SELECT * FROM `codev_wbs_table` " .
-                 "WHERE id = $this->id";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM codev_wbs_table " .
+                 "WHERE id = ".$sql->db_param();
+         $result = $sql->sql_query($query, array($this->id));
+         $row = $sql->fetchObject($result);
       }
 
       if (NULL != $row) {
@@ -133,23 +130,21 @@ class WBSElement extends Model {
     */
    public static function create($bug_id, $parent_id, $root_id, $order, $title, $icon=NULL, $font=NULL, $color=NULL, $expand=NULL) {
 
+      $sql = AdodbWrapper::getInstance();
+
 		// --- check values
 		if (!is_null($parent_id)) {
 			// check parrent exists and is a folder
-			$queryP = "SELECT bug_id FROM `codev_wbs_table` WHERE id = $parent_id";
-         $resultP = SqlWrapper::getInstance()->sql_query($queryP);
-         if (!$resultP) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         $found  = (0 != SqlWrapper::getInstance()->sql_num_rows($resultP)) ? true : false;
+			$queryP = "SELECT bug_id FROM codev_wbs_table WHERE id = ".$sql->db_param();
+         $resultP = $sql->sql_query($queryP, array($parent_id));
+         $found  = (0 != $sql->getNumRows($resultP)) ? true : false;
 			if (!$found) {
 				$e = new Exception("create WBSElement: parrent_id $parent_id does not exist.");
 				self::$logger->error("EXCEPTION: " . $e->getMessage());
 				self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
 				throw $e;
 			}
-			$rowP = SqlWrapper::getInstance()->sql_fetch_object($resultP);
+			$rowP = $sql->fetchObject($resultP);
 			if (!is_null($rowP->bug_id)) {
 				$e = new Exception("create WBSElement: parrent_id $parent_id should be a Folder (bug_id = $rowP->bug_id).");
 				self::$logger->error("EXCEPTION: " . $e->getMessage());
@@ -184,54 +179,48 @@ class WBSElement extends Model {
 		if (is_null($order)) { $order = 1; }
 
 		// --- insert new element
-      $query  = 'INSERT INTO `codev_wbs_table` (`order`';
-		if (!is_null($bug_id)) { $query .= ', `bug_id`'; }
-		if (!is_null($parent_id)) { $query .= ', `parent_id`'; }
-		if (!is_null($root_id)) { $query .= ', `root_id`'; }
-		if (!is_null($title)) { $query .= ', `title`'; }
-		if (!is_null($icon)) { $query .= ', `icon`'; }
-		if (!is_null($font)) { $query .= ', `font`'; }
-		if (!is_null($color)) { $query .= ', `color`'; }
-		if (!is_null($expand)) { $query .= ', `expand`'; }
-		$query .= ") VALUES ('$order'";
-		if (!is_null($bug_id)) { $query .= ", '$bug_id'"; }
-		if (!is_null($parent_id)) { $query .= ", '$parent_id'"; }
-		if (!is_null($root_id)) { $query .= ", '$root_id'"; }
-		if (!is_null($title)) { $query .= ", '".AdodbWrapper::getInstance()->escapeString($title)."'"; }
-		if (!is_null($icon)) { $query .= ", '$icon'"; }
-		if (!is_null($font)) { $query .= ", '$font'"; }
-		if (!is_null($color)) { $query .= ", '$color'"; }
-		if (!is_null($expand)) { $query .= ", '".($expand ? '1' : '0')."'"; }
+      $query  = 'INSERT INTO codev_wbs_table (order';
+		if (!is_null($bug_id))    { $query .= ', bug_id'; }
+		if (!is_null($parent_id)) { $query .= ', parent_id'; }
+		if (!is_null($root_id))   { $query .= ', root_id'; }
+		if (!is_null($title))     { $query .= ', title'; }
+		if (!is_null($icon))      { $query .= ', icon'; }
+		if (!is_null($font))      { $query .= ', font'; }
+		if (!is_null($color))     { $query .= ', color'; }
+		if (!is_null($expand))    { $query .= ', expand'; }
+		$query .= ") VALUES (".$sql->db_param();
+      $q_params[]=$order;
+		if (!is_null($bug_id))    { $query .= ", ".$sql->db_param(); $q_params[]=$bug_id; }
+		if (!is_null($parent_id)) { $query .= ", ".$sql->db_param(); $q_params[]=$parent_id; }
+		if (!is_null($root_id))   { $query .= ", ".$sql->db_param(); $q_params[]=$root_id; }
+		if (!is_null($title))     { $query .= ", ".$sql->db_param(); $q_params[]=$title; }
+		if (!is_null($icon))      { $query .= ", ".$sql->db_param(); $q_params[]=$icon; }
+		if (!is_null($font))      { $query .= ", ".$sql->db_param(); $q_params[]=$font; }
+		if (!is_null($color))     { $query .= ", ".$sql->db_param(); $q_params[]=$color; }
+		if (!is_null($expand))    { $query .= ", ".$sql->db_param(); $q_params[]=($expand ? '1' : '0'); }
 		$query .= ')';
 
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("create SQL ".$query);
       }
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      return AdodbWrapper::getInstance()->getInsertId();
+      $sql->sql_query($query, $q_params);
+      return $sql->getInsertId();
    }
 
    /**
     * parse all WBSs for issues not found in mantis_bug_table. if any, remove them from the WBS.
     */
    public static function checkWBS() {
-      $query0 = "SELECT root_id, bug_id FROM codev_wbs_table WHERE bug_id NOT IN (SELECT id FROM mantis_bug_table)";
-      $result0 = SqlWrapper::getInstance()->sql_query($query0);
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result0)) {
+      $sql = AdodbWrapper::getInstance();
+      $query0 = "SELECT root_id, bug_id FROM codev_wbs_table WHERE bug_id NOT IN (SELECT id FROM {bug})";
+      $result0 = $sql->sql_query($query0);
+      while ($row = $sql->fetchObject($result0)) {
          self::$logger->warn("Issue $row->bug_id does not exist in Mantis: now removed from WBS (root = $row->root_id)");
 
          // remove from WBS
-         $query = "DELETE FROM `codev_wbs_table` WHERE bug_id = ".$row->bug_id.";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $query = "DELETE FROM codev_wbs_table WHERE bug_id = ".$sql->db_param();
+         $sql->sql_query($query, array($row->bug_id));
       }
    }
 
@@ -245,31 +234,31 @@ class WBSElement extends Model {
     * @throws Exception if multiple rows found
     */
    public static function getIdByTitle($title, $rootId = NULL, $parentId = NULL, $isFolder = FALSE) {
-      $query = "SELECT id FROM `codev_wbs_table` WHERE title = '$title' ";
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id FROM codev_wbs_table WHERE title =  ".$sql->db_param();
+      $q_params[]=$title;
 
       if (NULL !== $rootId) {
-         $query .= "AND root_id = $rootId ";
+         $query .= " AND root_id = ".$sql->db_param();
+         $q_params[]=$rootId;
       }
       if (NULL !== $parentId) {
          // usefull if tree has parents with same name: /name1/name1/name1
-         $query .= "AND parent_id = $parentId ";
+         $query .= " AND parent_id = ".$sql->db_param();
+         $q_params[]=$parentId;
       }
       if ($isFolder) {
-         $query .= "AND bug_id IS NULL ";
+         $query .= " AND bug_id IS NULL ";
       }
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      $nbRows  = SqlWrapper::getInstance()->sql_num_rows($result);
+      $result = $sql->sql_query($query, $q_params);
+      $nbRows  = $sql->getNumRows($result);
       switch ($nbRows) {
          case 0:
             // not found
             $id = NULL;
             break;
          case 1:
-            $id = SqlWrapper::getInstance()->sql_result($result, 0);
+            $id = $sql->sql_result($result, 0);
             break;
          default:
             throw new Exception("Found multiple wbsElement with title=$title and rootId=$rootId");
@@ -283,19 +272,17 @@ class WBSElement extends Model {
     */
    public function getChildrenIds() {
       $childrenIds = array();
+      $sql = AdodbWrapper::getInstance();
 
-      $query = "SELECT id FROM `codev_wbs_table` ".
-              "WHERE `parent_id` = $this->id ".
-              //"AND bug_id IS NULL ".
-              "AND root_id = $this->rootId ".
-              "AND id <> $this->id ".
-              "ORDER BY `order` ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      $query = "SELECT id FROM codev_wbs_table ".
+              "WHERE parent_id = ".$sql->db_param().
+              //" AND bug_id IS NULL ".
+              " AND root_id = ".$sql->db_param().
+              " AND id <> ".$sql->db_param().
+              'ORDER BY "order" ';
+      $result = $sql->sql_query($query, array($this->id, $this->rootId, $this->id));
+
+      while ($row = $sql->fetchObject($result)) {
          $childrenIds[] = $row->id;
       }
       return $childrenIds;
@@ -325,31 +312,33 @@ class WBSElement extends Model {
       }
 
       // delete
-      $query = "DELETE FROM `codev_wbs_table` WHERE `id` = " . $this->id;
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "DELETE FROM codev_wbs_table WHERE id = " . $sql->db_param();
+      $sql->sql_query($query, array($this->id));
    }
 
    public function update() {
 
-      $query = "UPDATE `codev_wbs_table` SET ".
-              "`title` = '" . AdodbWrapper::getInstance()->escapeString($this->title) . "'" .
-              ", `order` = " . $this->order .
-              ", `parent_id` = " . (is_null($this->parentId) ? "NULL" : $this->parentId) .
-              ", `icon` = " . (is_null($this->icon) ? "NULL" : $this->icon).
-              ", `font` = " . (is_null($this->font) ? "NULL" : $this->font).
-              ", `color` = " . (is_null($this->color) ? "NULL" : $this->color).
-              ", `expand` = " . ($this->expand ? '1' : '0').
-              " WHERE `id` = " . $this->id;
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_wbs_table SET ".
+              " title = " . $sql->db_param().
+              ', "order" = ' . $sql->db_param().
+              ", parent_id = " . $sql->db_param().
+              ", icon = " . $sql->db_param().
+              ", font = " . $sql->db_param().
+              ", color = " . $sql->db_param().
+              ", expand = " . $sql->db_param().
+              " WHERE id = " . $sql->db_param();
+      $q_params[]=$this->title;
+      $q_params[]=$this->order;
+      $q_params[]=(is_null($this->parentId) ? "NULL" : $this->parentId);
+      $q_params[]=(is_null($this->icon)     ? "NULL" : $this->icon);
+      $q_params[]=(is_null($this->font)     ? "NULL" : $this->font);
+      $q_params[]=(is_null($this->color)    ? "NULL" : $this->color);
+      $q_params[]=($this->expand            ? '1' : '0');
+      $q_params[]=$this->id;
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, $q_params);
    }
 
    public function getId() {
@@ -453,15 +442,13 @@ class WBSElement extends Model {
             // $wbseList[id] = array(parent_id, bug_id)
             $wbseList = array();
 
-            $query = "SELECT id, parent_id, bug_id FROM `codev_wbs_table` ".
-                    "WHERE `root_id` = $rootId ".
-                    "ORDER BY `parent_id`, `id` ";
-            $result = SqlWrapper::getInstance()->sql_query($query);
-            if (!$result) {
-               echo "<span style='color:red'>ERROR: Query FAILED</span>";
-               exit;
-            }
-            while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $sql = AdodbWrapper::getInstance();
+            $query = "SELECT id, parent_id, bug_id FROM codev_wbs_table ".
+                    " WHERE root_id = ".$sql->db_param().
+                    " ORDER BY parent_id, id ";
+            $result = $sql->sql_query($query, array($rootId));
+
+            while ($row = $sql->fetchObject($result)) {
                $wbseList[$row->id] = array('parent_id' => $row->parent_id, 'bug_id' =>  $row->bug_id);
             }
             self::$wbs_idList[$rootId] = $wbseList;
@@ -502,14 +489,12 @@ class WBSElement extends Model {
       if (NULL == self::$existsCache) { self::$existsCache = array(); }
 
       if (!array_key_exists($id,self::$existsCache)) {
-         $query  = "SELECT COUNT(id), bug_id FROM `codev_wbs_table` WHERE id=$id ";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         #$found  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? true : false;
-         $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
+         $sql = AdodbWrapper::getInstance();
+         $query  = "SELECT COUNT(id), bug_id FROM codev_wbs_table WHERE id= ".$sql->db_param();
+         $result = $sql->sql_query($query, array($id));
+
+         #$found  = (0 != $sql->getNumRows($result)) ? true : false;
+         $nbTuples  = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
          self::$existsCache[$id] = (0 != $nbTuples);
       }
       return self::$existsCache[$id];
@@ -525,14 +510,15 @@ class WBSElement extends Model {
    public function getDynatreeData($hasDetail = false, $isManager = false, $teamid = 0) {
 
       // TODO AND root_id = $this->getRootId()
-      $query = "SELECT * FROM `codev_wbs_table` WHERE `parent_id` = " . $this->getId() . " ORDER BY `order`";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      //file_put_contents('/tmp/loadWBS.txt', "$query \n", FILE_APPEND);
-      if ($result) {
+      try {
+         $sql = AdodbWrapper::getInstance();
+         $query = 'SELECT * FROM codev_wbs_table WHERE parent_id = '.$sql->db_param().' ORDER BY "order"';
+         $result = $sql->sql_query($query, array($this->getId()));
+         //file_put_contents('/tmp/loadWBS.txt', "$query \n", FILE_APPEND);
 
          $parentArray = array();
 
-         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while ($row = $sql->fetchObject($result)) {
             $wbselement = new WBSElement($row->id, $this->getRootId());
 
             $childArray = array();
@@ -708,7 +694,7 @@ class WBSElement extends Model {
          } else {
             return $parentArray;
          }
-      } else {
+      } catch (Exception $e) {
          self::$logger->error("Query failed!");
       }
    }
@@ -749,13 +735,12 @@ class WBSElement extends Model {
 			// find $id (if exists)
 			// Note: parent_id may have changed (if issue moved)
 			// Note: $root_id cannot be null because a WBS always starts with a folder (created at Command init)
-			$query  = "SELECT id FROM `codev_wbs_table` WHERE bug_id = $bug_id AND root_id = $root_id";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $sql = AdodbWrapper::getInstance();
+			$query  = "SELECT id FROM codev_wbs_table WHERE bug_id = ".$sql->db_param().
+                   " AND root_id = ".$sql->db_param();
+         $result = $sql->sql_query($query, array($bug_id, $root_id));
+         
+         $row = $sql->fetchObject($result);
 			if (!is_null($row)) {
 				$id = $row->id;
 			}
@@ -777,4 +762,4 @@ class WBSElement extends Model {
 }
 
 WBSElement::staticInit();
-?>
+
