@@ -666,8 +666,8 @@ class Tools {
     * @return string The value or die if there is a problem
     */
    public static function getSecureGETStringValue($key,$defaultValue = NULL) {
-      if(isset($_GET[$key])) {
-         return Tools::escape_string($_GET[$key]);
+      if(filter_input(INPUT_GET, $key)) {
+         return filter_input(INPUT_GET, $key);
       }
       else if(isset($defaultValue)) {
          return $defaultValue;
@@ -747,8 +747,12 @@ class Tools {
     * @return int The value or die if there is a problem
     */
    public static function getSecureGETIntValue($key,$defaultValue = NULL) {
-      $value = self::getSecureGETStringValue($key,$defaultValue);
-      if(strlen($value) == 0) {
+      if(filter_input(INPUT_GET, $key)) {
+         $value = filter_input(INPUT_GET, $key);
+         if(0 == strlen(trim($value))) {
+            $value = $defaultValue;
+         }
+      } else {
          $value = $defaultValue;
       }
       if (is_numeric($value)) {

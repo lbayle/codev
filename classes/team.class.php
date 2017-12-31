@@ -134,12 +134,7 @@ class Team extends Model {
    public function initialize() {
       $sql = AdodbWrapper::getInstance();
       $query = 'SELECT * FROM codev_team_table WHERE id = '.$sql->db_param();
-      $q_params[]=$this->id;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, array($this->id));
 
       if($sql->getNumRows($result) == 1) {
          $row = $sql->fetchObject($result);
@@ -187,11 +182,7 @@ class Team extends Model {
          $q_params[]=$description;
          $q_params[]=$leader_id;
          $q_params[]=$date;
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, $q_params);
          $teamid = AdodbWrapper::getInstance()->getInsertId();
       } else {
          echo "<span style='color:red'>ERROR: Team name '$name' already exists !</span>";
@@ -225,28 +216,13 @@ class Team extends Model {
 
          $sql = AdodbWrapper::getInstance();
          $query = "DELETE FROM codev_team_project_table WHERE team_id = ".$sql->db_param();
-         $q_params[]=$teamidToDelete;
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
-            exit;
-         }
+         $sql->sql_query($query, array($teamidToDelete));
 
          $query = "DELETE FROM codev_team_user_table WHERE team_id = ".$sql->db_param();
-         $q_params[]=$teamidToDelete;
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
-            exit;
-         }
+         $sql->sql_query($query, array($teamidToDelete));
 
          $query = "DELETE FROM codev_team_table WHERE id = ".$sql->db_param();
-         $q_params[]=$teamidToDelete;
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
-            exit;
-         }
+         $sql->sql_query($query, array($teamidToDelete));
       } catch (Exception $e) {
          return false;
       }
@@ -262,10 +238,6 @@ class Team extends Model {
       $query = "SELECT id FROM codev_team_table WHERE name = ".$sql->db_param();
       $q_params[]=$name;
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
       return (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : (-1);
    }
 
@@ -295,11 +267,7 @@ class Team extends Model {
          . " WHERE id =".$sql->db_param();
       $q_params[]=$val;
       $q_params[]=$this->id;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         return false;
-      }
+      $sql->sql_query($query, $q_params);
       return true;
    }
 
@@ -323,10 +291,6 @@ class Team extends Model {
       $q_params[]=$val;
       $q_params[]=$this->id;
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         return false;
-      }
       return true;
    }
 
@@ -348,11 +312,7 @@ class Team extends Model {
          . " WHERE id =".$sql->db_param();
       $q_params[]=$timestamp;
       $q_params[]=$this->id;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, $q_params);
       $this->lock_timetracks_date = $timestamp;
    }
 
@@ -382,10 +342,6 @@ class Team extends Model {
          $q_params[]=$newADR;
          $q_params[]=$this->id;
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
          $this->average_daily_cost = $teamADC;
       }
    }
@@ -412,11 +368,7 @@ class Team extends Model {
             . " WHERE id =".$sql->db_param();
          $q_params[]=$teamCurrency;
          $q_params[]=$this->id;
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, $q_params);
          $this->currency = $teamCurrency;
       }
    }
@@ -461,10 +413,6 @@ class Team extends Model {
          $query .= " ORDER BY project.name";
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          $projList = array();
          while($row = $sql->fetchObject($result)) {
@@ -508,10 +456,6 @@ class Team extends Model {
          $query .= " ORDER BY project.name";
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          $projList = array();
          while($row = $sql->fetchObject($result)) {
@@ -551,10 +495,6 @@ class Team extends Model {
                   " ORDER BY user.username";
          $q_params[]=$this->id;
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          $this->members = array();
          while($row = $sql->fetchObject($result)) {
@@ -578,8 +518,9 @@ class Team extends Model {
                   " WHERE team_user.team_id =  ".$sql->db_param().
                   " ORDER BY user.username;";
          $q_params[]=$this->id;
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
+         try {
+            $result = $sql->sql_query($query, $q_params);
+         } catch (Exception $e) {
             return NULL;
          }
 
@@ -634,10 +575,6 @@ class Team extends Model {
       $q_params[]=$startTimestamp;
 
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       $mList = array();
       while($row = $sql->fetchObject($result)) {
@@ -691,10 +628,7 @@ class Team extends Model {
       $q_params[]=$formatedMembers;
 
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       while($row = $sql->fetchObject($result)) {
          $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
@@ -745,8 +679,9 @@ class Team extends Model {
 
       $query .= " ORDER BY id DESC;";
 
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
+      try {
+         $result = $sql->sql_query($query, $q_params);
+      } catch (Exception $e) {
          return NULL;
       }
 
@@ -774,10 +709,6 @@ class Team extends Model {
          $q_params[]=$this->id;
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          $this->commandList = array();
          while($row = $sql->fetchObject($result)) {
@@ -804,10 +735,7 @@ class Team extends Model {
          $q_params[]=$this->id;
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          $this->commandSetList = array();
          while($row = $sql->fetchObject($result)) {
             $this->commandSetList[$row->id] = CommandSetCache::getInstance()->getCommandSet($row->id, $row);
@@ -833,10 +761,7 @@ class Team extends Model {
          $q_params[]=$this->id;
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          $this->serviceContractList = array();
          while($row = $sql->fetchObject($result)) {
             $this->serviceContractList[$row->id] = ServiceContractCache::getInstance()->getServiceContract($row->id, $row);
@@ -868,11 +793,7 @@ class Team extends Model {
             $q_params[]=$this->id;
             $q_params[]=$arrivalTimestamp;
             $q_params[]=$memberAccess;
-            $result = $sql->sql_query($query, $q_params);
-            if (!$result) {
-                echo "<span style='color:red'>ERROR: Query FAILED</span>";
-                exit;
-            }
+            $sql->sql_query($query, $q_params);
             return true;
         } else {
             return false;
@@ -888,10 +809,6 @@ class Team extends Model {
       $q_params[]=$memberid;
       $q_params[]=$this->id;
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
    }
 
    /**
@@ -908,10 +825,6 @@ class Team extends Model {
       $q_params[]=$memberid;
       $q_params[]=$this->id;
       $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
       $arrivalTimestamp = $sql->sql_result($result);
       return $arrivalTimestamp;
    }
@@ -927,10 +840,7 @@ class Team extends Model {
       $query = "SELECT * from codev_team_user_table WHERE team_id = ".$sql->db_param();
       $q_params[]=$src_teamid;
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       while($row = $sql->fetchObject($result)) {
          $user = UserCache::getInstance()->getUser($row->user_id);
          if (! $user->isTeamMember($this->id)) {
@@ -959,16 +869,18 @@ class Team extends Model {
       $q_params[]=$projectid;
       $q_params[]=$this->id;
       $q_params[]=$projecttype;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
+      try {
+         $sql->sql_query($query, $q_params);
+      } catch (Exception $e) {
          throw new Exception("Couldn't add the project to the team (insert project $projectid)");
       }
       // jobs assignations are not (not yet) specific to a team.
       // check if jobs already defined
       $query2 = "SELECT count(1) as cnt FROM codev_project_job_table WHERE project_id = ".$sql->db_param();
       $q_params2[]=$projectid;
-      $result2 = $sql->sql_query($query2, $q_params2);
-      if (!$result2) {
+      try {
+         $result2 = $sql->sql_query($query2, $q_params2);
+      } catch (Exception $e) {
          throw new Exception("Couldn't check existing jobs for project $projectid");
       }
       $count = $sql->sql_result($result2);
@@ -978,8 +890,9 @@ class Team extends Model {
          $query3 = "INSERT INTO codev_project_job_table(project_id, job_id) ".
                   "SELECT ".$sql->db_param().", job.id FROM codev_job_table job WHERE type = 0";
          $q_params3[]=$projectid;
-         $result3 = $sql->sql_query($query3, $q_params3);
-         if (!$result3) {
+         try {
+            $sql->sql_query($query3, $q_params3);
+         } catch (Exception $e) {
             throw new Exception("Couldn't add the project to the team (add default jobs)");
          }
       }
@@ -997,8 +910,9 @@ class Team extends Model {
       $sql = AdodbWrapper::getInstance();
       $query = "DELETE FROM codev_team_project_table WHERE id = ".$sql->db_param();
       $q_params[]=$projectid;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
+      try {
+         $sql->sql_query($query, $q_params);
+      } catch (Exception $e) {
          self::$logger->error("Could not remove project $projectid from team $this->id");
          return false;
       }
@@ -1017,11 +931,7 @@ class Team extends Model {
       $q_params[]=$externalTasksProject;
       $q_params[]=$this->id;
       $q_params[]=$extTasksProjectType;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, $q_params);
    }
 
    /**
@@ -1041,11 +951,7 @@ class Team extends Model {
          $q_params[]=$projectid;
          $q_params[]=$this->id;
          $q_params[]=$sideTaskProjectType;
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, $q_params);
       } else {
          self::$logger->error("team $this->name createSideTaskProject !!!");
          echo "<span style='color:red'>ERROR: team $this->name createSideTaskProject !!!</span>";
@@ -1068,8 +974,9 @@ class Team extends Model {
       $query = "UPDATE codev_team_table SET date = ".$sql->db_param()." WHERE id = ".$sql->db_param();
       $q_params[]=$date;
       $q_params[]=$this->id;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
+      try {
+         $sql->sql_query($query, $q_params);
+      } catch (Exception $e) {
          return false;
       }
       $this->date = $date;
@@ -1085,8 +992,9 @@ class Team extends Model {
       $query = "UPDATE codev_team_table SET leader_id = ".$sql->db_param()." WHERE id = ".$sql->db_param();
       $q_params[]=$leaderid;
       $q_params[]=$this->id;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
+      try {
+         $sql->sql_query($query, $q_params);
+      } catch (Exception $e) {
          return false;
       }
       $this->leader_id = $leaderid;
@@ -1103,10 +1011,7 @@ class Team extends Model {
          $query = "SELECT * FROM codev_team_project_table WHERE team_id =  ".$sql->db_param();
          $q_params[]=$this->id;
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          while($row = $sql->fetchObject($result)) {
             if(self::$logger->isDebugEnabled()) {
                self::$logger->debug("initialize: team $this->id proj $row->project_id type $row->type");
@@ -1167,8 +1072,9 @@ class Team extends Model {
          $query .= " WHERE enabled = 1 ";
       }
       $query .= " ORDER BY name";
-      $result = $sql->sql_query($query);
-      if (!$result) {
+      try {
+         $result = $sql->sql_query($query);
+      } catch (Exception $e) {
          return NULL;
       }
       $teams = array();
@@ -1197,8 +1103,9 @@ class Team extends Model {
 
       $query .= " ORDER BY name";
 
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
+      try {
+         $result = $sql->sql_query($query, $q_params);
+      } catch (Exception $e) {
          return NULL;
       }
 
@@ -1287,23 +1194,19 @@ class Team extends Model {
                "JOIN codev_team_project_table as team_project ON project.id = team_project.project_id ".
                "WHERE team_project.team_id = ".$sql->db_param().
                " AND team_project.type NOT IN (".$sql->db_param().', '.$sql->db_param().') ';
+
+      $query = "SELECT * ".
+               "FROM {bug} ".
+               "WHERE project_id IN (".$query_projects.") ".
+               " AND handler_id = '0' ".
+               " AND status < get_project_resolved_status_threshold(project_id) ".
+               " ORDER BY project_id ASC, id ASC";
       $q_params[]= $this->id;
       $q_params[]=Project::type_noStatsProject;
       $q_params[]=Project::type_sideTaskProject;
 
-      $query = "SELECT * ".
-               "FROM {bug} ".
-               "WHERE project_id IN (".$sql->db_param().") ".
-               " AND handler_id = '0' ".
-               " AND status < get_project_resolved_status_threshold(project_id) ".
-               " ORDER BY project_id ASC, id ASC";
-      $q_params[]=$query_projects;
-
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       while($row = $sql->fetchObject($result)) {
          $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
