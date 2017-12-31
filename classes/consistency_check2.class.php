@@ -503,10 +503,6 @@ class ConsistencyCheck2 {
          $query = "SELECT bug_id, COUNT(command_id) as count FROM codev_command_bug_table".
                   " WHERE bug_id IN (".$sql->db_param().") GROUP BY bug_id;";
          $result = $sql->sql_query($query, array($this->formattedBugidList));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          $commandsByIssue = array();
          while($row = $sql->fetchObject($result)) {
@@ -561,10 +557,6 @@ class ConsistencyCheck2 {
          $query = "SELECT bug_id, COUNT(command_id) as count FROM codev_command_bug_table".
             " WHERE bug_id IN (".$sql->db_param().") GROUP BY bug_id";
          $result = $sql->sql_query($query, array($this->formattedBugidList));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          $commandsByIssue = array();
          while($row = $sql->fetchObject($result)) {
@@ -599,10 +591,7 @@ class ConsistencyCheck2 {
                        . "WHERE codev_command_table.id = codev_command_bug_table.command_id "
                        . "AND codev_command_bug_table.bug_id = ".$sql->db_param();
                $result = $sql->sql_query($query, array($issue->getId()));
-               if (!$result) {
-                  echo "<span style='color:red'>ERROR: Query FAILED</span>";
-                  exit;
-               }
+
                $tmpTeamId = 0;
                while($row = $sql->fetchObject($result)) {
                   if (0 == $tmpTeamId) {
@@ -641,10 +630,6 @@ class ConsistencyCheck2 {
                "WHERE team_id =  ".$sql->db_param().
                "AND id NOT IN (SELECT command_id FROM codev_commandset_cmd_table) ";
       $result = $sql->sql_query($query, array($this->teamId));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       while($row = $sql->fetchObject($result)) {
          $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL,
@@ -670,10 +655,6 @@ class ConsistencyCheck2 {
                "WHERE team_id =  ".$sql->db_param().
                "AND id NOT IN (SELECT commandset_id FROM codev_servicecontract_cmdset_table) ";
       $result = $sql->sql_query($query, array($this->teamId));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       while($row = $sql->fetchObject($result)) {
          $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL,
@@ -708,10 +689,6 @@ class ConsistencyCheck2 {
          #"AND    0 = (SELECT COUNT(id) FROM {bug} WHERE id='codev_timetracking_table.bugid' ) ";
 
          $result = $sql->sql_query($query, array($team->getDate(), $formatedUsers));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          while($row = $sql->fetchObject($result)) {
             if (!Issue::exists($row->bugid)) {
@@ -785,10 +762,7 @@ class ConsistencyCheck2 {
                "AND config_id = 'status_enum_workflow' ";
 
       $result = $sql->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       if (0 == $sql->getNumRows($result)) {
          if (!is_array(Constants::$status_enum_workflow)) {
             $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL, T_("No default project workflow defined, check config file: ".Constants::$config_file));

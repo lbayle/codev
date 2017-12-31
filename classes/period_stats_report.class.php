@@ -65,10 +65,7 @@ class PeriodStatsReport {
                "AND codev_team_project_table.type <> ".$sql->db_param();
 
             $result = $sql->sql_query($query, array($this->teamid, Project::type_noStatsProject));
-            if (!$result) {
-               echo "<span style='color:red'>ERROR: Query FAILED</span>";
-               exit;
-            }
+
             while($row = $sql->fetchObject($result)) {
                $projectList[] = $row->project_id;
             }

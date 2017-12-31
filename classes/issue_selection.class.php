@@ -241,10 +241,6 @@ class IssueSelection {
          }
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          return round($sql->sql_result($result),2);
       } else {
@@ -281,10 +277,6 @@ class IssueSelection {
          $query .= "GROUP BY bugid";
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          while ($row = $sql->fetchObject($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->bugid);
@@ -543,10 +535,6 @@ class IssueSelection {
             " ORDER BY date ASC";
          $q_params[]=implode(', ',array_keys($this->issueList));
          $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          $timeTrack = NULL;
          if (0 != $sql->getNumRows($result)) {
@@ -571,10 +559,6 @@ class IssueSelection {
             " ORDER BY date DESC";
          $q_params[]=implode(', ',array_keys($this->issueList));
          $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          $timeTrack = NULL;
          if (0 != $sql->getNumRows($result)) {
@@ -601,10 +585,6 @@ class IssueSelection {
             " ORDER BY last_updated DESC";
          $q_params[]=implode(', ',array_keys($this->issueList));
          $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          if (0 != $sql->getNumRows($result)) {
             $row = $sql->fetchObject($result);
@@ -630,10 +610,6 @@ class IssueSelection {
             " ORDER BY last_updated DESC";
          $q_params[]=implode(', ',array_keys($this->issueList));
          $result = $sql->sql_query($query, $q_params, TRUE, $max); // LIMIT max
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
       
       while ($row = $sql->fetchObject($result)) {
          $lastUpdatedList["$row->id"] = $row->last_updated;
@@ -675,10 +651,7 @@ class IssueSelection {
       $query .= ' ORDER BY bugid';
 
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo '<span style="color:red">ERROR: Query FAILED</span>';
-         exit;
-      }
+
       $timeTracks = array();
       while($row = $sql->fetchObject($result)) {
          $timeTracks[$row->id] = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);

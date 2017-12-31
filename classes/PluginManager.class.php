@@ -129,10 +129,6 @@ class PluginManager {
       // compare with DB list
       $query = "SELECT * FROM codev_plugin_table";
       $result = $sql->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
       $hasChanged = false;
       while ($row = $sql->fetchObject($result)) {
          // if not found in validPlugins, set as REMOVED
@@ -141,11 +137,7 @@ class PluginManager {
                #echo "must set as removed: $row->name<br>";
                $query2 = "UPDATE codev_plugin_table SET status=".$sql->db_param().
                   " WHERE name = ".$sql->db_param();
-               $result2 = $sql->sql_query($query2, array(self::PLUGIN_STATUS_REMOVED, $row->name));
-               if (!$result2) {
-                  echo "<span style='color:red'>ERROR: Query FAILED</span>";
-                  exit;
-               }
+               $sql->sql_query($query2, array(self::PLUGIN_STATUS_REMOVED, $row->name));
                $hasChanged = true;
             }
          } else {
@@ -177,11 +169,7 @@ class PluginManager {
             $q_params3[]=$pVersion;
             $q_params3[]=$pDesc;
             $q_params3[]=$row->name;
-            $result3 = $sql->sql_query($query3, $q_params3);
-            if (!$result3) {
-               echo "<span style='color:red'>ERROR: Query FAILED</span>";
-               exit;
-            }
+            $sql->sql_query($query3, $q_params3);
             
             // DB was updated, but the classmap does not need an update
             // (unless the plugin Dir has changed...)
@@ -213,11 +201,7 @@ class PluginManager {
             $q_params4[]=$pVersion;
 
             #echo "new plugin query: $query4<br>";
-            $result4 = $sql->sql_query($query4, $q_params4);
-            if (!$result4) {
-               echo "<span style='color:red'>ERROR: Query FAILED</span>";
-               exit;
-            }
+            $sql->sql_query($query4, $q_params4);
             $hasChanged = true;
          }
       }
@@ -240,11 +224,7 @@ class PluginManager {
       $sql = AdodbWrapper::getInstance();
       $query2 = "UPDATE codev_plugin_table SET status=".$sql->db_param().
                 " WHERE name = ".$sql->db_param();
-      $result2 = $sql->sql_query($query2, array($status, $className));
-      if (!$result2) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query2, array($status, $className));
    }
 
    /**
@@ -282,10 +262,7 @@ class PluginManager {
          $sql = AdodbWrapper::getInstance();
          $query = "SELECT * FROM codev_plugin_table";
          $result = $sql->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          while ($row = $sql->fetchObject($result)) {
 
             $className = $row->name;

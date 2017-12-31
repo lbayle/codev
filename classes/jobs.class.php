@@ -118,10 +118,7 @@ class Jobs {
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT * FROM codev_job_table";
       $result = $sql->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       while($row = $sql->fetchObject($result)) {
          $j = new Job($row->id, $row->name, $row->type, $row->color);
          $this->jobList[$row->id] = $j;
@@ -184,11 +181,7 @@ class Jobs {
       $sql = AdodbWrapper::getInstance();
       $query = "INSERT INTO codev_job_table (name, type, color)".
                " VALUES (".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().")";
-      $result = $sql->sql_query($query, array($job_name,$job_type,$job_color));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($job_name,$job_type,$job_color));
 
       return AdodbWrapper::getInstance()->getInsertId();
    }
@@ -202,11 +195,7 @@ class Jobs {
       $sql = AdodbWrapper::getInstance();
       $query = "INSERT INTO codev_project_job_table (project_id, job_id)".
                " VALUES (".$sql->db_param().", ".$sql->db_param().")";
-      $result = $sql->sql_query($query, array($project_id, $job_id));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($project_id, $job_id));
    }
 
 }

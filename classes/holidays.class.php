@@ -114,10 +114,7 @@ class Holidays {
       $sql = AdodbWrapper::getInstance();
       $query = 'SELECT * FROM codev_holidays_table';
       $result = $sql->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       while($row = $sql->fetchObject($result)) {
          self::$HolidayList[$row->id] = new Holiday($row->id, $row->date, $row->description, $row->color);
       }
@@ -228,8 +225,9 @@ class Holidays {
    public static function getHolidays() {
       $sql = AdodbWrapper::getInstance();
       $query = 'SELECT * FROM codev_holidays_table ORDER BY date DESC';
-      $result = $sql->sql_query($query);
-      if (!$result) {
+      try {
+         $result = $sql->sql_query($query);
+      } catch (Exception $e) {
          return NULL;
       }
 

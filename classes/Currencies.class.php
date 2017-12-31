@@ -163,11 +163,7 @@ class Currencies {
 
       $sql = AdodbWrapper::getInstance();
       $query = "INSERT INTO codev_currencies_table  (currency, coef) VALUES (".$sql->db_param().",".$sql->db_param().")";
-      $result = $sql->sql_query($query, array($currency, $dbCoef));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($currency, $dbCoef));
       $this->currencies[$currency] = $coef;
    }
 

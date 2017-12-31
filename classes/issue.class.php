@@ -183,10 +183,6 @@ class Issue extends Model implements Comparable {
                   "WHERE id = ".$sql->db_param();
          $q_params[]=$this->bugId;
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
          $row = $sql->fetchObject($result);
       }
 
@@ -245,10 +241,7 @@ class Issue extends Model implements Comparable {
       $q_params[]=$this->bugId;
       $q_params[]=implode(',',$customFields);
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       while ($row = $sql->fetchObject($result)) {
          switch ($row->field_id) {
             case $extIdField:
@@ -290,10 +283,7 @@ class Issue extends Model implements Comparable {
       $q_params[]=$this->bugId;
 
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       $this->tagList = array();
       while ($row = $sql->fetchObject($result)) {
          $this->tagList[$row->id] = $row->name;
@@ -317,10 +307,7 @@ class Issue extends Model implements Comparable {
          $query  = "SELECT COUNT(id) FROM {bug} WHERE id= ".$sql->db_param();
          $q_params[]=$bugid;
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          #$found  = (0 != $sql->getNumRows($result)) ? true : false;
          $nbTuples  = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
 
@@ -353,10 +340,6 @@ class Issue extends Model implements Comparable {
             " AND b.bug_text_id = bt.id";
          $q_params[]=$this->bugId;
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
          $row = $sql->fetchObject($result);
          $this->description = $row->description;
       }
@@ -406,10 +389,7 @@ class Issue extends Model implements Comparable {
          $query = "SELECT id FROM {bugnote} WHERE bug_id = ".$sql->db_param();
          $q_params[]=$this->bugId;
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          $this->issueNoteList = array();
          while($row = $sql->fetchObject($result)) {
             $this->issueNoteList[$row->id] = new IssueNote($row->id);
@@ -736,10 +716,6 @@ class Issue extends Model implements Comparable {
          }
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          $this->elapsedCache["$key"] = round($sql->sql_result($result),3);
          #if(self::$logger->isDebugEnabled()) {
@@ -794,10 +770,6 @@ class Issue extends Model implements Comparable {
       $q_params[]=$this->bugId;
       $q_params[]=$timestamp;
       $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       if (0 != $sql->getNumRows($result)) {
          // the first result is the closest to the given timestamp
@@ -999,10 +971,7 @@ class Issue extends Model implements Comparable {
          $q_params[]=$this->bugId;
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          while($row = $sql->fetchObject($result)) {
             if($row->source_bug_id == $this->bugId) {
                // normal
@@ -1035,10 +1004,6 @@ class Issue extends Model implements Comparable {
                "WHERE bugid = ".$sql->db_param();
       $q_params[]=$this->bugId;
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       return $sql->sql_result($result, 0);
    }
@@ -1053,10 +1018,6 @@ class Issue extends Model implements Comparable {
                "WHERE bugid = ".$sql->db_param();
       $q_params[]=$this->bugId;
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       return $sql->sql_result($result, 0);
    }
@@ -1159,10 +1120,7 @@ class Issue extends Model implements Comparable {
       $query .= " ORDER BY date";
 
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       while($row = $sql->fetchObject($result)) {
          $timeTracks[$row->id] = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
       }
@@ -1193,10 +1151,6 @@ class Issue extends Model implements Comparable {
       $query .= " ORDER BY user.username";
 
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       while($row = $sql->fetchObject($result)) {
          $userList[$row->id] = $row->username;
@@ -1245,10 +1199,7 @@ class Issue extends Model implements Comparable {
 
             // get latest result
             $result = $sql->sql_query($query, $q_params);
-            if (!$result) {
-               echo "<span style='color:red'>ERROR: Query FAILED</span>";
-               exit;
-            }
+
             if (0 != $sql->getNumRows($result)) {
                $row = $sql->fetchObject($result);
 
@@ -1291,10 +1242,7 @@ class Issue extends Model implements Comparable {
       $q_params[]=$this->bugId;
       $q_params[]=$backlogCustomField;
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       if (0 != $sql->getNumRows($result)) {
 
          $query2 = "UPDATE {custom_field_string} SET value = ".$sql->db_param()
@@ -1310,21 +1258,14 @@ class Issue extends Model implements Comparable {
          $q_params2[]=$this->bugId;
          $q_params2[]=$backlog;
       }
-      $result2 = $sql->sql_query($query2, $q_params2);
-      if (!$result2) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query2, $q_params2);
       $this->backlog = $backlog;
 
       // Add to history
       $query3 = "SELECT name FROM {custom_field} WHERE id = ".$sql->db_param();
       $q_params3[]=$backlogCustomField;
       $result3 = $sql->sql_query($query3, $q_params3);
-      if (!$result3) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       $field_name = (0 != $sql->getNumRows($result3)) ? $sql->sql_result($result3, 0) : "codevtt_backlog";
       $this->setMantisBugHistory($field_name, $old_backlog, $backlog);
    }
@@ -1374,10 +1315,7 @@ class Issue extends Model implements Comparable {
          $q_params[]=$this->bugId;
          $q_params[]=Constants::$status_new;
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          $date_modified    = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
 
          if (0 == $date_modified) {
@@ -1418,10 +1356,6 @@ class Issue extends Model implements Comparable {
       $q_params[]=$status;
       $q_params[]=$status;
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       while($row = $sql->fetchObject($result)) {
          if(self::$logger->isDebugEnabled()) {
@@ -1699,10 +1633,7 @@ class Issue extends Model implements Comparable {
       $q_params[]=$status;
 
       $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       $timestamp  = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : NULL;
 
       /*
@@ -1739,10 +1670,7 @@ class Issue extends Model implements Comparable {
       $q_params[]=$this->bugId;
       $q_params[]=$status;
       $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       $timestamp  = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : NULL;
 
       /*
@@ -1805,10 +1733,6 @@ class Issue extends Model implements Comparable {
                   "WHERE command_bug.bug_id = ".$sql->db_param();
          $q_params[]=$this->bugId;
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          // a Command can belong to more than one commandset
          while($row = $sql->fetchObject($result)) {
@@ -1848,11 +1772,7 @@ class Issue extends Model implements Comparable {
       $q_params[]=$new_value;
       $q_params[]=$type;
       $q_params[]=$now;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, $q_params);
 
 
       // update lastUpdated field
@@ -1860,11 +1780,7 @@ class Issue extends Model implements Comparable {
                 " WHERE id = ".$sql->db_param();
       $q_params2[]=$now;
       $q_params2[]=$this->bugId;
-      $result2 = $sql->sql_query($query2, $q_params2);
-      if (!$result2) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query2, $q_params2);
    }
 
    /**
@@ -1876,11 +1792,8 @@ class Issue extends Model implements Comparable {
                " WHERE id= ".$sql->db_param();
       $q_params[]=$value;
       $q_params[]=$this->bugId;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, $q_params);
+
       // Add to history
       $old_handlerId = $this->handlerId;
       $this->handlerId = $value;
@@ -1900,24 +1813,14 @@ class Issue extends Model implements Comparable {
          $version = ''; // remove version
       } else {
          $query = "SELECT version from {project_version} WHERE id= ".$sql->db_param();
-         $q_params[]=$versionId;
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $result = $sql->sql_query($query, array($versionId));
          $row = $sql->fetchObject($result);
          $version = $row->version;
       }
       $query = "UPDATE {bug} SET target_version = ".$sql->db_param().
                " WHERE id= ".$sql->db_param();
-      $q_params[]=$version;
-      $q_params[]=$this->bugId;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($version, $this->bugId));
+
       $old_tversion = $this->target_version;
       $this->target_version = $version;
       $this->setMantisBugHistory('target_version', $old_tversion, $version); // TODO old_version
@@ -1927,22 +1830,17 @@ class Issue extends Model implements Comparable {
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT * FROM {custom_field_string} WHERE bug_id=".$sql->db_param().
                " AND field_id = ".$sql->db_param();
-      $q_params[]=$this->bugId;
-      $q_params[]=$field_id;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, array($this->bugId, $field_id));
+
       if (0 != $sql->getNumRows($result)) {
          $row = $sql->fetchObject($result);
          $old_value=$row->value;
          $query2 = "UPDATE {custom_field_string} SET value = ".$sql->db_param()
             . " WHERE bug_id=".$sql->db_param()
             . " AND field_id = ".$sql->db_param();
-         $q_params[]=$value;
-         $q_params[]=$this->bugId;
-         $q_params[]=$field_id;
+         $q_params2[]=$value;
+         $q_params2[]=$this->bugId;
+         $q_params2[]=$field_id;
       } else {
          $query2 = "INSERT INTO {custom_field_string} (field_id, bug_id, value)".
                      ' VALUES ( ' . $sql->db_param() . ','
@@ -1952,21 +1850,14 @@ class Issue extends Model implements Comparable {
          $q_params2[]=$this->bugId;
          $q_params2[]=$value;
       }
-      $result2 = $sql->sql_query($query2, $q_params2);
-      if (!$result2) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query2, $q_params2);
 
       // update bug history
       if (NULL == $field_name) {
          $query3 = "SELECT name FROM {custom_field} WHERE id = ".$sql->db_param();
          $q_params3[]=$field_id;
          $result3 = $sql->sql_query($query3, $q_params3);
-         if (!$result3) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          $field_name = (0 != $sql->getNumRows($result3)) ? $sql->sql_result($result3, 0) : 'custom_'.$field_id;
       }
       $this->setMantisBugHistory($field_name, $old_value, $value);
@@ -2050,10 +1941,6 @@ class Issue extends Model implements Comparable {
          $q_params[]=implode(', ', $newIssueIds);
          
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
          
          while($row = $sql->fetchObject($result)) {
             $issues[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
@@ -2073,10 +1960,6 @@ class Issue extends Model implements Comparable {
                " ORDER BY date ASC";
       $q_params[]=$this->bugId;
       $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       $timeTrack = NULL;
       if (0 != $sql->getNumRows($result)) {
@@ -2096,10 +1979,6 @@ class Issue extends Model implements Comparable {
                " ORDER BY date DESC ";
       $q_params[]=$this->bugId;
       $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       $timeTrack = NULL;
       if (0 != $sql->getNumRows($result)) {
@@ -2350,10 +2229,7 @@ class Issue extends Model implements Comparable {
                      $q_params[]=$this->bugId;
                      $q_params[]=$cfield_id;
                      $result = $sql->sql_query($query, $q_params);
-                     if (!$result) {
-                        echo "<span style='color:red'>ERROR: Query FAILED</span>";
-                        exit;
-                     }
+
                      if (0 != $sql->getNumRows($result)) {
                         $value = $sql->sql_result($result, 0);
                         $this->tooltipItemsCache[$name] = $value;
@@ -2414,13 +2290,8 @@ class Issue extends Model implements Comparable {
 
                   $query = "SELECT  ".$sql->db_param().
                            " FROM {bug} WHERE id =  ".$sql->db_param();
-                  $q_params[]=$field;
-                  $q_params[]=$this->bugId;
-                  $result = $sql->sql_query($query, $q_params);
-                  if (!$result) {
-                     echo "<span style='color:red'>ERROR: Query FAILED</span>";
-                     exit;
-                  }
+                  $result = $sql->sql_query($query, array($field, $this->bugId));
+
                   if (0 != $sql->getNumRows($result)) {
                      $value = $sql->sql_result($result, 0);
                      $this->tooltipItemsCache["$field"] = $value;
@@ -2541,10 +2412,9 @@ class Issue extends Model implements Comparable {
             $sql = AdodbWrapper::getInstance();
             $query = "UPDATE {bug} SET status = ".$sql->db_param().
                      " WHERE id= ".$sql->db_param();
-            $q_params[]=$newStatusId;
-            $q_params[]=$this->bugId;
-            $result = $sql->sql_query($query, $q_params);
-            if (!$result) {
+            try {
+               $sql->sql_query($query, array($newStatusId, $this->bugId));
+            } catch (Exception $e) {
                self::$logger->error("setStatus($newStatusId) : Query failed. Status has not been changed !");
                return false;
             }
@@ -2579,9 +2449,10 @@ class Issue extends Model implements Comparable {
                 " WHERE id=".$sql->db_param();
        $q_params[]=$newSubmissionTimestampDate;
        $q_params[]=$this->bugId;
-       
-       $result = $sql->sql_query($query, $q_params);
-        if (!$result) {
+
+       try {
+         $sql->sql_query($query, $q_params);
+       } catch (Exception $e) {
            self::$logger->error("Query failed. Impossible to change submission date on issue" . $this->bugId);
            return false;
         }

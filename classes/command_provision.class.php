@@ -86,12 +86,6 @@ class CommandProvision {
          $sql = AdodbWrapper::getInstance();
          $query  = "SELECT * FROM codev_command_provision_table WHERE id = ".$sql->db_param();
          $result = $sql->sql_query($query, array($this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            //$e = new Exception("Query FAILED: $query");
-            //throw $e;
-            exit;
-         }
          $row = $sql->fetchObject($result);
 
          if (FALSE == $row) {
@@ -143,11 +137,7 @@ class CommandProvision {
       }
       $query .= ")";
 
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, $q_params);
 
       return $sql->getInsertId();
    }
@@ -155,11 +145,7 @@ class CommandProvision {
    public static function delete($id) {
       $sql = AdodbWrapper::getInstance();
       $query = "DELETE FROM codev_command_provision_table WHERE id = ".$sql->db_param();
-      $result = $sql->sql_query($query, array($id));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($id));
    }
 
    /**
@@ -188,11 +174,7 @@ class CommandProvision {
          $sql = AdodbWrapper::getInstance();
          $query = "UPDATE codev_command_table SET start_date = ".$sql->db_param().
                   " WHERE id = ".$sql->db_param();
-         $result = $sql->sql_query($query, array($timestamp, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array($timestamp, $this->id));
       }
    }
 
@@ -219,11 +201,7 @@ class CommandProvision {
          $sql = AdodbWrapper::getInstance();
          $query = "UPDATE codev_command_provision_table SET command_id = ".$sql->db_param().
                   " WHERE id = ".$sql->db_param();
-         $result = $sql->sql_query($query, array($value, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array($value, $this->id));
       }
    }
 
@@ -249,11 +227,7 @@ class CommandProvision {
          $sql = AdodbWrapper::getInstance();
          $query = "UPDATE codev_command_provision_table SET type = ".$sql->db_param()
             . " WHERE id = ".$sql->db_param();
-         $result = $sql->sql_query($query, array($value, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array($value, $this->id));
       }
    }
 
@@ -276,11 +250,7 @@ class CommandProvision {
          $query = "UPDATE codev_command_provision_table".
                   " SET budget_days = ".$sql->db_param().
                   " WHERE id = ".$sql->db_param();
-         $result = $sql->sql_query($query, array($this->budget_days, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array($this->budget_days, $this->id));
       }
    }
 
@@ -317,11 +287,7 @@ class CommandProvision {
          $query = "UPDATE codev_command_provision_table".
                   " SET average_daily_rate = ".$sql->db_param().
                   " WHERE id = ".$sql->db_param();
-         $result = $sql->sql_query($query, array($this->average_daily_rate, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array($this->average_daily_rate, $this->id));
       }
    }
 
@@ -343,11 +309,7 @@ class CommandProvision {
          $sql = AdodbWrapper::getInstance();
          $query = "UPDATE codev_command_provision_table SET currency = ".$sql->db_param().
                   " WHERE id = ".$sql->db_param();
-         $result = $sql->sql_query($query, array($value, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array($value, $this->id));
       }
    }
 
@@ -369,11 +331,7 @@ class CommandProvision {
          $sql = AdodbWrapper::getInstance();
          $query = "UPDATE codev_command_provision_table SET summary = ".$sql->db_param().
                   " WHERE id = ".$sql->db_param();
-         $result = $sql->sql_query($query, array($value, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array($value, $this->id));
       }
    }
 
@@ -396,11 +354,7 @@ class CommandProvision {
       $query = "UPDATE codev_command_provision_table".
                " SET is_in_check_budget = ".$sql->db_param().
                " WHERE id = ".$sql->db_param();
-      $result = $sql->sql_query($query, array($value, $this->id));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($value, $this->id));
    }
 
 
@@ -423,11 +377,7 @@ class CommandProvision {
          $query = "UPDATE codev_command_provision_table".
                   " SET description = ".$sql->db_param().
                   " WHERE id = ".$sql->db_param();
-         $result = $sql->sql_query($query, array($value, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array($value, $this->id));
       }
    }
 

@@ -126,10 +126,6 @@ class PeriodStats {
       $query .= ";";
 
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       // For each bugId
       while($row = $sql->fetchObject($result)) {
@@ -143,10 +139,6 @@ class PeriodStats {
                    " ORDER BY id DESC";
 
          $result2 = $sql->sql_query($query2, array($bugId1, $this->endTimestamp));
-         if (!$result2) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          if (0 != $sql->getNumRows($result2)) {
             $row2 = $sql->fetchObject($result2);

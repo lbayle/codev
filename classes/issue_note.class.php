@@ -86,12 +86,7 @@ class IssueNote {
       $sql = AdodbWrapper::getInstance();
       $query2 = "INSERT INTO {bugnote_text} (note)".
                 " VALUES (".$sql->db_param().")";
-      $result2 = $sql->sql_query($query2, array($text));
-
-      if (!$result2) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query2, array($text));
       $bugnote_text_id = $sql->getInsertId();
 
       $timestamp = time();
@@ -111,11 +106,7 @@ class IssueNote {
       $q_params[]=$bugnote_text_id;
       $q_params[]=$date_submitted;
       $q_params[]=$timestamp;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, $q_params);
       $bugnote_id = $sql->getInsertId();
 
       // log BUGNOTE_ADD in Issue history
@@ -128,11 +119,8 @@ class IssueNote {
       $q_params3[]=$timestamp;
       $q_params3[]=self::history_BugnoteAdded;
       $q_params3[]=$bugnote_id;
-      $result3 = $sql->sql_query($query3, $q_params3);
-      if (!$result3) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query3, $q_params3);
+
       return $bugnote_id;
    }
 
@@ -147,19 +135,11 @@ class IssueNote {
       $sql = AdodbWrapper::getInstance();
       $query = 'DELETE FROM {bugnote_text} WHERE id=' .
             " (SELECT bugnote_text_id FROM {bugnote} WHERE id=".$sql->db_param().")";
-      $result = $sql->sql_query($query, array($id));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($id));
 
       # Remove the bugnote
       $query2 = 'DELETE FROM {bugnote} WHERE id='.$sql->db_param();
-      $result2 = $sql->sql_query($query2, array($id));
-      if (!$result2) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query2, array($id));
 
       // log BUGNOTE_DELETED in Issue history
       $query3 = 'INSERT INTO {bug_history} '.
@@ -171,11 +151,7 @@ class IssueNote {
       $q_params3[]=time();
       $q_params3[]=self::history_BugnoteDeleted;
       $q_params3[]=$id;
-      $result3 = $sql->sql_query($query3, $q_params3);
-      if (!$result3) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query3, $q_params3);
    	return true;
    }
 
@@ -199,10 +175,7 @@ class IssueNote {
       $q_params[]='%'.self::tagid_timesheetNote.$sql->db_param().'%';
 
       $result = $sql->sql_query($query2, $q_params, TRUE, 1); // LIMIT 1
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       $row = $sql->fetchObject($result);
 
       #echo "getTimesheetNote($bug_id) Note $row->id, bugnote_text = $row->bugnote_text_id <br>";
@@ -288,10 +261,7 @@ class IssueNote {
                " ORDER BY note.date_submitted";
 
       $result = $sql->sql_query($query, array( $this->id));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       $row = $sql->fetchObject($result);
 
       $this->bug_id = $row->bug_id;
@@ -379,21 +349,13 @@ class IssueNote {
       $sql = AdodbWrapper::getInstance();
       $query = "UPDATE {bugnote_text} SET note=".$sql->db_param().
                " WHERE id=" . $sql->db_param();
-      $result = $sql->sql_query($query, array($text, $this->bugnote_text_id));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($text, $this->bugnote_text_id));
 
 	   # updated the last_updated date
       $now = time();
    	$query2 = "UPDATE {bugnote} SET last_modified=".$sql->db_param().
                 " WHERE id= ".$sql->db_param();
-      $result2 = $sql->sql_query($query2, array($now, $this->id));
-      if (!$result2) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query2, array($now, $this->id));
 
       # insert a new revision
       $revision_id = $this->revisionAdd($text, $user_id, $now);
@@ -408,11 +370,8 @@ class IssueNote {
       $q_params3[]=self::history_BugnoteUpdated;
       $q_params3[]=$this->id;
       $q_params3[]=$revision_id;
-      $result3 = $sql->sql_query($query3, $q_params3);
-      if (!$result3) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
+      $sql->sql_query($query3, $q_params3);
 
       return true;
 
@@ -421,14 +380,10 @@ class IssueNote {
    private function revisionCount() {
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT COUNT(id) FROM {bug_revision} ".
-              "WHERE bug_id= $this->bug_id ".$sql->db_param().
-              "AND bugnote_id= $this->id ".$sql->db_param().
-		        "AND type= ".self::rev_type_bugnote.$sql->db_param();
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+              "WHERE bug_id= ".$sql->db_param().
+              "AND bugnote_id= ".$sql->db_param().
+		        "AND type= ".$sql->db_param();
+      $result = $sql->sql_query($query, array($this->bug_id, $this->id, self::rev_type_bugnote));
       #$found  = (0 != $sql->getNumRows($result)) ? true : false;
       $nbTuples  = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
 
@@ -445,13 +400,17 @@ class IssueNote {
 
       $sql = AdodbWrapper::getInstance();
       $query = "INSERT INTO {bug_revision} (bug_id, bugnote_id, user_id, timestamp, type, value) ".
-               "VALUES ($this->bug_id, $this->id, $user_id, $timestamp, ".
-               self::rev_type_bugnote.", ".AdodbWrapper::getInstance()->escapeString($text).")";
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+               "VALUES (".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".
+                          $sql->db_param().", ".$sql->db_param().", ".$sql->db_param().")";
+      $q_params[]=$this->bug_id;
+      $q_params[]=$this->id;
+      $q_params[]=$user_id;
+      $q_params[]=$timestamp;
+      $q_params[]=self::rev_type_bugnote;
+      $q_params[]=$text;
+      
+      $sql->sql_query($query, $q_params);
+
       $revision_id = AdodbWrapper::getInstance()->getInsertId();
       return $revision_id;
    }

@@ -48,10 +48,7 @@ class UserDailyCost {
       $sql = AdodbWrapper::getInstance();
       $query0 = "SELECT currency, average_daily_cost FROM codev_team_table WHERE id = ".$sql->db_param();
       $result0 = $sql->sql_query($query0, array($this->teamid));
-      if (!$result0) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       if($sql->getNumRows($result0) == 1) {
          $row = $sql->fetchObject($result0);
 
@@ -77,10 +74,7 @@ class UserDailyCost {
                 " WHERE team_id = ".$sql->db_param().
                 " ORDER BY user_id, start_date DESC"; // ORDER BY start_date DESC is very important !
       $result1 = $sql->sql_query($query1, array($this->teamid));
-      if (!$result1) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       while ($row = $sql->fetchObject($result1)) {
          
          //convert UDC 12350 => 123.5 (2 decimals)
@@ -137,12 +131,8 @@ class UserDailyCost {
       $q_params[]=$udr;
       $q_params[]=$currency;
       $q_params[]=$description;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      $id = AdodbWrapper::getInstance()->getInsertId();
+      $sql->sql_query($query, $q_params);
+      $id = $sql->getInsertId();
 
       // update $this->userDailyCosts
       // WARN: order (DESC) is important !!
@@ -177,11 +167,7 @@ class UserDailyCost {
 
       $sql = AdodbWrapper::getInstance();
       $query = "DELETE FROM codev_userdailycost_table WHERE id = ".$sql->db_param();
-      $result = $sql->sql_query($query, array($id));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($id));
       return true;
    }
 

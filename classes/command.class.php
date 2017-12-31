@@ -122,12 +122,7 @@ class Command extends Model {
       $sql = AdodbWrapper::getInstance();
       if($row == NULL) {
          $query  = "SELECT * FROM codev_command_table WHERE id = ".$sql->db_param();
-         $q_params[]=$this->id;
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $result = $sql->sql_query($query, array($this->id));
          $row = $sql->fetchObject($result);
       }
       $this->name = $row->name;
@@ -156,13 +151,7 @@ class Command extends Model {
          $this->wbsid = $wbs->getId();
          $query = "UPDATE codev_command_table SET wbs_id = ".$sql->db_param().
                   " WHERE id = ".$sql->db_param();
-         $q_params[]=$this->wbsid;
-         $q_params[]=$this->id;
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array($this->wbsid, $this->id));
 
          // add existing Issues
          $bugidList = array_keys($this->getIssueSelection()->getIssueList());
@@ -186,12 +175,7 @@ class Command extends Model {
    public static function create($name, $teamid) {
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT count(*) FROM codev_command_table WHERE name = ".$sql->db_param();
-      $q_params[]=$name;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, array($name));
 
       $count = $sql->sql_result($result);
 
@@ -209,10 +193,6 @@ class Command extends Model {
          $q_params[]=$wbsid;
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          return AdodbWrapper::getInstance()->getInsertId();
       } else {
@@ -234,33 +214,27 @@ class Command extends Model {
       $query = "DELETE FROM codev_wbs_table ".
               "WHERE root_id = (SELECT wbs_id FROM codev_command_table WHERE id=".$sql->db_param().") ".
               "OR id=(SELECT wbs_id FROM codev_command_table WHERE id=".$sql->db_param().")";
-      $result = $sql->sql_query($query, array($id, $id));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($id, $id));
 
       // delete Command
       $query = "DELETE FROM codev_commandset_cmd_table WHERE command_id = ".$sql->db_param();
-      $result = $sql->sql_query($query, array($id));
-      if (!$result) {
+      try {
+         $sql->sql_query($query, array($id));
+      } catch (Exception $e) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
          #exit;
       }
 
       $query = "DELETE FROM codev_command_bug_table WHERE command_id = ".$sql->db_param();
-      $result = $sql->sql_query($query, array($id));
-      if (!$result) {
+      try {
+         $sql->sql_query($query, array($id));
+      } catch (Exception $e) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
          #exit;
       }
 
       $query = "DELETE FROM codev_command_table WHERE id = ".$sql->db_param();
-      $result = $sql->sql_query($query, array($id));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
-         exit;
-      }
+      $sql->sql_query($query, array($id));
 
       return true;
    }
@@ -274,10 +248,6 @@ class Command extends Model {
       $query = "SELECT id FROM codev_command_table WHERE name = ".$sql->db_param();
 
       $result = $sql->sql_query($query, array($name));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       return $sql->sql_result($result, 0);
    }
@@ -296,10 +266,6 @@ class Command extends Model {
          // remove from Command
          $query = "DELETE FROM codev_command_bug_table WHERE bug_id = ".$sql->db_param();
          $result = $sql->sql_query($query, array($row->bug_id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
       }
    }
 
@@ -317,11 +283,7 @@ class Command extends Model {
          $sql = AdodbWrapper::getInstance();
          $query = "UPDATE codev_command_table SET team_id = ".$sql->db_param()
             . " WHERE id = ".$sql->db_param();
-         $result = $sql->sql_query($query, array($value, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array($value, $this->id));
       }
    }
 
@@ -347,11 +309,7 @@ class Command extends Model {
       $sql = AdodbWrapper::getInstance();
       $query = "UPDATE codev_command_table SET enabled = ".$sql->db_param()
          . " WHERE id = ".$sql->db_param();
-      $result = $sql->sql_query($query, array($value, $this->id));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($value, $this->id));
    }
 
    public function getName() {
@@ -364,20 +322,12 @@ class Command extends Model {
          $sql = AdodbWrapper::getInstance();
          $query = "UPDATE codev_command_table SET name = ".$sql->db_param()
             . " WHERE id = ".$sql->db_param();
-         $result = $sql->sql_query($query, array($name, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array($name, $this->id));
 
          // update root WBS name
          $query2 = "UPDATE codev_wbs_table SET title = " . $sql->db_param() .
                    " WHERE id = " .$sql->db_param();
-         $result2 = $sql->sql_query($query2, array($name, $this->wbsid));
-         if (!$result2) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query2, array($name, $this->wbsid));
       }
    }
 
@@ -391,11 +341,7 @@ class Command extends Model {
          $sql = AdodbWrapper::getInstance();
          $query = "UPDATE codev_command_table SET reference = ".$sql->db_param()
             . " WHERE id = ".$sql->db_param();
-         $result = $sql->sql_query($query, array($value, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array($value, $this->id));
       }
    }
 
@@ -410,10 +356,6 @@ class Command extends Model {
          $query = "UPDATE codev_command_table SET version = ".$sql->db_param()
             . " WHERE id = ".$sql->db_param();
          $result = $sql->sql_query($query, array($value, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
       }
    }
 
@@ -428,10 +370,6 @@ class Command extends Model {
          $query = "UPDATE codev_command_table SET reporter = ".$sql->db_param()
             . " WHERE id = ".$sql->db_param();
          $result = $sql->sql_query($query, array($value, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
       }
    }
 
@@ -445,11 +383,7 @@ class Command extends Model {
          $sql = AdodbWrapper::getInstance();
          $query = "UPDATE codev_command_table SET description = ".$sql->db_param()
             . " WHERE id = ".$sql->db_param();
-         $result = $sql->sql_query($query, array($description, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array($description, $this->id));
       }
    }
 
@@ -463,11 +397,7 @@ class Command extends Model {
          $sql = AdodbWrapper::getInstance();
          $query = "UPDATE codev_command_table SET state=".$sql->db_param()
             . " WHERE id = ".$sql->db_param();
-         $result = $sql->sql_query($query,  array($value, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query,  array($value, $this->id));
       }
    }
 
@@ -504,11 +434,7 @@ class Command extends Model {
          $sql = AdodbWrapper::getInstance();
          $query = "UPDATE codev_command_table SET start_date =".$sql->db_param()
             . " WHERE id = ".$sql->db_param();
-         $result = $sql->sql_query($query, array( $this->startDate, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array( $this->startDate, $this->id));
       }
    }
 
@@ -522,11 +448,7 @@ class Command extends Model {
          $sql = AdodbWrapper::getInstance();
          $query = "UPDATE codev_command_table SET deadline =".$sql->db_param()
             . " WHERE id = ".$sql->db_param();
-         $result = $sql->sql_query($query, array( $this->deadline, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array( $this->deadline, $this->id));
       }
    }
 
@@ -548,11 +470,7 @@ class Command extends Model {
          $sql = AdodbWrapper::getInstance();
          $query = "UPDATE codev_command_table SET total_days = ".$sql->db_param()
             . " WHERE id = ".$sql->db_param();
-         $result = $sql->sql_query($query, array($this->totalSoldDays, $this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array($this->totalSoldDays, $this->id));
       }
    }
 
@@ -616,11 +534,6 @@ class Command extends Model {
 
          $result = $sql->sql_query($query, $q_params);
 
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-
          $this->provisionList = array();
          while ($row = $sql->fetchObject($result)) {
             try {
@@ -658,10 +571,6 @@ class Command extends Model {
          #" ORDER BY {bug}.project_id ASC, {bug}.target_version DESC, {bug}.status ASC";
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          $issues = array();
          while ($row = $sql->fetchObject($result)) {
@@ -716,13 +625,7 @@ class Command extends Model {
          $sql = AdodbWrapper::getInstance();
          $query = "INSERT INTO codev_command_bug_table (command_id, bug_id)"
             . " VALUES (".$sql->db_param().", ".$sql->db_param().")";
-         $q_params[]=$this->id;
-         $q_params[]=$bugid;
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, array($this->id, $bugid));
          $id = AdodbWrapper::getInstance()->getInsertId();
 
          // add to WBS
@@ -769,20 +672,12 @@ class Command extends Model {
       $sql = AdodbWrapper::getInstance();
       $query = "DELETE FROM codev_command_bug_table WHERE command_id = ".$sql->db_param().
                " AND bug_id = ".$sql->db_param();
-      $result = $sql->sql_query($query, array($this->id, $bugid));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($this->id, $bugid));
 
       // remove from WBS
       $query = "DELETE FROM codev_wbs_table WHERE root_id = ".$sql->db_param().
                " AND bug_id = ".$sql->db_param();
-      $result = $sql->sql_query($query, array($this->wbsid, $bugid));
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($this->wbsid, $bugid));
    }
 
    /**
@@ -799,10 +694,6 @@ class Command extends Model {
                   "JOIN codev_commandset_cmd_table as commandset_cmd ON commandset.id = commandset_cmd.commandset_id ".
                   "WHERE commandset_cmd.command_id = ".$sql->db_param();
          $result = $sql->sql_query($query, array($this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          // a Command can belong to more than one commandset
          $this->commandSetList = array();

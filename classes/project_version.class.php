@@ -35,10 +35,6 @@ class ProjectVersion extends IssueSelection {
                   "AND version = ".$sql->db_param();
 
          $result = $sql->sql_query($query, array($this->projectId, $this->name));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          $this->versionDate = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : "(none)";
 

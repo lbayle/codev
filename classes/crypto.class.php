@@ -67,11 +67,6 @@ class Crypto {
         $query = "SELECT COUNT(*) FROM {user} WHERE cookie_string=".$sql->db_param();
         $result = $sql->sql_query($query, array($p_cookie_string));
 
-        if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-        }
-
         while ($row = $sql->fetchObject($result)) {
             $count = $row->count;
         }

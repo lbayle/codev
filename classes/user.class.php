@@ -192,10 +192,6 @@ class User extends Model {
          $query = 'SELECT username, realname, enabled FROM {user} WHERE id = '. $sql->db_param();
 
          $result = $sql->sql_query($query, array($this->id));
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          if($sql->getNumRows($result)) {
             $row = $sql->fetchObject($result);
@@ -221,10 +217,6 @@ class User extends Model {
       $query = "SELECT id FROM {user} WHERE username=".$sql->db_param();
       $q_params[]=$name;
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       $userid = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : NULL;
       return $userid;
@@ -298,10 +290,6 @@ class User extends Model {
          $query = "SELECT email FROM {user} WHERE id=".$sql->db_param();
          $q_params[]=$this->id;
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
          $this->email = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : NULL;
       }
       return $this->email;
@@ -400,10 +388,6 @@ class User extends Model {
          }
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
          $nbTuples = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
 
          $this->teamMemberCache[$key] = (0 != $nbTuples);
@@ -423,10 +407,6 @@ class User extends Model {
             $query = "SELECT count(*) as count FROM {user} WHERE username = ".$sql->db_param();
             $q_params[]=$username;
             $result = $sql->sql_query($query, $q_params);
-            if (!$result) {
-               echo "<span style='color:red'>ERROR: Query FAILED</span>";
-               exit;
-            }
             
             while($row = $sql->fetchObject($result)) {
                 $count = $row->count;
@@ -452,10 +432,6 @@ class User extends Model {
             $query = "SELECT count(*) as count FROM {user} WHERE id = ".$sql->db_param();
             $q_params[]=$id;
             $result = $sql->sql_query($query, $q_params);
-            if (!$result) {
-               echo "<span style='color:red'>ERROR: Query FAILED</span>";
-               exit;
-            }
             
             while($row = $sql->fetchObject($result)) {
                 $count = $row->count;
@@ -490,10 +466,7 @@ class User extends Model {
             $q_params[]=$team_id;
          }
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          if (0 != $sql->getNumRows($result)) {
              $arrival_date = $sql->sql_result($result, 0);
          } else {
@@ -531,10 +504,7 @@ class User extends Model {
             $q_params[]=$team_id;
          }
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          while ($row = $sql->fetchObject($result)) {
             if ((NULL == $row->departure_date ) || (0 == $row->departure_date )) {
                $departureDate = 0;
@@ -575,10 +545,7 @@ class User extends Model {
          $q_params[]=$endTimestamp;
          $q_params[]=$this->id;
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          $timeTracks = array();
          while ($row = $sql->fetchObject($result)) {
             $timeTracks[] = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
@@ -846,10 +813,7 @@ class User extends Model {
          $query .= " ORDER BY name";
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          while ($row = $sql->fetchObject($result)) {
             $this->leadedTeams[$row->id] = $row->name;
             #echo "getLeadedTeamList FOUND $row->id - $row->name<br/>";
@@ -927,10 +891,7 @@ class User extends Model {
 
       $query .= " ORDER BY team.name;";
       $result = $sql->sql_query($query, $query_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       while ($row = $sql->fetchObject($result)) {
          $teamList[$row->id] = $row->name;
          #echo "getTeamList(".Team::$accessLevelNames[$accessLevel].") FOUND $row->id - $row->name<br/>";
@@ -978,10 +939,7 @@ class User extends Model {
          $query .= " ORDER BY project.name;";
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          while ($row = $sql->fetchObject($result)) {
             $projList[$row->id] = $row->name;
          }
@@ -1030,10 +988,7 @@ class User extends Model {
       $q_params[]=$formatedProjList;
       $q_params[]=$this->id;
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       while ($row = $sql->fetchObject($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
          $totalBacklog += $issue->getDuration();
@@ -1090,10 +1045,7 @@ class User extends Model {
       $query .= " ORDER BY id DESC;";
 
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       while ($row = $sql->fetchObject($result)) {
          $issueList[] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
@@ -1125,10 +1077,7 @@ class User extends Model {
          $q_params[]=$this->id;
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          $this->monitoredIssues = array();
          while ($row = $sql->fetchObject($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->id, $row);
@@ -1166,10 +1115,6 @@ class User extends Model {
       $q_params[]=$this->id;
       $q_params[]=$timestamp;
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       $sum = round($sql->sql_result($result), 2);
       $availTime = (1 - $sum <= 0) ? 0 : (1 - $sum);
@@ -1586,8 +1531,9 @@ class User extends Model {
       if(NULL == self::$users) {
          $sql = AdodbWrapper::getInstance();
          $query = "SELECT id, username FROM {user} ORDER BY username";
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
+         try {
+            $result = $sql->sql_query($query, $q_params);
+         } catch (Exception $e) {
             return NULL;
          }
 
@@ -1619,10 +1565,6 @@ class User extends Model {
       $q_params[]=$project_id;
 
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
       if (0 == $sql->getNumRows($result)) {
 
          $query2 = "INSERT INTO {project_user_list} (user_id, project_id, access_level) ".
@@ -1642,11 +1584,7 @@ class User extends Model {
          $q_params2[]=$this->id;
          $q_params2[]=$project_id;
       }
-      $result2 = $sql->sql_query($query2, $q_params2);
-      if (!$result2) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query2, $q_params2);
    }
 
    /**
@@ -1683,10 +1621,7 @@ class User extends Model {
       $query .= " ORDER BY date DESC";
 
       $result = $sql->sql_query($query, $q_params, TRUE, $limit);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       $recentIssues = array();
       while ($row = $sql->fetchObject($result)) {
          $recentIssues[] = $row->bugid;
@@ -1721,10 +1656,6 @@ class User extends Model {
       $query .= "GROUP BY date ORDER BY date;";
 
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       $incompleteDays = array(); // unique date => sum durations
       while($row = $sql->fetchObject($result)) {
@@ -1792,10 +1723,6 @@ class User extends Model {
          $q_params[]=implode(', ', $weekTimestamps);
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          $daysWithTimeTracks = array();
          while($row = $sql->fetchObject($result)) {
@@ -1965,11 +1892,7 @@ class User extends Model {
                 $q_params[]=$cookieString;
                 $q_params[]=$lastVisit;
                 $q_params[]=$entryDate;
-                $result = $sql->sql_query($query, $q_params);
-                if (!$result) {
-                    echo "<span style='color:red'>ERROR: Query FAILED</span>";
-                    exit;
-                }
+                $sql->sql_query($query, $q_params);
             }
         }
     }
@@ -1995,11 +1918,7 @@ class User extends Model {
             $q_params[]=$projectId;
             $q_params[]=$this->id;
             $q_params[]=$projectAccessLevelId;
-            $result = $sql->sql_query($query, $q_params);
-            if (!$result) {
-                echo "<span style='color:red'>ERROR: Query FAILED</span>";
-                exit;
-            }
+            $sql->sql_query($query, $q_params);
             return true;
         }
         return false;

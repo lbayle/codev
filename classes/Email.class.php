@@ -148,11 +148,7 @@ class Email {
       $q_params[]=$emailData->submitted;
       $q_params[]=serialize($emailData->metadata);
 
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, $q_params);
       #self::$logger->error('email sent to '.$emailData->email);
       return TRUE;
    }
