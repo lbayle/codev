@@ -37,6 +37,8 @@ class EditJobsController extends Controller {
          // Admins only
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
          if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
+
+            $sql = AdodbWrapper::getInstance();
             $this->smartyHelper->assign('jobType', Job::$typeNames);
 
             // set random color
@@ -71,9 +73,11 @@ class EditJobsController extends Controller {
                   // TODO check if not already in table !
 
                   // save to DB
-                  $query = "INSERT INTO `codev_project_job_table`  (`project_id`, `job_id`) VALUES ('".$project_id."','".$job_id."');";
-                  $result = SqlWrapper::getInstance()->sql_query($query);
-                  if (!$result) {
+                  $query = "INSERT INTO codev_project_job_table  (project_id, job_id)".
+                           " VALUES (".$sql->db_param().",".$sql->db_param().")";
+                  try {
+                     $sql->sql_query($query, array($project_id, $job_id));
+                  } catch (Exception $e) {
                      $this->smartyHelper->assign('error', T_("Couldn't add the job association"));
                   }
                }
@@ -85,15 +89,17 @@ class EditJobsController extends Controller {
                   $this->smartyHelper->assign('error', T_("This job must not be deleted."));
 
                } else {
-                  $query = "DELETE FROM `codev_project_job_table` WHERE job_id = ".$job_id.';';
-                  $result = SqlWrapper::getInstance()->sql_query($query);
-                  if (!$result) {
+                  $query = "DELETE FROM codev_project_job_table WHERE job_id = ".$sql->db_param();
+                  try {
+                     $sql->sql_query($query, array($job_id));
+                  } catch (Exception $e) {
                      $this->smartyHelper->assign('error', T_("Couldn't remove the job association"));
                   }
 
-                  $query = "DELETE FROM `codev_job_table` WHERE id = $job_id;";
-                  $result = SqlWrapper::getInstance()->sql_query($query);
-                  if (!$result) {
+                  $query = "DELETE FROM codev_job_table WHERE id = ".$sql->db_param();
+                  try {
+                     $sql->sql_query($query, array($job_id));
+                  } catch (Exception $e) {
                      $this->smartyHelper->assign('error', T_("Couldn't delete the job"));
                   }
                }
@@ -101,9 +107,10 @@ class EditJobsController extends Controller {
             } elseif ('deleteJobProjectAssociation' == $action) {
                $asso_id = Tools::getSecurePOSTIntValue('asso_id');
 
-               $query = "DELETE FROM `codev_project_job_table` WHERE id = ".$asso_id.';';
-               $result = SqlWrapper::getInstance()->sql_query($query);
-               if (!$result) {
+               $query = "DELETE FROM codev_project_job_table WHERE id = ".$sql->db_param();
+               try {
+                  $result = $sql->sql_query($query, array($asso_id));
+               } catch (Exception $e) {
                   $this->smartyHelper->assign('error', T_("Couldn't remove the job association"));
                }
             }
@@ -164,14 +171,16 @@ class EditJobsController extends Controller {
 
       $formattedJobs = implode(", ",$jobsWithoutSupport);
       // if job already used for TimeTracking, delete forbidden
+      $sql = AdodbWrapper::getInstance();
       $query2 = "SELECT jobid, COUNT(jobid) as count ".
-         "FROM `codev_timetracking_table` ".
-         "WHERE jobid IN ($formattedJobs) GROUP BY jobid;";
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
-      if (!$result2) {
+         "FROM codev_timetracking_table ".
+         "WHERE jobid IN (".$sql->db_param().") GROUP BY jobid";
+      try {
+         $result2 = $sql->sql_query($query2, array($formattedJobs));
+      } catch (Exception $e) {
          return NULL;
       }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result2)) {
+      while($row = $sql->fetchObject($result2)) {
          $smartyJobs[$row->jobid]["deletedJob"] = (0 == $row->count);
       }
 
@@ -186,18 +195,16 @@ class EditJobsController extends Controller {
    private function getAssignedJobTuples(array $plist, $teamid) {
       
       $team = TeamCache::getInstance()->getTeam($teamid);
+      $sql = AdodbWrapper::getInstance();
 
       $query = "SELECT job.id as job_id, job.name AS job_name, project_job.id, project_job.project_id ".
-         "FROM `codev_job_table` as job ".
-         "JOIN `codev_project_job_table` as project_job ON job.id = project_job.job_id ".
+         "FROM codev_job_table as job ".
+         "JOIN codev_project_job_table as project_job ON job.id = project_job.job_id ".
          "ORDER BY project_job.project_id;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query);
+
       $projects = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          // if SuiviOp do not allow tu delete
          $desc = $row->job_name." - ".$plist[$row->project_id];
          $desc = str_replace("'", "\'", $desc);

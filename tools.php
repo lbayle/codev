@@ -665,17 +665,15 @@ class Tools {
     * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
     * @return string The value or die if there is a problem
     */
-   public static function getSecureGETStringValue($key,$defaultValue = NULL) {
-      if(filter_input(INPUT_GET, $key)) {
-         return filter_input(INPUT_GET, $key);
+   public static function getSecureGETStringValue($key,$defaultValue = '__noDefaultValue__') {
+      $value = filter_input(INPUT_GET, $key);
+      if (NULL !== $value && FALSE !== $value) {
+         return $value;
       }
-      else if(isset($defaultValue)) {
+      if ('__noDefaultValue__' !== $defaultValue) {
          return $defaultValue;
       }
-      else {
-         self::sendBadRequest("No GET value for ".$key);
-         die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
-      }
+      self::sendBadRequest("No GET value for ".$key);
    }
 
    /**
@@ -685,18 +683,16 @@ class Tools {
     * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
     * @return string The value or die if there is a problem
     */
-   public static function getSecurePOSTStringValue($key,$defaultValue = NULL) {
-      if(filter_input(INPUT_POST, $key)) {
+   public static function getSecurePOSTStringValue($key,$defaultValue = '__noDefaultValue__') {
+      $value = filter_input(INPUT_POST, $key);
+      if (NULL !== $value && FALSE !== $value) {
          //return Tools::escape_string($_POST[$key]);
-         return filter_input(INPUT_POST, $key);
+         return $value;
       }
-      else if(isset($defaultValue)) {
+      if ('__noDefaultValue__' !== $defaultValue) {
          return $defaultValue;
       }
-      else {
-         self::sendBadRequest("No POST value for ".$key);
-         die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
-      }
+      self::sendBadRequest("No POST value for ".$key);
    }
 
    /**
@@ -706,17 +702,20 @@ class Tools {
     * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
     * @return int The value or die if there is a problem
     */
-   public static function getSecureGETNumberValue($key,$defaultValue = NULL) {
-      $value = self::getSecureGETStringValue($key,$defaultValue);
-      if(strlen($value) == 0) {
+   public static function getSecureGETNumberValue($key,$defaultValue = '__noDefaultValue__') {
+      $value = filter_input(INPUT_GET, $key);
+
+      // if unset or empty string, use default value (if exists)
+      if ((NULL === $value || FALSE === $value || (0 == strlen(trim($value)))) &&
+          ('__noDefaultValue__' !== $defaultValue) ) {
          $value = $defaultValue;
       }
-      if (is_numeric($value)) {
+
+      // now we want to be sure that this value is an integer
+      if (is_numeric(trim($value))) {
          return $value;
-      } else {
-         self::sendBadRequest('Attempt to set non_numeric value ('.$value.') for '.$key);
-         die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
       }
+      self::sendBadRequest('Attempt to set non_numeric value ('.$value.') for key '.$key);
    }
 
    /**
@@ -726,17 +725,20 @@ class Tools {
     * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
     * @return int The value or die if there is a problem
     */
-   public static function getSecurePOSTNumberValue($key,$defaultValue = NULL) {
-      $value = self::getSecurePOSTStringValue($key,$defaultValue);
-      if(strlen($value) == 0) {
+   public static function getSecurePOSTNumberValue($key,$defaultValue = '__noDefaultValue__') {
+      $value = filter_input(INPUT_POST, $key);
+
+      // if unset or empty string, use default value (if exists)
+      if ((NULL === $value || FALSE === $value || (0 == strlen(trim($value)))) &&
+          ('__noDefaultValue__' !== $defaultValue) ) {
          $value = $defaultValue;
       }
-      if (is_numeric($value)) {
+
+      // now we want to be sure that this value is an integer
+      if (is_numeric(trim($value))) {
          return $value;
-      } else {
-         self::sendBadRequest('Attempt to set non_numeric value ('.$value.') for '.$key);
-         die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
       }
+      self::sendBadRequest('Attempt to set non_numeric value ('.$value.') for key '.$key);
    }
 
    /**
@@ -746,46 +748,45 @@ class Tools {
     * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
     * @return int The value or die if there is a problem
     */
-   public static function getSecureGETIntValue($key,$defaultValue = NULL) {
-      if(filter_input(INPUT_GET, $key)) {
-         $value = filter_input(INPUT_GET, $key);
-         if(0 == strlen(trim($value))) {
-            $value = $defaultValue;
-         }
-      } else {
+   public static function getSecureGETIntValue($key,$defaultValue = '__noDefaultValue__') {
+
+      $value = filter_input(INPUT_GET, $key);
+
+      // if unset or empty string, use default value (if exists)
+      if ((NULL === $value || FALSE === $value || (0 == strlen(trim($value)))) &&
+          ('__noDefaultValue__' !== $defaultValue) ) {
          $value = $defaultValue;
       }
-      if (is_numeric($value)) {
-         return intval($value);
-      } else {
-         self::sendBadRequest('Attempt to set non_numeric value ('.$value.') for '.$key);
-         die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
-      }
-   }
 
-   /**
-    * Get a clean up Integer value by POST
-    * @static
-    * @param string $key The key
-    * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
-    * @return int The value or die if there is a problem
-    */
-   public static function getSecurePOSTIntValue($key,$defaultValue = NULL) {
-
-      if(filter_input(INPUT_POST, $key)) {
-         $value = filter_input(INPUT_POST, $key);
-         if(0 == strlen(trim($value))) {
-            $value = $defaultValue;
-         }
-      } else {
-         $value = $defaultValue;
-      }
+      // now we want to be sure that this value is an integer
       if (is_numeric(trim($value))) {
          return intval($value);
-      } else {
-         self::sendBadRequest('Attempt to set non_numeric value ('.$value.') for '.$key);
-         die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
       }
+      self::sendBadRequest('Attempt to set non_numeric value ('.$value.') for key '.$key);
+   }
+
+   /**
+    * Get a clean up Integer value by POST
+    * @static
+    * @param string $key The key
+    * @param mixed $defaultValue The value used if no value found. If not specified, the value is mandatory
+    * @return int The value or die if there is a problem
+    */
+   public static function getSecurePOSTIntValue($key, $defaultValue = '__noDefaultValue__') {
+
+      $value = filter_input(INPUT_POST, $key);
+
+      // if unset or empty string, use default value (if exists)
+      if ((NULL === $value || FALSE === $value || (0 == strlen(trim($value)))) &&
+          ('__noDefaultValue__' !== $defaultValue) ) {
+         $value = $defaultValue;
+      }
+
+      // now we want to be sure that this value is an integer
+      if (is_numeric(trim($value))) {
+         return intval($value);
+      }
+      self::sendBadRequest('Attempt to set non_numeric value ('.$value.') for key '.$key);
    }
 
    /**
