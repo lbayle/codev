@@ -57,14 +57,14 @@ class Tools {
    public static function isMantisV1_2() {
 
       if (is_null(self::$MantisDbVersion)) {
-         $query = "SELECT value FROM `mantis_config_table` WHERE `config_id` = 'database_version';";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $query = "SELECT value FROM {config} WHERE `config_id` = 'database_version';";
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-            self::$MantisDbVersion = (int)SqlWrapper::getInstance()->sql_result($result, 0);
+         if (0 != $sql->getNumRows($result)) {
+            self::$MantisDbVersion = (int)$sql->sql_result($result, 0);
          }
       }
       // 201 is v1.3.0-rc1
@@ -597,7 +597,7 @@ class Tools {
          exit;
       }
 
-      if (is_null(SqlWrapper::getInstance()->sql_result($result, 0))) {
+      if (is_null($sql->sql_result($result, 0))) {
          $error = 'ERROR : could not LOAD_FILE ('.$sqlFile.')';
          echo "<span class='error_font'>$error</span><br>";
          $error = 'RETRY with SQL query...';
@@ -686,8 +686,9 @@ class Tools {
     * @return string The value or die if there is a problem
     */
    public static function getSecurePOSTStringValue($key,$defaultValue = NULL) {
-      if(isset($_POST[$key])) {
-         return Tools::escape_string($_POST[$key]);
+      if(filter_input(INPUT_POST, $key)) {
+         //return Tools::escape_string($_POST[$key]);
+         return filter_input(INPUT_POST, $key);
       }
       else if(isset($defaultValue)) {
          return $defaultValue;
@@ -766,8 +767,13 @@ class Tools {
     * @return int The value or die if there is a problem
     */
    public static function getSecurePOSTIntValue($key,$defaultValue = NULL) {
-      $value = self::getSecurePOSTStringValue($key,$defaultValue);
-      if(strlen(trim($value)) == 0) {
+
+      if(filter_input(INPUT_POST, $key)) {
+         $value = filter_input(INPUT_POST, $key);
+         if(0 == strlen(trim($value))) {
+            $value = $defaultValue;
+         }
+      } else {
          $value = $defaultValue;
       }
       if (is_numeric(trim($value))) {
@@ -1117,6 +1123,7 @@ class Tools {
    }
 
    /**
+    * @deprecated
     * Escapes special characters in a string
     * @static
     * @param string $unescaped_string The string that is to be escaped.
@@ -1270,7 +1277,7 @@ class Tools {
          echo "<span class='warn_font'>WARN: using default attributes for CustomField $fieldName</span><br/>";
       }
 
-      $query = "SELECT id, name FROM `mantis_custom_field_table`";
+      $query = "SELECT id, name FROM {custom_field}";
       $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>" . mysql_error() . "</span>");
       while ($row = mysql_fetch_object($result)) {
          $fieldList["$row->name"] = $row->id;
@@ -1278,7 +1285,7 @@ class Tools {
 
       $fieldId = $fieldList[$fieldName];
       if (!$fieldId) {
-         $query2 = "INSERT INTO `mantis_custom_field_table` " .
+         $query2 = "INSERT INTO {custom_field} " .
             "(`name`, `type` ,`access_level_r`," .
             "                 `access_level_rw` ,`require_report` ,`require_update` ,`display_report` ,`display_update` ,`require_resolved` ,`display_resolved` ,`display_closed` ,`require_closed` ";
          $query2 .= ", `possible_values`, `default_value`";
@@ -1448,13 +1455,13 @@ class Tools {
          $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
 
          self::$customFieldNames = array();
-         $query = "SELECT id, name FROM `mantis_custom_field_table` ";
-         $result = SqlWrapper::getInstance()->sql_query($query);
+         $query = "SELECT id, name FROM {custom_field} ";
+         $result = $sql->sql_query($query, $q_params);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         while($row = $sql->fetchObject($result)) {
             $name = NULL;
             switch (intval($row->id)) {
 

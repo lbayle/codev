@@ -31,6 +31,7 @@ class EditTeamController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
+         $sql = AdodbWrapper::getInstance();
 
          $teamList = NULL;
          // leadedTeams only, except Admins: they can edit all teams
@@ -196,9 +197,10 @@ class EditTeamController extends Controller {
                	  Config::setValue(Config::id_durationList, Tools::doubleImplode(":", ",", $duration), Config::configType_keyValue, NULL, 0, 0, $displayed_teamid); 
                } elseif (isset($_POST["deletememberid"])) {
                   $memberid = Tools::getSecurePOSTIntValue('deletememberid');
-                  $query = "DELETE FROM `codev_team_user_table` WHERE id = $memberid;";
-                  $result = SqlWrapper::getInstance()->sql_query($query);
-                  if (!$result) {
+                  try {
+                     $query = "DELETE FROM codev_team_user_table WHERE id = ".$sql->db_param();
+                     $sql->sql_query($query, array($memberid));
+                  } catch (Exception $e) {
                      $this->smartyHelper->assign('error', T_("Couldn't delete the member of the team"));
                   }
                } elseif (isset($_POST['addedprojectid'])) {
@@ -335,18 +337,20 @@ class EditTeamController extends Controller {
     * @return mixed[string]
     */
    private function getTeamMembers($teamid) {
-      $query = "SELECT user.id as user_id, user.username, user.realname, ".
-         "team_user.id, team_user.arrival_date, team_user.departure_date, team_user.team_id, team_user.access_level ".
-         "FROM `mantis_user_table` as user ".
-         "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
-         "WHERE team_user.team_id=$teamid ".
-         "ORDER BY user.username;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
+      try {
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT user.id as user_id, user.username, user.realname, ".
+            "team_user.id, team_user.arrival_date, team_user.departure_date, team_user.team_id, team_user.access_level ".
+            "FROM {user} as user ".
+            "JOIN codev_team_user_table as team_user ON user.id = team_user.user_id ".
+            "WHERE team_user.team_id=".$sql->db_param().
+            " ORDER BY user.username";
+         $result = $sql->sql_query($query, array($teamid));
+      } catch (Exception $e) {
          return NULL;
       }
       $teamMemberTuples = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $teamMemberTuples[$row->id] = array(
             "username" => $row->username,
             "userid" => $row->user_id,
@@ -368,18 +372,20 @@ class EditTeamController extends Controller {
     * @return mixed[string]
     */
    private function getTeamProjects($teamid) {
-      $query = "SELECT project.id AS project_id, project.name, project.enabled, project.description, ".
-         "team_project.id, team_project.type ".
-         "FROM `mantis_project_table` as project ".
-         "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
-         "WHERE team_project.team_id=$teamid ".
-         "ORDER BY project.name;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
+      try {
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT project.id AS project_id, project.name, project.enabled, project.description, ".
+            "team_project.id, team_project.type ".
+            "FROM {project} as project ".
+            "JOIN codev_team_project_table as team_project ON project.id = team_project.project_id ".
+            "WHERE team_project.team_id=".$sql->db_param().
+            " ORDER BY project.name;";
+         $result = $sql->sql_query($query, array($teamid));
+      } catch (Exception $e) {
          return NULL;
       }
       $teamProjectsTuple = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $teamProjectsTuple[$row->id] = array(
             "name" => $row->name,
             "enabled" => (1 == $row->enabled) ? T_('enabled') : T_('disabled'),
@@ -432,23 +438,27 @@ class EditTeamController extends Controller {
 
       $formatedInactivityCatList = implode( ', ', array_keys($inactivityCatList));
 
-      $query = "SELECT * FROM `mantis_bug_table` ".
-         "WHERE project_id IN ($formatedInactivityCatList) ";
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT * FROM {bug} ".
+         "WHERE project_id IN (".$sql->db_param().") ";
+      $q_params[]=$formatedInactivityCatList;
 
       $astreintesList = $team->getOnDutyTasks();
       if (!empty($astreintesList)) {
          $formatedAstreintesList = implode( ', ', $astreintesList);
-         $query .= "AND id NOT IN ($formatedAstreintesList) ";
+         $query .= " AND id NOT IN (".$sql->db_param().") ";
+         $q_params[]=$formatedAstreintesList;
       }
-      $query .= "ORDER BY id";
+      $query .= " ORDER BY id";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
+      try {
+         $result = $sql->sql_query($query, $q_params);
+      } catch (Exception $e) {
          return NULL;
       }
 
       $issues = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          #echo "DEBUG $row->id cat $row->category_id inac[$row->project_id] = ".$inactivityCatList[$row->project_id]."</br>";
          if ($row->category_id == $inactivityCatList[$row->project_id]) {
             $issues[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row)->getSummary();

@@ -132,10 +132,6 @@ class Project extends Model {
           $q_params[]=$this->id;
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
          $row = $sql->fetchObject($result);
       }
 
@@ -164,10 +160,6 @@ class Project extends Model {
       $query = "SELECT * FROM codev_project_category_table WHERE project_id = " . $sql->db_param();
       $q_params[]=$this->id;
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       $this->categoryList = array();
       while ($row = $sql->fetchObject($result)) {
@@ -192,10 +184,7 @@ class Project extends Model {
          $query  = "SELECT COUNT(id) FROM {project} WHERE id=".$sql->db_param();
          $q_params[]=$id;
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          #$found  = (0 != $sql->getNumRows($result)) ? true : false;
          $nbTuples  = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
 
@@ -221,12 +210,8 @@ class Project extends Model {
       // check if name exists
       $sql = AdodbWrapper::getInstance();
       $query  = "SELECT id FROM {project} WHERE name=".$sql->db_param();
-      $q_params[]=$projectName;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, array($projectName));
+
       $projectid = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : -1;
 
       // no error, but -1 if not found
@@ -243,12 +228,7 @@ class Project extends Model {
       // check if name exists
       $sql = AdodbWrapper::getInstance();
       $query  = "SELECT id FROM {project} WHERE name=".$sql->db_param();
-      $q_params[]=$projectName;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, array($projectName));
 
       $projectid = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : -1;
       if (-1 != $projectid) {
@@ -259,13 +239,7 @@ class Project extends Model {
       // create new Project
       $query = "INSERT INTO {project} (name, status, enabled, view_state, access_min, description, category_id, inherit_global) ".
                "VALUES (".$sql->db_param().",50,1,50,10,".$sql->db_param().",1,1);";
-      $q_params[]=$projectName;
-      $q_params[]=$projectDesc;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($projectName, $projectDesc));
 
       $projectid = AdodbWrapper::getInstance()->getInsertId();
 
@@ -275,45 +249,23 @@ class Project extends Model {
       $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
       $query = "INSERT INTO {config} (config_id,project_id,user_id,access_reqd,type,value) ".
                "VALUES ('bug_submit_status', ".$sql->db_param().", 0, 90, 1, ".$sql->db_param().")";
-      $q_params[]=$projectid;
-      $q_params[]=$status_closed;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($projectid, $status_closed));
 
       // Status to set auto-assigned issues to 'closed'
       $query = "INSERT INTO {config} (config_id,project_id,user_id,access_reqd,type,value) ".
                "VALUES ('bug_assigned_status', ".$sql->db_param().", 0, 90, 1, ".$sql->db_param().")";
-      $q_params[]=$projectid;
-      $q_params[]=$status_closed;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($projectid, $status_closed));
 
       // create leave category
       $query = "INSERT INTO {category}  (project_id, user_id, name, status) ".
               "VALUES (".$sql->db_param().",'0','Leave', '0');";
-      $q_params[]=$projectid;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      $catLeaveId = AdodbWrapper::getInstance()->getInsertId();
+      $sql->sql_query($query, array($projectid));
+      $catLeaveId = $sql->getInsertId();
 
       // create otherInternal category
       $query = "INSERT INTO {category}  (project_id, user_id, name, status) ".
               "VALUES (".$sql->db_param().",'0','Other activity', '0');";
-      $q_params[]=$projectid;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($projectid));
       $catOtherInternalId = AdodbWrapper::getInstance()->getInsertId();
 
       // --- update ExternalTasksProject in codev_config_table
@@ -345,12 +297,7 @@ class Project extends Model {
 
       // check if name exists
       $query  = "SELECT id FROM {project} WHERE name=".$sql->db_param();
-      $q_params[]=$projectName;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, array($projectName));
 
       $projectid = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : -1;
       if (-1 != $projectid) {
@@ -360,14 +307,8 @@ class Project extends Model {
 
       // create new Project
       $query = "INSERT INTO {project} (name, status, enabled, view_state, access_min, description, category_id, inherit_global) ".
-         "VALUES (".$sql->db_param().",'50','1','50','10',".$sql->db_param().",'1','0');";
-      $q_params[]=$projectName;
-      $q_params[]=$projectDesc;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+         "VALUES (".$sql->db_param().",50,1,50,10,".$sql->db_param().",1,0);";
+      $sql->sql_query($query, array($projectName, ''));
       $projectid = AdodbWrapper::getInstance()->getInsertId();
 
       // add custom fields BI,BS,RAE,DeadLine,DeliveryDate
@@ -391,11 +332,7 @@ class Project extends Model {
       $q_params[]=$deliveryDateCustomField;
       $q_params[]=$projectid;
 
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, $q_params);
 
       // when creating an new issue, the status is set to 'closed' (External Tasks have no workflow...)
       #REM first call to this function is in install step1, and $statusNames is set in step2. '90' is mantis default value for 'closed'
@@ -405,24 +342,12 @@ class Project extends Model {
       $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
       $query = "INSERT INTO {config} (config_id,project_id,user_id,access_reqd,type,value) ".
                "VALUES ('bug_submit_status',  ".$sql->db_param().",'0', '90', '1', ".$sql->db_param().")";
-      $q_params[]=$projectid;
-      $q_params[]=$status_closed;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($projectid, $status_closed));
 
       // Status to set auto-assigned issues to 'closed'
       $query = "INSERT INTO {config} (config_id,project_id,user_id,access_reqd,type,value) ".
                "VALUES ('bug_assigned_status',  ".$sql->db_param().",'0', '90', '1', ".$sql->db_param().")";
-      $q_params[]=$projectid;
-      $q_params[]=$status_closed;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($projectid, $status_closed));
 
       return $projectid;
    }
@@ -438,10 +363,6 @@ class Project extends Model {
          $query = "SELECT name FROM {category} WHERE id = ".$sql->db_param();
          $q_params[]=$id;
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
          $categoryName = $sql->sql_result($result, 0);
 
          self::$categories[$id] = $categoryName;
@@ -460,10 +381,6 @@ class Project extends Model {
       $query = "SELECT id FROM {category} WHERE name=".$sql->db_param();
       $q_params[]=$name;
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       return $sql->sql_result($result);
    }
@@ -478,10 +395,6 @@ class Project extends Model {
       $query = "SELECT version FROM {project_version} WHERE id = ".$sql->db_param();
       $q_params[]=$id;
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       return $sql->sql_result($result);
    }
@@ -500,10 +413,6 @@ class Project extends Model {
       $q_params[]=$project_id;
       $q_params[]=$version;
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
       return $sql->sql_result($result);
    }
 
@@ -534,24 +443,16 @@ class Project extends Model {
             $queryParents = "SELECT parent_id FROM {project_hierarchy} ".
                     "WHERE child_id = ".$sql->db_param().
                     " AND inherit_parent = 1 ";
-            $q_params[]=$this->id;
-            $resultParents = $sql->sql_query($queryParents, $q_params);
-            if (!$resultParents) {
-               echo "<span style='color:red'>ERROR: Query FAILED</span>";
-               exit;
-            }
+            $resultParents = $sql->sql_query($queryParents, array($this->id));
+
             while($row = $sql->fetchObject($resultParents)) {
                $formattedProjects .= ','.$row->parent_id;
             }
          }
 
          $query = "SELECT id, name FROM {category} WHERE project_id IN (".$sql->db_param().")";
-         $q_params[]=$formattedProjects;
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $result = $sql->sql_query($query, array($formattedProjects));
+
          while($row = $sql->fetchObject($result)) {
             $this->categoryCache[$row->id] = $row->name;
          }
@@ -568,16 +469,10 @@ class Project extends Model {
 
          $sql = AdodbWrapper::getInstance();
          $query = "SELECT id, version FROM {project_version} WHERE project_id = ".$sql->db_param();
-         $q_params[]=$this->id;
          if (FALSE == $withObsolete) {
             $query .= " AND obsolete=0";
          }
-
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $result = $sql->sql_query($query, array($this->id));
 
          while($row = $sql->fetchObject($result)) {
             $this->versionCache[$row->id] = $row->version;
@@ -603,12 +498,7 @@ class Project extends Model {
       // find out which customFields are already associated
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT field_id FROM {custom_field_project} WHERE project_id = ".$sql->db_param();
-      $q_params[]=$projectid;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, array($projectid));
 
       $tcCustomField = Config::getInstance()->getValue(Config::id_customField_ExtId);
       $mgrEffortEstim = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
@@ -677,11 +567,7 @@ class Project extends Model {
          $query[$pos] = ';';
 
          // add missing custom fields
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query, $q_params);
       }
    }
 
@@ -712,30 +598,17 @@ class Project extends Model {
     */
    private function addCategory($catType, $catName) {
       // create category for SideTask Project
-      $formattedCatName = AdodbWrapper::getInstance()->escapeString($catName);
       $sql = AdodbWrapper::getInstance();
       $query = "INSERT INTO {category}  (project_id, user_id, name, status)"
          . " VALUES (".$sql->db_param().",'0',".$sql->db_param().", '0')";
-      $q_params[]=$this->id;
-      $q_params[]=$formattedCatName;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, array($this->id, $catName));
 
-      $catId = AdodbWrapper::getInstance()->getInsertId();
+      $catId = $sql->getInsertId();
 
       $query = "SELECT * FROM codev_project_category_table"
          . " WHERE project_id=".$sql->db_param()
          . " AND type=".$sql->db_param();
-      $q_params[]=$this->id;
-      $q_params[]=$catType;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, array($this->id, $catType));
 
       if (0 != $sql->getNumRows($result)) {
          // should not happen...
@@ -753,11 +626,7 @@ class Project extends Model {
          $q_params[]=$catId;
          $q_params[]=$catType;
       }
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, $q_params);
 
       $this->categoryList[$catType] = $catId;
 
@@ -803,13 +672,8 @@ class Project extends Model {
       $sql = AdodbWrapper::getInstance();
       $query = "INSERT INTO {bug_text}  (description, steps_to_reproduce, additional_information)"
          . " VALUES (".$sql->db_param().", '', '')";
-      $q_params[]=$issueDesc;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      $bug_text_id = AdodbWrapper::getInstance()->getInsertId();
+      $sql->sql_query($query, array($issueDesc));
+      $bug_text_id = $sql->getInsertId();
 
       $query = "INSERT INTO {bug} (project_id, category_id, summary, priority, reproducibility, status, bug_text_id, date_submitted, last_updated) ".
                "VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().")";
@@ -823,12 +687,8 @@ class Project extends Model {
       $q_params[]=$today;
       $q_params[]=$today;
 
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      $bugt_id = AdodbWrapper::getInstance()->getInsertId();
+      $sql->sql_query($query, $q_params);
+      $bugt_id = $sql->getInsertId();
 
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("addIssue(): project_id=$this->id, category_id=$cat_id, priority=$priority, reproducibility=$reproducibility, status=$issueStatus, bug_text_id=$bug_text_id, date_submitted=$today, last_updated=$today");
@@ -841,12 +701,7 @@ class Project extends Model {
          // get $bug_resolved_status_threshold from mantis_config_table or codev_config_table if not found
          $sql = AdodbWrapper::getInstance();
          $query  = "SELECT get_project_resolved_status_threshold(".$sql->db_param().") ";
-         $q_params[]=$this->id;
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $result = $sql->sql_query($query, array($this->id));
          $this->bug_resolved_status_threshold = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : NULL;
          #echo "DEBUG $this->name .getBugResolvedStatusThreshold() = $this->bug_resolved_status_threshold<br>\n";
       }
@@ -865,13 +720,9 @@ class Project extends Model {
          $query  = "SELECT value FROM {config} ".
                  "WHERE config_id = 'bug_submit_status'".
                  " AND project_id =".$sql->db_param();
-         $q_params[]= $this->id;
 
-         $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $result = $sql->sql_query($query, array($this->id), TRUE, 1); // LIMIT 1
+
          if (0 != $sql->getNumRows($result)) {
             $this->bug_submit_status = $sql->sql_result($result, 0);
          } else {
@@ -895,12 +746,7 @@ class Project extends Model {
 
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT type FROM codev_team_project_table WHERE project_id = ".$sql->db_param();
-      $q_params[]=$this->id;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, array($this->id));
 
       return (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : -1;
    }
@@ -967,10 +813,7 @@ class Project extends Model {
          }
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          if (0 != $sql->getNumRows($result)) {
             while($row = $sql->fetchObject($result)) {
                $jobList[$row->id] = $row->name;
@@ -1012,10 +855,7 @@ class Project extends Model {
          $query  .= " ORDER BY id DESC";
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         
          while($row = $sql->fetchObject($result)) {
             $issueList[] = $row->id;
          }
@@ -1059,10 +899,7 @@ class Project extends Model {
          $query  .= " ORDER BY id DESC";
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          while($row = $sql->fetchObject($result)) {
             $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);;
          }
@@ -1087,10 +924,7 @@ class Project extends Model {
          $query = "SELECT * FROM codev_team_project_table WHERE project_id = ".$sql->db_param();
          $q_params[]=$this->id;
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          while($row = $sql->fetchObject($result)) {
             if(self::$logger->isDebugEnabled()) {
                self::$logger->debug("getTeamTypeList: proj $row->project_id team $row->team_id type $row->type");
@@ -1249,10 +1083,7 @@ class Project extends Model {
       $q_params[]=$this->id;
 
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       if (0 == $sql->getNumRows($result)) {
          // return default from config.ini file
          self::$logger->debug("Default status_enum_workflow for project $this->id");
@@ -1322,10 +1153,6 @@ class Project extends Model {
       $q_params[]=$this->id;
 
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       $configItems = array();
       while($row = $sql->fetchObject($result)) {
@@ -1349,16 +1176,12 @@ class Project extends Model {
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT DISTINCT config_id FROM {config} ".
                "WHERE project_id = ".$sql->db_param();
-      $q_params[]=$srcProjectId;
+
       #if(self::$logger->isDebugEnabled()) {
       #   self::$logger->debug("cloneAllProjectConfig: Src query=$query");
       #}
 
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, array($srcProjectId));
       $srcConfigList = array();
       while($row = $sql->fetchObject($result)) {
          $srcConfigList[] = $row->config_id;
@@ -1381,31 +1204,23 @@ class Project extends Model {
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("cloneAllProjectConfig: deleteQuery = $query");
       }
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql->sql_query($query, $q_params);
 
       //--- clone all srcProj config to destProj
       foreach ($srcConfigList as $cid) {
-         $query = "INSERT INTO {config} ".
+         $query2 = "INSERT INTO {config} ".
                   "(config_id, project_id, user_id, access_reqd, type, value) ".
                   "   (SELECT config_id, ".$sql->db_param().", user_id, access_reqd, type, value ".
                   "    FROM {config} ".
                   "    WHERE project_id= ".$sql->db_param().
                   "    AND config_id=".$sql->db_param().") ";
-         $q_params[]=$destProjectId;
-         $q_params[]=$srcProjectId;
-         $q_params[]=$cid;
+         $q_params2[]=$destProjectId;
+         $q_params2[]=$srcProjectId;
+         $q_params2[]=$cid;
          if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("cloneAllProjectConfig: cloneQuery = $query");
+            self::$logger->debug("cloneAllProjectConfig: cloneQuery = $query2");
          }
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql->sql_query($query2, $q_params2);
       }
 
       return "SUCCESS ! (".count($srcConfigList)." config items cloned.)";
@@ -1455,10 +1270,7 @@ class Project extends Model {
          $q_params[]=$this->id;
          $q_params[]=$target_version;
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          $targetVersionDate = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
 
          if(self::$logger->isDebugEnabled()) {
@@ -1523,10 +1335,11 @@ class Project extends Model {
     * @return string[] The projects : name[id]
     */
    public static function getProjects() {
-      $sql = AdodbWrapper::getInstance();
-      $query = 'SELECT id, name FROM {project} ORDER BY name';
-      $result = $sql->sql_query($query);
-      if (!$result) {
+      try {
+         $sql = AdodbWrapper::getInstance();
+         $query = 'SELECT id, name FROM {project} ORDER BY name';
+         $result = $sql->sql_query($query);
+      } catch (Exception $e) {
          return NULL;
       }
 
@@ -1550,12 +1363,8 @@ class Project extends Model {
       $query = "SELECT * FROM {bug} " .
                " WHERE project_id IN (".$sql->db_param().") " .
                " ORDER BY id DESC";
-      $q_params[]=$formatedProjList;
-      $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, array($formatedProjList));
+
       $issueList = array();
       if (0 != $sql->getNumRows($result)) {
          while ($row = $sql->fetchObject($result)) {
@@ -1617,10 +1426,7 @@ class Project extends Model {
               " ORDER BY {custom_field}.name";
       $q_params[]=$this->id;
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       $customFieldsList = array();
       while ($row = $sql->fetchObject($result)) {
          $customFieldsList["$row->field_id"] = $row->name;
@@ -1670,10 +1476,7 @@ class Project extends Model {
          #}
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+
          if (0 != $sql->getNumRows($result)) {
             $serialized = $sql->sql_result($result, 0);
 
@@ -1731,10 +1534,6 @@ class Project extends Model {
         $q_params[]=$this->id;
 
         $result = $sql->sql_query($query, $q_params);
-        if (!$result) {
-           echo "<span style='color:red'>ERROR: Query FAILED</span>";
-           exit;
-        }
 
         $count = $sql->getNumRows($result);
         if($count != 0) {
