@@ -40,7 +40,7 @@ class CommandInfoController extends Controller {
             // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
             $cmdid = 0;
             if(isset($_POST['cmdid'])) {
-               $cmdid = Tools::getSecurePOSTIntValue('cmdid');
+               $cmdid = Tools::getSecurePOSTIntValue('cmdid', 0);
                $_SESSION['cmdid'] = $cmdid;
             } else if(isset($_GET['cmdid'])) {
                $cmdid = Tools::getSecureGETIntValue('cmdid');
