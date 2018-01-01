@@ -230,7 +230,7 @@ class ProjectActivityReportController extends Controller {
 
 // ========== MAIN ===========
 ProjectActivityReportController::staticInit();
-$controller = new ProjectActivityReportController('../', 'Weekly activities','TimeTracking');
+$controller = new ProjectActivityReportController('../', 'Project activities','TimeTracking');
 $controller->execute();
 
 

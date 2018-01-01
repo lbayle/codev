@@ -142,7 +142,7 @@ class TeamActivityReportController extends Controller {
       return array(
          "color" => $bgColor,
          "title" => $title,
-         "duration" => $duration
+         "duration" => (float)$duration
       );
    }
 

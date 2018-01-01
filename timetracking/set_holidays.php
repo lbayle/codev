@@ -44,25 +44,25 @@ class SetHolidaysController extends Controller {
         } else {
              
             $team = TeamCache::getInstance()->getTeam($this->teamid);
+            $nextForm = Tools::getSecurePOSTStringValue('nextForm','');
+            $userid = Tools::getSecurePOSTIntValue('userid',$this->session_userid);
 
             // if first call to this page
-            if (!array_key_exists('nextForm',$_POST)) {
+            if ('' === $nextForm) {
                $activeMembers = $team->getActiveMembers(NULL, NULL, TRUE);
                if ($this->session_user->isTeamManager($this->teamid)) {
                   $this->smartyHelper->assign('users', SmartyTools::getSmartyArray($activeMembers, $this->session_userid));
                } else {
                   // developper & manager can add timeTracks
                   if (array_key_exists($this->session_userid, $activeMembers)) {
-                     $_POST['userid'] = $this->session_userid;
-                     $_POST['nextForm'] = "addHolidaysForm";
+                     //$_POST['userid'] = $this->session_userid;
+                     $nextForm = "addHolidaysForm";
                      //$_POST['days'] = 'dayid';
                   }
                }
             }
 
-            $nextForm = Tools::getSecurePOSTStringValue('nextForm','');
-            if ($nextForm == "addHolidaysForm") {
-               $userid = Tools::getSecurePOSTIntValue('userid',$this->session_userid);
+            if ("addHolidaysForm" === $nextForm) {
 
                $managed_user = UserCache::getInstance()->getUser($userid);
 
