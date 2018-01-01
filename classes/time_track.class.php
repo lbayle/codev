@@ -177,7 +177,7 @@ class TimeTrack extends Model implements Comparable {
       if (!is_null($cost)) {
          $query .= ", cost, currency";
       }
-      $query .= ") VALUES ($userid,$bugid,$job,$timestamp, $duration, $committerid, $commit_date";
+      $query .= ") VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param();
       $q_params=array($userid,$bugid,$job,$timestamp, $duration, $committerid, $commit_date);
 
       if (!is_null($cost)) {
@@ -258,7 +258,7 @@ class TimeTrack extends Model implements Comparable {
 
       $sql = AdodbWrapper::getInstance();
       try {
-         $query = "SELECT `noteid` FROM codev_timetrack_note_table WHERE timetrackid=".$sql->db_param();
+         $query = "SELECT noteid FROM codev_timetrack_note_table WHERE timetrackid=".$sql->db_param();
          $result = $sql->sql_query($query, array($this->id));
       } catch ( Exception $e) {
          return false;

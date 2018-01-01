@@ -1778,7 +1778,7 @@ class User extends Model {
 
             #$now = time();
             #$emailDate = mktime(0, 0, 0, date('m', $now), date('d',$now), date('Y', $now));
-            #SELECT count(*) FROM `mantis_email_table` WHERE `subject` LIKE '%CodevTT%' AND `email` = '$emailAddress' AND submitted= '$emailDate'
+            #SELECT count(*) FROM mantis_email_table WHERE subject LIKE '%CodevTT%' AND email = '$emailAddress' AND submitted= '$emailDate'
             
             Email::getInstance()->sendEmail( $emailAddress, $emailSubject, $emailBody );
          }

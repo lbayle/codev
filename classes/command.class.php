@@ -186,7 +186,7 @@ class Command extends Model {
          $wbsid = $wbs->getId();
 
          // create Command
-         $query = "INSERT INTO codev_command_table  (`name`, `team_id`, `wbs_id`) ".
+         $query = "INSERT INTO codev_command_table  (name, team_id, wbs_id) ".
             "VALUES (".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().")";
          $q_params[]=$name;
          $q_params[]=$teamid;

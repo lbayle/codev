@@ -166,10 +166,10 @@ class IssueNote {
       $sql = AdodbWrapper::getInstance();
       $query2 = "SELECT note.id, note.bugnote_text_id ".
                "FROM {bugnote} as note ".
-               " WHERE note.bug_id =  ".$sql->db_param().
+               " WHERE note.bug_id = ".$sql->db_param().
                " AND 0 <> (SELECT COUNT(id) FROM {bugnote_text}".
                "            WHERE id = note.bugnote_text_id".
-               "            AND note LIKE ".self::tagid_timesheetNote.$sql->db_param().") ".
+               "            AND note LIKE ".$sql->db_param().") ".
                "ORDER BY note.date_submitted DESC";
       $q_params[]=$bug_id;
       $q_params[]='%'.self::tagid_timesheetNote.$sql->db_param().'%';

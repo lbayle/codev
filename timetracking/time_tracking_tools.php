@@ -91,7 +91,7 @@ class TimeTrackingTools {
                //
             }
 
-            $dayTasks = "";
+            $dayTasks = array();
             for ($i = 1; $i <= 7; $i++) {
                $title = NULL;
                $bgColor = NULL;

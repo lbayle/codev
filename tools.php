@@ -57,12 +57,9 @@ class Tools {
    public static function isMantisV1_2() {
 
       if (is_null(self::$MantisDbVersion)) {
-         $query = "SELECT value FROM {config} WHERE `config_id` = 'database_version';";
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT value FROM {config} WHERE config_id = 'database_version';";
+         $result = $sql->sql_query($query);
          if (0 != $sql->getNumRows($result)) {
             self::$MantisDbVersion = (int)$sql->sql_result($result, 0);
          }
@@ -589,13 +586,8 @@ class Tools {
       #echo "DEBUG execSQLscript $sqlFile<br>";
       $request = "SELECT LOAD_FILE('".$sqlFile."')";
 
-      $result = SqlWrapper::getInstance()->sql_query($request);
-
-      if (!$result) {
-         $error = "ERROR : ".$request." : ".AdodbWrapper::getInstance()->getErrorMsg();
-         echo "<span class='error_font'>$error</span><br>";
-         exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $result = $sql->sql_query($request);
 
       if (is_null($sql->sql_result($result, 0))) {
          $error = 'ERROR : could not LOAD_FILE ('.$sqlFile.')';
@@ -606,8 +598,8 @@ class Tools {
          // SELECT LOAD_FILE doesn't work on all OS !
          $request = "";
 
-         $sql=file($sqlFile);
-         foreach($sql as $l){
+         $sql_f=file($sqlFile);
+         foreach($sql_f as $l){
             $l = trim($l);
             if(strlen($l) > 0) {
                if (substr($l,0,2) != "--"){ // remove comments
@@ -619,11 +611,7 @@ class Tools {
          $reqs = split(";",$request);// identify single requests
          foreach($reqs as $req) {
             if(strlen($req) > 0) {
-               if (!SqlWrapper::getInstance()->sql_query($req)) {
-                  echo "<span class='error_font'>FAILED</span><br>";
-                  die("ERROR : ".$req." : ".AdodbWrapper::getInstance()->getErrorMsg());
-                  //return false;
-               }
+               $sql->sql_query($req);
             }
          }
          echo "<span class='success_font'>SUCCESS</span><br>";
@@ -1264,6 +1252,7 @@ class Tools {
                               $default_value = '', $possible_values = '') {
       // get existing Mantis custom fields
       $fieldList = array();
+      $sql = AdodbWrapper::getInstance();
 
       if (NULL == $attributes) {
          $attributes = array();
@@ -1283,7 +1272,8 @@ class Tools {
       }
 
       $query = "SELECT id, name FROM {custom_field}";
-      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>" . mysql_error() . "</span>");
+      $result = $sql->sql_query($query);
+
       while ($row = mysql_fetch_object($result)) {
          $fieldList["$row->name"] = $row->id;
       }
@@ -1291,28 +1281,44 @@ class Tools {
       $fieldId = $fieldList[$fieldName];
       if (!$fieldId) {
          $query2 = "INSERT INTO {custom_field} " .
-            "(`name`, `type` ,`access_level_r`," .
-            "                 `access_level_rw` ,`require_report` ,`require_update` ,`display_report` ,`display_update` ,`require_resolved` ,`display_resolved` ,`display_closed` ,`require_closed` ";
-         $query2 .= ", `possible_values`, `default_value`";
+            "(name, type ,access_level_r," .
+              " access_level_rw ,require_report ,require_update ,display_report ,display_update ,"
+            . " require_resolved ,display_resolved ,display_closed ,require_closed ,"
+            . " possible_values, default_value";
 
-         $query2 .= ") VALUES ('$fieldName', '$fieldType', '" . $attributes["access_level_r"] . "', '" .
-            $attributes["access_level_rw"] . "', '" .
-            $attributes["require_report"] . "', '" .
-            $attributes["require_update"] . "', '" .
-            $attributes["display_report"] . "', '" .
-            $attributes["display_update"] . "', '" .
-            $attributes["require_resolved"] . "', '" .
-            $attributes["display_resolved"] . "', '" .
-            $attributes["display_closed"] . "', '" .
-            $attributes["require_closed"] . "'";
+         $query2 .= ") VALUES (".$sql->db_param().", ".$sql->db_param().", "
+            .$sql->db_param() . ", " .
+            $sql->db_param() . ", " .
+            $sql->db_param() . ", " .
+            $sql->db_param() . ", " .
+            $sql->db_param() . ", " .
+            $sql->db_param() . ", " .
+            $sql->db_param() . ", " .
+            $sql->db_param() . ", " .
+            $sql->db_param() . ", " .
+            $sql->db_param() . ", ".
+            $sql->db_param().", ".
+            $sql->db_param().")";
 
-         $query2 .= ", '$possible_values', '$default_value'";
-         $query2 .= ");";
+         $q_params2[]=$fieldName;
+         $q_params2[]=$fieldType;
+         $q_params2[]=$attributes["access_level_r"];
+         $q_params2[]=$attributes["access_level_rw"].
+         $q_params2[]=$attributes["require_report"];
+         $q_params2[]=$attributes["require_update"];
+         $q_params2[]=$attributes["display_report"];
+         $q_params2[]=$attributes["display_update"];
+         $q_params2[]=$attributes["require_resolved"];
+         $q_params2[]=$attributes["display_resolved"];
+         $q_params2[]=$attributes["display_closed"];
+         $q_params2[]=$attributes["require_closed"];
+         $q_params2[]=$possible_values;
+         $q_params2[]=$default_value;
 
          #echo "DEBUG INSERT $fieldName --- query $query2 <br/>";
 
-         $result2 = mysql_query($query2) or die("<span style='color:red'>Query FAILED: $query2 <br/>" . mysql_error() . "</span>");
-         $fieldId = mysql_insert_id();
+         $sql->sql_query($query2, $q_params2);
+         $fieldId = $sql->getInsertId();
 
          #echo "custom field '$configId' created.<br/>";
       } else {
@@ -1460,12 +1466,10 @@ class Tools {
          $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
 
          self::$customFieldNames = array();
+         $sql = AdodbWrapper::getInstance();
          $query = "SELECT id, name FROM {custom_field} ";
-         $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $result = $sql->sql_query($query);
+
          while($row = $sql->fetchObject($result)) {
             $name = NULL;
             switch (intval($row->id)) {

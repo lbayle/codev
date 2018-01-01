@@ -41,10 +41,11 @@ function execQuery($query) {
 function removeCustomMenuItem($name) {
 
    // get current mantis custom menu entries
+   $sql = AdodbWrapper::getInstance();
    $query = "SELECT value FROM {config} WHERE config_id = 'main_menu_custom_options'";
    $result = execQuery($query);
 
-   $serialized = (0 != SqlWrapper::getInstance()->mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+   $serialized = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : NULL;
 
    // add entry
    if ((!is_null($serialized)) && ("" != $serialized)) {

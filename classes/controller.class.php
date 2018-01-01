@@ -58,7 +58,7 @@ abstract class Controller {
             $this->teamid = Tools::getSecureGETIntValue('teamid');
             $_SESSION['teamid'] = $this->teamid;
          } else {
-            $this->teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+            $this->teamid = isset($_SESSION['teamid']) ? (int)$_SESSION['teamid'] : 0;
          }
          $this->smartyHelper->assign('teamid', $this->teamid);
 
@@ -67,7 +67,7 @@ abstract class Controller {
             $this->smartyHelper->assign('teamName', $team->getName());
          }
 
-         $this->session_userid = $_SESSION['userid'];
+         $this->session_userid = (int)$_SESSION['userid'];
          $this->session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
          $this->teamList = $this->session_user->getTeamList();
 

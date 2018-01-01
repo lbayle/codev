@@ -150,7 +150,7 @@ class SmartyHelper {
 
          self::$logger->info('PERF: ' . $generatedTime . 'sec | Mem ' . $memUsage . ' | Peak ' . $peakMemAlloc . ' --- ' . $_SERVER['PHP_SELF'] . ' --- ');
       }
-      SqlWrapper::getInstance()->logStats();
+      //SqlWrapper::getInstance()->logStats();
       /*
             IssueCache::getInstance()->logStats();
             ProjectCache::getInstance()->logStats();
@@ -194,4 +194,4 @@ class SmartyHelper {
 }
 
 SmartyHelper::staticInit();
-?>
+
