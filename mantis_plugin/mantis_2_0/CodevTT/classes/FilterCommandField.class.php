@@ -82,7 +82,7 @@ class FilterCommandField extends MantisFilter {
       //require_api( 'logging_api.php' );
       //log_event(LOG_FILTERING, "display( $p_filter_value )");
 
-      $query = "SELECT name, reference FROM `codev_command_table` WHERE id = " . db_param() ;
+      $query = "SELECT name, reference FROM codev_command_table WHERE id = " . db_param() ;
       $result = db_query($query, array( $p_filter_value));
       $row = db_fetch_array( $result );
       $display = /* $row['reference'] . " :: " . */ $row['name'];
@@ -121,7 +121,7 @@ class FilterCommandField extends MantisFilter {
 
       // find user teams
       $query = "SELECT DISTINCT codev_team_table.id, codev_team_table.name " .
-               "FROM `codev_team_user_table`, `codev_team_table` " .
+               "FROM codev_team_user_table, codev_team_table " .
                "WHERE codev_team_user_table.team_id = codev_team_table.id ".
                "AND   codev_team_user_table.user_id = " . db_param();
 
@@ -141,7 +141,7 @@ class FilterCommandField extends MantisFilter {
       if (0 != count($teamidList)) {
          $formattedTeamList = implode(", ", $teamidList);
 
-         $query = "SELECT id, name, reference FROM `codev_command_table` ".
+         $query = "SELECT id, name, reference FROM codev_command_table ".
                   "WHERE team_id IN (" . $formattedTeamList . ") ".
                   "AND enabled = 1 ";
 

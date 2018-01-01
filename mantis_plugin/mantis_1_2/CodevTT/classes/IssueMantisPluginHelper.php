@@ -48,15 +48,16 @@ class IssueMantisPluginHelper {
       
       $query = "SELECT value FROM codev_config_table WHERE config_id = ". db_param();
       $result = db_query_bound($query, array( IssueMantisPluginHelper::id_customField_backlog ));
-	  $row = db_fetch_array( $result );
+	   $row = db_fetch_array( $result );
 
-	  if( $row )
-		$backlogCustomField    = $row['value'];
-	  else
-	    $backlogCustomField    = 0;
+	   if( $row ) {
+		   $backlogCustomField    = $row['value'];
+      } else {
+	      $backlogCustomField    = 0;
+      }
 
       // TODO should be done only once...
-      $query = "SELECT name FROM mantis_custom_field_table WHERE id = " . db_param();
+      $query = "SELECT name FROM {custom_field} WHERE id = " . db_param();
       $result = db_query_bound($query, array($backlogCustomField));
       $row = db_fetch_array( $result );
 
@@ -66,17 +67,17 @@ class IssueMantisPluginHelper {
 	    $field_name = "Backlog (BL)";
 
       // check if backlog already defined for this issue
-      $query = "SELECT value FROM `mantis_custom_field_string_table` WHERE bug_id=" . db_param() . " AND field_id = " . db_param();
+      $query = "SELECT value FROM {custom_field_string} WHERE bug_id=" . db_param() . " AND field_id = " . db_param();
       $result = db_query_bound($query, array( $this->id, $backlogCustomField ) );
       $row = db_fetch_array( $result );
 	  
       if ($row) {
          $old_backlog = $row['value'];
-         $query2 = "UPDATE mantis_custom_field_string_table SET value = " . db_param() . " WHERE bug_id=" . db_param() . " AND field_id = " . db_param();
+         $query2 = "UPDATE {custom_field_string} SET value = " . db_param() . " WHERE bug_id=" . db_param() . " AND field_id = " . db_param();
 		 $result2 = db_query_bound($query2, array($backlog, $this->id,$backlogCustomField));
       } else {
          $old_backlog = '';
-         $query2 = "INSERT INTO mantis_custom_field_string_table (`field_id`, `bug_id`, `value`) VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ")";
+         $query2 = "INSERT INTO {custom_field_string} (field_id, bug_id, value) VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ")";
 		 $result2 = db_query_bound($query2, array( $backlogCustomField, $this->id, $backlog ));
       }
       
@@ -85,7 +86,7 @@ class IssueMantisPluginHelper {
       if ("$old_backlog" != "$backlog") {
          $userid = current_user_get_field( 'id' );
          $now = time();
-         $query = "INSERT INTO mantis_bug_history_table  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
+         $query = "INSERT INTO {bug_history}  (user_id, bug_id, field_name, old_value, new_value, type, date_modified) ".
                   "VALUES (" . db_param() . "," . db_param() . "," . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ")";
          $result = db_query_bound($query, array( $userid, $this->id, $field_name, $old_backlog, $backlog, 0, $now  ));
       }

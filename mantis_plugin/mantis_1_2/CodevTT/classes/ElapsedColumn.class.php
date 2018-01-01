@@ -22,7 +22,7 @@ class ElapsedColumn extends MantisColumn {
       }
       $str_bug_ids = implode( ',', $t_bug_ids );
 
-      $t_query  = "SELECT bugid, SUM(duration) as duration FROM `codev_timetracking_table` tt
+      $t_query  = "SELECT bugid, SUM(duration) as duration FROM codev_timetracking_table tt
                     WHERE bugid IN ( $str_bug_ids )
                     GROUP BY bugid";
 
@@ -57,7 +57,7 @@ class ElapsedColumn extends MantisColumn {
       //require_api( 'logging_api.php' );
       //log_event(LOG_FILTERING, "display( $p_bug->id )");
 
-      $query = "SELECT SUM(duration) as duration FROM `codev_timetracking_table` WHERE bugid = ". db_param();
+      $query = "SELECT SUM(duration) as duration FROM codev_timetracking_table WHERE bugid = ". db_param();
       $result = db_query_bound($query, array( $p_bug->id ));
       $row = db_fetch_array( $result );
 

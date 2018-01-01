@@ -16,13 +16,13 @@ DETERMINISTIC
 BEGIN
    DECLARE status INT DEFAULT NULL;
    
-   SELECT value INTO status FROM `mantis_config_table` 
+   SELECT value INTO status FROM mantis_config_table 
           WHERE config_id = 'bug_resolved_status_threshold' 
           AND project_id = proj_id
           LIMIT 1;
    
    IF status <=> NULL THEN
-      SELECT value INTO status FROM `codev_config_table`
+      SELECT value INTO status FROM codev_config_table
              WHERE config_id = 'bug_resolved_status_threshold' 
              AND project_id = 0
              LIMIT 1;
@@ -44,7 +44,7 @@ DETERMINISTIC
 BEGIN
    DECLARE proj_id INT DEFAULT NULL;
    
-   SELECT project_id INTO proj_id FROM `mantis_bug_table`
+   SELECT project_id INTO proj_id FROM mantis_bug_table
              WHERE id = bug_id
              LIMIT 1;
    
@@ -67,7 +67,7 @@ BEGIN
 
 
 
-   SELECT COUNT(team_id) INTO is_found FROM `codev_team_project_table`
+   SELECT COUNT(team_id) INTO is_found FROM codev_team_project_table
           WHERE team_id = teamid
           AND   project_id = projid
           LIMIT 1;
@@ -87,7 +87,7 @@ DETERMINISTIC
 BEGIN
    DECLARE is_found INT DEFAULT NULL;
 
-   SELECT COUNT(codev_command_bug_table.bug_id) INTO is_found FROM `codev_command_bug_table`, `codev_command_table`
+   SELECT COUNT(codev_command_bug_table.bug_id) INTO is_found FROM codev_command_bug_table, codev_command_table
           WHERE codev_command_table.id = codev_command_bug_table.command_id
           AND   codev_command_table.team_id = teamid
           AND   codev_command_bug_table.bug_id = bugid

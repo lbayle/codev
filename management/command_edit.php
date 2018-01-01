@@ -334,6 +334,7 @@ class CommandEditController extends Controller {
     */
    private function getChildIssuesCandidates($teamid) {
       $issueArray = array();
+      $sql = AdodbWrapper::getInstance();
 
       // team projects except externalTasksProject & NoStats projects
       $projects = TeamCache::getInstance()->getTeam($this->teamid)->getProjects();
@@ -342,18 +343,14 @@ class CommandEditController extends Controller {
 
       $formattedProjectList = implode (', ', array_keys($projects));
 
-      $query  = "SELECT * FROM `mantis_bug_table` ".
-         "WHERE project_id IN ($formattedProjectList) ".
-         "AND 0 = is_issue_in_team_commands(id, $teamid) ".
-         "ORDER BY id DESC";
+      $query  = "SELECT * FROM {bug} ".
+         " WHERE project_id IN (".$sql->db_param().") ".
+         " AND 0 = is_issue_in_team_commands(id, ".$sql->db_param().") ".
+         " ORDER BY id DESC";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, array($formattedProjectList, $teamid));
 
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
          $issueArray[$row->id] = array(
             //"mantisLink" => mantisIssueURL($issue->bugId, NULL, true),

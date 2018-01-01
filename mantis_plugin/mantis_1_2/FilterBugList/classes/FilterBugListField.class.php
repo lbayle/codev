@@ -103,7 +103,7 @@ class FilterBugListField extends MantisFilter {
           return;
       }
       
-      $t_bug_table = db_get_table( 'mantis_bug_table' );
+      $t_bug_table = db_get_table( '{bug}' );
       
 
       $t_query = array(

@@ -173,7 +173,7 @@ class CodevTTPlugin extends MantisPlugin {
       if (!$this->isAccessGranted($project_id)) {
          log_event(LOG_FILTERING, "report_bug_form | user not allowed to update Commands");
       } else {
-         $assigned_query = "SELECT `command_id` FROM `codev_command_bug_table` WHERE `bug_id` = " . db_param();
+         $assigned_query = "SELECT command_id FROM codev_command_bug_table WHERE bug_id = " . db_param();
          $assigned_request = db_query($assigned_query, array( $t_bug_id ));
          $assigned_commands = array();
          while ($row = db_fetch_array( $assigned_request )) {
@@ -228,7 +228,7 @@ class CodevTTPlugin extends MantisPlugin {
                 db_query($delete_query, array( $p_bugData_prev->id, $prev_cmd_id ));
 
                 // remove from WBS
-                $delete_from_wbs_query = "DELETE FROM `codev_wbs_table` WHERE root_id = (SELECT wbs_id from codev_command_table where id = ".db_param().") AND bug_id = ".db_param();
+                $delete_from_wbs_query = "DELETE FROM codev_wbs_table WHERE root_id = (SELECT wbs_id from codev_command_table where id = ".db_param().") AND bug_id = ".db_param();
                 db_query($delete_from_wbs_query, array( $prev_cmd_id, $p_bugData_prev->id ));
 
               }
@@ -260,7 +260,7 @@ class CodevTTPlugin extends MantisPlugin {
       if (!$this->isAccessGranted($project_id)) {
          log_event(LOG_FILTERING, "report_bug_form | user not allowed to view Commands");
       } else {
-         $query  = "SELECT codev_command_table.* FROM `codev_command_bug_table`, `codev_command_table` ".
+         $query  = "SELECT codev_command_table.* FROM codev_command_bug_table, codev_command_table ".
                     "WHERE codev_command_bug_table.bug_id=" . db_param() . " " .
                     "AND codev_command_table.id = codev_command_bug_table.command_id ".
                     "ORDER BY codev_command_table.name";
@@ -291,10 +291,10 @@ class CodevTTPlugin extends MantisPlugin {
    public function bug_delete($event, $bug_id) {
 
       $query = "SELECT codev_timetracking_table.date, codev_timetracking_table.userid, codev_timetracking_table.duration, ".
-              "mantis_user_table.username, mantis_user_table.realname ".
-              "FROM `codev_timetracking_table`, `mantis_user_table` ".
+              "{user}.username, {user}.realname ".
+              "FROM codev_timetracking_table, {user} ".
               "WHERE codev_timetracking_table.bugid = " . db_param() . " ".
-              "AND codev_timetracking_table.userid = mantis_user_table.id ";
+              "AND codev_timetracking_table.userid = {user}.id ";
 
       $errMsg = "";
       $result = db_query($query, array( $bug_id ) );
@@ -336,11 +336,11 @@ class CodevTTPlugin extends MantisPlugin {
    public function projectDelete($event, $project_id) {
 
       $query = "SELECT codev_timetracking_table.bugid, codev_timetracking_table.date, codev_timetracking_table.userid, codev_timetracking_table.duration, ".
-              "mantis_user_table.username, mantis_user_table.realname ".
-              "FROM `codev_timetracking_table`, `mantis_user_table` ".
-              "WHERE codev_timetracking_table.userid = mantis_user_table.id ".
+              "{user}.username, {user}.realname ".
+              "FROM codev_timetracking_table, {user} ".
+              "WHERE codev_timetracking_table.userid = {user}.id ".
               "AND codev_timetracking_table.bugid IN (".
-              "   SELECT id FROM mantis_bug_table WHERE project_id = " . db_param() . ")";
+              "   SELECT id FROM {bug} WHERE project_id = " . db_param() . ")";
 
       $errMsg = "";
       $result = db_query($query, array( $project_id ) );
@@ -359,7 +359,7 @@ class CodevTTPlugin extends MantisPlugin {
 
       // find user teams
       $query = "SELECT DISTINCT codev_team_table.id, codev_team_table.name " .
-               "FROM `codev_team_user_table`, `codev_team_table` " .
+               "FROM codev_team_user_table, codev_team_table " .
                "WHERE codev_team_user_table.team_id = codev_team_table.id ".
                "AND   codev_team_user_table.user_id = " . db_param();
 
@@ -389,7 +389,7 @@ class CodevTTPlugin extends MantisPlugin {
       if (0 != count($teamidList)) {
          $formattedTeamList = implode(", ", $teamidList);
 
-         $query = "SELECT id, name, reference FROM `codev_command_table` ".
+         $query = "SELECT id, name, reference FROM codev_command_table ".
                   "WHERE team_id IN (" . $formattedTeamList . ") ".
                   "AND enabled = 1 ";
 
@@ -411,8 +411,8 @@ class CodevTTPlugin extends MantisPlugin {
 
      $cmdList = array();
 
-     $query = "SELECT codev_command_table.id, codev_command_table.name, codev_command_table.reference FROM `codev_command_table` ".
-              "JOIN `codev_command_bug_table` ON codev_command_table.id = codev_command_bug_table.command_id ".
+     $query = "SELECT codev_command_table.id, codev_command_table.name, codev_command_table.reference FROM codev_command_table ".
+              "JOIN codev_command_bug_table ON codev_command_table.id = codev_command_bug_table.command_id ".
               "WHERE codev_command_bug_table.bug_id = ".db_param();
 
      $result = db_query($query, array( $p_bug_id));
@@ -432,7 +432,7 @@ class CodevTTPlugin extends MantisPlugin {
      //TODO test if command id is valid !!!!
 
      // === create bug-command associations
-     $query = "INSERT INTO `codev_command_bug_table` (`command_id`, `bug_id`) VALUES";
+     $query = "INSERT INTO codev_command_bug_table (command_id, bug_id) VALUES";
      $query .= " (" . db_param() . ", " . db_param() . ");";
      db_query($query, array( $command_id, $p_bug_id ) );
 
@@ -450,7 +450,7 @@ class CodevTTPlugin extends MantisPlugin {
      if (is_null($wbs_id)) {
         #echo "Create WBS root element for Command $command_id<br>";
         // add root element
-        $query3 = "INSERT INTO codev_wbs_table  (`order`, `expand`, `title`) ".
+        $query3 = "INSERT INTO codev_wbs_table  (order, expand, title) ".
                 "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ")";
         db_query($query3, array( 1, 1, $cmd_name ));
         $wbs_id = db_insert_id();
@@ -463,7 +463,7 @@ class CodevTTPlugin extends MantisPlugin {
         $result6 = db_query($query6, array( $command_id));
         while ($row6 = db_fetch_array( $result6 )) {
            #echo "add issue $row6->bug_id to command $command_id<br>";
-           $query7 = "INSERT INTO codev_wbs_table  (`root_id`, `parent_id`, `bug_id`, `order`, `expand`) ".
+           $query7 = "INSERT INTO codev_wbs_table  (root_id, parent_id, bug_id, order, expand) ".
                    "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ")";
            #echo "SQL query7 = $query7<br>";
            $result7 = db_query($query7, array( $wbs_id, $wbs_id, $row6['bug_id'], $order, 0));
@@ -471,7 +471,7 @@ class CodevTTPlugin extends MantisPlugin {
         }
      } else {
         // 3) add bug_id to the wbs root element
-        $query5 = "INSERT INTO codev_wbs_table  (`root_id`, `parent_id`, `bug_id`, `order`, `expand`) ".
+        $query5 = "INSERT INTO codev_wbs_table  (root_id, parent_id, bug_id, order, expand) ".
                 "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ")";
         #echo "SQL query5 = $query5<br>";
         db_query($query5, array( $wbs_id, $wbs_id, $p_bug_id, $order, 0 ));
