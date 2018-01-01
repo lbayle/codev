@@ -52,11 +52,10 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $observedProjList = count($oTeamList) > 0 ? $user->getProjectList($oTeamList, true, $withDisabled) : array();
          $projList = $allProject + $devProjList + $managedProjList + $observedProjList;
 
-         // WORKAROUND
-         if($_GET['bugid'] == 'null') {
-            $_GET['bugid'] = 0;
-         }
-         $smartyHelper->assign('bugs', SmartyTools::getBugs(Tools::getSecureGETIntValue('projectid'),Tools::getSecureGETIntValue('bugid',0),$projList));
+         $projectid = Tools::getSecureGETIntValue('projectid');
+         $bugid = Tools::getSecureGETIntValue('bugid',0);
+
+         $smartyHelper->assign('bugs', SmartyTools::getBugs($projectid, $bugid, $projList));
          $smartyHelper->display('form/bugSelector');
       }
       elseif($_GET['action'] == 'getYearsToNow') {

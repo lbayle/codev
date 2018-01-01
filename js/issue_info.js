@@ -52,10 +52,17 @@ jQuery(document).ready(function() {
 
 jQuery("#projectid").change(function() {
    var projectid = jQuery(this).val();
+   var bugid=jQuery("#bugid").val();
+
+   // WORKAROUND
+   if (null === bugid ) {
+      bugid = "0";
+   }
+
    jQuery.ajax({
       type: "GET",
       url: "smarty_tools_ajax.php",
-      data: "action=getProjectIssues&projectid="+projectid+"&bugid="+jQuery("#bugid").val(),
+      data: "action=getProjectIssues&projectid="+projectid+"&bugid="+bugid,
       success: function(data) {
          jQuery("#bugSelector").html(jQuery.trim(data));
          updateWidgets("#bugSelector");

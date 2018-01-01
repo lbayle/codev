@@ -884,7 +884,7 @@ class Team extends Model {
          throw new Exception("Couldn't check existing jobs for project $projectid");
       }
       $count = $sql->sql_result($result2);
-      self::$logger->error("count jobs = $count");
+      //self::$logger->error("count jobs = $count");
       if (0 == $count) {
          // if no job defined yet, then default jobs (previously: commonJobs) must be assigned.
          $query3 = "INSERT INTO codev_project_job_table(project_id, job_id) ".

@@ -703,7 +703,7 @@ class Tools {
       if (is_numeric(trim($value))) {
          return $value;
       }
-      self::sendBadRequest('Attempt to set non_numeric value ('.$value.') for key '.$key);
+      self::sendBadRequest('Attempt to set non_numeric value ('.gettype($value).')'.$value.' for key '.$key);
    }
 
    /**
@@ -726,7 +726,7 @@ class Tools {
       if (is_numeric(trim($value))) {
          return $value;
       }
-      self::sendBadRequest('Attempt to set non_numeric value ('.$value.') for key '.$key);
+      self::sendBadRequest('Attempt to set non_numeric value ('.gettype($value).')'.$value.' for key '.$key);
    }
 
    /**
@@ -750,7 +750,7 @@ class Tools {
       if (is_numeric(trim($value))) {
          return intval($value);
       }
-      self::sendBadRequest('Attempt to set non_numeric value ('.$value.') for key '.$key);
+      self::sendBadRequest('Attempt to set non_numeric value ('.gettype($value).')'.$value.' for key '.$key);
    }
 
    /**
@@ -774,7 +774,7 @@ class Tools {
       if (is_numeric(trim($value))) {
          return intval($value);
       }
-      self::sendBadRequest('Attempt to set non_numeric value ('.$value.') for key '.$key);
+      self::sendBadRequest('Attempt to set non_numeric value ('.gettype($value).')'.$value.' for key '.$key);
    }
 
    /**
