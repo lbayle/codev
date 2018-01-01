@@ -63,6 +63,7 @@ function execQuery($query) {
 function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL,
                            $default_value = '', $possible_values = '') {
    global $fieldList;
+   $sql = AdodbWrapper::getInstance();
 
    if (NULL == $attributes) {
       $attributes = array();
@@ -111,7 +112,7 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
       #echo "DEBUG INSERT $fieldName --- query $query2 <br/>";
 
       $result2 = execQuery($query2);
-      $fieldId = mysql_insert_id();
+      $fieldId = $sql->getInsertId();
 
       #echo "custom field '$configId' created.<br/>";
    } else {

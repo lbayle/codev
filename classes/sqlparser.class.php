@@ -79,16 +79,20 @@ class SqlParser {
       return $sql_queries;
    }
 
+   /**
+    *
+    * @param type $sqlfile
+    * @return int
+    * @throws Exception if a query could not be executed
+    */
    public static function execSqlScript($sqlfile) {
 
+      $sql = AdodbWrapper::getInstance();
       $sql_queries = self::getSqlQueries($sqlfile);
 
       $i = 1;
       foreach($sql_queries as $query){
-         $result = SqlWrapper::getInstance()->sql_query(trim($query));
-         if (!$result) {
-            return -1;
-         }
+         $result = $sql->sql_query(trim($query));
          ++$i;
       }
       return 0;
