@@ -238,7 +238,7 @@ function update_v11_to_v12() {
    $result = execQuery($query);
    $query = "UPDATE {bug} SET category_id='$catOtherInternalId' ".
            "WHERE project_id='$extTasksProjId' ".
-           "AND id <> '$leaveTaskId';";
+           " AND id <> '$leaveTaskId';";
    $result = execQuery($query);
 
    #echo "<br>SUCCESS: Update 0.99.21 to 0.99.22 (DB v11 to DB v12)<br>";
@@ -491,7 +491,7 @@ function update_v16_to_v17() {
    // remove default-jobs assignations for workingProjects (not normal case, prepare for query3)
    $query = "DELETE FROM  codev_project_job_table ".
            "WHERE project_id IN (SELECT project_id FROM codev_team_project_table WHERE type= ".Project::type_workingProject.") ".
-           "AND job_id IN (SELECT job.id FROM codev_job_table job WHERE type = ".Job::type_commonJob.");";
+           " AND job_id IN (SELECT job.id FROM codev_job_table job WHERE type = ".Job::type_commonJob.");";
    execQuery($query);
 
    // find deprecated workingProjects
@@ -515,8 +515,8 @@ function update_v16_to_v17() {
    // remove duplicates
    $query6 = "DELETE t1 FROM codev_project_job_table AS t1, codev_project_job_table AS t2 ".
            "WHERE t1.id > t2.id ".
-           "AND t1.project_id = t2.project_id ".
-           "AND t1.job_id = t2.job_id;";
+           " AND t1.project_id = t2.project_id ".
+           " AND t1.job_id = t2.job_id;";
    execQuery($query6);
 
    $query5 = "UPDATE codev_config_table SET value='17' WHERE config_id='database_version';";

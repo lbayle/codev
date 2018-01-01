@@ -219,12 +219,12 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
         $q_params[]=$formatedUseridString;
 
         if ((false == $this->showAllActivity) && (0 < count($bugidList))) {
-           $query .= "AND bugid IN (".$sql->db_param().") ";
+           $query .= " AND bugid IN (".$sql->db_param().") ";
            $q_params[]=implode( ', ', $bugidList);;
         }
 
-        if (isset($this->startTimestamp)) { $query .= "AND date >= ".$sql->db_param() ; $q_params[]=$this->startTimestamp;}
-        if (isset($this->endTimestamp))   { $query .= "AND date <= ".$sql->db_param() ; $q_params[]=$this->endTimestamp;}
+        if (isset($this->startTimestamp)) { $query .= " AND date >= ".$sql->db_param() ; $q_params[]=$this->startTimestamp;}
+        if (isset($this->endTimestamp))   { $query .= " AND date <= ".$sql->db_param() ; $q_params[]=$this->endTimestamp;}
 
         $result = $sql->sql_query($query, $q_params);
 

@@ -79,11 +79,11 @@ class EffortEstimReliabilityIndicator implements IndicatorPlugin {
               "{bug_history}.date_modified ".
               "FROM {bug}, {bug_history} " .
               "WHERE {bug}.id = {bug_history}.bug_id " .
-              "AND {bug}.project_id IN (".$sql->db_param().") " .
-              "AND {bug_history}.field_name='status' " .
-              "AND {bug_history}.date_modified >= ".$sql->db_param() .
-              "AND {bug_history}.date_modified < ".$sql->db_param() .
-              "AND {bug_history}.new_value = ".$sql->db_param() .
+              " AND {bug}.project_id IN (".$sql->db_param().") " .
+              " AND {bug_history}.field_name='status' " .
+              " AND {bug_history}.date_modified >= ".$sql->db_param() .
+              " AND {bug_history}.date_modified < ".$sql->db_param() .
+              " AND {bug_history}.new_value = ".$sql->db_param() .
               " ORDER BY {bug}.id DESC";
 
       $result = $sql->sql_query($query, array($formatedProjList, $startTimestamp, $endTimestamp, $bugResolvedStatusThreshold));

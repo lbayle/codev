@@ -123,10 +123,10 @@ class FilterCommandField extends MantisFilter {
       $query = "SELECT DISTINCT codev_team_table.id, codev_team_table.name " .
                "FROM codev_team_user_table, codev_team_table " .
                "WHERE codev_team_user_table.team_id = codev_team_table.id ".
-               "AND   codev_team_user_table.user_id = " . db_param();
+               " AND   codev_team_user_table.user_id = " . db_param();
 
       // only teams where project is defined
-      $query .= "AND 1 = is_project_in_team(" . (int)$project_id . ", codev_team_table.id) ";
+      $query .= " AND 1 = is_project_in_team(" . (int)$project_id . ", codev_team_table.id) ";
 
       $query .= "ORDER BY codev_team_table.name";
 
@@ -143,10 +143,10 @@ class FilterCommandField extends MantisFilter {
 
          $query = "SELECT id, name, reference FROM codev_command_table ".
                   "WHERE team_id IN (" . $formattedTeamList . ") ".
-                  "AND enabled = 1 ";
+                  " AND enabled = 1 ";
 
          // do not include closed commands.
-         $query .= "AND (state < 6 OR state IS NULL) "; // WARN: HARDCODED value of Command::$state_closed
+         $query .= " AND (state < 6 OR state IS NULL) "; // WARN: HARDCODED value of Command::$state_closed
 
          $query .= "ORDER BY reference, name";
 

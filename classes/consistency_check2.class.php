@@ -589,7 +589,7 @@ class ConsistencyCheck2 {
                // a task referenced in 2 Commands is not error if in two != teams
                $query = "SELECT team_id FROM codev_command_table, codev_command_bug_table "
                        . "WHERE codev_command_table.id = codev_command_bug_table.command_id "
-                       . "AND codev_command_bug_table.bug_id = ".$sql->db_param();
+                       . " AND codev_command_bug_table.bug_id = ".$sql->db_param();
                $result = $sql->sql_query($query, array($issue->getId()));
 
                $tmpTeamId = 0;
@@ -628,7 +628,7 @@ class ConsistencyCheck2 {
 
       $query = "SELECT id, name, reference FROM codev_command_table ".
                "WHERE team_id =  ".$sql->db_param().
-               "AND id NOT IN (SELECT command_id FROM codev_commandset_cmd_table) ";
+               " AND id NOT IN (SELECT command_id FROM codev_commandset_cmd_table) ";
       $result = $sql->sql_query($query, array($this->teamId));
 
       while($row = $sql->fetchObject($result)) {
@@ -653,7 +653,7 @@ class ConsistencyCheck2 {
 
       $query = "SELECT id, name, reference FROM codev_commandset_table ".
                "WHERE team_id =  ".$sql->db_param().
-               "AND id NOT IN (SELECT commandset_id FROM codev_servicecontract_cmdset_table) ";
+               " AND id NOT IN (SELECT commandset_id FROM codev_servicecontract_cmdset_table) ";
       $result = $sql->sql_query($query, array($this->teamId));
 
       while($row = $sql->fetchObject($result)) {
@@ -685,8 +685,8 @@ class ConsistencyCheck2 {
          $query = "SELECT * ".
                   "FROM codev_timetracking_table ".
                   "WHERE date >= ".$sql->db_param()." ".
-                  "AND userid IN (".$sql->db_param().") ";
-         #"AND    0 = (SELECT COUNT(id) FROM {bug} WHERE id='codev_timetracking_table.bugid' ) ";
+                  " AND userid IN (".$sql->db_param().") ";
+         #" AND    0 = (SELECT COUNT(id) FROM {bug} WHERE id='codev_timetracking_table.bugid' ) ";
 
          $result = $sql->sql_query($query, array($team->getDate(), $formatedUsers));
 
@@ -759,7 +759,7 @@ class ConsistencyCheck2 {
 
       $query = "SELECT * FROM {config} ".
                "WHERE project_id = 0 ".
-               "AND config_id = 'status_enum_workflow' ";
+               " AND config_id = 'status_enum_workflow' ";
 
       $result = $sql->sql_query($query);
 

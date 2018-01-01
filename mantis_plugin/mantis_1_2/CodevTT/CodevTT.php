@@ -264,9 +264,9 @@ class CodevTTPlugin extends MantisPlugin {
          log_event(LOG_FILTERING, "report_bug_form | user not allowed to view Commands");
       } else {
          $query  = "SELECT codev_command_table.* FROM codev_command_bug_table, codev_command_table ".
-                    "WHERE codev_command_bug_table.bug_id=" . db_param() . " " .
-                    "AND codev_command_table.id = codev_command_bug_table.command_id ".
-                    "ORDER BY codev_command_table.name";
+                    "WHERE codev_command_bug_table.bug_id=" . db_param() .
+                    " AND codev_command_table.id = codev_command_bug_table.command_id ".
+                    " ORDER BY codev_command_table.name";
 
          $result = db_query_bound($query, array( $t_bug_id ));
          $commandList = array();
@@ -297,7 +297,7 @@ class CodevTTPlugin extends MantisPlugin {
               "{user}.username, {user}.realname ".
               "FROM codev_timetracking_table, {user} ".
               "WHERE codev_timetracking_table.bugid = " . db_param() . " ".
-              "AND codev_timetracking_table.userid = {user}.id ";
+              " AND codev_timetracking_table.userid = {user}.id ";
 
       $errMsg = "";
       $result = db_query_bound($query, array( $bug_id ) );
@@ -344,7 +344,7 @@ class CodevTTPlugin extends MantisPlugin {
               "{user}.username, {user}.realname ".
               "FROM codev_timetracking_table, {user} ".
               "WHERE codev_timetracking_table.userid = {user}.id ".
-              "AND codev_timetracking_table.bugid IN (".
+              " AND codev_timetracking_table.bugid IN (".
               "   SELECT id FROM {bug} WHERE project_id = " . db_param() . ")";
 
       $errMsg = "";
@@ -366,10 +366,10 @@ class CodevTTPlugin extends MantisPlugin {
       $query = "SELECT DISTINCT codev_team_table.id, codev_team_table.name " .
                "FROM codev_team_user_table, codev_team_table " .
                "WHERE codev_team_user_table.team_id = codev_team_table.id ".
-               "AND   codev_team_user_table.user_id = " . db_param();
+               " AND   codev_team_user_table.user_id = " . db_param();
 
       // only teams where project is defined
-      $query .= "AND 1 = is_project_in_team(" . db_param() . ", codev_team_table.id) ";
+      $query .= " AND 1 = is_project_in_team(" . db_param() . ", codev_team_table.id) ";
       $query .= "ORDER BY codev_team_table.name";
 
       $result = db_query_bound($query, array( $userid, (int)$project_id));
@@ -396,10 +396,10 @@ class CodevTTPlugin extends MantisPlugin {
 
          $query = "SELECT id, name, reference FROM codev_command_table ".
                   "WHERE team_id IN (" . $formattedTeamList . ") ".
-                  "AND enabled = 1 ";
+                  " AND enabled = 1 ";
 
          // do not include closed commands.
-         $query .= "AND (state < 6 OR state IS NULL) "; // WARN: HARDCODED value of Command::$state_closed
+         $query .= " AND (state < 6 OR state IS NULL) "; // WARN: HARDCODED value of Command::$state_closed
          $query .= "ORDER BY reference, name";
 
          $result = db_query_bound($query);

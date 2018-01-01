@@ -62,7 +62,7 @@ class PeriodStatsReport {
             // only projects for specified team, except excluded projects
             $query = "SELECT project_id FROM codev_team_project_table ".
                "WHERE team_id = ".$sql->db_param().
-               "AND codev_team_project_table.type <> ".$sql->db_param();
+               " AND codev_team_project_table.type <> ".$sql->db_param();
 
             $result = $sql->sql_query($query, array($this->teamid, Project::type_noStatsProject));
 

@@ -196,23 +196,23 @@ class ExportODTController extends Controller {
       $q_params[]=$projectid;
 
       if (!empty($categories)) {
-         $query .= "AND category_id IN (".$sql->db_param().") ";
+         $query .= " AND category_id IN (".$sql->db_param().") ";
          $q_params[]=$categories;
       }
       if (!empty($formattedReporters)) {
-         $query .= "AND reporter_id IN (".$sql->db_param().") ";
+         $query .= " AND reporter_id IN (".$sql->db_param().") ";
          $q_params[]=$formattedReporters;
       }
       if (!empty($formattedHandlers)) {
-         $query .= "AND handler_id IN (".$sql->db_param().") ";
+         $query .= " AND handler_id IN (".$sql->db_param().") ";
          $q_params[]=$formattedHandlers;
       }
       if (!empty($formattedStatuses)) {
-         $query .= "AND status IN (".$sql->db_param().") ";
+         $query .= " AND status IN (".$sql->db_param().") ";
          $q_params[]=$formattedStatuses;
       }
       #if (!$withResolved) {
-      #   $query .= "AND status < get_project_resolved_status_threshold(project_id) ";
+      #   $query .= " AND status < get_project_resolved_status_threshold(project_id) ";
       #}
 
       $result = $sql->sql_query($query, $q_params);

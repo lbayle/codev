@@ -188,7 +188,7 @@ class TimeTracking {
          $this->prodDays = 0;
 
          // TODO check patch from FDJ 8b003033391c84142787c3379a518a3ef7283587
-         //      "AND (codev_team_user_table.departure_date = 0 or codev_team_user_table.departure_date >=$this->startTimestamp)";
+         //      " AND (codev_team_user_table.departure_date = 0 or codev_team_user_table.departure_date >=$this->startTimestamp)";
 
          $timeTracks = $this->getTimeTracks();
          foreach($timeTracks as $timeTrack) {
@@ -253,7 +253,7 @@ class TimeTracking {
                   "FROM {user} as user ".
                   "JOIN codev_team_user_table as team_user ON user.id = team_user.user_id ".
                   "WHERE team_user.team_id =  ".$sql->db_param().
-                  "AND team_user.access_level IN (".$sql->db_param().", ".$sql->db_param().")";
+                  " AND team_user.access_level IN (".$sql->db_param().", ".$sql->db_param().")";
 
          $result = $sql->sql_query($query, array($this->team_id, $accessLevel_dev, $accessLevel_manager));
          if (!$result) {

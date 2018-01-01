@@ -181,7 +181,7 @@ class ExportCSVWeeklyController extends Controller {
       $query = "SELECT codev_team_user_table.user_id, {user}.realname ".
          "FROM  codev_team_user_table, {user} ".
          "WHERE  codev_team_user_table.team_id =".$sql->db_param().
-         "AND    codev_team_user_table.user_id = {user}.id ".
+         " AND    codev_team_user_table.user_id = {user}.id ".
          "ORDER BY {user}.realname";
 
       $result = $sql->sql_query($query, array($teamid));

@@ -170,7 +170,7 @@ class IssueNote {
                " AND 0 <> (SELECT COUNT(id) FROM {bugnote_text}".
                "            WHERE id = note.bugnote_text_id".
                "            AND note LIKE ".$sql->db_param().") ".
-               "ORDER BY note.date_submitted DESC";
+               " ORDER BY note.date_submitted DESC";
       $q_params[]=$bug_id;
       $q_params[]='%'.self::tagid_timesheetNote.$sql->db_param().'%';
 
@@ -381,8 +381,8 @@ class IssueNote {
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT COUNT(id) FROM {bug_revision} ".
               "WHERE bug_id= ".$sql->db_param().
-              "AND bugnote_id= ".$sql->db_param().
-		        "AND type= ".$sql->db_param();
+              " AND bugnote_id= ".$sql->db_param().
+		        " AND type= ".$sql->db_param();
       $result = $sql->sql_query($query, array($this->bug_id, $this->id, self::rev_type_bugnote));
       #$found  = (0 != $sql->getNumRows($result)) ? true : false;
       $nbTuples  = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;

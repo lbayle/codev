@@ -643,7 +643,7 @@ class IssueSelection {
       $q_params[]=implode( ', ', array_keys($this->issueList));
 
       if (NULL != $useridList) { 
-         $query .= 'AND userid IN ('.$sql->db_param().') ';
+         $query .= ' AND userid IN ('.$sql->db_param().') ';
          $q_params[]=implode( ', ', $useridList);
       }
       if (NULL != $startTimestamp) { $query .= " AND date >=  ".$sql->db_param(); $q_params[]=$startTimestamp; }

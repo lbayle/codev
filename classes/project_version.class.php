@@ -32,7 +32,7 @@ class ProjectVersion extends IssueSelection {
          $query = "SELECT date_order ".
                   "FROM {project_version} ".
                   "WHERE project_id = ".$sql->db_param().
-                  "AND version = ".$sql->db_param();
+                  " AND version = ".$sql->db_param();
 
          $result = $sql->sql_query($query, array($this->projectId, $this->name));
 

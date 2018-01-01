@@ -55,8 +55,8 @@ class BVIController extends Controller {
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT id FROM {bug} ".
          "WHERE project_id IN (".$sql->db_param().") ".
-         "AND handler_id IN (".$sql->db_param().") ".
-         "AND status >= get_project_resolved_status_threshold(project_id) ";
+         " AND handler_id IN (".$sql->db_param().") ".
+         " AND status >= get_project_resolved_status_threshold(project_id) ";
       $result = $sql->sql_query($query, array($formattedProjects, $formattedUsers));
 echo "query = $query<br>";
 
