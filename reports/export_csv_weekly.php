@@ -162,6 +162,7 @@ class ExportCSVWeeklyController extends Controller {
     */
    private function exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFile) {
       $sepChar=';';
+      $sql = AdodbWrapper::getInstance();
 
       // create filename & open file
       $fh = fopen($myFile, 'w');
@@ -177,19 +178,15 @@ class ExportCSVWeeklyController extends Controller {
          Tools::formatDate("%A %d/%m", $weekDates[5])."\n";
       fwrite($fh, $stringData);
 
-      $query = "SELECT codev_team_user_table.user_id, mantis_user_table.realname ".
-         "FROM  `codev_team_user_table`, `mantis_user_table` ".
-         "WHERE  codev_team_user_table.team_id = $teamid ".
-         "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-         "ORDER BY mantis_user_table.realname";
+      $query = "SELECT codev_team_user_table.user_id, {user}.realname ".
+         "FROM  codev_team_user_table, {user} ".
+         "WHERE  codev_team_user_table.team_id =".$sql->db_param().
+         "AND    codev_team_user_table.user_id = {user}.id ".
+         "ORDER BY {user}.realname";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, array($teamid));
 
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          // if user was working on the project during the timestamp
          $user = UserCache::getInstance()->getUser($row->user_id);
          if (($user->isTeamDeveloper($teamid, $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp())) ||
@@ -209,6 +206,7 @@ class ExportCSVWeeklyController extends Controller {
     */
    private function exportWeekDetailsToCSV($userid, TimeTracking $timeTracking, $realname, $fh) {
       $sepChar=';';
+      $sql = AdodbWrapper::getInstance();
 
       $weekTracks = $timeTracking->getWeekDetails($userid);
       foreach ($weekTracks as $bugid => $jobList) {
@@ -219,13 +217,10 @@ class ExportCSVWeeklyController extends Controller {
             $formatedSummary = str_replace($sepChar, " ", $issue->getSummary());
 
             foreach ($jobList as $jobid => $dayList) {
-               $query  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
-               $result = SqlWrapper::getInstance()->sql_query($query);
-               if (!$result) {
-                  echo "<span style='color:red'>ERROR: Query FAILED</span>";
-                  exit;
-               }
-               $jobName = SqlWrapper::getInstance()->sql_result($result, 0);
+               $query  = "SELECT name FROM codev_job_table WHERE id=".$sql->db_param();
+               $result = $sql->sql_query($query, array($jobid));
+
+               $jobName = $sql->sql_result($result, 0);
                $stringData = $bugid.$sepChar.
                   $jobName.$sepChar.
                   $formatedSummary.$sepChar.
@@ -255,4 +250,4 @@ ExportCSVWeeklyController::staticInit();
 $controller = new ExportCSVWeeklyController('../', 'CSV Report','ImportExport');
 $controller->execute();
 
-?>
+

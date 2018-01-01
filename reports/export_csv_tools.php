@@ -40,6 +40,7 @@ class ExportCsvTools {
     */
    public static function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile) {
       $sepChar=';';
+      $sql = AdodbWrapper::getInstance();
 
       $fh = fopen($myFile, 'w');
 
@@ -78,17 +79,14 @@ class ExportCsvTools {
 
       // for all issues with status !=  {resolved, closed}
 
-      $query = "SELECT * FROM `mantis_bug_table` ".
+      $query = "SELECT * FROM {bug} ".
          "WHERE status < get_project_resolved_status_threshold(project_id) ".
-         "AND project_id IN ($formatedProjList) ".
+         "AND project_id IN (".$sql->db_param().") ".
          //"AND handler_id IN ($formatedMemberList) ".
          "ORDER BY id DESC";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      $result = $sql->sql_query($query, array($formatedProjList));
+
+      while($row = $sql->fetchObject($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
          $user = UserCache::getInstance()->getUser($issue->getHandlerId());
 
@@ -137,19 +135,16 @@ class ExportCsvTools {
       }
 
       // Add resolved issues modified into the period
-      $query = "SELECT * FROM `mantis_bug_table` ".
+      $query2 = "SELECT * FROM {bug} ".
          "WHERE status >= get_project_resolved_status_threshold(project_id) ".
-         "AND project_id IN ($formatedProjList) ".
+         "AND project_id IN (".$sql->db_param().") ".
          //"AND handler_id IN ($formatedMemberList) ".
-         "AND last_updated > $startTimestamp ".
-         "AND last_updated < $endTimestamp ".
+         "AND last_updated >  ".$sql->db_param().
+         "AND last_updated <  ".$sql->db_param().
          "ORDER BY id DESC";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      $result2 = $sql->sql_query($query2, array($formatedProjList, $startTimestamp, $endTimestamp));
+
+      while($row = $sql->fetchObject($result2)) {
 
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
          $user = UserCache::getInstance()->getUser($issue->getHandlerId());
@@ -313,4 +308,3 @@ class ExportCsvTools {
 // Initialize complex static variables
 ExportCsvTools::staticInit();
 
-?>

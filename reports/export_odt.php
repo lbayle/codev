@@ -191,32 +191,34 @@ class ExportODTController extends Controller {
     */
    private function getIssueSelection($projectid, $categories = NULL, $formattedReporters = NULL, $formattedHandlers = NULL, $formattedStatuses = false) {
 
-      $query = "SELECT id from `mantis_bug_table` WHERE project_id = $projectid ";
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id from {bug} WHERE project_id =".$sql->db_param();
+      $q_params[]=$projectid;
 
       if (!empty($categories)) {
-         $query .= "AND category_id IN ($categories) ";
+         $query .= "AND category_id IN (".$sql->db_param().") ";
+         $q_params[]=$categories;
       }
       if (!empty($formattedReporters)) {
-         $query .= "AND reporter_id IN ($formattedReporters) ";
+         $query .= "AND reporter_id IN (".$sql->db_param().") ";
+         $q_params[]=$formattedReporters;
       }
       if (!empty($formattedHandlers)) {
-         $query .= "AND handler_id IN ($formattedHandlers) ";
+         $query .= "AND handler_id IN (".$sql->db_param().") ";
+         $q_params[]=$formattedHandlers;
       }
       if (!empty($formattedStatuses)) {
-         $query .= "AND status IN ($formattedStatuses) ";
+         $query .= "AND status IN (".$sql->db_param().") ";
+         $q_params[]=$formattedStatuses;
       }
       #if (!$withResolved) {
       #   $query .= "AND status < get_project_resolved_status_threshold(project_id) ";
       #}
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, $q_params);
 
       $iSel = new IssueSelection('exportODT');
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $iSel->addIssue($row->id);
       }
       #$iSel->addIssue(694);
@@ -434,4 +436,4 @@ class ExportODTController extends Controller {
 ExportODTController::staticInit();
 $controller = new ExportODTController('../', 'Export Issues to ODT', 'ImportExport');
 $controller->execute();
-?>
+
