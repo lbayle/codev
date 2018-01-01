@@ -52,18 +52,16 @@ class BVIController extends Controller {
       $formattedUsers = (0 != $userid) ? $userid : implode(',', array_keys($team->getActiveMembers()));
 
 
-      $query = "SELECT id FROM `mantis_bug_table` ".
-         "WHERE project_id IN ($formattedProjects) ".
-         "AND handler_id IN ($formattedUsers) ".
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id FROM {bug} ".
+         "WHERE project_id IN (".$sql->db_param().") ".
+         "AND handler_id IN (".$sql->db_param().") ".
          "AND status >= get_project_resolved_status_threshold(project_id) ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = $sql->sql_query($query, array($formattedProjects, $formattedUsers));
 echo "query = $query<br>";
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+
       $isel = new IssueSelection('resolvedIssues');
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $isel->addIssue($row->id);
       }
 echo implode(',', array_keys($isel->getIssueList()));
@@ -101,4 +99,3 @@ echo implode(',', array_keys($isel->getIssueList()));
 BVIController::staticInit();
 $controller = new BVIController('../', 'TEST BacklogVariationIndicator', 'Tests');
 $controller->execute();
-?>

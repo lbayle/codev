@@ -154,6 +154,7 @@ class TeamActivityReportController extends Controller {
     */
    private function getWeekDetails(TimeTracking $timeTracking, $isDetailed, $weekDates, $session_userid) {
       $team = TeamCache::getInstance()->getTeam($timeTracking->getTeamid());
+      $sql = AdodbWrapper::getInstance();
 
       $weekDetails = array();
       $session_users = $team->getUsers();
@@ -190,12 +191,13 @@ class TeamActivityReportController extends Controller {
                $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
                if ($isDetailed) {
                   $formatedJobList = implode(', ', array_keys($jobList));
-                  $query = 'SELECT id, name FROM `codev_job_table` WHERE id IN ('.$formatedJobList.');';
-                  $result2 = SqlWrapper::getInstance()->sql_query($query);
-                  if (!$result2) {
+                  $query = 'SELECT id, name FROM codev_job_table WHERE id IN ('.$sql->db_param().')';
+                  try {
+                     $result2 = $sql->sql_query($query, array($formatedJobList));
+                  } catch (Exception $e) {
                      continue;
                   }
-                  while($row2 = SqlWrapper::getInstance()->sql_fetch_object($result2)) {
+                  while($row2 = $sql->fetchObject($result2)) {
                      $jobName = $row2->name;
                      $dayList = $jobList[$row2->id];
 

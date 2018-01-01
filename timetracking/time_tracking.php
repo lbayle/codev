@@ -377,17 +377,18 @@ class TimeTrackingController extends Controller {
     */
    private function getTimetrackingTuples($userid, TimeTracking $timeTracking) {
       // Display previous entries
+      $sql = AdodbWrapper::getInstance();
       $query = "SELECT id, bugid, jobid, date, duration".
-               " FROM `codev_timetracking_table`".
-               " WHERE userid = $userid".
-               " AND date >= ".$timeTracking->getStartTimestamp().
+               " FROM codev_timetracking_table".
+               " WHERE userid = ".$sql->db_param().
+               " AND date >= ".$sql->db_param().
                " ORDER BY date";
-      $result = SqlWrapper::getInstance()->sql_query($query) or die("Query failed: $query");
+      $result = $sql->sql_query($query, array($userid, $timeTracking->getStartTimestamp()));
 
       $jobs = new Jobs();
 
       $timetrackingTuples = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          // get information on this bug
          try {
             $issue = IssueCache::getInstance()->getIssue($row->bugid);
