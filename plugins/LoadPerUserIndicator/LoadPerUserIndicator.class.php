@@ -199,6 +199,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
     */
    public function execute() {
 
+      $sql = AdodbWrapper::getInstance();
       $team = TeamCache::getInstance()->getTeam($this->teamid);
 
       $members = $team->getActiveMembers($this->startTimestamp, $this->endTimestamp);
@@ -213,24 +214,22 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
         $issueList = $this->inputIssueSel->getIssueList();
         $bugidList = array_keys($issueList);
 
-        $query = "SELECT * FROM `codev_timetracking_table` ".
-                 "WHERE userid IN (".$formatedUseridString.") ";
+        $query = "SELECT * FROM codev_timetracking_table ".
+                 "WHERE userid IN (".$sql->db_param().") ";
+        $q_params[]=$formatedUseridString;
 
         if ((false == $this->showAllActivity) && (0 < count($bugidList))) {
-           $formatedBugidString = implode( ', ', $bugidList);
-           $query .= "AND bugid IN (".$formatedBugidString.") ";
+           $query .= "AND bugid IN (".$sql->db_param().") ";
+           $q_params[]=implode( ', ', $bugidList);;
         }
 
-        if (isset($this->startTimestamp)) { $query .= "AND date >= $this->startTimestamp "; }
-        if (isset($this->endTimestamp))   { $query .= "AND date <= $this->endTimestamp "; }
+        if (isset($this->startTimestamp)) { $query .= "AND date >= ".$sql->db_param() ; $q_params[]=$this->startTimestamp;}
+        if (isset($this->endTimestamp))   { $query .= "AND date <= ".$sql->db_param() ; $q_params[]=$this->endTimestamp;}
 
-        $result = SqlWrapper::getInstance()->sql_query($query);
-        if (!$result) {
-           echo "<span style='color:red'>ERROR: Query FAILED</span>";
-           exit;
-        }
+        $result = $sql->sql_query($query, $q_params);
+
         $timeTracks = array();
-        while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+        while($row = $sql->fetchObject($result)) {
            $timeTracks[$row->id] = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
         }
       } else {

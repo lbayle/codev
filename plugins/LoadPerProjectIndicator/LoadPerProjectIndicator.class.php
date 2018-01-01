@@ -186,6 +186,7 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
       $team = TeamCache::getInstance()->getTeam($this->teamid);
       $members = $team->getActiveMembers($this->startTimestamp, $this->endTimestamp);
       $formatedUseridString = implode( ', ', array_keys($members));
+      $sql = AdodbWrapper::getInstance();
 
       //$extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
 
@@ -196,23 +197,22 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
          $formatedBugidString = implode( ', ', array_keys($issueList));
 
          $query = "SELECT ROUND(SUM(tt.duration), 2) as duration, prj.name as prjName
-                  FROM codev_timetracking_table as tt, mantis_project_table as prj, mantis_bug_table as bug
+                  FROM codev_timetracking_table as tt, {project} as prj, {bug} as bug
                   WHERE tt.bugid = bug.id
                   AND bug.project_id = prj.id
-                  AND bug.id IN ($formatedBugidString)
-                  AND tt.userid IN ($formatedUseridString) ";
+                  AND bug.id IN (".$sql->db_param().")
+                  AND tt.userid IN (".$sql->db_param().") ";
+         $q_params[]=$formatedBugidString;
+         $q_params[]=$formatedUseridString;
 
-         if (isset($this->startTimestamp)) { $query .= " AND tt.date >= $this->startTimestamp "; }
-         if (isset($this->endTimestamp))   { $query .= " AND tt.date <= $this->endTimestamp "; }
+         if (isset($this->startTimestamp)) { $query .= " AND tt.date >= ".$sql->db_param(); $q_params[]=$this->startTimestamp;}
+         if (isset($this->endTimestamp))   { $query .= " AND tt.date <= ".$sql->db_param(); $q_params[]=$this->endTimestamp;}
          $query .= " GROUP BY prj.id
-                     ORDER BY `prj`.`name` ASC";
+                     ORDER BY prj.name ASC";
 
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $result = $sql->sql_query($query, $q_params);
+
+         while($row = $sql->fetchObject($result)) {
             $projectLoad["$row->prjName"] = (float)$row->duration;
          }
       }

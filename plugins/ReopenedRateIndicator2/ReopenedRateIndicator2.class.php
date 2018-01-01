@@ -181,25 +181,23 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
    private function getReopened($formattedBugidList, $start, $end) {
 
       // 1) get all reopened bugs within the timestamp
+      $sql = AdodbWrapper::getInstance();
       $query = "SELECT bug.* " .
-               "FROM `mantis_bug_table` as bug ".
-               "JOIN `mantis_bug_history_table` as history ON bug.id = history.bug_id " .
-               "WHERE bug.id IN ($formattedBugidList) " .
-               "AND history.field_name='status' " .
-               "AND history.date_modified >= $start AND history.date_modified < $end " .
-               "AND history.old_value >= get_project_resolved_status_threshold(bug.project_id) " .
-               "AND history.new_value <  get_project_resolved_status_threshold(bug.project_id) " .
-               "GROUP BY bug.id ;";
+               " FROM {bug} as bug ".
+               " JOIN {bug_history} as history ON bug.id = history.bug_id " .
+               " WHERE bug.id IN (".$sql->db_param().") " .
+               " AND history.field_name='status' " .
+               " AND history.date_modified >= ".$sql->db_param().
+               " AND history.date_modified < ".$sql->db_param().
+               " AND history.old_value >= get_project_resolved_status_threshold(bug.project_id) " .
+               " AND history.new_value <  get_project_resolved_status_threshold(bug.project_id) " .
+               " GROUP BY bug.id";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, array($formattedBugidList, $start, $end));
 
       // 2) count reopened and (still) fixed issues at the end of the period
       $bugidList = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
 
          // check that it is still in a 'non-resolved' state.
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
@@ -230,24 +228,22 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
     */
    private function getValidated($formattedBugidList, $start, $end) {
 
+      $sql = AdodbWrapper::getInstance();
       $query = "SELECT bug.* ".
-               "FROM `mantis_bug_table` as bug ".
-               "JOIN `mantis_bug_history_table` as history ON bug.id = history.bug_id " .
-               "WHERE bug.id IN ($formattedBugidList) " .
-               "AND history.field_name='status' " .
-               "AND history.date_modified >= $start AND history.date_modified < $end " .
-               "AND history.old_value <= get_project_resolved_status_threshold(bug.project_id) " .
-               "AND history.new_value >  get_project_resolved_status_threshold(bug.project_id) " .
-               "GROUP BY bug.id ;";
+               " FROM {bug} as bug ".
+               " JOIN {bug_history} as history ON bug.id = history.bug_id " .
+               " WHERE bug.id IN (".$sql->db_param().") " .
+               " AND history.field_name='status' " .
+               " AND history.date_modified >= ".$sql->db_param().
+               " AND history.date_modified < ".$sql->db_param() .
+               " AND history.old_value <= get_project_resolved_status_threshold(bug.project_id) " .
+               " AND history.new_value >  get_project_resolved_status_threshold(bug.project_id) " .
+               " GROUP BY bug.id ;";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, array($formattedBugidList, $start, $end));
 
       $bugidList = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
 
          // check that it is still in a 'validated' state.
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
@@ -277,21 +273,20 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
    private function getResolved($formattedBugidList, $start, $end) {
 
       // all bugs which status changed to 'resolved' whthin the timestamp
+      $sql = AdodbWrapper::getInstance();
       $query = "SELECT bug.id ".
-               "FROM `mantis_bug_table` as bug, `mantis_bug_history_table` as history ".
-               "WHERE bug.id IN ($formattedBugidList) " .
-               "AND bug.id = history.bug_id ".
-               "AND history.field_name='status' ".
-               "AND history.date_modified >= $start AND history.date_modified < $end ".
-               "AND history.new_value = get_project_resolved_status_threshold(project_id) ";
+               " FROM {bug} as bug, {bug_history} as history ".
+               " WHERE bug.id IN (".$sql->db_param().") " .
+               " AND bug.id = history.bug_id ".
+               " AND history.field_name='status' ".
+               " AND history.date_modified >= ".$sql->db_param().
+               " AND history.date_modified <  ".$sql->db_param().
+               " AND history.new_value = get_project_resolved_status_threshold(project_id) ";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query, array($formattedBugidList, $start, $end));
+
       $resolvedList = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
 
          $resolvedList[] = $row->id;
       }

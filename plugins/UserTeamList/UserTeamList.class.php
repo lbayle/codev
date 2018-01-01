@@ -124,14 +124,12 @@ class UserTeamList extends IndicatorPluginAbstract {
     */
    public function execute() {
 
-      $query = "SELECT id, realname FROM `mantis_user_table` ORDER BY realname;";
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id, realname FROM {user} ORDER BY realname;";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      $result = $sql->sql_query($query);
+
+      while ($row = $sql->fetchObject($result)) {
          $formattedId = sprintf('%03d', $row->id);
          $userList[$row->id] = "$formattedId | $row->realname";
       }
@@ -141,20 +139,16 @@ class UserTeamList extends IndicatorPluginAbstract {
          
          if (!empty($userList)) {
 
-            $query = "SELECT `codev_team_table`.id team_id, `codev_team_table`.name team_name, `codev_team_user_table`.user_id, "
-               . "`codev_team_user_table`.`arrival_date`, `codev_team_user_table`.`departure_date`, `codev_team_user_table`.`access_level` "
-               . "FROM `codev_team_user_table` "
-               . "LEFT OUTER JOIN `codev_team_table` ON `codev_team_user_table`.team_id = `codev_team_table`.id "
-               . "WHERE `codev_team_user_table`.user_id = $this->displayedUserid;";
+            $query = "SELECT codev_team_table.id team_id, codev_team_table.name team_name, codev_team_user_table.user_id, "
+               . "codev_team_user_table.arrival_date, codev_team_user_table.departure_date, codev_team_user_table.access_level "
+               . "FROM codev_team_user_table "
+               . "LEFT OUTER JOIN codev_team_table ON codev_team_user_table.team_id = codev_team_table.id "
+               . "WHERE codev_team_user_table.user_id = ".$sql->db_param();
 
-            $result = SqlWrapper::getInstance()->sql_query($query);
-            if (!$result) {
-               echo "<span style='color:red'>ERROR: Query FAILED</span>";
-               exit;
-            }
+            $result = $sql->sql_query($query, array($this->displayedUserid));
 
             $jobs = new Jobs();
-            while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            while ($row = $sql->fetchObject($result)) {
                $teamList[$row->team_id] = array(
                   'user_id' => $row->user_id,
                   'team_id' => $row->team_id,

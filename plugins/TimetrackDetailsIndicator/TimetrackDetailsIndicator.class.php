@@ -170,19 +170,17 @@ class TimetrackDetailsIndicator extends IndicatorPluginAbstract {
             $memberIdList = array_keys($members);
             $formatedMembers = implode( ', ', $memberIdList);
 
-            $query = "SELECT * FROM `codev_timetracking_table` " .
-                     "WHERE date >= $this->startTimestamp AND date <= $my_endTimestamp " .
-                     "AND userid IN ($formatedMembers)" .
-                     "ORDER BY date;";
+            $sql = AdodbWrapper::getInstance();
+            $query = "SELECT * FROM codev_timetracking_table " .
+                     " WHERE date >= ".$sql->db_param().
+                     " AND date <=  ".$sql->db_param() .
+                     " AND userid IN (".$sql->db_param().")" .
+                     " ORDER BY date";
 
-            $result = SqlWrapper::getInstance()->sql_query($query);
-            if (!$result) {
-               echo "<span style='color:red'>ERROR: Query FAILED</span>";
-               exit;
-            }
+            $result = $sql->sql_query($query, array($this->startTimestamp, $my_endTimestamp, $formatedMembers));
 
             $jobs = new Jobs();
-            while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            while ($row = $sql->fetchObject($result)) {
                $tt = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
 
                $user = UserCache::getInstance()->getUser($tt->getUserId());

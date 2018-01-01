@@ -152,21 +152,19 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
     {
         if ($users != null && $beginDate != null && $endDate != null && $task != null) {
             $formatedUsers = implode( ', ', $users);
+
+            $sql = AdodbWrapper::getInstance();
+            $query = "SELECT * FROM codev_timetracking_table " .
+                    " WHERE date >= ".$sql->db_param().
+                    " AND date <= ".$sql->db_param() .
+                    " AND userid IN (".$sql->db_param().")" .
+                    " AND bugid =  ".$sql->db_param() .
+                    " ORDER BY date";
             
-            $query = "SELECT * FROM `codev_timetracking_table` " .
-                    "WHERE date >= $beginDate AND date <= $endDate " .
-                    "AND userid IN ($formatedUsers)" .
-                    "AND bugid = $task " .
-                    "ORDER BY date;";
-            
-            $result = SqlWrapper::getInstance()->sql_query($query);
-            if (!$result) {
-                echo "<span style='color:red'>ERROR: Query FAILED</span>";
-                exit;
-            }
+            $result = $sql->sql_query($query, array($beginDate, $endDate, $formatedUsers, $task));
 
             $jobs = new Jobs();
-            while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            while ($row = $sql->fetchObject($result)) {
                 $tt = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
 
                 $user = UserCache::getInstance()->getUser($tt->getUserId());
@@ -208,6 +206,7 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
     {
         if($timetracksIds != null && $destBugId != null && $destBugId != 0)
         {
+            $sql = AdodbWrapper::getInstance();
             $formatedTimetracksIds = implode( ', ', $timetracksIds);
             $destinationTask = new Issue($destBugId);
             
@@ -226,22 +225,16 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
             }
             
             // Move all selected timetracks to destination task
-            $query = "UPDATE codev_timetracking_table SET bugid='$destBugId' " .
-                    "WHERE id IN ($formatedTimetracksIds) ";
+            $query = "UPDATE codev_timetracking_table SET bugid= ".$sql->db_param() .
+                    "WHERE id IN (".$sql->db_param().") ";
             
-            $result = SqlWrapper::getInstance()->sql_query($query);
-            if (!$result) {
-                echo "<span style='color:red'>ERROR: Query FAILED</span>";
-                exit;
-            }
+            $sql->sql_query($query, array($destBugId, $formatedTimetracksIds));
 
             // move timetrack notes
-            $query2 = "UPDATE `mantis_bugnote_table` SET bug_id='$destBugId' where id in (select noteid FROM codev_timetrack_note_table where timetrackid in ($formatedTimetracksIds))";
-            $result2 = SqlWrapper::getInstance()->sql_query($query2);
-            if (!$result2) {
-                echo "<span style='color:red'>ERROR: Query FAILED</span>";
-                exit;
-            }
+            $query2 = "UPDATE {bugnote} SET bug_id=".$sql->db_param().
+                      " WHERE id in (SELECT noteid FROM codev_timetrack_note_table ".
+                      "              WHERE timetrackid in (".$sql->db_param()."))";
+            $sql->sql_query($query2, array($destBugId, $formatedTimetracksIds));
 
         }
     }
