@@ -283,6 +283,7 @@ $fieldList = array();
 function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL,
                            $default_value = '', $possible_values = '') {
    global $fieldList;
+   $sql = AdodbWrapper::getInstance();
 
    if (NULL == $attributes) {
       $attributes = array();
@@ -301,43 +302,51 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
       echo "<script type=\"text/javascript\">console.warn(\"WARN: using default attributes for CustomField $fieldName\");</script>";
    }
 
-   $query = "SELECT id, name FROM `mantis_custom_field_table`";
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
+   $query = "SELECT id, name FROM {custom_field}";
+   try {
+      $result = $sql->sql_query($query);
+   } catch (Exception $e) {
       throw new Exception ("create custom field FAILED");
    }
-   while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+   while ($row = $sql->fetchObject($result)) {
       $fieldList["$row->name"] = $row->id;
    }
 
    $fieldId = $fieldList[$fieldName];
    if (!$fieldId) {
-      $query2 = "INSERT INTO `mantis_custom_field_table` " .
-         "(`name`, `type` ,`access_level_r`," .
-         "                 `access_level_rw` ,`require_report` ,`require_update` ,`display_report` ,`display_update` ,`require_resolved` ,`display_resolved` ,`display_closed` ,`require_closed` ";
-      $query2 .= ", `possible_values`, `default_value`";
+      $query2 = "INSERT INTO {custom_field} " .
+         "(name, type ,access_level_r," .
+         " access_level_rw , require_report ,require_update ,display_report ,display_update, ".
+         " require_resolved ,display_resolved ,display_closed ,require_closed, ".
+         " possible_values, default_value)";
 
-      $query2 .= ") VALUES ('$fieldName', '$fieldType', '" . $attributes["access_level_r"] . "', '" .
-         $attributes["access_level_rw"] . "', '" .
-         $attributes["require_report"] . "', '" .
-         $attributes["require_update"] . "', '" .
-         $attributes["display_report"] . "', '" .
-         $attributes["display_update"] . "', '" .
-         $attributes["require_resolved"] . "', '" .
-         $attributes["display_resolved"] . "', '" .
-         $attributes["display_closed"] . "', '" .
-         $attributes["require_closed"] . "'";
-
-      $query2 .= ", '$possible_values', '$default_value'";
-      $query2 .= ");";
+      $query2 .= " VALUES (".$sql->db_param(). ", " .$sql->db_param(). ", " . $sql->db_param(). ", " .
+                             $sql->db_param(). ", " .$sql->db_param(). ", " . $sql->db_param(). ", " .
+                             $sql->db_param(). ", " .$sql->db_param(). ", " . $sql->db_param(). ", " .
+                             $sql->db_param(). ", " .$sql->db_param(). ", " . $sql->db_param(). ", ".
+                             $sql->db_param(). ", " .$sql->db_param(). ")";
+      $q_params2[]=$fieldName;
+      $q_params2[]=$fieldType;
+      $q_params2[]=$attributes["access_level_r"];
+      $q_params2[]=$attributes["access_level_rw"];
+      $q_params2[]=$attributes["require_report"];
+      $q_params2[]=$attributes["require_update"];
+      $q_params2[]=$attributes["display_report"];
+      $q_params2[]=$attributes["display_update"];
+      $q_params2[]=$attributes["require_resolved"];
+      $q_params2[]=$attributes["display_resolved"];
+      $q_params2[]=$attributes["display_closed"];
+      $q_params2[]=$attributes["require_closed"];
+      $q_params2[]=$possible_values;
+      $q_params2[]=$default_value;
 
       #echo "DEBUG INSERT $fieldName --- query $query2 <br>";
-
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
-      if (!$result2) {
+      try {
+         $sql->sql_query($query2, $q_params2);
+      } catch (Exception $e) {
          throw new Exception ("create custom field failed: $configId");
       }
-      $fieldId = AdodbWrapper::getInstance()->getInsertId();
+      $fieldId = $sql->getInsertId();
 
       #echo "custom field '$configId' created.<br>";
    } else {
@@ -425,14 +434,16 @@ function getExtIdCustomFieldCandidates() {
    $mType_string = 0;
    $mType_numeric = 1;
 
-   $query = "SELECT * FROM `mantis_custom_field_table` WHERE `type` IN ($mType_string, $mType_numeric) ORDER BY name";
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
+   $sql = AdodbWrapper::getInstance();
+   $query = "SELECT * FROM {custom_field} WHERE type IN ($mType_string, $mType_numeric) ORDER BY name";
+   try {
+      $result = $sql->sql_query($query);
+   } catch (Exception $e) {
       throw new Exception("get ExtId candidates FAILED");
    }
 
    $candidates = array();
-   while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+   while ($row = $sql->fetchObject($result)) {
       $candidates["$row->id"] = $row->name;
    }
    return $candidates;
@@ -735,7 +746,7 @@ function checkMantisPluginDir() {
  */
 function installMantisPlugin($pluginName, $isReplace=true) {
    try {
-
+      $sql = AdodbWrapper::getInstance();
       $mantisPluginDir = Constants::$mantisPath . DIRECTORY_SEPARATOR . 'plugins';
 
       // load core/constant_inc.php and check for 'MANTIS_VERSION'
@@ -788,12 +799,13 @@ function installMantisPlugin($pluginName, $isReplace=true) {
       }
       
       // activate plugin
-      $query = "INSERT INTO mantis_plugin_table (basename, enabled, protected, priority)".
-              " SELECT * FROM (SELECT '$pluginName', '1', '0', '3') AS tmp".
+      $query = "INSERT INTO {plugin} (basename, enabled, protected, priority)".
+              " SELECT * FROM (SELECT ".$sql->db_param().", 1, 0, 3) AS tmp".
               " WHERE NOT EXISTS (".
-              " SELECT basename FROM mantis_plugin_table WHERE basename = '$pluginName') LIMIT 1;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
+              " SELECT basename FROM {plugin} WHERE basename = ".$sql->db_param().")";
+      try {
+         $sql->sql_query($query, array($pluginName, $pluginName), TRUE, 1); // LIMIT 1
+      } catch (Exception $e) {
          return "WARNING: mantis $pluginName plugin must be activated manualy";
       }
       

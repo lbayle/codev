@@ -69,6 +69,10 @@ class MantisDbParam {
 
 /**
  * This class is adapted from the MantisBT database_api.php file
+ * Mantis version : 2.9.0
+ *
+ * To check for changes/fixes, compare mantis database_api.php v2.9.0
+ * to the latest mantis version
  * 
  */
 class AdodbWrapper {
@@ -376,7 +380,8 @@ class AdodbWrapper {
     * @param integer $p_limit     Number of results to return.
     * @param integer $p_offset    Offset query results for paging.
     * @param boolean $p_pop_param Set to false to leave the parameters on the stack
-    * @return IteratorAggregate|boolean adodb result set or false if the query failed.
+    * @return IteratorAggregate|boolean adodb result set
+    * @throws Exception if query failed
     */
    public function sql_query($p_query, array $p_arr_parms = null, $p_isParamPush = TRUE, $p_limit = -1, $p_offset = -1, $p_pop_param = true) {
 
@@ -424,7 +429,7 @@ class AdodbWrapper {
                         '}' => $this->mantis_db_table_suffix,
                         ) );
 
-      #self::$logger->error("raw p_query=$p_query");
+      //self::$logger->error("rebuild query=$p_query");
       
       # Pushing params to safeguard the ADOdb parameter count (required for pgsql)
       $this->db_param->push();
@@ -457,7 +462,8 @@ class AdodbWrapper {
 
       if( !$t_result ) {
          $e = new Exception("Query failed: ".$p_query);
-         self::$logger->error("EXCEPTION AdodbWrapper constructor: ".$e->getMessage());
+         self::$logger->error("EXCEPTION AdodbWrapper sql_query: ".$e->getMessage());
+         self::$logger->error("EXCEPTION AdodbWrapper errorMsg: ".$this->adodb->ErrorMsg());
          self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       } else {

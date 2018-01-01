@@ -87,18 +87,18 @@ function checkDBConnection($db_mantis_host = 'localhost',
                            $db_mantis_database = 'bugtracker',
                            $db_mantis_type = 'mysqli') {
 
-   SqlWrapper::createInstance($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $db_mantis_type);
+   $sql = AdodbWrapper::createInstance($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $db_mantis_type);
 
-   $query = "SELECT * FROM `mantis_config_table` WHERE config_id = 'database_version' ";
-
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
+   $query = "SELECT * FROM {config} WHERE config_id = 'database_version' ";
+   try {
+      $result = $sql->sql_query($query);
+   } catch (Exception $e) {
       throw new Exception("ERROR: Could not access Mantis database");
    }
-   if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
+   if (0 == $sql->getNumRows($result)) {
       throw new Exception("ERROR: Could not get mantis_config_table.database_version");
    }
-   $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+   $row = $sql->fetchObject($result);
    $database_version = $row->value;
 
    return $database_version;
@@ -117,6 +117,7 @@ function checkDBConnection($db_mantis_host = 'localhost',
  */
 function checkDBprivileges($db_mantis_database = 'bugtracker') {
    global $logger;
+   $sql = AdodbWrapper::getInstance();
 
    $mandatoryPriv = array('SELECT', 'INSERT', 'UPDATE', 'DELETE',
       'CREATE', 'DROP', 'EXECUTE', 'CREATE ROUTINE', 'ALTER ROUTINE');
@@ -124,13 +125,9 @@ function checkDBprivileges($db_mantis_database = 'bugtracker') {
 
    #$query = "SHOW GRANTS FOR '$db_mantis_user'@'$db_mantis_host'";
    $query = "SHOW GRANTS FOR CURRENT_USER";
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      exit;
-   }
+   $result = $sql->sql_query($query);
 
-   while ($row = SqlWrapper::getInstance()->sql_fetch_array($result)) {
+   while ($row = $sql->fetchArray($result)) {
       if (FALSE != strstr($row[0], "`$db_mantis_database`")) {
          if($logger->isDebugEnabled()) {
             $logger->debug("Privileges: " . $row[0]);
@@ -291,6 +288,7 @@ if ('1' == $isProxyEnabled) {
 
 displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, $db_mantis_user, $db_mantis_pass, $db_mantis_type);
 
+$sql = AdodbWrapper::getInstance();
 $action = (string)getHttpVariable(INPUT_POST, 'action', 'none');
 
 if ("setDatabaseInfo" == $action) {
@@ -306,30 +304,34 @@ if ("setDatabaseInfo" == $action) {
       createConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $db_mantis_type, $proxy_host, $proxy_port);
 
       echo "<script type=\"text/javascript\">console.log(\"Step 2/4 execSQLscript2 - create Tables\");</script>";
-      //$retCode = Tools::execSQLscript2(Install::FILENAME_TABLES);
-      $retCode = SqlParser::execSqlScript(Install::FILENAME_TABLES);
-      if (0 != $retCode) {
+      try {
+         //$retCode = Tools::execSQLscript2(Install::FILENAME_TABLES);
+         SqlParser::execSqlScript(Install::FILENAME_TABLES);
+      } catch (Exception $e) {
          throw new Exception('ERROR: Could not execute SQL script: '.Install::FILENAME_TABLES);
       }
-      $request = "SELECT value from `codev_config_table` WHERE `config_id` = 'database_version' ";
-      if (!SqlWrapper::getInstance()->sql_query($request)) {
+      $request = "SELECT value from codev_config_table WHERE config_id = 'database_version' ";
+      if (!$sql->sql_query($request)) {
          throw new Exception('ERROR: CodevTT database tables not created.');
       }
 
       echo "<script type=\"text/javascript\">console.log(\"Step 3/4 execSQLscript2 - create Procedures\");</script>";
       // procedures are defined in install/codevtt_procedures.php
-      foreach ($codevtt_sqlProcedures as $query) {
-         $result = SqlWrapper::getInstance()->sql_query(trim($query));
-         if (!$result) {
-            throw new Exception('ERROR: SQL procedure creation failed FAILED');
+      try {
+         foreach ($codevtt_sqlProcedures as $query) {
+            $result = $sql->sql_query(trim($query));
          }
+      } catch (Exception $e) {
+         throw new Exception('ERROR: SQL procedure creation failed FAILED');
       }
 
-      echo "<script type=\"text/javascript\">console.log(\"Step 4/4 Perf: CREATE INDEX handler_id ON mantis_bug_table\");</script>";
-      $request = "CREATE INDEX `handler_id` ON `mantis_bug_table` (`handler_id`); ";
-      $result = SqlWrapper::getInstance()->sql_query($request);
-      // Note: we do not care about the result: if failed, then the INDEX already exists.
-
+      echo "<script type=\"text/javascript\">console.log(\"Step 4/4 Perf: CREATE INDEX handler_id ON {bug}\");</script>";
+      $request = "CREATE INDEX handler_id ON {bug} (handler_id); ";
+      try {
+         $result = $sql->sql_query($request);
+      } catch (Exception $e) {
+         // Note: we do not care about the result: if failed, then the INDEX already exists.
+      }
       // everything went fine, goto step2
       echo ("<script type='text/javascript'> parent.location.replace('install_step2.php'); </script>");
 
