@@ -53,15 +53,12 @@ if (1 == Constants::$emailSettings['enable_email_notification']) {
    $endT = mktime(0, 0, 0, date('m', $endT), date('d',$endT), date('Y', $endT));
 
    if (is_null($team_id)) {
-      $query = "SELECT id FROM `codev_team_table` WHERE enabled = 1;";
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id FROM codev_team_table WHERE enabled = 1";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $result = $sql->sql_query($query);
 
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $team = TeamCache::getInstance()->getTeam($row->id);
          $team->sendTimesheetEmails($startT, $endT);
       }

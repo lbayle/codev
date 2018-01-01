@@ -25,16 +25,6 @@ require('../path.inc.php');
 $errors = array();
 $logger = Logger::getLogger("checkWBS");
 
-
-function execQuery($query) {
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      echo "<span style='color:red'>ERROR: Query FAILED $query<br/>" . mysql_error() . "</span>";
-      exit;
-   }
-   return $result;
-}
-
 function logMessage($bugid, $errMsg) {
    global $errors;
    #echo "$errMsg<br>";
@@ -49,30 +39,32 @@ if (Tools::isConnectedUser()) {
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
    if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
 
+   $sql = AdodbWrapper::getInstance();
+
    // check removed issues
    echo "<br>=================<br>Check issues to remove from Command (removed from mantis)<br>";
-   $query0 = "SELECT command_id, bug_id FROM codev_command_bug_table WHERE bug_id NOT IN (SELECT id FROM mantis_bug_table)";
-   $result0 = execQuery($query0);
-   while ($row = SqlWrapper::getInstance()->sql_fetch_object($result0)) {
+   $query0 = "SELECT command_id, bug_id FROM codev_command_bug_table WHERE bug_id NOT IN (SELECT id FROM {bug})";
+   $result0 = $sql->sql_query($query0);
+   while ($row = $sql->fetchObject($result0)) {
       $errMsg = "ERROR issue $row->bug_id does not exist in Mantis but is still defined in Command $row->command_id";
       logMessage($row->bug_id, $errMsg);
 
       // remove from Command
-      $query = "DELETE FROM `codev_command_bug_table` WHERE bug_id = ".$row->bug_id.";";
-      $result = execQuery($query);
+      $query = "DELETE FROM codev_command_bug_table WHERE bug_id = ".$sql->db_param();
+      $result = $sql->sql_query($query, array($row->bug_id));
    }
 
    // check removed issues
    echo "Check issues to remove from WBS (removed from mantis)<br>";
-   $query0 = "SELECT root_id, bug_id FROM codev_wbs_table WHERE bug_id NOT IN (SELECT id FROM mantis_bug_table)";
-   $result0 = execQuery($query0);
-   while ($row = SqlWrapper::getInstance()->sql_fetch_object($result0)) {
+   $query0 = "SELECT root_id, bug_id FROM codev_wbs_table WHERE bug_id NOT IN (SELECT id FROM {bug})";
+   $result0 = $sql->sql_query($query0);
+   while ($row = $sql->fetchObject($result0)) {
       $errMsg = "ERROR issue $row->bug_id does not exist in Mantis but is still defined in WBS (root = $row->root_id)";
       logMessage($row->bug_id, $errMsg);
 
       // remove from WBS
-      $query = "DELETE FROM `codev_wbs_table` WHERE bug_id = ".$row->bug_id.";";
-      $result = execQuery($query);
+      $query = "DELETE FROM codev_wbs_table WHERE bug_id = ".$sql->db_param();
+      $result = $sql->sql_query($query, array($row->bug_id));
    }
 
 
@@ -80,9 +72,9 @@ if (Tools::isConnectedUser()) {
 
       echo "<br>=================<br>Check Commands<br>";
    // 1) foreach command
-   $query = "SELECT id, name, wbs_id FROM `codev_command_table`;";
-   $result = execQuery($query);
-   while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+   $query = "SELECT id, name, wbs_id FROM codev_command_table";
+   $result = $sql->sql_query($query);
+   while ($row = $sql->fetchObject($result)) {
 
       $cmdid = $row->id;
       $cmdName = $row->name;
@@ -95,19 +87,19 @@ if (Tools::isConnectedUser()) {
       }
 
       // 2) get all issues declared in Cmd
-      $query2 = "SELECT `bug_id` FROM `codev_command_bug_table` WHERE `command_id` = $cmdid;";
-      $result2 = execQuery($query2);
+      $query2 = "SELECT bug_id FROM codev_command_bug_table WHERE command_id = ".$sql->db_param();
+      $result2 = $sql->sql_query($query2, array($cmdid));
       $cmdBugidList = array();
-      while ($row2 = SqlWrapper::getInstance()->sql_fetch_object($result2)) {
+      while ($row2 = $sql->fetchObject($result2)) {
          $cmdBugidList[] = $row2->bug_id;
 
       }
 
       // 3) get all issues declared in WBS
-      $query3 = "SELECT `bug_id` FROM `codev_wbs_table` WHERE `root_id`  = $wbsid;";
-      $result3 = execQuery($query3);
+      $query3 = "SELECT bug_id FROM codev_wbs_table WHERE root_id  = ".$sql->db_param();
+      $result3 = $sql->sql_query($query3, array($wbsid));
       $wbsBugidList = array();
-      while ($row3 = SqlWrapper::getInstance()->sql_fetch_object($result3)) {
+      while ($row3 = $sql->fetchObject($result3)) {
          $wbsBugidList[] = $row3->bug_id;
       }
 
@@ -140,8 +132,9 @@ if (Tools::isConnectedUser()) {
                // issue is declared in WBS but not in command: remove from WBS !
                logMessage($wbs_bid, "ERROR issue $wbs_bid is declared in WBS but not in command $cmdid : $cmdName");
                // remove from WBS
-               $query4 = "DELETE FROM `codev_wbs_table` WHERE `root_id` = '$wbsid' AND `bug_id` = '$wbs_bid'";
-               $result4 = execQuery($query4);
+               $query4 = "DELETE FROM codev_wbs_table WHERE root_id = ".$sql->db_param().
+                         " AND bug_id = ".$sql->db_param();
+               $result4 = $sql->sql_query($query4, array($wbsid, $wbs_bid));
 
             }
          }
@@ -163,7 +156,7 @@ if (Tools::isConnectedUser()) {
    }
    
 
-   // "SELECT * FROM codev_command_bug_table WHERE bug_id NOT IN (SELECT id FROM mantis_bug_table)";
+   // "SELECT * FROM codev_command_bug_table WHERE bug_id NOT IN (SELECT id FROM {bug})";
   } else {
      echo "Sorry, you're not identified as a CodevTT administrator.";
   }
