@@ -37,8 +37,8 @@ class IssueInfoController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
-         $user = UserCache::getInstance()->getUser($_SESSION['userid']);
-         $teamid = $_SESSION['teamid'];
+         $user = $this->session_user;
+         $teamid = $this->teamid;
          $teamList = $user->getTeamList();
 
          if (count($teamList) > 0) {

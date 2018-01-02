@@ -95,8 +95,9 @@ class IssueSelection {
          $this->duration += $issue->getDuration();
          $this->mgrEffortEstim += $issue->getMgrEffortEstim();
          $this->effortEstim += $issue->getEffortEstim();
-         $this->effortAdd += $issue->getEffortAdd();
-
+         if (is_numeric($issue->getEffortAdd())) {
+            $this->effortAdd += $issue->getEffortAdd();
+         }
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->getMgrEffortEstim()." BI+BS=".($issue->getEffortEstim() + $issue->getEffortAdd())." elapsed=".$issue->getElapsed()." RAF=".$issue->getDuration()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
          }

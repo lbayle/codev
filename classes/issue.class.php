@@ -247,22 +247,22 @@ class Issue extends Model implements Comparable {
                $this->extRef = $row->value;
                break;
             case $mgrEffortEstimField:
-               $this->mgrEffortEstim = $row->value;
+               $this->mgrEffortEstim = (float)$row->value;
                break;
             case $effortEstimField:
-               $this->effortEstim = $row->value;
+               $this->effortEstim = (float)$row->value;
                break;
             case $backlogField:
-               $this->backlog = $row->value;
+               $this->backlog = (float)$row->value;
                break;
             case $addEffortField:
-               $this->effortAdd = $row->value;
+               $this->effortAdd = (float)$row->value;
                break;
             case $deadLineField:
-               $this->deadLine = $row->value;
+               $this->deadLine = (int)$row->value;
                break;
             case $deliveryDateField:
-               $this->deliveryDate = $row->value;
+               $this->deliveryDate = (int)$row->value;
                break;
             #case $deliveryIdField:
             #   $this->deliveryId = $row->value;
@@ -1767,8 +1767,8 @@ class Issue extends Model implements Comparable {
       $q_params[]=$_SESSION['userid'];
       $q_params[]=$this->bugId;
       $q_params[]=$field_name;
-      $q_params[]=$old_value;
-      $q_params[]=$new_value;
+      $q_params[]=(NULL === $old_value) ? '' : $old_value;
+      $q_params[]=(NULL === $new_value) ? '' : $new_value;
       $q_params[]=$type;
       $q_params[]=$now;
       $sql->sql_query($query, $q_params);
@@ -1837,29 +1837,33 @@ class Issue extends Model implements Comparable {
          $query2 = "UPDATE {custom_field_string} SET value = ".$sql->db_param()
             . " WHERE bug_id=".$sql->db_param()
             . " AND field_id = ".$sql->db_param();
-         $q_params2[]=$value;
+         $q_params2[]=(NULL === $value) ? '' : $value;
          $q_params2[]=$this->bugId;
          $q_params2[]=$field_id;
       } else {
-         $query2 = "INSERT INTO {custom_field_string} (field_id, bug_id, value)".
-                     ' VALUES ( ' . $sql->db_param() . ','
-                                  . $sql->db_param() . ','
-                                  . $sql->db_param() . ')';
-         $q_params2[]=$field_id;
-         $q_params2[]=$this->bugId;
-         $q_params2[]=$value;
+         if (NULL !== $value) {
+            $query2 = "INSERT INTO {custom_field_string} (field_id, bug_id, value)".
+                        ' VALUES ( ' . $sql->db_param() . ','
+                                     . $sql->db_param() . ','
+                                     . $sql->db_param() . ')';
+            $q_params2[]=$field_id;
+            $q_params2[]=$this->bugId;
+            $q_params2[]=$value;
+         }
       }
-      $sql->sql_query($query2, $q_params2);
+      if (isset($query2)) {
+         $sql->sql_query($query2, $q_params2);
 
-      // update bug history
-      if (NULL == $field_name) {
-         $query3 = "SELECT name FROM {custom_field} WHERE id = ".$sql->db_param();
-         $q_params3[]=$field_id;
-         $result3 = $sql->sql_query($query3, $q_params3);
+         // update bug history
+         if (NULL == $field_name) {
+            $query3 = "SELECT name FROM {custom_field} WHERE id = ".$sql->db_param();
+            $q_params3[]=$field_id;
+            $result3 = $sql->sql_query($query3, $q_params3);
 
-         $field_name = (0 != $sql->getNumRows($result3)) ? $sql->sql_result($result3, 0) : 'custom_'.$field_id;
+            $field_name = (0 != $sql->getNumRows($result3)) ? $sql->sql_result($result3, 0) : 'custom_'.$field_id;
+         }
+         $this->setMantisBugHistory($field_name, $old_value, $value);
       }
-      $this->setMantisBugHistory($field_name, $old_value, $value);
    }
 
    /**
