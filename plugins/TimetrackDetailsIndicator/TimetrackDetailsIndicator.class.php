@@ -174,10 +174,10 @@ class TimetrackDetailsIndicator extends IndicatorPluginAbstract {
             $query = "SELECT * FROM codev_timetracking_table " .
                      " WHERE date >= ".$sql->db_param().
                      " AND date <=  ".$sql->db_param() .
-                     " AND userid IN (".$sql->db_param().")" .
+                     " AND userid IN (".$formatedMembers.")" .
                      " ORDER BY date";
 
-            $result = $sql->sql_query($query, array($this->startTimestamp, $my_endTimestamp, $formatedMembers));
+            $result = $sql->sql_query($query, array($this->startTimestamp, $my_endTimestamp));
 
             $jobs = new Jobs();
             while ($row = $sql->fetchObject($result)) {

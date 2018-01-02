@@ -81,10 +81,10 @@ class ExportCsvTools {
 
       $query = "SELECT * FROM {bug} ".
          "WHERE status < get_project_resolved_status_threshold(project_id) ".
-         " AND project_id IN (".$sql->db_param().") ".
+         " AND project_id IN (".$formatedProjList.") ".
          //" AND handler_id IN ($formatedMemberList) ".
          "ORDER BY id DESC";
-      $result = $sql->sql_query($query, array($formatedProjList));
+      $result = $sql->sql_query($query);
 
       while($row = $sql->fetchObject($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
@@ -137,12 +137,12 @@ class ExportCsvTools {
       // Add resolved issues modified into the period
       $query2 = "SELECT * FROM {bug} ".
          "WHERE status >= get_project_resolved_status_threshold(project_id) ".
-         " AND project_id IN (".$sql->db_param().") ".
+         " AND project_id IN (".$formatedProjList.") ".
          //" AND handler_id IN ($formatedMemberList) ".
          " AND last_updated >  ".$sql->db_param().
          " AND last_updated <  ".$sql->db_param().
          "ORDER BY id DESC";
-      $result2 = $sql->sql_query($query2, array($formatedProjList, $startTimestamp, $endTimestamp));
+      $result2 = $sql->sql_query($query2, array($startTimestamp, $endTimestamp));
 
       while($row = $sql->fetchObject($result2)) {
 

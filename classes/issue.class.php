@@ -237,9 +237,8 @@ class Issue extends Model implements Comparable {
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT field_id, value FROM {custom_field_string} ".
                "WHERE bug_id = ".$sql->db_param().
-               " AND field_id IN (".$sql->db_param().")";
+               " AND field_id IN (".implode(',',$customFields).")";
       $q_params[]=$this->bugId;
-      $q_params[]=implode(',',$customFields);
       $result = $sql->sql_query($query, $q_params);
 
       while ($row = $sql->fetchObject($result)) {
@@ -1936,11 +1935,11 @@ class Issue extends Model implements Comparable {
          
       if(count($newIssueIds) > 0) {
          $sql = AdodbWrapper::getInstance();
+         $formattedList=implode(', ', $newIssueIds);
          $query = "SELECT * FROM {bug} " .
-                  "WHERE id IN (".$sql->db_param().")";
-         $q_params[]=implode(', ', $newIssueIds);
+                  "WHERE id IN (".$formattedList.")";
          
-         $result = $sql->sql_query($query, $q_params);
+         $result = $sql->sql_query($query);
          
          while($row = $sql->fetchObject($result)) {
             $issues[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);

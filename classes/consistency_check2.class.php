@@ -501,8 +501,8 @@ class ConsistencyCheck2 {
 
          $sql = AdodbWrapper::getInstance();
          $query = "SELECT bug_id, COUNT(command_id) as count FROM codev_command_bug_table".
-                  " WHERE bug_id IN (".$sql->db_param().") GROUP BY bug_id;";
-         $result = $sql->sql_query($query, array($this->formattedBugidList));
+                  " WHERE bug_id IN (".$this->formattedBugidList.") GROUP BY bug_id;";
+         $result = $sql->sql_query($query);
 
          $commandsByIssue = array();
          while($row = $sql->fetchObject($result)) {
@@ -555,8 +555,8 @@ class ConsistencyCheck2 {
 
          $sql = AdodbWrapper::getInstance();
          $query = "SELECT bug_id, COUNT(command_id) as count FROM codev_command_bug_table".
-            " WHERE bug_id IN (".$sql->db_param().") GROUP BY bug_id";
-         $result = $sql->sql_query($query, array($this->formattedBugidList));
+            " WHERE bug_id IN (".$this->formattedBugidList.") GROUP BY bug_id";
+         $result = $sql->sql_query($query);
 
          $commandsByIssue = array();
          while($row = $sql->fetchObject($result)) {
@@ -685,10 +685,10 @@ class ConsistencyCheck2 {
          $query = "SELECT * ".
                   "FROM codev_timetracking_table ".
                   "WHERE date >= ".$sql->db_param()." ".
-                  " AND userid IN (".$sql->db_param().") ";
+                  " AND userid IN (".$formatedUsers.") ";
          #" AND    0 = (SELECT COUNT(id) FROM {bug} WHERE id='codev_timetracking_table.bugid' ) ";
 
-         $result = $sql->sql_query($query, array($team->getDate(), $formatedUsers));
+         $result = $sql->sql_query($query, array($team->getDate()));
 
          while($row = $sql->fetchObject($result)) {
             if (!Issue::exists($row->bugid)) {

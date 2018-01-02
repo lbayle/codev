@@ -440,19 +440,17 @@ class EditTeamController extends Controller {
 
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT * FROM {bug} ".
-         "WHERE project_id IN (".$sql->db_param().") ";
-      $q_params[]=$formatedInactivityCatList;
+         "WHERE project_id IN (".$formatedInactivityCatList.") ";
 
       $astreintesList = $team->getOnDutyTasks();
       if (!empty($astreintesList)) {
          $formatedAstreintesList = implode( ', ', $astreintesList);
-         $query .= " AND id NOT IN (".$sql->db_param().") ";
-         $q_params[]=$formatedAstreintesList;
+         $query .= " AND id NOT IN (".$formatedAstreintesList.") ";
       }
       $query .= " ORDER BY id";
 
       try {
-         $result = $sql->sql_query($query, $q_params);
+         $result = $sql->sql_query($query);
       } catch (Exception $e) {
          return NULL;
       }

@@ -157,11 +157,11 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
             $query = "SELECT * FROM codev_timetracking_table " .
                     " WHERE date >= ".$sql->db_param().
                     " AND date <= ".$sql->db_param() .
-                    " AND userid IN (".$sql->db_param().")" .
+                    " AND userid IN (".$formatedUsers.")" .
                     " AND bugid =  ".$sql->db_param() .
                     " ORDER BY date";
             
-            $result = $sql->sql_query($query, array($beginDate, $endDate, $formatedUsers, $task));
+            $result = $sql->sql_query($query, array($beginDate, $endDate, $task));
 
             $jobs = new Jobs();
             while ($row = $sql->fetchObject($result)) {
@@ -226,15 +226,15 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
             
             // Move all selected timetracks to destination task
             $query = "UPDATE codev_timetracking_table SET bugid= ".$sql->db_param() .
-                    "WHERE id IN (".$sql->db_param().") ";
+                    "WHERE id IN (".$formatedTimetracksIds.") ";
             
-            $sql->sql_query($query, array($destBugId, $formatedTimetracksIds));
+            $sql->sql_query($query, array($destBugId));
 
             // move timetrack notes
             $query2 = "UPDATE {bugnote} SET bug_id=".$sql->db_param().
                       " WHERE id in (SELECT noteid FROM codev_timetrack_note_table ".
-                      "              WHERE timetrackid in (".$sql->db_param()."))";
-            $sql->sql_query($query2, array($destBugId, $formatedTimetracksIds));
+                      "              WHERE timetrackid in (".$formatedTimetracksIds."))";
+            $sql->sql_query($query2, array($destBugId));
 
         }
     }

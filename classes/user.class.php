@@ -926,18 +926,17 @@ class User extends Model {
          $query = "SELECT DISTINCT project.id, project.name " .
                   "FROM {project} as project " .
                   "JOIN codev_team_project_table as team_project ON project.id = team_project.project_id ".
-                  "WHERE team_project.team_id IN (".$sql->db_param().") ";
-         $q_params[]=$formatedTeamList;
+                  "WHERE team_project.team_id IN (".$formatedTeamList.") ";
 
          if (!$noStatsProject) {
-            $query .= " AND team_project.type <> " . Project::type_noStatsProject. " ";
+            $query .= " AND team_project.type <> " . $sql->db_param();
+            $q_params[]=Project::type_noStatsProject;
          }
          if (!$withDisabledProjects) {
             $query .= " AND project.enabled = 1 ";
          }
 
          $query .= " ORDER BY project.name;";
-
          $result = $sql->sql_query($query, $q_params);
 
          while ($row = $sql->fetchObject($result)) {
@@ -981,11 +980,10 @@ class User extends Model {
 
       // find all issues i'm working on
       $query = "SELECT * FROM {bug} " .
-               " WHERE project_id IN (".$sql->db_param(). ") " .
+               " WHERE project_id IN (".$formatedProjList. ") " .
                " AND handler_id =  ".$sql->db_param() .
                " AND status < get_project_resolved_status_threshold(project_id) " .
                " ORDER BY id DESC;";
-      $q_params[]=$formatedProjList;
       $q_params[]=$this->id;
       $result = $sql->sql_query($query, $q_params);
 
@@ -1034,9 +1032,8 @@ class User extends Model {
       $sql = AdodbWrapper::getInstance();
 
       $query = "SELECT * FROM {bug} " .
-               "WHERE project_id IN (".$sql->db_param() . ") " .
+               "WHERE project_id IN (".$formatedProjList . ") " .
                " AND handler_id = ".$sql->db_param();
-      $q_params[]=$formatedProjList;
       $q_params[]=$this->id;
 
       if (!$withResolved) {
@@ -1614,8 +1611,7 @@ class User extends Model {
 
       if ((NULL != $bugidList) && (count($bugidList) > 0)) {
          $formattedList = implode(", ",$bugidList);
-         $query .= " AND bugid IN (".$sql->db_param().") ";
-         $q_params[]=$formattedList;
+         $query .= " AND bugid IN (".$formattedList.") ";
       }
 
       $query .= " ORDER BY date DESC";
@@ -1718,9 +1714,8 @@ class User extends Model {
          $query = "SELECT DISTINCT date ".
                   " FROM codev_timetracking_table ".
                   " WHERE userid = ".$sql->db_param() .
-                  " AND date IN (".$sql->db_param().")";
+                  " AND date IN (".implode(', ', $weekTimestamps).")";
          $q_params[]=$this->id;
-         $q_params[]=implode(', ', $weekTimestamps);
 
          $result = $sql->sql_query($query, $q_params);
 

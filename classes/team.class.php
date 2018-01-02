@@ -622,12 +622,10 @@ class Team extends Model {
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT * ".
                "FROM {bug} ".
-               "WHERE project_id IN (".$sql->db_param().") ".
-               " AND handler_id IN (".$sql->db_param().") ";
-      $q_params[]=$formatedProjects;
-      $q_params[]=$formatedMembers;
+               "WHERE project_id IN (".$formatedProjects.") ".
+               " AND handler_id IN (".$formatedMembers.") ";
 
-      $result = $sql->sql_query($query, $q_params);
+      $result = $sql->sql_query($query);
 
       while($row = $sql->fetchObject($result)) {
          $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
@@ -666,10 +664,8 @@ class Team extends Model {
       $query = "SELECT * ".
                "FROM {bug} ".
                "WHERE status < get_project_resolved_status_threshold(project_id) ".
-               " AND project_id IN (".$sql->db_param().") ".
-               " AND handler_id IN (".$sql->db_param().") ";
-      $q_params[]=$formatedProjects;
-      $q_params[]=$formatedMembers;
+               " AND project_id IN (".$formatedProjects.") ".
+               " AND handler_id IN (".$formatedMembers.") ";
 
 
       if (!$addNewIssues) {
@@ -1097,8 +1093,7 @@ class Team extends Model {
       $query = "SELECT id, name FROM {project}";
 
       if($projects != NULL && count($projects) != 0) {
-         $query .= " WHERE id NOT IN (".$sql->db_param().")";
-         $q_params[]=$formatedCurProjList;
+         $query .= " WHERE id NOT IN (".$formatedCurProjList.")";
       }
 
       $query .= " ORDER BY name";

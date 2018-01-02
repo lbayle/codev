@@ -185,7 +185,7 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
       $query = "SELECT bug.* " .
                " FROM {bug} as bug ".
                " JOIN {bug_history} as history ON bug.id = history.bug_id " .
-               " WHERE bug.id IN (".$sql->db_param().") " .
+               " WHERE bug.id IN (".$formattedBugidList.") " .
                " AND history.field_name='status' " .
                " AND history.date_modified >= ".$sql->db_param().
                " AND history.date_modified < ".$sql->db_param().
@@ -193,7 +193,7 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
                " AND history.new_value <  get_project_resolved_status_threshold(bug.project_id) " .
                " GROUP BY bug.id";
 
-      $result = $sql->sql_query($query, array($formattedBugidList, $start, $end));
+      $result = $sql->sql_query($query, array($start, $end));
 
       // 2) count reopened and (still) fixed issues at the end of the period
       $bugidList = array();
@@ -232,7 +232,7 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
       $query = "SELECT bug.* ".
                " FROM {bug} as bug ".
                " JOIN {bug_history} as history ON bug.id = history.bug_id " .
-               " WHERE bug.id IN (".$sql->db_param().") " .
+               " WHERE bug.id IN (".$formattedBugidList.") " .
                " AND history.field_name='status' " .
                " AND history.date_modified >= ".$sql->db_param().
                " AND history.date_modified < ".$sql->db_param() .
@@ -240,7 +240,7 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
                " AND history.new_value >  get_project_resolved_status_threshold(bug.project_id) " .
                " GROUP BY bug.id ;";
 
-      $result = $sql->sql_query($query, array($formattedBugidList, $start, $end));
+      $result = $sql->sql_query($query, array($start, $end));
 
       $bugidList = array();
       while($row = $sql->fetchObject($result)) {
@@ -276,14 +276,14 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT bug.id ".
                " FROM {bug} as bug, {bug_history} as history ".
-               " WHERE bug.id IN (".$sql->db_param().") " .
+               " WHERE bug.id IN (".$formattedBugidList.") " .
                " AND bug.id = history.bug_id ".
                " AND history.field_name='status' ".
                " AND history.date_modified >= ".$sql->db_param().
                " AND history.date_modified <  ".$sql->db_param().
                " AND history.new_value = get_project_resolved_status_threshold(project_id) ";
 
-      $result = $sql->sql_query($query, array($formattedBugidList, $start, $end));
+      $result = $sql->sql_query($query, array($start, $end));
 
       $resolvedList = array();
       while($row = $sql->fetchObject($result)) {

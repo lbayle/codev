@@ -477,8 +477,7 @@ class CommandSet extends Model {
 
          $sql = AdodbWrapper::getInstance();
          $query = "SELECT * FROM codev_command_provision_table ".
-                 "WHERE command_id IN (".$sql->db_param().") ";
-         $q_params[]=$formattedCmdidList;
+                 "WHERE command_id IN (".$formattedCmdidList.") ";
 
          if (!is_null($provType)) {
             $query .= " AND type = ".$sql->db_param();

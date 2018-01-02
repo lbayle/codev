@@ -174,9 +174,9 @@ class EditJobsController extends Controller {
       $sql = AdodbWrapper::getInstance();
       $query2 = "SELECT jobid, COUNT(jobid) as count ".
          "FROM codev_timetracking_table ".
-         "WHERE jobid IN (".$sql->db_param().") GROUP BY jobid";
+         "WHERE jobid IN (".$formattedJobs.") GROUP BY jobid";
       try {
-         $result2 = $sql->sql_query($query2, array($formattedJobs));
+         $result2 = $sql->sql_query($query2);
       } catch (Exception $e) {
          return NULL;
       }

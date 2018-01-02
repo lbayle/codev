@@ -227,9 +227,9 @@ class IssueSelection {
          $sql = AdodbWrapper::getInstance();
 
          // for each issue, sum all its timetracks within period
+         $formattedList=implode(', ', array_keys($this->issueList));;
          $query = "SELECT SUM(duration) FROM codev_timetracking_table ".
-                  " WHERE bugid IN (".$sql->db_param().") ";
-         $q_params[]=implode(', ', array_keys($this->issueList));;
+                  " WHERE bugid IN (".$formattedList.") ";
 
          if (isset($startTimestamp)) {
             $query .= " AND date >=  ".$sql->db_param();
@@ -262,9 +262,9 @@ class IssueSelection {
          $sql = AdodbWrapper::getInstance();
 
          // for each issue, sum all its timetracks within period
+         $formattedList=implode(', ', array_keys($this->issueList));
          $query = "SELECT bugid FROM codev_timetracking_table ".
-                  " WHERE bugid IN (".$sql->db_param().") ";
-         $q_params[]=implode(', ', array_keys($this->issueList));
+                  " WHERE bugid IN (".$formattedList.") ";
 
          if (isset($startTimestamp)) {
             $query .= " AND date >=  ".$sql->db_param();
@@ -530,11 +530,11 @@ class IssueSelection {
    public function getFirstTimetrack() {
       if(count($this->issueList) > 0) {
          $sql = AdodbWrapper::getInstance();
+         $formattedList=implode(', ',array_keys($this->issueList));
          $query = "SELECT * from codev_timetracking_table ".
-            "WHERE bugid IN (".$sql->db_param().") ".
+            "WHERE bugid IN (".$formattedList.") ".
             " ORDER BY date ASC";
-         $q_params[]=implode(', ',array_keys($this->issueList));
-         $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
+         $result = $sql->sql_query($query, null, TRUE, 1); // LIMIT 1
 
          $timeTrack = NULL;
          if (0 != $sql->getNumRows($result)) {
@@ -554,11 +554,11 @@ class IssueSelection {
    public function getLatestTimetrack() {
       if(count($this->issueList) > 0) {
          $sql = AdodbWrapper::getInstance();
+         $formattedList=implode(', ',array_keys($this->issueList));
          $query = "SELECT * from codev_timetracking_table ".
-            "WHERE bugid IN (".$sql->db_param().") ".
+            "WHERE bugid IN (".$formattedList.") ".
             " ORDER BY date DESC";
-         $q_params[]=implode(', ',array_keys($this->issueList));
-         $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
+         $result = $sql->sql_query($query, null, TRUE, 1); // LIMIT 1
 
          $timeTrack = NULL;
          if (0 != $sql->getNumRows($result)) {
@@ -580,11 +580,11 @@ class IssueSelection {
 
       if(count($this->issueList) > 0) {
          $sql = AdodbWrapper::getInstance();
+         $formattedList=implode(', ',array_keys($this->issueList));
          $query = "SELECT last_updated from {bug} ".
-            "WHERE id IN (".$sql->db_param().") ".
+            "WHERE id IN (".$formattedList.") ".
             " ORDER BY last_updated DESC";
-         $q_params[]=implode(', ',array_keys($this->issueList));
-         $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
+         $result = $sql->sql_query($query, null, TRUE, 1); // LIMIT 1
 
          if (0 != $sql->getNumRows($result)) {
             $row = $sql->fetchObject($result);
@@ -605,11 +605,11 @@ class IssueSelection {
    	$lastUpdatedList = array();
       if(count($this->issueList) > 0) {
          $sql = AdodbWrapper::getInstance();
+         $formattedList=implode(', ',array_keys($this->issueList));
          $query = "SELECT id, last_updated from {bug} ".
-            "WHERE id IN (".$sql->db_param().") ".
+            "WHERE id IN (".$formattedList.") ".
             " ORDER BY last_updated DESC";
-         $q_params[]=implode(', ',array_keys($this->issueList));
-         $result = $sql->sql_query($query, $q_params, TRUE, $max); // LIMIT max
+         $result = $sql->sql_query($query, null, TRUE, $max); // LIMIT max
       
       while ($row = $sql->fetchObject($result)) {
          $lastUpdatedList["$row->id"] = $row->last_updated;
@@ -638,13 +638,12 @@ class IssueSelection {
       // TODO cache results !
 
       $sql = AdodbWrapper::getInstance();
+      $formattedList=implode( ', ', array_keys($this->issueList));
       $query = "SELECT * FROM codev_timetracking_table ".
-               "WHERE bugid IN (".$sql->db_param().") ";
-      $q_params[]=implode( ', ', array_keys($this->issueList));
+               "WHERE bugid IN (".$formattedList.") ";
 
       if (NULL != $useridList) { 
-         $query .= ' AND userid IN ('.$sql->db_param().') ';
-         $q_params[]=implode( ', ', $useridList);
+         $query .= ' AND userid IN ('.implode( ', ', $useridList).') ';
       }
       if (NULL != $startTimestamp) { $query .= " AND date >=  ".$sql->db_param(); $q_params[]=$startTimestamp; }
       if (NULL != $endTimestamp)   { $query .= " AND date <=  ".$sql->db_param(); $q_params[]=$endTimestamp; }

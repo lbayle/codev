@@ -450,8 +450,8 @@ class Project extends Model {
             }
          }
 
-         $query = "SELECT id, name FROM {category} WHERE project_id IN (".$sql->db_param().")";
-         $result = $sql->sql_query($query, array($formattedProjects));
+         $query = "SELECT id, name FROM {category} WHERE project_id IN (".$formattedProjects.")";
+         $result = $sql->sql_query($query);
 
          while($row = $sql->fetchObject($result)) {
             $this->categoryCache[$row->id] = $row->name;
@@ -1198,8 +1198,7 @@ class Project extends Model {
       $q_params[]=$destProjectId;
       if (!$strict) {
          // delete only config defined for srcProject
-         $query .= " AND config_id IN (".$sql->db_param().") ";
-         $q_params[]=$formatedSrcConfigList;
+         $query .= " AND config_id IN (".$formatedSrcConfigList.") ";
       }
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("cloneAllProjectConfig: deleteQuery = $query");
@@ -1361,10 +1360,9 @@ class Project extends Model {
 
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT * FROM {bug} " .
-               " WHERE project_id IN (".$sql->db_param().") " .
+               " WHERE project_id IN (".$formatedProjList.") " .
                " ORDER BY id DESC";
-      $result = $sql->sql_query($query, array($formatedProjList));
-
+      $result = $sql->sql_query($query);
       $issueList = array();
       if (0 != $sql->getNumRows($result)) {
          while ($row = $sql->fetchObject($result)) {

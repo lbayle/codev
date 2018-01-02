@@ -215,12 +215,11 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
         $bugidList = array_keys($issueList);
 
         $query = "SELECT * FROM codev_timetracking_table ".
-                 "WHERE userid IN (".$sql->db_param().") ";
-        $q_params[]=$formatedUseridString;
+                 "WHERE userid IN (".$formatedUseridString.") ";
 
         if ((false == $this->showAllActivity) && (0 < count($bugidList))) {
-           $query .= " AND bugid IN (".$sql->db_param().") ";
-           $q_params[]=implode( ', ', $bugidList);;
+           $formattedBugidList=implode( ', ', $bugidList);
+           $query .= " AND bugid IN (".$formattedBugidList.") ";
         }
 
         if (isset($this->startTimestamp)) { $query .= " AND date >= ".$sql->db_param() ; $q_params[]=$this->startTimestamp;}

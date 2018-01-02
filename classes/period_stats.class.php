@@ -114,18 +114,15 @@ class PeriodStats {
       $query = "SELECT DISTINCT bug.id ".
                "FROM {bug} as bug ".
                "JOIN codev_team_project_table as team_project ON bug.project_id = team_project.project_id ".
-               "WHERE team_project.type IN (".$sql->db_param().") ";
-      $q_params[]=$formatedProjectTypes;
+               "WHERE team_project.type IN (".$formatedProjectTypes.") ";
 
       // Only for specified Projects
       if ((isset($this->projectList)) && (0 != count($this->projectList))) {
          $formatedProjects = implode( ', ', $this->projectList);
-         $query .= " AND bug.project_id IN (".$sql->db_param().") ";
-         $q_params[]=$formatedProjects;
+         $query .= " AND bug.project_id IN (".$formatedProjects.") ";
       }
-      $query .= ";";
 
-      $result = $sql->sql_query($query, $q_params);
+      $result = $sql->sql_query($query);
 
       // For each bugId
       while($row = $sql->fetchObject($result)) {

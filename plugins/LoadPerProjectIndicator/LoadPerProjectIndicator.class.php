@@ -200,10 +200,8 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
                   FROM codev_timetracking_table as tt, {project} as prj, {bug} as bug
                   WHERE tt.bugid = bug.id
                   AND bug.project_id = prj.id
-                  AND bug.id IN (".$sql->db_param().")
-                  AND tt.userid IN (".$sql->db_param().") ";
-         $q_params[]=$formatedBugidString;
-         $q_params[]=$formatedUseridString;
+                  AND bug.id IN (".$formatedBugidString.")
+                  AND tt.userid IN (".$formatedUseridString.") ";
 
          if (isset($this->startTimestamp)) { $query .= " AND tt.date >= ".$sql->db_param(); $q_params[]=$this->startTimestamp;}
          if (isset($this->endTimestamp))   { $query .= " AND tt.date <= ".$sql->db_param(); $q_params[]=$this->endTimestamp;}

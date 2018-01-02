@@ -473,6 +473,9 @@ function update_v15_to_v16() {
  */
 function update_v16_to_v17() {
 
+      $sql = AdodbWrapper::getInstance();
+
+      
    // update pluginManager (new plugin: UserTeamList)
    try {
       echo "- Update classmap.ser<br>";
@@ -575,6 +578,7 @@ function checkMantisPluginDir() {
  */
 function installMantisPlugin($pluginName, $isReplace=true) {
    try {
+      $sql = AdodbWrapper::getInstance();
 
       $mantisPluginDir = Constants::$mantisPath . DIRECTORY_SEPARATOR . 'plugins';
 

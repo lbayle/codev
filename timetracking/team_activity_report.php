@@ -191,9 +191,9 @@ class TeamActivityReportController extends Controller {
                $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
                if ($isDetailed) {
                   $formatedJobList = implode(', ', array_keys($jobList));
-                  $query = 'SELECT id, name FROM codev_job_table WHERE id IN ('.$sql->db_param().')';
+                  $query = 'SELECT id, name FROM codev_job_table WHERE id IN ('.$formatedJobList.')';
                   try {
-                     $result2 = $sql->sql_query($query, array($formatedJobList));
+                     $result2 = $sql->sql_query($query);
                   } catch (Exception $e) {
                      continue;
                   }

@@ -363,9 +363,8 @@ class TimeTracking {
          }
 
          $query .= ", {bug_history} as history ".
-                  " WHERE bug.project_id IN (".$sql->db_param().") ".
+                  " WHERE bug.project_id IN (".$formatedProjList.") ".
                   " AND bug.id = history.bug_id ";
-         $q_params[]=$formatedProjList;
 
          if ($extRefOnly) {
             $query .= " AND {custom_field_string}.bug_id = bug.id ";
@@ -823,15 +822,10 @@ class TimeTracking {
          $query = "SELECT DISTINCT date ".
                   " FROM codev_timetracking_table ".
                   " WHERE userid = ".$sql->db_param().
-                  " AND date IN (".$sql->db_param().");";
+                  " AND date IN (".implode(', ', $weekTimestamps).")";
          $q_params[]=$userid;
-         $q_params[]=implode(', ', $weekTimestamps);
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          $daysWithTimeTracks = array();
          while($row = $sql->fetchObject($result)) {
@@ -876,18 +870,13 @@ class TimeTracking {
                   " WHERE timetracking.userid =  ".$sql->db_param().
                   " AND timetracking.date >= ".$sql->db_param().
                   " AND timetracking.date <  ".$sql->db_param().
-                  " AND bug.project_id in (".$sql->db_param().")";
+                  " AND bug.project_id IN (".$formatedProjList.")";
          $q_params[]=$userid;
          $q_params[]=$this->startTimestamp;
          $q_params[]=$this->endTimestamp;
-         $q_params[]=$formatedProjList;
       }
 
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       while($row = $sql->fetchObject($result)) {
          if (!array_key_exists($row->bugid,$weekTracks)) {
@@ -941,17 +930,12 @@ class TimeTracking {
       if (false != $isTeamProjOnly) {
          $projList = TeamCache::getInstance()->getTeam($this->team_id)->getProjects();
          $formatedProjList = implode( ', ', array_keys($projList));
-         $query.= " AND bug.project_id in (".$sql->db_param().") ";
-         $q_params[]=$formatedProjList;
+         $query.= " AND bug.project_id in (".$formatedProjList.") ";
       }
 
       $query.= "GROUP BY bug.id, job.id, bug.project_id ORDER BY project.name, bug.id DESC;";
 
       $result = $sql->sql_query($query, $q_params);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       $projectTracks = array();
 
@@ -993,7 +977,7 @@ class TimeTracking {
          $query = "SELECT bug.*" .
                   " FROM {custom_field_string}, {bug} as bug ".
                   " JOIN {bug_history} as history ON bug.id = history.bug_id " .
-                  " WHERE bug.project_id IN (".$sql->db_param().") " .
+                  " WHERE bug.project_id IN (".$formatedProjList.") " .
                   " AND {custom_field_string}.bug_id = bug.id ".
                   " AND {custom_field_string}.field_id = ".$sql->db_param().
                   " AND {custom_field_string}.value <> '' ".
@@ -1003,16 +987,11 @@ class TimeTracking {
                   " AND history.old_value >= get_project_resolved_status_threshold(bug.project_id) " .
                   " AND history.new_value <  get_project_resolved_status_threshold(bug.project_id) " .
                   " GROUP BY bug.id ORDER BY bug.id DESC;";
-         $q_params[]=$formatedProjList;
          $q_params[]=$extIdField;
          $q_params[]=$this->startTimestamp;
          $q_params[]=$this->endTimestamp;
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          $this->reopenedList = array();
          while ($row = $sql->fetchObject($result)) {
@@ -1058,8 +1037,7 @@ class TimeTracking {
          $projects = $this->prodProjectList;
          if (0 != count($projects)) {
             $formatedProjects = implode( ', ', $projects);
-            $query .= " AND bug.project_id IN (".$sql->db_param().") ";
-            $q_params[]=$formatedProjects;
+            $query .= " AND bug.project_id IN (".$formatedProjects.") ";
          }
          if ($extRefOnly) {
             $query .= " AND {custom_field_string}.field_id =  ".$sql->db_param();
@@ -1070,10 +1048,6 @@ class TimeTracking {
          $query .= ";";
 
          $result = $sql->sql_query($query, $q_params);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
 
          $this->submittedBugs[$key] = $sql->sql_result($result);
       }
