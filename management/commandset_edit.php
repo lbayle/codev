@@ -69,7 +69,7 @@ class CommandSetEditController extends Controller {
                      self::$logger->debug("create new CommandSet for team $this->teamid<br>");
                   }
 
-                  $cmdsetName = Tools::escape_string($_POST['commandsetName']);
+                  $cmdsetName = Tools::getSecurePOSTStringValue('commandsetName');
 
                   try {
                      $commandsetid = CommandSet::create($cmdsetName, $this->teamid);
@@ -163,16 +163,16 @@ class CommandSetEditController extends Controller {
       }
       $cmdset->setTeamid($cset_teamid);
 
-      $formattedValue = Tools::escape_string($_POST['commandsetName']);
+      $formattedValue = Tools::getSecurePOSTStringValue('commandsetName');
       $cmdset->setName($formattedValue);
 
-      $formattedValue = Tools::escape_string($_POST['commandsetReference']);
+      $formattedValue = Tools::getSecurePOSTStringValue('commandsetReference');
       $cmdset->setReference($formattedValue);
 
-      $formattedValue = Tools::escape_string($_POST['commandsetDesc']);
+      $formattedValue = Tools::getSecurePOSTStringValue('commandsetDesc');
       $cmdset->setDesc($formattedValue);
 
-      $formattedValue = Tools::escape_string($_POST['commandsetDate']);
+      $formattedValue = Tools::getSecurePOSTStringValue('commandsetDate');
       if ('' != $formattedValue) {
          $cmdset->setDate(Tools::date2timestamp($formattedValue));
       }

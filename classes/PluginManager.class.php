@@ -184,7 +184,6 @@ class PluginManager {
             #echo "new plugin found: $pName<br>";
             $reflectionMethod = new ReflectionMethod($pName, 'getDesc');
             $pDesc = $reflectionMethod->invoke(NULL);
-            $pDesc = AdodbWrapper::getInstance()->escapeString($pDesc);
             $reflectionMethod = new ReflectionMethod($pName, 'getDomains');
             $pDomains = implode(',', $reflectionMethod->invoke(NULL));
             $reflectionMethod = new ReflectionMethod($pName, 'getCategories');
