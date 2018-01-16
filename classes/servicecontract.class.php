@@ -314,7 +314,7 @@ class ServiceContract extends Model {
          $sql = AdodbWrapper::getInstance();
          $query = "SELECT * FROM codev_servicecontract_cmdset_table ".
                   "WHERE servicecontract_id =  ".$sql->db_param().
-                  "ORDER BY type ASC, commandset_id ASC";
+                  " ORDER BY type ASC, commandset_id ASC";
 
          $result = $sql->sql_query($query, array($this->id));
 
@@ -372,7 +372,7 @@ class ServiceContract extends Model {
          $query = "SELECT project.* FROM {project} as project ".
                   "JOIN codev_servicecontract_stproj_table as servicecontract_stproj ON project.id = servicecontract_stproj.project_id ".
                   "WHERE servicecontract_stproj.servicecontract_id = ".$sql->db_param().
-                  "ORDER BY type ASC, project.id ASC;";
+                  " ORDER BY type ASC, project.id ASC;";
          $result = $sql->sql_query($query, array( $this->id));
 
          $this->sidetasksProjectList = array();

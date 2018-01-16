@@ -174,7 +174,7 @@ class EditJobsController extends Controller {
       $sql = AdodbWrapper::getInstance();
       $query2 = "SELECT jobid, COUNT(jobid) as count ".
          "FROM codev_timetracking_table ".
-         "WHERE jobid IN (".$formattedJobs.") GROUP BY jobid";
+         " WHERE jobid IN (".$formattedJobs.") GROUP BY jobid";
       try {
          $result2 = $sql->sql_query($query2);
       } catch (Exception $e) {
@@ -200,7 +200,7 @@ class EditJobsController extends Controller {
       $query = "SELECT job.id as job_id, job.name AS job_name, project_job.id, project_job.project_id ".
          "FROM codev_job_table as job ".
          "JOIN codev_project_job_table as project_job ON job.id = project_job.job_id ".
-         "ORDER BY project_job.project_id;";
+         " ORDER BY project_job.project_id;";
       $result = $sql->sql_query($query);
 
       $projects = array();

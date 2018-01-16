@@ -290,8 +290,8 @@ class CommandSet extends Model {
          $this->cmdidByTypeList = array();
          $sql = AdodbWrapper::getInstance();
          $query = "SELECT * FROM codev_commandset_cmd_table " .
-            "WHERE commandset_id =  ".$sql->db_param().
-            "ORDER BY type ASC, command_id ASC";
+            " WHERE commandset_id =  ".$sql->db_param().
+            " ORDER BY type ASC, command_id ASC";
 
          $result = $sql->sql_query($query, array($this->id));
 
@@ -403,8 +403,8 @@ class CommandSet extends Model {
          $sql = AdodbWrapper::getInstance();
          $query = "SELECT servicecontract.* FROM codev_servicecontract_table as servicecontract ".
                   "JOIN codev_servicecontract_cmdset_table as servicecontract_cmdset ON servicecontract.id = servicecontract_cmdset.servicecontract_id ".
-                  "WHERE servicecontract_cmdset.commandset_id = ".$sql->db_param();
-         $sql->sql_query($query, array($this->id));
+                  " WHERE servicecontract_cmdset.commandset_id = ".$sql->db_param();
+         $result = $sql->sql_query($query, array($this->id));
 
          // a Command can belong to more than one commandset
          $this->serviceContractList = array();
@@ -477,7 +477,7 @@ class CommandSet extends Model {
 
          $sql = AdodbWrapper::getInstance();
          $query = "SELECT * FROM codev_command_provision_table ".
-                 "WHERE command_id IN (".$formattedCmdidList.") ";
+                 " WHERE command_id IN (".$formattedCmdidList.") ";
 
          if (!is_null($provType)) {
             $query .= " AND type = ".$sql->db_param();
