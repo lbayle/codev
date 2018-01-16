@@ -163,6 +163,7 @@ class PluginManager {
                "version=".$sql->db_param().", ".
                "description=".$sql->db_param()." ".
                " WHERE name = ".$sql->db_param();
+            $q_params3=array();
             $q_params3[]=$pStatus;
             $q_params3[]=$pDomains;
             $q_params3[]=$pCat;
