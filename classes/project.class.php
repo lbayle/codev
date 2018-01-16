@@ -1208,11 +1208,12 @@ class Project extends Model {
       //--- clone all srcProj config to destProj
       foreach ($srcConfigList as $cid) {
          $query2 = "INSERT INTO {config} ".
-                  "(config_id, project_id, user_id, access_reqd, type, value) ".
-                  "   (SELECT config_id, ".$sql->db_param().", user_id, access_reqd, type, value ".
+                  "(project_id, config_id, user_id, access_reqd, type, value) ".
+                  "VALUES (".$sql->db_param() .
+                  "   (SELECT config_id, user_id, access_reqd, type, value ".
                   "    FROM {config} ".
                   "    WHERE project_id= ".$sql->db_param().
-                  "    AND config_id=".$sql->db_param().") ";
+                  "    AND config_id=".$sql->db_param().")) ";
          $q_params2[]=$destProjectId;
          $q_params2[]=$srcProjectId;
          $q_params2[]=$cid;
