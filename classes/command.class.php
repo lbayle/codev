@@ -253,19 +253,60 @@ class Command extends Model {
    }
 
    /**
-    * parse all Commands for issues not found in mantis_bug_table. if any, remove them from the Commands.
+    * - search for issues not found in mantis_bug_table. if any, remove from Command & WBS
+    * - check issues prensent in Command and not found in WBS. if any, add to WBS
+    * - check WBS for issues removed from command. if any, remove from WBS
     */
-   public static function checkCommands() {
-      $sql = AdodbWrapper::getInstance();
-      $query0 = "SELECT command_id, bug_id FROM codev_command_bug_table"
-         . " WHERE bug_id NOT IN (SELECT id FROM {bug})";
-      $result0 = $sql->sql_query($query0);
-      while ($row = $sql->fetchObject($result0)) {
-         self::$logger->warn("issue $row->bug_id does not exist in Mantis: now removed from Command $row->command_id");
+   public function fixCommand() {
 
-         // remove from Command
-         $query = "DELETE FROM codev_command_bug_table WHERE bug_id = ".$sql->db_param();
-         $result = $sql->sql_query($query, array($row->bug_id));
+      if (!is_null($this->wbsid)) {
+
+         $sql = AdodbWrapper::getInstance();
+
+         // --- check removed issues (Command)
+         $query0 = "DELETE FROM codev_command_bug_table ".
+                   " WHERE command_id = ".$sql->db_param().
+                   " AND bug_id NOT IN (SELECT id FROM {bug})";
+         $sql->sql_query($query0, array($this->id));
+
+         //--- check removed issues (WBS)
+         $query1 = "DELETE FROM codev_wbs_table".
+                   " WHERE root_id = ".$sql->db_param().
+                   " AND bug_id NOT IN (SELECT id FROM {bug})";
+         $sql->sql_query($query1, array($this->wbsid));
+
+         // --- find issues present in Command and not present in WBS
+         // WARN TODO : this request is extremely slow because of the 'NOT IN'
+         $query3 = "SELECT cbt.bug_id FROM codev_command_bug_table AS cbt".
+               " WHERE cbt.command_id = ".$sql->db_param().
+               " AND cbt.bug_id NOT IN ( ".
+               "     SELECT bug_id FROM codev_wbs_table ".
+               "       WHERE root_id = ".$sql->db_param().
+               "       AND bug_id IS NOT NULL)";
+         $result3 = $sql->sql_query($query3, array($this->id, $this->wbsid));
+         while ($row3 = $sql->fetchObject($result3)) {
+               try {
+                  // add missing issue to WBS
+                  $wbsChild = new WBSElement(NULL, $this->wbsid, $row3->bug_id, $this->wbsid);
+               } catch (Exception $e) {
+                  self::$logger->error("Could not add issue $row3->bug_id to WBS $this->wbsid (command $this->id: $this->name)");
+               }
+         }
+
+         // --- find issues present in WBS and not present in Command
+         // WARN TODO : this request is extremely slow because of the 'NOT IN'
+         $query4 = "DELETE FROM codev_wbs_table".
+                   " WHERE root_id = ".$sql->db_param().
+                   " AND bug_id IS NOT NULL ".
+                   " AND bug_id NOT IN ( ".
+                   "     SELECT bug_id FROM codev_command_bug_table ".
+                   "     WHERE command_id = ".$sql->db_param().")";
+         try {
+            $sql->sql_query($query4, array($this->wbsid, $this->id));
+         } catch (Exception $e) {
+            self::$logger->error("Could not remove issue $row3->bug_id from WBS $this->wbsid (command $this->id: $this->name)");
+         }
+
       }
    }
 
