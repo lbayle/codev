@@ -178,13 +178,23 @@ function http_is_protocol_https() {
 	return false;
 }
 
+function siteURL()
+{
+
+   #$hostname =  Tools::isWindowsServer() ? php_uname('n') : getHostName();
+   #$port = ':'.$_SERVER['SERVER_PORT'];
+
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+    $domainName = $_SERVER['HTTP_HOST'];
+    return $protocol.$domainName;
+}
+
 // ================ MAIN =================
 $originPage = "install_step2.php";
 $default_path_mantis           = dirname(BASE_PATH).DIRECTORY_SEPARATOR."mantis"; // "/var/www/html/mantis";
 
-$hostname =  Tools::isWindowsServer() ? php_uname('n') : getHostName();
-$default_url_mantis            = 'http://'.$hostname.'/mantis'; // 'http://'.$_SERVER['HTTP_HOST'].'/mantis'; // getHostByName(getHostName())
-$default_url_codevtt           = 'http://'.$hostname.'/codevtt'; // 'http://'.$_SERVER['HTTP_HOST'].'/codevtt'; // getHostByName(getHostName())
+$default_url_mantis            = siteURL().dirname(dirname(dirname($_SERVER['REQUEST_URI']))).'/mantis';
+$default_url_codevtt           = siteURL().dirname(dirname($_SERVER['REQUEST_URI']));
 
 $filename_config_inc           = "config_inc.php";
 $filename_strings              = "strings_english.txt";
