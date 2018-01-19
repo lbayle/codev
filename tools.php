@@ -1098,7 +1098,10 @@ class Tools {
       $folders = array("/admin", "/blog", "/classes", "/doc", "filters", "/graphs", "/i18n", "/images", "/import",
                        "/indicator_plugins", "/install", "/management", "/reports", "/tests", "/timetracking", "/tools");
 
-      $rootURL = "$protocol://".$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
+      // do we need to hide port if standard HTTP(80) or https(443) ?
+      $port = ':'.$_SERVER['SERVER_PORT'];
+
+      $rootURL = "$protocol://".$_SERVER['SERVER_NAME'].$port.dirname($_SERVER['PHP_SELF']);
       $rootURL = str_replace($folders, "", $rootURL);
       return $rootURL;
    }
