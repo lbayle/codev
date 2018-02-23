@@ -31,14 +31,18 @@ function rest_commands_get( \Slim\Http\Request $p_request, \Slim\Http\Response $
 	if(!is_null($command_id)) {
 		if(array_key_exists($command_id,$team->getcommands())){
 			$command=new Command($command_id);
-			$t_result = array( 'command' => $command->getName());
+			$t_result = array( 'command' => $command->getName(), 'id'=>$command->getId());
 		}
 		else{
-			return $p_response->withStatus( 200 )->withJson( "Command with id ". $command_id." doesn't exists" );
+			return $p_response->withStatus( 400 )->withJson( "Command with id ". $command_id." doesn't exists" );
 		}
 	}
 	else{
-		$t_result = array( 'commands' => $team->getcommands());
+		$t_result=array();
+		foreach($team->getcommands() as $t){
+			$command=new Command($t->getId());
+			array_push($t_result, array('command' => $command->getName(), 'id'=>$command->getId()));
+		}
 	}
 	return $p_response->withStatus( 200 )->withJson( $t_result );
 }
@@ -52,7 +56,7 @@ function rest_commands_get( \Slim\Http\Request $p_request, \Slim\Http\Response $
  * @return \Slim\Http\Response The augmented response.
  */
 function rest_commands_add( \Slim\Http\Request $p_request, \Slim\Http\Response $p_response, array $p_args ) {
-	$team_id = isset( $p_args['team_id'] ) ? $p_args['team_id'] : $p_request->getParam( 'team_id' );
+	$team_id = $_SESSION['teamid'];
 	$name = isset( $p_args['name'] ) ? $p_args['name'] : $p_request->getParam( 'name' );
 	
 	try{
@@ -61,6 +65,7 @@ function rest_commands_add( \Slim\Http\Request $p_request, \Slim\Http\Response $
 	}
 	catch (Exception $e) {
 		$t_result = array( 'Command already exists');
+		return $p_response->withStatus( 400 )->withJson( $t_result );
 	}
 	
 	return $p_response->withStatus( 200 )->withJson( $t_result );
@@ -79,6 +84,8 @@ function rest_commands_issues_add( \Slim\Http\Request $p_request, \Slim\Http\Res
 	$issue_id = isset( $p_args['issue_id'] ) ? $p_args['issue_id'] : $p_request->getParam( 'issue_id' );
 	$team=new Team($_SESSION['teamid']);
 
+	$status=400;
+
 	if(array_key_exists($command_id,$team->getcommands())){
 		if(!is_null($command_id)) {
 			$command=new Command($command_id);
@@ -91,6 +98,7 @@ function rest_commands_issues_add( \Slim\Http\Request $p_request, \Slim\Http\Res
 					#CodevTTPlugin::assignCommand($issue_id, $command_id);
 					$command->addIssue($issue_id);
 					$t_result = "Link between command ".$command_id." and issue ".$issue_id." added";
+					$status=200;
 				}
 			}
 			else{
@@ -105,7 +113,7 @@ function rest_commands_issues_add( \Slim\Http\Request $p_request, \Slim\Http\Res
 		$t_result = "Command with id ". $command_id." doesn't exists";
 	}
 	
-	return $p_response->withStatus( 200 )->withJson( $t_result );
+	return $p_response->withStatus( $status )->withJson( $t_result );
 }
 
 ?>

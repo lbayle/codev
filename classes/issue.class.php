@@ -156,16 +156,31 @@ class Issue extends Model implements Comparable {
     * @param resource $details The issue details
     * @throws Exception if $id = 0
     */
-   public function __construct($id, $details = NULL) {
+   public function __construct($id, $details = NULL, $name=NULL) {
       if (0 == $id) {
-         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("Constructor: Creating an Issue with id=0 is not allowed.");
-         self::$logger->error("EXCEPTION Issue constructor: ".$e->getMessage());
-         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-         throw $e;
+        if(NULL == $name){
+          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+          $e = new Exception("Constructor: Creating an Issue with id=0 is not allowed.");
+          self::$logger->error("EXCEPTION Issue constructor: ".$e->getMessage());
+          self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+          throw $e;
+        }
+        else{
+            $this->summary = $name;
+            $query = "SELECT id FROM `mantis_bug_table` " .
+                  "WHERE summary = '".utf8_encode($this->summary)."'";
+            $result = SqlWrapper::getInstance()->sql_query($query);
+            if (!$result) {
+              echo "<span style='color:red'>ERROR: Query FAILED (Couldn't retrieve the command by its name)</span>";
+              exit;
+            }
+            $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+            $this->bugId = $row->id;
+        }
       }
-
-      $this->bugId = $id;
+      else{
+        $this->bugId = $id;
+      }
 
       $this->initialize($details);
    }

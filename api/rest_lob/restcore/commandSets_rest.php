@@ -9,8 +9,8 @@ $g_app->group('/commandSets', function() use ( $g_app ) {
 	$g_app->post( '/', 'rest_commandSets_add' );
 
 	#commands
-	$g_app->post( '/{id}/commands/', 'rest_commandSets_issues_add' );
-	$g_app->post( '/{id}/commands', 'rest_commandSets_issues_add' );
+	$g_app->post( '/{id}/commands/', 'rest_commandSets_commands_add' );
+	$g_app->post( '/{id}/commands', 'rest_commandSets_commands_add' );
 	$g_app->post( '/{id}/commands/{command_id}', 'rest_commandSets_commands_add' );
 	$g_app->post( '/{id}/commands/{command_id}/', 'rest_commandSets_commands_add' );
 });
@@ -31,14 +31,18 @@ function rest_commandSets_get( \Slim\Http\Request $p_request, \Slim\Http\Respons
 	if(!is_null($commandSet_id)) {
 		if(array_key_exists($commandSet_id,$team->getcommandSetList())){
 			$commandSet=new CommandSet($commandSet_id);
-			$t_result = array( 'commandSet' => $commandSet->getName());
+			$t_result = array( 'commandSet' => $commandSet->getName(), 'id'=>$commandSet->getId());
 		}
 		else{
-			return $p_response->withStatus( 200 )->withJson( "Command with id ". $commandSet_id." doesn't exists, or you don't have the right to access it" );
+			return $p_response->withStatus( 400 )->withJson( "Command with id ". $commandSet_id." doesn't exists, or you don't have the right to access it" );
 		}
 	}
 	else{
-		$t_result = array( 'commandSets' => $team->getcommandSetList());
+		$t_result=array();
+		foreach($team->getcommandSetList() as $t){
+			$commandSet=new CommandSet($t->getId());
+			array_push($t_result, array('commandSet' => $commandSet->getName(), 'id'=>$commandSet->getId()));
+		}
 	}
 	return $p_response->withStatus( 200 )->withJson( $t_result );
 }
@@ -79,6 +83,8 @@ function rest_commandSets_commands_add( \Slim\Http\Request $p_request, \Slim\Htt
 	$command_id = isset( $p_args['command_id'] ) ? $p_args['command_id'] : $p_request->getParam( 'command_id' );
 	$command_type = isset( $p_args['command_type'] ) ? $p_args['command_type'] : $p_request->getParam( 'command_type' );
 
+	$status = 400;
+
 	if(is_null($command_type)) {
 		$command_type=1;
 	}
@@ -96,6 +102,7 @@ function rest_commandSets_commands_add( \Slim\Http\Request $p_request, \Slim\Htt
 				else{
 					$commandSet->addCommand($command_id, $command_type);
 					$t_result = "Link between commandSet ".$commandSet_id." and command ".$command_id." added with the type ".$command_type;
+					$status=200;
 				}
 			}
 			else{
@@ -109,8 +116,7 @@ function rest_commandSets_commands_add( \Slim\Http\Request $p_request, \Slim\Htt
 	else{
 		$t_result = "CommandSet with id ". $commandSet_id." doesn't exists";
 	}
-
-	return $p_response->withStatus( 200 )->withJson( $t_result );
+	return $p_response->withStatus( $status )->withJson( $t_result );
 }
 
 ?>
