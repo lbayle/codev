@@ -42,7 +42,7 @@ $logger = Logger::getLogger("install");
       var foundError = 0;
       var msgString = "The following fields are missing:\n\n";
 
-      if (0 == document.forms["databaseForm"].db_mantis_type.value)     { msgString += "SGBD\n"; ++foundError; }
+      //if (0 == document.forms["databaseForm"].db_mantis_type.value)     { msgString += "SGBD\n"; ++foundError; }
       if (0 == document.forms["databaseForm"].db_mantis_host.value)     { msgString += "Hostname\n"; ++foundError; }
       if (0 == document.forms["databaseForm"].db_mantis_database.value)     { msgString += "Database\n"; ++foundError; }
       if (0 == document.forms["databaseForm"].db_mantis_user.value)     { msgString += "User\n"; ++foundError; }
@@ -198,7 +198,14 @@ function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, 
    echo "<table class='invisible'>\n";
    echo "  <tr>\n";
    echo "    <td width='120'>".T_("SGBD")."</td>\n";
-   echo "    <td><input size='50' type='text' name='db_mantis_type'  id='db_mantis_type' value='$db_mantis_type'></td>\n";
+   #echo "    <td><input size='50' type='text' name='db_mantis_type'  id='db_mantis_type' value='$db_mantis_type'></td>\n";
+
+   echo "    <td><select  name='db_mantis_type'  id='db_mantis_type'>\n";
+   echo "          <option value=\"".AdodbWrapper::TYPE_MYSQL."\">MySQL</option>\n";
+   echo "          <option value=\"".AdodbWrapper::TYPE_PGSQL."\">Postgress</option>\n";
+   echo "          <option value=\"".AdodbWrapper::TYPE_MSSQL."\">Ms SQL Server</option>\n";
+   echo "          <option value=\"".AdodbWrapper::TYPE_ORACLE."\">Oracle</option>\n";
+   echo "    </select></td>\n";
    echo "  </tr>\n";
    echo "  <tr>\n";
    echo "    <td width='120'>".T_("Hostname")."</td>\n";
@@ -288,7 +295,6 @@ if ('1' == $isProxyEnabled) {
 
 displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, $db_mantis_user, $db_mantis_pass, $db_mantis_type);
 
-$sql = AdodbWrapper::getInstance();
 $action = (string)getHttpVariable(INPUT_POST, 'action', 'none');
 
 if ("setDatabaseInfo" == $action) {
@@ -304,6 +310,8 @@ if ("setDatabaseInfo" == $action) {
       createConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $db_mantis_type, $proxy_host, $proxy_port);
 
       echo "<script type=\"text/javascript\">console.log(\"Step 2/4 execSQLscript2 - create Tables\");</script>";
+
+      $sql = AdodbWrapper::getInstance();
       try {
          //$retCode = Tools::execSQLscript2(Install::FILENAME_TABLES);
          SqlParser::execSqlScript(Install::FILENAME_TABLES);
