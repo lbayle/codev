@@ -360,7 +360,7 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
 function createCustomFields($isCreateExtIdField = TRUE) {
    // Mantis customFields types
    $mType_string = 0;
-   $mType_numeric = 1;
+   $mType_float = 2;
    $mType_enum = 3;
    $mType_list = 6;
    $mType_date = 8;
@@ -385,8 +385,8 @@ function createCustomFields($isCreateExtIdField = TRUE) {
    $attributes["require_report"] = 1;
    $attributes["display_report"] = 1;
    $defaultValue = 1;
-   createCustomField(T_("CodevTT_EffortEstim"), $mType_numeric, "customField_effortEstim", $attributes, $defaultValue);
-   $defaultValue = NULL;
+   createCustomField(T_("CodevTT_EffortEstim"), $mType_float, "customField_effortEstim", $attributes, $defaultValue);
+   $defaultValue = '';
    $possible_values = 'Bug|Task';
    createCustomField(T_("CodevTT_Type"), $mType_list, "customField_type", $attributes, $defaultValue, $possible_values);
 
@@ -395,7 +395,7 @@ function createCustomFields($isCreateExtIdField = TRUE) {
    $defaultValue = 0;
    $attributes["access_level_r"] = $access_manager;
    $attributes["access_level_rw"] = $access_manager;
-   createCustomField(T_("CodevTT_Manager EffortEstim"), $mType_numeric, "customField_MgrEffortEstim", $attributes, $defaultValue);
+   createCustomField(T_("CodevTT_Manager EffortEstim"), $mType_float, "customField_MgrEffortEstim", $attributes, $defaultValue);
 
    $attributes["access_level_r"] = $access_viewer;
    $attributes["access_level_rw"] = $access_reporter;
@@ -407,13 +407,13 @@ function createCustomFields($isCreateExtIdField = TRUE) {
    createCustomField(T_("CodevTT_Deadline"), $mType_date, "customField_deadLine", $attributes);
 
    $attributes["display_report"] = 0;
-   createCustomField(T_("CodevTT_Additional Effort"), $mType_numeric, "customField_addEffort", $attributes);
+   createCustomField(T_("CodevTT_Additional Effort"), $mType_float, "customField_addEffort", $attributes);
 
    $attributes["require_report"] = 0;
    $attributes["display_report"] = 0;
    $attributes["display_closed"] = 1;
    $attributes["display_resolved"] = 1;
-   createCustomField(T_("CodevTT_Backlog"), $mType_numeric, "customField_backlog", $attributes);
+   createCustomField(T_("CodevTT_Backlog"), $mType_float, "customField_backlog", $attributes);
 
    $attributes["require_report"] = 0;
    $attributes["display_report"] = 0;
