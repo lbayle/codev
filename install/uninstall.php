@@ -42,23 +42,26 @@ class UninstallController extends Controller {
          if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
             $this->smartyHelper->assign('access', true);
 
+            $action = Tools::getSecurePOSTStringValue('action', 'none');
             $is_modified = Tools::getSecurePOSTStringValue('is_modified', 'false');
 
             // init
             // 'is_modified' is used because it's not possible to make a difference
             // between an unchecked checkBox and an unset checkbox variable
-            if ("false" == $is_modified) {
-               $isBackup = true;
-            } else {
-               $isBackup = $_POST['cb_backup'];
-            }
+            //if ("false" == $is_modified) {
+            //   $isBackup = true;
+            //} else {
+            //   $isBackup = $_POST['cb_backup'];
+            //}
+            $isBackup = false;
 
             $filename = Tools::getSecurePOSTStringValue('backup_filename', "codevtt_backup_".date("Ymd").".sql");
 
             $this->smartyHelper->assign('isBackup', $isBackup);
             $this->smartyHelper->assign('filename', $filename);
 
-            if (isset($_POST['cb_backup'])) {
+            //if (isset($_POST['cb_backup'])) {
+            if ('uninstall' === $action) {
                $result = true;
 
                if ($isBackup) {
@@ -86,6 +89,8 @@ class UninstallController extends Controller {
                $result = $this->removeMantisPlugins();
                $this->smartyHelper->assign('stepSixResult', $result);
 
+               echo ("<script type='text/javascript'> parent.location.replace('install.php'); </script>");
+
             } else {
                Config::setQuiet(true);
                $this->smartyHelper->assign('codevReportsDir', Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports');
@@ -107,17 +112,18 @@ class UninstallController extends Controller {
       // find sideTasks projects
       $sideTaskProj_id = Project::type_sideTaskProject;
       $query = "SELECT project.id, project.name ".
-         "FROM `mantis_project_table` as project ".
-         "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
+         "FROM {project} as project ".
+         "JOIN codev_team_project_table as team_project ON project.id = team_project.project_id ".
          "WHERE team_project.type = $sideTaskProj_id ".
          "ORDER BY project.name DESC;";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
+      $sql = AdodbWrapper::getInstance();
+      $result = $sql->sql_query($query);
       if(!$result) {
          return NULL;
       }
 
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      while($row = $sql->fetchObject($result)) {
          $prjList[$row->id] = $row->name;
       }
 
@@ -143,17 +149,19 @@ class UninstallController extends Controller {
          Config::getInstance()->getValue(Config::id_customField_type)
       );
 
+      $sql = AdodbWrapper::getInstance();
+
       # delete all values
-      $query = "DELETE FROM `mantis_custom_field_string_table` WHERE field_id IN (".implode(', ', $fieldIds).");";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DELETE FROM {custom_field_string} WHERE field_id IN (".implode(', ', $fieldIds).");";
+      $sql->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
 
       # delete all project associations
-      $query = "DELETE FROM `mantis_custom_field_project_table` WHERE field_id IN (".implode(', ', $fieldIds).");";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DELETE FROM {custom_field_project} WHERE field_id IN (".implode(', ', $fieldIds).");";
+      $sql->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
 
       # delete the definition
-      $query = "DELETE FROM `mantis_custom_field_table` WHERE id IN (".implode(', ', $fieldIds).");";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DELETE FROM {custom_field} WHERE id IN (".implode(', ', $fieldIds).");";
+      $sql->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
 
       #custom_field_clear_cache( $p_field_id );
 
@@ -165,64 +173,66 @@ class UninstallController extends Controller {
     * same as uninstall.sql, but loading .sql files does not always work.
     */
    function removeDatabaseTables() {
+      $sql = AdodbWrapper::getInstance();
+
       $query = "DROP FUNCTION IF EXISTS get_project_resolved_status_threshold;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
       $query = "DROP FUNCTION IF EXISTS get_issue_resolved_status_threshold;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
       $query = "DROP FUNCTION IF EXISTS is_project_in_team;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
       $query = "DROP FUNCTION IF EXISTS is_issue_in_team_commands;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
       $query = "DROP TABLE IF EXISTS `codev_blog_activity_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
       $query = "DROP TABLE IF EXISTS `codev_blog_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_commandset_cmd_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_commandset_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_command_bug_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_command_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_config_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_holidays_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_job_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_project_category_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_project_job_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_servicecontract_cmdset_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_servicecontract_stproj_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_servicecontract_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_team_project_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_team_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_team_user_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_userdailycost_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_currencies_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_timetracking_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_commandset_cmd_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_commandset_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_command_bug_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_command_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_config_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_holidays_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_job_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_project_category_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_project_job_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_servicecontract_cmdset_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_servicecontract_stproj_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_servicecontract_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_team_project_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_team_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_team_user_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_userdailycost_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_currencies_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_timetracking_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
       $query = "DROP TABLE IF EXISTS `codev_sidetasks_category_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_command_provision_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_wbs_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_plugin_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
-      $query = "DROP TABLE IF EXISTS `codev_timetrack_note_table`;";
-      SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_command_provision_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_wbs_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_plugin_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_timetrack_note_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
       return true;
    }
 

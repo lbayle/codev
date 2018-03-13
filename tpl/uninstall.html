@@ -13,8 +13,9 @@
       <h2>{t}Do you want to remove CodevTT from your Mantis server ?{/t}</h2>
       <span class="help_font">{t}This step will clean Mantis DB.{/t}</span>
       <br/><br/><br/>
+      <span class="error_font">{t}It is HIGHLY recommended to backup your Mantis DB before you proceed !{/t}</span>
 
-      <table class="invisible">
+      <!--table class="invisible">
          <tr>
             <td colspan="2"><label><input type="checkbox" {if $isBackup}checked="checked"{/if} name="cb_backup" id="cb_backup" />{t}Backup data{/t}</label></td>
          </tr>
@@ -26,7 +27,7 @@
             <td></td>
             <td><label>{t}Filename{/t}: <input name="backup_filename" id="backup_filename" type="text" value="{$filename}" size="50"></label>
          </tr>
-      </table>
+      </table-->
 
       <div class="center" style="margin-top: 2em;">
          <input type="button" style="font-size:150%" value="{t}Uninstall{/t} !" onclick="uninstall()">
