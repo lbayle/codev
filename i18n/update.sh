@@ -207,6 +207,11 @@ if [ "Yes" != "$doCompile" ] ; then
   echo "  - Now edit .po file(s) and run script again with option --compile"
 else
   rm ${DIR_CODEVTT}/i18n/locale/smarty.c
+
+  # be sure that gettext chooses the right FR file :
+  # i18n/locale/fr    (translated by lbayle to his mother-tongue) is better than
+  # i18n/locale/fr_FR (translatewiki.net)
+  cp ${DIR_CODEVTT}/i18n/locale/fr/LC_MESSAGES/codev.* ${DIR_CODEVTT}/i18n/locale/fr_FR/LC_MESSAGES
 fi
 
 
