@@ -33,6 +33,8 @@ class WBSElement extends Model {
    private $rootId;
    private $order;
    private $expand;
+   private $subFolders = [];
+   private $issueList = []; // $childBugIdList;
 
    /**
     *
@@ -287,6 +289,59 @@ class WBSElement extends Model {
       }
       return $childrenIds;
    }
+   
+   public function getIssues() {
+//   public function getChildBugIdList() {
+
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT bug_id FROM codev_wbs_table ".
+              "WHERE parent_id = $this->id ".
+              "AND bug_id IS NOT NULL;";
+      $result = $sql->sql_query($query);
+
+      while ($row = $sql->fetchObject($result)) {
+         $issue = new Issue($row->bug_id);
+         $this->addIssue($issue);
+      }
+      return $this->issueList;
+   }
+   
+   public function addIssue($issue) {
+      array_push($this->issueList, $issue);
+   }
+   
+   public function getChildFolders($parentId = null) {
+
+      $sql = AdodbWrapper::getInstance();
+      $parentId = ($parentId) ? $parentId : $this->id;
+      $query = "SELECT * FROM codev_wbs_table "
+              . "WHERE parent_id = $parentId "
+              . "AND bug_id IS NULL;";
+      $result = $sql->sql_query($query);
+      if ($result) {
+         while ($row = $sql->fetchObject($result)) {
+            $subFolder = new WBSElement($row->id, $row->root_id, $row->bug_id, $row->parent_id, null, $row->title);
+            $this->addSubFolder($subFolder);
+         }
+      }
+      return $this->subFolders;
+   }
+   
+   public function addSubFolder($subFolder) {
+      array_push($this->subFolders, $subFolder);
+   }
+   
+   public function getSubFolders() {
+      return $this->subFolders;
+   }
+   
+   public function hasSubfolders() {
+      return !empty($this->subFolders);
+   }
+   
+   public function getIssueList() {
+      return $this->issueList;
+   }
 
    /**
     * 
@@ -390,6 +445,10 @@ class WBSElement extends Model {
 
 		// if root_id is NULL, then I am the root !
       return (is_null($this->rootId)) ? $this->id : $this->rootId;
+   }
+   
+   public function setRootId($rootId) {
+      $this->rootId = $rootId;
    }
 
    public function getParentId() {

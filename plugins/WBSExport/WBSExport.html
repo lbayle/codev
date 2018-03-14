@@ -1,0 +1,49 @@
+<div class="WBSExport">
+   <div class="pluginInitFunction"  style="display: none;">wbsExportJsInit</div>
+   <div class="pluginDestroyFunction"  style="display: none;">wbsExportJsDestroy</div>
+
+   <div>
+      <div class="wbsExportDiv" align="left" style="margin-top: 1em;">
+         {include file="`$wbsExportAjaxFile`"}
+      </div>
+      <div class="ui-helper-clearfix"></div>
+   </div>
+
+   <script type="text/javascript">
+
+      // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+      function wbsExportJsDestroy() {
+         console.log('wbsExportJsDestroy');
+         //jQuery(".wbsExportHelpDialog").dialog('destroy').remove();
+      }
+
+      // this function will be run at jQuery(document).ready (see dashboard.html) or
+      // when a new widjet is added to the dashboard.
+      function wbsExportJsInit() {
+         $('#wbs-export-table > thead > tr > th').each(function () {
+            $('#header-list').append($('<option>', {
+               value: $(this).index(),
+               text: $(this).text()
+            }));
+         });
+
+         $('#edit-header-tag').click(function () {
+            var newTag = $('#new-header-tag').val();
+            var index = $('#header-list').find(':selected').index();
+            $('table:not([id]).datatable_csv > thead > tr[role="row"] > th').eq(index).text(newTag);
+         });
+
+//         $('th').dblclick(function () {
+//            console.log('dblclick');
+//            $(this).html('<input type="text" id="newColumnName"/>');
+//            $(this).append('<button id="editColumnName">ok</button>');
+//
+//            $('button#editColumnName').click(function () {
+//               var newColumnName = $('input#newColumnName').text();
+//               console.log(newColumnName);
+//            });
+//         });
+
+      }
+   </script>
+</div>
