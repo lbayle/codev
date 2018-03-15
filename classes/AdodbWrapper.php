@@ -154,25 +154,9 @@ class AdodbWrapper {
       $this->password = $password;
       $this->database_name = $database_name;
 
-      $this->mantis_db_table_prefix = 'mantis_'; # TODO make it configurable, see git fffeb846bd
-      $this->mantis_db_table_suffix = '_table';  # TODO
+      $this->mantis_db_table_prefix = Constants::$mantis_db_table_prefix; // 'mantis_'
+      $this->mantis_db_table_suffix = Constants::$mantis_db_table_suffix; // '_table'
 
-      // TODO enable mantis prefix/suffix in CodevTT
-/*
-      if( $this->mantis_db_table_prefix === null ) {
-         # Determine table prefix and suffixes including trailing and leading '_'
-         $this->mantis_db_table_prefix = trim( config_get_global( 'db_table_prefix' ) );
-         $this->mantis_db_table_suffix = trim( config_get_global( 'db_table_suffix' ) );
-
-         if( !empty( $this->mantis_db_table_prefix ) && '_' != substr( $this->mantis_db_table_prefix, -1 ) ) {
-            $this->mantis_db_table_prefix .= '_';
-         }
-         if( !empty( $this->mantis_db_table_suffix ) && '_' != substr( $this->mantis_db_table_suffix, 0, 1 ) ) {
-            $this->mantis_db_table_suffix = '_' . $this->mantis_db_table_suffix;
-         }
-      }
-*/
-      
        switch ($database_type) {
            case 'mysqli':
                $this->database_type = self::TYPE_MYSQL;
