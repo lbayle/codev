@@ -232,6 +232,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
          // return ajax data
          echo $jsonData;
       } catch (Exception $e) {
+         $logger->fatal('EXCEPTION: '.$e->getMessage());
          Tools::sendBadRequest("Error: updateTimetracking bad values: user=$userid issue=$bugid");
       }
    } else if ('getTaskInfo' == $action) {
