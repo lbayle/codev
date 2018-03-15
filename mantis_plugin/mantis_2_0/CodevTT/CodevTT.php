@@ -448,7 +448,7 @@ class CodevTTPlugin extends MantisPlugin {
      if (is_null($wbs_id)) {
         #echo "Create WBS root element for Command $command_id<br>";
         // add root element
-        $query3 = "INSERT INTO codev_wbs_table  (`order`, expand, title) ".
+        $query3 = "INSERT INTO codev_wbs_table  (wbs_order, expand, title) ".
                 "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ")";
         db_query($query3, array( 1, 1, $cmd_name ));
         $wbs_id = db_insert_id();
@@ -461,7 +461,7 @@ class CodevTTPlugin extends MantisPlugin {
         $result6 = db_query($query6, array( $command_id));
         while ($row6 = db_fetch_array( $result6 )) {
            #echo "add issue $row6->bug_id to command $command_id<br>";
-           $query7 = "INSERT INTO codev_wbs_table  (root_id, parent_id, bug_id, `order`, expand) ".
+           $query7 = "INSERT INTO codev_wbs_table  (root_id, parent_id, bug_id, wbs_order, expand) ".
                    "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ")";
            #echo "SQL query7 = $query7<br>";
            $result7 = db_query($query7, array( $wbs_id, $wbs_id, $row6['bug_id'], $order, 0));
@@ -469,7 +469,7 @@ class CodevTTPlugin extends MantisPlugin {
         }
      } else {
         // 3) add bug_id to the wbs root element
-        $query5 = "INSERT INTO codev_wbs_table  (root_id, parent_id, bug_id, `order`, expand) ".
+        $query5 = "INSERT INTO codev_wbs_table  (root_id, parent_id, bug_id, wbs_order, expand) ".
                 "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ")";
         #echo "SQL query5 = $query5<br>";
         db_query($query5, array( $wbs_id, $wbs_id, $p_bug_id, $order, 0 ));

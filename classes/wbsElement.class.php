@@ -179,7 +179,7 @@ class WBSElement extends Model {
 		if (is_null($order)) { $order = 1; }
 
 		// --- insert new element
-      $query  = 'INSERT INTO codev_wbs_table (`order`';
+      $query  = 'INSERT INTO codev_wbs_table (wbs_order';
 		if (!is_null($bug_id))    { $query .= ', bug_id'; }
 		if (!is_null($parent_id)) { $query .= ', parent_id'; }
 		if (!is_null($root_id))   { $query .= ', root_id'; }
@@ -279,7 +279,7 @@ class WBSElement extends Model {
               //" AND bug_id IS NULL ".
               " AND root_id = ".$sql->db_param().
               " AND id <> ".$sql->db_param().
-              'ORDER BY `order` ';
+              'ORDER BY wbs_order ';
       $result = $sql->sql_query($query, array($this->id, $this->rootId, $this->id));
 
       while ($row = $sql->fetchObject($result)) {
@@ -322,7 +322,7 @@ class WBSElement extends Model {
       $sql = AdodbWrapper::getInstance();
       $query = "UPDATE codev_wbs_table SET ".
               " title = " . $sql->db_param().
-              ', `order` = ' . $sql->db_param().
+              ', wbs_order = ' . $sql->db_param().
               ", parent_id = " . $sql->db_param().
               ", icon = " . $sql->db_param().
               ", font = " . $sql->db_param().
@@ -512,7 +512,7 @@ class WBSElement extends Model {
       // TODO AND root_id = $this->getRootId()
       try {
          $sql = AdodbWrapper::getInstance();
-         $query = 'SELECT * FROM codev_wbs_table WHERE parent_id = '.$sql->db_param().' ORDER BY `order`';
+         $query = 'SELECT * FROM codev_wbs_table WHERE parent_id = '.$sql->db_param().' ORDER BY wbs_order';
          $result = $sql->sql_query($query, array($this->getId()));
          //file_put_contents('/tmp/loadWBS.txt', "$query \n", FILE_APPEND);
 

@@ -41,5 +41,7 @@ INSERT INTO `codev_currencies_table` (`currency`, `coef`) VALUES ('INR',   14125
 ALTER TABLE `codev_team_table` ADD `average_daily_cost` int(11) default NULL AFTER `date`;
 ALTER TABLE `codev_team_table` ADD `currency` varchar(3) NOT NULL default 'EUR' AFTER `average_daily_cost`;
 
+ALTER TABLE codev_wbs_table CHANGE `order` `wbs_order` int(11) NOT NULL;
+
 -- tag version
 UPDATE `codev_config_table` SET `value`='18' WHERE `config_id`='database_version';

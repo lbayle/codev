@@ -462,7 +462,7 @@ CREATE TABLE IF NOT EXISTS "codev_wbs_table" (
   "id" INTEGER unsigned NOT NULL auto_increment,
   "root_id" INTEGER unsigned default NULL,
   "parent_id" INTEGER unsigned default NULL,
-  "order" INTEGER NOT NULL,
+  "wbs_order" INTEGER NOT NULL,
   "bug_id" INTEGER default NULL,
   "expand" tinyint(4) NOT NULL DEFAULT '0',
   "title" varchar(255) default NULL,
