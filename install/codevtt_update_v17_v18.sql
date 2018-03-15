@@ -43,5 +43,14 @@ ALTER TABLE `codev_team_table` ADD `currency` varchar(3) NOT NULL default 'EUR' 
 
 ALTER TABLE codev_wbs_table CHANGE `order` `wbs_order` int(11) NOT NULL;
 
+-- update customFields type Numeric (1) -> Float (2)
+-- because Mantis 2.8 does no more allow float values in 'Numeric' customFields
+UPDATE mantis_custom_field_table SET type = 2 WHERE id in (
+       SELECT value from codev_config_table WHERE config_id IN (
+              'customField_addEffort',
+              'customField_backlog',
+              'customField_effortEstim',
+              'customField_MgrEffortEstim'))
+
 -- tag version
 UPDATE `codev_config_table` SET `value`='18' WHERE `config_id`='database_version';
