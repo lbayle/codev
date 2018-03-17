@@ -280,6 +280,7 @@ class PluginManager {
                   $status = self::PLUGIN_STATUS_REMOVED;
                }
                $displayedName = $className;
+               $description=$row->description;
             } else {
                if (class_exists($className)) {
                   $displayedName = $className::getName();
