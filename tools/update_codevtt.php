@@ -539,6 +539,24 @@ function update_v17_to_v18() {
       echo "<span class='error_font'>SQL script not found:$sqlScriptFilename</span><br/>";
       exit;
    }
+
+   // CodevTT plugins must be updated (0.7.1 -> 0.7.2)
+   echo "- Update Mantis plugin: CodevTT (0.7.2)<br>";
+   if (checkMantisPluginDir()) {
+      $errStr = installMantisPlugin('CodevTT', true);
+      if (NULL !== $errStr) {
+         echo "<span class='error_font'>Please update 'CodevTT' mantis-plugin manualy</span><br/>";
+         echo "<script type=\"text/javascript\">console.error(\"$errStr\");</script>";
+      }
+   }
+
+   // write new config file (add: db_table_prefix, db_table_suffix)
+   //if (!update_config_file()) {
+   //   // ask for manual update
+   //   echo "<span class='error_font'>Could not update config.ini</span><br/>";
+   //   exit;
+   //}
+
    // execute the SQL script
    echo "- Execute SQL script: $sqlScriptFilename<br>";
    $retCode = Tools::execSQLscript2($sqlScriptFilename);
