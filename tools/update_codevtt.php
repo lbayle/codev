@@ -83,8 +83,8 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
    }
 
    $query = "SELECT id, name FROM {custom_field}";
-   $result = execQuery($query);
-   while ($row = mysql_fetch_object($result)) {
+   $result = $sql->sql_query($query);
+   while ($row = $sql->fetchObject($result)) {
       $fieldList["$row->name"] = $row->id;
    }
 
@@ -111,7 +111,7 @@ function createCustomField($fieldName, $fieldType, $configId, $attributes = NULL
 
       #echo "DEBUG INSERT $fieldName --- query $query2 <br/>";
 
-      $result2 = execQuery($query2);
+      $result2 = $sql->sql_query($query2);
       $fieldId = $sql->getInsertId();
 
       #echo "custom field '$configId' created.<br/>";
@@ -675,7 +675,7 @@ function installMantisPlugin($pluginName, $isReplace=true) {
               " SELECT * FROM (SELECT '$pluginName', '1', '0', '3') AS tmp".
               " WHERE NOT EXISTS (".
               " SELECT basename FROM {plugin} WHERE basename = '$pluginName') LIMIT 1;";
-      $result = $sql->sql_query($query, $q_params);
+      $result = $sql->sql_query($query);
       if (!$result) {
          return "WARNING: mantis $pluginName plugin must be activated manualy";
       }
@@ -701,6 +701,7 @@ $logger = Logger::getLogger("versionUpdater");
 if (Tools::isConnectedUser()){
 
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+   $sql = AdodbWrapper::getInstance();
 
    if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
 
