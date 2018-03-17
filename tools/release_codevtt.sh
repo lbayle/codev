@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# usage: ./tools/release_codevtt.sh -n v1.3.0
+
 DIR_PREV=$(pwd)
 
 TMP_DIR=/tmp/codevtt_release
@@ -29,8 +31,13 @@ CheckArgs ()
    do
       case $1 in
 
-         --branch | -b )
+         --release | --release_name | -n )
 	        shift
+            RELEASE_NAME="$1"
+            ;;
+
+         --branch | -b )
+           shift
             GIT_BRANCH="$1"
             ;;
 
@@ -73,6 +80,7 @@ f_displayHelp()
    echo "syntax  :  $0 [options...]"
    echo ""
    echo "options:"
+   echo "  --release             release name (ex: v1.3.0)"
    echo "  --branch <branch>     git branch (or TAG, or SHA1) to release  (default=master)"
    echo "  --repo   <directory>  git repository location                  (default=current dir)"
    echo "  --ovh                 remove more things: install, tools, ..."
@@ -143,9 +151,14 @@ f_ovh()
 
 CheckArgs $@
 
-DIR_RELEASE=${TMP_DIR}/codevtt_${GIT_BRANCH}
-ZIP_FILE="codevtt_${GIT_BRANCH}_${RELEASE_DATE}.zip"
-TGZ_FILE="codevtt_${GIT_BRANCH}_${RELEASE_DATE}.tgz"
+
+if [ -z ${RELEASE_NAME} ]; then
+   RELEASE_NAME=${GIT_BRANCH}
+fi
+
+DIR_RELEASE=${TMP_DIR}/codevtt_${RELEASE_NAME}
+ZIP_FILE="codevtt_${RELEASE_NAME}_${RELEASE_DATE}.zip"
+TGZ_FILE="codevtt_${RELEASE_NAME}_${RELEASE_DATE}.tgz"
 
 mkdir -p ${TMP_DIR}
 if [ ! -d "${TMP_DIR}" ]; then
@@ -156,7 +169,7 @@ fi
 # make a copy of the git repo
 cd ${TMP_DIR}
 rm -rf ${DIR_RELEASE}
-git clone ${GIT_REPO} codevtt_${GIT_BRANCH}
+git clone ${GIT_REPO} codevtt_${RELEASE_NAME}
 cd ${DIR_RELEASE}
 echo "git checkout ${GIT_BRANCH}"
 git checkout -q ${GIT_BRANCH} 2>&1 > /dev/null
@@ -181,10 +194,10 @@ cd ${TMP_DIR}
 if [ -f ${TMP_DIR}/${ZIP_FILE} ] ; then rm ${TMP_DIR}/${ZIP_FILE} ; fi
 
 if [ $IS_WIN == "NO" ] ; then
-  zip -r ${ZIP_FILE} codevtt_${GIT_BRANCH} 2>&1 > /dev/null
+  zip -r ${ZIP_FILE} codevtt_${RELEASE_NAME} 2>&1 > /dev/null
 else
   # WARN: utilisation du path windows sinon comportement impossible avec le \* en fin de cmd
-  "/C/Program Files/7-Zip/7z" a -tzip "${ZIP_FILE}" "codevtt_${GIT_BRANCH}"
+  "/C/Program Files/7-Zip/7z" a -tzip "${ZIP_FILE}" "codevtt_${RELEASE_NAME}"
 fi
 retCode=$?
 if [ 0 -ne $retCode ] ; then
