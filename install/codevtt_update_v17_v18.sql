@@ -50,7 +50,7 @@ UPDATE mantis_custom_field_table SET type = 2 WHERE id in (
               'customField_addEffort',
               'customField_backlog',
               'customField_effortEstim',
-              'customField_MgrEffortEstim'))
+              'customField_MgrEffortEstim'));
 
 -- tag version
 UPDATE `codev_config_table` SET `value`='18' WHERE `config_id`='database_version';
