@@ -924,13 +924,13 @@ if ("proceedStep3" == $action) {
 
    try {
 
-      echo "<script type=\"text/javascript\">console.log(\"DEBUG create Greasemonkey file\");</script>";
+/*      echo "<script type=\"text/javascript\">console.log(\"DEBUG create Greasemonkey file\");</script>";
       $errStr = createGreasemonkeyFile();
       if (NULL !== $errStr) {
          echo "<script type=\"text/javascript\">console.error(\"$errStr\");</script>";
          $errMsg .= $errStr.'<br>';
       }
-
+*/
       echo "<script type=\"text/javascript\">console.log(\"DEBUG update Mantis custom files\");</script>";
       updateMantisCustomFiles();
 

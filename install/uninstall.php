@@ -291,7 +291,7 @@ class UninstallController extends Controller {
          }
       }
 
-      $greasemonkey_url = Constants::$codevURL . DIRECTORY_SEPARATOR . 'mantis_monkey.user.js';
+/*      $greasemonkey_url = Constants::$codevURL . DIRECTORY_SEPARATOR . 'mantis_monkey.user.js';
       if (file_exists($greasemonkey_url) &&
           is_writable($greasemonkey_url)) {
          $retCode = unlink($greasemonkey_url);
@@ -300,7 +300,7 @@ class UninstallController extends Controller {
             return false;
          }
       }
-
+*/
       return true;
    }
 }
