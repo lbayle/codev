@@ -472,7 +472,7 @@ CREATE TABLE IF NOT EXISTS "codev_wbs_table" (
   PRIMARY KEY  ("id"),
   KEY "bug_id" ("bug_id"),
   KEY "parent_id" ("parent_id"),
-  KEY "order" ("order")
+  KEY "wbs_order" ("wbs_order")
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
