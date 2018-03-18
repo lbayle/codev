@@ -85,9 +85,15 @@ function checkDBConnection($db_mantis_host = 'localhost',
                            $db_mantis_user = 'mantis',
                            $db_mantis_pass = '',
                            $db_mantis_database = 'bugtracker',
-                           $db_mantis_type = 'mysqli') {
+                           $db_mantis_type = 'mysqli',
+                           $mantis_db_table_prefix = 'mantis_',
+                           $mantis_db_table_suffix = '_table') {
 
-   $sql = AdodbWrapper::createInstance($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $db_mantis_type);
+   // create an AdodbWrapper instance, but does not set the AdodbWrapper singleton !
+   $sql = AdodbWrapper::createInstance($db_mantis_host,
+                                       $db_mantis_user, $db_mantis_pass,
+                                       $db_mantis_database, $db_mantis_type,
+                                       $mantis_db_table_prefix, $mantis_db_table_suffix);
 
    $query = "SELECT * FROM {config} WHERE config_id = 'database_version' ";
    try {
@@ -101,6 +107,9 @@ function checkDBConnection($db_mantis_host = 'localhost',
    $row = $sql->fetchObject($result);
    $database_version = $row->value;
 
+
+   checkDBprivileges($sql);
+
    return $database_version;
 }
 
@@ -113,11 +122,12 @@ function checkDBConnection($db_mantis_host = 'localhost',
  * Note: this is not enough on Windows, you need 'SUPER privilege'
  * see http://codevtt.org/site/?topic=sql-alert-you-do-not-have-the-super-privilege-and-binary-logging-is-enabled
  *
- * @return NULL if OK, or an error message starting with 'ERROR' .
+ * @return NULL if ok or Exception
  */
-function checkDBprivileges($db_mantis_database = 'bugtracker') {
+function checkDBprivileges($sql) {
    global $logger;
-   $sql = AdodbWrapper::getInstance();
+
+   $db_mantis_database = $sql->getDatabaseName();
 
    $mandatoryPriv = array('SELECT', 'INSERT', 'UPDATE', 'DELETE',
       'CREATE', 'DROP', 'EXECUTE', 'CREATE ROUTINE', 'ALTER ROUTINE');
@@ -169,6 +179,8 @@ function createConfigFile($db_mantis_host = 'localhost',
                                $db_mantis_pass = '',
                                $db_mantis_database = 'bugtracker',
                                $db_mantis_type = 'mysqli',
+                               $mantis_db_table_prefix = 'mantis_',
+                               $mantis_db_table_suffix = '_table',
                                $proxy_host = NULL,
                                $proxy_port = NULL) {
 
@@ -177,6 +189,8 @@ function createConfigFile($db_mantis_host = 'localhost',
    Constants::$db_mantis_user = $db_mantis_user;
    Constants::$db_mantis_pass = $db_mantis_pass;
    Constants::$db_mantis_database = $db_mantis_database;
+   Constants::$mantis_db_table_prefix = $mantis_db_table_prefix;
+   Constants::$mantis_db_table_suffix = $mantis_db_table_suffix;
 
    if (!is_null($proxy_host) && !is_null($proxy_port)) {
       Constants::$proxy = $proxy_host.':'.$proxy_port;
@@ -190,7 +204,14 @@ function createConfigFile($db_mantis_host = 'localhost',
    }
 }
 
-function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, $db_mantis_user, $db_mantis_pass, $db_mantis_type) {
+function displayDatabaseForm($originPage,
+                             $db_mantis_host,
+                             $db_mantis_database,
+                             $db_mantis_user,
+                             $db_mantis_pass,
+                             $db_mantis_type,
+                             $mantis_db_table_prefix,
+                             $mantis_db_table_suffix) {
    echo "<form id='databaseForm' name='databaseForm' method='post' action='$originPage' >\n";
 
    echo "<h2>".T_("Mantis Database Info")."</h2>\n";
@@ -214,6 +235,14 @@ function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, 
    echo "  <tr>\n";
    echo "    <td width='120'>".T_("Database Name")."</td>\n";
    echo "    <td><input size='50' type='text' name='db_mantis_database'  id='db_mantis_database' value='$db_mantis_database'></td>\n";
+   echo "  </tr>\n";
+   echo "  <tr>\n";
+   echo "    <td width='120'>".T_("Database Table Prefix ")."</td>\n";
+   echo "    <td><input size='50' type='text' name='mantis_db_table_prefix'  id='mantis_db_table_prefix' value='$mantis_db_table_prefix'></td>\n";
+   echo "  </tr>\n";
+   echo "  <tr>\n";
+   echo "    <td width='120'>".T_("Database Table Suffix ")."</td>\n";
+   echo "    <td><input size='50' type='text' name='mantis_db_table_suffix'  id='mantis_db_table_suffix' value='$mantis_db_table_suffix'></td>\n";
    echo "  </tr>\n";
    echo "  <tr>\n";
    echo "    <td width='120'>".T_("User")."</td>\n";
@@ -283,6 +312,8 @@ $db_mantis_database = (string)getHttpVariable(INPUT_POST, 'db_mantis_database', 
 $db_mantis_user = (string)getHttpVariable(INPUT_POST, 'db_mantis_user', Tools::isWindowsServer() ? 'root' : 'mantisdbuser');
 $db_mantis_pass = (string)getHttpVariable(INPUT_POST, 'db_mantis_pass', '');
 $db_mantis_type = (string)getHttpVariable(INPUT_POST, 'db_mantis_type', 'mysqli');
+$mantis_db_table_prefix = (string)getHttpVariable(INPUT_POST, 'mantis_db_table_prefix', 'mantis_');
+$mantis_db_table_suffix = (string)getHttpVariable(INPUT_POST, 'mantis_db_table_suffix', '_table');
 
 $isProxyEnabled = (string)getHttpVariable(INPUT_POST, 'isProxyEnabled', '0');
 if ('1' == $isProxyEnabled) {
@@ -293,7 +324,7 @@ if ('1' == $isProxyEnabled) {
    $proxy_port = NULL;
 }
 
-displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, $db_mantis_user, $db_mantis_pass, $db_mantis_type);
+displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, $db_mantis_user, $db_mantis_pass, $db_mantis_type, $mantis_db_table_prefix, $mantis_db_table_suffix);
 
 $action = (string)getHttpVariable(INPUT_POST, 'action', 'none');
 
@@ -301,16 +332,16 @@ if ("setDatabaseInfo" == $action) {
 
    try {
 
-      $database_version = checkDBConnection($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $db_mantis_type);
+      $database_version = checkDBConnection($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $db_mantis_type, $mantis_db_table_prefix, $mantis_db_table_suffix);
       echo "<script type=\"text/javascript\">console.log(\"DEBUG: Mantis database_version = $database_version\");</script>";
-
-      checkDBprivileges($db_mantis_database);
+      echo "<script type=\"text/javascript\">console.log(\"DEBUG: database privileges looking good\");</script>";
 
       echo "<script type=\"text/javascript\">console.log(\"Step 1/4 create config.ini file\");</script>";
-      createConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $db_mantis_type, $proxy_host, $proxy_port);
+      createConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database, $db_mantis_type, $mantis_db_table_prefix, $mantis_db_table_suffix, $proxy_host, $proxy_port);
 
       echo "<script type=\"text/javascript\">console.log(\"Step 2/4 execSQLscript2 - create Tables\");</script>";
 
+      // now that the config file is set, create the AdodbWrapper singleton
       $sql = AdodbWrapper::getInstance();
       try {
          //$retCode = Tools::execSQLscript2(Install::FILENAME_TABLES);

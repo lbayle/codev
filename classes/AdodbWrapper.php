@@ -114,24 +114,43 @@ class AdodbWrapper {
    public static function staticInit() {
       self::$logger = Logger::getLogger(__CLASS__);
    }
-   
-   public static function createInstance($server, $username, $password, $database_name, $database_type) {
-      if (!isset(self::$instance)) {
-         $c = __CLASS__;
-         self::$instance = new $c($server, $username, $password, $database_name, $database_type);
-      }
-      return self::$instance;
+
+   /**
+    * returns a new AdodbWrapper instance, using parameters.
+    * There is no check on the AdodbWrapper singleton existance.
+    * The singleton is not set up.
+    *
+    * @param type $server
+    * @param type $username
+    * @param type $password
+    * @param type $database_name
+    * @param type $database_type
+    * @param type $mantis_db_table_prefix
+    * @param type $mantis_db_table_suffix
+    * @return type
+    */
+   public static function createInstance($server,
+                                         $username, $password,
+                                         $database_name, $database_type,
+                                         $mantis_db_table_prefix, $mantis_db_table_suffix) {
+      $c = __CLASS__;
+      $instance = new $c($server,
+                      $username, $password,
+                      $database_name, $database_type,
+                      $mantis_db_table_prefix, $mantis_db_table_suffix);
+      return $instance;
    }
 
    /**
-    * 
+    * returns AdodbWrapper instance, using config.ini settings
     * @return AdodbWrapper
     */
    public static function getInstance() {
       if (!isset(self::$instance)) {
-         self::createInstance(Constants::$db_mantis_host, Constants::$db_mantis_user,
-                              Constants::$db_mantis_pass, Constants::$db_mantis_database, 
-                              Constants::$db_mantis_type);
+         self::$instance = self::createInstance(Constants::$db_mantis_host, Constants::$db_mantis_user,
+                                                Constants::$db_mantis_pass, Constants::$db_mantis_database,
+                                                Constants::$db_mantis_type,
+                                                Constants::$mantis_db_table_prefix, Constants::$mantis_db_table_suffix);
       }
       return self::$instance;
    }
@@ -142,10 +161,16 @@ class AdodbWrapper {
     * @param string  $password      Database server password.
     * @param string  $database_name Database name.
     * @param string  $database_type Database type.
+    * @param string  $mantis_db_table_prefix Mantis table prefix
+    * @param string  $mantis_db_table_suffix Mantis table suffix
     * @param boolean $persistConnect      Use a Persistent connection to database.
     * @throws Exception on invalid database
     */
-   private function __construct($hostname, $username, $password, $database_name, $database_type, $persistConnect = false) {
+   private function __construct($hostname, 
+                                $username, $password,
+                                $database_name, $database_type,
+                                $mantis_db_table_prefix, $mantis_db_table_suffix,
+                                $persistConnect = false) {
       
       $this->isLog = self::$logger->isDebugEnabled();
 
@@ -154,8 +179,8 @@ class AdodbWrapper {
       $this->password = $password;
       $this->database_name = $database_name;
 
-      $this->mantis_db_table_prefix = Constants::$mantis_db_table_prefix; // 'mantis_'
-      $this->mantis_db_table_suffix = Constants::$mantis_db_table_suffix; // '_table'
+      $this->mantis_db_table_prefix = $mantis_db_table_prefix; // 'mantis_'
+      $this->mantis_db_table_suffix = $mantis_db_table_suffix; // '_table'
 
        switch ($database_type) {
            case 'mysqli':
@@ -237,6 +262,10 @@ class AdodbWrapper {
       $this->isDBconnected = true;
 
       return true;
+   }
+
+   public function getDatabaseName() {
+      return $this->database_name;
    }
 
    /**
