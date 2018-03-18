@@ -54,7 +54,14 @@
 &nbsp;
 <?php echo "<a href='".Tools::curPageName()."?locale=it_IT'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-it' title='Italian' width='18px' height='12px' /></a>";?>
 &nbsp;
-<?php echo "<a href='".Tools::curPageName()."?locale=pt_BR'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-br' title='Brazil' width='18px' height='12px' /></a>";?>
+<?php echo "<a href='".Tools::curPageName()."?locale=es_ES'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-es' title='Español' width='18px' height='12px' /></a>";?>
+&nbsp;
+<?php echo "<a href='".Tools::curPageName()."?locale=zh_CN'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-cn' title='Chinese' width='18px' height='12px' /></a>";?>
+&nbsp;
+<?php echo "<a href='".Tools::curPageName()."?locale=zh_TW'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-tw' title='Taiwan' width='18px' height='12px' /></a>";?>
+&nbsp;
+<?php echo "<a href='".Tools::curPageName()."?locale=ar'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-dz' title='Arab' width='18px' height='12px' /></a>";?>
+
 </td>
 </tr>
 </table>
