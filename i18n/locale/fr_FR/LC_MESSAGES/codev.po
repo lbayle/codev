@@ -1,31 +1,21 @@
-# Translation of CodevTT to French (français)
-# Exported from translatewiki.net
-#
-# Author: Derugon
-# Author: Fitoschido
-# Author: Gomoko
-# Author: Nemo bis
-# Author: Urhixidur
-# Author: Wladek92
+# Copyright (C) 2011 Free Software Foundation, Inc.
 msgid ""
 msgstr ""
-""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-13 22:51+0100\n"
-"PO-Revision-Date: 2018-03-15 14:51:58+0000\n"
+"POT-Creation-Date: 2018-03-18 13:49+0100\n"
+"PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
-"Language: fr_fr\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: MediaWiki 1.31.0-alpha; Translate 2018-01-30\n"
+"X-Generator: Lokalize 1.2\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POT-Import-Date: 2017-12-10 20:49:19+0000\n"
 
 #. tpl/filters.html
 #. tpl/productivity_report.html
@@ -57,16 +47,16 @@ msgstr ""
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. write header
 #. WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
-#: classes/issue.class.php:2259 classes/issue_selection.class.php:316
-#: classes/wbsElement.class.php:637 filters/ProjectFilter.php:59
+#: classes/issue.class.php:2270 classes/issue_selection.class.php:315
+#: classes/wbsElement.class.php:623 filters/ProjectFilter.php:59
 #: management/servicecontract_info.php:149 management/command_info.php:240
 #: management/commandset_info.php:152 reports/planning_report.php:234
 #: reports/planning_report.php:475 reports/planning_report.php:476
-#: reports/export_csv_tools.php:48 reports/project_info.php:281
+#: reports/export_csv_tools.php:49 reports/project_info.php:281
 #: reports/project_info.php:292 reports/project_info.php:304 tests/odt.php:25
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:224
 #: scheduler/SchedulerEvent.class.php:127
-#: scheduler/SchedulerEvent.class.php:128 tools.php:1531
+#: scheduler/SchedulerEvent.class.php:128 tools.php:1554
 msgid "Project"
 msgstr "Projet"
 
@@ -88,7 +78,7 @@ msgstr "Envoyer"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#: classes/time_tracking.class.php:447
+#: classes/time_tracking.class.php:461
 msgid "nb days"
 msgstr "nb jours"
 
@@ -252,7 +242,7 @@ msgstr "Non disponible."
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#: reports/export_csv_weekly.php:170
+#: reports/export_csv_weekly.php:171
 msgid "Job"
 msgstr "Poste"
 
@@ -283,11 +273,11 @@ msgstr "Disponibilité Système"
 
 #. tpl/productivity_report.html
 msgid "MgrEffortEstim Reliability Rate"
-msgstr "Taux de fiabilité de l’{{Mantis:Codev-0eaccd-MgrEffortEstim/fr}}"
+msgstr "Taux de fiabilité de la Charge_Mgr"
 
 #. tpl/productivity_report.html
 msgid "EffortEstim Reliability Rate"
-msgstr "Taux de fiabilité de l’{{Mantis:Codev-a20275-EffortEstim/fr}}"
+msgstr "Taux de fiabilité de la Charge_Initiale"
 
 #. tpl/productivity_report.html
 msgid "Workload Forecasting (holidays & externalTasks not included, developers only)"
@@ -320,7 +310,7 @@ msgstr "Jours de Production"
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "EffortEstim Reliability"
-msgstr "Fiabilité de l’{{Mantis:Codev-a20275-EffortEstim/fr}}"
+msgstr "Fiabilité de l'estimation de charge"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
@@ -352,9 +342,9 @@ msgstr "taux = 1 : estimation parfaite.<br>taux &lt; 1 : sous-estimé<br>taux &g
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:315
-#: reports/project_info.php:238 tools.php:1470
+#: reports/project_info.php:238 tools.php:1493
 msgid "EffortEstim"
-msgstr "EstiméCharge"
+msgstr "Charge Init"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
@@ -364,13 +354,12 @@ msgstr "Charge Add"
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 #: classes/consistency_check2.class.php:442
-#: classes/consistency_check.class.php:365
 msgid "elapsed"
 msgstr "consommé"
 
 #. tpl/productivity_report.html
 msgid "Tasks having no deadLine are not reported here"
-msgstr "Les tâches sans {{Mantis:Codev-fbace7-DeadLine/fr}} ne sont pas représentées ici"
+msgstr "Les tâches sans deadLine ne sont pas représentées ici"
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -402,12 +391,12 @@ msgstr "nb tâches"
 #. $tooltipAttr[T_('DeliveryDate')] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
 #: reports/issue_info_tools.php:109
 msgid "DeliveryDate"
-msgstr "DateLivraison"
+msgstr "Date Livraison"
 
 #. tpl/productivity_report.html
-#: reports/export_csv_tools.php:55
+#: reports/export_csv_tools.php:56
 msgid "DeadLine"
-msgstr "DateTombée"
+msgstr "DeadLine"
 
 #. tpl/productivity_report.html
 msgid "Tasks delivered on time"
@@ -415,7 +404,7 @@ msgstr "Fiches livrées à temps."
 
 #. tpl/productivity_report.html
 msgid "Task list for EffortEstim"
-msgstr "Liste des tâches pour {{Mantis:Codev-a20275-EffortEstim/fr}}"
+msgstr "Liste des tâches pour Charge_Init"
 
 #. tpl/productivity_report.html
 msgid "Note: Drift on tasks resolved in the period"
@@ -441,7 +430,7 @@ msgstr "Dérive - toutes les tâches"
 #: reports/issue_info_tools.php:116 reports/project_info.php:186
 #: reports/project_info.php:243 reports/project_info.php:294
 #: reports/project_info.php:307 scheduler/SchedulerEvent.class.php:161
-#: gantt/gantt_ajax.php:255 tools.php:276
+#: gantt/gantt_ajax.php:255 tools.php:273
 msgid "Drift"
 msgstr "Dérive"
 
@@ -505,12 +494,12 @@ msgstr "Dérive"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Manager Estimation"
-msgstr "Charge estimée par le gestionnaire"
+msgstr "Charge estimée par le manager"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Manager"
-msgstr "Gestionnaire"
+msgstr "Manager"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -535,10 +524,10 @@ msgstr "Dérive"
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:314
-#: reports/export_csv_tools.php:60 reports/project_info.php:237
-#: tests/filters.php:68 tools.php:1467
+#: reports/export_csv_tools.php:61 reports/project_info.php:237
+#: tests/filters.php:68 tools.php:1490
 msgid "MgrEffortEstim"
-msgstr "EstiméChargeGest"
+msgstr "Charge Mgr"
 
 #. tpl/productivity_report.html
 msgid "No resolved tasks..."
@@ -566,7 +555,7 @@ msgstr "ID"
 #. tpl/modal/select_issues.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
-#: reports/export_csv_tools.php:50
+#: reports/export_csv_tools.php:51
 msgid "ExtRef"
 msgstr "RefExt"
 
@@ -587,7 +576,7 @@ msgstr "RefExt"
 #. $titles[] = T_("Date");
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:257
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:313
-#: management/command_info_ajax.php:334 reports/export_csv_tools.php:65
+#: management/command_info_ajax.php:334 reports/export_csv_tools.php:66
 #: reports/project_info.php:181 reports/project_info.php:236
 #: gantt/gantt_ajax.php:196
 msgid "Progress"
@@ -626,7 +615,7 @@ msgstr "Réestimé"
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:317
 #: reports/project_info.php:240 tests/filters.php:70
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:226
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:383
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:381
 msgid "Elapsed"
 msgstr "Consommé"
 
@@ -656,7 +645,7 @@ msgstr "Consommé"
 #: reports/project_info.php:241 tests/filters.php:71
 #: scheduler/SchedulerEvent.class.php:117
 #: scheduler/SchedulerEvent.class.php:140 gantt/gantt_ajax.php:225
-#: tools.php:1464 tools.php:1473
+#: tools.php:1487 tools.php:1496
 msgid "Backlog"
 msgstr "Reste à faire"
 
@@ -667,15 +656,15 @@ msgstr "Reste à faire"
 #. tpl/team_activity_report.html
 #. tpl/command_info.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#: reports/export_csv_tools.php:64 reports/export_csv_weekly.php:128
+#: reports/export_csv_tools.php:65 reports/export_csv_weekly.php:128
 msgid "BL"
-msgstr "AT"
+msgstr "RAF"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 msgid "Drift relatively to the managers Estimation"
-msgstr "Dérive par rapport à l’estimé du gestionnaire"
+msgstr "Dérive par rapport à l'estimation du manager"
 
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
@@ -718,11 +707,11 @@ msgstr "Dérive par rapport au BI + BS"
 #. unset($tooltipAttr[T_('Project')]);
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
-#: classes/wbsElement.class.php:639 reports/planning_report.php:461
-#: reports/planning_report.php:484 reports/export_csv_tools.php:52
+#: classes/wbsElement.class.php:625 reports/planning_report.php:461
+#: reports/planning_report.php:484 reports/export_csv_tools.php:53
 #: reports/project_info.php:306 scheduler/SchedulerEvent.class.php:113
 #: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
-#: tools.php:1535
+#: tools.php:1558
 msgid "Status"
 msgstr "Statut"
 
@@ -745,18 +734,18 @@ msgstr "Statut"
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. insert in front
 #. add task summary in front
-#: classes/issue.class.php:2265 classes/issue_selection.class.php:317
+#: classes/issue.class.php:2276 classes/issue_selection.class.php:316
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
 #: management/servicecontract_info.php:150 management/command_info.php:241
 #: management/command_info_ajax.php:332 management/commandset_info.php:153
 #: reports/planning_report.php:235 reports/planning_report.php:478
-#: reports/export_csv_tools.php:51 reports/project_info.php:282
+#: reports/export_csv_tools.php:52 reports/project_info.php:282
 #: reports/project_info.php:293 reports/project_info.php:305
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: scheduler/SchedulerEvent.class.php:87 scheduler/SchedulerEvent.class.php:130
-#: gantt/gantt_ajax.php:194 gantt/gantt_ajax.php:231 tools.php:1537
+#: gantt/gantt_ajax.php:194 gantt/gantt_ajax.php:231 tools.php:1560
 msgid "Summary"
 msgstr "Description"
 
@@ -774,7 +763,7 @@ msgstr "Dérive - Tâches Externes"
 
 #. tpl/productivity_report.html
 msgid "Tasks without ExternalRef are excluded"
-msgstr "Les tâches sans RefExterne ne sont pas comptabilisées"
+msgstr "Les tâches sans référence externes ne sont pas comptabilisées"
 
 #. tpl/productivity_report.html
 msgid "Reopened tasks are not included"
@@ -927,7 +916,7 @@ msgstr "Bilan mensuel SAUF SuiviOp."
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
-msgstr "Bilan mensuel (nombre de fiches / état à la fin du mois)"
+msgstr "Bilan mensuel (nbre de fiches / status à la fin du mois)"
 
 #. tpl/mantis_reports.html
 #. tpl/servicecontract_info.html
@@ -981,7 +970,7 @@ msgstr "Détaillé"
 #. tpl/command_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
-#: classes/wbsElement.class.php:638 tools.php:1533
+#: classes/wbsElement.class.php:624 tools.php:1556
 msgid "Category"
 msgstr "Catégorie"
 
@@ -1010,7 +999,7 @@ msgstr "Version ciblée"
 #. tpl/command_info.html
 #. tpl/modal/select_issues.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#: classes/issue.class.php:2272 tools.php:1541
+#: classes/issue.class.php:2283 tools.php:1564
 msgid "Target"
 msgstr "V.Ciblée"
 
@@ -1069,7 +1058,7 @@ msgstr "-- Créer un Nouveau Contrat de Service ---"
 #. tpl/command_edit.html
 #. tpl/commandset_info.html
 msgid "Sorry, only managers can access this page."
-msgstr "Désolé, seuls les gestionnaires peuvent accéder à cette page."
+msgstr "Vous devez être Manager pour accéder à cette page."
 
 #. tpl/servicecontract_info.html
 #. tpl/command_info.html
@@ -1168,7 +1157,7 @@ msgstr "Pas de Macro Commande."
 #. tpl/menu/global_menu.html
 #. tpl/commandset_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#: classes/consistency_check2.class.php:646
+#: classes/consistency_check2.class.php:636
 msgid "Command"
 msgstr "Commande"
 
@@ -1226,7 +1215,7 @@ msgstr "Emetteur"
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
 #. tpl/command_info.html
-#: reports/export_csv_tools.php:54
+#: reports/export_csv_tools.php:55
 msgid "Start date"
 msgstr "Date début"
 
@@ -1259,7 +1248,7 @@ msgstr "Date fin"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#: reports/export_csv_weekly.php:171
+#: reports/export_csv_weekly.php:172
 msgid "Description"
 msgstr "Description"
 
@@ -1377,7 +1366,7 @@ msgstr "Filtres actifs"
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #: management/command_info_ajax.php:328 management/command_info_ajax.php:330
 #: reports/planning_report.php:471 reports/planning_report.php:473
-#: reports/export_csv_weekly.php:127 reports/export_csv_weekly.php:169
+#: reports/export_csv_weekly.php:127 reports/export_csv_weekly.php:170
 #: scheduler/SchedulerEvent.class.php:83 scheduler/SchedulerEvent.class.php:85
 #: scheduler/SchedulerEvent.class.php:123
 #: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
@@ -1427,7 +1416,7 @@ msgstr "Astreintes"
 
 #. tpl/edit_team.html
 #. tpl/create_team.html
-#: admin/edit_team.php:173 admin/create_team.php:95
+#: admin/edit_team.php:174 admin/create_team.php:95
 msgid "Tools"
 msgstr "Outils"
 
@@ -1590,7 +1579,7 @@ msgstr "Devise de l'équipe par défaut"
 
 #. tpl/edit_team.html
 msgid "All indicators will use this currency and all values defined in other currencies will be converted."
-msgstr "Les indicateurs utiliseront tous cette devise et toutes les autres devises seront converties vers celle-ci."
+msgstr "Les indicateurs utiliseront cette devise, les autres devises seront converties vers celle-ci."
 
 #. tpl/edit_team.html
 #. tpl/command_edit.html
@@ -1607,7 +1596,7 @@ msgstr "Devise de référence"
 
 #. tpl/edit_team.html
 msgid "TODO: describe how and where it is used in CodevTT"
-msgstr "A faire: décrire comment et où c'est utilisé dans CodevTT"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "User Daily Costs"
@@ -1947,7 +1936,7 @@ msgstr "Description de l'erreur"
 
 #. tpl/issue_info.html
 #: scheduler/SchedulerEvent.class.php:116 gantt/gantt_ajax.php:224
-#: tools.php:1458
+#: tools.php:1481
 msgid "External ID"
 msgstr "Référence externe"
 
@@ -1990,26 +1979,26 @@ msgstr "Réf. Externe"
 #. tpl/issue_info.html
 #. tpl/export_odt.html
 #. tpl/modal/update_issueBacklog.html
-#: classes/wbsElement.class.php:640 management/command_info_ajax.php:333
-#: reports/export_csv_tools.php:68 reports/export_csv_weekly.php:172
+#: classes/wbsElement.class.php:626 management/command_info_ajax.php:333
+#: reports/export_csv_tools.php:69 reports/export_csv_weekly.php:173
 #: gantt/gantt_ajax.php:195
 msgid "Assigned to"
 msgstr "Assigné à"
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2274 reports/planning_report.php:462
-#: reports/planning_report.php:485 reports/export_csv_tools.php:57
+#: classes/issue.class.php:2285 reports/planning_report.php:462
+#: reports/planning_report.php:485 reports/export_csv_tools.php:58
 #: scheduler/SchedulerEvent.class.php:114
 #: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
-#: tools.php:1543
+#: tools.php:1566
 msgid "Priority"
 msgstr "Priorité"
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2270 reports/planning_report.php:463
+#: classes/issue.class.php:2281 reports/planning_report.php:463
 #: reports/planning_report.php:486 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
-#: tools.php:1545
+#: tools.php:1568
 msgid "Severity"
 msgstr "Criticité"
 
@@ -2021,9 +2010,9 @@ msgstr "Criticité"
 #: reports/planning_report.php:466 reports/planning_report.php:495
 #: scheduler/SchedulerEvent.class.php:91 scheduler/SchedulerEvent.class.php:118
 #: scheduler/SchedulerEvent.class.php:143 gantt/gantt_ajax.php:198
-#: gantt/gantt_ajax.php:226 gantt/gantt_ajax.php:235 tools.php:1479
+#: gantt/gantt_ajax.php:226 gantt/gantt_ajax.php:235 tools.php:1502
 msgid "Deadline"
-msgstr "{{Mantis:Codev-fbace7-DeadLine/fr}}"
+msgstr "Deadline"
 
 #. tpl/issue_info.html
 msgid "Relation"
@@ -2054,7 +2043,7 @@ msgstr "Note"
 #. tpl/planning_report.html
 #. tpl/command_edit.html
 #. tpl/command_info.html
-#: classes/consistency_check2.class.php:751 classes/command.class.php:786
+#: classes/consistency_check2.class.php:735 classes/command.class.php:768
 #: reports/planning_report.php:492 scheduler/SchedulerEvent.class.php:140
 msgid "days"
 msgstr "jours"
@@ -2073,7 +2062,7 @@ msgstr "Ajouter à une commande"
 
 #. tpl/issue_info.html
 msgid "set/remove task specific deadline"
-msgstr "ajouter/enlever la date de tombée de la tâche"
+msgstr "ajouter/enlever la date jalon de la tâche"
 
 #. tpl/issue_info.html
 msgid "Delivery date"
@@ -2086,15 +2075,15 @@ msgstr "ajouter/enlever la date de livraison"
 #. tpl/issue_info.html
 #. tpl/modal/update_issueBacklog.html
 msgid "Task not resolved, backlog cannot be '0'"
-msgstr "Tâche non résolue, l’arriéré de travail ne peut être nul"
+msgstr "Tâche non résolue, le RAF ne peut être nul"
 
 #. tpl/issue_info.html
 msgid "Task is resolved, backlog should be '0'"
-msgstr "Tâche résolue, l’arriéré de travail devrait être nul"
+msgstr "Tâche résolue, le RAF devrait être à zero"
 
 #. tpl/issue_info.html
 msgid "Backlog should not be set if status is : "
-msgstr "L’arriéré de travail ne devrait pas être renseigné si l’état est : "
+msgstr "Le RAF devrait pas être renseigné si les status est: "
 
 #. tpl/commandset_edit.html
 msgid "New command set"
@@ -2173,7 +2162,7 @@ msgstr "Options"
 
 #. tpl/scheduler.html
 msgid "RAF"
-msgstr "AT"
+msgstr "RAF"
 
 #. tpl/scheduler.html
 msgid "User assignment"
@@ -2249,15 +2238,15 @@ msgstr "Enregistrer les options"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support included"
-msgstr "Soutien inclus"
+msgstr "Support inclus"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support NOT included"
-msgstr "Soutien NON inclus"
+msgstr "Support NON inclus"
 
 #. tpl/ajax/weekTaskDetails.html
 msgid "update backlog"
-msgstr "arriéré de màj"
+msgstr "maj du RAF"
 
 #. tpl/ajax/schedulerAffectationSummary.html
 msgid "Assigned users"
@@ -2366,7 +2355,7 @@ msgstr "% Tâches"
 
 #. tpl/statistics.html
 msgid "Percentage of tasks delivered before the deadLine"
-msgstr "Pourcentage de tâches complétées avant la {{Mantis:Codev-fbace7-DeadLine/fr}}"
+msgstr "Pourcentage de fiches livrées avant la deadLine"
 
 #. tpl/statistics.html
 msgid "% Tasks Delivered on time"
@@ -2374,23 +2363,23 @@ msgstr "% Tâches livrées à temps"
 
 #. tpl/statistics.html
 msgid "Effort deviation on resolved tasks (regarding the MgrEffortEstim)"
-msgstr "Nombre de jours de dépassement des tâches résolues (par rapport à l’'{{Mantis:Codev-0eaccd-MgrEffortEstim/fr}}')"
+msgstr "Nbre de jours de dépassement sur les tâches résolues dans la période (par rapport à la 'Charge Manager')"
 
 #. tpl/statistics.html
 msgid "Effort deviation on resolved tasks (regarding the EffortEstim)"
-msgstr "Nombre de jours de dépassement des tâches résolues (par rapport à l’'{{Mantis:Codev-a20275-EffortEstim/fr}}')"
+msgstr "Nbre de jours de dépassement sur les tâches résolues dans la période (par rapport à la 'Charge Initiale')"
 
 #. tpl/statistics.html
 msgid "No Support"
-msgstr "Sans Soutien"
+msgstr "Sans Support"
 
 #. tpl/statistics.html
-#: reports/export_csv_tools.php:61
+#: reports/export_csv_tools.php:62
 msgid "BI"
 msgstr "BI"
 
 #. tpl/statistics.html
-#: reports/export_csv_tools.php:62
+#: reports/export_csv_tools.php:63
 msgid "BS"
 msgstr "BS"
 
@@ -2422,7 +2411,7 @@ msgstr "Disp Sys"
 
 #. tpl/statistics.html
 msgid "Number of reopened external tasks (tasks having an ExternalRef)."
-msgstr "Nombre de fiches réouvertes (ayant une RefExterne)"
+msgstr "Nombre de fiches réouvertes (ayant une ReferenceExterne)"
 
 #. tpl/statistics.html
 msgid "% Reopened"
@@ -2536,7 +2525,7 @@ msgstr "Réf.Ext"
 
 #. tpl/time_tracking.html
 msgid "Timetrack note"
-msgstr "Note de feuille de temps"
+msgstr "Note d'imputation"
 
 #. tpl/time_tracking.html
 msgid "Edit timetrack"
@@ -2602,7 +2591,7 @@ msgstr "Tâches non assignées"
 
 #. tpl/planning_report.html
 msgid "Team's backlog"
-msgstr "Arriéré de travail de l’équipe"
+msgstr "Backlog de l'équipe"
 
 #. tpl/planning_report.html
 msgid "tasks"
@@ -2619,9 +2608,9 @@ msgstr "NbJoursRestants"
 #. tpl/planning_report.html
 #. tpl/edit_jobs.html
 #. tpl/edit_holidays.html
-#: install/install_step3.php:630 install/install_step3.php:635
-#: install/install_step3.php:640 install/install_step3.php:646
-#: install/install_step3.php:651
+#: install/install_step3.php:641 install/install_step3.php:646
+#: install/install_step3.php:651 install/install_step3.php:657
+#: install/install_step3.php:662
 msgid "Color"
 msgstr "Couleur"
 
@@ -2648,6 +2637,10 @@ msgstr "Aider à la traduction: "
 #. tpl/doc.html
 msgid "statistics"
 msgstr "Statistiques"
+
+#. tpl/doc.html
+msgid "Contact the author: "
+msgstr "Contacter l'auteur: "
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
@@ -2692,11 +2685,11 @@ msgstr "Ligne"
 
 #. tpl/logs.html
 msgid "Log"
-msgstr "Journal"
+msgstr "Log"
 
 #. tpl/bvi.html
 msgid "Average Backlog Variation"
-msgstr "Variation moyenne de l’arriéré de travail"
+msgstr "Evolution de la moyenne des RAF"
 
 #. tpl/bvi.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
@@ -2766,13 +2759,13 @@ msgstr "Capitalisation"
 
 #. tpl/create_team.html
 msgid "Support, Doc, Training, Wiki, ..."
-msgstr "Soutien, Doc, Formation, Wiki, ..."
+msgstr "Support, Doc, Formation, Wiki, ..."
 
 #. tpl/create_team.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: admin/create_team.php:89
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:386
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:384
 msgid "Inactivity"
 msgstr "Inactivité"
 
@@ -2790,7 +2783,7 @@ msgstr "Champs CodevTT"
 
 #. tpl/create_team.html
 msgid "MgrEffortEstim, EffortEstim, AddEffort, Backlog, DeadLine, DeliveryDate"
-msgstr "{{Mantis:Codev-0eaccd-MgrEffortEstim/fr}}, {{Mantis:Codev-a20275-EffortEstim/fr}}, ChargeSuppl, AT, {{Mantis:Codev-fbace7-DeadLine/fr}}, {{Mantis:Codev-1d0799-DeliveryDate/fr}}"
+msgstr "Charge Mgr, Charge, RAF, DeadLine, Date de Livraison"
 
 #. tpl/create_team.html
 msgid "These are sample sideTasks, you can create more with Mantis"
@@ -2827,21 +2820,21 @@ msgstr "Autre activité imputée sur le projet"
 #. Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
 #. Display Empty Command Form
 #. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
-#: management/command_edit.php:112 management/servicecontract_edit.php:86
+#: management/command_edit.php:108 management/servicecontract_edit.php:86
 msgid "Create"
 msgstr "Créer"
 
 #. tpl/plugin_manager.html
 msgid "Check for new plugins in 'plugins' directory."
-msgstr "Recherche de greffons dans le dossier 'plugins'"
+msgstr "Recherche de plugins dans le dossier 'plugins'"
 
 #. tpl/plugin_manager.html
 msgid "Discover new plugins"
-msgstr "Recherche de nouveaux greffons"
+msgstr "Recherche de nouveaux plugins"
 
 #. tpl/plugin_manager.html
 msgid "Plugin"
-msgstr "Greffon"
+msgstr "Plugin"
 
 #. tpl/plugin_manager.html
 msgid "Domain(s)"
@@ -2849,11 +2842,11 @@ msgstr "Domaine(s)"
 
 #. tpl/plugin_manager.html
 msgid "Enable Plugin"
-msgstr "Activer le greffon"
+msgstr "Activer le plugin"
 
 #. tpl/plugin_manager.html
 msgid "Disable Plugin"
-msgstr "Désactiver le greffon"
+msgstr "Désactiver le plugin"
 
 #. tpl/command_edit.html
 msgid "New command"
@@ -2985,7 +2978,7 @@ msgstr "CRAs"
 
 #. tpl/team_activity_report.html
 msgid "sum(Backlog) of assigned tasks"
-msgstr "somme(arriéré de travail) des tâches assignées"
+msgstr "somme(RAF) des tâches assignées"
 
 #. tpl/team_activity_report.html
 msgid "Workload"
@@ -3123,10 +3116,10 @@ msgstr "Exporter vers LibreOffice"
 
 #. tpl/menu/global_menu.html
 msgid "Blog"
-msgstr "Blogue"
+msgstr "Blog"
 
 #. tpl/menu/global_menu.html
-#: install/install_step3.php:855 install/install_menu.inc.php:68
+#: install/install_step3.php:867 install/install_menu.inc.php:68
 msgid "Documentation"
 msgstr "Documentation"
 
@@ -3156,7 +3149,7 @@ msgstr "Outils & Statistiques"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Jobs"
-msgstr "Modifier Postes"
+msgstr "Editer Postes"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Holidays"
@@ -3172,11 +3165,11 @@ msgstr "Cloner un Projet"
 
 #. tpl/menu/global_menu.html
 msgid "Plugin Manager"
-msgstr "Gestionnaire de greffons"
+msgstr "Gestionnaire de plugin"
 
 #. tpl/menu/global_menu.html
 msgid "Logs"
-msgstr "Journaux"
+msgstr "Logs"
 
 #. tpl/menu/global_menu.html
 #. tpl/uninstall.html
@@ -3209,6 +3202,10 @@ msgid "This step will clean Mantis DB."
 msgstr "Cette étape nettoiera la BDD Mantis"
 
 #. tpl/uninstall.html
+msgid "It is HIGHLY recommended to backup your Mantis DB before you proceed !"
+msgstr "Il est FORTEMENT recommandé de sauvegarder la BDD Mantis avant de continuer !"
+
+#. tpl/uninstall.html
 msgid "Backup data"
 msgstr "Sauver les données"
 
@@ -3222,7 +3219,7 @@ msgstr "Nom du Fichier"
 
 #. tpl/uninstall.html
 msgid "Dumping MantisDB to"
-msgstr "Vidage de la BDD Mantis vers"
+msgstr "Dump de la BDD Mantis vers"
 
 #. tpl/uninstall.html
 msgid "Backup successfully done"
@@ -3258,7 +3255,7 @@ msgstr "Suppression des fichiers de configuration de CodevTT :"
 
 #. tpl/uninstall.html
 msgid "Remove Mantis plugin:"
-msgstr "Enlever les greffons Mantis :"
+msgstr "Enlever les plugins Mantis:"
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
@@ -3274,7 +3271,7 @@ msgstr "Nom du Poste"
 
 #. tpl/edit_jobs.html
 #. tpl/edit_holidays.html
-#: install/install_step3.php:620
+#: install/install_step3.php:631
 msgid "open a colorPicker in a new Tab"
 msgstr "Ouvrir un sélecteur de couleur dans un nouvel onglet"
 
@@ -3404,7 +3401,7 @@ msgstr "Afficher les tâches dans Mantis"
 
 #. tpl/command_info.html
 msgid "MgrEffortEstim + Checked Provisions (days)"
-msgstr "{{Mantis:Codev-0eaccd-MgrEffortEstim/fr}} + Provisions sélectionnées (jours)"
+msgstr "Charge Mgr + Provision sélectionnées (jours)"
 
 #. tpl/command_info.html
 msgid "Reestimated (days)"
@@ -3424,7 +3421,7 @@ msgstr "Jours"
 
 #. tpl/command_info.html
 msgid "The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'"
-msgstr "La charge totale ({{Mantis:Codev-0eaccd-MgrEffortEstim/fr}} + Provisions) devrait être égale à la 'Charge vendue'"
+msgstr "La charge totale (Charge Mgr + Provisions) devrait être égale à la 'Charge vendue'"
 
 #. tpl/command_info.html
 msgid "balance"
@@ -3458,7 +3455,6 @@ msgid "Show resolved tasks"
 msgstr "Afficher les tâches résolues"
 
 #. tpl/command_info.html
-#: classes/consistency_check.class.php:256
 msgid "Warning"
 msgstr "Alerte"
 
@@ -3500,19 +3496,19 @@ msgstr "Effacer la note de la tâche "
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Current backlog"
-msgstr "Arriéré de travail actuel"
+msgstr "RAF actuel"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Update Backlog"
-msgstr "Arriéré des mises à jour"
+msgstr "Mise à jour du RAF"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Status can't be : "
-msgstr "L’état ne peut pas être : "
+msgstr "Le status ne peut pas être : "
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Task resolved, backlog must be '0'"
-msgstr "Tâche résolue, l’arriéré de travail doit être nul"
+msgstr "Tâche résolue, le RAF devrait être à zero"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
@@ -3593,17 +3589,17 @@ msgstr "Contrat de Service"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
-msgstr "Pas de tâche avec arriéré"
+msgstr "Pas de tâche avec RAF"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:69
 msgid "Backlog per User"
-msgstr "Arriéré de travail par utilisateur"
+msgstr "RAF par utilisateur"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "For each user, return the sum of the backlog of its assigned tasks"
-msgstr "Pour chaque utilisateur, renvoie la somme de ses arriérés de tâches"
+msgstr "Pour chaque utilisateur, renvoie la somme du RAF de ses tâches"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
@@ -3712,12 +3708,12 @@ msgstr "Avancement théorique"
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Compares the EffortEstim to the Elapsed days"
-msgstr "Compare l’{{Mantis:Codev-a20275-EffortEstim/fr}} au consommé"
+msgstr "Compare la Charge initiale au consommé"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Elapsed / max(MgrEffortEstim, EffortEstim)"
-msgstr "Consommé / max({{Mantis:Codev-0eaccd-MgrEffortEstim/fr}}, {{Mantis:Codev-a20275-EffortEstim/fr}})"
+msgstr "Consommé / max(Charge Mgr, Charge Init)"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -3727,7 +3723,7 @@ msgstr "Avancement Réel"
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Displays the backlog"
-msgstr "Affiche l’arriéré de travail"
+msgstr "Affiche le RAF"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -3859,7 +3855,7 @@ msgstr "Encodage"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported."
-msgstr "Il est recommandé d’encoder en <strong>UTF-8</strong> mais ASCII et ISO-8859-1 (MS-Windows) sont également pris en charge."
+msgstr "Il est recommandé d'encoder en <strong>UTF-8</strong> mais ASCII et ISO-8859-1 (MS-Windows) sont également pris en charge."
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Columns"
@@ -3871,7 +3867,7 @@ msgstr "Le fichier doit contenir 7 colonnes, la première ligne contenant le tit
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef ; WBS tree"
-msgstr "Titre ; {{Mantis:Codev-0eaccd-MgrEffortEstim/fr}} ; {{Mantis:Codev-a20275-EffortEstim/fr}} ; Description ; {{Mantis:Codev-fbace7-DeadLine/fr}} ; RefExterne; branches WBS"
+msgstr "Titre ; Charge Mgr ; Charge ; Description ; DeadLine ; Ref Externe; branches WBS"
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 msgid "No late task."
@@ -3879,7 +3875,7 @@ msgstr "Pas de tâches en retard."
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator_cfg.html
 msgid "Deadline alerts"
-msgstr "Alertes de dates de tombée"
+msgstr "Alertes sur dates jalon"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:61
@@ -3916,7 +3912,7 @@ msgstr "Taux de refus"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Resolved bugs must be validated. This shows how many bugs have been Rejected or Accepted during the validation stage. Bugs in 'resolved' status (not yet validated) are excluded."
-msgstr "Donne le taux de refus lors de la phase de validation. Les corrections peuvent être acceptées ou refusées. Les bogues dont l’état est 'résolu' (non encore validés) ne sont pas pris en compte."
+msgstr "Donne le taux de refus lors de la phase de validation. Les corrections peuvent être acceptées ou refusées. Les bugs dont le status est 'résolu' (non encore validés) ne sont pas pris en compte."
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Validated"
@@ -3924,11 +3920,11 @@ msgstr "% Validé"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having successfully pass the validation tests"
-msgstr "Nbre de bogues ayant passé avec succès les tests de validation"
+msgstr "Nbre de bugs ayant passé avec succès les tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved' to any higher status (and still in this state at the end of the period)."
-msgstr "Le bogue est passé à un état supérieur à 'résolu' (et est toujours dans cet état à la fin de la période)."
+msgstr "Le bug est passé à un status supérieur à 'résolu' (et est toujours dans cet état à la fin de la période)"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Rejected"
@@ -3936,11 +3932,11 @@ msgstr "% Refus"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having failed the validation tests"
-msgstr "Affiche le pourcentage de bogues ayant échoué aux tests de validation"
+msgstr "Affiche le pourcentage de bugs ayant échoué aux tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved (or higher) to any lower status (and still unresolved at the end of the period)"
-msgstr "Le bogue est passé de l’état 'résolu' (ou supérieur) à un état inférieur (et est toujours non résolu à la fin de la période)"
+msgstr "Le bug est passé d'un status 'résolu' (ou supérieur) à un status inférieur (et est toujours non résolu à la fin de la période)"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Bug Refusal Rate"
@@ -3948,7 +3944,7 @@ msgstr "Taux de refus"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having fail validation tests"
-msgstr "Nb de bogues ayant échoué aux tests de validation"
+msgstr "Nb de bugs ayant échoué aux tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Fail"
@@ -3956,7 +3952,7 @@ msgstr "Nb Refus"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having pass validation tests"
-msgstr "Nb de bogues ayant passé avec succès les tests de validation"
+msgstr "Nb de bugs ayant passé avec succès les tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Pass"
@@ -3977,7 +3973,7 @@ msgstr "Evolution de la Dérive Budget"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks)."
-msgstr "Compare le budget ({{Mantis:Codev-0eaccd-MgrEffortEstim/fr}} + provisions sélectionnées) au réestimé (nb jours pour finir les tâches)."
+msgstr "Compare le budget (Charge Mgr + provisions sélectionnées) au réestimé (nb jours pour finir les tâches)."
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "% Budget Drift"
@@ -3993,7 +3989,7 @@ msgstr "Dérive Budget"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "MgrEffortEstim + checked provisions"
-msgstr "{{Mantis:Codev-0eaccd-MgrEffortEstim/fr}} + Provisions sélectionnées"
+msgstr "Charge Mgr + Provision sélectionnées"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget Drift Progression Chart"
@@ -4057,7 +4053,7 @@ msgstr "Charge par catégories projet"
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send password by mail"
-msgstr "Envoi du mot de passe par courriel"
+msgstr "Envoi du mot de passe par email"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4078,7 +4074,7 @@ msgstr "Identifiant"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Email"
-msgstr "Courriel"
+msgstr "Email"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4120,7 +4116,7 @@ msgstr "Import terminé ! le mot de passe des utilisateurs créés est"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import Done ! An email with login and password has been sent to each user."
-msgstr "Import terminé ! Un courriel avec identifiant et mot de passe est envoyé à chaque utilisateur."
+msgstr "Import terminé ! Un email avec identifiant et mot de passe est envoyé à chaque utilisteur."
 
 #. plugins/ImportUsers/ImportUsers_cfg.html
 msgid "Import users"
@@ -4128,7 +4124,7 @@ msgstr "Import utilisateurs"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "You need to be manager to import issues."
-msgstr "Vous devez être gestionnaire pour importer des tâches."
+msgstr "Désolé, vous devez être manager pour importer des tâches"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Only team administrators can create users"
@@ -4140,7 +4136,7 @@ msgstr "Seuls les administrateurs d'équipe sont autorisés à créer des utilis
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator_cfg.html
 #: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:62
 msgid "Time per status"
-msgstr "Temps par état"
+msgstr "Temps par Status"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Create Mantis users"
@@ -4156,7 +4152,7 @@ msgstr "Seuls les Administrateurs sont autorisés à faire cette action."
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send a password per email to each user"
-msgstr "Envoi du mot de passe par courriel à chaque utilisateur"
+msgstr "Envoi du mot de passe par email à chaque utilisateur"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Display a generated password (common to all created users)"
@@ -4229,35 +4225,35 @@ msgstr "Coûts Mgr"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the costs of each timetrack."
-msgstr "Total des coûts de toutes les imputations."
+msgstr "Total des coûts de toutes les imputations"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Team AverageDailyCost and UserDailyCosts must be defined in team settings."
-msgstr "Le coût journalier moyen de l’équipe, ou les coûts journaliers individuels, doivent être définis dans les paramètres de l’équipe."
+msgstr "Le Coût journaliers moyen de l'équipe et/ou les coûts journaliers individuels doivent être définis dans les paramètres de l'équipe"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "AverageDailyCost is used when no UserDailyCosts is defined for the timetrack's user."
-msgstr "AverageDailyCost est utilisé quand aucun UserDailyCost n’est défini pour la feuille de temps de l’utilisateur."
+msgstr "Le Coût-Journalier-Moyen est utilisé lorsqu'aucun Coût-Journalier-Individuel n'est défini pour la personne ayant imputé"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "AverageDailyCost is used if the task is not yet assigned to anyone."
-msgstr "AverageDailyCost est utilisé si la tâche est encore assignée à personne."
+msgstr "Le Coût-Journalier-Moyen est utilisé lorsque la tâche n'est assignée à personne"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "The backlog is computed with the current assigned user's UserDailyCost"
-msgstr "Le retard est calculé avec le UserDailyCost de l’utilisateur actuellement affecté"
+msgstr "Le RAF est calculé avec le CJI de la personne à qui la tâche est assignée"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Respectively sum the MgrEffortEstim, EffortEstim, Reestimated, Elapsed, Backlog of each task."
-msgstr "Sommer respectivement MgrEffortEstim, EffortEstim, Reestimated, Elapsed, Backlog de chaque tâche."
+msgstr "Respectivement: ChargeMgr, ChargeInit, Réestimé, Consommé, RAF de chaque tâche."
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "The backlog depends on the status (always 0 if status >= Resolved)"
-msgstr "Le retard dépend de l’état (toujours 0 si état >= Résolu)"
+msgstr "Le RAF dépend du status (toujours null si status >= résolu)"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the Provisions that are 'checked' as included in the budget."
-msgstr "Sommer les provisions qui sont 'vérifiées' comme incluses dans le budget."
+msgstr "Somme des Provisions cochées comme étant incluses dans le budget."
 
 #. plugins/HelloWorldIndicator/HelloWorldIndicator_cfg.html
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:62
@@ -4271,23 +4267,23 @@ msgstr "Greetings date"
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
 #: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:65
 msgid "Time allocation by status"
-msgstr "Répartition du temps par état"
+msgstr "Répartition du temps par status"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:391
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:389
 msgid "Waste"
 msgstr "Pertes"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:384
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:382
 msgid "Other"
 msgstr "Autre"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:385
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:383
 msgid "External"
 msgstr "Externe"
 
@@ -4298,8 +4294,12 @@ msgid "Load per User"
 msgstr "Charge par utilisateur"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr "Afficher les pertes: tâches annexes de catégorie 'Incident' et 'Inactivité' <br>\n         (si désactivé, ce sera inclu dans le 'consommé')"
+msgid ""
+"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
+"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr ""
+"Afficher les pertes: tâches annexes de catégorie 'Incident' et 'Inactivité' <br>\n"
+"         (si désactivé, ce sera inclu dans le 'consommé')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4315,8 +4315,12 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "Consommé sur les projets et tâches annexes pour les tâches sélectionnées"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr "Tâches annexes 'Incident' et 'Inactivité' faisant partie de la sélection.<br>\n         (Si l'option 'Pertes' est désactivée, ce sera inclu dans le 'consommé')"
+msgid ""
+"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
+"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr ""
+"Tâches annexes 'Incident' et 'Inactivité' faisant partie de la sélection.<br>\n"
+"         (Si l'option 'Pertes' est désactivée, ce sera inclu dans le 'consommé')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -4362,7 +4366,7 @@ msgstr "Pas de Filtre"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Bugs only"
-msgstr "Que les bogues"
+msgstr "Que les bugs"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Tasks only"
@@ -4383,7 +4387,7 @@ msgstr "Tâches sans réf. externe"
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator_cfg.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 msgid "Task backlog variation"
-msgstr "Variation de l’arriéré de travail"
+msgstr "Evolution du RAF"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -4392,15 +4396,15 @@ msgstr "Taux de fiabilité de l'estimation de charge"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "EffortEstim ReliabilityRate"
-msgstr "Taux de fiabilité de l’{{Mantis:Codev-a20275-EffortEstim/fr}}"
+msgstr "Taux de fiabilité de la Charge_Initiale"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "MgrEffortEstim ReliabilityRate"
-msgstr "Taux de fiabilité de l’{{Mantis:Codev-0eaccd-MgrEffortEstim/fr}}"
+msgstr "Taux de fiabilité de la Charge_Mgr"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "EffortEstim reliability history"
-msgstr "Historique de l’{{Mantis:Codev-a20275-EffortEstim/fr}}"
+msgstr "Historique de l'estimation de charge"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Select All"
@@ -4471,59 +4475,59 @@ msgstr "Impossible d'ajouter cette absence"
 msgid "Couldn't remove the holiday"
 msgstr "Impossible de supprimer cette absence"
 
-#: admin/edit_team.php:51
+#: admin/edit_team.php:52
 msgid "Couldn't delete the team"
 msgstr "La suppression de l'équipe a échouée"
 
-#: admin/edit_team.php:93
+#: admin/edit_team.php:94
 msgid "Couldn't update the team leader"
 msgstr "La mise à jour du team leader a échouée"
 
-#: admin/edit_team.php:104
+#: admin/edit_team.php:105
 msgid "Couldn't update the creation date"
 msgstr "La mise à jour de la date de création a échouée"
 
-#: admin/edit_team.php:109
+#: admin/edit_team.php:110
 msgid "Couldn't enable/disable team"
 msgstr "Impossible d'activer/désactiver l'équipe"
 
-#: admin/edit_team.php:202
+#: admin/edit_team.php:204
 msgid "Couldn't delete the member of the team"
 msgstr "Le retrait de l'utilisateur à échoué"
 
-#: admin/edit_team.php:218
+#: admin/edit_team.php:220
 msgid "Couldn't add the project to the team"
 msgstr "L'ajout du projet a échoué"
 
-#: admin/edit_team.php:224
+#: admin/edit_team.php:226
 msgid "Could NOT remove the project from the team"
 msgstr "Le retrait du projet a échoué"
 
-#: admin/edit_team.php:276
+#: admin/edit_team.php:278
 msgid "Configure Tooltips"
 msgstr "Configuration des infobulles"
 
-#: admin/edit_team.php:385
+#: admin/edit_team.php:391
 msgid "enabled"
 msgstr "activé"
 
-#: admin/edit_team.php:385
+#: admin/edit_team.php:391
 msgid "disabled"
 msgstr "désactivé"
 
-#: admin/edit_jobs.php:77
+#: admin/edit_jobs.php:81
 msgid "Couldn't add the job association"
 msgstr "Impossible d'ajouter cette association"
 
-#: admin/edit_jobs.php:85
+#: admin/edit_jobs.php:89
 msgid "This job must not be deleted."
 msgstr "Ce poste ne doit pas être supprimé."
 
-#: admin/edit_jobs.php:91 admin/edit_jobs.php:107
+#: admin/edit_jobs.php:96 admin/edit_jobs.php:114
 msgid "Couldn't remove the job association"
 msgstr "Impossible de supprimer l'association"
 
-#: admin/edit_jobs.php:97
+#: admin/edit_jobs.php:103
 msgid "Couldn't delete the job"
 msgstr "Impossible de supprimer le poste"
 
@@ -4534,7 +4538,7 @@ msgstr "Vous devez être identifié."
 
 #: admin/logs.php:58
 msgid "Sorry, logfile not found:"
-msgstr "Le journal n’a pu être trouvé :"
+msgstr "Le fichier de log n'a pu être trouvé"
 
 #: admin/edit_team_ajax.php:80
 msgid "Issue tooltips for project"
@@ -4553,48 +4557,21 @@ msgid "Tooltip"
 msgstr "Infobulle"
 
 #. avoid divisions by zero
-#: classes/Currencies.class.php:125
+#: classes/Currencies.class.php:126
 msgid "ERROR: invalid currency: (coef is null, zero, or not a number)"
 msgstr "ERREUR: Devise non valide (coef null, à zero, ou non numérique)"
 
-#: classes/Currencies.class.php:130
+#: classes/Currencies.class.php:131
 msgid "ERROR: First define the referal currency (with coef=1)"
-msgstr "ERREUR: Commencez par définir la devise de référence (avec coef=1)"
+msgstr "ERREUR: Commencez par définir la devise de référence (Avec coef=1)"
 
-#: classes/Currencies.class.php:135
+#: classes/Currencies.class.php:136
 msgid "ERROR: there can be only one 'referal' currency (with coef=1)"
-msgstr "ERREUR: Il ne peut y avoir qu'une seule devise de référence (avec coef=1)"
+msgstr "ERREUR: Il ne peut y avoir qu'une seule devise de référence (Avec coef=1)"
 
-#: classes/Currencies.class.php:139
+#: classes/Currencies.class.php:140
 msgid "ERROR: currency already defined"
 msgstr "ERREUR: Devise déjà définie"
-
-#: classes/consistency_check_fdj.class.php:76
-msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
-msgstr "BI non renseigné: il doit être égal à temps(Analyse + Dev + Tests)"
-
-#: classes/consistency_check_fdj.class.php:77
-#: classes/consistency_check_fdj.class.php:86
-#: classes/consistency_check_fdj.class.php:97
-#: classes/consistency_check2.class.php:62
-#: classes/consistency_check.class.php:165
-#: classes/consistency_check.class.php:209
-#: classes/consistency_check.class.php:318
-#: classes/consistency_check.class.php:366
-#: timetracking/team_monthly_activity_report.php:129
-#: scheduler/scheduler_ajax.php:384 scheduler/scheduler_ajax.php:385
-#: scheduler/scheduler_ajax.php:386 scheduler/scheduler_ajax.php:387
-#: scheduler/scheduler_ajax.php:390
-msgid "Error"
-msgstr "Erreur"
-
-#: classes/consistency_check_fdj.class.php:85
-msgid "Backlog not specified: Backlog = Time(BI - Analysis)"
-msgstr "Arriéré de travail non renseigné : il doit être égal à temps(BI - Analyse)"
-
-#: classes/consistency_check_fdj.class.php:96
-msgid "Once analysed, a Task must be assigned to 'FDJ' for validation"
-msgstr "Après l'analyse, une tâche doit être assignée à 'FDJ' pour validation"
 
 #: classes/issue.class.php:59
 msgid "Duplicate of"
@@ -4624,32 +4601,32 @@ msgstr "Contraint par"
 msgid "Constrains"
 msgstr "Contraint"
 
-#: classes/issue.class.php:2234 classes/wbsElement.class.php:641 tools.php:1525
+#: classes/issue.class.php:2245 classes/wbsElement.class.php:627 tools.php:1548
 msgid "Tags"
 msgstr "Balises"
 
-#: classes/issue.class.php:2242
+#: classes/issue.class.php:2253
 msgid "none"
 msgstr "aucun(e)"
 
-#: classes/issue.class.php:2247 reports/issue_info_tools.php:115
+#: classes/issue.class.php:2258 reports/issue_info_tools.php:115
 msgid "DriftColor"
 msgstr "DriftColor"
 
-#: classes/issue.class.php:2250 scheduler/SchedulerEvent.class.php:163
-#: gantt/gantt_ajax.php:257 tools.php:278
+#: classes/issue.class.php:2261 scheduler/SchedulerEvent.class.php:163
+#: gantt/gantt_ajax.php:257 tools.php:275
 msgid "DriftMgr"
 msgstr "Dérive Mgr"
 
-#: classes/issue.class.php:2251
+#: classes/issue.class.php:2262
 msgid "DriftMgrColor"
 msgstr "DriftMgrColor"
 
-#: classes/issue.class.php:2268 tools.php:1539
+#: classes/issue.class.php:2279 tools.php:1562
 msgid "Assigned"
 msgstr "Assigné à"
 
-#: classes/issue.class.php:2276 tools.php:1547
+#: classes/issue.class.php:2287 tools.php:1570
 msgid "ETA"
 msgstr "ETA"
 
@@ -4665,55 +4642,63 @@ msgstr "Supprimé"
 msgid "monitored"
 msgstr "suivie"
 
-#: classes/user.class.php:1761
+#: classes/user.class.php:1750
 msgid "for team"
 msgstr "pour l'équipe"
 
-#: classes/user.class.php:1763
+#: classes/user.class.php:1752
 msgid "[CodevTT] Timesheet reminder !"
 msgstr "[CodevTT] Saisie du CRA !"
 
-#: classes/user.class.php:1765 plugins/ImportUsers/ImportUsers_ajax.php:163
+#: classes/user.class.php:1754 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
 msgstr "Cher(e) "
 
-#: classes/user.class.php:1766
+#: classes/user.class.php:1755
 msgid "Please fill your CodevTT timesheet"
 msgstr "Merci de saisir votre compte rendu d'activité "
 
-#: classes/user.class.php:1777 classes/consistency_check2.class.php:749
+#: classes/user.class.php:1766 classes/consistency_check2.class.php:733
 msgid "incomplete (missing "
 msgstr "incomplet (manque "
 
 #. skip dates in the future
-#: classes/user.class.php:1780 classes/consistency_check2.class.php:764
+#: classes/user.class.php:1769 classes/consistency_check2.class.php:748
 msgid "not defined."
 msgstr "non défini."
+
+#: classes/consistency_check2.class.php:62
+#: timetracking/team_monthly_activity_report.php:129
+#: scheduler/scheduler_ajax.php:384 scheduler/scheduler_ajax.php:385
+#: scheduler/scheduler_ajax.php:386 scheduler/scheduler_ajax.php:387
+#: scheduler/scheduler_ajax.php:390
+msgid "Error"
+msgstr "Erreur"
 
 #: classes/consistency_check2.class.php:66
 msgid "Info"
 msgstr "Info"
 
-#: classes/consistency_check2.class.php:68 reports/export_odt.php:272
-#: reports/export_odt.php:285 tests/odt.php:81 tests/odt.php:94
+#: classes/consistency_check2.class.php:68 reports/export_odt.php:270
+#: reports/export_odt.php:283 tests/odt.php:81 tests/odt.php:94
 msgid "unknown"
 msgstr "inconnu"
 
 #: classes/consistency_check2.class.php:200
 msgid "Backlog on resolved issues should be 0"
-msgstr "L’arriéré de travail des tâches résolues devrait être nul"
+msgstr "Le RAF des tâches résolues doit être = 0"
 
 #: classes/consistency_check2.class.php:201
 msgid "Backlog on unresolved issues should not be 0"
-msgstr "L’arriéré des tâches non résolues ne devrait pas être nul"
+msgstr "Le RAF des tâches non résolues ne doit pas être = 0"
 
 #: classes/consistency_check2.class.php:202
 msgid "EffortEstim should not be 0"
-msgstr "L’{{Mantis:Codev-a20275-EffortEstim/fr}} ne doit pas être nul"
+msgstr "La charge initiale doit être renseignée"
 
 #: classes/consistency_check2.class.php:203
 msgid "There should be no timetracks on \"new\" issues "
-msgstr "Il ne doit pas y avoir d’imputations sur des tâches dont l’état est 'déclaré'"
+msgstr "Il ne doit pas y avoir d'imputations sur des tâches dont le status est 'déclaré'"
 
 #: classes/consistency_check2.class.php:204
 msgid "Issues should be referenced in a Command"
@@ -4737,61 +4722,57 @@ msgstr "Les tâches doivent être assignées"
 
 #: classes/consistency_check2.class.php:209
 msgid "Check timetracks on removed issues (not needed if Mantis plugin is enabled)"
-msgstr "Notifier les imputations sur des fiches Mantis inexistantes (pas nécessaire si le greffon Mantis est activé)"
+msgstr "Notifier les imputations sur des fiches mantis inexistantes (pas nécessaire si plugin Mantis activé)"
 
 #: classes/consistency_check2.class.php:314
-#: classes/consistency_check.class.php:208
 msgid "Backlog should be 0 (not "
-msgstr "L’arriéré de travail devrait être 0 (et non "
+msgstr "Le RAF devrait être = 0  (et non "
 
 #: classes/consistency_check2.class.php:336
 msgid "Backlog must be defined !"
-msgstr "L’arriéré de travail doit être défini !"
+msgstr "Le RAF doit être défini !"
 
 #: classes/consistency_check2.class.php:338
-#: classes/consistency_check.class.php:255
 msgid "Backlog == 0: Backlog may not be up to date."
-msgstr "AT == 0: Il se peut que l’arriéré de travail ne soit pas à jour."
+msgstr "RAF == 0: Il se peut que le RAF ne soit pas à jour."
 
 #: classes/consistency_check2.class.php:384
-#: classes/consistency_check.class.php:317
 msgid "MgrEffortEstim not set."
-msgstr "{{Mantis:Codev-0eaccd-MgrEffortEstim/fr}} non renseigné."
+msgstr "Charge_Mgr non renseigné."
 
 #: classes/consistency_check2.class.php:416
 msgid "EffortEstim not set."
-msgstr "{{Mantis:Codev-a20275-EffortEstim/fr}} non renseigné."
+msgstr "Charge non renseignée."
 
 #: classes/consistency_check2.class.php:442
-#: classes/consistency_check.class.php:365
 msgid "Status should not be"
-msgstr "L’état ne devrait pas être"
+msgstr "Le status ne devrait pas être"
 
 #: classes/consistency_check2.class.php:480
 msgid "The task is not assigned to anybody."
 msgstr "La tâche n'est assignée à personne"
 
-#: classes/consistency_check2.class.php:536
+#: classes/consistency_check2.class.php:534
 msgid "The task is not referenced in any Command."
 msgstr "La tâche n'est référencée dans aucune commande."
 
-#: classes/consistency_check2.class.php:646
+#: classes/consistency_check2.class.php:636
 msgid "is not referenced in any CommandSet"
 msgstr "n'est référencée dans aucune Macro Commande."
 
-#: classes/consistency_check2.class.php:674
+#: classes/consistency_check2.class.php:661
 msgid "is not referenced in any ServiceContract"
 msgstr "n'est référencée dans aucun Contrat de Service."
 
-#: classes/consistency_check2.class.php:749
+#: classes/consistency_check2.class.php:733
 msgid " days"
 msgstr " jours"
 
-#: classes/consistency_check2.class.php:751
+#: classes/consistency_check2.class.php:735
 msgid "inconsistent"
 msgstr "incohérent"
 
-#: classes/consistency_check2.class.php:785
+#: classes/consistency_check2.class.php:768
 msgid "No default project workflow defined, check config file: "
 msgstr "Aucun cycle de vie (workflow) par défaut n'est défini, vérifiez le fichier de config: "
 
@@ -4830,10 +4811,6 @@ msgstr "Facture émise"
 #: classes/command.class.php:67
 msgid "payed"
 msgstr "Facturé"
-
-#: classes/consistency_check.class.php:164
-msgid "Delivery date not specified: If a delivery sheet is specified, then a Delivery Date is requested."
-msgstr "Date de livraison non renseignée : si une tâche de livraison est spécifiée, alors une date doit y être associée"
 
 #: filters/IssuePublicPrivateFilter.php:48
 msgid "Sort issues: public/private"
@@ -4894,7 +4871,7 @@ msgstr "d-m-Y"
 
 #: indicator_plugins/BacklogVariationIndicator/BacklogVariationIndicator.class.php:286
 msgid "Average backlog"
-msgstr "Arriéré de travail moyen"
+msgstr "Moyenne des RAF"
 
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:410
 #: reports/project_info.php:328
@@ -4919,143 +4896,143 @@ msgstr "Installation - Etape 3"
 msgid "CodevTT Administrators team"
 msgstr "Equipe d'administration CodevTT"
 
-#: install/install_step3.php:379
+#: install/install_step3.php:388
 msgid "CodevTT_EffortEstim"
 msgstr "CodevTT_Charge Initiale"
 
-#: install/install_step3.php:382
+#: install/install_step3.php:391
 msgid "CodevTT_Type"
 msgstr "CodevTT_Type"
 
-#: install/install_step3.php:389
+#: install/install_step3.php:398
 msgid "CodevTT_Manager EffortEstim"
-msgstr "CodevTT_Gestionnaire {{Mantis:Codev-a20275-EffortEstim/fr}}"
+msgstr "CodevTT_Charge Manager"
 
-#: install/install_step3.php:395
+#: install/install_step3.php:404
 msgid "CodevTT_External ID"
 msgstr "CodevTT_Ref. Externe"
 
-#: install/install_step3.php:398
+#: install/install_step3.php:407
 msgid "CodevTT_Deadline"
 msgstr "CodevTT_Deadline"
 
-#: install/install_step3.php:401
+#: install/install_step3.php:410
 msgid "CodevTT_Additional Effort"
 msgstr "CodevTT_Charge Additionnelle"
 
-#: install/install_step3.php:407
+#: install/install_step3.php:416
 msgid "CodevTT_Backlog"
 msgstr "CodevTT_RAF"
 
 #. createCustomField(T_("CodevTT_Delivery ticket"),   $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
-#: install/install_step3.php:414
+#: install/install_step3.php:423
 msgid "CodevTT_Delivery Date"
 msgstr "CodevTT_Date Livraison"
 
 #. ------ Reports
-#: install/install_step3.php:464
+#: install/install_step3.php:475
 msgid "Path to output files"
 msgstr "Répertoire d'export"
 
 #. T_("Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access.")
-#: install/install_step3.php:466
+#: install/install_step3.php:477
 msgid "Path to log files and other temporary files."
-msgstr "Dossier de journaux et autres fichiers temporaires."
+msgstr "Dossier de logs et autres fchiers temporaires."
 
 #. ------ Status
-#: install/install_step3.php:483
+#: install/install_step3.php:494
 msgid "Workflow"
 msgstr "Workflow"
 
-#: install/install_step3.php:484
+#: install/install_step3.php:495
 msgid "Set equivalences in accordance to your Mantis workflow"
 msgstr "Précisez les équivalences en fonction de votre workflow Mantis"
 
 #. ------ Administrator
-#: install/install_step3.php:542
+#: install/install_step3.php:553
 msgid "CodevTT Administrator"
 msgstr "Administrateur CodevTT"
 
-#: install/install_step3.php:554
+#: install/install_step3.php:565
 msgid "More administrators can be defined later, for now you just need one."
 msgstr "D'autres administrateurs pourront être ajoutés ultérieurement."
 
 #. ------- External ID
-#: install/install_step3.php:558
+#: install/install_step3.php:569
 msgid "Tasks external ID field"
 msgstr "Champ personnalisé de la Réf. externe"
 
-#: install/install_step3.php:580
+#: install/install_step3.php:591
 msgid "Create a new CustomField"
 msgstr "Créer un champ personnalisé"
 
-#: install/install_step3.php:582
+#: install/install_step3.php:593
 msgid "Use this CustomField :"
 msgstr "Utiliser ce champ personnalisé :"
 
-#: install/install_step3.php:609
+#: install/install_step3.php:620
 msgid "Default Jobs"
 msgstr "Postes par défaut"
 
-#: install/install_step3.php:616
-msgid "CodevTT support management"
-msgstr "gestion du soutien"
-
 #: install/install_step3.php:627
+msgid "CodevTT support management"
+msgstr "gestion du support"
+
+#: install/install_step3.php:638
 msgid "Specific to SideTasks"
 msgstr "Spécificité des tâches annexes"
 
-#: install/install_step3.php:670
+#: install/install_step3.php:681
 msgid "Proceed Step 3"
 msgstr "Exécuter Etape 3"
 
-#: install/install_step3.php:822
+#: install/install_step3.php:834
 msgid "CodevTT admin"
 msgstr "CodevTT admin"
 
-#: install/install_step3.php:849
+#: install/install_step3.php:861
 msgid "Other external activity"
 msgstr "autre activité"
 
-#: install/install_step3.php:850
+#: install/install_step3.php:862
 msgid "Leave"
 msgstr "Absence"
 
-#: install/install_step3.php:851
+#: install/install_step3.php:863
 msgid "Sick Leave"
 msgstr "Maladie"
 
-#: install/install_step3.php:852
+#: install/install_step3.php:864
 msgid "Analyse"
 msgstr "Analyse"
 
-#: install/install_step3.php:853
+#: install/install_step3.php:865
 msgid "Development"
 msgstr "Dévelopement"
 
-#: install/install_step3.php:854
+#: install/install_step3.php:866
 msgid "Tests"
 msgstr "Tests"
 
-#: install/install_step3.php:941
+#: install/install_step3.php:953
 msgid "CodevTT_ExternalTasks"
 msgstr "CodevTT Taches Externes"
 
-#: install/install_step3.php:941
+#: install/install_step3.php:953
 msgid "CodevTT ExternalTasks Project"
 msgstr "CodevTT Projet de taches externes"
 
 #. cat="OtherInternal", status="closed"
-#: install/install_step3.php:980
+#: install/install_step3.php:992
 msgid "Any external task, NOT referenced in any Mantis project"
 msgstr "Toutes activités non référencées dans un projet Mantis"
 
 #. --- Create the 'Leave' task in ExternalTasks Project
-#: install/install_step3.php:983
+#: install/install_step3.php:995
 msgid "On holiday, leave, ..."
 msgstr "Congé, Maladie, ..."
 
-#: install/install_step3.php:984
+#: install/install_step3.php:996
 msgid "Sick"
 msgstr "Maladie"
 
@@ -5109,11 +5086,11 @@ msgstr "Gérer les plugiciels"
 
 #: install/install_step4.php:52
 msgid "Check that the <b>CodevTT</b> plugin is installed and activated."
-msgstr "Vérifiez que le greffon <b>CodevTT</b> est installé et activé."
+msgstr "Vérifiez que le plugin <b>CodevTT</b> est installé et activé"
 
 #: install/install_step4.php:53
 msgid "Check that the <b>FilterBugList</b> plugin is installed and activated"
-msgstr "Vérifiez que le greffon <b>FilterBugList</b> est installé et activé"
+msgstr "Vérifiez que le plugin <b>FilterBugList</b> est installé et activé"
 
 #. echo '<br>';
 #: install/install_step4.php:58
@@ -5126,7 +5103,7 @@ msgstr "Chemin d'accès et URL de Mantis dans "
 
 #: install/install_step4.php:61
 msgid "Log directory in "
-msgstr "Chemin d’accès aux journaux dans "
+msgstr "Chemin d'accès aux logs dans "
 
 #. echo '<br>';
 #: install/install_step4.php:66
@@ -5136,23 +5113,6 @@ msgstr "Supprimer les fichiers d'installation"
 #: install/install_step4.php:68
 msgid "For security reasons, delete the following directory: "
 msgstr "Pour raison de sécurité, supprimez le dossier: "
-
-#. echo '<br>';
-#: install/install_step4.php:73
-msgid "Install Firefox Greasemonkey addon"
-msgstr "Installer le module Firefox Greasemonkey"
-
-#: install/install_step4.php:74
-msgid "Note: This step is optional"
-msgstr "Note: Cette étape est optionnelle"
-
-#: install/install_step4.php:76
-msgid "Install addon:"
-msgstr "Installer le complément :"
-
-#: install/install_step4.php:77
-msgid "Load script:"
-msgstr "Charger le script:"
 
 #: install/install_step4.php:83
 msgid "Done !"
@@ -5187,43 +5147,55 @@ msgstr "Lancez ce script: "
 msgid "Install - Step 1"
 msgstr "Installation - Etape 1"
 
-#: install/install_step1.php:195
+#: install/install_step1.php:217
 msgid "Mantis Database Info"
 msgstr "Base de donées Mantis"
 
-#: install/install_step1.php:199
+#: install/install_step1.php:221
+msgid "SGBD"
+msgstr "SGBD"
+
+#: install/install_step1.php:232
 msgid "Hostname"
 msgstr "Serveur"
 
-#: install/install_step1.php:203
+#: install/install_step1.php:236
 msgid "Database Name"
 msgstr "Base de donées"
 
-#: install/install_step1.php:217
+#: install/install_step1.php:240
+msgid "Database Table Prefix "
+msgstr "Préfix des tables Mantis"
+
+#: install/install_step1.php:244
+msgid "Database Table Suffix "
+msgstr "Suffix des tables Mantis"
+
+#: install/install_step1.php:258
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
 msgstr "ATTENTION Installation Windows: Pour éviter une erreur SUPER utilisateur, spécifier l'utilisateur mysql <b>root</b> (ceci pourra être changé dans config.ini après l'installation)."
 
-#: install/install_step1.php:222
+#: install/install_step1.php:263
 msgid "Proxy Settings"
-msgstr "Configuration du mandataire"
+msgstr "Configuration du Proxy"
 
-#: install/install_step1.php:223
+#: install/install_step1.php:264
 msgid "CodevTT will check for updates."
 msgstr "CodevTT vérifie si une mise à jour est disponible"
 
-#: install/install_step1.php:226
+#: install/install_step1.php:267
 msgid "Enable proxy"
-msgstr "Activer le mandataire"
+msgstr "Activer le proxy"
 
-#: install/install_step1.php:227
+#: install/install_step1.php:268
 msgid "Server"
 msgstr "Serveur"
 
-#: install/install_step1.php:228
+#: install/install_step1.php:269
 msgid "Port"
 msgstr "Port"
 
-#: install/install_step1.php:235
+#: install/install_step1.php:276
 msgid "Proceed Step 1"
 msgstr "Executer étape 1"
 
@@ -5300,20 +5272,20 @@ msgstr "Aucun projet valide n'est défini pour cette équipe"
 
 #: reports/issue_info_ajax.php:66
 msgid "Sorry, only managers can remove tasks from commands"
-msgstr "Désolé, seuls les gestionnaires peuvent retirer des tâches aux commandes"
+msgstr "Vous devez être Manager pour sortir des tâches d'une commande"
 
 #: reports/issue_info_ajax.php:91 reports/issue_info_ajax.php:133
 msgid "Sorry, only managers can add tasks to commands"
-msgstr "Désolé, seuls les gestionnaires peuvent ajouter des tâches aux commandes"
+msgstr "Vous devez être Manager pour ajouter des tâches à une commande"
 
 #: reports/issue_info_ajax.php:93 reports/issue_info_ajax.php:135
 #: reports/issue_info_ajax.php:166 reports/issue_info_ajax.php:215
-#: reports/issue_info_ajax.php:256 reports/issue_info_ajax.php:321
+#: reports/issue_info_ajax.php:257 reports/issue_info_ajax.php:322
 msgid "Sorry, this task is not in your team's projects"
 msgstr "Cette tâche ne fait pas partie des projets de votre équipe"
 
 #: reports/issue_info_ajax.php:164 reports/issue_info_ajax.php:213
-#: reports/issue_info_ajax.php:254 reports/issue_info_ajax.php:319
+#: reports/issue_info_ajax.php:255 reports/issue_info_ajax.php:320
 msgid "Sorry, you're not an active member of this team"
 msgstr "Désolé, vous n'êtes pas défini comme membre actif de cette équipe"
 
@@ -5327,29 +5299,29 @@ msgstr "en retard"
 
 #: reports/planning_report.php:205
 msgid "no deadLine"
-msgstr "sans {{Mantis:Codev-fbace7-DeadLine/fr}}"
+msgstr "sans deadLine"
 
 #: reports/planning_report.php:498
 msgid "Monitored"
 msgstr "Suivie"
 
-#: reports/export_csv_tools.php:49
+#: reports/export_csv_tools.php:50
 msgid "m_id"
 msgstr "Tâche Mantis"
 
-#: reports/export_csv_tools.php:56
+#: reports/export_csv_tools.php:57
 msgid "Product Version"
 msgstr "Version Produit"
 
-#: reports/export_csv_tools.php:59
+#: reports/export_csv_tools.php:60
 msgid "Resolution"
 msgstr "Resolution"
 
-#: reports/export_csv_tools.php:66 tools.php:1482
+#: reports/export_csv_tools.php:67 tools.php:1505
 msgid "Delivery Date"
 msgstr "Date Livraison"
 
-#: reports/export_csv_tools.php:67
+#: reports/export_csv_tools.php:68
 msgid "Delivery Sheet"
 msgstr "Fiche De Livraison"
 
@@ -5372,7 +5344,7 @@ msgstr "Désolé, il n'y a pas de projets définis pour cette équipe."
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:469
 #: timetracking/team_monthly_activity_report.php:130
-#: timetracking/time_tracking.php:430 timetracking/team_activity_report.php:179
+#: timetracking/time_tracking.php:431 timetracking/team_activity_report.php:180
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Erreur : Tâche introuvable dans la BDD Mantis !"
 
@@ -5425,7 +5397,7 @@ msgstr "Impossible de supprimer l'imputation !"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:72
 msgid "Check all the tasks and return the backlog per User"
-msgstr "Arriérés des tâches par utilisateur"
+msgstr "Répartition du RAF des tâches de la sélection par utilisateur"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:258
 msgid "(unknown 0)"
@@ -5551,7 +5523,7 @@ msgstr "Aucun coût journalier moyen défini pour l'équipe"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:194
 msgid "Sorry, only managers can access this plugin"
-msgstr "Vous devez être gestionnaire pour accéder à ce greffon."
+msgstr "Vous devez être manager pour accéder à ce plugin."
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:283
 msgid "Sidetasks"
@@ -5559,7 +5531,7 @@ msgstr "TachesAnnexes"
 
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:65
 msgid "A simple HelloWorld plugin"
-msgstr "Un greffon exemplaire HelloWorld"
+msgstr "un plugin exemple pour développeurs"
 
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:67
 msgid "Display the progress history"
@@ -5571,23 +5543,23 @@ msgstr "Affiche l'évolution de la répartition des tâches par statut"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:55
 msgid "Task burndown chart"
-msgstr "Évolution de l’arriéré de travail de la tâche"
+msgstr "Evolution du RAF de la tâche"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:58
 msgid "Display task backlog updates since the task creation"
-msgstr "Affiche les mises à jour de l’arriéré de travail depuis la création de la tâche"
+msgstr "Affiche l'évolution du RAF dans le temps (burndown chart)"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:157
 msgid "Backlog (days)"
-msgstr "Arriéré de travail (jours)"
+msgstr "RAF (jours)"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:68
 msgid "Display the EffortEstim reliability rate history"
-msgstr "Historique de la fiabilité de l’{{Mantis:Codev-a20275-EffortEstim/fr}}"
+msgstr "Taux de fiabilité de la charge estimée (ChargeMgr, ChargeInit)"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:69
 msgid "rate = EffortEstim / elapsed (on resolved tasks only)"
-msgstr "Taux = {{Mantis:Codev-a20275-EffortEstim/fr}} / consommé (tâches résolues uniquement)"
+msgstr "Taux = charge estimée / consommé (tâches résolues uniquement)"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:72
 msgid "REM: An issue that has been reopened before endTimestamp will NOT be recorded."
@@ -5595,7 +5567,7 @@ msgstr "REM: Les tâches réouvertes et non encore résolues ne sont pas prises 
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:73
 msgid "(For the bugs that where re-opened, the EffortEstim may not have been re-estimated, and thus the result is not reliable.)"
-msgstr "(si l’{{Mantis:Codev-a20275-EffortEstim/fr}} de ces tâches n’a pas été mis à jour, les résultats seront faussés)"
+msgstr "(si l'estimation de charge de ces tâches n'a pas été mise à jour, les résultats seront faussés)"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:60
 msgid "Move Issue Timetracks"
@@ -5676,7 +5648,7 @@ msgstr "Affectations mises à jour pour la tâche"
 #. 'arrivalDate' = should not be defined here, as another ajax call is doing the $schedulerManager->execute()
 #: scheduler/scheduler_ajax.php:389
 msgid "Issue not found in MantisDB !"
-msgstr "Problème non trouvé dans MantisDB !"
+msgstr "Tâche introuvable dans la BDD Mantis !"
 
 #: scheduler/scheduler_ajax.php:513
 msgid "Options saved successfully"
@@ -5694,7 +5666,867 @@ msgstr "Tous les Projets"
 msgid "W"
 msgstr "S"
 
-#: tools.php:1476
+#: tools.php:1499
 msgid "AddEffortEstim"
 msgstr "Charge Additionnelle"
 
+#~ msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
+#~ msgstr "BI non renseigné: il doit être égal à temps(Analyse + Dev + Tests)"
+
+#~ msgid "Backlog not specified: Backlog = Time(BI - Analysis)"
+#~ msgstr "RAF non renseigné: il doit être égal à temps(BI - Analyse)"
+
+#~ msgid "Once analysed, a Task must be assigned to 'FDJ' for validation"
+#~ msgstr "Après l'analyse, une tâche doit être assignée à 'FDJ' pour validation"
+
+#~ msgid "Delivery date not specified: If a delivery sheet is specified, then a Delivery Date is requested."
+#~ msgstr "Date de livraison non renseignée : si une tâche de livraison est spécifiée, alors une date doit y être associée"
+
+#~ msgid "Install Firefox Greasemonkey addon"
+#~ msgstr "Installer le module Firefox Greasemonkey"
+
+#~ msgid "Note: This step is optional"
+#~ msgstr "Note: Cette étape est optionnelle"
+
+#~ msgid "Install addon:"
+#~ msgstr "Installer le module:"
+
+#~ msgid "Load script:"
+#~ msgstr "Charger le script:"
+
+#~ msgid "Select the projects to be managed with CodevTT"
+#~ msgstr "Sélectionnez les projets à gérer avec CodevTT"
+
+#~ msgid "EUR"
+#~ msgstr "EUR"
+
+#~ msgid "Reestimated days * AverageDailyRate"
+#~ msgstr "Réestimé * TJM"
+
+#~ msgid "Drift days * AverageDailyRate"
+#~ msgstr "Dérive * TJM"
+
+#~ msgid "Cmds Budget"
+#~ msgstr "Budget commandes"
+
+#~ msgid "Deleted the following timetrack ?"
+#~ msgstr "Supprimer l'imputation suivante ?"
+
+#~ msgid "(generic) Project Management"
+#~ msgstr "(generique) Gestion de Projet"
+
+#~ msgid "(generic) Meeting"
+#~ msgstr "(generique) Réunion"
+
+#~ msgid "Export Holidays "
+#~ msgstr "Export Vacances "
+
+#~ msgid "Results in"
+#~ msgstr "Résultats dans"
+
+#~ msgid "Gant report"
+#~ msgstr "Diagramme de Gantt"
+
+#~ msgid "Project(s)"
+#~ msgstr "Projet(s)"
+
+#~ msgid "Export Holidays"
+#~ msgstr "Export Congés"
+
+#~ msgid "Backup"
+#~ msgstr "Sauvegarde"
+
+#~ msgid "Remove CodevTT specific projects"
+#~ msgstr "Suppression des Projets internes de CodevTT"
+
+#~ msgid "ERROR: Could not delete files"
+#~ msgstr "ERREUR : Impossible de supprimer les fichiers"
+
+#~ msgid "Mantis access level"
+#~ msgstr "Droits d'accès Mantis"
+
+#~ msgid "Desirez-vous vraiment supprimer definitivement cette date ?"
+#~ msgstr "Désirez-vous vraiment supprimer définitivement cette date ?"
+
+#~ msgid "codevTT role"
+#~ msgstr "Rôle CodevTT"
+
+#~ msgid "Here is your password for CodevTT and Mantis : "
+#~ msgstr "Voici votre mot de passe pour CodevTT et Mantis : "
+
+#~ msgid "Select CSV file"
+#~ msgstr "Sélection du fichier CSV"
+
+#~ msgid "File extension"
+#~ msgstr "Extension du fichier"
+
+#~ msgid "Week Imputations"
+#~ msgstr "Imputations de la semaine"
+
+#~ msgid "Future Imputations"
+#~ msgstr "Imputations futures"
+
+#~ msgid "Acknowledged"
+#~ msgstr "Validé"
+
+#~ msgid "Hidden"
+#~ msgstr "Caché"
+
+#~ msgid "Blog posts"
+#~ msgstr "Messages"
+
+#~ msgid "Display messages on the homepage"
+#~ msgstr "Afficher les messages sur la page de garde"
+
+#~ msgid "Low"
+#~ msgstr "Mineure"
+
+#~ msgid "Normal"
+#~ msgstr "Normale"
+
+#~ msgid "High"
+#~ msgstr "Haute"
+
+#~ msgid "Regards \\n\\n"
+#~ msgstr "Cordialement \\n\\n"
+
+#~ msgid "Remove task from Command"
+#~ msgstr "Sortir la tâche de la commande"
+
+#~ msgid "Import Dashboard"
+#~ msgstr "Tableau de bord des imports/exports"
+
+#~ msgid "Remove from Command"
+#~ msgstr "Sortir de la commande"
+
+#~ msgid "Author"
+#~ msgstr "Auteur"
+
+#~ msgid "Derive PrelEE"
+#~ msgstr "Dérive PrelEE"
+
+#~ msgid "update Backlog"
+#~ msgstr "maj RAF"
+
+#~ msgid "Errors in your Tasks"
+#~ msgstr " Erreur(s) dans vos Tâches"
+
+#~ msgid "Ack"
+#~ msgstr "Vu !"
+
+#~ msgid "Hide"
+#~ msgstr "Cacher"
+
+#~ msgid "Productivity Reports"
+#~ msgstr "Indicateurs de production"
+
+#~ msgid "PHP Doc"
+#~ msgstr "Doc API"
+
+#~ msgid "CoDev Administration"
+#~ msgstr "Administration CodevTT"
+
+#~ msgid "Delete team deactivated on DEMO !"
+#~ msgstr "La suppression de l'équipe est désactivée pour la DEMO !"
+
+#~ msgid "Create a default project workflow in Mantis"
+#~ msgstr "Créez un cycle de vie par defaut dans Mantis"
+
+#~ msgid "The Mantis default workflow is not load in the database unless you change it with the Mantis administration GUI."
+#~ msgstr "Le workflow par défaut n'est pas chargé en BDD tant qu'il n'a pas été modifié via la GUI d'administration de Mantis"
+
+#~ msgid "Select project 'All projects'"
+#~ msgstr "Sélectionnez 'Tous les projets'"
+
+#~ msgid "manage workflow transitions"
+#~ msgstr "Administration Workflow"
+
+#~ msgid "Change the workflow (change one of the 'next status' checkboxes)"
+#~ msgstr "Modifiez le cycle de vie (cochez une des cases de 'Phase suivante')"
+
+#~ msgid "Click the 'Update Configuration' button"
+#~ msgstr "Cliquer sur 'Mettre à jour la configuration"
+
+#~ msgid "Rollback the workflow to the initial state"
+#~ msgstr "Revenez sur les modifications faites (modif dans 'Phase suivante')"
+
+#~ msgid "Click the 'Update Configuration' button again"
+#~ msgstr "Cliquer à nouveau sur 'Mettre à jour la configuration"
+
+#~ msgid "Holidays"
+#~ msgstr "Absences"
+
+#~ msgid "Mantis ID"
+#~ msgstr "Mantis ID"
+
+#~ msgid "Relationships"
+#~ msgstr "Relations"
+
+#~ msgid "status Names as defined in Mantis (status_enum_string)"
+#~ msgstr "nom des états définis dans mantis (status_enum_string)"
+
+#~ msgid "priority Names as defined in Mantis (priority_enum_string)"
+#~ msgstr "nom des priorités définies dans mantis (priority_enum_string)"
+
+#~ msgid "severity Names as defined in Mantis (severity_enum_string)"
+#~ msgstr "nom des criticités comme définies dans mantis (severity_enum_string)"
+
+#~ msgid "resolution Names as defined in Mantis (resolution_enum_string)"
+#~ msgstr "nom des états de résolution définies dans mantis (resolution_enum_string)"
+
+#~ msgid "Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access."
+#~ msgstr "Note: <b>/var/local/codevtt</b> est un bon emplacement, mais il faudra le créer avec les droits en lecture/écriture."
+
+#~ msgid "Prerequisites"
+#~ msgstr "Prérequis"
+
+#~ msgid "Actions"
+#~ msgstr "Actions"
+
+#~ msgid "Display tasks in drift"
+#~ msgstr "Tâches dont le consollé dépasse la charge initiale"
+
+#~ msgid "Select the projects to be managed with CoDev Timetracking"
+#~ msgstr "Sélectionnez les projets à gérer avec CodevTT"
+
+#~ msgid "Desirez-vous vraiment supprimer definitivement le poste"
+#~ msgstr "Désirez-vous vraiment supprimer définitivement le poste"
+
+#~ msgid "Les champs suivants ont ete oublies"
+#~ msgstr "Les champs suivants ont ete oubliés"
+
+#~ msgid "Desirez-vous vraiment supprimer definitivement l'association"
+#~ msgstr "Désirez-vous vraiment supprimer définitivement l'association"
+
+#~ msgid "Forecasting"
+#~ msgstr "Prévisionnel"
+
+#~ msgid "Project Info"
+#~ msgstr "Info Projet"
+
+#~ msgid "Study of the existing"
+#~ msgstr "Etude de l'existant"
+
+#~ msgid "Install the CodevTT plugin."
+#~ msgstr "Installer le plugin CodevTT."
+
+#~ msgid "Install the FilterBugList plugin."
+#~ msgstr "Installer le plugin FilterBugList."
+
+#~ msgid "incomplete"
+#~ msgstr "incomplet"
+
+#~ msgid "missing"
+#~ msgstr "manque"
+
+#~ msgid "Short List: "
+#~ msgstr "Liste compacte : "
+
+#~ msgid "Budget-Drift History"
+#~ msgstr "Evolution de la Dérive Budget"
+
+#~ msgid "Reopened Issues"
+#~ msgstr "Tâches réouvertes"
+
+#~ msgid "Internal Bugs Status History"
+#~ msgstr "Evolution des bugs internes"
+
+#~ msgid "Graph showing the number of internal bugs per status."
+#~ msgstr "Graphique indiquant le nombre de bugs internes par statut"
+
+#~ msgid "Internal bugs have the following caracteristics:"
+#~ msgstr "Les bugs internes sont identifiés par:"
+
+#~ msgid "External Reference"
+#~ msgstr "Réf. Externe"
+
+#~ msgid "Show external tasks"
+#~ msgstr "Afficher taches externes"
+
+#~ msgid "Delete this team ?"
+#~ msgstr "effacer cette équipe ?"
+
+#~ msgid "Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes)"
+#~ msgstr "Nombre de jours-homme disponibles sur la période (hors vacances et taches externes)"
+
+#~ msgid "Working days per Job"
+#~ msgstr "Charge par Poste"
+
+#~ msgid "SideTask"
+#~ msgstr "TachesAnnexe"
+
+#~ msgid "Activate the 'CodevTT' Plugin in Mantis"
+#~ msgstr "Activer le plugin Mantis 'CodevTT'"
+
+#~ msgid "Bug validation history"
+#~ msgstr "Taux de refus des bugs internes"
+
+#~ msgid "%Y-%m-%d"
+#~ msgstr "%d-%m-%Y"
+
+#~ msgid "Display calculated backlog as default value in the updateBacklog dialogbox"
+#~ msgstr "Proposer un RAF calculé comme valeur par defaut dans la boite de dialogue de la mise à jour du RAF"
+
+#~ msgid "(logs, reports, ...)"
+#~ msgstr "(logs, rapports, ...)"
+
+#~ msgid "Estimated effort"
+#~ msgstr "Charge estimée"
+
+#~ msgid "FAILED"
+#~ msgstr "ECHEC"
+
+#~ msgid "SUCCESS"
+#~ msgstr "SUCCÈS"
+
+#~ msgid "current PHP version is "
+#~ msgstr "la version actuelle de PHP est "
+
+#~ msgid "Please check your php.ini file (ex: date.timezone = Europe/Paris)"
+#~ msgstr "Vérifiez le fichier php.ini  (ex: date.timezone = Europe/Paris)"
+
+#~ msgid "Does apache user have write access to codevTT directory ?"
+#~ msgstr "L'utilisateur apache a-t-il accès en écriture au répertoire de CodevTT ?"
+
+#~ msgid "Are you sure SELINUX is well configured ?"
+#~ msgstr "Etes vous sûr de la configuration de SELINUX ?"
+
+#~ msgid "Write access to CodevTT directory"
+#~ msgstr "Accès au répertoire CodevTT"
+
+#~ msgid "PHP version"
+#~ msgstr "Version PHP"
+
+#~ msgid "man-day"
+#~ msgstr "jour-homme"
+
+#~ msgid "Jump"
+#~ msgstr "Envoyer"
+
+#~ msgid "Team Description"
+#~ msgstr "Description de l'équipe"
+
+#~ msgid "Switch"
+#~ msgstr "Changer"
+
+#~ msgid "Common Leave task"
+#~ msgstr "Tâche absence commune"
+
+#~ msgid "Team Leader"
+#~ msgstr "Team Leader"
+
+#~ msgid "Leader"
+#~ msgstr "Team Leader"
+
+#~ msgid "Team Activity"
+#~ msgstr "Activité équipe"
+
+#~ msgid "Sorry, there is no real documentation right now, but you can find some articles on "
+#~ msgstr "Il n'y a pas de documentation disponible pour le moment, mais vous trouverez qq articles sur "
+
+#~ msgid "With resolved"
+#~ msgstr "Avec Résolues"
+
+#~ msgid "Reestimated - (MgrEE + Provisions)"
+#~ msgstr "Réestimé - (Charge Mgr + Provisions)"
+
+#~ msgid "MEE + Prov"
+#~ msgstr "Charge Mgr + Prov"
+
+#~ msgid "Task Status"
+#~ msgstr "Statut Tâche"
+
+#~ msgid "Tooltips"
+#~ msgstr "Infobulles"
+
+#~ msgid "Unauthorized"
+#~ msgstr "Non autorisé"
+
+#~ msgid "Logged in as "
+#~ msgstr "Connecté sous "
+
+#~ msgid "Sorry, you do NOT have access to this page"
+#~ msgstr "Désolé, vous n'avez pas accès à cette page."
+
+#~ msgid "Sorry, You are not allowed to see this commandSet"
+#~ msgstr "Désolé, vous n'êtes pas autorisé à voir le détail de cette MacroCommande"
+
+#~ msgid "Tasks need to be assigned."
+#~ msgstr "Tâches doivent etre assignées."
+
+#~ msgid "Team Edition"
+#~ msgstr "Editer l'équipe"
+
+#~ msgid "tasks are not assigned to anybody."
+#~ msgstr "tâches ne sont pas assignées."
+
+#~ msgid "Mantis/CoDevTT administration"
+#~ msgstr "administration Mantis/CodevTT"
+
+#~ msgid "In here you can specify which inactivity tasks are 'OnDuty'"
+#~ msgstr "Spécifiez ici les tâches d'inactivité qui sont des astreintes"
+
+#~ msgid "No OnDuty task defined"
+#~ msgstr "Aucune tâche d'astreinte définie"
+
+#~ msgid "Cette tache ne sera plus consideree comme astreinte."
+#~ msgstr "Cette tâche ne sera plus considerée comme astreinte."
+
+#~ msgid "No previous data"
+#~ msgstr "Aucune donnée"
+
+#~ msgid "The absence SideTasks considered as astreinte"
+#~ msgstr "La tâche d'inactivité utilisée pour les astreintes"
+
+#~ msgid "Overflow day quantity (compared to MgrEffortEstim)"
+#~ msgstr "Nbre de jours de dépassement par à la 'Charge Manager'"
+
+#~ msgid "Overflow day quantity (compared to EffortEstim)"
+#~ msgstr "Nbre de jours de dépassement par à la 'Charge Initiale'"
+
+#~ msgid "Budjet"
+#~ msgstr "Budjet"
+
+#~ msgid "Outlay"
+#~ msgstr "Consommé"
+
+#~ msgid "Elapsed (days)"
+#~ msgstr "Consommé (jours)"
+
+#~ msgid "Budget for Management,Garantie,Risk..."
+#~ msgstr "Budget pour Management,Garantie,Risque..."
+
+#~ msgid "Reporter un bug / Demander un &eacute;volution"
+#~ msgstr "Reporter un bug / Demander une évolution"
+
+#~ msgid "Pour reporter des bug sur CodevTT ou demander des &eacute;volutions merci de vous rendre sur:"
+#~ msgstr "Pour reporter des bug sur CodevTT ou demander des évolutions merci de vous rendre sur :"
+
+#~ msgid "N'oubliez pas de mentionner vos coordon&eacute;es pour tout retour."
+#~ msgstr "N'oubliez pas de mentionner vos coordonées pour tout retour."
+
+#~ msgid "Feedback"
+#~ msgstr "Feedback"
+
+#~ msgid "Missing dates"
+#~ msgstr "Dates manquantes"
+
+#~ msgid "Backlog Mgr"
+#~ msgstr "RAF Mgr"
+
+#~ msgid "Task information"
+#~ msgstr "Informations sur une tâche"
+
+#~ msgid "Weekly activity"
+#~ msgstr "Activité hebdomadaire"
+
+#~ msgid "EffortDeviation -Support"
+#~ msgstr "Dérive -Support"
+
+#~ msgid "EffortDeviation +Support"
+#~ msgstr "Dérive +Support"
+
+#~ msgid "Sys Disp"
+#~ msgstr "Disp Sys"
+
+#~ msgid "Import Export"
+#~ msgstr "Import Export"
+
+#~ msgid "Les champs suivants ont ete oublies:"
+#~ msgstr "Les champs suivants ont ete oubliés:"
+
+#~ msgid "t"
+#~ msgstr "t"
+
+#~ msgid "Date depart"
+#~ msgstr "Date départ"
+
+#~ msgid "Nom"
+#~ msgstr "Nom"
+
+#~ msgid "Tâche"
+#~ msgstr "Tâche"
+
+#~ msgid "Poste"
+#~ msgstr "Poste"
+
+#~ msgid "Delete Team"
+#~ msgstr "Supprimer l'équipe"
+
+#~ msgid "Could NOT add project to the team"
+#~ msgstr "L'ajout du projet a échouée"
+
+#~ msgid "% to Submitted"
+#~ msgstr "% Nouvelles"
+
+#~ msgid "Compare the number of reopened tasks to the number of new tasks"
+#~ msgstr "Compare le nombre de fiches réouvertes au nombre de fiches créées"
+
+#~ msgid "% to Resolved"
+#~ msgstr "% Résolues"
+
+#~ msgid "nb submitted"
+#~ msgstr "nb reçues"
+
+#~ msgid "Strings file"
+#~ msgstr "Fichier des chaines de caracteres"
+
+#~ msgid "Custom Strings file"
+#~ msgstr "Fichier des chaines de caracteres specifique"
+
+#~ msgid "Path to mantis config file: strings_english.txt"
+#~ msgstr "Emplacement du fichier mantis: strings_english.txt"
+
+#~ msgid "Path to mantis config file: custom_strings_inc.php"
+#~ msgstr "Emplacement du fichier mantis: custom_strings_inc.php"
+
+#~ msgid "Create the Contract to add some commandSets."
+#~ msgstr "Créez le Contrat de Service avant d'y ajouter des MacroCommandes."
+
+#~ msgid "Create the Contract to add some Projects."
+#~ msgstr "Créez le Contrat de Service avant d'y ajouter des Projets."
+
+#~ msgid "Project info"
+#~ msgstr "Info projet"
+
+#~ msgid "Backlog history"
+#~ msgstr "historique RAF"
+
+#~ msgid "BacklogHistoryGraph"
+#~ msgstr "Historique du RAF"
+
+#~ msgid "help"
+#~ msgstr "aide"
+
+#~ msgid "Dates manquantes"
+#~ msgstr "Dates manquantes"
+
+#~ msgid "Tache"
+#~ msgstr "Tâche"
+
+#~ msgid "Duree"
+#~ msgstr "Durée"
+
+#~ msgid "CoDev Login"
+#~ msgstr "Connexion CodevTT"
+
+#~ msgid "Team Weekly activities"
+#~ msgstr "Activité hebdomadaire de l équipe"
+
+#~ msgid "Weekly activities"
+#~ msgstr "Activité hebdo"
+
+#~ msgid "Generate Excel Sheet"
+#~ msgstr "Export fichier Excel"
+
+#~ msgid "Sorry, you need to <a href='../'>login</a> to access this page."
+#~ msgstr "Vous devez vous <a href='../'>identifier</a> pour accéder à cette page."
+
+#~ msgid "bug resolved threshold as defined in Mantis (g_bug_resolved_status_threshold)"
+#~ msgstr "seuil de résolution défini dans mantis (g_bug_resolved_status_threshold)"
+
+#~ msgid "Path for .CSV reports"
+#~ msgstr "Emplacement pour les rapports .CSV"
+
+#~ msgid "path for .CSV reports"
+#~ msgstr "Emplacement des rapports .CSV"
+
+#~ msgid "logs"
+#~ msgstr "logs"
+
+#~ msgid "Clone Project Settings"
+#~ msgstr "Clonner Configuration Projet"
+
+#~ msgid "CodevTT SideTaskProject for team"
+#~ msgstr "CodevTT TachesAnnexes de l'équipe"
+
+#~ msgid "Team Monthly Activity"
+#~ msgstr "Activité mensuelle de l'équipe"
+
+#~ msgid "Percentage of submitted tasks having been reopened in the period"
+#~ msgstr "Pourcentage de fiches réouvertes par rapport au nombre de fiches Reçues"
+
+#~ msgid "OnDuty"
+#~ msgstr "Astreinte"
+
+#~ msgid "1 day"
+#~ msgstr "1 jour"
+
+#~ msgid "Upload File"
+#~ msgstr "Charger le fichier"
+
+#~ msgid "Holidays Report"
+#~ msgstr "Prévision congés"
+
+#~ msgid "Add Holidays"
+#~ msgstr "Ajouter des Absences"
+
+#~ msgid "Desirez-vous vraiment supprimer ce membre de l'equipe ?"
+#~ msgstr "Désirez-vous vraiment supprimer ce membre de l'équipe ?"
+
+#~ msgid "Desirez-vous vraiment supprimer definitivement l'equipe"
+#~ msgstr "Désirez-vous vraiment supprimer définitivement l'équipe"
+
+#~ msgid "CoDev Administration : Team Edition"
+#~ msgstr "Administration CoDev : Edition équipe"
+
+#~ msgid "CoDev Administration : Jobs Edition"
+#~ msgstr "Administration CoDev : Edition Postes"
+
+#~ msgid "CodevTT Administration : Team Creation"
+#~ msgstr "Administration CodevTT : Création équipe"
+
+#~ msgid "(generic) Leave but on duty"
+#~ msgstr "(generique) Absence mais d'astreinte"
+
+#~ msgid "Create and go to Edit"
+#~ msgstr "Creer et éditer"
+
+#~ msgid "CoDev Administration : Prepare Projects"
+#~ msgstr "Administration CoDev : Préparation Projets"
+
+#~ msgid "CoDev Administration : Holidays"
+#~ msgstr "Administration CoDev : Congés"
+
+#~ msgid "(generic) Leave"
+#~ msgstr "(generique) Absence"
+
+#~ msgid "Holidays, Leave, On Duty"
+#~ msgstr "Vacances, Absences, Astreintes"
+
+#~ msgid "(included)"
+#~ msgstr "(inclu)"
+
+#~ msgid "Results in : "
+#~ msgstr "Résultats dans : "
+
+#~ msgid "command id"
+#~ msgstr "num Commande"
+
+#~ msgid "status"
+#~ msgstr "statut"
+
+#~ msgid "--- not assigned ---"
+#~ msgstr "--- non assigné ---"
+
+#~ msgid "Remove Command from this Service ?"
+#~ msgstr "Retirer La commande de cette MacroCommande ?"
+
+#~ msgid "delete Service-Command association"
+#~ msgstr "supprimer l'association Commande-MacroCommande"
+
+#~ msgid "Engagement"
+#~ msgstr "Engagement"
+
+#~ msgid "engagement id"
+#~ msgstr "ID Engagement"
+
+#~ msgid "Remove Engagement"
+#~ msgstr "Enlever Engagement"
+
+#~ msgid "Euro"
+#~ msgstr "Euro"
+
+#~ msgid "Budget Developpement"
+#~ msgstr "Budget Dévelopement"
+
+#~ msgid "Budget Garantie"
+#~ msgstr "Budget Garantie"
+
+#~ msgid "Engagements"
+#~ msgstr "Engagements"
+
+#~ msgid "No Engagement found."
+#~ msgstr "Aucun Engagement."
+
+#~ msgid "Efficiency and System Disponibility"
+#~ msgstr "Taux d'efficacité et Disponibilité système"
+
+#~ msgid " Projects Activity"
+#~ msgstr " Activité Projets"
+
+#~ msgid "Saturday"
+#~ msgstr "Samedi"
+
+#~ msgid "Sunday"
+#~ msgstr "Dimanche"
+
+#~ msgid "ERROR on task "
+#~ msgstr "ERREUR Tâche "
+
+#~ msgid "Welcome"
+#~ msgstr "Bienvenue sur le serveur CoDevTT"
+
+#~ msgid "Please wait while you're redirected..."
+#~ msgstr "Veuillez patienter..."
+
+#~ msgid "log in"
+#~ msgstr "connexion"
+
+#~ msgid "on duty"
+#~ msgstr "Astreinte"
+
+#~ msgid "Cycle flow"
+#~ msgstr "Cycle de vie"
+
+#~ msgid "Mantis Status Transistions"
+#~ msgstr "Aide Mantis"
+
+#~ msgid "FDJ System Allocation"
+#~ msgstr "Plateforme FDJ"
+
+#~ msgid "FDJ Libs"
+#~ msgstr "Librairies FDJ"
+
+#~ msgid "Productivity Rate"
+#~ msgstr "Taux de productivité"
+
+#~ msgid "Ratio between the estimated time and the elapsed time"
+#~ msgstr "Rapport entre le budget initial et le temps consommé sur les fiches"
+
+#~ msgid "Prod Rate MgrEffortEstim"
+#~ msgstr "Taux de prod Charge_Mgr"
+
+#~ msgid "(generic) ExternalTasks"
+#~ msgstr "(generique) Tache externe"
+
+#~ msgid "Developper Estimation"
+#~ msgstr "Charge Estimé par le developpeur (BI + BS)"
+
+#~ msgid "EffortEstim <br/>(BI + BS)"
+#~ msgstr "Charge"
+
+#~ msgid "Derive EE"
+#~ msgstr "Dérive EE"
+
+#~ msgid "PrelEffortEstim"
+#~ msgstr "PrelEffortEstim"
+
+#~ msgid "BEFORE analysis"
+#~ msgstr "AVANT analyse"
+
+#~ msgid "AFTER analysis"
+#~ msgstr "APRES analyse"
+
+#~ msgid "Tools: serialize"
+#~ msgstr "Outils: sérialisation"
+
+#~ msgid "Logged out !"
+#~ msgstr "déconnecté !"
+
+#~ msgid "EffortDeviation - Today opened Tasks"
+#~ msgstr "Glissement Prévisionel en Charge (Fiches En cours à ce jour)"
+
+#~ msgid "Productivity"
+#~ msgstr "Productivité"
+
+#~ msgid "Production Days : SuiviOp Dev"
+#~ msgstr "Jours de Production : SuiviOp Dev"
+
+#~ msgid "days spent on sideTasks (holidays not included, developpers only)"
+#~ msgstr "nombre de jours passés sur les taches annexes (hors congés) par les Dévelopeurs"
+
+#~ msgid "Production Days : SuiviOp Managers"
+#~ msgstr "Jours de Production : SuiviOp Managers"
+
+#~ msgid "days spent on sideTasks (holidays not included, managers only)"
+#~ msgstr "nombre de jours passés sur les taches annexes (hors congés) par les Managers"
+
+#~ msgid "Project Management Detail"
+#~ msgstr "Détail Gestion de Projet"
+
+#~ msgid "tc_id"
+#~ msgstr "Ref Ext."
+
+#~ msgid "CommonSideTaskProject Inactivity tasks"
+#~ msgstr "Taches de la catégorie 'inactivité' du projet SuiviOp commun"
+
+#~ msgid "This category is declared in CommonSideTaskProject"
+#~ msgstr "Cette catégorie est définie dans le projet SuiviOp commun"
+
+#~ msgid "Query failed:"
+#~ msgstr "Query failed:"
+
+#~ msgid "Drift -Support"
+#~ msgstr "Dérive -Support"
+
+#~ msgid "Drift +Support"
+#~ msgstr "Dérive +Support"
+
+#~ msgid "TC issue"
+#~ msgstr "Tâche TC"
+
+#~ msgid "Prod Rate ETA"
+#~ msgstr "Taux de prod ETA"
+
+#~ msgid "TC"
+#~ msgstr "TC"
+
+#~ msgid "Total elapsed"
+#~ msgstr "Total consommé"
+
+#~ msgid "Productivity Rate ETA"
+#~ msgstr "Taux de productivité ETA"
+
+#~ msgid "- If estimation is correct the aimed number should be 1."
+#~ msgstr "- Si l'estimation est bonne ce nbre doit tendre vers 1."
+
+#~ msgid "- A number below 1 means a lesser efficiency."
+#~ msgstr "- Un nbre < 1 signifie un moins bon rendement"
+
+#~ msgid "- Time spent on a task is balanced by a toughness indicator"
+#~ msgstr "- Le temps passé sur une tâche est pondéré par un indicateur de difficulté"
+
+#~ msgid "- Computed on task Resolved/Closed in the given period"
+#~ msgstr "- Le calcul est fait sur les fiches Résolues/Fermées dans la période."
+
+#~ msgid "- Reopened tasks are not taken into account"
+#~ msgstr "- Les fiches réouvertes ne sont pas comptabilisées"
+
+#~ msgid "% Tasks Delivered before the deadLine"
+#~ msgstr "% de Fiches livrées avant la deadLine"
+
+#~ msgid "Add Astreintes"
+#~ msgstr "Ajout Astreinte"
+
+#~ msgid "Astreinte"
+#~ msgstr "Astreinte"
+
+#~ msgid "ETA not set."
+#~ msgstr "ETA non spécifié"
+
+#~ msgid "Support time is not taken into account"
+#~ msgstr "Le temps alloué au 'support' n'est pas comptabilisé"
+
+#~ msgid "With support"
+#~ msgstr "Support inclu"
+
+#~ msgid "By Project"
+#~ msgstr "Par Projet"
+
+#~ msgid "Indicateurs de production"
+#~ msgstr "Indicateurs de production"
+
+#~ msgid "Could not connect to database"
+#~ msgstr "Connexion impossible à la base de données"
+
+#~ msgid "Submission Date"
+#~ msgstr "Date Réception"
+
+#~ msgid "Effort Estim"
+#~ msgstr "Effort Estim"
+
+#~ msgid "Nbre de jours de depassement par rapport au budget initial"
+#~ msgstr "Nbre de jours de dépassement par rapport au budget initial"
+
+#~ msgid "Prod Rate NoSupport ETA"
+#~ msgstr "Taux de prod (sans support) ETA"
+
+#~ msgid "Prod Rate NoSupport"
+#~ msgstr "Taux de prod (sans support)"
+
+#~ msgid "Export Week $weekid Member Activity"
+#~ msgstr "Export Semaine $weekid Activité Eacute;quipe"
+
+#~ msgid "Send"
+#~ msgstr "Envoyer"

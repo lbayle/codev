@@ -141,7 +141,7 @@ f_createTemplateFile ()
     else
       cp ${templatePoFile} ${FILE_PO}
     fi
-    sed -i 's|#. tpl|#: tpl|g' ${FILE_PO}
+    #sed -i 's|#. tpl|#: tpl|g' ${FILE_PO}
 
   fi
 }

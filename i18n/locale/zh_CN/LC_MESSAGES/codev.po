@@ -6,9 +6,8 @@
 # Author: Liuxinyu970226
 msgid ""
 msgstr ""
-""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-13 22:13+0100\n"
+"POT-Creation-Date: 2018-03-18 13:49+0100\n"
 "PO-Revision-Date: 2018-03-15 14:52:04+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,16 +46,16 @@ msgstr ""
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. write header
 #. WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
-#: classes/issue.class.php:2259 classes/issue_selection.class.php:316
-#: classes/wbsElement.class.php:637 filters/ProjectFilter.php:59
+#: classes/issue.class.php:2270 classes/issue_selection.class.php:315
+#: classes/wbsElement.class.php:623 filters/ProjectFilter.php:59
 #: management/servicecontract_info.php:149 management/command_info.php:240
 #: management/commandset_info.php:152 reports/planning_report.php:234
 #: reports/planning_report.php:475 reports/planning_report.php:476
-#: reports/export_csv_tools.php:48 reports/project_info.php:281
+#: reports/export_csv_tools.php:49 reports/project_info.php:281
 #: reports/project_info.php:292 reports/project_info.php:304 tests/odt.php:25
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:224
 #: scheduler/SchedulerEvent.class.php:127
-#: scheduler/SchedulerEvent.class.php:128 tools.php:1531
+#: scheduler/SchedulerEvent.class.php:128 tools.php:1554
 msgid "Project"
 msgstr "项目"
 
@@ -78,7 +77,7 @@ msgstr "选择"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#: classes/time_tracking.class.php:447
+#: classes/time_tracking.class.php:461
 msgid "nb days"
 msgstr "nb日"
 
@@ -242,7 +241,7 @@ msgstr "不可用。"
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#: reports/export_csv_weekly.php:170
+#: reports/export_csv_weekly.php:171
 msgid "Job"
 msgstr "工作"
 
@@ -342,7 +341,7 @@ msgstr "rate = 1：估计完美。<br>rate &lt; 1：低估<br>rate &gt; 1：高�
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:315
-#: reports/project_info.php:238 tools.php:1470
+#: reports/project_info.php:238 tools.php:1493
 msgid "EffortEstim"
 msgstr "努力估计"
 
@@ -354,7 +353,6 @@ msgstr "努力增加"
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 #: classes/consistency_check2.class.php:442
-#: classes/consistency_check.class.php:365
 msgid "elapsed"
 msgstr "时间过去"
 
@@ -395,7 +393,7 @@ msgid "DeliveryDate"
 msgstr "交货日期"
 
 #. tpl/productivity_report.html
-#: reports/export_csv_tools.php:55
+#: reports/export_csv_tools.php:56
 msgid "DeadLine"
 msgstr "截止期限"
 
@@ -431,7 +429,7 @@ msgstr "漂移 - 所有任务"
 #: reports/issue_info_tools.php:116 reports/project_info.php:186
 #: reports/project_info.php:243 reports/project_info.php:294
 #: reports/project_info.php:307 scheduler/SchedulerEvent.class.php:161
-#: gantt/gantt_ajax.php:255 tools.php:276
+#: gantt/gantt_ajax.php:255 tools.php:273
 msgid "Drift"
 msgstr "漂移"
 
@@ -525,8 +523,8 @@ msgstr "努力偏差"
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:314
-#: reports/export_csv_tools.php:60 reports/project_info.php:237
-#: tests/filters.php:68 tools.php:1467
+#: reports/export_csv_tools.php:61 reports/project_info.php:237
+#: tests/filters.php:68 tools.php:1490
 msgid "MgrEffortEstim"
 msgstr "Mgr努力估计"
 
@@ -556,7 +554,7 @@ msgstr "ID"
 #. tpl/modal/select_issues.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
-#: reports/export_csv_tools.php:50
+#: reports/export_csv_tools.php:51
 msgid "ExtRef"
 msgstr "外部参考"
 
@@ -577,7 +575,7 @@ msgstr "外部参考"
 #. $titles[] = T_("Date");
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:257
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:313
-#: management/command_info_ajax.php:334 reports/export_csv_tools.php:65
+#: management/command_info_ajax.php:334 reports/export_csv_tools.php:66
 #: reports/project_info.php:181 reports/project_info.php:236
 #: gantt/gantt_ajax.php:196
 msgid "Progress"
@@ -616,7 +614,7 @@ msgstr "重新估计"
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:317
 #: reports/project_info.php:240 tests/filters.php:70
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:226
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:383
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:381
 msgid "Elapsed"
 msgstr "时间过去"
 
@@ -646,7 +644,7 @@ msgstr "时间过去"
 #: reports/project_info.php:241 tests/filters.php:71
 #: scheduler/SchedulerEvent.class.php:117
 #: scheduler/SchedulerEvent.class.php:140 gantt/gantt_ajax.php:225
-#: tools.php:1464 tools.php:1473
+#: tools.php:1487 tools.php:1496
 msgid "Backlog"
 msgstr "积压工作"
 
@@ -657,7 +655,7 @@ msgstr "积压工作"
 #. tpl/team_activity_report.html
 #. tpl/command_info.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#: reports/export_csv_tools.php:64 reports/export_csv_weekly.php:128
+#: reports/export_csv_tools.php:65 reports/export_csv_weekly.php:128
 msgid "BL"
 msgstr "BL"
 
@@ -708,11 +706,11 @@ msgstr "漂移与（EE+AddEE）相对"
 #. unset($tooltipAttr[T_('Project')]);
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
-#: classes/wbsElement.class.php:639 reports/planning_report.php:461
-#: reports/planning_report.php:484 reports/export_csv_tools.php:52
+#: classes/wbsElement.class.php:625 reports/planning_report.php:461
+#: reports/planning_report.php:484 reports/export_csv_tools.php:53
 #: reports/project_info.php:306 scheduler/SchedulerEvent.class.php:113
 #: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
-#: tools.php:1535
+#: tools.php:1558
 msgid "Status"
 msgstr "状态"
 
@@ -735,18 +733,18 @@ msgstr "状态"
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. insert in front
 #. add task summary in front
-#: classes/issue.class.php:2265 classes/issue_selection.class.php:317
+#: classes/issue.class.php:2276 classes/issue_selection.class.php:316
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
 #: management/servicecontract_info.php:150 management/command_info.php:241
 #: management/command_info_ajax.php:332 management/commandset_info.php:153
 #: reports/planning_report.php:235 reports/planning_report.php:478
-#: reports/export_csv_tools.php:51 reports/project_info.php:282
+#: reports/export_csv_tools.php:52 reports/project_info.php:282
 #: reports/project_info.php:293 reports/project_info.php:305
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: scheduler/SchedulerEvent.class.php:87 scheduler/SchedulerEvent.class.php:130
-#: gantt/gantt_ajax.php:194 gantt/gantt_ajax.php:231 tools.php:1537
+#: gantt/gantt_ajax.php:194 gantt/gantt_ajax.php:231 tools.php:1560
 msgid "Summary"
 msgstr "摘要"
 
@@ -971,7 +969,7 @@ msgstr "详情"
 #. tpl/command_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
-#: classes/wbsElement.class.php:638 tools.php:1533
+#: classes/wbsElement.class.php:624 tools.php:1556
 msgid "Category"
 msgstr "分类"
 
@@ -1000,7 +998,7 @@ msgstr "目标版本"
 #. tpl/command_info.html
 #. tpl/modal/select_issues.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#: classes/issue.class.php:2272 tools.php:1541
+#: classes/issue.class.php:2283 tools.php:1564
 msgid "Target"
 msgstr "目标"
 
@@ -1158,7 +1156,7 @@ msgstr "找不到命令集。"
 #. tpl/menu/global_menu.html
 #. tpl/commandset_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#: classes/consistency_check2.class.php:646
+#: classes/consistency_check2.class.php:636
 msgid "Command"
 msgstr "命令"
 
@@ -1216,7 +1214,7 @@ msgstr "报告者"
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
 #. tpl/command_info.html
-#: reports/export_csv_tools.php:54
+#: reports/export_csv_tools.php:55
 msgid "Start date"
 msgstr "开始日期"
 
@@ -1249,7 +1247,7 @@ msgstr "结束日期"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#: reports/export_csv_weekly.php:171
+#: reports/export_csv_weekly.php:172
 msgid "Description"
 msgstr "描述"
 
@@ -1367,7 +1365,7 @@ msgstr "应用的过滤器"
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #: management/command_info_ajax.php:328 management/command_info_ajax.php:330
 #: reports/planning_report.php:471 reports/planning_report.php:473
-#: reports/export_csv_weekly.php:127 reports/export_csv_weekly.php:169
+#: reports/export_csv_weekly.php:127 reports/export_csv_weekly.php:170
 #: scheduler/SchedulerEvent.class.php:83 scheduler/SchedulerEvent.class.php:85
 #: scheduler/SchedulerEvent.class.php:123
 #: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
@@ -1417,7 +1415,7 @@ msgstr "值班任务"
 
 #. tpl/edit_team.html
 #. tpl/create_team.html
-#: admin/edit_team.php:173 admin/create_team.php:95
+#: admin/edit_team.php:174 admin/create_team.php:95
 msgid "Tools"
 msgstr "工具"
 
@@ -1938,7 +1936,7 @@ msgstr "错误描述"
 
 #. tpl/issue_info.html
 #: scheduler/SchedulerEvent.class.php:116 gantt/gantt_ajax.php:224
-#: tools.php:1458
+#: tools.php:1481
 msgid "External ID"
 msgstr "外部ID"
 
@@ -1981,26 +1979,26 @@ msgstr "外部参考"
 #. tpl/issue_info.html
 #. tpl/export_odt.html
 #. tpl/modal/update_issueBacklog.html
-#: classes/wbsElement.class.php:640 management/command_info_ajax.php:333
-#: reports/export_csv_tools.php:68 reports/export_csv_weekly.php:172
+#: classes/wbsElement.class.php:626 management/command_info_ajax.php:333
+#: reports/export_csv_tools.php:69 reports/export_csv_weekly.php:173
 #: gantt/gantt_ajax.php:195
 msgid "Assigned to"
 msgstr "分配给"
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2274 reports/planning_report.php:462
-#: reports/planning_report.php:485 reports/export_csv_tools.php:57
+#: classes/issue.class.php:2285 reports/planning_report.php:462
+#: reports/planning_report.php:485 reports/export_csv_tools.php:58
 #: scheduler/SchedulerEvent.class.php:114
 #: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
-#: tools.php:1543
+#: tools.php:1566
 msgid "Priority"
 msgstr "优先级"
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2270 reports/planning_report.php:463
+#: classes/issue.class.php:2281 reports/planning_report.php:463
 #: reports/planning_report.php:486 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
-#: tools.php:1545
+#: tools.php:1568
 msgid "Severity"
 msgstr "严重性"
 
@@ -2012,7 +2010,7 @@ msgstr "严重性"
 #: reports/planning_report.php:466 reports/planning_report.php:495
 #: scheduler/SchedulerEvent.class.php:91 scheduler/SchedulerEvent.class.php:118
 #: scheduler/SchedulerEvent.class.php:143 gantt/gantt_ajax.php:198
-#: gantt/gantt_ajax.php:226 gantt/gantt_ajax.php:235 tools.php:1479
+#: gantt/gantt_ajax.php:226 gantt/gantt_ajax.php:235 tools.php:1502
 msgid "Deadline"
 msgstr "截止期限"
 
@@ -2045,7 +2043,7 @@ msgstr "注意"
 #. tpl/planning_report.html
 #. tpl/command_edit.html
 #. tpl/command_info.html
-#: classes/consistency_check2.class.php:751 classes/command.class.php:786
+#: classes/consistency_check2.class.php:735 classes/command.class.php:768
 #: reports/planning_report.php:492 scheduler/SchedulerEvent.class.php:140
 msgid "days"
 msgstr "日"
@@ -2376,12 +2374,12 @@ msgid "No Support"
 msgstr "无支持"
 
 #. tpl/statistics.html
-#: reports/export_csv_tools.php:61
+#: reports/export_csv_tools.php:62
 msgid "BI"
 msgstr "BI"
 
 #. tpl/statistics.html
-#: reports/export_csv_tools.php:62
+#: reports/export_csv_tools.php:63
 msgid "BS"
 msgstr "BS"
 
@@ -2610,9 +2608,9 @@ msgstr "nb日至截止期限"
 #. tpl/planning_report.html
 #. tpl/edit_jobs.html
 #. tpl/edit_holidays.html
-#: install/install_step3.php:630 install/install_step3.php:635
-#: install/install_step3.php:640 install/install_step3.php:646
-#: install/install_step3.php:651
+#: install/install_step3.php:641 install/install_step3.php:646
+#: install/install_step3.php:651 install/install_step3.php:657
+#: install/install_step3.php:662
 msgid "Color"
 msgstr "颜色"
 
@@ -2639,6 +2637,10 @@ msgstr "您可以帮助翻译：\\"
 #. tpl/doc.html
 msgid "statistics"
 msgstr "统计"
+
+#. tpl/doc.html
+msgid "Contact the author: "
+msgstr ""
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
@@ -2763,7 +2765,7 @@ msgstr "支持、文档、培训、Wiki..."
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: admin/create_team.php:89
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:386
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:384
 msgid "Inactivity"
 msgstr "不活跃"
 
@@ -2818,7 +2820,7 @@ msgstr "项目上其他填充的活动"
 #. Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
 #. Display Empty Command Form
 #. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
-#: management/command_edit.php:112 management/servicecontract_edit.php:86
+#: management/command_edit.php:108 management/servicecontract_edit.php:86
 msgid "Create"
 msgstr "创建"
 
@@ -3117,7 +3119,7 @@ msgid "Blog"
 msgstr "博客"
 
 #. tpl/menu/global_menu.html
-#: install/install_step3.php:855 install/install_menu.inc.php:68
+#: install/install_step3.php:867 install/install_menu.inc.php:68
 msgid "Documentation"
 msgstr "文档"
 
@@ -3200,6 +3202,10 @@ msgid "This step will clean Mantis DB."
 msgstr "该步骤将清空Mantis数据库。"
 
 #. tpl/uninstall.html
+msgid "It is HIGHLY recommended to backup your Mantis DB before you proceed !"
+msgstr ""
+
+#. tpl/uninstall.html
 msgid "Backup data"
 msgstr "备份数据"
 
@@ -3265,7 +3271,7 @@ msgstr "工作名称"
 
 #. tpl/edit_jobs.html
 #. tpl/edit_holidays.html
-#: install/install_step3.php:620
+#: install/install_step3.php:631
 msgid "open a colorPicker in a new Tab"
 msgstr "在新标签中打开颜色选择器"
 
@@ -3449,7 +3455,6 @@ msgid "Show resolved tasks"
 msgstr "显示已解决的任务"
 
 #. tpl/command_info.html
-#: classes/consistency_check.class.php:256
 msgid "Warning"
 msgstr "警告"
 
@@ -4266,19 +4271,19 @@ msgstr "按状态时间分配"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:391
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:389
 msgid "Waste"
 msgstr "浪费"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:384
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:382
 msgid "Other"
 msgstr "其他"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:385
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:383
 msgid "External"
 msgstr "外部"
 
@@ -4289,7 +4294,9 @@ msgid "Load per User"
 msgstr "每位用户加载的"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid ""
+"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
+"         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4306,7 +4313,9 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid ""
+"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
+"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4462,59 +4471,59 @@ msgstr "不能添加假日"
 msgid "Couldn't remove the holiday"
 msgstr "不能移除假日"
 
-#: admin/edit_team.php:51
+#: admin/edit_team.php:52
 msgid "Couldn't delete the team"
 msgstr "不能删除团队"
 
-#: admin/edit_team.php:93
+#: admin/edit_team.php:94
 msgid "Couldn't update the team leader"
 msgstr "不能更新团队主管"
 
-#: admin/edit_team.php:104
+#: admin/edit_team.php:105
 msgid "Couldn't update the creation date"
 msgstr "不能更新创建日期"
 
-#: admin/edit_team.php:109
+#: admin/edit_team.php:110
 msgid "Couldn't enable/disable team"
 msgstr "不能启用/禁用团队"
 
-#: admin/edit_team.php:202
+#: admin/edit_team.php:204
 msgid "Couldn't delete the member of the team"
 msgstr "不能删除团队的成员"
 
-#: admin/edit_team.php:218
+#: admin/edit_team.php:220
 msgid "Couldn't add the project to the team"
 msgstr "不能添加项目至团队中"
 
-#: admin/edit_team.php:224
+#: admin/edit_team.php:226
 msgid "Could NOT remove the project from the team"
 msgstr "不能从团队中移除项目"
 
-#: admin/edit_team.php:276
+#: admin/edit_team.php:278
 msgid "Configure Tooltips"
 msgstr "配置工具提示"
 
-#: admin/edit_team.php:385
+#: admin/edit_team.php:391
 msgid "enabled"
 msgstr "已启用"
 
-#: admin/edit_team.php:385
+#: admin/edit_team.php:391
 msgid "disabled"
 msgstr "已禁用"
 
-#: admin/edit_jobs.php:77
+#: admin/edit_jobs.php:81
 msgid "Couldn't add the job association"
 msgstr "不能添加工作关联"
 
-#: admin/edit_jobs.php:85
+#: admin/edit_jobs.php:89
 msgid "This job must not be deleted."
 msgstr "该工作不得删除。"
 
-#: admin/edit_jobs.php:91 admin/edit_jobs.php:107
+#: admin/edit_jobs.php:96 admin/edit_jobs.php:114
 msgid "Couldn't remove the job association"
 msgstr "不能移除工作关联"
 
-#: admin/edit_jobs.php:97
+#: admin/edit_jobs.php:103
 msgid "Couldn't delete the job"
 msgstr "不能删除工作"
 
@@ -4544,48 +4553,21 @@ msgid "Tooltip"
 msgstr "提示信息"
 
 #. avoid divisions by zero
-#: classes/Currencies.class.php:125
+#: classes/Currencies.class.php:126
 msgid "ERROR: invalid currency: (coef is null, zero, or not a number)"
 msgstr ""
 
-#: classes/Currencies.class.php:130
+#: classes/Currencies.class.php:131
 msgid "ERROR: First define the referal currency (with coef=1)"
 msgstr ""
 
-#: classes/Currencies.class.php:135
+#: classes/Currencies.class.php:136
 msgid "ERROR: there can be only one 'referal' currency (with coef=1)"
 msgstr ""
 
-#: classes/Currencies.class.php:139
+#: classes/Currencies.class.php:140
 msgid "ERROR: currency already defined"
 msgstr "错误：货币已被定义"
-
-#: classes/consistency_check_fdj.class.php:76
-msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
-msgstr "未指定BI：BI=时间（分析+开发+测试）"
-
-#: classes/consistency_check_fdj.class.php:77
-#: classes/consistency_check_fdj.class.php:86
-#: classes/consistency_check_fdj.class.php:97
-#: classes/consistency_check2.class.php:62
-#: classes/consistency_check.class.php:165
-#: classes/consistency_check.class.php:209
-#: classes/consistency_check.class.php:318
-#: classes/consistency_check.class.php:366
-#: timetracking/team_monthly_activity_report.php:129
-#: scheduler/scheduler_ajax.php:384 scheduler/scheduler_ajax.php:385
-#: scheduler/scheduler_ajax.php:386 scheduler/scheduler_ajax.php:387
-#: scheduler/scheduler_ajax.php:390
-msgid "Error"
-msgstr "错误"
-
-#: classes/consistency_check_fdj.class.php:85
-msgid "Backlog not specified: Backlog = Time(BI - Analysis)"
-msgstr "积压工作未指定：积压工作=时间（BI-分析）"
-
-#: classes/consistency_check_fdj.class.php:96
-msgid "Once analysed, a Task must be assigned to 'FDJ' for validation"
-msgstr ""
 
 #: classes/issue.class.php:59
 msgid "Duplicate of"
@@ -4615,32 +4597,32 @@ msgstr "约束自"
 msgid "Constrains"
 msgstr "约束"
 
-#: classes/issue.class.php:2234 classes/wbsElement.class.php:641 tools.php:1525
+#: classes/issue.class.php:2245 classes/wbsElement.class.php:627 tools.php:1548
 msgid "Tags"
 msgstr "标签"
 
-#: classes/issue.class.php:2242
+#: classes/issue.class.php:2253
 msgid "none"
 msgstr "无"
 
-#: classes/issue.class.php:2247 reports/issue_info_tools.php:115
+#: classes/issue.class.php:2258 reports/issue_info_tools.php:115
 msgid "DriftColor"
 msgstr "漂移颜色"
 
-#: classes/issue.class.php:2250 scheduler/SchedulerEvent.class.php:163
-#: gantt/gantt_ajax.php:257 tools.php:278
+#: classes/issue.class.php:2261 scheduler/SchedulerEvent.class.php:163
+#: gantt/gantt_ajax.php:257 tools.php:275
 msgid "DriftMgr"
 msgstr "漂移经理"
 
-#: classes/issue.class.php:2251
+#: classes/issue.class.php:2262
 msgid "DriftMgrColor"
 msgstr "DriftMgr颜色"
 
-#: classes/issue.class.php:2268 tools.php:1539
+#: classes/issue.class.php:2279 tools.php:1562
 msgid "Assigned"
 msgstr "已分派"
 
-#: classes/issue.class.php:2276 tools.php:1547
+#: classes/issue.class.php:2287 tools.php:1570
 msgid "ETA"
 msgstr "ETA"
 
@@ -4656,37 +4638,45 @@ msgstr "已移除"
 msgid "monitored"
 msgstr "已监测"
 
-#: classes/user.class.php:1761
+#: classes/user.class.php:1750
 msgid "for team"
 msgstr "用于团队"
 
-#: classes/user.class.php:1763
+#: classes/user.class.php:1752
 msgid "[CodevTT] Timesheet reminder !"
 msgstr "[CodevTT]工时表提示！"
 
-#: classes/user.class.php:1765 plugins/ImportUsers/ImportUsers_ajax.php:163
+#: classes/user.class.php:1754 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
 msgstr "亲爱的\\"
 
-#: classes/user.class.php:1766
+#: classes/user.class.php:1755
 msgid "Please fill your CodevTT timesheet"
 msgstr "请填充您的工时表"
 
-#: classes/user.class.php:1777 classes/consistency_check2.class.php:749
+#: classes/user.class.php:1766 classes/consistency_check2.class.php:733
 msgid "incomplete (missing "
 msgstr "不完整（缺少\\"
 
 #. skip dates in the future
-#: classes/user.class.php:1780 classes/consistency_check2.class.php:764
+#: classes/user.class.php:1769 classes/consistency_check2.class.php:748
 msgid "not defined."
 msgstr "未定义。"
+
+#: classes/consistency_check2.class.php:62
+#: timetracking/team_monthly_activity_report.php:129
+#: scheduler/scheduler_ajax.php:384 scheduler/scheduler_ajax.php:385
+#: scheduler/scheduler_ajax.php:386 scheduler/scheduler_ajax.php:387
+#: scheduler/scheduler_ajax.php:390
+msgid "Error"
+msgstr "错误"
 
 #: classes/consistency_check2.class.php:66
 msgid "Info"
 msgstr "信息"
 
-#: classes/consistency_check2.class.php:68 reports/export_odt.php:272
-#: reports/export_odt.php:285 tests/odt.php:81 tests/odt.php:94
+#: classes/consistency_check2.class.php:68 reports/export_odt.php:270
+#: reports/export_odt.php:283 tests/odt.php:81 tests/odt.php:94
 msgid "unknown"
 msgstr "未知"
 
@@ -4731,7 +4721,6 @@ msgid "Check timetracks on removed issues (not needed if Mantis plugin is enable
 msgstr "检查已移除问题上的时间跟踪（当启用Mantis插件时不需要）"
 
 #: classes/consistency_check2.class.php:314
-#: classes/consistency_check.class.php:208
 msgid "Backlog should be 0 (not "
 msgstr "积压工作应为0（不是\\"
 
@@ -4740,12 +4729,10 @@ msgid "Backlog must be defined !"
 msgstr "积压工作必须被定义！"
 
 #: classes/consistency_check2.class.php:338
-#: classes/consistency_check.class.php:255
 msgid "Backlog == 0: Backlog may not be up to date."
 msgstr "积压工作==0：积压工作可能不是最新的。"
 
 #: classes/consistency_check2.class.php:384
-#: classes/consistency_check.class.php:317
 msgid "MgrEffortEstim not set."
 msgstr "MgrEffortEstim未设置。"
 
@@ -4754,7 +4741,6 @@ msgid "EffortEstim not set."
 msgstr "EffortEstim未设置。"
 
 #: classes/consistency_check2.class.php:442
-#: classes/consistency_check.class.php:365
 msgid "Status should not be"
 msgstr "状态不应为"
 
@@ -4762,27 +4748,27 @@ msgstr "状态不应为"
 msgid "The task is not assigned to anybody."
 msgstr "任务未分配给任何人。"
 
-#: classes/consistency_check2.class.php:536
+#: classes/consistency_check2.class.php:534
 msgid "The task is not referenced in any Command."
 msgstr "任务未在任何命令中引用。"
 
-#: classes/consistency_check2.class.php:646
+#: classes/consistency_check2.class.php:636
 msgid "is not referenced in any CommandSet"
 msgstr "未在任何命令集中引用"
 
-#: classes/consistency_check2.class.php:674
+#: classes/consistency_check2.class.php:661
 msgid "is not referenced in any ServiceContract"
 msgstr "未在任何服务合同中引用"
 
-#: classes/consistency_check2.class.php:749
+#: classes/consistency_check2.class.php:733
 msgid " days"
 msgstr "日"
 
-#: classes/consistency_check2.class.php:751
+#: classes/consistency_check2.class.php:735
 msgid "inconsistent"
 msgstr "不一致"
 
-#: classes/consistency_check2.class.php:785
+#: classes/consistency_check2.class.php:768
 msgid "No default project workflow defined, check config file: "
 msgstr "未定义默认项目工作流，检查配置文件：\\"
 
@@ -4821,10 +4807,6 @@ msgstr "寄出的账单"
 #: classes/command.class.php:67
 msgid "payed"
 msgstr "已支付"
-
-#: classes/consistency_check.class.php:164
-msgid "Delivery date not specified: If a delivery sheet is specified, then a Delivery Date is requested."
-msgstr ""
 
 #: filters/IssuePublicPrivateFilter.php:48
 msgid "Sort issues: public/private"
@@ -4910,143 +4892,143 @@ msgstr "安装 - 第3步"
 msgid "CodevTT Administrators team"
 msgstr "CodevTT管理员团队"
 
-#: install/install_step3.php:379
+#: install/install_step3.php:388
 msgid "CodevTT_EffortEstim"
 msgstr "CodevTT_EffortEstim"
 
-#: install/install_step3.php:382
+#: install/install_step3.php:391
 msgid "CodevTT_Type"
 msgstr "CodevTT_类型"
 
-#: install/install_step3.php:389
+#: install/install_step3.php:398
 msgid "CodevTT_Manager EffortEstim"
 msgstr "CodevTT_经理EffortEstim"
 
-#: install/install_step3.php:395
+#: install/install_step3.php:404
 msgid "CodevTT_External ID"
 msgstr "CodevTT_外部ID"
 
-#: install/install_step3.php:398
+#: install/install_step3.php:407
 msgid "CodevTT_Deadline"
 msgstr "CodevTT_截止期限"
 
-#: install/install_step3.php:401
+#: install/install_step3.php:410
 msgid "CodevTT_Additional Effort"
 msgstr "CodevTT_额外努力"
 
-#: install/install_step3.php:407
+#: install/install_step3.php:416
 msgid "CodevTT_Backlog"
 msgstr "CodevTT_积压工作"
 
 #. createCustomField(T_("CodevTT_Delivery ticket"),   $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
-#: install/install_step3.php:414
+#: install/install_step3.php:423
 msgid "CodevTT_Delivery Date"
 msgstr "CodevTT_交货日期"
 
 #. ------ Reports
-#: install/install_step3.php:464
+#: install/install_step3.php:475
 msgid "Path to output files"
 msgstr "输出文件路径"
 
 #. T_("Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access.")
-#: install/install_step3.php:466
+#: install/install_step3.php:477
 msgid "Path to log files and other temporary files."
 msgstr "至日志文件和其他临时文件的目录。"
 
 #. ------ Status
-#: install/install_step3.php:483
+#: install/install_step3.php:494
 msgid "Workflow"
 msgstr "工作流"
 
-#: install/install_step3.php:484
+#: install/install_step3.php:495
 msgid "Set equivalences in accordance to your Mantis workflow"
 msgstr ""
 
 #. ------ Administrator
-#: install/install_step3.php:542
+#: install/install_step3.php:553
 msgid "CodevTT Administrator"
 msgstr "CodevTT管理员"
 
-#: install/install_step3.php:554
+#: install/install_step3.php:565
 msgid "More administrators can be defined later, for now you just need one."
 msgstr ""
 
 #. ------- External ID
-#: install/install_step3.php:558
+#: install/install_step3.php:569
 msgid "Tasks external ID field"
 msgstr "任务外部ID字段"
 
-#: install/install_step3.php:580
+#: install/install_step3.php:591
 msgid "Create a new CustomField"
 msgstr "创建一个新的自定义字段"
 
-#: install/install_step3.php:582
+#: install/install_step3.php:593
 msgid "Use this CustomField :"
 msgstr "使用该自定义字段："
 
-#: install/install_step3.php:609
+#: install/install_step3.php:620
 msgid "Default Jobs"
 msgstr "默认工作"
 
-#: install/install_step3.php:616
+#: install/install_step3.php:627
 msgid "CodevTT support management"
 msgstr "CodevTT支持管理"
 
-#: install/install_step3.php:627
+#: install/install_step3.php:638
 msgid "Specific to SideTasks"
 msgstr "特定至边缘任务"
 
-#: install/install_step3.php:670
+#: install/install_step3.php:681
 msgid "Proceed Step 3"
 msgstr "已进行第3步"
 
-#: install/install_step3.php:822
+#: install/install_step3.php:834
 msgid "CodevTT admin"
 msgstr "CodevTT管理员"
 
-#: install/install_step3.php:849
+#: install/install_step3.php:861
 msgid "Other external activity"
 msgstr "其他外部活动"
 
-#: install/install_step3.php:850
+#: install/install_step3.php:862
 msgid "Leave"
 msgstr "离开"
 
-#: install/install_step3.php:851
+#: install/install_step3.php:863
 msgid "Sick Leave"
 msgstr "病假"
 
-#: install/install_step3.php:852
+#: install/install_step3.php:864
 msgid "Analyse"
 msgstr "分析"
 
-#: install/install_step3.php:853
+#: install/install_step3.php:865
 msgid "Development"
 msgstr "开发"
 
-#: install/install_step3.php:854
+#: install/install_step3.php:866
 msgid "Tests"
 msgstr "测试"
 
-#: install/install_step3.php:941
+#: install/install_step3.php:953
 msgid "CodevTT_ExternalTasks"
 msgstr "CodevTT_外部任务"
 
-#: install/install_step3.php:941
+#: install/install_step3.php:953
 msgid "CodevTT ExternalTasks Project"
 msgstr "CodevTT外部任务项目"
 
 #. cat="OtherInternal", status="closed"
-#: install/install_step3.php:980
+#: install/install_step3.php:992
 msgid "Any external task, NOT referenced in any Mantis project"
 msgstr "任何外部任务，未被任何Mantis项目引用"
 
 #. --- Create the 'Leave' task in ExternalTasks Project
-#: install/install_step3.php:983
+#: install/install_step3.php:995
 msgid "On holiday, leave, ..."
 msgstr "在度假、离开..."
 
-#: install/install_step3.php:984
+#: install/install_step3.php:996
 msgid "Sick"
 msgstr "厌恶"
 
@@ -5128,23 +5110,6 @@ msgstr "移除CodevTT安装文件"
 msgid "For security reasons, delete the following directory: "
 msgstr "基于安全原因，删除以下目录：\\"
 
-#. echo '<br>';
-#: install/install_step4.php:73
-msgid "Install Firefox Greasemonkey addon"
-msgstr "安装火狐浏览器油猴子插件"
-
-#: install/install_step4.php:74
-msgid "Note: This step is optional"
-msgstr "注意：该步骤可选"
-
-#: install/install_step4.php:76
-msgid "Install addon:"
-msgstr "安装插件："
-
-#: install/install_step4.php:77
-msgid "Load script:"
-msgstr "加载脚本："
-
 #: install/install_step4.php:83
 msgid "Done !"
 msgstr "完成！"
@@ -5178,43 +5143,57 @@ msgstr "运行此脚本：\\"
 msgid "Install - Step 1"
 msgstr "安装 - 第1步"
 
-#: install/install_step1.php:195
+#: install/install_step1.php:217
 msgid "Mantis Database Info"
 msgstr "Mantis数据库信息"
 
-#: install/install_step1.php:199
+#: install/install_step1.php:221
+msgid "SGBD"
+msgstr ""
+
+#: install/install_step1.php:232
 msgid "Hostname"
 msgstr "主机名"
 
-#: install/install_step1.php:203
+#: install/install_step1.php:236
 msgid "Database Name"
 msgstr "数据库名称"
 
-#: install/install_step1.php:217
+#: install/install_step1.php:240
+#, fuzzy
+msgid "Database Table Prefix "
+msgstr "数据库名称"
+
+#: install/install_step1.php:244
+#, fuzzy
+msgid "Database Table Suffix "
+msgstr "数据库名称"
+
+#: install/install_step1.php:258
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
 msgstr "警告Windows安装用户：要避免超级权限错误，请使用<b>root</b> mysql用户（这可以在安装完成时，在config.ini中更改）。"
 
-#: install/install_step1.php:222
+#: install/install_step1.php:263
 msgid "Proxy Settings"
 msgstr "代理设置"
 
-#: install/install_step1.php:223
+#: install/install_step1.php:264
 msgid "CodevTT will check for updates."
 msgstr "CodevTT将检查更新。"
 
-#: install/install_step1.php:226
+#: install/install_step1.php:267
 msgid "Enable proxy"
 msgstr "启用代理"
 
-#: install/install_step1.php:227
+#: install/install_step1.php:268
 msgid "Server"
 msgstr "服务器"
 
-#: install/install_step1.php:228
+#: install/install_step1.php:269
 msgid "Port"
 msgstr "端口"
 
-#: install/install_step1.php:235
+#: install/install_step1.php:276
 msgid "Proceed Step 1"
 msgstr "已进行第1步"
 
@@ -5299,12 +5278,12 @@ msgstr "对不起，只有管理者可以将任务添加至命令"
 
 #: reports/issue_info_ajax.php:93 reports/issue_info_ajax.php:135
 #: reports/issue_info_ajax.php:166 reports/issue_info_ajax.php:215
-#: reports/issue_info_ajax.php:256 reports/issue_info_ajax.php:321
+#: reports/issue_info_ajax.php:257 reports/issue_info_ajax.php:322
 msgid "Sorry, this task is not in your team's projects"
 msgstr "对不起，该任务未在您团队的项目中"
 
 #: reports/issue_info_ajax.php:164 reports/issue_info_ajax.php:213
-#: reports/issue_info_ajax.php:254 reports/issue_info_ajax.php:319
+#: reports/issue_info_ajax.php:255 reports/issue_info_ajax.php:320
 msgid "Sorry, you're not an active member of this team"
 msgstr "对不起，您不是此团队的活跃成员"
 
@@ -5324,23 +5303,23 @@ msgstr "无截止期限"
 msgid "Monitored"
 msgstr "已检测"
 
-#: reports/export_csv_tools.php:49
+#: reports/export_csv_tools.php:50
 msgid "m_id"
 msgstr "m_id"
 
-#: reports/export_csv_tools.php:56
+#: reports/export_csv_tools.php:57
 msgid "Product Version"
 msgstr "产品版本"
 
-#: reports/export_csv_tools.php:59
+#: reports/export_csv_tools.php:60
 msgid "Resolution"
 msgstr "分辨率"
 
-#: reports/export_csv_tools.php:66 tools.php:1482
+#: reports/export_csv_tools.php:67 tools.php:1505
 msgid "Delivery Date"
 msgstr "交货日期"
 
-#: reports/export_csv_tools.php:67
+#: reports/export_csv_tools.php:68
 msgid "Delivery Sheet"
 msgstr "送货单"
 
@@ -5363,7 +5342,7 @@ msgstr "对不起，没有为您的团队定义的项目。"
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:469
 #: timetracking/team_monthly_activity_report.php:130
-#: timetracking/time_tracking.php:430 timetracking/team_activity_report.php:179
+#: timetracking/time_tracking.php:431 timetracking/team_activity_report.php:180
 msgid "Error: Task not found in Mantis DB !"
 msgstr "错误：在Mantis数据库中找不到任务！"
 
@@ -5685,7 +5664,24 @@ msgstr "所有项目"
 msgid "W"
 msgstr "W"
 
-#: tools.php:1476
+#: tools.php:1499
 msgid "AddEffortEstim"
 msgstr "添加努力估计"
 
+#~ msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
+#~ msgstr "未指定BI：BI=时间（分析+开发+测试）"
+
+#~ msgid "Backlog not specified: Backlog = Time(BI - Analysis)"
+#~ msgstr "积压工作未指定：积压工作=时间（BI-分析）"
+
+#~ msgid "Install Firefox Greasemonkey addon"
+#~ msgstr "安装火狐浏览器油猴子插件"
+
+#~ msgid "Note: This step is optional"
+#~ msgstr "注意：该步骤可选"
+
+#~ msgid "Install addon:"
+#~ msgstr "安装插件："
+
+#~ msgid "Load script:"
+#~ msgstr "加载脚本："
