@@ -67,8 +67,8 @@ class ConfigItem {
 class Config {
 
    // TODO Move to a more appropriate class
-   const codevVersion = "v1.3 beta";
-   const codevVersionDate = "11 Apr 2017";
+   const codevVersion = "v1.3.0";
+   const codevVersionDate = "18 Mar 2018";
    const databaseVersion = 18; // used to check codev_config_table.database_version and apply upgrades.
 
    const configType_int = 1;
@@ -159,6 +159,7 @@ class Config {
       "v1.2.0" => "(02 Jan  2017) - Scheduler,Gantt,Plugins,i18n,Mantis2.0,min.js",
       "v1.2.1" => "(02 Apr  2017) - fix:weekDates, fix:backlogCheck, i18n, WBS, teamOptions, UserTeamListPlugin, projectTypes",
       "v1.2.2" => "(11 Apr  2017) - fix big regression due to m1553 (mantis table prefix/suffix)",
+      "v1.3.0" => "(18 Mar  2018) - adodb, PHP7, CostIndicator, mantis table prefix/suffix, fixCommand, Float customFields, wbs_order",
    );
 
    /**
