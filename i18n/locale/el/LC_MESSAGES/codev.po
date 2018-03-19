@@ -5,13 +5,14 @@
 # Author: Xaris333
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-15 14:51:57+0000\n"
+"PO-Revision-Date: 2018-03-19 19:55:37+0000\n"
 "Language: el\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2017-12-10 20:49:19+0000\n"
+"X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
 "X-Generator: MediaWiki 1.31.0-alpha; Translate 2018-01-30\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -2571,7 +2572,7 @@ msgstr ""
 #. tpl/planning_report.html
 #. tpl/modal/consistency_check.html
 msgid "Click to show errors"
-msgstr ""
+msgstr "Κάνετε κλικ για την εμφάνιση σφαλμάτων"
 
 #. tpl/planning_report.html
 #: management/servicecontract_info.php:91
@@ -2601,7 +2602,7 @@ msgstr ""
 
 #. tpl/planning_report.html
 msgid "nbDaysToDeadLine"
-msgstr ""
+msgstr "nb ημέρες μέχρι το τέλος της προθεσμίας"
 
 #. tpl/planning_report.html
 #. tpl/edit_jobs.html
@@ -2740,7 +2741,7 @@ msgstr ""
 #. tpl/create_team.html
 #: admin/create_team.php:92
 msgid "Incident"
-msgstr ""
+msgstr "Ατύχημα"
 
 #. tpl/create_team.html
 msgid "Server or Platform down, ..."
@@ -3046,11 +3047,11 @@ msgstr ""
 #. tpl/gantt.html
 #. tpl/command_info.html
 msgid "Gantt"
-msgstr ""
+msgstr "Gantt"
 
 #. tpl/menu/global_menu.html
 msgid "Gantt Chart"
-msgstr ""
+msgstr "Γράφημα Gantt"
 
 #. tpl/menu/global_menu.html
 msgid "Task Information"
@@ -3159,11 +3160,11 @@ msgstr "Προετοιμασία εγχειρημάτων"
 
 #. tpl/menu/global_menu.html
 msgid "Clone Projects"
-msgstr ""
+msgstr "Εγχειρήματα κλώνοι"
 
 #. tpl/menu/global_menu.html
 msgid "Plugin Manager"
-msgstr ""
+msgstr "Διαχειριστής πρόσθετων"
 
 #. tpl/menu/global_menu.html
 msgid "Logs"
@@ -3177,7 +3178,7 @@ msgstr "Απεγκατάσταση"
 #. tpl/gantt.html
 #. tpl/command_info.html
 msgid "Task filter:"
-msgstr ""
+msgstr "Φιλτράρισμα εργασίας:"
 
 #. tpl/gantt.html
 #. tpl/command_info.html
@@ -3197,7 +3198,7 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "This step will clean Mantis DB."
-msgstr ""
+msgstr "Αυτό το βήμα θα εκκαθαρίσει το Mantis DB."
 
 #. tpl/uninstall.html
 msgid "It is HIGHLY recommended to backup your Mantis DB before you proceed !"
@@ -3265,7 +3266,7 @@ msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Job Name"
-msgstr ""
+msgstr "Όνομα δουλειάς"
 
 #. tpl/edit_jobs.html
 #. tpl/edit_holidays.html
@@ -3275,15 +3276,15 @@ msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "delete Job"
-msgstr ""
+msgstr "διαγραφή δουλειάς"
 
 #. tpl/edit_jobs.html
 msgid "multiple selection"
-msgstr ""
+msgstr "Πολλαπλή επιλογή"
 
 #. tpl/edit_jobs.html
 msgid "single selection"
-msgstr ""
+msgstr "μονή επιλογή"
 
 #. tpl/edit_jobs.html
 msgid "delete Project Association"
@@ -3291,19 +3292,19 @@ msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Delete job"
-msgstr ""
+msgstr "Διαγραφή δουλειάς"
 
 #. tpl/edit_jobs.html
 msgid "Remove this link :"
-msgstr ""
+msgstr "Αφαίρεση αυτού του συνδέσμου:"
 
 #. tpl/edit_jobs.html
 msgid "Job Color"
-msgstr ""
+msgstr "Χρώμα εργασίας"
 
 #. tpl/edit_jobs.html
 msgid "Missing fields :"
-msgstr ""
+msgstr "Πεδία που λείπουν:"
 
 #. tpl/workflow.html
 msgid "Are you sure you want to change"
@@ -3371,7 +3372,7 @@ msgstr ""
 
 #. tpl/edit_holidays.html
 msgid "Permanently remove this date ?"
-msgstr ""
+msgstr "Αφαίρεση αυτής της ημερομηνίας μόνιμα;"
 
 #. tpl/edit_holidays.html
 msgid "delete Holiday"
@@ -3387,7 +3388,7 @@ msgstr "--- Δημιουργία Νέας Εντολής ---"
 
 #. tpl/command_info.html
 msgid "Command Filters"
-msgstr ""
+msgstr "Φίλτρα εντολής"
 
 #. tpl/command_info.html
 msgid "Reduce the command selection by setting some filters"
@@ -3518,11 +3519,11 @@ msgstr ""
 
 #. tpl/modal/fairplay.html
 msgid "You are using CodevTT since"
-msgstr ""
+msgstr "Χρησιμοποιείτε το CodevTT από τις"
 
 #. tpl/modal/fairplay.html
 msgid "If you like this software, please consider making a donation."
-msgstr ""
+msgstr "Εάν σας αρέσει το λογισμικό, παρακαλώ σκεφτείτε να κάνετε μια δωρεά."
 
 #. tpl/modal/login.html
 msgid "Length of"
@@ -3538,7 +3539,7 @@ msgstr "και"
 
 #. tpl/modal/login.html
 msgid "CodevTT Identification"
-msgstr ""
+msgstr "Ταυτοποίηση CodevTT"
 
 #. tpl/modal/login.html
 msgid "password"
@@ -3571,11 +3572,11 @@ msgstr "Επιλέξτε χρήστη"
 
 #. tpl/modal/change_managedUser.html
 msgid "Select team user"
-msgstr ""
+msgstr "Επιλέξτε χρήστη ομάδας"
 
 #. tpl/modal/change_managedUser.html
 msgid "Change user"
-msgstr ""
+msgstr "Αλλαγή χρήστη"
 
 #. tpl/commandset_info.html
 msgid "--- Create New CommandSet ---"
@@ -3817,17 +3818,17 @@ msgstr ""
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Import template"
-msgstr ""
+msgstr "Εισαγωγή προτύπου"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "File Format"
-msgstr ""
+msgstr "Τύπος αρχείου"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Standard CSV format with :"
-msgstr ""
+msgstr "Πρότυπη μορφή CSV με:"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -3926,7 +3927,7 @@ msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Rejected"
-msgstr ""
+msgstr "% απορριφθέντων"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having failed the validation tests"
@@ -4292,9 +4293,7 @@ msgid "Load per User"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4311,9 +4310,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -5663,3 +5660,4 @@ msgstr ""
 #: tools.php:1499
 msgid "AddEffortEstim"
 msgstr ""
+

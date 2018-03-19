@@ -6,17 +6,18 @@
 # Author: ThePiscin
 msgid ""
 msgstr ""
+""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-15 14:51:57+0000\n"
+"PO-Revision-Date: 2018-03-19 19:55:37+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2017-12-10 20:49:19+0000\n"
+"X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
 "X-Generator: MediaWiki 1.31.0-alpha; Translate 2018-01-30\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -2643,7 +2644,7 @@ msgstr "Statistiken"
 
 #. tpl/doc.html
 msgid "Contact the author: "
-msgstr ""
+msgstr "Den Autor kontaktieren: "
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
@@ -3206,7 +3207,7 @@ msgstr "Dieser Schritt wird die Mantis DB aufräumen"
 
 #. tpl/uninstall.html
 msgid "It is HIGHLY recommended to backup your Mantis DB before you proceed !"
-msgstr ""
+msgstr "Es wird SEHR empfohlen, Ihre Mantis-Datenbank zu sichern, bevor Sie fortfahren!"
 
 #. tpl/uninstall.html
 msgid "Backup data"
@@ -4297,12 +4298,8 @@ msgid "Load per User"
 msgstr "Pro Benutzer laden"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"Zeigt Verlust-Sidetasks: Kategorien „Vorfall“ und „Inaktivität“<br>\n"
-"(falls nicht ausgewählt, werden Sidetasks in „verstrichen“ eingeschlossen)."
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "Zeigt Verlust-Sidetasks: Kategorien „Vorfall“ und „Inaktivität“<br>\n(falls nicht ausgewählt, werden Sidetasks in „verstrichen“ eingeschlossen)."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4318,12 +4315,8 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "Mit den Projekten verbrachte Zeit und sonstige Aufgaben der aktuellen Aufgabenauswahl"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"Sidetasks „Vorfall“ und „Inaktivität“ der aktuellen Auswahl<br>\n"
-"(falls die Option „Verlust“ nicht ausgewählt wurde, wird dies in „verstrichen“ eingeschlossen)."
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "Sidetasks „Vorfall“ und „Inaktivität“ der aktuellen Auswahl<br>\n(falls die Option „Verlust“ nicht ausgewählt wurde, wird dies in „verstrichen“ eingeschlossen)."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -5156,7 +5149,7 @@ msgstr "Mantis Datenbankinfo"
 
 #: install/install_step1.php:221
 msgid "SGBD"
-msgstr ""
+msgstr "SGBD"
 
 #: install/install_step1.php:232
 msgid "Hostname"
@@ -5167,14 +5160,12 @@ msgid "Database Name"
 msgstr "Datenbankname"
 
 #: install/install_step1.php:240
-#, fuzzy
 msgid "Database Table Prefix "
-msgstr "Datenbankname"
+msgstr "Datenbanktabellenpräfix "
 
 #: install/install_step1.php:244
-#, fuzzy
 msgid "Database Table Suffix "
-msgstr "Datenbankname"
+msgstr "Datenbanktabellensuffix "
 
 #: install/install_step1.php:258
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
@@ -5676,26 +5667,3 @@ msgstr "W"
 msgid "AddEffortEstim"
 msgstr "Zusatzaufwand"
 
-#~ msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
-#~ msgstr "BI nicht angegeben: BI = Zeit (Analyse + Dev + Test)"
-
-#~ msgid "Backlog not specified: Backlog = Time(BI - Analysis)"
-#~ msgstr "Restaufwand nicht angegeben = Zeit (BI - Analyse)"
-
-#~ msgid "Once analysed, a Task must be assigned to 'FDJ' for validation"
-#~ msgstr "Analysierte Aufgaben müssen dem FDJ für die Validierung zugewiesen werden (XXX whatever that means)"
-
-#~ msgid "Delivery date not specified: If a delivery sheet is specified, then a Delivery Date is requested."
-#~ msgstr "Lieferungs datum nicht eingegeben"
-
-#~ msgid "Install Firefox Greasemonkey addon"
-#~ msgstr "Installiere Firefox Greasemonkey addon"
-
-#~ msgid "Note: This step is optional"
-#~ msgstr "Info: Dieser Schritt ist optional"
-
-#~ msgid "Install addon:"
-#~ msgstr "Addon installieren:"
-
-#~ msgid "Load script:"
-#~ msgstr "Lade Skript:"

@@ -8,13 +8,14 @@
 # Author: 아라
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-15 14:52:00+0000\n"
+"PO-Revision-Date: 2018-03-19 19:55:38+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2017-12-10 20:49:19+0000\n"
+"X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
 "X-Generator: MediaWiki 1.31.0-alpha; Translate 2018-01-30\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -4316,9 +4317,7 @@ msgid "Load per User"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4335,9 +4334,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -5694,8 +5691,3 @@ msgstr ""
 msgid "AddEffortEstim"
 msgstr ""
 
-#~ msgid "Note: This step is optional"
-#~ msgstr "참고: 이 단계는 선택 사항입니다"
-
-#~ msgid "Install addon:"
-#~ msgstr "설치 추가 기능:"

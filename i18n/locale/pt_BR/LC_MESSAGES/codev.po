@@ -11,10 +11,11 @@
 # Author: WikiUser22222
 msgid ""
 msgstr ""
+""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-15 14:52:02+0000\n"
+"PO-Revision-Date: 2018-03-19 19:55:39+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: MediaWiki 1.31.0-alpha; Translate 2018-01-30\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-POT-Import-Date: 2017-12-10 20:49:19+0000\n"
+"X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
 
 #. tpl/filters.html
 #. tpl/productivity_report.html
@@ -2703,7 +2704,7 @@ msgstr ""
 
 #. tpl/doc.html
 msgid "Contact the author: "
-msgstr ""
+msgstr "Entre em contato com o autor: "
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
@@ -4449,9 +4450,7 @@ msgid "Load per User"
 msgstr "Filtros"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4468,9 +4467,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -5354,7 +5351,7 @@ msgstr "Base de dados Mantis"
 
 #: install/install_step1.php:221
 msgid "SGBD"
-msgstr ""
+msgstr "SGBD"
 
 #: install/install_step1.php:232
 msgid "Hostname"
@@ -5898,17 +5895,3 @@ msgstr "W"
 msgid "AddEffortEstim"
 msgstr "Esforço inicial"
 
-#~ msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
-#~ msgstr "BI not specified: BI = Time(Analysis + Dev + Tests)"
-
-#~ msgid "Backlog not specified: Backlog = Time(BI - Analysis)"
-#~ msgstr "Backlog not specified: Backlog = Time(BI - Analysis)"
-
-#~ msgid "Once analysed, a Task must be assigned to 'FDJ' for validation"
-#~ msgstr "Após análise, um formulário deve ser atribuído a 'FDJ \"para validação"
-
-#~ msgid "Delivery date not specified: If a delivery sheet is specified, then a Delivery Date is requested."
-#~ msgstr "Data de entrega não especificado: Se uma folha de entrega é especificado, então uma data de entrega é solicitada."
-
-#~ msgid "Install addon:"
-#~ msgstr "Instalar addon:"

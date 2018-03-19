@@ -5,13 +5,14 @@
 # Author: Fitoschido
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-15 14:52:02+0000\n"
+"PO-Revision-Date: 2018-03-19 19:55:39+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2017-12-10 20:49:19+0000\n"
+"X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
 "X-Generator: MediaWiki 1.31.0-alpha; Translate 2018-01-30\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -4292,12 +4293,8 @@ msgid "Load per User"
 msgstr "Badò për utent"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"Smon-e jë sgàir dij travaj marginaj: categorìe 'Assident' e 'Inatività' <br>\n"
-"         (si nen selessionà, ij travaj marginaj a saran ancludù ant lë 'scadù')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "Smon-e jë sgàir dij travaj marginaj: categorìe 'Assident' e 'Inatività' <br>\n         (si nen selessionà, ij travaj marginaj a saran ancludù ant lë 'scadù')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4313,12 +4310,8 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "Temp passà an sij proget e ij travaj tacà për la selession corenta dij travaj"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"Travaj tacà 'Eveniment' et 'Inatività' ch'a fan part ëd la selession.<br>\n"
-"         (si l'opsion 'sgàir' a l'é disativà, sòn a sarà ancludù ant ël 'consumà')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "Travaj tacà 'Eveniment' et 'Inatività' ch'a fan part ëd la selession.<br>\n         (si l'opsion 'sgàir' a l'é disativà, sòn a sarà ancludù ant ël 'consumà')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -5670,26 +5663,3 @@ msgstr "W"
 msgid "AddEffortEstim"
 msgstr "Stim dlë sfòrs adissional"
 
-#~ msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
-#~ msgstr "BI nen ëspessificà: BI = Temp(Anàlisi + Dev + Preuve)"
-
-#~ msgid "Backlog not specified: Backlog = Time(BI - Analysis)"
-#~ msgstr "Ritard nen ëspessificà: Ritard = Temp(BI - Anàlisi)"
-
-#~ msgid "Once analysed, a Task must be assigned to 'FDJ' for validation"
-#~ msgstr "Na vira analisà, un travaj a dev esse assignà a 'FDJ' për la convàlida"
-
-#~ msgid "Delivery date not specified: If a delivery sheet is specified, then a Delivery Date is requested."
-#~ msgstr "Dàita ëd consigna nen ëspessificà: Si un feuj ëd consigna a l'é spessificà, antlora a-i é damanca ëd na dàita ëd consigna."
-
-#~ msgid "Install Firefox Greasemonkey addon"
-#~ msgstr "Anstalé la gionta Firefox Greasemonkey"
-
-#~ msgid "Note: This step is optional"
-#~ msgstr "Nòta: Sa tapa a l'é opsional"
-
-#~ msgid "Install addon:"
-#~ msgstr "Suplement d'anstalassion:"
-
-#~ msgid "Load script:"
-#~ msgstr "Carié ël copion:"

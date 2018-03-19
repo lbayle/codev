@@ -7,13 +7,14 @@
 # Author: 烈羽
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-15 14:52:05+0000\n"
+"PO-Revision-Date: 2018-03-19 19:55:40+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2017-12-10 20:49:19+0000\n"
+"X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
 "X-Generator: MediaWiki 1.31.0-alpha; Translate 2018-01-30\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -2640,7 +2641,7 @@ msgstr "統計"
 
 #. tpl/doc.html
 msgid "Contact the author: "
-msgstr ""
+msgstr "聯絡作者：\\"
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
@@ -3204,7 +3205,7 @@ msgstr "此步驟將會清除Mantis資料庫。"
 
 #. tpl/uninstall.html
 msgid "It is HIGHLY recommended to backup your Mantis DB before you proceed !"
-msgstr ""
+msgstr "強烈建議在您進行之前先備份您的 Mantis 資料庫！"
 
 #. tpl/uninstall.html
 msgid "Backup data"
@@ -4295,9 +4296,7 @@ msgid "Load per User"
 msgstr "各用戶負荷"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr "顯示浪費的邊際任務：「事件」和「不活躍」分類<br>（如果未勾選，邊際任務會被包含在「已流逝」）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4314,9 +4313,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "花費在目前任務選擇上的專案和邊際任務之時間"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr "目前「事件」和「不活躍」邊際任務的選項。<br>（如果「浪費」選項沒被選擇，這將被會包含在「已流逝」）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -5150,7 +5147,7 @@ msgstr "Mantis資料庫訊息"
 
 #: install/install_step1.php:221
 msgid "SGBD"
-msgstr ""
+msgstr "資料庫管理系統"
 
 #: install/install_step1.php:232
 msgid "Hostname"
@@ -5669,26 +5666,3 @@ msgstr "W"
 msgid "AddEffortEstim"
 msgstr "AddEffortEstim"
 
-#~ msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
-#~ msgstr "商業智慧未指定：商業智慧 = 時間（分析 + 開發 + 測試）"
-
-#~ msgid "Backlog not specified: Backlog = Time(BI - Analysis)"
-#~ msgstr "積壓工作未指定：積壓工作 = 時間（商業智慧 - 分析）"
-
-#~ msgid "Once analysed, a Task must be assigned to 'FDJ' for validation"
-#~ msgstr "一旦分析後，任務必須分配至「FDJ」來驗證。"
-
-#~ msgid "Delivery date not specified: If a delivery sheet is specified, then a Delivery Date is requested."
-#~ msgstr "交付日期未指定：如果交付單已指定，一個交付日期會被請求。"
-
-#~ msgid "Install Firefox Greasemonkey addon"
-#~ msgstr "安裝火狐Greasemonkey附加元件"
-
-#~ msgid "Note: This step is optional"
-#~ msgstr "注意：此步驟為選用"
-
-#~ msgid "Install addon:"
-#~ msgstr "安裝額外功能："
-
-#~ msgid "Load script:"
-#~ msgstr "載入手稿："

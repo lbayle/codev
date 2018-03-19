@@ -8,18 +8,20 @@
 # Author: Nemo bis
 # Author: Nitch
 # Author: Okras
+# Author: Patrick Star
 # Author: Redredsonia
 # Author: Евгений
 # Author: Семён
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-15 14:52:03+0000\n"
+"PO-Revision-Date: 2018-03-19 19:55:40+0000\n"
 "Language: ru\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2017-12-10 20:49:19+0000\n"
+"X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
 "X-Generator: MediaWiki 1.31.0-alpha; Translate 2018-01-30\n"
 "Plural-Forms: nplurals=3; plural=(n%10 == 1 && n%100 != 11) ? 0 : ( (n%10 >= 2 && n%10 <= 4 && (n%100 < 10 || n%100 >= 20)) ? 1 : 2 );\n"
 
@@ -234,7 +236,7 @@ msgstr "проекты"
 
 #. tpl/productivity_report.html
 msgid "sideTasks"
-msgstr ""
+msgstr "sideTasks"
 
 #. tpl/productivity_report.html
 msgid "Not available."
@@ -471,7 +473,7 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "drift"
-msgstr ""
+msgstr "дрифт"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -793,7 +795,7 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Rate"
-msgstr ""
+msgstr "Оценить"
 
 #. tpl/productivity_report.html
 msgid "tasks having been reopened in the period"
@@ -1327,7 +1329,7 @@ msgstr "Дата начала"
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "To"
-msgstr ""
+msgstr "Кому"
 
 #. tpl/form/dateRangeSelector.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
@@ -2321,7 +2323,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Submitted"
-msgstr ""
+msgstr "Отправлено"
 
 #. tpl/statistics.html
 msgid "Nb of submitted tasks EXCEPT SideTasks"
@@ -2329,7 +2331,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Resolved"
-msgstr ""
+msgstr "Отработанные"
 
 #. tpl/statistics.html
 msgid "Nb of resolved tasks EXCEPT SideTasks and reopened tasks"
@@ -3433,7 +3435,7 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "balance"
-msgstr ""
+msgstr "баланс"
 
 #. tpl/command_info.html
 msgid "Default ADR"
@@ -3446,7 +3448,7 @@ msgstr ""
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "None"
-msgstr ""
+msgstr "Нет"
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
@@ -3560,7 +3562,7 @@ msgstr "Ошибка входа."
 
 #. tpl/modal/login.html
 msgid "Login"
-msgstr ""
+msgstr "Войти"
 
 #. tpl/modal/login.html
 #: plugins/ImportUsers/ImportUsers_ajax.php:166
@@ -4172,11 +4174,11 @@ msgstr "Цвета"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "username"
-msgstr ""
+msgstr "имя участника"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User already exists"
-msgstr ""
+msgstr "Участник уже существует"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User can't be added to Mantis projects"
@@ -4287,13 +4289,13 @@ msgstr ""
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:382
 msgid "Other"
-msgstr ""
+msgstr "Другие"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:383
 msgid "External"
-msgstr ""
+msgstr "Внешние"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4302,9 +4304,7 @@ msgid "Load per User"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4321,9 +4321,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4366,7 +4364,7 @@ msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "No filter"
-msgstr ""
+msgstr "Нет фильтр"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Bugs only"
@@ -4412,7 +4410,7 @@ msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Select All"
-msgstr ""
+msgstr "Выбрать все"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Dates"
@@ -4513,11 +4511,11 @@ msgstr ""
 
 #: admin/edit_team.php:391
 msgid "enabled"
-msgstr ""
+msgstr "включено"
 
 #: admin/edit_team.php:391
 msgid "disabled"
-msgstr ""
+msgstr "отключено"
 
 #: admin/edit_jobs.php:81
 msgid "Couldn't add the job association"
@@ -4607,11 +4605,11 @@ msgstr ""
 
 #: classes/issue.class.php:2245 classes/wbsElement.class.php:627 tools.php:1548
 msgid "Tags"
-msgstr ""
+msgstr "Метки"
 
 #: classes/issue.class.php:2253
 msgid "none"
-msgstr ""
+msgstr "нет"
 
 #: classes/issue.class.php:2258 reports/issue_info_tools.php:115
 msgid "DriftColor"
@@ -4636,11 +4634,11 @@ msgstr ""
 
 #: classes/PluginManager.class.php:79
 msgid "Disabled"
-msgstr ""
+msgstr "Отключён"
 
 #: classes/PluginManager.class.php:80
 msgid "Removed"
-msgstr ""
+msgstr "Удалено"
 
 #: classes/scheduler.class.php:81 reports/planning_report.php:206
 msgid "monitored"
@@ -4681,12 +4679,12 @@ msgstr "Ошибка"
 
 #: classes/consistency_check2.class.php:66
 msgid "Info"
-msgstr ""
+msgstr "Информация"
 
 #: classes/consistency_check2.class.php:68 reports/export_odt.php:270
 #: reports/export_odt.php:283 tests/odt.php:81 tests/odt.php:94
 msgid "unknown"
-msgstr ""
+msgstr "неизвестно"
 
 #: classes/consistency_check2.class.php:200
 msgid "Backlog on resolved issues should be 0"
@@ -4786,7 +4784,7 @@ msgstr ""
 
 #: classes/command.class.php:60
 msgid "Sent"
-msgstr ""
+msgstr "Отправлено"
 
 #: classes/command.class.php:61
 msgid "to be validated"
@@ -4802,7 +4800,7 @@ msgstr ""
 
 #: classes/command.class.php:64
 msgid "closed"
-msgstr ""
+msgstr "закрыто"
 
 #: classes/command.class.php:65
 msgid "bill must be sent"
@@ -4955,7 +4953,7 @@ msgstr ""
 #. ------ Administrator
 #: install/install_step3.php:553
 msgid "CodevTT Administrator"
-msgstr ""
+msgstr "Администратор CodevTT"
 
 #: install/install_step3.php:565
 msgid "More administrators can be defined later, for now you just need one."
@@ -5012,11 +5010,11 @@ msgstr ""
 
 #: install/install_step3.php:865
 msgid "Development"
-msgstr ""
+msgstr "Разработка"
 
 #: install/install_step3.php:866
 msgid "Tests"
-msgstr ""
+msgstr "Проверки"
 
 #: install/install_step3.php:953
 msgid "CodevTT_ExternalTasks"
@@ -5066,7 +5064,7 @@ msgstr ""
 
 #: install/install_step5.php:25
 msgid "Installation finished"
-msgstr ""
+msgstr "Установка готовила"
 
 #: install/install_step4.php:25
 msgid "Install - Step 4"
@@ -5125,7 +5123,7 @@ msgstr "Готово!"
 #: install/install.php:25 install/install.php:129
 #: install/install_menu.inc.php:22
 msgid "Install"
-msgstr ""
+msgstr "Установка"
 
 #: install/install.php:119
 msgid "Upgrade instructions"
@@ -5242,7 +5240,7 @@ msgstr ""
 #: management/command_info_ajax.php:363 scheduler/scheduler_ajax.php:379
 #: gantt/gantt_ajax.php:166
 msgid "auto"
-msgstr ""
+msgstr "авто"
 
 #: management/command_edit_ajax.php:66
 msgid "Provisions updated FAILED !"
@@ -5673,3 +5671,4 @@ msgstr ""
 #: tools.php:1499
 msgid "AddEffortEstim"
 msgstr ""
+

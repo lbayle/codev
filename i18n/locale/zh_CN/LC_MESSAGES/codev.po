@@ -6,13 +6,14 @@
 # Author: Liuxinyu970226
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-15 14:52:04+0000\n"
+"PO-Revision-Date: 2018-03-19 19:55:40+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2017-12-10 20:49:19+0000\n"
+"X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
 "X-Generator: MediaWiki 1.31.0-alpha; Translate 2018-01-30\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -2640,7 +2641,7 @@ msgstr "统计"
 
 #. tpl/doc.html
 msgid "Contact the author: "
-msgstr ""
+msgstr "联络作者：\\"
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
@@ -3203,7 +3204,7 @@ msgstr "该步骤将清空Mantis数据库。"
 
 #. tpl/uninstall.html
 msgid "It is HIGHLY recommended to backup your Mantis DB before you proceed !"
-msgstr ""
+msgstr "在进行前强烈建议备份您的Mantis数据库！"
 
 #. tpl/uninstall.html
 msgid "Backup data"
@@ -4294,9 +4295,7 @@ msgid "Load per User"
 msgstr "每位用户加载的"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4313,9 +4312,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -5149,7 +5146,7 @@ msgstr "Mantis数据库信息"
 
 #: install/install_step1.php:221
 msgid "SGBD"
-msgstr ""
+msgstr "SGBD"
 
 #: install/install_step1.php:232
 msgid "Hostname"
@@ -5160,14 +5157,12 @@ msgid "Database Name"
 msgstr "数据库名称"
 
 #: install/install_step1.php:240
-#, fuzzy
 msgid "Database Table Prefix "
-msgstr "数据库名称"
+msgstr "数据库表前缀\\"
 
 #: install/install_step1.php:244
-#, fuzzy
 msgid "Database Table Suffix "
-msgstr "数据库名称"
+msgstr "数据库表后缀\\"
 
 #: install/install_step1.php:258
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
@@ -5668,20 +5663,3 @@ msgstr "W"
 msgid "AddEffortEstim"
 msgstr "添加努力估计"
 
-#~ msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
-#~ msgstr "未指定BI：BI=时间（分析+开发+测试）"
-
-#~ msgid "Backlog not specified: Backlog = Time(BI - Analysis)"
-#~ msgstr "积压工作未指定：积压工作=时间（BI-分析）"
-
-#~ msgid "Install Firefox Greasemonkey addon"
-#~ msgstr "安装火狐浏览器油猴子插件"
-
-#~ msgid "Note: This step is optional"
-#~ msgstr "注意：该步骤可选"
-
-#~ msgid "Install addon:"
-#~ msgstr "安装插件："
-
-#~ msgid "Load script:"
-#~ msgstr "加载脚本："
