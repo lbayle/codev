@@ -1877,12 +1877,14 @@ class User extends Model {
                               . $sql->db_param() . ','
                               . $sql->db_param() . ','
                               . $sql->db_param() . ','
+                              . $sql->db_param() . ','
                               . $sql->db_param() . ')';
 
                 $q_params[]=$username;
                 $q_params[]=$realName;
                 $q_params[]=$email;
                 $q_params[]=$cryptedPassword;
+                $q_params[]=1; // enabled
                 $q_params[]=$mantisAccessLevel;
                 $q_params[]=$cookieString;
                 $q_params[]=$lastVisit;

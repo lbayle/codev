@@ -784,10 +784,11 @@ class Team extends Model {
         {
            $sql = AdodbWrapper::getInstance();
             $query = "INSERT INTO codev_team_user_table  (user_id, team_id, arrival_date, departure_date, access_level) ".
-                    "VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().", '0', ".$sql->db_param().")";
+                    "VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().")";
             $q_params[]=$memberid;
             $q_params[]=$this->id;
             $q_params[]=$arrivalTimestamp;
+            $q_params[]=0; // departure_date
             $q_params[]=$memberAccess;
             $sql->sql_query($query, $q_params);
             return true;
