@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-19 19:55:39+0000\n"
+"PO-Revision-Date: 2018-03-22 07:06:59+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2639,7 +2639,7 @@ msgstr "statìstiche"
 
 #. tpl/doc.html
 msgid "Contact the author: "
-msgstr ""
+msgstr "Contaté l'autor: "
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
@@ -3202,7 +3202,7 @@ msgstr "Costa tapa a polidërà la BËD Mantis."
 
 #. tpl/uninstall.html
 msgid "It is HIGHLY recommended to backup your Mantis DB before you proceed !"
-msgstr ""
+msgstr "A l'é MOTOBIN arcomandà ëd fé na còpia ëd soa BD Mantis prima d'andé anans!"
 
 #. tpl/uninstall.html
 msgid "Backup data"
@@ -5144,7 +5144,7 @@ msgstr "Anformassion an sla base ëd dàit Mantis"
 
 #: install/install_step1.php:221
 msgid "SGBD"
-msgstr ""
+msgstr "SGBD"
 
 #: install/install_step1.php:232
 msgid "Hostname"
@@ -5155,14 +5155,12 @@ msgid "Database Name"
 msgstr "Nòm dla base ëd dàit"
 
 #: install/install_step1.php:240
-#, fuzzy
 msgid "Database Table Prefix "
-msgstr "Nòm dla base ëd dàit"
+msgstr "Prefiss dle tàule dla base ëd dàit "
 
 #: install/install_step1.php:244
-#, fuzzy
 msgid "Database Table Suffix "
-msgstr "Nòm dla base ëd dàit"
+msgstr "Sufiss dle tàule dla base ëd dàit "
 
 #: install/install_step1.php:258
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."

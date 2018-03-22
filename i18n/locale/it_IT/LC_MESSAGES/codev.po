@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-19 19:55:38+0000\n"
+"PO-Revision-Date: 2018-03-22 07:06:57+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -2652,7 +2652,7 @@ msgstr "statistiche"
 
 #. tpl/doc.html
 msgid "Contact the author: "
-msgstr ""
+msgstr "Contatta l'autore: "
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
