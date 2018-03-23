@@ -247,22 +247,22 @@ class Issue extends Model implements Comparable {
                $this->extRef = $row->value;
                break;
             case $mgrEffortEstimField:
-               $this->mgrEffortEstim = (float)$row->value;
+               $this->mgrEffortEstim = ('' === $row->value) ? '' : (float)$row->value;
                break;
             case $effortEstimField:
-               $this->effortEstim = (float)$row->value;
+               $this->effortEstim = ('' === $row->value) ? '' : (float)$row->value;
                break;
             case $backlogField:
-               $this->backlog = (float)$row->value;
+               $this->backlog = ('' === $row->value) ? '' : (float)$row->value;
                break;
             case $addEffortField:
-               $this->effortAdd = (float)$row->value;
+               $this->effortAdd = ('' === $row->value) ? '' : (float)$row->value;
                break;
             case $deadLineField:
-               $this->deadLine = (int)$row->value;
+               $this->deadLine = ('' === $row->value) ? '' : (int)$row->value;
                break;
             case $deliveryDateField:
-               $this->deliveryDate = (int)$row->value;
+               $this->deliveryDate = ('' === $row->value) ? '' : (int)$row->value;
                break;
             #case $deliveryIdField:
             #   $this->deliveryId = $row->value;
