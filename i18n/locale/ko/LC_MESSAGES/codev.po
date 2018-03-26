@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-22 07:06:57+0000\n"
+"PO-Revision-Date: 2018-03-26 06:08:33+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4187,7 +4187,7 @@ msgstr "사용자 이름"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User already exists"
-msgstr "사용자기 이미 존재합니다"
+msgstr "사용자가 이미 존재합니다"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User can't be added to Mantis projects"
