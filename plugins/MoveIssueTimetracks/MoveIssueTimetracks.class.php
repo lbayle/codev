@@ -226,7 +226,7 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
             
             // Move all selected timetracks to destination task
             $query = "UPDATE codev_timetracking_table SET bugid= ".$sql->db_param() .
-                    "WHERE id IN (".$formatedTimetracksIds.") ";
+                    " WHERE id IN (".$formatedTimetracksIds.") ";
             
             $sql->sql_query($query, array($destBugId));
 
