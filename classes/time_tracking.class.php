@@ -933,7 +933,7 @@ class TimeTracking {
          $query.= " AND bug.project_id in (".$formatedProjList.") ";
       }
 
-      $query.= "GROUP BY bug.id, job.id, bug.project_id ORDER BY project.name, bug.id DESC;";
+      $query.= " GROUP BY bug.id, job.id, bug.project_id ORDER BY project.name, bug.id DESC;";
 
       $result = $sql->sql_query($query, $q_params);
 

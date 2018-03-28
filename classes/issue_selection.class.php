@@ -275,7 +275,7 @@ class IssueSelection {
             $query .= " AND date <=  ".$sql->db_param();
             $q_params[]=$endTimestamp;
          }
-         $query .= "GROUP BY bugid";
+         $query .= " GROUP BY bugid";
 
          $result = $sql->sql_query($query, $q_params);
 

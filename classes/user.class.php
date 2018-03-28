@@ -1649,7 +1649,7 @@ class User extends Model {
          $query .= " AND date <  ".$sql->db_param();
          $q_params[]=$endTimestamp;
       }
-      $query .= "GROUP BY date ORDER BY date;";
+      $query .= " GROUP BY date ORDER BY date;";
 
       $result = $sql->sql_query($query, $q_params);
 
