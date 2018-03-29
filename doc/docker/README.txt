@@ -1,5 +1,8 @@
+
+Start here: https://hub.docker.com/r/lbayle/codevtt/
+
 # ====================================================
-# installing docker on the server
+# installing docker on CentOS 7
 # ====================================================
 # https://docs.docker.com/install/linux/docker-ce/centos/
 
@@ -33,10 +36,20 @@
 # journalctl -u docker.service
 
 # ====================================================
-# start containers at server reboot
+# run containers
 # ====================================================
-# https://docs.docker.com/config/containers/start-containers-automatically/#restart-policy-details
-# https://esalagea.wordpress.com/2016/01/21/start-a-docker-container-on-centos-at-boot-time-as-a-linux-service/
 
-# systemctl enable docker.service
-# docker run --restart always --name codevtt -h codevtt -d -p 80:80 --link mariadb lbayle/codevtt:latest
+docker run -e MYSQL_ROOT_PASSWORD=my_password \
+           -e MYSQL_DATABASE=bugtracker \
+           --name mariadb -h mariadb \
+           -d --restart=unless-stopped \
+           centos/mariadb:latest
+
+docker exec -i mariadb mysql -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
+
+docker run -p 80:80 \
+           --link mariadb \
+           --name codevtt -h codevtt \
+           -d --restart=unless-stopped \
+           lbayle/codevtt:latest
+
