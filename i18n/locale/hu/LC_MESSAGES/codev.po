@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-19 19:55:38+0000\n"
+"PO-Revision-Date: 2018-04-05 07:14:39+0000\n"
 "Language: hu\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2270,23 +2270,23 @@ msgstr ""
 
 #. tpl/set_holidays.html
 msgid "Monday"
-msgstr ""
+msgstr "Hétfő"
 
 #. tpl/set_holidays.html
 msgid "Tuesday"
-msgstr ""
+msgstr "Kedd"
 
 #. tpl/set_holidays.html
 msgid "Wednesday"
-msgstr ""
+msgstr "Szerda"
 
 #. tpl/set_holidays.html
 msgid "Thursday"
-msgstr ""
+msgstr "Csütörtök"
 
 #. tpl/set_holidays.html
 msgid "Friday"
-msgstr ""
+msgstr "Péntek"
 
 #. tpl/statistics.html
 msgid "Start Year"
