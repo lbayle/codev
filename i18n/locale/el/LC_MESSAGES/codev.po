@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-19 19:55:37+0000\n"
+"PO-Revision-Date: 2018-04-09 06:15:06+0000\n"
 "Language: el\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4278,19 +4278,19 @@ msgstr ""
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:382
 msgid "Other"
-msgstr ""
+msgstr "Άλλα"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:383
 msgid "External"
-msgstr ""
+msgstr "Εξωτερική"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:78
 msgid "Load per User"
-msgstr ""
+msgstr "Φόρτωση ανά χρήστη"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
@@ -4327,20 +4327,20 @@ msgstr ""
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
-msgstr ""
+msgstr "Θεωρητικό"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Real"
-msgstr ""
+msgstr "Πραγματικό"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "% Progress"
-msgstr ""
+msgstr "% προόδου"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2_cfg.html
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:64
 msgid "Progress history"
-msgstr ""
+msgstr "Ιστορικό προόδου"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:66
@@ -4353,7 +4353,7 @@ msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "No filter"
-msgstr ""
+msgstr "Χωρίς φίλτρα"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Bugs only"
@@ -4361,7 +4361,7 @@ msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Tasks only"
-msgstr ""
+msgstr "Εργασίες μόνο"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Filter on External ID"
@@ -4399,40 +4399,40 @@ msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Select All"
-msgstr ""
+msgstr "Επιλογή Όλων"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Dates"
-msgstr ""
+msgstr "Ημερομηνίες"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Start"
-msgstr ""
+msgstr "Έναρξη"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "End"
-msgstr ""
+msgstr "Τέλος"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Origin"
-msgstr ""
+msgstr "Προέλευση"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Destination"
-msgstr ""
+msgstr "Προορισμός"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Please, fill all fields correctly"
-msgstr ""
+msgstr "Παρακαλώ συμπληρώστε όλα τα πεδία σωστά"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:75
 msgid "Destination task must be different from origin"
-msgstr ""
+msgstr "Η εργασία προορισμού πρέπει να είναι διαφορετική από την προέλευση"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Origin task"
-msgstr ""
+msgstr "Εργασία προέλευσης"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Move selected timetracks"
@@ -4440,7 +4440,7 @@ msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Destination task"
-msgstr ""
+msgstr "Εργασία προορισμού"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "WARNING : In order to move timetracks, destination task creation date will be moved to "
@@ -4500,11 +4500,11 @@ msgstr ""
 
 #: admin/edit_team.php:391
 msgid "enabled"
-msgstr ""
+msgstr "ενεργοποιημένο"
 
 #: admin/edit_team.php:391
 msgid "disabled"
-msgstr ""
+msgstr "απενεργοποιημένο"
 
 #: admin/edit_jobs.php:81
 msgid "Couldn't add the job association"
@@ -4566,23 +4566,23 @@ msgstr ""
 
 #: classes/issue.class.php:59
 msgid "Duplicate of"
-msgstr ""
+msgstr "Διπλότυπο του"
 
 #: classes/issue.class.php:60
 msgid "Has duplicate"
-msgstr ""
+msgstr "Έχει διπλότυπο"
 
 #: classes/issue.class.php:61 classes/issue.class.php:62
 msgid "Related to"
-msgstr ""
+msgstr "Σχετιζόμενο με"
 
 #: classes/issue.class.php:63
 msgid "Parent of"
-msgstr ""
+msgstr "Γονέας του"
 
 #: classes/issue.class.php:64
 msgid "Child of"
-msgstr ""
+msgstr "παιδί του"
 
 #: classes/issue.class.php:65
 msgid "Constrained by"
@@ -4594,11 +4594,11 @@ msgstr ""
 
 #: classes/issue.class.php:2245 classes/wbsElement.class.php:627 tools.php:1548
 msgid "Tags"
-msgstr ""
+msgstr "Ετικέτες"
 
 #: classes/issue.class.php:2253
 msgid "none"
-msgstr ""
+msgstr "καμία"
 
 #: classes/issue.class.php:2258 reports/issue_info_tools.php:115
 msgid "DriftColor"
@@ -4615,7 +4615,7 @@ msgstr ""
 
 #: classes/issue.class.php:2279 tools.php:1562
 msgid "Assigned"
-msgstr ""
+msgstr "Ανατεθειμένο"
 
 #: classes/issue.class.php:2287 tools.php:1570
 msgid "ETA"
@@ -4623,11 +4623,11 @@ msgstr ""
 
 #: classes/PluginManager.class.php:79
 msgid "Disabled"
-msgstr ""
+msgstr "Απενεργοποιημένο"
 
 #: classes/PluginManager.class.php:80
 msgid "Removed"
-msgstr ""
+msgstr "Έχει αφαιρεθεί"
 
 #: classes/scheduler.class.php:81 reports/planning_report.php:206
 msgid "monitored"
@@ -4635,7 +4635,7 @@ msgstr ""
 
 #: classes/user.class.php:1750
 msgid "for team"
-msgstr ""
+msgstr "για την ομάδα"
 
 #: classes/user.class.php:1752
 msgid "[CodevTT] Timesheet reminder !"
@@ -4643,7 +4643,7 @@ msgstr ""
 
 #: classes/user.class.php:1754 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
-msgstr ""
+msgstr "Αγαπητέ "
 
 #: classes/user.class.php:1755
 msgid "Please fill your CodevTT timesheet"
@@ -4651,12 +4651,12 @@ msgstr ""
 
 #: classes/user.class.php:1766 classes/consistency_check2.class.php:733
 msgid "incomplete (missing "
-msgstr ""
+msgstr "ανολοκλήρωτο (λείπει "
 
 #. skip dates in the future
 #: classes/user.class.php:1769 classes/consistency_check2.class.php:748
 msgid "not defined."
-msgstr ""
+msgstr "μη ορισμένο."
 
 #: classes/consistency_check2.class.php:62
 #: timetracking/team_monthly_activity_report.php:129
@@ -4664,16 +4664,16 @@ msgstr ""
 #: scheduler/scheduler_ajax.php:386 scheduler/scheduler_ajax.php:387
 #: scheduler/scheduler_ajax.php:390
 msgid "Error"
-msgstr ""
+msgstr "Σφάλμα"
 
 #: classes/consistency_check2.class.php:66
 msgid "Info"
-msgstr ""
+msgstr "Πληροφορίες"
 
 #: classes/consistency_check2.class.php:68 reports/export_odt.php:270
 #: reports/export_odt.php:283 tests/odt.php:81 tests/odt.php:94
 msgid "unknown"
-msgstr ""
+msgstr "Άγνωστο"
 
 #: classes/consistency_check2.class.php:200
 msgid "Backlog on resolved issues should be 0"
@@ -4773,7 +4773,7 @@ msgstr ""
 
 #: classes/command.class.php:60
 msgid "Sent"
-msgstr ""
+msgstr "Απεστάλη"
 
 #: classes/command.class.php:61
 msgid "to be validated"
@@ -4781,15 +4781,15 @@ msgstr ""
 
 #: classes/command.class.php:62
 msgid "validated"
-msgstr ""
+msgstr "Επικυρωμένη"
 
 #: classes/command.class.php:63
 msgid "to be closed"
-msgstr ""
+msgstr "προς κλείσιμο"
 
 #: classes/command.class.php:64
 msgid "closed"
-msgstr ""
+msgstr "Κλειστός"
 
 #: classes/command.class.php:65
 msgid "bill must be sent"
@@ -4801,7 +4801,7 @@ msgstr ""
 
 #: classes/command.class.php:67
 msgid "payed"
-msgstr ""
+msgstr "πληρώθηκε"
 
 #: filters/IssuePublicPrivateFilter.php:48
 msgid "Sort issues: public/private"
@@ -4858,7 +4858,7 @@ msgstr ""
 #: indicator_plugins/StatusHistoryIndicator/StatusHistoryIndicator.class.php:194
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:331
 msgid "Y-m-d"
-msgstr ""
+msgstr "Έτος-μήνα-ημέρα"
 
 #: indicator_plugins/BacklogVariationIndicator/BacklogVariationIndicator.class.php:286
 msgid "Average backlog"
@@ -4867,21 +4867,21 @@ msgstr ""
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:410
 #: reports/project_info.php:328
 msgid "New Tasks"
-msgstr ""
+msgstr "Νέες εργασίες"
 
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:411
 #: reports/project_info.php:329
 msgid "Current Tasks"
-msgstr ""
+msgstr "Τρέχουσες εργασίες"
 
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:412
 #: reports/project_info.php:330
 msgid "Resolved Tasks"
-msgstr ""
+msgstr "Επιλυμένες εργασίες"
 
 #: install/install_step3.php:25
 msgid "Install - Step 3"
-msgstr ""
+msgstr "Εγκατάσταση - Βήμα 3"
 
 #: install/install_step3.php:235
 msgid "CodevTT Administrators team"
@@ -4987,7 +4987,7 @@ msgstr ""
 
 #: install/install_step3.php:862
 msgid "Leave"
-msgstr ""
+msgstr "Συνέχεια"
 
 #: install/install_step3.php:863
 msgid "Sick Leave"
@@ -4995,15 +4995,15 @@ msgstr ""
 
 #: install/install_step3.php:864
 msgid "Analyse"
-msgstr ""
+msgstr "Ανάλυση"
 
 #: install/install_step3.php:865
 msgid "Development"
-msgstr ""
+msgstr "Ανάπτυξη"
 
 #: install/install_step3.php:866
 msgid "Tests"
-msgstr ""
+msgstr "Δοκιμές"
 
 #: install/install_step3.php:953
 msgid "CodevTT_ExternalTasks"
@@ -5025,11 +5025,11 @@ msgstr ""
 
 #: install/install_step3.php:996
 msgid "Sick"
-msgstr ""
+msgstr "Άρρωστος"
 
 #: install/install_step2.php:25
 msgid "Install - Step 2"
-msgstr ""
+msgstr "Εγκατάσταση - Βήμα 2"
 
 #: install/install_step2.php:104
 msgid "Get Mantis customizations"
@@ -5053,11 +5053,11 @@ msgstr ""
 
 #: install/install_step5.php:25
 msgid "Installation finished"
-msgstr ""
+msgstr "Η εγκατάσταση ολοκληρώθηκε"
 
 #: install/install_step4.php:25
 msgid "Install - Step 4"
-msgstr ""
+msgstr "Εγκατάσταση - Βήμα 4"
 
 #: install/install_step4.php:44
 msgid "Manual steps"
@@ -5073,7 +5073,7 @@ msgstr ""
 
 #: install/install_step4.php:51
 msgid "manage plugins"
-msgstr ""
+msgstr "Διαχείριση πρόσθετων"
 
 #: install/install_step4.php:52
 msgid "Check that the <b>CodevTT</b> plugin is installed and activated."
@@ -5107,16 +5107,16 @@ msgstr ""
 
 #: install/install_step4.php:83
 msgid "Done !"
-msgstr ""
+msgstr "Έγινε!"
 
 #: install/install.php:25 install/install.php:129
 #: install/install_menu.inc.php:22
 msgid "Install"
-msgstr ""
+msgstr "Εγκατάσταση"
 
 #: install/install.php:119
 msgid "Upgrade instructions"
-msgstr ""
+msgstr "Οδηγίες αναβάθμισης"
 
 #: install/install.php:120
 msgid "If you're upgrading from an older CodevTT version, please <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>read this page</a> and do the following steps:"
@@ -5136,7 +5136,7 @@ msgstr ""
 
 #: install/install_step1.php:25
 msgid "Install - Step 1"
-msgstr ""
+msgstr "Εγκατάσταση - Βήμα 1"
 
 #: install/install_step1.php:217
 msgid "Mantis Database Info"
@@ -5180,11 +5180,11 @@ msgstr ""
 
 #: install/install_step1.php:268
 msgid "Server"
-msgstr ""
+msgstr "Διακομιστής"
 
 #: install/install_step1.php:269
 msgid "Port"
-msgstr ""
+msgstr "Θύρα"
 
 #: install/install_step1.php:276
 msgid "Proceed Step 1"
@@ -5192,19 +5192,19 @@ msgstr ""
 
 #: install/install_menu.inc.php:26
 msgid "Step 1"
-msgstr ""
+msgstr "Βήμα 1"
 
 #: install/install_menu.inc.php:30
 msgid "Step 2"
-msgstr ""
+msgstr "Βήμα 2"
 
 #: install/install_menu.inc.php:34
 msgid "Step 3"
-msgstr ""
+msgstr "Βήμα 3"
 
 #: install/install_menu.inc.php:38
 msgid "Step 4"
-msgstr ""
+msgstr "Βήμα 4"
 
 #: management/command_edit.php:239
 msgid "Add tasks to Command"
@@ -5212,11 +5212,11 @@ msgstr ""
 
 #: management/command_edit.php:240
 msgid "Add multiple tasks"
-msgstr ""
+msgstr "Πρόσθεση πολλαπλών εργασιών"
 
 #: management/command_edit.php:241
 msgid "Add selection"
-msgstr ""
+msgstr "Πρόσθεση επιλογής"
 
 #: management/command_edit.php:242
 msgid "Note: Tasks already assigned to a Command are not displayed."
@@ -5229,7 +5229,7 @@ msgstr ""
 #: management/command_info_ajax.php:363 scheduler/scheduler_ajax.php:379
 #: gantt/gantt_ajax.php:166
 msgid "auto"
-msgstr ""
+msgstr "Αυτόματο"
 
 #: management/command_edit_ajax.php:66
 msgid "Provisions updated FAILED !"
