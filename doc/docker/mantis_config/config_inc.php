@@ -29,6 +29,7 @@ $g_anonymous_account = '';
 #$g_short_date_format='d-m-Y';
 #$g_normal_date_format='d-m-Y H:i';
 #$g_complete_date_format='d-m-Y H:i';
+#$g_datetime_picker_format = 'DD-MM-Y HH:mm';
 
 # -------------------------------------------------------------
 # --- customize workflow ---
