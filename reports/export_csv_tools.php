@@ -141,7 +141,7 @@ class ExportCsvTools {
          //" AND handler_id IN ($formatedMemberList) ".
          " AND last_updated >  ".$sql->db_param().
          " AND last_updated <  ".$sql->db_param().
-         "ORDER BY id DESC";
+         " ORDER BY id DESC";
       $result2 = $sql->sql_query($query2, array($startTimestamp, $endTimestamp));
 
       while($row = $sql->fetchObject($result2)) {

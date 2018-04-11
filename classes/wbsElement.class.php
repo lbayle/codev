@@ -279,7 +279,7 @@ class WBSElement extends Model {
               //" AND bug_id IS NULL ".
               " AND root_id = ".$sql->db_param().
               " AND id <> ".$sql->db_param().
-              'ORDER BY wbs_order ';
+              ' ORDER BY wbs_order ';
       $result = $sql->sql_query($query, array($this->id, $this->rootId, $this->id));
 
       while ($row = $sql->fetchObject($result)) {
