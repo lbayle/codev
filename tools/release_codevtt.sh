@@ -93,6 +93,7 @@ f_release()
   echo "remove DOC files..."
   rm -rf ${DIR_RELEASE}/doc/apache
   rm -rf ${DIR_RELEASE}/doc/architecture
+  rm -rf ${DIR_RELEASE}/doc/docker
   rm -rf ${DIR_RELEASE}/doc/fr/Archives
   rm -rf ${DIR_RELEASE}/doc/git_config
   rm -rf ${DIR_RELEASE}/doc/mantis_config/*.sql
