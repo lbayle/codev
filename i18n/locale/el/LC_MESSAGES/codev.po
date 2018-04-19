@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-04-09 06:15:06+0000\n"
+"PO-Revision-Date: 2018-04-19 07:17:39+0000\n"
 "Language: el\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -264,7 +264,7 @@ msgstr ""
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "Efficiency Rate"
-msgstr ""
+msgstr "Αναλογία αποτελεσματικότητας"
 
 #. tpl/productivity_report.html
 msgid "System Availability"
@@ -319,7 +319,7 @@ msgstr ""
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "(on resolved tasks only)"
-msgstr ""
+msgstr "(στις επιλυμένες εργασίες μόνο)"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
@@ -530,7 +530,7 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "No resolved tasks..."
-msgstr ""
+msgstr "Καμία επιλυμένη εργασία..."
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -852,7 +852,7 @@ msgstr "Φίλτρα"
 
 #. tpl/holidays_report.html
 msgid "Displayed tasks"
-msgstr ""
+msgstr "Προβαλλόμενες εργασίες"
 
 #. tpl/holidays_report.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
@@ -890,7 +890,7 @@ msgstr "Έγινε"
 
 #. tpl/prepare_project.html
 msgid "Configure existing Projects"
-msgstr ""
+msgstr "Ρύθμιση των υπάρχουσων εγχειρημάτων"
 
 #. tpl/prepare_project.html
 msgid "Select the projects to be managed with CoDevTT"
@@ -911,11 +911,11 @@ msgstr "Συγγνώμη, πρέπει να είστε στην ομάδα δι�
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel SAUF SuiviOp."
-msgstr ""
+msgstr "Bilan mensuel SAUF SuiviOp."
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
-msgstr ""
+msgstr "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
 
 #. tpl/mantis_reports.html
 #. tpl/servicecontract_info.html
@@ -1024,7 +1024,7 @@ msgstr "Χρήστης"
 
 #. tpl/project_activity_report.html
 msgid "Total time spent on this issue"
-msgstr ""
+msgstr "Συνολικός χρόνος που σπαταλήθηκε σε αυτό το ζήτημα"
 
 #. tpl/project_activity_report.html
 msgid "No data available"
@@ -4159,15 +4159,15 @@ msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Colors"
-msgstr ""
+msgstr "Χρώματα"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "username"
-msgstr ""
+msgstr "Όνομα χρήστη"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User already exists"
-msgstr ""
+msgstr "Ο χρήστης υπάρχει ήδη"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User can't be added to Mantis projects"
@@ -4183,15 +4183,15 @@ msgstr ""
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
-msgstr ""
+msgstr "Κατάλογος ομάδων χρηστών"
 
 #. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Arrival date"
-msgstr ""
+msgstr "Ημερομηνία άφιξης"
 
 #. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Departure date"
-msgstr ""
+msgstr "Ημερομηνία αναχώρησης"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 msgid "Drift current tasks"
@@ -4207,12 +4207,12 @@ msgstr ""
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
 msgid "Display resolved issues"
-msgstr ""
+msgstr "Εμφάνιση επιλυμένων ζητημάτων"
 
 #. plugins/CostsIndicator/CostsIndicator_cfg.html
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Costs"
-msgstr ""
+msgstr "Κόστος"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Global cost estimation:"
@@ -4257,11 +4257,11 @@ msgstr ""
 #. plugins/HelloWorldIndicator/HelloWorldIndicator_cfg.html
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:62
 msgid "Hello World"
-msgstr ""
+msgstr "Γεια Σου Κόσμε"
 
 #. plugins/HelloWorldIndicator/HelloWorldIndicator.html
 msgid "Greetings date"
-msgstr ""
+msgstr "Ημερομηνία χαιρετισμών"
 
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
 #: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:65
@@ -4757,7 +4757,7 @@ msgstr ""
 
 #: classes/consistency_check2.class.php:733
 msgid " days"
-msgstr ""
+msgstr "ημέρες"
 
 #: classes/consistency_check2.class.php:735
 msgid "inconsistent"
