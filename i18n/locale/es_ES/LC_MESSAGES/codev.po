@@ -17,12 +17,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-04-19 07:17:39+0000\n"
+"PO-Revision-Date: 2018-04-26 05:50:15+0000\n"
 "Language: es_es\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
-"X-Generator: MediaWiki 1.31.0-alpha; Translate 2018-01-30\n"
+"X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-04-10\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. tpl/filters.html
@@ -3738,8 +3738,7 @@ msgstr "Progreso real"
 msgid "Displays the backlog"
 msgstr "actualizar pendientes"
 
-#. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
-#. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
+#
 msgid "Elapsed / (Elapsed +  Backlog)"
 msgstr ""
 
@@ -3882,7 +3881,7 @@ msgstr "Columnas"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "the file must contain 7 columns, the 1st line contains the column names."
-msgstr "El archivo tiene que contener 7 columnas, la 1ª línea contiene los nombres de las columnas."
+msgstr "el archivo debe contener siete columnas; el primer renglón contiene los nombres de las columnas."
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef ; WBS tree"
@@ -4126,11 +4125,11 @@ msgstr "Fecha de entrada en el equipo"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Username not set on all users"
-msgstr "Nombre de usuario no establecido para todos los usuarios."
+msgstr "No se ha establecido el nombre de usuario de todos los usuarios"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Project access level not set on all users"
-msgstr "Nivel de acceso al proyecto no establecido para todos los usuarios."
+msgstr "No se ha establecido el nivel de acceso al proyecto de todos los usuarios"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "CodevTT roles not set on all users"
@@ -4138,15 +4137,15 @@ msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Date of entry in team not set on all users"
-msgstr "Fecha de entrada el equipo no establecida para todos los usuarios."
+msgstr "No se ha establecido la fecha de entrada en el equipo de todos los usuarios"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import Done ! The password for every created users is"
-msgstr "¡ Importación Realizada ! La contraseña para todo usuario creado es"
+msgstr "Se ha completado la importación. La contraseña de todos los usuarios creados es"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import Done ! An email with login and password has been sent to each user."
-msgstr "¡ Importación Realizada ! Un email con login y contraseña ha sido enviado a cada usuario"
+msgstr "Se ha completado la importación. Se ha enviado un correo a cada usuario con su usuario y contraseña."
 
 #. plugins/ImportUsers/ImportUsers_cfg.html
 msgid "Import users"
@@ -5523,7 +5522,6 @@ msgstr "Cambia tu contraseña en tu primera conexión."
 msgid "CodevTT URL: "
 msgstr "URL de CodevTT: "
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:169
 #, fuzzy
 msgid "Mantis  URL: "
 msgstr "Ruta y URL de Mantis en "

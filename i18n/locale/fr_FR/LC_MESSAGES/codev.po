@@ -13,14 +13,14 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-19 19:55:38+0000\n"
+"PO-Revision-Date: 2018-04-26 05:50:16+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: MediaWiki 1.31.0-alpha; Translate 2018-01-30\n"
+"X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-04-10\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
@@ -3735,8 +3735,7 @@ msgstr "Avancement Réel"
 msgid "Displays the backlog"
 msgstr "Affiche l’arriéré de travail"
 
-#. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
-#. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
+#
 msgid "Elapsed / (Elapsed +  Backlog)"
 msgstr "Consommé / (Consommé + RAF)"
 
@@ -5489,7 +5488,7 @@ msgstr "Veuillez changer votre mot de passe à la première connexion."
 msgid "CodevTT URL: "
 msgstr "URL CodevTT: "
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:169
+#
 msgid "Mantis  URL: "
 msgstr "URL MantisBT: "
 

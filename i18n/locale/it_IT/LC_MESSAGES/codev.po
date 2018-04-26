@@ -13,14 +13,14 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-22 07:06:57+0000\n"
+"PO-Revision-Date: 2018-04-26 05:50:16+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: MediaWiki 1.31.0-alpha; Translate 2018-01-30\n"
+"X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-04-10\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
@@ -3744,8 +3744,7 @@ msgstr "Avanzamento reale"
 msgid "Displays the backlog"
 msgstr "aggiorna arretrati"
 
-#. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
-#. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
+#
 msgid "Elapsed / (Elapsed +  Backlog)"
 msgstr ""
 
@@ -5557,7 +5556,6 @@ msgstr "Modifica la tua password al primo collegamento."
 msgid "CodevTT URL: "
 msgstr "CodevTT URL: "
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:169
 #, fuzzy
 msgid "Mantis  URL: "
 msgstr "Percorso & URL Mantis in "

@@ -15,14 +15,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-19 19:55:39+0000\n"
+"PO-Revision-Date: 2018-04-26 05:50:21+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: MediaWiki 1.31.0-alpha; Translate 2018-01-30\n"
+"X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-04-10\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
 
@@ -3834,8 +3834,7 @@ msgstr "Progresso"
 msgid "Displays the backlog"
 msgstr "atualizar backlog"
 
-#. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
-#. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
+#
 msgid "Elapsed / (Elapsed +  Backlog)"
 msgstr ""
 
@@ -5703,7 +5702,7 @@ msgstr ""
 msgid "CodevTT URL: "
 msgstr "CodevTT admin"
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:169
+#
 msgid "Mantis  URL: "
 msgstr ""
 

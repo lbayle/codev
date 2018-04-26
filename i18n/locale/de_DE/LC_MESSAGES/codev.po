@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-19 19:55:37+0000\n"
+"PO-Revision-Date: 2018-04-26 05:50:15+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
-"X-Generator: MediaWiki 1.31.0-alpha; Translate 2018-01-30\n"
+"X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-04-10\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. tpl/filters.html
@@ -3729,8 +3729,7 @@ msgstr "Fortschritt"
 msgid "Displays the backlog"
 msgstr "Restaufwand aktualisieren"
 
-#. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
-#. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
+#
 msgid "Elapsed / (Elapsed +  Backlog)"
 msgstr "Elapsed / (Elapsed + Backlog)"
 
@@ -5483,7 +5482,6 @@ msgstr "Ändere bitte dein Passwort bei deiner ersten Verbindung."
 msgid "CodevTT URL: "
 msgstr "CodevTT-URL: "
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:169
 #, fuzzy
 msgid "Mantis  URL: "
 msgstr "Mantis-Pfad & URL in "

@@ -10,12 +10,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-03-19 19:55:40+0000\n"
+"PO-Revision-Date: 2018-04-26 05:50:23+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
-"X-Generator: MediaWiki 1.31.0-alpha; Translate 2018-01-30\n"
+"X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-04-10\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. tpl/filters.html
@@ -3727,8 +3727,7 @@ msgstr "實際進度"
 msgid "Displays the backlog"
 msgstr "顯示積壓工作"
 
-#. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
-#. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
+#
 msgid "Elapsed / (Elapsed +  Backlog)"
 msgstr "已流逝/（已流逝 + 積壓工作）"
 
@@ -5483,7 +5482,7 @@ msgstr "請在您第一次連接時更改您的密碼。"
 msgid "CodevTT URL: "
 msgstr "CodevTT URL: "
 
-#: plugins/ImportUsers/ImportUsers_ajax.php:169
+#
 msgid "Mantis  URL: "
 msgstr "Mantis  URL: "
 
