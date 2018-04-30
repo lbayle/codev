@@ -10,11 +10,11 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-04-26 05:50:23+0000\n"
+"PO-Revision-Date: 2018-04-30 06:19:31+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
+"X-POT-Import-Date: 2018-04-26 06:56:42+0000\n"
 "X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-04-10\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -2807,9 +2807,8 @@ msgid "Compilation scripts"
 msgstr "編譯手稿"
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "Update team WIKI"
-msgstr "（一般）更新團隊Wiki"
+msgstr "更新團隊 wiki"
 
 #. tpl/create_team.html
 msgid "Other activity charged on the project"
@@ -3727,7 +3726,8 @@ msgstr "實際進度"
 msgid "Displays the backlog"
 msgstr "顯示積壓工作"
 
-#
+#. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
+#. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Elapsed / (Elapsed +  Backlog)"
 msgstr "已流逝/（已流逝 + 積壓工作）"
 
@@ -5157,14 +5157,12 @@ msgid "Database Name"
 msgstr "資料庫名稱"
 
 #: install/install_step1.php:240
-#, fuzzy
 msgid "Database Table Prefix "
-msgstr "資料庫名稱"
+msgstr "資料庫表單名稱的字首\\"
 
 #: install/install_step1.php:244
-#, fuzzy
 msgid "Database Table Suffix "
-msgstr "資料庫名稱"
+msgstr "資料庫表單名稱的字尾\\"
 
 #: install/install_step1.php:258
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
@@ -5482,7 +5480,7 @@ msgstr "請在您第一次連接時更改您的密碼。"
 msgid "CodevTT URL: "
 msgstr "CodevTT URL: "
 
-#
+#: plugins/ImportUsers/ImportUsers_ajax.php:169
 msgid "Mantis  URL: "
 msgstr "Mantis  URL: "
 

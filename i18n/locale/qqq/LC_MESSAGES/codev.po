@@ -10,11 +10,11 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:03+0100\n"
-"PO-Revision-Date: 2018-04-26 05:50:25+0000\n"
+"PO-Revision-Date: 2018-04-30 06:19:32+0000\n"
 "Language: qqq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
+"X-POT-Import-Date: 2018-04-26 06:56:42+0000\n"
 "X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-04-10\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -3726,7 +3726,8 @@ msgstr ""
 msgid "Displays the backlog"
 msgstr ""
 
-#
+#. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
+#. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Elapsed / (Elapsed +  Backlog)"
 msgstr ""
 
@@ -5479,7 +5480,7 @@ msgstr ""
 msgid "CodevTT URL: "
 msgstr ""
 
-#
+#: plugins/ImportUsers/ImportUsers_ajax.php:169
 msgid "Mantis  URL: "
 msgstr ""
 

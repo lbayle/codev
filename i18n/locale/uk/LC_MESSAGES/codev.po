@@ -10,11 +10,11 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-04-26 05:50:22+0000\n"
+"PO-Revision-Date: 2018-04-30 06:19:30+0000\n"
 "Language: uk\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
+"X-POT-Import-Date: 2018-04-26 06:56:42+0000\n"
 "X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-04-10\n"
 "Plural-Forms: nplurals=3; plural=(n%10 == 1 && n%100 != 11) ? 0 : ( (n%10 >= 2 && n%10 <= 4 && (n%100 < 10 || n%100 >= 20)) ? 1 : 2 );\n"
 
@@ -3726,7 +3726,8 @@ msgstr "Дійсний прогрес"
 msgid "Displays the backlog"
 msgstr ""
 
-#
+#. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
+#. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Elapsed / (Elapsed +  Backlog)"
 msgstr ""
 
@@ -5481,7 +5482,7 @@ msgstr "Будь ласка, змініть свій пароль на своє�
 msgid "CodevTT URL: "
 msgstr "URL CodevTT: "
 
-#
+#: plugins/ImportUsers/ImportUsers_ajax.php:169
 msgid "Mantis  URL: "
 msgstr "URL Mantis: "
 

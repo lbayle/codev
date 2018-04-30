@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-04-26 05:50:16+0000\n"
+"PO-Revision-Date: 2018-04-30 06:19:27+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -25,7 +25,7 @@ msgstr ""
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POT-Import-Date: 2018-03-19 10:04:24+0000\n"
+"X-POT-Import-Date: 2018-04-26 06:56:42+0000\n"
 
 #. tpl/filters.html
 #. tpl/productivity_report.html
@@ -3735,7 +3735,8 @@ msgstr "Avancement Réel"
 msgid "Displays the backlog"
 msgstr "Affiche l’arriéré de travail"
 
-#
+#. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
+#. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Elapsed / (Elapsed +  Backlog)"
 msgstr "Consommé / (Consommé + RAF)"
 
@@ -5488,7 +5489,7 @@ msgstr "Veuillez changer votre mot de passe à la première connexion."
 msgid "CodevTT URL: "
 msgstr "URL CodevTT: "
 
-#
+#: plugins/ImportUsers/ImportUsers_ajax.php:169
 msgid "Mantis  URL: "
 msgstr "URL MantisBT: "
 
