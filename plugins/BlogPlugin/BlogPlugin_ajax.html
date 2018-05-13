@@ -2,6 +2,7 @@
    <style type="text/css">
      .bgColorSeverity_{$bpost.id} {
         background-color: {$bpost.bgColorSeverity};
+        border-color: {$bpost.bgColorSeverity};
      }
    </style>
 
@@ -11,7 +12,7 @@
       <td title="{$bpost.id}"><b>{$bpost.summary}<b></td>
       <td width='100'><i>{$bpost.category}</i></td>
       <td width='100' class="bgColorSeverity_{$bpost.id}">{$bpost.severity}</td>
-      <td  class="blogPlugin_postActivity" rowspan="5"  width='200'>
+      <td  class="blogPlugin_postActivity" rowspan="5"  width='200' valign='top'>
       {foreach from=$bpost.activity key=activity_id item=action}
       <span title="{$action.formatedDate}">{$action.userName}: {$action.actionName}</span><br>
       {/foreach}

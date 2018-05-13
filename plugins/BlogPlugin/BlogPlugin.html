@@ -22,7 +22,7 @@
          <img title="{t}Refresh{/t}" src="images/b_refresh.png"/>
       </a>
       <a class="blogPluginAddPost_link float" href="">
-         <img title="{t}Add new post{/t}" src="images/b_add.png"/>
+         <img title="{t}Send new message{/t}" src="images/b_add.png"/>
       </a>
       <a class="blogPluginConfig_link float" href="">
          <img title="{t}Options{/t}" src="images/b_config.png"/>
@@ -33,7 +33,7 @@
    </div>
 </div>
 
-<div class="blogPluginAddPostDialog ui-helper-hidden" title="{t}Add new blog post{/t}">
+<div class="blogPluginAddPostDialog ui-helper-hidden" title="{t}Send new message{/t}">
    <table style="width:100%">
       <tr>
          <td style="width:50px;">
@@ -61,7 +61,7 @@
          </td>
          <td>
             {t}Expire{/t} :
-            <input type="text" class="blogPlugin_add_expiredatepicker datepicker" name="blogPlugin_date_expire" placeholder="{t}Exp. date{/t}"  autocomplete="off" maxlength="10" size="10" title="{t}Expiration Date{/t}" />
+            <input type="text" class="blogPlugin_add_expiredatepicker datepicker" name="blogPlugin_date_expire" placeholder="{t}Exp. date{/t}"  autocomplete="off" maxlength="10" size="10" title="{t}Expiration Date (optional){/t}" />
          </td>
       </tr>
       <tr>
@@ -74,7 +74,7 @@
                <br>
                <select class='blogPlugin_add_user_dest' style="width: 200px;">
                   {if (isset($blogPlugin_isCodevAdmin) && (1 ==  $blogPlugin_isCodevAdmin))}
-                  <option value='0'>-- {t}All{/t} --</option>
+                  <option value='0'>{t}Everybody (all teams){/t}</option>
                   {/if}
                   {foreach from=$blogPlugin_userCandidateList key=id item=name}
                      <option value='{$id}'>{$name}</option>
@@ -86,18 +86,18 @@
    </table>
 </div>
 
-<div class="blogPluginOptionDialog ui-helper-hidden" title="{t}Blog Options{/t}">
-   {t}Post filters:{/t}<br>
+<div class="blogPluginOptionDialog ui-helper-hidden" title="{t}Message wall options{/t}">
+   <b>{t}Filters{/t}</b><br>
    <table class="invisible">
       <tr>
          <td>{t}Recipient{/t}</td>
          <td>:</td>
          <td>
             <select class='blogPlugin_opt_recipient' name='blogPlugin_opt_recipient'>
-               <option value='all'>{t}All teams{/t}</option>
                <option value='current_team'>{t}Current team{/t}</option>
+               <option value='all'>{t}All my teams{/t}</option>
                <option value='only_me'>{t}Assigned to me{/t}</option>
-               <option value='my_posts'>{t}Created by me{/t}</option>
+               <option value='my_posts'>{t}Posted by me{/t}</option>
             </select>
          </td>
       </tr>
@@ -126,7 +126,7 @@
          </td>
       </tr>
       <tr>
-         <td>{t}Hidden posts{/t}</td>
+         <td>{t}Hidden messages{/t}</td>
          <td>:</td>
          <td>
             <select class='blogPlugin_opt_displayHiddenPosts' name='blogPlugin_opt_displayHiddenPosts'>
@@ -138,9 +138,35 @@
    </table>
 </div>
 
-<div class="blogPluginHelpDialog ui-helper-hidden" title="{t}Blog wall{/t}">
+<div class="blogPluginHelpDialog ui-helper-hidden" title="{t}Message wall help{/t}">
    <p>
-      bla bla
+      <b>{t}Buttons{/t}</b><br>
+      <table class="invisible">
+         <tr>
+            <td><img title="{t}Add new message{/t}" src="images/b_add.png"/></td>
+            <td>{t}Post a new message{/t}</td>
+         </tr>
+         <tr>
+            <td><img title="{t}Options{/t}" src="images/b_config.png"/></td>
+            <td>{t}Set message wall options{/t}</td>
+         </tr>
+         <tr>
+            <td><img title="{t}Mark as read{/t}" src="images/b_markAsRead.png"/></td>
+            <td>{t}Mark as read. The message can then be hidden{/t}</td>
+         </tr>
+         <tr>
+            <td><img title="{t}Hide{/t}" src="images/b_ghost.png"/></td>
+            <td>{t}Hide message. Depends on user setting "Display hidden messages"{/t}</td>
+         </tr>
+         <tr>
+            <td><img title="{t}Show{/t}" src="images/b_unhide.png"/></td>
+            <td>{t}Unhide a hidden message{/t}</td>
+         </tr>
+         <tr>
+            <td><img title="{t}Delete{/t}" src="images/b_drop.png"/></td>
+            <td>{t}Delete a message.{/t}</td>
+         </tr>
+      </table>
    </p>
 </div>
 

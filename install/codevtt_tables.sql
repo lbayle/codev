@@ -283,8 +283,10 @@ CREATE TABLE IF NOT EXISTS "codev_blog_table" (
   "color" varchar(7) default NULL,
   PRIMARY KEY  ("id"),
   KEY "date" ("date_submitted")
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Wall posts' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Message Wall posts' AUTO_INCREMENT=1 ;
 
+INSERT INTO "codev_blog_table" ("id", "date_submitted", "src_user_id", "dest_user_id", "dest_project_id", "dest_team_id", "severity", "category", "summary", "content", "date_expire", "color") VALUES
+(1, 1526228606, 0, 0, 0, 0, 3, '3', 'Exchange messages with CodevTT !', 'Hi,\nthis plugins allows to share notifications within the teams.\n\nExemples:\n\"The time spent on the March 3rd meeting must be counted on task 34001\"\n\"The Mantis/CodevTT server will be unavailable for maintenance on May 13th\"\n\nThe <img src=\"images/b_add.png\"/> button on your right allows you to add messages.\n\nBest regards', 0, '0');
 
 -- --------------------------------------------------------
 
@@ -299,7 +301,7 @@ CREATE TABLE IF NOT EXISTS "codev_blog_activity_table" (
   "action" varchar(30) NOT NULL,
   "date" INTEGER NOT NULL,
   PRIMARY KEY  ("id")
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1  COMMENT='Wall activity';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1  COMMENT='Message Wall activity';
 
 
 -- --------------------------------------------------------
@@ -497,7 +499,7 @@ CREATE TABLE IF NOT EXISTS "codev_plugin_table" (
 INSERT INTO "codev_plugin_table" ("name", "status", "domains", "categories", "version", "description") VALUES
 ('AvailableWorkforceIndicator', 1, 'Team', 'Planning', '1.0.0', 'Man-days available in period, except leaves and external tasks'),
 ('BacklogPerUserIndicator', 1, 'Team,User,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the tasks and return the backlog per User'),
-('BlogPlugin', 0, 'Homepage', 'Internal', '1.0.0', 'Display messages on the homepage'),
+('BlogPlugin', 1, 'Homepage', 'Internal', '1.0.0', 'Display messages on the homepage'),
 ('BudgetDriftHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the budget history'),
 ('CostsIndicator', 1, 'Task,Command,CommandSet,ServiceContract', 'Financial', '1.0.0', 'Compute costs, using the UserDailyCosts defined in team settings'),
 ('DeadlineAlertIndicator', 1, 'User,Team,Project,Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display unresolved tasks that should have been delivered'),
