@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-04-30 06:19:27+0000\n"
+"PO-Revision-Date: 2018-05-14 06:13:10+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -1415,9 +1415,8 @@ msgid "Timetrack Durations"
 msgstr "Durata della traccia lavoro"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Costs management"
-msgstr "Gestione del progetto"
+msgstr "Gestione dei costi"
 
 #. tpl/edit_team.html
 msgid "OnDuty tasks"
@@ -2242,9 +2241,8 @@ msgid "Task warning threshold (n days before dealine)"
 msgstr ""
 
 #. tpl/scheduler.html
-#, fuzzy
 msgid "Save options"
-msgstr "Opzioni"
+msgstr "Salva opzioni"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support included"
@@ -2526,18 +2524,16 @@ msgid "Next week"
 msgstr "Settimana seguente"
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Week timetracks"
-msgstr "Tracce lavoro"
+msgstr "Pianificazione settimanale"
 
 #. tpl/time_tracking.html
 msgid "Ext.ID"
 msgstr "Ext.ID"
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Timetrack note"
-msgstr "Tracce lavoro"
+msgstr "Annotazione tabella oraria"
 
 #. tpl/time_tracking.html
 msgid "Edit timetrack"
