@@ -129,9 +129,11 @@ class BlogPost implements Comparable {
    public static function getActionName($actionType) {
       switch ($actionType) {
          case self::actionType_ack:
-            return T_('Acknowledged');
+//            return T_('Acknowledged');
+            return '<img style="vertical-align: middle" src="images/b_markAsRead_grey.png"/>';
          case self::actionType_hide:
-            return T_('Hidden');
+//            return T_('Hidden');
+            return '<img style="vertical-align: middle" src="images/b_ghost.png"/>';
          default:
             #return T_('unknown');
             return NULL;
@@ -274,7 +276,7 @@ class BlogPost implements Comparable {
                 self::activityProp_actionType => $row->action,
                 self::activityProp_timestamp => $row->date,
                 
-                self::activityProp_userName => $user->getName(),
+                self::activityProp_userName => $user->getRealname(),
                 self::activityProp_actionName => self::getActionName($row->action),
                 self::activityProp_formatedDate => date("Y-m-d G:i", $row->date), // TODO 1971-01-01
                );

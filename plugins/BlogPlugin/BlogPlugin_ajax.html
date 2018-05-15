@@ -14,7 +14,7 @@
       <td width='100' class="bgColorSeverity_{$bpost.id}">{$bpost.severity}</td>
       <td  class="blogPlugin_postActivity" rowspan="5"  width='200' valign='top'>
       {foreach from=$bpost.activity key=activity_id item=action}
-      <span title="{$action.formatedDate}">{$action.userName}: {$action.actionName}</span><br>
+      <span title="{$action.formatedDate}">{$action.actionName} {$action.userName}</span><br>
       {/foreach}
       </td>
    </tr>
