@@ -20,7 +20,7 @@
    </tr>
    <tr {if $bpost.isHidden}style="background-color:#F0F0F0;"{/if}>
       <td colspan="2" rowspan="4">{$bpost.content}</td>
-      <td colspan="2" title="{t}Submission date{/t}">{$bpost.date_submitted}</td>
+      <td colspan="2" title="{t}Submission date{/t}">{$bpost.date_submitted}{if $bpost.date_expire} &nbsp;&nbsp;&nbsp;<img title="{t}Expiration date{/t}: {$bpost.date_expire}" src="images/time_is_up.png" style="vertical-align: middle"/>{/if}</td>
    </tr>
    <tr {if $bpost.isHidden}style="background-color:#F0F0F0;"{/if}><td colspan="2" >{t}Author{/t}: {$bpost.from}</td></tr>
    <tr {if $bpost.isHidden}style="background-color:#F0F0F0;"{/if}><td colspan="2" >{t}Dest{/t}: {$bpost.to}</td></tr>

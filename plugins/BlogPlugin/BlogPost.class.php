@@ -357,6 +357,10 @@ class BlogPost implements Comparable {
       $item['date_submitted'] = date('Y-m-d G:i',$this->date_submitted);
       $item['from']    = $srcUser->getRealname();
 
+      if (0 != $this->date_expire) {
+         $item['date_expire']    = date('Y-m-d',    $this->date_expire);
+      }
+
       // find receiver
       if (0 != $this->dest_user_id) {
          $destUser = UserCache::getInstance()->getUser($this->dest_user_id);

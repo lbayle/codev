@@ -4068,7 +4068,7 @@ msgstr "Tous"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Hidden messages"
-msgstr "Messages cachés"
+msgstr "Messages masqués"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 #: plugins/BlogPlugin/BlogPost.class.php:419

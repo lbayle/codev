@@ -170,10 +170,20 @@ class BlogManager {
 
       $result = $sql->sql_query($query);
 
+      $now=time();
+      $midnightTimestamp = mktime(0, 0, 0, date('m', $now), date('d', $now), date('Y', $now));
       $postList = array();
       while($row = $sql->fetchObject($result)) {
          $bpost = BlogPostCache::getInstance()->getBlogPost($row->id, $row);
-            $postList[$row->id] = $bpost;
+
+         // if expiration date is reached, do not display, delete message from DB !
+         if ((0 != $bpost->date_expire) && ($midnightTimestamp > $bpost->date_expire)) {
+            //self::$logger->error("DEBUG: deleted message $row->id (Exp date = ".date('Y-m-d G:i', $bpost->date_expire).')');
+            $bpost->delete();
+            continue;
+         }
+
+         $postList[$row->id] = $bpost;
       }
       return $postList;
    }
