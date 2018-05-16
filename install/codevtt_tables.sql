@@ -282,11 +282,12 @@ CREATE TABLE IF NOT EXISTS "codev_blog_table" (
   "date_expire" INTEGER default NULL,
   "color" varchar(7) default NULL,
   PRIMARY KEY  ("id"),
-  KEY "date" ("date_submitted")
+  KEY "date" ("date_submitted"),
+  KEY "key1" ("dest_team_id", "dest_user_id", "date_submitted")
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Message Wall posts' AUTO_INCREMENT=1 ;
 
 INSERT INTO "codev_blog_table" ("id", "date_submitted", "src_user_id", "dest_user_id", "dest_project_id", "dest_team_id", "severity", "category", "summary", "content", "date_expire", "color") VALUES
-(1, 1526228606, 0, 0, 0, 0, 3, '3', 'Exchange messages with CodevTT !', 'Hi,\nthis plugins allows to share notifications within the teams.\n\nExemples:\n\"The time spent on the March 3rd meeting must be counted on task 34001\"\n\"The Mantis/CodevTT server will be unavailable for maintenance on May 13th\"\n\nThe <img src=\"images/b_add.png\"/> button on your right allows you to add messages.\n\nBest regards', 0, '0');
+(1, 1526228606, 0, 0, 0, 0, 3, '3', 'Exchange messages with CodevTT !', 'Hi,\nthis plugins allows to share notifications within the teams.\n\nExemples:\n\"The time spent on the March 3rd meeting must be counted on task 34001\"\n\"The Mantis/CodevTT server will be unavailable for maintenance on May 13th\"\n\nThe <img src=\"images/b_add.png\"/> button on your right allows you to add messages.\nTo hide this message, click <img src="images/b_markAsRead.png"/> then <img src="images/b_ghost.png"/>\n\nBest regards', 0, '0');
 
 -- --------------------------------------------------------
 
@@ -300,7 +301,8 @@ CREATE TABLE IF NOT EXISTS "codev_blog_activity_table" (
   "user_id" INTEGER NOT NULL,
   "action" varchar(30) NOT NULL,
   "date" INTEGER NOT NULL,
-  PRIMARY KEY  ("id")
+  PRIMARY KEY  ("id"),
+  UNIQUE KEY "key1" ("blog_id", "user_id", "action")
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1  COMMENT='Message Wall activity';
 
 

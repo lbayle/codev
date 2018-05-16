@@ -134,18 +134,17 @@ class BlogManager {
             $query .= ' WHERE blog_tab.src_user_id = '.$user_id .' ';
             break;
          case 'only_me':
-            $query .= ' WHERE blog_tab.dest_user_id = '.$user_id .' ';
-            // always display Admin messages !
-            $query .= " OR (blog_tab.dest_user_id = 0 AND blog_tab.dest_team_id = 0) ";
+            // WARN: the global parentheses on the WHERE + OR are very important, otherwhise the HIDDEN_POSTS part won't work
+            $query .= ' WHERE ((blog_tab.dest_user_id = '.$user_id .' AND blog_tab.dest_team_id = 0)';
+            $query .= " OR (blog_tab.dest_user_id = 0 AND blog_tab.dest_team_id = 0)) "; // always display Admin messages !
             break;
          case 'current_team':
-            $query .= ' WHERE blog_tab.dest_team_id = '.$team_id .' ';
-            // always display Admin messages !
-            $query .= " OR (blog_tab.dest_user_id = 0 AND blog_tab.dest_team_id = 0) ";
+            $query .= ' WHERE ((blog_tab.dest_team_id = '.$team_id .' AND blog_tab.dest_user_id = 0) '; // optim: index usage
+            $query .= " OR (blog_tab.dest_user_id = 0 AND blog_tab.dest_team_id = 0)) "; // always display Admin messages
             break;
          case 'all':
-            $query .= " WHERE blog_tab.dest_user_id = $user_id ".
-                      " OR (blog_tab.dest_user_id = 0 AND blog_tab.dest_team_id IN (0, $formattedTeamList)) ";
+            $query .= ' WHERE ((blog_tab.dest_user_id = '.$user_id.' AND blog_tab.dest_team_id = 0) '.
+                      " OR (blog_tab.dest_user_id = 0 AND blog_tab.dest_team_id IN (0, $formattedTeamList))) ";
             break;
          default:
             throw new Exception("Wrong parameter: OPTION_FILTER_RECIPIENT = ".$userOptions[BlogManager::OPTION_FILTER_RECIPIENT]);
@@ -157,7 +156,7 @@ class BlogManager {
       if (0 != $userOptions[BlogManager::OPTION_FILTER_SEVERITY]) {
          $query .= ' AND blog_tab.severity = '.$userOptions[BlogManager::OPTION_FILTER_SEVERITY].' ';
       }
-/*
+
       if (0 == $userOptions[BlogManager::OPTION_FILTER_DISPLAY_HIDDEN_POSTS]) {
          // do not display if user has a hide action set on this blog_id
 
@@ -165,23 +164,16 @@ class BlogManager {
                    "             WHERE activity_tab.blog_id = blog_tab.id ".
                    "             AND activity_tab.user_id = $user_id ".
                    "             AND activity_tab.action = ".BlogPost::actionType_hide.') ';
-
       }
- */
+ 
       $query .= ' ORDER BY date_submitted DESC';
 
       $result = $sql->sql_query($query);
 
       $postList = array();
       while($row = $sql->fetchObject($result)) {
-         
-         // TODO replace this DISPLAY_HIDDEN_POSTS filter by a better SQL query,
-         // it is stupid to instantiate BlogPosts that we do not want...
          $bpost = BlogPostCache::getInstance()->getBlogPost($row->id, $row);
-         if ((!$bpost->isHidden($user_id)) ||
-             (1 == $userOptions[BlogManager::OPTION_FILTER_DISPLAY_HIDDEN_POSTS])) {
             $postList[$row->id] = $bpost;
-         }
       }
       return $postList;
    }
