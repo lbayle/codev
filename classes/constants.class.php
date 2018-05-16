@@ -107,7 +107,7 @@ class Constants {
    // --- DASHBOARDS ---
    // Note: keys defined in IndicatorPluginInterface::DOMAIN_XXX
    public static $dashboardDefaultPlugins = array (
-       //'Homepage' => array('BlogPlugin'),
+       'Homepage' => array('BlogPlugin'),
        'Task' => array('IssueBacklogVariationIndicator'),
        'Team' => array('AvailableWorkforceIndicator','LoadPerUserIndicator','BacklogPerUserIndicator','LoadPerJobIndicator2'),
        'Command' => array('LoadPerUserIndicator','ProgressHistoryIndicator2'),
