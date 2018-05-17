@@ -9,11 +9,11 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-04-30 06:19:31+0000\n"
+"PO-Revision-Date: 2018-05-17 06:24:07+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2018-04-26 06:56:42+0000\n"
+"X-POT-Import-Date: 2018-05-16 04:53:00+0000\n"
 "X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-04-10\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -144,6 +144,7 @@ msgstr "生产日期"
 #. tpl/statistics.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
@@ -829,6 +830,7 @@ msgstr "请选择一个团队以访问该页面。"
 #. tpl/commandset_info.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
@@ -848,6 +850,7 @@ msgstr "设置过滤器"
 
 #. tpl/holidays_report.html
 #. tpl/export_odt.html
+#. plugins/BlogPlugin/BlogPlugin.html
 msgid "Filters"
 msgstr "过滤器"
 
@@ -969,6 +972,7 @@ msgstr "详情"
 #. tpl/plugin_manager.html
 #. tpl/command_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #: classes/wbsElement.class.php:624 tools.php:1556
 msgid "Category"
@@ -1014,12 +1018,14 @@ msgstr "目标"
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/UserTeamList/UserTeamList.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
+#: install/install_step1.php:248
 msgid "User"
 msgstr "用户"
 
@@ -1241,6 +1247,7 @@ msgstr "结束日期"
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/CostsIndicator/CostsIndicator.html
@@ -1248,7 +1255,6 @@ msgstr "结束日期"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#: reports/export_csv_weekly.php:172
 msgid "Description"
 msgstr "描述"
 
@@ -1451,6 +1457,9 @@ msgstr "删除团队"
 #. tpl/commandset_edit.html
 #. tpl/tools/wbsEditor.html
 #. tpl/command_edit.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#. Delete
+#: plugins/BlogPlugin/BlogPost.class.php:410
 msgid "Delete"
 msgstr "删除"
 
@@ -1578,9 +1587,8 @@ msgid "Default currency for the team."
 msgstr "用于团队的默认货币。"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "All indicators will use this currency and all values defined in other currencies will be converted."
-msgstr "所有指标将使用此货币，所有以其他货币定义的值将被转换。"
+msgstr "所有指示将使用此货币，且所有以其他货币定义的值将被转换。"
 
 #. tpl/edit_team.html
 #. tpl/command_edit.html
@@ -1593,7 +1601,7 @@ msgstr "系数"
 
 #. tpl/edit_team.html
 msgid "referal currency"
-msgstr ""
+msgstr "转移货币"
 
 #. tpl/edit_team.html
 msgid "TODO: describe how and where it is used in CodevTT"
@@ -1689,6 +1697,7 @@ msgstr "这些是当添加时间跟踪时，在时间跟踪页面中提议的值
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
 #. plugins/UserTeamList/UserTeamList.html
 #. plugins/HelloWorldIndicator/HelloWorldIndicator.html
@@ -1741,6 +1750,7 @@ msgstr "不活跃任务"
 #. tpl/command_edit.html
 #. tpl/gantt.html
 #. tpl/command_info.html
+#. plugins/BlogPlugin/BlogPlugin.html
 msgid "Cancel"
 msgstr "取消"
 
@@ -1996,6 +2006,7 @@ msgid "Priority"
 msgstr "优先级"
 
 #. tpl/issue_info.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #: classes/issue.class.php:2281 reports/planning_report.php:463
 #: reports/planning_report.php:486 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
@@ -2156,6 +2167,7 @@ msgstr "分配"
 #. tpl/scheduler.html
 #. tpl/planning_report.html
 #. tpl/gantt.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Options"
@@ -2698,6 +2710,7 @@ msgstr "平均积压工作变化"
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -3002,6 +3015,8 @@ msgid "Action"
 msgstr "操作"
 
 #. tpl/team_activity_report.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#: plugins/BlogPlugin/BlogPost.class.php:414
 msgid "Mark as read"
 msgstr "标记为已读"
 
@@ -3191,6 +3206,7 @@ msgstr "过滤器"
 #. tpl/command_info.html
 #. tpl/modal/select_issues.html
 #. tpl/modal/login.html
+#. plugins/BlogPlugin/BlogPlugin.html
 msgid "OK"
 msgstr "确定"
 
@@ -3611,6 +3627,8 @@ msgstr "为每位用户，返回其分配任务的积压工作总和"
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#. plugins/BlogPlugin/BlogPlugin_cfg.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
@@ -3909,11 +3927,11 @@ msgstr "月"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "BugValidation History Indicator"
-msgstr ""
+msgstr "错误验证历史指示器"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Resolved bugs must be validated. This shows how many bugs have been Rejected or Accepted during the validation stage. Bugs in 'resolved' status (not yet validated) are excluded."
-msgstr ""
+msgstr "解决的错误必须被验证。这里显示在验证阶段，多少个错误被拒绝或接受。“解决”状态的错误（尚未验证）会被排除。"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Validated"
@@ -3995,6 +4013,127 @@ msgstr "MgrEffortEstim+已检查的规定"
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget Drift Progression Chart"
 msgstr "预算漂移进程图"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Refresh"
+msgstr "刷新"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Send new message"
+msgstr "发送新消息"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Expire"
+msgstr "到期"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Exp. date"
+msgstr "到期日期"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Expiration Date (optional)"
+msgstr "到期日期（可选）"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Everybody (all teams)"
+msgstr "任何人（所有团队）"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Message wall options"
+msgstr "消息墙选项"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Recipient"
+msgstr "接收人"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Current team"
+msgstr "当前团队"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "All my teams"
+msgstr "所有我的团队"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Assigned to me"
+msgstr "分配给我"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Posted by me"
+msgstr "由我发布"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "All"
+msgstr "所有"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Hidden messages"
+msgstr "隐藏的消息"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+#: plugins/BlogPlugin/BlogPost.class.php:419
+msgid "Hide"
+msgstr "隐藏"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Message wall help"
+msgstr "消息墙帮助"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Buttons"
+msgstr "按钮"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Add new message"
+msgstr "添加新消息"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Post a new message"
+msgstr "发布新消息"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Set message wall options"
+msgstr "设置消息墙选项"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Mark as read. The message can then be hidden"
+msgstr "标记为已读。之后消息会隐藏"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Hide message. Depends on user setting \"Display hidden messages\""
+msgstr "隐藏消息。基于用户设置“显示隐藏的消息”"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Show"
+msgstr "显示"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Unhide a hidden message"
+msgstr "取消隐藏一条隐藏的消息"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Delete a message."
+msgstr "删除一条消息。"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "This will permanently delete this post, are you sure ?!"
+msgstr "这将永久删除此帖，您确定么？！"
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Submission date"
+msgstr "提交日期"
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Author"
+msgstr "作者"
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Dest"
+msgstr "澳大利亚教育科学与培训部"
+
+#. plugins/BlogPlugin/BlogPlugin_cfg.html
+msgid "Blog wall"
+msgstr "日志墙"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"
@@ -4149,7 +4288,7 @@ msgstr "添加用户至CodevTT团队与项目"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Only team-leaders & administrators are allowed to do this action."
-msgstr ""
+msgstr "只有团队领导和管理员允许进行此操作。"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send a password per email to each user"
@@ -4309,7 +4448,7 @@ msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "Time spent on the projects & sideTasks of the current task selection"
-msgstr ""
+msgstr "在当前任务选择的项目和边栏任务上所花费的时间"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
@@ -5436,6 +5575,35 @@ msgstr "预算漂移历史"
 msgid "Display the budget history"
 msgstr "显示预算历史"
 
+#: plugins/BlogPlugin/BlogPlugin.class.php:57
+msgid "Messages"
+msgstr "消息"
+
+#: plugins/BlogPlugin/BlogPlugin.class.php:60
+msgid "Display a message wall on the homepage"
+msgstr "在首页上显示消息墙"
+
+#: plugins/BlogPlugin/BlogPlugin.class.php:61
+msgid "Allows Administrators & team members to send messages that will be displayed on other users' wall"
+msgstr ""
+
+#: plugins/BlogPlugin/BlogPost.class.php:112
+msgid "Low"
+msgstr "低"
+
+#: plugins/BlogPlugin/BlogPost.class.php:114
+msgid "Normal"
+msgstr "正常"
+
+#: plugins/BlogPlugin/BlogPost.class.php:116
+msgid "High"
+msgstr "高"
+
+#. This case happens when an Administrator sends a message to "All" users
+#: plugins/BlogPlugin/BlogPost.class.php:373
+msgid "Everybody"
+msgstr "任何人"
+
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"
 msgstr "工作日在一段周期内可用，除了离开时间和外部任务"
@@ -5540,7 +5708,7 @@ msgstr "任务燃尽图"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:58
 msgid "Display task backlog updates since the task creation"
-msgstr ""
+msgstr "显示自任务创建以来的任务积压工作更新"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:157
 msgid "Backlog (days)"

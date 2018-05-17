@@ -8,11 +8,11 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-04-30 06:19:26+0000\n"
+"PO-Revision-Date: 2018-05-17 06:24:03+0000\n"
 "Language: el\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2018-04-26 06:56:42+0000\n"
+"X-POT-Import-Date: 2018-05-16 04:53:00+0000\n"
 "X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-04-10\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -143,6 +143,7 @@ msgstr "Ημέρες παραγωγής"
 #. tpl/statistics.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
@@ -828,6 +829,7 @@ msgstr "Παρακαλούυμε επιλέξτε μια ομάδα για να 
 #. tpl/commandset_info.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
@@ -847,6 +849,7 @@ msgstr "Ορισμός φίλτρων"
 
 #. tpl/holidays_report.html
 #. tpl/export_odt.html
+#. plugins/BlogPlugin/BlogPlugin.html
 msgid "Filters"
 msgstr "Φίλτρα"
 
@@ -968,6 +971,7 @@ msgstr "Λεπτομερή"
 #. tpl/plugin_manager.html
 #. tpl/command_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #: classes/wbsElement.class.php:624 tools.php:1556
 msgid "Category"
@@ -1013,12 +1017,14 @@ msgstr "Στόχος"
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/UserTeamList/UserTeamList.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
+#: install/install_step1.php:248
 msgid "User"
 msgstr "Χρήστης"
 
@@ -1240,6 +1246,7 @@ msgstr "Ημερομηνία λήξης"
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/CostsIndicator/CostsIndicator.html
@@ -1247,7 +1254,6 @@ msgstr "Ημερομηνία λήξης"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#: reports/export_csv_weekly.php:172
 msgid "Description"
 msgstr "Περιγραφή"
 
@@ -1450,6 +1456,9 @@ msgstr "Διαγραφή ομάδας"
 #. tpl/commandset_edit.html
 #. tpl/tools/wbsEditor.html
 #. tpl/command_edit.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#. Delete
+#: plugins/BlogPlugin/BlogPost.class.php:410
 msgid "Delete"
 msgstr "Διαγραφή"
 
@@ -1687,6 +1696,7 @@ msgstr ""
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
 #. plugins/UserTeamList/UserTeamList.html
 #. plugins/HelloWorldIndicator/HelloWorldIndicator.html
@@ -1739,6 +1749,7 @@ msgstr "Εργασία ανενεργίας"
 #. tpl/command_edit.html
 #. tpl/gantt.html
 #. tpl/command_info.html
+#. plugins/BlogPlugin/BlogPlugin.html
 msgid "Cancel"
 msgstr "Ακύρωση"
 
@@ -1953,7 +1964,7 @@ msgstr "Ιδιότητες"
 
 #. tpl/issue_info.html
 msgid "Timetracks"
-msgstr ""
+msgstr "Ιχνηλατήσεις χρόνου"
 
 #. tpl/issue_info.html
 msgid "Time tracking"
@@ -1994,6 +2005,7 @@ msgid "Priority"
 msgstr "Προτεραιότητα"
 
 #. tpl/issue_info.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #: classes/issue.class.php:2281 reports/planning_report.php:463
 #: reports/planning_report.php:486 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
@@ -2023,7 +2035,7 @@ msgstr "Σημειώσεις του Mantis"
 
 #. tpl/issue_info.html
 msgid "Get mantis notes"
-msgstr ""
+msgstr "Λάβετε σημειώσεις mantis"
 
 #. tpl/issue_info.html
 msgid "Click refresh button to display..."
@@ -2065,11 +2077,11 @@ msgstr ""
 
 #. tpl/issue_info.html
 msgid "Delivery date"
-msgstr ""
+msgstr "Ημερομηνία παράδοσης"
 
 #. tpl/issue_info.html
 msgid "set/remove delivery date"
-msgstr ""
+msgstr "Ορισμός/αφαίρεση ημερομηνίας παράδοσης"
 
 #. tpl/issue_info.html
 #. tpl/modal/update_issueBacklog.html
@@ -2086,7 +2098,7 @@ msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "New command set"
-msgstr ""
+msgstr "Νέο σετ εντολών"
 
 #. tpl/commandset_edit.html
 #. tpl/command_edit.html
@@ -2095,7 +2107,7 @@ msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "Command set name"
-msgstr ""
+msgstr "Όνομα σετ εντολών"
 
 #. tpl/commandset_edit.html
 msgid "Delete CommandSet"
@@ -2107,7 +2119,7 @@ msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "Nb Commands"
-msgstr ""
+msgstr "Εντολές Nb"
 
 #. tpl/commandset_edit.html
 msgid "Service Contracts"
@@ -2154,6 +2166,7 @@ msgstr "Επιφόρτιση"
 #. tpl/scheduler.html
 #. tpl/planning_report.html
 #. tpl/gantt.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Options"
@@ -2696,6 +2709,7 @@ msgstr ""
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -3000,6 +3014,8 @@ msgid "Action"
 msgstr "Ενέργεια"
 
 #. tpl/team_activity_report.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#: plugins/BlogPlugin/BlogPost.class.php:414
 msgid "Mark as read"
 msgstr "Σήμανση ως διαβασμένο"
 
@@ -3189,6 +3205,7 @@ msgstr "Φίλτρο"
 #. tpl/command_info.html
 #. tpl/modal/select_issues.html
 #. tpl/modal/login.html
+#. plugins/BlogPlugin/BlogPlugin.html
 msgid "OK"
 msgstr "Εντάξει"
 
@@ -3609,6 +3626,8 @@ msgstr ""
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#. plugins/BlogPlugin/BlogPlugin_cfg.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
@@ -3993,6 +4012,127 @@ msgstr ""
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget Drift Progression Chart"
 msgstr ""
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Refresh"
+msgstr "Ανανέωση"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Send new message"
+msgstr "Αποστολή νέου μηνύματος"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Expire"
+msgstr "Λήγει"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Exp. date"
+msgstr "Ημερομηνία λήξης"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Expiration Date (optional)"
+msgstr "Ημερομηνία λήξης (προαιρετική)"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Everybody (all teams)"
+msgstr ""
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Message wall options"
+msgstr "Ρυθμίσεις τοίχουμ μηνυμάτων"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Recipient"
+msgstr "Παραλήπτης"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Current team"
+msgstr "Τρέχουσα ομάδα"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "All my teams"
+msgstr "Όλες οι ομάδες μου"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Assigned to me"
+msgstr "Ανατεθειμένο σε εμένα"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Posted by me"
+msgstr "Δημοσιεύθηκε από εμένα"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "All"
+msgstr "Όλα"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Hidden messages"
+msgstr "Κρυμμένα μηνύματα"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+#: plugins/BlogPlugin/BlogPost.class.php:419
+msgid "Hide"
+msgstr ""
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Message wall help"
+msgstr ""
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Buttons"
+msgstr "Κουμπιά"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Add new message"
+msgstr "Προσθήκη νέου μηνύματος"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Post a new message"
+msgstr "Αποστολή νέου μηνύματος"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Set message wall options"
+msgstr ""
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Mark as read. The message can then be hidden"
+msgstr ""
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Hide message. Depends on user setting \"Display hidden messages\""
+msgstr ""
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Show"
+msgstr "Εμφάνιση"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Unhide a hidden message"
+msgstr "Ξεαπόκρυψη κρυμμένου μηνύματος"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Delete a message."
+msgstr "Διαγράψτε ένα μήνυμα."
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "This will permanently delete this post, are you sure ?!"
+msgstr ""
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Submission date"
+msgstr ""
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Author"
+msgstr ""
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Dest"
+msgstr "Προορ"
+
+#. plugins/BlogPlugin/BlogPlugin_cfg.html
+msgid "Blog wall"
+msgstr "Τοίχος ιστολογίου"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"
@@ -5433,6 +5573,35 @@ msgstr ""
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:66
 msgid "Display the budget history"
 msgstr ""
+
+#: plugins/BlogPlugin/BlogPlugin.class.php:57
+msgid "Messages"
+msgstr "Μηνύματα"
+
+#: plugins/BlogPlugin/BlogPlugin.class.php:60
+msgid "Display a message wall on the homepage"
+msgstr ""
+
+#: plugins/BlogPlugin/BlogPlugin.class.php:61
+msgid "Allows Administrators & team members to send messages that will be displayed on other users' wall"
+msgstr ""
+
+#: plugins/BlogPlugin/BlogPost.class.php:112
+msgid "Low"
+msgstr ""
+
+#: plugins/BlogPlugin/BlogPost.class.php:114
+msgid "Normal"
+msgstr ""
+
+#: plugins/BlogPlugin/BlogPost.class.php:116
+msgid "High"
+msgstr ""
+
+#. This case happens when an Administrator sends a message to "All" users
+#: plugins/BlogPlugin/BlogPost.class.php:373
+msgid "Everybody"
+msgstr "Ο καθένας"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"

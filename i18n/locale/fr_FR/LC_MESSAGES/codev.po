@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-04-30 06:19:27+0000\n"
+"PO-Revision-Date: 2018-05-17 06:24:03+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -25,7 +25,7 @@ msgstr ""
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POT-Import-Date: 2018-04-26 06:56:42+0000\n"
+"X-POT-Import-Date: 2018-05-16 04:53:00+0000\n"
 
 #. tpl/filters.html
 #. tpl/productivity_report.html
@@ -154,6 +154,7 @@ msgstr "Jours de Production"
 #. tpl/statistics.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
@@ -839,6 +840,7 @@ msgstr "Sélectionnez une équipe dans la liste déroulante en haut à droite de
 #. tpl/commandset_info.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
@@ -858,6 +860,7 @@ msgstr "Filtrer les tâches"
 
 #. tpl/holidays_report.html
 #. tpl/export_odt.html
+#. plugins/BlogPlugin/BlogPlugin.html
 msgid "Filters"
 msgstr "Filtres"
 
@@ -979,6 +982,7 @@ msgstr "Détaillé"
 #. tpl/plugin_manager.html
 #. tpl/command_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #: classes/wbsElement.class.php:624 tools.php:1556
 msgid "Category"
@@ -1024,12 +1028,14 @@ msgstr "V.Ciblée"
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/UserTeamList/UserTeamList.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
+#: install/install_step1.php:248
 msgid "User"
 msgstr "Utilisateur"
 
@@ -1251,6 +1257,7 @@ msgstr "Date fin"
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/CostsIndicator/CostsIndicator.html
@@ -1258,7 +1265,6 @@ msgstr "Date fin"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#: reports/export_csv_weekly.php:172
 msgid "Description"
 msgstr "Description"
 
@@ -1461,6 +1467,9 @@ msgstr "Supprimer l'équipe"
 #. tpl/commandset_edit.html
 #. tpl/tools/wbsEditor.html
 #. tpl/command_edit.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#. Delete
+#: plugins/BlogPlugin/BlogPost.class.php:410
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -1698,6 +1707,7 @@ msgstr "Valeurs proposées dans la page de saisie des CRAs, lors de la saisie d'
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
 #. plugins/UserTeamList/UserTeamList.html
 #. plugins/HelloWorldIndicator/HelloWorldIndicator.html
@@ -1750,6 +1760,7 @@ msgstr "Inactivité"
 #. tpl/command_edit.html
 #. tpl/gantt.html
 #. tpl/command_info.html
+#. plugins/BlogPlugin/BlogPlugin.html
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -2005,6 +2016,7 @@ msgid "Priority"
 msgstr "Priorité"
 
 #. tpl/issue_info.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #: classes/issue.class.php:2281 reports/planning_report.php:463
 #: reports/planning_report.php:486 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
@@ -2165,6 +2177,7 @@ msgstr "Affectations"
 #. tpl/scheduler.html
 #. tpl/planning_report.html
 #. tpl/gantt.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Options"
@@ -2707,6 +2720,7 @@ msgstr "Variation moyenne de l’arriéré de travail"
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -3011,6 +3025,8 @@ msgid "Action"
 msgstr "Action"
 
 #. tpl/team_activity_report.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#: plugins/BlogPlugin/BlogPost.class.php:414
 msgid "Mark as read"
 msgstr "Marquer comme lue"
 
@@ -3200,6 +3216,7 @@ msgstr "Filtre"
 #. tpl/command_info.html
 #. tpl/modal/select_issues.html
 #. tpl/modal/login.html
+#. plugins/BlogPlugin/BlogPlugin.html
 msgid "OK"
 msgstr "OK"
 
@@ -3620,6 +3637,8 @@ msgstr "Pour chaque utilisateur, renvoie la somme de ses arriérés de tâches"
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#. plugins/BlogPlugin/BlogPlugin_cfg.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
@@ -4004,6 +4023,127 @@ msgstr "Charge Mgr + Provision sélectionnées"
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget Drift Progression Chart"
 msgstr "Evolution de la Dérive Budget"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Refresh"
+msgstr "Rafraîchir"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Send new message"
+msgstr "Envoyer un nouveau message"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Expire"
+msgstr "Expirer"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Exp. date"
+msgstr "Date d’exp."
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Expiration Date (optional)"
+msgstr "Date d’expiration (facultatif)"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Everybody (all teams)"
+msgstr "Tout le monde (toutes les équipes)"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Message wall options"
+msgstr "Options du mur de messages"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Recipient"
+msgstr "Destinataire"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Current team"
+msgstr "Équipe actuelle"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "All my teams"
+msgstr "Toutes mes équipes"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Assigned to me"
+msgstr "Affecté à moi"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Posted by me"
+msgstr "Publié par moi"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "All"
+msgstr "Tous"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Hidden messages"
+msgstr "Messages cachés"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+#: plugins/BlogPlugin/BlogPost.class.php:419
+msgid "Hide"
+msgstr "Cacher"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Message wall help"
+msgstr "Aide du mur de messages"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Buttons"
+msgstr "Boutons"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Add new message"
+msgstr "Ajouter un nouveau message"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Post a new message"
+msgstr "Poster un nouveau message"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Set message wall options"
+msgstr "Définir les options du mur de messages"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Mark as read. The message can then be hidden"
+msgstr "Marquer comme lu. Le message peut alors être caché"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Hide message. Depends on user setting \"Display hidden messages\""
+msgstr "Masquer le message. Dépend du paramètre utilisateur « Afficher les messages cachés »"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Show"
+msgstr "Afficher"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Unhide a hidden message"
+msgstr "Démasquer un message caché"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Delete a message."
+msgstr "Supprimer un message."
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "This will permanently delete this post, are you sure ?!"
+msgstr "Cela supprimera cette note de façon permanente ; êtes-vous sûr ?"
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Submission date"
+msgstr "Date de soumission"
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Author"
+msgstr "Auteur"
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Dest"
+msgstr "Dest"
+
+#. plugins/BlogPlugin/BlogPlugin_cfg.html
+msgid "Blog wall"
+msgstr "Mur de blog"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"
@@ -5444,6 +5584,35 @@ msgstr "Evolution de la Dérive Budget"
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:66
 msgid "Display the budget history"
 msgstr "Affiche la dérive Budget"
+
+#: plugins/BlogPlugin/BlogPlugin.class.php:57
+msgid "Messages"
+msgstr "Messages"
+
+#: plugins/BlogPlugin/BlogPlugin.class.php:60
+msgid "Display a message wall on the homepage"
+msgstr "Afficher un mur de messages sur la page d’accueil"
+
+#: plugins/BlogPlugin/BlogPlugin.class.php:61
+msgid "Allows Administrators & team members to send messages that will be displayed on other users' wall"
+msgstr "Permet aux administrateurs et aux membres de l’équipe d’envoyer des messages qui seront affichés sur le mur des autres utilisateurs"
+
+#: plugins/BlogPlugin/BlogPost.class.php:112
+msgid "Low"
+msgstr "Basse"
+
+#: plugins/BlogPlugin/BlogPost.class.php:114
+msgid "Normal"
+msgstr "Normale"
+
+#: plugins/BlogPlugin/BlogPost.class.php:116
+msgid "High"
+msgstr "Haute"
+
+#. This case happens when an Administrator sends a message to "All" users
+#: plugins/BlogPlugin/BlogPost.class.php:373
+msgid "Everybody"
+msgstr "Tout le monde"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"

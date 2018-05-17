@@ -10,11 +10,11 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-04-30 06:19:31+0000\n"
+"PO-Revision-Date: 2018-05-17 06:24:08+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2018-04-26 06:56:42+0000\n"
+"X-POT-Import-Date: 2018-05-16 04:53:00+0000\n"
 "X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-04-10\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -145,6 +145,7 @@ msgstr "生產日期"
 #. tpl/statistics.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
@@ -784,7 +785,7 @@ msgstr "nb已重開啟"
 
 #. tpl/productivity_report.html
 msgid "nb reopened / nb resolved"
-msgstr "nb已重開/nb已解決"
+msgstr "nb 已重開/nb 已解決"
 
 #. tpl/productivity_report.html
 msgid "Rate"
@@ -830,6 +831,7 @@ msgstr "請選擇一個團隊來訪問此頁面。"
 #. tpl/commandset_info.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
@@ -849,6 +851,7 @@ msgstr "設定過濾"
 
 #. tpl/holidays_report.html
 #. tpl/export_odt.html
+#. plugins/BlogPlugin/BlogPlugin.html
 msgid "Filters"
 msgstr "過濾"
 
@@ -877,7 +880,7 @@ msgstr "工作日"
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "Export to CSV"
-msgstr "匯出成CSV檔"
+msgstr "匯出成 CSV 檔"
 
 #. tpl/prepare_project.html
 msgid "Preparing project:"
@@ -896,7 +899,7 @@ msgstr "設置現有存在專案"
 
 #. tpl/prepare_project.html
 msgid "Select the projects to be managed with CoDevTT"
-msgstr "選擇以CoDevTT管理的專案"
+msgstr "選擇以 CoDevTT 管理的專案"
 
 #. tpl/prepare_project.html
 msgid "Prepare"
@@ -970,6 +973,7 @@ msgstr "詳細內容"
 #. tpl/plugin_manager.html
 #. tpl/command_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #: classes/wbsElement.class.php:624 tools.php:1556
 msgid "Category"
@@ -1015,12 +1019,14 @@ msgstr "目標"
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/UserTeamList/UserTeamList.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
+#: install/install_step1.php:248
 msgid "User"
 msgstr "使用者"
 
@@ -1034,7 +1040,7 @@ msgstr "沒有資料可用"
 
 #. tpl/project_activity_report.html
 msgid "Time spent on Projects per users"
-msgstr "各用戶在專案上花費時間"
+msgstr "各使用者在專案上花費時間"
 
 #. tpl/project_activity_report.html
 msgid "With ExternalTasks Project"
@@ -1242,6 +1248,7 @@ msgstr "結束日期"
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/CostsIndicator/CostsIndicator.html
@@ -1249,7 +1256,6 @@ msgstr "結束日期"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#: reports/export_csv_weekly.php:172
 msgid "Description"
 msgstr "描述"
 
@@ -1385,7 +1391,7 @@ msgstr "請考慮使用一個標準相容的網頁瀏覽器"
 
 #. tpl/index.html
 msgid "A new CodevTT version is available !"
-msgstr "有新的CodevTT版本可用！"
+msgstr "有新的 CodevTT 版本可用！"
 
 #. tpl/edit_team.html
 msgid "General"
@@ -1452,6 +1458,9 @@ msgstr "刪除團隊"
 #. tpl/commandset_edit.html
 #. tpl/tools/wbsEditor.html
 #. tpl/command_edit.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#. Delete
+#: plugins/BlogPlugin/BlogPost.class.php:410
 msgid "Delete"
 msgstr "刪除"
 
@@ -1470,7 +1479,7 @@ msgstr "抵達日期"
 
 #. tpl/edit_team.html
 msgid "Add User"
-msgstr "添加用戶"
+msgstr "添加使用者"
 
 #. tpl/edit_team.html
 msgid "Departure-Date"
@@ -1482,7 +1491,7 @@ msgstr "設定離開日期"
 
 #. tpl/edit_team.html
 msgid "Import all users from team"
-msgstr "從團隊來匯入所有用戶"
+msgstr "從團隊來匯入所有使用者"
 
 #. tpl/edit_team.html
 #. tpl/command_edit.html
@@ -1601,11 +1610,11 @@ msgstr "TODO：描述如何及何處來於 CodevTT 使用"
 
 #. tpl/edit_team.html
 msgid "User Daily Costs"
-msgstr "用戶每日成本"
+msgstr "使用者每日成本"
 
 #. tpl/edit_team.html
 msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
-msgstr "UDC 是單一用戶每日成本，這是覆寫 ADC 內容"
+msgstr "UDC 是單一使用者每日成本，這是覆寫 ADC 內容"
 
 #. tpl/edit_team.html
 msgid "Add UserDailyCost"
@@ -1613,7 +1622,7 @@ msgstr "添加用戶每日成本"
 
 #. tpl/edit_team.html
 msgid "Add user daily cost"
-msgstr "添加用戶每日成本"
+msgstr "添加使用者每日成本"
 
 #. tpl/edit_team.html
 msgid "Team creation date"
@@ -1621,7 +1630,7 @@ msgstr "團隊創建日期"
 
 #. tpl/edit_team.html
 msgid "User arrival date"
-msgstr "用戶抵達日期"
+msgstr "使用者抵達日期"
 
 #. tpl/edit_team.html
 msgid "User Daily Cost"
@@ -1633,7 +1642,7 @@ msgstr "問題提示"
 
 #. tpl/edit_team.html
 msgid "Tooltip fields"
-msgstr "提示字段"
+msgstr "提示欄位"
 
 #. tpl/edit_team.html
 msgid "No custom IssueTooltips defined for your projects."
@@ -1689,6 +1698,7 @@ msgstr "這些是在添加一個時間表時，在時間表頁面的建議內容
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
 #. plugins/UserTeamList/UserTeamList.html
 #. plugins/HelloWorldIndicator/HelloWorldIndicator.html
@@ -1720,7 +1730,7 @@ msgstr "刪除以下期間？"
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Some fields are missing:"
-msgstr "缺少一些字段："
+msgstr "缺少一些欄位："
 
 #. tpl/edit_team.html
 msgid "Team Member"
@@ -1741,12 +1751,13 @@ msgstr "不活躍任務"
 #. tpl/command_edit.html
 #. tpl/gantt.html
 #. tpl/command_info.html
+#. plugins/BlogPlugin/BlogPlugin.html
 msgid "Cancel"
 msgstr "取消"
 
 #. tpl/edit_team.html
 msgid "Remove user from this team ?"
-msgstr "從此團隊移除用戶？"
+msgstr "從此團隊移除使用者？"
 
 #. tpl/edit_team.html
 msgid "Remove this project from the team ?"
@@ -1897,7 +1908,7 @@ msgstr "每月活動"
 
 #. tpl/team_monthly_activity_report.html
 msgid "Tasks per User"
-msgstr "各用戶的任務"
+msgstr "各使用者的任務"
 
 #. tpl/team_monthly_activity_report.html
 msgid "Elapsed in period"
@@ -1915,7 +1926,7 @@ msgstr "週"
 
 #. tpl/check.html
 msgid " Error(s) in Mantis Tasks"
-msgstr "在Mantis任務的錯誤"
+msgstr "在 Mantis 任務的錯誤"
 
 #. tpl/check.html
 msgid "extRef"
@@ -1939,7 +1950,7 @@ msgstr "錯誤描述"
 #: scheduler/SchedulerEvent.class.php:116 gantt/gantt_ajax.php:224
 #: tools.php:1481
 msgid "External ID"
-msgstr "外部ID"
+msgstr "外部 ID"
 
 #. tpl/issue_info.html
 msgid "Remove task from command"
@@ -1996,6 +2007,7 @@ msgid "Priority"
 msgstr "優先程度"
 
 #. tpl/issue_info.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #: classes/issue.class.php:2281 reports/planning_report.php:463
 #: reports/planning_report.php:486 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
@@ -2093,7 +2105,7 @@ msgstr "新命令集"
 #. tpl/commandset_edit.html
 #. tpl/command_edit.html
 msgid "Field is missing"
-msgstr "字段有缺少"
+msgstr "有缺少欄位"
 
 #. tpl/commandset_edit.html
 msgid "Command set name"
@@ -2156,6 +2168,7 @@ msgstr "分配"
 #. tpl/scheduler.html
 #. tpl/planning_report.html
 #. tpl/gantt.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Options"
@@ -2167,11 +2180,11 @@ msgstr "RAF"
 
 #. tpl/scheduler.html
 msgid "User assignment"
-msgstr "用戶分配"
+msgstr "使用者分配"
 
 #. tpl/scheduler.html
 msgid "Add user"
-msgstr "添加用戶"
+msgstr "添加使用者"
 
 #. tpl/scheduler.html
 msgid "Time on task"
@@ -2199,7 +2212,7 @@ msgstr "期間"
 
 #. tpl/scheduler.html
 msgid "Save user assignment for this task"
-msgstr "儲存用於此任務的用戶分配"
+msgstr "儲存用於此任務的使用者分配"
 
 #. tpl/scheduler.html
 #. tpl/tools/wbsEditor.html
@@ -2215,7 +2228,7 @@ msgstr "進度安排方法"
 #. tpl/scheduler.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 msgid "Display ExtRef instead of mantis_id"
-msgstr "顯示外部參考取代mantis_id"
+msgstr "顯示外部參考取代 mantis_id"
 
 #. tpl/scheduler.html
 msgid "Initial date"
@@ -2231,7 +2244,7 @@ msgstr "計算天數"
 
 #. tpl/scheduler.html
 msgid "Task warning threshold (n days before dealine)"
-msgstr "任務警告臨界（在截止日期n日前）"
+msgstr "任務警告臨界（在截止日期 n 日前）"
 
 #. tpl/scheduler.html
 msgid "Save options"
@@ -2251,7 +2264,7 @@ msgstr "更新積壓工作"
 
 #. tpl/ajax/schedulerAffectationSummary.html
 msgid "Assigned users"
-msgstr "已分配用戶"
+msgstr "已分配使用者"
 
 #. tpl/set_holidays.html
 #. tpl/time_tracking.html
@@ -2319,7 +2332,7 @@ msgstr "已提交"
 
 #. tpl/statistics.html
 msgid "Nb of submitted tasks EXCEPT SideTasks"
-msgstr "排除邊際任務的已提交任務之Nb"
+msgstr "排除邊際任務的已提交任務之 Nb"
 
 #. tpl/statistics.html
 msgid "Resolved"
@@ -2327,7 +2340,7 @@ msgstr "已解決"
 
 #. tpl/statistics.html
 msgid "Nb of resolved tasks EXCEPT SideTasks and reopened tasks"
-msgstr "排除邊際和重啟任務的已解決任務之Nb"
+msgstr "排除邊際和重啟任務的已解決任務之 Nb"
 
 #. tpl/statistics.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
@@ -2340,11 +2353,11 @@ msgstr "顯示值"
 
 #. tpl/statistics.html
 msgid "Nb submissions"
-msgstr "Nb提交"
+msgstr "Nb 提交"
 
 #. tpl/statistics.html
 msgid "Nb Resolved"
-msgstr "Nb已解決"
+msgstr "Nb 已解決"
 
 #. tpl/statistics.html
 msgid "Submitted / Resolved Issues (ExtRefOnly)"
@@ -2424,7 +2437,7 @@ msgstr "比較已重開任務數量和已解決任務數量"
 
 #. tpl/statistics.html
 msgid "Nb Reopened"
-msgstr "Nb已重開"
+msgstr "Nb 已重開"
 
 #. tpl/statistics.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
@@ -2449,7 +2462,7 @@ msgstr "很抱歉，您不可訪問此頁面。"
 
 #. tpl/export_odt.html
 msgid "The following fields need to be set"
-msgstr "以下字段必須被設定"
+msgstr "以下欄位必須被設定"
 
 #. tpl/export_odt.html
 msgid "Reporters"
@@ -2461,7 +2474,7 @@ msgstr "處理者"
 
 #. tpl/export_odt.html
 msgid "ODT Template"
-msgstr "ODT模板"
+msgstr "ODT 模板"
 
 #. tpl/export_odt.html
 #. tpl/create_team.html
@@ -2522,7 +2535,7 @@ msgstr "週時間表"
 
 #. tpl/time_tracking.html
 msgid "Ext.ID"
-msgstr "外部ID"
+msgstr "外部 ID"
 
 #. tpl/time_tracking.html
 msgid "Timetrack note"
@@ -2552,7 +2565,7 @@ msgstr "中斷連接"
 
 #. tpl/template.html
 msgid "Note: For a better user experience, use a standards compliant browser such as :"
-msgstr "注意：為了能有較佳的用戶體驗，請使用標準相容的瀏覽器如："
+msgstr "注意：為了能有較佳的使用者體驗，請使用標準相容的瀏覽器如："
 
 #. tpl/template.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
@@ -2604,7 +2617,7 @@ msgstr "工作量"
 
 #. tpl/planning_report.html
 msgid "nbDaysToDeadLine"
-msgstr "nb日至截止日期"
+msgstr "nb 日至截止日期"
 
 #. tpl/planning_report.html
 #. tpl/edit_jobs.html
@@ -2625,11 +2638,11 @@ msgstr "文件可用，位於\\"
 
 #. tpl/doc.html
 msgid "CodevTT Documentation Wiki"
-msgstr "CodevTT文件檔Wiki"
+msgstr "CodevTT 文件檔 Wiki"
 
 #. tpl/doc.html
 msgid "GreaseMonkey script: "
-msgstr "Greasemonkey附加元件手稿程式：\\"
+msgstr "Greasemonkey 附加元件手稿程式：\\"
 
 #. tpl/doc.html
 msgid "You can help on translations: "
@@ -2698,6 +2711,7 @@ msgstr "平均積壓工作變動"
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
+#. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -2776,11 +2790,11 @@ msgstr "值勤、濫用、其它特殊情況"
 
 #. tpl/create_team.html
 msgid "Custom Fields"
-msgstr "自訂字段"
+msgstr "自訂欄位"
 
 #. tpl/create_team.html
 msgid "CodevTT custom fields"
-msgstr "CodevTT自訂字段"
+msgstr "CodevTT 自訂欄位"
 
 #. tpl/create_team.html
 msgid "MgrEffortEstim, EffortEstim, AddEffort, Backlog, DeadLine, DeliveryDate"
@@ -2788,7 +2802,7 @@ msgstr "管理成效估計、成效估計、添加成效、積壓工作、截止
 
 #. tpl/create_team.html
 msgid "These are sample sideTasks, you can create more with Mantis"
-msgstr "這些為邊際任務樣本，您能以Mantis來創建更多"
+msgstr "這些為邊際任務樣本，您能以 Mantis 來創建更多"
 
 #. tpl/create_team.html
 msgid "Project management"
@@ -2877,7 +2891,7 @@ msgstr "刪除此命令？"
 #. tpl/command_edit.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "Nb tasks"
-msgstr "Nb任務"
+msgstr "Nb 任務"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -2890,11 +2904,11 @@ msgstr "父命令集"
 
 #. tpl/command_edit.html
 msgid "task id"
-msgstr "任務ID"
+msgstr "任務 ID"
 
 #. tpl/command_edit.html
 msgid "Missing field"
-msgstr "缺少字段"
+msgstr "缺少欄位"
 
 #. tpl/command_edit.html
 msgid "Add task"
@@ -2934,7 +2948,7 @@ msgstr "供應已成功更新。"
 
 #. tpl/command_edit.html
 msgid "CSV Import"
-msgstr "CSV檔匯入"
+msgstr "CSV 檔匯入"
 
 #. tpl/command_edit.html
 msgid "Import templates"
@@ -3002,6 +3016,8 @@ msgid "Action"
 msgstr "操作"
 
 #. tpl/team_activity_report.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#: plugins/BlogPlugin/BlogPost.class.php:414
 msgid "Mark as read"
 msgstr "標記為已讀"
 
@@ -3085,7 +3101,7 @@ msgstr "合約"
 
 #. tpl/menu/global_menu.html
 msgid "Mantis Reports"
-msgstr "Mantis報告"
+msgstr "Mantis 報告"
 
 #. tpl/menu/global_menu.html
 msgid "Check"
@@ -3113,7 +3129,7 @@ msgstr "匯出每月報告"
 
 #. tpl/menu/global_menu.html
 msgid "Export to LibreOffice"
-msgstr "匯出至LibreOffice"
+msgstr "匯出至 LibreOffice"
 
 #. tpl/menu/global_menu.html
 msgid "Blog"
@@ -3126,11 +3142,11 @@ msgstr "說明文件"
 
 #. tpl/menu/global_menu.html
 msgid "About CodevTT"
-msgstr "關於CodevTT"
+msgstr "關於 CodevTT"
 
 #. tpl/menu/global_menu.html
 msgid "CodevTT Administration"
-msgstr "CodevTT管理"
+msgstr "CodevTT 管理"
 
 #. tpl/menu/global_menu.html
 msgid "Admin"
@@ -3191,16 +3207,17 @@ msgstr "過濾器"
 #. tpl/command_info.html
 #. tpl/modal/select_issues.html
 #. tpl/modal/login.html
+#. plugins/BlogPlugin/BlogPlugin.html
 msgid "OK"
 msgstr "確認"
 
 #. tpl/uninstall.html
 msgid "Do you want to remove CodevTT from your Mantis server ?"
-msgstr "您確定要把CodevTT從您的Mantis伺服器上移除嗎？"
+msgstr "您確定要把 CodevTT 從您的 Mantis 伺服器上移除嗎？"
 
 #. tpl/uninstall.html
 msgid "This step will clean Mantis DB."
-msgstr "此步驟將會清除Mantis資料庫。"
+msgstr "此步驟將會清除 Mantis 資料庫。"
 
 #. tpl/uninstall.html
 msgid "It is HIGHLY recommended to backup your Mantis DB before you proceed !"
@@ -3212,7 +3229,7 @@ msgstr "備份資料"
 
 #. tpl/uninstall.html
 msgid "Backup file will be saved in CodevTT reports directory"
-msgstr "備份檔案將會被保存在CodevTT報告目錄裡"
+msgstr "備份檔案將會被保存在 CodevTT 報告目錄裡"
 
 #. tpl/uninstall.html
 msgid "Filename"
@@ -3220,7 +3237,7 @@ msgstr "檔案名稱"
 
 #. tpl/uninstall.html
 msgid "Dumping MantisDB to"
-msgstr "匯出Mantis資料庫至"
+msgstr "匯出 Mantis 資料庫至"
 
 #. tpl/uninstall.html
 msgid "Backup successfully done"
@@ -3244,19 +3261,19 @@ msgstr "失敗"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT customFields:"
-msgstr "移除CodevTT自訂字段："
+msgstr "移除 CodevTT 自訂欄位："
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT tables from MantisDB:"
-msgstr "移除CodevTT表格從Mantis資料庫："
+msgstr "移除 CodevTT 表格從 Mantis 資料庫："
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT config files:"
-msgstr "移除CodevTT設定檔："
+msgstr "移除 CodevTT 設定檔："
 
 #. tpl/uninstall.html
 msgid "Remove Mantis plugin:"
-msgstr "移除Mantis外掛套件："
+msgstr "移除 Mantis 外掛套件："
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
@@ -3306,7 +3323,7 @@ msgstr "工作色彩"
 
 #. tpl/edit_jobs.html
 msgid "Missing fields :"
-msgstr "缺少字段："
+msgstr "缺少欄位："
 
 #. tpl/workflow.html
 msgid "Are you sure you want to change"
@@ -3366,7 +3383,7 @@ msgstr "在此您可以設定國慶日、宗教節日、或其它。"
 
 #. tpl/edit_holidays.html
 msgid "Note: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong."
-msgstr "注意：添加即時任務排程不是個好主意，用戶可決定無論如何都要工作而讓生產日預測出錯。"
+msgstr "注意：添加即時任務排程不是個好主意，使用者可決定無論如何都要工作而讓生產日預測出錯。"
 
 #. tpl/edit_holidays.html
 msgid "Holiday Description"
@@ -3481,7 +3498,7 @@ msgstr "選擇全部"
 
 #. tpl/modal/edit_issueNote.html
 msgid "If unchecked, a 'standard' Mantis note will be created"
-msgstr "如未勾選的話，一個「標準」的Mantis註釋將會被建立"
+msgstr "如未勾選的話，一個「標準」的 Mantis 註釋將會被建立"
 
 #. tpl/modal/edit_issueNote.html
 msgid "Add as Timesheet note"
@@ -3541,7 +3558,7 @@ msgstr "和"
 
 #. tpl/modal/login.html
 msgid "CodevTT Identification"
-msgstr "CodevTT身份識別"
+msgstr "CodevTT 身份識別"
 
 #. tpl/modal/login.html
 msgid "password"
@@ -3570,7 +3587,7 @@ msgstr "重新導向"
 
 #. tpl/modal/change_managedUser.html
 msgid "Select User"
-msgstr "選擇用戶"
+msgstr "選擇使用者"
 
 #. tpl/modal/change_managedUser.html
 msgid "Select team user"
@@ -3596,7 +3613,7 @@ msgstr "沒有帶有積壓工作的任務"
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:69
 msgid "Backlog per User"
-msgstr "各用戶積壓工作"
+msgstr "各使用者積壓工作"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "For each user, return the sum of the backlog of its assigned tasks"
@@ -3611,6 +3628,8 @@ msgstr "回傳分配任務的加總積壓工作至各用戶"
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#. plugins/BlogPlugin/BlogPlugin_cfg.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
@@ -3790,7 +3809,7 @@ msgstr "目標版本"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Mantis issues to create:"
-msgstr "要創建的Mantis問題："
+msgstr "要創建的 Mantis 問題："
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "WBS Tree"
@@ -3830,7 +3849,7 @@ msgstr "檔案格式"
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Standard CSV format with :"
-msgstr "標準CSV格式以："
+msgstr "標準 CSV 格式以："
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -3856,7 +3875,7 @@ msgstr "編碼中"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported."
-msgstr "強烈建議使用<strong>UTF-8</strong> ，但ASCII和ISO-8859-1（微軟Windows）也支援。"
+msgstr "強烈建議使用 <strong>UTF-8</strong>，但 ASCII 和 ISO-8859-1（微軟Windows）也支援。"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Columns"
@@ -3864,7 +3883,7 @@ msgstr "直行數"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "the file must contain 7 columns, the 1st line contains the column names."
-msgstr "檔案必須包含7個欄位，第一行內容則為欄位名稱。"
+msgstr "檔案必須包含 7 個欄位，第一行內容則為欄位名稱。"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef ; WBS tree"
@@ -3945,19 +3964,19 @@ msgstr "錯誤拒絕率"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having fail validation tests"
-msgstr "Nb問題在驗證測試失敗"
+msgstr "Nb 問題在驗證測試失敗"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Fail"
-msgstr "Nb失敗"
+msgstr "Nb 失敗"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having pass validation tests"
-msgstr "Nb問題通過驗證測試"
+msgstr "Nb 問題通過驗證測試"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Pass"
-msgstr "Nb通過"
+msgstr "Nb 通過"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:74
@@ -3996,6 +4015,127 @@ msgstr "管理成效估計 + 已確認供應"
 msgid "Budget Drift Progression Chart"
 msgstr "預算調度進度圖"
 
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Refresh"
+msgstr "重新整理"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Send new message"
+msgstr "寄送新訊息"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Expire"
+msgstr "逾期"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Exp. date"
+msgstr "逾期日期"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Expiration Date (optional)"
+msgstr "逾期日期（可選）"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Everybody (all teams)"
+msgstr "全部人（所有團隊）"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Message wall options"
+msgstr "訊息牆選項"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Recipient"
+msgstr "收件者"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Current team"
+msgstr "目前團隊"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "All my teams"
+msgstr "所有我的團隊"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Assigned to me"
+msgstr "分配給我"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Posted by me"
+msgstr "由我所發佈"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "All"
+msgstr "所有"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Hidden messages"
+msgstr "隱藏訊息"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+#: plugins/BlogPlugin/BlogPost.class.php:419
+msgid "Hide"
+msgstr "隱藏"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Message wall help"
+msgstr "訊息牆說明"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Buttons"
+msgstr "按鈕"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Add new message"
+msgstr "添加新訊息"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Post a new message"
+msgstr "發佈新訊息"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Set message wall options"
+msgstr "設定訊息牆選項"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Mark as read. The message can then be hidden"
+msgstr "標記為已讀。訊息可被隱藏"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Hide message. Depends on user setting \"Display hidden messages\""
+msgstr "隱藏訊息。取決於「顯示隱藏訊息」的使用者設定"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Show"
+msgstr "顯示"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Unhide a hidden message"
+msgstr "取消隱藏訊息"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Delete a message."
+msgstr "删除訊息。"
+
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "This will permanently delete this post, are you sure ?!"
+msgstr "將會徹底刪除此發佈內容，您確定嗎？！"
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Submission date"
+msgstr "提交日期"
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Author"
+msgstr "作者"
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Dest"
+msgstr "目標"
+
+#. plugins/BlogPlugin/BlogPlugin_cfg.html
+msgid "Blog wall"
+msgstr "部落格牆"
+
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"
 msgstr "圖形"
@@ -4022,7 +4162,7 @@ msgstr "生產係數"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "SUM(userWorkforce * availability * prodCoef)"
-msgstr "加總（用戶人力*可用性*生產係數）"
+msgstr "加總（使用者人力 * 可用性 * 生產係數）"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Available workforce"
@@ -4063,7 +4203,7 @@ msgstr "產生密碼"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Mantis users to create:"
-msgstr "要創建的Mantis用戶："
+msgstr "要創建的 Mantis 使用者："
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "First name"
@@ -4071,7 +4211,7 @@ msgstr "檔案名稱"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Username"
-msgstr "用戶名"
+msgstr "使用者名稱"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Email"
@@ -4097,11 +4237,11 @@ msgstr "在團隊的日期項目"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Username not set on all users"
-msgstr "用戶名稱未設定在所有用戶"
+msgstr "使用者名稱未設定在所有使用者"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Project access level not set on all users"
-msgstr "專案訪問等級未設定在所有用戶"
+msgstr "專案訪問等級未設定在所有使用者"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "CodevTT roles not set on all users"
@@ -4109,15 +4249,15 @@ msgstr "CodevTT角色未設定在所有用戶"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Date of entry in team not set on all users"
-msgstr "在團隊的日期項目未設定在所有用戶"
+msgstr "在團隊的日期項目未設定在所有使用者"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import Done ! The password for every created users is"
-msgstr "匯入完成！各已創建用戶的密碼是"
+msgstr "匯入完成！各已創建使用者的密碼是"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import Done ! An email with login and password has been sent to each user."
-msgstr "匯入完成！帶有登入和密碼內容的電子郵件已寄送給各用戶。"
+msgstr "匯入完成！帶有登入和密碼內容的電子郵件已寄送給各使用者。"
 
 #. plugins/ImportUsers/ImportUsers_cfg.html
 msgid "Import users"
@@ -4129,7 +4269,7 @@ msgstr "您需要以團隊經理身份來匯入問題。"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Only team administrators can create users"
-msgstr "僅有團隊管理員可創建用戶"
+msgstr "僅有團隊管理員可創建使用者"
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/CostsIndicator/CostsIndicator.html
@@ -4141,11 +4281,11 @@ msgstr "各狀態時間"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Create Mantis users"
-msgstr "創建Mantis註釋"
+msgstr "創建 Mantis 使用者"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Add users to CodevTT team & projects"
-msgstr "添加用戶至CodevTT團隊和專案"
+msgstr "添加用戶至 CodevTT 團隊和專案"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Only team-leaders & administrators are allowed to do this action."
@@ -4153,11 +4293,11 @@ msgstr "僅有團隊領導人和管理者被允許作出此行為。"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send a password per email to each user"
-msgstr "寄送各用戶一個含密碼的電子郵件"
+msgstr "寄送各使用者一個含密碼的電子郵件"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Display a generated password (common to all created users)"
-msgstr "顯示一個被產生的密碼（通用於所有被創建的用戶）"
+msgstr "顯示一個被產生的密碼（通用於所有被創建的使用者）"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Colors"
@@ -4165,7 +4305,7 @@ msgstr "色彩"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "username"
-msgstr "用戶名稱"
+msgstr "使用者名稱"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User already exists"
@@ -4173,7 +4313,7 @@ msgstr "用戶已存在"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User can't be added to Mantis projects"
-msgstr "用戶不能被添加至Mantis專案"
+msgstr "使用者不能被添加至 Mantis 專案"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User already belong to this team"
@@ -4181,7 +4321,7 @@ msgstr "用戶已屬於此團隊"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User can't be added to this team"
-msgstr "用戶不能被添加至此團隊"
+msgstr "使用者不能被添加至此團隊"
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
@@ -4230,11 +4370,11 @@ msgstr "加總任一時間表成本"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Team AverageDailyCost and UserDailyCosts must be defined in team settings."
-msgstr "團隊每日平均成本和用戶每日成本必須定義在團隊設定裡。"
+msgstr "團隊每日平均成本和使用者每日成本必須定義在團隊設定裡。"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "AverageDailyCost is used when no UserDailyCosts is defined for the timetrack's user."
-msgstr "當沒有用戶每日成本被定義在時間軸的用戶上；會使用每日平均成本。"
+msgstr "當沒有使用者每日成本被定義在時間軸的使用者上；會使用每日平均成本。"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "AverageDailyCost is used if the task is not yet assigned to anyone."
@@ -4242,7 +4382,7 @@ msgstr "若任務尚未分配給任何人；會使用平均每日成本。"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "The backlog is computed with the current assigned user's UserDailyCost"
-msgstr "積壓工作是以目前用戶所分配的用戶每日成本來計算"
+msgstr "積壓工作是以目前使用者所分配的使用者每日成本來計算"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Respectively sum the MgrEffortEstim, EffortEstim, Reestimated, Elapsed, Backlog of each task."
@@ -4292,7 +4432,7 @@ msgstr "外部"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:78
 msgid "Load per User"
-msgstr "各用戶負荷"
+msgstr "各使用者負荷"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
@@ -4305,7 +4445,7 @@ msgstr "顯示全部活動：<br>如果有勾選，在任務上的時間表不�
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:81
 msgid "Check all the timetracks of the period and return their repartition per User"
-msgstr "檢查期間內所有時間表並回傳各用戶的分配"
+msgstr "檢查期間內所有時間表並回傳各使用者的分配"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "Time spent on the projects & sideTasks of the current task selection"
@@ -4367,15 +4507,15 @@ msgstr "僅限任務"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Filter on External ID"
-msgstr "外部ID的過濾"
+msgstr "外部 ID 的過濾"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Issues with External ID"
-msgstr "帶外部ID的問題"
+msgstr "帶外部 ID 的問題"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Issues without External ID"
-msgstr "不帶外部ID問題"
+msgstr "不帶外部 ID 問題"
 
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator_cfg.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
@@ -4425,7 +4565,7 @@ msgstr "目標"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Please, fill all fields correctly"
-msgstr "請正確地填寫所有字段"
+msgstr "請正確地填寫所有欄位"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:75
@@ -4458,7 +4598,7 @@ msgstr "移動問題時間表"
 
 #: admin/plugin_manager.php:67
 msgid "Could not create classmap: "
-msgstr "無法建立classmap：\\"
+msgstr "無法建立 classmap：\\"
 
 #: admin/edit_holidays.php:46
 msgid "Couldn't add the holiday"
@@ -4543,7 +4683,7 @@ msgstr "拖曳項目會被顯示在問題提示中"
 
 #: admin/edit_team_ajax.php:82
 msgid "Available fields"
-msgstr "可用字段"
+msgstr "可用欄位"
 
 #: admin/edit_team_ajax.php:83
 msgid "Tooltip"
@@ -4641,7 +4781,7 @@ msgstr "用於團隊"
 
 #: classes/user.class.php:1752
 msgid "[CodevTT] Timesheet reminder !"
-msgstr "[CodevTT]時間表提醒！"
+msgstr "[CodevTT] 時間表提醒！"
 
 #: classes/user.class.php:1754 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
@@ -4649,7 +4789,7 @@ msgstr "親愛的 "
 
 #: classes/user.class.php:1755
 msgid "Please fill your CodevTT timesheet"
-msgstr "請填入您的CodevTT時間表"
+msgstr "請填入您的 CodevTT 時間表"
 
 #: classes/user.class.php:1766 classes/consistency_check2.class.php:733
 msgid "incomplete (missing "
@@ -4679,15 +4819,15 @@ msgstr "不明"
 
 #: classes/consistency_check2.class.php:200
 msgid "Backlog on resolved issues should be 0"
-msgstr "積壓工作在已解決問題上應為0"
+msgstr "積壓工作在已解決問題上應為 0"
 
 #: classes/consistency_check2.class.php:201
 msgid "Backlog on unresolved issues should not be 0"
-msgstr "積壓工作在未解決問題上不可為0"
+msgstr "積壓工作在未解決問題上不可為 0"
 
 #: classes/consistency_check2.class.php:202
 msgid "EffortEstim should not be 0"
-msgstr "成效估計不應為0"
+msgstr "成效估計不應為 0"
 
 #: classes/consistency_check2.class.php:203
 msgid "There should be no timetracks on \"new\" issues "
@@ -4727,7 +4867,7 @@ msgstr "積壓工作必須被定義！"
 
 #: classes/consistency_check2.class.php:338
 msgid "Backlog == 0: Backlog may not be up to date."
-msgstr "積壓工作==0：積壓工作內容可能不是最新的。"
+msgstr "積壓工作 == 0：積壓工作內容可能不是最新的。"
 
 #: classes/consistency_check2.class.php:384
 msgid "MgrEffortEstim not set."
@@ -4823,15 +4963,15 @@ msgstr "問題標籤"
 
 #: filters/IssueExtIdFilter.php:49
 msgid "Sort issues: with/without External ID"
-msgstr "排序問題：帶/不帶外部ID"
+msgstr "排序問題：帶/不帶外部 ID"
 
 #: filters/IssueExtIdFilter.php:57
 msgid "Issue External ID"
-msgstr "問題外部ID"
+msgstr "問題外部 ID"
 
 #: filters/IssueCodevTypeFilter.php:55
 msgid "Sort issues per CustomField: CodevTT_Type"
-msgstr "依自訂自段排序問題：CodevTT_類型"
+msgstr "依自訂欄位排序問題：CodevTT_Type"
 
 #: filters/IssueCodevTypeFilter.php:63
 msgid "Issue Type"
@@ -4887,7 +5027,7 @@ msgstr "安裝-步驟3"
 
 #: install/install_step3.php:235
 msgid "CodevTT Administrators team"
-msgstr "CodevTT管理員團隊"
+msgstr "CodevTT 管理員團隊"
 
 #: install/install_step3.php:388
 msgid "CodevTT_EffortEstim"
@@ -4895,32 +5035,32 @@ msgstr "CodevTT_EffortEstim"
 
 #: install/install_step3.php:391
 msgid "CodevTT_Type"
-msgstr "CodevTT_類型"
+msgstr "CodevTT_Type"
 
 #: install/install_step3.php:398
 msgid "CodevTT_Manager EffortEstim"
-msgstr "CodevTT_管理 成效估計"
+msgstr "CodevTT_Manager EffortEstim"
 
 #: install/install_step3.php:404
 msgid "CodevTT_External ID"
-msgstr "CodevTT_外部ID"
+msgstr "CodevTT_External ID"
 
 #: install/install_step3.php:407
 msgid "CodevTT_Deadline"
-msgstr "CodevTT_截止期限"
+msgstr "CodevTT_Deadline"
 
 #: install/install_step3.php:410
 msgid "CodevTT_Additional Effort"
-msgstr "CodevTT_額外成效"
+msgstr "CodevTT_Additional Effort"
 
 #: install/install_step3.php:416
 msgid "CodevTT_Backlog"
-msgstr "CodevTT_積壓工作"
+msgstr "CodevTT_Backlog"
 
 #. createCustomField(T_("CodevTT_Delivery ticket"),   $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
 #: install/install_step3.php:423
 msgid "CodevTT_Delivery Date"
-msgstr "CodevTT_交付日期"
+msgstr "CodevTT_Delivery Date"
 
 #. ------ Reports
 #: install/install_step3.php:475
@@ -4953,7 +5093,7 @@ msgstr "管理員可於事後作更多定義，而現在您僅需要一項。"
 #. ------- External ID
 #: install/install_step3.php:569
 msgid "Tasks external ID field"
-msgstr "任務外部ID字段"
+msgstr "任務外部 ID 欄位"
 
 #: install/install_step3.php:591
 msgid "Create a new CustomField"
@@ -4969,7 +5109,7 @@ msgstr "預設工作"
 
 #: install/install_step3.php:627
 msgid "CodevTT support management"
-msgstr "CodevTT支援管理"
+msgstr "CodevTT 支援管理"
 
 #: install/install_step3.php:638
 msgid "Specific to SideTasks"
@@ -4977,11 +5117,11 @@ msgstr "針對邊際任務"
 
 #: install/install_step3.php:681
 msgid "Proceed Step 3"
-msgstr "進行步驟3"
+msgstr "進行步驟 3"
 
 #: install/install_step3.php:834
 msgid "CodevTT admin"
-msgstr "CodevTT管理員"
+msgstr "CodevTT 管理員"
 
 #: install/install_step3.php:861
 msgid "Other external activity"
@@ -5009,16 +5149,16 @@ msgstr "測試"
 
 #: install/install_step3.php:953
 msgid "CodevTT_ExternalTasks"
-msgstr "CodevTT_外部任務"
+msgstr "CodevTT_ExternalTasks"
 
 #: install/install_step3.php:953
 msgid "CodevTT ExternalTasks Project"
-msgstr "CodevTT外部任務專案"
+msgstr "CodevTT 外部任務專案"
 
 #. cat="OtherInternal", status="closed"
 #: install/install_step3.php:992
 msgid "Any external task, NOT referenced in any Mantis project"
-msgstr "任何未參照於Mantis專案的外部任務"
+msgstr "任何未參照於 Mantis 專案的外部任務"
 
 #. --- Create the 'Leave' task in ExternalTasks Project
 #: install/install_step3.php:995
@@ -5031,27 +5171,27 @@ msgstr "生病"
 
 #: install/install_step2.php:25
 msgid "Install - Step 2"
-msgstr "安裝-步驟2"
+msgstr "安裝-步驟 2"
 
 #: install/install_step2.php:104
 msgid "Get Mantis customizations"
-msgstr "取得Mantis自定內容"
+msgstr "取得 Mantis 自定內容"
 
 #: install/install_step2.php:109
 msgid "Path to Mantis"
-msgstr "Mantis路徑"
+msgstr "Mantis 路徑"
 
 #: install/install_step2.php:114
 msgid "URL to Mantis"
-msgstr "Mantis的URL"
+msgstr "Mantis 的 URL"
 
 #: install/install_step2.php:119
 msgid "URL to CodevTT"
-msgstr "CodevTT的URL"
+msgstr "CodevTT 的 URL"
 
 #: install/install_step2.php:134
 msgid "Proceed Step 2"
-msgstr "進行步驟2"
+msgstr "進行步驟 2"
 
 #: install/install_step5.php:25
 msgid "Installation finished"
@@ -5059,7 +5199,7 @@ msgstr "安裝結束"
 
 #: install/install_step4.php:25
 msgid "Install - Step 4"
-msgstr "安裝-步驟4"
+msgstr "安裝-步驟 4"
 
 #: install/install_step4.php:44
 msgid "Manual steps"
@@ -5071,7 +5211,7 @@ msgstr "檢察Mantis外掛套件"
 
 #: install/install_step4.php:50
 msgid "Login to Mantis as 'Administrator'."
-msgstr "以「管理員」身份登入Mantis。"
+msgstr "以「管理員」身份登入 Mantis。"
 
 #: install/install_step4.php:51
 msgid "manage plugins"
@@ -5079,11 +5219,11 @@ msgstr "管理外掛套件"
 
 #: install/install_step4.php:52
 msgid "Check that the <b>CodevTT</b> plugin is installed and activated."
-msgstr "檢查<b>CodevTT</b>外掛套件是否已安裝且啟用。"
+msgstr "檢查 <b>CodevTT</b> 外掛套件是否已安裝且啟用。"
 
 #: install/install_step4.php:53
 msgid "Check that the <b>FilterBugList</b> plugin is installed and activated"
-msgstr "檢查<b>FilterBugList</b>外掛套件是否已安裝且啟用。"
+msgstr "檢查 <b>FilterBugList</b> 外掛套件是否已安裝且啟用。"
 
 #. echo '<br>';
 #: install/install_step4.php:58
@@ -5092,7 +5232,7 @@ msgstr "檢查產生的設定檔案"
 
 #: install/install_step4.php:60
 msgid "Mantis Path & URL in "
-msgstr "Mantis的路徑和URL位於\\"
+msgstr "Mantis 的路徑和 URL 位於\\"
 
 #: install/install_step4.php:61
 msgid "Log directory in "
@@ -5101,7 +5241,7 @@ msgstr "日誌目錄位於 "
 #. echo '<br>';
 #: install/install_step4.php:66
 msgid "Remove CodevTT Installation files"
-msgstr "移除CodevTT安裝檔案"
+msgstr "移除 CodevTT 安裝檔案"
 
 #: install/install_step4.php:68
 msgid "For security reasons, delete the following directory: "
@@ -5122,15 +5262,15 @@ msgstr "更新指示"
 
 #: install/install.php:120
 msgid "If you're upgrading from an older CodevTT version, please <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>read this page</a> and do the following steps:"
-msgstr "如果您正從一個舊版的CodevTT做升級，請讀取<a href='http://codevtt.org/site/?page_id=1801' target='_blank'>此頁面</a>並按照下列步驟："
+msgstr "如果您正從一個舊版的 CodevTT 做升級，請讀取<a href='http://codevtt.org/site/?page_id=1801' target='_blank'>此頁面</a>並按照下列步驟："
 
 #: install/install.php:122
 msgid "Upgrade Mantis first ! (not mandatory)"
-msgstr "先更新Mantis！（非必要）"
+msgstr "先更新 Mantis！（非必要）"
 
 #: install/install.php:123
 msgid "Copy CodevTT configuration files from your previous installation"
-msgstr "從您之前的安裝內容複製CodevTT設置檔案"
+msgstr "從您之前的安裝內容複製 CodevTT 設置檔案"
 
 #: install/install.php:124
 msgid "Run this script: "
@@ -5138,11 +5278,11 @@ msgstr "執行此手稿：\\"
 
 #: install/install_step1.php:25
 msgid "Install - Step 1"
-msgstr "安裝-步驟1"
+msgstr "安裝-步驟 1"
 
 #: install/install_step1.php:217
 msgid "Mantis Database Info"
-msgstr "Mantis資料庫訊息"
+msgstr "Mantis 資料庫訊息"
 
 #: install/install_step1.php:221
 msgid "SGBD"
@@ -5166,7 +5306,7 @@ msgstr "資料庫表單名稱的字尾\\"
 
 #: install/install_step1.php:258
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
-msgstr "警告視窗安裝：要避免SUPER privilege許可權方面錯誤，請使用<b>root</b>mysql用戶（這可在安裝結束後於config.ini檔案裡修改）。"
+msgstr "警告視窗安裝：要避免 SUPER privilege 許可權方面錯誤，請使用 <b>root</b> mysql 使用者（這可在安裝結束後於 config.ini 檔案裡修改）。"
 
 #: install/install_step1.php:263
 msgid "Proxy Settings"
@@ -5174,7 +5314,7 @@ msgstr "代理設定"
 
 #: install/install_step1.php:264
 msgid "CodevTT will check for updates."
-msgstr "CodevTT將會檢查更新。"
+msgstr "CodevTT 將會檢查更新。"
 
 #: install/install_step1.php:267
 msgid "Enable proxy"
@@ -5190,23 +5330,23 @@ msgstr "連接埠"
 
 #: install/install_step1.php:276
 msgid "Proceed Step 1"
-msgstr "進行步驟1"
+msgstr "進行步驟 1"
 
 #: install/install_menu.inc.php:26
 msgid "Step 1"
-msgstr "步驟1"
+msgstr "步驟 1"
 
 #: install/install_menu.inc.php:30
 msgid "Step 2"
-msgstr "步驟2"
+msgstr "步驟 2"
 
 #: install/install_menu.inc.php:34
 msgid "Step 3"
-msgstr "步驟3"
+msgstr "步驟 3"
 
 #: install/install_menu.inc.php:38
 msgid "Step 4"
-msgstr "步驟4"
+msgstr "步驟 4"
 
 #: management/command_edit.php:239
 msgid "Add tasks to Command"
@@ -5328,7 +5468,7 @@ msgstr "成員活動"
 
 #: tests/odt.php:8
 msgid "Test: export to ODT"
-msgstr "測試：匯出至ODT檔案"
+msgstr "測試：匯出至 ODT 檔案"
 
 #: tests/odt.php:177
 msgid "Sorry, there are no projects defined for your team."
@@ -5364,7 +5504,7 @@ msgstr "今日"
 #. light grey
 #: timetracking/holidays_report.php:203
 msgid "User not in team"
-msgstr "未屬於團隊的用戶"
+msgstr "未屬於團隊的使用者"
 
 #: timetracking/holidays_report.php:241
 msgid "Other team"
@@ -5390,7 +5530,7 @@ msgstr "刪除時間表失敗！"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:72
 msgid "Check all the tasks and return the backlog per User"
-msgstr "檢查所有任務並回傳各用戶積壓工作"
+msgstr "檢查所有任務並回傳各使用者積壓工作"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:258
 msgid "(unknown 0)"
@@ -5410,7 +5550,7 @@ msgstr "比較管理邊際任務和管理供應的流逝時間"
 
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:65
 msgid "Import a list of issues to MantisBT / CodevTT from a CSV file"
-msgstr "從一個CSV檔案匯入問題清單至MantisBT / CodevTT"
+msgstr "從一個 CSV 檔案匯入問題清單至 MantisBT / CodevTT"
 
 #: plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.class.php:62
 msgid "Task deadlines alert"
@@ -5436,6 +5576,35 @@ msgstr "預算調度歷史"
 msgid "Display the budget history"
 msgstr "顯示預算調度歷史"
 
+#: plugins/BlogPlugin/BlogPlugin.class.php:57
+msgid "Messages"
+msgstr "訊息"
+
+#: plugins/BlogPlugin/BlogPlugin.class.php:60
+msgid "Display a message wall on the homepage"
+msgstr "在首頁顯示訊息牆"
+
+#: plugins/BlogPlugin/BlogPlugin.class.php:61
+msgid "Allows Administrators & team members to send messages that will be displayed on other users' wall"
+msgstr "允許管理員與團隊成員來寄送訊息並顯示在其他使用者的訊息牆上"
+
+#: plugins/BlogPlugin/BlogPost.class.php:112
+msgid "Low"
+msgstr "低"
+
+#: plugins/BlogPlugin/BlogPost.class.php:114
+msgid "Normal"
+msgstr "正常"
+
+#: plugins/BlogPlugin/BlogPost.class.php:116
+msgid "High"
+msgstr "高"
+
+#. This case happens when an Administrator sends a message to "All" users
+#: plugins/BlogPlugin/BlogPost.class.php:373
+msgid "Everybody"
+msgstr "所有人"
+
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"
 msgstr "期間內可用工作日，扣除休假和外部任務"
@@ -5458,7 +5627,7 @@ msgstr "所有專案"
 
 #: plugins/ImportUsers/ImportUsers.class.php:68
 msgid "Import a list of users to MantisBT / CodevTT"
-msgstr "匯入用戶清單至MantisBT / CodevTT"
+msgstr "匯入使用者清單至 MantisBT / CodevTT"
 
 #: plugins/ImportUsers/ImportUsers.class.php:71
 msgid "Note: only available for administrators & team leaders"
@@ -5466,11 +5635,11 @@ msgstr "注意：僅有管理員和團隊領導人才可用"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:108
 msgid "Your are not allowed to import users"
-msgstr "您不被允許匯入用戶"
+msgstr "您不被允許匯入使用者"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:164
 msgid "Your CodevTT / Mantis account has been created: "
-msgstr "您的CodevTT/Mantis帳號已創建：\\"
+msgstr "您的 CodevTT / Mantis 帳號已創建：\\"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:167
 msgid "Please, change your password on your first connection."
@@ -5490,11 +5659,11 @@ msgstr "致上最好的祝福"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:171
 msgid "[CodevTT] Your password"
-msgstr "[CodevTT]您的密碼"
+msgstr "[CodevTT] 您的密碼"
 
 #: plugins/UserTeamList/UserTeamList.class.php:63
 msgid "Display a history of all the teams for a given user"
-msgstr "顯示指定用戶所有歸屬團隊的歷史"
+msgstr "顯示指定使用者所有歸屬團隊的歷史"
 
 #. return T_('Task drift alert');
 #: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:68
@@ -5508,7 +5677,7 @@ msgstr "顯示已流逝時間大於估計成效的任務"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:68
 msgid "Compute costs, using the UserDailyCosts defined in team settings"
-msgstr "計算成本；使用在團隊設定的用戶每日成本定義"
+msgstr "計算成本；使用在團隊設定的使用者每日成本定義"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:187
 msgid "No AverageDailyCost defined in team settings"
@@ -5572,7 +5741,7 @@ msgstr "從一個問題至另一個來移動時間表"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:71
 msgid "Please, fill all fields"
-msgstr "請填寫所有字段"
+msgstr "請填寫所有欄位"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:85
 msgid "This origin task doesn't exist"
@@ -5616,19 +5785,19 @@ msgstr "此月第一週"
 
 #: scheduler/scheduler.php:116
 msgid "2 weeks"
-msgstr "2週"
+msgstr "2 週"
 
 #: scheduler/scheduler.php:117
 msgid "1 month"
-msgstr "1個月"
+msgstr "1 個月"
 
 #: scheduler/scheduler.php:118
 msgid "2 months"
-msgstr "2個月"
+msgstr "2 個月"
 
 #: scheduler/scheduler.php:119
 msgid "3 months"
-msgstr "3個月"
+msgstr "3 個月"
 
 #: scheduler/scheduler_ajax.php:328
 msgid "Assignments rules not valid for task"
