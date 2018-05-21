@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-05-17 06:24:06+0000\n"
+"PO-Revision-Date: 2018-05-21 13:59:50+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -4148,7 +4148,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Refresh"
-msgstr ""
+msgstr "Atualizar"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Send new message"
@@ -4196,7 +4196,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Hidden messages"
@@ -4237,7 +4237,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Show"
-msgstr ""
+msgstr "Exibir"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Unhide a hidden message"
@@ -5798,7 +5798,7 @@ msgstr ""
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:57
 msgid "Messages"
-msgstr ""
+msgstr "Mensagens"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:60
 msgid "Display a message wall on the homepage"

@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-05-17 06:24:06+0000\n"
+"PO-Revision-Date: 2018-05-21 13:59:50+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4108,31 +4108,31 @@ msgstr "Smon-e"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Unhide a hidden message"
-msgstr ""
+msgstr "Smon-e torna un mëssagi stërmà"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Delete a message."
-msgstr ""
+msgstr "Dëscancelé un mëssagi."
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "This will permanently delete this post, are you sure ?!"
-msgstr ""
+msgstr "Sòn a dëscancelërà sa nòta ëd fasson përmanenta; é-lo sigur?"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Submission date"
-msgstr ""
+msgstr "Dàita dë spedission"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"
-msgstr ""
+msgstr "Autor"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Dest"
-msgstr ""
+msgstr "Dest"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Blog wall"
-msgstr ""
+msgstr "Muraja dë scartari"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"
@@ -5576,15 +5576,15 @@ msgstr "Smon-e l'evolussion dël bilansi"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:57
 msgid "Messages"
-msgstr ""
+msgstr "Mëssagi"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:60
 msgid "Display a message wall on the homepage"
-msgstr ""
+msgstr "Smon-e na muraja ëd mëssagi an sla pàgina d'intrada"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:61
 msgid "Allows Administrators & team members to send messages that will be displayed on other users' wall"
-msgstr ""
+msgstr "A përmet a j'aministrator e ai mèmber ëd l'echip ëd mandé dij mëssagi ch'a saran ësmonù an sla muraja dj'àutri utent"
 
 #: plugins/BlogPlugin/BlogPost.class.php:112
 msgid "Low"
@@ -5592,16 +5592,16 @@ msgstr "Bass"
 
 #: plugins/BlogPlugin/BlogPost.class.php:114
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: plugins/BlogPlugin/BlogPost.class.php:116
 msgid "High"
-msgstr ""
+msgstr "Àuta"
 
 #. This case happens when an Administrator sends a message to "All" users
 #: plugins/BlogPlugin/BlogPost.class.php:373
 msgid "Everybody"
-msgstr ""
+msgstr "Tuti quanti"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"

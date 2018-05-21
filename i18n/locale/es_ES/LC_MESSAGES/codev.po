@@ -17,7 +17,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-05-17 06:24:03+0000\n"
+"PO-Revision-Date: 2018-05-21 13:59:47+0000\n"
 "Language: es_es\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4040,11 +4040,11 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Refresh"
-msgstr ""
+msgstr "Actualizar"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Send new message"
-msgstr ""
+msgstr "Enviar un mensaje nuevo"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Expire"
@@ -4060,7 +4060,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Everybody (all teams)"
-msgstr ""
+msgstr "Todos (todos los equipos)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall options"
@@ -4068,15 +4068,15 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Recipient"
-msgstr ""
+msgstr "Destinatario"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Current team"
-msgstr ""
+msgstr "Equipo actual"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "All my teams"
-msgstr ""
+msgstr "Todos mis equipos"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Assigned to me"
@@ -4092,7 +4092,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Hidden messages"
-msgstr ""
+msgstr "Mensajes ocultos"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 #: plugins/BlogPlugin/BlogPost.class.php:419
@@ -4105,15 +4105,15 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Buttons"
-msgstr ""
+msgstr "Botones"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Add new message"
-msgstr ""
+msgstr "Añadir un mensaje nuevo"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Post a new message"
-msgstr ""
+msgstr "Publicar un mensaje nuevo"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Set message wall options"
@@ -4129,7 +4129,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Show"
-msgstr ""
+msgstr "Mostrar"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Unhide a hidden message"
@@ -4137,7 +4137,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Delete a message."
-msgstr ""
+msgstr "Eliminar un mensaje."
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "This will permanently delete this post, are you sure ?!"
@@ -4145,7 +4145,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Submission date"
-msgstr ""
+msgstr "Fecha de envío"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"
@@ -5621,7 +5621,7 @@ msgstr "Mostrar el historial del presupuesto"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:57
 msgid "Messages"
-msgstr ""
+msgstr "Mensajes"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:60
 msgid "Display a message wall on the homepage"
