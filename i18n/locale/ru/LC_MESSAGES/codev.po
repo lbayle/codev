@@ -5,6 +5,7 @@
 # Author: Irus
 # Author: Kareyac
 # Author: Mouse21
+# Author: Movses
 # Author: Nemo bis
 # Author: Nitch
 # Author: Okras
@@ -17,7 +18,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-05-17 06:24:07+0000\n"
+"PO-Revision-Date: 2018-05-25 09:42:24+0000\n"
 "Language: ru\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1421,9 +1422,8 @@ msgid "Timetrack Durations"
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Costs management"
-msgstr "Управление проектами"
+msgstr "Управление расходами"
 
 #. tpl/edit_team.html
 msgid "OnDuty tasks"
@@ -2546,9 +2546,8 @@ msgid "Ext.ID"
 msgstr ""
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Timetrack note"
-msgstr "Учет времени"
+msgstr "Примечание по учёту времени"
 
 #. tpl/time_tracking.html
 msgid "Edit timetrack"
@@ -3010,7 +3009,7 @@ msgstr "Нагрузки"
 
 #. tpl/team_activity_report.html
 msgid "Timesheet notes"
-msgstr "Расписания ноты"
+msgstr "Примечания по расписанию"
 
 #. tpl/team_activity_report.html
 msgid "All Tasks"

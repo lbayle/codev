@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-05-21 13:59:50+0000\n"
+"PO-Revision-Date: 2018-05-25 09:42:24+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -4156,7 +4156,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Expire"
-msgstr ""
+msgstr "Expirar"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Exp. date"
@@ -4209,7 +4209,7 @@ msgstr "Ocultar"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall help"
-msgstr ""
+msgstr "Ajuda na parede da mensagem"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Buttons"
