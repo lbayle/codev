@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-05-25 09:42:20+0000\n"
+"PO-Revision-Date: 2018-05-31 06:21:00+0000\n"
 "Language: el\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4035,7 +4035,7 @@ msgstr "Ημερομηνία λήξης (προαιρετική)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Everybody (all teams)"
-msgstr ""
+msgstr "Οποιοσδήποτε (όλες οι ομάδες)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall options"
@@ -4120,7 +4120,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Submission date"
-msgstr ""
+msgstr "Ημερομηνία υποβολής"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"

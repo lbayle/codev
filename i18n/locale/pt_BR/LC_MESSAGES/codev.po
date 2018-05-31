@@ -1,6 +1,7 @@
 # Translation of CodevTT to Brazilian Portuguese (português do Brasil)
 # Exported from translatewiki.net
 #
+# Author: Allysson
 # Author: Arthurteb303
 # Author: Cristofer Alves
 # Author: Eduardo Addad de Oliveira
@@ -15,7 +16,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-05-25 09:42:24+0000\n"
+"PO-Revision-Date: 2018-05-31 06:21:03+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -4152,7 +4153,7 @@ msgstr "Atualizar"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Send new message"
-msgstr ""
+msgstr "Enviar nova mensagem"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Expire"
@@ -4164,7 +4165,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Expiration Date (optional)"
-msgstr ""
+msgstr "Data de expiração (opcional)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Everybody (all teams)"
@@ -4180,7 +4181,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Current team"
-msgstr ""
+msgstr "Time atual"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "All my teams"
@@ -4200,7 +4201,7 @@ msgstr "Todos"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Hidden messages"
-msgstr ""
+msgstr "Mensagens escondidas"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 #: plugins/BlogPlugin/BlogPost.class.php:419
@@ -4213,15 +4214,15 @@ msgstr "Ajuda na parede da mensagem"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Buttons"
-msgstr ""
+msgstr "Botões"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Add new message"
-msgstr ""
+msgstr "Adicionar nova mensagem"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Post a new message"
-msgstr ""
+msgstr "Publique uma nova mensagem"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Set message wall options"
@@ -4241,7 +4242,7 @@ msgstr "Exibir"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Unhide a hidden message"
-msgstr ""
+msgstr "Mostrar uma mensagem escondida"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Delete a message."
@@ -5802,7 +5803,7 @@ msgstr "Mensagens"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:60
 msgid "Display a message wall on the homepage"
-msgstr ""
+msgstr "Mostrar uma parede de mensagem na página inicial"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:61
 msgid "Allows Administrators & team members to send messages that will be displayed on other users' wall"
