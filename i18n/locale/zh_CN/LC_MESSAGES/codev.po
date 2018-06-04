@@ -9,7 +9,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-05-17 06:24:07+0000\n"
+"PO-Revision-Date: 2018-06-04 05:53:37+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5585,7 +5585,7 @@ msgstr "在首页上显示消息墙"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:61
 msgid "Allows Administrators & team members to send messages that will be displayed on other users' wall"
-msgstr ""
+msgstr "允许管理员和团队成员发送消息，这将显示在其他用户的墙上"
 
 #: plugins/BlogPlugin/BlogPost.class.php:112
 msgid "Low"

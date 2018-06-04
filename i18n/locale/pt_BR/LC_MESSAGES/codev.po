@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-05-31 06:21:03+0000\n"
+"PO-Revision-Date: 2018-06-04 05:53:35+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -4177,7 +4177,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Recipient"
-msgstr ""
+msgstr "Recipiente"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Current team"
