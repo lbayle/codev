@@ -13,6 +13,7 @@
       <td width='100'><i>{$bpost.category}</i></td>
       <td width='100' class="bgColorSeverity_{$bpost.id}">{$bpost.severity}</td>
       <td  class="blogPlugin_postActivity" rowspan="5"  width='200' valign='top'>
+         <span style="text-decoration:underline;">{t}Acknowledged by{/t}:</span><br><br>
       {foreach from=$bpost.activity key=activity_id item=action}
       <span title="{$action.formatedDate}">{$action.actionName} {$action.userName}</span><br>
       {/foreach}
