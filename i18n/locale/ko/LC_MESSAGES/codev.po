@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-05-17 06:24:04+0000\n"
+"PO-Revision-Date: 2018-06-07 06:04:53+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4056,7 +4056,7 @@ msgstr "모든 사람 (모든 팀)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall options"
-msgstr ""
+msgstr "메시지 담벼락 옵션"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Recipient"
@@ -4093,7 +4093,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall help"
-msgstr ""
+msgstr "메시지 담벼락 도움말"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Buttons"
@@ -4109,7 +4109,7 @@ msgstr "새 메시지 게시"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Set message wall options"
-msgstr ""
+msgstr "메시지 담벼락 옵션 설정"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Mark as read. The message can then be hidden"
@@ -4149,7 +4149,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Blog wall"
-msgstr ""
+msgstr "블로그 담벼락"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"
@@ -5610,11 +5610,11 @@ msgstr "메시지"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:60
 msgid "Display a message wall on the homepage"
-msgstr ""
+msgstr "홈페이지에 메시지 담벼락을 표시합니다"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:61
 msgid "Allows Administrators & team members to send messages that will be displayed on other users' wall"
-msgstr ""
+msgstr "관리자와 팀 회원이 다른 사용자의 담벼락에 표시되는 메시지를 보낼 수 있게 합니다"
 
 #: plugins/BlogPlugin/BlogPost.class.php:112
 msgid "Low"
