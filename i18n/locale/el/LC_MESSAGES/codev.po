@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-05-31 06:21:00+0000\n"
+"PO-Revision-Date: 2018-06-18 05:53:31+0000\n"
 "Language: el\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -509,7 +509,7 @@ msgstr ""
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "EffortDeviation"
-msgstr ""
+msgstr "EffortDeviation"
 
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
@@ -1075,7 +1075,7 @@ msgstr "Επεξεργασία"
 #. tpl/project_info.html
 #. tpl/command_info.html
 msgid "Charges"
-msgstr ""
+msgstr "Χρεώσεις"
 
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
@@ -1111,7 +1111,7 @@ msgstr ""
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "Indicators"
-msgstr ""
+msgstr "Δείκτες"
 
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
@@ -1286,12 +1286,12 @@ msgstr "Προϋπολογισμός"
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "Average Daily Rate"
-msgstr ""
+msgstr "Ημερήσιος καθημερινός ρυθμός"
 
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 msgid "ADR"
-msgstr ""
+msgstr "ΗΚΚ"
 
 #. tpl/servicecontract_info.html
 msgid "No provision found."
@@ -1335,12 +1335,12 @@ msgstr "Προς"
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "End Date (included)"
-msgstr ""
+msgstr "Ημερομηνία τέλους (συμπεριλαμβάνεται)"
 
 #. tpl/form/selectFiltersDialogbox.html
 #. tpl/time_tracking.html
 msgid "Task Filters"
-msgstr ""
+msgstr "Φίλτρα εργασίας"
 
 #. tpl/form/selectFiltersDialogbox.html
 msgid "Drag & drop the filters to apply"
@@ -1413,11 +1413,11 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Costs management"
-msgstr ""
+msgstr "Διαχείριση κόστων"
 
 #. tpl/edit_team.html
 msgid "OnDuty tasks"
-msgstr ""
+msgstr "Εργασίες OnDuty"
 
 #. tpl/edit_team.html
 #. tpl/create_team.html
@@ -1579,7 +1579,7 @@ msgstr "Νόμισμα ομάδας"
 
 #. tpl/edit_team.html
 msgid "Team Average Daily Cost"
-msgstr ""
+msgstr "Ημερήσιο καθημερινό κόστος ομάδας"
 
 #. tpl/edit_team.html
 msgid "Default currency for the team."
@@ -1608,7 +1608,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "User Daily Costs"
-msgstr ""
+msgstr "Καθημερινά κόστη χρήστη"
 
 #. tpl/edit_team.html
 msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
@@ -1620,7 +1620,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Add user daily cost"
-msgstr ""
+msgstr "Προσθήκη καθημερινού κόστους χρήστη"
 
 #. tpl/edit_team.html
 msgid "Team creation date"
@@ -1628,11 +1628,11 @@ msgstr "Ημερομηνία δημιουργίας ομάδας"
 
 #. tpl/edit_team.html
 msgid "User arrival date"
-msgstr ""
+msgstr "Ημερομηνία άφιξης χρήστη"
 
 #. tpl/edit_team.html
 msgid "User Daily Cost"
-msgstr ""
+msgstr "Καθημερινό κόστος χρήστη"
 
 #. tpl/edit_team.html
 msgid "Issue Tooltips"
@@ -1653,11 +1653,11 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Enable/Disable alerts"
-msgstr ""
+msgstr "Ενεργοποίηση/απενεργοποίηση ειδοποιήσεων"
 
 #. tpl/edit_team.html
 msgid "Add OnDuty tasks"
-msgstr ""
+msgstr "Προσθήκη εργασιών OnDuty"
 
 #. tpl/edit_team.html
 msgid "Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly different behaviour."
@@ -1928,7 +1928,7 @@ msgstr "Σφάλμα(-τα) σε εργασίες του Mantis"
 
 #. tpl/check.html
 msgid "extRef"
-msgstr ""
+msgstr "extRef"
 
 #. tpl/check.html
 msgid "last modification date"
@@ -1952,7 +1952,7 @@ msgstr "Εξωτερικό αναγνωριστικό"
 
 #. tpl/issue_info.html
 msgid "Remove task from command"
-msgstr ""
+msgstr "Αφαίρεση εργασίας από την εντολή"
 
 #. tpl/issue_info.html
 msgid "Add to command"
@@ -2039,7 +2039,7 @@ msgstr "Λάβετε σημειώσεις mantis"
 
 #. tpl/issue_info.html
 msgid "Click refresh button to display..."
-msgstr ""
+msgstr "Κάντε κλικ στο κουμπί ανανέωσης για εμφάνιση..."
 
 #. tpl/issue_info.html
 #. tpl/time_tracking.html
@@ -2103,7 +2103,7 @@ msgstr "Νέο σετ εντολών"
 #. tpl/commandset_edit.html
 #. tpl/command_edit.html
 msgid "Field is missing"
-msgstr ""
+msgstr "Το πεδίο λείπει"
 
 #. tpl/commandset_edit.html
 msgid "Command set name"
@@ -2111,7 +2111,7 @@ msgstr "Όνομα σετ εντολών"
 
 #. tpl/commandset_edit.html
 msgid "Delete CommandSet"
-msgstr ""
+msgstr "Διαγραφή σετ εντολής"
 
 #. tpl/commandset_edit.html
 msgid "Delete this CommandSet ?"
@@ -2127,11 +2127,11 @@ msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "--- New Command ---"
-msgstr ""
+msgstr "--- Νέα Εντολή ---"
 
 #. tpl/commandset_edit.html
 msgid "Remove Command"
-msgstr ""
+msgstr "Αφαίρεση εντολής"
 
 #. tpl/commandset_edit.html
 msgid "Remove Command from this CommandSet ?"
@@ -2440,7 +2440,7 @@ msgstr ""
 #. tpl/statistics.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "man-days"
-msgstr ""
+msgstr "ανθρώπινες ημέρες"
 
 #. tpl/statistics.html
 msgid "Available man-days on the period (excluding leave and external tasks)"
@@ -2468,7 +2468,7 @@ msgstr "Αναφέροντες"
 
 #. tpl/export_odt.html
 msgid "Handlers"
-msgstr ""
+msgstr "Χειριστές"
 
 #. tpl/export_odt.html
 msgid "ODT Template"
@@ -2499,7 +2499,7 @@ msgstr "Σφάλμα"
 
 #. tpl/time_tracking.html
 msgid "Query FAILED"
-msgstr ""
+msgstr "Το ερώτημα απέτυχε"
 
 #. tpl/time_tracking.html
 msgid "Reduce the tasks selection by setting some filters"
@@ -2507,15 +2507,15 @@ msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Hide tasks not assigned to me"
-msgstr ""
+msgstr "Απόκρυψη εργασιών που δεν έχουν ανατεθεί σε εμένα"
 
 #. tpl/time_tracking.html
 msgid "Hide resolved tasks"
-msgstr ""
+msgstr "Απόκρυψη επιλημένων εργασιών"
 
 #. tpl/time_tracking.html
 msgid "Hide closed tasks"
-msgstr ""
+msgstr "Απόκρυψη κλειστών εργασιών"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
@@ -2572,15 +2572,15 @@ msgstr "ή"
 
 #. tpl/planning_report.html
 msgid "zoom in"
-msgstr ""
+msgstr "Μεγέθυνση"
 
 #. tpl/planning_report.html
 msgid "zoom out"
-msgstr ""
+msgstr "Σμίκρυνση"
 
 #. tpl/planning_report.html
 msgid "Planning Options"
-msgstr ""
+msgstr "Επιλογές σχεδιασμού"
 
 #. tpl/planning_report.html
 #. tpl/modal/consistency_check.html
@@ -2640,7 +2640,7 @@ msgstr ""
 
 #. tpl/doc.html
 msgid "GreaseMonkey script: "
-msgstr ""
+msgstr "Σκριπτ GreaseMonkey: "
 
 #. tpl/doc.html
 msgid "You can help on translations: "
@@ -2652,7 +2652,7 @@ msgstr "Στατιστικά"
 
 #. tpl/doc.html
 msgid "Contact the author: "
-msgstr ""
+msgstr "Επικοινωνήστε με τον συγγραφέα: "
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
@@ -2684,7 +2684,7 @@ msgstr ""
 
 #. tpl/tools/dashboard.html
 msgid "Add Indicator"
-msgstr ""
+msgstr "Προσθήκη δείκτη"
 
 #. tpl/tools/dashboard.html
 #. tpl/modal/login.html
@@ -2788,11 +2788,11 @@ msgstr ""
 
 #. tpl/create_team.html
 msgid "Custom Fields"
-msgstr ""
+msgstr "Εξατομικευμένα πεδία"
 
 #. tpl/create_team.html
 msgid "CodevTT custom fields"
-msgstr ""
+msgstr "Εξατομικευμένα πεδία CodevTT"
 
 #. tpl/create_team.html
 msgid "MgrEffortEstim, EffortEstim, AddEffort, Backlog, DeadLine, DeliveryDate"
