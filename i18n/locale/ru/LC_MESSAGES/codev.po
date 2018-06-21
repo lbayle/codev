@@ -18,7 +18,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-06-14 10:20:05+0000\n"
+"PO-Revision-Date: 2018-06-21 06:15:15+0000\n"
 "Language: ru\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4321,12 +4321,10 @@ msgid "Colors"
 msgstr "Цвета"
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "username"
 msgstr "имя участника"
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "User already exists"
 msgstr "Участник уже существует"
 
@@ -4438,14 +4436,12 @@ msgstr ""
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:382
-#, fuzzy
 msgid "Other"
 msgstr "Другие"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:383
-#, fuzzy
 msgid "External"
 msgstr "Внешние"
 
@@ -4515,9 +4511,8 @@ msgid "Filter on Issue type"
 msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "No filter"
-msgstr "Нет фильтр"
+msgstr "Без фильтра"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Bugs only"
@@ -4562,7 +4557,6 @@ msgid "EffortEstim reliability history"
 msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Select All"
 msgstr "Выбрать все"
 
@@ -4664,12 +4658,10 @@ msgid "Configure Tooltips"
 msgstr ""
 
 #: admin/edit_team.php:391
-#, fuzzy
 msgid "enabled"
 msgstr "включено"
 
 #: admin/edit_team.php:391
-#, fuzzy
 msgid "disabled"
 msgstr "отключено"
 
@@ -4760,12 +4752,10 @@ msgid "Constrains"
 msgstr ""
 
 #: classes/issue.class.php:2245 classes/wbsElement.class.php:627 tools.php:1548
-#, fuzzy
 msgid "Tags"
 msgstr "Метки"
 
 #: classes/issue.class.php:2253
-#, fuzzy
 msgid "none"
 msgstr "нет"
 
@@ -4791,12 +4781,10 @@ msgid "ETA"
 msgstr ""
 
 #: classes/PluginManager.class.php:79
-#, fuzzy
 msgid "Disabled"
-msgstr "Отключён"
+msgstr "Отключено"
 
 #: classes/PluginManager.class.php:80
-#, fuzzy
 msgid "Removed"
 msgstr "Удалено"
 
@@ -4843,7 +4831,6 @@ msgstr "Информация"
 
 #: classes/consistency_check2.class.php:68 reports/export_odt.php:270
 #: reports/export_odt.php:283 tests/odt.php:81 tests/odt.php:94
-#, fuzzy
 msgid "unknown"
 msgstr "неизвестно"
 
@@ -4944,7 +4931,6 @@ msgid "to be sent"
 msgstr ""
 
 #: classes/command.class.php:60
-#, fuzzy
 msgid "Sent"
 msgstr "Отправлено"
 
@@ -4961,7 +4947,6 @@ msgid "to be closed"
 msgstr ""
 
 #: classes/command.class.php:64
-#, fuzzy
 msgid "closed"
 msgstr "закрыто"
 
@@ -5115,7 +5100,6 @@ msgstr ""
 
 #. ------ Administrator
 #: install/install_step3.php:553
-#, fuzzy
 msgid "CodevTT Administrator"
 msgstr "Администратор CodevTT"
 
@@ -5173,12 +5157,10 @@ msgid "Analyse"
 msgstr ""
 
 #: install/install_step3.php:865
-#, fuzzy
 msgid "Development"
 msgstr "Разработка"
 
 #: install/install_step3.php:866
-#, fuzzy
 msgid "Tests"
 msgstr "Проверки"
 
@@ -5229,9 +5211,8 @@ msgid "Proceed Step 2"
 msgstr ""
 
 #: install/install_step5.php:25
-#, fuzzy
 msgid "Installation finished"
-msgstr "Установка готовила"
+msgstr "Установка завершена"
 
 #: install/install_step4.php:25
 msgid "Install - Step 4"
@@ -5406,9 +5387,8 @@ msgstr ""
 
 #: management/command_info_ajax.php:363 scheduler/scheduler_ajax.php:379
 #: gantt/gantt_ajax.php:166
-#, fuzzy
 msgid "auto"
-msgstr "авто"
+msgstr "автоматически"
 
 #: management/command_edit_ajax.php:66
 msgid "Provisions updated FAILED !"
