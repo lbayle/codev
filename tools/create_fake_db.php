@@ -217,6 +217,12 @@ function updateUsers() {
    // admin (password must be changed manualy in OVH !!)
    $query  = "UPDATE {user} SET password = 'e26f604637ae454f792f4fcbff878bd1' WHERE id ='1' ";
    $sql->sql_query($query);
+
+   // do not allow internet users to change passwords
+   $query  = "UPDATE {user} SET protected = '1'";
+   $sql->sql_query($query);
+
+
 }
 
 function updateTeams() {
