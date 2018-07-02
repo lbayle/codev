@@ -1,6 +1,7 @@
 # Translation of CodevTT to Simplified Chinese (中文（简体）‎)
 # Exported from translatewiki.net
 #
+# Author: Deathkon
 # Author: Fanjiayi
 # Author: Frog7301
 # Author: Liuxinyu970226
@@ -9,7 +10,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-06-04 05:53:37+0000\n"
+"PO-Revision-Date: 2018-07-02 05:54:18+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1605,7 +1606,7 @@ msgstr "转移货币"
 
 #. tpl/edit_team.html
 msgid "TODO: describe how and where it is used in CodevTT"
-msgstr ""
+msgstr "TODO：描述它在CodevTT中的使用方式和使用位置"
 
 #. tpl/edit_team.html
 msgid "User Daily Costs"
@@ -1613,7 +1614,7 @@ msgstr "用户每日花费"
 
 #. tpl/edit_team.html
 msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
-msgstr ""
+msgstr "UDC是一位用户在一天中的成本，它会覆盖ADC"
 
 #. tpl/edit_team.html
 msgid "Add UserDailyCost"
@@ -3939,11 +3940,11 @@ msgstr "%已确认"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having successfully pass the validation tests"
-msgstr ""
+msgstr "显示已成功通过验证测试的问题的百分比"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved' to any higher status (and still in this state at the end of the period)."
-msgstr ""
+msgstr "状态从“已解决”更改为任一更高的状态（并且在周期结束时仍处于此状态）。"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Rejected"
@@ -3951,11 +3952,11 @@ msgstr "%已拒绝"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having failed the validation tests"
-msgstr ""
+msgstr "显示未能通过验证测试的问题的百分比"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved (or higher) to any lower status (and still unresolved at the end of the period)"
-msgstr ""
+msgstr "状态从已解决（或更高）状态变为任一较低状态（并且在周期结束时仍未解决）"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Bug Refusal Rate"
@@ -3963,7 +3964,7 @@ msgstr "错误拒绝率"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having fail validation tests"
-msgstr ""
+msgstr "未能通过验证测试的问题个数"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Fail"
@@ -3971,7 +3972,7 @@ msgstr "Nb失败"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having pass validation tests"
-msgstr ""
+msgstr "已通过验证测试的问题个数"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Pass"
@@ -3992,7 +3993,7 @@ msgstr "预算漂移历史指示器"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks)."
-msgstr ""
+msgstr "将预算（MgrEffortEstim + 已检查的规定）与预估时间（完成任务所需的天数）进行比较。"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "% Budget Drift"
@@ -4357,23 +4358,23 @@ msgstr "消耗"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Global cost estimation:"
-msgstr ""
+msgstr "整体成本估算："
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Costs Mgr"
-msgstr ""
+msgstr "成本经理"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the costs of each timetrack."
-msgstr ""
+msgstr "每个时间轨迹成本的总和。"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Team AverageDailyCost and UserDailyCosts must be defined in team settings."
-msgstr ""
+msgstr "团队的 AverageDailyCost 和 UserDailyCosts 必须在团队设置中定义。"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "AverageDailyCost is used when no UserDailyCosts is defined for the timetrack's user."
-msgstr ""
+msgstr "如果没有为此时间轨迹上的用户定义 UserDailyCosts，则会使用 AverageDailyCost。"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "AverageDailyCost is used if the task is not yet assigned to anyone."
@@ -4381,15 +4382,15 @@ msgstr "在任务未分配给任何人时，平均日常费用会使用。"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "The backlog is computed with the current assigned user's UserDailyCost"
-msgstr ""
+msgstr "积压是根据当前分配的用户的 UserDailyCost 来计算的"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Respectively sum the MgrEffortEstim, EffortEstim, Reestimated, Elapsed, Backlog of each task."
-msgstr ""
+msgstr "对每项任务的 MgrEffortEstim，EffortEstim，Reestimated，Elapsed，Backlog 分别求和。"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "The backlog depends on the status (always 0 if status >= Resolved)"
-msgstr ""
+msgstr "积压取决于状态（如果状态 >= 已解决，则始终为0）"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the Provisions that are 'checked' as included in the budget."
@@ -4435,16 +4436,16 @@ msgstr "每位用户加载的"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
+msgstr "显示浪费的子任务：“事件”和“不活跃”类别<br>\n   （如果未选中，则子任务将被包含在“已过期”中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
-msgstr ""
+msgstr "显示完整活动：<br>如果选中，未包含在当前选择中的任务的时间轨迹将显示在其他列中"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:81
 msgid "Check all the timetracks of the period and return their repartition per User"
-msgstr ""
+msgstr "检查此周期的全部时间轨迹，并按用户返回其重新分配结果"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "Time spent on the projects & sideTasks of the current task selection"
@@ -4452,11 +4453,11 @@ msgstr "在当前任务选择的项目和边栏任务上所花费的时间"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
+msgstr "当前选择中的“事件”和“不活跃”子任务。<br>\n   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
-msgstr ""
+msgstr "未出现在当前已选择任务中的任务和子任务上所花费的时间"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "External tasks except 'Leave' category"
@@ -4464,7 +4465,7 @@ msgstr "除了“离开”分类以外的外部任务"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "External leave tasks & inactivity sideTasks that are not in the current task selection"
-msgstr ""
+msgstr "未出现在当前已选择任务中的外部分离任务和不活跃子任务"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
@@ -4691,15 +4692,15 @@ msgstr "提示信息"
 #. avoid divisions by zero
 #: classes/Currencies.class.php:126
 msgid "ERROR: invalid currency: (coef is null, zero, or not a number)"
-msgstr ""
+msgstr "错误：货币无效：（coef为空，为0，或并非数字）"
 
 #: classes/Currencies.class.php:131
 msgid "ERROR: First define the referal currency (with coef=1)"
-msgstr ""
+msgstr "错误：首次定义推荐货币（coef=1）"
 
 #: classes/Currencies.class.php:136
 msgid "ERROR: there can be only one 'referal' currency (with coef=1)"
-msgstr ""
+msgstr "错误：只能有一个“推荐”货币（coef=1）"
 
 #: classes/Currencies.class.php:140
 msgid "ERROR: currency already defined"
@@ -4850,7 +4851,7 @@ msgstr "命令集应在劳务合同中引用"
 
 #: classes/consistency_check2.class.php:208
 msgid "Issues should be assigned to someone"
-msgstr ""
+msgstr "问题应当被分配给某人"
 
 #: classes/consistency_check2.class.php:209
 msgid "Check timetracks on removed issues (not needed if Mantis plugin is enabled)"
@@ -5078,7 +5079,7 @@ msgstr "工作流"
 
 #: install/install_step3.php:495
 msgid "Set equivalences in accordance to your Mantis workflow"
-msgstr ""
+msgstr "根据您的Mantis工作流来设置等效值"
 
 #. ------ Administrator
 #: install/install_step3.php:553
@@ -5087,7 +5088,7 @@ msgstr "CodevTT管理员"
 
 #: install/install_step3.php:565
 msgid "More administrators can be defined later, for now you just need one."
-msgstr ""
+msgstr "稍后您可以定义更多的管理员，而现在您只需要一个。"
 
 #. ------- External ID
 #: install/install_step3.php:569
@@ -5529,7 +5530,7 @@ msgstr "删除工时表失败！"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:72
 msgid "Check all the tasks and return the backlog per User"
-msgstr ""
+msgstr "检查所有任务，并返回每个用户的积压"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:258
 msgid "(unknown 0)"
@@ -5610,7 +5611,7 @@ msgstr "工作日在一段周期内可用，除了离开时间和外部任务"
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:73
 msgid "Check all the timetracks of the period and return their repartition per project categories"
-msgstr ""
+msgstr "检查周期内的所有时间轨迹，并按项目类别返回其重新分配结果"
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:344
 msgid "All Sidetasks Projects"
@@ -5672,11 +5673,11 @@ msgstr "任务漂移提醒"
 #. return T_('Display tasks in drift');
 #: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:72
 msgid "Display tasks where the elapsed time is greater than the estimated effort"
-msgstr ""
+msgstr "显示经过时间大于预估工作量的任务"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:68
 msgid "Compute costs, using the UserDailyCosts defined in team settings"
-msgstr ""
+msgstr "使用团队设置中定义的 UserDailyCosts 来计算成本"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:187
 msgid "No AverageDailyCost defined in team settings"
@@ -5684,7 +5685,7 @@ msgstr "在团队设置中没有定义平均日常费用"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:194
 msgid "Sorry, only managers can access this plugin"
-msgstr ""
+msgstr "对不起，只有经理可以访问此插件。"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:283
 msgid "Sidetasks"
@@ -5716,11 +5717,11 @@ msgstr "积压工作（日）"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:68
 msgid "Display the EffortEstim reliability rate history"
-msgstr ""
+msgstr "显示 EffortEstim 可靠率的历史记录"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:69
 msgid "rate = EffortEstim / elapsed (on resolved tasks only)"
-msgstr ""
+msgstr "速率 = EffortEstim / 已经过(仅对于已解决的任务)"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:72
 msgid "REM: An issue that has been reopened before endTimestamp will NOT be recorded."
@@ -5760,7 +5761,7 @@ msgstr "请在移动它们之前显示时间跟踪"
 
 #: scheduler/SchedulerTaskProvider.class.php:46
 msgid "Daily breakdown scheduling"
-msgstr ""
+msgstr "每日故障计划"
 
 #. TODO use this value to stop scheduler computing if OPTION_nbDaysForecast is too big
 #. $max_time = ini_get("max_execution_time");
@@ -5800,7 +5801,7 @@ msgstr "3个月"
 
 #: scheduler/scheduler_ajax.php:328
 msgid "Assignments rules not valid for task"
-msgstr ""
+msgstr "分配规则对任务无效"
 
 #: scheduler/scheduler_ajax.php:342
 msgid "Assignments updated for task"
@@ -5817,7 +5818,7 @@ msgstr "选项保存成功"
 
 #: scheduler/SchedulerTaskProvider0.class.php:44
 msgid "Standard issue priority scheduling"
-msgstr ""
+msgstr "标准问题优先级计划"
 
 #: smarty_tools_ajax.php:35
 msgid "All projects"
