@@ -4,6 +4,7 @@
 # Author: Beta16
 # Author: Fitoschido
 # Author: Margherita.mignanelli
+# Author: Ontsed
 # Author: Samuele2002
 # Author: Selven
 # Author: Walter Raffoni
@@ -13,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-05-17 06:24:04+0000\n"
+"PO-Revision-Date: 2018-07-05 11:40:36+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -2792,9 +2793,8 @@ msgid "Inactivity"
 msgstr "Inattività"
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "On Duty, Waste, other special cases"
-msgstr "OnDuty, altri casi speciali"
+msgstr "In servizio, Rifiuti, altri casi speciali"
 
 #. tpl/create_team.html
 msgid "Custom Fields"
