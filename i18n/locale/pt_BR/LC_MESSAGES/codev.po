@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-07-16 14:49:33+0000\n"
+"PO-Revision-Date: 2018-08-13 06:07:57+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -359,9 +359,8 @@ msgstr "Esforço inicial"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
-#, fuzzy
 msgid "EffortAdd"
-msgstr "Esforço inicial"
+msgstr "EffortAdd"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
@@ -763,29 +762,27 @@ msgstr "Resumo"
 
 #. tpl/productivity_report.html
 msgid "Drift - Tasks (ExtRefOnly)"
-msgstr ""
+msgstr "Drift-Tarefas (ExtRefSolamente)"
 
 #. tpl/productivity_report.html
 msgid "Drift (ExtRefOnly)"
-msgstr ""
+msgstr "Drift (ExtRefOnly)"
 
 #. tpl/productivity_report.html
 msgid "Drift ExtRefOnly"
-msgstr ""
+msgstr "Drift ExtRefOnly"
 
 #. tpl/productivity_report.html
 msgid "Tasks without ExternalRef are excluded"
-msgstr ""
+msgstr "Tarefas sem ExternalRef são excluídas"
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "Reopened tasks are not included"
-msgstr "Casos reabertos não estão sendo considerados"
+msgstr "Tarefas reabertas não estão incluídas"
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "No Drift on External tasks."
-msgstr "Exibir casos externos"
+msgstr "Não derivar em tarefas externas."
 
 #. tpl/productivity_report.html
 msgid "nb resolved"
@@ -868,9 +865,8 @@ msgid "Filters"
 msgstr "Filtros"
 
 #. tpl/holidays_report.html
-#, fuzzy
 msgid "Displayed tasks"
-msgstr "Tâches résolues"
+msgstr "Tarefas exibidas"
 
 #. tpl/holidays_report.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
@@ -1056,14 +1052,12 @@ msgid "Time spent on Projects per users"
 msgstr "Tempo gasto em Projetos por usuários"
 
 #. tpl/project_activity_report.html
-#, fuzzy
 msgid "With ExternalTasks Project"
-msgstr "CodevTT Projeto de casos externos"
+msgstr "Com projeto ExternalTasks"
 
 #. tpl/project_activity_report.html
-#, fuzzy
 msgid "With SideTasks Project"
-msgstr "Projeto de tarefas correlatas"
+msgstr "Com o projeto SideTasks"
 
 #. tpl/servicecontract_info.html
 #. tpl/menu/global_menu.html
@@ -1079,9 +1073,8 @@ msgstr "-- Criar um novo Contrato de Serviço ---"
 #. tpl/commandset_edit.html
 #. tpl/command_edit.html
 #. tpl/commandset_info.html
-#, fuzzy
 msgid "Sorry, only managers can access this page."
-msgstr "Você deve ser um gerente de equipe para acessar esta pagina."
+msgstr "Desculpe, apenas os gerentes podem acessar esta página."
 
 #. tpl/servicecontract_info.html
 #. tpl/command_info.html
@@ -1097,9 +1090,8 @@ msgstr "Encargos"
 
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
-#, fuzzy
 msgid "Detailed Charges"
-msgstr "Mgr Detalhado"
+msgstr "Cargos detalhados"
 
 #. tpl/servicecontract_info.html
 #. tpl/tools/dashboard.html
@@ -1310,12 +1302,11 @@ msgstr "Taux Journalier Moyen"
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 msgid "ADR"
-msgstr ""
+msgstr "ADR"
 
 #. tpl/servicecontract_info.html
-#, fuzzy
 msgid "No provision found."
-msgstr "Não há casos."
+msgstr "Nenhuma provisão encontrada."
 
 #. tpl/form/dateRangeSelector.html
 #. tpl/time_tracking.html
@@ -1428,18 +1419,16 @@ msgid "Preferences"
 msgstr "Preferências"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Timetrack Durations"
-msgstr "Atividades"
+msgstr "Duração do Timetrack"
 
 #. tpl/edit_team.html
 msgid "Costs management"
 msgstr "Gerenciamento de custos"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "OnDuty tasks"
-msgstr "Adicionar tarefas de plantão"
+msgstr "Tarefas OnDuty"
 
 #. tpl/edit_team.html
 #. tpl/create_team.html
@@ -1466,9 +1455,8 @@ msgid "Enabled"
 msgstr "Ativo"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report."
-msgstr "Nota: Um <i>Gerente</i> deve ser declarado como <i>membro da equipe</i> para ele ser incluso no relatório de produtividade da equipe"
+msgstr "Nota: Um <i>Team Admin</i> também deve ser declarado como <i>TeamMember</i> para ser incluído no relatório de produtividade da equipe."
 
 #. tpl/edit_team.html
 msgid "Delete team"
@@ -1577,9 +1565,8 @@ msgid "Jobs"
 msgstr "Cargos"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Create SideTasksProject"
-msgstr "Criar um proeto específico para casos recorrelatos"
+msgstr "Criar projeto de SideTasks"
 
 #. tpl/edit_team.html
 msgid "Project name"
@@ -1591,85 +1578,84 @@ msgstr "Criar projeto"
 
 #. tpl/edit_team.html
 msgid "Average Daily Cost"
-msgstr ""
+msgstr "Custo diário médio"
 
 #. tpl/edit_team.html
 msgid "The ADC is the default UDC for team members"
-msgstr ""
+msgstr "O ADC é o UDC padrão para membros da equipe"
 
 #. tpl/edit_team.html
 msgid "Team Currency"
-msgstr ""
+msgstr "Moeda da equipe"
 
 #. tpl/edit_team.html
 msgid "Team Average Daily Cost"
-msgstr ""
+msgstr "Custo diário médio da equipe"
 
 #. tpl/edit_team.html
 msgid "Default currency for the team."
-msgstr ""
+msgstr "Moeda padrão para a equipe."
 
 #. tpl/edit_team.html
 msgid "All indicators will use this currency and all values defined in other currencies will be converted."
-msgstr ""
+msgstr "Todos os indicadores usarão essa moeda e todos os valores definidos em outras moedas serão convertidos."
 
 #. tpl/edit_team.html
 #. tpl/command_edit.html
 msgid "Currency"
-msgstr ""
+msgstr "Moeda"
 
 #. tpl/edit_team.html
 msgid "Coef"
-msgstr ""
+msgstr "Coef"
 
 #. tpl/edit_team.html
 msgid "referal currency"
-msgstr ""
+msgstr "moeda de referência"
 
 #. tpl/edit_team.html
 msgid "TODO: describe how and where it is used in CodevTT"
-msgstr ""
+msgstr "TODO: descreva como e onde é usado no CodevTT"
 
 #. tpl/edit_team.html
 msgid "User Daily Costs"
-msgstr ""
+msgstr "Custos diários do usuário"
 
 #. tpl/edit_team.html
 msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
-msgstr ""
+msgstr "O UDC é o custo de um usuário para um único dia, ele substitui o ADC"
 
 #. tpl/edit_team.html
 msgid "Add UserDailyCost"
-msgstr ""
+msgstr "Adicionar custodiáriodousuário"
 
 #. tpl/edit_team.html
 msgid "Add user daily cost"
-msgstr ""
+msgstr "Adicionar custo diário ao usuário"
 
 #. tpl/edit_team.html
 msgid "Team creation date"
-msgstr ""
+msgstr "Data de criação da equipe"
 
 #. tpl/edit_team.html
 msgid "User arrival date"
-msgstr ""
+msgstr "Data de chegada do usuário"
 
 #. tpl/edit_team.html
 msgid "User Daily Cost"
-msgstr ""
+msgstr "Custo diário do usuário"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Issue Tooltips"
-msgstr "Tag caso"
+msgstr "Editar uma Tooltips"
 
 #. tpl/edit_team.html
 msgid "Tooltip fields"
-msgstr ""
+msgstr "Campos de dica de ferramenta"
 
 #. tpl/edit_team.html
 msgid "No custom IssueTooltips defined for your projects."
-msgstr ""
+msgstr "Nenhum problema personalizado foi definido para seus projetos."
 
 #. tpl/edit_team.html
 #. tpl/menu/global_menu.html
@@ -1678,7 +1664,7 @@ msgstr "Teste de integridade"
 
 #. tpl/edit_team.html
 msgid "Enable/Disable alerts"
-msgstr ""
+msgstr "Ativar/desativar alertas"
 
 #. tpl/edit_team.html
 msgid "Add OnDuty tasks"
@@ -1686,7 +1672,7 @@ msgstr "Adicionar tarefas de plantão"
 
 #. tpl/edit_team.html
 msgid "Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly different behaviour."
-msgstr ""
+msgstr "Nota: Tarefas OnDuty são tarefas específicas 'Deixar' pouco diferente"
 
 #. tpl/edit_team.html
 msgid "Inactivity tasks"
@@ -1694,7 +1680,7 @@ msgstr "Inatividade"
 
 #. tpl/edit_team.html
 msgid "No 'inactivity' task defined in your SideTasks projects."
-msgstr ""
+msgstr "Nenhuma tarefa de 'inatividade' definida em seus projetos do SideTasks."
 
 #. tpl/edit_team.html
 #. tpl/servicecontract_edit.html
@@ -1710,11 +1696,11 @@ msgstr "excluir tarefa OnDuty"
 
 #. tpl/edit_team.html
 msgid "Timetrack durations list"
-msgstr ""
+msgstr "Lista de duração para contar o tempo"
 
 #. tpl/edit_team.html
 msgid "These are the values proposed in the Timetracking page, when adding a timetrack."
-msgstr ""
+msgstr "Estes são os valores propostos na página Timetracking, ao medir o tempo"
 
 #. tpl/edit_team.html
 #. tpl/menu/global_menu.html
@@ -1731,18 +1717,16 @@ msgid "Display"
 msgstr "Exibir"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "add a custom duration"
-msgstr "Effort Estimé"
+msgstr "adicionar uma duração personalizada"
 
 #. tpl/edit_team.html
 msgid "Delete duration"
 msgstr "Excluir duração"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Deleted the following duration ?"
-msgstr "Apagar o registro de tempo a seguir ?"
+msgstr "Excluiu a duração seguinte?"
 
 #. tpl/edit_team.html
 #. tpl/servicecontract_edit.html
@@ -1786,11 +1770,11 @@ msgstr "Remover usuário desta equipe?"
 
 #. tpl/edit_team.html
 msgid "Remove this project from the team ?"
-msgstr ""
+msgstr "Remover este projeto da equipe?"
 
 #. tpl/edit_team.html
 msgid "Remove IssueTooltip customisation for project"
-msgstr ""
+msgstr "Remover a personalização do IssueTooltip para o projeto"
 
 #. tpl/edit_team.html
 msgid "This task will no longer be identified as an 'OnDuty' task."
@@ -1826,9 +1810,8 @@ msgid "Export"
 msgstr "Exportar"
 
 #. tpl/servicecontract_edit.html
-#, fuzzy
 msgid "New service contract"
-msgstr "Contrato de Serviço"
+msgstr "Novo contrato de serviço"
 
 #. tpl/servicecontract_edit.html
 msgid "StartDate"
@@ -1839,9 +1822,8 @@ msgid "EndDate"
 msgstr "Data final"
 
 #. tpl/servicecontract_edit.html
-#, fuzzy
 msgid "Service contract name"
-msgstr "Contrato de Serviço"
+msgstr "Nome do contrato de serviço"
 
 #. tpl/servicecontract_edit.html
 msgid "Delete ServiceContract"
@@ -1956,9 +1938,8 @@ msgid " Error(s) in Mantis Tasks"
 msgstr " Erro(s) nos casos Mantis"
 
 #. tpl/check.html
-#, fuzzy
 msgid "extRef"
-msgstr "RefExt"
+msgstr "extRef"
 
 #. tpl/check.html
 msgid "last modification date"
@@ -1981,14 +1962,12 @@ msgid "External ID"
 msgstr "ID externo"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Remove task from command"
-msgstr "Remover Comando"
+msgstr "Remover tarefa do comando"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Add to command"
-msgstr "Adicionar tarefa ao Command"
+msgstr "Adicionar ao comando"
 
 #. tpl/issue_info.html
 msgid "Properties"
@@ -1999,24 +1978,20 @@ msgid "Timetracks"
 msgstr "Atividades"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Time tracking"
-msgstr "Acompanhamento de tempo"
+msgstr "Rastreamento de tempo"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Update timetracking"
-msgstr "Acompanhamento de tempo"
+msgstr "Atualizar o rastreamento de tempo"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Task Info"
-msgstr "Info caso"
+msgstr "Informações da Tarefa"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Update task info"
-msgstr "Update Backlog/acúmulo"
+msgstr "Atualizar informações da tarefa"
 
 #. tpl/issue_info.html
 msgid "External Ref"
@@ -2062,19 +2037,16 @@ msgid "Deadline"
 msgstr "Vencimento"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Relation"
-msgstr "Resolução"
+msgstr "Relação"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Mantis notes"
-msgstr "Ocorrências Mantis"
+msgstr "Notas da Mantis"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Get mantis notes"
-msgstr "Obter customizações do Mantis"
+msgstr "Obter notas de mantis"
 
 #. tpl/issue_info.html
 msgid "Click refresh button to display..."
@@ -2103,9 +2075,8 @@ msgid "Update timetracking values"
 msgstr ""
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Remove from :"
-msgstr "Remover Comando"
+msgstr "Remover de :"
 
 #. tpl/issue_info.html
 msgid "Add to Command"
@@ -2116,9 +2087,8 @@ msgid "set/remove task specific deadline"
 msgstr ""
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Delivery date"
-msgstr "Data de liberação"
+msgstr "Data de entrega"
 
 #. tpl/issue_info.html
 msgid "set/remove delivery date"
@@ -2138,15 +2108,13 @@ msgid "Backlog should not be set if status is : "
 msgstr ""
 
 #. tpl/commandset_edit.html
-#, fuzzy
 msgid "New command set"
-msgstr "Novo comando"
+msgstr "Novo conjunto de comandos"
 
 #. tpl/commandset_edit.html
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Field is missing"
-msgstr "Alguns campos estão faltando:"
+msgstr "O campo está em falta"
 
 #. tpl/commandset_edit.html
 msgid "Command set name"
@@ -2203,9 +2171,8 @@ msgid "Planning"
 msgstr "Planejamento"
 
 #. tpl/scheduler.html
-#, fuzzy
 msgid "Assignment"
-msgstr "Atribuído"
+msgstr "Tarefa"
 
 #. tpl/scheduler.html
 #. tpl/planning_report.html
@@ -2225,14 +2192,12 @@ msgid "User assignment"
 msgstr ""
 
 #. tpl/scheduler.html
-#, fuzzy
 msgid "Add user"
 msgstr "Adicionar usuário"
 
 #. tpl/scheduler.html
-#, fuzzy
 msgid "Time on task"
-msgstr "Tempo por Status"
+msgstr "Tempo na tarefa"
 
 #. tpl/scheduler.html
 msgid "Auto"
@@ -2275,28 +2240,24 @@ msgid "Display ExtRef instead of mantis_id"
 msgstr ""
 
 #. tpl/scheduler.html
-#, fuzzy
 msgid "Initial date"
 msgstr "Data inicial"
 
 #. tpl/scheduler.html
-#, fuzzy
 msgid "Number of days to display"
-msgstr "Número de dias faturados"
+msgstr "Número de dias para exibir"
 
 #. tpl/scheduler.html
-#, fuzzy
 msgid "Number of days to compute"
-msgstr "Número de dias faturados"
+msgstr "Número de dias para computar"
 
 #. tpl/scheduler.html
 msgid "Task warning threshold (n days before dealine)"
 msgstr ""
 
 #. tpl/scheduler.html
-#, fuzzy
 msgid "Save options"
-msgstr "Opções"
+msgstr "Salvar opções"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support included"
@@ -2311,9 +2272,8 @@ msgid "update backlog"
 msgstr "atualizar backlog"
 
 #. tpl/ajax/schedulerAffectationSummary.html
-#, fuzzy
 msgid "Assigned users"
-msgstr "Atribuído"
+msgstr "Usuários atribuídos"
 
 #. tpl/set_holidays.html
 #. tpl/time_tracking.html
@@ -2372,18 +2332,16 @@ msgstr "Taxa de reabertura"
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:71
-#, fuzzy
 msgid "Available Workforce"
-msgstr "Capacidade de produção"
+msgstr "Força de trabalho disponível"
 
 #. tpl/statistics.html
 msgid "Submitted"
 msgstr "Reportados"
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "Nb of submitted tasks EXCEPT SideTasks"
-msgstr "Num de casos reportado EXCETO casos correlatos e FDL"
+msgstr "Nb de tarefas enviadas, EXCETO SideTasks"
 
 #. tpl/statistics.html
 msgid "Resolved"
@@ -2411,9 +2369,8 @@ msgid "Nb Resolved"
 msgstr "Num resolvidos"
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "Submitted / Resolved Issues (ExtRefOnly)"
-msgstr "Reportados / Casos resolvidos"
+msgstr "Problemas Enviados / Resolvidos (ExtRefOnly)"
 
 #. tpl/statistics.html
 msgid "% Tasks"
@@ -2432,9 +2389,8 @@ msgid "Effort deviation on resolved tasks (regarding the MgrEffortEstim)"
 msgstr "Desvio de esforço em tarefas resolvidas (em relação ao MgrEffortEstim)"
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "Effort deviation on resolved tasks (regarding the EffortEstim)"
-msgstr "Desvio de esforço - Casos resolvidos no período"
+msgstr "Desvio de esforço em tarefas resolvidas (em relação ao EffortEstim)"
 
 #. tpl/statistics.html
 msgid "No Support"
@@ -2451,9 +2407,8 @@ msgid "BS"
 msgstr "BS"
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "Effort Deviation (ExtRefOnly)"
-msgstr "Desvio de esforço"
+msgstr "Desvio do esforço (ExtRefOnly)"
 
 #. tpl/statistics.html
 msgid "Exclude side tasks to get the percent of time spent working on the projects"
@@ -2542,9 +2497,8 @@ msgid "errorThrown"
 msgstr "errorThrown"
 
 #. tpl/export_odt.html
-#, fuzzy
 msgid "Reported by"
-msgstr "Relator"
+msgstr "Reportado por"
 
 #. tpl/export_odt.html
 msgid "Download"
@@ -2572,9 +2526,8 @@ msgid "Hide resolved tasks"
 msgstr "Ocultar casos resolvidos"
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Hide closed tasks"
-msgstr "Ocultar casos resolvidos"
+msgstr "Ocultar tarefas fechadas"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
@@ -2587,9 +2540,8 @@ msgid "Next week"
 msgstr "Próxima semana"
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Week timetracks"
-msgstr "Atividades"
+msgstr "Controle de tempo semanal"
 
 #. tpl/time_tracking.html
 msgid "Ext.ID"
@@ -2600,14 +2552,12 @@ msgid "Timetrack note"
 msgstr "Nota Timetrack"
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Edit timetrack"
-msgstr "Acompanhamento de tempo"
+msgstr "Editar controle de tempo"
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Future timetracks"
-msgstr "Acompanhamento de tempo"
+msgstr "Controle dos tempos futuros"
 
 #. tpl/time_tracking.html
 msgid "Delete track"
@@ -2641,9 +2591,8 @@ msgid "zoom out"
 msgstr "zoom out"
 
 #. tpl/planning_report.html
-#, fuzzy
 msgid "Planning Options"
-msgstr "Planejamento"
+msgstr "Opções de planejamento"
 
 #. tpl/planning_report.html
 #. tpl/modal/consistency_check.html
