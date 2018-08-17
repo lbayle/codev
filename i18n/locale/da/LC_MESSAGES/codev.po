@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 ""
-"PO-Revision-Date: 2018-08-13 06:07:53+0000\n"
+"PO-Revision-Date: 2018-08-17 12:54:36+0000\n"
 "X-POT-Import-Date: 2018-05-16 04:53:00+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2347,7 +2347,7 @@ msgstr ""
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "show values"
-msgstr ""
+msgstr "vis værdier"
 
 #. tpl/statistics.html
 msgid "Nb submissions"
