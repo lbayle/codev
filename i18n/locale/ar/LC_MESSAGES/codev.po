@@ -12,7 +12,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-08-20 06:05:53+0000\n"
+"PO-Revision-Date: 2018-08-23 06:13:17+0000\n"
 "Language: ar\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3739,34 +3739,31 @@ msgstr "المنقضي / الحد الأقصى (MgrEffortEstim  EffortEstim)"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Real progress"
-msgstr "التقدم"
+msgstr "التقدم الحقيقي"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Displays the backlog"
-msgstr "المهام المعروضة"
+msgstr "يعرض المتأخرات"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Elapsed / (Elapsed +  Backlog)"
-msgstr ""
+msgstr "انقضت / (انقضت + تراكم)"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Historical Progression Chart"
-msgstr ""
+msgstr "مخطط التقدم التاريخي"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 msgid "Mngt Elapsed"
-msgstr ""
+msgstr "Mngt المنقضي"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
-#, fuzzy
 msgid "Mngt Provisions"
-msgstr "أضف بندا"
+msgstr "أحكام Mngt"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
 msgid "Managemnt load history"
@@ -3780,7 +3777,7 @@ msgstr "إدارة تاريخ التحميل"
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "Interval"
-msgstr ""
+msgstr "الفترة"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
@@ -3806,7 +3803,7 @@ msgstr "الملف"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Set All"
-msgstr ""
+msgstr "تعيين الكل"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "TargetVersion"
@@ -3814,40 +3811,37 @@ msgstr "النسخة المستهدفة"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Mantis issues to create:"
-msgstr ""
+msgstr "قضايا Mantis للإنشاء:"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "WBS Tree"
-msgstr ""
+msgstr "شجرة WBS"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Category not set on all issues"
-msgstr ""
+msgstr "التصنيفف غير محدد على جميع القضايا"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#, fuzzy
 msgid "Type not set on all issues"
-msgstr "إجمالي الوقت المقضي في هذه المسألة"
+msgstr "لا يتم ضبط النوع على جميع المشكلات"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#, fuzzy
 msgid "Import done !"
-msgstr "استيراد المستخدمين"
+msgstr "تم الاستيراد !"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Sorry, only team members can import tasks."
-msgstr ""
+msgstr "عذرا، لا يستطيع سوى أعضاء الفريق استيراد المهام."
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Preview import"
-msgstr ""
+msgstr "معاينة الاستيراد"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "Import template"
-msgstr "قوالب استيراد"
+msgstr "قالب الاستيراد"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -3857,61 +3851,58 @@ msgstr "صيغ الملفات"
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Standard CSV format with :"
-msgstr ""
+msgstr "تنسيق CSV القياسي مع:"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "delimiter"
-msgstr ""
+msgstr "المحدد"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
-#, fuzzy
 msgid "enclosure"
-msgstr "مغلق"
+msgstr "تسييج"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Date format"
-msgstr ""
+msgstr "صيغة التاريخ"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Number format"
-msgstr ""
+msgstr "صيغة الرقم"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Encoding"
-msgstr ""
+msgstr "التشفير"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported."
-msgstr ""
+msgstr "يُوصَى بشدة باستخدام <strong>UTF-8</strong> ولكن يتم أيضا دعم أسكي وأيزو-8859-1 (مايكروسوفت ويندوز)."
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Columns"
-msgstr ""
+msgstr "أعمدة"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "the file must contain 7 columns, the 1st line contains the column names."
-msgstr ""
+msgstr "يجب أن يحتوي الملف على 7 أعمدة، السطر الأول يحتوي على أسماء الأعمدة."
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef ; WBS tree"
-msgstr ""
+msgstr "ملخص ; MgrEffortEstim ; EffortEstim ; وصف ; الموعد النهائي ; المرجع الخارجي ; شجرة WBS"
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#, fuzzy
 msgid "No late task."
-msgstr "لا توجد مهام محلولة..."
+msgstr "لا توجد مهمة متأخرة."
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator_cfg.html
-#, fuzzy
 msgid "Deadline alerts"
-msgstr "تنبيه المواعيد النهائية للمهمة"
+msgstr "تنبيهات الموعد النهائي"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:61
 msgid "Reopened rate history"
-msgstr ""
+msgstr "تمت إعادة فتح معدل التاريخ"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
@@ -3927,7 +3918,7 @@ msgstr "أسبوع"
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "weeks"
-msgstr ""
+msgstr "أسابيع"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
@@ -3935,15 +3926,15 @@ msgstr ""
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "month"
-msgstr ""
+msgstr "شهر"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "BugValidation History Indicator"
-msgstr ""
+msgstr "مؤشر تاريخ التحقق من صحة الأخطاء"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Resolved bugs must be validated. This shows how many bugs have been Rejected or Accepted during the validation stage. Bugs in 'resolved' status (not yet validated) are excluded."
-msgstr ""
+msgstr "يجب التحقق من صحة الأخطاء، يوضح هذا عدد الأخطاء المرفوضة أو المقبولة أثناء مرحلة التحقق من الصحة، يتم استبعاد الخلل في حالة \"تم الحل\" (لم يتم التحقق من صحتها بعد)."
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Validated"
@@ -3951,246 +3942,239 @@ msgstr "تم التحقق من صحة %"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having successfully pass the validation tests"
-msgstr ""
+msgstr "يعرض النسبة المئوية للأخطاء التي نجحت في اجتياز اختبارات التحقق من الصحة"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved' to any higher status (and still in this state at the end of the period)."
-msgstr ""
+msgstr "تم تغيير الحالة من \"تم الحل\" إلى أي حالة أعلى (ولا تزال في هذه الحالة في نهاية الفترة)."
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Rejected"
-msgstr ""
+msgstr "% مرفوضة"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having failed the validation tests"
-msgstr ""
+msgstr "يعرض النسبة المئوية للأخطاء التي فشلت في اجتياز اختبارات التحقق من الصحة"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved (or higher) to any lower status (and still unresolved at the end of the period)"
-msgstr ""
+msgstr "تم تغيير الحالة من \"تم لحل (أو أعلى) إلى أية حالة أقل (ولا تزال بدون حل في نهاية الفترة)"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Bug Refusal Rate"
-msgstr ""
+msgstr "معدل رفض الخطأ"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having fail validation tests"
-msgstr ""
+msgstr "ملحوظة من القضايا التي لدديها فشل في اختبارات التحقق من الصحة"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Fail"
-msgstr ""
+msgstr "ملحوظة فشل"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having pass validation tests"
-msgstr ""
+msgstr "ملحوظة من القضايا التي تتجاوز في اختبارات التحقق من الصحة"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Pass"
-msgstr ""
+msgstr "ملحوظة تجاوز"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:74
 msgid "Check all the timetracks of the period and return their repartition per Job"
-msgstr ""
+msgstr "تحقق من جميع الجداول الزمنية لهذه الفترة وأعد إعادة توزيعها لكل مهمة"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Budget history"
-msgstr "تاريخ التقدم"
+msgstr "تاريخ الميزانية"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget Drift History Indicator"
-msgstr ""
+msgstr "مؤشر تاريخ انجراف الميزانية"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks)."
-msgstr ""
+msgstr "يقارن الميزانية (MgrEffortEstim + الأحكام المحددة) إلى الوقت المعاد تقديره (ملحوظة الأيام اللازمة لإنهاء المهام)."
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#, fuzzy
 msgid "% Budget Drift"
-msgstr "أيام الميزانية"
+msgstr "انجراف الميزانية %"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "( reestimated - budget ) / budget"
-msgstr ""
+msgstr "( معاد تقديرها - الميزانية) / الميزانية"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#, fuzzy
 msgid "Budget Drift"
-msgstr "أيام الميزانية"
+msgstr "انجراف الميزانية"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "MgrEffortEstim + checked provisions"
-msgstr ""
+msgstr "MgrEffortEstim + أحكام مفحوصة"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget Drift Progression Chart"
-msgstr ""
+msgstr "مخطط تقدم انجراف الميزانية"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Refresh"
-msgstr ""
+msgstr "تحديث"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Send new message"
-msgstr ""
+msgstr "أرسل رسالة جديدة"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Expire"
-msgstr ""
+msgstr "الانتهاء"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Exp. date"
-msgstr ""
+msgstr "تاريخ الانتهاء"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Expiration Date (optional)"
-msgstr ""
+msgstr "تاريخ انتهاء الصلاحية (اختياري)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Everybody (all teams)"
-msgstr ""
+msgstr "الجميع (كل الفرق)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall options"
-msgstr ""
+msgstr "خيارات جدار الرسالة"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Recipient"
-msgstr ""
+msgstr "المستلم"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Current team"
-msgstr ""
+msgstr "الفريق الحالي"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "All my teams"
-msgstr ""
+msgstr "كل فرقي"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Assigned to me"
-msgstr ""
+msgstr "تعيين لي"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Posted by me"
-msgstr ""
+msgstr "أُرسِلت بواسطتي"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "All"
-msgstr ""
+msgstr "الكل"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Hidden messages"
-msgstr ""
+msgstr "رسائل مخفية"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 #: plugins/BlogPlugin/BlogPost.class.php:419
 msgid "Hide"
-msgstr ""
+msgstr "إخفاء"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall help"
-msgstr ""
+msgstr "مساعدة رسالة الجدار"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Buttons"
-msgstr ""
+msgstr "أزرار"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Add new message"
-msgstr ""
+msgstr "أضف رسالة جديدة"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Post a new message"
-msgstr ""
+msgstr "انشر رسالة جديدة"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Set message wall options"
-msgstr ""
+msgstr "ضبط خيارات جدار الرسالة"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Mark as read. The message can then be hidden"
-msgstr ""
+msgstr "علم كمقروءة، يمكن بعد ذلك أن تكون الرسالة مخفية"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Hide message. Depends on user setting \"Display hidden messages\""
-msgstr ""
+msgstr "إخفاء الرسالة، يعتمد على إعداد المستخدم \"عرض الرسائل المخفية\""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Show"
-msgstr ""
+msgstr "أظهر"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Unhide a hidden message"
-msgstr ""
+msgstr "إظهار رسالة مخفية"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Delete a message."
-msgstr ""
+msgstr "حذف رسالة."
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "This will permanently delete this post, are you sure ?!"
-msgstr ""
+msgstr "سيؤدي هذا إلى حذف هذه المشاركة نهائيًا، فهل أنت متأكد؟!"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Submission date"
-msgstr ""
+msgstr "تاريخ التقديم"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"
-msgstr ""
+msgstr "المؤلف"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Dest"
-msgstr ""
+msgstr "الهدف"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Blog wall"
-msgstr ""
+msgstr "جدار المدونة"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"
-msgstr ""
+msgstr "الرسم البياني"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Values"
 msgstr "القيم"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Available Workforce Options"
-msgstr "القوى العاملة المتاحة"
+msgstr "خيارات القوى العاملة المتاحة"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Availability"
 msgstr "التوفر"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Productivity Coefficient"
-msgstr "مؤشرات الإنتاجية"
+msgstr "معامل الإنتاجية"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Prod. Coef"
-msgstr ""
+msgstr "معامل الإنتاج"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "SUM(userWorkforce * availability * prodCoef)"
-msgstr ""
+msgstr "SUM(القوى العاملة للمستخدم * التوافر * prodCoef)"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Available workforce"
 msgstr "القوى العاملة المتاحة"
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#, fuzzy
 msgid "No errors"
-msgstr "أخطاء"
+msgstr "لا توجد أخطاء"
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#, fuzzy
 msgid "Consistency check"
 msgstr "فحص التناسق"
 
@@ -4212,17 +4196,16 @@ msgstr "التحميل في تصنيفات المشروع"
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send password by mail"
-msgstr ""
+msgstr "إرسال كلمة المرور عن طريق البريد"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "Generate password"
-msgstr "كلمة المرور"
+msgstr "توليد كلمة المرور"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Mantis users to create:"
-msgstr ""
+msgstr "مستخدمو Mantis للإنشاء:"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "First name"
@@ -4234,65 +4217,61 @@ msgstr "اسم المستخدم"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Email"
-msgstr ""
+msgstr "البريد الإلكتروني"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Mantis project access level"
-msgstr ""
+msgstr "مستوى الوصول إلى مشروع Mantis"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "Mantis role"
-msgstr "ملاحظات Mantis"
+msgstr "دور Mantis"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "CodevTT role"
-msgstr "نوع CodevTT"
+msgstr "دور CodevTT"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "Date of entry in team"
-msgstr "مستخدم ليس في الفريق"
+msgstr "تاريخ الدخول في الفريق"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Username not set on all users"
-msgstr ""
+msgstr "اسم المستخدم غير محدد على جميع المستخدمين"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Project access level not set on all users"
-msgstr ""
+msgstr "مستوى الوصول إلى المشروع لم يتم تعيينه على جميع المستخدمين"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "CodevTT roles not set on all users"
-msgstr ""
+msgstr "لا يتم تعيين أدوار CodevTT على جميع المستخدمين"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Date of entry in team not set on all users"
-msgstr ""
+msgstr "تاريخ الدخول في الفريق لم يتم تعيينه على جميع المستخدمين"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import Done ! The password for every created users is"
-msgstr ""
+msgstr "تم الاستيراد! كلمة المرور لكل المستخدمين الذين تم إنشاؤهم هو"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import Done ! An email with login and password has been sent to each user."
-msgstr ""
+msgstr "تم الاستيراد! تم إرسال بريد إلكتروني مع تسجيل الدخول وكلمة المرور إلى كل مستخد"
 
 #. plugins/ImportUsers/ImportUsers_cfg.html
 msgid "Import users"
 msgstr "استيراد المستخدمين"
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "You need to be manager to import issues."
-msgstr "غير مسموح لك باستيراد المستخدمين"
+msgstr "يجب أن تكون مديرا لاستيراد المشكلات."
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Only team administrators can create users"
-msgstr ""
+msgstr "يمكن لإداريي الفريق فقط إنشاء مستخدمين"
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/CostsIndicator/CostsIndicator.html
@@ -4303,26 +4282,24 @@ msgid "Time per status"
 msgstr "الوقت حسب الحالة"
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "Create Mantis users"
-msgstr "الحصول على ملاحظات Mantis"
+msgstr "إنشاء مستخدمي Mantis"
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "Add users to CodevTT team & projects"
-msgstr "إزالة مشاريع CodevTT محددة"
+msgstr "إضافة المستخدمين إلى فريق ومشاريع CodevTT"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Only team-leaders & administrators are allowed to do this action."
-msgstr ""
+msgstr "يُسمَح فقط لقادة الفرق والإداريين بتنفيذ هذا الإجراء."
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send a password per email to each user"
-msgstr ""
+msgstr "أرسل كلمة مرور لكل بريد إلكتروني لكل مستخدم"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Display a generated password (common to all created users)"
-msgstr ""
+msgstr "عرض كلمة مرور تم إنشاؤها (مشتركة لكل المستخدمين الذين تم تكوينهم)"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Colors"
@@ -4334,19 +4311,19 @@ msgstr "اسم المستخدم"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User already exists"
-msgstr ""
+msgstr "المستخدم موجود بالفعل"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User can't be added to Mantis projects"
-msgstr ""
+msgstr "لا يمكن إضافة المستخدم إلى مشاريع Mantis"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User already belong to this team"
-msgstr ""
+msgstr "المستخدم ينتمي بالفعل لهذا الفريق"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User can't be added to this team"
-msgstr ""
+msgstr "لا يمكن إضافة المستخدم لهذا الفريق"
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
@@ -4361,71 +4338,65 @@ msgid "Departure date"
 msgstr "تاريخ المغادرة"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#, fuzzy
 msgid "Drift current tasks"
-msgstr "المهام الحالية"
+msgstr "انجراف المهام الحالية"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#, fuzzy
 msgid "Drift resolved tasks"
-msgstr "إخفاء المهام المحلولة"
+msgstr "انجراف المهام المحلولة"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
-#, fuzzy
 msgid "Tasks Drift alert"
-msgstr "تنبيه المواعيد النهائية للمهمة"
+msgstr "إنذار انجراف المهام"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
-#, fuzzy
 msgid "Display resolved issues"
-msgstr "المهام المعروضة"
+msgstr "عرض القضايا المحلولة"
 
 #. plugins/CostsIndicator/CostsIndicator_cfg.html
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Costs"
-msgstr ""
+msgstr "التكاليف"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Global cost estimation:"
-msgstr ""
+msgstr "تقدير التكلفة العالمية:"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Costs Mgr"
-msgstr ""
+msgstr "تكاليف Mgr"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the costs of each timetrack."
-msgstr ""
+msgstr "اجمع تكاليف كل مسار زمني."
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Team AverageDailyCost and UserDailyCosts must be defined in team settings."
-msgstr ""
+msgstr "يجب تحديد Team AverageDailyCost وUserDailyCosts في إعدادات الفريق."
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "AverageDailyCost is used when no UserDailyCosts is defined for the timetrack's user."
-msgstr ""
+msgstr "يتم استخدام AverageDailyCost عند عدم تعريف UserDailyCosts لمستخدم المسار الزمني."
 
 #. plugins/CostsIndicator/CostsIndicator.html
-#, fuzzy
 msgid "AverageDailyCost is used if the task is not yet assigned to anyone."
-msgstr "لم يتم تعيين المهمة إلى أي شخص."
+msgstr "يتم استخدام AverageDailyCost إذا لم يتم تعيين المهمة لأي شخص."
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "The backlog is computed with the current assigned user's UserDailyCost"
-msgstr ""
+msgstr "يتم حساب التراكم مع userDailyCost المستخدم المعين الحالي"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Respectively sum the MgrEffortEstim, EffortEstim, Reestimated, Elapsed, Backlog of each task."
-msgstr ""
+msgstr "على التوالي اجمع MgrEffortEstim ،EffortEstim ،Reestimated ، المنقضي، تراكم كل مهمة."
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "The backlog depends on the status (always 0 if status >= Resolved)"
-msgstr ""
+msgstr "يعتمد التراكم على الحالة (دائما 0 إذا كانت الحالة >= محلولة)"
 
 #. plugins/CostsIndicator/CostsIndicator.html
-#, fuzzy
 msgid "Sum the Provisions that are 'checked' as included in the budget."
-msgstr "الاعتماد مدرج في \"فحص الميزانية\""
+msgstr "اجمع الأحكام التي \"تم فحصها\" كما هي مدرجة في الميزانية."
 
 #. plugins/HelloWorldIndicator/HelloWorldIndicator_cfg.html
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:62
@@ -4434,7 +4405,7 @@ msgstr "مرحبا بالعالم"
 
 #. plugins/HelloWorldIndicator/HelloWorldIndicator.html
 msgid "Greetings date"
-msgstr ""
+msgstr "تاريخ التحية"
 
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
 #: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:65
@@ -4445,7 +4416,7 @@ msgstr "تخصيص الوقت حسب الحالة"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:389
 msgid "Waste"
-msgstr ""
+msgstr "المخلفات"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4467,32 +4438,32 @@ msgstr "تحميل لكل مستخدم"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
+msgstr "عرض فئات المهام الجانبية: فئات \"الحوادث\" و\"عدم النشاط\" <br>\n         (إذا لم يتم اختيارها، سيتم تضمين المهام الجانبية في \"المنقضي\")"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
-msgstr ""
+msgstr "إظهار النشاط الكامل: <br> إذا تم تحديده، فسيتم عرض الجداول الزمنية للمهام غير المدرجة في التحديد الحالي في أعمدة إضافية"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:81
 msgid "Check all the timetracks of the period and return their repartition per User"
-msgstr ""
+msgstr "تحقق من جميع الجداول الزمنية لهذه الفترة وأعد إعادة تقسيمها لكل مستخدم"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "Time spent on the projects & sideTasks of the current task selection"
-msgstr ""
+msgstr "الوقت المستغرق في المشاريع والمهام الجانبية لاختيار المهمة الحالية"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
+msgstr "'جوانب \"الحادثة\" و\"عدم النشاط\" للتحديد الحالي.<br>\n         (إذا لم يتم تحديد خيار \"النفايات\"، فسيتم تضمين هذا في \"المنقضي\")"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
-msgstr ""
+msgstr "الوقت المستغرق في المهام والمهام الجانبية التي ليست في اختيار المهمة الحالية"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "External tasks except 'Leave' category"
-msgstr ""
+msgstr "مهام خارجية باستثناء فئة \"المغادرة\""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "External leave tasks & inactivity sideTasks that are not in the current task selection"
@@ -4500,11 +4471,11 @@ msgstr ""
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
-msgstr ""
+msgstr "نظرية الأدب"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Real"
-msgstr ""
+msgstr "حقيقة"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "% Progress"
@@ -4521,44 +4492,37 @@ msgid "Issue Status History"
 msgstr "تاريخ حالة القضية"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Filter on Issue type"
-msgstr "نوع المشكلة"
+msgstr "تصفية على نوع القضية"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "No filter"
-msgstr "تعيين المرشحات"
+msgstr "لا يوجد مرشح"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Bugs only"
-msgstr ""
+msgstr "الأخطاء فقط"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Tasks only"
-msgstr "قائمة المهام"
+msgstr "المهام فقط"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Filter on External ID"
-msgstr "المعرف الخارجي"
+msgstr "تصفية على المعرف الخارجي"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Issues with External ID"
-msgstr "فرز القضايا:مع/بدون معرف خارجي"
+msgstr "مشكلات بمعرف خارجي"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Issues without External ID"
-msgstr "فرز القضايا:مع/بدون معرف خارجي"
+msgstr "مشكلات بدون معرف خارجي"
 
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator_cfg.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
-#, fuzzy
 msgid "Task backlog variation"
-msgstr "معلومات الاختبار"
+msgstr "تراكب تراكم المهام"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -4566,19 +4530,16 @@ msgid "Effort estimation reliability rate"
 msgstr "نسبة دقة تقدير الجهد"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#, fuzzy
 msgid "EffortEstim ReliabilityRate"
 msgstr "نسبة دقة تقدير الجهد"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#, fuzzy
 msgid "MgrEffortEstim ReliabilityRate"
 msgstr "نسبة دقة تقدير الجهد"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
-#, fuzzy
 msgid "EffortEstim reliability history"
-msgstr "نسبة دقة تقدير الجهد"
+msgstr "تاريخ موثوقية تقدير الجهد"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Select All"
@@ -4598,16 +4559,15 @@ msgstr "النهاية"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Origin"
-msgstr ""
+msgstr "الأصل"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Destination"
 msgstr "الوجهة"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Please, fill all fields correctly"
-msgstr "لو سمحت أملأ كل الحقول"
+msgstr "من فضلك، املأ جميع الحقول بشكل صحيح"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:75
@@ -4615,31 +4575,28 @@ msgid "Destination task must be different from origin"
 msgstr "يجب أن تكون مهمة الوجهة مختلفة عن الأصل"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Origin task"
-msgstr "الوقت المستغرق في المهمة"
+msgstr "المهمة الأصلية"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Move selected timetracks"
-msgstr "حذف المسار"
+msgstr "نقل المسارات الزمنية المحددة"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Destination task"
-msgstr ""
+msgstr "مهمة الوجهة"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "WARNING : In order to move timetracks, destination task creation date will be moved to "
-msgstr ""
+msgstr "تحذير: من أجل نقل المسارات الزمنية; سيتم نقل تاريخ إنشاء مهمة الوجهة إلى "
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Timetracks moved successfully !"
-msgstr "تم النسخ الاحتياطي بنجاح"
+msgstr "تم نقل المسارات الزمنية بنجاح !"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_cfg.html
 msgid "Move issue timetracks"
-msgstr ""
+msgstr "نقل المسارات الزمنية للقضية"
 
 #: admin/plugin_manager.php:67
 msgid "Could not create classmap: "
@@ -4683,19 +4640,19 @@ msgstr "لا يمكن إزالة المشروع من الفريق"
 
 #: admin/edit_team.php:278
 msgid "Configure Tooltips"
-msgstr ""
+msgstr "تكوين تلميحات الأدوات"
 
 #: admin/edit_team.php:391
 msgid "enabled"
-msgstr ""
+msgstr "ممكن"
 
 #: admin/edit_team.php:391
 msgid "disabled"
-msgstr ""
+msgstr "معطل"
 
 #: admin/edit_jobs.php:81
 msgid "Couldn't add the job association"
-msgstr ""
+msgstr "لا يمكن إضافة ارتباط الوظيفة"
 
 #: admin/edit_jobs.php:89
 msgid "This job must not be deleted."
@@ -4703,7 +4660,7 @@ msgstr "يجب ألا يتم حذف هذا العمل."
 
 #: admin/edit_jobs.php:96 admin/edit_jobs.php:114
 msgid "Couldn't remove the job association"
-msgstr ""
+msgstr "لا يمكن إزالة ارتباط الوظيفة"
 
 #: admin/edit_jobs.php:103
 msgid "Couldn't delete the job"
@@ -4724,7 +4681,7 @@ msgstr "تلميحات القضية لمشروع"
 
 #: admin/edit_team_ajax.php:81
 msgid "Drag & drop the items to be displayed in the Issue tooltip"
-msgstr ""
+msgstr "سحب وإسقاط العناصر ليتم عرضها في تلميح أدوات القضية"
 
 #: admin/edit_team_ajax.php:82
 msgid "Available fields"
@@ -4732,24 +4689,24 @@ msgstr "الحقول المتوفرة"
 
 #: admin/edit_team_ajax.php:83
 msgid "Tooltip"
-msgstr ""
+msgstr "تلميح الأدوات"
 
 #. avoid divisions by zero
 #: classes/Currencies.class.php:126
 msgid "ERROR: invalid currency: (coef is null, zero, or not a number)"
-msgstr ""
+msgstr "خطأ: عملة غير صالحة: (coef باطل، أو صفر، أو ليس رقما)"
 
 #: classes/Currencies.class.php:131
 msgid "ERROR: First define the referal currency (with coef=1)"
-msgstr ""
+msgstr "خطأ: أولا حدد عملة الإحالة (باستخدام coef = 1)"
 
 #: classes/Currencies.class.php:136
 msgid "ERROR: there can be only one 'referal' currency (with coef=1)"
-msgstr ""
+msgstr "خطأ: لا يمكن أن يكون هناك سوى عملة \"إحالة\" واحدة (باستخدام coef=1)"
 
 #: classes/Currencies.class.php:140
 msgid "ERROR: currency already defined"
-msgstr ""
+msgstr "خطأ: العملة محددة بالفعل"
 
 #: classes/issue.class.php:59
 msgid "Duplicate of"
@@ -4769,7 +4726,7 @@ msgstr "أصل"
 
 #: classes/issue.class.php:64
 msgid "Child of"
-msgstr ""
+msgstr "طفل"
 
 #: classes/issue.class.php:65
 msgid "Constrained by"
@@ -4777,7 +4734,7 @@ msgstr "مقيد بواسطة"
 
 #: classes/issue.class.php:66
 msgid "Constrains"
-msgstr ""
+msgstr "القيود"
 
 #: classes/issue.class.php:2245 classes/wbsElement.class.php:627 tools.php:1548
 msgid "Tags"
@@ -4785,20 +4742,20 @@ msgstr "الوسوم"
 
 #: classes/issue.class.php:2253
 msgid "none"
-msgstr ""
+msgstr "لا شيء"
 
 #: classes/issue.class.php:2258 reports/issue_info_tools.php:115
 msgid "DriftColor"
-msgstr ""
+msgstr "لون الانجراف"
 
 #: classes/issue.class.php:2261 scheduler/SchedulerEvent.class.php:163
 #: gantt/gantt_ajax.php:257 tools.php:275
 msgid "DriftMgr"
-msgstr ""
+msgstr "DriftMgr"
 
 #: classes/issue.class.php:2262
 msgid "DriftMgrColor"
-msgstr ""
+msgstr "DriftMgrColor"
 
 #: classes/issue.class.php:2279 tools.php:1562
 msgid "Assigned"
@@ -4810,15 +4767,15 @@ msgstr "زمن الوصول المتوقع"
 
 #: classes/PluginManager.class.php:79
 msgid "Disabled"
-msgstr ""
+msgstr "معطل"
 
 #: classes/PluginManager.class.php:80
 msgid "Removed"
-msgstr ""
+msgstr "تمت إزالته"
 
 #: classes/scheduler.class.php:81 reports/planning_report.php:206
 msgid "monitored"
-msgstr ""
+msgstr "مراقبة"
 
 #: classes/user.class.php:1750
 msgid "for team"
@@ -4830,7 +4787,7 @@ msgstr "[CodevTT] تذكير الجدول الزمني!"
 
 #: classes/user.class.php:1754 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
-msgstr ""
+msgstr "العزيز "
 
 #: classes/user.class.php:1755
 msgid "Please fill your CodevTT timesheet"
@@ -4855,7 +4812,7 @@ msgstr "خطأ"
 
 #: classes/consistency_check2.class.php:66
 msgid "Info"
-msgstr ""
+msgstr "معلومات"
 
 #: classes/consistency_check2.class.php:68 reports/export_odt.php:270
 #: reports/export_odt.php:283 tests/odt.php:81 tests/odt.php:94
@@ -4872,11 +4829,11 @@ msgstr "لا ينبغي أن يكون التراكم في القضايا غير 
 
 #: classes/consistency_check2.class.php:202
 msgid "EffortEstim should not be 0"
-msgstr ""
+msgstr "يجب ألا يكون تقدير الجهد 0"
 
 #: classes/consistency_check2.class.php:203
 msgid "There should be no timetracks on \"new\" issues "
-msgstr ""
+msgstr "يجب ألا تكون هناك أية مسارات زمنية على القضايا \"الجديدة\" "
 
 #: classes/consistency_check2.class.php:204
 msgid "Issues should be referenced in a Command"
@@ -4900,11 +4857,11 @@ msgstr "ينبغي تعيين القضايا إلى شخص"
 
 #: classes/consistency_check2.class.php:209
 msgid "Check timetracks on removed issues (not needed if Mantis plugin is enabled)"
-msgstr ""
+msgstr "تحقق من المسارات الزمنية على القضايا التي تمت إزالتها (ليست هناك حاجة إذا تم تمكين البرنامج المساعد Mantis)"
 
 #: classes/consistency_check2.class.php:314
 msgid "Backlog should be 0 (not "
-msgstr ""
+msgstr "يجب أن يكون تراكم العمل 0 (لا "
 
 #: classes/consistency_check2.class.php:336
 msgid "Backlog must be defined !"
@@ -4912,15 +4869,15 @@ msgstr "التراكم يجب أن يكون محددا!"
 
 #: classes/consistency_check2.class.php:338
 msgid "Backlog == 0: Backlog may not be up to date."
-msgstr ""
+msgstr "تراكم == 0: التراكم قد لا يكون محدثا."
 
 #: classes/consistency_check2.class.php:384
 msgid "MgrEffortEstim not set."
-msgstr ""
+msgstr "لم يتم تعيين MgrEffortEstim."
 
 #: classes/consistency_check2.class.php:416
 msgid "EffortEstim not set."
-msgstr ""
+msgstr "لم يتم تعيين تقدير الجهد."
 
 #: classes/consistency_check2.class.php:442
 msgid "Status should not be"
@@ -4944,11 +4901,11 @@ msgstr "لم يتم الرجوع إليها في أي عقد خدمة"
 
 #: classes/consistency_check2.class.php:733
 msgid " days"
-msgstr ""
+msgstr " أيام"
 
 #: classes/consistency_check2.class.php:735
 msgid "inconsistent"
-msgstr ""
+msgstr "تتعارض"
 
 #: classes/consistency_check2.class.php:768
 msgid "No default project workflow defined, check config file: "
@@ -4988,7 +4945,7 @@ msgstr "أرسلت الفاتورة"
 
 #: classes/command.class.php:67
 msgid "payed"
-msgstr ""
+msgstr "مدفوع"
 
 #: filters/IssuePublicPrivateFilter.php:48
 msgid "Sort issues: public/private"
@@ -4996,7 +4953,7 @@ msgstr "فرز المشكلات: عامة/خاصة"
 
 #: filters/IssuePublicPrivateFilter.php:56
 msgid "Issue Public/Private"
-msgstr ""
+msgstr "مشكلة عامة / خاصة"
 
 #: filters/IssueTagFilter.php:49
 msgid "Sort issues per tags"
@@ -5004,7 +4961,7 @@ msgstr "فرز المشكلات حسب الوسوم"
 
 #: filters/IssueTagFilter.php:57
 msgid "Issue Tag"
-msgstr ""
+msgstr "وسم القضية"
 
 #: filters/IssueExtIdFilter.php:49
 msgid "Sort issues: with/without External ID"
@@ -5012,7 +4969,7 @@ msgstr "فرز القضايا:مع/بدون معرف خارجي"
 
 #: filters/IssueExtIdFilter.php:57
 msgid "Issue External ID"
-msgstr ""
+msgstr "معرف خاريج للقضية"
 
 #: filters/IssueCodevTypeFilter.php:55
 msgid "Sort issues per CustomField: CodevTT_Type"
@@ -5036,16 +4993,16 @@ msgstr "فرز المشكلات حسب المشروع"
 
 #: filters/ProjectVersionFilter.php:45
 msgid "Sort issues per Project TargetVersion"
-msgstr ""
+msgstr "فرز القضايا لكل نسخة مشروع هدف"
 
 #: filters/ProjectVersionFilter.php:53
 msgid "Project TargetVersion"
-msgstr ""
+msgstr "نسخة مشروع هدف"
 
 #: indicator_plugins/StatusHistoryIndicator/StatusHistoryIndicator.class.php:194
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:331
 msgid "Y-m-d"
-msgstr ""
+msgstr "س-ش-ي"
 
 #: indicator_plugins/BacklogVariationIndicator/BacklogVariationIndicator.class.php:286
 msgid "Average backlog"
@@ -5076,7 +5033,7 @@ msgstr "فريق إداريي CodevTT"
 
 #: install/install_step3.php:388
 msgid "CodevTT_EffortEstim"
-msgstr ""
+msgstr "CodevTT_EffortEstim"
 
 #: install/install_step3.php:391
 msgid "CodevTT_Type"
@@ -5084,7 +5041,7 @@ msgstr "نوع CodevTT"
 
 #: install/install_step3.php:398
 msgid "CodevTT_Manager EffortEstim"
-msgstr ""
+msgstr "CodevTT_Manager EffortEstim"
 
 #: install/install_step3.php:404
 msgid "CodevTT_External ID"
@@ -5190,7 +5147,7 @@ msgstr "التطوير"
 
 #: install/install_step3.php:866
 msgid "Tests"
-msgstr ""
+msgstr "اختبارات"
 
 #: install/install_step3.php:953
 msgid "CodevTT_ExternalTasks"
@@ -5203,7 +5160,7 @@ msgstr "مشروع CodevTT للمهام الخارجية"
 #. cat="OtherInternal", status="closed"
 #: install/install_step3.php:992
 msgid "Any external task, NOT referenced in any Mantis project"
-msgstr ""
+msgstr "أية مهمة خارجية، غير مشار إليها في أي مشروع Mantis"
 
 #. --- Create the 'Leave' task in ExternalTasks Project
 #: install/install_step3.php:995
@@ -5268,7 +5225,7 @@ msgstr "تحقق من تثبيت إضافة <b>CodevTT</b> وتفعيلها."
 
 #: install/install_step4.php:53
 msgid "Check that the <b>FilterBugList</b> plugin is installed and activated"
-msgstr ""
+msgstr "تحقق من تثبيت وتنشيط المكون الإضافي <b>FilterBugList</b>"
 
 #. echo '<br>';
 #: install/install_step4.php:58
@@ -5303,23 +5260,23 @@ msgstr "تنصيب"
 
 #: install/install.php:119
 msgid "Upgrade instructions"
-msgstr ""
+msgstr "تعليمات الترقية"
 
 #: install/install.php:120
 msgid "If you're upgrading from an older CodevTT version, please <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>read this page</a> and do the following steps:"
-msgstr ""
+msgstr "إذا كنت تقوم بالترقية من إصدار قديم لـCodevTT، فالرجاء <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>قراءة هذه الصفحة</a> والقيام بالخطوات التالية:"
 
 #: install/install.php:122
 msgid "Upgrade Mantis first ! (not mandatory)"
-msgstr ""
+msgstr "قم بترقية Mantis أولا! (ليس إلزاميا)"
 
 #: install/install.php:123
 msgid "Copy CodevTT configuration files from your previous installation"
-msgstr ""
+msgstr "نسخ ملفات تكوين CodevTT من تثبيتك السابق"
 
 #: install/install.php:124
 msgid "Run this script: "
-msgstr ""
+msgstr "تشغيل هذا البرنامج النصي: "
 
 #: install/install_step1.php:25
 msgid "Install - Step 1"
@@ -5331,27 +5288,27 @@ msgstr "معلومات قاعدة بيانات Mantis"
 
 #: install/install_step1.php:221
 msgid "SGBD"
-msgstr ""
+msgstr "SGBD"
 
 #: install/install_step1.php:232
 msgid "Hostname"
-msgstr ""
+msgstr "اسم المضيف"
 
 #: install/install_step1.php:236
 msgid "Database Name"
-msgstr ""
+msgstr "اسم قاعدة البيانات"
 
 #: install/install_step1.php:240
 msgid "Database Table Prefix "
-msgstr ""
+msgstr "بادئة جدول قاعدة البيانات "
 
 #: install/install_step1.php:244
 msgid "Database Table Suffix "
-msgstr ""
+msgstr "لاحقة جدول قاعدة البيانات "
 
 #: install/install_step1.php:258
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
-msgstr ""
+msgstr "تحذير تثبيت ويندوز: لتجنب خطأ امتياز SUPER; استخدم مستخدم <b>الجذر</b> mysql (يمكن تغيير هذا في config.ini عند انتهاء التثبيت)."
 
 #: install/install_step1.php:263
 msgid "Proxy Settings"
@@ -5367,7 +5324,7 @@ msgstr "تمكين الوكيل"
 
 #: install/install_step1.php:268
 msgid "Server"
-msgstr ""
+msgstr "الخادم"
 
 #: install/install_step1.php:269
 msgid "Port"
@@ -5416,11 +5373,11 @@ msgstr "إضافة المشكلات المختارة للأمر؟"
 #: management/command_info_ajax.php:363 scheduler/scheduler_ajax.php:379
 #: gantt/gantt_ajax.php:166
 msgid "auto"
-msgstr ""
+msgstr "تلقائي"
 
 #: management/command_edit_ajax.php:66
 msgid "Provisions updated FAILED !"
-msgstr ""
+msgstr "فشلت الأحكام المحدثة !"
 
 #: management/command_edit_ajax.php:278
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:204
@@ -5434,7 +5391,7 @@ msgstr "الأخطاء التي تؤثر على مجموعة الأوامر"
 
 #: management/servicecontract_tools.php:182
 msgid "Provision"
-msgstr ""
+msgstr "أحكام"
 
 #: reports/issue_info_tools.php:39
 msgid "No date defined"
@@ -5442,7 +5399,7 @@ msgstr "لا يوجد موعد محدد"
 
 #: reports/issue_info_tools.php:41
 msgid "No target version defined"
-msgstr ""
+msgstr "لم يتم تحديد إصدار مستهدف"
 
 #: reports/statistics.php:85
 msgid "No projects in this team"
@@ -5481,11 +5438,11 @@ msgstr "لا يوجد موعد نهائي"
 
 #: reports/planning_report.php:498
 msgid "Monitored"
-msgstr ""
+msgstr "مراقب"
 
 #: reports/export_csv_tools.php:50
 msgid "m_id"
-msgstr ""
+msgstr "m_id"
 
 #: reports/export_csv_tools.php:57
 msgid "Product Version"
@@ -5493,7 +5450,7 @@ msgstr "نسخة المنتج"
 
 #: reports/export_csv_tools.php:60
 msgid "Resolution"
-msgstr ""
+msgstr "القرار"
 
 #: reports/export_csv_tools.php:67 tools.php:1505
 msgid "Delivery Date"
@@ -5544,7 +5501,7 @@ msgstr "النشاط على الفرق الأخرى"
 
 #: timetracking/holidays_report.php:137
 msgid "today"
-msgstr ""
+msgstr "اليوم"
 
 #. light grey
 #: timetracking/holidays_report.php:203
@@ -5563,19 +5520,19 @@ msgstr "أيام غير مكتملة أو غير محددة"
 #. forbid adding timetrack, return error
 #: timetracking/time_tracking.php:139
 msgid "Timetrack not added: Timetrack note is mandatory"
-msgstr ""
+msgstr "لم تتم إضافة المسار الزمني: ملاحظة المسار الزمني إلزامية"
 
 #: timetracking/time_tracking.php:145 timetracking/time_tracking.php:150
 msgid "Timetrack not added: Job is not specified"
-msgstr ""
+msgstr "لم تتم إضافة المسار الزمني: لم يتم تحديد المهمة"
 
 #: timetracking/time_tracking.php:207
 msgid "Failed to delete the timetrack !"
-msgstr ""
+msgstr "فشل حذف المسار الزمني !"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:72
 msgid "Check all the tasks and return the backlog per User"
-msgstr ""
+msgstr "تحقق من جميع المهام وأعد التراكم لكل مستخدم"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:258
 msgid "(unknown 0)"
@@ -5583,7 +5540,7 @@ msgstr "(غير معروف 0)"
 
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:63
 msgid "Display additional info on timetracks"
-msgstr ""
+msgstr "عرض معلومات إضافية عن المسارات الزمنية"
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:59
 msgid "Management load history"
@@ -5591,7 +5548,7 @@ msgstr "إدارة تاريخ التحميل"
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:62
 msgid "Compares the elapsed time on management sideTasks to the management provisions"
-msgstr ""
+msgstr "يقارن الوقت المنقضي على جانب الإدارة المهام بأحكام الإدارة"
 
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:65
 msgid "Import a list of issues to MantisBT / CodevTT from a CSV file"
@@ -5607,7 +5564,7 @@ msgstr "عرض المهام غير المغلقة التي كان ينبغي ت�
 
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:64
 msgid "Display the bug reopened rate history"
-msgstr ""
+msgstr "عرض سجل معدل الخطأ المعاد فتحه"
 
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:231
 msgid "Management"
@@ -5615,7 +5572,7 @@ msgstr "إدارة"
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:63
 msgid "Budget drift history"
-msgstr ""
+msgstr "تاريخ انجراف الميزانية"
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:66
 msgid "Display the budget history"
@@ -5623,15 +5580,15 @@ msgstr "عرض تاريخ الميزانية"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:57
 msgid "Messages"
-msgstr ""
+msgstr "رسائل"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:60
 msgid "Display a message wall on the homepage"
-msgstr ""
+msgstr "عرض جدار رسالة على الصفحة الرئيسية"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:61
 msgid "Allows Administrators & team members to send messages that will be displayed on other users' wall"
-msgstr ""
+msgstr "يسمح للإداريين وأعضاء الفريق بإرسال الرسائل التي سيتم عرضها على حائط المستخدمين الآخرين"
 
 #: plugins/BlogPlugin/BlogPost.class.php:112
 msgid "Low"
@@ -5643,12 +5600,12 @@ msgstr "عادي"
 
 #: plugins/BlogPlugin/BlogPost.class.php:116
 msgid "High"
-msgstr ""
+msgstr "مرتفع"
 
 #. This case happens when an Administrator sends a message to "All" users
 #: plugins/BlogPlugin/BlogPost.class.php:373
 msgid "Everybody"
-msgstr ""
+msgstr "الجميع"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"
@@ -5656,7 +5613,7 @@ msgstr "رجل-أيام متاح في فترة، باستثناء الأوراق
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:73
 msgid "Check all the timetracks of the period and return their repartition per project categories"
-msgstr ""
+msgstr "تحقق من جميع الجداول الزمنية لهذه الفترة وأعد إعادة تقسيمها حسب فئات المشروع"
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:344
 msgid "All Sidetasks Projects"
@@ -5713,7 +5670,7 @@ msgstr "عرض تاريخ جميع الفرق لمستخدم معين"
 #. return T_('Task drift alert');
 #: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:68
 msgid "Task drift alert"
-msgstr ""
+msgstr "إنذار انجراف المهمة"
 
 #. return T_('Display tasks in drift');
 #: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:72
@@ -5722,19 +5679,19 @@ msgstr "عرض المهام حيث الوقت المنقضي أكبر من ال�
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:68
 msgid "Compute costs, using the UserDailyCosts defined in team settings"
-msgstr ""
+msgstr "حساب التكاليف، باستخدام UserDailyCosts المعرفة في إعدادات الفريق"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:187
 msgid "No AverageDailyCost defined in team settings"
-msgstr ""
+msgstr "لم يتم تحديد AverageDailyCost في إعدادات الفريق"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:194
 msgid "Sorry, only managers can access this plugin"
-msgstr ""
+msgstr "عذرا، يمكن للمديرين فقط الوصول إلى هذا المكون الإضافي."
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:283
 msgid "Sidetasks"
-msgstr ""
+msgstr "مهام جانبية"
 
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:65
 msgid "A simple HelloWorld plugin"
@@ -5750,11 +5707,11 @@ msgstr "عرض تاريخ حالة القضية"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:55
 msgid "Task burndown chart"
-msgstr ""
+msgstr "مخطط احتراق المهام"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:58
 msgid "Display task backlog updates since the task creation"
-msgstr ""
+msgstr "عرض تحديثات تراكم المهمة منذ إنشاء المهمة"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:157
 msgid "Backlog (days)"
@@ -5762,27 +5719,27 @@ msgstr "تراكم (أيام)"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:68
 msgid "Display the EffortEstim reliability rate history"
-msgstr ""
+msgstr "عرض تاريخ معدل موثوقية تقدير الجهد"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:69
 msgid "rate = EffortEstim / elapsed (on resolved tasks only)"
-msgstr ""
+msgstr "rate = تقدير الجهد / منقسم (على المهام المحلولة فقط)"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:72
 msgid "REM: An issue that has been reopened before endTimestamp will NOT be recorded."
-msgstr ""
+msgstr "REM: مشكلة تمت إعادة فتحها قبل لن يتم تسجيل endTimestamp."
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:73
 msgid "(For the bugs that where re-opened, the EffortEstim may not have been re-estimated, and thus the result is not reliable.)"
-msgstr ""
+msgstr "(بالنسبة للأخطاء التي أُعِيد فتحها، قد لا تتم إعادة تقدير EffortEstim، وبالتالي لا يمكن الاعتماد على النتيجة.)"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:60
 msgid "Move Issue Timetracks"
-msgstr ""
+msgstr "نقل المسارات الزمنية للقضية"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:64
 msgid "Move timetracks from one issue to another"
-msgstr ""
+msgstr "نقل المسارات الزمنية من قضية إلى أخرى"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:71
 msgid "Please, fill all fields"
@@ -5798,36 +5755,35 @@ msgstr "مهمة الوجهة هذه غير موجودة"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:120
 msgid "No timetracks for this search"
-msgstr ""
+msgstr "لا توجد مسارات زمنية لهذا البحث"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:171
 msgid "Please, display timetracks before moving them"
-msgstr ""
+msgstr "من فضلك، اعرض المسارات الزمنية قبل نقلها"
 
 #: scheduler/SchedulerTaskProvider.class.php:46
 msgid "Daily breakdown scheduling"
-msgstr ""
+msgstr "جدولة الأعطال اليومية"
 
 #. TODO use this value to stop scheduler computing if OPTION_nbDaysForecast is too big
 #. $max_time = ini_get("max_execution_time");
 #. self::$logger->error('max_execution_time = '.$max_time);
 #. Set task id list
 #: scheduler/scheduler.php:59
-#, fuzzy
 msgid "Select a task"
-msgstr "اختر الكل"
+msgstr "اختر مهمة"
 
 #: scheduler/scheduler.php:108
 msgid "Today"
-msgstr ""
+msgstr "اليوم"
 
 #: scheduler/scheduler.php:109
 msgid "Monday this week"
-msgstr ""
+msgstr "الاثنين هذا الأسبوع"
 
 #: scheduler/scheduler.php:110
 msgid "First week of this month"
-msgstr ""
+msgstr "الأسبوع الأول من هذا الشهر"
 
 #: scheduler/scheduler.php:116
 msgid "2 weeks"
@@ -5835,38 +5791,36 @@ msgstr "أسبوعان"
 
 #: scheduler/scheduler.php:117
 msgid "1 month"
-msgstr ""
+msgstr "شهر واحد"
 
 #: scheduler/scheduler.php:118
 msgid "2 months"
-msgstr ""
+msgstr "شهران"
 
 #: scheduler/scheduler.php:119
 msgid "3 months"
-msgstr ""
+msgstr "3 أشهر"
 
 #: scheduler/scheduler_ajax.php:328
 msgid "Assignments rules not valid for task"
-msgstr ""
+msgstr "قواعد المهام غير صالحة للمهمة"
 
 #: scheduler/scheduler_ajax.php:342
 msgid "Assignments updated for task"
-msgstr ""
+msgstr "المهام محدثة للمهمة"
 
 #. 'arrivalDate' = should not be defined here, as another ajax call is doing the $schedulerManager->execute()
 #: scheduler/scheduler_ajax.php:389
-#, fuzzy
 msgid "Issue not found in MantisDB !"
-msgstr "خطأ: لم يتم العثور على المهمة في Mantis DB!"
+msgstr "المشكلة غير موجودة في قاعدة بيانات Mantis!"
 
 #: scheduler/scheduler_ajax.php:513
-#, fuzzy
 msgid "Options saved successfully"
-msgstr "تم النسخ الاحتياطي بنجاح"
+msgstr "تم حفظ الخيارات بنجاح"
 
 #: scheduler/SchedulerTaskProvider0.class.php:44
 msgid "Standard issue priority scheduling"
-msgstr ""
+msgstr "جدولة أولوية المشكلات القياسية"
 
 #: smarty_tools_ajax.php:35
 msgid "All projects"
@@ -5874,9 +5828,9 @@ msgstr "كل المشاريع"
 
 #: smarty_tools.php:126
 msgid "W"
-msgstr ""
+msgstr "W"
 
 #: tools.php:1499
 msgid "AddEffortEstim"
-msgstr ""
+msgstr "AddEffortEstim"
 
