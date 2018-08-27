@@ -6,6 +6,9 @@
          <tr>
             <th>{t}Job{/t}</th>
             <th>{t}Nb Days{/t}</th>
+            {if $loadPerJobIndicator_isTaskColumn}
+            <th>{t}Tasks{/t}</th>
+            {/if}
          </tr>
       </thead>
       <tbody>
@@ -17,6 +20,9 @@
                <div class="ui-helper-clearfix"></div>
             </td>
             <td>{$i.nbDays}</td>
+            {if $loadPerJobIndicator_isTaskColumn}
+            <td>{$i.taskList}</td>
+            {/if}
          </tr>
          {/foreach}
       </tbody>

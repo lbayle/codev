@@ -27,6 +27,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
    const OPTION_IS_TABLE_ONLY = 'isTableOnly';
    const OPTION_IS_SIDETASK_CAT_DETAILED = 'isSideTasksCategoryDetailed';
    const OPTION_DATE_RANGE    = 'dateRange';
+   const OPTION_IS_TASK_COL   = 'isTaskColumn';
 
    private static $logger;
    private static $domains;
@@ -37,13 +38,16 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
    private $startTimestamp;
    private $endTimestamp;
    private $teamid;
+   private $sessionUserid;
 
    // config options from Dashboard
    private $pluginSettings;
    private $dateRange;  // defaultRange | currentWeek | currentMonth
+   private $isTaskColumn;
 
    // internal
    protected $execData;
+   private $isManager;
 
 
    /**
@@ -107,6 +111,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
          'lib/jquery.jqplot/plugins/jqplot.pieRenderer.min.js',
          'js_min/chart.min.js',
          'js_min/table2csv.min.js',
+         'js_min/tooltip.min.js',
       );
    }
 
@@ -140,9 +145,21 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
       } else {
          $this->endTimestamp = NULL;
       }
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID)) {
+         $this->sessionUserid = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID);
+      } else {
+         $this->sessionUserid = 0;
+      }
+      try {
+         $sessionUser = UserCache::getInstance()->getUser($this->sessionUserid);
+         $this->isManager = $sessionUser->isTeamManager($this->teamid);
+      } catch (Exception $e) {
+         $this->isManager = NULL;
+      }
 
       // set default pluginSettings (not provided by the PluginDataProvider)
       $this->dateRange   = 'defaultRange';
+      $this->isTaskColumn = false;
 
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("checkParams() ISel=".$this->inputIssueSel->name.' startTimestamp='.$this->startTimestamp.' endTimestamp='.$this->endTimestamp);
@@ -167,6 +184,10 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
       if (NULL != $pluginSettings) {
 
          // then override with $pluginSettings
+         if (array_key_exists(self::OPTION_IS_TASK_COL, $pluginSettings)) {
+            $this->isTaskColumn = $pluginSettings[self::OPTION_IS_TASK_COL];
+         }
+
          if (array_key_exists(self::OPTION_DATE_RANGE, $pluginSettings)) {
             $this->dateRange = $pluginSettings[self::OPTION_DATE_RANGE];
 
@@ -204,11 +225,17 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
       $realStartTimestamp = $this->endTimestamp; // note: inverted intentionnaly
       $realEndTimestamp = $this->startTimestamp; // note: inverted intentionnaly
       $loadPerJobs = array();
+      $tasksPerJobs = array();
+
       foreach($issueList as $issue) {
 
          if ($extProjId == $issue->getProjectId()) {
             continue; 
          }
+
+         $tooltipAttr = $issue->getTooltipItems($this->teamid, $this->sessionUserid, $this->isManager);
+         $tooltipAttr = array(T_('Summary') => $issue->getSummary()) + $tooltipAttr;
+         $formattedTaskId = Tools::issueInfoURL($issue->getId(), $tooltipAttr, FALSE, $issue->getId());
             
          $issueTimetracks = $issue->getTimeTracks(NULL, $this->startTimestamp, $this->endTimestamp);
          foreach ($issueTimetracks as $tt) {
@@ -231,9 +258,15 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
                      'name' => T_('Management'),
                      'color' => 'A3A3A3', // TODO hardcoded !
                      'nbDays' => floatval($tt->getDuration()),
+                     'taskList' => $formattedTaskId,
                      );
+                  $tasksPerJobs[$jobid][] = $issue->getId();
                } else {
                   $loadPerJobs[$jobid]['nbDays'] += floatval($tt->getDuration());
+                  if (!in_array($issue->getId(), $tasksPerJobs[$jobid])) {
+                     $loadPerJobs[$jobid]['taskList'] .= ' '.$formattedTaskId;
+                     $tasksPerJobs[$jobid][] = $issue->getId();
+                  }
                }
             } else if ($team->isSideTasksProject($issue->getProjectId())) {
                // TODO check category (detail all sidetasks categories)
@@ -245,9 +278,15 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
                      'name' => T_('SideTasks'),
                      'color' => 'C2C2C2', // TODO hardcoded !
                      'nbDays' => floatval($tt->getDuration()),
+                     'taskList' => $formattedTaskId,
                      );
+                  $tasksPerJobs[$jobid][] = $issue->getId();
                } else {
                   $loadPerJobs[$jobid]['nbDays'] += floatval($tt->getDuration());
+                  if (!in_array($issue->getId(), $tasksPerJobs[$jobid])) {
+                     $loadPerJobs[$jobid]['taskList'] .= ' '.$formattedTaskId;
+                     $tasksPerJobs[$jobid][] = $issue->getId();
+                  }
                }
             } else {
                $jobid = $tt->getJobId();
@@ -257,9 +296,15 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
                      'name' => htmlentities($jobs->getJobName($jobid), ENT_QUOTES | ENT_HTML401, "UTF-8"),
                      'color' => $jobs->getJobColor($jobid),
                      'nbDays' => floatval($tt->getDuration()),
+                     'taskList' => $formattedTaskId,
                      );
+                  $tasksPerJobs[$jobid][] = $issue->getId();
                } else {
                   $loadPerJobs[$jobid]['nbDays'] += floatval($tt->getDuration());
+                  if (!in_array($issue->getId(), $tasksPerJobs[$jobid])) {
+                     $loadPerJobs[$jobid]['taskList'] .= ' '.$formattedTaskId;
+                     $tasksPerJobs[$jobid][] = $issue->getId();
+                  }
                }
             }
          }
@@ -296,6 +341,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
 
       $smartyVariables = array(
          'loadPerJobIndicator_tableData' => $loadPerJobs,
+         'loadPerJobIndicator_isTaskColumn' => $this->isTaskColumn,
          'loadPerJobIndicator_jqplotData' => empty($data) ? NULL : Tools::array2json($data),
          'loadPerJobIndicator_colors' => $formatedColors,
          'loadPerJobIndicator_jqplotSeriesColors' => $seriesColors, // TODO get rid of this
