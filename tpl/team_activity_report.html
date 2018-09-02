@@ -142,6 +142,7 @@
          <li class="{$ui_tabs_jquery_li}" id="tabIssueNotes"><a href="#tabOther_issueNotes">{t}Timesheet notes{/t}</a></li>
          {/if}
          <li class="{$ui_tabs_jquery_li}" id="tabAllTasks"><a href="#tabOther_allTasks">{t}All Tasks{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}" id="tabTimetracks"><a href="#tabOther_timetracks">{t}Timetrack notes{/t}</a></li>
       </ul>
       <div id="tabOther_allTasks">
          <div align="center">
@@ -166,6 +167,39 @@
                   </tr>
                   {/foreach}
                {/if}
+               {/foreach}
+               </tbody>
+            </table>
+         </div>
+      </div>
+
+      <div id="tabOther_timetracks">
+         <div align="center">
+            <table id="timetracks_table" style="width: 100%;" class="datatable_csv">
+               <thead>
+                  <tr>
+                     <th>{t}Date{/t}</th>
+                     <th>{t}User{/t}</th>
+                     <th>{t}Task{/t}</th>
+                     <th>{t}Ext.ID{/t}</th>
+                     <th>{t}Summary{/t}</th>
+                     <th>{t}Job{/t}</th>
+                     <th>{t}Duration{/t}</th>
+                     <th style="width: 15em;">{t}Timetrack Note{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+               {foreach from=$weekTimetracks item=i key=id}
+                  <tr>
+                     <td>{$i.date}</td>
+                     <td>{$i.handlerName}</td>
+                     <td>{$i.task_id}</td>
+                     <td>{$i.task_extRef}</td>
+                     <td nowrap="nowrap">{$i.task_summary}</td>
+                     <td>{$i.job}</td>
+                     <td>{$i.duration}</td>
+                     <td nowrap="nowrap">{$i.tt_note}</td>
+                  </tr>
                {/foreach}
                </tbody>
             </table>

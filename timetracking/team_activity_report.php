@@ -66,7 +66,7 @@ class TeamActivityReportController extends Controller {
                $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
             }
 
-            // IssueNotes
+            // IssueNotes (timesheet notes)
             $timeTracks = $timeTracking->getTimeTracks();
             $issueNotes = array();
             foreach ($timeTracks as $tt) {
@@ -112,6 +112,25 @@ class TeamActivityReportController extends Controller {
                $this->smartyHelper->assign('issueNotes', $issueNotes);
             }
 
+            // Timetrack notes
+            $weekTimetracks = array();
+            $jobs = new Jobs();
+            foreach ($timeTracks as $tt) {
+               $user = UserCache::getInstance()->getUser($tt->getUserId());
+               $issue = IssueCache::getInstance()->getIssue($tt->getIssueId());
+
+               $weekTimetracks[$tt->getId()] = array (
+                  'date' =>        date('Y-m-d', $tt->getDate()),
+                  'handlerName' => $user->getRealname(),
+                  'task_id' => $tt->getIssueId(),
+                  'task_extRef' => $issue->getTcId(),
+                  'task_summary' => $issue->getSummary(),
+                  'job' => htmlentities($jobs->getJobName($tt->getJobId()), ENT_QUOTES | ENT_HTML401, "UTF-8"),
+                  'duration' => $tt->getDuration(),
+                  'tt_note' => nl2br(htmlspecialchars($tt->getNote())),
+               );
+            }
+            $this->smartyHelper->assign('weekTimetracks', $weekTimetracks);
 
          }
       }
