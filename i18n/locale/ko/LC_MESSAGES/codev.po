@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-08-13 06:07:55+0000\n"
+"PO-Revision-Date: 2018-09-03 06:08:15+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4993,7 +4993,7 @@ msgstr "이슈 정렬: 외부 ID와 함께/없이"
 
 #: filters/IssueExtIdFilter.php:57
 msgid "Issue External ID"
-msgstr "이슈 바깥 ID"
+msgstr "이슈 외부 ID"
 
 #: filters/IssueCodevTypeFilter.php:55
 msgid "Sort issues per CustomField: CodevTT_Type"
