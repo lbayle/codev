@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-16 01:04+0200\n"
+"POT-Creation-Date: 2018-09-09 13:52+0200\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -100,7 +100,7 @@ msgstr "Jours de Production"
 #. tpl/productivity_report.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:71
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:75
 msgid "Load per Job"
 msgstr "Charge par Poste"
 
@@ -243,7 +243,6 @@ msgstr "Non disponible."
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#: reports/export_csv_weekly.php:171
 msgid "Job"
 msgstr "Poste"
 
@@ -371,9 +370,11 @@ msgstr "Les tâches sans deadLine ne sont pas représentées ici"
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
+#: reports/planning_report.php:77
 #: plugins/CostsIndicator/CostsIndicator.class.php:228
 msgid "Tasks"
 msgstr "Tâches"
@@ -726,6 +727,7 @@ msgstr "Statut"
 #. tpl/ajax/schedulerAffectationSummary.html
 #. tpl/time_tracking.html
 #. tpl/command_edit.html
+#. tpl/team_activity_report.html
 #. tpl/command_info.html
 #. tpl/modal/select_issues.html
 #. tpl/modal/update_issueBacklog.html
@@ -735,7 +737,7 @@ msgstr "Statut"
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. insert in front
 #. add task summary in front
-#: classes/issue.class.php:2276 classes/issue_selection.class.php:316
+#: classes/issue_selection.class.php:316
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
 #: management/servicecontract_info.php:150 management/command_info.php:241
@@ -744,6 +746,7 @@ msgstr "Statut"
 #: reports/export_csv_tools.php:52 reports/project_info.php:282
 #: reports/project_info.php:293 reports/project_info.php:305
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:237
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: scheduler/SchedulerEvent.class.php:87 scheduler/SchedulerEvent.class.php:130
 #: gantt/gantt_ajax.php:194 gantt/gantt_ajax.php:231 tools.php:1560
@@ -1025,7 +1028,6 @@ msgstr "V.Ciblée"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#: install/install_step1.php:248
 msgid "User"
 msgstr "Utilisateur"
 
@@ -1093,7 +1095,7 @@ msgstr "Propriétés"
 
 #. tpl/servicecontract_info.html
 #. tpl/create_team.html
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:245
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:278
 msgid "SideTasks"
 msgstr "TachesAnnexes"
 
@@ -1370,11 +1372,10 @@ msgstr "Filtres actifs"
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#: management/command_info_ajax.php:328 management/command_info_ajax.php:330
-#: reports/planning_report.php:471 reports/planning_report.php:473
-#: reports/export_csv_weekly.php:127 reports/export_csv_weekly.php:170
-#: scheduler/SchedulerEvent.class.php:83 scheduler/SchedulerEvent.class.php:85
-#: scheduler/SchedulerEvent.class.php:123
+#: management/command_info_ajax.php:330 reports/planning_report.php:471
+#: reports/planning_report.php:473 reports/export_csv_weekly.php:127
+#: reports/export_csv_weekly.php:170 scheduler/SchedulerEvent.class.php:83
+#: scheduler/SchedulerEvent.class.php:85 scheduler/SchedulerEvent.class.php:123
 #: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
 #: gantt/gantt_ajax.php:192
 msgid "Task"
@@ -1459,7 +1460,7 @@ msgstr "Supprimer l'équipe"
 #. tpl/command_edit.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. Delete
-#: plugins/BlogPlugin/BlogPost.class.php:410
+#: plugins/BlogPlugin/BlogPost.class.php:414
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -2199,6 +2200,7 @@ msgstr "Charge totale affectée"
 
 #. tpl/scheduler.html
 #. tpl/time_tracking.html
+#. tpl/team_activity_report.html
 #. tpl/modal/update_issueBacklog.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
@@ -2206,6 +2208,7 @@ msgstr "Charge totale affectée"
 #. T_('Status').':<strong>'.$scheduledTask->getStatusName().'</strong>,&nbsp; '.
 #. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
 #. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
+#: reports/planning_report.php:492
 msgid "Duration"
 msgstr "Durée"
 
@@ -2533,6 +2536,7 @@ msgid "Week timetracks"
 msgstr "Imputations hebdo"
 
 #. tpl/time_tracking.html
+#. tpl/team_activity_report.html
 msgid "Ext.ID"
 msgstr "Réf.Ext"
 
@@ -3007,6 +3011,14 @@ msgid "All Tasks"
 msgstr "Toutes les tâches"
 
 #. tpl/team_activity_report.html
+msgid "Timetrack notes"
+msgstr "Notes d'imputation"
+
+#. tpl/team_activity_report.html
+msgid "Timetrack Note"
+msgstr "Note d'imputation"
+
+#. tpl/team_activity_report.html
 msgid "Read by"
 msgstr "Vu par"
 
@@ -3016,7 +3028,7 @@ msgstr "Action"
 
 #. tpl/team_activity_report.html
 #. plugins/BlogPlugin/BlogPlugin.html
-#: plugins/BlogPlugin/BlogPost.class.php:414
+#: plugins/BlogPlugin/BlogPost.class.php:418
 msgid "Mark as read"
 msgstr "Marquer comme lue"
 
@@ -3977,8 +3989,16 @@ msgstr "Nb de bugs ayant passé avec succès les tests de validation"
 msgid "Nb Pass"
 msgstr "Nb Acceptés"
 
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
+msgid "Show Tasks"
+msgstr "Aficher les tâches"
+
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
+msgid "Display task column"
+msgstr "Afficher la colonne des tâches"
+
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:74
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:78
 msgid "Check all the timetracks of the period and return their repartition per Job"
 msgstr "Affiche le consommé sur la période, réparti par poste"
 
@@ -4036,7 +4056,7 @@ msgstr "Date d'expiration (optionnel)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Everybody (all teams)"
-msgstr ""
+msgstr "Tous (toutes les équipes)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall options"
@@ -4071,7 +4091,7 @@ msgid "Hidden messages"
 msgstr "Messages masqués"
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#: plugins/BlogPlugin/BlogPost.class.php:419
+#: plugins/BlogPlugin/BlogPost.class.php:423
 msgid "Hide"
 msgstr "Masquer"
 
@@ -4120,8 +4140,16 @@ msgid "This will permanently delete this post, are you sure ?!"
 msgstr "Voulez-vous supprimer ce message définitivement ?"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Acknowledged by"
+msgstr "Validé par"
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Submission date"
 msgstr "Date d'émission"
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Expiration date"
+msgstr "Date d'expiration"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"
@@ -4132,8 +4160,8 @@ msgid "Dest"
 msgstr "Dest"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
-msgid "Blog wall"
-msgstr "Messages"
+msgid "Message wall"
+msgstr "Mur de messages"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"
@@ -5484,7 +5512,7 @@ msgstr "Désolé, il n'y a pas de projets définis pour cette équipe."
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:469
 #: timetracking/team_monthly_activity_report.php:130
-#: timetracking/time_tracking.php:431 timetracking/team_activity_report.php:180
+#: timetracking/time_tracking.php:431 timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Erreur : Tâche introuvable dans la BDD Mantis !"
 
@@ -5571,7 +5599,7 @@ msgstr "Affiche les tâches ayant du être livrées (date jalon dépassée)"
 msgid "Display the bug reopened rate history"
 msgstr "Historique du nombre de fiches ayant été réouvertes"
 
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:231
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:258
 msgid "Management"
 msgstr "Management"
 
@@ -5608,7 +5636,7 @@ msgid "High"
 msgstr "Haute"
 
 #. This case happens when an Administrator sends a message to "All" users
-#: plugins/BlogPlugin/BlogPost.class.php:373
+#: plugins/BlogPlugin/BlogPost.class.php:377
 msgid "Everybody"
 msgstr "Tout le monde"
 
@@ -5839,6 +5867,9 @@ msgstr "S"
 msgid "AddEffortEstim"
 msgstr "Charge Additionnelle"
 
+#~ msgid "Blog wall"
+#~ msgstr "Messages"
+
 #~ msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
 #~ msgstr "BI non renseigné: il doit être égal à temps(Analyse + Dev + Tests)"
 
@@ -5934,9 +5965,6 @@ msgstr "Charge Additionnelle"
 
 #~ msgid "Future Imputations"
 #~ msgstr "Imputations futures"
-
-#~ msgid "Acknowledged"
-#~ msgstr "Validé"
 
 #~ msgid "Hidden"
 #~ msgstr "Caché"
