@@ -8,11 +8,11 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-07-16 14:49:30+0000\n"
+"PO-Revision-Date: 2018-09-10 06:17:14+0000\n"
 "Language: hu\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2018-05-16 04:53:00+0000\n"
+"X-POT-Import-Date: 2018-09-10 05:50:37+0000\n"
 "X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-07-10\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -99,7 +99,7 @@ msgstr "Termelési napok"
 #. tpl/productivity_report.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:71
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:75
 msgid "Load per Job"
 msgstr "Munkánkénti terhelés"
 
@@ -242,7 +242,6 @@ msgstr "Nem érhető el."
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#: reports/export_csv_weekly.php:171
 msgid "Job"
 msgstr "Munka"
 
@@ -370,9 +369,11 @@ msgstr "Határidő nélküli feladatok itt nem jelennek meg"
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
+#: reports/planning_report.php:77
 #: plugins/CostsIndicator/CostsIndicator.class.php:228
 msgid "Tasks"
 msgstr "Feladatok"
@@ -725,6 +726,7 @@ msgstr "Állapot"
 #. tpl/ajax/schedulerAffectationSummary.html
 #. tpl/time_tracking.html
 #. tpl/command_edit.html
+#. tpl/team_activity_report.html
 #. tpl/command_info.html
 #. tpl/modal/select_issues.html
 #. tpl/modal/update_issueBacklog.html
@@ -734,7 +736,7 @@ msgstr "Állapot"
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. insert in front
 #. add task summary in front
-#: classes/issue.class.php:2276 classes/issue_selection.class.php:316
+#: classes/issue_selection.class.php:316
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
 #: management/servicecontract_info.php:150 management/command_info.php:241
@@ -743,6 +745,7 @@ msgstr "Állapot"
 #: reports/export_csv_tools.php:52 reports/project_info.php:282
 #: reports/project_info.php:293 reports/project_info.php:305
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:237
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: scheduler/SchedulerEvent.class.php:87 scheduler/SchedulerEvent.class.php:130
 #: gantt/gantt_ajax.php:194 gantt/gantt_ajax.php:231 tools.php:1560
@@ -1024,7 +1027,6 @@ msgstr "Cél"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#: install/install_step1.php:248
 msgid "User"
 msgstr "Felhasználó"
 
@@ -1092,7 +1094,7 @@ msgstr "Tulajdonságok"
 
 #. tpl/servicecontract_info.html
 #. tpl/create_team.html
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:245
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:278
 msgid "SideTasks"
 msgstr "Mellékfeladat"
 
@@ -1369,11 +1371,10 @@ msgstr ""
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#: management/command_info_ajax.php:328 management/command_info_ajax.php:330
-#: reports/planning_report.php:471 reports/planning_report.php:473
-#: reports/export_csv_weekly.php:127 reports/export_csv_weekly.php:170
-#: scheduler/SchedulerEvent.class.php:83 scheduler/SchedulerEvent.class.php:85
-#: scheduler/SchedulerEvent.class.php:123
+#: management/command_info_ajax.php:330 reports/planning_report.php:471
+#: reports/planning_report.php:473 reports/export_csv_weekly.php:127
+#: reports/export_csv_weekly.php:170 scheduler/SchedulerEvent.class.php:83
+#: scheduler/SchedulerEvent.class.php:85 scheduler/SchedulerEvent.class.php:123
 #: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
 #: gantt/gantt_ajax.php:192
 msgid "Task"
@@ -1458,7 +1459,7 @@ msgstr "Csoport törlés"
 #. tpl/command_edit.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. Delete
-#: plugins/BlogPlugin/BlogPost.class.php:410
+#: plugins/BlogPlugin/BlogPost.class.php:414
 msgid "Delete"
 msgstr "Törlés"
 
@@ -2198,6 +2199,7 @@ msgstr ""
 
 #. tpl/scheduler.html
 #. tpl/time_tracking.html
+#. tpl/team_activity_report.html
 #. tpl/modal/update_issueBacklog.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
@@ -2205,6 +2207,7 @@ msgstr ""
 #. T_('Status').':<strong>'.$scheduledTask->getStatusName().'</strong>,&nbsp; '.
 #. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
 #. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
+#: reports/planning_report.php:492
 msgid "Duration"
 msgstr ""
 
@@ -2532,6 +2535,7 @@ msgid "Week timetracks"
 msgstr ""
 
 #. tpl/time_tracking.html
+#. tpl/team_activity_report.html
 msgid "Ext.ID"
 msgstr ""
 
@@ -3006,6 +3010,14 @@ msgid "All Tasks"
 msgstr "Minden feladat"
 
 #. tpl/team_activity_report.html
+msgid "Timetrack notes"
+msgstr ""
+
+#. tpl/team_activity_report.html
+msgid "Timetrack Note"
+msgstr ""
+
+#. tpl/team_activity_report.html
 msgid "Read by"
 msgstr "Elolvasta"
 
@@ -3015,7 +3027,7 @@ msgstr "Művelet"
 
 #. tpl/team_activity_report.html
 #. plugins/BlogPlugin/BlogPlugin.html
-#: plugins/BlogPlugin/BlogPost.class.php:414
+#: plugins/BlogPlugin/BlogPost.class.php:418
 msgid "Mark as read"
 msgstr "Megjelölés olvasottként"
 
@@ -3976,8 +3988,16 @@ msgstr ""
 msgid "Nb Pass"
 msgstr ""
 
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
+msgid "Show Tasks"
+msgstr ""
+
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
+msgid "Display task column"
+msgstr ""
+
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:74
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:78
 msgid "Check all the timetracks of the period and return their repartition per Job"
 msgstr "A megadott intervallum időkövetési adatai alapján megmutatja a munkánkénti terhelés eloszlást."
 
@@ -4070,7 +4090,7 @@ msgid "Hidden messages"
 msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#: plugins/BlogPlugin/BlogPost.class.php:419
+#: plugins/BlogPlugin/BlogPost.class.php:423
 msgid "Hide"
 msgstr ""
 
@@ -4119,7 +4139,15 @@ msgid "This will permanently delete this post, are you sure ?!"
 msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Acknowledged by"
+msgstr ""
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Submission date"
+msgstr ""
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Expiration date"
 msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
@@ -4131,7 +4159,7 @@ msgid "Dest"
 msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
-msgid "Blog wall"
+msgid "Message wall"
 msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
@@ -5475,7 +5503,7 @@ msgstr ""
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:469
 #: timetracking/team_monthly_activity_report.php:130
-#: timetracking/time_tracking.php:431 timetracking/team_activity_report.php:180
+#: timetracking/time_tracking.php:431 timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr ""
 
@@ -5562,7 +5590,7 @@ msgstr ""
 msgid "Display the bug reopened rate history"
 msgstr ""
 
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:231
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:258
 msgid "Management"
 msgstr ""
 
@@ -5599,7 +5627,7 @@ msgid "High"
 msgstr ""
 
 #. This case happens when an Administrator sends a message to "All" users
-#: plugins/BlogPlugin/BlogPost.class.php:373
+#: plugins/BlogPlugin/BlogPost.class.php:377
 msgid "Everybody"
 msgstr ""
 

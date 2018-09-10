@@ -10,11 +10,11 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-07-16 14:49:34+0000\n"
+"PO-Revision-Date: 2018-09-10 06:17:18+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2018-05-16 04:53:00+0000\n"
+"X-POT-Import-Date: 2018-09-10 05:50:37+0000\n"
 "X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-07-10\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -101,7 +101,7 @@ msgstr "生产日期"
 #. tpl/productivity_report.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:71
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:75
 msgid "Load per Job"
 msgstr "每个工作的负荷"
 
@@ -244,7 +244,6 @@ msgstr "不可用。"
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#: reports/export_csv_weekly.php:171
 msgid "Job"
 msgstr "工作"
 
@@ -372,9 +371,11 @@ msgstr "没有最后期限的任务不会在此报告"
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
+#: reports/planning_report.php:77
 #: plugins/CostsIndicator/CostsIndicator.class.php:228
 msgid "Tasks"
 msgstr "任务"
@@ -727,6 +728,7 @@ msgstr "状态"
 #. tpl/ajax/schedulerAffectationSummary.html
 #. tpl/time_tracking.html
 #. tpl/command_edit.html
+#. tpl/team_activity_report.html
 #. tpl/command_info.html
 #. tpl/modal/select_issues.html
 #. tpl/modal/update_issueBacklog.html
@@ -736,7 +738,7 @@ msgstr "状态"
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. insert in front
 #. add task summary in front
-#: classes/issue.class.php:2276 classes/issue_selection.class.php:316
+#: classes/issue_selection.class.php:316
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
 #: management/servicecontract_info.php:150 management/command_info.php:241
@@ -745,6 +747,7 @@ msgstr "状态"
 #: reports/export_csv_tools.php:52 reports/project_info.php:282
 #: reports/project_info.php:293 reports/project_info.php:305
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:237
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: scheduler/SchedulerEvent.class.php:87 scheduler/SchedulerEvent.class.php:130
 #: gantt/gantt_ajax.php:194 gantt/gantt_ajax.php:231 tools.php:1560
@@ -1026,7 +1029,6 @@ msgstr "目标"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#: install/install_step1.php:248
 msgid "User"
 msgstr "用户"
 
@@ -1094,7 +1096,7 @@ msgstr "属性"
 
 #. tpl/servicecontract_info.html
 #. tpl/create_team.html
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:245
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:278
 msgid "SideTasks"
 msgstr "边缘任务"
 
@@ -1371,11 +1373,10 @@ msgstr "应用的过滤器"
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#: management/command_info_ajax.php:328 management/command_info_ajax.php:330
-#: reports/planning_report.php:471 reports/planning_report.php:473
-#: reports/export_csv_weekly.php:127 reports/export_csv_weekly.php:170
-#: scheduler/SchedulerEvent.class.php:83 scheduler/SchedulerEvent.class.php:85
-#: scheduler/SchedulerEvent.class.php:123
+#: management/command_info_ajax.php:330 reports/planning_report.php:471
+#: reports/planning_report.php:473 reports/export_csv_weekly.php:127
+#: reports/export_csv_weekly.php:170 scheduler/SchedulerEvent.class.php:83
+#: scheduler/SchedulerEvent.class.php:85 scheduler/SchedulerEvent.class.php:123
 #: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
 #: gantt/gantt_ajax.php:192
 msgid "Task"
@@ -1460,7 +1461,7 @@ msgstr "删除团队"
 #. tpl/command_edit.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. Delete
-#: plugins/BlogPlugin/BlogPost.class.php:410
+#: plugins/BlogPlugin/BlogPost.class.php:414
 msgid "Delete"
 msgstr "删除"
 
@@ -2200,6 +2201,7 @@ msgstr "总分配努力"
 
 #. tpl/scheduler.html
 #. tpl/time_tracking.html
+#. tpl/team_activity_report.html
 #. tpl/modal/update_issueBacklog.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
@@ -2207,6 +2209,7 @@ msgstr "总分配努力"
 #. T_('Status').':<strong>'.$scheduledTask->getStatusName().'</strong>,&nbsp; '.
 #. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
 #. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
+#: reports/planning_report.php:492
 msgid "Duration"
 msgstr "期限"
 
@@ -2534,6 +2537,7 @@ msgid "Week timetracks"
 msgstr "周时间跟踪"
 
 #. tpl/time_tracking.html
+#. tpl/team_activity_report.html
 msgid "Ext.ID"
 msgstr "Ext.ID"
 
@@ -3008,6 +3012,14 @@ msgid "All Tasks"
 msgstr "所有任务"
 
 #. tpl/team_activity_report.html
+msgid "Timetrack notes"
+msgstr ""
+
+#. tpl/team_activity_report.html
+msgid "Timetrack Note"
+msgstr ""
+
+#. tpl/team_activity_report.html
 msgid "Read by"
 msgstr "阅读自"
 
@@ -3017,7 +3029,7 @@ msgstr "操作"
 
 #. tpl/team_activity_report.html
 #. plugins/BlogPlugin/BlogPlugin.html
-#: plugins/BlogPlugin/BlogPost.class.php:414
+#: plugins/BlogPlugin/BlogPost.class.php:418
 msgid "Mark as read"
 msgstr "标记为已读"
 
@@ -3978,8 +3990,16 @@ msgstr "已通过验证测试的问题个数"
 msgid "Nb Pass"
 msgstr "Nb通过"
 
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
+msgid "Show Tasks"
+msgstr ""
+
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
+msgid "Display task column"
+msgstr ""
+
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:74
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:78
 msgid "Check all the timetracks of the period and return their repartition per Job"
 msgstr "检查周期内所有时间跟踪，并按工作返回他们的再分配"
 
@@ -4072,7 +4092,7 @@ msgid "Hidden messages"
 msgstr "隐藏的消息"
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#: plugins/BlogPlugin/BlogPost.class.php:419
+#: plugins/BlogPlugin/BlogPost.class.php:423
 msgid "Hide"
 msgstr "隐藏"
 
@@ -4121,8 +4141,16 @@ msgid "This will permanently delete this post, are you sure ?!"
 msgstr "这将永久删除此帖，您确定么？！"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Acknowledged by"
+msgstr ""
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Submission date"
 msgstr "提交日期"
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Expiration date"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"
@@ -4133,8 +4161,8 @@ msgid "Dest"
 msgstr "澳大利亚教育科学与培训部"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
-msgid "Blog wall"
-msgstr "日志墙"
+msgid "Message wall"
+msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"
@@ -5477,7 +5505,7 @@ msgstr "对不起，没有为您的团队定义的项目。"
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:469
 #: timetracking/team_monthly_activity_report.php:130
-#: timetracking/time_tracking.php:431 timetracking/team_activity_report.php:180
+#: timetracking/time_tracking.php:431 timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr "错误：在Mantis数据库中找不到任务！"
 
@@ -5564,7 +5592,7 @@ msgstr "显示应被递送的未解决任务"
 msgid "Display the bug reopened rate history"
 msgstr "显示错误重启率历史"
 
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:231
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:258
 msgid "Management"
 msgstr "管理"
 
@@ -5601,7 +5629,7 @@ msgid "High"
 msgstr "高"
 
 #. This case happens when an Administrator sends a message to "All" users
-#: plugins/BlogPlugin/BlogPost.class.php:373
+#: plugins/BlogPlugin/BlogPost.class.php:377
 msgid "Everybody"
 msgstr "任何人"
 

@@ -12,11 +12,11 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-08-23 06:13:17+0000\n"
+"PO-Revision-Date: 2018-09-10 06:17:12+0000\n"
 "Language: ar\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2018-05-16 04:53:00+0000\n"
+"X-POT-Import-Date: 2018-09-10 05:50:37+0000\n"
 "X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-07-10\n"
 "Plural-Forms: nplurals=6; plural=(n == 0) ? 0 : ( (n == 1) ? 1 : ( (n == 2) ? 2 : ( (n%100 >= 3 && n%100 <= 10) ? 3 : ( (n%100 >= 11 && n%100 <= 99) ? 4 : 5 ) ) ) );\n"
 
@@ -103,7 +103,7 @@ msgstr "أيام الإنتاج"
 #. tpl/productivity_report.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:71
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:75
 msgid "Load per Job"
 msgstr "التحميل لكل وظيفة"
 
@@ -246,7 +246,6 @@ msgstr "غير متوفر."
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#: reports/export_csv_weekly.php:171
 msgid "Job"
 msgstr "وظيفة"
 
@@ -374,9 +373,11 @@ msgstr "المهام التي بلا موعد نهائي لا يتم الإبل�
 #. tpl/command_edit.html
 #. tpl/command_info.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
+#: reports/planning_report.php:77
 #: plugins/CostsIndicator/CostsIndicator.class.php:228
 msgid "Tasks"
 msgstr "مهام"
@@ -729,6 +730,7 @@ msgstr "الحالة"
 #. tpl/ajax/schedulerAffectationSummary.html
 #. tpl/time_tracking.html
 #. tpl/command_edit.html
+#. tpl/team_activity_report.html
 #. tpl/command_info.html
 #. tpl/modal/select_issues.html
 #. tpl/modal/update_issueBacklog.html
@@ -738,7 +740,7 @@ msgstr "الحالة"
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. insert in front
 #. add task summary in front
-#: classes/issue.class.php:2276 classes/issue_selection.class.php:316
+#: classes/issue_selection.class.php:316
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:371
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:373
 #: management/servicecontract_info.php:150 management/command_info.php:241
@@ -747,6 +749,7 @@ msgstr "الحالة"
 #: reports/export_csv_tools.php:52 reports/project_info.php:282
 #: reports/project_info.php:293 reports/project_info.php:305
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:237
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: scheduler/SchedulerEvent.class.php:87 scheduler/SchedulerEvent.class.php:130
 #: gantt/gantt_ajax.php:194 gantt/gantt_ajax.php:231 tools.php:1560
@@ -1028,7 +1031,6 @@ msgstr "الهدف"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#: install/install_step1.php:248
 msgid "User"
 msgstr "مستخدم"
 
@@ -1096,7 +1098,7 @@ msgstr "السمات"
 
 #. tpl/servicecontract_info.html
 #. tpl/create_team.html
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:245
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:278
 msgid "SideTasks"
 msgstr "مهام جانبية"
 
@@ -1373,11 +1375,10 @@ msgstr "المرشحات المطبقة"
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#: management/command_info_ajax.php:328 management/command_info_ajax.php:330
-#: reports/planning_report.php:471 reports/planning_report.php:473
-#: reports/export_csv_weekly.php:127 reports/export_csv_weekly.php:170
-#: scheduler/SchedulerEvent.class.php:83 scheduler/SchedulerEvent.class.php:85
-#: scheduler/SchedulerEvent.class.php:123
+#: management/command_info_ajax.php:330 reports/planning_report.php:471
+#: reports/planning_report.php:473 reports/export_csv_weekly.php:127
+#: reports/export_csv_weekly.php:170 scheduler/SchedulerEvent.class.php:83
+#: scheduler/SchedulerEvent.class.php:85 scheduler/SchedulerEvent.class.php:123
 #: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
 #: gantt/gantt_ajax.php:192
 msgid "Task"
@@ -1462,7 +1463,7 @@ msgstr "حذف الفريق"
 #. tpl/command_edit.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. Delete
-#: plugins/BlogPlugin/BlogPost.class.php:410
+#: plugins/BlogPlugin/BlogPost.class.php:414
 msgid "Delete"
 msgstr "حذف"
 
@@ -2202,6 +2203,7 @@ msgstr "مجموع جهد التعيين"
 
 #. tpl/scheduler.html
 #. tpl/time_tracking.html
+#. tpl/team_activity_report.html
 #. tpl/modal/update_issueBacklog.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
@@ -2209,6 +2211,7 @@ msgstr "مجموع جهد التعيين"
 #. T_('Status').':<strong>'.$scheduledTask->getStatusName().'</strong>,&nbsp; '.
 #. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
 #. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
+#: reports/planning_report.php:492
 msgid "Duration"
 msgstr "المدة"
 
@@ -2536,6 +2539,7 @@ msgid "Week timetracks"
 msgstr "المسارات الزمنية للأسبوع"
 
 #. tpl/time_tracking.html
+#. tpl/team_activity_report.html
 msgid "Ext.ID"
 msgstr "معرف خارجي"
 
@@ -3010,6 +3014,14 @@ msgid "All Tasks"
 msgstr "جميع المهام"
 
 #. tpl/team_activity_report.html
+msgid "Timetrack notes"
+msgstr ""
+
+#. tpl/team_activity_report.html
+msgid "Timetrack Note"
+msgstr ""
+
+#. tpl/team_activity_report.html
 msgid "Read by"
 msgstr "قرأه"
 
@@ -3019,7 +3031,7 @@ msgstr "فعل"
 
 #. tpl/team_activity_report.html
 #. plugins/BlogPlugin/BlogPlugin.html
-#: plugins/BlogPlugin/BlogPost.class.php:414
+#: plugins/BlogPlugin/BlogPost.class.php:418
 msgid "Mark as read"
 msgstr "علم كمقروء"
 
@@ -3980,8 +3992,16 @@ msgstr "ملحوظة من القضايا التي تتجاوز في اختبار
 msgid "Nb Pass"
 msgstr "ملحوظة تجاوز"
 
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
+msgid "Show Tasks"
+msgstr ""
+
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
+msgid "Display task column"
+msgstr ""
+
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:74
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:78
 msgid "Check all the timetracks of the period and return their repartition per Job"
 msgstr "تحقق من جميع الجداول الزمنية لهذه الفترة وأعد إعادة توزيعها لكل مهمة"
 
@@ -4074,7 +4094,7 @@ msgid "Hidden messages"
 msgstr "رسائل مخفية"
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#: plugins/BlogPlugin/BlogPost.class.php:419
+#: plugins/BlogPlugin/BlogPost.class.php:423
 msgid "Hide"
 msgstr "إخفاء"
 
@@ -4123,8 +4143,16 @@ msgid "This will permanently delete this post, are you sure ?!"
 msgstr "سيؤدي هذا إلى حذف هذه المشاركة نهائيًا، فهل أنت متأكد؟!"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Acknowledged by"
+msgstr ""
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Submission date"
 msgstr "تاريخ التقديم"
+
+#. plugins/BlogPlugin/BlogPlugin_ajax.html
+msgid "Expiration date"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"
@@ -4135,8 +4163,8 @@ msgid "Dest"
 msgstr "الهدف"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
-msgid "Blog wall"
-msgstr "جدار المدونة"
+msgid "Message wall"
+msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"
@@ -5479,7 +5507,7 @@ msgstr "معذرة، لا توجد مشاريع محددة لفريقك."
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:469
 #: timetracking/team_monthly_activity_report.php:130
-#: timetracking/time_tracking.php:431 timetracking/team_activity_report.php:180
+#: timetracking/time_tracking.php:431 timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr "خطأ: لم يتم العثور على المهمة في Mantis DB!"
 
@@ -5566,7 +5594,7 @@ msgstr "عرض المهام غير المغلقة التي كان ينبغي ت�
 msgid "Display the bug reopened rate history"
 msgstr "عرض سجل معدل الخطأ المعاد فتحه"
 
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:231
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:258
 msgid "Management"
 msgstr "إدارة"
 
@@ -5603,7 +5631,7 @@ msgid "High"
 msgstr "مرتفع"
 
 #. This case happens when an Administrator sends a message to "All" users
-#: plugins/BlogPlugin/BlogPost.class.php:373
+#: plugins/BlogPlugin/BlogPost.class.php:377
 msgid "Everybody"
 msgstr "الجميع"
 
