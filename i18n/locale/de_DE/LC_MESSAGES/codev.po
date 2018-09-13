@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-09-10 06:17:13+0000\n"
+"PO-Revision-Date: 2018-09-13 08:51:42+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
@@ -3016,11 +3016,11 @@ msgstr "Alle Aufgaben"
 
 #. tpl/team_activity_report.html
 msgid "Timetrack notes"
-msgstr ""
+msgstr "Zeiterfassungs-Notizen"
 
 #. tpl/team_activity_report.html
 msgid "Timetrack Note"
-msgstr ""
+msgstr "Zeiterfassungsnotiz"
 
 #. tpl/team_activity_report.html
 msgid "Read by"
@@ -3995,11 +3995,11 @@ msgstr "Anzahl Bestanden"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Show Tasks"
-msgstr ""
+msgstr "Aufgaben anzeigen"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Display task column"
-msgstr ""
+msgstr "Aufgabenspalte anzeigen"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:78
@@ -4145,7 +4145,7 @@ msgstr "Dies wird diesen Beitrag dauerhaft löschen. Bist du sicher?"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Acknowledged by"
-msgstr ""
+msgstr "Bestätigt von"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Submission date"
@@ -4153,7 +4153,7 @@ msgstr "Datum der Einreichung"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Expiration date"
-msgstr ""
+msgstr "Ablaufdatum"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"
@@ -4165,7 +4165,7 @@ msgstr "Ziel"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Message wall"
-msgstr ""
+msgstr "Nachrichtenwand"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"

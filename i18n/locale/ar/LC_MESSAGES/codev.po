@@ -3,6 +3,7 @@
 #
 # Author: ASHmed
 # Author: Maroen1990
+# Author: Meno25
 # Author: Mr. Ibrahem
 # Author: Withsalah
 # Author: ديفيد
@@ -12,7 +13,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-09-10 06:17:12+0000\n"
+"PO-Revision-Date: 2018-09-13 08:51:41+0000\n"
 "Language: ar\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2876,7 +2877,7 @@ msgstr "أوامر جديدة"
 #. tpl/command_edit.html
 #. tpl/command_info.html
 msgid "Sold Charge"
-msgstr ""
+msgstr "قيمة البيع"
 
 #. tpl/command_edit.html
 msgid "Command name"
@@ -3015,11 +3016,11 @@ msgstr "جميع المهام"
 
 #. tpl/team_activity_report.html
 msgid "Timetrack notes"
-msgstr ""
+msgstr "ملاحظات المسار الزمني"
 
 #. tpl/team_activity_report.html
 msgid "Timetrack Note"
-msgstr ""
+msgstr "ملاحظة المسار الزمني"
 
 #. tpl/team_activity_report.html
 msgid "Read by"
@@ -3243,7 +3244,7 @@ msgstr "النسخ الاحتياطي للبيانات"
 
 #. tpl/uninstall.html
 msgid "Backup file will be saved in CodevTT reports directory"
-msgstr "Backup file will be saved in CodevTT reports directory\nسيتم حفظ ملف النسخ الاحتياطي في دليل تقارير CodevTT"
+msgstr "\nسيتم حفظ ملف النسخ الاحتياطي في دليل تقارير CodevTT"
 
 #. tpl/uninstall.html
 msgid "Filename"
@@ -3453,7 +3454,7 @@ msgstr "أيام"
 
 #. tpl/command_info.html
 msgid "The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'"
-msgstr ""
+msgstr "القيمة الإجمالية (MgrEffortEstim + Provisions) ينبغي أن تكون مساوية ل'Sold Charge'"
 
 #. tpl/command_info.html
 msgid "balance"
@@ -3994,11 +3995,11 @@ msgstr "ملحوظة تجاوز"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Show Tasks"
-msgstr ""
+msgstr "عرض المهمات"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Display task column"
-msgstr ""
+msgstr "عرض عمود المهمة"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:78
@@ -4144,7 +4145,7 @@ msgstr "سيؤدي هذا إلى حذف هذه المشاركة نهائيًا،
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Acknowledged by"
-msgstr ""
+msgstr "معرف بواسطة"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Submission date"
@@ -4152,7 +4153,7 @@ msgstr "تاريخ التقديم"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Expiration date"
-msgstr ""
+msgstr "تاريخ الانتهاء"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"
@@ -4164,7 +4165,7 @@ msgstr "الهدف"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Message wall"
-msgstr ""
+msgstr "حائط الرسالة"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"
@@ -4495,7 +4496,7 @@ msgstr "مهام خارجية باستثناء فئة \"المغادرة\""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "External leave tasks & inactivity sideTasks that are not in the current task selection"
-msgstr ""
+msgstr "مهمات الرحيل الخارجية ومهمات عدم النشاط الفرعية التي ليست ضمن اختيار المهام الحالي"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"

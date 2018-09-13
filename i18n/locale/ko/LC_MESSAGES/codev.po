@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-09-10 06:17:15+0000\n"
+"PO-Revision-Date: 2018-09-13 08:51:44+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4007,7 +4007,7 @@ msgstr ""
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Show Tasks"
-msgstr ""
+msgstr "작업 보기"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Display task column"
@@ -4165,7 +4165,7 @@ msgstr "제출일"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Expiration date"
-msgstr ""
+msgstr "유효 기한"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"

@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-09-10 06:17:17+0000\n"
+"PO-Revision-Date: 2018-09-13 08:51:45+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3011,11 +3011,11 @@ msgstr "Tuti ij travaj"
 
 #. tpl/team_activity_report.html
 msgid "Timetrack notes"
-msgstr ""
+msgstr "Nòte ëd programassion"
 
 #. tpl/team_activity_report.html
 msgid "Timetrack Note"
-msgstr ""
+msgstr "Nòta ëd programassion"
 
 #. tpl/team_activity_report.html
 msgid "Read by"
@@ -3990,11 +3990,11 @@ msgstr "Nùmer Acetà"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Show Tasks"
-msgstr ""
+msgstr "Smon-e ij travaj"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Display task column"
-msgstr ""
+msgstr "Smon-e la colòna dij travaj"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:78
@@ -4140,7 +4140,7 @@ msgstr "Sòn a dëscancelërà sa nòta ëd fasson përmanenta; é-lo sigur?"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Acknowledged by"
-msgstr ""
+msgstr "Arconossù da"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Submission date"
@@ -4148,7 +4148,7 @@ msgstr "Dàita dë spedission"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Expiration date"
-msgstr ""
+msgstr "Dàita dë scadensa"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"
@@ -4160,7 +4160,7 @@ msgstr "Dest"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Message wall"
-msgstr ""
+msgstr "Muraja dij mëssagi"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"

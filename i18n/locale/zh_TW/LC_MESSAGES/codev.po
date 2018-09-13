@@ -10,7 +10,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-09-10 06:17:19+0000\n"
+"PO-Revision-Date: 2018-09-13 08:51:47+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3013,11 +3013,11 @@ msgstr "所有任務"
 
 #. tpl/team_activity_report.html
 msgid "Timetrack notes"
-msgstr ""
+msgstr "時間表註釋"
 
 #. tpl/team_activity_report.html
 msgid "Timetrack Note"
-msgstr ""
+msgstr "時間表註釋"
 
 #. tpl/team_activity_report.html
 msgid "Read by"
@@ -3992,11 +3992,11 @@ msgstr "Nb 通過"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Show Tasks"
-msgstr ""
+msgstr "顯示任務"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Display task column"
-msgstr ""
+msgstr "顯示任務欄位"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:78
@@ -4142,7 +4142,7 @@ msgstr "將會徹底刪除此發佈內容，您確定嗎？！"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Acknowledged by"
-msgstr ""
+msgstr "確認由"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Submission date"
@@ -4150,7 +4150,7 @@ msgstr "提交日期"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Expiration date"
-msgstr ""
+msgstr "逾期日期"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"
@@ -4162,7 +4162,7 @@ msgstr "目標"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Message wall"
-msgstr ""
+msgstr "訊息牆"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"

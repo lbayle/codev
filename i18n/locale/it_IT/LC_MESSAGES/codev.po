@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-09-10 06:17:15+0000\n"
+"PO-Revision-Date: 2018-09-13 08:51:43+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -4185,7 +4185,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Expiration date"
-msgstr ""
+msgstr "Scadenza"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"
