@@ -95,15 +95,18 @@ class HolidaysReportController extends Controller {
          $teamProjects = $team->getProjects();
 
          $months = array();
-         for ($i = 1; $i <= 12; $i++) {
-            $monthTimestamp = mktime(0, 0, 0, $i, 1, $year);
+         $y = $year;
+         for ($i = 1; $i <= 13; $i++) {
+            $m = $i;
+            if (13 == $i) { $m = 1;  $y += 1; } // also display january of year+1
+            $monthTimestamp = mktime(0, 0, 0, $m, 1, $y);
             $nbDaysInMonth = date("t", $monthTimestamp);
             $endMonthTimestamp = strtotime("last day of this month", $monthTimestamp);
             $months[$i] = array(
                "name" => Tools::formatDate("%B %Y", $monthTimestamp),
                "idcaption" => Tools::formatDate("%B", $monthTimestamp),
-               "days" => $this->getDays($nbDaysInMonth, $i, $year),
-               "users" => $this->getDaysUsers($i, $year, $displayed_teamid, $users, $nbDaysInMonth, $filters, $teamProjects),
+               "days" => $this->getDays($nbDaysInMonth, $m, $y),
+               "users" => $this->getDaysUsers($m, $y, $displayed_teamid, $users, $nbDaysInMonth, $filters, $teamProjects),
                "workdays" => Holidays::getInstance()->getWorkdays($monthTimestamp, $endMonthTimestamp),
                "filename_csv" => date("Ym", $monthTimestamp).'_'.str_replace(' ', '_', $team->getName()).'_leaves.csv',
             );
