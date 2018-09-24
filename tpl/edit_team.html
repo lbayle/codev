@@ -42,17 +42,6 @@
             <fieldset>
                <table class="invisible">
                   <tr>
-                     <td><label for="leaderid">{t}Team Administrator{/t}</label></td>
-                     <td>
-                        <select  style="width:300px" name="leaderid" id="leaderid" class="select2">
-                           {foreach from=$users key=id item=i}
-                           <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
-                           {/foreach}
-                        </select>
-                     </td>
-                     <td><input type="button" name="btUpdateTeamLeader" value="{t}Update{/t}" id="btUpdateTeamLeader" /></td>
-                  </tr>
-                  <tr>
                      <td><label for="datepicker">{t}Creation Date{/t}</label></td>
                      <td><input type="text" id="datepicker" class="datepicker" name="date_createTeam" maxlength="10" size="10" title="{t}Date{/t}" /></td>
                      <td><input style="width:100%" type=button name="btupdateTeamCreationDate" value="{t}Update{/t}" id="btupdateTeamCreationDate" /></td>
@@ -63,16 +52,64 @@
                      <td><input id="bt_teamEnabled" type="button" value="{t}Update{/t}" /></td>
                   </tr>
                </table>
-               <br/>
-               <span class="help_font">{t}Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report.{/t}</span>
                <input type="hidden" name="isTeamEnabled" value="{$teamEnabled}"/>
                <input type="hidden" name="action" value="noAction" />
                <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
             </fieldset>
          </form>
 
+         <br/>
+         <!--span class="help_font">{t}Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report.{/t}</span-->
+         <span class="error_font addTeamAdminErrorMsg deleteTeamAdminErrorMsg"></span>
+         <table id="tableTeamAdmin">
+            <thead>
+               <tr>
+                  <th></th>
+                  <th>{t}Team Administrators{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td style="width:38px;">
+                     <a class="bt_addTeamAdmin ui-icon pointer" title="{t}add as team administrator{/t}" style="background:url(images/b_add.png);"></a>
+                  </td>
+                  <td>
+                     <select  style="width:300px" id="cb_TeamAdminCandidates" class="select2">
+                        {foreach from=$adminCandidatesList key=id item=i}
+                        <option value="{$i.id}">{$i.name}</option>
+                        {/foreach}
+                     </select>
+                  </td>
+               </tr>
+            {foreach from=$teamAdminList key=id item=i}
+               <tr data-adminId="{$i.id}" class="teamAdminRow">
+                  <td style="width:38px;" class="ui-state-error-text" ><a class="bt_deleteTeamAdmin ui-icon pointer" align="absmiddle"></td>
+                  <td title="{$i.id}">{$i.name}</td>
+               </tr>
+            {/foreach}
+            {if empty($teamAdminList)}
+               <tr class="teamAdminRow missingTeamAdminRow">
+                  <td></td>
+                  <td><span class='warn_font'>{t}Add a team administrator{/t} !</span></td>
+               </tr>
+            {/if}
+            </tbody>
+         </table>
+         <br>
+         <div id="deleteTeamAdmin_dialog_form" title="{t}Remove administrator{/t}" class="ui-helper-hidden">
+            <p class="ui-state-error-text"><span class="ui-icon float" style="margin:0 7px 20px 0;"></span>{t}Remove the following Team Administrator ?{/t}</p>
+            <table class="invisible">
+               <tbody>
+               <tr>
+                  <th>{t}User{/t} :</th>
+                  <td id="formDeleteTeamAdmin_teamAdmin">value</td>
+               </tr>
+               </tbody>
+            </table>
+         </div>
 
          {if $allowDeleteTeam}
+         <br>
          <h2>{t}Delete team{/t}</h2>
          <script type="text/javascript">
             jQuery(document).ready(function() {

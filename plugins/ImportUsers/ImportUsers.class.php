@@ -297,7 +297,7 @@ class ImportUsers extends IndicatorPluginAbstract {
          $this->execData['teams'] = Team::getTeams();
       } else {
          // only teamLeaders, not even managers
-         $this->execData['teams']  = $this->session_user->getLeadedTeamList();
+         $this->execData['teams']  = $this->session_user->getAdministratedTeamList();
       }
       return $this->execData;
     }

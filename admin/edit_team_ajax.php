@@ -59,10 +59,25 @@ if(Tools::isConnectedUser() &&
    // INPUT_GET  for action getItemSelectionLists
    // INPUT_GET  for action processPostSelectionAction
    // INPUT_POST for action addUserDailyCost
+   // INPUT_POST for action addTeamAdmin
    $action = filter_input(INPUT_POST, 'action');
    if (empty($action)) {
       $action = filter_input(INPUT_GET, 'action');
    }
+
+/*   // TODO check user is agranted to do that !
+    $sessionUserId = $_SESSION['userid'];
+    $sessionUser = UserCache::getInstance()->getUser($sessionUserId);
+    $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+   if (!$sessionUser->isTeamLeader($displayed_teamid) &&
+       !$sessionUser->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
+      $data = array();
+      $data["statusMsg"] = "ERROR : You must be a team administrator !";
+      $jsonData = json_encode($data);
+      echo $jsonData;
+      $action = NULL;
+   }
+*/
 
    if(!empty($action)) {
       $smartyHelper = new SmartyHelper();
@@ -258,6 +273,55 @@ if(Tools::isConnectedUser() &&
 
          } catch (Exception $e) {
             $logger->error("EXCEPTION addUserDailyCost: ".$e->getMessage());
+            $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+            Tools::sendBadRequest($e->getMessage());
+         }
+
+         // return status & data
+         $jsonData = json_encode($data);
+         echo $jsonData;
+
+      } else if ('addTeamAdmin' == $action) {
+         // using POST
+         $data = array();
+         try {
+            $adminId = Tools::getSecurePOSTIntValue('adminId');
+            $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+
+            $admin = UserCache::getInstance()->getUser($adminId);
+            $team = TeamCache::getInstance()->getTeam($displayed_teamid);
+            $team->addAdministrator($adminId);
+            $data["adminId"] = $adminId;
+            $data["adminName"] = $admin->getRealname();
+            $data["statusMsg"] = "SUCCESS";
+
+         } catch (Exception $e) {
+            $logger->error("EXCEPTION addTeamAdmin: ".$e->getMessage());
+            $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+            Tools::sendBadRequest($e->getMessage());
+         }
+
+         // return status & data
+         $jsonData = json_encode($data);
+         echo $jsonData;
+
+      } else if ('deleteTeamAdmin' == $action) {
+         // using POST
+         $data = array();
+         try {
+            $adminId = Tools::getSecurePOSTIntValue('adminId');
+            $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+
+            $admin = UserCache::getInstance()->getUser($adminId);
+
+            $team = TeamCache::getInstance()->getTeam($displayed_teamid);
+            $team->removeAdministrator($adminId);
+            $data["adminId"] = $adminId;
+            $data["adminName"] = $admin->getRealname();
+            $data["statusMsg"] = "SUCCESS";
+
+         } catch (Exception $e) {
+            $logger->error("EXCEPTION deleteTeamAdmin: ".$e->getMessage());
             $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
             Tools::sendBadRequest($e->getMessage());
          }

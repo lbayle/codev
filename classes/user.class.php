@@ -308,7 +308,8 @@ class User extends Model {
     */
    public function isTeamLeader($team_id) {
       $team = TeamCache::getInstance()->getTeam($team_id);
-      return $team->getLeaderId() == $this->id;
+      $adminList = $team->getAdminList();
+      return in_array($this->id, $adminList) ;
    }
 
    /**
@@ -799,24 +800,27 @@ class User extends Model {
    }
 
    /**
-    * @return string[] the teams i'm leader of.
+    * @return string[] the teams i'm administrator of.
     */
-   public function getLeadedTeamList($withDisabled=false) {
+   public function getAdministratedTeamList($withDisabled=false) {
       if(NULL == $this->leadedTeams) {
          $this->leadedTeams = array();
          $sql = AdodbWrapper::getInstance();
-         $query = "SELECT DISTINCT id, name FROM codev_team_table WHERE leader_id = ".$sql->db_param();
-         $q_params[]=$this->id;
+         $query = "SELECT DISTINCT id, name FROM codev_team_table WHERE ".
+                  "administrators LIKE '%,".$this->id."' OR ".    // %,333
+                  "administrators LIKE '%,".$this->id.",%' OR ".  // %,333,%
+                  "administrators LIKE '".$this->id.",%'";        // 333,%
+
          if (!$withDisabled) {
             $query .= " AND enabled = 1 ";
          }
          $query .= " ORDER BY name";
 
-         $result = $sql->sql_query($query, $q_params);
+         $result = $sql->sql_query($query);
 
          while ($row = $sql->fetchObject($result)) {
             $this->leadedTeams[$row->id] = $row->name;
-            #echo "getLeadedTeamList FOUND $row->id - $row->name<br/>";
+            #echo "getAdministratedTeamList FOUND $row->id - $row->name<br/>";
          }
       }
       return $this->leadedTeams;

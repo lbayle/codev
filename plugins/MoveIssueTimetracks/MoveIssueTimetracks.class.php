@@ -257,7 +257,7 @@ class MoveIssueTimetracks extends IndicatorPluginAbstract {
             // others can only manage their own team
             $teamList = array($this->teamid => $team->getName());
 
-            if (($team->getLeaderId() === $this->sessionUserId) ||
+            if (($session_user->isTeamLeader($this->teamid)) ||
                 ($session_user->isTeamManager($this->teamid)) || $isAdmin) {
                // teamLeader & managers can manage all team members
                $teamMembers = $team->getMembers();

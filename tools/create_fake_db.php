@@ -234,7 +234,7 @@ function updateTeams() {
    global $demoTeamId;
    global $stprojId;
 
-   $sql->sql_query("UPDATE codev_team_table SET leader_id = '$lbayleId' ");
+   $sql->sql_query("UPDATE codev_team_table SET administrators = '$lbayleId' ");
 
    //execQuery("UPDATE codev_team_user_table SET access_level = 10 WHERE team_id <> $demoTeamId AND user_id = $mgrId");
    $sql->sql_query("DELETE FROM codev_team_user_table WHERE team_id <> $demoTeamId AND user_id = $mgrId");
@@ -252,7 +252,7 @@ function updateTeams() {
 
    // demo team
    $sql->sql_query("UPDATE codev_team_table SET name = 'DEMO_Team' WHERE id ='$demoTeamId' ");
-   $sql->sql_query("UPDATE codev_team_table SET leader_id = '$mgrId' WHERE id ='$demoTeamId' ");
+   $sql->sql_query("UPDATE codev_team_table SET administrators = '$mgrId' WHERE id ='$demoTeamId' ");
    $sql->sql_query("UPDATE codev_team_table SET description = '' WHERE id ='$demoTeamId' ");
 
 }

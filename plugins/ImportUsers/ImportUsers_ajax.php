@@ -51,7 +51,7 @@ if (Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
         // If user is allowed to import
         if (($sessionUser->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) ||
-                ($sessionUserId == $sessionTeam->getLeaderId())) {
+            ($sessionUser->isTeamLeader($sessionTeam->getId()))) {
             
             $indicator = new ImportUsers($pluginDataProvider);
 

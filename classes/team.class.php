@@ -75,7 +75,7 @@ class Team extends Model {
    private $id;
    private $name;
    private $description;
-   private $leader_id;
+   private $adminList;
    private $date;
    private $average_daily_cost;
    private $currency;
@@ -141,7 +141,7 @@ class Team extends Model {
 
          $this->name = $row->name;
          $this->description = $row->description;
-         $this->leader_id = $row->leader_id;
+         $this->adminList = empty($row->administrators) ? array() : explode(',', $row->administrators); // since v1.3.1 leader_id is replaced with a list of userId
          $this->enabled = (1 == $row->enabled);
          $this->commands_enabled = (1 == $row->commands_enabled);
          $this->date = $row->date;
@@ -176,7 +176,7 @@ class Team extends Model {
       if ($teamid < 0) {
          // create team
          $sql = AdodbWrapper::getInstance();
-         $query = "INSERT INTO codev_team_table  (name, description, leader_id, date)"
+         $query = "INSERT INTO codev_team_table  (name, description, administrators, date)"
             . " VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().", ".$sql->db_param().")";
          $q_params[]=$name;
          $q_params[]=$description;
@@ -242,10 +242,11 @@ class Team extends Model {
    }
 
    /**
-    * @return int
+    * get list of users with team administration access
+    * @return array of userId
     */
-   public function getLeaderId() {
-      return $this->leader_id;
+   public function getAdminList() {
+      return $this->adminList;
    }
 
    /**
@@ -981,12 +982,13 @@ class Team extends Model {
    }
 
    /**
+    * @deprecated
     * @param int $leaderid
     * @return bool
     */
    public function setLeader($leaderid) {
       $sql = AdodbWrapper::getInstance();
-      $query = "UPDATE codev_team_table SET leader_id = ".$sql->db_param()." WHERE id = ".$sql->db_param();
+      $query = "UPDATE codev_team_table SET administrators = ".$sql->db_param()." WHERE id = ".$sql->db_param();
       $q_params[]=$leaderid;
       $q_params[]=$this->id;
       try {
@@ -994,10 +996,55 @@ class Team extends Model {
       } catch (Exception $e) {
          return false;
       }
-      $this->leader_id = $leaderid;
+      $this->adminList = array();    // warn, removes all previous admins !
+      $this->adminList[] = $leaderid;
       return true;
    }
 
+   /**
+    * @param int $userId
+    * @return bool
+    */
+   public function addAdministrator($userId) {
+
+      if (in_array($userId, $this->adminList)) { return true; }
+
+self::$logger->error("addAdministrator BEFORE <".implode(',',$this->adminList).">");
+      $this->adminList[] = $userId;
+self::$logger->error("addAdministrator AFTER  <".implode(',',$this->adminList).">");
+
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_team_table SET administrators = ".$sql->db_param()." WHERE id = ".$sql->db_param();
+      $q_params[]=implode(',',$this->adminList);
+      $q_params[]=$this->id;
+      $sql->sql_query($query, $q_params);
+      return true;
+   }
+
+   /**
+    *
+    * @param int $userId
+    */
+   public function removeAdministrator($userId) {
+      if (($key = array_search($userId, $this->adminList)) !== false) {
+self::$logger->error("removeAdministrator BEFORE <".implode(',',$this->adminList).">");
+         unset($this->adminList[$key]);
+         $formattedAdminList=implode(',',$this->adminList);
+
+self::$logger->error("removeAdministrator AFTER  <".$formattedAdminList.">");
+
+         $sql = AdodbWrapper::getInstance();
+         $query = "UPDATE codev_team_table SET administrators = ".$sql->db_param()." WHERE id = ".$sql->db_param();
+         $q_params[]=$formattedAdminList;
+         $q_params[]=$this->id;
+         $sql->sql_query($query, $q_params);
+         return true;
+      } else {
+self::$logger->error("removeAdministrator $userId not found in <".implode(',',$this->adminList).">");
+
+      }
+      return false;
+   }
    /**
     * @return int[] The type by project
     */

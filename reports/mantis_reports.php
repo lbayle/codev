@@ -35,7 +35,7 @@ class MantisReports extends Controller {
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
          $mTeamList = $session_user->getDevTeamList();
-         $lTeamList = $session_user->getLeadedTeamList();
+         $lTeamList = $session_user->getAdministratedTeamList();
          $oTeamList = $session_user->getObservedTeamList();
          $managedTeamList = $session_user->getManagedTeamList();
          $teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;

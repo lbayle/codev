@@ -308,7 +308,7 @@ class CommandEditController extends Controller {
    private function getParentCmdSetCandidates(User $user) {
       $parentCmdSets = array();
 
-      $lTeamList = $user->getLeadedTeamList();
+      $lTeamList = $user->getAdministratedTeamList();
       $managedTeamList = $user->getManagedTeamList();
       $mTeamList = $user->getDevTeamList();
       $teamList = $mTeamList + $lTeamList + $managedTeamList;

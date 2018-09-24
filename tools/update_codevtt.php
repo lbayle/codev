@@ -566,6 +566,29 @@ function update_v17_to_v18() {
    }
 }
 
+/**
+ * update 1.3.0 to 1.3.1 (DB v18 to DB v19)
+ *
+ */
+function update_v18_to_v19() {
+
+
+   $sqlScriptFilename = Constants::$codevRootDir.'/install/codevtt_update_v18_v19.sql';
+   if (!file_exists($sqlScriptFilename)) {
+      echo "<span class='error_font'>SQL script not found:$sqlScriptFilename</span><br/>";
+      exit;
+   }
+
+   // execute the SQL script
+   echo "- Execute SQL script: $sqlScriptFilename<br>";
+   $retCode = Tools::execSQLscript2($sqlScriptFilename);
+   if (0 != $retCode) {
+      echo "<span class='error_font'>Could not execSQLscript: $sqlScriptFilename</span><br/>";
+      exit;
+   }
+}
+
+
 // ======================================================
 // toolbox
 // ======================================================

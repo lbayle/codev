@@ -38,7 +38,7 @@ class EditTeamController extends Controller {
          if ($this->session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
             $teamList = Team::getTeams(true);
          } else {
-            $teamList = $this->session_user->getLeadedTeamList(true);
+            $teamList = $this->session_user->getAdministratedTeamList(true);
          }
 
          if(count($teamList) > 0) {
@@ -90,6 +90,7 @@ class EditTeamController extends Controller {
                $action = isset($_POST['action']) ? $_POST['action'] : '';
                if ($action == "updateTeamLeader") {
                   $teamleader_id = Tools::getSecurePOSTIntValue('leaderid');
+                  // warn, setLeader deprecated !
                   if (!$team->setLeader($teamleader_id)) {
                      $this->smartyHelper->assign('error', T_("Couldn't update the team leader"));
                   } else {
@@ -163,9 +164,12 @@ class EditTeamController extends Controller {
                      $stproj = ProjectCache::getInstance()->getProject($stproj_id);
                      
                      // add teamLeader as Mantis manager of the SideTaskProject
-                     $leader = UserCache::getInstance()->getUser($team->getLeaderId());
                      $access_level = 70; // TODO mantis manager
-                     $leader->setProjectAccessLevel($stproj_id, $access_level);
+                     $teamAdminList = $team->getAdminList();
+                     foreach ($teamAdminList as $adminId) {
+                        $leader = UserCache::getInstance()->getUser($adminId);
+                        $leader->setProjectAccessLevel($stproj_id, $access_level);
+                     }
 
                      // add SideTaskProject Categories
                      $stproj->addCategoryProjManagement(T_("Project Management"));
@@ -237,20 +241,42 @@ class EditTeamController extends Controller {
                $this->smartyHelper->assign('team', $team);
 
                $smartyUserList = array();
+               $smartyAdminCandidatesList = array();
                $userList = User::getUsers();
-               $selectedUserid = $team->getLeaderId();
+               $teamAdminList = $team->getAdminList();
+               //$selectedUserid = $team->getLeaderId();
                foreach ($userList as $id => $name) {
+
                   $u = UserCache::getInstance()->getUser($id);
                   $uname = $u->getRealname();
                   if (empty($uname)) { $uname = $name;}
+
+                  // users (team member candidates)
                   $smartyUserList[$id] = array(
                      'id' => $id,
                      'name' => $uname,
-                     'selected' => $id == $selectedUserid,
+                  );
+                  // Admin candidates (all except current team admins)
+                  if (in_array($id, $teamAdminList)) { continue; }
+                  $smartyAdminCandidatesList[$id] = array(
+                     'id' => $id,
+                     'name' => $uname,
+                  );
+               }
+               $smartyAdminList = array();
+               foreach ($teamAdminList as $adminId) {
+                  $u = UserCache::getInstance()->getUser($adminId);
+                  $uname = $u->getRealname();
+                  if (empty($uname)) { $uname = $name;}
+                  $smartyAdminList[$adminId] = array(
+                     'id' => $adminId,
+                     'name' => $uname,
                   );
                }
 
                $this->smartyHelper->assign('users', $smartyUserList);
+               $this->smartyHelper->assign('adminCandidatesList', $smartyAdminCandidatesList);
+               $this->smartyHelper->assign('teamAdminList', $smartyAdminList);
                $this->smartyHelper->assign('teamCreationdate', date("Y-m-d", $team->getDate()));
 
                $this->smartyHelper->assign('accessLevel', Team::$accessLevelNames);

@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS "codev_config_table" (
 
 
 INSERT INTO "codev_config_table" ("config_id", "value", "type") VALUES
-('database_version', 18, 1),
+('database_version', 19, 1),
 ('blogCategories', '1:General,2:Timetracking,3:Admin', 3);
 
 
@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS "codev_team_table" (
   "id" INTEGER NOT NULL AUTO_INCREMENT,
   "name" varchar(64) NOT NULL,
   "description" varchar(255) DEFAULT NULL,
-  "leader_id" INTEGER DEFAULT NULL,
+  "administrators" varchar(255) DEFAULT NULL,
   "enabled" tinyint(4) NOT NULL DEFAULT '1',
   "commands_enabled" tinyint(4) NOT NULL DEFAULT '1',
   "date" INTEGER NOT NULL,

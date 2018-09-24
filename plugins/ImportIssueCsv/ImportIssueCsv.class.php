@@ -314,7 +314,7 @@ class ImportIssueCsv  extends IndicatorPluginAbstract {
 
             // except Observed teams
             $dTeamList = $this->session_user->getDevTeamList();
-            $lTeamList = $this->session_user->getLeadedTeamList();
+            $lTeamList = $this->session_user->getAdministratedTeamList();
             $managedTeamList = $this->session_user->getManagedTeamList();
             $teamList = $dTeamList + $lTeamList + $managedTeamList;
 
