@@ -608,7 +608,7 @@ class Tools {
             }
          }
 
-         $reqs = split(";",$request);// identify single requests
+         $reqs = explode(";",$request);// identify single requests
          foreach($reqs as $req) {
             if(strlen($req) > 0) {
                $sql->sql_query($req);
