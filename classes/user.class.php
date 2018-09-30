@@ -869,9 +869,11 @@ class User extends Model {
    /**
     * returns teams, the user is involved in.
     * @param int $accessLevel if NULL return all teams including observed teams.
-    * @return string[] array string[int] name[id]
+    * @param type $withDisabled teams disabled in mantis
+    * @param type $withVacatedTeams teams where I have a departure date <= today
+    * @return type
     */
-   public function getTeamList($accessLevel = NULL, $withDisabled=false) {
+   public function getTeamList($accessLevel = NULL, $withDisabled=false, $withVacatedTeams=false) {
       $teamList = array();
 
       if($accessLevel == NULL && $this->allTeamList != NULL) {
@@ -891,6 +893,13 @@ class User extends Model {
       }
       if (!$withDisabled) {
          $query .= " AND team.enabled = 1 ";
+      }
+
+      if (!$withVacatedTeams) {
+         $now = time();
+         $midnightTimestamp = mktime(0, 0, 0, date('m', $now), date('d', $now), date('Y', $now));
+         $query .= ' AND (team_user.departure_date >= '.$sql->db_param().' OR team_user.departure_date = 0) ';
+         $query_params[] = $midnightTimestamp;
       }
 
       $query .= " ORDER BY team.name;";
@@ -1206,9 +1215,12 @@ class User extends Model {
          if ($this->defaultTeam == NULL) {
          	$this->defaultTeam = 0;
          }
+
+         $now = time();
+         $midnightTimestamp = mktime(0, 0, 0, date('m', $now), date('d', $now), date('Y', $now));
          
          if ((0 != $this->defaultTeam) &&
-            (!$this->isTeamMember($this->defaultTeam))) {
+            (!$this->isTeamMember($this->defaultTeam, NULL, $midnightTimestamp, $midnightTimestamp))) {
             // SECURITY CHECK: User used to belong to a team (config is still in DB) but he no longer belongs to it !
             self::$logger->error("user $this->id no longer belong to team $this->defaultTeam. defaultTeam is now set to 0");
             $this->defaultTeam = 0;

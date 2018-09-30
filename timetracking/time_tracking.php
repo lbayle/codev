@@ -37,12 +37,13 @@ class TimeTrackingController extends Controller {
 
    protected function display() {
       if(Tools::isConnectedUser()) {
-
+         $now = time();
+         $midnightTimestamp = mktime(0, 0, 0, date('m', $now), date('d', $now), date('Y', $now));
         // only teamMembers can access this page
         if ((0 == $this->teamid) ||
             ($this->session_user->isTeamCustomer($this->teamid)) ||
             ($this->session_user->isTeamObserver($this->teamid)) ||
-            (!$this->session_user->isTeamMember($this->teamid))) {
+            (!$this->session_user->isTeamMember($this->teamid, NULL, $midnightTimestamp, $midnightTimestamp))) {
 
             $this->smartyHelper->assign('accessDenied', TRUE);
         } else {
