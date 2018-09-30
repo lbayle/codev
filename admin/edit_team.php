@@ -386,7 +386,7 @@ class EditTeamController extends Controller {
          );
 
          if (0 != $row->departure_date) {
-            $teamMemberTuples[$row->id]["departuredate"] = date("Y-m-d", $row->departure_date);
+            $teamMemberTuples[$row->id]["departuredate"] = date("Y-m-d", (int)$row->departure_date);
          }
       }
       return $teamMemberTuples;
