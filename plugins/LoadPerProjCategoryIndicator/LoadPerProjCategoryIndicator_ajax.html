@@ -5,6 +5,7 @@
       <tr>
          <th>{t}Category{/t}</th>
          <th>{t}Nb Days{/t}</th>
+         <th>%</th>
          <th>{t}Tasks{/t}</th>
       </tr>
    </thead>
@@ -13,6 +14,7 @@
       <tr>
          <td>{$i.catName}</td>
          <td>{$i.duration}</td>
+         <td>{$i.pcent} %</td>
          <td>{$i.formatedBugsPerCategory}</td>
       </tr>
       {/foreach}

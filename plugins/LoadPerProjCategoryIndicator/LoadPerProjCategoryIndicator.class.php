@@ -204,7 +204,8 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
 
       // === process timetracks
       $rawInfoPerCat = $this->getRawInfoPerCategory($timeTracks, $projectidList);
-      
+      $totalElapsed = $this->inputIssueSel->getElapsed($this->startTimestamp, $this->endTimestamp);
+
       // === build $infoPerCat
       $infoPerCat = array();
       foreach ($rawInfoPerCat['durationPerCat'] as $catName => $duration) {
@@ -212,6 +213,7 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
          $catInfo = array(
             'catName' => $catName,
             'duration' => $duration,
+            'pcent' => round(($duration*100/$totalElapsed), 2),
          );
 
          // create formatedBugList (with tooltips)
