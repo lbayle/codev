@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 ""
-"PO-Revision-Date: 2018-09-10 06:17:13+0000\n"
+"PO-Revision-Date: 2018-10-03 19:59:16+0000\n"
 "X-POT-Import-Date: 2018-09-10 05:50:37+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2158,7 +2158,7 @@ msgstr "Genindlæs"
 #. tpl/scheduler.html
 #. tpl/menu/global_menu.html
 msgid "Planning"
-msgstr ""
+msgstr "Planlægning"
 
 #. tpl/scheduler.html
 msgid "Assignment"
@@ -2329,7 +2329,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Submitted"
-msgstr ""
+msgstr "Indsendt"
 
 #. tpl/statistics.html
 msgid "Nb of submitted tasks EXCEPT SideTasks"
@@ -2480,7 +2480,7 @@ msgstr ""
 #. tpl/export_odt.html
 #. tpl/create_team.html
 msgid "Categories"
-msgstr ""
+msgstr "Kategorier"
 
 #. tpl/export_odt.html
 #. tpl/command_edit.html
@@ -2652,7 +2652,7 @@ msgstr "Du kan hjælpe med oversættelser: "
 
 #. tpl/doc.html
 msgid "statistics"
-msgstr ""
+msgstr "statistik"
 
 #. tpl/doc.html
 msgid "Contact the author: "
@@ -2750,7 +2750,7 @@ msgstr ""
 
 #. tpl/create_team.html
 msgid "Project Name"
-msgstr ""
+msgstr "Projektnavn"
 
 #. tpl/create_team.html
 msgid "Meeting, Pre-sales, ProjectManagement, ..."
@@ -3143,12 +3143,12 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Blog"
-msgstr ""
+msgstr "Blog"
 
 #. tpl/menu/global_menu.html
 #: install/install_step3.php:867 install/install_menu.inc.php:68
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentation"
 
 #. tpl/menu/global_menu.html
 msgid "About CodevTT"
@@ -3500,7 +3500,7 @@ msgstr ""
 
 #. tpl/modal/select_issues.html
 msgid "Browse..."
-msgstr ""
+msgstr "Gennemse..."
 
 #. tpl/modal/select_issues.html
 msgid "Select all"
@@ -3605,7 +3605,7 @@ msgstr ""
 
 #. tpl/modal/change_managedUser.html
 msgid "Change user"
-msgstr ""
+msgstr "Ændr bruger"
 
 #. tpl/commandset_info.html
 msgid "--- Create New CommandSet ---"
@@ -4124,7 +4124,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Show"
-msgstr ""
+msgstr "Vis"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Unhide a hidden message"
@@ -4168,7 +4168,7 @@ msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Values"
-msgstr ""
+msgstr "Værdier"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Available Workforce Options"
@@ -4196,7 +4196,7 @@ msgstr ""
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "No errors"
-msgstr ""
+msgstr "Ingen fejl"
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "Consistency check"
@@ -4503,7 +4503,7 @@ msgstr ""
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "% Progress"
-msgstr ""
+msgstr "% Fremskridt"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2_cfg.html
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:64
@@ -4969,7 +4969,7 @@ msgstr ""
 
 #: classes/command.class.php:67
 msgid "payed"
-msgstr ""
+msgstr "betalt"
 
 #: filters/IssuePublicPrivateFilter.php:48
 msgid "Sort issues: public/private"
@@ -5348,11 +5348,11 @@ msgstr ""
 
 #: install/install_step1.php:268
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #: install/install_step1.php:269
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: install/install_step1.php:276
 msgid "Proceed Step 1"
@@ -5799,31 +5799,31 @@ msgstr ""
 
 #: scheduler/scheduler.php:108
 msgid "Today"
-msgstr ""
+msgstr "I dag"
 
 #: scheduler/scheduler.php:109
 msgid "Monday this week"
-msgstr ""
+msgstr "Denne mandag"
 
 #: scheduler/scheduler.php:110
 msgid "First week of this month"
-msgstr ""
+msgstr "Første uge i måneden"
 
 #: scheduler/scheduler.php:116
 msgid "2 weeks"
-msgstr ""
+msgstr "2 uger"
 
 #: scheduler/scheduler.php:117
 msgid "1 month"
-msgstr ""
+msgstr "1 måned"
 
 #: scheduler/scheduler.php:118
 msgid "2 months"
-msgstr ""
+msgstr "2 måneder"
 
 #: scheduler/scheduler.php:119
 msgid "3 months"
-msgstr ""
+msgstr "3 måneder"
 
 #: scheduler/scheduler_ajax.php:328
 msgid "Assignments rules not valid for task"
@@ -5848,7 +5848,7 @@ msgstr ""
 
 #: smarty_tools_ajax.php:35
 msgid "All projects"
-msgstr ""
+msgstr "Alle projekter"
 
 #: smarty_tools.php:126
 msgid "W"

@@ -5,12 +5,13 @@
 # Author: Fanjiayi
 # Author: Frog7301
 # Author: Liuxinyu970226
+# Author: 夢蝶葬花
 msgid ""
 msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-09-10 06:17:18+0000\n"
+"PO-Revision-Date: 2018-10-03 19:59:23+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3013,11 +3014,11 @@ msgstr "所有任务"
 
 #. tpl/team_activity_report.html
 msgid "Timetrack notes"
-msgstr ""
+msgstr "时间跟踪注释"
 
 #. tpl/team_activity_report.html
 msgid "Timetrack Note"
-msgstr ""
+msgstr "时间跟踪注释"
 
 #. tpl/team_activity_report.html
 msgid "Read by"
@@ -3992,11 +3993,11 @@ msgstr "Nb通过"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Show Tasks"
-msgstr ""
+msgstr "显示任务"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Display task column"
-msgstr ""
+msgstr "显示任务栏"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:78
@@ -4142,7 +4143,7 @@ msgstr "这将永久删除此帖，您确定么？！"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Acknowledged by"
-msgstr ""
+msgstr "已承认"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Submission date"
@@ -4150,7 +4151,7 @@ msgstr "提交日期"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Expiration date"
-msgstr ""
+msgstr "有效期限"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"
@@ -4162,7 +4163,7 @@ msgstr "澳大利亚教育科学与培训部"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Message wall"
-msgstr ""
+msgstr "信息墙"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"
