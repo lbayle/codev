@@ -807,6 +807,7 @@ class User extends Model {
          $this->leadedTeams = array();
          $sql = AdodbWrapper::getInstance();
          $query = "SELECT DISTINCT id, name FROM codev_team_table WHERE ".
+                  "administrators = ".$this->id." OR ".           // 333
                   "administrators LIKE '%,".$this->id."' OR ".    // %,333
                   "administrators LIKE '%,".$this->id.",%' OR ".  // %,333,%
                   "administrators LIKE '".$this->id.",%'";        // 333,%
