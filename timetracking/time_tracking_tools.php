@@ -132,54 +132,58 @@ class TimeTrackingTools {
             	$project = null;
             }
             
-            if ($project != null) {
-	            if ((!$project->isSideTasksProject(array($teamid))) &&
-	                (!$project->isExternalTasksProject())) {
-	
-	               // TODO does $issue belong to current team's project ? what if not ?
-	               $tooltipAttr = $issue->getTooltipItems($teamid, $userid);
-	
-	               $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
-	            } else {
-	               $infoTooltip = '';
-	            }
-            } else {
-            	$infoTooltip = '';
-            }
+            try {
+               if ($project != null) {
+                  if ((!$project->isSideTasksProject(array($teamid))) &&
+                      (!$project->isExternalTasksProject())) {
 
-            // prepare json data for the IssueNoteDialogbox
-            if ($project != null) {
-	            if ((!$project->isSideTasksProject(array($teamid))) &&
-	                (!$project->isExternalTasksProject())) {
-	
-	               $issueNote = IssueNote::getTimesheetNote($issue->getId());
-	               if (!is_null($issueNote)) {
-	                  $issueNoteId = $issueNote->getId();
-	                  $user = UserCache::getInstance()->getUser($issueNote->getReporterId());
-	                  $rawNote = $issueNote->getText();
-	                  $note = trim(IssueNote::removeAllReadByTags($rawNote));
-	
-	                  // used for the tooltip NOT the dialoBox
-	                  $tooltipAttr = array (
-	                     'reporter' => $user->getRealname(),
-	                     'date' => date('Y-m-d H:i:s', $issueNote->getLastModified()),
-	                     'Note' => $note,
-	                  );
-	                  $readByList = $issueNote->getReadByList(TRUE);
-	                  if (0 != count($readByList)) {
-	                     $tooltipAttr['Read by'] = implode(', ', array_keys($readByList));
-	                  }
-	
-	                  $noteTooltip = Tools::imgWithTooltip('images/b_note.png', $tooltipAttr, NULL, 'js-add-note-link', ' style="cursor: pointer;" data-bugId="'.$issueNote->getBugId().'"');
-	               } else {
-	                  $issueNoteId = 0;
-	                  $noteTooltip = Tools::imgWithTooltip('images/b_note_grey.png', T_('Click to add a note'), NULL, 'js-add-note-link', ' style="cursor: pointer;" data-bugId="'.$issue->getId().'"');
-	               }
-	            } else {
-	               $noteTooltip = '';
-	            }
-            } else {
-            	$noteTooltip = '';
+                     // TODO does $issue belong to current team's project ? what if not ?
+                     $tooltipAttr = $issue->getTooltipItems($teamid, $userid);
+
+                     $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
+                  } else {
+                     $infoTooltip = '';
+                  }
+               } else {
+                  $infoTooltip = '';
+               }
+
+               // prepare json data for the IssueNoteDialogbox
+               if ($project != null) {
+                  if ((!$project->isSideTasksProject(array($teamid))) &&
+                      (!$project->isExternalTasksProject())) {
+
+                     $issueNote = IssueNote::getTimesheetNote($issue->getId());
+                     if (!is_null($issueNote)) {
+                        $issueNoteId = $issueNote->getId();
+                        $user = UserCache::getInstance()->getUser($issueNote->getReporterId());
+                        $rawNote = $issueNote->getText();
+                        $note = trim(IssueNote::removeAllReadByTags($rawNote));
+
+                        // used for the tooltip NOT the dialoBox
+                        $tooltipAttr = array (
+                           'reporter' => $user->getRealname(),
+                           'date' => date('Y-m-d H:i:s', $issueNote->getLastModified()),
+                           'Note' => $note,
+                        );
+                        $readByList = $issueNote->getReadByList(TRUE);
+                        if (0 != count($readByList)) {
+                           $tooltipAttr['Read by'] = implode(', ', array_keys($readByList));
+                        }
+
+                        $noteTooltip = Tools::imgWithTooltip('images/b_note.png', $tooltipAttr, NULL, 'js-add-note-link', ' style="cursor: pointer;" data-bugId="'.$issueNote->getBugId().'"');
+                     } else {
+                        $issueNoteId = 0;
+                        $noteTooltip = Tools::imgWithTooltip('images/b_note_grey.png', T_('Click to add a note'), NULL, 'js-add-note-link', ' style="cursor: pointer;" data-bugId="'.$issue->getId().'"');
+                     }
+                  } else {
+                     $noteTooltip = '';
+                  }
+               } else {
+                  $noteTooltip = '';
+               }
+            } catch (Exception $e) {
+               $infoTooltip = '';
             }
 
             // if project not declared in current team, then
