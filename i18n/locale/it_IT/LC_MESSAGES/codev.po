@@ -7,6 +7,7 @@
 # Author: Ontsed
 # Author: Samuele2002
 # Author: Selven
+# Author: SilviaF
 # Author: Walter Raffoni
 msgid ""
 msgstr ""
@@ -14,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-09-13 08:51:43+0000\n"
+"PO-Revision-Date: 2018-10-18 06:16:04+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -1578,7 +1579,7 @@ msgstr "Crea progetto"
 
 #. tpl/edit_team.html
 msgid "Average Daily Cost"
-msgstr ""
+msgstr "Media del costo giornaliero"
 
 #. tpl/edit_team.html
 msgid "The ADC is the default UDC for team members"
