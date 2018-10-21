@@ -56,6 +56,8 @@ relationship_constrains = 2501
 ; display tooltips on only the x last_updated issues.
 ; set to 0 to display all tooltips.
 max_tooltips_per_page = 500
+; displaying all timetracks at once can overload the server on issue_info page
+issue_info_max_timetracks_displayed = 1000
 
 [doodles]
 ; logo_image_startDate_endDate = "images/doodle_logo.png" (date "MMdd")

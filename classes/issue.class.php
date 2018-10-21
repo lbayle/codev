@@ -1091,7 +1091,7 @@ class Issue extends Model implements Comparable {
    }
 
    /**
-    * @param int $userid
+    * @param int $userid (int)userid or array of userid
     * @param int $startTimestamp
     * @param int $endTimestamp
     * @return TimeTrack[]
@@ -1105,8 +1105,13 @@ class Issue extends Model implements Comparable {
       $q_params[]=$this->bugId;
 
       if (isset($userid)) {
-         $query .= " AND userid = ".$sql->db_param();
-         $q_params[]=$userid;
+         if(is_array($userid)) {
+            $formattedUserids = implode(',', $userid);
+            $query .= ' AND userid IN ('.$formattedUserids.') ';
+         } else {
+            $query .= " AND userid = ".$sql->db_param();
+            $q_params[]=$userid;
+         }
       }
       if (isset($startTimestamp)) {
          $query .= " AND date >= ".$sql->db_param();

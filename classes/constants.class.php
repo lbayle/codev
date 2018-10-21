@@ -1,5 +1,24 @@
 <?php
+/*
+   This file is part of CodevTT
 
+   CodevTT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   CodevTT is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/**
+ * Read/Write CodevTT configuration file: config.ini
+ */
 class Constants {
 
    /**
@@ -86,6 +105,11 @@ class Constants {
     * tooltips use +30% Memory on project_info page...
     */
    public static $maxTooltipsPerPage = 500;
+
+   /**
+    * displaying all timetracks at once could overload the server
+    */
+   public static $issueInfoMaxTimetracksDisplayed = 1000;
 
    // ---TIMESHEETS ---
    public static $taskDurationList = array (
@@ -239,6 +263,9 @@ class Constants {
       if ($perf != null && array_key_exists('max_tooltips_per_page', $perf)) {
          self::$maxTooltipsPerPage = $perf['max_tooltips_per_page'];
       }
+      if ($perf != null && array_key_exists('issue_info_max_timetracks_displayed', $perf)) {
+         self::$issueInfoMaxTimetracksDisplayed = $perf['issue_info_max_timetracks_displayed'];
+      }
 
       $doodles = $ini_array['doodles'];
       if (is_array($doodles)) {
@@ -353,6 +380,8 @@ class Constants {
       $perf[] = '; display tooltips on only the x last_updated issues.';
       $perf[] = '; set to 0 to display all tooltips.';
       $perf['max_tooltips_per_page'] = self::$maxTooltipsPerPage;
+      $perf[] = '; displaying all timetracks at once can overload the server on issue_info page';
+      $perf['issue_info_max_timetracks_displayed'] = self::$issueInfoMaxTimetracksDisplayed;
 
       $doodles = array();
       $doodles[] = '; logo_image_startDate_endDate = "images/doodle_logo.png" (date "MMdd")';

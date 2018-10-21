@@ -39,6 +39,7 @@ class IssueInfoController extends Controller {
       if(Tools::isConnectedUser()) {
          $user = $this->session_user;
          $teamid = $this->teamid;
+         $currentTeam = TeamCache::getInstance()->getTeam($this->teamid);
          $teamList = $user->getTeamList();
 
          if (count($teamList) > 0) {
@@ -103,12 +104,43 @@ class IssueInfoController extends Controller {
                      $isManagerView = (array_key_exists($issue->getProjectId(), $managedProjList)) ? true : false;
                      $isObserverView = (array_key_exists($issue->getProjectId(), $observedProjList)) ? true : false;
                      $this->smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, ($isManagerView || $isObserverView)));
-                     
-                     $timeTracks = $issue->getTimeTracks();
+
+                     // do not display users of other teams if externalTasksProject
+                     $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
+                     if ($extProjId == $issue->getProjectId()) {
+                        $displayedTeamid = $this->teamid;
+                        $involvedUserids = array_keys($currentTeam->getMembers());
+                     } else {
+                        // now depending on user settings, display only team users
+                        // or all users having worked on this task
+                        $displayedTeamid = NULL; // $this->teamid; // NULL for all users
+                        $involvedUserids = NULL;
+                     }
+
+                     $timeTracks = $issue->getTimeTracks($involvedUserids);
                      $this->smartyHelper->assign('jobDetails', $this->getJobDetails($timeTracks));
                      $this->smartyHelper->assign('timeDrift', IssueInfoTools::getTimeDrift($issue));
 
-                     $this->smartyHelper->assign('months', $this->getCalendar($issue,$timeTracks));
+                     $firstTimetrackTimestamp = $issue->getFirstTimetrack()->getDate();
+                     $latestTimetrackTimestamp = $issue->getLatestTimetrack()->getDate();
+                     $this->smartyHelper->assign('firstTimetrackDate', date('Y-m-d', $firstTimetrackTimestamp));
+                     $this->smartyHelper->assign('latestTimetrackDate', date('Y-m-d', $latestTimetrackTimestamp));
+
+                     // IMPORTANT displaying all timetracks at once can overload the server
+                     // so we need to find a way to reduce the number of month displayed
+                     // I tested that +1000 timetracks fails (deprends on server config...)
+                     $displayedTimetracks = $timeTracks;
+                     if (count($timeTracks) > Constants::$issueInfoMaxTimetracksDisplayed) {
+                        $timetracks_startTimestamp = $latestTimetrackTimestamp;
+                        do {
+                           $timetracks_startTimestamp = strtotime("-1 months", $timetracks_startTimestamp);
+                           $displayedTimetracks = $issue->getTimeTracks($involvedUserids, $timetracks_startTimestamp);
+
+                        } while (count($displayedTimetracks) < Constants::$issueInfoMaxTimetracksDisplayed);
+                        $this->smartyHelper->assign('isTimetracksTruncated', true);
+                     }
+
+                     $this->smartyHelper->assign('months', $this->getCalendar($issue,$displayedTimetracks, $displayedTeamid));
 
                      // set Commands I belong to
                      $parentCmds = $this->getParentCommands($issue);
@@ -197,7 +229,7 @@ class IssueInfoController extends Controller {
     * @param TimeTrack[] $trackList
     * @return mixed[]
     */
-   private function getCalendar(Issue $issue, array $trackList) {
+   private function getCalendar(Issue $issue, array $trackList, $teamid = NULL) {
       $months = NULL;
 
       if (!empty($trackList)) {
@@ -207,7 +239,7 @@ class IssueInfoController extends Controller {
 
          for ($y = date('Y', $startTimestamp); $y <= date('Y', $endTimestamp); $y++) {
             for ($m = 1; $m <= 12; $m++) {
-               $monthsValue = $this->getMonth($m, $y, $issue, $trackList);
+               $monthsValue = $this->getMonth($m, $y, $issue, $trackList, $teamid);
                if ($monthsValue != NULL) {
                   $months[] = $monthsValue;
                }
@@ -224,7 +256,7 @@ class IssueInfoController extends Controller {
     * @param TimeTrack[] $trackList
     * @return mixed[]
     */
-   private function getMonth($month, $year, Issue $issue, array $trackList) {
+   private function getMonth($month, $year, Issue $issue, array $trackList, $teamid = NULL) {
       $totalDuration = 0;
 
       // if no work done this month, do not display month
@@ -245,18 +277,14 @@ class IssueInfoController extends Controller {
 
       $months = array();
       for ($i = 1; $i <= $nbDaysInMonth; $i++) {
-         if ($i < 10 ) {
-            $months[] = "0".$i;
-         }
-         else {
-            $months[] = $i;
-         }
+         $months[] = sprintf("%02d", $i);
       }
 
       $jobs = new Jobs();
-      $userList = $issue->getInvolvedUsers();
+      $userList = $issue->getInvolvedUsers($teamid);
       $users = NULL;
       $timeTracks = $issue->getTimeTracks();
+
       foreach ($userList as $uid => $username) {
 
          $userTotalDuration = 0;
@@ -277,6 +305,7 @@ class IssueInfoController extends Controller {
          }
 
          $usersDetails = NULL;
+         $isUserThisMonth = false; // hide user if he has no timetrack this month
          for ($i = 1; $i <= $nbDaysInMonth; $i++) {
             $todayTimestamp = mktime(0, 0, 0, $month, $i, $year);
 
@@ -288,6 +317,7 @@ class IssueInfoController extends Controller {
                   "jobColor" => $jobColorByDate[$todayTimestamp],
                   "jobDuration" => $durationByDate[$todayTimestamp]
                );
+               $isUserThisMonth = true;
             } else {
                // if weekend or holiday, display gray
                $holidays = Holidays::getInstance();
@@ -305,6 +335,7 @@ class IssueInfoController extends Controller {
 
          $users[] = array(
             "username" => $username,
+            "isDisplayed" => $isUserThisMonth,
             "jobs" => $usersDetails,
             'totalDuration' => (0 == $userTotalDuration ? '' : $userTotalDuration)
          );

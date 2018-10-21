@@ -190,44 +190,67 @@
          </div>
 
          <div id="tab_timetracks">
-            <!-- Jobs details by months -->
-            {if $months}
-            {foreach from=$months key=id item=i}
-            <table width="70%" style="margin-bottom: 2em;">
-               <caption>{$i.monthFormated} <span style="margin-left: 1em;font-weight: normal; font-size: 12px">{$i.totalDuration} {t}days{/t}</span></caption>
-               <thead>
+            <div id="" style="margin-top:1em;">
+               <table class="invisible">
                   <tr>
-                     <th></th>
-                     {foreach from=$i.months key=id item=j}
-                     <th>{$j}</th>
-                     {/foreach}
-                     <th>TOTAL</th>
+                     <td>{t}First Timetrack date{/t}</td>
+                     <td>:</td>
+                     <td>{$firstTimetrackDate}</td>
                   </tr>
-               </thead>
-               <tbody>
-                  {foreach from=$i.users key=id item=k}
                   <tr>
-                     <td>{$k.username}</td>
-                     {foreach from=$k.jobs key=id item=l}
-                     <td style="{if isset($l.jobColor)}background-color: #{$l.jobColor};{/if} text-align: center;" {if isset($l.jobDescription)}title="{$l.jobDescription}"{/if}>{if isset($l.jobDuration)}{$l.jobDuration}{/if}</td>
-                     {/foreach}
-                     <th>{$k.totalDuration}</th>
+                     <td>{t}Latest Timetrack date{/t}</td>
+                     <td>:</td>
+                     <td>{$latestTimetrackDate}</td>
                   </tr>
-                  {/foreach}
-               </tbody>
-            </table>
-            {/foreach}
-
-            <!-- legend -->
-            {foreach from=$jobDetails key=id item=i}
-            <div class="float" style="margin-right: 1em;">
-               <div class="generatedImage float" style="background-color: #{$i.jobColor};"></div>
-               <div class="float">{$i.jobName}</div>
-               <div class="ui-helper-clearfix"></div>
+               </table>
+               {if ($isTimetracksTruncated)}
+               <div style="margin-top:1em;">
+                  <span style="color:red;" title="For performance issues, displayed timetracks have been truncated">{t}WARNING: Prior timetracks could not be displayed !{/t}</span>
+               </div>
+               {/if}
             </div>
-            {/foreach}
-            <div class="ui-helper-clearfix"></div>
-            {/if}
+            <div style="margin-top:1em;">
+               <!-- Jobs details by months -->
+               {if $months}
+               {foreach from=$months key=id item=i}
+               <table width="70%" style="margin-bottom: 2em;">
+                  <caption>{$i.monthFormated} <span style="margin-left: 1em;font-weight: normal; font-size: 12px">{$i.totalDuration} {t}days{/t}</span></caption>
+                  <thead>
+                     <tr>
+                        <th></th>
+                        {foreach from=$i.months key=id item=j}
+                        <th>{$j}</th>
+                        {/foreach}
+                        <th>TOTAL</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {foreach from=$i.users key=id item=k}
+                     {if ($k.isDisplayed)}
+                     <tr>
+                        <td>{$k.username}</td>
+                        {foreach from=$k.jobs key=id item=l}
+                        <td style="{if isset($l.jobColor)}background-color: #{$l.jobColor};{/if} text-align: center;" {if isset($l.jobDescription)}title="{$l.jobDescription}"{/if}>{if isset($l.jobDuration)}{$l.jobDuration}{/if}</td>
+                        {/foreach}
+                        <th>{$k.totalDuration}</th>
+                     </tr>
+                     {/if}
+                     {/foreach}
+                  </tbody>
+               </table>
+               {/foreach}
+
+               <!-- legend -->
+               {foreach from=$jobDetails key=id item=i}
+               <div class="float" style="margin-right: 1em;">
+                  <div class="generatedImage float" style="background-color: #{$i.jobColor};"></div>
+                  <div class="float">{$i.jobName}</div>
+                  <div class="ui-helper-clearfix"></div>
+               </div>
+               {/foreach}
+               <div class="ui-helper-clearfix"></div>
+               {/if}
+            </div>
          </div>
       </div>
       {/if}
