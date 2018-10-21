@@ -121,10 +121,17 @@ class IssueInfoController extends Controller {
                      $this->smartyHelper->assign('jobDetails', $this->getJobDetails($timeTracks));
                      $this->smartyHelper->assign('timeDrift', IssueInfoTools::getTimeDrift($issue));
 
-                     $firstTimetrackTimestamp = $issue->getFirstTimetrack()->getDate();
-                     $latestTimetrackTimestamp = $issue->getLatestTimetrack()->getDate();
-                     $this->smartyHelper->assign('firstTimetrackDate', date('Y-m-d', $firstTimetrackTimestamp));
-                     $this->smartyHelper->assign('latestTimetrackDate', date('Y-m-d', $latestTimetrackTimestamp));
+                     $firstTT = $issue->getFirstTimetrack();
+                     $latestTT = $issue->getLatestTimetrack();
+
+                     if (NULL != $firstTT) {
+                        $firstTimetrackTimestamp = $firstTT->getDate();
+                        $this->smartyHelper->assign('firstTimetrackDate', date('Y-m-d', $firstTimetrackTimestamp));
+                     }
+                     if (NULL != $latestTT) {
+                        $latestTimetrackTimestamp = $latestTT->getDate();
+                        $this->smartyHelper->assign('latestTimetrackDate', date('Y-m-d', $latestTimetrackTimestamp));
+                     }
 
                      // IMPORTANT displaying all timetracks at once can overload the server
                      // so we need to find a way to reduce the number of month displayed

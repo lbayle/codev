@@ -191,6 +191,7 @@
 
          <div id="tab_timetracks">
             <div id="" style="margin-top:1em;">
+               {if ($firstTimetrackDate)}
                <table class="invisible">
                   <tr>
                      <td>{t}First Timetrack date{/t}</td>
@@ -203,6 +204,7 @@
                      <td>{$latestTimetrackDate}</td>
                   </tr>
                </table>
+               {/if}
                {if ($isTimetracksTruncated)}
                <div style="margin-top:1em;">
                   <span style="color:red;" title="For performance issues, displayed timetracks have been truncated">{t}WARNING: Prior timetracks could not be displayed !{/t}</span>
