@@ -1,5 +1,7 @@
-# Louis BAYLE, 2018-03-27
-# Version 0.2
+# Louis BAYLE, 2018-10-11
+# Version 0.4
+
+# 2018-10-11: update apache 2.4.25 fur security updates
 
 FROM centos:centos7
 MAINTAINER Louis BAYLE <lbayle.work@gmail.com>
@@ -36,6 +38,14 @@ RUN yum -y update && \
     rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm && \
     yum clean all
 
+# ------------------
+# Add CodeIT repositories (apache 2.4.25)
+# https://crosp.net/blog/administration/install-latest-apache-server-centos-7/
+# https://codeit.guru/en_US/
+#RUN cd /etc/yum.repos.d \
+#    && wget https://repo.codeit.guru/codeit.el`rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release)`.repo
+
+# ------------------
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 /etc/pki/rpm-gpg/RPM-GPG-KEY-remi /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 
 # ------------------
