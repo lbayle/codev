@@ -302,12 +302,13 @@ class IssueInfoController extends Controller {
          foreach ($timeTracks as $tt) {
             if($tt->getUserId() == $uid) {
                $date = $tt->getDate();
-               if(array_key_exists($date,$durationByDate)) {
-                  $durationByDate[$date] += $tt->getDuration();
+               $midnightTimestamp = mktime(0, 0, 0, date('m', $date), date('d', $date), date('Y', $date));
+               if(array_key_exists($midnightTimestamp,$durationByDate)) {
+                  $durationByDate[$midnightTimestamp] += $tt->getDuration();
                } else {
-                  $durationByDate[$date] = $tt->getDuration();
+                  $durationByDate[$midnightTimestamp] = $tt->getDuration();
                }
-               $jobColorByDate[$date] = $jobs->getJobColor($tt->getJobId());
+               $jobColorByDate[$midnightTimestamp] = $jobs->getJobColor($tt->getJobId());
             }
          }
 
