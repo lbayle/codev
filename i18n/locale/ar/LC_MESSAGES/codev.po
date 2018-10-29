@@ -13,12 +13,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-09-13 08:51:41+0000\n"
+"PO-Revision-Date: 2018-11-29 16:47:20+0000\n"
 "Language: ar\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2018-09-10 05:50:37+0000\n"
-"X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-07-10\n"
+"X-Generator: MediaWiki 1.33.0-alpha; Translate 2018-11-05\n"
 "Plural-Forms: nplurals=6; plural=(n == 0) ? 0 : ( (n == 1) ? 1 : ( (n == 2) ? 2 : ( (n%100 >= 3 && n%100 <= 10) ? 3 : ( (n%100 >= 11 && n%100 <= 99) ? 4 : 5 ) ) ) );\n"
 
 #. tpl/filters.html
@@ -1439,7 +1439,7 @@ msgstr "مدير الفريق"
 #. tpl/edit_team.html
 #. tpl/issue_info.html
 msgid "Update"
-msgstr "حدّث"
+msgstr "تحديث"
 
 #. tpl/edit_team.html
 msgid "Creation Date"

@@ -8,12 +8,12 @@
 msgid ""
 msgstr ""
 ""
-"PO-Revision-Date: 2018-10-03 19:59:16+0000\n"
+"PO-Revision-Date: 2018-12-17 07:48:52+0000\n"
 "X-POT-Import-Date: 2018-09-10 05:50:37+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: da\n"
-"X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-07-10\n"
+"X-Generator: MediaWiki 1.33.0-alpha; Translate 2018-11-05\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. tpl/filters.html
@@ -112,7 +112,7 @@ msgstr "Projektdetaljer"
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:73
 msgid "Load per Project"
-msgstr ""
+msgstr "Belastning per Projekt"
 
 #. tpl/productivity_report.html
 msgid "Productivity indicators"
@@ -376,7 +376,7 @@ msgstr ""
 #: reports/planning_report.php:77
 #: plugins/CostsIndicator/CostsIndicator.class.php:228
 msgid "Tasks"
-msgstr ""
+msgstr "Opgaver"
 
 #. tpl/productivity_report.html
 msgid "Tasks NOT delivered on time"
@@ -1666,7 +1666,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Inactivity tasks"
-msgstr ""
+msgstr "Inaktivitetsopgaver"
 
 #. tpl/edit_team.html
 msgid "No 'inactivity' task defined in your SideTasks projects."
@@ -2012,7 +2012,7 @@ msgstr "Prioritet"
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
 #: tools.php:1568
 msgid "Severity"
-msgstr ""
+msgstr "Alvorlighed"
 
 #. tpl/issue_info.html
 #. tpl/command_edit.html
@@ -2078,7 +2078,7 @@ msgstr ""
 
 #. tpl/issue_info.html
 msgid "Delivery date"
-msgstr ""
+msgstr "Leveringsdato"
 
 #. tpl/issue_info.html
 msgid "set/remove delivery date"
@@ -2209,7 +2209,7 @@ msgstr ""
 #. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
 #: reports/planning_report.php:492
 msgid "Duration"
-msgstr ""
+msgstr "Varighed"
 
 #. tpl/scheduler.html
 msgid "Save user assignment for this task"
@@ -2523,7 +2523,7 @@ msgstr ""
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
 msgid "Previous week"
-msgstr ""
+msgstr "Forrige uge"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
@@ -2563,7 +2563,7 @@ msgstr "Vent venligst..."
 
 #. tpl/template.html
 msgid "Disconnect"
-msgstr ""
+msgstr "Frakobl"
 
 #. tpl/template.html
 msgid "Note: For a better user experience, use a standards compliant browser such as :"
@@ -2867,7 +2867,7 @@ msgstr ""
 
 #. tpl/command_edit.html
 msgid "New command"
-msgstr ""
+msgstr "Ny kommando"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
@@ -3033,7 +3033,7 @@ msgstr "Marker som læst"
 
 #. tpl/team_activity_report.html
 msgid "Delete note"
-msgstr "Slet note"
+msgstr "Slet bemærkning"
 
 #. tpl/menu/global_menu.html
 msgid "Home"
@@ -3152,7 +3152,7 @@ msgstr "Dokumentation"
 
 #. tpl/menu/global_menu.html
 msgid "About CodevTT"
-msgstr ""
+msgstr "Om CodevTT"
 
 #. tpl/menu/global_menu.html
 msgid "CodevTT Administration"
@@ -3160,7 +3160,7 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Admin"
-msgstr ""
+msgstr "Administrator"
 
 #. tpl/menu/global_menu.html
 msgid "Create Team"
@@ -3188,7 +3188,7 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Clone Projects"
-msgstr ""
+msgstr "Klon projekter"
 
 #. tpl/menu/global_menu.html
 msgid "Plugin Manager"
@@ -3357,11 +3357,11 @@ msgstr ""
 
 #. tpl/workflow.html
 msgid "Clone From"
-msgstr ""
+msgstr "Klon fra"
 
 #. tpl/workflow.html
 msgid "Clone To"
-msgstr ""
+msgstr "Klon til"
 
 #. tpl/workflow.html
 msgid "Workflow transitions"
@@ -3492,7 +3492,7 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #. tpl/modal/select_issues.html
 msgid "No task selected !"
@@ -3504,7 +3504,7 @@ msgstr "Gennemse..."
 
 #. tpl/modal/select_issues.html
 msgid "Select all"
-msgstr ""
+msgstr "Vælg alle"
 
 #. tpl/modal/edit_issueNote.html
 msgid "If unchecked, a 'standard' Mantis note will be created"
@@ -3708,7 +3708,7 @@ msgstr ""
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "End Date"
-msgstr ""
+msgstr "Slutdato"
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
@@ -3823,7 +3823,7 @@ msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "WBS Tree"
-msgstr ""
+msgstr "WBS-træ"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Category not set on all issues"
@@ -3889,7 +3889,7 @@ msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Columns"
-msgstr ""
+msgstr "Kolonner"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "the file must contain 7 columns, the 1st line contains the column names."
@@ -4164,7 +4164,7 @@ msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph"
-msgstr ""
+msgstr "Graf"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Values"
@@ -4176,7 +4176,7 @@ msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Availability"
-msgstr ""
+msgstr "Tilgængelighed"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Productivity Coefficient"
@@ -4250,12 +4250,12 @@ msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Mantis role"
-msgstr ""
+msgstr "Mantis-rolle"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "CodevTT role"
-msgstr ""
+msgstr "CodevTT-rolle"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Date of entry in team"
@@ -4287,7 +4287,7 @@ msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_cfg.html
 msgid "Import users"
-msgstr ""
+msgstr "Importer brugere"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "You need to be manager to import issues."
@@ -4452,7 +4452,7 @@ msgstr "Andet"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:383
 msgid "External"
-msgstr ""
+msgstr "Ekstern"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4567,7 +4567,7 @@ msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Select All"
-msgstr ""
+msgstr "Vælg alle"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Dates"
@@ -5344,7 +5344,7 @@ msgstr ""
 
 #: install/install_step1.php:267
 msgid "Enable proxy"
-msgstr ""
+msgstr "Aktiver proxy"
 
 #: install/install_step1.php:268
 msgid "Server"
@@ -5604,7 +5604,7 @@ msgstr ""
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:57
 msgid "Messages"
-msgstr ""
+msgstr "Beskeder"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:60
 msgid "Display a message wall on the homepage"
@@ -5629,7 +5629,7 @@ msgstr "Høj"
 #. This case happens when an Administrator sends a message to "All" users
 #: plugins/BlogPlugin/BlogPost.class.php:377
 msgid "Everybody"
-msgstr ""
+msgstr "Allesammen"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"

@@ -11,12 +11,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-09-20 09:02:44+0000\n"
+"PO-Revision-Date: 2018-11-22 06:24:32+0000\n"
 "Language: sv_se\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2018-09-10 05:50:37+0000\n"
-"X-Generator: MediaWiki 1.32.0-alpha; Translate 2018-07-10\n"
+"X-Generator: MediaWiki 1.33.0-alpha; Translate 2018-11-05\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. tpl/filters.html
@@ -104,7 +104,7 @@ msgstr "Produktionsdagar"
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:75
 msgid "Load per Job"
-msgstr ""
+msgstr "Belastning per Jobb"
 
 #. tpl/productivity_report.html
 msgid "Project Detail"
@@ -115,11 +115,11 @@ msgstr "Projektetdetalj"
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:73
 msgid "Load per Project"
-msgstr ""
+msgstr "Belastning per Projekt"
 
 #. tpl/productivity_report.html
 msgid "Productivity indicators"
-msgstr ""
+msgstr "Produktivitetsindikatorer"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
