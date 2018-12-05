@@ -1,0 +1,229 @@
+<div class="timetrackList">
+
+<div>
+   <div class="pluginInitFunction"  style="display: none;">timetrackListJsInit</div>
+   <div class="pluginDestroyFunction"  style="display: none;">timetrackListJsDestroy</div>
+   
+   
+   
+   <div class="timetrackListDiv" align="left" style="margin-top: 1em;">
+      <div style="width: 95%;">
+      <table class="timetrackListValuesTable display float datatable_csv" >
+         <thead>
+            <tr>
+               <th>{t}Date{/t}</th>
+               <th>{t}Commands{/t}</th>
+               <th>{t}Task{/t}</th>
+               <th>{t}User{/t}</th>
+               <th>Categorie projet</th>
+               <th>{t}Elapsed{/t}</th>
+               <th>{t}Note{/t}</th>
+               <th></th>
+            </tr>
+         </thead>
+         <tbody>
+            {foreach from=$timetrackList_timetracksArray key=id item=i}
+            <tr class="timetrackList_timetrack" data-timetrackId="{$i.id}">
+               <td>{$i.dateTimetrack}</td>
+               <td>{$i.commandList}</td>
+               <td>{$i.issueId}</td>
+               <td>{$i.user}</td>
+               <td>{$i.categorieProject}</td>
+               <td>{$i.elapsed}</td>
+               <td class="timetrackList_timetrack_note" name="timetrack_note">{$i.note}</td>
+               <td>
+                  <img class="timetrackList_editTimetrack_link pointer" align="absmiddle" title="{t}Edit timetrack{/t}" src="images/b_edit.png"/>
+               </td>
+            </tr>
+            {/foreach}
+         </tbody>
+      </table>
+      </div>
+   </div>
+
+   <div class="floatr" style=" width: 16px">
+      <span class="timetrackListHelpDialog_link float pointer">
+         <img title="Help" src="images/help_icon.gif"/>
+      </span>
+      <span class="float pointer">
+         <img title="{t}Export to CSV{/t}" src="images/b_export_xls.gif" onclick="$('.timetrackListValuesTable').table2CSV({literal}{{/literal}filename : 'timetrackList.csv'{literal}}{/literal})">
+      </span>
+   </div>
+   <div class="timetrackListHelpDialog ui-helper-hidden" title="{t}Timetrack list{/t}">
+      <p>
+         <strong>Description:</strong><br>
+         Timetracks for current perimeter (task, project, command, ...)
+         <br>
+      </p>
+   </div>
+
+   <div class="ui-helper-clearfix"></div>
+
+   <div class="timetrackList_editTimetrack_dialog" title="{t}Update timetrack{/t}" class="ui-helper-hidden">
+      <div class="timetrackList_taskSummary"></div>
+      <table class="invisible">
+         <tbody>
+            <tr>
+               <td colspan="3"><hr></td>
+            </tr>
+            <tr class="timetrackList_tr_noteToEdit">
+               <th>{t}Note{/t}:</th>
+               <td width="450px"><textarea class="timetrackList_noteToEdit" style="width:100%;background-color:white;" rows="2"></textarea></td>
+            </tr>
+            <input type="hidden" class="timetrackList_timetrackId"/>
+         </tbody>
+      </table>
+   </div>
+</div>
+
+<script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function timetrackListJsDestroy() {
+      jQuery(".timetrackListHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function timetrackListJsInit() {
+
+      console.log('timetrackListJsInit');
+      
+      jQuery(".timetrackListHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".timetrackListHelpDialog").dialog("open");
+      });
+      jQuery(".timetrackListHelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
+      });
+
+      jQuery(".timetrackList_editTimetrack_link").click(function(e) {
+         e.preventDefault();
+
+         // FIND timetrackId
+         var timetrackId = $(this).parents('.timetrackList_timetrack').attr('data-timetrackId');
+
+         // GET timetrack data
+         jQuery.ajax({
+            type: "POST",
+            url: '{$timetrackList_ajaxPhpURL}',
+            data: { action: 'getEditTimetrackData',
+                    timetrackId: timetrackId
+            },
+            dataType:"json",
+            success: function(data) {
+               if ('SUCCESS' === data.statusMsg) {
+
+                  // FILL IN the edit dialogbox
+                  $(".timetrackList_taskSummary").text(data.issueSummary);
+                  $(".timetrackList_noteToEdit").val(data.note);
+                  $(".timetrackList_timetrackId").val(timetrackId);
+
+                  var myTr = $(".timetrackList_timetrack[data-timetrackId^="+timetrackId+"]");
+                  myTr.attr("data-noteIsMandatory", data.noteIsMandatory);
+
+                  // OPEN edit dialogbox
+                  var editTimetrack_dialog = $(".timetrackList_editTimetrack_dialog" );
+                  editTimetrack_dialog.dialog( "open" );
+               } else {
+                  console.error("Ajax statusMsg", data.statusMsg);
+                  alert(data.statusMsg);
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               console.error(textStatus, errorThrown);
+               alert("ERROR: Please contact your CodevTT administrator");
+            }
+         });
+      }),
+
+      $(".timetrackList_editTimetrack_dialog").dialog({
+               autoOpen: false,
+               height: 'auto',
+               width: 500,
+               modal: true,
+
+               buttons: {
+                  Ok: function() {
+
+                     // GET edited timetrack data
+                     var timetrackId = $(".timetrackList_timetrackId").val();
+                     var note = $(".timetrackList_noteToEdit").val();
+                     var myTr = $(".timetrackList_timetrack[data-timetrackId^="+timetrackId+"]");
+                     var noteIsMandatory = myTr.attr("data-noteIsMandatory");
+
+                     if(isValidEdit(noteIsMandatory, note)){
+
+                        $.ajax({
+                           url: '{$timetrackList_ajaxPhpURL}',
+                           type: "POST",
+                           dataType:"json",
+                           data: {
+                              action: 'setEditTimetrackData',
+                              timetrackId: timetrackId,
+                              note: note
+                           },
+                           success: function(data) {
+                              if ('SUCCESS' === data.statusMsg) {
+
+                                 // UPDATE timetracks table
+                                 var myTr = $(".timetrackList_timetrack[data-timetrackId^="+timetrackId+"]");
+                                 myTr.find(".timetrackList_timetrack_note").html(data.note);
+
+                              } else {
+                                 console.error("Ajax statusMsg", data.statusMsg);
+                                 alert(data.statusMsg);
+                              }
+                           },
+                           error: function(jqXHR, textStatus, errorThrown) {
+                              console.error(textStatus, errorThrown);
+                              alert("ERROR: Please contact your CodevTT administrator");
+                           }
+                        });
+                        jQuery(this).dialog( "close" );
+                     }
+                     else {
+                        jQuery(".timetrackList_uoInfo").val("Le format de l'UO n'est pas valide");
+                     }
+                  },
+                  Cancel: function() {
+                     jQuery(".timetrackList_noteInfo").text("");
+                     jQuery(this).dialog( "close" );
+                  }
+               }
+      });
+   };
+
+
+   function isValidEdit(noteIsMandatory, note) {
+
+      var bValid = true;
+      bValid = isValidNote(noteIsMandatory, note) && bValid;
+      return bValid;
+   }
+
+   function isValidNote(noteIsMandatory, note) {
+
+      jQuery(".timetrackList_noteInfo").text("");
+      if((noteIsMandatory == 1) && (note == "")) {
+         jQuery(".timetrackList_noteInfo").text("La note est obligatoire");
+         return false;
+      }
+      return true;
+   }
+
+   function checkRegexp(uo, regexp, n, isNullable) {
+      if(isNullable && $.trim(uo) == ''){
+         return true;
+      }
+      else{
+         if (!(regexp.test(uo))) {
+            return false;
+         } else {
+            return true;
+         }
+      }
+   }
+</script>
+</div>
