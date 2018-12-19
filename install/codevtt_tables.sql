@@ -278,7 +278,7 @@ CREATE TABLE IF NOT EXISTS "codev_blog_table" (
   "severity" INTEGER NOT NULL,
   "category" varchar(50) default NULL,
   "summary" varchar(100) NOT NULL,
-  "content" varchar(500) default NULL,
+  "content" varchar(2000) default NULL,
   "date_expire" INTEGER default NULL,
   "color" varchar(7) default NULL,
   PRIMARY KEY  ("id"),

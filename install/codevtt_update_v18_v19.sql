@@ -14,6 +14,9 @@ ALTER TABLE "codev_team_table" ADD "administrators" varchar(255) DEFAULT NULL AF
 UPDATE "codev_team_table" SET "administrators" = "leader_id";
 -- ALTER TABLE "codev_team_table" DROP "leader_id";
 
+-- increase size for message plugin
+ALTER TABLE "codev_blog_table" MODIFY "content" VARCHAR(2000);
+
 -- tag version
 UPDATE "codev_config_table" SET "value"='19' WHERE "config_id"='database_version';
 
