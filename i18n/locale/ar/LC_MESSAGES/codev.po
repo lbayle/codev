@@ -13,12 +13,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-11-29 16:47:20+0000\n"
+"PO-Revision-Date: 2019-02-14 08:06:20+0000\n"
 "Language: ar\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2018-09-10 05:50:37+0000\n"
-"X-Generator: MediaWiki 1.33.0-alpha; Translate 2018-11-05\n"
+"X-Generator: MediaWiki 1.33.0-alpha; Translate 2019-01-17\n"
 "Plural-Forms: nplurals=6; plural=(n == 0) ? 0 : ( (n == 1) ? 1 : ( (n == 2) ? 2 : ( (n%100 >= 3 && n%100 <= 10) ? 3 : ( (n%100 >= 11 && n%100 <= 99) ? 4 : 5 ) ) ) );\n"
 
 #. tpl/filters.html
@@ -1777,7 +1777,7 @@ msgstr "لن يتم تحديد هذه المهمة كمهمة \"في الخدم�
 
 #. tpl/edit_team.html
 msgid "save"
-msgstr "احفظ"
+msgstr "حفظ"
 
 #. tpl/edit_team.html
 msgid "Updated successfully !"
@@ -3577,7 +3577,7 @@ msgstr "تحديد CodevTT"
 
 #. tpl/modal/login.html
 msgid "password"
-msgstr "كلمة المرور"
+msgstr "كلمة السر"
 
 #. tpl/modal/login.html
 msgid "Login failed."
@@ -4225,12 +4225,12 @@ msgstr "التحميل في تصنيفات المشروع"
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send password by mail"
-msgstr "إرسال كلمة المرور عن طريق البريد"
+msgstr "إرسال كلمة السر عن طريق البريد"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Generate password"
-msgstr "توليد كلمة المرور"
+msgstr "توليد كلمة السر"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Mantis users to create:"

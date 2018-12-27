@@ -7,17 +7,18 @@
 # Author: MrLeopold
 # Author: SPQRobin
 # Author: Siebrand
+# Author: Xbaked potatox
 msgid ""
 msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2018-11-22 06:24:30+0000\n"
+"PO-Revision-Date: 2019-02-14 08:06:25+0000\n"
 "Language: nl_nl\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2018-09-10 05:50:37+0000\n"
-"X-Generator: MediaWiki 1.33.0-alpha; Translate 2018-11-05\n"
+"X-Generator: MediaWiki 1.33.0-alpha; Translate 2019-01-17\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. tpl/filters.html
@@ -1417,9 +1418,8 @@ msgid "Timetrack Durations"
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Costs management"
-msgstr "Projectmanagement"
+msgstr "Kostenbeheer"
 
 #. tpl/edit_team.html
 msgid "OnDuty tasks"
@@ -1957,9 +1957,8 @@ msgid "External ID"
 msgstr "Extern ID"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Remove task from command"
-msgstr "Commando verwijderen"
+msgstr "Taak uit opdracht verwijderen"
 
 #. tpl/issue_info.html
 msgid "Add to command"
@@ -2083,9 +2082,8 @@ msgid "set/remove task specific deadline"
 msgstr ""
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Delivery date"
-msgstr "Leverdatum"
+msgstr "Bezorgdatum"
 
 #. tpl/issue_info.html
 msgid "set/remove delivery date"
@@ -2168,9 +2166,8 @@ msgid "Planning"
 msgstr "Planning"
 
 #. tpl/scheduler.html
-#, fuzzy
 msgid "Assignment"
-msgstr "Toegewezen aan"
+msgstr "Toewijzing"
 
 #. tpl/scheduler.html
 #. tpl/planning_report.html
@@ -2194,9 +2191,8 @@ msgid "Add user"
 msgstr "Gebruiker toevoegen"
 
 #. tpl/scheduler.html
-#, fuzzy
 msgid "Time on task"
-msgstr "Verberg gesloten taken"
+msgstr "Tijd op taak"
 
 #. tpl/scheduler.html
 msgid "Auto"
@@ -2258,9 +2254,8 @@ msgid "Task warning threshold (n days before dealine)"
 msgstr ""
 
 #. tpl/scheduler.html
-#, fuzzy
 msgid "Save options"
-msgstr "Opties"
+msgstr "Opties opslaan"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support included"
@@ -2275,9 +2270,8 @@ msgid "update backlog"
 msgstr ""
 
 #. tpl/ajax/schedulerAffectationSummary.html
-#, fuzzy
 msgid "Assigned users"
-msgstr "Toegewezen aan"
+msgstr "Toegewezen gebruikers"
 
 #. tpl/set_holidays.html
 #. tpl/time_tracking.html
@@ -2557,14 +2551,12 @@ msgid "Timetrack note"
 msgstr ""
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Edit timetrack"
-msgstr "Team bewerken"
+msgstr "Tijdlijn bewerken"
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Future timetracks"
-msgstr "Team bewerken"
+msgstr "Toekomstige tijdlijnen"
 
 #. tpl/time_tracking.html
 msgid "Delete track"
@@ -2822,14 +2814,12 @@ msgid "These are sample sideTasks, you can create more with Mantis"
 msgstr ""
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "Project management"
 msgstr "Projectmanagement"
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "Team meeting"
-msgstr "Team Naam"
+msgstr "Team vergadering"
 
 #. tpl/create_team.html
 msgid "Network is down"
@@ -2966,9 +2956,8 @@ msgid "Provisions successfully updated."
 msgstr ""
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "CSV Import"
-msgstr "Importeren"
+msgstr "CSV Importeren"
 
 #. tpl/command_edit.html
 msgid "Import templates"
@@ -3140,9 +3129,8 @@ msgid "Import / Export"
 msgstr "Importeren/exporteren"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Import/Export tools"
-msgstr "Importeren/exporteren"
+msgstr "Hulpmiddelen importeren/exporteren"
 
 #. tpl/menu/global_menu.html
 msgid "Import Issues"
@@ -3224,15 +3212,13 @@ msgstr "Deïnstalleren"
 
 #. tpl/gantt.html
 #. tpl/command_info.html
-#, fuzzy
 msgid "Task filter:"
-msgstr "Taak Filters"
+msgstr "Taakfilter:"
 
 #. tpl/gantt.html
 #. tpl/command_info.html
-#, fuzzy
 msgid "Filter"
-msgstr "Filters"
+msgstr "Filter"
 
 #. tpl/gantt.html
 #. tpl/command_info.html
@@ -3501,9 +3487,8 @@ msgid "Provision NOT included in 'check budget'"
 msgstr ""
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Show resolved tasks"
-msgstr "Geen opgeloste taken..."
+msgstr "Opgeloste taken tonen"
 
 #. tpl/command_info.html
 msgid "Warning"
@@ -3514,9 +3499,8 @@ msgid "Reload page to update charges & indicators"
 msgstr ""
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Format"
-msgstr "Formule"
+msgstr "Formaat"
 
 #. tpl/modal/select_issues.html
 msgid "No task selected !"
@@ -3683,9 +3667,8 @@ msgid "Title"
 msgstr ""
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
-#, fuzzy
 msgid "Task ID"
-msgstr "Taak Info"
+msgstr "Taak-ID"
 
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:76
@@ -3715,9 +3698,8 @@ msgstr ""
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-#, fuzzy
 msgid "current week"
-msgstr "Volgende week"
+msgstr "deze week"
 
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
@@ -3738,13 +3720,11 @@ msgstr "Einddatum"
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#, fuzzy
 msgid "Committer"
-msgstr "Opdracht Filters"
+msgstr "Committer"
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#, fuzzy
 msgid "Commit date"
 msgstr "Begindatum"
 

@@ -8,12 +8,12 @@
 msgid ""
 msgstr ""
 ""
-"PO-Revision-Date: 2018-12-17 07:48:52+0000\n"
+"PO-Revision-Date: 2019-01-30 22:38:20+0000\n"
 "X-POT-Import-Date: 2018-09-10 05:50:37+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: da\n"
-"X-Generator: MediaWiki 1.33.0-alpha; Translate 2018-11-05\n"
+"X-Generator: MediaWiki 1.33.0-alpha; Translate 2019-01-17\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. tpl/filters.html
@@ -296,7 +296,7 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Platform Availability"
-msgstr ""
+msgstr "Tilgængelighed for platform"
 
 #. tpl/productivity_report.html
 msgid "breakdownDays"
@@ -838,7 +838,7 @@ msgstr ""
 #. plugins/UserTeamList/UserTeamList_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Team"
-msgstr ""
+msgstr "Hold"
 
 #. tpl/holidays_report.html
 msgid "Year"
@@ -1678,7 +1678,7 @@ msgstr ""
 #. tpl/command_edit.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Id"
-msgstr ""
+msgstr "ID"
 
 #. tpl/edit_team.html
 msgid "delete OnDuty task"
@@ -1938,7 +1938,7 @@ msgstr ""
 #. tpl/check.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "Level"
-msgstr ""
+msgstr "Niveau"
 
 #. tpl/check.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
@@ -2475,7 +2475,7 @@ msgstr ""
 
 #. tpl/export_odt.html
 msgid "ODT Template"
-msgstr ""
+msgstr "ODT-skabelon"
 
 #. tpl/export_odt.html
 #. tpl/create_team.html
@@ -3075,11 +3075,11 @@ msgstr ""
 #. tpl/gantt.html
 #. tpl/command_info.html
 msgid "Gantt"
-msgstr ""
+msgstr "Gantt"
 
 #. tpl/menu/global_menu.html
 msgid "Gantt Chart"
-msgstr ""
+msgstr "Gantt kort"
 
 #. tpl/menu/global_menu.html
 msgid "Task Information"
@@ -3164,11 +3164,11 @@ msgstr "Administrator"
 
 #. tpl/menu/global_menu.html
 msgid "Create Team"
-msgstr ""
+msgstr "Oprelt hold"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Team"
-msgstr ""
+msgstr "Rediger hold"
 
 #. tpl/menu/global_menu.html
 msgid "Tools & Statistics"
@@ -3201,7 +3201,7 @@ msgstr ""
 #. tpl/menu/global_menu.html
 #. tpl/uninstall.html
 msgid "Uninstall"
-msgstr ""
+msgstr "Afinstaller"
 
 #. tpl/gantt.html
 #. tpl/command_info.html
@@ -3369,7 +3369,7 @@ msgstr ""
 
 #. tpl/workflow.html
 msgid "Settings"
-msgstr ""
+msgstr "Indstillinger"
 
 #. tpl/workflow.html
 msgid "No workflow transitions defined, using default configuration."
@@ -3873,11 +3873,11 @@ msgstr ""
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Date format"
-msgstr ""
+msgstr "Datoformant"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Number format"
-msgstr ""
+msgstr "Talformat"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Encoding"
@@ -3990,7 +3990,7 @@ msgstr ""
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Show Tasks"
-msgstr ""
+msgstr "Vis opgaver"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Display task column"
@@ -4063,27 +4063,27 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Recipient"
-msgstr ""
+msgstr "Modtager"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Current team"
-msgstr ""
+msgstr "Nuværende hold"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "All my teams"
-msgstr ""
+msgstr "Alle mine hold"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Assigned to me"
-msgstr ""
+msgstr "Tildelt til mig"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Posted by me"
-msgstr ""
+msgstr "Indsendt af mig"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Hidden messages"
@@ -4100,11 +4100,11 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Buttons"
-msgstr ""
+msgstr "Knapper"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Add new message"
-msgstr ""
+msgstr "Tilføj ny besked"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Post a new message"
@@ -4355,11 +4355,11 @@ msgstr ""
 
 #. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Arrival date"
-msgstr ""
+msgstr "Ankomstdato"
 
 #. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Departure date"
-msgstr ""
+msgstr "Afgangsdato"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 msgid "Drift current tasks"
@@ -4575,11 +4575,11 @@ msgstr "Datoer"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "End"
-msgstr ""
+msgstr "Slut"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Origin"
@@ -4709,7 +4709,7 @@ msgstr ""
 
 #: admin/edit_team_ajax.php:82
 msgid "Available fields"
-msgstr ""
+msgstr "Tilgængelige felter"
 
 #: admin/edit_team_ajax.php:83
 msgid "Tooltip"
@@ -4949,7 +4949,7 @@ msgstr ""
 
 #: classes/command.class.php:62
 msgid "validated"
-msgstr ""
+msgstr "valideret"
 
 #: classes/command.class.php:63
 msgid "to be closed"
@@ -5163,11 +5163,11 @@ msgstr ""
 
 #: install/install_step3.php:864
 msgid "Analyse"
-msgstr ""
+msgstr "Analyser"
 
 #: install/install_step3.php:865
 msgid "Development"
-msgstr ""
+msgstr "Udvikling"
 
 #: install/install_step3.php:866
 msgid "Tests"
@@ -5275,7 +5275,7 @@ msgstr ""
 
 #: install/install_step4.php:83
 msgid "Done !"
-msgstr ""
+msgstr "Udført !"
 
 #: install/install.php:25 install/install.php:129
 #: install/install_menu.inc.php:22
@@ -5462,7 +5462,7 @@ msgstr ""
 
 #: reports/planning_report.php:498
 msgid "Monitored"
-msgstr ""
+msgstr "Overvåget"
 
 #: reports/export_csv_tools.php:50
 msgid "m_id"
@@ -5470,7 +5470,7 @@ msgstr ""
 
 #: reports/export_csv_tools.php:57
 msgid "Product Version"
-msgstr ""
+msgstr "Produkt-version"
 
 #: reports/export_csv_tools.php:60
 msgid "Resolution"
@@ -5530,7 +5530,7 @@ msgstr "i dag"
 #. light grey
 #: timetracking/holidays_report.php:203
 msgid "User not in team"
-msgstr ""
+msgstr "Bruger ikke i hold"
 
 #: timetracking/holidays_report.php:241
 msgid "Other team"
@@ -5681,7 +5681,7 @@ msgstr ""
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:170
 msgid "Best regards"
-msgstr ""
+msgstr "Med venlig hilsen"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:171
 msgid "[CodevTT] Your password"
