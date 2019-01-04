@@ -567,7 +567,7 @@ function update_v17_to_v18() {
 }
 
 /**
- * update 1.3.0 to 1.3.1 (DB v18 to DB v19)
+ * update 1.3.0 to 1.4.0 (DB v18 to DB v19)
  *
  */
 function update_v18_to_v19() {

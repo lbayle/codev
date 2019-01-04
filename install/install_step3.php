@@ -1039,13 +1039,14 @@ if ("proceedStep3" == $action) {
          echo "<script type=\"text/javascript\">console.error(\"$errStr\");</script>";
          $errMsg .= $errStr.'<br>';
       }
+/*
       echo "<script type=\"text/javascript\">console.log(\"DEBUG install Mantis plugin: FilterBugList\");</script>";
       $errStr = installMantisPlugin('FilterBugList', false);
       if (NULL !== $errStr) {
          echo "<script type=\"text/javascript\">console.error(\"$errStr\");</script>";
          $errMsg .= $errStr.'<br>';
       }
-
+*/
 
       // === consistency check !
       // these errors are not as severe as exceptions, they do not block 

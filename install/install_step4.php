@@ -50,7 +50,7 @@ function displayPage() {
    echo '<li>'.T_("Login to Mantis as 'Administrator'.").'</li>';
    echo '<li>'.T_("Go to")." <a href=' ".$rootMantisURL."manage_plugin_page.php' target='_blank't>".T_("manage plugins").'</a></li>';
    echo '<li>'.T_('Check that the <b>CodevTT</b> plugin is installed and activated.').'</li>';
-   echo '<li>'.T_('Check that the <b>FilterBugList</b> plugin is installed and activated').'</li>';
+#   echo '<li>'.T_('Check that the <b>FilterBugList</b> plugin is installed and activated').'</li>';
    echo '</ul>';
 
 #   echo '<br>';

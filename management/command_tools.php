@@ -322,8 +322,8 @@ class CommandTools {
       
       // used to create mantis link to view_all_bug_page.php:
       // view_all_set.php?type=1&temporary=y&FilterBugList_list=5079,5073,5108,5107,49396,5006
-      $mantisFilterBugList= implode(',', array_keys($cmdIssueSel->getIssueList()));
-      $smartyHelper->assign('mantisFilterBugList', $mantisFilterBugList);
+      #$mantisFilterBugList= implode(',', array_keys($cmdIssueSel->getIssueList()));
+      #$smartyHelper->assign('mantisFilterBugList', $mantisFilterBugList);
       
       // --------------
       // Indicators & statistics

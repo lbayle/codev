@@ -154,7 +154,7 @@ RUN set -xe \
 RUN set -xe \
     && cd /var/www/html/mantis/plugins \
     && ln -s /var/www/html/codevtt/mantis_plugin/mantis_2_0/CodevTT \
-    && ln -s /var/www/html/codevtt/mantis_plugin/mantis_2_0/FilterBugList \
+#    && ln -s /var/www/html/codevtt/mantis_plugin/mantis_2_0/FilterBugList \
     && mkdir -p /tmp/codevtt/logs \
     && chown -R apache:apache /tmp/codevtt
 
