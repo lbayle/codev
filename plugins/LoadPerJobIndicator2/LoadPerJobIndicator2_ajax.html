@@ -6,6 +6,7 @@
          <tr>
             <th>{t}Job{/t}</th>
             <th>{t}Nb Days{/t}</th>
+            <th>%</th>
             {if $loadPerJobIndicator_isTaskColumn}
             <th>{t}Tasks{/t}</th>
             {/if}
@@ -20,6 +21,7 @@
                <div class="ui-helper-clearfix"></div>
             </td>
             <td>{$i.nbDays}</td>
+            <td>{$i.pcent} %</td>
             {if $loadPerJobIndicator_isTaskColumn}
             <td>{$i.taskList}</td>
             {/if}

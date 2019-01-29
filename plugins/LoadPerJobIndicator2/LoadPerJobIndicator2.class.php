@@ -309,7 +309,16 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
             }
          }
       }
-      
+
+      // compute percent
+      $totalElapsed = $this->inputIssueSel->getElapsed();
+      foreach($loadPerJobs as $jobid => $lpjArray) {
+         $nbDays = $loadPerJobs[$jobid]['nbDays'];
+         $loadPerJobs[$jobid]['pcent'] = round(($nbDays*100/$totalElapsed), 2);
+      }
+
+
+
       //self::$logger->error("date range: ".date('Y-m-d', $this->startTimestamp).'-'.date('Y-m-d', $this->endTimestamp));
       //self::$logger->error("real date range: ".date('Y-m-d', $realStartTimestamp).'-'.date('Y-m-d', $realEndTimestamp));
       
