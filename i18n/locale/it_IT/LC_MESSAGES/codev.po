@@ -1,6 +1,7 @@
 # Translation of CodevTT to Italian (italiano)
 # Exported from translatewiki.net
 #
+# Author: Albe Albe 460
 # Author: Beta16
 # Author: Fitoschido
 # Author: Margherita.mignanelli
@@ -15,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-01-30 22:38:22+0000\n"
+"PO-Revision-Date: 2019-02-18 06:57:52+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -3249,9 +3250,8 @@ msgid "Backup data"
 msgstr "Backup dei dati"
 
 #. tpl/uninstall.html
-#, fuzzy
 msgid "Backup file will be saved in CodevTT reports directory"
-msgstr "Il backup dei files verrà salvato nella directory dei reports in CodevTT"
+msgstr "Il file di backup verrà salvato nella directory dei rapporti CodevTT"
 
 #. tpl/uninstall.html
 msgid "Filename"
@@ -3730,15 +3730,13 @@ msgstr "Filtro Ordini"
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#, fuzzy
 msgid "Commit date"
-msgstr "Data iniziale"
+msgstr "Data di consegna"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Progress History Indicator"
-msgstr "Avanzamento storia"
+msgstr "Indicatore della cronologia dei progressi"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -3752,9 +3750,8 @@ msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Compares the EffortEstim to the Elapsed days"
-msgstr "Compara il carico iniziale al tempo di elaborazione."
+msgstr "Confronta l'EffortEstim con i giorni trascorsi"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -3768,9 +3765,8 @@ msgstr "Avanzamento reale"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Displays the backlog"
-msgstr "aggiorna arretrati"
+msgstr "Visualizza il backlog"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -3783,19 +3779,16 @@ msgid "Historical Progression Chart"
 msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
-#, fuzzy
 msgid "Mngt Elapsed"
-msgstr "Durata"
+msgstr "Mngt Trascorso"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
-#, fuzzy
 msgid "Mngt Provisions"
-msgstr "Disposizioni"
+msgstr "Disposizioni Mngt"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
-#, fuzzy
 msgid "Managemnt load history"
-msgstr "Management"
+msgstr "Gestione cronologia di caricamento"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
@@ -3820,9 +3813,8 @@ msgstr "Settimanale"
 #. plugins/ImportIssueCsv/ImportIssueCsv_cfg.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:62
-#, fuzzy
 msgid "Import issues"
-msgstr "Importa Tichets"
+msgstr "Problemi di importazione"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
@@ -3835,9 +3827,8 @@ msgid "Set All"
 msgstr "Applica a tutti"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#, fuzzy
 msgid "TargetVersion"
-msgstr "Versione target"
+msgstr "VersioneDestinazione"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Mantis issues to create:"
@@ -3852,14 +3843,12 @@ msgid "Category not set on all issues"
 msgstr "La categoria non è stata impostata su tutti i tickets"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#, fuzzy
 msgid "Type not set on all issues"
-msgstr "Tempo totale per questo ticket"
+msgstr "Tipo non impostato su tutti i problemi"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#, fuzzy
 msgid "Import done !"
-msgstr "Importa utenti"
+msgstr "Importazione eseguita !"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Sorry, only team members can import tasks."
@@ -3872,7 +3861,6 @@ msgstr "Anteprima importazione"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "Import template"
 msgstr "Importa template"
 
@@ -3892,9 +3880,8 @@ msgid "delimiter"
 msgstr "separatore"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
-#, fuzzy
 msgid "enclosure"
-msgstr "chiuso"
+msgstr "allegato"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -3906,9 +3893,8 @@ msgid "Number format"
 msgstr "Formato numeri"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
-#, fuzzy
 msgid "Encoding"
-msgstr "Caricamento"
+msgstr "Codifica"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported."
@@ -3927,14 +3913,12 @@ msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; Externa
 msgstr ""
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#, fuzzy
 msgid "No late task."
-msgstr "Attività non risolte..."
+msgstr "Nessuna attività in ritardo."
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator_cfg.html
-#, fuzzy
 msgid "Deadline alerts"
-msgstr "Lista Attività"
+msgstr "Avvisi di scadenza"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:61

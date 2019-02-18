@@ -13,7 +13,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-02-14 08:06:20+0000\n"
+"PO-Revision-Date: 2019-02-18 06:57:50+0000\n"
 "Language: ar\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4324,11 +4324,11 @@ msgstr "يُسمَح فقط لقادة الفرق والإداريين بتنف�
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send a password per email to each user"
-msgstr "أرسل كلمة مرور لكل بريد إلكتروني لكل مستخدم"
+msgstr "أرسل كلمة سر لكل بريد إلكتروني لكل مستخدم"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Display a generated password (common to all created users)"
-msgstr "عرض كلمة مرور تم إنشاؤها (مشتركة لكل المستخدمين الذين تم تكوينهم)"
+msgstr "عرض كلمة سر تم إنشاؤها (مشتركة لكل المستخدمين الذين تم تكوينهم)"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Colors"
