@@ -39,7 +39,6 @@ class TimetrackList extends IndicatorPluginAbstract {
    // config options from Dashboard
 
    // internal
-   private $issue;
    protected $execData;
 
    /**
@@ -93,6 +92,7 @@ class TimetrackList extends IndicatorPluginAbstract {
    }
    public static function getJsFiles() {
       return array(
+         'js_min/datepicker.min.js',
          'js_min/table2csv.min.js',
          'js_min/progress.min.js',
          'js_min/tooltip.min.js',
@@ -113,10 +113,10 @@ class TimetrackList extends IndicatorPluginAbstract {
       } else {
          throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
       }
-      /*
       if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP)) {
          $this->startTimestamp = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP);
       } else {
+         // WARN: no start date can return loads of results and eventualy overload the server
          $this->startTimestamp = NULL;
       }
       if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP)) {
@@ -124,7 +124,6 @@ class TimetrackList extends IndicatorPluginAbstract {
       } else {
          $this->endTimestamp = NULL;
       }
-      */
       
       // set default pluginSettings (not provided by the PluginDataProvider)
       
@@ -152,10 +151,21 @@ class TimetrackList extends IndicatorPluginAbstract {
       
       $timetracks = $this->inputIssueSel->getTimetracks(NULL, $this->startTimestamp, $this->endTimestamp);
       $nbTimetracks = count($timetracks);
+      $realStartTimestamp = $this->endTimestamp; // note: inverted intentionnaly
+      $realEndTimestamp = $this->startTimestamp; // note: inverted intentionnaly
+      $jobs = new Jobs();
 
       foreach ($timetracks as $trackid => $track) {
 
          $issue = IssueCache::getInstance()->getIssue($track->getIssueId());
+
+         // find real date range
+         if ( (NULL == $realStartTimestamp) || ($track->getDate() < $realStartTimestamp)) {
+            $realStartTimestamp = $track->getDate();
+         }
+         if ( (NULL == $realEndTimestamp) || ($track->getDate() > $realEndTimestamp)) {
+            $realEndTimestamp = $track->getDate();
+         }
 
          $user = UserCache::getInstance()->getUser($track->getUserId());
             $timetracksArray[$trackid] = array(
@@ -164,9 +174,11 @@ class TimetrackList extends IndicatorPluginAbstract {
                #'task' => $issue->getSummary(),
                'user' => $user->getRealname(),
                'dateTimetrack' => Tools::formatDate("%Y-%m-%d", $track->getDate()),
-               'categorieProject' => $issue->getCategoryName(),
+               'projectCategory' => $issue->getCategoryName(),
+               'jobName' => $jobs->getJobName($track->getJobId()),
                'note' => nl2br(htmlspecialchars($track->getNote())),
-               'elapsed' => str_replace('.', ',',round($track->getDuration(), 2)),
+               #'elapsed' => str_replace('.', ',',round($track->getDuration(), 2)),
+               'elapsed' => round($track->getDuration(), 2),
                'id' => $track->getId(),
             );
       }
@@ -175,6 +187,8 @@ class TimetrackList extends IndicatorPluginAbstract {
       $this->execData['nbTimetracks'] = $nbTimetracks;
       $this->execData['timetracksArray'] = $timetracksArray;
       //$this->execData['totalArray'] = $totalArray; 
+      $this->execData['realStartTimestamp'] = $realStartTimestamp;
+      $this->execData['realEndTimestamp'] = $realEndTimestamp;
       
       return $this->execData;
    }
@@ -188,6 +202,11 @@ class TimetrackList extends IndicatorPluginAbstract {
          $smartyVariables['timetrackList_ajaxFile'] = self::getSmartySubFilename();
          $smartyVariables['timetrackList_ajaxPhpURL'] = self::getAjaxPhpURL();
       }
+      $startTimestamp = (NULL == $this->startTimestamp) ? $this->execData['realStartTimestamp'] : $this->startTimestamp;
+      $endTimestamp   = (NULL == $this->endTimestamp) ?   $this->execData['realEndTimestamp']   : $this->endTimestamp;
+      $smartyVariables['timetrackList_startDate'] = Tools::formatDate("%Y-%m-%d", $startTimestamp);
+      $smartyVariables['timetrackList_endDate']   = Tools::formatDate("%Y-%m-%d", $endTimestamp);
+
       return $smartyVariables;
    }
 

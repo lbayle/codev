@@ -35,7 +35,48 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
       $team = TeamCache::getInstance()->getTeam($teamid);
       
       // ================================================================
-      if('getEditTimetrackData' == $action) {
+      if('getTimetrackList' == $action) {
+         $startTimestamp = Tools::date2timestamp(Tools::getSecurePOSTStringValue("timetrackList_startdate"));
+         $endTimestamp = Tools::date2timestamp(Tools::getSecurePOSTStringValue("timetrackList_enddate"));
+
+         // get dataProvider
+         $dashboardId = Tools::getSecurePOSTStringValue('dashboardId');
+
+         if(!isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
+            $logger->error("PluginDataProvider not set (dashboardId = $dashboardId");
+            Tools::sendBadRequest("PluginDataProvider not set");
+         }
+         $pluginDataProvider = unserialize($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId]);
+         if (FALSE == $pluginDataProvider) {
+            $logger->error("PluginDataProvider unserialize error (dashboardId = $dashboardId");
+            Tools::sendBadRequest("PluginDataProvider unserialize error");
+         }
+
+         // update dataProvider
+         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
+         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
+
+         $indicator = new TimetrackList($pluginDataProvider);
+         $indicator->execute();
+         $data = $indicator->getSmartyVariablesForAjax();
+
+         // construct the html table
+         foreach ($data as $smartyKey => $smartyVariable) {
+            $smartyHelper->assign($smartyKey, $smartyVariable);
+            #$logger->debug("key $smartyKey = ".var_export($smartyVariable, true));
+         }
+         $html = $smartyHelper->fetch(TimetrackList::getSmartySubFilename());
+         $data['timetrackList_htmlTable'] = $html;
+
+         // set JS libraries that must be load
+         $data['timetrackList_jsFiles'] = TimetrackDetailsIndicator::getJsFiles();
+         $data['timetrackList_cssFiles'] = TimetrackDetailsIndicator::getCssFiles();
+
+         // return html & chart data
+         $jsonData = json_encode($data);
+         echo $jsonData;
+
+      } else if('getEditTimetrackData' == $action) {
 
          $timetrackId = Tools::getSecurePOSTStringValue('timetrackId');
          try {
@@ -82,11 +123,14 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             echo $jsonData;
 
       } else {
+         $logger->error("Unknown action: $action");
          Tools::sendNotFoundAccess();
       }
    } else {
       Tools::sendUnauthorizedAccess();
    }
+} else {
+   Tools::sendUnauthorizedAccess();
 }
 
 

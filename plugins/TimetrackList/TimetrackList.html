@@ -1,43 +1,27 @@
 <div class="timetrackList">
-
-<div>
    <div class="pluginInitFunction"  style="display: none;">timetrackListJsInit</div>
    <div class="pluginDestroyFunction"  style="display: none;">timetrackListJsDestroy</div>
    
    
+<div align="left" style="margin-top:1em;">
+   <form id="timetrackList_dateRange_form">
+      <fieldset>
+         <label for="timetrackList_startdatepicker">{t}From{/t}:</label>
+         <input type="text" class="timetrackList_startdatepicker datepicker" name="timetrackList_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="timetrackList_enddatepicker">{t}To{/t}:</label>
+         <input type="text" class="timetrackList_enddatepicker datepicker" name="timetrackList_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <input class="timetrackListDate_submit" type="submit" value="{t}Display{/t}" />
+         <img class="timetrackList_spinner" src='images/spinner.gif' width='16' height='16' alt='Please wait...' style="vertical-align: middle;" />
+         <input type="hidden" name="action" value="getTimetrackList" />
+         <input type="hidden" name="dashboardId" value="" />
+      </fieldset>
+   </form>
+</div>
    
+<div>
    <div class="timetrackListDiv" align="left" style="margin-top: 1em;">
       <div style="width: 95%;">
-      <table class="timetrackListValuesTable display float datatable_csv" >
-         <thead>
-            <tr>
-               <th>{t}Date{/t}</th>
-               <th>{t}Commands{/t}</th>
-               <th>{t}Task{/t}</th>
-               <th>{t}User{/t}</th>
-               <th>Categorie projet</th>
-               <th>{t}Elapsed{/t}</th>
-               <th>{t}Note{/t}</th>
-               <th></th>
-            </tr>
-         </thead>
-         <tbody>
-            {foreach from=$timetrackList_timetracksArray key=id item=i}
-            <tr class="timetrackList_timetrack" data-timetrackId="{$i.id}">
-               <td>{$i.dateTimetrack}</td>
-               <td>{$i.commandList}</td>
-               <td>{$i.issueId}</td>
-               <td>{$i.user}</td>
-               <td>{$i.categorieProject}</td>
-               <td>{$i.elapsed}</td>
-               <td class="timetrackList_timetrack_note" name="timetrack_note">{$i.note}</td>
-               <td>
-                  <img class="timetrackList_editTimetrack_link pointer" align="absmiddle" title="{t}Edit timetrack{/t}" src="images/b_edit.png"/>
-               </td>
-            </tr>
-            {/foreach}
-         </tbody>
-      </table>
+      {include file="`$timetrackList_ajaxFile`"}
       </div>
    </div>
 
@@ -81,6 +65,7 @@
    // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
    function timetrackListJsDestroy() {
       jQuery(".timetrackListHelpDialog").dialog('destroy').remove();
+      jQuery(".timetrackListDiv").off("click", "**");
    }
 
    // this function will be run at jQuery(document).ready (see dashboard.html) or
@@ -88,7 +73,74 @@
    function timetrackListJsInit() {
 
       console.log('timetrackListJsInit');
-      
+      jQuery('.timetrackList_spinner').hide(); // hide spinner
+
+      // ------------------------
+      // datepicker
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+      // Set the date
+      var startDatePicker = jQuery(".timetrackList_startdatepicker").datepicker("setDate" ,"{$timetrackList_startDate}");
+      var endDatePicker = jQuery(".timetrackList_enddatepicker").datepicker("setDate" ,"{$timetrackList_endDate}");
+      // Add range date
+      startDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+      });
+      endDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+      });
+
+      // on reload with new date range
+      jQuery('.timetrackListDate_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+         jQuery('.timetrackList_spinner').show(); // spinner img
+
+         var form = jQuery('#timetrackList_dateRange_form');
+
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: "POST",
+            url: '{$timetrackList_ajaxPhpURL}',
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+               if (data['timetrackList_htmlTable']) {
+                  jQuery(".timetrackListDiv").html(jQuery.trim(data['timetrackList_htmlTable']));
+
+                  //console.log('js files to load:', data['timetrackList_jsFiles']);
+                  jQuery.each(data['timetrackList_jsFiles'], function( index, value ) {
+                     jQuery.ajax({
+                           async: false,
+                           url: value,
+                           dataType: "script"
+                     });
+                  });
+                  //console.log('js load done');
+
+               } else {
+                  console.error('data is null');
+                  alert('ERROR: data is null');
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+         jQuery('.timetrackList_spinner').hide(); // spinner img
+      });
+
+      // ------------------------
+
       jQuery(".timetrackListHelpDialog_link").click(function(e) {
          e.preventDefault();
          jQuery(".timetrackListHelpDialog").dialog("open");
@@ -98,7 +150,8 @@
          hide: "fade"
       });
 
-      jQuery(".timetrackList_editTimetrack_link").click(function(e) {
+      // ------------------------
+      jQuery(".timetrackListDiv").on("click", ".timetrackList_editTimetrack_link", function(e) {
          e.preventDefault();
 
          // FIND timetrackId
@@ -136,8 +189,10 @@
                alert("ERROR: Please contact your CodevTT administrator");
             }
          });
-      }),
+      });
 
+
+      // ------------------------
       $(".timetrackList_editTimetrack_dialog").dialog({
                autoOpen: false,
                height: 'auto',
