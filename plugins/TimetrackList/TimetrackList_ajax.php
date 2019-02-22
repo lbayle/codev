@@ -82,13 +82,18 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          try {
             $tt = TimeTrackCache::getInstance()->getTimeTrack($timetrackId);
             $issue = IssueCache::getInstance()->getIssue($tt->getIssueId());
+            $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
+            $teamProjTypes = $team->getProjectsType();
+            $availableJobs = $project->getJobList($teamProjTypes[$issue->getProjectId()]);
 
             // return data
             $data = array(
                'statusMsg' => 'SUCCESS',
                'note' => $tt->getNote(),
                'issueSummary' => $issue->getSummary(),
-               'noteIsMandatory' => $team->getGeneralPreference('isTrackNoteMandatory')
+               'noteIsMandatory' => $team->getGeneralPreference('isTrackNoteMandatory'),
+               'availableJobs' => $availableJobs,
+               'jobId' => $tt->getJobId(),
             );
          } catch (Exception $e) {
             $data = array(
@@ -103,19 +108,23 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
             //////////////// UPDATE //////////////////
             $timetrackId = Tools::getSecurePOSTIntValue('timetrackId');
+            $jobId = Tools::getSecurePOSTIntValue('jobId');
             $team = TeamCache::getInstance()->getTeam($teamid);
             $tt = TimeTrackCache::getInstance()->getTimeTrack($timetrackId);
 
             // Info: no need to sql_real_escape_string, it is applied in the setNote method...
             $note = filter_input(INPUT_POST, 'note'); // filter_input to handle escaped chars (quotes, \n, ...)
 
-            $updateDone = $tt->update($tt->getDate(), $tt->getDuration(), $tt->getJobId(), $note);
+            $updateDone = $tt->update($tt->getDate(), $tt->getDuration(), $jobId, $note);
 
             $statusMsg = ($updateDone) ? "SUCCESS" : "timetrack update failed.";
+
+            $jobs = new Jobs();
 
             $data = array(
                'statusMsg' => $statusMsg,
                'note' => nl2br(htmlspecialchars($tt->getNote())),
+               'jobName' => $jobs->getJobName($jobId),
             );
             $jsonData = json_encode($data);
 

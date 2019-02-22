@@ -50,6 +50,10 @@
             <tr>
                <td colspan="3"><hr></td>
             </tr>
+            <tr class="timetrackList_tr_editJob">
+               <th>{t}Job{/t} :</th>
+               <td><select class="timetrackList_editJob" title="{t}Job{/t}"></select></td>
+            </tr>
             <tr class="timetrackList_tr_noteToEdit">
                <th>{t}Note{/t}:</th>
                <td width="450px"><textarea class="timetrackList_noteToEdit" style="width:100%;background-color:white;" rows="2"></textarea></td>
@@ -151,6 +155,8 @@
       });
 
       // ------------------------
+      // click event is attached to timetrackListDiv so that Html content can be reload via ajax
+      // without loosing the events.
       jQuery(".timetrackListDiv").on("click", ".timetrackList_editTimetrack_link", function(e) {
          e.preventDefault();
 
@@ -172,6 +178,16 @@
                   $(".timetrackList_taskSummary").text(data.issueSummary);
                   $(".timetrackList_noteToEdit").val(data.note);
                   $(".timetrackList_timetrackId").val(timetrackId);
+                  $(".timetrackList_editJob").empty();
+                  var availableJobs = data.availableJobs;
+                  for (var id in availableJobs) {
+                     if (availableJobs.hasOwnProperty(id)) {
+                        $(".timetrackList_editJob").append(
+                           $('<option>').attr('value', id).append(availableJobs[id])
+                        );
+                     }
+                  }
+                  $(".timetrackList_editJob").val(data.jobId);
 
                   var myTr = $(".timetrackList_timetrack[data-timetrackId^="+timetrackId+"]");
                   myTr.attr("data-noteIsMandatory", data.noteIsMandatory);
@@ -205,6 +221,7 @@
                      // GET edited timetrack data
                      var timetrackId = $(".timetrackList_timetrackId").val();
                      var note = $(".timetrackList_noteToEdit").val();
+                     var jobId = $(".timetrackList_editJob").val();
                      var myTr = $(".timetrackList_timetrack[data-timetrackId^="+timetrackId+"]");
                      var noteIsMandatory = myTr.attr("data-noteIsMandatory");
 
@@ -217,7 +234,8 @@
                            data: {
                               action: 'setEditTimetrackData',
                               timetrackId: timetrackId,
-                              note: note
+                              note: note,
+                              jobId: jobId
                            },
                            success: function(data) {
                               if ('SUCCESS' === data.statusMsg) {
@@ -225,6 +243,7 @@
                                  // UPDATE timetracks table
                                  var myTr = $(".timetrackList_timetrack[data-timetrackId^="+timetrackId+"]");
                                  myTr.find(".timetrackList_timetrack_note").html(data.note);
+                                 myTr.find(".timetrackList_timetrack_jobName").html(data.jobName);
 
                               } else {
                                  console.error("Ajax statusMsg", data.statusMsg);
