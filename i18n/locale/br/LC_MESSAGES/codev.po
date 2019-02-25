@@ -9,7 +9,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-01-30 22:38:20+0000\n"
+"PO-Revision-Date: 2019-02-25 09:38:47+0000\n"
 "Language: br\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -128,7 +128,7 @@ msgstr "Doujañ d'an termenoù degas"
 #. tpl/forecasting_report.html
 #. tpl/statistics.html
 msgid "Effort Deviation"
-msgstr ""
+msgstr "Striv tuadur"
 
 #. tpl/productivity_report.html
 msgid "Reopened tasks"
@@ -233,7 +233,7 @@ msgstr "Trevelloù Kar"
 
 #. tpl/productivity_report.html
 msgid "Not available."
-msgstr "N'eo ket hegerz"
+msgstr "N'eo ket hegerz."
 
 #. tpl/productivity_report.html
 #. tpl/ajax/weekTaskDetails.html
@@ -265,7 +265,7 @@ msgstr "Barregezh produiñ"
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "Efficiency Rate"
-msgstr "Feur efedsted"
+msgstr "Feur efedusted"
 
 #. tpl/productivity_report.html
 msgid "System Availability"
@@ -410,7 +410,7 @@ msgstr "Roll ar c'hargoù evit Karg_kentañ"
 
 #. tpl/productivity_report.html
 msgid "Note: Drift on tasks resolved in the period"
-msgstr ""
+msgstr "Notenn : Tuadur war an trevelloù diskoulmet er prantad"
 
 #. tpl/productivity_report.html
 msgid "Drift - All tasks"
@@ -463,7 +463,7 @@ msgstr ""
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks for which the elapsed time is greater than the estimated effort"
-msgstr ""
+msgstr "Trevelloù zo uheloc'h o amzer bevezet eget ar budjed kentañ"
 
 #. tpl/productivity_report.html
 msgid "drift"
@@ -472,17 +472,17 @@ msgstr "tuadur"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks in time"
-msgstr ""
+msgstr "Trevelloù e koulz"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks resolved in time"
-msgstr ""
+msgstr "Trevelloù diskoulmet e koulz"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks ahead"
-msgstr ""
+msgstr "Trevelloù en a-raok"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -496,7 +496,7 @@ msgstr ""
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Manager Estimation"
-msgstr ""
+msgstr "Karg priziet gant ar merour"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -533,7 +533,7 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "No resolved tasks..."
-msgstr ""
+msgstr "Trevell ebet diskoulmet..."
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -666,7 +666,7 @@ msgstr ""
 #. tpl/forecasting_report.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 msgid "Drift relatively to the managers Estimation"
-msgstr ""
+msgstr "Tuadur e-keñver priziadur ar merour"
 
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
@@ -759,11 +759,11 @@ msgstr "Tuadur - Trevelloù (ExtRefOnly)"
 
 #. tpl/productivity_report.html
 msgid "Drift (ExtRefOnly)"
-msgstr ""
+msgstr "Tuadur (ExtRefOnly)"
 
 #. tpl/productivity_report.html
 msgid "Drift ExtRefOnly"
-msgstr ""
+msgstr "Tuadur ExtRefOnly"
 
 #. tpl/productivity_report.html
 msgid "Tasks without ExternalRef are excluded"
@@ -922,7 +922,7 @@ msgstr "Bilañs miziek NEMET SuiviOp."
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
-msgstr ""
+msgstr "Bilañs miziek (niver a fichennoù/stad e dibenn ar miz)"
 
 #. tpl/mantis_reports.html
 #. tpl/servicecontract_info.html
@@ -997,7 +997,7 @@ msgstr "Seurt"
 #. tpl/issue_info.html
 #. tpl/team_activity_report.html
 msgid "Target version"
-msgstr ""
+msgstr "Stumm pal"
 
 #. tpl/project_activity_report.html
 #. tpl/issue_info.html
@@ -1262,7 +1262,7 @@ msgstr "Deskrivadur"
 
 #. tpl/servicecontract_info.html
 msgid "Note: SideTasks already defined in Commands are not displayed."
-msgstr "Notenn : n'eo dikwelet an trevelloù kar en urzhiadoù."
+msgstr "Notenn : n'eo ket dikwelet an trevelloù kar en urzhiadoù."
 
 #. tpl/servicecontract_info.html
 #. tpl/command_info.html
@@ -1383,7 +1383,7 @@ msgstr "Trevell"
 
 #. tpl/index.html
 msgid "IE may not correctly display this website"
-msgstr ""
+msgstr "Gallout a ra IE chom hep dont mat war wel el lec'hienn-mañ"
 
 #. tpl/index.html
 msgid "please consider using a standard complient web-browser"
@@ -1414,9 +1414,8 @@ msgid "Timetrack Durations"
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Costs management"
-msgstr "Merañ ar raktres"
+msgstr "Merañ ar c'houstoù"
 
 #. tpl/edit_team.html
 msgid "OnDuty tasks"
@@ -1595,7 +1594,7 @@ msgstr ""
 #. tpl/edit_team.html
 #. tpl/command_edit.html
 msgid "Currency"
-msgstr ""
+msgstr "Teulenn"
 
 #. tpl/edit_team.html
 msgid "Coef"
@@ -1603,15 +1602,15 @@ msgstr "Feur"
 
 #. tpl/edit_team.html
 msgid "referal currency"
-msgstr ""
+msgstr "Teulenn dave"
 
 #. tpl/edit_team.html
 msgid "TODO: describe how and where it is used in CodevTT"
-msgstr ""
+msgstr "Da ober : deskrivañ penaos ha pelec'h e vo implijet an dra-se e CodevTT"
 
 #. tpl/edit_team.html
 msgid "User Daily Costs"
-msgstr ""
+msgstr "Koust devezhiek hiniennel"
 
 #. tpl/edit_team.html
 msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
@@ -1619,23 +1618,23 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Add UserDailyCost"
-msgstr ""
+msgstr "Ouzhpennañ koust pemdeziek implijer"
 
 #. tpl/edit_team.html
 msgid "Add user daily cost"
-msgstr ""
+msgstr "Ouzhpennañ koust pemdeziek un implijer"
 
 #. tpl/edit_team.html
 msgid "Team creation date"
-msgstr ""
+msgstr "Deiziad krouiñ ar skipailh"
 
 #. tpl/edit_team.html
 msgid "User arrival date"
-msgstr ""
+msgstr "Deiziat degouezhout"
 
 #. tpl/edit_team.html
 msgid "User Daily Cost"
-msgstr ""
+msgstr "Koust pemdeziek implijer"
 
 #. tpl/edit_team.html
 msgid "Issue Tooltips"
@@ -1647,7 +1646,7 @@ msgstr "Maeziennoù lagadennoù"
 
 #. tpl/edit_team.html
 msgid "No custom IssueTooltips defined for your projects."
-msgstr ""
+msgstr "lagadenn ditouriñ personelaet ebet dielfennet evit ar raktresoù."
 
 #. tpl/edit_team.html
 #. tpl/menu/global_menu.html
@@ -1656,7 +1655,7 @@ msgstr "Prouad anterinded"
 
 #. tpl/edit_team.html
 msgid "Enable/Disable alerts"
-msgstr ""
+msgstr "Gweredekaat/Diweredekaat ar c'hemennoù diwall"
 
 #. tpl/edit_team.html
 msgid "Add OnDuty tasks"
@@ -2811,14 +2810,12 @@ msgid "These are sample sideTasks, you can create more with Mantis"
 msgstr ""
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "Project management"
 msgstr "Merañ ar raktres"
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "Team meeting"
-msgstr "Anv ar skipailh"
+msgstr "Emvod skipailh"
 
 #. tpl/create_team.html
 #, fuzzy
@@ -3489,9 +3486,8 @@ msgid "Provision NOT included in 'check budget'"
 msgstr ""
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Show resolved tasks"
-msgstr "Trevelloù diskwelet"
+msgstr "Diskwel an trevelloù diskoulmet"
 
 #. tpl/command_info.html
 msgid "Warning"
@@ -3518,9 +3514,8 @@ msgid "Select all"
 msgstr "Diuzañ pep tra"
 
 #. tpl/modal/edit_issueNote.html
-#, fuzzy
 msgid "If unchecked, a 'standard' Mantis note will be created"
-msgstr "Ma vez diasket e vo krouet un notenn \"glasel\" eus mantis"
+msgstr "Ma vez diasket e vo krouet un notenn \"glasel\" eus Mantis"
 
 #. tpl/modal/edit_issueNote.html
 msgid "Add as Timesheet note"
@@ -3671,9 +3666,8 @@ msgid "Title"
 msgstr "Titl"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
-#, fuzzy
 msgid "Task ID"
-msgstr "Trevell"
+msgstr "Trevell ID"
 
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:76
@@ -4114,16 +4108,16 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "All"
-msgstr ""
+msgstr "An holl"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Hidden messages"
-msgstr ""
+msgstr "Kemennadennoù kuzhet"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 #: plugins/BlogPlugin/BlogPost.class.php:423
 msgid "Hide"
-msgstr ""
+msgstr "Kuzhat"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall help"
@@ -4131,15 +4125,15 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Buttons"
-msgstr ""
+msgstr "Boutonoù"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Add new message"
-msgstr ""
+msgstr "Ouzhpennañ ur gemennadenn nevez"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Post a new message"
-msgstr ""
+msgstr "Postañ ur gemennadenn nevez"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Set message wall options"
@@ -4155,15 +4149,15 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Show"
-msgstr ""
+msgstr "Diskouez"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Unhide a hidden message"
-msgstr ""
+msgstr "Diguzhat ur gemennadenn kuzhet"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Delete a message."
-msgstr ""
+msgstr "Diverkañ ar gemennadenn"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "This will permanently delete this post, are you sure ?!"
@@ -4208,32 +4202,28 @@ msgid "Available Workforce Options"
 msgstr "Barregezh produiñ"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Availability"
-msgstr "Hegerzded Reizhiad"
+msgstr "Hegerzded"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Productivity Coefficient"
-msgstr "Titourennoù produüsted"
+msgstr "Feur produüsted"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Prod. Coef"
-msgstr ""
+msgstr "Feur prod."
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "SUM(userWorkforce * availability * prodCoef)"
-msgstr ""
+msgstr "SAMMAD(Barregezh produiñ*hergerzhded*Feurprod)"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Available workforce"
 msgstr "Barregezh produiñ"
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#, fuzzy
 msgid "No errors"
-msgstr "Fazioù"
+msgstr "Fazi ebet"
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #, fuzzy
@@ -4258,22 +4248,20 @@ msgstr ""
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send password by mail"
-msgstr ""
+msgstr "Kas ar ger-tremen dre bostel"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "Generate password"
-msgstr "Ger-tremen"
+msgstr "Genel ar ger-tremen"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Mantis users to create:"
-msgstr ""
+msgstr "Implijerien Mantis da grouiñ :"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "First name"
-msgstr "Anv ar restr"
+msgstr "Anv-bihan"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Username"
@@ -4335,7 +4323,7 @@ msgstr "Digarezit ni, rankout a rit bezañ merour evit enporzhiañ an trevelloù
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Only team administrators can create users"
-msgstr ""
+msgstr "N'eus nemet ar verourien skipailh a zo aotreet da grouiñ implijerien"
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/CostsIndicator/CostsIndicator.html
