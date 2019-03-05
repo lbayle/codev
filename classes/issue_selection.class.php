@@ -678,6 +678,118 @@ class IssueSelection {
       return $issueCostSums;
    }
 
+   /**
+    * returns issues that have been submitted in the period
+    * @return Issue[] a list of Issue class instances
+    */
+   public function getSubmittedIssues($startTimestamp = NULL, $endTimestamp = NULL, $extRefOnly = FALSE) {
+
+
+      if (is_null($this->issueList) || (0 == count($this->issueList))) {
+         $e = new Exception('No issue in this IssueSelection ('.$this->name.')');
+         self::$logger->error("EXCEPTION getSubmittedIssues: ".$e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
+      $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
+      $sql = AdodbWrapper::getInstance();
+
+      $query = 'SELECT bug.id FROM {bug} as bug ';
+      if ($extRefOnly) {
+         $query .= ', {custom_field_string} ';
+      }
+      $query .= ' WHERE bug.date_submitted >= '.$sql->db_param().
+                ' AND bug.date_submitted < '.$sql->db_param();
+      $q_params[]=$startTimestamp;
+      $q_params[]=$endTimestamp;
+
+      $formattedList=implode( ', ', array_keys($this->issueList));
+      $query .= ' AND bug.id IN ('.$formattedList.')  ';
+
+      if ($extRefOnly) {
+         $query .= ' AND {custom_field_string}.field_id =  '.$sql->db_param();
+         $query .= ' AND {custom_field_string}.bug_id = bug.id ';
+         $query .= " AND {custom_field_string}.value <> '' ";
+         $q_params[]=$extIdField;
+      }
+
+      $result = $sql->sql_query($query, $q_params);
+      $submittedIssues = array();
+      while($row = $sql->fetchObject($result)) {
+         $issue = IssueCache::getInstance()->getIssue($row->id);
+         $submittedIssues[$issue->getId()] = $issue;
+      }
+      return $submittedIssues;
+   }
+
+   /**
+    * Returns all Issues resolved in the period and having not been re-opened
+    * @return Issue[] a list of Issue class instances
+    */
+   public function getResolvedIssues($startTimestamp = NULL, $endTimestamp = NULL, $extRefOnly = FALSE, $withReopened=FALSE) {
+
+      if (is_null($this->issueList) || (0 == count($this->issueList))) {
+         $e = new Exception('No issue in this IssueSelection ('.$this->name.')');
+         self::$logger->error("EXCEPTION getResolvedIssues: ".$e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
+      $sql = AdodbWrapper::getInstance();
+      $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
+
+      $formattedList=implode( ', ', array_keys($this->issueList));
+
+      // all bugs which status changed to 'resolved' whthin the timestamp
+      $query = "SELECT bug.id ".
+               "FROM {bug} as bug ";
+      if ($extRefOnly) {
+         $query .= ", {custom_field_string} ";
+      }
+
+      $query .= ", {bug_history} as history ".
+               " WHERE bug.id IN (".$formattedList.") ".
+               " AND bug.id = history.bug_id ";
+
+      if ($extRefOnly) {
+         $query .= " AND {custom_field_string}.bug_id = bug.id ";
+         $query .= " AND {custom_field_string}.field_id = ".$sql->db_param();
+         $query .= " AND {custom_field_string}.value <> '' ";
+         $q_params[]=$extIdField;
+      }
+
+        $query .= " AND history.field_name='status' ".
+               " AND history.date_modified >= ".$sql->db_param().
+               " AND history.date_modified < ".$sql->db_param().
+               " AND history.new_value = get_project_resolved_status_threshold(project_id) ";
+               #" ORDER BY bug.id DESC"; // time consuming
+        $q_params[]=$startTimestamp;
+        $q_params[]=$endTimestamp;
+
+      $result = $sql->sql_query($query, $q_params);
+
+      $resolvedIssues = array();
+      while($row = $sql->fetchObject($result)) {
+         $issue = IssueCache::getInstance()->getIssue($row->id);
+
+         if (!$withReopened) {
+            // skip if the bug has been reopened before endTimestamp
+            $latestStatus = $issue->getStatus($endTimestamp);
+            if ($latestStatus < $issue->getBugResolvedStatusThreshold()) {
+               #if(self::$logger->isDebugEnabled()) {
+               #   self::$logger->debug("IssueSelection->getResolvedIssues() REOPENED: bugid = ".$issue->getId().' (excluded)');
+               #}
+               continue;
+            }
+         }
+         // remove duplicated values
+         if (!in_array ($issue->getId(), $resolvedIssues)) {
+            $resolvedIssues[$issue->getId()] = $issue;
+         }
+      }
+      return $resolvedIssues;
+   }
 
 } // class
 

@@ -1,0 +1,163 @@
+<div class="submittedResolvedHistoryIndicator">
+   <div class="pluginInitFunction"  style="display: none;">submittedResolvedHistoryIndicatorJsInit</div>
+   <div class="pluginDestroyFunction"  style="display: none;">submittedResolvedHistoryIndicatorJsDestroy</div>
+
+<div align="left" style="margin-top:1em;">
+   <form class="submittedResolvedHistoryIndicator_dateRange_form" method="get" action="{$submittedResolvedHistoryIndicator_ajaxPhpURL}">
+      <fieldset>
+         <label for="submittedResolvedHistoryIndicator_startdatepicker">{t}From{/t}:</label>
+         <input type="text" class="submittedResolvedHistoryIndicator_startdatepicker datepicker" name="submittedResolvedHistoryIndicator_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="submittedResolvedHistoryIndicator_enddatepicker">{t}To{/t}:</label>
+         <input type="text" class="submittedResolvedHistoryIndicator_enddatepicker datepicker" name="submittedResolvedHistoryIndicator_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <input class="submittedResolvedHistoryIndicator_submit" type="submit" value="{t}Display{/t}" />
+         <img class="submittedResolvedHistoryIndicator_spinner" src='images/spinner.gif' width='16' height='16' alt='Please wait...' style="vertical-align: middle;" />
+         <input type="hidden" name="action" value="getSubmittedResolvedHistoryIndicator" />
+         <input type="hidden" name="attributesJsonStr" value="" />
+         <input type="hidden" name="dashboardId" value="" />
+      </fieldset>
+   </form>
+</div>
+{if isset($submittedResolvedHistoryIndicator_tableData)}
+<div>
+   <div id="tabsSubmittedResolvedHistoryIndicator" class="float tabs {$ui_tabs_jquery}" style="width:95%; margin-top:1em;" >
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#submittedResolvedHistoryIndicator_tabGraph">{t}Graph{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#submittedResolvedHistoryIndicator_tabValues">{t}Values{/t}</a></li>
+      </ul>
+      <div id="submittedResolvedHistoryIndicator_tabGraph">
+         <div class="submittedResolvedHistoryIndicator_jqPlot xlabels_chart chart float" style="width: 100%;"></div>
+      </div>
+      <div id="submittedResolvedHistoryIndicator_tabValues" class="submittedResolvedHistoryIndicator_tabValues">
+         {include file="`$submittedResolvedHistoryIndicator_ajaxFile`"}
+      </div>
+   </div>
+
+   <div class="floatr" style="margin-top:1em; width: 16px">
+   <a class="submittedResolvedHistoryIndicatorHelpDialog_link float" href="">
+      <img title="Help" src="images/help_icon.gif"/>
+   </a>
+   <span class="float pointer">
+      <img onclick="$('.submittedResolvedHistoryIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'submittedResolvedIssues.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
+   </span>
+   </div>
+   <div class="submittedResolvedHistoryIndicatorHelpDialog ui-helper-hidden" title="{t}Submitted/Resolved issues{/t}">
+      <p>
+         <strong>Description:</strong><br>
+         TODO
+         <br>
+      </p>
+   </div>
+</div>
+{else}
+   {t}No data.{/t}
+{/if}
+
+<script type="text/javascript">
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function submittedResolvedHistoryIndicatorJsDestroy() {
+      console.log('submittedResolvedHistoryIndicatorJsDestroy');
+      //jQuery(".submittedResolvedHistoryIndicatorHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function submittedResolvedHistoryIndicatorJsInit() {
+      console.log('submittedResolvedHistoryIndicatorJsInit');
+      jQuery('.submittedResolvedHistoryIndicator_spinner').hide(); // hide spinner
+
+      // ------------------------
+      // datepicker
+
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+      // Set the date
+      var startDatePicker = jQuery(".submittedResolvedHistoryIndicator_startdatepicker").datepicker("setDate" ,"{$submittedResolvedHistoryIndicator_startDate}");
+      var endDatePicker = jQuery(".submittedResolvedHistoryIndicator_enddatepicker").datepicker("setDate" ,"{$submittedResolvedHistoryIndicator_endDate}");
+
+      // Add range date
+      startDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+      });
+      endDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+      });
+
+      // ------------------------
+      // on reload with new date range
+      jQuery('.submittedResolvedHistoryIndicator_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+         jQuery('.submittedResolvedHistoryIndicator_spinner').show(); // spinner img
+
+         var form = jQuery('.submittedResolvedHistoryIndicator_dateRange_form');
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
+         // send attributesJsonStr because the ajax php need to know about 'showSidetasks'
+         // Note: SubmittedResolvedHistoryIndicatorAttr is declared in dashboard.html
+         var attr = jQuery('.SubmittedResolvedHistoryIndicatorAttr.attributesJsonStr');
+         form.find('input[name=attributesJsonStr]').val(attr.text());
+
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: type,
+            url: url,
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+               jQuery(".submittedResolvedHistoryIndicator_tabValues").html(jQuery.trim(data['submittedResolvedHistoryIndicator_htmlContent']));
+
+               if (data['submittedResolvedHistoryIndicator_jqplotData']) {
+                  var chart = jQuery('.submittedResolvedHistoryIndicator_jqPlot');
+                  var chartoptions = chart.data('plotoptions');
+                  chartoptions.axes.xaxis.ticks = jQuery.parseJSON(data['submittedResolvedHistoryIndicator_jqplotXaxes']);
+                  var jqplotData = jQuery.parseJSON(data['submittedResolvedHistoryIndicator_jqplotData']);
+                  chart.empty();
+                  chart.jqplot(jqplotData, chartoptions);
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+         jQuery('.submittedResolvedHistoryIndicator_spinner').hide(); // spinner img
+      });
+
+      jQuery(".submittedResolvedHistoryIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".submittedResolvedHistoryIndicatorHelpDialog").dialog("open");
+      });
+      jQuery(".submittedResolvedHistoryIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "auto",
+         hide: "fade"
+      });
+
+      // ------------------------
+
+      var chartoptions = jQuery('.submittedResolvedHistoryIndicator_jqPlot').data('plotoptions');
+
+      // overload .date_chart options (chart.js)
+      chartoptions.title = "{t}Submitted / Resolved Issues{/t}";
+      chartoptions.legend.labels = ['{t}Submitted{/t}', '{t}Resolved{/t}'];
+      chartoptions.legend.placement = 'inside';
+      chartoptions.legend.location = 'nw';
+      chartoptions.axesDefaults.tickOptions.fontSize = '8pt'
+
+      //chartoptions.axes.xaxis.ticks = ['toto', 'titi', 'tutu', 'tata'];
+      //var data = [[5, 32, 40, 48],[32, 41, 44, 14]];
+      chartoptions.axes.xaxis.ticks = {$submittedResolvedHistoryIndicator_jqplotXaxes};
+      var data = {$submittedResolvedHistoryIndicator_jqplotData};
+
+      jQuery('.submittedResolvedHistoryIndicator_jqPlot').jqplot(data, chartoptions);
+
+   };
+</script>
+</div>

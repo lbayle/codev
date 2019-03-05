@@ -40,7 +40,8 @@ jQuery(document).ready(function() {
             xaxis: {
                renderer: jQuery.jqplot.DateAxisRenderer,
                tickOptions: {
-                  formatString: "%b %Y"
+                  formatString: "%b %Y",
+                  angle:-30
                },
                tickInterval: "1 month"
             },
@@ -87,7 +88,8 @@ jQuery(document).ready(function() {
             xaxis: {
                renderer: jQuery.jqplot.DateAxisRenderer,
                tickOptions: {
-                  formatString: "%d %b %Y"
+                  formatString: "%d %b %Y",
+                  angle:-30
                },
                tickInterval: "1 week"
             },
@@ -147,7 +149,8 @@ jQuery(document).ready(function() {
             xaxis: {
                renderer: jQuery.jqplot.DateAxisRenderer,
                tickOptions: {
-                  formatString: "%b %Y"
+                  formatString: "%b %Y",
+                  angle:-30
                },
                tickInterval: "1 month"
             },
@@ -158,40 +161,51 @@ jQuery(document).ready(function() {
       });
    });
    
-   // Chart by category
-   jQuery('.category_chart').each(function() {
+
+   // Chart with labels on X
+   // var line1 = [14, 32, 41, 44];
+   // chartoptions.axes.xaxis.ticks = ['toto', 'titi', 'tutu', 'tata'];
+   // chartoptions.title = 'my graph title';
+   // jQuery('#chart1').jqplot([line1], chartoptions);
+   jQuery('.xlabels_chart').each(function() {
       jQuery(this).data("plotoptions", {
-         title: {
-            // Nothing to do
-         },
-         legend: {
-            show: true
-         },
+         title: 'xlabels_chart default title',
          seriesDefaults: {
-            pointLabels: {
-               show:true
-            }
-         },
-         highlighter: {
-            show: true,
-            showTooltip: false
+           showMarker:true,
+           pointLabels: { show:true }
          },
          axesDefaults: {
-            tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer ,
-            tickOptions: {
+             tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+             tickOptions: {
                angle: -30
-            }
+               //fontSize: '10pt'
+             }
          },
          axes: {
             xaxis: {
-               renderer: jQuery.jqplot.CategoryAxisRenderer
-            },
+               renderer: jQuery.jqplot.CategoryAxisRenderer,
+               showTicks: true,
+        		   showTickMarks: true
+         },
             yaxis: {
                min: 0
             }
+         },
+//         highlighter: {
+//            show: true,
+//            showTooltip: false
+//         },
+         legend: {
+            show: true,
+            placement: 'inside',
+            location: 'ne',
+            rowSpacing: '0px'
          }
       });
-   });
+
+
+
+
 
    // Chart by category
    jQuery('.area_chart').each(function() {
@@ -281,37 +295,7 @@ jQuery(document).ready(function() {
 
 
 
-   // Chart with labels on X
-   jQuery('.xlabels_chart').each(function() {
-      jQuery(this).data("plotoptions", {
-         series:{
-            renderer:jQuery.jqplot.BarRenderer
-         },
-         seriesDefaults: {
-            pointLabels: { show:true }
-         },
-         axesDefaults: {
-             tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer ,
-             tickOptions: {
-               angle: -30
-               //fontSize: '10pt'
-             }
-         },
-         axes: {
-            xaxis: {
-               renderer: jQuery.jqplot.CategoryAxisRenderer
-            },
-            yaxis: {
-               min: 0
-            }
-         },
-         legend: {
-            show: true,
-            placement: 'inside',
-            location: 'ne',
-            rowSpacing: '0px'
-         }
-      });
+
    });
 
 

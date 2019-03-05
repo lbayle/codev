@@ -1,0 +1,25 @@
+<div class="submittedResolvedHistoryIndicator_ajax"  style="width:100%;">
+   <table class="submittedResolvedHistoryIndicatorValuesTable datatable_minimal">
+      <thead>
+         <tr>
+            <th>{t}Start date{/t}</th>
+            <th>{t}Nb submitted{/t}</th>
+            <th>{t}Nb resolved{/t}</th>
+            <th>{t}Submitted issues{/t}</th>
+            <th>{t}Resolved issies{/t}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$submittedResolvedHistoryIndicator_tableData key=name item=i}
+         <tr>
+            <td nowrap="nowrap">{$name}</td>
+            <td>{$i.nbSubmitted}</td>
+            <td>{$i.nbResolved}</td>
+            <td>{$i.submittedBugidList}</td>
+            <td>{$i.resolvedBugidList}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+
+   </table>
+</div>
