@@ -9,7 +9,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-02-25 09:38:47+0000\n"
+"PO-Revision-Date: 2019-03-07 15:06:57+0000\n"
 "Language: br\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1573,19 +1573,19 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "The ADC is the default UDC for team members"
-msgstr ""
+msgstr "Ar c'houst pemdeziek keitat (KPK) eo an talvoud dre ziouer pa ne vez ket dielfennet ar c'houst pemdeziek hiniennel (KPH)"
 
 #. tpl/edit_team.html
 msgid "Team Currency"
-msgstr ""
+msgstr "Sturiad ar skipailh"
 
 #. tpl/edit_team.html
 msgid "Team Average Daily Cost"
-msgstr ""
+msgstr "Koust Pemdeziek keitat ar skipailh"
 
 #. tpl/edit_team.html
 msgid "Default currency for the team."
-msgstr ""
+msgstr "Sturiad ar skipailh dre ziouer"
 
 #. tpl/edit_team.html
 msgid "All indicators will use this currency and all values defined in other currencies will be converted."
@@ -2453,7 +2453,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Developers Workload"
-msgstr ""
+msgstr "Barregezh produiñ"
 
 #. tpl/statistics.html
 msgid "nb production days"
