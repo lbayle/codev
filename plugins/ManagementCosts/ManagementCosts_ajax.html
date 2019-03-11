@@ -1,0 +1,34 @@
+<div class="managementCosts_ajax"  style="width:100%;">
+
+   <span class="managementCosts_generalErrorMsg error_font">{$managementCosts_generalErrorMsg}</span>
+
+{if isset($managementCosts_tableOverviewData)}
+   <table class="managementCosts_tableOverview" style="table-layout:fixed;">
+    <thead>
+         <tr>
+            <th></th>
+            <th>{t}Days{/t}</th>
+            <th>{t}Costs{/t}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$managementCosts_tableOverviewData key=name item=i}
+         <tr>
+            <td nowrap="nowrap" style="width: 150px;">{$i.type}</td>
+            <td nowrap="nowrap" style="width: 80px; text-align: right;">{$i.days}</td>
+            <td nowrap="nowrap" style="width: 150px; text-align: right;">{$i.costs} {$managementCosts_teamCurrency}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+      <tfoot>
+         <tr>
+            <td>{t}TOTAL{/t}</td>
+            <td nowrap="nowrap" style="color: #{$managementCosts_tableOverviewFooter.daysFontColor}; text-align: right;">{$managementCosts_tableOverviewFooter.days}</td>
+            <td nowrap="nowrap" style="color: #{$managementCosts_tableOverviewFooter.costsFontColor}; text-align: right;">{$managementCosts_tableOverviewFooter.costs} {$managementCosts_teamCurrency}</td>
+         </tr>
+      </tfoot>
+   </table>
+{else}
+   {t}No data.{/t}
+{/if}
+</div>

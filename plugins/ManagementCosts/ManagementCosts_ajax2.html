@@ -1,0 +1,32 @@
+<div class="managementCosts_ajax2"  style="width:100%;">
+
+{if isset($managementCosts_tableCostsData)}
+   <table class="managementCosts_tableCosts  ">
+      <thead>
+         <tr>
+            <th>{t}User{/t}</th>
+            <th>{t}Days{/t}</th>
+            <th>{t}Costs{/t}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$managementCosts_tableCostsData key=name item=i}
+         <tr>
+            <td nowrap="nowrap"style="width: 150px;">{$i.userName}</td>
+            <td nowrap="nowrap" style="width: 80px; text-align: right;">{$i.days}</td>
+            <td nowrap="nowrap" style="width: 150px; text-align: right;">{$i.costs} {$managementCosts_teamCurrency}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+      <tfoot>
+         <tr>
+            <td>{t}TOTAL{/t}</td>
+            <td nowrap="nowrap" style="text-align: right;">{$managementCosts_tableCostsFooter.days}</td>
+            <td nowrap="nowrap" style="text-align: right;">{$managementCosts_tableCostsFooter.costs} {$managementCosts_teamCurrency}</td>
+         </tr>
+      </tfoot>
+   </table>
+{else}
+   {t}No data.{/t}
+{/if}
+</div>
