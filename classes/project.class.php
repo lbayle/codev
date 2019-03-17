@@ -1534,7 +1534,7 @@ class Project extends Model {
 
         $result = $sql->sql_query($query, $q_params);
 
-        $count = $sql->getNumRows($result);
+        $count = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
         if($count != 0) {
             return true;
         } else {
