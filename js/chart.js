@@ -40,8 +40,7 @@ jQuery(document).ready(function() {
             xaxis: {
                renderer: jQuery.jqplot.DateAxisRenderer,
                tickOptions: {
-                  formatString: "%b %Y",
-                  angle:-30
+                  formatString: "%b %Y"
                },
                tickInterval: "1 month"
             },
@@ -88,8 +87,7 @@ jQuery(document).ready(function() {
             xaxis: {
                renderer: jQuery.jqplot.DateAxisRenderer,
                tickOptions: {
-                  formatString: "%d %b %Y",
-                  angle:-30
+                  formatString: "%d %b %Y"
                },
                tickInterval: "1 week"
             },
@@ -149,8 +147,7 @@ jQuery(document).ready(function() {
             xaxis: {
                renderer: jQuery.jqplot.DateAxisRenderer,
                tickOptions: {
-                  formatString: "%b %Y",
-                  angle:-30
+                  formatString: "%b %Y"
                },
                tickInterval: "1 month"
             },
@@ -161,7 +158,6 @@ jQuery(document).ready(function() {
       });
    });
    
-
    // Chart with labels on X
    // var line1 = [14, 32, 41, 44];
    // chartoptions.axes.xaxis.ticks = ['toto', 'titi', 'tutu', 'tata'];
@@ -170,42 +166,41 @@ jQuery(document).ready(function() {
    jQuery('.xlabels_chart').each(function() {
       jQuery(this).data("plotoptions", {
          title: 'xlabels_chart default title',
+         legend: {
+            show: true,
+            placement: 'inside',
+            location: 'ne',
+            rowSpacing: '0px'
+         },
          seriesDefaults: {
-           showMarker:true,
-           pointLabels: { show:true }
-         },
-         axesDefaults: {
-             tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
-             tickOptions: {
-               angle: -30
-               //fontSize: '10pt'
-             }
-         },
-         axes: {
-            xaxis: {
-               renderer: jQuery.jqplot.CategoryAxisRenderer,
-               showTicks: true,
-        		   showTickMarks: true
-         },
-            yaxis: {
-               min: 0
+            showMarker:true,
+            pointLabels: {
+               show:true
             }
          },
 //         highlighter: {
 //            show: true,
 //            showTooltip: false
 //         },
-         legend: {
-            show: true,
-            placement: 'inside',
-            location: 'ne',
-            rowSpacing: '0px'
+         axesDefaults: {
+            tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer ,
+            tickOptions: {
+               angle: -30
+               //fontSize: '10pt'
+            }
+         },
+         axes: {
+            xaxis: {
+               renderer: jQuery.jqplot.CategoryAxisRenderer,
+               showTicks: true,
+        		   showTickMarks: true
+            },
+            yaxis: {
+               min: 0
+            }
          }
       });
-
-
-
-
+   });
 
    // Chart by category
    jQuery('.area_chart').each(function() {
@@ -292,13 +287,6 @@ jQuery(document).ready(function() {
          );
       }
    });
-
-
-
-
-   });
-
-
 
 });
 
