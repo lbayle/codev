@@ -9,7 +9,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-03-07 15:06:57+0000\n"
+"PO-Revision-Date: 2019-03-18 07:44:36+0000\n"
 "Language: br\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -771,7 +771,7 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Reopened tasks are not included"
-msgstr ""
+msgstr "N'eo kontet an trevelloù addigoret"
 
 #. tpl/productivity_report.html
 msgid "No Drift on External tasks."
@@ -1569,7 +1569,7 @@ msgstr "Krouiñ ur raktres"
 
 #. tpl/edit_team.html
 msgid "Average Daily Cost"
-msgstr ""
+msgstr "Koust pemdeziek keitat"
 
 #. tpl/edit_team.html
 msgid "The ADC is the default UDC for team members"
@@ -2078,7 +2078,6 @@ msgid "set/remove task specific deadline"
 msgstr ""
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Delivery date"
 msgstr "Deiziad degas"
 
@@ -2655,11 +2654,11 @@ msgstr "Gallout a rit sikour d'ober troidigezhioù : "
 
 #. tpl/doc.html
 msgid "statistics"
-msgstr ""
+msgstr "stadegoù"
 
 #. tpl/doc.html
 msgid "Contact the author: "
-msgstr ""
+msgstr "Mont e darempred gant an aozer :/"
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
@@ -2818,19 +2817,16 @@ msgid "Team meeting"
 msgstr "Emvod skipailh"
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "Network is down"
-msgstr "(generek)Dihegerzded rouedad"
+msgstr "Dihegerzded rouedad"
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "Compilation scripts"
-msgstr "(generek) Kempunañ Skriptoù"
+msgstr " Kempunañ skriptoù"
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "Update team WIKI"
-msgstr "(generek)Hizivaat WIKI"
+msgstr "Hizivaat WIKI"
 
 #. tpl/create_team.html
 msgid "Other activity charged on the project"
@@ -3799,19 +3795,17 @@ msgstr ""
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "Interval"
-msgstr ""
+msgstr "Esaouenn"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
-#, fuzzy
 msgid "Monthly"
-msgstr "Obererezh miziek"
+msgstr "Bep miz"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
-#, fuzzy
 msgid "Weekly"
-msgstr "Sizhun"
+msgstr "Bep sizhun"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_cfg.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
@@ -3822,9 +3816,8 @@ msgstr ""
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "File"
-msgstr "Anv ar restr"
+msgstr "Restr"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Set All"
@@ -3917,7 +3910,7 @@ msgstr "Ar restr a zle bezañ 7 bann enni, al linenn gentañ zo anvioù ar maezi
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef ; WBS tree"
-msgstr ""
+msgstr "Taolenn : MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef ; WBS tree"
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 msgid "No late task."
@@ -4043,7 +4036,7 @@ msgstr "Budjed e deizioù"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "( reestimated - budget ) / budget"
-msgstr ""
+msgstr "(\"adpriziet - budjed) / budjed"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #, fuzzy
@@ -4060,11 +4053,11 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Refresh"
-msgstr ""
+msgstr "Freskaat"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Send new message"
-msgstr ""
+msgstr "Kas ur gemennadenn nevez"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Expire"
@@ -4072,15 +4065,15 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Exp. date"
-msgstr ""
+msgstr "Deiziad termen"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Expiration Date (optional)"
-msgstr ""
+msgstr "Deiziad termen (diret)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Everybody (all teams)"
-msgstr ""
+msgstr "An holl dud (an holl skipailhoù)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall options"
@@ -4088,15 +4081,15 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Recipient"
-msgstr ""
+msgstr "Degemerer"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Current team"
-msgstr ""
+msgstr "Skipailh bremañ"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "All my teams"
-msgstr ""
+msgstr "An holl skipailhoù"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Assigned to me"
@@ -4104,7 +4097,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Posted by me"
-msgstr ""
+msgstr "Embannet ganin"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "All"
@@ -4141,7 +4134,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Mark as read. The message can then be hidden"
-msgstr ""
+msgstr "Merket evel lennet. Kuzhet e c'hall bezañ ar gemennadenn"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Hide message. Depends on user setting \"Display hidden messages\""
@@ -4165,7 +4158,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Acknowledged by"
-msgstr ""
+msgstr "Anavezet gant"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Submission date"
@@ -4173,7 +4166,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Expiration date"
-msgstr ""
+msgstr "Deiziad termen"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"
@@ -4477,13 +4470,13 @@ msgstr ""
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:382
 msgid "Other"
-msgstr ""
+msgstr "All"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:383
 msgid "External"
-msgstr ""
+msgstr "Diavaez"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4604,14 +4597,12 @@ msgid "EffortEstim reliability history"
 msgstr "Fiziusted e priziañ ar garg"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Select All"
 msgstr "Diuzañ pep tra"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Dates"
-msgstr "Deiziad"
+msgstr "Deiziadoù"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #, fuzzy
@@ -4619,18 +4610,16 @@ msgid "Start"
 msgstr "Deiziad deroù"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "End"
-msgstr "ha"
+msgstr "Fin"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Origin"
-msgstr ""
+msgstr "Orin"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Destination"
-msgstr "Deskrivadur"
+msgstr "Lec'h-kas :"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #, fuzzy
