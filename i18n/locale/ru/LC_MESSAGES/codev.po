@@ -1,6 +1,7 @@
 # Translation of CodevTT to Russian (русский)
 # Exported from translatewiki.net
 #
+# Author: Diralik
 # Author: Gas22original
 # Author: Irus
 # Author: Kareyac
@@ -19,7 +20,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-01-30 22:38:24+0000\n"
+"PO-Revision-Date: 2019-03-25 17:56:45+0000\n"
 "Language: ru\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1599,7 +1600,7 @@ msgstr "Валюта по умолчанию для команды."
 
 #. tpl/edit_team.html
 msgid "All indicators will use this currency and all values defined in other currencies will be converted."
-msgstr "Все индикаторы будут использовать данную валюту, и все значения, определенные в других валютах, будут конвертированы."
+msgstr "Все индикаторы будут использовать данную валюту, и все значения, определённые в других валютах, будут конвертированы."
 
 #. tpl/edit_team.html
 #. tpl/command_edit.html
