@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 ""
-"PO-Revision-Date: 2019-01-30 22:38:20+0000\n"
+"PO-Revision-Date: 2019-04-01 18:23:21+0000\n"
 "X-POT-Import-Date: 2018-09-10 05:50:37+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1915,7 +1915,7 @@ msgstr ""
 
 #. tpl/export_csv_weekly.html
 msgid "Weekly report"
-msgstr ""
+msgstr "Ugentlig rapport"
 
 #. tpl/export_csv_weekly.html
 #. tpl/time_tracking.html
@@ -3849,12 +3849,12 @@ msgstr ""
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Import template"
-msgstr ""
+msgstr "Importer skabelon"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "File Format"
-msgstr ""
+msgstr "Filformat"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4495,11 +4495,11 @@ msgstr ""
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
-msgstr ""
+msgstr "Teoretisk"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Real"
-msgstr ""
+msgstr "Reel"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "% Progress"
