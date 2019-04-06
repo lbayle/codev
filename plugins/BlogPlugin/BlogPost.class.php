@@ -417,6 +417,13 @@ class BlogPost implements Comparable {
          if (!$isAck) {
             $item['buttons'] .="<img class='blogPlugin_btAckPost pointer' data-bpostId='$this->id' align='absmiddle' src='images/b_markAsRead.png' title='".T_('Mark as read')."'>";
          }
+         $session_user = UserCache::getInstance()->getUser($sessionUserId);
+         $isAdministrator = $session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId));
+         $isManager = $session_user->isTeamManager($this->dest_team_id);
+         if ($isAdministrator || $isManager) {
+            // Delete
+            $htmlDeleteButton = "<img class='blogPlugin_btDeletePost pointer' data-bpostId='$this->id' align='absmiddle' src='images/b_drop.png' title='".T_('Delete')."'>";
+         }
       }
       // hide
       if ((!$isHidden) && (($sessionUserId == $this->src_user_id) || $isAck)) {
