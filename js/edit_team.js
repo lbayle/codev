@@ -183,45 +183,46 @@ jQuery(document).ready(function() {
    jQuery("#tableTeamAdmin").on("click", ".bt_addTeamAdmin", function(e) {
       // TODO find adminId
       var adminId = jQuery("#cb_TeamAdminCandidates").val();
+      if (0 != adminId) {
+         jQuery.ajax({
+            url: editTeamSmartyData.ajaxPage,
 
-      jQuery.ajax({
-         url: editTeamSmartyData.ajaxPage,
+            data: {
+               action: 'addTeamAdmin',
+               displayed_teamid:editTeamSmartyData.displayedTeamId,
+               adminId: adminId,
+            },
+            type: 'post',
+            success: function(data) {
+               data = JSON.parse(data);
 
-         data: {
-            action: 'addTeamAdmin',
-            displayed_teamid:editTeamSmartyData.displayedTeamId,
-            adminId: adminId,
-         },
-         type: 'post',
-         success: function(data) {
-            data = JSON.parse(data);
+               if('SUCCESS' !== data.statusMsg) {
+                  console.error(data.statusMsg);
+                  jQuery(".addTeamAdminErrorMsg").html(data.statusMsg);
+               } else {
+                  // add teamAdminRow with delete button
+                  var bt_deleteAdmin = jQuery('<a align="absmiddle" >').addClass("bt_deleteTeamAdmin ui-icon pointer");
 
-            if('SUCCESS' !== data.statusMsg) {
-               console.error(data.statusMsg);
-               jQuery(".addTeamAdminErrorMsg").html(data.statusMsg);
-            } else {
-               // add teamAdminRow with delete button
-               var bt_deleteAdmin = jQuery('<a align="absmiddle" >').addClass("bt_deleteTeamAdmin ui-icon pointer");
+                  var trObject = jQuery('<tr>').append(
+                      jQuery('<td style="width:38px;">').addClass("ui-state-error-text").append(bt_deleteAdmin),
+                      jQuery('<td>').text(data.adminName),
+                  ).attr('data-adminId', data.adminId).addClass("teamAdminRow");
+                  trObject.appendTo('#tableTeamAdmin tbody');
+                  $("#cb_TeamAdminCandidates option[value='"+data.adminId+"']").remove();
+                  $("#cb_TeamAdminCandidates").select2("val", "");
+                  jQuery(".addTeamAdminErrorMsg").html('');
 
-               var trObject = jQuery('<tr>').append(
-                   jQuery('<td style="width:38px;">').addClass("ui-state-error-text").append(bt_deleteAdmin),
-                   jQuery('<td>').text(data.adminName),
-               ).attr('data-adminId', data.adminId).addClass("teamAdminRow");
-               trObject.appendTo('#tableTeamAdmin tbody');
-               $("#cb_TeamAdminCandidates option[value='"+data.adminId+"']").remove();
-               $("#cb_TeamAdminCandidates").select2("val", "");
-               jQuery(".addTeamAdminErrorMsg").html('');
+                  // remove line from tableTeamAdmin
+                  jQuery(".missingTeamAdminRow").remove(); // if exists ?
 
-               // remove line from tableTeamAdmin
-               jQuery(".missingTeamAdminRow").remove(); // if exists ?
-
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               console.error('ERROR addTeamAdmin errorThrown', errorThrown);
+               jQuery(".addTeamAdminErrorMsg").html("ERROR: Please contact your CodevTT administrator");
             }
-         },
-         error: function(jqXHR, textStatus, errorThrown) {
-            console.error('ERROR addTeamAdmin errorThrown', errorThrown);
-            jQuery(".addTeamAdminErrorMsg").html("ERROR: Please contact your CodevTT administrator");
-         }
-      });
+         });
+      }
    });
 
    jQuery("#tableTeamAdmin").on("click", ".bt_deleteTeamAdmin", function(e) {

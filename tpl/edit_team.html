@@ -75,6 +75,7 @@
                   </td>
                   <td>
                      <select  style="width:300px" id="cb_TeamAdminCandidates" class="select2">
+                        <option value="0"></option>
                         {foreach from=$adminCandidatesList key=id item=i}
                         <option value="{$i.id}">{$i.name}</option>
                         {/foreach}
