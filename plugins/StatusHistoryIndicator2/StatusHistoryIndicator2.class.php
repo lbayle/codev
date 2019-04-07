@@ -26,6 +26,7 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
    const OPTION_INTERVAL = 'interval'; // defaultValue, oneWeek, twoWeeks, oneMonth
    const OPTION_FILTER_ISSUE_TYPE = 'issueType';    // noFilter, bugsOnly, tasksOnly
    const OPTION_FILTER_ISSUE_EXT_ID = 'issueExtId'; // noFilter, withExtId, withoutExtId
+   const OPTION_DISPLAY_RESOLVED = 'displayResolved'; // withResolved, withoutResolved
 
    private static $logger;
    private static $domains;
@@ -37,6 +38,7 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
 
    // config options from Dashboard
    private $interval;
+   private $isDisplayResolved;
    
    // internal
    private $statusData;
@@ -129,6 +131,7 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
       } else {
          $this->interval = 30;
       }
+      $this->isDisplayResolved = fasle;
       //self::$logger->debug('dataProvider '.PluginDataProviderInterface::PARAM_INTERVAL.'= '.$this->interval);
    }
 
@@ -156,6 +159,16 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
                   break;
                default:
                   self::$logger->error('option '.self::OPTION_INTERVAL.'= '.$pluginSettings[self::OPTION_INTERVAL]." (unknown value)");
+            }
+         }
+         if (array_key_exists(self::OPTION_DISPLAY_RESOLVED, $pluginSettings)) {
+
+            switch ($pluginSettings[self::OPTION_DISPLAY_RESOLVED]) {
+               case 'withResolved':
+                  $this->isDisplayResolved = true;
+                  break;
+               default:
+                  $this->isDisplayResolved = false;
             }
          }
          if (array_key_exists(self::OPTION_FILTER_ISSUE_TYPE, $pluginSettings)) {
@@ -281,7 +294,9 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
             if ( (-1) != $issueStatus) {
 
                if ($issueStatus >= $issue->getBugResolvedStatusThreshold()) {
-                  $historyStatusResolved["$midnight_timestamp"] += 1;
+                  if ($this->isDisplayResolved) {
+                     $historyStatusResolved["$midnight_timestamp"] += 1;
+                  }
                } else if ($issueStatus == Constants::$status_feedback) {
                   $historyStatusFeedback["$midnight_timestamp"] += 1;
                } else if ($issueStatus == Constants::$status_new) {
