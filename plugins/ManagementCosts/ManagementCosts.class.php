@@ -181,32 +181,34 @@ class ManagementCosts extends IndicatorPluginAbstract {
       // foreach management sidetask, get elapsed & costs for each user (timetracks in period only)
       $sidetasksPerCategory = $contract->getSidetasksPerCategoryType(true);
       $iSel = $sidetasksPerCategory[Project::cat_mngt_regular];
-      $iselTimetracks = $iSel->getTimetracks(NULL, $this->startTimestamp, $this->endTimestamp);
 
       $userData = array();
-      foreach ($iselTimetracks as $tt) {
-         // TODO we want per user and per task
-         $ttDays = $tt->getDuration();
-         $ttCost = $tt->getCost($teamCurrency, $this->teamid);
-         $ttUserId = $tt->getUserId();
+      if (NULL != $iSel) {
+         $iselTimetracks = $iSel->getTimetracks(NULL, $this->startTimestamp, $this->endTimestamp);
 
-         $totalUserDays += $ttDays;
-         $totalUserCost += $ttCost;
+         foreach ($iselTimetracks as $tt) {
+            // TODO we want per user and per task
+            $ttDays = $tt->getDuration();
+            $ttCost = $tt->getCost($teamCurrency, $this->teamid);
+            $ttUserId = $tt->getUserId();
 
-         if (!array_key_exists($ttUserId, $userData)) {
-               $user = UserCache::getInstance()->getUser($ttUserId);
-               $userData[$ttUserId] = array(
-                  'userName' => $user->getRealname(),
-                  'days'     => $ttDays,
-                  'costs'    => $ttCost,
-               );
-         } else {
-            $userData[$ttUserId]['days'] += $ttDays;
-            $userData[$ttUserId]['costs'] += $ttCost;
+            $totalUserDays += $ttDays;
+            $totalUserCost += $ttCost;
+
+            if (!array_key_exists($ttUserId, $userData)) {
+                  $user = UserCache::getInstance()->getUser($ttUserId);
+                  $userData[$ttUserId] = array(
+                     'userName' => $user->getRealname(),
+                     'days'     => $ttDays,
+                     'costs'    => $ttCost,
+                  );
+            } else {
+               $userData[$ttUserId]['days'] += $ttDays;
+               $userData[$ttUserId]['costs'] += $ttCost;
+            }
+
          }
-
       }
-
 
 
       // ----------------------
