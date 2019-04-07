@@ -22,12 +22,13 @@ require('../path.inc.php');
 
 class StatisticsController extends Controller {
 
+   private static $logger;
    /**
     * Initialize complex static variables
     * @static
     */
    public static function staticInit() {
-      // Nothing special
+      self::$logger = Logger::getLogger(__CLASS__);
    }
 
    protected function display() {
@@ -57,12 +58,12 @@ class StatisticsController extends Controller {
                $month = ($year == $min_year) ? date("m", $team->getDate()) : 1;
                $day = ($year == $min_year) ? date("d", $team->getDate()) : 1;
 
+
                if(count($team->getProjects(FALSE)) > 0) {
-                  $timeTrackingTable = $this->createTimeTrackingList($day, $month, $year, $this->teamid);
-
-                  $this->generateSubmittedResolvedGraph($timeTrackingTable, FALSE);
-
-                  $this->generateSubmittedResolvedGraph($timeTrackingTable, TRUE); // ExtRefOnly
+                  #$timeTrackingTable = $this->createTimeTrackingList($day, $month, $year, $this->teamid);
+                  $firstJanTimestamp = mktime(0, 0, 0, 1, 1, $year); // 1st Jan
+                  $startT = max($firstJanTimestamp, $team->getDate());
+                  $timeTrackingTable = $this->createTimestampRangeList($startT, time(), $this->teamid);
 
                   $this->generateTimeDriftGraph($timeTrackingTable);
 
@@ -121,6 +122,28 @@ class StatisticsController extends Controller {
       return $timeTrackingTable;
    }
 
+      private function createTimestampRangeList($startTimestamp, $endTimestamp, $teamid) {
+      $timeTrackingTable = array();
+      $startT = $startTimestamp;
+
+      while ($startT < $endTimestamp) {
+         $endT = strtotime("last day of this month", $startT);
+         if ($endT > $endTimestamp) {
+            $endT = $endTimestamp;
+         }
+         $s = mktime(0, 0, 0, date('m', $startT), date('d', $startT), date('Y', $startT));
+         $e = mktime(23, 59, 59, date('m', $endT), date('d',$endT), date('Y', $endT));
+#self::$logger->error("");
+         $timeTracking = new TimeTracking($s, $e, $teamid);
+         $timeTrackingTable[$s] = $timeTracking;
+
+         $startT = strtotime("first day of next month", $startT);
+      }
+      return $timeTrackingTable;
+   }
+
+
+
    private function generateStatusHistoryGraph($teamid) {
       $team = TeamCache::getInstance()->getTeam($teamid);
 
@@ -145,46 +168,6 @@ class StatisticsController extends Controller {
          $this->smartyHelper->assign($smartyKey, $smartyVariable);
       }
 
-   }
-
-
-   /**
-    *
-    * @param TimeTracking[] $timeTrackingTable
-    * @param type $ExtRefOnly if TRUE, exclude issues having no ExtId.
-    */
-   private function generateSubmittedResolvedGraph(array $timeTrackingTable, $ExtRefOnly=FALSE) {
-      $formattedSubmittedList = array();
-      $formattedResolvedList = array();
-      foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-         // REM: the 'normal' drifts DO include support
-         $formattedSubmittedList[$startTimestamp] = $timeTracking->getSubmitted($ExtRefOnly); // returns bug_id !
-         $formattedResolvedList[$startTimestamp] = count($timeTracking->getResolvedIssues($ExtRefOnly)); // returns Issue instances !
-      }
-
-      $valuesOne = array();
-      $valuesTwo = array();
-      $legend = array();
-      foreach ($timeTrackingTable as $date => $timeTracking) {
-         $valuesOne[Tools::formatDate("%Y-%m-01", $date)] = $formattedSubmittedList[$date];
-         $valuesTwo[Tools::formatDate("%Y-%m-01", $date)] = $formattedResolvedList[$date];
-         $legend[Tools::formatDate("%B %Y", $date)] = array(
-            "nbSubmitted" => $formattedSubmittedList[$date],
-            "nbResolvedIssues" => $formattedResolvedList[$date]
-         );
-      }
-      $values = array($valuesOne,$valuesTwo);
-
-      $smartyPrefix = 'submittedResolved';
-      if ($ExtRefOnly) { $smartyPrefix .= 'ExtRefOnly'; }
-
-      $this->smartyHelper->assign($smartyPrefix.'_jqplotData', Tools::array2plot($values));
-      $timestamp = Tools::getStartEndKeys($valuesOne);
-      $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
-      $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
-      $this->smartyHelper->assign($smartyPrefix.'_plotMinDate', $start);
-      $this->smartyHelper->assign($smartyPrefix.'_plotMaxDate', $end);
-      $this->smartyHelper->assign($smartyPrefix.'_Legend', $legend);
    }
 
    /**
