@@ -56,7 +56,7 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
       self::$domains = array (
          self::DOMAIN_TEAM,
          self::DOMAIN_PROJECT,
-         self::DOMAIN_USER,
+//         self::DOMAIN_USER,
          self::DOMAIN_COMMAND,
          self::DOMAIN_COMMAND_SET,
          self::DOMAIN_SERVICE_CONTRACT,
@@ -192,7 +192,7 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
     */
    public function execute() {
 
-      
+
       // === get timetracks for each Issue,
       $team = TeamCache::getInstance()->getTeam($this->teamid);
       $useridList = array_keys($team->getActiveMembers($this->startTimestamp, $this->endTimestamp));
@@ -238,9 +238,9 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
 
          $infoPerCat[$catName] = $catInfo;
       }
-      
+
       $this->execData = $infoPerCat;
-      
+
       return $this->execData;
    }
 
@@ -281,9 +281,9 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
 
       /**
     * returns $durationPerCategory[CategoryName]['duration'] = duration
-    * 
+    *
     * @param array $projectidList list of project_id
-    * @return array[] $durationPerCategory[CategoryName] = array (duration, bugidList), 
+    * @return array[] $durationPerCategory[CategoryName] = array (duration, bugidList),
     */
    private function getRawInfoPerCategory($timeTracks, $projectidList) {
       $durPerCat = array();
@@ -296,19 +296,19 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
             $project_id = $issue->getProjectId();
             $catName = $issue->getCategoryName();
             $duration = $timeTrack->getDuration();
-            
+
             if (in_array($project_id, $projectidList)) {
                if(self::$logger->isDebugEnabled()) {
                   self::$logger->debug("project[$project_id][" . $catName . "]( bug ".$bugid.") = ".$duration);
                }
-               
+
                // save duration per category
                if (array_key_exists($catName, $durPerCat)) {
                   $durPerCat[$catName] += $duration;
                } else {
                   $durPerCat[$catName] = $duration;
                }
-               
+
                // save bugid list per category
                if ($this->isDisplayTasks) {
                   if (!array_key_exists($catName, $bugsPerCat)) {
@@ -328,11 +328,11 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
       $ret =  array('durationPerCat' => $durPerCat);
       if ($this->isDisplayTasks) {
          $ret['bugidsPerCat'] = $bugsPerCat;
-      }      
+      }
       return $ret;
    }
-   
-   
+
+
    /**
     *
     * @param boolean $isAjaxCall
@@ -340,7 +340,7 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
     */
    public function getSmartyVariables($isAjaxCall = false) {
 
-      
+
       $team = TeamCache::getInstance()->getTeam($this->teamid);
       $teamProjects = $team->getProjects(false, true, true);
       $teamProjects['allSidetasksProjects'] = '-- '.T_('All Sidetasks Projects').' --';
@@ -348,7 +348,7 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
       $teamProjects['allProjects'] = '-- '.T_('All Projects').' --';
       $projects = SmartyTools::getSmartyArray($teamProjects,$this->selectedProject);
       //self::$logger->error(var_export($projects, true));
-      
+
       $data = array();
       foreach ($this->execData as $catInfo) {
          if (0 != $catInfo['duration']) {
@@ -356,8 +356,8 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
          }
       }
       $jqplotData = empty($data) ? NULL : Tools::array2plot($data);
-      
-      
+
+
       $smartyVariables = array(
          'loadPerProjCategoryIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
          'loadPerProjCategoryIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
@@ -365,7 +365,7 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
 
          'loadPerProjCategoryIndicator_tableData' => $this->execData,
          'loadPerProjCategoryIndicator_jqplotData' => $jqplotData,
-              
+
          // add pluginSettings (if needed by smarty)
          'loadPerProjCategoryIndicator_'.self::OPTION_DISPLAY_TASKS => $this->isDisplayTasks,
       );

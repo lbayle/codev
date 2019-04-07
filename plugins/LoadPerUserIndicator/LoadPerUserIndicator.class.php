@@ -31,8 +31,8 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
    // if false, display only the elapsed time on the IssueSel
    // if true, display elapsed user's complete activity (other, external, inactivity)
    const OPTION_SHOW_ALL_ACTIVITY = 'showAllActivity';
-   
-   
+
+
    /**
     * @var Logger The logger
     */
@@ -49,7 +49,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
    private $showSidetasks;
    private $dateRange;  // defaultRange | currentWeek | currentMonth
    private $showAllActivity; // boolean
-   
+
    // internal
    protected $execData;
 
@@ -63,7 +63,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
       self::$domains = array (
          self::DOMAIN_TASK,
          self::DOMAIN_TEAM,
-         self::DOMAIN_USER,
+//         self::DOMAIN_USER,
          self::DOMAIN_PROJECT,
          self::DOMAIN_COMMAND,
          self::DOMAIN_COMMAND_SET,
@@ -113,14 +113,14 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
       );
    }
 
-   
+
    /**
     *
     * @param \PluginDataProviderInterface $pluginDataProv
     * @throws Exception
     */
    public function initialize(PluginDataProviderInterface $pluginDataProv) {
-      
+
       if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION)) {
          $this->inputIssueSel = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
       } else {
@@ -156,7 +156,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
 
    /**
     * settings are saved by the Dashboard
-    * 
+    *
     * @param array $pluginSettings
     */
    public function setPluginSettings($pluginSettings) {
@@ -170,7 +170,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          }
          if (array_key_exists(self::OPTION_DATE_RANGE, $pluginSettings)) {
             $this->dateRange = $pluginSettings[self::OPTION_DATE_RANGE];
-            
+
             // update startTimestamp & endTimestamp
             switch ($this->dateRange) {
                case 'currentWeek':
@@ -203,7 +203,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
       $team = TeamCache::getInstance()->getTeam($this->teamid);
 
       $members = $team->getActiveMembers($this->startTimestamp, $this->endTimestamp);
-      
+
       if (count($members) > 0) {
         $formatedUseridString = implode( ', ', array_keys($members));
 
@@ -374,7 +374,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          'totalActivity' => $totalActivity,
          'workdays' => Holidays::getInstance()->getWorkdays($this->startTimestamp, $this->endTimestamp),
       );
-      
+
       // ------------------------
       // pieChart data
       $jqplotData = array(
@@ -402,15 +402,15 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          'loadPerUserIndicator_showSidetasks' =>  $this->showSidetasks,
          'loadPerUserIndicator_showAllActivity' =>  $this->showAllActivity
       );
-      
+
       if (false == $isAjaxCall) {
          $smartyVariables['loadPerUserIndicator_ajaxFile'] = self::getSmartySubFilename();
          $smartyVariables['loadPerUserIndicator_ajaxPhpURL'] = self::getAjaxPhpURL();
       }
-      
+
       return $smartyVariables;
    }
-   
+
    public function getSmartyVariablesForAjax() {
       return $this->getSmartyVariables(true);
    }

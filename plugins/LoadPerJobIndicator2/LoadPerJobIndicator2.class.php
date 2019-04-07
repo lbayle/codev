@@ -39,6 +39,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
    private $endTimestamp;
    private $teamid;
    private $sessionUserid;
+   private $managedUserId; // DOMAIN_USER only
 
    // config options from Dashboard
    private $pluginSettings;
@@ -85,7 +86,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
       return 'CodevTT (GPL v3)';
    }
    public static function getVersion() {
-      return '1.0.0';
+      return '1.1.0';
    }
    public static function getDomains() {
       return self::$domains;
@@ -123,7 +124,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
     */
    public function initialize(PluginDataProviderInterface $pluginDataProv) {
 
-      //self::$logger->error("Params = ".var_export($pluginDataProv, true));      
+      //self::$logger->error("Params = ".var_export($pluginDataProv, true));
 
       if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION)) {
          $this->inputIssueSel = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
@@ -157,6 +158,21 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
          $this->isManager = NULL;
       }
 
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN)) {
+         $this->domain = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN);
+      } else {
+         throw new Exception('Missing parameter: '.PluginDataProviderInterface::PARAM_DOMAIN);
+      }
+      if (IndicatorPluginInterface::DOMAIN_USER === $this->domain) {
+         if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_MANAGED_USER_ID)) {
+            $this->managedUserId = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_MANAGED_USER_ID);
+         } else {
+            throw new Exception('Missing parameter: '.PluginDataProviderInterface::PARAM_MANAGED_USER_ID);
+         }
+      } else {
+         $this->managedUserId = NULL; // consider complete team
+      }
+
       // set default pluginSettings (not provided by the PluginDataProvider)
       $this->dateRange   = 'defaultRange';
       $this->isTaskColumn = false;
@@ -176,7 +192,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
 
    /**
     * settings are saved by the Dashboard
-    * 
+    *
     * @param type $pluginSettings
     */
    public function setPluginSettings($pluginSettings) {
@@ -215,7 +231,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
     *
     */
    public function execute() {
-      
+
       $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
       $issueList = $this->inputIssueSel->getIssueList();
       $team = TeamCache::getInstance()->getTeam($this->teamid);
@@ -230,16 +246,21 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
       foreach($issueList as $issue) {
 
          if ($extProjId == $issue->getProjectId()) {
-            continue; 
+            continue;
          }
 
          $tooltipAttr = $issue->getTooltipItems($this->teamid, $this->sessionUserid, $this->isManager);
          $tooltipAttr = array(T_('Summary') => $issue->getSummary()) + $tooltipAttr;
          $formattedTaskId = Tools::issueInfoURL($issue->getId(), $tooltipAttr, FALSE, $issue->getId());
-            
+
          $issueTimetracks = $issue->getTimeTracks(NULL, $this->startTimestamp, $this->endTimestamp);
          foreach ($issueTimetracks as $tt) {
 
+            // if DOMAIN_USER, filter on managedUser only
+            if ((NULL !== $this->managedUserId) &&
+                ($tt->getUserId() != $this->managedUserId)) {
+               continue;
+            }
             // check if user in team
             if (!array_key_exists($tt->getUserId(), $teamMembers)) { continue; }
 
@@ -270,7 +291,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
                }
             } else if ($team->isSideTasksProject($issue->getProjectId())) {
                // TODO check category (detail all sidetasks categories)
-               
+
                $jobid = '999_SideTasks';
                if (!array_key_exists($jobid, $loadPerJobs)) {
                   // create job if not exist in jobList
@@ -323,7 +344,7 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
 
       //self::$logger->error("date range: ".date('Y-m-d', $this->startTimestamp).'-'.date('Y-m-d', $this->endTimestamp));
       //self::$logger->error("real date range: ".date('Y-m-d', $realStartTimestamp).'-'.date('Y-m-d', $realEndTimestamp));
-      
+
       // array sort to put sideTasks categories at the bottom
       ksort($loadPerJobs);
 

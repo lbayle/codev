@@ -25,11 +25,11 @@ THE SOFTWARE.
 
 /**
  * The PluginDataProvider class is part of the CodevTT kernel (GPL v3),
- * IndicatorPlugins may be under other licenses (including non-open-source licenses). 
- * 
+ * IndicatorPlugins may be under other licenses (including non-open-source licenses).
+ *
  * The PluginDataProviderInterface has an MIT license so that non-open-source plugins
  * are not under the GPL license of the PluginDataProvider.
- * 
+ *
  * @author lbayle
  */
 interface PluginDataProviderInterface {
@@ -37,13 +37,14 @@ interface PluginDataProviderInterface {
    const SESSION_ID = 'pluginDataProvider_';
 
    /*
-    * Note: all params will not always be avalable, 
+    * Note: all params will not always be avalable,
     * it is context dependent (see IndicatorPlugin domain).
     */
    const PARAM_DOMAIN = 'domain';
    const PARAM_TEAM_ID = 'teamid';
    const PARAM_PROJECT_ID = 'projectid';
    const PARAM_SESSION_USER_ID = 'sessionUserId';
+   const PARAM_MANAGED_USER_ID = 'managedUserId';
    const PARAM_START_TIMESTAMP = 'startTimestamp';
    const PARAM_END_TIMESTAMP = 'endTimestamp';
    const PARAM_ISSUE_SELECTION = 'IssueSelection';
@@ -58,8 +59,8 @@ interface PluginDataProviderInterface {
 
    // serviceContract
    const PARAM_SERVICE_CONTRACT_ID = 'serviceContractId';
-   
+
    public function getCodevVersion();
    public function getParam($key);
-   
+
 }

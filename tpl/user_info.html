@@ -1,0 +1,66 @@
+<div id="content">
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
+
+   <div class="center">
+   {if $isManager}
+   {include file="modal/change_managedUser.html"}
+   {else}
+   <h2 title="{$managedUserid}">{$managedUser_realname}</h2>
+   {/if}
+   </div>
+
+   {if isset($error)}
+   <p class="center ui-state-error-text">{$error}</p>
+   {/if}
+
+   {if isset($managedUserid)}
+   <div id="tabsCommand" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_userInfo">{t}User info{/t}</a></li>
+      </ul>
+
+      <div id="tab_indicators">
+         <div class="center">
+            <form id="formSetDateRange" name="form1" class="formWithTabsHistory" method="post" action="{$page}">
+               <fieldset>
+                  {include file="form/dateRangeSelector.html"}
+                  <input type="hidden" name="action" value="setDateRange" />
+                  <input type="hidden" name="userid" value="{$managedUserid}" />
+                  <input id="btSetDateRange" type="button" value="{t}Compute{/t}" />
+               </fieldset>
+            </form>
+         </div>
+         {include file="tools/dashboard.html"}
+      </div>
+      <div id="tab_userInfo">
+         TODO
+      </div>
+   </div>
+   {/if}
+
+
+{else}
+<p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
+{/if}
+
+   <script type="text/javascript">
+      // this is to transmit SMARTY variables to time_tracking.js
+      var userInfoSmartyData = {
+         sessionUserid:"{$sessionUserid}",
+         managedUserid:"{$managedUserid}",
+         ajaxPage:"{$ajaxPage}",
+         datepickerLocale:"{$locale}",
+         datepickerStartDate:"{$datepickerStartDate}",
+         datepickerEndDate:"{$datepickerEndDate}",
+
+         // i18n
+         i18n_Cancel:"{t}Cancel{/t}",
+         i18n_pleaseWait:"{t}Please wait...{/t}",
+      };
+   </script>
+   <script type="text/javascript" src="js_min/datepicker.min.js"></script>
+   <script type="text/javascript" src="js_min/datatable.min.js"></script>
+   <script src="js_min/user_info.min.js"></script>
+
+</div>

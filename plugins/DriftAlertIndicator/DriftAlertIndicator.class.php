@@ -51,7 +51,7 @@ class DriftAlertIndicator extends IndicatorPluginAbstract {
 
       self::$domains = array (
          self::DOMAIN_HOMEPAGE,
-         self::DOMAIN_USER,
+//         self::DOMAIN_USER,
          self::DOMAIN_TEAM,
          self::DOMAIN_PROJECT,
          self::DOMAIN_COMMAND,
@@ -200,7 +200,7 @@ class DriftAlertIndicator extends IndicatorPluginAbstract {
 
       $isManager = $user->isTeamManager($this->teamid);
       $isObserver = $user->isTeamObserver($this->teamid);
-      
+
       $currentIssuesInDrift = NULL;
       $resolvedIssuesInDrift = NULL;
       foreach ($this->inputIssueSel->getIssuesInDrift(($isManager || $isObserver)) as $issue) {

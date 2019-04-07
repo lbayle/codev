@@ -58,7 +58,6 @@ class TasksPivotTable extends IndicatorPluginAbstract {
 
       self::$domains = array (
          self::DOMAIN_TEAM,
-         self::DOMAIN_USER,
          self::DOMAIN_PROJECT,
          self::DOMAIN_COMMAND,
          self::DOMAIN_COMMAND_SET,

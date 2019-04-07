@@ -43,6 +43,7 @@ class TimetrackList extends IndicatorPluginAbstract {
    private $startTimestamp;
    private $endTimestamp;
    private $teamid;
+   private $managedUserId; // DOMAIN_USER only
 
    // config options from Dashboard
    private $isOnlyActiveTeamMembers;
@@ -66,6 +67,7 @@ class TimetrackList extends IndicatorPluginAbstract {
          self::DOMAIN_TASK,
          self::DOMAIN_PROJECT,
          self::DOMAIN_TEAM,
+         self::DOMAIN_USER,
          self::DOMAIN_COMMAND,
          self::DOMAIN_COMMAND_SET,
          self::DOMAIN_SERVICE_CONTRACT,
@@ -89,7 +91,7 @@ class TimetrackList extends IndicatorPluginAbstract {
       return 'CodevTT (GPL v3)';
    }
    public static function getVersion() {
-      return '1.0.0';
+      return '1.1.0';
    }
    public static function getDomains() {
       return self::$domains;
@@ -135,6 +137,23 @@ class TimetrackList extends IndicatorPluginAbstract {
       } else {
          throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_TEAM_ID);
       }
+
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN)) {
+         $this->domain = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN);
+      } else {
+         throw new Exception('Missing parameter: '.PluginDataProviderInterface::PARAM_DOMAIN);
+      }
+      if (IndicatorPluginInterface::DOMAIN_USER === $this->domain) {
+         if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_MANAGED_USER_ID)) {
+            $this->managedUserId = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_MANAGED_USER_ID);
+         } else {
+            throw new Exception('Missing parameter: '.PluginDataProviderInterface::PARAM_MANAGED_USER_ID);
+         }
+      } else {
+         $this->managedUserId = NULL; // consider complete team
+      }
+
+
       if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP)) {
          $this->startTimestamp = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP);
       } else {
@@ -190,14 +209,18 @@ class TimetrackList extends IndicatorPluginAbstract {
    public function execute() {
 
       // === get timetracks for each Issue
-      if ($this->isOnlyActiveTeamMembers) {
-         $team = TeamCache::getInstance()->getTeam($this->teamid);
-         $useridList = array_keys($team->getActiveMembers($this->startTimestamp, $this->endTimestamp));
-      } else {
-         // include also timetracks of users not in the team (relevant on ExternalTasksProjects)
-         $useridList = NULL;
-      }
+      if (NULL !== $this->managedUserId) {
+         $useridList = array($this->managedUserId);
 
+      } else {
+         if ($this->isOnlyActiveTeamMembers) {
+            $team = TeamCache::getInstance()->getTeam($this->teamid);
+            $useridList = array_keys($team->getActiveMembers($this->startTimestamp, $this->endTimestamp));
+         } else {
+            // include also timetracks of users not in the team (relevant on ExternalTasksProjects)
+            $useridList = NULL;
+         }
+      }
       $timetracks = $this->inputIssueSel->getTimetracks($useridList, $this->startTimestamp, $this->endTimestamp);
       $nbTimetracks = count($timetracks);
       $realStartTimestamp = $this->endTimestamp; // note: inverted intentionnaly

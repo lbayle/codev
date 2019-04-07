@@ -20,13 +20,13 @@
  * Description of BacklogPerUserIndicator
  *
  * For each user, return the sum of the backlog of its assigned tasks.
- * 
+ *
  * @author lob
  */
 class BacklogPerUserIndicator extends IndicatorPluginAbstract {
 
    const OPTION_IS_EXT_REF = 'isExtRef';
-   
+
    /**
     * @var Logger The logger
     */
@@ -54,7 +54,7 @@ class BacklogPerUserIndicator extends IndicatorPluginAbstract {
 
       self::$domains = array (
          self::DOMAIN_TEAM,
-         self::DOMAIN_USER,
+//         self::DOMAIN_USER,
          self::DOMAIN_PROJECT,
          self::DOMAIN_COMMAND,
          self::DOMAIN_COMMAND_SET,
@@ -136,12 +136,12 @@ class BacklogPerUserIndicator extends IndicatorPluginAbstract {
       }
       // set default pluginSettings (not provided by the PluginDataProvider)
       $this->isExtRef = false;
-      
+
    }
 
    /**
     * settings are saved by the Dashboard
-    * 
+    *
     * @param array $pluginSettings
     */
    public function setPluginSettings($pluginSettings) {
@@ -187,18 +187,18 @@ class BacklogPerUserIndicator extends IndicatorPluginAbstract {
                } else {
                   $userList[0] = '(unknown 0)';
                }
-               
+
                if (!$this->isExtRef) {
                   $displayedTaskId = NULL;
                } else {
                    $displayedTaskId = (NULL != $issue->getTcId() && false != trim($issue->getTcId())) ? $issue->getTcId() : 'm-'.$issue->getId();
                }
-               
+
                $tooltipAttr = $issue->getTooltipItems($this->teamid, $this->sessionUserid, $this->isManager);
                // add task summary in front
                $tooltipAttr = array(T_('Summary') => $issue->getSummary()) + $tooltipAttr;
                $formattedTaskListPerUser[$userId][] = Tools::issueInfoURL($issue->getId(), $tooltipAttr, FALSE, $displayedTaskId);
-               
+
                if (!array_key_exists($userId, $iSelPerUser)) {
                   $iSelPerUser[$userId] = new IssueSelection('user_'.$userId);
                }

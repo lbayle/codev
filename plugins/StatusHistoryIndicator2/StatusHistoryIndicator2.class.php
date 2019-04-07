@@ -39,11 +39,11 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
    // config options from Dashboard
    private $interval;
    private $isDisplayResolved;
-   
+
    // internal
    private $statusData;
    protected $execData;
-   
+
    /**
     * Initialize static variables
     * @static
@@ -54,7 +54,6 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
       self::$domains = array (
          self::DOMAIN_COMMAND,
          self::DOMAIN_TEAM,
-         self::DOMAIN_USER,
          self::DOMAIN_PROJECT,
          self::DOMAIN_COMMAND_SET,
          self::DOMAIN_SERVICE_CONTRACT,
@@ -137,7 +136,7 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
 
    /**
     * settings are saved by the Dashboard
-    * 
+    *
     * @param type $pluginSettings
     */
    public function setPluginSettings($pluginSettings) {
@@ -241,7 +240,7 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
          }
       }
    }
-   
+
    /**
     *
     *
@@ -368,12 +367,12 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
          'statusHistoryIndicator_jqplotXaxis' => $json_xaxis,
       );
 
-/*      
+/*
       if (false == $isAjaxCall) {
          $smartyVariables['statusHistoryIndicator_ajaxFile'] = self::getSmartySubFilename();
          $smartyVariables['statusHistoryIndicator_ajaxPhpURL'] = self::getAjaxPhpURL();
       }
-*/      
+*/
       return $smartyVariables;
    }
 

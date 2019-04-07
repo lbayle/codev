@@ -37,10 +37,10 @@ class SubmittedResolvedHistoryIndicator extends IndicatorPluginAbstract {
 
    // config options from Dashboard
    private $interval;
-   
+
    // internal
    protected $execData;
-   
+
    /**
     * Initialize static variables
     * @static
@@ -51,7 +51,7 @@ class SubmittedResolvedHistoryIndicator extends IndicatorPluginAbstract {
       self::$domains = array (
          self::DOMAIN_COMMAND,
          self::DOMAIN_TEAM,
-         self::DOMAIN_USER,
+//         self::DOMAIN_USER,
          self::DOMAIN_PROJECT,
          self::DOMAIN_COMMAND_SET,
          self::DOMAIN_SERVICE_CONTRACT,
@@ -141,7 +141,7 @@ class SubmittedResolvedHistoryIndicator extends IndicatorPluginAbstract {
 
    /**
     * settings are saved by the Dashboard
-    * 
+    *
     * @param type $pluginSettings
     */
    public function setPluginSettings($pluginSettings) {
@@ -195,7 +195,7 @@ class SubmittedResolvedHistoryIndicator extends IndicatorPluginAbstract {
       }
       return $timestampRangeList;
    }
-   
+
    /**
     *
     *
@@ -250,7 +250,7 @@ class SubmittedResolvedHistoryIndicator extends IndicatorPluginAbstract {
          $smartyPrefix.'tableData' => $this->execData['periodData'],
          $smartyPrefix.'jqplotData' => json_encode($values),
          $smartyPrefix.'jqplotXaxes' => json_encode(array_keys($this->execData['periodData'])),
-          
+
          // add pluginSettings (if needed by smarty)
          $smartyPrefix.self::OPTION_INTERVAL => $this->interval,
       );
@@ -259,7 +259,7 @@ class SubmittedResolvedHistoryIndicator extends IndicatorPluginAbstract {
          $smartyVariables['submittedResolvedHistoryIndicator_ajaxFile'] = self::getSmartySubFilename();
          $smartyVariables['submittedResolvedHistoryIndicator_ajaxPhpURL'] = self::getAjaxPhpURL();
       }
-      
+
       return $smartyVariables;
    }
 

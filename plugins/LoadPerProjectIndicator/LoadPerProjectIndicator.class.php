@@ -30,8 +30,8 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
    const OPTION_IS_GRAPH_ONLY = 'isGraphOnly';
    const OPTION_IS_TABLE_ONLY = 'isTableOnly';
    const OPTION_DATE_RANGE    = 'dateRange';
-   
-   
+
+
    /**
     * @var Logger The logger
     */
@@ -43,10 +43,11 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
    private $startTimestamp;
    private $endTimestamp;
    private $teamid;
+   private $managedUserId; // DOMAIN_USER only
 
    // config options from Dashboard
    private $dateRange;  // defaultRange | currentWeek | currentMonth
-   
+
    // internal
    protected $execData;
 
@@ -79,7 +80,7 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
       return 'CodevTT (GPL v3)';
    }
    public static function getVersion() {
-      return '1.0.0';
+      return '1.1.0';
    }
    public static function getDomains() {
       return self::$domains;
@@ -107,14 +108,14 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
       );
    }
 
-   
+
    /**
     *
     * @param \PluginDataProviderInterface $pluginDataProv
     * @throws Exception
     */
    public function initialize(PluginDataProviderInterface $pluginDataProv) {
-      
+
       if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION)) {
          $this->inputIssueSel = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
       } else {
@@ -135,6 +136,20 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
       } else {
          $this->endTimestamp = NULL;
       }
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN)) {
+         $this->domain = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN);
+      } else {
+         throw new Exception('Missing parameter: '.PluginDataProviderInterface::PARAM_DOMAIN);
+      }
+      if (IndicatorPluginInterface::DOMAIN_USER === $this->domain) {
+         if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_MANAGED_USER_ID)) {
+            $this->managedUserId = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_MANAGED_USER_ID);
+         } else {
+            throw new Exception('Missing parameter: '.PluginDataProviderInterface::PARAM_MANAGED_USER_ID);
+         }
+      } else {
+         $this->managedUserId = NULL; // consider complete team
+      }
 
       // set default pluginSettings (not provided by the PluginDataProvider)
       $this->dateRange = 'defaultRange';
@@ -146,7 +161,7 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
 
    /**
     * settings are saved by the Dashboard
-    * 
+    *
     * @param array $pluginSettings
     */
    public function setPluginSettings($pluginSettings) {
@@ -154,7 +169,7 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
          // override default with user preferences
          if (array_key_exists(self::OPTION_DATE_RANGE, $pluginSettings)) {
             $this->dateRange = $pluginSettings[self::OPTION_DATE_RANGE];
-            
+
             // update startTimestamp & endTimestamp
             switch ($this->dateRange) {
                case 'currentWeek':
@@ -185,7 +200,17 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
 
       $team = TeamCache::getInstance()->getTeam($this->teamid);
       $members = $team->getActiveMembers($this->startTimestamp, $this->endTimestamp);
-      $formatedUseridString = implode( ', ', array_keys($members));
+
+      // if DOMAIN_USER, filter on managedUser only
+      if (NULL !== $this->managedUserId) {
+         if (!array_key_exists($this->managedUserId, $members)) {
+            self::$logger->error("User $this->managedUserId is not in team $this->teamid on period $this->startTimestamp to $this->endTimestamp");
+         }
+         $formatedUseridString = "$this->managedUserId";
+      } else {
+         $formatedUseridString = implode( ', ', array_keys($members));
+      }
+
       $sql = AdodbWrapper::getInstance();
 
       //$extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
@@ -232,7 +257,7 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
          'totalLoad' => $totalLoad,
          'workdays' => Holidays::getInstance()->getWorkdays($this->startTimestamp, $this->endTimestamp),
       );
-      
+
       // ------------------------
       // pieChart data
       $jqplotData = Tools::array2plot($this->execData);
@@ -243,15 +268,15 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
          'loadPerProjectIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
          'loadPerProjectIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
       );
-      
+
       if (false == $isAjaxCall) {
          $smartyVariables['loadPerProjectIndicator_ajaxFile'] = self::getSmartySubFilename();
          $smartyVariables['loadPerProjectIndicator_ajaxPhpURL'] = self::getAjaxPhpURL();
       }
-      
+
       return $smartyVariables;
    }
-   
+
    public function getSmartyVariablesForAjax() {
       return $this->getSmartyVariables(true);
    }

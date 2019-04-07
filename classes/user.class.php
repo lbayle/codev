@@ -35,11 +35,11 @@ class User extends Model {
 
    /**
     *
-    * @var array planning_report options 
+    * @var array planning_report options
     */
    public static $defaultPlanningOptions;
    public static $defaultPlanningOptionsDesc;
-   
+
    /**
     * @var int The id
     */
@@ -112,7 +112,7 @@ class User extends Model {
     * @var string
     */
    private $cmdStateFiltersCache;
-   
+
    /**
     *
     * @var array Cache of team menber
@@ -145,7 +145,7 @@ class User extends Model {
     */
    public static function staticInit() {
       self::$logger = Logger::getLogger(__CLASS__);
-      
+
       self::$defaultPlanningOptions = array(
           'displayExtRef' => 0,
          );
@@ -377,7 +377,7 @@ class User extends Model {
       }
       return $this->teamMemberCache[$key];
    }
-   
+
    /**
     * Check if user already exist in Mantis database
     * @param string $username
@@ -390,11 +390,11 @@ class User extends Model {
             $query = "SELECT count(*) as count FROM {user} WHERE username = ".$sql->db_param();
             $q_params[]=$username;
             $result = $sql->sql_query($query, $q_params);
-            
+
             while($row = $sql->fetchObject($result)) {
                 $count = $row->count;
             }
-            
+
             if($count != 0)
             {
                 return true;
@@ -402,7 +402,7 @@ class User extends Model {
        }
        return false;
    }
-   
+
    /**
     * Check if user already exist in Mantis database
     * @param string $username
@@ -415,11 +415,11 @@ class User extends Model {
             $query = "SELECT count(*) as count FROM {user} WHERE id = ".$sql->db_param();
             $q_params[]=$id;
             $result = $sql->sql_query($query, $q_params);
-            
+
             while($row = $sql->fetchObject($result)) {
                 $count = $row->count;
             }
-            
+
             if($count != 0)
             {
                 return true;
@@ -1135,7 +1135,7 @@ class User extends Model {
          if ($this->timetrackingFilters == NULL) {
          	$this->timetrackingFilters = Tools::doubleExplode(':', ',', Config::default_timetrackingFilters);
          }
-         
+
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("user $this->id timeTrackingFilters = <$this->timetrackingFilters>");
          }
@@ -1201,7 +1201,7 @@ class User extends Model {
 
          $now = time();
          $midnightTimestamp = mktime(0, 0, 0, date('m', $now), date('d', $now), date('Y', $now));
-         
+
          if ((0 != $this->defaultTeam) &&
             (!$this->isTeamMember($this->defaultTeam, NULL, $midnightTimestamp, $midnightTimestamp))) {
             // SECURITY CHECK: User used to belong to a team (config is still in DB) but he no longer belongs to it !
@@ -1234,12 +1234,12 @@ class User extends Model {
     * @return string
     */
    public function getDefaultProject() {
-      if (NULL == $this->defaultProject) {  
+      if (NULL == $this->defaultProject) {
          $this->defaultProject = Config::getValue(Config::id_defaultProjectId, array($this->id, 0, 0, 0, 0, 0), true);
          if ($this->defaultProject == NULL) {
          	$this->defaultProject = 0;
          }
-      
+
       }
       return $this->defaultProject;
    }
@@ -1247,7 +1247,7 @@ class User extends Model {
    /**
     * set the Command State filters
     * used to display less commands in the cmd selection combobox
-    * 
+    *
     * @param string $filterStr (key:value,key2:value2)
     * @param int $teamid
     */
@@ -1271,7 +1271,7 @@ class User extends Model {
       }
       $this->cmdStateFiltersCache["$teamid"] = $filterStr;
    }
-   
+
    /**
     * get the Command State filters
     * used to display less commands in the cmd selection combobox
@@ -1284,7 +1284,7 @@ class User extends Model {
          $this->cmdStateFiltersCache = array();
       }
 
-      if (!array_key_exists($teamid, $this->cmdStateFiltersCache)) { 
+      if (!array_key_exists($teamid, $this->cmdStateFiltersCache)) {
          $filters = Config::getValue(Config::id_cmdStateFilters, array($this->id, 0, $teamid, 0, 0, 0), true);
          if ($filters == NULL) {
             $filters = "";
@@ -1483,7 +1483,7 @@ class User extends Model {
    public function checkMissingDays($team_id, $startTimestamp = NULL, $endTimestamp = NULL) {
       $holidays = Holidays::getInstance();
       $missingDays = array();
-      
+
       if (NULL == $endTimestamp) {
          $endTimestamp= mktime(0, 0, 0, date("m"), date("d"), date("Y"));
       }
@@ -1533,7 +1533,7 @@ class User extends Model {
 
       return $missingDays;
    }
-   
+
    /**
     * send an email with the list of all incomplete/missing days in the period
     */
@@ -1579,7 +1579,7 @@ class User extends Model {
             #$now = time();
             #$emailDate = mktime(0, 0, 0, date('m', $now), date('d',$now), date('Y', $now));
             #SELECT count(*) FROM mantis_email_table WHERE subject LIKE '%CodevTT%' AND email = '$emailAddress' AND submitted= '$emailDate'
-            
+
             Email::getInstance()->sendEmail( $emailAddress, $emailSubject, $emailBody );
          }
       } catch (Exception $e) {
@@ -1591,7 +1591,7 @@ class User extends Model {
    }
 
    /**
-    * 
+    *
     * @param int $team_id
     * @param array $planningOptions as key:value
     */
@@ -1606,7 +1606,7 @@ class User extends Model {
       // save new settings
       Config::setValue(Config::id_planningOptions, $keyvalue, Config::configType_keyValue, NULL, 0, $this->id, $team_id );
    }
-   
+
    /**
     *
     * @return array ('optionName' => [0,1] isEnabled)
@@ -1643,7 +1643,7 @@ class User extends Model {
       $options = $this->getPlanningOptions($team_id);
       return $options["$optionKey"];
    }
-   
+
    /**
     * Create user in Mantis database
     * @param string $username
@@ -1698,7 +1698,7 @@ class User extends Model {
             }
         }
     }
-    
+
     /**
      * Affect user to a project according project access level
      * @param integer $projectId
@@ -1708,7 +1708,7 @@ class User extends Model {
     public function affectToProject($projectId, $projectAccessLevelId = 55)
     {
         $project = new Project($projectId);
-        
+
         if(!$project->hasMember($this->id))
         {
            $sql = AdodbWrapper::getInstance();
@@ -1725,6 +1725,46 @@ class User extends Model {
         }
         return false;
     }
+
+   /**
+    * returns an IssueSelection of all the tasks on which the user has worked on (timetracks found)
+    * @param type $teamId
+    * @param type $startTimestamp
+    * @param type $endTimestamp
+    * @param type $noStatsProject
+    * @param type $withDisabled
+    * @param type $sideTasksProjects
+    * @return \IssueSelection
+    */
+   public function getInvolvedTasks($teamId, $startTimestamp, $endTimestamp, $noStatsProject = true, $withDisabled = true, $sideTasksProjects=true) {
+
+      $team = TeamCache::getInstance()->getTeam($teamId);
+      $projectList = $team->getProjects($noStatsProject, $withDisabled, $sideTasksProjects);
+      $formatedProjects = implode( ', ', array_keys($projectList));
+
+      // timetracks in period on team issues
+      // on which user was involved (timetracks found or assignedTo)
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT DISTINCT tt.bugid ".
+               " FROM codev_timetracking_table AS tt".
+               " JOIN {bug} as bug ON bug.id = tt.bugid ".
+               " WHERE tt.userid = ".$sql->db_param().
+               " AND tt.date >= ".$sql->db_param().
+               " AND tt.date <= ".$sql->db_param().
+               " AND bug.project_id IN (".$formatedProjects.")";
+      $q_params[]=$this->id;
+      $q_params[]=$startTimestamp;
+      $q_params[]=$endTimestamp;
+      $result = $sql->sql_query($query, $q_params);
+
+      $userIssueSelection = new IssueSelection('User'.$this->session_userid.'ISel');
+      while($row = $sql->fetchObject($result)) {
+         $userIssueSelection->addIssue($row->bugid);
+      }
+      return $userIssueSelection;
+   }
+
+
 
 }
 
