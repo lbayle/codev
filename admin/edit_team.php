@@ -130,12 +130,6 @@ class EditTeamController extends Controller {
                      $this->smartyHelper->assign('error', "Couldn't add user $memberid to the team");
                   }
 
-               } elseif ($action == "setMemberDepartureDate") {
-                  $formatedDate = Tools::getSecurePOSTStringValue("date2");
-                  $departureTimestamp = Tools::date2timestamp($formatedDate);
-                  $memberid = Tools::getSecurePOSTIntValue('memberid');
-
-                  $team->setMemberDepartureDate($memberid, $departureTimestamp);
                } elseif ($action == 'addMembersFrom') {
                   $src_teamid = Tools::getSecurePOSTIntValue('f_src_teamid');
 
@@ -382,7 +376,8 @@ class EditTeamController extends Controller {
             "userid" => $row->user_id,
             "realname" => $row->realname,
             "arrivaldate" => date("Y-m-d", $row->arrival_date),
-            "accessLevel" => Team::$accessLevelNames[$row->access_level]
+            "accessLevel" => Team::$accessLevelNames[$row->access_level],
+            "accessLevelId" => $row->access_level,
          );
 
          if (0 != $row->departure_date) {

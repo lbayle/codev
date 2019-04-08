@@ -133,12 +133,18 @@
       </div>
       <div id="tabTeamMembers">
          <h2>{t}Team Members{/t}</h2>
+         <div style="margin-top: 2em;">
          <form id="addTeamMemberForm" name="addTeamMemberForm" class="formWithTabsHistory" method="post" action="{$page}">
             <fieldset>
                <table class="invisible">
                   <tbody>
                      <tr>
-                        <td><label for="memberid">{t}Member{/t}:</label></td>
+                        <td><label>{t}Add team member{/t} :</label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                     </tr>
+                     <tr>
                         <td>
                            <select style="width:300px" name="memberid" id="memberid"  class="select2">
                               <option value="0"></option>
@@ -147,27 +153,15 @@
                               {/foreach}
                            </select>
                         </td>
-                     </tr>
-                     <tr>
-                        <td><label for="member_access">{t}Role{/t}:</label></td>
                         <td>
-                           <select style="width:100%" name="member_access" id="member_access">
+                           <select name="member_access" id="member_access">
                               {foreach from=$accessLevel key=id item=i}
                               <option value="{$id}">{$i}</option>
                               {/foreach}
                            </select>
                         </td>
-                        <td></td>
-                     </tr>
-                     <tr>
-                        <td><label for="datepicker1">{t}Arrival-Date{/t}</td>
-                        <td><input type="text" id="datepicker1" class="datepicker" name="date1" maxlength="10" size="10" title="{t}Date{/t}" /></td>
-                        <td><input style="width:100%" type=button name="btAddMember" id="btAddMember" value="{t}Add User{/t}" /></td>
-                     </tr>
-                     <tr>
-                        <td><label for="datepicker2">{t}Departure-Date{/t}</label></td>
-                        <td><input type="text" id="datepicker2" class="datepicker" name="date2" maxlength="10" size="10" title="{t}Date{/t}" /></td>
-                        <td><input type=button name="btSetMemberDepartureDate" id="btSetMemberDepartureDate" value="{t}set Departure Date{/t}" /></td>
+                        <td><input type="text" id="datepicker1" class="datepicker" name="date1" maxlength="10" size="10" title="{t}Arrival-Date{/t}" /></td>
+                        <td><input type=button name="btAddMember" id="btAddMember" value="{t}Add User{/t}" /></td>
                      </tr>
                   </tbody>
                </table>
@@ -193,6 +187,7 @@
                <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
             </fieldset>
          </form>
+         </div>
 
          <!-- Display previous entries -->
          <div style="margin-top: 2em;">
@@ -210,16 +205,16 @@
                </thead>
                <tbody>
                   {foreach from=$teamMembers key=id item=i}
-                  <tr>
-                     <td class="ui-state-error-text" style="width:1em;">
-                        <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
-                           onclick="removeTeamMember('{$id}', '{$i.username}');return false;"></a>
+                  <tr class="teamMembers_tr" data-teamMemberId="{$i.userid}">
+                     <td class="ui-state-error-text" style="width:38px;">
+                        <img class="removeTeamMember_link pointer" align="absmiddle" title="{t}delete this row{/t}" src="images/b_drop.png"/>
+                        <img class="editTeamMember_link pointer" align="absmiddle" title="{t}Edit{/t}" src="images/b_edit.png"/>
                      </td>
-                     <td title="{$i.userid}">{$i.username}</td>
-                     <td>{$i.realname}</td>
-                     <td>{$i.arrivaldate}</td>
-                     <td>{if isset($i.departuredate)}{$i.departuredate}{/if}</td>
-                     <td>{$i.accessLevel}</td>
+                     <td class="teamMember_username" title="{$i.userid}">{$i.username}</td>
+                     <td class="teamMember_realname">{$i.realname}</td>
+                     <td class="teamMember_arrivalDate">{$i.arrivaldate}</td>
+                     <td class="teamMember_departureDate">{if isset($i.departuredate)}{$i.departuredate}{/if}</td>
+                     <td class="teamMember_role" data-roleId="{$i.accessLevelId}">{$i.accessLevel}</td>
                   </tr>
                   {/foreach}
                </tbody>
@@ -231,6 +226,32 @@
                   <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
                </fieldset>
             </form>
+            <div id="editTeamMember_dialog" title="{t}Update team member{/t}" class="ui-helper-hidden">
+               <table class="invisible">
+                  <tbody>
+                     <tr id="editTeamMemberDlg_tr_arrivalDate">
+                        <th>{t}Arrival Date{/t} :</th>
+                        <td><input type="text" id="editTeamMemberDlg_arrivalDate" name="editTeamMemberDlg_arrivalDate" class="datepicker" maxlength="10" size="10" title="{t}Arrival date{/t}" /></td>
+                     </tr>
+                     <tr id="editTeamMemberDlg_tr_departureDate">
+                        <th>{t}Departure Date{/t} :</th>
+                        <td><input type="text" id="editTeamMemberDlg_departureDate" name="editTeamMemberDlg_departureDate" class="datepicker" maxlength="10" size="10" title="{t}Departure date{/t}" /></td>
+                     </tr>
+                     <tr id="editTeamMemberDlg_tr_role">
+                        <th>{t}Role{/t} :</th>
+                        <td>
+                           <select id="editTeamMemberDlg_select_role">
+                              {foreach from=$accessLevel key=id item=i}
+                              <option value="{$id}">{$i}</option>
+                              {/foreach}
+                           </select>
+                        </td>
+                     </tr>
+                     <input type="hidden" id="editTeamMemberDlg_userId"/>
+                  </tbody>
+               </table>
+            </div>
+
          </div>
       </div>
 
@@ -730,6 +751,7 @@
          i18n_project:"{t}Project{/t}",
          i18n_inactivityTask:"{t}Inactivity task{/t}",
          i18n_add:"{t}Add{/t}",
+         i18n_update:"{t}Update{/t}",
          i18n_delete:"{t}Delete{/t}",
          i18n_cancel:"{t}Cancel{/t}",
          i18n_removeUserFromThisTeam:"{t}Remove user from this team ?{/t}",

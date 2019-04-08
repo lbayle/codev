@@ -798,6 +798,22 @@ class Team extends Model {
         }
    }
 
+   public function updateMember($memberid, $arrivalTimestamp, $departureTimestamp, $memberAccess) {
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_team_user_table SET ".
+                  '  arrival_date = '.$sql->db_param().
+                  ', departure_date = '.$sql->db_param().
+                  ', access_level = '.$sql->db_param().
+               " WHERE user_id = ".$sql->db_param().
+               " AND team_id = ".$sql->db_param();
+      $q_params[]=$arrivalTimestamp;
+      $q_params[]=$departureTimestamp;
+      $q_params[]=$memberAccess;
+      $q_params[]=$memberid;
+      $q_params[]=$this->id;
+      $sql->sql_query($query, $q_params);
+   }
+
    public function setMemberDepartureDate($memberid, $departureTimestamp) {
       $sql = AdodbWrapper::getInstance();
       $query = "UPDATE codev_team_user_table SET departure_date = ".$sql->db_param()

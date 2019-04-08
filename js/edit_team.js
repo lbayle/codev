@@ -66,24 +66,6 @@ jQuery(document).ready(function() {
       }
    });
 
-   jQuery("#btSetMemberDepartureDate").click(function() {
-      // check fields
-      var foundError = 0;
-      var msgString = editTeamSmartyData.i18n_someFieldsAreMissing+"\n\n";
-
-      if (0 == addTeamMemberForm.find("input[name=memberid]").val()) {
-         msgString += editTeamSmartyData.i18n_teamMember+"\n";
-         ++foundError;
-      }
-
-      if (0 == foundError) {
-         addTeamMemberForm.find("input[name=action]").val("setMemberDepartureDate");
-         addTeamMemberForm.submit();
-      } else {
-         alert(msgString);
-      }
-   });
-
    jQuery("#btAddMembersFrom").click(function() {
       // check fields
       var foundError = 0;
@@ -453,6 +435,92 @@ jQuery(document).ready(function() {
       hide: "fade"
    });
 
+   jQuery(".removeTeamMember_link").click(function(e) {
+      e.preventDefault();
+      var trTeamMember = $(this).parents('.teamMembers_tr');
+      var userid = $(trTeamMember).attr('data-teamMemberId');
+      var realname = $(trTeamMember).children('.teamMember_realname').text();
+      var confirmString = editTeamSmartyData.i18n_removeUserFromThisTeam + "\n\n" + realname;
+      var removeTeamMemberForm = jQuery("#removeTeamMemberForm");
+      if (confirm(confirmString)) {
+         removeTeamMemberForm.find("input[name=deletememberid]").val(userid);
+         removeTeamMemberForm.submit();
+      }
+   });
+
+   jQuery(".editTeamMember_link").click(function(e) {
+      e.preventDefault();
+      var trTeamMember = $(this).parents('.teamMembers_tr');
+      var userid = $(trTeamMember).attr('data-teamMemberId');
+      var realname = $(trTeamMember).children('.teamMember_realname').text();
+      var arrivalDate = $(trTeamMember).children('.teamMember_arrivalDate').text();
+      var departureDate = $(trTeamMember).children('.teamMember_departureDate').text();
+      var roleId = $(trTeamMember).children('.teamMember_role').attr('data-roleId');
+      console.log(userid, realname, arrivalDate, departureDate, roleId);
+
+      jQuery('#editTeamMember_dialog').dialog('option', 'title', realname);
+      jQuery("#editTeamMemberDlg_userId").text(userid);
+      jQuery("#editTeamMemberDlg_arrivalDate").datepicker("setDate" , arrivalDate);
+      jQuery("#editTeamMemberDlg_departureDate").datepicker("setDate" , departureDate);
+      jQuery("#editTeamMemberDlg_select_role").val(roleId);
+      $( "#editTeamMemberDlg_arrivalDate" ).blur();
+      jQuery("#editTeamMember_dialog").dialog( "open" );
+   });
+
+   jQuery("#editTeamMember_dialog").dialog({
+      autoOpen: false,
+      resizable: true,
+      height: 'auto',
+      width: 400,
+      modal: true,
+      buttons: [
+         {
+            text: editTeamSmartyData.i18n_update,
+            click: function() {
+               // send edited teamMember data
+               $.ajax({
+                  url: editTeamSmartyData.ajaxPage,
+                  type: "POST",
+                  dataType:"json",
+                  data: {
+                     action: 'editTeamMember',
+                     displayed_teamid: editTeamSmartyData.displayedTeamId,
+                     userId: $("#editTeamMemberDlg_userId").text(),
+                     arrivalDate: $("#editTeamMemberDlg_arrivalDate").val(),
+                     departureDate: $("#editTeamMemberDlg_departureDate").val(),
+                     accessLevelId: $('#editTeamMemberDlg_select_role option:selected').val()
+                  },
+                  success: function(data) {
+                     if ('SUCCESS' === data.statusMsg) {
+                        // UPDATE teamMember table
+                        var myTr = $(".teamMembers_tr[data-teamMemberId^="+data.userId+"]");
+                        myTr.find(".teamMember_arrivalDate").html(data.arrivalDate);
+                        myTr.find(".teamMember_departureDate").html(data.departureDate);
+                        myTr.find(".teamMember_role").html(data.accessLevel);
+                        myTr.find(".teamMember_role").attr('data-roleId', data.accessLevelId);
+
+                     } else {
+                        console.error("Ajax statusMsg", data.statusMsg);
+                        alert(data.statusMsg);
+                     }
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                     console.error(textStatus, errorThrown);
+                     alert("ERROR: Please contact your CodevTT administrator");
+                  }
+               });
+               jQuery(this).dialog( "close" );
+            }
+         },
+         {
+            text: editTeamSmartyData.i18n_cancel,
+            click: function() {
+               jQuery(this).dialog("close");
+            }
+         }
+      ]
+   });
+
 }); // document ready
 
 function updateAddUdrDlg_userArrivalDate() {
@@ -479,15 +547,6 @@ function updateAddUdrDlg_userArrivalDate() {
          jQuery(".deleteUdrErrorMsg").html("ERROR: Please contact your CodevTT administrator");
       }
    });
-}
-
-function removeTeamMember(id, description) {
-   var confirmString = editTeamSmartyData.i18n_removeUserFromThisTeam + "\n\n" + description;
-   var removeTeamMemberForm = jQuery("#removeTeamMemberForm");
-   if (confirm(confirmString)) {
-      removeTeamMemberForm.find("input[name=deletememberid]").val(id);
-      removeTeamMemberForm.submit();
-   }
 }
 
 function removeTeamProject(id, description){
