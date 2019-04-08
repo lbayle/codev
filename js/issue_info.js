@@ -14,9 +14,13 @@
    You should have received a copy of the GNU General Public License
    along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
-function removeFromCmd(cmdid, cmdName){
+function removeFromCmd(cmdid){
    //var dialog = jQuery("#formRemoveFromCmd_dialog");
    //dialog.find(".desc_id").text(commandsetid);
+
+   var divCmd = document.getElementById('divCmd_'+cmdid);
+   var cmdName = $(divCmd).children('a').text();
+
    jQuery("#formRemoveFromCmd_cmdName").text(cmdName);
    jQuery("#formRemoveFromCmd").find("input[name=cmdid]").val(cmdid);
    jQuery("#formRemoveFromCmd_dialog").dialog( "open" );
@@ -510,7 +514,7 @@ function isTimetrackingFieldsValid() {
             if ('SUCCESS' === data.statusMsg) {
                // add command to list
                var imgObj = jQuery('<img></img>').attr('align', "absmiddle").attr('title', issueInfoSmartyData.i18n_removeTaskFromCommand).attr('src', "images/b_drop.png");
-               imgObj.attr('onclick', "removeFromCmd('"+data.cmdid+"', '"+data.cmdName+"');return false;");
+               imgObj.attr('onclick', "removeFromCmd('"+data.cmdid+"');return false;");
                var aObj = jQuery('<a></a>').attr('href', "management/command_info.php?cmdid="+data.cmdid).html(data.cmdName);
                var spanObj = jQuery('<span></span>').addClass("pointer").append(imgObj);
                var divCmdObj = jQuery('<div></div>').attr('id', 'divCmd_'+data.cmdid).append(spanObj).append(aObj);

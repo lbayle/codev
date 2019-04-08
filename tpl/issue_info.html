@@ -40,7 +40,7 @@
                      {foreach from=$parentCommands key=id item=i}
                      <div id="divCmd_{$i.id}">
                      {if $isManager}
-                     <span class="pointer"><img onclick="removeFromCmd('{$i.id}', '{$i.name|escape}');return false;" align="absmiddle" title="{t}Remove task from command{/t}" src="images/b_drop.png"/></span>
+                     <span class="pointer"><img onclick="removeFromCmd('{$i.id}');return false;" align="absmiddle" title="{t}Remove task from command{/t}" src="images/b_drop.png"/></span>
                      {/if}
                      <a href='management/command_info.php?cmdid={$i.id}'>{if isset($i.reference)}{$i.reference} {/if}{$i.name}</a>
                      </div>
