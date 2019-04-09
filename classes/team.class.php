@@ -1025,9 +1025,7 @@ class Team extends Model {
 
       if (in_array($userId, $this->adminList)) { return true; }
 
-self::$logger->error("addAdministrator BEFORE <".implode(',',$this->adminList).">");
       $this->adminList[] = $userId;
-self::$logger->error("addAdministrator AFTER  <".implode(',',$this->adminList).">");
 
       $sql = AdodbWrapper::getInstance();
       $query = "UPDATE codev_team_table SET administrators = ".$sql->db_param()." WHERE id = ".$sql->db_param();

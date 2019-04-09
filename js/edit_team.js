@@ -187,7 +187,7 @@ jQuery(document).ready(function() {
 
                   var trObject = jQuery('<tr>').append(
                       jQuery('<td style="width:38px;">').addClass("ui-state-error-text").append(bt_deleteAdmin),
-                      jQuery('<td>').text(data.adminName),
+                      jQuery('<td>').text(data.adminName)
                   ).attr('data-adminId', data.adminId).addClass("teamAdminRow");
                   trObject.appendTo('#tableTeamAdmin tbody');
                   $("#cb_TeamAdminCandidates option[value='"+data.adminId+"']").remove();
@@ -438,12 +438,12 @@ jQuery(document).ready(function() {
    jQuery(".removeTeamMember_link").click(function(e) {
       e.preventDefault();
       var trTeamMember = $(this).parents('.teamMembers_tr');
-      var userid = $(trTeamMember).attr('data-teamMemberId');
+      var rowId = $(trTeamMember).attr('data-rowId');
       var realname = $(trTeamMember).children('.teamMember_realname').text();
       var confirmString = editTeamSmartyData.i18n_removeUserFromThisTeam + "\n\n" + realname;
       var removeTeamMemberForm = jQuery("#removeTeamMemberForm");
       if (confirm(confirmString)) {
-         removeTeamMemberForm.find("input[name=deletememberid]").val(userid);
+         removeTeamMemberForm.find("input[name=deleteMemberRowId]").val(rowId);
          removeTeamMemberForm.submit();
       }
    });

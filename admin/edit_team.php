@@ -193,11 +193,11 @@ class EditTeamController extends Controller {
                	  $duration_display = Tools::getSecurePOSTStringValue('updateDisplay');
                	  $duration[$duration_value] = $duration_display;
                	  Config::setValue(Config::id_durationList, Tools::doubleImplode(":", ",", $duration), Config::configType_keyValue, NULL, 0, 0, $displayed_teamid); 
-               } elseif (isset($_POST["deletememberid"])) {
-                  $memberid = Tools::getSecurePOSTIntValue('deletememberid');
+               } elseif (isset($_POST["deleteMemberRowId"])) {
+                  $deleteRowId = Tools::getSecurePOSTIntValue('deleteMemberRowId');
                   try {
                      $query = "DELETE FROM codev_team_user_table WHERE id = ".$sql->db_param();
-                     $sql->sql_query($query, array($memberid));
+                     $sql->sql_query($query, array($deleteRowId));
                   } catch (Exception $e) {
                      $this->smartyHelper->assign('error', T_("Couldn't delete the member of the team"));
                   }

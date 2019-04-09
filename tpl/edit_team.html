@@ -205,7 +205,7 @@
                </thead>
                <tbody>
                   {foreach from=$teamMembers key=id item=i}
-                  <tr class="teamMembers_tr" data-teamMemberId="{$i.userid}">
+                  <tr class="teamMembers_tr" data-teamMemberId="{$i.userid}" data-rowId="{$id}">
                      <td class="ui-state-error-text" style="width:38px;">
                         <img class="removeTeamMember_link pointer" align="absmiddle" title="{t}delete this row{/t}" src="images/b_drop.png"/>
                         <img class="editTeamMember_link pointer" align="absmiddle" title="{t}Edit{/t}" src="images/b_edit.png"/>
@@ -222,7 +222,7 @@
 
             <form id="removeTeamMemberForm" name="removeTeamMemberForm" method="post" action="{$page}" class="ui-helper-hidden formWithTabsHistory">
                <fieldset>
-                  <input type="hidden" name="deletememberid" value="0">
+                  <input type="hidden" name="deleteMemberRowId" value="0">
                   <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
                </fieldset>
             </form>
@@ -763,7 +763,7 @@
       };
    </script>
    <script type="text/javascript" src="js_min/datepicker.min.js"></script>
-   <script src="js/edit_team.js"></script>
+   <script src="js_min/edit_team.min.js"></script>
 
    {else}
    <p class="center ui-state-error-text">{t}Sorry, you need to be Team Leader to access this page.{/t}</p>

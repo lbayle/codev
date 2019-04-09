@@ -411,7 +411,7 @@ class BlogPost implements Comparable {
       // pas tres academique, mais bon...
       if ($sessionUserId == $this->src_user_id) {
          // Delete
-         $htmlDeleteButton = "<img class='blogPlugin_btDeletePost pointer' data-bpostId='$this->id' align='absmiddle' src='images/b_drop.png' title='".T_('Delete')."'>";
+         $htmlDeleteButton = "<img class='blogPlugin_btDeletePost pointer' data-bpostId='$this->id' align='absmiddle' src='images/b_drop2.png' title='".T_('Delete')."'>";
       } else {
          // Ack
          if (!$isAck) {
@@ -422,7 +422,7 @@ class BlogPost implements Comparable {
          $isManager = $session_user->isTeamManager($this->dest_team_id);
          if ($isAdministrator || $isManager) {
             // Delete
-            $htmlDeleteButton = "<img class='blogPlugin_btDeletePost pointer' data-bpostId='$this->id' align='absmiddle' src='images/b_drop.png' title='".T_('Delete')."'>";
+            $htmlDeleteButton = "<img class='blogPlugin_btDeletePost pointer' data-bpostId='$this->id' align='absmiddle' src='images/b_drop2.png' title='".T_('Delete')."'>";
          }
       }
       // hide
