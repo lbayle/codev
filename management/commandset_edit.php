@@ -188,10 +188,11 @@ class CommandSetEditController extends Controller {
    private function getCmdSetCandidates(CommandSet $cmdset, User $user) {
       $cmdCandidates = array();
 
-      $lTeamList = $user->getAdministratedTeamList();
-      $managedTeamList = $user->getManagedTeamList();
-      $mTeamList = $user->getDevTeamList();
-      $teamList = $mTeamList + $lTeamList + $managedTeamList;
+      #$lTeamList = $user->getAdministratedTeamList();
+      #$managedTeamList = $user->getManagedTeamList();
+      #$mTeamList = $user->getDevTeamList();
+      #$teamList = $mTeamList + $lTeamList + $managedTeamList;
+      $teamList = array($this->teamid => 'curTeam');
 
       $cmds = $cmdset->getCommands(Command::type_general);
 

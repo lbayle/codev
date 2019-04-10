@@ -215,10 +215,11 @@ class ServiceContractEditController extends Controller {
    private function getCmdSetCandidates(ServiceContract $contract, User $user) {
       $cmdsetCandidates = array();
 
-      $lTeamList = $user->getAdministratedTeamList();
-      $managedTeamList = $user->getManagedTeamList();
-      $mTeamList = $user->getDevTeamList();
-      $teamList = $mTeamList + $lTeamList + $managedTeamList;
+      #$lTeamList = $user->getAdministratedTeamList();
+      #$managedTeamList = $user->getManagedTeamList();
+      #$mTeamList = $user->getDevTeamList();
+      #$teamList = $mTeamList + $lTeamList + $managedTeamList;
+      $teamList = array($this->teamid => 'curTeam');
 
       $contractCmdSets = $contract->getCommandSets(CommandSet::type_general);
 
@@ -285,4 +286,3 @@ ServiceContractEditController::staticInit();
 $controller = new ServiceContractEditController('../', 'ServiceContract (edit)','Management');
 $controller->execute();
 
-?>
