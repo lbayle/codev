@@ -308,10 +308,11 @@ class CommandEditController extends Controller {
    private function getParentCmdSetCandidates(User $user) {
       $parentCmdSets = array();
 
-      $lTeamList = $user->getAdministratedTeamList();
-      $managedTeamList = $user->getManagedTeamList();
-      $mTeamList = $user->getDevTeamList();
-      $teamList = $mTeamList + $lTeamList + $managedTeamList;
+      #$lTeamList = $user->getAdministratedTeamList();
+      #$managedTeamList = $user->getManagedTeamList();
+      #$mTeamList = $user->getDevTeamList();
+      #$teamList = $mTeamList + $lTeamList + $managedTeamList;
+      $teamList = array($this->teamid => 'curTeam');
 
       foreach ($teamList as $tid => $name) {
          $team = TeamCache::getInstance()->getTeam($tid);
