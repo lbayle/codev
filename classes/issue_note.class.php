@@ -176,7 +176,7 @@ class IssueNote {
                "            AND note LIKE ".$sql->db_param().") ".
                " ORDER BY note.date_submitted DESC";
       $q_params[]=$bug_id;
-      $q_params[]='%'.self::tagid_timesheetNote.$sql->db_param().'%';
+      $q_params[]='%'.self::tagid_timesheetNote.'%';
 
       $result = $sql->sql_query($query2, $q_params, TRUE, 1); // LIMIT 1
 
