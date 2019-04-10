@@ -48,9 +48,6 @@ function getAvailableTooltipFields($project) {
 
 
 
-
-
-
 // ========== MAIN ===========
 
 if(Tools::isConnectedUser() &&
@@ -332,48 +329,61 @@ if(Tools::isConnectedUser() &&
 
       } else if ('editTeamMember' == $action) {
          // using POST
-         $data = array();
          try {
             $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
             $userId = Tools::getSecurePOSTIntValue('userId');
             $arrivalDate = Tools::getSecurePOSTStringValue('arrivalDate');
             $departureDate = Tools::getSecurePOSTStringValue('departureDate');
             $accessLevel = Tools::getSecurePOSTIntValue('accessLevelId');
-
-            $team = TeamCache::getInstance()->getTeam($displayed_teamid);
             $arrivalTimestamp   = Tools::date2timestamp($arrivalDate);
             $departureTimestamp = (empty($departureDate)) ? 0 : Tools::date2timestamp($departureDate);
 
-            $team->updateMember($userId, $arrivalTimestamp, $departureTimestamp, $accessLevel);
+            if (empty($arrivalDate)) {
+               $data = array();
+               $data['statusMsg'] = "ERROR: arrivalDate must be set !";
+            } else if (!empty($departureDate) && $arrivalTimestamp > $departureTimestamp) {
+               $data = array();
+               $data['statusMsg'] = "ERROR: arrivalDate > departureDate !";
+            } else {
+               $team = TeamCache::getInstance()->getTeam($displayed_teamid);
 
-            // fetch values from DB (check the UPDATE, return real values)
-            $sql = AdodbWrapper::getInstance();
-            $query = "SELECT user_id, arrival_date, departure_date, access_level".
-               " FROM codev_team_user_table ".
-               " WHERE team_id=".$sql->db_param().
-               " AND   user_id=".$sql->db_param();
-            $result = $sql->sql_query($query, array($displayed_teamid, $userId));
-            $row = $sql->fetchObject($result);
-          
-            // check values
-            $data["statusMsg"] = "SUCCESS";
-            if ($arrivalTimestamp   != $row->arrival_date)   {$data["statusMsg"] = "ERROR: team member update failed ! (arrivalDate)";}
-            if ($departureTimestamp != $row->departure_date) {$data["statusMsg"] = "ERROR: team member update failed ! (departureDate)";}
-            if ($accessLevel        != $row->access_level)   {$data["statusMsg"] = "ERROR: team member update failed ! (accessLevel)";}
+               $team->updateMember($userId, $arrivalTimestamp, $departureTimestamp, $accessLevel);
 
-            // return real data (from DB)
-            $data["userId"] = $row->user_id;
-            $data["arrivalDate"] = date('Y-m-d', $row->arrival_date);
-            $data["departureDate"] = (0 == $row->departure_date) ? '' : date('Y-m-d', $row->departure_date);
-            $data["accessLevel"] = Team::$accessLevelNames[$row->access_level];
-            $data["accessLevelId"] = $row->access_level;
-
+               // fetch values from DB (check & return real values)
+               $data = $team->getTeamMemberData($userId);
+               $data["statusMsg"] = "SUCCESS";
+               if ($arrivalTimestamp   != $data['arrivalTimestamp'])   {$data["statusMsg"] = "ERROR: team member update failed ! (arrivalDate)";}
+               if ($departureTimestamp != $data['departureTimestamp']) {$data["statusMsg"] = "ERROR: team member update failed ! (departureDate)";}
+               if ($accessLevel        != $data['accessLevelId'])      {$data["statusMsg"] = "ERROR: team member update failed ! (accessLevel)";}
+            }
          } catch (Exception $e) {
             $logger->error("EXCEPTION editTeamMember: ".$e->getMessage());
             $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
             Tools::sendBadRequest($e->getMessage());
          }
 
+         // return status & data
+         $jsonData = json_encode($data);
+         echo $jsonData;
+      } else if ('removeTeamMember' == $action) {
+         // using POST
+         $data = array();
+         try {
+            $sql = AdodbWrapper::getInstance();
+            //$displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+            $deleteRowId = Tools::getSecurePOSTIntValue('removeMemberRowId');
+            $query = "DELETE FROM codev_team_user_table WHERE id = ".$sql->db_param();
+            $sql->sql_query($query, array($deleteRowId));
+
+            // TODO check if realy deleted ?
+            $data['statusMsg'] = 'SUCCESS';
+            $data['rowId'] = $deleteRowId;
+
+         } catch (Exception $e) {
+            $logger->error("EXCEPTION editTeamMember: ".$e->getMessage());
+            $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+            Tools::sendBadRequest($e->getMessage());
+         }
          // return status & data
          $jsonData = json_encode($data);
          echo $jsonData;

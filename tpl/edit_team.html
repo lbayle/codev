@@ -192,7 +192,7 @@
          <!-- Display previous entries -->
          <div style="margin-top: 2em;">
             <script type="text/javascript" src="js_min/datatable.min.js"></script>
-            <table class="datatable_csv">
+            <table class="datatable_csv" id="teamMembers_table">
                <thead>
                   <tr>
                      <th></th>
@@ -220,23 +220,10 @@
                </tbody>
             </table>
 
-            <form id="removeTeamMemberForm" name="removeTeamMemberForm" method="post" action="{$page}" class="ui-helper-hidden formWithTabsHistory">
-               <fieldset>
-                  <input type="hidden" name="deleteMemberRowId" value="0">
-                  <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
-               </fieldset>
-            </form>
             <div id="editTeamMember_dialog" title="{t}Update team member{/t}" class="ui-helper-hidden">
+               <input type="hidden" id="editTeamMemberDlg_userId"/>
                <table class="invisible">
                   <tbody>
-                     <tr id="editTeamMemberDlg_tr_arrivalDate">
-                        <th>{t}Arrival Date{/t} :</th>
-                        <td><input type="text" id="editTeamMemberDlg_arrivalDate" name="editTeamMemberDlg_arrivalDate" class="datepicker" maxlength="10" size="10" title="{t}Arrival date{/t}" /></td>
-                     </tr>
-                     <tr id="editTeamMemberDlg_tr_departureDate">
-                        <th>{t}Departure Date{/t} :</th>
-                        <td><input type="text" id="editTeamMemberDlg_departureDate" name="editTeamMemberDlg_departureDate" class="datepicker" maxlength="10" size="10" title="{t}Departure date{/t}" /></td>
-                     </tr>
                      <tr id="editTeamMemberDlg_tr_role">
                         <th>{t}Role{/t} :</th>
                         <td>
@@ -247,7 +234,14 @@
                            </select>
                         </td>
                      </tr>
-                     <input type="hidden" id="editTeamMemberDlg_userId"/>
+                     <tr id="editTeamMemberDlg_tr_arrivalDate">
+                        <th>{t}Arrival Date{/t} :</th>
+                        <td><input type="text" id="editTeamMemberDlg_arrivalDate" name="editTeamMemberDlg_arrivalDate" class="datepicker" maxlength="10" size="10" title="{t}Arrival date{/t}" /></td>
+                     </tr>
+                     <tr id="editTeamMemberDlg_tr_departureDate">
+                        <th>{t}Departure Date{/t} :</th>
+                        <td><input type="text" id="editTeamMemberDlg_departureDate" name="editTeamMemberDlg_departureDate" class="datepicker" maxlength="10" size="10" title="{t}Departure date{/t}" /></td>
+                     </tr>
                   </tbody>
                </table>
             </div>

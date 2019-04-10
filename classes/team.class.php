@@ -814,6 +814,33 @@ class Team extends Model {
       $sql->sql_query($query, $q_params);
    }
 
+   function getTeamMemberData($userId) {
+      // fetch values from DB (check the UPDATE, return real values)
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id, user_id, arrival_date, departure_date, access_level".
+         " FROM codev_team_user_table ".
+         " WHERE team_id=".$sql->db_param().
+         " AND   user_id=".$sql->db_param();
+      $result = $sql->sql_query($query, array($this->id, $userId));
+      $row = $sql->fetchObject($result);
+
+      $data = array (
+         'rowId' => $row->id,
+         'userId' => $row->user_id,
+         #'userName' => $row->,
+         #'userRealName' => $row->,
+         'teamId' => $this->id,
+         'arrivalTimestamp' => $row->arrival_date,
+         'arrivalDate' => date('Y-m-d', $row->arrival_date),
+         'departureTimestamp' => $row->departure_date,
+         'departureDate' => (0 == $row->departure_date) ? '' : date('Y-m-d', $row->departure_date),
+         'accessLevelId' => $row->access_level,
+         'accessLevel' => self::$accessLevelNames[$row->access_level]
+      );
+      return $data;
+   }
+
+
    public function setMemberDepartureDate($memberid, $departureTimestamp) {
       $sql = AdodbWrapper::getInstance();
       $query = "UPDATE codev_team_user_table SET departure_date = ".$sql->db_param()

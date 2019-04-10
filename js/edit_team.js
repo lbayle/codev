@@ -441,10 +441,35 @@ jQuery(document).ready(function() {
       var rowId = $(trTeamMember).attr('data-rowId');
       var realname = $(trTeamMember).children('.teamMember_realname').text();
       var confirmString = editTeamSmartyData.i18n_removeUserFromThisTeam + "\n\n" + realname;
-      var removeTeamMemberForm = jQuery("#removeTeamMemberForm");
+
       if (confirm(confirmString)) {
-         removeTeamMemberForm.find("input[name=deleteMemberRowId]").val(rowId);
-         removeTeamMemberForm.submit();
+         $.ajax({
+            url: editTeamSmartyData.ajaxPage,
+            type: "POST",
+            dataType:"json",
+            data: {
+                     action: 'removeTeamMember',
+                     displayed_teamid: editTeamSmartyData.displayedTeamId,
+                     removeMemberRowId: rowId
+                  },
+            success: function(data) {
+               if (null === data) {
+                     console.error('ERROR removeTeamMember: no data');
+                     alert("ERROR: Please contact your CodevTT administrator");
+               } else {
+                  if ('SUCCESS' !== data.statusMsg) {
+                     console.error("ERROR Ajax statusMsg", data.statusMsg);
+                     alert(data.statusMsg);
+                  } else {
+                     // remove line from teamMembers_table
+                     jQuery(".teamMembers_tr[data-rowId='" + data.rowId + "']").remove();
+                  }
+               }
+            },
+            error:  function(jqXHR, textStatus, errorThrown) {
+               console.error('ERROR removeTeamMember errorThrown', errorThrown);
+            }
+         });
       }
    });
 
@@ -463,7 +488,6 @@ jQuery(document).ready(function() {
       jQuery("#editTeamMemberDlg_arrivalDate").datepicker("setDate" , arrivalDate);
       jQuery("#editTeamMemberDlg_departureDate").datepicker("setDate" , departureDate);
       jQuery("#editTeamMemberDlg_select_role").val(roleId);
-      $( "#editTeamMemberDlg_arrivalDate" ).blur();
       jQuery("#editTeamMember_dialog").dialog( "open" );
    });
 
@@ -493,7 +517,7 @@ jQuery(document).ready(function() {
                   success: function(data) {
                      if ('SUCCESS' === data.statusMsg) {
                         // UPDATE teamMember table
-                        var myTr = $(".teamMembers_tr[data-teamMemberId^="+data.userId+"]");
+                        var myTr = $(".teamMembers_tr[data-teamMemberId="+data.userId+"]");
                         myTr.find(".teamMember_arrivalDate").html(data.arrivalDate);
                         myTr.find(".teamMember_departureDate").html(data.departureDate);
                         myTr.find(".teamMember_role").html(data.accessLevel);
@@ -684,7 +708,3 @@ function validateUpdate(){
 
    return msg;
 }
-
-
-
-
