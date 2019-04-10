@@ -111,14 +111,16 @@ class IssueNote {
 
       // log BUGNOTE_ADD in Issue history
       $query3 = 'INSERT INTO {bug_history} '.
-				'( user_id, bug_id, date_modified, type, old_value ) '.
+				'( user_id, bug_id, date_modified, type, old_value , field_name, new_value) '.
 				"VALUES ( ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().', '.
-                        $sql->db_param().", ".$sql->db_param().")";
+                        $sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().")";
       $q_params3[]=$reporter_id;
       $q_params3[]=$bug_id;
       $q_params3[]=$timestamp;
       $q_params3[]=self::history_BugnoteAdded;
       $q_params3[]=$bugnote_id;
+      $q_params3[]='';
+      $q_params3[]='';
       $sql->sql_query($query3, $q_params3);
 
       return $bugnote_id;
@@ -143,14 +145,16 @@ class IssueNote {
 
       // log BUGNOTE_DELETED in Issue history
       $query3 = 'INSERT INTO {bug_history} '.
-				'( user_id, bug_id, date_modified, type, old_value ) '.
+				'( user_id, bug_id, date_modified, type, old_value, field_name, new_value ) '.
 				"VALUES ( ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().', '.
-                        $sql->db_param().", ".$sql->db_param().")";
+                        $sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().")";
       $q_params3[]=$userid;
       $q_params3[]=$bugid;
       $q_params3[]=time();
       $q_params3[]=self::history_BugnoteDeleted;
       $q_params3[]=$id;
+      $q_params3[]='';
+      $q_params3[]='';
       $sql->sql_query($query3, $q_params3);
    	return true;
    }
