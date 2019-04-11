@@ -142,10 +142,15 @@ class CommandProvision {
       return $sql->getInsertId();
    }
 
-   public static function delete($id) {
+   public static function delete($id, $cmdId=NULL) {
       $sql = AdodbWrapper::getInstance();
       $query = "DELETE FROM codev_command_provision_table WHERE id = ".$sql->db_param();
-      $sql->sql_query($query, array($id));
+      $q_params[]=$id;
+      if (NULL != $cmdId) {
+         $query .= " AND command_id = ".$sql->db_param();
+         $q_params[]=$cmdId;
+      }
+      $sql->sql_query($query, $q_params);
    }
 
    /**
@@ -163,6 +168,40 @@ class CommandProvision {
       }
       return $typeId;
    }
+
+
+   public function update($timestamp, $type, $summary, $budget_days, $budget, $average_daily_rate, $isInCheckBudget, $currency = 'EUR') {
+
+      $budget_cent = floatval($budget) * 100;
+      $budgetDays_cent = floatval($budget_days) * 100; // store 1.15 days in an int
+      $adr_cent = floatval($average_daily_rate) * 100;
+      $formattedIsInCheckBudget = $isInCheckBudget ? 1 : 0;
+
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE  codev_command_provision_table SET ".
+              ' date = '.$sql->db_param().", ".
+              ' type = '.$sql->db_param().", ".
+              ' budget_days = '.$sql->db_param().", ".
+              ' budget = '.$sql->db_param().", ".
+              ' average_daily_rate = '.$sql->db_param().", ".
+              ' currency = '.$sql->db_param().", ".
+              ' summary = '.$sql->db_param().", ".
+              ' is_in_check_budget = '.$sql->db_param().
+              ' WHERE id = '.$sql->db_param();
+
+      $q_params[]=$timestamp;
+      $q_params[]=$type;
+      $q_params[]=$budgetDays_cent;
+      $q_params[]=$budget_cent;
+      $q_params[]=$adr_cent;
+      $q_params[]=$currency;
+      $q_params[]=$summary;
+      $q_params[]=$formattedIsInCheckBudget;
+      $q_params[]=$this->id;
+
+      $sql->sql_query($query, $q_params);
+   }
+
 
    public function getDate() {
       return $this->date;

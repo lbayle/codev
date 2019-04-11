@@ -69,6 +69,149 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
       // write in 'data'
       echo ('SUCCESS');
 
+   } elseif ('addProvision' == $action) {
+
+      try {
+         $myCmdId = Tools::getSecurePOSTIntValue('cmdid');
+         $prov_date = Tools::getSecurePOSTStringValue('date');
+         $provTypeId = Tools::getSecurePOSTIntValue('type');
+         $prov_budget = Tools::getSecurePOSTNumberValue('budget');
+         $prov_budgetDays = Tools::getSecurePOSTNumberValue('budgetDays');
+         $prov_averageDailyRate = Tools::getSecurePOSTNumberValue('averageDailyRate');
+         $prov_currency = Tools::getSecurePOSTStringValue('provisionCurrency');
+         $prov_summary = Tools::getSecurePOSTStringValue('summary');
+         $isInCheckBudget = (0 == Tools::getSecurePOSTIntValue("isInCheckBudget")) ? false : true;
+
+         $prov_type = CommandProvision::$provisionNames[$provTypeId];
+         if (NULL == $prov_type){
+            throw new Exception("Unknown provision type: ". $provTypeId);
+         }
+
+         $currencies = Currencies::getInstance()->getCurrencies();
+         if (!array_key_exists($prov_currency, $currencies)) {
+            throw new Exception("Invalid currency: ".$prov_currency);
+         }
+         $timestamp = Tools::date2timestamp($prov_date);
+         if (0 == $timestamp) {
+            throw new Exception("Invalid date: ".$prov_date);
+         }
+
+         $provId = CommandProvision::create($myCmdId, $timestamp, $provTypeId, $prov_summary, $prov_budgetDays, $prov_budget, $prov_averageDailyRate, $isInCheckBudget, $prov_currency);
+
+         $prov = array(
+            'provId' => $provId,
+            'date' => $prov_date,
+            'type' => $prov_type,
+            'type_id' =>  $provTypeId,
+            'budget_days' => $prov_budgetDays,
+            'budget' => $prov_budget,
+            'currency' => $prov_currency,
+            'average_daily_rate' => $prov_averageDailyRate,
+            'summary' => $prov_summary,
+            'is_checked' => $isInCheckBudget,
+         );
+
+         $jsonData["statusMsg"] = "SUCCESS";
+         $jsonData["action"] = $action; // js uses same dialog for add/edit
+         $jsonData["provData"] = $prov;
+
+      } catch (Exception $e) {
+         $jsonData =  array(
+            'statusMsg' => 'ERROR could not upload file: '.$e->getMessage(),
+         );
+         $logger->error($e->getMessage());
+         $logger->error("EXCEPTION importProvisionCSV: ".$e->getMessage());
+         $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+      }
+      $logger->error($jsonData);
+      echo json_encode($jsonData);
+
+   } elseif ('editProvision' == $action) {
+      try {
+         $myCmdId = Tools::getSecurePOSTIntValue('cmdid');
+         $provRowId = Tools::getSecurePOSTIntValue('provRowId');
+         $prov_date = Tools::getSecurePOSTStringValue('date');
+         $provTypeId = Tools::getSecurePOSTIntValue('type');
+         $prov_budget = Tools::getSecurePOSTNumberValue('budget');
+         $prov_budgetDays = Tools::getSecurePOSTNumberValue('budgetDays');
+         $prov_averageDailyRate = Tools::getSecurePOSTNumberValue('averageDailyRate');
+         $prov_currency = Tools::getSecurePOSTStringValue('provisionCurrency');
+         $prov_summary = Tools::getSecurePOSTStringValue('summary');
+         $isInCheckBudget = (0 == Tools::getSecurePOSTIntValue("isInCheckBudget")) ? false : true;
+
+         $prov_type = CommandProvision::$provisionNames[$provTypeId];
+         if (NULL == $prov_type){
+            throw new Exception("Unknown provision type: ". $provTypeId);
+         }
+         $currencies = Currencies::getInstance()->getCurrencies();
+         if (!array_key_exists($prov_currency, $currencies)) {
+            throw new Exception("Invalid currency: ".$prov_currency);
+         }
+         $timestamp = Tools::date2timestamp($prov_date);
+         if (0 == $timestamp) {
+            throw new Exception("Invalid date: ".$prov_date);
+         }
+
+         $prov = new CommandProvision($provRowId);
+         if ($myCmdId != $prov->getCommandId()) {
+            $msg = "ERROR: Provision $provRowId does not belong to Command $myCmdId !";
+            $data["statusMsg"] = msg;
+            $logger->error("editProvision :".msg);
+         } else {
+            $prov->update($timestamp, $provTypeId, $prov_summary, $prov_budgetDays, $prov_budget, $prov_averageDailyRate, $isInCheckBudget, $prov_currency);
+
+            // TODO return values from DB
+            $provData = array(
+               'provId' => $provRowId,
+               'date' => $prov_date,
+               'type' => $prov_type,
+               'type_id' =>  $provTypeId,
+               'budget_days' => $prov_budgetDays,
+               'budget' => $prov_budget,
+               'currency' => $prov_currency,
+               'average_daily_rate' => $prov_averageDailyRate,
+               'summary' => $prov_summary,
+               'is_checked' => $isInCheckBudget,
+            );
+            $jsonData["statusMsg"] = "SUCCESS";
+            $jsonData["action"] = $action; // js uses same dialog for add/edit
+            $jsonData["provData"] = $provData;
+         }
+      } catch (Exception $e) {
+         $jsonData =  array(
+            'statusMsg' => 'ERROR could not upload file: '.$e->getMessage(),
+         );
+         $logger->error($e->getMessage());
+         $logger->error("EXCEPTION importProvisionCSV: ".$e->getMessage());
+         $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+      }
+      $logger->error($jsonData);
+      echo json_encode($jsonData);
+
+   } elseif ('deleteProvision' == $action) {
+      try {
+         $myCmdId = Tools::getSecurePOSTIntValue('cmdId');
+         $provRowId = Tools::getSecurePOSTIntValue('provRowId');
+
+         // securityCheck: does provid belong to this command ?
+         $prov = new CommandProvision($provRowId);
+         if ($myCmdId != $prov->getCommandId()) {
+            $msg = "ERROR: Provision $provRowId does not belong to Command $myCmdId !";
+            $data["statusMsg"] = msg;
+            $logger->error("deleteProvision :".msg);
+         } else {
+            CommandProvision::delete($provRowId, $myCmdId);
+            $data["statusMsg"] = "SUCCESS";
+            $data["rowId"] = $provRowId;
+         }
+      } catch (Exception $e) {
+         $logger->error("EXCEPTION addUserDailyCost: ".$e->getMessage());
+         $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         Tools::sendBadRequest($e->getMessage());
+      }
+      $jsonData = json_encode($data);
+      echo $jsonData;
+
    } elseif ('importProvisionCSV' == $action) {
       try {
          $currencies = Currencies::getInstance()->getCurrencies();
@@ -135,11 +278,29 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                       'currency' => $myCurrency,
                       'average_daily_rate' => $myAverageDailyRate,
                       'summary' => $mySummary,
-                      'is_checked' => $isMngtProv ? "false" : "true",
+                      'is_checked' => !$isMngtProv, // must be false if management
                   );
-                  $provData[] = $prov;
+                  $provData[$row] = $prov;
                }
             }
+         } // while (!$file->eof())
+
+         // now that each lines have been read & validated, create
+         foreach($provData as $row => $prov){
+            $timestamp = Tools::date2timestamp($prov['date']);
+
+            $provId = CommandProvision::create($cmdid,
+               $timestamp,
+               $prov['type_id'],
+               $prov['summary'],
+               $prov['budget_days'],
+               $prov['budget'],
+               $prov['average_daily_rate'],
+               $prov['is_checked'],
+               $prov['currency']);
+            
+            $provData[$row]['provId'] = $provId;
+            $provData[$row]['csvFileLine'] = $row;
          }
 
          $jsonData =  array(
@@ -148,82 +309,14 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          );
       } catch (Exception $e) {
          $jsonData =  array(
-            'statusMsg' => 'ERROR could not upload file',
+            'statusMsg' => 'ERROR could not upload file: '.$e->getMessage(),
          );
          $logger->error($e->getMessage());
+         $logger->error("EXCEPTION importProvisionCSV: ".$e->getMessage());
+         $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
       }
+      //$logger->error($jsonData);
       echo json_encode($jsonData);
-
-   } elseif ('saveProvisionCSV' == $action) {
-      try{
-         $provDataReceived = $_POST['provdata'];
-         $currencies = Currencies::getInstance()->getCurrencies();
-         
-         foreach($provDataReceived as $provReceived){
-            $provDateReceive = $provReceived["dateProv"];
-            $provTypeIdReceive = $provReceived["typeIdProv"];
-            $provBudgetDaysReceive = $provReceived["budget_daysProv"];
-            $provBudgetReceive = $provReceived["budgetProv"];
-            $provCurrencyReceive = $provReceived["currencyProv"];
-            $provSummaryReceive = $provReceived["summaryProv"];
-            $provIsInCheckBudgetReceive = $provReceived["cb_isInCheckBudgetProv"];
-
-            $provTypeReceive = CommandProvision::$provisionNames[$provTypeIdReceive];
-            $timestamp = Tools::date2timestamp($provDateReceive);
-            $checkDate = DateTime::createFromFormat('Y-m-d', $provDateReceive);
-
-            if(FALSE === $checkDate) {
-               throw new Exception("Wrong provision date : "+ $provDateReceive);
-            }
-            if (false === $provTypeIdReceive){
-               throw new Exception("Undefined provision type");
-            }
-            if (!is_numeric($provBudgetDaysReceive) || $provBudgetDaysReceive < 0){
-               throw new Exception("The days budget is not valid");
-            }
-            if (!is_numeric($provBudgetReceive) || $provBudgetReceive < 0){
-               throw new Exception("The currency budget is not valid");
-            }
-            if (!array_key_exists($provCurrencyReceive, $currencies)) {
-               throw new Exception("Invalid currency: ".$provCurrencyReceive);
-            }
-
-
-            // compute ADR (but remember that it's unused by CodevTT : deprecated)
-            if (0 != $provBudgetDaysReceive) {
-               $provAverageDailyRate = $provBudgetReceive / $provBudgetDaysReceive;
-            } else {
-               $provAverageDailyRate = 0;
-            }
-
-            $provId = CommandProvision::create($cmdid, $timestamp, $provTypeIdReceive, $provSummaryReceive, $provBudgetDaysReceive, $provBudgetReceive, $provAverageDailyRate, $provIsInCheckBudgetReceive, $provCurrencyReceive);
-            
-            $provReceived = array(
-               'id' => $provId,
-               'date' => $provDateReceive,
-               'type' => $provTypeReceive,
-               'type_id' => $provTypeIdReceive,
-               'budget_days' => $provBudgetDaysReceive,
-               'budget' => $provBudgetReceive,
-               'currency' => $provCurrencyReceive,
-               'average_daily_rate' => $provAverageDailyRate,
-               'summary' => $provSummaryReceive,
-               'is_checked' => $provIsInCheckBudgetReceive,
-            );
-            $provDataSend[] = $provReceived;
-
-            $jsonDataSend =  array(
-               'statusMsg' => 'SUCCESS',
-               'provDataSend' => $provDataSend,
-            );
-         }
-      } catch (Exception $e){
-         $jsonDataSend =  array(
-            'statusMsg' => 'ERROR could not create provisions',
-         );
-         $logger->error($e->getMessage());
-      }
-      echo json_encode($jsonDataSend);
 
    } else {
       Tools::sendNotFoundAccess();
@@ -239,6 +332,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
     * @throws Exception
     */
    function getSourceFile1() {
+      global $logger;
 
       if (isset($_FILES['uploaded_csv'])) {
          $filename = $_FILES['uploaded_csv']['name'];

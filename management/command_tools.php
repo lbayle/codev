@@ -103,6 +103,7 @@ class CommandTools {
             'id' => $id,
             'date' => date("Y-m-d", $prov->getDate()),
             'type' => CommandProvision::$provisionNames[$prov->getType()],
+            'type_id' => $prov->getType(),
             'budget_days' => $prov->getProvisionDays(),
             'budget' => $prov->getProvisionBudget(),
             'average_daily_rate' => $prov->getAverageDailyRate(),

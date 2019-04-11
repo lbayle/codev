@@ -496,102 +496,15 @@
       </div>
       <div id="tab_provisions">
          <div style="display:inline-block">
-            <script type="text/javascript">
-               // actions for 'provisionsTable'
-
-               jQuery(document).ready(function() {
-                  jQuery(".cbIsInCheckBudget").click(function () {
-                     jQuery("#btSaveProvisions").removeAttr("disabled");
-                  });
-
-                  jQuery("#btSaveProvisions").click(function() {
-
-                     var imploded = ""
-                     jQuery("#provisionsTable tbody tr").each(function() {
-                        var provid = jQuery(this).attr("id");
-                        var isInCheckBudget = jQuery(this).find(".cbIsInCheckBudget").attr("checked");
-                        var boolVal = ("checked" == isInCheckBudget) ? 1 : 0;
-
-                        imploded += provid+":"+boolVal+",";
-                        //alert("provid " + provid + " implode "+ implode);
-                     });
-
-                     var myform = jQuery("#formSaveProvisionChanges");
-                     myform.find("input[name=isInCheckBudgetImploded]").val(imploded);
-                     myform.submit(); // this 'submit' method is rewritten for ajax purpose, see below
-
-                     jQuery("#btSaveProvisions").attr("disabled", "disabled");
-                  });
-
-                  // rewrite the 'submit' method to send the request in background (async) via ajax
-                  jQuery("#formSaveProvisionChanges").submit(function(event) {
-
-                     event.preventDefault(); // stop form from submitting normally
-
-                     var myform = jQuery(this);
-                     jQuery.ajax({
-                        // standard 'submit' attributes:
-                        type: myform.attr("method"),
-                        url: myform.attr("action"),
-                        data: myform.serialize(),
-                        // add specific actions:
-                        success: function(data) {
-                           // 'data' is returned by the ajax page (using PHP 'echo' function)
-                           if ('SUCCESS' == data) {
-                              alert("{t}Provisions successfully updated.{/t}");
-                           } else {
-                              // data = error message
-                              alert(data);
-                              window.location = '{$page}';
-                           }
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                           if(errorThrown == 'Forbidden') {
-                              window.location = '{$page}';
-                           } else {
-                              alert({t}errorThrown{/t});
-                           }
-                        }
-                     });
-
-
-                  });
-
-               });
-
-               function deleteProvision(provid, date, type, budget, budgetDays, summary){
-                  var dialog = jQuery("#deleteProvision_dialog_form");
-                  dialog.find(".desc_date").text(date);
-                  dialog.find(".desc_type").text(type);
-                  dialog.find(".desc_budget").text(budget);
-                  dialog.find(".desc_budgetDays").text(budgetDays);
-                  dialog.find(".desc_summary").text(summary);
-                  dialog.find("input[name=provid]").val(provid);
-
-                  dialog.dialog("open");
-               }
-            </script>
-            <form id="formSaveProvisionChanges" name="formSaveProvisionChanges" method="post" action="{$ajaxPage}" >
-               <fieldset>
-                  <input type="hidden" name="action" value="saveProvisionChanges" />
-                  <input type="hidden" name="teamid" value="{$teamid}" />
-                  <input type="hidden" name="cmdid" value="{$cmdid}" />
-                  <input type="hidden" name="isInCheckBudgetImploded" value="0" />
-               </fieldset>
-            </form>
-
             <div>
-               <form method="post" action="{$ajaxPage}" enctype="multipart/form-data" id="formCmdEditUploadFile">
-                  <input  id="fileInput" type="file" accept=".csv, text/csv, application/csv, text/comma-separated-values"/>
-                  <button id="btImpotProvision" type="button"><img border="0" align="absmiddle" alt="Add icon" src="images/import.ico">{t}CSV Import{/t}</button>
-                  <span style="padding-left: 2em">{t}Import templates{/t}: </span>
-                  <span><a href="include/download.php?importTemplates&f=import_provisions_template.xls">XLS</a></span>
-               </form>
+               <input  id="fileInput" type="file" accept=".csv, text/csv, application/csv, text/comma-separated-values"/>
+               <button id="btImportProvision" type="button"><img border="0" align="absmiddle" alt="Add icon" src="images/import.ico">{t}CSV Import{/t}</button>
+               <span style="padding-left: 2em">{t}Import templates{/t}: </span>
+               <span><a href="include/download.php?importTemplates&f=import_provisions_template.xls">XLS</a></span>
             </div>
             <hr>
             <div style="margin-top: 1em;">
                <button id="btAddProvision" type="button" style="center"><img border="0" align="absmiddle" alt="Add icon" src="images/b_add.png"> {t}Add Provision{/t}</button>
-               <button id="btSaveProvisions" disabled="disabled" type="button" class="floatr"><img  border="0" align="absmiddle" src="images/b_save.png" alt="Save icon"/> {t}Save{/t}</button>
             </div>
             <table id="provisionsTable">
                <thead>
@@ -607,251 +520,25 @@
                </thead>
                <tbody>
                {foreach $cmdProvisionList as $id => $prov}
-               <tr id="{$id}">
-                  <td class="ui-state-error-text" style="width:1em;">
-                     <a class="ui-icon" title="{t}delete Provision{/t}" href="{$page}"
-                        onclick="deleteProvision('{$prov.id}', '{$prov.date}', '{$prov.type}', '{$prov.budget} {$prov.currency}', '{$prov.budget_days} {t}days{/t}', '{$prov.summary}');return false;"></a>
+               <tr class="provRow" data-provRowId="{$prov.id}">
+                  <td class="ui-state-error-text" style="width:38px;">
+                     <img class="deleteProvision_link pointer" align="absmiddle" title="{t}Delete{/t}" src="images/b_drop.png"/>
+                     <img class="editProvision_link pointer" align="absmiddle" title="{t}Edit{/t}" src="images/b_edit.png"/>
                   </td>
-                  <td>{$prov.date}</td>
-                  <td>{$prov.type}</td>
-                  <td>{$prov.budget_days}</td>
-                  <td style="text-align: right;">{$prov.budget} {$prov.currency}</td>
-                  <td>{$prov.summary}</td>
-                  <td title="{t}add to budget check{/t}"><input {if ($prov.isInCheckBudget)}checked="checked"{/if} type="checkbox" class="cbIsInCheckBudget" /></td>
+                  <td class="provDate">{$prov.date}</td>
+                  <td class="provType" data-provTypeId="{$prov.type_id}">{$prov.type}</td>
+                  <td class="provBudgetDays">{$prov.budget_days}</td>
+                  <td style="text-align: right;">
+                     <span class="provBudget">{$prov.budget}</span> <span class="provCurrency">{$prov.currency}</span>
+                  </td>
+                  <td class="provSummary">{$prov.summary}</td>
+                  <td title="{t}add to budget check{/t}"><input class="cbIsInCheckBudget" type="checkbox" disabled="disabled" {if ($prov.isInCheckBudget)}checked="checked"{/if} /></td>
                </tr>
                {/foreach}
                </tbody>
             </table>
          </div>
 
-         <script type="text/javascript">
-            // actions for 'addProvision_dialog_form'
-var provData;
-            function updateADR() {
-               if (('' != jQuery("#budget").val()) &&
-                  (0 != jQuery("#budget").val()) &&
-                  ('' != jQuery("#budgetDays").val()) &&
-                  (0 != jQuery("#budgetDays").val())
-               ) {
-                  var adr = parseFloat(jQuery("#budget").val()) / parseFloat(jQuery("#budgetDays").val());
-                  jQuery("#averageDailyRate").val(adr.toFixed(2));
-               }
-            }
-            function updateBudget() {
-               if (('' != jQuery("#averageDailyRate").val()) &&
-                  (0 != jQuery("#averageDailyRate").val()) &&
-                  ('' != jQuery("#budgetDays").val()) &&
-                  (0 != jQuery("#budgetDays").val())
-               ) {
-                  var budget = parseFloat(jQuery("#budgetDays").val()) * parseFloat(jQuery("#averageDailyRate").val());
-                  jQuery("#budget").val(budget.toFixed(2));
-               }
-            }
-
-
-            jQuery(document).ready(function() {
-
-               jQuery("#budgetDays").keyup(function(event) {
-                  updateBudget();
-               });
-
-               jQuery("#averageDailyRate").keyup(function(event) {
-                  updateBudget();
-               });
-
-               jQuery("#budget").keyup(function(event) {
-                  updateADR();
-               });
-
-               jQuery("#type").change(function() {
-
-                  // DEFAULT: checked, except if type='management'
-                  var checked = ( jQuery("#type").val() == {$cmdProvisionTypeMngt}) ? false : true;
-                  jQuery("#cb_isInCheckBudget").prop('checked', checked);
-               });
-
-               jQuery("#btAddProvision").click(function(event) {
-                  var dialog = jQuery("#addProvision_dialog_form");
-                  dialog.dialog("open");
-               });
-
-               // add provision dialogBox
-               jQuery("#addProvision_dialog_form").dialog({
-                  autoOpen: false,
-                  resizable: true,
-                  width: "auto",
-                  modal: true,
-                  buttons: {
-                     "{t}Add{/t}": function() {
-                        var isInCheckBudget = jQuery("#cb_isInCheckBudget").attr('checked')?1:0;
-                        var form = jQuery("#formAddProvision");
-                        form.find("input[name=isInCheckBudget]").val(isInCheckBudget);
-                        form.submit();
-                     },
-                     Cancel: function() {
-                        jQuery(this).dialog("close");
-                     }
-                  }
-               });
-               // delete provision dialogBox
-               jQuery("#deleteProvision_dialog_form").dialog({
-                  autoOpen: false,
-                  resizable: true,
-                  width: "auto",
-                  modal: true,
-                  buttons: {
-                     "{t}Delete{/t}": function() {
-                        jQuery("#formDeleteProvision").submit();
-                     },
-                     Cancel: function() {
-                        jQuery(this).dialog("close");
-                     }
-                  }
-               });
-               //import provision dialogBox
-               jQuery("#btImpotProvision").click(function(event) {
-                  var dialog = jQuery("#importProvision_dialog_form");
-                  dialog.dialog("open");
-               });
-
-               jQuery("#importProvision_dialog_form").dialog({
-                  autoOpen: false,
-                  resizable: true,
-                  width: "auto",
-                  modal: true,
-                  buttons: {
-                     "{t}Import{/t}": function() {
-                        var i = 0;
-                        jQuery(".TableImportProvisionCSV .ProvisionCSV_tr").each(function() {
-                           var cb_isInCheckBudget = $(this).find(".cb_isInCheckBudget").attr('checked') ? 1 : 0;
-                           var date  = $(this).find(".date").html();
-                           var type_id  = $(this).find(".type").attr('data-provTypeId');
-                           var budget_days  = $(this).find(".budget_days").html();
-                           var budget  = $(this).find(".budget").html();
-                           var currency  = $(this).find(".currency").html();
-                           var summary  = $(this).find(".summary").html();
-                           var id = i;
-
-                           var prov = new Object();
-                           prov.dateProv  = date;
-                           prov.typeIdProv  = type_id;
-                           prov.budget_daysProv  = budget_days;
-                           prov.budgetProv  = budget;
-                           prov.currencyProv  = currency;
-                           prov.summaryProv  = summary;
-                           prov.cb_isInCheckBudgetProv  = cb_isInCheckBudget;
-                           provData[id] = prov;
-                           i = i+1;
-                        });
-                        jQuery("#importProvision_dialog_form tbody tr").remove();
-                        jQuery.ajax({
-                           type: "POST",
-                           url: "{$ajaxPage}",
-                           data: { action: "saveProvisionCSV",
-                                   cmdid: "{$cmdid}",
-                                   provdata: provData },
-                           dataType: "json",
-                           success: function(data) {
-                              if ('SUCCESS' === data.statusMsg) {
-                                 provDataReceive = data.provDataSend;
-                                 jQuery.each(provDataReceive,function(key,prov) {
-                                    var trObj = jQuery("<tr></tr>");
-                                    trObj.append(jQuery("<td class='ui-state-error-text'></td>").append(jQuery('<a class="ui-icon" title="{t}delete Provision{/t}" href="{$page}" ></a>').attr("onclick","deleteProvision('"+prov.id+"','"+prov.date+"','"+prov.type+"','"+prov.budget+"','"+prov.budget_days+"','"+prov.summary+"');return false;")));
-                                    trObj.append(jQuery("<td class='date'></td>").text(prov.date));
-                                    trObj.append(jQuery("<td class='type'></td>").text(prov.type));
-                                    trObj.append(jQuery("<td class='budget_days'></td>").text(prov.budget_days));
-                                    trObj.append(jQuery("<td class='budget'></td>").text(prov.budget+' '+prov.currency));
-                                    trObj.append(jQuery("<td class='summary'></td>").html(prov.summary));
-                                    if ("1" === prov.is_checked){
-                                       trObj.append(jQuery("<td></td>").html('<input type="checkbox" name="cbIsInCheckBudget_'+key+'" class="cb_isInCheckBudget" value="true" checked/>'));
-                                    } else {
-                                       trObj.append(jQuery("<td></td>").html('<input type="checkbox" name="cbIsInCheckBudget_'+key+'" class="cb_isInCheckBudget" value="false" />'));
-                                    }
-                                    trObj.appendTo("#provisionsTable tbody");
-                                 });
-                              } else {
-                                 console.error("Ajax statusMsg", data.statusMsg);
-                                 alert(data.statusMsg);
-                              }
-                           },
-                           error: function(jqXHR, textStatus, errorThrown) {
-                              if ('Forbidden' === errorThrown ) {
-                                 window.location = '{$page}';
-                              } else {
-                                 console.error(textStatus, errorThrown);
-                                 alert("ERROR: Please contact your CodevTT administrator");
-                              }
-                           }
-                        });
-                        jQuery('#fileInput').val('');
-                        jQuery(this).dialog("close");
-                     },
-                     "{t}Cancel{/t}": function() {
-                        jQuery('#fileInput').val('');
-                        jQuery("#importProvision_dialog_form tbody tr").remove();
-                        jQuery(this).dialog("close");
-                     }
-                  }
-               });
-               
-               jQuery("#fileInput").on("change", function(e) {
-                  var files = e.target.files[0];
-                  var form = jQuery('#formCmdEditUploadFile');
-                  var data = new FormData();
-                  data.append("uploaded_csv", files);
-                  data.append("action","importProvisionCSV");
-                  data.append("cmdid","{$cmdid}");
-
-                  jQuery.ajax({
-                     async: false,
-                     type: form.attr('method'),
-                     url: form.attr('action'),
-                     data: data,
-                     processData: false,
-                     contentType: false, 
-                     dataType:"json",
-                     success: function(data) {
-                        if ('SUCCESS' === data.statusMsg) {
-                           provData = data.provData;
-                           jQuery.each(provData,function(key,prov) {
-                              var trObj = jQuery("<tr class='ProvisionCSV_tr'></tr>");
-                              trObj.append(jQuery("<td class='date'></td>").text(prov.date));
-                              trObj.append(jQuery("<td class='type'></td>").text(prov.type).attr('data-provTypeId', prov.type_id));
-                              trObj.append(jQuery("<td class='budget_days'></td>").text(prov.budget_days));
-                              trObj.append(jQuery("<td class='budget'></td>").text(prov.budget));
-                              trObj.append(jQuery("<td class='currency'></td>").text(prov.currency));
-                              trObj.append(jQuery("<td class='summary'></td>").text(prov.summary));
-                              if ('true' === prov.is_checked){
-                                 trObj.append(jQuery("<td></td>").html('<input type="checkbox" name="cbIsInCheckBudget_'+key+'" class="cb_isInCheckBudget" value="'+prov.is_checked+'" checked/>'));
-                              } else {
-                                 trObj.append(jQuery("<td></td>").html('<input type="checkbox" name="cbIsInCheckBudget_'+key+'" class="cb_isInCheckBudget" value="'+prov.is_checked+'" />'));
-
-                              }
-                              trObj.appendTo("#importProvision_dialog_form tbody");
-                           });
-                        } else {
-                           console.error("Ajax statusMsg", data.statusMsg);
-                           alert(data.statusMsg);
-                        }
-                     },
-                     error: function(jqXHR, textStatus, errorThrown) {
-                        if('Forbidden' === errorThrown ) {
-                           window.location = '{$page}';
-                        }else {
-                           console.error(textStatus, errorThrown);
-                           alert("ERROR: Please contact your CodevTT administrator");
-                        }
-                     }
-                  });
-               });
-
-               jQuery("#provisionCurrency").on("change", function(e) {
-                  var newCur = jQuery("#provisionCurrency").val();
-                  jQuery(".provisionCurrencyDisplayed").html(newCur);
-               });
-
-            });
-         </script>
          <div id="addProvision_dialog_form" title="{t}Add Provision{/t}" class="ui-helper-hidden">
             <form id="formAddProvision" name="formAddProvision" method="post" action="{$page}" class="formWithTabsHistory" >
                <fieldset>
@@ -879,7 +566,7 @@ var provData;
                         <tr>
                            <th nowrap="nowrap"><label for="averageDailyRate">{t}Average Daily Rate{/t} :</label></th>
                            <td><input type="text" id="averageDailyRate" name="averageDailyRate" size="10" class="text" value="" />
-                              <label class="provisionCurrencyDisplayed">{$teamCurrency}</label>
+                              <label id="provisionCurrencyDisplayed">{$teamCurrency}</label>
                            </td>
                         </tr>
                         <tr>
@@ -903,71 +590,14 @@ var provData;
 
                      </tbody>
                   </table>
-                  <input type="hidden" name="prov_summary" value="0" />
-                  <input type="hidden" name="action" value="addProvision" />
+                  <input type="hidden" name="action" id="addProvDlgAction" value="addProvision" />
                   <input type="hidden" name="teamid" value="{$teamid}" />
                   <input type="hidden" name="cmdid" value="{$cmdid}" />
                   <input type="hidden" name="isInCheckBudget" value="{$isInCheckBudget}"/>
+                  <input type="hidden" name="provRowId" id="addProvRowId" value="0" />
                </fieldset>
             </form>
          </div>
-
-         <div id="importProvision_dialog_form" title="{t}Import provisions CSV{/t}" class="ui-helper-hidden">
-            <fieldset>
-               <table class="invisible TableImportProvisionCSV">
-                  <thead>
-                     <tr>
-                        <th nowrap="nowrap"><label for="datepicker">{t}Date{/t}</label></th>
-                        <th nowrap="nowrap"><label for="type">{t}Type{/t}</label></th>
-                        <th nowrap="nowrap"><label for="budgetDays">{t}Budget Days{/t}</label></th>
-                        <th nowrap="nowrap"><label for="budget">{t}Budget{/t}</label></th>
-                        <th nowrap="nowrap"><label for="currency">{t}Currency{/t}</label></th>
-                        <th nowrap="nowrap"><label for="summary">{t}Summary{/t}</label></th>
-                        <th title = "{t}add to budget check{/t}"></th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <!-- filled by ajax call -->
-                  </tbody>
-               </table>
-            </fieldset>
-         </div>
-
-         <div id="deleteProvision_dialog_form" title="{t}Delete Provision{/t}" class="ui-helper-hidden">
-            <form id="formDeleteProvision" name="formDeleteProvision" method="post" action="{$page}" class="formWithTabsHistory" >
-               <p><span class="ui-icon ui-icon-alert float" style="margin-right: 7px;"></span>{t}Delete from the Command ?{/t}</p>
-               <fieldset>
-                  <table class="invisible">
-                     <tbody>
-                        <tr>
-                           <th nowrap="nowrap">{t}Date{/t} :</th>
-                           <td class="desc_date">date</td>
-                        </tr>
-                        <tr>
-                           <th nowrap="nowrap">{t}Type{/t} :</th>
-                           <td class="desc_type">type</td>
-                        </tr>
-                        <tr>
-                           <th nowrap="nowrap">{t}Budget{/t} :</th>
-                           <td class="desc_budget"></td>
-                        </tr>
-                        <tr>
-                           <th nowrap="nowrap">{t}Budget Days{/t} :</th>
-                           <td class="desc_budgetDays"></td>
-                        </tr>
-                        <tr>
-                           <th nowrap="nowrap">{t}Summary{/t} :</th>
-                           <td class="desc_summary">summary</td>
-                        </tr>
-                     </tbody>
-                  </table>
-                  <input type="hidden" name="action" value="deleteProvision" />
-                  <input type="hidden" name="teamid" value="{$teamid}" />
-                  <input type="hidden" name="provid"  value="0" />
-               </fieldset>
-            </form>
-         </div>
-      </div>
 
       <div id="tab_wbs">
           {include file="tools/wbsEditor.html"}
@@ -984,6 +614,31 @@ var provData;
       </script>
    </div>
    {/if}
+
+   <script type="text/javascript">
+      // this is to transmit SMARTY variables to js file
+      var smartyData = {
+         page:"{$page}",
+         ajaxPage:"{$ajaxPage}",
+         cmdId:"{$commandid}",
+         cmdProvisionTypeMngt:"{$cmdProvisionTypeMngt}",
+         // i18n
+         i18n_someFieldsAreMissing:"{t}Some fields are missing:{/t}",
+         i18n_days:"{t}days{/t}",
+         i18n_add:"{t}Add{/t}",
+         i18n_update:"{t}Update{/t}",
+         i18n_delete:"{t}Delete{/t}",
+         i18n_cancel:"{t}Cancel{/t}",
+         i18n_save:"{t}save{/t}",
+         i18n_confirmDeleteProvision:"{t}Delete from the Command ?{/t}",
+         i18n_addProvision:"{t}Add Provision{/t}",
+         i18n_editProvision:"{t}Edit Provision{/t}",
+         i18n_updatedSuccessfully:"{t}Updated successfully !{/t}"
+      };
+   </script>
+   <script type="text/javascript" src="js_min/datepicker.min.js"></script>
+   <script src="js/command_edit.js"></script>
+
 {else}
    <div class="center">
    {t}Sorry, only managers can access this page.{/t}

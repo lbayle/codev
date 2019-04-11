@@ -178,26 +178,6 @@ class CommandEditController extends Controller {
                   Command::delete($cmdid);
                   unset($_SESSION['cmdid']);
                   header('Location:command_info.php');
-               } else if ("addProvision" == $action) {
-
-                  # TODO check injections
-                  $prov_date = Tools::getSecurePOSTStringValue('date');
-                  $prov_type = $_POST['type'];
-                  $prov_budget = Tools::getSecurePOSTNumberValue('budget');
-                  $prov_budgetDays = Tools::getSecurePOSTNumberValue('budgetDays');
-                  $prov_averageDailyRate = Tools::getSecurePOSTNumberValue('averageDailyRate');
-                  $prov_currency = Tools::getSecurePOSTStringValue('provisionCurrency');
-                  $prov_summary = Tools::getSecurePOSTStringValue('summary');
-                  $isInCheckBudget = (0 == Tools::getSecurePOSTIntValue("isInCheckBudget")) ? false : true;
-
-                  $timestamp = Tools::date2timestamp($prov_date);
-
-                  CommandProvision::create($cmd->getId(), $timestamp, $prov_type, $prov_summary, $prov_budgetDays, $prov_budget, $prov_averageDailyRate, $isInCheckBudget, $prov_currency);
-
-               } else if ("deleteProvision" == $action) {
-                  # TODO check injections
-                  $provid = $_POST['provid'];
-                  $cmd->deleteProvision($provid);
                }
 
                // Display Command
