@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-04-07 12:05+0200\n"
-"PO-Revision-Date: 2019-04-08 14:40:04+0000\n"
+"PO-Revision-Date: 2019-04-11 15:42:19+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -340,7 +340,7 @@ msgstr "Tâche"
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #: reports/export_csv_tools.php:65 reports/export_csv_weekly.php:128
 msgid "BL"
-msgstr "RAF"
+msgstr "Arriéré des tâches"
 
 #. tpl/ajax/weekTaskDetails.html
 #. tpl/productivity_report.html
@@ -358,7 +358,7 @@ msgstr "Poste"
 
 #. tpl/ajax/weekTaskDetails.html
 msgid "update backlog"
-msgstr "maj du RAF"
+msgstr "maj de l'arriéré des tâches"
 
 #. tpl/ajax/weekTaskDetails.html
 #. tpl/commandset_info.html
@@ -376,7 +376,7 @@ msgstr "TOTAL"
 
 #. tpl/bvi.html
 msgid "Average Backlog Variation"
-msgstr "Evolution de la moyenne des RAF"
+msgstr "Evolution de la moyenne de l'arriéré des tâches"
 
 #. tpl/bvi.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
@@ -2332,7 +2332,7 @@ msgstr "Ajouter à une commande"
 
 #. tpl/issue_info.html
 msgid "set/remove task specific deadline"
-msgstr "ajouter/enlever la date jalon de la tâche"
+msgstr "ajouter/enlever la date butée de la tâche"
 
 #. tpl/issue_info.html
 msgid "Delivery date"
@@ -2345,15 +2345,15 @@ msgstr "ajouter/enlever la date de livraison"
 #. tpl/issue_info.html
 #. tpl/modal/update_issueBacklog.html
 msgid "Task not resolved, backlog cannot be '0'"
-msgstr "Tâche non résolue, le RAF ne peut être nul"
+msgstr "Tâche non résolue, l'arriéré ne peut être nul"
 
 #. tpl/issue_info.html
 msgid "Task is resolved, backlog should be '0'"
-msgstr "Tâche résolue, le RAF devrait être à zero"
+msgstr "Tâche résolue, l'arriéré devrait être à zero"
 
 #. tpl/issue_info.html
 msgid "Backlog should not be set if status is : "
-msgstr "Le RAF devrait pas être renseigné si les status est:"
+msgstr "L'arriéré des tâches ne devrait pas être renseigné si le status est:"
 
 #. tpl/logs.html
 msgid "Line"
@@ -2664,7 +2664,7 @@ msgstr "Sélectionner tout"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Current backlog"
-msgstr "RAF actuel"
+msgstr "Arriéré des tâches actuel"
 
 #. tpl/modal/update_issueBacklog.html
 #. tpl/scheduler.html
@@ -2688,7 +2688,7 @@ msgstr "Durée (en jours)"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Update Backlog"
-msgstr "Mise à jour du RAF"
+msgstr "Mise à jour de l'arriéré des tâches"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Status can't be : "
@@ -2696,7 +2696,7 @@ msgstr "Le status ne peut pas être :"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Task resolved, backlog must be '0'"
-msgstr "Tâche résolue, le RAF devrait être à zero"
+msgstr "Tâche résolue, l'arriéré doit être à zero"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
@@ -2750,7 +2750,7 @@ msgstr "jour"
 
 #. tpl/plugin_manager.html
 msgid "Check for new plugins in 'plugins' directory."
-msgstr "Recherche de plugins dans le dossier 'plugins'"
+msgstr "Recherche de nouveaux plugins dans le dossier 'plugins'"
 
 #. tpl/plugin_manager.html
 msgid "Discover new plugins"
@@ -3099,7 +3099,7 @@ msgstr "Affectations"
 
 #. tpl/scheduler.html
 msgid "RAF"
-msgstr "RAF"
+msgstr "Arriéré des tâches"
 
 #. tpl/scheduler.html
 msgid "User assignment"
@@ -3396,7 +3396,7 @@ msgstr "Disp Sys"
 
 #. tpl/statistics.html
 msgid "Number of reopened external tasks (tasks having an ExternalRef)."
-msgstr "Nombre de fiches réouvertes (ayant une ReferenceExterne)"
+msgstr "Nombre de fiches réouvertes (ayant une RefExterne)"
 
 #. tpl/statistics.html
 msgid "% Reopened"
@@ -3447,7 +3447,7 @@ msgstr "CRAs"
 
 #. tpl/team_activity_report.html
 msgid "sum(Backlog) of assigned tasks"
-msgstr "somme(RAF) des tâches assignées"
+msgstr "somme(arriéré) des tâches assignées"
 
 #. tpl/team_activity_report.html
 msgid "Workload"
@@ -3653,7 +3653,7 @@ msgstr "Suppression des fichiers de configuration de CodevTT :"
 
 #. tpl/uninstall.html
 msgid "Remove Mantis plugin:"
-msgstr "Enlever les plugins Mantis:"
+msgstr "Enlever le plugin Mantis:"
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
@@ -3799,17 +3799,17 @@ msgstr "Hebdomadaire"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
-msgstr "Pas de tâche avec RAF"
+msgstr "Pas de tâche dans l'arriéré"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:69
 msgid "Backlog per User"
-msgstr "RAF par utilisateur"
+msgstr "Arriéré des tâches par utilisateur"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "For each user, return the sum of the backlog of its assigned tasks"
-msgstr "Pour chaque utilisateur, renvoie la somme du RAF de ses tâches"
+msgstr "Pour chaque utilisateur, renvoie la somme de l'arriéré  des tâches qui lui sont assignées"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 msgid "Task ID"
@@ -3817,7 +3817,7 @@ msgstr "N° tâche"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Refresh"
-msgstr "Rafraichir"
+msgstr "Rafraîchir"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Send new message"
@@ -3829,7 +3829,7 @@ msgstr "Expire"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Exp. date"
-msgstr "Date exp."
+msgstr "Date d'échéance"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Expiration Date (optional)"
@@ -3841,7 +3841,7 @@ msgstr "Tous (toutes les équipes)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall options"
-msgstr "Options des messages"
+msgstr "Options du mur des messages"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Recipient"
@@ -3857,7 +3857,7 @@ msgstr "Toutes mes équipes"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Assigned to me"
-msgstr "Assignés à moi"
+msgstr "Assigné à moi"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Posted by me"
@@ -3894,7 +3894,7 @@ msgstr "Envoyer un nouveau message"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Set message wall options"
-msgstr "Enregistrer les options"
+msgstr "Enregistrer les options du mur des messages"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Mark as read. The message can then be hidden"
@@ -3902,7 +3902,7 @@ msgstr "Marquer comme lu. Le message peut ensuite être masqué"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Hide message. Depends on user setting \"Display hidden messages\""
-msgstr "Masquer le message. Dépend de l'option \"Afficher les messages masqués\""
+msgstr "Masquer le message. Dépend de l'option « Afficher les messages masqués »"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Show"
@@ -4056,15 +4056,15 @@ msgstr "Le Coût-Journalier-Moyen est utilisé lorsque la tâche n'est assignée
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "The backlog is computed with the current assigned user's UserDailyCost"
-msgstr "Le RAF est calculé avec le CJI de la personne à qui la tâche est assignée"
+msgstr "L'arriéré des tâches est calculé avec le coût par jour individuel assigné actuellement à la personne"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Respectively sum the MgrEffortEstim, EffortEstim, Reestimated, Elapsed, Backlog of each task."
-msgstr "Respectivement: ChargeMgr, ChargeInit, Réestimé, Consommé, RAF de chaque tâche."
+msgstr "Respectivement: ChargeMgr, ChargeInit, Réestimé, Consommé, arriéré de chaque tâche."
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "The backlog depends on the status (always 0 if status >= Resolved)"
-msgstr "Le RAF dépend du status (toujours null si status >= résolu)"
+msgstr "L'arriéré des tâches dépend du status (toujours null si status >= résolu)"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the Provisions that are 'checked' as included in the budget."
@@ -4246,7 +4246,7 @@ msgstr "Seuls les Administrateurs sont autorisés à faire cette action."
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Send password by mail"
-msgstr "Envoi du mot de passe par email"
+msgstr "Envoyer le mot de passe par courriel"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send a password per email to each user"
@@ -4309,7 +4309,7 @@ msgstr "Identifiant"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Email"
-msgstr "Email"
+msgstr "Courriel"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Mantis role"
@@ -4350,7 +4350,7 @@ msgstr "Import utilisateurs"
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator_cfg.html
 msgid "Task backlog variation"
-msgstr "Evolution du RAF"
+msgstr "Evolution de l'arriéré des tâches"
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "No errors"
@@ -4510,7 +4510,7 @@ msgstr "Avancement Réel"
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Displays the backlog"
-msgstr "Affiche le RAF"
+msgstr "Affiche l'arriéré des tâches"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -4641,7 +4641,7 @@ msgstr "Nbre de bugs ayant passé avec succès les tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved' to any higher status (and still in this state at the end of the period)."
-msgstr "Le bug est passé à un status supérieur à 'résolu' (et est toujours dans cet état à la fin de la période)"
+msgstr "l'état est passé à un status supérieur à 'résolu' (et est toujours dans cet état à la fin de la période)"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Rejected"
@@ -4661,7 +4661,7 @@ msgstr "Taux de refus"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having fail validation tests"
-msgstr "Nb de bugs ayant échoué aux tests de validation"
+msgstr "Nb de bogues ayant fait échouer les tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Fail"
@@ -4669,7 +4669,7 @@ msgstr "Nb Refus"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having pass validation tests"
-msgstr "Nb de bugs ayant passé avec succès les tests de validation"
+msgstr "Nombre de problèmes ayant passé avec succès les tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Pass"
@@ -4695,7 +4695,7 @@ msgstr "Pas de Filtre"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Bugs only"
-msgstr "Que les bugs"
+msgstr "Que les bogues"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Tasks only"
@@ -4868,7 +4868,7 @@ msgstr "ERREUR: Devise non valide (coef null, à zero, ou non numérique)"
 
 #: classes/Currencies.class.php:131
 msgid "ERROR: First define the referal currency (with coef=1)"
-msgstr "ERREUR: Commencez par définir la devise de référence (Avec coef=1)"
+msgstr "ERREUR: Commencez par définir la devise de référence (avec coef=1)"
 
 #: classes/Currencies.class.php:136
 msgid "ERROR: there can be only one 'referal' currency (with coef=1)"
@@ -4941,11 +4941,11 @@ msgstr "inconnu"
 
 #: classes/consistency_check2.class.php:200
 msgid "Backlog on resolved issues should be 0"
-msgstr "Le RAF des tâches résolues doit être = 0"
+msgstr "L'arriéré des tâches résolues doit être = 0"
 
 #: classes/consistency_check2.class.php:201
 msgid "Backlog on unresolved issues should not be 0"
-msgstr "Le RAF des tâches non résolues ne doit pas être = 0"
+msgstr "L'arriéré des tâches non résolues ne doit pas être = 0"
 
 #: classes/consistency_check2.class.php:202
 msgid "EffortEstim should not be 0"
@@ -4981,15 +4981,15 @@ msgstr "Notifier les imputations sur des fiches mantis inexistantes (pas nécess
 
 #: classes/consistency_check2.class.php:314
 msgid "Backlog should be 0 (not "
-msgstr "Le RAF devrait être = 0  (et non"
+msgstr "L'arriéré des tâches devrait être = 0  (et non"
 
 #: classes/consistency_check2.class.php:336
 msgid "Backlog must be defined !"
-msgstr "Le RAF doit être défini !"
+msgstr "L'arriéré des tâches doit être défini !"
 
 #: classes/consistency_check2.class.php:338
 msgid "Backlog == 0: Backlog may not be up to date."
-msgstr "RAF == 0: Il se peut que le RAF ne soit pas à jour."
+msgstr "Arriéré == 0: Il se peut que l'arriéré des tâches ne soit pas à jour."
 
 #: classes/consistency_check2.class.php:384
 msgid "MgrEffortEstim not set."
@@ -5171,7 +5171,7 @@ msgstr "Version ciblée"
 
 #: indicator_plugins/BacklogVariationIndicator/BacklogVariationIndicator.class.php:286
 msgid "Average backlog"
-msgstr "Moyenne des RAF"
+msgstr "Moyenne de l'arriéré des tâches"
 
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:410
 #: reports/project_info.php:328
@@ -5268,7 +5268,7 @@ msgstr "ATTENTION Installation Windows: Pour éviter une erreur SUPER utilisateu
 
 #: install/install_step1.php:263
 msgid "Proxy Settings"
-msgstr "Configuration du Proxy"
+msgstr "Configuration du mandataire"
 
 #: install/install_step1.php:264
 msgid "CodevTT will check for updates."
@@ -5363,7 +5363,7 @@ msgstr "Répertoire d'export"
 #. T_("Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access.")
 #: install/install_step3.php:477
 msgid "Path to log files and other temporary files."
-msgstr "Dossier de logs et autres fchiers temporaires."
+msgstr "Chemin vers les journaux et autres fichiers temporaires."
 
 #. ------ Status
 #: install/install_step3.php:494
@@ -5593,7 +5593,7 @@ msgstr "Désolé, seuls les gestionnaires peuvent retirer des tâches aux comman
 
 #: reports/issue_info_ajax.php:91 reports/issue_info_ajax.php:133
 msgid "Sorry, only managers can add tasks to commands"
-msgstr "Vous devez être Manager pour ajouter des tâches à une commande"
+msgstr "Désolé, seuls les gestionnaires peuvent ajouter des tâches aux commandes"
 
 #: reports/issue_info_ajax.php:93 reports/issue_info_ajax.php:135
 #: reports/issue_info_ajax.php:166 reports/issue_info_ajax.php:215
@@ -5703,7 +5703,7 @@ msgstr "Nbre de jours-hommes disponibles sur la période (taches annexes et exte
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:72
 msgid "Check all the tasks and return the backlog per User"
-msgstr "Répartition du RAF des tâches de la sélection par utilisateur"
+msgstr "Répartition de l'arriéré des tâches de la sélection par utilisateur"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:258
 msgid "(unknown 0)"
@@ -5715,11 +5715,11 @@ msgstr "Messages"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:60
 msgid "Display a message wall on the homepage"
-msgstr "Afficher les messages sur la page de garde"
+msgstr "Afficher les messages sur la page d'accueil"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:61
 msgid "Allows Administrators & team members to send messages that will be displayed on other users' wall"
-msgstr "Permet aux administrateurs et aux membres d'une équipe d'envoyer des messages qui seront affichés sur la page de garde des autres utilisateurs"
+msgstr "Permet aux administrateurs et aux membres des équipes d'envoyer des messages qui seront affichés sur la page d'accueil des autres utilisateurs"
 
 #: plugins/BlogPlugin/BlogPost.class.php:112
 msgid "Low"
@@ -5800,7 +5800,7 @@ msgstr "(si l'estimation de charge de ces tâches n'a pas été mise à jour, le
 
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:65
 msgid "A simple HelloWorld plugin"
-msgstr "un plugin exemple pour développeurs"
+msgstr "Un simple plugin HelloWorld"
 
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:65
 msgid "Import a list of issues to MantisBT / CodevTT from a CSV file"
@@ -5844,15 +5844,15 @@ msgstr "[CodevTT] Votre mot de passe"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:55
 msgid "Task burndown chart"
-msgstr "Evolution du RAF de la tâche"
+msgstr "Evolution de l'arriéré de la tâche"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:58
 msgid "Display task backlog updates since the task creation"
-msgstr "Affiche l'évolution du RAF dans le temps (burndown chart)"
+msgstr "Affiche les mises à jour de l'arriéré des tâches depuis leur création"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:157
 msgid "Backlog (days)"
-msgstr "RAF (jours)"
+msgstr "Arriéré des tâches (jours)"
 
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:258
 msgid "Management"

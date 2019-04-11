@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 ""
-"PO-Revision-Date: 2019-04-08 14:40:02+0000\n"
+"PO-Revision-Date: 2019-04-11 15:42:17+0000\n"
 "X-POT-Import-Date: 2019-04-07 18:19:45+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1571,7 +1571,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Remove administrator"
-msgstr ""
+msgstr "Fjern administrator"
 
 #. tpl/edit_team.html
 msgid "Remove the following Team Administrator ?"

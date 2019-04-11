@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-04-08 14:40:05+0000\n"
+"PO-Revision-Date: 2019-04-11 15:42:20+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1575,7 +1575,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Remove administrator"
-msgstr ""
+msgstr "관리자 제거"
 
 #. tpl/edit_team.html
 msgid "Remove the following Team Administrator ?"
@@ -4772,7 +4772,7 @@ msgstr ""
 
 #. plugins/TimetrackList/TimetrackList.html
 msgid "Update timetrack"
-msgstr ""
+msgstr "타임트랙 업데이트"
 
 #. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Arrival date"
@@ -5968,7 +5968,7 @@ msgstr ""
 
 #: plugins/WBSExport/WBSExport.class.php:57
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: scheduler/SchedulerTaskProvider.class.php:46
 msgid "Daily breakdown scheduling"
