@@ -155,7 +155,7 @@ jQuery(document).ready(function() {
                         if ('editProvision' === data.action) {
                            // update existing row
                            var myTr = $(".provRow[data-provRowId="+prov.provId+"]");
-                           myTr.find(".provDate").val(prov.date);
+                           myTr.find(".provDate").text(prov.date);
                            myTr.find(".provType").text(prov.type).attr('data-provTypeId', data.type_id);
                            myTr.find(".provBudgetDays").text(prov.budget_days);
                            myTr.find(".provBudget").text(prov.budget);
