@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-04-11 15:42:20+0000\n"
+"PO-Revision-Date: 2019-04-15 15:32:31+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4768,7 +4768,7 @@ msgstr ""
 
 #. plugins/TimetrackList/TimetrackList.html
 msgid "Timetrack list"
-msgstr ""
+msgstr "타임트랙 목록"
 
 #. plugins/TimetrackList/TimetrackList.html
 msgid "Update timetrack"
@@ -5964,7 +5964,7 @@ msgstr ""
 
 #: plugins/WBSExport/WBSExport.class.php:53
 msgid "WBS Export"
-msgstr ""
+msgstr "WBS 내보내기"
 
 #: plugins/WBSExport/WBSExport.class.php:57
 msgid "..."
