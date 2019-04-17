@@ -194,7 +194,7 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
                         $issueBacklog = $issueBL;
                      } else {
                         // if not fount in history, take max(MgrEffortEstim, EffortEstim)
-                        $issueEE    = $issue->getEffortEstim() + $issue->getEffortAdd();
+                        $issueEE    = $issue->getEffortEstim();
                         $issueEEMgr = $issue->getMgrEffortEstim();
                         $issueBacklog = max(array($issueEE, $issueEEMgr));
 
@@ -206,7 +206,7 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
                } else {
                   // issue does not exist at this date, take max(MgrEffortEstim, EffortEstim)
                   // Note: getDuration() would return 0 which in this case is wrong
-                  $issueEE    = $issue->getEffortEstim() + $issue->getEffortAdd();
+                  $issueEE    = $issue->getEffortEstim();
                   $issueEEMgr = $issue->getMgrEffortEstim();
                   $issueBacklog = max(array($issueEE, $issueEEMgr));
                   $mgrEffortEstimCache[$issue->getId()] = $issueBacklog;
@@ -283,7 +283,7 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
       // ------ compute
       $theoBacklog = array();
       $realBacklog = array();
-      $iselMaxEE = max(array($this->inputIssueSel->mgrEffortEstim, ($this->inputIssueSel->effortEstim + $this->inputIssueSel->effortAdd)));
+      $iselMaxEE = max(array($this->inputIssueSel->mgrEffortEstim, $this->inputIssueSel->effortEstim));
       $sumElapsed = 0;
       $nbZeroDivErrors1 = 0;
       $nbZeroDivErrors2 = 0;

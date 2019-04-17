@@ -60,7 +60,6 @@ class ExportCsvTools {
          T_("Resolution").$sepChar.
          T_("MgrEffortEstim").$sepChar.
          T_("BI").$sepChar.
-         T_("BS").$sepChar.
          "Elapsed".$sepChar.
          T_("BL").$sepChar.
          T_("Progress").$sepChar.
@@ -122,7 +121,6 @@ class ExportCsvTools {
             $issue->getResolutionName().$sepChar.
             $issue->getMgrEffortEstim().$sepChar.
             $issue->getEffortEstim().$sepChar.
-            $issue->getEffortAdd().$sepChar.
             $issue->getElapsed().$sepChar.
             $issue->getBacklog().$sepChar.
             round(100 * $issue->getProgress())."%".$sepChar.
@@ -177,7 +175,6 @@ class ExportCsvTools {
             $issue->getResolutionName().$sepChar.
             $issue->getMgrEffortEstim().$sepChar.
             $issue->getEffortEstim().$sepChar.
-            $issue->getEffortAdd().$sepChar.
             $issue->getElapsed().$sepChar.
             $issue->getBacklog().$sepChar.
             round(100 * $issue->getProgress())."%".$sepChar.

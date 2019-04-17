@@ -151,7 +151,7 @@ class PlanningReportController extends Controller {
                $unassigendSel->addIssueList($unassignedIssues);
                $this->smartyHelper->assign('unassigned_nbIssues', $unassigendSel->getNbIssues());
                $this->smartyHelper->assign('unassigned_MEE', $unassigendSel->mgrEffortEstim);
-               $this->smartyHelper->assign('unassigned_EE', ($unassigendSel->effortEstim + $unassigendSel->effortAdd));
+               $this->smartyHelper->assign('unassigned_EE', $unassigendSel->effortEstim);
 
                // get planningOptions
                $keyvalue = Tools::getSecurePOSTStringValue('planningOptions', '');

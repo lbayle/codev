@@ -294,7 +294,7 @@ class DetailedChargesIndicator implements IndicatorPlugin {
             #'name' => $isel->name,
             'progress' => round(100 * $isel->getProgress()),
             'effortEstimMgr' => $isel->mgrEffortEstim,
-            'effortEstim' => ($isel->effortEstim + $isel->effortAdd),
+            'effortEstim' => $isel->effortEstim,
             'reestimated' => $isel->getReestimated(),
             'elapsed' => $isel->elapsed,
             'backlog' => $isel->duration,

@@ -36,7 +36,6 @@ class IssueSelection {
    public $duration;
    public $mgrEffortEstim;
    public $effortEstim;
-   public $effortAdd;
 
    /**
     * provision can be added, it is an 'extra' mgrEffortEstim
@@ -60,7 +59,6 @@ class IssueSelection {
       $this->duration = 0;
       $this->mgrEffortEstim = 0;
       $this->effortEstim = 0;
-      $this->effortAdd = 0;    // BS
       $this->provision = 0;
 
       $this->issueList = array();
@@ -95,12 +93,9 @@ class IssueSelection {
          $this->duration += $issue->getDuration();
          $this->mgrEffortEstim += $issue->getMgrEffortEstim();
          $this->effortEstim += $issue->getEffortEstim();
-         if (is_numeric($issue->getEffortAdd())) {
-            $this->effortAdd += $issue->getEffortAdd();
-         }
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->getMgrEffortEstim()." BI+BS=".($issue->getEffortEstim() + $issue->getEffortAdd())." elapsed=".$issue->getElapsed()." RAF=".$issue->getDuration()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
-         }
+         //if(self::$logger->isDebugEnabled()) {
+         //   self::$logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->getMgrEffortEstim()." BI+BS=".($issue->getEffortEstim())." elapsed=".$issue->getElapsed()." RAF=".$issue->getDuration()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
+         //}
          $retCode = true;
       }
       return $retCode;
@@ -362,7 +357,7 @@ class IssueSelection {
    /**
     * sum(issue->drift)
     *
-    * percent = nbDaysDrift / (effortEstim + effortAdd + provision)
+    * percent = nbDaysDrift / (effortEstim + provision)
     *
     * @return number[] array(nbDays, percent)
     */
@@ -372,7 +367,7 @@ class IssueSelection {
 
       foreach ($this->issueList as $issue) {
          $nbDaysDrift += $issue->getDrift();
-         $myEstim += $issue->getEffortEstim() + $issue->getEffortAdd();
+         $myEstim += $issue->getEffortEstim();
       }
       $myEstim += $this->provision;
       $nbDaysDrift -= $this->provision;

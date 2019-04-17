@@ -169,7 +169,7 @@ class ForecastingReportController extends Controller {
                   'projectName' => $issue->getProjectName(),
                   'progress' => round(100 * $issue->getProgress()),
                   'effortEstimMgr' => $issue->getMgrEffortEstim(),
-                  'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),
+                  'effortEstim' => $issue->getEffortEstim(),
                   'elapsed' => $issue->getElapsed(),
                   'reestimated' => $issue->getReestimated(),
                   'backlog' => $issue->getBacklog(),

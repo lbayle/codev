@@ -226,20 +226,20 @@ class EffortEstimReliabilityIndicator2 extends IndicatorPluginAbstract {
 
             // remove doubloons
             if (!in_array($row->id, $resolvedList)) {
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("getEffortEstimReliabilityRate() Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, mgrEE=" . $issue->getMgrEffortEstim() . " date_modified=" . date("d F Y", $row->date_modified) . ", effortEstim=" . $issue->getEffortEstim() . ", BS=" . $issue->getEffortAdd() . ", elapsed = " . $issue->getElapsed());
-               }
+               //if(self::$logger->isDebugEnabled()) {
+               //   self::$logger->debug("getEffortEstimReliabilityRate() Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, mgrEE=" . $issue->getMgrEffortEstim() . " date_modified=" . date("d F Y", $row->date_modified) . ", effortEstim=" . $issue->getEffortEstim() . ", elapsed = " . $issue->getElapsed());
+               //}
                $resolvedList[] = $row->id;
 
                $totalElapsed += $issue->getElapsed();
 
                $EEReliability['MEE'] += $issue->getMgrEffortEstim();
-               $EEReliability['EE'] += $issue->getEffortEstim() + $issue->getEffortAdd();
+               $EEReliability['EE'] += $issue->getEffortEstim();
 
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("getEffortEstimReliabilityRate(MEE) : ".$EEReliability['MEE']." + " . $issue->getMgrEffortEstim() . " = " . ($EEReliability['MEE'] + $issue->getMgrEffortEstim()));
-                  self::$logger->debug("getEffortEstimReliabilityRate(EE) : ".$EEReliability['EE']." + (" . $issue->getEffortEstim() . " + " . $issue->getEffortAdd() . ") = " . ($EEReliability['EE'] + $issue->getEffortEstim() + $issue->getEffortAdd()));
-               }
+               //if(self::$logger->isDebugEnabled()) {
+               //   self::$logger->debug("getEffortEstimReliabilityRate(MEE) : ".$EEReliability['MEE']." + " . $issue->getMgrEffortEstim() . " = " . ($EEReliability['MEE'] + $issue->getMgrEffortEstim()));
+               //   self::$logger->debug("getEffortEstimReliabilityRate(EE) : ".$EEReliability['EE']." + (" . $issue->getEffortEstim() .  ") = " . ($EEReliability['EE'] + $issue->getEffortEstim()));
+               //}
             }
          } else {
             $statusName = Constants::$statusNames[$latestStatus];

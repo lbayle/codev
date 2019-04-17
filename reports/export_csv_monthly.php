@@ -133,7 +133,7 @@ class ExportCSVMonthlyController extends Controller {
             $stringData .= date("d/m/Y", $issue->startDate()).$sepChar;
             $stringData .= date("d/m/Y", $issue->endDate()).$sepChar;
             $stringData .= $issue->getCurrentStatusName().$sepChar;
-            $stringData .= ($issue->getEffortEstim() + $issue->getEffortAdd()).$sepChar;
+            $stringData .= $issue->getEffortEstim().$sepChar;
             $stringData .= $issue->getElapsed().$sepChar;
             $stringData .= ($issue->getElapsed() + $issue->getBacklog()).$sepChar;
 
@@ -147,7 +147,7 @@ class ExportCSVMonthlyController extends Controller {
             $stringData .= $issue->getBacklog().$sepChar;
             $stringData .="\n";
 
-            $totalEffortEstim += $issue->getEffortEstim() + $issue->getEffortAdd();
+            $totalEffortEstim += $issue->getEffortEstim();
             $totalElapsed += $issue->getElapsed();
             $totalBacklog += $issue->getBacklog();
             $totalElapsedPeriod += $elapsedInPeriod;

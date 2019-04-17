@@ -43,7 +43,7 @@ class CommandTools {
             "target" => $issue->getTargetVersion(),
             "status" => $issue->getCurrentStatusName(),
             "progress" => round(100 * $issue->getProgress()),
-            "effortEstim" => $issue->getEffortEstim() + $issue->getEffortAdd(),
+            "effortEstim" => $issue->getEffortEstim(),
             "mgrEffortEstim" => $issue->getMgrEffortEstim(),
             "elapsed" => $issue->getElapsed(),
             "driftMgr" => $driftMgr,

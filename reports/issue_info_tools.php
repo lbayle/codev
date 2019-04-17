@@ -67,8 +67,8 @@ class IssueInfoTools {
          'targetVersionDate'=> $targetVersionDate,
          'handlerName'=> $handlerName,
 
-         "issueEffortTitle" => $issue->getEffortEstim().' + '.$issue->getEffortAdd(),
-         "issueEffort" => $issue->getEffortEstim() + $issue->getEffortAdd(),
+         "issueEffortTitle" => $issue->getEffortEstim(),
+         "issueEffort" => $issue->getEffortEstim(),
          "issueReestimated" => $issue->getReestimated(),
          'issueElapsed' => $issue->getElapsed(),
          "issueBacklog" => $issue->getBacklog(),

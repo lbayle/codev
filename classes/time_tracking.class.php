@@ -524,9 +524,9 @@ class TimeTracking {
          $issueDriftMgrEE = $issue->getDriftMgr();
          $deriveETA += $issueDriftMgrEE;
 
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getIssuesDriftStats() Found : bugid=".$issue->getId().", proj=".$issue->getProjectId().", effortEstim=".$issue->getEffortEstim().", BS=".$issue->getEffortAdd().", elapsed = ".$issue->getElapsed().", drift=$issueDrift, DriftMgrEE=$issueDriftMgrEE");
-         }
+         //if(self::$logger->isDebugEnabled()) {
+         //   self::$logger->debug("getIssuesDriftStats() Found : bugid=".$issue->getId().", proj=".$issue->getProjectId().", effortEstim=".$issue->getEffortEstim().", elapsed = ".$issue->getElapsed().", drift=$issueDrift, DriftMgrEE=$issueDriftMgrEE");
+         //}
 
          // get drift stats. equal is when drif = +-1
          if ($issueDrift < -1) {

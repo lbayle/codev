@@ -63,7 +63,7 @@ class NormalizedBacklog {
 
       // 1) get known backlogs
       $blHistory = $issue->getBacklogHistory();
-      $issueEE = $issue->getEffortEstim() + $issue->getEffortAdd();
+      $issueEE = $issue->getEffortEstim();
 
       $backlogs = array('0' => $issueEE);
       #echo "origin: ".date('Y-m-d', $issue->getDateSubmission())." elapsed=0  backlog=$issueEE<br>";
@@ -205,7 +205,7 @@ class BacklogVariationIndicator implements IndicatorPlugin {
       $issueList = $this->inputIssueSel->getIssueList();
       foreach ($issueList as $issue) {
 
-         $issueEE = $issue->getEffortEstim() + $issue->getEffortAdd();
+         $issueEE = $issue->getEffortEstim();
 
          if ($issueEE > $normValue) {
             $normValue = $issueEE;

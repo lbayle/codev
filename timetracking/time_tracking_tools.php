@@ -450,7 +450,6 @@ class TimeTrackingTools {
          $summary = $issue->getSummary();
          $drift = $issue->getDrift();
          $effortEstim = $issue->getEffortEstim();
-         $effortAdd = $issue->getEffortAdd();
          $formattedIds = $issue->getFormattedIds();
          $mgrEffortEstim = $issue->getMgrEffortEstim();
          $elapsed = $issue->getElapsed();
@@ -473,7 +472,6 @@ class TimeTrackingTools {
          $summary = '<span class="error_font">'.T_('Error: Task not found in Mantis DB !').'</span>';
          $drift = 0;
          $effortEstim = 0;
-         $effortAdd = 0;
          $formattedIds = -1;
          $mgrEffortEstim = 0;
          $elapsed = 0;
@@ -492,7 +490,7 @@ class TimeTrackingTools {
 
       // prepare json data for the BacklogDialogbox
       
-      $totalEE = $effortEstim + $effortAdd;
+      $totalEE = $effortEstim;
       $issueInfo = array(
          'trackUserid' => $managedUserid,
          'trackUserName' => $managedUserName,
@@ -554,4 +552,3 @@ class TimeTrackingTools {
 // Initialize complex static variables
 TimeTrackingTools::staticInit();
 
-?>

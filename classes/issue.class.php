@@ -110,7 +110,6 @@ class Issue extends Model implements Comparable {
    private $backlog;
    private $mgrEffortEstim;  // Manager EffortEstim (ex prelEffortEstim/ETA)
    private $effortEstim;  // BI
-   private $effortAdd;    // BS
    private $deadLine;
    private $deliveryDate;
    private $deliveryId;   // TODO FDL (FDJ specific)
@@ -829,7 +828,7 @@ class Issue extends Model implements Comparable {
       } else {
          // Backlog NOT defined, duration = max(effortEstim, mgrEffortEstim)
 
-         $issueEE    = $this->getEffortEstim() + $this->getEffortAdd();
+         $issueEE    = $this->getEffortEstim();
          $issueEEMgr = $this->getMgrEffortEstim();
 
          if (is_null($issueEE) && is_null($issueEEMgr)) {
@@ -891,7 +890,7 @@ class Issue extends Model implements Comparable {
          return $this->drift;
       }
 
-      $totalEstim = $this->getEffortEstim() + $this->getEffortAdd();
+      $totalEstim = $this->getEffortEstim();
 
       // drift = reestimated - (effortEstim + effortAdd)
 
@@ -2088,14 +2087,6 @@ class Issue extends Model implements Comparable {
       return $this->effortEstim;
    }
 
-   public function getEffortAdd() {
-      if(!$this->customFieldInitialized) {
-         $this->customFieldInitialized = true;
-         $this->initializeCustomField();
-      }
-      return $this->effortAdd;
-   }
-
    /**
     * @return int
     */
@@ -2495,7 +2486,7 @@ class Issue extends Model implements Comparable {
          $duration = $this->getDuration() * $handlerUDC;
 
 
-         $effortEstim = ($this->getEffortEstim() +  + $this->getEffortAdd()) * $handlerUDC;
+         $effortEstim = $this->getEffortEstim() * $handlerUDC;
          $mgrEE = $this->getMgrEffortEstim() * $handlerUDC;
 
          $reestimated = ($elapsed + $duration);
