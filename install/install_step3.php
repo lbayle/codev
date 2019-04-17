@@ -407,7 +407,8 @@ function createCustomFields($isCreateExtIdField = TRUE) {
    createCustomField(T_("CodevTT_Deadline"), $mType_date, "customField_deadLine", $attributes);
 
    $attributes["display_report"] = 0;
-   createCustomField(T_("CodevTT_Additional Effort"), $mType_float, "customField_addEffort", $attributes);
+   // customField_addEffort DEPRECATED since v1.4.0
+   #createCustomField(T_("CodevTT_Additional Effort"), $mType_float, "customField_addEffort", $attributes);
 
    $attributes["require_report"] = 0;
    $attributes["display_report"] = 0;

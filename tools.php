@@ -1462,7 +1462,7 @@ class Tools {
          $mgrEffortEstimField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
          $effortEstimField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
          $backlogField = Config::getInstance()->getValue(Config::id_customField_backlog);
-         $addEffortField = Config::getInstance()->getValue(Config::id_customField_addEffort);
+         #$addEffortField = Config::getInstance()->getValue(Config::id_customField_addEffort);
          $deadLineField = Config::getInstance()->getValue(Config::id_customField_deadLine);
          $deliveryDateField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
          #$deliveryIdField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
@@ -1494,9 +1494,6 @@ class Tools {
                   break;
                case $backlogField:
                   $name = T_('Backlog');
-                  break;
-               case $addEffortField:
-                  $name = T_('AddEffortEstim');
                   break;
                case $deadLineField:
                   $name = T_('Deadline');

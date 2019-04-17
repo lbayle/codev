@@ -92,7 +92,7 @@ class Config {
    const id_customField_effortEstim  = "customField_effortEstim"; //  BI
    const id_customField_backlog = "customField_backlog"; //  RAE
    const id_customField_deadLine = "customField_deadLine";
-   const id_customField_addEffort = "customField_addEffort"; // BS
+   const id_customField_addEffort = "customField_addEffort"; // BS DEPRECATED since v1.4.0
    #const id_customField_deliveryId = "customField_deliveryId"; // FDL (id of the associated Delivery Issue)
    const id_customField_deliveryDate = "customField_deliveryDate";
    const id_customField_type = "customField_type";

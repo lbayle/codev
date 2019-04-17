@@ -288,7 +288,7 @@ class Project extends Model {
    public static function createSideTaskProject($projectName) {
       $mgrEffortEstimCustomField  = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
       $estimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
-      $addEffortCustomField = Config::getInstance()->getValue(Config::id_customField_addEffort);
+      #$addEffortCustomField = Config::getInstance()->getValue(Config::id_customField_addEffort);
       $backlogCustomField = Config::getInstance()->getValue(Config::id_customField_backlog);
       $deadLineCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
@@ -315,15 +315,13 @@ class Project extends Model {
       $query = "INSERT INTO {custom_field_project} (field_id, project_id, sequence) ".
                "VALUES (".$sql->db_param().", ".$sql->db_param().",'2'), ".
                "(".$sql->db_param().", ".$sql->db_param().",'3'), ".
-               "(".$sql->db_param().", ".$sql->db_param().",'4'), ".
+              #"(".$sql->db_param().", ".$sql->db_param().",'4'), ". // addEffort DEPRECATED since v1.4.0
                "(".$sql->db_param().", ".$sql->db_param().",'5'), ".
                "(".$sql->db_param().", ".$sql->db_param().",'6'), ".
                "(".$sql->db_param().", ".$sql->db_param().",'7');";
       $q_params[]=$mgrEffortEstimCustomField;
       $q_params[]=$projectid;
       $q_params[]=$estimEffortCustomField;
-      $q_params[]=$projectid;
-      $q_params[]=$addEffortCustomField;
       $q_params[]=$projectid;
       $q_params[]=$backlogCustomField;
       $q_params[]=$projectid;
@@ -503,7 +501,7 @@ class Project extends Model {
       $tcCustomField = Config::getInstance()->getValue(Config::id_customField_ExtId);
       $mgrEffortEstim = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
       $estimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
-      $addEffortCustomField = Config::getInstance()->getValue(Config::id_customField_addEffort);
+      #$addEffortCustomField = Config::getInstance()->getValue(Config::id_customField_addEffort);
       $backlogCustomField = Config::getInstance()->getValue(Config::id_customField_backlog);
       $deadLineCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
@@ -537,11 +535,6 @@ class Project extends Model {
       if (!in_array($estimEffortCustomField, $existingFields))  { 
          $query .= "(".$sql->db_param().", ".$sql->db_param().",'104'),"; $found = TRUE;
          $q_params[]=$estimEffortCustomField;
-         $q_params[]=$projectid;
-      }
-      if (!in_array($addEffortCustomField, $existingFields))    { 
-         $query .= "(".$sql->db_param().", ".$sql->db_param().",'105'),"; $found = TRUE;
-         $q_params[]=$addEffortCustomField;
          $q_params[]=$projectid;
       }
       if (!in_array($backlogCustomField, $existingFields))      { 

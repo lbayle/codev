@@ -142,7 +142,7 @@ class UninstallController extends Controller {
          Config::getInstance()->getValue(Config::id_customField_ExtId),
          Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim),
          Config::getInstance()->getValue(Config::id_customField_effortEstim),
-         Config::getInstance()->getValue(Config::id_customField_addEffort),
+         #Config::getInstance()->getValue(Config::id_customField_addEffort),
          Config::getInstance()->getValue(Config::id_customField_backlog),
          Config::getInstance()->getValue(Config::id_customField_deadLine),
          Config::getInstance()->getValue(Config::id_customField_deliveryDate),

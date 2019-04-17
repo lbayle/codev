@@ -225,14 +225,14 @@ class Issue extends Model implements Comparable {
       $mgrEffortEstimField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
       $effortEstimField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
       $backlogField = Config::getInstance()->getValue(Config::id_customField_backlog);
-      $addEffortField = Config::getInstance()->getValue(Config::id_customField_addEffort);
+      #$addEffortField = Config::getInstance()->getValue(Config::id_customField_addEffort);
       $deadLineField = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $deliveryDateField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
       #$deliveryIdField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
       $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
 
       $customFields = array(
-         $extIdField, $mgrEffortEstimField, $effortEstimField, $backlogField, $addEffortField, $deadLineField, $deliveryDateField, $customField_type #, $deliveryIdField
+         $extIdField, $mgrEffortEstimField, $effortEstimField, $backlogField, $deadLineField, $deliveryDateField, $customField_type #, $deliveryIdField
       );
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT field_id, value FROM {custom_field_string} ".
@@ -255,9 +255,9 @@ class Issue extends Model implements Comparable {
             case $backlogField:
                $this->backlog = ('' === $row->value) ? '' : (float)$row->value;
                break;
-            case $addEffortField:
-               $this->effortAdd = ('' === $row->value) ? '' : (float)$row->value;
-               break;
+#            case $addEffortField:
+#               $this->effortAdd = ('' === $row->value) ? '' : (float)$row->value;
+#               break;
             case $deadLineField:
                $this->deadLine = ('' === $row->value) ? '' : (int)$row->value;
                break;
@@ -2166,7 +2166,7 @@ class Issue extends Model implements Comparable {
          $mgrEffortEstimField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
          $effortEstimField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
          $backlogField = Config::getInstance()->getValue(Config::id_customField_backlog);
-         $addEffortField = Config::getInstance()->getValue(Config::id_customField_addEffort);
+         #$addEffortField = Config::getInstance()->getValue(Config::id_customField_addEffort);
          $deadLineField = Config::getInstance()->getValue(Config::id_customField_deadLine);
          $deliveryDateField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
          #$deliveryIdField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
@@ -2205,9 +2205,6 @@ class Issue extends Model implements Comparable {
                      break;
                   case $backlogField:
                      $this->tooltipItemsCache[$name] = $this->getBacklog();
-                     break;
-                  case $addEffortField:
-                     $this->tooltipItemsCache[$name] = $this->getEffortAdd();
                      break;
                   case $deadLineField:
                      $deadline = $this->getDeadLine();
