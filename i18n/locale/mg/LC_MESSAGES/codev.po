@@ -7,11 +7,11 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-04-08 14:40:06+0000\n"
+"PO-Revision-Date: 2019-04-18 14:56:14+0000\n"
 "Language: mg\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2019-04-07 18:19:45+0000\n"
+"X-POT-Import-Date: 2019-04-18 14:50:24+0000\n"
 "X-Generator: MediaWiki 1.33.0-alpha; Translate 2019-01-17\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -19,13 +19,13 @@ msgstr ""
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/forecasting_report.html
-#. tpl/issue_info.html
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
 #. tpl/servicecontract_info.html
 #. tpl/team_activity_report.html
 #. tpl/team_monthly_activity_report.html
 #. tpl/tools/wbsReader.html
+#. tpl/issue_info.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
@@ -43,11 +43,11 @@ msgstr "Fandrosoana"
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/forecasting_report.html
-#. tpl/issue_info.html
 #. tpl/planning_report.html
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
 #. tpl/tools/wbsReader.html
+#. tpl/issue_info.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:314
@@ -61,13 +61,13 @@ msgstr "MgrEffortEstim"
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/forecasting_report.html
-#. tpl/issue_info.html
 #. tpl/modal/update_issueBacklog.html
 #. tpl/planning_report.html
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
-#. tpl/statistics.html
 #. tpl/tools/wbsReader.html
+#. tpl/issue_info.html
+#. tpl/statistics.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:315
@@ -106,6 +106,7 @@ msgstr "Vinavinaina indray"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
+#: classes/issue.class.php:2260
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:317
 #: reports/project_info.php:240 tests/filters.php:70
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:228
@@ -119,7 +120,6 @@ msgstr "Efa lany"
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/forecasting_report.html
-#. tpl/issue_info.html
 #. tpl/modal/update_issueBacklog.html
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -127,6 +127,7 @@ msgstr "Efa lany"
 #. tpl/team_activity_report.html
 #. tpl/team_monthly_activity_report.html
 #. tpl/tools/wbsReader.html
+#. tpl/issue_info.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
@@ -149,8 +150,8 @@ msgstr "Sisa Hatao"
 #. tpl/forecasting_report.html
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
-#. tpl/statistics.html
 #. tpl/tools/wbsReader.html
+#. tpl/statistics.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:261
@@ -167,8 +168,8 @@ msgstr "Drift Mgr"
 #. tpl/modal/update_issueBacklog.html
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
-#. tpl/statistics.html
 #. tpl/tools/wbsReader.html
+#. tpl/statistics.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:262
@@ -190,11 +191,11 @@ msgstr "TSY misy fanohanana"
 
 #. tpl/ajax/projectDetails.html
 #. tpl/command_info.html
-#. tpl/issue_info.html
 #. tpl/plugin_manager.html
 #. tpl/project_activity_report.html
 #. tpl/servicecontract_info.html
 #. tpl/time_tracking.html
+#. tpl/issue_info.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
@@ -211,25 +212,23 @@ msgid "Nb Days"
 msgstr "Isa andro"
 
 #. tpl/ajax/projectDetails.html
-#. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/forecasting_report.html
 #. tpl/planning_report.html
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
 #. tpl/servicecontract_info.html
+#. tpl/command_edit.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#: reports/planning_report.php:77
 #: plugins/CostsIndicator/CostsIndicator.class.php:228
 msgid "Tasks"
 msgstr "Raharaha"
 
 #. tpl/ajax/schedulerAffectationSummary.html
-#. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/forecasting_report.html
 #. tpl/modal/select_issues.html
@@ -237,6 +236,7 @@ msgstr "Raharaha"
 #. tpl/project_activity_report.html
 #. tpl/servicecontract_info.html
 #. tpl/time_tracking.html
+#. tpl/command_edit.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
@@ -260,11 +260,9 @@ msgstr "Mpiasa voakasika"
 
 #. tpl/ajax/schedulerAffectationSummary.html
 #. tpl/check.html
-#. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/forecasting_report.html
-#. tpl/issue_info.html
 #. tpl/modal/select_issues.html
 #. tpl/modal/update_issueBacklog.html
 #. tpl/productivity_report.html
@@ -273,6 +271,8 @@ msgstr "Mpiasa voakasika"
 #. tpl/team_activity_report.html
 #. tpl/team_monthly_activity_report.html
 #. tpl/time_tracking.html
+#. tpl/command_edit.html
+#. tpl/issue_info.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
@@ -296,9 +296,7 @@ msgstr "Ambangovangony"
 
 #. tpl/ajax/weekTaskDetails.html
 #. tpl/check.html
-#. tpl/edit_team.html
 #. tpl/form/bugSelector.html
-#. tpl/issue_info.html
 #. tpl/menu/global_menu.html
 #. tpl/modal/edit_issueNote.html
 #. tpl/modal/update_issueBacklog.html
@@ -306,15 +304,16 @@ msgstr "Ambangovangony"
 #. tpl/set_holidays.html
 #. tpl/team_activity_report.html
 #. tpl/time_tracking.html
+#. tpl/edit_team.html
+#. tpl/issue_info.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
-#: management/command_info_ajax.php:328 management/command_info_ajax.php:330
-#: reports/export_csv_weekly.php:127 reports/export_csv_weekly.php:170
-#: reports/planning_report.php:471 reports/planning_report.php:473
-#: scheduler/SchedulerEvent.class.php:83 scheduler/SchedulerEvent.class.php:85
-#: scheduler/SchedulerEvent.class.php:123
+#: management/command_info_ajax.php:330 reports/export_csv_weekly.php:127
+#: reports/export_csv_weekly.php:170 reports/planning_report.php:471
+#: reports/planning_report.php:473 scheduler/SchedulerEvent.class.php:83
+#: scheduler/SchedulerEvent.class.php:85 scheduler/SchedulerEvent.class.php:123
 #: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
 #: gantt/gantt_ajax.php:192
 msgid "Task"
@@ -395,12 +394,12 @@ msgstr "Hadisoana anaty fisy Mantis"
 
 #. tpl/check.html
 #. tpl/command_info.html
-#. tpl/edit_team.html
 #. tpl/forecasting_report.html
-#. tpl/issue_info.html
 #. tpl/project_activity_report.html
 #. tpl/scheduler.html
 #. tpl/team_activity_report.html
+#. tpl/edit_team.html
+#. tpl/issue_info.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/BlogPlugin/BlogPlugin.html
@@ -428,41 +427,37 @@ msgstr "Novaina farany"
 
 #. tpl/check.html
 #. tpl/command_info.html
-#. tpl/edit_team.html
 #. tpl/export_odt.html
 #. tpl/forecasting_report.html
-#. tpl/issue_info.html
 #. tpl/modal/select_issues.html
 #. tpl/modal/update_issueBacklog.html
 #. tpl/plugin_manager.html
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
 #. tpl/time_tracking.html
+#. tpl/edit_team.html
+#. tpl/issue_info.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. unset($tooltipAttr[T_('Project')]);
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
-#: classes/issue.class.php:2279 classes/wbsElement.class.php:684
-#: reports/export_csv_tools.php:53 reports/planning_report.php:461
-#: reports/planning_report.php:484 reports/project_info.php:306
-#: scheduler/SchedulerEvent.class.php:113
+#: classes/wbsElement.class.php:684 reports/export_csv_tools.php:53
+#: reports/planning_report.php:461 reports/planning_report.php:484
+#: reports/project_info.php:306 scheduler/SchedulerEvent.class.php:113
 #: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
 #: tools.php:1558
 msgid "Status"
 msgstr "Sata"
 
 #. tpl/check.html
-#. tpl/command_edit.html
 #. tpl/command_info.html
 #. tpl/edit_jobs.html
-#. tpl/edit_team.html
 #. tpl/export_odt.html
 #. tpl/filters.html
 #. tpl/forecasting_report.html
 #. tpl/form/projectSelector.html
-#. tpl/issue_info.html
 #. tpl/menu/global_menu.html
 #. tpl/modal/select_issues.html
 #. tpl/productivity_report.html
@@ -474,6 +469,9 @@ msgstr "Sata"
 #. tpl/team_activity_report.html
 #. tpl/team_monthly_activity_report.html
 #. tpl/time_tracking.html
+#. tpl/command_edit.html
+#. tpl/edit_team.html
+#. tpl/issue_info.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
@@ -515,7 +513,6 @@ msgstr "Visavisan'ny hadisoana"
 #. tpl/forecasting_report.html
 #. tpl/gantt.html
 #. tpl/holidays_report.html
-#. tpl/issue_info.html
 #. tpl/mantis_reports.html
 #. tpl/planning_report.html
 #. tpl/productivity_report.html
@@ -527,456 +524,8 @@ msgstr "Visavisan'ny hadisoana"
 #. tpl/team_activity_report.html
 #. tpl/team_monthly_activity_report.html
 #. tpl/time_tracking.html
-#: reports/team_dashboard.php:95
+#. tpl/issue_info.html
 msgid "Please select a team to access this page."
-msgstr ""
-
-#. tpl/command_edit.html
-msgid "New command"
-msgstr "Baiko vaovao"
-
-#. tpl/command_edit.html
-#. tpl/commandset_edit.html
-#. tpl/commandset_info.html
-#. tpl/edit_team.html
-#. tpl/form/teamForm.html
-#. tpl/form/teamSelector.html
-#. tpl/holidays_report.html
-#. tpl/menu/global_menu.html
-#. tpl/servicecontract_edit.html
-#. tpl/servicecontract_info.html
-#. plugins/BlogPlugin/BlogPlugin.html
-#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#. plugins/ImportUsers/ImportUsers.html
-#. plugins/ImportUsers/ImportUsers_ajax.html
-#. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
-#. plugins/UserTeamList/UserTeamList_ajax.html
-msgid "Team"
-msgstr "Ekipa"
-
-#. tpl/command_edit.html
-#. tpl/commandset_edit.html
-#. tpl/edit_team.html
-#. tpl/modal/change_managedUser.html
-#. tpl/servicecontract_edit.html
-#. tpl/set_holidays.html
-#. plugins/ImportUsers/ImportUsers_ajax.html
-msgid "Name"
-msgstr "Anarana"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/commandset_edit.html
-#. tpl/commandset_info.html
-#. tpl/servicecontract_edit.html
-#. tpl/servicecontract_info.html
-msgid "Reference"
-msgstr "Tsiahy"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/plugin_manager.html
-#. tpl/servicecontract_edit.html
-#. tpl/servicecontract_info.html
-msgid "Version"
-msgstr "Versiona"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/servicecontract_edit.html
-#. tpl/servicecontract_info.html
-#. tpl/team_activity_report.html
-msgid "Reporter"
-msgstr "Mpanatitra"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/commandset_edit.html
-#. tpl/commandset_info.html
-#. tpl/create_team.html
-#. tpl/edit_holidays.html
-#. tpl/edit_team.html
-#. tpl/issue_info.html
-#. tpl/servicecontract_edit.html
-#. tpl/servicecontract_info.html
-#. tpl/time_tracking.html
-#. tpl/tools/dashboard.html
-#. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
-#. plugins/BlogPlugin/BlogPlugin.html
-#. plugins/CostsIndicator/CostsIndicator.html
-#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#. plugins/ImportUsers/ImportUsers.html
-#. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
-#. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
-#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
-#. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#. plugins/ManagementCosts/ManagementCosts.html
-#. plugins/ManagementCosts/ManagementCosts_ajax3.html
-#. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
-msgid "Description"
-msgstr "Visavisa"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/edit_team.html
-#. tpl/servicecontract_edit.html
-#. tpl/servicecontract_info.html
-#. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
-#: reports/export_csv_tools.php:55
-msgid "Start date"
-msgstr "Daty itombohana"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/servicecontract_edit.html
-#. tpl/servicecontract_info.html
-msgid "End date"
-msgstr "Daty amaranana"
-
-#. tpl/command_edit.html
-#. tpl/issue_info.html
-#. tpl/modal/update_issueBacklog.html
-#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#: management/command_info_ajax.php:336 reports/planning_report.php:466
-#: reports/planning_report.php:495 scheduler/SchedulerEvent.class.php:91
-#: scheduler/SchedulerEvent.class.php:118
-#: scheduler/SchedulerEvent.class.php:143 gantt/gantt_ajax.php:198
-#: gantt/gantt_ajax.php:226 gantt/gantt_ajax.php:235 tools.php:1502
-msgid "Deadline"
-msgstr "Daty farany azo andefasana"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/servicecontract_edit.html
-#. tpl/servicecontract_info.html
-msgid "State"
-msgstr "Sata"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-msgid "Sold Charge"
-msgstr "Vesatra namidy"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/issue_info.html
-#. tpl/planning_report.html
-#: classes/consistency_check2.class.php:735 classes/scheduler.class.php:74
-#: reports/planning_report.php:492 scheduler/SchedulerEvent.class.php:140
-msgid "days"
-msgstr "andro"
-
-#. tpl/command_edit.html
-#. tpl/commandset_edit.html
-#. tpl/edit_team.html
-#. tpl/servicecontract_edit.html
-#. tpl/tools/wbsEditor.html
-#. plugins/BlogPlugin/BlogPlugin.html
-#. Delete
-#: plugins/BlogPlugin/BlogPost.class.php:425
-msgid "Delete"
-msgstr "Fafàna"
-
-#. tpl/command_edit.html
-#. tpl/commandset_edit.html
-msgid "Field is missing"
-msgstr "Tsy ampy ny saha"
-
-#. tpl/command_edit.html
-msgid "Command name"
-msgstr "Anaran'ny baiko"
-
-#. tpl/command_edit.html
-msgid "Not a number"
-msgstr "Tsy laharana"
-
-#. tpl/command_edit.html
-msgid "Delete Command"
-msgstr "Hamafa baiko"
-
-#. tpl/command_edit.html
-msgid "Delete this Command ?"
-msgstr "Hamafa ity baiko ity?"
-
-#. tpl/command_edit.html
-#. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
-msgid "Nb tasks"
-msgstr "Isa raharaha"
-
-#. tpl/command_edit.html
-#. tpl/servicecontract_edit.html
-#. tpl/servicecontract_info.html
-msgid "CommandSets"
-msgstr "Vondrom-baiko"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-msgid "WBS"
-msgstr "WBS"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/commandset_info.html
-#. tpl/servicecontract_info.html
-#. plugins/CostsIndicator/CostsIndicator.html
-#. plugins/ManagementCosts/ManagementCosts.html
-#: plugins/CostsIndicator/CostsIndicator.class.php:303
-#: plugins/ManagementCosts/ManagementCosts.class.php:249
-msgid "Provisions"
-msgstr ""
-
-#. tpl/command_edit.html
-msgid "Parent CommandSets"
-msgstr ""
-
-#. tpl/command_edit.html
-msgid "task id"
-msgstr "id asa"
-
-#. tpl/command_edit.html
-msgid "Missing field"
-msgstr "Saha tsy ampy"
-
-#. tpl/command_edit.html
-msgid "Add task"
-msgstr "Hanampy asa"
-
-#. tpl/command_edit.html
-#. tpl/commandset_edit.html
-#. tpl/edit_holidays.html
-#. tpl/edit_jobs.html
-#. tpl/edit_team.html
-#. tpl/issue_info.html
-#. tpl/menu/global_menu.html
-#. tpl/servicecontract_edit.html
-#. tpl/set_holidays.html
-#. tpl/time_tracking.html
-#. tpl/tools/dashboard.html
-msgid "Add"
-msgstr "Hanampy"
-
-#. tpl/command_edit.html
-msgid "Create the Command to add some tasks."
-msgstr "Hamorona ny baiko hanampiana asa."
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/issue_info.html
-#. tpl/modal/select_issues.html
-#. tpl/project_activity_report.html
-#. tpl/team_activity_report.html
-#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#: classes/issue.class.php:2288 tools.php:1564
-msgid "Target"
-msgstr "Tanjona"
-
-#. tpl/command_edit.html
-msgid "delete Command-Task association"
-msgstr "Hamafa fifandraisana Asa-Baiko"
-
-#. tpl/command_edit.html
-#. tpl/commandset_edit.html
-#. tpl/issue_info.html
-#. tpl/servicecontract_edit.html
-msgid "Remove"
-msgstr "Esorina"
-
-#. tpl/command_edit.html
-msgid "Remove Task"
-msgstr "Hanala raharaha"
-
-#. tpl/command_edit.html
-msgid "Remove Task from this Command ?"
-msgstr "Hanala ny asa amin'ity baiko ity?"
-
-#. tpl/command_edit.html
-#. tpl/commandset_edit.html
-#. tpl/edit_team.html
-#. tpl/servicecontract_edit.html
-#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-msgid "Id"
-msgstr "Id"
-
-#. tpl/command_edit.html
-msgid "Create the Command before assigning it to a CommandSet."
-msgstr "Hamorona baiko aloha ny manome Vaingam-baiko azy."
-
-#. tpl/command_edit.html
-#. tpl/servicecontract_info.html
-msgid "No CommandSet found."
-msgstr "Tsy nahitana Vaingam-baiko"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/commandset_info.html
-#. tpl/menu/global_menu.html
-#. tpl/servicecontract_edit.html
-#. tpl/servicecontract_info.html
-msgid "CommandSet"
-msgstr "Vondrom-baiko"
-
-#. tpl/command_edit.html
-#. tpl/commandset_edit.html
-msgid "delete CommandSet-Command association"
-msgstr ""
-
-#. tpl/command_edit.html
-#. tpl/servicecontract_edit.html
-msgid "Remove CommandSet"
-msgstr ""
-
-#. tpl/command_edit.html
-msgid "Remove this Command from the CommandSet ?"
-msgstr ""
-
-#. tpl/command_edit.html
-msgid "Create the Command first."
-msgstr ""
-
-#. tpl/command_edit.html
-msgid "Provisions successfully updated."
-msgstr ""
-
-#. tpl/command_edit.html
-#. tpl/export_odt.html
-msgid "errorThrown"
-msgstr "ErrorThrown"
-
-#. tpl/command_edit.html
-msgid "CSV Import"
-msgstr "Fampidirana CSV"
-
-#. tpl/command_edit.html
-msgid "Import templates"
-msgstr "Endrika fampidirana"
-
-#. tpl/command_edit.html
-msgid "Add Provision"
-msgstr ""
-
-#. tpl/command_edit.html
-#. tpl/scheduler.html
-#. tpl/tools/wbsEditor.html
-#: management/command_edit.php:205 management/commandset_edit.php:123
-#: management/servicecontract_edit.php:138
-msgid "Save"
-msgstr "Tehirizina"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/commandset_edit.html
-#. tpl/commandset_info.html
-#. tpl/edit_holidays.html
-#. tpl/edit_team.html
-#. tpl/issue_info.html
-#. tpl/mantis_reports.html
-#. tpl/planning_report.html
-#. tpl/servicecontract_info.html
-#. tpl/statistics.html
-#. tpl/team_activity_report.html
-#. tpl/time_tracking.html
-#. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
-#. plugins/ManagementCosts/ManagementCosts_ajax3.html
-#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
-#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-#. plugins/TimetrackList/TimetrackList_ajax.html
-msgid "Date"
-msgstr "Daty"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/commandset_info.html
-#. tpl/edit_jobs.html
-#. tpl/edit_team.html
-#. tpl/issue_info.html
-#. tpl/project_activity_report.html
-#. tpl/servicecontract_info.html
-#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-msgid "Type"
-msgstr "Karazana"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/commandset_info.html
-#. tpl/servicecontract_info.html
-msgid "Budget Days"
-msgstr "Tetibola araka ny andro"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/commandset_info.html
-#. tpl/servicecontract_info.html
-#. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-msgid "Budget"
-msgstr "Tetibola"
-
-#. tpl/command_edit.html
-msgid "add to budget check"
-msgstr ""
-
-#. tpl/command_edit.html
-msgid "delete Provision"
-msgstr ""
-
-#. tpl/command_edit.html
-#. tpl/edit_team.html
-#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#. plugins/ImportUsers/ImportUsers_ajax.html
-msgid "Import"
-msgstr "Hampiditra"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/edit_team.html
-#. tpl/gantt.html
-#. tpl/issue_info.html
-#. tpl/time_tracking.html
-#. tpl/tools/dashboard.html
-#. plugins/BlogPlugin/BlogPlugin.html
-msgid "Cancel"
-msgstr "Avela"
-
-#. tpl/command_edit.html
-#. tpl/command_info.html
-#. tpl/commandset_info.html
-#. tpl/servicecontract_info.html
-msgid "Average Daily Rate"
-msgstr "Salan'isan'ny taha isan'andro"
-
-#. tpl/command_edit.html
-msgid "Add to 'check budget'"
-msgstr ""
-
-#. tpl/command_edit.html
-msgid "Import provisions CSV"
-msgstr ""
-
-#. tpl/command_edit.html
-#. tpl/edit_team.html
-msgid "Currency"
-msgstr "Vola"
-
-#. tpl/command_edit.html
-msgid "Delete Provision"
-msgstr ""
-
-#. tpl/command_edit.html
-msgid "Delete from the Command ?"
-msgstr ""
-
-#. tpl/command_edit.html
-#. tpl/commandset_edit.html
-#. tpl/commandset_info.html
-#. tpl/servicecontract_edit.html
-#. tpl/servicecontract_info.html
-msgid "Sorry, only managers can access this page."
 msgstr ""
 
 #. tpl/command_info.html
@@ -990,10 +539,10 @@ msgstr "--- Hamorona Baiko Vaovao ---"
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/filters.html
-#. tpl/issue_info.html
 #. tpl/project_info.html
 #. tpl/servicecontract_info.html
 #. tpl/set_holidays.html
+#. tpl/issue_info.html
 msgid "Select"
 msgstr "Hisafidy"
 
@@ -1004,6 +553,23 @@ msgstr "Sivam-baiko"
 #. tpl/command_info.html
 msgid "Reduce the command selection by setting some filters"
 msgstr ""
+
+#. tpl/command_info.html
+#. tpl/commandset_info.html
+#. tpl/menu/global_menu.html
+#. tpl/servicecontract_edit.html
+#. tpl/servicecontract_info.html
+#. tpl/command_edit.html
+msgid "CommandSet"
+msgstr "Vondrom-baiko"
+
+#. tpl/command_info.html
+#. tpl/commandset_info.html
+#. tpl/servicecontract_info.html
+#. tpl/command_edit.html
+#. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
+msgid "Budget"
+msgstr "Tetibola"
 
 #. tpl/command_info.html
 msgid "MgrEffortEstim + Checked Provisions (days)"
@@ -1037,8 +603,20 @@ msgid "balance"
 msgstr ""
 
 #. tpl/command_info.html
+#. tpl/planning_report.html
+#. tpl/command_edit.html
+#. tpl/issue_info.html
+#: classes/command.class.php:768 classes/consistency_check2.class.php:735
+#: classes/scheduler.class.php:74 reports/planning_report.php:492
+#: scheduler/SchedulerEvent.class.php:140
+msgid "days"
+msgstr "andro"
+
+#. tpl/command_info.html
 #. tpl/commandset_info.html
 #. tpl/servicecontract_info.html
+#. tpl/command_edit.html
+#. tpl/edit_team.html
 msgid "Edit"
 msgstr "Ovaina"
 
@@ -1047,6 +625,11 @@ msgstr "Ovaina"
 #. tpl/servicecontract_info.html
 msgid "Charges"
 msgstr "Vesatra"
+
+#. tpl/command_info.html
+#. tpl/command_edit.html
+msgid "WBS"
+msgstr "WBS"
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
@@ -1058,9 +641,20 @@ msgstr "Tondro"
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
-#. tpl/issue_info.html
+#. tpl/servicecontract_info.html
+#. tpl/command_edit.html
+#. plugins/CostsIndicator/CostsIndicator.html
+#. plugins/ManagementCosts/ManagementCosts.html
+#: plugins/CostsIndicator/CostsIndicator.class.php:303
+#: plugins/ManagementCosts/ManagementCosts.class.php:251
+msgid "Provisions"
+msgstr ""
+
+#. tpl/command_info.html
+#. tpl/commandset_info.html
 #. tpl/project_info.html
 #. tpl/servicecontract_info.html
+#. tpl/issue_info.html
 msgid "Indicators"
 msgstr "Mpanondro"
 
@@ -1071,12 +665,101 @@ msgid "Gantt"
 msgstr "Gantt"
 
 #. tpl/command_info.html
+#. tpl/servicecontract_edit.html
+#. tpl/servicecontract_info.html
+#. tpl/command_edit.html
+msgid "State"
+msgstr "Sata"
+
+#. tpl/command_info.html
+#. tpl/commandset_edit.html
+#. tpl/commandset_info.html
+#. tpl/servicecontract_edit.html
+#. tpl/servicecontract_info.html
+#. tpl/command_edit.html
+msgid "Reference"
+msgstr "Tsiahy"
+
+#. tpl/command_info.html
+#. tpl/plugin_manager.html
+#. tpl/servicecontract_edit.html
+#. tpl/servicecontract_info.html
+#. tpl/command_edit.html
+msgid "Version"
+msgstr "Versiona"
+
+#. tpl/command_info.html
+#. tpl/servicecontract_edit.html
+#. tpl/servicecontract_info.html
+#. tpl/team_activity_report.html
+#. tpl/command_edit.html
+msgid "Reporter"
+msgstr "Mpanatitra"
+
+#. tpl/command_info.html
+#. tpl/servicecontract_edit.html
+#. tpl/servicecontract_info.html
+#. tpl/command_edit.html
+#. tpl/edit_team.html
+#. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
+msgid "Start date"
+msgstr "Daty itombohana"
+
+#. tpl/command_info.html
+#. tpl/servicecontract_edit.html
+#. tpl/servicecontract_info.html
+#. tpl/command_edit.html
+msgid "End date"
+msgstr "Daty amaranana"
+
+#. tpl/command_info.html
+#. tpl/commandset_info.html
+#. tpl/servicecontract_info.html
+#. tpl/command_edit.html
+msgid "Average Daily Rate"
+msgstr "Salan'isan'ny taha isan'andro"
+
+#. tpl/command_info.html
 msgid "Default ADR"
 msgstr ""
 
 #. tpl/command_info.html
 msgid "Tasks & Provisions"
 msgstr ""
+
+#. tpl/command_info.html
+#. tpl/command_edit.html
+msgid "Sold Charge"
+msgstr "Vesatra namidy"
+
+#. tpl/command_info.html
+#. tpl/commandset_edit.html
+#. tpl/commandset_info.html
+#. tpl/create_team.html
+#. tpl/edit_holidays.html
+#. tpl/servicecontract_edit.html
+#. tpl/servicecontract_info.html
+#. tpl/time_tracking.html
+#. tpl/tools/dashboard.html
+#. tpl/command_edit.html
+#. tpl/edit_team.html
+#. tpl/issue_info.html
+#. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#. plugins/CostsIndicator/CostsIndicator.html
+#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
+#. plugins/ImportUsers/ImportUsers.html
+#. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
+#. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
+#. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
+#. plugins/ManagementCosts/ManagementCosts.html
+#. plugins/ManagementCosts/ManagementCosts_ajax3.html
+#. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
+#: reports/export_csv_weekly.php:172
+msgid "Description"
+msgstr "Visavisa"
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
@@ -1091,8 +774,52 @@ msgstr "Manontolo"
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
+#. tpl/edit_jobs.html
+#. tpl/project_activity_report.html
+#. tpl/servicecontract_info.html
+#. tpl/command_edit.html
+#. tpl/edit_team.html
+#. tpl/issue_info.html
+#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+msgid "Type"
+msgstr "Karazana"
+
+#. tpl/command_info.html
+#. tpl/commandset_info.html
+#. tpl/servicecontract_info.html
+#. tpl/command_edit.html
+msgid "Budget Days"
+msgstr "Tetibola araka ny andro"
+
+#. tpl/command_info.html
+#. tpl/commandset_info.html
 msgid "None"
 msgstr "Tsy misy"
+
+#. tpl/command_info.html
+#. tpl/commandset_edit.html
+#. tpl/commandset_info.html
+#. tpl/edit_holidays.html
+#. tpl/mantis_reports.html
+#. tpl/planning_report.html
+#. tpl/servicecontract_info.html
+#. tpl/team_activity_report.html
+#. tpl/time_tracking.html
+#. tpl/command_edit.html
+#. tpl/edit_team.html
+#. tpl/issue_info.html
+#. tpl/statistics.html
+#. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
+#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
+#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
+#. plugins/ManagementCosts/ManagementCosts_ajax3.html
+#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
+#. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
+#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
+#. plugins/TimetrackList/TimetrackList_ajax.html
+msgid "Date"
+msgstr "Daty"
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
@@ -1103,6 +830,17 @@ msgstr ""
 #. tpl/commandset_info.html
 msgid "Provision NOT included in 'check budget'"
 msgstr ""
+
+#. tpl/command_info.html
+#. tpl/modal/select_issues.html
+#. tpl/project_activity_report.html
+#. tpl/team_activity_report.html
+#. tpl/command_edit.html
+#. tpl/issue_info.html
+#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+#: classes/issue.class.php:2288 tools.php:1564
+msgid "Target"
+msgstr "Tanjona"
 
 #. tpl/command_info.html
 #. tpl/servicecontract_info.html
@@ -1140,6 +878,17 @@ msgid "OK"
 msgstr "OK"
 
 #. tpl/command_info.html
+#. tpl/gantt.html
+#. tpl/time_tracking.html
+#. tpl/tools/dashboard.html
+#. tpl/command_edit.html
+#. tpl/edit_team.html
+#. tpl/issue_info.html
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Cancel"
+msgstr "Avela"
+
+#. tpl/command_info.html
 msgid "Warning"
 msgstr "Fampitandremana"
 
@@ -1156,17 +905,64 @@ msgid "New command set"
 msgstr "Vondrom-baiko vaovao"
 
 #. tpl/commandset_edit.html
+#. tpl/commandset_info.html
+#. tpl/form/teamForm.html
+#. tpl/form/teamSelector.html
+#. tpl/holidays_report.html
+#. tpl/menu/global_menu.html
+#. tpl/servicecontract_edit.html
+#. tpl/servicecontract_info.html
+#. tpl/command_edit.html
+#. tpl/edit_team.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#. plugins/ImportUsers/ImportUsers.html
+#. plugins/ImportUsers/ImportUsers_ajax.html
+#. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
+#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
+#. plugins/UserTeamList/UserTeamList_ajax.html
+msgid "Team"
+msgstr "Ekipa"
+
+#. tpl/commandset_edit.html
+#. tpl/modal/change_managedUser.html
+#. tpl/servicecontract_edit.html
+#. tpl/set_holidays.html
+#. tpl/command_edit.html
+#. tpl/edit_team.html
+#. plugins/ImportUsers/ImportUsers_ajax.html
+msgid "Name"
+msgstr "Anarana"
+
+#. tpl/commandset_edit.html
+#. tpl/servicecontract_edit.html
+#. tpl/tools/wbsEditor.html
+#. tpl/command_edit.html
+#. tpl/edit_team.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#. Delete
+#: plugins/BlogPlugin/BlogPost.class.php:425
+msgid "Delete"
+msgstr "Fafàna"
+
+#. tpl/commandset_edit.html
 #. tpl/create_team.html
 #. tpl/edit_holidays.html
 #. tpl/edit_jobs.html
-#. tpl/edit_team.html
 #. tpl/servicecontract_edit.html
 #. tpl/set_holidays.html
 #. tpl/time_tracking.html
+#. tpl/command_edit.html
+#. tpl/edit_team.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Some fields are missing:"
 msgstr "Misy saha sasany tsy ampy:"
+
+#. tpl/commandset_edit.html
+#. tpl/command_edit.html
+msgid "Field is missing"
+msgstr "Tsy ampy ny saha"
 
 #. tpl/commandset_edit.html
 msgid "Command set name"
@@ -1190,8 +986,8 @@ msgstr ""
 
 #. tpl/commandset_edit.html
 #. tpl/commandset_info.html
-#. tpl/issue_info.html
 #. tpl/servicecontract_info.html
+#. tpl/issue_info.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
 #: classes/issue.class.php:2258
 msgid "Commands"
@@ -1202,12 +998,41 @@ msgid "--- New Command ---"
 msgstr "--- Baiko Vaovao ---"
 
 #. tpl/commandset_edit.html
+#. tpl/edit_holidays.html
+#. tpl/edit_jobs.html
+#. tpl/menu/global_menu.html
+#. tpl/servicecontract_edit.html
+#. tpl/set_holidays.html
+#. tpl/time_tracking.html
+#. tpl/tools/dashboard.html
+#. tpl/command_edit.html
+#. tpl/edit_team.html
+#. tpl/issue_info.html
+msgid "Add"
+msgstr "Hanampy"
+
+#. tpl/commandset_edit.html
+#. tpl/servicecontract_edit.html
+#. tpl/command_edit.html
+#. tpl/issue_info.html
+msgid "Remove"
+msgstr "Esorina"
+
+#. tpl/commandset_edit.html
 msgid "Remove Command"
 msgstr "Hanala baiko"
 
 #. tpl/commandset_edit.html
 msgid "Remove Command from this CommandSet ?"
 msgstr ""
+
+#. tpl/commandset_edit.html
+#. tpl/servicecontract_edit.html
+#. tpl/command_edit.html
+#. tpl/edit_team.html
+#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+msgid "Id"
+msgstr "Id"
 
 #. tpl/commandset_edit.html
 #. tpl/commandset_info.html
@@ -1217,16 +1042,30 @@ msgstr "Tsiahy"
 
 #. tpl/commandset_edit.html
 #. tpl/commandset_info.html
-#. tpl/issue_info.html
 #. tpl/menu/global_menu.html
 #. tpl/servicecontract_info.html
+#. tpl/issue_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/ManagementCosts/ManagementCosts_ajax3.html
+#: classes/consistency_check2.class.php:636
 msgid "Command"
 msgstr "Baiko"
 
 #. tpl/commandset_edit.html
+#. tpl/command_edit.html
+msgid "delete CommandSet-Command association"
+msgstr ""
+
+#. tpl/commandset_edit.html
 msgid "Create the CommandSet to add some commands."
+msgstr ""
+
+#. tpl/commandset_edit.html
+#. tpl/commandset_info.html
+#. tpl/servicecontract_edit.html
+#. tpl/servicecontract_info.html
+#. tpl/command_edit.html
+msgid "Sorry, only managers can access this page."
 msgstr ""
 
 #. tpl/commandset_info.html
@@ -1307,7 +1146,7 @@ msgid "Meeting, Pre-sales, ProjectManagement, ..."
 msgstr ""
 
 #. tpl/create_team.html
-#: admin/edit_team.php:177
+#: admin/edit_team.php:171
 msgid "Incident"
 msgstr ""
 
@@ -1317,7 +1156,7 @@ msgstr ""
 
 #. tpl/create_team.html
 #. tpl/edit_team.html
-#: admin/create_team.php:95 admin/edit_team.php:178
+#: admin/create_team.php:95 admin/edit_team.php:172
 msgid "Tools"
 msgstr "Fitaovana"
 
@@ -1326,7 +1165,7 @@ msgid "Sys. Admin, Scritps, ..."
 msgstr ""
 
 #. tpl/create_team.html
-#: admin/edit_team.php:179
+#: admin/edit_team.php:173
 msgid "Team Workshop"
 msgstr ""
 
@@ -1511,344 +1350,6 @@ msgstr "Lokon'asa"
 msgid "Missing fields :"
 msgstr ""
 
-#. tpl/edit_team.html
-msgid "General"
-msgstr "Ankapobe"
-
-#. tpl/edit_team.html
-msgid "Team Members"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Team Projects"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Preferences"
-msgstr "Safidy"
-
-#. tpl/edit_team.html
-msgid "Timetrack Durations"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Costs management"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "OnDuty tasks"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Creation Date"
-msgstr ""
-
-#. tpl/edit_team.html
-#. tpl/issue_info.html
-msgid "Update"
-msgstr "Havaozina"
-
-#. tpl/edit_team.html
-msgid "Enabled"
-msgstr "Mandeha"
-
-#. tpl/edit_team.html
-msgid "Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report."
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Team Administrators"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "add as team administrator"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Add a team administrator"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Remove administrator"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Remove the following Team Administrator ?"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Delete team"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Member"
-msgstr "Mpikambana"
-
-#. tpl/edit_team.html
-#. plugins/UserTeamList/UserTeamList_ajax.html
-msgid "Role"
-msgstr "Anjara asa"
-
-#. tpl/edit_team.html
-msgid "Arrival-Date"
-msgstr "Daty nahatongavana"
-
-#. tpl/edit_team.html
-msgid "Add User"
-msgstr "Hanampy mpikambana"
-
-#. tpl/edit_team.html
-msgid "Departure-Date"
-msgstr "Daty handehanana"
-
-#. tpl/edit_team.html
-msgid "set Departure Date"
-msgstr "hanavao daty handehanana"
-
-#. tpl/edit_team.html
-msgid "Import all users from team"
-msgstr ""
-
-#. tpl/edit_team.html
-#. tpl/modal/login.html
-msgid "login"
-msgstr "hiditra"
-
-#. tpl/edit_team.html
-msgid "Arrival date in the team"
-msgstr "Fahatongavana tao amin'ny ekipa"
-
-#. tpl/edit_team.html
-msgid "Arrival Date"
-msgstr "Daty nahatongavana"
-
-#. tpl/edit_team.html
-msgid "Departure date from the team"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Departure Date"
-msgstr "Daty handehanana"
-
-#. tpl/edit_team.html
-#. tpl/time_tracking.html
-msgid "delete this row"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Create SideTasksProject"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Project name"
-msgstr "Anaran-tetikasa"
-
-#. tpl/edit_team.html
-msgid "Create project"
-msgstr "Hamorona tetikasa"
-
-#. tpl/edit_team.html
-msgid "Average Daily Cost"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "The ADC is the default UDC for team members"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Team Currency"
-msgstr ""
-
-#. tpl/edit_team.html
-#. tpl/forecasting_report.html
-#. tpl/productivity_report.html
-#. tpl/statistics.html
-#. plugins/BlogPlugin/BlogPlugin.html
-#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
-#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
-#. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
-msgid "Help"
-msgstr "Fanoroana"
-
-#. tpl/edit_team.html
-msgid "Team Average Daily Cost"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Default currency for the team."
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "All indicators will use this currency and all values defined in other currencies will be converted."
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Coef"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "referal currency"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "TODO: describe how and where it is used in CodevTT"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "User Daily Costs"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Add UserDailyCost"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Add user daily cost"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Team creation date"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "User arrival date"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "User Daily Cost"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Issue Tooltips"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Tooltip fields"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "No custom IssueTooltips defined for your projects."
-msgstr ""
-
-#. tpl/edit_team.html
-#. tpl/menu/global_menu.html
-msgid "Consistency Check"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Enable/Disable alerts"
-msgstr "Handefa/Hanajanona fampahafantarana"
-
-#. tpl/edit_team.html
-msgid "Add OnDuty tasks"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly different behaviour."
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Inactivity tasks"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "No 'inactivity' task defined in your SideTasks projects."
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "delete OnDuty task"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Timetrack durations list"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "These are the values proposed in the Timetracking page, when adding a timetrack."
-msgstr ""
-
-#. tpl/edit_team.html
-#. tpl/forecasting_report.html
-#. tpl/productivity_report.html
-#. tpl/workflow.html
-msgid "Value"
-msgstr "Sanda"
-
-#. tpl/edit_team.html
-#. tpl/menu/global_menu.html
-#. plugins/BlogPlugin/BlogPlugin.html
-#. plugins/HelloWorldIndicator/HelloWorldIndicator.html
-#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
-#. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
-#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
-#. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#. plugins/ManagementCosts/ManagementCosts.html
-#. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
-#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
-#. plugins/TimetrackList/TimetrackList.html
-#. plugins/UserTeamList/UserTeamList.html
-msgid "Display"
-msgstr "Fiseho"
-
-#. tpl/edit_team.html
-msgid "add a custom duration"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Delete duration"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Deleted the following duration ?"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Team Member"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Source Team"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Inactivity task"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Remove user from this team ?"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Remove this project from the team ?"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Remove IssueTooltip customisation for project"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "This task will no longer be identified as an 'OnDuty' task."
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "save"
-msgstr "tehirizina"
-
-#. tpl/edit_team.html
-msgid "Updated successfully !"
-msgstr ""
-
-#. tpl/edit_team.html
-msgid "Sorry, you need to be Team Leader to access this page."
-msgstr ""
-
 #. tpl/export_csv_monthly.html
 msgid "Monthly report"
 msgstr ""
@@ -1857,9 +1358,9 @@ msgstr ""
 #. tpl/export_csv_weekly.html
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
-#. tpl/statistics.html
 #. tpl/team_dashboard.html
 #. tpl/team_monthly_activity_report.html
+#. tpl/statistics.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Compute"
 msgstr "Kajiana"
@@ -1880,6 +1381,7 @@ msgstr "havoaka"
 #. tpl/export_csv_monthly.html
 #. tpl/menu/global_menu.html
 #. tpl/project_activity_report.html
+#: reports/export_csv_weekly.php:90
 msgid "Projects Activity"
 msgstr ""
 
@@ -1917,6 +1419,10 @@ msgid "ODT Template"
 msgstr "Endrika ODT"
 
 #. tpl/export_odt.html
+msgid "errorThrown"
+msgstr "ErrorThrown"
+
+#. tpl/export_odt.html
 #. tpl/holidays_report.html
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Filters"
@@ -1927,11 +1433,10 @@ msgid "Reported by"
 msgstr "Navoakan'i"
 
 #. tpl/export_odt.html
-#. tpl/issue_info.html
 #. tpl/modal/update_issueBacklog.html
-#: classes/wbsElement.class.php:685 management/command_info_ajax.php:333
-#: reports/export_csv_tools.php:69 reports/export_csv_weekly.php:173
-#: gantt/gantt_ajax.php:195
+#. tpl/issue_info.html
+#: management/command_info_ajax.php:333 reports/export_csv_tools.php:69
+#: reports/export_csv_weekly.php:173 gantt/gantt_ajax.php:195
 msgid "Assigned to"
 msgstr "Nomena an'i"
 
@@ -1947,6 +1452,7 @@ msgstr ""
 #. tpl/forecasting_report.html
 #. tpl/productivity_report.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
+#: classes/time_tracking.class.php:461
 msgid "nb days"
 msgstr "isa andro"
 
@@ -1955,6 +1461,19 @@ msgstr "isa andro"
 #. tpl/statistics.html
 msgid "Effort Deviation"
 msgstr ""
+
+#. tpl/forecasting_report.html
+#. tpl/productivity_report.html
+#. tpl/edit_team.html
+#. tpl/statistics.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
+#. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
+#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
+#. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
+#. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
+msgid "Help"
+msgstr "Fanoroana"
 
 #. tpl/forecasting_report.html
 #. tpl/productivity_report.html
@@ -2030,6 +1549,13 @@ msgstr ""
 #. tpl/productivity_report.html
 msgid "Manager"
 msgstr ""
+
+#. tpl/forecasting_report.html
+#. tpl/productivity_report.html
+#. tpl/workflow.html
+#. tpl/edit_team.html
+msgid "Value"
+msgstr "Sanda"
 
 #. tpl/forecasting_report.html
 #. tpl/productivity_report.html
@@ -2202,148 +1728,6 @@ msgstr ""
 msgid "A new CodevTT version is available !"
 msgstr ""
 
-#. tpl/issue_info.html
-#: scheduler/SchedulerEvent.class.php:116 gantt/gantt_ajax.php:224
-#: tools.php:1481
-msgid "External ID"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "Remove task from command"
-msgstr "Hanala raharaha amin'ny baiko"
-
-#. tpl/issue_info.html
-msgid "Add to command"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "Properties"
-msgstr "Tondro"
-
-#. tpl/issue_info.html
-msgid "Timetracks"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "Time tracking"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "Update timetracking"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "Task Info"
-msgstr "Fampahalalana mikasika ny raharaha"
-
-#. tpl/issue_info.html
-msgid "Update task info"
-msgstr "Hanavao ny fampahalalana mikasika ny raharaha"
-
-#. tpl/issue_info.html
-msgid "External Ref"
-msgstr ""
-
-#. tpl/issue_info.html
-#: classes/issue.class.php:2290 reports/export_csv_tools.php:58
-#: reports/planning_report.php:462 reports/planning_report.php:485
-#: scheduler/SchedulerEvent.class.php:114
-#: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
-#: tools.php:1566
-msgid "Priority"
-msgstr ""
-
-#. tpl/issue_info.html
-#. plugins/BlogPlugin/BlogPlugin.html
-#: classes/issue.class.php:2286 reports/planning_report.php:463
-#: reports/planning_report.php:486 scheduler/SchedulerEvent.class.php:115
-#: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
-#: tools.php:1568
-msgid "Severity"
-msgstr ""
-
-#. tpl/issue_info.html
-#. tpl/project_activity_report.html
-#. tpl/team_activity_report.html
-msgid "Target version"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "Relation"
-msgstr "Fifandraisana"
-
-#. tpl/issue_info.html
-msgid "Mantis notes"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "Get mantis notes"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "Click refresh button to display..."
-msgstr ""
-
-#. tpl/issue_info.html
-#. tpl/modal/update_issueBacklog.html
-#. tpl/team_activity_report.html
-#. tpl/time_tracking.html
-#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-#. plugins/TimetrackList/TimetrackList.html
-#. plugins/TimetrackList/TimetrackList_ajax.html
-msgid "Note"
-msgstr "Naoty"
-
-#. tpl/issue_info.html
-msgid "First Timetrack date"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "Latest Timetrack date"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "WARNING: Prior timetracks could not be displayed !"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "Update timetracking values"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "Remove from :"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "Add to Command"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "set/remove task specific deadline"
-msgstr "hnaisy/hanala ny deadline mikasika ny raharaha"
-
-#. tpl/issue_info.html
-msgid "Delivery date"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "set/remove delivery date"
-msgstr ""
-
-#. tpl/issue_info.html
-#. tpl/modal/update_issueBacklog.html
-msgid "Task not resolved, backlog cannot be '0'"
-msgstr "Raharaha tsy voavaka, tsy afaka atao ho '0' ny backlog"
-
-#. tpl/issue_info.html
-msgid "Task is resolved, backlog should be '0'"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "Backlog should not be set if status is : "
-msgstr ""
-
 #. tpl/logs.html
 msgid "Line"
 msgstr "Andalana"
@@ -2393,6 +1777,23 @@ msgstr "Tatitry ny andro tsy iasana"
 #. tpl/menu/global_menu.html
 msgid "Leaves"
 msgstr "Tsifahafaha-manatrika"
+
+#. tpl/menu/global_menu.html
+#. tpl/edit_team.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#. plugins/HelloWorldIndicator/HelloWorldIndicator.html
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
+#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
+#. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
+#. plugins/ManagementCosts/ManagementCosts.html
+#. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
+#. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
+#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
+#. plugins/TimetrackList/TimetrackList.html
+#. plugins/UserTeamList/UserTeamList.html
+msgid "Display"
+msgstr "Fiseho"
 
 #. tpl/menu/global_menu.html
 msgid "Check DeadLines"
@@ -2450,6 +1851,11 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Mantis Reports"
+msgstr ""
+
+#. tpl/menu/global_menu.html
+#. tpl/edit_team.html
+msgid "Consistency Check"
 msgstr ""
 
 #. tpl/menu/global_menu.html
@@ -2604,6 +2010,11 @@ msgid "CodevTT Identification"
 msgstr "Famantarana CodevTT"
 
 #. tpl/modal/login.html
+#. tpl/edit_team.html
+msgid "login"
+msgstr "hiditra"
+
+#. tpl/modal/login.html
 msgid "password"
 msgstr "tenimiafina"
 
@@ -2656,6 +2067,18 @@ msgid "Current backlog"
 msgstr "Sisa hatao ankehitriny"
 
 #. tpl/modal/update_issueBacklog.html
+#. tpl/command_edit.html
+#. tpl/issue_info.html
+#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#: reports/planning_report.php:466 reports/planning_report.php:495
+#: scheduler/SchedulerEvent.class.php:91 scheduler/SchedulerEvent.class.php:118
+#: scheduler/SchedulerEvent.class.php:143 gantt/gantt_ajax.php:198
+#: gantt/gantt_ajax.php:226 gantt/gantt_ajax.php:235 tools.php:1502
+msgid "Deadline"
+msgstr "Daty farany azo andefasana"
+
+#. tpl/modal/update_issueBacklog.html
 #. tpl/scheduler.html
 #. tpl/team_activity_report.html
 #. tpl/time_tracking.html
@@ -2676,8 +2099,24 @@ msgid "Duration (in days)"
 msgstr "Faharetana (andro)"
 
 #. tpl/modal/update_issueBacklog.html
+#. tpl/team_activity_report.html
+#. tpl/time_tracking.html
+#. tpl/issue_info.html
+#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
+#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
+#. plugins/TimetrackList/TimetrackList.html
+#. plugins/TimetrackList/TimetrackList_ajax.html
+msgid "Note"
+msgstr "Naoty"
+
+#. tpl/modal/update_issueBacklog.html
 msgid "Update Backlog"
 msgstr "Hanavao ny sisa hatao"
+
+#. tpl/modal/update_issueBacklog.html
+#. tpl/issue_info.html
+msgid "Task not resolved, backlog cannot be '0'"
+msgstr "Raharaha tsy voavaka, tsy afaka atao ho '0' ny backlog"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Status can't be : "
@@ -3063,6 +2502,12 @@ msgid "Detailed"
 msgstr "Antsipirihany"
 
 #. tpl/project_activity_report.html
+#. tpl/team_activity_report.html
+#. tpl/issue_info.html
+msgid "Target version"
+msgstr ""
+
+#. tpl/project_activity_report.html
 msgid "Total time spent on this issue"
 msgstr ""
 
@@ -3113,6 +2558,13 @@ msgstr ""
 #. tpl/scheduler.html
 msgid "Save user assignment for this task"
 msgstr ""
+
+#. tpl/scheduler.html
+#. tpl/tools/wbsEditor.html
+#: management/command_edit.php:185 management/commandset_edit.php:123
+#: management/servicecontract_edit.php:138
+msgid "Save"
+msgstr "Tehirizina"
 
 #. tpl/scheduler.html
 msgid "Scheduling method"
@@ -3172,6 +2624,12 @@ msgid "Nb CommandSets"
 msgstr ""
 
 #. tpl/servicecontract_edit.html
+#. tpl/servicecontract_info.html
+#. tpl/command_edit.html
+msgid "CommandSets"
+msgstr "Vondrom-baiko"
+
+#. tpl/servicecontract_edit.html
 msgid "SideTasks Projects"
 msgstr ""
 
@@ -3181,6 +2639,11 @@ msgstr "--- Vondrom-baiko Vaovao ---"
 
 #. tpl/servicecontract_edit.html
 msgid "delete Contract-CommandSet association"
+msgstr ""
+
+#. tpl/servicecontract_edit.html
+#. tpl/command_edit.html
+msgid "Remove CommandSet"
 msgstr ""
 
 #. tpl/servicecontract_edit.html
@@ -3207,6 +2670,11 @@ msgstr ""
 #: install/install_step4.php:51
 msgid "Go to"
 msgstr "Hankany"
+
+#. tpl/servicecontract_info.html
+#. tpl/command_edit.html
+msgid "No CommandSet found."
+msgstr "Tsy nahitana Vaingam-baiko"
 
 #. tpl/servicecontract_info.html
 msgid "No sidetasks found."
@@ -3258,167 +2726,6 @@ msgstr "Alakamisy"
 #. tpl/set_holidays.html
 msgid "Friday"
 msgstr "Zoma"
-
-#. tpl/statistics.html
-msgid "Start Year"
-msgstr "Taona ihatombohana"
-
-#. tpl/statistics.html
-#. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
-msgid "Submitted / Resolved Issues"
-msgstr "Olana nalefa/novahana"
-
-#. tpl/statistics.html
-msgid "Efficiency - System Disponibility"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "Reopened Rate"
-msgstr ""
-
-#. tpl/statistics.html
-#. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
-#: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:71
-msgid "Available Workforce"
-msgstr ""
-
-#. tpl/statistics.html
-#. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
-#: reports/export_csv_tools.php:54
-msgid "Submitted"
-msgstr "Nalefa"
-
-#. tpl/statistics.html
-msgid "Nb of submitted tasks EXCEPT SideTasks"
-msgstr ""
-
-#. tpl/statistics.html
-#. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
-msgid "Resolved"
-msgstr "Novahàna"
-
-#. tpl/statistics.html
-msgid "Nb of resolved tasks EXCEPT SideTasks and reopened tasks"
-msgstr ""
-
-#. tpl/statistics.html
-#. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
-#. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
-msgid "show values"
-msgstr "haneho sanda"
-
-#. tpl/statistics.html
-msgid "Nb submissions"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "Nb Resolved"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "Submitted / Resolved Issues (ExtRefOnly)"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "% Tasks"
-msgstr "% ny raharaha"
-
-#. tpl/statistics.html
-msgid "Percentage of tasks delivered before the deadLine"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "% Tasks Delivered on time"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "Effort deviation on resolved tasks (regarding the MgrEffortEstim)"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "Effort deviation on resolved tasks (regarding the EffortEstim)"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "No Support"
-msgstr ""
-
-#. tpl/statistics.html
-#: reports/export_csv_tools.php:62
-msgid "BI"
-msgstr ""
-
-#. tpl/statistics.html
-#: reports/export_csv_tools.php:63
-msgid "BS"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "Effort Deviation (ExtRefOnly)"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "Exclude side tasks to get the percent of time spent working on the projects"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "Efficiency"
-msgstr ""
-
-#. tpl/statistics.html
-#, c-format
-msgid "% Efficiency"
-msgstr ""
-
-#. tpl/statistics.html
-#, c-format
-msgid "% Sys Disp."
-msgstr ""
-
-#. tpl/statistics.html
-msgid "Sys Disp."
-msgstr ""
-
-#. tpl/statistics.html
-msgid "Number of reopened external tasks (tasks having an ExternalRef)."
-msgstr ""
-
-#. tpl/statistics.html
-msgid "% Reopened"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "Compare the number of reopened tasks to the number of resolved tasks"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "Nb Reopened"
-msgstr ""
-
-#. tpl/statistics.html
-#. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-msgid "man-days"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "Available man-days on the period (excluding leave and external tasks)"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "Developers Workload"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "nb production days"
-msgstr ""
-
-#. tpl/statistics.html
-msgid "Sorry, you do NOT have access to this page."
-msgstr ""
 
 #. tpl/team_activity_report.html
 #. tpl/time_tracking.html
@@ -3533,6 +2840,11 @@ msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Timetrack note"
+msgstr ""
+
+#. tpl/time_tracking.html
+#. tpl/edit_team.html
+msgid "delete this row"
 msgstr ""
 
 #. tpl/time_tracking.html
@@ -3694,6 +3006,653 @@ msgstr ""
 
 #. tpl/workflow.html
 msgid "No configuration options defined, using default configuration."
+msgstr ""
+
+#. tpl/command_edit.html
+msgid "New command"
+msgstr "Baiko vaovao"
+
+#. tpl/command_edit.html
+msgid "Command name"
+msgstr "Anaran'ny baiko"
+
+#. tpl/command_edit.html
+msgid "Not a number"
+msgstr "Tsy laharana"
+
+#. tpl/command_edit.html
+msgid "Delete Command"
+msgstr "Hamafa baiko"
+
+#. tpl/command_edit.html
+msgid "Delete this Command ?"
+msgstr "Hamafa ity baiko ity?"
+
+#. tpl/command_edit.html
+#. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
+msgid "Nb tasks"
+msgstr "Isa raharaha"
+
+#. tpl/command_edit.html
+msgid "Parent CommandSets"
+msgstr ""
+
+#. tpl/command_edit.html
+msgid "task id"
+msgstr "id asa"
+
+#. tpl/command_edit.html
+msgid "Missing field"
+msgstr "Saha tsy ampy"
+
+#. tpl/command_edit.html
+msgid "Add task"
+msgstr "Hanampy asa"
+
+#. tpl/command_edit.html
+msgid "Create the Command to add some tasks."
+msgstr "Hamorona ny baiko hanampiana asa."
+
+#. tpl/command_edit.html
+msgid "delete Command-Task association"
+msgstr "Hamafa fifandraisana Asa-Baiko"
+
+#. tpl/command_edit.html
+msgid "Remove Task"
+msgstr "Hanala raharaha"
+
+#. tpl/command_edit.html
+msgid "Remove Task from this Command ?"
+msgstr "Hanala ny asa amin'ity baiko ity?"
+
+#. tpl/command_edit.html
+msgid "Create the Command before assigning it to a CommandSet."
+msgstr "Hamorona baiko aloha ny manome Vaingam-baiko azy."
+
+#. tpl/command_edit.html
+msgid "Remove this Command from the CommandSet ?"
+msgstr ""
+
+#. tpl/command_edit.html
+msgid "Create the Command first."
+msgstr ""
+
+#. tpl/command_edit.html
+msgid "CSV Import"
+msgstr "Fampidirana CSV"
+
+#. tpl/command_edit.html
+msgid "Import templates"
+msgstr "Endrika fampidirana"
+
+#. tpl/command_edit.html
+msgid "Add Provision"
+msgstr ""
+
+#. tpl/command_edit.html
+msgid "add to budget check"
+msgstr ""
+
+#. tpl/command_edit.html
+msgid "Add to 'check budget'"
+msgstr ""
+
+#. tpl/command_edit.html
+#. tpl/edit_team.html
+#. tpl/issue_info.html
+msgid "Update"
+msgstr "Havaozina"
+
+#. tpl/command_edit.html
+#. tpl/edit_team.html
+msgid "save"
+msgstr "tehirizina"
+
+#. tpl/command_edit.html
+msgid "Delete from the Command ?"
+msgstr ""
+
+#. tpl/command_edit.html
+msgid "Edit Provision"
+msgstr ""
+
+#. tpl/command_edit.html
+#. tpl/edit_team.html
+msgid "Updated successfully !"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "General"
+msgstr "Ankapobe"
+
+#. tpl/edit_team.html
+msgid "Team Members"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Team Projects"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Preferences"
+msgstr "Safidy"
+
+#. tpl/edit_team.html
+msgid "Timetrack Durations"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Costs management"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "OnDuty tasks"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Creation Date"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Enabled"
+msgstr "Mandeha"
+
+#. tpl/edit_team.html
+msgid "Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report."
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Team Administrators"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "add as team administrator"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Add a team administrator"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Remove administrator"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Remove the following Team Administrator ?"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Delete team"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Add team member"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Arrival-Date"
+msgstr "Daty nahatongavana"
+
+#. tpl/edit_team.html
+msgid "Add User"
+msgstr "Hanampy mpikambana"
+
+#. tpl/edit_team.html
+msgid "Import all users from team"
+msgstr ""
+
+#. tpl/edit_team.html
+#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#. plugins/ImportUsers/ImportUsers_ajax.html
+msgid "Import"
+msgstr "Hampiditra"
+
+#. tpl/edit_team.html
+msgid "Arrival date in the team"
+msgstr "Fahatongavana tao amin'ny ekipa"
+
+#. tpl/edit_team.html
+msgid "Arrival Date"
+msgstr "Daty nahatongavana"
+
+#. tpl/edit_team.html
+msgid "Departure date from the team"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Departure Date"
+msgstr "Daty handehanana"
+
+#. tpl/edit_team.html
+#. plugins/UserTeamList/UserTeamList_ajax.html
+msgid "Role"
+msgstr "Anjara asa"
+
+#. tpl/edit_team.html
+msgid "Update team member"
+msgstr ""
+
+#. tpl/edit_team.html
+#. plugins/UserTeamList/UserTeamList_ajax.html
+msgid "Arrival date"
+msgstr "Daty nahatongavana"
+
+#. tpl/edit_team.html
+#. plugins/UserTeamList/UserTeamList_ajax.html
+msgid "Departure date"
+msgstr "Daty handehanana"
+
+#. tpl/edit_team.html
+msgid "Create SideTasksProject"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Project name"
+msgstr "Anaran-tetikasa"
+
+#. tpl/edit_team.html
+msgid "Create project"
+msgstr "Hamorona tetikasa"
+
+#. tpl/edit_team.html
+msgid "Average Daily Cost"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "The ADC is the default UDC for team members"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Team Currency"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Team Average Daily Cost"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Default currency for the team."
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "All indicators will use this currency and all values defined in other currencies will be converted."
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Currency"
+msgstr "Vola"
+
+#. tpl/edit_team.html
+msgid "Coef"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "referal currency"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "TODO: describe how and where it is used in CodevTT"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "User Daily Costs"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Add UserDailyCost"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Add user daily cost"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Team creation date"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "User arrival date"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "User Daily Cost"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Issue Tooltips"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Tooltip fields"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "No custom IssueTooltips defined for your projects."
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Enable/Disable alerts"
+msgstr "Handefa/Hanajanona fampahafantarana"
+
+#. tpl/edit_team.html
+msgid "Add OnDuty tasks"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly different behaviour."
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Inactivity tasks"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "No 'inactivity' task defined in your SideTasks projects."
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "delete OnDuty task"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Timetrack durations list"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "These are the values proposed in the Timetracking page, when adding a timetrack."
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "add a custom duration"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Delete duration"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Deleted the following duration ?"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Team Member"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Source Team"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Inactivity task"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Remove user from this team ?"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Remove this project from the team ?"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Remove IssueTooltip customisation for project"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "This task will no longer be identified as an 'OnDuty' task."
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Sorry, you need to be Team Leader to access this page."
+msgstr ""
+
+#. tpl/issue_info.html
+#: scheduler/SchedulerEvent.class.php:116 gantt/gantt_ajax.php:224
+#: tools.php:1481
+msgid "External ID"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "Remove task from command"
+msgstr "Hanala raharaha amin'ny baiko"
+
+#. tpl/issue_info.html
+msgid "Add to command"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "Properties"
+msgstr "Tondro"
+
+#. tpl/issue_info.html
+msgid "Timetracks"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "Time tracking"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "Update timetracking"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "Task Info"
+msgstr "Fampahalalana mikasika ny raharaha"
+
+#. tpl/issue_info.html
+msgid "Update task info"
+msgstr "Hanavao ny fampahalalana mikasika ny raharaha"
+
+#. tpl/issue_info.html
+msgid "External Ref"
+msgstr ""
+
+#. tpl/issue_info.html
+#: classes/issue.class.php:2290 reports/export_csv_tools.php:58
+#: reports/planning_report.php:462 reports/planning_report.php:485
+#: scheduler/SchedulerEvent.class.php:114
+#: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
+#: tools.php:1566
+msgid "Priority"
+msgstr ""
+
+#. tpl/issue_info.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#: classes/issue.class.php:2286 reports/planning_report.php:463
+#: reports/planning_report.php:486 scheduler/SchedulerEvent.class.php:115
+#: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
+#: tools.php:1568
+msgid "Severity"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "Relation"
+msgstr "Fifandraisana"
+
+#. tpl/issue_info.html
+msgid "Mantis notes"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "Get mantis notes"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "Click refresh button to display..."
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "First Timetrack date"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "Latest Timetrack date"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "WARNING: Prior timetracks could not be displayed !"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "Update timetracking values"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "Remove from :"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "Add to Command"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "set/remove task specific deadline"
+msgstr "hnaisy/hanala ny deadline mikasika ny raharaha"
+
+#. tpl/issue_info.html
+msgid "Delivery date"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "set/remove delivery date"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "Task is resolved, backlog should be '0'"
+msgstr ""
+
+#. tpl/issue_info.html
+msgid "Backlog should not be set if status is : "
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Start Year"
+msgstr "Taona ihatombohana"
+
+#. tpl/statistics.html
+msgid "Efficiency - System Disponibility"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Reopened Rate"
+msgstr ""
+
+#. tpl/statistics.html
+#. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
+#. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
+#: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:71
+msgid "Available Workforce"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "% Tasks"
+msgstr "% ny raharaha"
+
+#. tpl/statistics.html
+msgid "Percentage of tasks delivered before the deadLine"
+msgstr ""
+
+#. tpl/statistics.html
+#. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
+#. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
+#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
+#. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
+#. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
+msgid "show values"
+msgstr "haneho sanda"
+
+#. tpl/statistics.html
+msgid "% Tasks Delivered on time"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Effort deviation on resolved tasks (regarding the MgrEffortEstim)"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Effort deviation on resolved tasks (regarding the EffortEstim)"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "No Support"
+msgstr ""
+
+#. tpl/statistics.html
+#: reports/export_csv_tools.php:62
+msgid "BI"
+msgstr ""
+
+#. tpl/statistics.html
+#: reports/export_csv_tools.php:63
+msgid "BS"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Effort Deviation (ExtRefOnly)"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Exclude side tasks to get the percent of time spent working on the projects"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Efficiency"
+msgstr ""
+
+#. tpl/statistics.html
+#, c-format
+msgid "% Efficiency"
+msgstr ""
+
+#. tpl/statistics.html
+#, c-format
+msgid "% Sys Disp."
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Sys Disp."
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Number of reopened external tasks (tasks having an ExternalRef)."
+msgstr ""
+
+#. tpl/statistics.html
+msgid "% Reopened"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Compare the number of reopened tasks to the number of resolved tasks"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Nb Reopened"
+msgstr ""
+
+#. tpl/statistics.html
+#. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
+msgid "man-days"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Available man-days on the period (excluding leave and external tasks)"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Developers Workload"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "nb production days"
+msgstr ""
+
+#. tpl/statistics.html
+msgid "Sorry, you do NOT have access to this page."
 msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
@@ -4015,7 +3974,7 @@ msgstr ""
 #. plugins/ManagementCosts/ManagementCosts_ajax.html
 #. plugins/ManagementCosts/ManagementCosts_ajax2.html
 #. plugins/ManagementCosts/ManagementCosts_ajax3.html
-#: plugins/ManagementCosts/ManagementCosts.class.php:244
+#: plugins/ManagementCosts/ManagementCosts.class.php:246
 msgid "Costs"
 msgstr ""
 
@@ -4080,6 +4039,7 @@ msgid "Tasks Drift alert"
 msgstr ""
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
+#. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Display resolved issues"
 msgstr ""
 
@@ -4670,8 +4630,16 @@ msgid "Reopened rate history"
 msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:66
+#: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:68
 msgid "Issue Status History"
+msgstr ""
+
+#. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
+msgid "No"
+msgstr ""
+
+#. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
+msgid "Yes"
 msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
@@ -4706,6 +4674,23 @@ msgstr ""
 msgid "Submitted/Resolved issues"
 msgstr ""
 
+#. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
+msgid "Submitted / Resolved Issues"
+msgstr "Olana nalefa/novahana"
+
+#. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
+msgid "Submitted"
+msgstr "Nalefa"
+
+#. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
+msgid "Resolved"
+msgstr "Novahàna"
+
+#. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_cfg.html
+#: plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.class.php:65
+msgid "Submitted/Resolved Issues History"
+msgstr ""
+
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
 msgid "Nb submitted"
 msgstr ""
@@ -4720,11 +4705,6 @@ msgstr ""
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
 msgid "Resolved issues"
-msgstr ""
-
-#. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_cfg.html
-#: plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.class.php:65
-msgid "Submitted/Resolved Issues History"
 msgstr ""
 
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
@@ -4744,14 +4724,6 @@ msgstr ""
 #. plugins/TimetrackList/TimetrackList.html
 msgid "Update timetrack"
 msgstr ""
-
-#. plugins/UserTeamList/UserTeamList_ajax.html
-msgid "Arrival date"
-msgstr "Daty nahatongavana"
-
-#. plugins/UserTeamList/UserTeamList_ajax.html
-msgid "Departure date"
-msgstr "Daty handehanana"
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
@@ -4786,6 +4758,14 @@ msgstr ""
 msgid "Couldn't delete the job"
 msgstr ""
 
+#: admin/logs.php:58
+msgid "Sorry, logfile not found:"
+msgstr ""
+
+#: admin/plugin_manager.php:67
+msgid "Could not create classmap: "
+msgstr ""
+
 #: admin/edit_team.php:52
 msgid "Couldn't delete the team"
 msgstr ""
@@ -4802,52 +4782,40 @@ msgstr ""
 msgid "Couldn't enable/disable team"
 msgstr ""
 
-#: admin/edit_team.php:208
-msgid "Couldn't delete the member of the team"
-msgstr ""
-
-#: admin/edit_team.php:224
+#: admin/edit_team.php:210
 msgid "Couldn't add the project to the team"
 msgstr ""
 
-#: admin/edit_team.php:230
+#: admin/edit_team.php:216
 msgid "Could NOT remove the project from the team"
 msgstr ""
 
-#: admin/edit_team.php:304
+#: admin/edit_team.php:290
 msgid "Configure Tooltips"
 msgstr ""
 
-#: admin/edit_team.php:417
+#: admin/edit_team.php:404
 msgid "enabled"
 msgstr "Mandeha"
 
-#: admin/edit_team.php:417
+#: admin/edit_team.php:404
 msgid "disabled"
 msgstr "Tsy mandeha"
 
-#: admin/edit_team_ajax.php:95
+#: admin/edit_team_ajax.php:92
 msgid "Issue tooltips for project"
 msgstr ""
 
-#: admin/edit_team_ajax.php:96
+#: admin/edit_team_ajax.php:93
 msgid "Drag & drop the items to be displayed in the Issue tooltip"
 msgstr ""
 
-#: admin/edit_team_ajax.php:97
+#: admin/edit_team_ajax.php:94
 msgid "Available fields"
 msgstr ""
 
-#: admin/edit_team_ajax.php:98
+#: admin/edit_team_ajax.php:95
 msgid "Tooltip"
-msgstr ""
-
-#: admin/logs.php:58
-msgid "Sorry, logfile not found:"
-msgstr ""
-
-#: admin/plugin_manager.php:67
-msgid "Could not create classmap: "
 msgstr ""
 
 #. avoid divisions by zero
@@ -5178,7 +5146,7 @@ msgid "Resolved Tasks"
 msgstr ""
 
 #: indicator_plugins/StatusHistoryIndicator/StatusHistoryIndicator.class.php:194
-#: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:331
+#: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:346
 msgid "Y-m-d"
 msgstr ""
 
@@ -5507,36 +5475,6 @@ msgstr "Vita!"
 msgid "Installation finished"
 msgstr ""
 
-#: management/command_edit.php:239
-msgid "Add tasks to Command"
-msgstr ""
-
-#: management/command_edit.php:240
-msgid "Add multiple tasks"
-msgstr ""
-
-#: management/command_edit.php:241
-msgid "Add selection"
-msgstr ""
-
-#: management/command_edit.php:242
-msgid "Note: Tasks already assigned to a Command are not displayed."
-msgstr ""
-
-#: management/command_edit.php:243
-msgid "Add the selected issues to the Command ?"
-msgstr ""
-
-#: management/command_edit_ajax.php:66
-msgid "Provisions updated FAILED !"
-msgstr ""
-
-#: management/command_edit_ajax.php:278
-#: plugins/ImportIssueCsv/ImportIssueCsv.class.php:204
-#: plugins/ImportUsers/ImportUsers.class.php:228
-msgid "Please upload files with the following extension: "
-msgstr ""
-
 #: management/command_info_ajax.php:363 scheduler/scheduler_ajax.php:379
 #: gantt/gantt_ajax.php:166
 msgid "auto"
@@ -5548,6 +5486,36 @@ msgstr ""
 
 #: management/servicecontract_tools.php:182
 msgid "Provision"
+msgstr ""
+
+#: management/command_edit.php:219
+msgid "Add tasks to Command"
+msgstr ""
+
+#: management/command_edit.php:220
+msgid "Add multiple tasks"
+msgstr ""
+
+#: management/command_edit.php:221
+msgid "Add selection"
+msgstr ""
+
+#: management/command_edit.php:222
+msgid "Note: Tasks already assigned to a Command are not displayed."
+msgstr ""
+
+#: management/command_edit.php:223
+msgid "Add the selected issues to the Command ?"
+msgstr ""
+
+#: management/command_edit_ajax.php:66
+msgid "Provisions updated FAILED !"
+msgstr ""
+
+#: management/command_edit_ajax.php:372
+#: plugins/ImportIssueCsv/ImportIssueCsv.class.php:204
+#: plugins/ImportUsers/ImportUsers.class.php:228
+msgid "Please upload files with the following extension: "
 msgstr ""
 
 #: reports/export_csv_tools.php:50
@@ -5621,7 +5589,7 @@ msgstr ""
 msgid "Monitored"
 msgstr ""
 
-#: reports/statistics.php:85
+#: reports/statistics.php:86
 msgid "No projects in this team"
 msgstr ""
 
@@ -5913,7 +5881,7 @@ msgstr ""
 msgid "Display the bug reopened rate history"
 msgstr ""
 
-#: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:69
+#: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:71
 msgid "Display Issue Status history"
 msgstr ""
 
