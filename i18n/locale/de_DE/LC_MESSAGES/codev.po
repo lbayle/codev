@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-04-18 14:56:11+0000\n"
+"PO-Revision-Date: 2019-04-22 20:04:36+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
@@ -3120,7 +3120,7 @@ msgstr "Vom Auftrag löschen?"
 
 #. tpl/command_edit.html
 msgid "Edit Provision"
-msgstr ""
+msgstr "Provision bearbeiten"
 
 #. tpl/command_edit.html
 #. tpl/edit_team.html
@@ -3193,7 +3193,7 @@ msgstr "Team löschen"
 
 #. tpl/edit_team.html
 msgid "Add team member"
-msgstr ""
+msgstr "Teammitglied hinzufügen"
 
 #. tpl/edit_team.html
 msgid "Arrival-Date"
@@ -3236,7 +3236,7 @@ msgstr "Rolle"
 
 #. tpl/edit_team.html
 msgid "Update team member"
-msgstr ""
+msgstr "Teammitglied aktualisieren"
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
@@ -4642,11 +4642,11 @@ msgstr "Eintragsstatusverlauf"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "No"
-msgstr ""
+msgstr "Nein"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Filter on Issue type"

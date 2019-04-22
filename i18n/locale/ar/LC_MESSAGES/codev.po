@@ -13,7 +13,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-04-18 14:56:10+0000\n"
+"PO-Revision-Date: 2019-04-22 20:04:35+0000\n"
 "Language: ar\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3120,7 +3120,7 @@ msgstr "حذف من الأمر؟"
 
 #. tpl/command_edit.html
 msgid "Edit Provision"
-msgstr ""
+msgstr "تحرير الحكم"
 
 #. tpl/command_edit.html
 #. tpl/edit_team.html
@@ -3193,7 +3193,7 @@ msgstr "حذف الفريق"
 
 #. tpl/edit_team.html
 msgid "Add team member"
-msgstr ""
+msgstr "إضافة عضو الفريق"
 
 #. tpl/edit_team.html
 msgid "Arrival-Date"
@@ -3236,7 +3236,7 @@ msgstr "الدور"
 
 #. tpl/edit_team.html
 msgid "Update team member"
-msgstr ""
+msgstr "تحديث عضو الفريق"
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
@@ -4642,11 +4642,11 @@ msgstr "تاريخ حالة القضية"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "No"
-msgstr ""
+msgstr "لا"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Yes"
-msgstr ""
+msgstr "نعم"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Filter on Issue type"

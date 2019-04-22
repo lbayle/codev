@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-04-18 14:56:16+0000\n"
+"PO-Revision-Date: 2019-04-22 20:04:40+0000\n"
 "Language: sv_se\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3191,7 +3191,7 @@ msgstr "Radera grupp"
 
 #. tpl/edit_team.html
 msgid "Add team member"
-msgstr ""
+msgstr "Lägg till lagmedlem"
 
 #. tpl/edit_team.html
 msgid "Arrival-Date"
@@ -3234,7 +3234,7 @@ msgstr "Roll"
 
 #. tpl/edit_team.html
 msgid "Update team member"
-msgstr ""
+msgstr "Uppdatera legmedlem"
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
@@ -4640,11 +4640,11 @@ msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "No"
-msgstr ""
+msgstr "Nej"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Filter on Issue type"
@@ -4701,7 +4701,7 @@ msgstr "Antal inskickade"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
 msgid "Nb resolved"
-msgstr ""
+msgstr "Antal lösta"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
 msgid "Submitted issues"

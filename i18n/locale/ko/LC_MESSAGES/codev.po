@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-04-18 14:56:13+0000\n"
+"PO-Revision-Date: 2019-04-22 20:04:38+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3196,7 +3196,7 @@ msgstr "팀 삭제"
 
 #. tpl/edit_team.html
 msgid "Add team member"
-msgstr ""
+msgstr "회원 추가"
 
 #. tpl/edit_team.html
 msgid "Arrival-Date"
@@ -3239,7 +3239,7 @@ msgstr "역할"
 
 #. tpl/edit_team.html
 msgid "Update team member"
-msgstr ""
+msgstr "회원 업데이트"
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
@@ -4663,11 +4663,11 @@ msgstr "이슈 상태 역사"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "No"
-msgstr ""
+msgstr "아니오"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Yes"
-msgstr ""
+msgstr "예"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #, fuzzy

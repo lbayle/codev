@@ -5,13 +5,14 @@
 # Author: Fanjiayi
 # Author: Frog7301
 # Author: Liuxinyu970226
+# Author: 佛壁灯
 # Author: 夢蝶葬花
 msgid ""
 msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-04-18 14:56:17+0000\n"
+"PO-Revision-Date: 2019-04-22 20:04:41+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3118,7 +3119,7 @@ msgstr "从命令中删除么？"
 
 #. tpl/command_edit.html
 msgid "Edit Provision"
-msgstr ""
+msgstr "编辑规定"
 
 #. tpl/command_edit.html
 #. tpl/edit_team.html
@@ -3191,7 +3192,7 @@ msgstr "删除团队"
 
 #. tpl/edit_team.html
 msgid "Add team member"
-msgstr ""
+msgstr "添加团队成员"
 
 #. tpl/edit_team.html
 msgid "Arrival-Date"
@@ -3234,7 +3235,7 @@ msgstr "角色"
 
 #. tpl/edit_team.html
 msgid "Update team member"
-msgstr ""
+msgstr "更新团队成员"
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
@@ -4640,11 +4641,11 @@ msgstr "问题状态历史"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "No"
-msgstr ""
+msgstr "否"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Yes"
-msgstr ""
+msgstr "是"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Filter on Issue type"

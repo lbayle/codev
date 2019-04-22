@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-04-07 12:05+0200\n"
-"PO-Revision-Date: 2019-04-18 14:56:12+0000\n"
+"PO-Revision-Date: 2019-04-22 20:04:37+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -84,7 +84,7 @@ msgstr "Charge Mgr"
 #: indicator_plugins/DetailedChargesIndicator/DetailedChargesIndicator.class.php:315
 #: reports/project_info.php:238 tools.php:1493
 msgid "EffortEstim"
-msgstr "Charge Init"
+msgstr "Charge estimée"
 
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/command_info.html
@@ -1554,7 +1554,7 @@ msgstr "Résumé"
 #. tpl/forecasting_report.html
 #. tpl/productivity_report.html
 msgid "Manager Estimation"
-msgstr "Charge estimée par le manager"
+msgstr "Estimation du manager"
 
 #. tpl/forecasting_report.html
 #. tpl/productivity_report.html
@@ -3125,7 +3125,7 @@ msgstr "Effacer de la commande ?"
 
 #. tpl/command_edit.html
 msgid "Edit Provision"
-msgstr ""
+msgstr "Modifier la provision"
 
 #. tpl/command_edit.html
 #. tpl/edit_team.html
@@ -3198,7 +3198,7 @@ msgstr "Supprimer l'équipe"
 
 #. tpl/edit_team.html
 msgid "Add team member"
-msgstr ""
+msgstr "Ajouter un membre de l’équipe"
 
 #. tpl/edit_team.html
 msgid "Arrival-Date"
@@ -3241,7 +3241,7 @@ msgstr "Rôle"
 
 #. tpl/edit_team.html
 msgid "Update team member"
-msgstr ""
+msgstr "Mettre à jour un membre de l’équipe"
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
@@ -3820,7 +3820,7 @@ msgstr "Assigné à moi"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Posted by me"
-msgstr "Ecrits par moi"
+msgstr "Publié par moi"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "All"
@@ -3877,7 +3877,7 @@ msgstr "Supprimer un message."
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "This will permanently delete this post, are you sure ?!"
-msgstr "Voulez-vous supprimer ce message définitivement ?"
+msgstr "Etes-vous certain de vouloir supprimer ce message définitivement ?"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Acknowledged by"
@@ -4027,7 +4027,7 @@ msgstr "L'arriéré des tâches dépend du status (toujours null si status >= r�
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the Provisions that are 'checked' as included in the budget."
-msgstr "Somme des Provisions cochées comme étant incluses dans le budget."
+msgstr "Somme des Provisions 'cochées' comme étant incluses dans le budget."
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 msgid "No late task."
@@ -4435,7 +4435,7 @@ msgstr "Montrer toute l'activité: <br> Si activé, les imputations sur les tâc
 #. plugins/ManagementCosts/ManagementCosts_cfg.html
 #: plugins/ManagementCosts/ManagementCosts.class.php:58
 msgid "Management costs"
-msgstr "Coûts Management"
+msgstr "Coûts de gestion"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -4613,7 +4613,7 @@ msgstr "Affiche le pourcentage de bogues ayant fait échouer les tests de valida
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved (or higher) to any lower status (and still unresolved at the end of the period)"
-msgstr "Le bug est passé d'un status 'résolu' (ou supérieur) à un status inférieur (et est toujours non résolu à la fin de la période)"
+msgstr "l'état est passé du status 'résolu' (ou supérieur) à un status inférieur (et est toujours non résolu à la fin de la période)"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Bug Refusal Rate"
@@ -4647,11 +4647,11 @@ msgstr "Evolution des tâches par statut"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "No"
-msgstr ""
+msgstr "Non"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Yes"
-msgstr ""
+msgstr "Oui"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Filter on Issue type"
@@ -4734,7 +4734,7 @@ msgstr "Liste des imputations"
 
 #. plugins/TimetrackList/TimetrackList.html
 msgid "Update timetrack"
-msgstr "Maj des imputations"
+msgstr "Maj de l'échéancier"
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
@@ -4840,7 +4840,7 @@ msgstr "ERREUR: Commencez par définir la devise de référence (avec coef=1)"
 
 #: classes/Currencies.class.php:136
 msgid "ERROR: there can be only one 'referal' currency (with coef=1)"
-msgstr "ERREUR: Il ne peut y avoir qu'une seule devise de référence (Avec coef=1)"
+msgstr "ERREUR: il ne peut y avoir qu'une seule devise 'de référence' (avec coef=1)"
 
 #: classes/Currencies.class.php:140
 msgid "ERROR: currency already defined"
@@ -4969,7 +4969,7 @@ msgstr "Charge non renseignée."
 
 #: classes/consistency_check2.class.php:442
 msgid "Status should not be"
-msgstr "Le status ne devrait pas être"
+msgstr "L'état ne devrait pas être"
 
 #: classes/consistency_check2.class.php:480
 msgid "The task is not assigned to anybody."
@@ -5370,7 +5370,7 @@ msgstr "Postes par défaut"
 
 #: install/install_step3.php:627
 msgid "CodevTT support management"
-msgstr "gestion du support"
+msgstr "gestion du support de CodevTT"
 
 #: install/install_step3.php:638
 msgid "Specific to SideTasks"
@@ -5973,7 +5973,7 @@ msgstr "Affectations mises à jour pour la tâche"
 #. 'arrivalDate' = should not be defined here, as another ajax call is doing the $schedulerManager->execute()
 #: scheduler/scheduler_ajax.php:389
 msgid "Issue not found in MantisDB !"
-msgstr "Tâche introuvable dans la BDD Mantis !"
+msgstr "Tâche introuvable dans MantisDB !"
 
 #: scheduler/scheduler_ajax.php:513
 msgid "Options saved successfully"

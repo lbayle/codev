@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-04-18 14:56:15+0000\n"
+"PO-Revision-Date: 2019-04-22 20:04:40+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -3162,7 +3162,7 @@ msgstr "Remover este comando?"
 
 #. tpl/command_edit.html
 msgid "Edit Provision"
-msgstr ""
+msgstr "Editar provisão"
 
 #. tpl/command_edit.html
 #. tpl/edit_team.html
@@ -3235,7 +3235,7 @@ msgstr "Remover equipe"
 
 #. tpl/edit_team.html
 msgid "Add team member"
-msgstr ""
+msgstr "Adicionar membro da equipe"
 
 #. tpl/edit_team.html
 msgid "Arrival-Date"
@@ -3278,7 +3278,7 @@ msgstr "Grupo"
 
 #. tpl/edit_team.html
 msgid "Update team member"
-msgstr ""
+msgstr "Atualizar membro da equipe"
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
@@ -4758,11 +4758,11 @@ msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "No"
-msgstr ""
+msgstr "Não"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #, fuzzy
