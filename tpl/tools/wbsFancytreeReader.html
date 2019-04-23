@@ -1,0 +1,113 @@
+
+<script src="lib/jquery.cookie/jquery.cookie.js" type="text/javascript"></script>
+
+<script src="lib/fancytree/lib/jquery.js"></script>
+<script src="lib/fancytree/src/jquery-ui-dependencies/jquery.fancytree.ui-deps.js"></script>
+
+<link href="lib/fancytree/src/skin-lion/ui.fancytree.css" rel="stylesheet">
+<script src="lib/fancytree/src/jquery.fancytree.js"></script>
+<script src="lib/fancytree/src/jquery.fancytree.table.js"></script>
+
+<style type="text/css">
+   .td-progress {
+      margin-right: 5px;
+      position: relative;
+      top: 2px;
+   }
+   .td-mgrEffortEstim, .td-effortEstim, .td-reestimated, .td-elapsed, .td-backlog, .td-mgrDrift, .td-drift {
+      border: solid #CCCCCC 1px;
+      border-bottom: none;
+      padding: 0em 0.5em;
+      width: 100px;
+      float: left;
+   }
+
+
+</style>
+
+
+<div id="content">
+   <a id="bt_loadTree" style="text-decoration: none" href="{$page}">
+      <img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" > {t}Reload{/t}</a>
+
+   <div id="testFancytree">
+      <h2>test Fancytree lib</h2>
+
+      <table id="treegrid">
+         <colgroup>
+            <col width="400px">
+            <col width="120px">
+            <col width="100px">
+            <col width="100px">
+            <col width="100px">
+            <col width="100px">
+         </colgroup>
+         <thead>
+            <tr>
+               <td></td>
+               <th>Progress</th>
+               <th>EE</th>
+               <th>Reestimated</th>
+               <th>Elapsed</th>
+               <th>Backlog</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <td></td>
+               <td><div class='td-progress progress'></div></td>
+               <td><span class='td-effortEstim'>&nbsp;</span></td>
+               <td><span class='td-reestimated'>&nbsp;</span></td>
+               <td><span class='td-elapsed'>&nbsp;</span></td>
+               <td><span class='td-backlog'>&nbsp;</span></td>
+            </tr>
+         </tbody>
+      </table>
+   </div>
+</div>
+
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+       jQuery("#bt_loadTree").click(function(event) {
+          event.preventDefault();
+          $("#tree").dynatree("destroy");
+          initTree();
+       });
+   });
+
+   function initTree() {
+      // --- Fancytree widget --------------------------------------------
+
+      $( "#treegrid" ).fancytree({
+         extensions: [ "table" ],
+         generateIds: true,
+         table: {
+            nodeColumnIdx: 0       // render the node title into the 2nd column
+         },
+         source: {
+            url: 'include/fancytree_ajax.php',
+    		   type: "POST",
+            cache: false,
+            data: { wbsRootId: "574870",
+                    hasDetail: "1",
+                    action: "loadWBS"
+            }
+         },
+         renderColumns: function( event, data ) {
+            var node = data.node;
+            //var $tdList = $( node.tr ).find( ">td" );
+            //$tdList.eq( 1 ).find("div").text( node.data.progress );
+            
+            $( node.tr ).find( ".td-progress" ).text( node.data.progress );
+            $( node.tr ).find( ".td-effortEstim" ).text( node.data.effortEstim );
+            $( node.tr ).find( ".td-reestimated" ).text( node.data.reestimated );
+            $( node.tr ).find( ".td-elapsed" ).text( node.data.elapsed );
+            $( node.tr ).find( ".td-backlog" ).text( node.data.backlog );
+         }
+      });
+   }
+
+	  window.onload = initTree;
+</script>
+
+

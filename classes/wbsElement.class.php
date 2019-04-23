@@ -820,6 +820,201 @@ class WBSElement extends Model {
          }
       }
 	}
+
+	/**
+	 *
+	 * @param boolean $hasDetail if true, add [Progress, EffortEstim, Elapsed, Backlog, Drift]
+	 * @param boolean $isManager
+	 * @param int $userid
+	 * @return array
+	 */
+   public function getFancytreeData($hasDetail = false, $isManager = false, $teamid = 0) {
+
+      // TODO AND root_id = $this->getRootId()
+      try {
+         $sql = AdodbWrapper::getInstance();
+         $query = 'SELECT * FROM codev_wbs_table WHERE parent_id = '.$sql->db_param().' ORDER BY wbs_order';
+         $result = $sql->sql_query($query, array($this->getId()));
+         //file_put_contents('/tmp/loadWBS.txt', "$query \n", FILE_APPEND);
+
+         $parentArray = array();
+
+         while ($row = $sql->fetchObject($result)) {
+            $wbselement = new WBSElement($row->id, $this->getRootId());
+
+            $childArray = array();
+
+            if ($wbselement->isFolder()) {
+
+               $childArray['isFolder'] = true;
+               $childArray['expand'] = $wbselement->isExpand();
+               $childArray['key'] = $wbselement->getId();
+               $childArray['title'] = $wbselement->getTitle();
+               $childArray['children'] = $wbselement->getFancytreeData($hasDetail, $isManager, $teamid);
+
+               if ($hasDetail) {
+                  $bugids = $this->getBugidList($wbselement->getId());
+                  $isel = new IssueSelection("wbs_".$wbselement->getId());
+                  foreach($bugids as $bugid) {
+                     try {
+                        $isel->addIssue($bugid);
+                     } catch (Exception $e) {
+                        self::$logger->error("Issue $bugid does not exist in Mantis DB.");
+                     }
+                  }
+                  if ($isManager) {
+                     $mgrEffortEstim = $isel->getMgrEffortEstim();
+                     $effortEstim = $isel->getEffortEstim();
+                     $driftInfo = $isel->getDrift();
+                     $mgrDriftInfo = $isel->getDriftMgr();
+                     $reestimated = $isel->getReestimated();
+                  } else {
+                     $mgrEffortEstim = '0';
+                     $effortEstim = $isel->getEffortEstim();
+                     $driftInfo = $isel->getDrift();
+                     $mgrDriftInfo = array('nbDays' => 0, 'percent' => 0);
+                     $reestimated = '0';
+                  }
+
+                  $childArray['progress'] = round(100 * $isel->getProgress());
+                  $childArray['mgrEE'] = $mgrEffortEstim;
+                  $childArray['effortEstim'] = $effortEstim;
+                  $childArray['reestimated'] = $reestimated;
+                  $childArray['elapsed'] = $isel->getElapsed();
+                  $childArray['backlog'] = $isel->duration;
+                  $childArray['mgrDrift'] = $mgrDriftInfo['nbDays'];
+                  $childArray['mgrDriftColor'] = $isel->getDriftColor($mgrDriftInfo['nbDays']);
+                  $childArray['drift'] = $driftInfo['nbDays'];
+                  $childArray['driftColor'] = $isel->getDriftColor($driftInfo['nbDays']);;
+               }
+
+            } else {
+
+               try {
+                  // avoid logging an exception...
+                  if (!Issue::exists($wbselement->getBugId())) {
+                     $e = new Exception("Issue with id=".$wbselement->getBugId()." not found.");
+                     throw $e;
+                  }
+                  $issue = IssueCache::getInstance()->getIssue($wbselement->getBugId());
+
+                  $formattedSummary = '<b>'.$issue->getId().'</b> '.$issue->getSummary();
+
+                  $childArray['isFolder'] = false;
+                  $childArray['key'] = $issue->getId(); // yes, bugid !
+                  $childArray['title'] = $formattedSummary;
+
+                  if ($hasDetail) {
+
+                     if ($isManager) {
+                        $mgrEffortEstim = $issue->getMgrEffortEstim();
+                        $effortEstim = $issue->getEffortEstim();
+                        $mgrDrift = $issue->getDriftMgr();
+                        $drift = $issue->getDrift();
+                        $reestimated = $issue->getReestimated();
+                     } else {
+                        $mgrEffortEstim = '0';
+                        $effortEstim = $issue->getEffortEstim();
+                        $mgrDrift = '0';
+                        $drift = $issue->getDrift();
+                        $reestimated = '0';
+                     }
+
+                     $childArray['progress'] = round(100 * $issue->getProgress());
+                     $childArray['mgrEE'] = $mgrEffortEstim;
+                     $childArray['effortEstim'] = $effortEstim;
+                     $childArray['reestimated'] = $reestimated;
+                     $childArray['elapsed'] = $issue->getElapsed();
+                     $childArray['backlog'] = $issue->getBacklog();
+                     $childArray['mgrDrift'] = $mgrDrift;
+                     $childArray['mgrDriftColor'] = $issue->getDriftColor($mgrDrift);
+                     $childArray['drift'] = $drift;
+                     $childArray['driftColor'] = $issue->getDriftColor($drift);
+                  }
+
+
+                  // add tooltip
+                  $user = UserCache::getInstance()->getUser($issue->getHandlerId());
+                  $titleAttr = array(
+                      T_('Project') => $issue->getProjectName(),
+                      T_('Category') => $issue->getCategoryName(),
+                      T_('Status') => Constants::$statusNames[$issue->getStatus()],
+                      T_('Assigned to') => $user->getRealname(),
+                      T_('Tags') => implode(',', $issue->getTagList()),
+                  );
+                  $childArray['href'] = Constants::$codevURL.'/reports/issue_info.php?bugid='.$issue->getId();
+                  #$childArray['htmlTooltip'] = Tools::getTooltip($issue->getTooltipItems($teamid, 0, $isManager));
+                  $childArray['htmlTooltip'] = Tools::getTooltip($titleAttr);
+
+                  #$childArray['icon'] = 'mantis_ico.gif';
+
+               } catch (Exception $e) {
+                  //$childArray['title'] = $wbselement->getBugId().' - '.T_('Error: Task not found in Mantis DB !');
+                  //$childArray['isFolder'] = false;
+                  self::$logger->warn("Issue $bugid does not exist in Mantis DB: calling checkWBS()");
+                  $childArray = array();
+
+                  // remove from WBS
+                  self::checkWBS();
+               }
+            }
+            if (sizeof($childArray) > 0) {
+               array_push($parentArray, $childArray);
+            }
+         }
+
+         // root element not only has children !
+         if ($this->id === $this->getRootId()) {
+            $rootArray = array(
+                  'title'    => $this->getTitle(),
+                  'isFolder' => true,
+                  'expand'      => $this->isExpand(),
+                  'key'      => $this->getId(),
+                  'children' => $parentArray);
+            if ($hasDetail) {
+               $bugids = $this->getBugidList($this->id);
+               $isel = new IssueSelection("wbs_".$this->id);
+               foreach($bugids as $bugid) {
+                  try {
+                     $isel->addIssue($bugid);
+                  } catch (Exception $e) {
+                     self::$logger->error("Issue $bugid does not exist in Mantis DB.");
+                  }
+               }
+               if ($isManager) {
+                  $mgrEffortEstim = $isel->getMgrEffortEstim();
+                  $effortEstim = $isel->getEffortEstim();
+                  $driftInfo = $isel->getDrift();
+                  $mgrDriftInfo = $isel->getDriftMgr();
+                  $reestimated = $isel->getReestimated();
+               } else {
+                  $mgrEffortEstim = '0';
+                  $effortEstim = $isel->getEffortEstim();
+                  $driftInfo = $isel->getDrift();
+                  $mgrDriftInfo = array('nbDays' => 0, 'percent' => 0);
+                  $reestimated = '0';
+               }
+
+               $rootArray['progress'] = round(100 * $isel->getProgress());
+               $rootArray['mgrEE'] = $mgrEffortEstim;
+               $rootArray['effortEstim'] = $effortEstim;
+               $rootArray['reestimated'] = $reestimated;
+               $rootArray['elapsed'] = $isel->getElapsed();
+               $rootArray['backlog'] = $isel->duration;
+               $rootArray['mgrDrift'] = $mgrDriftInfo['nbDays'];
+               $rootArray['mgrDriftColor'] = $isel->getDriftColor($mgrDriftInfo['nbDays']);
+               $rootArray['drift'] = $driftInfo['nbDays'];
+               $rootArray['driftColor'] = $isel->getDriftColor($driftInfo['nbDays']);;
+            }
+            return $rootArray;
+         } else {
+            return $parentArray;
+         }
+      } catch (Exception $e) {
+         self::$logger->error("Query failed!");
+      }
+   }
+
 }
 
 WBSElement::staticInit();
