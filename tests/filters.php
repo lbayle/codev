@@ -145,12 +145,12 @@ class FilterController extends Controller {
             // do the work ...
             $projectIssueSel = $project->getIssueSelection();
             $filterMgr = new FilterManager($projectIssueSel, $filterList);
-            $resultList = $filterMgr->execute();
-            $issueSelList = $filterMgr->explodeResults($resultList);
+            $flatIssueSelList = $filterMgr->execute();
+            $explodeResults = $filterMgr->explodeResults($flatIssueSelList);
 
             
 
-            $smatyObj = $this->getDetailedMgr($issueSelList, $filterList);
+            $smatyObj = $this->getDetailedMgr($explodeResults, $filterList);
 
             $totalLine = array_shift($smatyObj); // first line is rootElem (TOTAL)
             $titleLine = array_pop($smatyObj); // last line is the table titles

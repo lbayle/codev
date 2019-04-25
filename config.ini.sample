@@ -79,7 +79,7 @@ check_latest_version = 1
 [dashboardDefaultPlugins]
 Homepage = "BlogPlugin"
 ;User = ""
-;Project = ""
+Project = "TasksPivotTable"
 Task = "IssueBacklogVariationIndicator"
 Team = "AvailableWorkforceIndicator,LoadPerUserIndicator,BacklogPerUserIndicator,LoadPerJobIndicator2"
 Command = "LoadPerUserIndicator,ProgressHistoryIndicator2"

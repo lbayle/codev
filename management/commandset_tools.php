@@ -225,35 +225,11 @@ class CommandSetTools {
       return $params;
    }
 
-   public static function getDetailedCharges(CommandSet $cmdset, $isManager, $selectedFilters) {
-
-      $issueSel = $cmdset->getIssueSelection(Command::type_general);
-
-      $allFilters = "ProjectFilter,ProjectVersionFilter,ProjectCategoryFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter,IssueCodevTypeFilter";
-
-      $params = array(
-         'isManager' => $isManager,
-         'teamid' => $cmdset->getTeamid(),
-         'selectedFilters' => $selectedFilters,
-         'allFilters' => $allFilters,
-         'maxTooltipsPerPage' => Constants::$maxTooltipsPerPage
-      );
-
-
-      $detailedChargesIndicator = new DetailedChargesIndicator();
-      $detailedChargesIndicator->execute($issueSel, $params);
-
-      $smartyVariable = $detailedChargesIndicator->getSmartyObject();
-      $smartyVariable['selectFiltersSrcId'] = $cmdset->getId();
-
-      return $smartyVariable;
-   }
-
    /**
     * @param SmartyHelper $smartyHelper
     * @param CommandSet $commandset
     */
-   public static function displayCommandSet(SmartyHelper $smartyHelper, CommandSet $commandset, $isManager, $teamid, $selectedFilters = '') {
+   public static function displayCommandSet(SmartyHelper $smartyHelper, CommandSet $commandset, $isManager, $teamid) {
       #$smartyHelper->assign('commandsetId', $commandset->getId());
       $smartyHelper->assign('teamid', $commandset->getTeamid());
       $smartyHelper->assign('commandsetName', $commandset->getName());
@@ -274,13 +250,6 @@ class CommandSetTools {
       $teamCurrency = $team->getTeamCurrency();
       $smartyHelper->assign('cmdProvisionList', self::getProvisionList($commandset));
       $smartyHelper->assign('cmdProvisionTotalList', self::getProvisionTotalList($commandset, $teamCurrency));
-
-      // DetailedChargesIndicator
-      $data = self::getDetailedCharges($commandset, $isManager, $selectedFilters);
-      foreach ($data as $smartyKey => $smartyVariable) {
-         $smartyHelper->assign($smartyKey, $smartyVariable);
-      }
-
    }
 
    /**

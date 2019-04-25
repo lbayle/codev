@@ -107,10 +107,10 @@ class Config {
    const id_defaultLanguage = "defaultLanguage";
    const id_defaultProjectId = "defaultProjectId";
    #const id_ClientTeamid = "client_teamid"; // DEPRECATED since 1.0.3
-   const id_projectFilters = "projectFilters";
-   const id_commandFilters = "commandFilters";
-   const id_commandSetFilters = "commandSetFilters";
-   const id_serviceContractFilters = "serviceContractFilters";
+   const id_projectFilters = "projectFilters"; // DEPRECATED since 1.4.0
+   const id_commandFilters = "commandFilters"; // DEPRECATED since 1.4.0
+   const id_commandSetFilters = "commandSetFilters"; // DEPRECATED since 1.4.0
+   const id_serviceContractFilters = "serviceContractFilters"; // DEPRECATED since 1.4.0
    const id_consistencyCheckList = 'consistencyCheckList';
    const id_teamGeneralPreferences = 'teamGeneralPreferences';
    const id_durationList = 'durationList';

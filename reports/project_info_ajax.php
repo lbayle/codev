@@ -24,37 +24,15 @@ require_once('i18n/i18n.inc.php');
 
 if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
    if(isset($_GET['action'])) {
-      $smartyHelper = new SmartyHelper();
+//      $smartyHelper = new SmartyHelper();
 
-      if ($_GET['action'] == 'updateDetailedCharges') {
+//      if ($_GET['action'] == 'updateDetailedCharges') {
 
-         $user = UserCache::getInstance()->getUser($_SESSION['userid']);
-         $teamid = $_SESSION['teamid'];
-
-         $projectid = Tools::getSecureGETIntValue('selectFiltersSrcId');
-
-         $isManager = $user->isTeamManager($teamid);
-         $isObserver = $user->isTeamObserver($teamid);
-
-         $selectedFilters = Tools::getSecureGETStringValue('selectedFilters', '');
-
-         // save user preferances
-         $user->setProjectFilters($selectedFilters, $projectid);
-
-         // DetailedChargesIndicator
-         $data = ProjectInfoTools::getDetailedCharges($projectid, ($isManager || $isObserver), $selectedFilters);
-         foreach ($data as $smartyKey => $smartyVariable) {
-            $smartyHelper->assign($smartyKey, $smartyVariable);
-         }
-         $smartyHelper->display(DetailedChargesIndicator::getSmartySubFilename());
-
-      } else {
+//      } else {
          Tools::sendNotFoundAccess();
-      }
+//      }
    }
 }
 else {
    Tools::sendUnauthorizedAccess();
 }
-
-?>

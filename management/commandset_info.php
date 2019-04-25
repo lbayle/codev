@@ -79,15 +79,7 @@ class CommandSetInfoController extends Controller {
                   // set CommandSets I belong to
                   $this->smartyHelper->assign('parentContracts', CommandSetTools::getParentContracts($commandset));
 
-                  // get selected filters
-                  $selectedFilters="";
-                  if(isset($_GET['selectedFilters'])) {
-                     $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
-                  } else {
-                     $selectedFilters = $this->session_user->getCommandSetFilters($commandsetid);
-                  }
-
-                  CommandSetTools::displayCommandSet($this->smartyHelper, $commandset, ($isManager || $isObserver), $this->teamid, $selectedFilters);
+                  CommandSetTools::displayCommandSet($this->smartyHelper, $commandset, ($isManager || $isObserver), $this->teamid);
 
                   // ConsistencyCheck
                   $consistencyErrors = $this->getConsistencyErrors($commandset);
@@ -103,9 +95,6 @@ class CommandSetInfoController extends Controller {
                      $this->smartyHelper->assign('isEditGranted', true);
                   }
                   
-                  // old-stype plugins (deprecated)
-                  $this->smartyHelper->assign('detailedChargesIndicatorFile', DetailedChargesIndicator::getSmartyFilename());
-
                   // Dashboard
                   CommandSetTools::dashboardSettings($this->smartyHelper, $commandset, $this->session_userid);
                }

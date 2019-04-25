@@ -23,31 +23,6 @@
  */
 class ProjectInfoTools {
 
-   public static function getDetailedCharges($projectid, $isManager, $selectedFilters) {
-
-      $project = ProjectCache::getInstance()->getProject($projectid);
-      $issueSel = $project->getIssueSelection();
-
-      $allFilters = "ProjectVersionFilter,ProjectCategoryFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter,IssueCodevTypeFilter";
-
-      $params = array(
-         'isManager' => $isManager,
-         #'teamid' => $teamid,
-         'selectedFilters' => $selectedFilters,
-         'allFilters' => $allFilters,
-         'maxTooltipsPerPage' => Constants::$maxTooltipsPerPage
-      );
-
-
-      $detailedChargesIndicator = new DetailedChargesIndicator();
-      $detailedChargesIndicator->execute($issueSel, $params);
-
-      $smartyVariable = $detailedChargesIndicator->getSmartyObject();
-      $smartyVariable['selectFiltersSrcId'] = $projectid;
-
-      return $smartyVariable;
-   }
-
    /**
     *
     * @param SmartyHelper $smartyHelper

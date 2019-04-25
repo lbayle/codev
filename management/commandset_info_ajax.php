@@ -24,35 +24,13 @@ require_once('i18n/i18n.inc.php');
 
 if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
    if(isset($_GET['action'])) {
-      $smartyHelper = new SmartyHelper();
-      if ($_GET['action'] == 'updateDetailedCharges') {
+//      $smartyHelper = new SmartyHelper();
+//      if ($_GET['action'] == 'updateDetailedCharges') {
 
-         $cmdsetid = Tools::getSecureGETIntValue('selectFiltersSrcId');
-         $selectedFilters = Tools::getSecureGETStringValue('selectedFilters', '');
-
-
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-
-         $session_user->setCommandSetFilters($selectedFilters, $cmdsetid);
-
-         $cmdSet = CommandSetCache::getInstance()->getCommandSet($cmdsetid);
-         $isManager = $session_user->isTeamManager($cmdSet->getTeamid());
-         $isObserver = $session_user->isTeamObserver($cmdSet->getTeamid());
-
-         // DetailedChargesIndicator
-         $data = CommandSetTools::getDetailedCharges($cmdSet, ($isManager || $isObserver), $selectedFilters);
-         foreach ($data as $smartyKey => $smartyVariable) {
-            $smartyHelper->assign($smartyKey, $smartyVariable);
-         }
-         $smartyHelper->display(DetailedChargesIndicator::getSmartySubFilename());
-
-      } else {
+//      } else {
          Tools::sendNotFoundAccess();
-      }
+//      }
    }
-}
-else {
+} else {
    Tools::sendUnauthorizedAccess();
 }
-
-

@@ -380,34 +380,11 @@ class ServiceContractTools {
       return $params;
    }
 
-   public static function getDetailedCharges(ServiceContract $serviceContract, $isManager, $selectedFilters) {
-
-      $issueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
-
-      $allFilters = "ProjectFilter,ProjectVersionFilter,ProjectCategoryFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter,IssueCodevTypeFilter";
-
-      $params = array(
-         'isManager' => $isManager,
-         'teamid' => $serviceContract->getTeamid(),
-         'selectedFilters' => $selectedFilters,
-         'allFilters' => $allFilters,
-         'maxTooltipsPerPage' => Constants::$maxTooltipsPerPage
-      );
-
-      $detailedChargesIndicator = new DetailedChargesIndicator();
-      $detailedChargesIndicator->execute($issueSel, $params);
-
-      $smartyVariable = $detailedChargesIndicator->getSmartyObject();
-      $smartyVariable['selectFiltersSrcId'] = $serviceContract->getId();
-
-      return $smartyVariable;
-   }
-
    /**
     * @param SmartyHelper $smartyHelper
     * @param ServiceContract $servicecontract
     */
-   public static function displayServiceContract(SmartyHelper $smartyHelper, $servicecontract, $isManager, $teamid, $selectedFilters = '') {
+   public static function displayServiceContract(SmartyHelper $smartyHelper, $servicecontract, $isManager, $teamid) {
       #$smartyHelper->assign('servicecontractId', $servicecontract->getId());
       $smartyHelper->assign('teamid', $servicecontract->getTeamid());
       $smartyHelper->assign('servicecontractName', $servicecontract->getName());
@@ -445,13 +422,6 @@ class ServiceContractTools {
       $smartyHelper->assign('cmdProvisionTotalList', self::getProvisionTotalList($servicecontract, $teamCurrency));
 
       $smartyHelper->assign('servicecontractTotalDetailedMgr', self::getContractTotalDetailedMgr($servicecontract->getId(), $provDaysByType));
-
-      // DetailedChargesIndicator
-      $data = self::getDetailedCharges($servicecontract, $isManager, $selectedFilters);
-      foreach ($data as $smartyKey => $smartyVariable) {
-         $smartyHelper->assign($smartyKey, $smartyVariable);
-      }
-
    }
 
    /**

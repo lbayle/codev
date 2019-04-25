@@ -215,31 +215,6 @@ class CommandTools {
       return $params;
    }
 
-
-   public static function getDetailedCharges(Command $cmd, $isManager, $selectedFilters) {
-
-      $issueSel = $cmd->getIssueSelection();
-
-      $allFilters = "ProjectFilter,ProjectVersionFilter,ProjectCategoryFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter,IssueCodevTypeFilter";
-
-      $params = array(
-         'isManager' => $isManager,
-         'teamid' => $cmd->getTeamid(),
-         'selectedFilters' => $selectedFilters,
-         'allFilters' => $allFilters,
-         'maxTooltipsPerPage' => Constants::$maxTooltipsPerPage
-      );
-
-
-      $detailedChargesIndicator = new DetailedChargesIndicator();
-      $detailedChargesIndicator->execute($issueSel, $params);
-
-      $smartyVariable = $detailedChargesIndicator->getSmartyObject();
-      $smartyVariable['selectFiltersSrcId'] = $cmd->getId();
-
-      return $smartyVariable;
-   }
-
    /**
     * compute budget indicator values
     * @param Command $cmd
@@ -273,7 +248,7 @@ class CommandTools {
     * @param SmartyHelper $smartyHelper
     * @param Command $cmd
     */
-   public static function displayCommand(SmartyHelper $smartyHelper, Command $cmd, $isManager, $teamid, $selectedFilters='') {
+   public static function displayCommand(SmartyHelper $smartyHelper, Command $cmd, $isManager, $teamid) {
 
 
       $smartyHelper->assign('cmdid', $cmd->getId());
@@ -326,15 +301,6 @@ class CommandTools {
       #$mantisFilterBugList= implode(',', array_keys($cmdIssueSel->getIssueList()));
       #$smartyHelper->assign('mantisFilterBugList', $mantisFilterBugList);
       
-      // --------------
-      // Indicators & statistics
-
-      // DetailedChargesIndicator
-      $data = self::getDetailedCharges($cmd, $isManager, $selectedFilters);
-      foreach ($data as $smartyKey => $smartyVariable) {
-         $smartyHelper->assign($smartyKey, $smartyVariable);
-      }
-
    }
 
    /**

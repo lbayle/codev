@@ -102,18 +102,7 @@ class CommandInfoController extends Controller {
 
                   $this->smartyHelper->assign('commandid', $cmdid);
 
-                  // get selected filters
-                  if(isset($_GET['selectedFilters'])) {
-                     $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
-                  } else {
-                     $selectedFilters = $this->session_user->getCommandFilters($cmdid);
-                  }
-                  // cleanup filters (remove empty lines)
-                  $filterList = explode(',', $selectedFilters);
-                  $filterList = array_filter($filterList, create_function('$a','return $a!="";'));
-                  $selectedFilters = implode(',', $filterList);
-
-                  CommandTools::displayCommand($this->smartyHelper, $cmd, ($isManager || $isObserver), $this->teamid, $selectedFilters);
+                  CommandTools::displayCommand($this->smartyHelper, $cmd, ($isManager || $isObserver), $this->teamid);
 
                   // ConsistencyCheck
                   $consistencyErrors = $this->getConsistencyErrors($cmd);
@@ -143,9 +132,6 @@ class CommandInfoController extends Controller {
                   // WBS
                   $this->smartyHelper->assign('wbsRootId', $cmd->getWbsid());
                   
-                  // indicator_plugins (old style plugins - deprecated)
-                  $this->smartyHelper->assign('detailedChargesIndicatorFile', DetailedChargesIndicator::getSmartyFilename());
-
                   // Dashboard
                   CommandTools::dashboardSettings($this->smartyHelper, $cmd, $this->session_userid);
 

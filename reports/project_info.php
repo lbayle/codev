@@ -70,29 +70,6 @@ class ProjectInfoController extends Controller {
                $project = ProjectCache::getInstance()->getProject($projectid);
                $projectIssueSel = $project->getIssueSelection();
 
-               // --- FILTER TABS -------------
-
-               // get selected filters
-               if(isset($_GET['selectedFilters'])) {
-                  $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
-               } else {
-                  $selectedFilters = $this->session_user->getProjectFilters($projectid);
-               }
-
-               // cleanup filters (remove empty lines)
-               $filterList = explode(',', $selectedFilters);
-               $filterList = array_filter($filterList, create_function('$a','return $a!="";'));
-               $selectedFilters = implode(',', $filterList);
-
-               // save user preferances
-               $this->session_user->setProjectFilters($selectedFilters, $projectid);
-
-               // TODO: get allFilters from config.ini
-               $data = ProjectInfoTools::getDetailedCharges($projectid, ($isManager || $isObserver), $selectedFilters);
-               foreach ($data as $smartyKey => $smartyVariable) {
-                  $this->smartyHelper->assign($smartyKey, $smartyVariable);
-               }
-
                // --- DRIFT TABS -------------------
 
                $currentIssuesInDrift = NULL;
@@ -111,11 +88,8 @@ class ProjectInfoController extends Controller {
                $this->smartyHelper->assign("currentIssuesInDrift", $currentIssuesInDrift);
                $this->smartyHelper->assign("resolvedIssuesInDrift", $resolvedIssuesInDrift);
                
-               // indicator_plugins (old style plugins - deprecated)
-               $this->smartyHelper->assign('detailedChargesIndicatorFile', DetailedChargesIndicator::getSmartyFilename());
-               
-                  // Dashboard
-                  ProjectInfoTools::dashboardSettings($this->smartyHelper, $project, $this->session_userid, $this->teamid);
+               // Dashboard
+               ProjectInfoTools::dashboardSettings($this->smartyHelper, $project, $this->session_userid, $this->teamid);
                
             }
          }

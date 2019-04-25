@@ -75,15 +75,7 @@ class ServiceContractInfoController extends Controller {
 
                   $this->smartyHelper->assign('servicecontractid', $servicecontractid);
 
-                  // get selected filters
-                  $selectedFilters="";
-                  if(isset($_GET['selectedFilters'])) {
-                     $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
-                  } else {
-                     $selectedFilters = $this->session_user->getServiceContractFilters($servicecontractid);
-                  }
-
-                  ServiceContractTools::displayServiceContract($this->smartyHelper, $servicecontract, ($isManager || $isObserver), $this->teamid, $selectedFilters);
+                  ServiceContractTools::displayServiceContract($this->smartyHelper, $servicecontract, ($isManager || $isObserver), $this->teamid);
 
                   // ConsistencyCheck
                   $consistencyErrors = $this->getConsistencyErrors($servicecontract);
@@ -98,9 +90,6 @@ class ServiceContractInfoController extends Controller {
                      ($this->session_user->isTeamLeader($servicecontract->getTeamid()))) {
                      $this->smartyHelper->assign('isEditGranted', true);
                   }
-                  
-                  // old-style plugins (deprecated)
-                  $this->smartyHelper->assign('detailedChargesIndicatorFile', DetailedChargesIndicator::getSmartyFilename());
                   
                   // Dashboard
                   ServiceContractTools::dashboardSettings($this->smartyHelper, $servicecontract, $this->session_userid);

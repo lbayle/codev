@@ -24,35 +24,15 @@ require_once('i18n/i18n.inc.php');
 
 if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
    if(isset($_GET['action'])) {
-      $smartyHelper = new SmartyHelper();
-      if ($_GET['action'] == 'updateDetailedCharges') {
+//      $smartyHelper = new SmartyHelper();
+//      if ($_GET['action'] == 'updateDetailedCharges') {
 
-         $servicecontractid = Tools::getSecureGETIntValue('selectFiltersSrcId');
-         $selectedFilters = Tools::getSecureGETStringValue('selectedFilters', '');
-
-
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-
-         $session_user->setServiceContractFilters($selectedFilters, $servicecontractid);
-
-         $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-         $isManager = $session_user->isTeamManager($servicecontract->getTeamid());
-         $isObserver = $session_user->isTeamObserver($servicecontract->getTeamid());
-
-         // DetailedChargesIndicator
-         $data = ServiceContractTools::getDetailedCharges($servicecontract, ($isManager || $isObserver), $selectedFilters);
-         foreach ($data as $smartyKey => $smartyVariable) {
-            $smartyHelper->assign($smartyKey, $smartyVariable);
-         }
-         $smartyHelper->display(DetailedChargesIndicator::getSmartySubFilename());
-
-      } else {
+//      } else {
          Tools::sendNotFoundAccess();
-      }
+//      }
    }
 }
 else {
    Tools::sendUnauthorizedAccess();
 }
 
-?>

@@ -16,14 +16,24 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
+/**
+ * A FilterNode is a tree element containing an array of FilterNode
+ * resusting from the applyance of the first filter of the given filterList.
+ *
+ * the leaf FilterNode (result of the last filter) contains
+ * only an IssueSelection (no other FilterNode)
+ */
 class FilterNode {
 
+   /**
+    * this is the unique path of the tree resulting of previous filters applyance
+    * ex: on filters Project,Version,Category => "root","myProject1","V4.1","myCat1"
+    * @var array
+    */
    private $tagList;  // array("INDE","V4.1", "OPMNT", "withExtRef");
 
    /**
-    *
-    * @var String class name of the filter to apply
+    * @var String FilterClassName to apply
     */
    private $filterName;
 
@@ -36,7 +46,7 @@ class FilterNode {
     *
     * @var FilterNode[] The result of the current filter
     */
-   private $childList; // array of IssueSelection
+   private $childList; // array of FilterNode
 
 
    /**
@@ -54,10 +64,10 @@ class FilterNode {
    
    function __construct($tagList, IssueSelection $issueSel, array $filterList) {
 
-      $this->issueSelection = $issueSel;
+      $this->issueSelection = $issueSel; // parent list (initial)
       $this->tagList = $tagList;
 
-      // if not a leaf
+      // if not a leaf => more filters to apply
       if (!empty($filterList)) {
 
          // extract & remove 1st element from $filterList
@@ -67,15 +77,16 @@ class FilterNode {
          #echo "FILTER ".$class_name." TAG ".implode(',', $this->tagList)."<br>";
 
          // execute filter
+         // the result of a filter is an array of isel
          $filter = new $class_name("param1");
          $resultList = $filter->execute($issueSel, NULL);
 
-         // execute on children
+         // as we have more filters to apply,
+         // create a FilterNode for each ISel and recursively apply the remaining filters
          $this->childList = array();
          foreach ($resultList as $tag => $iSel) {
-            $nodeTagList = $tagList;
-            $nodeTagList[] = $iSel->name;
-
+            $nodeTagList = $tagList; // my own path resulting on previous filters
+            $nodeTagList[] = $iSel->name; // add level to unique tree-path
             $this->childList[$tag] = new FilterNode($nodeTagList, $iSel, $filterList);
          }
       } // else {
@@ -92,6 +103,10 @@ class FilterNode {
    public function getIssueSelection() {
       return $this->issueSelection;
    }
+   /**
+    *
+    * @return array array of FilterNode
+    */
    public function getChildList() {
       return $this->childList;
    }
@@ -104,7 +119,7 @@ class FilterNode {
 class FilterManager {
 
    private $rootIssueSelection;
-   private $filterList;
+   private $filterList; // array of Filter class names (ProjectVersionFilter, IssueTagFilter, ...)
    private $rootNode;
 
    /**
@@ -120,6 +135,11 @@ class FilterManager {
       self::$logger = Logger::getLogger(__CLASS__);
    }
 
+   /**
+    *
+    * @param IssueSelection $issueSel  initial isel
+    * @param array $filterList array of Filter class names
+    */
    function __construct(IssueSelection $issueSel, array $filterList = NULL) {
       $this->rootIssueSelection = $issueSel;
       $this->filterList = $filterList;
@@ -150,7 +170,9 @@ class FilterManager {
    }
    
    public function execute() {
-      $this->rootNode = new FilterNode(array($this->rootIssueSelection->name), $this->rootIssueSelection, $this->filterList);
+      $this->rootNode = new FilterNode(array($this->rootIssueSelection->name), 
+                                       $this->rootIssueSelection,
+                                       $this->filterList);
 
       $flatIssueSelList = $this->getFlattened();
 
@@ -158,7 +180,15 @@ class FilterManager {
 
    }
 
-
+   /**
+    * convert a FilterNode tree in an one-level array of ISel
+    *
+    *
+    * @param FilterNode $node
+    * @param array $return  the existing flattened array of Isel
+    * @param type $isLeafOnly
+    * @return array of Isel (existing flattened ISel + current Node Isels)
+    */
    private static function node_flatten(FilterNode $node, array $return, $isLeafOnly = false) {
 
       // TODO $isLeafOnly
@@ -182,12 +212,11 @@ class FilterManager {
    }
 
    /**
-    * The result of execute() is an array of key="tag1,tag2,tag3" value=IssueSel
+    * this method will explode the tags, to indent them when displayed in an HTML array
     *
-    * this method will explode the tags
+    * Input: The result of execute() as an array of {key="tag1,tag2,tag3" value=IssueSel}
     *
-    * @param array $filterList
-    * @param IssueSelection[] $resultList
+    * @param IssueSelection[] $resultList array of key="tag1,tag2,tag3" value=IssueSel
     * @param boolean $isLeafOnly
     *
     * @return array  array(array(root,filter1,filter2,filter3, issueSel))
@@ -230,4 +259,3 @@ class FilterManager {
 FilterNode::staticInit();
 FilterManager::staticInit();
 
-?>

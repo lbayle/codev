@@ -27,7 +27,6 @@ $ajaxLogger = Logger::getLogger("commandInfo_ajax");
 if(Tools::isConnectedUser() && 
    (filter_input(INPUT_POST, 'action') || filter_input(INPUT_GET, 'action'))) {
 
-   // INPUT_GET  for action updateDetailedCharges
    // INPUT_GET  for action updateTaskData
    // INPUT_POST for action getGanttTasks
    $action = filter_input(INPUT_POST, 'action');
@@ -39,29 +38,7 @@ if(Tools::isConnectedUser() &&
       $logger = Logger::getLogger("command_info_ajax");
       $smartyHelper = new SmartyHelper();
 
-      if ('updateDetailedCharges' === $action) {
-         // GET
-
-         $cmdid = Tools::getSecureGETIntValue('selectFiltersSrcId');
-         $selectedFilters = Tools::getSecureGETStringValue('selectedFilters', '');
-
-
-         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-
-         $session_user->setCommandFilters($selectedFilters, $cmdid);
-
-         $cmd = CommandCache::getInstance()->getCommand($cmdid);
-         $isManager = $session_user->isTeamManager($cmd->getTeamid());
-         $isObserver = $session_user->isTeamObserver($cmd->getTeamid());
-
-         // DetailedChargesIndicator
-         $data = CommandTools::getDetailedCharges($cmd, ($isManager || $isObserver), $selectedFilters);
-         foreach ($data as $smartyKey => $smartyVariable) {
-            $smartyHelper->assign($smartyKey, $smartyVariable);
-         }
-         $smartyHelper->display(DetailedChargesIndicator::getSmartySubFilename());
-
-      } else if ('updateTaskData' === $action) {
+      if ('updateTaskData' === $action) {
          $userid = $_SESSION['userid'];
          $teamid = $_SESSION['teamid'];
          try {

@@ -1,0 +1,29 @@
+<div class="taskPivotTable_ajax2"  style="width:100%;">
+   {if isset($taskPivotTable_issuesLines)}
+   <table id="taskPivotTable_tableTasks">
+   <!--table class="datatable_minimal"-->
+      <caption>
+         <span style="margin-left: 1em;"><img onclick="$('#taskPivotTable_tableTasks').table2CSV({literal}{{/literal}filename : 'tasksPivot2.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" /></span>
+      </caption>
+      <thead>
+         {foreach from=$taskPivotTable_issuesTitles key=id item=ftitle}
+         <th>{$ftitle}</th>
+         {/foreach}
+      </thead>
+      <tbody>
+         {foreach from=$taskPivotTable_issuesLines key=id item=line}
+         <tr>
+            {for $idx=1 to $taskPivotTable_nbFilters}
+            <td nowrap="nowrap">{$line[$idx]}</td>
+            {/for}
+            <td>{$line[$taskPivotTable_nbFilters+1].newList}</td>
+            <td>{$line[$taskPivotTable_nbFilters+1].openList}</td>
+            <td>{$line[$taskPivotTable_nbFilters+1].resolvedList}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
+   {else}
+   {t}No data{/t}
+   {/if}
+</div>

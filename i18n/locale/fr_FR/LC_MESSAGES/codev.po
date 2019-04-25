@@ -1666,7 +1666,7 @@ msgstr "Date de fin (inclue)"
 #. tpl/holidays_report.html
 #. tpl/time_tracking.html
 msgid "Set filters"
-msgstr "Filtrer les tâches"
+msgstr "Ajouter des Filtres"
 
 #. tpl/form/selectFiltersDialogbox.html
 #. tpl/time_tracking.html
