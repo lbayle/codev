@@ -147,16 +147,16 @@
                    html += "<span class='td-titlebar'>&nbsp;</span>";
                    html += "<span class='td-progress'>&nbsp;</span>";
                    html += "<img  class='td-info' align='absmiddle' src='images/blank.png'/>";
-                   {if $isManager}
+                   {if $isManager || $isObserver}
                    html += "<span class='td-mgrEffortEstim' style='font-weight: bold; background-color:#D8D8D8' >" + cols[2] + "&nbsp;</span>";
                    {/if}
                    html += "<span class='td-effortEstim' style='font-weight: bold; background-color:#D8D8D8' >" + cols[3] + "&nbsp;</span>";
-                   {if $isManager}
+                   {if $isManager || $isObserver}
                    html += "<span class='td-reestimated' style='font-weight: bold; background-color:#D8D8D8' >" + cols[4] + "&nbsp;</span>";
                    {/if}
                    html += "<span class='td-elapsed' style='font-weight: bold; background-color:#D8D8D8' >" + cols[5] + "&nbsp;</span>";
                    html += "<span class='td-backlog' style='font-weight: bold; background-color:#D8D8D8' >" + cols[6] + "&nbsp;</span>";
-                   {if $isManager}
+                   {if $isManager || $isObserver}
                    html += "<span class='td-mgrDrift' style='font-weight: bold; background-color:#D8D8D8' >" + cols[7] + "&nbsp;</span>";
                    {/if}
                    html += "<span class='td-drift' style='font-weight: bold; background-color:#D8D8D8' >" + cols[8] + "&nbsp;</span>";
@@ -179,16 +179,16 @@
                   } else {
                      html += "<img  class='td-info' align='absmiddle' src='images/blank.png'/>";
                   }
-                   {if $isManager}
+                   {if $isManager || $isObserver}
                    html += "<span class='td-mgrEffortEstim'>" + cols[2] + "&nbsp;</span>";
                    {/if}
                    html += "<span class='td-effortEstim'>" + cols[3] + "&nbsp;</span>";
-                   {if $isManager}
+                   {if $isManager || $isObserver}
                    html += "<span class='td-reestimated'>" + cols[4] + "&nbsp;</span>";
                    {/if}
                    html += "<span class='td-elapsed'>" + cols[5] + "&nbsp;</span>";
                    html += "<span class='td-backlog'>" + cols[6] + "&nbsp;</span>";
-                   {if $isManager}
+                   {if $isManager || $isObserver}
                    html += "<span class='td-mgrDrift' style='background-color:#"+cols[8]+"' >" + cols[7] + "&nbsp;</span>";
                    {/if}
                    html += "<span class='td-drift' style='background-color:#"+cols[10]+"' >" + cols[9] + "&nbsp;</span>";
