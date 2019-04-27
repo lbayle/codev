@@ -586,6 +586,13 @@ function update_v18_to_v19() {
       echo "<span class='error_font'>Could not execSQLscript: $sqlScriptFilename</span><br/>";
       exit;
    }
+
+   // Promote new BlogWall plugin by removing users settings on Homepage dashboard
+   $keyword = IndicatorPluginInterface::DOMAIN_HOMEPAGE;
+   $query = 'DELETE FROM  codev_config_table WHERE config_id LIKE "dashboard_homepage%"';
+   execQuery($query);
+
+
 }
 
 
