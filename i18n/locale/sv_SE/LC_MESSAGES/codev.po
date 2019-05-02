@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-04-29 15:25:16+0000\n"
+"PO-Revision-Date: 2019-05-02 15:56:51+0000\n"
 "Language: sv_se\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5707,7 +5707,7 @@ msgstr "Ledning"
 
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:80
 msgid "Group tasks by adding multiple filters"
-msgstr ""
+msgstr "Gruppera uppgifter genom att lägga till flera filter"
 
 #: plugins/TimetrackList/TimetrackList.class.php:65
 msgid "List and edit timetracks"

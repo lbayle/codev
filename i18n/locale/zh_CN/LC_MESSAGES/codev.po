@@ -1,6 +1,7 @@
 # Translation of CodevTT to Simplified Chinese (中文（简体）‎)
 # Exported from translatewiki.net
 #
+# Author: A Chinese Wikipedian
 # Author: Deathkon
 # Author: Fanjiayi
 # Author: Frog7301
@@ -12,7 +13,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-18 13:49+0100\n"
-"PO-Revision-Date: 2019-04-29 15:25:17+0000\n"
+"PO-Revision-Date: 2019-05-02 15:56:52+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4062,7 +4063,7 @@ msgstr ""
 
 #. plugins/TasksPivotTable/TasksPivotTable.html
 msgid "Drag, drop and set the order of the filters"
-msgstr ""
+msgstr "拖放并设置过滤器的顺序"
 
 #. plugins/TasksPivotTable/TasksPivotTable_ajax.html
 #: scheduler/SchedulerEvent.class.php:163 gantt/gantt_ajax.php:257
@@ -5708,7 +5709,7 @@ msgstr "管理"
 
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:80
 msgid "Group tasks by adding multiple filters"
-msgstr ""
+msgstr "通过添加多个筛选器将任务分组"
 
 #: plugins/TimetrackList/TimetrackList.class.php:65
 msgid "List and edit timetracks"
