@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-04-28 10:43+0200\n"
-"PO-Revision-Date: 2019-05-02 15:56:47+0000\n"
+"PO-Revision-Date: 2019-05-06 14:36:11+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -370,7 +370,7 @@ msgstr "consommé"
 
 #. tpl/productivity_report.html
 msgid "Tasks having no deadLine are not reported here"
-msgstr "Les tâches sans deadLine ne sont pas représentées ici"
+msgstr "Les tâches sans date de fin ne sont pas représentées ici"
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -409,7 +409,7 @@ msgstr "Date de livraison"
 #. tpl/productivity_report.html
 #: reports/export_csv_tools.php:56
 msgid "DeadLine"
-msgstr "DeadLine"
+msgstr "Date d'échéance"
 
 #. tpl/productivity_report.html
 msgid "Tasks delivered on time"
@@ -508,7 +508,7 @@ msgstr "Dérive"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Manager Estimation"
-msgstr "Charge estimée par le manager"
+msgstr "Estimation du manager"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -1493,7 +1493,7 @@ msgstr "Administrateurs d'équipe"
 
 #. tpl/edit_team.html
 msgid "add as team administrator"
-msgstr "Ajouter comme administrateur d'équipe"
+msgstr "ajouter comme administrateur d'équipe"
 
 #. tpl/edit_team.html
 msgid "Add a team administrator"
@@ -1652,7 +1652,7 @@ msgstr "Devise de l'équipe par défaut"
 
 #. tpl/edit_team.html
 msgid "All indicators will use this currency and all values defined in other currencies will be converted."
-msgstr "Les indicateurs utiliseront cette devise, les autres devises seront converties vers celle-ci."
+msgstr "Tous les indicateurs utiliseront cette devise et toutes les valeurs définies dans les autres devises seront converties."
 
 #. tpl/edit_team.html
 msgid "Currency"
@@ -2132,7 +2132,7 @@ msgstr "Première date d'imputation"
 
 #. tpl/issue_info.html
 msgid "Latest Timetrack date"
-msgstr "Dernière Date d'imputation"
+msgstr "Dernière date d'imputation"
 
 #. tpl/issue_info.html
 msgid "WARNING: Prior timetracks could not be displayed !"
@@ -2441,7 +2441,7 @@ msgstr "Nbre de jours de dépassement sur les tâches résolues dans la période
 
 #. tpl/statistics.html
 msgid "No Support"
-msgstr "Sans Support"
+msgstr "Sans support"
 
 #. tpl/statistics.html
 #: reports/export_csv_tools.php:62
@@ -2661,7 +2661,7 @@ msgstr "Tâches non assignées"
 
 #. tpl/planning_report.html
 msgid "Team's backlog"
-msgstr "Backlog de l'équipe"
+msgstr "Arriéré de travail de l’équipe"
 
 #. tpl/planning_report.html
 msgid "tasks"
@@ -2906,7 +2906,7 @@ msgstr "Créer"
 
 #. tpl/plugin_manager.html
 msgid "Check for new plugins in 'plugins' directory."
-msgstr "Recherche de plugins dans le dossier 'plugins'"
+msgstr "Rechercher des plugins dans le dossier 'plugins'"
 
 #. tpl/plugin_manager.html
 msgid "Discover new plugins"
@@ -3582,7 +3582,7 @@ msgstr "Mise à jour de l'arriéré des tâches"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Status can't be : "
-msgstr "Le status ne peut pas être : "
+msgstr "L'état ne peut pas être :"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Task resolved, backlog must be '0'"
@@ -4000,7 +4000,7 @@ msgstr "Taux de refus"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Resolved bugs must be validated. This shows how many bugs have been Rejected or Accepted during the validation stage. Bugs in 'resolved' status (not yet validated) are excluded."
-msgstr "Donne le taux de refus lors de la phase de validation. Les corrections peuvent être acceptées ou refusées. Les bugs dont le status est 'résolu' (non encore validés) ne sont pas pris en compte."
+msgstr "Les bogues résolus doivent être validés. Ceci donne le taux de refus ou d'acceptation des bogues lors de la phase de validation. Les bogues dont l'état est 'résolu' (pas encore validés) ne sont pas pris en compte."
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Validated"
@@ -4008,11 +4008,11 @@ msgstr "% Validé"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having successfully pass the validation tests"
-msgstr "Nbre de bugs ayant passé avec succès les tests de validation"
+msgstr "Nbre de bogues ayant passé avec succès les tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved' to any higher status (and still in this state at the end of the period)."
-msgstr "Le bug est passé à un status supérieur à 'résolu' (et est toujours dans cet état à la fin de la période)"
+msgstr "l'état est passé de « résolu » à un état supérieur (et il est encore dans cet état à la fin de la période)"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Rejected"
@@ -4020,11 +4020,11 @@ msgstr "% Refus"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having failed the validation tests"
-msgstr "Affiche le pourcentage de bugs ayant échoué aux tests de validation"
+msgstr "Affiche le pourcentage de bogues ayant échoué aux tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved (or higher) to any lower status (and still unresolved at the end of the period)"
-msgstr "Le bug est passé d'un status 'résolu' (ou supérieur) à un status inférieur (et est toujours non résolu à la fin de la période)"
+msgstr "l'état est passé de 'résolu' (ou supérieur) à un état inférieur (et il est toujours non résolu à la fin de la période)"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Bug Refusal Rate"
@@ -4081,7 +4081,7 @@ msgstr "Liste des imputations"
 
 #. plugins/TimetrackList/TimetrackList.html
 msgid "Update timetrack"
-msgstr "Maj des imputations"
+msgstr "Maj de l'échéancier"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
 msgid "Budget history"
@@ -4129,7 +4129,7 @@ msgstr "Expire"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Exp. date"
-msgstr "Date exp."
+msgstr "Date d'échéance"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Expiration Date (optional)"
@@ -4141,7 +4141,7 @@ msgstr "Tous (toutes les équipes)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall options"
-msgstr "Options des messages"
+msgstr "Options du mur des messages"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Recipient"
@@ -4157,7 +4157,7 @@ msgstr "Toutes mes équipes"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Assigned to me"
-msgstr "Assignés à moi"
+msgstr "Assigné à moi"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Posted by me"
@@ -4178,7 +4178,7 @@ msgstr "Masquer"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall help"
-msgstr "Aide"
+msgstr "Aide du mur de messages"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Buttons"
@@ -4202,7 +4202,7 @@ msgstr "Marquer comme lu. Le message peut ensuite être masqué"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Hide message. Depends on user setting \"Display hidden messages\""
-msgstr "Masquer le message. Dépend de l'option \"Afficher les messages masqués\""
+msgstr "Masquer le message. Dépend du paramètre utilisateur \"Afficher les messages masqués\""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Show"
@@ -4214,11 +4214,11 @@ msgstr "Rétablir un message masqué"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Delete a message."
-msgstr "Supprimer le message"
+msgstr "Supprimer un message."
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "This will permanently delete this post, are you sure ?!"
-msgstr "Voulez-vous supprimer ce message définitivement ?"
+msgstr "Etes-vous certain de vouloir supprimer ce message définitivement ?"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Acknowledged by"
@@ -4325,7 +4325,7 @@ msgstr "Identifiant"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Email"
-msgstr "Email"
+msgstr "Courriel"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4367,7 +4367,7 @@ msgstr "Import terminé ! le mot de passe des utilisateurs créés est"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import Done ! An email with login and password has been sent to each user."
-msgstr "Import terminé ! Un email avec identifiant et mot de passe est envoyé à chaque utilisteur."
+msgstr "Import terminé ! Un courriel avec l'identifiant et le mot de passe a été envoyé à chaque utilisateur."
 
 #. plugins/ImportUsers/ImportUsers_cfg.html
 msgid "Import users"
@@ -4375,7 +4375,7 @@ msgstr "Import utilisateurs"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "You need to be manager to import issues."
-msgstr "Désolé, vous devez être manager pour importer des tâches"
+msgstr "Vous devez être gestionnaire pour importer des tâches."
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Only team administrators can create users"
@@ -4387,7 +4387,7 @@ msgstr "Seuls les administrateurs d'équipe sont autorisés à créer des utilis
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator_cfg.html
 #: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:62
 msgid "Time per status"
-msgstr "Temps par Status"
+msgstr "Temps par état"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Create Mantis users"
@@ -4403,7 +4403,7 @@ msgstr "Seuls les Administrateurs sont autorisés à faire cette action."
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send a password per email to each user"
-msgstr "Envoi du mot de passe par email à chaque utilisateur"
+msgstr "Envoyer un mot de passe par courriel à chaque utilisateur"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Display a generated password (common to all created users)"
@@ -4515,7 +4515,7 @@ msgstr "Total des coûts de toutes les imputations"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Team AverageDailyCost and UserDailyCosts must be defined in team settings."
-msgstr "Le Coût journaliers moyen de l'équipe et/ou les coûts journaliers individuels doivent être définis dans les paramètres de l'équipe"
+msgstr "Le coût journalier moyen de l'équipe et les coûts journaliers individuels doivent être définis dans les paramètres de l'équipe."
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "AverageDailyCost is used when no UserDailyCosts is defined for the timetrack's user."
@@ -4539,7 +4539,7 @@ msgstr "L'arriéré des tâches dépend de l'état (toujours null si état >= r�
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the Provisions that are 'checked' as included in the budget."
-msgstr "Somme des Provisions cochées comme étant incluses dans le budget."
+msgstr "Somme les provisions cochées comme étant incluses dans le budget."
 
 #. plugins/HelloWorldIndicator/HelloWorldIndicator_cfg.html
 #. plugins/WBSExport/WBSExport_cfg.html
@@ -4827,7 +4827,7 @@ msgstr "Vous devez être identifié."
 
 #: admin/logs.php:58
 msgid "Sorry, logfile not found:"
-msgstr "Le fichier de log n'a pu être trouvé"
+msgstr "Le fichier de log n'a pu être trouvé :"
 
 #: admin/edit_team_ajax.php:92
 msgid "Issue tooltips for project"
@@ -4852,7 +4852,7 @@ msgstr "ERREUR: Devise non valide (coef null, à zero, ou non numérique)"
 
 #: classes/Currencies.class.php:131
 msgid "ERROR: First define the referal currency (with coef=1)"
-msgstr "ERREUR: Commencez par définir la devise de référence (Avec coef=1)"
+msgstr "ERREUR: Commencez par définir la devise de référence (avec coef=1)"
 
 #: classes/Currencies.class.php:136
 msgid "ERROR: there can be only one 'referal' currency (with coef=1)"
@@ -5202,7 +5202,7 @@ msgstr "Répertoire d'export"
 #. T_("Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access.")
 #: install/install_step3.php:478
 msgid "Path to log files and other temporary files."
-msgstr "Dossier de logs et autres fchiers temporaires."
+msgstr "Chemin vers les journaux et autres fichiers temporaires."
 
 #. ------ Status
 #: install/install_step3.php:495
@@ -5364,7 +5364,7 @@ msgstr "Chemin d'accès et URL de Mantis dans "
 
 #: install/install_step4.php:61
 msgid "Log directory in "
-msgstr "Chemin d'accès aux logs dans "
+msgstr "Répertoire des journaux dans"
 
 #. echo '<br>';
 #: install/install_step4.php:66
@@ -5737,7 +5737,7 @@ msgstr "Afficher les messages sur la page d'accueil"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:61
 msgid "Allows Administrators & team members to send messages that will be displayed on other users' wall"
-msgstr "Permet aux administrateurs et aux membres d'une équipe d'envoyer des messages qui seront affichés sur la page de garde des autres utilisateurs"
+msgstr "Permet aux administrateurs et aux membres d'équipe d'envoyer des messages qui seront affichés sur la page de garde des autres utilisateurs"
 
 #: plugins/BlogPlugin/BlogPost.class.php:112
 msgid "Low"
@@ -5842,7 +5842,7 @@ msgstr "Aucun coût journalier moyen défini pour l'équipe"
 #: plugins/CostsIndicator/CostsIndicator.class.php:194
 #: plugins/ManagementCosts/ManagementCosts.class.php:175
 msgid "Sorry, only managers can access this plugin"
-msgstr "Vous devez être manager pour accéder à ce plugin."
+msgstr "Désolé, seuls les gestionnaires peuvent accéder à ce plugin"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:283
 msgid "Sidetasks"
