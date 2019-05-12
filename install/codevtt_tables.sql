@@ -287,7 +287,7 @@ CREATE TABLE IF NOT EXISTS "codev_blog_table" (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Message Wall posts' AUTO_INCREMENT=1 ;
 
 INSERT INTO "codev_blog_table" ("id", "date_submitted", "src_user_id", "dest_user_id", "dest_project_id", "dest_team_id", "severity", "category", "summary", "content", "date_expire", "color") VALUES
-(1, 1526228606, 0, 0, 0, 0, 2, '3', 'Exchange messages with your team !', 'Hi,\nthis plugins allows to share notifications within the teams.\n\nExemples:\n\"The time spent on the March 3rd meeting must be counted on task 34001\"\n\"The Mantis/CodevTT server will be unavailable for maintenance on May 13th\"\n\nUse the <img src=\"images/b_add.png\"/> button on your right to add messages.\nTo hide this message, click <img src="images/b_markAsRead.png"/> then <img src="images/b_ghost.png"/>\n\nBest regards', 0, '0');
+(1, 1526228606, 0, 0, 0, 0, 2, '3', 'Exchange messages with your team !', 'Hi,\nthis plugins allows to share notifications within the teams.\n\nExemple:\n\"The Mantis/CodevTT server will be unavailable for maintenance on May 13th\"\n\nClick <img src=\"images/b_add.png\"/> button on your right to add a message\nClick <img src="images/b_markAsRead.png"/> to inform that you have read the message\nClick <img src="images/b_ghost.png"/> to hide the message', 0, '0');
 
 -- --------------------------------------------------------
 
