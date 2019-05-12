@@ -588,7 +588,7 @@ function update_v18_to_v19() {
    }
 
    // Promote new BlogWall plugin by removing users settings on Homepage dashboard
-   $query = 'DELETE FROM  codev_config_table WHERE config_id LIKE "dashboard_homepage%"';
+   $query = "DELETE FROM  codev_config_table WHERE config_id LIKE 'dashboard_homepage%'";
    execQuery($query);
 
 
