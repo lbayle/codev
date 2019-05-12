@@ -19,6 +19,16 @@ UPDATE "codev_team_table" SET "administrators" = "leader_id";
 -- increase size for message plugin
 ALTER TABLE "codev_blog_table" MODIFY "content" VARCHAR(2000);
 
+-- insert new plugins
+INSERT INTO "codev_plugin_table" ("name", "status", "domains", "categories", "version", "description") VALUES
+('ManagementCosts', 1, 'ServiceContract', 'Financial', '1.0.0', 'Sum elapsed time on management sideTasks and compare to the sum of command provisions. Returns a result in man-days and costs'),
+('SubmittedResolvedHistoryIndicator', 1, 'Command,Team,User,Project,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the number of issues submitted/resolved in a period'),
+('TasksPivotTable', 1, 'Team,User,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Group tasks by adding multiple filters'),
+('TimetrackList', 1, 'Task,Command,CommandSet', 'Activity', '1.0.0', 'List and edit timetracks'),
+('WBSExport', 1, 'Command', 'Roadmap', '1.0.0', 'export WBS to CSV file');
+
+UPDATE "codev_plugin_table" SET "status"='1' WHERE "name"='BlogPlugin';
+
 -- tag version
 UPDATE "codev_config_table" SET "value"='19' WHERE "config_id"='database_version';
 

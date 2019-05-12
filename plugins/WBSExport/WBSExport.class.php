@@ -54,7 +54,7 @@ class WBSExport extends IndicatorPluginAbstract {
    }
 
    public static function getDesc($isShortDesc = true) {
-      return T_('...');
+      return T_('Export WBS to CSV file');
    }
 
    public static function getAuthor() {
