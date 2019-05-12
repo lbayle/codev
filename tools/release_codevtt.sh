@@ -132,9 +132,6 @@ f_release()
   rm ${DIR_RELEASE}/.buildpath
   rm -rf ${DIR_RELEASE}/nbproject
 
-  # remove beta functionalities
-  rm "${DIR_RELEASE}/classes/blogpost_cache.class.php"
-
   chmod a+rw ${DIR_RELEASE}/classmap.ser
 }
 
