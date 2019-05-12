@@ -476,6 +476,7 @@ class AdodbWrapper {
       if( !$t_result ) {
          $e = new Exception("Query failed: ".$p_query);
          self::$logger->error("EXCEPTION AdodbWrapper sql_query: ".$e->getMessage());
+         self::$logger->error("EXCEPTION AdodbWrapper sql_params: ".var_export( $p_arr_parms, true ));
          self::$logger->error("EXCEPTION AdodbWrapper errorMsg: ".$this->adodb->ErrorMsg());
          self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;

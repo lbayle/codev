@@ -193,6 +193,7 @@ class PluginManager {
 
             $query4 = "INSERT  INTO codev_plugin_table (name, description, status, domains, categories, version) ".
                "VALUES (".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().")";
+            $q_params4 = array();
             $q_params4[]=$pName;
             $q_params4[]=$pDesc;
             $q_params4[]=self::PLUGIN_STATUS_DISABLED;
