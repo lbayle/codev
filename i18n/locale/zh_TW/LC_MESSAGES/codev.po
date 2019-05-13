@@ -7,9 +7,10 @@
 # Author: 烈羽
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-12 13:32+0200\n"
-"PO-Revision-Date: 2019-04-29 15:25:17+0000\n"
+"PO-Revision-Date: 2019-05-13 12:28:35+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4391,9 +4392,7 @@ msgid "Waste"
 msgstr "浪費"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr "目前「事件」和「不活躍」邊際任務的選項。<br>（如果「浪費」選項沒被選擇，這將被會包含在「已流逝」）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4421,9 +4420,7 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr "額外留下任務和不活躍邊際任務未在目前任務選擇裡"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr "顯示浪費的邊際任務：「事件」和「不活躍」分類<br>（如果未勾選，邊際任務會被包含在「已流逝」）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -5996,3 +5993,4 @@ msgstr "所有專案"
 #: smarty_tools.php:126
 msgid "W"
 msgstr "W"
+

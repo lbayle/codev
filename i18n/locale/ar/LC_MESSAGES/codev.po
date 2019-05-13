@@ -10,9 +10,10 @@
 # Author: محمد أحمد عبد الفتاح
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-12 13:32+0200\n"
-"PO-Revision-Date: 2019-04-29 15:25:10+0000\n"
+"PO-Revision-Date: 2019-05-13 12:28:29+0000\n"
 "Language: ar\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2713,9 +2714,7 @@ msgstr "النسخ الاحتياطي للبيانات"
 
 #. tpl/uninstall.html
 msgid "Backup file will be saved in CodevTT reports directory"
-msgstr ""
-"\n"
-"سيتم حفظ ملف النسخ الاحتياطي في دليل تقارير CodevTT"
+msgstr "\nسيتم حفظ ملف النسخ الاحتياطي في دليل تقارير CodevTT"
 
 #. tpl/uninstall.html
 msgid "Filename"
@@ -4396,12 +4395,8 @@ msgid "Waste"
 msgstr "المخلفات"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"'جوانب \"الحادثة\" و\"عدم النشاط\" للتحديد الحالي.<br>\n"
-"         (إذا لم يتم تحديد خيار \"النفايات\"، فسيتم تضمين هذا في \"المنقضي\")"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "'جوانب \"الحادثة\" و\"عدم النشاط\" للتحديد الحالي.<br>\n         (إذا لم يتم تحديد خيار \"النفايات\"، فسيتم تضمين هذا في \"المنقضي\")"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -4428,12 +4423,8 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr "مهمات الرحيل الخارجية ومهمات عدم النشاط الفرعية التي ليست ضمن اختيار المهام الحالي"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"عرض فئات المهام الجانبية: فئات \"الحوادث\" و\"عدم النشاط\" <br>\n"
-"         (إذا لم يتم اختيارها، سيتم تضمين المهام الجانبية في \"المنقضي\")"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "عرض فئات المهام الجانبية: فئات \"الحوادث\" و\"عدم النشاط\" <br>\n         (إذا لم يتم اختيارها، سيتم تضمين المهام الجانبية في \"المنقضي\")"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -6005,3 +5996,4 @@ msgstr "كل المشاريع"
 #: smarty_tools.php:126
 msgid "W"
 msgstr "W"
+

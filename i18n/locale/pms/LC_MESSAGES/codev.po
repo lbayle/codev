@@ -5,9 +5,10 @@
 # Author: Fitoschido
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-12 13:32+0200\n"
-"PO-Revision-Date: 2019-04-29 15:25:15+0000\n"
+"PO-Revision-Date: 2019-05-13 12:28:33+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4389,12 +4390,8 @@ msgid "Waste"
 msgstr "Sgàir"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"Travaj tacà 'Eveniment' et 'Inatività' ch'a fan part ëd la selession.<br>\n"
-"         (si l'opsion 'sgàir' a l'é disativà, sòn a sarà ancludù ant ël 'consumà')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "Travaj tacà 'Eveniment' et 'Inatività' ch'a fan part ëd la selession.<br>\n         (si l'opsion 'sgàir' a l'é disativà, sòn a sarà ancludù ant ël 'consumà')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -4421,12 +4418,8 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr "Travaj d'assense esterne e travaj marginaj d'inatività che a fan nen part dla selession dij travaj corenta"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"Smon-e jë sgàir dij travaj marginaj: categorìe 'Assident' e 'Inatività' <br>\n"
-"         (si nen selessionà, ij travaj marginaj a saran ancludù ant lë 'scadù')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "Smon-e jë sgàir dij travaj marginaj: categorìe 'Assident' e 'Inatività' <br>\n         (si nen selessionà, ij travaj marginaj a saran ancludù ant lë 'scadù')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -5998,3 +5991,4 @@ msgstr "Tuti ij proget"
 #: smarty_tools.php:126
 msgid "W"
 msgstr "W"
+

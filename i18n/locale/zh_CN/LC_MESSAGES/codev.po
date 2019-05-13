@@ -10,9 +10,10 @@
 # Author: 夢蝶葬花
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-12 13:32+0200\n"
-"PO-Revision-Date: 2019-05-02 15:56:52+0000\n"
+"PO-Revision-Date: 2019-05-13 12:28:35+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4394,12 +4395,8 @@ msgid "Waste"
 msgstr "浪费"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"当前选择中的“事件”和“不活跃”子任务。<br>\n"
-"   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "当前选择中的“事件”和“不活跃”子任务。<br>\n   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -4426,12 +4423,8 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr "未出现在当前已选择任务中的外部分离任务和不活跃子任务"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"显示浪费的子任务：“事件”和“不活跃”类别<br>\n"
-"   （如果未选中，则子任务将被包含在“已过期”中）"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "显示浪费的子任务：“事件”和“不活跃”类别<br>\n   （如果未选中，则子任务将被包含在“已过期”中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -6003,3 +5996,4 @@ msgstr "所有项目"
 #: smarty_tools.php:126
 msgid "W"
 msgstr "W"
+

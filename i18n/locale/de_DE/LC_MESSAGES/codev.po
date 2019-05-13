@@ -6,10 +6,11 @@
 # Author: ThePiscin
 msgid ""
 msgstr ""
+""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-12 13:32+0200\n"
-"PO-Revision-Date: 2019-04-29 15:25:11+0000\n"
+"PO-Revision-Date: 2019-05-13 12:28:30+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
@@ -4394,12 +4395,8 @@ msgid "Waste"
 msgstr "Verlust"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"Sidetasks „Vorfall“ und „Inaktivität“ der aktuellen Auswahl<br>\n"
-"(falls die Option „Verlust“ nicht ausgewählt wurde, wird dies in „verstrichen“ eingeschlossen)."
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "Sidetasks „Vorfall“ und „Inaktivität“ der aktuellen Auswahl<br>\n(falls die Option „Verlust“ nicht ausgewählt wurde, wird dies in „verstrichen“ eingeschlossen)."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -4426,12 +4423,8 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr "Externe Abwesenheitsaufgaben und Inaktivitäts-Sidetasks, die nicht in der aktuellen Aufgabenauswahl sind."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"Zeigt Verlust-Sidetasks: Kategorien „Vorfall“ und „Inaktivität“<br>\n"
-"(falls nicht ausgewählt, werden Sidetasks in „verstrichen“ eingeschlossen)."
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "Zeigt Verlust-Sidetasks: Kategorien „Vorfall“ und „Inaktivität“<br>\n(falls nicht ausgewählt, werden Sidetasks in „verstrichen“ eingeschlossen)."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -6003,3 +5996,4 @@ msgstr "Alle Projekte"
 #: smarty_tools.php:126
 msgid "W"
 msgstr "W"
+
