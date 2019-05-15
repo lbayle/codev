@@ -1,205 +1,253 @@
 <?php
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+class ExportCSVWeeklyController extends Controller {
 
-require('../smarty_tools.php');
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-include_once "period_stats.class.php";
-include_once "project.class.php";
-include_once 'export_csv_tools.php';
-include_once "time_tracking.class.php";
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger("check");
 
-$logger = Logger::getLogger("export_csv");
+      $reportsDir = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports';
 
-/**
- * Export week activity
- * @param int $teamid
- * @param $weekDates
- * @param TimeTracking $timeTracking
- * @param string $myFile
- * @return string
- */
-function exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFile) {
-   global $logger;
+      if (!is_dir($reportsDir)) {
+         $retCode = mkdir($reportsDir, 0755);
+         if (FALSE == $retCode) {
+            self::$logger->error("could not create reports directory:".$reportsDir);
+            echo "ERROR could not create reports directory:".$reportsDir;
+         }
+      }
 
-   $sepChar=';';
-
-   // create filename & open file
-   $fh = fopen($myFile, 'w');
-
-   $stringData = T_("Task").$sepChar.
-                 T_("Job").$sepChar.
-                 T_("Description").$sepChar.
-                 T_("Assigned to").$sepChar.
-                 formatDate("%A %d/%m", $weekDates[1]).$sepChar.
-                 formatDate("%A %d/%m", $weekDates[2]).$sepChar.
-                 formatDate("%A %d/%m", $weekDates[3]).$sepChar.
-                 formatDate("%A %d/%m", $weekDates[4]).$sepChar.
-                 formatDate("%A %d/%m", $weekDates[5])."\n";
-   fwrite($fh, $stringData);
-
-   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.realname ".
-            "FROM  `codev_team_user_table`, `mantis_user_table` ".
-            "WHERE  codev_team_user_table.team_id = $teamid ".
-            "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-            "ORDER BY mantis_user_table.realname";
-
-   $result = mysql_query($query);
-   if (!$result) {
-      $logger->error("Query FAILED: $query");
-      $logger->error(mysql_error());
-      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      exit;
    }
 
-   while($row = mysql_fetch_object($result)) {
-      // if user was working on the project during the timestamp
-      $user = UserCache::getInstance()->getUser($row->user_id);
-      if (($user->isTeamDeveloper($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) ||
-         ($user->isTeamManager($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp))) {
-         exportWeekDetailsToCSV($row->user_id, $timeTracking, $user->getShortname(), $fh);
+   protected function display() {
+      if(Tools::isConnectedUser()) {
+
+        // only teamMembers & observers can access this page
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+        } else {
+
+            $weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
+            $year = isset($_POST['year']) ? $_POST['year'] : date('Y');
+            $this->smartyHelper->assign('weeks', SmartyTools::getWeeks($weekid, $year));
+
+            $this->smartyHelper->assign('years', SmartyTools::getYears($year,2));
+
+            if ('computeCsvWeekly' == $_POST['action']) {
+               $formatedteamName = TeamCache::getInstance()->getTeam($this->teamid)->getName();
+
+               $weekDates      = Tools::week_dates($weekid,$year);
+               $startTimestamp = $weekDates[1];
+               $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5]));
+
+               $reports = "";
+
+               $managedIssuesfile = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".Tools::formatDate("%Y%m%d",time()).".csv";
+               $managedIssuesfile = ExportCsvTools::exportManagedIssuesToCSV($this->teamid, $startTimestamp, $endTimestamp, $managedIssuesfile);
+               $reports[] = array('file' => basename($managedIssuesfile),
+                  'title' => T_('Export Managed Issues'),
+                  'subtitle' => T_('Issues form Team projects, including issues assigned to other teams')
+               );
+
+               $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $this->teamid);
+
+               $weekActivityReportfile = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR.$formatedteamName."_CRA_".Tools::formatDate("%Y_W%W", $startTimestamp).".csv";
+               $weekActivityReportfile = $this->exportWeekActivityReportToCSV($this->teamid, $weekDates, $timeTracking, $weekActivityReportfile);
+               $reports[] = array('file' => basename($weekActivityReportfile),
+                  'title' => T_('Export Week').' '.$weekid.' '.T_('Member Activity')
+               );
+
+               $projectActivityFile = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR.$formatedteamName."_projects_".Tools::formatDate("%Y_W%W", $startTimestamp).".csv";
+               $projectActivityFile = $this->exportProjectActivityToCSV($timeTracking, $projectActivityFile);
+               $reports[] = array('file' => basename($projectActivityFile),
+                  'title' => T_('Export Week').' '.$weekid.' '.T_('Projects Activity')
+               );
+
+               $this->smartyHelper->assign('reports', $reports);
+
+               //$this->smartyHelper->assign('reportsDir', Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports');
+            }
+         }
       }
    }
-   fclose($fh);
-   return $myFile;
-}
 
-function exportWeekDetailsToCSV($userid, $timeTracking, $realname, $fh) {
-   global $logger;
+   /**
+    * creates for each project a table with the following fields:
+    * TaskName | RAF | <Jobs>
+    * @param TimeTracking $timeTracking
+    * @param string $myFile
+    * @return string
+    */
+   private function exportProjectActivityToCSV(TimeTracking $timeTracking, $myFile) {
+      $sepChar=';';
+      $team = TeamCache::getInstance()->getTeam($timeTracking->getTeamid());
 
-   $sepChar=';';
 
-   $weekTracks = $timeTracking->getWeekDetails($userid);
-   foreach ($weekTracks as $bugid => $jobList) {
-      $issue = IssueCache::getInstance()->getIssue($bugid);
+      if (!is_dir(Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports')) {
+         mkdir(Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports', 0755);
+      }
 
-      // remove sepChar from summary text
-      $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
+      $fh = fopen($myFile, 'w');
 
-      foreach ($jobList as $jobid => $dayList) {
+      // $projectTracks[projectid][bugid][jobid] = duration
+      $projectTracks = $timeTracking->getProjectTracks();
 
-         $query  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
-         $result = mysql_query($query);
-         if (!$result) {
-            $logger->error("Query FAILED: $query");
-            $logger->error(mysql_error());
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
+      foreach ($projectTracks as $projectId => $bugList) {
+         // write table header
+         $project = ProjectCache::getInstance()->getProject($projectId);
+         $stringData = $project->getName()."\n";
+
+         $stringData .= T_("Task").$sepChar;
+         $stringData .= T_("BL").$sepChar;
+         $jobList = $project->getJobList($team->getProjectType($projectId));
+         foreach($jobList as $jobName) {
+            $stringData .= $jobName.$sepChar;
          }
-         $jobName = mysql_result($result, 0);
-         $stringData = $bugid.$sepChar.
-                       $jobName.$sepChar.
-                       $formatedSummary.$sepChar.
-                       $realname.$sepChar;
-         for ($i = 1; $i <= 4; $i++) {
-            $stringData .= $dayList[$i].$sepChar;
+         $stringData .="\n";
+
+         // write table content (by bugid)
+         foreach ($bugList as $bugid => $jobs) {
+            $issue = IssueCache::getInstance()->getIssue($bugid);
+            // remove sepChar from summary text
+            $formatedSummary = str_replace($sepChar, " ", $issue->getSummary());
+
+            $stringData .= "$bugid / ".$issue->getTcId()." : ".$formatedSummary.$sepChar;
+            $stringData .= $issue->getBacklog().$sepChar;
+            foreach($jobList as $jobId => $jobName) {
+               $stringData .= $jobs[$jobId].$sepChar;
+            }
+            $stringData .="\n";
          }
-         $stringData .= $dayList[5]."\n";
+         $stringData .="\n";
          fwrite($fh, $stringData);
       }
+      fclose($fh);
+      return $myFile;
    }
-}
 
-// =========== MAIN ==========
-require('display.inc.php');
+   /**
+    * Export week activity
+    * @param int $teamid
+    * @param $weekDates
+    * @param TimeTracking $timeTracking
+    * @param string $myFile
+    * @return string
+    */
+   private function exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFile) {
+      $sepChar=';';
+      $sql = AdodbWrapper::getInstance();
 
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', 'CSV Report');
+      // create filename & open file
+      $fh = fopen($myFile, 'w');
 
-if(isset($_SESSION['userid'])) {
-   $userid = $_SESSION['userid'];
+      $stringData = T_("Task").$sepChar.
+         T_("Job").$sepChar.
+         T_("Description").$sepChar.
+         T_("Assigned to").$sepChar.
+         Tools::formatDate("%A %d/%m", $weekDates[1]).$sepChar.
+         Tools::formatDate("%A %d/%m", $weekDates[2]).$sepChar.
+         Tools::formatDate("%A %d/%m", $weekDates[3]).$sepChar.
+         Tools::formatDate("%A %d/%m", $weekDates[4]).$sepChar.
+         Tools::formatDate("%A %d/%m", $weekDates[5])."\n";
+      fwrite($fh, $stringData);
 
-   // team
-   $session_user = UserCache::getInstance()->getUser($userid);
-   $mTeamList = $session_user->getDevTeamList();
-   $lTeamList = $session_user->getLeadedTeamList();
-   $managedTeamList = $session_user->getManagedTeamList();
-   $teamList = $mTeamList + $lTeamList + $managedTeamList;
+      $query = "SELECT codev_team_user_table.user_id, {user}.realname ".
+         "FROM  codev_team_user_table, {user} ".
+         "WHERE  codev_team_user_table.team_id =".$sql->db_param().
+         " AND    codev_team_user_table.user_id = {user}.id ".
+         "ORDER BY {user}.realname";
 
-   if (0 != count($teamList)) {
-      $defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-      $teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
-      $_SESSION['teamid'] = $teamid;
+      $result = $sql->sql_query($query, array($teamid));
 
-      $smartyHelper->assign('teams', getTeams($teamList, $teamid));
-
-      $weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
-      $year = isset($_POST['year']) ? $_POST['year'] : date('Y');
-      $smartyHelper->assign('weeks', getWeeks($weekid, $year));
-
-      $smartyHelper->assign('years', getYears($year,2));
-
-      if (isset($_POST['teamid']) && 0 != $teamid) {
-         global $codevReportsDir;
-         $formatedteamName = TeamCache::getInstance()->getTeam($teamid)->getName();
-
-         $weekDates      = week_dates($weekid,$year);
-         $startTimestamp = $weekDates[1];
-         $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5]));
-
-         $reports = "";
-
-         $managedIssuesfile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".formatDate("%Y%m%d",time()).".csv";
-         $managedIssuesfile = exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $managedIssuesfile);
-         $reports[] = array('file' => basename($managedIssuesfile),
-                            'title' => T_('Export Managed Issues'),
-                            'subtitle' => T_('Issues form Team projects, including issues assigned to other teams')
-         );
-
-         $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
-
-         $weekActivityReportfile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_CRA_".formatDate("%Y_W%W", $startTimestamp).".csv";
-         $weekActivityReportfile = exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $weekActivityReportfile);
-         $reports[] = array('file' => basename($weekActivityReportfile),
-            'title' => T_('Export Week').' '.$weekid.' '.T_('Member Activity')
-         );
-
-         $projectActivityFile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_projects_".formatDate("%Y_W%W", $startTimestamp).".csv";
-         $projectActivityFile = exportProjectActivityToCSV($timeTracking, $projectActivityFile);
-         $reports[] = array('file' => basename($projectActivityFile),
-            'title' => T_('Export Week').' '.$weekid.' '.T_('Projects Activity')
-         );
-
-         $smartyHelper->assign('reports', $reports);
-
-         $monthsReport = "";
-         // reduce scope to enhance speed
-         $monthsLineReport = "";
-         $startMonth = 1;
-         for ($i = $startMonth; $i <= 12; $i++) {
-            $myFile = exportHolidaystoCSV($i, $year, $teamid, $formatedteamName, $codevReportsDir);
-            $monthsLineReport[] = array('file' => basename($myFile));
+      while($row = $sql->fetchObject($result)) {
+         // if user was working on the project during the timestamp
+         $user = UserCache::getInstance()->getUser($row->user_id);
+         if (($user->isTeamDeveloper($teamid, $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp())) ||
+            ($user->isTeamManager($teamid, $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp()))) {
+            $this->exportWeekDetailsToCSV($row->user_id, $timeTracking, $user->getShortname(), $fh);
          }
+      }
+      fclose($fh);
+      return $myFile;
+   }
 
-         $monthsReport['title'] = T_('Export Holidays').' '.$year;
-         $monthsReport['line'] = $monthsLineReport;
-         $smartyHelper->assign('monthsReport', $monthsReport);
+   /**
+    * @param int $userid
+    * @param TimeTracking $timeTracking
+    * @param string $realname
+    * @param resource $fh
+    */
+   private function exportWeekDetailsToCSV($userid, TimeTracking $timeTracking, $realname, $fh) {
+      $sepChar=';';
+      $sql = AdodbWrapper::getInstance();
 
-         $smartyHelper->assign('reportsDir', $codevReportsDir);
+      $weekTracks = $timeTracking->getWeekDetails($userid);
+      foreach ($weekTracks as $bugid => $jobList) {
+         try {
+            $issue = IssueCache::getInstance()->getIssue($bugid);
+
+            // remove sepChar from summary text
+            $formatedSummary = str_replace($sepChar, " ", $issue->getSummary());
+
+            foreach ($jobList as $jobid => $dayList) {
+               $query  = "SELECT name FROM codev_job_table WHERE id=".$sql->db_param();
+               $result = $sql->sql_query($query, array($jobid));
+
+               $jobName = $sql->sql_result($result, 0);
+               $stringData = $bugid.$sepChar.
+                  $jobName.$sepChar.
+                  $formatedSummary.$sepChar.
+                  $realname.$sepChar;
+               for ($i = 1; $i <= 4; $i++) {
+                  if(array_key_exists($i, $dayList)) {
+                     $stringData .= $dayList[$i];
+                  }
+                  $stringData .= $sepChar;
+               }
+               if(array_key_exists(5,$dayList)) {
+                  $stringData .= $dayList[5];
+               }
+               $stringData .= "\n";
+               fwrite($fh, $stringData);
+            }
+         } catch (Exception $e) {
+            self::$logger->error('exportWeekDetailsToCSV(): issue $bugid not found in mantis DB !');
+         }
       }
    }
+
 }
 
-$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
+// ========== MAIN ===========
+ExportCSVWeeklyController::staticInit();
+$controller = new ExportCSVWeeklyController('../', 'CSV Report','ImportExport');
+$controller->execute();
 
-?>
+

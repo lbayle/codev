@@ -1,0 +1,121 @@
+
+<div >
+   <table id="tabsScheduler_AffectationSummaryTable" class="datatable_csv">
+      <thead>
+         <th></th>
+         <th>{t}ID{/t}</th>
+         <th>{t}ExtRef{/t}</th>
+         <th>{t}MgrEffortEstim{/t}</th>
+         <th>{t}EffortEstim{/t}</th>
+         <th>{t}Backlog{/t}</th>
+         <th>{t}Assigned users{/t}</th>
+         <th>{t}Summary{/t}</th>
+      </thead>
+      <tbody>
+         {foreach from=$scheduler_timePerUserPerTaskInfosList key=taskId item=$task}
+         <tr class="scheduler_taskRow" data-taskId="{$taskId}" data-projectId="{$task.projectId}">
+            <td style="width:38px;" class="ui-state-error-text">
+               <a class="removeTaskAffectation ui-icon pointer" align="absmiddle"></a>
+               <img class="summaryTableTaskDisplay pointer" align="absmiddle" src="images/b_edit.png">
+            </td>
+            
+            <td><a href="reports/issue_info.php?bugid={$taskId}">{$task.mantisURL} {$task.issueURL}</a></td>
+            <td>{$task.extRef}</td>
+            <td>{$task.mgrEffortEstim}</td>
+            <td>{$task.effortEstim}</td>
+            <td>{$task.backlog}</td>
+            <td>
+               {foreach from=$task.users key=$userName item=$time}
+               <span>{$userName} ({$time})  </span>
+               {/foreach}
+            </td>
+            <td>{$task.summary}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
+</div>
+
+<!--Can cause problems on datatables
+   Added to remake "just added table" a datatable-->
+<script src="js_min/datatable.min.js" type="text/javascript"></script>
+
+<script>
+   // On display task button click
+   jQuery(".summaryTableTaskDisplay").on("click", function(){
+      var parentRow = jQuery(this).closest("tr.scheduler_taskRow");
+      var taskId = parentRow.attr("data-taskId");
+      var projectId = parentRow.attr("data-projectId");
+      var taskList = jQuery("select.scheduler_taskList");
+      var projectList = jQuery("select.scheduler_projectList");
+      
+      // If clicked task exist in select list
+      if(null != taskList.find("option[value=" + taskId + "]").val())
+      {
+         // Select task
+         taskList.val(taskId);
+         // Trigger change event on task list to update
+         taskList.trigger("change");
+      }
+      else
+      {
+         projectList.val(projectId);
+         projectList.trigger("change");
+         taskList.val(taskId);
+         taskList.trigger("change");
+      }
+      
+   });
+   
+   // On remove button click
+$(".removeTaskAffectation").on("click", function(){
+   var parentRow = jQuery(this).closest("tr.scheduler_taskRow");
+   var taskId = parentRow.attr("data-taskId");
+
+   jQuery.ajax({ 
+      url: 'scheduler/scheduler_ajax.php',
+      async:false,
+      data: {
+         action: 'setTaskUserList',
+         taskId: taskId,
+         taskUserList: "",
+      },
+      type: 'post',
+      success: function(data) {
+         data = JSON.parse(data);
+         
+         if(null != data['scheduler_summaryTableHTML'])
+         {
+           setTimePerUsersPerTaskSummaryTable(data['scheduler_summaryTableHTML']);
+         }
+         
+         var messageSaveContainer = jQuery(".scheduler_messageSave");
+         if(null != data["scheduler_message"])
+         {
+            if("SUCCESS" == data["scheduler_status"])
+            {
+               messageSaveContainer.removeClass("error_font");
+               messageSaveContainer.addClass("success_font");
+               messageSaveContainer.text(data["scheduler_message"]);
+            }
+            else
+            {
+               messageSaveContainer.removeClass("success_font");
+               messageSaveContainer.addClass("error_font");
+               messageSaveContainer.text(data["scheduler_message"]);
+            }
+         }
+         else
+         {
+            console.log("error : no message received from server");
+         }
+         
+      },
+      error: function(errormsg) {
+         console.log(errormsg);
+      }
+   });
+});
+
+   
+</script>

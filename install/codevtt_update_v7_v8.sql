@@ -36,6 +36,9 @@ RENAME TABLE `codev_service_table` To `codev_commandset_table`;
 
 ALTER TABLE `codev_commandset_table` ADD `state` int(11)  AFTER `team_id`;
 ALTER TABLE `codev_commandset_table` ADD `reference` varchar(64)  AFTER `state`;
+ALTER TABLE `codev_commandset_table` ADD `budget` float  AFTER `state`;
+ALTER TABLE `codev_commandset_table` ADD `budget_days` int(11)  AFTER `budget`;
+ALTER TABLE `codev_commandset_table` ADD `currency` varchar(3) default 'EUR' AFTER `budget_days`;
 
 -- -----------------
 RENAME TABLE `codev_service_eng_table` To `codev_commandset_cmd_table`; 

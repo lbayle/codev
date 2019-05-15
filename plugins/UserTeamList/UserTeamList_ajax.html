@@ -1,0 +1,22 @@
+<div class="userTeamList_ajax">
+   <table id="userTeamList_team_table" class="datatable_csv">
+      <thead>
+         <tr>
+            <th>{t}Team{/t}</th>
+            <th>{t}Arrival date{/t}</th>
+            <th>{t}Departure date{/t}</th>
+            <th>{t}Role{/t}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$userTeamList_userTeams item=i key=id}
+         <tr>
+            <td title="{$i.team_id}">{$i.team_name}</td>
+            <td>{$i.arrival_date}</td>
+            <td>{$i.departure_date}</td>
+            <td>{$i.access_level}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
+</div>

@@ -19,23 +19,18 @@
  */
 
 /**
- * Exception renderer
+ * Renderer used for Exceptions.
  *
  * @package log4php
  * @subpackage renderers
  * @since 2.1
  */
-class LoggerRendererException implements LoggerRendererObject {
+class LoggerRendererException implements LoggerRenderer {
 
-	public function render($o) {
-		$strRep  = 'Throwable('.get_class($o).'): '.$o->getMessage().' in '.$o->getFile().' on line '.$o->getLine();
-		$strRep .= PHP_EOL.$o->getTraceAsString();
+	public function render($input) {
 		
-		if (method_exists($o, 'getPrevious') && $o->getPrevious() !== null) {
-			$strRep .= PHP_EOL.'Caused by: '.$this->render($o->getPrevious());
-		}
-		
-		return $strRep;		
+		// Exception class has a very decent __toString method
+		// so let's just use that instead of writing lots of code.
+		return (string) $input; 
 	}
 }
-?>

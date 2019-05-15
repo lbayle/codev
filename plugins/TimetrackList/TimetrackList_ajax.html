@@ -1,0 +1,39 @@
+<div class="timetrackList_ajax">
+   <span class="timetrackList_generalErrorMsg error_font">{$timetrackList_generalErrorMsg}</span>
+   {if $timetrackList_timetracksArray}
+      <table class="timetrackListValuesTable display float datatable_csv" >
+         <thead>
+            <tr>
+               <th>{t}Date{/t}</th>
+               <th>{t}Commands{/t}</th>
+               <th>{t}Task{/t}</th>
+               <th>{t}User{/t}</th>
+               <th>{t}Category{/t}</th>
+               <th>{t}Job{/t}</th>
+               <th>{t}Elapsed{/t}</th>
+               <th>{t}Note{/t}</th>
+               <th></th>
+            </tr>
+         </thead>
+         <tbody>
+            {foreach from=$timetrackList_timetracksArray key=id item=i}
+            <tr class="timetrackList_timetrack" data-timetrackId="{$i.id}">
+               <td nowrap="nowrap">{$i.dateTimetrack}</td>
+               <td>{$i.commandList}</td>
+               <td>{$i.issueId}</td>
+               <td>{$i.user}</td>
+               <td>{$i.projectCategory}</td>
+               <td class="timetrackList_timetrack_jobName">{$i.jobName}</td>
+               <td>{$i.elapsed}</td>
+               <td class="timetrackList_timetrack_note" name="timetrack_note">{$i.note}</td>
+               <td>
+                  <img class="timetrackList_editTimetrack_link pointer" align="absmiddle" title="{t}Edit timetrack{/t}" src="images/b_edit.png"/>
+               </td>
+            </tr>
+            {/foreach}
+         </tbody>
+      </table>
+   {else}
+   {t}No data.{/t}
+   {/if}
+</div>

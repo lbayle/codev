@@ -1,289 +1,314 @@
 <?php
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
- include_once '../path.inc.php';
+require('../path.inc.php');
 
-include_once 'i18n.inc.php';
-if (!isset($_SESSION['userid'])) {
-  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
-  exit;
-}
+class UninstallController extends Controller {
 
-$page_name = T_("Uninstall");
-require_once 'header.inc.php';
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-require_once 'login.inc.php';
-require_once 'uninstall_menu.inc.php';
-?>
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
-<script language="JavaScript">
+   protected function display() {
+      if(Tools::isConnectedUser()) {
+         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+         // Admins only
+         if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
+            $this->smartyHelper->assign('access', true);
 
-function uninstall() {
-	document.forms["form1"].action.value="uninstall";
-   document.forms["form1"].is_modified.value= "true";
-	document.forms["form1"].submit();
-}
+            $action = Tools::getSecurePOSTStringValue('action', 'none');
+            $is_modified = Tools::getSecurePOSTStringValue('is_modified', 'false');
 
-</script>
+            // init
+            // 'is_modified' is used because it's not possible to make a difference
+            // between an unchecked checkBox and an unset checkbox variable
+            //if ("false" == $is_modified) {
+            //   $isBackup = true;
+            //} else {
+            //   $isBackup = $_POST['cb_backup'];
+            //}
+            $isBackup = false;
 
-<div id="content">
+            $filename = Tools::getSecurePOSTStringValue('backup_filename', "codevtt_backup_".date("Ymd").".sql");
 
+            $this->smartyHelper->assign('isBackup', $isBackup);
+            $this->smartyHelper->assign('filename', $filename);
 
+            //if (isset($_POST['cb_backup'])) {
+            if ('uninstall' === $action) {
+               $result = true;
 
-<?php
-include_once 'user.class.php';
-include_once 'install.class.php';
+               if ($isBackup) {
+                  $result = SqlWrapper::getInstance()->sql_dump($filename) && $this->saveConfigFiles();
+                  $this->smartyHelper->assign('backupResult', $result);
+               }
 
+               // remove from mantis menu
+               //$this->smartyHelper->assign('stepOneResult', true);
 
-// ------------------------------------------------
-function displayForm($originPage, $is_modified,
-                     $isBackup,
-                     $filename) {
+               $prjList = $this->displayProjectsToRemove();
+               $this->smartyHelper->assign('prjList', $prjList);
+               $this->smartyHelper->assign('stepTwoResult', true);
 
-	echo "<form id='form1' name='form1' method='post' action='$originPage' >\n";
+               $result = $this->removeCustomFields();
+               $this->smartyHelper->assign('stepThreeResult', $result);
 
-	// ------
-	echo "<h2>".T_("Do you want to remove CodevTT from your Mantis server ?")."</h2>\n";
-	echo "<span class='help_font'>".T_("This step will clean Mantis DB.")."</span><br/>\n";
-   echo "  <br/>\n";
-   echo "  <br/>\n";
-   echo "  <br/>\n";
+               #$result = Tools::execSQLscript2(Constants::$codevRootDir.'/install/uninstall.sql');
+               $result = $this->removeDatabaseTables();
+               $this->smartyHelper->assign('stepFourResult', $result);
 
-   // ---
-   $isChecked = $isBackup ? "CHECKED" : "";
-   echo "<table class='invisible'>\n";
-   echo "  <tr>\n";
-   echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_backup' id='cb_backup'></input></td>\n";
-   echo "    <td width='70'>Backup data</td>\n";
-   echo "  </tr>\n";
-   echo "  <tr>\n";
-   echo "    <td></td>";
-   Config::setQuiet(true);
-   $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
-   Config::setQuiet(false);
-   echo "    <td><span class='help_font'>".T_("Backup file will ve saved in CodevTT reports directory").". ( $codevReportsDir )</span></td>\n";
-   echo "  </tr>\n";
-   echo "  <tr>\n";
-   echo "    <td></td>";
-   echo "    <td>".T_("Filename").": <input name='backup_filename' id='backup_filename' type='text' value='$filename' size='50'>";
-   echo "  </tr>\n";
-   echo "</table>\n";
+               $result = $this->deleteConfigFiles();
+               $this->smartyHelper->assign('stepFiveResult', $result);
 
-   // ----------
-   echo "  <br/>\n";
-	echo "  <br/>\n";
-	echo "<div  style='text-align: center;'>\n";
-	echo "<input type=button style='font-size:150%' value='".T_("Uninstall")." !' onClick='javascript: uninstall()'>\n";
-	echo "</div>\n";
+               $result = $this->removeMantisPlugins();
+               $this->smartyHelper->assign('stepSixResult', $result);
 
-  // ------
-	echo "<input type=hidden name=action      value=noAction>\n";
-	echo "<input type=hidden name=is_modified value=$is_modified>\n";
+               echo ("<script type='text/javascript'> parent.location.replace('install.php'); </script>");
 
-	echo "</form>";
-}
+            } else {
+               Config::setQuiet(true);
+               $this->smartyHelper->assign('codevReportsDir', Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports');
+               Config::setQuiet(false);
+               $this->smartyHelper->assign('is_modified', $is_modified);
+            }
+         }
+      }
+   }
 
-/**
- *
- * backup Mantis DB (including CodevTT tables, if exists)
- *
- * @param $filename
- */
-function backupDB($filename) {
+   function displayProjectsToRemove() {
+      $prjList = array();
 
-	global $db_mantis_host;
-	global $db_mantis_user;
-	global $db_mantis_pass;
-	global $db_mantis_database;
+      // find externalTasks project
+      $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
+      $project = ProjectCache::getInstance()->getProject($extproj_id);
+      $prjList[$extproj_id] = $project->getName();
 
-	$command = "mysqldump --host=$db_mantis_host --user=$db_mantis_user --password=$db_mantis_pass  $db_mantis_database > $filename";
+      // find sideTasks projects
+      $sideTaskProj_id = Project::type_sideTaskProject;
+      $query = "SELECT project.id, project.name ".
+         "FROM {project} as project ".
+         "JOIN codev_team_project_table as team_project ON project.id = team_project.project_id ".
+         "WHERE team_project.type = $sideTaskProj_id ".
+         "ORDER BY project.name DESC;";
 
-	echo "dumping MantisDB to $filename ...</br>";
-	#$status = system($command, $retCode);
-	$status = exec($command, $output, $retCode);
-	if (0 != $retCode) {
-	   echo "BACKUP FAILED (err $retCode) $status</br>";
-	}
-	return $retCode;
-}
+      $sql = AdodbWrapper::getInstance();
+      $result = $sql->sql_query($query);
+      if(!$result) {
+         return NULL;
+      }
 
-function displayProjectsToRemove() {
+      while($row = $sql->fetchObject($result)) {
+         $prjList[$row->id] = $row->name;
+      }
 
-	echo "Please MANUALY delete the following projects:</br>";
+      return $prjList;
+   }
 
-	$prjList = array();
+   /**
+    * NOTE: function adapted from from mantis/core/custom_field_api.php
+    *
+    * Delete the field definition and all associated values and project associations
+    * return true on success, false on failure
+    * @return bool True if success
+    */
+   function removeCustomFields() {
+      $fieldIds = array(
+         Config::getInstance()->getValue(Config::id_customField_ExtId),
+         Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim),
+         Config::getInstance()->getValue(Config::id_customField_effortEstim),
+         #Config::getInstance()->getValue(Config::id_customField_addEffort),
+         Config::getInstance()->getValue(Config::id_customField_backlog),
+         Config::getInstance()->getValue(Config::id_customField_deadLine),
+         Config::getInstance()->getValue(Config::id_customField_deliveryDate),
+         Config::getInstance()->getValue(Config::id_customField_type)
+      );
 
-	// find externalTasks project
-	$extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
-	$project = ProjectCache::getInstance()->getProject($extproj_id);
-	$prjList[$project->id] = $project->name;
+      $sql = AdodbWrapper::getInstance();
 
-	// find sideTasks projects
-	$query = "SELECT mantis_project_table.id, mantis_project_table.name ".
-	               "FROM `codev_sidetasks_category_table`, `mantis_project_table` ".
-	               "WHERE mantis_project_table.id = codev_sidetasks_category_table.project_id ".
-	               "ORDER BY mantis_project_table.name DESC";
+      # delete all values
+      $query = "DELETE FROM {custom_field_string} WHERE field_id IN (".implode(', ', $fieldIds).");";
+      $sql->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
 
-	$result = mysql_query($query) or die("Query failed: $query");
-	while($row = mysql_fetch_object($result)) {
-	   $prjList[$row->id] = $row->name;
-	}
+      # delete all project associations
+      $query = "DELETE FROM {custom_field_project} WHERE field_id IN (".implode(', ', $fieldIds).");";
+      $sql->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
 
-   echo "<ul>\n";
-	foreach ($prjList as $id => $name) {
-		echo "<li title='$id'>$name</li>";
-	}
-	echo "</ul>\n";
+      # delete the definition
+      $query = "DELETE FROM {custom_field} WHERE id IN (".implode(', ', $fieldIds).");";
+      $sql->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
 
+      #custom_field_clear_cache( $p_field_id );
 
-}
+      #echo "DEBUG: customField $p_field_id removed</br>";
+      return true;
+   }
 
-/**
- * NOTE: function adapted from from mantis/core/custom_field_api.php
- *
- * Delete the field definition and all associated values and project associations
- * return true on success, false on failure
- * @param int $p_field_id custom field id
- * @return bool
+   /**
+    * same as uninstall.sql, but loading .sql files does not always work.
+    */
+   function removeDatabaseTables() {
+      $sql = AdodbWrapper::getInstance();
+
+      $query = "DROP FUNCTION IF EXISTS get_project_resolved_status_threshold;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP FUNCTION IF EXISTS get_issue_resolved_status_threshold;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP FUNCTION IF EXISTS is_project_in_team;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP FUNCTION IF EXISTS is_issue_in_team_commands;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_blog_activity_table`;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_blog_table`;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_commandset_cmd_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_commandset_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_command_bug_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_command_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_config_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_holidays_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_job_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_project_category_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_project_job_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_servicecontract_cmdset_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_servicecontract_stproj_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_servicecontract_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_team_project_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_team_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_team_user_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_userdailycost_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_currencies_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_timetracking_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS `codev_sidetasks_category_table`;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_command_provision_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_wbs_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_plugin_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      $query = "DROP TABLE IF EXISTS codev_timetrack_note_table;";
+      $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      return true;
+   }
+
+   /**
+    * remove CodevTT Config Files
+    * @return bool True if success
+    */
+   function saveConfigFiles() {
+      $codevReportsDir = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports';
+      if (file_exists(Constants::$config_file)) {
+         $filename = ereg_replace("^.*\\".DIRECTORY_SEPARATOR, "", Constants::$config_file);
+         $retCode = copy(Constants::$config_file, $codevReportsDir.DIRECTORY_SEPARATOR.$filename);
+         if (!$retCode) {
+            self::$logger->error("ERROR: Could not save file: " . Constants::$config_file);
+            return false;
+         }
+      }
+
+      return true;
+   }
+
+   /**
+    * remove CodevTT plugin, not FilterBugList
+    */
+   function removeMantisPlugins() {
+      $mantisPluginDir = Constants::$mantisPath . DIRECTORY_SEPARATOR . 'plugins';
+      $codevttPluginDir = $mantisPluginDir . DIRECTORY_SEPARATOR . 'CodevTT';
+
+      // remove previous installed plugin
+      if (is_writable($codevttPluginDir)) {
+         Tools::deleteDir($codevttPluginDir);
+      }
+      return true;
+   }
+
+   /**
+    * remove CodevTT Config Files
+    * @return bool True if success
+    */
+   function deleteConfigFiles() {
+      if (file_exists(Constants::$config_file) &&
+          is_writable(Constants::$config_file)) {
+         $retCode = unlink(Constants::$config_file);
+         if (!$retCode) {
+            self::$logger->error("ERROR: Could not delete file: " . Constants::$config_file);
+            return false;
+         }
+      }
+      $log4php_url = Constants::$codevURL.'/log4php.xml';
+      if (file_exists($log4php_url) &&
+          is_writable($log4php_url)) {
+         $retCode = unlink($log4php_url);
+         if (!$retCode) {
+            self::$logger->error("ERROR: Could not delete file: " . $log4php_url);
+            return false;
+         }
+      }
+
+/*      $greasemonkey_url = Constants::$codevURL . DIRECTORY_SEPARATOR . 'mantis_monkey.user.js';
+      if (file_exists($greasemonkey_url) &&
+          is_writable($greasemonkey_url)) {
+         $retCode = unlink($greasemonkey_url);
+         if (!$retCode) {
+            self::$logger->error("ERROR: Could not delete file: " . $greasemonkey_url);
+            return false;
+         }
+      }
 */
-function custom_field_destroy( $p_field_id ) {
-
-	# delete all values
-	$query = "DELETE FROM `mantis_custom_field_string_table` WHERE field_id= $p_field_id;";
-	mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-
-	# delete all project associations
-	$query = "DELETE FROM `mantis_custom_field_project_table` WHERE field_id= $p_field_id;";
-	mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-
-	# delete the definition
-	$query = "DELETE FROM `mantis_custom_field_table` WHERE id= $p_field_id;";
-	mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-
-	#custom_field_clear_cache( $p_field_id );
-
-	#echo "DEBUG: customField $p_field_id removed</br>";
-	return true;
-}
-
-function removeCustomFields() {
-	$tcCustomField           = Config::getInstance()->getValue(Config::id_customField_ExtId);
-	$mgrEffortEstim         = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
-	$estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
-	$addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);
-	$remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining);
-	$deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
-	$deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
-	#$deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId);
-
-	custom_field_destroy($tcCustomField);
-	custom_field_destroy($mgrEffortEstim);
-	custom_field_destroy($estimEffortCustomField);
-	custom_field_destroy($addEffortCustomField);
-	custom_field_destroy($remainingCustomField);
-	custom_field_destroy($deadLineCustomField);
-	custom_field_destroy($deliveryDateCustomField);
-	#custom_field_destroy($deliveryIdCustomField);
-
-}
-
-
-// ================ MAIN =================
-
-
-// Admins only
-global $admin_teamid;
-$session_user = new User($_SESSION['userid']);
-if (!$session_user->isTeamMember($admin_teamid)) {
-	echo T_("Sorry, you need to be in the admin-team to access this page.");
-	exit;
-}
-
-$originPage = "uninstall.php";
-$action      = isset($_POST['action']) ? $_POST['action'] : '';
-$is_modified = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
-
-$filename           = isset($_POST['backup_filename']) ? $_POST['backup_filename'] : "codevtt_backup_".date("Ymj").".sql";
-
-// --- init
-// 'is_modified' is used because it's not possible to make a difference
-// between an unchecked checkBox and an unset checkbox variable
-if ("false" == $is_modified) {
-
-	$isBackup = true;
-	#$isPart2 = true;
-	#$isPart3 = true;
-	#$isPart4 = true;
-
-} else {
-	$isBackup   = $_POST['cb_backup'];
-	#$isPart2   = $_POST['cb_part2'];
-	#$isPart3   = $_POST['cb_part3'];
-	#$isPart4   = $_POST['cb_part4'];
+      return true;
+   }
 }
 
 
 
-// --- actions
-if ("uninstall" == $action) {
+// ========== MAIN ===========
+UninstallController::staticInit();
+$controller = new UninstallController('../', 'Uninstall','Admin');
+$controller->execute();
 
-	if (true == $isBackup) {
-		echo "---- Backup<br/>";
-	   $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
-
-	   $retCode = backupDB($codevReportsDir.DIRECTORY_SEPARATOR.$filename);
-	   if (0 != $retCode) {
-	   	echo "Uninstall aborted !";
-	   	exit;
-	   }
-	   echo "</br>";
-	}
-
-	echo "1/4 ---- Remove CodevTT from Mantis menu</br>";
-	echo "TODO</br>";
-
-	echo "2/4 ---- Remove CodevTT specific projects</br>";
-   displayProjectsToRemove();
-
-   echo "3/4 ---- Remove CodevTT customFields</br>";
-   removeCustomFields();
-
-   echo "4/4 ---- Remove CodevTT tables from MantisDB</br>";
-   execSQLscript("uninstall.sql");
-
-   echo "5/5 ---- Remove CodevTT config files</br>";
-   Install::deleteConfigFiles();
-
-} else {
-
-	// ----- DISPLAY PAGE
-
-	$error = Install::checkMysqlAccess();
-	if (TRUE == strstr($error, T_("ERROR"))) {
-	 	echo "<span class='error_font'>$error</span><br/>";
-		exit;
-	}
-
-	displayForm($originPage, $is_modified, $isBackup, $filename);
-}
-
-?>
-
-</div>

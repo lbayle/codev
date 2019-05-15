@@ -1,17 +1,9 @@
-{include file="menu/export_csv_menu.html"}
-
 <div id="content">
-   <h2 style="text-align: center">{t}Weekly report{/t}</h2><br/>
-   {if $teams}
-   <div align="center">
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
+   <h2 class="center">{t}Weekly report{/t}</h2>
+   <div align="center" style="margin-top: 2em;">
       <form method="post" action="{$page}">
          <fieldset>
-            <label for="teamid">{t}Team{/t}: </label>
-            <select id="teamid" name="teamid">
-               {foreach from=$teams key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-               {/foreach}
-            </select>
             <label for="weekid">{t}Week{/t}: </label>
             <select id="weekid" name="weekid">
                {foreach from=$weeks key=id item=i}
@@ -23,31 +15,24 @@
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.id}</option>
                {/foreach}
             </select>
-            <input type="submit" value="{t}Jump{/t}" />
+            <input type="hidden" name="action" value="computeCsvWeekly" />
+            <input type="submit" value="{t}Compute{/t}" />
          </fieldset>
       </form>
    </div>
-   {if $reports}
+   {if isset($reports)}
    <!-- T_("Team").": ".$teamList[$teamid]."<br/> -->
    {foreach from=$reports key=file item=i}
    <p style="margin-top: 2em">
-      <span style="font-weight: bold;" title="{$i.subtitle}">- {$i.title}...</span><br/>
-      <span style="padding-left: 3em"><a href="tools/download.php?f={$i.file}" target="_blank">{$i.file}</a></span>
+      <span style="font-weight: bold;" {if isset($i.subtitle)}title="{$i.subtitle}"{/if}>- {$i.title}...</span><br/>
+      <span style="padding-left: 3em"><a href="include/download.php?f={$i.file}">{$i.file}</a></span>
    </p>
    {/foreach}
    <p style="margin-top: 2em">
-      <span style="font-weight: bold;" title="">- {$monthsReport.title}...</span><br/>
-      {foreach from=$monthsReport.line key=file item=i}
-      <span style="padding-left: 3em"><a href="tools/download.php?f={$i.file}" target="_blank">{$i.file}</a></span>
-      <br/>
-      {/foreach}
-   </p>
-   <p style="margin-top: 2em">
       {t}Done{/t}<br/><br/>
-      {t}Results in{/t} {$reportsDir}
    </p>
    {/if}
-   {else}
-   <p style="text-align: center">{t}Sorry, you do NOT have access to this page{/t}</p>
-   {/if}
+{else}
+<p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
+{/if}
 </div>

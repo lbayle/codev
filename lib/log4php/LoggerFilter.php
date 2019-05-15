@@ -50,10 +50,10 @@
  * <p>The philosophy of log4php filters is largely inspired from the
  * Linux ipchains. 
  * 
- * @version $Revision: 1059292 $
+ * @version $Revision: 1213283 $
  * @package log4php
  */
-abstract class LoggerFilter {
+abstract class LoggerFilter extends LoggerConfigurable {
 
 	/**
 	 * The log event must be logged immediately without consulting with

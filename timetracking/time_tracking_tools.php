@@ -1,363 +1,554 @@
 <?php
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('../path.inc.php');
+class TimeTrackingTools {
 
-require_once('super_header.inc.php');
+   /**
+   * @var Logger The logger
+   */
+   private static $logger;
 
-include_once('i18n.inc.php');
-
-include_once('user_cache.class.php');
-include_once('issue_cache.class.php');
-include_once('project_cache.class.php');
-include_once('jobs.class.php');
-include_once('holidays.class.php');
-include_once('team.class.php');
-include_once('time_tracking.class.php');
-
-$logger = Logger::getLogger("time_tracking_tools");
-
-/**
- * display accordion with missing imputations
- * @param int $userid
- * @param int $team_id
- * @param boolean $isStrictlyTimestamp
- * @return array
- */
-function getCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = FALSE) {
-   // 2010-05-31 is the first date of use of this tool
-   $user1 = UserCache::getInstance()->getUser($userid);
-
-   $startTimestamp = $user1->getArrivalDate($team_id);
-   $endTimestamp = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
-   $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $team_id);
-
-   $incompleteDays = $timeTracking->checkCompleteDays($userid, $isStrictlyTimestamp);
-   $missingDays = $timeTracking->checkMissingDays($userid);
-
-   foreach ($incompleteDays as $date => $value) {
-      if ($date > time()) {
-         // skip dates in the future
-         continue;
-      }
-
-      if ($value < 1) {
-         $value = T_("incomplete (missing ").(1-$value).T_(" days").")";
-      } else {
-         $value = T_("inconsistent")." (".($value)." ".T_("days").")";
-      }
-
-      $warnings[] = array('date' => date("Y-m-d", $date),
-                          'value' => $value);
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
    }
 
-   foreach ($missingDays as $date) {
-      if ($date > time()) {
-         // skip dates in the future
-         continue;
+   /**
+    * @param int[] $weekDates
+    * @param int $userid
+    * @param TimeTracking $timeTracking
+    * @param array $incompleteDays
+    * @return mixed[]
+    */
+   public static function getWeekTask(array $weekDates, $teamid, $userid, TimeTracking $timeTracking, array $incompleteDays) {
+
+      $totalElapsed = array();
+      $todayAtMidnight = mktime(0,0,0);
+      for ($i = 1; $i <= 7; $i++) {
+         $weekDate = $weekDates[$i];
+         $totalElapsed[$weekDate] = array(
+            "elapsed" => 0,
+            "class" => in_array($weekDate,$incompleteDays) && $weekDate < $todayAtMidnight ? "incompleteDay" : ""
+         );
       }
 
-      $warnings[] = array('date' => date("Y-m-d", $date),
-                          'value' => T_("not defined."));
-   }
+      $jobs = new Jobs();
 
-   return $warnings;
-}
+      $weekTasks = NULL;
+      $holidays = Holidays::getInstance();
+      $weekTracks = $timeTracking->getWeekDetails($userid);
 
-/**
- * display Timetracking Tuples
- * @param int $userid
- * @param unknown_type $startTimestamp
- * @param unknown_type $endTimestamp
- * @return array
- */
-function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL) {
-   $curJulian = 0;
-
-   // Display previous entries
-   $query = "SELECT id, bugid, jobid, date, duration ".
-            "FROM `codev_timetracking_table` ".
-            "WHERE userid=$userid";
-
-   if (NULL != $startTimestamp) { $query .= " AND date >= $startTimestamp"; }
-   if (NULL != $endTimestamp)   { $query .= " AND date <= $endTimestamp"; }
-   $query .= " ORDER BY date";
-   $result = mysql_query($query) or die("Query failed: $query");
-
-   while($row = mysql_fetch_object($result)) {
-      // get information on this bug
-      $issue = IssueCache::getInstance()->getIssue($row->bugid);
-
-      // get general information
-      $query3  = "SELECT name FROM `codev_job_table` WHERE id=$row->jobid";
-      $result3 = mysql_query($query3) or die("Query failed: $query3");
-      $jobName = mysql_result($result3, 0);
-      $formatedDate= date("Y-m-d", $row->date);
-      $cosmeticDate    = date("Y-m-d", $row->date).' - '.T_(date("l", $row->date));
-      $formatedId = "$row->bugid / $issue->tcId";
-      $formatedJobName = str_replace("'", "\'", $jobName);
-      $formatedSummary = str_replace("'", "\'", $issue->summary);
-      $formatedSummary = str_replace('"', "\'", $formatedSummary);
-      $totalEstim = $issue->effortEstim + $issue->effortAdd;
-
-      // --- choose row color
-      if (0 == $curJulian) {
-        // set first day displayed
-        $tr_class = "row_odd";
-        $curJulian = $row->date;
-      }
-      if ($curJulian != $row->date) {
-        // day changed, swap row color
-        $tr_class = ($tr_class == "row_odd") ? "row_even" : "row_odd";
-        $curJulian = $row->date;
-      }
-
-      $timetrackingTuples[] = array('id' => $row->id,
-                                    'class' => $tr_class,
-                                    'date' => $formatedDate,
-                                    'formatedId' => $formatedId,
-                                    'duration' => $row->duration,
-                                    'formatedJobName' => $formatedJobName,
-                                    'summary' => $formatedSummary,
-                                    'cosmeticDate' => $cosmeticDate,
-                                    'mantisURL' => mantisIssueURL($row->bugid, NULL, true),
-                                    'issueURL' => issueInfoURL($row->bugid),
-                                    'issueId' => $issue->tcId,
-                                    'projectName' => $issue->getProjectName(),
-                                    'issueSummary' => $issue->summary,
-                                    'jobName' => $jobName,
-                                    'categoryName' => $issue->getCategoryName(),
-                                    'currentStatusName' => $issue->getCurrentStatusName());
-   }
-   return $timetrackingTuples;
-}
-
-function getWeekTask($weekDates, $userid, $timeTracking) {
-   $jobs = new Jobs();
-
-   $linkList = array();
-   $holidays = Holidays::getInstance();
-   $weekTracks = $timeTracking->getWeekDetails($userid);
-   foreach ($weekTracks as $bugid => $jobList) {
-      $issue = IssueCache::getInstance()->getIssue($bugid);
-
-      foreach ($jobList as $jobid => $dayList) {
-         $linkid = $bugid."_".$jobid;
-         $linkList[$linkid] = $issue;
-
-         $jobName = $jobs->getJobName($jobid);
-
-         // if no remaining set, display a '?' to allow Remaining edition
-         if (NULL == $issue->remaining) {
-
-            #if (($team->isSideTasksProject($issue->projectId)) ||
-            #    ($team->isNoStatsProject($issue->projectId))) {
-            // do not allow to edit sideTasks Remaining
-            $formattedRemaining = '';
-            #} else {
-            #   $formattedRemaining = '?';
-            #}
-         } else {
-            $formattedRemaining = $issue->remaining;
+      foreach ($weekTracks as $bugid => $jobList) {
+         try {
+            $issue = IssueCache::getInstance()->getIssue($bugid);
+            $backlog = $issue->getBacklog();
+            $extRef = $issue->getTcId();
+            $summary = $issue->getSummary();
+            $description = SmartyTools::getIssueDescription($bugid,$extRef,$summary);
+            $projectId =$issue->getProjectId();
+         } catch (Exception $e) {
+            $backlog = '!';
+            $extRef = '';
+            $summary = '<span class="error_font">'.T_('Error: Task not found in Mantis DB !').'</span>';
+            //$description = SmartyTools::getIssueDescription($bugid,$extRef,$summary);
+            $description = Tools::mantisIssueURL($bugid, NULL, TRUE).' '.$bugid.' : '.$summary;
+            $projectId = -1;
          }
 
-         $dayTasks = "";
-         for ($i = 1; $i <= 7; $i++) {
-            if($i <= 5) {
-               $h = $holidays->isHoliday($weekDates[$i]);
-               if ($h) {
-                  $bgColor = "style='background-color: #".$h->color.";'";
-                  #$bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
-                  $title = "title='".$h->description."'";
-               } else {
-                  $bgColor = "";
-                  $title = "";
-               }
+         foreach ($jobList as $jobid => $dayList) {
+            // if no backlog set, display a '?' to allow Backlog edition
+            if(is_numeric($backlog)) {
+               $formattedBacklog = $backlog;
+               // prepare json data for the BacklogDialogbox
+               $jsonIssueInfo = self::getUpdateBacklogJsonData($bugid, $jobid, $teamid, $userid);
             } else {
-               $bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
-               $title = "";
+               #if (($team->isSideTasksProject($issue->projectId)) ||
+               #    ($team->isNoStatsProject($issue->projectId))) {
+               // do not allow to edit sideTasks Backlog
+               $formattedBacklog = '';
+               $jsonIssueInfo = '';
+               #} else {
+               #   $formattedBacklog = '?';
+               #}
+               //
             }
-            $dayTasks[] = array('bgColor' => $bgColor,
-                                'title' => $title,
-                                'day' => $dayList[$i]
+
+            $dayTasks = array();
+            for ($i = 1; $i <= 7; $i++) {
+               $title = NULL;
+               $bgColor = NULL;
+               if($i <= 5) {
+                  $h = $holidays->isHoliday($weekDates[$i]);
+                  if ($h) {
+                     $bgColor = $h->color;
+                     #$bgColor = Holidays::$defaultColor;
+                     $title = $h->description;
+                  }
+               } else {
+                  $bgColor = Holidays::$defaultColor;
+               }
+
+               $day = 0;
+               if(array_key_exists($i,$dayList)) {
+                  $day = $dayList[$i];
+               }
+
+               $dayTasks[] = array(
+                  'bgColor' => $bgColor,
+                  'title' => $title,
+                  'day' => $day
+               );
+
+               $totalElapsed[$weekDates[$i]]['elapsed'] += $day;
+            }
+/*          
+            $deadline = $issue->getDeadLine();
+
+            if (!is_null($deadline) || (0 != $deadline)) {
+               $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $deadline);
+            }
+*/
+            try {
+            	$project = ProjectCache::getInstance()->getProject($projectId);
+            } catch (Exception $e) {
+            	$project = null;
+            }
+            
+            try {
+               if ($project != null) {
+                  if ((!$project->isSideTasksProject(array($teamid))) &&
+                      (!$project->isExternalTasksProject())) {
+
+                     // TODO does $issue belong to current team's project ? what if not ?
+                     $tooltipAttr = $issue->getTooltipItems($teamid, $userid);
+
+                     $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
+                  } else {
+                     $infoTooltip = '';
+                  }
+               } else {
+                  $infoTooltip = '';
+               }
+
+               // prepare json data for the IssueNoteDialogbox
+               if ($project != null) {
+                  if ((!$project->isSideTasksProject(array($teamid))) &&
+                      (!$project->isExternalTasksProject())) {
+
+                     $issueNote = IssueNote::getTimesheetNote($issue->getId());
+                     if (!is_null($issueNote)) {
+                        $issueNoteId = $issueNote->getId();
+                        $user = UserCache::getInstance()->getUser($issueNote->getReporterId());
+                        $rawNote = $issueNote->getText();
+                        $note = trim(IssueNote::removeAllReadByTags($rawNote));
+
+                        // used for the tooltip NOT the dialoBox
+                        $tooltipAttr = array (
+                           'reporter' => $user->getRealname(),
+                           'date' => date('Y-m-d H:i:s', $issueNote->getLastModified()),
+                           'Note' => $note,
+                        );
+                        $readByList = $issueNote->getReadByList(TRUE);
+                        if (0 != count($readByList)) {
+                           $tooltipAttr['Read by'] = implode(', ', array_keys($readByList));
+                        }
+
+                        $noteTooltip = Tools::imgWithTooltip('images/b_note.png', $tooltipAttr, NULL, 'js-add-note-link', ' style="cursor: pointer;" data-bugId="'.$issueNote->getBugId().'"');
+                     } else {
+                        $issueNoteId = 0;
+                        $noteTooltip = Tools::imgWithTooltip('images/b_note_grey.png', T_('Click to add a note'), NULL, 'js-add-note-link', ' style="cursor: pointer;" data-bugId="'.$issue->getId().'"');
+                     }
+                  } else {
+                     $noteTooltip = '';
+                  }
+               } else {
+                  $noteTooltip = '';
+               }
+            } catch (Exception $e) {
+               $infoTooltip = '';
+            }
+
+            // if project not declared in current team, then
+            // user cannot add a timetrack by clicking in the weekTasks table
+            // Note: (this would generate an error on addTimetrack)
+            $team = TeamCache::getInstance()->getTeam($teamid);
+            $isTeamProject = !is_null($team->getProjectType($projectId));
+
+            $weekTasks[$bugid."_".$jobid] = array(
+               'bugid' => $bugid,
+               'description' => $description,
+               'formattedBacklog' => $formattedBacklog,
+               'jobid' => $jobid,
+               'jobName' => $jobs->getJobName($jobid),
+               'dayTasks' => $dayTasks,
+               'infoTooltip' => $infoTooltip,
+               'summary' => addslashes(htmlspecialchars($summary)),
+               'updateBacklogJsonData' => $jsonIssueInfo,
+               'issueNoteId' => $issueNoteId,
+               'noteTooltip' => $noteTooltip,
+               'isTeamProject' => $isTeamProject,
             );
          }
-
-         $weekTasks[] = array('bugid' => $bugid,
-                              'issueURL' => issueInfoURL($bugid),
-                              'mantisURL' => mantisIssueURL($bugid, NULL, true),
-                              'issueId' => $issue->tcId,
-                              'summary' => $issue->summary,
-                              'remaining' => $issue->remaining,
-                              'description' => addslashes(htmlspecialchars($issue->summary)),
-                              'dialogBoxTitle' => T_("Task")." ".$issue->bugId." / ".$issue->tcId." - ".T_("Update Remaining"),
-                              'formattedRemaining' => $formattedRemaining,
-                              'jobName' => $jobName,
-                              'dayTasks' => $dayTasks
-         );
-
       }
+
+      return array(
+         "weekTasks" => $weekTasks,
+         "totalElapsed" => $totalElapsed
+      );
    }
 
-   return $weekTasks;
-}
+   /**
+    * Get smarty week dates
+    * @param array $weekDates
+    * @param array $incompleteDays
+    * @return array
+    */
+   public static function getSmartyWeekDates(array $weekDates, array $incompleteDays) {
+      $smartyWeekDates = array();
 
-/**
- * Get users of teams I lead
- * @return array of users
- */
-function getUsers() {
-   global $logger;
+      $todayAtMidnight = mktime(0,0,0);
 
-   $accessLevel_dev = Team::accessLevel_dev;
-   $accessLevel_manager = Team::accessLevel_manager;
+      foreach($weekDates as $key => $weekDate) {
+            $smartyWeekDates[$key] = array(
+               "date" => date('Y-m-d',$weekDate),
+               "formattedDate" => Tools::formatDate("%A\n%d %b", $weekDate),
+               "class" => in_array($weekDate,$incompleteDays) && $weekDate < $todayAtMidnight ? "incompleteDay" : ""
+            );
+      }
 
-   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-   $teamList = $session_user->getLeadedTeamList();
-
-   // separate list elements with ', '
-   $formatedTeamString = implode( ', ', array_keys($teamList));
-
-   // show only users from the teams that I lead.
-   $query = "SELECT DISTINCT mantis_user_table.id, mantis_user_table.username ".
-      "FROM `mantis_user_table`, `codev_team_user_table` ".
-      "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
-      "AND codev_team_user_table.team_id IN ($formatedTeamString) ".
-      "AND codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
-      "ORDER BY mantis_user_table.username";
-
-   $result = mysql_query($query);
-   if (!$result) {
-      $logger->error("Query FAILED: $query");
-      $logger->error(mysql_error());
-      exit;
+      return $smartyWeekDates;
    }
 
-   while($row = mysql_fetch_object($result)) {
-      $users[$row->id] = $row->username;
+   /**
+    * get Job list
+    *
+    * Note: the jobs depend on project type, which depends on the team
+    *
+    * @param int $projectid
+    * @param string $teamid  user's team
+    * @return string[]
+    */
+   public static function getJobs($projectid, $teamid) {
+
+      if ((0 == $projectid) || (0 == $teamid)) {
+
+         //this happens when project = "All", it's a normal case.
+         // team == 0 should not happen
+         //self::$logger->warn("getJobs($projectid, $teamid): could not find jobList. Action = $action");
+         return array();
+      }
+
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $project = ProjectCache::getInstance()->getProject($projectid);
+
+      $ptype = $team->getProjectType($projectid);
+      $jobList = $project->getJobList($ptype);
+
+      return $jobList;
    }
 
-   return $users;
-}
+   /**
+    * Get issues
+    * 
+    * @param int $projectid
+    * @param boolean $isOnlyAssignedTo
+    * @param int $userid
+    * @param string[] $projList
+    * @param boolean $isHideResolved
+    * @param int $defaultBugid
+    * @return mixed[]
+    */
+   public static function getIssues($teamid, $projectid, $isOnlyAssignedTo, $userid, array $projList, $isHideResolved, $defaultBugid) {
 
-/**
- * Get issues
- * @param int $projectid
- * @param boolean $isOnlyAssignedTo
- * @param unknown_type $user1
- * @param array $projList
- * @param boolean $isHideResolved
- * @param int $defaultBugid
- * @return array
- */
-function getIssues($projectid, $isOnlyAssignedTo, $user1, $projList, $isHideResolved, $defaultBugid) {
-   global $logger;
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $hideStatusAndAbove = (1 == $team->getGeneralPreference('forbidAddTimetracksOnClosed')) ? Constants::$status_closed : 0;
 
-   if (0 != $projectid) {
-      // Project list
-      $project1 = ProjectCache::getInstance()->getProject($projectid);
+      if (0 != $projectid) {
+         // Project list
+         $project1 = ProjectCache::getInstance()->getProject($projectid);
 
-      // do not filter on userId if SideTask or ExternalTask
-      try {
-         if (($isOnlyAssignedTo) &&
-            (!$project1->isSideTasksProject()) &&
-            (!$project1->isNoStatsProject())) {
-            $handler_id = $user1->id;
-         } else {
+         try {
+            $isSideTasksProject = $project1->isSideTasksProject(array($teamid));
+            $isNoStatsProject   = $project1->isNoStatsProject(array($teamid));
+
+            // do not filter on userId if SideTask or ExternalTask
+            if (($isSideTasksProject) || ($isNoStatsProject)) {
+               $handler_id = 0; // all users
+               $hideStatusAndAbove = 0; // hide none
+               $isHideResolved = false; // do not hide resolved
+            } else {
+               // normal project
+               $handler_id = $isOnlyAssignedTo ? $userid : 0;
+            }
+
+         } catch (Exception $e) {
+            self::$logger->error("getIssues(): isOnlyAssignedTo & isHideResolved filters not applied : ".$e->getMessage());
             $handler_id = 0; // all users
             $isHideResolved = false; // do not hide resolved
          }
-      } catch (Exception $e) {
-         $logger->error("getIssues(): isOnlyAssignedTo & isHideResolved filters not applied : ".$e->getMessage());
-         $handler_id = 0; // all users
-         $isHideResolved = false; // do not hide resolved
+         $issueList = $project1->getIssues($handler_id, $isHideResolved, $hideStatusAndAbove);
+      } else {
+         // no project specified: show all tasks
+         $issueList = array();
+
+         foreach ($projList as $pid => $pname) {
+            $proj = ProjectCache::getInstance()->getProject($pid);
+            try {
+               if (($proj->isSideTasksProject(array($teamid))) ||
+                  ($proj->isNoStatsProject(array($teamid)))) {
+                  // do not hide any task for SideTasks & ExternalTasks projects
+                  $buglist = $proj->getIssues(0, false, 0);
+                  $issueList = array_merge($issueList, $buglist);
+               } else {
+                  $handler_id = $isOnlyAssignedTo ? $userid : 0;
+                  $buglist = $proj->getIssues($handler_id, $isHideResolved, $hideStatusAndAbove);
+                  $issueList = array_merge($issueList, $buglist);
+               }
+            } catch (Exception $e) {
+               self::$logger->error("getIssues(): task filters not applied for project $pid : ".$e->getMessage());
+               // do not hide any task if unknown project type
+               $buglist = $proj->getIssues(0, false, 0);
+               $issueList = array_merge($issueList, $buglist);
+
+            }
+         }
+         rsort($issueList);
       }
 
-      $issueList = $project1->getIssueList($handler_id, $isHideResolved);
-   } else {
-      // no project specified: show all tasks
-      $issueList = array();
+      // GET coassigned issues from the Scheduler
+      if (0 != $handler_id) {
 
-      foreach ($projList as $pid => $pname) {
-         $proj = ProjectCache::getInstance()->getProject($pid);
+         // GET task user list
+         $schedulerManager = new SchedulerManager($userid, $teamid);
+         $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser);
+
+         if ((NULL != $timePerTaskPerUser) && 
+             (array_key_exists($handler_id, $timePerTaskPerUser))) {
+
+            // GET current user's coassigned task list
+            $coassignedIssueidList = array_keys($timePerTaskPerUser[$handler_id]);
+            $coassignedIssueList = array();
+
+            foreach ($coassignedIssueidList as $coassignedIssueid) {
+               $issue = IssueCache::getInstance()->getIssue($coassignedIssueid);
+               if((0 !== $projectid) && ($projectid != $issue->getProjectId())) {
+                  continue;
+               }
+               if($isHideResolved && $issue->isResolved()) {
+                  continue;
+               }
+               if((0 !== $hideStatusAndAbove) && ($hideStatusAndAbove <= $issue->getCurrentStatus())) {
+                  continue;
+               }
+               // user should be able to add timetracks to this issue
+               $coassignedIssueList [] = $issue;
+            }
+            // ADD Filtered coassigned issues to IssueList
+            $issueList = array_merge($issueList, $coassignedIssueList);
+            rsort($issueList);
+         }
+      }
+      $issues = array();
+      foreach ($issueList as $issue) {
+         //$issue = IssueCache::getInstance()->getIssue($bugid);
+         $issues[$issue->getId()] = array(
+            'id' => $issue->getId(),
+            'tcId' => $issue->getTcId(),
+            'summary' => $issue->getSummary(),
+            'selected' => $issue->getId() == $defaultBugid);
+      }
+
+      // If the default bug is filtered, we add it anyway
+      if(!array_key_exists($defaultBugid,$issues) && $defaultBugid != 0) {
          try {
-            if (($proj->isSideTasksProject()) ||
-               ($proj->isNoStatsProject())) {
-               // do not hide any task for SideTasks & ExternalTasks projects
-               $buglist = $proj->getIssueList(0, false);
-               $issueList = array_merge($issueList, $buglist);
-            } else {
-               $handler_id = $isOnlyAssignedTo ? $user1->id : 0;
-               $buglist = $proj->getIssueList($handler_id, $isHideResolved);
-               $issueList = array_merge($issueList, $buglist);
+            $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+            // Add the bug only if the selected project is the bug project
+            if($projectid == 0 || $issue->getProjectId() == $projectid) {
+               $issues[$issue->getId()] = array(
+                  'id' => $issue->getId(),
+                  'tcId' => $issue->getTcId(),
+                  'summary' => htmlspecialchars(preg_replace('![\t\r\n]+!',' ',$issue->getSummary())),
+                  'selected' => $issue->getId() == $defaultBugid);
+               krsort($issues);
             }
          } catch (Exception $e) {
-            $logger->error("getIssues(): task filters not applied for project $pid : ".$e->getMessage());
-            // do not hide any task if unknown project type
-            $buglist = $proj->getIssueList(0, false);
-            $issueList = array_merge($issueList, $buglist);
-
+               self::$logger->error("getIssues(): task not found in MantisDB : ".$e->getMessage());
          }
       }
-      rsort($issueList);
-   }
 
-   foreach ($issueList as $bugid) {
-      $issue = IssueCache::getInstance()->getIssue($bugid);
-      $issues[] = array('id' => $bugid,
-         'tcId' => $issue->tcId,
-         'summary' => $issue->summary,
-         'selected' => $bugid == $defaultBugid);
-   }
-
-   return $issues;
-}
-
-/**
- * get Job list
- * @param int $projectid
- * @return array
- */
-function getJobs($projectid) {
-   global $logger;
-
-   if (0 != $projectid) {
-      // Project list
-      $project1 = ProjectCache::getInstance()->getProject($projectid);
-
-      $jobList = $project1->getJobList();
-   } else {
-      $query = "SELECT id, name FROM `codev_job_table` ";
-      $result = mysql_query($query);
-      if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
-         return;
-      }
-
-      if (0 != mysql_num_rows($result)) {
-         while ($row = mysql_fetch_object($result)) {
-            $jobList[$row->id] = $row->name;
+      // $issues is sorted, but we want the 5 most recent used issues to be in front
+      if (0 != $userid) {
+         $user = UserCache::getInstance()->getUser($userid);
+         $recentBugidList = $user->getRecentlyUsedIssues(5, array_keys($issues));
+         #var_dump($recentBugidList);
+         $smartyRecentList = array();
+         foreach ($recentBugidList as $bugid) {
+            if (array_key_exists("$bugid", $issues)) {
+               $smartyRecentList["$bugid"] = $issues["$bugid"];
+               unset($issues["$bugid"]);
+            }
          }
+         // insert in front
+         $issues = $smartyRecentList + $issues;
       }
+
+      return $issues;
    }
 
-   return $jobList;
+   /**
+    * @return string[]
+    */
+   public static function getDurationList($teamid) {
+      $duration = Config::getValue(Config::id_durationList, array(0, 0, $teamid, 0, 0, 0), true);
+      if ($duration == NULL) {
+      	  $duration = Constants::$taskDurationList;
+      } elseif (!is_array($duration)) {
+      	  $duration = Tools::doubleExplode(":", ",", $duration);
+      }
+      if ($duration != NULL && is_array($duration)) {
+          krsort($duration);
+      }
+      return $duration;
+   }
+   
+   /**
+    * get info to display the updateBacklog dialogbox
+    *
+    * Note: this dialogbox is also responsible for validating the addTrack action.
+    *
+    * @param type $bugid
+    * @param type $trackJobid
+    * @param type $teamid
+    * @param type $managedUserid
+    * @param type $trackDate
+    * @param type $trackDuration
+    * @return json encoded data to be displayed in the dialogBox
+    */
+   public static function getUpdateBacklogJsonData($bugid, $trackJobid, $teamid, $managedUserid, $trackDate=0, $trackDuration=0) {
+
+      try {
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+         $backlog = $issue->getBacklog();
+         $summary = $issue->getSummary();
+         $drift = $issue->getDrift();
+         $effortEstim = $issue->getEffortEstim();
+         $formattedIds = $issue->getFormattedIds();
+         $mgrEffortEstim = $issue->getMgrEffortEstim();
+         $elapsed = $issue->getElapsed();
+         $driftMgr = $issue->getDriftMgr();
+         $reestimated = $issue->getReestimated();
+         $driftColor = $issue->getDriftColor($drift);
+         $currentStatus = $issue->getCurrentStatus();
+         $availableStatusList = $issue->getAvailableStatusList(true);
+         $bugResolvedStatusThreshold = $issue->getBugResolvedStatusThreshold();
+         $bugStatusNew = Constants::$status_new;
+         $deadline = $issue->getDeadLine();
+         $handlerId = $issue->getHandlerId();
+         $handler = UserCache::getInstance()->getUser($handlerId);
+         $handlerName = $handler->getName();
+         
+         $managedUser = UserCache::getInstance()->getUser($managedUserid);
+         $managedUserName = $managedUser->getName();
+      } catch (Exception $e) {
+         $backlog = '!';
+         $summary = '<span class="error_font">'.T_('Error: Task not found in Mantis DB !').'</span>';
+         $drift = 0;
+         $effortEstim = 0;
+         $formattedIds = -1;
+         $mgrEffortEstim = 0;
+         $elapsed = 0;
+         $driftMgr = 0;
+         $reestimated = 0;
+         $driftColor = null;
+         $currentStatus = 0;
+         $availableStatusList = array();
+         $bugResolvedStatusThreshold = 0;
+         $bugStatusNew = Constants::$status_new;
+         $deadline = null;
+         $handlerId = 0;
+         $handlerName = 'ERROR';
+         $managedUserName = 'ERROR';
+      }
+
+      // prepare json data for the BacklogDialogbox
+      
+      $totalEE = $effortEstim;
+      $issueInfo = array(
+         'trackUserid' => $managedUserid,
+         'trackUserName' => $managedUserName,
+         'currentBacklog' => $backlog,
+         'bugid' => $bugid,
+         'summary' => $summary,
+         'dialogBoxTitle' => $formattedIds,
+         'effortEstim' => $totalEE,
+         'mgrEffortEstim' => $mgrEffortEstim,
+         'elapsed' => $elapsed,
+         'drift' => $drift,
+         'driftMgr' => $driftMgr,
+         'reestimated' => $reestimated,
+         'driftColor' => $driftColor,
+         'currentStatus' => $currentStatus,
+         'availableStatusList' => $availableStatusList,
+         'bugResolvedStatusThreshold' =>  $bugResolvedStatusThreshold,
+         'bugStatusNew' =>  $bugStatusNew,
+         'trackDuration' => $trackDuration,
+         'trackJobid' => $trackJobid,
+         'handlerId' => $handlerId,
+         'handlerName' => $handlerName,
+      );
+
+      if (0 !== $trackDuration) {
+         # fill duration combobox values
+         $issueInfo['availableDurationList'] = self::getDurationList($teamid);
+         $issueInfo['trackDate'] = $trackDate;
+      }
+
+      // display calculatedBacklog depending on team settings
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      if (1 == $team->getGeneralPreference('displayCalculatedBacklogInDialogbox')) {
+
+         // Note: if Backlog is NULL, the values to propose in the DialogBox
+         //       are not the ones used for ProjectManagement
+         if ( !is_null($backlog) && is_numeric($backlog)) {
+            // normal case
+            $calculatedBacklog = $backlog - $trackDuration;
+         } else {
+            // reestimated cannot be used...
+            $calculatedBacklog = $totalEE - $issue->getElapsed() - $trackDuration;
+         }
+         if ($calculatedBacklog < 0) { $calculatedBacklog = 0;}
+         $issueInfo['calculatedBacklog'] = $calculatedBacklog;
+      }
+
+      if (!is_null($deadline) || (0 != $deadline)) {
+         $formatedDate = Tools::formatDate("%Y-%m-%d", $deadline);
+         $issueInfo['deadline'] = $formatedDate;
+      }
+
+      $jsonIssueInfo = json_encode($issueInfo);
+      return $jsonIssueInfo;
+   }
+
 }
 
-?>
+// Initialize complex static variables
+TimeTrackingTools::staticInit();
+

@@ -1,0 +1,128 @@
+<div id="content" class="center">
+   {if isset($availableTeams)}
+   <form id="form1" name="form1" method="post" action="{$page}">
+      <fieldset>
+         <label for="displayed_teamid">{t}Team{/t}: </label>
+         <select id="displayed_teamid" name="displayed_teamid">
+         {foreach from=$availableTeams key=id item=i}
+            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+         {/foreach}
+         </select>
+
+         <label for="year">{t}Year{/t}:</label>
+         {include file="form/yearSelector.html"}
+         &nbsp;
+         <a title="{t}Set filters{/t}" id="btFilter" style="text-decoration: none" href="{$page}">
+            <img border="0" width="16" height="12" align="absmiddle" src="images/im-filter.png" alt="Set filters" />
+         </a>
+         <input type="hidden" name="checkedFilters" value="{$checkedFilters}" />
+      </fieldset>
+   </form>
+   
+    <div id="setFilter_dialog" title="{t}Filters{/t}" class="ui-helper-hidden">
+       <p>{t}Displayed tasks{/t}</p>
+       <form id="setFilter_form" name="setFilter_form" method="post" action="{$page}" >
+          <fieldset>
+             {foreach from=$filterInfo key=id item=i} 
+             <input type="checkbox" class="cb_filter" name="{$i.filterId}" {if $i.isChecked} checked="checked" {/if}/>
+             <label>{$i.filterName}</label>
+             <br>
+             {/foreach}
+          </fieldset>
+       </form>
+    </div>
+   
+   <br>
+
+   <div style="display: inline-block;">
+        {foreach from=$months key=id item=i}{if !empty($i.users)}
+            <a  href="timetracking/holidays_report.php#{$i.idcaption}">{$i.idcaption}</a>  &nbsp; 
+        {/if}{/foreach}
+
+
+      {foreach from=$months key=id item=i}
+      {if !empty($i.users)}
+      <div style="margin-top: 2em;" class="left">
+         <table id="table_{$id}">
+            <caption id={$i.idcaption}>
+               {$i.name}
+               <span style="margin-left: 1em;font-weight: normal;font-size: 12px;">({$i.workdays} {t}workdays{/t})</span>
+               <span style="margin-left: 1em;" class="pointer"><img onclick="$('#table_{$id}').table2CSV({literal}{{/literal}filename : '{$i.filename_csv}'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" /></span>
+            </caption>
+            <thead>
+               <tr>
+                  <th></th>
+                  {foreach from=$i.days key=key item=j}
+                  <th title="{$j.title}" {if $j.selected}style="background-color: #FF699D !important;"{/if}>{$key}</th>
+                  {/foreach}
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$i.users key=key item=j}
+               <tr>
+                  <th class="left" title="{$j.realname}">{$j.username}</th>
+                  {foreach from=$j.days key=day item=k}
+                  <td {if isset($k.color) || isset($k.align)}style="{if isset($k.color)}background-color: #{$k.color};{/if}{if isset($k.align)}text-align: center;{/if}"{/if} {if isset($k.title)}title="{$k.title}"{/if}>{if isset($k.value)}{$k.value}{/if}</td>
+                  {/foreach}
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+      </div>
+      {/if}
+      {/foreach}
+   </div>
+   
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+
+         // scroll to current month
+         jQuery('html, body').animate({ldelim}scrollTop: jQuery("#{$thisMonth}").offset().top {rdelim}, 500);
+
+         var form = jQuery("#form1");
+
+         jQuery("#displayed_teamid").change(function() {
+            form.submit();
+         });
+         jQuery("#year").change(function() {
+            form.submit();
+         });
+         jQuery("#btFilter").click(function(event) {
+              event.preventDefault();
+              jQuery("#setFilter_dialog" ).dialog( "open" );
+         });
+
+         jQuery("#setFilter_dialog" ).dialog({
+              autoOpen: false,
+              height: 'auto',
+              width: 500,
+              modal: true,
+              buttons: {
+                 Ok: function() {
+                    var form = jQuery("#form1");
+
+                    //  get selected week days
+                    var checkItems = "";
+                    jQuery(".cb_filter").each(function() {
+                       var itemName = jQuery(this).attr("name");
+                       var isChecked = jQuery(this).attr('checked') ? 1 : 0;
+                       checkItems += itemName+":"+isChecked+",";
+                    });
+                    //alert("selected command states: "+checkItems);
+                    form.find("input[name=checkedFilters]").val(checkItems);
+                    form.submit();
+                 },
+                 Cancel: function() {
+                    jQuery(this).dialog( "close" );
+                 }
+              }
+         });
+         
+      });
+   </script>
+   
+   {else}
+   <p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
+   {/if}
+
+</div>

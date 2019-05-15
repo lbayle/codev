@@ -1,0 +1,63 @@
+<div class="taskPivotTable_ajax"  style="width:100%;">
+
+   {if isset($taskPivotTable_detailedMgrLines)}
+   <table id="taskPivotTable_tableDetailed">
+   <!--table class="datatable_minimal"-->
+      <caption>
+         <span style="margin-left: 1em;"><img onclick="$('#taskPivotTable_tableDetailed').table2CSV({literal}{{/literal}filename : 'tasksPivot.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" /></span>
+      </caption>
+      <thead>
+         {if 0 == $taskPivotTable_nbFilters}
+         <th></th>
+         {/if}
+         {foreach from=$taskPivotTable_detailedMgrTitles key=id item=ftitle}
+         <th style="width: 9em;">{$ftitle}</th>
+         {/foreach}
+      </thead>
+      <tbody>
+         {foreach from=$taskPivotTable_detailedMgrLines key=id item=line}
+         <tr>
+            {for $idx=1 to $taskPivotTable_nbFilters}
+            <td nowrap="nowrap">{$line[$idx]}</td>
+            {/for}
+            <td><div class="progress">{$line[$taskPivotTable_nbFilters+1].progress}%</div></td>
+            {if $taskPivotTable_isManager}
+            <td>{$line[$taskPivotTable_nbFilters+1].effortEstimMgr}</td>
+            {/if}
+            <td>{$line[$taskPivotTable_nbFilters+1].effortEstim}</td>
+            <td>{$line[$taskPivotTable_nbFilters+1].reestimated}</td>
+            <td>{$line[$taskPivotTable_nbFilters+1].elapsed}</td>
+            <td>{$line[$taskPivotTable_nbFilters+1].backlog}</td>
+            {if $taskPivotTable_isManager}
+            <td {if $line[$taskPivotTable_nbFilters+1].driftColorMgr}style='background-color: #{$line[$taskPivotTable_nbFilters+1].driftColorMgr};'{/if} title="{t}DriftMgr{/t}">{$line[$taskPivotTable_nbFilters+1].driftMgr}</td>
+            {/if}
+            <td {if $line[$taskPivotTable_nbFilters+1].driftColor}style='background-color: #{$line[$taskPivotTable_nbFilters+1].driftColor};'{/if} title="{t}Drift{/t}">{$line[$taskPivotTable_nbFilters+1].drift}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+      <tfoot>
+         <tr>
+            <td>TOTAL</td>
+            {for $idx=1 to ($taskPivotTable_nbFilters-1)}
+            <td></td>
+            {/for}
+            {assign var=totalLine value=$taskPivotTable_detailedMgrTotal[$taskPivotTable_nbFilters+1]}
+            <td><div class="progress">{$totalLine.progress}%</div></td>
+            {if $taskPivotTable_isManager}
+            <td>{$totalLine.effortEstimMgr}</td>
+            {/if}
+            <td>{$totalLine.effortEstim}</td>
+            <td>{$totalLine.reestimated}</td>
+            <td>{$totalLine.elapsed}</td>
+            <td>{$totalLine.backlog}</td>
+            {if $taskPivotTable_isManager}
+            <td {if $totalLine.driftColorMgr}style='background-color: #{$totalLine.driftColorMgr};'{/if} title="{t}nb days{/t}">{$totalLine.driftMgr}</td>
+            {/if}
+            <td {if $totalLine.driftColor}style='background-color: #{$totalLine.driftColor};'{/if} title="{t}nb days{/t}">{$totalLine.drift}</td>
+         <tr>
+      </tfoot>
+   </table>
+   {else}
+   {t}No data{/t}
+   {/if}
+</div>

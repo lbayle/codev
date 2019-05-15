@@ -1,5 +1,6 @@
 <?php
 require('../include/session.inc.php');
+
 /*
    This file is part of CoDev-Timetracking.
 
@@ -19,16 +20,28 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+class DocController extends Controller {
 
-require('../smarty_tools.php');
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      // Nothing special
+   }
 
-require('display.inc.php');
+   protected function display() {
+      // Nothing special
+
+      $greasemonkey_url = Constants::$codevURL.'/mantis_monkey.user.js';
+      $this->smartyHelper->assign('greasemonkeyURL', $greasemonkey_url);
+   }
+
+}
 
 // ========== MAIN ===========
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', 'Feedback');
-
-$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
+DocController::staticInit();
+$controller = new DocController('../', 'Documentation','Doc');
+$controller->execute();
 
 ?>

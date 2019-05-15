@@ -67,7 +67,4 @@ $replacement = '|;|';
 echo $string."</br>";
 echo preg_replace($pattern, $replacement, $string);
 
-
-
-
 ?>

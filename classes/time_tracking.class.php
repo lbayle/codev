@@ -1,1157 +1,1082 @@
 <?php
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-require_once('Logger.php');
-
-require_once "constants.php";
-
-include_once "time_track.class.php";
-include_once "issue.class.php";
-include_once "user.class.php";
-include_once "team.class.php";
-include_once "holidays.class.php";
 
 /**
  * TimeTracking facilities
  */
 class TimeTracking {
 
-  private $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-  var $startTimestamp;
-  var $endTimestamp;
-  var $prodDays;
+   private $startTimestamp;
+   private $endTimestamp;
 
-  var $team_id;
+   private $team_id;
 
-  var $prodProjectList;     // projects that are not sideTasks, and not in noStatsProject
-  var $sideTaskprojectList;
+   private $prodProjectList;     // projects that are not sideTasks, and not in noStatsProject
+   private $sideTaskprojectList;
 
-  // ----------------------------------------------
-  public function __construct($startTimestamp, $endTimestamp, $team_id = NULL) {
+   private $prodDays;
+   private $managementDays;
 
-    $this->logger = Logger::getLogger(__CLASS__);
+   private $availableWorkload;
+   private $timeDriftStats;
+   private $efficiencyRate;
 
-//    Note: teamid is null in time_tracking.php because you do not specify it to set timetracks...
+   private $systemDisponibilityRate;
 
-    if ((NULL == $team_id) || ($team_id <= 0)) {
-       #echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-       $e = new Exception("TimeTracking->team_id not set !");
-       $this->logger->error("EXCEPTION TimeTracking constructor: ".$e->getMessage());
-       $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-       //throw $e;
-    }
+   private $reopenedList;
 
-    $this->startTimestamp = $startTimestamp;
-    $this->endTimestamp   = $endTimestamp;
-    $this->team_id       = (isset($team_id)) ? $team_id : -1;
+   private $submittedBugs = NULL; // array {'ExtRefOnly, 'All'}
 
-    $this->initialize();
-  }
+   /**
+    * @var TimeTrack[]
+    */
+   private $timeTracks;
 
-  // ----------------------------------------------
-  public function initialize() {
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
-    $this->prodProjectList     = array();
-    $this->sideTaskprojectList = array();
+   /**
+    * @param int $startTimestamp
+    * @param int $endTimestamp
+    * @param int $team_id
+    */
+   public function __construct($startTimestamp, $endTimestamp, $team_id = NULL) {
 
-    $query = "SELECT project_id, type FROM `codev_team_project_table` WHERE team_id = $this->team_id";
-    $result    = mysql_query($query);
-    if (!$result) {
-    	$this->logger->error("Query FAILED: $query");
-    	$this->logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
-
-    $teamidList = array($this->team_id);
-    while($row = mysql_fetch_object($result))
-    {
-       $project1 = ProjectCache::getInstance()->getProject($row->project_id);
-       $ptype = $project1->getProjectType($teamidList);
-    	 switch ($ptype) {
-
-    	   case Project::type_sideTaskProject:
-    	      $this->sideTaskprojectList[] = $row->project_id;
-    	      break;
-    	   case Project::type_workingProject:  // no break;
-    	   case Project::type_noCommonProject:
-    	      $this->prodProjectList[]     = $row->project_id;
-              break;
-           case  Project::type_noStatsProject:
-              // known type, but nothing to do
-              break;
-           default:
-              echo "WARNING: Timetracking->initialize() unknown project type ($row->type) !<br/>";
-    	}
-    }
-  }
-
-  // ----------------------------------------------
-  /**
-   * Returns the number of days worked by the team within the timestamp
-   */
-  public function getProdDays() {
-    return $this->getProductionDays($this->prodProjectList);
-  }
-
-  // ----------------------------------------------
-  /**
-   * Returns the number of days worked by the team within the timestamp
-   * - Observers excluded
-   */
-  private function getProductionDays($projects) {
-
-    $accessLevel_dev     = Team::accessLevel_dev;
-    $accessLevel_manager = Team::accessLevel_manager;
-
-    $prodDays = 0;
-
-    $query     = "SELECT codev_timetracking_table.id, codev_timetracking_table.userid, codev_timetracking_table.bugid ".
-      "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
-      "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
-      "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
-      "AND    codev_team_user_table.team_id = $this->team_id ".
-      "AND    (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager) ";
-
-// TODO check patch from FDJ 8b003033391c84142787c3379a518a3ef7283587
-//      "AND (codev_team_user_table.departure_date = 0 or codev_team_user_table.departure_date >=$this->startTimestamp)";
-
-
-    $result = mysql_query($query);
-    if (!$result) {
-    	$this->logger->error("Query FAILED: $query");
-    	$this->logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
-
-    while($row = mysql_fetch_object($result))
-    {
-      $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
-
-      // Count only the time spent on $projects
-      if (in_array ($timeTrack->projectId, $projects)) {
-        $prodDays += $timeTrack->duration;
+      // Note: teamid is null in time_tracking.php because you do not specify it to set timetracks...
+      if(self::$logger->isDebugEnabled()) {
+         if ((NULL == $team_id) || ($team_id <= 0)) {
+            $e = new Exception("TimeTracking->team_id not set !");
+            self::$logger->error("EXCEPTION TimeTracking constructor: ".$e->getMessage());
+            self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         }
       }
-    }
-    return $prodDays;
-  }
 
-  // ----------------------------------------------
-  /** Returns the number of days spent on side tasks EXCEPT Vacations
-   * - Observers excluded
-   *
-   * @param $isDeveloppersOnly : do not include time spent by Managers (default = false)
-   */
-  public function getProdDaysSideTasks($isDeveloppersOnly = false) {
-    $accessLevel_dev     = Team::accessLevel_dev;
-    $accessLevel_manager = Team::accessLevel_manager;
-    $prodDays = 0;
+      $this->startTimestamp = $startTimestamp;
+      $this->endTimestamp = $endTimestamp;
+      $this->team_id = (isset($team_id)) ? $team_id : -1;
 
-    // select tasks within timestamp, where user is in the team
-    $query     = "SELECT codev_timetracking_table.id, codev_timetracking_table.userid, codev_timetracking_table.bugid ".
-      "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
-      "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
-      "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
-      "AND    codev_team_user_table.team_id = $this->team_id ".
-      "AND    (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager) ";
+      $this->initialize();
+   }
 
-    $result = mysql_query($query);
-    if (!$result) {
-    	$this->logger->error("Query FAILED: $query");
-    	$this->logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
+   /**
+    * Initialize
+    */
+   public function initialize() {
+      $this->prodProjectList = array();
+      $this->sideTaskprojectList = array();
 
-    while($row = mysql_fetch_object($result))
-    {
-      $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
-
-      // do not include Managers
-      if (true == $isDeveloppersOnly) {
-      	$user = UserCache::getInstance()->getUser($timeTrack->userId);
-      	if (false == $user->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) {
-      		continue; // skip this timeTrack
-      	}
+      $team = TeamCache::getInstance()->getTeam($this->team_id);
+      foreach($team->getProjectsType() as $projectid => $type) {
+         switch ($type) {
+            case Project::type_sideTaskProject:
+               $this->sideTaskprojectList[] = $projectid;
+               break;
+            case Project::type_workingProject:  // no break;
+            case Project::type_noCommonProject:
+               $this->prodProjectList[] = $projectid;
+               break;
+            case  Project::type_noStatsProject:
+               // known type, but nothing to do
+               break;
+            default:
+               self::$logger->warn("WARNING: Timetracking->initialize() unknown project type ($type) !");
+         }
       }
-      try {
-	      $issue = IssueCache::getInstance()->getIssue($row->bugid);
-	      if ((in_array ($issue->projectId, $this->sideTaskprojectList)) &&
-			      (!$issue->isVacation(array($this->team_id)))) {
-		      $prodDays += $timeTrack->duration;
-	      }
-      } catch (Exception $e) {
-      	$this->logger->error("getProdDaysSideTasks(): issue $issue->bugId: ".$e->getMessage());
+   }
+
+   /**
+    * @return int
+    */
+   public function getStartTimestamp() {
+      return $this->startTimestamp;
+   }
+
+   /**
+    * @return int
+    */
+   public function getEndTimestamp() {
+      return $this->endTimestamp;
+   }
+
+   /**
+    * @return int
+    */
+   public function getTeamid() {
+      return $this->team_id;
+   }
+
+   /**
+    * @return TimeTrack[]
+    */
+   public function getTimeTracks() {
+      if(NULL == $this->timeTracks) {
+         $accessLevel_dev = Team::accessLevel_dev;
+         $accessLevel_manager = Team::accessLevel_manager;
+         $sql = AdodbWrapper::getInstance();
+
+         // select tasks within timestamp, where user is in the team
+         // WARN: users having left the team will be included, this is a pre-filter.
+         $query = "SELECT timetracking.* ".
+                  " FROM codev_timetracking_table as timetracking ".
+                  " JOIN codev_team_user_table as team_user ON timetracking.userid = team_user.user_id ".
+                  " WHERE team_user.team_id = ".$sql->db_param().
+                  " AND team_user.access_level IN (".$sql->db_param().", ".$sql->db_param().") ".
+                  " AND timetracking.date >= ".$sql->db_param().
+                  " AND timetracking.date <= ".$sql->db_param();
+
+         $q_params[]= $this->team_id;
+         $q_params[]=$accessLevel_dev;
+         $q_params[]=$accessLevel_manager;
+         $q_params[]=$this->startTimestamp;
+         $q_params[]=$this->endTimestamp;
+         $result = $sql->sql_query($query, $q_params);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         $this->timeTracks = array();
+         while($row = $sql->fetchObject($result)) {
+
+            $tt = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
+            $user = UserCache::getInstance()->getUser($tt->getUserId());
+            $timestamp = $tt->getDate();
+
+            // check that the user was in the team at the timetrack's date.
+            if ($user->isTeamMember($this->team_id, NULL, $timestamp, $timestamp)) {
+               $this->timeTracks[] = $tt;
+            }
+
+
+         }
       }
-    }
-    return $prodDays;
-  }
+      return $this->timeTracks;
+   }
 
-  // ----------------------------------------------
-  /** Returns the number of days spent on Management Tasks
-   * - Observers excluded
-   */
-   public function getManagementDays() {
-    $accessLevel_dev     = Team::accessLevel_dev;
-    $accessLevel_manager = Team::accessLevel_manager;
-     $prodDays = 0;
+   /**
+    * Returns the number of days worked by the team within the timestamp
+    * - Observers excluded
+    * @return number
+    */
+   private function getProdDays() {
+      if(!is_numeric($this->prodDays)) {
+         $this->prodDays = 0;
 
-     // select tasks within timestamp, where user is in the team
-     $query     = "SELECT codev_timetracking_table.id, codev_timetracking_table.userid, codev_timetracking_table.bugid ".
-           "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
-           "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
-           "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
-           "AND    codev_team_user_table.team_id = $this->team_id ".
-           "AND    (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager) ";
+         // TODO check patch from FDJ 8b003033391c84142787c3379a518a3ef7283587
+         //      " AND (codev_team_user_table.departure_date = 0 or codev_team_user_table.departure_date >=$this->startTimestamp)";
 
-     $result = mysql_query($query);
-     if (!$result) {
-        $this->logger->error("Query FAILED: $query");
-        $this->logger->error(mysql_error());
-        echo "<span style='color:red'>ERROR: Query FAILED</span>";
-        exit;
-     }
-
-     while($row = mysql_fetch_object($result))
-     {
-        $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
-
-        $user = UserCache::getInstance()->getUser($timeTrack->userId);
-
-        if ((!$user->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) &&
-            (!$user->isTeamManager($this->team_id, $this->startTimestamp, $this->endTimestamp))) {
-           $this->logger->warn("getManagementDays(): timetrack $row->id not included because user $user->id (".$user->getName().") was not a DEVELOPPER/MANAGER within the timestamp");
-           continue; // skip this timeTrack
-        }
-
-        $issue = IssueCache::getInstance()->getIssue($row->bugid);
-        try {
-	        if ((in_array ($issue->projectId, $this->sideTaskprojectList)) &&
-			        ($issue->isProjManagement(array($this->team_id)))) {
-		        $prodDays += $timeTrack->duration;
-	        }
-        } catch (Exception $e) {
-	        $this->logger->error("getManagementDays(): issue $issue->bugId: ".$e->getMessage());
-        }
-     }
-     return $prodDays;
-  }
-
-
-  // ----------------------------------------------
-  public function getAvailableWorkload() {
-    $accessLevel_dev     = Team::accessLevel_dev;
-    #$accessLevel_manager = Team::accessLevel_manager;
-
-    $teamProdDaysForecast = 0;
-
-    // For all the users of the team
-    $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
-      "FROM  `codev_team_user_table`, `mantis_user_table` ".
-      "WHERE  codev_team_user_table.team_id = $this->team_id ".
-      "AND    codev_team_user_table.access_level = $accessLevel_dev ".
-      //"AND    (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager)".
-      "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-      "ORDER BY mantis_user_table.username";
-
-    $result = mysql_query($query);
-    if (!$result) {
-    	$this->logger->error("Query FAILED: $query");
-    	$this->logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
-
-    while($row = mysql_fetch_object($result))
-    {
-      $user = UserCache::getInstance()->getUser($row->user_id);
-      $teamProdDaysForecast += $user->getAvailableWorkload($this->startTimestamp, $this->endTimestamp, $this->team_id);
-    }
-
-    return $teamProdDaysForecast;
-  }
-
-
-
-
-
-  // ----------------------------------------------
-  public function getResolvedDriftStats($withSupport = true) {
-
-    $issueList = $this->getResolvedIssues($this->prodProjectList);
-    if (0 != count($issueList)) {
-      return $this->getIssuesDriftStats($issueList, $withSupport);
-    } else {
-    	return array();
-    }
-
-  }
-
-  // ----------------------------------------------
-  public function getTimeDriftStats() {
-
-    global $deliveryDateCustomField;
-
-    $issueList = array();
-
-    // all issues which deliveryDate is in the period.
-    $query = "SELECT bug_id FROM `mantis_custom_field_string_table` ".
-             "WHERE field_id = $deliveryDateCustomField ".
-             "AND value >= $this->startTimestamp ".
-             "AND value <  $this->endTimestamp ".
-             "ORDER BY bug_id ASC";
-
-    $result = mysql_query($query);
-    if (!$result) {
-    	$this->logger->error("Query FAILED: $query");
-    	$this->logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
-
-    while($row = mysql_fetch_object($result)) {
-      $issue = IssueCache::getInstance()->getIssue($row->bug_id);
-
-      // if a deadLine is specified
-      if ((in_array($issue->projectId, $this->prodProjectList)) &&
-          (NULL != $issue->getDeadLine())) {
-      	$issueList[] = $issue;
+         $timeTracks = $this->getTimeTracks();
+         foreach($timeTracks as $timeTrack) {
+            // Count only the time spent on $projects
+            try {
+               if (in_array($timeTrack->getProjectId(), $this->prodProjectList)) {
+                  $this->prodDays += $timeTrack->getDuration();
+               }
+            } catch (Exception $e) {
+               self::$logger->error("getProductionDays(): timetrack on task ".$timeTrack->getIssueId()." (duration=".$timeTrack->getDuration().") NOT INCLUDED !");
+            }
+         }
       }
-    }
-    if (0 != count($issueList)) {
-      return $this->getIssuesTimeDriftStats($issueList);
-    } else {
-    	return array();
-    }
+      return $this->prodDays;
+   }
 
-  }
+   /**
+    * Returns the number of days spent on side tasks EXCEPT Vacations
+    * - Observers excluded
+    *
+    * @param bool $isDeveloppersOnly : do not include time spent by Managers (default = false)
+    * @return number
+    */
+   private function getProdDaysSideTasks($isDeveloppersOnly = false) {
+      $prodDays = 0;
 
-  // -------------------------------------------------
-  /**
-   * Returns all Issues resolved in the period and having not been re-opened
-   *
-   * @param $projects  if NULL: prodProjectList
-   * @return a list of Issue class instances
-   */
-  public function getResolvedIssues($projects = NULL) {
-    global $status_closed;
+      $timeTracks = $this->getTimeTracks();
+      foreach($timeTracks as $timeTrack) {
+         // do not include Managers
+         if ($isDeveloppersOnly) {
+            $user = UserCache::getInstance()->getUser($timeTrack->getUserId());
+            if (!$user->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) {
+               continue; // skip this timeTrack
+            }
+         }
+         try {
+            $issue = IssueCache::getInstance()->getIssue($timeTrack->getIssueId());
+            if ((in_array ($issue->getProjectId(), $this->sideTaskprojectList)) &&
+               (!$issue->isVacation($this->team_id))) {
+               $prodDays += $timeTrack->getDuration();
+            }
+         } catch (Exception $e) {
+            self::$logger->error("getProdDaysSideTasks(): issue ".$timeTrack->getIssueId().": ".$e->getMessage());
+         }
+      }
+      return $prodDays;
+   }
 
-    $resolvedList = array();
-    $issueList = array();
+   /**
+    * @return number
+    */
+   public function getAvailableWorkload() {
+      if(!is_numeric($this->availableWorkload)) {
+         $accessLevel_dev = Team::accessLevel_dev;
+         $accessLevel_manager = Team::accessLevel_manager;
+         $sql = AdodbWrapper::getInstance();
 
-    // --------
-    if (NULL == $projects) {$projects = $this->prodProjectList;}
-    $formatedProjList = implode( ', ', $projects);
+         $this->availableWorkload = 0;
 
-    if ("" == $formatedProjList) {
-      echo "<div style='color:red'>ERROR getResolvedIssues: no project defined for this team !<br/></div>";
-      return 0;
-    }
+         // For all the users of the team
+         $query = "SELECT user.* ".
+                  "FROM {user} as user ".
+                  "JOIN codev_team_user_table as team_user ON user.id = team_user.user_id ".
+                  "WHERE team_user.team_id =  ".$sql->db_param().
+                  " AND team_user.access_level IN (".$sql->db_param().", ".$sql->db_param().")";
 
-    // all bugs which status changed to 'resolved' whthin the timestamp
-    $query = "SELECT mantis_bug_table.id, ".
-      "mantis_bug_history_table.new_value, ".
-      "mantis_bug_history_table.old_value, ".
-      "mantis_bug_history_table.date_modified ".
-      "FROM `mantis_bug_table`, `mantis_bug_history_table` ".
-      "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
-      "AND mantis_bug_table.project_id IN ($formatedProjList) ".
-      "AND mantis_bug_history_table.field_name='status' ".
-      "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
-      "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
-      "AND mantis_bug_history_table.new_value = get_project_resolved_status_threshold(project_id) ".
-      "ORDER BY mantis_bug_table.id DESC";
+         $result = $sql->sql_query($query, array($this->team_id, $accessLevel_dev, $accessLevel_manager));
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
 
-    if (isset($_GET['debug'])) { echo "getDrift_new QUERY = $query <br/>"; }
+         while($row = $sql->fetchObject($result)) {
+            $user = UserCache::getInstance()->getUser($row->id, $row);
+            $this->availableWorkload += $user->getAvailableWorkforce($this->startTimestamp, $this->endTimestamp, $this->team_id);
+         }
+      }
 
-    $result = mysql_query($query);
-    if (!$result) {
-    	$this->logger->error("Query FAILED: $query");
-    	$this->logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
+      return $this->availableWorkload;
+   }
 
-    while($row = mysql_fetch_object($result)) {
-      $issue = IssueCache::getInstance()->getIssue($row->id);
-
-      // check if the bug has been reopened before endTimestamp
-      $latestStatus = $issue->getStatus($this->endTimestamp);
-      if (($latestStatus == $issue->bug_resolved_status_threshold) || ($latestStatus == $status_closed)) {
-
-        // remove doubloons
-        if (!in_array ($issue->bugId, $resolvedList)) {
-
-          $resolvedList[] = $issue->bugId;
-          $issueList[] = $issue;
-        }
+   /**
+    *
+    * Note: reopened issues not included
+    *
+    * @param bool $withSupport
+    * @return mixed[]
+    */
+   public function getResolvedDriftStats($withSupport = true, $extRefOnly=FALSE) {
+      $issueList = $this->getResolvedIssues($extRefOnly);
+      if (0 != count($issueList)) {
+         return $this->getIssuesDriftStats($issueList, $withSupport);
       } else {
-        if (isset($_GET['debug'])) { echo "TimeTracking->getResolvedIssues() REOPENED : bugid = $issue->bugId<br/>"; }
+         return array();
       }
-    }
-    return $issueList;
-  }
+   }
+
+   /**
+    * @return mixed[]
+    */
+   public function getTimeDriftStats() {
+      if(NULL == $this->timeDriftStats) {
+
+         $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
+
+         $issueList = array();
+
+         // all issues which deliveryDate is in the period.
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT bug.* ".
+                  " FROM {bug} as bug ".
+                  " JOIN {custom_field_string} as field ON bug.id = field.bug_id ".
+                  " WHERE field.field_id =  ".$sql->db_param().
+                  " AND field.value >= ".$sql->db_param()." AND field.value < ".$sql->db_param().
+                  " ORDER BY bug.id ASC";
+
+         $result = $sql->sql_query($query, array($deliveryDateCustomField, $this->startTimestamp, $this->endTimestamp));
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         while($row = $sql->fetchObject($result)) {
+            $issue = IssueCache::getInstance()->getIssue($row->id, $row);
+
+            // if a deadLine is specified
+            if ((in_array($issue->getProjectId(), $this->prodProjectList)) &&
+               (NULL != $issue->getDeadLine())) {
+               $issueList[] = $issue;
+            }
+         }
+         if (0 != count($issueList)) {
+            $this->timeDriftStats = $this->getIssuesTimeDriftStats($issueList);
+         } else {
+            $this->timeDriftStats = array();
+         }
+      }
+
+      return $this->timeDriftStats;
+
+   }
+
+   private $resolvedIssues;
+
+   /**
+    * Returns all Issues resolved in the period and having not been re-opened
+    * @return Issue[] a list of Issue class instances
+    */
+   public function getResolvedIssues($extRefOnly = FALSE, $withReopened=FALSE) {
+
+      $key = ($extRefOnly) ? 'ExtRefOnly' : 'All';
+      if ($withReopened) { $key .= 'WithReopened';}
+
+      if(is_null($this->resolvedIssues)) { $this->resolvedIssues = array(); }
+      if(is_null($this->resolvedIssues[$key])) {
+
+         $sql = AdodbWrapper::getInstance();
+         $formatedProjList = implode( ', ', $this->prodProjectList);
+         $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
 
 
+         if ("" == $formatedProjList) {
+            echo "<div style='color:red'>ERROR getResolvedIssues: no project defined for this team !<br/></div>";
+            return 0;
+         }
 
-  // ----------------------------------------------
-  /**
-   * return stats on which Issues where delivered after the DeadLine
-   *
-   * @param array $issueList
-   *
-   * TODO move this method to IssueSelection class
-   */
-  public function getIssuesTimeDriftStats($issueList) {
+         // all bugs which status changed to 'resolved' whthin the timestamp
+         $query = "SELECT bug.* ".
+                  "FROM {bug} as bug ";
+         if ($extRefOnly) {
+            $query .= ", {custom_field_string} ";
+         }
 
-    $nbDriftsNeg   = 0;
-    $nbDriftsEqual = 0;
-    $nbDriftsPos   = 0;
+         $query .= ", {bug_history} as history ".
+                  " WHERE bug.project_id IN (".$formatedProjList.") ".
+                  " AND bug.id = history.bug_id ";
 
-    $driftNeg   = 0;
-    $driftEqual = 0;
-    $driftPos   = 0;
+         if ($extRefOnly) {
+            $query .= " AND {custom_field_string}.bug_id = bug.id ";
+            $query .= " AND {custom_field_string}.field_id = ".$sql->db_param();
+            $query .= " AND {custom_field_string}.value <> '' ";
+            $q_params[]=$extIdField;
+         }
 
-    if (NULL == $issueList) {
-      echo "<div style='color:red'>ERROR getIssuesTimeDriftStats: Issue List is NULL !<br/></div>";
-      return array();
-    }
-    if (0== count($issueList)) {
-      echo "<div style='color:red'>ERROR getIssuesTimeDriftStats: Issue List is empty !<br/></div>";
-      return array();
-    }
+           $query .= " AND history.field_name='status' ".
+                  " AND history.date_modified >= ".$sql->db_param().
+                  " AND history.date_modified < ".$sql->db_param().
+                  " AND history.new_value = get_project_resolved_status_threshold(project_id) ".
+                  " ORDER BY bug.id DESC";
+           $q_params[]=$this->startTimestamp;
+           $q_params[]=$this->endTimestamp;
 
+         $result = $sql->sql_query($query, $q_params);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $this->resolvedIssues[$key] = array();
+         $resolvedList = array();
+         while($row = $sql->fetchObject($result)) {
+            $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
-    foreach ($issueList as $issue) {
+            if (!$withReopened) {
+               // skip if the bug has been reopened before endTimestamp
+               $latestStatus = $issue->getStatus($this->endTimestamp);
+               if ($latestStatus < $issue->getBugResolvedStatusThreshold()) {
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("TimeTracking->getResolvedIssues() REOPENED [$key]: bugid = ".$issue->getId().' (excluded)');
+                  }
+                  continue;
+               }
+            }
+            // remove duplicated values
+            if (!in_array ($issue->getId(), $resolvedList)) {
+               $resolvedList[] = $issue->getId();
+               $this->resolvedIssues[$key][] = $issue;
+            }
+         }
+      }
+      return $this->resolvedIssues[$key];
+   }
 
+   /**
+    * return stats on which Issues where delivered after the DeadLine
+    *
+    * @param Issue[] $issueList
+    * @return mixed[]
+    *
+    * TODO move this method to IssueSelection class
+    */
+   private function getIssuesTimeDriftStats(array $issueList) {
+      if (NULL == $issueList) {
+         echo "<div style='color:red'>ERROR getIssuesTimeDriftStats: Issue List is NULL !<br/></div>";
+         return array();
+      }
+      if (0== count($issueList)) {
+         echo "<div style='color:red'>ERROR getIssuesTimeDriftStats: Issue List is empty !<br/></div>";
+         return array();
+      }
 
-    	$issueDrift = $issue->getTimeDrift();  // returns an integer or an error string
-    	if (! is_string($issueDrift)) {
+      $nbDriftsNeg = 0;
+      $nbDriftsEqual = 0;
+      $nbDriftsPos = 0;
 
-    		if ($issueDrift <= 0) {
+      $driftNeg = 0;
+      $driftEqual = 0;
+      $driftPos = 0;
 
+      $formatedBugidNegList = "";
+      $formatedBugidPosList = "";
+      foreach ($issueList as $issue) {
+         $issueDrift = $issue->getTimeDrift();  // returns an integer or an error string
+         if (!is_string($issueDrift)) {
+
+            if ($issueDrift <= 0) {
+               $nbDriftsNeg++;
+               $driftNeg += $issueDrift;
+
+               if ($formatedBugidNegList != "") {
+                  $formatedBugidNegList .= ', ';
+               }
+               $formatedBugidNegList .= Tools::issueInfoURL($issue->getId(), $issue->getSummary());
+            } else {
+               $nbDriftsPos++;
+               $driftPos += $issueDrift;
+
+               if ($formatedBugidPosList != "") {
+                  $formatedBugidPosList .= ', ';
+               }
+               $formatedBugidPosList .= Tools::issueInfoURL($issue->getId(), $issue->getSummary())."<span title='".T_("nb days")."'>(".round($issueDrift).")<span>";
+            }
+         }
+      }
+
+      return array(
+         "driftPos" => $driftPos,
+         "driftEqual" => $driftEqual,
+         "driftNeg" => $driftNeg,
+         "nbDriftsPos" => $nbDriftsPos,
+         "nbDriftsEqual" => $nbDriftsEqual,
+         "nbDriftsNeg" => $nbDriftsNeg,
+         "formatedBugidPosList" => $formatedBugidPosList,
+         "formatedBugidNegList" => $formatedBugidNegList
+      );
+   }
+
+   /**
+    * Drift Stats on a given Issue.class List
+    *
+    * @param Issue[] $issueList
+    * @param bool $withSupport
+    * @return mixed[] driftStats
+    *
+    * TODO move this method to IssueSelection class
+    */
+   private function getIssuesDriftStats(array $issueList, $withSupport = true) {
+      if (NULL == $issueList) {
+         echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is NULL !<br/></div>";
+         self::$logger->error("getIssuesDriftStats(): Issue List is NULL !");
+         return 0;
+      }
+      if (0 == count($issueList)) {
+         echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is empty !<br/></div>";
+         self::$logger->error("getIssuesDriftStats(): Issue List is empty !");
+         return 0;
+      }
+
+      $derive = 0;
+      $deriveETA = 0;
+
+      $nbDriftsNeg = 0;
+      $nbDriftsEqual = 0;
+      $nbDriftsPos = 0;
+      $nbDriftsNegETA = 0;
+      $nbDriftsEqualETA = 0;
+      $nbDriftsPosETA = 0;
+
+      $driftNeg = 0;
+      $driftEqual = 0;
+      $driftPos = 0;
+      $driftNegETA = 0;
+      $driftEqualETA = 0;
+      $driftPosETA = 0;
+
+      $formatedBugidNegList = "";
+      $formatedBugidPosList = "";
+      $formatedBugidEqualList = "";
+      $bugidEqualList = "";
+      foreach ($issueList as $issue) {
+         // compute total drift
+         $issueDrift = $issue->getDrift();
+         $derive += $issueDrift;
+         $issueDriftMgrEE = $issue->getDriftMgr();
+         $deriveETA += $issueDriftMgrEE;
+
+         //if(self::$logger->isDebugEnabled()) {
+         //   self::$logger->debug("getIssuesDriftStats() Found : bugid=".$issue->getId().", proj=".$issue->getProjectId().", effortEstim=".$issue->getEffortEstim().", elapsed = ".$issue->getElapsed().", drift=$issueDrift, DriftMgrEE=$issueDriftMgrEE");
+         //}
+
+         // get drift stats. equal is when drif = +-1
+         if ($issueDrift < -1) {
             $nbDriftsNeg++;
             $driftNeg += $issueDrift;
 
-            if ($formatedBugidNegList != "") { $formatedBugidNegList .= ', '; }
-            $formatedBugidNegList .= issueInfoURL($issue->bugId, $issue->summary);
-
-         } else {
+            if ($formatedBugidNegList != "") {
+               $formatedBugidNegList .= ', ';
+            }
+            $formatedBugidNegList .= Tools::issueInfoURL($issue->getId(), $issue->getSummary());
+         } elseif ($issueDrift > 1){
             $nbDriftsPos++;
             $driftPos += $issueDrift;
 
-            if ($formatedBugidPosList != "") { $formatedBugidPosList .= ', '; }
-            $formatedBugidPosList .= issueInfoURL($issue->bugId, $issue->summary)."<span title='".T_("nb days")."'>(".round($issueDrift).")<span>";
+            if ($formatedBugidPosList != "") {
+               $formatedBugidPosList .= ', ';
+            }
+            $formatedBugidPosList .= Tools::issueInfoURL($issue->getId(), $issue->getSummary());
+         } else {
+            $nbDriftsEqual++;
+            $driftEqual += $issueDrift;
+
+            if ($formatedBugidEqualList != "") {
+               $formatedBugidEqualList .= ', ';
+            }
+            $formatedBugidEqualList .= Tools::issueInfoURL($issue->getId(), $issue->getSummary());
+
+            if ($bugidEqualList != "") {
+               $bugidEqualList .= ', ';
+            }
+            $bugidEqualList .= $issue->getId();
          }
-    	}
-    } // foreach
 
-    $driftStats = array();
-    $driftStats["driftPos"]         = $driftPos;
-    $driftStats["driftEqual"]       = $driftEqual;
-    $driftStats["driftNeg"]         = $driftNeg;
-    $driftStats["nbDriftsPos"]      = $nbDriftsPos;
-    $driftStats["nbDriftsEqual"]    = $nbDriftsEqual;
-    $driftStats["nbDriftsNeg"]      = $nbDriftsNeg;
-    $driftStats["formatedBugidPosList"]   = $formatedBugidPosList;
-    $driftStats["formatedBugidNegList"]   = $formatedBugidNegList;
+         if ($issueDriftMgrEE < -1) {
+            $nbDriftsNegETA++;
+            $driftNegETA += $issueDriftMgrEE;
+         } elseif ($issueDriftMgrEE > 1){
+            $nbDriftsPosETA++;
+            $driftPosETA += $issueDriftMgrEE;
+         } else {
+            $nbDriftsEqualETA++;
+            $driftEqualETA += $issueDriftMgrEE;
+         }
+      }
+/*
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("derive totale (".Tools::formatDate("%B %Y", $this->startTimestamp).") = $derive");
+         self::$logger->debug("derive totale ETA(".Tools::formatDate("%B %Y", $this->startTimestamp).") = $deriveETA");
 
-    return $driftStats;
-  }
+         self::$logger->debug("Nbre Bugs en derive        : $nbDriftsPos");
+         self::$logger->debug("Nbre Bugs a l'equilibre    : $nbDriftsEqual");
+         self::$logger->debug("Nbre Bugs en avance        : $nbDriftsNeg");
+         self::$logger->debug("Nbre Bugs en derive     ETA: $nbDriftsPosETA");
+         self::$logger->debug("Nbre Bugs a l'equilibre ETA: $nbDriftsEqualETA");
+         self::$logger->debug("Nbre Bugs en avance     ETA: $nbDriftsNegETA");
+      }
+*/
+      return array(
+         "totalDrift" => $derive,
+         "totalDriftETA" => $deriveETA,
+         "driftPos" => $driftPos,
+         "driftEqual" => $driftEqual,
+         "driftNeg" => $driftNeg,
+         "driftPosETA" => $driftPosETA,
+         "driftEqualETA" => $driftEqualETA,
+         "driftNegETA" => $driftNegETA,
+         "nbDriftsPos" => $nbDriftsPos,
+         "nbDriftsEqual" => $nbDriftsEqual,
+         "nbDriftsNeg" => $nbDriftsNeg,
+         "nbDriftsPosETA" => $nbDriftsPosETA,
+         "nbDriftsEqualETA" => $nbDriftsEqualETA,
+         "nbDriftsNegETA" => $nbDriftsNegETA,
+         "formatedBugidPosList" => $formatedBugidPosList,
+         "formatedBugidEqualList" => $formatedBugidEqualList,
+         "formatedBugidNegList" => $formatedBugidNegList,
+         "bugidEqualList" => $bugidEqualList
+      );
+   }
 
+   /**
+    * Returns an indication on how sideTasks slows down the Production
+    * prodRate = nbDays spend on projects / total prodDays * 100
+    * REM only Developpers, no managers !
+    * @return number
+    */
+   public function getEfficiencyRate() {
+      if(!is_numeric($this->efficiencyRate)) {
+         $prodDays = $this->getProdDays();
+         $totalProdDays = $prodDays + $this->getProdDaysSideTasks(true);  // only developpers !
 
+         // REM x100 for percentage
+         if (0 != $totalProdDays) {
+            $this->efficiencyRate = $prodDays / $totalProdDays * 100;
+         } else {
+            $this->efficiencyRate = 0;
+         }
+      }
 
-  // -------------------------------------------------
-  /** Drift Stats on a given Issue.class List
-   *
-   * @param array $issueList
-   * @param boolean $withSupport
-   * @return array driftStats
-   *
-   * TODO move this method to IssueSelection class
-  */
+      return $this->efficiencyRate;
+   }
 
-  public function getIssuesDriftStats($issueList, $withSupport = true) {
+   /**
+    * Returns an indication on how Environmental problems slow down the production.
+    * EnvProblems can be : Citrix Falldow, Continuous pbs, VMS shutdown, SSL connection loss, etc.
+    * systemDisponibilityRate = 100 - (nb breakdown hours / prodHours)
+    * @return number
+    */
+   public function getSystemDisponibilityRate() {
+      if(!is_numeric($this->systemDisponibilityRate)) {
+         // The total time spent by the team doing nothing because of incidents
+         $teamIncidentDays = 0;
 
-    global $statusNames;
+         $timeTracks = $this->getTimeTracks();
+         foreach($timeTracks as $timeTrack) {
+            try {
+               $issue = IssueCache::getInstance()->getIssue($timeTrack->getIssueId());
+               if ($issue->isIncident(array($this->team_id))) {
+                  $teamIncidentDays += $timeTrack->getDuration();
+                  //echo "DEBUG SystemDisponibility found bugid=$timeTrack->bugId duration=$timeTrack->duration proj=$issue->projectId cat=$issue->categoryId teamIncidentHours=$teamIncidentHours<br/>";
+               }
+            } catch (Exception $e) {
+               self::$logger->warn("getSystemDisponibilityRate(): issue ".$timeTrack->getIssueId().": ".$e->getMessage());
+            }
+         }
 
+         $prodDays  = $this->getProdDays();
 
-    $derive = 0;
-    $deriveETA = 0;
+         //echo "DEBUG prodDays $prodDays teamIncidentDays $teamIncidentDays<br/>";
 
-    $nbDriftsNeg   = 0;
-    $nbDriftsEqual = 0;
-    $nbDriftsPos   = 0;
-    $nbDriftsNegETA   = 0;
-    $nbDriftsEqualETA = 0;
-    $nbDriftsPosETA   = 0;
+         if (0 != $prodDays) {
+            $this->systemDisponibilityRate = 100 - (($teamIncidentDays / ($prodDays + $teamIncidentDays))*100);
+         } else {
+            $this->systemDisponibilityRate = 0;
+         }
+      }
 
-    $driftNeg   = 0;
-    $driftEqual = 0;
-    $driftPos   = 0;
-    $driftNegETA   = 0;
-    $driftEqualETA = 0;
-    $driftPosETA   = 0;
+      return $this->systemDisponibilityRate;
+   }
 
+	/**
+    * Calculates the time each user spends on the teams projects.
+    */
+   public function getWorkingDaysPerProjectPerUser($withNoStats = true, $withDisabled = true, $sideTasksProjects = true) {
 
-    if (NULL == $issueList) {
-      echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is NULL !<br/></div>";
-      $this->logger->error("getIssuesDriftStats(): Issue List is NULL !");
-      return 0;
-    }
-    if (0== count($issueList)) {
-      echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is empty !<br/></div>";
-      $this->logger->error("getIssuesDriftStats(): Issue List is empty !");
-      return 0;
-    }
+      $team = TeamCache::getInstance()->getTeam($this->team_id);
+      $projectIds = array_keys($team->getProjects($withNoStats, $withDisabled, $sideTasksProjects));
 
+      $projDataList = array();
+      $memberList = array();
+      $allProjTotalElapsed = 0;
 
-    foreach ($issueList as $issue) {
+      // get tracks of Dev/Mgr (active within the timestamp)
+      $timeTracks = $this->getTimeTracks();
+      foreach ($timeTracks as $timeTrack) {
+         try {
+            $issue = IssueCache::getInstance()->getIssue($timeTrack->getIssueId());
+            $projectId = $issue->getProjectId();
+            $userId = $timeTrack->getUserId();
 
-          // -- compute total drift
-          $issueDrift     = $issue->getDrift($withSupport);
-          $derive        += $issueDrift;
-          $issueDriftMgrEE  = $issue->getDriftMgr($withSupport);
-          $deriveETA     += $issueDriftMgrEE;
-
-          $this->logger->debug("getIssuesDriftStats() Found : bugid=$issue->bugId, proj=$issue->projectId, effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed, drift=$issueDrift, DriftMgrEE=$issueDriftMgrEE");
-
-            // get drift stats. equal is when drif = +-1
-            if ($issueDrift < -1) {
-              $nbDriftsNeg++;
-              $driftNeg += $issueDrift;
-
-              if ($formatedBugidNegList != "") { $formatedBugidNegList .= ', '; }
-              $formatedBugidNegList .= issueInfoURL($issue->bugId, $issue->summary);
-
-            } elseif ($issueDrift > 1){
-              $nbDriftsPos++;
-              $driftPos += $issueDrift;
-
-              if ($formatedBugidPosList != "") { $formatedBugidPosList .= ', '; }
-              $formatedBugidPosList .= issueInfoURL($issue->bugId, $issue->summary);
-            } else {
-              $nbDriftsEqual++;
-              $driftEqual += $issueDrift;
-
-              if ($formatedBugidEqualList != "") { $formatedBugidEqualList .= ', '; }
-              $formatedBugidEqualList .= issueInfoURL($issue->bugId, $issue->summary);
-
-              if ($bugidEqualList != "") { $bugidEqualList .= ', '; }
-              $bugidEqualList .= $issue->bugId;
+            if (!in_array($projectId, $projectIds)) {
+               continue;
             }
 
-            if ($issueDriftMgrEE < -1) {
-              $nbDriftsNegETA++;
-              $driftNegETA += $issueDriftMgrEE;
-            } elseif ($issueDriftMgrEE > 1){
-              $nbDriftsPosETA++;
-              $driftPosETA += $issueDriftMgrEE;
-            } else {
-              $nbDriftsEqualETA++;
-              $driftEqualETA += $issueDriftMgrEE;
+            // create member
+            if (!array_key_exists($userId, $memberList)) {
+               $user = UserCache::getInstance()->getUser($userId);
+               $memberList[$userId] = array(
+                   'name' => $user->getRealname(),
+                   'totalElapsed' => 0
+               );
             }
-    } // foreach
 
+            // create project
+            if (!array_key_exists($projectId, $projDataList)) {
+               $prj = ProjectCache::getInstance()->getProject($projectId);
+               $projDataList[$projectId] = array(
+                   'name' => $prj->getName(),
+                   'totalElapsed' => 0,
+                   'usersData' => array()
+               );
+            }
 
-    $this->logger->debug("derive totale ($statusNames[$status]/".formatDate("%B %Y", $this->startTimestamp).") = $derive");
-    $this->logger->debug("derive totale ETA($statusNames[$status]/".formatDate("%B %Y", $this->startTimestamp).") = $deriveETA");
-
-    $this->logger->debug("Nbre Bugs en derive        : $nbDriftsPos");
-    $this->logger->debug("Nbre Bugs a l'equilibre    : $nbDriftsEqual");
-    $this->logger->debug("Nbre Bugs en avance        : $nbDriftsNeg");
-    $this->logger->debug("Nbre Bugs en derive     ETA: $nbDriftsPosETA");
-    $this->logger->debug("Nbre Bugs a l'equilibre ETA: $nbDriftsEqualETA");
-    $this->logger->debug("Nbre Bugs en avance     ETA: $nbDriftsNegETA");
-
-    $driftStats = array();
-    $driftStats["totalDrift"]       = $derive;
-    $driftStats["totalDriftETA"]    = $deriveETA;
-    $driftStats["driftPos"]         = $driftPos;
-    $driftStats["driftEqual"]       = $driftEqual;
-    $driftStats["driftNeg"]         = $driftNeg;
-    $driftStats["driftPosETA"]      = $driftPosETA;
-    $driftStats["driftEqualETA"]    = $driftEqualETA;
-    $driftStats["driftNegETA"]      = $driftNegETA;
-    $driftStats["nbDriftsPos"]      = $nbDriftsPos;
-    $driftStats["nbDriftsEqual"]    = $nbDriftsEqual;
-    $driftStats["nbDriftsNeg"]      = $nbDriftsNeg;
-    $driftStats["nbDriftsPosETA"]   = $nbDriftsPosETA;
-    $driftStats["nbDriftsEqualETA"] = $nbDriftsEqualETA;
-    $driftStats["nbDriftsNegETA"]   = $nbDriftsNegETA;
-    $driftStats["formatedBugidPosList"]   = $formatedBugidPosList;
-    $driftStats["formatedBugidEqualList"] = $formatedBugidEqualList;
-    $driftStats["formatedBugidNegList"]   = $formatedBugidNegList;
-    $driftStats["bugidEqualList"]   = $bugidEqualList;
-
-
-
-
-    return $driftStats;
-  }
-
-
-  // ----------------------------------------------
-  /**
-   Returns an indication on how sideTasks slows down the Production
-   prodRate = nbDays spend on projects / total prodDays * 100
-   REM only Developpers, no managers !
-
-  */
-  public function getEfficiencyRate() {
-    $prodDays      =             $this->getProdDays();
-    $totalProdDays = $prodDays + $this->getProdDaysSideTasks(true);  // only developpers !
-
-    // REM x100 for percentage
-    if (0 != $totalProdDays) {
-      $prodRate = $prodDays / $totalProdDays * 100;
-    } else {
-      $prodRate = 0;
-    }
-
-    return $prodRate;
-  }
-
-  // ----------------------------------------------
-  // Returns an indication on how Environmental problems slow down the production.
-  // EnvProblems can be : Citrix Falldow, Continuous pbs, VMS shutdown, SSL connection loss, etc.
-
-  // systemDisponibilityRate = 100 - (nb breakdown hours / prodHours)
-  public function getSystemDisponibilityRate() {
-    $accessLevel_dev     = Team::accessLevel_dev;
-    $accessLevel_manager = Team::accessLevel_manager;
-
-    // The total time spent by the team doing nothing because of incidents
-    $teamIncidentDays = 0;
-
-    // Find nb hours spent on SuiviOp.Incidents
-    $query     = "SELECT codev_timetracking_table.userid, codev_timetracking_table.bugid, codev_timetracking_table.duration ".
-      "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
-      "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
-      "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
-      "AND    codev_team_user_table.team_id = $this->team_id ".
-      "AND    (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager) ";
-
-    $result = mysql_query($query);
-    if (!$result) {
-    	$this->logger->error("Query FAILED: $query");
-    	$this->logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
-
-    while($row = mysql_fetch_object($result))
-    {
-      $issue = IssueCache::getInstance()->getIssue($row->bugid);
-      try {
-	      if ($issue->isIncident(array($this->team_id))) {
-
-		      $teamIncidentDays += $row->duration;
-		      //echo "DEBUG SystemDisponibility found bugid=$row->bugid duration=$row->duration proj=$issue->projectId cat=$issue->categoryId teamIncidentHours=$teamIncidentHours<br/>";
-	      }
-      } catch (Exception $e) {
-	      $this->logger->error("getSystemDisponibilityRate(): issue $issue->bugId: ".$e->getMessage());
+            // process track data
+            $elapsed = $timeTrack->getDuration();
+            $projDataList[$projectId]['totalElapsed'] += $elapsed;
+            $projDataList[$projectId]['usersData'][$userId] += $elapsed;
+            $memberList[$userId]['totalElapsed'] += $elapsed;
+            $allProjTotalElapsed += $elapsed;
+         } catch (Exception $exp) {
+            // XXX show some error on the screen since the data is wrong
+            self::$logger->warn("getWorkingDaysPerProjectPerUser: issue " . $timeTrack->getIssueId() . " not found in Mantis DB.");
+         }
       }
-    }
 
-    $prodDays  = $this->getProdDays();
+      $data = array(
+          'userDataList' => $memberList,
+          'projDataList' => $projDataList,
+          'allProjTotalElapsed' => $allProjTotalElapsed
+      );
 
-    //echo "DEBUG prodDays $prodDays teamIncidentDays $teamIncidentDays<br/>";
+      //echo nl2br(print_r($data, true));
 
-    if (0 != $prodDays) {
-      $systemDisponibilityRate = 100 - (($teamIncidentDays / ($prodDays + $teamIncidentDays))*100);
-    } else {
-      $systemDisponibilityRate = 0;
-    }
+      return $data;
+   }
 
-    return $systemDisponibilityRate;
-  }
-
-  // ----------------------------------------------
-  public function getWorkingDaysPerJob($job_id) {
-    $accessLevel_dev     = Team::accessLevel_dev;
-    $accessLevel_manager = Team::accessLevel_manager;
-    $workingDaysPerJob = 0;
-
-    $query     = "SELECT codev_timetracking_table.userid, codev_timetracking_table.bugid, codev_timetracking_table.duration ".
-      "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
-      "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
-      "AND    codev_timetracking_table.jobid = $job_id ".
-      "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
-      "AND    codev_team_user_table.team_id = $this->team_id ".
-      "AND    (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager) ".
-      "AND    codev_timetracking_table.bugid IN ".
-      "(SELECT mantis_bug_table.id ".
-      "FROM `mantis_bug_table` , `codev_team_project_table` ".
-      "WHERE mantis_bug_table.project_id = codev_team_project_table.project_id ".
-      "AND codev_team_project_table.team_id =  $this->team_id) ";
-
-
-    $result    = mysql_query($query);
-    if (!$result) {
-    	$this->logger->error("Query FAILED: $query");
-    	$this->logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
-
-    while($row = mysql_fetch_object($result))
-    {
-      $workingDaysPerJob += $row->duration;
-
-
-      // ---- DEBUG
-      //$u = UserCache::getInstance()->getUser($row->userid);
-      //$issue = IssueCache::getInstance()->getIssue($row->bugid);
-      //    echo "Debug -- getWorkingDaysPerJob -- workingDaysPerJob : team $this->team_id  job $job_id user $row->userid ".$u->getName()." bug $row->bugid ".$issue->summary." duration $row->duration<br/>";
-    }
-    return $workingDaysPerJob;
-  }
-
-  // ----------------------------------------------
-  public function getWorkingDaysPerProject($project_id) {
-    $accessLevel_dev     = Team::accessLevel_dev;
-    $accessLevel_manager = Team::accessLevel_manager;
-  	 $workingDaysPerProject = 0;
-
-    // Find nb hours spent on the given project
-    $query     = "SELECT codev_timetracking_table.* ".
-      "FROM `codev_timetracking_table`, `codev_team_user_table` ".
-      "WHERE codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
-      "AND   codev_team_user_table.user_id = codev_timetracking_table.userid ".
-      "AND   codev_team_user_table.team_id = $this->team_id ".
-      "AND  (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager) ";
-
-    $result    = mysql_query($query);
-    if (!$result) {
-    	$this->logger->error("Query FAILED: $query");
-    	$this->logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
-
-    while($row = mysql_fetch_object($result))
-    {
-      $issue = IssueCache::getInstance()->getIssue($row->bugid);
-
-      if ($issue->projectId  == $project_id) {
-        $workingDaysPerProject += $row->duration;
-        $this->logger->debug("getWorkingDaysPerProject: proj=$project_id, duration=$row->duration, bugid=$row->bugid, userid=$row->userid, ".date("Y-m-d", $row->date));
+   /**
+    * Returns an array of (date => duration) containing all days where duration != 1
+    * @param int $userid
+    * @param bool $isStrictlyTimestamp
+    * @return number[]
+    */
+   public function checkCompleteDays($userid, $isStrictlyTimestamp = FALSE) {
+      // Get all dates that must be checked
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT date, SUM(duration) as count ".
+               " FROM codev_timetracking_table ".
+               " WHERE userid = ".$sql->db_param();
+      $q_params[]=$userid;
+      if ($isStrictlyTimestamp) {
+         $query .= " AND date >= ".$sql->db_param()." AND date < ".$sql->db_param();
+         $q_params[]=$this->startTimestamp;
+         $q_params[]=$this->endTimestamp;
       }
-    }
-    $this->logger->debug("getWorkingDaysPerProject: proj=$project_id, totalDuration=$workingDaysPerProject");
-    return $workingDaysPerProject;
-  }
+      $query .= " GROUP BY date ORDER BY date";
 
-  // ----------------------------------------------
-  // Returns an array of (date => duration) containing all days where duration != 1
-  public function checkCompleteDays($userid, $isStrictlyTimestamp = FALSE) {
-    $incompleteDays = array();
-    $durations = array();          // unique date => sum durations
-
-    // Get all dates that must be checked
-    if ($isStrictlyTimestamp) {
-      $query     = "SELECT date, duration FROM `codev_timetracking_table` ".
-        "WHERE userid = $userid AND date >= $this->startTimestamp AND date < $this->endTimestamp ".
-        "ORDER BY date";
-    } else {
-      $query     = "SELECT date, duration FROM `codev_timetracking_table` WHERE userid = $userid ORDER BY date";
-    }
-    $result    = mysql_query($query);
-    if (!$result) {
-    	$this->logger->error("Query FAILED: $query");
-    	$this->logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
-
-    while($row = mysql_fetch_object($result))
-    {
-      $durations[$row->date] += round($row->duration, 3);
-    }
-
-    // Check
-    foreach ($durations as $date => $value) {
-      // REM: it looks like PHP has some difficulties to compare a float to '1' !!!
-      #if (($value < 0.999999999999999) || ($value > 1.000000000000001)) {
-
-      if (round($value, 3) != 1) {
-        $this->logger->debug("user $userid incompleteDays[$date]=".$value);
-        $incompleteDays[$date] = $value;
+      $result = $sql->sql_query($query, $q_params);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
-    }
 
-    return $incompleteDays;
-  }
-
-  // ----------------------------------------------
-  // Find days which are not 'sat' or 'sun' or FixedHoliday and that have no timeTrack entry.
-  public function checkMissingDays($userid) {
-
-    $holidays = Holidays::getInstance();
-
-    $missingDays = array();
-
-    $user1 = UserCache::getInstance()->getUser($userid);
-
-    // REM: if $this->team_id not set, then team_id = -1
-    if ($this->team_id >= 0) {
-	    if (( ! $user1->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) &&
-          ( ! $user1->isTeamManager($this->team_id, $this->startTimestamp, $this->endTimestamp))) {
-	    	// User was not yet present
-	      return $missingDays;
-	    }
-
-      $arrivalTimestamp   = $user1->getArrivalDate($this->team_id);
-      $departureTimestamp = $user1->getDepartureDate($this->team_id);
-    } else {
-      $arrivalTimestamp   = $user1->getArrivalDate();
-      $departureTimestamp = $user1->getDepartureDate();
-
-    }
-    // reduce timestamp if needed
-    $startT = ($arrivalTimestamp > $this->startTimestamp) ? $arrivalTimestamp : $this->startTimestamp;
-
-    $endT = $this->endTimestamp;
-    if ((0 != $departureTimestamp) &&($departureTimestamp < $this->endTimestamp)) {
-       $endT   = $departureTimestamp;
-    }
-
-    $timestamp = $startT;
-    while ($timestamp <= $endT) {
-
-      // monday to friday
-      $h = $holidays->isHoliday($timestamp);
-      if (NULL == $h) {
-        $query     = "SELECT COUNT(date) FROM `codev_timetracking_table` WHERE userid = $userid AND date = $timestamp";
-        $result    = mysql_query($query);
-        if (!$result) {
-        	$this->logger->error("Query FAILED: $query");
-        	$this->logger->error(mysql_error());
-        	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-        	exit;
-        }
-
-        $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
-
-        if (0 == $nbTuples) {
-          $missingDays[] = $timestamp;
-        }
+      $incompleteDays = array(); // unique date => sum durations
+      while($row = $sql->fetchObject($result)) {
+         $value = round($row->count, 3);
+         $durations[$row->date] = round($row->count, 3);
+         if ($value != 1) {
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("user $userid incompleteDays[$row->date]=".$value);
+            }
+            $incompleteDays[$row->date] = $value;
+         }
       }
-      $timestamp = strtotime("+1 day",$timestamp);;
-    }
 
-    return $missingDays;
-  }
+      return $incompleteDays;
+   }
 
+   /**
+    * Find days which are not 'sat' or 'sun' or FixedHoliday and that have no timeTrack entry.
+    * @param int $userid
+    * @return number[]
+    */
+   public function checkMissingDays($userid) {
+      $holidays = Holidays::getInstance();
 
-  // ----------------------------------------------
-  /**
-   * returns $durationPerCategory[CategoryName][bugid] = duration
-   * @param int $project_id
-   */
-  public function getProjectDetails($project_id) {
-    $accessLevel_dev     = Team::accessLevel_dev;
-    $accessLevel_manager = Team::accessLevel_manager;
-    $durationPerCategory = array();
+      $missingDays = array();
 
-    // Find nb hours spent on the given project by this team
-    $query     = "SELECT codev_timetracking_table.bugid, codev_timetracking_table.duration ".
-                 "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
-                 "WHERE codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
-                 "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
-                 "AND    codev_team_user_table.team_id = $this->team_id ".
-                 "AND    (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager) ";
+      $user1 = UserCache::getInstance()->getUser($userid);
 
-    $result    = mysql_query($query);
-    if (!$result) {
-    	$this->logger->error("Query FAILED: $query");
-    	$this->logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
+      // REM: if $this->team_id not set, then team_id = -1
+      if ($this->team_id >= 0) {
+         if ((!$user1->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) &&
+            (!$user1->isTeamManager($this->team_id, $this->startTimestamp, $this->endTimestamp))) {
+            // User was not yet present
+            return $missingDays;
+         }
 
-    while($row = mysql_fetch_object($result))
-    {
-      $issue = IssueCache::getInstance()->getIssue($row->bugid);
-      if ($issue->projectId  == $project_id) {
-        if (isset($_GET['debug'])) {
-          echo "project[$project_id][".$issue->getCategoryName()."]( bug $row->bugid) = $row->duration<br/>\n";
-        }
-
-        if (NULL == $durationPerCategory[$issue->getCategoryName()]) {
-        	   $durationPerCategory[$issue->getCategoryName()] = array();
-        }
-        $durationPerCategory[$issue->getCategoryName()][$row->bugid]+= $row->duration;
+         $arrivalTimestamp = $user1->getArrivalDate($this->team_id);
+         $departureTimestamp = $user1->getDepartureDate($this->team_id);
+      } else {
+         $arrivalTimestamp = $user1->getArrivalDate();
+         $departureTimestamp = $user1->getDepartureDate();
       }
-    }
-    return $durationPerCategory;
-  }
+      // reduce timestamp if needed
+      $startT = ($arrivalTimestamp > $this->startTimestamp) ? $arrivalTimestamp : $this->startTimestamp;
 
-  // ----------------------------------------------
-  /**
-   * Returns a multiple array containing duration for each day of the week.
-   * WARNING: the timestamp must NOT exceed 1 week.
-   *
-   * returns : $weekTracks[bugid][jobid][dayOfWeek] = duration
-   *
-   * @param unknown_type $userid
-   * @param unknown_type $isTeamProjOnly if TRUE, return only tracks from projects associated to the team
-   */
-  public function getWeekDetails($userid, $isTeamProjOnly=false) {
-    $weekTracks = array();
-
-    if (false == $isTeamProjOnly) {
-      // For all bugs in timestamp
-      $query     = "SELECT bugid, jobid, date, duration ".
-                   "FROM `codev_timetracking_table` ".
-                   "WHERE date >= $this->startTimestamp AND date < $this->endTimestamp ".
-                   "AND userid = $userid ";
-
-    } else {
-    	$projList = Team::getProjectList($this->team_id);
-    	$formatedProjList = implode( ', ', array_keys($projList));
-      $query     = "SELECT codev_timetracking_table.bugid, codev_timetracking_table.jobid, codev_timetracking_table.date, codev_timetracking_table.duration ".
-                   "FROM `codev_timetracking_table`, `mantis_bug_table`, `mantis_project_table` ".
-                   "WHERE date >= $this->startTimestamp AND date < $this->endTimestamp ".
-                   "AND userid = $userid ".
-    	             "AND mantis_bug_table.id     = codev_timetracking_table.bugid ".
-                   "AND mantis_project_table.id = mantis_bug_table.project_id ".
-    	             "AND mantis_bug_table.project_id in ($formatedProjList)";
-
-    }
-    $result    = mysql_query($query);
-    if (!$result) {
-    	$this->logger->error("Query FAILED: $query");
-    	$this->logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
-
-    while($row = mysql_fetch_object($result))
-    {
-      if (null == $weekTracks[$row->bugid]) {
-        $weekTracks[$row->bugid] = array();
-        $weekTracks[$row->bugid][$row->jobid] = array();
+      $endT = $this->endTimestamp;
+      if ((0 != $departureTimestamp) &&($departureTimestamp < $this->endTimestamp)) {
+         $endT = $departureTimestamp;
       }
-      if (null == $weekTracks[$row->bugid][$row->jobid]) {
-        $weekTracks[$row->bugid][$row->jobid] = array();
+
+      $weekTimestamps = array();
+      $timestamp = $startT;
+      while ($timestamp <= $endT) {
+         // monday to friday
+         if (NULL == $holidays->isHoliday($timestamp)) {
+            $weekTimestamps[] = $timestamp;
+         }
+         $timestamp = strtotime("+1 day",$timestamp);
       }
-      $weekTracks[$row->bugid][$row->jobid][date('N',$row->date)] += $row->duration;
 
+      if(count($weekTimestamps) > 0) {
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT DISTINCT date ".
+                  " FROM codev_timetracking_table ".
+                  " WHERE userid = ".$sql->db_param().
+                  " AND date IN (".implode(', ', $weekTimestamps).")";
+         $q_params[]=$userid;
 
-       $this->logger->debug("weekTracks[$row->bugid][$row->jobid][".date('N',$row->date)."] = ".$weekTracks[$row->bugid][$row->jobid][date('N',$row->date)]." ( + $row->duration)");
-    }
+         $result = $sql->sql_query($query, $q_params);
 
-    return $weekTracks;
-  }
+         $daysWithTimeTracks = array();
+         while($row = $sql->fetchObject($result)) {
+            $daysWithTimeTracks[] = $row->date;
+         }
+         $missingDays = array_diff($weekTimestamps, $daysWithTimeTracks);
+      }
 
-    // -----------------------------------------------
-   // return TimeTracks created by the team during the timestamp
-   // returns : $projectTracks[projectid][bugid][jobid] = duration
+      return $missingDays;
+   }
+
+   /**
+    * Returns a multiple array containing duration for each day of the week.
+    * WARNING: the timestamp must NOT exceed 1 week.
+    *
+    * returns : $weekTracks[bugid][jobid][dayOfWeek] = duration
+    *
+    * @param int $userid
+    * @param bool $isTeamProjOnly if TRUE, return only tracks from projects associated to the team
+    * @return array[][]
+    */
+   public function getWeekDetails($userid, $isTeamProjOnly=false) {
+      $weekTracks = array();
+      $sql = AdodbWrapper::getInstance();
+
+      if (!$isTeamProjOnly) {
+         // For all bugs in timestamp
+         $query = "SELECT bugid, jobid, date, duration ".
+                  " FROM codev_timetracking_table ".
+                  " WHERE date >= ".$sql->db_param()." AND date < ".$sql->db_param().
+                  " AND userid = ".$sql->db_param();
+         $q_params[]=$this->startTimestamp;
+         $q_params[]=$this->endTimestamp;
+         $q_params[]=$userid;
+      } else {
+         $projList = TeamCache::getInstance()->getTeam($this->team_id)->getProjects();
+         $formatedProjList = implode( ', ', array_keys($projList));
+         $query = "SELECT timetracking.bugid, timetracking.jobid, timetracking.date, timetracking.duration ".
+                  " FROM codev_timetracking_table as timetracking ".
+                  " JOIN {bug} AS bug ON timetracking.bugid = bug.id ".
+                  " JOIN {project} AS project ON bug.project_id = project.id ".
+                  " WHERE timetracking.userid =  ".$sql->db_param().
+                  " AND timetracking.date >= ".$sql->db_param().
+                  " AND timetracking.date <  ".$sql->db_param().
+                  " AND bug.project_id IN (".$formatedProjList.")";
+         $q_params[]=$userid;
+         $q_params[]=$this->startTimestamp;
+         $q_params[]=$this->endTimestamp;
+      }
+
+      $result = $sql->sql_query($query, $q_params);
+
+      while($row = $sql->fetchObject($result)) {
+         if (!array_key_exists($row->bugid,$weekTracks)) {
+            $weekTracks[$row->bugid] = array();
+            $weekTracks[$row->bugid][$row->jobid] = array();
+         }
+         if (!array_key_exists($row->jobid, $weekTracks[$row->bugid])) {
+            $weekTracks[$row->bugid][$row->jobid] = array();
+         }
+         if (array_key_exists(date('N',$row->date), $weekTracks[$row->bugid][$row->jobid])) {
+            $weekTracks[$row->bugid][$row->jobid][date('N',$row->date)] += $row->duration;
+         } else {
+            $weekTracks[$row->bugid][$row->jobid][date('N',$row->date)] = $row->duration;
+         }
+
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("weekTracks[$row->bugid][$row->jobid][".date('N',$row->date)."] = ".$weekTracks[$row->bugid][$row->jobid][date('N',$row->date)]." ( + $row->duration)");
+         }
+      }
+
+      return $weekTracks;
+   }
+
+   /**
+    * return TimeTracks created by the team during the timestamp
+    * @param bool $isTeamProjOnly
+    * @return array[][] : $projectTracks[projectid][bugid][jobid] = duration
+    */
    public function getProjectTracks($isTeamProjOnly=false) {
-      $accessLevel_dev     = Team::accessLevel_dev;
+      $accessLevel_dev = Team::accessLevel_dev;
       $accessLevel_manager = Team::accessLevel_manager;
+
+      // For all bugs in timestamp
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT bug.id as bugid, bug.project_id, timetracking.jobid, SUM(timetracking.duration) as duration ".
+               " FROM codev_timetracking_table as timetracking, codev_team_user_table as team_user, {bug} as bug, codev_job_table as job, {project} as project ".
+               " WHERE team_user.user_id = timetracking.userid ".
+               " AND bug.id = timetracking.bugid ".
+               " AND project.id = bug.project_id ".
+               " AND job.id = timetracking.jobid ".
+               " AND timetracking.date >= ".$sql->db_param().
+               " AND timetracking.date < ".$sql->db_param().
+               " AND team_user.team_id = ".$sql->db_param().
+               " AND team_user.access_level IN (".$sql->db_param().", ".$sql->db_param().") ";
+      $q_params[]=$this->startTimestamp;
+      $q_params[]=$this->endTimestamp;
+      $q_params[]=$this->team_id;
+      $q_params[]=$accessLevel_dev;
+      $q_params[]=$accessLevel_manager;
+
+      if (false != $isTeamProjOnly) {
+         $projList = TeamCache::getInstance()->getTeam($this->team_id)->getProjects();
+         $formatedProjList = implode( ', ', array_keys($projList));
+         $query.= " AND bug.project_id in (".$formatedProjList.") ";
+      }
+
+      $query.= " GROUP BY bug.id, job.id, bug.project_id ORDER BY project.name, bug.id DESC;";
+
+      $result = $sql->sql_query($query, $q_params);
 
       $projectTracks = array();
 
-    // For all bugs in timestamp
-    $query     = "SELECT  mantis_bug_table.project_id, codev_timetracking_table.bugid, codev_timetracking_table.jobid, duration ".
-                 "FROM `codev_timetracking_table`, `codev_team_user_table`, `mantis_bug_table`, `codev_job_table`, `mantis_project_table` ".
-                 "WHERE codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
-                 "AND   codev_team_user_table.user_id = codev_timetracking_table.userid ".
-                 "AND   codev_team_user_table.team_id = $this->team_id ".
-                 "AND   codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
-                 "AND   mantis_bug_table.id     = codev_timetracking_table.bugid ".
-                 "AND   mantis_project_table.id = mantis_bug_table.project_id ".
-                 "AND   codev_job_table.id      = codev_timetracking_table.jobid ";
-
-    if (false != $isTeamProjOnly) {
-      $projList = Team::getProjectList($this->team_id);
-      $formatedProjList = implode( ', ', array_keys($projList));
-    	$query.= "AND mantis_bug_table.project_id in ($formatedProjList) ";
-    }
-
-    $query.= "ORDER BY mantis_project_table.name, bugid DESC, codev_job_table.name";
-
-    $result    = mysql_query($query);
-    if (!$result) {
-    	$this->logger->error("Query FAILED: $query");
-    	$this->logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
-
-    while($row = mysql_fetch_object($result))
-    {
-      if (NULL == $projectTracks[$row->project_id]) {
-        $projectTracks[$row->project_id] = array(); // create array for bug_id
-        $projectTracks[$row->project_id][$row->bugid] = array(); // create array for jobs
+      while($row = $sql->fetchObject($result)) {
+         if (!array_key_exists($row->project_id, $projectTracks)) {
+            $projectTracks[$row->project_id] = array(); // create array for bug_id
+            $projectTracks[$row->project_id][$row->bugid] = array(); // create array for jobs
+         }
+         if (!array_key_exists($row->bugid, $projectTracks[$row->project_id])) {
+            $projectTracks[$row->project_id][$row->bugid] = array(); // create array for new jobs
+         }
+         $projectTracks[$row->project_id][$row->bugid][$row->jobid] = round($row->duration,2);
       }
-      if (NULL == $projectTracks[$row->project_id][$row->bugid]) {
-        $projectTracks[$row->project_id][$row->bugid] = array(); // create array for new jobs
-      }
-      $projectTracks[$row->project_id][$row->bugid][$row->jobid] += $row->duration;
-    }
 
-    return $projectTracks;
+      return $projectTracks;
    }
 
+   /**
+    * returns a list of all the tasks having been reopened in the period
+    * (status changed from resolved_threshold to lower value)
+    *
+    * Note: internal tasks (tasks having no ExternalReference) NOT INCLUDED
+    *
+    * @return Issue[]
+    */
+   public function getReopened() {
+      if(is_null($this->reopenedList)) {
+         $formatedProjList = implode(', ', $this->prodProjectList);
 
-  // ----------------------------------------------
-  /**
-   * returns a list of all the tasks hving been reopened in the period
-   * @param unknown_type $projects
-   */
-   public function getReopened($projects = NULL) {
+         if ("" == $formatedProjList) {
+            echo "<div style='color:red'>ERROR getReopened: no project defined for this team !<br/></div>";
+            return 0;
+         }
+         $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
 
-    global $resolution_fixed;     # 20
-    global $resolution_reopened;  # 30;
+         // all bugs which resolution changed to 'reopened' whthin the timestamp
+         // having an ExternalReference
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT bug.*" .
+                  " FROM {custom_field_string}, {bug} as bug ".
+                  " JOIN {bug_history} as history ON bug.id = history.bug_id " .
+                  " WHERE bug.project_id IN (".$formatedProjList.") " .
+                  " AND {custom_field_string}.bug_id = bug.id ".
+                  " AND {custom_field_string}.field_id = ".$sql->db_param().
+                  " AND {custom_field_string}.value <> '' ".
+                  " AND history.field_name='status' " .
+                  " AND history.date_modified >= ".$sql->db_param().
+                  " AND history.date_modified < ".$sql->db_param().
+                  " AND history.old_value >= get_project_resolved_status_threshold(bug.project_id) " .
+                  " AND history.new_value <  get_project_resolved_status_threshold(bug.project_id) " .
+                  " GROUP BY bug.id ORDER BY bug.id DESC;";
+         $q_params[]=$extIdField;
+         $q_params[]=$this->startTimestamp;
+         $q_params[]=$this->endTimestamp;
 
-    $reopenedList = array();
+         $result = $sql->sql_query($query, $q_params);
 
-    // --------
-    if (NULL == $projects) {
-       $projects = $this->prodProjectList;
-    }
+         $this->reopenedList = array();
+         while ($row = $sql->fetchObject($result)) {
 
-    $formatedProjList = implode( ', ', $projects);
+            $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
-    $formatedResolutionValues = "$resolution_fixed";
-
-    if ("" == $formatedProjList) {
-       echo "<div style='color:red'>ERROR getReopened: no project defined for this team !<br/></div>";
-       return 0;
-    }
-
-    // all bugs which resolution changed to 'reopened' whthin the timestamp
-    $query = "SELECT mantis_bug_table.id, ".
-                    "mantis_bug_history_table.new_value, ".
-                    "mantis_bug_history_table.old_value, ".
-                    "mantis_bug_history_table.date_modified ".
-             "FROM `mantis_bug_table`, `mantis_bug_history_table` ".
-             "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
-             "AND mantis_bug_table.project_id IN ($formatedProjList) ".
-             "AND mantis_bug_history_table.field_name='resolution' ".
-             "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
-             "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
-             "AND mantis_bug_history_table.new_value = $resolution_reopened ".
-             "AND mantis_bug_history_table.old_value IN ($formatedResolutionValues) ".
-             "ORDER BY mantis_bug_table.id DESC";
-
-    if (isset($_GET['debug'])) { echo "getReopened QUERY = $query <br/>"; }
-
-    $result = mysql_query($query);
-    if (!$result) {
-    	$this->logger->error("Query FAILED: $query");
-    	$this->logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
-
-
-    while($row = mysql_fetch_object($result)) {
-
-       // do not include internal tasks (tasks having no ExternalReference)
-       $issue = IssueCache::getInstance()->getIssue($row->id);
-       if ((NULL == $issue->tcId) || (NULL == $issue->tcId)) {
-          $this->logger->debug("getReopened: issue $row->id excluded (no ExtRef)");
-          continue;
-       }
-
-       if ( ! in_array($row->id, $reopenedList)) {
-           $reopenedList[] = $row->id;
-       }
-    }
-
-   return $reopenedList;
-   }
-
-  // ----------------------------------------------
-  /**
-   * returns a list of bug_id that have been submitted in the period
-   */
-   public function getSubmitted($projects = NULL) {
-
-      $submittedList = array();
-
-      if (NULL == $projects) {
-         $projects = $this->prodProjectList;
-      }
-
-      $query = "SELECT DISTINCT mantis_bug_table.id, mantis_bug_table.date_submitted, mantis_bug_table.project_id ".
-               "FROM `mantis_bug_table`, `codev_team_project_table` ".
-               "WHERE mantis_bug_table.date_submitted >= $this->startTimestamp AND mantis_bug_table.date_submitted < $this->endTimestamp ".
-               "AND mantis_bug_table.project_id = codev_team_project_table.project_id ";
-
-      // Only for specified Projects
-      if (0 != count($projects)) {
-         $formatedProjects = implode( ', ', $projects);
-         $query .= "AND mantis_bug_table.project_id IN ($formatedProjects) ";
-      }
-      if (isset($_GET['debug_sql'])) { echo "getSubmitted(): query = $query<br/>"; }
-
-      $result = mysql_query($query);
-      if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
-      }
-
-
-      while($row = mysql_fetch_object($result))
-      {
-         $submittedList[] = $row->id;
-
-         if (isset($_GET['debug'])) {
-            echo "DEBUG submitted $row->id   date < ".formatDate("%b %y", $this->endTimestamp)." project $row->project_id <br/>";
+            $this->reopenedList[$row->id] = $issue;
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("getReopened: found issue $row->id");
+            }
          }
       }
 
-      return $submittedList;
+      #echo "getReopened $query RESULT=".count($this->reopenedList)."<br>";
+      return $this->reopenedList;
    }
 
-  // ----------------------------------------------
-  /**
-   * $countReopened / $countSubmitted
-   *
-   * @param unknown_type $projects
-   */
-   public function getReopenedRate($projects = NULL) {
+   /**
+    * returns the number of bug that have been submitted in the period
+    * @return int
+    */
+   public function getSubmitted($extRefOnly = FALSE) {
+      $key = ($extRefOnly) ? 'ExtRefOnly' : 'All';
 
-      if (NULL == $projects) {
+      if(is_null($this->submittedBugs)) { $this->submittedBugs = array(); }
+
+      if(!is_numeric($this->submittedBugs[$key])) {
+
+         $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
+         $sql = AdodbWrapper::getInstance();
+
+         $query = "SELECT COUNT(bug.id) as count ".
+                  " FROM {bug} as bug ";
+         if ($extRefOnly) {
+            $query .= ", {custom_field_string} ";
+         }
+         $query .= " WHERE bug.date_submitted >= ".$sql->db_param().
+                   " AND bug.date_submitted < ".$sql->db_param();
+         $q_params[]=$this->startTimestamp;
+         $q_params[]=$this->endTimestamp;
+
+         // Only for specified Projects
          $projects = $this->prodProjectList;
+         if (0 != count($projects)) {
+            $formatedProjects = implode( ', ', $projects);
+            $query .= " AND bug.project_id IN (".$formatedProjects.") ";
+         }
+         if ($extRefOnly) {
+            $query .= " AND {custom_field_string}.field_id =  ".$sql->db_param();
+            $query .= " AND {custom_field_string}.bug_id = bug.id ";
+            $query .= " AND {custom_field_string}.value <> '' ";
+            $q_params[]=$extIdField;
+         }
+         $query .= ";";
+
+         $result = $sql->sql_query($query, $q_params);
+
+         $this->submittedBugs[$key] = $sql->sql_result($result);
       }
 
-      $reopenedList = $this->getReopened($projects);
-      $countReopened = count($reopenedList);
+      return $this->submittedBugs[$key];
+   }
 
-      $countSubmitted = count($this->getSubmitted($projects));
-
-      if ($countSubmitted != 0)  {
-        $rate=($countReopened / $countSubmitted);
+   /**
+    * $countReopened / $countResolved
+    *
+    * Note: internal tasks (tasks having no ExternalReference) NOT INCLUDED
+    *
+    * @return number
+    */
+   public function getReopenedRateResolved() {
+      $countReopened = count($this->getReopened());
+      $extRefOnly = TRUE;
+      $withReopened = TRUE;
+      $countResolved = count($this->getResolvedIssues($extRefOnly, $withReopened));
+      $rate = 0;
+      if ($countResolved != 0)  {
+         $rate = $countReopened / $countResolved;
       }
       return $rate;
    }
 
-} // class TimeTracking
+}
 
-?>
+// Initialize complex static variables
+TimeTracking::staticInit();
+
+

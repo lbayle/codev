@@ -1,0 +1,155 @@
+<div class="loadPerUserIndicator">
+<div class="pluginInitFunction"  style="display: none;">loadPerUserIndicatorJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">loadPerUserIndicatorJsDestroy</div>
+
+<div align="left" style="margin-top:1em;">
+   <form class="loadPerUserIndicator_dateRange_form" method="get" action="{$loadPerUserIndicator_ajaxPhpURL}">
+      <fieldset>
+         <label for="loadPerUser_startdatepicker">{t}From{/t}:</label>
+         <input type="text" class="loadPerUser_startdatepicker datepicker" name="loadPerUser_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="loadPerUser_enddatepicker">{t}To{/t}:</label>
+         <input type="text" class="loadPerUser_enddatepicker datepicker" name="loadPerUser_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <input class="loadPerUser_submit" type="submit" value="{t}Display{/t}" />
+         <input type="hidden" name="action" value="getLoadPerUserIndicator" />
+         <input type="hidden" name="attributesJsonStr" value="" />
+         <input type="hidden" name="dashboardId" value="" />
+      </fieldset>
+   </form>
+</div>
+<div>
+   <div class="loadPerUserIndicatorDiv" align="left" style="margin-top: 1em;">
+      {include file="`$loadPerUserIndicator_ajaxFile`"}
+   </div>
+   <div class="loadPerUserIndicatorChart pie_chart chart float" style="top: -9px;width:600px;"></div>
+   <div class="floatr" style=" width: 16px">
+      <span class="loadPerUserIndicatorHelpDialog_link float pointer">
+         <img title="{t}Help{/t}" src="images/help_icon.gif"/>
+      </span>
+      <span class="float pointer">
+         <img title="{t}Export to CSV{/t}" src="images/b_export_xls.gif" onclick="$('.loadPerUserIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'loadPerUser.csv'{literal}}{/literal})">
+      </span>
+   </div>
+   <div class="loadPerUserIndicatorHelpDialog ui-helper-hidden" title="{t}Load per User{/t}">
+      <p>
+         <strong>{t}Description{/t}:</strong><br>
+         {t}Check all the timetracks of the period and return their repartition per User{/t}
+         <br>
+      </p>
+      <hr>
+      <p style="margin-top:1em;">
+         <strong>{t}Elapsed{/t}</strong><br>
+         {t}Time spent on the projects & sideTasks of the current task selection{/t}
+         <br><br>
+         <strong>{t}Waste{/t}</strong><br>
+         {t}'Incident' and 'Inactivity' sideTasks of the current selection.<br>
+         (if 'waste' option has not been selected, this will be included in 'elapsed'){/t}
+         <br><br>
+         <strong>{t}Other{/t}</strong><br>
+         {t}The time spent on tasks & sideTasks that are not in the current task selection{/t}
+         <br><br>
+         <strong>{t}External{/t}</strong><br>
+         {t}External tasks except 'Leave' category{/t}
+         <br><br>
+         <strong>{t}Inactivity{/t}</strong><br>
+         {t}External leave tasks & inactivity sideTasks that are not in the current task selection{/t}
+         <br>
+      </p>
+   </div>
+
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function loadPerUserIndicatorJsDestroy() {
+      jQuery(".loadPerUserIndicatorHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function loadPerUserIndicatorJsInit() {
+
+      // ------------------------
+      // datepicker
+
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+      // Set the date
+      var startDatePicker = jQuery(".loadPerUser_startdatepicker").datepicker("setDate" ,"{$loadPerUserIndicator_startDate}");
+      var endDatePicker = jQuery(".loadPerUser_enddatepicker").datepicker("setDate" ,"{$loadPerUserIndicator_endDate}");
+
+      // Add range date
+      startDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+      });
+      endDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+      });
+
+      // ------------------------
+      // on reload with new date range
+      jQuery('.loadPerUser_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+         var form = jQuery('.loadPerUserIndicator_dateRange_form');
+
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
+         // send attributesJsonStr because the ajax php need to know about 'showSidetasks'
+         // Note: LoadPerUserIndicatorAttr is declared in dashboard.html
+         var attr = jQuery('.LoadPerUserIndicatorAttr.attributesJsonStr');
+         form.find('input[name=attributesJsonStr]').val(attr.text());
+
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: type,
+            url: url,
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+               jQuery(".loadPerUserIndicatorDiv").html(jQuery.trim(data['loadPerUser_htmlContent']));
+
+               if (data['loadPerUserIndicator_jqplotData']) {
+                  var chart = jQuery('.loadPerUserIndicatorChart');
+                  var chartoptions = chart.data('plotoptions');
+                  chartoptions.seriesColors = data['loadPerUserIndicator_colors'];
+                  updateChart(chart, data['loadPerUserIndicator_jqplotData']);
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+      });
+
+      jQuery(".loadPerUserIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".loadPerUserIndicatorHelpDialog").dialog("open");
+      });
+      jQuery(".loadPerUserIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "auto",
+         hide: "fade"
+      });
+
+      // ------------------------
+      // display initial chart
+      {if $loadPerUserIndicator_jqplotData}
+      var chart = jQuery('.loadPerUserIndicatorChart');
+      var chartoptions = chart.data('plotoptions');
+      chartoptions.seriesColors = {$loadPerUserIndicator_jqplotSeriesColors};
+      //chartoptions.seriesDefaults.rendererOptions.startAngle = 180;
+      updateChart(chart, '{$loadPerUserIndicator_jqplotData}');
+      {/if}
+   };
+</script>
+</div>

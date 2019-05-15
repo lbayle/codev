@@ -1,277 +1,357 @@
 <?php
-
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
-  This file is part of CodevTT.
+   This file is part of CodevTT.
 
-  CodevTT is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+   CodevTT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  CodevTT is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+   CodevTT is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+class CommandEditController extends Controller {
 
-include_once "issue.class.php";
-include_once "user.class.php";
-include_once "team.class.php";
-include_once "commandset.class.php";
-include_once "command.class.php";
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-include_once "smarty_tools.php";
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger("command_edit");
+   }
 
-require_once "command_tools.php";
-require_once "commandset_tools.php";
+   protected function display() {
+      if (Tools::isConnectedUser()) {
 
-$logger = Logger::getLogger("command_edit");
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
+            $this->smartyHelper->assign('isEditGranted', FALSE);
+        } else {
+            $team = TeamCache::getInstance()->getTeam($this->teamid);
 
-/**
- *
- * @param Command $cmd
- */
-function updateCmdInfo($cmd) {
-
-   // security check
-   $cmd->setTeamid(checkNumericValue($_POST['teamid']));
-
-   $formattedValue = mysql_real_escape_string($_POST['cmdName']);
-   $cmd->setName($formattedValue);
-
-   $formattedValue = mysql_real_escape_string($_POST['cmdReference']);
-   $cmd->setReference($formattedValue);
-
-   $formattedValue = mysql_real_escape_string($_POST['cmdVersion']);
-   $cmd->setVersion($formattedValue);
-
-   $formattedValue = mysql_real_escape_string($_POST['cmdReporter']);
-   $cmd->setReporter($formattedValue);
-
-   $formattedValue = mysql_real_escape_string($_POST['cmdDesc']);
-   $cmd->setDesc($formattedValue);
-
-   $formattedValue = mysql_real_escape_string($_POST['cmdStartDate']);
-   $cmd->setStartDate(date2timestamp($formattedValue));
-
-   $formattedValue = mysql_real_escape_string($_POST['cmdDeadline']);
-   $cmd->setDeadline(date2timestamp($formattedValue));
+            // only managers can edit the SC
+            $isManager = $this->session_user->isTeamManager($this->teamid);
+            if (!$isManager) {
+               return;
+            }
+            $this->smartyHelper->assign('isEditGranted', true);
+            $this->smartyHelper->assign('isManager', true);
 
 
-   $cmd->setState(checkNumericValue($_POST['cmdState'], true));
-   $cmd->setBudgetDev(checkNumericValue($_POST['cmdBudgetDev'], true));
-   $cmd->setCost(checkNumericValue($_POST['cmdCost'], true));
-   $cmd->setBudgetMngt(checkNumericValue($_POST['cmdBudgetMngt'], true));
-   #$cmd->setBudgetGarantie(checkNumericValue($_POST['cmdBudgetGarantie'], true));
-   #$cmd->setAverageDailyRate(checkNumericValue($_POST['cmdAverageDailyRate'], true));
+            // use the cmdid set in the form, if not defined (first page call) use session cmdid
+            $cmdid = 0;
+            if(isset($_POST['cmdid'])) {
+               $cmdid = $_POST['cmdid'];
+               $_SESSION['cmdid'] = $cmdid;
+            } else if(isset($_GET['cmdid'])) {
+               $cmdid = $_GET['cmdid'];
+               $_SESSION['cmdid'] = $cmdid;
+            } else if(isset($_SESSION['cmdid'])) {
+               $cmdid = $_SESSION['cmdid'];
+               self::$logger->error("WARN: cmdid not defined in form, using _SESSION");
+            }
+
+            // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
+            // Note: It is used for createEnv but will be overridden by the displayed command's commandsetid.
+            $commandsetid = 0;
+            if(isset($_POST['commandsetid'])) {
+               $commandsetid = $_POST['commandsetid'];
+               $_SESSION['commandsetid'] = $commandsetid;
+            } else if(isset($_SESSION['commandsetid'])) {
+               $commandsetid = $_SESSION['commandsetid'];
+            }
+
+            $action = isset($_POST['action']) ? $_POST['action'] : '';
+
+            if (0 == $cmdid) {
+               // -------- CREATE CMD -------
+               if ("createCmd" == $action) {
+                  //$this->teamid = Tools::getSecurePOSTIntValue('teamid');
+                  //$_SESSION['teamid'] = $this->teamid;
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("create new Command for team $this->teamid<br>");
+                  }
+
+                  $cmdName = Tools::getSecurePOSTStringValue('cmdName');
+
+                  // TODO UGLY WORKAROUND: command name cannot contain commas (,) because it is used as field separator in FilterManager
+                  $cmdName = str_replace(",", ' ', $cmdName);
+
+                  try {
+                     $cmdid = Command::create($cmdName, $this->teamid);
+                     $this->smartyHelper->assign('commandid', $cmdid);
+
+                     $cmd = CommandCache::getInstance()->getCommand($cmdid);
+
+                  } catch(Exception $e) {
+                     // Smartify
+                     echo "Can't create the command because the command name is already used";
+                  }
+               }
+
+               // ------ Display Empty Command Form
+               // Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
+               $this->smartyHelper->assign('cmdInfoFormBtText', T_('Create'));
+               $this->smartyHelper->assign('cmdInfoFormAction', 'createCmd');
+
+               $this->smartyHelper->assign('cmdStateList', CommandTools::getCommandStateList());
+               $this->smartyHelper->assign('commandsetid', $commandsetid);
+               $this->smartyHelper->assign('commandsets', CommandSetTools::getCommandSets($this->teamid, $commandsetid));
+            }
+
+            if (0 != $cmdid) {
+               $cmd = CommandCache::getInstance()->getCommand($cmdid);
+
+               // -------- CHECK CMD --------
+               // this will check command and FIX inconcistencies in WBS (remove issues that have been deleted from mantis, ...)
+               $cmd->fixCommand();
+
+               // -------- UPDATE CMD -------
+               // Actions
+               if ("addCmdIssue" == $action) {
+                  $bugid = Tools::getSecurePOSTIntValue('bugid');
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("add Issue $bugid on Command $cmdid team $this->teamid");
+                  }
+
+                  $cmd->addIssue($bugid, true); // DBonly
+               } else if ("addCmdIssueList" == $action) {
+                  $bugid_list = $_POST['bugid_list'];
+
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("add Issues ($bugid_list) on Command $cmdid team $this->teamid");
+                  }
+
+                  $bugids = explode(',', $bugid_list);
+
+                  //$cmd->addIssueList($bugids, true); // DBonly
+                  foreach ($bugids as $id) {
+                     if (is_numeric(trim($id))) {
+                        $cmd->addIssue(intval($id), true); // DBonly
+                     } else {
+                        self::$logger->error('Attempt to set non_numeric value ('.$id.')');
+                        die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+                     }
+                  }
+               } else if ("removeCmdIssue" == $action) {
+                  $cmd->removeIssue($_POST['bugid']);
+               } else if ("addToCmdSet" == $action) {
+                  $commandsetid = $_POST['commandsetid'];
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("add Command $cmdid to CommandSet $commandsetid");
+                  }
+
+                  $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
+                  $cmdset->addCommand($cmdid, Command::type_general);
+
+               } else if ("removeFromCmdSet" == $action) {
+                  $commandsetid = $_POST['commandsetid'];
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("remove Command $cmdid from CommandSet $commandsetid");
+                  }
+
+                  $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
+                  $cmdset->removeCommand($cmdid);
+
+               } else if ("updateCmdInfo" == $action) {
+                  $this->updateCmdInfo($cmd);
+                  header('Location:command_info.php');
+
+               } else if ("deleteCommand" == $action) {
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("delete Command $cmdid");
+                  }
+                  Command::delete($cmdid);
+                  unset($_SESSION['cmdid']);
+                  header('Location:command_info.php');
+               }
+
+               // Display Command
+               $this->smartyHelper->assign('commandid', $cmdid);
+               $this->smartyHelper->assign('cmdInfoFormBtText', T_('Save'));
+               $this->smartyHelper->assign('cmdInfoFormAction', 'updateCmdInfo');
+               $this->smartyHelper->assign('isAddIssueForm', true);
+
+               $parentCmdSets = $this->getParentCmdSetCandidates($this->session_user);
+               $this->smartyHelper->assign('parentCmdSetCandidates', $parentCmdSets);
+               $this->smartyHelper->assign('isAddCmdSetForm', true);
+
+               $isManager = $this->session_user->isTeamManager($cmd->getTeamid());
+
+               CommandTools::displayCommand($this->smartyHelper, $cmd, $isManager, $this->teamid);
+               $this->smartyHelper->assign('cmdProvisionType', SmartyTools::getSmartyArray(CommandProvision::$provisionNames, 1));
+
+               // Provisions
+               $currencies = Currencies::getInstance()->getCurrencies();
+               $teamCurrency = $team->getTeamCurrency();
+               foreach ($currencies as $currency => $coef) {
+                  $currencyList[$currency] = array(
+                     'currency' => $currency,
+                     'coef' => $coef,
+                     'selected' => ($currency == $teamCurrency),
+                  );
+               }
+               $this->smartyHelper->assign('currencies', $currencyList);
+               $this->smartyHelper->assign('teamCurrency', $teamCurrency);
 
 
-}
+               // WBS
+               $this->smartyHelper->assign('wbsRootId', $cmd->getWbsid());
 
-/**
- * find CommandSets associated to all the teams i am member of.
- * (observed teams excluded))
- *
- * @param int $userid
- * @return array
- */
-function getParentCmdSetCandidates($user) {
-   $parentCmdSets = array();
+               // multiple selection dialogBox
+               $availableIssueList = $this->getChildIssuesCandidates($this->teamid);
+               $this->smartyHelper->assign('availableIssueList', $availableIssueList);
+               $this->smartyHelper->assign('sendSelectIssuesActionName', "addCmdIssueList");
+               $this->smartyHelper->assign('selectIssuesBoxTitle', T_('Add tasks to Command').' \''.$cmd->getName().'\'');
+               $this->smartyHelper->assign('openDialogLabel', T_("Add multiple tasks"));
+               $this->smartyHelper->assign('selectIssuesDoneBtText', T_("Add selection"));
+               $this->smartyHelper->assign('selectIssuesBoxDesc', T_("Note: Tasks already assigned to a Command are not displayed."));
+               $this->smartyHelper->assign('selectIssuesConfirmMsg', T_("Add the selected issues to the Command ?"));
+            }
 
-   $lTeamList = $user->getLeadedTeamList();
-   $managedTeamList = $user->getManagedTeamList();
-   $mTeamList = $user->getDevTeamList();
-   $teamList = $mTeamList + $lTeamList + $managedTeamList;
 
-   foreach ($teamList as $teamid => $name) {
+            // you can create a command OR move cmd only to managed teams
+            $mTeamList = $this->session_user->getManagedTeamList();
+            $this->smartyHelper->assign('grantedTeams', SmartyTools::getSmartyArray($mTeamList, $this->teamid));
 
-      $team = TeamCache::getInstance()->getTeam($teamid);
-      $cmdsetList = $team->getCommandSetList();
+         }
+      }
+   }
 
-      foreach ($cmdsetList as $csid => $cmdset) {
-         $parentCmdSets[$csid] = $cmdset->getName();
+   /**
+    * @param Command $cmd
+    */
+   private function updateCmdInfo(Command $cmd) {
+      // TODO check cmd_teamid in grantedTeams
+
+      $cmd_teamid = Tools::getSecurePOSTIntValue('cmd_teamid');
+
+      if ($cmd_teamid != $this->teamid) {
+         // switch team (because you won't find the cmd in current team's contract list)
+         $_SESSION['teamid'] = $cmd_teamid;
+         $this->updateTeamSelector();
+      }
+      $cmd->setTeamid($cmd_teamid);
+
+      $formattedValue = Tools::getSecurePOSTStringValue('cmdName');
+      // TODO UGLY WORKAROUND: command name cannot contain commas (,) because it is used as field separator in FilterManager
+      $formattedValue = str_replace(",", ' ', $formattedValue);
+
+      $cmd->setName($formattedValue);
+
+      $formattedValue = Tools::getSecurePOSTStringValue('cmdReference','');
+      $cmd->setReference($formattedValue);
+
+      $formattedValue = Tools::getSecurePOSTStringValue('cmdVersion','');
+      $cmd->setVersion($formattedValue);
+
+      $formattedValue = Tools::getSecurePOSTStringValue('cmdReporter','');
+      $cmd->setReporter($formattedValue);
+
+      $formattedValue = Tools::getSecurePOSTStringValue('cmdDesc','');
+      $cmd->setDesc($formattedValue);
+
+      $formattedValue = Tools::getSecurePOSTStringValue('cmdStartDate','');
+      if ('' != $formattedValue) {
+         $cmd->setStartDate(Tools::date2timestamp($formattedValue));
+      }
+      $formattedValue = Tools::getSecurePOSTStringValue('cmdDeadline', '');
+      if ('' != $formattedValue) {
+         $cmd->setDeadline(Tools::date2timestamp($formattedValue));
       }
 
+      $cmd->setState(SmartyTools::checkNumericValue($_POST['cmdState'], true));
+      $cmd->setTotalSoldDays(SmartyTools::checkNumericValue($_POST['cmdTotalSoldDays'], true));
    }
 
-   return $parentCmdSets;
-}
+   /**
+    * find CommandSets associated to all the teams i am member of.
+    * (observed teams excluded))
+    *
+    * @param User $user
+    * @return string[]
+    */
+   private function getParentCmdSetCandidates(User $user) {
+      $parentCmdSets = array();
 
-// =========== MAIN ==========
+      #$lTeamList = $user->getAdministratedTeamList();
+      #$managedTeamList = $user->getManagedTeamList();
+      #$mTeamList = $user->getDevTeamList();
+      #$teamList = $mTeamList + $lTeamList + $managedTeamList;
+      $teamList = array($this->teamid => 'curTeam');
 
-require('display.inc.php');
+      foreach ($teamList as $tid => $name) {
+         $team = TeamCache::getInstance()->getTeam($tid);
+         $cmdsetList = $team->getCommandSetList();
 
-
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_('Command (edition)'));
-
-if (isset($_SESSION['userid'])) {
-
-   $userid = $_SESSION['userid'];
-   $session_user = UserCache::getInstance()->getUser($userid);
-
-   $teamid = 0;
-   if (isset($_POST['teamid'])) {
-      $teamid = $_POST['teamid'];
-   } else if (isset($_SESSION['teamid'])) {
-      $teamid = $_SESSION['teamid'];
-   }
-   $_SESSION['teamid'] = $teamid;
-
-   // TODO check if $teamid is set and != 0
-   
-   // set TeamList (including observed teams)
-   $teamList = $session_user->getTeamList();
-   $smartyHelper->assign('teamid', $teamid);
-   $smartyHelper->assign('teams', getTeams($teamList, $teamid));
-
-
-   // use the cmdid set in the form, if not defined (first page call) use session cmdid
-   $cmdid = 0;
-   if(isset($_POST['cmdid'])) {
-      $cmdid = $_POST['cmdid'];
-   } else if(isset($_GET['cmdid'])) {
-      $cmdid = $_GET['cmdid'];
-   } else if(isset($_SESSION['cmdid'])) {
-      $cmdid = $_SESSION['cmdid'];
-   }
-   $_SESSION['cmdid'] = $cmdid;
-
-   // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
-   // Note: It is used for createEnv but will be overridden by the displayed command's commandsetid.
-   $commandsetid = 0;
-   if(isset($_POST['commandsetid'])) {
-      $commandsetid = $_POST['commandsetid'];
-   } else if(isset($_SESSION['commandsetid'])) {
-      $commandsetid = $_SESSION['commandsetid'];
-   }
-   $_SESSION['commandsetid'] = $commandsetid;
-
-
-   $action = isset($_POST['action']) ? $_POST['action'] : '';
-
-
-   if (0 == $cmdid) {
-
-      // -------- CREATE CMD -------
-
-      // ------ Actions
-      if ("createCmd" == $action) {
-
-         $teamid = checkNumericValue($_POST['teamid']);
-         $_SESSION['teamid'] = $teamid;
-         $logger->debug("create new Command for team $teamid<br>");
-
-         $cmdName = mysql_real_escape_string($_POST['cmdName']);
-
-         $cmdid = Command::create($cmdName, $teamid);
-         $smartyHelper->assign('commandid', $cmdid);
-
-         $cmd = CommandCache::getInstance()->getCommand($cmdid);
-
-         // set all fields
-         updateCmdInfo($cmd);
-
+         foreach ($cmdsetList as $csid => $cmdset) {
+            $parentCmdSets[$csid] = $cmdset->getName();
+         }
       }
 
-      // ------ Display Empty Command Form
-      // Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
-      $smartyHelper->assign('cmdInfoFormBtText', T_('Create'));
-      $smartyHelper->assign('cmdInfoFormAction', 'createCmd');
-
-      $smartyHelper->assign('cmdStateList', getServiceContractStateList());
-      $smartyHelper->assign('cmdState', Command::$stateNames[0]);
-
-      $smartyHelper->assign('commandsetid', $commandsetid);
-      $smartyHelper->assign('commandsets', getCommandSets($teamid, $commandsetid));
+      return $parentCmdSets;
    }
 
+   /**
+    * returns all issues not already assigned to a command
+    * and which project_id is defined in the team
+    *
+    * @param int $this->teamid
+    * @return mixed[]
+    */
+   private function getChildIssuesCandidates($teamid) {
+      $issueArray = array();
+      $sql = AdodbWrapper::getInstance();
 
-   if (0 != $cmdid) {
-      // -------- UPDATE CMD -------
+      // team projects except externalTasksProject & NoStats projects
+      $projects = TeamCache::getInstance()->getTeam($this->teamid)->getProjects();
+      $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
+      unset($projects[$extProjId]);
 
-      $cmd = CommandCache::getInstance()->getCommand($cmdid);
+      $formattedProjectList = implode (', ', array_keys($projects));
 
+      $query  = "SELECT * FROM {bug} ".
+         " WHERE project_id IN (".$sql->db_param().") ".
+         " AND 0 = is_issue_in_team_commands(id, ".$sql->db_param().") ".
+         " ORDER BY id DESC";
 
-      // ------ Actions
+      $result = $sql->sql_query($query, array($formattedProjectList, $teamid));
 
-      if ("addCmdIssue" == $action) {
-         $bugid = $_POST['bugid'];
-         $logger->debug("add Issue $bugid on Command $cmdid team $teamid");
-
-         $cmd->addIssue($bugid);
-
-      } else if ("removeCmdIssue" == $action) {
-
-         $cmd->removeIssue($_POST['bugid']);
-
-      } else if ("addToCmdSet" == $action) {
-
-         $commandsetid = $_POST['commandsetid'];
-         $logger->debug("add Command $cmdid to CommandSet $commandsetid");
-
-         $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
-         $cmdset->addCommand($cmdid, Command::type_general);
-
-      } else if ("removeFromCmdSet" == $action) {
-
-         $commandsetid = $_POST['commandsetid'];
-         $logger->debug("remove Command $cmdid from CommandSet $commandsetid");
-
-         $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
-         $cmdset->removeCommand($cmdid);
-
-
-      } else if ("updateCmdInfo" == $action) {
-
-         $teamid = checkNumericValue($_POST['teamid']);
-         $_SESSION['teamid'] = $teamid;
-
-         updateCmdInfo($cmd);
-
-      } else if ("deleteCommand" == $action) {
-
-         $logger->debug("delete Command $cmdid");
-         Command::delete($cmdid);
-         unset($_SESSION['cmdid']);
-         header('Location:command_info.php');
+      while($row = $sql->fetchObject($result)) {
+         $issue = IssueCache::getInstance()->getIssue($row->id, $row);
+         $issueArray[$row->id] = array(
+            //"mantisLink" => mantisIssueURL($issue->bugId, NULL, true),
+            "bugid" => Tools::issueInfoURL(sprintf("%07d\n", $issue->getId())),
+            //"bugid" => $issue->bugId,
+            "extRef" => $issue->getTcId(),
+            "project" => $issue->getProjectName(),
+            "target" => $issue->getTargetVersion(),
+            "status" => $issue->getCurrentStatusName(),
+            "summary" => htmlspecialchars($issue->getSummary())
+         );
       }
 
-      // ------ Display Command
-      $smartyHelper->assign('commandid', $cmdid);
-      $smartyHelper->assign('cmdInfoFormBtText', T_('Save'));
-      $smartyHelper->assign('cmdInfoFormAction', 'updateCmdInfo');
-      $smartyHelper->assign('isAddIssueForm', true);
-
-
-      $parentCmdSets = getParentCmdSetCandidates($session_user);
-      $smartyHelper->assign('parentCmdSetCandidates', $parentCmdSets);
-      $smartyHelper->assign('isAddCmdSetForm', true);
-
-      displayCommand($smartyHelper, $cmd);
-
+      return $issueArray;
    }
-
-
-
-   
-
-
-
-
-
-
-
 }
 
-$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'], $mantisURL);
-?>
+// ========== MAIN ===========
+CommandEditController::staticInit();
+$controller = new CommandEditController('../', 'Command (edition)', 'Management');
+$controller->execute();
+
+

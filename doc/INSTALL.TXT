@@ -1,0 +1,175 @@
+# CodevTT Installation Doc
+
+
+## System Requirements:
+>  + 1G RAM
+>  + 200M HD
+
+> #### Linux
+  + Apache 2.2.x
+  + MySQL 5.1.x
+  + PHP 5.3.x
+  + phpMyAdmin 3.2.x
+  + Mantis 1.2.x
+
+> #### Windows XP
+  + XAMPP Lite 1.7.3
+  + Mantis 1.2.x
+
+> #### Dev tools (optional)
+  + Git 1.7.x
+  + netbeans
+  + kdiff3
+
+## prerequisites
+
+> #### install software
+
+> + Required packages (CentOS, RedHat, Fedora)  
+
+>> `yum install git gitosis gitk`  
+>> `yum install httpd php php-pdo php-mysql php-gd php-xml php-pecl-apc mysql mysql-server phpmyadmin`  
+
+> + MantisBT
+
+>> `cd /var/www/html`  
+>> `unzip /tmp/mantisbt-1.2.11.zip`  
+>> `mv /var/www/html/mantisbt-1.2.11 /var/www/html/mantis`  
+>> `chgrp apache /var/www/html/mantis`  
+>> `chmod g+w /var/www/html/mantis`  
+
+> + CodevTT
+
+>> `cd /var/www/html`  
+>> `tar xvzf /tmp/codevtt_0.99.18.tgz`  
+>> `mv /var/www/html/codevtt_0.99.18 /var/www/html/codevtt`  
+>> `chgrp apache /var/www/html/codevtt`  
+>> `chmod g+w /var/www/html/codevtt`  
+>> `mkdir -p /tmp/codevtt/logs`  
+>> `mkdir -p /tmp/codevtt/reports`  
+>> `chown -R apache:apache /tmp/codevtt`  
+>> `chmod -R ug+rw /tmp/codevtt`  
+
+>> If you choose to install the latest development sources:  
+
+>> `git clone git@github.com:lbayle/codev.git /var/www/html/codevtt`  
+
+
+> #### configure MySQL
+
+     
+
+>   + post-install config
+
+>>   `mysql_secure_installation`
+
+>   + Edit file: `/etc/my.cnf`  
+
+>>  `[mysqld]`  
+>>  `query_cache_limit=4M`  
+>>  `query_cache_size=32M`  
+>>  `query_cache_type=1`  
+
+>>  `max_allowed_packet      = 64M`
+
+> #### Firewall
+>  + Open HTTP and HTTPS
+>>  `system-config-firewall`  
+
+>  + Disable SELINUX: Edit file: `/etc/selinux/config`  
+>>  `SELINUX=disabled`
+
+> #### configure Apache
+
+>   + Edit file: `/etc/httpd/conf/httpd.conf`  
+
+>>  `ServerName codevtt:80`  
+
+>>  `<Directory "/var/www/html">`  
+>>  `  (...)`  
+>>  `  # AllowOverride controls what directives may be placed in .htaccess files.`  
+>>  `  AllowOverride All`  
+>>  `  (...)`  
+>>  `</Directory>`  
+
+> #### configure PHP
+
+>   + Edit file: `/etc/php.ini`  
+
+>>  `[Date]`  
+>>  `; Defines the default timezone used by the date functions`  
+>>  `date.timezone = Europe/Paris`  
+
+>   + On windows you will also need to add in the [PHP] section
+
+>>  `extension=php_gd2.dll`
+
+> #### Restart services
+
+>>  `service mysqld restart`  
+>>  `service httpd  restart`  
+
+>>  Check Apache server is up: [http://localhost](http://localhost)
+
+## Install MantisBT
+
+> Note: Mantis install is sometimes a little 'tricky' and it turns out that it works better if you first create the DB and the config file.
+
+> #### create mantis DB & user
+
+>>  `mysql --user=root --password=xxxxxx mysql`  
+>>  `mysql> create database bugtracker;`  
+>>  `mysql> CREATE USER 'mantis'@'localhost' IDENTIFIED BY 'secret';`  
+>>  `mysql> GRANT ALL PRIVILEGES ON bugtracker.* TO 'mantis'@'localhost' WITH GRANT OPTION;`  
+>>  `mysql> exit`  
+
+> #### minimal mantis config
+
+>>  `cp /var/www/html/mantis/config_inc.php.sample /var/www/html/mantis/config_inc.php`  
+>>  `vi /var/www/html/mantis/config_inc.php`  
+
+>>>  `$g_db_username   = "mantis";`  
+>>>  `$g_db_password   = "secret";`  
+>>>  `$g_send_reset_password = OFF;`  
+>>>  `$g_validate_email = OFF;`  
+
+
+> #### mantis installation
+
+>>  [http://localhost/mantis/admin/check.php](http://localhost/mantis/admin/check.php)  
+>>  [http://localhost/mantis/admin/install.php](http://localhost/mantis/admin/install.php)  
+
+> #### first mantis login
+>>  [http://localhost/mantis](http://localhost/mantis)
+
+>  + login  : `administrator`
+>  + passwd : `root`
+
+> #### customize mantis
+> -- IMPORTANT --  
+> You need to configure mantis BEFORE installing CodevTT, so do it now !  
+
+>  + Status
+>  + Workflow
+>  + Thresholds
+>  + Projects
+>  + etc.
+
+## Install CodevTT
+
+> #### create mysql user
+(Optional: You can use the mantis user)  
+
+>  `mysql --user=root --password=xxxxxx mysql`  
+>>  `CREATE USER 'codevtt' IDENTIFIED BY 'secret';`  
+>>  `GRANT ALL PRIVILEGES ON bugtracker.* TO 'codevtt' WITH GRANT OPTION;`  
+>>  `exit`  
+
+> #### launch CodevTT install procedure
+
+>>  [http://localhost/codevtt](http://localhost/codevtt)
+
+>> The installation will create `/var/www/html/codevtt/config.ini`
+
+## The End.
+

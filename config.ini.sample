@@ -1,0 +1,97 @@
+; This file is part of CodevTT.
+; - The Variables in here can be customized to your needs
+; - This file has been generated during install on YYYYMMDD
+
+[general]
+codevInstall_timestamp = 0
+codevtt_output_dir = /tmp/codevtt
+codevtt_logfile = "/tmp/codevtt/logs/codevtt.log"
+homepage_title = "Welcome"
+logo_image = "images/codevtt_logo_03_mini.png"
+mantis_url = "https://localhost/mantis"
+codevtt_url = "https://localhost/codevtt"
+mantis_dir = /var/www/html/mantis
+codevtt_dir = /var/www/html/codevtt
+
+; French "Commission nationale de l'informatique et des libertés" (optional)
+;[cnil]
+;company = "Atos BSD / Atos SudEst"
+;contact_email = "dpo-france@atos.net"
+
+[database]
+db_mantis_host      = "localhost"
+db_mantis_database  = "bugtracker"
+db_mantis_user      = "mantisdbuser"
+db_mantis_pass      = "secret_password"
+db_mantis_type      = "mysqli"
+
+[mantis]
+db_table_prefix = "mantis_"
+db_table_suffix = "_table"
+status_enum_string = "10:new,20:feedback,30:acknowledged,40:analyzed,50:open,80:resolved,82:validated,85:delivered,90:closed,"
+priority_enum_string = "10:none,20:low,30:normal,40:high,50:urgent,60:immediate,"
+resolution_enum_string = "10:open,20:fixed,30:reopened,40:unable to duplicate,50:not fixable,60:duplicate,70:not a bug,80:suspended,90:wont fix,"
+severity_enum_string = "10:feature,20:trivial,30:text,40:tweak,50:minor,60:major,70:crash,80:block,"
+bug_resolved_status_threshold = 80
+status_enum_workflow = '{"10":"20:feedback,30:acknowledged,40:analyzed,50:open,80:resolved","20":"30:acknowledged,40:analyzed,50:open,80:resolved","30":"20:feedback,40:analyzed,50:open,80:resolved","40":"20:feedback,50:open,80:resolved","50":"20:feedback,80:resolved","80":"20:feedback,82:validated,85:delivered,90:closed","82":"20:feedback,85:delivered,90:closed","85":"20:feedback,90:closed","90":"20:feedback"}'
+
+[status]
+; Note: CodevTT needs some status to be defined (new, feedback, open, closed)
+; please add equivalences in accordance to your workflow.
+; ex: status_open = 50 (assigned)
+status_new = 10
+status_feedback = 20
+status_open = 50
+status_closed = 90
+
+[resolution]
+resolution_fixed = 20
+resolution_reopened = 30
+
+[relationships]
+relationship_constrained_by = 2500
+relationship_constrains = 2501
+
+[perf]
+; display tooltips on only the x last_updated issues.
+; set to 0 to display all tooltips.
+max_tooltips_per_page = 500
+; displaying all timetracks at once can overload the server on issue_info page
+issue_info_max_timetracks_displayed = 1000
+
+[doodles]
+; logo_image_startDate_endDate = "images/doodle_logo.png" (date "MMdd")
+logo_image_0207_0214 = "images/codevtt_logo_03_stvalentin.png"
+logo_image_0317_0317 = "images/codevtt_logo_03_stpatrick.jpg"
+logo_image_0401_0401 = "images/codevtt_logo_03_april_1st.jpg"
+logo_image_1031_1031 = "images/codevtt_logo_03_halloween.png"
+logo_image_1220_1227 = "images/codevtt_logo_03_christmas.png"
+
+[timesheets]
+; value:displayed_text
+task_duration_list = "1:1,0.9:0.9,0.8:0.8,0.75:0.75,0.7:0.7,0.6:0.6,0.5:0.5,0.4:0.4,0.3:0.3,0.25:0.25,0.2:0.2,0.1:0.1,0.05:0.05"
+;task_duration_list = "1:all day,0.5:half day,0.125:one hour"
+
+[internet]
+;proxy = "proxy:8080"
+check_latest_version = 1
+
+[dashboardDefaultPlugins]
+Homepage = "BlogPlugin"
+;User = ""
+Project = "TasksPivotTable"
+Task = "IssueBacklogVariationIndicator"
+Team = "AvailableWorkforceIndicator,LoadPerUserIndicator,BacklogPerUserIndicator,LoadPerJobIndicator2"
+Command = "LoadPerUserIndicator,ProgressHistoryIndicator2"
+CommandSet = "ProgressHistoryIndicator2"
+ServiceContract = "ManagementCosts,ManagementLoadHistoryIndicator"
+Import_Export = "ImportIssueCsv, ImportUsers"
+Admin = "MoveIssueTimetracks,TimetrackDetailsIndicator,UserTeamList"
+EditTeam = "MoveIssueTimetracks"
+
+[email]
+; --- cronjob (every Friday at 2:00 AM):
+; --- 0 2 * * 5 php /var/www/html/codevtt/tools/send_timesheet_emails.php
+enable_email_notification = 1
+
+

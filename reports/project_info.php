@@ -1,448 +1,362 @@
 <?php
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+class ProjectInfoController extends Controller {
 
-require('smarty_tools.php');
-
-include_once "issue.class.php";
-include_once "project.class.php";
-include_once "time_track.class.php";
-include_once "user.class.php";
-include_once "jobs.class.php";
-include_once "holidays.class.php";
-include_once "project_version.class.php";
-
-/**
- * Get versions overview
- * @param Project $project
- * @return array
- */
-function getVersionsOverview($project) {
-   $versionsOverview = NULL;
-   $projectVersionList = $project->getVersionList();
-   foreach ($projectVersionList as $version => $pv) {
-      if (NULL == $pv) {
-         continue;
-      }
-
-      $valuesMgr = $pv->getDriftMgr();
-
-      $driftMgrColor = IssueSelection::getDriftColor($valuesMgr['percent']);
-      $formatteddriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
-
-      $values = $pv->getDrift();
-      $driftColor = IssueSelection::getDriftColor($values['percent']);
-      $formatteddriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
-
-      $vdate =  $pv->getVersionDate();
-      $date = "";
-      if (is_numeric($vdate)) {
-         $date = date("Y-m-d",$vdate);
-      }
-
-      $versionsOverview[] = array('name' => $pv->name,
-                                  'date' => $date,
-                                  'progressMgr' => round(100 * $pv->getProgressMgr()),
-                                  'progress' => round(100 * $pv->getProgress()),
-                                  'driftMgrColor' => $formatteddriftMgrColor,
-                                  'driftMgr' => round(100 * $valuesMgr['percent']),
-                                  'driftColor' => $formatteddriftColor,
-                                  'drift' => round(100 * $values['percent'])
-      );
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      // Nothing special
    }
 
-   $driftMgr = $project->getDriftMgr();
-   $driftMgrColor = IssueSelection::getDriftColor($driftMgr['percent']);
-   $formattedDriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
 
-   $drift = $project->getDrift();
-   $driftColor = IssueSelection::getDriftColor($drift['percent']);
-   $formattedDriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
+   protected function display() {
+      if(Tools::isConnectedUser()) {
 
-   $versionsOverview[] = array('name' => T_("Total"),
-                               'date' => '',
-                               'progressMgr' => round(100 * $project->getProgressMgr()),
-                               'progress' => round(100 * $project->getProgress()),
-                               'driftMgrColor' => $formattedDriftMgrColor,
-                               'driftMgr' => round(100 * $driftMgr['percent']),
-                               'driftColor' => $formattedDriftColor,
-                               'drift' => round(100 * $drift['percent'])
-   );
+        // only teamMembers & observers can access this page
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+        } else {
 
-   return $versionsOverview;
-}
+            $tmpTeamList = array($this->teamid => $this->teamList[$this->teamid]);
+            $projList = $this->session_user->getProjectList($tmpTeamList, true, false);
 
-/**
- * Get detailed mgr versions
- * @param array $projectVersionList
- * @return array
- */
-function getVersionsDetailedMgr($project) {
-   $versionsDetailedMgr = NULL;
-   $totalEffortEstimMgr = 0;
-   $totalElapsed = 0;
-   $totalRemainingMgr = 0;
-   $totalReestimatedMgr = 0;
-   $totalDriftMgr = 0;
-
-   $projectVersionList = $project->getVersionList();
-
-   // TOTAL (all Versions together)
-   $allProjectVersions = new ProjectVersion($project->id, T_("Total"));
-   $issueList = $project->getIssueList();
-	foreach ($issueList as $bugid) {
-      $allProjectVersions->addIssue($bugid);
-   }
-   $projectVersionList[T_("Total")] = $allProjectVersions;
-
-
-   foreach ($projectVersionList as $version => $pv) {
-      $totalEffortEstimMgr += $pv->mgrEffortEstim;
-      $totalElapsed += $pv->elapsed;
-      $totalRemainingMgr += $pv->durationMgr;
-      $totalReestimatedMgr += $pv->getReestimatedMgr();
-      //$formatedList  = implode( ',', array_keys($pv->getIssueList()));
-
-      $valuesMgr = $pv->getDriftMgr();
-      $totalDriftMgr += $valuesMgr['nbDays'];
-
-      $driftMgrColor = IssueSelection::getDriftColor($valuesMgr['percent']);
-      $formatteddriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
-
-      $versionsDetailedMgr[] = array('name'        => $pv->name,
-                                     //'progress' => round(100 * $pv->getProgress()),
-                                     'effortEstim' => $pv->mgrEffortEstim,
-                                     'reestimated' => $pv->getReestimatedMgr(),
-                                     'elapsed'     => $pv->elapsed,
-                                     'remaining'   => $pv->durationMgr,
-                                     'driftColor'  => $formatteddriftMgrColor,
-                                     'drift'       => round($valuesMgr['nbDays'],2)
-      );
-   }
-
-   return $versionsDetailedMgr;
-}
-
-/**
- * Get detailed versions
- * @param array $projectVersionList
- * @return array
- */
-function getVersionsDetailed($projectVersionList) {
-   $versionsDetailed = NULL;
-   $totalDrift = 0;
-   $totalEffortEstim = 0;
-   $totalElapsed = 0;
-   $totalRemaining = 0;
-   $totalReestimated = 0;
-
-   foreach ($projectVersionList as $version => $pv) {
-      $totalEffortEstim += $pv->effortEstim + $pv->effortAdd;
-      $totalElapsed += $pv->elapsed;
-      $totalRemaining += $pv->duration;
-      $totalReestimated += $pv->getReestimated();
-      //$formatedList  = implode( ',', array_keys($pv->getIssueList()));
-
-      $values = $pv->getDrift();
-      $totalDrift += $values['nbDays'];
-      $driftColor = IssueSelection::getDriftColor($values['percent']);
-      $formatteddriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
-
-      $versionsDetailed[] = array('name' => $pv->name,
-         //'progress' => round(100 * $pv->getProgress()),
-         'title'       => 'title="'.($pv->effortEstim + $pv->effortAdd).'"',
-         'effortEstim' => ($pv->effortEstim + $pv->effortAdd),
-         'reestimated' => $pv->getReestimated(),
-         'elapsed'     => $pv->elapsed,
-         'remaining'   => $pv->duration,
-         'driftColor'  => $formatteddriftColor,
-         'drift'       => round($values['nbDays'],2)
-      );
-   }
-
-   $versionsDetailed[] = array('name' => T_("Total"),
-                               'title'       => '',
-                               'effortEstim' => $totalEffortEstim,
-                               'reestimated' => $totalReestimated,
-                               'elapsed'     => $totalElapsed,
-                               'remaining'   => $totalRemaining,
-                               'driftColor'  => '',
-                               'drift'       => $totalDrift
-   );
-
-   return $versionsDetailed;
-}
-
-/**
- * Get version issues
- * @param array $projectVersionList
- * @return array
- */
-function getVersionsIssues($projectVersionList) {
-   global $status_new;
-   $versionsIssues = NULL;
-   $totalElapsed = 0;
-   $totalRemaining = 0;
-   foreach ($projectVersionList as $version => $pv) {
-      $totalElapsed += $pv->elapsed;
-      $totalRemaining += $pv->remaining;
-      //$formatedList  = implode( ',', array_keys($pv->getIssueList()));
-
-      // format Issues list
-      $formatedResolvedList = "";
-      $formatedOpenList = "";
-      $formatedNewList = "";
-      foreach ($pv->getIssueList() as $bugid => $issue) {
-
-         if ($status_new == $issue->currentStatus) {
-            if ("" != $formatedNewList) {
-               $formatedNewList .= ', ';
+            if(isset($_GET['projectid'])) {
+               $projectid = Tools::getSecureGETIntValue('projectid');
+               $_SESSION['projectid'] = $projectid;
             }
-            $formatedNewList .= issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
-
-         } elseif ($issue->currentStatus >= $issue->bug_resolved_status_threshold) {
-            if ("" != $formatedResolvedList) {
-               $formatedResolvedList .= ', ';
+            else if(isset($_SESSION['projectid'])) {
+               $projectid = $_SESSION['projectid'];
             }
-            $title = "(".$issue->getDrift().') ['.$issue->getProjectName().'] '.$issue->summary;
-            $formatedResolvedList .= issueInfoURL($bugid, $title);
-         } else {
-            if ("" != $formatedOpenList) {
-               $formatedOpenList .= ', ';
+            else {
+               $projectsid = array_keys($projList);
+               $projectid = $projectsid[0];
             }
-            $title = "(".$issue->getDrift().", ".$issue->getCurrentStatusName().') ['.$issue->getProjectName().'] '.$issue->summary;
-            $formatedOpenList .= issueInfoURL($bugid, $title);
-         }
-      }
 
-      $versionsIssues[] = array('name' => $pv->name,
-                                'newList' => $formatedNewList,
-                                'openList' => $formatedOpenList,
-                                'resolvedList' => $formatedResolvedList
-      );
-   }
+            $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList, $projectid));
 
-   /*
-   // compute total progress
-   if (0 == $totalRemaining) {
-      $totalProgress = 1;  // if no Remaining, then Project is 100% done.
-   } elseif (0 == $totalElapsed) {
-      $totalProgress = 0;  // if no time spent, then no work done.
-   } else {
-      $totalProgress = $totalElapsed / ($totalElapsed + $totalRemaining);
-   }
-   */
 
-   return $versionsIssues;
-}
+            // if display project allowed
+            if (in_array($projectid, array_keys($projList))) {
 
-/**
- * Get all "non-resolved" issues that are in drift (ordered by version)
- * @param array $projectVersionList
- * @param boolean $isManager
- * @param boolean $withSupport
- * @return array
- */
-function getCurrentIssuesInDrift($projectVersionList, $isManager, $withSupport = true) {
-   $currentIssuesInDrift = NULL;
-   foreach ($projectVersionList as $version => $pv) {
-      foreach ($pv->getIssueList() as $bugid => $issue) {
+               $this->smartyHelper->assign('projectid', $projectid);
 
-         if ($issue->isResolved()) {
-            // skip resolved issues
-            continue;
-         }
+               // Managers can see detailed view
+               $isManager = $this->session_user->isTeamManager($this->teamid);
+               $isObserver = $this->session_user->isTeamObserver($this->teamid);
+               $this->smartyHelper->assign("isManager", ($isManager || $isObserver));
 
-         $driftPrelEE = ($isManager) ? $issue->getDriftMgr($withSupport) : 0;
-         $driftEE = $issue->getDrift($withSupport);
+               $project = ProjectCache::getInstance()->getProject($projectid);
+               $projectIssueSel = $project->getIssueSelection();
 
-         if (($driftPrelEE > 0) || ($driftEE > 0)) {
-            if ($isManager) {
-               $driftMgrColor = "";
-               if ($driftPrelEE < -1) {
-                  $driftMgrColor = "style='background-color: #61ed66;'";
-               } else if ($driftPrelEE > 1) {
-                  $driftMgrColor = "style='background-color: #fcbdbd;'";
+               // --- DRIFT TABS -------------------
+
+               $currentIssuesInDrift = NULL;
+               $resolvedIssuesInDrift = NULL;
+               foreach ($projectIssueSel->getIssuesInDrift(($isManager || $isObserver)) as $issue) {
+                  $smartyIssue = $this->getSmartyDirftedIssue($issue, ($isManager || $isObserver));
+                  if(NULL != $smartyIssue) {
+                     if ($issue->isResolved()) {
+                        $resolvedIssuesInDrift[] = $smartyIssue;
+                     } else {
+                        $currentIssuesInDrift[] = $smartyIssue;
+                     }
+                  }
                }
-               $driftMgr = round($driftPrelEE, 2);
-            }
-            $driftColor = "";
-            if ($driftEE < -1) {
-               $driftColor = "style='background-color: #61ed66;'";
-            } else if ($driftEE > 1) {
-               $driftColor = "style='background-color: #fcbdbd;'";
-            }
 
-            $currentIssuesInDrift[] = array('issueURL' => issueInfoURL($issue->bugId),
-                                            'mantisURL' => mantisIssueURL($issue->bugId, NULL, true),
-                                            'projectName' => $issue->getProjectName(),
-                                            'targetVersion' => $issue->getTargetVersion(),
-                                            'driftMgrColor' => $driftMgrColor,
-                                            'driftMgr' => $driftMgr,
-                                            'driftColor' => $driftColor,
-                                            'drift' => round($driftEE, 2),
-                                            'remaining' => $issue->remaining,
-                                            'progress' => round(100 * $issue->getProgress()),
-                                            'currentStatusName' => $issue->getCurrentStatusName(),
-                                            'summary' => $issue->summary
-            );
+               $this->smartyHelper->assign("currentIssuesInDrift", $currentIssuesInDrift);
+               $this->smartyHelper->assign("resolvedIssuesInDrift", $resolvedIssuesInDrift);
+               
+               // Dashboard
+               ProjectInfoTools::dashboardSettings($this->smartyHelper, $project, $this->session_userid, $this->teamid);
+               
+            }
          }
       }
    }
 
-   return $currentIssuesInDrift;
-}
+   /**
+    * $explodeResults contains a list of filterNames + an IssueSelection on the last column.
+    * This function will replace the IssueSelection with a smarty comprehensible array
+    * containing the info to be displayed.
+    *
+    * @param mixed[] $explodeResults
+    * @param string[] $filterDisplayNames
+    */
+   private function getOverview(array $explodeResults, array $filterDisplayNames, $isManager) {
 
-/**
- * Get all resolved issues that are in drift (ordered by version)
- * @param array $projectVersionList
- * @param boolean $isManager
- * @param boolean $withSupport
- * @return array
- */
-function getResolvedIssuesInDrift($projectVersionList, $isManager, $withSupport = true) {
-   $resolvedIssuesInDrift = NULL;
-   foreach ($projectVersionList as $version => $pv) {
-      foreach ($pv->getIssueList() as $bugid => $issue) {
+      $iselIdx = count($explodeResults[0]) -1;
 
-         if (!$issue->isResolved()) {
-            // skip non-resolved issues
-            continue;
-         }
+      $smartyObj = array();
 
-         $driftPrelEE = ($isManager) ? $issue->getDriftMgr($withSupport) : 0;
-         $driftEE = $issue->getDrift($withSupport);
+      foreach($explodeResults as $line) {
+         $isel = $line[$iselIdx];
 
-         if (($driftPrelEE > 0) || ($driftEE > 0)) {
-            if ($isManager) {
-               $driftMgrColor = "";
-               if ($driftPrelEE < -1) {
-                  $driftMgrColor = "style='background-color: #61ed66;'";
-               } else if ($driftPrelEE > 1) {
-                  $driftMgrColor = "style='background-color: #fcbdbd;'";
-               }
-               $driftMgr = round($driftPrelEE, 2);
+         // ---
+         $values = $isel->getDrift();
+
+         // TODO show date only if ProjectVersion
+         /*
+         $date = "";
+         if ('ProjectVersion' == get_class($isel)) {
+            $vdate =  $isel->getVersionDate();
+            if (is_numeric($vdate)) {
+               $date = date('Y-m-d',$vdate);
             }
-            $driftColor = "";
-            if ($driftEE < -1) {
-               $driftColor = "style='background-color: #61ed66;'";
-            } else if ($driftEE > 1) {
-               $driftColor = "style='background-color: #fcbdbd;'";
-            }
-
-            $resolvedIssuesInDrift[] = array('issueURL' => issueInfoURL($issue->bugId),
-                                             'mantisURL' => mantisIssueURL($issue->bugId, NULL, true),
-                                             'projectName' => $issue->getProjectName(),
-                                             'targetVersion' => $issue->getTargetVersion(),
-                                             'driftMgrColor' => $driftMgrColor,
-                                             'driftMgr' => $driftMgr,
-                                             'driftColor' => $driftColor,
-                                             'drift' => round($driftEE, 2),
-                                             'remaining' => $issue->remaining,
-                                             'progress' => round(100 * $issue->getProgress()),
-                                             'currentStatusName' => $issue->getCurrentStatusName(),
-                                             'summary' => $issue->summary
-            );
          }
-      }
-   }
+         */
 
-   return $resolvedIssuesInDrift;
-}
-
-// ================ MAIN =================
-require('display.inc.php');
-
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_('Project Info'));
-
-if(isset($_SESSION['userid'])) {
-   $session_userid = $_SESSION['userid'];
-   $user = UserCache::getInstance()->getUser($session_userid);
-
-   $dTeamList = $user->getDevTeamList();
-   $lTeamList = $user->getLeadedTeamList();
-   $oTeamList = $user->getObservedTeamList();
-   $managedTeamList = $user->getManagedTeamList();
-   $teamList = $dTeamList + $lTeamList + $oTeamList + $managedTeamList;
-
-   if (0 != count($teamList)) {
-      // --- define the list of tasks the user can display
-      // All projects from teams where I'm a Developper or Manager AND Observers
-      $devProjList      = (0 == count($dTeamList))       ? array() : $user->getProjectList($dTeamList);
-      $managedProjList  = (0 == count($managedTeamList)) ? array() : $user->getProjectList($managedTeamList);
-      $observedProjList = (0 == count($oTeamList))       ? array() : $user->getProjectList($oTeamList);
-      $projList = $devProjList + $managedProjList + $observedProjList;
-
-      $projectid = 0;
-      if(isset($_GET['projectid'])) {
-         $projectid = $_GET['projectid'];
-         $_SESSION['projectid'] = $projectid;
-      }
-      else if(isset($_SESSION['projectid'])) {
-         $projectid = $_SESSION['projectid'];
-      }
-      else {
-         $projectsid = array_keys($projList);
-         $projectid = $projectsid[0];
-      }
-
-      $smartyHelper->assign('projects', getProjects($projList,$projectid));
-
-      if (in_array($projectid, array_keys($projList))) {
-         $isManager = true; // TODO
-         $smartyHelper->assign("isManager", $isManager);
-
-         $project = ProjectCache::getInstance()->getProject($projectid);
-
-         $smartyHelper->assign("versionsOverview", getVersionsOverview($project));
-
+         $smartyElem = array(
+            #'name' => $isel->name,
+            #'date' => $date,
+            'progress' => round(100 * $isel->getProgress()),
+            #'elapsed' => $isel->elapsed,
+            'backlog' => $isel->duration,
+            'driftColor' => IssueSelection::getDriftColor($values['percent']),
+            'drift' => round(100 * $values['percent'])
+         );
          if ($isManager) {
-            $smartyHelper->assign("versionsDetailedMgr", getVersionsDetailedMgr($project));
+            $valuesMgr = $isel->getDriftMgr();
+            $smartyElem['reestimated'] = $isel->getReestimated();
+            $smartyElem['driftMgrColor'] = IssueSelection::getDriftColor($valuesMgr['percent']);
+            $smartyElem['driftMgr'] = round(100 * $valuesMgr['percent']);
+
          }
 
-         $projectVersionList = $project->getVersionList();
-         $smartyHelper->assign("versionsDetailed", getVersionsDetailed($projectVersionList));
-
-         $smartyHelper->assign("versionsIssues", getVersionsIssues($projectVersionList));
-
-         $smartyHelper->assign("currentIssuesInDrift", getCurrentIssuesInDrift($projectVersionList, $isManager));
-
-         $smartyHelper->assign("resolvedIssuesInDrift", getResolvedIssuesInDrift($projectVersionList, $isManager));
-      } else if ($projectid) {
-         $smartyHelper->assign("error", T_("Sorry, you are not allowed to view the details of this project"));
+         // ---
+         $line[$iselIdx] = $smartyElem;
+         $smartyObj[] = $line;
       }
-   } else {
-      $smartyHelper->assign("error", T_("Sorry, you need to be member of a Team to access this page."));
+
+      // add TitleLine
+      $titles = $filterDisplayNames;
+      #$titles[] = T_("Date");
+      $titles[] = T_("Progress");
+      if ($isManager) { $titles[] = T_("Reestimated"); }
+      #$titles[] = T_("Elapsed");
+      $titles[] = T_("Backlog");
+      if ($isManager) { $titles[] = T_("Drift Mgr"); }
+      $titles[] = T_("Drift");
+
+      // set Smarty
+      $totalLine = array_shift($smartyObj); // first line is rootElem (TOTAL)
+
+      $this->smartyHelper->assign('overviewTitles', $titles);
+      $this->smartyHelper->assign('overviewLines', $smartyObj);
+      $this->smartyHelper->assign('overviewTotal', $totalLine);
+
    }
 
-   // log stats
-   IssueCache::getInstance()->logStats();
-   ProjectCache::getInstance()->logStats();
-   UserCache::getInstance()->logStats();
-   TimeTrackCache::getInstance()->logStats();
+   /**
+    * $explodeResults contains a list of filterNames + an IssueSelection on the last column.
+    * This function will replace the IssueSelection with a smarty comprehensible array
+    * containing the info to be displayed.
+    *
+    * @param type $explodeResults
+    * @param type $filterDisplayNames
+    */
+   private function getDetailedMgr($explodeResults, $filterDisplayNames) {
+
+      $iselIdx = count($explodeResults[0]) -1;
+
+      $smartyObj = array();
+
+      foreach($explodeResults as $line) {
+         $isel = $line[$iselIdx];
+
+         $valuesMgr = $isel->getDriftMgr();
+         $values = $isel->getDrift();
+         $smartyElem = array(
+            #'name' => $isel->name,
+            'progress' => round(100 * $isel->getProgress()),
+            'effortEstimMgr' => $isel->mgrEffortEstim,
+            'effortEstim' => $isel->effortEstim,
+            'reestimated' => $isel->getReestimated(),
+            'elapsed' => $isel->elapsed,
+            'backlog' => $isel->duration,
+            'driftColorMgr' => IssueSelection::getDriftColor($valuesMgr['percent']),
+            'driftMgr' => round($valuesMgr['nbDays'],2),
+            'driftColor' => IssueSelection::getDriftColor($values['percent']),
+            'drift' => round($values['nbDays'],2)
+         );
+
+         $line[$iselIdx] = $smartyElem;
+         $smartyObj[] = $line;
+      }
+
+      // add TitleLine
+      $titles = $filterDisplayNames;
+      $titles[] = T_("Progress");
+      $titles[] = T_("MgrEffortEstim");
+      $titles[] = T_("EffortEstim");
+      $titles[] = T_("Reestimated");
+      $titles[] = T_("Elapsed");
+      $titles[] = T_("Backlog");
+      $titles[] = T_("Drift Mgr");
+      $titles[] = T_("Drift");
+
+      // set Smarty
+      $totalLine = array_shift($smartyObj); // first line is rootElem (TOTAL)
+
+      $this->smartyHelper->assign('detailedMgrTitles', $titles);
+      $this->smartyHelper->assign('detailedMgrLines', $smartyObj);
+      $this->smartyHelper->assign('detailedMgrTotal', $totalLine);
+   }
+
+   /**
+    * $explodeResults contains a list of filterNames + an IssueSelection on the last column.
+    * This function will replace the IssueSelection with a smarty comprehensible array
+    * containing the info to be displayed.
+    *
+    * @param type $explodeResults
+    * @param type $filterDisplayNames
+    */
+   private function getIssues($explodeResults, $filterDisplayNames) {
+
+      $iselIdx = count($explodeResults[0]) -1;
+
+      $smartyObj = array();
+
+      foreach($explodeResults as $line) {
+         $isel = $line[$iselIdx];
+
+         // format Issues list
+         $formatedResolvedList = "";
+         $formatedOpenList = "";
+         $formatedNewList = "";
+         foreach ($isel->getIssueList() as $bugid => $issue) {
+
+            if (Constants::$status_new == $issue->getCurrentStatus()) {
+               if ("" != $formatedNewList) {
+                  $formatedNewList .= ', ';
+               }
+               $titleAttr = array(
+                     T_('Project') => $issue->getProjectName(),
+                     T_('Summary') => $issue->getSummary(),
+               );
+               $formatedNewList .= Tools::issueInfoURL($bugid, $titleAttr);
+
+            } elseif ($issue->getCurrentStatus() >= $issue->getBugResolvedStatusThreshold()) {
+               if ("" != $formatedResolvedList) {
+                  $formatedResolvedList .= ', ';
+               }
+               #$title = "(".$issue->getDrift().') ['.$issue->getProjectName().'] '.$issue->getSummary();
+               $titleAttr = array(
+                   T_('Project') => $issue->getProjectName(),
+                   T_('Summary') => $issue->getSummary(),
+                   T_('Drift') => $issue->getDrift(),
+                   'DriftColor' => $issue->getDriftColor()
+               );
+               $formatedResolvedList .= Tools::issueInfoURL($bugid, $titleAttr);
+            } else {
+               if ("" != $formatedOpenList) {
+                  $formatedOpenList .= ', ';
+               }
+               #$title = "(".$issue->getDrift().", ".$issue->getCurrentStatusName().') ['.$issue->getProjectName().'] '.$issue->getSummary();
+               $titleAttr = array(
+                   T_('Project') => $issue->getProjectName(),
+                   T_('Summary') => $issue->getSummary(),
+                   T_('Status') => $issue->getCurrentStatusName(),
+                   T_('Drift') => $issue->getDrift(),
+                   'DriftColor' => $issue->getDriftColor()
+               );
+               $formatedOpenList .= Tools::issueInfoURL($bugid, $titleAttr);
+            }
+         }
+
+         $smartyElem = array(
+            #'name' => $isel->name,
+            'newList' => $formatedNewList,
+            'openList' => $formatedOpenList,
+            'resolvedList' => $formatedResolvedList
+         );
+
+         // ---
+         $line[$iselIdx] = $smartyElem;
+         $smartyObj[] = $line;
+      }
+
+      // add TitleLine
+      $titles = $filterDisplayNames;
+      $titles[] = T_("New Tasks");
+      $titles[] = T_("Current Tasks");
+      $titles[] = T_("Resolved Tasks");
+
+      // set Smarty
+      $totalLine = array_shift($smartyObj); // first line is rootElem (TOTAL)
+
+      $this->smartyHelper->assign('issuesTitles', $titles);
+      $this->smartyHelper->assign('issuesLines', $smartyObj);
+      $this->smartyHelper->assign('issuesTotal', $totalLine);
+   }
+
+   /**
+    * @param Issue $issue
+    * @param boolean $isManager
+    * @return mixed[]
+    */
+   private function getSmartyDirftedIssue(Issue $issue, $isManager) {
+      $driftMgr = ($isManager) ? $issue->getDriftMgr() : 0;
+      $drift = $issue->getDrift();
+      $driftMgrColor = NULL;
+      if ($isManager) {
+         if ($driftMgr < -1) {
+            $driftMgrColor = "#61ed66";
+         } else if ($driftMgr > 1) {
+            $driftMgrColor = "#fcbdbd";
+         }
+         $driftMgr = round($driftMgr, 2);
+      }
+
+      $driftColor = NULL;
+      if ($drift < -1) {
+         $driftColor = "#61ed66";
+      } else if ($drift > 1) {
+         $driftColor = "#fcbdbd";
+      }
+
+      return array(
+         'issueURL' => Tools::issueInfoURL($issue->getId()),
+         'mantisURL' => Tools::mantisIssueURL($issue->getId(), NULL, true),
+         'projectName' => $issue->getProjectName(),
+         'targetVersion' => $issue->getTargetVersion(),
+         'driftMgrColor' => $driftMgrColor,
+         'driftMgr' => $driftMgr,
+         'driftColor' => $driftColor,
+         'drift' => round($drift, 2),
+         'backlog' => $issue->getBacklog(),
+         'progress' => round(100 * $issue->getProgress()),
+         'currentStatusName' => $issue->getCurrentStatusName(),
+         'summary' => $issue->getSummary()
+      );
+   }
+
 }
 
-$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
+// ========== MAIN ===========
+ProjectInfoController::staticInit();
+$controller = new ProjectInfoController('../', 'Project Info','ProjectInfo');
+$controller->execute();
 
 ?>

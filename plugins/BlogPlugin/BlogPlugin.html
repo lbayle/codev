@@ -1,0 +1,612 @@
+<div class="BlogPlugin">
+<div class="pluginInitFunction"  style="display: none;">blogPluginJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">blogPluginJsDestroy</div>
+
+<style type="text/css" media="screen">
+   .blogPlugin_blogPost tr:hover {
+       background-color: transparent;
+   }
+</style>
+
+{if isset($blogPlugin_blogPosts)}
+<div>
+   <div>
+      <div class="blogPlugin_bpostsContainer float" style="background-color: #EDEDED; margin-top:1em; width:95%;height:350px;overflow-x:hidden;overflow-y:auto;">
+      {foreach from=$blogPlugin_blogPosts key=id item=bpost}
+         {include file="`$blogPlugin_ajaxFile`"}
+      {/foreach}
+      </div>
+   </div>
+   <div class="blogPlugin_btContainer floatr" style="margin-top:1em; width: 16px">
+      <a class="blogPluginRefresh_link float" href="">
+         <img title="{t}Refresh{/t}" src="images/b_refresh.png"/>
+      </a>
+      <a class="blogPluginAddPost_link float" href="">
+         <img title="{t}Send new message{/t}" src="images/b_add.png"/>
+      </a>
+      <a class="blogPluginConfig_link float" href="">
+         <img title="{t}Options{/t}" src="images/b_config.png"/>
+      </a>
+      <a class="blogPluginHelpDialog_link float" href="">
+         <img title="{t}Help{/t}" src="images/help_icon.gif"/>
+      </a>
+   </div>
+</div>
+
+<div class="blogPluginAddPostDialog ui-helper-hidden" title="{t}Send new message{/t}">
+   <table style="width:100%">
+      <tr>
+         <td style="width:50px;">
+            <select class='blogPlugin_add_category' title="{t}Category{/t}" >
+               {foreach from=$blogPlugin_categoryList key=id item=name}
+                  <option value='{$id}'>{$name}</option>
+               {/foreach}
+            </select>
+         </td>
+         <td  >
+            <input type='text' class='blogPlugin_add_summary' placeholder="{t}Title{/t}" style='width:100%; font-family: sans-serif'>
+         </td>
+         <td>
+            {t}Severity{/t} :
+            <select class='blogPlugin_add_severity'>
+               {foreach from=$blogPlugin_severityList key=id item=name}
+                  <option value='{$id}'>{$name}</option>
+               {/foreach}
+            </select>
+         </td>
+      </tr>
+      <tr>
+         <td colspan="2" rowspan="3" style="width:800px">
+            <textarea class='blogPlugin_add_content'  placeholder="{t}Description{/t}" style="resize: none; font-family: sans-serif; border: none; width: 100%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;" rows="6"></textarea>
+         </td>
+         <td>
+            {t}Expire{/t} :
+            <input type="text" class="blogPlugin_add_expiredatepicker datepicker" name="blogPlugin_date_expire" placeholder="{t}Exp. date{/t}"  autocomplete="off" maxlength="10" size="10" title="{t}Expiration Date (optional){/t}" />
+         </td>
+      </tr>
+      <tr>
+         <td>
+            Destination :
+            <div>
+               <input class="blogPlugin_add_dest blogPlugin_grp_dest_team" type="radio" name="blogPlugin_grp_dest" value="dest_team" checked>{t}Team{/t} ({$teamName})
+               <br>
+               <input class="blogPlugin_add_dest blogPlugin_grp_dest_user" type="radio" name="blogPlugin_grp_dest" value="dest_user">{t}User{/t}:
+               <br>
+               <select class='blogPlugin_add_user_dest' style="width: 200px;">
+                  {if (isset($blogPlugin_isCodevAdmin) && (1 ==  $blogPlugin_isCodevAdmin))}
+                  <option value='0'>{t}Everybody (all teams){/t}</option>
+                  {/if}
+                  {foreach from=$blogPlugin_userCandidateList key=id item=name}
+                     <option value='{$id}'>{$name}</option>
+                  {/foreach}
+               </select>
+            </div>
+         </td>
+      </tr>
+   </table>
+</div>
+
+<div class="blogPluginOptionDialog ui-helper-hidden" title="{t}Message wall options{/t}">
+   <b>{t}Filters{/t}</b><br>
+   <table class="invisible">
+      <tr>
+         <td>{t}Recipient{/t}</td>
+         <td>:</td>
+         <td>
+            <select class='blogPlugin_opt_recipient' name='blogPlugin_opt_recipient'>
+               <option value='current_team'>{t}Current team{/t}</option>
+               <option value='all'>{t}All my teams{/t}</option>
+               <option value='only_me'>{t}Assigned to me{/t}</option>
+               <option value='my_posts'>{t}Posted by me{/t}</option>
+            </select>
+         </td>
+      </tr>
+      <tr>
+         <td>{t}Category{/t}</td>
+         <td>:</td>
+         <td>
+            <select class='blogPlugin_opt_category' name='blogPlugin_opt_category'>
+               <option value='0'>{t}All{/t}</option>
+               {foreach from=$blogPlugin_categoryList key=id item=name}
+                  <option value='{$id}'>{$name}</option>
+               {/foreach}
+            </select>
+         </td>
+      </tr>
+      <tr>
+         <td>{t}Severity{/t}</td>
+         <td>:</td>
+         <td>
+            <select class='blogPlugin_opt_severity' name='blogPlugin_opt_severity'>
+               <option value='0'>{t}All{/t}</option>
+               {foreach from=$blogPlugin_severityList key=id item=name}
+                  <option value='{$id}'>{$name}</option>
+               {/foreach}
+            </select>
+         </td>
+      </tr>
+      <tr>
+         <td>{t}Hidden messages{/t}</td>
+         <td>:</td>
+         <td>
+            <select class='blogPlugin_opt_displayHiddenPosts' name='blogPlugin_opt_displayHiddenPosts'>
+               <option value='0'>{t}Hide{/t}</option>
+               <option value='1'>{t}Display{/t}</option>
+            </select>
+         </td>
+      </tr>
+   </table>
+</div>
+
+<div class="blogPluginHelpDialog ui-helper-hidden" title="{t}Message wall help{/t}">
+   <p>
+      <b>{t}Buttons{/t}</b><br>
+      <table class="invisible">
+         <tr>
+            <td><img title="{t}Add new message{/t}" src="images/b_add.png"/></td>
+            <td>{t}Post a new message{/t}</td>
+         </tr>
+         <tr>
+            <td><img title="{t}Options{/t}" src="images/b_config.png"/></td>
+            <td>{t}Set message wall options{/t}</td>
+         </tr>
+         <tr>
+            <td><img title="{t}Mark as read{/t}" src="images/b_markAsRead.png"/></td>
+            <td>{t}Mark as read. The message can then be hidden{/t}</td>
+         </tr>
+         <tr>
+            <td><img title="{t}Hide{/t}" src="images/b_ghost.png"/></td>
+            <td>{t}Hide message. Depends on user setting "Display hidden messages"{/t}</td>
+         </tr>
+         <tr>
+            <td><img title="{t}Show{/t}" src="images/b_unhide.png"/></td>
+            <td>{t}Unhide a hidden message{/t}</td>
+         </tr>
+         <tr>
+            <td><img title="{t}Delete{/t}" src="images/b_drop.png"/></td>
+            <td>{t}Delete a message.{/t}</td>
+         </tr>
+      </table>
+   </p>
+</div>
+
+<div class="ui-helper-clearfix"></div>
+{else}
+   {t}No data.{/t}
+{/if}
+
+<script type="text/javascript">
+      // this is to transmit SMARTY variables to BlogPlugin.js
+      var blogPluginSmartyData = {
+         blogPlugin_ajaxPhpURL:"{$blogPlugin_ajaxPhpURL}",
+
+         // i18n
+         i18n_OK:"{t}OK{/t}",
+         i18n_Cancel:"{t}Cancel{/t}",
+      };
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function blogPluginJsDestroy() {
+
+      // if plugin is removed and added again, this avoids to have duplicated events on buttons
+      jQuery("blogPlugin_btContainer").off("click", ".blogPluginRefresh_link");
+      jQuery("blogPlugin_btContainer").off("click", ".blogPluginAddPost_link");
+      jQuery("blogPlugin_btContainer").off("click", ".blogPluginConfig_link");
+      jQuery("blogPlugin_btContainer").off("click", ".blogPluginHelpDialog_link");
+
+      // if plugin is removed and added again, this avoids to open duplicated dialogs
+      jQuery(".blogPluginAddPostDialog").dialog('destroy').remove();
+      jQuery(".blogPluginOptionDialog").dialog('destroy').remove();
+      jQuery(".blogPluginHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html)
+   // or when a new widget is added to the dashboard.
+   function blogPluginJsInit() {
+
+      var dashboardId = jQuery('.codevttDashboard').attr('data-dashboardId');
+      var divContainer = jQuery(".blogPlugin_bpostsContainer");
+
+      // WARN: All bPost events added in JsInit must first be removed
+      // because duplicated events will exist if JsInit is called several times.
+      // and yes it is called several times (see blogPluginOptionDialog, blogPluginAddPost_link, blogPluginRefresh_link)
+      divContainer.off("click", ".blogPlugin_btAckPost");
+      divContainer.off("click", ".blogPlugin_btDeletePost");
+      divContainer.off("click", ".blogPlugin_btHidePost");
+      divContainer.off("click", ".blogPlugin_btUnhidePost");
+
+      // --------------------------------------
+      // Note: use 'on' instead of 'click' because we need bubbeling 
+      // when new html content is added, buttons need to subscribe to existing events
+      divContainer.on("click", ".blogPlugin_btAckPost", function(e) {
+         var postId = jQuery(this).attr("data-bpostId");
+
+         jQuery.ajax({
+            type: 'post',
+            url: blogPluginSmartyData.blogPlugin_ajaxPhpURL,
+            data: {
+               action: 'AckPost',
+               dashboardId: dashboardId,
+               blogpostId: postId,
+            },
+            dataType:"json",
+            success: function(data) {
+               if ('SUCCESS' === data.statusMsg) {
+                  // reload current post
+                  var divContainer = jQuery(".blogPlugin_bpostsContainer");
+                  var curPost = jQuery(".blogPlugin_blogPost[data-bpostId='" + postId + "']");
+                  var curPostIdx = curPost.index();
+                  var objHtmlContent = jQuery.parseHTML( data.bpost_htmlContent );
+
+                  curPost.remove();
+                  if (curPostIdx === 0) {
+                      divContainer.prepend(objHtmlContent);
+                  } else {
+                      divContainer.children().eq(curPostIdx - 1).after(objHtmlContent);
+                  }
+               } else {
+                  console.error("statusMsg", data.statusMsg);
+                  alert(data.statusMsg);
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               console.error(textStatus, errorThrown);
+               alert("ERROR: Please contact your CodevTT administrator");
+            }
+         });
+
+      });
+
+      // --------------------------------------
+      divContainer.on("click", ".blogPlugin_btDeletePost", function(e) {
+         var postId = jQuery(this).attr("data-bpostId");
+
+         var cancel = window.confirm("{t}This will permanently delete this post, are you sure ?!{/t}");
+         if (! cancel) { return; }
+
+         jQuery.ajax({
+            type: 'post',
+            url: blogPluginSmartyData.blogPlugin_ajaxPhpURL,
+            data: {
+               action: 'DeletePost',
+               dashboardId: dashboardId,
+               blogpostId: postId,
+            },
+            dataType:"json",
+            success: function(data) {
+               if ('SUCCESS' === data.statusMsg) {
+                  // remove parent with class blogPlugin_blogPost
+                  jQuery(".blogPlugin_blogPost[data-bpostId='" + postId + "']").remove();
+               } else {
+                  console.error("statusMsg", data.statusMsg);
+                  alert(data.statusMsg);
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               console.error(textStatus, errorThrown);
+               alert("ERROR: Please contact your CodevTT administrator");
+            }
+         });
+      });
+
+
+      // --------------------------------------
+      divContainer.on("click", ".blogPlugin_btHidePost", function(e) {
+         var postId = jQuery(this).attr("data-bpostId");
+
+         jQuery.ajax({
+            type: 'post',
+            url: blogPluginSmartyData.blogPlugin_ajaxPhpURL,
+            data: {
+               action: 'HidePost',
+               dashboardId: dashboardId,
+               blogpostId: postId,
+            },
+            dataType:"json",
+            success: function(data) {
+               if ('SUCCESS' === data.statusMsg) {
+
+                  // TODO check data.displayHiddenPosts to know if the user option "displayHiddenPosts" is activated
+                  // TODO if false: delete div
+                  // TODO if true: refresh post (data.bpost_htmlContent) because icon changed
+
+                  // reload current post
+                  var divContainer = jQuery(".blogPlugin_bpostsContainer");
+                  var curPost = jQuery(".blogPlugin_blogPost[data-bpostId='" + postId + "']");
+                  var curPostIdx = curPost.index();
+
+                  curPost.remove();
+                  if (true == data.isDisplayHiddenPosts ) {
+                     var objHtmlContent = jQuery.parseHTML( data.bpost_htmlContent );
+                     if (curPostIdx === 0) {
+                         divContainer.prepend(objHtmlContent);
+                     } else {
+                         divContainer.children().eq(curPostIdx - 1).after(objHtmlContent);
+                     }
+                  }
+
+
+               } else {
+                  console.error("statusMsg", data.statusMsg);
+                  alert(data.statusMsg);
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               console.error(textStatus, errorThrown);
+               alert("ERROR: Please contact your CodevTT administrator");
+            }
+         });
+
+      });
+      // --------------------------------------
+      divContainer.on("click", ".blogPlugin_btUnhidePost", function(e) {
+         var postId = jQuery(this).attr("data-bpostId");
+
+         jQuery.ajax({
+            type: 'post',
+            url: blogPluginSmartyData.blogPlugin_ajaxPhpURL,
+            data: {
+               action: 'UnhidePost',
+               dashboardId: dashboardId,
+               blogpostId: postId,
+            },
+            dataType:"json",
+            success: function(data) {
+               if ('SUCCESS' === data.statusMsg) {
+
+                  // reload current post
+                  var divContainer = jQuery(".blogPlugin_bpostsContainer");
+                  var curPost = jQuery(".blogPlugin_blogPost[data-bpostId='" + postId + "']");
+                  var curPostIdx = curPost.index();
+                  var objHtmlContent = jQuery.parseHTML( data.bpost_htmlContent );
+
+                  curPost.remove();
+                  if (curPostIdx === 0) {
+                      divContainer.prepend(objHtmlContent);
+                  } else {
+                      divContainer.children().eq(curPostIdx - 1).after(objHtmlContent);
+                  }
+                  // re-activate java re-activate on new inserted post is done via bubbeling (blogPlugin_bpostsContainer.on event)
+
+               } else {
+                  console.error("statusMsg", data.statusMsg);
+                  alert(data.statusMsg);
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               console.error(textStatus, errorThrown);
+               alert("ERROR: Please contact your CodevTT administrator");
+            }
+         });
+
+      });
+
+      jQuery(".blogPluginRefresh_link").click(function(e) {
+         e.preventDefault();
+
+         var dashboardId = jQuery('.codevttDashboard').attr('data-dashboardId');
+
+         jQuery.ajax({
+            type: 'post',
+            url: blogPluginSmartyData.blogPlugin_ajaxPhpURL,
+            data: {
+               action: 'refreshAllPosts',
+               dashboardId: dashboardId,
+            },
+            dataType:"json",
+            success: function(data) {
+               if ('SUCCESS' === data.statusMsg) {
+
+                  // refresh all posts
+                  var divContainer = jQuery(".blogPlugin_bpostsContainer");
+                  divContainer.empty();
+                  var objHtmlContent = jQuery.parseHTML( data.blogPosts_htmlContent );
+                  divContainer.prepend(objHtmlContent);
+
+                  // re-activate java on new inserted post
+                  window['blogPluginJsInit']();
+
+               } else {
+                  console.error("statusMsg", data.statusMsg);
+                  alert(data.statusMsg);
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               console.error(textStatus, errorThrown);
+               alert("ERROR: Please contact your CodevTT administrator");
+            }
+         });
+      });
+
+      jQuery(".blogPluginHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".blogPluginHelpDialog").dialog("open");
+      });
+      jQuery(".blogPluginHelpDialog").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "auto",
+         hide: "fade"
+      });
+
+      jQuery(".blogPluginConfig_link").click(function(e) {
+         e.preventDefault();
+
+         // ajaxCall to get userSettings from DB & update dialog
+         jQuery.ajax({
+            type: 'post',
+            url: blogPluginSmartyData.blogPlugin_ajaxPhpURL,
+            data: {
+               action: 'getUserSettings',
+               dashboardId: dashboardId,
+            },
+            dataType:"json",
+            success: function(data) {
+               if ('SUCCESS' === data.statusMsg) {
+                  // update OptionDialog comboboxes
+                  jQuery(".blogPlugin_opt_recipient").val(data.userSettings.recipient);
+                  jQuery(".blogPlugin_opt_category").val(data.userSettings.category);
+                  jQuery(".blogPlugin_opt_severity").val(data.userSettings.severity);
+                  jQuery(".blogPlugin_opt_displayHiddenPosts").val(data.userSettings.isDisplayHiddenPosts);
+               } else {
+                  console.error("statusMsg", data.statusMsg);
+                  //alert(data.statusMsg);
+                  // no alert, continue with preset values in comboboxes.
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               console.error(textStatus, errorThrown);
+               alert("ERROR: Please contact your CodevTT administrator");
+            }
+         });
+         // always open, even if ajax error
+         jQuery(".blogPluginOptionDialog").dialog("open");
+      });
+
+      jQuery(".blogPluginOptionDialog").dialog({
+         autoOpen: false,
+         height: 'auto',
+         width: "auto",
+         //hide: "fade",
+         modal: true,
+         buttons: {
+            Ok: function() {
+               // stop form from submitting normally
+               //event.preventDefault();
+
+               var dashboardId = jQuery('.codevttDashboard').attr('data-dashboardId');
+
+               var recipient = jQuery(".blogPlugin_opt_recipient").val();
+               var category = jQuery(".blogPlugin_opt_category").val();
+               var severity = jQuery(".blogPlugin_opt_severity").val();
+               var displayHiddenPosts = jQuery(".blogPlugin_opt_displayHiddenPosts").val();
+               jQuery.ajax({
+                  type: 'post',
+                  url: blogPluginSmartyData.blogPlugin_ajaxPhpURL,
+                  data: {
+                     action: 'updateUserSettings',
+                     dashboardId: dashboardId,
+                     recipient: recipient,
+                     category: category,
+                     severity: severity,
+                     displayHiddenPosts: displayHiddenPosts,
+                  },
+                  dataType:"json",
+                  success: function(data) {
+                     if ('SUCCESS' === data.statusMsg) {
+
+                        // refresh all posts (new filters applied)
+                        // TODO refresh only if settings have changed
+                        var divContainer = jQuery(".blogPlugin_bpostsContainer");
+                        divContainer.empty();
+                        var objHtmlContent = jQuery.parseHTML( data.blogPosts_htmlContent );
+                        divContainer.prepend(objHtmlContent);
+
+                        // re-activate java on new inserted post
+                        window['blogPluginJsInit']();
+
+                     } else {
+                        console.error("statusMsg", data.statusMsg);
+                        alert(data.statusMsg);
+                     }
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                     console.error(textStatus, errorThrown);
+                     alert("ERROR: Please contact your CodevTT administrator");
+                  }
+               });
+               jQuery(this).dialog( "close" );
+            },
+            Cancel: function() {
+               jQuery(this).dialog( "close" );
+            }
+         }
+      });
+
+      jQuery(".blogPlugin_add_user_dest").change(function(e) {
+         $(".blogPlugin_grp_dest_team").prop("checked", false);
+         $(".blogPlugin_grp_dest_user").prop("checked", true);
+      });
+
+      jQuery(".blogPluginAddPost_link").click(function(e) {
+         e.preventDefault();
+
+         jQuery(".blogPlugin_add_summary").val('');
+         jQuery(".blogPlugin_add_content").val('');
+         jQuery(".blogPlugin_add_expiredatepicker").val('');
+         jQuery(".blogPluginAddPostDialog").dialog( { width: 900, height: 290 } );
+         jQuery(".blogPluginAddPostDialog").dialog("open");
+      });
+      jQuery(".blogPluginAddPostDialog").dialog({
+         autoOpen: false,
+         height: 'auto',
+         width: "auto",
+         //hide: "fade",
+         modal: true,
+         buttons: {
+            Ok: function() {
+               // stop form from submitting normally
+               //event.preventDefault();
+               var dashboardId = jQuery('.codevttDashboard').attr('data-dashboardId');
+
+               var category = jQuery(".blogPlugin_add_category").val();
+               var summary  = jQuery(".blogPlugin_add_summary").val();
+               var severity = jQuery(".blogPlugin_add_severity").val();
+               var text     = jQuery(".blogPlugin_add_content").val();
+               var expDate  = jQuery(".blogPlugin_add_expiredatepicker").val();
+               var grpDest  = jQuery(".blogPlugin_add_dest:checked").val();
+               var userDest = jQuery(".blogPlugin_add_user_dest").val();
+
+               jQuery.ajax({
+                  type: 'post',
+                  url: blogPluginSmartyData.blogPlugin_ajaxPhpURL,
+                  data: {
+                     action: 'addBlogPost',
+                     dashboardId: dashboardId,
+                     category: category,
+                     summary: summary,
+                     severity: severity,
+                     text: text,
+                     expDate: expDate,
+                     grpDest: grpDest,
+                     userDest: userDest
+                  },
+                  dataType:"json",
+                  success: function(data) {
+                     if ('SUCCESS' === data.statusMsg) {
+                        console.log("statusMsg", data.statusMsg);
+
+                        // add new post on the top of the list
+                        console.log('bpost_htmlContent str', data.bpost_htmlContent);
+                        var divContainer = jQuery(".blogPlugin_bpostsContainer");
+                        var objHtmlContent = jQuery.parseHTML( data.bpost_htmlContent );
+                        console.log('bpost_htmlContent obj', objHtmlContent);
+                        divContainer.prepend(objHtmlContent);
+
+                        // re-activate java on new inserted post
+                        window['blogPluginJsInit']();
+
+                     } else {
+                        console.error("statusMsg", data.statusMsg);
+                        alert(data.statusMsg);
+                     }
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                     console.error(textStatus, errorThrown);
+                     alert("ERROR: Please contact your CodevTT administrator");
+                  }
+               });
+
+               jQuery(this).dialog( "close" );
+
+            },
+            Cancel: function() {
+               // TODO restore previous values
+               jQuery(this).dialog( "close" );
+            }
+         }
+      });
+   }
+</script>
+
+</div>

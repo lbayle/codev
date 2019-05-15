@@ -16,31 +16,10 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('blog_manager.class.php');
-
-class BlogPostCache {
-
-   private static $logger;
-
-   // class instances
-   private static $instance;
-   private static $objects;
-   private static $callCount;
-   private static $cacheName;
-
-   /**
-    * Private constructor to respect the singleton pattern
-    */
-   private function __construct() {
-      self::$objects = array();
-      self::$callCount = array();
-
-      self::$cacheName = __CLASS__;
-
-      self::$logger = Logger::getLogger("cache"); // common logger for all cache classes
-
-      #echo "DEBUG: Cache ready<br/>";
-   }
+/**
+ * usage: BlogPostCache::getInstance()->getBlogPost($id);
+ */
+class BlogPostCache extends Cache {
 
    /**
     * The singleton pattern
@@ -48,45 +27,29 @@ class BlogPostCache {
     * @return BlogPostCache
     */
    public static function getInstance() {
-      if (!isset(self::$instance)) {
-         $c = __CLASS__;
-         self::$instance = new $c;
-      }
-      return self::$instance;
+      return parent::createInstance(__CLASS__);
    }
 
    /**
     * Get BlogPost class instance
     * @param int $id The blog post id
-    * @return BlogPost The blog post attached to the id
+    * @param resource $details The details
+    * @return Command The blog post attached to the id
     */
-   public function getBlogPost($id) {
-      $object = isset(self::$objects[$id]) ? self::$objects[$id] : NULL;
-
-      if (NULL == $object) {
-         self::$objects[$id] = new BlogPost($id);
-         $object = self::$objects[$id];
-      } else {
-         if (isset(self::$callCount[$id])) {
-            self::$callCount[$id] += 1;
-         } else {
-            self::$callCount[$id] = 1;
-         }
-      }
-      return $object;
+   public function getBlogPost($id, $details = NULL) {
+      return parent::get($id, $details);
    }
 
    /**
-    * Log stats
+    * Create BlogPost
+    * @param int $id The id
+    * @param resource $details The details
+    * @return BlogPost The object
     */
-   public function logStats() {
-      if (self::$logger->isDebugEnabled()) {
-         $nbObj   = count(self::$callCount);
-         $nbCalls = array_sum(self::$callCount);
-         $ratio = (0 != $nbObj) ? "1:".round($nbCalls/$nbObj) : '';
-
-         self::$logger->debug(self::$cacheName." Statistics : nbObj=$nbObj nbCalls=$nbCalls ratio=$ratio");
-      }
+   protected function create($id, $details = NULL) {
+      return new BlogPost($id, $details);
    }
 
 }
+
+?>

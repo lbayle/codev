@@ -1,241 +1,221 @@
 <?php
-
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
-  This file is part of CodevTT.
+   This file is part of CodevTT.
 
-  CodevTT is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+   CodevTT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  CodevTT is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+   CodevTT is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+class CommandSetEditController extends Controller {
 
-include_once "issue.class.php";
-include_once "user.class.php";
-include_once "team.class.php";
-include_once "commandset.class.php";
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-require_once "commandset_tools.php";
-
-include_once "smarty_tools.php";
-
-$logger = Logger::getLogger("commandset_edit");
-
-
-/**
- * Action on 'Save' button
- *
- * @param CommandSet $cmdset
- */
-function updateCommandSetInfo($cmdset) {
-
-   // security check
-   $cmdset->setTeamid(checkNumericValue($_POST['teamid']));
-
-   $formattedValue = mysql_real_escape_string($_POST['commandsetName']);
-   $cmdset->setName($formattedValue);
-
-   $formattedValue = mysql_real_escape_string($_POST['commandsetReference']);
-   $cmdset->setReference($formattedValue);
-
-   $formattedValue = mysql_real_escape_string($_POST['commandsetDesc']);
-   $cmdset->setDesc($formattedValue);
-
-   $formattedValue = mysql_real_escape_string($_POST['commandsetDate']);
-   $cmdset->setDate(date2timestamp($formattedValue));
-
-   $cmdset->setCost(checkNumericValue($_POST['commandsetCost'], true));
-
-   $cmdset->setBudgetDays(checkNumericValue($_POST['commandsetBudget'], true));
-
-}
-
-/**
- * list the Commands that can be added to this CommandSet.
- *
- * This depends on user's teams
- *
- *
- */
-function getCmdSetCandidates($user) {
-   $cmdCandidates = array();
-
-   $lTeamList = $user->getLeadedTeamList();
-   $managedTeamList = $user->getManagedTeamList();
-   $mTeamList = $user->getDevTeamList();
-   $teamList = $mTeamList + $lTeamList + $managedTeamList;
-
-   foreach ($teamList as $teamid => $name) {
-
-      $team = TeamCache::getInstance()->getTeam($teamid);
-      $cmdList = $team->getCommands();
-
-      foreach ($cmdList as $cid => $cmd) {
-
-         // TODO remove Cmds already in this cmdset.
-
-         $cmdCandidates[$cid] = $cmd->getReference() . " ". $cmd->getName();
-      }
-   }
-   asort($cmdCandidates);
-   
-   return $cmdCandidates;
-}
-
-
-// =========== MAIN ==========
-
-require('display.inc.php');
-
-
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_('CommandSet (edit)'));
-
-if (isset($_SESSION['userid'])) {
-
-   $userid = $_SESSION['userid'];
-   $session_user = UserCache::getInstance()->getUser($userid);
-
-   $teamid = 0;
-   if (isset($_POST['teamid'])) {
-      $teamid = $_POST['teamid'];
-   } else if (isset($_SESSION['teamid'])) {
-      $teamid = $_SESSION['teamid'];
-   }
-   $_SESSION['teamid'] = $teamid;
-
-   // TODO check if $teamid is set and != 0
-
-   // set TeamList (including observed teams)
-   $teamList = $session_user->getTeamList();
-   $smartyHelper->assign('teamid', $teamid);
-   $smartyHelper->assign('teams', getTeams($teamList, $teamid));
-
-
-   // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
-   $commandsetid = 0;
-   if(isset($_POST['commandsetid'])) {
-      $commandsetid = $_POST['commandsetid'];
-   } else if(isset($_GET['commandsetid'])) {
-      $commandsetid = $_GET['commandsetid'];
-   } else if(isset($_SESSION['commandsetid'])) {
-      $commandsetid = $_SESSION['commandsetid'];
-   }
-   $_SESSION['commandsetid'] = $commandsetid;
-
-
-   $action = isset($_POST['action']) ? $_POST['action'] : '';
-
-
-   // ------
-
-   $smartyHelper->assign('commandsetid', $commandsetid);
-   $smartyHelper->assign('commandsets', getCommandSets($teamid, $commandsetid));
-
-
-   if (0 == $commandsetid) {
-
-      // -------- CREATE CMDSET -------
-
-      // ------ Actions
-      if ("createCmdset" == $action) {
-
-         $teamid = checkNumericValue($_POST['teamid']);
-         $_SESSION['teamid'] = $teamid;
-         $logger->debug("create new CommandSet for team $teamid<br>");
-
-         $cmdsetName = mysql_real_escape_string($_POST['commandsetName']);
-
-         $commandsetid = CommandSet::create($cmdsetName, $teamid);
-         $smartyHelper->assign('commansetdid', $commandsetid);
-
-         $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
-
-         // set all fields
-         updateCommandSetInfo($cmdset);
-
-      }
-
-      // ------ Display Empty Command Form
-      // Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
-      $smartyHelper->assign('cmdsetInfoFormBtText', T_('Create'));
-      $smartyHelper->assign('cmdsetInfoFormAction', 'createCmdset');
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger("commandset_edit");
    }
 
+   protected function display() {
+      if (Tools::isConnectedUser()) {
 
-   if (0 != $commandsetid) {
-      // -------- UPDATE CMDSET -------
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
+            $this->smartyHelper->assign('isEditGranted', FALSE);
+        } else {
+            // only managers can edit the SC
+            $isManager = $this->session_user->isTeamManager($this->teamid);
+            if (!$isManager) {
+               return;
+            }
+            $this->smartyHelper->assign('isEditGranted', true);
 
-      $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
+            // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
+            $commandsetid = 0;
+            if(isset($_POST['commandsetid'])) {
+               $commandsetid = $_POST['commandsetid'];
+               $_SESSION['commandsetid'] = $commandsetid;
+            } else if(isset($_GET['commandsetid'])) {
+               $commandsetid = $_GET['commandsetid'];
+               $_SESSION['commandsetid'] = $commandsetid;
+            } else if(isset($_SESSION['commandsetid'])) {
+               $commandsetid = $_SESSION['commandsetid'];
+            }
 
-      // ------ Actions
+            $action = filter_input(INPUT_POST, 'action');
+            
+            if (0 == $commandsetid) {
+               // -------- CREATE CMDSET -------
+               if ("createCmdset" == $action) {
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("create new CommandSet for team $this->teamid<br>");
+                  }
 
-      if ("addCommand" == $action) {
+                  $cmdsetName = Tools::getSecurePOSTStringValue('commandsetName');
 
-         # TODO
-         $cmdid = checkNumericValue($_POST['cmdid']);
+                  try {
+                     $commandsetid = CommandSet::create($cmdsetName, $this->teamid);
 
-         if (0 == $cmdid) {
-            #$_SESSION['cmdid'] = 0;
-            header('Location:command_edit.php?cmdid=0');
-         } else {
-            $cmdset->addCommand($cmdid, Command::type_general);
+                     $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
+                  } catch(Exception $e) {
+                     // Smartify
+                     echo "Can't create the CommandSet because the CommandSet name is already used";
+                  }
+               }
+
+               // Display Empty Command Form
+               // Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
+               $this->smartyHelper->assign('cmdsetInfoFormBtText', T_('Create'));
+               $this->smartyHelper->assign('cmdsetInfoFormAction', 'createCmdset');
+            }
+
+            if (0 != $commandsetid) {
+               // -------- UPDATE CMDSET -------
+               $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
+
+               // ------ Actions
+               if ("addCommand" == $action) {
+                  # TODO
+                  $cmdid = SmartyTools::checkNumericValue($_POST['cmdid']);
+
+                  if (0 == $cmdid) {
+                     #$_SESSION['cmdid'] = 0;
+                     header('Location:command_edit.php?cmdid=0');
+                  } else {
+                     $cmdset->addCommand($cmdid, Command::type_general);
+                  }
+               } else if ("removeCmd" == $action) {
+                  $cmdid = SmartyTools::checkNumericValue($_POST['cmdid']);
+                  $cmdset->removeCommand($cmdid);
+               } else if ("updateCmdsetInfo" == $action) {
+                  $this->updateCommandSetInfo($cmdset);
+                  header('Location:commandset_info.php');
+
+               } else if ("deleteCommandSet" == $action) {
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("delete CommandSet $commandsetid (".$cmdset->getName().")");
+                  }
+                  CommandSet::delete($commandsetid);
+                  unset($_SESSION['commandsetid']);
+                  header('Location:commandset_info.php');
+               }
+
+               // Display CommandSet
+               $this->smartyHelper->assign('commandsetid', $commandsetid);
+               $this->smartyHelper->assign('cmdsetInfoFormBtText', T_('Save'));
+               $this->smartyHelper->assign('cmdsetInfoFormAction', 'updateCmdsetInfo');
+               $this->smartyHelper->assign('isAddCmdForm', true);
+
+               $cmdCandidates = $this->getCmdSetCandidates($cmdset, $this->session_user);
+               $this->smartyHelper->assign('cmdCandidates', $cmdCandidates);
+               $this->smartyHelper->assign('isAddCmdSetForm', true);
+
+               // set CommandSets I belong to
+               $this->smartyHelper->assign('parentContracts', CommandSetTools::getParentContracts($cmdset));
+
+               $isManager = $this->session_user->isTeamManager($cmdset->getTeamid());
+
+               CommandSetTools::displayCommandSet($this->smartyHelper, $cmdset, $isManager, $this->teamid);
+            }
+
+            // you can create OR move SC only to managed teams
+            $mTeamList = $this->session_user->getManagedTeamList();
+            $this->smartyHelper->assign('grantedTeams', SmartyTools::getSmartyArray($mTeamList, $this->teamid));
+
+
          }
-
-      } else if ("removeCmd" == $action) {
-
-         $cmdid = checkNumericValue($_POST['cmdid']);
-         $cmdset->removeCommand($cmdid);
-         
-      } else if ("updateCmdsetInfo" == $action) {
-
-         $teamid = checkNumericValue($_POST['teamid']);
-         $_SESSION['teamid'] = $teamid;
-
-         updateCommandSetInfo($cmdset);
-
-      } else if ("deleteCommandSet" == $action) {
-
-         $logger->debug("delete CommandSet $commandsetid (".$cmdset->getName().")");
-         CommandSet::delete($commandsetid);
-         unset($_SESSION['commandsetid']);
-         header('Location:commandset_info.php');
-      }
-
-      // ------ Display CommandSet
-
-      $smartyHelper->assign('commandsetid', $commandsetid);
-      $smartyHelper->assign('cmdsetInfoFormBtText', T_('Save'));
-      $smartyHelper->assign('cmdsetInfoFormAction', 'updateCmdsetInfo');
-      $smartyHelper->assign('isAddCmdForm', true);
-
-      $cmdCandidates = getCmdSetCandidates($session_user);
-      $smartyHelper->assign('cmdCandidates', $cmdCandidates);
-      $smartyHelper->assign('isAddCmdSetForm', true);
-
-      // set CommandSets I belong to
-      $parentContracts = getParentContracts($cmdset);
-      $smartyHelper->assign('parentContracts', $parentContracts);
-      $smartyHelper->assign('nbParentContracts', count($parentContracts));
-
-      displayCommandSet($smartyHelper, $cmdset);
-
    }
-   
+   }
+
+   /**
+    * Action on 'Save' button
+    *
+    * @param CommandSet $cmdset
+    */
+   private function updateCommandSetInfo($cmdset) {
+
+      // TODO check sc_teamid in grantedTeams
+
+      $cset_teamid = Tools::getSecurePOSTIntValue('cset_teamid');
+
+      if ($cset_teamid != $this->teamid) {
+         // switch team (because you won't find the SC in current team's contract list)
+         $_SESSION['teamid'] = $cset_teamid;
+         $this->updateTeamSelector();
+      }
+      $cmdset->setTeamid($cset_teamid);
+
+      $formattedValue = Tools::getSecurePOSTStringValue('commandsetName');
+      $cmdset->setName($formattedValue);
+
+      $formattedValue = Tools::getSecurePOSTStringValue('commandsetReference');
+      $cmdset->setReference($formattedValue);
+
+      $formattedValue = Tools::getSecurePOSTStringValue('commandsetDesc');
+      $cmdset->setDesc($formattedValue);
+
+      $formattedValue = Tools::getSecurePOSTStringValue('commandsetDate');
+      if ('' != $formattedValue) {
+         $cmdset->setDate(Tools::date2timestamp($formattedValue));
+      }
+   }
+
+   /**
+    * list the Commands that can be added to this CommandSet.
+    *
+    * This depends on user's teams
+    * @param User $user
+    * @return string[]
+    */
+   private function getCmdSetCandidates(CommandSet $cmdset, User $user) {
+      $cmdCandidates = array();
+
+      #$lTeamList = $user->getAdministratedTeamList();
+      #$managedTeamList = $user->getManagedTeamList();
+      #$mTeamList = $user->getDevTeamList();
+      #$teamList = $mTeamList + $lTeamList + $managedTeamList;
+      $teamList = array($this->teamid => 'curTeam');
+
+      $cmds = $cmdset->getCommands(Command::type_general);
+
+      foreach ($teamList as $tid => $name) {
+         $team = TeamCache::getInstance()->getTeam($tid);
+         $cmdList = $team->getCommands();
+
+         foreach ($cmdList as $cid => $cmd) {
+            // remove Cmds already in this cset.
+            if (!array_key_exists($cid, $cmds)) {
+               $cmdCandidates[$cid] = $cmd->getReference() . " ". $cmd->getName();
+            }
+         }
+      }
+      asort($cmdCandidates);
+
+      return $cmdCandidates;
+   }
+
 }
 
-$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'], $mantisURL);
-?>
+// ========== MAIN ===========
+CommandSetEditController::staticInit();
+$controller = new CommandSetEditController('../', 'CommandSet (edit)','Management');
+$controller->execute();
+

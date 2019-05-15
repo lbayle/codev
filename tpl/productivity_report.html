@@ -1,5 +1,4 @@
-{include file="menu/statistics_menu.html"}
-{if $teams}
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
 <div id="content">
 
    <div class="center">
@@ -7,413 +6,605 @@
          jQuery(document).ready(function(){
             jQuery('#computeButton').click(function() {
                var form = jQuery('#form1');
-               form.find('input[name=projectid]').val(jQuery('#projectid').val());
+               //form.find('input[name=projectid]').val(jQuery('#projectid').val());
                form.submit();
             });
          });
       </script>
-      <form id="form1" name="form1" method="post" action="{$page}">
+      <form id="form1" name="form1" class="formWithTabsHistory" method="post" action="{$page}">
          <fieldset>
-            {include file="form/teamSelector.html"}
             {include file="form/dateRangeSelector.html"}
             <input name="projectid" type="hidden" value="{$projectid}" />
+            <input type="hidden" name="action" value="computeProdReport" />
             <input id="computeButton" type="button" value="{t}Compute{/t}" />
          </fieldset>
       </form>
    </div>
 
-   <script type="text/javascript">
-      jQuery(document).ready(function(){
-         jQuery.each(jQuery(".help_link"),function() {
-            jQuery(this).click(function() {
-               jQuery("#"+jQuery(this).attr("id").replace("_link","")).dialog( "open" );
-               return false;
-            });
-         });
-         jQuery(".help_dialog").dialog({
-            autoOpen: false,
-            hide: "fade"
-         });
+{if isset($timeTracking)}
+   {include file="modal/consistency_check.html"}
 
-      jQuery(function() {
-         jQuery( "#tabsIndicators" ).tabs();
-      });
+   {include file="tools/graph.html"}
+   <div id="tabsIndicators" class="tabs {$ui_tabs_jquery}" style="margin-top: 2em;">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-1">{t}Production days{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-2">{t}Load per Job{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-3">{t}Project Detail{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-4">{t}Load per Project{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-5">{t}Productivity indicators{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-6">{t}Adherence to deadlines{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-7">{t}Effort Deviation{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-8">{t}Reopened tasks{/t}</a></li>
+      </ul>
 
-      });
-   </script>
-
-      <div class="spacer"></div>
-      <hr style="margin-top: 2em"/>
-
-      {include file="modal/consistency_check.html"}
-
-      <br>
-      <br>
-   
-
-      <div id="tabsIndicators">
-         <ul>
-            <li><a href="#tabsName-1">{t}Production days{/t}</a></li>
-            <li><a href="#tabsName-2">{t}Load per Job{/t}</a></li>
-            <li><a href="#tabsName-3">{t}Project Detail{/t}</a></li>
-            <li><a href="#tabsName-4">{t}Load per Project{/t}</a></li>
-            <li><a href="#tabsName-5">{t}Productivity indicators{/t}</a></li>
-            <li><a href="#tabsName-6">{t}Adherence to deadlines{/t}</a></li>
-            <li><a href="#tabsName-7">{t}Effort Deviation{/t}</a></li>
-            <li><a href="#tabsName-8">{t}Reopened tasks{/t}</a></li>
-         </ul>
-
-         <div id="tabsName-1">
-            <!-- Production days -->
-            {if $timeTracking}
-            <div style="margin-top: 2em;margin-bottom: 2em">
-               <div id="dialog_ProdDays" class="help_dialog" title="{t}Production days{/t}" style="display: none">
-                  <p><strong>{t}Projects{/t}</strong><br />{t}Days spent on the projects during the period (team members only){/t}</p>
-                  <p><strong>{t}SideTasks: Project Management{/t}</strong><br />{t}Days spent on project management tasks{/t}<br /></p>
-                  <p><strong>{t}SideTasks: Others{/t}</strong><br />{t}Days spent on sideTasks, except project management and inactivity tasks{/t}<br /></p>
-                  <p><strong>{t}Production Days : total{/t}</strong><br />{t}number of days billed{/t}<br /><span style="color:blue">{t}Formula{/t}: {t}projects{/t} + {t}sideTasks{/t}</span></p>
-               </div>
-               <table width="300px" class="float">
-                  <caption>{t}Production Days{/t} &nbsp;&nbsp;<a id="dialog_ProdDays_link" class="help_link" href="#"><img title="help" src="images/help_icon.gif"/></a></caption>
+      <div id="tabsName-1">
+         <!-- Production days -->
+         {if $timeTracking}
+         <div>
+            <h3 style="margin: 0 0 0.5em 0.5em;">{t}Production Days{/t} &nbsp;&nbsp;<a id="dialog_ProdDays_link" class="help_link" href="{$page}"><img alt="{t}Help{/t}" title="{t}Help{/t}" src="images/help_icon.gif"/></a></h3>
+            <table id="timeTrackingTable" class="float" style="width: 300px;">
+               <thead>
                   <tr>
                      <th></th>
                      <th>{t}Nb Days{/t}</th>
                   </tr>
+               </thead>
+               <tbody>
                   <tr>
-                     <td><img src="graphs/rectangle.png.php?height=1&width=1&color=92C5FC" height="10px" width="10px" style="border: 1px solid black;" /> {t}Projects{/t}</td>
+                     <td>
+                        <div class="generatedImage float" style="background-color: #92C5FC;"></div>
+                        <div class="float">{t}Projects{/t}</div>
+                        <div class="ui-helper-clearfix"></div>
+                     </td>
                      <td>{$timeTracking->getProdDays()}</td>
                   </tr>
                   <tr>
-                     <td><img src="graphs/rectangle.png.php?height=1&width=1&color=FFC16B" height="10px" width="10px" style="border: 1px solid black;" /> {t}Project Management{/t}</td>
+                     <td>
+                        <div class="generatedImage float" style="background-color: #FFC16B;"></div>
+                        <div class="float">{t}Project Management{/t}</div>
+                        <div class="ui-helper-clearfix"></div>
+                     </td>
                      <td>{$timeTracking->getManagementDays()}</td>
                   </tr>
                   <tr>
-                     <td><img src="graphs/rectangle.png.php?height=1&width=1&color=FFF494" height="10px" width="10px" style="border: 1px solid black;" /> {t}Other SideTasks{/t}</td>
+                     <td>
+                        <div class="generatedImage float" style="background-color: #FFF494;"></div>
+                        <div class="float">{t}Other SideTasks{/t}</div>
+                        <div class="ui-helper-clearfix"></div>
+                     </td>
                      <td>{$timeTracking->getProdDaysSideTasks(false) - $timeTracking->getManagementDays()}</td>
                   </tr>
+               </tbody>
+               <tfoot>
                   <tr>
                      <td>{t}Total{/t}</td>
                      <td>{$timeTracking->getProdDays() + $timeTracking->getProdDaysSideTasks(false)}</td>
                   </tr>
-               </table>
-               {if $productionDaysUrl}<img width="800px" height="300px" src="graphs/pie_graph.php?size=800:300&{$productionDaysUrl}" alt="{t}Production Days{/t}" />{/if}
-               <div class="spacer"></div>
-            </div>
-
-            {else}
-            {t}Not available.{/t}
-            {/if}
-         </div>
-         <div id="tabsName-2">
-            <!-- Working days per job -->
-            {if $workingDaysPerJob}
-            <div style="margin-top: 2em;margin-bottom: 2em">
-               <table width="300px" class="float">
-                  <caption>{t}Load per Job{/t}</caption>
-                  <tr>
-                     <th>{t}Job{/t}</th>
-                     <th>{t}Nb Days{/t}</th>
-                  </tr>
-                  {foreach from=$workingDaysPerJob key=id item=i}
-                  <tr>
-                     <td><img src="graphs/rectangle.png.php?height=1&width=1&color={$i.color}" height="10px" width="10px" style="border: 1px solid black;"/> {$i.name}</td>
-                     <td>{$i.nbDays}</td>
-                  </tr>
-                  {/foreach}
-               </table>
-               {if $workingDaysPerJobUrl}<img width="800px" height="300px" src="graphs/pie_graph.php?size=800:300&{$workingDaysPerJobUrl}" alt="{t}Load per Job{/t}" />{/if}
-               <div class="spacer"></div>
-            </div>
-            {else}
-            {t}Not available.{/t}
-            {/if}
-         </div>
-         <div id="tabsName-3">
-            {if $projects}
+               </tfoot>
+            </table>
+            {if isset($productionDays_jqplotData)}
             <script type="text/javascript">
-               jQuery(document).ready(function(){
-                  jQuery('#projectid').change(function(event) {
-                     /* stop form from submitting normally */
-                     event.preventDefault();
-
-                     var form = jQuery('#projectSelectionForm');
-                     var url = form.attr('action');
-                     var type = form.attr('method');
-
-                     form.find('input[name=teamid]').val(jQuery('#teamid').val());
-                     form.find('input[name=startdate]').val(jQuery('#startdatepicker').val());
-                     form.find('input[name=enddate]').val(jQuery('#enddatepicker').val());
-                     jQuery.ajax({
-                        type: type,
-                        url: url,
-                        data: form.serialize(),
-                        success: function(data) {
-                           jQuery("#projectDetailsDiv").html(jQuery.trim(data));
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                           if(errorThrown == 'Forbidden') {
-                              window.location = '{$page}';
-                           }
-                        }
-                     });
-                  });
+               jQuery(document).ready(function() {
+                  var chartoptions = jQuery('#productionDaysChart').data('plotoptions');
+                  chartoptions.seriesColors = ["#92C5FC", "#FFC16B", "#FFF494"];
+                  jQuery('#productionDaysChart').jqplot([{$productionDays_jqplotData}], chartoptions);
                });
             </script>
-            <form id="projectSelectionForm" method="get" action="smarty_tools_ajax.php">
-               <fieldset>
-                  <label for="projectid" class="caption_font">{t}Project Detail{/t}</label>
-                  <select id="projectid" name="projectid" title="{t}Project{/t}">
-                     {foreach from=$projects key=id item=i}
-                     <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-                     {/foreach}
-                  </select>
-                  <input type="hidden" name="teamid" value="" />
-                  <input type="hidden" name="startdate" value="" />
-                  <input type="hidden" name="enddate" value="" />
-                  <input type="hidden" name="action" value="getProjectDetails" />
-               </fieldset>
-            </form>
-            <div id="projectDetailsDiv">{include file="ajax/projectDetails.html"}</div>
-            {else}
-            {t}Not available.{/t}
+            <div id="productionDaysChart" class="pie_chart chart float" style=" top: -9px;"></div>
             {/if}
-         </div>
-         <div id="tabsName-4">
-            <!-- Working Days Per Project -->
-            {if $workingDaysPerProject}
-            <div style="margin-top: 2em;margin-bottom: 2em">
-               <table width="300px" class="float">
-                  <caption>{t}Load per Project{/t}</caption>
-                  <tr>
-                     <th>{t}Project{/t}</th>
-                     <th>{t}Nb Days{/t}</th>
-                     <!-- <th>{t}Progress{/t}</th>-->
-                     <!-- <th>{t}Progress Mgr{/t}</th>-->
-                  </tr>
-                  {foreach from=$workingDaysPerProject key=id item=i}
-                  <tr>
-                     <td>{$i.name}</td>
-                     <td>{$i.nbDays}</td>
-                     <!-- <td>{$i.progress}</td>-->
-                     <!-- <td>{$i.progressMgr}</td>-->
-                  </tr>
-                  {/foreach}
-               </table>
-               {if $workingDaysPerProjectUrl}<img width="700px" height="300px" src="graphs/pie_graph.php?size=700:300&{$workingDaysPerProjectUrl}" alt="{t}Load per Project{/t}"/>{/if}
-               <div class="spacer"></div>
+            <div class="ui-helper-clearfix"></div>
+            <div id="dialog_ProdDays" class="help_dialog ui-helper-hidden" title="{t}Production days{/t}">
+               <p><strong>{t}Projects{/t}</strong><br />{t}Days spent on the projects during the period (team members only){/t}</p>
+               <p><strong>{t}SideTasks: Project Management{/t}</strong><br />{t}Days spent on project management tasks{/t}<br /></p>
+               <p><strong>{t}SideTasks: Others{/t}</strong><br />{t}Days spent on sideTasks, except project management and inactivity tasks{/t}<br /></p>
+               <p><strong>{t}Production Days : total{/t}</strong><br />{t}number of days billed{/t}<br /><span style="color:blue">{t}Formula{/t}: {t}projects{/t} + {t}sideTasks{/t}</span></p>
             </div>
-            {else}
-            {t}Not available.{/t}
-            {/if}
          </div>
-         <div id="tabsName-5">
-            <!-- Productivity indicators -->
-            {if $timeTracking}
-            <div style="margin-top: 2em;margin-bottom: 2em">
-               <div id="dialog_AvailWorkload" class="help_dialog" title="{t}Available Workload{/t}" style="display: none">
-                  <p>{t}Workload Forecasting (holidays & externalTasks not included, developers only){/t}</p>
-               </div>
-               <div id="dialog_EfficiencyRate" class="help_dialog" title="{t}Efficiency Rate{/t}" style="display: none">
-                  <p>{t}Development workload (developers only){/t}</p>
-                  <p><strong>{t}Formula{/t}:</strong><br />{t}ProjProdDays{/t} / {t}TotalProdDays{/t} * 100</p>
-               </div>
-               <div id="dialog_SystemAvailability" class="help_dialog" title="{t}System Availability{/t}" style="display: none">
-                  <p>{t}Platform Availability{/t}</p>
-                  <p><strong>{t}Formula{/t}:</strong><br />100 - (({t}breakdownDays{/t} / {t}prodDays{/t})*100)</p>
-               </div>
-               <table width="300px">
-                  <caption>{t}Productivity indicators{/t}</caption>
-                  <tr>
-                     <th>{t}Indicator{/t}</th>
-                     <th>{t}Value{/t}</th>
-                     <th></th>
-                  </tr>
-                  <tr>
-                     <td>{t}Available Workload{/t}</td>
-                     <td>{$timeTracking->getAvailableWorkload()}</td>
-                     <td><a id="dialog_AvailWorkload_link" class="help_link" href="#"><img title="help" src="images/help_icon.gif"/></a></td>
-                  </tr>
-                  <tr>
-                     <td>{t}Efficiency Rate{/t}</td>
-                     <td>{$efficiencyRate} %</td>
-                     <td><a id="dialog_EfficiencyRate_link" class="help_link" href="#"><img title="help" src="images/help_icon.gif"/></a></td>
-                  </tr>
-                  <tr>
-                     <td>{t}System Availability{/t}</td>
-                     <td>{$systemDisponibilityRate} %</td>
-                     <td><a id="dialog_SystemAvailability_link" class="help_link" href="#"><img title="help" src="images/help_icon.gif"/></a></td>
-                  </tr>
-               </table>
-            </div>
-            {else}
-            {t}Not available.{/t}
-            {/if}
-         </div>
-         <div id="tabsName-6">
-            <!-- Adherence to deadlines -->
-            {if $timeDriftStats}
-            <div style="margin-top: 2em;margin-bottom: 2em">
-               <table>
-                  <caption title="{t}Tasks having no deadLine are not reported here{/t}">{t}Adherence to deadlines{/t} : {$percent} %</caption>
-                  <tr>
-                     <th></th>
-                     <th width="100px">{t}Total{/t}</th>
-                     <th>{t}Tasks{/t}</th>
-                     <th>{t}Formula{/t}</th>
-                  </tr>
-                  <tr>
-                     <td>{t}Tasks NOT delivered on time{/t}</td>
-                     <td title="{t}nb tasks{/t}">{$timeDriftStats.nbDriftsPos}<span title="{t}nb days{/t}" class="floatr">({$timeDriftStats.driftPos|round})</span></td>
-                     <td title="{t}Tasks NOT delivered on time{/t}">{$timeDriftStats.formatedBugidPosList}</td>
-                     <td>{t}DeliveryDate{/t} > {t}DeadLine{/t}</td>
-                  </tr>
-                  <tr>
-                     <td>{t}Tasks delivered on time{/t}</td>
-                     <td title="{t}nb tasks{/t}">{$timeDriftStats.nbDriftsNeg}<span title="{t}nb days{/t}" class="floatr">({$timeDriftStats.driftNeg|round})</span></td>
-                     <td title="{t}Task list for EffortEstim{/t}">{$timeDriftStats.formatedBugidNegList}</td>
-                     <td>{t}DeliveryDate{/t} <= {t}DeadLine{/t}</td>
-                  </tr>
-               </table>
-            </div>
-            {else}
-            {t}Not available.{/t}
-            {/if}
-         </div>
-         <div id="tabsName-7">
-            <!-- Effort Deviation -->
-            {if $resolvedDeviationStats || $resolvedIssuesInDrift}
-            <div style="margin-top: 2em;margin-bottom: 2em">
-               <div id="dialog_ResolvedDriftStats" class="help_dialog" title="{t}Effort Deviation{/t}" style="display: none">
-                  <p><strong>{t}Effort Deviation{/t}:</strong><br />{t}Overflow day quantity{/t}<br/>
-                     - {t}Computed on task Resolved/Closed in the given period{/t}<br/>
-                     - {t}Reopened tasks are not taken into account{/t}<br/>
-                     - {t}If < 0 then ahead on planning.{/t}<br />
-                     <span style="color:blue">{t}Formula{/t}: {t}elapsed{/t} - {t}EffortEstim{/t}</span>
-                  </p>
-                  <p><strong>{t}Tasks in drift{/t}:</strong><br />
-                     {t}Tasks for which the elapsed time is greater than the estimated effort{/t}<br />
-                     <span style="color:blue">{t}Formula{/t}: {t}drift{/t} > 1</span>
-                  </p>
-                  <p><strong>{t}Tasks in time{/t}:</strong><br />
-                     {t}Tasks resolved in time{/t}<br />
-                     <span style="color:blue">{t}Formula{/t}: -1 <= {t}drift{/t} <= 1</span>
-                  </p>
-                  <p><strong>{t}Tasks ahead{/t}:</strong><br />
-                     {t}Tasks resolved in less time than the estimated effort{/t}<br />
-                     <span style="color:blue">{t}Formula{/t}: {t}drift{/t} < -1</span>
-                  </p>
-               </div>
-               <h3>{t}EffortDeviation - Tasks resolved in the period{/t}&nbsp;&nbsp; <a id="dialog_ResolvedDriftStats_link" class="help_link" href="#"><img title="help" src="images/help_icon.gif"/></a></h3>
-               <script type="text/javascript">
-                  jQuery(document).ready(function(){
-                     jQuery( "#tabsResolvedDriftStats" ).tabs();
-                  });
-               </script>
-               <div id="tabsResolvedDriftStats">
-                  <ul>
-                     <li><a href="#tabsResolvedDriftStatsName-1">{t}Effort deviation{/t}</a></li>
-                     <li><a href="#tabsResolvedDriftStatsName-2">{t}Tasks in drift{/t}</a></li>
-                  </ul>
-                  <div id="tabsResolvedDriftStatsName-1">
-                     {if $resolvedDeviationStats}
-                     <table>
-                        <tr>
-                           <th></th>
-                           <th width="100px" title="{t}Manager Estimation{/t}">{t}Manager{/t}</th>
-                           <th width="100px">{t}Value{/t}</th>
-                           <th>{t}Tasks Mgr{/t}</th>
-                           <th>{t}Tasks{/t}</th>
-                        </tr>
-                        <tr>
-                           <td title="{t}If < 0 then ahead on planning.{/t}">{t}EffortDeviation{/t}</td>
-                           <td title="{t}elapsed{/t} - {t}MgrEffortEstim{/t}" {if $resolvedDeviationStats.driftMgr < 0}style="background-color: #61ed66;"{elseif $resolvedDeviationStats.driftMgr > 0}style="background-color: #fcbdbd;"{/if} >{$resolvedDeviationStats.driftMgr}</td>
-                           <td title="{t}elapsed{/t} - {t}EffortEstim{/t}" {if $resolvedDeviationStats.drift < 0}style="background-color: #61ed66;"{elseif $resolvedDeviationStats.drift > 0}style="background-color: #fcbdbd;"{/if}>{$resolvedDeviationStats.drift}</td>
-                           <td></td>
-                           <td></td>
-                        </tr>
-                        {foreach from=$resolvedDeviationStats.detailsResolvedDeviationStats key=id item=i}
-                        <tr>
-                           <td>{t}{$i.type}{/t}</td>
-                           <td title="{t}nb tasks{/t}">{$i.nbIssuesMgr}<span title="{t}nb days{/t}" class="floatr">{$i.nbDaysMgr}</span></td>
-                           <td title="{t}nb tasks{/t}">{$i.nbIssues}<span title="{t}nb days{/t}" class="floatr">{$i.nbDays}</span></td>
-                           <td title="{t}Task list for EffortEstim{/t}">{$i.formattedIssueListMgr}</td>
-                           <td title="{t}Task list for EffortEstim{/t}">{$i.formattedIssueList}</td>
-                        </tr>
-                        {/foreach}
-                     </table>
-                     {else}
-                     <p>{t}No resolved tasks...{/t}</p>
-                  {/if}
-                  </div>
-                  <div id="tabsResolvedDriftStatsName-2">
-                     {if $resolvedIssuesInDrift}
-                     <table>
-                        <tr>
-                           <th>{t}ID{/t}</th>
-                           <th>{t}Project{/t}</th>
-                           {if $isManager}
-                           <th title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>
-                           {/if}
-                           <th title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
-                           <th>{t}Status{/t}</th>
-                           <th>{t}Summary{/t}</th>
-                        </tr>
-                        {foreach from=$resolvedIssuesInDrift key=id item=i}
-                        <tr>
-                           <td>{$i.issueURL}</td>
-                           <td>{$i.projectName}</td>
-                           {if $isManager}
-                           <td {if $i.driftMgrEE < -1}style="background-color: #61ed66;"{elseif $i.driftMgrEE > 1}style="background-color: #fcbdbd;"{/if}$color >{$i.driftMgrEE}</td>
-                           {/if}
-                           <td {if $i.driftEE < -1}style="background-color: #61ed66;"{elseif $i.driftEE > 1}style="background-color: #fcbdbd;"{/if}$color >{$i.driftEE}</td>
-                           <td>{$i.currentStatusName}</td>
-                           <td>{$i.summary}</td>
-                        </tr>
-                        {/foreach}
-                     </table>
-                     {else}
-                     <p>{t}No resolved tasks...{/t}</p>
-                     {/if}
-                  </div>
-               </div>
-            </div>
-            {else}
-            {t}Not available.{/t}
-            {/if}
-         </div>
-         <div id="tabsName-8">
-            <!-- Reopened tasks -->
-            {if $formattedReopenedTaks}
-            <div style="margin-top: 2em;margin-bottom: 2em">
-               <table>
-                  <caption>{t}Reopened tasks{/t}</caption>
-                  <tr>
-                     <th width="100px">{t}nb submitted{/t}</th>
-                     <th width="100px">{t}nb reopened{/t}</th>
-                     <th width="100px" title="{t}nb reopened / nb submitted{/t}">{t}Rate{/t}</th>
-                     <th width="400px" title="{t}tasks having been reopened in the period{/t}">{t}Tasks{/t}</th>
-                     <th>{t}Formula{/t}</th>
-                  </tr>
-                  <tr>
-                     <td>{$timeTracking->getSubmitted()|count}</td>
-                     <td>{$timeTracking->getReopened()|count}</td>
-                     <td>{$reopenedBugsRate} %</td>
-                     <td>
-                        {foreach from=$formattedReopenedTaks key=id item=i name=formattedReopenedTaks}
-                        {$i}{if !$smarty.foreach.formattedReopenedTaks.last}, {/if}
-                        {/foreach}
-                     </td>
-                     <td>{t}nb reopened{/t} / {t}nb submitted{/t}</td>
-                  </tr>
-               </table>
-            </div>
-            {else}
-            {t}Not available.{/t}
-            {/if}
-         </div>
+         {else}
+         {t}Not available.{/t}
+         {/if}
       </div>
+      <div id="tabsName-2" class="ui-helper-hidden">
+         <!-- Working days per job -->
+         {if $workingDaysPerJob}
+         <h3 style="margin: 0 0 0.5em 0.5em;">{t}Load per Job{/t}</h3>
+         <table class="float" style="width: 300px;">
+            <thead>
+               <tr>
+                  <th>{t}Job{/t}</th>
+                  <th>{t}Nb Days{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$workingDaysPerJob key=id item=i}
+               <tr>
+                  <td>
+                     <div class="generatedImage float" style="background-color: #{$i.color};"></div>
+                     <div class="float">{$i.name}</div>
+                     <div class="ui-helper-clearfix"></div>
+                  </td>
+                  <td>{$i.nbDays}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+         {if isset($workingDaysPerJob_jqplotData)}
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               var chartoptions = jQuery('#workingDaysPerJobChart').data('plotoptions');
+               chartoptions.seriesColors = {$workingDaysPerJob_colors};
+               jQuery('#workingDaysPerJobChart').jqplot([{$workingDaysPerJob_jqplotData}], chartoptions);
+            });
+         </script>
+         <div id="workingDaysPerJobChart" class="pie_chart chart float" style="top: -9px;"></div>
+         {/if}
+         <div class="ui-helper-clearfix"></div>
+         {else}
+         {t}Not available.{/t}
+         {/if}
+      </div>
+      <div id="tabsName-3" class="ui-helper-hidden">
+         {if $projects}
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
 
+               var chart = jQuery('#projectDetailsChart');
+
+               jQuery('#projectid').change(function(event) {
+                  /* stop form from submitting normally */
+                  event.preventDefault();
+
+                  var form = jQuery('#projectSelectionForm');
+                  var url = form.attr('action');
+                  var type = form.attr('method');
+
+                  form.find('input[name=teamid]').val(jQuery('#teamid').val());
+                  form.find('input[name=startdate]').val(jQuery('#startdatepicker').val());
+                  form.find('input[name=enddate]').val(jQuery('#enddatepicker').val());
+                  jQuery.ajax({
+                     type: type,
+                     url: url,
+                     data: form.serialize(),
+                     success: function(data) {
+                        form.find('input[name=action]').val('getProjectDetailsData');
+                        jQuery("#projectDetailsDiv").html(jQuery.trim(data));
+                        jQuery.ajax({
+                           type: type,
+                           url: url,
+                           data: form.serialize(),
+                           success: function(data2) {
+                              updateChart(chart, data2);
+                           },
+                           error: function(jqXHR, textStatus, errorThrown) {
+                              if(errorThrown == 'Forbidden') {
+                                 window.location = '{$page}';
+                              }
+                           },
+                           complete: function(jqXHR, textStatus) {
+                              updateWidgets('#projectDetailsDiv');
+                              form.find('input[name=action]').val('getProjectDetails');
+                           }
+                        });
+                     },
+                     error: function(jqXHR, textStatus, errorThrown) {
+                        if(errorThrown == 'Forbidden') {
+                           window.location = '{$page}';
+                        }
+                     }
+                  });
+               });
+            });
+         </script>
+         <form id="projectSelectionForm" method="get" action="{$ajaxPage}" style="margin: 0 0 0.5em 0.5em;">
+            <fieldset>
+               <label for="projectid" class="caption_font">{t}Project Detail{/t}</label>
+               <select id="projectid" name="projectid" title="{t}Project{/t}">
+                  {foreach from=$projects key=id item=i}
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  {/foreach}
+               </select>
+               <input type="hidden" name="teamid" value="" />
+               <input type="hidden" name="startdate" value="" />
+               <input type="hidden" name="enddate" value="" />
+               <input type="hidden" name="action" value="getProjectDetails" />
+            </fieldset>
+         </form>
+         {if $projectDetails}
+         <div id="projectDetailsDiv">{include file="ajax/projectDetails.html"}</div>
+         {if $projectDetails_jqplotData}
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+            var chartoptions = jQuery('#projectDetailsChart').data('plotoptions');
+            jQuery('#projectDetailsChart').jqplot([{$projectDetails_jqplotData}], chartoptions);
+         });
+         </script>
+         <div id="projectDetailsChart" class="pie_chart chart float" style="top: -9px;"></div>
+         {/if}
+         <div class="ui-helper-clearfix"></div>
+         {/if}
+         {else}
+         {t}Not available.{/t}
+         {/if}
+      </div>
+      <div id="tabsName-4" class="ui-helper-hidden">
+         <!-- Working Days Per Project -->
+         {if $workingDaysPerProject}
+         <h3 style="margin: 0 0 0.5em 0.5em;">{t}Load per Project{/t}</h3>
+         <table class="float" style="width: 300px;">
+            <thead>
+               <tr>
+                  <th>{t}Project{/t}</th>
+                  <th>{t}Nb Days{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$workingDaysPerProject key=id item=i}
+               <tr>
+                  <td>{$i.name}</td>
+                  <td>{$i.nbDays}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+         {if isset($workingDaysPerProject_jqplotData)}
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               var chartoptions = jQuery('#workingDaysPerProjectChart').data('plotoptions');
+               jQuery('#workingDaysPerProjectChart').jqplot([{$workingDaysPerProject_jqplotData}], chartoptions);
+            });
+         </script>
+         <div id="workingDaysPerProjectChart" class="pie_chart chart float" style="top: -9px;"></div>
+         {/if}
+         <div class="ui-helper-clearfix"></div>
+         {else}
+         {t}Not available.{/t}
+         {/if}
+      </div>
+      <div id="tabsName-5" class="ui-helper-hidden">
+         <!-- Productivity indicators -->
+         {if $timeTracking}
+         <h3 style="margin: 0 0 0.5em 0.5em;">{t}Productivity indicators{/t}</h3>
+         <table>
+            <thead>
+               <tr>
+                  <th>{t}Indicator{/t}</th>
+                  <th>{t}Value{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td>{t}Available Workload{/t} &nbsp;&nbsp;<a id="dialog_AvailWorkload_link" class="help_link" href="{$page}"><img alt="{t}Help{/t}" title="{t}Help{/t}" src="images/help_icon.gif"/></a></td>
+                  <td>{$timeTracking->getAvailableWorkload()}</td>
+               </tr>
+               <tr>
+                  <td>{t}Efficiency Rate{/t} &nbsp;&nbsp;<a id="dialog_EfficiencyRate_link" class="help_link" href="{$page}"><img alt="{t}Help{/t}" title="{t}Help{/t}" src="images/help_icon.gif"/></a></td>
+                  <td><div class="progress">{$efficiencyRate}%</div></td>
+               </tr>
+               <tr>
+                  <td>{t}System Availability{/t} &nbsp;&nbsp;<a id="dialog_SystemAvailability_link" class="help_link" href="{$page}"><img alt="{t}Help{/t}" title="{t}Help{/t}" src="images/help_icon.gif"/></a></td>
+                  <td><div class="progress">{$systemDisponibilityRate}%</div></td>
+               </tr>
+               <tr>
+                  <td>{t}MgrEffortEstim Reliability Rate{/t} &nbsp;&nbsp;<a id="dialog_EffortEstimReliability_link" class="help_link" href="{$page}"><img alt="{t}Help{/t}" title="{t}Help{/t}" src="images/help_icon.gif"/></a></td>
+                  <td>{$EffortEstimReliabilityMgr}</td>
+               </tr>
+               <tr>
+                  <td>{t}EffortEstim Reliability Rate{/t}</td>
+                  <td>{$EffortEstimReliability}</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="dialog_AvailWorkload" class="help_dialog ui-helper-hidden" title="{t}Available Workload{/t}">
+            <p>{t}Workload Forecasting (holidays & externalTasks not included, developers only){/t}</p>
+         </div>
+         <div id="dialog_EfficiencyRate" class="help_dialog ui-helper-hidden" title="{t}Efficiency Rate{/t}">
+            <p>{t}Development workload (developers only){/t}</p>
+            <p><strong>{t}Formula{/t}:</strong><br><span style="color:blue">{t}ProjProdDays{/t} / {t}TotalProdDays{/t} * 100</span></p>
+         </div>
+         <div id="dialog_SystemAvailability" class="help_dialog ui-helper-hidden" title="{t}System Availability{/t}">
+            <p>{t}Platform Availability{/t}</p>
+            <p><strong>{t}Formula{/t}:</strong><br><span style="color:blue">100 - (({t}breakdownDays{/t} / {t}prodDays{/t})*100)</span></p>
+         </div>
+         <div id="dialog_EffortEstimReliability" class="help_dialog ui-helper-hidden" title="{t}EffortEstim Reliability{/t}">
+				<p>{t}Compares the effort estimation to the elapsed time.{/t}<br>{t}(on resolved tasks only){/t}<br><br>{t}rate = 1 : estimation was perfect.<br>rate &lt; 1 : underestimated<br>rate &gt; 1 : overestimated{/t}</p>
+            <p><strong>{t}Formula{/t}:</strong><br><span style="color:blue">SUM({t}EffortEstim{/t} + {t}EffortAdd{/t})  / SUM({t}elapsed{/t})</span></p>
+         </div>
+         {else}
+         {t}Not available.{/t}
+         {/if}
+      </div>
+      <div id="tabsName-6" class="ui-helper-hidden">
+         <!-- Adherence to deadlines -->
+         {if $timeDriftStats}
+         <h3 style="margin: 0 0 0.5em 0.5em;" title="{t}Tasks having no deadLine are not reported here{/t}">{t}Adherence to deadlines{/t} : {$percent} %</h3>
+         <table style="width: 80%;">
+            <thead>
+               <tr>
+                  <th></th>
+                  <th>{t}Total{/t}</th>
+                  <th>{t}Tasks{/t}</th>
+                  <th>{t}Formula{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td>{t}Tasks NOT delivered on time{/t}</td>
+                  <td title="{t}nb tasks{/t}">{$timeDriftStats.nbDriftsPos}<span title="{t}nb days{/t}" class="floatr">({$timeDriftStats.driftPos|round})</span></td>
+                  <td title="{t}Tasks NOT delivered on time{/t}">{$timeDriftStats.formatedBugidPosList}</td>
+                  <td>{t}DeliveryDate{/t} > {t}DeadLine{/t}</td>
+               </tr>
+               <tr>
+                  <td>{t}Tasks delivered on time{/t}</td>
+                  <td title="{t}nb tasks{/t}">{$timeDriftStats.nbDriftsNeg}<span title="{t}nb days{/t}" class="floatr">({$timeDriftStats.driftNeg|round})</span></td>
+                  <td title="{t}Task list for EffortEstim{/t}">{$timeDriftStats.formatedBugidNegList}</td>
+                  <td>{t}DeliveryDate{/t} <= {t}DeadLine{/t}</td>
+               </tr>
+            </tbody>
+         </table>
+         {else}
+         {t}Not available.{/t}
+         {/if}
+      </div>
+      <div id="tabsName-7" class="ui-helper-hidden">
+
+         <span class="help_font">{t}Note: Drift on tasks resolved in the period{/t}</span>
+         <br>
+         <br>
+
+         <!-- Effort Deviation -->
+         <h3 style="margin: 0 0 0.5em 0.5em;">{t}Drift - All tasks{/t} &nbsp;&nbsp;<a id="dialog_ResolvedDriftStats_link" class="help_link" href="{$page}"><img alt="{t}Help{/t}" title="{t}Help{/t}" src="images/help_icon.gif"/></a></h3>
+         <div id="dialog_ResolvedDriftStats" class="help_dialog ui-helper-hidden" title="{t}Drift{/t}">
+            <p><strong>{t}Drift{/t}:</strong><br />{t}Overflow day quantity{/t}<br/>
+               - {t}Computed on task Resolved/Closed in the given period{/t}<br/>
+               - {t}Reopened tasks are not taken into account{/t}<br/>
+               - {t}If < 0 then ahead on planning.{/t}<br />
+               <span style="color:blue">{t}Formula{/t}: {t}elapsed{/t} - {t}EffortEstim{/t}</span>
+            </p>
+            <p><strong>{t}Tasks in drift{/t}:</strong><br />
+               {t}Tasks for which the elapsed time is greater than the estimated effort{/t}<br />
+               <span style="color:blue">{t}Formula{/t}: {t}drift{/t} > 1</span>
+            </p>
+            <p><strong>{t}Tasks in time{/t}:</strong><br />
+               {t}Tasks resolved in time{/t}<br />
+               <span style="color:blue">{t}Formula{/t}: -1 <= {t}drift{/t} <= 1</span>
+            </p>
+            <p><strong>{t}Tasks ahead{/t}:</strong><br />
+               {t}Tasks resolved in less time than the estimated effort{/t}<br />
+               <span style="color:blue">{t}Formula{/t}: {t}drift{/t} < -1</span>
+            </p>
+         </div>
+         {if isset($resolvedDeviationStats) || isset($resolvedIssuesInDrift)}
+         <div id="tabsResolvedDriftStats" class="tabs {$ui_tabs_jquery}">
+            <ul class="{$ui_tabs_jquery_ul}">
+               <li class="{$ui_tabs_jquery_li}"><a href="#tabsResolvedDriftStatsName-1">{t}Effort deviation{/t}</a></li>
+               <li class="{$ui_tabs_jquery_li}"><a href="#tabsResolvedDriftStatsName-2">{t}Tasks in drift{/t}</a></li>
+            </ul>
+            <div id="tabsResolvedDriftStatsName-1">
+               {if $resolvedDeviationStats}
+               <table>
+                  <thead>
+                     <tr>
+                        <th></th>
+                        <th style="width:100px;" title="{t}Manager Estimation{/t}">{t}Manager{/t}</th>
+                        <th style="width:100px;">{t}Value{/t}</th>
+                        <th style="width: 50%;">{t}Tasks Mgr{/t}</th>
+                        <th style="width: 50%;">{t}Tasks{/t}</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td title="{t}If < 0 then ahead on planning.{/t}" nowrap="nowrap">{t}EffortDeviation{/t}</td>
+                        <td title="{t}elapsed{/t} - {t}MgrEffortEstim{/t}" {if $resolvedDeviationStats.driftMgr < 0}style="background-color: #61ed66;"{elseif $resolvedDeviationStats.driftMgr > 0}style="background-color: #fcbdbd;"{/if} >{$resolvedDeviationStats.driftMgr}</td>
+                        <td title="{t}elapsed{/t} - {t}EffortEstim{/t}" {if $resolvedDeviationStats.drift < 0}style="background-color: #61ed66;"{elseif $resolvedDeviationStats.drift > 0}style="background-color: #fcbdbd;"{/if}>{$resolvedDeviationStats.drift}</td>
+                        <td></td>
+                        <td></td>
+                     </tr>
+                     {foreach from=$resolvedDeviationStats.detailsResolvedDeviationStats key=id item=i}
+                     <tr>
+                        <td nowrap="nowrap">{$i.type}</td>
+                        <td title="{t}nb tasks{/t}">{$i.nbIssuesMgr}<span title="{t}nb days{/t}" class="floatr">{$i.nbDaysMgr}</span></td>
+                        <td title="{t}nb tasks{/t}">{$i.nbIssues}<span title="{t}nb days{/t}" class="floatr">{$i.nbDays}</span></td>
+                        <td title="{t}Task list for EffortEstim{/t}">{$i.formattedIssueListMgr}</td>
+                        <td title="{t}Task list for EffortEstim{/t}">{$i.formattedIssueList}</td>
+                     </tr>
+                     {/foreach}
+                  </tbody>
+               </table>
+               {else}
+               <p>{t}No resolved tasks...{/t}</p>
+               {/if}
+            </div>
+            <div id="tabsResolvedDriftStatsName-2">
+               {if $resolvedIssuesInDrift}
+               <table>
+                  <thead>
+                     <tr>
+                        <th>{t}ID{/t}</th>
+                        <th>{t}ExtRef{/t}</th>
+                        <th>{t}Project{/t}</th>
+                        <th>{t}Progress{/t}</th>
+                        {if $isManager}<th>{t}MgrEffortEstim{/t}</th>{/if}
+                        <th>{t}EffortEstim{/t}</th>
+                        <th>{t}Reestimated{/t}</th>
+                        <th>{t}Elapsed{/t}</th>
+                        <th title="{t}Backlog{/t}">{t}BL{/t}</th>
+                        {if $isManager}<th title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
+                        <th title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
+                        <th>{t}Status{/t}</th>
+                        <th>{t}Summary{/t}</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {foreach from=$resolvedIssuesInDrift key=id item=i}
+                     <tr>
+                        <td>{$i.issueURL}</td>
+                        <td>{$i.extRef}</td>
+                        <td>{$i.projectName}</td>
+                        <td><div class="progress">{$i.progress}%</div></td>
+                        {if $isManager}<td>{$i.effortEstimMgr}</td>{/if}
+                        <td>{$i.effortEstim}</td>
+                        <td>{$i.reestimated}</td>
+                        <td>{$i.elapsed}</td>
+                        <td>{$i.backlog}</td>
+                        {if $isManager}<td {if $i.driftMgrEE < -1}style="background-color: #61ed66;"{elseif $i.driftMgrEE > 1}style="background-color: #fcbdbd;"{/if}>{$i.driftMgrEE}</td>{/if}
+                        <td {if $i.driftEE < -1}style="background-color: #61ed66;"{elseif $i.driftEE > 1}style="background-color: #fcbdbd;"{/if}>{$i.driftEE}</td>
+                        <td>{$i.currentStatusName}</td>
+                        <td>{$i.summary}</td>
+                     </tr>
+                     {/foreach}
+                  </tbody>
+               </table>
+               {else}
+               <p>{t}No resolved tasks...{/t}</p>
+               {/if}
+            </div>
+         </div>
+         {else}
+         {t}Not available.{/t}
+         {/if}
+
+         <br>
+         <br>
+         <br>
+         <br>
+
+         <!-- Effort Deviation -->
+         <h3 style="margin: 0 0 0.5em 0.5em;">{t}Drift - Tasks (ExtRefOnly){/t} &nbsp;&nbsp;<a id="dialog_ResolvedDriftStatsExtRefOnly_link" class="help_link" href="{$page}"><img alt="{t}Help{/t}" title="{t}Help{/t}" src="images/help_icon.gif"/></a></h3>
+         <div id="dialog_ResolvedDriftStatsExtRefOnly" class="help_dialog ui-helper-hidden" title="{t}Drift (ExtRefOnly){/t}">
+            <p><strong>{t}Drift ExtRefOnly{/t}:</strong><br />{t}Overflow day quantity{/t}<br/>
+               - {t}Computed on task Resolved/Closed in the given period{/t}<br/>
+               - {t}Tasks without ExternalRef are excluded{/t}<br/>
+               - {t}Reopened tasks are not included{/t}<br/>
+               - {t}If < 0 then ahead on planning.{/t}<br />
+               <span style="color:blue">{t}Formula{/t}: {t}elapsed{/t} - {t}EffortEstim{/t}</span>
+            </p>
+            <p><strong>{t}Tasks in drift{/t}:</strong><br />
+               {t}Tasks for which the elapsed time is greater than the estimated effort{/t}<br />
+               <span style="color:blue">{t}Formula{/t}: {t}drift{/t} > 1</span>
+            </p>
+            <p><strong>{t}Tasks in time{/t}:</strong><br />
+               {t}Tasks resolved in time{/t}<br />
+               <span style="color:blue">{t}Formula{/t}: -1 <= {t}drift{/t} <= 1</span>
+            </p>
+            <p><strong>{t}Tasks ahead{/t}:</strong><br />
+               {t}Tasks resolved in less time than the estimated effort{/t}<br />
+               <span style="color:blue">{t}Formula{/t}: {t}drift{/t} < -1</span>
+            </p>
+         </div>
+         {if isset($resolvedDeviationStatsExtRefOnly) || isset($resolvedIssuesInDriftExtRefOnly)}
+         <div id="tabsResolvedDriftStatsExtRefOnly" class="tabs {$ui_tabs_jquery}">
+            <ul class="{$ui_tabs_jquery_ul}">
+               <li class="{$ui_tabs_jquery_li}"><a href="#tabsResolvedDriftStatsExtRefOnly-1">{t}Effort deviation{/t}</a></li>
+               <li class="{$ui_tabs_jquery_li}"><a href="#tabsResolvedDriftStatsExtRefOnly-2">{t}Tasks in drift{/t}</a></li>
+            </ul>
+            <div id="tabsResolvedDriftStatsExtRefOnly-1">
+               {if $resolvedDeviationStatsExtRefOnly}
+               <table>
+                  <thead>
+                     <tr>
+                        <th></th>
+                        <th style="width:100px;" title="{t}Manager Estimation{/t}">{t}Manager{/t}</th>
+                        <th style="width:100px;">{t}Value{/t}</th>
+                        <th style="width: 50%;">{t}Tasks Mgr{/t}</th>
+                        <th style="width: 50%;">{t}Tasks{/t}</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td title="{t}If < 0 then ahead on planning.{/t}" nowrap="nowrap">{t}EffortDeviation{/t}</td>
+                        <td title="{t}elapsed{/t} - {t}MgrEffortEstim{/t}" {if $resolvedDeviationStatsExtRefOnly.driftMgr < 0}style="background-color: #61ed66;"{elseif $resolvedDeviationStatsExtRefOnly.driftMgr > 0}style="background-color: #fcbdbd;"{/if} >{$resolvedDeviationStatsExtRefOnly.driftMgr}</td>
+                        <td title="{t}elapsed{/t} - {t}EffortEstim{/t}" {if $resolvedDeviationStatsExtRefOnly.drift < 0}style="background-color: #61ed66;"{elseif $resolvedDeviationStatsExtRefOnly.drift > 0}style="background-color: #fcbdbd;"{/if}>{$resolvedDeviationStatsExtRefOnly.drift}</td>
+                        <td></td>
+                        <td></td>
+                     </tr>
+                     {foreach from=$resolvedDeviationStatsExtRefOnly.detailsResolvedDeviationStats key=id item=i}
+                     <tr>
+                        <td nowrap="nowrap">{$i.type}</td>
+                        <td title="{t}nb tasks{/t}">{$i.nbIssuesMgr}<span title="{t}nb days{/t}" class="floatr">{$i.nbDaysMgr}</span></td>
+                        <td title="{t}nb tasks{/t}">{$i.nbIssues}<span title="{t}nb days{/t}" class="floatr">{$i.nbDays}</span></td>
+                        <td title="{t}Task list for EffortEstim{/t}">{$i.formattedIssueListMgr}</td>
+                        <td title="{t}Task list for EffortEstim{/t}">{$i.formattedIssueList}</td>
+                     </tr>
+                     {/foreach}
+                  </tbody>
+               </table>
+               {else}
+               <p>{t}No resolved tasks...{/t}</p>
+               {/if}
+            </div>
+            <div id="tabsResolvedDriftStatsExtRefOnly-2">
+               {if $resolvedIssuesInDriftExtRefOnly}
+               <table>
+                  <thead>
+                     <tr>
+                        <th>{t}ID{/t}</th>
+                        <th>{t}ExtRef{/t}</th>
+                        <th>{t}Project{/t}</th>
+                        {if $isManager}<th title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
+                        <th title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
+                        <th>{t}Status{/t}</th>
+                        <th>{t}Summary{/t}</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {foreach from=$resolvedIssuesInDriftExtRefOnly key=id item=i}
+                     <tr>
+                        <td>{$i.issueURL}</td>
+                        <td>{$i.extRef}</td>
+                        <td>{$i.projectName}</td>
+                        {if $isManager}<td {if $i.driftMgrEE < -1}style="background-color: #61ed66;"{elseif $i.driftMgrEE > 1}style="background-color: #fcbdbd;"{/if}>{$i.driftMgrEE}</td>{/if}
+                        <td {if $i.driftEE < -1}style="background-color: #61ed66;"{elseif $i.driftEE > 1}style="background-color: #fcbdbd;"{/if}>{$i.driftEE}</td>
+                        <td>{$i.currentStatusName}</td>
+                        <td>{$i.summary}</td>
+                     </tr>
+                     {/foreach}
+                  </tbody>
+               </table>
+               {else}
+               <p>{t}No resolved tasks...{/t}</p>
+               {/if}
+            </div>
+         </div>
+         {else}
+         {t}No Drift on External tasks.{/t}
+         {/if}
+
+      </div>
+      <div id="tabsName-8" class="ui-helper-hidden">
+         <!-- Reopened tasks -->
+         {if $formattedReopenedTaks}
+         <h3 style="margin: 0 0 0.5em 0.5em;">{t}Reopened tasks{/t}</h3>
+         <table>
+            <thead>
+               <tr>
+                  <th>{t}nb resolved{/t}</th>
+                  <th>{t}nb reopened{/t}</th>
+                  <th title="{t}nb reopened / nb resolved{/t}">{t}Rate{/t}</th>
+                  <th style="width: 400px;" title="{t}tasks having been reopened in the period{/t}">{t}Tasks{/t}</th>
+                  <th>{t}Formula{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td>{$reopenedBugsRate_nbResolved}</td>
+                  <td>{$reopenedBugsRate_nbReopened}</td>
+                  <td><div class="progress">{$reopenedBugsRate}%</div></td>
+                  <td>
+                     {foreach from=$formattedReopenedTaks key=id item=i name=formattedReopenedTaks}
+                     {$i}{if !$smarty.foreach.formattedReopenedTaks.last}, {/if}
+                     {/foreach}
+                  </td>
+                  <td>{t}nb reopened{/t} / {t}nb resolved{/t}</td>
+               </tr>
+            </tbody>
+         </table>
+         {else}
+         {t}Not available.{/t}
+         {/if}
+      </div>
+   </div>
+{/if}
 </div>
 {else}
-<div id="content" class="center">{t}Sorry, you need to be member of a Team to access this page.{/t}</div>
+<p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
 {/if}

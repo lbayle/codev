@@ -1,175 +1,174 @@
-{include file="menu/management_menu.html"}
-
-<script type="text/javascript" src="js/datepicker.js"></script>
-
-<script type="text/javascript">
-
-   jQuery(document).ready(function() {
-      {if $locale != en}
-         jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
-      {/if}
-
-      // Set the date
-      jQuery("#commandsetDate").datepicker("setDate" ,"{$commandsetDate}");
-
-      jQuery(function() {
-         jQuery( "#tabsCommandSet" ).tabs();
-      });
-
-   });
-
-   // --- DialogBox for deleteCommandSet
-   jQuery(document).ready(function() {
-
-      jQuery("#btDeleteCommandSet").click(function(event) {
-         jQuery( "#deleteCommandSet_dialog_form" ).dialog( "open" );
-      });
-
-      // delete track dialogBox
-      jQuery("#deleteCommandSet_dialog_form" ).dialog({
-         autoOpen: false,
-         resizable: true,
-         width: "auto",
-         modal: true,
-         buttons: {
-            "Delete": function() {
-               jQuery("#formDeleteCommandSet").submit();
-            },
-            Cancel: function() {
-               jQuery( this ).dialog( "close" );
-            }
-         }
-      });
-   });
-
-</script>
-
-<!-- DialogBox for deleteCommand -->
-<div id="deleteCommandSet_dialog_form" title="{t}Delete CommandSet{/t}" style="display: none">
-   <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-      {t}Delete this CommandSet ?{/t}
-   </p>
-   <table class="invisible">
-      <tr>
-         <td><span style="font-weight:bold;">{t}Name{/t}</span></td>
-         <td>: </td>
-         <td>{$commandsetName}</td>
-      </tr>
-      <tr>
-         <td><span style="font-weight:bold;">{t}Nb Commands{/t}</span></td>
-         <td>: </td>
-         <td>{$nbCommands}</td>
-      </tr>
-      <tr>
-         <th valign='top'><span style="font-weight:bold;">{t}Service Contracts{/t}</span></th>
-         <td valign='top'>: </td>
-         <td><table class="invisible">
-            {foreach from=$parentContracts key=id item=i}
-               <tr><td>{$i.name}</td></tr>
-            {/foreach}
-            </table>
-         </td>
-      </tr>
-   </table>
-   <form id="formDeleteCommandSet" name="formDeleteCommandSet" method="post" action="{$page}" >
-      <fieldset>
-         <input type="hidden" name="action" value="deleteCommandSet" />
-         <input type="hidden" name="commandid"  value="{$commandsetid}" />
-         <input type="hidden" name="teamid" value="{$teamid}" />
-
-      </fieldset>
-   </form>
-</div>
-
-
 <div id="content">
+{if isset($isEditGranted) && $isEditGranted}
 
-   <div  align="center">
-      <h2  title="{$commandsetid}">{$commandsetName}</h2>
-   </div>
+   <script type="text/javascript" src="js_min/datepicker.min.js"></script>
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         {if $locale != en}
+         jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
+         {/if}
 
-   <br/><br/>
+         // Set the date
+         {if isset($commandsetDate)}jQuery("#commandsetDate").datepicker("setDate" ,"{$commandsetDate}");{/if}
+      });
+   </script>
 
-   <div>
+   <h2 class="center">{if isset($commandsetName)}{$commandsetName}{else}{t}New command set{/t}{/if}</h2>
+   <div style="margin-top: 2em;">
       <!-- create form -->
-      <form id='updateCommandSetInfoForm' name='updateCommandSetInfoForm' method='post' action='{$page}'>
-      <fieldset>
-
-         <table class='invisible'>
+      <form id="updateCommandSetInfoForm" name="updateCommandSetInfoForm" method="post" action="{$page}">
+         <fieldset>
+            <table class="invisible">
                <tr>
-                  <th>{t}Team{/t}</th>
+                  <th><label for="teamSelector">{t}Team{/t}</label></th>
                   <td>
-                     <select id='teamSelector' name='teamid'>
-                        <!--option value='0'></option-->
-                        {foreach from=$teams key=id item=i}
+                     <select id="teamSelector" name="cset_teamid">
+                        <!--option value="0"></option-->
+                        {foreach from=$grantedTeams key=id item=i}
                         <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                         {/foreach}
                      </select>
+                     <span style="color:red">*</span>
                   </td>
                </tr>
                <tr>
-                  <th>{t}Name{/t}</th>
-                  <td><input type='text' size='80' style='font-family: sans-serif' name='commandsetName'  id='commandsetName' value='{$commandsetName}'></td>
+                  <th><label for="commandsetName">{t}Name{/t}</label></th>
+                  <td>
+                     <input type="text" size="80" style="font-family: sans-serif" name="commandsetName" id="commandsetName" value="{if isset($commandsetName)}{$commandsetName}{/if}" />
+                     <span style="color:red">*</span>
+                  </td>
+               </tr>
+               {if isset($commandsetid)}
+               <tr>
+                  <th><label for="commandsetReference">{t}Reference{/t}</label></th>
+                  <td><input type="text" style="font-family: sans-serif" name="commandsetReference" id="commandsetReference" value="{if isset($commandsetReference)}{$commandsetReference}{/if}" /></td>
                </tr>
                <tr>
-                  <th>{t}Reference{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='commandsetReference'  id='commandsetReference' value='{$commandsetReference}'></td>
-               </tr>
-               <tr>
-                  <th>{t}Description{/t}</th>
-                  <td><textarea rows='4' cols='80' style='font-family: sans-serif' name='commandsetDesc'  id='commandsetDesc'>{$commandsetDesc}</textarea></td>
-               </tr>
-               <tr>
-                  <th>{t}Date{/t}</th>
-                  <td><input type="text" id="commandsetDate"  name="commandsetDate" class="datepicker" maxlength="10" size="10" title="{t}Date{/t}" />
+                  <th><label for="commandsetDate">{t}Date{/t}</label></th>
+                  <td><input type="text" id="commandsetDate" name="commandsetDate" class="datepicker" maxlength="10" size="10" title="{t}Date{/t}" />
                   </td>
                </tr>
                <tr>
-                  <th>{t}Cost{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='commandsetCost'  id='commandsetCost' value='{$commandsetCost}'> {t}EUR{/t}</td>
+                  <th><label for="commandsetDesc">{t}Description{/t}</label></th>
+                  <td><textarea rows="4" cols="80" style="font-family: sans-serif" name="commandsetDesc" id="commandsetDesc">{if isset($commandsetDesc)}{$commandsetDesc}{/if}</textarea></td>
                </tr>
-               <tr>
-                  <th>{t}Budget{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='commandsetBudget'  id='commandsetBudget' value='{$commandsetBudget}'> {t}days{/t}</td>
-               </tr>
-         </table>
-         <br>
-         <button type='button' name="btDeleteCommandSet" id="btDeleteCommandSet"><img  border='0' align='absmiddle' src="images/b_drop.png" alt="Delete icon"/> {t}Delete{/t}</button>
-         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {$cmdsetInfoFormBtText}</button>
-
-         <input type="hidden" name="action" value="{$cmdsetInfoFormAction}" />
-         <input type="hidden" name="commandsetid" value="{$commandsetid}" />
-      </fieldset>
+               {/if}
+            </table>
+            <br />
+            {if isset($commandsetid)}<button type="button" name="btDeleteCommandSet" id="btDeleteCommandSet"><img  border="0" align="absmiddle" src="images/b_drop.png" alt="Delete icon"/> {t}Delete{/t}</button>{/if}
+            <button type="button" id="btSaveCommandSet"><img  border="0" align="absmiddle" src="images/b_save.png" alt="Save icon"/> {$cmdsetInfoFormBtText}</button>
+            <input type="hidden" name="action" value="{$cmdsetInfoFormAction}" />
+            {if isset($commandsetid)}<input type="hidden" name="commandsetid" value="{$commandsetid}" />{/if}
+         </fieldset>
       </form>
 
+      <script type="text/javascript">
+         jQuery(document).ready(function() {
+
+            function checkRegexp(o, regexp, n) {
+               if (!(regexp.test(o.val()))) {
+                  //o.addClass("ui-state-error");
+                  //updateTips(n);
+                  return false;
+               } else {
+                  return true;
+               }
+            }
+
+            jQuery("#btSaveCommandSet").click(function() {
+               // check fields
+               var foundError = 0;
+               //var msgString = "{t}Some fields are missing:{/t}\n\n";
+               var msgString = "";
+
+               var form = jQuery("#updateCommandSetInfoForm");
+               if (0 == form.find("input[name=commandsetName]").val().length) {
+                  msgString += "{t}Field is missing{/t}: {t}Command set name{/t}\n";
+                  ++foundError;
+               }
+               if (0 == foundError) {
+                  form.submit();
+               } else {
+                  alert(msgString);
+               }
+            });
+         });
+      </script>
+
+      {if isset($commandsetid)}
+      <!-- DialogBox for deleteCommand -->
+      <script type="text/javascript">
+         jQuery(document).ready(function() {
+
+            // DialogBox for deleteCommandSet
+            jQuery("#btDeleteCommandSet").click(function(event) {
+               jQuery( "#deleteCommandSet_dialog_form").dialog("open");
+            });
+
+            // delete track dialogBox
+            jQuery("#deleteCommandSet_dialog_form").dialog({
+               autoOpen: false,
+               resizable: true,
+               width: "auto",
+               modal: true,
+               buttons: {
+                  "{t}Delete{/t}": function() {
+                     jQuery("#formDeleteCommandSet").submit();
+                  },
+                  Cancel: function() {
+                     jQuery(this).dialog("close");
+                  }
+               }
+            });
+         });
+      </script>
+      <div id="deleteCommandSet_dialog_form" title="{t}Delete CommandSet{/t}" class="ui-helper-hidden">
+         <p><span class="ui-icon ui-icon-alert float" style="margin-right: 7px;"></span>{t}Delete this CommandSet ?{/t}</p>
+         <table class="invisible">
+            <tbody>
+               <tr>
+                  <th nowrap="nowrap">{t}Name{/t} :</th>
+                  <td>{$commandsetName}</td>
+               </tr>
+               <tr>
+                  <th nowrap="nowrap">{t}Nb Commands{/t} :</th>
+                  <td>{if isset($nbCommands)}{$nbCommands}{else}0{/if}</td>
+               </tr>
+               <tr>
+                  <th valign="top" nowrap="nowrap">{t}Service Contracts{/t} :</th>
+                  <td>{foreach from=$parentContracts key=id item=i}{$i}<br />{/foreach}</td>
+               </tr>
+            </tbody>
+         </table>
+         <form id="formDeleteCommandSet" name="formDeleteCommandSet" method="post" action="{$page}" >
+            <fieldset>
+               <input type="hidden" name="action" value="deleteCommandSet" />
+               <input type="hidden" name="commandsetid" value="{$commandsetid}" />
+               <input type="hidden" name="teamid" value="{$teamid}" />
+            </fieldset>
+         </form>
+      </div>
+      {/if}
    </div>
 
-
-   <div style="margin-top:4em;">
-
-   <div id="tabsCommandSet">
-      <ul>
-         <li><a href="#tabsName-1">{t}Commands{/t}</a></li>
+   {if isset($cmdList)}
+   <div id="tabsCommandSet" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-1">{t}Commands{/t}</a></li>
       </ul>
-
       <div id="tabsName-1">
-
-         <div style="margin-top:1em;">
-
-         {if $isAddCmdForm}
+         {if isset($isAddCmdForm)}
          <div align="left">
             <!-- add/create command form -->
-            <form id='addCmdForm' name='addCmdForm' method='post' action='{$page}'>
+            <form id="addCmdForm" name="addCmdForm" method="post" action="{$page}">
                <fieldset>
-                  <select id='cmdSelector' name='cmdid'>
-                     <option value='0'>{t}--- New Command ---{/t}</option>
-                     {foreach  $cmdCandidates as $id => $name}
+                  <select id="cmdSelector" name="cmdid">
+                     <option value="0">{t}--- New Command ---{/t}</option>
+                     {foreach $cmdCandidates as $id => $name}
                      <option value="{$id}">{$name}</option>
                      {/foreach}
                   </select>
-
-                  <button type='submit'><img  border='0' align='absmiddle' src="images/b_add.png" alt="Add icon"/> {t}Add{/t}</button>
-
+                  <button type="submit"><img  border="0" align="absmiddle" src="images/b_add.png" alt="Add icon"/> {t}Add{/t}</button>
                   <input type="hidden" name="action" value="addCommand" />
                   <input type="hidden" name="teamid" value="{$teamid}" />
                   <input type="hidden" name="commandsetid" value="{$commandsetid}" />
@@ -179,91 +178,98 @@
          {/if}
 
          <div style="margin-top:1em;">
+            {if isset($cmdList)}
+            <script type="text/javascript">
+               function removeCmd(cmdid, description){
+                  jQuery("#desc_id").text(cmdid);
+                  jQuery("#desc_summary").text(description);
 
-         {if $cmdList}
+                  jQuery("#formRemoveCmd").find("input[name=cmdid]").val(cmdid);
 
-         <script type="text/javascript">
-            function removeCmd(cmdid, description){
-               jQuery( "#desc_id" ).text(cmdid);
-               jQuery( "#desc_summary" ).text(description);
+                  jQuery("#removeCmd_dialog_form").dialog("open");
+               }
 
-               jQuery( "#formRemoveCmd" ).find("input[name=cmdid]").val(cmdid);
+               jQuery(document).ready(function() {
+                  // delete track dialogBox
+                  jQuery("#removeCmd_dialog_form").dialog({
+                     autoOpen: false,
+                     resizable: true,
+                     width: "auto",
+                     modal: true,
+                     buttons: {
+                        "{t}Remove{/t}": function() {
+                           // remove from DB
+                           jQuery("#formRemoveCmd").submit();
 
-               jQuery( "#removeCmd_dialog_form" ).dialog( "open" );
-            }
-         </script>
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               // delete track dialogBox
-               jQuery("#removeCmd_dialog_form" ).dialog({
-                  autoOpen: false,
-                  resizable: true,
-                  width: "auto",
-                  modal: true,
-                  buttons: {
-                     "Remove": function() {
-                        jQuery("#formRemoveCmd").submit();
-                     },
-                     Cancel: function() {
-                        jQuery( this ).dialog( "close" );
+                           // remove from table
+                           //var cmdid = jQuery("#formRemoveCmd").find("input[name=cmdid]").val();
+                           //jQuery("#cmdTable tr#"+cmdid).remove();
+
+                        },
+                        Cancel: function() {
+                           jQuery(this).dialog("close");
+                        }
                      }
-                  }
+                  });
                });
-            });
-         </script>
-         <div id="removeCmd_dialog_form" title="{t}Remove Command{/t}" style="display: none">
-            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-               {t}Remove Command from this CommandSet ?{/t}
-            </p>
-            <table class="invisible">
-               <tr>
-                  <td><span style="font-weight:bold;">{t}Id{/t} :</span></td>
-                  <td id="desc_id">id</td>
-               </tr>
-               <tr>
-                  <td><span style="font-weight:bold;">{t}Description{/t} :</span></td>
-                  <td id="desc_summary">summary</td>
-               </tr>
+            </script>
+            <div id="removeCmd_dialog_form" title="{t}Remove Command{/t}" class="ui-helper-hidden">
+               <p><span class="ui-icon ui-icon-alert float" style="margin-right: 7px;"></span>{t}Remove Command from this CommandSet ?{/t}</p>
+               <table class="invisible">
+                  <tbody>
+                     <tr>
+                        <th nowrap="nowrap">{t}Id{/t} :</th>
+                        <td id="desc_id">id</td>
+                     </tr>
+                     <tr>
+                        <th nowrap="nowrap">{t}Description{/t} :</td>
+                        <td id="desc_summary">summary</td>
+                     </tr>
+                  </tbody>
+               </table>
+               <form id="formRemoveCmd" name="formRemoveCmd" method="post" action="{$page}" >
+                  <fieldset>
+                     <input type="hidden" name="action" value="removeCmd" />
+                     <input type="hidden" name="cmdid"  value="0" />
+                     <input type="hidden" name="teamid" value="{$teamid}" />
+                     <input type="hidden" name="commandsetid"  value="{$commandsetid}" />
+                  </fieldset>
+               </form>
+            </div>
+
+            <table class="cmdTable">
+               <thead>
+                  <tr>
+                     <th></th>
+                     <th>{t}Ref{/t}</th>
+                     <th>{t}Command{/t}</th>
+                     <th>{t}Team{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach $cmdList as $id => $cmd}
+                  <tr id="{$id}">
+                     <td class="ui-state-error-text" style="width:1em;">
+                        <a class="ui-icon" title="{t}delete CommandSet-Command association{/t}" href="{$page}"
+                           onclick="removeCmd('{$id}', '{$cmd.name|escape}');return false;"></a>
+                     </td>
+                     <td>{$cmd.reference}</td>
+                     <td title="{$id}">{$cmd.name}</td>
+                     <td>{$cmd.team}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
             </table>
-            <form id="formRemoveCmd" name="formRemoveCmd" method="post" action="{$page}" >
-               <fieldset>
-                  <input type="hidden" name="action" value="removeCmd" />
-                  <input type="hidden" name="cmdid"  value="0" />
-                  <input type="hidden" name="teamid" value="{$teamid}" />
-                  <input type="hidden" name="commandsetid"  value="{$commandsetid}" />
-
-               </fieldset>
-            </form>
+            {else}
+            {t}Create the CommandSet to add some commands.{/t}
+            {/if}
          </div>
-
-         <table>
-            <thead>
-            <tr>
-                  <th></th>
-                  <th>{t}Ref{/t}</th>
-                  <th>{t}Command{/t}</th>
-                  <th>{t}Team{/t}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {foreach $cmdList as $id => $cmd}
-            <tr>
-                  <td>
-                     <a title="{t}delete CommandSet-Command association{/t}"
-                        href="javascript: removeCmd('{$id}', '{$cmd.description|escape}')">
-                        <img alt="b_drop.png" border="0" src="images/b_drop.png" />
-                     </a>
-                  </td>
-                  <td>{$cmd.reference}</td>
-                  <td title="{$id}">{$cmd.name}</td>
-                  <td>{$cmd.team}</td>
-            </tr>
-            {/foreach}
-            </tbody>
-         </table>
-         {else}
-         {t}Create the CommandSet to add some commands.{/t}
-         {/if}
       </div>
-
+   </div>
+   {/if}
+{else}
+   <div class="center">
+   {t}Sorry, only managers can access this page.{/t}
+   </div>
+{/if}
 </div>

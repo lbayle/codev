@@ -1,45 +1,30 @@
-{include file="menu/export_csv_menu.html"}
-
 <div id="content">
-   <h2 style="text-align: center">{t}Monthly report{/t}</h2>
-   {if $teams}
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
+   <h2 class="center">{t}Monthly report{/t}</h2>
    <div align="center" style="margin-top:2em;">
       <form id="form2" method="post" action="{$page}">
          <fieldset>
-            <label for="teamid">{t}Team{/t}: </label>
-            <select id="teamid" name="teamid">
-               {foreach from=$teams key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-               {/foreach}
-            </select>
             {include file="form/dateRangeSelector.html"}
-            <input type=submit value='{t}Compute{/t}'>
-            <input type=hidden name=action       value="exportPeriod">
+            <input type="hidden" name="action" value="computeCsvMonthly" />
+            <input type=submit value="{t}Compute{/t}">
          </fieldset>
       </form>
    </div>
-   {if $reports}
+   {if isset($managedIssuesToCSV)}
       <!-- T_("Team").": ".$teamList[$teamid]."<br/> -->
       <p style="margin-top: 2em">
-         <span style="font-weight: bold;" title='{t}Issues form Team projects, including issues assigned to other teams{/t}'>- {t}Export Managed Issues{/t}...</span><br/>
-         <span style="padding-left: 3em"><a href='tools/download.php?f={$managedIssuesToCSV}' target='_blank'>{$managedIssuesToCSV}</a></span>
+         <span style="font-weight: bold;" title="{t}Issues form Team projects, including issues assigned to other teams{/t}">- {t}Export Managed Issues{/t}...</span><br/>
+         <span style="padding-left: 3em"><a href="include/download.php?f={$managedIssuesToCSV}">{$managedIssuesToCSV}</a></span>
       </p>
       <p style="margin-top: 2em">
          <span style="font-weight: bold;" title="">- {t}Export{/t} {t}Projects Activity{/t}...</span><br/>
-         <span style="padding-left: 3em"><a href='tools/download.php?f={$projectMonthlyActivityToCSV}' target='_blank'>{$projectMonthlyActivityToCSV}</a></span>
-      </p>
-      <p style="margin-top: 2em">
-         <span style="font-weight: bold;" title="">- {t}Export Holidays {/t}{$year}...</span><br/>
-         {foreach from=$reports key=file item=i}
-         <span style="padding-left: 3em"><a href='tools/download.php?f={$i}' target='_blank'>{$i}</a></span><br/>
-         {/foreach}
+         <span style="padding-left: 3em"><a href="include/download.php?f={$projectMonthlyActivityToCSV}">{$projectMonthlyActivityToCSV}</a></span>
       </p>
       <p style="margin-top: 2em">
          {t}Done{/t}<br/><br/>
-         {t}Results in{/t} {$reportsDir}
       </p>
    {/if}
-   {else}
-   <p style="text-align: center">{t}Sorry, you do NOT have access to this page{/t}</p>
-   {/if}
+{else}
+<p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
+{/if}
 </div>

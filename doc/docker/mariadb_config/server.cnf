@@ -1,0 +1,48 @@
+#
+# These groups are read by MariaDB server.
+# Use it for options that only the server (but not clients) should see
+#
+# See the examples of server my.cnf files in /usr/share/mysql/
+#
+
+# this is read by the standalone daemon and embedded servers
+[server]
+
+# this is only for the mysqld standalone daemon
+[mysqld]
+
+# LoB CodevTT
+max_allowed_packet = 256M
+
+# LoB 04/04/16 recomendations phpmyadmin
+query_cache_size=32M
+query_cache_type=1
+query_cache_limit=16M    # 4M
+table_open_cache=1500    # 400
+sort_buffer_size=8M      # 2M
+read_rnd_buffer_size=1M  # 256K
+long_query_time=1        # 10
+tmp_table_size=32M       # 16M
+max_heap_table_size=32M  # 16M
+key_buffer_size=64M      # 128M
+open_files_limit=4096    # 1024
+thread_cache_size=128    # 0
+log_slow_queries='ON'
+slow_query_log_file='/var/log/mariadb/codevtt-slow.log'
+log_output=TABLE
+
+# this is only for embedded server
+[embedded]
+
+# This group is only read by MariaDB-5.5 servers.
+# If you use the same .cnf file for MariaDB of different versions,
+# use this group for options that older servers don't understand
+[mysqld-5.5]
+
+# These two groups are only read by MariaDB servers, not by MySQL.
+# If you use the same .cnf file for MySQL and MariaDB,
+# you can put MariaDB-only options here
+[mariadb]
+
+[mariadb-5.5]
+

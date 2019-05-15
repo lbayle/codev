@@ -1,0 +1,53 @@
+<div class="loadPerUserIndicator_ajax">
+   {if $loadPerUserIndicator_tableData}
+   <table  class="loadPerUserIndicatorValuesTable display float"  style="width: 500px;">
+      <caption><span style="font-weight: normal; font-size: 12px;">{$loadPerUserIndicator_tableData.workdays} {t}workdays{/t}</span></caption>
+      <thead>
+         <tr>
+            <th>{t}User{/t}</th>
+            <th>{t}Elapsed{/t}</th>
+            {if isset($loadPerUserIndicator_tableData.totalActivity.sidetask)}
+            <th>{t}Waste{/t}</th>
+            {/if}
+            {if $loadPerUserIndicator_showAllActivity}
+            <th>{t}Other{/t}</th>
+            <th>{t}External{/t}</th>
+            <th>{t}Inactivity{/t}</th>
+            {/if}
+         </tr>
+      </thead>
+      <tbody>
+         {foreach $loadPerUserIndicator_tableData.usersActivities as $user => $activityList}
+         <tr>
+            <td>{$user}</td>
+            <td>{if isset($activityList.elapsed)}{$activityList.elapsed}{/if}</td>
+            {if isset($loadPerUserIndicator_tableData.totalActivity.sidetask)}
+            <td>{$activityList.sidetask}</td>
+            {/if}
+            {if $loadPerUserIndicator_showAllActivity}
+            <td>{if isset($activityList.other)}{$activityList.other}{/if}</td>
+            <td>{if isset($activityList.external)}{$activityList.external}{/if}</td>
+            <td>{if isset($activityList.leave)}{$activityList.leave}{/if}</td>
+            {/if}
+         </tr>
+         {/foreach}
+      </tbody>
+      <tfoot>
+         <tr>
+            <td>{t}TOTAL{/t}</td>
+            <td>{$loadPerUserIndicator_tableData.totalActivity.elapsed}</td>
+            {if isset($loadPerUserIndicator_tableData.totalActivity.sidetask)}
+            <td>{$loadPerUserIndicator_tableData.totalActivity.sidetask}</td>
+            {/if}
+            {if $loadPerUserIndicator_showAllActivity}
+            <td>{$loadPerUserIndicator_tableData.totalActivity.other}</td>
+            <td>{$loadPerUserIndicator_tableData.totalActivity.external}</td>
+            <td>{$loadPerUserIndicator_tableData.totalActivity.leave}</td>
+            {/if}
+         </tr>
+      </tfoot>
+   </table>
+   {else}
+   {t}No data.{/t}
+   {/if}
+</div>

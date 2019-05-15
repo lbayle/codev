@@ -16,291 +16,210 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('Logger.php');
+class IssueInfoTools {
 
-include_once('config.class.php');
-include_once('issue.class.php');
-include_once('timetrack_cache.class.php');
-
-$logger = Logger::getLogger("issue_info_tools");
-
-/**
- * Get general info of an issue
- * @param Issue $issue The issue
- * @param bool $isManager if true: show MgrEffortEstim column
- * @param bool $displaySupport If true, display support
- * @return mixed[string]
- */
-function getIssueGeneralInfo(Issue $issue, $isManager=false, $displaySupport=false) {
-   $withSupport = true;  // include support in elapsed & Drift
-
-   $drift = $issue->getDrift($withSupport);
-   $issueGeneralInfo = array(
-      "issueId" => $issue->bugId,
-      "issueSummary" => htmlspecialchars($issue->summary),
-      "issueExtRef" => $issue->tcId,
-      'mantisURL'=> mantisIssueURL($issue->bugId, NULL, true),
-      'issueURL' => mantisIssueURL($issue->bugId),
-      'statusName'=> $issue->getCurrentStatusName(),
-      'handlerName'=> UserCache::getInstance()->getUser($issue->handlerId)->getName(),
-
-      "issueEffortTitle" => $issue->effortEstim.' + '.$issue->effortAdd,
-      "issueEffort" => $issue->effortEstim + $issue->effortAdd,
-      "issueReestimated" => $issue->getReestimated(),
-      "issueRemaining" => $issue->remaining,
-      "issueDriftColor" => $issue->getDriftColor($drift),
-      "issueDrift" => round($drift, 2),
-      "progress" => round(100 * $issue->getProgress())
-   );
-   if($isManager) {
-      $issueGeneralInfo['issueMgrEffortEstim'] = $issue->mgrEffortEstim;
-      $issueGeneralInfo['issueReestimatedMgr'] = $issue->getReestimatedMgr();
-      $driftMgr = $issue->getDriftMgr($withSupport);
-      $issueGeneralInfo['issueDriftMgrColor'] = $issue->getDriftColor($driftMgr);
-      $issueGeneralInfo['issueDriftMgr'] = round($driftMgr, 2);
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      // Nothing special
    }
-   if ($withSupport) {
-      $issueGeneralInfo['issueElapsed'] = $issue->elapsed;
-   } else {
-      $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-      $issueGeneralInfo['issueElapsed'] = $issue->elapsed - $issue->getElapsed($job_support);
-   }
-   if ($displaySupport) {
-      if ($isManager) {
-         $driftMgr = $issue->getDriftMgr(!$withSupport);
-         $issueGeneralInfo['issueDriftMgrSupportColor'] = $issue->getDriftColor($driftMgr);
-         $issueGeneralInfo['issueDriftMgrSupport'] = round($driftMgr, 2);
+
+   /**
+    * Get general info of an issue
+    * @param Issue $issue The issue
+    * @param bool $isManager if true: show MgrEffortEstim column
+    * @return mixed[]
+    */
+   public static function getIssueGeneralInfo(Issue $issue, $isManager=false) {
+
+      if ($issue->getTargetVersion()) {
+         $t = Project::getProjectVersionTimestamp($issue->getProjectId(), $issue->getTargetVersion());
+         $targetVersionDate = (1 == $t) ? T_("No date defined") : date('Y-m-d', $t);
+      } else {
+         $targetVersionDate = T_("No target version defined");
       }
-      $drift = $issue->getDrift(!$withSupport);
-      $issueGeneralInfo['issueDriftSupportColor'] = $issue->getDriftColor($drift);
-      $issueGeneralInfo['issueDriftSupport'] = round($drift, 2);
+
+      $drift = $issue->getDrift();
+      if (0 != $issue->getHandlerId()) {
+         $handlerName = UserCache::getInstance()->getUser($issue->getHandlerId())->getName();
+      } else {
+         $handlerName = '';
+      }
+
+      $issueGeneralInfo = array(
+         'issueId' => $issue->getId(),
+         'issueSummary' => htmlspecialchars(preg_replace('![\t\r\n]+!',' ',$issue->getSummary())),
+         'issueType' => $issue->getType(),
+         'issueDescription' => htmlspecialchars($issue->getDescription()),
+         'projectName' => $issue->getProjectName(),
+         'categoryName' => $issue->getCategoryName(),
+         'issueExtRef' => $issue->getTcId(),
+         'mantisURL'=> Tools::mantisIssueURL($issue->getId(), NULL, true),
+         'issueURL' => Tools::mantisIssueURL($issue->getId()),
+         'statusName'=> $issue->getCurrentStatusName(),
+         'currentStatus' => $issue->getCurrentStatus(),
+         'availableStatusList' => $issue->getAvailableStatusList(true),
+         'priorityName'=> $issue->getPriorityName(),
+         'severityName'=> $issue->getSeverityName(),
+         'targetVersion'=> $issue->getTargetVersion(),
+         'targetVersionDate'=> $targetVersionDate,
+         'handlerName'=> $handlerName,
+
+         "issueEffortTitle" => $issue->getEffortEstim(),
+         "issueEffort" => $issue->getEffortEstim(),
+         "issueReestimated" => $issue->getReestimated(),
+         'issueElapsed' => $issue->getElapsed(),
+         "issueBacklog" => $issue->getBacklog(),
+         "issueDriftColor" => $issue->getDriftColor($drift),
+         "issueDrift" => round($drift, 2),
+         "progress" => round(100 * $issue->getProgress()),
+         'relationships' => self::getFormattedRelationshipsInfo($issue),
+         'bugResolvedStatusThreshold' => $issue->getBugResolvedStatusThreshold(),
+      	);
+      if($isManager) {
+         $issueGeneralInfo['issueMgrEffortEstim'] = $issue->getMgrEffortEstim();
+         $driftMgr = $issue->getDriftMgr();
+         $issueGeneralInfo['issueDriftMgrColor'] = $issue->getDriftColor($driftMgr);
+         $issueGeneralInfo['issueDriftMgr'] = round($driftMgr, 2);
+      }
+
+      return $issueGeneralInfo;
    }
 
-   return $issueGeneralInfo;
-}
+   /**
+    * Get time drift of an issue
+    * @param Issue $issue The issue
+    * @return mixed[]
+    */
+   public static function getTimeDrift(Issue $issue) {
+      $timeDriftSmarty = array();
 
-/**
- *
- * @param Command $cmd
- * @param int $selectedCmdsetId
- * @return type
- */
-function getParentCommands(Issue $issue) {
+      $deadline = $issue->getDeadLine();
+      if (!is_null($deadline) && (0 != $deadline)) {
+         //$timeDriftSmarty["deadLine"] = Tools::formatDate("%d %b %Y", $deadline);
+         $timeDriftSmarty["deadLine"] =  date("Y-m-d", $deadline);
+      }
+      $tooltipAttr = array();
 
-   $commands = array();
+      if (NULL != $issue->getDeliveryDate()) {
+         //$timeDriftSmarty["deliveryDate"] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
+         //$tooltipAttr[T_('DeliveryDate')] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
+         $tooltipAttr[T_('DeliveryDate')] = date("Y-m-d", $issue->getDeliveryDate());
+         $btImage='images/b_markAsRead.png';
+      }
 
-   $cmdList = $issue->getCommandList();
+      $timeDrift = $issue->getTimeDrift();
+      if (!is_string($timeDrift)) {
+         $tooltipAttr[T_('DriftColor')] = $issue->getDriftColor($timeDrift);
+         $tooltipAttr[T_('Drift')] = round($timeDrift);
 
-   // TODO return URL for 'name' ?
+         if (round($timeDrift) > 0) { $btImage='images/b_error.png'; }
+      }
 
-   foreach ($cmdList as $id => $cmdName) {
-
-      $commands[] = array(
-         'id' => $id,
-         'name' => $cmdName,
-         #'reference' => ,
-      );
-   }
-   return $commands;
-}
-
-
-/**
- * Get job details of an issue
- * @param Issue $issue The issue
- * @return mixed[string]
- */
-function getJobDetails(Issue $issue) {
-   $timeTracks = $issue->getTimeTracks();
-   $durationByJob = array();
-   $jobs = new Jobs();
-   $totalDuration = 0;
-   foreach ($timeTracks as $tid => $tdate) {
-      $tt = TimeTrackCache::getInstance()->getTimeTrack($tid);
-      $durationByJob[$tt->jobId] += $tt->duration;
-      $totalDuration += $tt->duration;
+      if (0 !== count($tooltipAttr)) {
+         $tooltip = Tools::imgWithTooltip($btImage, $tooltipAttr);
+         $timeDriftSmarty["tooltip"] = $tooltip;
+      }
+      return $timeDriftSmarty;
    }
 
-   $jobDetails = NULL;
-   foreach ($durationByJob as $jid => $duration) {
-      $jobDetails[] = array(
-         "jobColor" => $jobs->getJobColor($jid),
-         "jobName" => $jobs->getJobName($jid),
-         "duration" => $duration,
-         "durationRate" => round(($duration*100 / $totalDuration))
-      );
-   }
+   /**
+    *
+    * @param type $relationshipList
+    */
+   private static function getFormattedRelationshipsInfo($issue) {
+      
+      $relationships = $issue->getRelationships();
 
-   return $jobDetails;
-}
+      $relationshipsInfo = array();
+      foreach ($relationships as $relType => $bugids) {
+         $typeLabel = Issue::getRelationshipLabel($relType);
 
-/**
- * Get time drift of an issue
- * @param Issue $issue The issue
- * @return mixed[string]
- */
-function getTimeDrift(Issue $issue) {
-   $timeDriftSmarty = array();
-
-   if (NULL != $issue->getDeadLine()) {
-      $timeDriftSmarty["deadLine"] = formatDate("%d %b %Y", $issue->getDeadLine());
-   }
-
-   if (NULL != $issue->deliveryDate) {
-      $timeDriftSmarty["deliveryDate"] = formatDate("%d %b %Y", $issue->deliveryDate);
-   }
-
-   $timeDrift = $issue->getTimeDrift();
-   if (!is_string($timeDrift)) {
-      $timeDriftSmarty["driftColor"] = $issue->getDriftColor($timeDrift);
-      $timeDriftSmarty["drift"] = round($timeDrift);
-   }
-
-   return $timeDriftSmarty;
-}
-
-/**
- * Get the calendar of an issue
- * @param Issue $issue The issue
- * @return array
- */
-function getCalendar(Issue $issue) {
-   $months = NULL;
-   for ($y = date('Y', $issue->dateSubmission); $y <= date('Y'); $y++) {
-      for ($m = 1; $m <= 12; $m++) {
-         $monthsValue = getMonth($m, $y, $issue);
-         if ($monthsValue != NULL) {
-            $months[] = $monthsValue;
+         foreach ($bugids as $bugid) {
+            $relatedIssue = IssueCache::getInstance()->getIssue($bugid);
+            $summary = htmlspecialchars(preg_replace('![\t\r\n]+!',' ',$relatedIssue->getSummary()));
+            $relationshipsInfo["$bugid"] = array('url' => Tools::issueInfoURL($bugid),
+                                                 'relationship' => $typeLabel,
+                                                 'status' => $relatedIssue->getCurrentStatusName(),
+                                                 'progress' => round(100 * $relatedIssue->getProgress()),
+                                                 'summary' => $summary
+                                                 );
          }
       }
+      ksort($relationshipsInfo);
+      return $relationshipsInfo;
    }
-   return $months;
+
+   /**
+    *
+    * @param SmartyHelper $smartyHelper
+    * @param Issue $issue
+    * @param int $userid
+    * @param int $teamid
+    */
+   public static function dashboardSettings(SmartyHelper $smartyHelper, Issue $issue, $userid, $teamid) {
+
+      $isel = new IssueSelection();
+      $isel->addIssue($issue->getId());
+
+      $pluginDataProvider = PluginDataProvider::getInstance();
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $isel);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $teamid);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $userid);
+
+      // start date is min(1st_timetrack, issue_creation_date)
+      $startT = $issue->getDateSubmission();
+      $firstTT = $issue->getFirstTimetrack();
+      if (NULL != $firstTT) {
+         $startT = min(array($issue->getDateSubmission(), $firstTT->getDate()));
+      }
+
+      // end date is last_timetrack or now if none
+      $eTs = (NULL == $firstTT) ? time() : $issue->getLatestTimetrack()->getDate();
+      $endT = mktime(23, 59, 59, date('m', $eTs), date('d', $eTs), date('Y', $eTs));
+
+      //echo "start $startT end $endT<br>";
+
+      // Calculate a nice day interval
+      $nbWeeks = ($endT - $startT) / 60 / 60 / 24;
+      $interval = ceil($nbWeeks / 20);
+
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startT);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endT);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_INTERVAL, $interval);
+
+      $dashboardName = 'Tasks_prj'.$issue->getProjectId();
+      $dashboardDomain = IndicatorPluginInterface::DOMAIN_TASK;
+
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_DOMAIN, $dashboardDomain);
+
+      // save the DataProvider for Ajax calls
+      $_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardName] = serialize($pluginDataProvider);
+
+      // create the Dashboard
+      $dashboard = new Dashboard($dashboardName); // settings are common all tasks of a project
+      $dashboard->setDomain($dashboardDomain);
+      $dashboard->setCategories(array(
+          IndicatorPluginInterface::CATEGORY_QUALITY,
+          IndicatorPluginInterface::CATEGORY_ACTIVITY,
+          IndicatorPluginInterface::CATEGORY_ROADMAP,
+          IndicatorPluginInterface::CATEGORY_PLANNING,
+          IndicatorPluginInterface::CATEGORY_RISK,
+          IndicatorPluginInterface::CATEGORY_FINANCIAL,
+         ));
+      $dashboard->setTeamid($teamid);
+      $dashboard->setUserid($userid);
+
+      $data = $dashboard->getSmartyVariables($smartyHelper);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+   }
+
 }
 
-/**
- * @param int $month
- * @param int $year
- * @param Issue $issue The issue
- * @return mixed[string]
- */
-function getMonth($month, $year, Issue $issue) {
-   $totalDuration = 0;
+// Initialize complex static variables
+IssueInfoTools::staticInit();
 
-   // if no work done this month, do not display month
-   $trackList = $issue->getTimeTracks();
-   $found = 0;
-   foreach ($trackList as $tid => $tdate) {
-      if (($month == date('m', $tdate)) &&
-         ($year  == date('Y', $tdate))) {
-         $found += 1;
-
-         $tt = TimeTrackCache::getInstance()->getTimeTrack($tid);
-         $totalDuration += $tt->duration;
-      }
-   }
-   if (0 == $found) { return NULL; }
-
-   $monthTimestamp = mktime(0, 0, 0, $month, 1, $year);
-   $monthFormated = formatDate("%B %Y", $monthTimestamp);
-   $nbDaysInMonth = date("t", $monthTimestamp);
-
-   $months = array();
-   for ($i = 1; $i <= $nbDaysInMonth; $i++) {
-      if ($i < 10 ) {
-         $months[] = "0".$i;
-      }
-      else {
-         $months[] = $i;
-      }
-   }
-
-   $jobs = new Jobs();
-   $userList = $issue->getInvolvedUsers();
-   $users = NULL;
-   foreach ($userList as $uid => $username) {
-      // build $durationByDate[] for this user
-      $userTimeTracks = $issue->getTimeTracks($uid);
-      $durationByDate = array();
-      $jobColorByDate = array();
-      foreach ($userTimeTracks as $tid => $tdate) {
-         $tt = TimeTrackCache::getInstance()->getTimeTrack($tid);
-         $durationByDate[$tdate] += $tt->duration;
-         $jobColorByDate[$tdate] = $jobs->getJobColor($tt->jobId);
-      }
-
-      $usersDetails = NULL;
-      for ($i = 1; $i <= $nbDaysInMonth; $i++) {
-         $todayTimestamp = mktime(0, 0, 0, $month, $i, $year);
-
-         if (NULL != $durationByDate[$todayTimestamp]) {
-            $usersDetails[] = array(
-               "jobColor" => $jobColorByDate[$todayTimestamp],
-               "jobDuration" => $durationByDate[$todayTimestamp]
-            );
-         } else {
-            // if weekend or holiday, display gray
-            $holidays = Holidays::getInstance();
-            $h = $holidays->isHoliday($todayTimestamp);
-            if (NULL != $h) {
-               $usersDetails[] = array(
-                  "jobColor" => Holidays::$defaultColor,
-                  "jobDescription" => $h->description
-               );
-            } else {
-               $usersDetails[] = array();
-            }
-         }
-      }
-
-      $users[] = array(
-         "username" => $username,
-         "jobs" => $usersDetails
-      );
-   }
-
-   return array(
-      "monthFormated" => $monthFormated,
-      "totalDuration" => $totalDuration,
-      "months" => $months,
-      "users" => $users
-   );
-}
-
-/**
- * Table Repartition du temps par status
- * @param Issue $issue The issue
- * @return mixed[string]
- */
-function getDurationsByStatus(Issue $issue) {
-   global $logger;
-   global $statusNames;
-
-   # WARN: use of FDJ custom
-   //$issue = new IssueFDJ($issue_->bugId);
-
-   $issue->computeDurationsPerStatus();
-
-   $statusNamesSmarty = NULL;
-   foreach($issue->statusList as $status_id => $status) {
-      $statusNamesSmarty[] = $statusNames[$status_id];
-   }
-
-   // REM do not display SuiviOp tasks
-   $durations = NULL;
-   try {
-      if (!$issue->isSideTaskIssue()) {
-         foreach($issue->statusList as $status_id => $status) {
-            $durations[] = getDurationLiteral($status->duration);
-         }
-      }
-   } catch (Exception $e) {
-      $logger->error("displayDurationsByStatus(): issue $issue->bugId: ".$e->getMessage());
-   }
-
-   return array(
-      "statusNames" => $statusNamesSmarty,
-      "durations" => $durations
-   );
-}
-
-?>

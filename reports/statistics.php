@@ -1,369 +1,386 @@
 <?php
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+class StatisticsController extends Controller {
 
-require('../smarty_tools.php');
-
-include_once "period_stats_report.class.php";
-include_once "issue.class.php";
-include_once "team.class.php";
-include_once "time_tracking.class.php";
-
-/**
- * @param $start_day
- * @param $start_month
- * @param $start_year
- * @param $teamid
- * @return array
- */
-function createTimeTrackingList($start_day, $start_month, $start_year, $teamid) {
-   $timeTrackingTable = array();
-
-   $day = $start_day;
-   $now = time();
-   for ($y = $start_year; $y <= date('Y'); $y++) {
-      for ($month=$start_month ; $month <= 12 ; $month++) {
-         $startTimestamp = mktime(0, 0, 0, $month, $day, $y);
-         $nbDaysInMonth = date("t", mktime(0, 0, 0, $month, 1, $y));
-         $endTimestamp   = mktime(23, 59, 59, $month, $nbDaysInMonth, $y);
-
-         if ($startTimestamp > $now) {
-            break;
-         }
-
-         $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
-         $timeTrackingTable[$startTimestamp] = $timeTracking;
-
-         $day = 1;
-      }
-      $start_month = 1;
-   }
-   return $timeTrackingTable;
-}
-
-/**
- * @param array $timeTrackingTable
- * @return string
- */
-function getSubmittedResolvedGraph(array $timeTrackingTable) {
-   $submittedList = array();
-   $resolvedList = array();
-   $bottomLabel = array();
-   foreach ($timeTrackingTable as $d1 => $tt1) {
-      $submittedList[$d1] = count($tt1->getSubmitted()); // returns bug_id !
-      $bottomLabel[] = formatDate("%b %y", $d1);
-      $resolvedList[$d1] = count($tt1->getResolvedIssues()); // returns Issue instances !
+   private static $logger;
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
    }
 
-   $strVal1 = implode(':', array_values($submittedList));
-   $strVal2 = implode(':', array_values($resolvedList));
-   $strBottomLabel = implode(':', $bottomLabel);
+   protected function display() {
+      if(Tools::isConnectedUser()) {
 
-   return SmartUrlEncode('title='.T_('Submitted / Resolved Issues').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('Submitted').'&x1='.$strVal1.'&leg2='.T_('Resolved').'&x2='.$strVal2);
-}
+        // only teamMembers & observers can access this page
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+        } else {
 
-/**
- * @param array $timeTrackingTable
- * @return array
- */
-function getSubmittedResolvedLegend(array $timeTrackingTable) {
-   $submittedResolvedLegend = NULL;
-   foreach ($timeTrackingTable as $d => $tt) {
-      $submittedResolvedLegend[] = array(
-         "date" => formatDate("%B %Y", $d),
-         "nbSubmitted" => count($tt->getSubmitted()),
-         "nbResolvedIssues" => count($tt->getResolvedIssues())
-      );
-   }
+            // if 'support' is set in the URL, display graphs for 'with/without Support'
+            $displayNoSupport  = isset($_GET['support']) ? TRUE : FALSE;
+            $this->smartyHelper->assign('displayNoSupport', $displayNoSupport);
 
-   return $submittedResolvedLegend;
-}
+            $team = TeamCache::getInstance()->getTeam($this->teamid);
+            $min_year = date("Y", $team->getDate());
+            $year = isset($_POST['year']) && $_POST['year'] > $min_year ? $_POST['year'] : $min_year;
 
-/**
- * @param array $timeTrackingTable
- * @return string
- */
-function getTimeDriftGraph(array $timeTrackingTable) {
-   foreach ($timeTrackingTable as $startTimestamp1 => $timeTracking1) {
-      // REM: the 'normal' drifts DO include support
-      $timeDriftStats1 = $timeTracking1->getTimeDriftStats();
-      $nbTasks1 = $timeDriftStats1["nbDriftsNeg"] + $timeDriftStats1["nbDriftsPos"];
-      $val[] = (0 != $nbTasks1) ? $timeDriftStats1["nbDriftsNeg"] * 100 / $nbTasks1 : 100;
+            $this->smartyHelper->assign('years', SmartyTools::getYearsToNow($min_year, $year));
+            
+            //plugins
+            $this->smartyHelper->assign('statusHistoryIndicatorFile', StatusHistoryIndicator::getSmartyFilename());
+            $this->smartyHelper->assign('effortEstimReliabilityIndicatorFile', EffortEstimReliabilityIndicator::getSmartyFilename());
 
-      $bottomLabel[] = formatDate("%b %y", $startTimestamp1);
-   }
+            if ('computeTeamHistory' == $_POST['action']) {
 
-   $strVal1 = implode(':', $val);
-   $strBottomLabel = implode(':', $bottomLabel);
+               $month = ($year == $min_year) ? date("m", $team->getDate()) : 1;
+               $day = ($year == $min_year) ? date("d", $team->getDate()) : 1;
 
-   return SmartUrlEncode('title='.T_('Adherence to deadlines').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('% Tasks').'&x1='.$strVal1);
-}
 
-/**
- * Display 'Adherence to deadlines'
- * in percent of tasks delivered before the deadLine.
- * @param array $timeTrackingTable
- * @return array
- */
-function getTimeDriftLegend(array $timeTrackingTable) {
-   $timeDriftLegend = NULL;
-   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-      $timeDriftStats = $timeTracking->getTimeDriftStats();
-      $nbTasks = $timeDriftStats["nbDriftsNeg"] + $timeDriftStats["nbDriftsPos"];
-      $timeDriftLegend[] = array(
-         "date" => formatDate("%B %Y", $startTimestamp),
-         "nbDriftsNeg" => round((0 != $nbTasks) ? $timeDriftStats["nbDriftsNeg"] * 100 / $nbTasks : 100, 1)
-      );
-   }
-   return $timeDriftLegend;
-}
+               if(count($team->getProjects(FALSE)) > 0) {
+                  #$timeTrackingTable = $this->createTimeTrackingList($day, $month, $year, $this->teamid);
+                  $firstJanTimestamp = mktime(0, 0, 0, 1, 1, $year); // 1st Jan
+                  $startT = max($firstJanTimestamp, $team->getDate());
+                  $timeTrackingTable = $this->createTimestampRangeList($startT, time(), $this->teamid);
 
-/**
- * @param array $timeTrackingTable
- * @param bool $displayNoSupport
- * @return string
- */
-function getResolvedDriftGraph(array $timeTrackingTable, $displayNoSupport = false) {
-   foreach ($timeTrackingTable as $startTimestamp1 => $timeTracking1) {
-      // REM: the 'normal' drifts DO include support
-      $driftStats_new1 = $timeTracking1->getResolvedDriftStats(true);
-      $val11[] = $driftStats_new1["totalDriftETA"] ? $driftStats_new1["totalDriftETA"] : 0;
-      $val21[] = $driftStats_new1["totalDrift"] ? $driftStats_new1["totalDrift"] : 0;
-      if ($displayNoSupport) {
-         $driftStats_noSupport1 = $timeTracking1->getResolvedDriftStats(false);
-         $val31[] = $driftStats_noSupport1["totalDrift"] ? $driftStats_noSupport1["totalDrift"] : 0;
-      }
-      $bottomLabel[] = formatDate("%b %y", $startTimestamp1);
-   }
+                  $this->generateTimeDriftGraph($timeTrackingTable);
 
-   $strVal1 = implode(':', $val11);
-   $strVal2 = implode(':', $val21);
-   $strBottomLabel = implode(':', $bottomLabel);
+                  $this->generateResolvedDriftGraph($timeTrackingTable, $displayNoSupport, FALSE);
 
-   if ($displayNoSupport) {
-      $strVal3 = '&leg3='.T_('No Support').'&x3='.implode(':', $val31);
-   }
-   return SmartUrlEncode('title='.T_('Effort Deviation').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('MgrEffortEstim').'&x1='.$strVal1.'&leg2='.T_('EffortEstim').'&x2='.$strVal2.$strVal3);
-}
+                  $this->generateResolvedDriftGraph($timeTrackingTable, $displayNoSupport, TRUE); // ExtRefOnly
 
-/**
- * @param array $timeTrackingTable
- * @param bool $displayNoSupport
- * @return array
- */
-function getResolvedDriftLegend(array $timeTrackingTable, $displayNoSupport = false) {
-   $resolvedDriftLegend = NULL;
-   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-      $driftStats_new = $timeTracking->getResolvedDriftStats(true);
-      if ($displayNoSupport) {
-         $driftStats_noSupport = $timeTracking->getResolvedDriftStats(false);
-         $resolvedDriftLegend[] = array(
-            "date" => formatDate("%B %Y", $startTimestamp),
-            "totalDriftETA" => round($driftStats_new["totalDriftETA"] ? $driftStats_new["totalDriftETA"] : 0,2),
-            "totalDrift" => round($driftStats_new["totalDrift"] ? $driftStats_new["totalDrift"] : 0,2),
-            "totalDriftWithoutSupport" => round($driftStats_noSupport["totalDrift"] ? $driftStats_noSupport["totalDrift"] : 0,2)
-         );
-      }
-      else {
-         $resolvedDriftLegend[] = array(
-            "date" => formatDate("%B %Y", $startTimestamp),
-            "totalDriftETA" => round($driftStats_new["totalDriftETA"] ? $driftStats_new["totalDriftETA"] : 0,2),
-            "totalDrift" => round($driftStats_new["totalDrift"] ? $driftStats_new["totalDrift"] : 0,2)
-         );
-      }
-   }
+                  $this->generateEfficiencyGraph($timeTrackingTable);
 
-   return $resolvedDriftLegend;
-}
+                  $this->generateReopenedRateGraph($timeTrackingTable);
 
-/**
- * @param array $timeTrackingTable
- * @return string
- */
-function getEfficiencyGraph(array $timeTrackingTable) {
-   foreach ($timeTrackingTable as $startTimestamp1 => $timeTracking1) {
-      $val1[] = $timeTracking1->getEfficiencyRate();
-      $val2[] = $timeTracking1->getSystemDisponibilityRate();
-      $bottomLabel[] = formatDate("%b %y", $startTimestamp1);
-   }
+                  $this->generateDevelopersWorkloadGraph($timeTrackingTable);
 
-   $strVal1 = implode(':', $val1);
-   $strVal2 = implode(':', $val2);
-   $strBottomLabel = implode(':', $bottomLabel);
+  // --- BEGIN FDJ SPECIFIC ---
+                     $this->generateEffortEstimReliabilityGraph($this->teamid, $timeTrackingTable);
+  // --- END FDJ SPECIFIC ---
 
-   return SmartUrlEncode('title='.T_('Efficiency').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('% Efficiency').'&x1='.$strVal1.'&leg2='.T_('% Sys Disp').'&x2='.$strVal2);
-}
-
-/**
- * @param array $timeTrackingTable
- * @return array
- */
-function getEfficiencyLegend(array $timeTrackingTable) {
-   $efficiencyLegend = NULL;
-   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-      $efficiencyLegend[] = array(
-         "date" => formatDate("%B %Y", $startTimestamp),
-         "efficiencyRate" => round($timeTracking->getEfficiencyRate(), 2),
-         "systemDisponibilityRate" => round($timeTracking->getSystemDisponibilityRate(), 3)
-      );
-   }
-   return $efficiencyLegend;
-}
-
-/**
- * @param array $timeTrackingTable
- * @return string
- */
-function getReopenedRateGraph(array $timeTrackingTable) {
-   foreach ($timeTrackingTable as $startTimestamp1 => $timeTracking1) {
-      $val1[] = $timeTracking1->getReopenedRate() * 100; // x100 to get a percentage;
-      $val2[] = count($timeTracking1->getReopened());
-      $bottomLabel[] = formatDate("%b %y", $startTimestamp1);
-   }
-
-   $strVal1 = implode(':', $val1);
-   $strBottomLabel = implode(':', $bottomLabel);
-
-   return SmartUrlEncode('title='.T_('Reopened Rate').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('% Reopened').'&x1='.$strVal1);
-}
-
-/**
- * @param array $timeTrackingTable
- * @return array
- */
-function getReopenedRateLegend(array $timeTrackingTable) {
-   $reopenedRateLegend = NULL;
-   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-      $reopenedRateLegend[] = array(
-         "date" => formatDate("%B %Y", $startTimestamp),
-         "reopenedRate" => round($timeTracking->getReopenedRate() * 100, 1),
-         "reopened" => count($timeTracking->getReopened())
-      );
-   }
-   return $reopenedRateLegend;
-}
-
-/**
- * Display 'Developers Workload'
- * nb of days.: (holidays & externalTasks not included, developers only)
- * @param array $timeTrackingTable
- * @return string
- */
-function getDevelopersWorkloadGraph($timeTrackingTable) {
-   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-      $val1[] = $timeTracking->getAvailableWorkload();
-      $bottomLabel[] = formatDate("%b %y", $startTimestamp);
-   }
-
-   $strVal1 = implode(':', $val1);
-   $strBottomLabel = implode(':', $bottomLabel);
-
-   return SmartUrlEncode('title='.T_('Developers Workload').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('man-days').'&x1='.$strVal1);
-}
-
-/**
- * @param array $timeTrackingTable
- * @return array
- */
-function getDevelopersWorkloadLegend(array $timeTrackingTable) {
-   $developersWorkloadLegend = NULL;
-   foreach ($timeTrackingTable as $startTimestamp1 => $timeTracking1) {
-      $developersWorkloadLegend[] = array(
-         "date" => formatDate("%B %Y", $startTimestamp1),
-         "value" => round($timeTracking1->getAvailableWorkload(), 1)
-      );
-   }
-   return $developersWorkloadLegend;
-}
-
-// ================ MAIN ================
-require('display.inc.php');
-
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', 'Statistics');
-
-if(isset($_SESSION['userid'])) {
-   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-   $teamList = $session_user->getTeamList();
-   if (count($teamList) > 0) {
-      if(isset($_POST['teamid']) && array_key_exists($_POST['teamid'],$teamList)) {
-         $teamid = $_POST['teamid'];
-         $_SESSION['teamid'] = $_POST['teamid'];
-      }
-      else if(isset($_SESSION['teamid']) && array_key_exists($_SESSION['teamid'],$teamList)) {
-         $teamid = $_SESSION['teamid'];
-      }
-      else {
-         $teamsid = array_keys($teamList);
-         $teamid = $teamsid[0];
-      }
-
-      if($teamid != 0) {
-         // if 'support' is set in the URL, display graphs for 'with/without Support'
-         $displayNoSupport  = isset($_GET['support']) ? true : false;
-         $smartyHelper->assign('displayNoSupport', $displayNoSupport);
-
-         $team = new Team($teamid);
-         $min_year = date("Y", $team->date);
-         $year = isset($_POST['year']) && $_POST['year'] > $min_year ? $_POST['year'] : $min_year;
-
-         $smartyHelper->assign('teams', getTeams($teamList,$teamid));
-         $smartyHelper->assign('years', getYearsToNow($min_year, $year));
-
-         if (isset($_POST['teamid'])) {
-            $month = ($year == $min_year) ? date("m", $team->date) : 1;
-            $day = ($year == $min_year) ? date("d", $team->date) : 1;
-
-            $timeTrackingTable = createTimeTrackingList($day, $month, $year, $teamid);
-
-            $smartyHelper->assign('submittedResolvedGraph', getSubmittedResolvedGraph($timeTrackingTable));
-            $smartyHelper->assign('submittedResolvedLegend', getSubmittedResolvedLegend($timeTrackingTable));
-
-            $smartyHelper->assign('timeDriftGraph', getTimeDriftGraph($timeTrackingTable));
-            $smartyHelper->assign('timeDriftLegend', getTimeDriftLegend($timeTrackingTable));
-
-            $smartyHelper->assign('resolvedDriftGraph', getResolvedDriftGraph($timeTrackingTable, $displayNoSupport));
-            $smartyHelper->assign('resolvedDriftLegend', getResolvedDriftLegend($timeTrackingTable, $displayNoSupport));
-
-            $smartyHelper->assign('efficiencyGraph', getEfficiencyGraph($timeTrackingTable));
-            $smartyHelper->assign('efficiencyLegend', getEfficiencyLegend($timeTrackingTable));
-
-            $smartyHelper->assign('reopenedRateGraph', getReopenedRateGraph($timeTrackingTable));
-            $smartyHelper->assign('reopenedRateLegend', getReopenedRateLegend($timeTrackingTable));
-
-            $smartyHelper->assign('developersWorkloadGraph', getDevelopersWorkloadGraph($timeTrackingTable));
-            $smartyHelper->assign('developersWorkloadLegend', getDevelopersWorkloadLegend($timeTrackingTable));
+                  #$this->generateStatusHistoryGraph($teamid);
+               } else {
+                  $this->smartyHelper->assign('error', T_('No projects in this team'));
+               }
+            }
          }
       }
    }
 
-   // log stats
-   IssueCache::getInstance()->logStats();
-   ProjectCache::getInstance()->logStats();
-   UserCache::getInstance()->logStats();
-   TimeTrackCache::getInstance()->logStats();
+   /**
+    * @param int $start_day
+    * @param int $start_month
+    * @param int $start_year
+    * @param int $teamid
+    * @return TimeTracking[]
+    */
+   private function createTimeTrackingList($start_day, $start_month, $start_year, $teamid) {
+      $timeTrackingTable = array();
+
+      $day = $start_day;
+      $now = time();
+      for ($y = $start_year; $y <= date('Y'); $y++) {
+         for ($month=$start_month ; $month <= 12 ; $month++) {
+            $startTimestamp = mktime(0, 0, 0, $month, $day, $y);
+            $nbDaysInMonth = date("t", mktime(0, 0, 0, $month, 1, $y));
+            $endTimestamp   = mktime(23, 59, 59, $month, $nbDaysInMonth, $y);
+
+            if ($startTimestamp > $now) {
+               break;
+            }
+
+            $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+            $timeTrackingTable[$startTimestamp] = $timeTracking;
+
+            $day = 1;
+         }
+         $start_month = 1;
+      }
+      return $timeTrackingTable;
+   }
+
+      private function createTimestampRangeList($startTimestamp, $endTimestamp, $teamid) {
+      $timeTrackingTable = array();
+      $startT = $startTimestamp;
+
+      while ($startT < $endTimestamp) {
+         $endT = strtotime("last day of this month", $startT);
+         if ($endT > $endTimestamp) {
+            $endT = $endTimestamp;
+         }
+         $s = mktime(0, 0, 0, date('m', $startT), date('d', $startT), date('Y', $startT));
+         $e = mktime(23, 59, 59, date('m', $endT), date('d',$endT), date('Y', $endT));
+#self::$logger->error("");
+         $timeTracking = new TimeTracking($s, $e, $teamid);
+         $timeTrackingTable[$s] = $timeTracking;
+
+         $startT = strtotime("first day of next month", $startT);
+      }
+      return $timeTrackingTable;
+   }
+
+
+
+   private function generateStatusHistoryGraph($teamid) {
+      $team = TeamCache::getInstance()->getTeam($teamid);
+
+      $issueList = $team->getTeamIssueList(true, false);
+
+      $issueSel = new IssueSelection('Team '.$team->getName().' issues');
+      $issueSel->addIssueList($issueList);
+
+      $startTimestamp = $team->getDate();
+      $endTimestamp =  time();
+
+      $params = array(
+         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+         'endTimestamp' => $endTimestamp,
+         'interval' => 10
+      );
+
+      $statusHistoryIndicator = new StatusHistoryIndicator();
+      $statusHistoryIndicator->execute($issueSel, $params);
+      $smartyobj = $statusHistoryIndicator->getSmartyObject();
+      foreach ($smartyobj as $smartyKey => $smartyVariable) {
+         $this->smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+
+   }
+
+   /**
+    * @param TimeTracking[] $timeTrackingTable
+    * @return string
+    */
+   private function generateTimeDriftGraph(array $timeTrackingTable) {
+      $formattedTimetracks = array();
+      foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+         // REM: the 'normal' drifts DO include support
+         $timeDriftStats = $timeTracking->getTimeDriftStats();
+         $nbDriftsNeg = 0;
+         if(array_key_exists("nbDriftsNeg", $timeDriftStats)) {
+            $nbDriftsNeg = $timeDriftStats["nbDriftsNeg"];
+         }
+         $nbDriftsPos = 0;
+         if(array_key_exists("nbDriftsPos", $timeDriftStats)) {
+            $nbDriftsPos = $timeDriftStats["nbDriftsPos"];
+         }
+         $nbTasks = $nbDriftsNeg + $nbDriftsPos;
+         $formattedTimetracks[$startTimestamp] = (0 != $nbTasks) ? $nbDriftsNeg * 100 / $nbTasks : 100;
+      }
+
+      $values = array();
+      $legend = array();
+      foreach ($formattedTimetracks as $date => $value) {
+         $values[Tools::formatDate("%Y-%m-01", $date)] = $value;
+         $legend[Tools::formatDate("%B %Y", $date)] = round($value, 1);
+      }
+
+      $this->smartyHelper->assign('timeDrift_jqplotData', Tools::array2plot($values));
+      $timestamp = Tools::getStartEndKeys($values);
+      $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
+      $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
+      $this->smartyHelper->assign('timeDrift_plotMinDate', $start);
+      $this->smartyHelper->assign('timeDrift_plotMaxDate', $end);
+      $this->smartyHelper->assign('timeDrift_Legend', $legend);
+   }
+
+   /**
+    * @param TimeTracking[] $timeTrackingTable
+    * @param bool $displayNoSupport
+    * @return string
+    */
+   private function generateResolvedDriftGraph(array $timeTrackingTable, $displayNoSupport = FALSE, $extRefOnly=FALSE) {
+      $val1 = array();
+      $val2 = array();
+      $val3 = array();
+      foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+         // REM: the 'normal' drifts DO include support
+         #$formattedSubmittedList[$startTimestamp] = $timeTracking->getSubmitted($extRefOnly); // returns bug_id !
+         #$formattedResolvedList[$startTimestamp] = count($timeTracking->getResolvedIssues($extRefOnly)); // returns Issue instances !
+
+         $driftStats_new1 = $timeTracking->getResolvedDriftStats(TRUE, $extRefOnly);
+         $val1[$startTimestamp] = array_key_exists("totalDriftETA", $driftStats_new1) ? $driftStats_new1["totalDriftETA"] : 0;
+         $val2[$startTimestamp] = array_key_exists("totalDrift", $driftStats_new1) ? $driftStats_new1["totalDrift"] : 0;
+         if ($displayNoSupport) {
+            $driftStats_noSupport1 = $timeTracking->getResolvedDriftStats(FALSE, $extRefOnly);
+            $val3[$startTimestamp] = $driftStats_noSupport1["totalDrift"] ? $driftStats_noSupport1["totalDrift"] : 0;
+         }
+      }
+
+      $valuesOne = array();
+      $valuesTwo = array();
+      $valuesThree = array();
+      $legend = array();
+      foreach ($timeTrackingTable as $date => $timeTracking) {
+         $valuesOne[Tools::formatDate("%Y-%m-01", $date)] = $val1[$date];
+         $valuesTwo[Tools::formatDate("%Y-%m-01", $date)] = $val2[$date];
+         $legend[Tools::formatDate("%B %Y", $date)] = array(
+            "totalDriftETA" => round($val1[$date],2),
+            "totalDrift" => round($val2[$date],2),
+         );
+         if($displayNoSupport) {
+            $valuesThree[Tools::formatDate("%Y-%m-%d", $date)] = round($val3[$date],2);
+            $legend[Tools::formatDate("%B %Y", $date)]["totalDriftWithoutSupport"] = $val3[$date];
+         }
+      }
+      $values = array($valuesOne,$valuesTwo,$valuesThree);
+
+      $smartyPrefix = 'resolvedDrift';
+      if ($extRefOnly) { $smartyPrefix .= 'ExtRefOnly'; }
+
+      $this->smartyHelper->assign($smartyPrefix.'_jqplotData', Tools::array2plot($values));
+      $timestamp = Tools::getStartEndKeys($valuesOne);
+      $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
+      $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
+      $this->smartyHelper->assign($smartyPrefix.'_plotMinDate', $start);
+      $this->smartyHelper->assign($smartyPrefix.'_plotMaxDate', $end);
+      $this->smartyHelper->assign($smartyPrefix.'_Legend', $legend);
+   }
+
+   /**
+    * @param TimeTracking[] $timeTrackingTable
+    * @return string
+    */
+   private function generateEfficiencyGraph(array $timeTrackingTable) {
+      $values1 = array();
+      $values2 = array();
+      foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+         $values1[$startTimestamp] = $timeTracking->getEfficiencyRate();
+         $values2[$startTimestamp] = $timeTracking->getSystemDisponibilityRate();
+      }
+
+      $valuesOne = array();
+      $valuesTwo = array();
+      $legend = array();
+      foreach ($timeTrackingTable as $date => $timeTracking) {
+         $valuesOne[Tools::formatDate("%Y-%m-01", $date)] = $values1[$date];
+         $valuesTwo[Tools::formatDate("%Y-%m-01", $date)] = $values2[$date];
+         $legend[Tools::formatDate("%B %Y", $date)] = array(
+            "efficiencyRate" => round($values1[$date],2),
+            "systemDisponibilityRate" => round($values2[$date],2)
+         );
+      }
+      $values = array($valuesOne,$valuesTwo);
+
+      $this->smartyHelper->assign('efficiency_jqplotData', Tools::array2plot($values));
+      $timestamp = Tools::getStartEndKeys($valuesOne);
+      $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
+      $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
+      $this->smartyHelper->assign('efficiency_plotMinDate', $start);
+      $this->smartyHelper->assign('efficiency_plotMaxDate', $end);
+      $this->smartyHelper->assign('efficiency_Legend', $legend);
+   }
+
+   /**
+    *
+    * Note: internal tasks (tasks having no ExternalReference) NOT INCLUDED
+    *
+    * @param TimeTracking[] $timeTrackingTable
+    * @return string
+    */
+   private function generateReopenedRateGraph(array $timeTrackingTable) {
+      $val2 = array();
+      $val3 = array();
+      foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+         $val2[$startTimestamp] = $timeTracking->getReopenedRateResolved() * 100; // x100 to get a percentage;
+
+         $nbReopened = count($timeTracking->getReopened());
+         $val3[$startTimestamp] = $nbReopened;
+      }
+      $valuesTwo = array();
+      $legend = array();
+      foreach ($timeTrackingTable as $date => $timeTracking) {
+         $valuesTwo[Tools::formatDate("%Y-%m-01", $date)] = $val2[$date];
+         $legend[Tools::formatDate("%B %Y", $date)] = array(
+            "reopenedRateResolved" => round($val2[$date], 1),
+            "reopened" => $val3[$date]
+         );
+      }
+      $values = array($valuesTwo);
+
+      $this->smartyHelper->assign('reopenedRate_jqplotData', Tools::array2plot($values));
+      $timestamp = Tools::getStartEndKeys($valuesTwo);
+      $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
+      $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
+      $this->smartyHelper->assign('reopenedRate_plotMinDate', $start);
+      $this->smartyHelper->assign('reopenedRate_plotMaxDate', $end);
+      $this->smartyHelper->assign('reopenedRate_Legend', $legend);
+   }
+
+   /**
+    * Display 'Developers Workload'
+    * nb of days.: (holidays & externalTasks not included, developers only)
+    * @param TimeTracking[] $timeTrackingTable
+    * @return string
+    */
+   private function generateDevelopersWorkloadGraph($timeTrackingTable) {
+      $formattedTimetracks = array();
+      foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+         // REM: the 'normal' drifts DO include support
+         $formattedTimetracks[$startTimestamp] = $timeTracking->getAvailableWorkload();
+      }
+
+      $values = array();
+      $legend = array();
+      foreach ($formattedTimetracks as $date => $value) {
+         $values[Tools::formatDate("%Y-%m-01", $date)] = $value;
+         $legend[Tools::formatDate("%B %Y", $date)] = round($value, 1);
+      }
+
+      $this->smartyHelper->assign('workload_jqplotData', Tools::array2plot($values));
+      $timestamp = Tools::getStartEndKeys($values);
+      $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
+      $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
+      $this->smartyHelper->assign('workload_plotMinDate', $start);
+      $this->smartyHelper->assign('workload_plotMaxDate', $end);
+      $this->smartyHelper->assign('workload_Legend', $legend);
+   }
+
+  // --- BEGIN FDJ SPECIFIC ---
+   private function generateEffortEstimReliabilityGraph($teamid, $timeTrackingTable) {
+
+      $prodRateIndic = new EffortEstimReliabilityIndicator();
+      $params = array(
+          'teamid' => $teamid,
+          'timeTrackingTable' => $timeTrackingTable);
+      $prodRateIndic->execute(new IssueSelection('FAKE_UNUSED'), $params);
+
+      $smartyObj = $prodRateIndic->getSmartyObject();
+      foreach ($smartyObj as $smartyKey => $smartyVariable) {
+         $this->smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+
+   }
+  // --- END FDJ SPECIFIC ---
+
 }
 
-$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
+// ========== MAIN ===========
+StatisticsController::staticInit();
+$controller = new StatisticsController('../', 'History','ProdReports');
+$controller->execute();
 
 ?>

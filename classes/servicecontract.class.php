@@ -1,43 +1,46 @@
 <?php
-
 /*
-  This file is part of CodevTT.
+   This file is part of CodevTT.
 
-  CodevTT is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+   CodevTT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  CodevTT is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+   CodevTT is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-require_once('Logger.php');
-
-/* INSERT INCLUDES HERE */
-require_once "servicecontract_cache.class.php";
-
-require_once "project.class.php";
+   You should have received a copy of the GNU General Public License
+   along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 /**
  * Description of ServiceContract
- *
  */
-class ServiceContract {
-
+class ServiceContract extends Model {
 
    // TODO states must be defined
-   const state_default       = 1;
+   const state_default = 1;
 
-  // TODO i18n for constants
-  public static $stateNames = array(ServiceContract::state_default       => "Default");
+   // TODO i18n for constants
+   public static $stateNames = array(
+      self::state_default => "Default"
+   );
 
-   private $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
    private $id;
    private $name;
@@ -58,141 +61,123 @@ class ServiceContract {
    // $cmdsetidByTypeList[project_id]
    private $sidetasksProjectList;
 
-   // [cat_id] = IssueSelection("categoryName")
+   /**
+    * [cat_id] = IssueSelection("categoryName")
+    * @var IssueSelection[][]
+    */
    private $sidetasksPerCategory;
 
-   public function __construct($id) {
-      $this->logger = Logger::getLogger(__CLASS__);
+   /**
+    * [cat_type] = IssueSelection("catTypeName")
+    * @var IssueSelection[][]
+    */
+   private $sidetasksPerCategoryType;
 
+   private $commandList;
+   private $provisionList;
+
+   /**
+    * @param int $id The service contract id
+    * @param resource $details The service contract details
+    * @throws Exception
+    */
+   public function __construct($id, $details = NULL) {
       if (0 == $id) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("Creating a ServiceContract with id=0 is not allowed.");
-         $this->logger->error("EXCEPTION ServiceContract constructor: " . $e->getMessage());
-         $this->logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
+         self::$logger->error("EXCEPTION ServiceContract constructor: " . $e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
          throw $e;
       }
 
       $this->id = $id;
-      $this->initialize();
+      $this->initialize($details);
    }
 
-   private function initialize() {
-
-      // get info from DB
-      // ---
-      $query  = "SELECT * FROM `codev_servicecontract_table` WHERE id=$this->id ";
-      $result = mysql_query($query);
-      if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+   /**
+    * Initialize
+    * @param resource $row The service contract details
+    */
+   private function initialize($row) {
+      if($row == NULL) {
+         // get info from DB
+         $sql = AdodbWrapper::getInstance();
+         $query  = "SELECT * FROM codev_servicecontract_table WHERE id = ".$sql->db_param();
+         $result= $sql->sql_query($query, array($this->id));
+         $row = $sql->fetchObject($result);
       }
-      $row = mysql_fetch_object($result);
-      $this->name        = $row->name;
-      $this->teamid      = $row->team_id;
-   	$this->state            = $row->state;
-      $this->reference        = $row->reference;
-      $this->version          = $row->version;
-      $this->reporter         = $row->reporter;
+
+      $this->name = $row->name;
+      $this->teamid = $row->team_id;
+      $this->state = $row->state;
+      $this->reference = $row->reference;
+      $this->version = $row->version;
+      $this->reporter = $row->reporter;
       $this->description = $row->description;
-      $this->start_date        = $row->start_date;
-      $this->end_date        = $row->end_date;
-
-      // --- CommandSets
-      $this->cmdsetidByTypeList = array();
-      $query  = "SELECT * FROM `codev_servicecontract_cmdset_table` ".
-                "WHERE servicecontract_id=$this->id ";
-                "ORDER BY type ASC, command_id ASC";
-
-      $result = mysql_query($query);
-      if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      while($row = mysql_fetch_object($result))
-      {
-         if (NULL == $this->cmdsetidByTypeList["$row->type"]) {
-            $this->cmdsetidByTypeList["$row->type"] = array();
-         }
-          $this->cmdsetidByTypeList["$row->type"][] = $row->commandset_id;
-      }
-
-      // --- SidetaskProjects
-      $this->sidetasksProjectList = array();
-      $query  = "SELECT * FROM `codev_servicecontract_stproj_table` ".
-                "WHERE servicecontract_id=$this->id ";
-                "ORDER BY type ASC, command_id ASC";
-
-      $result = mysql_query($query);
-      if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      while($row = mysql_fetch_object($result))
-      {
-          $this->sidetasksProjectList[] = $row->project_id;
-      }
+      $this->start_date = $row->start_date;
+      $this->end_date = $row->end_date;
    }
 
    /**
     * create a new commandset in the DB
-    *
+    * @static
+    * @param string $name
+    * @param int $teamid
     * @return int $id
     */
    public static function create($name, $teamid) {
-    $query = "INSERT INTO `codev_servicecontract_table`  (`name`, `team_id`) ".
-             "VALUES ('$name', '$teamid');";
-    $result = mysql_query($query);
-    if (!$result) {
-       $this->logger->error("Query FAILED: $query");
-       $this->logger->error(mysql_error());
-       echo "<span style='color:red'>ERROR: Query FAILED</span>";
-       exit;
-    }
-    $id = mysql_insert_id();
-    return $id;
+
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT count(*) FROM codev_servicecontract_table WHERE name = ".$sql->db_param();
+      $result = $sql->sql_query($query, array($name));
+
+      $count = $sql->sql_result($result);
+
+      if($count == 0) {
+
+         $query = "INSERT INTO codev_servicecontract_table  (name, team_id) ".
+                  "VALUES (".$sql->db_param().", ".$sql->db_param().")";
+
+         $sql->sql_query($query, array($name, $teamid));
+
+         return AdodbWrapper::getInstance()->getInsertId();
+      } else {
+         throw new Exception('Already exists');
+      }
    }
 
    /**
     * delete a ServcieContract
-    *
+    * @static
+    * @param int $id
     * @return int $id
     */
    public static function delete($id) {
+      $sql = AdodbWrapper::getInstance();
+      try {
+         $query = "DELETE FROM codev_servicecontract_cmdset_table WHERE servicecontract_id = ".$sql->db_param();
+         $sql->sql_query($query, array($id));
+      } catch (Exception $e) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+         #exit;
+      }
 
-    $query = "DELETE FROM `codev_servicecontract_cmdset_table` WHERE `servicecontract_id`='$id';";
-    $result = mysql_query($query);
-    if (!$result) {
-       $this->logger->error("Query FAILED: $query");
-       $this->logger->error(mysql_error());
-       echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
-       #exit;
-    }
+      try {
+         $query = "DELETE FROM codev_servicecontract_stproj_table WHERE servicecontract_id = ".$sql->db_param();
+         $sql->sql_query($query, array($id));
+      } catch (Exception $e) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+         #exit;
+      }
 
-    $query = "DELETE FROM `codev_servicecontract_stproj_table` WHERE `servicecontract_id`='$id';";
-    $result = mysql_query($query);
-    if (!$result) {
-       $this->logger->error("Query FAILED: $query");
-       $this->logger->error(mysql_error());
-       echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
-       #exit;
-    }
-
-    $query = "DELETE FROM `codev_servicecontract_table` WHERE `id`='$id';";
-    $result = mysql_query($query);
-    if (!$result) {
-       $this->logger->error("Query FAILED: $query");
-       $this->logger->error(mysql_error());
-       echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
-       exit;
-    }
-    $id = mysql_insert_id();
-    return $id;
+      try {
+         $query = "DELETE FROM codev_servicecontract_table WHERE id = ".$sql->db_param();
+         $sql->sql_query($query, array($id));
+      } catch (Exception $e) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+         #exit;
+      }
+      return $id;
    }
 
    public function getId() {
@@ -203,97 +188,71 @@ class ServiceContract {
       return $this->teamid;
    }
    public function setTeamid($value) {
-
       $this->teamid = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET team_id = '$value' WHERE id='$this->id' ";
-      $result = mysql_query($query);
-	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET team_id = ".$sql->db_param().
+               " WHERE id = ".$sql->db_param();
+      $sql->sql_query($query, array($value, $this->id));
    }
 
    public function getName() {
       return $this->name;
    }
+
    public function setName($name) {
-      $formattedValue = mysql_real_escape_string($name);  // should be in controler, not here
-      $this->name = $formattedValue;
-      $query = "UPDATE `codev_servicecontract_table` SET name = '$formattedValue' WHERE id='$this->id' ";
-      $result = mysql_query($query);
-      if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
-      }
+      $this->name = $name;
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET name = ".$sql->db_param().
+               " WHERE id = ".$sql->db_param();
+      $sql->sql_query($query, array($name, $this->id));
    }
 
    public function getReference() {
       return $this->reference;
    }
-   public function setReference($value) {
 
+   public function setReference($value) {
       $this->reference = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET reference = '$value' WHERE id='$this->id' ";
-      $result = mysql_query($query);
-	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET reference = ".$sql->db_param().
+               " WHERE id = ".$sql->db_param();
+      $sql->sql_query($query, array($value, $this->id));
    }
 
    public function getVersion() {
       return $this->version;
    }
-   public function setVersion($value) {
 
+   public function setVersion($value) {
       $this->version = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET version = '$value' WHERE id='$this->id' ";
-      $result = mysql_query($query);
-	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET version = ".$sql->db_param().
+               " WHERE id = ".$sql->db_param();
+      $sql->sql_query($query, array($value, $this->id));
    }
 
    public function getReporter() {
       return $this->reporter;
    }
+
    public function setReporter($value) {
-
       $this->reporter = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET reporter = '$value' WHERE id='$this->id' ";
-      $result = mysql_query($query);
-	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET reporter = ".$sql->db_param().
+               " WHERE id = ".$sql->db_param();
+      $sql->sql_query($query, array($value, $this->id));
    }
-
 
    public function getDesc() {
       return $this->description;
    }
+
    public function setDesc($description) {
-      $formattedValue = mysql_real_escape_string($description);  // should be in controler, not here
-      $this->description = $formattedValue;
-      $query = "UPDATE `codev_servicecontract_table` SET description = '$formattedValue' WHERE id='$this->id' ";
-      $result = mysql_query($query);
-      if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
-      }
+      $this->description = $description;
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET description = ".$sql->db_param().
+               " WHERE id = ".$sql->db_param();
+      $sql->sql_query($query, array($description, $this->id));
    }
 
    public function getState() {
@@ -301,108 +260,146 @@ class ServiceContract {
    }
 
    public function setState($value) {
-
       $this->state = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET state='$value' WHERE id='$this->id' ";
-      $result = mysql_query($query);
-	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET state=".$sql->db_param().
+               " WHERE id = ".$sql->db_param();
+      $sql->sql_query($query, array($value, $this->id));
    }
-
 
    public function getStartDate() {
       return $this->start_date;
    }
+
    public function setStartDate($value) {
       $this->start_date = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET start_date = '$this->start_date' WHERE id='$this->id' ";
-      $result = mysql_query($query);
-      if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET start_date = ".$sql->db_param().
+               " WHERE id=".$sql->db_param();
+      $sql->sql_query($query, array($this->start_date, $this->id));
    }
 
    public function getEndDate() {
       return $this->end_date;
    }
+
    public function setEndDate($value) {
       $this->end_date = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET end_date = '$this->end_date' WHERE id='$this->id' ";
-      $result = mysql_query($query);
-      if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_servicecontract_table SET end_date = ".$sql->db_param().
+               " WHERE id=".$sql->db_param();
+      $sql->sql_query($query, array($this->end_date, $this->id));
    }
 
-
    /**
-    *
     * @param int $type  CommandSet::type_general
-    * @return array commandset_id => CommandSet
+    * @return CommandSet[] : array commandset_id => CommandSet
     */
    public function getCommandSets($type) {
-
-      // TODO: if type==NULL return for all types
-
       $cmdsetList = array();
 
-      $cmdsetidList = $this->cmdsetidByTypeList[$type];
+      $cmdsetidList = $this->getCommandSetIds($type);
 
       if(($cmdsetidList) && (0 != count($cmdsetidList))) {
          foreach ($cmdsetidList as $commandset_id) {
-
             $cmdsetList[$commandset_id] = CommandSetCache::getInstance()->getCommandSet($commandset_id);
          }
       }
       return $cmdsetList;
    }
 
-   /**
-    *
-    * @return array project_id => Project
-    */
-   public function getProjects() {
+   private function getCommandSetIds($type = NULL) {
+      if(NULL == $this->cmdsetidByTypeList) {
+         // CommandSets
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM codev_servicecontract_cmdset_table ".
+                  "WHERE servicecontract_id =  ".$sql->db_param().
+                  " ORDER BY type ASC, commandset_id ASC";
 
-      // TODO: if type==NULL return for all types
+         $result = $sql->sql_query($query, array($this->id));
 
-      $prjList = array();
-
-      foreach ($this->sidetasksProjectList as $project_id) {
-
-         $prjList[$project_id] = ProjectCache::getInstance()->getProject($project_id);
+         $this->cmdsetidByTypeList = array();
+         while($row = $sql->fetchObject($result)) {
+            if (!array_key_exists($row->type,$this->cmdsetidByTypeList)) {
+               $this->cmdsetidByTypeList[$row->type] = array();
+            }
+            $this->cmdsetidByTypeList[$row->type][] = $row->commandset_id;
+         }
       }
 
-      return $prjList;
+      if(NULL == $type) {
+         return $this->cmdsetidByTypeList;
+      } else if (array_key_exists($type, $this->cmdsetidByTypeList)) {
+         return $this->cmdsetidByTypeList[$type];
+      } else {
+         return NULL;
+      }
+   }
+
+   /**
+    * @param int $cset_type CommandSet::type_general
+    * @param int $cmd_type Command::type_general
+    * @return Command[]
+    */
+   public function getCommands($cset_type, $cmd_type) {
+      // TODO  $key = $cset_type . '_' . $cmd_type;
+
+      if (NULL == $this->commandList) {
+         $this->commandList = array();
+
+         $cmdsetList = $this->getCommandSets($cset_type);
+
+         foreach ($cmdsetList as $cset) {
+            $cmdList = $cset->getCommands($cmd_type);
+            foreach ($cmdList as $id => $cmd) {
+               $this->commandList[$id] = $cmd;  // array_merge looses the $key
+            }
+         }
+      }
+
+      return $this->commandList;
+   }
+
+
+   /**
+    * @return Project[] array project_id => Project
+    */
+   public function getProjects() {
+      // TODO: if type==NULL return for all types
+      if(NULL == $this->sidetasksProjectList) {
+         // SidetaskProjects
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT project.* FROM {project} as project ".
+                  "JOIN codev_servicecontract_stproj_table as servicecontract_stproj ON project.id = servicecontract_stproj.project_id ".
+                  "WHERE servicecontract_stproj.servicecontract_id = ".$sql->db_param().
+                  " ORDER BY type ASC, project.id ASC;";
+         $result = $sql->sql_query($query, array( $this->id));
+
+         $this->sidetasksProjectList = array();
+         while($row = $sql->fetchObject($result)) {
+            $this->sidetasksProjectList["$row->id"] = ProjectCache::getInstance()->getProject($row->id, $row);
+         }
+      }
+
+      return $this->sidetasksProjectList;
    }
 
    /**
     * Collect the Issues of all the CommandSets (of a given type)
     *
-    * @param int $type CommandSet::type_general
-    *
+    * @param int $cset_type CommandSet::type_general
+    * @param int $cmd_type Command::type_general
     * @return IssueSelection
     */
    public function getIssueSelection($cset_type, $cmd_type) {
-
       // TODO: if type==NULL return for all types
 
       $issueSelection = new IssueSelection();
 
-      $cmdsetidList = $this->cmdsetidByTypeList[$cset_type];
+      $cmdsetidList = $this->getCommandSetIds($cset_type);
 
       if(($cmdsetidList) && (0 != count($cmdsetidList))) {
          foreach ($cmdsetidList as $commandset_id) {
-
             $cmdset = CommandSetCache::getInstance()->getCommandSet($commandset_id);
             $cmdsetIS = $cmdset->getIssueSelection($cmd_type);
             $issueSelection->addIssueList($cmdsetIS->getIssueList());
@@ -412,7 +409,6 @@ class ServiceContract {
       return $issueSelection;
    }
 
-   
    /**
     * add Command to commandset (in DB & current instance)
     *
@@ -421,33 +417,29 @@ class ServiceContract {
     * @return int id in codev_servicecontract_cmdset_table
     */
    public function addCommandSet($commandset_id, $type) {
-
       try {
          CommandSetCache::getInstance()->getCommandSet($commandset_id);
       } catch (Exception $e) {
-         $this->logger->error("addCommandSet($commandset_id): CommandSet $commandset_id does not exist !");
+         self::$logger->error("addCommandSet($commandset_id): CommandSet $commandset_id does not exist !");
          echo "<span style='color:red'>ERROR: CommandSet '$commandset_id' does not exist !</span>";
          return NULL;
       }
 
-      $this->logger->debug("Add CommandSet $commandset_id to ServiceContract $this->id");
-
-      if (NULL == $this->cmdsetidByTypeList["$type"]) {
-         $this->cmdsetidByTypeList["$type"] = array();
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("Add CommandSet $commandset_id to ServiceContract $this->id");
       }
-      $this->cmdsetidByTypeList["$type"][] = $commandset_id;
 
-      $query = "INSERT INTO `codev_servicecontract_cmdset_table` (`servicecontract_id`, `commandset_id`, `type`) VALUES ('$this->id', '$commandset_id', '$type');";
-      $result = mysql_query($query);
-      if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+      if (NULL == $this->getCommandSetIds($type)) {
+         $this->cmdsetidByTypeList[$type] = array();
       }
-      $id = mysql_insert_id();
-      return $id;
+      $this->cmdsetidByTypeList[$type][] = $commandset_id;
 
+      $sql = AdodbWrapper::getInstance();
+      $query = "INSERT INTO codev_servicecontract_cmdset_table (servicecontract_id, commandset_id, type)".
+               " VALUES (".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().")";
+      $sql->sql_query($query, array($this->id, $commandset_id, $type));
+
+      return $sql->getInsertId();
    }
 
    /**
@@ -457,25 +449,20 @@ class ServiceContract {
     * @param int $commandset_id
     */
    public function removeCommandSet($commandset_id) {
-
-      $typeList = array_keys($this->cmdsetidByTypeList);
+      $typeList = array_keys($this->getCommandSetIds());
       foreach ($typeList as $type) {
-         if (NULL != $this->cmdsetidByTypeList[$type][$commandset_id]) {
-            unset($this->cmdsetidByTypeList[$type][$commandset_id]);
+         $key = array_search($commandset_id, $this->cmdsetidByTypeList[$type]);
+         if (FALSE !== $key) {
+            unset($this->cmdsetidByTypeList[$type][$key]);
             # break;
          }
       }
 
-      $query = "DELETE FROM `codev_servicecontract_cmdset_table` WHERE servicecontract_id='$this->id' AND commandset_id='$commandset_id';";
-      $result = mysql_query($query);
-      if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "DELETE FROM codev_servicecontract_cmdset_table WHERE servicecontract_id = ".$sql->db_param().
+               " AND commandset_id = ".$sql->db_param();
+      $sql->sql_query($query, array($this->id, $commandset_id));
    }
-
 
    /**
     * add Command to commandset (in DB & current instance)
@@ -485,33 +472,29 @@ class ServiceContract {
     * @return int id in codev_servicecontract_stproj_table
     */
    public function addSidetaskProject($project_id, $type) {
-
       try {
-         ProjectCache::getInstance()->getProject($project_id);
+         $project = ProjectCache::getInstance()->getProject($project_id);
       } catch (Exception $e) {
-         $this->logger->error("addCommandSet($project_id): CommandSet $project_id does not exist !");
+         self::$logger->error("addCommandSet($project_id): CommandSet $project_id does not exist !");
          echo "<span style='color:red'>ERROR: CommandSet '$project_id' does not exist !</span>";
          return NULL;
       }
 
-      $this->logger->debug("Add CommandSet $project_id to ServiceContract $this->id");
-
-      if (NULL == $this->sidetasksProjectList) {
-         $this->sidetasksProjectList = array();
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("Add CommandSet $project_id to ServiceContract $this->id");
       }
-      $this->sidetasksProjectList[] = $project_id;
 
-      $query = "INSERT INTO `codev_servicecontract_stproj_table` (`servicecontract_id`, `project_id`, `type`) VALUES ('$this->id', '$project_id', '$type');";
-      $result = mysql_query($query);
-      if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+      $this->getProjects();
+      if (!isset($this->sidetasksProjectList["$project_id"])) {
+         $this->sidetasksProjectList["$project_id"] = $project;
+
+         $sql = AdodbWrapper::getInstance();
+         $query = "INSERT INTO codev_servicecontract_stproj_table (servicecontract_id, project_id, type)".
+                  " VALUES (".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().")";
+         $sql->sql_query($query, array($this->id, $project_id, $type));
+
+         return AdodbWrapper::getInstance()->getInsertId();
       }
-      $id = mysql_insert_id();
-      return $id;
-
    }
 
    /**
@@ -522,26 +505,22 @@ class ServiceContract {
     */
    public function removeSidetaskProject($project_id) {
 
-      if (NULL != $this->sidetasksProjectList[$project_id]) {
-         unset($this->sidetasksProjectList[$project_id]);
+      $key = array_search($project_id, $this->sidetasksProjectList);
+      if (FALSE !== $key) {
+         unset($this->sidetasksProjectList[$key]);
       }
 
-      $query = "DELETE FROM `codev_servicecontract_stproj_table` WHERE servicecontract_id='$this->id' AND project_id='$project_id';";
-      $result = mysql_query($query);
-      if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "DELETE FROM codev_servicecontract_stproj_table".
+               " WHERE servicecontract_id = ".$sql->db_param().
+               " AND project_id = ".$sql->db_param();
+      $sql->sql_query($query, array($this->id, $project_id));
    }
 
    /**
-    *
-    * @return array
+    * @return ConsistencyError2[]
     */
    public function getConsistencyErrors() {
-
       $cmdsetList = $this->getCommandSets(CommandSet::type_general);
 
       $servicecontractErrors = array();
@@ -552,50 +531,155 @@ class ServiceContract {
       return $servicecontractErrors;
    }
 
-/**
- *
- * @param int $servicecontractid
- * @return array[category_id] = IssueSelection("categoryName")
- */
-function getSidetasksPerCategory() {
+   /**
+    * @param bool $skipIfInCommands SideTasks already declared in a child Commands will be skipped
+    * @return IssueSelection[] : array[category_type] = IssueSelection("categoryName")
+    */
+   function getSidetasksPerCategoryType($skipIfInCommands = false) {
+      if (NULL == $this->sidetasksPerCategoryType) { $this->sidetasksPerCategoryType = array(); }
 
-   if (NULL == $this->sidetasksPerCategory) {
+      $key = ($skipIfInCommands) ? 'skip_yes' : 'skip_no';
 
-      $this->sidetasksPerCategory = array();
+      if (!array_key_exists($key, $this->sidetasksPerCategoryType)) {
 
-      $prjList = $this->getProjects();
-      foreach ($prjList as $id => $project) {
+         $this->sidetasksPerCategoryType[$key] = array();
 
-         try {
-            if (!$project->isSideTasksProject(array($this->teamid))) {
-               $this->logger->error("getSidetasksPerCategory: SKIPPED project $id (".$project->name.") should be a SidetasksProject !");
+         if ($skipIfInCommands) {
+            $cmdidList = array_keys($this->getCommands(CommandSet::type_general, Command::type_general));
+         }
+
+         $prjList = $this->getProjects();
+         foreach ($prjList as $id => $project) {
+            try {
+               if (!$project->isSideTasksProject(array($this->teamid))) {
+                  self::$logger->error("getSidetasksPerCategoryType: SKIPPED project $id (".$project->getName().") should be a SidetasksProject !");
+                  continue;
+               }
+            } catch (Exception $e) {
+               self::$logger->error("getSidetasksPerCategoryType: EXCEPTION SKIPPED project $id (".$project->getName().") : ".$e->getMessage());
                continue;
             }
-         } catch (Exception $e) {
-            $this->logger->error("getSidetasksPerCategory: EXCEPTION SKIPPED project $id (".$project->name.") : ".$e->getMessage());
-            continue;
-         }
-         $bugidList = $project->getIssueList();
 
-         foreach ($bugidList as $bugid) {
+            $issueList = $project->getIssues();
+            foreach ($issueList as $issue) {
 
-            $issue = IssueCache::getInstance()->getIssue($bugid);
+               if ($skipIfInCommands) {
+                  // compare the Commands of the Issue whit the Commands of this ServiceContract
+                  $issueCmdidList = array_keys($issue->getCommandList());
+                  $isInCommands = 0 != count(array_intersect($cmdidList, $issueCmdidList));
+                  if ($isInCommands) {
+                     if(self::$logger->isDebugEnabled()) {
+                        self::$logger->debug("getSidetasksPerCategoryType(): skip issue ".$issue->getId()." because already declared in a Command");
+                     }
+                     continue;
+                  }
+               }
 
-            if (NULL == $this->sidetasksPerCategory[$issue->categoryId]) {
-               $this->sidetasksPerCategory[$issue->categoryId] = new IssueSelection($issue->getCategoryName());
+               // find category type (depends on project)
+               $proj = ProjectCache::getInstance()->getProject($issue->getProjectId());
+               $categoryList = $proj->getCategoryList();
+               $cat_type = array_search( $issue->getCategoryId() , $categoryList);
+
+               if (is_numeric($cat_type)) {
+                  $cat      = $cat_type;
+                  $cat_name = Project::$catTypeNames["$cat_type"];
+               } else {
+                  $cat      = 'CAT_ID_'.$issue->getCategoryId();
+                  $cat_name = $issue->getCategoryName();
+               }
+#echo "cat_type = $cat_type id=".$issue->getCategoryId()." $cat_name<br>";
+
+               if (!array_key_exists($cat, $this->sidetasksPerCategoryType[$key])) {
+                  $this->sidetasksPerCategoryType[$key][$cat] = new IssueSelection($cat_name);
+               }
+               $issueSel = $this->sidetasksPerCategoryType[$key][$cat];
+               $issueSel->addIssue($issue->getId());
             }
-            $issueSel = $this->sidetasksPerCategory[$issue->categoryId];
-            $issueSel->addIssue($bugid);
          }
       }
+      return $this->sidetasksPerCategoryType[$key];
    }
-   return $this->sidetasksPerCategory;
+
+
+   /**
+    * @param int $cset_type  CommandSet::type_general
+    * @param int $cmd_type  Command::type_general
+    * @param int $prov_type CommandProvision::provision_xxx
+    * @return array CommandProvision
+    */
+   public function getProvisionList($cset_type, $cmd_type, $prov_type = NULL) {
+
+      $key= 'P'.$cset_type.'_'.$cmd_type.'_'.$prov_type;
+      if (is_null($this->provisionList)) { $this->provisionList = array(); }
+
+      if (!array_key_exists($key, $this->provisionList)) {
+
+         $cmdidList = array_keys($this->getCommands($cset_type, $cmd_type));
+         if (empty($cmdidList)) {
+             self::$logger->warn("ServiceContract $this->id : no commands for type $cmd_type");
+            return array();
+         }
+         $formattedCmdidList = implode(',', $cmdidList);
+
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM codev_command_provision_table ".
+                 "WHERE command_id IN (".$formattedCmdidList.") ";
+
+         if (!is_null($prov_type)) {
+            $query .= " AND type = ".$sql->db_param();
+            $q_params[]=$prov_type;
+         }
+         $query .= " ORDER BY date ASC, type ASC";
+
+         $result = $sql->sql_query($query, $q_params);
+
+         $this->provisionList[$key] = array();
+         while ($row = $sql->fetchObject($result)) {
+            try {
+               $provision = new CommandProvision($row->id, $row);
+               $this->provisionList[$key]["$row->id"] = $provision;
+            } catch (Exception $e) {
+               echo "<span style='color:red'>WARNING: Provision $row->id does not exist !</span><br>";
+            }
+         }
+      }
+      return $this->provisionList[$key];
+   }
+
+   /**
+    * Sum all the BudjetDays provisions
+    *
+    * @param int $cset_type  CommandSet::type_general
+    * @param int $cmd_type  Command::type_general
+    * @param int $prov_type CommandProvision::provision_xxx
+    * @return type
+    *
+    */
+   public function getProvisionDays($cset_type, $cmd_type, $prov_type = NULL) {
+
+      $provisions = $this->getProvisionList($cset_type, $cmd_type, $prov_type);
+      $budgetDays = 0;
+      foreach ($provisions as $prov) {
+         if (is_null($prov_type) || ($prov_type == $prov->getType())) {
+            $budgetDays += $prov->getProvisionDays();
+         }
+      }
+      return $budgetDays;
+   }
+
+   public function getProvisionDaysByType($cset_type, $cmd_type) {
+
+      $provDaysByType = array();
+      $provisions = $this->getProvisionList($cset_type, $cmd_type);
+      foreach ($provisions as $prov) {
+         $prov_type = $prov->getType();
+         $provDaysByType["$prov_type"] += $prov->getProvisionDays();
+      }
+      return $provDaysByType;
+   }
+
+
 }
 
+ServiceContract::staticInit();
 
-
-
-
-}
-
-?>

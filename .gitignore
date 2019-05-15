@@ -1,8 +1,12 @@
 .project
 .settings
 *~
+*.sublime-*
+config.ini
+log4php.xml
 constants.php
 mantis_monkey.user.js
+classmap.ser.old
 include/mysql_config.inc.php
 tools/backup_cronjob.sh
 lib/jpgraph/docs
@@ -15,3 +19,9 @@ templates_c
 /nbproject/private/
 /nbproject/project.xml
 /nbproject/project.properties
+/lib/adodb/nbproject/private/
+
+/doc/fdj
+/doc/phpdoc/html
+
+plugins/RsiTypeAnoLoadIndicator

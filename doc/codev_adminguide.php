@@ -1,5 +1,6 @@
 <?php
 require('../include/session.inc.php');
+
 /*
    This file is part of CoDev-Timetracking.
 
@@ -19,16 +20,25 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+class AdminGuideController extends Controller {
 
-require('../smarty_tools.php');
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      // Nothing special
+   }
 
-require('display.inc.php');
+   protected function display() {
+      // Nothing special
+   }
+
+}
 
 // ========== MAIN ===========
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', 'Admin Guide');
-
-$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
+AdminGuideController::staticInit();
+$controller = new AdminGuideController('../', 'Admin Guide','Doc');
+$controller->execute();
 
 ?>

@@ -2,122 +2,178 @@
 require('../include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+class ExportCSVMonthlyController extends Controller {
 
-require('../smarty_tools.php');
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
 
-include_once "period_stats.class.php";
-include_once "project.class.php";
-include_once 'export_csv_tools.php';
-
-include_once "time_tracking.class.php";
-
-$logger = Logger::getLogger("export_csv");
-
-// =========== MAIN ==========
-require('display.inc.php');
-
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', 'CSV Report');
-
-global $codevReportsDir;
-
-if(isset($_SESSION['userid'])) {
-   $userid = $_SESSION['userid'];
-
-   // team
-   $user = UserCache::getInstance()->getUser($userid);
-   $lTeamList = $user->getLeadedTeamList();
-   $managedTeamList = $user->getManagedTeamList();
-   $mTeamList = $user->getDevTeamList();
-   $teamList = $mTeamList + $lTeamList + $managedTeamList;
-
-   if (0 == count($teamList)) {
-      echo "<div id='content'' class='center'>";
-      echo T_("Sorry, you do NOT have access to this page.");
-      echo "</div>";
-   } else {
-      $defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-      $teamid = getSecurePOSTIntValue('teamid', $defaultTeam);
-      $_SESSION['teamid'] = $teamid;
-
-      $smartyHelper->assign('teams', getTeams($teamList, $teamid));
-
-      $query = "SELECT name FROM `codev_team_table` WHERE id = $teamid";
-      $result = mysql_query($query);
-      if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+      if (!is_dir(Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports')) {
+         mkdir(Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports', 0755);
       }
-      
-      $teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $teamid;
-      $formatedteamName = str_replace(" ", "_", $teamName);
 
-      $action = isset($_POST['action']) ? $_POST['action'] : '';
+   }
 
-      // dates
-      $month = date('m');
-      $year = date('Y');
+   protected function display() {
+      if(Tools::isConnectedUser()) {
 
-      // The first day of the current month
-      $startdate = isset($_POST["startdate"]) ? $_POST["startdate"] : formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, 1, $year));
-      $smartyHelper->assign('startDate', $startdate);
-      $startTimestamp = date2timestamp($startdate);
+        // only teamMembers & observers can access this page
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+        } else {
 
-      // The current date plus one year
-      $nbDaysInMonth  = date("t", mktime(0, 0, 0, $month, 1, $year));
-      $enddate = isset($_POST["enddate"]) ? $_POST["enddate"] : formatDate("%Y-%m-%d", mktime(23, 59, 59, $month, $nbDaysInMonth, $year));
-      $smartyHelper->assign('endDate', $enddate);
-      $endTimestamp = date2timestamp($enddate);
-      $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
+            $team = TeamCache::getInstance()->getTeam($this->teamid);
+            $formatedteamName = str_replace(" ", "_", $team->getName());
 
-      if ("exportPeriod" == $action && 0 != $teamid) {
+            // dates
+            $month = date('m');
+            $year = date('Y');
 
-         $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+            // The first day of the current month
+            $startdate = Tools::getSecurePOSTStringValue("startdate", Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, 1, $year)));
+            $this->smartyHelper->assign('startDate', $startdate);
+            $startTimestamp = Tools::date2timestamp($startdate);
 
-         $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".date("Ymd").".csv";
+            // The current date plus one year
+            $nbDaysInMonth  = date("t", mktime(0, 0, 0, $month, 1, $year));
+            $enddate = Tools::getSecurePOSTStringValue("enddate", Tools::formatDate("%Y-%m-%d", mktime(23, 59, 59, $month, $nbDaysInMonth, $year)));
+            $this->smartyHelper->assign('endDate', $enddate);
+            $endTimestamp = Tools::date2timestamp($enddate);
+            $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
 
-         exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile);
-         $smartyHelper->assign('managedIssuesToCSV', basename($myFile));
+            if ('computeCsvMonthly' == $_POST['action']) {
+               $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $this->teamid);
 
-         $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_Projects_".date("Ymd", $timeTracking->startTimestamp)."-".date("Ymd", $timeTracking->endTimestamp).".csv";
+               $myFile = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".date("Ymd").".csv";
 
-         exportProjectMonthlyActivityToCSV($timeTracking, $myFile);
-         $smartyHelper->assign('projectMonthlyActivityToCSV', basename($myFile));
+               ExportCsvTools::exportManagedIssuesToCSV($this->teamid, $startTimestamp, $endTimestamp, $myFile);
+               $this->smartyHelper->assign('managedIssuesToCSV', basename($myFile));
 
-         // reduce scope to enhance speed
-         $reports = array();
-         $startMonth = 1;
-         for ($i = $startMonth; $i <= 12; $i++) {
-            $reports[] = basename(exportHolidaystoCSV($i, $year, $teamid, $formatedteamName, $codevReportsDir));
+               $myFile = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR.$formatedteamName."_Projects_".date("Ymd", $timeTracking->getStartTimestamp())."-".date("Ymd", $timeTracking->getEndTimestamp()).".csv";
+
+               $this->exportProjectMonthlyActivityToCSV($timeTracking, $myFile);
+               $this->smartyHelper->assign('projectMonthlyActivityToCSV', basename($myFile));
+
+               //$this->smartyHelper->assign('reportsDir', Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports');
+            }
          }
-         $smartyHelper->assign('reports', $reports);
-
-         $smartyHelper->assign('reportsDir', $codevReportsDir);
       }
    }
+
+   /**
+    * creates for each project a table with the following fields:
+    * id | TC | startDate | endDate | status | total elapsed | elapsed + Backlog | elapsed in period | Backlog
+    * TOTAL
+    * @param TimeTracking $timeTracking
+    * @param string $myFile
+    * @return string
+    */
+   public static function exportProjectMonthlyActivityToCSV(TimeTracking $timeTracking, $myFile) {
+      $sepChar=';';
+
+
+      $fh = fopen($myFile, 'w');
+
+      // returns : $projectTracks[projectid][bugid][jobid] = duration
+      $projectTracks = $timeTracking->getProjectTracks();
+
+      foreach ($projectTracks as $projectId => $bugList) {
+         $totalEffortEstim = 0;
+         $totalElapsed = 0;
+         $totalBacklog = 0;
+         $totalElapsedPeriod = 0;
+
+         // write table header
+         $project = ProjectCache::getInstance()->getProject($projectId);
+         $stringData = $project->getName()."\n";
+
+         // WARNING i18n: HTML translation like french accents (eacute;) add an unwanted column sepChar (;)
+         $stringData .=("ID").$sepChar;
+         $stringData .=("Task").$sepChar;
+         $stringData .=("Ext.ID").$sepChar;
+         $stringData .=("Start date").$sepChar;
+         $stringData .=("End date").$sepChar;
+         $stringData .=("Status").$sepChar;
+         $stringData .=("Total EffortEstim").$sepChar;
+         $stringData .=("Total elapsed").$sepChar;
+         $stringData .=("elapsed + Backlog").$sepChar;
+         $stringData .=("elapsed in period").$sepChar;
+         $stringData .=("BL").$sepChar;
+         $stringData .="\n";
+
+         // write table content (by bugid)
+         foreach ($bugList as $bugid => $jobs) {
+            $issue = IssueCache::getInstance()->getIssue($bugid);
+            // remove sepChar from summary text
+            $formatedSummary = str_replace($sepChar, " ", $issue->getSummary());
+
+            $stringData .= $bugid.$sepChar;
+            $stringData .= $formatedSummary.$sepChar;
+            $stringData .= $issue->getTcId().$sepChar;
+            $stringData .= date("d/m/Y", $issue->startDate()).$sepChar;
+            $stringData .= date("d/m/Y", $issue->endDate()).$sepChar;
+            $stringData .= $issue->getCurrentStatusName().$sepChar;
+            $stringData .= $issue->getEffortEstim().$sepChar;
+            $stringData .= $issue->getElapsed().$sepChar;
+            $stringData .= ($issue->getElapsed() + $issue->getBacklog()).$sepChar;
+
+            // sum all job durations
+            $elapsedInPeriod = 0;
+            foreach($jobs as $jobId => $duration) {
+               $elapsedInPeriod += $duration;
+            }
+            $stringData .= $elapsedInPeriod.$sepChar;
+
+            $stringData .= $issue->getBacklog().$sepChar;
+            $stringData .="\n";
+
+            $totalEffortEstim += $issue->getEffortEstim();
+            $totalElapsed += $issue->getElapsed();
+            $totalBacklog += $issue->getBacklog();
+            $totalElapsedPeriod += $elapsedInPeriod;
+         }
+
+         // total per project
+         $stringData .= ("TOTAL").$sepChar.$sepChar.$sepChar.$sepChar.$sepChar.$sepChar;
+         $stringData .= $totalEffortEstim.$sepChar;
+         $stringData .= $totalElapsed.$sepChar;
+         $stringData .= ($totalElapsed + $totalBacklog).$sepChar;
+         $stringData .= $totalElapsedPeriod.$sepChar;
+         $stringData .= $totalBacklog.$sepChar;
+         $stringData .= "\n";
+
+         $stringData .="\n";
+         fwrite($fh, $stringData);
+      }
+      fclose($fh);
+      return $myFile;
+   }
+
 }
 
-$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
+// ========== MAIN ===========
+ExportCSVMonthlyController::staticInit();
+$controller = new ExportCSVMonthlyController('../', 'CSV Report','ImportExport');
+$controller->execute();
 
 ?>

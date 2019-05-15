@@ -14,8 +14,8 @@ require_once('jpgraph_iconplot.php');
 require_once('jpgraph_plotmark.inc.php');
 
 // Maximum size for Automatic Gantt chart
-define('MAX_GANTTIMG_SIZE_W',8000);
-define('MAX_GANTTIMG_SIZE_H',5000);
+define('MAX_GANTTIMG_SIZE_W',18000); // LoB 8000
+define('MAX_GANTTIMG_SIZE_H',15000); // LoB 5000
 
 // Scale Header types
 define("GANTT_HDAY",1);

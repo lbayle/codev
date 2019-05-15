@@ -16,48 +16,10 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('Logger.php');
-
-require_once('time_track.class.php');
-
-class TimeTrackCache {
-
-   /**
-    * @var Logger The logger
-    */
-   private static $logger;
-
-   // class instances
-   private static $instance;
-
-   /**
-    * @var TimeTrack[int] The TimeTrack list
-    */
-   private static $objects;
-
-   /**
-    * @var Int[int] Number of calls for each TimeTrack
-    */
-   private static $callCount;
-
-   /**
-    * @var string The cache name
-    */
-   private static $cacheName;
-
-   /**
-    * Private constructor to respect the singleton pattern
-    */
-   private function __construct() {
-      self::$objects = array();
-      self::$callCount = array();
-
-      self::$cacheName = __CLASS__;
-
-      self::$logger = Logger::getLogger("cache"); // common logger for all cache classes
-
-      #echo "DEBUG: Cache ready<br/>";
-   }
+/**
+ * usage: TimeTrackCache::getInstance()->getTimeTrack($id);
+ */
+class TimeTrackCache extends Cache {
 
    /**
     * The singleton pattern
@@ -65,63 +27,27 @@ class TimeTrackCache {
     * @return TimeTrackCache
     */
    public static function getInstance() {
-      if (!isset(self::$instance)) {
-         $c = __CLASS__;
-         self::$instance = new $c;
-      }
-      return self::$instance;
+      return parent::createInstance(__CLASS__);
    }
 
    /**
     * Get TimeTrack class instance
     * @param int $id The time track id
+    * @param resource $details The details
     * @return TimeTrack The time track attached to the id
     */
-   public function getTimeTrack($id) {
-      $object = self::$objects[$id];
-
-      if (NULL == $object) {
-         self::$objects[$id] = new TimeTrack($id);
-         $object = self::$objects[$id];
-      } else {
-         self::$callCount[$id] += 1;
-      }
-      return $object;
+   public function getTimeTrack($id, $details = NULL) {
+      return parent::get($id, $details);
    }
 
    /**
-    * Display stats
-    * @param bool $verbose
+    * Create a TimeTrack
+    * @param int $id The id
+    * @param resource $details The details
+    * @return TimeTrack The object
     */
-   public function displayStats($verbose = FALSE) {
-      $nbObj   = count(self::$callCount);
-      $nbCalls = array_sum(self::$callCount);
-
-      echo "=== ".self::$cacheName." Statistics ===<br/>\n";
-      echo "nb objects in cache = ".$nbObj."<br/>\n";
-      echo "nb cache calls      = ".$nbCalls."<br/>\n";
-      if (0 != $nbObj) {
-         echo "ratio               = 1:".round($nbCalls/$nbObj)."<br/>\n";
-      }
-      echo "<br/>\n";
-      if ($verbose) {
-         foreach(self::$callCount as $bugId => $count) {
-            echo "cache[$bugId] = $count<br/>\n";
-         }
-      }
-   }
-
-   /**
-    * Log stats
-    */
-   public function logStats() {
-      if (self::$logger->isDebugEnabled()) {
-         $nbObj   = count(self::$callCount);
-         $nbCalls = array_sum(self::$callCount);
-         $ratio = (0 != $nbObj) ? "1:".round($nbCalls/$nbObj) : '';
-
-         self::$logger->debug(self::$cacheName." Statistics : nbObj=$nbObj nbCalls=$nbCalls ratio=$ratio");
-      }
+   protected function create($id, $details = NULL) {
+      return new TimeTrack($id, $details);
    }
 
 }

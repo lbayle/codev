@@ -1,96 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="{$locale}" xml:lang="{$locale}">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta http-equiv="Content-Language" content="{$locale}" />
-        <meta name="DC.Language" scheme="RFC3066" content="{$locale}" />
-        
-        <title>CodevTT - {t}{$pageName}{/t}</title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$locale}">
+   <head>
+      <!-- force IE into standards compliant mode -->
+      <meta http-equiv="x-ua-compatible" content="IE=Edge"/>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta http-equiv="Content-Language" content="{$locale}" />
+      <meta name="DC.Language" scheme="RFC3066" content="{$locale}" />
 
-        <base href="{$rootWebSite}" />
+      <title>{$pageName} - CodevTT</title>
 
-        <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+      <base href="{$rootWebSite}" />
 
-        <!-- JQUERY -->
-        <!-- <link type="text/css" href="lib/jquery/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />-->
-        <link type="text/css" href="lib/jquery/css/Aristo/Aristo.css" rel="Stylesheet" />
-        <script type="text/javascript" src="lib/jquery/js/jquery-1.7.1.min.js"></script>
-        <script type="text/javascript" src="lib/jquery/js/jquery.bgiframe-2.1.2.js"></script>
-        <script type="text/javascript" src="lib/jquery/js/jquery.jeditable.js"></script>
+      <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
 
-        <script type="text/javascript" src="lib/jquery/js/jquery-ui-1.8.16.custom.min.js"></script>
-        <!-- <script type="text/javascript" src="lib/jquery/js/jquery-ui-1.8.17.custom.min.js"></script>-->
+      <!-- CODEV -->
+      <link href="codev.css" rel="stylesheet" type="text/css" />
 
-        <!-- CODEV -->
-        <link href="codev.css" rel="stylesheet" type="text/css" />
-        <link href="light.css" rel="stylesheet" type="text/css" media="print" />
-        
-        <!-- DataTables -->
-        <script type="text/javascript" src="lib/datatables/media/js/jquery.dataTables.js"></script>
-        <link href="lib/datatables/media/css/demo_table.css" rel="stylesheet" type="text/css" />
-    </head>
-    <body>
-        <div id="header">
-            <span style="position:absolute">
-                <a href="{$rootWebSite}"><img title="{$codevVersion}" alt="{$codevVersion}" src="images/codevtt_logo_03.png" width="300px" height="100px" /></a>
-            </span>
-            <span style="position:absolute;top:4.5em;right:3em;">
-                <a href="{$page}?locale=fr"><img title="Francais" alt="Francais" src="images/drapeau_fr.jpg" width="20px" height="13px" /></a>
-                <a href="{$page}?locale=en"><img title="English" alt="English" src="images/drapeau_gb.jpg" width="20px" height="13px" /></a>
-            </span>
-            <h1 style="padding:1.5em 0;margin:0">{t}{$pageName}{/t}</h1>
-        </div>
+      <link href="lib/select2/select2.css" rel="stylesheet" type="text/css" />
+      <link href="lib/DataTables/extensions/TableTools/css/dataTables.tableTools.css" rel="stylesheet" type="text/css" />
 
-        <div id="login">
-        {if $username}
-            {t}Logged in as {/t}{$username} ({$realname}) <span class="floatr"><a href="logout.php" title="logout">{t}log out{/t}</a></span>
-        {else}
-            {include file="modal/login.html"}
-        {/if}
-        </div>
-        
-        <div class="menu">
-            <table>
-                <tr>
-                    <td><a href="index.php">{t}Home{/t}</a></td>
-                    <td><a href="{$mantisURL}" title="MantisBT">Mantis</a></td>
-                    <td>
-                        <a href="timetracking/time_tracking.php" title="{t}Time Tracking{/t}">{t}Time Tracking{/t}</a> | 
-                        <a href="timetracking/holidays_report.php" title="{t}Holidays Reports{/t}">{t}Holidays{/t}</a> | 
-                        <a href="reports/planning_report.php" title="{t}Check DeadLines{/t}">{t}Planning{/t}</a> | 
-                        <a href="reports/gantt_report.php" title="{t}Gantt Chart{/t}">{t}Gantt{/t}</a> | 
-                        <a href="reports/issue_info.php" title="{t}Task Information{/t}">{t}Task info{/t}</a>
-                    </td>
-                    <td>
-                        <a href="reports/project_info.php" title="{t}Project Information{/t}">{t}Project info{/t}</a> |
-                        <a href="management/command_info.php" title="{t}Management{/t}">{t}Management{/t}</a> |
-                        <a href="timetracking/team_activity_report.php" title="{t}Team Weekly activities{/t}">{t}Weekly activities{/t}</a> | 
-                        <a href="reports/forecasting_report.php" title="{t}Forecasting{/t}">{t}Forecasting{/t}</a> | 
-                        <a href="reports/productivity_report.php" title="{t}Statistics{/t}">{t}Statistics{/t}</a> | 
-                        <!-- <a href="reports/mantis_reports.php" title="{t}Mantis Reports{/t}">{t}Mantis Reports{/t}</a> |  -->
-                        <a href="reports/export_csv_weekly.php" title="{t}Generate Excel Sheet{/t}">{t}Export to CSV{/t}</a> | 
-                        <a href="reports/check.php" title="{t}Consistency Check{/t}">{t}Check{/t}</a>
-                    </td>
-                    <td>
-                        <a href="blog/blog.php" title="{t}Blog{/t}">Blog</a> | 
-                        <a href="doc/doc.php" title="{t}Documentation{/t}">Doc</a> |
-                        <a href="admin/index.php" title="{t}CoDev Administration{/t}">Admin</a>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        
-        <div id="main">
-            {include file="$tpl_name.html"}
-            <hr style="margin-top:2em;" />
-        </div>
-        
-        <address class="right">
-            <!-- La liberte n'offre qu'une chance d'etre meilleur, la servitude n'est que la certitude de devenir pire.  (Albert Camus) -->
-            <a href='http://www.gnu.org/licenses/gpl.html' target='_blank'><img title='GPL v3' alt="GPL v3" src='images/copyleft.png' /></a>
-            2010-{$year}&nbsp; <span title='Freedom is nothing else but a chance to be better. (Albert Camus)'><a href='http://codevtt.org' target='_blank'>CodevTT.org</a></span><br/>
-        </address>
-        
-    </body>
+      <!--script src="js_min/js_error_catch.min.js" type="text/javascript"></script-->
+
+      <!-- JQUERY -->
+      <link href="lib/jquery/css/Aristo/Aristo.css" rel="stylesheet" type="text/css" />
+      <!--script src="lib/jquery/js/jquery-1.8.0.min.js" type="text/javascript"></script-->
+      <script src="lib/jquery/js/jquery-1.8.3.js" type="text/javascript"></script>
+      <script src="lib/jquery.bgiframe/jquery.bgiframe.min.js" type="text/javascript"></script>
+      <script src="lib/jquery/js/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
+
+      <!-- Dynatree -->
+      <!-- TODO: load only on pages using dynatree -->
+      <link href="lib/dynatree/dist/skin/ui.dynatree.css" rel="stylesheet" type="text/css" id="skinSheet"/>
+      <script src="lib/dynatree/dist/jquery.dynatree.min.js" type="text/javascript"></script>
+
+      <!-- JQUERY for touchscreens: must be included after jQuery UI. -->
+      <script src="lib/jquery.touchpunch/jquery.ui.touch-punch.min.js" type="text/javascript"></script>
+
+      <script src="js_min/dropdown.min.js" type="text/javascript"></script>
+      <script src="js_min/progress.min.js" type="text/javascript"></script>
+      <script src="js_min/select.min.js" type="text/javascript"></script>
+      <script src="js_min/tooltip.min.js" type="text/javascript"></script>
+      <script src="js_min/ajax.min.js" type="text/javascript"></script>
+      <script src="js_min/tabs.min.js" type="text/javascript"></script>
+      <script src="js_min/helpdialog.min.js" type="text/javascript"></script>
+      <script src="js_min/table2csv.min.js" type="text/javascript"></script>
+      <script src="js_min/FileSaver.min.js" type="text/javascript"></script>
+
+   </head>
+   <body>
+      <div id="header">
+         <table class="invisible" width="100%">
+            <tr align="center">
+            <td width="300">
+               <a href="index.php"><img title="{$codevVersion} ({$codevVersionDate})" alt="{$codevVersion}" src="{$codevttLogoImage}"  /></a>
+            </td>
+            <td><span style="margin-top: 5px;display:block;text-align: center; font-size:2.5em;font-weight:bold;" >{$pageName}</span></td>
+            <td width="300" align="left">
+               <div  style="text-align: right;">
+               <a href="{$page}?locale=fr"><img src="images/blank.png" style="vertical-align:middle" class="flag flag-fr" title="Francais" alt="Francais" width="18px" height="12px" /></a>
+               <a href="{$page}?locale=en"><img src="images/blank.png" style="vertical-align:middle" class="flag flag-gb" title="English" alt="English" width="18px" height="12px" /></a>
+               <a href="{$page}?locale=de_DE"><img src="images/blank.png" style="vertical-align:middle" class="flag flag-de" title="Deutsch" alt="Deutsch" width="18px" height="12px" /></a>
+               <a href="{$page}?locale=it_IT"><img src="images/blank.png" style="vertical-align:middle" class="flag flag-it" title="Italiano" alt="Italiano" width="18px" height="12px" /></a>
+               <a href="{$page}?locale=es_ES"><img src="images/blank.png" style="vertical-align:middle" class="flag flag-es" title="Español" alt="Español" width="18px" height="12px" /></a>
+               <a href="{$page}?locale=lt"><img src="images/blank.png" style="vertical-align:middle" class="flag flag-lt" title="Lithuanian" alt="Lithuanian" width="18px" height="12px" /></a>
+               <a href="{$page}?locale=ru"><img src="images/blank.png" style="vertical-align:middle" class="flag flag-ru" title="Russian" alt="Arab" width="18px" height="12px" /></a>
+               <!--a href="{$page}?locale=nl_NL"><img src="images/blank.png" style="vertical-align:middle" class="flag flag-nl" title="Netherlands" alt="Netherlands" width="18px" height="12px" /></a-->
+               <a href="{$page}?locale=pt_BR"><img src="images/blank.png" style="vertical-align:middle" class="flag flag-br" title="Brazil" alt="Brazil" width="18px" height="12px" /></a>
+               <a href="{$page}?locale=zh_CN"><img src="images/blank.png" style="vertical-align:middle" class="flag flag-cn" title="Chinese" alt="Chinese" width="18px" height="12px" /></a>
+               <a href="{$page}?locale=zh_TW"><img src="images/blank.png" style="vertical-align:middle" class="flag flag-tw" title="Taiwan" alt="Taiwan" width="18px" height="12px" /></a>
+               <a href="{$page}?locale=ar"><img src="images/blank.png" style="vertical-align:middle" class="flag flag-dz" title="Arab" alt="Arab" width="18px" height="12px" /></a>
+               <!--a href="{$page}?locale=ko"><img src="images/blank.png" style="vertical-align:middle" class="flag flag-kr" title="Korean" alt="Korean" width="18px" height="12px" /></a-->
+
+               </div>
+               {if isset($username)}
+               <div style="text-align:right; margin-top:1em;">
+                  {$realname} | <a href="logout.php" title="Save user settings &amp; logout">{t}Disconnect{/t}</a>
+               </div>
+               <div style="text-align:right; margin-top:0.6em;">
+                  <span class="floatr">{include file="form/teamForm.html"}</span>
+               </div>
+               {else}
+               {include file="modal/login.html"}
+               {/if}
+            </td>
+            </tr>
+         </table>
+      </div>
+
+      <div style="margin-top: 8px;">
+      {include file="menu/global_menu.html" inline}
+      </div>
+
+      <div id="main">
+         {include file="$tpl_name.html"}
+         <hr style="margin-top:2em;" />
+      </div>
+
+      <div>
+      <div class="left">
+         {if $usingBrowserIE}<span class="help_font">&nbsp;&nbsp;{t}Note: For a better user experience, use a standards compliant browser such as :{/t} <a href="http://www.mozilla.org/en-US/firefox/new/" target="blank">Firefox</a> {t}or{/t} <a href="http://www.google.com/chrome" target="blank">Chrome</a></span>{/if}
+      </div>
+
+      <address class="right">
+         <!-- La liberte n'offre qu'une chance d'etre meilleur, la servitude n'est que la certitude de devenir pire.  (Albert Camus) -->
+         <a href='http://www.gnu.org/licenses/gpl.html' target='_blank'><img title='GPL v3' alt="GPL v3" src='images/copyleft.png' /></a>
+         2010-{$year}&nbsp; <span title='Freedom is nothing else but a chance to be better. (Albert Camus)'><a href='http://codevtt.org' target='_blank'>CodevTT.org</a></span>&nbsp;&nbsp;<br/>
+      </address>
+      </div>
+
+      <script src="js_min/tabs.min.js" type="text/javascript"></script>
+   </body>
 </html>

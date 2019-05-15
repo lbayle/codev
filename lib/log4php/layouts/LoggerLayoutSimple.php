@@ -34,17 +34,11 @@
  * 
  * <samp>INFO - Hello World!</samp>
  *
- * @version $Revision: 1059292 $
+ * @version $Revision: 1213283 $
  * @package log4php
  * @subpackage layouts
  */  
 class LoggerLayoutSimple extends LoggerLayout {
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-	}
-
 	/**
 	 * Returns the log statement in a format consisting of the
 	 * <b>level</b>, followed by " - " and then the

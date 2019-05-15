@@ -1,205 +1,144 @@
 <?php
-include_once('./include/session.inc.php');
+require('include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// === check if INSTALL needed
-if ((!file_exists('constants.php')) || (!file_exists('include/mysql_config.inc.php'))) {
-    header('Location: install/install.php');
-    exit;
+require('path.inc.php');
+
+// check if INSTALL needed
+if (!file_exists(Constants::$config_file)) {
+   header('Location: install/install.php');
+   exit;
 }
 
-include_once ('path.inc.php');
+class IndexController extends Controller {
 
-require('super_header.inc.php');
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      // Nothing special
+   }
 
-$logger = Logger::getLogger("homepage");
+   protected function display() {
+      // Drifted tasks
+      if(Tools::isConnectedUser()) {
 
-include_once('consistency_check.class.php');
-include_once('consistency_check2.class.php');
-include_once('user.class.php');
-include_once('issue.class.php');
+         $isAdmin = $this->session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId));
+         $isManager = $this->session_user->isTeamManager($this->teamid);
 
-/**
- * Get issues in drift
- * @param int User's id
- */
-function getIssuesInDrift($userid) {
-    $user = UserCache::getInstance()->getUser($userid);
-    $allIssueList = $user->getAssignedIssues();
-    $issueList = array();
-    $driftedTasks = array();
-    
-    foreach ($allIssueList as $issue) {
-        $driftEE = $issue->getDrift();
-        if ($driftEE >= 1) {
-            $issueList[] = $issue;
-        }
-    }
-    if (count($issueList) > 0) {
-        foreach ($issueList as $issue) {
-            // TODO: check if issue in team project list ?
-            $driftEE = $issue->getDrift();
-
-            $formatedTitle = $issue->bugId." / ".$issue->tcId;
-            $formatedSummary = str_replace("'", "\'", $issue->summary);
-            $formatedSummary = str_replace('"', "\'", $formatedSummary);
-
-            $driftedTasks[] = array('issueInfoURL' => issueInfoURL($issue->bugId),
-                                    'projectName' => $issue->getProjectName(),
-                                    'driftEE' => $driftEE,
-                                    'formatedTitle' => $formatedTitle,
-                                    'bugId' => $issue->bugId,
-                                    'remaining' => $issue->remaining,
-                                    'formatedSummary' => $formatedSummary,
-                                    'summary' => $issue->summary);
-        }
-    }
-
-    return $driftedTasks;
-}
-
-
-/**
- * Get consistency errors
- * @param int User's id
- */
-function getConsistencyErrors($userid) {
-   global $statusNames;
-   
-   $consistencyErrors = array(); // if null, array_merge fails !
-
-    $sessionUser = UserCache::getInstance()->getUser($userid);
-
-    $teamList = $sessionUser->getTeamList();
-    $projList = $sessionUser->getProjectList($teamList);
-
-    $issueList = $sessionUser->getAssignedIssues($projList, true);
-
-    $ccheck = new ConsistencyCheck2($issueList);
-
-    $cerrList = $ccheck->check();
-
-    if (count($cerrList) > 0) {
-        $i = 0;
-        foreach ($cerrList as $cerr) {
-            if ($sessionUser->id == $cerr->userId) {
-                $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-                $consistencyErrors[] = array('issueURL' => issueInfoURL($cerr->bugId, '['.$issue->getProjectName().'] '.$issue->summary),
-                                             'status' => $statusNames[$cerr->status],
-                                             'desc' => $cerr->desc);
+         // check codevtt version
+         if (1 == Constants::$isCheckLatestVersion) {
+            try {
+               if ($isAdmin || ($isManager && (date('d') < 4))) {
+                  $latestVersionInfo = Tools::getLatestVersionInfo(3);
+                  if (FALSE !== $latestVersionInfo) {
+                     if ( strcasecmp(Config::codevVersion, $latestVersionInfo['version']) < 0 ) {
+                        $this->smartyHelper->assign('latestVersionInfo', $latestVersionInfo);
+                     }
+                  }
+               }
+            } catch (Exception $e) {
+               // version check should never break CodevTT usage...
+               // (no log, even logs could raise errors)
             }
-        }
-        $i++;
-    }
+         }
+         
+         // if CodevTT installed since at least 6 month,
+         // then display FairPlay message every 3 month (mar, jun, sep, dec) during 3 days.
+         if (($isManager || $isAdmin) && 
+             (0 == date('m') % 3) && (date('d') > 27) &&
+             (time() - Constants::$codevInstall_timestamp > (60*60*24 * 180))    
+            ) {
+            $this->smartyHelper->assign('displayFairPlay', true);
+            $this->smartyHelper->assign('codevInstall_date', date('Y-m-d', Constants::$codevInstall_timestamp));
+         }
+         
+         if ($isAdmin) {
+            // check global configuration
+            $cerrList = ConsistencyCheck2::checkMantisDefaultProjectWorkflow();
+            // add more checks here
+            if (count($cerrList) > 0) {
+               $systemConsistencyErrors = array();
+               foreach ($cerrList as $cerr) {
+                  $systemConsistencyErrors[] = array('severity' => $cerr->getLiteralSeverity(),
+                                                     'desc' => $cerr->desc);
+               }
+               $this->smartyHelper->assign('systemConsistencyErrors', $systemConsistencyErrors);
+            }
+         }
 
-    return $consistencyErrors;
+         if (0 != $this->teamid) {
+           // homepage dashboard configuration
+            $this->setDashboard();
+         }
+      }
+
+   }
+
+   private function setDashboard() {
+
+      $team = TeamCache::getInstance()->getTeam($this->teamid);
+      $projList = $team->getProjects(false, false, false);
+      $issueList = $this->session_user->getAssignedIssues($projList, true);
+      $issueSel = new IssueSelection('userAssigned');
+      $issueSel->addIssueList($issueList);
+
+      // feed the PluginDataProvider
+      $pluginDataProvider = PluginDataProvider::getInstance();
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $this->session_userid);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $this->teamid);
+      $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $issueSel);
+
+      $dashboardName = 'homepage'.$this->teamid;
+
+      // save the DataProvider for Ajax calls
+      $_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardName] = serialize($pluginDataProvider);
+
+      // create the Dashboard
+      $dashboard = new Dashboard($dashboardName);
+      $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_HOMEPAGE);
+      $dashboard->setCategories(array(
+          IndicatorPluginInterface::CATEGORY_QUALITY,
+          IndicatorPluginInterface::CATEGORY_ACTIVITY,
+          IndicatorPluginInterface::CATEGORY_ROADMAP,
+          IndicatorPluginInterface::CATEGORY_PLANNING,
+          IndicatorPluginInterface::CATEGORY_RISK,
+          IndicatorPluginInterface::CATEGORY_TEAM,
+          IndicatorPluginInterface::CATEGORY_ADMIN,
+          IndicatorPluginInterface::CATEGORY_INTERNAL,
+         ));
+      $dashboard->setTeamid($this->teamid);
+      $dashboard->setUserid($this->session_userid);
+
+      $data = $dashboard->getSmartyVariables($this->smartyHelper);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $this->smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+
+   }
+
 }
 
-/**
- * managers get some more consistencyErrors
- */
-function getConsistencyErrorsMgr($userid) {
+// ========== MAIN ===========
+IndexController::staticInit();
+$controller = new IndexController('./', Constants::$homepage_title,'index');
+$controller->execute();
 
-   $consistencyErrors = array(); // if null, array_merge fails !
 
-   $sessionUser = UserCache::getInstance()->getUser($userid);
-
-   $consistencyErrors = array(); // if null, array_merge fails !
-
-    $mTeamList = array_keys($sessionUser->getManagedTeamList());
-    $lTeamList = array_keys($sessionUser->getLeadedTeamList());
-    $teamList = array_merge($mTeamList, $lTeamList);
-
-    $issueList = array();
-    foreach ($teamList as $teamid) {
-       $issues = Team::getTeamIssues($teamid, true);
-       $issueList = array_merge($issueList, $issues);
-    }
-
-    $ccheck = new ConsistencyCheck2($issueList);
-
-    // ---
-/*
- * It is now allowed to have MgrEE = 0
- *   tasks having MgrEE > 0 are tasks that have been initialy defined at the Command's creation.
- *   tasks having MgrEE = 0 are internal_tasks
- *
-
-    $cerrList = $ccheck->checkMgrEffortEstim();
-    if (count($cerrList) > 0) {
-	    $consistencyErrors[] = array('mantisIssueURL' => ' ',
-		    'date' => ' ',
-			 'status' => ' ',
-			 'desc' => count($cerrList).' '.T_("Tasks need MgrEffortEstim to be set."));
-    }
-*/
-    // ---
-    $cerrList = $ccheck->checkUnassignedTasks();
-    if (count($cerrList) > 0) {
-       $consistencyErrors[] = array('mantisIssueURL' => ' ',
-          'date' => ' ',
-          'status' => ' ',
-          'desc' => count($cerrList).' '.T_("Tasks need to be assigned."));
-    }
-
-    return $consistencyErrors;
-}
-
-// ================ MAIN =================
-
-// updateRemaining DialogBox
-$action = isset($_POST['action']) ? $_POST['action'] : '';
-if ('updateRemainingAction' == $action) {
-    $bugid = isset($_POST['bugid']) ? $_POST['bugid'] : '';
-    if ("0" != $bugid) {
-        $remaining = isset($_POST['remaining']) ? $_POST['remaining'] : '';
-        $issue = IssueCache::getInstance()->getIssue($bugid);
-        $issue->setRemaining($remaining);
-    }
-}
-
-require('display.inc.php');
-
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_($homepage_title));
-
-// Drifted tasks
-if($_SESSION['userid']) {
-    $driftedTasks = getIssuesInDrift($_SESSION['userid']);
-    if(isset($driftedTasks)) {
-        $smartyHelper->assign('driftedTasks', $driftedTasks);
-    }
-}
-
-// Consistency errors
-if($_SESSION['userid']) {
-    $consistencyErrors    = getConsistencyErrors($_SESSION['userid']);
-    $consistencyErrorsMgr = getConsistencyErrorsMgr($_SESSION['userid']);
-
-    $consistencyErrors = array_merge($consistencyErrors, $consistencyErrorsMgr);
-
-    if(count($consistencyErrors) > 0) {
-        $smartyHelper->assign('consistencyErrorsTitle', count($consistencyErrors).' '.T_("Errors in your Tasks"));
-       $smartyHelper->assign('consistencyErrors', $consistencyErrors);
-    }
-}
-
-$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
-
-?>

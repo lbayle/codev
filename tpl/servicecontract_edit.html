@@ -1,392 +1,397 @@
-{include file="menu/management_menu.html"}
-
-<script type="text/javascript" src="js/datepicker.js"></script>
-
-<script type="text/javascript">
-
-jQuery(document).ready(function() {
-   {if $locale != en}
-      jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
-   {/if}
-
-   // Set the date
-   jQuery("#servicecontractStartDate").datepicker("setDate" ,"{$servicecontractStartDate}");
-   jQuery("#servicecontractEndDate").datepicker("setDate" ,"{$servicecontractEndDate}");
-
-   jQuery(function() {
-      jQuery( "#tabsContract" ).tabs();
-   });
-
-   // --- DialogBox for deleteCommandSet
-   jQuery(document).ready(function() {
-
-      jQuery("#btDeleteContract").click(function(event) {
-         jQuery( "#deleteContract_dialog_form" ).dialog( "open" );
-      });
-
-      // delete track dialogBox
-      jQuery("#deleteContract_dialog_form" ).dialog({
-         autoOpen: false,
-         resizable: true,
-         width: "auto",
-         modal: true,
-         buttons: {
-            "Delete": function() {
-               jQuery("#formDeleteContract").submit();
-            },
-            Cancel: function() {
-               jQuery( this ).dialog( "close" );
-            }
-         }
-      });
-   });
-
-
-});
-
-</script>
-
-
-<!-- DialogBox for deleteContract -->
-<div id="deleteContract_dialog_form" title="{t}Delete ServiceContract{/t}" style="display: none">
-   <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-      {t}Delete this ServiceContract ?{/t}
-   </p>
-   <table class="invisible">
-      <tr>
-         <th>{t}Reference{/t}</th>
-         <td valign='top'>: </td>
-         <td>{$servicecontractReference}</td>
-      </tr>
-      <tr>
-         <td><span style="font-weight:bold;">{t}Name{/t}</span></td>
-         <td>: </td>
-         <td>{$servicecontractName}</td>
-      </tr>
-      <tr>
-         <td><span style="font-weight:bold;">{t}Nb CommandSets{/t}</span></td>
-         <td>: </td>
-         <td>{$nbCommandSets}</td>
-      </tr>
-   </table>
-   <form id="formDeleteContract" name="formDeleteContract" method="post" action="{$page}" >
-      <fieldset>
-         <input type="hidden" name="action" value="deleteContract" />
-         <input type="hidden" name="servicecontractid"  value="{$servicecontractid}" />
-         <input type="hidden" name="teamid" value="{$teamid}" />
-
-      </fieldset>
-   </form>
-</div>
-
 <div id="content">
+   {if isset($isEditGranted) && $isEditGranted}
+   <script type="text/javascript" src="js_min/datepicker.min.js"></script>
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         {if $locale != en}
+         jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+         {/if}
 
-   <div  align="center">
-      <h2  title="{$servicecontractid}">{$servicecontractName}</h2>
-   </div>
+         // Set the date
+         var startDatePicker = null;
+         {if isset($servicecontractStartDate)}
+         startDatePicker = jQuery("#startdatepicker").datepicker("setDate", "{$servicecontractStartDate}");
+         {else}
+         startDatePicker = jQuery("#startdatepicker").datepicker();
+         {/if}
+         var endDatePicker = null;
+         {if isset($servicecontractEndDate)}
+         endDatePicker = jQuery("#enddatepicker").datepicker("setDate", "{$servicecontractEndDate}");
+         {else}
+         endDatePicker = jQuery("#enddatepicker").datepicker();
+         {/if}
 
-   <br/><br/>
+         // Add range date
+         startDatePicker.datepicker("option","beforeShow",function(input) {
+            jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+         });
+         endDatePicker.datepicker("option","beforeShow",function(input) {
+            jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+         });
+      });
+   </script>
 
-   <div>
-      <!-- create form -->
-      <form id='updateContractInfoForm' name='updateContractInfoForm' method='post' action='{$page}'>
+   <h2 class="center">{if isset($servicecontractName)}{$servicecontractName}{else}{t}New service contract{/t}{/if}</h2>
+   <form style="margin-top: 2em;" id="updateContractInfoForm" name="updateContractInfoForm" method="post" action="{$page}">
       <fieldset>
-
-         <table class='invisible'>
+         <table class="invisible">
+            <tbody>
                <tr>
-                  <th>{t}Team{/t}</th>
+                  <th><label for="teamSelector">{t}Team{/t}</label></th>
                   <td>
-                     <select id='teamSelector' name='teamid'>
-                        <!--option value='0'></option-->
-                        {foreach from=$teams key=id item=i}
+                     <select id="teamSelector" name="sc_teamid">
+                        {foreach from=$grantedTeams key=id item=i}
                         <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                         {/foreach}
                      </select>
+                     <span style="color:red">*</span>
                   </td>
                </tr>
                <tr>
-                  <th>{t}Name{/t}</th>
-                  <td><input type='text' size='80' style='font-family: sans-serif' name='servicecontractName'  id='servicecontractName' value='{$servicecontractName}'></td>
-               </tr>
-               <tr>
-                  <th>{t}Reference{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='servicecontractReference'  id='servicecontractReference' value='{$servicecontractReference}'></td>
-               </tr>
-               <tr>
-                  <th>{t}Version{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='servicecontractVersion'  id='servicecontractVersion' value='{$servicecontractVersion}'></td>
-               </tr>
-               <tr>
-                  <th>{t}Reporter{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='servicecontractReporter'  id='servicecontractReporter' value='{$servicecontractReporter}'></td>
-               </tr>
-               <tr>
-                  <th>{t}Description{/t}</th>
-                  <td><textarea rows='4' cols='80' style='font-family: sans-serif' name='servicecontractDesc'  id='servicecontractDesc'>{$servicecontractDesc}</textarea></td>
-               </tr>
-               <tr>
-                  <th>{t}StartDate{/t}</th>
-                  <td><input type="text" id="servicecontractStartDate"  name="servicecontractStartDate" class="datepicker" maxlength="10" size="10" title="{t}StartDate{/t}" />
-                  </td>
-               </tr>
-               <tr>
-                  <th>{t}EndDate{/t}</th>
-                  <td><input type="text" id="servicecontractEndDate"  name="servicecontractEndDate" class="datepicker" maxlength="10" size="10" title="{t}EndDate{/t}" />
-                  </td>
-               </tr>
-               <tr>
-                  <th>{t}State{/t}</th>
+                  <th><label for="servicecontractName">{t}Name{/t}</label></th>
                   <td>
-                     <select id='stateSelector' name='servicecontractState'>
-                        <!--option value='0'></option-->
+                     <input type="text" size="80" name="servicecontractName" id="servicecontractName" value="{if isset($servicecontractName)}{$servicecontractName}{/if}">
+                     <span style="color:red">*</span>
+                  </td>
+               </tr>
+               {if isset($servicecontractid)}
+               <tr>
+                  <th><label for="servicecontractReference">{t}Reference{/t}</label></th>
+                  <td><input type="text" name="servicecontractReference" id="servicecontractReference" value="{if isset($servicecontractReference)}{$servicecontractReference}{/if}"></td>
+               </tr>
+               <tr>
+                  <th><label for="servicecontractVersion">{t}Version{/t}</label></th>
+                  <td><input type="text" name="servicecontractVersion" id="servicecontractVersion" value="{if isset($servicecontractVersion)}{$servicecontractVersion}{/if}"></td>
+               </tr>
+               <tr>
+                  <th><label for="servicecontractReporter">{t}Reporter{/t}</label></th>
+                  <td><input type="text" name="servicecontractReporter" id="servicecontractReporter" value="{if isset($servicecontractReporter)}{$servicecontractReporter}{/if}"></td>
+               </tr>
+               <tr>
+                  <th><label for="servicecontractDesc">{t}Description{/t}</label></th>
+                  <td><textarea rows="4" cols="80" name="servicecontractDesc" id="servicecontractDesc">{if isset($servicecontractDesc)}{$servicecontractDesc}{/if}</textarea></td>
+               </tr>
+               <tr>
+                  <th><label for="startdatepicker">{t}Start date{/t}</label></th>
+                  <td><input type="text" id="startdatepicker" name="serviceContractStartDate" class="datepicker" maxlength="10" size="10" title="{t}StartDate{/t}" /></td>
+               </tr>
+               <tr>
+                  <th><label for="enddatepicker">{t}End date{/t}</label></th>
+                  <td><input type="text" id="enddatepicker" name="serviceContractEndDate" class="datepicker" maxlength="10" size="10" title="{t}EndDate{/t}" /></td>
+               </tr>
+               {/if}
+               {if isset($servicecontractStateList)}
+               <tr>
+                  <th><label for="stateSelector">{t}State{/t}</label></th>
+                  <td>
+                     <select id="stateSelector" name="servicecontractState">
                         {foreach from=$servicecontractStateList key=id item=i}
                         <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                         {/foreach}
                      </select>
                   </td>
                </tr>
+               {/if}
+            </tbody>
          </table>
-         <br>
-         <button type='button' name="btDeleteContract" id="btDeleteContract"><img  border='0' align='absmiddle' src="images/b_drop.png" alt="Delete icon"/> {t}Delete{/t}</button>
-         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {$contractInfoFormBtText}</button>
-
+         <br />
+         {if isset($servicecontractid)}<button type="button" name="btDeleteContract" id="btDeleteContract"><img  border="0" align="absmiddle" src="images/b_drop.png" alt="Delete icon"/> {t}Delete{/t}</button>{/if}
+         <button type="button" id="btSaveContract"><img border="0" align="absmiddle" src="images/b_save.png" alt="Save icon"/> {$contractInfoFormBtText}</button>
          <input type="hidden" name="action" value="{$contractInfoFormAction}" />
-         <input type="hidden" name="servicecontractid" value="{$servicecontractid}" />
+         {if isset($servicecontractid)}<input type="hidden" name="servicecontractid" value="{$servicecontractid}" />{/if}
       </fieldset>
+   </form>
+      
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery("#btSaveContract").click(function() {
+            // check fields
+            var foundError = 0;
+            var msgString = "{t}Some fields are missing:{/t}\n\n";
+               
+            var form = jQuery("#updateContractInfoForm");
+            if (0 == form.find("input[name=servicecontractName]").val().length) {
+               msgString += "{t}Service contract name{/t}\n";
+               ++foundError;
+            }
+
+            if (0 == foundError) {
+               form.submit();
+            } else {
+               alert(msgString);
+            }
+         });
+      });
+   </script>
+
+   <!-- DialogBox for deleteContract -->
+   {if isset($servicecontractid)}
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         // DialogBox for deleteCommandSet
+         jQuery("#btDeleteContract").click(function() {
+            jQuery("#deleteContract_dialog_form").dialog("open");
+         });
+
+         // delete track dialogBox
+         jQuery("#deleteContract_dialog_form").dialog({
+            autoOpen: false,
+            resizable: true,
+            width: "auto",
+            modal: true,
+            buttons: {
+               "{t}Delete{/t}": function() {
+                  jQuery("#formDeleteContract").submit();
+               },
+               Cancel: function() {
+                  jQuery(this).dialog("close");
+               }
+            }
+         });
+      });
+   </script>
+   <div id="deleteContract_dialog_form" title="{t}Delete ServiceContract{/t}" class="ui-helper-hidden">
+      <p><span class="ui-icon ui-icon-alert float" style="margin-right: 7px;"></span>{t}Delete this ServiceContract ?{/t}</p>
+      <table class="invisible">
+         <tbody>
+            <tr>
+               <th nowrap="nowrap">{t}Reference{/t} :</th>
+               <td>{$servicecontractReference}</td>
+            </tr>
+            <tr>
+               <th nowrap="nowrap">{t}Name{/t} :</th>
+               <td>{$servicecontractName}</td>
+            </tr>
+            <tr>
+               <th nowrap="nowrap">{t}Nb CommandSets{/t} :</th>
+               <td>{$cmdsetList|count}</td>
+            </tr>
+         </tbody>
+      </table>
+      <form id="formDeleteContract" name="formDeleteContract" method="post" action="{$page}" >
+         <fieldset>
+            <input type="hidden" name="action" value="deleteContract" />
+            <input type="hidden" name="servicecontractid" value="{$servicecontractid}" />
+            <input type="hidden" name="teamid" value="{$teamid}" />
+         </fieldset>
       </form>
-
    </div>
+   {/if}
 
-
-   <div style="margin-top:4em;"></div>
-
-   <div id="tabsContract">
-      <ul>
-         <li><a href="#tabsName-1">{t}CommandSets{/t}</a></li>
-         <li><a href="#tabsName-2">{t}SideTasks Projects{/t}</a></li>
+   {if isset($cmdsetList) || isset($projectList)}
+   <div id="tabsContract" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-1">{t}CommandSets{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabsName-2">{t}SideTasks Projects{/t}</a></li>
       </ul>
-
       <div id="tabsName-1">
-
-         <div style="margin-top:1em;"></div>
-
-         {if $isAddCmdSetForm}
-         <div align="left">
-            <!-- add/create commandset form -->
-            <form id='addCmdSetForm' name='addCmdSetForm' method='post' action='{$page}'>
-               <fieldset>
-                  <select id='commandsetSelector' name='commandsetid'>
-                     <option value='0'>{t}--- New CommandSet ---{/t}</option>
-                     {foreach  $commandsetCandidates as $id => $name}
-                     <option value="{$id}">{$name}</option>
-                     {/foreach}
-                  </select>
-
-                  <button type='submit'><img  border='0' align='absmiddle' src="images/b_add.png" alt="Add icon"/> {t}Add{/t}</button>
-
-                  <input type="hidden" name="action" value="addCommandSet" />
-                  <input type="hidden" name="teamid" value="{$teamid}" />
-                  <input type="hidden" name="servicecontractid" value="{$servicecontractid}" />
-               </fieldset>
-            </form>
-         </div>
+         {if $commandsetCandidates}
+         <!-- add/create commandset form -->
+         <form id="addCmdSetForm" name="addCmdSetForm" method="post" class ="formWithTabsHistory" action="{$page}" style="margin-top:1em;">
+            <fieldset>
+               <select id="commandsetSelector" name="commandsetid">
+                  <option value="0">{t}--- New CommandSet ---{/t}</option>
+                  {foreach $commandsetCandidates as $id => $name}
+                  <option value="{$id}">{$name}</option>
+                  {/foreach}
+               </select>
+               <button type="submit"><img  border="0" align="absmiddle" src="images/b_add.png" alt="Add icon"/> {t}Add{/t}</button>
+               <input type="hidden" name="action" value="addCommandSet" />
+               <input type="hidden" name="teamid" value="{$teamid}" />
+               <input type="hidden" name="servicecontractid" value="{$servicecontractid}" />
+            </fieldset>
+         </form>
+         {else}
+            {if !$cmdsetList}
+               {t}No data{/t}
+            {/if}
          {/if}
 
-         <div style="margin-top:1em;"></div>
-
          {if $cmdsetList}
-
          <script type="text/javascript">
-            function removeCmdSet(commandsetid, description){
-               jQuery( "#desc_id" ).text(commandsetid);
-               jQuery( "#desc_summary" ).text(description);
+            function removeCmdSet(commandsetid, description) {
+               var dialog = jQuery("#removeCmdSet_dialog_form");
+               dialog.find(".desc_id").text(commandsetid);
+               dialog.find(".desc_summary").text(description);
 
-               jQuery( "#formRemoveCmdSet" ).find("input[name=commandsetid]").val(commandsetid);
+               dialog.find("#formRemoveCmdSet").find("input[name=commandsetid]").val(commandsetid);
 
-               jQuery( "#removeCmdSet_dialog_form" ).dialog( "open" );
+               dialog.dialog("open");
             }
-         </script>
-         <script type="text/javascript">
+
             jQuery(document).ready(function() {
                // delete track dialogBox
-               jQuery("#removeCmdSet_dialog_form" ).dialog({
+               jQuery("#removeCmdSet_dialog_form").dialog({
                   autoOpen: false,
                   resizable: true,
                   width: "auto",
                   modal: true,
                   buttons: {
-                     "Remove": function() {
+                     "{t}Remove{/t}": function() {
                         jQuery("#formRemoveCmdSet").submit();
                      },
                      Cancel: function() {
-                        jQuery( this ).dialog( "close" );
+                        jQuery(this).dialog("close");
                      }
                   }
                });
             });
          </script>
-         <div id="removeCmdSet_dialog_form" title="{t}Remove CommandSet{/t}" style="display: none">
-            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-               {t}Remove CommandSet from this Contract ?{/t}
-            </p>
+         <table id="cmdsetTable" style="margin-top:1em;">
+            <thead>
+               <tr>
+                  <th></th>
+                  <!-- <th>{t}Ref{/t}</th> -->
+                  <th>{t}CommandSet{/t}</th>
+                  <th>{t}Team{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach $cmdsetList as $id => $commandset}
+               <tr>
+                  <td class="ui-state-error-text" style="width:1em;">
+                     <a class="ui-icon" title="{t}delete Contract-CommandSet association{/t}" href="{$page}"
+                        onclick="removeCmdSet('{$id}', '{$commandset.description|escape}');return false;">
+                     </a>
+                  </td>
+                  <!-- FIXME Reference never set -->
+                  <!-- <td>{$commandset.reference}</td> -->
+                  <td title="{$id}">{$commandset.name}</td>
+                  <td>{$commandset.team}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+         <div id="removeCmdSet_dialog_form" title="{t}Remove CommandSet{/t}" class="ui-helper-hidden">
+            <p><span class="ui-icon ui-icon-alert float" style="margin-right: 7px;"></span>{t}Remove CommandSet from this Contract ?{/t}</p>
             <table class="invisible">
-               <tr>
-                  <td><span style="font-weight:bold;">{t}Id{/t} :</span></td>
-                  <td id="desc_id">id</td>
-               </tr>
-               <tr>
-                  <td><span style="font-weight:bold;">{t}Description{/t} :</span></td>
-                  <td id="desc_summary">summary</td>
-               </tr>
+               <tbody>
+                  <tr>
+                     <th nowrap="nowrap">{t}Id{/t} :</th>
+                     <td class="desc_id"></td>
+                  </tr>
+                  <tr>
+                     <th nowrap="nowrap">{t}Description{/t} :</th>
+                     <td class="desc_summary"></td>
+                  </tr>
+               </tbody>
             </table>
-            <form id="formRemoveCmdSet" name="formRemoveCmdSet" method="post" action="{$page}" >
+            <form id="formRemoveCmdSet" name="formRemoveCmdSet" method="post" class = "formWithTabsHistory" action="{$page}" >
                <fieldset>
                   <input type="hidden" name="action" value="removeCmdSet" />
-                  <input type="hidden" name="commandsetid"  value="0" />
+                  <input type="hidden" name="commandsetid" value="0" />
                   <input type="hidden" name="teamid" value="{$teamid}" />
                   <input type="hidden" name="servicecontractid"  value="{$servicecontractid}" />
-
                </fieldset>
             </form>
          </div>
-
-         <table>
-            <thead>
-            <tr>
-                  <th></th>
-                  <th>{t}Ref{/t}</th>
-                  <th>{t}CommandSet{/t}</th>
-                  <th>{t}Team{/t}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {foreach $cmdsetList as $id => $commandset}
-            <tr>
-                  <td>
-                     <a title="{t}delete Contract-CommandSet association{/t}"
-                        href="javascript: removeCmdSet('{$id}', '{$commandset.description|escape}')">
-                        <img alt="b_drop.png" border="0" src="images/b_drop.png" />
-                     </a>
-                  </td>
-                  <td>{$commandset.reference}</td>
-                  <td title="{$id}">{$commandset.name}</td>
-                  <td>{$commandset.team}</td>
-            </tr>
-            {/foreach}
-            </tbody>
-         </table>
-         {else}
-         {t}Create the Contract to add some commandSets.{/t}
          {/if}
       </div>
       
       <div id="tabsName-2">
-
-         <div style="margin-top:1em;"></div>
-
-         {if $isAddProjectForm}
-         <div align="left">
+         {if $projectCandidates}
+         <div style="margin-top:1em;" align="left">
             <!-- add/create project form -->
-            <form id='addProjectForm' name='addProjectForm' method='post' action='{$page}'>
+            <form id="addProjectForm" name="addProjectForm" method="post" class ="formWithTabsHistory" action="{$page}">
                <fieldset>
-                  <select id='projectSelector' name='projectid'>
-                     {foreach  $projectCandidates as $id => $name}
+                  <select id="projectSelector" name="projectid">
+                     {foreach $projectCandidates as $id => $name}
                      <option value="{$id}">{$name}</option>
                      {/foreach}
                   </select>
-
-                  <button type='submit'><img  border='0' align='absmiddle' src="images/b_add.png" alt="Add icon"/> {t}Add{/t}</button>
-
+                  <button type="submit"><img  border="0" align="absmiddle" src="images/b_add.png" alt="Add icon"/> {t}Add{/t}</button>
                   <input type="hidden" name="action" value="addProject" />
                   <input type="hidden" name="teamid" value="{$teamid}" />
                   <input type="hidden" name="servicecontractid" value="{$servicecontractid}" />
                </fieldset>
             </form>
          </div>
+         {else}
+            {if !$projectList}
+               {t}No data{/t}
+            {/if}
          {/if}
 
-         <div style="margin-top:1em;"></div>
-
          {if $projectList}
-
          <script type="text/javascript">
-            function removeProject(projectid, description){
-               jQuery( "#desc_id" ).text(projectid);
-               jQuery( "#desc_summary" ).text(description);
+            function removeProject(projectid, description) {
+               var dialog = jQuery("#removeProject_dialog_form");
+               dialog.find(".desc_id").text(projectid);
+               dialog.find(".desc_summary").text(description);
 
-               jQuery( "#formRemoveProject" ).find("input[name=projectid]").val(projectid);
+               dialog.find("#formRemoveProject").find("input[name=projectid]").val(projectid);
 
-               jQuery( "#removeProject_dialog_form" ).dialog( "open" );
+               dialog.dialog("open");
             }
-         </script>
-         <script type="text/javascript">
+
             jQuery(document).ready(function() {
                // delete track dialogBox
-               jQuery("#removeProject_dialog_form" ).dialog({
+               jQuery("#removeProject_dialog_form").dialog({
                   autoOpen: false,
                   resizable: true,
                   width: "auto",
                   modal: true,
                   buttons: {
-                     "Remove": function() {
+                     "{t}Remove{/t}": function() {
                         jQuery("#formRemoveProject").submit();
                      },
                      Cancel: function() {
-                        jQuery( this ).dialog( "close" );
+                        jQuery(this).dialog("close");
                      }
                   }
                });
             });
          </script>
-         <div id="removeProject_dialog_form" title="{t}Remove Project{/t}" style="display: none">
-            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-               {t}Remove Project from this Contract ?{/t}
-            </p>
-            <table class="invisible">
-               <tr>
-                  <td><span style="font-weight:bold;">{t}Id{/t} :</span></td>
-                  <td id="desc_id">id</td>
-               </tr>
-               <tr>
-                  <td><span style="font-weight:bold;">{t}Description{/t} :</span></td>
-                  <td id="desc_summary">summary</td>
-               </tr>
-            </table>
-            <form id="formRemoveProject" name="formRemoveProject" method="post" action="{$page}" >
-               <fieldset>
-                  <input type="hidden" name="action" value="removeProject" />
-                  <input type="hidden" name="projectid"  value="0" />
-                  <input type="hidden" name="teamid" value="{$teamid}" />
-                  <input type="hidden" name="servicecontractid"  value="{$servicecontractid}" />
-
-               </fieldset>
-            </form>
-         </div>
-
-         <table>
+         <table style="margin-top:1em;">
             <thead>
-            <tr>
+               <tr>
                   <th></th>
                   <th>{t}Project{/t}</th>
-            </tr>
+               </tr>
             </thead>
             <tbody>
-            {foreach $projectList as $id => $project}
-            <tr>
-                  <td>
-                     <a title="{t}delete Contract-Project association{/t}"
-                        href="javascript: removeProject('{$id}', '{$project.description|escape}')">
-                        <img alt="b_drop.png" border="0" src="images/b_drop.png" />
+               {foreach $projectList as $id => $project}
+               <tr>
+                  <td class="ui-state-error-text" style="width:1em;">
+                     <a class="ui-icon" title="{t}delete Contract-Project association{/t}" href="{$page}"
+                        onclick="removeProject('{$id}', '{$project.name|escape}');return false;">
                      </a>
                   </td>
                   <td title="{$id}">{$project.name}</td>
-            </tr>
-            {/foreach}
+               </tr>
+               {/foreach}
             </tbody>
          </table>
-         {else}
-         {t}Create the Contract to add some Projects.{/t}
+         <div id="removeProject_dialog_form" title="{t}Remove Project{/t}" class="ui-helper-hidden">
+            <p><span class="ui-icon ui-icon-alert float" style="margin-right: 7px;"></span>{t}Remove Project from this Contract ?{/t}</p>
+            <table class="invisible">
+               <tbody>
+                  <tr>
+                     <th nowrap="nowrap">{t}Id{/t} :</th>
+                     <td class="desc_id"></td>
+                  </tr>
+                  <tr>
+                     <th nowrap="nowrap">{t}Description{/t} :</th>
+                     <td class="desc_summary"></td>
+                  </tr>
+               </tbody>
+            </table>
+            <form id="formRemoveProject" name="formRemoveProject" method="post" class = "formWithTabsHistory" action="{$page}" >
+               <fieldset>
+                  <input type="hidden" name="action" value="removeProject" />
+                  <input type="hidden" name="projectid" value="0" />
+                  <input type="hidden" name="teamid" value="{$teamid}" />
+                  <input type="hidden" name="servicecontractid" value="{$servicecontractid}" />
+               </fieldset>
+            </form>
+         </div>
          {/if}
       </div>
-
+   </div>
+   {/if}
+{else}
+   <div class="center">
+   {t}Sorry, only managers can access this page.{/t}
+   </div>
+{/if}
 </div>

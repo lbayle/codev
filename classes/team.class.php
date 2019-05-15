@@ -1,157 +1,189 @@
 <?php
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once "team_cache.class.php";
+class Team extends Model {
 
-include_once 'jobs.class.php';
-include_once 'project.class.php';
-include_once 'command.class.php';
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-require_once('Logger.php');
-if (NULL == Logger::getConfigurationFile()) {
-      Logger::configure(dirname(__FILE__).'/../log4php.xml');
-      $logger = Logger::getLogger("default");
-      $logger->info("LOG activated !");
-}
+   public static $defaultGeneralPrefsList;
+   public static $generalPrefsDescriptionList;
+   
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
 
-class Team {
+      self::$defaultGeneralPrefsList = array(
+          'forbidAddTimetracksOnClosed' => 1,
+          'displayCalculatedBacklogInDialogbox' => 0,
+          'recreditBacklogOnTimetrackDeletion' => 0,
+          'useTrackNote' => 1,
+          'isTrackNoteMandatory' => 0,
+          'sendTimesheetEmailNotification' => 1,
+         );
 
-   private $logger;
-  // ---
-  // il n'y a qu'un seul teamLeader
-  // il peut y avoir plusieurs observer
-  // il peut y avoir plusieurs manager
-  // un observer ne peut imputer sur les taches de l'equipe, il a acces en lecture seule aux donnees
-  // un noStats ne peut imputer, il n'est pas considéré comme ressource, il sert a "stocker" des fiches
+      self::$generalPrefsDescriptionList = array(
+          'forbidAddTimetracksOnClosed'         => 'Forbid adding timetracks on closed issues',
+          'displayCalculatedBacklogInDialogbox' => 'Display calculated backlog as default value in the updateBacklog dialogbox',
+          'recreditBacklogOnTimetrackDeletion'  => 'Recredit task backlog on timetrack deletion',
+          'useTrackNote'                        => 'Add a timetrack note input field in the updateBacklog dialogbox',
+          'isTrackNoteMandatory'                => 'The timetrack note in the updateBacklog dialogbox is mandatory',
+          'sendTimesheetEmailNotification'      => 'Send timesheet email reminder',
+         );
 
-    const accessLevel_nostats  =  5;    // in table codev_team_user_table
-    const accessLevel_dev      = 10;    // in table codev_team_user_table
-    const accessLevel_observer = 20;    // in table codev_team_user_table
-    const accessLevel_manager  = 30;    // in table codev_team_user_table
+   }
 
-    public static $accessLevelNames = array(
-                              //Team::accessLevel_nostats  => "NoStats", // can modify, can NOT view stats
-                              Team::accessLevel_dev      => "Developer", // can modify, can NOT view stats
-                              Team::accessLevel_observer => "Observer",  // can NOT modify, can view stats
-                              //$accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?
-                              Team::accessLevel_manager  => "Manager");  // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
+   // ---
+   // il n'y a qu'un seul teamLeader
+   // il peut y avoir plusieurs observer
+   // il peut y avoir plusieurs manager
+   // un observer ne peut imputer sur les taches de l'equipe, il a acces en lecture seule aux donnees
+   // un customer ne peut imputer, il n'est pas considéré comme ressource, il sert a "stocker" des fiches
+   const accessLevel_customer = 5; // in table codev_team_user_table
+   const accessLevel_dev = 10; // in table codev_team_user_table
+   const accessLevel_observer = 20; // in table codev_team_user_table
+   const accessLevel_manager  = 30; // in table codev_team_user_table
 
-   public $id;
-   public $name;
-   public $description;
-   public $leader_id;
-   public $date;
+   public static $accessLevelNames = array(
+      self::accessLevel_dev      => "Developer", // can modify, can NOT view stats
+      self::accessLevel_manager  => "Manager", // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
+      self::accessLevel_observer => "Observer",  // can NOT modify, can view stats
+      self::accessLevel_customer  => "Customer" // can NOT modify, can NOT view stats
+      //self::accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?
+   );
+
+   private $id;
+   private $name;
+   private $description;
+   private $adminList;
+   private $date;
+   private $average_daily_cost;
+   private $currency;
+
+   private $enabled;
+   private $commands_enabled;
+   private $lock_timetracks_date;
 
    private $projTypeList;
    private $commandList;
    private $commandSetList;
    private $serviceContractList;
+   private $onDutyTaskList;
 
-   // -------------------------------------------------------
+
+   private $consistencyCheckList;
+
+   private $userDailyCostObj;
+
    /**
-    *
-    * @param unknown_type $teamid
+    * @var string[]
     */
-   public function Team($teamid) {
+   private $members;
 
-      $this->logger = Logger::getLogger(__CLASS__);
+   /**
+    * int[][]
+    */
+   private $projectIdsCache;
 
+   /**
+    * @param int $teamid
+    * @throws Exception
+    */
+   public function __construct($teamid) {
       if (0 == $teamid) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("Creating a Team with id=0 is not allowed.");
-         $this->logger->error("EXCEPTION Team constructor: ".$e->getMessage());
-         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         self::$logger->error("EXCEPTION Team constructor: ".$e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
 
-       $this->id = $teamid;
-       $this->initialize();
+      if (-1 == $teamid) {
+         $e = new Exception("Creating a Team with id=-1 is EVIL.");
+         self::$logger->error("EXCEPTION Team constructor: ".$e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+      }
+
+      $this->id = $teamid;
+      $this->initialize();
    }
 
-   // -------------------------------------------------------
    /**
-    *
+    * Initialize with DB
     */
    public function initialize() {
+      $sql = AdodbWrapper::getInstance();
+      $query = 'SELECT * FROM codev_team_table WHERE id = '.$sql->db_param();
+      $result = $sql->sql_query($query, array($this->id));
 
-      $query = "SELECT * FROM `codev_team_table` WHERE id = $this->id";
-      $result = mysql_query($query);
-      if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+      if($sql->getNumRows($result) == 1) {
+         $row = $sql->fetchObject($result);
+
+         $this->name = $row->name;
+         $this->description = $row->description;
+         $this->adminList = empty($row->administrators) ? array() : explode(',', $row->administrators); // since v1.3.1 leader_id is replaced with a list of userId
+         $this->enabled = (1 == $row->enabled);
+         $this->commands_enabled = (1 == $row->commands_enabled);
+         $this->date = $row->date;
+         $this->currency = $row->currency;
+         $this->lock_timetracks_date = $row->lock_timetracks_date;
+
+         if (NULL !== $row->average_daily_cost) {
+            $this->average_daily_cost = floatval($row->average_daily_cost) / 100; // (2 decimals)
+         }
+
+      } else {
+         self::$logger->error('The team '.$this->id." doesn't exists");
       }
-      $row = mysql_fetch_object($result);
-
-      $this->name           = $row->name;
-      $this->description    = $row->description;
-      $this->leader_id      = $row->leader_id;
-      $this->date           = $row->date;
-
-
-      // -------
-      $this->projTypeList = array();
-      $query = "SELECT * FROM `codev_team_project_table` WHERE team_id = $this->id ";
-      $result = mysql_query($query);
-      if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      while($row = mysql_fetch_object($result))
-      {
-         $this->logger->debug("initialize: team $this->id proj $row->project_id type $row->type");
-         $this->projTypeList[$row->project_id] = $row->type;
-      }
-
-
    }
 
-   // -------------------------------------------------------
    /**
     * STATIC insert new team in DB
     *
     * Team::create($name, $description, $leader_id, $date);
     *
-    * @return the team id or -1 if not found
+    * @static
+    * @param string $name
+    * @param string $description
+    * @param int $leader_id
+    * @param int $date
+    * @return int the team id or -1 if not found
     */
    public static function create($name, $description, $leader_id, $date) {
-
-      global $logger;
-
       // check if Team name exists !
-      $teamid = Team::getIdFromName($name);
+      $teamid = self::getIdFromName($name);
 
       if ($teamid < 0) {
          // create team
-         $formattedName = mysql_real_escape_string($name);
-         $formattedDesc = mysql_real_escape_string($description);
-         $query = "INSERT INTO `codev_team_table`  (`name`, `description`, `leader_id`, `date`) VALUES ('$formattedName','$formattedDesc','$leader_id', '$date');";
-         $result = mysql_query($query);
-         if (!$result) {
-             $logger->error("Query FAILED: $query");
-             $logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
-         }
-         $teamid = mysql_insert_id();
+         $sql = AdodbWrapper::getInstance();
+         $query = "INSERT INTO codev_team_table  (name, description, administrators, date)"
+            . " VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().", ".$sql->db_param().")";
+         $q_params[]=$name;
+         $q_params[]=$description;
+         $q_params[]=$leader_id;
+         $q_params[]=$date;
+         $sql->sql_query($query, $q_params);
+         $teamid = AdodbWrapper::getInstance()->getInsertId();
       } else {
          echo "<span style='color:red'>ERROR: Team name '$name' already exists !</span>";
          $teamid = -1;
@@ -159,184 +191,462 @@ class Team {
       return $teamid;
    }
 
-   // -------------------------------------------------------
    /**
-    * @param unknown_type $name
-    * @return the team id or -1 if not found
+    * delete a team (and all it's ServiceContracts,CommandSets,Commands)
+    * @static
+    * @param int $teamidToDelete
+    * @return bool
+    */
+   public static function delete($teamidToDelete) {
+      try {
+         $team = TeamCache::getInstance()->getTeam($teamidToDelete);
+
+         $idlist = array_keys($team->getCommands());
+         foreach ($idlist as $id) {
+            Command::delete($id);
+         }
+         $idlist = array_keys($team->getCommandSetList());
+         foreach ($idlist as $id) {
+            CommandSet::delete($id);
+         }
+         $idlist = array_keys($team->getServiceContractList());
+         foreach ($idlist as $id) {
+            ServiceContract::delete($id);
+         }
+
+         $sql = AdodbWrapper::getInstance();
+         $query = "DELETE FROM codev_team_project_table WHERE team_id = ".$sql->db_param();
+         $sql->sql_query($query, array($teamidToDelete));
+
+         $query = "DELETE FROM codev_team_user_table WHERE team_id = ".$sql->db_param();
+         $sql->sql_query($query, array($teamidToDelete));
+
+         $query = "DELETE FROM codev_team_table WHERE id = ".$sql->db_param();
+         $sql->sql_query($query, array($teamidToDelete));
+      } catch (Exception $e) {
+         return false;
+      }
+      return true;
+   }
+
+   /**
+    * @param string $name
+    * @return int the team id or -1 if not found
     */
    public static function getIdFromName($name) {
-      global $logger;
-
-      $formattedName = mysql_real_escape_string($name);
-      $query = "SELECT id FROM `codev_team_table` WHERE name = '$formattedName';";
-      $result = mysql_query($query);
-      if (!$result) {
-             $logger->error("Query FAILED: $query");
-             $logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
-      }
-      $teamid = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : (-1);
-
-      return $teamid;
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id FROM codev_team_table WHERE name = ".$sql->db_param();
+      $q_params[]=$name;
+      $result = $sql->sql_query($query, $q_params);
+      return (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : (-1);
    }
 
-   // -------------------------------------------------------
-   public static function getLeaderId($teamid) {
-      global $logger;
-
-      $query = "SELECT leader_id FROM `codev_team_table` WHERE id = $teamid";
-      $result = mysql_query($query);
-      if (!$result) {
-             $logger->error("Query FAILED: $query");
-             $logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
-      }
-      $leaderid  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
-
-      return $leaderid;
-   }
-
-
-   // -------------------------------------------------------
    /**
-    * return an array[project_id] = project_name
-    * 
-    * @global type $logger
-    * @param int $teamid
-    * @param bool $noStatsProject
-    * @return array
+    * get list of users with team administration access
+    * @return array of userId
     */
-   public static function getProjectList($teamid, $noStatsProject = true) {
-      global $logger;
-
-      $projList = array();
-
-      $query = "SELECT codev_team_project_table.project_id, mantis_project_table.name ".
-               "FROM `codev_team_project_table`, `mantis_project_table` ".
-               "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
-               "AND codev_team_project_table.team_id=$teamid ";
-
-     if (!$noStatsProject) {
-        $query .= "AND codev_team_project_table.type <> ".Project::type_noStatsProject." ";
-     }
-      $query .= "ORDER BY mantis_project_table.name";
-
-      if (isset($_GET['debug_sql'])) { echo "Team.getProjectList(): query = $query<br/>"; }
-
-      $result    = mysql_query($query);
-      if (!$result) {
-             $logger->error("Query FAILED: $query");
-             $logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
-      }
-      while($row = mysql_fetch_object($result))
-      {
-         $projList[$row->project_id] = $row->name;
-      }
-
-      return $projList;
+   public function getAdminList() {
+      return $this->adminList;
    }
 
-   // -------------------------------------------------------
-   public static function getMemberList($teamid) {
+   /**
+    * @return bool isEnabled
+    */
+   public function isEnabled() {
+      return $this->enabled;
+   }
 
-      global $logger;
-      $mList = array();
+   /**
+    * @param bool isEnabled
+    */
+   public function setEnabled($isEnabled) {
+      $this->enabled = $isEnabled;
+      $val = $isEnabled ? '1' : '0';
 
-      $query  = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
-                "FROM `codev_team_user_table`, `mantis_user_table` ".
-                "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
-                "AND codev_team_user_table.team_id=$teamid ".
-                "ORDER BY mantis_user_table.username";
-      $result    = mysql_query($query);
-      if (!$result) {
-             $logger->error("Query FAILED: $query");
-             $logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_team_table SET enabled = ".$sql->db_param()
+         . " WHERE id =".$sql->db_param();
+      $q_params[]=$val;
+      $q_params[]=$this->id;
+      $sql->sql_query($query, $q_params);
+      return true;
+   }
+
+   /**
+    * @return bool isEnabled
+    */
+   public function isCommandsEnabled() {
+      return $this->commands_enabled;
+   }
+
+   /**
+    * @param bool isEnabled
+    */
+   public function setCommandsEnabled($isEnabled) {
+      $this->commands_enabled = $isEnabled;
+      $val = $isEnabled ? '1' : '0';
+
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_team_table SET commands_enabled = ".$sql->db_param()
+         . " WHERE id =".$sql->db_param();
+      $q_params[]=$val;
+      $q_params[]=$this->id;
+      $result = $sql->sql_query($query, $q_params);
+      return true;
+   }
+
+   /**
+    * add/change timetracks before this date is not allowed
+    * @return int timestamp
+    */
+   public function getLockTimetracksDate() {
+      return $this->lock_timetracks_date;
+   }
+
+   /**
+    * add/change timetracks before this date is not allowed
+    * @param int $timestamp
+    */
+   public function setLockTimetracksDate($timestamp) {
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_team_table SET lock_timetracks_date = ".$sql->db_param()
+         . " WHERE id =".$sql->db_param();
+      $q_params[]=$timestamp;
+      $q_params[]=$this->id;
+      $sql->sql_query($query, $q_params);
+      $this->lock_timetracks_date = $timestamp;
+   }
+
+   /**
+    * team ADR (default value if UDC not defined
+    * @return float teamADR or NULL if undefined
+    */
+   public function getAverageDailyCost() {
+      return $this->average_daily_cost;
+   }
+
+   /**
+    * add/change the team ADC (default value if UDC not defined)
+    * @param float $teamADC
+    */
+   public function setAverageDailyCost($teamADC) {
+
+      // TODO check floatval errors !
+
+      if ($teamADC !== $this->average_daily_cost) {
+         // convert float to int (ex: 123.5 => 12350 (2 decimals)
+         $newADR = round(floatval($teamADC), 2) * 100;
+
+         $sql = AdodbWrapper::getInstance();
+         $query = "UPDATE codev_team_table SET average_daily_cost = ".$sql->db_param()
+            . " WHERE id =".$sql->db_param();
+         $q_params[]=$newADR;
+         $q_params[]=$this->id;
+         $result = $sql->sql_query($query, $q_params);
+         $this->average_daily_cost = $teamADC;
       }
-      while($row = mysql_fetch_object($result))
-      {
-         $mList[$row->user_id] = $row->username;
+   }
+
+   /**
+
+    * @return String currency (EUR, USD, ...)
+    */
+   public function getTeamCurrency() {
+      return $this->currency;
+   }
+
+   /**
+    * add/change the team ADR (default value if UDC not defined
+    * @param float $teamADR
+    */
+   public function setTeamCurrency($teamCurrency) {
+
+      // TODO check if currency is in codev_currencies_table !
+
+      if ($teamCurrency !== $this->currency) {
+         $sql = AdodbWrapper::getInstance();
+         $query = "UPDATE codev_team_table SET currency = ".$sql->db_param()
+            . " WHERE id =".$sql->db_param();
+         $q_params[]=$teamCurrency;
+         $q_params[]=$this->id;
+         $sql->sql_query($query, $q_params);
+         $this->currency = $teamCurrency;
+      }
+   }
+
+   /**
+    * returns an array of project id => name
+    *
+    * @param bool $noStatsProject
+    * @return string[] : array[project_id] = project_name
+    */
+   public function getProjects($noStatsProject = true, $withDisabled = true, $sideTasksProjects=true) {
+
+      if(NULL == $this->projectIdsCache) {
+         $this->projectIdsCache = array();
+      }
+
+      $key = 'P';
+      $key .= ($noStatsProject) ? '_WithNoStatsProject' : '_WithoutNoStatsProject';
+      $key .= ($withDisabled) ? '_withDisabled' : '_NoDisabled';
+      $key .= ($sideTasksProjects) ? '_withSTProjects' : '_NoSTProjects';
+
+
+      if(!array_key_exists($key, $this->projectIdsCache)) {
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT project.id, project.name ".
+                  "FROM {project} as project ".
+                  "JOIN codev_team_project_table as team_project ON project.id = team_project.project_id ".
+                  "WHERE team_project.team_id =  ".$sql->db_param();
+         $q_params[]=$this->id;
+
+         if (!$noStatsProject) {
+            $query .= " AND team_project.type <> ".$sql->db_param();
+            $q_params[]=Project::type_noStatsProject;
+         }
+         if (!$sideTasksProjects) {
+            $query .= " AND team_project.type <> ".$sql->db_param();
+            $q_params[]=Project::type_sideTaskProject;
+         }
+         if (!$withDisabled) {
+            $query .= " AND project.enabled = 1 ";
+         }
+         $query .= " ORDER BY project.name";
+
+         $result = $sql->sql_query($query, $q_params);
+
+         $projList = array();
+         while($row = $sql->fetchObject($result)) {
+            $projList[$row->id] = $row->name;
+         }
+         #self::$logger->error("getProjects $key ".implode(',', array_keys($projList)));
+         $this->projectIdsCache[$key] = $projList;
+      }
+
+      return $this->projectIdsCache[$key];
+   }
+
+   /**
+    * returns an array of Project class instances
+    *
+    * @param bool $noStatsProject
+    * @return Project[]
+    */
+   public function getTrueProjects($noStatsProject = true, $withDisabled = true) {
+      if(NULL == $this->projectIdsCache) {
+         $this->projectIdsCache = array();
+      }
+
+      $key = ''.$noStatsProject;
+
+      if(!array_key_exists($key, $this->projectIdsCache)) {
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT project.* ".
+                  " FROM {project} as project ".
+                  " JOIN codev_team_project_table as team_project ON project.id = team_project.project_id ".
+                  " WHERE team_project.team_id = ".$sql->db_param();
+         $q_params[]=$this->id;
+
+         if (!$noStatsProject) {
+            $query .= " AND team_project.type <> ".$sql->db_param();
+            $q_params[]=Project::type_noStatsProject;
+         }
+         if (!$withDisabled) {
+            $query .= " AND project.enabled = 1 ";
+         }
+         $query .= " ORDER BY project.name";
+
+         $result = $sql->sql_query($query, $q_params);
+
+         $projList = array();
+         while($row = $sql->fetchObject($result)) {
+            ProjectCache::getInstance()->getProject($row->id, $row);
+            $projList[$row->id] = $row->name;
+         }
+         $this->projectIdsCache[$key] = $projList;
+      }
+
+      $projects = array();
+      foreach($this->projectIdsCache[$key] as $id => $name) {
+         $projects[] = ProjectCache::getInstance()->getProject($id);
+      }
+      return $projects;
+   }
+
+   /**
+    * @static
+    * @param int $teamid
+    * @return string[]
+    * @deprecated Use TeamCache::getInstance()->getTeam($teamid)->getMembers()
+    */
+   public static function getMemberList($teamid) {
+      return TeamCache::getInstance()->getTeam($teamid)->getMembers();
+   }
+
+   /**
+    * @return string[]
+    */
+   public function getMembers() {
+      if(NULL == $this->members) {
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT user.id, user.username ".
+                  " FROM {user} as user ".
+                  " JOIN codev_team_user_table as team_user ON user.id = team_user.user_id ".
+                  " WHERE team_user.team_id= ".$sql->db_param().
+                  " ORDER BY user.username";
+         $q_params[]=$this->id;
+         $result = $sql->sql_query($query, $q_params);
+
+         $this->members = array();
+         while($row = $sql->fetchObject($result)) {
+            $this->members[$row->id] = $row->username;
+         }
+      }
+
+      return $this->members;
+   }
+
+   /**
+    * Get all users of a team
+    * @return User[] The users (User[id])
+    */
+   public function getUsers() {
+      if(NULL == $this->members) {
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT user.* ".
+                  " FROM {user} as user ".
+                  " JOIN codev_team_user_table as team_user ON user.id = team_user.user_id ".
+                  " WHERE team_user.team_id =  ".$sql->db_param().
+                  " ORDER BY user.username;";
+         $q_params[]=$this->id;
+         try {
+            $result = $sql->sql_query($query, $q_params);
+         } catch (Exception $e) {
+            return NULL;
+         }
+
+         $this->members = array();
+         while($row = $sql->fetchObject($result)) {
+            UserCache::getInstance()->getUser($row->id, $row);
+            $this->members[$row->id] = $row->username;
+         }
+      }
+
+      $users = array();
+      foreach($this->members as $id => $name) {
+         $users[] = UserCache::getInstance()->getUser($id);
+      }
+
+      return $users;
+   }
+
+   /**
+    * team members (exept Observers) working on this team at $startTimestamp
+    * or during the period.
+    *
+    * @param int $startTimestamp date (if NULL, today)
+    * @param int $endTimestamp date (if NULL, $startTimestamp)
+    * @return string[]
+    */
+   public function getActiveMembers($startTimestamp=NULL, $endTimestamp=NULL, $userRealName=FALSE) {
+      if (NULL == $startTimestamp) {
+         // if $startTimestamp not defined, get current active members
+         $startTimestamp = Tools::date2timestamp(date("Y-m-d", time()));
+         $endTimestamp = $startTimestamp;
+      } else {
+         // if $endTimestamp not defined, get members active at $startTimestamp
+         if (NULL == $endTimestamp) {
+            $endTimestamp = $startTimestamp;
+         }
+      }
+
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT user.id, user.username, user.realname ".
+               " FROM {user} as user ".
+               " JOIN codev_team_user_table as team_user ON user.id = team_user.user_id ".
+               " AND team_user.team_id= ".$sql->db_param().
+               " AND team_user.access_level IN (".$sql->db_param().', '.$sql->db_param().') '.
+               " AND team_user.arrival_date <=  ".$sql->db_param().
+               " AND (team_user.departure_date = 0 OR team_user.departure_date >= ".$sql->db_param().") ";
+      $query .= ($userRealName) ? " ORDER BY user.realname" : " ORDER BY user.username";
+      $q_params[]=$this->id;
+      $q_params[]=self::accessLevel_dev;
+      $q_params[]=self::accessLevel_manager;
+      $q_params[]=$endTimestamp;
+      $q_params[]=$startTimestamp;
+
+      $result = $sql->sql_query($query, $q_params);
+
+      $mList = array();
+      while($row = $sql->fetchObject($result)) {
+         $mList[$row->id] = ($userRealName) ? $row->realname : $row->username;
       }
 
       return $mList;
    }
 
-   // -------------------------------------------------------
    /**
-    *
     * get all issues managed by the team's users on the team's projects.
-    *
-    * @param teamid the team
-    * @param addUnassignedIssues if true, include issues on team's projects that are assigned to nobody
-    *
-    * @return issueList
-    *
+    * @param bool $addUnassignedIssues if true, include issues on team's projects that are assigned to nobody
+    * @return Issue[] : issueList
     */
-   public static function getTeamIssues($teamid, $addUnassignedIssues = false) {
+   public function getTeamIssueList($addUnassignedIssues = false, $withDisabledProjects = true) {
 
-      global $logger;
+      $issueList = array();
 
-      $projectList = Team::getProjectList($teamid);
-      $memberList = Team::getMemberList($teamid);
+      $projectList = $this->getProjects(true, $withDisabledProjects);
+      $memberList = $this->getMembers();
 
+      $memberIdList = array_keys($memberList);
 
-      $formatedProjects = implode( ', ', array_keys($projectList));
-      $formatedMembers = implode( ', ', array_keys($memberList));
+      if (0 == count($memberIdList)) {
+         self::$logger->error("getTeamIssues(teamid=$this->id) : No members defined in the team !");
+      }
 
       // add unassigned tasks
       if ($addUnassignedIssues) {
-         $formatedMembers .= ',0';
+         $memberIdList[] = '0';
       }
 
-      $logger->debug("getTeamIssues(teamid=$teamid) projects=$formatedProjects members=$formatedMembers");
-
-      $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
-         "FROM `mantis_bug_table` ".
-         "WHERE project_id IN ($formatedProjects) ".
-         "AND   handler_id IN ($formatedMembers) ";
-
-      $result = mysql_query($query);
-      if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      $issueList = array();
-      while($row = mysql_fetch_object($result))
-      {
-         $issue = IssueCache::getInstance()->getIssue($row->bug_id);
-         $issueList[$row->bug_id] = $issue;
+      if (0 == count($memberIdList)) {
+         return $issueList;
       }
 
-      $logger->debug("getTeamIssues(teamid=$teamid) nbIssues=".count($issueList));
+      $formatedProjects = implode( ', ', array_keys($projectList));
+      $formatedMembers = implode( ', ', $memberIdList);
+
+
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getTeamIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
+      }
+
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT * ".
+               "FROM {bug} ".
+               "WHERE project_id IN (".$formatedProjects.") ".
+               " AND handler_id IN (".$formatedMembers.") ";
+
+      $result = $sql->sql_query($query);
+
+      while($row = $sql->fetchObject($result)) {
+         $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
+      }
+
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getTeamIssues(teamid=$this->id) nbIssues=".count($issueList));
+      }
       return $issueList;
    }
 
-
-   // -------------------------------------------------------
    /**
     * get all current issues managed by the team's users on the team's projects.
-    *
-    * @param int $teamid
-    * @param boolean $addUnassignedIssues
-    * @param boolean $addNewIssues
-    *
-    * @return array issueList
+    * @param bool $addUnassignedIssues
+    * @param bool $addNewIssues
+    * @return Issue[] issueList
     */
-   public static function getCurrentIssues($teamid, $addUnassignedIssues = false, $addNewIssues = false) {
-
-      global $logger;
-      global $status_new;
-
-      $projectList = Team::getProjectList($teamid);
-      $memberList = Team::getMemberList($teamid);
-
+   public function getCurrentIssueList($addUnassignedIssues = false, $addNewIssues = false, $withDisabledProjects = true) {
+      $projectList = $this->getProjects(true, $withDisabledProjects);
+      $memberList = $this->getMembers();
 
       $formatedProjects = implode( ', ', array_keys($projectList));
       $formatedMembers = implode( ', ', array_keys($memberList));
@@ -346,179 +656,233 @@ class Team {
          $formatedMembers .= ', 0';
       }
 
-      $logger->debug("Team::getCurrentIssues(teamid=$teamid) projects=$formatedProjects members=$formatedMembers");
+      #if(self::$logger->isDebugEnabled()) {
+      #   self::$logger->debug("Team::getCurrentIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
+      #}
 
-      // ---- get Issues that are not Resolved/Closed
-      $query = "SELECT DISTINCT id ".
-            "FROM `mantis_bug_table` ".
-            "WHERE status < get_project_resolved_status_threshold(project_id) ".
-            "AND project_id IN ($formatedProjects) ".
-            "AND handler_id IN ($formatedMembers) ";
+      // get Issues that are not Resolved/Closed
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT * ".
+               "FROM {bug} ".
+               "WHERE status < get_project_resolved_status_threshold(project_id) ".
+               " AND project_id IN (".$formatedProjects.") ".
+               " AND handler_id IN (".$formatedMembers.") ";
 
-      if (false == $addNewIssues) {
-         $query .= "AND status > $status_new ";
+
+      if (!$addNewIssues) {
+         $query .= " AND status > ".$sql->db_param();
+         $q_params[]=Constants::$status_new;
       }
 
-      $query .= "ORDER BY id DESC";
+      $query .= " ORDER BY id DESC;";
 
-      $result = mysql_query($query);
-      if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
-         return;
+      try {
+         $result = $sql->sql_query($query, $q_params);
+      } catch (Exception $e) {
+         return NULL;
       }
 
       $issueList = array();
-      while($row = mysql_fetch_object($result))
-      {
-         $issue = IssueCache::getInstance()->getIssue($row->id);
-         $issueList[$row->id] = $issue;
+      while($row = $sql->fetchObject($result)) {
+         $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
-      $logger->debug("Team::getCurrentIssues(teamid=$teamid) nbIssues=".count($issueList));
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("Team::getCurrentIssues(teamid=$this->id) nbIssues=".count($issueList));
+      }
       return $issueList;
    }
 
    /**
     * Commands for this team
-    *
-    * @return array id => Command
+    * @return Command[] : array id => Command
     */
    public function getCommands() {
       if (NULL == $this->commandList) {
-         $query = "SELECT DISTINCT * FROM `codev_command_table` ".
-            "WHERE team_id = $this->id ";
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM codev_command_table ".
+                  "WHERE team_id =  ".$sql->db_param().
+                  " ORDER BY reference, name";
+         $q_params[]=$this->id;
 
-         $result = mysql_query($query);
-         if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $result = $sql->sql_query($query, $q_params);
+
          $this->commandList = array();
-         while($row = mysql_fetch_object($result))
-         {
-            $cmd = CommandCache::getInstance()->getCommand($row->id);
-            $this->commandList[$row->id] = $cmd;
+         while($row = $sql->fetchObject($result)) {
+            $this->commandList[$row->id] = CommandCache::getInstance()->getCommand($row->id, $row);
          }
       }
 
-      $this->logger->debug("getCommands(teamid=$this->id) nbEng=".count($this->commandList));
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getCommands(teamid=$this->id) nbEng=".count($this->commandList));
+      }
       return $this->commandList;
    }
 
    /**
     * CommandSets for this team
-    *
-    * @return array id => CommandSet
+    * @return CommandSet[] : array id => CommandSet
     */
    public function getCommandSetList() {
       if (NULL == $this->commandSetList) {
-         $query = "SELECT DISTINCT * FROM `codev_commandset_table` ".
-            "WHERE team_id = $this->id ";
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM codev_commandset_table ".
+                  "WHERE team_id =  ".$sql->db_param().
+                  " ORDER BY reference, name";
+         $q_params[]=$this->id;
 
-         $result = mysql_query($query);
-         if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $result = $sql->sql_query($query, $q_params);
+
          $this->commandSetList = array();
-         while($row = mysql_fetch_object($result))
-         {
-            $commandset = CommandSetCache::getInstance()->getCommandSet($row->id);
-            $this->commandSetList[$row->id] = $commandset;
+         while($row = $sql->fetchObject($result)) {
+            $this->commandSetList[$row->id] = CommandSetCache::getInstance()->getCommandSet($row->id, $row);
          }
       }
 
-      $this->logger->debug("getCommandSetList(teamid=$this->id) nbCommandSet=".count($this->commandSetList));
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getCommandSetList(teamid=$this->id) nbCommandSet=".count($this->commandSetList));
+      }
       return $this->commandSetList;
    }
 
    /**
-    * CommandSets for this team
-    *
-    * @return array id => CommandSet
+    * ServiceContracts for this team
+    * @return ServiceContract[] : array id => ServiceContract
     */
    public function getServiceContractList() {
       if (NULL == $this->serviceContractList) {
-         $query = "SELECT DISTINCT * FROM `codev_servicecontract_table` ".
-            "WHERE team_id = $this->id ";
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * ".
+                  "FROM codev_servicecontract_table ".
+                  "WHERE team_id = ".$sql->db_param();
+         $q_params[]=$this->id;
 
-         $result = mysql_query($query);
-         if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
+         $result = $sql->sql_query($query, $q_params);
+
          $this->serviceContractList = array();
-         while($row = mysql_fetch_object($result))
-         {
-            $contract = ServiceContractCache::getInstance()->getServiceContract($row->id);
-            $this->serviceContractList[$row->id] = $contract;
+         while($row = $sql->fetchObject($result)) {
+            $this->serviceContractList[$row->id] = ServiceContractCache::getInstance()->getServiceContract($row->id, $row);
          }
       }
 
-      $this->logger->debug("getServiceContractList(teamid=$this->id) nbServiceContracts=".count($this->serviceContractList));
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getServiceContractList(teamid=$this->id) nbServiceContracts=".count($this->serviceContractList));
+      }
       return $this->serviceContractList;
    }
+   
 
-
-   // -------------------------------------------------------
    /**
-    *
-    * @param unknown_type $memberid
-    * @param unknown_type $arrivalTimestamp
-    * @param unknown_type $memberAccess
+    * Add a member to the team
+    * @param type $memberid
+    * @param type $arrivalTimestamp
+    * @param type $memberAccess
+    * @return boolean : true if user has been added to team, false if team had already user
     */
    public function addMember($memberid, $arrivalTimestamp, $memberAccess) {
-      $query = "INSERT INTO `codev_team_user_table`  (`user_id`, `team_id`, `arrival_date`, `departure_date`, `access_level`) ".
-               "VALUES ('$memberid','$this->id','$arrivalTimestamp', '0', '$memberAccess');";
-      $result = mysql_query($query);
-      if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
-      }
+       
+        if(!UserCache::getInstance()->getUser($memberid)->isTeamMember($this->id))
+        {
+           $sql = AdodbWrapper::getInstance();
+            $query = "INSERT INTO codev_team_user_table  (user_id, team_id, arrival_date, departure_date, access_level) ".
+                    "VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().",".$sql->db_param().")";
+            $q_params[]=$memberid;
+            $q_params[]=$this->id;
+            $q_params[]=$arrivalTimestamp;
+            $q_params[]=0; // departure_date
+            $q_params[]=$memberAccess;
+            $sql->sql_query($query, $q_params);
+            return true;
+        } else {
+            return false;
+        }
+   }
+
+   public function updateMember($memberid, $arrivalTimestamp, $departureTimestamp, $memberAccess) {
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_team_user_table SET ".
+                  '  arrival_date = '.$sql->db_param().
+                  ', departure_date = '.$sql->db_param().
+                  ', access_level = '.$sql->db_param().
+               " WHERE user_id = ".$sql->db_param().
+               " AND team_id = ".$sql->db_param();
+      $q_params[]=$arrivalTimestamp;
+      $q_params[]=$departureTimestamp;
+      $q_params[]=$memberAccess;
+      $q_params[]=$memberid;
+      $q_params[]=$this->id;
+      $sql->sql_query($query, $q_params);
+   }
+
+   function getTeamMemberData($userId) {
+      // fetch values from DB (check the UPDATE, return real values)
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id, user_id, arrival_date, departure_date, access_level".
+         " FROM codev_team_user_table ".
+         " WHERE team_id=".$sql->db_param().
+         " AND   user_id=".$sql->db_param();
+      $result = $sql->sql_query($query, array($this->id, $userId));
+      $row = $sql->fetchObject($result);
+
+      $data = array (
+         'rowId' => $row->id,
+         'userId' => $row->user_id,
+         #'userName' => $row->,
+         #'userRealName' => $row->,
+         'teamId' => $this->id,
+         'arrivalTimestamp' => $row->arrival_date,
+         'arrivalDate' => date('Y-m-d', $row->arrival_date),
+         'departureTimestamp' => $row->departure_date,
+         'departureDate' => (0 == $row->departure_date) ? '' : date('Y-m-d', $row->departure_date),
+         'accessLevelId' => $row->access_level,
+         'accessLevel' => self::$accessLevelNames[$row->access_level]
+      );
+      return $data;
    }
 
 
-   // -------------------------------------------------------
    public function setMemberDepartureDate($memberid, $departureTimestamp) {
-     $query = "UPDATE `codev_team_user_table` SET departure_date = $departureTimestamp WHERE user_id = $memberid AND team_id = $this->id;";
-      $result = mysql_query($query);
-      if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_team_user_table SET departure_date = ".$sql->db_param()
+         . " WHERE user_id = ".$sql->db_param()
+         . " AND team_id = ".$sql->db_param();
+      $q_params[]=$departureTimestamp;
+      $q_params[]=$memberid;
+      $q_params[]=$this->id;
+      $result = $sql->sql_query($query, $q_params);
    }
 
+   /**
+    *
+    * @param type $memberid
+    * @return int timestamp
+    */
+   public function getMemberArrivalDate($memberid) {
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT arrival_date FROM codev_team_user_table "
+              ." WHERE user_id = ".$sql->db_param()
+              ." AND team_id =  ".$sql->db_param()
+              ." ORDER BY arrival_date ASC";
+      $q_params[]=$memberid;
+      $q_params[]=$this->id;
+      $result = $sql->sql_query($query, $q_params, TRUE, 1); // LIMIT 1
+      $arrivalTimestamp = $sql->sql_result($result);
+      return $arrivalTimestamp;
+   }
 
-   // -------------------------------------------------------
    /**
     * add all members declared in Team $src_teamid (same dates, same access)
     * users already declared are omitted
     *
-    * @param unknown_type $src_teamid
+    * @param int $src_teamid
     */
    public function addMembersFrom($src_teamid) {
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT * from codev_team_user_table WHERE team_id = ".$sql->db_param();
+      $q_params[]=$src_teamid;
+      $result = $sql->sql_query($query, $q_params);
 
-      $query = "SELECT * from `codev_team_user_table` WHERE team_id = $src_teamid ";
-      $result = mysql_query($query);
-      if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
-      }
-      while($row = mysql_fetch_object($result))
-      {
+      while($row = $sql->fetchObject($result)) {
          $user = UserCache::getInstance()->getUser($row->user_id);
          if (! $user->isTeamMember($this->id)) {
             $this->addMember($row->user_id,$row->arrival_date, $row->access_level);
@@ -531,117 +895,246 @@ class Team {
 
    }
 
-   // -------------------------------------------------------
    /**
+    * Add a project to the team,
+    * Add default jobs to the project (if not already defined)
     *
-    * @param unknown_type $projectid
-    * @param unknown_type $projecttype
+    * @param int $projectid
+    * @param int $projecttype
+    * @return bool
     */
    public function addProject($projectid, $projecttype) {
-      $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$projectid','$this->id','$projecttype');";
-      $result = mysql_query($query);
-      if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+      $sql = AdodbWrapper::getInstance();
+      $query = "INSERT INTO codev_team_project_table  (project_id, team_id, type)"
+         . " VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().")";
+      $q_params[]=$projectid;
+      $q_params[]=$this->id;
+      $q_params[]=$projecttype;
+      try {
+         $sql->sql_query($query, $q_params);
+      } catch (Exception $e) {
+         throw new Exception("Couldn't add the project to the team (insert project $projectid)");
       }
+      // jobs assignations are not (not yet) specific to a team.
+      // check if jobs already defined
+      $query2 = "SELECT count(1) as cnt FROM codev_project_job_table WHERE project_id = ".$sql->db_param();
+      $q_params2[]=$projectid;
+      try {
+         $result2 = $sql->sql_query($query2, $q_params2);
+      } catch (Exception $e) {
+         throw new Exception("Couldn't check existing jobs for project $projectid");
+      }
+      $count = $sql->sql_result($result2);
+      //self::$logger->error("count jobs = $count");
+      if (0 == $count) {
+         // if no job defined yet, then default jobs (previously: commonJobs) must be assigned.
+         $query3 = "INSERT INTO codev_project_job_table(project_id, job_id) ".
+                  "SELECT ".$sql->db_param().", job.id FROM codev_job_table job WHERE type = 0";
+         $q_params3[]=$projectid;
+         try {
+            $sql->sql_query($query3, $q_params3);
+         } catch (Exception $e) {
+            throw new Exception("Couldn't add the project to the team (add default jobs)");
+         }
+      }
+
+      return true;
    }
 
-   // -------------------------------------------------------
    /**
-    *
+    * removes a project from the team
+    * @param int $projectid
+    * @return bool
     */
-   public function addExternalTasksProject() {
+   public function removeProject($projectid) {
+      // TODO check if projectid exists in codev_team_project_table
+      $sql = AdodbWrapper::getInstance();
+      $query = "DELETE FROM codev_team_project_table WHERE id = ".$sql->db_param();
+      $q_params[]=$projectid;
+      try {
+         $sql->sql_query($query, $q_params);
+      } catch (Exception $e) {
+         self::$logger->error("Could not remove project $projectid from team $this->id");
+         return false;
+      }
+      return true;
+   }
 
+   public function addExternalTasksProject() {
       $extTasksProjectType = Project::type_noStatsProject;
 
       $externalTasksProject = Config::getInstance()->getValue(Config::id_externalTasksProject);
 
       // TODO check if ExternalTasksProject not already in table !
-
-      $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$externalTasksProject','$this->id','$extTasksProjectType');";
-      $result = mysql_query($query);
-      if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
-      }
+      $sql = AdodbWrapper::getInstance();
+      $query = "INSERT INTO codev_team_project_table  (project_id, team_id, type)"
+         . " VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().")";
+      $q_params[]=$externalTasksProject;
+      $q_params[]=$this->id;
+      $q_params[]=$extTasksProjectType;
+      $sql->sql_query($query, $q_params);
    }
 
-   // -------------------------------------------------------
    /**
-    *
-    * @param unknown_type $projectName
-    * @return unknown_type $projectId
+    * @param string $projectName
+    * @return int $projectId
     */
    public function createSideTaskProject($projectName) {
-
       $sideTaskProjectType = Project::type_sideTaskProject;
-
-      $projectDesc = T_("CodevTT SideTaskProject for team")." $this->name";
 
       $projectid = Project::createSideTaskProject($projectName);
 
       if (-1 != $projectid) {
-
          // add new SideTaskProj to the team
-         $query = "INSERT INTO `codev_team_project_table` (`project_id`, `team_id`, `type`) ".
-                  "VALUES ('$projectid','$this->id','$sideTaskProjectType');";
-         $result = mysql_query($query);
-         if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
-         }
-
+         $sql = AdodbWrapper::getInstance();
+         $query = "INSERT INTO codev_team_project_table (project_id, team_id, type) ".
+                  "VALUES (".$sql->db_param().",".$sql->db_param().",".$sql->db_param().")";
+         $q_params[]=$projectid;
+         $q_params[]=$this->id;
+         $q_params[]=$sideTaskProjectType;
+         $sql->sql_query($query, $q_params);
       } else {
-        $this->logger->error("team $this->name createSideTaskProject !!!");
-        echo "<span style='color:red'>ERROR: team $this->name createSideTaskProject !!!</span>";
-        exit;
+         self::$logger->error("team $this->name createSideTaskProject !!!");
+         echo "<span style='color:red'>ERROR: team $this->name createSideTaskProject !!!</span>";
+         exit;
       }
 
-      // --- assign SideTaskProject specific Job
+      // assign SideTaskProject specific Job
       #REM: 'N/A' job_id = 1, created by SQL file
       Jobs::addJobProjectAssociation($projectid, Jobs::JOB_NA);
 
       return $projectid;
    }
 
-   // -------------------------------------------------------
    /**
-    *
-    * @param unknown_type $date_create
+    * @param int $date
+    * @return bool
     */
    public function setCreationDate($date) {
-
-      $query = "UPDATE `codev_team_table` SET date = $date WHERE id = $this->id;";
-      $result = mysql_query($query);
-      if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_team_table SET date = ".$sql->db_param()." WHERE id = ".$sql->db_param();
+      $q_params[]=$date;
+      $q_params[]=$this->id;
+      try {
+         $sql->sql_query($query, $q_params);
+      } catch (Exception $e) {
+         return false;
       }
+      $this->date = $date;
+      return true;
    }
 
+   /**
+    * @deprecated
+    * @param int $leaderid
+    * @return bool
+    */
+   public function setLeader($leaderid) {
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_team_table SET administrators = ".$sql->db_param()." WHERE id = ".$sql->db_param();
+      $q_params[]=$leaderid;
+      $q_params[]=$this->id;
+      try {
+         $sql->sql_query($query, $q_params);
+      } catch (Exception $e) {
+         return false;
+      }
+      $this->adminList = array();    // warn, removes all previous admins !
+      $this->adminList[] = $leaderid;
+      return true;
+   }
 
-   // -----------------------------------------------
+   /**
+    * @param int $userId
+    * @return bool
+    */
+   public function addAdministrator($userId) {
+
+      if (in_array($userId, $this->adminList)) { return true; }
+
+      $this->adminList[] = $userId;
+
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_team_table SET administrators = ".$sql->db_param()." WHERE id = ".$sql->db_param();
+      $q_params[]=implode(',',$this->adminList);
+      $q_params[]=$this->id;
+      $sql->sql_query($query, $q_params);
+      return true;
+   }
+
+   /**
+    *
+    * @param int $userId
+    */
+   public function removeAdministrator($userId) {
+      if (($key = array_search($userId, $this->adminList)) !== false) {
+self::$logger->error("removeAdministrator BEFORE <".implode(',',$this->adminList).">");
+         unset($this->adminList[$key]);
+         $formattedAdminList=implode(',',$this->adminList);
+
+self::$logger->error("removeAdministrator AFTER  <".$formattedAdminList.">");
+
+         $sql = AdodbWrapper::getInstance();
+         $query = "UPDATE codev_team_table SET administrators = ".$sql->db_param()." WHERE id = ".$sql->db_param();
+         $q_params[]=$formattedAdminList;
+         $q_params[]=$this->id;
+         $sql->sql_query($query, $q_params);
+         return true;
+      } else {
+self::$logger->error("removeAdministrator $userId not found in <".implode(',',$this->adminList).">");
+
+      }
+      return false;
+   }
+   /**
+    * @return int[] The type by project
+    */
+   public function getProjectsType() {
+      if($this->projTypeList == NULL) {
+         $this->projTypeList = array();
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM codev_team_project_table WHERE team_id =  ".$sql->db_param();
+         $q_params[]=$this->id;
+         $result = $sql->sql_query($query, $q_params);
+
+         while($row = $sql->fetchObject($result)) {
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("initialize: team $this->id proj $row->project_id type $row->type");
+            }
+            $this->projTypeList[$row->project_id] = $row->type;
+         }
+      }
+
+      return $this->projTypeList;
+   }
+
+   /**
+    * @param int $projectid The project id
+    * @return int The type
+    */
    public function getProjectType($projectid) {
-      return  $this->projTypeList[$projectid];
+      $projectsType = $this->getProjectsType();
+      return $projectsType[$projectid];
    }
 
-   // -----------------------------------------------
+   /**
+    * @param int $type The project type
+    * @return int[] The team's project ids matching the type
+    */
+   public function getSpecificTypedProjectIds($type) {
+      $projectsType = $this->getProjectsType();
+      return array_keys($projectsType, $type);
+   }
+
    public function isSideTasksProject($projectid) {
-      $this->logger->debug("isSideTasksProject:  team $this->id proj $projectid type ".$this->projTypeList[$projectid]);
-      return (Project::type_sideTaskProject == $this->projTypeList[$projectid]);
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("isSideTasksProject:  team $this->id proj $projectid type ".$this->getProjectType($projectid));
+      }
+      return (Project::type_sideTaskProject == $this->getProjectType($projectid));
    }
 
-   // -----------------------------------------------
    public function isNoStatsProject($projectid) {
-      return (Project::type_noStatsProject == $this->projTypeList[$projectid]);
+      return (Project::type_noStatsProject == $this->getProjectType($projectid));
    }
 
    /**
@@ -652,6 +1145,387 @@ class Team {
       return $this->name;
    }
 
-}
+   /**
+    * Get all teams by name
+    * @param bool $withDisabled if true, include disabled teams
+    * @return string[int] : name[id]
+    */
+   public static function getTeams($withDisabled=false) {
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id, name FROM codev_team_table ";
+      if (!$withDisabled) {
+         $query .= " WHERE enabled = 1 ";
+      }
+      $query .= " ORDER BY name";
+      try {
+         $result = $sql->sql_query($query);
+      } catch (Exception $e) {
+         return NULL;
+      }
+      $teams = array();
+      while ($row = $sql->fetchObject($result)) {
+         $teams[$row->id] = $row->name;
+      }
+      return $teams;
+   }
 
-?>
+   /**
+    * Get projects not yet in the team (candidates)
+    * @return string[]
+    */
+   public function getOtherProjects($withDisabledProjects = true) {
+
+      $projects = $this->getProjects(true, $withDisabledProjects);
+      $formatedCurProjList = implode( ', ', array_keys($projects));
+
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id, name FROM {project}";
+
+      if($projects != NULL && count($projects) != 0) {
+         $query .= " WHERE id NOT IN (".$formatedCurProjList.")";
+      }
+
+      $query .= " ORDER BY name";
+
+      try {
+         $result = $sql->sql_query($query, $q_params);
+      } catch (Exception $e) {
+         return NULL;
+      }
+
+      $teamProjects = array();
+      while($row = $sql->fetchObject($result)) {
+         $teamProjects[$row->id] = $row->name;
+      }
+
+      return $teamProjects;
+   }
+
+   /**
+    * @return int
+    */
+   public function getId() {
+      return $this->id;
+   }
+
+   /**
+    * @return int
+    */
+   public function getDate() {
+      return $this->date;
+   }
+
+   /**
+    * return onDutyTasks for this team, or empty array
+    *
+    * @return array of bugid
+    */
+   public function getOnDutyTasks() {
+
+      if (is_null($this->onDutyTaskList)) {
+
+      	 $this->onDutyTaskList = Config::getValue(Config::id_onDutyTaskList, array(0, 0, $this->id, 0, 0, 0), true);
+      	 if($this->onDutyTaskList == NULL || empty($this->onDutyTaskList)) {
+      	 	return array();
+      	 }
+      	 
+      }
+      return $this->onDutyTaskList;
+   }
+
+   public function addOnDutyTask($bugid) {
+
+      $onDutyTaskList = $this->getOnDutyTasks();
+
+      if (!in_array($bugid, $onDutyTaskList)) {
+         $onDutyTaskList[] = $bugid;
+         $imploded = implode(',', $onDutyTaskList);
+         Config::setValue(Config::id_onDutyTaskList, $imploded, Config::configType_array, NULL, 0, 0, $this->id);
+         $this->onDutyTaskList = $onDutyTaskList;
+      }
+   }
+
+   public function removeOnDutyTask($bugid) {
+
+      $onDutyTaskList = $this->getOnDutyTasks();
+
+      if (in_array($bugid, $onDutyTaskList)) {
+         $key = array_search($bugid, $onDutyTaskList);
+         unset($onDutyTaskList[$key]);
+
+         $imploded = (0 == count($onDutyTaskList)) ? "" : implode(',', $onDutyTaskList);
+         Config::setValue(Config::id_onDutyTaskList, $imploded, Config::configType_array, NULL, 0, 0, $this->id);
+         $this->onDutyTaskList = $onDutyTaskList;
+      }
+
+   }
+
+   /**
+    * get all unassigned tasks found in team projects
+    *
+    * Note: sideTasks and nostatsProjects excluded, resolved tasks excluded.
+    *
+    * @return Issue[] : issueList (id => Issue)
+    */
+   public function getUnassignedTasks() {
+
+
+      $issueList = array();
+      $sql = AdodbWrapper::getInstance();
+
+      $query_projects = "SELECT project.id ".
+               "FROM {project} as project ".
+               "JOIN codev_team_project_table as team_project ON project.id = team_project.project_id ".
+               "WHERE team_project.team_id = ".$sql->db_param().
+               " AND team_project.type NOT IN (".$sql->db_param().', '.$sql->db_param().') ';
+
+      $query = "SELECT * ".
+               "FROM {bug} ".
+               "WHERE project_id IN (".$query_projects.") ".
+               " AND handler_id = '0' ".
+               " AND status < get_project_resolved_status_threshold(project_id) ".
+               " ORDER BY project_id ASC, id ASC";
+      $q_params[]= $this->id;
+      $q_params[]=Project::type_noStatsProject;
+      $q_params[]=Project::type_sideTaskProject;
+
+      $result = $sql->sql_query($query, $q_params);
+
+      while($row = $sql->fetchObject($result)) {
+         $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
+      }
+
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getUnassignedTasks(teamid=$this->id) nbIssues=".count($issueList));
+      }
+      return $issueList;
+   }
+
+   /**
+    *
+    * @return array ('checkName' => [0,1] isEnabled)
+    */
+   public function getConsistencyCheckList() {
+
+      if (empty($this->consistencyCheckList)) {
+
+      	 $checkList = Config::getValue(Config::id_consistencyCheckList, array(0, 0, $this->id, 0, 0, 0), true);
+         // get default checkList if not found
+         $this->consistencyCheckList = ConsistencyCheck2::$defaultCheckList;
+
+         // update with team specific items
+         if ($checkList != NULL && is_array($checkList)) {
+
+            foreach ($checkList as $name => $enabled) {
+               if (!array_key_exists($name, $this->consistencyCheckList)) {
+                  self::$logger->warn("team $this->id: remove unknown/deprecated consistencyCheck: $name");
+               } else {
+                  $this->consistencyCheckList["$name"] = $enabled;
+               }
+            }
+         }
+      }
+
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("team $this->id consistencyCheckList = ". Tools::doubleImplode(':', ',',  $this->consistencyCheckList));
+      }
+
+      return $this->consistencyCheckList;
+
+   }
+
+   /**
+    * @param array $checkList ('checkName' => [0,1] isEnabled)
+    */
+   function setConsistencyCheckList(array $checkList) {
+
+      $this->consistencyCheckList = $checkList;
+
+      $keyvalue = Tools::doubleImplode(':', ',', $this->consistencyCheckList);
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("Write team $this->id consistencyCheckList : $keyvalue");
+      }
+
+      // save new settings
+      Config::setValue(Config::id_consistencyCheckList, $keyvalue, Config::configType_keyValue, NULL, 0, 0, $this->id);
+   }
+
+
+   /**
+    *
+    * @return array ('checkName' => [0,1] isEnabled)
+    */
+   public function getGeneralPrefsList() {
+
+      if (empty($this->generalPrefsList)) {
+
+         $checkList = Config::getValue(Config::id_teamGeneralPreferences, array(0, 0, $this->id, 0, 0, 0), true);
+         
+         // get default checkList if not found
+         $this->generalPrefsList = Team::$defaultGeneralPrefsList;
+
+         // update with team specific items
+         if ($checkList != NULL && is_array($checkList)) {
+            foreach ($checkList as $name => $enabled) {
+
+               if (!array_key_exists($name, $this->generalPrefsList)) {
+                  self::$logger->warn("team $this->id: remove unknown/deprecated generalPref: $name");
+               } else {
+                  $this->generalPrefsList["$name"] = $enabled;
+               }
+            }
+         }
+      }
+
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("team $this->id generalPrefsList = ". Tools::doubleImplode(':', ',',  $this->generalPrefsList));
+      }
+
+      return $this->generalPrefsList;
+
+   }
+
+   public function getGeneralPreference($prefKey) {
+      $prefs = $this->getGeneralPrefsList();
+      return $prefs["$prefKey"];
+   }
+
+   /**
+    * @param array $checkList ('checkName' => [0,1] isEnabled)
+    */
+   function setGeneralPrefsList(array $checkList) {
+
+      $this->generalPrefsList = $checkList;
+
+      $keyvalue = Tools::doubleImplode(':', ',', $this->generalPrefsList);
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("Write team $this->id generalPrefsList : $keyvalue");
+      }
+
+      // save new settings
+      Config::setValue(Config::id_teamGeneralPreferences, $keyvalue, Config::configType_keyValue, NULL, 0, 0, $this->id);
+   }
+
+   /**
+    * send an email to each member with the list of all incomplete/missing days in the period
+    */
+   public function sendTimesheetEmails($startTimestamp=NULL, $endTimestamp=NULL) {
+
+      if (($this->isEnabled()) &&
+          (1 == Constants::$emailSettings['enable_email_notification']) &&
+          (1 == $this->getGeneralPreference('sendTimesheetEmailNotification'))) {
+
+         echo "=== Team $this->id : ".$this->getName()."\n";
+         $users = $this->getActiveMembers();
+         foreach ($users as $id => $name) {
+            try {
+               $user = UserCache::getInstance()->getUser($id);
+               if ($user->isEnabled()) {
+                  $user->sendTimesheetEmail($this->id, $startTimestamp, $endTimestamp);
+               }
+            } catch (Exception $e) {
+               self::$logger->error("sendTimetrackEmails: Could not send mail to $name");
+            }
+         }
+      }
+   }
+
+   /**
+    *
+    * @return UserDailyCost class instance
+    */
+   public function getUserDailyCostObj() {
+      if (NULL === $this->userDailyCostObj) {
+         $this->userDailyCostObj = new UserDailyCost($this->id);
+      }
+      return $this->userDailyCostObj;
+   }
+
+   /**
+    *
+    * @param int $userid
+    * @param int $timestamp
+    * @param float $userDailyCost
+    * @param string $currency if unset, use teamCurrency
+    * @param string $description
+    * @return id of inserted row or FALSE on error
+    */
+   public function setUserDailyCost($userid, $timestamp, $userDailyCost, $currency = NULL, $description = NULL) {
+      if (NULL === $this->userDailyCostObj) {
+         $this->userDailyCostObj = new UserDailyCost($this->id);
+      }
+      return $this->userDailyCostObj->setUserDailyCost($userid, $timestamp, $userDailyCost, $currency, $description);
+   }
+
+   /**
+    * delete UDC by id
+    * @param type $id
+    */
+   public function deleteUserDailyCost($id) {
+      if (NULL === $this->userDailyCostObj) {
+         $this->userDailyCostObj = new UserDailyCost($this->id);
+      }
+      return $this->userDailyCostObj->deleteUserDailyCost($id);
+   }
+
+   /**
+    * returns the valid UDC struct for a date
+    * if no UDC defined, returns NULL
+    *
+    * valid UDC is the closest start_date <= $timestamp
+    *
+    * Note: this method is used in admin page to check if an UDC has effectively been created
+    *
+    * @param int $userid team member
+    * @param int $timestamp
+    * @return array { 'id', 'timestamp', 'udr', 'currency' } or NULL if not found
+    */
+   public function getUserDailyCost($userid, $timestamp) {
+      if (NULL === $this->userDailyCostObj) {
+         $this->userDailyCostObj = new UserDailyCost($this->id);
+      }
+      return $this->userDailyCostObj->getUserDailyCost($userid, $timestamp);
+   }
+
+   /**
+    * strict search for an UDC definition at the given timestamp
+    *
+    * @param type $userid
+    * @param type $timestamp
+    * @return struct or FALSE if UDC not defined at this date (strictly)
+    */
+   public function existsUserDailyCost($userid, $timestamp) {
+      if (NULL === $this->userDailyCostObj) {
+         $this->userDailyCostObj = new UserDailyCost($this->id);
+      }
+      return $this->userDailyCostObj->existsUserDailyCost($userid, $timestamp);
+   }
+
+   /**
+    * returns the valid UDC value for a user at a specific date
+    * if no UDC defined for this user, result depends on $isRaw
+    *  - $isRay == TRUE  return FALSE
+    *  - $isRay == FALSE return teamADR
+    *
+    * if $isRay == FALSE AND no teamADR defined, throw exception
+    *
+    * Note: this method is used to compute the cost of a timetrack
+    *
+    * @param int $userid team member
+    * @param int $timestamp date of the timetrack
+    * @param type $targetCurrency target currency (default: team currency)
+    * @param type $isRaw if TRUE do not look for teamADC
+    * @return float UDC in the target currency or FALSE if not found
+    * @throws Exception
+    */
+   public function getUdcValue($userid, $timestamp, $targetCurrency=NULL, $isRaw=FALSE) {
+      if (NULL === $this->userDailyCostObj) {
+         $this->userDailyCostObj = new UserDailyCost($this->id);
+      }
+      return $this->userDailyCostObj->getUdcValue($userid, $timestamp, $targetCurrency, $isRaw);
+   }
+
+} // class Team
+Team::staticInit();
+
+

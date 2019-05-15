@@ -1,0 +1,77 @@
+<div id="content">
+
+   {include file="form/projectFilterDialogbox.html"}
+
+   {if isset($projects)}
+   <div class="center">
+      <form name="projectForm" id="projectForm" method="get" action="{$page}">
+         <fieldset>
+            <label for="projectid">{t}Project{/t}: </label>
+            <select id="projectid" name="projectid">
+               {foreach from=$projects key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+               {/foreach}
+            </select>
+            <a title="{t}Set project filters{/t}" id="projectFilters" style="text-decoration: none" href="{$page}">
+               <img border="0" width="16" height="12" align="absmiddle" src="images/{if isset($filterResults) && count($filterResults) > 0}im-filter-active.png{else}im-filter.png{/if}" alt="{t}Set project filters{/t}" />
+            </a>
+            <input type="hidden" name="selectedFilters" value="{$selectedFilters}" />
+            <input type="submit" value="{t}Select{/t}" />
+         </fieldset>
+      </form>
+   </div>
+   {/if}
+
+   <br>
+   <br>
+   <br>
+   <br>
+
+
+
+   {if isset($filterResults)}
+   {$nbFilters} Filters: {$selectedFilters}<br>
+   <table>
+      <thead>
+
+      {if 0 == $nbFilters}
+      <th></th>
+      {/if}
+      {foreach from=$filterResultsTitles key=id item=ftitle}
+            <th>{$ftitle}</th>
+      {/foreach}
+      </thead>
+
+      <tbody>
+      {foreach from=$filterResults key=id item=line}
+         <tr>
+            {for $idx=1 to $nbFilters}
+            <td>{$line[$idx]}</td>
+            {/for}
+            <td>{$line[$nbFilters+1].effortEstim}</td>
+            <td>{$line[$nbFilters+1].reestimated}</td>
+            <td>{$line[$nbFilters+1].elapsed}</td>
+            <td>{$line[$nbFilters+1].backlog}</td>
+            <td {if $line[$nbFilters+1].driftColor}style='background-color: #{$line[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].drift}</td>
+
+         <tr>
+      {/foreach}
+         <tr class="row_total">
+            <td>TOTAL</td>
+            {for $idx=1 to ($nbFilters-1)}
+            <td></td>
+            {/for}
+            <td>{$filterResultsTotal[$nbFilters+1].effortEstim}</td>
+            <td>{$filterResultsTotal[$nbFilters+1].reestimated}</td>
+            <td>{$filterResultsTotal[$nbFilters+1].elapsed}</td>
+            <td>{$filterResultsTotal[$nbFilters+1].backlog}</td>
+            <td {if $filterResultsTotal[$nbFilters+1].driftColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].drift}</td>
+         <tr>
+      </tbody>
+   </table>
+
+
+   {/if}
+
+
+</div>

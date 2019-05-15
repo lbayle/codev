@@ -1,0 +1,93 @@
+
+<script src="lib/dhtmlxGantt/dhtmlxgantt.js" type="text/javascript" charset="utf-8"></script>
+<script src="lib/dhtmlxGantt/ext/dhtmlxgantt_tooltip.js"></script>
+<link rel="stylesheet" href="lib/dhtmlxGantt/dhtmlxgantt.css" type="text/css" media="screen" title="no title" charset="utf-8">
+
+<!--script type="text/javascript" src="../common/testdata.js"></script-->
+
+<style type="text/css" media="screen">
+
+	.weekend{
+		background: #f4f7f4;
+	}
+	.gantt_selected .weekend{
+		background: #f7eb91;
+	}
+   #loading {
+      z-index: 100;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      margin-top: -64px;
+      margin-left: -64px;
+   
+</style>
+
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
+<div id="loading">
+   <img src="images/giantSpinner.gif">
+</div>
+
+<div class="gantt">
+   <div class="right" style="margin-top: 1em;">
+      <button class="scheduler_generatePlanningButton" onclick="computeGantt(true)" >
+         <img class="vertical-middle" src="images/b_refresh.png" alt="refresh icon">
+         <span class="vertical-middle">{t}Reload{/t}</span>
+      </button>
+   </div>
+
+   <div id="tabsGantt" class="float tabs {$ui_tabs_jquery}" style="width:100%; margin-top:1em;" >
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabGantt_gantt">{t}Gantt{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabGantt_options">{t}Options{/t}</a></li>
+      </ul>
+      <div id="tabGantt_gantt" >
+
+         <div style='height:20px; padding:5px;'>
+            <div class="ganttFilters" id="ganttFilters">
+               <span>{t}Task filter:{/t} </span>
+               <input id= "summaryFilter" name="summaryFilter"/>
+               <button class="btGanttFilter"  onclick="gantt.refreshData();">
+                  <img class="vertical-middle" src="images/b_refresh.png" alt="filter">
+                  <span class="vertical-middle">{t}Filter{/t}</span>
+               </button>
+            </div>
+         </div>
+         <div id="gantt_here" style='margin-top:2em; width:100%; height:500px;'></div>
+      </div>
+      <div id="tabGantt_options" >
+      </div>
+   </div>
+
+
+<script type="text/javascript">
+   // Transmit SMARTY variables to JS file
+   var ganttPageSmartyData = {
+      userid:"{$userid}",
+      ajaxPage:"{$ajaxPage}",
+      windowStartDate:"{$windowStartDate}",
+      i18n_OK:"{t}OK{/t}",
+      i18n_Cancel:"{t}Cancel{/t}"
+   };
+
+   $( "#tabsGantt" ).on( "tabscreate", function( event, ui ) {
+      setGanttOptions();
+      gantt.init("gantt_here");
+      computeGantt(false);
+   });
+
+$('#summaryFilter').bind("enterKey",function(e){
+   gantt.refreshData();
+});
+
+$('#summaryFilter').keyup(function(e){
+    if(e.keyCode == 13) {
+        $(this).trigger("enterKey");
+    }
+});
+</script>
+<script src="js_min/gantt.min.js"></script>
+</div>
+{else}
+<p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
+{/if}

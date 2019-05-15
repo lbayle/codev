@@ -1,0 +1,23 @@
+<div class="wbs-export-ajax">
+   <select id="header-list"></select>
+   <input type="text" id="new-header-tag"/>
+   <button type="button" id="edit-header-tag">Edit</button>
+   <table id="wbs-export-table" class="datatable_csv">
+      <thead>
+         <tr>
+            {foreach from=$wbsExportTableHeaders item=i}
+            <th>{$i}</th>
+            {/foreach}
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$wbsExportTableRows key=id item=i}
+         <tr>
+            {foreach from=$i item=j}
+            <td>{$j}</td>
+            {/foreach}
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
+</div>

@@ -8,41 +8,39 @@ ccheckBoxTitle      "x Errors affecting the Planning"
 ccheckErrList       array(array(issueURL, user, date, issueStatus, desc))
 
 -->
-{if $ccheckErrList}
+{if isset($ccheckErrList)}
 <script type="text/javascript">
    jQuery(function() {
-      jQuery( "#dialog_ConsistencyCheck_link" ).click(function() {
-         jQuery( "#dialog_ConsistencyCheck" ).dialog( "open" );
-         return false;
+      jQuery("#dialog_ConsistencyCheck_link").click(function(event) {
+         event.preventDefault();
+         jQuery("#dialog_ConsistencyCheck").dialog("open");
       });
-      jQuery( "#dialog_ConsistencyCheck" ).dialog({
+      jQuery("#dialog_ConsistencyCheck").dialog({
          autoOpen: false,
          hide: "fade",
-         width: "600",
-         maxHeight: "500"
-      });
+         width: 750
+      }).css( { 'max-height' : '500px' } ); // fix MaxHeight http://bugs.jqueryui.com/ticket/4820
    });
 </script>
 
 <div align='right'>
-<button title="{t}Click to show errors{/t}" id="dialog_ConsistencyCheck_link" type="button" style="font:bold 14px Arial; background:red; color:white; cursor:hand; border:solid 1px red;">{$ccheckButtonTitle}</button> 
+   <a title="{t}Click to show errors{/t}" id="dialog_ConsistencyCheck_link" href="{$page}" style="text-decoration: none; font:bold 14px Arial; background:red; color:white; border:solid 1px red;">&nbsp;{$ccheckButtonTitle}&nbsp;</a>
 </div>
    
-<div id="dialog_ConsistencyCheck" title="{$ccheckBoxTitle}" style="display: none">
+<div id="dialog_ConsistencyCheck" title="{$ccheckBoxTitle}" class="ui-helper-hidden">
    <div align='left'>
       <table class='invisible'>
       {foreach from=$ccheckErrList key=id item=i}
          <tr>
-            <td>{$i.issueURL}</td>
-            <td>{$i.user}</td>
-            <td>{$i.date}</td>
-            <td>{$i.issueStatus}</td>
+            <td>{if isset($i.issueURL)}{$i.issueURL}{/if}</td>
+            <td>{if isset($i.user)}{$i.user}{/if}</td>
+            <td>{if isset($i.date)}{$i.date}{/if}</td>
+            <td>{if isset($i.issueStatus)}{$i.issueStatus}{/if}</td>
             <td><span style='{$i.severityColor}'>[{$i.severity}]</span></td>
-            <td><span style='{$i.severityColor}'>{$i.desc}</span></td>
+            <td><span style='{$i.severityColor}' {if isset($i.addInfo)}title='{$i.addInfo}'{/if}>{$i.desc}</span></td>
          </tr>
       {/foreach}
       </table>
    </div>
 </div>
 {/if}
-

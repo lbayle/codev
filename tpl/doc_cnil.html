@@ -1,0 +1,29 @@
+<div id="CNIL_common_text" style="margin-left:40px ; margin-top:3em;">
+
+   <b>CodevTT permet de faire le suivi d'activit&eacute; des employ&eacute;s sur un projet.</b><br>
+   <br>
+
+   CodevTT & Mantis enregistrent des donn&eacute;es personnelles dans la base de donn&eacute;es.<br>
+   Ces informations sont les suivantes:<br>
+   <ul>
+      <li>Nom, pr&eacute;nom</li>
+      <li>Email professionnel</li>
+      <li>Dates d'entr&eacute;e/sortie du projet</li>
+      <li>R&eacute;partition du temps de travail sur les t&acirc;ches projet</li>
+      <li>Absences</li>
+      <li>Date de cr&eacute;ation des imputations</li>
+      <li>Données de connexion: date, nom, adresse IP, navigateur</li>
+   </ul>
+
+</div>
+
+{if isset($cnil_company)}
+<hr  style="margin-left:40px; width:40%;" align="left">
+
+<div id="CNIL_custom_text" style="margin-left:40px; margin-top:1em;">
+   Editeur : {$cnil_company} <br><br>
+
+   Pour consulter vos droits, contactez: <A HREF="mailto:{$cnil_contact_email}">{$cnil_contact_email}</A>
+</div>
+{/if}
+<br>

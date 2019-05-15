@@ -1,0 +1,229 @@
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
+
+{if $width == 0}
+<script type="text/javascript">
+
+   // If no width is set, get the windows width, reload the page with width in the url.
+   var myWidth = jQuery(window).width();
+   if (myWidth > 500) {
+      myWidth = myWidth - 10;
+   }
+   if ("" == location.search) {
+      document.location.href=location+"?width="+myWidth;
+   } else {
+      document.location.href=location+"&width="+myWidth;
+   }
+</script>
+{else}
+<div id="content">
+   <div align="center">
+      <script type="text/javascript">
+         jQuery(document).ready(function() {
+            var form = jQuery("#zoomForm");
+
+            jQuery("#zoomIn").click(function(event) {
+               event.preventDefault();
+               var myWidth = parseInt(form.find("input[name=width]").val());
+               myWidth = Math.floor(myWidth + (myWidth/2)); // +50%
+               form.find("input[name=width]").val(myWidth);
+               form.submit();
+            });
+
+            jQuery("#zoomOut").click(function(event) {
+               event.preventDefault();
+               var myWidth = parseInt(form.find("input[name=width]").val());
+               myWidth = Math.floor(myWidth - (myWidth/3)); // -33%
+               if (myWidth < 300) {
+                  myWidth = 300;
+               }
+               form.find("input[name=width]").val(myWidth);
+               form.submit();
+            });
+
+            jQuery("#planningOptions_link").click(function(e) {
+               e.preventDefault();
+               jQuery(".planningOptionsDialog").dialog("open");
+            });
+
+            jQuery(".planningOptionsDialog").dialog({
+               autoOpen: false,
+               height: 'auto',
+               width: "auto",
+               modal: true,
+               buttons: {
+                  Ok: function() {
+                     // stop form from submitting normally 
+                     //event.preventDefault();
+
+                     // get selected checkItems
+                     var form = jQuery("#zoomForm");
+                     var planningOptionItems = "";
+                     jQuery(".planningOptionsItem").each(function() {
+                        var itemName = jQuery(this).attr("name");
+                        var isChecked = jQuery(this).attr('checked') ? 1 : 0;
+                        planningOptionItems += itemName+":"+isChecked+",";
+                     });
+                     form.find("input[name=planningOptions]").val(planningOptionItems)
+
+                     jQuery(this).dialog( "close" );
+                     form.submit();
+                  },
+                  Cancel: function() {
+                     jQuery(this).dialog( "close" );
+                  }
+               }
+            });
+         });
+      </script>
+      <form id="zoomForm" name="zoomForm" method="post" action="{$page}">
+         <fieldset>
+            &nbsp;<a title="{t}zoom in{/t}" id="zoomIn" href="{$page}"><img style="vertical-align: middle;" src="images/zoom_in.png" alt="{t}zoom in{/t}" /></a>
+            &nbsp;<a title="{t}zoom out{/t}" id="zoomOut" href="{$page}"><img style="vertical-align: middle;" src="images/zoom_out.png" alt="{t}zoom out{/t}" /></a>
+            &nbsp;<a title="{t}Options{/t}" id="planningOptions_link" href="{$page}"><img style="vertical-align: middle;" src="images/b_config.png"/></a>
+            <input type="hidden" name="width" value="{$width}" />
+            <input type="hidden" name="planningOptions" value="">
+         </fieldset>
+      </form>
+   </div>
+
+   <div class="planningOptionsDialog ui-helper-hidden" title="{t}Planning Options{/t}">
+      <table class="invisible userSettings_table">
+       <tbody>
+         {foreach from=$planningOptions key=id item=i}
+          <tr class="userSettings_tr">
+             <td class="right"><input id="{$i.name}" name="{$i.name}" class="planningOptionsItem opt_enabled" type="checkbox" {if $i.isChecked}checked="checked"{/if} {if $i.isDisabled}disabled="disabled"{/if}></td>
+             <td class="left opt_label">{$i.label}</td>
+          </tr>
+         {/foreach}
+       </tbody>
+      </table>
+   </div>
+   
+   {if $consistencyErrors}
+   <script type="text/javascript">
+      jQuery(function() {
+         jQuery('#dialog_ConsistencyCheck_link').click(function(event) {
+            event.preventDefault();
+            jQuery('#dialog_ConsistencyCheck').dialog('open');
+         });
+         jQuery('#dialog_ConsistencyCheck').dialog({
+            autoOpen: false,
+            hide: 'fade',
+            width: 750
+         }).css( { 'max-height' : '500px' } ); // fix MaxHeight http://bugs.jqueryui.com/ticket/4820
+      });
+   </script>
+
+   <div align="right">
+      <a title="{t}Click to show errors{/t}" id="dialog_ConsistencyCheck_link" href="{$page}" style="text-decoration: none; font:bold 14px Arial; background:red; color:white; border:solid 1px red;">&nbsp;{$consistencyErrors|count} {t}Errors{/t}&nbsp;</a>
+   </div>
+
+   <div align="left" id="dialog_ConsistencyCheck" title="{$consistencyErrors|count} {t}Errors{/t}" class="ui-helper-hidden">
+      <table class="invisible">
+         <tbody>
+            {foreach from=$consistencyErrors key=id item=i}
+            <tr>
+               <td>{$i.issueURL}</td>
+               <td>{$i.user}</td>
+               <td>{$i.date}</td>
+               <td>{$i.issueStatus}</td>
+               <td><span style="{$i.severityColor}">[{$i.severity}]</span></td>
+               <td><span style="{$i.severityColor}">{$i.desc}</span></td>
+            </tr>
+            {/foreach}
+         </tbody>
+      </table>
+   </div>
+   {/if}
+
+   {if isset($unassigned_nbIssues)}
+   <div style="margin-top: 2em;">
+      <span title="{t}Unassigned tasks{/t}" style="font-weight: bold;">{t}Team's backlog{/t}: {$unassigned_nbIssues} {t}tasks{/t}</span>&nbsp;&nbsp;&nbsp;
+      ({t}EffortEstim{/t} = {$unassigned_EE}{if $isManager}, {t}MgrEffortEstim{/t} = {$unassigned_MEE}{/if})
+   </div>
+   {/if}
+
+   {if $planning}
+   <div style="margin-top: 2em;">
+      <table class="invisible" style="white-space:nowrap;" cellspacing="7px">
+         <thead>
+            <tr>
+               <th></th>
+               <th style="text-align: left; font-size: 0;">
+                  <img width="5" height="1" src="images/blank.png" alt="" />
+                  {foreach from=$planning.days key=id item=i}
+                  <img height="7" width="1" src="images/timeline_stop.jpg" alt="" />
+                  <img width="{$i}" height="7" src="images/time_line.jpg" alt="" />
+                  {/foreach}
+                  <img height="7" width="1" src="images/timeline_stop.jpg" alt="" />
+               </th>
+            </tr>
+         </thead>
+         <tbody>
+         {foreach from=$planning.tasks key=id item=i name=tasks}
+            <tr>
+               <td title="{t}workload{/t} = {$i.workload} {t}days{/t}">{$i.username}</td>
+               <td style="font-size: 0;">
+                  {if isset($i.deadlines.isDeadline) && $i.deadlines.isDeadline}<img width="5" height="1" src="images/blank.png" alt="" />{/if}
+                  {if isset($i.deadlines.deadline)}
+                  {foreach from=$i.deadlines.deadline key=id1 item=j}
+                  {if isset($j.width)}<img width="{$j.width}" height="7" src="images/time_line.jpg" alt="" />{/if}
+                  <img class="deadline haveTooltip" src="{$j.url}" alt="{$j.title}" height="7" width="10" />
+                  <!-- tooltip element -->
+                  <div class="tooltip ui-helper-hidden">
+                     <table style="margin:0;border:0;padding:0;background-color:white;">
+                        <tbody>
+                           <tr>
+                              <td style="color:blue;width:35px;">{t}Date{/t}</td>
+                              <td>{$j.date}</td></tr>
+                           <tr>
+                              <td style="color:blue;width:35px;">{t}nbDaysToDeadLine{/t}</td>
+                              <td>+{$j.nbDaysToDeadLine} {t}days{/t}</td>
+                           </tr>
+                           <tr>
+                              <td style="color:blue;width:35px;">{t}Tasks{/t}</td>
+                              <td>{$j.deadlineIssues}</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  {/foreach}
+                  {/if}
+                  <div style="margin-top: 2px;">
+                     <img width="5" height="20" src="images/blank.png" alt="" />
+                     {foreach from=$i.scheduledTasks key=id1 item=j}
+                     <a class="task haveTooltip" target="_blank" href="reports/issue_info.php?bugid={$j.bugid}" style="margin-right: 1px;display:inline-block;"><img alt="{$j.bugid}" src="graphs/scheduledtask.png.php?height=20&width={$j.width}&text={$j.displayedId}&color={$j.color}{if $j.strike}&strike{/if}" height="20" width="{$j.width}" /></a>
+                     <!-- tooltip element -->
+                     {$j.taskTooltip}
+                     {/foreach}
+                  </div>
+               </td>
+            </tr>
+            {/foreach}
+         </tbody>
+      </table>
+   </div>
+
+   <div style="margin-top: 2em; margin-left: 1em;">
+      {foreach from=$colors key=id item=i}
+      <div class="float" style="margin-right: 2em;">
+         <img src="graphs/scheduledtask.png.php?height=14&width=14&color={$id}" alt="{t}Color{/t}" height="14" width="14" style="vertical-align: middle" />
+         &nbsp;{$i}
+      </div>
+      {/foreach}
+      <div class="float" style="margin-right: 2em;">
+         <span style="font-size: 0;vertical-align: bottom;white-space:nowrap;">
+            <img height="7" width="1" src="images/timeline_stop.jpg" alt="" />
+            <img width="{$dayPixSize}" height="7" src="images/time_line.jpg" alt="" />
+            <img height="7" width="1" src="images/timeline_stop.jpg" alt="" />
+         </span>
+         &nbsp;&nbsp;1 {t}day{/t}
+      </div>
+      <div class="ui-helper-clearfix"></div>
+   </div>
+   {/if}
+</div>
+{/if}
+{else}
+<p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
+{/if}

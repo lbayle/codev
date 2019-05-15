@@ -1,184 +1,334 @@
-{include file="menu/management_menu.html"}
+<style type="text/css" media="screen">
 
-<script type="text/javascript">
+	.weekend{
+		background: #f4f7f4;
+	}
+	.gantt_selected .weekend{
+		background: #f7eb91;
+	}
+   #loading {
+      z-index: 100;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      margin-top: -64px;
+      margin-left: -64px;
 
-function setTeam() {
-   document.forms["commandSelectForm"].teamid.value = document.getElementById('teamSelector').value;
-   document.forms["commandSelectForm"].cmdid.value="0";
-   document.forms["commandSelectForm"].action.value="setTeam";
-   document.forms["commandSelectForm"].submit();
-}
+</style>
 
-function submitForm() {
-   document.forms["commandSelectForm"].teamid.value = document.getElementById('teamSelector').value;
-   document.forms["commandSelectForm"].cmdid.value = document.getElementById('commandSelector').value;
-   document.forms["commandSelectForm"].action.value = "displayCommand";
-   document.forms["commandSelectForm"].submit();
- }
-
-//------ JQUERY --------
-$(document).ready(function() {
-   $('#issues_table').dataTable(
-      {
-         "sScrollY": "700px",
-         "bPaginate": false,
-         "bScrollCollapse": true,
-         "bFilter": true,
-         "bSort": true,
-         "bInfo": false,
-         "bAutoWidth": false
-      });
-      jQuery(function() {
-         jQuery( "#tabsCommand" ).tabs();
-      });
-
-   $( "#accordion" ).accordion({
-      collapsible: true, autoHeight: false, clearStyle: true
-   });
-
-});
-
-</script>
-
+<link rel="stylesheet" href="lib/dhtmlxGantt/dhtmlxgantt.css" type="text/css" media="screen" title="no title" charset="utf-8">
 
 <div id="content">
-
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
    <div align="center">
       <!-- create form -->
-      <form id='commandSelectForm' name='commandSelectForm' method='post' action='{$page}'>
+      <form id="mainForm" name="mainForm" class="formWithTabsHistory" method="post" action="{$page}">
          <fieldset>
-            <label>{t}Team{/t}: </label>
-            <select id='teamSelector' name='teamid' onchange='javascript: setTeam()'>
-               <option value='0'></option>
-               {foreach from=$teams key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-               {/foreach}
-            </select>
-            <label>{t}Command{/t}: </label>
-            <select id='commandSelector' name='cmdid'>
+            <a title="{t}Set command filters{/t}" id="btCmdStateFilter" style="text-decoration: none" href="{$page}">
+               {if $isCmdStateFilter}
+               <img border="0" width="16" height="12" align="absmiddle" src="images/im-filter-active.png" alt="Set filters" />
+               {else}
+               <img border="0" width="16" height="12" align="absmiddle" src="images/im-filter.png" alt="Set filters" />
+               {/if}
+            </a>
+            <select id="cmdid" name="cmdid" class="select2" style="width:50%;">
                {foreach from=$commands key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} {$i.name}</option>
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} - {$i.name}</option>
                {/foreach}
-               <option value='0'>{t}--- Create New Command ---{/t}</option>
+               {if isset($isManager) && $isManager}
+               <option value="0">{t}--- Create New Command ---{/t}</option>
+               {/if}
             </select>
-            <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
-            
+            <input type="button" id="btDisplayPage" value="{t}Select{/t}" />
             <input type="hidden" name="action" value="displayCommand" />
+
+            <input type="hidden" name="selectedFilters" value="{$selectedFilters}" />
          </fieldset>
       </form>
    </div>
 
-   <div style="margin-top:4em;"></div>
-   
-   {if $cmdid} 
-   
+    <div id="setCmdStateFilter_dialog_form" title="{t}Command Filters{/t}" class="ui-helper-hidden">
+       <p>{t}Reduce the command selection by setting some filters{/t}</p>
+       <form id="formSetStateFilter" name="formSetStateFilter" method="post" action="{$page}" >
+          <fieldset>
+             {foreach from=$cmdStateFilterInfo key=id item=i} 
+             <input type="checkbox" class="cb_cmdStateFilter" name="{$i.stateId}" {if $i.isChecked} checked="checked" {/if}/>
+             <label>{$i.stateName}</label>
+             <br>
+             {/foreach}
+              <input type="hidden" name="cmdid" value="unknown" />
+              <input type="hidden" name="selectedFilters" value="{$selectedFilters}" />
+              <input type="hidden" name="checkedCmdStateFilters" value="" />
+          <input type="hidden" name="action" value="setCmdStateFilters" />
+          </fieldset>
+       </form>
+    </div>
+    
+   {if isset($cmdid)}
    {include file="modal/consistency_check.html"}
-   
-   <div  align="center">
-      <h2>{$cmdReference} {$cmdName}</h2>
-      {$cmdDesc}
+
+   <div align="center" style="margin-top: 3em;">
+      <h2>
+         <span title="{$cmdid}">{$cmdName}</span>
+      </h2>
    </div>
 
+   <div style="margin-top: 2em;">
+      <table class="invisible">
+         <tr>
+            <th valign="top">{t}CommandSet{/t}</th>
+            <td valign="top">: </td>
+            <td>
+               {foreach from=$parentCmdSets key=id item=i}
+               <a href="management/commandset_info.php?commandsetid={$id}">{$i}</a><br />
+               {/foreach}
+            </td>
+         </tr>
+
+         {if isset($isManager) && $isManager}
+         <tr>
+            <th valign="top">{t}Budget{/t}</th>
+            <td valign="top">: </td>
+            <td>
+               <table>
+                  <tr>
+                     <th valign="top" title='{t}MgrEffortEstim + Checked Provisions (days){/t}'>{t}Budget{/t}</th>
+                     <th valign="top" title='{t}Reestimated (days){/t}'>{t}Reestimated{/t}</th>
+                     <th valign="top" title='{t}Drift (days){/t}'>{t}Drift{/t}</th>
+                     <th valign="top" title='{t}Drift (percent){/t}'> </th>
+                     <th></th>
+                  </tr>
+                  <tr>
+                     <td id="td_prov_and_mee_days" align='right' title="{t}MgrEffortEstim + Checked Provisions (days){/t}">{$cmdProvAndMeeDays}</td>
+                     <td id="td_total_reestimated" align='right'  style="background-color:#{$cmdTotalReestimatedColor}" title='{t}Reestimated (days){/t}' >{$cmdTotalReestimated}</td>
+                     <td id="td_total_drift" align='right'  style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift (days){/t}' >{$cmdTotalDrift}</td>
+                     <td id="td_total_drift_percent" align='right'  style="background-color:#{$cmdTotalDriftColor}" title='{t}Drift (percent){/t}' >{$cmdTotalDriftPercent} %</td>
+                     <th>{t}Days{/t}</th>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         {if (isset($checkTotalSoldDays) && ($checkTotalSoldDays != 0))}
+         <tr>
+            <th></th>
+            <td></td>
+            <td>
+               <img  border="0"  src="images/b_error.png" alt="ERROR"/>
+               <span  class="error_font">{t}The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'{/t} ({t}balance{/t} = {$checkTotalSoldDays} {t}days{/t})</span>
+            </td>
+         </tr>
+         {/if}
+         {/if}
 
 
-   <br/><br/>
+      </table>
 
-   <div>
-      <table class='invisible'>
+      {if isset($isEditGranted) && $isEditGranted}
+      <div style="margin-top:2em;">
+      <button onclick="location.href='management/command_edit.php?cmdid={$cmdid}'"><img  border="0" align="absmiddle" src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
+      </div>
+      {/if}
+   </div>
+
+   <div class="alert-message"></div>
+
+   <div id="tabsCommand" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_wbs">{t}WBS{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_tasks">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_attributes">{t}Attributes{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_provisions">{t}Provisions{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_gantt">{t}Gantt{/t}</a></li>
+      </ul>
+
+      <div id="tab_wbs">{include file="tools/wbsReader.html"}</div>
+      <div id="tab_indicators">{include file="tools/dashboard.html"}</div>
+
+      <div id="tab_attributes">
+         <table class="invisible">
+            <tr>
+               <th>{t}State{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdState}</td>
+            </tr>
             <tr>
                <th>{t}Reference{/t}</th>
-               <td valign='top'>: </td>
+               <td valign="top">: </td>
                <td>{$cmdReference}</td>
             </tr>
             <tr>
                <th>{t}Version{/t}</th>
-               <td valign='top'>: </td>
+               <td valign="top">: </td>
                <td>{$cmdVersion}</td>
             </tr>
             <tr>
                <th>{t}Reporter{/t}</th>
-               <td valign='top'>: </td>
+               <td valign="top">: </td>
                <td>{$cmdReporter}</td>
             </tr>
             <tr>
-               <th>{t}Date depart{/t}</th>
-               <td valign='top'>: </td>
+               <th>{t}Start date{/t}</th>
+               <td valign="top">: </td>
                <td>{$cmdStartDate}</td>
             </tr>
             <tr>
-               <th>{t}Date fin{/t}</th>
-               <td valign='top'>: </td>
+               <th>{t}End date{/t}</th>
+               <td valign="top">: </td>
                <td>{$cmdDeadline}</td>
             </tr>
+           {if isset($isManager) && $isManager}
+           {if isset($cmdAverageDailyRate)}
             <tr>
-               <th>{t}State{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$cmdState}</td>
+               <th title="{t}Average Daily Rate{/t}" ><span class="help_font" >{t}Default ADR{/t}</span></th>
+               <td valign="top">: </td>
+               <td><span class="help_font" >{$cmdAverageDailyRate} {$cmdCurrency} &nbsp;&nbsp;-- DEPRECATED see UserDailyCost in team settings !</span></td>
             </tr>
+            {/if}
             <tr>
-               <th>{t}Cost{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$cmdCost} {$cmdCurrency}</td>
+               <th title="{t}Tasks & Provisions{/t}">{t}Sold Charge{/t}</th>
+               <td valign="top">: </td>
+               <td>{$cmdTotalSoldDays} {t}days{/t}</td>
             </tr>
+           {/if}
             <tr>
-               <th>{t}Budget{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$cmdBudgetDev} {t}days{/t}</td>
+               <th valign="top">{t}Description{/t}</th>
+               <td valign="top">: </td>
+               <td><textarea rows='6' cols='120' name='description'  id='description'>{$cmdDesc}</textarea></td>
             </tr>
-            <tr>
-               <th valign='top'>{t}CommandSet{/t}</th>
-               <td valign='top'>: </td>
-               <td><table class="invisible">
-                  {foreach from=$parentCmdSets key=id item=i}
-                     <tr><td>{$i.name}</td></tr>
-                  {/foreach}
-                  </table>
-               </td>
-            </tr>
-      </table>
-      <br>
-      {if $isEditGranted}
-      <button onclick="location.href='management/command_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
-      {/if}
-   </div>
-
-   <br/><br/>
-
-
-   <div style="margin-top:2em;"></div>
-   <br/><br/>
-
-   <div id="tabsCommand">
-      <ul>
-         <li><a href="#tabsName-3">{t}Charges{/t}</a></li>
-         <li><a href="#tabsName-1">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
-         <li><a href="#tabsName-2">{t}Statistics{/t}</a></li>
-      </ul>
-
-      <div id="tabsName-3">
-         {if $cmdDetailedMgr}
+         </table>
+      </div>
+      <div id="tab_provisions">
+          {if isset($isManager) && $isManager}
+          
          <div>
-            <table>
+            <label style="cursor: pointer;"><input type="radio" id="radio1" name="radio" />{t}Total{/t}</label>
+            <label style="cursor: pointer;"><input type="radio" id="radio2" name="radio" checked="checked" />{t}Provisions{/t}</label>
+         </div>
+         <div class="provisionTotalList ui-helper-hidden">
+            {if $cmdProvisionTotalList}
+            <table class="invisible">
+              <tbody>
+                  <tr>
+                    <td>
+                    <table>
+                        <tr>
+                            <th>{t}Type{/t}</th>
+                            <th>{t}Budget Days{/t}</th>
+                            <th>{t}Budget{/t}</th>
+                        </tr>
+                       {foreach $cmdProvisionTotalList as $id => $provTotalRow}
+                        <tr>
+                            <td>{$provTotalRow.type}</td>
+                            <td>{$provTotalRow.budget_days}</td>
+                            <td>{$provTotalRow.budget} {$provTotalRow.currency}</td>
+                        </tr>
+                       {/foreach}
+                    </table>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+            {else}
+            {t}None{/t}
+            {/if}
+         </div>
+         <div class="provisionsList ">
+            {if $cmdProvisionList}
+            <table class="invisible">
+              <tbody>
+                  <tr>
+                    <td>
+                    <table>
+                       <tr>
+                          <th>{t}Date{/t}</th>
+                          <th>{t}Type{/t}</th>
+                          <th>{t}Budget Days{/t}</th>
+                          <th>{t}Budget{/t}</th>
+                          <th>{t}Summary{/t}</th>
+                          <th></th>
+                       </tr>
+                       {foreach $cmdProvisionList as $id => $prov}
+                       <tr>
+                          <td>{$prov.date}</td>
+                          <td>{$prov.type}</td>
+                          <td>{$prov.budget_days}</td>
+                          <td style="text-align:right">{$prov.budget} {$prov.currency}</td>
+                          <td>{$prov.summary}</td>
+                          <td title="{if ($prov.isInCheckBudget)}{t}Provision included in 'check budget'{/t}{else}{t}Provision NOT included in 'check budget'{/t}{/if}"><input {if ($prov.isInCheckBudget)}checked="checked"{/if} type="checkbox" disabled="disabled" id="cb_isInCheckBudget" /></td>
+                       </tr>
+                       {/foreach}
+                    </table>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+            {else}
+            {t}None{/t}
+            {/if}
+         </div>
+           {/if}
+      </div>
+
+      <div id="tab_tasks">
+
+         {if $cmdIssues}
+         <div align="center">
+            <table id="issues_table" class="datatable_csv_editable">
                <thead>
-               <tr>
-                  <th>{t}MgrEffortEstim{/t}</th>
-                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
-                  <th>{t}Elapsed{/t}</th>
-                  <th>{t}Remaining Mgr{/t}</th>
-                  <th style="width: 80px">{t}Drift Mgr{/t}</th>
-                  <th>{t}Progress{/t}</th>
-               </tr>
+                  <tr>
+                     <th>{t}ID{/t}</th>
+                     <th>{t}ExtRef{/t}</th>
+                     <th>{t}Project{/t}</th>
+                     <th>{t}Category{/t}</th>
+                     <th>{t}Target{/t}</th>
+                     <th>{t}User{/t}</th>
+                     <th>{t}Type{/t}</th>
+                     <th>{t}Status{/t}</th>
+                     <th>{t}Progress{/t}</th>
+                     {if isset($isManager) && $isManager}
+                     <th>{t}MgrEffortEstim{/t}</th>
+                     {/if}
+                     <th>{t}EffortEstim{/t}</th>
+                     <th>{t}Elapsed{/t}</th>
+                     <th title="{t}Backlog{/t}">{t}BL{/t}</th>
+                     {if isset($isManager) && $isManager}
+                     <th>{t}Drift Mgr{/t}</th>
+                     {else}
+                     <th>{t}Drift{/t}</th>
+                     {/if}
+                     <th>{t}Summary{/t}</th>
+                  </tr>
                </thead>
                <tbody>
-               <tr>
-                  <td>{$cmdDetailedMgr.effortEstim}</td>
-                  <td>{$cmdDetailedMgr.reestimated}</td>
-                  <td>{$cmdDetailedMgr.elapsed}</td>
-                  <td>{$cmdDetailedMgr.remaining}</td>
-                  <td {$cmdDetailedMgr.driftColor} title="{t}nb days{/t}">{$cmdDetailedMgr.drift}</td>
-                  <td>{$cmdDetailedMgr.progress}%</td>
-
-               </tr>
+                  {foreach $cmdIssues as $id => $issue}
+                  <tr>
+                     <!--td>{$issue.mantisLink}{$issue.bugid}</td-->
+                     <td style="width:1em;" nowrap="nowrap">{$issue.bugid}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.extRef}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.project}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.category}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.target}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.handlerName}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.type}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.status}</td>
+                     <td style="width:1em;" nowrap="nowrap"><div class="progress">{$issue.progress}%</div></td>
+                     <!--MgrEfforstEstim TD-->
+                     {if $isManager}
+                     <td {if $isEditGranted}class="td_editable" data-fieldname="MgrEffortEstim"{/if} style="width:1em; position: relative; z-index=9999;" nowrap="nowrap">{$issue.mgrEffortEstim}</td>
+                     {/if}
+                     <!--EffortEstim TD-->
+                     <td {if !$isObserver}class="td_editable" data-fieldname="EffortEstim"{/if} style="width:1em; position: relative; z-index=9999;" nowrap="nowrap">{$issue.effortEstim}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.elapsed}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.duration}</td>
+                     {if $isManager || $isObserver}
+                     <td class="td_drift_mgr" style="width:1em;{if isset($issue.driftMgrColor)}background-color:#{$issue.driftMgrColor}{/if}" nowrap="nowrap">{$issue.driftMgr}</td>
+                     {else}
+                     <td class="td_drift" style="width:1em;{if isset($issue.driftColor)}background-color:#{$issue.driftColor}{/if}" nowrap="nowrap">{$issue.drift}</td>
+                     {/if}
+                     <td>{$issue.summary}</td>
+                  </tr>
+                  {/foreach}
                </tbody>
             </table>
          </div>
@@ -187,61 +337,69 @@ $(document).ready(function() {
          {/if}
       </div>
 
-      <div id="tabsName-1">
-
-         {if $cmdShortIssueList}
-         {t}Short List: {/t}<br>{$cmdShortIssueList}<br>
-         {/if}
-
-         {if $cmdIssues}
-         <div align="center">
-         <table id="issues_table" class="display">
-            <thead>
-            <tr>
-                  <th>{t}ID{/t}</th>
-                  <th>{t}Project{/t}</th>
-                  <th>{t}Target{/t}</th>
-                  <th>{t}Status{/t}</th>
-                  <th>{t}Progress{/t}</th>
-                  <th>{t}MgrEffortEstim{/t}</th>
-                  <th>{t}Elapsed{/t}</th>
-                  <th>{t}RAF{/t}</th>
-                  <th>{t}Drift Mgr{/t}</th>
-                  <th>{t}Summary{/t}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {foreach $cmdIssues as $id => $issue}
-            <tr>
-                  <!--td>{$issue.mantisLink}{$issue.bugid}</td-->
-                  <td>{$issue.bugid}</td>
-                  <td>{$issue.project}</td>
-                  <td>{$issue.target}</td>
-                  <td>{$issue.status}</td>
-                  <td>{$issue.progress}%</td>
-                  <td>{$issue.effortEstim}</td>
-                  <td>{$issue.elapsed}</td>
-                  <td>{$issue.durationMgr}</td>
-                  <td {$issue.driftMgrColor} >{$issue.driftMgr}</td>
-                  <td>{$issue.summary}</td>
-            </tr>
-            {/foreach}
-            </tbody>
-         </table>
+      <div id="tab_gantt" class="gantt">
+         <div class="right" style="margin-top: 1em;">
          </div>
-         {else}
-         {t}No task found.{/t}
-         {/if}
+
+         <div id="tabGantt_gantt" >
+            <div style='height:20px; padding:5px;'>
+               <button onclick="computeGantt()" >
+                  <img class="vertical-middle" id="ganttBtImg" src="images/b_refresh.png" alt="refresh icon">
+                  <span class="vertical-middle">{t}Reload{/t}</span>
+               </button>
+            </div>
+            <div id="ganttDiv" class="ui-helper-hidden">
+               <div style='height:20px; padding:5px;' class="ganttFilters" id="ganttFilters">
+                  <span>{t}Task filter:{/t} </span>
+                  <input id= "summaryFilter" name="summaryFilter"/>
+                  <input id="showResolvedFilter" name="showResolvedFilter" type="checkbox">
+                  <span>{t}Show resolved tasks{/t} </span>
+                  <button class="btGanttFilter"  onclick="gantt.refreshData();">
+                     <img class="vertical-middle" src="images/b_refresh.png" alt="filter">
+                     <span class="vertical-middle">{t}Filter{/t}</span>
+                  </button>
+               </div>
+               <div id="gantt_here" style='margin-top:2em; width:100%; height:500px;'></div>
+            </div>
+         </div>
       </div>
+      {/if}
+   </div>
+   
+   <script src="lib/DataTables/media/js/jquery.dataTables.min.js"></script>
+   <script src="lib/jquery.jeditable/jquery.jeditable.mini.js"></script>
+   <script src="lib/dhtmlxGantt/dhtmlxgantt.js" type="text/javascript" charset="utf-8"></script>
+   <script src="lib/dhtmlxGantt/ext/dhtmlxgantt_tooltip.js"></script>
+   <script src="js_min/command_info.min.js"></script>
+   <script type="text/javascript">
 
-      <div id="tabsName-2">
-         {if $cmdStats}
-         comming soon...
-         {else}
-         {t}No Stats available.{/t}
-         {/if}
-      </div>
+      // Transmit SMARTY variables to JS file
+      var commandInfoSmartyData = {
+         commandId:"{$cmdid}",
+         ajaxPage:"{$ajaxPage}",
+         ganttWindowStartDate:"{$ganttWindowStartDate}",
+         i18n_OK:"{t}OK{/t}",
+         i18n_Cancel:"{t}Cancel{/t}",
+         i18n_reloadPageToUpdateIndicators:"<strong>{t}Warning{/t}:</strong>&nbsp;{t}Reload page to update charges & indicators{/t}",
+         i18n_format:"{t}Format{/t}"
+      };
+{if isset($cmdid)}
+      setGanttOptions();
+      gantt.init("gantt_here");
+      //computeGantt();
+{/if}
+      $('#summaryFilter').bind("enterKey", function(e) {
+         gantt.refreshData();
+      });
 
-   {/if}
-
+      $('#summaryFilter').keyup(function(e) {
+         if(e.keyCode == 13) {
+            $(this).trigger("enterKey");
+         }
+      });
+   </script>
+{else}
+<p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
+{/if}
 </div>
+

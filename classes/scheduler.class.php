@@ -1,166 +1,174 @@
 <?php
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once "issue.class.php";
-include_once "user.class.php";
-include_once "team.class.php";
-
 class ScheduledTask {
-   var $bugId;
-   var $duration;	     // in days
-   var $deadLine;
-   var $priorityName;
-   var $statusName;
-   var $handlerName;
 
-   var $isOnTime;  // determinates the color
-   var $summary;
-   var $nbDaysToDeadLine;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-   var $isMonitored;  // determinates the color
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
+
+   private $bugId;
+   private $duration; // in days
+   private $deadLine;
+   private $priorityName;
+   private $severityName;
+   private $statusName;
+   private $handlerName;
+   private $projectName;
+
+   private $isOnTime; // determinates the color
+   private $summary;
+   private $nbDaysToDeadLine;
+
+   private $isMonitored; // determinates the color
 
    private $taskTitle;
 
+   /**
+    * @param int $bugId
+    * @param int $deadLine
+    * @param number $duration
+    */
    public function __construct($bugId, $deadLine, $duration) {
       $this->bugId = $bugId;
       $this->deadLine = $deadLine;
       $this->duration = $duration;
       $this->isMonitored = false;
-
    }
 
    public function getPixSize($dayPixSize) {
-   	return round($this->duration * $dayPixSize);
+      return round($this->duration * $dayPixSize);
    }
 
+   /**
+    * @return string
+    */
    public function getDescription() {
+      if (NULL == $this->taskTitle) {
+         $this->taskTitle= "";
+         $this->taskTitle .= $this->bugId;
+         $this->taskTitle .= " ($this->duration ".T_("days");
+         $this->taskTitle .= ", $this->priorityName";
+         $this->taskTitle .= ", $this->statusName";
+         if (NULL != $this->deadLine) {
+            $this->taskTitle .= ", ".date("d/m/Y", $this->deadLine);
+         }
+         if ($this->isMonitored) {
+            $this->taskTitle .= ", ".T_("monitored")."-$this->handlerName";
+         }
+         $this->taskTitle .= ")       $this->summary";
 
-   	if (NULL == $this->taskTitle) {
-   		
-   	   $this->taskTitle= "";
-       $this->taskTitle .= $this->bugId;
-   	   $this->taskTitle .= " ($this->duration ".T_("days");
-       $this->taskTitle .= ", $this->priorityName";
-       $this->taskTitle .= ", $this->statusName";
-       if (NULL != $this->deadLine) {
-          $this->taskTitle .= ", ".date("d/m/Y", $this->deadLine);
-       }
-       if ($this->isMonitored) {
-          $this->taskTitle .= ", ".T_("monitored")."-$this->handlerName";
-       }
-       $this->taskTitle .= ")       $this->summary";
-       
-   	}
-   	
-   	return $this->taskTitle;
+      }
+
+      return $this->taskTitle;
    }
-
-}
-
-
-class Scheduler {
-
-   private $logger;
-
-	public function Scheduler () {
-      $this->logger = Logger::getLogger(__CLASS__);
-
-	}
-
 
    /**
     * returns the tasks with the isOnTime attribute to definie color.
-    *
+    * @static
     * @param User $user
-    * @param timestamp $today   (a day AT MIDNIGHT)
-    * @return array of ScheduledTask
+    * @param int $today   (a day AT MIDNIGHT)
+    * @param bool $addMonitored
+    * @return ScheduledTask[] array of ScheduledTask
     */
-	public function scheduleUser($user, $today, $addMonitored = false) {
+   public static function scheduleUser(User $user, $today, $teamid, $addMonitored = false) {
+      $scheduledTaskList = array();
 
-      global $statusNames;
+      // get Ordered List of Issues to schedule
+      $issueList = $user->getAssignedIssues();
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("scheduleUser ".$user->getId()." : nb assigned issues = ". count($issueList));
+      }
 
-		$scheduledTaskList = array();
-
-		// get Ordered List of Issues to schedule
-		$issueList = $user->getAssignedIssues();
-        $this->logger->debug("scheduleUser $user->id : nb assigned issues = ". count($issueList));
-
-		// foreach task
+      // foreach task
       $sumDurations = 0;
-		foreach ($issueList as $issue) {
+      foreach ($issueList as $issue) {
 
-			// determinate issue duration (Remaining, EffortEstim, MgrEffortEstim)
-			$issueDuration = $issue->getDuration();
+         // determinate issue duration (Backlog, EffortEstim, MgrEffortEstim)
+         $issueDuration = $issue->getDuration();
 
-			$this->logger->debug("issue $issue->bugId  Duration = $issueDuration deadLine=".date("Y-m-d", $issue->getDeadLine()));
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("issue ".$issue->getId()."  Duration = $issueDuration deadLine=".date("Y-m-d", $issue->getDeadLine()));
+         }
 
-			$currentST = new ScheduledTask($issue->bugId, $issue->getDeadLine(), $issueDuration);
+         $currentST = new ScheduledTask($issue->getId(), $issue->getDeadLine(), $issueDuration);
 
-			$this->logger->debug("issue $issue->bugId   -- user->getAvailableWorkload(".$today.", ".$issue->getDeadLine().")");
-			$this->logger->debug("issue $issue->bugId nbDaysToDeadLine=".$user->getAvailableWorkload($today, $issue->getDeadLine()));
-			$currentST->nbDaysToDeadLine = $user->getAvailableWorkload($today, $issue->getDeadLine());
-			$currentST->summary          = "[".$issue->getProjectName()."] $issue->summary";
-            $currentST->priorityName     = $issue->getPriorityName();
-            $currentST->statusName       = $statusNames[$issue->currentStatus];
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("issue ".$issue->getId()."   -- user->getAvailableWorkload(".$today.", ".$issue->getDeadLine().")");
+            self::$logger->debug("issue ".$issue->getId()." nbDaysToDeadLine=".$user->getAvailableWorkforce($today, $issue->getDeadLine()), $teamid);
+         }
+         $currentST->nbDaysToDeadLine = $user->getAvailableWorkforce($today, $issue->getDeadLine(), $teamid);
+         $currentST->projectName = $issue->getProjectName();
+         $currentST->summary = $issue->getSummary();
+         $currentST->priorityName = $issue->getPriorityName();
+         $currentST->severityName = $issue->getSeverityName();
+         $currentST->statusName = Constants::$statusNames[$issue->getCurrentStatus()];
 
-            $handler = UserCache::getInstance()->getUser($issue->handlerId);
-            $currentST->handlerName = $handler->getName();
+         $handler = UserCache::getInstance()->getUser($issue->getHandlerId());
+         $currentST->handlerName = $handler->getName();
 
-            // check if onTime
-			if (NULL == $issue->getDeadLine()) {
-				$currentST->isOnTime = true;
-			} else {
+         // check if onTime
+         if (NULL == $issue->getDeadLine()) {
+            $currentST->isOnTime = true;
+         } else {
             $currentST->isOnTime = (($sumDurations + $issueDuration) <= $currentST->nbDaysToDeadLine) ? true : false;
-			}
+         }
 
-            // add to list
-            if (0 != $issueDuration) {
-               $scheduledTaskList["$sumDurations"] = $currentST;
-               $sumDurations += $issueDuration;
-            }
+         // add to list
+         if (0 != $issueDuration) {
+            $scheduledTaskList["$sumDurations"] = $currentST;
+            $sumDurations += $issueDuration;
+         }
+      }
 
-		} // foreach task
-
-		// ------------
-		if ($addMonitored) {
-			$monitoredList = $user->getMonitoredIssues();
+      if ($addMonitored) {
+         $monitoredList = $user->getMonitoredIssues();
 
          foreach ($monitoredList as $issue) {
-
             if (in_array($issue, $issueList)) {
-            	continue;
+               continue;
             }
 
-
-            // determinate issue duration (Remaining, EffortEstim, MgrEffortEstim)
-			$issueDuration = $issue->getDuration();
+            // determinate issue duration (Backlog, EffortEstim, MgrEffortEstim)
+            $issueDuration = $issue->getDuration();
 
             #echo "DEBUG Monitored issue $issue->bugId  Duration = $issueDuration<br/>";
 
-            $currentST = new ScheduledTask($issue->bugId, $issue->getDeadLine(), $issueDuration);
+            $currentST = new ScheduledTask($issue->getId(), $issue->getDeadLine(), $issueDuration);
 
-            $currentST->nbDaysToDeadLine = $user->getAvailableWorkload($today, $issue->getDeadLine());
-            $currentST->summary          = $issue->summary;
-            $currentST->priorityName     = $issue->getPriorityName();
-            $currentST->statusName       = $statusNames[$issue->currentStatus];
-            $currentST->isMonitored      = true;
+            $currentST->nbDaysToDeadLine = $user->getAvailableWorkforce($today, $issue->getDeadLine(), $teamid);
+            $currentST->projectName = $issue->getProjectName();
+            $currentST->summary = $issue->getSummary();
+            $currentST->priorityName = $issue->getPriorityName();
+            $currentST->severityName = $issue->getSeverityName();
+            $currentST->statusName = Constants::$statusNames[$issue->getCurrentStatus()];
+            $currentST->isMonitored = true;
 
-            $handler = UserCache::getInstance()->getUser($issue->handlerId);
+            $handler = UserCache::getInstance()->getUser($issue->getHandlerId());
             $currentST->handlerName = $handler->getName();
 
             // check if onTime
@@ -175,12 +183,98 @@ class Scheduler {
                $scheduledTaskList["$sumDurations"] = $currentST;
                $sumDurations += $issueDuration;
             }
-         } // foreach task
-		} // addMonitored
+         }
+      }
 
-		return $scheduledTaskList;
-	}
+      return $scheduledTaskList;
+   }
+
+   /**
+    * @return int
+    */
+   public function getNbDaysToDeadLine() {
+      return $this->nbDaysToDeadLine;
+   }
+
+   /**
+    * @return bool
+    */
+   public function isMonitored() {
+      return $this->isMonitored;
+   }
+
+   /**
+    * @return int
+    */
+   public function getIssueId() {
+      return $this->bugId;
+   }
+
+   /**
+    * @return number
+    */
+   public function getDuration() {
+      return $this->duration;
+   }
+
+   /**
+    * @return int
+    */
+   public function getDeadline() {
+      return $this->deadLine;
+   }
+
+   /**
+    * @return string
+    */
+   public function getPriorityName() {
+      return $this->priorityName;
+   }
+
+   /**
+    * @return string
+    */
+   public function getHandlerName() {
+      return $this->handlerName;
+   }
+
+   /**
+    * @return bool
+    */
+   public function isOnTime() {
+      return $this->isOnTime;
+   }
+
+   /**
+    * @return string
+    */
+   public function getSummary() {
+      return $this->summary;
+   }
+
+   /**
+    * @return string
+    */
+   public function getSeverityName() {
+      return $this->severityName;
+   }
+
+   /**
+    * @return string
+    */
+   public function getStatusName() {
+      return $this->statusName;
+   }
+
+   /**
+    * @return string
+    */
+   public function getProjectName() {
+      return $this->projectName;
+   }
 
 }
+
+ScheduledTask::staticInit();
 
 ?>

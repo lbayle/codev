@@ -1,118 +1,24 @@
 <?php
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
- This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
- CoDev-Timetracking is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
- CoDev-Timetracking is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
-include_once '../path.inc.php';
-
-include_once 'i18n.inc.php';
-
-include_once 'timetrack_cache.class.php';
-
-// Getting the windows width and pass it to a php variable.
-// Because php is server side, and javascript is client side, they cannot share data easily.
-
-// 1. Load the page
-// 2. Look for screen size in query string.
-// 3. If not set, get screen size; reload the page
-// 4. When the page reloads, you will have both the screen width and height in the query string, which can be retrieved using php's $_GET.
-
-if(!isset($_GET['w'])) {
-   ?>
-<script type="text/javascript">
-
-var myWidth = 0, myHeight = 0;
-myWidth = window.innerWidth;
-if (myWidth > 500) {
-   myWidth = myWidth - 10;
-}
-
-myHeight = window.innerHeight;
-var l = location;
-if ("" == location.search) {
-   document.location.href=location+"?w="+myWidth+"&h="+myHeight;
-} else {
-   document.location.href=location+"&w="+myWidth+"&h="+myHeight;
-}
-
-</script>
-<?php
-exit();
-}
-$page_name = T_("Planning");
-require_once 'header.inc.php';
-
-require_once 'login.inc.php';
-require_once 'menu.inc.php';
-?>
-
-<script language="JavaScript">
-
-  function submitTeam(){
-
-     var foundError = 0;
-     var msgString = "Some fields are missing:" + "\n\n";
-
-     if (0 == document.forms["teamSelectForm"].f_teamid.value)  { msgString += "Team\n"; ++foundError; }
-
-     if (0 != foundError) {
-       alert(msgString);
-     }
-     document.forms["teamSelectForm"].action.value = "displayPlanning";
-     document.forms["teamSelectForm"].submit();
-
-   }
-
-   function zoomIn(){
-
-     document.forms["teamSelectForm"].action.value = "zoomIn";
-     document.forms["teamSelectForm"].submit();
-   }
-
-   function zoomOut(){
-
-     document.forms["teamSelectForm"].action.value = "zoomOut";
-     document.forms["teamSelectForm"].submit();
-   }
-
-   // ------ JQUERY ------
-   $(function() {
-      $( "#accordion" ).accordion({
-         collapsible: true, autoHeight: false, clearStyle: true, active: false
-      });
-   });
-
-
-</script>
-
-<div id="content">
-
-<?php
-
-include_once "issue.class.php";
-include_once "user.class.php";
-include_once "scheduler.class.php";
-include_once 'consistency_check.class.php';
-include_once 'consistency_check2.class.php';
-include_once 'team.class.php';
-
-$logger = Logger::getLogger("planning_report");
-
+require('../path.inc.php');
 
 class DeadLine {
    public $date;
@@ -121,6 +27,12 @@ class DeadLine {
    public $issueList;
    public $isMonitored; // true: deadLine concerns only Monitored issues
 
+   /**
+    * @param $date
+    * @param $nbDaysToDeadLine
+    * @param bool $isOnTime
+    * @param bool $isMonitored
+    */
    public function __construct($date, $nbDaysToDeadLine, $isOnTime, $isMonitored) {
       $this->date = $date;
       $this->nbDaysToDeadLine = $nbDaysToDeadLine;
@@ -129,559 +41,469 @@ class DeadLine {
       $this->issueList = array();
    }
 
+   /**
+    * @param int $bugId
+    */
    public function addIssue($bugId) {
       $this->issueList[] = $bugId;
    }
 
+   /**
+    * @param bool $isOnTime
+    */
    public function setIsOnTime($isOnTime) {
       // if already exists and not on time, do not overwrite.
-      if ((NULL == $isOnTime) || (true == $isOnTime)) {
+      if ((NULL == $isOnTime) || (TRUE == $isOnTime)) {
          $this->isOnTime = $isOnTime;
       }
    }
 
+   /**
+    * @param $isMonitored
+    */
    public function setIsMonitored($isMonitored) {
-
       // non Monitored tasks have priority on deadLine status
 
       // if not a monitored task, do not overwrite.
-      if (true == $this->isMonitored) {
+      if (TRUE == $this->isMonitored) {
          $this->isMonitored = $isMonitored;
       }
-
-
    }
 
+   /**
+    * @return string
+    */
    public function toString() {
-      $string = "".date("d/m/Y", $this->date)." (+$this->nbDaysToDeadLine days)  ".T_("Tasks").": ";
-
-      $count = 0;
-      foreach($this->issueList as $i) {
-         $count++;
-         $string .= "$i";
-         if($count != count($this->issueList)) {
-            $string .= ",";
-         }
-      }
+      $string = date("d/m/Y", $this->date)." (+$this->nbDaysToDeadLine days)  ".T_("Tasks").": ";
+      $string .= implode(', ', $this->issueList);
       return $string;
    }
 
    /***
     * depending on $isOnTime, $isMonitored returns
     * the path to the arrow image to be displayed (blue, red, grey)
+    * @return string The image URL
     */
    public function getImageURL() {
-      $image_isOnTime    = "../images/arrow_down_blue.png";
-      $image_isNotOnTime = "../images/arrow_down_red.png";
-      $image_isMonitored = "../images/arrow_down_grey.png";
-
-      if (!$this->isOnTime)   { return $image_isNotOnTime; }
-
-      if ($this->isMonitored) { return $image_isMonitored; }
-
-      return $image_isOnTime;
-   }
-}
-
-
-
-// -----------------------------------------
-function setTeamForm($originPage, $defaultSelection, $teamList) {
-
-   // create form
-   echo "<div align=center>\n";
-   if (isset($_GET['w'])) {
-      echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage?w=".$_GET['w']."&h=".$_GET['h']."'>\n";
-   } else {
-      echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage'>\n";
-   }
-   echo T_("Team")." :\n";
-   echo "<select name='f_teamid'>\n";
-   echo "<option value='0'></option>\n";
-
-   foreach ($teamList as $tid => $tname) {
-
-      if ($tid == $defaultSelection) {
-         echo "<option selected value='".$tid."'>".$tname."</option>\n";
+      if (!$this->isOnTime) {
+         return "images/arrow_down_red.png";
+      } elseif ($this->isMonitored) {
+         return "images/arrow_down_grey.png";
       } else {
-         echo "<option value='".$tid."'>".$tname."</option>\n";
+         return "images/arrow_down_blue.png";
       }
    }
-   echo "</select>\n";
 
-   echo "<input type=button value='".T_("Update")."' onClick='javascript: submitTeam()'>\n";
-   echo "&nbsp;&nbsp;&nbsp;&nbsp;\n";
-   echo "<a title='".T_("zoom in")."' href=\"javascript: zoomIn()\" ><img border='0' align='absmiddle' src='../images/zoom_in.png'></a>\n";
-   echo "<a title='".T_("zoom out")."' href=\"javascript: zoomOut()\" ><img border='0' align='absmiddle' src='../images/zoom_out.png'></a>\n";
+   public function getFormattedIssueList($optDisplayExtRef) {
 
-   echo "<input type=hidden name=action value=noAction>\n";
+      $taskIdList = array();
 
-   echo "</form>\n";
-   echo "</div>\n";
-}
-
-
-
-// -----------------------------------------
-function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList, $teamid) {
-
-   $totalPix = 0;
-   $sepWidth = 1;
-   $barHeight = 20;
-   $deadLineTriggerWidth = 10;
-
-   $projList = Team::getProjectList($teamid);
-
-   echo "<IMG WIDTH='".($deadLineTriggerWidth/2)."' HEIGHT='$barHeight' SRC='../images/white.png'>";
-
-   foreach($scheduledTaskList as $key => $scheduledTask) {
-
-      $taskPixSize = $scheduledTask->getPixSize($dayPixSize);
-      $totalPix += $taskPixSize;
-
-      // set color
-      if (NULL != $scheduledTask->deadLine) {
-         $color = ($scheduledTask->isOnTime) ? "green" : "red";
-
-         if (!$scheduledTask->isOnTime) {
-            $color = "red";
-         } else {
-            $color = ($scheduledTask->isMonitored) ? "grey" : "green";
-         }
-      } else {
-         $color = ($scheduledTask->isMonitored) ? "grey" : "blue";
+      foreach ($this->issueList as $bugid) {
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+         $displayedId = (1 == $optDisplayExtRef) ? $issue->getTcId() : $issue->getId();
+         $taskIdList[] = $displayedId;
       }
 
-      // hide tasks not in team projects
-      $strike="";
-      $issue = IssueCache::getInstance()->getIssue($scheduledTask->bugId);
-      if ( NULL == $projList[$issue->projectId] ) {
-         $strike="&strike";
-      }
-
-      $taskTitle = $scheduledTask->getDescription();
-      $formatedTitle = str_replace("'", " ", $taskTitle);
-      $formatedTitle = str_replace("\"", " ", $formatedTitle);
-
-      $drawnTaskPixSize = $taskPixSize - $sepWidth;
-      echo "<a target='_blank' href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$drawnTaskPixSize&text=$scheduledTask->bugId&color=".$color.$strike."' /></a>";
-
-      echo "<IMG WIDTH='$sepWidth' HEIGHT='$barHeight' SRC='../images/white.png'>";
+      return implode(', ', $taskIdList);
    }
-   #echo "DEBUG totalPix    = $totalPix<br/>\n";
-
 }
 
+class PlanningReportController extends Controller {
 
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-// -----------------------------------------
- /**
-  *
-  * @param $dayPixSize
-  * @param $scheduledTaskList
-  */
-function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
-   $deadLineTriggerWidth = 10;
-   $imageHeight = 7;
-   $barHeight = $imageHeight;
+   protected function display() {
+      if(Tools::isConnectedUser()) {
 
-   $deadLines = array();
+         $teamList = $this->session_user->getTeamList();
 
-   // remove duplicate deadLines & set color
-   foreach($scheduledTaskList as $key => $scheduledTask) {
-      if (NULL != $scheduledTask->deadLine) {
+        // only teamMembers & observers can access this page
+        if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
+            $this->smartyHelper->assign('accessDenied', TRUE);
+        } else {
 
-         if (!isset($deadLines["$scheduledTask->deadLine"]) ||
-               (NULL == $deadLines["$scheduledTask->deadLine"])) {
-            $dline = new DeadLine($scheduledTask->deadLine,
-               $scheduledTask->nbDaysToDeadLine,
-               $scheduledTask->isOnTime,
-               $scheduledTask->isMonitored);
-            $dline->addIssue($scheduledTask->bugId);
-            $deadLines["$scheduledTask->deadLine"] = $dline;
-         } else {
-            $dline = $deadLines["$scheduledTask->deadLine"];
-            $dline->setIsOnTime($scheduledTask->isOnTime);
-            $dline->addIssue($scheduledTask->bugId);
-            $dline->setIsMonitored($scheduledTask->isMonitored);
+            $pageWidth = Tools::getSecurePOSTIntValue('width',Tools::getSecureGETIntValue('width',0));
+            $this->smartyHelper->assign('width', $pageWidth);
+
+            if (array_key_exists($this->teamid,$teamList)) {
+               $this->smartyHelper->assign('consistencyErrors', $this->getConsistencyErrors($this->teamid));
+
+               $team = TeamCache::getInstance()->getTeam($this->teamid);
+
+               $isManager = $this->session_user->isTeamManager($this->teamid);
+               $isObserver = $this->session_user->isTeamObserver($this->teamid);
+               $this->smartyHelper->assign('isManager', ($isManager || $isObserver));
+
+               // display backlog (unassigned tasks)
+               $unassignedIssues = $team->getUnassignedTasks();
+               $unassigendSel = new IssueSelection("unassigned from team $this->teamid");
+               $unassigendSel->addIssueList($unassignedIssues);
+               $this->smartyHelper->assign('unassigned_nbIssues', $unassigendSel->getNbIssues());
+               $this->smartyHelper->assign('unassigned_MEE', $unassigendSel->mgrEffortEstim);
+               $this->smartyHelper->assign('unassigned_EE', $unassigendSel->effortEstim);
+
+               // get planningOptions
+               $keyvalue = Tools::getSecurePOSTStringValue('planningOptions', '');
+               if (!empty($keyvalue)) { 
+                  $planningOptions = Tools::doubleExplode(':', ',', $keyvalue);
+                  $this->session_user->setPlanningOptions($this->teamid, $planningOptions);
+               }
+               $this->smartyHelper->assign('planningOptions', $this->getPlanningOptions());
+               
+               $today = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
+               $graphSize = ("undefined" != $pageWidth) ? $pageWidth - 150 : 800;
+
+               $allTasksLists = array();
+               $workloads = array();
+               $teamMembers = $team->getUsers();
+
+               $nbDaysToDisplay = 0;
+               foreach ($teamMembers as $user) {
+                  $workload = 0;
+
+                  // show only developper's & manager's tasks
+                  if ((!$user->isTeamDeveloper($this->teamid)) &&
+                     (!$user->isTeamManager($this->teamid))) {
+
+                     if(self::$logger->isDebugEnabled()) {
+                        self::$logger->debug("user ".$user->getId()." excluded from scheduled users on team $this->teamid");
+                     }
+                     continue;
+                  }
+                  if ((NULL != $user->getDepartureDate($this->teamid)) && ($user->getDepartureDate($this->teamid) < $today)) { continue; }
+
+                  $scheduledTaskList = ScheduledTask::scheduleUser($user, $today, $this->teamid, TRUE);
+
+                  foreach($scheduledTaskList as $scheduledTask) {
+                     $workload += $scheduledTask->getDuration();
+                  }
+                  $nbDaysToDisplay = ($nbDaysToDisplay < $workload) ? $workload : $nbDaysToDisplay;
+
+                  $allTasksLists[$user->getName()] = $scheduledTaskList;
+                  $workloads[$user->getName()] = $workload;
+               }
+
+               $dayPixSize = (0 != $nbDaysToDisplay) ? ($graphSize / $nbDaysToDisplay) : 0;
+               $dayPixSize = round($dayPixSize);
+               #echo "DEBUG dayPixSize = $dayPixSize<br/>\n";
+
+               $this->smartyHelper->assign('planning', $this->getPlanning($nbDaysToDisplay, $dayPixSize, $allTasksLists, $workloads, $this->teamid, $this->session_userid, $isManager));
+               $this->smartyHelper->assign('colors', array(
+                  "green" => T_("onTime"),
+                  "red"   => T_("NOT onTime"),
+                  "blue"  => T_("no deadLine"),
+                  "grey"  => T_("monitored")
+               ));
+               $this->smartyHelper->assign('dayPixSize', $dayPixSize-1);
+            }
          }
       }
    }
 
-   // well if no deadLines, ...
-   if (0 == count($deadLines)) { return $deadLines; }
+   /**
+    * Get the consistency errors
+    * @param int $teamid
+    * @return mixed[][]
+    */
+   private function getConsistencyErrors($teamid) {
+      $issueList = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(TRUE);
+      $ccheck = new ConsistencyCheck2($issueList, $teamid);
 
-   // sort deadLines by date ASC
-   ksort($deadLines);
+      $cerrList  = $ccheck->checkBadBacklog();
+      #$cerrList2 = $ccheck->checkUnassignedTasks();
 
-   // because the 'size' of the arrow, the first scheduledTask has been shifted
-   // we need to check if the $nbDays of the first deadLine = 0
-   reset($deadLines);
-   $dline = $deadLines[key($deadLines)];
+      $consistencyErrors = NULL;
+      if (count($cerrList) > 0 || count($cerrList2) > 0) {
+         $consistencyErrors = array();
+         foreach ($cerrList as $cerr) {
+            $user = UserCache::getInstance()->getUser($cerr->userId);
+            $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
 
-   if (0 != $dline->nbDaysToDeadLine) {
-      // align
-      echo "<IMG WIDTH='".($deadLineTriggerWidth/2)."' HEIGHT='$barHeight' SRC='../images/white.png'>";
+            $titleAttr = array(
+                  T_('Project') => $issue->getProjectName(),
+                  T_('Summary') => $issue->getSummary(),
+            );
+            $consistencyErrors[] = array(
+               'issueURL' => Tools::issueInfoURL($cerr->bugId, $titleAttr),
+               'issueStatus' => Constants::$statusNames[$cerr->status],
+               'date' => date("Y-m-d", $cerr->timestamp),
+               'user' => $user->getName(),
+               'severity' => $cerr->getLiteralSeverity(),
+               'severityColor' => $cerr->getSeverityColor(),
+               'desc' => $cerr->desc
+            );
+         }
+/*
+         if (0 != count($cerrList2)) {
+            $consistencyErrors[] = array(
+               'issueURL' => '',
+               'issueStatus' => '-',
+               'date' => '-',
+               'user' => '('.T_('unknown').')',
+               'severity' => T_('Warning'),
+               'severityColor' => 'color:orange',
+               'desc' => count($cerrList2).' '.T_('tasks are not assigned to anybody.')
+            );
+         }
+*/
+      }
+
+      return $consistencyErrors;
    }
 
+   /**
+    * Get the planning
+    * @param int $nbDaysToDisplay
+    * @param int $dayPixSize
+    * @param mixed[] $allTasksLists
+    * @param int[] $workloads
+    * @param int $teamid
+    * @return mixed[][][] The planning
+    */
+   private function getPlanning($nbDaysToDisplay, $dayPixSize, array $allTasksLists, array $workloads, $teamid, $session_userid, $isManager) {
+      $days = array();
+      for ($i = 0; $i < $nbDaysToDisplay; $i++) {
+         $days[] = $dayPixSize - 1;
+      }
 
-   // display deadLines
-   $curPos=0;
-   foreach($deadLines as $date => $dline) {
+      $taks = array();
+      foreach ($allTasksLists as $userName => $scheduledTaskList) {
+         $taks[] = array(
+            "workload" => $workloads[$userName],
+            "username" => $userName,
+            "deadlines" => $this->getUserDeadLines($teamid, $dayPixSize, $scheduledTaskList),
+            "scheduledTasks" => $this->getScheduledTasks($userName, $dayPixSize, $scheduledTaskList, $teamid, $session_userid, $isManager)
+         );
+      }
 
-      $offset = $dline->nbDaysToDeadLine;
+      return array(
+         "days" => $days,
+         "tasks" => $taks
+      );
+   }
 
-      if ($offset >= 0) {
-         if (0 != $offset) {
-            // draw timeLine
-            $timeLineSize = ($offset * $dayPixSize) - ($deadLineTriggerWidth/2) - $curPos;
-            echo "<IMG WIDTH='$timeLineSize' HEIGHT='$imageHeight' SRC='../images/time_line.jpg'>";
+   /**
+    * @param string $userName
+    * @param int $dayPixSize
+    * @param ScheduledTask[] $scheduledTaskList
+    * @return mixed[][]
+    */
+   private function getUserDeadLines($teamid, $dayPixSize, array $scheduledTaskList) {
+      $deadLineTriggerWidth = 10;
+      $deadLines = array();
 
-            $curPos += $timeLineSize + $deadLineTriggerWidth;
+      // remove duplicate deadLines & set color
+      foreach($scheduledTaskList as $scheduledTask) {
+         if (NULL != $scheduledTask->getDeadline()) {
+            if (!array_key_exists($scheduledTask->getDeadline(), $deadLines)) {
+               $dline = new DeadLine($scheduledTask->getDeadline(),
+                  $scheduledTask->getNbDaysToDeadLine(),
+                  $scheduledTask->isOnTime(),
+                  $scheduledTask->isMonitored());
+               $dline->addIssue($scheduledTask->getIssueId());
+               $deadLines[$scheduledTask->getDeadline()] = $dline;
+            } else {
+               $dline = $deadLines[$scheduledTask->getDeadline()];
+               $dline->setIsOnTime($scheduledTask->isOnTime());
+               $dline->addIssue($scheduledTask->getIssueId());
+               $dline->setIsMonitored($scheduledTask->isMonitored());
+            }
+         }
+      }
+
+      // well if no deadLines, ...
+      if (0 == count($deadLines)) {
+         return array();
+      }
+
+      // sort deadLines by date ASC
+      ksort($deadLines);
+
+      // because the 'size' of the arrow, the first scheduledTask has been shifted
+      // we need to check if the $nbDays of the first deadLine = 0
+      $dline = reset($deadLines);
+      $isDeadline = 0 != $dline->nbDaysToDeadLine;
+
+      // display ExtRef in tooltips...
+      $optDisplayExtRef = $this->session_user->getPlanningOption($teamid, 'displayExtRef');
+
+      // display deadLines
+      $curPos=0;
+      $deadline = array();
+      foreach($deadLines as $date => $dline) {
+         $offset = $dline->nbDaysToDeadLine;
+
+         if ($offset >= 0) {
+            $deadline[$date] = array(
+               "date" => date('Y-m-d', $date),
+               "url" => $dline->getImageURL(),
+               "title" => $dline->toString(),
+               "nbDaysToDeadLine" => $dline->nbDaysToDeadLine,
+               "deadlineIssues" => $dline->getFormattedIssueList($optDisplayExtRef),
+            );
+
+            if ($offset > 0) {
+               // draw timeLine
+               $timeLineSize = ($offset * $dayPixSize) - ($deadLineTriggerWidth/2) - $curPos;
+
+               $deadline[$date]["width"] = $timeLineSize;
+               $curPos += $timeLineSize + $deadLineTriggerWidth;
+            } else {
+               $curPos += $deadLineTriggerWidth/2;
+            }
+         }
+      }
+
+      return array(
+         "isDeadline" => $isDeadline,
+         "deadline" => $deadline,
+      );
+   }
+
+   /**
+    * @param string $userName
+    * @param int $dayPixSize
+    * @param ScheduledTask[] $scheduledTaskList
+    * @param int $teamid
+    * @return mixed[][]
+    */
+   private function getScheduledTasks($userName, $dayPixSize, array $scheduledTaskList, $teamid, $session_userid, $isManager) {
+      $totalPix = 0;
+
+      $projList = TeamCache::getInstance()->getTeam($teamid)->getProjects();
+
+      $scheduledTasks = array();
+      foreach($scheduledTaskList as $scheduledTask) {
+         $taskPixSize = $scheduledTask->getPixSize($dayPixSize);
+         $totalPix += $taskPixSize;
+
+         // set color
+         if (NULL != $scheduledTask->getDeadline()) {
+            if (!$scheduledTask->isOnTime()) {
+               $color = "red";
+            } else {
+               $color = ($scheduledTask->isMonitored()) ? "grey" : "green";
+            }
          } else {
-            $curPos += $deadLineTriggerWidth/2;
+            $color = ($scheduledTask->isMonitored()) ? "grey" : "blue";
          }
 
-         // drawArrow
-         echo "<IMG SRC='".$dline->getImageURL()."' ALT='Text replacing image' TITLE='".$dline->toString()."'>";
+         // hide tasks not in team projects
+         $issue = IssueCache::getInstance()->getIssue($scheduledTask->getIssueId());
+
+         $taskTitle = $scheduledTask->getDescription();
+         $formatedTitle = str_replace("'", ' ', $taskTitle);
+         $formatedTitle = str_replace('"', ' ', $formatedTitle);
+
+         $drawnTaskPixSize = $taskPixSize - 1;
+
+         $optDisplayExtRef = $this->session_user->getPlanningOption($teamid, 'displayExtRef');
+         $displayedId = (1 == $optDisplayExtRef) ? $issue->getTcId() : $scheduledTask->getIssueId();
+
+         $taskTooltip = $this->getTaskTooltip($issue, $scheduledTask, $teamid, $session_userid, $isManager);
+
+         $sTask = array(
+            "bugid" => $scheduledTask->getIssueId(),
+            "extRef" => $issue->getTcId(),
+            "displayedId" => $displayedId,
+            "title" => $formatedTitle,
+            "width" => $drawnTaskPixSize,
+            "color" => $color,
+            "strike" => !array_key_exists($issue->getProjectId(),$projList),
+            "taskTooltip" => $taskTooltip,
+         );
+         if ($scheduledTask->isMonitored()) {
+            $sTask["handlerName"] = $scheduledTask->getHandlerName();
+         }
+         if ($scheduledTask->getDeadline() > 0) {
+            $sTask["deadLine"] = date('Y-m-d', $scheduledTask->getDeadline());
+         }
+         $scheduledTasks[$scheduledTask->getIssueId()] = $sTask;
+
       }
+
+      return $scheduledTasks;
    }
 
-   return $deadLines;
-}
+   private function getPlanningOptions() {
 
-// -----------------------------------------
-function displayScheduledTaskTable($scheduledTaskList) {
+      $planningOptions = $this->session_user->getPlanningOptions($this->teamid);
 
-   echo "<table>\n";
-   echo "<tr>\n";
-   echo "<th>bugId</th>\n";
-   echo "<th>duration</th>\n";
-   echo "<th>isOnTime</th>\n";
-   echo "<th>deadLine</th>\n";
-   echo "<th>key</th>\n";
-   echo "</tr>\n";
+      $options = array();
+      foreach ($planningOptions as $name => $enabled) {
 
-   foreach($scheduledTaskList as $key => $scheduledTask) {
+         $options["$name"] = array(
+             'name'       => $name,
+             'label'      => T_(User::$defaultPlanningOptionsDesc["$name"]),
+             'isChecked'  => $enabled,
+             'isDisabled' => false
+         );
+      }
+      return $options;
+   }
 
-      echo "<tr>\n";
-      echo "<td>$scheduledTask->bugId</td>\n";
-      echo "<td>$scheduledTask->duration</td>\n";
-      echo "<td>$scheduledTask->isOnTime</td>\n";
-      if (NULL != $scheduledTask->deadLine) {
-         echo "<td>".date("d-M-Y",$scheduledTask->deadLine)."</td>\n";
+   private function getTaskTooltip($issue, $scheduledTask, $teamid, $session_userid, $isManager) {
+
+      $finalTooltipAttr = array();
+
+      $tooltipAttr = $issue->getTooltipItems($teamid, $session_userid, $isManager);
+      unset($tooltipAttr[T_('Status')]);
+      unset($tooltipAttr[T_('Priority')]);
+      unset($tooltipAttr[T_('Severity')]);
+      unset($tooltipAttr[T_('External ID')]);
+      unset($tooltipAttr[T_('Backlog')]);
+      unset($tooltipAttr[T_('Deadline')]);
+
+      // insert in front
+      $extRef = $issue->getTcId();
+      if (!empty($extRef)) {
+         $finalTooltipAttr[T_('Task')] = $scheduledTask->getIssueId().' / '.$extRef;
       } else {
-         echo "<td></td>\n";
+         $finalTooltipAttr[T_('Task')] = $scheduledTask->getIssueId();
       }
-      echo "<td>$key</td>\n";
-      echo "</tr>\n";
-   }
-   echo "</table>\n";
+      if (array_key_exists(T_('Project'), $tooltipAttr)) {
+         $finalTooltipAttr[T_('Project')] = $tooltipAttr[T_('Project')];
+      }
+      $finalTooltipAttr[T_('Summary')] = $scheduledTask->getSummary();
 
-}
+      $finalTooltipAttr += $tooltipAttr;
+      $finalTooltipAttr[' '] = ' ';
 
-// -----------------------------------------
-function displayTeam($teamid, $today, $graphSize) {
+      $finalTooltipAttr[T_('Attributes')] =
+         T_('Status').': '.$scheduledTask->getStatusName().' - '.
+         T_('Priority').': '.$scheduledTask->getPriorityName().' - '.
+         T_('Severity').': '.$scheduledTask->getSeverityName();
+#         $finalTooltipAttr[T_('Attributes')] =
+#            T_('Status').':<strong>'.$scheduledTask->getStatusName().'</strong>,&nbsp; '.
+#            T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
+#            T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
 
-   global $logger;
+      $finalTooltipAttr[T_('Duration')] = $scheduledTask->getDuration().' '.T_('days');
 
-   $deadLineTriggerWidth = 10;
-   $barHeight = 1;
-
-   $scheduler = new Scheduler();
-   $allTasksLists = array();
-   $workloads = array();
-   $teamMembers = Team::getMemberList($teamid);
-
-   $nbDaysToDisplay = 0;
-   foreach ($teamMembers as $id => $name) {
-      $workload = 0;
-      $user = UserCache::getInstance()->getUser($id);
-
-      // show only developper's & manager's tasks
-      if ((!$user->isTeamDeveloper($teamid)) &&
-          (!$user->isTeamManager($teamid))) {
-
-	      $logger->debug("user $user->id excluded from scheduled users on team $teamid");
-	      continue;
+      if ($scheduledTask->getDeadline() > 0) {
+         $finalTooltipAttr[T_('Deadline')] = date('Y-m-d', $scheduledTask->getDeadline());
+      }
+      if ($scheduledTask->isMonitored()) {
+         $finalTooltipAttr[T_('Monitored')] = $scheduledTask->getHandlerName();
       }
 
-
-      if (NULL != ($user->getDepartureDate()) && ($user->getDepartureDate() < $today)) { continue; }
-
-      $scheduledTaskList = $scheduler->scheduleUser($user, $today, true);
-
-      foreach($scheduledTaskList as $key => $scheduledTask) {
-         $workload += $scheduledTask->duration;
-      }
-      $nbDaysToDisplay = ($nbDaysToDisplay < $workload) ? $workload : $nbDaysToDisplay;
-
-      $allTasksLists[$user->getName()] = $scheduledTaskList;
-      $workloads[$user->getName()]     = $workload;
+      return Tools::getTooltip($finalTooltipAttr);
    }
-
-   $dayPixSize = (0 != $nbDaysToDisplay) ? ($graphSize / $nbDaysToDisplay) : 0;
-   $dayPixSize = round($dayPixSize);
-   #echo "DEBUG dayPixSize    = $dayPixSize<br/>\n";
-
-   // display all team
-   echo "<table class='invisible'>\n";
-
-   echo "<tr>\n";
-   echo "  <td ></td>\n";
-   echo "  <td >\n";
-   echo "<IMG WIDTH='".($deadLineTriggerWidth/2)."' HEIGHT='$barHeight' SRC='../images/white.png'>";
-   for ($i = 0; $i < $nbDaysToDisplay; $i++) {
-      echo "<IMG HEIGHT='7' WIDTH='1' SRC='../images/timeline_stop.jpg'>";
-      echo "<IMG WIDTH='".($dayPixSize-1)."' HEIGHT='7' SRC='../images/time_line.jpg'>";
-   }
-   echo "<IMG HEIGHT='7' WIDTH='1' SRC='../images/timeline_stop.jpg'>";
-   echo "</td >\n";
-   echo "</tr>\n";
-
-   foreach($allTasksLists as $userName => $scheduledTaskList) {
-
-      echo "<tr valign='center'>\n";
-      echo "<td title='".T_("workload")." = ".$workloads[$userName]." ".T_("days")."'>$userName</td>\n";
-      echo "<td>";
-      $deadLines = displayUserDeadLines($dayPixSize, $today, $scheduledTaskList);
-      if (0 != count($deadLines)) { echo "<br/>"; } //
-      displayUserSchedule($dayPixSize, $userName, $scheduledTaskList, $teamid);
-      echo "</td>\n";
-      echo "</tr>\n";
-   }
-   echo "</table>\n";
-
-   return $dayPixSize;
 }
 
-// -----------------------------------------
-function displayLegend($dayPixSize) {
+// ========== MAIN ===========
+PlanningReportController::staticInit();
+$controller = new PlanningReportController('../', 'Workload planning','Planning');
+$controller->execute();
 
-   $barHeight = 14;
-   $barWidtht = 14;
-
-   $colorTypes = array(
-      "green" => T_("onTime"),
-      "red"   => T_("NOT onTime"),
-      "blue"  => T_("no deadLine"),
-      "grey"  => T_("monitored"),
-   );
-
-   echo "<div class='center'>\n";
-   echo "<table class='invisible'  width='700'>\n";
-   echo "<tr>\n";
-
-   foreach ($colorTypes as $color => $type) {
-      echo "<td >\n";
-      echo "<img src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$barWidtht&color=".$color."' />";
-      echo "&nbsp;&nbsp;$type";
-      echo "</td>\n";
-   }
-   echo "  <td >\n";
-   echo "<IMG HEIGHT='7' WIDTH='1' SRC='../images/timeline_stop.jpg'>";
-   echo "<IMG WIDTH='".($dayPixSize-1)."' HEIGHT='7' SRC='../images/time_line.jpg'>";
-   echo "<IMG HEIGHT='7' WIDTH='1' SRC='../images/timeline_stop.jpg'>";
-   echo "&nbsp;&nbsp;1 ".T_("day")."\n";
-   echo "  </td >\n";
-   echo "</tr>\n";
-   echo "</table>\n";
-   echo "</div>\n";
-
-}
-
-
-// -----------------------------
-function displayConsistencyErrors($teamid) {
-
-   global $statusNames;
-
-   $issueList = Team::getTeamIssues($teamid, true);
-   $ccheck = new ConsistencyCheck2($issueList);
-
-   $cerrList  = $ccheck->checkBadRemaining();
-   $cerrList2 = $ccheck->checkUnassignedTasks();
-
-   if ((0 == count($cerrList)) && (0 == count($cerrList2))) {
-   } else {
-      $consistencyErrors = array();
-      foreach ($cerrList as $cerr) {
-         $user = UserCache::getInstance()->getUser($cerr->userId);
-         $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-         
-         $consistencyErrors[] = array(
-             'issueURL' => issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
-             'issueStatus' => $statusNames[$cerr->status],
-             'date' => date("Y-m-d", $cerr->timestamp),
-             'user' => $user->getName(),
-             'severity' => $cerr->getLiteralSeverity(),
-             'severityColor' => $cerr->getSeverityColor(),
-             'desc' => $cerr->desc);
-      }
-      if (0 != count($cerrList2)) {
-         $consistencyErrors[] = array(
-             'issueURL' => '',
-             'issueStatus' => '-',
-             'date' => '-',
-             'user' => '('.T_('unknown').')',
-             'severity' => T_('Warning'),
-             'severityColor' => 'color:orange',
-             'desc' => ''.count($cerrList2).' '.T_('tasks are not assigned to anybody.'));
-      }
-
-   }
-   arrrhh($consistencyErrors);
-}
-
-function arrrhh($ccheckErrList) {
-   
-   $ccheckButtonTitle = ''.count($ccheckErrList).' '.T_("Errors");
-   $ccheckBoxTitle = ''.count($ccheckErrList).' '.T_("Errors");
-   
-echo "   <script type='text/javascript'>\n";
-echo "   jQuery(function() {\n";
-echo "      jQuery( '#dialog_ConsistencyCheck_link' ).click(function() {\n";
-echo "         jQuery( '#dialog_ConsistencyCheck' ).dialog( 'open' );\n";
-echo "         return false;\n";
-echo "      });\n";
-echo "      jQuery( '#dialog_ConsistencyCheck' ).dialog({\n";
-echo "         autoOpen: false,\n";
-echo "         hide: 'fade',\n";
-echo "         width: '600',\n";
-echo "         maxHeight: '500'\n";
-echo "      });\n";
-echo "   });\n";
-echo "</script>\n";
-
-echo "<div align='right'>\n";
-echo "<button title='".T_("Click to show errors")."' id='dialog_ConsistencyCheck_link' type='button' style='font:bold 14px Arial; background:red; color:white; cursor:hand; border:solid 1px red;'>$ccheckButtonTitle</button>\n"; 
-echo "</div>\n";
-   
-echo "<div id='dialog_ConsistencyCheck' title='$ccheckBoxTitle' style='display: none'>\n";
-echo "   <div align='left'>\n";
-echo "      <table class='invisible'>\n";
-      foreach ($ccheckErrList as $id => $i) {
-echo "         <tr>\n";
-echo "            <td>"."$i[issueURL]"."</td>\n";
-echo "            <td>"."$i[user]"."</td>\n";
-echo "            <td>"."$i[date]"."</td>\n";
-echo "            <td>"."$i[issueStatus]"."</td>\n";
-echo "            <td><span style='"."$i[severityColor]"."'>["."$i[severity]"."]</span></td>\n";
-echo "            <td><span style='"."$i[severityColor]"."'>"."$i[desc]"."</span></td>\n";
-echo "         </tr>\n";
-      }
-echo "      </table>\n";
-echo "   </div>\n";
-echo "</div>\n";
-
-}
-
-
-// ================ MAIN =================
-
-
-$pageWidth = $_GET['w'];
-$pageHeigh = $_GET['h'];
-#echo "DEBUG pageWidth $pageWidth<br/>";
-
-$graphSize = ("undefined" != $pageWidth) ? $pageWidth -150 : 800;
-
-$teamid = 26; // codev
-
-$today = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
-
-
-#$action = isset($_POST['action']) ? $_POST['action'] : '';
-
-if (isset($_POST['action'])) {
-   $action = $_POST['action'];
-} else if (isset($_GET['display'])) {
-   $action = "displayPlanning";
-} else {
-   # if planning computation is too long, you may want to disable auto-load
-   #$action = '';
-   $action = "displayPlanning";
-}
-
-
-// use the teamid set in the form, if not defined (first page call) use session teamid
-if (isset($_POST['f_teamid'])) {
-   $teamid = $_POST['f_teamid'];
-   $_SESSION['teamid'] = $teamid;
-} else {
-   $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-}
-
-$session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-
-$dTeamList = $session_user->getDevTeamList();
-$lTeamList = $session_user->getLeadedTeamList();
-$oTeamList = $session_user->getObservedTeamList();
-$managedTeamList = $session_user->getManagedTeamList();
-$teamList = $dTeamList + $lTeamList + $oTeamList + $managedTeamList;
-
-//  if user is not Leader of $_SESSION[teamid], do not display current team page
-if (!isset($teamList["$teamid"]) || (NULL == $teamList["$teamid"])) { $teamid = 0;}
-
-if (0 == count($teamList)) {
-   echo "<div id='content'' class='center'>";
-   echo T_("Sorry, you need to be member of a Team to access this page.");
-   echo "</div>";
-
-} else {
-   setTeamForm("planning_report.php", $teamid, $teamList);
-
-   if ("displayPlanning" == $action) {
-      flush();
-      if (0 != $teamid) {
-         displayConsistencyErrors($teamid);
-         echo "<br/>\n";
-
-         echo "<br/>";
-         #echo "<hr width='80%'/>\n";
-         echo "<br/>";
-         echo "<br/>";
-         echo "<br/>";
-
-         $dayPixSize = displayTeam($teamid, $today, $graphSize);
-         echo "<br/>\n";
-         echo "<br/>\n";
-         echo "<br/>\n";
-         echo "<br/>\n";
-         displayLegend($dayPixSize);
-
-      }
-   } elseif ("zoomIn" == $action) {
-
-      $pageWidth = floor($pageWidth + ($pageWidth/2)); # +50%
-
-      // set $_GET['w']
-      echo ("<script> parent.location.replace('./planning_report.php?display&w=$pageWidth'); </script>");
-   } elseif ("zoomOut" == $action) {
-
-      $pageWidth = floor($pageWidth - ($pageWidth/3)); # -33%
-
-      if ($pageWidth < 300) { $pageWidth = 300; }
-
-      // set $_GET['w']
-      echo ("<script> parent.location.replace('./planning_report.php?display&w=$pageWidth'); </script>");
-   }
-
-}
-
-
-echo "<br/>\n";
-echo "<br/>\n";
-
-// log stats
-IssueCache::getInstance()->logStats();
-ProjectCache::getInstance()->logStats();
-UserCache::getInstance()->logStats();
-TimeTrackCache::getInstance()->logStats();
-
-?>
-
-</div>
-
-<?php include 'footer.inc.php'; ?>

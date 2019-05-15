@@ -1,36 +1,42 @@
 <div id="content">
-   {if $teams}
-
-   {include file="form/teamForm.html"}
-
-    {if $teamid}
-    <h2>{$count}{t} Error(s) in Mantis Tasks{/t}</h2>
-    {if $consistencyErrors}
-    <table>
-        <tr>
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
+   <h2>{$count}{t} Error(s) in Mantis Tasks{/t}</h2>
+   {if $consistencyErrors}
+   <script type="text/javascript" src="js_min/datatable.min.js"></script>
+   <table class="datatable_csv" style="width: 100%;">
+      <thead>
+         <tr>
+            <th></th>
             <th>{t}User{/t}</th>
             <th>{t}Task{/t}</th>
+            <th>{t}extRef{/t}</th>
             <th title="{t}last modification date{/t}">Date</th>
-            <th>{t}Level{/t}</th>
             <th>{t}Status{/t}</th>
             <th>{t}Project{/t}</th>
-            <th>{t}TargetVersion{/t}</th>
+            <th>{t}Summary{/t}</th>
+            <th>{t}Level{/t}</th>
             <th>{t}Error Description{/t}</th>
-        </tr>
-        {foreach from=$consistencyErrors key=id item=i}
-        <tr>
-            <td>{$i.userName}</td>
-            <td>{$i.mantisURL} {$i.issueURL}</td>
-            <td>{$i.date}</td>
-            <td>{$i.severity}</td>
-            <td>{$i.status}</td>
-            <td>{$i.project}</td>
-            <td>{$i.targetVersion}</td>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$consistencyErrors key=id item=i}
+         <tr>
+            <td style="width:1em;" nowrap="nowrap">{$id}</td>
+            <td style="width:1em;" nowrap="nowrap">{$i.userName}</td>
+            <td style="width:1em;" nowrap="nowrap">{$i.mantisURL} {$i.issueURL}</td>
+            <td style="width:1em;" nowrap="nowrap">{$i.extRef} </td>
+            <td style="width:1em;" nowrap="nowrap">{$i.date}</td>
+            <td style="width:1em;" nowrap="nowrap">{$i.status}</td>
+            <td style="width:1em;" nowrap="nowrap">{$i.project}</td>
+            <td>{$i.summary}</td>
+            <td style="width:1em;" nowrap="nowrap">{$i.severity}</td>
             <td>{$i.desc}</td>
-        </tr>
-        {/foreach}
-    </table>
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
    {/if}
-   {/if}
-   {/if}
+{else}
+<p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
+{/if}
 </div>

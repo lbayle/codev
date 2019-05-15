@@ -1,195 +1,253 @@
-{include file="menu/management_menu.html"}
-
-<script type="text/javascript">
-
-function setTeam() {
-   document.forms["commandsetSelectForm"].teamid.value = document.getElementById('teamSelector').value;
-   document.forms["commandsetSelectForm"].commandsetid.value="0";
-   document.forms["commandsetSelectForm"].action.value="setTeam";
-   document.forms["commandsetSelectForm"].submit();
-}
-
-function submitForm() {
-   document.forms["commandsetSelectForm"].submit();
- }
-
-//------ JQUERY --------
-$(document).ready(function() {
-   $('#devCmd_table').dataTable(
-      {
-         "sScrollY": "700px",
-         "bPaginate": false,
-         "bScrollCollapse": true,
-         "bFilter": true,
-         "bSort": true,
-         "bInfo": false,
-         "bAutoWidth": false
-      });
-   $('#mngtCmd_table').dataTable(
-      {
-         "sScrollY": "700px",
-         "bPaginate": false,
-         "bScrollCollapse": true,
-         "bFilter": true,
-         "bSort": true,
-         "bInfo": false,
-         "bAutoWidth": false
-      });
-      jQuery(function() {
-         jQuery( "#tabsCommandSet" ).tabs();
-      });
-
-   $( "#accordion" ).accordion({
-      collapsible: true, autoHeight: false, clearStyle: true
-   });
-
-});
-
-</script>
-
 
 <div id="content">
-
+{if (!isset($accessDenied) || (0 == $accessDenied)) }    
+   {if isset($teams) && isset($commandsets)}
    <div align="center">
       <!-- create form -->
-      <form id='commandsetSelectForm' name='commandsetSelectForm' method='post' action='{$page}'>
+      <form id="selectForm" name="selectForm" class="formWithTabsHistory" method="post" action="{$page}">
          <fieldset>
-            <label>{t}Team{/t}: </label>
-            <select id='teamSelector' name='teamid' onchange='javascript: setTeam()'>
-               <option value='0'></option>
-               {foreach from=$teams key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-               {/foreach}
-            </select>
-            <label>{t}CommandSet{/t}: </label>
-            <select id='commandsetSelector' name='commandsetid'>
+            <label for="commandsetid">{t}CommandSet{/t}:</label>
+            <select id="commandsetid" name="commandsetid" class="select2" style="width: 50%;">
                {foreach from=$commandsets key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} - {$i.name}</option>
                {/foreach}
-               <option value='0'>{t}--- Create New CommandSet ---{/t}</option>
+               {if isset($isManager) && $isManager}
+               <option value="0">{t}--- Create New CommandSet ---{/t}</option>
+               {/if}
             </select>
-            <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
-            
+            <input type="button" id="sendForm" value="{t}Select{/t}" />
             <input type="hidden" name="action" value="displayCommandSet" />
+            <input type="hidden" name="selectedFilters" value="{$selectedFilters}" />
          </fieldset>
       </form>
    </div>
-
-   <div style="margin-top:4em;"></div>
+   {else}
+      <div class="center">
+      {t}Sorry, only managers can access this page.{/t}
+      </div>
+   {/if}
 
    {if $commandsetid}
-
    {include file="modal/consistency_check.html"}
 
-   <div  align="center">
+   <div align="center">
       <h2>{$commandsetName}</h2>
-      {$commandsetDesc}
    </div>
 
-   <div style="margin-top:2em;"></div>
-
-   <div>
-      <table class='invisible'>
-            <tr>
-               <th>{t}Reference{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$commandsetReference}</td>
-            </tr>
-            <tr>
-               <th>{t}Date{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$commandsetDate}</td>
-            </tr>
-            <tr>
-               <th>{t}Cost{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$commandsetCost} {$commandsetCurrency}</td>
-            </tr>
-            <tr>
-               <th>{t}Budget{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$commandsetBudget} {t}days{/t}</td>
-            </tr>
-            <tr>
-               <th valign='top'>{t}Service Contract{/t}</th>
-               <td valign='top'>: </td>
-               <td><table class="invisible">
-                  {foreach from=$parentContracts key=id item=i}
-                     <tr><td>{$i.name}</td></tr>
-                  {/foreach}
-                  </table>
-               </td>
-            </tr>
+   <div style="margin-top:2em;">
+      <table class="invisible">
+         <tr>
+            <th valign="top">{t}Service Contract{/t}</th>
+            <td valign="top">: </td>
+            <td>
+               {foreach from=$parentContracts key=id item=i}
+               <a href="management/servicecontract_info.php?servicecontractid={$id}">{$i}</a><br />
+               {/foreach}
+            </td>
+         </tr>
       </table>
-      <br>
-      {if $isEditGranted}
-      <button onclick="location.href='management/commandset_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
+      {if isset($isEditGranted) && $isEditGranted}
+      <br />
+      <button onclick="location.href='management/commandset_edit.php'"><img border="0" align="absmiddle" src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
       {/if}
    </div>
 
-   <div style="margin-top:6em;"></div>
-
-   <div id="tabsCommandSet">
-      <ul>
-         <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
+   {include file="tools/graph.html"}
+   <div id="tabsCommandSet" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_charges">{t}Commands{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_attributes">{t}Attributes{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_provisions">{t}Provisions{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
       </ul>
-
-      <div id="tabsName-1">
+      <div id="tab_charges">
          {if $cmdList}
-         <div>
-            <!--table id="devCmd_table" class="display"-->
-            <table>
-               <thead>
+         <!--table id="devCmd_table" class="display"-->
+         <table>
+            <thead>
                <tr>
                   <!--th></th-->
                   <th>{t}Ref{/t}</th>
                   <th>{t}Command{/t}</th>
                   <th>{t}Team{/t}</th>
                   <th>{t}MgrEffortEstim{/t}</th>
-                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+                  <th>{t}EffortEstim{/t}</th>
+                  <th title="backlog + elapsed">{t}Reestimated{/t}</th>
                   <th>{t}Elapsed{/t}</th>
-                  <th>{t}Remaining Mgr{/t}</th>
+                  <th>{t}Backlog{/t}</th>
                   <th>{t}Drift Mgr{/t}</th>
+                  <th>{t}Drift{/t}</th>
                   <th>{t}Progress{/t}</th>
                </tr>
-               </thead>
-               <tbody>
-                  {foreach $cmdList as $id => $cmd}
-                  <tr>
-                     <!--td>{$id}</td-->
-                     <td align='right'>{$cmd.reference}</td>
-                     <td title="{$id}"  align='left'>{$cmd.name}</td>
-                     <td>{$cmd.team}</td>
-                     <td>{$cmd.effortEstim}</td>
-                     <td>{$cmd.reestimated}</td>
-                     <td>{$cmd.elapsed}</td>
-                     <td>{$cmd.remaining}</td>
-                     <td {$cmd.driftColor}>{$cmd.drift}</td>
-                     <td>{$cmd.progress}%</td>
-                  </tr>
-                  {/foreach}
-                  <tr class="row_even">
-                     <!--td></td-->
-                     <td></td>
-                     <td title="{$id}"  align='left'>{t}TOTAL{/t}</td>
-                     <td></td>
-                     <td>{$cmdsetDetailedMgr.effortEstim}</td>
-                     <td>{$cmdsetDetailedMgr.reestimated}</td>
-                     <td>{$cmdsetDetailedMgr.elapsed}</td>
-                     <td>{$cmdsetDetailedMgr.remaining}</td>
-                     <td {$cmdsetDetailedMgr.driftColor}>{$cmdsetDetailedMgr.drift}</td>
-                     <td>{$cmdsetDetailedMgr.progress}%</td>
-                  </tr>
-
-               </tbody>
-            </table>
-         </div>
+            </thead>
+            <tbody>
+               {foreach $cmdList as $id => $cmd}
+               <tr>
+                  <!--td>{$id}</td-->
+                  <td align="right"><a href="management/command_info.php?cmdid={$id}"><img title="goto" align="absmiddle" src="images/b_goto.png" /></a> {$cmd.reference}</td>
+                  <td title="{$id}"  align="left">{$cmd.name}</td>
+                  <td>{$cmd.team}</td>
+                  <td>{$cmd.mgrEffortEstim}</td>
+                  <td>{$cmd.effortEstim}</td>
+                  <td>{$cmd.reestimated}</td>
+                  <td>{$cmd.elapsed}</td>
+                  <td>{$cmd.backlog}</td>
+                  <td {$cmd.driftMgrColor}>{$cmd.driftMgr}</td>
+                  <td {$cmd.driftColor}>{$cmd.drift}</td>
+                  <td><div class="progress">{$cmd.progress}%</div></td>
+               </tr>
+               {/foreach}
+            </tbody>
+            <tfoot>
+               <tr>
+                  <!--td></td-->
+                  <td></td>
+                  <td>{t}TOTAL{/t}</td>
+                  <td></td>
+                  <td>{$cmdsetDetailedMgr.mgrEffortEstim}</td>
+                  <td>{$cmdsetDetailedMgr.effortEstim}</td>
+                  <td>{$cmdsetDetailedMgr.reestimated}</td>
+                  <td>{$cmdsetDetailedMgr.elapsed}</td>
+                  <td>{$cmdsetDetailedMgr.backlog}</td>
+                  <td {$cmdsetDetailedMgr.driftMgrColor}>{$cmdsetDetailedMgr.driftMgr}</td>
+                  <td {$cmdsetDetailedMgr.driftColor}>{$cmdsetDetailedMgr.drift}</td>
+                  <td><div class="progress">{$cmdsetDetailedMgr.progress}%</div></td>
+               </tr>
+            </tfoot>
+         </table>
          {else}
          {t}No Command found.{/t}
          {/if}
       </div>
+      <div id="tab_indicators">
+         {include file="tools/dashboard.html"}
+      </div>
+      <div id="tab_attributes">
+         <table class="invisible">
+            <tr>
+               <th>{t}Reference{/t}</th>
+               <td valign="top">: </td>
+               <td>{$commandsetReference}</td>
+            </tr>
+            <tr>
+               <th>{t}Date{/t}</th>
+               <td valign="top">: </td>
+               <td>{$commandsetDate}</td>
+            </tr>
+            <tr>
+               <th valign="top">{t}Description{/t}</th>
+               <td valign="top">: </td>
+               <td><textarea rows='6' cols='120' name='description'  id='description'>{$commandsetDesc}</textarea></td>
+            </tr>
+         </table>
+      </div>
+      
+       <div id="tab_provisions">
+          {if isset($isManager) && $isManager}
 
+         <div>
+            <label style="cursor: pointer;"><input type="radio" id="radio1" name="radio" />{t}Total{/t}</label>
+            <label style="cursor: pointer;"><input type="radio" id="radio2" name="radio" checked="checked" />{t}Provisions{/t}</label>
+         </div>
+         <div class="provisionTotalList ui-helper-hidden">
+            {if $cmdProvisionTotalList}
+            <table class="invisible">
+              <tbody>
+                  <tr>
+                    <td>
+                    <table>
+                        <tr>
+                            <th>{t}Type{/t}</th>
+                            <th>{t}Budget Days{/t}</th>
+                            <th>{t}Budget{/t}</th>
+                        </tr>
+                       {foreach $cmdProvisionTotalList as $id => $provTotalRow}
+                        <tr>
+                            <td>{$provTotalRow.type}</td>
+                            <td>{$provTotalRow.budget_days}</td>
+                            <td>{$provTotalRow.budget} {$provTotalRow.currency}</td>
+                        </tr>
+                       {/foreach}
+                    </table>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+            {else}
+            {t}None{/t}
+            {/if}
+         </div>
+         <div class="provisionsList">
+            {if $cmdProvisionList}
+            <table class="invisible">
+              <tbody>
+                  <tr>
+                    <td>
+                    <table>
+                       <tr>
+                          <th>{t}Date{/t}</th>
+                          <th>{t}Command{/t}</th>
+                          <th>{t}Type{/t}</th>
+                          <th>{t}Budget Days{/t}</th>
+                          <th>{t}Budget{/t}</th>
+                          <th title="{t}Average Daily Rate{/t}">{t}ADR{/t}</th>
+                          <th>{t}Summary{/t}</th>
+                          <th></th>
+                       </tr>
+                       {foreach $cmdProvisionList as $id => $prov}
+                       <tr>
+                          <td>{$prov.date}</td>
+                          <td>{$prov.cmd_name}</td>
+                          <td>{$prov.type}</td>
+                          <td>{$prov.budget_days}</td>
+                          <td style="text-align:right">{$prov.budget} {$prov.currency}</td>
+                          <td>{$prov.average_daily_rate}</td>
+                          <td>{$prov.summary}</td>
+                          <td title="{if ($prov.isInCheckBudget)}{t}Provision included in 'check budget'{/t}{else}{t}Provision NOT included in 'check budget'{/t}{/if}"><input {if ($prov.isInCheckBudget)}checked="checked"{/if} type="checkbox" disabled="disabled" id="cb_isInCheckBudget" /></td>
+                       </tr>
+                       {/foreach}
+                    </table>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+            {else}
+            {t}None{/t}
+            {/if}
+         </div>
 
-   {/if}
-
+          {/if}
+      </div>
+      {/if}
+   </div>
+{else}
+<p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
+{/if}
 </div>
+
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+
+      jQuery("#commandsetid").change(function() {
+         if ('0' !== this.value) {
+            var form = jQuery('#selectForm');
+            form.submit();
+         }
+      });
+
+      jQuery("#sendForm").click(function() {
+         var form = jQuery('#selectForm');
+         form.submit();
+      });
+
+      jQuery('input[type=radio]').change(function() {
+         if(jQuery(this).attr('id') == "radio1") {
+            jQuery(".provisionTotalList").show();
+            jQuery(".provisionsList").hide();
+         } else if(jQuery(this).attr('id') == "radio2") {
+            jQuery(".provisionTotalList").hide();
+            jQuery(".provisionsList").show();
+         }
+      });
+   });
+</script>

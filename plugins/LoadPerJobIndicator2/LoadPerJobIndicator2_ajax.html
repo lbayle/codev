@@ -1,0 +1,35 @@
+<div class="loadPerJob_ajax">
+   <!-- Working days per job -->
+   {if $loadPerJobIndicator_tableData}
+   <table class="loadPerJobIndicatorValuesTable display float" style="width: 500px;">
+      <thead>
+         <tr>
+            <th>{t}Job{/t}</th>
+            <th>{t}Nb Days{/t}</th>
+            <th>%</th>
+            {if $loadPerJobIndicator_isTaskColumn}
+            <th>{t}Tasks{/t}</th>
+            {/if}
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$loadPerJobIndicator_tableData key=id item=i}
+         <tr>
+            <td>
+               <div class="generatedImage float" style="background-color: #{$i.color};"></div>
+               <div class="float">{$i.name}</div>
+               <div class="ui-helper-clearfix"></div>
+            </td>
+            <td>{$i.nbDays}</td>
+            <td>{$i.pcent} %</td>
+            {if $loadPerJobIndicator_isTaskColumn}
+            <td>{$i.taskList}</td>
+            {/if}
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
+   {else}
+   {t}No data.{/t}
+   {/if}
+</div>

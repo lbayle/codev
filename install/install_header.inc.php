@@ -16,18 +16,6 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-# WARN: this avoids the display of some PHP errors...
-error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
-
-# WARN: order of these includes is important.
-require_once('Logger.php');
-if (NULL == Logger::getConfigurationFile()) {
-   Logger::configure(dirname(__FILE__).'/../log4php.xml');
-   $logger = Logger::getLogger("default");
-   $logger->info("LOG activated !");
-}
-
-include_once "tools.php";
 ?>
 <!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
 <html>
@@ -37,22 +25,19 @@ include_once "tools.php";
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <?php
-   echo "<link rel='shortcut icon' href='".getServerRootURL()."/images/favicon.ico' />\n";
-   echo "<link href='".getServerRootURL()."/calendar/calendar.css' rel='stylesheet' type='text/css' />\n";
-   echo "<script language='javascript' src='".getServerRootURL()."/calendar/calendar.js'></script>\n";
-   echo "<link href='".getServerRootURL()."/codev.css' rel='stylesheet' type='text/css' />\n";
-   echo "<link href='".getServerRootURL()."/light.css' rel='stylesheet' type='text/css' media='print' />\n";
+   echo "<link rel='shortcut icon' href='".Tools::getServerRootURL()."/images/favicon.ico' />\n";
+   echo "<link href='".Tools::getServerRootURL()."/codev.css' rel='stylesheet' type='text/css' />\n";
 ?>
 </head>
 
 <body>
 <div id='header'>
 
-<table id='header'>
+<table style="border: 1px solid white;" width="100%" class="invisible">
 <tr>
 <td width=300>
 <?php
-   echo "<a href='".getServerRootURL()."/'><img src='".getServerRootURL()."/images/codevtt_logo_03.png' /></a>";
+   echo "<a href='".Tools::getServerRootURL()."/'><img src='".Tools::getServerRootURL()."/images/codevtt_logo_03.png' /></a>";
 ?>
 </td>
 <td>
@@ -61,9 +46,22 @@ include_once "tools.php";
 ?>
 </td>
 <td width=300>
-<?php echo "<a href='".curPageName()."?locale=fr'><img title='Francais' src='".getServerRootURL()."/images/drapeau_fr.jpg' /></a>";?>
+<?php echo "<a href='".Tools::curPageName()."?locale=fr'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-fr' title='Francais' width='18px' height='12px' /></a>";?>
 &nbsp;
-<?php echo "<a href='".curPageName()."?locale=en'><img title='English' src='".getServerRootURL()."/images/drapeau_gb.jpg' /></a>";?>
+<?php echo "<a href='".Tools::curPageName()."?locale=en'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-gb' title='English' width='18px' height='12px' /></a>";?>
+&nbsp;
+<?php echo "<a href='".Tools::curPageName()."?locale=de_DE'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-de' title='Deutsch' width='18px' height='12px' /></a>";?>
+&nbsp;
+<?php echo "<a href='".Tools::curPageName()."?locale=it_IT'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-it' title='Italian' width='18px' height='12px' /></a>";?>
+&nbsp;
+<?php echo "<a href='".Tools::curPageName()."?locale=es_ES'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-es' title='Español' width='18px' height='12px' /></a>";?>
+&nbsp;
+<?php echo "<a href='".Tools::curPageName()."?locale=zh_CN'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-cn' title='Chinese' width='18px' height='12px' /></a>";?>
+&nbsp;
+<?php echo "<a href='".Tools::curPageName()."?locale=zh_TW'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-tw' title='Taiwan' width='18px' height='12px' /></a>";?>
+&nbsp;
+<?php echo "<a href='".Tools::curPageName()."?locale=ar'><img src='".Tools::getServerRootURL()."/images/blank.png' class='flag flag-dz' title='Arab' width='18px' height='12px' /></a>";?>
+
 </td>
 </tr>
 </table>

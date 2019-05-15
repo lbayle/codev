@@ -14,8 +14,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @package log4php
  */
 
 /**
@@ -27,66 +25,106 @@
  *
  * This appender uses a layout.
  * 
- * Configurable parameters for this appender are:
- * - datePattern - The date format for the file name. Should be set before 
- *                 $file. Default value: "Ymd".
- * - file        - The path to the target log file. The filename should 
- *                 contain a '%s' which will be substituted by the date.
- * - append      - Sets if the appender should append to the end of the
- *                 file or overwrite content ("true" or "false"). Default 
- *                 value: true.
+ * ##Configurable parameters:##
  * 
- * An example php file:
+ * - **datePattern** - Format for the date in the file path, follows formatting
+ *     rules used by the PHP date() function. Default value: "Ymd".
+ * - **file** - Path to the target file. Should contain a %s which gets 
+ *     substituted by the date.
+ * - **append** - If set to true, the appender will append to the file, 
+ *     otherwise the file contents will be overwritten. Defaults to true.
  * 
- * {@example ../../examples/php/appender_dailyfile.php 19}
- *  
- * An example configuration file:
- * 
- * {@example ../../examples/resources/appender_dailyfile.properties 18}
- *
- * The above will create a file like: daily_20090908.log
- *
- * @version $Revision: 1059522 $
+ * @version $Revision: 1382274 $
  * @package log4php
  * @subpackage appenders
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php/docs/appenders/daily-file.html Appender documentation
  */
 class LoggerAppenderDailyFile extends LoggerAppenderFile {
 
 	/**
-	 * Format date. 
-	 * It follows the {@link PHP_MANUAL#date()} formatting rules and <b>should always be set before {@link $file} param</b>.
+	 * The 'datePattern' parameter.
+	 * Determines how date will be formatted in file name.
 	 * @var string
 	 */
-	public $datePattern = "Ymd";
+	protected $datePattern = "Ymd";
 	
-	public function __destruct() {
-		parent::__destruct();
+	/**
+	 * Current date which was used when opening a file.
+	 * Used to determine if a rollover is needed when the date changes.
+	 * @var string
+	 */
+	protected $currentDate;
+
+	/** Additional validation for the date pattern. */
+	public function activateOptions() {
+		parent::activateOptions();
+	
+		if (empty($this->datePattern)) {
+			$this->warn("Required parameter 'datePattern' not set. Closing appender.");
+			$this->closed = true;
+			return;
+		}
+	}
+
+	/**
+	 * Appends a logging event.
+	 * 
+	 * If the target file changes because of passage of time (e.g. at midnight) 
+	 * the current file is closed. A new file, with the new date, will be 
+	 * opened by the write() method. 
+	 */
+	public function append(LoggerLoggingEvent $event) {
+		$eventDate = $this->getDate($event->getTimestamp());
+		
+		// Initial setting of current date
+		if (!isset($this->currentDate)) {
+			$this->currentDate = $eventDate;
+		} 
+		
+		// Check if rollover is needed
+		else if ($this->currentDate !== $eventDate) {
+			$this->currentDate = $eventDate;
+			
+			// Close the file if it's open.
+			// Note: $this->close() is not called here because it would set
+			//       $this->closed to true and the appender would not recieve
+			//       any more logging requests
+			if (is_resource($this->fp)) {
+				$this->write($this->layout->getFooter());
+				fclose($this->fp);
+			}
+			$this->fp = null;
+		}
+	
+		parent::append($event);
+	}
+	
+	/** Renders the date using the configured <var>datePattern<var>. */
+	protected function getDate($timestamp = null) {
+		return date($this->datePattern, $timestamp);
 	}
 	
 	/**
-	 * Sets date format for the file name.
-	 * @param string $datePattern a regular date() string format
+	 * Determines target file. Replaces %s in file path with a date. 
+	 */
+	protected function getTargetFile() {
+		return str_replace('%s', $this->currentDate, $this->file);
+	}
+	
+	/**
+	 * Sets the 'datePattern' parameter.
+	 * @param string $datePattern
 	 */
 	public function setDatePattern($datePattern) {
-		$this->datePattern = $datePattern;
+		$this->setString('datePattern', $datePattern);
 	}
 	
 	/**
-	 * @return string returns date format for the filename
+	 * Returns the 'datePattern' parameter.
+	 * @return string
 	 */
 	public function getDatePattern() {
 		return $this->datePattern;
-	}
-	
-	/**
-	 * Similar to the parent method, but replaces "%s" in the file name with 
-	 * the current date in format specified by $datePattern. 
-	 *
-	 * @see LoggerAppenderFile::setFile()
-	 */
-	public function setFile($file) {
-		$date = date($this->getDatePattern());
-		$file = sprintf($file, $date);
-		parent::setFile(sprintf($file, $date));
 	}
 }

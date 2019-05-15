@@ -1,5 +1,5 @@
 <?php
-include_once('./include/session.inc.php');
+include_once('include/session.inc.php');
 
 /*
     This file is part of CoDev-Timetracking.
@@ -20,9 +20,21 @@ include_once('./include/session.inc.php');
 
 require('path.inc.php');
 
+try {
+   if (Tools::isConnectedUser() && isset($_SESSION['teamid'])) {
+      $user =  UserCache::getInstance()->getUser($_SESSION['userid']);
+      $user->setDefaultTeam($_SESSION['teamid']);
+      $user->setDefaultLanguage($_SESSION['locale']);
+      $user->setDefaultProject($_SESSION['projectid']);
+   }
+} catch (Exception $e) {
+   #$logger->debug("could not set defaultTeam for user ".$_SESSION['userid']);
+}
+
 unset($_SESSION['userid']);
 unset($_SESSION['username']);
 unset($_SESSION['realname']);
+
 session_destroy();
 
 // load homepage

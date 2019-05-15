@@ -1,34 +1,10 @@
 <div id="content">
-   {if $projects}
-   <div class="center" style="margin-top: 2em">
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-            jQuery("#projectid").change(function() {
-               var projectid = jQuery(this).val();
-               jQuery.ajax({
-                  type: "GET",
-                  url: "smarty_tools_ajax.php",
-                  data: "action=getProjectIssues&projectid="+projectid+"&bugid="+jQuery("#bugid").val(),
-                  success: function(data) {
-                     jQuery("#bugSelector").html(jQuery.trim(data));
 
-                     // Hide result because the form is no more consistent with the result
-                     jQuery("#result").hide();
-                  },
-                  error: function(jqXHR, textStatus, errorThrown) {
-                     if(errorThrown == 'Forbidden') {
-                        window.location = '{$page}';
-                     } else {
-                        alert(errorThrown);
-                     }
-                  }
-               });
-            });
-         });
-      </script>
-      <form name="form1" method="GET" action="{$page}">
+   {if isset($projects)}
+   <div class="center" style="margin-top: 2em">
+      <form id="form1" name="form1" class="formWithTabsHistory" method="get" action="{$page}">
          <fieldset>
-            <select id="projectid" onchange="javascript: setProjectid()" title="{t}Project{/t}">
+            <select id="projectid" title="{t}Project{/t}">
               {foreach from=$projects key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
@@ -36,310 +12,406 @@
             <span id="bugSelector">
             {include file="form/bugSelector.html"}
             </span>
-            {if $support}<input type="hidden" name="support" />{/if}
-            <input type="submit" value="{t}Jump{/t}" />
+            {if isset($support)}<input type="hidden" name="support" />{/if}
+            <input type="submit" value="{t}Select{/t}" />
          </fieldset>
       </form>
    </div>
 
    <div id="result">
 
-   <!-- Title -->
-   {if $issueGeneralInfo}
+      <!-- Title -->
+      {if isset($issueGeneralInfo)}
 
-   <div style="margin-top:2em;"></div>
-   
-   {include file="modal/consistency_check.html"}
+      <div style="margin-top:2em;">{include file="modal/consistency_check.html"}</div>
 
-   <div class="center">
-      <span title="{t}External ID{/t}">{$issueGeneralInfo.issueExtRef}</span>
-      <br>
-      <h2>{$issueGeneralInfo.mantisURL}  {$issueGeneralInfo.issueURL} -- {$issueGeneralInfo.issueSummary}</h2>
-   </div>
+      <div class="center">
+         <!--{if $issueGeneralInfo.issueExtRef}<span title="{t}External ID{/t}">{$issueGeneralInfo.issueExtRef}</span>{/if}-->
+         <h2>{$issueGeneralInfo.mantisURL} {$issueGeneralInfo.issueURL} : {$issueGeneralInfo.issueSummary}</h2>
+      </div>
 
-   <div style="margin-top:4em;"></div>
-   
-   <div style='text-align:left;' class='center'>
-      <table class="invisible">
-         <!--tr>
-            <th>{t}Mantis ID{/t}</th>
-            <td>{$issueGeneralInfo.issueURL}</td>
-         </tr-->
-         {if $issueGeneralInfo.issueExtRef}
-         <tr>
-            <th>{t}External Ref{/t}</th>
-            <td>: </td>
-            <td>{$issueGeneralInfo.issueExtRef}</td>
-         </tr>
-         {/if}
-         <tr>
-            <th>{t}Assigned to{/t}</th>
-            <td>: </td>
-            <td>{$issueGeneralInfo.handlerName}</td>
-         </tr>
-         <tr>
-            <th>{t}Status{/t}</th>
-            <td>: </td>
-            <td>{$issueGeneralInfo.statusName}</td>
-         </tr>
-         <tr>
-            <th valign='top'>{t}Commands{/t}</th>
-               <td valign='top'>: </td>
-               <td><table class="invisible">
-                  {foreach from=$parentCommands key=id item=i}
-                     <tr><td>{$i.reference} {$i.name}</td></tr>
-                  {/foreach}
-                  </table>
-               </td>
-         </tr>
-      </table>
-   </div>
-   
-   <div style="margin-top:3em;"></div>
-   
-   <script type="text/javascript">
-      jQuery(function() {
-         jQuery( "#tabsIssueInfo" ).tabs();
-      });
-   </script>
-   <div id="tabsIssueInfo">
-      <ul>
-         <li><a href="#tabsName-1">{t}Overview{/t}</a></li>
-         <li><a href="#tabsName-2">{t}Timetracks{/t}</a></li>
-         <li><a href="#tabsName-3">{t}Time per Status{/t}</a></li>
-      </ul>
-      <div id="tabsName-1">
-         <!-- General info -->
-         <div id="issueGeneralInfo" class="float">
-            {include file="ajax/generalInfo.html"}
-         </div>
-
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               var remaining = jQuery("#remaining"),
-                  allFields = jQuery([]).add(remaining),
-                  tips = jQuery("#validateTips");
-
-               function updateTips(t) {
-                  tips.text(t)
-                     .addClass("ui-state-highlight");
-                  setTimeout(function() {
-                     tips.removeClass("ui-state-highlight", 1500);
-                  }, 500 );
-               }
-
-               function checkRegexp(o, regexp, n) {
-                  if (!(regexp.test(o.val()))) {
-                     o.addClass("ui-state-error");
-                     updateTips(n);
-                     return false;
-                  } else {
-                     return true;
-                  }
-               }
-
-               jQuery("#update_remaining_dialog_form").dialog({
-                  autoOpen: false,
-                  height: 200,
-                  width: 500,
-                  modal: true,
-                  open: function() {
-                     // Select input field contents
-                     jQuery("#remaining").select();
-                  },
-                  buttons: {
-                     "{t}Update{/t}": function() {
-                        jQuery("#formUpdateRemaining").submit();
-                     },
-                     Cancel: function() {
-                        jQuery(this).dialog("close");
-                        allFields.val("").removeClass("ui-state-error");
-                        remaining.val({$issueGeneralInfo.issueRemaining});
-                        updateTips("{$issueGeneralInfo.issueSummary}");
-                     }
-                  }
-               });
-
-               jQuery("#formUpdateRemaining").submit(function(event) {
-                  /* stop form from submitting normally */
-                  event.preventDefault();
-
-                  var bValid = true;
-                  allFields.removeClass("ui-state-error");
-                  bValid = bValid && checkRegexp(remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'");
-
-                  if (bValid) {
-                     /* get some values from elements on the page: */
-                     var form = jQuery(this);
-
-                     jQuery.ajax({
-                        type: form.attr("method"),
-                        url: form.attr("action"),
-                        data: form.serialize(),
-                        success: function(data) {
-                           var bugid = jQuery("#bugid").val();
-                           jQuery.ajax({
-                              type: "GET",
-                              url: "reports/issue_info_ajax.php",
-                              data: "action=getGeneralInfo&bugid="+bugid,
-                              success: function(data) {
-                                 jQuery("#issueGeneralInfo").html(jQuery.trim(data));
-                              },
-                              error: function(jqXHR, textStatus, errorThrown) {
-                                 if(errorThrown == 'Forbidden') {
-                                    window.location = '{$page}';
-                                 } else {
-                                    alert(errorThrown);
-                                 }
-                              }
-                           });
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                           if(errorThrown == 'Forbidden') {
-                              window.location = '{$page}';
-                           } else {
-                              alert(errorThrown);
-                           }
-                        }
-                     });
-
-                     jQuery("#update_remaining_dialog_form").dialog("close");
-                  }
-               });
-            });
-         </script>
-         <div id="update_remaining_dialog_form" title="{t}Task{/t} {$issueGeneralInfo.issueId}{if $issueGeneralInfo.issueTcId} / {$issueGeneralInfo.issueTcId}{/if} - {t}Update Remaining{/t}" style="display: none">
-            <p id="validateTips">{$issueGeneralInfo.issueSummary}</p>
-            <form id="formUpdateRemaining" name="formUpdateRemaining" method="post" action="smarty_tools_ajax.php" >
-               <fieldset>
-                  <label for="remaining">{t}Remaining{/t}:</label>
-                  <input type="text" id="remaining" name="remaining" size="3" class="text" value="{$issueGeneralInfo.issueRemaining}" />
-                  <input type="hidden" id="bugid" name="bugid"  value="{$issueGeneralInfo.issueId}" />
-                  <input type="hidden" name="action" value="updateRemainingAction" />
-               </fieldset>
-            </form>
-         </div>
-
-         <!-- Job details -->
-         <div class="float" style="margin-left: 5em">
-            <table>
+      <div id="divCmds" style="margin-top:2em;">
+         <table class="invisible">
+            <tbody>
                <tr>
-                  <th>{t}Job{/t}</th>
-                  <th>{t}Nb Days{/t}</th>
-                  <th></th>
-               </tr>
-               {foreach from=$jobDetails key=id item=i}
-               <tr>
+                  <td style="vertical-align:top; font-weight:bold;">{t}Commands{/t} : </td>
                   <td>
-                     <img src="graphs/rectangle.png.php?height=12&width=12&border&color={$i.jobColor}"/>
-                     {$i.jobName}
+                     <div id="cmdList">
+                     {foreach from=$parentCommands key=id item=i}
+                     <div id="divCmd_{$i.id}">
+                     {if $isManager}
+                     <span class="pointer"><img onclick="removeFromCmd('{$i.id}');return false;" align="absmiddle" title="{t}Remove task from command{/t}" src="images/b_drop2.png"/></span>
+                     {/if}
+                     <a href='management/command_info.php?cmdid={$i.id}'>{if isset($i.reference)}{$i.reference} {/if}{$i.name}</a>
+                     </div>
+                     {/foreach}
+                     </div>
+                     {if $isManager}
+                     <div id="divAddCmd">
+                     <span id="addToCmd_link" class="pointer"><img align="absmiddle" title="{t}Add to command{/t}" src="images/b_add2.gif"/></span>
+                     <span class="help_font">{t}Add to command{/t}</span>
+                     </div>
+                     {/if}
                   </td>
-                  <td>{$i.duration}</td>
-                  <td>{$i.durationRate} %</td>
                </tr>
-               {/foreach}
-            </table>
-         </div>
-
-         <!-- Dates -->
-         <div class="float" style="margin-left: 5em">
-            <table>
-               <tr>
-                  <th>{t}Dates{/t}</th>
-                  <th></th>
-               </tr>
-               <tr>
-                  <td>{t}DeadLine{/t}</td>
-                  <td>{$timeDrift.deadLine}</td>
-               </tr>
-               <tr>
-                  <td>{t}DeliveryDate{/t}</td>
-                  <td>{$timeDrift.deliveryDate}</td>
-               </tr>
-               <tr>
-                  <td>{t}Deviation{/t}</td>
-                  <td style="background-color: #{$timeDrift.driftColor}">{if $timeDrift.drift}{$timeDrift.drift} {t}days{/t}{/if}</td>
-               </tr>
-            </table>
-         </div>
-         <div class="spacer"></div>
-      </div>
-
-      <div id="tabsName-2">
-         
-         <!-- Jobs details by months -->
-         {if $months}
-         <div style="margin-top: 2em">
-
-            {foreach from=$months key=id item=i}
-            <table width="70%" style="margin-top: 2em">
-               <caption>{$i.monthFormated} <span style="margin-left: 1em;font-weight: normal; font-size: 12px">{$i.totalDuration} {t}days{/t}</span></caption>
-               <tr>
-                  <th></th>
-                  {foreach from=$i.months key=id item=j}
-                  <th>{$j}</th>
-                  {/foreach}
-               </tr>
-               {foreach from=$i.users key=id item=k}
-               <tr>
-                  <td>{$k.username}</td>
-                  {foreach from=$k.jobs key=id item=l}
-                  <td style="background-color: #{$l.jobColor}; text-align: center;" title="{$l.jobDescription}">{$l.jobDuration}</td>
-                  {/foreach}
-               </tr>
-               {/foreach}
-            </table>
-            {/foreach}
-         </div>
-
-         <!-- legend -->
-   <div style="margin-top:2em;"></div>
-         <table class='invisible'>
-            <tr>
-            {foreach from=$jobDetails key=id item=i}
-               <td>
-                  <img src="graphs/rectangle.png.php?height=12&width=12&border&color={$i.jobColor}"/>
-                  {$i.jobName}
-               </td>
-               <td>&nbsp;</td>
-            {/foreach}
-            </tr>
+            </tbody>
          </table>
-         
-         {/if}
       </div>
 
-      <div id="tabsName-3">
-         <!-- Time allocation -->
-         {if $durationsByStatus}
-         <div style="margin-top: 2em">
+      <div id="tabsIssueInfo" class="tabs {$ui_tabs_jquery}" style="margin-top:1em;">
+         <ul class="{$ui_tabs_jquery_ul}">
+            <li class="{$ui_tabs_jquery_li}"><a href="#tab_overview">{t}Properties{/t}</a></li>
+            <li class="{$ui_tabs_jquery_li}"><a href="#tab_timetracks">{t}Timetracks{/t}</a></li>
+            <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
+         </ul>
 
-            <table style="margin-top: 2em">
-               <caption>{t}Time allocation by status{/t}</caption>
-               <tr>
-                  {foreach from=$durationsByStatus.statusNames key=id item=i}
-                  <th>{$i}</th>
-                  {/foreach}
-               </tr>
-               <tr>
-                  {foreach from=$durationsByStatus.durations key=id item=i}
-                  <td>{$i}</td>
-                  {/foreach}
-               </tr>
-            </table>
+         <div id="tab_indicators">{include file="tools/dashboard.html"}</div>
+
+         <div id="tab_overview">
+
+            <!-- General info -->
+            <h3>
+               <span id="updateTimetracking_link" >{t}Time tracking{/t} 
+                  {if ! $isObserver}
+                  &nbsp;&nbsp;<img class="pointer" align="absmiddle" title="{t}Update timetracking{/t}" src="images/b_edit.png"/>
+                  {/if}
+               </span>
+            </h3>
+            <div id="issueGeneralInfo" style="margin-top:0.5em;">
+               {include file="ajax/issueGeneralInfo.html"}
+            </div>
+
+            <div id="divTaskInfo" style="margin-top:2em;">
+               <h3>
+                  <span id="updateTaskInfo_link" >{t}Task Info{/t} 
+                     {if ! $isObserver}
+                     &nbsp;&nbsp;<img class="pointer" align="absmiddle" title="{t}Update task info{/t}" src="images/b_edit.png"/>
+                     {/if}
+                  </span>
+               </h3>
+               <table class="center" style="margin-top:0.5em;">
+                  <thead>
+                     <tr>
+                        <th>{t}External Ref{/t}</th>
+                        <th>{t}Assigned to{/t}</th>
+                        <th>{t}Status{/t}</th>
+                        <th>{t}Project{/t}</th>
+                        <th>{t}Category{/t}</th>
+                        <th>{t}Type{/t}</th>
+                        <th>{t}Priority{/t}</th>
+                        <th>{t}Severity{/t}</th>
+                        <th title="{t}Target version{/t}">{t}Target{/t}</th>
+                        <th>{t}Deadline{/t}</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td id="ti_issueExtRef">{$issueGeneralInfo.issueExtRef}</td>
+                        <td id="ti_handlerName">{$issueGeneralInfo.handlerName}</td>
+                        <td id="ti_statusName">{$issueGeneralInfo.statusName}</td>
+                        <td id="ti_projectName">{$issueGeneralInfo.projectName}</td>
+                        <td id="ti_categoryName">{$issueGeneralInfo.categoryName}</td>
+                        <td id="ti_issueType">{$issueGeneralInfo.issueType}</td>
+                        <td id="ti_priorityName">{$issueGeneralInfo.priorityName}</td>
+                        <td id="ti_severityName">{$issueGeneralInfo.severityName}</td>
+                        <td id="ti_targetVersion" title="{$issueGeneralInfo.targetVersionDate}">{$issueGeneralInfo.targetVersion}</td>
+                        <td id="ti_deadLine">
+                        {if isset($timeDrift.deadLine)}
+                           {$timeDrift.deadLine}
+                           {$timeDrift.tooltip}
+                        {/if}
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="10" title="{t}Description{/t}"><textarea rows='6' style="border: none; width: 100%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;">{$issueGeneralInfo.issueDescription}</textarea></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+
+            <div id="divRelationships" style="margin-top:2em;">
+               {if $issueGeneralInfo.relationships}
+               <!-- Relationships details -->
+               <table class="invisible">
+                  <tr>
+                     <td>
+                        <table>
+                             <tr>
+                                <th valign="top">{t}Relation{/t}</th>
+                                <th valign="top">{t}Task{/t}</th>
+                                <th valign="top">{t}Status{/t}</th>
+                                <th valign="top">{t}Progress{/t}</th>
+                                <th valign="top">{t}Summary{/t}</th>
+                             </tr>
+                           <tbody>
+                          {foreach $issueGeneralInfo.relationships as $relatedIssue}
+                             <tr>
+                                   <td>{$relatedIssue.relationship}</td>
+                                   <td>{$relatedIssue.url}</td>
+                                   <td>{$relatedIssue.status}</td>
+                                   <td>{$relatedIssue.progress}%</td>
+                                   <td>{$relatedIssue.summary}%</td>
+                             </tr>
+                          {/foreach}
+                          </tbody>
+                       </table>
+                     </td>
+                  </tr>
+               </table>
+               {/if}
+            </div>
+            <div id="divMantisNotes" style="margin-top:2em;">
+               <h3>
+                  <span id="getMantisNotes_link" >{t}Mantis notes{/t}
+                     &nbsp;&nbsp;<img class="pointer" align="absmiddle" title="{t}Get mantis notes{/t}" src="images/b_refresh.png"/>
+                  </span>
+               </h3>
+               <div id="divNotesInfo" style="margin-top:0.5em;">
+                  <label class="help_font">{t}Click refresh button to display...{/t}</label>
+               </div>
+               <div id="divNotesTable"  style="display: none; margin-top:0.5em;">
+                  <table id="tableMantisNotes" class="datatable_csv">
+                     <thead>
+                     <tr>
+                        <th valign="top">{t}Date{/t}</th>
+                        <th valign="top">{t}User{/t}</th>
+                        <th valign="top">{t}Type{/t}</th>
+                        <th valign="top">{t}Note{/t}</th>
+                     </tr>
+                     </thead>
+                     <tbody>
+                        <!-- filled by ajax -->
+                     </tbody>
+                 </table>
+              </div>
+            </div>
+
+            <div class="ui-helper-clearfix"></div>
          </div>
-         {/if}
-      </div>
-   </div>
-   
-   
-   <!-- General info -->
-   <div style="margin-top: 2em"></div>
-   {/if}
 
-  </div>
+         <div id="tab_timetracks">
+            <div id="" style="margin-top:1em;">
+               {if ($firstTimetrackDate)}
+               <table class="invisible">
+                  <tr>
+                     <td>{t}First Timetrack date{/t}</td>
+                     <td>:</td>
+                     <td>{$firstTimetrackDate}</td>
+                  </tr>
+                  <tr>
+                     <td>{t}Latest Timetrack date{/t}</td>
+                     <td>:</td>
+                     <td>{$latestTimetrackDate}</td>
+                  </tr>
+               </table>
+               {/if}
+               {if ($isTimetracksTruncated)}
+               <div style="margin-top:1em;">
+                  <span style="color:red;" title="For performance issues, displayed timetracks have been truncated">{t}WARNING: Prior timetracks could not be displayed !{/t}</span>
+               </div>
+               {/if}
+            </div>
+            <div style="margin-top:1em;">
+               <!-- Jobs details by months -->
+               {if $months}
+               {foreach from=$months key=id item=i}
+               <table width="70%" style="margin-bottom: 2em;">
+                  <caption>{$i.monthFormated} <span style="margin-left: 1em;font-weight: normal; font-size: 12px">{$i.totalDuration} {t}days{/t}</span></caption>
+                  <thead>
+                     <tr>
+                        <th></th>
+                        {foreach from=$i.months key=id item=j}
+                        <th>{$j}</th>
+                        {/foreach}
+                        <th>TOTAL</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {foreach from=$i.users key=id item=k}
+                     {if ($k.isDisplayed)}
+                     <tr>
+                        <td>{$k.username}</td>
+                        {foreach from=$k.jobs key=id item=l}
+                        <td style="{if isset($l.jobColor)}background-color: #{$l.jobColor};{/if} text-align: center;" {if isset($l.jobDescription)}title="{$l.jobDescription}"{/if}>{if isset($l.jobDuration)}{$l.jobDuration}{/if}</td>
+                        {/foreach}
+                        <th>{$k.totalDuration}</th>
+                     </tr>
+                     {/if}
+                     {/foreach}
+                  </tbody>
+               </table>
+               {/foreach}
+
+               <!-- legend -->
+               {foreach from=$jobDetails key=id item=i}
+               <div class="float" style="margin-right: 1em;">
+                  <div class="generatedImage float" style="background-color: #{$i.jobColor};"></div>
+                  <div class="float">{$i.jobName}</div>
+                  <div class="ui-helper-clearfix"></div>
+               </div>
+               {/foreach}
+               <div class="ui-helper-clearfix"></div>
+               {/if}
+            </div>
+         </div>
+      </div>
+      {/if}
+
+      <div id="formUpdateTimetracking_dialog" title="{t}Update timetracking values{/t}" class="ui-helper-hidden">
+         <form id="formUpdateTimetracking" name="formUpdateTimetracking" method="get" action="{$ajaxPage}" >
+            <fieldset>
+               <label style="margin-top: 1em"><b>{t}Task{/t} : </b>{$issueGeneralInfo.issueId}{if isset($issueGeneralInfo.issueExtRef)} / {$issueGeneralInfo.issueExtRef}{/if}</label>
+               <table style="margin-top: 1em">
+                  <tbody>
+                     <tr>
+                        {if $isManager}
+                        <th>{t}MgrEffortEstim{/t}</th>
+                        {/if}
+                        <th>{t}EffortEstim{/t}</th>
+                        <th>{t}Backlog{/t}</th>
+                     </tr>
+                     <tr>
+                        {if $isManager}
+                        <td><input type="text" id="fut_issueMgrEffortEstim" name="fut_issueMgrEffortEstim" class="text" style="width: 100%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"/></td>
+                        {/if}
+                        <td><input type="text" id="fut_issueEffortEstim" name="fut_issueEffortEstim" class="text" style="width: 100%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;" /></td>
+                        <td><input type="text" id="fut_backlog" name="fut_backlog" class="text" style="width: 100%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;" /></td>
+                     </tr>
+                  </tbody>
+               </table>
+               <label id="fut_validateTips" class="error_font" ></label>
+               <input type="hidden" name="action" value="updateTimetracking" />
+               <input type="hidden" name="bugid"  value="{$issueGeneralInfo.issueId}" />
+            </fieldset>
+         </form>
+      </div>
+      {if $isManager}
+      <div id="formRemoveFromCmd_dialog" title="{t}Remove task from command{/t}" class="ui-helper-hidden">
+         <p><span class="ui-icon ui-icon-alert float" style="margin-right: 7px;"></span>
+            {t}Remove from :{/t} <span id="formRemoveFromCmd_cmdName">cmdName</span>
+         </p>
+         <form id="formRemoveFromCmd" name="formRemoveFromCmd" method="get" action="{$ajaxPage}" >
+            <fieldset>
+               <input type="hidden" name="action" value="removeFromCmd" />
+               <input type="hidden" name="bugid"  value="{$issueGeneralInfo.issueId}" />
+               <input type="hidden" name="cmdid"  value="0" />
+            </fieldset>
+         </form>
+      </div>
+      <div id="formAddToCmd_dialog" title="{t}Add to Command{/t}" class="ui-helper-hidden">
+         <form id="formAddToCmd" name="formAddToCmd" method="get" action="{$ajaxPage}" >
+            <fieldset>
+               {t}Command{/t} :
+               <select class="cbCmdCandidates" name="cmdid" style="margin-left:1em;  width:400px;">
+               </select>
+               <input type="hidden" name="action" value="addToCmd" />
+               <input type="hidden" name="bugid"  value="{$issueGeneralInfo.issueId}" />
+            </fieldset>
+         </form>
+      </div>
+      {/if}
+      <div id="formUpdateTaskInfo_dialog" title="{t}Update task info{/t}" class="ui-helper-hidden">
+         <form id="formUpdateTaskInfo" name="formUpdateTaskInfo" method="get" action="{$ajaxPage}" >
+            <fieldset>
+
+               <table class="invisible">
+                  <tbody>
+                     <tr>
+                        <th><label>{t}Task{/t} :</label></th>
+                        <td><label>{$issueGeneralInfo.issueId}{if isset($issueGeneralInfo.issueExtRef)} / {$issueGeneralInfo.issueExtRef}{/if}</label></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th><label for="futi_extRef">{t}External Ref{/t} :</label></th>
+                        <td><input type="text" id="futi_extRef" name="futi_extRef" size="15" class="text" /></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th><label for="futi_cbHandlerId">{t}Assigned to{/t} :</label></th>
+                        <td><select id="futi_cbHandlerId" name="futi_cbHandlerId"> </select></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th><label for="futi_cbStatus">{t}Status{/t} :</label></th>
+                        <td><select id="futi_cbStatus" name="futi_cbStatus"> </select></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th><label for="futi_codevttType">{t}Type{/t} :</label></th>
+                        <td><select id="futi_codevttType" name="futi_codevttType">
+                              <option value="Bug">Bug</option>
+                              <option value="Task">Task</option>
+                           </select>
+                        </td>
+                        <td></td>
+                     </tr>
+                     <!--tr>
+                        <th><label for="futi_priority">{t}Priority{/t} :</label></th>
+                        <td><select id="futi_priority" name="futi_priority"> </select></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th><label for="futi_severity">{t}Severity{/t} :</label></th>
+                        <td><select id="futi_severity" name="futi_severity"> </select></td>
+                        <td></td>
+                     </tr-->
+                     <tr>
+                        <th><label for="futi_cbTargetVersion">{t}Target{/t} :</label></th>
+                        <td><select id="futi_cbTargetVersion" name="futi_cbTargetVersion"> </select></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th><label for="futi_deadlineDatepicker">{t}Deadline{/t} :</label></th>
+                        <td>
+                           <input type="text"  class="datepicker" id="futi_deadlineDatepicker" name="futi_deadlineDatepicker" autocomplete="off" maxlength="10" size="10" />
+                           <input type="checkbox" title="{t}set/remove task specific deadline{/t}" id="futi_isDeadline" name="futi_isDeadline" style="vertical-align: middle;"/>
+                        </td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th><label for="futi_deliveryDatepicker">{t}Delivery date{/t} :</label></th>
+                        <td>
+                           <input type="text"  class="datepicker" id="futi_deliveryDatepicker" name="futi_deliveryDatepicker" autocomplete="off" maxlength="10" size="10" />
+                           <input type="checkbox" title="{t}set/remove delivery date{/t}" id="futi_isDelivery" name="futi_isDelivery" style="vertical-align: middle;"/>
+                        </td>
+                        <td></td>
+                     </tr>
+                  </tbody>
+               </table>
+               <label id="futi_validateTips" class="error_font" ></label>
+               <input type="hidden" name="action" value="updateTaskInfo" />
+               <input type="hidden" name="bugid"  value="{$issueGeneralInfo.issueId}" />
+            </fieldset>
+         </form>
+      </div>
+
+   </div>
+
+
+   <script type="text/javascript">
+      // this is to transmit SMARTY variables to time_tracking.js
+      var issueInfoSmartyData = {
+         page:"{$page}",
+         ajaxPage:"{$ajaxPage}",
+         isManager:{if $isManager}true{else}false{/if},
+         bugid:"{$issueGeneralInfo.issueId}",
+         datepickerLocale:"{$locale}",
+
+         // i18n
+         i18n_checkStatus01:"{t}Task not resolved, backlog cannot be '0'{/t}",
+         i18n_checkStatus02:"{t}Task is resolved, backlog should be '0'{/t}",
+         i18n_checkStatus03:"{t}Backlog should not be set if status is : {/t}",
+         i18n_update:"{t}Update{/t}",
+         i18n_cancel:"{t}Cancel{/t}",
+         i18n_remove:"{t}Remove{/t}",
+         i18n_add:"{t}Add{/t}",
+         i18n_removeTaskFromCommand:"{t}Remove task from command{/t}",
+      };
+   </script>
+   <script type="text/javascript" src="js_min/datepicker.min.js"></script>
+   <script src="js_min/issue_info.min.js"></script>
 
    {else}
-   <div class="center">{t}Sorry, you need to be member of a Team to access this page.{/t}</div>
+   <p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
    {/if}
 </div>

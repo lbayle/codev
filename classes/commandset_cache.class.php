@@ -16,102 +16,38 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('commandset.class.php');
-
-class CommandSetCache {
-
-   private static $logger;
-
-   // class instances
-   private static $instance;
-
-   private static $objects;
-   private static $callCount;
-   private static $cacheName;
-
-   /**
-    * Private constructor to respect the singleton pattern
-    */
-   private function __construct() {
-      self::$objects = array();
-      self::$callCount = array();
-
-      self::$cacheName = __CLASS__;
-
-      self::$logger = Logger::getLogger("cache"); // common logger for all cache classes
-
-      #echo "DEBUG: Cache ready<br/>";
-   }
+/**
+ * usage: CommandSetCache::getInstance()->getCommandSet($id);
+ */
+class CommandSetCache extends Cache {
 
    /**
     * The singleton pattern
     * @static
-    * @return CommandCache
+    * @return CommandSetCache
     */
    public static function getInstance() {
-      if (!isset(self::$instance)) {
-         $c = __CLASS__;
-         self::$instance = new $c;
-      }
-      return self::$instance;
+      return parent::createInstance(__CLASS__);
    }
 
    /**
-    * Get Command class instance
-    * @param int $cmdsetid The command id
-    * @return CommandSet The command attached to the id
+    * Get CommandSet class instance
+    * @param int $id The command set id
+    * @param resource $details The details
+    * @return CommandSet The command set attached to the id
     */
-   public function getCommandSet($cmdsetid) {
-      $cmd = isset(self::$objects[$cmdsetid]) ? self::$objects[$cmdsetid] : NULL;
-
-      if (NULL == $cmd) {
-         self::$objects[$cmdsetid] = new CommandSet($cmdsetid);
-         $cmd = self::$objects[$cmdsetid];
-         #echo "DEBUG: CommandCache add $cmdid<br/>";
-      } else {
-         if (isset(self::$callCount[$cmdsetid])) {
-            self::$callCount[$cmdsetid] += 1;
-         } else {
-            self::$callCount[$cmdsetid] = 1;
-         }
-         #echo "DEBUG: CommandSetCache called $cmdsetid<br/>";
-      }
-      return $cmd;
+   public function getCommandSet($id, $details = NULL) {
+      return parent::get($id, $details);
    }
 
    /**
-    * Display stats
-    * @param bool $verbose
+    * Create CommandSet
+    * @param int $id The id
+    * @param resource $details The details
+    * @return CommandSet The object
     */
-   public function displayStats($verbose = FALSE) {
-      $nbObj   = count(self::$callCount);
-      $nbCalls = array_sum(self::$callCount);
-
-      echo "=== ".self::$cacheName." Statistics ===<br/>\n";
-      echo "nb objects in cache = ".$nbObj."<br/>\n";
-      echo "nb cache calls      = ".$nbCalls."<br/>\n";
-      if (0 != $nbObj) {
-         echo "ratio               = 1:".round($nbCalls/$nbObj)."<br/>\n";
-      }
-      echo "<br/>\n";
-      if ($verbose) {
-         foreach(self::$callCount as $id => $count) {
-            echo "cache[$id] = $count<br/>\n";
-         }
-      }
-   }
-
-   /**
-    * Log stats
-    */
-   public function logStats() {
-      if (self::$logger->isDebugEnabled()) {
-         $nbObj   = count(self::$callCount);
-         $nbCalls = array_sum(self::$callCount);
-         $ratio = (0 != $nbObj) ? "1:".round($nbCalls/$nbObj) : '';
-
-         self::$logger->debug(self::$cacheName." Statistics : nbObj=$nbObj nbCalls=$nbCalls ratio=$ratio");
-      }
+   protected function create($id, $details = NULL) {
+      return new CommandSet($id, $details);
    }
 
 }

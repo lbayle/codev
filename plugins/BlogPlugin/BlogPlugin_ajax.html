@@ -1,0 +1,31 @@
+<div class="blogPlugin_blogPost"  data-bpostId="{$bpost.id}">
+   <style type="text/css">
+     .bgColorSeverity_{$bpost.id} {
+        background-color: {$bpost.bgColorSeverity};
+        border-color: {$bpost.bgColorSeverity};
+     }
+   </style>
+
+   <table BORDER="0.5" style="width:100%; padding: 0.2em; margin-left:0.6em; margin-top:0.6em;">
+   <tr {if $bpost.isHidden}style="background-color:#F0F0F0;"{/if}>
+      <td  width='34' class="blogPlugin_bpostButtons">{$bpost.buttons}</td>
+      <td title="{$bpost.id}"><b>{$bpost.summary}<b></td>
+      <td width='100'><i>{$bpost.category}</i></td>
+      <td width='100' class="bgColorSeverity_{$bpost.id}">{$bpost.severity}</td>
+      <td  class="blogPlugin_postActivity" rowspan="5"  width='200' valign='top'>
+         <span style="text-decoration:underline;">{t}Acknowledged by{/t}:</span><br><br>
+      <div style="overflow:auto; height:120px">
+      {foreach from=$bpost.activity key=activity_id item=action}
+      <span title="{$action.formatedDate}">{$action.actionName} {$action.userName}</span><br>
+      {/foreach}
+      </div>
+      </td>
+   </tr>
+   <tr {if $bpost.isHidden}style="background-color:#F0F0F0;"{/if}>
+      <td colspan="2" rowspan="4" valign="top">{$bpost.content}</td>
+      <td colspan="2" title="{t}Submission date{/t}">{$bpost.date_submitted}{if $bpost.date_expire} &nbsp;&nbsp;&nbsp;<img title="{t}Expiration date{/t}: {$bpost.date_expire}" src="images/time_is_up.png" style="vertical-align: middle"/>{/if}</td>
+   </tr>
+   <tr {if $bpost.isHidden}style="background-color:#F0F0F0;"{/if}><td colspan="2" >{t}Author{/t}: {$bpost.from}</td></tr>
+   <tr {if $bpost.isHidden}style="background-color:#F0F0F0;"{/if}><td colspan="2" >{t}Dest{/t}: {$bpost.to}</td></tr>
+</table>
+</div>

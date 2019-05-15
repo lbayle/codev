@@ -1,0 +1,27 @@
+<div id="content">
+   {if isset($result)}
+   <p>
+      {foreach from=$result key=id item=i}
+      {t}Preparing project:{/t} {$i}<br/>
+      {/foreach}
+   </p>
+   <p>{t}Done{/t}</p>
+   {/if}
+   {if isset($projects)}
+   <h2>{t}Configure existing Projects{/t}</h2>
+   <span class="help_font">{t}Select the projects to be managed with CoDevTT{/t}</span>
+   <form id="form1" name="form1" method="post" action="{$page}" style="margin-top: 2em;">
+      <select name="projects[]" multiple="multiple" size="5">
+         {foreach from=$projects key=id item=i}
+         <option selected="selected" value="{$id}">{$i}</option>
+         {/foreach}
+      </select>
+      <br/><br/>
+      <div class="center">
+         <input type="submit" style="font-size: 150%;" value="{t}Prepare{/t} !" />
+      </div>
+   </form>
+   {else}
+   <p class="center ui-state-error-text">{t}Sorry, you need to be in the admin-team to access this page.{/t}</p>
+   {/if}
+</div>

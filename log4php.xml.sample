@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    more info here:
+    http://logging.apache.org/log4php/docs/layouts/pattern.html
+-->
+
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
+
+    <appender name="myEchoAppender" class="LoggerAppenderEcho">
+	     <layout class="LoggerLayoutSimple" />
+        <param name="htmlLineBreaks" value="1"/>
+    </appender>
+
+    <appender name="myConsoleAppender" class="LoggerAppenderConsole" />
+
+    <appender name="myRollingFileAppender" class="LoggerAppenderRollingFile">
+        <layout class="LoggerLayoutPattern">
+         <!--param name="conversionPattern" value="%d{Y-m-d H:i:s} %c %-5p %m (%F:%L) [%server{HTTP_X_FORWARDED_FOR}]%n" /-->
+            <param name="conversionPattern" value="%d{Y-m-d H:i:s} %c %-5p %m (%F:%L) [%server{REMOTE_ADDR}]%n" />
+        </layout>
+        <param name="file" value="@TAG_CODEVTT_LOGFILE_FULLPATH@" />
+        <param name="maxFileSize" value="2MB" />
+        <param name="maxBackupIndex" value="5" />
+    </appender>
+
+
+    <!-- Displaying file & line info (%F:%L) may be ressource consuming, use this appender for better performances -->
+    <appender name="myRollingFileAppenderLight" class="LoggerAppenderRollingFile">
+        <layout class="LoggerLayoutPattern">
+         <!--param name="conversionPattern" value="%d{Y-m-d H:i:s} %c %-5p %m [%server{HTTP_X_FORWARDED_FOR}]%n" /-->
+            <param name="conversionPattern" value="%d{Y-m-d H:i:s} %c %-5p %m [%server{REMOTE_ADDR}]%n" />
+        </layout>
+        <param name="file" value="@TAG_CODEVTT_LOGFILE_FULLPATH@" />
+        <param name="maxFileSize" value="2MB" />
+        <param name="maxBackupIndex" value="5" />
+    </appender>
+
+    <!-- TODO FIX override level does not work with root appender since upgrade to log4php 2.3.0 ?! -->
+
+    <logger name="login">
+        <level value="INFO" />
+        <appender_ref ref="myRollingFileAppenderLight" />
+    </logger>
+
+    <logger name="default">
+        <level value="INFO" />
+        <appender_ref ref="myRollingFileAppender" />
+    </logger>
+    <logger name="homepage">
+        <level value="INFO" />
+        <appender_ref ref="myRollingFileAppender" />
+    </logger>
+    <logger name="download">
+        <level value="INFO" />
+        <appender_ref ref="myRollingFileAppenderLight" />
+    </logger>
+    <logger name="Install">
+        <level value="DEBUG" />
+        <appender_ref ref="myRollingFileAppender" />
+    </logger>
+
+    <!-- this will log CLIENT Javascript errors in CodevTT SERVER logs. set level to DEBUG to get JS logs -->
+    <logger name="JsErrorCatch">
+        <level value="ERROR" />
+        <appender_ref ref="myRollingFileAppenderLight" />
+    </logger>
+
+
+    <root>
+        <level value="ERROR" />
+        <appender_ref ref="myRollingFileAppender" />
+    </root>
+</log4php:configuration>
+

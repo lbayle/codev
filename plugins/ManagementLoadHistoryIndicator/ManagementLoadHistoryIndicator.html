@@ -1,0 +1,77 @@
+<div class="managementLoadHistoryIndicator">
+<div class="pluginInitFunction"  style="display: none;">managementLoadHistoryIndicatorJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">managementLoadHistoryIndicatorJsDestroy</div>
+{if isset($managementLoadHistoryIndicator_jqplotData)}
+<div>
+   <div class="managementLoadHistoryIndicatorChart date_chart chart inlineBlock" style="width:95%;"></div>
+   <div class="inlineBlock" style="margin-top:1em;">
+      <ul>
+         <li>
+            <a class="managementLoadHistoryIndicatorHelpDialog_link" href="">
+               <img title="help" src="images/help_icon.gif"/>
+            </a>
+         </li>
+      </ul>
+   </div>
+</div>
+
+<div class="managementLoadHistoryIndicatorHelpDialog ui-helper-hidden" title="{t}Progress History Indicator{/t}">
+   <p>{t}Evolution of the real progress vs the theoretical progress.{/t}<br>
+   </p>
+   <p>
+      <strong>{t}Theoretical progress{/t}</strong><br>
+      {t}Compares the EffortEstim to the Elapsed days{/t}
+      <br>
+      <span style="color:blue"><em>{t}Formula{/t} : {t}Elapsed / max(MgrEffortEstim, EffortEstim){/t}</em></span>
+   </p>
+   <p>
+      <strong>{t}Real progress{/t}</strong><br>
+      {t}Displays the backlog{/t}
+      <br>
+      <span style="color:blue"><em>{t}Formula{/t} : {t}Elapsed / (Elapsed +  Backlog){/t}</em></span>
+   </p>
+</div>
+{else}
+   {t}No data.{/t}
+{/if}
+
+<script type="text/javascript">
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function managementLoadHistoryIndicatorJsDestroy() {
+      jQuery(".managementLoadHistoryIndicatorHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html)
+   // or when a new widget is added to the dashboard.
+   function managementLoadHistoryIndicatorJsInit() {
+      {if isset($managementLoadHistoryIndicator_jqplotData)}
+
+      jQuery(".managementLoadHistoryIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".managementLoadHistoryIndicatorHelpDialog").dialog("open");
+      });
+      jQuery(".managementLoadHistoryIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
+      });
+
+      var chart = jQuery('.managementLoadHistoryIndicatorChart');
+      var chartoptions = chart.data('plotoptions');
+      //chartoptions.title.text = '{t}Historical Progression Chart{/t}';
+      chartoptions.legend.location = 'nw';
+      chartoptions.series = [{
+         label : "{t}Mngt Elapsed{/t}"
+      },{
+         label : "{t}Mngt Provisions{/t}"
+      }];
+      chartoptions.axes.xaxis.min = "{$managementLoadHistoryIndicator_plotMinDate}";
+      chartoptions.axes.xaxis.max = "{$managementLoadHistoryIndicator_plotMaxDate}";
+      chartoptions.axes.xaxis.tickInterval = "{$managementLoadHistoryIndicator_plotInterval} month";
+      chartoptions.axes.yaxis.label = '{t}Elapsed{/t}';
+      chartoptions.axes.yaxis.min = 0;
+      chart.jqplot({$managementLoadHistoryIndicator_jqplotData}, chartoptions);
+      {/if}
+
+   };
+</script>
+</div>

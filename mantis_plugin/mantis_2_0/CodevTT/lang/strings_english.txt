@@ -1,0 +1,13 @@
+<?php
+
+/** 
+ * English (English)
+ */
+
+$s_plugin_CodevTT_title = 'CodevTT';
+$s_plugin_CodevTT_description = 'Command management added in bug reporting';
+$s_plugin_CodevTT_command = 'CodevTT_Command';
+$s_plugin_CodevTT_codevtt_menu = 'CodevTT';
+$s_plugin_CodevTT_import_to_command = "Import";
+$s_plugin_CodevTT_import_button = "Import";
+$s_plugin_CodevTT_import_page_title = "Import new bug";

@@ -17,103 +17,70 @@ require('include/session.inc.php');
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action']))) {
+require('path.inc.php');
 
-   require('path.inc.php');
-   require('super_header.inc.php');
-   require('smarty_tools.php');
+if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
 
    if(isset($_GET['action'])) {
-      require('display.inc.php');
-      require('i18n.inc.php');
-
       $smartyHelper = new SmartyHelper();
 
-      if($_GET['action'] == 'getTeamProjects') {
-         require_once('team.class.php');
-
-      $projects[0] = T_('All projects');
-      $projects += Team::getProjectList($_GET['teamid'], false);
-      $smartyHelper->assign('projects', getProjects($projects));
+      if ($_GET['action'] == 'getTeamProjects') {
+         $withDisabled = ('1' == Tools::getSecureGETIntValue('withDisabledProjects', 1)) ? true : false;
+         $projects = TeamCache::getInstance()->getTeam(Tools::getSecureGETIntValue('teamid'))->getProjects(false, $withDisabled);
+         $smartyHelper->assign('projects', SmartyTools::getSmartyArray($projects, 0));
          $smartyHelper->display('form/projectSelector');
-      }
-      else if($_GET['action'] == 'getProjectIssues') {
-         require_once('user_cache.class.php');
+         
+      } elseif ($_GET['action'] == 'getTeamAllProjects') {
+         $withDisabled = ('1' == Tools::getSecureGETIntValue('withDisabledProjects', 1)) ? true : false;
+         $projects[0] = T_('All projects');
+         $projects += $projects = TeamCache::getInstance()->getTeam(Tools::getSecureGETIntValue('teamid'))->getProjects(false, $withDisabled);
+         $smartyHelper->assign('projects', SmartyTools::getSmartyArray($projects, 0));
+         $smartyHelper->display('form/projectSelector');
 
+      } elseif($_GET['action'] == 'getProjectIssues') {
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
+         $withDisabled = ('1' == Tools::getSecureGETIntValue('withDisabledProjects', 1)) ? true : false;
 
          // --- define the list of tasks the user can display
          // All projects from teams where I'm a Developper or Manager AND Observer
          $allProject[0] = T_('(all)');
          $dTeamList = $user->getDevTeamList();
-         $devProjList = count($dTeamList) > 0 ? $user->getProjectList($dTeamList) : array();
+         $devProjList = count($dTeamList) > 0 ? $user->getProjectList($dTeamList, true, $withDisabled) : array();
          $managedTeamList = $user->getManagedTeamList();
-         $managedProjList = count($managedTeamList) > 0 ? $user->getProjectList($managedTeamList) : array();
+         $managedProjList = count($managedTeamList) > 0 ? $user->getProjectList($managedTeamList, true, $withDisabled) : array();
          $oTeamList = $user->getObservedTeamList();
-         $observedProjList = count($oTeamList) > 0 ? $user->getProjectList($oTeamList) : array();
+         $observedProjList = count($oTeamList) > 0 ? $user->getProjectList($oTeamList, true, $withDisabled) : array();
          $projList = $allProject + $devProjList + $managedProjList + $observedProjList;
 
-         // WORKAROUND
-         if($_GET['bugid'] == 'null') {
-            $_GET['bugid'] = 0;
-         }
-         $smartyHelper->assign('bugs', getBugs(getSecureGETIntValue('projectid'),getSecureGETIntValue('bugid',0),$projList));
+         $projectid = Tools::getSecureGETIntValue('projectid');
+         $bugid = Tools::getSecureGETIntValue('bugid',0);
+
+         $smartyHelper->assign('bugs', SmartyTools::getBugs($projectid, $bugid, $projList));
          $smartyHelper->display('form/bugSelector');
       }
-      else if($_GET['action'] == 'getProjectDetails') {
-         require_once('reports/productivity_report_tools.php');
-
-         $weekDates  = week_dates(date('W'),date('Y'));
-         $startdate  = isset($_GET["startdate"]) ? $_GET["startdate"] : date("Y-m-d", $weekDates[1]);
-         $startTimestamp = date2timestamp($startdate);
-
-         $enddate  = isset($_GET["enddate"]) ? $_GET["enddate"] : date("Y-m-d", $weekDates[5]);
-         $endTimestamp = date2timestamp($enddate);
-         $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
-
-         $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $_GET['teamid']);
-
-         $projectid  = $_GET['projectid'];
-         $projectDetails = NULL;
-         if (isset($projectid) && 0 != $projectid) {
-            $projectDetails = getProjectDetails($timeTracking, $projectid);
-         } else {
-            // all sideTasks
-            $projectDetails = getSideTasksProjectDetails($timeTracking);
-         }
-         $smartyHelper->assign('projectDetails', $projectDetails);
-         if($projectDetails != NULL) {
-            $smartyHelper->assign('projectDetailsUrl', getProjectDetailsUrl($projectDetails));
-         }
-         $smartyHelper->display('ajax/projectDetails');
-      }
-      else if($_GET['action'] == 'getYearsToNow') {
-         require_once('team.class.php');
-
-         $team = new Team($_GET['teamid']);
-         $min_year = date("Y", $team->date);
+      elseif($_GET['action'] == 'getYearsToNow') {
+         $team = TeamCache::getInstance()->getTeam(Tools::getSecureGETIntValue('teamid'));
+         $min_year = date("Y", $team->getDate());
          $year = isset($_POST['year']) && $_POST['year'] > $min_year ? $_POST['year'] : $min_year;
-         $smartyHelper->assign('years', getYearsToNow($min_year,$year));
+         $smartyHelper->assign('years', SmartyTools::getYearsToNow($min_year,$year));
          $smartyHelper->display('form/yearSelector');
       }
       else {
-         sendNotFoundAccess();
+         Tools::sendNotFoundAccess();
       }
    }
    else if($_POST['action']) {
-      if($_POST['action'] == 'updateRemainingAction') {
-         require_once('issue_cache.class.php');
-
-         $issue = IssueCache::getInstance()->getIssue(getSecurePOSTIntValue('bugid'));
-         $issue->setRemaining(getSecurePOSTNumberValue('remaining'));
+      if($_POST['action'] == 'updateBacklogAction') {
+         $issue = IssueCache::getInstance()->getIssue(Tools::getSecurePOSTIntValue('bugid'));
+         $issue->setBacklog(Tools::getSecurePOSTNumberValue('backlog'));
       }
       else {
-         sendNotFoundAccess();
+         Tools::sendNotFoundAccess();
       }
    }
 }
 else {
-   sendUnauthorizedAccess();
+   Tools::sendUnauthorizedAccess();
 }
 
 ?>

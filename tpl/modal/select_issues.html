@@ -1,0 +1,160 @@
+<!--
+This opens a popup window displaying an issue list.
+
+- multiselection is enabled
+- the list can be filtered
+- selectAll checkbox
+- the 'add' buton returns a list of selected bugid.
+
+-->
+
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+   
+      jQuery.ajax({
+         url: "lib/DataTables/media/js/jquery.dataTables.min.js",
+         dataType: "script",
+         async: false,
+         cache: true
+      });
+      
+      var oTable = jQuery('#selectable_issues_table').dataTable({
+         "sScrollY": "400px",
+         "bPaginate": false,
+         "bScrollCollapse": true,
+         "bFilter": true,
+         "bSort": true,
+         "bInfo": false,
+         "bAutoWidth": false
+      });
+      
+      var dialog = jQuery("#dialog_selectIssues").dialog({
+         autoOpen: false,
+         modal: true,
+         hide: "fade",
+         width: "1000",
+         resize: function() {
+            oTable.fnAdjustColumnSizing();
+         }
+      });
+   
+      jQuery("#dialog_selectIssues_link").click(function(e) {
+         e.preventDefault();
+         dialog.dialog("open");
+         oTable.fnAdjustColumnSizing();
+      });
+
+      // select/deselect all rows
+      jQuery('#cb_selectAll').click( function() {
+         var is_checked = jQuery(this).is(':checked');
+
+         oTable.$('tr').each(function () {
+            if (is_checked) {
+               jQuery(this).addClass('row_selected');
+            } else {
+               jQuery(this).removeClass('row_selected');
+            }
+         });
+      });
+
+      /* Add/remove class to a row when clicked on */
+      jQuery('#selectable_issues_table tr').click( function() {
+         jQuery(this).toggleClass('row_selected');
+      });
+
+      /* send issue list */
+      jQuery('#bt_selectIssuesDone').click( function() {
+         var selectedRows = oTable.$('tr.row_selected');
+         if (0 == selectedRows.length) {
+            alert('{t}No task selected !{/t}');
+         } else {
+            var bugidArray = new Array();
+            selectedRows.each( function () {
+               var bug_id = jQuery(this).find('td.bug_id').text();
+               bugidArray.push(bug_id);
+            });
+
+            var implodedBugidList = bugidArray.join(',');
+            jQuery("#formSendSelectIssues").find("input[name=bugid_list]").val(implodedBugidList);
+            jQuery("#confirmSendSelectIssues_dialog_form").dialog("open");
+         }
+      });
+
+      // delete track dialogBox
+      jQuery("#confirmSendSelectIssues_dialog_form").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "auto",
+         modal: true,
+         buttons: {
+            "{t}OK{/t}": function() {
+               jQuery("#formSendSelectIssues").submit();
+            },
+            Cancel: function() {
+               jQuery(this).dialog("close");
+            }
+         }
+      });
+   });
+</script>
+
+<div align='left'>
+   <label>{$openDialogLabel}</label>
+   <button id="dialog_selectIssues_link" type="button"><img border="0" align="absmiddle" alt="Add icon" src="images/b_browse.png"> {t}Browse...{/t}</button>
+</div>
+
+<div id="dialog_selectIssues" title="{$selectIssuesBoxTitle}" class="ui-helper-hidden">
+
+   <label class="help_font">{$selectIssuesBoxDesc}</label>
+   <br /><br />
+
+   {if !empty($availableIssueList)}
+   <label><input id="cb_selectAll" type="checkbox"/>{t}Select all{/t}</label>
+   <br />
+   <button id="bt_selectIssuesDone" type="button"><img border="0" align="absmiddle" alt="Add icon" src="images/b_add.png"> {$selectIssuesDoneBtText}</button>
+   {/if}
+   
+   <div align='left'>
+      <table id="selectable_issues_table" class="display">
+         <thead>
+            <tr>
+               <th>{t}ID{/t}</th>
+               <th>{t}ExtRef{/t}</th>
+               <th>{t}Project{/t}</th>
+               <th>{t}Target{/t}</th>
+               <th>{t}Status{/t}</th>
+               <th>{t}Summary{/t}</th>
+            </tr>
+         </thead>
+         <tbody>
+            {foreach from=$availableIssueList key=id item=i}
+            <tr>
+               <td class='bug_id'>{$id}</td>
+               <td>{$i.extRef}</td>
+               <td>{$i.project}</td>
+               <td>{$i.target}</td>
+               <td>{$i.status}</td>
+               <td>{$i.summary}</td>
+            </tr>
+            {/foreach}
+         <tbody>
+      </table>
+
+      <form id="formSendSelectIssues" name="formSendSelectIssues" method="post" action="{$page}" >
+         <fieldset>
+            <input type="hidden" name="action" value="{$sendSelectIssuesActionName}" />
+            <input type="hidden" name="cmdid" value="{$commandid}" />
+            <input type="hidden" name="teamid" value="{$teamid}" />
+            <input type="hidden" name="bugid_list" value="" />
+         </fieldset>
+      </form>
+   </div>
+</div>
+
+<!-- Confirm DialogBox -->
+<div id="confirmSendSelectIssues_dialog_form" title="{$selectIssuesBoxTitle}" class="ui-helper-hidden">
+   <p>
+      <span class="ui-icon ui-icon-alert" style="display: inline-block;"></span>
+      <span style="display: inline-block; overflow: hidden;">{$selectIssuesConfirmMsg}</span>
+   </p>
+</div>

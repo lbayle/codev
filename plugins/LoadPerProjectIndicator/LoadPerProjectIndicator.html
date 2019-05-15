@@ -1,0 +1,130 @@
+<div class="loadPerProjectIndicator">
+<div class="pluginInitFunction"  style="display: none;">loadPerProjectIndicatorJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">loadPerProjectIndicatorJsDestroy</div>
+
+<div align="left" style="margin-top:1em;">
+   <form class="loadPerProjectIndicator_dateRange_form" method="get" action="{$loadPerProjectIndicator_ajaxPhpURL}">
+      <fieldset>
+         <label for="loadPerProject_startdatepicker">{t}From{/t}:</label>
+         <input type="text" class="loadPerProject_startdatepicker datepicker" name="loadPerProject_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="loadPerProject_enddatepicker">{t}To{/t}:</label>
+         <input type="text" class="loadPerProject_enddatepicker datepicker" name="loadPerProject_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <input class="loadPerProject_submit" type="submit" value="{t}Display{/t}" />
+         <input type="hidden" name="action" value="getLoadPerProjectIndicator" />
+         <input type="hidden" name="dashboardId" value="" />
+      </fieldset>
+   </form>
+</div>
+<div>
+   <div class="loadPerProjectIndicatorDiv" align="left" style="margin-top: 1em;">
+      {include file="`$loadPerProjectIndicator_ajaxFile`"}
+   </div>
+   <div class="loadPerProjectIndicatorChart pie_chart chart float" style="top: -9px;width:600px;"></div>
+
+   <div class="floatr" style=" width: 16px">
+      <span class="loadPerProjectIndicatorHelpDialog_link float pointer">
+         <img title="{t}Help{/t}" src="images/help_icon.gif"/>
+      </span>
+      <span class="float pointer">
+         <img title="{t}Export to CSV{/t}" src="images/b_export_xls.gif" onclick="$('.loadPerProjectIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'loadPerProject.csv'{literal}}{/literal})">
+      </span>
+   </div>
+   <div class="loadPerProjectIndicatorHelpDialog ui-helper-hidden" title="{t}Load per Project{/t}">
+      <p>
+         <strong>{t}Description{/t}:</strong><br>
+         {t}Check all the timetracks of the period and return their repartition per Project{/t}
+         <br>
+      </p>
+   </div>
+
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function loadPerProjectIndicatorJsDestroy() {
+      jQuery(".loadPerProjectIndicatorHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function loadPerProjectIndicatorJsInit() {
+
+      // ------------------------
+      // datepicker
+
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+      // Set the date
+      var startDatePicker = jQuery(".loadPerProject_startdatepicker").datepicker("setDate" ,"{$loadPerProjectIndicator_startDate}");
+      var endDatePicker = jQuery(".loadPerProject_enddatepicker").datepicker("setDate" ,"{$loadPerProjectIndicator_endDate}");
+
+      // Add range date
+      startDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+      });
+      endDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+      });
+
+      // ------------------------
+      // on reload with new date range
+      jQuery('.loadPerProject_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+
+         var form = jQuery('.loadPerProjectIndicator_dateRange_form');
+
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: type,
+            url: url,
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+               jQuery(".loadPerProjectIndicatorDiv").html(jQuery.trim(data['loadPerProject_htmlContent']));
+
+               if (data['loadPerProjectIndicator_jqplotData']) {
+                  var chart = jQuery('.loadPerProjectIndicatorChart');
+                  var chartoptions = chart.data('plotoptions');
+                  var jqplotData = jQuery.parseJSON('['+data['loadPerProjectIndicator_jqplotData']+']');
+                  chart.jqplot(jqplotData, chartoptions);
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+      });
+
+      jQuery(".loadPerProjectIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".loadPerProjectIndicatorHelpDialog").dialog("open");
+      });
+      jQuery(".loadPerProjectIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "auto",
+         hide: "fade"
+      });
+
+      // ------------------------
+      // display initial chart
+      {if $loadPerProjectIndicator_jqplotData}
+      var chart = jQuery('.loadPerProjectIndicatorChart');
+      var chartoptions = chart.data('plotoptions');
+      chart.jqplot([{$loadPerProjectIndicator_jqplotData}], chartoptions);
+      {/if}
+   };
+</script>
+</div>

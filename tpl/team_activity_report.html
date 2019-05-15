@@ -1,16 +1,14 @@
-{include file="menu/week_activity_menu.html"}
-
 <div id="content" class="center">
 
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
+
+   <script src='lib/jquery.base64/jquery.base64.js'></script>
+
    <h2 class="center">{t}Weekly Activity{/t}</h2>
-   {if $teams}
    <script type="text/javascript">
       jQuery(document).ready(function() {
          var form = jQuery("#form1");
 
-         jQuery("#teamid").change(function() {
-            form.submit();
-         });
          var weekid = jQuery("#weekid").change(function() {
             form.submit();
          });
@@ -33,7 +31,7 @@
 
             form.submit();
          });
-         jQuery("#nextWeek").click(function() {
+         jQuery("#nextWeek").click(function(event) {
             var weekidVal = weekid.val();
             if (weekidVal <= 52) {
                weekid.val(++weekidVal);
@@ -45,11 +43,11 @@
 
             form.submit();
          });
+
       });
    </script>
-   <form id="form1" name="form1" method="post" action="{$page}">
+   <form id="form1" name="form1" class="formWithTabsHistory" method="post" action="{$page}">
       <fieldset>
-         {include file="form/teamSelector.html"}
          <label>{t}Week{/t}</label>
          <input id="previousWeek" type="button" title="{t}Previous week{/t}" value="&lt;&lt;" />
          <select id="weekid" name="weekid">
@@ -67,72 +65,194 @@
       </fieldset>
    </form>
 
-   <div align="center">
-      {foreach from=$weekDetails item=i key=id}
-      <table style="width: 99%;margin-top: 2em">
-         <caption style="font-size:15px;">{$i.realname} &nbsp;&nbsp; <span style="font-size:12px;font-weight:normal;" title="{t}sum(Remaining) of current tasks{/t}">{t}workload{/t} = {$i.forecastWorkload}</span></caption>
-         <tr>
-            <th width="50%">{t}Task{/t}</th>
-            <th width="1%">{t}RAF{/t}</th>
-            <th width="1%">{t}Progress{/t}</th>
-            <th width="7%">{t}Project{/t}</th>
-            <th width="5" title="{t}Target version{/t}">{t}Target{/t}</th>
-            {if $isChecked}
-            <th width="10%">{t}Job{/t}</th>
-            {/if}
-            {foreach from=$i.weekDates item=j key=id}
-            <th width="10">{$j}</th>
-            {/foreach}
-            {foreach from=$i.weekEndDates item=j key=id}
-            <th width="10" style="background-color: #D8D8D8;">{$j}</th>
-            {/foreach}
-         </tr>
-         {foreach from=$i.weekJobDetails item=j key=id}
-         <tr>
-            <td>{$j.url}</td>
-            <td>{$j.duration}</td>
-            <td>{$j.progress}%</td>
-            <td>{$j.projectName}</td>
-            <td>{$j.targetVersion}</td>
-            {if $isChecked}<td>{$j.jobName}</td>{/if}
-            {foreach from=$j.daysDetails item=k key=id}
-            <td {if $k.color}style="background-color: #{$k.color};"{/if} {if $k.title}title="{$k.title}"{/if}>{$k.duration}</td>
-            {/foreach}
-         </tr>
-         {/foreach}
-      </table>
-      {/foreach}
-   </div>
+   {include file="modal/consistency_check.html"}
 
-   {if $warnings}
-      <div style="margin-top: 2em" align="center">
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               jQuery("#accordion").accordion({
-                  collapsible: true,
-                  clearStyle: true
-               });
-            });
-         </script>
-         <div id="accordion" style="width:450px;">
-            <h3><a href="#">{t}Dates manquantes{/t}</a></h3>
-            <div align="left">
-               <table class="invisible">
-                  {foreach from=$warnings item=i key=id}
-                     <tr style="color:red">
-                        <td>{$i.username}</td>
-                        <td>{$i.date}</td>
-                        <td>{$i.label}</td>
-                     </tr>
+   {if isset($weekDetails)}
+   <div align="center" style="margin-top:4em;">
+   <h2 align="left">{t}Timesheets{/t}</h2>
+      <div id="tabsUsers" class="tabs {$ui_tabs_jquery}">
+         <ul class="{$ui_tabs_jquery_ul}">
+            {foreach from=$weekDetails item=i key=id}
+            {if $i.weekJobDetails}
+            <li class="{$ui_tabs_jquery_li}" id="{str_replace('.','_',$i.name)}"><a href="#tabUser_{str_replace('.','_',$i.name)}">{$i.realname}</a></li>
+            {/if}
+            {/foreach}
+         </ul>
+         {foreach from=$weekDetails item=i key=id}
+         {if $i.weekJobDetails}
+         <div id="tabUser_{str_replace('.','_',$i.name)}">
+            <table style="width: 100%;" id="tableUser_{str_replace('.','_',$i.name)}">
+               <caption>
+                  <span style="margin-left: 1em;font-size:13px;font-weight:normal;" title="{t}sum(Backlog) of assigned tasks{/t}">{t}Workload{/t} = {$i.forecastWorkload}</span>
+                  <span style="margin-left: 1em;"><img onclick="$('#tableUser_{str_replace('.','_',$i.name)}').table2CSV({literal}{{/literal}filename : '{str_replace('.','_',$i.name)}_weekly_activity.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" /></span>
+               </caption>
+               <thead>
+                  <tr>
+                     <th>{t}Task{/t}</th>
+                     <th></th>
+                     <th style="width: 1em;" title="{t}Backlog{/t}">{t}BL{/t}</th>
+                     <th style="width: 1em;">{t}Progress{/t}</th>
+                     <th style="width: 15em;">{t}Project{/t}</th>
+                     <!--th style="width: 10em;" title="{t}Target version{/t}">{t}Target{/t}</th-->
+                     {if $isChecked}<th style="width: 1em;">{t}Job{/t}</th>{/if}
+                     {foreach from=$i.weekDates item=j key=id}
+                     <th style="width: 1em;">{$j|nl2br}</th>
+                     {/foreach}
+                     {foreach from=$i.weekEndDates item=j key=id}
+                     <th  style="width: 1em;" style="background-color: #D8D8D8;">{$j|nl2br}</th>
+                     {/foreach}
+                     <th style="width: 1em;">{t}Total{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$i.weekJobDetails item=j key=id}
+                  <tr>
+                     <td>{$j.description}</td>
+                     <td style="width:38px;">
+                        {$j.infoTooltip}
+                        {$j.noteTooltip}
+                     </td>
+                     <td nowrap="nowrap">{$j.duration}</td>
+                     <td nowrap="nowrap"><div class="progress">{$j.progress}%</div></td>
+                     <td nowrap="nowrap">{$j.projectName}</td>
+                     <!--td nowrap="nowrap">{$j.targetVersion}</td-->
+                     {if $isChecked}<td style="width: 1em;" nowrap="nowrap">{$j.jobName}</td>{/if}
+                     {foreach from=$j.daysDetails item=k key=id}
+                     <td nowrap="nowrap" {if $k.color}style="background-color: #{$k.color};width: 1em;"{/if} {if $k.title}title="{$k.title}"{/if}>{$k.duration}</td>
+                     {/foreach}
+                     <td nowrap="nowrap">{$j.totalDuration}</td>
+                  </tr>
                   {/foreach}
-               </table>
-            </div>
+               </tbody>
+            </table>
          </div>
+         {/if}
+         {/foreach}
       </div>
+   </div>
    {/if}
 
+
+   {if isset($weekDetails)}
+   <script type="text/javascript" src="js_min/datatable.min.js"></script>
+
+   <div id="tabsOther" class="tabs {$ui_tabs_jquery}" style="margin-top:4em;">
+      <ul class="{$ui_tabs_jquery_ul}">
+         {if isset($issueNotes)}
+         <li class="{$ui_tabs_jquery_li}" id="tabIssueNotes"><a href="#tabOther_issueNotes">{t}Timesheet notes{/t}</a></li>
+         {/if}
+         <li class="{$ui_tabs_jquery_li}" id="tabAllTasks"><a href="#tabOther_allTasks">{t}All Tasks{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}" id="tabTimetracks"><a href="#tabOther_timetracks">{t}Timetrack notes{/t}</a></li>
+      </ul>
+      <div id="tabOther_allTasks">
+         <div align="center">
+            <table id="allTasks_table" style="width: 100%;" class="datatable_csv">
+               <thead>
+                  <tr>
+                     <th>{t}Task{/t}</th>
+                     <th>{t}User{/t}</th>
+                     <th style="width: 15em;">{t}Project{/t}</th>
+                     <th style="width: 1em;">{t}Total{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+               {foreach from=$weekDetails item=i key=id}
+               {if $i.weekJobDetails}
+                  {foreach from=$i.weekJobDetails item=j key=id}
+                  <tr>
+                     <td>{$j.description}</td>
+                     <td>{$i.name}</td>
+                     <td nowrap="nowrap">{$j.projectName}</td>
+                     <td nowrap="nowrap">{$j.totalDuration}</td>
+                  </tr>
+                  {/foreach}
+               {/if}
+               {/foreach}
+               </tbody>
+            </table>
+         </div>
+      </div>
+
+      <div id="tabOther_timetracks">
+         <div align="center">
+            <table id="timetracks_table" style="width: 100%;" class="datatable_csv">
+               <thead>
+                  <tr>
+                     <th>{t}Date{/t}</th>
+                     <th>{t}User{/t}</th>
+                     <th>{t}Task{/t}</th>
+                     <th>{t}Ext.ID{/t}</th>
+                     <th>{t}Summary{/t}</th>
+                     <th>{t}Job{/t}</th>
+                     <th>{t}Duration{/t}</th>
+                     <th style="width: 15em;">{t}Timetrack Note{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+               {foreach from=$weekTimetracks item=i key=id}
+                  <tr>
+                     <td>{$i.date}</td>
+                     <td>{$i.handlerName}</td>
+                     <td>{$i.task_id}</td>
+                     <td>{$i.task_extRef}</td>
+                     <td nowrap="nowrap">{$i.task_summary}</td>
+                     <td>{$i.job}</td>
+                     <td>{$i.duration}</td>
+                     <td nowrap="nowrap">{$i.tt_note}</td>
+                  </tr>
+               {/foreach}
+               </tbody>
+            </table>
+         </div>
+      </div>
+
+      {if isset($issueNotes)}
+      <div id="tabOther_issueNotes">
+         <div align="center">
+            <table id="issueNotes_table" style="width: 100%;" class="datatable_csv">
+               <thead>
+                  <tr>
+                     <th>{t}Task{/t}</th>
+                     <th>{t}Note{/t}</th>
+                     <th>{t}Reporter{/t}</th>
+                     <th>{t}Date{/t}</th>
+                     <th>{t}Read by{/t}</th>
+                     <th title="{t}Action{/t}"></th>
+                  </tr>
+               </thead>
+               <tbody>
+               {foreach from=$issueNotes item=i key=bug_id}
+                  <tr id="issueNotes_tr{$bug_id}" {if (!$i.isRead)}class="js-isNotRead" style="background-color:#FFFF99 "{/if}>
+                     <td valign="top">{$i.taskDesc}</td>
+                     <td>{$i.note}</td>
+                     <td valign="top" nowrap="nowrap">{$i.reporter}</td>
+                     <td valign="top">{$i.date}</td>
+                     <td valign="top" class="readBy_td">{$i.readBy}</td>
+                     <td valign="top">
+                        {if (!$i.isRead)}
+                        <img id="b_markAsRead_{$bug_id}" data-bugId="{$bug_id}" class="js-markNoteAsRead-link" style="cursor: pointer;" align="absmiddle" src="images/b_markAsRead.png" title="{t}Mark as read{/t}">
+                        {else}
+                        <img align="absmiddle" src="images/b_markAsRead_grey.png">
+                        {/if}
+                        {if ($i.isDeleteGranted)}
+                        <img id="b_deleteNote_{$i.issueNoteId}" data-bugnoteId="{$i.issueNoteId}" data-bugId="{$bug_id}" class="js-deleteNote-link" style="cursor: pointer;" align="absmiddle" src="images/b_drop.png" title="{t}Delete note{/t}">
+                        {/if}
+                     </td>
+                  </tr>
+               {/foreach}
+               </tbody>
+            </table>
+         </div>
+      </div>
+      {/if}
+
+   </div>
+   {/if}
+
+   {include file="modal/edit_issueNote.html"}
+
    {else}
-   <p class="center">{t}Sorry, you do NOT have access to this page.{/t}</p>
-{/if}
+   <p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
+   {/if}
 
 </div>

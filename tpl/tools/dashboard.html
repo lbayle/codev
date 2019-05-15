@@ -1,0 +1,93 @@
+<div class="codevttDashboard" data-dashboardId="{$dashboardId}">
+<!--
+This file is associated to
+- classes/Dashboard.class.php
+- include/dashboard_ajax.php
+
+when adding a plugin, a dialogbox raises to set the plugin attributes.
+the content of this dialog is furnished by the plugin and loaded by ajax
+
+-->
+
+   <link href="lib/inettuts/inettuts_codevtt.css" rel="stylesheet" type="text/css" />
+   {foreach from=$dashboardPluginCssFiles key=id item=i}
+   <link href="{$i}" rel="stylesheet" type="text/css" />
+   {/foreach}
+
+   
+    <div class="inettuts-head">
+        <!--h2>{$dashboardTitle}</h2-->
+         <button  title="{t}Add an indicator to the dashboard{/t}" onclick="addDashboardPlugin();return false;">
+            <img align="absmiddle" border="0" src="images/b_add.png" alt="Add icon">
+            {t}Add{/t}
+         </button>
+         <div class="dialogAddDashboardPlugin ui-helper-hidden" title="{t}Add Indicator{/t}">
+            <div  style="width: 500px; margin-top:1em;"></div>
+            <form class="formAddDashboardPlugin" name="formAddDashboardPlugin" method="post" action="{$page}" >
+               <fieldset>
+                  <strong>{t}Indicator{/t}:</strong>
+                  <select class="cbPluginCandidates" name="pluginClassName" style="margin-left:1em;  width:350px;">
+                     <option value="0"></option>
+                     {foreach from=$dashboardPluginCandidates key=id item=i}
+                     <option value="{$i.pluginClassName}">{$i.title} [{$i.category}]</option>
+                     {/foreach}
+                  </select>
+                  <div class="pluginConfig" style="display: none;">
+                  <div style="margin-top:1em;">
+                     <strong>{t}Description{/t}:</strong><br>
+                     <hr>
+                     <div class="pluginDescription"></div>
+                  </div>
+                  <div style="margin-top:2em;">
+                     <strong>{t}Attributes{/t}:</strong><br>
+                     <hr>
+                     <div class="pluginAttributes">
+                     </div>
+                  </div>
+                  </div>
+                  <div><label class="addDashboardErrorMsg error_font" ></label></div>
+                  <input type="hidden" name="action" value="addDashboardPlugin" />
+                  <input type="hidden" name="dashboardId" value="{$dashboardId}" />
+                  <input type="hidden" name="pluginAttributesJsonStr" value="0" />
+               </fieldset>
+            </form>
+         </div>
+      </div>
+
+    <div class="inettuts-columns">
+
+        <ul class="inettuts-column1 column">
+           {foreach from=$dashboardWidgets key=pClassName item=i}
+            <li class="widget {$i.color}" id="{$i.id}">
+               <div style="display: none;" class="{$pClassName}Attr attributesJsonStr">{$i.attributesJsonStr}</div>
+                <div class="widget-head">
+                    <h3>{$i.title}</h3>
+                </div>
+                <div class="widget-content">
+                   {$i.content}
+                </div>
+            </li>
+           {/foreach}
+        </ul>
+
+    </div>
+
+    <script type="text/javascript" src="lib/inettuts/inettuts_codevtt.min.js"></script>
+   {foreach from=$dashboardPluginJsFiles key=id item=i}
+    <script type="text/javascript" src="{$i}"></script>
+   {/foreach}
+
+   <script type="text/javascript">
+      // this is to transmit SMARTY variables to dashboard.js (i18n, ...)
+      var dashboardSmartyData = {
+         dashboardTitle:"{$dashboardTitle}",
+         dashboardId:"{$dashboardId}",
+         // i18n
+         i18n_Add:"{t}Add{/t}",
+         i18n_Cancel:"{t}Cancel{/t}",
+         i18n_loading:"{t}Loading{/t}",
+      };
+   </script>
+   <script src="js_min/dashboard.min.js"></script>
+
+</div>
