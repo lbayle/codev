@@ -9,12 +9,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-12 13:32+0200\n"
-"PO-Revision-Date: 2019-05-13 12:28:30+0000\n"
+"PO-Revision-Date: 2019-10-14 15:17:22+0000\n"
 "Language: br\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2019-04-28 12:35:30+0000\n"
-"X-Generator: MediaWiki 1.33.0-alpha; Translate 2019-01-17\n"
+"X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. tpl/ajax/issueGeneralInfo.html
@@ -945,7 +945,7 @@ msgstr "Ouzhpennañ an Deizioù Broadel, ar gouelioù relijiel, pe ehan bloaz an
 
 #. tpl/edit_holidays.html
 msgid "Note: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong."
-msgstr ""
+msgstr "Notenn : Ne ranker ket disklêriañ an devezhioù DAL amañ."
 
 #. tpl/edit_holidays.html
 msgid "Holiday Description"
@@ -1724,7 +1724,7 @@ msgstr "Ma vez diasket e vo krouet un notenn \"glasel\" eus Mantis"
 
 #. tpl/modal/edit_issueNote.html
 msgid "Add as Timesheet note"
-msgstr ""
+msgstr "Ouzhpennañ un notenn CRA"
 
 #. tpl/modal/edit_issueNote.html
 msgid "Edit timesheet note"
@@ -1892,7 +1892,7 @@ msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
-msgstr ""
+msgstr "Ouzhpennit un notenn, mar plij"
 
 #. tpl/planning_report.html
 msgid "zoom in"
@@ -2710,7 +2710,6 @@ msgid "Backup data"
 msgstr "Saveteiñ ar roadennoù"
 
 #. tpl/uninstall.html
-#, fuzzy
 msgid "Backup file will be saved in CodevTT reports directory"
 msgstr "Generet e vo ar restr saveteiñ e kavlec'h an danevelloù"
 
@@ -2724,7 +2723,7 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "Backup successfully done"
-msgstr ""
+msgstr "Saveteiñ graet gant berzh !"
 
 #. tpl/uninstall.html
 msgid "Uninstall aborted !"
@@ -2858,23 +2857,23 @@ msgstr "Notenn : Un <em>Team Admin</em> a rank bezañ disklêriet evel <em>TeamM
 
 #. tpl/edit_team.html
 msgid "Team Administrators"
-msgstr ""
+msgstr "Merourien skipailh"
 
 #. tpl/edit_team.html
 msgid "add as team administrator"
-msgstr ""
+msgstr "ouzhpennañ evel merour skipailh"
 
 #. tpl/edit_team.html
 msgid "Add a team administrator"
-msgstr ""
+msgstr "Ouzhpennañ ur merour skipailh"
 
 #. tpl/edit_team.html
 msgid "Remove administrator"
-msgstr ""
+msgstr "Lemel ar merour"
 
 #. tpl/edit_team.html
 msgid "Remove the following Team Administrator ?"
-msgstr ""
+msgstr "Lemel ar merour skipailh merour war-lerc'h ?"
 
 #. tpl/edit_team.html
 msgid "Delete team"
@@ -2882,7 +2881,7 @@ msgstr "Diverkañ ar skipailh"
 
 #. tpl/edit_team.html
 msgid "Add team member"
-msgstr ""
+msgstr "Ouzhpennañ un ezel skipailh"
 
 #. tpl/edit_team.html
 msgid "Arrival-Date"
@@ -2933,7 +2932,7 @@ msgstr "Kemmañ"
 
 #. tpl/edit_team.html
 msgid "Update team member"
-msgstr ""
+msgstr "Hizivaat ezel ar sikpailh"
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
@@ -2979,7 +2978,7 @@ msgstr "Sturiad ar skipailh dre ziouer"
 
 #. tpl/edit_team.html
 msgid "All indicators will use this currency and all values defined in other currencies will be converted."
-msgstr ""
+msgstr "Gant an holl verkerioù e vo implijet an deulenn-mañ ha kemmet e vo an holl dalvoudoù dielfennet en teulennoù all."
 
 #. tpl/edit_team.html
 msgid "Currency"
@@ -3143,7 +3142,7 @@ msgstr "Perzhioù"
 
 #. tpl/issue_info.html
 msgid "Timetracks"
-msgstr ""
+msgstr "Enskrivadennoù"
 
 #. tpl/issue_info.html
 #. tpl/command_info.html
@@ -3209,15 +3208,15 @@ msgstr "Klikit war ar bouton hizivaat evit diskwel an notennoù..."
 
 #. tpl/issue_info.html
 msgid "First Timetrack date"
-msgstr ""
+msgstr "Deiziad enskrivañ kentañ"
 
 #. tpl/issue_info.html
 msgid "Latest Timetrack date"
-msgstr ""
+msgstr "Deiziad enskrivañ diwezhañ"
 
 #. tpl/issue_info.html
 msgid "WARNING: Prior timetracks could not be displayed !"
-msgstr ""
+msgstr "DIWALLIT : n'eus ket bet gallet diskwel an enskrivadennoù kent !"
 
 #. tpl/issue_info.html
 msgid "Update timetracking values"
@@ -3783,7 +3782,7 @@ msgstr "Kas ur gemennadenn nevez"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Expire"
-msgstr ""
+msgstr "A ya d'e dermen"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Exp. date"
@@ -3799,7 +3798,7 @@ msgstr "An holl dud (an holl skipailhoù)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall options"
-msgstr ""
+msgstr "Dibarzhioù eus ar voger kemennadennoù"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Recipient"
@@ -3836,7 +3835,7 @@ msgstr "Kuzhat"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall help"
-msgstr ""
+msgstr "Skoazell ar voger kemennadennoù"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Buttons"
@@ -3852,7 +3851,7 @@ msgstr "Postañ ur gemennadenn nevez"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Set message wall options"
-msgstr ""
+msgstr "Enrollañ dibarzhioù ar voger kemennadennoù"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Mark as read. The message can then be hidden"
@@ -3860,7 +3859,7 @@ msgstr "Merket evel lennet. Kuzhet e c'hall bezañ ar gemennadenn"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Hide message. Depends on user setting \"Display hidden messages\""
-msgstr ""
+msgstr "Kuzhat ar gemennadenn. Diouzh an diabarzh \"Diskwel ar c'hemennadennoù kuzhet\" eo."
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Show"
@@ -3876,7 +3875,7 @@ msgstr "Diverkañ ar gemennadenn"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "This will permanently delete this post, are you sure ?!"
-msgstr ""
+msgstr "Ha sur eo ho peus c'hoant da lemel ar gemennadenn-mañ da vat ?"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Acknowledged by"
@@ -3884,7 +3883,7 @@ msgstr "Anavezet gant"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Submission date"
-msgstr ""
+msgstr "Deiziad kas"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Expiration date"
@@ -3896,11 +3895,11 @@ msgstr "Aozer"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Dest"
-msgstr ""
+msgstr "Desk"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Message wall"
-msgstr ""
+msgstr "Moger gemenadennoù"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget Drift History Indicator"
@@ -4221,7 +4220,7 @@ msgstr "Kas ar ger-tremen dre bostel"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send a password per email to each user"
-msgstr ""
+msgstr "Kas ur ger-tremen dre bostel da bep implijer"
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
@@ -4230,7 +4229,7 @@ msgstr "Genel ar ger-tremen"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Display a generated password (common to all created users)"
-msgstr ""
+msgstr "Diskwel ur ger-tremen ganet (boutin d'an holl implijerien krouet)"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Colors"
@@ -4250,9 +4249,8 @@ msgid "Mantis project access level"
 msgstr "Gwirioù da dizhout mantis"
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "User can't be added to Mantis projects"
-msgstr "Ne c'hall ket an implijer bezañ ouzhpenn d'ar raktresoù mantis"
+msgstr "Ne c'hall ket an implijer bezañ ouzhpenn d'ar raktresoù Mantis"
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_ajax.html

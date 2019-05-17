@@ -4,6 +4,7 @@
 # Author: Albe Albe 460
 # Author: Beta16
 # Author: Fitoschido
+# Author: Joetaras
 # Author: Margherita.mignanelli
 # Author: Ontsed
 # Author: Samuele2002
@@ -16,14 +17,14 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-12 13:32+0200\n"
-"PO-Revision-Date: 2019-05-13 12:28:31+0000\n"
+"PO-Revision-Date: 2019-12-12 14:19:12+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: MediaWiki 1.33.0-alpha; Translate 2019-01-17\n"
+"X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-POT-Import-Date: 2019-04-28 12:35:30+0000\n"
@@ -507,7 +508,7 @@ msgstr "Progetto"
 #. tpl/check.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "Level"
-msgstr "Gravità"
+msgstr "Livello"
 
 #. tpl/check.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
@@ -735,7 +736,7 @@ msgstr "Eliminare l'ordine dalla Macro?"
 #. tpl/command_edit.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Id"
-msgstr "Id"
+msgstr "ID"
 
 #. tpl/commandset_edit.html
 #. tpl/servicecontract_edit.html
@@ -1776,7 +1777,7 @@ msgstr "Identificazione CodevTT"
 #. tpl/modal/login.html
 #. tpl/edit_team.html
 msgid "login"
-msgstr "login"
+msgstr "entra"
 
 #. tpl/modal/login.html
 msgid "password"
@@ -3691,9 +3692,8 @@ msgid "Availability"
 msgstr "Disponibilità"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Productivity Coefficient"
-msgstr "Indicatore di produttività"
+msgstr "Coefficiente di produttività"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Prod. Coef"
@@ -3704,7 +3704,6 @@ msgid "SUM(userWorkforce * availability * prodCoef)"
 msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Available workforce"
 msgstr "Forza di lavoro disponibile"
 
@@ -4346,7 +4345,6 @@ msgid "No errors"
 msgstr "Nessun errore"
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#, fuzzy
 msgid "Consistency check"
 msgstr "Test integrità"
 
@@ -4707,9 +4705,8 @@ msgid "Bugs only"
 msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Tasks only"
-msgstr "Attività"
+msgstr "Solo attività"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Filter on External ID"

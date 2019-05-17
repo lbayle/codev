@@ -5,18 +5,19 @@
 # Author: Liuxinyu970226
 # Author: Mirzali
 # Author: Robby
+# Author: Verdy p
 msgid ""
 msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:03+0100\n"
-"PO-Revision-Date: 2019-05-13 12:28:52+0000\n"
+"PO-Revision-Date: 2019-11-14 16:09:43+0000\n"
 "Language: qqq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2019-04-28 12:35:30+0000\n"
-"X-Generator: MediaWiki 1.33.0-alpha; Translate 2019-01-17\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/forecasting_report.html
@@ -1487,7 +1488,7 @@ msgstr ""
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
-msgstr ""
+msgstr "For English, this should be:\n: Monthly report (nb of tasks by status, at end of month)"
 
 #. tpl/menu/global_menu.html
 msgid "Home"
@@ -1749,15 +1750,15 @@ msgstr ""
 
 #. tpl/modal/login.html
 msgid "Length of"
-msgstr ""
+msgstr "Part of \"<u>Length of</u> ''fieldname'' must be between ''minvalue'' and ''maxValue''\"."
 
 #. tpl/modal/login.html
 msgid "must be between"
-msgstr ""
+msgstr "Part of \"Length of ''fieldname'' <u>must be between</u> ''minvalue'' and ''maxValue''\"."
 
 #. tpl/modal/login.html
 msgid "and"
-msgstr ""
+msgstr "Part of \"Length of ''fieldname'' must be between ''minvalue'' <u>and</u> ''maxValue''\"."
 
 #. tpl/modal/login.html
 msgid "CodevTT Identification"
@@ -2328,7 +2329,7 @@ msgstr "{{Identical|Assignment}}"
 
 #. tpl/scheduler.html
 msgid "RAF"
-msgstr ""
+msgstr "Abbreviated: backlog of tasks"
 
 #. tpl/scheduler.html
 msgid "User assignment"
@@ -5204,7 +5205,7 @@ msgstr ""
 
 #: install/install_step1.php:221
 msgid "SGBD"
-msgstr ""
+msgstr "''SGDB'' is an abbreviation in French of ''Système de Gestion de Base de Données'', it means DBMS (DataBase Management System)."
 
 #: install/install_step1.php:232
 msgid "Hostname"
@@ -5992,5 +5993,5 @@ msgstr ""
 
 #: smarty_tools.php:126
 msgid "W"
-msgstr ""
+msgstr "Short abbreviation for 'week(s)'"
 

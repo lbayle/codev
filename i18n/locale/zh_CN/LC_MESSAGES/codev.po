@@ -2,23 +2,27 @@
 # Exported from translatewiki.net
 #
 # Author: A Chinese Wikipedian
+# Author: A Retired User
 # Author: Deathkon
 # Author: Fanjiayi
 # Author: Frog7301
 # Author: Liuxinyu970226
+# Author: 予弦
 # Author: 佛壁灯
 # Author: 夢蝶葬花
+# Author: 沈澄心
+# Author: 神樂坂秀吉
 msgid ""
 msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-12 13:32+0200\n"
-"PO-Revision-Date: 2019-05-13 12:28:35+0000\n"
+"PO-Revision-Date: 2019-12-05 14:17:19+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2019-04-28 12:35:30+0000\n"
-"X-Generator: MediaWiki 1.33.0-alpha; Translate 2019-01-17\n"
+"X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. tpl/ajax/issueGeneralInfo.html
@@ -1805,7 +1809,7 @@ msgstr "重定向"
 #. tpl/plugin_manager.html
 #. tpl/time_tracking.html
 msgid "Please wait..."
-msgstr "请稍等..."
+msgstr "请稍候……"
 
 #. tpl/modal/select_issues.html
 msgid "No task selected !"
@@ -2860,23 +2864,23 @@ msgstr "注意：<em>团队管理员</em>也必须被声明为<em>团队成员</
 
 #. tpl/edit_team.html
 msgid "Team Administrators"
-msgstr ""
+msgstr "团队管理员"
 
 #. tpl/edit_team.html
 msgid "add as team administrator"
-msgstr ""
+msgstr "添加为团队管理员"
 
 #. tpl/edit_team.html
 msgid "Add a team administrator"
-msgstr ""
+msgstr "添加团队管理员"
 
 #. tpl/edit_team.html
 msgid "Remove administrator"
-msgstr ""
+msgstr "移除管理员"
 
 #. tpl/edit_team.html
 msgid "Remove the following Team Administrator ?"
-msgstr ""
+msgstr "移除以下团队管理员？"
 
 #. tpl/edit_team.html
 msgid "Delete team"
@@ -5918,11 +5922,11 @@ msgstr "显示指定用户所属的所有团队的历史"
 
 #: plugins/WBSExport/WBSExport.class.php:53
 msgid "WBS Export"
-msgstr ""
+msgstr "WBS导出"
 
 #: plugins/WBSExport/WBSExport.class.php:57
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:80
 msgid "Group tasks by adding multiple filters"
