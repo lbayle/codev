@@ -386,10 +386,10 @@ class WBSElement extends Model {
               " WHERE id = " . $sql->db_param();
       $q_params[]=$this->title;
       $q_params[]=$this->order;
-      $q_params[]=(is_null($this->parentId) ? "NULL" : $this->parentId);
-      $q_params[]=(is_null($this->icon)     ? "NULL" : $this->icon);
-      $q_params[]=(is_null($this->font)     ? "NULL" : $this->font);
-      $q_params[]=(is_null($this->color)    ? "NULL" : $this->color);
+      $q_params[]=(is_null($this->parentId) ? NULL : $this->parentId);
+      $q_params[]=(is_null($this->icon)     ? NULL : $this->icon);
+      $q_params[]=(is_null($this->font)     ? NULL : $this->font);
+      $q_params[]=(is_null($this->color)    ? NULL : $this->color);
       $q_params[]=($this->expand            ? '1' : '0');
       $q_params[]=$this->id;
 
