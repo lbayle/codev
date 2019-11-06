@@ -23,7 +23,8 @@ set_include_path(BASE_PATH.PATH_SEPARATOR.get_include_path());
 #echo "DEBUG PHP include_path : ".get_include_path()." <br/>";
 
 // This avoids the display of some PHP errors...
-error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
+#error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
+error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING); // since PHP v7.1, cast warnings are reported
 
 // WARN Set up the timezone
 // /etc/php.ini
