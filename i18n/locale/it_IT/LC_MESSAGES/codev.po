@@ -3,6 +3,7 @@
 #
 # Author: Albe Albe 460
 # Author: Beta16
+# Author: Dansita
 # Author: Fitoschido
 # Author: Joetaras
 # Author: Margherita.mignanelli
@@ -17,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-12 13:32+0200\n"
-"PO-Revision-Date: 2019-12-12 14:19:12+0000\n"
+"PO-Revision-Date: 2020-01-06 16:40:04+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -3683,9 +3684,8 @@ msgid "Values"
 msgstr "Valori"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Available Workforce Options"
-msgstr "Forza di lavoro disponibile"
+msgstr "Preferenze della forza lavoro disponibile"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Availability"
@@ -3912,42 +3912,36 @@ msgid "Message wall"
 msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#, fuzzy
 msgid "Budget Drift History Indicator"
-msgstr "Evolution de la Dérive Budget"
+msgstr "Indicatore storico della tendenza di bilancio"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks)."
 msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#, fuzzy
 msgid "% Budget Drift"
-msgstr "Evolution de la Dérive Budget"
+msgstr "% tendenza di bilancio"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "( reestimated - budget ) / budget"
 msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#, fuzzy
 msgid "Budget Drift"
-msgstr "Budget in giorni"
+msgstr "Tendenza di bilancio"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#, fuzzy
 msgid "MgrEffortEstim + checked provisions"
-msgstr "MgrEffortEstim  + Disposizioni verificate"
+msgstr "MgrEffortEstim  + disposizioni verificate"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#, fuzzy
 msgid "Budget Drift Progression Chart"
-msgstr "Evolution de la Dérive Budget"
+msgstr "Evoluzione della progressione della tendenza di bilancio"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Budget history"
-msgstr "Evolution de la Dérive Budget"
+msgstr "Storico del bilancio"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
@@ -4024,9 +4018,8 @@ msgid "AverageDailyCost is used when no UserDailyCosts is defined for the timetr
 msgstr ""
 
 #. plugins/CostsIndicator/CostsIndicator.html
-#, fuzzy
 msgid "AverageDailyCost is used if the task is not yet assigned to anyone."
-msgstr "L'attività non è assegnata a nessuno."
+msgstr "CostoGiornalieroStimato è utilizzato se l'attività non è ancora assegnata a nessuno."
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "The backlog is computed with the current assigned user's UserDailyCost"
@@ -4041,9 +4034,8 @@ msgid "The backlog depends on the status (always 0 if status >= Resolved)"
 msgstr ""
 
 #. plugins/CostsIndicator/CostsIndicator.html
-#, fuzzy
 msgid "Sum the Provisions that are 'checked' as included in the budget."
-msgstr "Disposizioni incluse in 'check budget'"
+msgstr "Somma le disposizioni che sono 'contrassegnate' come incluse nel bilancio."
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 msgid "No late task."
@@ -4054,31 +4046,26 @@ msgid "Deadline alerts"
 msgstr "Avvisi di scadenza"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#, fuzzy
 msgid "Drift current tasks"
-msgstr "Attività in corso"
+msgstr "Tendenza delle attività correnti"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#, fuzzy
 msgid "Drift resolved tasks"
-msgstr "Nascondi attività risolte"
+msgstr "Tendenza delle attività risolte"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
-#, fuzzy
 msgid "Tasks Drift alert"
-msgstr "Attività in tendenza"
+msgstr "Avviso sulla tendenza delle attività"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Display resolved issues"
-msgstr "Attività mostrate"
+msgstr "Mostra problemi risolti"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
-#, fuzzy
 msgid "Effort estimation reliability rate"
-msgstr "Tasso di affidabilità EffortEstim"
+msgstr "Tasso di affidabilità stimato degli sforzi"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #, fuzzy
