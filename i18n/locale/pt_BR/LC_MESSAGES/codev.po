@@ -9,6 +9,7 @@
 # Author: Felipe L. Ewald
 # Author: Luk3
 # Author: Tark
+# Author: Trigonometria87
 # Author: Warley Felipe C.
 # Author: WikiUser22222
 msgid ""
@@ -17,7 +18,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-12 13:32+0200\n"
-"PO-Revision-Date: 2020-01-16 14:28:28+0000\n"
+"PO-Revision-Date: 2020-01-23 15:06:52+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -125,7 +126,7 @@ msgstr "Detalhes do projeto"
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:73
 msgid "Load per Project"
-msgstr "Carga do projeto"
+msgstr "Carga por projeto"
 
 #. tpl/productivity_report.html
 msgid "Productivity indicators"
@@ -168,7 +169,7 @@ msgstr "Ajuda"
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 msgid "Nb Days"
-msgstr "Nb dias"
+msgstr "Nº de dias"
 
 #. tpl/productivity_report.html
 msgid "Projects"
@@ -2523,9 +2524,8 @@ msgid "The following fields need to be set"
 msgstr ""
 
 #. tpl/export_odt.html
-#, fuzzy
 msgid "Reporters"
-msgstr "Relator"
+msgstr "Relatores"
 
 #. tpl/export_odt.html
 msgid "Handlers"
@@ -2660,9 +2660,8 @@ msgid "Errors"
 msgstr "Erros"
 
 #. tpl/planning_report.html
-#, fuzzy
 msgid "Unassigned tasks"
-msgstr "assigné à"
+msgstr "Tarefas não atribuídas"
 
 #. tpl/planning_report.html
 #, fuzzy
@@ -2670,9 +2669,8 @@ msgid "Team's backlog"
 msgstr "Consommé + RAF"
 
 #. tpl/planning_report.html
-#, fuzzy
 msgid "tasks"
-msgstr "Casos"
+msgstr "tarefas"
 
 #. tpl/planning_report.html
 msgid "workload"
