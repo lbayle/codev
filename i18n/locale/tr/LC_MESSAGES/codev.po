@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 ""
-"PO-Revision-Date: 2020-01-20 10:30:16+0000\n"
+"PO-Revision-Date: 2020-02-03 14:38:40+0000\n"
 "X-POT-Import-Date: 2020-01-11 18:27:58+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2610,7 +2610,7 @@ msgstr "İzlemeyi sil"
 #. tpl/plugin_manager.html
 #. tpl/modal/login.html
 msgid "Please wait..."
-msgstr "Lütfen bekleyin..."
+msgstr "Lütfen bekleyin…"
 
 #. tpl/template.html
 msgid "Disconnect"
@@ -3311,7 +3311,7 @@ msgstr "CodevTT Mantis menüsünden kaldırın:"
 
 #. tpl/uninstall.html
 msgid "TODO"
-msgstr "YAPILACAK"
+msgstr "YAPILACAKLAR"
 
 #. tpl/uninstall.html
 msgid "Failed"
