@@ -25,6 +25,11 @@
  */
 class TimetrackList extends IndicatorPluginAbstract {
 
+   const OPTION_IS_DISPLAY_COMMANDS = 'isDisplayCommands';
+   const OPTION_IS_DISPLAY_PROJECT = 'isDisplayProject';
+   const OPTION_IS_DISPLAY_CATEGORY = 'isDisplayCategory';
+   const OPTION_IS_DISPLAY_SUMMARY = 'isDisplayTaskSummary';
+
    /**
     * @var Logger The logger
     */
@@ -37,6 +42,10 @@ class TimetrackList extends IndicatorPluginAbstract {
    private $endTimestamp;
 
    // config options from Dashboard
+   private $isDisplayCommands;
+   private $isDisplayProject;
+   private $isDisplayCategory;
+   private $isDisplayTaskSummary;
 
    // internal
    protected $execData;
@@ -50,8 +59,11 @@ class TimetrackList extends IndicatorPluginAbstract {
 
       self::$domains = array (
          self::DOMAIN_TASK,
+         self::DOMAIN_PROJECT,
+         self::DOMAIN_TEAM,
          self::DOMAIN_COMMAND,
          self::DOMAIN_COMMAND_SET,
+         self::DOMAIN_SERVICE_CONTRACT,
       );
       self::$categories = array (
          self::CATEGORY_ACTIVITY,
@@ -137,6 +149,18 @@ class TimetrackList extends IndicatorPluginAbstract {
    public function setPluginSettings($pluginSettings) {
       if (NULL != $pluginSettings) {
          // override default with user preferences
+         if (array_key_exists(self::OPTION_IS_DISPLAY_COMMANDS, $pluginSettings)) {
+            $this->isDisplayCommands = $pluginSettings[self::OPTION_IS_DISPLAY_COMMANDS];
+         }
+         if (array_key_exists(self::OPTION_IS_DISPLAY_PROJECT, $pluginSettings)) {
+            $this->isDisplayProject = $pluginSettings[self::OPTION_IS_DISPLAY_PROJECT];
+         }
+         if (array_key_exists(self::OPTION_IS_DISPLAY_CATEGORY, $pluginSettings)) {
+            $this->isDisplayCategory = $pluginSettings[self::OPTION_IS_DISPLAY_CATEGORY];
+         }
+         if (array_key_exists(self::OPTION_IS_DISPLAY_SUMMARY, $pluginSettings)) {
+            $this->isDisplayTaskSummary = $pluginSettings[self::OPTION_IS_DISPLAY_SUMMARY];
+         }
       }
    }
 
@@ -169,19 +193,27 @@ class TimetrackList extends IndicatorPluginAbstract {
 
          $user = UserCache::getInstance()->getUser($track->getUserId());
             $timetracksArray[$trackid] = array(
-               'commandList' => implode(', ', $issue->getCommandList()),
+               'id' => $track->getId(),
                'issueId' => Tools::issueInfoURL($issue->getId(), $issue->getSummary(), true),
-               #'task' => $issue->getSummary(),
                'user' => $user->getRealname(),
                'dateTimetrack' => Tools::formatDate("%Y-%m-%d", $track->getDate()),
-               'projectCategory' => $issue->getCategoryName(),
-               'projectName' => $issue->getProjectName(),
                'jobName' => $jobs->getJobName($track->getJobId()),
                'note' => nl2br(htmlspecialchars($track->getNote())),
                #'elapsed' => str_replace('.', ',',round($track->getDuration(), 2)),
                'elapsed' => round($track->getDuration(), 2),
-               'id' => $track->getId(),
             );
+            if ($this->isDisplayCommands) {
+               $timetracksArray[$trackid]['commandList'] = implode(', ', $issue->getCommandList());
+            }
+            if ($this->isDisplayProject) {
+               $timetracksArray[$trackid]['projectName'] = $issue->getProjectName();
+            }
+            if ($this->isDisplayCategory) {
+               $timetracksArray[$trackid]['projectCategory'] = $issue->getCategoryName();
+            }
+            if ($this->isDisplayTaskSummary) {
+               $timetracksArray[$trackid]['taskSummary'] = $issue->getSummary();
+            }
       }
 
       $this->execData = array();
@@ -191,12 +223,18 @@ class TimetrackList extends IndicatorPluginAbstract {
       $this->execData['realStartTimestamp'] = $realStartTimestamp;
       $this->execData['realEndTimestamp'] = $realEndTimestamp;
 
+
       return $this->execData;
    }
 
    public function getSmartyVariables($isAjaxCall = false) {
+      $prefix='timetrackList_';
       $smartyVariables = array(
-         'timetrackList_timetracksArray' => $this->execData['timetracksArray'],
+         $prefix.'timetracksArray' => $this->execData['timetracksArray'],
+         $prefix.'isDisplayCommands' => $this->isDisplayCommands,
+         $prefix.'isDisplayProject' =>  $this->isDisplayProject,
+         $prefix.'isDisplayCategory' =>  $this->isDisplayCategory,
+         $prefix.'isDisplayTaskSummary' =>  $this->isDisplayTaskSummary,
       );
 
       if (false == $isAjaxCall) {

@@ -29,11 +29,11 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
    $session_user = $_SESSION['userid'];
 
    $action = Tools::getSecurePOSTStringValue('action', 'none');
-   
+
    if(isset($action)) {
       $smartyHelper = new SmartyHelper();
       $team = TeamCache::getInstance()->getTeam($teamid);
-      
+
       // ================================================================
       if('getTimetrackList' == $action) {
          $startTimestamp = Tools::date2timestamp(Tools::getSecurePOSTStringValue("timetrackList_startdate"));
@@ -52,11 +52,30 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             Tools::sendBadRequest("PluginDataProvider unserialize error");
          }
 
+         $attributesJsonStr = Tools::getSecurePOSTStringValue('attributesJsonStr');
+         $attributesArray = json_decode(stripslashes($attributesJsonStr), true);
+
+         $isDisplayCommands = ('on' !== $attributesArray[TimetrackList::OPTION_IS_DISPLAY_COMMANDS]) ? false : true;
+         $isDisplayProject = ('on' !== $attributesArray[TimetrackList::OPTION_IS_DISPLAY_PROJECT]) ? false : true;
+         $isDisplayCategory = ('on' !== $attributesArray[TimetrackList::OPTION_IS_DISPLAY_CATEGORY]) ? false : true;
+         $isDisplayTaskSummary = ('on' !== $attributesArray[TimetrackList::OPTION_IS_DISPLAY_SUMMARY]) ? false : true;
+
+         //$logger->error("attributesArray = ".var_export($attributesArray, true));
+
          // update dataProvider
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
 
          $indicator = new TimetrackList($pluginDataProvider);
+
+         // override plugin settings with current attributes
+         $indicator->setPluginSettings(array(
+             TimetrackList::OPTION_IS_DISPLAY_COMMANDS => $isDisplayCommands,
+             TimetrackList::OPTION_IS_DISPLAY_PROJECT => $isDisplayProject,
+             TimetrackList::OPTION_IS_DISPLAY_CATEGORY => $isDisplayCategory,
+             TimetrackList::OPTION_IS_DISPLAY_SUMMARY => $isDisplayTaskSummary,
+         ));
+
          $indicator->execute();
          $data = $indicator->getSmartyVariablesForAjax();
 
