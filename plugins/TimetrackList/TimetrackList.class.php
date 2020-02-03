@@ -20,7 +20,7 @@
  * Description of FdjTimetracksPerTaskWithUOIndicator
  *
  * For each Task, return the sum of the backlog UO of its assigned tasks.
- * 
+ *
  * @author lob
  */
 class TimetrackList extends IndicatorPluginAbstract {
@@ -124,14 +124,14 @@ class TimetrackList extends IndicatorPluginAbstract {
       } else {
          $this->endTimestamp = NULL;
       }
-      
+
       // set default pluginSettings (not provided by the PluginDataProvider)
-      
+
    }
 
    /**
     * settings are saved by the Dashboard
-    * 
+    *
     * @param array $pluginSettings
     */
    public function setPluginSettings($pluginSettings) {
@@ -143,12 +143,12 @@ class TimetrackList extends IndicatorPluginAbstract {
 
    /**
     *
-    * returns an array of 
+    * returns an array of
     * activity in (elapsed, sidetask, other, external, leave)
     *
     */
    public function execute() {
-      
+
       $timetracks = $this->inputIssueSel->getTimetracks(NULL, $this->startTimestamp, $this->endTimestamp);
       $nbTimetracks = count($timetracks);
       $realStartTimestamp = $this->endTimestamp; // note: inverted intentionnaly
@@ -175,6 +175,7 @@ class TimetrackList extends IndicatorPluginAbstract {
                'user' => $user->getRealname(),
                'dateTimetrack' => Tools::formatDate("%Y-%m-%d", $track->getDate()),
                'projectCategory' => $issue->getCategoryName(),
+               'projectName' => $issue->getProjectName(),
                'jobName' => $jobs->getJobName($track->getJobId()),
                'note' => nl2br(htmlspecialchars($track->getNote())),
                #'elapsed' => str_replace('.', ',',round($track->getDuration(), 2)),
@@ -186,10 +187,10 @@ class TimetrackList extends IndicatorPluginAbstract {
       $this->execData = array();
       $this->execData['nbTimetracks'] = $nbTimetracks;
       $this->execData['timetracksArray'] = $timetracksArray;
-      //$this->execData['totalArray'] = $totalArray; 
+      //$this->execData['totalArray'] = $totalArray;
       $this->execData['realStartTimestamp'] = $realStartTimestamp;
       $this->execData['realEndTimestamp'] = $realEndTimestamp;
-      
+
       return $this->execData;
    }
 
