@@ -60,6 +60,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $isDisplayProject = ('on' !== $attributesArray[TimetrackList::OPTION_IS_DISPLAY_PROJECT]) ? false : true;
          $isDisplayCategory = ('on' !== $attributesArray[TimetrackList::OPTION_IS_DISPLAY_CATEGORY]) ? false : true;
          $isDisplayTaskSummary = ('on' !== $attributesArray[TimetrackList::OPTION_IS_DISPLAY_SUMMARY]) ? false : true;
+         $isDisplayTaskExtID = ('on' !== $attributesArray[TimetrackList::OPTION_IS_DISPLAY_EXTID]) ? false : true;
 
          //$logger->error("attributesArray = ".var_export($attributesArray, true));
 
@@ -76,6 +77,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
              TimetrackList::OPTION_IS_DISPLAY_PROJECT => $isDisplayProject,
              TimetrackList::OPTION_IS_DISPLAY_CATEGORY => $isDisplayCategory,
              TimetrackList::OPTION_IS_DISPLAY_SUMMARY => $isDisplayTaskSummary,
+             TimetrackList::OPTION_IS_DISPLAY_EXTID => $isDisplayTaskExtID,
          ));
 
          $indicator->execute();

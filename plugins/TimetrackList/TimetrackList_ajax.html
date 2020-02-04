@@ -12,6 +12,9 @@
                <th>{t}Project{/t}</th>
                {/if}
                <th>{t}Task ID{/t}</th>
+               {if $timetrackList_isDisplayTaskExtID}
+               <th>{t}Task ExtRef{/t}</th>
+               {/if}
                {if $timetrackList_isDisplayTaskSummary}
                <th>{t}Task{/t}</th>
                {/if}
@@ -36,6 +39,9 @@
                <td>{$i.projectName}</td>
                {/if}
                <td>{$i.issueId}</td>
+               {if $timetrackList_isDisplayTaskExtID}
+               <td>{$i.taskExtID}</td>
+               {/if}
                {if $timetrackList_isDisplayTaskSummary}
                <td>{$i.taskSummary}</td>
                {/if}

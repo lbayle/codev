@@ -30,6 +30,7 @@ class TimetrackList extends IndicatorPluginAbstract {
    const OPTION_IS_DISPLAY_PROJECT = 'isDisplayProject';
    const OPTION_IS_DISPLAY_CATEGORY = 'isDisplayCategory';
    const OPTION_IS_DISPLAY_SUMMARY = 'isDisplayTaskSummary';
+   const OPTION_IS_DISPLAY_EXTID = 'isDisplayTaskExtID';
 
    /**
     * @var Logger The logger
@@ -49,6 +50,7 @@ class TimetrackList extends IndicatorPluginAbstract {
    private $isDisplayProject;
    private $isDisplayCategory;
    private $isDisplayTaskSummary;
+   private $isDisplayTaskExtID;
 
    // internal
    protected $execData;
@@ -172,6 +174,9 @@ class TimetrackList extends IndicatorPluginAbstract {
          if (array_key_exists(self::OPTION_IS_DISPLAY_SUMMARY, $pluginSettings)) {
             $this->isDisplayTaskSummary = $pluginSettings[self::OPTION_IS_DISPLAY_SUMMARY];
          }
+         if (array_key_exists(self::OPTION_IS_DISPLAY_EXTID, $pluginSettings)) {
+            $this->isDisplayTaskExtID = $pluginSettings[self::OPTION_IS_DISPLAY_EXTID];
+         }
       }
    }
 
@@ -234,6 +239,9 @@ class TimetrackList extends IndicatorPluginAbstract {
             if ($this->isDisplayTaskSummary) {
                $timetracksArray[$trackid]['taskSummary'] = $issue->getSummary();
             }
+            if ($this->isDisplayTaskExtID) {
+               $timetracksArray[$trackid]['taskExtID'] = $issue->getTcId();
+            }
       }
 
       $this->execData = array();
@@ -256,6 +264,7 @@ class TimetrackList extends IndicatorPluginAbstract {
          $prefix.'isDisplayProject' =>  $this->isDisplayProject,
          $prefix.'isDisplayCategory' =>  $this->isDisplayCategory,
          $prefix.'isDisplayTaskSummary' =>  $this->isDisplayTaskSummary,
+         $prefix.'isDisplayTaskExtID' =>  $this->isDisplayTaskExtID,
       );
 
       if (false == $isAjaxCall) {
