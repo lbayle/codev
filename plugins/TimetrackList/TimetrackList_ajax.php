@@ -55,6 +55,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $attributesJsonStr = Tools::getSecurePOSTStringValue('attributesJsonStr');
          $attributesArray = json_decode(stripslashes($attributesJsonStr), true);
 
+         $isOnlyActiveTeamMembers = ('on' !== $attributesArray[TimetrackList::OPTION_IS_ONLY_TEAM_MEMBERS]) ? false : true;
          $isDisplayCommands = ('on' !== $attributesArray[TimetrackList::OPTION_IS_DISPLAY_COMMANDS]) ? false : true;
          $isDisplayProject = ('on' !== $attributesArray[TimetrackList::OPTION_IS_DISPLAY_PROJECT]) ? false : true;
          $isDisplayCategory = ('on' !== $attributesArray[TimetrackList::OPTION_IS_DISPLAY_CATEGORY]) ? false : true;
@@ -70,6 +71,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
          // override plugin settings with current attributes
          $indicator->setPluginSettings(array(
+             TimetrackList::OPTION_IS_ONLY_TEAM_MEMBERS => $isOnlyActiveTeamMembers,
              TimetrackList::OPTION_IS_DISPLAY_COMMANDS => $isDisplayCommands,
              TimetrackList::OPTION_IS_DISPLAY_PROJECT => $isDisplayProject,
              TimetrackList::OPTION_IS_DISPLAY_CATEGORY => $isDisplayCategory,

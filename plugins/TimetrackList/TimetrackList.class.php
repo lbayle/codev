@@ -25,6 +25,7 @@
  */
 class TimetrackList extends IndicatorPluginAbstract {
 
+   const OPTION_IS_ONLY_TEAM_MEMBERS = 'isOnlyActiveTeamMembers';
    const OPTION_IS_DISPLAY_COMMANDS = 'isDisplayCommands';
    const OPTION_IS_DISPLAY_PROJECT = 'isDisplayProject';
    const OPTION_IS_DISPLAY_CATEGORY = 'isDisplayCategory';
@@ -40,8 +41,10 @@ class TimetrackList extends IndicatorPluginAbstract {
    private $inputIssueSel;
    private $startTimestamp;
    private $endTimestamp;
+   private $teamid;
 
    // config options from Dashboard
+   private $isOnlyActiveTeamMembers;
    private $isDisplayCommands;
    private $isDisplayProject;
    private $isDisplayCategory;
@@ -125,6 +128,11 @@ class TimetrackList extends IndicatorPluginAbstract {
       } else {
          throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
       }
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_TEAM_ID)) {
+         $this->teamid = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_TEAM_ID);
+      } else {
+         throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_TEAM_ID);
+      }
       if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP)) {
          $this->startTimestamp = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP);
       } else {
@@ -138,7 +146,7 @@ class TimetrackList extends IndicatorPluginAbstract {
       }
 
       // set default pluginSettings (not provided by the PluginDataProvider)
-
+      $this->isOnlyActiveTeamMembers= TRUE;
    }
 
    /**
@@ -149,6 +157,9 @@ class TimetrackList extends IndicatorPluginAbstract {
    public function setPluginSettings($pluginSettings) {
       if (NULL != $pluginSettings) {
          // override default with user preferences
+         if (array_key_exists(self::OPTION_IS_ONLY_TEAM_MEMBERS, $pluginSettings)) {
+            $this->isOnlyActiveTeamMembers = $pluginSettings[self::OPTION_IS_ONLY_TEAM_MEMBERS];
+         }
          if (array_key_exists(self::OPTION_IS_DISPLAY_COMMANDS, $pluginSettings)) {
             $this->isDisplayCommands = $pluginSettings[self::OPTION_IS_DISPLAY_COMMANDS];
          }
@@ -173,7 +184,16 @@ class TimetrackList extends IndicatorPluginAbstract {
     */
    public function execute() {
 
-      $timetracks = $this->inputIssueSel->getTimetracks(NULL, $this->startTimestamp, $this->endTimestamp);
+      // === get timetracks for each Issue
+      if ($this->isOnlyActiveTeamMembers) {
+         $team = TeamCache::getInstance()->getTeam($this->teamid);
+         $useridList = array_keys($team->getActiveMembers($this->startTimestamp, $this->endTimestamp));
+      } else {
+         // include also timetracks of users not in the team (relevant on ExternalTasksProjects)
+         $useridList = NULL;
+      }
+
+      $timetracks = $this->inputIssueSel->getTimetracks($useridList, $this->startTimestamp, $this->endTimestamp);
       $nbTimetracks = count($timetracks);
       $realStartTimestamp = $this->endTimestamp; // note: inverted intentionnaly
       $realEndTimestamp = $this->startTimestamp; // note: inverted intentionnaly
@@ -231,6 +251,7 @@ class TimetrackList extends IndicatorPluginAbstract {
       $prefix='timetrackList_';
       $smartyVariables = array(
          $prefix.'timetracksArray' => $this->execData['timetracksArray'],
+         $prefix.'isOnlyActiveTeamMembers' => $this->isOnlyActiveTeamMembers,
          $prefix.'isDisplayCommands' => $this->isDisplayCommands,
          $prefix.'isDisplayProject' =>  $this->isDisplayProject,
          $prefix.'isDisplayCategory' =>  $this->isDisplayCategory,
