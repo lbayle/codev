@@ -7,6 +7,7 @@
 # Author: Fitoschido
 # Author: Igv
 # Author: James
+# Author: Joanmp17
 # Author: KATRINE1992
 # Author: Lemondoge
 # Author: Macofe
@@ -17,7 +18,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-12 13:32+0200\n"
-"PO-Revision-Date: 2020-01-16 14:28:25+0000\n"
+"PO-Revision-Date: 2020-02-17 13:53:15+0000\n"
 "Language: es_es\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3585,9 +3586,8 @@ msgid "Status can't be : "
 msgstr "El estado no puede ser : "
 
 #. tpl/modal/update_issueBacklog.html
-#, fuzzy
 msgid "Task resolved, backlog must be '0'"
-msgstr "Tareas resueltas a tiempo"
+msgstr "Tarea resuelta, la acumulación debe ser '0'"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
@@ -3715,7 +3715,6 @@ msgid "Title"
 msgstr "Título"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
-#, fuzzy
 msgid "Task ID"
 msgstr "Información de la tarea"
 
@@ -4729,7 +4728,6 @@ msgid "EffortEstim reliability history"
 msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Select All"
 msgstr "Seleccionar todo"
 
@@ -4763,9 +4761,8 @@ msgid "Destination task must be different from origin"
 msgstr "La tarea de destino tiene que ser diferente de la de origen"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Origin task"
-msgstr "Tiempo por estado"
+msgstr "Origen de tarea"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #, fuzzy
@@ -5780,12 +5777,10 @@ msgid "Low"
 msgstr "Bajo"
 
 #: plugins/BlogPlugin/BlogPost.class.php:114
-#, fuzzy
 msgid "Normal"
 msgstr "Normal"
 
 #: plugins/BlogPlugin/BlogPost.class.php:116
-#, fuzzy
 msgid "High"
 msgstr "Alto"
 
