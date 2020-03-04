@@ -68,7 +68,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          // construct the html table
          foreach ($smartyData as $smartyKey => $smartyVariable) {
             $smartyHelper->assign($smartyKey, $smartyVariable);
-            $logger->error("key $smartyKey = ".var_export($smartyVariable, true));
+            //$logger->error("key $smartyKey = ".var_export($smartyVariable, true));
          }
          $html  = $smartyHelper->fetch(TasksPivotTable::getSmartySubFilename());
          $html2 = $smartyHelper->fetch(TasksPivotTable::getSmartySubFilename2());

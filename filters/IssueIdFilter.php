@@ -19,14 +19,10 @@
 
 
 /**
- * Description of IssueCodevType
+ * Description of IssueIdFilter
  *
  */
-class IssueCodevTypeFilter implements IssueSelectionFilter {
-
-   const tag_Bug  = 'Bug';
-   const tag_Task = 'Task';
-   const tag_None = 'NO_TYPE';
+class IssueIdFilter implements IssueSelectionFilter {
 
    /**
     * @var Logger The logger
@@ -34,7 +30,7 @@ class IssueCodevTypeFilter implements IssueSelectionFilter {
    private static $logger;
    private $id;
 
-   private $filterCriteria; // array of projectId
+   private $filterCriteria; // array of issueId
    private $outputList;
 
 
@@ -52,31 +48,19 @@ class IssueCodevTypeFilter implements IssueSelectionFilter {
    }
 
    public function getDesc() {
-      return T_("Sort issues per CustomField: CodevTT_Type");
+      return T_("Sort issues per ID");
    }
 
    public function getName() {
-      return "IssueCodevTypeFilter";
+      return "IssueIdFilter";
    }
 
    public function getDisplayName() {
-      return T_("Type (Task/Bug)");
+      return T_("Issue ID");
    }
 
    public function getId() {
       return $this->id;
-   }
-
-   public function addFilterCriteria($tag) {
-      if (is_null($this->filterCriteria)) {
-         $this->filterCriteria = array();
-      }
-      $this->filterCriteria[] = $tag;
-
-      if (self::$logger->isDebugEnabled()) {
-         self::$logger->debug("Return only issues types: ".implode(',', $this->filterCriteria));
-      }
-
    }
 
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
@@ -88,18 +72,17 @@ class IssueCodevTypeFilter implements IssueSelectionFilter {
          if (array_key_exists('filterCriteria', $params)) {
 
             if (!is_array($params['filterCriteria'])) {
-               throw new Exception("Parameter 'filterCriteria' must be an array of CodevTT_Type");
+               throw new Exception("Parameter 'filterCriteria' must be an array of issueId");
             }
-            if (empty($params['filterCriteria'])) {
+            if (0 == count($params['filterCriteria'])) {
                // filterCriteria skipped if empty...
                self::$logger->warn("Parameter 'filterCriteria' skipped: empty array !");
             } else {
                $this->filterCriteria = $params['filterCriteria'];
-               if (self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("Return only issues types: ".implode(',', $this->filterCriteria));
-               }
+               //self::$logger->debug("Return only issues in projects: ".implode(',', $this->filterCriteria));
             }
          }
+
       }
    }
 
@@ -107,42 +90,27 @@ class IssueCodevTypeFilter implements IssueSelectionFilter {
 
       $this->checkParams($inputIssueSel, $params);
 
-      if (is_null($this->outputList)) {
+      if (NULL == $this->outputList) {
 
          $this->outputList = array();
 
          $issueList = $inputIssueSel->getIssueList();
          foreach ($issueList as $issue) {
-            $type = $issue->getType();
+            $issueId = $issue->getId();
+            $issueDisplayName = $issueId;
 
             // if no criteria defined, or ProjectId found in filterCriteria
             if (is_null($this->filterCriteria) ||
-                in_array("$type", $this->filterCriteria)) {
+                in_array("$issueId", $this->filterCriteria)) {
 
-               if (empty($type)) {
-                  $tag = IssueCodevTypeFilter::tag_None;
-                  $displayName = "(no type)";
-               } else {
-                  $tag = $type;
-                  $displayName = $type;
-               }
-               if (self::$logger->isDebugEnabled()) {
-                  self::$logger->trace('execute: Issue '.$issue->getId().' Type = '.$tag);
-               }
-
+               $tag = 'TASK_'.$issueId;
                if (!array_key_exists($tag, $this->outputList)) {
-                  $this->outputList["$tag"] = new IssueSelection($displayName);
+                  $this->outputList[$tag] = new IssueSelection($issueDisplayName);
                }
-               $this->outputList["$tag"]->addIssue($issue->getId());
+               $this->outputList[$tag]->addIssue($issue->getId());
             }
          }
          ksort($this->outputList);
-      }
-      if (self::$logger->isDebugEnabled()) {
-         self::$logger->debug('input Nb Issues ='.$inputIssueSel->getNbIssues());
-         foreach ($this->outputList as $tag => $iSel) {
-            self::$logger->debug('Type {'.$tag.'} Nb Issues ='.$iSel->getNbIssues());
-         }
       }
       return $this->outputList;
    }
@@ -151,5 +119,5 @@ class IssueCodevTypeFilter implements IssueSelectionFilter {
 }
 
 // Initialize complex static variables
-IssueCodevTypeFilter::staticInit();
+IssueIdFilter::staticInit();
 

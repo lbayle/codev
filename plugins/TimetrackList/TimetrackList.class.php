@@ -20,10 +20,17 @@
  * Description of FdjTimetracksPerTaskWithUOIndicator
  *
  * For each Task, return the sum of the backlog UO of its assigned tasks.
- * 
+ *
  * @author lob
  */
 class TimetrackList extends IndicatorPluginAbstract {
+
+   const OPTION_IS_ONLY_TEAM_MEMBERS = 'isOnlyActiveTeamMembers';
+   const OPTION_IS_DISPLAY_COMMANDS = 'isDisplayCommands';
+   const OPTION_IS_DISPLAY_PROJECT = 'isDisplayProject';
+   const OPTION_IS_DISPLAY_CATEGORY = 'isDisplayCategory';
+   const OPTION_IS_DISPLAY_SUMMARY = 'isDisplayTaskSummary';
+   const OPTION_IS_DISPLAY_EXTID = 'isDisplayTaskExtID';
 
    /**
     * @var Logger The logger
@@ -35,8 +42,15 @@ class TimetrackList extends IndicatorPluginAbstract {
    private $inputIssueSel;
    private $startTimestamp;
    private $endTimestamp;
+   private $teamid;
 
    // config options from Dashboard
+   private $isOnlyActiveTeamMembers;
+   private $isDisplayCommands;
+   private $isDisplayProject;
+   private $isDisplayCategory;
+   private $isDisplayTaskSummary;
+   private $isDisplayTaskExtID;
 
    // internal
    protected $execData;
@@ -50,8 +64,11 @@ class TimetrackList extends IndicatorPluginAbstract {
 
       self::$domains = array (
          self::DOMAIN_TASK,
+         self::DOMAIN_PROJECT,
+         self::DOMAIN_TEAM,
          self::DOMAIN_COMMAND,
          self::DOMAIN_COMMAND_SET,
+         self::DOMAIN_SERVICE_CONTRACT,
       );
       self::$categories = array (
          self::CATEGORY_ACTIVITY,
@@ -113,6 +130,11 @@ class TimetrackList extends IndicatorPluginAbstract {
       } else {
          throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
       }
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_TEAM_ID)) {
+         $this->teamid = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_TEAM_ID);
+      } else {
+         throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_TEAM_ID);
+      }
       if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP)) {
          $this->startTimestamp = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP);
       } else {
@@ -124,32 +146,59 @@ class TimetrackList extends IndicatorPluginAbstract {
       } else {
          $this->endTimestamp = NULL;
       }
-      
+
       // set default pluginSettings (not provided by the PluginDataProvider)
-      
+      $this->isOnlyActiveTeamMembers= TRUE;
    }
 
    /**
     * settings are saved by the Dashboard
-    * 
+    *
     * @param array $pluginSettings
     */
    public function setPluginSettings($pluginSettings) {
       if (NULL != $pluginSettings) {
          // override default with user preferences
+         if (array_key_exists(self::OPTION_IS_ONLY_TEAM_MEMBERS, $pluginSettings)) {
+            $this->isOnlyActiveTeamMembers = $pluginSettings[self::OPTION_IS_ONLY_TEAM_MEMBERS];
+         }
+         if (array_key_exists(self::OPTION_IS_DISPLAY_COMMANDS, $pluginSettings)) {
+            $this->isDisplayCommands = $pluginSettings[self::OPTION_IS_DISPLAY_COMMANDS];
+         }
+         if (array_key_exists(self::OPTION_IS_DISPLAY_PROJECT, $pluginSettings)) {
+            $this->isDisplayProject = $pluginSettings[self::OPTION_IS_DISPLAY_PROJECT];
+         }
+         if (array_key_exists(self::OPTION_IS_DISPLAY_CATEGORY, $pluginSettings)) {
+            $this->isDisplayCategory = $pluginSettings[self::OPTION_IS_DISPLAY_CATEGORY];
+         }
+         if (array_key_exists(self::OPTION_IS_DISPLAY_SUMMARY, $pluginSettings)) {
+            $this->isDisplayTaskSummary = $pluginSettings[self::OPTION_IS_DISPLAY_SUMMARY];
+         }
+         if (array_key_exists(self::OPTION_IS_DISPLAY_EXTID, $pluginSettings)) {
+            $this->isDisplayTaskExtID = $pluginSettings[self::OPTION_IS_DISPLAY_EXTID];
+         }
       }
    }
 
 
    /**
     *
-    * returns an array of 
+    * returns an array of
     * activity in (elapsed, sidetask, other, external, leave)
     *
     */
    public function execute() {
-      
-      $timetracks = $this->inputIssueSel->getTimetracks(NULL, $this->startTimestamp, $this->endTimestamp);
+
+      // === get timetracks for each Issue
+      if ($this->isOnlyActiveTeamMembers) {
+         $team = TeamCache::getInstance()->getTeam($this->teamid);
+         $useridList = array_keys($team->getActiveMembers($this->startTimestamp, $this->endTimestamp));
+      } else {
+         // include also timetracks of users not in the team (relevant on ExternalTasksProjects)
+         $useridList = NULL;
+      }
+
+      $timetracks = $this->inputIssueSel->getTimetracks($useridList, $this->startTimestamp, $this->endTimestamp);
       $nbTimetracks = count($timetracks);
       $realStartTimestamp = $this->endTimestamp; // note: inverted intentionnaly
       $realEndTimestamp = $this->startTimestamp; // note: inverted intentionnaly
@@ -169,33 +218,53 @@ class TimetrackList extends IndicatorPluginAbstract {
 
          $user = UserCache::getInstance()->getUser($track->getUserId());
             $timetracksArray[$trackid] = array(
-               'commandList' => implode(', ', $issue->getCommandList()),
+               'id' => $track->getId(),
                'issueId' => Tools::issueInfoURL($issue->getId(), $issue->getSummary(), true),
-               #'task' => $issue->getSummary(),
                'user' => $user->getRealname(),
                'dateTimetrack' => Tools::formatDate("%Y-%m-%d", $track->getDate()),
-               'projectCategory' => $issue->getCategoryName(),
                'jobName' => $jobs->getJobName($track->getJobId()),
                'note' => nl2br(htmlspecialchars($track->getNote())),
                #'elapsed' => str_replace('.', ',',round($track->getDuration(), 2)),
                'elapsed' => round($track->getDuration(), 2),
-               'id' => $track->getId(),
             );
+            if ($this->isDisplayCommands) {
+               $timetracksArray[$trackid]['commandList'] = implode(', ', $issue->getCommandList());
+            }
+            if ($this->isDisplayProject) {
+               $timetracksArray[$trackid]['projectName'] = $issue->getProjectName();
+            }
+            if ($this->isDisplayCategory) {
+               $timetracksArray[$trackid]['projectCategory'] = $issue->getCategoryName();
+            }
+            if ($this->isDisplayTaskSummary) {
+               $timetracksArray[$trackid]['taskSummary'] = $issue->getSummary();
+            }
+            if ($this->isDisplayTaskExtID) {
+               $timetracksArray[$trackid]['taskExtID'] = $issue->getTcId();
+            }
       }
 
       $this->execData = array();
       $this->execData['nbTimetracks'] = $nbTimetracks;
       $this->execData['timetracksArray'] = $timetracksArray;
-      //$this->execData['totalArray'] = $totalArray; 
+      //$this->execData['totalArray'] = $totalArray;
       $this->execData['realStartTimestamp'] = $realStartTimestamp;
       $this->execData['realEndTimestamp'] = $realEndTimestamp;
-      
+
+
       return $this->execData;
    }
 
    public function getSmartyVariables($isAjaxCall = false) {
+      $prefix='timetrackList_';
       $smartyVariables = array(
-         'timetrackList_timetracksArray' => $this->execData['timetracksArray'],
+         $prefix.'timetracksArray' => $this->execData['timetracksArray'],
+         $prefix.'isOnlyActiveTeamMembers' => $this->isOnlyActiveTeamMembers,
+         $prefix.'isDisplayCommands' => $this->isDisplayCommands,
+         $prefix.'isDisplayProject' =>  $this->isDisplayProject,
+         $prefix.'isDisplayCategory' =>  $this->isDisplayCategory,
+         $prefix.'isDisplayTaskSummary' =>  $this->isDisplayTaskSummary,
+         $prefix.'isDisplayTaskExtID' =>  $this->isDisplayTaskExtID,
       );
 
       if (false == $isAjaxCall) {

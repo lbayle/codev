@@ -20,7 +20,7 @@
  * Description of BacklogPerUserIndicator
  *
  * For each user, return the sum of the backlog of its assigned tasks.
- * 
+ *
  * @author lob
  */
 class TasksPivotTable extends IndicatorPluginAbstract {
@@ -69,7 +69,7 @@ class TasksPivotTable extends IndicatorPluginAbstract {
       );
 
       // TODO: this list should be dynamicaly set by parsing the filters directory !
-      self::$allFilters = "ProjectFilter,ProjectVersionFilter,ProjectCategoryFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter,IssueCodevTypeFilter";
+      self::$allFilters = "ProjectFilter,ProjectVersionFilter,ProjectCategoryFilter,IssueIdFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter,IssueCodevTypeFilter";
 
    }
 
@@ -219,7 +219,7 @@ class TasksPivotTable extends IndicatorPluginAbstract {
    }
 
    public function getSmartyVariables($isAjaxCall = false) {
-      
+
       $prefix = 'taskPivotTable_';
 
       $smartyVariables[$prefix.'isManager'] = $this->isManager;

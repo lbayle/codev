@@ -5,10 +5,23 @@
          <thead>
             <tr>
                <th>{t}Date{/t}</th>
+               {if $timetrackList_isDisplayCommands}
                <th>{t}Commands{/t}</th>
+               {/if}
+               {if $timetrackList_isDisplayProject}
+               <th>{t}Project{/t}</th>
+               {/if}
+               <th>{t}Task ID{/t}</th>
+               {if $timetrackList_isDisplayTaskExtID}
+               <th>{t}Task ExtRef{/t}</th>
+               {/if}
+               {if $timetrackList_isDisplayTaskSummary}
                <th>{t}Task{/t}</th>
+               {/if}
                <th>{t}User{/t}</th>
+               {if $timetrackList_isDisplayCategory}
                <th>{t}Category{/t}</th>
+               {/if}
                <th>{t}Job{/t}</th>
                <th>{t}Elapsed{/t}</th>
                <th>{t}Note{/t}</th>
@@ -19,10 +32,23 @@
             {foreach from=$timetrackList_timetracksArray key=id item=i}
             <tr class="timetrackList_timetrack" data-timetrackId="{$i.id}">
                <td nowrap="nowrap">{$i.dateTimetrack}</td>
+               {if $timetrackList_isDisplayCommands}
                <td>{$i.commandList}</td>
+               {/if}
+               {if $timetrackList_isDisplayProject}
+               <td>{$i.projectName}</td>
+               {/if}
                <td>{$i.issueId}</td>
+               {if $timetrackList_isDisplayTaskExtID}
+               <td>{$i.taskExtID}</td>
+               {/if}
+               {if $timetrackList_isDisplayTaskSummary}
+               <td>{$i.taskSummary}</td>
+               {/if}
                <td>{$i.user}</td>
+               {if $timetrackList_isDisplayCategory}
                <td>{$i.projectCategory}</td>
+               {/if}
                <td class="timetrackList_timetrack_jobName">{$i.jobName}</td>
                <td>{$i.elapsed}</td>
                <td class="timetrackList_timetrack_note" name="timetrack_note">{$i.note}</td>

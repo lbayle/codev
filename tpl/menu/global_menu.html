@@ -1,15 +1,15 @@
 <div class="menu ui-tabs ui-widget ui-widget-content ui-corner-all">
 
    <ul class="dropdown ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" style="width:100%;">
-      
+
       <li class="ui-corner-top {if $activeGlobalMenuItem == "index"} ui-state-active{else} ui-state-default{/if}" style="margin-left:1em;">
          <a href="index.php" class="button" target="_top">{t}Home{/t}</a>
       </li>
-      
+
       <li class="ui-corner-top ui-state-default">
          <a href="{$mantisURL}" title="MantisBT" class="button" target="blank">Mantis</a>
       </li>
-      
+
       <li class="ui-corner-top {if $activeGlobalMenuItem == 'TimeTracking'} ui-state-active{else} ui-state-default{/if}" style="margin-left:2%;">
          <span class="dropdown-title" title="{t}TimeTracking & team activity{/t}" >{t}Activity{/t}</span>
          <span class="dropdown-icon dropdown-icon-triangle-1-s"></span>
@@ -54,7 +54,7 @@
       <!--li class="ui-corner-top {if $activeGlobalMenuItem == 'Gantt'} ui-state-active{else} ui-state-default{/if}"><a href="reports/gantt_report.php" title="{t}Gantt Chart{/t}" class="button">{t}Gantt{/t}</a></li-->
       <li class="ui-corner-top {if $activeGlobalMenuItem == 'IssueInfo'} ui-state-active{else} ui-state-default{/if}" style="margin-left:2%;"><a href="reports/issue_info.php" title="{t}Task Information{/t}" class="button">{t}Task{/t}</a></li>
       <li class="ui-corner-top {if $activeGlobalMenuItem == 'ProjectInfo'} ui-state-active{else} ui-state-default{/if}"><a href="reports/project_info.php" title="{t}Project Information{/t}" class="button">{t}Project{/t}</a></li>
-      
+
       <li class="ui-corner-top {if $activeGlobalMenuItem == 'ProdReports'} ui-state-active{else} ui-state-default{/if}">
          <span class="dropdown-title" title="{t}Team Statistics{/t}" >{t}Team{/t}</span>
          <span class="dropdown-icon dropdown-icon-triangle-1-s"></span>
@@ -82,9 +82,6 @@
          <span class="dropdown-icon dropdown-icon-triangle-1-s"></span>
          <ul class="submenu">
             <li><a href='import/import_dashboard.php'>{t}Import/Export tools{/t}</a></li>
-            <!--li><a href="import/import_issues.php">{t}Import Issues{/t}</a></li-->
-            <li><a href="reports/export_csv_weekly.php">{t}Export Weekly Report{/t}</a></li>
-            <li><a href="reports/export_csv_monthly.php">{t}Export Monthly Report{/t}</a></li>
             <li><a href="reports/export_odt.php">{t}Export to LibreOffice{/t}</a></li>
          </ul>
       </li>

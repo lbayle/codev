@@ -35,6 +35,8 @@ class ImportUsers extends IndicatorPluginAbstract {
     private $session_userid;
     private $session_user;
     private $selectedProject;
+    private $domain;
+
     // config options from Dashboard
     private $csvFilename;
     private $teamId;
@@ -54,6 +56,7 @@ class ImportUsers extends IndicatorPluginAbstract {
 
         self::$domains = array(
             self::DOMAIN_IMPORT_EXPORT,
+            self::DOMAIN_TEAM_ADMIN,
         );
         self::$categories = array(
             self::CATEGORY_IMPORT,
@@ -136,6 +139,12 @@ class ImportUsers extends IndicatorPluginAbstract {
         } else {
             $this->selectedProject = 0;
             //throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_PROJECT_ID);
+        }
+        if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN)) {
+           $this->domain = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN);
+        } else {
+           $this->domain = NULL;
+           //throw new Exception('Missing parameter: '.PluginDataProviderInterface::PARAM_DOMAIN);
         }
 
         // set default pluginSettings
@@ -292,13 +301,26 @@ class ImportUsers extends IndicatorPluginAbstract {
      */
     public function execute() {
 
-      if ($this->session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
-         // admins can edit any team
-         $this->execData['teams'] = Team::getTeams();
+      if (IndicatorPluginInterface::DOMAIN_TEAM_ADMIN === $this->domain) {
+         // do only display the current team
+         $team = TeamCache::getInstance()->getTeam($this->teamid);
+         $this->execData['teams'] = array(
+            $this->teamid => $team->getName()
+         );
       } else {
-         // only teamLeaders, not even managers
-         $this->execData['teams']  = $this->session_user->getAdministratedTeamList();
+         // most probable in DOMAIN_IMPORT_EXPORT
+         if ($this->session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
+            // admins can edit any team
+            $this->execData['teams'] = Team::getTeams();
+         } else {
+            // only teamLeaders, not even managers
+            $this->execData['teams']  = $this->session_user->getAdministratedTeamList();
+         }
       }
+
+
+
+
       return $this->execData;
     }
 

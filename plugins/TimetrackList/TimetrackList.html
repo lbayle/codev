@@ -1,8 +1,8 @@
 <div class="timetrackList">
    <div class="pluginInitFunction"  style="display: none;">timetrackListJsInit</div>
    <div class="pluginDestroyFunction"  style="display: none;">timetrackListJsDestroy</div>
-   
-   
+
+
 <div align="left" style="margin-top:1em;">
    <form id="timetrackList_dateRange_form">
       <fieldset>
@@ -13,11 +13,12 @@
          <input class="timetrackListDate_submit" type="submit" value="{t}Display{/t}" />
          <img class="timetrackList_spinner" src='images/spinner.gif' width='16' height='16' alt='Please wait...' style="vertical-align: middle;" />
          <input type="hidden" name="action" value="getTimetrackList" />
+         <input type="hidden" name="attributesJsonStr" value="" />
          <input type="hidden" name="dashboardId" value="" />
       </fieldset>
    </form>
 </div>
-   
+
 <div>
    <div class="timetrackListDiv" align="left" style="margin-top: 1em;">
       <div style="width: 95%;">
@@ -106,6 +107,11 @@
 
          var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
          form.find("input[name=dashboardId]").val(dashboardId);
+
+         // send attributesJsonStr because the ajax php need to know about 'isDisplayCommands'
+         // Note: TimetrackListAttr is declared in dashboard.html
+         var attr = jQuery('.TimetrackListAttr.attributesJsonStr');
+         form.find('input[name=attributesJsonStr]').val(attr.text());
 
          var url = form.attr('action');
          var type = form.attr('method');
