@@ -227,7 +227,7 @@ class WBSElement extends Model {
    }
 
    /**
-    * 
+    *
     * @param string $title title of the wbsElement
     * @param int $rootId
     * @param int $parentId
@@ -289,7 +289,7 @@ class WBSElement extends Model {
       }
       return $childrenIds;
    }
-   
+
    public function getIssues() {
 //   public function getChildBugIdList() {
 
@@ -305,11 +305,11 @@ class WBSElement extends Model {
       }
       return $this->issueList;
    }
-   
+
    public function addIssue($issue) {
       array_push($this->issueList, $issue);
    }
-   
+
    public function getChildFolders($parentId = null) {
 
       $sql = AdodbWrapper::getInstance();
@@ -326,25 +326,25 @@ class WBSElement extends Model {
       }
       return $this->subFolders;
    }
-   
+
    public function addSubFolder($subFolder) {
       array_push($this->subFolders, $subFolder);
    }
-   
+
    public function getSubFolders() {
       return $this->subFolders;
    }
-   
+
    public function hasSubfolders() {
       return !empty($this->subFolders);
    }
-   
+
    public function getIssueList() {
       return $this->issueList;
    }
 
    /**
-    * 
+    *
     * @param type $root_id
     * @throws Exception
     */
@@ -386,10 +386,10 @@ class WBSElement extends Model {
               " WHERE id = " . $sql->db_param();
       $q_params[]=$this->title;
       $q_params[]=$this->order;
-      $q_params[]=(is_null($this->parentId) ? NULL : $this->parentId);
-      $q_params[]=(is_null($this->icon)     ? NULL : $this->icon);
-      $q_params[]=(is_null($this->font)     ? NULL : $this->font);
-      $q_params[]=(is_null($this->color)    ? NULL : $this->color);
+      $q_params[]=$this->parentId;
+      $q_params[]=$this->icon;
+      $q_params[]=$this->font;
+      $q_params[]=$this->color;
       $q_params[]=($this->expand            ? '1' : '0');
       $q_params[]=$this->id;
 
@@ -446,7 +446,7 @@ class WBSElement extends Model {
 		// if root_id is NULL, then I am the root !
       return (is_null($this->rootId)) ? $this->id : $this->rootId;
    }
-   
+
    public function setRootId($rootId) {
       $this->rootId = $rootId;
    }
@@ -798,7 +798,7 @@ class WBSElement extends Model {
 			$query  = "SELECT id FROM codev_wbs_table WHERE bug_id = ".$sql->db_param().
                    " AND root_id = ".$sql->db_param();
          $result = $sql->sql_query($query, array($bug_id, $root_id));
-         
+
          $row = $sql->fetchObject($result);
 			if (!is_null($row)) {
 				$id = $row->id;
