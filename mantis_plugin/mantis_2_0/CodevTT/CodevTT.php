@@ -427,52 +427,55 @@ class CodevTTPlugin extends MantisPlugin {
     */
    public function assignCommand($p_bug_id, $command_id) {
 
-     //TODO test if command id is valid !!!!
-
-     // === create bug-command associations
-     $query = "INSERT INTO codev_command_bug_table (command_id, bug_id) VALUES";
-     $query .= " (" . db_param() . ", " . db_param() . ");";
-     db_query($query, array( $command_id, $p_bug_id ) );
-
-     // === add to WBS
-     // 1) get the wbs_id of this command
-     $query2 = "SELECT name, wbs_id FROM codev_command_table WHERE id = " . db_param();
-     $result2 = db_query($query2, array( $command_id ));
-     $row2 = db_fetch_array( $result2 );
-     $wbs_id = $row2['wbs_id'];
-     $cmd_name = $row2['name'];
-
-     // 2) if wbs_id is null, the root element must be created
-     // (this happens only once when upgrading from 0.99.24 or below)
-     $order = 1;
-     if (is_null($wbs_id)) {
-        #echo "Create WBS root element for Command $command_id<br>";
-        // add root element
-        $query3 = "INSERT INTO codev_wbs_table  (wbs_order, expand, title) ".
-                "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ")";
-        db_query($query3, array( 1, 1, $cmd_name ));
-        $wbs_id = db_insert_id();
-
-        $query4 = "UPDATE codev_command_table SET wbs_id = " . db_param() . " WHERE id = " . db_param();
-        db_query($query4, array( $wbs_id, $command_id ));
-
-        // 2.1) add all existing issues to the WBS
-        $query6 = "SELECT bug_id from codev_command_bug_table WHERE command_id = " . db_param() . " ORDER BY bug_id";
-        $result6 = db_query($query6, array( $command_id));
-        while ($row6 = db_fetch_array( $result6 )) {
-           #echo "add issue $row6->bug_id to command $command_id<br>";
-           $query7 = "INSERT INTO codev_wbs_table  (root_id, parent_id, bug_id, wbs_order, expand) ".
+     //Test if a command is selected to prevent from creating useless objects 
+     if (isset($command_id) && $command_id > 0) {
+   
+        // === create bug-command associations
+        $query = "INSERT INTO codev_command_bug_table (command_id, bug_id) VALUES";
+        $query .= " (" . db_param() . ", " . db_param() . ");";
+        db_query($query, array( $command_id, $p_bug_id ) );
+   
+        // === add to WBS
+        // 1) get the wbs_id of this command
+        $query2 = "SELECT name, wbs_id FROM codev_command_table WHERE id = " . db_param();
+        $result2 = db_query($query2, array( $command_id ));
+        $row2 = db_fetch_array( $result2 );
+        $wbs_id = $row2['wbs_id'];
+        $cmd_name = $row2['name'];
+   
+        // 2) if wbs_id is null, the root element must be created
+        // (this happens only once when upgrading from 0.99.24 or below)
+        $order = 1;
+        if (is_null($wbs_id)) {
+           #echo "Create WBS root element for Command $command_id<br>";
+           // add root element
+           $query3 = "INSERT INTO codev_wbs_table  (wbs_order, expand, title) ".
+                   "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ")";
+           db_query($query3, array( 1, 1, $cmd_name ));
+            //added missing argument for function db_insert_id since Mantis 2.21
+           $wbs_id = db_insert_id("codev_wbs_table");
+   
+           $query4 = "UPDATE codev_command_table SET wbs_id = " . db_param() . " WHERE id = " . db_param();
+           db_query($query4, array( $wbs_id, $command_id ));
+   
+           // 2.1) add all existing issues to the WBS
+           $query6 = "SELECT bug_id from codev_command_bug_table WHERE command_id = " . db_param() . " ORDER BY bug_id";
+           $result6 = db_query($query6, array( $command_id));
+           while ($row6 = db_fetch_array( $result6 )) {
+              #echo "add issue $row6->bug_id to command $command_id<br>";
+              $query7 = "INSERT INTO codev_wbs_table  (root_id, parent_id, bug_id, wbs_order, expand) ".
+                      "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ")";
+              #echo "SQL query7 = $query7<br>";
+              $result7 = db_query($query7, array( $wbs_id, $wbs_id, $row6['bug_id'], $order, 0));
+              $order += 1;
+           }
+        } else {
+           // 3) add bug_id to the wbs root element
+           $query5 = "INSERT INTO codev_wbs_table  (root_id, parent_id, bug_id, wbs_order, expand) ".
                    "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ")";
-           #echo "SQL query7 = $query7<br>";
-           $result7 = db_query($query7, array( $wbs_id, $wbs_id, $row6['bug_id'], $order, 0));
-           $order += 1;
+           #echo "SQL query5 = $query5<br>";
+           db_query($query5, array( $wbs_id, $wbs_id, $p_bug_id, $order, 0 ));
         }
-     } else {
-        // 3) add bug_id to the wbs root element
-        $query5 = "INSERT INTO codev_wbs_table  (root_id, parent_id, bug_id, wbs_order, expand) ".
-                "VALUES (" . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ", " . db_param() . ")";
-        #echo "SQL query5 = $query5<br>";
-        db_query($query5, array( $wbs_id, $wbs_id, $p_bug_id, $order, 0 ));
      }
    }
 
