@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 ""
-"PO-Revision-Date: 2020-02-20 14:57:08+0000\n"
+"PO-Revision-Date: 2020-03-05 16:27:25+0000\n"
 "X-POT-Import-Date: 2020-01-11 18:27:58+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2691,7 +2691,7 @@ msgstr "Belge \\'de mevcut"
 
 #. tpl/doc.html
 msgid "CodevTT Documentation Wiki"
-msgstr "CodevTT Belgeleme Wiki"
+msgstr "CodevTT Belgelemesi Viki"
 
 #. tpl/doc.html
 msgid "GreaseMonkey script: "
@@ -2836,7 +2836,7 @@ msgstr "Ekip Atölyesi"
 
 #. tpl/create_team.html
 msgid "Support, Doc, Training, Wiki, ..."
-msgstr "Destek, Doktor, Eğitim, Wiki, ..."
+msgstr "Destek, Doktor, Eğitim, Viki, ..."
 
 #. tpl/create_team.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -2884,7 +2884,7 @@ msgstr "Derleme betikleri"
 
 #. tpl/create_team.html
 msgid "Update team WIKI"
-msgstr "Güncelleme ekibi WIKI"
+msgstr "Güncelleme ekibi VİKİ"
 
 #. tpl/create_team.html
 msgid "Other activity charged on the project"
