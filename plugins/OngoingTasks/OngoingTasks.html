@@ -1,0 +1,157 @@
+<div class="ongoingTasks">
+   <div class="pluginInitFunction"  style="display: none;">ongoingTasksJsInit</div>
+   <div class="pluginDestroyFunction"  style="display: none;">ongoingTasksJsDestroy</div>
+
+
+<div align="left" style="margin-top:1em;">
+   <form id="ongoingTasks_dateRange_form">
+      <fieldset>
+         <label for="ongoingTasks_startdatepicker">{t}From{/t}:</label>
+         <input type="text" class="ongoingTasks_startdatepicker datepicker" name="ongoingTasks_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="ongoingTasks_enddatepicker">{t}To{/t}:</label>
+         <input type="text" class="ongoingTasks_enddatepicker datepicker" name="ongoingTasks_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <input class="ongoingTasksDate_submit" type="submit" value="{t}Display{/t}" />
+         <img class="ongoingTasks_spinner" src='images/spinner.gif' width='16' height='16' alt='Please wait...' style="vertical-align: middle;" />
+         <input type="hidden" name="action" value="getOngoingTasks" />
+         <input type="hidden" name="attributesJsonStr" value="" />
+         <input type="hidden" name="dashboardId" value="" />
+      </fieldset>
+   </form>
+</div>
+
+<div>
+   <div class="ongoingTasksDiv" align="left" style="margin-top: 1em;">
+      <div style="width: 95%;">
+      {include file="`$ongoingTasks_ajaxFile`"}
+      </div>
+   </div>
+
+   <div class="floatr" style=" width: 16px">
+      <span class="ongoingTasksHelpDialog_link float pointer">
+         <img title="Help" src="images/help_icon.gif"/>
+      </span>
+      <span class="float pointer">
+         <img title="{t}Export to CSV{/t}" src="images/b_export_xls.gif" onclick="$('.ongoingTasksValuesTable').table2CSV({literal}{{/literal}filename : 'ongoingTasks.csv'{literal}}{/literal})">
+      </span>
+   </div>
+   <div class="ongoingTasksHelpDialog ui-helper-hidden" title="{t}Ongoing tasks{/t}">
+      <strong>{t}Description{/t}:</strong><br>
+      {t}Display only the tasks with activity (timetracks) on the period{/t}
+      <br><br>
+      <table class="invisible">
+         <tr>
+            <td nowrap style="vertical-align:top">{t}Elapsed{/t}:</td>
+            <td>{t}The time spent on the task during the period (which can be less than the total time spent since the beginning of the task){/t}</td>
+         </tr>
+         <tr>
+            <td nowrap style="vertical-align:top" >{t}Involved users{/t}:</td>
+            <td>{t}List the users having spent time on the task during the period{/t}</td>
+         </tr>
+      </table>
+   </div>
+
+   <div class="ui-helper-clearfix"></div>
+
+</div>
+
+<script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function ongoingTasksJsDestroy() {
+      jQuery(".ongoingTasksHelpDialog").dialog('destroy').remove();
+      jQuery(".ongoingTasksDiv").off("click", "**");
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function ongoingTasksJsInit() {
+
+      console.log('ongoingTasksJsInit');
+      jQuery('.ongoingTasks_spinner').hide(); // hide spinner
+
+      // ------------------------
+      // datepicker
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+      // Set the date
+      var startDatePicker = jQuery(".ongoingTasks_startdatepicker").datepicker("setDate" ,"{$ongoingTasks_startDate}");
+      var endDatePicker = jQuery(".ongoingTasks_enddatepicker").datepicker("setDate" ,"{$ongoingTasks_endDate}");
+      // Add range date
+      startDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+      });
+      endDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+      });
+
+      // on reload with new date range
+      jQuery('.ongoingTasksDate_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+         jQuery('.ongoingTasks_spinner').show(); // spinner img
+
+         var form = jQuery('#ongoingTasks_dateRange_form');
+
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
+         // send attributesJsonStr because the ajax php need to know about 'isDisplayCommands'
+         // Note: OngoingTasksAttr is declared in dashboard.html
+         var attr = jQuery('.OngoingTasksAttr.attributesJsonStr');
+         form.find('input[name=attributesJsonStr]').val(attr.text());
+
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: "POST",
+            url: '{$ongoingTasks_ajaxPhpURL}',
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+               if (data['ongoingTasks_htmlTable']) {
+                  jQuery(".ongoingTasksDiv").html(jQuery.trim(data['ongoingTasks_htmlTable']));
+
+                  //console.log('js files to load:', data['ongoingTasks_jsFiles']);
+                  jQuery.each(data['ongoingTasks_jsFiles'], function( index, value ) {
+                     jQuery.ajax({
+                           async: false,
+                           url: value,
+                           dataType: "script"
+                     });
+                  });
+                  //console.log('js load done');
+
+               } else {
+                  console.error('data is null');
+                  alert('ERROR: data is null');
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+         jQuery('.ongoingTasks_spinner').hide(); // spinner img
+      });
+
+      // ------------------------
+
+      jQuery(".ongoingTasksHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".ongoingTasksHelpDialog").dialog("open");
+      });
+      jQuery(".ongoingTasksHelpDialog").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "650px",
+         hide: "fade"
+      });
+
+   };
+
+</script>
+</div>

@@ -1,0 +1,65 @@
+<div class="ongoingTasks_ajax">
+   <span class="ongoingTasks_generalErrorMsg error_font">{$ongoingTasks_generalErrorMsg}</span>
+   {if $ongoingTasks_ongoingTasksArray}
+      <table class="ongoingTasksValuesTable display float datatable_csv" >
+         <thead>
+            <tr>
+               <th>{t}Task ID{/t}</th>
+               {if $ongoingTasks_isDisplayTaskExtID}
+               <th>{t}Task ExtRef{/t}</th>
+               {/if}
+               {if $ongoingTasks_isDisplayTaskSummary}
+               <th>{t}Task{/t}</th>
+               {/if}
+               {if $ongoingTasks_isDisplayCommands}
+               <th>{t}Commands{/t}</th>
+               {/if}
+               {if $ongoingTasks_isDisplayProject}
+               <th>{t}Project{/t}</th>
+               {/if}
+               {if $ongoingTasks_isDisplayCategory}
+               <th>{t}Category{/t}</th>
+               {/if}
+               <th>{t}Progress{/t}</th>
+               <th title="{t}Backlog{/t}">{t}Backlog{/t}</th>
+               <th title="{t}Elapsed on period{/t}">{t}Elapsed{/t}</th>
+               {if $ongoingTasks_isDisplayInvolvedUsers}
+               <th>{t}Assigned to{/t}</th>
+               <th>{t}Involved users{/t}</th>
+               {/if}
+            </tr>
+         </thead>
+         <tbody>
+            {foreach from=$ongoingTasks_ongoingTasksArray key=id item=i}
+            <tr class="ongoingTasks_taskLine" data-issueId="{$i.issueId}">
+               <td>{$i.issueId}</td>
+               {if $ongoingTasks_isDisplayTaskExtID}
+               <td>{$i.taskExtID}</td>
+               {/if}
+               {if $ongoingTasks_isDisplayTaskSummary}
+               <td>{$i.taskSummary}</td>
+               {/if}
+               {if $ongoingTasks_isDisplayCommands}
+               <td>{$i.commandList}</td>
+               {/if}
+               {if $ongoingTasks_isDisplayProject}
+               <td>{$i.projectName}</td>
+               {/if}
+               {if $ongoingTasks_isDisplayCategory}
+               <td>{$i.projectCategory}</td>
+               {/if}
+               <td><div class="progress">{$i.progress}%</div></td>
+               <td>{$i.backlog}</td>
+               <td>{$i.elapsedOnPeriod}</td>
+               {if $ongoingTasks_isDisplayInvolvedUsers}
+               <td>{$i.assignedTo}</td>
+               <td>{$i.involvedUsers}</td>
+               {/if}
+            </tr>
+            {/foreach}
+         </tbody>
+      </table>
+   {else}
+   {t}No data.{/t}
+   {/if}
+</div>
