@@ -10,13 +10,14 @@
 # Author: محمد أحمد عبد الفتاح
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-05 21:46+0100\n"
-"PO-Revision-Date: 2020-01-16 14:28:24+0000\n"
+"PO-Revision-Date: 2020-03-09 15:34:09+0000\n"
 "Language: ar\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-01-11 18:27:58+0000\n"
+"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=6; plural=(n == 0) ? 0 : ( (n == 1) ? 1 : ( (n == 2) ? 2 : ( (n%100 >= 3 && n%100 <= 10) ? 3 : ( (n%100 >= 11 && n%100 <= 99) ? 4 : 5 ) ) ) );\n"
 
@@ -2573,9 +2574,7 @@ msgstr "النسخ الاحتياطي للبيانات"
 
 #. tpl/uninstall.html
 msgid "Backup file will be saved in CodevTT reports directory"
-msgstr ""
-"\n"
-"سيتم حفظ ملف النسخ الاحتياطي في دليل تقارير CodevTT"
+msgstr "\nسيتم حفظ ملف النسخ الاحتياطي في دليل تقارير CodevTT"
 
 #. tpl/uninstall.html
 msgid "Filename"
@@ -4098,12 +4097,8 @@ msgid "current month"
 msgstr "الشهر الحالي"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"عرض فئات المهام الجانبية: فئات \"الحوادث\" و\"عدم النشاط\" <br>\n"
-"         (إذا لم يتم اختيارها، سيتم تضمين المهام الجانبية في \"المنقضي\")"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "عرض فئات المهام الجانبية: فئات \"الحوادث\" و\"عدم النشاط\" <br>\n         (إذا لم يتم اختيارها، سيتم تضمين المهام الجانبية في \"المنقضي\")"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4119,12 +4114,8 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "الوقت المستغرق في المشاريع والمهام الجانبية لاختيار المهمة الحالية"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"'جوانب \"الحادثة\" و\"عدم النشاط\" للتحديد الحالي.<br>\n"
-"         (إذا لم يتم تحديد خيار \"النفايات\"، فسيتم تضمين هذا في \"المنقضي\")"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "'جوانب \"الحادثة\" و\"عدم النشاط\" للتحديد الحالي.<br>\n         (إذا لم يتم تحديد خيار \"النفايات\"، فسيتم تضمين هذا في \"المنقضي\")"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -5974,44 +5965,3 @@ msgstr "W"
 msgid "Delivery Date"
 msgstr "تاريخ التسليم"
 
-#~ msgid "Monthly report"
-#~ msgstr "تقرير شهري"
-
-#~ msgid "Issues form Team projects, including issues assigned to other teams"
-#~ msgstr " مشاريع الفريق شكل القضايا، بما في ذلك القضايا المخصصة لفرق أخرى"
-
-#~ msgid "Export Managed Issues"
-#~ msgstr "تصدير المشكلات المدارة"
-
-#~ msgid "Weekly report"
-#~ msgstr "تقرير أسبوعي"
-
-#~ msgid "Import Issues"
-#~ msgstr "مشكلات الاستيراد"
-
-#~ msgid "Export Weekly Report"
-#~ msgstr "تقرير التصدير الأسبوعي"
-
-#~ msgid "Export Monthly Report"
-#~ msgstr "تقرير التصدير الشهري"
-
-#~ msgid "Issue Type"
-#~ msgstr "نوع المشكلة"
-
-#~ msgid "m_id"
-#~ msgstr "m_id"
-
-#~ msgid "Product Version"
-#~ msgstr "نسخة المنتج"
-
-#~ msgid "Resolution"
-#~ msgstr "القرار"
-
-#~ msgid "Delivery Sheet"
-#~ msgstr "ورقة تسليم"
-
-#~ msgid "Export Week"
-#~ msgstr "تصدير أسبوع"
-
-#~ msgid "Member Activity"
-#~ msgstr "الاعضاء الفاعلين"

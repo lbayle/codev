@@ -17,13 +17,14 @@
 # Author: Семён
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-05 21:46+0100\n"
-"PO-Revision-Date: 2020-01-16 14:28:28+0000\n"
+"PO-Revision-Date: 2020-03-09 15:34:13+0000\n"
 "Language: ru\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-01-11 18:27:58+0000\n"
+"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=3; plural=(n%10 == 1 && n%100 != 11) ? 0 : ( (n%10 >= 2 && n%10 <= 4 && (n%100 < 10 || n%100 >= 20)) ? 1 : 2 );\n"
 
@@ -3876,9 +3877,8 @@ msgid "Timetrack filter"
 msgstr "Примечание по учёту времени"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
-#, fuzzy
 msgid "Only team members"
-msgstr "Члены команды"
+msgstr "Только члены команды"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
@@ -3887,9 +3887,8 @@ msgid "Task ExtRef"
 msgstr "ExtRef"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
-#, fuzzy
 msgid "Task name"
-msgstr "Задач впереди"
+msgstr "Название задачи"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
@@ -4103,9 +4102,7 @@ msgid "current month"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4122,9 +4119,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -5973,17 +5968,3 @@ msgstr ""
 msgid "Delivery Date"
 msgstr ""
 
-#~ msgid "Monthly report"
-#~ msgstr "Ежемесячный отчет"
-
-#~ msgid "Weekly report"
-#~ msgstr "Еженедельный отчет"
-
-#~ msgid "Import Issues"
-#~ msgstr "Импорт задач"
-
-#~ msgid "Export Weekly Report"
-#~ msgstr "Экспорт еженедельного отчета"
-
-#~ msgid "Export Monthly Report"
-#~ msgstr "Экспорт ежемесячного отчета"

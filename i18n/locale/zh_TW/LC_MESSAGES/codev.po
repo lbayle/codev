@@ -7,13 +7,14 @@
 # Author: 烈羽
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-05 21:46+0100\n"
-"PO-Revision-Date: 2020-01-16 14:28:30+0000\n"
+"PO-Revision-Date: 2020-03-09 15:34:14+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-01-11 18:27:58+0000\n"
+"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -1696,9 +1697,8 @@ msgid "Team Statistics"
 msgstr "團隊統計"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "User Statistics"
-msgstr "週期統計"
+msgstr "使用者統計"
 
 #. tpl/menu/global_menu.html
 msgid "History"
@@ -2410,9 +2410,8 @@ msgid "Download"
 msgstr "下載"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User info"
-msgstr "使用者"
+msgstr "使用者資訊"
 
 #. tpl/edit_holidays.html
 msgid "Add fixed holidays"
@@ -3861,25 +3860,21 @@ msgid "Update timetrack"
 msgstr "更新時間表"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
-#, fuzzy
 msgid "Timetrack filter"
-msgstr "時間表註釋"
+msgstr "時間表過濾"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
-#, fuzzy
 msgid "Only team members"
-msgstr "添加團隊成員"
+msgstr "僅團隊成員"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
-#, fuzzy
 msgid "Task ExtRef"
-msgstr "ExtRef"
+msgstr "任務外部參考"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
-#, fuzzy
 msgid "Task name"
-msgstr "準時任務"
+msgstr "任務名稱"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
@@ -4093,9 +4088,7 @@ msgid "current month"
 msgstr "當月"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr "顯示浪費的邊際任務：「事件」和「不活躍」分類<br>（如果未勾選，邊際任務會被包含在「已流逝」）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4112,9 +4105,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "花費在目前任務選擇上的專案和邊際任務之時間"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr "目前「事件」和「不活躍」邊際任務的選項。<br>（如果「浪費」選項沒被選擇，這將被會包含在「已流逝」）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -5100,7 +5091,7 @@ msgstr "依自訂欄位排序問題：CodevTT_Type"
 
 #: filters/IssueCodevTypeFilter.php:63
 msgid "Type (Task/Bug)"
-msgstr ""
+msgstr "類型（任務/錯誤）"
 
 #: filters/ProjectFilter.php:51
 msgid "Sort issues per Project"
@@ -5131,14 +5122,12 @@ msgid "Project Category"
 msgstr "專案分類"
 
 #: filters/IssueIdFilter.php:51
-#, fuzzy
 msgid "Sort issues per ID"
-msgstr "依標籤排序問題"
+msgstr "依 ID 排序問題"
 
 #: filters/IssueIdFilter.php:59
-#, fuzzy
 msgid "Issue ID"
-msgstr "問題標籤"
+msgstr "問題 ID"
 
 #: indicator_plugins/BacklogVariationIndicator/BacklogVariationIndicator.class.php:286
 msgid "Average backlog"
@@ -5965,44 +5954,3 @@ msgstr "W"
 msgid "Delivery Date"
 msgstr "交付日期"
 
-#~ msgid "Monthly report"
-#~ msgstr "各月報告"
-
-#~ msgid "Issues form Team projects, including issues assigned to other teams"
-#~ msgstr "來自團隊專案的問題、包含分配給其它團隊的問題"
-
-#~ msgid "Export Managed Issues"
-#~ msgstr "匯出已管理問題"
-
-#~ msgid "Weekly report"
-#~ msgstr "每週報告"
-
-#~ msgid "Import Issues"
-#~ msgstr "匯入問題"
-
-#~ msgid "Export Weekly Report"
-#~ msgstr "匯出每週報告"
-
-#~ msgid "Export Monthly Report"
-#~ msgstr "匯出每月報告"
-
-#~ msgid "Issue Type"
-#~ msgstr "問題類型"
-
-#~ msgid "m_id"
-#~ msgstr "m_id"
-
-#~ msgid "Product Version"
-#~ msgstr "產品版本"
-
-#~ msgid "Resolution"
-#~ msgstr "分析"
-
-#~ msgid "Delivery Sheet"
-#~ msgstr "交付單"
-
-#~ msgid "Export Week"
-#~ msgstr "匯出週"
-
-#~ msgid "Member Activity"
-#~ msgstr "成員活動"

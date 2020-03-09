@@ -14,10 +14,11 @@
 # Author: WikiUser22222
 msgid ""
 msgstr ""
+""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-05 21:46+0100\n"
-"PO-Revision-Date: 2020-01-23 15:06:52+0000\n"
+"PO-Revision-Date: 2020-03-09 15:34:12+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -26,7 +27,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-POT-Import-Date: 2020-01-11 18:27:58+0000\n"
+"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
 
 #. tpl/filters.html
 #. tpl/edit_team.html
@@ -1721,9 +1722,8 @@ msgid "Team Statistics"
 msgstr "Estatísticas equipe"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "User Statistics"
-msgstr "Estatísticas"
+msgstr "Estatísticas do usuário"
 
 #. tpl/menu/global_menu.html
 msgid "History"
@@ -2443,9 +2443,8 @@ msgid "Download"
 msgstr "Baixar"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User info"
-msgstr "Usuário"
+msgstr "Informação de usuário"
 
 #. tpl/edit_holidays.html
 msgid "Add fixed holidays"
@@ -3920,25 +3919,21 @@ msgid "Update timetrack"
 msgstr "Atualizar faixa de tempo"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
-#, fuzzy
 msgid "Timetrack filter"
-msgstr "Nota Timetrack"
+msgstr "Filtro de faixa horária"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
-#, fuzzy
 msgid "Only team members"
-msgstr "Adicionar membro da equipe"
+msgstr "Somente membros da equipe"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
-#, fuzzy
 msgid "Task ExtRef"
-msgstr "RefExt"
+msgstr "Tarefa ExtRef"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
-#, fuzzy
 msgid "Task name"
-msgstr "Tarefas cumpridas"
+msgstr "Nome da tarefa"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
@@ -4160,9 +4155,7 @@ msgid "current month"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4179,9 +4172,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -5234,7 +5225,7 @@ msgstr ""
 
 #: filters/IssueCodevTypeFilter.php:63
 msgid "Type (Task/Bug)"
-msgstr ""
+msgstr "Tipo (Tarefa/Bug)"
 
 #: filters/ProjectFilter.php:51
 #, fuzzy
@@ -5266,14 +5257,12 @@ msgid "Project Category"
 msgstr "Categoria do projeto"
 
 #: filters/IssueIdFilter.php:51
-#, fuzzy
 msgid "Sort issues per ID"
-msgstr "Ordenar casos por etiquetas"
+msgstr "Classificar problemas por ID"
 
 #: filters/IssueIdFilter.php:59
-#, fuzzy
 msgid "Issue ID"
-msgstr "Tag caso"
+msgstr "ID do Problema"
 
 #: indicator_plugins/BacklogVariationIndicator/BacklogVariationIndicator.class.php:286
 #, fuzzy
@@ -6144,45 +6133,3 @@ msgstr "W"
 msgid "Delivery Date"
 msgstr "Data de liberação"
 
-#~ msgid "Monthly report"
-#~ msgstr "Relatório mensal"
-
-#~ msgid "Issues form Team projects, including issues assigned to other teams"
-#~ msgstr "Projetos da equipe, incluindo as tarefas atribuídas a membros de outras equipes"
-
-#~ msgid "Export Managed Issues"
-#~ msgstr "Exportar casos Mantis "
-
-#~ msgid "Weekly report"
-#~ msgstr "Relatório semanal"
-
-#~ msgid "Import Issues"
-#~ msgstr "Importar casos"
-
-#~ msgid "Export Weekly Report"
-#~ msgstr "Exportar relatório semanal"
-
-#~ msgid "Export Monthly Report"
-#~ msgstr "Exportae relatório mensal"
-
-#, fuzzy
-#~ msgid "Issue Type"
-#~ msgstr "Tag caso"
-
-#~ msgid "m_id"
-#~ msgstr "Caso Mantis"
-
-#~ msgid "Product Version"
-#~ msgstr "Versão do produto"
-
-#~ msgid "Resolution"
-#~ msgstr "Resolução"
-
-#~ msgid "Delivery Sheet"
-#~ msgstr "Planilha de entrega"
-
-#~ msgid "Export Week"
-#~ msgstr "Exportar semana"
-
-#~ msgid "Member Activity"
-#~ msgstr "Atividade da equipe"

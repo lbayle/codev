@@ -5,13 +5,14 @@
 # Author: Fitoschido
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-05 21:46+0100\n"
-"PO-Revision-Date: 2020-01-16 14:28:27+0000\n"
+"PO-Revision-Date: 2020-03-09 15:34:12+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-01-11 18:27:58+0000\n"
+"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -1694,9 +1695,8 @@ msgid "Team Statistics"
 msgstr "Statìstiche d'echip"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "User Statistics"
-msgstr "Statìstiche ëd perìod"
+msgstr "Statìstiche ëd l'utent"
 
 #. tpl/menu/global_menu.html
 msgid "History"
@@ -2408,9 +2408,8 @@ msgid "Download"
 msgstr "Dëscarié"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User info"
-msgstr "Utent"
+msgstr "Anformassion an sl'utent"
 
 #. tpl/edit_holidays.html
 msgid "Add fixed holidays"
@@ -3859,25 +3858,21 @@ msgid "Update timetrack"
 msgstr "Agiornament ëd j'amputassion"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
-#, fuzzy
 msgid "Timetrack filter"
-msgstr "Nòta ëd programassion"
+msgstr "Filtr ëd programassion"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
-#, fuzzy
 msgid "Only team members"
-msgstr "Gionté un mèmber ëd l'echip"
+msgstr "Mach ij mèmber ëd l'echip"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
-#, fuzzy
 msgid "Task ExtRef"
-msgstr "RefExt"
+msgstr "Travaj RefExt"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
-#, fuzzy
 msgid "Task name"
-msgstr "Travaj a temp"
+msgstr "Nòm dël travaj"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
@@ -4091,12 +4086,8 @@ msgid "current month"
 msgstr "mèis corent"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"Smon-e jë sgàir dij travaj marginaj: categorìe 'Assident' e 'Inatività' <br>\n"
-"         (si nen selessionà, ij travaj marginaj a saran ancludù ant lë 'scadù')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "Smon-e jë sgàir dij travaj marginaj: categorìe 'Assident' e 'Inatività' <br>\n         (si nen selessionà, ij travaj marginaj a saran ancludù ant lë 'scadù')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4112,12 +4103,8 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "Temp passà an sij proget e ij travaj tacà për la selession corenta dij travaj"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"Travaj tacà 'Eveniment' et 'Inatività' ch'a fan part ëd la selession.<br>\n"
-"         (si l'opsion 'sgàir' a l'é disativà, sòn a sarà ancludù ant ël 'consumà')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "Travaj tacà 'Eveniment' et 'Inatività' ch'a fan part ëd la selession.<br>\n         (si l'opsion 'sgàir' a l'é disativà, sòn a sarà ancludù ant ël 'consumà')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -5102,7 +5089,7 @@ msgstr "Ordiné ij travaj conforma al camp përsonalisà: CodevTT_Type"
 
 #: filters/IssueCodevTypeFilter.php:63
 msgid "Type (Task/Bug)"
-msgstr ""
+msgstr "Sòrt (Travaj/Givo)"
 
 #: filters/ProjectFilter.php:51
 msgid "Sort issues per Project"
@@ -5133,14 +5120,12 @@ msgid "Project Category"
 msgstr "Categorìa ëd proget"
 
 #: filters/IssueIdFilter.php:51
-#, fuzzy
 msgid "Sort issues per ID"
-msgstr "Ordiné ij problema për tichëtta"
+msgstr "Ordiné ij problema për ID"
 
 #: filters/IssueIdFilter.php:59
-#, fuzzy
 msgid "Issue ID"
-msgstr "Tichëtta ëd problema"
+msgstr "ID ëd problema"
 
 #: indicator_plugins/BacklogVariationIndicator/BacklogVariationIndicator.class.php:286
 msgid "Average backlog"
@@ -5967,44 +5952,3 @@ msgstr "W"
 msgid "Delivery Date"
 msgstr "Dàita ëd consigna"
 
-#~ msgid "Monthly report"
-#~ msgstr "Rapòrt mensil"
-
-#~ msgid "Issues form Team projects, including issues assigned to other teams"
-#~ msgstr "Chestion dai proget ëd l'echip, comprèise le chestion assignà a d'àutre echip"
-
-#~ msgid "Export Managed Issues"
-#~ msgstr "Esportassion ëd le chestion an cors"
-
-#~ msgid "Weekly report"
-#~ msgstr "Rapòrt ebdomadari"
-
-#~ msgid "Import Issues"
-#~ msgstr "Amporté j'archivi"
-
-#~ msgid "Export Weekly Report"
-#~ msgstr "Esportassion dël rapòrt ebdomadari"
-
-#~ msgid "Export Monthly Report"
-#~ msgstr "Esportassion dël rapòrt mensil"
-
-#~ msgid "Issue Type"
-#~ msgstr "Sòrt ëd problema"
-
-#~ msgid "m_id"
-#~ msgstr "m_id"
-
-#~ msgid "Product Version"
-#~ msgstr "Version dël prodot"
-
-#~ msgid "Resolution"
-#~ msgstr "Arzolussion"
-
-#~ msgid "Delivery Sheet"
-#~ msgstr "Feuj ëd consigna"
-
-#~ msgid "Export Week"
-#~ msgstr "Esporté la sman-a"
-
-#~ msgid "Member Activity"
-#~ msgstr "Atività dël mèmber"

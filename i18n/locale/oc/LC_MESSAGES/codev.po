@@ -4,15 +4,17 @@
 # Author: Cedric31
 # Author: Jfblanc
 # Author: Nemo bis
+# Author: Quentí
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-05 21:46+0100\n"
-"PO-Revision-Date: 2020-01-16 14:28:27+0000\n"
+"PO-Revision-Date: 2020-03-09 15:34:12+0000\n"
 "Language: oc\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-01-11 18:27:58+0000\n"
+"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -4092,9 +4094,7 @@ msgid "current month"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4111,9 +4111,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -5099,7 +5097,7 @@ msgstr ""
 
 #: filters/IssueCodevTypeFilter.php:63
 msgid "Type (Task/Bug)"
-msgstr ""
+msgstr "Tipe (Tasca/Bug)"
 
 #: filters/ProjectFilter.php:51
 msgid "Sort issues per Project"
@@ -5131,7 +5129,7 @@ msgstr "Categoria Projècte"
 
 #: filters/IssueIdFilter.php:51
 msgid "Sort issues per ID"
-msgstr ""
+msgstr "Triar los problèmas per ID"
 
 #: filters/IssueIdFilter.php:59
 msgid "Issue ID"
@@ -5964,17 +5962,3 @@ msgstr "S"
 msgid "Delivery Date"
 msgstr "Data de liurason"
 
-#~ msgid "Monthly report"
-#~ msgstr "Rapòrt mesadièr"
-
-#~ msgid "Product Version"
-#~ msgstr "Version del produit"
-
-#~ msgid "Resolution"
-#~ msgstr "Resolucion"
-
-#~ msgid "Delivery Sheet"
-#~ msgstr "Ficha De Liurason"
-
-#~ msgid "Export Week"
-#~ msgstr "Expòrt setmana"

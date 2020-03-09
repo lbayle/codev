@@ -14,10 +14,11 @@
 # Author: Walter Raffoni
 msgid ""
 msgstr ""
+""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-05 21:46+0100\n"
-"PO-Revision-Date: 2020-01-16 14:28:26+0000\n"
+"PO-Revision-Date: 2020-03-09 15:34:11+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -27,7 +28,7 @@ msgstr ""
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POT-Import-Date: 2020-01-11 18:27:58+0000\n"
+"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
 
 #. tpl/filters.html
 #. tpl/edit_team.html
@@ -4109,9 +4110,7 @@ msgid "current month"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4128,9 +4127,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -6014,44 +6011,3 @@ msgstr "S"
 msgid "Delivery Date"
 msgstr "Data consegna"
 
-#~ msgid "Monthly report"
-#~ msgstr "Rapporto mensile"
-
-#~ msgid "Issues form Team projects, including issues assigned to other teams"
-#~ msgstr "Argomenti per i progetti del team , compresi quelli assegnati ad altri team"
-
-#~ msgid "Export Managed Issues"
-#~ msgstr "Esporta argomenti in gestione"
-
-#~ msgid "Weekly report"
-#~ msgstr "Report settimanale"
-
-#~ msgid "Import Issues"
-#~ msgstr "Importa Tichets"
-
-#~ msgid "Export Weekly Report"
-#~ msgstr "Esporta rapporti settimanali"
-
-#~ msgid "Export Monthly Report"
-#~ msgstr "Esporta rapporti mensili"
-
-#~ msgid "Issue Type"
-#~ msgstr "Tipo ticket"
-
-#~ msgid "m_id"
-#~ msgstr "m_id"
-
-#~ msgid "Product Version"
-#~ msgstr "Versione prodotto"
-
-#~ msgid "Resolution"
-#~ msgstr "Risoluzione"
-
-#~ msgid "Delivery Sheet"
-#~ msgstr "Foglio consegna"
-
-#~ msgid "Export Week"
-#~ msgstr "Export Settimana"
-
-#~ msgid "Member Activity"
-#~ msgstr "Attività membri"

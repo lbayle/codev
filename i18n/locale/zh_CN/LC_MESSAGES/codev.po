@@ -14,13 +14,14 @@
 # Author: 神樂坂秀吉
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-05 21:46+0100\n"
-"PO-Revision-Date: 2020-01-16 14:28:30+0000\n"
+"PO-Revision-Date: 2020-03-09 15:34:14+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-01-11 18:27:58+0000\n"
+"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -4100,12 +4101,8 @@ msgid "current month"
 msgstr "当前月"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"显示浪费的子任务：“事件”和“不活跃”类别<br>\n"
-"   （如果未选中，则子任务将被包含在“已过期”中）"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "显示浪费的子任务：“事件”和“不活跃”类别<br>\n   （如果未选中，则子任务将被包含在“已过期”中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4121,12 +4118,8 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "在当前任务选择的项目和边栏任务上所花费的时间"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"当前选择中的“事件”和“不活跃”子任务。<br>\n"
-"   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "当前选择中的“事件”和“不活跃”子任务。<br>\n   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -5976,44 +5969,3 @@ msgstr "W"
 msgid "Delivery Date"
 msgstr "交货日期"
 
-#~ msgid "Monthly report"
-#~ msgstr "月度报告"
-
-#~ msgid "Issues form Team projects, including issues assigned to other teams"
-#~ msgstr "来自团队项目的问题，包含分配给其他团队的问题"
-
-#~ msgid "Export Managed Issues"
-#~ msgstr "导出已管理问题"
-
-#~ msgid "Weekly report"
-#~ msgstr "每周报告"
-
-#~ msgid "Import Issues"
-#~ msgstr "导入问题"
-
-#~ msgid "Export Weekly Report"
-#~ msgstr "导出每周报告"
-
-#~ msgid "Export Monthly Report"
-#~ msgstr "导出每月报告"
-
-#~ msgid "Issue Type"
-#~ msgstr "问题类型"
-
-#~ msgid "m_id"
-#~ msgstr "m_id"
-
-#~ msgid "Product Version"
-#~ msgstr "产品版本"
-
-#~ msgid "Resolution"
-#~ msgstr "分辨率"
-
-#~ msgid "Delivery Sheet"
-#~ msgstr "送货单"
-
-#~ msgid "Export Week"
-#~ msgstr "导出周"
-
-#~ msgid "Member Activity"
-#~ msgstr "成员活跃"

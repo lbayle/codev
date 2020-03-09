@@ -13,13 +13,14 @@
 # Author: Vito Genovese
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-05 21:46+0100\n"
-"PO-Revision-Date: 2020-03-05 16:27:25+0000\n"
+"PO-Revision-Date: 2020-03-09 15:34:13+0000\n"
 "Language: tr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-01-11 18:27:58+0000\n"
+"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -4099,12 +4100,8 @@ msgid "current month"
 msgstr "bu ay"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"Atık yan görevlerini göster: 'Olay' ve 'Hareketsizlik' kategorileri<br>\n"
-"          (işaretlenmezse, yan görevler 'geçen' dahil edilir)"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "Atık yan görevlerini göster: 'Olay' ve 'Hareketsizlik' kategorileri<br>\n          (işaretlenmezse, yan görevler 'geçen' dahil edilir)"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4120,12 +4117,8 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "Projeler ve taraf için harcanan zaman Geçerli görev seçiminin görevleri"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"'Olay' ve 'Hareketsizlik' tarafı Geçerli seçimin görevleri.<br>\n"
-"          ('atık' seçeneği seçilmemişse, bu 'geçen süreye dahil edilecektir')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "'Olay' ve 'Hareketsizlik' tarafı Geçerli seçimin görevleri.<br>\n          ('atık' seçeneği seçilmemişse, bu 'geçen süreye dahil edilecektir')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -5110,7 +5103,7 @@ msgstr "Her CustomField için sıralama sayısı: CodevTT_Type"
 
 #: filters/IssueCodevTypeFilter.php:63
 msgid "Type (Task/Bug)"
-msgstr ""
+msgstr "Tür (Görev/Hata)"
 
 #: filters/ProjectFilter.php:51
 msgid "Sort issues per Project"
@@ -5975,44 +5968,3 @@ msgstr "H"
 msgid "Delivery Date"
 msgstr "Teslim Tarihi"
 
-#~ msgid "Monthly report"
-#~ msgstr "Aylık rapor"
-
-#~ msgid "Issues form Team projects, including issues assigned to other teams"
-#~ msgstr "Diğer ekiplere atanan konular dahil olmak üzere Ekip projelerini oluşturan konular"
-
-#~ msgid "Export Managed Issues"
-#~ msgstr "Yönetilen Sorunları Dışa Aktar"
-
-#~ msgid "Weekly report"
-#~ msgstr "Haftalık rapor"
-
-#~ msgid "Import Issues"
-#~ msgstr "Aktarım Sorunları"
-
-#~ msgid "Export Weekly Report"
-#~ msgstr "Haftalık Raporu Dışarı Aktar"
-
-#~ msgid "Export Monthly Report"
-#~ msgstr "Aylık Raporu Dışarı Aktar"
-
-#~ msgid "Issue Type"
-#~ msgstr "Sorun Tipi"
-
-#~ msgid "m_id"
-#~ msgstr "m_id"
-
-#~ msgid "Product Version"
-#~ msgstr "Ürün Sürümü"
-
-#~ msgid "Resolution"
-#~ msgstr "Çözüm"
-
-#~ msgid "Delivery Sheet"
-#~ msgstr "Teslim Sayfası"
-
-#~ msgid "Export Week"
-#~ msgstr "İhracat Haftası"
-
-#~ msgid "Member Activity"
-#~ msgstr "Üye Etkinliği"

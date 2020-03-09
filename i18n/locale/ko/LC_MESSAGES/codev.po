@@ -3,18 +3,20 @@
 #
 # Author: Jerrykim306
 # Author: Jonghaya
+# Author: Ktrst
 # Author: Revi
 # Author: Ykhwong
 # Author: 아라
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-05 21:46+0100\n"
-"PO-Revision-Date: 2020-01-20 10:30:13+0000\n"
+"PO-Revision-Date: 2020-03-09 15:34:11+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-01-11 18:27:58+0000\n"
+"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -1697,9 +1699,8 @@ msgid "Team Statistics"
 msgstr "팀 통계"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "User Statistics"
-msgstr "기간 통계"
+msgstr "사용자 통계"
 
 #. tpl/menu/global_menu.html
 msgid "History"
@@ -2411,9 +2412,8 @@ msgid "Download"
 msgstr "다운로드"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User info"
-msgstr "사용자"
+msgstr "사용자 정보"
 
 #. tpl/edit_holidays.html
 msgid "Add fixed holidays"
@@ -3869,25 +3869,21 @@ msgid "Update timetrack"
 msgstr "타임트랙 업데이트"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
-#, fuzzy
 msgid "Timetrack filter"
-msgstr "시간트랙"
+msgstr "시간추적 필터"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
-#, fuzzy
 msgid "Only team members"
-msgstr "회원 추가"
+msgstr "팀원만"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
-#, fuzzy
 msgid "Task ExtRef"
-msgstr "외부참조"
+msgstr "ExtRef 작업"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
-#, fuzzy
 msgid "Task name"
-msgstr "시간에서의 작업"
+msgstr "작업명"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
@@ -4103,9 +4099,7 @@ msgid "current month"
 msgstr "이번 달"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4122,9 +4116,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -5157,14 +5149,12 @@ msgid "Project Category"
 msgstr "프로젝트 분류"
 
 #: filters/IssueIdFilter.php:51
-#, fuzzy
 msgid "Sort issues per ID"
-msgstr "태그별 이슈 정렬"
+msgstr "ID별 이슈 정렬"
 
 #: filters/IssueIdFilter.php:59
-#, fuzzy
 msgid "Issue ID"
-msgstr "이슈 태그"
+msgstr "이슈 ID"
 
 #: indicator_plugins/BacklogVariationIndicator/BacklogVariationIndicator.class.php:286
 msgid "Average backlog"
@@ -5993,20 +5983,3 @@ msgstr ""
 msgid "Delivery Date"
 msgstr ""
 
-#~ msgid "Issues form Team projects, including issues assigned to other teams"
-#~ msgstr "다른 팀에게 할당된 이슈를 포함하는, 팀 프로젝트에서의 이슈"
-
-#~ msgid "Export Managed Issues"
-#~ msgstr "관리되는 이슈 내보내기"
-
-#~ msgid "Import Issues"
-#~ msgstr "이슈 가져오기"
-
-#~ msgid "Issue Type"
-#~ msgstr "이슈 유형"
-
-#~ msgid "m_id"
-#~ msgstr "m_id"
-
-#~ msgid "Product Version"
-#~ msgstr "제품 버전"

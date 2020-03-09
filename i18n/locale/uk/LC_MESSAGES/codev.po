@@ -8,13 +8,14 @@
 # Author: Visem
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-05 21:46+0100\n"
-"PO-Revision-Date: 2020-01-16 14:28:29+0000\n"
+"PO-Revision-Date: 2020-03-09 15:34:14+0000\n"
 "Language: uk\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-01-11 18:27:58+0000\n"
+"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=3; plural=(n%10 == 1 && n%100 != 11) ? 0 : ( (n%10 >= 2 && n%10 <= 4 && (n%100 < 10 || n%100 >= 20)) ? 1 : 2 );\n"
 
@@ -4094,9 +4095,7 @@ msgid "current month"
 msgstr "поточний місяць"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4113,9 +4112,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -5964,29 +5961,3 @@ msgstr ""
 msgid "Delivery Date"
 msgstr "Дата доставки"
 
-#~ msgid "Monthly report"
-#~ msgstr "Місячний звіт"
-
-#~ msgid "Weekly report"
-#~ msgstr "Тижневий звіт"
-
-#~ msgid "Export Weekly Report"
-#~ msgstr "Експортний тижневий звіт"
-
-#~ msgid "Export Monthly Report"
-#~ msgstr "Експортний щомісячний звіт"
-
-#~ msgid "m_id"
-#~ msgstr "m_id"
-
-#~ msgid "Product Version"
-#~ msgstr "Версія продукту"
-
-#~ msgid "Resolution"
-#~ msgstr "Резолюція"
-
-#~ msgid "Export Week"
-#~ msgstr "Експортний тиждень"
-
-#~ msgid "Member Activity"
-#~ msgstr "Діяльність учасника"
