@@ -385,26 +385,28 @@ function createCustomFields($isCreateExtIdField = TRUE) {
    $attributes["require_report"] = 1;
    $attributes["display_report"] = 1;
    $defaultValue = 1;
-   createCustomField(T_("CodevTT_EffortEstim"), $mType_float, "customField_effortEstim", $attributes, $defaultValue);
+   createCustomField(T_("CodevTT_EffortEstim"), $mType_float, Config::id_customField_effortEstim, $attributes, $defaultValue);
    $defaultValue = '';
    $possible_values = 'Bug|Task';
-   createCustomField(T_("CodevTT_Type"), $mType_list, "customField_type", $attributes, $defaultValue, $possible_values);
+   createCustomField(T_("CodevTT_Type"), $mType_list, Config::id_customField_type, $attributes, $defaultValue, $possible_values);
 
    $attributes["require_report"] = 0;
    $attributes["display_report"] = 1;
    $defaultValue = 0;
    $attributes["access_level_r"] = $access_manager;
    $attributes["access_level_rw"] = $access_manager;
-   createCustomField(T_("CodevTT_Manager EffortEstim"), $mType_float, "customField_MgrEffortEstim", $attributes, $defaultValue);
+   createCustomField(T_("CodevTT_Manager EffortEstim"), $mType_float, Config::id_customField_MgrEffortEstim, $attributes, $defaultValue);
+
+   createCustomField(T_("CodevTT_DailyPrice"), $mType_float, Config::id_customField_dailyPrice, $attributes, $defaultValue);
 
    $attributes["access_level_r"] = $access_viewer;
    $attributes["access_level_rw"] = $access_reporter;
 
    if ($isCreateExtIdField) {
-      createCustomField(T_("CodevTT_External ID"), $mType_string, "customField_ExtId", $attributes);
+      createCustomField(T_("CodevTT_External ID"), $mType_string, Config::id_customField_ExtId, $attributes);
    }
 
-   createCustomField(T_("CodevTT_Deadline"), $mType_date, "customField_deadLine", $attributes);
+   createCustomField(T_("CodevTT_Deadline"), $mType_date, Config::id_customField_deadLine, $attributes);
 
    $attributes["display_report"] = 0;
    // customField_addEffort DEPRECATED since v1.4.0
@@ -414,14 +416,14 @@ function createCustomFields($isCreateExtIdField = TRUE) {
    $attributes["display_report"] = 0;
    $attributes["display_closed"] = 1;
    $attributes["display_resolved"] = 1;
-   createCustomField(T_("CodevTT_Backlog"), $mType_float, "customField_backlog", $attributes);
+   createCustomField(T_("CodevTT_Backlog"), $mType_float, Config::id_customField_backlog, $attributes);
 
    $attributes["require_report"] = 0;
    $attributes["display_report"] = 0;
    $attributes["require_resolved"] = 0;
    $attributes["require_closed"] = 0;
    #createCustomField(T_("CodevTT_Delivery ticket"),   $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
-   createCustomField(T_("CodevTT_Delivery Date"), $mType_date, "customField_deliveryDate", $attributes);
+   createCustomField(T_("CodevTT_Delivery Date"), $mType_date, Config::id_customField_deliveryDate, $attributes);
 }
 
 /**
@@ -776,7 +778,7 @@ function installMantisPlugin($pluginName, $isReplace=true) {
       if (!is_dir($srcDir)) {
          return "ERROR mantis plugin directory '" . $srcDir . "' NOT found !";
       }
-      
+
       // do not replace if already installed
       if (!$isReplace && is_dir($destDir)) {
          echo "<script type=\"text/javascript\">console.info(\"INFO Mantis $pluginName plugin is already installed\");</script>";
@@ -798,7 +800,7 @@ function installMantisPlugin($pluginName, $isReplace=true) {
       if (!$result) {
          return "ERROR: mantis plugin installation failed: $pluginName plugin must be installed manualy";
       }
-      
+
       // activate plugin
       $query = "INSERT INTO {plugin} (basename, enabled, protected, priority)".
               " SELECT * FROM (SELECT ".$sql->db_param().", 1, 0, 3) AS tmp".
@@ -809,7 +811,7 @@ function installMantisPlugin($pluginName, $isReplace=true) {
       } catch (Exception $e) {
          return "WARNING: mantis $pluginName plugin must be activated manualy";
       }
-      
+
    } catch (Exception $e) {
       echo "<script type=\"text/javascript\">console.error(\"ERROR mantis plugin installation failed: " . $e->getMessage()."\");</script>";
       return "ERROR: mantis $pluginName plugin installation failed: " . $e->getMessage();
@@ -1050,7 +1052,7 @@ if ("proceedStep3" == $action) {
 */
 
       // === consistency check !
-      // these errors are not as severe as exceptions, they do not block 
+      // these errors are not as severe as exceptions, they do not block
       if ('' !== $errMsg) {
          echo '<script type="text/javascript">';
          echo '  document.getElementById("divErrMsg").style.display = "block";';

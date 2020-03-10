@@ -147,7 +147,7 @@ class Tools {
 
       $errStr = Tools::checkWriteAccess(Constants::$codevOutputDir.'/template_c');
       if (NULL !== $errStr) { $isValid = FALSE; $message .= $errStr."\n"; }
-      
+
       return ($isValid ? NULL : $message);
    }
 
@@ -1350,11 +1350,11 @@ class Tools {
    }
 
    /**
-    * 
+    *
     * $ua=getBrowser();
     * $yourbrowser= "Your browser: " . $ua['name'] . " " . $ua['version'] . " on " .$ua['platform'];
     * print_r($yourbrowser);
-    * 
+    *
     * @return array
     */
    public static function getBrowser()
@@ -1411,7 +1411,7 @@ class Tools {
            $bname = 'Netscape';
            $ub = "Netscape";
        }
-   
+
       // finally get the correct version number
       $known = array('Version', $ub, 'other');
       $pattern = '#(?<browser>' . join('|', $known) .
@@ -1447,7 +1447,7 @@ class Tools {
           'pattern'    => $pattern
       );
    }
-   
+
    /**
     * get customField name from id
     *
@@ -1467,6 +1467,7 @@ class Tools {
          $deliveryDateField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
          #$deliveryIdField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
          $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
+         $customField_dailyPrice = Config::getInstance()->getValue(Config::id_customField_dailyPrice);
 
          self::$customFieldNames = array();
          $sql = AdodbWrapper::getInstance();
@@ -1500,6 +1501,9 @@ class Tools {
                   break;
                case $deliveryDateField:
                   $name = T_('Delivery Date');
+                  break;
+               case $customField_dailyPrice:
+                  $name = T_('Daily Price');
                   break;
                default:
                   $name = $row->name;
@@ -1694,7 +1698,7 @@ class Tools {
       return $currentVersionInfo;
    }
 
-   
+
    public static function createClassMap() {
       //require_once('../lib/dynamic_autoloader/ClassFileMapFactory.php');
       //require_once('../lib/dynamic_autoloader/ClassFileMapAutoloader.php');
@@ -1702,16 +1706,16 @@ class Tools {
       //define('BASE_PATH', realpath(dirname(__FILE__).'/..'));
       //set_include_path(BASE_PATH.PATH_SEPARATOR.get_include_path());
 
-      // TODO check classmap.ser permissions 
+      // TODO check classmap.ser permissions
       $classmap = Constants::$codevRootDir.'/classmap.ser';
       $classmapCopy = Constants::$codevRootDir.'/classmap.ser.old';
-      
-      
+
+
       if (!is_writable($classmap)) {
          throw new Exception("Please check write permissions to $classmap");
       }
-      
-      // save previous classmap.ser file        
+
+      // save previous classmap.ser file
       if(!rename($classmap,$classmapCopy)){
          $errorRename = "Failed to rename ".$classmap." into ".$classmapCopy;
          self::$logger->error($errorRename);

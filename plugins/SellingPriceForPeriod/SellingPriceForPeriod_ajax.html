@@ -1,0 +1,61 @@
+<div class="sellingPriceForPeriod_ajax">
+   {if $sellingPriceForPeriod_sellingPriceForPeriodArray}
+      <table class="sellingPriceForPeriodValuesTable display float datatable_csv" >
+         <thead>
+            <tr>
+               <th>{t}Task ID{/t}</th>
+               {if $sellingPriceForPeriod_isDisplayTaskExtID}
+               <th>{t}Task ExtRef{/t}</th>
+               {/if}
+               {if $sellingPriceForPeriod_isDisplayTaskSummary}
+               <th>{t}Task{/t}</th>
+               {/if}
+               {if $sellingPriceForPeriod_isDisplayCommands}
+               <th>{t}Commands{/t}</th>
+               {/if}
+               {if $sellingPriceForPeriod_isDisplayProject}
+               <th>{t}Project{/t}</th>
+               {/if}
+               {if $sellingPriceForPeriod_isDisplayCategory}
+               <th>{t}Category{/t}</th>
+               {/if}
+               <th>{t}Progress{/t}</th>
+               <th title="{t}Elapsed on period{/t}">{t}Elapsed{/t}</th>
+               <th title="{t}Remaining to produce at end of period{/t} ({t}days{/t})">{t}Remaining{/t}</th>
+               <th>{t}Daily Price{/t} ({$sellingPriceForPeriod_teamCurrency})</th>
+               <th title="{t}Price on period{/t}">{t}Price{/t} ({$sellingPriceForPeriod_teamCurrency})</th>
+            </tr>
+         </thead>
+         <tbody>
+            {foreach from=$sellingPriceForPeriod_sellingPriceForPeriodArray key=id item=i}
+            <tr class="sellingPriceForPeriod_taskLine" data-issueId="{$i.issueId}">
+               <td>{$i.issueId}</td>
+               {if $sellingPriceForPeriod_isDisplayTaskExtID}
+               <td>{$i.taskExtID}</td>
+               {/if}
+               {if $sellingPriceForPeriod_isDisplayTaskSummary}
+               <td>{$i.taskSummary}</td>
+               {/if}
+               {if $sellingPriceForPeriod_isDisplayCommands}
+               <td>{$i.commandList}</td>
+               {/if}
+               {if $sellingPriceForPeriod_isDisplayProject}
+               <td>{$i.projectName}</td>
+               {/if}
+               {if $sellingPriceForPeriod_isDisplayCategory}
+               <td>{$i.projectCategory}</td>
+               {/if}
+               <!--td><div class="progress">{$i.progress}%</div></td-->
+               <td>{$i.progress}%</td>
+               <td>{$i.elapsedOnPeriod}</td>
+               <td>{$i.remainingAtEndOfPeriod}</td>
+               <td style="text-align: right;">{$i.taskDailyPrice}</td>
+               <td style="text-align: right;">{$i.taskPriceOnPeriod}</td>
+            </tr>
+            {/foreach}
+         </tbody>
+      </table>
+   {else}
+   {t}No data.{/t}
+   {/if}
+</div>

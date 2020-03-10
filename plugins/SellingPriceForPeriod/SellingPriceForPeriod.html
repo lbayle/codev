@@ -1,0 +1,189 @@
+<div class="sellingPriceForPeriod">
+   <div class="pluginInitFunction"  style="display: none;">sellingPriceForPeriodJsInit</div>
+   <div class="pluginDestroyFunction"  style="display: none;">sellingPriceForPeriodJsDestroy</div>
+
+
+<div align="left" style="margin-top:1em;">
+   <form id="sellingPriceForPeriod_dateRange_form">
+      <fieldset>
+         <label for="sellingPriceForPeriod_startdatepicker">{t}From{/t}:</label>
+         <input type="text" class="sellingPriceForPeriod_startdatepicker datepicker" name="sellingPriceForPeriod_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="sellingPriceForPeriod_enddatepicker">{t}To{/t}:</label>
+         <input type="text" class="sellingPriceForPeriod_enddatepicker datepicker" name="sellingPriceForPeriod_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <input class="sellingPriceForPeriodDate_submit" type="submit" value="{t}Display{/t}" />
+         <img class="sellingPriceForPeriod_spinner" src='images/spinner.gif' width='16' height='16' alt='Please wait...' style="vertical-align: middle;" />
+         <input type="hidden" name="action" value="getSellingPriceForPeriod" />
+         <input type="hidden" name="attributesJsonStr" value="" />
+         <input type="hidden" name="dashboardId" value="" />
+      </fieldset>
+   </form>
+</div>
+<div style="margin-top:2em;">
+   <span class="sellingPriceForPeriod_generalErrorMsg error_font" >{$sellingPriceForPeriod_generalErrorMsg}</span>
+</div>
+
+<div>
+
+   <div id="tabsSellingPriceForPeriodHistoryIndicator" class="float tabs {$ui_tabs_jquery}" style="width:95%; margin-top:1em;" >
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#sellingPriceForPeriod_tabOverview">{t}Overview{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#sellingPriceForPeriod_tabValues">{t}Tasks{/t}</a></li>
+      </ul>
+      <div id="sellingPriceForPeriod_tabOverview">
+
+         <table class="sellingPriceForPeriodOverviewTable invisible" >
+            <tbody>
+               <!--tr>
+                  <th>{t}Period{/t}</th>
+                  <th>:</th>
+                  <td><span class="sellingPriceForPeriodOverviewTable_period">{$sellingPriceForPeriod_startDate} -- {$sellingPriceForPeriod_endDate}</span></td>
+               </tr-->
+               <tr>
+                  <th>{t}Selling price for period{/t}</th>
+                  <th>:</th>
+                  <td><span class="sellingPriceForPeriodOverviewTable_salesPrice">{$sellingPriceForPeriod_totalSellingPriceForPeriod}</span> {$sellingPriceForPeriod_teamCurrency}</td>
+               </tr>
+               <tr>
+                  <th>{t}Elapsed during period{/t}</th>
+                  <th>:</th>
+                  <td><span class="sellingPriceForPeriodOverviewTable_elapsedOnPeriod">{$sellingPriceForPeriod_totalElapsedOnPeriod}</span> {t}days{/t}</td>
+               </tr>
+               <tr>
+                  <th>{t}Remaining to produce (at end of period){/t}</th>
+                  <th>:</th>
+                  <td><span class="sellingPriceForPeriodOverviewTable_RemainingAtEndOfPeriod">{$sellingPriceForPeriod_totalRemainingAtEndOfPeriod}</span> {t}days{/t}</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="sellingPriceForPeriod_tabValues" class="sellingPriceForPeriod_tabValues">
+         {include file="`$sellingPriceForPeriod_ajaxFile`"}
+      </div>
+   </div>
+
+   <div class="floatr" style=" width: 16px">
+      <span class="sellingPriceForPeriodHelpDialog_link float pointer">
+         <img title="Help" src="images/help_icon.gif"/>
+      </span>
+   </div>
+   <div class="sellingPriceForPeriodHelpDialog ui-helper-hidden" title="{t}Selling Price for the Period{/t}">
+      <p>
+         <strong>{t}Description{/t}:</strong><br>
+         {t}If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time.{/t}
+         <br><br>
+         {t}For this plugin, you need to set the MantisBT customField "CodevTT_DailyPrice" on each task.{/t}
+         <br><br>
+         <span style="color:blue"><em>{t}SellingPrice = DailyPrice x Elapsed during period{/t}</em></span><br>
+         <span style="color:blue"><em>{t}Remaining = MgrEffortEstim - Elapsed since the beginning of the task to end of period{/t}</em></span>
+      </p>
+   </div>
+
+   <div class="ui-helper-clearfix"></div>
+
+</div>
+
+<script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function sellingPriceForPeriodJsDestroy() {
+      jQuery(".sellingPriceForPeriodHelpDialog").dialog('destroy').remove();
+      jQuery(".sellingPriceForPeriod_tabValues").off("click", "**");
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function sellingPriceForPeriodJsInit() {
+
+      console.log('sellingPriceForPeriodJsInit');
+      jQuery('.sellingPriceForPeriod_spinner').hide(); // hide spinner
+
+      // ------------------------
+      // datepicker
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+      // Set the date
+      var startDatePicker = jQuery(".sellingPriceForPeriod_startdatepicker").datepicker("setDate" ,"{$sellingPriceForPeriod_startDate}");
+      var endDatePicker = jQuery(".sellingPriceForPeriod_enddatepicker").datepicker("setDate" ,"{$sellingPriceForPeriod_endDate}");
+      // Add range date
+      startDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+      });
+      endDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+      });
+
+      // on reload with new date range
+      jQuery('.sellingPriceForPeriodDate_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+         jQuery('.sellingPriceForPeriod_spinner').show(); // spinner img
+
+         var form = jQuery('#sellingPriceForPeriod_dateRange_form');
+
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
+         // send attributesJsonStr because the ajax php need to know about 'isDisplayCommands'
+         // Note: SellingPriceForPeriodAttr is declared in dashboard.html
+         var attr = jQuery('.SellingPriceForPeriodAttr.attributesJsonStr');
+         form.find('input[name=attributesJsonStr]').val(attr.text());
+
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: "POST",
+            url: '{$sellingPriceForPeriod_ajaxPhpURL}',
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+               if (data['sellingPriceForPeriod_htmlTable']) {
+                  jQuery(".sellingPriceForPeriod_tabValues").html(jQuery.trim(data['sellingPriceForPeriod_htmlTable']));
+                  jQuery(".sellingPriceForPeriodOverviewTable_salesPrice").html(jQuery.trim(data['sellingPriceForPeriod_totalSellingPriceForPeriod']));
+                  jQuery(".sellingPriceForPeriodOverviewTable_elapsedOnPeriod").html(jQuery.trim(data['sellingPriceForPeriod_totalElapsedOnPeriod']));
+                  jQuery(".sellingPriceForPeriodOverviewTable_RemainingAtEndOfPeriod").html(jQuery.trim(data['sellingPriceForPeriod_totalRemainingAtEndOfPeriod']));
+                  jQuery(".sellingPriceForPeriod_generalErrorMsg").html(jQuery.trim(data['sellingPriceForPeriod_generalErrorMsg']));
+
+                  //console.log('js files to load:', data['sellingPriceForPeriod_jsFiles']);
+                  jQuery.each(data['sellingPriceForPeriod_jsFiles'], function( index, value ) {
+                     jQuery.ajax({
+                           async: false,
+                           url: value,
+                           dataType: "script"
+                     });
+                  });
+                  //console.log('js load done');
+
+               } else {
+                  console.error('data is null');
+                  alert('ERROR: data is null');
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+         jQuery('.sellingPriceForPeriod_spinner').hide(); // spinner img
+      });
+
+      // ------------------------
+
+      jQuery(".sellingPriceForPeriodHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".sellingPriceForPeriodHelpDialog").dialog("open");
+      });
+      jQuery(".sellingPriceForPeriodHelpDialog").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "auto",
+         hide: "fade"
+      });
+
+   };
+
+</script>
+</div>

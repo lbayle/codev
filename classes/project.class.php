@@ -197,7 +197,7 @@ class Project extends Model {
    }
 
    /**
-    * 
+    *
     * @static
     * @param $projectName
     * @return projectId or -1 if not found or FALSE on error
@@ -507,6 +507,7 @@ class Project extends Model {
       $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
       #$deliveryIdCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
       $typeCustomField = Config::getInstance()->getValue(Config::id_customField_type);
+      $customField_dailyPrice = Config::getInstance()->getValue(Config::id_customField_dailyPrice);
 
       $existingFields = array();
       while($row = $sql->fetchObject($result)) {
@@ -517,41 +518,48 @@ class Project extends Model {
                "VALUES ";
 
       $found = FALSE;
-      if (!in_array($typeCustomField, $existingFields))         { 
+      if (!in_array($typeCustomField, $existingFields))         {
          $query .= "(".$sql->db_param().", ".$sql->db_param().",'101'),"; $found = TRUE;
          $q_params[]=$typeCustomField;
          $q_params[]=$projectid;
       }
-      if (!in_array($tcCustomField, $existingFields))           { 
+      if (!in_array($tcCustomField, $existingFields))           {
          $query .= "(".$sql->db_param().", ".$sql->db_param().",'102'),"; $found = TRUE;
          $q_params[]=$tcCustomField;
          $q_params[]=$projectid;
       }
-      if (!in_array($mgrEffortEstim, $existingFields))          { 
+      if (!in_array($mgrEffortEstim, $existingFields))          {
          $query .= "(".$sql->db_param().", ".$sql->db_param().",'103'),"; $found = TRUE;
          $q_params[]=$mgrEffortEstim;
          $q_params[]=$projectid;
       }
-      if (!in_array($estimEffortCustomField, $existingFields))  { 
+      if (!in_array($estimEffortCustomField, $existingFields))  {
          $query .= "(".$sql->db_param().", ".$sql->db_param().",'104'),"; $found = TRUE;
          $q_params[]=$estimEffortCustomField;
          $q_params[]=$projectid;
       }
-      if (!in_array($backlogCustomField, $existingFields))      { 
+      if (!in_array($backlogCustomField, $existingFields))      {
          $query .= "(".$sql->db_param().", ".$sql->db_param().",'106'),"; $found = TRUE;
          $q_params[]=$backlogCustomField;
          $q_params[]=$projectid;
       }
-      if (!in_array($deadLineCustomField, $existingFields))     { 
+      if (!in_array($deadLineCustomField, $existingFields))     {
          $query .= "(".$sql->db_param().", ".$sql->db_param().",'107'),"; $found = TRUE;
          $q_params[]=$deadLineCustomField;
          $q_params[]=$projectid;
       }
-      if (!in_array($deliveryDateCustomField, $existingFields)) { 
+      if (!in_array($deliveryDateCustomField, $existingFields)) {
          $query .= "(".$sql->db_param().", ".$sql->db_param().",'108'),"; $found = TRUE;
          $q_params[]=$deliveryDateCustomField;
          $q_params[]=$projectid;
       }
+/*  This field should not be added by default, as it is only used for a very specific plugin (SellingPriceForPeriod)
+      if (!in_array($customField_dailyPrice, $existingFields)) {
+         $query .= "(".$sql->db_param().", ".$sql->db_param().",'109'),"; $found = TRUE;
+         $q_params[]=$customField_dailyPrice;
+         $q_params[]=$projectid;
+      }
+ */
       #if (!in_array($deliveryIdCustomField, $existingFields))   { $query .= "('$deliveryIdCustomField',   '$this->id','109'),"; $found = TRUE; }
 
       if ($found) {
@@ -848,7 +856,7 @@ class Project extends Model {
          $query  .= " ORDER BY id DESC";
 
          $result = $sql->sql_query($query, $q_params);
-         
+
          while($row = $sql->fetchObject($result)) {
             $issueList[] = $row->id;
          }
@@ -1511,29 +1519,48 @@ class Project extends Model {
          unset($this->issueTooltipFieldsCache[$key]);
       }
    }
-   
-    /**
-     * 
-     * @param type $memberId
-     * @return boolean : true if the project has the member, false if not
-     */
-    public function hasMember($memberId) {
-       $sql = AdodbWrapper::getInstance();
-        $query = "SELECT count(1) as count FROM {project_user_list}"
-           . " WHERE user_id = ".$sql->db_param()
-           . " AND project_id = ".$sql->db_param();
-        $q_params[]=$memberId;
-        $q_params[]=$this->id;
 
-        $result = $sql->sql_query($query, $q_params);
+   /**
+    *
+    * @param type $memberId
+    * @return boolean : true if the project has the member, false if not
+    */
+   public function hasMember($memberId) {
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT count(1) as count FROM {project_user_list}"
+         . " WHERE user_id = ".$sql->db_param()
+         . " AND project_id = ".$sql->db_param();
+      $q_params[]=$memberId;
+      $q_params[]=$this->id;
 
-        $count = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
-        if($count != 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+      $result = $sql->sql_query($query, $q_params);
+
+      $count = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
+      if($count != 0) {
+         return true;
+      } else {
+         return false;
+      }
+   }
+
+   public function hasCustomField($customFieldId) {
+
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT count(1) as count FROM {custom_field_project}"
+         . " WHERE field_id = ".$sql->db_param()
+         . " AND project_id = ".$sql->db_param();
+      $q_params[]=$customFieldId;
+      $q_params[]=$this->id;
+
+      $result = $sql->sql_query($query, $q_params);
+
+      $count = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
+      if($count != 0) {
+         return true;
+      } else {
+         return false;
+      }
+   }
 }
 
 Project::staticInit();

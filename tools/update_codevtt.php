@@ -475,7 +475,7 @@ function update_v16_to_v17() {
 
       $sql = AdodbWrapper::getInstance();
 
-      
+
    // update pluginManager (new plugin: UserTeamList)
    try {
       echo "- Update classmap.ser<br>";
@@ -591,6 +591,85 @@ function update_v18_to_v19() {
    $query = "DELETE FROM  codev_config_table WHERE config_id LIKE 'dashboard_homepage%'";
    execQuery($query);
 
+
+}
+
+/**
+ * update 1.4.0 to 1.5.0
+ *
+ */
+function update_v19_to_v20() {
+
+   $sqlScriptFilename = Constants::$codevRootDir.'/install/codevtt_update_v19_v20.sql';
+   $sql = AdodbWrapper::getInstance();
+
+   // --- Create customField "CodevTT_DailyPrice" in Mantis
+   // Note: this cannod be done in the .sql file because we need to know mantis table prefix & postfix...
+
+   $access_manager = 70;
+   $default_value = 0;
+   $fieldType = 2; // float
+   $customFieldName = 'CodevTT_DailyPrice';
+
+   $attributes = array();
+   $attributes["access_level_r"] = $access_manager;
+   $attributes["access_level_rw"] = $access_manager;
+   $attributes["require_report"] = 1;
+   $attributes["require_update"] = 1;
+   $attributes["require_resolved"] = 0;
+   $attributes["require_closed"] = 0;
+   $attributes["display_report"] = 1;
+   $attributes["display_update"] = 1;
+   $attributes["display_resolved"] = 0;
+   $attributes["display_closed"] = 0;
+
+   $query2 = "INSERT INTO {custom_field} " .
+         "(name, type ,access_level_r," .
+         " access_level_rw , require_report ,require_update ,display_report ,display_update, ".
+         " require_resolved ,display_resolved ,display_closed ,require_closed, ".
+         " default_value)";
+
+   $query2 .= " VALUES (".$sql->db_param(). ", " .$sql->db_param(). ", " . $sql->db_param(). ", " .
+                    $sql->db_param(). ", " .$sql->db_param(). ", " . $sql->db_param(). ", " .
+                    $sql->db_param(). ", " .$sql->db_param(). ", " . $sql->db_param(). ", " .
+                    $sql->db_param(). ", " .$sql->db_param(). ", " . $sql->db_param(). ", ".
+                    $sql->db_param(). ")";
+
+   $q_params2[]=$customFieldName;
+   $q_params2[]=$fieldType; // float
+   $q_params2[]=$attributes["access_level_r"];
+   $q_params2[]=$attributes["access_level_rw"];
+   $q_params2[]=$attributes["require_report"];
+   $q_params2[]=$attributes["require_update"];
+   $q_params2[]=$attributes["display_report"];
+   $q_params2[]=$attributes["display_update"];
+   $q_params2[]=$attributes["require_resolved"];
+   $q_params2[]=$attributes["display_resolved"];
+   $q_params2[]=$attributes["display_closed"];
+   $q_params2[]=$attributes["require_closed"];
+//   $q_params2[]=$possible_values;
+   $q_params2[]=$default_value;
+
+   try {
+      echo "- Create Manris customField: $customFieldName<br>";
+      $sql->sql_query($query2, $q_params2);
+   } catch (Exception $ex) {
+      echo "<span class='error_font'>Could not create Mantis customField: $customFieldName</span><br/>";
+      exit;
+   }
+
+
+   if (!file_exists($sqlScriptFilename)) {
+      echo "<span class='error_font'>SQL script not found:$sqlScriptFilename</span><br/>";
+      exit;
+   }
+   // execute the SQL script
+   echo "- Execute SQL script: $sqlScriptFilename<br>";
+   $retCode = Tools::execSQLscript2($sqlScriptFilename);
+   if (0 != $retCode) {
+      echo "<span class='error_font'>Could not execSQLscript: $sqlScriptFilename</span><br/>";
+      exit;
+   }
 
 }
 

@@ -67,9 +67,9 @@ class ConfigItem {
 class Config {
 
    // TODO Move to a more appropriate class
-   const codevVersion = "v1.4.0";
-   const codevVersionDate = "12 May 2019";
-   const databaseVersion = 19; // used to check codev_config_table.database_version and apply upgrades.
+   const codevVersion = "v1.5.0";
+   const codevVersionDate = "01 April 2020";
+   const databaseVersion = 20; // used to check codev_config_table.database_version and apply upgrades.
 
    const configType_int = 1;
    const configType_string = 2;
@@ -96,6 +96,7 @@ class Config {
    #const id_customField_deliveryId = "customField_deliveryId"; // FDL (id of the associated Delivery Issue)
    const id_customField_deliveryDate = "customField_deliveryDate";
    const id_customField_type = "customField_type";
+   const id_customField_dailyPrice = "customField_dailyPrice";
    const id_priorityNames = "priorityNames";     // DEPRECATED since 0.99.18
    const id_severityNames = "severityNames";     // DEPRECATED since 0.99.18
    const id_resolutionNames = "resolutionNames"; // DEPRECATED since 0.99.18
@@ -120,7 +121,7 @@ class Config {
    const id_planningOptions = 'planningOptions';
    const id_schedulerOptions = 'schedulerOptions';
    const id_blogPluginOptions = 'blogPluginOptions';
-   
+
    const default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideDevProjects:0";
 
    // TODO Move to a more appropriate class
@@ -162,6 +163,7 @@ class Config {
       "v1.2.2" => "(11 Apr  2017) - fix big regression due to m1553 (mantis table prefix/suffix)",
       "v1.3.0" => "(18 Mar  2018) - adodb, PHP7, CostIndicator, mantis table prefix/suffix, fixCommand, Float customFields, wbs_order",
       "v1.4.0" => "(12 May  2019) - remove FilterBugList, multiple TeamAdmins, BlogPlugin, SubmittedResolvedPlugin, TimetrackListPlugin, ManagementCostsPlugin, WbsExportPlugin, TasksPivotTablePlugin, remove effortAdd",
+      "v1.5.0" => "(01 Apr  2020) - customField:DailyPrice, remove CSV export pages, Domain:User, fix:mantisPlugin, NewPlugins:SallingPriceForPeriod,OngoingTasks",
    );
 
    /**
@@ -201,7 +203,7 @@ class Config {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      
+
       while($row = AdodbWrapper::getInstance()->fetchArray($result)) {
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug('id='.$row['config_id'].', val='.$row['value'].', type='.$row['type']);
@@ -247,7 +249,7 @@ class Config {
    public static function getValue($id, $arr_subid=NULL, $isQuiet=NULL) {
       $value = NULL;
       $key = $id."_";
-      
+
       if ($arr_subid == NULL) {
      	  $arr_subid = array(0, 0, 0, 0, 0, 0);
       }
@@ -255,15 +257,15 @@ class Config {
       	$key .= $subid;
       }
       $variable = isset(self::$configVariables[$key]) ? self::$configVariables[$key] : NULL;
-      
+
       if (NULL != $variable) {
          $value = $variable->value;
       } else {
-         self::$logger->warn("getValue($id): variable not found !");   
+         self::$logger->warn("getValue($id): variable not found !");
          if ($isQuiet != NULL) {
          	$tmp = self::$quiet;
          	self::setQuiet($isQuiet);
-         }      
+         }
          if (!self::$quiet) {
             echo "<span class='warn_font'>WARN: Config::getValue($id): variable not found !</span><br/>";
          }
@@ -286,7 +288,7 @@ class Config {
    public static function getVariableKeyFromValue($id, $value, $arr_subid=NULL) {
       $key = NULL;
    	  $new_id = $id."_";
-      
+
       if ($arr_subid == NULL) {
      	  $arr_subid = array(0, 0, 0, 0, 0, 0);
       }
@@ -316,7 +318,7 @@ class Config {
    public static function getVariableValueFromKey($id, $key, $arr_subid=NULL) {
       $value = NULL;
       $new_id = $id."_";
-      
+
       if ($arr_subid == NULL) {
       	$arr_subid = array(0, 0, 0, 0, 0, 0);
       }
@@ -344,7 +346,7 @@ class Config {
    public static function getType($id, $arr_subid=NULL) {
       $type = NULL;
       $new_id = $id."_";
-      
+
       if ($arr_subid == NULL) {
       	$arr_subid = array(0, 0, 0, 0, 0, 0);
       }
@@ -380,9 +382,9 @@ class Config {
     * @param int $servicecontract_id
     */
    public static function setValue($id, $value, $type, $desc=NULL, $project_id=0, $user_id=0, $team_id=0, $command_id=0, $cset_id=0, $service_id=0) {
-      
+
       $sql = AdodbWrapper::getInstance();
-      
+
       // add/update DB
       $query = 'SELECT * FROM codev_config_table ' .
          'WHERE config_id ='. $sql->db_param().
@@ -392,9 +394,9 @@ class Config {
                ' AND command_id = '. $sql->db_param().
                ' AND commandset_id = '. $sql->db_param().
                ' AND servicecontract_id = ' . $sql->db_param();
-      
+
       $query_params = array($id, $project_id, $user_id, $team_id, $command_id, $cset_id, $service_id);
-      
+
       $result = $sql->sql_query($query, $query_params);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -411,7 +413,7 @@ class Config {
                   ' AND commandset_id = '. $sql->db_param().
                   ' AND servicecontract_id = ' . $sql->db_param();
          $query_params = array($value,
-                               $id, $project_id, $user_id, $team_id, 
+                               $id, $project_id, $user_id, $team_id,
                                $command_id, $cset_id, $service_id);
 
          if(self::$logger->isDebugEnabled()) {
@@ -424,10 +426,10 @@ class Config {
 						 ' VALUES ( ' . $sql->db_param() . ',' . $sql->db_param() . ',' . $sql->db_param() . ',' . $sql->db_param() . ',
 						   			' . $sql->db_param() . ',' . $sql->db_param() . ',' . $sql->db_param() . ',' . $sql->db_param() . ',
 						   			' . $sql->db_param() . ',' . $sql->db_param() . ')';
-            
+
          $query_params = array($id, $value, $type, $desc, $project_id, $user_id, $team_id,
                                $command_id, $cset_id, $service_id);
-            
+
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("INSERT Config::setValue $id: $value (t=$type) $desc");
             self::$logger->debug("INSERT query = $query");
@@ -452,7 +454,7 @@ class Config {
     */
    public static function deleteValue($id, $arr_subid=NULL) {
    	  $new_id = $id."_";
-   	
+
    	  if ($arr_subid == NULL) {
    		  $arr_subid = array(0, 0, 0, 0, 0, 0);
    	  }
@@ -462,11 +464,11 @@ class Config {
       if (NULL != self::$configVariables[$new_id]) {
 
          $sql = AdodbWrapper::getInstance();
-        
+
          // delete from DB
          $query = "DELETE FROM codev_config_table WHERE config_id = " . $sql->db_param();
          $query_params = array($id);
-         
+
          $cols = array("user_id", "project_id", "team_id", "servicecontract_id", "commandset_id", "command_id");
          if ($arr_subid != NULL && is_array($arr_subid)) {
          	$i = 0;

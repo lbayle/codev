@@ -146,7 +146,8 @@ class UninstallController extends Controller {
          Config::getInstance()->getValue(Config::id_customField_backlog),
          Config::getInstance()->getValue(Config::id_customField_deadLine),
          Config::getInstance()->getValue(Config::id_customField_deliveryDate),
-         Config::getInstance()->getValue(Config::id_customField_type)
+         Config::getInstance()->getValue(Config::id_customField_type),
+         Config::getInstance()->getValue(Config::id_customField_dailyPrice)
       );
 
       $sql = AdodbWrapper::getInstance();

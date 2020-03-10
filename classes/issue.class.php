@@ -114,6 +114,7 @@ class Issue extends Model implements Comparable {
    private $deliveryDate;
    private $deliveryId;   // TODO FDL (FDJ specific)
    private $type; // string: "Bug" or "Task"
+   private $dailyPrice; // some tasks are sold on a daily basis, this is the sale's price for one day
 
    private $tagList; // mantis tags
 
@@ -229,9 +230,10 @@ class Issue extends Model implements Comparable {
       $deliveryDateField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
       #$deliveryIdField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
       $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
+      $customField_dailyPrice = Config::getInstance()->getValue(Config::id_customField_dailyPrice);
 
       $customFields = array(
-         $extIdField, $mgrEffortEstimField, $effortEstimField, $backlogField, $deadLineField, $deliveryDateField, $customField_type #, $deliveryIdField
+         $extIdField, $mgrEffortEstimField, $effortEstimField, $backlogField, $deadLineField, $deliveryDateField, $customField_type, $customField_dailyPrice #, $deliveryIdField
       );
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT field_id, value FROM {custom_field_string} ".
@@ -268,6 +270,9 @@ class Issue extends Model implements Comparable {
             #   break;
             case $customField_type:
                $this->type = $row->value;
+               break;
+            case $customField_dailyPrice:
+               $this->dailyPrice = ('' === $row->value) ? '' : (float)$row->value;
                break;
          }
       }
@@ -346,7 +351,7 @@ class Issue extends Model implements Comparable {
 
    /**
     * Get mantis tags
-    * 
+    *
     * @return string[]  id => tagName
     */
    public function getTagList() {
@@ -376,6 +381,28 @@ class Issue extends Model implements Comparable {
       $typeCustomField = Config::getInstance()->getValue(Config::id_customField_type);
       $this->setCustomField($typeCustomField, $value, 'codevtt_type');
       $this->type = $value;
+   }
+
+   /**
+    * value ao the CodevTT customField 'DailyPrice'
+    * @return float
+    */
+   public function getDailyPrice() {
+      if(!$this->customFieldInitialized) {
+         $this->customFieldInitialized = true;
+         $this->initializeCustomField();
+      }
+      return $this->dailyPrice;
+   }
+
+   /**
+    * update DB and current instance
+    * @param float $value
+    */
+   public function setDailyPrice($value) {
+      $customField_dailyPrice = Config::getInstance()->getValue(Config::id_customField_dailyPrice);
+      $this->setCustomField($customField_dailyPrice, $value, 'codevtt_dailyPrice');
+      $this->dailyPrice = $value;
    }
 
    /**
@@ -466,7 +493,7 @@ class Issue extends Model implements Comparable {
 
    /**
     * is this issue in a sideTaskProject of this team ?
-    * 
+    *
     * @param array $teamidList
     * @return boolean
     * @throws Exception
@@ -493,7 +520,7 @@ class Issue extends Model implements Comparable {
     * check if issue is in a SideTaskProject AND in the Inactivity category.
     *
     * Note: the project type is specific to a team
-    * 
+    *
     * @param int $teamid
     * @return bool true if Inactivity task
     * @throws Exception
@@ -502,7 +529,7 @@ class Issue extends Model implements Comparable {
       try {
          $project = ProjectCache::getInstance()->getProject($this->projectId);
          $team = TeamCache::getInstance()->getTeam($teamid);
-         
+
          if (($team->isSideTasksProject($this->projectId)) &&
             ($project->getCategory(Project::cat_st_inactivity) == $this->categoryId)) {
 
@@ -629,7 +656,7 @@ class Issue extends Model implements Comparable {
       // REM: already set in initialize()
       if (NULL != $this->deadLine) { return $this->deadLine; }
 
-      
+
       if ((FALSE == $raw) && (NULL != $this->target_version)) {
          $project = ProjectCache::getInstance()->getProject($this->projectId);
          return $project->getVersionDate($this->target_version);
@@ -692,7 +719,7 @@ class Issue extends Model implements Comparable {
       }
 
       $key = 'j'.$job_id.'_s'.$startTimestamp.'_e'.$endTimestamp;
-      
+
       if(!array_key_exists("$key", $this->elapsedCache)) {
          $sql = AdodbWrapper::getInstance();
          $query = "SELECT SUM(duration) as duration ".
@@ -860,7 +887,7 @@ class Issue extends Model implements Comparable {
       if (is_null($timestamp)) {
          $this->duration = $issueDuration;
       }
-      
+
       return $issueDuration;
    }
 
@@ -991,7 +1018,7 @@ class Issue extends Model implements Comparable {
       }
       return $this->relationships;
    }
-   
+
    /**
     * @return int the timestamp of the first TimeTrack
     */
@@ -1282,7 +1309,7 @@ class Issue extends Model implements Comparable {
       $wfTrans = $project->getWorkflowTransitionsFormatted();
       $statusNames = NULL;
       if (NULL != $wfTrans) { $statusNames = $wfTrans[0]; }
-      
+
       if (NULL == $statusNames) {
          // if none defined, get all mantis statuses
          $statusNames = Constants::$statusNames;
@@ -1535,7 +1562,7 @@ class Issue extends Model implements Comparable {
       #   self::$logger->trace("compare $issueA->bugId = $issueB->bugId (A and B are equal ?!)");
       #}
       return 0;
-      
+
    }
 
    /**
@@ -1750,7 +1777,7 @@ class Issue extends Model implements Comparable {
    }
 
    /**
-    * 
+    *
     * @param type $field_name
     * @param type $old_value
     * @param type $new_value
@@ -1802,7 +1829,7 @@ class Issue extends Model implements Comparable {
       $this->handlerId = $value;
       $this->setMantisBugHistory('handler_id', $old_handlerId, $value);
    }
-   
+
    /**
     * Set target version (by id).
     *
@@ -1909,7 +1936,7 @@ class Issue extends Model implements Comparable {
       $this->setCustomField($field_id, $value);
       $this->deadLine = $value;
    }
-   
+
    /**
     * update DB and current instance
     * @param type $value
@@ -1928,10 +1955,10 @@ class Issue extends Model implements Comparable {
    public static function getIssues(array $issueIds) {
       // avoid same ids in the list
       $issueIds = array_unique($issueIds);
-      
+
       $issues = array();
       reset($issues);
-      
+
       $newIssueIds = array();
       foreach($issueIds as $issueId) {
          if(IssueCache::getInstance()->exists($issueId)) {
@@ -1940,20 +1967,20 @@ class Issue extends Model implements Comparable {
             $newIssueIds[] = $issueId;
          }
       }
-         
+
       if(count($newIssueIds) > 0) {
          $sql = AdodbWrapper::getInstance();
          $formattedList=implode(', ', $newIssueIds);
          $query = "SELECT * FROM {bug} " .
                   "WHERE id IN (".$formattedList.")";
-         
+
          $result = $sql->sql_query($query);
-         
+
          while($row = $sql->fetchObject($result)) {
             $issues[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
          }
       }
-         
+
       return $issues;
    }
 
@@ -2369,7 +2396,7 @@ class Issue extends Model implements Comparable {
    /**
     * depending on project's WorkflowTransistions and current status,
     * return a list of allowed status.
-    *  
+    *
     */
    function getAvailableStatusList($includeCurrentStatus = false) {
 
@@ -2393,7 +2420,7 @@ class Issue extends Model implements Comparable {
 
    /**
     * Update current status
-    * 
+    *
     * @param type $newStatusId
     * @return boolean true if status updated (or unchanged)
     */
@@ -2403,7 +2430,7 @@ class Issue extends Model implements Comparable {
 
          // check that status is allowed in workflow
          $allowedStatusList = $this->getAvailableStatusList();
-         
+
          if (array_key_exists($newStatusId, $allowedStatusList)) {
             $sql = AdodbWrapper::getInstance();
             $query = "UPDATE {bug} SET status = ".$sql->db_param().
@@ -2433,7 +2460,7 @@ class Issue extends Model implements Comparable {
 
       return true;
    }
-   
+
    /**
     * Set submission date
     * @param timestamp $newSubmissionTimestampDate
@@ -2452,7 +2479,7 @@ class Issue extends Model implements Comparable {
            self::$logger->error("Query failed. Impossible to change submission date on issue" . $this->bugId);
            return false;
         }
-       
+
        $this->dateSubmission = $newSubmissionTimestampDate;
    }
 
