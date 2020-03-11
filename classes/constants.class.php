@@ -54,7 +54,7 @@ class Constants {
       #'logo_image_1231_1231' => 'images/codevtt_logo_03_happynewyear.png',
       #'logo_image_0101_0106' => 'images/codevtt_logo_03_happynewyear.png',
       );
-   
+
    // --- DATABASE ---
    public static $db_mantis_type = 'mysqli';
    public static $db_mantis_host;
@@ -83,7 +83,7 @@ class Constants {
    //--- INTERNET ---
    public static $proxy;
    public static $isCheckLatestVersion = 1;
-   
+
    // --- STATUS ---
    # WARNING: CodevTT uses some status variables in the code, they need to set according to the mantis workflow.
    #          The mandatory variables are:
@@ -127,7 +127,7 @@ class Constants {
       '0.1' => '0.1',
       '0.05' => '0.05',
       );
-   
+
    // --- DASHBOARDS ---
    // Note: keys defined in IndicatorPluginInterface::DOMAIN_XXX
    public static $dashboardDefaultPlugins = array (
@@ -140,6 +140,7 @@ class Constants {
        'Import_Export' => array('ImportIssueCsv', 'ImportUsers'),
        'Admin' => array('MoveIssueTimetracks','TimetrackDetailsIndicator','UserTeamList'),
        'EditTeam' => array('MoveIssueTimetracks'),
+       IndicatorPluginInterface::DOMAIN_USER => array('TimetrackList'),  // 'User'
    );
 
    // ---EMAIL---
@@ -152,7 +153,7 @@ class Constants {
    public static $cnil_company = NULL;
    public static $cnil_contact_email = NULL;
 
-   
+
    /**
     * If true, then no info/warning messages will be displayed.
     * this shall only be set during install procedures.
@@ -281,14 +282,14 @@ class Constants {
             }
          }
       }
-      
+
       $timesheets = $ini_array['timesheets'];
       if (null != $timesheets && array_key_exists('task_duration_list', $timesheets)) {
          self::$taskDurationList = Tools::doubleExplode(':', ',', $timesheets['task_duration_list']);
       }
 
       $internet = $ini_array['internet'];
-      if (is_array($internet)) { 
+      if (is_array($internet)) {
          if (array_key_exists('proxy', $internet)) {
             self::$proxy = $internet['proxy'];
          }
@@ -388,7 +389,7 @@ class Constants {
       foreach (self::$doodles as $key => $value) {
          $doodles[$key] = $value;
       }
-      
+
       $timesheets = array();
       $timesheets['task_duration_list'] = self::$taskDurationList ? Tools::doubleImplode(':', ',', self::$taskDurationList) : ' ';
 
@@ -399,19 +400,19 @@ class Constants {
          $internet[] = ';proxy = "proxy:8080"';
       }
       $internet['check_latest_version'] = self::$isCheckLatestVersion;
-      
+
       $dashboards = array();
       foreach (self::$dashboardDefaultPlugins as $key => $value) {
          $dashboards[$key] = implode(',', $value);
       }
-      
+
       $emailSettings = array();
       $emailSettings[] = '; --- cronjob (every Friday at 2:00 AM):';
       $emailSettings[] = '; --- 0 2 * * 5 php /var/www/html/codevtt/tools/send_timesheet_emails.php';
       foreach (self::$emailSettings as $key => $val) {
          $emailSettings[$key] = $val;
       }
-      
+
       $ini_array = array();
       $ini_array[] = '; This file is part of CodevTT.';
       $ini_array[] = '; - The Variables in here can be customized to your needs';
