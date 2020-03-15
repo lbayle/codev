@@ -1,43 +1,8 @@
 <div id="content">
 {if (!isset($accessDenied) || (0 == $accessDenied)) }
-   <script type="text/javascript">
-      jQuery(document).ready(function() {
-         jQuery("#addTeam").click(function() {
-            // check fields
-            var foundError = 0;
-            var msgString = "{t}Some fields are missing:{/t}\n\n";
-
-            var form = jQuery("#teamCreationForm");
-
-            if (0 == form.find("input[name=team_name]").val()) {
-               msgString += "{t}Team Name{/t}\n";
-               ++foundError;
-            }
-            if (0 == form.find("input[name=teamleader_id]").val()) {
-               msgString += "{t}Team Administrator{/t}\n";
-               ++foundError;
-            }
-
-            if (0 == foundError) {
-               form.find("input[name=action]").val("addTeam");
-               form.submit();
-            } else {
-               alert(msgString);
-            }
-         });
-      });
-   </script>
    <form action="{$page}" method="post" name="teamCreationForm" id="teamCreationForm">
       <fieldset>
          <div style="padding: 0 1em 1em;"class="ui-widget-content">
-            <script type="text/javascript">
-               jQuery(document).ready(function() {
-                  jQuery("#team_name").blur(function() {
-                     jQuery("#teamCreationForm").find("input[name=is_modified]").val("true");
-                     jQuery("#stproj_name").val('{t}SideTasks{/t} '+jQuery(this).val());
-                  });
-               });
-            </script>
             <h2>{t}Team Info{/t}</h2>
             <!-- Team Info -->
             <table class="invisible">
@@ -72,15 +37,6 @@
             <label><input type="checkbox" checked="checked" disabled="disabled" name="cb_commonSideTaskProj" id="cb_commonSideTaskProj" />{t}Add common ExternalTasks Project{/t} <span style="color:red">*</span></label>
             <br/><br/>
 
-            <script type="text/javascript">
-               jQuery(document).ready(function() {
-                  jQuery("#cb_createSideTaskProj").change(function() {
-                     jQuery("#teamCreationForm").find("input[name=is_modified]").val("true");
-                     jQuery("#sideTaskEnabled").toggle();
-                     jQuery("#sideTaskDisabled").toggle();
-                  });
-               });
-            </script>
 
             <label><input type="checkbox" checked="checked" name="cb_createSideTaskProj" id="cb_createSideTaskProj" />{t}Create specific SideTask Project{/t}</label>
 
@@ -169,6 +125,53 @@
          </div>
       </fieldset>
    </form>
+
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+
+         jQuery("#team_name").blur(function() {
+            jQuery("#teamCreationForm").find("input[name=is_modified]").val("true");
+            jQuery("#stproj_name").val('{t}SideTasks{/t} '+jQuery(this).val());
+         });
+
+         jQuery("#cb_createSideTaskProj").change(function() {
+            jQuery("#teamCreationForm").find("input[name=is_modified]").val("true");
+            jQuery("#sideTaskEnabled").toggle();
+            jQuery("#sideTaskDisabled").toggle();
+         });
+
+         jQuery("#addTeam").click(function() {
+            // check fields
+            var foundError = 0;
+            var msgString = "{t}Some fields are missing:{/t}\n\n";
+
+            var form = jQuery("#teamCreationForm");
+
+            if (0 == form.find("input[name=team_name]").val()) {
+               msgString += "{t}Team Name{/t}\n";
+               ++foundError;
+            }
+            if (0 == form.find("input[name=teamleader_id]").val()) {
+               msgString += "{t}Team Administrator{/t}\n";
+               ++foundError;
+            }
+
+            if (0 == foundError) {
+               form.find("input[name=action]").val("addTeam");
+
+               // disabled elements are not submitted
+               jQuery("#cb_catProjManagement").removeAttr('disabled');
+               jQuery("#cb_taskProjManagement").removeAttr('disabled');
+
+               form.submit();
+            } else {
+               alert(msgString);
+            }
+         });
+
+      });
+   </script>
+
 {else}
 <p class="center ui-state-error-text">{t}Sorry, you need to be in the admin-team to access this page.{/t}</p>
 {/if}
