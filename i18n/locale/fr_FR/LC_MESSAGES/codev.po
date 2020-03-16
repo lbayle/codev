@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-05 21:58+0100\n"
-"PO-Revision-Date: 2020-03-09 15:34:10+0000\n"
+"PO-Revision-Date: 2020-03-16 14:40:07+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -3529,7 +3529,7 @@ msgstr "Date Fin"
 
 #. tpl/servicecontract_edit.html
 msgid "Service contract name"
-msgstr "Nom du Contrat de Service"
+msgstr "Nom du contrat de service"
 
 #. tpl/servicecontract_edit.html
 msgid "Delete ServiceContract"
@@ -4703,7 +4703,7 @@ msgstr "Il est recommandé d'encoder en <strong>UTF-8</strong> mais ASCII et ISO
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Columns"
-msgstr "Colonne"
+msgstr "Colonnes"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "the file must contain 7 columns, the 1st line contains the column names."
@@ -5956,7 +5956,7 @@ msgstr "Options enregistrées"
 
 #: smarty_tools_ajax.php:35
 msgid "All projects"
-msgstr "Tous les Projets"
+msgstr "Tous les projets"
 
 #: smarty_tools.php:126
 msgid "W"
