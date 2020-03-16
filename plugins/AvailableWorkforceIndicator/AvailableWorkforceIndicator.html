@@ -23,13 +23,17 @@
    <div id="tabsAvailableWorkforceIndicator" class="float tabs {$ui_tabs_jquery}" style="width:95%; margin-top:1em;" >
       <ul class="{$ui_tabs_jquery_ul}">
          <li class="{$ui_tabs_jquery_li}"><a href="#availableWorkforceIndicator_tabGraph">{t}Graph{/t}</a></li>
-         <li class="{$ui_tabs_jquery_li}"><a href="#availableWorkforceIndicator_tabValues">{t}Values{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#availableWorkforceIndicator_tabValues">{t}Graph values{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#availableWorkforceIndicator_tabRangeValues">{t}Range values{/t}</a></li>
       </ul>
       <div id="availableWorkforceIndicator_tabGraph">
          <div class="availableWorkforceIndicatorChart date_chart chart" style="width:100%;"></div>
       </div>
       <div id="availableWorkforceIndicator_tabValues">
          {include file="`$availableWorkforceIndicator_ajaxFile`"}
+      </div>
+      <div id="availableWorkforceIndicator_tabRangeValues">
+         {include file="`$availableWorkforceIndicator_ajaxFile2`"}
       </div>
    </div>
 
@@ -88,10 +92,10 @@
 {/if}
 
 <script type="text/javascript">
-   
+
    function availableWorkforceIndicator_updateForm() {
       var form = jQuery('.availableWorkforceIndicator_dateRange_form');
-      
+
       // send attributesJsonStr because the ajax php need to know about 'userSettings'
       var userSettings = {};
       $(".userSettings_table .userSettings_tr").each(function() {
@@ -142,10 +146,10 @@
       jQuery('.availableWorkforce_submit').click(function(event) {
          /* stop form from submitting normally */
          event.preventDefault();
-         
+
          // send attributesJsonStr because the ajax php need to know about 'userSettings'
          availableWorkforceIndicator_updateForm();
-         
+
          var form = jQuery('.availableWorkforceIndicator_dateRange_form');
          form.find('input[name=action]').val("getAvailableWorkforceRangeValue");
 
@@ -160,6 +164,7 @@
             data: form.serialize(),
             success: function(data) {
                jQuery(".availableWorkforce_rangevalue").text(jQuery.trim(data['availableWorkforceIndicator_rangeValue']));
+               jQuery("#availableWorkforceIndicator_tabRangeValues").html(jQuery.trim(data['availableWorkforceIndicator_htmlContent2']));
             },
             error: function(jqXHR, textStatus, errorThrown) {
                if(errorThrown == 'Forbidden') {
@@ -201,13 +206,13 @@
          modal: true,
          buttons: {
             Ok: function() {
-               // stop form from submitting normally 
+               // stop form from submitting normally
                //event.preventDefault();
 
                // send attributesJsonStr because the ajax php need to know about 'userSettings'
                availableWorkforceIndicator_updateForm();
-               
-               
+
+
                // ajax call to update indicator
                var form = jQuery('.availableWorkforceIndicator_dateRange_form');
                form.find('input[name=action]').val("updateUserSettings");
@@ -226,6 +231,7 @@
                   success: function(data) {
                      jQuery(".availableWorkforce_rangevalue").text(jQuery.trim(data['availableWorkforceIndicator_rangeValue']));
                      jQuery("#availableWorkforceIndicator_tabValues").html(jQuery.trim(data['availableWorkforceIndicator_htmlContent']));
+                     jQuery("#availableWorkforceIndicator_tabRangeValues").html(jQuery.trim(data['availableWorkforceIndicator_htmlContent2']));
 
                      if (data['availableWorkforceIndicator_jqplotData']) {
                         var chart = jQuery('.availableWorkforceIndicatorChart');
@@ -247,7 +253,7 @@
                   }
                });
                jQuery(this).dialog( "close" );
-               
+
             },
             Cancel: function() {
                // TODO restore previous values

@@ -1,0 +1,24 @@
+<div class="availableWorkforceIndicator_ajax2">
+   <table class="availableWorkforceIndicatorRangeTable">
+    <thead>
+       <tr>
+          <th>{t}User{/t}</th>
+          <th>{t}Workforce{/t}</th>
+       </tr>
+    </thead>
+    <tbody>
+      {foreach from=$availableWorkforceIndicator_rangeUserDetails key=id item=i}
+       <tr>
+         <td title="{$id}" >{$i.userName}</td>
+         <td >{$i.rangeWorkforce}</td>
+       </tr>
+      {/foreach}
+    </tbody>
+    <tfoot>
+       <tr>
+          <td></td>
+          <td>{$availableWorkforceIndicator_rangeValue}</td>
+       </tr>
+    </tfoot>
+   </table>
+</div>

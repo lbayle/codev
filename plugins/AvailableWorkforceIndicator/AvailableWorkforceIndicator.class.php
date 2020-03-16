@@ -35,7 +35,7 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
    private static $categories;
 
    // params from PluginDataProvider
-   private $startTimestamp; // datePicker 
+   private $startTimestamp; // datePicker
    private $endTimestamp;   // datePicker
    private $teamid;
 
@@ -47,7 +47,7 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
    protected $execData;
    protected $graphStartTimestamp;
    protected $graphNbOccur;
-   
+
 
 
    /**
@@ -111,6 +111,10 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
          'js_min/datatable.min.js',
       );
    }
+   public static function getSmartySubFilename2() {
+      $sepChar = DIRECTORY_SEPARATOR;
+      return Constants::$codevRootDir.$sepChar.self::INDICATOR_PLUGINS_DIR.$sepChar.get_called_class().$sepChar.get_called_class()."_ajax2.html";
+   }
 
 
    /**
@@ -141,24 +145,24 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
       }
 
       // set internal values
-      
+
       // two month ago
       $this->graphStartTimestamp = strtotime("first day of last month");
       $this->graphStartTimestamp = strtotime("first day of last month", $this->graphStartTimestamp);
 
-      
+
       // set default pluginSettings (not provided by the PluginDataProvider)
       $this->interval = 'monthly';
       $this->graphNbOccur = self::GRAPH_NB_OCCUR_MONTHLY;
-      $this->setDefaultUserSettings();      
+      $this->setDefaultUserSettings();
    }
 
    /**
-    * 
+    *
     */
    private function setDefaultUserSettings() {
       $this->userSettings = array();
-      
+
       $team = TeamCache::getInstance()->getTeam($this->teamid);
       $startT = $this->graphStartTimestamp;
       for ($i=1; $i<=$this->graphNbOccur; $i++) {
@@ -166,9 +170,9 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
          $startT = strtotime("first day of next month", $startT);
       }
       $endT = mktime(23, 59, 59, date('m', $endT), date('d',$endT), date('Y', $endT));
-      
+
       $users = $team->getActiveMembers($this->graphStartTimestamp,$endT,TRUE); // TRUE=realNames
-      
+
       foreach ($users as $uid => $uname) {
          $this->userSettings[$uid] = array(
              'name' => $uname,
@@ -178,9 +182,9 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
          );
          #self::$logger->error("team member: $uname ");
       }
-      
+
    }
-   
+
    /**
     * User preferences are saved by the Dashboard
     *
@@ -215,22 +219,31 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
    public function getTeamAvailWorkforce($startTimestamp, $endTimestamp) {
       $startT = mktime(0, 0, 0, date('m', $startTimestamp), date('d', $startTimestamp), date('Y', $startTimestamp));
       $endT = mktime(23, 59, 59, date('m', $endTimestamp), date('d',$endTimestamp), date('Y', $endTimestamp));
-      
+
       $teamAvailWkl = 0;
+      $rangeUserDetails = array();
       foreach ($this->userSettings as $user_id => $userSettings) {
          if ($userSettings['enabled']) {
             $user = UserCache::getInstance()->getUser($user_id);
             $userRawWorkforce = $user->getAvailableWorkforce($startT, $endT, $this->teamid);
             $userWorkforce = $userRawWorkforce * $userSettings['availability'] / 100 * $userSettings['prodCoef'];
             $teamAvailWkl += $userWorkforce;
+            $rangeUserDetails[$user_id] = array(
+               'userName' => $user->getRealname(),
+               'rangeWorkforce' => $userWorkforce,
+            );
          }
       }
-      return $teamAvailWkl;
+      $values = array(
+         'rangeTeamWorkforce' => $teamAvailWkl,
+         'rangeUserDetails' => $rangeUserDetails
+      );
+      return $values;
    }
-   
-   
+
+
    /**
-    * 
+    *
     * @param int $startTimestamp
     * @param int $endTimestamp
     * @param string $interval [weekly,monthly]
@@ -240,7 +253,7 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
 
       // start 2 month ago
       $startT = $this->graphStartTimestamp;
-      
+
       switch ($interval) {
          case 'weekly':
             $this->graphNbOccur = self::GRAPH_NB_OCCUR_WEEKLY;
@@ -267,8 +280,8 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
       }
       return $timestampRangeList;
    }
-   
-   
+
+
   /**
     *
     */
@@ -278,7 +291,7 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
       $availWorkforceList = array();
       $detailedAvailWorkforceList = array();
       $timestampRangeList = $this->createTimestampRangeList($this->interval);
-      
+
       foreach ($this->userSettings as $user_id => $userSettings) {
          if ($userSettings['enabled']) {
             $user = UserCache::getInstance()->getUser($user_id);
@@ -292,14 +305,14 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
                //self::$logger->error($startT." user ".$user_id." ".$userRawWorkforce." x ".$userSettings['availability']);
                $userRangeDetail[$label] = (0 == $userWorkforce) ? '' : $userWorkforce;
                $availWorkforceList[$label] += $userWorkforce;
-            }               
+            }
             $detailedAvailWorkforceList[$user_id] = $userRangeDetail;
          }
       }
-      
+
       $tableFooter = array_values($availWorkforceList);
       array_unshift($tableFooter, T_('Total'));
-      
+
       $tableHeader = array();
       $tableHeader[] = ''; //T_('User \ Period');
       foreach ($timestampRangeList as $label => $ttRange) {
@@ -310,12 +323,12 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
             $dateLabel = date('m/o', $startT);
          }
          $tableHeader[] = $dateLabel;
-      }               
-      
+      }
+
       list($startLabel, $endLabel) = Tools::getStartEndKeys($timestampRangeList);
       $graphMinTimestamp = $timestampRangeList[$startLabel]['start'];
       $graphMaxTimestamp = $timestampRangeList[$endLabel]['end'];
-      
+
       $this->execData = array (
           'graph_availWorkforceList' => $availWorkforceList,
           'graph_minTimestamp' => $graphMinTimestamp,
@@ -334,6 +347,8 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
     */
    public function getSmartyVariables($isAjaxCall = false) {
 
+      $rangeData = $this->getTeamAvailWorkforce($this->startTimestamp, $this->endTimestamp);
+
       $smartyVariables = array(
          'availableWorkforceIndicator_jqplotData' => Tools::array2plot(array($this->execData['graph_availWorkforceList'])),
          'availableWorkforceIndicator_jqplotMinDate' => date('Y-m-d', $this->execData['graph_minTimestamp']),
@@ -343,15 +358,17 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
          'availableWorkforceIndicator_tableFooter' => $this->execData['table_footer'],
          'availableWorkforceIndicator_startDatepicker' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
          'availableWorkforceIndicator_endDatepicker' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
-         'availableWorkforceIndicator_rangeValue' => $this->getTeamAvailWorkforce($this->startTimestamp, $this->endTimestamp),
+         'availableWorkforceIndicator_rangeValue' => $rangeData['rangeTeamWorkforce'],
+         'availableWorkforceIndicator_rangeUserDetails' => $rangeData['rangeUserDetails'],
          'availableWorkforceIndicator_userSettings' => $this->userSettings,
-          
+
          // add pluginSettings (if needed by smarty)
          'availableWorkforceIndicator_'.self::OPTION_INTERVAL => $this->interval,
       );
 
       if (false == $isAjaxCall) {
          $smartyVariables['availableWorkforceIndicator_ajaxFile'] = self::getSmartySubFilename();
+         $smartyVariables['availableWorkforceIndicator_ajaxFile2'] = self::getSmartySubFilename2();
          $smartyVariables['availableWorkforceIndicator_ajaxPhpURL'] = self::getAjaxPhpURL();
       }
       return $smartyVariables;

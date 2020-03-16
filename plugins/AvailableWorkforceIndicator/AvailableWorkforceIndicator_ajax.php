@@ -37,7 +37,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       $logger->error("PluginDataProvider unserialize error (dashboardId = $dashboardId");
       Tools::sendBadRequest("PluginDataProvider unserialize error");
    }
-   
+
    if('getAvailableWorkforceRangeValue' == $action) {
 
       $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("availableWorkforce_startdate"));
@@ -46,21 +46,31 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       $attributesJsonStr = Tools::getSecureGETStringValue('attributesJsonStr');
       $attributesArray = json_decode(stripslashes($attributesJsonStr), true);
       $userSettings = $attributesArray['userSettings'];
-      
+
       // Note: no need to update dataProvider
       $indicator = new AvailableWorkforceIndicator($pluginDataProvider);
       $indicator->setPluginSettings(array(
           AvailableWorkforceIndicator::OPTION_USER_SETTINGS => $userSettings,
       ));
-      $availWorkforce = $indicator->getTeamAvailWorkforce($startTimestamp, $endTimestamp);
-      $data['availableWorkforceIndicator_rangeValue'] = $availWorkforce;
+      $rangeData = $indicator->getTeamAvailWorkforce($startTimestamp, $endTimestamp);
+      $data['availableWorkforceIndicator_rangeValue'] = $rangeData['rangeTeamWorkforce'];
+      $data['availableWorkforceIndicator_rangeUserDetails'] = $rangeData['rangeUserDetails'];
+
+      // construct the html table
+      $smartyHelper = new SmartyHelper();
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+         //$logger->error("key $smartyKey = ".var_export($smartyVariable, true));
+      }
+      $html2 = $smartyHelper->fetch(AvailableWorkforceIndicator::getSmartySubFilename2());
+      $data['availableWorkforceIndicator_htmlContent2'] = $html2;
 
       // return data (just an integer value)
       $jsonData = json_encode($data);
       echo $jsonData;
 
    } else if('updateUserSettings' == $action) {
-      
+
       $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("availableWorkforce_startdate"));
       $endTimestamp   = Tools::date2timestamp(Tools::getSecureGETStringValue("availableWorkforce_enddate"));
 
@@ -69,11 +79,11 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
 
       $userSettings = $attributesArray['userSettings'];
       $interval = $attributesArray['interval'];
-      
+
       // update dataProvider
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
-      
+
       // override plugin settings with current attributes
       $indicator = new AvailableWorkforceIndicator($pluginDataProvider);
       $indicator->setPluginSettings(array(
@@ -82,7 +92,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       ));
 
       $indicator->execute();
-      $data = $indicator->getSmartyVariablesForAjax(); 
+      $data = $indicator->getSmartyVariablesForAjax();
 
       // construct the html table
       $smartyHelper = new SmartyHelper();
@@ -92,11 +102,13 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       }
       $html = $smartyHelper->fetch(AvailableWorkforceIndicator::getSmartySubFilename());
       $data['availableWorkforceIndicator_htmlContent'] = $html;
+      $html2 = $smartyHelper->fetch(AvailableWorkforceIndicator::getSmartySubFilename2());
+      $data['availableWorkforceIndicator_htmlContent2'] = $html2;
 
       // return html & chart data
       $jsonData = json_encode($data);
       echo $jsonData;
-      
+
    } else {
       Tools::sendNotFoundAccess();
    }
