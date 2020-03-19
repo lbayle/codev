@@ -1,6 +1,7 @@
 # Translation of CodevTT to Russian (русский)
 # Exported from translatewiki.net
 #
+# Author: Alexander Yukal
 # Author: Diralik
 # Author: Gas22original
 # Author: Irus
@@ -20,7 +21,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-05 21:46+0100\n"
-"PO-Revision-Date: 2020-03-09 15:34:13+0000\n"
+"PO-Revision-Date: 2020-03-19 14:02:14+0000\n"
 "Language: ru\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5105,7 +5106,7 @@ msgstr ""
 
 #: filters/IssueCodevTypeFilter.php:63
 msgid "Type (Task/Bug)"
-msgstr ""
+msgstr "Тип (Задача/Ошибка)"
 
 #: filters/ProjectFilter.php:51
 msgid "Sort issues per Project"
@@ -5137,7 +5138,7 @@ msgstr ""
 
 #: filters/IssueIdFilter.php:51
 msgid "Sort issues per ID"
-msgstr ""
+msgstr "Сортировка результатов по идентификатору"
 
 #: filters/IssueIdFilter.php:59
 msgid "Issue ID"
