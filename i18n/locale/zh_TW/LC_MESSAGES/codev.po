@@ -4,13 +4,14 @@
 # Author: Kly
 # Author: LNDDYL
 # Author: Liuxinyu970226
+# Author: Winston Sung
 # Author: 烈羽
 msgid ""
 msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-05 21:46+0100\n"
-"PO-Revision-Date: 2020-03-09 15:34:14+0000\n"
+"PO-Revision-Date: 2020-03-26 15:03:19+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1037,7 +1038,7 @@ msgstr "行"
 
 #. tpl/logs.html
 msgid "Log"
-msgstr "日誌"
+msgstr "紀錄"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/menu/global_menu.html
@@ -1792,7 +1793,7 @@ msgstr "外掛套件管理"
 
 #. tpl/menu/global_menu.html
 msgid "Logs"
-msgstr "日誌"
+msgstr "紀錄"
 
 #. tpl/menu/global_menu.html
 #. tpl/uninstall.html
