@@ -38,7 +38,7 @@ $_SESSION['locale'] = $codevLocale;
 /**
  * convert CodevTT localse string to system UTF-8 string
  * and set locale usion gettext
- * 
+ *
  * @param type $codevLocale
  * @return type
  */
@@ -71,6 +71,8 @@ function codevSetLocale($codevLocale) {
       $phpLocale = T_setlocale(LC_ALL,"ar_DZ.UTF-8", "ar.UTF-8","arab");
    } elseif($codevLocale === "ru") {
       $phpLocale = T_setlocale(LC_ALL,"ru_RU.UTF-8", "ru.UTF-8","russian");
+   } elseif($codevLocale === "tr") {
+      $phpLocale = T_setlocale(LC_ALL,"tr_TR.UTF-8", "tr.UTF-8","turkish");
    } else {
       // set to system default:
       T_setlocale(LC_ALL, NULL);
@@ -86,7 +88,7 @@ function codevSetLocale($codevLocale) {
    // END WORKAROUND
 
    //TODO --- WINDOWS ERROR ---
-   // on windows: 
+   // on windows:
    // when using gettext.inc, setting LC_NUMERIC to en_US.UTF-8, LC_ALL is set too !
    // when NOT using gettext.inc, locales are not recognized by gettext...
 
