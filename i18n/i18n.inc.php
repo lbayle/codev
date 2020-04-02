@@ -204,6 +204,9 @@ function codevGetLocale() {
          } elseif (strpos($lang, 'ru') === 0) {
             $locale = 'ru';
             break;
+         } elseif (strpos($lang, 'tr') === 0) {
+            $locale = 'tr';
+            break;
          }
       }
    }

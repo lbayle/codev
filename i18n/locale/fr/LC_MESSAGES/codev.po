@@ -4731,7 +4731,7 @@ msgstr "Prix de vente = Prix journée x consommé sur la période"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to end of period"
-msgstr "RAF = ChargeMgr - Consommé depuis le début de la tâche"
+msgstr "Reste à produire = ChargeMgr - Consommé depuis le début de la tâche"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 msgid "Include sideTasks"
