@@ -1,0 +1,151 @@
+<div class="AdminTools">
+   <div class="pluginInitFunction"  style="display: none;">AdminToolsJsInit</div>
+   <div class="pluginDestroyFunction"  style="display: none;">AdminToolsJsDestroy</div>
+
+
+
+<div>
+   <div class="AdminToolsDiv" align="left" style="margin-top: 1em;">
+      <div style="width: 95%;">
+      {include file="`$AdminTools_ajaxFile`"}
+      </div>
+   </div>
+
+   <div class="floatr" style=" width: 16px">
+      <span class="AdminToolsHelpDialog_link float pointer">
+         <img title="Help" src="images/help_icon.gif"/>
+      </span>
+   </div>
+   <div class="AdminToolsHelpDialog ui-helper-hidden" title="{t}Administration tools{/t}">
+      <strong>{t}Description{/t}:</strong><br>
+      {t}TODO{/t}
+   </div>
+
+   <div class="ui-helper-clearfix"></div>
+
+</div>
+
+<div align="left" style="margin-top:1em;">
+   <form id="AdminTools_form">
+      <fieldset>
+         <input class="AdminTools_submit" type="submit" title="{t}Run selected actions{/t}" value="{t}Execute{/t}" />
+         <img class="AdminTools_spinner" src='images/spinner.gif' width='16' height='16' alt='Please wait...' style="vertical-align: middle;" />
+         &nbsp;&nbsp;&nbsp;
+         <span class="AdminTools_execStatusErrMsg error_font"></span>
+         <span class="AdminTools_execStatusInfoMsg success_font"></span>
+         <input type="hidden" name="action" value="execAdminActions" />
+         <input type="hidden" name="adminActionsJsonStr" value="" />
+         <input type="hidden" name="attributesJsonStr" value="" />
+         <input type="hidden" name="dashboardId" value="" />
+      </fieldset>
+   </form>
+   <br>
+</div>
+
+<script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function AdminToolsJsDestroy() {
+      jQuery(".AdminToolsHelpDialog").dialog('destroy').remove();
+      jQuery(".AdminToolsDiv").off("click", "**");
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function AdminToolsJsInit() {
+
+      console.log('AdminToolsJsInit');
+      jQuery('.AdminTools_spinner').hide(); // hide spinner
+
+      // ------------------------
+      // datepicker
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+
+      // on reload with new date range
+      jQuery('.AdminTools_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+
+         jQuery('.AdminTools_spinner').show(); // spinner img
+         jQuery(".AdminTools_execStatusInfoMsg").html('');
+         jQuery(".AdminTools_execStatusErrMsg").html('');
+
+         var form = jQuery('#AdminTools_form');
+
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
+         var adminActions = {};
+         var isRestoreBlogPlugin = $(".AdminTools_cbRestoreBlogPlugin").attr('checked') ? 1 : 0;
+         adminActions["isRestoreBlogPlugin"] = isRestoreBlogPlugin;
+         // Here: parse more actions (RemoveDashboardSettings, ...)
+
+         var adminActionsJsonStr = JSON.stringify(adminActions);
+         form.find('input[name=adminActionsJsonStr]').val(adminActionsJsonStr);
+
+         // send attributesJsonStr (empty for this plugin, but still...)
+         // Note: AdminToolsAttr is declared in dashboard.html
+         var attr = jQuery('.AdminToolsAttr.attributesJsonStr');
+         form.find('input[name=attributesJsonStr]').val(attr.text());
+
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: "POST",
+            url: '{$AdminTools_ajaxPhpURL}',
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+               if('SUCCESS' !== data.statusMsg) {
+                  console.error(data.statusMsg);
+                  jQuery(".AdminTools_execStatusErrMsg").html(data.statusMsg);
+               } else {
+                  jQuery(".AdminTools_execStatusInfoMsg").html(data.nbActionsExecuted+" {t}Actions executed !{/t}");
+
+                  if (data['AdminTools_htmlTable']) {
+                     jQuery(".AdminToolsDiv").html(jQuery.trim(data['AdminTools_htmlTable']));
+
+                     //console.log('js files to load:', data['AdminTools_jsFiles']);
+                     jQuery.each(data['AdminTools_jsFiles'], function( index, value ) {
+                        jQuery.ajax({
+                              async: false,
+                              url: value,
+                              dataType: "script"
+                        });
+                     });
+                  } else {
+                     console.error('data is null');
+                     alert('ERROR: data is null');
+                  }
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+         jQuery('.AdminTools_spinner').hide(); // spinner img
+      });
+
+      // ------------------------
+
+      jQuery(".AdminToolsHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".AdminToolsHelpDialog").dialog("open");
+      });
+      jQuery(".AdminToolsHelpDialog").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "650px",
+         hide: "fade"
+      });
+
+   };
+
+</script>
+</div>
