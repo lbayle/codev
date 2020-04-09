@@ -6,13 +6,14 @@
 # Author: Gwenn-Ael
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2020-03-09 15:34:09+0000\n"
+"PO-Revision-Date: 2020-04-09 13:58:50+0000\n"
 "Language: br\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
+"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -3751,9 +3752,8 @@ msgstr ""
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-#, fuzzy
 msgid "current week"
-msgstr "Sizhun da-heul"
+msgstr "Er sizhun-mañ"
 
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
@@ -3812,9 +3812,8 @@ msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Real progress"
-msgstr "Araokaat"
+msgstr "Araokadenn wirion"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -4066,7 +4065,7 @@ msgstr ""
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Show Tasks"
-msgstr ""
+msgstr "Diskouez an trevelloù"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Display task column"
@@ -4119,9 +4118,8 @@ msgstr "Ouzhpennañ un ezel skipailh"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
 msgid "Display options"
-msgstr "enrollañ an dibarzhioù"
+msgstr "Diskwel an dibarzhioù"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
@@ -4303,29 +4301,25 @@ msgid "Message wall"
 msgstr "Moger gemenadennoù"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
-#, fuzzy
 msgid "Workforce"
-msgstr "Barregezh produiñ"
+msgstr "Nerzh labour"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
 msgid "Graph"
-msgstr ""
+msgstr "Grafik"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Graph values"
-msgstr "Diskouz an talvoudennoù"
+msgstr "Talvoudoù ar grafik"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Range values"
-msgstr "Diskouz an talvoudennoù"
+msgstr "Talvoudoù ar prantad"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Available Workforce Options"
-msgstr "Barregezh produiñ"
+msgstr "Dibarzhioù ar varregezh produiñ"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Availability"
@@ -4576,7 +4570,7 @@ msgstr ""
 #. plugins/ManagementCosts/ManagementCosts_ajax.html
 #: plugins/ManagementCosts/ManagementCosts.class.php:246
 msgid "Costs"
-msgstr ""
+msgstr "Koustoù"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Global cost estimation:"
@@ -4658,9 +4652,7 @@ msgid "Load per User"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4677,9 +4669,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4696,100 +4686,94 @@ msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#, fuzzy
 msgid "Elapsed on period"
-msgstr "Bevezet er mare"
+msgstr "Bevezet er prantad"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Remaining to produce at end of period"
-msgstr ""
+msgstr "A chom da vezañ produet e dibenn ar prantad"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#, fuzzy
 msgid "Remaining"
-msgstr "Diwallit"
+msgstr "A chom"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Daily Price"
-msgstr ""
+msgstr "Priz an deiz"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#, fuzzy
 msgid "Price on period"
-msgstr "Bevezet er mare"
+msgstr "Priz ar prantad"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Price"
-msgstr ""
+msgstr "Priz"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Period"
-msgstr ""
+msgstr "Prantad"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Selling price for period"
-msgstr ""
+msgstr "Priz gwerzh evit ar prantad"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-#, fuzzy
 msgid "Elapsed during period"
-msgstr "Bevezet er mare"
+msgstr "Bevezet er prantad"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining to produce (at end of period)"
-msgstr ""
+msgstr "A chom da broduiñ (e fin ar prantad)"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:83
 msgid "Selling Price for the Period"
-msgstr ""
+msgstr "Priz gwerzh evit ar prantad"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:88
 msgid "If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time."
-msgstr ""
+msgstr "Ma werzhit servijoù diouzh an deiz gant ur priz dibar evit pep trevell e roio an adveziant-mañ deoc'h priz ur strobad trevelloù war ur prantad amzer lakaet."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr ""
+msgstr "Evit an adveziant-mañ eo ret leuniañ maezienn bersonelaet MantisBT \"Priz an deiz\" evit pep trevell."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "SellingPrice = DailyPrice x Elapsed during period"
-msgstr ""
+msgstr "Priz gwerzh= Priz an deiz x bevezet e-pad ar prantad"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to end of period"
-msgstr ""
+msgstr "A chom = KargMgr - bevezet abaoe deroù an drevell betek fin ar prantad"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
-#, fuzzy
 msgid "Include sideTasks"
-msgstr "Trevelloù Kar"
+msgstr "En o zouez an trevelloù kar"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
-msgstr ""
+msgstr "Teorikel"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Real"
-msgstr ""
+msgstr "Gwirion"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "% Progress"
-msgstr "Araokaat"
+msgstr "% Araokadenn"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2_cfg.html
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:64
 msgid "Progress history"
-msgstr ""
+msgstr "Istor an araokadennoù"
 
 #. plugins/ManagementCosts/ManagementCosts.html
 #. plugins/ManagementCosts/ManagementCosts_cfg.html
 #: plugins/ManagementCosts/ManagementCosts.class.php:58
 msgid "Management costs"
-msgstr ""
+msgstr "Koustoù merañ"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:67
@@ -4798,11 +4782,11 @@ msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "No"
-msgstr ""
+msgstr "Ket"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Yes"
-msgstr ""
+msgstr "Ya"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Filter on Issue type"
@@ -4815,12 +4799,11 @@ msgstr "Silañ an trevelloù"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Bugs only"
-msgstr ""
+msgstr "Drein hepken"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Tasks only"
-msgstr "Trevelloù"
+msgstr "Trevelloù hepken"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Filter on External ID"
@@ -4841,29 +4824,26 @@ msgid "Task backlog variation"
 msgstr "Titouroù diwar-benn an drevell"
 
 #. plugins/OngoingTasks/OngoingTasks.html
-#, fuzzy
 msgid "Ongoing tasks"
-msgstr "Nv a drevelloù"
+msgstr "Trevelloù war ober"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "Display only the tasks with activity (timetracks) on the period"
-msgstr ""
+msgstr "Na ziskwel nemet an trevelloù bet oberiant (heuliet) war ar prantad"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "The time spent on the task during the period (which can be less than the total time spent since the beginning of the task)"
-msgstr ""
+msgstr "An amzer lakaet war an drevell e-pad ar prantad (hag a c'hall bezañ nebeutoc'h eget an amzer hollek lakaet abaoe deroù an drevell)"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
 msgid "Involved users"
-msgstr "implijerien Deverket"
+msgstr "implijerien o kemer perzh"
 
 #. plugins/OngoingTasks/OngoingTasks.html
-#, fuzzy
 msgid "List the users having spent time on the task during the period"
-msgstr "Trevelloù addigoret evit ar mare"
+msgstr "Roll an implijerien bet o lakaat amzer war an drevell-mañ e-pad ar prantad"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -5081,7 +5061,7 @@ msgstr ""
 
 #: classes/issue.class.php:2265 classes/wbsElement.class.php:686 tools.php:1549
 msgid "Tags"
-msgstr ""
+msgstr "Tikedennoù"
 
 #: classes/issue.class.php:2273
 msgid "none"
@@ -5105,19 +5085,19 @@ msgstr ""
 
 #: classes/PluginManager.class.php:79
 msgid "Disabled"
-msgstr ""
+msgstr "Diweredekaet"
 
 #: classes/PluginManager.class.php:80
 msgid "Removed"
-msgstr ""
+msgstr "Tennet kuit"
 
 #: classes/scheduler.class.php:81 reports/planning_report.php:206
 msgid "monitored"
-msgstr ""
+msgstr "evezhiet"
 
 #: classes/user.class.php:1555
 msgid "for team"
-msgstr ""
+msgstr "evit ar skipailh"
 
 #: classes/user.class.php:1557
 msgid "[CodevTT] Timesheet reminder !"
@@ -5138,7 +5118,7 @@ msgstr ""
 #. skip dates in the future
 #: classes/user.class.php:1574 classes/consistency_check2.class.php:748
 msgid "not defined."
-msgstr ""
+msgstr "Anspisaet"
 
 #: classes/consistency_check2.class.php:62
 #: timetracking/team_monthly_activity_report.php:129
@@ -5146,16 +5126,16 @@ msgstr ""
 #: scheduler/scheduler_ajax.php:386 scheduler/scheduler_ajax.php:387
 #: scheduler/scheduler_ajax.php:390
 msgid "Error"
-msgstr ""
+msgstr "Fazi"
 
 #: classes/consistency_check2.class.php:66
 msgid "Info"
-msgstr ""
+msgstr "Titouroù"
 
 #: classes/consistency_check2.class.php:68 reports/export_odt.php:270
 #: reports/export_odt.php:283 tests/odt.php:81 tests/odt.php:94
 msgid "unknown"
-msgstr ""
+msgstr "dianav"
 
 #: classes/consistency_check2.class.php:200
 msgid "Backlog on resolved issues should be 0"
@@ -5239,11 +5219,11 @@ msgstr ""
 
 #: classes/consistency_check2.class.php:733
 msgid " days"
-msgstr ""
+msgstr "deiz"
 
 #: classes/consistency_check2.class.php:735
 msgid "inconsistent"
-msgstr ""
+msgstr "diboell"
 
 #: classes/consistency_check2.class.php:768
 msgid "No default project workflow defined, check config file: "
@@ -5251,39 +5231,39 @@ msgstr ""
 
 #: classes/command.class.php:59
 msgid "to be sent"
-msgstr ""
+msgstr "Da vezañ kaset"
 
 #: classes/command.class.php:60
 msgid "Sent"
-msgstr ""
+msgstr "Kaset"
 
 #: classes/command.class.php:61
 msgid "to be validated"
-msgstr ""
+msgstr "da vezañ kadarnaet"
 
 #: classes/command.class.php:62
 msgid "validated"
-msgstr ""
+msgstr "kadarnaet"
 
 #: classes/command.class.php:63
 msgid "to be closed"
-msgstr ""
+msgstr "da vezañ klozet"
 
 #: classes/command.class.php:64
 msgid "closed"
-msgstr ""
+msgstr "klozet"
 
 #: classes/command.class.php:65
 msgid "bill must be sent"
-msgstr ""
+msgstr "fakturenn da gas"
 
 #: classes/command.class.php:66
 msgid "bill sent"
-msgstr ""
+msgstr "fakturenn kaset"
 
 #: classes/command.class.php:67
 msgid "payed"
-msgstr ""
+msgstr "paeet"
 
 #: filters/IssueIdFilter.php:51
 msgid "Sort issues per ID"
@@ -5331,7 +5311,7 @@ msgstr ""
 
 #: filters/ProjectCategoryFilter.php:57
 msgid "Project Category"
-msgstr ""
+msgstr "Rummad Raktres"
 
 #: filters/ProjectFilter.php:51
 msgid "Sort issues per Project"
@@ -5348,7 +5328,7 @@ msgstr ""
 #: indicator_plugins/StatusHistoryIndicator/StatusHistoryIndicator.class.php:194
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:345
 msgid "Y-m-d"
-msgstr ""
+msgstr "d-m-Y"
 
 #: indicator_plugins/BacklogVariationIndicator/BacklogVariationIndicator.class.php:286
 msgid "Average backlog"
@@ -5375,9 +5355,8 @@ msgid "CodevTT_Manager EffortEstim"
 msgstr ""
 
 #: install/install_step3.php:400
-#, fuzzy
 msgid "CodevTT_DailyPrice"
-msgstr "Maeziennoù  CodevTT"
+msgstr "CodevTT_Priz an deiz"
 
 #: install/install_step3.php:406
 msgid "CodevTT_External ID"
@@ -5463,7 +5442,7 @@ msgstr ""
 
 #: install/install_step3.php:865
 msgid "Leave"
-msgstr ""
+msgstr "Mont kuit"
 
 #: install/install_step3.php:866
 msgid "Sick Leave"
@@ -5471,15 +5450,15 @@ msgstr ""
 
 #: install/install_step3.php:867
 msgid "Analyse"
-msgstr ""
+msgstr "Dielfennañ"
 
 #: install/install_step3.php:868
 msgid "Development"
-msgstr ""
+msgstr "Diorren"
 
 #: install/install_step3.php:869
 msgid "Tests"
-msgstr ""
+msgstr "Amprouadennoù"
 
 #: install/install_step3.php:956
 msgid "CodevTT_ExternalTasks"
@@ -5501,7 +5480,7 @@ msgstr ""
 
 #: install/install_step3.php:999
 msgid "Sick"
-msgstr ""
+msgstr "Klañv"
 
 #: install/install_step2.php:25
 msgid "Install - Step 2"
@@ -5579,12 +5558,12 @@ msgstr ""
 
 #: install/install_step4.php:83
 msgid "Done !"
-msgstr ""
+msgstr "Graet !"
 
 #: install/install.php:25 install/install.php:129
 #: install/install_menu.inc.php:22
 msgid "Install"
-msgstr ""
+msgstr "Staliañ"
 
 #: install/install.php:119
 msgid "Upgrade instructions"
@@ -5652,11 +5631,11 @@ msgstr ""
 
 #: install/install_step1.php:268
 msgid "Server"
-msgstr ""
+msgstr "Servijer"
 
 #: install/install_step1.php:269
 msgid "Port"
-msgstr ""
+msgstr "Porzh"
 
 #: install/install_step1.php:276
 msgid "Proceed Step 1"
@@ -5664,19 +5643,19 @@ msgstr ""
 
 #: install/install_menu.inc.php:26
 msgid "Step 1"
-msgstr ""
+msgstr "Pazenn 1"
 
 #: install/install_menu.inc.php:30
 msgid "Step 2"
-msgstr ""
+msgstr "Pazenn 2"
 
 #: install/install_menu.inc.php:34
 msgid "Step 3"
-msgstr ""
+msgstr "Pazenn 3"
 
 #: install/install_menu.inc.php:38
 msgid "Step 4"
-msgstr ""
+msgstr "Pazenn 4"
 
 #: management/command_edit.php:219
 msgid "Add tasks to Command"
@@ -5817,16 +5796,16 @@ msgstr ""
 
 #: timetracking/holidays_report.php:140
 msgid "today"
-msgstr ""
+msgstr "hiziv"
 
 #. light grey
 #: timetracking/holidays_report.php:206
 msgid "User not in team"
-msgstr ""
+msgstr "N'emañ ket an implijer er skipailh"
 
 #: timetracking/holidays_report.php:244
 msgid "Other team"
-msgstr ""
+msgstr "Skipailh all"
 
 #: timetracking/team_monthly_activity_report.php:76
 #: timetracking/time_tracking.php:324 timetracking/team_activity_report.php:66
@@ -5852,7 +5831,7 @@ msgstr ""
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:258
 msgid "(unknown 0)"
-msgstr ""
+msgstr "(dianav 0)"
 
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:63
 msgid "Display additional info on timetracks"
@@ -5884,7 +5863,7 @@ msgstr ""
 
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:279
 msgid "Management"
-msgstr ""
+msgstr "Merañ"
 
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:79
 msgid "Group tasks by adding multiple filters"
@@ -5904,7 +5883,7 @@ msgstr ""
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:57
 msgid "Messages"
-msgstr ""
+msgstr "Kemennadennoù"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:60
 msgid "Display a message wall on the homepage"
@@ -5916,20 +5895,20 @@ msgstr ""
 
 #: plugins/BlogPlugin/BlogPost.class.php:112
 msgid "Low"
-msgstr ""
+msgstr "Izel"
 
 #: plugins/BlogPlugin/BlogPost.class.php:114
 msgid "Normal"
-msgstr ""
+msgstr "Reizh"
 
 #: plugins/BlogPlugin/BlogPost.class.php:116
 msgid "High"
-msgstr ""
+msgstr "Uhel"
 
 #. This case happens when an Administrator sends a message to "All" users
 #: plugins/BlogPlugin/BlogPost.class.php:377
 msgid "Everybody"
-msgstr ""
+msgstr "An holl"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"
@@ -5949,7 +5928,7 @@ msgstr ""
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:348
 msgid "All Projects"
-msgstr ""
+msgstr "An holl raktresoù"
 
 #: plugins/ImportUsers/ImportUsers.class.php:71
 msgid "Import a list of users to MantisBT / CodevTT"
@@ -5981,7 +5960,7 @@ msgstr ""
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:170
 msgid "Best regards"
-msgstr ""
+msgstr "A galon"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:171
 msgid "[CodevTT] Your password"
@@ -6029,15 +6008,15 @@ msgstr ""
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
 msgid " For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr ""
+msgstr "Evit an adveziant-mañ e rankit leuniañ maezienn bersonelaet MantisBT \"CodevTT_priz an deiz\" evit pep trevell."
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
-msgstr ""
+msgstr "Priz gwerzh = Priz an deiz x bevezet e-pad ar prantad"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:385
 msgid "WARNING: You need to assign the \"CodevTT_DailyPrice\" customField to the following projects: "
-msgstr ""
+msgstr "DIWALLIT : ret eo deoc'h stagañ ar vaezienn bersonelaet \"CodevTT_Priz an deiz\" d'ar raktresoù da heul : "
 
 #: plugins/WBSExport/WBSExport.class.php:53
 msgid "WBS Export"
@@ -6073,7 +6052,7 @@ msgstr ""
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:85
 msgid "List the active tasks on a given period"
-msgstr ""
+msgstr "Rollañ an trevelloù oberiant war ar prantad"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:87
 #, fuzzy
@@ -6105,9 +6084,8 @@ msgid "Move timetracks from one issue to another"
 msgstr ""
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:71
-#, fuzzy
 msgid "Please, fill all fields"
-msgstr "Maeziennoù a c'haller kaout"
+msgstr "Leuniit an holl vaeziennoù"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:85
 msgid "This origin task doesn't exist"
@@ -6134,38 +6112,36 @@ msgstr ""
 #. self::$logger->error('max_execution_time = '.$max_time);
 #. Set task id list
 #: scheduler/scheduler.php:59
-#, fuzzy
 msgid "Select a task"
-msgstr "Diuzañ pep tra"
+msgstr "Diuzañ un drevell"
 
 #: scheduler/scheduler.php:108
 msgid "Today"
-msgstr ""
+msgstr "Hiziv"
 
 #: scheduler/scheduler.php:109
 msgid "Monday this week"
-msgstr ""
+msgstr "Dilun"
 
 #: scheduler/scheduler.php:110
 msgid "First week of this month"
-msgstr ""
+msgstr "Sizhun gentañ ar miz-mañ"
 
 #: scheduler/scheduler.php:116
-#, fuzzy
 msgid "2 weeks"
-msgstr "Sizhun da-heul"
+msgstr "2 sizhun"
 
 #: scheduler/scheduler.php:117
 msgid "1 month"
-msgstr ""
+msgstr "1 miz"
 
 #: scheduler/scheduler.php:118
 msgid "2 months"
-msgstr ""
+msgstr "2 viz"
 
 #: scheduler/scheduler.php:119
 msgid "3 months"
-msgstr ""
+msgstr "3 miz."
 
 #: scheduler/scheduler_ajax.php:328
 msgid "Assignments rules not valid for task"
@@ -6198,4 +6174,5 @@ msgstr ""
 
 #: tools.php:1503
 msgid "Delivery Date"
-msgstr ""
+msgstr "Deiziad degas"
+

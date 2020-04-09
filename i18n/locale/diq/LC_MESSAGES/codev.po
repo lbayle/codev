@@ -8,13 +8,14 @@
 # Author: Orbot707
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2020-03-23 13:56:48+0000\n"
+"PO-Revision-Date: 2020-04-09 13:58:50+0000\n"
 "Language: diq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
+"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -296,11 +297,11 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "ProjProdDays"
-msgstr ""
+msgstr "ProjProdDays"
 
 #. tpl/productivity_report.html
 msgid "TotalProdDays"
-msgstr ""
+msgstr "TotalProdDays"
 
 #. tpl/productivity_report.html
 msgid "Platform Availability"
@@ -308,16 +309,16 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "breakdownDays"
-msgstr ""
+msgstr "breakdownDays"
 
 #. tpl/productivity_report.html
 msgid "prodDays"
-msgstr ""
+msgstr "prodDays"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "EffortEstim Reliability"
-msgstr ""
+msgstr "EffortEstim İtimadiyeyi"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
@@ -350,18 +351,18 @@ msgstr ""
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:292 tools.php:1494
 msgid "EffortEstim"
-msgstr ""
+msgstr "EffortEstim"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "EffortAdd"
-msgstr ""
+msgstr "EffortAdd"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 #: classes/consistency_check2.class.php:442
 msgid "elapsed"
-msgstr ""
+msgstr "verên"
 
 #. tpl/productivity_report.html
 msgid "Tasks having no deadLine are not reported here"
@@ -401,7 +402,7 @@ msgstr "amarê karan"
 #. $tooltipAttr[T_('DeliveryDate')] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
 #: reports/issue_info_tools.php:109
 msgid "DeliveryDate"
-msgstr ""
+msgstr "DeliveryDate"
 
 #. tpl/productivity_report.html
 msgid "DeadLine"
@@ -519,7 +520,7 @@ msgstr ""
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "EffortDeviation"
-msgstr ""
+msgstr "EffortDeviation"
 
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
@@ -535,7 +536,7 @@ msgstr ""
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:291 tools.php:1491
 msgid "MgrEffortEstim"
-msgstr ""
+msgstr "MgrEffortEstim"
 
 #. tpl/productivity_report.html
 msgid "No resolved tasks..."
@@ -564,7 +565,7 @@ msgstr "Kamiye"
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "ExtRef"
-msgstr ""
+msgstr "ExtRef"
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -601,7 +602,7 @@ msgstr "Averşiyayış"
 #: reports/project_info.php:213 tests/filters.php:69
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:293
 msgid "Reestimated"
-msgstr ""
+msgstr "Texminyayo"
 
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
@@ -626,7 +627,7 @@ msgstr ""
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:228
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:381
 msgid "Elapsed"
-msgstr ""
+msgstr "Vêren"
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -1138,7 +1139,7 @@ msgstr "Alameti"
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
 msgid "CommandSets"
-msgstr ""
+msgstr "CommandSets"
 
 #. tpl/servicecontract_info.html
 #. tpl/issue_info.html
@@ -1160,7 +1161,7 @@ msgstr "Emıri"
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "CommandSet"
-msgstr ""
+msgstr "CommandSet"
 
 #. tpl/servicecontract_info.html
 #: install/install_step4.php:51
@@ -1907,7 +1908,7 @@ msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "--- New CommandSet ---"
-msgstr ""
+msgstr "---  CommandSet  Newey ---"
 
 #. tpl/servicecontract_edit.html
 #. tpl/forecasting_report.html
@@ -2034,7 +2035,7 @@ msgstr "Xısusiyey"
 
 #. tpl/issue_info.html
 msgid "Timetracks"
-msgstr ""
+msgstr "Timetracks"
 
 #. tpl/issue_info.html
 msgid "Time tracking"
@@ -4630,9 +4631,7 @@ msgid "Load per User"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4649,9 +4648,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -6151,3 +6148,4 @@ msgstr "W"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr ""
+

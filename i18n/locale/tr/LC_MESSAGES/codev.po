@@ -13,13 +13,14 @@
 # Author: Vito Genovese
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2020-03-09 15:34:13+0000\n"
+"PO-Revision-Date: 2020-04-09 13:58:54+0000\n"
 "Language: tr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
+"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -2762,7 +2763,7 @@ msgstr "Yükleniyor"
 
 #. tpl/logs.html
 msgid "Line"
-msgstr "Hat"
+msgstr "Satır"
 
 #. tpl/logs.html
 msgid "Log"
@@ -4644,12 +4645,8 @@ msgid "Load per User"
 msgstr "Kullanıcı Başına Yükle"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"Atık yan görevlerini göster: 'Olay' ve 'Hareketsizlik' kategorileri<br>\n"
-"          (işaretlenmezse, yan görevler 'geçen' dahil edilir)"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "Atık yan görevlerini göster: 'Olay' ve 'Hareketsizlik' kategorileri<br>\n          (işaretlenmezse, yan görevler 'geçen' dahil edilir)"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4665,12 +4662,8 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "Projeler ve taraf için harcanan zaman Geçerli görev seçiminin görevleri"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"'Olay' ve 'Hareketsizlik' tarafı Geçerli seçimin görevleri.<br>\n"
-"          ('atık' seçeneği seçilmemişse, bu 'geçen süreye dahil edilecektir')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "'Olay' ve 'Hareketsizlik' tarafı Geçerli seçimin görevleri.<br>\n          ('atık' seçeneği seçilmemişse, bu 'geçen süreye dahil edilecektir')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -4692,7 +4685,7 @@ msgstr "Dönem içinde geçen"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Remaining to produce at end of period"
-msgstr ""
+msgstr "Dönem sonunda üretim için kalanlar"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #, fuzzy
@@ -4701,7 +4694,7 @@ msgstr "Uyarı"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Daily Price"
-msgstr ""
+msgstr "Günlük Miktar"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #, fuzzy
@@ -4710,15 +4703,15 @@ msgstr "Dönem içinde geçen"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Price"
-msgstr ""
+msgstr "Miktar"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Period"
-msgstr ""
+msgstr "Dönem"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Selling price for period"
-msgstr ""
+msgstr "Dönem satış fiyatı"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #, fuzzy
@@ -4727,30 +4720,30 @@ msgstr "Dönem içinde geçen"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining to produce (at end of period)"
-msgstr ""
+msgstr "Üretim için kalanlar (dönem sonunda)"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:83
 msgid "Selling Price for the Period"
-msgstr ""
+msgstr "Dönem Satış Fiyatı"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:88
 msgid "If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time."
-msgstr ""
+msgstr "Her görev için belirli bir fiyatla günlük hizmetler satıyorsanız, bu eklenti size belirli bir süre boyunca görev grubunuzun fiyatını verecektir."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr ""
+msgstr "Bu eklenti için, her görevde MantisBT customField \"CodevTT_DailyPrice\" ayarlamanız gerekir."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "SellingPrice = DailyPrice x Elapsed during period"
-msgstr ""
+msgstr "SellingPrice = DailyPrice x Dönem içinde geçti"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to end of period"
-msgstr ""
+msgstr "Remaining = MgrEffortEstim - Görevin başlangıcından dönem sonuna kadar geçen süre"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #, fuzzy
@@ -4833,11 +4826,11 @@ msgstr "Kaynak görevi"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "Display only the tasks with activity (timetracks) on the period"
-msgstr ""
+msgstr "Yalnızca dönem içinde etkinlik (zaman çizelgeleri) olan görevleri görüntüle"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "The time spent on the task during the period (which can be less than the total time spent since the beginning of the task)"
-msgstr ""
+msgstr "Dönem içinde göreve harcanan süre (görevin başlangıcından bu yana harcanan toplam süreden az olabilir)"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
@@ -6010,15 +6003,15 @@ msgstr "Basit bir HelloWorld eklentisi"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
 msgid " For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr ""
+msgstr " Bu eklenti için, her görevde MantisBT customField \"CodevTT_DailyPrice\" ayarlamanız gerekir."
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
-msgstr ""
+msgstr "SellingPrice = DailyPrice x Geçen süre"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:385
 msgid "WARNING: You need to assign the \"CodevTT_DailyPrice\" customField to the following projects: "
-msgstr ""
+msgstr "UYARI: Aşağıdaki projelere \"CodevTT_DailyPrice\" customField öğesini atamanız gerekir: "
 
 #: plugins/WBSExport/WBSExport.class.php:53
 msgid "WBS Export"
@@ -6054,7 +6047,7 @@ msgstr "İş listesi (günler)"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:85
 msgid "List the active tasks on a given period"
-msgstr ""
+msgstr "Belirli bir dönemdeki etkin görevleri listele"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:87
 #, fuzzy
@@ -6177,3 +6170,4 @@ msgstr "H"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "Teslim Tarihi"
+

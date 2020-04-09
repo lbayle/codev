@@ -14,10 +14,11 @@
 # Author: WikiUser22222
 msgid ""
 msgstr ""
+""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2020-03-09 15:34:12+0000\n"
+"PO-Revision-Date: 2020-04-09 13:58:53+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -26,7 +27,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
+"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
 
 #. tpl/filters.html
 #. tpl/productivity_report.html
@@ -4177,9 +4178,8 @@ msgstr "Somente membros da equipe"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
 msgid "Display options"
-msgstr "Salvar opções"
+msgstr "Opções de exibição"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
@@ -4361,9 +4361,8 @@ msgid "Message wall"
 msgstr "Parede da mensagem"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
-#, fuzzy
 msgid "Workforce"
-msgstr "carga"
+msgstr "Trabalhadores"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
@@ -4371,14 +4370,12 @@ msgid "Graph"
 msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Graph values"
-msgstr "mostrar valores"
+msgstr "Valores do gráfico"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Range values"
-msgstr "mostrar valores"
+msgstr "Valores do intervalo"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #, fuzzy
@@ -4735,9 +4732,7 @@ msgid "Load per User"
 msgstr "Filtros"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4754,9 +4749,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4779,53 +4772,50 @@ msgstr "Decorrido no período"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Remaining to produce at end of period"
-msgstr ""
+msgstr "Restante produção no final do período"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#, fuzzy
 msgid "Remaining"
-msgstr "Alerta"
+msgstr "Restante"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Daily Price"
-msgstr ""
+msgstr "Preço diário"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#, fuzzy
 msgid "Price on period"
-msgstr "Decorrido no período"
+msgstr "Preço no período"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Price"
-msgstr ""
+msgstr "Preço"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Period"
-msgstr ""
+msgstr "Período"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Selling price for period"
 msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-#, fuzzy
 msgid "Elapsed during period"
-msgstr "Decorrido no período"
+msgstr "Decorrido durante o período"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining to produce (at end of period)"
-msgstr ""
+msgstr "Restante para produzir (no final do período)"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:83
 msgid "Selling Price for the Period"
-msgstr ""
+msgstr "Preço de venda do período"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:88
 msgid "If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time."
-msgstr ""
+msgstr "Se você vender serviços diários com um preço específico para cada tarefa, este plug-in fornecerá o preço do seu lote de tarefas durante um determinado período de tempo."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
@@ -4840,9 +4830,8 @@ msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to e
 msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
-#, fuzzy
 msgid "Include sideTasks"
-msgstr "Casos correlatos"
+msgstr "Incluir tarefas laterais"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
@@ -4923,13 +4912,12 @@ msgid "Task backlog variation"
 msgstr "Variação do BackLog"
 
 #. plugins/OngoingTasks/OngoingTasks.html
-#, fuzzy
 msgid "Ongoing tasks"
-msgstr "núm de casos"
+msgstr "Tarefas em andamento"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "Display only the tasks with activity (timetracks) on the period"
-msgstr ""
+msgstr "Exibir apenas as tarefas com atividade (faixas horárias) no período"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "The time spent on the task during the period (which can be less than the total time spent since the beginning of the task)"
@@ -4938,14 +4926,12 @@ msgstr ""
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
 msgid "Involved users"
-msgstr "Usuários atribuídos"
+msgstr "Usuários envolvidos"
 
 #. plugins/OngoingTasks/OngoingTasks.html
-#, fuzzy
 msgid "List the users having spent time on the task during the period"
-msgstr "Casos reabertos no período"
+msgstr "Listar os usuários que passaram algum tempo na tarefa durante o período"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -5477,9 +5463,8 @@ msgid "CodevTT_Manager EffortEstim"
 msgstr "CodevTT_Estimativa da gerência"
 
 #: install/install_step3.php:400
-#, fuzzy
 msgid "CodevTT_DailyPrice"
-msgstr "CodevTT_Vencimento"
+msgstr "CodevTT_DailyPrice"
 
 #: install/install_step3.php:406
 msgid "CodevTT_External ID"
@@ -6214,9 +6199,8 @@ msgid "List the active tasks on a given period"
 msgstr ""
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:87
-#, fuzzy
 msgid "Tasks having received timetracks during the period"
-msgstr "Casos reabertos no período"
+msgstr "Tarefas que receberam faixas horárias durante o período"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:68
 #, fuzzy
@@ -6338,3 +6322,4 @@ msgstr "W"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "Data de liberação"
+

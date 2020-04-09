@@ -8,13 +8,14 @@
 # Author: 烈羽
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2020-03-26 15:03:19+0000\n"
+"PO-Revision-Date: 2020-04-09 13:58:54+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
+"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -4633,9 +4634,7 @@ msgid "Load per User"
 msgstr "各使用者負荷"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr "顯示浪費的邊際任務：「事件」和「不活躍」分類<br>（如果未勾選，邊際任務會被包含在「已流逝」）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4652,9 +4651,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "花費在目前任務選擇上的專案和邊際任務之時間"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr "目前「事件」和「不活躍」邊際任務的選項。<br>（如果「浪費」選項沒被選擇，這將被會包含在「已流逝」）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4677,7 +4674,7 @@ msgstr "週期內的流逝"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Remaining to produce at end of period"
-msgstr ""
+msgstr "在週期結尾的剩餘生產"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #, fuzzy
@@ -4686,56 +4683,54 @@ msgstr "警告"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Daily Price"
-msgstr ""
+msgstr "每日價格"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#, fuzzy
 msgid "Price on period"
-msgstr "週期內的流逝"
+msgstr "週期內的價值"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Price"
-msgstr ""
+msgstr "價格"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Period"
-msgstr ""
+msgstr "週期"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Selling price for period"
-msgstr ""
+msgstr "週期的售出價格"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-#, fuzzy
 msgid "Elapsed during period"
-msgstr "週期內的流逝"
+msgstr "流逝週期"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining to produce (at end of period)"
-msgstr ""
+msgstr "剩餘生產（在週期結尾）"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:83
 msgid "Selling Price for the Period"
-msgstr ""
+msgstr "週期的售出價格"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:88
 msgid "If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time."
-msgstr ""
+msgstr "如果您替各任務以特定價格售出每日服務，此外掛套件會提供您在指定週期時間裡，您的批量任務價格。"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr ""
+msgstr "對於此外掛套件，您需要在各任務設定 MantisBT 自定義欄位「CodevTT_DailyPrice」。"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "SellingPrice = DailyPrice x Elapsed during period"
-msgstr ""
+msgstr "售出價格 = 每日價格 x 流逝週期"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to end of period"
-msgstr ""
+msgstr "剩餘 = 管理成效估計 - 自任務開始到週期結尾的流逝"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #, fuzzy
@@ -4818,11 +4813,11 @@ msgstr "原始任務"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "Display only the tasks with activity (timetracks) on the period"
-msgstr ""
+msgstr "僅顯示在週期裡有活動（時間表）的任務"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "The time spent on the task during the period (which can be less than the total time spent since the beginning of the task)"
-msgstr ""
+msgstr "在週期期間花在任務上的時間（這可以少於自任務開始以來花費的總時間）"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
@@ -5993,15 +5988,15 @@ msgstr "一個簡單的HelloWorld外掛套件"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
 msgid " For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr ""
+msgstr "對於此外掛套件，您需要在各任務設定 MantisBT 自定義欄位「CodevTT_DailyPrice」。"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
-msgstr ""
+msgstr "售出價格 = 每日價格 x 流逝週期"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:385
 msgid "WARNING: You need to assign the \"CodevTT_DailyPrice\" customField to the following projects: "
-msgstr ""
+msgstr "警告：您需要分配「CodevTT_DailyPrice」自定義欄位給以下專案：\\"
 
 #: plugins/WBSExport/WBSExport.class.php:53
 msgid "WBS Export"
@@ -6037,7 +6032,7 @@ msgstr "積壓工作（日）"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:85
 msgid "List the active tasks on a given period"
-msgstr ""
+msgstr "列出在指定週期的有效任務"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:87
 #, fuzzy
@@ -6160,3 +6155,4 @@ msgstr "W"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "交付日期"
+

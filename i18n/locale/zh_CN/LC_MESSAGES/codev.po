@@ -14,13 +14,14 @@
 # Author: 神樂坂秀吉
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2020-03-09 15:34:14+0000\n"
+"PO-Revision-Date: 2020-04-09 13:58:54+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
+"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -4645,12 +4646,8 @@ msgid "Load per User"
 msgstr "每位用户加载的"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"显示浪费的子任务：“事件”和“不活跃”类别<br>\n"
-"   （如果未选中，则子任务将被包含在“已过期”中）"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "显示浪费的子任务：“事件”和“不活跃”类别<br>\n   （如果未选中，则子任务将被包含在“已过期”中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4666,12 +4663,8 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "在当前任务选择的项目和边栏任务上所花费的时间"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"当前选择中的“事件”和“不活跃”子任务。<br>\n"
-"   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "当前选择中的“事件”和“不活跃”子任务。<br>\n   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -6178,3 +6171,4 @@ msgstr "W"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "交货日期"
+

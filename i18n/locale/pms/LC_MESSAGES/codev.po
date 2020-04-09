@@ -5,13 +5,14 @@
 # Author: Fitoschido
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2020-03-09 15:34:12+0000\n"
+"PO-Revision-Date: 2020-04-09 13:58:53+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
+"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -4100,9 +4101,8 @@ msgstr "Mach ij mèmber ëd l'echip"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
 msgid "Display options"
-msgstr "Argistré j'opsion"
+msgstr "Smon-e j'opsion"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
@@ -4280,9 +4280,8 @@ msgid "Message wall"
 msgstr "Muraja dij mëssagi"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
-#, fuzzy
 msgid "Workforce"
-msgstr "Fluss ëd travaj"
+msgstr "Fòrsa ëd travaj"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
@@ -4290,14 +4289,12 @@ msgid "Graph"
 msgstr "Gràfich"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Graph values"
-msgstr "smon-e ij valor"
+msgstr "Valor dël gràfich"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Range values"
-msgstr "smon-e ij valor"
+msgstr "Antërval dij valor"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Available Workforce Options"
@@ -4630,12 +4627,8 @@ msgid "Load per User"
 msgstr "Badò për utent"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"Smon-e jë sgàir dij travaj marginaj: categorìe 'Assident' e 'Inatività' <br>\n"
-"         (si nen selessionà, ij travaj marginaj a saran ancludù ant lë 'scadù')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "Smon-e jë sgàir dij travaj marginaj: categorìe 'Assident' e 'Inatività' <br>\n         (si nen selessionà, ij travaj marginaj a saran ancludù ant lë 'scadù')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4651,12 +4644,8 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "Temp passà an sij proget e ij travaj tacà për la selession corenta dij travaj"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"Travaj tacà 'Eveniment' et 'Inatività' ch'a fan part ëd la selession.<br>\n"
-"         (si l'opsion 'sgàir' a l'é disativà, sòn a sarà ancludù ant ël 'consumà')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "Travaj tacà 'Eveniment' et 'Inatività' ch'a fan part ëd la selession.<br>\n         (si l'opsion 'sgàir' a l'é disativà, sòn a sarà ancludù ant ël 'consumà')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -4672,76 +4661,71 @@ msgstr "Travaj d'assense esterne e travaj marginaj d'inatività che a fan nen pa
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#, fuzzy
 msgid "Elapsed on period"
-msgstr "Passà ant ël perìod"
+msgstr "Consumà ant ël perìod"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Remaining to produce at end of period"
-msgstr ""
+msgstr "Rest da produve a la fin dël perìod"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#, fuzzy
 msgid "Remaining"
-msgstr "Avertensa"
+msgstr "Lòn ch'a-i resta"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Daily Price"
-msgstr ""
+msgstr "Pressi dël di"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#, fuzzy
 msgid "Price on period"
-msgstr "Passà ant ël perìod"
+msgstr "Pressi dël perìod"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Price"
-msgstr ""
+msgstr "Pressi"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Period"
-msgstr ""
+msgstr "Perìod"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Selling price for period"
-msgstr ""
+msgstr "Pressi ëd vèndita për ël perìod"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-#, fuzzy
 msgid "Elapsed during period"
-msgstr "Passà ant ël perìod"
+msgstr "Consumà ant ël perìod"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining to produce (at end of period)"
-msgstr ""
+msgstr "Rest da produve (a la fin dël perìod)"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:83
 msgid "Selling Price for the Period"
-msgstr ""
+msgstr "Pressi ëd vèndita për ël perìod"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:88
 msgid "If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time."
-msgstr ""
+msgstr "S'a vend dij servissi a la giornà con un pressi spessìfich për minca 'n travaj, costa aplicassion a-j darà ël pressi ëd l'ansem ëd travaj për un dàit perìod ëd temp."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr ""
+msgstr "Për costa aplicassion, a dev definì ël camp përsonalisà «CodevTT_PressiGiorna» për minca 'n travaj."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "SellingPrice = DailyPrice x Elapsed during period"
-msgstr ""
+msgstr "Pressi ëd vèndita = Pressi a giornà x Perìod ëd consumassion"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to end of period"
-msgstr ""
+msgstr "Rest = Stim dë sfòrs magior - Consumassion dal prinsipi dël travaj a la fin dël perìod"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
-#, fuzzy
 msgid "Include sideTasks"
-msgstr "Travajtacà"
+msgstr "Anclude ij TravajTacà"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
@@ -4813,29 +4797,26 @@ msgid "Task backlog variation"
 msgstr "Variassion dl'artard an sij travaj"
 
 #. plugins/OngoingTasks/OngoingTasks.html
-#, fuzzy
 msgid "Ongoing tasks"
-msgstr "Travaj sorgiss"
+msgstr "Travaj an cors"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "Display only the tasks with activity (timetracks) on the period"
-msgstr ""
+msgstr "Smon-e mach ij travaj con dl'atività programà ant ël perìod"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "The time spent on the task during the period (which can be less than the total time spent since the beginning of the task)"
-msgstr ""
+msgstr "Ël temp passa an sël travaj durant ël perìod (ch'a peul esse meno che ël temp total consumà dal prinsipi dël travaj)"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
 msgid "Involved users"
-msgstr "Utent ancarià"
+msgstr "Utent amplicà"
 
 #. plugins/OngoingTasks/OngoingTasks.html
-#, fuzzy
 msgid "List the users having spent time on the task during the period"
-msgstr "travaj ch'a son ëstàit torna duvertà ant ël perìod"
+msgstr "Listé j'utent che a l'han passà dël temp an sël travaj ant ël perìod"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -5341,9 +5322,8 @@ msgid "CodevTT_Manager EffortEstim"
 msgstr "CodevTT_Mansé dlë stim dë sfòrs"
 
 #: install/install_step3.php:400
-#, fuzzy
 msgid "CodevTT_DailyPrice"
-msgstr "CodevTT_Scadensa"
+msgstr "CodevTT_PressiGiorna"
 
 #: install/install_step3.php:406
 msgid "CodevTT_External ID"
@@ -5994,15 +5974,15 @@ msgstr "N'aplicassion sempia HelloWorld"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
 msgid " For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr ""
+msgstr "Për costa aplicassion, a dev definì ël camp përsonalisà MantisBT «CodevTT_PressiGiorna» për minca 'n travaj."
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
-msgstr ""
+msgstr "Pressi ëd vèndita = PressiGiorna x Perìod ëd consumassion"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:385
 msgid "WARNING: You need to assign the \"CodevTT_DailyPrice\" customField to the following projects: "
-msgstr ""
+msgstr "ATENSION: A dev assigné ël camp përsonalisà «CodevTT_PressiGiorna» a costi proget-sì: "
 
 #: plugins/WBSExport/WBSExport.class.php:53
 msgid "WBS Export"
@@ -6038,12 +6018,11 @@ msgstr "Ritard (di)"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:85
 msgid "List the active tasks on a given period"
-msgstr ""
+msgstr "Listé ij travaj ativ an s'un perìod dàit"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:87
-#, fuzzy
 msgid "Tasks having received timetracks during the period"
-msgstr "travaj ch'a son ëstàit torna duvertà ant ël perìod"
+msgstr "Travaj ch'a son ëstàit programà ant ël perìod"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:68
 msgid "Display the EffortEstim reliability rate history"
@@ -6161,3 +6140,4 @@ msgstr "W"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "Dàita ëd consigna"
+

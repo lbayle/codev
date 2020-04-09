@@ -1,21 +1,35 @@
-# Copyright (C) 2011 Free Software Foundation, Inc.
+# Translation of CodevTT to French (français)
+# Exported from translatewiki.net
+#
+# Author: Fitoschido
+# Author: Gomoko
+# Author: LeGuyanaisPure
+# Author: MichelotFlorent
+# Author: Nemo bis
+# Author: Noelie-b
+# Author: Thibaut120094
+# Author: Urhixidur
+# Author: Verdy p
+# Author: Wladek92
 msgid ""
 msgstr ""
+""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2012-09-15 22:28+0100\n"
+"PO-Revision-Date: 2020-04-09 13:58:51+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
-"Language: fr\n"
+"Language: fr_fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.2\n"
+"X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
 
 #. tpl/filters.html
 #. tpl/productivity_report.html
@@ -233,7 +247,7 @@ msgstr "projets"
 
 #. tpl/productivity_report.html
 msgid "sideTasks"
-msgstr "TâchesAnnexes"
+msgstr "tâchesAnnexes"
 
 #. tpl/productivity_report.html
 msgid "Not available."
@@ -303,11 +317,11 @@ msgstr "Jours de Production: Total"
 
 #. tpl/productivity_report.html
 msgid "Platform Availability"
-msgstr "Disponibilité de la plateforme de dévelopement"
+msgstr "Disponibilité de la plateforme"
 
 #. tpl/productivity_report.html
 msgid "breakdownDays"
-msgstr "Indisponibilité Systeme"
+msgstr "indisponibilitéSystème"
 
 #. tpl/productivity_report.html
 msgid "prodDays"
@@ -459,7 +473,7 @@ msgstr "Les fiches réouvertes ne sont pas comptabilisées"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "If < 0 then ahead on planning."
-msgstr "Si négatif, avance sur le planning."
+msgstr "Si négatif, en avance sur la planification."
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -513,7 +527,7 @@ msgstr "Manager"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks Mgr"
-msgstr "Tâches Mgr"
+msgstr "Gest. tâches"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -534,7 +548,7 @@ msgstr "Dérive"
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:291 tools.php:1491
 msgid "MgrEffortEstim"
-msgstr "Charge Mgr"
+msgstr "ChargeMgrEstim"
 
 #. tpl/productivity_report.html
 msgid "No resolved tasks..."
@@ -842,7 +856,7 @@ msgstr "Sélectionnez une équipe dans la liste déroulante en haut à droite de
 #. plugins/UserTeamList/UserTeamList_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Team"
-msgstr "Equipe"
+msgstr "Équipe"
 
 #. tpl/holidays_report.html
 msgid "Year"
@@ -1093,7 +1107,7 @@ msgstr "Vous devez être Manager pour accéder à cette page."
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "Edit"
-msgstr "Editer"
+msgstr "Modifier"
 
 #. tpl/servicecontract_info.html
 msgid "Charges"
@@ -1217,7 +1231,7 @@ msgstr "Pas de Totaux disponibles."
 #. tpl/command_edit.html
 #. tpl/command_info.html
 msgid "State"
-msgstr "Etat"
+msgstr "État"
 
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
@@ -1242,7 +1256,7 @@ msgstr "Version"
 #. tpl/team_activity_report.html
 #. tpl/command_info.html
 msgid "Reporter"
-msgstr "Emetteur"
+msgstr "Émetteur"
 
 #. tpl/servicecontract_info.html
 #. tpl/edit_team.html
@@ -1389,7 +1403,7 @@ msgstr "Au"
 #. plugins/ManagementCosts/ManagementCosts.html
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "End Date (included)"
-msgstr "Date de fin (inclue)"
+msgstr "Date de fin (incluse)"
 
 #. tpl/form/selectFiltersDialogbox.html
 #. tpl/time_tracking.html
@@ -1683,7 +1697,7 @@ msgstr "Devise de référence"
 
 #. tpl/edit_team.html
 msgid "TODO: describe how and where it is used in CodevTT"
-msgstr ""
+msgstr "À faire : décrire comment et où c’est utilisé dans CodevTT"
 
 #. tpl/edit_team.html
 msgid "User Daily Costs"
@@ -1723,7 +1737,7 @@ msgstr "Champs de l'infobulle"
 
 #. tpl/edit_team.html
 msgid "No custom IssueTooltips defined for your projects."
-msgstr "Aucune infobulle customisée n'est définie pour les projets."
+msgstr "Aucune infobulle personnalisée de problèmes n’est définie pour vos projets."
 
 #. tpl/edit_team.html
 #. tpl/menu/global_menu.html
@@ -1852,7 +1866,7 @@ msgstr "Retirer ce projet de l'équipe ?"
 
 #. tpl/edit_team.html
 msgid "Remove IssueTooltip customisation for project"
-msgstr "Supprimer la personnamisation des Infobulles pour le projet"
+msgstr "Supprimer la personnalisation des infobulles d'erreur pour le projet"
 
 #. tpl/edit_team.html
 msgid "This task will no longer be identified as an 'OnDuty' task."
@@ -1886,7 +1900,7 @@ msgstr "Date Fin"
 
 #. tpl/servicecontract_edit.html
 msgid "Service contract name"
-msgstr "Nom du Contrat de Service"
+msgstr "Nom du contrat de service"
 
 #. tpl/servicecontract_edit.html
 msgid "Delete ServiceContract"
@@ -2041,7 +2055,7 @@ msgstr "Suivi d'activité"
 
 #. tpl/issue_info.html
 msgid "Update timetracking"
-msgstr "Mise à jour des temps"
+msgstr "Mise à jour du consommé"
 
 #. tpl/issue_info.html
 msgid "Task Info"
@@ -2106,7 +2120,7 @@ msgstr "Afficher les notes Mantis"
 
 #. tpl/issue_info.html
 msgid "Click refresh button to display..."
-msgstr "Clickez le bouton de mise à jour pour afficher les notes..."
+msgstr "Cliquez le bouton de mise à jour pour afficher..."
 
 #. tpl/issue_info.html
 #. tpl/time_tracking.html
@@ -2125,7 +2139,7 @@ msgstr "Première date d'imputation"
 
 #. tpl/issue_info.html
 msgid "Latest Timetrack date"
-msgstr "Dernière Date d'imputation"
+msgstr "Dernière date de consommé"
 
 #. tpl/issue_info.html
 msgid "WARNING: Prior timetracks could not be displayed !"
@@ -2245,7 +2259,7 @@ msgstr "Export"
 #. tpl/scheduler.html
 #. tpl/menu/global_menu.html
 msgid "Planning"
-msgstr "Planning"
+msgstr "Planification"
 
 #. tpl/scheduler.html
 msgid "Assignment"
@@ -2311,7 +2325,7 @@ msgstr "Enregistrer"
 
 #. tpl/scheduler.html
 msgid "Scheduling method"
-msgstr "Méthode de planifiation"
+msgstr "Méthode de planification"
 
 #. tpl/scheduler.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
@@ -2340,11 +2354,11 @@ msgstr "Enregistrer les options"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support included"
-msgstr "Support inclus"
+msgstr "Prise en charge incluse"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support NOT included"
-msgstr "Support NON inclus"
+msgstr "Prise en charge NON incluse"
 
 #. tpl/ajax/weekTaskDetails.html
 msgid "update backlog"
@@ -2441,7 +2455,7 @@ msgstr "Nbre de jours de dépassement sur les tâches résolues dans la période
 
 #. tpl/statistics.html
 msgid "No Support"
-msgstr "Sans Support"
+msgstr "Sans soutien"
 
 #. tpl/statistics.html
 msgid "BI"
@@ -2520,7 +2534,7 @@ msgstr "Les champs suivants doivent être renseignés"
 
 #. tpl/export_odt.html
 msgid "Reporters"
-msgstr "Emetteurs"
+msgstr "Émetteurs"
 
 #. tpl/export_odt.html
 msgid "Handlers"
@@ -2528,7 +2542,7 @@ msgstr "Assigné à"
 
 #. tpl/export_odt.html
 msgid "ODT Template"
-msgstr "Template ODT"
+msgstr "Modèle ODT"
 
 #. tpl/export_odt.html
 #. tpl/create_team.html
@@ -2541,7 +2555,7 @@ msgstr "errorThrown"
 
 #. tpl/export_odt.html
 msgid "Reported by"
-msgstr "Emis par"
+msgstr "Émis par"
 
 #. tpl/export_odt.html
 msgid "Download"
@@ -2554,7 +2568,7 @@ msgstr "ERREUR"
 
 #. tpl/time_tracking.html
 msgid "Query FAILED"
-msgstr "ECHEC de requête"
+msgstr "ÉCHEC de la requête"
 
 #. tpl/time_tracking.html
 msgid "Reduce the tasks selection by setting some filters"
@@ -2603,7 +2617,7 @@ msgstr "Note d'imputation"
 #. tpl/time_tracking.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
 msgid "Edit timetrack"
-msgstr "Editer l'imputation"
+msgstr "Modifier le consommé"
 
 #. tpl/time_tracking.html
 msgid "Future timetracks"
@@ -2643,7 +2657,7 @@ msgstr "réduire l'échelle"
 
 #. tpl/planning_report.html
 msgid "Planning Options"
-msgstr "Options du planning"
+msgstr "Options de planification"
 
 #. tpl/planning_report.html
 #. tpl/modal/consistency_check.html
@@ -2800,7 +2814,7 @@ msgstr "Nom de l'équipe"
 
 #. tpl/create_team.html
 msgid "Team Administrator"
-msgstr "Administrateur Equipe"
+msgstr "Administrateur d’équipe"
 
 #. tpl/create_team.html
 msgid "SideTasks Project"
@@ -2808,11 +2822,11 @@ msgstr "Projets TachesAnnexes"
 
 #. tpl/create_team.html
 msgid "Add common ExternalTasks Project"
-msgstr "Ajouter le projet de taches externes commun"
+msgstr "Ajouter un projet commun de TâchesExternes"
 
 #. tpl/create_team.html
 msgid "Create specific SideTask Project"
-msgstr "Créer un projet de TachesAnnexes Spécifique"
+msgstr "Créer un projet de TâchesAnnexes spécifique"
 
 #. tpl/create_team.html
 msgid "WARNING: Disabling SideTasks project creation is generaly NOT a good idea,so don't do it unless you know exactly what you are doing."
@@ -2846,7 +2860,7 @@ msgstr "Capitalisation"
 
 #. tpl/create_team.html
 msgid "Support, Doc, Training, Wiki, ..."
-msgstr "Support, Doc, Formation, Wiki, ..."
+msgstr "Soutien, Documentation, Formation, Wiki..."
 
 #. tpl/create_team.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -2913,15 +2927,15 @@ msgstr "Créer"
 
 #. tpl/plugin_manager.html
 msgid "Check for new plugins in 'plugins' directory."
-msgstr "Recherche de plugins dans le dossier 'plugins'"
+msgstr "Recherche de nouveaux greffons dans le dossier 'plugins'"
 
 #. tpl/plugin_manager.html
 msgid "Discover new plugins"
-msgstr "Recherche de nouveaux plugins"
+msgstr "Recherche de nouveaux greffons"
 
 #. tpl/plugin_manager.html
 msgid "Plugin"
-msgstr "Plugin"
+msgstr "Greffon"
 
 #. tpl/plugin_manager.html
 msgid "Domain(s)"
@@ -2929,11 +2943,11 @@ msgstr "Domaine(s)"
 
 #. tpl/plugin_manager.html
 msgid "Enable Plugin"
-msgstr "Activer le plugin"
+msgstr "Activer le greffon"
 
 #. tpl/plugin_manager.html
 msgid "Disable Plugin"
-msgstr "Désactiver le plugin"
+msgstr "Désactiver le greffon"
 
 #. tpl/command_edit.html
 msgid "New command"
@@ -3099,7 +3113,7 @@ msgstr "Accueil"
 
 #. tpl/menu/global_menu.html
 msgid "TimeTracking & team activity"
-msgstr "Saisie des CRA & Activité Equipe"
+msgstr "Échéancier et activité de l’équipe"
 
 #. tpl/menu/global_menu.html
 msgid "Activity"
@@ -3119,15 +3133,15 @@ msgstr "Absences"
 
 #. tpl/menu/global_menu.html
 msgid "Check DeadLines"
-msgstr "Respect des DeadLines"
+msgstr "Vérifier les dates d’échéance"
 
 #. tpl/menu/global_menu.html
 msgid "Workload planning"
-msgstr "Planning des charges"
+msgstr "Planification des charges"
 
 #. tpl/menu/global_menu.html
 msgid "Timeline scheduler"
-msgstr "Planning calendaire"
+msgstr "Planification calendaire"
 
 #. tpl/menu/global_menu.html
 #. tpl/gantt.html
@@ -3149,11 +3163,11 @@ msgstr "Informations sur un projet"
 
 #. tpl/menu/global_menu.html
 msgid "Team Statistics"
-msgstr "Statistiques Equipe"
+msgstr "Statistiques de l’équipe"
 
 #. tpl/menu/global_menu.html
 msgid "User Statistics"
-msgstr "Statistiques Utilisateur"
+msgstr "Statistiques de l’utilisateur"
 
 #. tpl/menu/global_menu.html
 msgid "History"
@@ -3173,7 +3187,7 @@ msgstr "Rapports Mantis"
 
 #. tpl/menu/global_menu.html
 msgid "Check"
-msgstr "Check"
+msgstr "Vérification"
 
 #. tpl/menu/global_menu.html
 msgid "Import / Export"
@@ -3198,7 +3212,7 @@ msgstr "Documentation"
 
 #. tpl/menu/global_menu.html
 msgid "About CodevTT"
-msgstr "A propos de CodevTT"
+msgstr "À propos de CodevTT"
 
 #. tpl/menu/global_menu.html
 msgid "CodevTT Administration"
@@ -3214,7 +3228,7 @@ msgstr "Créer équipe"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Team"
-msgstr "Editer équipe"
+msgstr "Modifier l’équipe"
 
 #. tpl/menu/global_menu.html
 msgid "Tools & Statistics"
@@ -3226,7 +3240,7 @@ msgstr "Editer Postes"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Holidays"
-msgstr "Editer Absences"
+msgstr "Modifier les congés"
 
 #. tpl/menu/global_menu.html
 msgid "Prepare Projects"
@@ -3238,7 +3252,7 @@ msgstr "Cloner un Projet"
 
 #. tpl/menu/global_menu.html
 msgid "Plugin Manager"
-msgstr "Gestionnaire de plugin"
+msgstr "Gestionnaire de greffons"
 
 #. tpl/menu/global_menu.html
 msgid "Logs"
@@ -3281,7 +3295,7 @@ msgstr "Il est FORTEMENT recommandé de sauvegarder la BDD Mantis avant de conti
 
 #. tpl/uninstall.html
 msgid "Backup data"
-msgstr "Sauver les données"
+msgstr "Sauvegarder les données"
 
 #. tpl/uninstall.html
 msgid "Backup file will be saved in CodevTT reports directory"
@@ -3313,7 +3327,7 @@ msgstr "TODO"
 
 #. tpl/uninstall.html
 msgid "Failed"
-msgstr "Echec"
+msgstr "Échec"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT customFields:"
@@ -3329,7 +3343,7 @@ msgstr "Suppression des fichiers de configuration de CodevTT :"
 
 #. tpl/uninstall.html
 msgid "Remove Mantis plugin:"
-msgstr "Enlever les plugins Mantis:"
+msgstr "Supprimer le greffon Mantis :"
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
@@ -3351,7 +3365,7 @@ msgstr "Ouvrir un sélecteur de couleur dans un nouvel onglet"
 
 #. tpl/edit_jobs.html
 msgid "delete Job"
-msgstr "effacer ce Poste"
+msgstr "supprimer ce poste"
 
 #. tpl/edit_jobs.html
 msgid "multiple selection"
@@ -3383,7 +3397,7 @@ msgstr "Champs manquants :"
 
 #. tpl/workflow.html
 msgid "Are you sure you want to change"
-msgstr "Etes-vous sûr de vouloir changer la configuration de"
+msgstr "Êtes-vous sûr de vouloir changer"
 
 #. tpl/workflow.html
 msgid "settings ?"
@@ -3419,7 +3433,7 @@ msgstr "Options"
 
 #. tpl/workflow.html
 msgid "No workflow transitions defined, using default configuration."
-msgstr "Aucun cycle de vie n'est défini, utilisation de la configuration par défaut."
+msgstr "Aucune transition du flux de travail n’est définie, utilisation de la configuration par défaut."
 
 #. tpl/workflow.html
 msgid "Configuration Option"
@@ -3451,7 +3465,7 @@ msgstr "Supprimer définitivement cette date ?"
 
 #. tpl/edit_holidays.html
 msgid "delete Holiday"
-msgstr "effacer cette date"
+msgstr "supprimer ce congé"
 
 #. tpl/command_info.html
 msgid "Set command filters"
@@ -3561,11 +3575,11 @@ msgstr "Ajouter une note de CRA"
 
 #. tpl/modal/edit_issueNote.html
 msgid "Edit timesheet note"
-msgstr "Editer la note"
+msgstr "Modifier la note"
 
 #. tpl/modal/edit_issueNote.html
 msgid "Delete timesheet note for task "
-msgstr "Effacer la note de la tâche "
+msgstr "Supprimer la note tableur de la tâche "
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Current backlog"
@@ -3662,7 +3676,7 @@ msgstr "Contrat de Service"
 
 #. tpl/user_info.html
 msgid "User info"
-msgstr "Info Utilisateur"
+msgstr "Information sur l’utilisateur"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
@@ -3672,7 +3686,7 @@ msgstr "Pas de tâche avec RAF"
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:69
 msgid "Backlog per User"
-msgstr "RAF par utilisateur"
+msgstr "Arriéré des tâches par utilisateur"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "For each user, return the sum of the backlog of its assigned tasks"
@@ -3951,7 +3965,7 @@ msgstr "Il est recommandé d'encoder en <strong>UTF-8</strong> mais ASCII et ISO
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Columns"
-msgstr "Colonne"
+msgstr "Colonnes"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "the file must contain 7 columns, the 1st line contains the column names."
@@ -4086,18 +4100,18 @@ msgstr "Dérive Mgr"
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 msgid "Task ExtRef"
-msgstr "RefExt Tâche"
+msgstr "RefExt de la tâche"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 msgid "Timetrack filter"
-msgstr "Filtre d'imputations"
+msgstr "Filtre d’horodatage"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 msgid "Only team members"
-msgstr "Membres de l'équipe uniquement"
+msgstr "Membres de l’équipe uniquement"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
@@ -4117,7 +4131,7 @@ msgstr "Liste des imputations"
 
 #. plugins/TimetrackList/TimetrackList.html
 msgid "Update timetrack"
-msgstr "Maj des imputations"
+msgstr "Màj du consommé"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
 msgid "Budget history"
@@ -4348,7 +4362,7 @@ msgstr "Charge par catégories projet"
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send password by mail"
-msgstr "Envoi du mot de passe par email"
+msgstr "Envoi du mot de passe par courriel"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4629,12 +4643,8 @@ msgid "Load per User"
 msgstr "Charge par utilisateur"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"Afficher les pertes: tâches annexes de catégorie 'Incident' et 'Inactivité' <br>\n"
-"         (si désactivé, ce sera inclu dans le 'consommé')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "Afficher les pertes: tâches annexes de catégorie 'Incident' et 'Inactivité' <br>\n         (si désactivé, ce sera inclu dans le 'consommé')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4650,12 +4660,8 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "Consommé sur les projets et tâches annexes pour les tâches sélectionnées"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"Tâches annexes 'Incident' et 'Inactivité' faisant partie de la sélection.<br>\n"
-"         (Si l'option 'Pertes' est désactivée, ce sera inclu dans le 'consommé')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "Tâches annexes 'Incident' et 'Inactivité' faisant partie de la sélection.<br>\n         (Si l'option 'Pertes' est désactivée, ce sera inclu dans le 'consommé')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -4816,7 +4822,7 @@ msgstr "N'afficher que les tâches ayant du consommé sur la période"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "The time spent on the task during the period (which can be less than the total time spent since the beginning of the task)"
-msgstr "Temps consommé sur la tâche depuis le début de la période (possiblement moins que le consommé depuis le début de la tâche)"
+msgstr "Temps consommé sur la tâche pendant la période (possiblement moins que le temps consommé depuis le début de la tâche)"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
@@ -4880,7 +4886,7 @@ msgstr "La tâcje destinataire doit être différente de la tâche d'origine"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Origin task"
-msgstr "tâche source"
+msgstr "Tâche d’origine"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Move selected timetracks"
@@ -4896,7 +4902,7 @@ msgstr "ATTENTION: pour déplacer les imputations, la date de création de la t�
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Timetracks moved successfully !"
-msgstr "Imputations déplacées avec succès !"
+msgstr "Imputations déplacées avec succès !"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_cfg.html
 msgid "Move issue timetracks"
@@ -4920,7 +4926,7 @@ msgstr "La suppression de l'équipe a échouée"
 
 #: admin/edit_team.php:95
 msgid "Couldn't update the team leader"
-msgstr "La mise à jour du team leader a échouée"
+msgstr "La mise à jour du chef de l'équipe a échouée"
 
 #: admin/edit_team.php:106
 msgid "Couldn't update the creation date"
@@ -5128,7 +5134,7 @@ msgstr "La charge initiale doit être renseignée"
 
 #: classes/consistency_check2.class.php:203
 msgid "There should be no timetracks on \"new\" issues "
-msgstr "Il ne doit pas y avoir d'imputations sur des tâches dont le status est 'déclaré'"
+msgstr "Il ne doit pas y avoir de consommé sur des tâches dont le statut est 'déclaré'"
 
 #: classes/consistency_check2.class.php:204
 msgid "Issues should be referenced in a Command"
@@ -5152,7 +5158,7 @@ msgstr "Les tâches doivent être assignées"
 
 #: classes/consistency_check2.class.php:209
 msgid "Check timetracks on removed issues (not needed if Mantis plugin is enabled)"
-msgstr "Notifier les imputations sur des fiches mantis inexistantes (pas nécessaire si plugin Mantis activé)"
+msgstr "Vérifier le consommé sur des fiches mantis retirées (pas nécessaire si le greffon Mantis est activé)"
 
 #: classes/consistency_check2.class.php:314
 msgid "Backlog should be 0 (not "
@@ -5208,7 +5214,7 @@ msgstr "Aucun cycle de vie (workflow) par défaut n'est défini, vérifiez le fi
 
 #: classes/command.class.php:59
 msgid "to be sent"
-msgstr "A émettre"
+msgstr "À émettre"
 
 #: classes/command.class.php:60
 msgid "Sent"
@@ -5216,7 +5222,7 @@ msgstr "Emis"
 
 #: classes/command.class.php:61
 msgid "to be validated"
-msgstr "A valider"
+msgstr "À valider"
 
 #: classes/command.class.php:62
 msgid "validated"
@@ -5232,7 +5238,7 @@ msgstr "clôturé"
 
 #: classes/command.class.php:65
 msgid "bill must be sent"
-msgstr "Facture à émettre"
+msgstr "facture à émettre"
 
 #: classes/command.class.php:66
 msgid "bill sent"
@@ -5244,11 +5250,11 @@ msgstr "Facturé"
 
 #: filters/IssueIdFilter.php:51
 msgid "Sort issues per ID"
-msgstr "Trier les tâches par ID"
+msgstr "Trier les tâches par identifiant"
 
 #: filters/IssueIdFilter.php:59
 msgid "Issue ID"
-msgstr "ID Tâche"
+msgstr "Identifiant de l’anomalie"
 
 #: filters/IssuePublicPrivateFilter.php:48
 msgid "Sort issues: public/private"
@@ -5280,7 +5286,7 @@ msgstr "Trier les tâches selon le champ personnalisé: CodevTT_Type"
 
 #: filters/IssueCodevTypeFilter.php:63
 msgid "Type (Task/Bug)"
-msgstr "Type (Task/Bug)"
+msgstr "Type de (Task/Bug)"
 
 #: filters/ProjectCategoryFilter.php:49
 msgid "Sort issues per project categories"
@@ -5399,7 +5405,7 @@ msgstr "Postes par défaut"
 
 #: install/install_step3.php:630
 msgid "CodevTT support management"
-msgstr "gestion du support"
+msgstr "gestion de la prise en charge"
 
 #: install/install_step3.php:641
 msgid "Specific to SideTasks"
@@ -5497,7 +5503,7 @@ msgstr "Etape manuelle"
 
 #: install/install_step4.php:48
 msgid "Check Mantis Plugins"
-msgstr "Vérification des plugiciels Mantis"
+msgstr "Vérification des greffons Mantis"
 
 #: install/install_step4.php:50
 msgid "Login to Mantis as 'Administrator'."
@@ -5505,11 +5511,11 @@ msgstr "Identifiez vous comme 'Administrator' dans Mantis"
 
 #: install/install_step4.php:51
 msgid "manage plugins"
-msgstr "Gérer les plugiciels"
+msgstr "Gérer les greffons"
 
 #: install/install_step4.php:52
 msgid "Check that the <b>CodevTT</b> plugin is installed and activated."
-msgstr "Vérifiez que le plugin <b>CodevTT</b> est installé et activé"
+msgstr "Vérifiez que le greffon <b>CodevTT</b> est installé et activé"
 
 #. echo '<br>';
 #: install/install_step4.php:58
@@ -5564,7 +5570,7 @@ msgstr "Lancez ce script: "
 
 #: install/install_step1.php:25
 msgid "Install - Step 1"
-msgstr "Installation - Etape 1"
+msgstr "Installation - Étape 1"
 
 #: install/install_step1.php:217
 msgid "Mantis Database Info"
@@ -5777,7 +5783,7 @@ msgstr "aujourd'hui"
 #. light grey
 #: timetracking/holidays_report.php:206
 msgid "User not in team"
-msgstr "L'utilisateur ne fait pas partie de l'équipe"
+msgstr "L’utilisateur ne fait pas partie de l'équipe"
 
 #: timetracking/holidays_report.php:244
 msgid "Other team"
@@ -5791,7 +5797,7 @@ msgstr "jours sont incomplets ou non définis"
 #. forbid adding timetrack, return error
 #: timetracking/time_tracking.php:140
 msgid "Timetrack not added: Timetrack note is mandatory"
-msgstr "Imputation non créée: la note doit être spécifié"
+msgstr "Consommé non créé : la note doit être spécifiée"
 
 #: timetracking/time_tracking.php:146 timetracking/time_tracking.php:151
 msgid "Timetrack not added: Job is not specified"
@@ -5847,7 +5853,7 @@ msgstr "Grouper les tâches en ajoutant des filtres"
 
 #: plugins/TimetrackList/TimetrackList.class.php:84
 msgid "List and edit timetracks"
-msgstr "Lister et éditer les imputations"
+msgstr "Lister et modifier le consommé"
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:63
 msgid "Budget drift history"
@@ -5888,7 +5894,7 @@ msgstr "Tout le monde"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"
-msgstr "Nbre de jours-hommes disponibles sur la période (taches annexes et externes exclues)"
+msgstr "Nombre de jours-hommes disponibles sur la période (taches annexes et externes exclues)"
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:73
 msgid "Check all the timetracks of the period and return their repartition per project categories"
@@ -5972,7 +5978,7 @@ msgstr "Aucun coût journalier moyen défini pour l'équipe"
 #: plugins/CostsIndicator/CostsIndicator.class.php:194
 #: plugins/ManagementCosts/ManagementCosts.class.php:175
 msgid "Sorry, only managers can access this plugin"
-msgstr "Vous devez être manager pour accéder à ce plugin."
+msgstr "Vous devez être gestionnaire pour accéder à ce greffon."
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:283
 msgid "Sidetasks"
@@ -5980,7 +5986,7 @@ msgstr "TachesAnnexes"
 
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:65
 msgid "A simple HelloWorld plugin"
-msgstr "un plugin exemple pour développeurs"
+msgstr "Un simple greffon de démonstration"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
 msgid " For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
@@ -6028,7 +6034,7 @@ msgstr "RAF (jours)"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:85
 msgid "List the active tasks on a given period"
-msgstr "Affiche les tâches actives sur la période"
+msgstr "Affiche les tâches actives sur une période donnée"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:87
 msgid "Tasks having received timetracks during the period"
@@ -6141,7 +6147,7 @@ msgstr "Par priorté des tâches (standard)"
 
 #: smarty_tools_ajax.php:35
 msgid "All projects"
-msgstr "Tous les Projets"
+msgstr "Tous les projets"
 
 #: smarty_tools.php:126
 msgid "W"
@@ -6151,935 +6157,3 @@ msgstr "S"
 msgid "Delivery Date"
 msgstr "Date Livraison"
 
-#~ msgid "Monthly report"
-#~ msgstr "Rapport Mensuel"
-
-#~ msgid "Issues form Team projects, including issues assigned to other teams"
-#~ msgstr "Projets de l'équipe, y compris les tâches assignées à des membres d'autres équipes"
-
-#~ msgid "Export Managed Issues"
-#~ msgstr "Export Fiches Mantis en cours"
-
-#~ msgid "Weekly report"
-#~ msgstr "Rapport Hebdo"
-
-#~ msgid "Import Issues"
-#~ msgstr "Import Fiches"
-
-#~ msgid "Export Weekly Report"
-#~ msgstr "Export Rapport Hebdo"
-
-#~ msgid "Export Monthly Report"
-#~ msgstr "Export Rapport Mensuel"
-
-#~ msgid "Issue Type"
-#~ msgstr "Par Type"
-
-#~ msgid "Export Week"
-#~ msgstr "Export Semaine"
-
-#~ msgid "Member Activity"
-#~ msgstr "Activité équipe"
-
-#~ msgid "m_id"
-#~ msgstr "Tâche Mantis"
-
-#~ msgid "Product Version"
-#~ msgstr "Version Produit"
-
-#~ msgid "Resolution"
-#~ msgstr "Resolution"
-
-#~ msgid "Delivery Sheet"
-#~ msgstr "Fiche De Livraison"
-
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgid "Detailed Charges"
-#~ msgstr "Charges détaillées"
-
-#~ msgid "CodevTT_Additional Effort"
-#~ msgstr "CodevTT_Charge Additionnelle"
-
-#~ msgid "AddEffortEstim"
-#~ msgstr "Charge Additionnelle"
-
-#~ msgid "Provisions successfully updated."
-#~ msgstr "Les provisions ont été mises à jour avec succès."
-
-#~ msgid "delete Provision"
-#~ msgstr "Supprimer Provision"
-
-#~ msgid "Import provisions CSV"
-#~ msgstr "Importer provisions CSV"
-
-#~ msgid "Delete Provision"
-#~ msgstr "Supprimer rovision"
-
-#~ msgid "Member"
-#~ msgstr "Membre"
-
-#~ msgid "Departure-Date"
-#~ msgstr "Date de départ"
-
-#~ msgid "set Departure Date"
-#~ msgstr "maj date de départ"
-
-#~ msgid "Nb of submitted tasks EXCEPT SideTasks"
-#~ msgstr "Nbre de fiches créées SAUF TachesAnnexes"
-
-#~ msgid "Nb of resolved tasks EXCEPT SideTasks and reopened tasks"
-#~ msgstr "Nbre de fiches résolues SAUF TachesAnnexes et ré-ouvertes"
-
-#~ msgid "Nb submissions"
-#~ msgstr "Nb ouvertes"
-
-#~ msgid "Nb Resolved"
-#~ msgstr "Nb résolues"
-
-#~ msgid "Submitted / Resolved Issues (ExtRefOnly)"
-#~ msgstr "Tâches ouvertes / résolues (ExtRefOnly)"
-
-#~ msgid "Couldn't delete the member of the team"
-#~ msgstr "Le retrait de l'utilisateur à échoué"
-
-#~ msgid "Open task list in Mantis"
-#~ msgstr "Afficher les tâches dans Mantis"
-
-#~ msgid "Check that the <b>FilterBugList</b> plugin is installed and activated"
-#~ msgstr "Vérifiez que le plugin <b>FilterBugList</b> est installé et activé"
-
-#~ msgid "Blog wall"
-#~ msgstr "Messages"
-
-#~ msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
-#~ msgstr "BI non renseigné: il doit être égal à temps(Analyse + Dev + Tests)"
-
-#~ msgid "Backlog not specified: Backlog = Time(BI - Analysis)"
-#~ msgstr "RAF non renseigné: il doit être égal à temps(BI - Analyse)"
-
-#~ msgid "Once analysed, a Task must be assigned to 'FDJ' for validation"
-#~ msgstr "Après l'analyse, une tâche doit être assignée à 'FDJ' pour validation"
-
-#~ msgid "Delivery date not specified: If a delivery sheet is specified, then a Delivery Date is requested."
-#~ msgstr "Date de livraison non renseignée : si une tâche de livraison est spécifiée, alors une date doit y être associée"
-
-#~ msgid "Install Firefox Greasemonkey addon"
-#~ msgstr "Installer le module Firefox Greasemonkey"
-
-#~ msgid "Note: This step is optional"
-#~ msgstr "Note: Cette étape est optionnelle"
-
-#~ msgid "Install addon:"
-#~ msgstr "Installer le module:"
-
-#~ msgid "Load script:"
-#~ msgstr "Charger le script:"
-
-#~ msgid "Select the projects to be managed with CodevTT"
-#~ msgstr "Sélectionnez les projets à gérer avec CodevTT"
-
-#~ msgid "EUR"
-#~ msgstr "EUR"
-
-#~ msgid "Reestimated days * AverageDailyRate"
-#~ msgstr "Réestimé * TJM"
-
-#~ msgid "Drift days * AverageDailyRate"
-#~ msgstr "Dérive * TJM"
-
-#~ msgid "Cmds Budget"
-#~ msgstr "Budget commandes"
-
-#~ msgid "Deleted the following timetrack ?"
-#~ msgstr "Supprimer l'imputation suivante ?"
-
-#~ msgid "(generic) Project Management"
-#~ msgstr "(generique) Gestion de Projet"
-
-#~ msgid "(generic) Meeting"
-#~ msgstr "(generique) Réunion"
-
-#~ msgid "Export Holidays "
-#~ msgstr "Export Vacances "
-
-#~ msgid "Results in"
-#~ msgstr "Résultats dans"
-
-#~ msgid "Gant report"
-#~ msgstr "Diagramme de Gantt"
-
-#~ msgid "Project(s)"
-#~ msgstr "Projet(s)"
-
-#~ msgid "Export Holidays"
-#~ msgstr "Export Congés"
-
-#~ msgid "Backup"
-#~ msgstr "Sauvegarde"
-
-#~ msgid "Remove CodevTT specific projects"
-#~ msgstr "Suppression des Projets internes de CodevTT"
-
-#~ msgid "ERROR: Could not delete files"
-#~ msgstr "ERREUR : Impossible de supprimer les fichiers"
-
-#~ msgid "Mantis access level"
-#~ msgstr "Droits d'accès Mantis"
-
-#~ msgid "Desirez-vous vraiment supprimer definitivement cette date ?"
-#~ msgstr "Désirez-vous vraiment supprimer définitivement cette date ?"
-
-#~ msgid "codevTT role"
-#~ msgstr "Rôle CodevTT"
-
-#~ msgid "Here is your password for CodevTT and Mantis : "
-#~ msgstr "Voici votre mot de passe pour CodevTT et Mantis : "
-
-#~ msgid "Select CSV file"
-#~ msgstr "Sélection du fichier CSV"
-
-#~ msgid "File extension"
-#~ msgstr "Extension du fichier"
-
-#~ msgid "Week Imputations"
-#~ msgstr "Imputations de la semaine"
-
-#~ msgid "Future Imputations"
-#~ msgstr "Imputations futures"
-
-#~ msgid "Hidden"
-#~ msgstr "Caché"
-
-#~ msgid "Blog posts"
-#~ msgstr "Messages"
-
-#~ msgid "Regards \\n\\n"
-#~ msgstr "Cordialement \\n\\n"
-
-#~ msgid "Remove task from Command"
-#~ msgstr "Sortir la tâche de la commande"
-
-#~ msgid "Import Dashboard"
-#~ msgstr "Tableau de bord des imports/exports"
-
-#~ msgid "Remove from Command"
-#~ msgstr "Sortir de la commande"
-
-#~ msgid "Derive PrelEE"
-#~ msgstr "Dérive PrelEE"
-
-#~ msgid "update Backlog"
-#~ msgstr "maj RAF"
-
-#~ msgid "Errors in your Tasks"
-#~ msgstr " Erreur(s) dans vos Tâches"
-
-#~ msgid "Ack"
-#~ msgstr "Vu !"
-
-#~ msgid "Productivity Reports"
-#~ msgstr "Indicateurs de production"
-
-#~ msgid "PHP Doc"
-#~ msgstr "Doc API"
-
-#~ msgid "CoDev Administration"
-#~ msgstr "Administration CodevTT"
-
-#~ msgid "Delete team deactivated on DEMO !"
-#~ msgstr "La suppression de l'équipe est désactivée pour la DEMO !"
-
-#~ msgid "Create a default project workflow in Mantis"
-#~ msgstr "Créez un cycle de vie par defaut dans Mantis"
-
-#~ msgid "The Mantis default workflow is not load in the database unless you change it with the Mantis administration GUI."
-#~ msgstr "Le workflow par défaut n'est pas chargé en BDD tant qu'il n'a pas été modifié via la GUI d'administration de Mantis"
-
-#~ msgid "Select project 'All projects'"
-#~ msgstr "Sélectionnez 'Tous les projets'"
-
-#~ msgid "manage workflow transitions"
-#~ msgstr "Administration Workflow"
-
-#~ msgid "Change the workflow (change one of the 'next status' checkboxes)"
-#~ msgstr "Modifiez le cycle de vie (cochez une des cases de 'Phase suivante')"
-
-#~ msgid "Click the 'Update Configuration' button"
-#~ msgstr "Cliquer sur 'Mettre à jour la configuration"
-
-#~ msgid "Rollback the workflow to the initial state"
-#~ msgstr "Revenez sur les modifications faites (modif dans 'Phase suivante')"
-
-#~ msgid "Click the 'Update Configuration' button again"
-#~ msgstr "Cliquer à nouveau sur 'Mettre à jour la configuration"
-
-#~ msgid "Holidays"
-#~ msgstr "Absences"
-
-#~ msgid "Mantis ID"
-#~ msgstr "Mantis ID"
-
-#~ msgid "Relationships"
-#~ msgstr "Relations"
-
-#~ msgid "status Names as defined in Mantis (status_enum_string)"
-#~ msgstr "nom des états définis dans mantis (status_enum_string)"
-
-#~ msgid "priority Names as defined in Mantis (priority_enum_string)"
-#~ msgstr "nom des priorités définies dans mantis (priority_enum_string)"
-
-#~ msgid "severity Names as defined in Mantis (severity_enum_string)"
-#~ msgstr "nom des criticités comme définies dans mantis (severity_enum_string)"
-
-#~ msgid "resolution Names as defined in Mantis (resolution_enum_string)"
-#~ msgstr "nom des états de résolution définies dans mantis (resolution_enum_string)"
-
-#~ msgid "Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access."
-#~ msgstr "Note: <b>/var/local/codevtt</b> est un bon emplacement, mais il faudra le créer avec les droits en lecture/écriture."
-
-#~ msgid "Prerequisites"
-#~ msgstr "Prérequis"
-
-#~ msgid "Actions"
-#~ msgstr "Actions"
-
-#~ msgid "Display tasks in drift"
-#~ msgstr "Tâches dont le consollé dépasse la charge initiale"
-
-#~ msgid "Select the projects to be managed with CoDev Timetracking"
-#~ msgstr "Sélectionnez les projets à gérer avec CodevTT"
-
-#~ msgid "Desirez-vous vraiment supprimer definitivement le poste"
-#~ msgstr "Désirez-vous vraiment supprimer définitivement le poste"
-
-#~ msgid "Les champs suivants ont ete oublies"
-#~ msgstr "Les champs suivants ont ete oubliés"
-
-#~ msgid "Desirez-vous vraiment supprimer definitivement l'association"
-#~ msgstr "Désirez-vous vraiment supprimer définitivement l'association"
-
-#~ msgid "Forecasting"
-#~ msgstr "Prévisionnel"
-
-#~ msgid "Project Info"
-#~ msgstr "Info Projet"
-
-#~ msgid "Study of the existing"
-#~ msgstr "Etude de l'existant"
-
-#~ msgid "Install the CodevTT plugin."
-#~ msgstr "Installer le plugin CodevTT."
-
-#~ msgid "Install the FilterBugList plugin."
-#~ msgstr "Installer le plugin FilterBugList."
-
-#~ msgid "incomplete"
-#~ msgstr "incomplet"
-
-#~ msgid "missing"
-#~ msgstr "manque"
-
-#~ msgid "Short List: "
-#~ msgstr "Liste compacte : "
-
-#~ msgid "Budget-Drift History"
-#~ msgstr "Evolution de la Dérive Budget"
-
-#~ msgid "Reopened Issues"
-#~ msgstr "Tâches réouvertes"
-
-#~ msgid "Internal Bugs Status History"
-#~ msgstr "Evolution des bugs internes"
-
-#~ msgid "Graph showing the number of internal bugs per status."
-#~ msgstr "Graphique indiquant le nombre de bugs internes par statut"
-
-#~ msgid "Internal bugs have the following caracteristics:"
-#~ msgstr "Les bugs internes sont identifiés par:"
-
-#~ msgid "External Reference"
-#~ msgstr "Réf. Externe"
-
-#~ msgid "Show external tasks"
-#~ msgstr "Afficher taches externes"
-
-#~ msgid "Delete this team ?"
-#~ msgstr "effacer cette équipe ?"
-
-#~ msgid "Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes)"
-#~ msgstr "Nombre de jours-homme disponibles sur la période (hors vacances et taches externes)"
-
-#~ msgid "Working days per Job"
-#~ msgstr "Charge par Poste"
-
-#~ msgid "SideTask"
-#~ msgstr "TachesAnnexe"
-
-#~ msgid "Activate the 'CodevTT' Plugin in Mantis"
-#~ msgstr "Activer le plugin Mantis 'CodevTT'"
-
-#~ msgid "Bug validation history"
-#~ msgstr "Taux de refus des bugs internes"
-
-#~ msgid "%Y-%m-%d"
-#~ msgstr "%d-%m-%Y"
-
-#~ msgid "Display calculated backlog as default value in the updateBacklog dialogbox"
-#~ msgstr "Proposer un RAF calculé comme valeur par defaut dans la boite de dialogue de la mise à jour du RAF"
-
-#~ msgid "(logs, reports, ...)"
-#~ msgstr "(logs, rapports, ...)"
-
-#~ msgid "Estimated effort"
-#~ msgstr "Charge estimée"
-
-#~ msgid "FAILED"
-#~ msgstr "ECHEC"
-
-#~ msgid "SUCCESS"
-#~ msgstr "SUCCÈS"
-
-#~ msgid "current PHP version is "
-#~ msgstr "la version actuelle de PHP est "
-
-#~ msgid "Please check your php.ini file (ex: date.timezone = Europe/Paris)"
-#~ msgstr "Vérifiez le fichier php.ini  (ex: date.timezone = Europe/Paris)"
-
-#~ msgid "Does apache user have write access to codevTT directory ?"
-#~ msgstr "L'utilisateur apache a-t-il accès en écriture au répertoire de CodevTT ?"
-
-#~ msgid "Are you sure SELINUX is well configured ?"
-#~ msgstr "Etes vous sûr de la configuration de SELINUX ?"
-
-#~ msgid "Write access to CodevTT directory"
-#~ msgstr "Accès au répertoire CodevTT"
-
-#~ msgid "PHP version"
-#~ msgstr "Version PHP"
-
-#~ msgid "man-day"
-#~ msgstr "jour-homme"
-
-#~ msgid "Jump"
-#~ msgstr "Envoyer"
-
-#~ msgid "Team Description"
-#~ msgstr "Description de l'équipe"
-
-#~ msgid "Switch"
-#~ msgstr "Changer"
-
-#~ msgid "Common Leave task"
-#~ msgstr "Tâche absence commune"
-
-#~ msgid "Team Leader"
-#~ msgstr "Team Leader"
-
-#~ msgid "Leader"
-#~ msgstr "Team Leader"
-
-#~ msgid "Team Activity"
-#~ msgstr "Activité équipe"
-
-#~ msgid "Sorry, there is no real documentation right now, but you can find some articles on "
-#~ msgstr "Il n'y a pas de documentation disponible pour le moment, mais vous trouverez qq articles sur "
-
-#~ msgid "With resolved"
-#~ msgstr "Avec Résolues"
-
-#~ msgid "Reestimated - (MgrEE + Provisions)"
-#~ msgstr "Réestimé - (Charge Mgr + Provisions)"
-
-#~ msgid "MEE + Prov"
-#~ msgstr "Charge Mgr + Prov"
-
-#~ msgid "Task Status"
-#~ msgstr "Statut Tâche"
-
-#~ msgid "Tooltips"
-#~ msgstr "Infobulles"
-
-#~ msgid "Unauthorized"
-#~ msgstr "Non autorisé"
-
-#~ msgid "Logged in as "
-#~ msgstr "Connecté sous "
-
-#~ msgid "Sorry, you do NOT have access to this page"
-#~ msgstr "Désolé, vous n'avez pas accès à cette page."
-
-#~ msgid "Sorry, You are not allowed to see this commandSet"
-#~ msgstr "Désolé, vous n'êtes pas autorisé à voir le détail de cette MacroCommande"
-
-#~ msgid "Tasks need to be assigned."
-#~ msgstr "Tâches doivent etre assignées."
-
-#~ msgid "Team Edition"
-#~ msgstr "Editer l'équipe"
-
-#~ msgid "tasks are not assigned to anybody."
-#~ msgstr "tâches ne sont pas assignées."
-
-#~ msgid "Mantis/CoDevTT administration"
-#~ msgstr "administration Mantis/CodevTT"
-
-#~ msgid "In here you can specify which inactivity tasks are 'OnDuty'"
-#~ msgstr "Spécifiez ici les tâches d'inactivité qui sont des astreintes"
-
-#~ msgid "No OnDuty task defined"
-#~ msgstr "Aucune tâche d'astreinte définie"
-
-#~ msgid "Cette tache ne sera plus consideree comme astreinte."
-#~ msgstr "Cette tâche ne sera plus considerée comme astreinte."
-
-#~ msgid "No previous data"
-#~ msgstr "Aucune donnée"
-
-#~ msgid "The absence SideTasks considered as astreinte"
-#~ msgstr "La tâche d'inactivité utilisée pour les astreintes"
-
-#~ msgid "Overflow day quantity (compared to MgrEffortEstim)"
-#~ msgstr "Nbre de jours de dépassement par à la 'Charge Manager'"
-
-#~ msgid "Overflow day quantity (compared to EffortEstim)"
-#~ msgstr "Nbre de jours de dépassement par à la 'Charge Initiale'"
-
-#~ msgid "Budjet"
-#~ msgstr "Budjet"
-
-#~ msgid "Outlay"
-#~ msgstr "Consommé"
-
-#~ msgid "Elapsed (days)"
-#~ msgstr "Consommé (jours)"
-
-#~ msgid "Budget for Management,Garantie,Risk..."
-#~ msgstr "Budget pour Management,Garantie,Risque..."
-
-#~ msgid "Reporter un bug / Demander un &eacute;volution"
-#~ msgstr "Reporter un bug / Demander une évolution"
-
-#~ msgid "Pour reporter des bug sur CodevTT ou demander des &eacute;volutions merci de vous rendre sur:"
-#~ msgstr "Pour reporter des bug sur CodevTT ou demander des évolutions merci de vous rendre sur :"
-
-#~ msgid "N'oubliez pas de mentionner vos coordon&eacute;es pour tout retour."
-#~ msgstr "N'oubliez pas de mentionner vos coordonées pour tout retour."
-
-#~ msgid "Feedback"
-#~ msgstr "Feedback"
-
-#~ msgid "Missing dates"
-#~ msgstr "Dates manquantes"
-
-#~ msgid "Backlog Mgr"
-#~ msgstr "RAF Mgr"
-
-#~ msgid "Task information"
-#~ msgstr "Informations sur une tâche"
-
-#~ msgid "Weekly activity"
-#~ msgstr "Activité hebdomadaire"
-
-#~ msgid "EffortDeviation -Support"
-#~ msgstr "Dérive -Support"
-
-#~ msgid "EffortDeviation +Support"
-#~ msgstr "Dérive +Support"
-
-#~ msgid "Sys Disp"
-#~ msgstr "Disp Sys"
-
-#~ msgid "Import Export"
-#~ msgstr "Import Export"
-
-#~ msgid "Les champs suivants ont ete oublies:"
-#~ msgstr "Les champs suivants ont ete oubliés:"
-
-#~ msgid "t"
-#~ msgstr "t"
-
-#~ msgid "Date depart"
-#~ msgstr "Date départ"
-
-#~ msgid "Tâche"
-#~ msgstr "Tâche"
-
-#~ msgid "Poste"
-#~ msgstr "Poste"
-
-#~ msgid "Delete Team"
-#~ msgstr "Supprimer l'équipe"
-
-#~ msgid "Could NOT add project to the team"
-#~ msgstr "L'ajout du projet a échouée"
-
-#~ msgid "% to Submitted"
-#~ msgstr "% Nouvelles"
-
-#~ msgid "Compare the number of reopened tasks to the number of new tasks"
-#~ msgstr "Compare le nombre de fiches réouvertes au nombre de fiches créées"
-
-#~ msgid "% to Resolved"
-#~ msgstr "% Résolues"
-
-#~ msgid "Strings file"
-#~ msgstr "Fichier des chaines de caracteres"
-
-#~ msgid "Custom Strings file"
-#~ msgstr "Fichier des chaines de caracteres specifique"
-
-#~ msgid "Path to mantis config file: strings_english.txt"
-#~ msgstr "Emplacement du fichier mantis: strings_english.txt"
-
-#~ msgid "Path to mantis config file: custom_strings_inc.php"
-#~ msgstr "Emplacement du fichier mantis: custom_strings_inc.php"
-
-#~ msgid "Create the Contract to add some commandSets."
-#~ msgstr "Créez le Contrat de Service avant d'y ajouter des MacroCommandes."
-
-#~ msgid "Create the Contract to add some Projects."
-#~ msgstr "Créez le Contrat de Service avant d'y ajouter des Projets."
-
-#~ msgid "Project info"
-#~ msgstr "Info projet"
-
-#~ msgid "Backlog history"
-#~ msgstr "historique RAF"
-
-#~ msgid "BacklogHistoryGraph"
-#~ msgstr "Historique du RAF"
-
-#~ msgid "help"
-#~ msgstr "aide"
-
-#~ msgid "Dates manquantes"
-#~ msgstr "Dates manquantes"
-
-#~ msgid "Tache"
-#~ msgstr "Tâche"
-
-#~ msgid "Duree"
-#~ msgstr "Durée"
-
-#~ msgid "CoDev Login"
-#~ msgstr "Connexion CodevTT"
-
-#~ msgid "Team Weekly activities"
-#~ msgstr "Activité hebdomadaire de l équipe"
-
-#~ msgid "Weekly activities"
-#~ msgstr "Activité hebdo"
-
-#~ msgid "Generate Excel Sheet"
-#~ msgstr "Export fichier Excel"
-
-#~ msgid "Sorry, you need to <a href='../'>login</a> to access this page."
-#~ msgstr "Vous devez vous <a href='../'>identifier</a> pour accéder à cette page."
-
-#~ msgid "bug resolved threshold as defined in Mantis (g_bug_resolved_status_threshold)"
-#~ msgstr "seuil de résolution défini dans mantis (g_bug_resolved_status_threshold)"
-
-#~ msgid "Path for .CSV reports"
-#~ msgstr "Emplacement pour les rapports .CSV"
-
-#~ msgid "path for .CSV reports"
-#~ msgstr "Emplacement des rapports .CSV"
-
-#~ msgid "logs"
-#~ msgstr "logs"
-
-#~ msgid "Clone Project Settings"
-#~ msgstr "Clonner Configuration Projet"
-
-#~ msgid "CodevTT SideTaskProject for team"
-#~ msgstr "CodevTT TachesAnnexes de l'équipe"
-
-#~ msgid "Team Monthly Activity"
-#~ msgstr "Activité mensuelle de l'équipe"
-
-#~ msgid "Percentage of submitted tasks having been reopened in the period"
-#~ msgstr "Pourcentage de fiches réouvertes par rapport au nombre de fiches Reçues"
-
-#~ msgid "OnDuty"
-#~ msgstr "Astreinte"
-
-#~ msgid "1 day"
-#~ msgstr "1 jour"
-
-#~ msgid "Upload File"
-#~ msgstr "Charger le fichier"
-
-#~ msgid "Holidays Report"
-#~ msgstr "Prévision congés"
-
-#~ msgid "Add Holidays"
-#~ msgstr "Ajouter des Absences"
-
-#~ msgid "Desirez-vous vraiment supprimer ce membre de l'equipe ?"
-#~ msgstr "Désirez-vous vraiment supprimer ce membre de l'équipe ?"
-
-#~ msgid "Desirez-vous vraiment supprimer definitivement l'equipe"
-#~ msgstr "Désirez-vous vraiment supprimer définitivement l'équipe"
-
-#~ msgid "CoDev Administration : Team Edition"
-#~ msgstr "Administration CoDev : Edition équipe"
-
-#~ msgid "CoDev Administration : Jobs Edition"
-#~ msgstr "Administration CoDev : Edition Postes"
-
-#~ msgid "CodevTT Administration : Team Creation"
-#~ msgstr "Administration CodevTT : Création équipe"
-
-#~ msgid "(generic) Leave but on duty"
-#~ msgstr "(generique) Absence mais d'astreinte"
-
-#~ msgid "Create and go to Edit"
-#~ msgstr "Creer et éditer"
-
-#~ msgid "CoDev Administration : Prepare Projects"
-#~ msgstr "Administration CoDev : Préparation Projets"
-
-#~ msgid "CoDev Administration : Holidays"
-#~ msgstr "Administration CoDev : Congés"
-
-#~ msgid "(generic) Leave"
-#~ msgstr "(generique) Absence"
-
-#~ msgid "Holidays, Leave, On Duty"
-#~ msgstr "Vacances, Absences, Astreintes"
-
-#~ msgid "(included)"
-#~ msgstr "(inclu)"
-
-#~ msgid "Results in : "
-#~ msgstr "Résultats dans : "
-
-#~ msgid "command id"
-#~ msgstr "num Commande"
-
-#~ msgid "status"
-#~ msgstr "statut"
-
-#~ msgid "--- not assigned ---"
-#~ msgstr "--- non assigné ---"
-
-#~ msgid "Remove Command from this Service ?"
-#~ msgstr "Retirer La commande de cette MacroCommande ?"
-
-#~ msgid "delete Service-Command association"
-#~ msgstr "supprimer l'association Commande-MacroCommande"
-
-#~ msgid "Engagement"
-#~ msgstr "Engagement"
-
-#~ msgid "engagement id"
-#~ msgstr "ID Engagement"
-
-#~ msgid "Remove Engagement"
-#~ msgstr "Enlever Engagement"
-
-#~ msgid "Euro"
-#~ msgstr "Euro"
-
-#~ msgid "Budget Developpement"
-#~ msgstr "Budget Dévelopement"
-
-#~ msgid "Budget Garantie"
-#~ msgstr "Budget Garantie"
-
-#~ msgid "Engagements"
-#~ msgstr "Engagements"
-
-#~ msgid "No Engagement found."
-#~ msgstr "Aucun Engagement."
-
-#~ msgid "Efficiency and System Disponibility"
-#~ msgstr "Taux d'efficacité et Disponibilité système"
-
-#~ msgid " Projects Activity"
-#~ msgstr " Activité Projets"
-
-#~ msgid "Saturday"
-#~ msgstr "Samedi"
-
-#~ msgid "Sunday"
-#~ msgstr "Dimanche"
-
-#~ msgid "ERROR on task "
-#~ msgstr "ERREUR Tâche "
-
-#~ msgid "Welcome"
-#~ msgstr "Bienvenue sur le serveur CoDevTT"
-
-#~ msgid "Please wait while you're redirected..."
-#~ msgstr "Veuillez patienter..."
-
-#~ msgid "log in"
-#~ msgstr "connexion"
-
-#~ msgid "on duty"
-#~ msgstr "Astreinte"
-
-#~ msgid "Cycle flow"
-#~ msgstr "Cycle de vie"
-
-#~ msgid "Mantis Status Transistions"
-#~ msgstr "Aide Mantis"
-
-#~ msgid "FDJ System Allocation"
-#~ msgstr "Plateforme FDJ"
-
-#~ msgid "FDJ Libs"
-#~ msgstr "Librairies FDJ"
-
-#~ msgid "Productivity Rate"
-#~ msgstr "Taux de productivité"
-
-#~ msgid "Ratio between the estimated time and the elapsed time"
-#~ msgstr "Rapport entre le budget initial et le temps consommé sur les fiches"
-
-#~ msgid "Prod Rate MgrEffortEstim"
-#~ msgstr "Taux de prod Charge_Mgr"
-
-#~ msgid "(generic) ExternalTasks"
-#~ msgstr "(generique) Tache externe"
-
-#~ msgid "Developper Estimation"
-#~ msgstr "Charge Estimé par le developpeur (BI + BS)"
-
-#~ msgid "EffortEstim <br/>(BI + BS)"
-#~ msgstr "Charge"
-
-#~ msgid "Derive EE"
-#~ msgstr "Dérive EE"
-
-#~ msgid "PrelEffortEstim"
-#~ msgstr "PrelEffortEstim"
-
-#~ msgid "BEFORE analysis"
-#~ msgstr "AVANT analyse"
-
-#~ msgid "AFTER analysis"
-#~ msgstr "APRES analyse"
-
-#~ msgid "Tools: serialize"
-#~ msgstr "Outils: sérialisation"
-
-#~ msgid "Logged out !"
-#~ msgstr "déconnecté !"
-
-#~ msgid "EffortDeviation - Today opened Tasks"
-#~ msgstr "Glissement Prévisionel en Charge (Fiches En cours à ce jour)"
-
-#~ msgid "Productivity"
-#~ msgstr "Productivité"
-
-#~ msgid "Production Days : SuiviOp Dev"
-#~ msgstr "Jours de Production : SuiviOp Dev"
-
-#~ msgid "days spent on sideTasks (holidays not included, developpers only)"
-#~ msgstr "nombre de jours passés sur les taches annexes (hors congés) par les Dévelopeurs"
-
-#~ msgid "Production Days : SuiviOp Managers"
-#~ msgstr "Jours de Production : SuiviOp Managers"
-
-#~ msgid "days spent on sideTasks (holidays not included, managers only)"
-#~ msgstr "nombre de jours passés sur les taches annexes (hors congés) par les Managers"
-
-#~ msgid "Project Management Detail"
-#~ msgstr "Détail Gestion de Projet"
-
-#~ msgid "tc_id"
-#~ msgstr "Ref Ext."
-
-#~ msgid "CommonSideTaskProject Inactivity tasks"
-#~ msgstr "Taches de la catégorie 'inactivité' du projet SuiviOp commun"
-
-#~ msgid "This category is declared in CommonSideTaskProject"
-#~ msgstr "Cette catégorie est définie dans le projet SuiviOp commun"
-
-#~ msgid "Query failed:"
-#~ msgstr "Query failed:"
-
-#~ msgid "Drift -Support"
-#~ msgstr "Dérive -Support"
-
-#~ msgid "Drift +Support"
-#~ msgstr "Dérive +Support"
-
-#~ msgid "TC issue"
-#~ msgstr "Tâche TC"
-
-#~ msgid "Prod Rate ETA"
-#~ msgstr "Taux de prod ETA"
-
-#~ msgid "TC"
-#~ msgstr "TC"
-
-#~ msgid "Total elapsed"
-#~ msgstr "Total consommé"
-
-#~ msgid "Productivity Rate ETA"
-#~ msgstr "Taux de productivité ETA"
-
-#~ msgid "- If estimation is correct the aimed number should be 1."
-#~ msgstr "- Si l'estimation est bonne ce nbre doit tendre vers 1."
-
-#~ msgid "- A number below 1 means a lesser efficiency."
-#~ msgstr "- Un nbre < 1 signifie un moins bon rendement"
-
-#~ msgid "- Time spent on a task is balanced by a toughness indicator"
-#~ msgstr "- Le temps passé sur une tâche est pondéré par un indicateur de difficulté"
-
-#~ msgid "- Computed on task Resolved/Closed in the given period"
-#~ msgstr "- Le calcul est fait sur les fiches Résolues/Fermées dans la période."
-
-#~ msgid "- Reopened tasks are not taken into account"
-#~ msgstr "- Les fiches réouvertes ne sont pas comptabilisées"
-
-#~ msgid "% Tasks Delivered before the deadLine"
-#~ msgstr "% de Fiches livrées avant la deadLine"
-
-#~ msgid "Add Astreintes"
-#~ msgstr "Ajout Astreinte"
-
-#~ msgid "Astreinte"
-#~ msgstr "Astreinte"
-
-#~ msgid "ETA not set."
-#~ msgstr "ETA non spécifié"
-
-#~ msgid "Support time is not taken into account"
-#~ msgstr "Le temps alloué au 'support' n'est pas comptabilisé"
-
-#~ msgid "With support"
-#~ msgstr "Support inclu"
-
-#~ msgid "By Project"
-#~ msgstr "Par Projet"
-
-#~ msgid "Indicateurs de production"
-#~ msgstr "Indicateurs de production"
-
-#~ msgid "Could not connect to database"
-#~ msgstr "Connexion impossible à la base de données"
-
-#~ msgid "Effort Estim"
-#~ msgstr "Effort Estim"
-
-#~ msgid "Nbre de jours de depassement par rapport au budget initial"
-#~ msgstr "Nbre de jours de dépassement par rapport au budget initial"
-
-#~ msgid "Prod Rate NoSupport ETA"
-#~ msgstr "Taux de prod (sans support) ETA"
-
-#~ msgid "Prod Rate NoSupport"
-#~ msgstr "Taux de prod (sans support)"
-
-#~ msgid "Export Week $weekid Member Activity"
-#~ msgstr "Export Semaine $weekid Activité Eacute;quipe"
-
-#~ msgid "Send"
-#~ msgstr "Envoyer"

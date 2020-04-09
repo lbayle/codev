@@ -9,13 +9,14 @@
 # Author: 아라
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2020-03-09 15:34:11+0000\n"
+"PO-Revision-Date: 2020-04-09 13:58:52+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
+"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -4118,9 +4119,8 @@ msgstr "팀원만"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
 msgid "Display options"
-msgstr "저장 옵션"
+msgstr "표시 옵션"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
@@ -4298,9 +4298,8 @@ msgid "Message wall"
 msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
-#, fuzzy
 msgid "Workforce"
-msgstr "워크플로우"
+msgstr "노동력"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
@@ -4308,14 +4307,12 @@ msgid "Graph"
 msgstr "그래프"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Graph values"
-msgstr "값 보기"
+msgstr "그래프 값"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Range values"
-msgstr "값 보기"
+msgstr "범위 값"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #, fuzzy
@@ -4655,9 +4652,7 @@ msgid "Load per User"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4674,9 +4669,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4701,9 +4694,8 @@ msgid "Remaining to produce at end of period"
 msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#, fuzzy
 msgid "Remaining"
-msgstr "경고"
+msgstr "잔여"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Daily Price"
@@ -4715,7 +4707,7 @@ msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Price"
-msgstr ""
+msgstr "가격"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Period"
@@ -4757,9 +4749,8 @@ msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to e
 msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
-#, fuzzy
 msgid "Include sideTasks"
-msgstr "사이드작업"
+msgstr "사이드작업 포함"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
@@ -4833,9 +4824,8 @@ msgid "Task backlog variation"
 msgstr ""
 
 #. plugins/OngoingTasks/OngoingTasks.html
-#, fuzzy
 msgid "Ongoing tasks"
-msgstr "시간 트래킹"
+msgstr "진행 중인 작업"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "Display only the tasks with activity (timetracks) on the period"
@@ -4848,9 +4838,8 @@ msgstr ""
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
 msgid "Involved users"
-msgstr "할당된 사용자"
+msgstr "참여 중인 사용자"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "List the users having spent time on the task during the period"
@@ -5362,9 +5351,8 @@ msgid "CodevTT_Manager EffortEstim"
 msgstr ""
 
 #: install/install_step3.php:400
-#, fuzzy
 msgid "CodevTT_DailyPrice"
-msgstr "CodevTT 역할"
+msgstr "CodevTT_DailyPrice"
 
 #: install/install_step3.php:406
 msgid "CodevTT_External ID"
@@ -6183,3 +6171,4 @@ msgstr ""
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr ""
+

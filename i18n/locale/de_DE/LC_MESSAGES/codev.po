@@ -6,17 +6,18 @@
 # Author: ThePiscin
 msgid ""
 msgstr ""
+""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2020-03-09 15:34:10+0000\n"
+"PO-Revision-Date: 2020-04-09 13:58:50+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-03-06 04:51:28+0000\n"
+"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -4641,12 +4642,8 @@ msgid "Load per User"
 msgstr "Pro Benutzer laden"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"Zeigt Verlust-Sidetasks: Kategorien „Vorfall“ und „Inaktivität“<br>\n"
-"(falls nicht ausgewählt, werden Sidetasks in „verstrichen“ eingeschlossen)."
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "Zeigt Verlust-Sidetasks: Kategorien „Vorfall“ und „Inaktivität“<br>\n(falls nicht ausgewählt, werden Sidetasks in „verstrichen“ eingeschlossen)."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4662,12 +4659,8 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "Mit den Projekten verbrachte Zeit und sonstige Aufgaben der aktuellen Aufgabenauswahl"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"Sidetasks „Vorfall“ und „Inaktivität“ der aktuellen Auswahl<br>\n"
-"(falls die Option „Verlust“ nicht ausgewählt wurde, wird dies in „verstrichen“ eingeschlossen)."
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "Sidetasks „Vorfall“ und „Inaktivität“ der aktuellen Auswahl<br>\n(falls die Option „Verlust“ nicht ausgewählt wurde, wird dies in „verstrichen“ eingeschlossen)."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -6174,3 +6167,4 @@ msgstr "W"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "Liefertermin"
+
