@@ -156,7 +156,7 @@ class EditTeamController extends Controller {
                   $stproj_id = $team->createSideTaskProject($stprojName);
                   if ($stproj_id > 0) {
                      $stproj = ProjectCache::getInstance()->getProject($stproj_id);
-                     
+
                      // add teamLeader as Mantis manager of the SideTaskProject
                      $access_level = 70; // TODO mantis manager
                      $teamAdminList = $team->getAdminList();
@@ -179,20 +179,20 @@ class EditTeamController extends Controller {
                	  if (count($duration) == 0) {
                	  	  Config::deleteValue(Config::id_durationList, array(0, 0, $displayed_teamid, 0, 0, 0));
                	  } else {
-               	  	  Config::setValue(Config::id_durationList, Tools::doubleImplode(":", ",", $duration), Config::configType_keyValue, NULL, 0, 0, $displayed_teamid); 
+               	  	  Config::setValue(Config::id_durationList, Tools::doubleImplode(":", ",", $duration), Config::configType_keyValue, NULL, 0, 0, $displayed_teamid);
                	  }
                } elseif (isset($_POST["addValue"])){
                	  $duration = TimeTrackingTools::getDurationList($displayed_teamid);
                	  $duration_value = Tools::getSecurePOSTStringValue('addValue');
                	  $duration_display = Tools::getSecurePOSTStringValue('addDisplay');
                	  $duration[$duration_value] = $duration_display;
-               	  Config::setValue(Config::id_durationList, Tools::doubleImplode(":", ",", $duration), Config::configType_keyValue, NULL, 0, 0, $displayed_teamid);          	
+               	  Config::setValue(Config::id_durationList, Tools::doubleImplode(":", ",", $duration), Config::configType_keyValue, NULL, 0, 0, $displayed_teamid);
                } elseif (isset($_POST["updateValue"])) {
                	  $duration = TimeTrackingTools::getDurationList($displayed_teamid);
                	  $duration_value = Tools::getSecurePOSTStringValue('updateValue');
                	  $duration_display = Tools::getSecurePOSTStringValue('updateDisplay');
                	  $duration[$duration_value] = $duration_display;
-               	  Config::setValue(Config::id_durationList, Tools::doubleImplode(":", ",", $duration), Config::configType_keyValue, NULL, 0, 0, $displayed_teamid); 
+               	  Config::setValue(Config::id_durationList, Tools::doubleImplode(":", ",", $duration), Config::configType_keyValue, NULL, 0, 0, $displayed_teamid);
                } elseif (isset($_POST['addedprojectid'])) {
                   $projectid = Tools::getSecurePOSTIntValue('addedprojectid');
                   if (0 != $projectid) {
@@ -228,32 +228,28 @@ class EditTeamController extends Controller {
 
                $smartyUserList = array();
                $smartyAdminCandidatesList = array();
-               $userList = User::getUsers();
+               $userList = User::getUsers(TRUE);
                $teamAdminList = $team->getAdminList();
                //$selectedUserid = $team->getLeaderId();
                foreach ($userList as $id => $name) {
 
-                  $u = UserCache::getInstance()->getUser($id);
-                  $uname = $u->getRealname();
-                  if (empty($uname)) { $uname = $name;}
-
                   // users (team member candidates)
                   $smartyUserList[$id] = array(
                      'id' => $id,
-                     'name' => $uname,
+                     'name' => $name,
                   );
                   // Admin candidates (all except current team admins)
                   if (in_array($id, $teamAdminList)) { continue; }
                   $smartyAdminCandidatesList[$id] = array(
                      'id' => $id,
-                     'name' => $uname,
+                     'name' => $name,
                   );
                }
                $smartyAdminList = array();
                foreach ($teamAdminList as $adminId) {
                   $u = UserCache::getInstance()->getUser($adminId);
                   $uname = $u->getRealname();
-                  if (empty($uname)) { $uname = $name;}
+                  if (empty($uname)) { $uname = $u->getName();}
                   $smartyAdminList[$adminId] = array(
                      'id' => $adminId,
                      'name' => $uname,
@@ -535,7 +531,7 @@ class EditTeamController extends Controller {
          if ($result == NULL) {
          	continue;
          }
-         
+
          $fields = $project->getIssueTooltipFields($teamid);
 
          $formattedFields = array();

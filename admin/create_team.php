@@ -124,15 +124,12 @@ class CreateTeamController extends Controller {
                // 6) --- open EditTeam Page
                header('Location: edit_team.php?teamid='.$teamid);
             } else {
-                              $smartyUserList = array();
-               $userList = User::getUsers();
+               $smartyUserList = array();
+               $userList = User::getUsers(TRUE);
                foreach ($userList as $id => $name) {
-                  $u = UserCache::getInstance()->getUser($id);
-                  $uname = $u->getRealname();
-                  if (empty($uname)) { $uname = $name;}
                   $smartyUserList[$id] = array(
                      'id' => $id,
-                     'name' => $uname,
+                     'name' => $name,
                      'selected' => ($id == $this->session_userid),
                   );
                }

@@ -893,7 +893,7 @@ $extIdCustomField = isset($_POST['extIdCustomField']) ? $_POST['extIdCustomField
 $projectList = getProjectList();
 
 echo "<script type=\"text/javascript\">console.log(\"DEBUG getUsers\");</script>";
-$userList = User::getUsers();
+$userList = User::getUsers(TRUE);
 
 #$checkReportsDirError = NULL;
 $checkReportsDirError = Tools::checkWriteAccess($codevOutputDir);

@@ -1327,23 +1327,32 @@ class User extends Model {
 
    /**
     * Get users
-    * @return string[] : username[id]
+    * @return string[] : username[id] => name
     */
-   public static function getUsers() {
-      if(NULL == self::$users) {
+   public static function getUsers($userRealName=FALSE) {
+      //if(NULL == self::$users) {
          $sql = AdodbWrapper::getInstance();
-         $query = "SELECT id, username FROM {user} ORDER BY username";
+         $query = "SELECT id, username, realname FROM {user} ";
+         if ($userRealName) {
+            $query .= " ORDER BY realname";
+         } else {
+            $query .= " ORDER BY username";
+         }
          try {
-            $result = $sql->sql_query($query, $q_params);
+            $result = $sql->sql_query($query);
          } catch (Exception $e) {
             return NULL;
          }
 
          self::$users = array();
          while ($row = $sql->fetchObject($result)) {
-            self::$users[$row->id] = $row->username;
+            if ($userRealName && !empty($row->realname)) {
+               self::$users[$row->id] = $row->realname;
+            } else {
+               self::$users[$row->id] = $row->username;
+            }
          }
-      }
+      //}
       return self::$users;
    }
 
