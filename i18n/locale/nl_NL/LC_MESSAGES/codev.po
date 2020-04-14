@@ -6,6 +6,7 @@
 # Author: Jeleniccz
 # Author: Mainframe98
 # Author: MrLeopold
+# Author: PonkoSasuke
 # Author: SPQRobin
 # Author: Siebrand
 # Author: Xbaked potatox
@@ -14,7 +15,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2020-04-09 13:58:52+0000\n"
+"PO-Revision-Date: 2020-04-14 03:20:37+0000\n"
 "Language: nl_nl\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4318,7 +4319,7 @@ msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
 msgid "Workforce"
-msgstr ""
+msgstr "Workforce"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
@@ -4742,7 +4743,7 @@ msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Period"
-msgstr ""
+msgstr "Periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Selling price for period"
@@ -4755,13 +4756,13 @@ msgstr "Verstreken tijd in periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining to produce (at end of period)"
-msgstr ""
+msgstr "Nog te produceren (op einde periode)"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:83
 msgid "Selling Price for the Period"
-msgstr ""
+msgstr "Verkoopsprijs gedurende de periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:88
@@ -4774,7 +4775,7 @@ msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "SellingPrice = DailyPrice x Elapsed during period"
-msgstr ""
+msgstr "Verkoopsprijs = Dagprijs x Verstreken gedurende periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to end of period"
@@ -4882,7 +4883,7 @@ msgstr "Toegewezen gebruikers"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "List the users having spent time on the task during the period"
-msgstr ""
+msgstr "Lijst de gebruikers op die tijd gespendeerd hebben op de taak tijdens de periode"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
