@@ -15,7 +15,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2020-04-14 03:20:37+0000\n"
+"PO-Revision-Date: 2020-04-16 15:05:19+0000\n"
 "Language: nl_nl\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4721,7 +4721,7 @@ msgstr "Verstreken tijd in periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Remaining to produce at end of period"
-msgstr ""
+msgstr "Nog te produceren op einde periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #, fuzzy
@@ -4730,7 +4730,7 @@ msgstr "Waarschuwing"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Daily Price"
-msgstr ""
+msgstr "Dagprijs"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #, fuzzy
@@ -4739,7 +4739,7 @@ msgstr "Verstreken tijd in periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Price"
-msgstr ""
+msgstr "Prijs"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Period"
@@ -4747,7 +4747,7 @@ msgstr "Periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Selling price for period"
-msgstr ""
+msgstr "Verkoopsprijs gedurende de periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #, fuzzy
@@ -4767,11 +4767,11 @@ msgstr "Verkoopsprijs gedurende de periode"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:88
 msgid "If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time."
-msgstr ""
+msgstr "Als je dagelijkse diensten verkoopt met een specifieke prijs voor elke taak, zal deze plugin je de prijs van een groep taken geven gedurende een bepaalde periode."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr ""
+msgstr "Voor deze plugin, moet je het MantisBT customField \"CodevTT_DailyPrice\" vastleggen voor elke taak."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "SellingPrice = DailyPrice x Elapsed during period"
@@ -4779,7 +4779,7 @@ msgstr "Verkoopsprijs = Dagprijs x Verstreken gedurende periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to end of period"
-msgstr ""
+msgstr "Overblijvend = MgrEffortEstim - Verstreken sinds het beginnen van de taak tot einde van de periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #, fuzzy
@@ -4868,11 +4868,11 @@ msgstr "Verberg gesloten taken"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "Display only the tasks with activity (timetracks) on the period"
-msgstr ""
+msgstr "Toon enkel de taken die actief waren (timetracks) gedurende de periode"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "The time spent on the task during the period (which can be less than the total time spent since the beginning of the task)"
-msgstr ""
+msgstr "De tijd besteed aan de taak gedurende de periode (dit kan minder zijn dan de totale tijd besteed sinds het beginnen van de taak)"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
@@ -6059,15 +6059,15 @@ msgstr ""
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
 msgid " For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr ""
+msgstr "Voor deze plugin, moet je het MantisBT customField \"CodevTT_DailyPrice\" vastleggen voor elke taak."
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
-msgstr ""
+msgstr "Verkoopsprijs = Dagprijs x Verstreken gedurende periode"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:385
 msgid "WARNING: You need to assign the \"CodevTT_DailyPrice\" customField to the following projects: "
-msgstr ""
+msgstr "WAARSCHUWING: Je moet \"CodevTT_DailyPrice\" customField toewijzen aan de volgende projecten: "
 
 #: plugins/WBSExport/WBSExport.class.php:53
 msgid "WBS Export"
@@ -6103,11 +6103,11 @@ msgstr ""
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:85
 msgid "List the active tasks on a given period"
-msgstr ""
+msgstr "Lijst de actieve taken gedurende een bepaalde periode op"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:87
 msgid "Tasks having received timetracks during the period"
-msgstr ""
+msgstr "Taken hebben timetracks ontvangen gedurende de periode"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:68
 msgid "Display the EffortEstim reliability rate history"
