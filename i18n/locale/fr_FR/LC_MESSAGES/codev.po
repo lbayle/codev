@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2020-04-09 13:58:51+0000\n"
+"PO-Revision-Date: 2020-04-20 14:50:25+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -4690,7 +4690,7 @@ msgstr "Reste à produire"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Daily Price"
-msgstr "Prix journée"
+msgstr "Prix à la journée"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Price on period"
@@ -4725,7 +4725,7 @@ msgstr "Prix de vente pour la période"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:88
 msgid "If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time."
-msgstr "Si vous vendez du service à la journée avec un prix spécifique pour chaque tâche, ce plugin vous donnera le prix d'un lot de tâches sur une période donnée"
+msgstr "Si vous vendez du service à la journée avec un prix spécifique pour chaque tâche, ce greffon vous donnera le prix d'un lot de tâches sur une période donnée."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
@@ -5998,7 +5998,7 @@ msgstr "Prix de vente = PrixJournee x consommé sur la période"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:385
 msgid "WARNING: You need to assign the \"CodevTT_DailyPrice\" customField to the following projects: "
-msgstr "ATTENTION: Il faut assigner le champ personnalisé Mantis \"CodevTT_PrixJournee\" aux projets suivants: "
+msgstr "ATTENTION: vous devez assigner le champ personnalisé «  CodevTT_PrixJournee » aux projets suivants: "
 
 #: plugins/WBSExport/WBSExport.class.php:53
 msgid "WBS Export"

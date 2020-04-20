@@ -16,7 +16,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2020-04-09 13:58:54+0000\n"
+"PO-Revision-Date: 2020-04-20 14:50:29+0000\n"
 "Language: tr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4114,9 +4114,8 @@ msgstr "Ekip üyesi ekle"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
 msgid "Display options"
-msgstr "Seçenekleri kaydet"
+msgstr "Görüntüleme seçenekleri"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
@@ -4295,9 +4294,8 @@ msgid "Message wall"
 msgstr "Mesaj duvarı"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
-#, fuzzy
 msgid "Workforce"
-msgstr "İş akışı"
+msgstr "İş gücü"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
@@ -4305,14 +4303,12 @@ msgid "Graph"
 msgstr "Grafik"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Graph values"
-msgstr "değerleri göster"
+msgstr "Değerleri göster"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Range values"
-msgstr "değerleri göster"
+msgstr "Aralık değerler"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Available Workforce Options"
@@ -4688,9 +4684,8 @@ msgid "Remaining to produce at end of period"
 msgstr "Dönem sonunda üretim için kalanlar"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#, fuzzy
 msgid "Remaining"
-msgstr "Uyarı"
+msgstr "Kaldı"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Daily Price"
@@ -4746,9 +4741,8 @@ msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to e
 msgstr "Remaining = MgrEffortEstim - Görevin başlangıcından dönem sonuna kadar geçen süre"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
-#, fuzzy
 msgid "Include sideTasks"
-msgstr "sideTasks"
+msgstr "sideTasks'ı dahil et"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
@@ -4820,9 +4814,8 @@ msgid "Task backlog variation"
 msgstr "Görev biriktirme listesi varyasyonu"
 
 #. plugins/OngoingTasks/OngoingTasks.html
-#, fuzzy
 msgid "Ongoing tasks"
-msgstr "Kaynak görevi"
+msgstr "Devam eden görevler"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "Display only the tasks with activity (timetracks) on the period"
@@ -4835,14 +4828,12 @@ msgstr "Dönem içinde göreve harcanan süre (görevin başlangıcından bu yan
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
 msgid "Involved users"
-msgstr "Atanan kullanıcılar"
+msgstr "Katılan kullanıcılar"
 
 #. plugins/OngoingTasks/OngoingTasks.html
-#, fuzzy
 msgid "List the users having spent time on the task during the period"
-msgstr "Dönem içinde yeniden açılan görevler"
+msgstr "Dönem boyunca görevde zaman geçirmiş kullanıcıları listeleyin"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -6050,9 +6041,8 @@ msgid "List the active tasks on a given period"
 msgstr "Belirli bir dönemdeki etkin görevleri listele"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:87
-#, fuzzy
 msgid "Tasks having received timetracks during the period"
-msgstr "Dönem içinde yeniden açılan görevler"
+msgstr "Dönem içinde zaman çizelgesi alan görevler"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:68
 msgid "Display the EffortEstim reliability rate history"
