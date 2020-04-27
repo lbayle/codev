@@ -15,7 +15,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2020-04-16 15:05:19+0000\n"
+"PO-Revision-Date: 2020-04-27 14:43:13+0000\n"
 "Language: nl_nl\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2325,7 +2325,6 @@ msgid "Display ExtRef instead of mantis_id"
 msgstr ""
 
 #. tpl/scheduler.html
-#, fuzzy
 msgid "Initial date"
 msgstr "Begindatum"
 

@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2020-04-09 13:58:50+0000\n"
+"PO-Revision-Date: 2020-04-27 14:43:10+0000\n"
 "Language: diq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -268,24 +268,24 @@ msgstr "Erc"
 
 #. tpl/productivity_report.html
 msgid "Available Workload"
-msgstr ""
+msgstr "Gıraniya Kari"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "Efficiency Rate"
-msgstr ""
+msgstr "Nısbiya Mexeli"
 
 #. tpl/productivity_report.html
 msgid "System Availability"
-msgstr ""
+msgstr "Hewliya Sistemi"
 
 #. tpl/productivity_report.html
 msgid "MgrEffortEstim Reliability Rate"
-msgstr ""
+msgstr "MgrEffortEstim Nısbiya İtimadi"
 
 #. tpl/productivity_report.html
 msgid "EffortEstim Reliability Rate"
-msgstr ""
+msgstr "EffortEstim Nısbiya İtimadi"
 
 #. tpl/productivity_report.html
 msgid "Workload Forecasting (holidays & externalTasks not included, developers only)"
@@ -305,7 +305,7 @@ msgstr "TotalProdDays"
 
 #. tpl/productivity_report.html
 msgid "Platform Availability"
-msgstr ""
+msgstr "Hewliya Platformi"
 
 #. tpl/productivity_report.html
 msgid "breakdownDays"
@@ -328,7 +328,7 @@ msgstr ""
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 msgid "(on resolved tasks only)"
-msgstr ""
+msgstr "(teyna agoznaye gıreyan)"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
@@ -414,7 +414,7 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Task list for EffortEstim"
-msgstr ""
+msgstr "Lista wezifeya çê EffortEstim"
 
 #. tpl/productivity_report.html
 msgid "Note: Drift on tasks resolved in the period"
@@ -784,15 +784,15 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "nb resolved"
-msgstr ""
+msgstr "nb agozneya"
 
 #. tpl/productivity_report.html
 msgid "nb reopened"
-msgstr ""
+msgstr "nb agozneyau"
 
 #. tpl/productivity_report.html
 msgid "nb reopened / nb resolved"
-msgstr ""
+msgstr "nb rakerde / nb agozneyau"
 
 #. tpl/productivity_report.html
 msgid "Rate"
@@ -898,7 +898,7 @@ msgstr "Çerğe CSV  kerê"
 
 #. tpl/prepare_project.html
 msgid "Preparing project:"
-msgstr ""
+msgstr "Proceyo beno hazır :"
 
 #. tpl/prepare_project.html
 #. tpl/uninstall.html
@@ -976,7 +976,7 @@ msgstr ""
 #. tpl/team_activity_report.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 msgid "Detailed"
-msgstr ""
+msgstr "Detayın"
 
 #. tpl/project_activity_report.html
 #. tpl/servicecontract_info.html
@@ -1054,11 +1054,11 @@ msgstr "Karber"
 
 #. tpl/project_activity_report.html
 msgid "Total time spent on this issue"
-msgstr ""
+msgstr "Na mewzu de zemano ke biyo xerc"
 
 #. tpl/project_activity_report.html
 msgid "No data available"
-msgstr ""
+msgstr "Data çıniya"
 
 #. tpl/project_activity_report.html
 msgid "Time spent on Projects per users"
@@ -2414,7 +2414,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "% Tasks"
-msgstr ""
+msgstr "% wezifey"
 
 #. tpl/statistics.html
 msgid "Percentage of tasks delivered before the deadLine"
@@ -2427,7 +2427,7 @@ msgstr ""
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "show values"
-msgstr ""
+msgstr "Ercan bımocne"
 
 #. tpl/statistics.html
 msgid "% Tasks Delivered on time"
@@ -2473,11 +2473,11 @@ msgstr "% Mexel"
 #. tpl/statistics.html
 #, c-format
 msgid "% Sys Disp."
-msgstr ""
+msgstr "% Asayışê Sistemi."
 
 #. tpl/statistics.html
 msgid "Sys Disp."
-msgstr ""
+msgstr "Asayışê sistemi"
 
 #. tpl/statistics.html
 msgid "Number of reopened external tasks (tasks having an ExternalRef)."
@@ -2485,7 +2485,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "% Reopened"
-msgstr ""
+msgstr "% Reyna abıyayış"
 
 #. tpl/statistics.html
 msgid "Compare the number of reopened tasks to the number of resolved tasks"
@@ -2493,7 +2493,7 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Nb Reopened"
-msgstr ""
+msgstr "Nb abiyayış"
 
 #. tpl/statistics.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
@@ -2526,11 +2526,11 @@ msgstr "Raportori"
 
 #. tpl/export_odt.html
 msgid "Handlers"
-msgstr ""
+msgstr "Karkeri"
 
 #. tpl/export_odt.html
 msgid "ODT Template"
-msgstr ""
+msgstr "Şablonê ODT"
 
 #. tpl/export_odt.html
 #. tpl/create_team.html
@@ -2543,7 +2543,7 @@ msgstr "Xeta"
 
 #. tpl/export_odt.html
 msgid "Reported by"
-msgstr ""
+msgstr "Rapori dayen"
 
 #. tpl/export_odt.html
 msgid "Download"
@@ -2587,7 +2587,7 @@ msgstr "Hefteyo verên"
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
 msgid "Next week"
-msgstr ""
+msgstr "Hewteyo amyaye"
 
 #. tpl/time_tracking.html
 msgid "Week timetracks"
@@ -2596,7 +2596,7 @@ msgstr ""
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
 msgid "Ext.ID"
-msgstr ""
+msgstr "Ext.ID"
 
 #. tpl/time_tracking.html
 msgid "Timetrack note"
@@ -2672,11 +2672,11 @@ msgstr ""
 
 #. tpl/planning_report.html
 msgid "tasks"
-msgstr ""
+msgstr "wezifey"
 
 #. tpl/planning_report.html
 msgid "workload"
-msgstr ""
+msgstr "sığletiya kari"
 
 #. tpl/planning_report.html
 msgid "nbDaysToDeadLine"
@@ -2733,7 +2733,7 @@ msgstr ""
 
 #. tpl/tools/wbsEditor.html
 msgid "New Folder"
-msgstr ""
+msgstr "Klasoro newe"
 
 #. tpl/tools/wbsEditor.html
 msgid "Rename"
@@ -2741,7 +2741,7 @@ msgstr "Reyna name ke"
 
 #. tpl/tools/wbsEditor.html
 msgid "Add subfolder"
-msgstr ""
+msgstr "Bıbklasor cı kerê"
 
 #. tpl/tools/dashboard.html
 msgid "Add an indicator to the dashboard"
@@ -2896,7 +2896,7 @@ msgstr ""
 
 #. tpl/create_team.html
 msgid "Update team WIKI"
-msgstr ""
+msgstr "Ekibê WİKİ rocane kerê"
 
 #. tpl/create_team.html
 msgid "Other activity charged on the project"
@@ -2948,7 +2948,7 @@ msgstr ""
 
 #. tpl/command_edit.html
 msgid "Command name"
-msgstr ""
+msgstr "Namey komuti"
 
 #. tpl/command_edit.html
 msgid "Not a number"
@@ -2956,11 +2956,11 @@ msgstr "Nımrey noter"
 
 #. tpl/command_edit.html
 msgid "Delete Command"
-msgstr ""
+msgstr "Komuti bıesternê"
 
 #. tpl/command_edit.html
 msgid "Delete this Command ?"
-msgstr ""
+msgstr "Wa no komut bıesteriyo?"
 
 #. tpl/command_edit.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
@@ -2974,7 +2974,7 @@ msgstr "WBS"
 
 #. tpl/command_edit.html
 msgid "Parent CommandSets"
-msgstr ""
+msgstr "CommandSet serêni"
 
 #. tpl/command_edit.html
 msgid "task id"
@@ -3551,7 +3551,7 @@ msgstr ""
 
 #. tpl/modal/select_issues.html
 msgid "Select all"
-msgstr ""
+msgstr "Pêrıne weçine"
 
 #. tpl/modal/edit_issueNote.html
 msgid "If unchecked, a 'standard' Mantis note will be created"
