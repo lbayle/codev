@@ -103,9 +103,13 @@ class TimeTrackingController extends Controller {
                $duration = Tools::getSecurePOSTNumberValue('duree');
 
                // dialogBox is not called, then track must be saved to DB
-               $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration, $this->session_userid, $this->teamid);
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("Track $trackid added  : userid=$managed_userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
+               try {
+                  $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration, $this->session_userid, $this->teamid);
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("Track $trackid added  : userid=$managed_userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
+                  }
+               } catch (Exception $e) {
+                  $this->smartyHelper->assign('error', 'Add track : FAILED.');
                }
 
                // Don't show job and duration after add track
@@ -148,7 +152,12 @@ class TimeTrackingController extends Controller {
                // check bug_id (this happens when user uses the 'back' button of the browser ?)
                if(0 == $defaultBugid) {
                   self::$logger->error("Add track : FAILED. issue=0, jobid=$job, duration=$duration date=$defaultDate managed_userid=$managed_userid");
-                  $errMessage = T_("Timetrack not added: Job is not specified");
+                  $errMessage = T_("Timetrack not added: bugid is not specified");
+               }
+               // check duration (this happens when user uses the 'back' button of the browser ?)
+               if(0 == $duration) {
+                  self::$logger->error("Add track : FAILED. issue=0, jobid=$job, duration=$duration date=$defaultDate managed_userid=$managed_userid");
+                  $errMessage = T_("Timetrack not added: duration is not specified");
                }
 
                if (NULL !== $errMessage) {
@@ -193,40 +202,44 @@ class TimeTrackingController extends Controller {
                $job = $timeTrack->getJobId();
                $defaultDate = date("Y-m-d", $timeTrack->getDate());
 
-               // check if backlog must be recredited
-               $ttProject = ProjectCache::getInstance()->getProject($timeTrack->getProjectId());
-               if (!$ttProject->isSideTasksProject(array($this->teamid)) &&
-                   !$ttProject->isExternalTasksProject()) {
-                  $isRecreditBacklog = (0 == $team->getGeneralPreference('recreditBacklogOnTimetrackDeletion')) ? false : true;
-               } else {
-                  // no backlog update for external & side tasks
-                  $isRecreditBacklog = false;
-               }
+               try {
+                  if (!TimeTrack::exists($trackid)) {
+                     $e = new Exception("track $trackid does not exist !");
+                     self::$logger->error("EXCEPTION deleteTrack: ".$e->getMessage());
+                     throw $e;
+                  }
 
-               // delete track
-               if(!$timeTrack->remove($this->session_userid, $isRecreditBacklog)) {
-                  $this->smartyHelper->assign('error', T_("Failed to delete the timetrack !"));
-                  self::$logger->error("Delete track $trackid  : FAILED.");
-               }
+                  // check if backlog must be recredited
+                  $ttProject = ProjectCache::getInstance()->getProject($timeTrack->getProjectId());
+                  if (!$ttProject->isSideTasksProject(array($this->teamid)) &&
+                      !$ttProject->isExternalTasksProject()) {
+                     $isRecreditBacklog = (0 == $team->getGeneralPreference('recreditBacklogOnTimetrackDeletion')) ? false : true;
+                  } else {
+                     // no backlog update for external & side tasks
+                     $isRecreditBacklog = false;
+                  }
 
-               if (0 == $defaultBugid) {
-                  self::$logger->error("Delete track : bug_id=0");
-                  $defaultProjectid  = 0;
-               } else {
-                  try {
-                     // pre-set form fields
-                     $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-                     $defaultProjectid  = $issue->getProjectId();
+                  // delete track
+                  if(!$timeTrack->remove($this->session_userid, $isRecreditBacklog)) {
+                     $this->smartyHelper->assign('error', T_("Failed to delete the timetrack !"));
+                     self::$logger->error("Delete track $trackid  : FAILED.");
+                  }
 
-                     // if project not defined for current team, do not pre-set form fields.
-                     if (!in_array($defaultProjectid, array_keys($team->getProjects()))) {
-                        $defaultProjectid  = 0;
-                        $defaultBugid = 0;
-                     }
-                  } catch (Exception $e) {
+                  // pre-set form fields
+                  $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+                  $defaultProjectid  = $issue->getProjectId();
+
+                  // if project not defined for current team, do not pre-set form fields.
+                  if (!in_array($defaultProjectid, array_keys($team->getProjects()))) {
                      $defaultProjectid  = 0;
                      $defaultBugid = 0;
                   }
+               } catch (Exception $e) {
+                  $this->smartyHelper->assign('error', 'Delete track : FAILED.');
+                  $errMsg = "Delete trackid= $trackid, bugid = $defaultBugid, job = $job, timestamp = $defaultDate, duration = ".$duration;
+                  self::$logger->error($errMsg);
+                  $defaultProjectid  = 0;
+                  $defaultBugid = 0;
                }
             }
             elseif ("setBugId" == $action) {
@@ -354,10 +367,10 @@ class TimeTrackingController extends Controller {
       $consistencyErrors = array();
       if (count($cerrList) > 0) {
          foreach ($cerrList as $cerr) {
-            
+
             // skip alerts on today
             if ($endTimestamp == $cerr->timestamp) { continue; }
-            
+
             if ($userid == $cerr->userId) {
                $consistencyErrors[] = array(
                   'date' => date("Y-m-d", $cerr->timestamp),

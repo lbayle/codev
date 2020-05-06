@@ -159,9 +159,9 @@ class Issue extends Model implements Comparable {
    public function __construct($id, $details = NULL) {
       if (0 == $id) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("Constructor: Creating an Issue with id=0 is not allowed.");
+         $e = new Exception("Constructor: Instanciating an Issue with id=0 is not allowed.");
          self::$logger->error("EXCEPTION Issue constructor: ".$e->getMessage());
-         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         //self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
 

@@ -114,6 +114,26 @@ class TimeTrack extends Model implements Comparable {
       return 0;
    }
 
+   /**
+    * @param int $trackid
+    * @return bool TRUE if track exists in Mantis DB
+    */
+   public static function exists($trackid) {
+      if (NULL == $trackid) {
+         self::$logger->warn("exists(): track == NULL.");
+         return FALSE;
+      }
+
+      $sql = AdodbWrapper::getInstance();
+      $query  = "SELECT COUNT(1) FROM codev_timetracking_table WHERE id= ".$sql->db_param();
+      $q_params[]=$trackid;
+      $result = $sql->sql_query($query, $q_params);
+
+      $nbTuples  = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
+      return (1 == $nbTuples);
+
+   }
+
    public function getProjectId() {
       if (NULL == $this->projectId) {
          $issue = IssueCache::getInstance()->getIssue($this->bugId);
@@ -151,8 +171,11 @@ class TimeTrack extends Model implements Comparable {
           (0 == $job) ||
           (0 == $timestamp) ||
           (0 == $duration)) {
-         self::$logger->error("create track : userid = $userid, bugid = $bugid, job = $job, timestamp = $timestamp, duration = $duration");
-         return 0;
+         $errMsg = "create track : userid = $userid, bugid = $bugid, job = $job, timestamp = $timestamp, duration = $duration";
+         $e = new Exception($errMsg);
+         self::$logger->error("EXCEPTION TimeTrack create: ".$e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
       }
 
       // compute timetrack cost
@@ -173,7 +196,7 @@ class TimeTrack extends Model implements Comparable {
       $commit_date=time();
       $sql = AdodbWrapper::getInstance();
       $query  = "INSERT INTO codev_timetracking_table  (userid, bugid, jobid, date, duration, committer_id, commit_date";
-      
+
       if (!is_null($cost)) {
          $query .= ", cost, currency";
       }
@@ -190,8 +213,8 @@ class TimeTrack extends Model implements Comparable {
       $sql->sql_query($query, $q_params);
       return AdodbWrapper::getInstance()->getInsertId();
    }
-   
-   
+
+
    public function update($date, $duration, $jobid, $note = NULL) {
       $this->date = $date;
       $this->duration = $duration;

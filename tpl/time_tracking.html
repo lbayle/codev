@@ -16,7 +16,7 @@
    <br/>
 
    {if isset($error)}
-   <!-- TODO used by deleteTrack. mest be removed when delete done via Ajax -->
+   <!-- TODO used by deleteTrack. must be removed when delete done via Ajax -->
    <span style="color:red">{t}ERROR{/t} : {t}Query FAILED{/t} : {$error}</span>
    {/if}
 
@@ -228,7 +228,7 @@
             </table>
          </div>
          {/if}
-         
+
          <div id="deleteTrack_dialog_form" title="{t}Delete track{/t}" class="ui-helper-hidden">
             <p><b>{t}Summary{/t}:</b><br>
             <textarea readonly class="issue_summary" style="width:100%;background-color:white;" rows="2">issue_summary</textarea>
@@ -298,7 +298,7 @@
       {/if}
 
    </div>
-   
+
    <script type="text/javascript">
       // this is to transmit SMARTY variables to time_tracking.js
       var timetrackingSmartyData = {
