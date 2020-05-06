@@ -100,6 +100,7 @@ try {
 } catch (Exception $e) {
    echo 'LOGGER ERROR: '.$e->getMessage().'<br><br>';
    echo 'Tips:<br>';
+   echo ' - Check CodevTT configuration file "config.ini"<br>';
    echo ' - Check logger configuration file "log4php.xml"<br>';
    echo ' - Check that user <b>'.exec('whoami').'</b> has write access to the log directory.<br>';
    exit;
