@@ -34,7 +34,28 @@
          {include file="tools/dashboard.html"}
       </div>
       <div id="tab_userInfo">
-         TODO
+         <table class="invisible">
+            <tr>
+               <td>{t}Login{/t}</td>
+               <td>:</td>
+               <td>{$managedUser_login}</td>
+            </tr>
+            <tr>
+               <td>{t}User ID{/t}</td>
+               <td>:</td>
+               <td>{$managedUserid}</td>
+            </tr>
+            <tr>
+               <td>{t}Role{/t}</td>
+               <td>:</td>
+               <td>{$managedUser_accessLevel}</td>
+            </tr>
+            <tr>
+               <td>{t}Team arrival date{/t}</td>
+               <td>:</td>
+               <td>{$managedUser_teamArrivalDate}</td>
+            </tr>
+         </table>
       </div>
    </div>
    {/if}
