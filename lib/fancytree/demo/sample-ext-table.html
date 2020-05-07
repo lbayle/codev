@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+	<title>Fancytree - Example: Table</title>
+
+	<!--script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script-->
+	<script src="../../jquery/js/jquery-1.8.3.js"></script>
+	<script src="../../jquery/js/jquery-ui-1.8.23.custom.min.js"></script>
+
+<style type="text/css">
+	/* Set alternating row colors (define BEFORE standard css). */
+/*
+	table.fancytree-ext-table tbody tr:nth-child(even){
+		background-color: #f4f4f8;
+	}
+*/
+	/* custom alignment (set by 'renderColumns'' event) */
+	table.fancytree-ext-table {
+	   width: 80%;
+	}
+	/* custom alignment (class is set by row template) */
+	td.alignCenter {
+	   text-align: center;
+	}
+	td.alignRight {
+	   text-align: right;
+	}
+</style>
+
+	<link href="../dist/skin-lion/ui.fancytree.css" rel="stylesheet">
+	<script src="../dist/jquery.fancytree.min.js"></script>
+	<script src="../dist/modules/jquery.fancytree.table.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		// Attach the fancytree widget to an existing <div id="tree"> element
+		// and pass the tree options as an argument to the fancytree() function:
+		$("#treegrid").fancytree({
+			extensions: ["table"],
+			checkbox: false,
+			table: {
+				indentation: 20,      // indent 20px per node level
+				nodeColumnIdx: 2,     // render the node title into the 2nd column
+				checkboxColumnIdx: 0  // render the checkboxes into the 1st column
+			},
+			source: {
+				url: "ajax-tree-products.json"
+			},
+			tooltip: function(event, data){
+				return data.node.data.author;
+			},
+			lazyLoad: function(event, data) {
+				data.result = {url: "ajax-sub2.json"}
+			},
+			renderColumns: function(event, data) {
+				var node = data.node,
+					$tdList = $(node.tr).find(">td");
+
+				// (index #0 is rendered by fancytree by adding the checkbox)
+				$tdList.eq(1).text(node.getIndexHier());
+				// (index #2 is rendered by fancytree)
+				$tdList.eq(3).text(node.data.qty);
+				// Rendered by row template:
+//				$tdList.eq(4).html("<input type='checkbox' name='like' value='" + node.key + "'>");
+			}
+		});
+		/* Handle custom checkbox clicks */
+		$("#treegrid").on("click", "input[name=like]", function(e){
+			var node = $.ui.fancytree.getNode(e),
+				$input = $(e.target);
+
+			e.stopPropagation();  // prevent fancytree activate for this row
+			if($input.is(":checked")){
+				alert("like " + node);
+			}else{
+				alert("dislike " + node);
+			}
+		});
+	});
+</script>
+</head>
+
+<body class="example">
+	<h1>Example: 'table' extension</h1>
+	<div class="description">
+		<p>
+			Render tree as a table (aka tree grid) and support keyboard navigation
+			in a grid with embedded input controls.
+		</p>
+		<p>
+			<b>Status:</b> production.
+			<b>Details:</b>
+			<a href="https://github.com/mar10/fancytree/wiki/ExtTable"
+				target="_blank" class="external">ext-table</a>.
+		</p>
+	</div>
+
+	<!-- Add a <table> element where the tree should appear: -->
+	<table id="treegrid">
+		<colgroup>
+		<col width="30px"></col>
+		<col width="70px"></col>
+		<col width="*"></col>
+		<col width="50px"></col>
+		<col width="30px"></col>
+		</colgroup>
+		<thead>
+			<tr> <th></th> <th>#</th> <th></th> <th>Qty</th> <th>Order</th> </tr>
+		</thead>
+		<!-- Optionally define a row that serves as template, when new nodes are created: -->
+		<tbody>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td class="alignRight"></td>
+				<td class="alignCenter">
+					<input type="checkbox" name="like">
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+</body>
+</html>
