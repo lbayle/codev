@@ -21,6 +21,7 @@ class TestTreeEditor extends Controller {
          $smartyPrefix = 'fancy_';
          $this->smartyHelper->assign($smartyPrefix.'data', $data);
 
+         $this->smartyHelper->assign('wbsRootId', "574870"); // 574870, 2037441
 
       }
    }

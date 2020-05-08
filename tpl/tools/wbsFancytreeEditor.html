@@ -76,26 +76,42 @@
         callback: function(key, options) {
 
             // implement contextMenu actions
-            //var node = $.ui.fancytree.getNode(this);
             var node = $.ui.fancytree.getNode(options.$trigger);
             node.setActive();
+
+            // TODO if root element, disable 'delete' menu option
+
             switch (key) {
-               case 'rename':
+               case 'edit':
                   node.editStart();
                   break;
                case 'add':
-                  node.editCreateNode('child', { title: "{t}New Folder{/t}", folder: true })
+                  node.editCreateNode('child', { title: "{t}New Folder{/t}", folder: true });
                   break;
                case 'delete':
-                  deleteNode(node);
+                  if (node.getLevel() !== 1 && !node.hasChildren()) {
+                      node.remove();
+                      // TODO check if '_' behaviour still exists in fancytree !!!
+                      // dynatree prefixes new nodes with '_'
+                      if ('_' !== node.data.key.charAt(0)) {
+                         console.log("node exist in codevtt DB and must be removed later");
+                         nodesToDelete.push(node.data.key);
+                      }
+                  } else if (node.getLevel() == 1) {
+                     console.error("Root element cannot be deleted.")
+                     alert("{t}Root element cannot be deleted.{/t}");
+                  } else {
+                     console.error("Delete Failed: Folder must be empty.")
+                     alert("{t}Delete Failed: Folder must be empty.{/t}");
+                  }
                   break;
             }
         },
         items: {
-            "rename": { name: "{t}Rename{/t}", icon: "edit" },
+            "edit": { name: "{t}Rename{/t}", icon: "edit" },
             "add": { name: "{t}Add subfolder{/t}", icon: "add" },
             "sep1": "---------",
-            "delete": { name: "{t}Delete{/t}", icon: "delete" }
+            "delete": { name: "{t}Delete{/t}", icon: "delete", disabled: false }
         }
       });
    }
@@ -104,12 +120,12 @@
 	function initTree() {
 
        jQuery("#tree").fancytree({
-         extensions: ["dnd5"],
+         extensions: ["dnd5", "edit"],
 
          source: {
            type: "POST",
            url: 'include/fancytree_ajax.php',
-           data: { wbsRootId: "574870", // "{$wbsRootId}",
+           data: { wbsRootId: "{$wbsRootId}",
                    hasDetail: "0",
                    action: "loadWBS"
            }
@@ -160,7 +176,7 @@
                  return false;
                }
 
-              //data.dropEffect = "copy";
+              data.dropEffect = "copy";
               console.warn("dragEnter: return true");
               return true;
             },
@@ -204,7 +220,7 @@ console.log("dragDrop data:", data);
             // -----------------------
             edit: {
               //triggerStart: ["clickActive", "dblclick", "f2", "mac+enter", "shift+click"],
-              triggerStart: ["dblclick", "shift+click"],
+              triggerStart: ["clickActive", "dblclick"],
               beforeEdit: function(event, data){
                if(!data.node.folder){
                  console.warn("No! you can only edit folders");
@@ -223,8 +239,7 @@ console.log("dragDrop data:", data);
               },
               save: function(event, data){
                 // Save data.input.val() or return false to keep editor open
-                console.log("save...", this, data);
-                data.node.setTitle(data.node.title + "!");
+                //data.node.setTitle(data.node.title + "!");
                 // We return true, so ext-edit will set the current user input as title
                 return true;
               },
@@ -240,23 +255,7 @@ console.log("dragDrop data:", data);
      }
 
 
-      function deleteNode(node) {
-         if (node.getLevel() != 1 && !node.hasChildren()) {
-             node.remove();
-             // fancytree prefixes new nodes with '_'
-             if ('_' !== node.data.key.charAt(0)) {
-                // node exist in DB and must be removed
-                nodesToDelete.push(node.data.key);
-             }
-         } else if (node.getLevel() == 1) {
-            console.error("Root element cannot be deleted.")
-            alert("{t}Root element cannot be deleted.{/t}");
-         } else {
-            console.error("Delete Failed: Folder must be empty.")
-            alert("{t}Delete Failed: Folder must be empty.{/t}");
-         }
-      }
-
+     // TODO !
       function saveTree() {
 
          var deferred = jQuery.Deferred();
