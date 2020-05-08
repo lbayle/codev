@@ -846,8 +846,8 @@ class WBSElement extends Model {
 
             if ($wbselement->isFolder()) {
 
-               $childArray['isFolder'] = true;
-               $childArray['expand'] = $wbselement->isExpand();
+               $childArray['folder'] = true;
+               $childArray['expanded'] = $wbselement->isExpand();
                $childArray['key'] = $wbselement->getId();
                $childArray['title'] = $wbselement->getTitle();
                $childArray['children'] = $wbselement->getFancytreeData($hasDetail, $isManager, $teamid);
@@ -900,7 +900,7 @@ class WBSElement extends Model {
 
                   $formattedSummary = '<b>'.$issue->getId().'</b> '.$issue->getSummary();
 
-                  $childArray['isFolder'] = false;
+                  $childArray['folder'] = false;
                   $childArray['key'] = $issue->getId(); // yes, bugid !
                   $childArray['title'] = $formattedSummary;
 
@@ -967,8 +967,8 @@ class WBSElement extends Model {
          if ($this->id === $this->getRootId()) {
             $rootArray = array(
                   'title'    => $this->getTitle(),
-                  'isFolder' => true,
-                  'expand'      => $this->isExpand(),
+                  'folder' => true,
+                  'expanded'      => $this->isExpand(),
                   'key'      => $this->getId(),
                   'children' => $parentArray);
             if ($hasDetail) {
