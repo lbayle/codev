@@ -218,7 +218,7 @@ class WBSElement extends Model {
       $query0 = "SELECT root_id, bug_id FROM codev_wbs_table WHERE bug_id NOT IN (SELECT id FROM {bug})";
       $result0 = $sql->sql_query($query0);
       while ($row = $sql->fetchObject($result0)) {
-         self::$logger->warn("Issue $row->bug_id does not exist in Mantis: now removed from WBS (root = $row->root_id)");
+         self::$logger->error("Issue $row->bug_id does not exist in Mantis: now removed from WBS (root = $row->root_id)");
 
          // remove from WBS
          $query = "DELETE FROM codev_wbs_table WHERE bug_id = ".$sql->db_param();
@@ -715,7 +715,8 @@ class WBSElement extends Model {
                   try {
                      $isel->addIssue($bugid);
                   } catch (Exception $e) {
-                     self::$logger->error("Issue $bugid does not exist in Mantis DB.");
+                     self::$logger->error("Issue $bugid does not exist in Mantis DB: calling checkWBS()");
+                     self::checkWBS();
                   }
                }
                if ($isManager) {
