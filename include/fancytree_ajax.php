@@ -65,6 +65,9 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
             $rootElement = new WBSElement($root_id);
             $dynatreeDict = $rootElement->getFancytreeData($hasDetail, $isManager, $teamid);
 
+            // since fancytree, we need to add one more level (hidden root)...
+            $dynatreeDict = array($dynatreeDict);
+
             //if ($logger->isDebugEnabled()) {
                $aa = var_export($dynatreeDict, true);
                $logger->error("loadWBS (root=$root_id, hasDetail=".$_POST['hasDetail'].") : \n$aa");

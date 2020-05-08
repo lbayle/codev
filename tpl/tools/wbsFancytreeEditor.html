@@ -170,14 +170,15 @@
                //console.log("dragEnter node:", node);
                //console.log("dragEnter data:", data);
 
-               //if(!node.folder && data.hitMode === "over"){
+               // TODO does not work, if active, strange behaviour...
+/*
                if(!node.folder){
                  console.warn("dragEnter: No, "+node.key+" is not a folder, you can't drop it here !");
                  return false;
                }
-
+*/
               data.dropEffect = "copy";
-              console.warn("dragEnter: return true");
+              //console.warn("dragEnter: return true");
               return true;
             },
             dragOver: function(node, data) {
