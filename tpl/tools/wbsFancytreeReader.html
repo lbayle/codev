@@ -1,7 +1,7 @@
 
 <script src="lib/jquery.cookie/jquery.cookie.js" type="text/javascript"></script>
 
-<link href="lib/fancytree/dist/skin-lion/ui.fancytree.css" rel="stylesheet">
+<link href="lib/fancytree/dist/skin-lion/ui.fancytree.min.css" rel="stylesheet">
 <script src="lib/fancytree/dist/jquery.fancytree.min.js"></script>
 <!--script src="lib/fancytree/dist/modules/jquery.fancytree.table.js"></script-->
 <script src="lib/fancytree/dist/jquery.fancytree-all-deps.min.js"></script>
@@ -97,11 +97,18 @@
             //var $tdList = $( node.tr ).find( ">td" );
             //$tdList.eq( 1 ).find("div").text( node.data.progress );
 
-            $( node.tr ).find( ".td-progress" ).text( node.data.progress );
             $( node.tr ).find( ".td-effortEstim" ).text( node.data.effortEstim );
             $( node.tr ).find( ".td-reestimated" ).text( node.data.reestimated );
             $( node.tr ).find( ".td-elapsed" ).text( node.data.elapsed );
             $( node.tr ).find( ".td-backlog" ).text( node.data.backlog );
+
+            // progress column
+            htmlProgress = "<span class='td-progress'><div class='progress ui-progressbar ui-widget ui-widget-content ui-corner-all' ";
+            htmlProgress += "role='progressbar' aria-valuemin='0' aria-valuemax='100' aria-valuenow='" + node.data.progress + "'>";
+            htmlProgress += "<div class='ui-progressbar-value ui-widget-header ui-corner-left' style='width: " + node.data.progress + "%;'>";
+            htmlProgress += "<div>" + node.data.progress + "%</div></div></div></span>";
+            $( node.tr ).find( ".td-progress" ).html(htmlProgress);
+
          }
       });
    }
