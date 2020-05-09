@@ -1,12 +1,4 @@
 
-<script src="lib/jquery.cookie/jquery.cookie.js" type="text/javascript"></script>
-
-<link href="lib/fancytree/dist/skin-lion/ui.fancytree.min.css" rel="stylesheet">
-<script src="lib/fancytree/dist/jquery.fancytree-all-deps.min.js"></script>
-
-<link href="lib/contextmenu/jquery.contextMenu.css" rel="stylesheet"/>
-<script src="lib/contextmenu/jquery.contextMenu.js" type="text/javascript"></script>
-
 <style>
    span.drag-source {
       border: 1px solid grey;
@@ -35,40 +27,32 @@
       outline: 1px dotted red;
    }
 
-   span.trashcan {
-      border: 1px solid #f5c6cb;
-     background-color: #f8d7da;
-     color: #721c24;
-     padding: 1px 3px;
-   }
 </style>
 
-<div id="content">
+<div id="wbsEditorContent">
    <a id="bt_loadTree" style="text-decoration: none" href="{$page}">
       <img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" > {t}Reload{/t}</a>
 
-   <div id="testFancytree">
-      <h2>test Fancytree EDIT & SAVE</h2>
-
+   <div id="fancytree">
       <!-- Tree wrapper -->
       <div id="tree"></div>
 
    </div>
 </div>
 
+<script src="lib/jquery.cookie/jquery.cookie.js" type="text/javascript"></script>
+
+<link href="lib/fancytree/dist/skin-lion/ui.fancytree.min.css" rel="stylesheet">
+<script src="lib/fancytree/dist/jquery.fancytree-all-deps.min.js"></script>
+
+<link href="lib/contextmenu/jquery.contextMenu.css" rel="stylesheet"/>
+<script src="lib/contextmenu/jquery.contextMenu.js" type="text/javascript"></script>
+
+
 <script type="text/javascript">
 
-   // --- Fancytree Doc ---
-   // http://wwwendt.de/tech/fancytree/doc/jsdoc/FancytreeNode.html
+   // TODO put this JS in a wbsFancytreeEditor.js file and minify...
 
-
-   // --------------------------------------------
-   jQuery(document).ready(function() {
-   });
-
-
-
-   // --------------------------------------------
    function addContextMenu() {
 
       jQuery.contextMenu({
@@ -91,8 +75,7 @@
                case 'delete':
                   if (node.getLevel() !== 1 && !node.hasChildren()) {
                       node.remove();
-                      // TODO check if '_' behaviour still exists in fancytree !!!
-                      // dynatree prefixes new nodes with '_'
+                      // option 'defaultKey' => default null: generates default keys like that: "_" + counter)
                       if ('_' !== node.data.key.charAt(0)) {
                          console.log("node exist in codevtt DB and must be removed later");
                          nodesToDelete.push(node.data.key);
@@ -132,63 +115,41 @@
          },
          // https://github.com/mar10/fancytree/wiki/ExtDnd5
          dnd5: {
-            // autoExpandMS: 400,
+            autoExpandMS: 500,          // Expand nodes after n milliseconds of hovering.
             preventForeignNodes: true,  // Prevent dropping nodes from another Fancytree
             preventRecursion: true,     // Prevent dropping nodes on own descendants
             preventVoidMoves: true,     // Prevent moving nodes 'before self', etc.
             preventNonNodes: true,      // Prevent dropping items other than Fancytree nodes
-            // effectAllowed: "all",
-            // dropEffectDefault: "move", // "auto",
+            effectAllowed: "all",       // Restrict the possible cursor shapes and modifier operations
+            dropEffectDefault: "move", // "auto",
 
-            // --- Drag-support:
-            dragStart: function(node, data) {
-              /* This function MUST be defined to enable dragging for the tree.
-                *
-                * Return false to cancel dragging of node.
-                * data.dataTransfer.setData() and .setDragImage() is available
-                * here.
-                */
+            // TODO (later)
+            //multiSource: false,           // true: Drag multiple (i.e. selected) nodes.
 
-              // Set the allowed effects (i.e. override the 'effectAllowed' option)
-              data.effectAllowed = "all";
-
-              // Set a drop effect (i.e. override the 'dropEffectDefault' option)
-              // data.dropEffect = "link";
-              data.dropEffect = "copy";
-
-              // Return true to allow the drag operation
-              return true;
-            },
-            // dragDrag: function(node, data) {
-            // },
-            // dragEnd: function(node, data) {
-            // },
-
-            // --- Drop-support:
-
-            dragEnter: function(node, data) {
-               //console.log("dragEnter node:", node);
-               //console.log("dragEnter data:", data);
-
-               // TODO does not work, if active, strange behaviour...
-/*
-               if(!node.folder){
-                 console.warn("dragEnter: No, "+node.key+" is not a folder, you can't drop it here !");
-                 return false;
+            // --- Ennable Drag-support:
+            dragStart: function(sourceNode, data) {
+              // dragStart: Callback(sourceNode, data), return true, to enable dragging
+               if (1 === sourceNode.getLevel()) {
+                     console.error("Root element cannot be moved");
+                     return false;
                }
-*/
-              data.dropEffect = "copy";
-              //console.warn("dragEnter: return true");
+              data.effectAllowed = "all";
+              data.dropEffect = "move";
               return true;
             },
-            dragOver: function(node, data) {
-               // rem: node is the one that is under the cursor
-               // rem: data.otherNode is the one that is selected & moved
-//console.log("dragOver node:", node);
-//console.log("dragOver data:", data);
 
-               if(!node.folder && data.hitMode === "over"){
+            // --- Enable Drop-support:
+            dragEnter: function(targetNode, data) {
+               // dragEnter: Callback(targetNode, data), return true, to enable dropping
+               data.dropEffect = "move";
+               return true;
+            },
+            dragOver: function(targetNode, data) {
+               // rem: data.otherNode is the one that is selected & moved
+
+               if(!targetNode.folder && data.hitMode === "over"){
                  //console.warn("dragOver: No, this is not a folder, you can't drop it here !");
+                 // data.dropEffect = "link"; // TODO how to set a "forbidden" mouse pointer ???
                  return false;
                }
 
@@ -196,24 +157,21 @@
               data.dropEffect = data.dropEffectSuggested;
               // data.dropEffect = "move";
             },
-            dragDrop: function(node, data) {
-              /* This function MUST be defined to enable dropping of items on
-                * the tree.
-                */
-console.log("dragDrop data:", data);
+            dragDrop: function(targetNode, data) {
+              // This function MUST be defined to enable dropping of items on the tree.
 
-               if(!node.folder){
-                 console.error("No! you cant drop a node ("+data.otherNode.key+") on an issue "+node.key);
+               if(!targetNode.folder){
+                 console.error("No! you cant drop an element ("+data.otherNode.key+") on an leaf "+targetNode.key);
                  return false;
                }
+
                if( data.otherNode ) {
-                 data.otherNode.moveTo(node, data.hitMode);
+                 data.otherNode.moveTo(targetNode, data.hitMode);
                } else {
-                 // Drop a non-node
+                 // Drop a non-node (should not happen, see preventNonNodes)
                  console.error("drop non-node !");
                }
-               // Expand target node when a child was created:
-               node.setExpanded();
+               targetNode.setExpanded();
             }
 
            }, // dnd5
@@ -249,7 +207,7 @@ console.log("dragDrop data:", data);
                 //if( data.save ) {
 
               }
-            }
+            } // edit
         });
 
         addContextMenu();
