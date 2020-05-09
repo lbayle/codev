@@ -1,7 +1,6 @@
 <div id="content">
 {if isset($isEditGranted) && $isEditGranted}
 
-   <script type="text/javascript" src="js/datepicker.js"></script>
    <h2 class="center">{if isset($cmdName)}{$cmdName}{else}{t}New command{/t}{/if}</h2>
 
    <div style="margin-top: 2em;">
@@ -82,6 +81,8 @@
             {if isset($commandid)}<input type="hidden" name="cmdid" value="{$commandid}" />{/if}
          </fieldset>
       </form>
+
+
 
       {if isset($commandid)}
       <div id="deleteCommand_dialog_form" title="{t}Delete Command{/t}" class="ui-helper-hidden">
@@ -388,7 +389,7 @@
          </div>
       </div>
       <div id="tab_wbs">
-          {include file="tools/wbsEditor.html"}
+          {include file="tools/wbsFancytreeEditor.html"}
       </div>
    </div>
    {/if}

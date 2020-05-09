@@ -249,8 +249,6 @@ function saveTree() {
             console.log("saveWBS: OK");
             $("#ajaxStatusMsg").html('<span class="success_font">'+wbsEditorSmartyData.i18n_wbsSaveOK+'</span>');
          }
-
-
          // call the 'done' callback (should be defined)
          deferred.resolve();
       },
