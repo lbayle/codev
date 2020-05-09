@@ -152,8 +152,8 @@ function initTree() {
 
             // PLEASE NOTE (LoB, 2020-05-09):
             // Since I am using an old jquery version (1.8.3), Fancytree does not
-            // report 'after' and 'before' hitMode.
-            // this means I need to allow dropping 'over' a leaf and insert it 'after'
+            // report 'after' and 'before' hitModes.
+            // This means I need to allow dropping 'over' a leaf and insert it 'after'
             // instead of blocking a drop 'over' a leaf
             /*
              if(!targetNode.folder && data.hitMode === "over"){
@@ -170,11 +170,12 @@ function initTree() {
 
             if (data.otherNode) {
                if (!targetNode.folder) {
-                  console.error("insert " + data.otherNode.key + " after " + targetNode.key);
-                  data.otherNode.moveTo(targetNode, "after"); // 'over', 'after', 'before'
+                  // This is a workaround because I never get 'after' & 'before' hitModes
+                  console.log("insert " + data.otherNode.key + " after " + targetNode.key);
+                  data.otherNode.moveTo(targetNode, "after");
                   return true;
                } else {
-                  data.otherNode.moveTo(targetNode, data.hitMode);
+                  data.otherNode.moveTo(targetNode, 'firstChild'); // data.hitMode);
                }
                $("#ajaxStatusMsg").html('');
             } else {
