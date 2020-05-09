@@ -38,19 +38,23 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
                   // happens if user moved children AND deleted the node.
                   // The node will not be deleted, but at least the rest of the WBS changes
                   // have a chance to be proceeded.
-                  $logger->error("Node $folder_id not deleted : ".$e->getMessage());
+                  $logger->error("WBS Node $folder_id not deleted : ".$e->getMessage());
                   $logger->warn("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
                }
             }
          }
          try {
             WBSElement::updateFromFancytree($rootArray, $root_id);
+            $data['statusMsg'] = 'SUCCESS';
          } catch (Exception $e) {
             $logger->error("WBS Save error : ".$e->getMessage());
             // TODO return wbsStatusMsg !!
+            $data['statusMsg'] = 'ERROR: Could not save WBS !';
          }
-         // TODO no need to return tree, but we need status msg !
-         echo $jsonDynatreeDict;
+
+         // return data
+         $jsonData = json_encode($data);
+         echo $jsonData;
 
       } else if($_POST['action'] == 'loadWBS') {
 

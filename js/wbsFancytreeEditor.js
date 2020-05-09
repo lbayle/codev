@@ -60,10 +60,10 @@ function addContextMenu() {
    jQuery.contextMenu({
       selector: '#tree .fancytree-folder',
       items: {
-         "edit": {name: "{t}Rename{/t}", icon: "edit"},
-         "add": {name: "{t}Add subfolder{/t}", icon: "add"},
+         "edit": {name: wbsEditorSmartyData.i18n_rename, icon: "edit"},
+         "add": {name: wbsEditorSmartyData.i18n_addSubfolder, icon: "add"},
          "sep1": "---------",
-         "delete": {name: "{t}Delete{/t}", icon: "delete", disabled: false}
+         "delete": {name: wbsEditorSmartyData.i18n_delete, icon: "delete", disabled: false}
       },
       callback: function (key, options) {
 
@@ -75,10 +75,12 @@ function addContextMenu() {
 
          switch (key) {
             case 'edit':
+               $("#ajaxStatusMsg").html('');
                node.editStart();
                break;
             case 'add':
-               node.editCreateNode('child', {title: "{t}New Folder{/t}", folder: true});
+               $("#ajaxStatusMsg").html('');
+               node.editCreateNode('child', {title: wbsEditorSmartyData.i18n_newFolder, folder: true});
                break;
             case 'delete':
                if (node.getLevel() !== 1 && !node.hasChildren()) {
@@ -87,13 +89,14 @@ function addContextMenu() {
                      console.log("node " + node.key + " exist in codevtt DB and must be removed when saving the tree");
                      nodesToDelete.push(node.key);
                   }
+                  $("#ajaxStatusMsg").html('');
                   node.remove();
                } else if (1 === node.getLevel()) {
                   console.error("Root element cannot be deleted.");
-                  alert("{t}Root element cannot be deleted.{/t}");
+                  alert(wbsEditorSmartyData.i18n_rootCantBeDeleted);
                } else {
                   console.error("Delete Failed: Folder must be empty.");
-                  alert("{t}Delete Failed: Folder must be empty.{/t}");
+                  alert(wbsEditorSmartyData.i18n_folderMustBeEmpty);
                }
                break;
          }
@@ -173,7 +176,6 @@ function initTree() {
                   // This is a workaround because I never get 'after' & 'before' hitModes
                   console.log("insert " + data.otherNode.key + " after " + targetNode.key);
                   data.otherNode.moveTo(targetNode, "after");
-                  return true;
                } else {
                   data.otherNode.moveTo(targetNode, 'firstChild'); // data.hitMode);
                }
@@ -203,6 +205,7 @@ function initTree() {
       } // edit
    });
 
+   $(".fancytree-container").addClass("fancytree-connectors");
    addContextMenu();
 }
 
@@ -235,10 +238,19 @@ function saveTree() {
          wbsRootId: wbsEditorSmartyData.wbsRootId,
          action: "saveWBS"
       },
-      success: function () {
+      dataType:"json",
+      success: function (data) {
          nodesToDelete = [];
-         console.log("saveWBS: OK");
-         $("#ajaxStatusMsg").html(wbsEditorSmartyData.i18n_wbsSaveOK);
+         if('SUCCESS' !== data.statusMsg) {
+            $("#ajaxStatusMsg").html('<span class="error_font">'+wbsEditorSmartyData.i18n_wbsSaveERR+'</span>');
+            alert(data.statusMsg);
+            console.error(data.statusMsg);
+         } else {
+            console.log("saveWBS: OK");
+            $("#ajaxStatusMsg").html('<span class="success_font">'+wbsEditorSmartyData.i18n_wbsSaveOK+'</span>');
+         }
+
+
          // call the 'done' callback (should be defined)
          deferred.resolve();
       },
