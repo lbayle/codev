@@ -950,7 +950,7 @@ class WBSElement extends Model {
 
                } catch (Exception $e) {
                   //$childArray['title'] = $wbselement->getBugId().' - '.T_('Error: Task not found in Mantis DB !');
-                  //$childArray['isFolder'] = false;
+                  //$childArray['folder'] = false;
                   self::$logger->warn("Issue $bugid does not exist in Mantis DB: calling checkWBS()");
                   $childArray = array();
 
@@ -1031,7 +1031,7 @@ class WBSElement extends Model {
 		$icon = $dynatreeDict['icon'];
 		$font = $dynatreeDict['font'];
 		$color = $dynatreeDict['color'];
-		$isExpand = $dynatreeDict['expand'];
+		$isExpand = $dynatreeDict['expanded'];
 
 		$isFolder = $dynatreeDict['folder'];
 		if ($isFolder) {
@@ -1068,7 +1068,7 @@ class WBSElement extends Model {
       if (!is_null($children)) {
          $childOrder = 1;
          foreach($children as $childDict) {
-            self::updateFromDynatree(get_object_vars($childDict), $root_id, $wbse->getId(), $childOrder);
+            self::updateFromFancytree(get_object_vars($childDict), $root_id, $wbse->getId(), $childOrder);
             $childOrder += 1;
          }
       }
