@@ -1014,6 +1014,65 @@ class WBSElement extends Model {
          self::$logger->error("Query failed!");
       }
    }
+	/**
+	 *
+	 * @param type $dynatreeDict
+	 */
+	public static function updateFromFancytree($dynatreeDict, $root_id = NULL, $parent_id = NULL, $order = 1) {
+
+      $aa = var_export($dynatreeDict, true);
+      if (self::$logger->isDebugEnabled()) {
+         self::$logger->debug("updateFromDynatree(root=$root_id, parent=$parent_id, order=$order) : \n$aa");
+         //self::$logger->debug($aa);
+      }
+
+		$id = NULL;
+		$title = $dynatreeDict['title'];
+		$icon = $dynatreeDict['icon'];
+		$font = $dynatreeDict['font'];
+		$color = $dynatreeDict['color'];
+		$isExpand = $dynatreeDict['expand'];
+
+		$isFolder = $dynatreeDict['folder'];
+		if ($isFolder) {
+			$id = $dynatreeDict['key']; // (null if new folder)
+
+         // new created folders have an id starting with '_'
+         if (substr($id, 0, 1) === '_') {
+            $id = NULL;
+         }
+
+			$bug_id = NULL;
+		} else {
+			$bug_id = $dynatreeDict['key'];
+
+			// find $id (if exists)
+			// Note: parent_id may have changed (if issue moved)
+			// Note: $root_id cannot be null because a WBS always starts with a folder (created at Command init)
+         $sql = AdodbWrapper::getInstance();
+			$query  = "SELECT id FROM codev_wbs_table WHERE bug_id = ".$sql->db_param().
+                   " AND root_id = ".$sql->db_param();
+         $result = $sql->sql_query($query, array($bug_id, $root_id));
+
+         $row = $sql->fetchObject($result);
+			if (!is_null($row)) {
+				$id = $row->id;
+			}
+		}
+
+		// create Element
+		$wbse = new WBSElement($id, $root_id, $bug_id, $parent_id, $order, $title, $icon, $font, $color, $isExpand);
+
+		// create children
+		$children = $dynatreeDict['children'];
+      if (!is_null($children)) {
+         $childOrder = 1;
+         foreach($children as $childDict) {
+            self::updateFromDynatree(get_object_vars($childDict), $root_id, $wbse->getId(), $childOrder);
+            $childOrder += 1;
+         }
+      }
+	}
 
 }
 

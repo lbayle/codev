@@ -5,7 +5,7 @@ include_once('i18n/i18n.inc.php');
 
 if (Tools::isConnectedUser() && (isset($_POST['action']))) {
 
-	$logger = Logger::getLogger("dynatreeAjax");
+	$logger = Logger::getLogger("fancytreeAjax");
    if (isset($_POST['action'])) {
 
       if($_POST['action'] == 'saveWBS') {
@@ -43,8 +43,13 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
                }
             }
          }
-         WBSElement::updateFromDynatree($rootArray, $root_id);
-
+         try {
+            WBSElement::updateFromFancytree($rootArray, $root_id);
+         } catch (Exception $e) {
+            $logger->error("WBS Save error : ".$e->getMessage());
+            // TODO return wbsStatusMsg !!
+         }
+         // TODO no need to return tree, but we need status msg !
          echo $jsonDynatreeDict;
 
       } else if($_POST['action'] == 'loadWBS') {
