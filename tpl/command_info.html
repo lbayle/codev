@@ -51,7 +51,7 @@
        <p>{t}Reduce the command selection by setting some filters{/t}</p>
        <form id="formSetStateFilter" name="formSetStateFilter" method="post" action="{$page}" >
           <fieldset>
-             {foreach from=$cmdStateFilterInfo key=id item=i} 
+             {foreach from=$cmdStateFilterInfo key=id item=i}
              <input type="checkbox" class="cb_cmdStateFilter" name="{$i.stateId}" {if $i.isChecked} checked="checked" {/if}/>
              <label>{$i.stateName}</label>
              <br>
@@ -63,7 +63,7 @@
           </fieldset>
        </form>
     </div>
-    
+
    {if isset($cmdid)}
    {include file="modal/consistency_check.html"}
 
@@ -200,7 +200,7 @@
       </div>
       <div id="tab_provisions">
           {if isset($isManager) && $isManager}
-          
+
          <div>
             <label style="cursor: pointer;"><input type="radio" id="radio1" name="radio" />{t}Total{/t}</label>
             <label style="cursor: pointer;"><input type="radio" id="radio2" name="radio" checked="checked" />{t}Provisions{/t}</label>
@@ -365,7 +365,9 @@
       </div>
       {/if}
    </div>
-   
+
+   <link href="lib/dynatree/dist/skin/ui.dynatree.css" rel="stylesheet" type="text/css" id="skinSheet">
+   <script src="lib/dynatree/dist/jquery.dynatree.min.js" type="text/javascript"></script>
    <script src="lib/DataTables/media/js/jquery.dataTables.min.js"></script>
    <script src="lib/jquery.jeditable/jquery.jeditable.mini.js"></script>
    <script src="lib/dhtmlxGantt/dhtmlxgantt.js" type="text/javascript" charset="utf-8"></script>
