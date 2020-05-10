@@ -2,36 +2,6 @@
 {if isset($isEditGranted) && $isEditGranted}
 
    <script type="text/javascript" src="js/datepicker.js"></script>
-   <script type="text/javascript">
-      jQuery(document).ready(function() {
-         {if $locale != en}
-         jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
-         {/if}
-
-         // Set the date
-         var startDatePicker = null;
-         {if isset($cmdStartDate)}
-         startDatePicker = jQuery("#cmdStartDate").datepicker("setDate", "{$cmdStartDate}");
-         {else}
-         startDatePicker = jQuery("#cmdStartDate").datepicker();
-         {/if}
-         var endDatePicker = null;
-         {if isset($cmdDeadline)}
-         endDatePicker = jQuery("#cmdDeadline").datepicker("setDate", "{$cmdDeadline}");
-         {else}
-         endDatePicker = jQuery("#cmdDeadline").datepicker();
-         {/if}
-
-         // Add range date
-         startDatePicker.datepicker("option","beforeShow",function(input) {
-            jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
-         });
-         endDatePicker.datepicker("option","beforeShow",function(input) {
-            jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
-         });
-      });
-   </script>
-
    <h2 class="center">{if isset($cmdName)}{$cmdName}{else}{t}New command{/t}{/if}</h2>
 
    <div style="margin-top: 2em;">
@@ -78,12 +48,12 @@
                   </tr>
                   <tr>
                      <th><label for="cmdStartDate">{t}Start date{/t}</label></th>
-                     <td><input type="text" id="cmdStartDate" name="cmdStartDate" class="datepicker" maxlength="10" size="10" title="{t}Start date{/t}" />
+                     <td><input type="text" id="cmdStartDate" name="cmdStartDate" class="datepicker" maxlength="10" size="10" title="{t}Start date{/t}">
                      </td>
                   </tr>
                   <tr>
                      <th><label for="cmdDeadline">{t}End date{/t}</label></th>
-                     <td><input type="text" id="cmdDeadline" name="cmdDeadline" class="datepicker" maxlength="10" size="10" title="{t}Deadline{/t}" />
+                     <td><input type="text" id="cmdDeadline" name="cmdDeadline" class="datepicker" maxlength="10" size="10" title="{t}Deadline{/t}">
                      </td>
                   </tr>
                   <tr>
@@ -113,89 +83,7 @@
          </fieldset>
       </form>
 
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-
-            function checkRegexp(o, regexp, n) {
-               if (!(regexp.test(o.val()))) {
-                  //o.addClass("ui-state-error");
-                  //updateTips(n);
-                  return false;
-               } else {
-                  return true;
-               }
-            }
-
-            jQuery("#btSaveCommand").click(function() {
-               // check fields
-               var foundError = 0;
-               var msgString = "";
-
-               var form = jQuery("#updateCmdInfoForm");
-               if (0 == form.find("input[name=cmdName]").val().length) {
-                  msgString += "{t}Field is missing{/t}: {t}Command name{/t}\n";
-                  ++foundError;
-               }
-               if ('' != form.find("input[name=cmdTotalSoldDays]").val()) {
-                  bValid = checkRegexp(form.find("input[name=cmdTotalSoldDays]"), /^[0-9]+(\.[0-9]+)?$/i, "format: '1234' or '123.35'");
-                  if (!bValid) {
-                     msgString += "{t}Not a number{/t}: {t}Sold Charge{/t}\n";
-                     ++foundError;
-                  }
-               }
-
-               if (0 == foundError) {
-                  {if isset($commandid)}
-                  // function defined in wbsEditor.html
-                  var deferred = saveTree();
-                  // set success callback:
-                  deferred.done(function () {
-                     // If WBS save ok, then save & quit
-                     form.submit();
-                  });
-                  // set error callback:
-                  deferred.fail(function () {
-                     $("#tree").dynatree("destroy");
-                     initTree();
-                  });
-                  {else}
-                  form.submit();
-                  {/if}
-                  
-               } else {
-                  alert(msgString);
-               }
-            });
-         });
-      </script>
-
       {if isset($commandid)}
-      <!-- DialogBox for deleteCommand -->
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-
-            // DialogBox for deleteCommand
-            jQuery("#btDeleteCommand").click(function(event) {
-               jQuery("#deleteCommand_dialog_form").dialog("open");
-            });
-
-            // delete track dialogBox
-            jQuery("#deleteCommand_dialog_form").dialog({
-               autoOpen: false,
-               resizable: true,
-               width: "auto",
-               modal: true,
-               buttons: {
-                  "{t}Delete{/t}": function() {
-                     jQuery("#formDeleteCommand").submit();
-                  },
-                  Cancel: function() {
-                     jQuery(this).dialog("close");
-                  }
-               }
-            });
-         });
-      </script>
       <div id="deleteCommand_dialog_form" title="{t}Delete Command{/t}" class="ui-helper-hidden">
          <p><span class="ui-icon ui-icon-alert float" style="margin-right: 7px;"></span>{t}Delete this Command ?{/t}</p>
          <table class="invisible">
@@ -240,47 +128,6 @@
 
       <div id="tab_tasks">
          {if isset($isAddIssueForm)}
-         <script type="text/javascript">
-
-            jQuery(document).ready(function() {
-               jQuery("#btAddCmdIssue").click(function(event) {
-                  addCmdIssue();
-               });
-
-               jQuery("#bugid").keypress(function(event) {
-                  if ( jQuery.ui.keyCode.ENTER == event.keyCode ) {
-                     addCmdIssue();
-                     event.preventDefault();
-                  }
-               });
-
-               function addCmdIssue(){
-                  // check fields
-                  var foundError = 0;
-                  var msgString = "";
-                  var bug_id = jQuery.trim(document.forms["addCmdIssueForm"].bugid.value);
-
-                  if ('' != bug_id) {
-                     var reg=new RegExp("^[0-9]+$","i");
-                     if (!reg.test(bug_id)) {
-                        msgString += "{t}Not a number{/t}: {t}task id{/t}\n";
-                        ++foundError;
-                     }
-                  } else {
-                     msgString += "{t}Missing field{/t}:\n\n{t}task id{/t}\n";
-                     ++foundError;
-                  }
-
-
-                  if (0 == foundError) {
-                     document.forms["addCmdIssueForm"].submit();
-                  } else {
-                     alert(msgString);
-                  }
-               }
-            });
-         </script>
-
          <div>
             <!-- create form -->
             <form id="addCmdIssueForm" name="addCmdIssueForm" method="post" action="{$page}">
@@ -328,35 +175,6 @@
                </tbody>
             </table>
 
-            <script type="text/javascript">
-               function removeCmdIssue(bugid, project, description){
-                  jQuery("#desc_id").text(bugid);
-                  jQuery("#desc_project").text(project);
-                  jQuery("#desc_summary").text(description);
-
-                  jQuery("#formRemoveCmdIssue").find("input[name=bugid]").val(bugid);
-
-                  jQuery("#removeCmdIssue_dialog_form").dialog( "open" );
-               }
-
-               jQuery(document).ready(function() {
-                  // delete track dialogBox
-                  jQuery("#removeCmdIssue_dialog_form").dialog({
-                     autoOpen: false,
-                     resizable: true,
-                     width: "auto",
-                     modal: true,
-                     buttons: {
-                        "{t}Remove{/t}": function() {
-                           jQuery("#formRemoveCmdIssue").submit();
-                        },
-                        Cancel: function() {
-                           jQuery(this).dialog("close");
-                        }
-                     }
-                  });
-               });
-            </script>
             <div id="removeCmdIssue_dialog_form" title="{t}Remove Task{/t}" class="ui-helper-hidden">
                <p><span class="ui-icon ui-icon-alert float" style="margin-right: 7px;"></span>{t}Remove Task from this Command ?{/t}</p>
                <table class="invisible">
@@ -436,36 +254,6 @@
                   {/foreach}
                </tbody>
             </table>
-            <script type="text/javascript">
-               function removeCmdSet(commandsetid, name){
-                  var dialog = jQuery("#removeCmdSet_dialog_form");
-                  dialog.find(".desc_id").text(commandsetid);
-                  dialog.find(".desc_name").text(name);
-
-                  dialog.find("#formRemoveCmdSet").find("input[name=commandsetid]").val(commandsetid);
-
-                  dialog.dialog("open");
-               }
-
-               jQuery(document).ready(function() {
-                  // delete track dialogBox
-                  jQuery("#removeCmdSet_dialog_form").dialog({
-                     autoOpen: false,
-                     resizable: true,
-                     width: "auto",
-                     modal: true,
-                     buttons: {
-                        "{t}Remove{/t}": function() {
-                           jQuery("#formRemoveCmdSet").submit();
-                        },
-                        Cancel: function() {
-                           jQuery(this).dialog("close");
-                        }
-                     }
-                  });
-
-               });
-            </script>
             <div id="removeCmdSet_dialog_form" title="{t}Remove CommandSet{/t}" class="ui-helper-hidden">
                <p><span class="ui-icon ui-icon-alert float" style="margin-right: 7px;"></span>{t}Remove this Command from the CommandSet ?{/t}</p>
                <table class="invisible">
@@ -602,26 +390,20 @@
       <div id="tab_wbs">
           {include file="tools/wbsEditor.html"}
       </div>
-
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-            jQuery.ajax({
-               url: "js_min/datatable.min.js",
-               dataType: "script",
-               cache: true
-            });
-         });
-      </script>
    </div>
    {/if}
 
    <script type="text/javascript">
       // this is to transmit SMARTY variables to js file
-      var smartyData = {
+      var smartyDataCmdEdit = {
          page:"{$page}",
          ajaxPage:"{$ajaxPage}",
          cmdId:"{$commandid}",
          cmdProvisionTypeMngt:"{$cmdProvisionTypeMngt}",
+         datepickerLocale:"{$locale}",
+         cmdStartDate:"{$cmdStartDate}",
+         cmdDeadline:"{$cmdDeadline}",
+
          // i18n
          i18n_someFieldsAreMissing:"{t}Some fields are missing:{/t}",
          i18n_days:"{t}days{/t}",
@@ -629,11 +411,16 @@
          i18n_update:"{t}Update{/t}",
          i18n_delete:"{t}Delete{/t}",
          i18n_cancel:"{t}Cancel{/t}",
+         i18n_remove:"{t}Remove{/t}",
          i18n_save:"{t}save{/t}",
          i18n_confirmDeleteProvision:"{t}Delete from the Command ?{/t}",
          i18n_addProvision:"{t}Add Provision{/t}",
          i18n_editProvision:"{t}Edit Provision{/t}",
-         i18n_updatedSuccessfully:"{t}Updated successfully !{/t}"
+         i18n_updatedSuccessfully:"{t}Updated successfully !{/t}",
+         i18n_missingFieldCmdName:"{t}Field is missing{/t}: {t}Command name{/t}",
+         i18n_nanSoldCharge:"{t}Not a number{/t}: {t}Sold Charge{/t}",
+         i18n_nanTaskId:"{t}Not a number{/t}: {t}task id{/t}",
+         i18n_missingFieldTaskId:"{t}Missing field{/t}:\n\n{t}task id{/t}"
       };
    </script>
    <script type="text/javascript" src="js_min/datepicker.min.js"></script>

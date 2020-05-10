@@ -16,10 +16,167 @@
 */
 
 // ================== DOCUMENT READY ====================
-
-
-
 jQuery(document).ready(function() {
+
+
+   if (smartyDataCmdEdit.datepickerLocale !== 'en') {
+      jQuery.datepicker.setDefaults($.datepicker.regional[smartyDataCmdEdit.datepickerLocale]);
+   }
+
+   // Set the date
+   if ('' !== smartyDataCmdEdit.cmdStartDate) {
+      jQuery("#cmdStartDate").datepicker("setDate", smartyDataCmdEdit.cmdStartDate);
+   } else {
+      jQuery("#cmdStartDate").datepicker();
+   }
+   if ('' !== smartyDataCmdEdit.cmdDeadline) {
+      jQuery("#cmdDeadline").datepicker("setDate", smartyDataCmdEdit.cmdDeadline);
+   } else {
+      jQuery("#cmdDeadline").datepicker();
+   }
+
+   // Add range date
+   jQuery("#cmdStartDate").datepicker("option","beforeShow",function(input) {
+      jQuery(this).datepicker("option","maxDate",jQuery("#cmdDeadline").datepicker("getDate"));
+   });
+   jQuery("#cmdDeadline").datepicker("option","beforeShow",function(input) {
+      jQuery(this).datepicker("option","minDate",jQuery("#cmdStartDate").datepicker("getDate"));
+   });
+
+
+
+   jQuery("#btSaveCommand").click(function() {
+      // check fields
+      var foundError = 0;
+      var msgString = "";
+
+      var form = jQuery("#updateCmdInfoForm");
+      if (0 == form.find("input[name=cmdName]").val().length) {
+         msgString += smartyDataCmdEdit.i18n_missingFieldCmdName+"\n";
+         ++foundError;
+      }
+      if ('' != form.find("input[name=cmdTotalSoldDays]").val()) {
+         bValid = checkRegexp(form.find("input[name=cmdTotalSoldDays]"), /^[0-9]+(\.[0-9]+)?$/i, "format: '1234' or '123.35'");
+         if (!bValid) {
+            msgString += smartyDataCmdEdit.i18n_nanSoldCharge+"\n";
+            ++foundError;
+         }
+      }
+
+      if (0 === foundError) {
+         if ("" !== smartyDataCmdEdit.cmdId) {
+            // function defined in wbsEditor.html
+            var deferred = saveTree();
+            // set success callback:
+            deferred.done(function () {
+               // If WBS save ok, then save & quit
+               form.submit();
+            });
+            // set error callback:
+            deferred.fail(function () {
+               $("#tree").fancytree("destroy");
+               initTree();
+            });
+         } else {
+            form.submit();
+         }
+
+      } else {
+         alert(msgString);
+      }
+   });
+
+   if ("" !== smartyDataCmdEdit.cmdId) {
+      // DialogBox for deleteCommand
+      jQuery("#btDeleteCommand").click(function(event) {
+         jQuery("#deleteCommand_dialog_form").dialog("open");
+      });
+   }
+
+//   if ("" !== smartyDataCmdEdit.isAddIssueForm) {
+      jQuery("#btAddCmdIssue").click(function(event) {
+         addCmdIssue();
+      });
+
+      jQuery("#bugid").keypress(function(event) {
+         if ( jQuery.ui.keyCode.ENTER == event.keyCode ) {
+            addCmdIssue();
+            event.preventDefault();
+         }
+      });
+//   }
+
+   jQuery.ajax({
+      url: "js_min/datatable.min.js",
+      dataType: "script",
+      cache: true
+   });
+
+   // delete track dialogBox
+   jQuery("#deleteCommand_dialog_form").dialog({
+      autoOpen: false,
+      resizable: true,
+      width: "auto",
+      modal: true,
+      buttons: [
+         {
+            text: smartyDataCmdEdit.i18n_delete,
+            click: function() {
+               jQuery("#formDeleteCommand").submit();
+            }
+         },
+         {
+            text: smartyDataCmdEdit.i18n_cancel,
+            click: function() {
+               jQuery(this).dialog("close");
+            }
+         }
+      ]
+   });
+
+   // delete track dialogBox
+   jQuery("#removeCmdIssue_dialog_form").dialog({
+      autoOpen: false,
+      resizable: true,
+      width: "auto",
+      modal: true,
+      buttons: [
+         {
+            text: smartyDataCmdEdit.i18n_remove,
+            click: function() {
+               jQuery("#formRemoveCmdIssue").submit();
+            }
+         },
+         {
+            text: smartyDataCmdEdit.i18n_cancel,
+            click: function() {
+               jQuery(this).dialog("close");
+            }
+         }
+      ]
+   });
+
+   // delete track dialogBox
+   jQuery("#removeCmdSet_dialog_form").dialog({
+      autoOpen: false,
+      resizable: true,
+      width: "auto",
+      modal: true,
+      buttons: [
+         {
+            text: smartyDataCmdEdit.i18n_remove,
+            click: function() {
+               jQuery("#formRemoveCmdSet").submit();
+            }
+         },
+         {
+            text: smartyDataCmdEdit.i18n_cancel,
+            click: function() {
+               jQuery(this).dialog("close");
+            }
+         }
+      ]
+   });
 
    // ---------------------------------------------------
    // Note: use 'on' instead of 'click' because we need bubbling
@@ -34,21 +191,21 @@ jQuery(document).ready(function() {
       var provBudget = $(trProv).find('.provBudget').text();
       var provCurrency = $(trProv).find('.provCurrency').text();
       var provSummary = $(trProv).children('.provSummary').text();
-      var confirmString = smartyData.i18n_confirmDeleteProvision + "\n\n" + 
+      var confirmString = smartyDataCmdEdit.i18n_confirmDeleteProvision + "\n\n" +
               provDate + " " +
               provType + "\n" +
-              provBudgetDays + " " + smartyData.i18n_days + "\n" +
+              provBudgetDays + " " + smartyDataCmdEdit.i18n_days + "\n" +
               provBudget + " " + provCurrency + "\n\n" +
               provSummary;
 
       if (confirm(confirmString)) {
          $.ajax({
-            url: smartyData.ajaxPage,
+            url: smartyDataCmdEdit.ajaxPage,
             type: "POST",
             dataType:"json",
             data: {
                action: 'deleteProvision',
-               cmdId: smartyData.cmdId,
+               cmdId: smartyDataCmdEdit.cmdId,
                provRowId: rowId
             },
             success: function (data) {
@@ -103,7 +260,7 @@ jQuery(document).ready(function() {
 
       // use addProvision_dialog_form, just change action name to 'editProvision'
       var dialog = jQuery("#addProvision_dialog_form");
-      dialog.dialog('option', 'title', smartyData.i18n_editProvision);
+      dialog.dialog('option', 'title', smartyDataCmdEdit.i18n_editProvision);
       jQuery("#addProvDlgAction").val('editProvision');
       dialog.dialog("open");
 
@@ -112,7 +269,7 @@ jQuery(document).ready(function() {
    // --------------------------------------------------------
    jQuery("#btAddProvision").click(function(event) {
       var dialog = jQuery("#addProvision_dialog_form");
-      dialog.dialog('option', 'title', smartyData.i18n_addProvision);
+      dialog.dialog('option', 'title', smartyDataCmdEdit.i18n_addProvision);
       jQuery("#addProvDlgAction").val('addProvision');
       jQuery("#addProvRowId").val(0);
       jQuery("#datepicker").val('');
@@ -133,7 +290,7 @@ jQuery(document).ready(function() {
       modal: true,
       buttons: [
          {
-            text: "OK", // smartyData.i18n_add,
+            text: "OK", // smartyDataCmdEdit.i18n_add,
             click: function() {
                var isInCheckBudget = jQuery("#cb_isInCheckBudget").attr('checked')?1:0;
                var form = jQuery("#formAddProvision");
@@ -141,7 +298,7 @@ jQuery(document).ready(function() {
 
                // TODO check fields validity before sending to the server
                jQuery.ajax({
-                  url: smartyData.ajaxPage,
+                  url: smartyDataCmdEdit.ajaxPage,
                   type: "POST",
                   dataType:"json",
                   async: false,
@@ -177,7 +334,7 @@ jQuery(document).ready(function() {
                   },
                   error: function(jqXHR, textStatus, errorThrown) {
                      if('Forbidden' === errorThrown ) {
-                        window.location = smartyData.page;
+                        window.location = smartyDataCmdEdit.page;
                      }else {
                         console.error(textStatus, errorThrown);
                         alert("ERROR: Please contact your CodevTT administrator");
@@ -188,7 +345,7 @@ jQuery(document).ready(function() {
             }
          },
          {
-            text: smartyData.i18n_cancel,
+            text: smartyDataCmdEdit.i18n_cancel,
             click: function() {
                jQuery(this).dialog("close");
             }
@@ -211,12 +368,12 @@ jQuery(document).ready(function() {
       var data = new FormData();
       data.append("uploaded_csv", provCsvFile);
       data.append("action","importProvisionCSV");
-      data.append("cmdid",smartyData.cmdId);
+      data.append("cmdid",smartyDataCmdEdit.cmdId);
 
       jQuery.ajax({
          async: false,
          type: "POST",
-         url: smartyData.ajaxPage,
+         url: smartyDataCmdEdit.ajaxPage,
          data: data,
          processData: false,
          contentType: false,
@@ -236,7 +393,7 @@ jQuery(document).ready(function() {
          },
          error: function(jqXHR, textStatus, errorThrown) {
             if('Forbidden' === errorThrown ) {
-               window.location = smartyData.page;
+               window.location = smartyDataCmdEdit.page;
             }else {
                console.error(textStatus, errorThrown);
                alert("ERROR: Please contact your CodevTT administrator");
@@ -264,11 +421,67 @@ jQuery(document).ready(function() {
 
    jQuery("#type").change(function() {
       // DEFAULT: checked, except if type='management'
-      var checked = ( jQuery("#type").val() == smartyData.cmdProvisionTypeMngt) ? false : true;
+      var checked = ( jQuery("#type").val() == smartyDataCmdEdit.cmdProvisionTypeMngt) ? false : true;
       jQuery("#cb_isInCheckBudget").prop('checked', checked);
    });
 
 }); // document ready
+// =========================================================
+
+function checkRegexp(o, regexp, n) {
+   if (!(regexp.test(o.val()))) {
+      //o.addClass("ui-state-error");
+      //updateTips(n);
+      return false;
+   } else {
+      return true;
+   }
+}
+
+function addCmdIssue(){
+   // check fields
+   var foundError = 0;
+   var msgString = "";
+   var bug_id = jQuery.trim(document.forms["addCmdIssueForm"].bugid.value);
+
+   if ('' != bug_id) {
+      var reg=new RegExp("^[0-9]+$","i");
+      if (!reg.test(bug_id)) {
+         msgString += smartyDataCmdEdit.i18n_nanTaskId+"\n";
+         ++foundError;
+      }
+   } else {
+      msgString += smartyDataCmdEdit.i18n_missingFieldTaskId+"\n";
+      ++foundError;
+   }
+
+
+   if (0 == foundError) {
+      document.forms["addCmdIssueForm"].submit();
+   } else {
+      alert(msgString);
+   }
+}
+
+function removeCmdIssue(bugid, project, description){
+   jQuery("#desc_id").text(bugid);
+   jQuery("#desc_project").text(project);
+   jQuery("#desc_summary").text(description);
+
+   jQuery("#formRemoveCmdIssue").find("input[name=bugid]").val(bugid);
+
+   jQuery("#removeCmdIssue_dialog_form").dialog( "open" );
+}
+
+function removeCmdSet(commandsetid, name){
+   var dialog = jQuery("#removeCmdSet_dialog_form");
+   dialog.find(".desc_id").text(commandsetid);
+   dialog.find(".desc_name").text(name);
+
+   dialog.find("#formRemoveCmdSet").find("input[name=commandsetid]").val(commandsetid);
+
+   dialog.dialog("open");
+}
 
 // ------------------------------------
 // actions for 'addProvision_dialog_form'
@@ -301,10 +514,10 @@ function createProvisionTr(provData) {
 
    var btDelete = jQuery('<img align="absmiddle" src="images/b_drop.png">')
            .addClass("deleteProvision_link").addClass("pointer")
-           .prop('title', smartyData.i18n_delete);
+           .prop('title', smartyDataCmdEdit.i18n_delete);
    var btEdit = jQuery('<img align="absmiddle" src="images/b_edit.png">')
            .addClass("editProvision_link").addClass("pointer")
-           .prop('title', smartyData.i18n_edit);
+           .prop('title', smartyDataCmdEdit.i18n_edit);
 
    var tdObjButtons = jQuery('<td style="width:38px;">').addClass("ui-state-error-text");
    tdObjButtons.append(btDelete).append(' ').append(btEdit);
