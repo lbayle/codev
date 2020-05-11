@@ -21,12 +21,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 16:31+0200\n"
-"PO-Revision-Date: 2020-04-09 13:58:53+0000\n"
+"PO-Revision-Date: 2020-05-11 15:35:05+0000\n"
 "Language: ru\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
-"X-Generator: MediaWiki 1.35.0-alpha; Translate 2019-04-24\n"
+"X-Generator: MediaWiki 1.35.0-alpha; Translate 2020-04-20\n"
 "Plural-Forms: nplurals=3; plural=(n%10 == 1 && n%100 != 11) ? 0 : ( (n%10 >= 2 && n%10 <= 4 && (n%100 < 10 || n%100 >= 20)) ? 1 : 2 );\n"
 
 #. tpl/filters.html
@@ -1109,7 +1109,7 @@ msgstr "править"
 
 #. tpl/servicecontract_info.html
 msgid "Charges"
-msgstr ""
+msgstr "Изменения"
 
 #. tpl/servicecontract_info.html
 #. tpl/tools/dashboard.html
@@ -4227,7 +4227,7 @@ msgstr "Скрытые сообщения"
 #. plugins/BlogPlugin/BlogPlugin.html
 #: plugins/BlogPlugin/BlogPost.class.php:430
 msgid "Hide"
-msgstr ""
+msgstr "Скрыть"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall help"
@@ -4781,11 +4781,11 @@ msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "No"
-msgstr ""
+msgstr "Нет"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Yes"
-msgstr ""
+msgstr "Да"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Filter on Issue type"
