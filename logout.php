@@ -25,7 +25,9 @@ try {
       $user =  UserCache::getInstance()->getUser($_SESSION['userid']);
       $user->setDefaultTeam($_SESSION['teamid']);
       $user->setDefaultLanguage($_SESSION['locale']);
-      $user->setDefaultProject($_SESSION['projectid']);
+      if (!is_null($_SESSION['projectid'])) {
+         $user->setDefaultProject($_SESSION['projectid']);
+      }
    }
 } catch (Exception $e) {
    #$logger->debug("could not set defaultTeam for user ".$_SESSION['userid']);
