@@ -13,9 +13,8 @@
 # Author: Vito Genovese
 msgid ""
 msgstr ""
-""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-01 16:31+0200\n"
+"POT-Creation-Date: 2020-05-19 11:53+0200\n"
 "PO-Revision-Date: 2020-05-11 15:35:05+0000\n"
 "Language: tr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1284,6 +1283,7 @@ msgstr "Bitiş tarihi"
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 #. plugins/BlogPlugin/BlogPlugin.html
+#. plugins/AdminTools/AdminTools.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/CostsIndicator/CostsIndicator.html
@@ -1540,6 +1540,7 @@ msgstr "Ekibi sil"
 #. tpl/command_edit.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. Delete
+#: plugins/BlogPlugin/BlogPost.class.php:414
 #: plugins/BlogPlugin/BlogPost.class.php:425
 msgid "Delete"
 msgstr "Sil"
@@ -1598,6 +1599,7 @@ msgid "Departure Date"
 msgstr "Ayrılış Tarihi"
 
 #. tpl/edit_team.html
+#. tpl/user_info.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Role"
 msgstr "Rol"
@@ -2663,7 +2665,7 @@ msgstr "Hataları göstermek için tıklayın"
 #: management/command_info.php:112 management/commandset_info.php:87
 #: reports/issue_info.php:96 reports/issue_info.php:97
 #: timetracking/team_monthly_activity_report.php:75
-#: timetracking/time_tracking.php:323 timetracking/team_activity_report.php:65
+#: timetracking/time_tracking.php:336 timetracking/team_activity_report.php:65
 msgid "Errors"
 msgstr "Hatalar"
 
@@ -2952,14 +2954,6 @@ msgid "Sold Charge"
 msgstr "Satılan Ücret"
 
 #. tpl/command_edit.html
-msgid "Command name"
-msgstr "Komut adı"
-
-#. tpl/command_edit.html
-msgid "Not a number"
-msgstr "Sayı değil"
-
-#. tpl/command_edit.html
 msgid "Delete Command"
 msgstr "Komutu Sil"
 
@@ -2980,14 +2974,6 @@ msgstr "WBS"
 #. tpl/command_edit.html
 msgid "Parent CommandSets"
 msgstr "Üst CommandSets"
-
-#. tpl/command_edit.html
-msgid "task id"
-msgstr "görev kimliği"
-
-#. tpl/command_edit.html
-msgid "Missing field"
-msgstr "Eksik alan"
 
 #. tpl/command_edit.html
 msgid "Add task"
@@ -3048,6 +3034,22 @@ msgstr "Komuttan silinsin mi ?"
 #. tpl/command_edit.html
 msgid "Edit Provision"
 msgstr "Karşılık Düzenle"
+
+#. tpl/command_edit.html
+msgid "Command name"
+msgstr "Komut adı"
+
+#. tpl/command_edit.html
+msgid "Not a number"
+msgstr "Sayı değil"
+
+#. tpl/command_edit.html
+msgid "task id"
+msgstr "görev kimliği"
+
+#. tpl/command_edit.html
+msgid "Missing field"
+msgstr "Eksik alan"
 
 #. tpl/team_activity_report.html
 #. tpl/menu/global_menu.html
@@ -3316,6 +3318,8 @@ msgid "Remove CodevTT from Mantis menu:"
 msgstr "CodevTT Mantis menüsünden kaldırın:"
 
 #. tpl/uninstall.html
+#. plugins/AdminTools/AdminTools.html
+#: plugins/AdminTools/AdminTools.class.php:69
 msgid "TODO"
 msgstr "YAPILACAKLAR"
 
@@ -3632,6 +3636,8 @@ msgid "Login failed."
 msgstr "Oturum açma başarısız."
 
 #. tpl/modal/login.html
+#. tpl/user_info.html
+#: plugins/ImportUsers/ImportUsers_ajax.php:165
 msgid "Login"
 msgstr "Oturum aç"
 
@@ -3673,6 +3679,16 @@ msgstr "Hizmet Sözleşmesi"
 msgid "User info"
 msgstr "Kullanıcı"
 
+#. tpl/user_info.html
+#, fuzzy
+msgid "User ID"
+msgstr "Kullanıcı"
+
+#. tpl/user_info.html
+#, fuzzy
+msgid "Team arrival date"
+msgstr "Kullanıcı varış tarihi"
+
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
 msgstr "Biriktirme listesi ile görev yok"
@@ -3700,6 +3716,7 @@ msgstr "Her kullanıcı için, atanan görevlerinin birikmiş işlerinin toplam�
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
+#. plugins/AdminTools/AdminTools_cfg.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
@@ -4293,6 +4310,46 @@ msgstr "Dest"
 msgid "Message wall"
 msgstr "Mesaj duvarı"
 
+#. plugins/AdminTools/AdminTools.html
+#. plugins/AdminTools/AdminTools_cfg.html
+#: plugins/AdminTools/AdminTools.class.php:64
+#, fuzzy
+msgid "Administration tools"
+msgstr "CodevTT Yönetimi"
+
+#. plugins/AdminTools/AdminTools.html
+#, fuzzy
+msgid "Run selected actions"
+msgstr "Süreyi sil"
+
+#. plugins/AdminTools/AdminTools.html
+msgid "Execute"
+msgstr ""
+
+#. plugins/AdminTools/AdminTools.html
+#, fuzzy
+msgid "Actions executed !"
+msgstr "Görev seçilmedi !"
+
+#. plugins/AdminTools/AdminTools_ajax.html
+#, fuzzy
+msgid "Force the display of the \"Message\" plugin on the homepage"
+msgstr "Ana sayfada bir mesaj duvarı görüntüle"
+
+#. plugins/AdminTools/AdminTools_ajax.html
+#, fuzzy
+msgid "users"
+msgstr "Kullanıcılar"
+
+#. plugins/AdminTools/AdminTools_ajax.html
+msgid "Clear Dashboard"
+msgstr ""
+
+#. plugins/AdminTools/AdminTools_ajax.html
+#, fuzzy
+msgid "for user "
+msgstr "Kullanıcıları içe aktar"
+
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
 msgid "Workforce"
 msgstr "İş gücü"
@@ -4641,8 +4698,12 @@ msgid "Load per User"
 msgstr "Kullanıcı Başına Yükle"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr "Atık yan görevlerini göster: 'Olay' ve 'Hareketsizlik' kategorileri<br>\n          (işaretlenmezse, yan görevler 'geçen' dahil edilir)"
+msgid ""
+"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
+"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr ""
+"Atık yan görevlerini göster: 'Olay' ve 'Hareketsizlik' kategorileri<br>\n"
+"          (işaretlenmezse, yan görevler 'geçen' dahil edilir)"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4658,8 +4719,12 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "Projeler ve taraf için harcanan zaman Geçerli görev seçiminin görevleri"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr "'Olay' ve 'Hareketsizlik' tarafı Geçerli seçimin görevleri.<br>\n          ('atık' seçeneği seçilmemişse, bu 'geçen süreye dahil edilecektir')"
+msgid ""
+"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
+"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr ""
+"'Olay' ve 'Hareketsizlik' tarafı Geçerli seçimin görevleri.<br>\n"
+"          ('atık' seçeneği seçilmemişse, bu 'geçen süreye dahil edilecektir')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -4945,15 +5010,15 @@ msgstr "Proje ekibe eklenemedi"
 msgid "Could NOT remove the project from the team"
 msgstr "Proje ekipten kaldırılamadı"
 
-#: admin/edit_team.php:290
+#: admin/edit_team.php:286
 msgid "Configure Tooltips"
 msgstr "Araç İpuçlarını Yapılandır"
 
-#: admin/edit_team.php:405
+#: admin/edit_team.php:401
 msgid "enabled"
 msgstr "etkin"
 
-#: admin/edit_team.php:405
+#: admin/edit_team.php:401
 msgid "disabled"
 msgstr "devre dışı"
 
@@ -5079,28 +5144,28 @@ msgstr "Kaldırıldı"
 msgid "monitored"
 msgstr "izlendi"
 
-#: classes/user.class.php:1555
+#: classes/user.class.php:1564
 msgid "for team"
 msgstr "ekipten"
 
-#: classes/user.class.php:1557
+#: classes/user.class.php:1566
 msgid "[CodevTT] Timesheet reminder !"
 msgstr "[CodevTT] Zaman çizelgesi hatırlatıcısı !"
 
-#: classes/user.class.php:1559 plugins/ImportUsers/ImportUsers_ajax.php:163
+#: classes/user.class.php:1568 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
 msgstr "Sevgili "
 
-#: classes/user.class.php:1560
+#: classes/user.class.php:1569
 msgid "Please fill your CodevTT timesheet"
 msgstr "Lütfen CodevTT zaman çizelgenizi doldurun"
 
-#: classes/user.class.php:1571 classes/consistency_check2.class.php:733
+#: classes/user.class.php:1580 classes/consistency_check2.class.php:733
 msgid "incomplete (missing "
 msgstr "eksik (\\ eksik"
 
 #. skip dates in the future
-#: classes/user.class.php:1574 classes/consistency_check2.class.php:748
+#: classes/user.class.php:1583 classes/consistency_check2.class.php:748
 msgid "not defined."
 msgstr "tanımlanmamış."
 
@@ -5760,7 +5825,7 @@ msgstr "Maalesef, ekibiniz için tanımlanmış proje yok."
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:472
 #: timetracking/team_monthly_activity_report.php:130
-#: timetracking/time_tracking.php:432 timetracking/team_activity_report.php:199
+#: timetracking/time_tracking.php:445 timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Hata: Mantis DB'sinde görev bulunamadı !"
 
@@ -5794,20 +5859,30 @@ msgid "Other team"
 msgstr "Diğer ekip"
 
 #: timetracking/team_monthly_activity_report.php:76
-#: timetracking/time_tracking.php:324 timetracking/team_activity_report.php:66
+#: timetracking/time_tracking.php:337 timetracking/team_activity_report.php:66
 msgid "days are incomplete or undefined"
 msgstr "günler eksik veya tanımsız"
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking.php:140
+#: timetracking/time_tracking.php:144
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr "Zaman izlemesi eklenmedi: Zaman izlemesi notu zorunludur"
 
-#: timetracking/time_tracking.php:146 timetracking/time_tracking.php:151
+#: timetracking/time_tracking.php:150
 msgid "Timetrack not added: Job is not specified"
 msgstr "Zaman izlemesi eklenmedi: İş belirtilmedi"
 
-#: timetracking/time_tracking.php:208
+#: timetracking/time_tracking.php:155
+#, fuzzy
+msgid "Timetrack not added: bugid is not specified"
+msgstr "Zaman izlemesi eklenmedi: İş belirtilmedi"
+
+#: timetracking/time_tracking.php:160
+#, fuzzy
+msgid "Timetrack not added: duration is not specified"
+msgstr "Zaman izlemesi eklenmedi: İş belirtilmedi"
+
+#: timetracking/time_tracking.php:224
 msgid "Failed to delete the timetrack !"
 msgstr "Zaman izlemesi silinemedi!"
 
@@ -5895,6 +5970,11 @@ msgstr "Yüksek"
 #: plugins/BlogPlugin/BlogPost.class.php:377
 msgid "Everybody"
 msgstr "Herkes"
+
+#: plugins/AdminTools/AdminTools.class.php:67
+#, fuzzy
+msgid "CodevTT administration tools"
+msgstr "CodevTT Yönetimi"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"
@@ -6160,4 +6240,3 @@ msgstr "H"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "Teslim Tarihi"
-

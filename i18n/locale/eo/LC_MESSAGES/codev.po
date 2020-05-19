@@ -5,9 +5,8 @@
 # Author: Robin van der Vliet
 msgid ""
 msgstr ""
-""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-01 16:31+0200\n"
+"POT-Creation-Date: 2020-05-19 11:53+0200\n"
 "PO-Revision-Date: 2020-05-11 15:35:02+0000\n"
 "Language: eo\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1276,6 +1275,7 @@ msgstr "Fina dato"
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 #. plugins/BlogPlugin/BlogPlugin.html
+#. plugins/AdminTools/AdminTools.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/CostsIndicator/CostsIndicator.html
@@ -1532,6 +1532,7 @@ msgstr "Forigi teamon"
 #. tpl/command_edit.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. Delete
+#: plugins/BlogPlugin/BlogPost.class.php:414
 #: plugins/BlogPlugin/BlogPost.class.php:425
 msgid "Delete"
 msgstr "Forigi"
@@ -1590,6 +1591,7 @@ msgid "Departure Date"
 msgstr ""
 
 #. tpl/edit_team.html
+#. tpl/user_info.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Role"
 msgstr "Rolo"
@@ -2655,7 +2657,7 @@ msgstr ""
 #: management/command_info.php:112 management/commandset_info.php:87
 #: reports/issue_info.php:96 reports/issue_info.php:97
 #: timetracking/team_monthly_activity_report.php:75
-#: timetracking/time_tracking.php:323 timetracking/team_activity_report.php:65
+#: timetracking/time_tracking.php:336 timetracking/team_activity_report.php:65
 msgid "Errors"
 msgstr "Eraroj"
 
@@ -2944,14 +2946,6 @@ msgid "Sold Charge"
 msgstr ""
 
 #. tpl/command_edit.html
-msgid "Command name"
-msgstr "Nomo de komando"
-
-#. tpl/command_edit.html
-msgid "Not a number"
-msgstr "Ne nombro"
-
-#. tpl/command_edit.html
 msgid "Delete Command"
 msgstr "Forigi Komandon"
 
@@ -2972,14 +2966,6 @@ msgstr ""
 #. tpl/command_edit.html
 msgid "Parent CommandSets"
 msgstr ""
-
-#. tpl/command_edit.html
-msgid "task id"
-msgstr "identigilo de tasko"
-
-#. tpl/command_edit.html
-msgid "Missing field"
-msgstr "Kampo mankas"
 
 #. tpl/command_edit.html
 msgid "Add task"
@@ -3040,6 +3026,22 @@ msgstr ""
 #. tpl/command_edit.html
 msgid "Edit Provision"
 msgstr ""
+
+#. tpl/command_edit.html
+msgid "Command name"
+msgstr "Nomo de komando"
+
+#. tpl/command_edit.html
+msgid "Not a number"
+msgstr "Ne nombro"
+
+#. tpl/command_edit.html
+msgid "task id"
+msgstr "identigilo de tasko"
+
+#. tpl/command_edit.html
+msgid "Missing field"
+msgstr "Kampo mankas"
 
 #. tpl/team_activity_report.html
 #. tpl/menu/global_menu.html
@@ -3308,6 +3310,8 @@ msgid "Remove CodevTT from Mantis menu:"
 msgstr ""
 
 #. tpl/uninstall.html
+#. plugins/AdminTools/AdminTools.html
+#: plugins/AdminTools/AdminTools.class.php:69
 msgid "TODO"
 msgstr ""
 
@@ -3624,6 +3628,8 @@ msgid "Login failed."
 msgstr "Ensalutado malsukcesis."
 
 #. tpl/modal/login.html
+#. tpl/user_info.html
+#: plugins/ImportUsers/ImportUsers_ajax.php:165
 msgid "Login"
 msgstr "Ensaluti"
 
@@ -3665,6 +3671,15 @@ msgstr ""
 msgid "User info"
 msgstr "Uzanto"
 
+#. tpl/user_info.html
+#, fuzzy
+msgid "User ID"
+msgstr "Uzanto"
+
+#. tpl/user_info.html
+msgid "Team arrival date"
+msgstr ""
+
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
 msgstr ""
@@ -3692,6 +3707,7 @@ msgstr ""
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
+#. plugins/AdminTools/AdminTools_cfg.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
@@ -4285,6 +4301,44 @@ msgstr ""
 msgid "Message wall"
 msgstr ""
 
+#. plugins/AdminTools/AdminTools.html
+#. plugins/AdminTools/AdminTools_cfg.html
+#: plugins/AdminTools/AdminTools.class.php:64
+#, fuzzy
+msgid "Administration tools"
+msgstr "Administrado de CodevTT"
+
+#. plugins/AdminTools/AdminTools.html
+#, fuzzy
+msgid "Run selected actions"
+msgstr "Forigi daŭron"
+
+#. plugins/AdminTools/AdminTools.html
+msgid "Execute"
+msgstr ""
+
+#. plugins/AdminTools/AdminTools.html
+msgid "Actions executed !"
+msgstr ""
+
+#. plugins/AdminTools/AdminTools_ajax.html
+msgid "Force the display of the \"Message\" plugin on the homepage"
+msgstr ""
+
+#. plugins/AdminTools/AdminTools_ajax.html
+#, fuzzy
+msgid "users"
+msgstr "Uzantoj"
+
+#. plugins/AdminTools/AdminTools_ajax.html
+msgid "Clear Dashboard"
+msgstr ""
+
+#. plugins/AdminTools/AdminTools_ajax.html
+#, fuzzy
+msgid "for user "
+msgstr "Enporti uzantojn"
+
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
 #, fuzzy
 msgid "Workforce"
@@ -4636,7 +4690,9 @@ msgid "Load per User"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid ""
+"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
+"         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4653,7 +4709,9 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid ""
+"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
+"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4940,15 +4998,15 @@ msgstr ""
 msgid "Could NOT remove the project from the team"
 msgstr ""
 
-#: admin/edit_team.php:290
+#: admin/edit_team.php:286
 msgid "Configure Tooltips"
 msgstr ""
 
-#: admin/edit_team.php:405
+#: admin/edit_team.php:401
 msgid "enabled"
 msgstr "ŝaltita"
 
-#: admin/edit_team.php:405
+#: admin/edit_team.php:401
 msgid "disabled"
 msgstr "malŝaltita"
 
@@ -5074,28 +5132,28 @@ msgstr "Forigita"
 msgid "monitored"
 msgstr ""
 
-#: classes/user.class.php:1555
+#: classes/user.class.php:1564
 msgid "for team"
 msgstr "por teamo"
 
-#: classes/user.class.php:1557
+#: classes/user.class.php:1566
 msgid "[CodevTT] Timesheet reminder !"
 msgstr ""
 
-#: classes/user.class.php:1559 plugins/ImportUsers/ImportUsers_ajax.php:163
+#: classes/user.class.php:1568 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
 msgstr "Kara "
 
-#: classes/user.class.php:1560
+#: classes/user.class.php:1569
 msgid "Please fill your CodevTT timesheet"
 msgstr ""
 
-#: classes/user.class.php:1571 classes/consistency_check2.class.php:733
+#: classes/user.class.php:1580 classes/consistency_check2.class.php:733
 msgid "incomplete (missing "
 msgstr ""
 
 #. skip dates in the future
-#: classes/user.class.php:1574 classes/consistency_check2.class.php:748
+#: classes/user.class.php:1583 classes/consistency_check2.class.php:748
 msgid "not defined."
 msgstr "ne difinita."
 
@@ -5755,7 +5813,7 @@ msgstr ""
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:472
 #: timetracking/team_monthly_activity_report.php:130
-#: timetracking/time_tracking.php:432 timetracking/team_activity_report.php:199
+#: timetracking/time_tracking.php:445 timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr ""
 
@@ -5789,20 +5847,28 @@ msgid "Other team"
 msgstr "Alia teamo"
 
 #: timetracking/team_monthly_activity_report.php:76
-#: timetracking/time_tracking.php:324 timetracking/team_activity_report.php:66
+#: timetracking/time_tracking.php:337 timetracking/team_activity_report.php:66
 msgid "days are incomplete or undefined"
 msgstr ""
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking.php:140
+#: timetracking/time_tracking.php:144
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr ""
 
-#: timetracking/time_tracking.php:146 timetracking/time_tracking.php:151
+#: timetracking/time_tracking.php:150
 msgid "Timetrack not added: Job is not specified"
 msgstr ""
 
-#: timetracking/time_tracking.php:208
+#: timetracking/time_tracking.php:155
+msgid "Timetrack not added: bugid is not specified"
+msgstr ""
+
+#: timetracking/time_tracking.php:160
+msgid "Timetrack not added: duration is not specified"
+msgstr ""
+
+#: timetracking/time_tracking.php:224
 msgid "Failed to delete the timetrack !"
 msgstr ""
 
@@ -5892,6 +5958,11 @@ msgstr "Alta"
 #: plugins/BlogPlugin/BlogPost.class.php:377
 msgid "Everybody"
 msgstr ""
+
+#: plugins/AdminTools/AdminTools.class.php:67
+#, fuzzy
+msgid "CodevTT administration tools"
+msgstr "Administrado de CodevTT"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"
@@ -6157,4 +6228,3 @@ msgstr ""
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr ""
-

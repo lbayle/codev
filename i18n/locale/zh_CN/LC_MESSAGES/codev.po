@@ -14,9 +14,8 @@
 # Author: 神樂坂秀吉
 msgid ""
 msgstr ""
-""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-01 16:31+0200\n"
+"POT-Creation-Date: 2020-05-19 11:53+0200\n"
 "PO-Revision-Date: 2020-05-11 15:35:06+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1285,6 +1284,7 @@ msgstr "结束日期"
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 #. plugins/BlogPlugin/BlogPlugin.html
+#. plugins/AdminTools/AdminTools.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/CostsIndicator/CostsIndicator.html
@@ -1541,6 +1541,7 @@ msgstr "删除团队"
 #. tpl/command_edit.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. Delete
+#: plugins/BlogPlugin/BlogPost.class.php:414
 #: plugins/BlogPlugin/BlogPost.class.php:425
 msgid "Delete"
 msgstr "删除"
@@ -1599,6 +1600,7 @@ msgid "Departure Date"
 msgstr "出发日期"
 
 #. tpl/edit_team.html
+#. tpl/user_info.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Role"
 msgstr "角色"
@@ -2664,7 +2666,7 @@ msgstr "点击以显示错误"
 #: management/command_info.php:112 management/commandset_info.php:87
 #: reports/issue_info.php:96 reports/issue_info.php:97
 #: timetracking/team_monthly_activity_report.php:75
-#: timetracking/time_tracking.php:323 timetracking/team_activity_report.php:65
+#: timetracking/time_tracking.php:336 timetracking/team_activity_report.php:65
 msgid "Errors"
 msgstr "错误"
 
@@ -2953,14 +2955,6 @@ msgid "Sold Charge"
 msgstr "销售费用"
 
 #. tpl/command_edit.html
-msgid "Command name"
-msgstr "命令名称"
-
-#. tpl/command_edit.html
-msgid "Not a number"
-msgstr "不是一个数字"
-
-#. tpl/command_edit.html
 msgid "Delete Command"
 msgstr "删除命令"
 
@@ -2981,14 +2975,6 @@ msgstr "WBS"
 #. tpl/command_edit.html
 msgid "Parent CommandSets"
 msgstr "父命令集"
-
-#. tpl/command_edit.html
-msgid "task id"
-msgstr "任务ID"
-
-#. tpl/command_edit.html
-msgid "Missing field"
-msgstr "丢失字段"
 
 #. tpl/command_edit.html
 msgid "Add task"
@@ -3049,6 +3035,22 @@ msgstr "从命令中删除么？"
 #. tpl/command_edit.html
 msgid "Edit Provision"
 msgstr "编辑规定"
+
+#. tpl/command_edit.html
+msgid "Command name"
+msgstr "命令名称"
+
+#. tpl/command_edit.html
+msgid "Not a number"
+msgstr "不是一个数字"
+
+#. tpl/command_edit.html
+msgid "task id"
+msgstr "任务ID"
+
+#. tpl/command_edit.html
+msgid "Missing field"
+msgstr "丢失字段"
 
 #. tpl/team_activity_report.html
 #. tpl/menu/global_menu.html
@@ -3317,6 +3319,8 @@ msgid "Remove CodevTT from Mantis menu:"
 msgstr "从Mantis菜单中移除CodevTT："
 
 #. tpl/uninstall.html
+#. plugins/AdminTools/AdminTools.html
+#: plugins/AdminTools/AdminTools.class.php:69
 msgid "TODO"
 msgstr "待办事项"
 
@@ -3633,6 +3637,8 @@ msgid "Login failed."
 msgstr "登录失败。"
 
 #. tpl/modal/login.html
+#. tpl/user_info.html
+#: plugins/ImportUsers/ImportUsers_ajax.php:165
 msgid "Login"
 msgstr "登录"
 
@@ -3674,6 +3680,16 @@ msgstr "劳务合同"
 msgid "User info"
 msgstr "用户"
 
+#. tpl/user_info.html
+#, fuzzy
+msgid "User ID"
+msgstr "用户"
+
+#. tpl/user_info.html
+#, fuzzy
+msgid "Team arrival date"
+msgstr "用户到达日期"
+
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
 msgstr "没有带积压工作的任务"
@@ -3701,6 +3717,7 @@ msgstr "为每位用户，返回其分配任务的积压工作总和"
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
+#. plugins/AdminTools/AdminTools_cfg.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
@@ -4295,6 +4312,46 @@ msgstr "澳大利亚教育科学与培训部"
 msgid "Message wall"
 msgstr "信息墙"
 
+#. plugins/AdminTools/AdminTools.html
+#. plugins/AdminTools/AdminTools_cfg.html
+#: plugins/AdminTools/AdminTools.class.php:64
+#, fuzzy
+msgid "Administration tools"
+msgstr "CodevTT管理"
+
+#. plugins/AdminTools/AdminTools.html
+#, fuzzy
+msgid "Run selected actions"
+msgstr "删除持续时间"
+
+#. plugins/AdminTools/AdminTools.html
+msgid "Execute"
+msgstr ""
+
+#. plugins/AdminTools/AdminTools.html
+#, fuzzy
+msgid "Actions executed !"
+msgstr "未选择任务！"
+
+#. plugins/AdminTools/AdminTools_ajax.html
+#, fuzzy
+msgid "Force the display of the \"Message\" plugin on the homepage"
+msgstr "在首页上显示消息墙"
+
+#. plugins/AdminTools/AdminTools_ajax.html
+#, fuzzy
+msgid "users"
+msgstr "用户"
+
+#. plugins/AdminTools/AdminTools_ajax.html
+msgid "Clear Dashboard"
+msgstr ""
+
+#. plugins/AdminTools/AdminTools_ajax.html
+#, fuzzy
+msgid "for user "
+msgstr "导入用户"
+
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
 #, fuzzy
 msgid "Workforce"
@@ -4646,8 +4703,12 @@ msgid "Load per User"
 msgstr "每位用户加载的"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr "显示浪费的子任务：“事件”和“不活跃”类别<br>\n   （如果未选中，则子任务将被包含在“已过期”中）"
+msgid ""
+"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
+"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr ""
+"显示浪费的子任务：“事件”和“不活跃”类别<br>\n"
+"   （如果未选中，则子任务将被包含在“已过期”中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4663,8 +4724,12 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "在当前任务选择的项目和边栏任务上所花费的时间"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr "当前选择中的“事件”和“不活跃”子任务。<br>\n   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
+msgid ""
+"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
+"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr ""
+"当前选择中的“事件”和“不活跃”子任务。<br>\n"
+"   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -4955,15 +5020,15 @@ msgstr "不能添加项目至团队中"
 msgid "Could NOT remove the project from the team"
 msgstr "不能从团队中移除项目"
 
-#: admin/edit_team.php:290
+#: admin/edit_team.php:286
 msgid "Configure Tooltips"
 msgstr "配置工具提示"
 
-#: admin/edit_team.php:405
+#: admin/edit_team.php:401
 msgid "enabled"
 msgstr "已启用"
 
-#: admin/edit_team.php:405
+#: admin/edit_team.php:401
 msgid "disabled"
 msgstr "已禁用"
 
@@ -5089,28 +5154,28 @@ msgstr "已移除"
 msgid "monitored"
 msgstr "已监测"
 
-#: classes/user.class.php:1555
+#: classes/user.class.php:1564
 msgid "for team"
 msgstr "用于团队"
 
-#: classes/user.class.php:1557
+#: classes/user.class.php:1566
 msgid "[CodevTT] Timesheet reminder !"
 msgstr "[CodevTT]工时表提示！"
 
-#: classes/user.class.php:1559 plugins/ImportUsers/ImportUsers_ajax.php:163
+#: classes/user.class.php:1568 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
 msgstr "亲爱的\\"
 
-#: classes/user.class.php:1560
+#: classes/user.class.php:1569
 msgid "Please fill your CodevTT timesheet"
 msgstr "请填充您的工时表"
 
-#: classes/user.class.php:1571 classes/consistency_check2.class.php:733
+#: classes/user.class.php:1580 classes/consistency_check2.class.php:733
 msgid "incomplete (missing "
 msgstr "不完整（缺少\\"
 
 #. skip dates in the future
-#: classes/user.class.php:1574 classes/consistency_check2.class.php:748
+#: classes/user.class.php:1583 classes/consistency_check2.class.php:748
 msgid "not defined."
 msgstr "未定义。"
 
@@ -5770,7 +5835,7 @@ msgstr "对不起，没有为您的团队定义的项目。"
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:472
 #: timetracking/team_monthly_activity_report.php:130
-#: timetracking/time_tracking.php:432 timetracking/team_activity_report.php:199
+#: timetracking/time_tracking.php:445 timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr "错误：在Mantis数据库中找不到任务！"
 
@@ -5804,20 +5869,30 @@ msgid "Other team"
 msgstr "其他团队"
 
 #: timetracking/team_monthly_activity_report.php:76
-#: timetracking/time_tracking.php:324 timetracking/team_activity_report.php:66
+#: timetracking/time_tracking.php:337 timetracking/team_activity_report.php:66
 msgid "days are incomplete or undefined"
 msgstr "日不完全或未定义"
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking.php:140
+#: timetracking/time_tracking.php:144
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr "时间跟踪未添加：时间追踪注释必填"
 
-#: timetracking/time_tracking.php:146 timetracking/time_tracking.php:151
+#: timetracking/time_tracking.php:150
 msgid "Timetrack not added: Job is not specified"
 msgstr "时间跟踪未添加：未指定工作"
 
-#: timetracking/time_tracking.php:208
+#: timetracking/time_tracking.php:155
+#, fuzzy
+msgid "Timetrack not added: bugid is not specified"
+msgstr "时间跟踪未添加：未指定工作"
+
+#: timetracking/time_tracking.php:160
+#, fuzzy
+msgid "Timetrack not added: duration is not specified"
+msgstr "时间跟踪未添加：未指定工作"
+
+#: timetracking/time_tracking.php:224
 msgid "Failed to delete the timetrack !"
 msgstr "删除工时表失败！"
 
@@ -5905,6 +5980,11 @@ msgstr "高"
 #: plugins/BlogPlugin/BlogPost.class.php:377
 msgid "Everybody"
 msgstr "任何人"
+
+#: plugins/AdminTools/AdminTools.class.php:67
+#, fuzzy
+msgid "CodevTT administration tools"
+msgstr "CodevTT管理"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"
@@ -6171,4 +6251,3 @@ msgstr "W"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "交货日期"
-
