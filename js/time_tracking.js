@@ -155,15 +155,15 @@ jQuery(document).ready(function() {
       var trackDuration = form1.find("select[name=duree]").val();
 
       //if (0 == document.forms["form1"].projectid.value) { msgString += "Projet\n"; ++foundError; }
-      if ('0' === bugid) {
+      if (('0' === bugid) || ('' === bugid)) {
          msgString += timetrackingSmartyData.i18n_task + "\n";
          ++foundError;
       }
-      if ('0' === jobid) {
+      if (('0' === jobid) || ('' === jobid)) {
          msgString += timetrackingSmartyData.i18n_job + "\n";
          ++foundError;
       }
-      if ('0' === trackDuration) {
+      if (('0' === trackDuration) || ('' === trackDuration)) {
          msgString += timetrackingSmartyData.i18n_duration + "\n";
          ++foundError;
       }
