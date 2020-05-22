@@ -1,6 +1,10 @@
 <div id="content" style="margin-left:10em;margin-right:10em">
    {if isset($logs)}
    <script type="text/javascript" src="js_min/datatable.min.js"></script>
+   <div>
+      <span><b>{t}Logfile:{/t}</b> {$logFile}</span>
+   </div>
+   <div style="margin-top:1em;">
    <table id="logs_table" class="datatable_csv">
       <thead>
          <tr>
@@ -17,6 +21,7 @@
          {/foreach}
       </tbody>
    </table>
+   </div>
    {else}
    <p class="center ui-state-error-text">{$error}</p>
    {/if}

@@ -519,10 +519,11 @@ class Project extends Model {
 
       $found = FALSE;
       if (!in_array($typeCustomField, $existingFields))         {
-         $query .= "(".$sql->db_param().", ".$sql->db_param().",'101'),"; $found = TRUE;
+         $query .= "(".$sql->db_param().", ".$sql->db_param().",'100'),"; $found = TRUE;
          $q_params[]=$typeCustomField;
          $q_params[]=$projectid;
       }
+      /* Note: 101 is reserved for CodevTT_Type_Ano */
       if (!in_array($tcCustomField, $existingFields))           {
          $query .= "(".$sql->db_param().", ".$sql->db_param().",'102'),"; $found = TRUE;
          $q_params[]=$tcCustomField;

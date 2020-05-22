@@ -86,7 +86,7 @@ class SellingPriceForPeriod extends IndicatorPluginAbstract {
       // Si vous vendez de la prestation de service à la journée avec un prix spécifique pour chaque tâche, ce plugin vous donnera le prix de votre lot de tâches sur une période donnée
       $desc =
          T_("If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time.").
-         T_(' For this plugin, you need to set the MantisBT customField "CodevTT_DailyPrice" on each task.');
+         ' '.T_('For this plugin, you need to add the "CodevTT_DailyPrice" customField to your mantis projects and set a value for each task.');
       if (!$isShortDesc) {
          $desc .= '<br><br>'.T_('SellingPrice = DailyPrice x Elapsed on period');
 

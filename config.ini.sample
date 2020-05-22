@@ -87,9 +87,9 @@ User = "TimetrackList"
 Command = "LoadPerUserIndicator,ProgressHistoryIndicator2"
 CommandSet = "ProgressHistoryIndicator2"
 ServiceContract = "ManagementCosts,ManagementLoadHistoryIndicator"
-Import_Export = "ImportIssueCsv, ImportUsers"
-Admin = "MoveIssueTimetracks,TimetrackDetailsIndicator,UserTeamList"
-EditTeam = "MoveIssueTimetracks"
+Import_Export = "ImportIssueCsv"
+Admin = "AdminTools,TimetrackDetailsIndicator,UserTeamList"
+TeamAdmin = "ImportUsers,MoveIssueTimetracks"
 
 [email]
 ; --- cronjob (every Friday at 2:00 AM):

@@ -53,6 +53,7 @@ class LogsController extends Controller {
                   #echo "DEBUG $line_num - ".$logs[$line_num]."<br>";
                }
 
+               $this->smartyHelper->assign('logFile', Constants::$codevtt_logfile);
                $this->smartyHelper->assign('logs', $logs);
             } else {
                $this->smartyHelper->assign('error',T_('Sorry, logfile not found:').' ['.Constants::$codevtt_logfile.']');

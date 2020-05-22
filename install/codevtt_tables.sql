@@ -499,36 +499,41 @@ CREATE TABLE IF NOT EXISTS "codev_plugin_table" (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 INSERT INTO "codev_plugin_table" ("name", "status", "domains", "categories", "version", "description") VALUES
+('AdminTools', 1, 'Admin', 'Admin', '1.0.0', 'CodevTT administration tools'),
 ('AvailableWorkforceIndicator', 1, 'Team', 'Planning', '1.0.0', 'Man-days available in period, except leaves and external tasks'),
-('BacklogPerUserIndicator', 1, 'Team,User,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the tasks and return the backlog per User'),
+('BacklogPerUserIndicator', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the tasks and return the backlog per User'),
 ('BlogPlugin', 1, 'Homepage', 'Internal', '1.0.0', 'Display a message wall on the homepage<br>Allows Administrators & team members to send messages that will be displayed on other users\' wall'),
 ('BudgetDriftHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the budget history'),
 ('CostsIndicator', 1, 'Task,Command,CommandSet,ServiceContract', 'Financial', '1.0.0', 'Compute costs, using the UserDailyCosts defined in team settings'),
-('DeadlineAlertIndicator', 1, 'User,Team,Project,Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display unresolved tasks that should have been delivered'),
-('DriftAlertIndicator', 1, 'Homepage,User,Team,Project,Command,CommandSet,ServiceContract', 'Risk', '1.0.0', 'Display tasks where the elapsed time is greater than the estimated effort'),
+('DeadlineAlertIndicator', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display unresolved tasks that should have been delivered'),
+('DriftAlertIndicator', 1, 'Homepage,Team,Project,Command,CommandSet,ServiceContract', 'Risk', '1.0.0', 'Display tasks where the elapsed time is greater than the estimated effort'),
 ('EffortEstimReliabilityIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display the EffortEstim reliability rate history<br>rate = EffortEstim / elapsed (on resolved tasks only)'),
 ('HelloWorldIndicator', 0, 'Homepage,Team,User', 'Quality', '1.0.0', 'A simple HelloWorld plugin'),
 ('ImportIssueCsv', 1, 'Import_Export', 'Import', '1.0.0', 'Import a list of issues to MantisBT / CodevTT from a CSV file'),
-('ImportUsers', 1, 'Import_Export', 'Import', '1.0.0', 'Import a list of users to MantisBT / CodevTT'),
+('ImportUsers', 1, 'Import_Export,TeamAdmin', 'Import', '1.0.0', 'Import a list of users to MantisBT / CodevTT'),
 ('IssueBacklogVariationIndicator', 1, 'Task', 'Roadmap', '1.0.0', 'Display task backlog updates since the task creation'),
 ('IssueConsistencyCheck', 1, 'Homepage', 'Risk', '1.0.0', 'Check for errors in issues'),
-('LoadPerJobIndicator2', 1, 'Task,Team,User,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Check all the timetracks of the period and return their repartition per Job'),
-('LoadPerProjCategoryIndicator', 1, 'Team,Project,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the timetracks of the period and return their repartition per project categories'),
-('LoadPerProjectIndicator', 1, 'User,Team,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the timetracks of the period and return their repartition per Project'),
-('LoadPerUserIndicator', 1, 'Task,Team,User,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the timetracks of the period and return their repartition per User'),
+('LoadPerJobIndicator2', 1, 'Task,Team,User,Project,Command,CommandSet,ServiceContract', 'Quality', '1.1.0', 'Check all the timetracks of the period and return their repartition per Job'),
+('LoadPerProjCategoryIndicator', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the timetracks of the period and return their repartition per project categories'),
+('LoadPerProjectIndicator', 1, 'User,Team,Command,CommandSet,ServiceContract', 'Activity', '1.1.0', 'Check all the timetracks of the period and return their repartition per Project'),
+('LoadPerUserIndicator', 1, 'Task,Team,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the timetracks of the period and return their repartition per User'),
 ('ManagementCosts', 1, 'ServiceContract', 'Financial', '1.0.0', 'Sum elapsed time on management sideTasks and compare to the sum of command provisions. Returns a result in man-days and costs'),
 ('ManagementLoadHistoryIndicator', 1, 'ServiceContract', 'Activity', '1.0.0', 'Compares the elapsed time on management sideTasks to the management provisions'),
 ('MoveIssueTimetracks', 1, 'Admin,TeamAdmin', 'Admin', '1.0.0', 'Move timetracks from one issue to another'),
+('OngoingTasks', 1, 'Project,Team,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'List the active tasks on a given period'),
 ('ProgressHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the progress history'),
 ('ReopenedRateIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display the bug reopened rate history'),
-('StatusHistoryIndicator2', 1, 'Command,Team,User,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display Issue Status history'),
-('SubmittedResolvedHistoryIndicator', 1, 'Command,Team,User,Project,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the number of issues submitted/resolved in a period'),
-('TasksPivotTable', 1, 'Team,User,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Group tasks by adding multiple filters'),
+('SellingPriceForPeriod', 0, 'Task,Project,Team,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time. For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task.'),
+('StatusHistoryIndicator2', 1, 'Command,Team,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display Issue Status history'),
+('SubmittedResolvedHistoryIndicator', 1, 'Command,Team,Project,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the number of issues submitted/resolved in a period'),
+('TasksPivotTable', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Group tasks by adding multiple filters'),
 ('TimePerStatusIndicator', 1, 'Task', 'Roadmap', '1.0.0', 'Time allocation by status'),
 ('TimetrackDetailsIndicator', 1, 'Admin', 'Admin', '1.0.0', 'Display additional info on timetracks'),
-('TimetrackList', 1, 'Task,Command,CommandSet', 'Activity', '1.0.0', 'List and edit timetracks'),
+('TimetrackList', 1, 'Task,Project,Team,User,Command,CommandSet,ServiceContract', 'Activity', '1.1.0', 'List and edit timetracks'),
 ('UserTeamList', 1, 'Admin', 'Admin', '1.0.0', 'Display a history of all the teams for a given user'),
-('WBSExport', 1, 'Command', 'Roadmap', '1.0.0', 'export WBS to CSV file');
+('WBSExport', 1, 'Command', 'Roadmap', '1.0.0', 'Export WBS to CSV file');
+
+
 
 -- '--------------------------------------------------------
 

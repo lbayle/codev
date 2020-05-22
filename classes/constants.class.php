@@ -139,7 +139,7 @@ class Constants {
        'ServiceContract' => array('ManagementLoadHistoryIndicator'),
        'Import_Export' => array('ImportIssueCsv', 'ImportUsers'),
        'Admin' => array('MoveIssueTimetracks','TimetrackDetailsIndicator','UserTeamList'),
-       'EditTeam' => array('MoveIssueTimetracks'),
+       IndicatorPluginInterface::DOMAIN_TEAM_ADMIN => array('ImportUsers','MoveIssueTimetracks'),
        IndicatorPluginInterface::DOMAIN_USER => array('TimetrackList'),  // 'User'
    );
 

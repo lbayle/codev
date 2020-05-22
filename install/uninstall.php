@@ -89,6 +89,9 @@ class UninstallController extends Controller {
                $result = $this->removeMantisPlugins();
                $this->smartyHelper->assign('stepSixResult', $result);
 
+               $result = $this->removeExternalTasksProject();
+               $this->smartyHelper->assign('stepSevenResult', $result);
+
                echo ("<script type='text/javascript'> parent.location.replace('install.php'); </script>");
 
             } else {
@@ -103,11 +106,6 @@ class UninstallController extends Controller {
 
    function displayProjectsToRemove() {
       $prjList = array();
-
-      // find externalTasks project
-      $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
-      $project = ProjectCache::getInstance()->getProject($extproj_id);
-      $prjList[$extproj_id] = $project->getName();
 
       // find sideTasks projects
       $sideTaskProj_id = Project::type_sideTaskProject;
@@ -237,6 +235,29 @@ class UninstallController extends Controller {
       return true;
    }
 
+   function removeExternalTasksProject() {
+      try {
+         $sql = AdodbWrapper::getInstance();
+         $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
+         $q_params[]=$extProjId;
+
+         $query = "DELETE FROM {bug_text} WHERE id IN (SELECT id FROM {bug} WHERE project_id = ".$sql->db_param().')';
+         $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+
+         $query = "DELETE FROM {bug} WHERE project_id = ".$sql->db_param();
+         $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+
+         $query = "DELETE FROM {category} WHERE project_id = ".$sql->db_param();
+         $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+
+         $query = "DELETE FROM {project} WHERE id = ".$sql->db_param();
+         $sql->sql_query($query, $q_params) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      } catch (Exception $e) {
+         return false;
+      }
+      return true;
+   }
+
    /**
     * remove CodevTT Config Files
     * @return bool True if success
@@ -282,12 +303,12 @@ class UninstallController extends Controller {
             return false;
          }
       }
-      $log4php_url = Constants::$codevURL.'/log4php.xml';
-      if (file_exists($log4php_url) &&
-          is_writable($log4php_url)) {
-         $retCode = unlink($log4php_url);
+      $log4php_file = Constants::$codevRootDir.DIRECTORY_SEPARATOR.'log4php.xml';
+      if (file_exists($log4php_file) &&
+          is_writable($log4php_file)) {
+         $retCode = unlink($log4php_file);
          if (!$retCode) {
-            self::$logger->error("ERROR: Could not delete file: " . $log4php_url);
+            self::$logger->error("ERROR: Could not delete file: " . $log4php_file);
             return false;
          }
       }
