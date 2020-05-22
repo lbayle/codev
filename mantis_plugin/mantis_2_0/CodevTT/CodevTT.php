@@ -20,7 +20,7 @@ class CodevTTPlugin extends MantisPlugin {
       $this->description = plugin_lang_get('description');
       $this->page = '';
 
-      $this->version = '0.7.2';
+      $this->version = '0.7.3';
 
       $this->requires = array(
           'MantisCore' => '2.0'
@@ -427,14 +427,14 @@ class CodevTTPlugin extends MantisPlugin {
     */
    public function assignCommand($p_bug_id, $command_id) {
 
-     //Test if a command is selected to prevent from creating useless objects 
+     //Test if a command is selected to prevent from creating useless objects
      if (isset($command_id) && $command_id > 0) {
-   
+
         // === create bug-command associations
         $query = "INSERT INTO codev_command_bug_table (command_id, bug_id) VALUES";
         $query .= " (" . db_param() . ", " . db_param() . ");";
         db_query($query, array( $command_id, $p_bug_id ) );
-   
+
         // === add to WBS
         // 1) get the wbs_id of this command
         $query2 = "SELECT name, wbs_id FROM codev_command_table WHERE id = " . db_param();
@@ -442,7 +442,7 @@ class CodevTTPlugin extends MantisPlugin {
         $row2 = db_fetch_array( $result2 );
         $wbs_id = $row2['wbs_id'];
         $cmd_name = $row2['name'];
-   
+
         // 2) if wbs_id is null, the root element must be created
         // (this happens only once when upgrading from 0.99.24 or below)
         $order = 1;
@@ -454,10 +454,10 @@ class CodevTTPlugin extends MantisPlugin {
            db_query($query3, array( 1, 1, $cmd_name ));
             //added missing argument for function db_insert_id since Mantis 2.21
            $wbs_id = db_insert_id("codev_wbs_table");
-   
+
            $query4 = "UPDATE codev_command_table SET wbs_id = " . db_param() . " WHERE id = " . db_param();
            db_query($query4, array( $wbs_id, $command_id ));
-   
+
            // 2.1) add all existing issues to the WBS
            $query6 = "SELECT bug_id from codev_command_bug_table WHERE command_id = " . db_param() . " ORDER BY bug_id";
            $result6 = db_query($query6, array( $command_id));
