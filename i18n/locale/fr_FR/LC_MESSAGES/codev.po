@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-19 11:53+0200\n"
+"POT-Creation-Date: 2020-05-23 17:35+0200\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -2758,6 +2758,10 @@ msgid "Loading"
 msgstr "Chargement"
 
 #. tpl/logs.html
+msgid "Logfile:"
+msgstr "Fichier de log:"
+
+#. tpl/logs.html
 msgid "Line"
 msgstr "Ligne"
 
@@ -3335,6 +3339,10 @@ msgstr "Suppression des fichiers de configuration de CodevTT :"
 #. tpl/uninstall.html
 msgid "Remove Mantis plugin:"
 msgstr "Enlever les plugins Mantis:"
+
+#. tpl/uninstall.html
+msgid "Remove ExternalTasks project:"
+msgstr "Suppression du Projet de taches externes:"
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
@@ -4771,8 +4779,9 @@ msgid "If you sell daily services with a specific price for each task, this plug
 msgstr "Si vous vendez du service à la journée avec un prix spécifique pour chaque tâche, ce plugin vous donnera le prix d'un lot de tâches sur une période donnée"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-msgid "For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr "Pour ce plugin il faut renseigner le champ personnalisé Mantis \"CodevTT_PrixJournee\" pour chaque tâche"
+#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
+msgid "For this plugin, you need to add the \"CodevTT_DailyPrice\" customField to your mantis projects and set a value for each task."
+msgstr "Pour ce plugin il faut ajouter le champ personnalisé \"CodevTT_PrixJournee\" au projet mantis et le renseigner pour chaque tâche"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "SellingPrice = DailyPrice x Elapsed during period"
@@ -5020,7 +5029,7 @@ msgstr "Impossible de supprimer le poste"
 msgid "Sorry, you need to be identified."
 msgstr "Vous devez être identifié."
 
-#: admin/logs.php:58
+#: admin/logs.php:59
 msgid "Sorry, logfile not found:"
 msgstr "Le fichier de log n'a pu être trouvé"
 
@@ -6043,10 +6052,6 @@ msgstr "TachesAnnexes"
 msgid "A simple HelloWorld plugin"
 msgstr "un plugin exemple pour développeurs"
 
-#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
-msgid " For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr "Pour ce plugin il faut renseigner le champ personnalisé Mantis \"CodevTT_PrixJournee\" pour chaque tâche."
-
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
 msgstr "Prix de vente = PrixJournee x consommé sur la période"
@@ -6211,6 +6216,9 @@ msgstr "S"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "Date Livraison"
+
+#~ msgid " For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
+#~ msgstr "Pour ce plugin il faut renseigner le champ personnalisé Mantis \"CodevTT_PrixJournee\" pour chaque tâche."
 
 #~ msgid "Monthly report"
 #~ msgstr "Rapport Mensuel"

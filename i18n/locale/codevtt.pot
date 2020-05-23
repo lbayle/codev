@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-19 11:53+0200\n"
+"POT-Creation-Date: 2020-05-23 17:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2772,6 +2772,10 @@ msgid "Loading"
 msgstr ""
 
 #. tpl/logs.html
+msgid "Logfile:"
+msgstr ""
+
+#. tpl/logs.html
 msgid "Line"
 msgstr ""
 
@@ -3350,6 +3354,10 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "Remove Mantis plugin:"
+msgstr ""
+
+#. tpl/uninstall.html
+msgid "Remove ExternalTasks project:"
 msgstr ""
 
 #. tpl/uninstall.html
@@ -4821,9 +4829,10 @@ msgid ""
 msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
+#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
 msgid ""
-"For this plugin, you need to set the MantisBT customField "
-"\"CodevTT_DailyPrice\" on each task."
+"For this plugin, you need to add the \"CodevTT_DailyPrice\" customField to "
+"your mantis projects and set a value for each task."
 msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
@@ -5078,7 +5087,7 @@ msgstr ""
 msgid "Sorry, you need to be identified."
 msgstr ""
 
-#: admin/logs.php:58
+#: admin/logs.php:59
 msgid "Sorry, logfile not found:"
 msgstr ""
 
@@ -6112,12 +6121,6 @@ msgstr ""
 
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:65
 msgid "A simple HelloWorld plugin"
-msgstr ""
-
-#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
-msgid ""
-" For this plugin, you need to set the MantisBT customField "
-"\"CodevTT_DailyPrice\" on each task."
 msgstr ""
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
