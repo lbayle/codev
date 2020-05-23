@@ -2,6 +2,7 @@
 # Version 0.4
 
 # 2018-10-11: update apache 2.4.25 fur security updates
+# 2020-05-24: update to PHP v7.4
 
 FROM centos:centos7
 MAINTAINER Louis BAYLE <lbayle.work@gmail.com>
@@ -18,12 +19,15 @@ MAINTAINER Louis BAYLE <lbayle.work@gmail.com>
 # ====================================================
 # docker build --rm -t codevtt:latest .
 
+# docker run --name mariadb -h mariadb -d -e MYSQL_ROOT_PASSWORD=my_password -e MYSQL_DATABASE=bugtracker centos/mariadb:latest
+# docker exec -i  mariadb mysql -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
+
 # docker run --name codevtt -h codevtt -d -p 80:80 --link mariadb lbayle/codevtt:latest
+
+# ------------------
 # docker run --name codevtt -h codevtt -d -p 80:80 -p 443:443 -v /etc/ssl/certs:/etc/ssl/certs --link mariadb lbayle/codevtt:latest
 # docker exec -it codevtt bash
 
-# docker run --name mariadb -h mariadb -d -e MYSQL_ROOT_PASSWORD=my_password -e MYSQL_DATABASE=bugtracker centos/mariadb:latest
-# docker exec -i  mariadb mysql -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
 # ====================================================
 
 # Set ATOS proxy
@@ -35,7 +39,7 @@ MAINTAINER Louis BAYLE <lbayle.work@gmail.com>
 # Add Epel & Remi repositories
 RUN yum -y update && \
     yum -y install --setopt=tsflags=nodocs epel-release && \
-    rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm && \
+    rpm -Uvh https://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
     yum clean all
 
 # ------------------
@@ -71,8 +75,8 @@ RUN yum -y --setopt=tsflags=nodocs install \
         openssl && \
     yum clean all
 
-# Installing PHP 7.0
-RUN  yum -y --enablerepo=remi-php70 install \
+# Installing PHP 7.4
+RUN  yum -y --enablerepo=remi-php74 install \
         php-cli \
         php \
         php-fpm \
@@ -122,7 +126,7 @@ RUN sed -i "s/Require ip 127.0.0.1/Require ip 172.17/" /etc/httpd/conf.d/phpMyAd
 # ------------------
 # install MantisBT
 
-ENV MANTIS_VER 2.21.0
+ENV MANTIS_VER 2.24.1
 ENV MANTIS_URL https://downloads.sourceforge.net/project/mantisbt/mantis-stable/${MANTIS_VER}/mantisbt-${MANTIS_VER}.tar.gz
 ENV MANTIS_FILE mantisbt-${MANTIS_VER}.tar.gz
 
@@ -138,7 +142,7 @@ RUN set -xe \
 # ------------------
 # install CodevTT
 
-ENV CODEVTT_VER 1.4.0
+ENV CODEVTT_VER 1.5.0
 ENV CODEVTT_FILE codevtt_v${CODEVTT_VER}.zip
 ENV CODEVTT_URL http://codevtt.org/site/index.php?sdmon=files/${CODEVTT_FILE}
 
