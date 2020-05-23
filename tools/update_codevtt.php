@@ -658,6 +658,15 @@ function update_v19_to_v20() {
       exit;
    }
 
+   // CodevTT plugins must be updated (0.7.2 -> 0.7.3)
+   echo "- Update Mantis plugin: CodevTT (0.7.3)<br>";
+   if (checkMantisPluginDir()) {
+      $errStr = installMantisPlugin('CodevTT', true);
+      if (NULL !== $errStr) {
+         echo "<span class='error_font'>Please update 'CodevTT' mantis-plugin manualy</span><br/>";
+         echo "<script type=\"text/javascript\">console.error(\"$errStr\");</script>";
+      }
+   }
 
    if (!file_exists($sqlScriptFilename)) {
       echo "<span class='error_font'>SQL script not found:$sqlScriptFilename</span><br/>";
