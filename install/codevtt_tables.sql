@@ -523,7 +523,7 @@ INSERT INTO "codev_plugin_table" ("name", "status", "domains", "categories", "ve
 ('OngoingTasks', 1, 'Project,Team,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'List the active tasks on a given period'),
 ('ProgressHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the progress history'),
 ('ReopenedRateIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display the bug reopened rate history'),
-('SellingPriceForPeriod', 0, 'Task,Project,Team,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time. For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task.'),
+('SellingPriceForPeriod', 1, 'Task,Project,Team,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time. For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task.'),
 ('StatusHistoryIndicator2', 1, 'Command,Team,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display Issue Status history'),
 ('SubmittedResolvedHistoryIndicator', 1, 'Command,Team,Project,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the number of issues submitted/resolved in a period'),
 ('TasksPivotTable', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Group tasks by adding multiple filters'),

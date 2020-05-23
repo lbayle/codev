@@ -668,6 +668,11 @@ function update_v19_to_v20() {
       }
    }
 
+   // add new plugins, and update domains for some others
+   echo "- Activate new CodevTT plugins: 'Administration tools', 'Ongoing tasks', 'Selling Price for the Period'<br>";
+   $pm = PluginManager::getInstance();
+   $pm->discoverNewPlugins();
+
    if (!file_exists($sqlScriptFilename)) {
       echo "<span class='error_font'>SQL script not found:$sqlScriptFilename</span><br/>";
       exit;
