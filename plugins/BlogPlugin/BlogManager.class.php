@@ -25,7 +25,7 @@ class BlogManager {
 
 
    private static $logger;
-   
+
    private $categoryList;
    private $severityList;
 
@@ -118,6 +118,13 @@ class BlogManager {
       $user = UserCache::getInstance()->getUser($user_id);
       $teamList = $user->getTeamList();
 
+      // getTeamList checks only for enabled teams, but adminTeam is disabled,
+      // so it needs to be add manualy, or administrators wopn't have access to the plugin.
+      if ( (Config::getInstance()->getValue(Config::id_adminTeamId) == $team_id ) &&
+           ($user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId)))) {
+         $teamList[$team_id] = 'codevtt_admin';
+      }
+
       if (empty($teamList)) {
          throw new Exception("BlogManager: no team defined for this user !");
       }
@@ -165,7 +172,7 @@ class BlogManager {
                    "             AND activity_tab.user_id = $user_id ".
                    "             AND activity_tab.action = ".BlogPost::actionType_hide.') ';
       }
- 
+
       $query .= ' ORDER BY date_submitted DESC';
 
       $result = $sql->sql_query($query);
