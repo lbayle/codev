@@ -94,8 +94,9 @@ function codevSetLocale($codevLocale) {
 
    // we want 3.5 always to be displayed '3.5' and not '3,5'
    //if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+   if (1 == Constants::$force_lc_numeric) {
       T_setlocale(LC_NUMERIC,"en_US.UTF-8","en_US.utf8","us.utf8","usa.utf8","en.utf8","eng.utf8","English");
-   //}
+   }
    // --------------------------
 
 /*

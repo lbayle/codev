@@ -13,17 +13,23 @@ codevtt_url = "https://localhost/codevtt"
 mantis_dir = /var/www/html/mantis
 codevtt_dir = /var/www/html/codevtt
 
-; French "Commission nationale de l'informatique et des libertés" (optional)
-;[cnil]
-;company = "Atos BSD / Atos SudEst"
-;contact_email = "dpo-france@atos.net"
-
 [database]
 db_mantis_host      = "localhost"
 db_mantis_database  = "bugtracker"
 db_mantis_user      = "mantisdbuser"
 db_mantis_pass      = "secret_password"
 db_mantis_type      = "mysqli"
+
+[i18n]
+; force_lc_numeric: default = '0'. Set to '1' if internationalization does not work
+; this mostly depends on your environment: Windows, UX, Docker, apache version...
+force_lc_numeric = 0
+
+
+; French "Commission nationale de l'informatique et des libertés" (optional)
+;[cnil]
+;company = "Atos BSD / Atos SudEst"
+;contact_email = "dpo-france@atos.net"
 
 [mantis]
 db_table_prefix = "mantis_"

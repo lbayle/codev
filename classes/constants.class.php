@@ -153,6 +153,8 @@ class Constants {
    public static $cnil_company = NULL;
    public static $cnil_contact_email = NULL;
 
+   // ---I18N---
+   public static $force_lc_numeric = 0;
 
    /**
     * If true, then no info/warning messages will be displayed.
@@ -312,6 +314,13 @@ class Constants {
          }
       }
 
+      $i18n = $ini_array['i18n'];
+      if (is_array($i18n)) {
+         if (array_key_exists('force_lc_numeric', $i18n)) {
+            self::$force_lc_numeric = $i18n['force_lc_numeric'];
+         }
+      }
+
       // -----
 
       /* FIXME WORKAROUND: SQL procedures still use codev_config_table.bug_resolved_status_threshold ! */
@@ -413,6 +422,12 @@ class Constants {
          $emailSettings[$key] = $val;
       }
 
+      $i18n = array();
+      $i18n[] = "; force_lc_numeric: default = '0'. Set to '1' if internationalization does not work";
+      $i18n[] = '; this mostly depends on your environment: Windows, UX, Docker, apache version...';
+      $i18n['force_lc_numeric'] = self::$force_lc_numeric;
+
+
       $ini_array = array();
       $ini_array[] = '; This file is part of CodevTT.';
       $ini_array[] = '; - The Variables in here can be customized to your needs';
@@ -422,9 +437,11 @@ class Constants {
       $ini_array['general']       = $general;
       $ini_array[] = '';
       $ini_array[] = '; French "Commission nationale de l\'informatique et des libertés" (optional)';
-      $ini_array['cnil']          = $cnil;
-      $ini_array[] = '';
       $ini_array['database']      = $database;
+      $ini_array[] = '';
+      $ini_array['i18n']          = $i18n;
+      $ini_array[] = '';
+      $ini_array['cnil']          = $cnil;
       $ini_array[] = '';
       $ini_array['mantis']        = $mantis;
       $ini_array[] = '';
