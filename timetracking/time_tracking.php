@@ -236,7 +236,7 @@ class TimeTrackingController extends Controller {
                   }
                } catch (Exception $e) {
                   $this->smartyHelper->assign('error', 'Delete track : FAILED.');
-                  $errMsg = "Delete trackid= $trackid, bugid = $defaultBugid, job = $job, timestamp = $defaultDate, duration = ".$duration;
+                  $errMsg = "Delete trackid= $trackid, bugid = $defaultBugid, job = $job, timestamp = $defaultDate, duration = $duration, managedUser = $managed_userid, sessionUser = ".$this->session_userid;
                   self::$logger->error($errMsg);
                   $defaultProjectid  = 0;
                   $defaultBugid = 0;
