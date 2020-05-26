@@ -25,7 +25,7 @@ class Team extends Model {
 
    public static $defaultGeneralPrefsList;
    public static $generalPrefsDescriptionList;
-   
+
    /**
     * Initialize complex static variables
     * @static
@@ -770,7 +770,7 @@ class Team extends Model {
       }
       return $this->serviceContractList;
    }
-   
+
 
    /**
     * Add a member to the team
@@ -780,7 +780,7 @@ class Team extends Model {
     * @return boolean : true if user has been added to team, false if team had already user
     */
    public function addMember($memberid, $arrivalTimestamp, $memberAccess) {
-       
+
         if(!UserCache::getInstance()->getUser($memberid)->isTeamMember($this->id))
         {
            $sql = AdodbWrapper::getInstance();
@@ -1068,11 +1068,9 @@ class Team extends Model {
     */
    public function removeAdministrator($userId) {
       if (($key = array_search($userId, $this->adminList)) !== false) {
-self::$logger->error("removeAdministrator BEFORE <".implode(',',$this->adminList).">");
          unset($this->adminList[$key]);
          $formattedAdminList=implode(',',$this->adminList);
 
-self::$logger->error("removeAdministrator AFTER  <".$formattedAdminList.">");
 
          $sql = AdodbWrapper::getInstance();
          $query = "UPDATE codev_team_table SET administrators = ".$sql->db_param()." WHERE id = ".$sql->db_param();
@@ -1081,7 +1079,6 @@ self::$logger->error("removeAdministrator AFTER  <".$formattedAdminList.">");
          $sql->sql_query($query, $q_params);
          return true;
       } else {
-self::$logger->error("removeAdministrator $userId not found in <".implode(',',$this->adminList).">");
 
       }
       return false;
@@ -1228,7 +1225,7 @@ self::$logger->error("removeAdministrator $userId not found in <".implode(',',$t
       	 if($this->onDutyTaskList == NULL || empty($this->onDutyTaskList)) {
       	 	return array();
       	 }
-      	 
+
       }
       return $this->onDutyTaskList;
    }
@@ -1360,7 +1357,7 @@ self::$logger->error("removeAdministrator $userId not found in <".implode(',',$t
       if (empty($this->generalPrefsList)) {
 
          $checkList = Config::getValue(Config::id_teamGeneralPreferences, array(0, 0, $this->id, 0, 0, 0), true);
-         
+
          // get default checkList if not found
          $this->generalPrefsList = Team::$defaultGeneralPrefsList;
 
