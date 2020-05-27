@@ -593,10 +593,11 @@ class WBSElement extends Model {
                   $bugids = $this->getBugidList($wbselement->getId());
                   $isel = new IssueSelection("wbs_".$wbselement->getId());
                   foreach($bugids as $bugid) {
-                     try {
+                     if (Issue::exists($bugid)) {
                         $isel->addIssue($bugid);
-                     } catch (Exception $e) {
-                        self::$logger->error("Issue $bugid does not exist in Mantis DB.");
+                     } else {
+                        self::$logger->error("Issue $bugid does not exist in Mantis DB : calling checkWBS()");
+                        self::checkWBS(); // remove from WBS
                      }
                   }
                   if ($isManager) {
@@ -712,9 +713,9 @@ class WBSElement extends Model {
                $bugids = $this->getBugidList($this->id);
                $isel = new IssueSelection("wbs_".$this->id);
                foreach($bugids as $bugid) {
-                  try {
+                  if (Issue::exists($bugid)) {
                      $isel->addIssue($bugid);
-                  } catch (Exception $e) {
+                  } else {
                      self::$logger->error("Issue $bugid does not exist in Mantis DB: calling checkWBS()");
                      self::checkWBS();
                   }
