@@ -66,7 +66,16 @@ class EditJobsController extends Controller {
 
             } elseif ('addAssociationProject' == $action) {
 
-               // Add Job to selected projects
+               // TODO: associate multiple projects with multiple jobs
+               // joint cartesien
+               // INSERT INTO codev_project_job_table (project_id, job_id)
+               //    SELECT id, tbtmp.id_job FROM `mantis_project_table`,
+               //        (select id AS id_job FROM codev_job_table
+               //                             WHERE codev_job_table.id IN (18,19,20)
+               //        ) tbtmp
+               //         WHERE name LIKE "FDJ_%";
+
+               // Add multiple jobs to a unique project
                $project_id = Tools::getSecurePOSTIntValue('project');
                $jobs = explode(",",Tools::getSecurePOSTStringValue('formattedJobs'));
                foreach($jobs as $job_id) {
@@ -81,7 +90,7 @@ class EditJobsController extends Controller {
                      $this->smartyHelper->assign('error', T_("Couldn't add the job association"));
                   }
                }
-               
+
             } elseif ('deleteJob' == $action) {
                $job_id = Tools::getSecurePOSTIntValue('job_id');
 
@@ -193,7 +202,7 @@ class EditJobsController extends Controller {
     * @return mixed[int] The assigned jobs
     */
    private function getAssignedJobTuples(array $plist, $teamid) {
-      
+
       $team = TeamCache::getInstance()->getTeam($teamid);
       $sql = AdodbWrapper::getInstance();
 
@@ -211,9 +220,9 @@ class EditJobsController extends Controller {
          $desc = str_replace('"', "\'", $desc);
 
          // NA for sideTasks & externalTasks project are not remobable
-         $isRemovable =  (Config::getInstance()->getValue(Config::id_externalTasksProject) != $row->project_id) && 
+         $isRemovable =  (Config::getInstance()->getValue(Config::id_externalTasksProject) != $row->project_id) &&
                              (!((Jobs::JOB_NA == $row->job_id) && ($team->isSideTasksProject($row->project_id))));
-         
+
          $projects[$row->id] = array(
             "desc" => $desc,
             "jobid" => $row->job_id,
