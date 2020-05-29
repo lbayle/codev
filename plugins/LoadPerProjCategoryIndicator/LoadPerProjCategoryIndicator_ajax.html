@@ -6,7 +6,9 @@
          <th>{t}Category{/t}</th>
          <th>{t}Nb Days{/t}</th>
          <th>%</th>
+{if $loadPerProjCategoryIndicator_isDisplayTasks}
          <th>{t}Tasks{/t}</th>
+{/if}
       </tr>
    </thead>
    <tbody>
@@ -15,7 +17,9 @@
          <td>{$i.catName}</td>
          <td>{$i.duration}</td>
          <td>{$i.pcent} %</td>
+{if $loadPerProjCategoryIndicator_isDisplayTasks}
          <td>{$i.formatedBugsPerCategory}</td>
+{/if}
       </tr>
       {/foreach}
    </tbody>

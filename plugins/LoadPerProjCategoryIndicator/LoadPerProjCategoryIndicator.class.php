@@ -192,7 +192,6 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
     */
    public function execute() {
 
-
       // === get timetracks for each Issue,
       $team = TeamCache::getInstance()->getTeam($this->teamid);
       $useridList = array_keys($team->getActiveMembers($this->startTimestamp, $this->endTimestamp));
@@ -204,7 +203,7 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
 
       // === process timetracks
       $rawInfoPerCat = $this->getRawInfoPerCategory($timeTracks, $projectidList);
-      $totalElapsed = $this->inputIssueSel->getElapsed($this->startTimestamp, $this->endTimestamp);
+      $totalElapsed = $rawInfoPerCat['totalDuration'];
 
       // === build $infoPerCat
       $infoPerCat = array();
@@ -289,6 +288,7 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
       $durPerCat = array();
       $bugsPerCat = array();
 
+      $totalDuration = 0;
       foreach($timeTracks as $timeTrack) {
          try {
             $bugid = $timeTrack->getIssueId();
@@ -308,6 +308,7 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
                } else {
                   $durPerCat[$catName] = $duration;
                }
+               $totalDuration += $duration;
 
                // save bugid list per category
                if ($this->isDisplayTasks) {
@@ -325,7 +326,10 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
             self::$logger->warn("getDurationPerProjectCategory() issue ".$timeTrack->getIssueId()." not found in Mantis DB (duration = ".$timeTrack->getDuration()." on ".date('Y-m-d', $timeTrack->getDate()).')');
          }
       }
-      $ret =  array('durationPerCat' => $durPerCat);
+      $ret =  array(
+         'durationPerCat' => $durPerCat,
+         'totalDuration' => $totalDuration);
+
       if ($this->isDisplayTasks) {
          $ret['bugidsPerCat'] = $bugsPerCat;
       }
