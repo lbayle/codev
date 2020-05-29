@@ -163,7 +163,7 @@ class Config {
       "v1.2.2" => "(11 Apr  2017) - fix big regression due to m1553 (mantis table prefix/suffix)",
       "v1.3.0" => "(18 Mar  2018) - adodb, PHP7, CostIndicator, mantis table prefix/suffix, fixCommand, Float customFields, wbs_order",
       "v1.4.0" => "(12 May  2019) - remove FilterBugList, multiple TeamAdmins, BlogPlugin, SubmittedResolvedPlugin, TimetrackListPlugin, ManagementCostsPlugin, WbsExportPlugin, TasksPivotTablePlugin, remove effortAdd",
-      "v1.5.0" => "(01 Jun  2020) - fix:mantisPlugin, customField:DailyPrice, remove CSV export pages, Domain:User, fix:mantisPlugin, NewPlugins:SallingPriceForPeriod,OngoingTasks,AdminTools",
+      "v1.5.0" => "(01 Jun  2020) - customField:DailyPrice, remove CSV export pages, Domain:User, fix:mantisPlugin, NewPlugins:SallingPriceForPeriod,OngoingTasks,AdminTools",
    );
 
    /**
